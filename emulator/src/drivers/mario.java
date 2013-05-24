@@ -40,6 +40,7 @@ public class mario {
 	};
     //dummy functions for testing
     static InputPortPtr input_ports_mario = new InputPortPtr(){ public void handler() { }};
+    /*dummy machine drivers*/
     static MachineDriver machine_driver_mario = new MachineDriver
     (
         new MachineCPU[] {
@@ -48,11 +49,35 @@ public class mario {
 				3072000,	/* 3.072 Mhz (?) */
 				readmem, writemem, null, null,
 				null, 1
-			)
+			),
+                new MachineCPU(
+			CPU_I8039 | CPU_AUDIO_CPU,
+                        730000,         /* 730 khz */
+			null,null,null,null,
+			null,1
+		)
 		},
 		60,0  
     );
-    static MachineDriver machine_driver_masao = new MachineDriver();
+    /*dummy machine drivers */
+    static MachineDriver machine_driver_masao = new MachineDriver
+    (
+                  new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				3072000,	/* 3.072 Mhz (?) */
+				readmem, writemem, null, null,
+				null, 1
+			),
+                        new MachineCPU(
+			CPU_Z80 | CPU_AUDIO_CPU,
+                        730000,         /* 730 khz */
+			null,null,null,null,
+			null,1
+                        )
+		},
+		60,0  
+     );
     
     
     static RomLoadPtr rom_mario = new RomLoadPtr(){ public void handler(){}};

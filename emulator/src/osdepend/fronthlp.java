@@ -580,10 +580,12 @@ public class fronthlp {
 				{
 					/* Dummy structs to fetch the information from */
 
-/*TODO*/ //					const struct MachineDriver *x_driver = drivers[i].drv;
-/*TODO*/ //					const struct MachineCPU *x_cpu = x_driver.cpu;
+      				        MachineDriver x_driver = drivers[i].drv;
+                                        MachineCPU[] x_cpu = x_driver.cpu;
 /*TODO*/ //					const struct MachineSound *x_sound = x_driver.sound;
 
+                                        
+                                        
 					/* First, the rom name */
 
 					printf("%-8s ",drivers[i].name);
@@ -595,7 +597,7 @@ public class fronthlp {
 
 					for(j=0;j<MAX_CPU;j++)
 					{
-/*TODO*/ //						if (x_cpu[j].cpu_type & CPU_AUDIO_CPU)
+/*TODO*/ //						if ((x_cpu[j].cpu_type & CPU_AUDIO_CPU)!=0)                                                
 /*TODO*/ //							printf("[%-6s] ",cputype_name(x_cpu[j].cpu_type));
 /*TODO*/ //						else
 /*TODO*/ //							printf("%-8s ",cputype_name(x_cpu[j].cpu_type));

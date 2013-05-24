@@ -91,8 +91,8 @@ public class driverH
                         a[k] = new MachineCPU(); 
                     return a; 
                 }           
-                int cpu_type;	/* see #defines below. */
-                int cpu_clock;	/* in Hertz */
+                public int cpu_type;	/* see #defines below. */
+                public int cpu_clock;	/* in Hertz */
                 public MemoryReadAddress []memory_read;
 		public MemoryWriteAddress []memory_write;
 		public IOReadPort []port_read;
@@ -185,6 +185,9 @@ public class driverH
     
     public static final int CPU_DUMMY=0;
     public static final int CPU_Z80 = 1;
+    public static final int CPU_I8039=2;
+    
+    public static final int CPU_AUDIO_CPU= 0x8000;
     public static class GameDriver
     {
         //this is used instead of GAME macro
