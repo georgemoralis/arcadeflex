@@ -47,16 +47,8 @@ public class driverH
         public static abstract interface RomLoadPtr { public abstract void handler();}
         public static abstract interface InputPortPtr { public abstract void handler();}
      
-        
-    public static final int MAX_CPU= 8;	/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
-					/* can run at the same time. Currently, 8 is enough. */
-
-
-    public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
-					/* which can run at the same time. Currently, 5 is enough. */      
-    
-    public static class MachineCPU
-    {
+        public static class MachineCPU
+        {
 		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
 		{
 			cpu_type = ct; 
@@ -108,6 +100,78 @@ public class driverH
  /*TODO*///               void *reset_param;
                 
       };
+    public static final int CPU_DUMMY   = 0;
+    public static final int CPU_Z80     = 1;
+    public static final int CPU_Z80GB   = 2;
+    public static final int CPU_8080    = 3;
+    public static final int CPU_8085A   = 4;
+    public static final int CPU_M6502   = 5;
+    public static final int CPU_M65C02  = 6;
+    public static final int CPU_M65SC02 = 7;
+    public static final int CPU_M65CE02 = 8;
+    public static final int CPU_M6509   = 9;
+    public static final int CPU_M6510   =10;
+    public static final int CPU_N2A03   =11;
+    public static final int CPU_H6280   =12;
+    public static final int CPU_I86     =13;
+    public static final int CPU_V20     =14;
+    public static final int CPU_V30     =15;
+    public static final int CPU_V33     =16;
+    public static final int CPU_I8035   =17;	/* same as CPU_I8039 */
+    public static final int CPU_I8039   =18;
+    public static final int CPU_I8048   =19;	/* same as CPU_I8039 */
+    public static final int CPU_N7751   =20;	/* same as CPU_I8039 */
+    public static final int CPU_M6800   =21;	/* same as CPU_M6802/CPU_M6808 */
+    public static final int CPU_M6801   =22;	/* same as CPU_M6803 */
+    public static final int CPU_M6802   =23;	/* same as CPU_M6800/CPU_M6808 */
+    public static final int CPU_M6803   =24;	/* same as CPU_M6801 */
+    public static final int CPU_M6808   =25;	/* same as CPU_M6800/CPU_M6802 */
+    public static final int CPU_HD63701 =26;	/* 6808 with some additional opcodes */
+    public static final int CPU_NSC8105 =27;	/* same(?) as CPU_M6802(?) with scrambled opcodes. There is at least one new opcode. */
+    public static final int CPU_M6805   =28;
+    public static final int CPU_M68705  =29;	/* same as CPU_M6805 */
+    public static final int CPU_HD63705 =30;	/* M6805 family but larger address space, different stack size */
+    public static final int CPU_HD6309  =31;	/* same as CPU_M6809 (actually it's not 100% compatible) */
+    public static final int CPU_M6809   =32;
+    public static final int CPU_KONAMI  =33;
+    public static final int CPU_M68000  =34;
+    public static final int CPU_M68010  =35;
+    public static final int CPU_M68EC020=36;
+    public static final int CPU_M68020  =37;
+    public static final int CPU_T11     =38;
+    public static final int CPU_S2650   =39;
+    public static final int CPU_TMS34010=40;
+    public static final int CPU_TMS9900 =41;
+    public static final int CPU_TMS9940 =42;
+    public static final int CPU_TMS9980 =43;
+    public static final int CPU_TMS9985 =44;
+    public static final int CPU_TMS9989 =45;
+    public static final int CPU_TMS9995 =46;
+    public static final int CPU_TMS99105A=47;
+    public static final int CPU_TMS99110A=48;
+    public static final int CPU_Z8000   =49;
+    public static final int CPU_TMS320C10=50;
+    public static final int CPU_CCPU    =51;
+    public static final int CPU_PDP1    =52;
+    public static final int CPU_ADSP2100=53;
+    public static final int CPU_COUNT   =54;
+    
+    /* set this if the CPU is used as a slave for audio. It will not be emulated if */
+    /* sound is disabled, therefore speeding up a lot the emulation. */
+    public static final int CPU_AUDIO_CPU= 0x8000;
+
+    /* the Z80 can be wired to use 16 bit addressing for I/O ports */
+    public static final int CPU_16BIT_PORT= 0x4000;
+
+    public static final int CPU_FLAGS_MASK= 0xff00;
+
+    public static final int MAX_CPU= 8;	/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
+					/* can run at the same time. Currently, 8 is enough. */
+
+    public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
+					/* which can run at the same time. Currently, 5 is enough. */      
+    
+
     public static class InputPort
     {
         
@@ -183,11 +247,7 @@ public class driverH
 /*TODO*///		void (*nvram_handler)(void *file,int read_or_write);
     }    
     
-    public static final int CPU_DUMMY=0;
-    public static final int CPU_Z80 = 1;
-    public static final int CPU_I8039=2;
-    
-    public static final int CPU_AUDIO_CPU= 0x8000;
+
     public static class GameDriver
     {
         //this is used instead of GAME macro

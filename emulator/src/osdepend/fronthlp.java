@@ -787,16 +787,16 @@ public class fronthlp {
 			i = 0;
 			while (drivers[i]!=null)
 			{
-/*TODO*/ //				if ((listclones || drivers[i].clone_of == 0
-/*TODO*/ //						|| (drivers[i].clone_of.flags & NOT_A_DRIVER)
-/*TODO*/ //						) && !strwildcmp(gamename, drivers[i].description))
-/*TODO*/ //				{
-/*TODO*/ //					char name[200];
+				if ((listclones!=0 || drivers[i].clone_of == null
+						|| ((drivers[i].clone_of.flags & NOT_A_DRIVER)!=0)
+/*TODO*/					) /*&& !strwildcmp(gamename, drivers[i].description)*/)
+				{
+     					       char name[]=new char[200];
 
-/*TODO*/ //					printf("%-5s%-36s ",drivers[i].year,drivers[i].manufacturer);
-/*TODO*/ //
-/*TODO*/ //					strcpy(name,drivers[i].description);
-/*TODO*/ //
+					printf("%-5s%-36s ",drivers[i].year,drivers[i].manufacturer);
+ 
+					strcpy(name,drivers[i].description);
+
 					/* Move leading "The" to the end */
 /*TODO*/ //					if (strstr(name," (")) *strstr(name," (") = 0;
 /*TODO*/ //					if (strncmp(name,"The ",4) == 0)
@@ -805,7 +805,7 @@ public class fronthlp {
 /*TODO*/ //						printf(", The");
 /*TODO*/ //					}
 /*TODO*/ //					else
-/*TODO*/ //						printf("%s",name);
+   						   printf("%s",new String(name).trim());
 
 					/* print the additional description only if we are listing clones */
 /*TODO*/ //					if (listclones)
@@ -813,22 +813,22 @@ public class fronthlp {
 /*TODO*/ //						if (strchr(drivers[i].description,'('))
 /*TODO*/ //							printf(" %s",strchr(drivers[i].description,'('));
 /*TODO*/ //					}
-/*TODO*/ //					printf("\n");
-/*TODO*/ //				}
+   					        printf("\n");
+				}
 				i++;
 			}
 			return 0;
 		case LIST_LISTCLONES: /* list clones */
 			printf("Name:    Clone of:\n");
 			i = 0;
-/*TODO*/ //			while (drivers[i])
-/*TODO*/ //			{
-/*TODO*/ //				if (drivers[i].clone_of && !(drivers[i].clone_of.flags & NOT_A_DRIVER) &&
-/*TODO*/ //						(!strwildcmp(gamename,drivers[i].name)
-/*TODO*/ //								|| !strwildcmp(gamename,drivers[i].clone_of.name)))
-/*TODO*/ //					printf("%-8s %-8s\n",drivers[i].name,drivers[i].clone_of.name);
-/*TODO*/ //				i++;
-/*TODO*/ //			}
+			while (drivers[i]!=null)
+			{
+				if (drivers[i].clone_of!=null && (drivers[i].clone_of.flags & NOT_A_DRIVER)==0 /*&&
+/*TODO*/ 						/*(!strwildcmp(gamename,drivers[i].name)
+/*TODO*/ 								/*|| !strwildcmp(gamename,drivers[i].clone_of.name))*/)
+					printf("%-8s %-8s\n",drivers[i].name,drivers[i].clone_of.name);
+				i++;
+			}
 			return 0;
 
 		case LIST_WRONGORIENTATION: /* list drivers which incorrectly use the orientation and visible area fields */
