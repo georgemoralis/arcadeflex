@@ -45,6 +45,13 @@ public class driverH
         public static abstract interface RomLoadPtr { public abstract void handler();}
         public static abstract interface InputPortPtr { public abstract void handler();}
      
+        
+    public static final int MAX_CPU= 8;	/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
+					/* can run at the same time. Currently, 8 is enough. */
+
+
+    public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
+					/* which can run at the same time. Currently, 5 is enough. */      
     public static class InputPort
     {
         

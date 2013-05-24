@@ -172,15 +172,51 @@ public class libc {
     /*
      *   Compare 2 Strings
      */
+     /**
+     * Compares string1 and string2 without sensitivity to case
+     * @param string1 
+     * @param string2
+     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     */
     public static int stricmp(String str1, String str2) {
         return str1.compareToIgnoreCase(str2);
     }
-
+    /**
+     * Compares array and string without sensitivity to case
+     * @param array 
+     * @param String2
+     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     */
     public static int stricmp(char[] array, String str2) {
         String str = makeString(array);
         return str.compareToIgnoreCase(str2);
     }
-
+    /**
+     * Compares string1 and string2 without sensitivity to case
+     * @param array1 
+     * @param array2
+     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     */
+    public static int stricmp(char[] array1, char[] array2) {
+        String str1 = makeString(array1);
+        String str2 = makeString(array2);
+        return str1.compareToIgnoreCase(str2);
+    }  
+    /**
+     * Copy characters from string 
+     * @param dst  - destination
+     * @param src  - source
+     * @param size - number of character to copy
+     */
+    public static void strncpy(char[] dst ,String src , int size)
+    {
+        if(src.length()>0)
+        {
+            for (int i = 0; i < size; i++) {
+                dst[i] = src.charAt(i);
+            }
+        }
+    }
     /*
      *   copy String to array
      */

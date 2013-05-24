@@ -113,9 +113,9 @@ public class osdepend {
             /* check for frontend options */
             res = frontend_help (argc, argv);
 
-            /* if frontend options were used, return to DOS with the error code */
- /*TODO*/ //          if (res != 1234)
- /*TODO*/ //                   exit (res);
+            /* if frontend options were used, return */
+          if (res != 1234)
+                  return res;
 
             /* Initialize the audio library */
  /*TODO*/ //           if (msdos_init_seal())

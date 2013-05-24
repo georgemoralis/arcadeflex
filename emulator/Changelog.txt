@@ -8,4 +8,5 @@
 -added fronthlp.java with a minimal implementation + some work in main osdepend.java as well
 -added osdependH.java and mameH.java and some coding on that
 -added mame.java and more addons around
--
+-fixed an issue of crashing if parameters without romname is set
+-Added version info in help function

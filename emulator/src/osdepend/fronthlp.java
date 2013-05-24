@@ -17,6 +17,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package osdepend;
 
 import static arcadeflex.libc.*;
+import arcadeflex.settings;
 import static mame.version.*;
 import static mame.driver.*;
 import static mame.driverH.*;
@@ -39,53 +40,53 @@ public class fronthlp {
     /* compare string[8] using standard(?) DOS wildchars ('?' & '*')      */
     /* for this to work correctly, the shells internal wildcard expansion */
     /* mechanism has to be disabled. Look into msdos.c */
+    
+   public static int strwildcmp(String sp1,String sp2) //To be checked!
+   {
+           char[] s1 = new char[9];
+           char[] s2 = new char[9];
+           int i, l1, l2;
+           //char *p;
 
-/*TODO*/ //    int strwildcmp(const char *sp1, const char *sp2)
-/*TODO*/ //    {
-/*TODO*/ //            char s1[9], s2[9];
-/*TODO*/ //            int i, l1, l2;
-/*TODO*/ //            char *p;
+           strncpy(s1, sp1, 8); s1[8] = 0; if (s1[0] == 0) strcpy(s1, "*");
 
-/*TODO*/ //            strncpy(s1, sp1, 8); s1[8] = 0; if (s1[0] == 0) strcpy(s1, "*");
+           strncpy(s2, sp2, 8); s2[8] = 0; if (s2[0] == 0) strcpy(s2, "*");
 
-/*TODO*/ //            strncpy(s2, sp2, 8); s2[8] = 0; if (s2[0] == 0) strcpy(s2, "*");
+           /*p = strchr(s1, '*');
+           if (p)
+           {
+                   for (i = p - s1; i < 8; i++) s1[i] = '?';
+                   s1[8] = 0;
+           }
 
- /*TODO*/ //           p = strchr(s1, '*');
- /*TODO*/ //           if (p)
- /*TODO*/ //           {
- /*TODO*/ //                   for (i = p - s1; i < 8; i++) s1[i] = '?';
- /*TODO*/ //                   s1[8] = 0;
- /*TODO*/ //           }
+           p = strchr(s2, '*');
+           if (p)
+           {
+                   for (i = p - s2; i < 8; i++) s2[i] = '?';
+                   s2[8] = 0;
+           }*/
+           l1 = strlen(s1);
+           if (l1 < 8)
+           {
+                   for (i = l1 + 1; i < 8; i++) s1[i] = ' ';
+                   s1[8] = 0;
+           }
 
- /*TODO*/ //           p = strchr(s2, '*');
- /*TODO*/ //           if (p)
- /*TODO*/ //           {
-/*TODO*/ //                    for (i = p - s2; i < 8; i++) s2[i] = '?';
- /*TODO*/ //                   s2[8] = 0;
-/*TODO*/ //            }
-/*TODO*/ //
-/*TODO*/ //            l1 = strlen(s1);
-/*TODO*/ //            if (l1 < 8)
-/*TODO*/ //            {
-/*TODO*/ //                    for (i = l1 + 1; i < 8; i++) s1[i] = ' ';
-/*TODO*/ //                    s1[8] = 0;
-/*TODO*/ //            }
+           l2 = strlen(s2);
+           if (l2 < 8)
+           {
+                   for (i = l2 + 1; i < 8; i++) s2[i] = ' ';
+                   s2[8] = 0;
+           }
 
-/*TODO*/ //            l2 = strlen(s2);
-/*TODO*/ //            if (l2 < 8)
-/*TODO*/ //            {
-/*TODO*/ //                    for (i = l2 + 1; i < 8; i++) s2[i] = ' ';
-/*TODO*/ //                    s2[8] = 0;
-/*TODO*/ //            }
+           for (i = 0; i < 8; i++)
+           {
+                   if (s1[i] == '?' && s2[i] != '?') s1[i] = s2[i];
+                   if (s2[i] == '?' && s1[i] != '?') s2[i] = s1[i];
+           }
 
- /*TODO*/ //           for (i = 0; i < 8; i++)
- /*TODO*/ //           {
- /*TODO*/ //                   if (s1[i] == '?' && s2[i] != '?') s1[i] = s2[i];
- /*TODO*/ //                   if (s2[i] == '?' && s1[i] != '?') s2[i] = s1[i];
- /*TODO*/ //           }
-
- /*TODO*/ //           return stricmp(s1, s2);
- /*TODO*/ //   }
+           return stricmp(s1, s2);
+   }
 
 
     /* Identifies a rom from from this checksum */
@@ -394,12 +395,12 @@ public class fronthlp {
 
             if (help!=0)  /* brief help - useful to get current version info */
             {
-                    printf("M.A.M.E. v%s - Multiple Arcade Machine Emulator\n"
-                           +         "Copyright (C) 1997-2000 by Nicola Salmoria and the MAME Team\n\n",build_version);
+                printf(settings.version +" (based on mame v%s)\n", new Object[] { build_version });
+
  /*TODO*/ //                    showdisclaimer();
-                    printf("Usage:  MAME gamename [options]\n\n"
-                           +         "        MAME -list      for a brief list of supported games\n"
-                           +         "        MAME -listfull  for a full list of supported games\n\n"
+                    printf("Usage:  java -jar arcadeflex.jar gamename [options]\n"
+                           +         "        java -jar arcadeflex.jar -list      for a brief list of supported games\n"
+                           +         "        java -jar arcadeflex.jar -listfull  for a full list of supported games\n\n"
                            +         "See readme.txt for a complete list of options.\n");
                     return 0;
             }
@@ -410,9 +411,9 @@ public class fronthlp {
 			i = 0; j = 0;
 			while (drivers[i]!=null)
 			{
-				if ((listclones!=0 || drivers[i].clone_of == null
-						|| (drivers[i].clone_of.flags & NOT_A_DRIVER)!=0
-/*TODO*/					) /*&& !strwildcmp(gamename, drivers[i].name)*/)
+                            if ((listclones!=0 || drivers[i].clone_of == null
+						|| ((drivers[i].clone_of.flags & NOT_A_DRIVER)!=0)
+/*TODO*/				 ) /*&& !strwildcmp(gamename, drivers[i].name)*/)
 				{
 					printf("%-8s",drivers[i].name);
 					j++;
@@ -559,12 +560,12 @@ public class fronthlp {
 			/* First, we shall print the header */
 
 			printf(" romname driver     ");
-/*TODO*/ //			for(j=0;j<MAX_CPU;j++) printf("cpu %d    ",j+1);
-/*TODO*/ //			for(j=0;j<MAX_SOUND;j++) printf("sound %d     ",j+1);
+			for(j=0;j<MAX_CPU;j++) printf("cpu %d    ",j+1);
+			for(j=0;j<MAX_SOUND;j++) printf("sound %d     ",j+1);
 			printf("name\n");
 			printf("-------- ---------- ");
-/*TODO*/ //			for(j=0;j<MAX_CPU;j++) printf("-------- ");
-/*TODO*/ //			for(j=0;j<MAX_SOUND;j++) printf("----------- ");
+			for(j=0;j<MAX_CPU;j++) printf("-------- ");
+			for(j=0;j<MAX_SOUND;j++) printf("----------- ");
 			printf("--------------------------\n");
 
 			/* Let's cycle through the drivers */
