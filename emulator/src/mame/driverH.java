@@ -70,7 +70,17 @@ public class driverH
                         timed_interrupt=ti;
                         timed_interrupts_per_second=tif;
 		};
-
+		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf)
+		{
+			cpu_type = ct; 
+                        cpu_clock =cc; 
+			memory_read = mr; 
+                        memory_write = mw; 
+                        port_read = pr; 
+                        port_write = pw; 
+                        vblank_interrupt = vb; 
+                        vblank_interrupts_per_frame = vbf;    
+		};
 		public MachineCPU()
 		{ this(0, 0,null, null, null, null, null, 0,null, 0); }
 
@@ -114,6 +124,15 @@ public class driverH
 			video_attributes=vattr; vh_init = vi; vh_start = vsta; vh_stop = vsto; vh_update = vup;
 			samples = sa; sh_init = si; sh_start = ssta; sh_stop = ssto; sh_update = sup;
 		}*/
+                public MachineDriver() {} //null implementation
+        /*partial implementation */
+               
+                public MachineDriver(MachineCPU []mcp,int fps,int vblank)
+                {
+                    CopyArray(cpu,mcp);
+                    frames_per_second = fps;
+                    vblank_duration = vblank;
+                }
 		/* basic machine hardware */
 		public MachineCPU cpu[] = MachineCPU.create(MAX_CPU);
 		public int frames_per_second;
@@ -163,6 +182,9 @@ public class driverH
 	 */
 /*TODO*///		void (*nvram_handler)(void *file,int read_or_write);
     }    
+    
+    public static final int CPU_DUMMY=0;
+    public static final int CPU_Z80 = 1;
     public static class GameDriver
     {
         //this is used instead of GAME macro
