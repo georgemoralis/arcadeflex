@@ -10,3 +10,5 @@
 -added mame.java and more addons around
 -fixed an issue of crashing if parameters without romname is set
 -Added version info in help function
+-Added temp memoryH with a few definations to be able to work on machineDriver
+-Partial support for listdetails switch

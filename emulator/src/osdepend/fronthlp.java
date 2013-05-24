@@ -593,18 +593,19 @@ public class fronthlp {
 
 					/* Then, cpus */
 
-/*TODO*/ //					for(j=0;j<MAX_CPU;j++)
-/*TODO*/ //					{
+					for(j=0;j<MAX_CPU;j++)
+					{
 /*TODO*/ //						if (x_cpu[j].cpu_type & CPU_AUDIO_CPU)
 /*TODO*/ //							printf("[%-6s] ",cputype_name(x_cpu[j].cpu_type));
 /*TODO*/ //						else
 /*TODO*/ //							printf("%-8s ",cputype_name(x_cpu[j].cpu_type));
-/*TODO*/ //					}
+			/*tempHACK*/        printf("%-8s ","");
+                                        }
 
 					/* Then, sound chips */
 
-/*TODO*/ //					for(j=0;j<MAX_SOUND;j++)
-/*TODO*/ //					{
+					for(j=0;j<MAX_SOUND;j++)
+					{
 /*TODO*/ //						if (sound_num(&x_sound[j]))
 /*TODO*/ //						{
 /*TODO*/ //							printf("%dx",sound_num(&x_sound[j]));
@@ -612,7 +613,8 @@ public class fronthlp {
 /*TODO*/ //						}
 /*TODO*/ //						else
 /*TODO*/ //							printf("%-11s ",sound_name(&x_sound[j]));
-/*TODO*/ //					}
+                    /*tempHACK*/           printf("%-11s ","");
+					}
 
 					/* Lastly, the name of the game and a \newline */
 

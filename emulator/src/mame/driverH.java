@@ -16,7 +16,9 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package mame;
 
+import static arcadeflex.libc.CopyArray;
 import static mame.osdependH.*;
+import static mame.memoryH.*;
 /**
  *
  * @author george
@@ -30,10 +32,10 @@ public class driverH
         public static abstract interface InitDriverPtr { public abstract void handler(); }
 	public static abstract interface InterruptPtr { public abstract int handler(); }
 	public static abstract interface VhConvertColorPromPtr { public abstract void handler(char []palette, char []colortable, char []color_prom); }
-	public static abstract interface VhInitPtr { public abstract int handler(String gamename); }
+	public static abstract interface VhEofCallbackPtr { public abstract int handler(); }
 	public static abstract interface VhStartPtr { public abstract int handler(); }
 	public static abstract interface VhStopPtr { public abstract void handler(); }
-	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap); }
+	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap,int full_refresh); }
 	public static abstract interface ShInitPtr { public abstract int handler(String gamename); }
 	public static abstract interface ShStartPtr { public abstract int handler(); }
 	public static abstract interface ShStopPtr { public abstract void handler(); }
@@ -52,13 +54,114 @@ public class driverH
 
     public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
 					/* which can run at the same time. Currently, 5 is enough. */      
+    
+    public static class MachineCPU
+    {
+		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
+		{
+			cpu_type = ct; 
+                        cpu_clock =cc; 
+			memory_read = mr; 
+                        memory_write = mw; 
+                        port_read = pr; 
+                        port_write = pw; 
+                        vblank_interrupt = vb; 
+                        vblank_interrupts_per_frame = vbf;
+                        timed_interrupt=ti;
+                        timed_interrupts_per_second=tif;
+		};
+
+		public MachineCPU()
+		{ this(0, 0,null, null, null, null, null, 0,null, 0); }
+
+		public static MachineCPU[] create(int n)
+		{ 
+                    MachineCPU []a = new MachineCPU[n]; 
+                    for(int k = 0; k < n; k++) 
+                        a[k] = new MachineCPU(); 
+                    return a; 
+                }           
+                int cpu_type;	/* see #defines below. */
+                int cpu_clock;	/* in Hertz */
+                public MemoryReadAddress []memory_read;
+		public MemoryWriteAddress []memory_write;
+		public IOReadPort []port_read;
+		public IOWritePort []port_write;
+                public InterruptPtr vblank_interrupt;
+                int vblank_interrupts_per_frame;    /* usually 1 */
+                /* use this for interrupts which are not tied to vblank 	*/
+                /* usually frequency in Hz, but if you need 				*/
+                /* greater precision you can give the period in nanoseconds */
+                public InterruptPtr timed_interrupt;
+                int timed_interrupts_per_second;
+                /* pointer to a parameter to pass to the CPU cores reset function */
+ /*TODO*///               void *reset_param;
+                
+      };
     public static class InputPort
     {
         
     }    
     public static class MachineDriver
     {
-        
+        	/*public MachineDriver(MachineCPU []mcp, int fps,int slices, InitMachinePtr im, int sw, int sh, rectangle va, GfxDecodeInfo []gdi, int tc, int ctl, VhConvertColorPromPtr vccp,int vattr, VhInitPtr vi, VhStartPtr vsta, VhStopPtr vsto, VhUpdatePtr vup, char []sa, ShInitPtr si, ShStartPtr ssta, ShStopPtr ssto, ShUpdatePtr sup)
+		{
+			CopyArray(cpu, mcp); 
+                        frames_per_second = fps;
+                        cpu_slices_per_frame=slices;
+                        init_machine = im;
+			screen_width = sw; screen_height = sh; visible_area = va; gfxdecodeinfo = gdi; total_colors = tc; color_table_len = ctl; vh_convert_color_prom = vccp;
+			video_attributes=vattr; vh_init = vi; vh_start = vsta; vh_stop = vsto; vh_update = vup;
+			samples = sa; sh_init = si; sh_start = ssta; sh_stop = ssto; sh_update = sup;
+		}*/
+		/* basic machine hardware */
+		public MachineCPU cpu[] = MachineCPU.create(MAX_CPU);
+		public int frames_per_second;
+                public int vblank_duration;	/* in microseconds - see description below */
+                public int cpu_slices_per_frame;	/* for multicpu games. 1 is the minimum, meaning */
+								/* that each CPU runs for the whole video frame */
+								/* before giving control to the others. The higher */
+								/* this setting, the more closely CPUs are interleaved */
+								/* and therefore the more accurate the emulation is. */
+								/* However, an higher setting also means slower */
+								/* performance. */
+		public InitMachinePtr init_machine;
+
+		/* video hardware */
+		public int screen_width, screen_height;
+/*TODO*///			public rectangle visible_area;
+/*TODO*///			public GfxDecodeInfo []gfxdecodeinfo;
+		public int total_colors;	/* palette is 3*total_colors bytes long */
+		public int color_table_len;	/* length in bytes of the color lookup table */
+		public VhConvertColorPromPtr vh_init_palette;
+                public int video_attributes;
+
+                	
+                public VhEofCallbackPtr vh_eof_callback;	/* called every frame after osd_update_video_and_audio() */
+									/* This is useful when there are operations that need */
+									/* to be performed every frame regardless of frameskip, */
+									/* e.g. sprite buffering or collision detection. */
+		public VhStartPtr vh_start;
+		public VhStopPtr vh_stop;
+		public VhUpdatePtr vh_update;
+
+                /* sound hardware */
+                public int sound_attributes;
+                public int obsolete1;
+                public int obsolete2;
+                public int obsolete3;
+/*TODO*///	struct MachineSound sound[MAX_SOUND];
+
+	/*
+	   use this to manage nvram/eeprom/cmos/etc.
+	   It is called before the emulation starts and after it ends. Note that it is
+	   NOT called when the game is reset, since it is not needed.
+	   file == 0, read_or_write == 0 -> first time the game is run, initialize nvram
+	   file != 0, read_or_write == 0 -> load nvram from disk
+	   file == 0, read_or_write != 0 -> not allowed
+	   file != 0, read_or_write != 0 -> save nvram to disk
+	 */
+/*TODO*///		void (*nvram_handler)(void *file,int read_or_write);
     }    
     public static class GameDriver
     {
