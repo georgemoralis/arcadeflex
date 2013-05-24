@@ -6,6 +6,7 @@ package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
+import static mame.commonH.*;
 /**
  *
  * @author george
@@ -80,9 +81,89 @@ public class mario {
      );
     
     
-    static RomLoadPtr rom_mario = new RomLoadPtr(){ public void handler(){}};
-    static RomLoadPtr rom_mariojp = new RomLoadPtr(){ public void handler(){}};
-    static RomLoadPtr rom_masao = new RomLoadPtr(){ public void handler(){}};
+    static RomLoadPtr rom_mario = new RomLoadPtr(){ public void handler(){
+        ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for code */
+	ROM_LOAD( "mario.7f",     0x0000, 0x2000, 0xc0c6e014 );
+	ROM_LOAD( "mario.7e",     0x2000, 0x2000, 0x116b3856 );
+	ROM_LOAD( "mario.7d",     0x4000, 0x2000, 0xdcceb6c1 );
+	ROM_LOAD( "mario.7c",     0xf000, 0x1000, 0x4a63d96b );
+
+	ROM_REGION( 0x1000, REGION_CPU2 );	/* sound */
+	ROM_LOAD( "tma1c-a.6k",   0x0000, 0x1000, 0x06b9ff85 );
+
+	ROM_REGION( 0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "mario.3f",     0x0000, 0x1000, 0x28b0c42c );
+	ROM_LOAD( "mario.3j",     0x1000, 0x1000, 0x0c8cc04d );
+
+	ROM_REGION( 0x6000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "mario.7m",     0x0000, 0x1000, 0x22b7372e );
+	ROM_LOAD( "mario.7n",     0x1000, 0x1000, 0x4f3a1f47 );
+	ROM_LOAD( "mario.7p",     0x2000, 0x1000, 0x56be6ccd );
+	ROM_LOAD( "mario.7s",     0x3000, 0x1000, 0x56f1d613 );
+	ROM_LOAD( "mario.7t",     0x4000, 0x1000, 0x641f0008 );
+	ROM_LOAD( "mario.7u",     0x5000, 0x1000, 0x7baf5309 );
+
+	ROM_REGION( 0x0200, REGION_PROMS );
+	ROM_LOAD( "mario.4p",     0x0000, 0x0200, 0xafc9bd41 );
+        ROM_END();
+    
+    
+    
+    }};
+    static RomLoadPtr rom_mariojp = new RomLoadPtr(){ public void handler()
+    {
+        ROM_REGION( 0x10000, REGION_CPU1 ); /* 64k for code */
+	ROM_LOAD( "tma1c-a1.7f",  0x0000, 0x2000, 0xb64b6330 );
+	ROM_LOAD( "tma1c-a2.7e",  0x2000, 0x2000, 0x290c4977 );
+	ROM_LOAD( "tma1c-a1.7d",  0x4000, 0x2000, 0xf8575f31 );
+	ROM_LOAD( "tma1c-a2.7c",  0xf000, 0x1000, 0xa3c11e9e );
+
+	ROM_REGION( 0x1000, REGION_CPU2 );	/* sound */
+	ROM_LOAD( "tma1c-a.6k",   0x0000, 0x1000, 0x06b9ff85 );
+
+	ROM_REGION( 0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "tma1v-a.3f",   0x0000, 0x1000, 0xadf49ee0 );
+	ROM_LOAD( "tma1v-a.3j",   0x1000, 0x1000, 0xa5318f2d );
+
+	ROM_REGION( 0x6000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "tma1v-a.7m",   0x0000, 0x1000, 0x186762f8 );
+	ROM_LOAD( "tma1v-a.7n",   0x1000, 0x1000, 0xe0e08bba );
+	ROM_LOAD( "tma1v-a.7p",   0x2000, 0x1000, 0x7b27c8c1 );
+	ROM_LOAD( "tma1v-a.7s",   0x3000, 0x1000, 0x912ba80a );
+	ROM_LOAD( "tma1v-a.7t",   0x4000, 0x1000, 0x5cbb92a5 );
+	ROM_LOAD( "tma1v-a.7u",   0x5000, 0x1000, 0x13afb9ed );
+
+	ROM_REGION( 0x0200, REGION_PROMS );
+	ROM_LOAD( "mario.4p",     0x0000, 0x0200, 0xafc9bd41 );
+        ROM_END();
+    }};
+    static RomLoadPtr rom_masao = new RomLoadPtr(){ public void handler()
+    {
+    	ROM_REGION( 0x10000, REGION_CPU1 ); /* 64k for code */
+	ROM_LOAD( "masao-4.rom",  0x0000, 0x2000, 0x07a75745 );
+	ROM_LOAD( "masao-3.rom",  0x2000, 0x2000, 0x55c629b6 );
+	ROM_LOAD( "masao-2.rom",  0x4000, 0x2000, 0x42e85240 );
+	ROM_LOAD( "masao-1.rom",  0xf000, 0x1000, 0xb2817af9 );
+
+	ROM_REGION( 0x10000, REGION_CPU2 ); /* 64k for sound */
+	ROM_LOAD( "masao-5.rom",  0x0000, 0x1000, 0xbd437198 );
+
+	ROM_REGION( 0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "masao-6.rom",  0x0000, 0x1000, 0x1c9e0be2 );
+	ROM_LOAD( "masao-7.rom",  0x1000, 0x1000, 0x747c1349 );
+
+	ROM_REGION( 0x6000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+	ROM_LOAD( "tma1v-a.7m",   0x0000, 0x1000, 0x186762f8 );
+	ROM_LOAD( "masao-9.rom",  0x1000, 0x1000, 0x50be3918 );
+	ROM_LOAD( "mario.7p",     0x2000, 0x1000, 0x56be6ccd );
+	ROM_LOAD( "tma1v-a.7s",   0x3000, 0x1000, 0x912ba80a );
+	ROM_LOAD( "tma1v-a.7t",   0x4000, 0x1000, 0x5cbb92a5 );
+	ROM_LOAD( "tma1v-a.7u",   0x5000, 0x1000, 0x13afb9ed );
+
+	ROM_REGION( 0x0200, REGION_PROMS );
+	ROM_LOAD( "mario.4p",     0x0000, 0x0200, 0xafc9bd41 );
+        ROM_END();
+    }};
     
     
     

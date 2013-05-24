@@ -1,3 +1,11 @@
+25/05/2013
+----------
+-added intial machineCPU and machineDriver
+-some cpu definations in driverH
+-more work on listdetails
+-added support for -listclones and -listgames
+-intial work on RomModule defination.
+-Added fully working -listcrc command
 
 
 24/05/2013

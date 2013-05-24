@@ -1,28 +1,10 @@
-/*
-This file is part of Arcadeflex.
-
-Arcadeflex is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Arcadeflex is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
- */
 package mame;
 
 import static arcadeflex.libc.CopyArray;
 import static mame.osdependH.*;
 import static mame.memoryH.*;
-/**
- *
- * @author george
- */
+import static mame.commonH.*;
+
 public class driverH 
 {
         //JAVA HELPERS
@@ -262,7 +244,8 @@ public class driverH
             this.drv=drv;
             //inputports
             this.driver_init=init;
-            //rom
+            romload.handler();//load the rom
+            this.rom = rommodule_macro; //copy rommodule_macro to rom
             this.flags=monitor;
         }
         public String source_file;	
@@ -278,7 +261,7 @@ public class driverH
 						/* This is called ONCE, unlike Machine->init_machine */
 						/* which is called every time the game is reset. */
 
-/*TODO*/ //	const struct RomModule *rom;
+        public RomModule []rom; 
 
         public int flags;	/* orientation and other flags; see defines below */
 

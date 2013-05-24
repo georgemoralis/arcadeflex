@@ -21,6 +21,7 @@ import arcadeflex.settings;
 import static mame.version.*;
 import static mame.driver.*;
 import static mame.driverH.*;
+import static mame.commonH.*;
 
 /**
  *
@@ -929,22 +930,23 @@ public class fronthlp {
 
 		case LIST_LISTCRC: /* list all crc-32 */
 			i = 0;
-/*TODO*/ //			while (drivers[i])
-/*TODO*/ //			{
-/*TODO*/ //				const struct RomModule *romp;
-/*TODO*/ //
-/*TODO*/ //				romp = drivers[i].rom;
-/*TODO*/ //
-/*TODO*/ //				while (romp && (romp.name || romp.offset || romp.length))
-/*TODO*/ //				{
-/*TODO*/ //					if (romp.name && romp.name != (char *)-1)
-/*TODO*/ //						printf("%08x %-12s %s\n",romp.crc,romp.name,drivers[i].description);
-/*TODO*/ //
-/*TODO*/ //					romp++;
-/*TODO*/ //				}
-/*TODO*/ //
-/*TODO*/ //				i++;
-/*TODO*/ //			}
+			while (drivers[i]!=null)
+			{
+                              
+   				
+                                RomModule[] romp;
+                                int romp_ptr=0;
+				romp = drivers[i].rom;
+
+				while (romp!=null && (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0))
+				{
+					if (romp[romp_ptr].name!=null && romp[romp_ptr].name != "-1")
+						printf("%08x %-12s %s\n",romp[romp_ptr].crc,romp[romp_ptr].name,drivers[i].description);
+
+					romp_ptr++;
+				}
+				i++;
+			}
 			return 0;
 
 		case LIST_LISTDUPCRC: /* list duplicate crc-32 (with different ROM name) */
