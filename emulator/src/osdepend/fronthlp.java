@@ -22,7 +22,7 @@ import static mame.version.*;
 import static mame.driver.*;
 import static mame.driverH.*;
 import static mame.commonH.*;
-
+import static mame.common.*;
 /**
  *
  * @author george
@@ -400,7 +400,7 @@ public class fronthlp {
             {
                 printf(settings.version +" (based on mame v%s)\n", new Object[] { build_version });
 
- /*TODO*/ //                    showdisclaimer();
+                    showdisclaimer();
                     printf("Usage:  java -jar arcadeflex.jar gamename [options]\n"
                            +         "        java -jar arcadeflex.jar -list      for a brief list of supported games\n"
                            +         "        java -jar arcadeflex.jar -listfull  for a full list of supported games\n\n"
@@ -507,7 +507,7 @@ public class fronthlp {
 			gamedrv = drivers[j];
 			if (list == LIST_LISTROMS)
                         {
-/*TODO*/ //				printromlist(gamedrv.rom,gamename);
+	   		   printromlist(gamedrv.rom,gamename);
                         }
 			else
 			{
