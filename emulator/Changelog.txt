@@ -8,7 +8,7 @@
 -Added fully working -listcrc command
 -Command -listdupcrc now works
 -Added working -listwrongmerge
-
+-Added working -listromsize
 
 24/05/2013
 ----------

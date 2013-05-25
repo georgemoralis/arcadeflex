@@ -366,6 +366,7 @@ public class fronthlp {
                     if (stricmp(argv[i],"-listwrongmerge")==0) list = LIST_WRONGMERGE;
                     if (stricmp(argv[i],"-listromsize")==0) list = LIST_LISTROMSIZE;
                     if (stricmp(argv[i],"-listcpu")==0) list = LIST_LISTCPU;
+                    if (stricmp(argv[i],"-lmr")==0) list = LIST_LMR;
                     if (stricmp(argv[i],"-wrongorientation")==0) list = LIST_WRONGORIENTATION;
                     if (stricmp(argv[i],"-wrongfps")==0) list = LIST_WRONGFPS;
                     if (stricmp(argv[i],"-noclones")==0) listclones = 0;
@@ -1070,26 +1071,27 @@ public class fronthlp {
 
 		case LIST_LISTROMSIZE: /* I used this for statistical analysis */
 			i = 0;
-/*TODO*/ //			while (drivers[i])
-/*TODO*/ //			{
-/*TODO*/ //				if (drivers[i].clone_of == 0 || (drivers[i].clone_of.flags & NOT_A_DRIVER))
-/*TODO*/ //				{
-/*TODO*/ //					const struct RomModule *romp;
-/*TODO*/ //					j = 0;
-/*TODO*/ //
-/*TODO*/ //					romp = drivers[i].rom;
-/*TODO*/ //
-/*TODO*/ //					while (romp && (romp.name || romp.offset || romp.length))
-/*TODO*/ //					{
-/*TODO*/ //						j += romp.length & ~ROMFLAG_MASK;
-/*TODO*/ //
-/*TODO*/ //						romp++;
-/*TODO*/ //					}
-/*TODO*/ //					printf("%-8s\t%-5s\t%u\n",drivers[i].name,drivers[i].year,j);
-/*TODO*/ //				}
-/*TODO*/ //
-/*TODO*/ //				i++;
-/*TODO*/ //			}
+			while (drivers[i]!=null)
+			{
+				if (drivers[i].clone_of == null || ((drivers[i].clone_of.flags & NOT_A_DRIVER)!=0))
+				{
+                                        RomModule[] romp;
+                                        int romp_ptr=0;
+                                        
+                                        j = 0;
+                                        
+                                        romp = drivers[i].rom;
+					while (romp!=null && (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0))
+					{
+						j += romp[romp_ptr].length & ~ROMFLAG_MASK;
+
+						romp_ptr++;
+					}
+					printf("%-8s\t%-5s\t%d\n",drivers[i].name,drivers[i].year,j);
+				}
+
+				i++;
+			}
 			return 0;
 
 		case LIST_LISTCPU: /* I used this for statistical analysis */

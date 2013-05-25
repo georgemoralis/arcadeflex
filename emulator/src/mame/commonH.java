@@ -25,6 +25,7 @@ public class commonH {
         /* that marks the start of a new memory region. Confused? Well, don't worry, just use */
         /* the macros below. */
  
+public static final int ROMFLAG_MASK=          0xf8000000;           /* 5 bits worth of flags in the high nibble */        
 public static final int REGIONFLAG_MASK=			0xf8000000;
 public static final int REGIONFLAG_DISPOSE=		0x80000000;           /* Dispose of this region when done */
 public static final int REGIONFLAG_SOUNDONLY=	0x40000000;           /* load only if sound emulation is turned on */
