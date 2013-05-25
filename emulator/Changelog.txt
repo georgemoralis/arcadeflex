@@ -6,6 +6,7 @@
 -added support for -listclones and -listgames
 -intial work on RomModule defination.
 -Added fully working -listcrc command
+-Command -listdupcrc now works
 
 
 24/05/2013
