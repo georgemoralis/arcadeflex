@@ -32,7 +32,7 @@ public class Main
      */
     public static void main(String[] args) 
     {
-          ConvertArguments("mame", args);
+          ConvertArguments("arcadeflex", args);
           args = null;
           System.exit(osdepend.main(argc, argv));
         

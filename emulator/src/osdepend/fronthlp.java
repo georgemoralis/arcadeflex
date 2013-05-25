@@ -344,6 +344,7 @@ public class fronthlp {
 /*TODO*/ //				gamename[j] = argv[i][j];
 /*TODO*/ //                     gamename[j] = 0;
                         gamename=argv[1];//TO_BE_REMOVED (temp solution but works ok)
+                       
                     }
             }
 
@@ -996,72 +997,75 @@ public class fronthlp {
 
 		case LIST_WRONGMERGE: /* list duplicate crc-32 with different ROM name in clone sets */
 			i = 0;
-/*TODO*/ //			while (drivers[i])
-/*TODO*/ //			{
-/*TODO*/ //				const struct RomModule *romp;
-/*TODO*/ //
-/*TODO*/ //				romp = drivers[i].rom;
-/*TODO*/ //
-/*TODO*/ //				while (romp && (romp.name || romp.offset || romp.length))
-/*TODO*/ //				{
-/*TODO*/ //					if (romp.name && romp.name != (char *)-1 && romp.crc)
-/*TODO*/ //					{
-/*TODO*/ //						j = 0;
-/*TODO*/ //						while (drivers[j])
-/*TODO*/ //						{
-/*TODO*/ //							if (j != i &&
-/*TODO*/ //								drivers[j].clone_of &&
-/*TODO*/ //								(drivers[j].clone_of.flags & NOT_A_DRIVER) == 0 &&
-/*TODO*/ //								(drivers[j].clone_of == drivers[i] ||
-/*TODO*/ //								(i < j && drivers[j].clone_of == drivers[i].clone_of)))
-/*TODO*/ //							{
-/*TODO*/ //								const struct RomModule *romp1;
-/*TODO*/ //								int match;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //								romp1 = drivers[j].rom;
-/*TODO*/ //								match = 0;
-/*TODO*/ //
-/*TODO*/ //								while (romp1 && (romp1.name || romp1.offset || romp1.length))
-/*TODO*/ //								{
-/*TODO*/ //									if (romp1.name && romp1.name != (char *)-1 &&
-/*TODO*/ //											!strcmp(romp.name,romp1.name))
-/*TODO*/ //									{
-/*TODO*/ //										match = 1;
-/*TODO*/ //										break;
-/*TODO*/ //									}
-/*TODO*/ //
-/*TODO*/ //									romp1++;
-/*TODO*/ //								}
-/*TODO*/ //
-/*TODO*/ //								if (match == 0)
-/*TODO*/ //								{
-/*TODO*/ //									romp1 = drivers[j].rom;
-/*TODO*/ //
-/*TODO*/ //									while (romp1 && (romp1.name || romp1.offset || romp1.length))
-/*TODO*/ //									{
-/*TODO*/ //										if (romp1.name && romp1.name != (char *)-1 &&
-/*TODO*/ //												strcmp(romp.name,romp1.name) &&
-/*TODO*/ //												romp1.crc == romp.crc)
-/*TODO*/ //										{
-/*TODO*/ //											printf("%08x %-12s %-8s <. %-12s %-8s\n",romp.crc,
-/*TODO*/ //													romp.name,drivers[i].name,
-/*TODO*/ //													romp1.name,drivers[j].name);
-/*TODO*/ //										}
-/*TODO*/ //
-/*TODO*/ //										romp1++;
-/*TODO*/ //									}
-/*TODO*/ //								}
-/*TODO*/ //							}
-/*TODO*/ //							j++;
-/*TODO*/ //						}
-/*TODO*/ //					}
-/*TODO*/ //
-/*TODO*/ //					romp++;
-/*TODO*/ //				}
-/*TODO*/ //
-/*TODO*/ //				i++;
-/*TODO*/ //			}
+			while (drivers[i]!=null)
+			{
+				RomModule[] romp;
+                                int romp_ptr=0;
+
+				romp = drivers[i].rom;
+
+				while (romp!=null && (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0))
+				{
+					if (romp[romp_ptr].name!=null && romp[romp_ptr].name != "-1" && romp[romp_ptr].crc!=0)
+					{
+						j = 0;
+						while (drivers[j]!=null)
+						{
+							if (j != i &&
+								drivers[j].clone_of!=null &&
+								(drivers[j].clone_of.flags & NOT_A_DRIVER) == 0 &&
+								(drivers[j].clone_of == drivers[i] ||
+								(i < j && drivers[j].clone_of == drivers[i].clone_of)))
+							{
+								RomModule[] romp1;
+
+								int match;
+                                                                
+
+							        romp1 = drivers[j].rom;
+                                                                int romp1_ptr=0;
+								match = 0;
+
+								while (romp1!=null && (romp1[romp1_ptr].name!=null || romp1[romp1_ptr].offset!=0 || romp1[romp1_ptr].length!=0))
+								{
+									if (romp1[romp1_ptr].name!=null && romp1[romp1_ptr].name != "-1" &&
+											(strcmp(romp[romp_ptr].name,romp1[romp1_ptr].name)==0))
+									{
+										match = 1;
+										break;
+									}
+
+									romp1_ptr++;
+								}
+
+								if (match == 0)
+								{
+									romp1_ptr=0;//romp1 = drivers[j].rom;
+
+									while (romp1!=null && (romp1[romp1_ptr].name!=null || romp1[romp1_ptr].offset!=0 || romp1[romp1_ptr].length!=0))
+									{
+                                                                            if (romp1[romp1_ptr].name!=null && romp1[romp1_ptr].name != "-1" &&
+												(strcmp(romp[romp_ptr].name,romp1[romp1_ptr].name)!=0) &&
+												romp1[romp1_ptr].crc == romp[romp_ptr].crc)
+										{
+											printf("%08x %-12s %-8s <. %-12s %-8s\n",romp[romp_ptr].crc,
+													romp[romp_ptr].name,drivers[i].name,
+													romp1[romp1_ptr].name,drivers[j].name);
+										}
+
+										romp1_ptr++;
+									}
+								}
+							}
+							j++;
+						}
+					}
+
+					romp_ptr++;
+				}
+
+				i++;
+			}
 			return 0;
 
 		case LIST_LISTROMSIZE: /* I used this for statistical analysis */
