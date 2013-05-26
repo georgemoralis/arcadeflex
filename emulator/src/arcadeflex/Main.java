@@ -18,7 +18,6 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 
 package arcadeflex;
 
-import osdepend.osdepend;
 import static arcadeflex.libc.*;
 /**
  *

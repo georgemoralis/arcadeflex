@@ -1,4 +1,4 @@
-package osdepend;
+package arcadeflex;
 
 import static arcadeflex.libc.*;
 import java.io.File;
@@ -28,7 +28,7 @@ public class fileio {
     static class FakeFileHandle
     {
             public FILE file;
-            public byte[] data = new byte[1];
+            public char[] data = new char[1];
             public int offset;
             public int length;
             public int type;
@@ -49,7 +49,6 @@ public class fileio {
 	String gamename;
 	int found = 0;
 	int indx;
-/*TODO*///	struct stat stat_buffer;
 	FakeFileHandle f;
 	int pathc=0;
 	String[] pathv=null;

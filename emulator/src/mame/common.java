@@ -5,7 +5,7 @@ import static arcadeflex.libc.*;
 import static mame.commonH.*;
 import static mame.mame.*;
 import static mame.mameH.*;
-import static osdepend.fileio.*;
+import static arcadeflex.fileio.*;
 import static mame.driverH.*;
 import static osdepend.osdependH.*;
 

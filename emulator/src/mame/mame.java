@@ -25,7 +25,7 @@ import static mame.mameH.*;
 import static mame.driverH.*;
 import static arcadeflex.libc.*;
 import static mame.driver.*;
-import static osdepend.osdepend.*;
+import static arcadeflex.osdepend.*;
 import static mame.common.*;
 
 public class mame {

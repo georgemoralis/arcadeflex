@@ -14,11 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package osdepend;
+package arcadeflex;
 
 import static arcadeflex.libc.*;
 import static mame.driver.*;
-import static osdepend.fronthlp.*;
+import static arcadeflex.fronthlp.*;
 import static mame.mame.*;
 
 /**
