@@ -7,7 +7,7 @@ import static mame.mame.*;
 import static mame.mameH.*;
 import static arcadeflex.fileio.*;
 import static mame.driverH.*;
-import static osdepend.osdependH.*;
+import static mame.osdependH.*;
 
 public class common {
     
