@@ -145,32 +145,6 @@ public class fileio {
 /*TODO*///                                            }
 /*TODO*///                                    }
 /*TODO*///                            }
-
-/*TODO*///                            if( !found )
-/*TODO*///                            {
-                                    /* try with a .zip directory (if ZipMagic is installed) */
- /*TODO*///                                   sprintf (name, "%s/%s.zip", dir_name, gamename);
-/*TODO*///                                    LOG((errorlog, "Trying %s directory\n", name));
- /*TODO*///                   if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )
- /*TODO*///                                   {
- /*TODO*///                                           sprintf (name, "%s/%s.zip/%s", dir_name, gamename, filename);
- /*TODO*///                                           if( filetype == OSD_FILETYPE_ROM )
-/*TODO*///                                            {
-/*TODO*///                                                    if( checksum_file (name, &f->data, &f->length, &f->crc) == 0 )
- /*TODO*///                                                   {
-/*TODO*///                                                            f->type = kRAMFile;
-/*TODO*///                                                            f->offset = 0;
-/*TODO*///                                                            found = 1;
-/*TODO*///                                                    }
-/*TODO*///                                            }
-/*TODO*///                                            else
-/*TODO*///                                            {
-/*TODO*///                                                    f->type = kPlainFile;
-/*TODO*///                                                    f->file = fopen (name, "rb");
-/*TODO*///                                                    found = f->file != 0;
-/*TODO*///                                            }
-/*TODO*///                                    }
-/*TODO*///                            }
                     }
 
                     break;
