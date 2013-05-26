@@ -3,8 +3,18 @@ package mame;
 
 import static arcadeflex.libc.*;
 import static mame.commonH.*;
+import static mame.mame.*;
+import static mame.mameH.*;
+
 
 public class common {
+    
+    /* These globals are only kept on a machine basis - LBO 042898 */
+/*TODO*/ //    unsigned int dispensed_tickets;
+/*TODO*/ //    unsigned int coins[COIN_COUNTERS];
+/*TODO*/ //    unsigned int lastcoin[COIN_COUNTERS];
+/*TODO*/ //    unsigned int coinlockedout[COIN_COUNTERS];
+    
     public static void showdisclaimer()   /* MAURY_BEGIN: dichiarazione */
     {
 	printf("MAME is an emulator: it reproduces, more or less faithfully, the behaviour of\n"
@@ -15,6 +25,373 @@ public class common {
 		+ "are not distributed together with MAME. Distribution of MAME together with ROM\n"
 		+ "images is a violation of copyright law and should be promptly reported to the\n"
 		+ "authors so that appropriate legal action can be taken.\n\n");
+    }
+    /***************************************************************************
+
+      Read ROMs into memory.
+
+      Arguments:
+      const struct RomModule *romp - pointer to an array of Rommodule structures,
+                                     as defined in common.h.
+
+    ***************************************************************************/
+
+    public static int readroms()
+    {
+            int region;
+            RomModule[] romp;
+            int romp_ptr=0;
+            int warning = 0;
+            int fatalerror = 0;
+            int total_roms,current_rom;
+           // char buf[4096] = "";
+
+
+            total_roms = current_rom = 0;
+            romp = Machine.gamedrv.rom;
+
+            if (romp==null) return 0;
+
+            while (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0)
+            {
+                    //if (romp->name && romp->name != (char *)-1)
+                    if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") != 0))    
+                            total_roms++;
+
+                    romp_ptr++;
+            }
+            
+
+            romp_ptr=0;//reset position //romp = Machine->gamedrv->rom;
+
+            for (region = 0;region < MAX_MEMORY_REGIONS;region++)
+                    Machine.memory_region[region] = null;
+
+           region = 0;
+
+          while (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0)
+          {
+                   int region_size;
+                   String name;
+
+                    /* Mish:  An 'optional' rom region, only loaded if sound emulation is turned on */
+                    if (Machine.sample_rate==0 && ((romp[romp_ptr].crc & REGIONFLAG_SOUNDONLY)!=0)) 
+                    {
+                        
+                            if (errorlog!=null) fprintf(errorlog,"readroms():  Ignoring rom region %d\n",region);
+                            Machine.memory_region_type[region] = romp[romp_ptr].crc;
+                            region++;
+
+                            romp_ptr++;
+                            while (romp[romp_ptr].name!=null || romp[romp_ptr].length!=0)
+                                    romp_ptr++;
+
+                           continue;
+                     }
+
+                     if (romp[romp_ptr].name!=null || romp[romp_ptr].length!=0)
+                     {
+/*TODO*/ //                            printf("Error in RomModule definition: expecting ROM_REGION\n");
+/*TODO*/ //                            goto getout;
+                         throw new UnsupportedOperationException("Not supported yet.");
+                     }
+
+                     region_size = romp[romp_ptr].offset;
+                     if ((Machine.memory_region[region] = new char[region_size]) == null) 
+                     {
+
+/*TODO*/ //                            printf("readroms():  Unable to allocate %d bytes of RAM\n",region_size);
+/*TODO*/ //                            goto getout;
+                          throw new UnsupportedOperationException("Not supported yet.");
+                     }
+                     Machine.memory_region_length[region] = region_size;
+                     Machine.memory_region_type[region] = romp[romp_ptr].crc;
+
+                    /* some games (i.e. Pleiades) want the memory clear on startup */
+                    if (region_size <= 0x400000)	/* don't clear large regions which will be filled anyway */
+                        memset(Machine.memory_region[region], 0, region_size);
+
+                     romp_ptr++;
+
+                     while (romp[romp_ptr].length!=0)
+                     {
+/*TODO*/ //                            void *f;
+/*TODO*/ //                            int expchecksum = romp->crc;
+/*TODO*/ //                            int	explength = 0;
+
+
+/*TODO*/ //                            if (romp->name == 0)
+/*TODO*/ //                            {
+/*TODO*/ //                                    printf("Error in RomModule definition: ROM_CONTINUE not preceded by ROM_LOAD\n");
+/*TODO*/ //                                    goto getout;
+/*TODO*/ //                            }
+/*TODO*/ //                            else if (romp->name == (char *)-1)
+/*TODO*/ //                            {
+/*TODO*/ //                                    printf("Error in RomModule definition: ROM_RELOAD not preceded by ROM_LOAD\n");
+/*TODO*/ //                                    goto getout;
+/*TODO*/ //                            }
+
+/*TODO*/ //                            name = romp->name;
+//throw new UnsupportedOperationException("Not supported yet.");
+                            /* update status display */
+/*TODO*/ //                            if (osd_display_loading_rom_message(name,++current_rom,total_roms) != 0)
+/*TODO*/ //                   goto getout;
+
+/*TODO*/ //                            {
+/*TODO*/ //                                    const struct GameDriver *drv;
+
+/*TODO*/ //                                    drv = Machine->gamedrv;
+/*TODO*/ //                                    do
+/*TODO*/ //                                    {
+/*TODO*/ //                                            f = osd_fopen(drv->name,name,OSD_FILETYPE_ROM,0);
+/*TODO*/ //                                            drv = drv->clone_of;
+/*TODO*/ //                                    } while (f == 0 && drv);
+/*TODO*/ //
+/*TODO*/ //                                    if (f == 0)
+/*TODO*/ //                                    {
+                                            /* NS981003: support for "load by CRC" */
+/*TODO*/ //                                            char crc[9];
+
+/*TODO*/ //                                            sprintf(crc,"%08x",romp->crc);
+/*TODO*/ //                                            drv = Machine->gamedrv;
+/*TODO*/ //                                            do
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    f = osd_fopen(drv->name,crc,OSD_FILETYPE_ROM,0);
+/*TODO*/ //                                                    drv = drv->clone_of;
+/*TODO*/ //                                            } while (f == 0 && drv);
+/*TODO*/ //                                    }
+/*TODO*/ //                            }
+
+/*TODO*/ //                            if (f)
+/*TODO*/ //                            {
+/*TODO*/ //                                    do
+/*TODO*/ //                                    {
+/*TODO*/ //                                            unsigned char *c;
+/*TODO*/ //                                            unsigned int i;
+/*TODO*/ //                                            int length = romp->length & ~ROMFLAG_MASK;
+/*TODO*/ //
+/*TODO*/ //
+/*TODO*/ //                                            if (romp->name == (char *)-1)
+/*TODO*/ //                                                    osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
+/*TODO*/ //                                            else
+/*TODO*/ //                                                    explength += length;
+/*TODO*/ //
+/*TODO*/ //                                            if (romp->offset + length > region_size ||
+/*TODO*/ //                                                    (!(romp->length & ROMFLAG_NIBBLE) && (romp->length & ROMFLAG_ALTERNATE)
+/*TODO*/ //                                                                    && (romp->offset&~1) + 2*length > region_size))
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    printf("Error in RomModule definition: %s out of memory region space\n",name);
+/*TODO*/ //                                                    osd_fclose(f);
+/*TODO*/ //                                                    goto getout;
+/*TODO*/ //                                            }
+/*TODO*/ //
+/*TODO*/ //                                            if (romp->length & ROMFLAG_NIBBLE)
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    unsigned char *temp;
+/*TODO*/ //
+/*TODO*/ //
+/*TODO*/ //                                                    temp = malloc(length);
+/*TODO*/ //
+/*TODO*/ //                                                   if (!temp)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            printf("Out of memory reading ROM %s\n",name);
+/*TODO*/ //                                                            osd_fclose(f);
+/*TODO*/ //                                                            goto getout;
+/*TODO*/ //                                                    }
+/*TODO*/ //
+/*TODO*/ //                                                    if (osd_fread(f,temp,length) != length)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
+/*TODO*/ //                                                    }
+/*TODO*/ //
+/*TODO*/ //                                                    /* ROM_LOAD_NIB_LOW and ROM_LOAD_NIB_HIGH */
+/*TODO*/ //                                                    c = Machine->memory_region[region] + romp->offset;
+ /*TODO*/ //                                                   if (romp->length & ROMFLAG_ALTERNATE)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            /* Load into the high nibble */
+/*TODO*/ //                                                            for (i = 0;i < length;i ++)
+/*TODO*/ //                                                            {
+/*TODO*/ //                                                                    c[i] = (c[i] & 0x0f) | ((temp[i] & 0x0f) << 4);
+/*TODO*/ //                                                            }
+/*TODO*/ //                                                    }
+/*TODO*/ //                                                    else
+/*TODO*/ //                                                    {
+ /*TODO*/ //                                                           /* Load into the low nibble */
+/*TODO*/ //                                                            for (i = 0;i < length;i ++)
+ /*TODO*/ //                                                           {
+ /*TODO*/ //                                                                   c[i] = (c[i] & 0xf0) | (temp[i] & 0x0f);
+/*TODO*/ //                                                            }
+/*TODO*/ //                                                    }
+/*TODO*/ //
+/*TODO*/ //                                                    free (temp);
+/*TODO*/ //                                            }
+/*TODO*/ //                                            else if (romp->length & ROMFLAG_ALTERNATE)
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
+/*TODO*/ //                                                    /* copy the ROM data */
+/*TODO*/ //
+/*TODO*/ //                                                    c = Machine->memory_region[region] + (romp->offset ^ 1);
+/*TODO*/ //
+/*TODO*/ //                                                    if (osd_fread_scatter(f,c,length,2) != length)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
+/*TODO*/ //                                                    }
+/*TODO*/ //                                            }
+/*TODO*/ //                                            else if (romp->length & ROMFLAG_QUAD) {
+/*TODO*/ //                                                    static int which_quad=0; /* This is multi session friendly, as we only care about the modulus */
+/*TODO*/ //                                                    unsigned char *temp;
+/*TODO*/ //                                                    int base=0;
+/*TODO*/ //
+/*TODO*/ //                                                    temp = malloc(length);	/* Need to load rom to temporary space */
+/*TODO*/ //                                                    osd_fread(f,temp,length);
+/*TODO*/ //
+ /*TODO*/ //                                                   /* Copy quad to region */
+/*TODO*/ //                                                    c = Machine->memory_region[region] + romp->offset;
+/*TODO*/ //
+/*TODO*/ //                                                    switch (which_quad%4) {
+/*TODO*/ //                                                            case 0: base=1; break;
+/*TODO*/ //                                                            case 1: base=0; break;
+/*TODO*/ //                                                            case 2: base=3; break;
+/*TODO*/ //                                                            case 3: base=2; break;
+/*TODO*/ //                                                    }
+/*TODO*/ //
+/*TODO*/ //                                                    for (i=base; i< length*4; i += 4)
+/*TODO*/ //                                                            c[i]=temp[i/4];
+/*TODO*/ //
+/*TODO*/ //                                                    which_quad++;
+/*TODO*/ //                                                    free(temp);
+/*TODO*/ //                                            }
+/*TODO*/ //                                            else
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    int wide = romp->length & ROMFLAG_WIDE;
+/*TODO*/ //
+/*TODO*/ //                                                    int swap = (romp->length & ROMFLAG_SWAP) ^ ROMFLAG_SWAP;
+/*TODO*/ //
+/*TODO*/ //                                                    osd_fread(f,Machine->memory_region[region] + romp->offset,length);
+/*TODO*/ //
+/*TODO*/ //                                                    /* apply swappage */
+/*TODO*/ //                                                    c = Machine->memory_region[region] + romp->offset;
+/*TODO*/ //                                                    if (wide && swap)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            for (i = 0; i < length; i += 2)
+/*TODO*/ //                                                            {
+/*TODO*/ //                                                                    int temp = c[i];
+/*TODO*/ //                                                                    c[i] = c[i+1];
+/*TODO*/ //                                                                    c[i+1] = temp;
+/*TODO*/ //                                                            }
+/*TODO*/ //                                                    }
+/*TODO*/ //                                            }
+
+/*TODO*/ //                                            romp++;
+/*TODO*/ //                                    } while (romp->length && (romp->name == 0 || romp->name == (char *)-1));
+/*TODO*/ //
+/*TODO*/ //                                    if (explength != osd_fsize (f))
+/*TODO*/ //                                    {
+/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s WRONG LENGTH (expected: %08x found: %08x)\n",
+/*TODO*/ //                                                            name,explength,osd_fsize(f));
+/*TODO*/ //                                            warning = 1;
+/*TODO*/ //                                    }
+
+/*TODO*/ //                                    if (expchecksum != osd_fcrc (f))
+/*TODO*/ //                                    {
+/*TODO*/ //                                            warning = 1;
+/*TODO*/ //                                            if (expchecksum == 0)
+/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s NO GOOD DUMP KNOWN\n",name);
+/*TODO*/ //                                            else if (expchecksum == BADCRC(osd_fcrc(f)))
+/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s ROM NEEDS REDUMP\n",name);
+/*TODO*/ //                                            else
+/*TODO*/ //                                                    sprintf(&buf[strlen(buf)], "%-12s WRONG CRC (expected: %08x found: %08x)\n",
+/*TODO*/ //                                                                    name,expchecksum,osd_fcrc(f));
+/*TODO*/ //                                    }
+
+/*TODO*/ //                                    osd_fclose(f);
+/*TODO*/ //                            }
+/*TODO*/ //                            else
+/*TODO*/ //                            {
+/*TODO*/ //                                    /* allow for a NO GOOD DUMP KNOWN rom to be missing */
+/*TODO*/ //                                    if (expchecksum == 0)
+ /*TODO*/ //                                   {
+/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s NOT FOUND (NO GOOD DUMP KNOWN)\n",name);
+/*TODO*/ //                                            warning = 1;
+/*TODO*/ //                                    }
+/*TODO*/ //                                    else
+/*TODO*/ //                                    {
+/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s NOT FOUND\n",name);
+/*TODO*/ //                                            fatalerror = 1;
+/*TODO*/ //                                    }
+/*TODO*/ //
+                                    do
+                                    {
+/*TODO*/ //                                            if (fatalerror == 0)
+/*TODO*/ //                                            {
+/*TODO*/ //                                                    int i;
+/*TODO*/ //
+/*TODO*/ //                                                    /* fill space with random data */
+/*TODO*/ //                                                    if (romp->length & ROMFLAG_ALTERNATE)
+/*TODO*/ //                                                    {
+/*TODO*/ //                                                            unsigned char *c;
+/*TODO*/ //
+/*TODO*/ //                                                            /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
+/*TODO*/ //
+/*TODO*/ //                                                            c = Machine->memory_region[region] + (romp->offset ^ 1);
+/*TODO*/ //
+/*TODO*/ //                                                            for (i = 0;i < (romp->length & ~ROMFLAG_MASK);i++)
+/*TODO*/ //                                                                    c[2*i] = rand();
+ /*TODO*/ //                                                   }
+/*TODO*/ //                                                    else
+ /*TODO*/ //                                                   {
+ /*TODO*/ //                                                           for (i = 0;i < (romp->length & ~ROMFLAG_MASK);i++)
+/*TODO*/ //                                                                    Machine->memory_region[region][romp->offset + i] = rand();
+ /*TODO*/ //                                                   }
+ /*TODO*/ //                                           }
+                                          romp_ptr++;
+                                     } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
+                          //  }
+                   }
+
+                 region++;
+           }
+
+            /* final status display */
+/*TODO*/ //            osd_display_loading_rom_message(0,current_rom,total_roms);
+
+/*TODO*/ //            if (warning || fatalerror)
+/*TODO*/ //            {
+/*TODO*/ //                    extern int bailing;
+/*TODO*/ //
+/*TODO*/ //                    if (fatalerror)
+/*TODO*/ //                    {
+/*TODO*/ //                            strcat (buf, "ERROR: required files are missing, the game cannot be run.\n");
+/*TODO*/ //                            bailing = 1;
+/*TODO*/ //                    }
+/*TODO*/ //                    else
+/*TODO*/ //                            strcat (buf, "WARNING: the game might not run correctly.\n");
+/*TODO*/ //                    printf ("%s", buf);
+/*TODO*/ //
+/*TODO*/ //                    if (!options.gui_host && !bailing)
+ /*TODO*/ //                   {
+ /*TODO*/ //                           printf ("Press any key to continue\n");
+/*TODO*/ //                            keyboard_read_sync();
+/*TODO*/ //                            if (keyboard_pressed(KEYCODE_LCONTROL) && keyboard_pressed(KEYCODE_C))
+/*TODO*/ //                                    return 1;
+ /*TODO*/ //                   }
+/*TODO*/ //            }
+
+            if (fatalerror!=0) return 1;
+            else return 0;
+
+
+/*TODO*/ //    getout:
+            /* final status display */
+/*TODO*/ //            osd_display_loading_rom_message(0,current_rom,total_roms);
+
+/*TODO*/ //            for (region = 0;region < MAX_MEMORY_REGIONS;region++)
+/*TODO*/ //            {
+/*TODO*/ //                    free(Machine->memory_region[region]);
+/*TODO*/ //                    Machine->memory_region[region] = 0;
+/*TODO*/ //            }
+
+/*TODO*/ //            return 1;
     }
     public static void printromlist(RomModule[] romp, String basename)
     {
@@ -56,4 +433,354 @@ public class common {
                     }
             }
     }
+    /***************************************************************************
+
+      Read samples into memory.
+      This function is different from readroms() because it doesn't fail if
+      it doesn't find a file: it will load as many samples as it can find.
+
+    ***************************************************************************/
+
+/*TODO*/ //    static struct GameSample *read_wav_sample(void *f)
+/*TODO*/ //    {
+/*TODO*/ //            unsigned long offset = 0;
+/*TODO*/ //            UINT32 length, rate, filesize, temp32;
+/*TODO*/ //            UINT16 bits, temp16;
+/*TODO*/ //            char buf[32];
+/*TODO*/ //            struct GameSample *result;
+
+            /* read the core header and make sure it's a WAVE file */
+/*TODO*/ //            offset += osd_fread(f, buf, 4);
+/*TODO*/ //            if (offset < 4)
+/*TODO*/ //                    return NULL;
+/*TODO*/ //            if (memcmp(&buf[0], "RIFF", 4) != 0)
+/*TODO*/ //                    return NULL;
+
+            /* get the total size */
+/*TODO*/ //            offset += osd_fread(f, &filesize, 4);
+/*TODO*/ //            if (offset < 8)
+/*TODO*/ //                    return NULL;
+/*TODO*/ //            filesize = intelLong(filesize);
+
+            /* read the RIFF file type and make sure it's a WAVE file */
+/*TODO*/ //            offset += osd_fread(f, buf, 4);
+/*TODO*/ //            if (offset < 12)
+/*TODO*/ //                    return NULL;
+ /*TODO*/ //           if (memcmp(&buf[0], "WAVE", 4) != 0)
+ /*TODO*/ //                   return NULL;
+
+            /* seek until we find a format tag */
+/*TODO*/ //            while (1)
+/*TODO*/ //            {
+/*TODO*/ //                    offset += osd_fread(f, buf, 4);
+/*TODO*/ //                    offset += osd_fread(f, &length, 4);
+/*TODO*/ //                    length = intelLong(length);
+/*TODO*/ //                    if (memcmp(&buf[0], "fmt ", 4) == 0)
+ /*TODO*/ //                           break;
+
+                    /* seek to the next block */
+/*TODO*/ //                    osd_fseek(f, length, SEEK_CUR);
+/*TODO*/ //                    offset += length;
+/*TODO*/ //                    if (offset >= filesize)
+/*TODO*/ //                            return NULL;
+/*TODO*/ //            }
+
+            /* read the format -- make sure it is PCM */
+/*TODO*/ //            offset += osd_fread_lsbfirst(f, &temp16, 2);
+/*TODO*/ //            if (temp16 != 1)
+/*TODO*/ //                    return NULL;
+
+            /* number of channels -- only mono is supported */
+/*TODO*/ //            offset += osd_fread_lsbfirst(f, &temp16, 2);
+/*TODO*/ //            if (temp16 != 1)
+/*TODO*/ //                    return NULL;
+
+            /* sample rate */
+/*TODO*/ //            offset += osd_fread(f, &rate, 4);
+/*TODO*/ //            rate = intelLong(rate);
+
+            /* bytes/second and block alignment are ignored */
+/*TODO*/ //            offset += osd_fread(f, buf, 6);
+
+            /* bits/sample */
+/*TODO*/ //            offset += osd_fread_lsbfirst(f, &bits, 2);
+/*TODO*/ //            if (bits != 8 && bits != 16)
+/*TODO*/ //                    return NULL;
+
+            /* seek past any extra data */
+/*TODO*/ //            osd_fseek(f, length - 16, SEEK_CUR);
+/*TODO*/ //            offset += length - 16;
+
+            /* seek until we find a data tag */
+/*TODO*/ //            while (1)
+/*TODO*/ //            {
+/*TODO*/ //                    offset += osd_fread(f, buf, 4);
+/*TODO*/ //                    offset += osd_fread(f, &length, 4);
+/*TODO*/ //                    length = intelLong(length);
+/*TODO*/ //                    if (memcmp(&buf[0], "data", 4) == 0)
+/*TODO*/ //                            break;
+
+                    /* seek to the next block */
+/*TODO*/ //                    osd_fseek(f, length, SEEK_CUR);
+/*TODO*/ //                    offset += length;
+/*TODO*/ //                    if (offset >= filesize)
+/*TODO*/ //                            return NULL;
+/*TODO*/ //            }
+
+            /* allocate the game sample */
+/*TODO*/ //            result = malloc(sizeof(struct GameSample) + length);
+/*TODO*/ //            if (result == NULL)
+/*TODO*/ //                    return NULL;
+
+            /* fill in the sample data */
+/*TODO*/ //            result->length = length;
+/*TODO*/ //            result->smpfreq = rate;
+/*TODO*/ //            result->resolution = bits;
+
+            /* read the data in */
+/*TODO*/ //            if (bits == 8)
+/*TODO*/ //            {
+/*TODO*/ //                    osd_fread(f, result->data, length);
+
+                    /* convert 8-bit data to signed samples */
+/*TODO*/ //                    for (temp32 = 0; temp32 < length; temp32++)
+/*TODO*/ //                            result->data[temp32] ^= 0x80;
+/*TODO*/ //            }
+/*TODO*/ //            else
+/*TODO*/ //            {
+                    /* 16-bit data is fine as-is */
+/*TODO*/ //                    osd_fread_lsbfirst(f, result->data, length);
+/*TODO*/ //            }
+
+/*TODO*/ //            return result;
+ /*TODO*/ //   }
+
+/*TODO*/ //    struct GameSamples *readsamples(const char **samplenames,const char *basename)
+    /* V.V - avoids samples duplication */
+    /* if first samplename is *dir, looks for samples into "basename" first, then "dir" */
+/*TODO*/ //    {
+/*TODO*/ //            int i;
+/*TODO*/ //            struct GameSamples *samples;
+/*TODO*/ //            int skipfirst = 0;
+
+            /* if the user doesn't want to use samples, bail */
+/*TODO*/ //            if (!options.use_samples) return 0;
+
+/*TODO*/ //            if (samplenames == 0 || samplenames[0] == 0) return 0;
+
+/*TODO*/ //            if (samplenames[0][0] == '*')
+/*TODO*/ //                    skipfirst = 1;
+
+/*TODO*/ //            i = 0;
+/*TODO*/ //            while (samplenames[i+skipfirst] != 0) i++;
+
+/*TODO*/ //            if (!i) return 0;
+
+ /*TODO*/ //           if ((samples = malloc(sizeof(struct GameSamples) + (i-1)*sizeof(struct GameSample))) == 0)
+ /*TODO*/ //                   return 0;
+/*TODO*/ //
+ /*TODO*/ //           samples->total = i;
+ /*TODO*/ //           for (i = 0;i < samples->total;i++)
+ /*TODO*/ //                   samples->sample[i] = 0;
+/*TODO*/ //
+ /*TODO*/ //           for (i = 0;i < samples->total;i++)
+/*TODO*/ //            {
+ /*TODO*/ //                   void *f;
+/*TODO*/ //
+ /*TODO*/ //                   if (samplenames[i+skipfirst][0])
+ /*TODO*/ //                   {
+/*TODO*/ //                            if ((f = osd_fopen(basename,samplenames[i+skipfirst],OSD_FILETYPE_SAMPLE,0)) == 0)
+/*TODO*/ //                                    if (skipfirst)
+/*TODO*/ //                                            f = osd_fopen(samplenames[0]+1,samplenames[i+skipfirst],OSD_FILETYPE_SAMPLE,0);
+/*TODO*/ //                            if (f != 0)
+/*TODO*/ //                            {
+/*TODO*/ //                                    samples->sample[i] = read_wav_sample(f);
+/*TODO*/ //                                    osd_fclose(f);
+/*TODO*/ //                            }
+/*TODO*/ //                    }
+ /*TODO*/ //           }
+
+/*TODO*/ //            return samples;
+/*TODO*/ //    }
+
+
+/*    void freesamples(struct GameSamples *samples)
+    {
+            int i;
+
+
+            if (samples == 0) return;
+
+            for (i = 0;i < samples->total;i++)
+                    free(samples->sample[i]);
+
+            free(samples);
+    }*/
+
+
+
+/*TODO*/ //    unsigned char *memory_region(int num)
+/*TODO*/ //    {
+/*TODO*/ //            int i;
+
+/*TODO*/ //            if (num < MAX_MEMORY_REGIONS)
+/*TODO*/ //                    return Machine->memory_region[num];
+/*TODO*/ //            else
+/*TODO*/ //            {
+/*TODO*/ //                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+/*TODO*/ //                    {
+/*TODO*/ //                            if ((Machine->memory_region_type[i] & ~REGIONFLAG_MASK) == num)
+/*TODO*/ //                                    return Machine->memory_region[i];
+/*TODO*/ //                    }
+/*TODO*/ //            }
+
+/*TODO*/ //            return 0;
+/*TODO*/ //    }
+
+/*TODO*/ //    int memory_region_length(int num)
+/*TODO*/ //    {
+/*TODO*/ //            int i;
+
+/*TODO*/ //            if (num < MAX_MEMORY_REGIONS)
+/*TODO*/ //                    return Machine->memory_region_length[num];
+/*TODO*/ //            else
+/*TODO*/ //            {
+/*TODO*/ //                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+/*TODO*/ //                    {
+/*TODO*/ //                            if ((Machine->memory_region_type[i] & ~REGIONFLAG_MASK) == num)
+/*TODO*/ //                                    return Machine->memory_region_length[i];
+/*TODO*/ //                    }
+/*TODO*/ //            }
+
+/*TODO*/ //            return 0;
+/*TODO*/ //    }
+
+/*TODO*/ //    int new_memory_region(int num, int length)
+/*TODO*/ //    {
+/*TODO*/ //        int i;
+/*TODO*/ //
+/*TODO*/ //        if (num < MAX_MEMORY_REGIONS)
+/*TODO*/ //        {
+/*TODO*/ //            Machine->memory_region_length[num] = length;
+/*TODO*/ //            Machine->memory_region[num] = malloc(length);
+/*TODO*/ //            return (Machine->memory_region[num] == NULL) ? 1 : 0;
+/*TODO*/ //        }
+/*TODO*/ //        else
+/*TODO*/ //        {
+/*TODO*/ //            for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+/*TODO*/ //            {
+/*TODO*/ //                if (Machine->memory_region[i] == NULL)
+/*TODO*/ //                {
+/*TODO*/ //                    Machine->memory_region_length[i] = length;
+/*TODO*/ //                    Machine->memory_region_type[i] = num;
+/*TODO*/ //                    Machine->memory_region[i] = malloc(length);
+/*TODO*/ //                    return (Machine->memory_region[i] == NULL) ? 1 : 0;
+/*TODO*/ //                }
+/*TODO*/ //            }
+/*TODO*/ //        }
+/*TODO*/ //            return 1;
+/*TODO*/ //    }
+
+/*TODO*/ //    void free_memory_region(int num)
+/*TODO*/ //    {
+/*TODO*/ //            int i;
+/*TODO*/ //
+ /*TODO*/ //           if (num < MAX_MEMORY_REGIONS)
+/*TODO*/ //            {
+/*TODO*/ //                    free(Machine->memory_region[num]);
+/*TODO*/ //                    Machine->memory_region[num] = 0;
+ /*TODO*/ //           }
+/*TODO*/ //            else
+ /*TODO*/ //           {
+ /*TODO*/ //                   for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+ /*TODO*/ //                   {
+/*TODO*/ //                            if ((Machine->memory_region_type[i] & ~REGIONFLAG_MASK) == num)
+/*TODO*/ //                            {
+/*TODO*/ //                                    free(Machine->memory_region[i]);
+/*TODO*/ //                                    Machine->memory_region[i] = 0;
+/*TODO*/ //                                    return;
+/*TODO*/ //                            }
+/*TODO*/ //                    }
+/*TODO*/ //            }
+ /*TODO*/ //   }
+
+
+    /* LBO 042898 - added coin counters */
+/*TODO*/ //    void coin_counter_w (int offset, int data)
+/*TODO*/ //    {
+/*TODO*/ //            if (offset >= COIN_COUNTERS) return;
+/*TODO*/ //            /* Count it only if the data has changed from 0 to non-zero */
+/*TODO*/ //            if (data && (lastcoin[offset] == 0))
+/*TODO*/ //            {
+/*TODO*/ //                    coins[offset] ++;
+/*TODO*/ //            }
+/*TODO*/ //            lastcoin[offset] = data;
+/*TODO*/ //    }
+/*TODO*/ //
+/*TODO*/ //    void coin_lockout_w (int offset, int data)
+/*TODO*/ //    {
+/*TODO*/ //            if (offset >= COIN_COUNTERS) return;
+/*TODO*/ //
+/*TODO*/ //            coinlockedout[offset] = data;
+/*TODO*/ //    }
+
+    /* Locks out all the coin inputs */
+/*TODO*/ //    void coin_lockout_global_w (int offset, int data)
+/*TODO*/ //    {
+/*TODO*/ //            int i;
+/*TODO*/ //
+/*TODO*/ //            for (i = 0; i < COIN_COUNTERS; i++)
+/*TODO*/ //            {
+/*TODO*/ //                    coin_lockout_w(i, data);
+/*TODO*/ //            }
+/*TODO*/ //    }
+
+
+
+/*TODO*/ //    int snapno;
+
+/*TODO*/ //    void save_screen_snapshot(void)
+/*TODO*/ //    {
+/*TODO*/ //            void *fp;
+/*TODO*/ //            char name[20];
+
+
+            /* avoid overwriting existing files */
+            /* first of all try with "gamename.png" */
+/*TODO*/ //            sprintf(name,"%.8s", Machine->gamedrv->name);
+/*TODO*/ //            if (osd_faccess(name,OSD_FILETYPE_SCREENSHOT))
+/*TODO*/ //            {
+/*TODO*/ //                    do
+/*TODO*/ //                    {
+                            /* otherwise use "nameNNNN.png" */
+/*TODO*/ //                            sprintf(name,"%.4s%04d",Machine->gamedrv->name,snapno++);
+/*TODO*/ //                    } while (osd_faccess(name, OSD_FILETYPE_SCREENSHOT));
+/*TODO*/ //            }
+
+/*TODO*/ //            if ((fp = osd_fopen(Machine->gamedrv->name, name, OSD_FILETYPE_SCREENSHOT, 1)) != NULL)
+/*TODO*/ //            {
+/*TODO*/ //                    if (Machine->drv->video_attributes & VIDEO_TYPE_VECTOR)
+/*TODO*/ //                            png_write_bitmap(fp,Machine->scrbitmap);
+/*TODO*/ //                    else
+/*TODO*/ //                    {
+/*TODO*/ //                            struct osd_bitmap *bitmap;
+
+/*TODO*/ //                            bitmap = osd_new_bitmap(
+/*TODO*/ //                                            Machine->drv->visible_area.max_x - Machine->drv->visible_area.min_x + 1,
+/*TODO*/ //                                            Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1,
+/*TODO*/ //                                            Machine->scrbitmap->depth);
+
+/*TODO*/ //                            if (bitmap)
+/*TODO*/ //                            {
+/*TODO*/ //                                    copybitmap(bitmap,Machine->scrbitmap,0,0,
+/*TODO*/ //                                                    -Machine->drv->visible_area.min_x,-Machine->drv->visible_area.min_y,0,TRANSPARENCY_NONE,0);
+/*TODO*/ //                                    png_write_bitmap(fp,bitmap);
+/*TODO*/ //                                    osd_free_bitmap(bitmap);
+/*TODO*/ //                            }
+/*TODO*/ //                    }
+
+/*TODO*/ //                    osd_fclose(fp);
+/*TODO*/ //            }
+/*TODO*/ //    }
+
 }

@@ -88,7 +88,7 @@ public class mario {
 	ROM_LOAD( "mario.7d",     0x4000, 0x2000, 0xdcceb6c1 );
 	ROM_LOAD( "mario.7c",     0xf000, 0x1000, 0x4a63d96b );
 
-	ROM_REGION( 0x1000, REGION_CPU2 );	/* sound */
+	ROM_REGION( 0x1000, REGION_CPU2 | REGIONFLAG_SOUNDONLY );	/* sound */
 	ROM_LOAD( "tma1c-a.6k",   0x0000, 0x1000, 0x06b9ff85 );
 
 	ROM_REGION( 0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE );

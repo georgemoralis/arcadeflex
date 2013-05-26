@@ -77,9 +77,9 @@ public class mameH {
         public static class GameOptions
 	{
 	  public GameOptions() {};
-            FILE errorlog;
-            FILE record;
-            FILE playback;
+            public FILE errorlog;
+            public FILE record;
+            public FILE playback;
             public int mame_debug;
             public int cheat;
             public int gui_host;

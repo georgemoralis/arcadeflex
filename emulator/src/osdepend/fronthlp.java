@@ -343,7 +343,7 @@ public class fronthlp {
 /*TODO*/ //                     for (j = 0;j < 8 && argv[i][j] && argv[i][j] != '.';j++)
 /*TODO*/ //				gamename[j] = argv[i][j];
 /*TODO*/ //                     gamename[j] = 0;
-                        gamename=argv[1];//TO_BE_REMOVED (temp solution but works ok)
+/*TEMPHACK*/                 gamename=argv[1];//TO_BE_REMOVED (temp solution but works ok)
                        
                     }
             }

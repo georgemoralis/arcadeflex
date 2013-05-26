@@ -485,6 +485,7 @@ public class libc {
         try {
             file.fw.write(print);
         } catch (Exception e) {
+            System.out.println("can't write to file");
         }
     }
 

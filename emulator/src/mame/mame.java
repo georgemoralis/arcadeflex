@@ -26,6 +26,7 @@ import static mame.driverH.*;
 import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static osdepend.osdepend.*;
+import static mame.common.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -191,8 +192,11 @@ public class mame {
 /*TODO*/ //                    }
 /*TODO*/ //            }
 
-/*TODO*/ //            if (readroms() != 0)
- /*TODO*/ //                   goto out_free;
+            if (readroms() != 0)
+            {
+  /*TODO*/ //                   goto out_free;               
+            }
+
 
             /* Mish:  Multi-session safety - set spriteram size to zero before memory map is set up */
 /*TODO*/ //            spriteram_size=spriteram_2_size=0;

@@ -19,6 +19,7 @@ package osdepend;
 import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static osdepend.fronthlp.*;
+import static mame.mame.*;
 
 /**
  * This file is relative to msdos.c in mame
@@ -97,8 +98,8 @@ public class osdepend {
             for (i = 1;i < argc;i++) /* V.V_121997 */
             {
                     if (stricmp(argv[i],"-ignorecfg") == 0) ignorecfg = 1;
- /*TODO*/ //                   if (stricmp(argv[i],"-log") == 0)
- /*TODO*/ //                           errorlog = options.errorlog = fopen("error.log","wa");
+                    if (stricmp(argv[i],"-log") == 0)
+                           errorlog = options.errorlog = fopen("error.log","wa");
                     if (stricmp(argv[i],"-playback") == 0)
                     {
                             i++;
@@ -266,10 +267,10 @@ public class osdepend {
 
 
         /* go for it */
-/*TODO*/ //            res = run_game (game_index);
+           res = run_game (game_index);
 
             /* close open files */
- /*TODO*/ //           if (options.errorlog) fclose (options.errorlog);
+            if (options.errorlog!=null) fclose (options.errorlog);
  /*TODO*/ //           if (options.playback) osd_fclose (options.playback);
  /*TODO*/ //           if (options.record)   osd_fclose (options.record);
 
