@@ -5,7 +5,9 @@ import static arcadeflex.libc.*;
 import static mame.commonH.*;
 import static mame.mame.*;
 import static mame.mameH.*;
-
+import static osdepend.fileio.*;
+import static mame.driverH.*;
+import static osdepend.osdependH.*;
 
 public class common {
     
@@ -44,7 +46,7 @@ public class common {
             int warning = 0;
             int fatalerror = 0;
             int total_roms,current_rom;
-           // char buf[4096] = "";
+            String buf = "";
 
 
             total_roms = current_rom = 0;
@@ -54,7 +56,6 @@ public class common {
 
             while (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0)
             {
-                    //if (romp->name && romp->name != (char *)-1)
                     if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") != 0))    
                             total_roms++;
 
@@ -91,18 +92,17 @@ public class common {
 
                      if (romp[romp_ptr].name!=null || romp[romp_ptr].length!=0)
                      {
-/*TODO*/ //                            printf("Error in RomModule definition: expecting ROM_REGION\n");
-/*TODO*/ //                            goto getout;
-                         throw new UnsupportedOperationException("Not supported yet.");
+                           printf("Error in RomModule definition: expecting ROM_REGION\n");
+                           return getout(current_rom,total_roms);
                      }
 
                      region_size = romp[romp_ptr].offset;
                      if ((Machine.memory_region[region] = new char[region_size]) == null) 
                      {
 
-/*TODO*/ //                            printf("readroms():  Unable to allocate %d bytes of RAM\n",region_size);
-/*TODO*/ //                            goto getout;
-                          throw new UnsupportedOperationException("Not supported yet.");
+                           printf("readroms():  Unable to allocate %d bytes of RAM\n",region_size);
+                           return getout(current_rom,total_roms);
+                          
                      }
                      Machine.memory_region_length[region] = region_size;
                      Machine.memory_region_type[region] = romp[romp_ptr].crc;
@@ -115,37 +115,39 @@ public class common {
 
                      while (romp[romp_ptr].length!=0)
                      {
-/*TODO*/ //                            void *f;
-/*TODO*/ //                            int expchecksum = romp->crc;
-/*TODO*/ //                            int	explength = 0;
+                            Object f;
+                            int expchecksum = romp[romp_ptr].crc;
+                            int	explength = 0;
 
 
-/*TODO*/ //                            if (romp->name == 0)
-/*TODO*/ //                            {
-/*TODO*/ //                                    printf("Error in RomModule definition: ROM_CONTINUE not preceded by ROM_LOAD\n");
-/*TODO*/ //                                    goto getout;
-/*TODO*/ //                            }
-/*TODO*/ //                            else if (romp->name == (char *)-1)
-/*TODO*/ //                            {
-/*TODO*/ //                                    printf("Error in RomModule definition: ROM_RELOAD not preceded by ROM_LOAD\n");
-/*TODO*/ //                                    goto getout;
-/*TODO*/ //                            }
+                            if (romp[romp_ptr].name == null)
+                            {
+                                    printf("Error in RomModule definition: ROM_CONTINUE not preceded by ROM_LOAD\n");
+                                    return getout(current_rom,total_roms);
+                             }
+                            else if (romp[romp_ptr].name == "-1")
+                             {
+                                    printf("Error in RomModule definition: ROM_RELOAD not preceded by ROM_LOAD\n");
+                                    return getout(current_rom,total_roms);
+                            }
 
-/*TODO*/ //                            name = romp->name;
-//throw new UnsupportedOperationException("Not supported yet.");
+                            name = romp[romp_ptr].name;
+
                             /* update status display */
-/*TODO*/ //                            if (osd_display_loading_rom_message(name,++current_rom,total_roms) != 0)
-/*TODO*/ //                   goto getout;
+                            if (osd_display_loading_rom_message(name,++current_rom,total_roms) != 0)
+                            {
+                                     return getout(current_rom,total_roms);
+                            }
+                            else
+                            {
+                                    GameDriver drv;
 
-/*TODO*/ //                            {
-/*TODO*/ //                                    const struct GameDriver *drv;
-
-/*TODO*/ //                                    drv = Machine->gamedrv;
-/*TODO*/ //                                    do
-/*TODO*/ //                                    {
-/*TODO*/ //                                            f = osd_fopen(drv->name,name,OSD_FILETYPE_ROM,0);
-/*TODO*/ //                                            drv = drv->clone_of;
-/*TODO*/ //                                    } while (f == 0 && drv);
+                                    drv = Machine.gamedrv;
+                                    do
+                                    {
+                                       f = osd_fopen(drv.name,name,OSD_FILETYPE_ROM,0);
+                                       drv = drv.clone_of;
+                                    } while (f ==null && drv!=null);
 /*TODO*/ //
 /*TODO*/ //                                    if (f == 0)
 /*TODO*/ //                                    {
@@ -160,10 +162,11 @@ public class common {
 /*TODO*/ //                                                    drv = drv->clone_of;
 /*TODO*/ //                                            } while (f == 0 && drv);
 /*TODO*/ //                                    }
-/*TODO*/ //                            }
+                              }
 
-/*TODO*/ //                            if (f)
-/*TODO*/ //                            {
+                              if (f!=null)
+                              {
+                                 throw new UnsupportedOperationException("Not supported yet.");
 /*TODO*/ //                                    do
 /*TODO*/ //                                    {
 /*TODO*/ //                                            unsigned char *c;
@@ -229,7 +232,7 @@ public class common {
 /*TODO*/ //                                            {
 /*TODO*/ //                                                    /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
 /*TODO*/ //                                                    /* copy the ROM data */
-/*TODO*/ //
+/*TODO*/ //throw new UnsupportedOperationException("Not supported yet.");
 /*TODO*/ //                                                    c = Machine->memory_region[region] + (romp->offset ^ 1);
 /*TODO*/ //
 /*TODO*/ //                                                    if (osd_fread_scatter(f,c,length,2) != length)
@@ -305,21 +308,21 @@ public class common {
 /*TODO*/ //                                    }
 
 /*TODO*/ //                                    osd_fclose(f);
-/*TODO*/ //                            }
-/*TODO*/ //                            else
-/*TODO*/ //                            {
+                                }
+                                else
+                                {
 /*TODO*/ //                                    /* allow for a NO GOOD DUMP KNOWN rom to be missing */
-/*TODO*/ //                                    if (expchecksum == 0)
- /*TODO*/ //                                   {
-/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s NOT FOUND (NO GOOD DUMP KNOWN)\n",name);
-/*TODO*/ //                                            warning = 1;
-/*TODO*/ //                                    }
-/*TODO*/ //                                    else
-/*TODO*/ //                                    {
-/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s NOT FOUND\n",name);
-/*TODO*/ //                                            fatalerror = 1;
-/*TODO*/ //                                    }
-/*TODO*/ //
+                                    if (expchecksum == 0)
+                                    {
+                                        buf +=sprintf("%-12s NOT FOUND (NO GOOD DUMP KNOWN)\n",name);
+                                        warning = 1;
+                                    }
+                                    else
+                                    {
+                                        buf +=sprintf("%-12s NOT FOUND\n",name);
+                                        fatalerror = 1;
+                                    }
+
                                     do
                                     {
 /*TODO*/ //                                            if (fatalerror == 0)
@@ -346,28 +349,28 @@ public class common {
  /*TODO*/ //                                           }
                                           romp_ptr++;
                                      } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
-                          //  }
+                                }
                    }
 
                  region++;
            }
 
             /* final status display */
-/*TODO*/ //            osd_display_loading_rom_message(0,current_rom,total_roms);
+            osd_display_loading_rom_message(null,current_rom,total_roms);
 
-/*TODO*/ //            if (warning || fatalerror)
-/*TODO*/ //            {
-/*TODO*/ //                    extern int bailing;
-/*TODO*/ //
-/*TODO*/ //                    if (fatalerror)
-/*TODO*/ //                    {
-/*TODO*/ //                            strcat (buf, "ERROR: required files are missing, the game cannot be run.\n");
-/*TODO*/ //                            bailing = 1;
-/*TODO*/ //                    }
-/*TODO*/ //                    else
-/*TODO*/ //                            strcat (buf, "WARNING: the game might not run correctly.\n");
-/*TODO*/ //                    printf ("%s", buf);
-/*TODO*/ //
+            if (warning!=0 || fatalerror!=0)
+            {
+                    if (fatalerror!=0)
+                    {
+                            buf +="ERROR: required files are missing, the game cannot be run.\n";
+                            bailing = 1;
+                    }
+                    else
+                    {
+                            buf +="WARNING: the game might not run correctly.\n";
+                    }
+                    printf ("%s", buf);
+
 /*TODO*/ //                    if (!options.gui_host && !bailing)
  /*TODO*/ //                   {
  /*TODO*/ //                           printf ("Press any key to continue\n");
@@ -375,23 +378,22 @@ public class common {
 /*TODO*/ //                            if (keyboard_pressed(KEYCODE_LCONTROL) && keyboard_pressed(KEYCODE_C))
 /*TODO*/ //                                    return 1;
  /*TODO*/ //                   }
-/*TODO*/ //            }
+                   }
 
             if (fatalerror!=0) return 1;
             else return 0;
 
 
-/*TODO*/ //    getout:
-            /* final status display */
-/*TODO*/ //            osd_display_loading_rom_message(0,current_rom,total_roms);
 
-/*TODO*/ //            for (region = 0;region < MAX_MEMORY_REGIONS;region++)
-/*TODO*/ //            {
-/*TODO*/ //                    free(Machine->memory_region[region]);
-/*TODO*/ //                    Machine->memory_region[region] = 0;
-/*TODO*/ //            }
-
-/*TODO*/ //            return 1;
+    }
+    static int getout(int current_rom,int total_roms) {
+        /* final status display */
+        osd_display_loading_rom_message(null,current_rom,total_roms);
+        
+        for (int region = 0; region < MAX_MEMORY_REGIONS; region++) {
+            Machine.memory_region[region] = null;
+        }
+        return 1;
     }
     public static void printromlist(RomModule[] romp, String basename)
     {

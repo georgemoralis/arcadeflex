@@ -4,6 +4,7 @@
 -added working -listroms option 
 -More work on loader
 -added working -log switch
+-more progress on loading. Now roms appears as not found
 
 25/05/2013
 ----------
