@@ -109,7 +109,7 @@ public class fileio {
                           if( found==0 )
                           {
                                     name= sprintf ("%s/%s", dir_name, gamename);
-/*TODO*///                                    fprintf(errorlog, "Trying %s\n", name);
+                                    fprintf(errorlog, "Trying %s\n", name);
                                     //java code to emulate stat command (shadow)
                                     if(new File(name).isDirectory()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                                     {
@@ -425,11 +425,11 @@ public class fileio {
              return -1;
         }
          size[0] = (int)length;
-        /* Checksum crcal = new CRC32();
+         /*Checksum crcal = new CRC32();
          String temp = new String(p);//make string to be able to get the bytes
         crcal.update(temp.getBytes(), 0, size[0]);
          long result =crcal.getValue();*/
-  /*       try {
+         try {
 
             CheckedInputStream cis = null;
             long fileSize = 0;
@@ -445,18 +445,19 @@ public class fileio {
                 System.exit(1);
             }
 
-            byte[] buf = new byte[128];
+            byte[] buf = new byte[(int)fileSize];
             while(cis.read(buf) >= 0) {
             }
 
             long checksum = cis.getChecksum().getValue();
-            System.out.println(checksum + " " + fileSize + " " + file);
+            crc[0] = (int)checksum;
+            //System.out.println(checksum + " " + fileSize + " " + file);
 
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
-        }*/
-         crc[0] = 0; //calculate crc!!!
+        }
+          
          
          fclose(f);
       /*     int length;
@@ -515,6 +516,34 @@ public class fileio {
 
            return 0;
    }   
+   public static int osd_fsize (Object file)
+   {
+            FakeFileHandle f = (FakeFileHandle) file;
+
+            if( f.type == kRAMFile || f.type == kZippedFile )
+                    return f.length;
+
+            if( f.file!=null )
+            {
+                    int size, offs;
+                    /*offs = ftell( f->file );
+                    fseek( f->file, 0, SEEK_END );
+                    size = ftell( f->file );
+                    fseek( f->file, offs, SEEK_SET );*/
+                    size = (int)ftell(f.file); //don't need the above just get the file size
+                    return size;
+            }
+
+        return 0;
+   }
+
+/* JB 980920 */
+   public static int osd_fcrc (Object file)
+   {
+            FakeFileHandle f = (FakeFileHandle) file;
+
+            return f.crc;
+   } 
     /* called while loading ROMs. It is called a last time with name == 0 to signal */
     /* that the ROM loading process is finished. */
     /* return non-zero to abort loading */

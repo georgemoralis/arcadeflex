@@ -33,7 +33,7 @@ public static final int ROMFLAG_SWAP          =0x20000000;          /* 16-bit RO
 public static final int ROMFLAG_NIBBLE        =0x10000000;           /* Nibble-wide ROM image */
 public static final int ROMFLAG_QUAD          =0x08000000;           /* 32-bit data arranged as 4 interleaved 8-bit roms */
 
-
+public static int BADCRC(int crc) { return ~crc; }
 
 public static final int REGIONFLAG_MASK=			0xf8000000;
 public static final int REGIONFLAG_DISPOSE=		0x80000000;           /* Dispose of this region when done */

@@ -287,15 +287,14 @@ public class common {
                                             romp_ptr++;
                                     } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
 
-/*TODO*/ //                                    if (explength != osd_fsize (f))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s WRONG LENGTH (expected: %08x found: %08x)\n",
-/*TODO*/ //                                                            name,explength,osd_fsize(f));
-/*TODO*/ //                                            warning = 1;
-/*TODO*/ //                                    }
+                                    if (explength != osd_fsize (f))
+                                    {
+                                        buf += sprintf("%-12s WRONG LENGTH (expected: %08x found: %08x)\n", name, explength, osd_fsize(f));
+                                        warning = 1;
+                                    }
 
-/*TODO*/ //                                    if (expchecksum != osd_fcrc (f))
-/*TODO*/ //                                    {
+                                    if (expchecksum != osd_fcrc (f))
+                                    {
 /*TODO*/ //                                            warning = 1;
 /*TODO*/ //                                            if (expchecksum == 0)
 /*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s NO GOOD DUMP KNOWN\n",name);
@@ -304,7 +303,14 @@ public class common {
 /*TODO*/ //                                            else
 /*TODO*/ //                                                    sprintf(&buf[strlen(buf)], "%-12s WRONG CRC (expected: %08x found: %08x)\n",
 /*TODO*/ //                                                                    name,expchecksum,osd_fcrc(f));
-/*TODO*/ //                                    }
+                                        warning = 1;
+                                        if (expchecksum == 0)
+                                            buf += sprintf("%-12s NO GOOD DUMP KNOWN\n", name);
+                                        else if (expchecksum == BADCRC(osd_fcrc(f)))
+                                            buf += sprintf("%-12s ROM NEEDS REDUMP\n", name);
+                                        else
+                                            buf += sprintf("%-12s WRONG CRC (expected: %08x found: %08x)\n", name, expchecksum, osd_fcrc(f));
+                                   }
 
                                     osd_fclose(f);
                             }
@@ -354,7 +360,7 @@ public class common {
                     region++;
             }
                         //debug stuff not for use
-                                    char dump[] = Machine.memory_region[0];
+                     /*               char dump[] = Machine.memory_region[0];
                                                     int counter=0;
                                                     for(int x=0; x<dump.length; x++)
                                                     {
@@ -367,7 +373,7 @@ public class common {
                                                         }   
                                                         counter++;
                                                            
-                                                    }
+                                                    }*/
             /* final status display */
             osd_display_loading_rom_message(null,current_rom,total_roms);
 
@@ -395,360 +401,6 @@ public class common {
 
             if (fatalerror!=0) return 1;
             else return 0;
-
-
-
-    }
-    public static int readroms1()
-    {
-            int region;
-            RomModule[] romp;
-            int romp_ptr=0;
-            int warning = 0;
-            int fatalerror = 0;
-            int total_roms,current_rom;
-            String buf = "";
-
-
-            total_roms = current_rom = 0;
-            romp = Machine.gamedrv.rom;
-
-            if (romp==null) return 0;
-
-            while (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0)
-            {
-                    if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") != 0))    
-                            total_roms++;
-
-                    romp_ptr++;
-            }
-            
-
-            romp_ptr=0;//reset position //romp = Machine.gamedrv.rom;
-
-            for (region = 0;region < MAX_MEMORY_REGIONS;region++)
-                    Machine.memory_region[region] = null;
-
-           region = 0;
-
-          while (romp[romp_ptr].name!=null || romp[romp_ptr].offset!=0 || romp[romp_ptr].length!=0)
-          {
-                   int region_size;
-                   String name;
-
-                    /* Mish:  An 'optional' rom region, only loaded if sound emulation is turned on */
-                    if (Machine.sample_rate==0 && ((romp[romp_ptr].crc & REGIONFLAG_SOUNDONLY)!=0)) 
-                    {
-                        
-                            if (errorlog!=null) fprintf(errorlog,"readroms():  Ignoring rom region %d\n",region);
-                            Machine.memory_region_type[region] = romp[romp_ptr].crc;
-                            region++;
-
-                            romp_ptr++;
-                            while (romp[romp_ptr].name!=null || romp[romp_ptr].length!=0)
-                                    romp_ptr++;
-
-                           continue;
-                     }
-
-                     if (romp[romp_ptr].name!=null || romp[romp_ptr].length!=0)
-                     {
-                           printf("Error in RomModule definition: expecting ROM_REGION\n");
-                           return getout(current_rom,total_roms);
-                     }
-
-                     region_size = romp[romp_ptr].offset;
-                     if ((Machine.memory_region[region] = new char[region_size]) == null) 
-                     {
-
-                           printf("readroms():  Unable to allocate %d bytes of RAM\n",region_size);
-                           return getout(current_rom,total_roms);
-                          
-                     }
-                     Machine.memory_region_length[region] = region_size;
-                     Machine.memory_region_type[region] = romp[romp_ptr].crc;
-
-                    /* some games (i.e. Pleiades) want the memory clear on startup */
-                    if (region_size <= 0x400000)	/* don't clear large regions which will be filled anyway */
-                        memset(Machine.memory_region[region], 0, region_size);
-
-                     romp_ptr++;
-
-                     while (romp[romp_ptr].length!=0)
-                     {
-                            Object f;
-                            int expchecksum = romp[romp_ptr].crc;
-                            int	explength = 0;
-
-
-                            if (romp[romp_ptr].name == null)
-                            {
-                                    printf("Error in RomModule definition: ROM_CONTINUE not preceded by ROM_LOAD\n");
-                                    return getout(current_rom,total_roms);
-                             }
-                            else if (romp[romp_ptr].name == "-1")
-                             {
-                                    printf("Error in RomModule definition: ROM_RELOAD not preceded by ROM_LOAD\n");
-                                    return getout(current_rom,total_roms);
-                            }
-
-                            name = romp[romp_ptr].name;
-
-                            /* update status display */
-                            if (osd_display_loading_rom_message(name,++current_rom,total_roms) != 0)
-                            {
-                                     return getout(current_rom,total_roms);
-                            }
-                            else
-                            {
-                                    GameDriver drv;
-
-                                    drv = Machine.gamedrv;
-                                    do
-                                    {
-                                       f = osd_fopen(drv.name,name,OSD_FILETYPE_ROM,0);
-                                       drv = drv.clone_of;
-                                    } while (f ==null && drv!=null);
-
-                                    if (f == null)
-                                    {
-                                           /* NS981003: support for "load by CRC" */
-                                           String crc = sprintf("%08x", romp[romp_ptr].crc);
-
-                                           drv = Machine.gamedrv;
-                                           do
-                                            {
-                                                   f = osd_fopen(drv.name,crc,OSD_FILETYPE_ROM,0);
-                                                     drv = drv.clone_of;
-                                           } while (f ==null && drv!=null);
-                                    }
-                              }
-
-                              if (f!=null)
-                              {
-                                 
-                                    do
-                                    {
-/*TODO*/ //                                            unsigned char *c;
-                                            int i;
-                                            int length = romp[romp_ptr].length & ~ROMFLAG_MASK;
-
-
-                                             if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") == 0))    
-                                                    osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
-                                             else
-                                                    explength += length;
-
-                                            if (romp[romp_ptr].offset + length > region_size ||
-                                                    (((romp[romp_ptr].length & ROMFLAG_NIBBLE)==0) && ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
-                                                                    && (romp[romp_ptr].offset&~1) + 2*length > region_size))
-                                            {
-                                                    printf("Error in RomModule definition: %s out of memory region space\n",name);
-                                                    osd_fclose(f);
-                                                    return getout(current_rom,total_roms);
-                                            }
-
-                                            if ((romp[romp_ptr].length & ROMFLAG_NIBBLE)!=0)
-                                            {
-                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_NIBBLE");
-/*TODO*/ //                                                    unsigned char *temp;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //                                                    temp = malloc(length);
-/*TODO*/ //
-/*TODO*/ //                                                   if (!temp)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            printf("Out of memory reading ROM %s\n",name);
-/*TODO*/ //                                                            osd_fclose(f);
-/*TODO*/ //                                                            goto getout;
-/*TODO*/ //                                                    }
-/*TODO*/ //
-/*TODO*/ //                                                    if (osd_fread(f,temp,length) != length)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
-/*TODO*/ //                                                    }
-/*TODO*/ //
-/*TODO*/ //                                                    /* ROM_LOAD_NIB_LOW and ROM_LOAD_NIB_HIGH */
-/*TODO*/ //                                                    c = Machine.memory_region[region] + romp[romp_ptr].offset;
- /*TODO*/ //                                                   if (romp[romp_ptr].length & ROMFLAG_ALTERNATE)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            /* Load into the high nibble */
-/*TODO*/ //                                                            for (i = 0;i < length;i ++)
-/*TODO*/ //                                                            {
-/*TODO*/ //                                                                    c[i] = (c[i] & 0x0f) | ((temp[i] & 0x0f) << 4);
-/*TODO*/ //                                                            }
-/*TODO*/ //                                                    }
-/*TODO*/ //                                                    else
-/*TODO*/ //                                                    {
- /*TODO*/ //                                                           /* Load into the low nibble */
-/*TODO*/ //                                                            for (i = 0;i < length;i ++)
- /*TODO*/ //                                                           {
- /*TODO*/ //                                                                   c[i] = (c[i] & 0xf0) | (temp[i] & 0x0f);
-/*TODO*/ //                                                            }
-/*TODO*/ //                                                    }
-/*TODO*/ //
-/*TODO*/ //                                                    free (temp);
-                                            }
-                                            else if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
-                                            {
-                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_ALTERNATE");
-/*TODO*/ //                                                    /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
-/*TODO*/ //                                                    /* copy the ROM data */
-/*TODO*/ //throw new UnsupportedOperationException("Not supported yet.");
-/*TODO*/ //                                                    c = Machine.memory_region[region] + (romp[romp_ptr].offset ^ 1);
-/*TODO*/ //
-/*TODO*/ //                                                    if (osd_fread_scatter(f,c,length,2) != length)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
-/*TODO*/ //                                                    }
-                                            }
-                                            else if ((romp[romp_ptr].length & ROMFLAG_QUAD)!=0) 
-                                            {
-                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_QUAD");
-/*TODO*/ //                                                    static int which_quad=0; /* This is multi session friendly, as we only care about the modulus */
-/*TODO*/ //                                                    unsigned char *temp;
-/*TODO*/ //                                                    int base=0;
-/*TODO*/ //
-/*TODO*/ //                                                    temp = malloc(length);	/* Need to load rom to temporary space */
-/*TODO*/ //                                                    osd_fread(f,temp,length);
-/*TODO*/ //
- /*TODO*/ //                                                   /* Copy quad to region */
-/*TODO*/ //                                                    c = Machine.memory_region[region] + romp[romp_ptr].offset;
-/*TODO*/ //
-/*TODO*/ //                                                    switch (which_quad%4) {
-/*TODO*/ //                                                            case 0: base=1; break;
-/*TODO*/ //                                                            case 1: base=0; break;
-/*TODO*/ //                                                            case 2: base=3; break;
-/*TODO*/ //                                                            case 3: base=2; break;
-/*TODO*/ //                                                    }
-/*TODO*/ //
-/*TODO*/ //                                                    for (i=base; i< length*4; i += 4)
-/*TODO*/ //                                                            c[i]=temp[i/4];
-/*TODO*/ //
-/*TODO*/ //                                                    which_quad++;
-/*TODO*/ //                                                    free(temp);
-                                            }
-                                            else
-                                            {
-                                                    int wide = romp[romp_ptr].length & ROMFLAG_WIDE;
-
-                                                    int swap = (romp[romp_ptr].length & ROMFLAG_SWAP) ^ ROMFLAG_SWAP;
-
-                                                    osd_fread(f,Machine.memory_region[region],romp[romp_ptr].offset,length);
-/*TODO*/ //
-/*TODO*/ //                                                    /* apply swappage */
-/*TODO*/ //                                                    c = Machine.memory_region[region] + romp[romp_ptr].offset;
-                                                    if (wide!=0 && swap!=0)
-                                                    {
-                                                        throw new UnsupportedOperationException("Unsupported swappage");
-/*TODO*/ //                                                            for (i = 0; i < length; i += 2)
-/*TODO*/ //                                                            {
-/*TODO*/ //                                                                    int temp = c[i];
-/*TODO*/ //                                                                    c[i] = c[i+1];
-/*TODO*/ //                                                                    c[i+1] = temp;
-/*TODO*/ //                                                            }
-                                                    }
-                                            }
-                                            romp_ptr++;
-                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
-/*TODO*/ //
-/*TODO*/ //                                    if (explength != osd_fsize (f))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            sprintf (&buf[strlen(buf)], "%-12s WRONG LENGTH (expected: %08x found: %08x)\n",
-/*TODO*/ //                                                            name,explength,osd_fsize(f));
-/*TODO*/ //                                            warning = 1;
-/*TODO*/ //                                    }
-
-/*TODO*/ //                                    if (expchecksum != osd_fcrc (f))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            warning = 1;
-/*TODO*/ //                                            if (expchecksum == 0)
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s NO GOOD DUMP KNOWN\n",name);
-/*TODO*/ //                                            else if (expchecksum == BADCRC(osd_fcrc(f)))
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s ROM NEEDS REDUMP\n",name);
-/*TODO*/ //                                            else
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)], "%-12s WRONG CRC (expected: %08x found: %08x)\n",
-/*TODO*/ //                                                                    name,expchecksum,osd_fcrc(f));
-/*TODO*/ //                                    }
-
-/*TODO*/ //                                    osd_fclose(f);
-                                }
-                                else
-                                {
-/*TODO*/ //                                    /* allow for a NO GOOD DUMP KNOWN rom to be missing */
-                                    if (expchecksum == 0)
-                                    {
-                                        buf +=sprintf("%-12s NOT FOUND (NO GOOD DUMP KNOWN)\n",name);
-                                        warning = 1;
-                                    }
-                                    else
-                                    {
-                                        buf +=sprintf("%-12s NOT FOUND\n",name);
-                                        fatalerror = 1;
-                                    }
-
-                                    do
-                                    {
-/*TODO*/ //                                            if (fatalerror == 0)
-/*TODO*/ //                                            {
-/*TODO*/ //                                                    int i;
-/*TODO*/ //
-/*TODO*/ //                                                    /* fill space with random data */
-/*TODO*/ //                                                    if (romp[romp_ptr].length & ROMFLAG_ALTERNATE)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            unsigned char *c;
-/*TODO*/ //
-/*TODO*/ //                                                            /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
-/*TODO*/ //
-/*TODO*/ //                                                            c = Machine.memory_region[region] + (romp[romp_ptr].offset ^ 1);
-/*TODO*/ //
-/*TODO*/ //                                                            for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
-/*TODO*/ //                                                                    c[2*i] = rand();
- /*TODO*/ //                                                   }
-/*TODO*/ //                                                    else
- /*TODO*/ //                                                   {
- /*TODO*/ //                                                           for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
-/*TODO*/ //                                                                    Machine.memory_region[region][romp[romp_ptr].offset + i] = rand();
- /*TODO*/ //                                                   }
- /*TODO*/ //                                           }
-                                          romp_ptr++;
-                                     } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
-                                }
-                   }
-
-                 region++;
-           }
-
-            /* final status display */
-            osd_display_loading_rom_message(null,current_rom,total_roms);
-
-            if (warning!=0 || fatalerror!=0)
-            {
-                    if (fatalerror!=0)
-                    {
-                            buf +="ERROR: required files are missing, the game cannot be run.\n";
-                            bailing = 1;
-                    }
-                    else
-                    {
-                            buf +="WARNING: the game might not run correctly.\n";
-                    }
-                    printf ("%s", buf);
-
-/*TODO*/ //                    if (!options.gui_host && !bailing)
- /*TODO*/ //                   {
- /*TODO*/ //                           printf ("Press any key to continue\n");
-/*TODO*/ //                            keyboard_read_sync();
-/*TODO*/ //                            if (keyboard_pressed(KEYCODE_LCONTROL) && keyboard_pressed(KEYCODE_C))
-/*TODO*/ //                                    return 1;
- /*TODO*/ //                   }
-                   }
-
-            if (fatalerror!=0) return 1;
-            else return 0;
-
-
-
     }
     static int getout(int current_rom,int total_roms) {
         /* final status display */

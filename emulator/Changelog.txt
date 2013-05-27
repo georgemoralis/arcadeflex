@@ -5,6 +5,7 @@
 -Added osd_fseek and osd_fclose functions to fileio
 -Added osd_fread , and some more work on common.java
 -fixed up several bugs in fileIO , now mario game seems to load correctly (I only tested cpu demos but i don't see a reason why the rest shouldn't work).
+-implemented crc check for rom loading . Not the optimal way but works 
 
 
 26/05/2013
