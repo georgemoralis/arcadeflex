@@ -321,6 +321,90 @@ public class fileio {
 
 	return f;
     }
+    public static int osd_fread (Object file, char []buffer,int offset, int length)
+    {
+             FakeFileHandle f = (FakeFileHandle) file;
+
+            switch( f.type )
+            {
+            case kPlainFile:
+                    return fread(buffer,offset,1,length,f.file);               
+                    //break;
+            case kZippedFile:
+            case kRAMFile:
+                    /* reading from the RAM image of a file */
+                    if( f.data!=null )
+                    {
+                            if( length + f.offset > f.length )
+                                    length = f.length - f.offset;
+                           memcpy (buffer,0, f.data,f.offset,length);
+                            f.offset += length;
+                            return length;
+                    }
+                    //throw new UnsupportedOperationException("FREAD other than PLAINFILE NOT SUPPORTED.");
+                    break;
+            }
+
+            return 0;
+    }
+    /* JB 980920 update */
+    public static int osd_fseek (Object file, int offset, int whence)
+    {
+            FakeFileHandle f = (FakeFileHandle) file;
+            int err = 0;
+
+            switch( f.type )
+            {
+            case kPlainFile:
+                    if(whence==SEEK_SET)
+                    {
+                      fseek (f.file, offset);
+                      return 0;
+                    }
+                    else
+                    {
+                        throw new UnsupportedOperationException("FSEEK other than SEEK_SET NOT SUPPORTED.");
+                    }
+                    //break;
+            case kZippedFile:
+            case kRAMFile:
+                    /* seeking within the RAM image of a file */
+                    switch( whence )
+                    {
+                    case SEEK_SET:
+                            f.offset = offset;
+                            break;
+                    case SEEK_CUR:
+                            f.offset += offset;
+                            break;
+                    case SEEK_END:
+                            f.offset = f.length + offset;
+                            break;
+                    }
+                    break;
+            }
+
+            return err;
+    }
+
+    /* JB 980920 update */
+    public static void osd_fclose (Object file)
+    {
+            FakeFileHandle f = (FakeFileHandle) file;
+
+            switch( f.type )
+            {
+            case kPlainFile:
+                    fclose (f.file);
+                    break;
+            case kZippedFile:
+            case kRAMFile:
+                    if( f.data!=null )
+                           f.data=null;
+                    break;
+            }
+            f=null;
+    }
     public static int checksum_file (String file, char[] p, int[] size,int[] crc)
     {
         FILE f;

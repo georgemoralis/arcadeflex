@@ -148,48 +148,48 @@ public class common {
                                        f = osd_fopen(drv.name,name,OSD_FILETYPE_ROM,0);
                                        drv = drv.clone_of;
                                     } while (f ==null && drv!=null);
-/*TODO*/ //
-/*TODO*/ //                                    if (f == 0)
-/*TODO*/ //                                    {
-                                            /* NS981003: support for "load by CRC" */
-/*TODO*/ //                                            char crc[9];
 
-/*TODO*/ //                                            sprintf(crc,"%08x",romp->crc);
-/*TODO*/ //                                            drv = Machine->gamedrv;
-/*TODO*/ //                                            do
-/*TODO*/ //                                            {
-/*TODO*/ //                                                    f = osd_fopen(drv->name,crc,OSD_FILETYPE_ROM,0);
-/*TODO*/ //                                                    drv = drv->clone_of;
-/*TODO*/ //                                            } while (f == 0 && drv);
-/*TODO*/ //                                    }
+                                    if (f == null)
+                                    {
+                                           /* NS981003: support for "load by CRC" */
+                                           String crc = sprintf("%08x", romp[romp_ptr].crc);
+
+                                           drv = Machine.gamedrv;
+                                           do
+                                            {
+                                                   f = osd_fopen(drv.name,crc,OSD_FILETYPE_ROM,0);
+                                                     drv = drv.clone_of;
+                                           } while (f ==null && drv!=null);
+                                    }
                               }
 
                               if (f!=null)
                               {
-                                 throw new UnsupportedOperationException("Not supported yet.");
-/*TODO*/ //                                    do
-/*TODO*/ //                                    {
+                                 
+                                    do
+                                    {
 /*TODO*/ //                                            unsigned char *c;
-/*TODO*/ //                                            unsigned int i;
-/*TODO*/ //                                            int length = romp->length & ~ROMFLAG_MASK;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //                                            if (romp->name == (char *)-1)
-/*TODO*/ //                                                    osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
-/*TODO*/ //                                            else
-/*TODO*/ //                                                    explength += length;
-/*TODO*/ //
-/*TODO*/ //                                            if (romp->offset + length > region_size ||
-/*TODO*/ //                                                    (!(romp->length & ROMFLAG_NIBBLE) && (romp->length & ROMFLAG_ALTERNATE)
-/*TODO*/ //                                                                    && (romp->offset&~1) + 2*length > region_size))
-/*TODO*/ //                                            {
-/*TODO*/ //                                                    printf("Error in RomModule definition: %s out of memory region space\n",name);
-/*TODO*/ //                                                    osd_fclose(f);
-/*TODO*/ //                                                    goto getout;
-/*TODO*/ //                                            }
-/*TODO*/ //
-/*TODO*/ //                                            if (romp->length & ROMFLAG_NIBBLE)
-/*TODO*/ //                                            {
+                                            int i;
+                                            int length = romp[romp_ptr].length & ~ROMFLAG_MASK;
+
+
+                                             if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") == 0))    
+                                                    osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
+                                             else
+                                                    explength += length;
+
+                                            if (romp[romp_ptr].offset + length > region_size ||
+                                                    (((romp[romp_ptr].length & ROMFLAG_NIBBLE)==0) && ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
+                                                                    && (romp[romp_ptr].offset&~1) + 2*length > region_size))
+                                            {
+                                                    printf("Error in RomModule definition: %s out of memory region space\n",name);
+                                                    osd_fclose(f);
+                                                    return getout(current_rom,total_roms);
+                                            }
+
+                                            if ((romp[romp_ptr].length & ROMFLAG_NIBBLE)!=0)
+                                            {
+                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_NIBBLE");
 /*TODO*/ //                                                    unsigned char *temp;
 /*TODO*/ //
 /*TODO*/ //
@@ -227,9 +227,10 @@ public class common {
 /*TODO*/ //                                                    }
 /*TODO*/ //
 /*TODO*/ //                                                    free (temp);
-/*TODO*/ //                                            }
-/*TODO*/ //                                            else if (romp->length & ROMFLAG_ALTERNATE)
-/*TODO*/ //                                            {
+                                            }
+                                            else if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
+                                            {
+                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_ALTERNATE");
 /*TODO*/ //                                                    /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
 /*TODO*/ //                                                    /* copy the ROM data */
 /*TODO*/ //throw new UnsupportedOperationException("Not supported yet.");
@@ -239,8 +240,10 @@ public class common {
 /*TODO*/ //                                                    {
 /*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
 /*TODO*/ //                                                    }
-/*TODO*/ //                                            }
-/*TODO*/ //                                            else if (romp->length & ROMFLAG_QUAD) {
+                                            }
+                                            else if ((romp[romp_ptr].length & ROMFLAG_QUAD)!=0) 
+                                            {
+                                                throw new UnsupportedOperationException("Unsupported ROMFLAG_QUAD");
 /*TODO*/ //                                                    static int which_quad=0; /* This is multi session friendly, as we only care about the modulus */
 /*TODO*/ //                                                    unsigned char *temp;
 /*TODO*/ //                                                    int base=0;
@@ -263,30 +266,30 @@ public class common {
 /*TODO*/ //
 /*TODO*/ //                                                    which_quad++;
 /*TODO*/ //                                                    free(temp);
-/*TODO*/ //                                            }
-/*TODO*/ //                                            else
-/*TODO*/ //                                            {
-/*TODO*/ //                                                    int wide = romp->length & ROMFLAG_WIDE;
-/*TODO*/ //
-/*TODO*/ //                                                    int swap = (romp->length & ROMFLAG_SWAP) ^ ROMFLAG_SWAP;
-/*TODO*/ //
-/*TODO*/ //                                                    osd_fread(f,Machine->memory_region[region] + romp->offset,length);
+                                            }
+                                            else
+                                            {
+                                                    int wide = romp[romp_ptr].length & ROMFLAG_WIDE;
+
+                                                    int swap = (romp[romp_ptr].length & ROMFLAG_SWAP) ^ ROMFLAG_SWAP;
+
+                                                    osd_fread(f,Machine.memory_region[region],romp[romp_ptr].offset,length);
 /*TODO*/ //
 /*TODO*/ //                                                    /* apply swappage */
 /*TODO*/ //                                                    c = Machine->memory_region[region] + romp->offset;
-/*TODO*/ //                                                    if (wide && swap)
-/*TODO*/ //                                                    {
+                                                    if (wide!=0 && swap!=0)
+                                                    {
+                                                        throw new UnsupportedOperationException("Unsupported swappage");
 /*TODO*/ //                                                            for (i = 0; i < length; i += 2)
 /*TODO*/ //                                                            {
 /*TODO*/ //                                                                    int temp = c[i];
 /*TODO*/ //                                                                    c[i] = c[i+1];
 /*TODO*/ //                                                                    c[i+1] = temp;
 /*TODO*/ //                                                            }
-/*TODO*/ //                                                    }
-/*TODO*/ //                                            }
-
-/*TODO*/ //                                            romp++;
-/*TODO*/ //                                    } while (romp->length && (romp->name == 0 || romp->name == (char *)-1));
+                                                    }
+                                            }
+                                            romp_ptr++;
+                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
 /*TODO*/ //
 /*TODO*/ //                                    if (explength != osd_fsize (f))
 /*TODO*/ //                                    {

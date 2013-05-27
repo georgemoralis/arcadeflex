@@ -2,6 +2,8 @@
 ----------
 -Reorganize files in arcadeflex directory
 -More work on fileIO
+-Added osd_fseek and osd_fclose functions to fileio
+-Added osd_fread , and some more work on common.java
 
 26/05/2013
 ----------

@@ -26,6 +26,15 @@ public class commonH {
         /* the macros below. */
  
 public static final int ROMFLAG_MASK=          0xf8000000;           /* 5 bits worth of flags in the high nibble */        
+/* Masks for individual ROMs */
+public static final int ROMFLAG_ALTERNATE     =0x80000000;           /* Alternate bytes, either even or odd, or nibbles, low or high */
+public static final int ROMFLAG_WIDE          =0x40000000;          /* 16-bit ROM; may need byte swapping */
+public static final int ROMFLAG_SWAP          =0x20000000;          /* 16-bit ROM with bytes in wrong order */
+public static final int ROMFLAG_NIBBLE        =0x10000000;           /* Nibble-wide ROM image */
+public static final int ROMFLAG_QUAD          =0x08000000;           /* 32-bit data arranged as 4 interleaved 8-bit roms */
+
+
+
 public static final int REGIONFLAG_MASK=			0xf8000000;
 public static final int REGIONFLAG_DISPOSE=		0x80000000;           /* Dispose of this region when done */
 public static final int REGIONFLAG_SOUNDONLY=	0x40000000;           /* load only if sound emulation is turned on */
