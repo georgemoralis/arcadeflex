@@ -109,7 +109,7 @@ public class fileio {
                           if( found==0 )
                           {
                                     name= sprintf ("%s/%s", dir_name, gamename);
-                                    fprintf(errorlog, "Trying %s\n", name);
+/*TODO*///                                    fprintf(errorlog, "Trying %s\n", name);
                                     //java code to emulate stat command (shadow)
                                     if(new File(name).isDirectory()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                                     {
@@ -337,15 +337,19 @@ public class fileio {
                     {
                             if( length + f.offset > f.length )
                                     length = f.length - f.offset;
-                           memcpy (buffer,0, f.data,f.offset,length);
+                           memcpy (buffer,offset, f.data,f.offset,length);
                             f.offset += length;
                             return length;
                     }
-                    //throw new UnsupportedOperationException("FREAD other than PLAINFILE NOT SUPPORTED.");
                     break;
             }
 
             return 0;
+    }
+    public static int osd_fread (Object file, CharPtr buffer,int length)
+    {
+        osd_fread(file,buffer.memory,buffer.base,length);
+        return 0;
     }
     /* JB 980920 update */
     public static int osd_fseek (Object file, int offset, int whence)
