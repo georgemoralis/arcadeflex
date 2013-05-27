@@ -337,10 +337,10 @@ public class fileio {
              return -1;
         }
          size[0] = (int)length;
-         Checksum crcal = new CRC32();
+        /* Checksum crcal = new CRC32();
          String temp = new String(p);//make string to be able to get the bytes
         crcal.update(temp.getBytes(), 0, size[0]);
-         long result =crcal.getValue();
+         long result =crcal.getValue();*/
   /*       try {
 
             CheckedInputStream cis = null;
