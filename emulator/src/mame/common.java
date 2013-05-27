@@ -295,14 +295,6 @@ public class common {
 
                                     if (expchecksum != osd_fcrc (f))
                                     {
-/*TODO*/ //                                            warning = 1;
-/*TODO*/ //                                            if (expchecksum == 0)
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s NO GOOD DUMP KNOWN\n",name);
-/*TODO*/ //                                            else if (expchecksum == BADCRC(osd_fcrc(f)))
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)],"%-12s ROM NEEDS REDUMP\n",name);
-/*TODO*/ //                                            else
-/*TODO*/ //                                                    sprintf(&buf[strlen(buf)], "%-12s WRONG CRC (expected: %08x found: %08x)\n",
-/*TODO*/ //                                                                    name,expchecksum,osd_fcrc(f));
                                         warning = 1;
                                         if (expchecksum == 0)
                                             buf += sprintf("%-12s NO GOOD DUMP KNOWN\n", name);
@@ -311,8 +303,7 @@ public class common {
                                         else
                                             buf += sprintf("%-12s WRONG CRC (expected: %08x found: %08x)\n", name, expchecksum, osd_fcrc(f));
                                    }
-
-                                    osd_fclose(f);
+                                   osd_fclose(f);
                             }
                             else
                             {
