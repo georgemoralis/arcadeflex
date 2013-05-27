@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.URL;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -387,7 +389,6 @@ public class libc {
                     file.raf = new RandomAccessFile(name, "r");
                 file.Name = name;
             } catch (Exception e) {
-
                 file = null;
                 return null;
             }
@@ -479,6 +480,15 @@ public class libc {
         }
 
         bbuf = null;
+    }
+    public static long ftell(FILE file)
+    {
+        try {
+            return file.raf.length();
+        } catch (IOException ex) {
+            Logger.getLogger(libc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
     public static void fprintf(FILE file, String str, Object... arguments) {
         String print = String.format(str, arguments);
