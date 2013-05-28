@@ -1,4 +1,8 @@
-
+/*
+ * 
+ *   Most of intial stuff has been done this class should be ok for the first tests
+ * 
+ */
 package mame;
 
 import static arcadeflex.libc.*;
