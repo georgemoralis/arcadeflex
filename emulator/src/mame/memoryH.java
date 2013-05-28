@@ -7,7 +7,7 @@ import mame.driverH.WriteHandlerPtr;
 
 /**
  *
- *  temp file with old memory definations to do some workarounds
+ *  temp file with old memory definitions to do some workarounds
  * 
  */
 public class memoryH {

@@ -23,6 +23,8 @@ package mame;
  */
 import static mame.mameH.*;
 import static mame.driverH.*;
+import static mame.memoryH.*;
+import static mame.memory.*;
 import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static arcadeflex.osdepend.*;
@@ -194,7 +196,7 @@ public class mame {
 
             if (readroms() != 0)
             {
-  /*TODO*/ //                   goto out_free;               
+/*?DONE? goto out_free; */ return out_free();               
             }
 
 
@@ -208,13 +210,16 @@ public class mame {
             /* load input ports settings (keys, dip switches, and so on) */
 /*TODO*/ //            settingsloaded = load_input_port_settings();
 
-/*TODO*/ //            if( !memory_init() )
-/*TODO*/ //                    goto out_free;
+/*?DONE?*/                    if( memory_init()==1 )
+/*?DONE? goto out_free; */ return out_free();          
+                    
 
  /*TODO*/ //           if (gamedrv.driver_init) (*gamedrv.driver_init)();
 
             return 0;
 
+
+// the following are implemented, look at return out_free()
 /*TODO*/ //    out_free:
 /*TODO*/ //            input_port_free(Machine.input_ports);
 /*TODO*/ //            Machine.input_ports = 0;
@@ -226,8 +231,22 @@ public class mame {
 /*TODO*/ //            return 1;
     }
 
-
-
+    static int out_free() {
+        /*TODO*/ //    out_free:
+/*TODO*/ //            input_port_free(Machine.input_ports);
+/*TODO*/ //            Machine.input_ports = 0;
+/*TODO*/ //            input_port_free(Machine.input_ports_default);
+/*TODO*/ //            Machine.input_ports_default = 0;
+        return out_code();
+    }
+    static int out_code() {
+/*TODO*/ //    out_code:
+/*TODO*/ //            code_close();
+        return out();
+    }
+    static int out() {
+        return 1;
+    }
     public static void shutdown_machine()
     {
             int i;
