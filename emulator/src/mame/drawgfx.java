@@ -483,6 +483,7 @@ public class drawgfx {
     public static void copybitmap(osd_bitmap dest, osd_bitmap src, int flipx, int flipy, int sx, int sy,
             rectangle clip, int transparency, int transparent_color)
     {
+         throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
 /*TODO*///	struct rectangle myclip;
 /*TODO*///
 /*TODO*///
