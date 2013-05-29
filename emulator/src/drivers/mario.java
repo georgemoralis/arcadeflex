@@ -25,10 +25,10 @@ public class mario {
 /*TODO*///void mario_sh_fly(int offset, int data)        { p[1] = ACTIVEHIGH_PORT_BIT(p[1],2,data); }
 /*TODO*///static void mario_sh_tuneselect(int offset, int data) { soundlatch_w(offset,data); }
 /*TODO*///
-/*TODO*///static int  mario_sh_getp1(int offset)   { return p[1]; }
-/*TODO*///static int  mario_sh_getp2(int offset)   { return p[2]; }
-/*TODO*///static int  mario_sh_gett0(int offset)   { return t[0]; }
-/*TODO*///static int  mario_sh_gett1(int offset)   { return t[1]; }
+    public static ReadHandlerPtr mario_sh_getp1 = new ReadHandlerPtr() { public int handler(int offset) { return p[1]; }};
+    public static ReadHandlerPtr mario_sh_getp2 = new ReadHandlerPtr() { public int handler(int offset) { return p[2]; }};
+    public static ReadHandlerPtr mario_sh_gett0 = new ReadHandlerPtr() { public int handler(int offset) { return t[0]; }};
+    public static ReadHandlerPtr mario_sh_gett1 = new ReadHandlerPtr() { public int handler(int offset) { return t[1]; }};
 /*TODO*///static int  mario_sh_gettune(int offset) { return soundlatch_r(offset); }
 /*TODO*///
 /*TODO*///static void mario_sh_putsound(int offset, int data)
