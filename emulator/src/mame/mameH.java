@@ -19,6 +19,7 @@ package mame;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static arcadeflex.libc.*;
+import static mame.drawgfxH.*;
 /**
  *
  * @author george
@@ -35,7 +36,7 @@ public class mameH {
                 public int memory_region_length[]= new int[MAX_MEMORY_REGIONS];	/* some drivers might find this useful */
 		public int memory_region_type[]= new int[MAX_MEMORY_REGIONS];
                 
-   /*TODO*/ //               public GfxElement gfx[] = new GfxElement[MAX_GFX_ELEMENTS];	/* graphic sets (chars, sprites) */
+                public GfxElement gfx[] = new GfxElement[MAX_GFX_ELEMENTS];	/* graphic sets (chars, sprites) */
                 public osd_bitmap scrbitmap;	/* bitmap to draw into */
   /*TODO*/ //                public unsigned short *pens;	/* remapped palette pen numbers. When you write */
                                                             /* directly to a bitmap, never use absolute values, */

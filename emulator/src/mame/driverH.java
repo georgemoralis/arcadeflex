@@ -4,6 +4,7 @@ import static arcadeflex.libc.CopyArray;
 import static mame.osdependH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
+import static mame.drawgfxH.*;
 
 public class driverH 
 {
@@ -194,8 +195,8 @@ public class driverH
 
 		/* video hardware */
 		public int screen_width, screen_height;
-/*TODO*///			public rectangle visible_area;
-/*TODO*///			public GfxDecodeInfo []gfxdecodeinfo;
+        	public rectangle visible_area;
+		public GfxDecodeInfo []gfxdecodeinfo;
 		public int total_colors;	/* palette is 3*total_colors bytes long */
 		public int color_table_len;	/* length in bytes of the color lookup table */
 		public VhConvertColorPromPtr vh_init_palette;

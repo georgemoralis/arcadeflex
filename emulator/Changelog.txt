@@ -1,3 +1,9 @@
+29/05/2013
+----------
+-added 100% ported vidhrdw driver for pengo - pacman
+-added mostly dummy (like 0.1% implementation) of drawgfx , drawgfxH
+-a few addons to driverH and mameH
+
 28/05/2013
 ----------
 -Some fixes and cleanup in commonH
