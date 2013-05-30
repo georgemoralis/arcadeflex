@@ -9,6 +9,7 @@ package mame;
  * @author nickblame
  */
 import static mame.driverH.*;
+import static arcadeflex.osdepend.*;
 
 public class memory {
 
@@ -19,9 +20,8 @@ public class memory {
 /*TODO*/ //  Functions which handle the CPU memory and I/O port access.
 /*TODO*/ //
 /*TODO*/ //***************************************************************************/
-/*TODO*/ //
-/*TODO*/ //#include "driver.h"
-/*TODO*/ //#include "osd_cpu.h"
+
+
 /*TODO*/ //
 /*TODO*/ ///* #define MEM_DUMP */
 /*TODO*/ //
@@ -44,8 +44,8 @@ public class memory {
 /*TODO*/ //	#define BYTE_XOR_LE(a) ((a) ^ 1)
 /*TODO*/ //#endif
 /*TODO*/ //
-/*?DONE? unsigned char *OP_RAM; */ public static char[] OP_RAM;
-/*?DONE? unsigned char *OP_ROM; */ public static char[] OP_ROM;
+public static char[] OP_RAM;
+public static char[] OP_ROM;
 /*TODO*/ //
 /*TODO*/ ///* change bases preserving opcode/data shift for encrypted games */
 /*TODO*/ //#define SET_OP_RAMROM(base)					\
@@ -1813,12 +1813,12 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //static void mem_dump( void )
-/*TODO*/ //{
+public static void mem_dump()
+{
 /*TODO*/ //	extern int totalcpu;
-/*TODO*/ //	int cpu;
-/*TODO*/ //	int naddr,addr;
-/*TODO*/ //	MHELE nhw,hw;
+	int cpu;
+	int naddr,addr;
+        char nhw,hw;
 /*TODO*/ //
 /*TODO*/ //	FILE *temp = fopen ("memdump.log", "w");
 /*TODO*/ //
@@ -1873,7 +1873,7 @@ public class memory {
 /*TODO*/ //	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
 /*TODO*/ //	}
 /*TODO*/ //	fclose(temp);
-/*TODO*/ //}
+}
 /*TODO*/ //#endif
 /*TODO*/ //
 /*TODO*/ //
