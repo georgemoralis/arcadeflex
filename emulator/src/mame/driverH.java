@@ -267,6 +267,10 @@ public class driverH
         public int flags;	/* orientation and other flags; see defines below */
 
     } 
+    
+    /* bit 1 of the video attributes indicates whether or not dirty rectangles will work */
+    public static final int VIDEO_SUPPORTS_DIRTY =   0x0002;
+
     public static final int ORIENTATION_MASK      =   0x0007;
     public static final int ORIENTATION_FLIP_X	  =   0x0001;	/* mirror everything in the X direction */
     public static final int ORIENTATION_FLIP_Y	  =   0x0002;	/* mirror everything in the Y direction */

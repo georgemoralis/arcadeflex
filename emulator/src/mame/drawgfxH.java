@@ -2,6 +2,7 @@
 package mame;
 
 import static arcadeflex.libc.*;
+import static mame.osdependH.*;
 
 public class drawgfxH {
 /*TODO*///#define MAX_GFX_PLANES 8
@@ -84,7 +85,10 @@ public class drawgfxH {
 /*TODO*///typedef void (*plot_pixel_proc)(struct osd_bitmap *bitmap,int x,int y,int pen);
 /*TODO*///typedef int  (*read_pixel_proc)(struct osd_bitmap *bitmap,int x,int y);
 /*TODO*///
-/*TODO*////* pointers to pixel functions.  They're set based on orientation, depthness and weather
+    public static abstract interface plot_pixel_procPtr { public abstract void handler(osd_bitmap bitmap,int x,int y,int pen); }
+    public static abstract interface read_pixel_procPtr { public abstract int handler(osd_bitmap bitmap,int x,int y); }
+
+ /*TODO*////* pointers to pixel functions.  They're set based on orientation, depthness and weather
 /*TODO*///   dirty rectangle handling is enabled */
 /*TODO*///extern plot_pixel_proc plot_pixel;
 /*TODO*///extern read_pixel_proc read_pixel;

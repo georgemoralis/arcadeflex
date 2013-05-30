@@ -29,6 +29,7 @@ import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static arcadeflex.osdepend.*;
 import static mame.common.*;
+import static mame.drawgfx.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -121,7 +122,7 @@ public class mame {
                     Machine.ui_orientation ^= ORIENTATION_FLIP_Y;
             }
 
-/*TODO*/ //            set_pixel_functions();
+            set_pixel_functions();
 
             /* Do the work*/
             err = 1;
