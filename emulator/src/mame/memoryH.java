@@ -87,4 +87,25 @@ public class memoryH {
         };
 
         public static final int IOWP_NOP = 0;	/* do nothing */
+        
+        
+/* memory element block size */
+public static final int MH_SBITS		=8;			/* sub element bank size */
+public static final int MH_PBITS		=8;			/* port current element size */
+public static final int MH_ELEMAX		=64;			/* sub elements limit */
+public static final int MH_HARDMAX		=64;			/* hardware functions limit */
+
+/* 16 bits address */
+public static final int ABITS1_16		=12;
+public static final int ABITS2_16		=4;
+public static final int ABITS_MIN_16	=0;			/* minimum memory block is 1 byte */
+/* 16 bits address (little endian word access) */
+public static final int ABITS1_16LEW	=12;
+public static final int ABITS2_16LEW	=3;
+public static final int ABITS_MIN_16LEW	=1;			/* minimum memory block is 2 bytes */
+/* 16 bits address (big endian word access) */
+public static final int ABITS1_16BEW	=12;
+public static final int ABITS2_16BEW	=3;
+public static final int ABITS_MIN_16BEW	=1;			/* minimum memory block is 2 bytes */        
+        
 }

@@ -47,46 +47,40 @@ public class cpuintrfH {
     public static final int REG_SP_CONTENTS = -2;
 
     /* ASG 971222 -- added this generic structure */
- /*TODO*//*    struct cpu_interface
-    {
-        unsigned cpu_num;
-        void (*reset)(void *param);
-        void (*exit)(void);
-        int (*execute)(int cycles);
-        void (*burn)(int cycles);
-        unsigned (*get_context)(void *reg);
-        void (*set_context)(void *reg);
-        unsigned (*get_pc)(void);
-        void (*set_pc)(unsigned val);
-        unsigned (*get_sp)(void);
-        void (*set_sp)(unsigned val);
-        unsigned (*get_reg)(int regnum);
-        void (*set_reg)(int regnum, unsigned val);
-        void (*set_nmi_line)(int linestate);
-        void (*set_irq_line)(int irqline, int linestate);
-        void (*set_irq_callback)(int(*callback)(int irqline));
-        void (*internal_interrupt)(int type);
-        void (*cpu_state_save)(void *file);
-        void (*cpu_state_load)(void *file);
-        const char* (*cpu_info)(void *context,int regnum);
-        unsigned (*cpu_dasm)(char *buffer,unsigned pc);
-            unsigned num_irqs;
-            int default_vector;
-        int *icount;
-        double overclock;
-        int no_int, irq_int, nmi_int;
-        int (*memory_read)(int offset);
-        void (*memory_write)(int offset, int data);
-        void (*set_op_base)(int pc);
-            int address_shift;
-            unsigned address_bits, endianess, align_unit, max_inst_len;
-        unsigned abits1, abits2, abitsmin;
-    };*/
     public static abstract class cpu_interface
     {
-        public int cpunum;
+        public int cpu_num;
+ /*TODO*///        void (*reset)(void *param);
+ /*TODO*///        void (*exit)(void);
+  /*TODO*///       int (*execute)(int cycles);
+  /*TODO*///       void (*burn)(int cycles);
+  /*TODO*///       unsigned (*get_context)(void *reg);
+  /*TODO*///       void (*set_context)(void *reg);
+  /*TODO*///       unsigned (*get_pc)(void);
+  /*TODO*///       void (*set_pc)(unsigned val);
+  /*TODO*///       unsigned (*get_sp)(void);
+  /*TODO*///       void (*set_sp)(unsigned val);
+ /*TODO*///        unsigned (*get_reg)(int regnum);
+  /*TODO*///       void (*set_reg)(int regnum, unsigned val);
+ /*TODO*///        void (*set_nmi_line)(int linestate);
+ /*TODO*///        void (*set_irq_line)(int irqline, int linestate);
+  /*TODO*///       void (*set_irq_callback)(int(*callback)(int irqline));
+  /*TODO*///       void (*internal_interrupt)(int type);
+ /*TODO*///        void (*cpu_state_save)(void *file);
+  /*TODO*///       void (*cpu_state_load)(void *file);
         public abstract String cpu_info(Object context, int regnum);
-
+  /*TODO*///       unsigned (*cpu_dasm)(char *buffer,unsigned pc);
+        public int num_irqs;
+        public int default_vector;
+ /*TODO*///        int *icount;
+        public double overclock;
+        public int no_int, irq_int, nmi_int;
+  /*TODO*///       int (*memory_read)(int offset);
+  /*TODO*///       void (*memory_write)(int offset, int data);
+  /*TODO*///       void (*set_op_base)(int pc);
+        public int address_shift;
+        public int address_bits, endianess, align_unit, max_inst_len;
+        public int abits1, abits2, abitsmin;
     }
     /* Returns previous pc (start of opcode causing read/write) */
     /* int cpu_getpreviouspc(void); */

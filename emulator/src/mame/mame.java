@@ -30,6 +30,7 @@ import static mame.driver.*;
 import static arcadeflex.osdepend.*;
 import static mame.common.*;
 import static mame.drawgfx.*;
+import static mame.cpuintrf.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -206,7 +207,7 @@ public class mame {
 
             /* first of all initialize the memory handlers, which could be used by the */
             /* other initialization routines */
-/*TODO*/ //            cpu_init();
+            cpu_init();
 
             /* load input ports settings (keys, dip switches, and so on) */
 /*TODO*/ //            settingsloaded = load_input_port_settings();

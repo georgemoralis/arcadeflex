@@ -1,12 +1,14 @@
 
 package mame;
 
+import arcadeflex.libc.*;
 import cpu.Dummy_cpu;
 import cpu.z80.z80;
 import cpu.i8039.i8039;
 import static mame.cpuintrfH.*;
 import mame.cpuintrfH.*;
 import static mame.driverH.*;
+import static mame.mame.*;
 
 public class cpuintrf {
     /*TODO*////* these are triggers sent to the timer system for various interrupt events */
@@ -51,10 +53,10 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///static struct cpuinfo cpu[MAX_CPU];
     /*TODO*///
-    /*TODO*///static int activecpu,totalcpu;
-    /*TODO*///static int cycles_running;	/* number of cycles that the CPU emulation was requested to run */
-    /*TODO*///					/* (needed by cpu_getfcount) */
-    /*TODO*///static int have_to_reset;
+    public static int activecpu,totalcpu;
+    public static int cycles_running;	/* number of cycles that the CPU emulation was requested to run */
+    					/* (needed by cpu_getfcount) */
+    public static int have_to_reset;
     /*TODO*///
     /*TODO*///static int interrupt_enable[MAX_CPU];
     /*TODO*///static int interrupt_vector[MAX_CPU];
@@ -170,9 +172,14 @@ public class cpuintrf {
     /*TODO*///#define WRITEMEM(index,offset,data) 	((*cpu[index].intf->memory_write)(offset,data))
     /*TODO*///#define SET_OP_BASE(index,pc)			((*cpu[index].intf->set_op_base)(pc))
     /*TODO*///
-    /*TODO*///#define CPU_TYPE(index) 				(Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK)
-    /*TODO*///#define CPU_AUDIO(index)				(Machine->drv->cpu[index].cpu_type & CPU_AUDIO_CPU)
-    /*TODO*///
+    public static int CPU_TYPE(int index)
+    {
+        return Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK;
+    }
+    public static int CPU_AUDIO(int index)
+    {
+        return Machine.drv.cpu[index].cpu_type & CPU_AUDIO_CPU;
+    }
     public static String IFC_INFO(int cpu, Object context, int regnum)
     {
             return cpuintf[cpu].cpu_info(context, regnum);
@@ -355,28 +362,28 @@ public class cpuintrf {
     /*TODO*///	CPU0(ADSP2100, adsp2100, 4,  0,1.00,ADSP2100_INT_NONE, -1,			   -1,			   16lew,-1,14,LE,2, 4,16LEW),
     };
     /*TODO*///
-    /*TODO*///void cpu_init(void)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	/* Verify the order of entries in the cpuintf[] array */
-    /*TODO*///	for( i = 0; i < CPU_COUNT; i++ )
-    /*TODO*///	{
-    /*TODO*///		if( cpuintf[i].cpu_num != i )
-    /*TODO*///		{
-    /*TODO*///if (errorlog) fprintf( errorlog, "CPU #%d [%s] wrong ID %d: check enum CPU_... in src/driver.h!\n", i, cputype_name(i), cpuintf[i].cpu_num);
-    /*TODO*///			exit(1);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* count how many CPUs we have to emulate */
-    /*TODO*///	totalcpu = 0;
-    /*TODO*///
-    /*TODO*///	while (totalcpu < MAX_CPU)
-    /*TODO*///	{
-    /*TODO*///		if( CPU_TYPE(totalcpu) == CPU_DUMMY ) break;
-    /*TODO*///		totalcpu++;
-    /*TODO*///	}
+    public static void cpu_init()
+    {
+    	int i;
+    
+    	/* Verify the order of entries in the cpuintf[] array */
+ /*TODO*///   	for( i = 0; i < CPU_COUNT; i++ )
+ /*TODO*///   	{
+ /*TODO*///   		if( cpuintf[i].cpu_num != i )
+ /*TODO*///   		{
+                     /*TODO*///if (errorlog!=null) fprintf( errorlog, "CPU #%d [%s] wrong ID %d: check enum CPU_... in src/driver.h!\n", i, cputype_name(i), cpuintf[i].cpu_num);
+    			//throw new UnsupportedOperationException("Fatal ERROR");
+ /*TODO*///   		}
+ /*TODO*///   	}
+    
+    	/* count how many CPUs we have to emulate */
+    	totalcpu = 0;
+    
+    	while (totalcpu < MAX_CPU)
+    	{
+    		if( CPU_TYPE(totalcpu) == CPU_DUMMY ) break;
+    		totalcpu++;
+    	}
     /*TODO*///
     /*TODO*///	/* zap the CPU data structure */
     /*TODO*///	memset(cpu, 0, sizeof(cpu));
@@ -388,7 +395,7 @@ public class cpuintrf {
     /*TODO*///	/* reset the timer system */
     /*TODO*///	timer_init();
     /*TODO*///	timeslice_timer = refresh_timer = vblank_timer = NULL;
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///void cpu_run(void)
     /*TODO*///{
@@ -444,11 +451,6 @@ public class cpuintrf {
     /*TODO*///		}
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///#ifdef	MAME_DEBUG
-    /*TODO*///	/* Initialize the debugger */
-    /*TODO*///	if( mame_debug )
-    /*TODO*///		mame_debug_init();
-    /*TODO*///#endif
     /*TODO*///
     /*TODO*///
     /*TODO*///reset:
@@ -525,9 +527,6 @@ public class cpuintrf {
     /*TODO*///		/* was machine_reset() called? */
     /*TODO*///		if (have_to_reset)
     /*TODO*///		{
-    /*TODO*///#ifdef MESS
-    /*TODO*///			if (Machine->drv->stop_machine) (*Machine->drv->stop_machine)();
-    /*TODO*///#endif
     /*TODO*///			goto reset;
     /*TODO*///		}
     /*TODO*///		profiler_mark(PROFILER_EXTRA);
@@ -611,15 +610,7 @@ public class cpuintrf {
     /*TODO*///	/* write hi scores to disk - No scores saving if cheat */
     /*TODO*///	hs_close();
     /*TODO*///
-    /*TODO*///#ifdef MESS
-    /*TODO*///	if (Machine->drv->stop_machine) (*Machine->drv->stop_machine)();
-    /*TODO*///#endif
     /*TODO*///
-    /*TODO*///#ifdef	MAME_DEBUG
-    /*TODO*///	/* Shut down the debugger */
-    /*TODO*///	if( mame_debug )
-    /*TODO*///		mame_debug_exit();
-    /*TODO*///#endif
     /*TODO*///
     /*TODO*///	/* shut down the CPU cores */
     /*TODO*///	for (i = 0; i < totalcpu; i++)
@@ -728,10 +719,10 @@ public class cpuintrf {
     /*TODO*///	activecpu = cpunum;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///int cpu_gettotalcpu(void)
-    /*TODO*///{
-    /*TODO*///	return totalcpu;
-    /*TODO*///}
+    public static int cpu_gettotalcpu()
+    {
+       return totalcpu;
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
