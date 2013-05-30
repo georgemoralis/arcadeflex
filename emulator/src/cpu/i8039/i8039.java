@@ -1,0 +1,60 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cpu.i8039;
+
+import mame.cpuintrfH.cpu_interface;
+import static mame.cpuintrfH.*;
+
+public class i8039 extends cpu_interface{
+
+    @Override
+    public String cpu_info(Object context, int regnum) {
+    /*TODO*///	static char buffer[8][47+1];
+    /*TODO*///	static int which = 0;
+    /*TODO*///    I8039_Regs *r = context;
+    /*TODO*///
+    /*TODO*///	which = ++which % 8;
+    /*TODO*///	buffer[which][0] = '\0';
+    /*TODO*///	if( !context )
+    /*TODO*///		r = &R;
+    /*TODO*///
+        switch( regnum )
+        {
+    /*TODO*///		case CPU_INFO_REG+I8039_PC: sprintf(buffer[which], "PC:%04X", r->PC.w.l); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_SP: sprintf(buffer[which], "SP:%02X", r->SP); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_PSW: sprintf(buffer[which], "PSW:%02X", r->PSW); break;
+    /*TODO*///        case CPU_INFO_REG+I8039_A: sprintf(buffer[which], "A:%02X", r->A); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_IRQ_STATE: sprintf(buffer[which], "IRQ:%X", r->irq_state); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R0: sprintf(buffer[which], "R0:%02X", r->RAM[r->regPtr+0]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R1: sprintf(buffer[which], "R1:%02X", r->RAM[r->regPtr+1]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R2: sprintf(buffer[which], "R2:%02X", r->RAM[r->regPtr+2]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R3: sprintf(buffer[which], "R3:%02X", r->RAM[r->regPtr+3]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R4: sprintf(buffer[which], "R4:%02X", r->RAM[r->regPtr+4]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R5: sprintf(buffer[which], "R5:%02X", r->RAM[r->regPtr+5]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R6: sprintf(buffer[which], "R6:%02X", r->RAM[r->regPtr+6]); break;
+    /*TODO*///		case CPU_INFO_REG+I8039_R7: sprintf(buffer[which], "R7:%02X", r->RAM[r->regPtr+7]); break;
+    /*TODO*///		case CPU_INFO_FLAGS:
+    /*TODO*///			sprintf(buffer[which], "%c%c%c%c%c%c%c%c",
+    /*TODO*///				r->PSW & 0x80 ? 'C':'.',
+    /*TODO*///				r->PSW & 0x40 ? 'A':'.',
+    /*TODO*///				r->PSW & 0x20 ? 'F':'.',
+    /*TODO*///				r->PSW & 0x10 ? 'B':'.',
+    /*TODO*///				r->PSW & 0x08 ? '?':'.',
+    /*TODO*///				r->PSW & 0x04 ? '4':'.',
+    /*TODO*///				r->PSW & 0x02 ? '2':'.',
+    /*TODO*///				r->PSW & 0x01 ? '1':'.');
+    /*TODO*///			break;
+                    case CPU_INFO_NAME: return "I8039";
+                    case CPU_INFO_FAMILY: return "Intel 8039";
+                    case CPU_INFO_VERSION: return "1.1";
+    /*TODO*///		case CPU_INFO_FILE: return __FILE__;
+                    case CPU_INFO_CREDITS: return "Copyright (C) 1997 by Mirko Buffoni\nBased on the original work (C) 1997 by Dan Boris";
+    /*TODO*///		case CPU_INFO_REG_LAYOUT: return (const char*)i8039_reg_layout;
+    /*TODO*///		case CPU_INFO_WIN_LAYOUT: return (const char*)i8039_win_layout;
+        }
+        throw new UnsupportedOperationException("unsupported i8039 cpu_info");
+    /*TODO*///    return buffer[which];
+    }    
+}

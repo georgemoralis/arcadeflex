@@ -23,6 +23,7 @@ import static mame.driver.*;
 import static mame.driverH.*;
 import static mame.commonH.*;
 import static mame.common.*;
+import static mame.cpuintrf.*;
 /**
  *
  * @author george
@@ -600,11 +601,10 @@ public class fronthlp {
 
 					for(j=0;j<MAX_CPU;j++)
 					{
-/*TODO*/ //						if ((x_cpu[j].cpu_type & CPU_AUDIO_CPU)!=0)                                                
-/*TODO*/ //							printf("[%-6s] ",cputype_name(x_cpu[j].cpu_type));
-/*TODO*/ //						else
-/*TODO*/ //							printf("%-8s ",cputype_name(x_cpu[j].cpu_type));
-			/*tempHACK*/        printf("%-8s ","");
+						if ((x_cpu[j].cpu_type & CPU_AUDIO_CPU)!=0)                                                
+							printf("[%-6s] ",cputype_name(x_cpu[j].cpu_type));
+						else
+							printf("%-8s ",cputype_name(x_cpu[j].cpu_type));
                                         }
 
 					/* Then, sound chips */

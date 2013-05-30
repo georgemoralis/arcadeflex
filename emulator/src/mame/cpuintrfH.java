@@ -82,7 +82,12 @@ public class cpuintrfH {
             unsigned address_bits, endianess, align_unit, max_inst_len;
         unsigned abits1, abits2, abitsmin;
     };*/
+    public static abstract class cpu_interface
+    {
+        public int cpunum;
+        public abstract String cpu_info(Object context, int regnum);
 
+    }
     /* Returns previous pc (start of opcode causing read/write) */
     /* int cpu_getpreviouspc(void); */
  /*TODO*///    #define cpu_getpreviouspc() cpu_get_reg(REG_PREVIOUSPC)
