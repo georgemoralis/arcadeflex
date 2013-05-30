@@ -4,15 +4,36 @@
  */
 package cpu.z80;
 
-import mame.cpuintrfH;
+import mame.cpuintrfH.cpu_interface;
 import static mame.cpuintrfH.*;
+import static mame.driverH.*;
+import static mame.memoryH.*;
+import static cpu.z80.z80H.*;
 
 /**
  *
  * @author george
  */
-public class z80 extends cpuintrfH.cpu_interface {
+public class z80 extends cpu_interface {
 
+    public z80()
+    {    
+        cpu_num = CPU_Z80;
+        num_irqs = 1;
+        default_vector = 255;
+        overclock = 1.0;
+        no_int = Z80_IGNORE_INT;
+        irq_int = Z80_IRQ_INT;
+        nmi_int = Z80_NMI_INT;
+        address_shift = 0;
+        address_bits = 16;
+        endianess = CPU_IS_LE;
+        align_unit = 1;
+        max_inst_len = 4;
+        abits1 = ABITS1_16;
+        abits2 = ABITS2_16;
+        abitsmin = ABITS_MIN_16;
+    }
     @Override
     public String cpu_info(Object context, int regnum) {
     /*TODO*/ // 	static char buffer[32][47+1];
