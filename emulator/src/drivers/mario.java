@@ -5,8 +5,10 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
+import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mario.*;
+
 
 public class mario {
     static int p[] = { 0,0xf0,0,0,0,0,0,0 };
@@ -256,18 +258,18 @@ public class mario {
 /*TODO*///};
 /*TODO*///
 /*TODO*///
-/*TODO*///static struct GfxLayout spritelayout =
-/*TODO*///{
-/*TODO*///	16,16,	/* 16*16 sprites */
-/*TODO*///	256,	/* 256 sprites */
-/*TODO*///	3,	/* 3 bits per pixel */
-/*TODO*///	{ 2*256*16*16, 256*16*16, 0 },	/* the bitplanes are separated */
-/*TODO*///	{ 0, 1, 2, 3, 4, 5, 6, 7,		/* the two halves of the sprite are separated */
-/*TODO*///			256*16*8+0, 256*16*8+1, 256*16*8+2, 256*16*8+3, 256*16*8+4, 256*16*8+5, 256*16*8+6, 256*16*8+7 },
-/*TODO*///	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
-/*TODO*///			8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
-/*TODO*///	16*8	/* every sprite takes 16 consecutive bytes */
-/*TODO*///};
+    static GfxLayout spritelayout =new GfxLayout
+    (
+	16,16,	/* 16*16 sprites */
+	256,	/* 256 sprites */
+	3,	/* 3 bits per pixel */
+	new int[]{ 2*256*16*16, 256*16*16, 0 },	/* the bitplanes are separated */
+	new int[]{ 0, 1, 2, 3, 4, 5, 6, 7,		/* the two halves of the sprite are separated */
+			256*16*8+0, 256*16*8+1, 256*16*8+2, 256*16*8+3, 256*16*8+4, 256*16*8+5, 256*16*8+6, 256*16*8+7 },
+	new int[]{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
+			8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
+	16*8	/* every sprite takes 16 consecutive bytes */
+   );
 /*TODO*///
 /*TODO*///
 /*TODO*///

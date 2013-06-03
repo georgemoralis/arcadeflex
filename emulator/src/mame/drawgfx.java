@@ -1,6 +1,6 @@
 
 package mame;
-
+import static arcadeflex.libc.*;
 import static mame.osdependH.*;
 import static mame.drawgfxH.*;
 import static mame.mame.*;
@@ -27,20 +27,20 @@ public class drawgfx {
 /*TODO*///#define write_dword(address,data) *(int *)address=data
 /*TODO*///
 /*TODO*///
-/*TODO*///INLINE int readbit(const unsigned char *src,int bitnum)
-/*TODO*///{
-/*TODO*///	return (src[bitnum / 8] >> (7 - bitnum % 8)) & 1;
-/*TODO*///}
+    private static int readbit(CharPtr src, int bitnum) {
+         return (src.read(bitnum / 8) >> (7 - bitnum % 8)) & 1;
+    }
 /*TODO*///
 /*TODO*///
-/*TODO*///void decodechar(struct GfxElement *gfx,int num,const unsigned char *src,const struct GfxLayout *gl)
-/*TODO*///{
-/*TODO*///	int plane,x,y;
-/*TODO*///	unsigned char *dp;
-/*TODO*///	int offs;
-/*TODO*///
-/*TODO*///
-/*TODO*///	offs = num * gl->charincrement;
+    public static void decodechar(GfxElement gfx, int num, CharPtr src, GfxLayout gl) 
+    {
+	int plane,x,y;
+	char dp[];
+	int offs;
+
+	offs = num * gl.charincrement;
+        
+        throw new UnsupportedOperationException("Unsupported decodechar");
 /*TODO*///	dp = gfx->gfxdata + num * gfx->char_modulo;
 /*TODO*///	for (y = 0;y < gfx->height;y++)
 /*TODO*///	{
@@ -90,7 +90,7 @@ public class drawgfx {
 /*TODO*///			dp += gfx->line_modulo;
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///}
+    }
 /*TODO*///
 /*TODO*///
 /*TODO*///struct GfxElement *decodegfx(const unsigned char *src,const struct GfxLayout *gl)
