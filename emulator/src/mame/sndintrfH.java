@@ -20,8 +20,8 @@ public class sndintrfH {
                 a[k] = new MachineSound(); 
             return a; 
         } 
-        int sound_type;
-        Object sound_interface;
+        public int sound_type;
+        public Object sound_interface;
     }
     public static final int 	SOUND_DUMMY   = 0;
     public static final int 	SOUND_CUSTOM  = 1;

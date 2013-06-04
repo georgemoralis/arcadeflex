@@ -24,6 +24,10 @@ import static mame.driverH.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.cpuintrf.*;
+import static mame.sndintrf.*;
+import static mame.sndintrfH.*;
+
+
 /**
  *
  * @author george
@@ -586,7 +590,7 @@ public class fronthlp {
 
       				        MachineDriver x_driver = drivers[i].drv;
                                         MachineCPU[] x_cpu = x_driver.cpu;
-/*TODO*/ //					const struct MachineSound *x_sound = x_driver.sound;
+					MachineSound[] x_sound = x_driver.sound;
 
                                         
                                         
@@ -611,14 +615,16 @@ public class fronthlp {
 
 					for(j=0;j<MAX_SOUND;j++)
 					{
-/*TODO*/ //						if (sound_num(&x_sound[j]))
-/*TODO*/ //						{
-/*TODO*/ //							printf("%dx",sound_num(&x_sound[j]));
-/*TODO*/ //							printf("%-9s ",sound_name(&x_sound[j]));
-/*TODO*/ //						}
-/*TODO*/ //						else
-/*TODO*/ //							printf("%-11s ",sound_name(&x_sound[j]));
-                    /*tempHACK*/           printf("%-11s ","");
+						if (sound_num(x_sound[j])!=0)
+						{
+							printf("%dx",sound_num(x_sound[j]));
+							printf("%-9s ",sound_name(x_sound[j]));
+						}
+						else
+                                                {
+						   printf("%-11s ",sound_name(x_sound[j]));
+                                                }
+
 					}
 
 					/* Lastly, the name of the game and a \newline */

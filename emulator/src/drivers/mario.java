@@ -9,6 +9,7 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mario.*;
 import static mame.sndintrfH.*;
+import static sound.dacH.*;
 
 public class mario {
     static int p[] = { 0,0xf0,0,0,0,0,0,0 };
@@ -282,11 +283,11 @@ public class mario {
 
 
 /*TODO*///
-/*TODO*///static struct DACinterface dac_interface =
-/*TODO*///{
-/*TODO*///	1,
-/*TODO*///	{ 100 }
-/*TODO*///};
+public static DACinterface dac_interface = new DACinterface
+(
+    1,
+    new int[]{ 100 }
+);
 /*TODO*///
 /*TODO*///static const char *mario_sample_names[] =
 /*TODO*///{
@@ -375,7 +376,7 @@ public class mario {
                 new MachineSound[] {
                     new MachineSound(
                       SOUND_DAC,
-                      null
+                      dac_interface
                     ),
                      new MachineSound(
                         SOUND_SAMPLES,
@@ -463,7 +464,7 @@ public class mario {
                 new MachineSound[] {
                     new MachineSound(
                       SOUND_DAC,
-                      null
+                      dac_interface
                     ),
                      new MachineSound(
                         SOUND_SAMPLES,

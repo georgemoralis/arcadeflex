@@ -1,5 +1,7 @@
 package mame;
 import sound.Dummy_snd;
+import sound.dac;
+import sound.samples;
 import static mame.sndintrfH.*;
 
 public class sndintrf {
@@ -171,9 +173,6 @@ public class sndintrf {
     /*TODO*////*TODO*///	if (cust_intf->sh_update) (*cust_intf->sh_update)();
     /*TODO*////*TODO*///}
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_DAC)
-    /*TODO*////*TODO*///int DAC_num(const struct MachineSound *msound) { return ((struct DACinterface*)msound->sound_interface)->num; }
-    /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_ADPCM)
     /*TODO*////*TODO*///int ADPCM_num(const struct MachineSound *msound) { return ((struct ADPCMinterface*)msound->sound_interface)->num; }
     /*TODO*////*TODO*///#endif
@@ -279,20 +278,8 @@ public class sndintrf {
     /*TODO*////*TODO*///
     static snd_interface sndintf[] =
     {
-          new Dummy_snd()   
-    };
-    /*TODO*////*TODO*///struct snd_interface sndintf[] =
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_DUMMY,
-    /*TODO*////*TODO*///		"",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
+          new Dummy_snd(),   
+    new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_CUSTOM)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_CUSTOM,
@@ -305,18 +292,8 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_SAMPLES)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_SAMPLES,
-    /*TODO*////*TODO*///		"Samples",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		samples_sh_start,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+    new samples(),
+    new dac()
     /*TODO*////*TODO*///#if (HAS_DAC)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_DAC,
@@ -796,7 +773,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///};
+    };
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
@@ -916,22 +893,25 @@ public class sndintrf {
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///const char *sound_name(const struct MachineSound *msound)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	if (msound->sound_type < SOUND_COUNT)
-    /*TODO*////*TODO*///		return sndintf[msound->sound_type].name;
-    /*TODO*////*TODO*///	else
-    /*TODO*////*TODO*///		return "";
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///int sound_num(const struct MachineSound *msound)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	if (msound->sound_type < SOUND_COUNT && sndintf[msound->sound_type].chips_num)
-    /*TODO*////*TODO*///		return (*sndintf[msound->sound_type].chips_num)(msound);
-    /*TODO*////*TODO*///	else
-    /*TODO*////*TODO*///		return 0;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
+    public static String sound_name(MachineSound msound)
+    {
+    	 if(msound.sound_type < SOUND_COUNT)
+    		return sndintf[msound.sound_type].name;
+    	else
+    		return "";
+    }
+    
+    public static int sound_num(MachineSound msound)
+    {
+       if(msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_num(msound)!=0)
+       {
+             return sndintf[msound.sound_type].chips_num(msound);
+       }
+       else
+       {
+             return 0;
+       }
+    }
     /*TODO*////*TODO*///int sound_clock(const struct MachineSound *msound)
     /*TODO*////*TODO*///{
     /*TODO*////*TODO*///	if (msound->sound_type < SOUND_COUNT && sndintf[msound->sound_type].chips_clock)

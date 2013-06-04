@@ -4,36 +4,42 @@ package sound;
 import mame.sndintrf;
 import mame.sndintrfH;
 import static mame.sndintrfH.*;
+import static sound.dacH.*;
 
-public class Dummy_snd extends sndintrf.snd_interface
+public class dac extends sndintrf.snd_interface
 {
-    public Dummy_snd()
+    public dac()
     {
-        sound_num=SOUND_DUMMY;
-        name="";
+        sound_num=SOUND_DAC;
+        name="DAC";
     }
     @Override
     public int chips_num(MachineSound msound) {
-        return 0;
+        return ((DACinterface)msound.sound_interface).num;
     }
+
     @Override
     public int chips_clock(MachineSound msound) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public int start(MachineSound msound) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public void stop() {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public void update() {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public void reset() {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }   
 }
