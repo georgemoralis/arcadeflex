@@ -279,7 +279,7 @@ public class sndintrf {
     static snd_interface sndintf[] =
     {
           new Dummy_snd(),   
-    new Dummy_snd(),
+ /*TEMPHACK*/   new Dummy_snd(), 
     /*TODO*////*TODO*///#if (HAS_CUSTOM)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_CUSTOM,
@@ -294,18 +294,7 @@ public class sndintrf {
     /*TODO*////*TODO*///#endif
     new samples(),
     new dac()
-    /*TODO*////*TODO*///#if (HAS_DAC)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_DAC,
-    /*TODO*////*TODO*///		"DAC",
-    /*TODO*////*TODO*///		DAC_num,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		DAC_sh_start,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+    
     /*TODO*////*TODO*///#if (HAS_AY8910)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_AY8910,

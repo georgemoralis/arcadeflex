@@ -10,6 +10,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.mario.*;
 import static mame.sndintrfH.*;
 import static sound.dacH.*;
+import static sound.samplesH.*;
 
 public class mario {
     static int p[] = { 0,0xf0,0,0,0,0,0,0 };
@@ -282,38 +283,38 @@ public class mario {
     };
 
 
-/*TODO*///
-public static DACinterface dac_interface = new DACinterface
-(
-    1,
-    new int[]{ 100 }
-);
-/*TODO*///
-/*TODO*///static const char *mario_sample_names[] =
-/*TODO*///{
-/*TODO*///	"*mario",
-/*TODO*///
-/*TODO*///	/* 7f01 - 7f07 sounds */
-/*TODO*///	"ice.wav",    /* 0x02 ice appears (formerly effect0.wav) */
-/*TODO*///	"coin.wav",   /* 0x06 coin appears (formerly effect1.wav) */
-/*TODO*///	"skid.wav",   /* 0x07 skid */
-/*TODO*///
-/*TODO*///	/* 7c00 */
-/*TODO*///	"run.wav",        /* 03, 02, 01 - 0x1b */
-/*TODO*///
-/*TODO*///	/* 7c80 */
-/*TODO*///	"luigirun.wav",   /* 03, 02, 01 - 0x1c */
-/*TODO*///
-/*TODO*///    0	/* end of array */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct Samplesinterface samples_interface =
-/*TODO*///{
-/*TODO*///	3,	/* 3 channels */
-/*TODO*///	25,	/* volume */
-/*TODO*///	mario_sample_names
-/*TODO*///};
-/*TODO*///
+    /*TODO*///
+    public static DACinterface dac_interface = new DACinterface
+    (
+        1,
+        new int[]{ 100 }
+    );
+    /*TODO*///
+    public static String mario_sample_names[] =
+    {
+            "*mario",
+
+            /* 7f01 - 7f07 sounds */
+            "ice.wav",    /* 0x02 ice appears (formerly effect0.wav) */
+            "coin.wav",   /* 0x06 coin appears (formerly effect1.wav) */
+            "skid.wav",   /* 0x07 skid */
+
+            /* 7c00 */
+            "run.wav",        /* 03, 02, 01 - 0x1b */
+
+            /* 7c80 */
+            "luigirun.wav",   /* 03, 02, 01 - 0x1c */
+
+            null	/* end of array */
+    };
+
+    public static Samplesinterface samples_interface = new Samplesinterface
+    (
+            3,	/* 3 channels */
+            25,	/* volume */
+            mario_sample_names
+    );
+
 /*TODO*///static struct AY8910interface ay8910_interface =
 /*TODO*///{
 /*TODO*///	1,      /* 1 chip */
@@ -380,7 +381,7 @@ public static DACinterface dac_interface = new DACinterface
                     ),
                      new MachineSound(
                         SOUND_SAMPLES,
-                        null
+                        samples_interface
                      )
                 }
     );
