@@ -8,7 +8,7 @@ import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mario.*;
-
+import static mame.sndintrfH.*;
 
 public class mario {
     static int p[] = { 0,0xf0,0,0,0,0,0,0 };
@@ -246,18 +246,18 @@ public class mario {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///static struct GfxLayout charlayout =
-/*TODO*///{
-/*TODO*///	8,8,	/* 8*8 characters */
-/*TODO*///	512,	/* 512 characters */
-/*TODO*///	2,	/* 2 bits per pixel */
-/*TODO*///	{ 512*8*8, 0 },	/* the bitplanes are separated */
-/*TODO*///	{ 0, 1, 2, 3, 4, 5, 6, 7 },	/* pretty straightforward layout */
-/*TODO*///	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
-/*TODO*///	8*8	/* every char takes 8 consecutive bytes */
-/*TODO*///};
-/*TODO*///
-/*TODO*///
+    static GfxLayout charlayout  = new GfxLayout
+    (
+            8,8,	/* 8*8 characters */
+            512,	/* 512 characters */
+            2,	/* 2 bits per pixel */
+            new int[]{ 512*8*8, 0 },	/* the bitplanes are separated */
+            new int[]{ 0, 1, 2, 3, 4, 5, 6, 7 },	/* pretty straightforward layout */
+            new int[]{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
+            8*8	/* every char takes 8 consecutive bytes */
+    );
+
+
     static GfxLayout spritelayout =new GfxLayout
     (
 	16,16,	/* 16*16 sprites */
@@ -270,17 +270,17 @@ public class mario {
 			8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
 	16*8	/* every sprite takes 16 consecutive bytes */
    );
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///static struct GfxDecodeInfo gfxdecodeinfo[] =
-/*TODO*///{
-/*TODO*///	{ REGION_GFX1, 0, &charlayout,      0, 16 },
-/*TODO*///	{ REGION_GFX2, 0, &spritelayout, 16*4, 32 },
-/*TODO*///	{ -1 } /* end of array */
-/*TODO*///};
-/*TODO*///
-/*TODO*///
+
+
+
+    static GfxDecodeInfo gfxdecodeinfo[] =
+    {
+            new GfxDecodeInfo(REGION_GFX1, 0, charlayout,      0, 16 ),
+            new GfxDecodeInfo( REGION_GFX2, 0, spritelayout, 16*4, 32 ),
+            new GfxDecodeInfo( -1 ) /* end of array */
+    };
+
+
 /*TODO*///
 /*TODO*///static struct DACinterface dac_interface =
 /*TODO*///{
@@ -359,7 +359,29 @@ public class mario {
 			null,1
 		)
 		},
-		60,0  
+		60,0,
+                1,
+                null,
+                32*8, 32*8, new rectangle(0*8, 32*8-1, 2*8, 30*8-1 ),
+                gfxdecodeinfo,   
+                256,16*4+32*8,
+                null,
+                0,
+                null,
+                generic_vh_start,
+                generic_vh_stop,
+                mario_vh_screenrefresh,
+                0,0,0,0,
+                new MachineSound[] {
+                    new MachineSound(
+                      SOUND_DAC,
+                      null
+                    ),
+                     new MachineSound(
+                        SOUND_SAMPLES,
+                        null
+                     )
+                }
     );
 /*TODO*///static struct MachineDriver machine_driver_mario =
 /*TODO*///{
@@ -425,7 +447,29 @@ public class mario {
 			null,1
                         )
 		},
-		60,0  
+		60,0,
+                1,
+                null,
+                32*8, 32*8, new rectangle(0*8, 32*8-1, 2*8, 30*8-1 ),
+                gfxdecodeinfo,   
+                256,16*4+32*8,
+                null,
+                0,
+                null,
+                generic_vh_start,
+                generic_vh_stop,
+                mario_vh_screenrefresh,
+                0,0,0,0,
+                new MachineSound[] {
+                    new MachineSound(
+                      SOUND_DAC,
+                      null
+                    ),
+                     new MachineSound(
+                        SOUND_SAMPLES,
+                        null
+                     )
+                }
      );   
 /*TODO*///static struct MachineDriver machine_driver_masao =
 /*TODO*///{

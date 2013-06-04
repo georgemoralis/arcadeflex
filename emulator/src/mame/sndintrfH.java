@@ -9,6 +9,17 @@ public class sndintrfH {
             this.sound_type=sound_type;
             this.sound_interface = sound_interface;
         }
+        public MachineSound()
+        {
+            this(0,null);
+        }
+        public static MachineSound[] create(int n)
+	{ 
+            MachineSound []a = new MachineSound[n]; 
+            for(int k = 0; k < n; k++) 
+                a[k] = new MachineSound(); 
+            return a; 
+        } 
         int sound_type;
         Object sound_interface;
     }

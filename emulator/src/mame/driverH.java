@@ -5,6 +5,7 @@ import static mame.osdependH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.drawgfxH.*;
+import static mame.sndintrfH.*;
 
 public class driverH 
 {
@@ -29,7 +30,8 @@ public class driverH
         public static abstract interface ConversionPtr{ public abstract int handler(int data);}
         public static abstract interface RomLoadPtr { public abstract void handler();}
         public static abstract interface InputPortPtr { public abstract void handler();}
-     
+        public static abstract interface nvramPtr { public abstract void handler(Object file,int read_or_write); };
+        
         public static class MachineCPU
         {
 		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
@@ -172,13 +174,39 @@ public class driverH
 			samples = sa; sh_init = si; sh_start = ssta; sh_stop = ssto; sh_update = sup;
 		}*/
                 public MachineDriver() {} //null implementation
-        /*partial implementation */
-               
-                public MachineDriver(MachineCPU []mcp,int fps,int vblank)
+             
+                
+                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachinePtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartPtr vsta, VhStopPtr vsto,VhUpdatePtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd)
                 {
                     CopyArray(cpu,mcp);
                     frames_per_second = fps;
                     vblank_duration = vblank;
+                    cpu_slices_per_frame=cpu_slices;
+                    init_machine = im;
+                    screen_width=sw;
+                    screen_height=sh;
+                    visible_area=va;
+                    gfxdecodeinfo = gdi;
+                    total_colors = tc;
+                    color_table_len = ctl;
+                    vh_init_palette =vccp;
+                    video_attributes=vattr;
+                    vh_eof_callback=veof;
+                    vh_start = vsta;
+                    vh_stop = vsto;
+                    vh_update= vup;
+                    sound_attributes= sattr;
+                    obsolete1 = obs1;
+                    obsolete2 = obs2;
+                    obsolete3 = obs3;
+                    CopyArray(sound,snd);
+                    nvram_handler = null;
+                }
+                //same as previous but with nvram_handler
+                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachinePtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartPtr vsta, VhStopPtr vsto,VhUpdatePtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd,nvramPtr nvr)
+                {
+                    this(mcp,fps,vblank,cpu_slices,im,sw,sh,va,gdi,tc,ctl,vccp,vattr,veof,vsta,vsto,vup,sattr,obs1,obs2,obs3,snd);
+                    nvram_handler = nvr;
                 }
 		/* basic machine hardware */
 		public MachineCPU cpu[] = MachineCPU.create(MAX_CPU);
@@ -215,19 +243,19 @@ public class driverH
                 public int sound_attributes;
                 public int obsolete1;
                 public int obsolete2;
-                public int obsolete3;
-/*TODO*///	struct MachineSound sound[MAX_SOUND];
-
-	/*
-	   use this to manage nvram/eeprom/cmos/etc.
-	   It is called before the emulation starts and after it ends. Note that it is
-	   NOT called when the game is reset, since it is not needed.
-	   file == 0, read_or_write == 0 -> first time the game is run, initialize nvram
-	   file != 0, read_or_write == 0 -> load nvram from disk
-	   file == 0, read_or_write != 0 -> not allowed
-	   file != 0, read_or_write != 0 -> save nvram to disk
-	 */
-/*TODO*///		void (*nvram_handler)(void *file,int read_or_write);
+                public int obsolete3;               
+                public MachineSound sound[] = MachineSound.create(MAX_SOUND);
+                
+                /*
+                   use this to manage nvram/eeprom/cmos/etc.
+                   It is called before the emulation starts and after it ends. Note that it is
+                   NOT called when the game is reset, since it is not needed.
+                   file == 0, read_or_write == 0 -> first time the game is run, initialize nvram
+                   file != 0, read_or_write == 0 -> load nvram from disk
+                   file == 0, read_or_write != 0 -> not allowed
+                   file != 0, read_or_write != 0 -> save nvram to disk
+                 */
+                public nvramPtr nvram_handler;
     }    
     
 
