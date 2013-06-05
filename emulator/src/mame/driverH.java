@@ -32,9 +32,56 @@ public class driverH
         public static abstract interface InputPortPtr { public abstract void handler();}
         public static abstract interface nvramPtr { public abstract void handler(Object file,int read_or_write); };
         
+    public static class InputPort
+    {
+        
+    }    
+
+    
+
+    public static class GameDriver
+    {
+        //this is used instead of GAME macro
+        public GameDriver(String year,String name,String source,RomLoadPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverPtr init,int monitor,String manufacture,String fullname)
+        {
+            this.year=year;
+            this.source_file=source;
+            this.clone_of=parent;
+            this.name=name;
+            this.description=fullname;
+            this.manufacturer=manufacture;
+            this.drv=drv;
+            //inputports
+            this.driver_init=init;
+            romload.handler();//load the rom
+            this.rom = rommodule_macro; //copy rommodule_macro to rom
+            this.flags=monitor;
+        }
+        public String source_file;	
+	public GameDriver clone_of; /* if this is a clone, point to */
+				    /* the main version of the game */
+	public String name;
+	public String description;
+	public String year;
+	public String manufacturer;
+        public MachineDriver drv;
+/*TODO*/ //	const struct InputPortTiny *input_ports;
+        public InitDriverPtr driver_init;	/* optional function to be called during initialization */
+						/* This is called ONCE, unlike Machine->init_machine */
+						/* which is called every time the game is reset. */
+
+        public RomModule []rom; 
+
+        public int flags;	/* orientation and other flags; see defines below */
+
+    } 
+    
+    
+ ///This part below is the original converted driver.h file
+    
         public static class MachineCPU
         {
-		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
+		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif,Object reset)
 		{
 			cpu_type = ct; 
                         cpu_clock =cc; 
@@ -46,20 +93,15 @@ public class driverH
                         vblank_interrupts_per_frame = vbf;
                         timed_interrupt=ti;
                         timed_interrupts_per_second=tif;
+                        reset_param=reset;
 		};
 		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf)
 		{
-			cpu_type = ct; 
-                        cpu_clock =cc; 
-			memory_read = mr; 
-                        memory_write = mw; 
-                        port_read = pr; 
-                        port_write = pw; 
-                        vblank_interrupt = vb; 
-                        vblank_interrupts_per_frame = vbf;    
+                    //3 last parameter are null
+                    this(ct,cc,mr,mw,pr,pw,vb,vbf,null,0,null);
 		};
 		public MachineCPU()
-		{ this(0, 0,null, null, null, null, null, 0,null, 0); }
+		{ this(0, 0,null, null, null, null, null, 0,null,0,null); }
 
 		public static MachineCPU[] create(int n)
 		{ 
@@ -82,7 +124,7 @@ public class driverH
                 public InterruptPtr timed_interrupt;
                 int timed_interrupts_per_second;
                 /* pointer to a parameter to pass to the CPU cores reset function */
- /*TODO*///               void *reset_param;
+                public Object reset_param;
                 
       };
     public static final int CPU_DUMMY   = 0;
@@ -140,7 +182,7 @@ public class driverH
     public static final int CPU_PDP1    =52;
     public static final int CPU_ADSP2100=53;
     public static final int CPU_COUNT   =54;
-    
+
     /* set this if the CPU is used as a slave for audio. It will not be emulated if */
     /* sound is disabled, therefore speeding up a lot the emulation. */
     public static final int CPU_AUDIO_CPU= 0x8000;
@@ -154,25 +196,10 @@ public class driverH
 					/* can run at the same time. Currently, 8 is enough. */
 
     public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
-					/* which can run at the same time. Currently, 5 is enough. */      
-    
+					/* which can run at the same time. Currently, 5 is enough. */  
 
-    public static class InputPort
-    {
-        
-    }    
     public static class MachineDriver
     {
-        	/*public MachineDriver(MachineCPU []mcp, int fps,int slices, InitMachinePtr im, int sw, int sh, rectangle va, GfxDecodeInfo []gdi, int tc, int ctl, VhConvertColorPromPtr vccp,int vattr, VhInitPtr vi, VhStartPtr vsta, VhStopPtr vsto, VhUpdatePtr vup, char []sa, ShInitPtr si, ShStartPtr ssta, ShStopPtr ssto, ShUpdatePtr sup)
-		{
-			CopyArray(cpu, mcp); 
-                        frames_per_second = fps;
-                        cpu_slices_per_frame=slices;
-                        init_machine = im;
-			screen_width = sw; screen_height = sh; visible_area = va; gfxdecodeinfo = gdi; total_colors = tc; color_table_len = ctl; vh_convert_color_prom = vccp;
-			video_attributes=vattr; vh_init = vi; vh_start = vsta; vh_stop = vsto; vh_update = vup;
-			samples = sa; sh_init = si; sh_start = ssta; sh_stop = ssto; sh_update = sup;
-		}*/
                 public MachineDriver() {} //null implementation
              
                 
@@ -258,47 +285,87 @@ public class driverH
                 public nvramPtr nvram_handler;
     }    
     
-
-    public static class GameDriver
-    {
-        //this is used instead of GAME macro
-        public GameDriver(String year,String name,String source,RomLoadPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverPtr init,int monitor,String manufacture,String fullname)
-        {
-            this.year=year;
-            this.source_file=source;
-            this.clone_of=parent;
-            this.name=name;
-            this.description=fullname;
-            this.manufacturer=manufacture;
-            this.drv=drv;
-            //inputports
-            this.driver_init=init;
-            romload.handler();//load the rom
-            this.rom = rommodule_macro; //copy rommodule_macro to rom
-            this.flags=monitor;
-        }
-        public String source_file;	
-	public GameDriver clone_of; /* if this is a clone, point to */
-				    /* the main version of the game */
-	public String name;
-	public String description;
-	public String year;
-	public String manufacturer;
-        public MachineDriver drv;
-/*TODO*/ //	const struct InputPortTiny *input_ports;
-        public InitDriverPtr driver_init;	/* optional function to be called during initialization */
-						/* This is called ONCE, unlike Machine->init_machine */
-						/* which is called every time the game is reset. */
-
-        public RomModule []rom; 
-
-        public int flags;	/* orientation and other flags; see defines below */
-
-    } 
+    /* VBlank is the period when the video beam is outside of the visible area and */
+    /* returns from the bottom to the top of the screen to prepare for a new video frame. */
+    /* VBlank duration is an important factor in how the game renders itself. MAME */
+    /* generates the vblank_interrupt, lets the game run for vblank_duration microseconds, */
+    /* and then updates the screen. This faithfully reproduces the behaviour of the real */
+    /* hardware. In many cases, the game does video related operations both in its vblank */
+    /* interrupt, and in the normal game code; it is therefore important to set up */
+    /* vblank_duration accurately to have everything properly in sync. An example of this */
+    /* is Commando: if you set vblank_duration to 0, therefore redrawing the screen BEFORE */
+    /* the vblank interrupt is executed, sprites will be misaligned when the screen scrolls. */
     
+    /* Here are some predefined, TOTALLY ARBITRARY values for vblank_duration, which should */
+    /* be OK for most cases. I have NO IDEA how accurate they are compared to the real */
+    /* hardware, they could be completely wrong. */
+    public static final int DEFAULT_60HZ_VBLANK_DURATION =0;
+    public static final int DEFAULT_30HZ_VBLANK_DURATION =0;
+    /* If you use IPT_VBLANK, you need a duration different from 0. */
+    public static final int DEFAULT_REAL_60HZ_VBLANK_DURATION =2500;
+    public static final int DEFAULT_REAL_30HZ_VBLANK_DURATION =2500;
+    
+    
+    
+    /* flags for video_attributes */
+    
+    /* bit 0 of the video attributes indicates raster or vector video hardware */
+    public static final int VIDEO_TYPE_RASTER=	0x0000;
+    public static final int VIDEO_TYPE_VECTOR=  0x0001;
+    
+
     /* bit 1 of the video attributes indicates whether or not dirty rectangles will work */
     public static final int VIDEO_SUPPORTS_DIRTY =   0x0002;
-
+    /* bit 2 of the video attributes indicates whether or not the driver modifies the palette */
+    public static final int VIDEO_MODIFIES_PALETTE=  0x0004;
+    
+    /* ASG 980417 - added: */
+    /* bit 4 of the video attributes indicates that the driver wants its refresh after */
+    /*       the VBLANK instead of before. */
+    public static final int VIDEO_UPDATE_BEFORE_VBLANK	=0x0000;
+    public static final int VIDEO_UPDATE_AFTER_VBLANK	=0x0010;
+    
+    /* In most cases we assume pixels are square (1:1 aspect ratio) but some games need */
+    /* different proportions, e.g. 1:2 for Blasteroids */
+    public static final int VIDEO_PIXEL_ASPECT_RATIO_MASK =0x0020;
+    public static final int VIDEO_PIXEL_ASPECT_RATIO_1_1  =0x0000;
+    public static final int VIDEO_PIXEL_ASPECT_RATIO_1_2  =0x0020;
+    
+    public static final int VIDEO_DUAL_MONITOR =0x0040;
+    
+    /* Mish 181099:  See comments in vidhrdw/generic.c for details */
+    public static final int VIDEO_BUFFERS_SPRITERAM =0x0080;
+    
+    /* flags for sound_attributes */
+    public static final int SOUND_SUPPORTS_STEREO =0x0001;
+    
+    
+    
+    /*TODO*///struct GameDriver
+    /*TODO*///{
+    /*TODO*///	const char *source_file;	/* set this to __FILE__ */
+    /*TODO*///	const struct GameDriver *clone_of;	/* if this is a clone, point to */
+    /*TODO*///										/* the main version of the game */
+    /*TODO*///	const char *name;
+    /*TODO*///	const char *description;
+    /*TODO*///	const char *year;
+    /*TODO*///	const char *manufacturer;
+    /*TODO*///	const struct MachineDriver *drv;
+    /*TODO*///	const struct InputPortTiny *input_ports;
+    /*TODO*///	void (*driver_init)(void);	/* optional function to be called during initialization */
+    /*TODO*///								/* This is called ONCE, unlike Machine->init_machine */
+    /*TODO*///								/* which is called every time the game is reset. */
+    /*TODO*///
+    /*TODO*///	const struct RomModule *rom;
+    /*TODO*///
+    /*TODO*///	UINT32 flags;	/* orientation and other flags; see defines below */
+    /*TODO*///};
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///
+    
+    /* values for the flags field */
     public static final int ORIENTATION_MASK      =   0x0007;
     public static final int ORIENTATION_FLIP_X	  =   0x0001;	/* mirror everything in the X direction */
     public static final int ORIENTATION_FLIP_Y	  =   0x0002;	/* mirror everything in the Y direction */
@@ -314,7 +381,44 @@ public class driverH
     public static final int NOT_A_DRIVER	  =   0x4000;	/* set by the fake "root" driver_ and by "containers" */
 										/* e.g. driver_neogeo. */
 
-    /* monitor parameters to be used with the GAME() macro */
+    /*TODO*///
+    /*TODO*///#define GAME(YEAR,NAME,PARENT,MACHINE,INPUT,INIT,MONITOR,COMPANY,FULLNAME)	\
+    /*TODO*///extern struct GameDriver driver_##PARENT;	\
+    /*TODO*///struct GameDriver driver_##NAME =			\
+    /*TODO*///{											\
+    /*TODO*///	__FILE__,								\
+    /*TODO*///	&driver_##PARENT,						\
+    /*TODO*///	#NAME,									\
+    /*TODO*///	FULLNAME,								\
+    /*TODO*///	#YEAR,									\
+    /*TODO*///	COMPANY,								\
+    /*TODO*///	&machine_driver_##MACHINE,				\
+    /*TODO*///	input_ports_##INPUT,					\
+    /*TODO*///	init_##INIT,							\
+    /*TODO*///	rom_##NAME,								\
+    /*TODO*///	MONITOR,								\
+    /*TODO*///};
+    /*TODO*///
+    /*TODO*///#define GAMEX(YEAR,NAME,PARENT,MACHINE,INPUT,INIT,MONITOR,COMPANY,FULLNAME,FLAGS)	\
+    /*TODO*///extern struct GameDriver driver_##PARENT;	\
+    /*TODO*///struct GameDriver driver_##NAME =			\
+    /*TODO*///{											\
+    /*TODO*///	__FILE__,								\
+    /*TODO*///	&driver_##PARENT,						\
+    /*TODO*///	#NAME,									\
+    /*TODO*///	FULLNAME,								\
+    /*TODO*///	#YEAR,									\
+    /*TODO*///	COMPANY,								\
+    /*TODO*///	&machine_driver_##MACHINE,				\
+    /*TODO*///	input_ports_##INPUT,					\
+    /*TODO*///	init_##INIT,							\
+    /*TODO*///	rom_##NAME,								\
+    /*TODO*///	(MONITOR)|(FLAGS),						\
+    /*TODO*///};
+    /*TODO*///
+    /*TODO*///
+
+     /* monitor parameters to be used with the GAME() macro */
     public static final int ROT0	  = 0x0000;
     public static final int ROT90	  = (ORIENTATION_SWAP_XY|ORIENTATION_FLIP_X);	/* rotate clockwise 90 degrees */
     public static final int ROT180        = (ORIENTATION_FLIP_X|ORIENTATION_FLIP_Y);		/* rotate 180 degrees */

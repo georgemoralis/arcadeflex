@@ -11,15 +11,23 @@ public class inputportH {
 /*TODO*///
 /*TODO*////***************************************************************************/
 /*TODO*///
-/*TODO*///struct InputPortTiny
-/*TODO*///{
-/*TODO*///	UINT16 mask;			/* bits affected */
-/*TODO*///	UINT16 default_value;	/* default value for the bits affected */
-/*TODO*///							/* you can also use one of the IP_ACTIVE defines below */
-/*TODO*///	UINT32 type;			/* see defines below */
-/*TODO*///	const char *name;		/* name to display */
-/*TODO*///};
-/*TODO*///
+    public static class InputPortTiny
+    {
+        public InputPortTiny(int mk,int def,int tp,String nm)
+        {
+            mask=mk;
+            default_value=def;
+            type=tp;
+            name=nm;
+        }
+        public int /*UINT16*/ mask;			/* bits affected */
+	public int /*UINT16*/ default_value;	/* default value for the bits affected */
+							/* you can also use one of the IP_ACTIVE defines below */
+	public int /*UINT32*/ type;			/* see defines below */
+	public String name;		/* name to display */
+    }
+
+
 /*TODO*///struct InputPort
 /*TODO*///{
 /*TODO*///	UINT16 mask;			/* bits affected */

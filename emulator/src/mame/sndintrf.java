@@ -2,7 +2,9 @@ package mame;
 import sound.Dummy_snd;
 import sound.dac;
 import sound.samples;
+import sound.namco;
 import static mame.sndintrfH.*;
+
 
 public class sndintrf {
     /*TODO*////*TODO*///static int cleared_value = 0x00;
@@ -293,8 +295,8 @@ public class sndintrf {
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
     new samples(),
-    new dac()
-    
+    new dac(),
+  /*TEMPHACK*/   new Dummy_snd(),   
     /*TODO*////*TODO*///#if (HAS_AY8910)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_AY8910,
@@ -307,6 +309,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+   /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2203)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2203,
@@ -319,6 +322,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2203_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+    /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2151)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2151,
@@ -343,6 +347,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+     /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2608)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2608,
@@ -355,6 +360,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2608_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+      /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2610)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2610,
@@ -367,6 +373,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2610_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+       /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2610B)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2610B,
@@ -379,6 +386,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2610_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+        /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2612)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2612,
@@ -391,6 +399,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2612_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+         /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM3438)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM3438,
@@ -403,6 +412,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2612_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+          /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2413)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2413,
@@ -415,6 +425,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+           /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM3812)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM3812,
@@ -427,6 +438,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+            /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM3526)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM3526,
@@ -439,6 +451,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_Y8950)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_Y8950,
@@ -451,6 +464,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+              /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_SN76477)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_SN76477,
@@ -463,6 +477,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+               /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_SN76496)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_SN76496,
@@ -474,6 +489,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+                /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_POKEY)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_POKEY,
@@ -486,6 +502,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+                 /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_TIA)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TIA,
@@ -498,6 +515,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+                  /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_NES)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_NES,
@@ -510,6 +528,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+                   /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_ASTROCADE)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_ASTROCADE,
@@ -522,18 +541,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_NAMCO)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_NAMCO,
-    /*TODO*////*TODO*///		"Namco",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		namco_sh_start,
-    /*TODO*////*TODO*///		namco_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+           new namco()       
     /*TODO*////*TODO*///#if (HAS_TMS36XX)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TMS36XX,
