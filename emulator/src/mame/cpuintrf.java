@@ -392,13 +392,11 @@ public class cpuintrf {
     
     	/* zap the CPU data structure */
    	cpu.clear();//memset(cpu, 0, sizeof(cpu));
-    /*TODO*///
-    /*TODO*///	/* Set up the interface functions */
-    /*TODO*///	for (i = 0; i < MAX_CPU; i++)
-    /*TODO*///		cpu[i].intf = &cpuintf[CPU_TYPE(i)];
-    /*TODO*///
-    for (i = 0; i < MAX_CPU; i++)
-                cpu.Add(new cpuinfo(cpuintf[CPU_TYPE(i)]));
+
+ 	/* Set up the interface functions */
+
+        for (i = 0; i < MAX_CPU; i++)
+            cpu.add(new cpuinfo(cpuintf[CPU_TYPE(i)]));//cpu[i].intf = &cpuintf[CPU_TYPE(i)];
 
     /*TODO*///	/* reset the timer system */
     /*TODO*///	timer_init();
@@ -759,7 +757,7 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*////* these are available externally, for the timer system */
-    /*TODO*///int cycles_currently_ran(void)
+    /*TODO*///public static int cycles_currently_ran()
     /*TODO*///{
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
     /*TODO*///	return cycles_running - ICOUNT(cpunum);
@@ -785,10 +783,10 @@ public class cpuintrf {
     /*TODO*///  of wraparound).
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///int cpu_gettotalcycles(void)
+    /*TODO*///public static int cpu_gettotalcycles()
     /*TODO*///{
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return cpu[cpunum].totalcycles + cycles_currently_ran();
+    /*TODO*///	return cpu.get(cpunum).totalcycles + cycles_currently_ran();
     /*TODO*///}
     /*TODO*///
     /*TODO*///
