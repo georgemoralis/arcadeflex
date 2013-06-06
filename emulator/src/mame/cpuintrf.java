@@ -5,6 +5,7 @@ import arcadeflex.libc.*;
 import cpu.Dummy_cpu;
 import cpu.z80.z80;
 import cpu.i8039.i8039;
+import java.util.ArrayList;
 import static mame.cpuintrfH.*;
 import mame.cpuintrfH.*;
 import static mame.driverH.*;
@@ -35,24 +36,28 @@ public class cpuintrf {
     /*TODO*///#define CPUINFO_ALIGN	(64-CPUINFO_SIZE)
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*///struct cpuinfo
-    /*TODO*///{
-    /*TODO*///	struct cpu_interface *intf; 	/* pointer to the interface functions */
-    /*TODO*///	int iloops; 					/* number of interrupts remaining this frame */
-    /*TODO*///	int totalcycles;				/* total CPU cycles executed */
-    /*TODO*///	int vblankint_countdown;		/* number of vblank callbacks left until we interrupt */
-    /*TODO*///	int vblankint_multiplier;		/* number of vblank callbacks per interrupt */
-    /*TODO*///	void *vblankint_timer;			/* reference to elapsed time counter */
-    /*TODO*///	double vblankint_period;		/* timing period of the VBLANK interrupt */
-    /*TODO*///	void *timedint_timer;			/* reference to this CPU's timer */
-    /*TODO*///	double timedint_period; 		/* timing period of the timed interrupt */
-    /*TODO*///	void *context;					/* dynamically allocated context buffer */
-    /*TODO*///	int save_context;				/* need to context switch this CPU? yes or no */
-    /*TODO*///	UINT8 filler[CPUINFO_ALIGN];	/* make the array aligned to next power of 2 */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct cpuinfo cpu[MAX_CPU];
-    /*TODO*///
+    public static class cpuinfo
+    {
+        public cpuinfo(cpu_interface intf) 
+        {
+            this.intf =intf;
+        }
+        public cpu_interface intf; 	/* pointer to the interface functions */
+        public	int iloops; 					/* number of interrupts remaining this frame */
+        public	int totalcycles;				/* total CPU cycles executed */
+        public	int vblankint_countdown;		/* number of vblank callbacks left until we interrupt */
+        public	int vblankint_multiplier;		/* number of vblank callbacks per interrupt */
+        public  Object vblankint_timer;			/* reference to elapsed time counter */
+        public  double vblankint_period;		/* timing period of the VBLANK interrupt */
+        public  Object timedint_timer;			/* reference to this CPU's timer */
+        public  double timedint_period; 		/* timing period of the timed interrupt */
+        public  Object context;					/* dynamically allocated context buffer */
+        public	int save_context;				/* need to context switch this CPU? yes or no */
+        public  int[] filler;	//UINT8 filler[CPUINFO_ALIGN];	/* make the array aligned to next power of 2 */
+    };
+
+    public static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();//static cpuinfo cpu[MAX_CPU];
+
     public static int activecpu,totalcpu;
     public static int cycles_running;	/* number of cycles that the CPU emulation was requested to run */
     					/* (needed by cpu_getfcount) */
@@ -384,14 +389,17 @@ public class cpuintrf {
     		if( CPU_TYPE(totalcpu) == CPU_DUMMY ) break;
     		totalcpu++;
     	}
-    /*TODO*///
-    /*TODO*///	/* zap the CPU data structure */
-    /*TODO*///	memset(cpu, 0, sizeof(cpu));
+    
+    	/* zap the CPU data structure */
+   	cpu.clear();//memset(cpu, 0, sizeof(cpu));
     /*TODO*///
     /*TODO*///	/* Set up the interface functions */
     /*TODO*///	for (i = 0; i < MAX_CPU; i++)
     /*TODO*///		cpu[i].intf = &cpuintf[CPU_TYPE(i)];
     /*TODO*///
+    for (i = 0; i < MAX_CPU; i++)
+                cpu.Add(new cpuinfo(cpuintf[CPU_TYPE(i)]));
+
     /*TODO*///	/* reset the timer system */
     /*TODO*///	timer_init();
     /*TODO*///	timeslice_timer = refresh_timer = vblank_timer = NULL;
