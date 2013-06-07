@@ -294,7 +294,7 @@ public class mame {
 
 
            for (i = 0;i < MAX_GFX_ELEMENTS;i++) Machine.gfx[i] = null;
- /*TODO*/ //           Machine.uifont = 0;
+           Machine.uifont = null;
 
  /*TODO*/ //           if (palette_start() != 0)
  /*TODO*/ //           {
@@ -334,13 +334,14 @@ public class mame {
                                             glcopy.xoffset[j] = FRAC_OFFSET(glcopy.xoffset[j]) +
                                                             reglen * FRAC_NUM(glcopy.xoffset[j]) / FRAC_DEN(glcopy.xoffset[j]);
                                     }
-                                    if (j < glcopy.yoffset.length && (IS_FRAC(glcopy.yoffset[j]))!=0)
+                                    if (j < glcopy.yoffset.length && (IS_FRAC(glcopy.yoffset[j])!=0))
                                     {
                                             glcopy.yoffset[j] = FRAC_OFFSET(glcopy.yoffset[j]) +
                                                             reglen * FRAC_NUM(glcopy.yoffset[j]) / FRAC_DEN(glcopy.yoffset[j]);
                                     }
                             }
-
+                            /*TODO*if ((Machine.gfx[i] = decodegfx(new CharPtr(memory_region(drv.gfxdecodeinfo[i].memory_region), drv.gfxdecodeinfo[i].start), glcopy)) == null)
+                   
    /*TODO*/ //                          if ((Machine.gfx[i] = decodegfx(memory_region(drv.gfxdecodeinfo[i].memory_region)
   /*TODO*/ //                                           + drv.gfxdecodeinfo[i].start,
   /*TODO*/ //                                           &glcopy)) == 0)
@@ -348,9 +349,9 @@ public class mame {
    /*TODO*/ //                                  vh_close();
    /*TODO*/ //                                  return 1;
    /*TODO*/ //                          }
- /*TODO*/ //                           if (Machine.remapped_colortable)
-/*TODO*/ //                                    Machine.gfx[i].colortable = &Machine.remapped_colortable[drv.gfxdecodeinfo[i].color_codes_start];
-/*TODO*/ //                            Machine.gfx[i].total_colors = drv.gfxdecodeinfo[i].total_color_codes;
+                           if (Machine.remapped_colortable!=null)
+                                   Machine.gfx[i].colortable = new CharPtr(Machine.remapped_colortable, drv.gfxdecodeinfo[i].color_codes_start);
+    /*TODO*/ //                         Machine.gfx[i].total_colors = drv.gfxdecodeinfo[i].total_color_codes;
                     }
             }
 

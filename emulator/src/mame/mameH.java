@@ -43,9 +43,9 @@ public class mameH {
                                                             /* use this array to get the pen number. For example, */
                                                             /* if you want to use color #6 in the palette, use */
                                                             /* pens[6] instead of just 6. */
-  /*TODO*/ //                public unsigned short *game_colortable;	/* lookup table used to map gfx pen numbers */
+                public char[] game_colortable;// public unsigned short *game_colortable;	/* lookup table used to map gfx pen numbers */
                                                                                         /* to color numbers */
-  /*TODO*/ //                public unsigned short *remapped_colortable;	/* the above, already remapped through */
+                public char[] remapped_colortable; //public unsigned short *remapped_colortable;	/* the above, already remapped through */
                                                                                                 /* Machine->pens */
                 public GameDriver gamedrv;	/* contains the definition of the game machine */
                 public MachineDriver drv;	/* same as gamedrv->drv */
@@ -61,7 +61,7 @@ public class mameH {
                                                                         /* remove cheat commands, and so on) */
                 public InputPort[] input_ports_default; /* original input_ports without modifications */
                 public int orientation;	/* see #defines in driver.h */
-   /*TODO*/ //               public GfxElement uifont;	/* font used by DisplayText() */
+                public GfxElement uifont;	/* font used by DisplayText() */
                 public int uifontwidth,uifontheight;
                 public int uixmin,uiymin;
                 public int uiwidth,uiheight;
