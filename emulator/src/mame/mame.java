@@ -218,18 +218,6 @@ public class mame {
             if(gamedrv.driver_init!=null) gamedrv.driver_init.handler();
 
             return 0;
-
-
-// the following are implemented, look at return out_free()
-/*TODO*/ //    out_free:
-/*TODO*/ //            input_port_free(Machine.input_ports);
-/*TODO*/ //            Machine.input_ports = 0;
-/*TODO*/ //            input_port_free(Machine.input_ports_default);
-/*TODO*/ //            Machine.input_ports_default = 0;
-/*TODO*/ //    out_code:
-/*TODO*/ //            code_close();
-/*TODO*/ //    out:
-/*TODO*/ //            return 1;
     }
 
     static int out_free() {

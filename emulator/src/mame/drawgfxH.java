@@ -37,14 +37,14 @@ public class drawgfxH {
 				/* (for example, 4 for 2 bitplanes gfx) */
         public CharPtr colortable;	/* map color codes to screen pens */								/* if this is 0, the function does a verbatim copy */
 	public int total_colors;
-/*TODO*///	unsigned int *pen_usage;	/* an array of total_elements ints. */
-/*TODO*///								/* It is a table of the pens each character uses */
-/*TODO*///								/* (bit 0 = pen 0, and so on). This is used by */
-/*TODO*///								/* drawgfgx() to do optimizations like skipping */
-/*TODO*///								/* drawing of a totally transparent characters */
-/*TODO*///	unsigned char *gfxdata;	/* pixel data */
-/*TODO*///	int line_modulo;	/* amount to add to get to the next line (usually = width) */
-/*TODO*///	int char_modulo;	/* = line_modulo * height */
+	public int[] pen_usage;//unsigned int *pen_usage;	/* an array of total_elements ints. */
+								/* It is a table of the pens each character uses */
+								/* (bit 0 = pen 0, and so on). This is used by */
+								/* drawgfgx() to do optimizations like skipping */
+								/* drawing of a totally transparent characters */
+	public char[] gfxdata; //unsigned char *gfxdata;	/* pixel data */
+	int line_modulo;	/* amount to add to get to the next line (usually = width) */
+	int char_modulo;	/* = line_modulo * height */
     };
     public static class GfxDecodeInfo
     {

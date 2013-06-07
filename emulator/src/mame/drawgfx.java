@@ -35,121 +35,108 @@ public class drawgfx {
     public static void decodechar(GfxElement gfx, int num, CharPtr src, GfxLayout gl) 
     {
 	int plane,x,y;
-	char dp[];
+	CharPtr dp;
 	int offs;
 
 	offs = num * gl.charincrement;
         
-        throw new UnsupportedOperationException("Unsupported decodechar");
-/*TODO*///	dp = gfx->gfxdata + num * gfx->char_modulo;
-/*TODO*///	for (y = 0;y < gfx->height;y++)
-/*TODO*///	{
-/*TODO*///		int yoffs;
-/*TODO*///
-/*TODO*///		yoffs = y;
-/*TODO*///		for (x = 0;x < gfx->width;x++)
-/*TODO*///		{
-/*TODO*///			int xoffs;
-/*TODO*///
-/*TODO*///			xoffs = x;
-/*TODO*///
-/*TODO*///			dp[x] = 0;
-/*TODO*///			if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///			{
-/*TODO*///				for (plane = 0;plane < gl->planes;plane++)
-/*TODO*///				{
-/*TODO*///					if (readbit(src,offs + gl->planeoffset[plane] + gl->yoffset[xoffs] + gl->xoffset[yoffs]))
-/*TODO*///						dp[x] |= (1 << (gl->planes-1-plane));
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				for (plane = 0;plane < gl->planes;plane++)
-/*TODO*///				{
-/*TODO*///					if (readbit(src,offs + gl->planeoffset[plane] + gl->yoffset[yoffs] + gl->xoffset[xoffs]))
-/*TODO*///						dp[x] |= (1 << (gl->planes-1-plane));
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		dp += gfx->line_modulo;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (gfx->pen_usage)
-/*TODO*///	{
-/*TODO*///		/* fill the pen_usage array with info on the used pens */
-/*TODO*///		gfx->pen_usage[num] = 0;
-/*TODO*///
-/*TODO*///		dp = gfx->gfxdata + num * gfx->char_modulo;
-/*TODO*///		for (y = 0;y < gfx->height;y++)
-/*TODO*///		{
-/*TODO*///			for (x = 0;x < gfx->width;x++)
-/*TODO*///			{
-/*TODO*///				gfx->pen_usage[num] |= 1 << dp[x];
-/*TODO*///			}
-/*TODO*///			dp += gfx->line_modulo;
-/*TODO*///		}
-/*TODO*///	}
+        dp = new CharPtr(gfx.gfxdata, (num * gfx.char_modulo));
+	for (y = 0;y < gfx.height;y++)
+	{
+		int yoffs;
+
+		yoffs = y;
+		for (x = 0;x < gfx.width;x++)
+		{
+			int xoffs;
+
+			xoffs = x;
+
+			dp.write(x, 0);//dp[x] = 0;
+			if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+			{
+				for (plane = 0;plane < gl.planes;plane++)
+				{
+					if ((readbit(src,offs + gl.planeoffset[plane] + gl.yoffset[xoffs] + gl.xoffset[yoffs]))!=0)
+/*tobechecked*/					dp.or((1 << (gl.planes-1-plane)));//dp[x] |= (1 << (gl.planes-1-plane));
+				}
+			}
+			else
+			{
+				for (plane = 0;plane < gl.planes;plane++)
+				{
+					if ((readbit(src,offs + gl.planeoffset[plane] + gl.yoffset[yoffs] + gl.xoffset[xoffs]))!=0)
+/*tobechecked*/					dp.or((1 << (gl.planes-1-plane)));//dp[x] |= (1 << (gl.planes-1-plane));
+				}
+			}
+		}
+		dp.inc(gfx.line_modulo);  //dp += gfx.line_modulo;
+	}
+
+
+	if (gfx.pen_usage!=null)
+	{
+		/* fill the pen_usage array with info on the used pens */
+		gfx.pen_usage[num] = 0;
+
+                dp = new CharPtr(gfx.gfxdata, (num * gfx.char_modulo));
+		for (y = 0;y < gfx.height;y++)
+		{
+			for (x = 0;x < gfx.width;x++)
+			{
+				gfx.pen_usage[num] |= 1 << dp.read(x);
+			}
+			dp.inc(gfx.line_modulo);// dp+= gfx->line_modulo;
+		}
+	}
     }
-/*TODO*///
-/*TODO*///
-/*TODO*///struct GfxElement *decodegfx(const unsigned char *src,const struct GfxLayout *gl)
-/*TODO*///{
-/*TODO*///	int c;
-/*TODO*///	struct GfxElement *gfx;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if ((gfx = malloc(sizeof(struct GfxElement))) == 0)
-/*TODO*///		return 0;
-/*TODO*///	memset(gfx,0,sizeof(struct GfxElement));
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		gfx->width = gl->height;
-/*TODO*///		gfx->height = gl->width;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		gfx->width = gl->width;
-/*TODO*///		gfx->height = gl->height;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	gfx->line_modulo = gfx->width;
-/*TODO*///	gfx->char_modulo = gfx->line_modulo * gfx->height;
-/*TODO*///	if ((gfx->gfxdata = malloc(gl->total * gfx->char_modulo * sizeof(unsigned char))) == 0)
-/*TODO*///	{
-/*TODO*///		free(gfx);
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	gfx->total_elements = gl->total;
-/*TODO*///	gfx->color_granularity = 1 << gl->planes;
-/*TODO*///
-/*TODO*///	gfx->pen_usage = 0; /* need to make sure this is NULL if the next test fails) */
-/*TODO*///	if (gfx->color_granularity <= 32)	/* can't handle more than 32 pens */
-/*TODO*///		gfx->pen_usage = malloc(gfx->total_elements * sizeof(int));
-/*TODO*///		/* no need to check for failure, the code can work without pen_usage */
-/*TODO*///
-/*TODO*///	for (c = 0;c < gl->total;c++)
-/*TODO*///		decodechar(gfx,c,src,gl);
-/*TODO*///
-/*TODO*///	return gfx;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void freegfx(struct GfxElement *gfx)
-/*TODO*///{
-/*TODO*///	if (gfx)
-/*TODO*///	{
-/*TODO*///		free(gfx->pen_usage);
-/*TODO*///		free(gfx->gfxdata);
-/*TODO*///		free(gfx);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
+    public static GfxElement decodegfx(CharPtr src, GfxLayout gl) 
+    {
+	int c;
+	GfxElement gfx;
+
+        if ((gfx = new GfxElement()) == null)
+		return null;
+
+	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+	{
+		gfx.width = gl.height;
+		gfx.height = gl.width;
+	}
+	else
+	{
+		gfx.width = gl.width;
+		gfx.height = gl.height;
+	}
+
+	gfx.line_modulo = gfx.width;
+	gfx.char_modulo = gfx.line_modulo * gfx.height;
+	if ((gfx.gfxdata = new char[gl.total * gfx.char_modulo]) == null)
+	{
+		gfx=null;
+		return null;
+	}
+
+	gfx.total_elements = gl.total;
+	gfx.color_granularity = 1 << gl.planes;
+
+	gfx.pen_usage = null; /* need to make sure this is NULL if the next test fails) */
+	if (gfx.color_granularity <= 32)	/* can't handle more than 32 pens */
+		gfx.pen_usage = new int[gfx.total_elements];
+		/* no need to check for failure, the code can work without pen_usage */
+
+	for (c = 0;c < gl.total;c++)
+		decodechar(gfx,c,src,gl);
+
+	return gfx;
+    }
+    public static void freegfx(GfxElement gfx) {
+        if (gfx != null) {
+            gfx.pen_usage=null;
+            gfx.gfxdata = null;
+            gfx = null;
+        }
+    }
 /*TODO*///INLINE void blockmove_transpen_noremap8(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		UINT8 *dstdata,int dstmodulo,
