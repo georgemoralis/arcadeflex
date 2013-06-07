@@ -647,8 +647,8 @@ public class cpuintrf {
     /*TODO*///  machine will be reset.
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///void watchdog_reset_w(int offset,int data)
-    /*TODO*///{
+    public static WriteHandlerPtr watchdog_reset_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
     /*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
     /*TODO*///}
     /*TODO*///
@@ -656,7 +656,7 @@ public class cpuintrf {
     /*TODO*///{
     /*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
     /*TODO*///	return 0;
-    /*TODO*///}
+    }};
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -1093,19 +1093,19 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///void interrupt_enable_w(int offset,int data)
-    /*TODO*///{
+    public static WriteHandlerPtr interrupt_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        throw new UnsupportedOperationException("Unsupported interrupt_enable_w");
+    
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
     /*TODO*///	interrupt_enable[cpunum] = data;
     /*TODO*///
     /*TODO*///	/* make sure there are no queued interrupts */
     /*TODO*///	if (data == 0) cpu_clear_pending_interrupts(cpunum);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void interrupt_vector_w(int offset,int data)
-    /*TODO*///{
+    }};
+    public static WriteHandlerPtr interrupt_vector_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        throw new UnsupportedOperationException("Unsupported interrupt_vector_w");
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
     /*TODO*///	if (interrupt_vector[cpunum] != data)
     /*TODO*///	{
@@ -1114,7 +1114,7 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///		/* make sure there are no queued interrupts */
     /*TODO*///		cpu_clear_pending_interrupts(cpunum);
-    /*TODO*///	}
+    }};
     /*TODO*///}
     /*TODO*///
     /*TODO*///

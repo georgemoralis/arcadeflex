@@ -719,8 +719,9 @@ public class common {
 
 
     /* LBO 042898 - added coin counters */
-/*TODO*/ //    void coin_counter_w (int offset, int data)
-/*TODO*/ //    {
+    public static WriteHandlerPtr coin_counter_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        throw new UnsupportedOperationException("Unsupported coin_counter_w");
 /*TODO*/ //            if (offset >= COIN_COUNTERS) return;
 /*TODO*/ //            /* Count it only if the data has changed from 0 to non-zero */
 /*TODO*/ //            if (data && (lastcoin[offset] == 0))
@@ -728,7 +729,7 @@ public class common {
 /*TODO*/ //                    coins[offset] ++;
 /*TODO*/ //            }
 /*TODO*/ //            lastcoin[offset] = data;
-/*TODO*/ //    }
+    }};
 /*TODO*/ //
 /*TODO*/ //    void coin_lockout_w (int offset, int data)
 /*TODO*/ //    {

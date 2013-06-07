@@ -15,6 +15,15 @@ public class namcoH {
             region=re;
             stereo=st;
         }
+        //without stereo value
+        public namco_interface(int sr,int v,int vol,int re)
+        {
+            samplerate=sr;
+            voices=v;
+            volume=vol;
+            region=re;
+            stereo=0;//no stereo
+        }     
         public int samplerate;	/* sample rate */
         public int voices;		/* number of voices */
         public int volume;		/* playback volume */
