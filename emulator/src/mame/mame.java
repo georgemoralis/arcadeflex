@@ -198,7 +198,7 @@ public class mame {
 
             if (readroms() != 0)
             {
-/*?DONE? goto out_free; */ return out_free();               
+                 return out_free();               
             }
 
 
@@ -212,11 +212,10 @@ public class mame {
             /* load input ports settings (keys, dip switches, and so on) */
 /*TODO*/ //            settingsloaded = load_input_port_settings();
 
-/*?DONE?*/                    if( memory_init()==1 )
-/*?DONE? goto out_free; */ return out_free();          
+            if( memory_init()==1 )
+                return out_free();          
                     
-
- /*TODO*/ //           if (gamedrv.driver_init) (*gamedrv.driver_init)();
+            if(gamedrv.driver_init!=null) gamedrv.driver_init.handler();
 
             return 0;
 

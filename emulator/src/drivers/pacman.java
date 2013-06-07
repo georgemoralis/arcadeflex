@@ -2147,8 +2147,8 @@ public class pacman {
     /*TODO*///}
     /*TODO*///
     /*TODO*////*          rom       parent    machine   inp       init */
-    public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  ,"pacman.java", rom_pacman  , null        , machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 1)" );
-    /*TODO*///GAME( 1980, pacmanjp, pacman,   pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (Japan set 2)" )
+    public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  ,"pacman.java", rom_pacman, null         , machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 1)" );
+    public static GameDriver driver_pacmanjp = new GameDriver("1980","pacmanjp","pacman.java", rom_pacman, driver_pacman, machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 2)" );
     /*TODO*///GAME( 1980, pacmanm,  pacman,   pacman,   pacman,   0,        ROT90,  "[Namco] (Midway license)", "Pac-Man (Midway)" )
     /*TODO*///GAME( 1981, npacmod,  pacman,   pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (harder?)" )
     /*TODO*///GAME( 1981, pacmod,   pacman,   pacman,   pacman,   0,        ROT90,  "[Namco] (Midway license)", "Pac-Man (Midway, harder)" )
