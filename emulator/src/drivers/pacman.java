@@ -177,7 +177,7 @@ public class pacman {
     /*TODO*///};
     /*TODO*///
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( pacman )
+    static InputPortPtr input_ports_pacman = new InputPortPtr(){ public void handler() {
     /*TODO*///	PORT_START	/* IN0 */
     /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
     /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
@@ -235,7 +235,7 @@ public class pacman {
     /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
     /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( On ) )
     /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+    }};
     /*TODO*////* Ms. Pac-Man input ports are identical to Pac-Man, the only difference is */
     /*TODO*////* the missing Ghost Names dip switch. */
     /*TODO*///INPUT_PORTS_START( mspacman )
@@ -1056,20 +1056,6 @@ public class pacman {
 		}
 	);
 
-
-    /*TODO*///	pacman_vh_start,
-    /*TODO*///	generic_vh_stop,
-    /*TODO*///	pengo_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_NAMCO,
-    /*TODO*///			&namco_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
     /*TODO*///
     /*TODO*///static struct MachineDriver machine_driver_theglob =
     /*TODO*///{
@@ -2161,7 +2147,7 @@ public class pacman {
     /*TODO*///}
     /*TODO*///
     /*TODO*////*          rom       parent    machine   inp       init */
-    /*TODO*///GAME( 1980, pacman,   0,        pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (Japan set 1)" )
+    public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  ,"pacman.java", rom_pacman  , null        , machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 1)" );
     /*TODO*///GAME( 1980, pacmanjp, pacman,   pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (Japan set 2)" )
     /*TODO*///GAME( 1980, pacmanm,  pacman,   pacman,   pacman,   0,        ROT90,  "[Namco] (Midway license)", "Pac-Man (Midway)" )
     /*TODO*///GAME( 1981, npacmod,  pacman,   pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (harder?)" )

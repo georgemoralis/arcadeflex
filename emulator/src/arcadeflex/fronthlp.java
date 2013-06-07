@@ -599,7 +599,7 @@ public class fronthlp {
 					printf("%-8s ",drivers[i].name);
 
 					/* source file (skip the leading "src/drivers/" */
-					printf("%-10s ",drivers[i].source_file);
+					printf("%-12s ",drivers[i].source_file);
 
 					/* Then, cpus */
 

@@ -20,12 +20,13 @@ import static mame.driverH.*;
 
 //drivers imports
 import static drivers.mario.*;
+import static drivers.pacman.*;
 
 public class driver {
     public static GameDriver drivers[] =
     {
-        	/* "Pacman hardware" games */
-/*TODO*/ //	DRIVER( pacman )	/* (c) 1980 Namco */
+        /* "Pacman hardware" games */
+        driver_pacman,/* (c) 1980 Namco */
 /*TODO*/ //	DRIVER( pacmanjp )	/* (c) 1980 Namco */
 /*TODO*/ //	DRIVER( pacmanm )	/* (c) 1980 Midway */
 /*TODO*/ //	DRIVER( npacmod )	/* (c) 1981 Namco */
