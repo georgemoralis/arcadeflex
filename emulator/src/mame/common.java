@@ -650,23 +650,23 @@ public class common {
 /*TODO*/ //            return 0;
 /*TODO*/ //    }
 
-/*TODO*/ //    int memory_region_length(int num)
-/*TODO*/ //    {
-/*TODO*/ //            int i;
+    public static int memory_region_length(int num)
+    {
+            int i;
 
-/*TODO*/ //            if (num < MAX_MEMORY_REGIONS)
-/*TODO*/ //                    return Machine.memory_region_length[num];
-/*TODO*/ //            else
-/*TODO*/ //            {
-/*TODO*/ //                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-/*TODO*/ //                    {
-/*TODO*/ //                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-/*TODO*/ //                                    return Machine.memory_region_length[i];
-/*TODO*/ //                    }
-/*TODO*/ //            }
+            if (num < MAX_MEMORY_REGIONS)
+                    return Machine.memory_region_length[num];
+            else
+            {
+                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+                    {
+                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
+                                    return Machine.memory_region_length[i];
+                    }
+            }
 
-/*TODO*/ //            return 0;
-/*TODO*/ //    }
+            return 0;
+    }
 
 /*TODO*/ //    int new_memory_region(int num, int length)
 /*TODO*/ //    {

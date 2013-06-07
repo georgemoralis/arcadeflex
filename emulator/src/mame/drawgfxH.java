@@ -5,18 +5,18 @@ import static arcadeflex.libc.*;
 import static mame.osdependH.*;
 
 public class drawgfxH {
-/*TODO*///#define MAX_GFX_PLANES 8
-/*TODO*///#define MAX_GFX_SIZE 64
-/*TODO*///
+    public static final int MAX_GFX_PLANES =8;
+    public static final int MAX_GFX_SIZE =64;
+
 /*TODO*///#define RGN_FRAC(num,den) (0x80000000 | (((num) & 0x0f) << 27) | (((den) & 0x0f) << 23))
-/*TODO*///#define IS_FRAC(offset) ((offset) & 0x80000000)
-/*TODO*///#define FRAC_NUM(offset) (((offset) >> 27) & 0x0f)
-/*TODO*///#define FRAC_DEN(offset) (((offset) >> 23) & 0x0f)
-/*TODO*///#define FRAC_OFFSET(offset) ((offset) & 0x007fffff)
-/*TODO*///
-/*TODO*///
+    public static int IS_FRAC(int offset) { return ((offset) & 0x80000000); }
+    public static int FRAC_NUM(int offset){ return (((offset) >> 27) & 0x0f); }
+    public static int FRAC_DEN(int offset){ return (((offset) >> 23) & 0x0f); }
+    public static int FRAC_OFFSET(int offset) { return ((offset) & 0x007fffff); }
+
     public static class GfxLayout
     {
+        public GfxLayout(){}
 	public GfxLayout(int w, int h, int t, int p, int po[], int x[], int y[], int ci) { width = w; height = h; total = t; planes = p; planeoffset = po; xoffset = x; yoffset = y; charincrement = ci; };
 	/*UNINT16*/public int width,height;	/* width and height of chars/sprites */
 	/*UNINT32*/public int total;	/* total numer of chars/sprites in the rom */
@@ -73,27 +73,16 @@ public class drawgfxH {
     public static final int TRANSPARENCY_COLOR     = 2;
     public static final int TRANSPARENCY_THROUGH   = 3;
     public static final int TRANSPARENCY_PEN_TABLE = 5;
-/*TODO*///
-/*TODO*////* drawing mode case TRANSPARENCY_PEN_TABLE */
-/*TODO*///extern UINT8 gfx_drawmode_table[256];
-/*TODO*///#define DRAWMODE_NONE		0
-/*TODO*///#define DRAWMODE_SOURCE		1
-/*TODO*///#define DRAWMODE_SHADOW		2
-/*TODO*///#define DRAWMODE_HIGHLIGHT	3
-/*TODO*///
-/*TODO*///
-/*TODO*///typedef void (*plot_pixel_proc)(struct osd_bitmap *bitmap,int x,int y,int pen);
-/*TODO*///typedef int  (*read_pixel_proc)(struct osd_bitmap *bitmap,int x,int y);
-/*TODO*///
+
+    /* drawing mode case TRANSPARENCY_PEN_TABLE */
+    public static final int DRAWMODE_NONE	=	0;
+    public static final int DRAWMODE_SOURCE	=	1;
+    public static final int DRAWMODE_SHADOW	=	2;
+    public static final int DRAWMODE_HIGHLIGHT	=       3;
+
+
     public static abstract interface plot_pixel_procPtr { public abstract void handler(osd_bitmap bitmap,int x,int y,int pen); }
     public static abstract interface read_pixel_procPtr { public abstract int handler(osd_bitmap bitmap,int x,int y); }
 
- /*TODO*////* pointers to pixel functions.  They're set based on orientation, depthness and weather
-/*TODO*///   dirty rectangle handling is enabled */
-/*TODO*///extern plot_pixel_proc plot_pixel;
-/*TODO*///extern read_pixel_proc read_pixel;
-/*TODO*///
-/*TODO*///
-/*TODO*///void decodechar(struct GfxElement *gfx,int num,const unsigned char *src,const struct GfxLayout *gl);
-/*TODO*///struct GfxElement *decodegfx(const unsigned char *src,const struct GfxLayout *gl);
+
 }

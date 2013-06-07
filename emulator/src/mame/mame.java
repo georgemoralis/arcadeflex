@@ -31,6 +31,7 @@ import static arcadeflex.osdepend.*;
 import static mame.common.*;
 import static mame.drawgfx.*;
 import static mame.cpuintrf.*;
+import static mame.drawgfxH.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -212,7 +213,7 @@ public class mame {
             /* load input ports settings (keys, dip switches, and so on) */
 /*TODO*/ //            settingsloaded = load_input_port_settings();
 
-            if( memory_init()==1 )
+            if( memory_init()==0 )
                 return out_free();          
                     
             if(gamedrv.driver_init!=null) gamedrv.driver_init.handler();
@@ -292,7 +293,7 @@ public class mame {
             int i;
 
 
- /*TODO*/ //           for (i = 0;i < MAX_GFX_ELEMENTS;i++) Machine.gfx[i] = 0;
+           for (i = 0;i < MAX_GFX_ELEMENTS;i++) Machine.gfx[i] = null;
  /*TODO*/ //           Machine.uifont = 0;
 
  /*TODO*/ //           if (palette_start() != 0)
@@ -305,53 +306,53 @@ public class mame {
             /* convert the gfx ROMs into character sets. This is done BEFORE calling the driver's */
             /* convert_color_prom() routine (in palette_init()) because it might need to check the */
             /* Machine.gfx[] data */
-/*TODO*/ //            if (drv.gfxdecodeinfo)
- /*TODO*/ //           {
-/*TODO*/ //                    for (i = 0;i < MAX_GFX_ELEMENTS && drv.gfxdecodeinfo[i].memory_region != -1;i++)
-/*TODO*/ //                    {
-/*TODO*/ //                            int reglen = 8*memory_region_length(drv.gfxdecodeinfo[i].memory_region);
-/*TODO*/ //                            struct GfxLayout glcopy;
-/*TODO*/ //                            int j;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //                            memcpy(&glcopy,drv.gfxdecodeinfo[i].gfxlayout,sizeof(glcopy));
+            if (drv.gfxdecodeinfo!=null)
+            {
+                    for (i = 0; i < drv.gfxdecodeinfo.length && i < MAX_GFX_ELEMENTS && drv.gfxdecodeinfo[i].memory_region != -1; i++)
+                    {
+                            int reglen = 8*memory_region_length(drv.gfxdecodeinfo[i].memory_region);
+                            GfxLayout glcopy=new GfxLayout();
+                            int j;
 
-/*TODO*/ //                            if (IS_FRAC(glcopy.total))
-/*TODO*/ //                                    glcopy.total = reglen / glcopy.charincrement * FRAC_NUM(glcopy.total) / FRAC_DEN(glcopy.total);
-/*TODO*/ //                            for (j = 0;j < MAX_GFX_PLANES;j++)
-/*TODO*/ //                            {
-/*TODO*/ //                                    if (IS_FRAC(glcopy.planeoffset[j]))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            glcopy.planeoffset[j] = FRAC_OFFSET(glcopy.planeoffset[j]) +
-/*TODO*/ //                                                            reglen * FRAC_NUM(glcopy.planeoffset[j]) / FRAC_DEN(glcopy.planeoffset[j]);
-/*TODO*/ //                                    }
-/*TODO*/ //                            }
-/*TODO*/ //                            for (j = 0;j < MAX_GFX_SIZE;j++)
-/*TODO*/ //                            {
-/*TODO*/ //                                    if (IS_FRAC(glcopy.xoffset[j]))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            glcopy.xoffset[j] = FRAC_OFFSET(glcopy.xoffset[j]) +
-/*TODO*/ //                                                            reglen * FRAC_NUM(glcopy.xoffset[j]) / FRAC_DEN(glcopy.xoffset[j]);
-/*TODO*/ //                                    }
-/*TODO*/ //                                    if (IS_FRAC(glcopy.yoffset[j]))
-/*TODO*/ //                                    {
-/*TODO*/ //                                            glcopy.yoffset[j] = FRAC_OFFSET(glcopy.yoffset[j]) +
- /*TODO*/ //                                                           reglen * FRAC_NUM(glcopy.yoffset[j]) / FRAC_DEN(glcopy.yoffset[j]);
-/*TODO*/ //                                    }
-/*TODO*/ //                            }
-/*TODO*/ //
-/*TODO*/ //                            if ((Machine.gfx[i] = decodegfx(memory_region(drv.gfxdecodeinfo[i].memory_region)
-/*TODO*/ //                                            + drv.gfxdecodeinfo[i].start,
-/*TODO*/ //                                            &glcopy)) == 0)
-/*TODO*/ //                            {
-/*TODO*/ //                                    vh_close();
-/*TODO*/ //                                    return 1;
-/*TODO*/ //                            }
-/*TODO*/ //                            if (Machine.remapped_colortable)
+
+                            glcopy = drv.gfxdecodeinfo[i].gfxlayout;//memcpy(&glcopy,drv.gfxdecodeinfo[i].gfxlayout,sizeof(glcopy));
+
+                            if ((IS_FRAC(glcopy.total))!=0)
+                                    glcopy.total = reglen / glcopy.charincrement * FRAC_NUM(glcopy.total) / FRAC_DEN(glcopy.total);
+                               for (j = 0; j < glcopy.planeoffset.length && j < MAX_GFX_PLANES; j++)
+                               {    
+                                    if ((IS_FRAC(glcopy.planeoffset[j]))!=0)
+                                   {
+                                            glcopy.planeoffset[j] = FRAC_OFFSET(glcopy.planeoffset[j]) +
+                                                            reglen * FRAC_NUM(glcopy.planeoffset[j]) / FRAC_DEN(glcopy.planeoffset[j]);
+                                    }
+                               }
+                            for (j = 0;j < MAX_GFX_SIZE;j++)
+                            {
+                                    if (j < glcopy.xoffset.length && (IS_FRAC(glcopy.xoffset[j])!=0))
+                                    {
+                                            glcopy.xoffset[j] = FRAC_OFFSET(glcopy.xoffset[j]) +
+                                                            reglen * FRAC_NUM(glcopy.xoffset[j]) / FRAC_DEN(glcopy.xoffset[j]);
+                                    }
+                                    if (j < glcopy.yoffset.length && (IS_FRAC(glcopy.yoffset[j]))!=0)
+                                    {
+                                            glcopy.yoffset[j] = FRAC_OFFSET(glcopy.yoffset[j]) +
+                                                            reglen * FRAC_NUM(glcopy.yoffset[j]) / FRAC_DEN(glcopy.yoffset[j]);
+                                    }
+                            }
+
+   /*TODO*/ //                          if ((Machine.gfx[i] = decodegfx(memory_region(drv.gfxdecodeinfo[i].memory_region)
+  /*TODO*/ //                                           + drv.gfxdecodeinfo[i].start,
+  /*TODO*/ //                                           &glcopy)) == 0)
+  /*TODO*/ //                           {
+   /*TODO*/ //                                  vh_close();
+   /*TODO*/ //                                  return 1;
+   /*TODO*/ //                          }
+ /*TODO*/ //                           if (Machine.remapped_colortable)
 /*TODO*/ //                                    Machine.gfx[i].colortable = &Machine.remapped_colortable[drv.gfxdecodeinfo[i].color_codes_start];
 /*TODO*/ //                            Machine.gfx[i].total_colors = drv.gfxdecodeinfo[i].total_color_codes;
-/*TODO*/ //                    }
-/*TODO*/ //            }
+                    }
+            }
 
 
             /* create the display bitmap, and allocate the palette */
@@ -454,8 +455,8 @@ public class mame {
             int res = 1;
 
 
-/*TODO*/ //            if (vh_open() == 0)
-/*TODO*/ //            {
+            if (vh_open() == 0)
+            {
 /*TODO*/ //                    tilemap_init();
 /*TODO*/ //                    sprite_init();
 /*TODO*/ //                    gfxobj_init();
@@ -532,7 +533,7 @@ public class mame {
 
                                             /* save input ports settings */
 /*TODO*/ //                                            save_input_port_settings();
-/*TODO*/ //                                    }
+                                    }
 
 /*TODO*/ //    userquit:
                                     /* the following MUST be done after hiscore_save() otherwise */
