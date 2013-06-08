@@ -1,7 +1,7 @@
 
 package mame;
 
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static mame.osdependH.*;
 
 public class drawgfxH {

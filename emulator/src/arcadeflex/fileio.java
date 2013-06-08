@@ -1,6 +1,6 @@
 package arcadeflex;
 
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

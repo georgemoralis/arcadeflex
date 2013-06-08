@@ -16,7 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package arcadeflex;
 
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import arcadeflex.settings;
 import static mame.version.*;
 import static mame.driver.*;

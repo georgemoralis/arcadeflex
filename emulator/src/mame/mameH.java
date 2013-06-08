@@ -18,7 +18,7 @@ package mame;
 
 import static mame.driverH.*;
 import static mame.osdependH.*;
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
 /**
  *

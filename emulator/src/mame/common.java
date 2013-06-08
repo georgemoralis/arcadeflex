@@ -5,7 +5,7 @@
  */
 package mame;
 
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static mame.commonH.*;
 import static mame.mame.*;
 import static mame.mameH.*;

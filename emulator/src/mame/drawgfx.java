@@ -1,6 +1,6 @@
 
 package mame;
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static mame.osdependH.*;
 import static mame.drawgfxH.*;
 import static mame.mame.*;

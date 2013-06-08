@@ -1,7 +1,7 @@
 //copied with TODOS from original src
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static arcadeflex.osdepend.*;
 import static mame.osdependH.*;
 import static mame.driverH.*;

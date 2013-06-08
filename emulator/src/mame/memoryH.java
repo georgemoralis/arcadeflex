@@ -1,9 +1,10 @@
 
 package mame;
 
-import arcadeflex.libc.CharPtr;
+import arcadeflex.libc_old.CharPtr;
 import mame.driverH.ReadHandlerPtr;
 import mame.driverH.WriteHandlerPtr;
+import arcadeflex.libc.*;
 
 /**
  *
@@ -107,5 +108,9 @@ public static final int ABITS_MIN_16LEW	=1;			/* minimum memory block is 2 bytes
 public static final int ABITS1_16BEW	=12;
 public static final int ABITS2_16BEW	=3;
 public static final int ABITS_MIN_16BEW	=1;			/* minimum memory block is 2 bytes */        
-        
+public static final int MAX_EXT_MEMORY = 64;        
+public static class ExtMemory{
+            int start, end,region;
+            UBytePtr data;
+        }
 }

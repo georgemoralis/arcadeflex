@@ -11,7 +11,7 @@
 
 ***************************************************************************/
 package sound;
-import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import mame.sndintrf;
 import mame.sndintrfH;
 import static mame.sndintrfH.*;

@@ -10,19 +10,24 @@ package mame;
  */
 import static mame.driverH.*;
 import static arcadeflex.osdepend.*;
+import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
+import static mame.memoryH.*;
+import static mame.mame.*;
+import static mame.cpuintrf.*;
+import static mame.common.*;
+import static mame.commonH.*;
 
 public class memory {
 
-/*TODO*/ ///***************************************************************************
+    /*TODO*/ ///***************************************************************************
 /*TODO*/ //
 /*TODO*/ //  memory.c
 /*TODO*/ //
 /*TODO*/ //  Functions which handle the CPU memory and I/O port access.
 /*TODO*/ //
 /*TODO*/ //***************************************************************************/
-
-
-/*TODO*/ //
+    /*TODO*/ //
 /*TODO*/ ///* #define MEM_DUMP */
 /*TODO*/ //
 /*TODO*/ //#ifdef MEM_DUMP
@@ -44,18 +49,18 @@ public class memory {
 /*TODO*/ //	#define BYTE_XOR_LE(a) ((a) ^ 1)
 /*TODO*/ //#endif
 /*TODO*/ //
-public static char[] OP_RAM;
-public static char[] OP_ROM;
-/*TODO*/ //
+    public static UBytePtr OP_RAM = new UBytePtr();
+    public static UBytePtr OP_ROM = new UBytePtr();
+    /*TODO*/ //
 /*TODO*/ ///* change bases preserving opcode/data shift for encrypted games */
 /*TODO*/ //#define SET_OP_RAMROM(base)					\
 /*TODO*/ //	OP_ROM = (base) + (OP_ROM - OP_RAM);	\
 /*TODO*/ //	OP_RAM = (base);
 /*TODO*/ //
 /*TODO*/ //
-/*TODO*/ //MHELE ophw;				/* op-code hardware number */
-/*TODO*/ //
-/*TODO*/ //struct ExtMemory ext_memory[MAX_EXT_MEMORY];
+    public static UByte ophw = new UByte();				/* op-code hardware number */
+    /*TODO*/ //
+    public static ExtMemory[] ext_memory = new ExtMemory[MAX_EXT_MEMORY];
 /*TODO*/ //
 /*TODO*/ //static unsigned char *ramptr[MAX_CPU],*romptr[MAX_CPU];
 /*TODO*/ //
@@ -75,9 +80,10 @@ public static char[] OP_ROM;
 /*TODO*/ //int cur_portmask;
 /*TODO*/ //
 /*TODO*/ ///* current hardware element map */
-/*TODO*/ //static MHELE *cur_mr_element[MAX_CPU];
-/*TODO*/ //static MHELE *cur_mw_element[MAX_CPU];
-/*TODO*/ //
+
+    static UByte[][] cur_mr_element = new UByte[MAX_CPU][];
+    static UByte[][] cur_mw_element = new UByte[MAX_CPU][];
+    /*TODO*/ //
 /*TODO*/ ///* sub memory/port hardware element map */
 /*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
 /*TODO*/ //MHELE readhardware[MH_ELEMAX << MH_SBITS];	/* mem/port read  */
@@ -107,8 +113,8 @@ public static char[] OP_ROM;
 /*TODO*/ //#define HT_RAMROM 19	/* RAM ROM memory    */
 /*TODO*/ //#define HT_ROM    20	/* ROM memory        */
 /*TODO*/ //
-/*TODO*/ //#define HT_USER   21	/* user functions    */
-/*TODO*/ ///* [MH_HARDMAX]-0xff	  link to sub memory element  */
+    static final int HT_USER = 21;	/* user functions    */
+    /*TODO*/ ///* [MH_HARDMAX]-0xff	  link to sub memory element  */
 /*TODO*/ ///*                        (value-MH_HARDMAX)<<MH_SBITS -> element bank */
 /*TODO*/ //
 /*TODO*/ //#define HT_BANKMAX (HT_BANK1 + MAX_BANKS - 1)
@@ -359,74 +365,85 @@ public static char[] OP_ROM;
 /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ ///* ASG 980121 -- allocate all the external memory */
-/*TODO*/ //static int memory_allocate_ext (void)
-/*TODO*/ //{
-/*TODO*/ //	struct ExtMemory *ext = ext_memory;
-/*TODO*/ //	int cpu;
-/*TODO*/ //
-/*TODO*/ //	/* a change for MESS */
-/*TODO*/ //	if (Machine->gamedrv->rom == 0)  return 1;
-/*TODO*/ //
-/*TODO*/ //	/* loop over all CPUs */
-/*TODO*/ //	for (cpu = 0; cpu < cpu_gettotalcpu (); cpu++)
-/*TODO*/ //	{
-/*TODO*/ //		const struct MemoryReadAddress *mra;
-/*TODO*/ //		const struct MemoryWriteAddress *mwa;
-/*TODO*/ //
-/*TODO*/ //		int region = REGION_CPU1+cpu;
-/*TODO*/ //		int size = memory_region_length(region);
-/*TODO*/ //
-/*TODO*/ //		/* now it's time to loop */
-/*TODO*/ //		while (1)
-/*TODO*/ //		{
-/*TODO*/ //			int lowest = 0x7fffffff, end, lastend;
-/*TODO*/ //
-/*TODO*/ //			/* find the base of the lowest memory region that extends past the end */
-/*TODO*/ //			for (mra = Machine->drv->cpu[cpu].memory_read; mra->start != -1; mra++)
-/*TODO*/ //				if (mra->end >= size && mra->start < lowest) lowest = mra->start;
-/*TODO*/ //			for (mwa = Machine->drv->cpu[cpu].memory_write; mwa->start != -1; mwa++)
-/*TODO*/ //				if (mwa->end >= size && mwa->start < lowest) lowest = mwa->start;
-/*TODO*/ //
-/*TODO*/ //			/* done if nothing found */
-/*TODO*/ //			if (lowest == 0x7fffffff)
-/*TODO*/ //				break;
-/*TODO*/ //
-/*TODO*/ //			/* now loop until we find the end of this contiguous block of memory */
-/*TODO*/ //			lastend = -1;
-/*TODO*/ //			end = lowest;
-/*TODO*/ //			while (end != lastend)
-/*TODO*/ //			{
-/*TODO*/ //				lastend = end;
-/*TODO*/ //
-/*TODO*/ //				/* find the base of the lowest memory region that extends past the end */
-/*TODO*/ //				for (mra = Machine->drv->cpu[cpu].memory_read; mra->start != -1; mra++)
-/*TODO*/ //					if (mra->start <= end && mra->end > end) end = mra->end + 1;
-/*TODO*/ //				for (mwa = Machine->drv->cpu[cpu].memory_write; mwa->start != -1; mwa++)
-/*TODO*/ //					if (mwa->start <= end && mwa->end > end) end = mwa->end + 1;
-/*TODO*/ //			}
-/*TODO*/ //
-/*TODO*/ //			/* time to allocate */
-/*TODO*/ //			ext->start = lowest;
-/*TODO*/ //			ext->end = end - 1;
-/*TODO*/ //			ext->region = region;
-/*TODO*/ //			ext->data = malloc (end - lowest);
-/*TODO*/ //
-/*TODO*/ //			/* if that fails, we're through */
-/*TODO*/ //			if (!ext->data)
-/*TODO*/ //				return 0;
-/*TODO*/ //
-/*TODO*/ //			/* reset the memory */
-/*TODO*/ //			memset (ext->data, 0, end - lowest);
-/*TODO*/ //			size = ext->end + 1;
-/*TODO*/ //			ext++;
-/*TODO*/ //		}
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	return 1;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //unsigned char *findmemorychunk(int cpu, int offset, int *chunkstart, int *chunkend)
+    public static int memory_allocate_ext() {
+        int ext_ptr = 0;
+        int cpu;
+
+        /* a change for MESS */
+        if (Machine.gamedrv.rom == null) {
+            return 1;
+        }
+
+        /* loop over all CPUs */
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            //MemoryReadAddress mra;
+            //MemoryWriteAddress mwa;
+
+            int region = REGION_CPU1 + cpu;
+            int size = memory_region_length(region);
+
+            /* now it's time to loop */
+            while (true) {
+                int lowest = 0x7fffffff, end, lastend;
+
+                /* find the base of the lowest memory region that extends past the end */
+
+                for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++) {
+                    if (Machine.drv.cpu[cpu].memory_read[mra].end >= size
+                            && Machine.drv.cpu[cpu].memory_read[mra].start < lowest) {
+                        lowest = Machine.drv.cpu[cpu].memory_read[mra].start;
+                    }
+                }
+
+                for (int mwa = 0; Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++) {
+                    if (Machine.drv.cpu[cpu].memory_write[mwa].end >= size
+                            && Machine.drv.cpu[cpu].memory_write[mwa].start < lowest) {
+                        lowest = Machine.drv.cpu[cpu].memory_write[mwa].start;
+                    }
+                }
+
+                /* done if nothing found */
+                if (lowest == 0x7fffffff) {
+                    break;
+                }
+
+                /* now loop until we find the end of this contiguous block of memory */
+                lastend = -1;
+                end = lowest;
+                while (end != lastend) {
+                    lastend = end;
+
+                    /* find the base of the lowest memory region that extends past the end */
+                    for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++)
+                            if (Machine.drv.cpu[cpu].memory_read[mra].start <= end && Machine.drv.cpu[cpu].memory_read[mra].end > end) 
+                                end = Machine.drv.cpu[cpu].memory_read[mra].end + 1;
+                       
+                         for (int mwa = 0;  Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++)
+                            if (Machine.drv.cpu[cpu].memory_write[mwa].start <= end && Machine.drv.cpu[cpu].memory_write[mwa].end > end) 
+                                end = Machine.drv.cpu[cpu].memory_write[mwa].end + 1;
+                }
+
+                /* time to allocate */
+                ext_memory[ext_ptr].start=lowest;
+                ext_memory[ext_ptr].end = end - 1;
+                ext_memory[ext_ptr].region = region;
+                ext_memory[ext_ptr].data = new UBytePtr(end - lowest);
+
+                /* if that fails, we're through 
+                if (!ext - > data) {
+                    return 0;
+                }
+                */
+                /* reset the memory */
+                memset(ext_memory[ext_ptr].data, 0, end - lowest);
+                size = ext_memory[ext_ptr].end + 1;
+                ext_ptr++;
+            }
+        }
+
+        return 1;
+    }
+    /*TODO*/ //unsigned char *findmemorychunk(int cpu, int offset, int *chunkstart, int *chunkend)
 /*TODO*/ //{
 /*TODO*/ //	int region = REGION_CPU1+cpu;
 /*TODO*/ //	struct ExtMemory *ext;
@@ -462,37 +479,40 @@ public static char[] OP_ROM;
 /*TODO*/ //
 /*TODO*/ ///* make these static so they can be used in a callback by game drivers */
 /*TODO*/ //
-/*TODO*/ //static int rdelement_max = 0;
-/*TODO*/ //static int wrelement_max = 0;
-/*TODO*/ //static int rdhard_max = HT_USER;
-/*TODO*/ //static int wrhard_max = HT_USER;
-/*TODO*/ //
-/*TODO*/ ///* return = FALSE:can't allocate element memory */
-/*?DONE? //int memory_init(void)*/public static int memory_init()
-{
-	int i, cpu;
-/*TODO*/ //	const struct MemoryReadAddress *memoryread;
-/*TODO*/ //	const struct MemoryWriteAddress *memorywrite;
-/*TODO*/ //	const struct MemoryReadAddress *mra;
-/*TODO*/ //	const struct MemoryWriteAddress *mwa;
-/*TODO*/ //	const struct IOReadPort *ioread;
-/*TODO*/ //	const struct IOWritePort *iowrite;
-/*TODO*/ //	MHELE hardware;
-/*TODO*/ //	int abits1,abits2,abits3,abitsmin;
-/*TODO*/ //	rdelement_max = 0;
-/*TODO*/ //	wrelement_max = 0;
-/*TODO*/ //	rdhard_max = HT_USER;
-/*TODO*/ //	wrhard_max = HT_USER;
-/*TODO*/ //
-/*TODO*/ //	for( cpu = 0 ; cpu < MAX_CPU ; cpu++ )
-/*TODO*/ //		cur_mr_element[cpu] = cur_mw_element[cpu] = 0;
-/*TODO*/ //
-/*TODO*/ //	ophw = 0xff;
-/*TODO*/ //
-/*TODO*/ //	/* ASG 980121 -- allocate external memory */
-/*TODO*/ //	if (!memory_allocate_ext ())
-/*TODO*/ //		return 0;
-/*TODO*/ //
+    static int rdelement_max = 0;
+    static int wrelement_max = 0;
+    static int rdhard_max = HT_USER;
+    static int wrhard_max = HT_USER;
+
+    // return = FALSE:can't allocate element memory
+    public static int memory_init() {
+        int i, cpu;
+        MemoryReadAddress memoryread;
+        MemoryWriteAddress memorywrite;
+        MemoryReadAddress mra;
+        MemoryWriteAddress mwa;
+        IOReadPort ioread;
+        IOWritePort iowrite;
+        UByte hardware = new UByte();
+        int abits1, abits2, abits3, abitsmin;
+        rdelement_max = 0;
+        wrelement_max = 0;
+        rdhard_max = HT_USER;
+        wrhard_max = HT_USER;
+
+        for (cpu = 0; cpu < MAX_CPU; cpu++) {
+            cur_mr_element[cpu] = cur_mw_element[cpu] = null;
+        }
+
+
+        ophw.set((char) 0xff);
+
+
+        /* ASG 980121 -- allocate external memory */
+        if (memory_allocate_ext() == 0) {
+            return 0;
+        }
+        /*TODO*/ //
 /*TODO*/ //	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
 /*TODO*/ //	{
 /*TODO*/ //		const struct MemoryReadAddress *_mra;
@@ -811,9 +831,9 @@ public static char[] OP_ROM;
 /*TODO*/ //#ifdef MEM_DUMP
 /*TODO*/ //	mem_dump();
 /*TODO*/ //#endif
-	return 1;	/* ok */
-}
-/*TODO*/ //
+        return 1;	/* ok */
+    }
+    /*TODO*/ //
 /*TODO*/ //void memory_set_opcode_base(int cpu,unsigned char *base)
 /*TODO*/ //{
 /*TODO*/ //	romptr[cpu] = base;
@@ -1813,13 +1833,13 @@ public static char[] OP_ROM;
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //#ifdef MEM_DUMP
-public static void mem_dump()
-{
-/*TODO*/ //	extern int totalcpu;
-	int cpu;
-	int naddr,addr;
-        char nhw,hw;
-/*TODO*/ //
+
+    public static void mem_dump() {
+        /*TODO*/ //	extern int totalcpu;
+        int cpu;
+        int naddr, addr;
+        char nhw, hw;
+        /*TODO*/ //
 /*TODO*/ //	FILE *temp = fopen ("memdump.log", "w");
 /*TODO*/ //
 /*TODO*/ //	if (!temp) return;
@@ -1873,8 +1893,8 @@ public static void mem_dump()
 /*TODO*/ //	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
 /*TODO*/ //	}
 /*TODO*/ //	fclose(temp);
-}
-/*TODO*/ //#endif
+    }
+    /*TODO*/ //#endif
 /*TODO*/ //
 /*TODO*/ //
 }

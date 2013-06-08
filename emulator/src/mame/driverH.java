@@ -1,6 +1,6 @@
 package mame;
 
-import static arcadeflex.libc.CopyArray;
+import static arcadeflex.libc_old.CopyArray;
 import static mame.osdependH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
