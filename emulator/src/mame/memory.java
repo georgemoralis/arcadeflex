@@ -382,7 +382,6 @@ public class memory {
 
             int region = REGION_CPU1 + cpu;
             int size = memory_region_length(region);
-            //int size = 255;
             
             /* now it's time to loop */
             while (true) {
@@ -428,7 +427,6 @@ public class memory {
                         }
                     }
                 }
-                ext_memory[ext_ptr]=new ExtMemory();
                 /* time to allocate */
                 ext_memory[ext_ptr].start = lowest;
                 ext_memory[ext_ptr].end = end - 1;
@@ -476,7 +474,6 @@ public static UBytePtr memory_find_base (int cpu, int offset)
     int region = REGION_CPU1 + cpu;
 
             /* look in external memory first */
-            System.out.println("-----"+ext_memory.length);
             for(ExtMemory ext : ext_memory)
             {
                 if (ext.data == null) break;
@@ -506,6 +503,12 @@ public static UBytePtr memory_find_base (int cpu, int offset)
 
     // return = FALSE:can't allocate element memory
     public static int memory_init() {
+        /*java code intialaze ext_memory stuff elements (shadow) */
+        for(int x=0; x<MAX_EXT_MEMORY; x++)
+        {
+            ext_memory[x] = new ExtMemory();
+        }
+        /*end of java code */
         int i, cpu;
         MemoryReadAddress memoryread;
         MemoryWriteAddress memorywrite;
@@ -572,7 +575,7 @@ public static UBytePtr memory_find_base (int cpu, int offset)
                         _mwa++;
                     }
                 }
-
+                System.out.println("test");
                 
 		
 
