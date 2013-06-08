@@ -12,6 +12,7 @@ import static mame.mameH.*;
 import static arcadeflex.fileio.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
+import static arcadeflex.libc.*;
 
 public class common {
     
@@ -632,23 +633,23 @@ public class common {
 
 
 
-/*TODO*/ //    unsigned char *memory_region(int num)
-/*TODO*/ //    {
-/*TODO*/ //            int i;
+ public static UBytePtr memory_region(int num)
+{
+            int i;
 
-/*TODO*/ //            if (num < MAX_MEMORY_REGIONS)
-/*TODO*/ //                    return Machine.memory_region[num];
-/*TODO*/ //            else
-/*TODO*/ //            {
-/*TODO*/ //                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-/*TODO*/ //                    {
-/*TODO*/ //                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-/*TODO*/ //                                    return Machine.memory_region[i];
-/*TODO*/ //                    }
-/*TODO*/ //            }
+            if (num < MAX_MEMORY_REGIONS)
+                    return new UBytePtr(Machine.memory_region[num]);
+            else
+            {
+                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
+                    {
+                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
+                                    return new UBytePtr(Machine.memory_region[i]);
+                    }
+            }
 
-/*TODO*/ //            return 0;
-/*TODO*/ //    }
+            return null;
+}
 
     public static int memory_region_length(int num)
     {

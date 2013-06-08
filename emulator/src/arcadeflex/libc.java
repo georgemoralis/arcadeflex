@@ -47,7 +47,16 @@ public class libc {
             memory = new char[size];
             offset=0;
         }
-        
+        public UBytePtr(char[] m) {
+            set(m, 0);
+        }
+        public void set(char[] m, int b) {
+            memory = m;
+            offset = b;
+        }
+         public UBytePtr(UBytePtr cp, int b) {
+            set(cp.memory, cp.offset + b);
+        }
         /*
         public UBytePtr(char[] m) {
             set(m, 0);

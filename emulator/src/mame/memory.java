@@ -58,12 +58,12 @@ public class memory {
 /*TODO*/ //	OP_RAM = (base);
 /*TODO*/ //
 /*TODO*/ //
-    public static UByte ophw = new UByte();				/* op-code hardware number */
-    /*TODO*/ //
+    public static UByte ophw = new UByte(); /* op-code hardware number */
+
     public static ExtMemory[] ext_memory = new ExtMemory[MAX_EXT_MEMORY];
-/*TODO*/ //
-/*TODO*/ //static unsigned char *ramptr[MAX_CPU],*romptr[MAX_CPU];
-/*TODO*/ //
+    public static UBytePtr[] ramptr = new UBytePtr[MAX_CPU];
+    public static UBytePtr[] romptr = new UBytePtr[MAX_CPU];
+
 /*TODO*/ ///* element shift bits, mask bits */
 /*TODO*/ //int mhshift[MAX_CPU][3], mhmask[MAX_CPU][3];
 /*TODO*/ //
@@ -80,7 +80,6 @@ public class memory {
 /*TODO*/ //int cur_portmask;
 /*TODO*/ //
 /*TODO*/ ///* current hardware element map */
-
     static UByte[][] cur_mr_element = new UByte[MAX_CPU][];
     static UByte[][] cur_mw_element = new UByte[MAX_CPU][];
     /*TODO*/ //
@@ -132,8 +131,9 @@ public class memory {
 /*TODO*/ //static int bankwriteoffset[HT_BANKMAX + 1];
 /*TODO*/ //
 /*TODO*/ ///* override OP base handler */
-/*TODO*/ //static opbase_handler setOPbasefunc[MAX_CPU];
-/*TODO*/ //static opbase_handler OPbasefunc;
+
+    public static opbase_handlerPtr[] setOPbasefunc = new opbase_handlerPtr[MAX_CPU];
+    /*TODO*/ //static opbase_handler OPbasefunc;
 /*TODO*/ //
 /*TODO*/ ///* current cpu current hardware element map point */
 /*TODO*/ //MHELE *cur_mrhard;
@@ -365,6 +365,7 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ ///* ASG 980121 -- allocate all the external memory */
+
     public static int memory_allocate_ext() {
         int ext_ptr = 0;
         int cpu;
@@ -381,7 +382,8 @@ public class memory {
 
             int region = REGION_CPU1 + cpu;
             int size = memory_region_length(region);
-
+            //int size = 255;
+            
             /* now it's time to loop */
             while (true) {
                 int lowest = 0x7fffffff, end, lastend;
@@ -414,26 +416,30 @@ public class memory {
                     lastend = end;
 
                     /* find the base of the lowest memory region that extends past the end */
-                    for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++)
-                            if (Machine.drv.cpu[cpu].memory_read[mra].start <= end && Machine.drv.cpu[cpu].memory_read[mra].end > end) 
-                                end = Machine.drv.cpu[cpu].memory_read[mra].end + 1;
-                       
-                         for (int mwa = 0;  Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++)
-                            if (Machine.drv.cpu[cpu].memory_write[mwa].start <= end && Machine.drv.cpu[cpu].memory_write[mwa].end > end) 
-                                end = Machine.drv.cpu[cpu].memory_write[mwa].end + 1;
-                }
+                    for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++) {
+                        if (Machine.drv.cpu[cpu].memory_read[mra].start <= end && Machine.drv.cpu[cpu].memory_read[mra].end > end) {
+                            end = Machine.drv.cpu[cpu].memory_read[mra].end + 1;
+                        }
+                    }
 
+                    for (int mwa = 0; Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++) {
+                        if (Machine.drv.cpu[cpu].memory_write[mwa].start <= end && Machine.drv.cpu[cpu].memory_write[mwa].end > end) {
+                            end = Machine.drv.cpu[cpu].memory_write[mwa].end + 1;
+                        }
+                    }
+                }
+                ext_memory[ext_ptr]=new ExtMemory();
                 /* time to allocate */
-                ext_memory[ext_ptr].start=lowest;
+                ext_memory[ext_ptr].start = lowest;
                 ext_memory[ext_ptr].end = end - 1;
                 ext_memory[ext_ptr].region = region;
                 ext_memory[ext_ptr].data = new UBytePtr(end - lowest);
 
                 /* if that fails, we're through 
-                if (!ext - > data) {
-                    return 0;
-                }
-                */
+                 if (!ext - > data) {
+                 return 0;
+                 }
+                 */
                 /* reset the memory */
                 memset(ext_memory[ext_ptr].data, 0, end - lowest);
                 size = ext_memory[ext_ptr].end + 1;
@@ -464,21 +470,35 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //
-/*TODO*/ //unsigned char *memory_find_base (int cpu, int offset)
-/*TODO*/ //{
-/*TODO*/ //	int region = REGION_CPU1+cpu;
-/*TODO*/ //	struct ExtMemory *ext;
-/*TODO*/ //
-/*TODO*/ //	/* look in external memory first */
-/*TODO*/ //	for (ext = ext_memory; ext->data; ext++)
-/*TODO*/ //		if (ext->region == region && ext->start <= offset && ext->end >= offset)
-/*TODO*/ //			return ext->data + (offset - ext->start);
-/*TODO*/ //
-/*TODO*/ //	return ramptr[cpu] + offset;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ ///* make these static so they can be used in a callback by game drivers */
-/*TODO*/ //
+public static UBytePtr memory_find_base (int cpu, int offset)
+{
+	
+    int region = REGION_CPU1 + cpu;
+
+            /* look in external memory first */
+            System.out.println("-----"+ext_memory.length);
+            for(ExtMemory ext : ext_memory)
+            {
+                if (ext.data == null) break;
+                if (ext.region == region && ext.start <= offset && ext.end >= offset)
+                    return new UBytePtr(ext.data, (offset - ext.start));
+            }
+            return new UBytePtr(ramptr[cpu], offset);
+/*
+    int region = REGION_CPU1+cpu;
+	struct ExtMemory *ext;
+
+	// look in external memory first 
+	for (ext = ext_memory; ext->data; ext++)
+		if (ext->region == region && ext->start <= offset && ext->end >= offset)
+			return ext->data + (offset - ext->start);
+
+	return ramptr[cpu] + offset;
+        */
+}
+
+/* make these static so they can be used in a callback by game drivers */
+
     static int rdelement_max = 0;
     static int wrelement_max = 0;
     static int rdhard_max = HT_USER;
@@ -512,38 +532,50 @@ public class memory {
         if (memory_allocate_ext() == 0) {
             return 0;
         }
-        /*TODO*/ //
-/*TODO*/ //	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
-/*TODO*/ //	{
-/*TODO*/ //		const struct MemoryReadAddress *_mra;
+
+
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            /*TODO*/ //		const struct MemoryReadAddress *_mra;
 /*TODO*/ //		const struct MemoryWriteAddress *_mwa;
 /*TODO*/ //
-/*TODO*/ //		setOPbasefunc[cpu] = NULL;
-/*TODO*/ //
-/*TODO*/ //		ramptr[cpu] = romptr[cpu] = memory_region(REGION_CPU1+cpu);
-/*TODO*/ //
-/*TODO*/ //		/* initialize the memory base pointers for memory hooks */
-/*TODO*/ //		_mra = Machine->drv->cpu[cpu].memory_read;
-/*TODO*/ //		if (_mra)
-/*TODO*/ //		{
-/*TODO*/ //			while (_mra->start != -1)
-/*TODO*/ //			{
-/*TODO*/ ////				if (_mra->base) *_mra->base = memory_find_base (cpu, _mra->start);
-/*TODO*/ ////				if (_mra->size) *_mra->size = _mra->end - _mra->start + 1;
-/*TODO*/ //				_mra++;
-/*TODO*/ //			}
-/*TODO*/ //		}
-/*TODO*/ //		_mwa = Machine->drv->cpu[cpu].memory_write;
-/*TODO*/ //		if (_mwa)
-/*TODO*/ //		{
-/*TODO*/ //			while (_mwa->start != -1)
-/*TODO*/ //			{
-/*TODO*/ //				if (_mwa->base) *_mwa->base = memory_find_base (cpu, _mwa->start);
-/*TODO*/ //				if (_mwa->size) *_mwa->size = _mwa->end - _mwa->start + 1;
-/*TODO*/ //				_mwa++;
-/*TODO*/ //			}
-/*TODO*/ //		}
-/*TODO*/ //
+            setOPbasefunc[cpu] = null;
+
+            ramptr[cpu] = romptr[cpu] = memory_region(REGION_CPU1 + cpu);
+
+            /* initialize the memory base pointers for memory hooks */
+            int _mra = 0;
+                if (Machine.drv.cpu[cpu].memory_read != null && Machine.drv.cpu[cpu].memory_read[_mra] != null)
+                {
+                    while (Machine.drv.cpu[cpu].memory_read[_mra].start != -1)
+                    {
+                        //                              if (_mra.base) *_mra.base = memory_find_base (cpu, _mra.start);
+                        //                              if (_mra.size) *_mra.size = _mra.end - _mra.start + 1;
+                        _mra++;
+                    }
+                }
+
+                int _mwa = 0;
+                if (Machine.drv.cpu[cpu].memory_write != null && Machine.drv.cpu[cpu].memory_write[_mwa] != null)
+                {
+                    while (Machine.drv.cpu[cpu].memory_write[_mwa].start != -1)
+                    {
+                        if (Machine.drv.cpu[cpu].memory_write[_mwa].base != null)
+                        {
+                            UBytePtr b = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[_mwa].start);
+                            Machine.drv.cpu[cpu].memory_write[_mwa].base.memory = b.memory;
+                            Machine.drv.cpu[cpu].memory_write[_mwa].base.base = b.offset;
+                        }
+                        if (Machine.drv.cpu[cpu].memory_write[_mwa].size != null)
+                        {
+                            Machine.drv.cpu[cpu].memory_write[_mwa].size[0] = Machine.drv.cpu[cpu].memory_write[_mwa].end - Machine.drv.cpu[cpu].memory_write[_mwa].start + 1;
+                        }
+                        _mwa++;
+                    }
+                }
+
+                
+		
+
 /*TODO*/ //		/* initialize port structures */
 /*TODO*/ //		readport_size[cpu] = 0;
 /*TODO*/ //		writeport_size[cpu] = 0;
@@ -590,8 +622,8 @@ public class memory {
 /*TODO*/ //			(Machine->drv->cpu[cpu].cpu_type & CPU_16BIT_PORT) == 0)
 /*TODO*/ //			portmask[cpu] = 0xff;
 /*TODO*/ //#endif
-/*TODO*/ //    }
-/*TODO*/ //
+        }
+        /*TODO*/ //
 /*TODO*/ //	/* initialize grobal handler */
 /*TODO*/ //	for( i = 0 ; i < MH_HARDMAX ; i++ ){
 /*TODO*/ //		memoryreadoffset[i] = 0;

@@ -113,4 +113,5 @@ public static class ExtMemory{
             int start, end,region;
             UBytePtr data;
         }
+public static abstract interface opbase_handlerPtr { public abstract int handler(int address); }
 }
