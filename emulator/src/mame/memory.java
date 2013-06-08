@@ -71,9 +71,9 @@ public class memory {
 /*TODO*/ ///* ASG: port speedup */
 /*TODO*/ //static struct IOReadPort *readport[MAX_CPU];
 /*TODO*/ //static struct IOWritePort *writeport[MAX_CPU];
-/*TODO*/ //static int portmask[MAX_CPU];
-/*TODO*/ //static int readport_size[MAX_CPU];
-/*TODO*/ //static int writeport_size[MAX_CPU];
+    static int[] portmask=new int[MAX_CPU];
+    static int[] readport_size=new int[MAX_CPU];
+    static int[] writeport_size=new int[MAX_CPU];
 /*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
 /*TODO*/ //const struct IOReadPort *cur_readport;
 /*TODO*/ //const struct IOWritePort *cur_writeport;
@@ -575,13 +575,12 @@ public static UBytePtr memory_find_base (int cpu, int offset)
                         _mwa++;
                     }
                 }
-                System.out.println("test");
                 
 		
 
-/*TODO*/ //		/* initialize port structures */
-/*TODO*/ //		readport_size[cpu] = 0;
-/*TODO*/ //		writeport_size[cpu] = 0;
+		/* initialize port structures */
+		readport_size[cpu] = 0;
+		writeport_size[cpu] = 0;
 /*TODO*/ //		readport[cpu] = 0;
 /*TODO*/ //		writeport[cpu] = 0;
 /*TODO*/ //
