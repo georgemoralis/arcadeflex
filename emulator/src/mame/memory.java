@@ -626,7 +626,7 @@ public class memory {
                 Machine.drv.cpu[cpu].port_read = empty_readport;
             }
             while (true) {
-                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread_ptr].start, Machine.drv.cpu[cpu].port_read[ioread_ptr].end, Machine.drv.cpu[cpu].port_read[ioread_ptr]._handler, 0) == null) {
+                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread_ptr].start, Machine.drv.cpu[cpu].port_read[ioread_ptr].end, Machine.drv.cpu[cpu].port_read[ioread_ptr].handler,Machine.drv.cpu[cpu].port_read[ioread_ptr]._handler, 0) == null) {
                     memory_shutdown();
                     return 0;
                 }
@@ -643,7 +643,7 @@ public class memory {
             }
 
             while (true) {
-                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite_ptr].start, Machine.drv.cpu[cpu].port_write[iowrite_ptr].end, Machine.drv.cpu[cpu].port_write[iowrite_ptr]._handler, 0) == null) {
+                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite_ptr].start, Machine.drv.cpu[cpu].port_write[iowrite_ptr].end,Machine.drv.cpu[cpu].port_write[iowrite_ptr].handler,Machine.drv.cpu[cpu].port_write[iowrite_ptr]._handler, 0) == null) {
                     memory_shutdown();
                     return 0;
                 }
@@ -1815,7 +1815,7 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 
-    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, ReadHandlerPtr handler, int install_at_beginning) {
+    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, int handler,ReadHandlerPtr _handler, int install_at_beginning) {
         int i, oldsize;
 
         oldsize = readport_size[cpu];
@@ -1853,12 +1853,13 @@ public class memory {
         readport[cpu][i] = new IOReadPort();
         readport[cpu][i].start = start;
         readport[cpu][i].end = end;
-        readport[cpu][i]._handler = handler;
+        readport[cpu][i].handler = handler;
+        readport[cpu][i]._handler = _handler;
 
         return readport[cpu];
     }
 
-    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, WriteHandlerPtr handler, int install_at_beginning) {
+    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, int handler ,WriteHandlerPtr _handler, int install_at_beginning) {
         int i, oldsize;
 
         oldsize = writeport_size[cpu];
@@ -1894,8 +1895,8 @@ public class memory {
         writeport[cpu][i] = new IOWritePort();
         writeport[cpu][i].start = start;
         writeport[cpu][i].end = end;
-        writeport[cpu][i]._handler = handler;
-
+        writeport[cpu][i].handler = handler;
+        writeport[cpu][i]._handler = _handler;
         return writeport[cpu];
 
     }
