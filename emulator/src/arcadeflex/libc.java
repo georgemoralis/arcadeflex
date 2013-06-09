@@ -50,6 +50,11 @@ public class libc {
         public UBytePtr(char[] m) {
             set(m, 0);
         }
+        public UBytePtr(UByte[] m)
+        {
+            System.arraycopy(m, 0, memory, 0, m.length);
+            base=0;
+        }
         public void set(char[] m, int b) {
             memory = m;
             base = b;
@@ -154,7 +159,6 @@ public class libc {
         public char read() {
             return (char) (memory & 0xff);
         }
-
         char memory;
     }
     

@@ -64,9 +64,9 @@ public class memory {
     public static UBytePtr[] ramptr = new UBytePtr[MAX_CPU];
     public static UBytePtr[] romptr = new UBytePtr[MAX_CPU];
 
-    /*TODO*/ ///* element shift bits, mask bits */
-/*TODO*/ //int mhshift[MAX_CPU][3], mhmask[MAX_CPU][3];
-/*TODO*/ //
+    /* element shift bits, mask bits */
+    public static int[][] mhshift = new int[MAX_CPU][3];
+    public static int[][] mhmask = new int[MAX_CPU][3];
     /* pointers to port structs */
     /* ASG: port speedup */
     static IOReadPort[][] readport = new IOReadPort[MAX_CPU][];
@@ -82,13 +82,14 @@ public class memory {
     static UByte[][] cur_mr_element = new UByte[MAX_CPU][];
     static UByte[][] cur_mw_element = new UByte[MAX_CPU][];
 
-    /*TODO*/ ///* sub memory/port hardware element map */
-/*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-/*TODO*/ //MHELE readhardware[MH_ELEMAX << MH_SBITS];	/* mem/port read  */
-/*TODO*/ //MHELE writehardware[MH_ELEMAX << MH_SBITS]; /* mem/port write */
+    /* sub memory/port hardware element map */
+    /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
+    public static UByte[] readhardware = new UByte[MH_ELEMAX << MH_SBITS];/* mem/port read  */
+    public static UByte[] writehardware = new UByte[MH_ELEMAX << MH_SBITS]; /* mem/port write */
 /*TODO*/ //
 /*TODO*/ ///* memory hardware element map */
 /*TODO*/ ///* value:                      */
+
     static final int HT_RAM = 0;		/* RAM direct        */
 
     static final int HT_BANK1 = 1;		/* bank memory #1    */
@@ -447,63 +448,62 @@ public class memory {
 /*TODO*/ //	return subelement;
 /*TODO*/ //}
 /*TODO*/ //
-/*TODO*/ //static void set_element( int cpu , MHELE *celement , int sp , int ep , MHELE type , MHELE *subelement , int *ele_max )
-/*TODO*/ //{
-/*TODO*/ //	int i;
-/*TODO*/ //	int edepth = 0;
-/*TODO*/ //	int shift,mask;
-/*TODO*/ //	MHELE *eele = celement;
-/*TODO*/ //	MHELE *sele = celement;
-/*TODO*/ //	MHELE *ele;
-/*TODO*/ //	int ss,sb,eb,ee;
-/*TODO*/ //
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"set_element %8X-%8X = %2X\n",sp,ep,type);
-/*TODO*/ //#endif
-/*TODO*/ //	if( (unsigned int) sp > (unsigned int) ep ) return;
-/*TODO*/ //	do{
-/*TODO*/ //		mask  = mhmask[cpu][edepth];
-/*TODO*/ //		shift = mhshift[cpu][edepth];
-/*TODO*/ //
-/*TODO*/ //		/* center element */
-/*TODO*/ //		ss = (unsigned int) sp >> shift;
-/*TODO*/ //		sb = (unsigned int) sp ? ((unsigned int) (sp-1) >> shift) + 1 : 0;
-/*TODO*/ //		eb = ((unsigned int) (ep+1) >> shift) - 1;
-/*TODO*/ //		ee = (unsigned int) ep >> shift;
-/*TODO*/ //
-/*TODO*/ //		if( sb <= eb )
-/*TODO*/ //		{
-/*TODO*/ //			if( (sb|mask)==(eb|mask) )
-/*TODO*/ //			{
-/*TODO*/ //				/* same reasion */
-/*TODO*/ //				ele = (sele ? sele : eele);
-/*TODO*/ //				for( i = sb ; i <= eb ; i++ ){
-/*TODO*/ //				 	ele[i & mask] = type;
-/*TODO*/ //				}
-/*TODO*/ //			}
-/*TODO*/ //			else
-/*TODO*/ //			{
-/*TODO*/ //				if( sele ) for( i = sb ; i <= (sb|mask) ; i++ )
-/*TODO*/ //				 	sele[i & mask] = type;
-/*TODO*/ //				if( eele ) for( i = eb&(~mask) ; i <= eb ; i++ )
-/*TODO*/ //				 	eele[i & mask] = type;
-/*TODO*/ //			}
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		edepth++;
-/*TODO*/ //
-/*TODO*/ //		if( ss == sb ) sele = 0;
-/*TODO*/ //		else sele = get_element( sele , ss & mask , mhmask[cpu][edepth] ,
-/*TODO*/ //									subelement , ele_max );
-/*TODO*/ //		if( ee == eb ) eele = 0;
-/*TODO*/ //		else eele = get_element( eele , ee & mask , mhmask[cpu][edepth] ,
-/*TODO*/ //									subelement , ele_max );
-/*TODO*/ //
-/*TODO*/ //	}while( sele || eele );
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ ///* ASG 980121 -- allocate all the external memory */
+    static void set_element(int cpu, UBytePtr celement, int sp, int ep, UByte type, UBytePtr subelement, int[] ele_max) {
+        int i;
+        int edepth = 0;
+        int shift, mask;
+        /*           MHELE *eele = celement;
+         MHELE *sele = celement;
+         MHELE *ele;
+         int ss,sb,eb,ee;
+
+
+         if (errorlog) fprintf(errorlog,"set_element %8X-%8X = %2X\n",sp,ep,type);
+
+         if( (unsigned int) sp > (unsigned int) ep ) return;
+         do{
+         mask  = mhmask[cpu][edepth];
+         shift = mhshift[cpu][edepth];
+
+         /* center element */
+        /*                  ss = (unsigned int) sp >> shift;
+         sb = (unsigned int) sp ? ((unsigned int) (sp-1) >> shift) + 1 : 0;
+         eb = ((unsigned int) (ep+1) >> shift) - 1;
+         ee = (unsigned int) ep >> shift;
+
+         if( sb <= eb )
+         {
+         if( (sb|mask)==(eb|mask) )
+         {
+         /* same reasion */
+        /*                                  ele = (sele ? sele : eele);
+         for( i = sb ; i <= eb ; i++ ){
+         ele[i & mask] = type;
+         }
+         }
+         else
+         {
+         if( sele ) for( i = sb ; i <= (sb|mask) ; i++ )
+         sele[i & mask] = type;
+         if( eele ) for( i = eb&(~mask) ; i <= eb ; i++ )
+         eele[i & mask] = type;
+         }
+         }
+
+         edepth++;
+
+         if( ss == sb ) sele = 0;
+         else sele = get_element( sele , ss & mask , mhmask[cpu][edepth] ,
+         subelement , ele_max );
+         if( ee == eb ) eele = 0;
+         else eele = get_element( eele , ee & mask , mhmask[cpu][edepth] ,
+         subelement , ele_max );
+
+         }while( sele || eele );*/
+    }
+
+
+    /* ASG 980121 -- allocate all the external memory */
     public static int memory_allocate_ext() {
         int ext_ptr = 0;
         int cpu;
@@ -788,108 +788,121 @@ public class memory {
             abitsmin = ABITSMIN(cpu);
 
             /* element shifter , mask set */
-            /*TODO*/ //		mhshift[cpu][0] = (abits2+abits3);
-/*TODO*/ //		mhshift[cpu][1] = abits3;			/* 2nd */
-/*TODO*/ //		mhshift[cpu][2] = 0;				/* 3rd (used by set_element)*/
-/*TODO*/ //		mhmask[cpu][0]  = MHMASK(abits1);		/*1st(used by set_element)*/
-/*TODO*/ //		mhmask[cpu][1]  = MHMASK(abits2);		/*2nd*/
-/*TODO*/ //		mhmask[cpu][2]  = MHMASK(abits3);		/*3rd*/
-/*TODO*/ //
-/*TODO*/ //		/* allocate current element */
-/*TODO*/ //		if( (cur_mr_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
-/*TODO*/ //		{
-/*TODO*/ //			memory_shutdown();
-/*TODO*/ //			return 0;
-/*TODO*/ //		}
-/*TODO*/ //		if( (cur_mw_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
-/*TODO*/ //		{
-/*TODO*/ //			memory_shutdown();
-/*TODO*/ //			return 0;
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		/* initialize curent element table */
-/*TODO*/ //		for( i = 0 ; i < (1<<abits1) ; i++ )
-/*TODO*/ //		{
-/*TODO*/ //			cur_mr_element[cpu][i] = HT_NON;	/* no map memory */
-/*TODO*/ //			cur_mw_element[cpu][i] = HT_NON;	/* no map memory */
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		memoryread = Machine->drv->cpu[cpu].memory_read;
-/*TODO*/ //		memorywrite = Machine->drv->cpu[cpu].memory_write;
-/*TODO*/ //
-/*TODO*/ //		/* memory read handler build */
-/*TODO*/ //		if (memoryread)
-/*TODO*/ //		{
-/*TODO*/ //			mra = memoryread;
-/*TODO*/ //			while (mra->start != -1) mra++;
-/*TODO*/ //			mra--;
-/*TODO*/ //
-/*TODO*/ //			while (mra >= memoryread)
-/*TODO*/ //			{
-/*TODO*/ //				mem_read_handler handler = mra->handler;
-/*TODO*/ //
-/*TODO*/ ///* work around a compiler bug */
-/*TODO*/ //#ifdef SGI_FIX_MWA_NOP
-/*TODO*/ //				if ((FPTR)handler == (FPTR)MRA_NOP) {
-/*TODO*/ //					hardware = HT_NOP;
-/*TODO*/ //				} else {
-/*TODO*/ //#endif
-/*TODO*/ //				switch ((FPTR)handler)
-/*TODO*/ //				{
-/*TODO*/ //				case (FPTR)MRA_RAM:
-/*TODO*/ //				case (FPTR)MRA_ROM:
-/*TODO*/ //					hardware = HT_RAM;	/* sprcial case ram read */
-/*TODO*/ //					break;
-/*TODO*/ //				case (FPTR)MRA_BANK1:
-/*TODO*/ //				case (FPTR)MRA_BANK2:
-/*TODO*/ //				case (FPTR)MRA_BANK3:
-/*TODO*/ //				case (FPTR)MRA_BANK4:
-/*TODO*/ //				case (FPTR)MRA_BANK5:
-/*TODO*/ //				case (FPTR)MRA_BANK6:
-/*TODO*/ //				case (FPTR)MRA_BANK7:
-/*TODO*/ //				case (FPTR)MRA_BANK8:
-/*TODO*/ //				case (FPTR)MRA_BANK9:
-/*TODO*/ //				case (FPTR)MRA_BANK10:
-/*TODO*/ //				case (FPTR)MRA_BANK11:
-/*TODO*/ //				case (FPTR)MRA_BANK12:
-/*TODO*/ //				case (FPTR)MRA_BANK13:
-/*TODO*/ //				case (FPTR)MRA_BANK14:
-/*TODO*/ //				case (FPTR)MRA_BANK15:
-/*TODO*/ //				case (FPTR)MRA_BANK16:
-/*TODO*/ //				{
-/*TODO*/ //					hardware = (int)MRA_BANK1 - (int)handler + 1;
+            mhshift[cpu][0] = (abits2 + abits3);
+            mhshift[cpu][1] = abits3;			/* 2nd */
+            mhshift[cpu][2] = 0;				/* 3rd (used by set_element)*/
+            mhmask[cpu][0] = MHMASK(abits1);		/*1st(used by set_element)*/
+            mhmask[cpu][1] = MHMASK(abits2);		/*2nd*/
+            mhmask[cpu][2] = MHMASK(abits3);		/*3rd*/
+
+            /* allocate current element */
+            if ((cur_mr_element[cpu] = new UByte[1 << abits1]) == null)//if( (cur_mr_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
+            {
+                memory_shutdown();
+                return 0;
+            }
+
+            if ((cur_mw_element[cpu] = new UByte[1 << abits1]) == null)//if( (cur_mw_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
+            {
+                memory_shutdown();
+                return 0;
+            }
+
+            /* initialize curent element table */
+            for (i = 0; i < (1 << abits1); i++) {
+                cur_mr_element[cpu][i] = new UByte();
+                cur_mw_element[cpu][i] = new UByte();
+                cur_mr_element[cpu][i].set((char) HT_NON);	/* no map memory */
+                cur_mw_element[cpu][i].set((char) HT_NON);	/* no map memory */
+            }
+
+            /* memory read handler build */
+            if (Machine.drv.cpu[cpu].memory_read != null) {
+                int mra_ptr = 0;
+                while (Machine.drv.cpu[cpu].memory_read[mra_ptr].start != -1) {
+                    mra_ptr++;
+                }
+                mra_ptr--;
+                while (mra_ptr >= 0) {
+                    ReadHandlerPtr _handler = Machine.drv.cpu[cpu].memory_read[mra_ptr]._handler;
+                    int handler = Machine.drv.cpu[cpu].memory_read[mra_ptr].handler;
+                    switch (handler) {
+                        case MRA_RAM:
+                        case MRA_ROM:
+                            hardware.set((char) HT_RAM);      /* sprcial case ram read */
+                            break;
+                        case MRA_BANK1:
+                        case MRA_BANK2:
+                        case MRA_BANK3:
+                        case MRA_BANK4:
+                        case MRA_BANK5:
+                        case MRA_BANK6:
+                        case MRA_BANK7:
+                        case MRA_BANK8:
+                        case MRA_BANK9:
+                        case MRA_BANK10:
+                        case MRA_BANK11:
+                        case MRA_BANK12:
+                        case MRA_BANK13:
+                        case MRA_BANK14:
+                        case MRA_BANK15:
+                        case MRA_BANK16: {
+                            throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
+                            /*TODO*/ //					hardware = (int)MRA_BANK1 - (int)handler + 1;
 /*TODO*/ //					memoryreadoffset[hardware] = bankreadoffset[hardware] = mra->start;
 /*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mra->start);
-/*TODO*/ //					break;
+
+                            /*TODO*/ //                          break;
+                        }
+                        case MRA_NOP:
+                            hardware.set((char) HT_NOP);
+                            break;
+                        default:
+
+                            /* create newer hardware handler */
+                            if (rdhard_max == MH_HARDMAX) {
+                                if (errorlog != null) {
+                                    fprintf(errorlog, "read memory hardware pattern over !\n");
+                                }
+                                hardware.set((char) 0);
+                            } else {
+                                /* regist hardware function */
+                                hardware.set((char) rdhard_max++);
+                                memoryreadhandler[hardware.read()] = _handler;
+                                memoryreadoffset[hardware.read()] = Machine.drv.cpu[cpu].memory_read[mra_ptr].start;
+                            }
+                            break;
+                    }
+
+                    /* hardware element table make */
+                    int temp_rdelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
+                    set_element(cpu, new UBytePtr(cur_mr_element[cpu]),
+                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].start) >>> abitsmin),  /*TODO checked unsigned if it's correct */
+                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].end) >>> abitsmin),  /*TODO checked unsigned if it's correct */
+                            hardware, new UBytePtr(readhardware), temp_rdelement_max);
+
+                    rdelement_max = temp_rdelement_max[0];
+                    mra_ptr--;
+                }
+            }
+
+           // System.out.println("test");
+
+
+
+            /*TODO*/ //					break;
 /*TODO*/ //				}
 /*TODO*/ //				case (FPTR)MRA_NOP:
 /*TODO*/ //					hardware = HT_NOP;
 /*TODO*/ //					break;
-/*TODO*/ //				default:
-/*TODO*/ //					/* create newer hardware handler */
-/*TODO*/ //					if( rdhard_max == MH_HARDMAX )
-/*TODO*/ //					{
-/*TODO*/ //						if (errorlog)
-/*TODO*/ //						 fprintf(errorlog,"read memory hardware pattern over !\n");
-/*TODO*/ //						hardware = 0;
-/*TODO*/ //					}
-/*TODO*/ //					else
-/*TODO*/ //					{
-/*TODO*/ //						/* regist hardware function */
-/*TODO*/ //						hardware = rdhard_max++;
-/*TODO*/ //						memoryreadhandler[hardware] = handler;
-/*TODO*/ //						memoryreadoffset[hardware] = mra->start;
-/*TODO*/ //					}
-/*TODO*/ //				}
+
+            /*TODO*/ //				}
 /*TODO*/ //#ifdef SGI_FIX_MWA_NOP
 /*TODO*/ //				}
 /*TODO*/ //#endif
 /*TODO*/ //				/* hardware element table make */
-/*TODO*/ //				set_element( cpu , cur_mr_element[cpu] ,
-/*TODO*/ //					(((unsigned int) mra->start) >> abitsmin) ,
-/*TODO*/ //					(((unsigned int) mra->end) >> abitsmin) ,
-/*TODO*/ //					hardware , readhardware , &rdelement_max );
-/*TODO*/ //
+
+            /*TODO*/ //
 /*TODO*/ //				mra--;
 /*TODO*/ //			}
 /*TODO*/ //		}
@@ -2041,7 +2054,4 @@ public class memory {
 /*TODO*/ //	}
 /*TODO*/ //	fclose(temp);
     }
-    /*TODO*/ //#endif
-/*TODO*/ //
-/*TODO*/ //
 }

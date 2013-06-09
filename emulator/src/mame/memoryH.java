@@ -13,7 +13,7 @@ import arcadeflex.libc.*;
  */
 public class memoryH {
     
-    public static final int MAX_BANKS		=16;
+
      public static class MemoryReadAddress
      {
         public MemoryReadAddress(int s, int e, int h, CharPtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
@@ -33,8 +33,30 @@ public class memoryH {
     public static final int MRA_NOP = 0;	/* don't care, return 0 */
     public static final int MRA_RAM = -1;	/* plain RAM location (return its contents) */
     public static final int MRA_ROM = -2;	/* plain ROM location (return its contents) */
+    public static final int MRA_BANK1 =-10;	/* bank memory */
+    public static final int MRA_BANK2 =-11;	/* bank memory */
+    public static final int MRA_BANK3 =-12;	/* bank memory */
+    public static final int MRA_BANK4 =-13;	/* bank memory */
+    public static final int MRA_BANK5 =-14;	/* bank memory */
+    public static final int MRA_BANK6 =-15;	/* bank memory */
+    public static final int MRA_BANK7 =-16;	/* bank memory */
+    public static final int MRA_BANK8 =-17;	/* bank memory */
+    public static final int MRA_BANK9 =-18;	/* bank memory */
+    public static final int MRA_BANK10 =-19;	/* bank memory */
+    public static final int MRA_BANK11 =-20;	/* bank memory */
+    public static final int MRA_BANK12 =-21;	/* bank memory */
+    public static final int MRA_BANK13 =-22;	/* bank memory */
+    public static final int MRA_BANK14 =-23;	/* bank memory */
+    public static final int MRA_BANK15 =-24;	/* bank memory */
+    public static final int MRA_BANK16 =-25;	/* bank memory */
+    
+    //refactoring requiered from here and below
 
+        public static int MHMASK(int abits) { return (0xffffffff >>> (32 - abits)); }
 
+    
+    public static final int MAX_BANKS		=16;
+    
     public static class MemoryWriteAddress
     {
         public MemoryWriteAddress(int s, int e, int h, CharPtr b, int[] size){this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
