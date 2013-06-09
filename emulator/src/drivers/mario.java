@@ -351,13 +351,13 @@ public class mario {
 			new MachineCPU(
 				CPU_Z80,
 				3072000,	/* 3.072 Mhz (?) */
-				readmem, writemem, null, null,
+				readmem, writemem, null,mario_writeport,
 				null, 1
 			),
                 new MachineCPU(
 			CPU_I8039 | CPU_AUDIO_CPU,
                         730000,         /* 730 khz */
-			null,null,null,null,
+			readmem_sound,writemem_sound,readport_sound,writeport_sound,
 			null,1
 		)
 		},

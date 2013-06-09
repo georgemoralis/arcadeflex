@@ -64,26 +64,25 @@ public class memory {
     public static UBytePtr[] ramptr = new UBytePtr[MAX_CPU];
     public static UBytePtr[] romptr = new UBytePtr[MAX_CPU];
 
-/*TODO*/ ///* element shift bits, mask bits */
+    /*TODO*/ ///* element shift bits, mask bits */
 /*TODO*/ //int mhshift[MAX_CPU][3], mhmask[MAX_CPU][3];
 /*TODO*/ //
-/*TODO*/ ///* pointers to port structs */
-/*TODO*/ ///* ASG: port speedup */
-/*TODO*/ //static struct IOReadPort *readport[MAX_CPU];
-/*TODO*/ //static struct IOWritePort *writeport[MAX_CPU];
-    static int[] portmask=new int[MAX_CPU];
-    static int[] readport_size=new int[MAX_CPU];
-    static int[] writeport_size=new int[MAX_CPU];
-/*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
+    /* pointers to port structs */
+    /* ASG: port speedup */
+    static IOReadPort[][] readport = new IOReadPort[MAX_CPU][];
+    static IOWritePort[][] writeport = new IOWritePort[MAX_CPU][];
+    static int[] portmask = new int[MAX_CPU];
+    static int[] readport_size = new int[MAX_CPU];
+    static int[] writeport_size = new int[MAX_CPU];
+    /*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
 /*TODO*/ //const struct IOReadPort *cur_readport;
 /*TODO*/ //const struct IOWritePort *cur_writeport;
-/*TODO*/ //int cur_portmask;
-/*TODO*/ //
-/*TODO*/ ///* current hardware element map */
+    static int cur_portmask;
+    /* current hardware element map */
     static UByte[][] cur_mr_element = new UByte[MAX_CPU][];
     static UByte[][] cur_mw_element = new UByte[MAX_CPU][];
-    /*TODO*/ //
-/*TODO*/ ///* sub memory/port hardware element map */
+
+    /*TODO*/ ///* sub memory/port hardware element map */
 /*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
 /*TODO*/ //MHELE readhardware[MH_ELEMAX << MH_SBITS];	/* mem/port read  */
 /*TODO*/ //MHELE writehardware[MH_ELEMAX << MH_SBITS]; /* mem/port write */
@@ -118,20 +117,19 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ //#define HT_BANKMAX (HT_BANK1 + MAX_BANKS - 1)
 /*TODO*/ //
-/*TODO*/ ///* memory hardware handler */
-/*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-/*TODO*/ //mem_read_handler memoryreadhandler[MH_HARDMAX];
-/*TODO*/ //int memoryreadoffset[MH_HARDMAX];
-/*TODO*/ //mem_write_handler memorywritehandler[MH_HARDMAX];
-/*TODO*/ //int memorywriteoffset[MH_HARDMAX];
-/*TODO*/ //
-/*TODO*/ ///* bank ram base address; RAM is bank 0 */
+    /* memory hardware handler */
+    /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
+
+    static ReadHandlerPtr[] memoryreadhandler = new ReadHandlerPtr[MH_HARDMAX]; //mem_read_handler memoryreadhandler[MH_HARDMAX];
+    static int[] memoryreadoffset = new int[MH_HARDMAX];
+    static WriteHandlerPtr[] memorywritehandler = new WriteHandlerPtr[MH_HARDMAX];//mem_write_handler memorywritehandler[MH_HARDMAX];
+    static int[] memorywriteoffset = new int[MH_HARDMAX];
+    /*TODO*/ ///* bank ram base address; RAM is bank 0 */
 /*TODO*/ //unsigned char *cpu_bankbase[HT_BANKMAX + 1];
 /*TODO*/ //static int bankreadoffset[HT_BANKMAX + 1];
 /*TODO*/ //static int bankwriteoffset[HT_BANKMAX + 1];
 /*TODO*/ //
 /*TODO*/ ///* override OP base handler */
-
     public static opbase_handlerPtr[] setOPbasefunc = new opbase_handlerPtr[MAX_CPU];
     /*TODO*/ //static opbase_handler OPbasefunc;
 /*TODO*/ //
@@ -139,18 +137,11 @@ public class memory {
 /*TODO*/ //MHELE *cur_mrhard;
 /*TODO*/ //MHELE *cur_mwhard;
 /*TODO*/ //
-/*TODO*/ ///* empty port handler structures */
-/*TODO*/ //static struct IOReadPort empty_readport[] =
-/*TODO*/ //{
-/*TODO*/ //	{ -1 }
-/*TODO*/ //};
-/*TODO*/ //
-/*TODO*/ //static struct IOWritePort empty_writeport[] =
-/*TODO*/ //{
-/*TODO*/ //	{ -1 }
-/*TODO*/ //};
-/*TODO*/ //
-/*TODO*/ //static void *install_port_read_handler_common(int cpu, int start, int end, mem_read_handler handler, int install_at_beginning);
+    /* empty port handler structures */
+    public static IOReadPort[] empty_readport = {new IOReadPort(-1)};
+    public static IOWritePort[] empty_writeport = {new IOWritePort(-1)};
+
+    /*TODO*/ //static void *install_port_read_handler_common(int cpu, int start, int end, mem_read_handler handler, int install_at_beginning);
 /*TODO*/ //static void *install_port_write_handler_common(int cpu, int start, int end, mem_write_handler handler, int install_at_beginning);
 /*TODO*/ //
 /*TODO*/ //
@@ -365,7 +356,6 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ ///* ASG 980121 -- allocate all the external memory */
-
     public static int memory_allocate_ext() {
         int ext_ptr = 0;
         int cpu;
@@ -382,7 +372,7 @@ public class memory {
 
             int region = REGION_CPU1 + cpu;
             int size = memory_region_length(region);
-            
+
             /* now it's time to loop */
             while (true) {
                 int lowest = 0x7fffffff, end, lastend;
@@ -468,34 +458,24 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //
-public static UBytePtr memory_find_base (int cpu, int offset)
-{
-	
-    int region = REGION_CPU1 + cpu;
 
-            /* look in external memory first */
-            for(ExtMemory ext : ext_memory)
-            {
-                if (ext.data == null) break;
-                if (ext.region == region && ext.start <= offset && ext.end >= offset)
-                    return new UBytePtr(ext.data, (offset - ext.start));
+    public static UBytePtr memory_find_base(int cpu, int offset) {
+
+        int region = REGION_CPU1 + cpu;
+
+        /* look in external memory first */
+        for (ExtMemory ext : ext_memory) {
+            if (ext.data == null) {
+                break;
             }
-            return new UBytePtr(ramptr[cpu], offset);
-/*
-    int region = REGION_CPU1+cpu;
-	struct ExtMemory *ext;
+            if (ext.region == region && ext.start <= offset && ext.end >= offset) {
+                return new UBytePtr(ext.data, (offset - ext.start));
+            }
+        }
+        return new UBytePtr(ramptr[cpu], offset);
+    }
 
-	// look in external memory first 
-	for (ext = ext_memory; ext->data; ext++)
-		if (ext->region == region && ext->start <= offset && ext->end >= offset)
-			return ext->data + (offset - ext->start);
-
-	return ramptr[cpu] + offset;
-        */
-}
-
-/* make these static so they can be used in a callback by game drivers */
-
+    /* make these static so they can be used in a callback by game drivers */
     static int rdelement_max = 0;
     static int wrelement_max = 0;
     static int rdhard_max = HT_USER;
@@ -504,8 +484,7 @@ public static UBytePtr memory_find_base (int cpu, int offset)
     // return = FALSE:can't allocate element memory
     public static int memory_init() {
         /*java code intialaze ext_memory stuff elements (shadow) */
-        for(int x=0; x<MAX_EXT_MEMORY; x++)
-        {
+        for (int x = 0; x < MAX_EXT_MEMORY; x++) {
             ext_memory[x] = new ExtMemory();
         }
         /*end of java code */
@@ -538,85 +517,77 @@ public static UBytePtr memory_find_base (int cpu, int offset)
 
 
         for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
-            /*TODO*/ //		const struct MemoryReadAddress *_mra;
-/*TODO*/ //		const struct MemoryWriteAddress *_mwa;
-/*TODO*/ //
             setOPbasefunc[cpu] = null;
 
             ramptr[cpu] = romptr[cpu] = memory_region(REGION_CPU1 + cpu);
 
             /* initialize the memory base pointers for memory hooks */
             int _mra = 0;
-                if (Machine.drv.cpu[cpu].memory_read != null && Machine.drv.cpu[cpu].memory_read[_mra] != null)
-                {
-                    while (Machine.drv.cpu[cpu].memory_read[_mra].start != -1)
-                    {
-                        //                              if (_mra.base) *_mra.base = memory_find_base (cpu, _mra.start);
-                        //                              if (_mra.size) *_mra.size = _mra.end - _mra.start + 1;
-                        _mra++;
+            if (Machine.drv.cpu[cpu].memory_read != null && Machine.drv.cpu[cpu].memory_read[_mra] != null) {
+                while (Machine.drv.cpu[cpu].memory_read[_mra].start != -1) {
+                    //                              if (_mra.base) *_mra.base = memory_find_base (cpu, _mra.start);
+                    //                              if (_mra.size) *_mra.size = _mra.end - _mra.start + 1;
+                    _mra++;
+                }
+            }
+
+            int _mwa = 0;
+            if (Machine.drv.cpu[cpu].memory_write != null && Machine.drv.cpu[cpu].memory_write[_mwa] != null) {
+                while (Machine.drv.cpu[cpu].memory_write[_mwa].start != -1) {
+                    if (Machine.drv.cpu[cpu].memory_write[_mwa].base != null) {
+                        UBytePtr b = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[_mwa].start);
+                        Machine.drv.cpu[cpu].memory_write[_mwa].base.memory = b.memory;
+                        Machine.drv.cpu[cpu].memory_write[_mwa].base.base = b.offset;
                     }
+                    if (Machine.drv.cpu[cpu].memory_write[_mwa].size != null) {
+                        Machine.drv.cpu[cpu].memory_write[_mwa].size[0] = Machine.drv.cpu[cpu].memory_write[_mwa].end - Machine.drv.cpu[cpu].memory_write[_mwa].start + 1;
+                    }
+                    _mwa++;
+                }
+            }
+
+
+
+            /* initialize port structures */
+            readport_size[cpu] = 0;
+            writeport_size[cpu] = 0;
+            readport[cpu] = null;
+            writeport[cpu] = null;
+
+            /* install port handlers - at least an empty one */
+            int ioread_ptr = 0;
+            if (Machine.drv.cpu[cpu].port_read == null) {
+                Machine.drv.cpu[cpu].port_read = empty_readport;
+            }
+            while (true) {
+                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread_ptr].start, Machine.drv.cpu[cpu].port_read[ioread_ptr].end, Machine.drv.cpu[cpu].port_read[ioread_ptr]._handler, 0) == null) {
+                    memory_shutdown();
+                    return 0;
                 }
 
-                int _mwa = 0;
-                if (Machine.drv.cpu[cpu].memory_write != null && Machine.drv.cpu[cpu].memory_write[_mwa] != null)
-                {
-                    while (Machine.drv.cpu[cpu].memory_write[_mwa].start != -1)
-                    {
-                        if (Machine.drv.cpu[cpu].memory_write[_mwa].base != null)
-                        {
-                            UBytePtr b = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[_mwa].start);
-                            Machine.drv.cpu[cpu].memory_write[_mwa].base.memory = b.memory;
-                            Machine.drv.cpu[cpu].memory_write[_mwa].base.base = b.offset;
-                        }
-                        if (Machine.drv.cpu[cpu].memory_write[_mwa].size != null)
-                        {
-                            Machine.drv.cpu[cpu].memory_write[_mwa].size[0] = Machine.drv.cpu[cpu].memory_write[_mwa].end - Machine.drv.cpu[cpu].memory_write[_mwa].start + 1;
-                        }
-                        _mwa++;
-                    }
+                if (Machine.drv.cpu[cpu].port_read[ioread_ptr].start == -1) {
+                    break;
                 }
-                
-		
 
-		/* initialize port structures */
-		readport_size[cpu] = 0;
-		writeport_size[cpu] = 0;
-/*TODO*/ //		readport[cpu] = 0;
-/*TODO*/ //		writeport[cpu] = 0;
-/*TODO*/ //
-/*TODO*/ //		/* install port handlers - at least an empty one */
-/*TODO*/ //		ioread = Machine->drv->cpu[cpu].port_read;
-/*TODO*/ //		if (ioread == 0)  ioread = empty_readport;
-/*TODO*/ //
-/*TODO*/ //		while (1)
-/*TODO*/ //		{
-/*TODO*/ //			if (install_port_read_handler_common(cpu, ioread->start, ioread->end, ioread->handler, 0) == 0)
-/*TODO*/ //			{
-/*TODO*/ //				memory_shutdown();
-/*TODO*/ //				return 0;
-/*TODO*/ //			}
-/*TODO*/ //
-/*TODO*/ //			if (ioread->start == -1)  break;
-/*TODO*/ //
-/*TODO*/ //			ioread++;
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //		iowrite = Machine->drv->cpu[cpu].port_write;
-/*TODO*/ //		if (iowrite == 0)  iowrite = empty_writeport;
-/*TODO*/ //
-/*TODO*/ //		while (1)
-/*TODO*/ //		{
-/*TODO*/ //			if (install_port_write_handler_common(cpu, iowrite->start, iowrite->end, iowrite->handler, 0) == 0)
-/*TODO*/ //			{
-/*TODO*/ //				memory_shutdown();
-/*TODO*/ //				return 0;
-/*TODO*/ //			}
-/*TODO*/ //
-/*TODO*/ //			if (iowrite->start == -1)  break;
-/*TODO*/ //
-/*TODO*/ //			iowrite++;
-/*TODO*/ //		}
+                ioread_ptr++;
+            }
+            int iowrite_ptr = 0;
+            if (Machine.drv.cpu[cpu].port_write == null) {
+                Machine.drv.cpu[cpu].port_write = empty_writeport;
+            }
+
+            while (true) {
+                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite_ptr].start, Machine.drv.cpu[cpu].port_write[iowrite_ptr].end, Machine.drv.cpu[cpu].port_write[iowrite_ptr]._handler, 0) == null) {
+                    memory_shutdown();
+                    return 0;
+                }
+
+                if (Machine.drv.cpu[cpu].port_write[iowrite_ptr].start == -1) {
+                    break;
+                }
+
+                iowrite_ptr++;
+            }
 /*TODO*/ //
 /*TODO*/ //		portmask[cpu] = 0xffff;
 /*TODO*/ //#if HAS_Z80
@@ -894,9 +865,11 @@ public static UBytePtr memory_find_base (int cpu, int offset)
 /*TODO*/ //	OP_ROM = romptr[activecpu];
 /*TODO*/ //}
 /*TODO*/ //
-/*TODO*/ //void memory_shutdown(void)
-/*TODO*/ //{
-/*TODO*/ //	struct ExtMemory *ext;
+
+    public static void memory_shutdown() {
+        //normally we shouldn't even reach here yet (shadow)
+        throw new UnsupportedOperationException("memory shutdown?? I didn't call you!");
+        /*TODO*/ //	struct ExtMemory *ext;
 /*TODO*/ //	int cpu;
 /*TODO*/ //
 /*TODO*/ //	for( cpu = 0 ; cpu < MAX_CPU ; cpu++ )
@@ -929,8 +902,8 @@ public static UBytePtr memory_find_base (int cpu, int offset)
 /*TODO*/ //	for (ext = ext_memory; ext->data; ext++)
 /*TODO*/ //		free (ext->data);
 /*TODO*/ //	memset (ext_memory, 0, sizeof (ext_memory));
-/*TODO*/ //}
-/*TODO*/ //
+    }
+    /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ ///***************************************************************************
@@ -1776,103 +1749,99 @@ public static UBytePtr memory_find_base (int cpu, int offset)
 /*TODO*/ //	return install_port_write_handler_common(cpu, start, end, handler, 1);
 /*TODO*/ //}
 /*TODO*/ //
-/*TODO*/ //static void *install_port_read_handler_common(int cpu, int start, int end,
-/*TODO*/ //											  mem_read_handler handler, int install_at_beginning)
-/*TODO*/ //{
-/*TODO*/ //	int i, oldsize;
-/*TODO*/ //
-/*TODO*/ //	oldsize = readport_size[cpu];
-/*TODO*/ //	readport_size[cpu] += sizeof(struct IOReadPort);
-/*TODO*/ //
-/*TODO*/ //	if (readport[cpu] == 0)
-/*TODO*/ //	{
-/*TODO*/ //		readport[cpu] = malloc(readport_size[cpu]);
-/*TODO*/ //	}
-/*TODO*/ //	else
-/*TODO*/ //	{
-/*TODO*/ //		readport[cpu] = realloc(readport[cpu], readport_size[cpu]);
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	if (readport[cpu] == 0)  return 0;
-/*TODO*/ //
-/*TODO*/ //	if (install_at_beginning)
-/*TODO*/ //	{
-/*TODO*/ //		/* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
-/*TODO*/ //		for (i = oldsize / sizeof(struct IOReadPort); i >= 1; i--)
-/*TODO*/ //		{
-/*TODO*/ //			memcpy(&readport[cpu][i], &readport[cpu][i - 1], sizeof(struct IOReadPort));
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		i = 0;
-/*TODO*/ //	}
-/*TODO*/ //	else
-/*TODO*/ //	{
-/*TODO*/ //		i = oldsize / sizeof(struct IOReadPort);
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Installing port read handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
-/*TODO*/ //#endif
-/*TODO*/ //
-/*TODO*/ //	readport[cpu][i].start = start;
-/*TODO*/ //	readport[cpu][i].end = end;
-/*TODO*/ //	readport[cpu][i].handler = handler;
-/*TODO*/ //
-/*TODO*/ //	return readport[cpu];
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //static void *install_port_write_handler_common(int cpu, int start, int end,
-/*TODO*/ //											   mem_write_handler handler, int install_at_beginning)
-/*TODO*/ //{
-/*TODO*/ //	int i, oldsize;
-/*TODO*/ //
-/*TODO*/ //	oldsize = writeport_size[cpu];
-/*TODO*/ //	writeport_size[cpu] += sizeof(struct IOWritePort);
-/*TODO*/ //
-/*TODO*/ //	if (writeport[cpu] == 0)
-/*TODO*/ //	{
-/*TODO*/ //		writeport[cpu] = malloc(writeport_size[cpu]);
-/*TODO*/ //	}
-/*TODO*/ //	else
-/*TODO*/ //	{
-/*TODO*/ //		writeport[cpu] = realloc(writeport[cpu], writeport_size[cpu]);
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	if (writeport[cpu] == 0)  return 0;
-/*TODO*/ //
-/*TODO*/ //	if (install_at_beginning)
-/*TODO*/ //	{
-/*TODO*/ //		/* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
-/*TODO*/ //		for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
-/*TODO*/ //		{
-/*TODO*/ //			memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		i = 0;
-/*TODO*/ //	}
-/*TODO*/ //	else
-/*TODO*/ //	{
-/*TODO*/ //		i = oldsize / sizeof(struct IOWritePort);
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
-/*TODO*/ //#endif
-/*TODO*/ //
-/*TODO*/ //	writeport[cpu][i].start = start;
-/*TODO*/ //	writeport[cpu][i].end = end;
-/*TODO*/ //	writeport[cpu][i].handler = handler;
-/*TODO*/ //
-/*TODO*/ //	return writeport[cpu];
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //#ifdef MEM_DUMP
+
+    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, ReadHandlerPtr handler, int install_at_beginning) {
+        int i, oldsize;
+
+        oldsize = readport_size[cpu];
+        readport_size[cpu]++;//readport_size[cpu] += sizeof(struct IOReadPort);
+
+        if (readport[cpu] == null) {
+            readport[cpu] = new IOReadPort[readport_size[cpu]];//readport[cpu] = malloc(readport_size[cpu]);
+        } else {
+            throw new UnsupportedOperationException("port_read handler realloc UNSUPPORTED!!!");
+            //hmm how can i do THAT????? 
+/*TODO*/    //readport[cpu] = realloc(readport[cpu], readport_size[cpu]);
+        }
+        if (readport[cpu] == null) {
+            return null;
+        }
+
+
+        if (install_at_beginning != 0) {
+            /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
+            for (i = oldsize; i >= 1; i--) //for (i = oldsize / sizeof(struct IOReadPort); i >= 1; i--)
+            {
+                System.arraycopy(readport[cpu], i - 1, readport[cpu], i, 1); //memcpy(&readport[cpu][i], &readport[cpu][i - 1], sizeof(struct IOReadPort));
+
+            }
+            i = 0;
+        } else {
+            i = oldsize; //i = oldsize / sizeof(struct IOReadPort);
+        }
+
+
+        if (errorlog != null) {
+            fprintf(errorlog, "Installing port read handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
+        }
+
+        readport[cpu][i] = new IOReadPort();
+        readport[cpu][i].start = start;
+        readport[cpu][i].end = end;
+        readport[cpu][i]._handler = handler;
+
+        return readport[cpu];
+    }
+    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, WriteHandlerPtr handler, int install_at_beginning)
+    {
+            int i, oldsize;
+
+            oldsize = writeport_size[cpu];
+            writeport_size[cpu]++;  //writeport_size[cpu] += sizeof(struct IOWritePort);
+
+            if (writeport[cpu] == null)
+            {
+                writeport[cpu] = new IOWritePort[writeport_size[cpu]];
+            }
+            else
+            {
+                 throw new UnsupportedOperationException("port_write handler realloc UNSUPPORTED!!!");
+/*TODO*/ //     //writeport[cpu] = realloc(writeport[cpu], writeport_size[cpu]);
+            }
+
+            if (writeport[cpu] == null) return null;
+
+            if (install_at_beginning != 0)
+            {
+                /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
+                for (i = oldsize; i >= 1; i--)//for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
+                {
+                    System.arraycopy(writeport[cpu], i - 1, writeport[cpu], i, 1); //memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
+                }
+
+                i = 0;
+            }
+            else
+            {
+                i = oldsize;
+            }
+            if (errorlog!=null) fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
+            
+            writeport[cpu][i] = new IOWritePort();
+            writeport[cpu][i].start = start;
+            writeport[cpu][i].end = end;
+            writeport[cpu][i]._handler = handler;
+
+            return writeport[cpu];
+
+    }
+
 
     public static void mem_dump() {
         /*TODO*/ //	extern int totalcpu;
         int cpu;
         int naddr, addr;
-        char nhw, hw;
+         /*TODO*/ //MHELE nhw,hw;
         /*TODO*/ //
 /*TODO*/ //	FILE *temp = fopen ("memdump.log", "w");
 /*TODO*/ //

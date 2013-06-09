@@ -12,6 +12,7 @@ import arcadeflex.libc.*;
  * 
  */
 public class memoryH {
+    
      public static class MemoryReadAddress
      {
         public MemoryReadAddress(int s, int e, int h, CharPtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
@@ -67,6 +68,10 @@ public class memoryH {
     ***************************************************************************/
     public static class IOReadPort
     {
+        public IOReadPort()
+        {
+            handler =1; // i probably must set this (shadow)
+        }
         public IOReadPort(int s, int e, int h) { start = s; end = e; handler = h; };
         public IOReadPort(int s, int e, ReadHandlerPtr rhp) { start = s; end = e; handler = 1; _handler = rhp; };
         public IOReadPort(int s) { this(s, -1, null); };
@@ -79,6 +84,10 @@ public class memoryH {
 
         public static class IOWritePort
         {
+            public IOWritePort()
+            {
+                handler =1; // i probably must set this (shadow)
+            }
             public IOWritePort(int s, int e, int h) { start = s; end = e; handler = h; };
             public IOWritePort(int s, int e, WriteHandlerPtr whp) { start = s; end = e; handler = 1; _handler = whp; };
             public IOWritePort(int s) { this(s, -1, null); };
