@@ -60,6 +60,9 @@ public class libc {
         public char read(int offset) {
             return (char)(memory[base + offset] & 0xFF); //return only the first 8bits
         }
+        public void write(int offset, int value) {
+            memory[base + offset] = (char) (value &0xFF);//store 8 bits only
+        }
         /*
         public UBytePtr(char[] m) {
             set(m, 0);

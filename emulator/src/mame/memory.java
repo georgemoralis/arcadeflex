@@ -21,28 +21,27 @@ import static mame.commonH.*;
 
 public class memory {
 
-    /*TODO*/ ///***************************************************************************
-/*TODO*/ //
-/*TODO*/ //  memory.c
-/*TODO*/ //
-/*TODO*/ //  Functions which handle the CPU memory and I/O port access.
-/*TODO*/ //
-/*TODO*/ //***************************************************************************/
-    /*TODO*/ //
-/*TODO*/ ///* #define MEM_DUMP */
-/*TODO*/ //
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //static void mem_dump( void );
-/*TODO*/ //#endif
-/*TODO*/ //
-/*TODO*/ ///* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
-/*TODO*/ //#define ADDRESS_BITS(index)             (cpuintf[Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK].address_bits)
-/*TODO*/ //#define ABITS1(index)                   (cpuintf[Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK].abits1)
-/*TODO*/ //#define ABITS2(index)                   (cpuintf[Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK].abits2)
-/*TODO*/ //#define ABITS3(index)                   (0)
-/*TODO*/ //#define ABITSMIN(index)                 (cpuintf[Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK].abitsmin)
-/*TODO*/ //
-/*TODO*/ //#if LSB_FIRST
+    /* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
+    public static int ADDRESS_BITS(int index) {
+        return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].address_bits);
+    }
+
+    public static int ABITS1(int index) {
+        return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].abits1);
+    }
+
+    public static int ABITS2(int index) {
+        return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].abits2);
+    }
+
+    public static int ABITS3(int index) {
+        return (0);
+    }
+
+    public static int ABITSMIN(int index) {
+        return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].abitsmin);
+    }
+    /*TODO*/ //#if LSB_FIRST
 /*TODO*/ //	#define BYTE_XOR_BE(a) ((a) ^ 1)
 /*TODO*/ //	#define BYTE_XOR_LE(a) (a)
 /*TODO*/ //#else
@@ -90,28 +89,47 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ ///* memory hardware element map */
 /*TODO*/ ///* value:                      */
-/*TODO*/ //#define HT_RAM    0		/* RAM direct        */
+    static final int HT_RAM = 0;		/* RAM direct        */
+
     static final int HT_BANK1 = 1;		/* bank memory #1    */
-    /*TODO*/ //#define HT_BANK2  2		/* bank memory #2    */
-/*TODO*/ //#define HT_BANK3  3		/* bank memory #3    */
-/*TODO*/ //#define HT_BANK4  4		/* bank memory #4    */
-/*TODO*/ //#define HT_BANK5  5		/* bank memory #5    */
-/*TODO*/ //#define HT_BANK6  6		/* bank memory #6    */
-/*TODO*/ //#define HT_BANK7  7		/* bank memory #7    */
-/*TODO*/ //#define HT_BANK8  8		/* bank memory #8    */
-/*TODO*/ //#define HT_BANK9  9		/* bank memory #9    */
-/*TODO*/ //#define HT_BANK10 10	/* bank memory #10   */
-/*TODO*/ //#define HT_BANK11 11	/* bank memory #11   */
-/*TODO*/ //#define HT_BANK12 12	/* bank memory #12   */
-/*TODO*/ //#define HT_BANK13 13	/* bank memory #13   */
-/*TODO*/ //#define HT_BANK14 14	/* bank memory #14   */
-/*TODO*/ //#define HT_BANK15 15	/* bank memory #15   */
-/*TODO*/ //#define HT_BANK16 16	/* bank memory #16   */
-/*TODO*/ //#define HT_NON    17	/* non mapped memory */
-/*TODO*/ //#define HT_NOP    18	/* NOP memory        */
-/*TODO*/ //#define HT_RAMROM 19	/* RAM ROM memory    */
-/*TODO*/ //#define HT_ROM    20	/* ROM memory        */
-/*TODO*/ //
+
+    static final int HT_BANK2 = 2;		/* bank memory #2    */
+
+    static final int HT_BANK3 = 3;		/* bank memory #3    */
+
+    static final int HT_BANK4 = 4;		/* bank memory #4    */
+
+    static final int HT_BANK5 = 5;		/* bank memory #5    */
+
+    static final int HT_BANK6 = 6;		/* bank memory #6    */
+
+    static final int HT_BANK7 = 7;		/* bank memory #7    */
+
+    static final int HT_BANK8 = 8;		/* bank memory #8    */
+
+    static final int HT_BANK9 = 9;		/* bank memory #9    */
+
+    static final int HT_BANK10 = 10;	/* bank memory #10   */
+
+    static final int HT_BANK11 = 11;	/* bank memory #11   */
+
+    static final int HT_BANK12 = 12;	/* bank memory #12   */
+
+    static final int HT_BANK13 = 13;	/* bank memory #13   */
+
+    static final int HT_BANK14 = 14;	/* bank memory #14   */
+
+    static final int HT_BANK15 = 15;	/* bank memory #15   */
+
+    static final int HT_BANK16 = 16;	/* bank memory #16   */
+
+    static final int HT_NON = 17;	/* non mapped memory */
+
+    static final int HT_NOP = 18;	/* NOP memory        */
+
+    static final int HT_RAMROM = 19;	/* RAM ROM memory    */
+
+    static final int HT_ROM = 20;	/* ROM memory        */
 
     static final int HT_USER = 21;	/* user functions    */
     /* [MH_HARDMAX]-0xff	  link to sub memory element  */
@@ -239,93 +257,158 @@ public class memory {
         mrh_bank8, mrh_bank9, mrh_bank10, mrh_bank11, mrh_bank12, mrh_bank13, mrh_bank14, mrh_bank15,
         mrh_bank16
     };
-    /*TODO*/ //
-/*TODO*/ //READ_HANDLER(mrh_error)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),cpu_bankbase[0][offset],offset);
-/*TODO*/ //	return cpu_bankbase[0][offset];
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //READ_HANDLER(mrh_error_sparse)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
-/*TODO*/ //	return 0;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //READ_HANDLER(mrh_error_sparse_bit)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory bit addr %08x (byte addr %08x)\n",cpu_getactivecpu(),cpu_get_pc(),offset<<3, offset);
-/*TODO*/ //	return 0;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //READ_HANDLER(mrh_nop)
-/*TODO*/ //{
-/*TODO*/ //	return 0;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ ///***************************************************************************
-/*TODO*/ //
-/*TODO*/ //  Memory write handling
-/*TODO*/ //
-/*TODO*/ //***************************************************************************/
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_ram)		{ cpu_bankbase[0][offset] = data;}
-/*TODO*/ //WRITE_HANDLER(mwh_bank1)	{ cpu_bankbase[1][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank2)	{ cpu_bankbase[2][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank3)	{ cpu_bankbase[3][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank4)	{ cpu_bankbase[4][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank5)	{ cpu_bankbase[5][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank6)	{ cpu_bankbase[6][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank7)	{ cpu_bankbase[7][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank8)	{ cpu_bankbase[8][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank9)	{ cpu_bankbase[9][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank10)	{ cpu_bankbase[10][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank11)	{ cpu_bankbase[11][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank12)	{ cpu_bankbase[12][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank13)	{ cpu_bankbase[13][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank14)	{ cpu_bankbase[14][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank15)	{ cpu_bankbase[15][offset] = data; }
-/*TODO*/ //WRITE_HANDLER(mwh_bank16)	{ cpu_bankbase[16][offset] = data; }
-/*TODO*/ //static mem_write_handler bank_write_handler[] =
-/*TODO*/ //{
-/*TODO*/ //	mwh_ram,   mwh_bank1,  mwh_bank2,  mwh_bank3,  mwh_bank4,  mwh_bank5,  mwh_bank6,  mwh_bank7,
-/*TODO*/ //	mwh_bank8, mwh_bank9,  mwh_bank10, mwh_bank11, mwh_bank12, mwh_bank13, mwh_bank14, mwh_bank15,
-/*TODO*/ //	mwh_bank16
-/*TODO*/ //};
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_error)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
-/*TODO*/ //	cpu_bankbase[0][offset] = data;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_error_sparse)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_error_sparse_bit)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory bit addr %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset<<3);
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_rom)
-/*TODO*/ //{
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to ROM address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_ramrom)
-/*TODO*/ //{
-/*TODO*/ //	cpu_bankbase[0][offset] = cpu_bankbase[0][offset + (OP_ROM - OP_RAM)] = data;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //WRITE_HANDLER(mwh_nop)
-/*TODO*/ //{
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ ///***************************************************************************
+    public static ReadHandlerPtr mrh_error = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            /*TODO*/ //            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),cpu_bankbase[0][offset],offset);
+            return cpu_bankbase[0].read(offset);
+        }
+    };
+    public static ReadHandlerPtr mrh_error_sparse = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
+            return 0;
+        }
+    };
+    public static ReadHandlerPtr mrh_error_sparse_bit = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory bit addr %08x (byte addr %08x)\n",cpu_getactivecpu(),cpu_get_pc(),offset<<3, offset);
+            return 0;
+        }
+    };
+    public static ReadHandlerPtr mrh_nop = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return 0;
+        }
+    };
+    /**
+     * *************************************************************************
+     *
+     * Memory write handling
+     *
+     **************************************************************************
+     */
+    public static WriteHandlerPtr mwh_ram = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[0].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank1 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[1].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank2 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[2].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank3 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[3].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank4 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[4].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank5 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[5].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank6 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[6].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank7 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[7].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank8 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[8].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank9 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[9].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank10 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[10].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank11 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[11].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank12 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[12].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank13 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[13].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank14 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[14].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank15 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[15].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_bank16 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            cpu_bankbase[16].write(offset, data);
+        }
+    };
+    static WriteHandlerPtr bank_write_handler[] = {
+        mwh_ram, mwh_bank1, mwh_bank2, mwh_bank3, mwh_bank4, mwh_bank5, mwh_bank6, mwh_bank7,
+        mwh_bank8, mwh_bank9, mwh_bank10, mwh_bank11, mwh_bank12, mwh_bank13, mwh_bank14, mwh_bank15,
+        mwh_bank16
+    };
+    public static WriteHandlerPtr mwh_error = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+            cpu_bankbase[0].write(offset, data);
+        }
+    };
+    public static WriteHandlerPtr mwh_error_sparse = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+        }
+    };
+    public static WriteHandlerPtr mwh_error_sparse_bit = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory bit addr %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset<<3);
+        }
+    };
+    public static WriteHandlerPtr mwh_rom = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to ROM address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+        }
+    };
+    public static WriteHandlerPtr mwh_ramrom = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /*TODO*/ //	cpu_bankbase[0][offset] = cpu_bankbase[0][offset + (OP_ROM - OP_RAM)] = data;
+        }
+    };
+    public static WriteHandlerPtr mwh_nop = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+        }
+    };
+
+    /*TODO*/ ///***************************************************************************
 /*TODO*/ //
 /*TODO*/ //  Memory structure building
 /*TODO*/ //
@@ -421,7 +504,6 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ //
 /*TODO*/ ///* ASG 980121 -- allocate all the external memory */
-
     public static int memory_allocate_ext() {
         int ext_ptr = 0;
         int cpu;
@@ -626,7 +708,7 @@ public class memory {
                 Machine.drv.cpu[cpu].port_read = empty_readport;
             }
             while (true) {
-                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread_ptr].start, Machine.drv.cpu[cpu].port_read[ioread_ptr].end, Machine.drv.cpu[cpu].port_read[ioread_ptr].handler,Machine.drv.cpu[cpu].port_read[ioread_ptr]._handler, 0) == null) {
+                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread_ptr].start, Machine.drv.cpu[cpu].port_read[ioread_ptr].end, Machine.drv.cpu[cpu].port_read[ioread_ptr].handler, Machine.drv.cpu[cpu].port_read[ioread_ptr]._handler, 0) == null) {
                     memory_shutdown();
                     return 0;
                 }
@@ -643,7 +725,7 @@ public class memory {
             }
 
             while (true) {
-                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite_ptr].start, Machine.drv.cpu[cpu].port_write[iowrite_ptr].end,Machine.drv.cpu[cpu].port_write[iowrite_ptr].handler,Machine.drv.cpu[cpu].port_write[iowrite_ptr]._handler, 0) == null) {
+                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite_ptr].start, Machine.drv.cpu[cpu].port_write[iowrite_ptr].end, Machine.drv.cpu[cpu].port_write[iowrite_ptr].handler, Machine.drv.cpu[cpu].port_write[iowrite_ptr]._handler, 0) == null) {
                     memory_shutdown();
                     return 0;
                 }
@@ -670,45 +752,43 @@ public class memory {
         }
         /* bank memory */
         for (i = 1; i <= MAX_BANKS; i++) {
-		memoryreadhandler[i] = bank_read_handler[i];
-/*TODO*/ //		memorywritehandler[i] = bank_write_handler[i];
+            memoryreadhandler[i] = bank_read_handler[i];
+            memorywritehandler[i] = bank_write_handler[i];
         }
-        /*TODO*/ //	/* non map memory */
-/*TODO*/ //	memoryreadhandler[HT_NON] = mrh_error;
-/*TODO*/ //	memorywritehandler[HT_NON] = mwh_error;
-/*TODO*/ //	/* NOP memory */
-/*TODO*/ //	memoryreadhandler[HT_NOP] = mrh_nop;
-/*TODO*/ //	memorywritehandler[HT_NOP] = mwh_nop;
-/*TODO*/ //	/* RAMROM memory */
-/*TODO*/ //	memorywritehandler[HT_RAMROM] = mwh_ramrom;
-/*TODO*/ //	/* ROM memory */
-/*TODO*/ //	memorywritehandler[HT_ROM] = mwh_rom;
-/*TODO*/ //
-/*TODO*/ //	/* if any CPU is 21-bit or more, we change the error handlers to be more benign */
-/*TODO*/ //	for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++)
-/*TODO*/ //		if (ADDRESS_BITS (cpu) >= 21)
-/*TODO*/ //		{
-/*TODO*/ //			memoryreadhandler[HT_NON] = mrh_error_sparse;
-/*TODO*/ //			memorywritehandler[HT_NON] = mwh_error_sparse;
-/*TODO*/ //#if HAS_TMS34010
-/*TODO*/ //            if ((Machine->drv->cpu[cpu].cpu_type & ~CPU_FLAGS_MASK)==CPU_TMS34010)
-/*TODO*/ //			{
-/*TODO*/ //				memoryreadhandler[HT_NON] = mrh_error_sparse_bit;
-/*TODO*/ //				memorywritehandler[HT_NON] = mwh_error_sparse_bit;
-/*TODO*/ //			}
-/*TODO*/ //#endif
-/*TODO*/ //        }
-/*TODO*/ //
-/*TODO*/ //	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
-/*TODO*/ //	{
-/*TODO*/ //		/* cpu selection */
-/*TODO*/ //		abits1 = ABITS1 (cpu);
-/*TODO*/ //		abits2 = ABITS2 (cpu);
-/*TODO*/ //		abits3 = ABITS3 (cpu);
-/*TODO*/ //		abitsmin = ABITSMIN (cpu);
-/*TODO*/ //
-/*TODO*/ //		/* element shifter , mask set */
-/*TODO*/ //		mhshift[cpu][0] = (abits2+abits3);
+        /* non map memory */
+        memoryreadhandler[HT_NON] = mrh_error;
+        memorywritehandler[HT_NON] = mwh_error;
+        /* NOP memory */
+        memoryreadhandler[HT_NOP] = mrh_nop;
+        memorywritehandler[HT_NOP] = mwh_nop;
+        /* RAMROM memory */
+        memorywritehandler[HT_RAMROM] = mwh_ramrom;
+        /* ROM memory */
+        memorywritehandler[HT_ROM] = mwh_rom;
+
+        /* if any CPU is 21-bit or more, we change the error handlers to be more benign */
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            if (ADDRESS_BITS(cpu) >= 21) {
+                memoryreadhandler[HT_NON] = mrh_error_sparse;
+                memorywritehandler[HT_NON] = mwh_error_sparse;
+
+                if ((Machine.drv.cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_TMS34010) {
+                    memoryreadhandler[HT_NON] = mrh_error_sparse_bit;
+                    memorywritehandler[HT_NON] = mwh_error_sparse_bit;
+                }
+
+            }
+        }
+
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            /* cpu selection */
+            abits1 = ABITS1(cpu);
+            abits2 = ABITS2(cpu);
+            abits3 = ABITS3(cpu);
+            abitsmin = ABITSMIN(cpu);
+
+            /* element shifter , mask set */
+            /*TODO*/ //		mhshift[cpu][0] = (abits2+abits3);
 /*TODO*/ //		mhshift[cpu][1] = abits3;			/* 2nd */
 /*TODO*/ //		mhshift[cpu][2] = 0;				/* 3rd (used by set_element)*/
 /*TODO*/ //		mhmask[cpu][0]  = MHMASK(abits1);		/*1st(used by set_element)*/
@@ -890,8 +970,8 @@ public class memory {
 /*TODO*/ //				mwa--;
 /*TODO*/ //			}
 /*TODO*/ //		}
-/*TODO*/ //    }
-/*TODO*/ //
+        }
+        /*TODO*/ //
 /*TODO*/ //	if (errorlog){
 /*TODO*/ //		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
 /*TODO*/ //		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
@@ -1815,7 +1895,7 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 
-    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, int handler,ReadHandlerPtr _handler, int install_at_beginning) {
+    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, int handler, ReadHandlerPtr _handler, int install_at_beginning) {
         int i, oldsize;
 
         oldsize = readport_size[cpu];
@@ -1859,7 +1939,7 @@ public class memory {
         return readport[cpu];
     }
 
-    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, int handler ,WriteHandlerPtr _handler, int install_at_beginning) {
+    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, int handler, WriteHandlerPtr _handler, int install_at_beginning) {
         int i, oldsize;
 
         oldsize = writeport_size[cpu];
