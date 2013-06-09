@@ -71,7 +71,7 @@ public class memoryH {
     {
         public IOReadPort()
         {
-            handler =1; // i probably must set this (shadow)
+            handler =1; // i probably must set this. This might have an issue if there is anothere value than 0 for NOP and 1 for other handler (shadow)
         }
         public IOReadPort(int s, int e, int h) { start = s; end = e; handler = h; };
         public IOReadPort(int s, int e, ReadHandlerPtr rhp) { start = s; end = e; handler = 1; _handler = rhp; };
@@ -87,7 +87,7 @@ public class memoryH {
         {
             public IOWritePort()
             {
-                handler =1; // i probably must set this (shadow)
+                handler =1; // i probably must set this. This might have an issue if there is anothere value than 0 for NOP and 1 for other handler (shadow)
             }
             public IOWritePort(int s, int e, int h) { start = s; end = e; handler = h; };
             public IOWritePort(int s, int e, WriteHandlerPtr whp) { start = s; end = e; handler = 1; _handler = whp; };
