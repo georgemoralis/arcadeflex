@@ -52,7 +52,12 @@ public class libc {
         }
         public UBytePtr(UByte[] m)
         {
-            System.arraycopy(m, 0, memory, 0, m.length);
+            memory = new char[m.length];
+            //System.arraycopy(m, 0, memory, 0, m.length);
+            for(int i=0; i<m.length; i++)
+            {
+                memory[i] = m[i].read();
+            }
             base=0;
         }
         public void set(char[] m, int b) {

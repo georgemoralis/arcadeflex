@@ -50,12 +50,7 @@ public class memoryH {
     public static final int MRA_BANK15 =-24;	/* bank memory */
     public static final int MRA_BANK16 =-25;	/* bank memory */
     
-    //refactoring requiered from here and below
 
-        public static int MHMASK(int abits) { return (0xffffffff >>> (32 - abits)); }
-
-    
-    public static final int MAX_BANKS		=16;
     
     public static class MemoryWriteAddress
     {
@@ -76,12 +71,37 @@ public class memoryH {
     public static final int MWA_NOP = 0;	/* do nothing */
     public static final int MWA_RAM = -1;	/* plain RAM location (store the value) */
     public static final int MWA_ROM = -2;	/* plain ROM location (do nothing) */
-        /* RAM[] and ROM[] are usually the same, but they aren't if the CPU opcodes are */
-        /* encrypted. In such a case, opcodes are fetched from ROM[], and arguments from */
-        /* RAM[]. If the program dynamically creates code in RAM and executes it, it */
-        /* won't work unless writes to RAM affects both RAM[] and ROM[]. */
-         public static final int MWA_RAMROM = -3;
+    /*
+       If the CPU opcodes are encrypted, they are fetched from a different memory space.
+       In such a case, if the program dynamically creates code in RAM and executes it,
+       it won't work unless you use MWA_RAMROM to affect both memory spaces.
+     */
+    public static final int MWA_RAMROM =-3;
+    public static final int MWA_BANK1 =-10;	/* bank memory */
+    public static final int MWA_BANK2 =-11;	/* bank memory */
+    public static final int MWA_BANK3 =-12;	/* bank memory */
+    public static final int MWA_BANK4 =-13;	/* bank memory */
+    public static final int MWA_BANK5 =-14;	/* bank memory */
+    public static final int MWA_BANK6 =-15;	/* bank memory */
+    public static final int MWA_BANK7 =-16;	/* bank memory */
+    public static final int MWA_BANK8 =-17;	/* bank memory */
+    public static final int MWA_BANK9 =-18;	/* bank memory */
+    public static final int MWA_BANK10 =-19;	/* bank memory */
+    public static final int MWA_BANK11 =-20;	/* bank memory */
+    public static final int MWA_BANK12 =-21;	/* bank memory */
+    public static final int MWA_BANK13 =-22;	/* bank memory */
+    public static final int MWA_BANK14 =-23;	/* bank memory */
+    public static final int MWA_BANK15 =-24;	/* bank memory */
+    public static final int MWA_BANK16 =-25;	/* bank memory */
 
+         
+             //refactoring requiered from here and below
+
+        public static int MHMASK(int abits) { return (0xffffffff >>> (32 - abits)); }
+
+    
+    public static final int MAX_BANKS		=16;
+    
     /***************************************************************************
 
     IN and OUT ports are handled like memory accesses, the hook template is the

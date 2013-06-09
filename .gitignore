@@ -3,3 +3,4 @@
 /emulator/dist/
 emulator/error.log
 emulator/roms/
+emulator/memdump.log

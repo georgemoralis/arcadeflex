@@ -85,8 +85,9 @@ public class memory {
     /* sub memory/port hardware element map */
     /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
     public static UByte[] readhardware = new UByte[MH_ELEMAX << MH_SBITS];/* mem/port read  */
+
     public static UByte[] writehardware = new UByte[MH_ELEMAX << MH_SBITS]; /* mem/port write */
-/*TODO*/ //
+    /*TODO*/ //
 /*TODO*/ ///* memory hardware element map */
 /*TODO*/ ///* value:                      */
 
@@ -635,6 +636,14 @@ public class memory {
         for (int x = 0; x < MAX_EXT_MEMORY; x++) {
             ext_memory[x] = new ExtMemory();
         }
+        for (int x =0; x< readhardware.length; x++)
+        {
+            readhardware[x]=new UByte();
+        }
+        for (int x =0; x< writehardware.length; x++)
+        {
+            writehardware[x]=new UByte();
+        }
         /*end of java code */
         int i, cpu;
         MemoryReadAddress memoryread;
@@ -876,127 +885,101 @@ public class memory {
 
                     /* hardware element table make */
                     int temp_rdelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
+                    temp_rdelement_max[0] = rdelement_max;
                     set_element(cpu, new UBytePtr(cur_mr_element[cpu]),
-                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].start) >>> abitsmin),  /*TODO checked unsigned if it's correct */
-                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].end) >>> abitsmin),  /*TODO checked unsigned if it's correct */
+                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].start) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].end) >>> abitsmin), /*TODO checked unsigned if it's correct */
                             hardware, new UBytePtr(readhardware), temp_rdelement_max);
 
                     rdelement_max = temp_rdelement_max[0];
                     mra_ptr--;
                 }
             }
+            /* memory write handler build */
+            if (Machine.drv.cpu[cpu].memory_write != null) {
+                int mwa_ptr = 0;
+                while (Machine.drv.cpu[cpu].memory_write[mwa_ptr].start != -1) {
+                    mwa_ptr++;
+                }
+                mwa_ptr--;
 
-           // System.out.println("test");
-
-
-
-            /*TODO*/ //					break;
-/*TODO*/ //				}
-/*TODO*/ //				case (FPTR)MRA_NOP:
-/*TODO*/ //					hardware = HT_NOP;
-/*TODO*/ //					break;
-
-            /*TODO*/ //				}
-/*TODO*/ //#ifdef SGI_FIX_MWA_NOP
-/*TODO*/ //				}
-/*TODO*/ //#endif
-/*TODO*/ //				/* hardware element table make */
-
-            /*TODO*/ //
-/*TODO*/ //				mra--;
-/*TODO*/ //			}
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		/* memory write handler build */
-/*TODO*/ //		if (memorywrite)
-/*TODO*/ //		{
-/*TODO*/ //			mwa = memorywrite;
-/*TODO*/ //			while (mwa->start != -1) mwa++;
-/*TODO*/ //			mwa--;
-/*TODO*/ //
-/*TODO*/ //			while (mwa >= memorywrite)
-/*TODO*/ //			{
-/*TODO*/ //				mem_write_handler handler = mwa->handler;
-/*TODO*/ //#ifdef SGI_FIX_MWA_NOP
-/*TODO*/ //				if ((FPTR)handler == (FPTR)MWA_NOP) {
-/*TODO*/ //					hardware = HT_NOP;
-/*TODO*/ //				} else {
-/*TODO*/ //#endif
-/*TODO*/ //				switch( (FPTR)handler )
-/*TODO*/ //				{
-/*TODO*/ //				case (FPTR)MWA_RAM:
-/*TODO*/ //					hardware = HT_RAM;	/* sprcial case ram write */
-/*TODO*/ //					break;
-/*TODO*/ //				case (FPTR)MWA_BANK1:
-/*TODO*/ //				case (FPTR)MWA_BANK2:
-/*TODO*/ //				case (FPTR)MWA_BANK3:
-/*TODO*/ //				case (FPTR)MWA_BANK4:
-/*TODO*/ //				case (FPTR)MWA_BANK5:
-/*TODO*/ //				case (FPTR)MWA_BANK6:
-/*TODO*/ //				case (FPTR)MWA_BANK7:
-/*TODO*/ //				case (FPTR)MWA_BANK8:
-/*TODO*/ //				case (FPTR)MWA_BANK9:
-/*TODO*/ //				case (FPTR)MWA_BANK10:
-/*TODO*/ //				case (FPTR)MWA_BANK11:
-/*TODO*/ //				case (FPTR)MWA_BANK12:
-/*TODO*/ //				case (FPTR)MWA_BANK13:
-/*TODO*/ //				case (FPTR)MWA_BANK14:
-/*TODO*/ //				case (FPTR)MWA_BANK15:
-/*TODO*/ //				case (FPTR)MWA_BANK16:
-/*TODO*/ //				{
-/*TODO*/ //					hardware = (int)MWA_BANK1 - (int)handler + 1;
+                while (mwa_ptr >= 0) {
+                    WriteHandlerPtr _handler = Machine.drv.cpu[cpu].memory_write[mwa_ptr]._handler;
+                    int handler = Machine.drv.cpu[cpu].memory_write[mwa_ptr].handler;
+                    switch (handler) {
+                        case MWA_RAM:
+                            hardware.set((char) HT_RAM);	/* sprcial case ram write */
+                            break;
+                        case MWA_BANK1:
+                        case MWA_BANK2:
+                        case MWA_BANK3:
+                        case MWA_BANK4:
+                        case MWA_BANK5:
+                        case MWA_BANK6:
+                        case MWA_BANK7:
+                        case MWA_BANK8:
+                        case MWA_BANK9:
+                        case MWA_BANK10:
+                        case MWA_BANK11:
+                        case MWA_BANK12:
+                        case MWA_BANK13:
+                        case MWA_BANK14:
+                        case MWA_BANK15:
+                        case MWA_BANK16: {
+                            throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
+                            /*TODO*/ //					hardware = (int)MWA_BANK1 - (int)handler + 1;
 /*TODO*/ //					memorywriteoffset[hardware] = bankwriteoffset[hardware] = mwa->start;
 /*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mwa->start);
 /*TODO*/ //					break;
-/*TODO*/ //				}
-/*TODO*/ //				case (FPTR)MWA_NOP:
-/*TODO*/ //					hardware = HT_NOP;
-/*TODO*/ //					break;
-/*TODO*/ //				case (FPTR)MWA_RAMROM:
-/*TODO*/ //					hardware = HT_RAMROM;
-/*TODO*/ //					break;
-/*TODO*/ //				case (FPTR)MWA_ROM:
-/*TODO*/ //					hardware = HT_ROM;
-/*TODO*/ //					break;
-/*TODO*/ //				default:
-/*TODO*/ //					/* create newer hardware handler */
-/*TODO*/ //					if( wrhard_max == MH_HARDMAX ){
-/*TODO*/ //						if (errorlog)
-/*TODO*/ //						 fprintf(errorlog,"write memory hardware pattern over !\n");
-/*TODO*/ //						hardware = 0;
-/*TODO*/ //					}else{
-/*TODO*/ //						/* regist hardware function */
-/*TODO*/ //						hardware = wrhard_max++;
-/*TODO*/ //						memorywritehandler[hardware] = handler;
-/*TODO*/ //						memorywriteoffset[hardware]  = mwa->start;
-/*TODO*/ //					}
-/*TODO*/ //				}
-/*TODO*/ //#ifdef SGI_FIX_MWA_NOP
-/*TODO*/ //				}
-/*TODO*/ //#endif
-/*TODO*/ //				/* hardware element table make */
-/*TODO*/ //				set_element( cpu , cur_mw_element[cpu] ,
-/*TODO*/ //					(int) (((unsigned int) mwa->start) >> abitsmin) ,
-/*TODO*/ //					(int) (((unsigned int) mwa->end) >> abitsmin) ,
-/*TODO*/ //					hardware , (MHELE *)writehardware , &wrelement_max );
-/*TODO*/ //
-/*TODO*/ //				mwa--;
-/*TODO*/ //			}
-/*TODO*/ //		}
+                        }
+                        case MWA_NOP:
+                            hardware.set((char) HT_NOP);
+                            break;
+                        case MWA_RAMROM:
+                            hardware.set((char) HT_RAMROM);
+                            break;
+                        case MWA_ROM:
+                            hardware.set((char) HT_ROM);
+                            break;
+                        default:
+                            /* create newer hardware handler */
+                            if (wrhard_max == MH_HARDMAX) {
+                                if (errorlog != null) {
+                                    fprintf(errorlog, "write memory hardware pattern over !\n");
+                                }
+                                hardware.set((char) 0);
+                            } else {
+                                /* regist hardware function */
+                                hardware.set((char) wrhard_max++);
+                                memorywritehandler[hardware.read()] = _handler;
+                                memorywriteoffset[hardware.read()] = Machine.drv.cpu[cpu].memory_write[mwa_ptr].start;
+                            }
+                            break;
+                    }
+                    /* hardware element table make */
+                    int temp_wrelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
+                    temp_wrelement_max[0] = wrelement_max;
+                    set_element(cpu, new UBytePtr(cur_mw_element[cpu]),
+                            (int) ((Machine.drv.cpu[cpu].memory_write[mwa_ptr].start) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            (int) ((Machine.drv.cpu[cpu].memory_write[mwa_ptr].end) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            hardware, new UBytePtr(writehardware), temp_wrelement_max);
+
+                    wrelement_max = temp_wrelement_max[0];
+                    mwa_ptr--;
+                }
+            }
         }
-        /*TODO*/ //
-/*TODO*/ //	if (errorlog){
-/*TODO*/ //		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
-/*TODO*/ //		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
-/*TODO*/ //		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
-/*TODO*/ //		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
-/*TODO*/ //	}
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //	mem_dump();
-/*TODO*/ //#endif
+
+        if (errorlog!=null){
+		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
+		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
+		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
+		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
+	}
+        mem_dump();
         return 1;	/* ok */
     }
-    /*TODO*/ //
+
 /*TODO*/ //void memory_set_opcode_base(int cpu,unsigned char *base)
 /*TODO*/ //{
 /*TODO*/ //	romptr[cpu] = base;
@@ -1998,60 +1981,59 @@ public class memory {
         /*TODO*/ //	extern int totalcpu;
         int cpu;
         int naddr, addr;
-        /*TODO*/ //MHELE nhw,hw;
-        /*TODO*/ //
-/*TODO*/ //	FILE *temp = fopen ("memdump.log", "w");
-/*TODO*/ //
-/*TODO*/ //	if (!temp) return;
-/*TODO*/ //
-/*TODO*/ //	for( cpu = 0 ; cpu < 1 ; cpu++ )
-/*TODO*/ //	{
-/*TODO*/ //		fprintf(temp,"cpu %d read memory \n",cpu);
-/*TODO*/ //		addr = 0;
-/*TODO*/ //		naddr = 0;
-/*TODO*/ //		nhw = 0xff;
-/*TODO*/ //		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-/*TODO*/ //			hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
-/*TODO*/ //			if( hw >= MH_HARDMAX )
-/*TODO*/ //			{	/* 2nd element link */
-/*TODO*/ //				hw = readhardware[((hw-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])];
-/*TODO*/ //				if( hw >= MH_HARDMAX )
-/*TODO*/ //					hw = readhardware[((hw-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])];
-/*TODO*/ //			}
-/*TODO*/ //			if( nhw != hw )
-/*TODO*/ //			{
-/*TODO*/ //				if( addr )
-/*TODO*/ //	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw],addr-1,nhw);
-/*TODO*/ //				nhw = hw;
-/*TODO*/ //				naddr = addr;
-/*TODO*/ //			}
-/*TODO*/ //			addr++;
-/*TODO*/ //		}
-/*TODO*/ //		fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw],addr-1,nhw);
-/*TODO*/ //
-/*TODO*/ //		fprintf(temp,"cpu %d write memory \n",cpu);
-/*TODO*/ //		naddr = 0;
-/*TODO*/ //		addr = 0;
-/*TODO*/ //		nhw = 0xff;
-/*TODO*/ //		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-/*TODO*/ //			hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
-/*TODO*/ //			if( hw >= MH_HARDMAX )
-/*TODO*/ //			{	/* 2nd element link */
-/*TODO*/ //				hw = writehardware[((hw-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])];
-/*TODO*/ //				if( hw >= MH_HARDMAX )
-/*TODO*/ //					hw = writehardware[((hw-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])];
-/*TODO*/ //			}
-/*TODO*/ //			if( nhw != hw )
-/*TODO*/ //			{
-/*TODO*/ //				if( addr )
-/*TODO*/ //	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
-/*TODO*/ //				nhw = hw;
-/*TODO*/ //				naddr = addr;
-/*TODO*/ //			}
-/*TODO*/ //			addr++;
-/*TODO*/ //		}
-/*TODO*/ //	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
-/*TODO*/ //	}
-/*TODO*/ //	fclose(temp);
+        UByte nhw = new UByte();
+        UByte hw = new UByte();
+	FILE temp = fopen ("memdump.log", "wa");
+
+	if (temp==null) return;
+	for( cpu = 0 ; cpu < cpu_gettotalcpu(); cpu++ )
+	{
+		fprintf(temp,"cpu %d read memory \n",cpu);
+		addr = 0;
+		naddr = 0;
+		nhw.set((char)0xff);
+		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
+			hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
+			if( hw.read() >= MH_HARDMAX )
+			{	/* 2nd element link */
+				hw.set(readhardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])].read());
+				if( hw.read() >= MH_HARDMAX )
+					hw.set(readhardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])].read());
+			}
+			if( nhw != hw )
+			{
+				if( addr!=0 )
+                        	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
+				nhw = hw;
+				naddr = addr;
+			}
+			addr++;
+		}
+		fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
+
+		fprintf(temp,"cpu %d write memory \n",cpu);
+		naddr = 0;
+		addr = 0;
+		nhw.set((char)0xff);
+		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
+			hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
+			if( hw.read() >= MH_HARDMAX )
+			{	/* 2nd element link */
+				hw.set(writehardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])].read());
+				if( hw.read() >= MH_HARDMAX )
+					hw.set(writehardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])].read());
+			}
+			if( nhw != hw )
+			{
+				if( addr!=0 )
+                                 fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
+				nhw = hw;
+				naddr = addr;
+			}
+			addr++;
+		}
+	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
+	}
+	fclose(temp);
     }
 }
