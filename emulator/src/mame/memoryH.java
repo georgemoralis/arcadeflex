@@ -13,6 +13,7 @@ import arcadeflex.libc.*;
  */
 public class memoryH {
     
+    public static final int MAX_BANKS		=16;
      public static class MemoryReadAddress
      {
         public MemoryReadAddress(int s, int e, int h, CharPtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }

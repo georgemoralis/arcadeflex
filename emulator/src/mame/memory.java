@@ -12,6 +12,7 @@ import static mame.driverH.*;
 import static arcadeflex.osdepend.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import java.util.Arrays;
 import static mame.memoryH.*;
 import static mame.mame.*;
 import static mame.cpuintrf.*;
@@ -588,26 +589,26 @@ public class memory {
 
                 iowrite_ptr++;
             }
-/*TODO*/ //
-/*TODO*/ //		portmask[cpu] = 0xffff;
-/*TODO*/ //#if HAS_Z80
-/*TODO*/ //        if ((Machine->drv->cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_Z80 &&
-/*TODO*/ //			(Machine->drv->cpu[cpu].cpu_type & CPU_16BIT_PORT) == 0)
-/*TODO*/ //			portmask[cpu] = 0xff;
-/*TODO*/ //#endif
+
+            portmask[cpu] = 0xffff;
+
+            if ((Machine.drv.cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_Z80
+                    && (Machine.drv.cpu[cpu].cpu_type & CPU_16BIT_PORT) == 0) {
+                portmask[cpu] = 0xff;
+            }
+
         }
-        /*TODO*/ //
-/*TODO*/ //	/* initialize grobal handler */
-/*TODO*/ //	for( i = 0 ; i < MH_HARDMAX ; i++ ){
-/*TODO*/ //		memoryreadoffset[i] = 0;
-/*TODO*/ //		memorywriteoffset[i] = 0;
-/*TODO*/ //	}
-/*TODO*/ //	/* bank memory */
-/*TODO*/ //	for (i = 1; i <= MAX_BANKS; i++)
-/*TODO*/ //	{
+	/* initialize grobal handler */
+	for( i = 0 ; i < MH_HARDMAX ; i++ ){
+		memoryreadoffset[i] = 0;
+		memorywriteoffset[i] = 0;
+	}
+	/* bank memory */
+	for (i = 1; i <= MAX_BANKS; i++)
+	{
 /*TODO*/ //		memoryreadhandler[i] = bank_read_handler[i];
 /*TODO*/ //		memorywritehandler[i] = bank_write_handler[i];
-/*TODO*/ //	}
+	}
 /*TODO*/ //	/* non map memory */
 /*TODO*/ //	memoryreadhandler[HT_NON] = mrh_error;
 /*TODO*/ //	memorywritehandler[HT_NON] = mwh_error;
@@ -1759,9 +1760,9 @@ public class memory {
         if (readport[cpu] == null) {
             readport[cpu] = new IOReadPort[readport_size[cpu]];//readport[cpu] = malloc(readport_size[cpu]);
         } else {
-            throw new UnsupportedOperationException("port_read handler realloc UNSUPPORTED!!!");
-            //hmm how can i do THAT????? 
-/*TODO*/    //readport[cpu] = realloc(readport[cpu], readport_size[cpu]);
+            /*TODO CHECKIF IT'S OKAY*/                 //readport[cpu] = realloc(readport[cpu], readport_size[cpu]);
+            IOReadPort[] temp = Arrays.copyOf(readport[cpu], readport_size[cpu]);
+            readport[cpu] = temp;
         }
         if (readport[cpu] == null) {
             return null;
@@ -1792,56 +1793,54 @@ public class memory {
 
         return readport[cpu];
     }
-    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, WriteHandlerPtr handler, int install_at_beginning)
-    {
-            int i, oldsize;
 
-            oldsize = writeport_size[cpu];
-            writeport_size[cpu]++;  //writeport_size[cpu] += sizeof(struct IOWritePort);
+    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, WriteHandlerPtr handler, int install_at_beginning) {
+        int i, oldsize;
 
-            if (writeport[cpu] == null)
+        oldsize = writeport_size[cpu];
+        writeport_size[cpu]++;  //writeport_size[cpu] += sizeof(struct IOWritePort);
+
+        if (writeport[cpu] == null) {
+            writeport[cpu] = new IOWritePort[writeport_size[cpu]];
+        } else {
+            /*TODO CHECKIF IT'S OKAY*/                  //writeport[cpu] = realloc(writeport[cpu], writeport_size[cpu]);
+            IOWritePort[] temp = Arrays.copyOf(writeport[cpu], writeport_size[cpu]);
+            writeport[cpu] = temp;
+        }
+
+        if (writeport[cpu] == null) {
+            return null;
+        }
+
+        if (install_at_beginning != 0) {
+            /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
+            for (i = oldsize; i >= 1; i--)//for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
             {
-                writeport[cpu] = new IOWritePort[writeport_size[cpu]];
-            }
-            else
-            {
-                 throw new UnsupportedOperationException("port_write handler realloc UNSUPPORTED!!!");
-/*TODO*/ //     //writeport[cpu] = realloc(writeport[cpu], writeport_size[cpu]);
+                System.arraycopy(writeport[cpu], i - 1, writeport[cpu], i, 1); //memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
             }
 
-            if (writeport[cpu] == null) return null;
+            i = 0;
+        } else {
+            i = oldsize;
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
+        }
 
-            if (install_at_beginning != 0)
-            {
-                /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
-                for (i = oldsize; i >= 1; i--)//for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
-                {
-                    System.arraycopy(writeport[cpu], i - 1, writeport[cpu], i, 1); //memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
-                }
+        writeport[cpu][i] = new IOWritePort();
+        writeport[cpu][i].start = start;
+        writeport[cpu][i].end = end;
+        writeport[cpu][i]._handler = handler;
 
-                i = 0;
-            }
-            else
-            {
-                i = oldsize;
-            }
-            if (errorlog!=null) fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
-            
-            writeport[cpu][i] = new IOWritePort();
-            writeport[cpu][i].start = start;
-            writeport[cpu][i].end = end;
-            writeport[cpu][i]._handler = handler;
-
-            return writeport[cpu];
+        return writeport[cpu];
 
     }
-
 
     public static void mem_dump() {
         /*TODO*/ //	extern int totalcpu;
         int cpu;
         int naddr, addr;
-         /*TODO*/ //MHELE nhw,hw;
+        /*TODO*/ //MHELE nhw,hw;
         /*TODO*/ //
 /*TODO*/ //	FILE *temp = fopen ("memdump.log", "w");
 /*TODO*/ //
