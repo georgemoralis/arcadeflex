@@ -45,17 +45,20 @@ public class libc {
         
         public UBytePtr(int size) {
             memory = new char[size];
-            offset=0;
+            base=0;
         }
         public UBytePtr(char[] m) {
             set(m, 0);
         }
         public void set(char[] m, int b) {
             memory = m;
-            offset = b;
+            base = b;
         }
          public UBytePtr(UBytePtr cp, int b) {
-            set(cp.memory, cp.offset + b);
+            set(cp.memory, cp.base + b);
+        }
+        public char read(int offset) {
+            return (char)(memory[base + offset] & 0xFF); //return only the first 8bits
         }
         /*
         public UBytePtr(char[] m) {
@@ -129,7 +132,7 @@ public class libc {
     
     */
         public char[] memory;
-        public int offset;
+        public int base;
     }
     
         public static class UByte {
