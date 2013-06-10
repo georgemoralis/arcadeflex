@@ -71,14 +71,14 @@ public class memory {
 /*TODO*/ //const struct IOWritePort *cur_writeport;
     static int cur_portmask;
     /* current hardware element map */
-    static UByte[][] cur_mr_element = new UByte[MAX_CPU][];
-    static UByte[][] cur_mw_element = new UByte[MAX_CPU][];
+    public static UBytePtr[] cur_mr_element=new UBytePtr[MAX_CPU];
+    public static UBytePtr[] cur_mw_element=new UBytePtr[MAX_CPU];
+
 
     /* sub memory/port hardware element map */
     /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-    public static UByte[] readhardware = new UByte[MH_ELEMAX << MH_SBITS];/* mem/port read  */
-
-    public static UByte[] writehardware = new UByte[MH_ELEMAX << MH_SBITS]; /* mem/port write */
+    static UBytePtr readhardware = new UBytePtr(new char[MH_ELEMAX<<MH_SBITS]);
+    static UBytePtr writehardware = new UBytePtr(new char[MH_ELEMAX<<MH_SBITS]);
 
     /* memory hardware element map */
     /* value:                      */
@@ -417,8 +417,7 @@ public class memory {
 
             if (hw.read() >= MH_HARDMAX) 
             {
- /*tempdebug*/               System.out.println(Integer.toHexString(hw.read()));
-                return new UBytePtr(subelement, (hw.read() - MH_HARDMAX) << MH_SBITS);
+                return new UBytePtr(subelement, (hw.read() - MH_HARDMAX) << MH_SBITS);   
             }
 
             /* create new element block */
@@ -436,7 +435,7 @@ public class memory {
             /* set link mark to current element */
             element.write(ad,(ele + MH_HARDMAX));
             /* get next subelement top */
-            subelement = new UBytePtr(subelement, ele << MH_SBITS);
+             subelement = new UBytePtr(subelement, ele << MH_SBITS);
             /* initialize new block */
             for (i = 0; i < (1 << MH_SBITS); i++)
                 subelement.write(i,hw.read());
@@ -525,7 +524,6 @@ public class memory {
          if( ss == sb ) 
          {
              sele = null;
-      /*tempdebug*/           System.out.println("sele is null " + ele_max[0]);
          }
          else 
          {
@@ -534,7 +532,6 @@ public class memory {
          if( ee == eb ) 
          {
              eele = null;
-      /*tempdebug*/           System.out.println("eele is null " + ele_max[0]);
          }
          else 
          {
@@ -677,12 +674,12 @@ public class memory {
         for (int x = 0; x < MAX_EXT_MEMORY; x++) {
             ext_memory[x] = new ExtMemory();
         }
-        for (int x = 0; x < readhardware.length; x++) {
+        /*for (int x = 0; x < readhardware.length; x++) {
             readhardware[x] = new UByte();
         }
         for (int x = 0; x < writehardware.length; x++) {
             writehardware[x] = new UByte();
-        }
+        }*/
         /*end of java code */
         int i, cpu;
         MemoryReadAddress memoryread;
@@ -844,13 +841,13 @@ public class memory {
             mhmask[cpu][2] = MHMASK(abits3);		/*3rd*/
 
             /* allocate current element */
-            if ((cur_mr_element[cpu] = new UByte[1 << abits1]) == null)//if( (cur_mr_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
+            if ((cur_mr_element[cpu] = new UBytePtr(new char[1<<abits1])) == null)//if( (cur_mr_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
             {
                 memory_shutdown();
                 return 0;
             }
 
-            if ((cur_mw_element[cpu] = new UByte[1 << abits1]) == null)//if( (cur_mw_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
+            if ((cur_mw_element[cpu] = new UBytePtr(new char[1<<abits1])) == null)//if( (cur_mw_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
             {
                 memory_shutdown();
                 return 0;
@@ -858,10 +855,10 @@ public class memory {
 
             /* initialize curent element table */
             for (i = 0; i < (1 << abits1); i++) {
-                cur_mr_element[cpu][i] = new UByte();
-                cur_mw_element[cpu][i] = new UByte();
-                cur_mr_element[cpu][i].set((char) HT_NON);	/* no map memory */
-                cur_mw_element[cpu][i].set((char) HT_NON);	/* no map memory */
+                //cur_mr_element[cpu][i] = new UByte();
+                //cur_mw_element[cpu][i] = new UByte();
+                cur_mr_element[cpu].write(i, HT_NON);	/* no map memory */
+                cur_mw_element[cpu].write(i, HT_NON);	/* no map memory */
             }
 
             /* memory read handler build */
@@ -925,11 +922,14 @@ public class memory {
                     /* hardware element table make */
                     int temp_rdelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
                     temp_rdelement_max[0] = rdelement_max;
-                    set_element(cpu, new UBytePtr(cur_mr_element[cpu]),
+                    //UBytePtr tem1 = new UBytePtr(cur_mr_element[cpu]);
+                    //UBytePtr tem2 = new UBytePtr(readhardware);
+                    set_element(cpu, cur_mr_element[cpu],
                             (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].start) >>> abitsmin), /*TODO checked unsigned if it's correct */
                             (int) ((Machine.drv.cpu[cpu].memory_read[mra_ptr].end) >>> abitsmin), /*TODO checked unsigned if it's correct */
-                            hardware, new UBytePtr(readhardware), temp_rdelement_max);
-
+                            hardware, readhardware, temp_rdelement_max);
+                    //cur_mr_element[cpu] = tem1.getUBytes();
+                    //readhardware = tem2.getUBytes();
                     rdelement_max = temp_rdelement_max[0];
                     mra_ptr--;
                 }
@@ -998,10 +998,10 @@ public class memory {
                     /* hardware element table make */
                     int temp_wrelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
                     temp_wrelement_max[0] = wrelement_max;
-                    set_element(cpu, new UBytePtr(cur_mw_element[cpu]),
+                    set_element(cpu, cur_mw_element[cpu],
                             (int) ((Machine.drv.cpu[cpu].memory_write[mwa_ptr].start) >>> abitsmin), /*TODO checked unsigned if it's correct */
                             (int) ((Machine.drv.cpu[cpu].memory_write[mwa_ptr].end) >>> abitsmin), /*TODO checked unsigned if it's correct */
-                            hardware, new UBytePtr(writehardware), temp_wrelement_max);
+                            hardware, writehardware, temp_wrelement_max);
 
                     wrelement_max = temp_wrelement_max[0];
                     mwa_ptr--;
@@ -2030,18 +2030,18 @@ public class memory {
             naddr = 0;
             nhw.set((char) 0xff);
             while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
-                hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
+                hw.set(cur_mr_element[cpu].read(addr >> mhshift[cpu][0]));
                 if (hw.read() >= MH_HARDMAX) {	/* 2nd element link */
-                    hw.set(readhardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])].read());
+                    hw.set(readhardware.read(((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])));
                     if (hw.read() >= MH_HARDMAX) {
-                        hw.set(readhardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])].read());
+                        hw.set(readhardware.read(((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])));
                     }
                 }
-                if (nhw != hw) {
+                if (nhw.read() != hw.read()) {
                     if (addr != 0) {
                         fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memoryreadoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
                     }
-                    nhw = hw;
+                    nhw.set(hw.read());
                     naddr = addr;
                 }
                 addr++;
@@ -2053,18 +2053,18 @@ public class memory {
             addr = 0;
             nhw.set((char) 0xff);
             while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
-                hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
+                hw.set(cur_mw_element[cpu].read(addr >> mhshift[cpu][0]));
                 if (hw.read() >= MH_HARDMAX) {	/* 2nd element link */
-                    hw.set(writehardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])].read());
+                    hw.set(writehardware.read(((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])));
                     if (hw.read() >= MH_HARDMAX) {
-                        hw.set(writehardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])].read());
+                        hw.set(writehardware.read(((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])));
                     }
                 }
-                if (nhw != hw) {
+                if (nhw.read() != hw.read()) {
                     if (addr != 0) {
                         fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memorywriteoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
                     }
-                    nhw = hw;
+                    nhw.set(hw.read());
                     naddr = addr;
                 }
                 addr++;
