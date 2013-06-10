@@ -1,13 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mame;
 
-/**
- *
- * @author nickblame
- */
 import static mame.driverH.*;
 import static arcadeflex.osdepend.*;
 import static arcadeflex.libc.*;
@@ -87,10 +79,9 @@ public class memory {
     public static UByte[] readhardware = new UByte[MH_ELEMAX << MH_SBITS];/* mem/port read  */
 
     public static UByte[] writehardware = new UByte[MH_ELEMAX << MH_SBITS]; /* mem/port write */
-    /*TODO*/ //
-/*TODO*/ ///* memory hardware element map */
-/*TODO*/ ///* value:                      */
 
+    /* memory hardware element map */
+    /* value:                      */
     static final int HT_RAM = 0;		/* RAM direct        */
 
     static final int HT_BANK1 = 1;		/* bank memory #1    */
@@ -417,6 +408,42 @@ public class memory {
 /*TODO*/ //***************************************************************************/
 /*TODO*/ //
 /*TODO*/ ///* return element offset */
+    static UBytePtr get_element(UBytePtr element, int ad, int elemask, UBytePtr subelement, int []ele_max)
+    {
+            UByte hw= new UByte();
+            hw.set(element.read(ad));
+            int i, ele;
+            int banks = (elemask / (1 << MH_SBITS)) + 1;
+
+            if (hw.read() >= MH_HARDMAX) 
+            {
+ /*tempdebug*/               System.out.println(Integer.toHexString(hw.read()));
+                return new UBytePtr(subelement, (hw.read() - MH_HARDMAX) << MH_SBITS);
+            }
+
+            /* create new element block */
+            if ((ele_max[0]) + banks > MH_ELEMAX)
+            {
+                if (errorlog!=null) fprintf(errorlog,"memory element size over \n");
+                return null;
+            }
+            /* get new element nunber */
+            ele = ele_max[0];
+            (ele_max[0]) += banks;
+
+            if (errorlog!=null) fprintf(errorlog,"create element %2d(%2d)\n",ele,banks);
+            
+            /* set link mark to current element */
+            element.write(ad,(ele + MH_HARDMAX));
+            /* get next subelement top */
+            subelement = new UBytePtr(subelement, ele << MH_SBITS);
+            /* initialize new block */
+            for (i = 0; i < (1 << MH_SBITS); i++)
+                subelement.write(i,hw.read());
+
+            return subelement;
+        }
+
 /*TODO*/ //static MHELE *get_element( MHELE *element , int ad , int elemask ,
 /*TODO*/ //                        MHELE *subelement , int *ele_max )
 /*TODO*/ //{
@@ -453,54 +480,68 @@ public class memory {
         int i;
         int edepth = 0;
         int shift, mask;
-        /*           MHELE *eele = celement;
-         MHELE *sele = celement;
-         MHELE *ele;
-         int ss,sb,eb,ee;
+        UBytePtr eele = celement;
+        UBytePtr sele = celement;
+        UBytePtr ele = new UBytePtr();
+        int ss,sb,eb,ee;
 
 
-         if (errorlog) fprintf(errorlog,"set_element %8X-%8X = %2X\n",sp,ep,type);
+         if (errorlog!=null) fprintf(errorlog,"set_element %8X-%8X = %2X\n",sp,ep,Integer.valueOf(type.read()));
 
-         if( (unsigned int) sp > (unsigned int) ep ) return;
+         if( /*(unsigned int)*/ sp > /*(unsigned int)*/ ep ) return;
          do{
          mask  = mhmask[cpu][edepth];
          shift = mhshift[cpu][edepth];
 
          /* center element */
-        /*                  ss = (unsigned int) sp >> shift;
-         sb = (unsigned int) sp ? ((unsigned int) (sp-1) >> shift) + 1 : 0;
-         eb = ((unsigned int) (ep+1) >> shift) - 1;
-         ee = (unsigned int) ep >> shift;
+         ss = /*(unsigned int)*/ sp >> shift;
+         sb = /*(unsigned int)*/ sp!=0 ? (/*(unsigned int)*/ (sp-1) >> shift) + 1 : 0;
+         eb = (/*(unsigned int)*/ (ep+1) >> shift) - 1;
+         ee = /*(unsigned int)*/ ep >> shift;
+         
+   /*tempdebug*/       //if (errorlog!=null) fprintf(errorlog,"center_element ss=%8X sb=%8X eb=%8X ee=%8X\n",ss,sb,eb,ee);
 
          if( sb <= eb )
          {
-         if( (sb|mask)==(eb|mask) )
-         {
-         /* same reasion */
-        /*                                  ele = (sele ? sele : eele);
-         for( i = sb ; i <= eb ; i++ ){
-         ele[i & mask] = type;
-         }
-         }
-         else
-         {
-         if( sele ) for( i = sb ; i <= (sb|mask) ; i++ )
-         sele[i & mask] = type;
-         if( eele ) for( i = eb&(~mask) ; i <= eb ; i++ )
-         eele[i & mask] = type;
-         }
+            if( (sb|mask)==(eb|mask) )
+            {
+                /* same reasion */
+                ele = (sele!=null ? sele : eele);
+                for( i = sb ; i <= eb ; i++ ){
+                    ele.write(i & mask,type.read());
+                }
+            }
+            else
+            {
+                if( sele!=null ) for( i = sb ; i <= (sb|mask) ; i++ )
+                sele.write(i & mask,type.read());
+                if( eele!=null ) for( i = eb&(~mask) ; i <= eb ; i++ )
+                eele.write(i & mask,type.read());
+            }
          }
 
          edepth++;
 
-         if( ss == sb ) sele = 0;
-         else sele = get_element( sele , ss & mask , mhmask[cpu][edepth] ,
-         subelement , ele_max );
-         if( ee == eb ) eele = 0;
-         else eele = get_element( eele , ee & mask , mhmask[cpu][edepth] ,
-         subelement , ele_max );
+         if( ss == sb ) 
+         {
+             sele = null;
+      /*tempdebug*/           System.out.println("sele is null " + ele_max[0]);
+         }
+         else 
+         {
+             sele = get_element( sele , ss & mask , mhmask[cpu][edepth] ,subelement , ele_max );
+         }
+         if( ee == eb ) 
+         {
+             eele = null;
+      /*tempdebug*/           System.out.println("eele is null " + ele_max[0]);
+         }
+         else 
+         {
+             eele = get_element( eele , ee & mask , mhmask[cpu][edepth] ,subelement , ele_max );
+         }
 
-         }while( sele || eele );*/
+         }while( sele!=null || eele!=null );
     }
 
 
@@ -636,13 +677,11 @@ public class memory {
         for (int x = 0; x < MAX_EXT_MEMORY; x++) {
             ext_memory[x] = new ExtMemory();
         }
-        for (int x =0; x< readhardware.length; x++)
-        {
-            readhardware[x]=new UByte();
+        for (int x = 0; x < readhardware.length; x++) {
+            readhardware[x] = new UByte();
         }
-        for (int x =0; x< writehardware.length; x++)
-        {
-            writehardware[x]=new UByte();
+        for (int x = 0; x < writehardware.length; x++) {
+            writehardware[x] = new UByte();
         }
         /*end of java code */
         int i, cpu;
@@ -970,17 +1009,15 @@ public class memory {
             }
         }
 
-        if (errorlog!=null){
-		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
-		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
-		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
-		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
-	}
+        if (errorlog != null) {
+            fprintf(errorlog, "used read  elements %d/%d , functions %d/%d\n", rdelement_max, MH_ELEMAX, rdhard_max, MH_HARDMAX);
+            fprintf(errorlog, "used write elements %d/%d , functions %d/%d\n", wrelement_max, MH_ELEMAX, wrhard_max, MH_HARDMAX);
+        }
         mem_dump();
         return 1;	/* ok */
     }
 
-/*TODO*/ //void memory_set_opcode_base(int cpu,unsigned char *base)
+    /*TODO*/ //void memory_set_opcode_base(int cpu,unsigned char *base)
 /*TODO*/ //{
 /*TODO*/ //	romptr[cpu] = base;
 /*TODO*/ //}
@@ -1006,7 +1043,6 @@ public class memory {
 /*TODO*/ //	OP_ROM = romptr[activecpu];
 /*TODO*/ //}
 /*TODO*/ //
-
     public static void memory_shutdown() {
         //normally we shouldn't even reach here yet (shadow)
         throw new UnsupportedOperationException("memory shutdown?? I didn't call you!");
@@ -1983,57 +2019,58 @@ public class memory {
         int naddr, addr;
         UByte nhw = new UByte();
         UByte hw = new UByte();
-	FILE temp = fopen ("memdump.log", "wa");
+        FILE temp = fopen("memdump.log", "wa");
 
-	if (temp==null) return;
-	for( cpu = 0 ; cpu < cpu_gettotalcpu(); cpu++ )
-	{
-		fprintf(temp,"cpu %d read memory \n",cpu);
-		addr = 0;
-		naddr = 0;
-		nhw.set((char)0xff);
-		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-			hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
-			if( hw.read() >= MH_HARDMAX )
-			{	/* 2nd element link */
-				hw.set(readhardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])].read());
-				if( hw.read() >= MH_HARDMAX )
-					hw.set(readhardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])].read());
-			}
-			if( nhw != hw )
-			{
-				if( addr!=0 )
-                        	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
-				nhw = hw;
-				naddr = addr;
-			}
-			addr++;
-		}
-		fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
+        if (temp == null) {
+            return;
+        }
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            fprintf(temp, "cpu %d read memory \n", cpu);
+            addr = 0;
+            naddr = 0;
+            nhw.set((char) 0xff);
+            while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
+                hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
+                if (hw.read() >= MH_HARDMAX) {	/* 2nd element link */
+                    hw.set(readhardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])].read());
+                    if (hw.read() >= MH_HARDMAX) {
+                        hw.set(readhardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])].read());
+                    }
+                }
+                if (nhw != hw) {
+                    if (addr != 0) {
+                        fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memoryreadoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
+                    }
+                    nhw = hw;
+                    naddr = addr;
+                }
+                addr++;
+            }
+            fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memoryreadoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
 
-		fprintf(temp,"cpu %d write memory \n",cpu);
-		naddr = 0;
-		addr = 0;
-		nhw.set((char)0xff);
-		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-			hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
-			if( hw.read() >= MH_HARDMAX )
-			{	/* 2nd element link */
-				hw.set(writehardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])].read());
-				if( hw.read() >= MH_HARDMAX )
-					hw.set(writehardware[((hw.read()-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])].read());
-			}
-			if( nhw != hw )
-			{
-				if( addr!=0 )
-                                 fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
-				nhw = hw;
-				naddr = addr;
-			}
-			addr++;
-		}
-	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw.read()],addr-1,Integer.valueOf(nhw.read()));
-	}
-	fclose(temp);
+            fprintf(temp, "cpu %d write memory \n", cpu);
+            naddr = 0;
+            addr = 0;
+            nhw.set((char) 0xff);
+            while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
+                hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
+                if (hw.read() >= MH_HARDMAX) {	/* 2nd element link */
+                    hw.set(writehardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])].read());
+                    if (hw.read() >= MH_HARDMAX) {
+                        hw.set(writehardware[((hw.read() - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])].read());
+                    }
+                }
+                if (nhw != hw) {
+                    if (addr != 0) {
+                        fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memorywriteoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
+                    }
+                    nhw = hw;
+                    naddr = addr;
+                }
+                addr++;
+            }
+            fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memorywriteoffset[nhw.read()], addr - 1, Integer.valueOf(nhw.read()));
+        }
+        fclose(temp);
     }
 }
