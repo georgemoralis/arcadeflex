@@ -394,6 +394,7 @@ public class memory {
     public static WriteHandlerPtr mwh_ramrom = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /*TODO*/ //	cpu_bankbase[0][offset] = cpu_bankbase[0][offset + (OP_ROM - OP_RAM)] = data;
+            throw new UnsupportedOperationException("Unsupported mwh_ramrom Here you go nickblame :D");
         }
     };
     public static WriteHandlerPtr mwh_nop = new WriteHandlerPtr() {
@@ -401,13 +402,13 @@ public class memory {
         }
     };
 
-    /*TODO*/ ///***************************************************************************
-/*TODO*/ //
-/*TODO*/ //  Memory structure building
-/*TODO*/ //
-/*TODO*/ //***************************************************************************/
-/*TODO*/ //
-/*TODO*/ ///* return element offset */
+    /***************************************************************************
+
+      Memory structure building
+
+    ***************************************************************************/
+
+    /* return element offset */
     static UBytePtr get_element(UBytePtr element, int ad, int elemask, UBytePtr subelement, int []ele_max)
     {
             UByte hw= new UByte();
@@ -442,39 +443,6 @@ public class memory {
 
             return subelement;
         }
-
-/*TODO*/ //static MHELE *get_element( MHELE *element , int ad , int elemask ,
-/*TODO*/ //                        MHELE *subelement , int *ele_max )
-/*TODO*/ //{
-/*TODO*/ //	MHELE hw = element[ad];
-/*TODO*/ //	int i,ele;
-/*TODO*/ //	int banks = ( elemask / (1<<MH_SBITS) ) + 1;
-/*TODO*/ //
-/*TODO*/ //	if( hw >= MH_HARDMAX ) return &subelement[(hw-MH_HARDMAX)<<MH_SBITS];
-/*TODO*/ //
-/*TODO*/ //	/* create new element block */
-/*TODO*/ //	if( (*ele_max)+banks > MH_ELEMAX )
-/*TODO*/ //	{
-/*TODO*/ //		if (errorlog) fprintf(errorlog,"memory element size over \n");
-/*TODO*/ //		return 0;
-/*TODO*/ //	}
-/*TODO*/ //	/* get new element nunber */
-/*TODO*/ //	ele = *ele_max;
-/*TODO*/ //	(*ele_max)+=banks;
-/*TODO*/ //#ifdef MEM_DUMP
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"create element %2d(%2d)\n",ele,banks);
-/*TODO*/ //#endif
-/*TODO*/ //	/* set link mark to current element */
-/*TODO*/ //	element[ad] = ele + MH_HARDMAX;
-/*TODO*/ //	/* get next subelement top */
-/*TODO*/ //	subelement  = &subelement[ele<<MH_SBITS];
-/*TODO*/ //	/* initialize new block */
-/*TODO*/ //	for( i = 0 ; i < (1<<MH_SBITS) ; i++ )
-/*TODO*/ //		subelement[i] = hw;
-/*TODO*/ //
-/*TODO*/ //	return subelement;
-/*TODO*/ //}
-/*TODO*/ //
     static void set_element(int cpu, UBytePtr celement, int sp, int ep, UByte type, UBytePtr subelement, int[] ele_max) {
         int i;
         int edepth = 0;
@@ -892,7 +860,7 @@ public class memory {
                         case MRA_BANK14:
                         case MRA_BANK15:
                         case MRA_BANK16: {
-                            throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
+                            throw new UnsupportedOperationException("Unsupported MRA bank read Here you go nickblame :D");
                             /*TODO*/ //					hardware = (int)MRA_BANK1 - (int)handler + 1;
 /*TODO*/ //					memoryreadoffset[hardware] = bankreadoffset[hardware] = mra->start;
 /*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mra->start);
@@ -965,7 +933,7 @@ public class memory {
                         case MWA_BANK14:
                         case MWA_BANK15:
                         case MWA_BANK16: {
-                            throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
+                            throw new UnsupportedOperationException("Unsupported MWA Bank write Here you go nickblame :D");
                             /*TODO*/ //					hardware = (int)MWA_BANK1 - (int)handler + 1;
 /*TODO*/ //					memorywriteoffset[hardware] = bankwriteoffset[hardware] = mwa->start;
 /*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mwa->start);
