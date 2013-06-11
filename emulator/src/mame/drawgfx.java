@@ -5,6 +5,7 @@ import static mame.osdependH.*;
 import static mame.drawgfxH.*;
 import static mame.mame.*;
 import static mame.driverH.*;
+import static arcadeflex.libc.*;
 
 public class drawgfx {
 
@@ -27,12 +28,12 @@ public class drawgfx {
 /*TODO*///#define write_dword(address,data) *(int *)address=data
 /*TODO*///
 /*TODO*///
-    private static int readbit(CharPtr src, int bitnum) {
+    private static int readbit(UBytePtr src, int bitnum) {
          return (src.read(bitnum / 8) >> (7 - bitnum % 8)) & 1;
     }
 /*TODO*///
 /*TODO*///
-    public static void decodechar(GfxElement gfx, int num, CharPtr src, GfxLayout gl) 
+    public static void decodechar(GfxElement gfx, int num, UBytePtr src, GfxLayout gl) 
     {
 	int plane,x,y;
 	CharPtr dp;
@@ -90,7 +91,7 @@ public class drawgfx {
 		}
 	}
     }
-    public static GfxElement decodegfx(CharPtr src, GfxLayout gl) 
+    public static GfxElement decodegfx(UBytePtr src, GfxLayout gl) 
     {
 	int c;
 	GfxElement gfx;

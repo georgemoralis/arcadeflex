@@ -114,7 +114,7 @@ public class memoryH {
         public IOReadPort(){}
         public IOReadPort(int s, int e, int h) { start = s; end = e; handler = h; };
         public IOReadPort(int s, int e, ReadHandlerPtr rhp) { start = s; end = e; handler = 1; _handler = rhp; };
-        public IOReadPort(int s) { this(s, -1, null); };
+        public IOReadPort(int s) { this(s, 0, null); };
         public int start,end;
         public int handler;
         public ReadHandlerPtr _handler;	/* see special values below */
@@ -127,7 +127,7 @@ public class memoryH {
             public IOWritePort(){}
             public IOWritePort(int s, int e, int h) { start = s; end = e; handler = h; };
             public IOWritePort(int s, int e, WriteHandlerPtr whp) { start = s; end = e; handler = 1; _handler = whp; };
-            public IOWritePort(int s) { this(s, -1, null); };
+            public IOWritePort(int s) { this(s, 0, null); };
             public int start,end;
             public int handler;
             public WriteHandlerPtr _handler;	/* see special values below */

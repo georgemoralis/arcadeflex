@@ -148,7 +148,8 @@ public class libc {
         public int base;
     }
     
-        public static class UByte {
+     public static class UByte 
+     {
 
         public UByte() {
         }
@@ -166,5 +167,23 @@ public class libc {
         }
         char memory;
     }
-    
+      public static class UShort 
+     {
+
+        public UShort() {
+        }
+
+
+        public void set(char input) {
+            if(input>65535){
+                throw new UnsupportedOperationException("tried to set unsigned short with over 65535 value");     
+            }
+            memory = input;
+        }
+
+        public char read() {
+            return memory;
+        }
+        char memory;
+    }   
 }

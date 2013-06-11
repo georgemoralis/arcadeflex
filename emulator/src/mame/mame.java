@@ -26,12 +26,15 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static arcadeflex.osdepend.*;
 import static mame.common.*;
 import static mame.drawgfx.*;
 import static mame.cpuintrf.*;
 import static mame.drawgfxH.*;
+import static mame.palette.*;
+import static mame.usrintrf.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -296,11 +299,11 @@ public class mame {
            for (i = 0;i < MAX_GFX_ELEMENTS;i++) Machine.gfx[i] = null;
            Machine.uifont = null;
 
- /*TODO*/ //           if (palette_start() != 0)
- /*TODO*/ //           {
- /*TODO*/ //                   vh_close();
- /*TODO*/ //                   return 1;
- /*TODO*/ //           }
+            if (palette_start() != 0)
+            {
+                  vh_close();
+                  return 1;
+            }
 
 
             /* convert the gfx ROMs into character sets. This is done BEFORE calling the driver's */
@@ -340,21 +343,18 @@ public class mame {
                                                             reglen * FRAC_NUM(glcopy.yoffset[j]) / FRAC_DEN(glcopy.yoffset[j]);
                                     }
                             }
-                            /*TODO*if ((Machine.gfx[i] = decodegfx(new CharPtr(memory_region(drv.gfxdecodeinfo[i].memory_region), drv.gfxdecodeinfo[i].start), glcopy)) == null)
-                   
-   /*TODO*/ //                          if ((Machine.gfx[i] = decodegfx(memory_region(drv.gfxdecodeinfo[i].memory_region)
-  /*TODO*/ //                                           + drv.gfxdecodeinfo[i].start,
-  /*TODO*/ //                                           &glcopy)) == 0)
-  /*TODO*/ //                           {
-   /*TODO*/ //                                  vh_close();
-   /*TODO*/ //                                  return 1;
-   /*TODO*/ //                          }
-                           if (Machine.remapped_colortable!=null)
-                                   Machine.gfx[i].colortable = new CharPtr(Machine.remapped_colortable, drv.gfxdecodeinfo[i].color_codes_start);
-    /*TODO*/ //                         Machine.gfx[i].total_colors = drv.gfxdecodeinfo[i].total_color_codes;
+                            if ((Machine.gfx[i] = decodegfx(new UBytePtr(memory_region(drv.gfxdecodeinfo[i].memory_region), drv.gfxdecodeinfo[i].start), glcopy)) == null)
+                            {
+                                vh_close();
+                                return 1;
+                            }
+                            if (Machine.remapped_colortable!=null)
+				Machine.gfx[i].colortable = new CharPtr(Machine.remapped_colortable, drv.gfxdecodeinfo[i].color_codes_start);
+			
+                            Machine.gfx[i].total_colors = drv.gfxdecodeinfo[i].total_color_codes;
                     }
             }
-
+           
 
             /* create the display bitmap, and allocate the palette */
 /*TODO*/ //            if ((Machine.scrbitmap = osd_create_display(
@@ -385,11 +385,11 @@ public class mame {
             /* resolution we are running at and can pick a different font depending on it. */
             /* It must be done BEFORE palette_init() because that will also initialize */
             /* (through osd_allocate_colors()) the uifont colortable. */
-/*TODO*/ //            if ((Machine.uifont = builduifont()) == 0)
-/*TODO*/ //            {
-/*TODO*/ //                    vh_close();
-/*TODO*/ //                    return 1;
-/*TODO*/ //            }
+            if ((Machine.uifont = builduifont()) == null)
+            {
+                   vh_close();
+                   return 1;
+           }
 
             /* initialize the palette - must be done after osd_create_display() */
  /*TODO*/ //           if (palette_init())

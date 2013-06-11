@@ -38,7 +38,7 @@ public class mameH {
                 
                 public GfxElement gfx[] = new GfxElement[MAX_GFX_ELEMENTS];	/* graphic sets (chars, sprites) */
                 public osd_bitmap scrbitmap;	/* bitmap to draw into */
-  /*TODO*/ //                public unsigned short *pens;	/* remapped palette pen numbers. When you write */
+                public char[] pens;	/* remapped palette pen numbers. When you write */
                                                             /* directly to a bitmap, never use absolute values, */
                                                             /* use this array to get the pen number. For example, */
                                                             /* if you want to use color #6 in the palette, use */
