@@ -350,115 +350,117 @@ public class drawgfx {
             int code, int color, int flipx, int flipy, int sx, int sy,
             rectangle clip, int transparency, int transparent_color)
     {
-        throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
-/*TODO*///	struct rectangle myclip;
-/*TODO*///
-/*TODO*///	if (!gfx)
-/*TODO*///	{
+
+	rectangle myclip=new rectangle();
+
+	if (gfx==null)
+	{
 /*TODO*///		usrintf_showmessage("drawgfx() gfx == 0");
+                throw new UnsupportedOperationException("gfx is null");
 /*TODO*///		return;
-/*TODO*///	}
-/*TODO*///	if (!gfx->colortable)
-/*TODO*///	{
+	}
+	if (gfx.colortable==null)
+	{
 /*TODO*///		usrintf_showmessage("drawgfx() gfx->colortable == 0");
+            throw new UnsupportedOperationException("gfx colortable is null");
 /*TODO*///		return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	code %= gfx->total_elements;
-/*TODO*///	color %= gfx->total_colors;
-/*TODO*///
-/*TODO*///	if (gfx->pen_usage && (transparency == TRANSPARENCY_PEN || transparency == TRANSPARENCY_PENS))
-/*TODO*///	{
-/*TODO*///		int transmask = 0;
-/*TODO*///
-/*TODO*///		if (transparency == TRANSPARENCY_PEN)
-/*TODO*///		{
-/*TODO*///			transmask = 1 << transparent_color;
-/*TODO*///		}
-/*TODO*///		else if (transparency == TRANSPARENCY_PENS)
-/*TODO*///		{
-/*TODO*///			transmask = transparent_color;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if ((gfx->pen_usage[code] & ~transmask) == 0)
-/*TODO*///			/* character is totally transparent, no need to draw */
-/*TODO*///			return;
-/*TODO*///		else if ((gfx->pen_usage[code] & transmask) == 0 && transparency != TRANSPARENCY_THROUGH && transparency != TRANSPARENCY_PEN_TABLE )
-/*TODO*///			/* character is totally opaque, can disable transparency */
-/*TODO*///			transparency = TRANSPARENCY_NONE;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int temp;
-/*TODO*///
-/*TODO*///		temp = sx;
-/*TODO*///		sx = sy;
-/*TODO*///		sy = temp;
-/*TODO*///
-/*TODO*///		temp = flipx;
-/*TODO*///		flipx = flipy;
-/*TODO*///		flipy = temp;
-/*TODO*///
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = clip->min_y;
-/*TODO*///			myclip.min_y = temp;
-/*TODO*///			temp = clip->max_x;
-/*TODO*///			myclip.max_x = clip->max_y;
-/*TODO*///			myclip.max_y = temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		sx = dest->width - gfx->width - sx;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = dest->width-1 - clip->max_x;
-/*TODO*///			myclip.max_x = dest->width-1 - temp;
-/*TODO*///			myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = clip->max_y;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		flipx = !flipx;
-/*TODO*///
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		sy = dest->height - gfx->height - sy;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = clip->max_x;
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_y;
-/*TODO*///			myclip.min_y = dest->height-1 - clip->max_y;
-/*TODO*///			myclip.max_y = dest->height-1 - temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		flipy = !flipy;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (dest->depth != 16)
-/*TODO*///		drawgfx_core8(dest,gfx,code,color,flipx,flipy,sx,sy,clip,transparency,transparent_color);
-/*TODO*///	else
-/*TODO*///		drawgfx_core16(dest,gfx,code,color,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+	}
+
+	code %= gfx.total_elements;
+	color %= gfx.total_colors;
+
+	if (gfx.pen_usage!=null && (transparency == TRANSPARENCY_PEN || transparency == TRANSPARENCY_PENS))
+	{
+		int transmask = 0;
+
+		if (transparency == TRANSPARENCY_PEN)
+		{
+			transmask = 1 << transparent_color;
+		}
+		else if (transparency == TRANSPARENCY_PENS)
+		{
+			transmask = transparent_color;
+		}
+
+		if ((gfx.pen_usage[code] & ~transmask) == 0)
+			/* character is totally transparent, no need to draw */
+			return;
+		else if ((gfx.pen_usage[code] & transmask) == 0 && transparency != TRANSPARENCY_THROUGH && transparency != TRANSPARENCY_PEN_TABLE )
+			/* character is totally opaque, can disable transparency */
+			transparency = TRANSPARENCY_NONE;
+	}
+
+	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+	{
+		int temp;
+
+		temp = sx;
+		sx = sy;
+		sy = temp;
+
+		temp = flipx;
+		flipx = flipy;
+		flipy = temp;
+
+		if (clip!=null)
+		{
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = clip.min_y;
+			myclip.min_y = temp;
+			temp = clip.max_x;
+			myclip.max_x = clip.max_y;
+			myclip.max_y = temp;
+			clip = myclip;
+		}
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+	{
+		sx = dest.width - gfx.width - sx;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = dest.width-1 - clip.max_x;
+			myclip.max_x = dest.width-1 - temp;
+			myclip.min_y = clip.min_y;
+			myclip.max_y = clip.max_y;
+			clip = myclip;
+		}
+
+		flipx = NOT(flipx);
+
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+	{
+		sy = dest.height - gfx.height - sy;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			myclip.min_x = clip.min_x;
+			myclip.max_x = clip.max_x;
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_y;
+			myclip.min_y = dest.height-1 - clip.max_y;
+			myclip.max_y = dest.height-1 - temp;
+			clip = myclip;
+		}
+
+		flipy = NOT(flipy);
+	}
+
+	if (dest.depth != 16)
+		drawgfx_core8(dest,gfx,code,color,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+	else
+		drawgfx_core16(dest,gfx,code,color,flipx,flipy,sx,sy,clip,transparency,transparent_color);
     }
-/*TODO*///
-/*TODO*///
+
+
 /*TODO*////***************************************************************************
 /*TODO*///
 /*TODO*///  Use drawgfx() to copy a bitmap onto another at the given position.
@@ -1770,5 +1772,784 @@ public class drawgfx {
 			plot_pixel = pps_16_nd[Machine.orientation];
 	}
     }
-
+    
+/*TODO*///DECLARE(blockmove_opaque,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata <= end - 8)
+/*TODO*///		{
+/*TODO*///			dstdata[0] = paldata[srcdata[0]];
+/*TODO*///			dstdata[1] = paldata[srcdata[1]];
+/*TODO*///			dstdata[2] = paldata[srcdata[2]];
+/*TODO*///			dstdata[3] = paldata[srcdata[3]];
+/*TODO*///			dstdata[4] = paldata[srcdata[4]];
+/*TODO*///			dstdata[5] = paldata[srcdata[5]];
+/*TODO*///			dstdata[6] = paldata[srcdata[6]];
+/*TODO*///			dstdata[7] = paldata[srcdata[7]];
+/*TODO*///			dstdata += 8;
+/*TODO*///			srcdata += 8;
+/*TODO*///		}
+/*TODO*///		while (dstdata < end)
+/*TODO*///			*(dstdata++) = paldata[*(srcdata++)];
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_opaque_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata <= end - 8)
+/*TODO*///		{
+/*TODO*///			srcdata -= 8;
+/*TODO*///			dstdata[0] = paldata[srcdata[8]];
+/*TODO*///			dstdata[1] = paldata[srcdata[7]];
+/*TODO*///			dstdata[2] = paldata[srcdata[6]];
+/*TODO*///			dstdata[3] = paldata[srcdata[5]];
+/*TODO*///			dstdata[4] = paldata[srcdata[4]];
+/*TODO*///			dstdata[5] = paldata[srcdata[3]];
+/*TODO*///			dstdata[6] = paldata[srcdata[2]];
+/*TODO*///			dstdata[7] = paldata[srcdata[1]];
+/*TODO*///			dstdata += 8;
+/*TODO*///		}
+/*TODO*///		while (dstdata < end)
+/*TODO*///			*(dstdata++) = paldata[*(srcdata--)];
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transpen,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transpen),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	int trans4;
+/*TODO*///	UINT32 *sd4;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	trans4 = transpen * 0x01010101;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata++);
+/*TODO*///			if (col != transpen) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///		sd4 = (UINT32 *)srcdata;
+/*TODO*///		while (dstdata <= end - 4)
+/*TODO*///		{
+/*TODO*///			UINT32 col4;
+/*TODO*///
+/*TODO*///			if ((col4 = *(sd4++)) != trans4)
+/*TODO*///			{
+/*TODO*///				UINT32 xod4;
+/*TODO*///
+/*TODO*///				xod4 = col4 ^ trans4;
+/*TODO*///				if (xod4 & 0x000000ff) dstdata[BL0] = paldata[(col4) & 0xff];
+/*TODO*///				if (xod4 & 0x0000ff00) dstdata[BL1] = paldata[(col4 >>  8) & 0xff];
+/*TODO*///				if (xod4 & 0x00ff0000) dstdata[BL2] = paldata[(col4 >> 16) & 0xff];
+/*TODO*///				if (xod4 & 0xff000000) dstdata[BL3] = paldata[col4 >> 24];
+/*TODO*///			}
+/*TODO*///			dstdata += 4;
+/*TODO*///		}
+/*TODO*///		srcdata = (unsigned char *)sd4;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata++);
+/*TODO*///			if (col != transpen) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transpen_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transpen),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	int trans4;
+/*TODO*///	UINT32 *sd4;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///	srcdata -= 3;
+/*TODO*///
+/*TODO*///	trans4 = transpen * 0x01010101;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = srcdata[3];
+/*TODO*///			srcdata--;
+/*TODO*///			if (col != transpen) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///		sd4 = (UINT32 *)srcdata;
+/*TODO*///		while (dstdata <= end - 4)
+/*TODO*///		{
+/*TODO*///			UINT32 col4;
+/*TODO*///
+/*TODO*///			if ((col4 = *(sd4--)) != trans4)
+/*TODO*///			{
+/*TODO*///				UINT32 xod4;
+/*TODO*///
+/*TODO*///				xod4 = col4 ^ trans4;
+/*TODO*///				if (xod4 & 0xff000000) dstdata[BL0] = paldata[col4 >> 24];
+/*TODO*///				if (xod4 & 0x00ff0000) dstdata[BL1] = paldata[(col4 >> 16) & 0xff];
+/*TODO*///				if (xod4 & 0x0000ff00) dstdata[BL2] = paldata[(col4 >>  8) & 0xff];
+/*TODO*///				if (xod4 & 0x000000ff) dstdata[BL3] = paldata[col4 & 0xff];
+/*TODO*///			}
+/*TODO*///			dstdata += 4;
+/*TODO*///		}
+/*TODO*///		srcdata = (unsigned char *)sd4;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = srcdata[3];
+/*TODO*///			srcdata--;
+/*TODO*///			if (col != transpen) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///
+/*TODO*///#define PEN_IS_OPAQUE ((1<<col)&transmask) == 0
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transmask,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transmask),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	UINT32 *sd4;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata++);
+/*TODO*///			if (PEN_IS_OPAQUE) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///		sd4 = (UINT32 *)srcdata;
+/*TODO*///		while (dstdata <= end - 4)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///			UINT32 col4;
+/*TODO*///
+/*TODO*///			col4 = *(sd4++);
+/*TODO*///			col = (col4 >>  0) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL0] = paldata[col];
+/*TODO*///			col = (col4 >>  8) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL1] = paldata[col];
+/*TODO*///			col = (col4 >> 16) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL2] = paldata[col];
+/*TODO*///			col = (col4 >> 24) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL3] = paldata[col];
+/*TODO*///			dstdata += 4;
+/*TODO*///		}
+/*TODO*///		srcdata = (unsigned char *)sd4;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata++);
+/*TODO*///			if (PEN_IS_OPAQUE) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transmask_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transmask),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	UINT32 *sd4;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///	srcdata -= 3;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = srcdata[3];
+/*TODO*///			srcdata--;
+/*TODO*///			if (PEN_IS_OPAQUE) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///		sd4 = (UINT32 *)srcdata;
+/*TODO*///		while (dstdata <= end - 4)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///			UINT32 col4;
+/*TODO*///
+/*TODO*///			col4 = *(sd4--);
+/*TODO*///			col = (col4 >> 24) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL0] = paldata[col];
+/*TODO*///			col = (col4 >> 16) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL1] = paldata[col];
+/*TODO*///			col = (col4 >>  8) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL2] = paldata[col];
+/*TODO*///			col = (col4 >>  0) & 0xff;
+/*TODO*///			if (PEN_IS_OPAQUE) dstdata[BL3] = paldata[col];
+/*TODO*///			dstdata += 4;
+/*TODO*///		}
+/*TODO*///		srcdata = (unsigned char *)sd4;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = srcdata[3];
+/*TODO*///			srcdata--;
+/*TODO*///			if (PEN_IS_OPAQUE) *dstdata = paldata[col];
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transcolor,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	const unsigned short *lookupdata = Machine->game_colortable + (paldata - Machine->remapped_colortable);
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (lookupdata[*srcdata] != transcolor) *dstdata = paldata[*srcdata];
+/*TODO*///			srcdata++;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transcolor_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///	const unsigned short *lookupdata = Machine->game_colortable + (paldata - Machine->remapped_colortable);
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (lookupdata[*srcdata] != transcolor) *dstdata = paldata[*srcdata];
+/*TODO*///			srcdata--;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transthrough,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (*dstdata == transcolor) *dstdata = paldata[*srcdata];
+/*TODO*///			srcdata++;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transthrough_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (*dstdata == transcolor) *dstdata = paldata[*srcdata];
+/*TODO*///			srcdata--;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_pen_table,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata++);
+/*TODO*///			if (col != transcolor)
+/*TODO*///			{
+/*TODO*///				switch(gfx_drawmode_table[col])
+/*TODO*///				{
+/*TODO*///				case DRAWMODE_SOURCE:
+/*TODO*///					*dstdata = paldata[col];
+/*TODO*///					break;
+/*TODO*///				case DRAWMODE_SHADOW:
+/*TODO*///					*dstdata = palette_shadow_table[*dstdata];
+/*TODO*///					break;
+/*TODO*///				case DRAWMODE_HIGHLIGHT:
+/*TODO*///					*dstdata = palette_highlight_table[*dstdata];
+/*TODO*///					break;
+/*TODO*///				}
+/*TODO*///			}
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_pen_table_flipx,(
+/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		const unsigned short *paldata,int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			int col;
+/*TODO*///
+/*TODO*///			col = *(srcdata--);
+/*TODO*///			if (col != transcolor)
+/*TODO*///			{
+/*TODO*///				switch(gfx_drawmode_table[col])
+/*TODO*///				{
+/*TODO*///				case DRAWMODE_SOURCE:
+/*TODO*///					*dstdata = paldata[col];
+/*TODO*///					break;
+/*TODO*///				case DRAWMODE_SHADOW:
+/*TODO*///					*dstdata = palette_shadow_table[*dstdata];
+/*TODO*///					break;
+/*TODO*///				case DRAWMODE_HIGHLIGHT:
+/*TODO*///					*dstdata = palette_highlight_table[*dstdata];
+/*TODO*///					break;
+/*TODO*///				}
+/*TODO*///			}
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_opaque_noremap,(
+/*TODO*///		const DATA_TYPE *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo),
+/*TODO*///{
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		memcpy(dstdata,srcdata,srcwidth * sizeof(DATA_TYPE));
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_opaque_noremap_flipx,(
+/*TODO*///		const DATA_TYPE *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata <= end - 8)
+/*TODO*///		{
+/*TODO*///			srcdata -= 8;
+/*TODO*///			dstdata[0] = srcdata[8];
+/*TODO*///			dstdata[1] = srcdata[7];
+/*TODO*///			dstdata[2] = srcdata[6];
+/*TODO*///			dstdata[3] = srcdata[5];
+/*TODO*///			dstdata[4] = srcdata[4];
+/*TODO*///			dstdata[5] = srcdata[3];
+/*TODO*///			dstdata[6] = srcdata[2];
+/*TODO*///			dstdata[7] = srcdata[1];
+/*TODO*///			dstdata += 8;
+/*TODO*///		}
+/*TODO*///		while (dstdata < end)
+/*TODO*///			*(dstdata++) = *(srcdata--);
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transthrough_noremap,(
+/*TODO*///		const DATA_TYPE *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo -= srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (*dstdata == transcolor) *dstdata = *srcdata;
+/*TODO*///			srcdata++;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(blockmove_transthrough_noremap_flipx,(
+/*TODO*///		const DATA_TYPE *srcdata,int srcwidth,int srcheight,int srcmodulo,
+/*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
+/*TODO*///		int transcolor),
+/*TODO*///{
+/*TODO*///	DATA_TYPE *end;
+/*TODO*///
+/*TODO*///	srcmodulo += srcwidth;
+/*TODO*///	dstmodulo -= srcwidth;
+/*TODO*///	//srcdata += srcwidth-1;
+/*TODO*///
+/*TODO*///	while (srcheight)
+/*TODO*///	{
+/*TODO*///		end = dstdata + srcwidth;
+/*TODO*///		while (dstdata < end)
+/*TODO*///		{
+/*TODO*///			if (*dstdata == transcolor) *dstdata = *srcdata;
+/*TODO*///			srcdata--;
+/*TODO*///			dstdata++;
+/*TODO*///		}
+/*TODO*///
+/*TODO*///		srcdata += srcmodulo;
+/*TODO*///		dstdata += dstmodulo;
+/*TODO*///		srcheight--;
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+        public static void drawgfx_core8(osd_bitmap dest, GfxElement gfx,
+            int code, int color, int flipx, int flipy, int sx, int sy,
+            rectangle clip, int transparency, int transparent_color)
+        {
+             throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+        }
+        public static void drawgfx_core16(osd_bitmap dest, GfxElement gfx,
+            int code, int color, int flipx, int flipy, int sx, int sy,
+            rectangle clip, int transparency, int transparent_color)
+        {
+             throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+        }
+/*TODO*///DECLARE(drawgfx_core,(
+/*TODO*///		struct osd_bitmap *dest,const struct GfxElement *gfx,
+/*TODO*///		unsigned int code,unsigned int color,int flipx,int flipy,int sx,int sy,
+/*TODO*///		const struct rectangle *clip,int transparency,int transparent_color),
+/*TODO*///{
+/*TODO*///	int ox;
+/*TODO*///	int oy;
+/*TODO*///	int ex;
+/*TODO*///	int ey;
+/*TODO*///
+/*TODO*///
+/*TODO*///	/* check bounds */
+/*TODO*///	ox = sx;
+/*TODO*///	oy = sy;
+/*TODO*///
+/*TODO*///	ex = sx + gfx->width-1;
+/*TODO*///	if (sx < 0) sx = 0;
+/*TODO*///	if (clip && sx < clip->min_x) sx = clip->min_x;
+/*TODO*///	if (ex >= dest->width) ex = dest->width-1;
+/*TODO*///	if (clip && ex > clip->max_x) ex = clip->max_x;
+/*TODO*///	if (sx > ex) return;
+/*TODO*///
+/*TODO*///	ey = sy + gfx->height-1;
+/*TODO*///	if (sy < 0) sy = 0;
+/*TODO*///	if (clip && sy < clip->min_y) sy = clip->min_y;
+/*TODO*///	if (ey >= dest->height) ey = dest->height-1;
+/*TODO*///	if (clip && ey > clip->max_y) ey = clip->max_y;
+/*TODO*///	if (sy > ey) return;
+/*TODO*///
+/*TODO*///	osd_mark_dirty (sx,sy,ex,ey,0);	/* ASG 971011 */
+/*TODO*///
+/*TODO*///	{
+/*TODO*///		UINT8 *sd = gfx->gfxdata + code * gfx->char_modulo;		/* source data */
+/*TODO*///		int sw = ex-sx+1;										/* source width */
+/*TODO*///		int sh = ey-sy+1;										/* source height */
+/*TODO*///		int sm = gfx->line_modulo;								/* source modulo */
+/*TODO*///		DATA_TYPE *dd = ((DATA_TYPE *)dest->line[sy]) + sx;		/* dest data */
+/*TODO*///		int dm = ((DATA_TYPE *)dest->line[1])-((DATA_TYPE *)dest->line[0]);	/* dest modulo */
+/*TODO*///		const unsigned short *paldata = &gfx->colortable[gfx->color_granularity * color];
+/*TODO*///
+/*TODO*///		if (flipx)
+/*TODO*///		{
+/*TODO*///			//if ((sx-ox) == 0) sd += gfx->width - sw;
+/*TODO*///			sd += gfx->width -1 -(sx-ox);
+/*TODO*///		}
+/*TODO*///		else
+/*TODO*///			sd += (sx-ox);
+/*TODO*///
+/*TODO*///		if (flipy)
+/*TODO*///		{
+/*TODO*///			//if ((sy-oy) == 0) sd += sm * (gfx->height - sh);
+/*TODO*///			//dd += dm * (sh - 1);
+/*TODO*///			//dm = -dm;
+/*TODO*///			sd += sm * (gfx->height -1 -(sy-oy));
+/*TODO*///			sm = -sm;
+/*TODO*///		}
+/*TODO*///		else
+/*TODO*///			sd += sm * (sy-oy);
+/*TODO*///
+/*TODO*///		switch (transparency)
+/*TODO*///		{
+/*TODO*///			case TRANSPARENCY_NONE:
+/*TODO*///				BLOCKMOVE(opaque,flipx,(sd,sw,sh,sm,dd,dm,paldata));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_PEN:
+/*TODO*///				BLOCKMOVE(transpen,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_PENS:
+/*TODO*///				BLOCKMOVE(transmask,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_COLOR:
+/*TODO*///				BLOCKMOVE(transcolor,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_THROUGH:
+/*TODO*///				BLOCKMOVE(transthrough,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_PEN_TABLE:
+/*TODO*///				BLOCKMOVE(pen_table,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+/*TODO*///				break;
+/*TODO*///		}
+/*TODO*///	}
+/*TODO*///})
+/*TODO*///
+/*TODO*///DECLARE(copybitmap_core,(
+/*TODO*///		struct osd_bitmap *dest,struct osd_bitmap *src,
+/*TODO*///		int flipx,int flipy,int sx,int sy,
+/*TODO*///		const struct rectangle *clip,int transparency,int transparent_color),
+/*TODO*///{
+/*TODO*///	int ox;
+/*TODO*///	int oy;
+/*TODO*///	int ex;
+/*TODO*///	int ey;
+/*TODO*///
+/*TODO*///
+/*TODO*///	/* check bounds */
+/*TODO*///	ox = sx;
+/*TODO*///	oy = sy;
+/*TODO*///
+/*TODO*///	ex = sx + src->width-1;
+/*TODO*///	if (sx < 0) sx = 0;
+/*TODO*///	if (clip && sx < clip->min_x) sx = clip->min_x;
+/*TODO*///	if (ex >= dest->width) ex = dest->width-1;
+/*TODO*///	if (clip && ex > clip->max_x) ex = clip->max_x;
+/*TODO*///	if (sx > ex) return;
+/*TODO*///
+/*TODO*///	ey = sy + src->height-1;
+/*TODO*///	if (sy < 0) sy = 0;
+/*TODO*///	if (clip && sy < clip->min_y) sy = clip->min_y;
+/*TODO*///	if (ey >= dest->height) ey = dest->height-1;
+/*TODO*///	if (clip && ey > clip->max_y) ey = clip->max_y;
+/*TODO*///	if (sy > ey) return;
+/*TODO*///
+/*TODO*///	{
+/*TODO*///		DATA_TYPE *sd = ((DATA_TYPE *)src->line[0]);							/* source data */
+/*TODO*///		int sw = ex-sx+1;														/* source width */
+/*TODO*///		int sh = ey-sy+1;														/* source height */
+/*TODO*///		int sm = ((DATA_TYPE *)src->line[1])-((DATA_TYPE *)src->line[0]);		/* source modulo */
+/*TODO*///		DATA_TYPE *dd = ((DATA_TYPE *)dest->line[sy]) + sx;						/* dest data */
+/*TODO*///		int dm = ((DATA_TYPE *)dest->line[1])-((DATA_TYPE *)dest->line[0]);		/* dest modulo */
+/*TODO*///
+/*TODO*///		if (flipx)
+/*TODO*///		{
+/*TODO*///			//if ((sx-ox) == 0) sd += gfx->width - sw;
+/*TODO*///			sd += src->width -1 -(sx-ox);
+/*TODO*///		}
+/*TODO*///		else
+/*TODO*///			sd += (sx-ox);
+/*TODO*///
+/*TODO*///		if (flipy)
+/*TODO*///		{
+/*TODO*///			//if ((sy-oy) == 0) sd += sm * (gfx->height - sh);
+/*TODO*///			//dd += dm * (sh - 1);
+/*TODO*///			//dm = -dm;
+/*TODO*///			sd += sm * (src->height -1 -(sy-oy));
+/*TODO*///			sm = -sm;
+/*TODO*///		}
+/*TODO*///		else
+/*TODO*///			sd += sm * (sy-oy);
+/*TODO*///
+/*TODO*///		switch (transparency)
+/*TODO*///		{
+/*TODO*///			case TRANSPARENCY_NONE:
+/*TODO*///				BLOCKMOVE(opaque_noremap,flipx,(sd,sw,sh,sm,dd,dm));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_PEN:
+/*TODO*///			case TRANSPARENCY_COLOR:
+/*TODO*///				BLOCKMOVE(transpen_noremap,flipx,(sd,sw,sh,sm,dd,dm,transparent_color));
+/*TODO*///				break;
+/*TODO*///
+/*TODO*///			case TRANSPARENCY_THROUGH:
+/*TODO*///				BLOCKMOVE(transthrough_noremap,flipx,(sd,sw,sh,sm,dd,dm,transparent_color));
+/*TODO*///				break;
+/*TODO*///		}
+/*TODO*///	}
+/*TODO*///})
 }
