@@ -7,6 +7,8 @@ import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.video.*;
+import static mame.usrintrfH.*;
 
 public class usrintrf {
     /*TODO*///#define SEL_BITS 12
@@ -252,89 +254,90 @@ public class usrintrf {
     /*TODO*///  the last frame displayed.
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///void displaytext(const struct DisplayText *dt,int erase,int update_screen)
-    /*TODO*///{
-    /*TODO*///	int trueorientation;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (erase)
-    /*TODO*///		osd_clearbitmap(Machine->scrbitmap);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* hack: force the display into standard orientation to avoid */
-    /*TODO*///	/* rotating the user interface */
-    /*TODO*///	trueorientation = Machine->orientation;
-    /*TODO*///	Machine->orientation = Machine->ui_orientation;
-    /*TODO*///
-    /*TODO*///	osd_mark_dirty (0,0,Machine->uiwidth-1,Machine->uiheight-1,1);	/* ASG 971011 */
-    /*TODO*///
-    /*TODO*///	while (dt->text)
-    /*TODO*///	{
-    /*TODO*///		int x,y;
-    /*TODO*///		const char *c;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		x = dt->x;
-    /*TODO*///		y = dt->y;
-    /*TODO*///		c = dt->text;
-    /*TODO*///
-    /*TODO*///		while (*c)
-    /*TODO*///		{
-    /*TODO*///			int wrapped;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			wrapped = 0;
-    /*TODO*///
-    /*TODO*///			if (*c == '\n')
-    /*TODO*///			{
-    /*TODO*///				x = dt->x;
-    /*TODO*///				y += Machine->uifontheight + 1;
-    /*TODO*///				wrapped = 1;
-    /*TODO*///			}
-    /*TODO*///			else if (*c == ' ')
-    /*TODO*///			{
-    /*TODO*///				/* don't try to word wrap at the beginning of a line (this would cause */
-    /*TODO*///				/* an endless loop if a word is longer than a line) */
-    /*TODO*///				if (x != dt->x)
-    /*TODO*///				{
-    /*TODO*///					int nextlen=0;
-    /*TODO*///					const char *nc;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///					nc = c+1;
-    /*TODO*///					while (*nc && *nc != ' ' && *nc != '\n')
-    /*TODO*///					{
-    /*TODO*///						nextlen += Machine->uifontwidth;
-    /*TODO*///						nc++;
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					/* word wrap */
-    /*TODO*///					if (x + Machine->uifontwidth + nextlen > Machine->uiwidth)
-    /*TODO*///					{
-    /*TODO*///						x = dt->x;
-    /*TODO*///						y += Machine->uifontheight + 1;
-    /*TODO*///						wrapped = 1;
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (!wrapped)
-    /*TODO*///			{
-    /*TODO*///				drawgfx(Machine->scrbitmap,Machine->uifont,*c,dt->color,0,0,x+Machine->uixmin,y+Machine->uiymin,0,TRANSPARENCY_NONE,0);
-    /*TODO*///				x += Machine->uifontwidth;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			c++;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		dt++;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	Machine->orientation = trueorientation;
-    /*TODO*///
-    /*TODO*///	if (update_screen) osd_update_video_and_audio();
-    /*TODO*///}
+    public static void displaytext(DisplayText []dt,int erase,int update_screen)
+    {
+    	int trueorientation;
+    
+    
+    	if (erase!=0)
+    		osd_clearbitmap(Machine.scrbitmap);
+    
+    
+    	/* hack: force the display into standard orientation to avoid */
+    	/* rotating the user interface */
+    	trueorientation = Machine.orientation;
+    	Machine.orientation = Machine.ui_orientation;
+    
+    	osd_mark_dirty (0,0,Machine.uiwidth-1,Machine.uiheight-1,1);	/* ASG 971011 */
+    
+    	int _ptr = 0;
+	while (dt[_ptr].text != null)
+	{
+    
+                int x, y;
+		CharBuf c = new CharBuf();
+
+
+		x = dt[_ptr].x;
+		y = dt[_ptr].y;
+		c.set(dt[_ptr].text);
+                
+    		while (c.ch != 0)
+    		{
+    			int wrapped;
+    
+    
+    			wrapped = 0;
+    
+    			if (c.ch == '\n')
+    			{
+    				x = dt[_ptr].x;
+    				y += Machine.uifontheight + 1;
+    				wrapped = 1;
+    			}
+    			else if (c.ch == ' ')
+    			{
+    				/* don't try to word wrap at the beginning of a line (this would cause */
+    				/* an endless loop if a word is longer than a line) */
+    				if (x != dt[_ptr].x)
+    				{
+    					int nextlen=0;
+    					CharBuf nc = new CharBuf();
+    
+    
+    					nc.set(c, 1);//nc = c+1;	
+                                        while ((nc.ch != 0) && (nc.ch != ' ') && (nc.ch != '\n'))//while (*nc && *nc != ' ' && *nc != '\n')
+    					{
+    						nextlen += Machine.uifontwidth;
+    						 nc.inc();
+    					}
+    
+    					/* word wrap */
+    					if (x + Machine.uifontwidth + nextlen > Machine.uiwidth)
+    					{
+    						x =  dt[_ptr].x;
+    						y += Machine.uifontheight + 1;
+    						wrapped = 1;
+    					}
+    				}
+    			}
+    
+    			if (wrapped==0)
+    			{
+    				drawgfx(Machine.scrbitmap,Machine.uifont,c.ch, dt[_ptr].color,0,0,x+Machine.uixmin,y+Machine.uiymin,null,TRANSPARENCY_NONE,0);
+    				x += Machine.uifontwidth;
+    			}
+    
+    			c.inc();//c++;
+    		}
+    
+    		_ptr++;//dt++
+    	}
+    
+    	Machine.orientation = trueorientation;
+    
+    	if (update_screen!=0) osd_update_video_and_audio();
+    }
     /*TODO*///
     /*TODO*////* Writes messages on the screen. */
     /*TODO*///static void ui_text_ex(const char* buf_begin, const char* buf_end, int x, int y, int color)
