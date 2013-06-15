@@ -9,6 +9,7 @@
 package vidhrdw;
 
 import static arcadeflex.libc_old.*;
+import static arcadeflex.libc.*;
 import static mame.driverH.*;
 import static vidhrdw.generic.*;
 import static mame.osdependH.*;
@@ -33,14 +34,13 @@ public class pengo
 	);
 	
 	
-	public static VhConvertColorPromPtr pacman_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(char []palette_table, char []colortable_table, char []color_prom_table)
+	public static VhConvertColorPromPtr pacman_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette_table, char []colortable, UBytePtr color_prom)
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
 		//#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-                CharPtr color_prom = new CharPtr(color_prom_table);
-                CharPtr palette= new CharPtr(palette_table);
-	
+                
+                UBytePtr palette= new UBytePtr(palette_table);
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
 			int bit0,bit1,bit2;
@@ -72,17 +72,17 @@ public class pengo
 		/* character lookup table */
 		/* sprites use the same color lookup table as characters */
 		for (i = 0;i < TOTAL_COLORS(0);i++)
-                    colortable_table[Machine.drv.gfxdecodeinfo[0].color_codes_start + i]=(char)(color_prom.readinc() & 0x0f);
+                    colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i]=(char)(color_prom.readinc() & 0x0f);
 	}};
 	
-        public static VhConvertColorPromPtr pengo_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(char []palette_table, char []colortable_table, char []color_prom_table)
+        public static VhConvertColorPromPtr pengo_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette_table, char []colortable, UBytePtr color_prom)
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
 		//#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
 	
-                CharPtr color_prom = new CharPtr(color_prom_table);
-                CharPtr palette= new CharPtr(palette_table);
+                UBytePtr palette= new UBytePtr(palette_table);
+                
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
 			int bit0,bit1,bit2;
@@ -112,7 +112,7 @@ public class pengo
 		/* character lookup table */
 		/* sprites use the same color lookup table as characters */
 		for (i = 0;i < TOTAL_COLORS(0);i++)
-			colortable_table[Machine.drv.gfxdecodeinfo[0].color_codes_start + i]=(char)(color_prom.readinc() & 0x0f);
+			colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i]=(char)(color_prom.readinc() & 0x0f);
 	
 		color_prom.inc(0x80); //color_prom += 0x80;
 	
@@ -122,11 +122,11 @@ public class pengo
 		{
                     if (color_prom.read()!=0) 
                     {
-                        colortable_table[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=(char)((color_prom.read() & 0x0f) +0x10);/* second palette bank */
+                        colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=(char)((color_prom.read() & 0x0f) +0x10);/* second palette bank */
                     }
                     else
                     {
-                        colortable_table[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=0;/* preserve transparency */
+                        colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=0;/* preserve transparency */
                     }	
 		    color_prom.inc();
 		}

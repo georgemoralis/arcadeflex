@@ -67,11 +67,27 @@ public class libc {
          public UBytePtr(UBytePtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
+        public char read() {
+            return (char)(memory[base] & 0xFF);
+        }
         public char read(int offset) {
             return (char)(memory[base + offset] & 0xFF); //return only the first 8bits
         }
         public void write(int offset, int value) {
             memory[base + offset] = (char) (value &0xFF);//store 8 bits only
+        }
+        public void inc() {
+            this.base += 1;
+        }
+        public void writeinc(int value) {
+            this.memory[(this.base++)] = (char) (value &0xFF);//store 8 bits only
+        }
+        public void inc(int count)
+        {
+            this.base+=count;
+        }
+        public char readinc() {
+            return (char)((this.memory[(this.base++)])&0xFF);
         }
         /*
         public UBytePtr(char[] m) {
@@ -135,13 +151,8 @@ public class libc {
             this.base -= 1;
         }
 
-        public void inc() {
-            this.base += 1;
-        }
-        public void inc(int count)
-        {
-            this.base+=count;
-        }
+        
+        
     
     */
         public char[] memory;

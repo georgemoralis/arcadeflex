@@ -6,6 +6,8 @@ import static mame.driverH.*;
 import static mame.paletteH.*;
 import static arcadeflex.libc.*;
 import static mame.mameH.*;
+import static mame.commonH.*;
+import static mame.common.*;
 
 public class palette {
     public static UByte[] game_palette;	/* RGB palette as set by the driver. */
@@ -31,7 +33,7 @@ public class palette {
     /*TODO*///static unsigned short pen_usage_count[DYNAMIC_MAX_PENS];
     /*TODO*///
     /*TODO*///unsigned short palette_transparent_pen;
-    /*TODO*///int palette_transparent_color;
+    public static int palette_transparent_color;
     /*TODO*///
     /*TODO*///
     public static final int BLACK_PEN		= 0;
@@ -181,37 +183,40 @@ public class palette {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///int palette_init(void)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* We initialize the palette and colortable to some default values so that */
-    /*TODO*///	/* drivers which dynamically change the palette don't need a vh_init_palette() */
-    /*TODO*///	/* function (provided the default color table fits their needs). */
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///	{
-    /*TODO*///		game_palette[3*i + 0] = ((i & 1) >> 0) * 0xff;
-    /*TODO*///		game_palette[3*i + 1] = ((i & 2) >> 1) * 0xff;
-    /*TODO*///		game_palette[3*i + 2] = ((i & 4) >> 2) * 0xff;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* Preload the colortable with a default setting, following the same */
-    /*TODO*///	/* order of the palette. The driver can overwrite this in */
-    /*TODO*///	/* vh_init_palette() */
-    /*TODO*///	for (i = 0;i < Machine->drv->color_table_len;i++)
-    /*TODO*///		Machine->game_colortable[i] = i % Machine->drv->total_colors;
-    /*TODO*///
-    /*TODO*///	/* by default we use -1 to identify the transparent color, the driver */
-    /*TODO*///	/* can modify this. */
-    /*TODO*///	palette_transparent_color = -1;
-    /*TODO*///
-    /*TODO*///	/* now the driver can modify the default values if it wants to. */
-    /*TODO*///	if (Machine->drv->vh_init_palette)
-    /*TODO*///		(*Machine->drv->vh_init_palette)(game_palette,Machine->game_colortable,memory_region(REGION_PROMS));
-    /*TODO*///
-    /*TODO*///
+    public static int palette_init()
+    {
+    	int i;
+    
+    
+    	/* We initialize the palette and colortable to some default values so that */
+    	/* drivers which dynamically change the palette don't need a vh_init_palette() */
+    	/* function (provided the default color table fits their needs). */
+    
+    	for (i = 0;i < Machine.drv.total_colors;i++)
+    	{
+    		game_palette[3*i + 0].set((char)(((i & 1) >> 0) * 0xff));
+    		game_palette[3*i + 1].set((char)(((i & 2) >> 1) * 0xff));
+    		game_palette[3*i + 2].set((char)(((i & 4) >> 2) * 0xff));
+    	}
+    
+    	/* Preload the colortable with a default setting, following the same */
+    	/* order of the palette. The driver can overwrite this in */
+    	/* vh_init_palette() */
+    	for (i = 0;i < Machine.drv.color_table_len;i++)
+    		Machine.game_colortable[i] =(char)( i % Machine.drv.total_colors);
+    
+    	/* by default we use -1 to identify the transparent color, the driver */
+    	/* can modify this. */
+    	palette_transparent_color = -1;
+    
+    	/* now the driver can modify the default values if it wants to. */
+    	if (Machine.drv.vh_init_palette!=null)
+        {
+            Machine.drv.vh_init_palette.handler(game_palette,Machine.game_colortable,memory_region(REGION_PROMS));
+    		//(*Machine->drv->vh_init_palette)(game_palette,Machine->game_colortable,memory_region(REGION_PROMS));
+        }
+    
+    
     /*TODO*///	switch (use_16bit)
     /*TODO*///	{
     /*TODO*///		case NO_16BIT:
@@ -394,8 +399,8 @@ public class palette {
     /*TODO*///					i,color,Machine->drv->total_colors);
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///	return 0;
-    /*TODO*///}
+    	return 0;
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///

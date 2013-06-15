@@ -6,6 +6,7 @@ import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.drawgfxH.*;
 import static mame.sndintrfH.*;
+import static arcadeflex.libc.*;
 
 public class driverH 
 {
@@ -15,7 +16,7 @@ public class driverH
 	public static abstract interface InitMachinePtr { public abstract void handler(); }
         public static abstract interface InitDriverPtr { public abstract void handler(); }
 	public static abstract interface InterruptPtr { public abstract int handler(); }
-	public static abstract interface VhConvertColorPromPtr { public abstract void handler(char []palette, char []colortable, char []color_prom); }
+	public static abstract interface VhConvertColorPromPtr { public abstract void handler(UByte []palette, char []colortable, UBytePtr color_prom); }
 	public static abstract interface VhEofCallbackPtr { public abstract int handler(); }
 	public static abstract interface VhStartPtr { public abstract int handler(); }
 	public static abstract interface VhStopPtr { public abstract void handler(); }
