@@ -35,6 +35,7 @@ import static mame.cpuintrf.*;
 import static mame.drawgfxH.*;
 import static mame.palette.*;
 import static mame.usrintrf.*;
+import static arcadeflex.video.*;
 
 public class mame {
     static RunningMachine machine = new RunningMachine();
@@ -357,17 +358,16 @@ public class mame {
            
 
             /* create the display bitmap, and allocate the palette */
-/*TODO*/ //            if ((Machine.scrbitmap = osd_create_display(
-/*TODO*/ //                            drv.screen_width,drv.screen_height,
-/*TODO*/ //                            Machine.color_depth,
-/*TODO*/ //                            drv.video_attributes)) == 0)
-/*TODO*/ //            {
-/*TODO*/ //                    vh_close();
-/*TODO*/ //                    return 1;
-/*TODO*/ //            }
+            if ((Machine.scrbitmap = osd_create_display(drv.screen_width,drv.screen_height,Machine.color_depth,drv.video_attributes)) == null)
+            {
+                    vh_close();
+                    return 1;
+            }
 
             /* create spriteram buffers if necessary */
-/*TODO*/ //            if (drv.video_attributes & VIDEO_BUFFERS_SPRITERAM) {
+            if ((drv.video_attributes & VIDEO_BUFFERS_SPRITERAM)!=0) {
+                
+                throw new UnsupportedOperationException("video attributes VIDEO_BUFFERS_SPRITERAM not yet supported!");
 /*TODO*/ //                    if (spriteram_size!=0) {
 /*TODO*/ //                            buffered_spriteram= malloc(spriteram_size);
 /*TODO*/ //                            if (!buffered_spriteram) { vh_close(); return 1; }
@@ -378,7 +378,7 @@ public class mame {
 /*TODO*/ //                            buffered_spriteram=NULL;
 /*TODO*/ //                            buffered_spriteram_2=NULL;
 /*TODO*/ //                    }
- /*TODO*/ //           }
+            }
 
             /* build our private user interface font */
             /* This must be done AFTER osd_create_display() so the function knows the */
@@ -392,11 +392,11 @@ public class mame {
            }
 
             /* initialize the palette - must be done after osd_create_display() */
- /*TODO*/ //           if (palette_init())
- /*TODO*/ //           {
- /*TODO*/ //                   vh_close();
- /*TODO*/ //                   return 1;
- /*TODO*/ //           }
+            if (palette_init()!=0)
+            {
+                    vh_close();
+                    return 1;
+            }
 
             return 0;
     }

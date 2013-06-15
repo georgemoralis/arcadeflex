@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static arcadeflex.video.*;
 
 public class config {
 
@@ -389,7 +390,7 @@ public class config {
             /*TODO*///	char *joyname;
             /*TODO*///	char tmpres[10];
             /*TODO*///	int i;
-            /*TODO*///	char *tmpstr;
+            String tmpstr;
             /*TODO*///	char *monitorname;
             /*TODO*///
             /*TODO*///	mame_argc = argc;
@@ -434,12 +435,12 @@ public class config {
             /*TODO*///	if (osd_gamma_correction < 0.5) osd_gamma_correction = 0.5;
             /*TODO*///	if (osd_gamma_correction > 2.0) osd_gamma_correction = 2.0;
             /*TODO*///
-            /*TODO*///	tmpstr             = get_string ("config", "frameskip", "fs", "auto");
-            /*TODO*///	if (!stricmp(tmpstr,"auto"))
-            /*TODO*///	{
-            /*TODO*///		frameskip = 0;
-            /*TODO*///		autoframeskip = 1;
-            /*TODO*///	}
+            	tmpstr             = get_string ("config", "frameskip", "fs", "auto");
+            	if (tmpstr.compareTo("auto")==0)//(!stricmp(tmpstr,"auto"))
+            	{
+            		frameskip = 0;
+            		autoframeskip = 1;
+            	}
             /*TODO*///	else
             /*TODO*///	{
             /*TODO*///		frameskip = atoi(tmpstr);

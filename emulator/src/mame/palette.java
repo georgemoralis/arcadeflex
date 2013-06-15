@@ -32,8 +32,8 @@ public class palette {
     public static UByte[] shrinked_palette;
     public static char[] palette_map;	/* map indexes from game_palette to shrinked_palette */
     /*TODO*///static unsigned short pen_usage_count[DYNAMIC_MAX_PENS];
-    /*TODO*///
-    /*TODO*///unsigned short palette_transparent_pen;
+
+    public static char palette_transparent_pen;
     public static int palette_transparent_color;
     /*TODO*///
     /*TODO*///
@@ -303,7 +303,7 @@ public class palette {
     			for (i = 0;i < Machine.drv.total_colors;i++)
     				Machine.pens[i] = shrinked_pens[palette_map[i]];
     
-   /*TODO*/// 			palette_transparent_pen = shrinked_pens[TRANSPARENT_PEN];	/* for dynamic palette games */
+    			palette_transparent_pen = shrinked_pens[TRANSPARENT_PEN];	/* for dynamic palette games */
     		}
     		break;
     
