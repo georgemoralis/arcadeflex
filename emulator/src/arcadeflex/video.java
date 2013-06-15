@@ -309,12 +309,12 @@ public class video {
     /*TODO*///int vsync_frame_rate;
     /*TODO*///int skiplines;
     /*TODO*///int skipcolumns;
-    /*TODO*///int scanlines;
-    /*TODO*///int stretch;
+    public static int scanlines;
+    public static int stretch;
     /*TODO*///int use_mmx;
     /*TODO*///int mmxlfb;
     /*TODO*///int use_tweaked;
-    /*TODO*///int use_vesa;
+    public static int use_vesa;
     public static int use_dirty;
     /*TODO*///float osd_gamma_correction = 1.0;
     public static int brightness;
@@ -322,8 +322,8 @@ public class video {
     /*TODO*///char *resolution;
     /*TODO*///char *mode_desc;
     /*TODO*///int gfx_mode;
-    /*TODO*///int gfx_width;
-    /*TODO*///int gfx_height;
+    public static int gfx_width;
+    public static int gfx_height;
     /*TODO*///
     /*TODO*///
     /*TODO*////*new 'half' flag (req. for 15.75KHz Arcade Monitor Modes)*/
@@ -333,7 +333,7 @@ public class video {
     /*TODO*////* flags for lowscanrate modes */
     /*TODO*///int scanrate15KHz;
     /*TODO*///
-    /*TODO*///static int auto_resolution;
+    public static int auto_resolution;
     /*TODO*///static int viswidth;
     /*TODO*///static int visheight;
     /*TODO*///static int skiplinesmax;
@@ -626,11 +626,11 @@ public class video {
     /*TODO*////*
     /*TODO*/// * This function tries to find the best display mode.
     /*TODO*/// */
-    /*TODO*///static void select_display_mode(int depth)
-    /*TODO*///{
-    /*TODO*///	int width,height, i;
-    /*TODO*///
-    /*TODO*///	auto_resolution = 0;
+    public static void select_display_mode(int depth)
+    {
+    	int width,height;
+    
+    	auto_resolution = 0;
     /*TODO*///	/* assume unchained video mode  */
     /*TODO*///	unchained = 0;
     /*TODO*///	/* see if it's a low scanrate mode */
@@ -652,259 +652,125 @@ public class video {
     /*TODO*///		quadpixel[i] = i | (i<<8) | (i << 16) | (i << 24);
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///	if (vector_game)
-    /*TODO*///	{
-    /*TODO*///		width = Machine->drv->screen_width;
-    /*TODO*///		height = Machine->drv->screen_height;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		width = Machine->drv->visible_area.max_x - Machine->drv->visible_area.min_x + 1;
-    /*TODO*///		height = Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		int temp;
-    /*TODO*///
-    /*TODO*///		temp = width;
-    /*TODO*///		width = height;
-    /*TODO*///		height = temp;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	use_vesa = -1;
-    /*TODO*///
-    /*TODO*///	/* 16 bit color is supported only by VESA modes */
-    /*TODO*///	if (depth == 16)
-    /*TODO*///	{
-    /*TODO*///		if (errorlog)
-    /*TODO*///			fprintf (errorlog, "Game needs 16-bit colors. Using VESA\n");
-    /*TODO*///		use_tweaked = 0;
-    /*TODO*///		/* only one 15.75KHz VESA mode, so force that */
-    /*TODO*///		if (scanrate15KHz == 1)
-    /*TODO*///		{
-    /*TODO*///			gfx_width = 640;
-    /*TODO*///			gfx_height = 480;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///  /* Check for special 15.75KHz mode (req. for 15.75KHz Arcade Modes) */
-    /*TODO*///	if (scanrate15KHz == 1)
-    /*TODO*///	{
-    /*TODO*///		if (errorlog)
-    /*TODO*///		{
-    /*TODO*///			switch (monitor_type)
-    /*TODO*///			{
-    /*TODO*///				case MONITOR_TYPE_NTSC:
-    /*TODO*///					fprintf (errorlog, "Using special NTSC video mode.\n");
-    /*TODO*///					break;
-    /*TODO*///				case MONITOR_TYPE_PAL:
-    /*TODO*///					fprintf (errorlog, "Using special PAL video mode.\n");
-    /*TODO*///					break;
-    /*TODO*///				case MONITOR_TYPE_ARCADE:
-    /*TODO*///					fprintf (errorlog, "Using special arcade monitor mode.\n");
-    /*TODO*///					break;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		scanlines = 0;
-    /*TODO*///		/* if no width/height specified, pick one from our tweaked list */
-    /*TODO*///		if (!gfx_width && !gfx_height)
-    /*TODO*///		{
-    /*TODO*///			for (i=0; arcade_tweaked[i].x != 0; i++)
-    /*TODO*///			{
-    /*TODO*///				/* find height/width fit */
-    /*TODO*///				/* only allow VESA modes if vesa explicitly selected */
-    /*TODO*///				/* only allow PAL / NTSC modes if explicitly selected */
-    /*TODO*///				/* arcade modes cover 50-60Hz) */
-    /*TODO*///				if ((use_tweaked == 0 ||!arcade_tweaked[i].vesa) &&
-    /*TODO*///					(monitor_type == MONITOR_TYPE_ARCADE || /* handles all 15.75KHz modes */
-    /*TODO*///					(arcade_tweaked[i].ntsc && monitor_type == MONITOR_TYPE_NTSC) ||  /* NTSC only */
-    /*TODO*///					(!arcade_tweaked[i].ntsc && monitor_type == MONITOR_TYPE_PAL)) &&  /* PAL ONLY */
-    /*TODO*///					width  <= arcade_tweaked[i].matchx &&
-    /*TODO*///					height <= arcade_tweaked[i].y)
-    /*TODO*///
-    /*TODO*///				{
-    /*TODO*///					gfx_width  = arcade_tweaked[i].x;
-    /*TODO*///					gfx_height = arcade_tweaked[i].y;
-    /*TODO*///					break;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			/* if it's a vector, and there's isn't an SVGA support we want to avoid the half modes */
-    /*TODO*///			/* - so force default res. */
-    /*TODO*///			if (vector_game && (use_vesa == 0 || monitor_type == MONITOR_TYPE_PAL))
-    /*TODO*///				gfx_width = 0;
-    /*TODO*///
-    /*TODO*///			/* we didn't find a tweaked 15.75KHz mode to fit */
-    /*TODO*///			if (gfx_width == 0)
-    /*TODO*///			{
-    /*TODO*///				/* pick a default resolution for the monitor type */
-    /*TODO*///				/* something with the right refresh rate + an aspect ratio which can handle vectors */
-    /*TODO*///				switch (monitor_type)
-    /*TODO*///				{
-    /*TODO*///					case MONITOR_TYPE_NTSC:
-    /*TODO*///					case MONITOR_TYPE_ARCADE:
-    /*TODO*///						gfx_width = 320; gfx_height = 240;
-    /*TODO*///						break;
-    /*TODO*///					case MONITOR_TYPE_PAL:
-    /*TODO*///						gfx_width = 320; gfx_height = 256;
-    /*TODO*///						break;
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				use_vesa = 0;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///				use_vesa = arcade_tweaked[i].vesa;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* If using tweaked modes, check if there exists one to fit
-    /*TODO*///	   the screen in, otherwise use VESA */
-    /*TODO*///	if (use_tweaked && !gfx_width && !gfx_height)
-    /*TODO*///	{
-    /*TODO*///		for (i=0; vga_tweaked[i].x != 0; i++)
-    /*TODO*///		{
-    /*TODO*///			if (width <= vga_tweaked[i].x &&
-    /*TODO*///				height <= vga_tweaked[i].y)
-    /*TODO*///			{
-    /*TODO*///				/*check for 57Hz modes which would fit into a 60Hz mode*/
-    /*TODO*///				if (gfx_width <= 256 && gfx_height <= 256 &&
-    /*TODO*///					video_sync && Machine->drv->frames_per_second == 57)
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 256;
-    /*TODO*///					gfx_height = 256;
-    /*TODO*///					use_vesa = 0;
-    /*TODO*///					break;
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				/* check for correct horizontal/vertical modes */
-    /*TODO*///				if((!vga_tweaked[i].vertical_mode && !(Machine->orientation & ORIENTATION_SWAP_XY)) ||
-    /*TODO*///					(vga_tweaked[i].vertical_mode && (Machine->orientation & ORIENTATION_SWAP_XY)))
-    /*TODO*///				{
-    /*TODO*///					gfx_width  = vga_tweaked[i].x;
-    /*TODO*///					gfx_height = vga_tweaked[i].y;
-    /*TODO*///					use_vesa = 0;
-    /*TODO*///					/* leave the loop on match */
-    /*TODO*///
-    /*TODO*///if (gfx_width == 320 && gfx_height == 240 && scanlines == 0)
-    /*TODO*///{
-    /*TODO*///	use_vesa = 1;
-    /*TODO*///	gfx_width = 0;
-    /*TODO*///	gfx_height = 0;
-    /*TODO*///}
-    /*TODO*///					break;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		/* If we didn't find a tweaked VGA mode, use VESA */
-    /*TODO*///		if (gfx_width == 0)
-    /*TODO*///		{
-    /*TODO*///			if (errorlog)
-    /*TODO*///				fprintf (errorlog, "Did not find a tweaked VGA mode. Using VESA.\n");
-    /*TODO*///			use_vesa = 1;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* If no VESA resolution has been given, we choose a sensible one. */
-    /*TODO*///	/* 640x480, 800x600 and 1024x768 are common to all VESA drivers. */
-    /*TODO*///	if (!gfx_width && !gfx_height)
-    /*TODO*///	{
-    /*TODO*///		auto_resolution = 1;
-    /*TODO*///		use_vesa = 1;
-    /*TODO*///
-    /*TODO*///		/* vector games use 640x480 as default */
-    /*TODO*///		if (vector_game)
-    /*TODO*///		{
-    /*TODO*///			gfx_width = 640;
-    /*TODO*///			gfx_height = 480;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			int xm,ym;
-    /*TODO*///
-    /*TODO*///			xm = ym = 1;
-    /*TODO*///
-    /*TODO*///			if ((Machine->drv->video_attributes & VIDEO_PIXEL_ASPECT_RATIO_MASK)
-    /*TODO*///					== VIDEO_PIXEL_ASPECT_RATIO_1_2)
-    /*TODO*///			{
-    /*TODO*///				if (Machine->orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///					xm++;
-    /*TODO*///				else ym++;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (scanlines && stretch)
-    /*TODO*///			{
-    /*TODO*///				if (ym == 1)
-    /*TODO*///				{
-    /*TODO*///					xm *= 2;
-    /*TODO*///					ym *= 2;
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				/* see if pixel doubling can be applied at 640x480 */
-    /*TODO*///				if (ym*height <= 480 && xm*width <= 640 &&
-    /*TODO*///						(xm > 1 || (ym+1)*height > 768 || (xm+1)*width > 1024))
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 640;
-    /*TODO*///					gfx_height = 480;
-    /*TODO*///				}
-    /*TODO*///				/* see if pixel doubling can be applied at 800x600 */
-    /*TODO*///				else if (ym*height <= 600 && xm*width <= 800 &&
-    /*TODO*///						(xm > 1 || (ym+1)*height > 768 || (xm+1)*width > 1024))
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 800;
-    /*TODO*///					gfx_height = 600;
-    /*TODO*///				}
-    /*TODO*///				/* don't use 1024x768 right away. If 512x384 is available, it */
-    /*TODO*///				/* will provide hardware scanlines. */
-    /*TODO*///
-    /*TODO*///				if (ym > 1 && xm > 1)
-    /*TODO*///				{
-    /*TODO*///					xm /= 2;
-    /*TODO*///					ym /= 2;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (!gfx_width && !gfx_height)
-    /*TODO*///			{
-    /*TODO*///				if (ym*height <= 240 && xm*width <= 320)
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 320;
-    /*TODO*///					gfx_height = 240;
-    /*TODO*///				}
-    /*TODO*///				else if (ym*height <= 300 && xm*width <= 400)
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 400;
-    /*TODO*///					gfx_height = 300;
-    /*TODO*///				}
-    /*TODO*///				else if (ym*height <= 384 && xm*width <= 512)
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 512;
-    /*TODO*///					gfx_height = 384;
-    /*TODO*///				}
-    /*TODO*///				else if (ym*height <= 480 && xm*width <= 640 &&
-    /*TODO*///						(!stretch || (ym+1)*height > 768 || (xm+1)*width > 1024))
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 640;
-    /*TODO*///					gfx_height = 480;
-    /*TODO*///				}
-    /*TODO*///				else if (ym*height <= 600 && xm*width <= 800 &&
-    /*TODO*///						(!stretch || (ym+1)*height > 768 || (xm+1)*width > 1024))
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 800;
-    /*TODO*///					gfx_height = 600;
-    /*TODO*///				}
-    /*TODO*///				else
-    /*TODO*///				{
-    /*TODO*///					gfx_width = 1024;
-    /*TODO*///					gfx_height = 768;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
+    	if (vector_game!=0)
+    	{
+    		width = Machine.drv.screen_width;
+   		height = Machine.drv.screen_height;
+    	}
+    	else
+    	{
+   		width = Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x + 1;
+    		height = Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1;
+    	}
+    
+    	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		int temp;
+    
+    		temp = width;
+    		width = height;
+    		height = temp;
+    	}
+    
+    	use_vesa = -1;
+ 
+    	/* If no VESA resolution has been given, we choose a sensible one. */
+    	/* 640x480, 800x600 and 1024x768 are common to all VESA drivers. */
+    	if (gfx_width==0 && gfx_height==0)
+    	{
+    		auto_resolution = 1;
+    		use_vesa = 1;
+    
+    		/* vector games use 640x480 as default */
+    		if (vector_game!=0)
+    		{
+    			gfx_width = 640;
+    			gfx_height = 480;
+    		}
+    		else
+    		{
+    			int xm,ym;
+    
+    			xm = ym = 1;
+    
+    			if ((Machine.drv.video_attributes & VIDEO_PIXEL_ASPECT_RATIO_MASK)
+    					== VIDEO_PIXEL_ASPECT_RATIO_1_2)
+    			{
+    				if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    					xm++;
+    				else ym++;
+    			}
+    
+    			if (scanlines!=0 && stretch!=0)
+    			{
+    				if (ym == 1)
+    				{
+    					xm *= 2;
+    					ym *= 2;
+    				}
+    
+    				/* see if pixel doubling can be applied at 640x480 */
+    				if (ym*height <= 480 && xm*width <= 640 &&
+    						(xm > 1 || (ym+1)*height > 768 || (xm+1)*width > 1024))
+    				{
+    					gfx_width = 640;
+    					gfx_height = 480;
+    				}
+    				/* see if pixel doubling can be applied at 800x600 */
+    				else if (ym*height <= 600 && xm*width <= 800 &&
+    						(xm > 1 || (ym+1)*height > 768 || (xm+1)*width > 1024))
+    				{
+    					gfx_width = 800;
+    					gfx_height = 600;
+    				}
+    				/* don't use 1024x768 right away. If 512x384 is available, it */
+    				/* will provide hardware scanlines. */
+    
+    				if (ym > 1 && xm > 1)
+    				{
+    					xm /= 2;
+    					ym /= 2;
+    				}
+    			}
+    
+    			if (gfx_width==0 && gfx_height==0)
+    			{
+    				if (ym*height <= 240 && xm*width <= 320)
+    				{
+    					gfx_width = 320;
+    					gfx_height = 240;
+    				}
+    				else if (ym*height <= 300 && xm*width <= 400)
+    				{
+    					gfx_width = 400;
+    					gfx_height = 300;
+    				}
+    				else if (ym*height <= 384 && xm*width <= 512)
+    				{
+    					gfx_width = 512;
+    					gfx_height = 384;
+    				}
+    				else if (ym*height <= 480 && xm*width <= 640 &&
+    						(stretch==0 || (ym+1)*height > 768 || (xm+1)*width > 1024))
+    				{
+    					gfx_width = 640;
+    					gfx_height = 480;
+    				}
+    				else if (ym*height <= 600 && xm*width <= 800 &&
+    						(stretch==0 || (ym+1)*height > 768 || (xm+1)*width > 1024))
+    				{
+    					gfx_width = 800;
+    					gfx_height = 600;
+    				}
+    				else
+    				{
+    					gfx_width = 1024;
+    					gfx_height = 768;
+    				}
+    			}
+    		}
+    	}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -1109,10 +975,10 @@ public class video {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///int game_width;
-    /*TODO*///int game_height;
-    /*TODO*///int game_attributes;
-    /*TODO*///
+    public static int game_width;
+    public static int game_height;
+    public static int game_attributes;
+
     /* Create a display screen, or window, large enough to accomodate a bitmap */
     /* of the given dimensions. Attributes are the ones defined in driver.h. */
     /* Return a osd_bitmap pointer or 0 in case of error. */
@@ -1132,7 +998,7 @@ public class video {
     
     
     
-    /*TODO*///	gone_to_gfx_mode = 0;
+    /*TODO????*///	gone_to_gfx_mode = 0;
     
     	/* Look if this is a vector game */
     	if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR)!=0)
@@ -1150,16 +1016,17 @@ public class video {
     			use_dirty = 0;
     	}
     
-    /*TODO*///	select_display_mode(depth);
-    /*TODO*///
-    /*TODO*///	if (vector_game)
-    /*TODO*///	{
+    	select_display_mode(depth);
+    
+    	if (vector_game!=0)
+    	{
+            throw new UnsupportedOperationException("Unsupported scale_vectorgames");
     /*TODO*///		scale_vectorgames(gfx_width,gfx_height,&width, &height);
-    /*TODO*///	}
+    	}
     /*TODO*///
-    /*TODO*///	game_width = width;
-    /*TODO*///	game_height = height;
-    /*TODO*///	game_attributes = attributes;
+    	game_width = width;
+    	game_height = height;
+    	game_attributes = attributes;
     /*TODO*///
     /*TODO*///	if (depth == 16)
     /*TODO*///		scrbitmap = osd_new_bitmap(width,height,16);

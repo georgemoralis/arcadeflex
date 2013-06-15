@@ -403,6 +403,8 @@ public class config {
             /*TODO*///
             /*TODO*///	/* read graphic configuration */
             /*TODO*///	scanlines   = get_bool   ("config", "scanlines",    NULL,  1);
+  /*temphack!!!! */              scanlines = 1;
+  /*temphack!!!! */              stretch =1;
             /*TODO*///	stretch     = get_bool   ("config", "stretch",		NULL,  1);
             /*TODO*///	options.use_artwork = get_bool   ("config", "artwork",	NULL,  1);
             /*TODO*///	options.use_samples = get_bool   ("config", "samples",	NULL,  1);
@@ -609,8 +611,8 @@ public class config {
             /*TODO*///			resolution = &argv[i][1];
             /*TODO*///	}
             /*TODO*///
-            /*TODO*///	/* break up resolution into gfx_width and gfx_height */
-            /*TODO*///	gfx_height = gfx_width = 0;
+            	/* break up resolution into gfx_width and gfx_height */
+            	gfx_height = gfx_width = 0;
             /*TODO*///	if (stricmp (resolution, "auto") != 0)
             /*TODO*///	{
             /*TODO*///		char *tmp;
