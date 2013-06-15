@@ -23,6 +23,7 @@ public class config {
     /*endof these are used for ini reading*/
 
     //code from : http://stackoverflow.com/questions/190629/what-is-the-easiest-way-to-parse-an-ini-file-in-java
+    //interesting also : http://java-program.developerfaqs.com/q_java-programming_255703.html
     public static void load_ini(String path) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
