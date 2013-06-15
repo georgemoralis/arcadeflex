@@ -34,13 +34,14 @@ public class pengo
 	);
 	
 	
-	public static VhConvertColorPromPtr pacman_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette_table, char []colortable, UBytePtr color_prom)
+	public static VhConvertColorPromPtr pacman_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette, char []colortable, UBytePtr color_prom)
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
 		//#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
                 
-                UBytePtr palette= new UBytePtr(palette_table);
+                //UBytePtr palette= new UBytePtr(palette_table);
+                int p_inc=0;
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
 			int bit0,bit1,bit2;
@@ -50,17 +51,17 @@ public class pengo
 			bit0 = (color_prom.read() >> 0) & 0x01;
 			bit1 = (color_prom.read() >> 1) & 0x01;
 			bit2 = (color_prom.read() >> 2) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 			/* green component */
 			bit0 = (color_prom.read() >> 3) & 0x01;
 			bit1 = (color_prom.read() >> 4) & 0x01;
 			bit2 = (color_prom.read() >> 5) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 			/* blue component */
 			bit0 = 0;
 			bit1 = (color_prom.read() >> 6) & 0x01;
 			bit2 = (color_prom.read() >> 7) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 	
 			color_prom.inc();
 		}
@@ -75,14 +76,14 @@ public class pengo
                     colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i]=(char)(color_prom.readinc() & 0x0f);
 	}};
 	
-        public static VhConvertColorPromPtr pengo_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette_table, char []colortable, UBytePtr color_prom)
+        public static VhConvertColorPromPtr pengo_vh_convert_color_prom = new VhConvertColorPromPtr() {	public void handler(UByte []palette, char []colortable, UBytePtr color_prom)
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
 		//#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
 	
-                UBytePtr palette= new UBytePtr(palette_table);
-                
+               
+                int p_inc=0;
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
 			int bit0,bit1,bit2;
@@ -92,17 +93,17 @@ public class pengo
 			bit0 = (color_prom.read() >> 0) & 0x01;
 			bit1 = (color_prom.read() >> 1) & 0x01;
 			bit2 = (color_prom.read() >> 2) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 			/* green component */
 			bit0 = (color_prom.read() >> 3) & 0x01;
 			bit1 = (color_prom.read() >> 4) & 0x01;
 			bit2 = (color_prom.read() >> 5) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 			/* blue component */
 			bit0 = 0;
 			bit1 = (color_prom.read() >> 6) & 0x01;
 			bit2 = (color_prom.read() >> 7) & 0x01;
-			palette.writeinc(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
 	
 			color_prom.inc();
 		}

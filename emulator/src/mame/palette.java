@@ -5,6 +5,7 @@ import static mame.mame.*;
 import static mame.driverH.*;
 import static mame.paletteH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 import static mame.mameH.*;
 import static mame.commonH.*;
 import static mame.common.*;
@@ -213,24 +214,24 @@ public class palette {
     	if (Machine.drv.vh_init_palette!=null)
         {
             Machine.drv.vh_init_palette.handler(game_palette,Machine.game_colortable,memory_region(REGION_PROMS));
-    		//(*Machine->drv->vh_init_palette)(game_palette,Machine->game_colortable,memory_region(REGION_PROMS));
         }
     
     
-    /*TODO*///	switch (use_16bit)
-    /*TODO*///	{
-    /*TODO*///		case NO_16BIT:
-    /*TODO*///		{
-    /*TODO*///			/* initialize shrinked palette to all black */
-    /*TODO*///			for (i = 0;i < total_shrinked_pens;i++)
-    /*TODO*///			{
-    /*TODO*///				shrinked_palette[3*i + 0] =
-    /*TODO*///				shrinked_palette[3*i + 1] =
-    /*TODO*///				shrinked_palette[3*i + 2] = 0;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (Machine->drv->video_attributes & VIDEO_MODIFIES_PALETTE)
-    /*TODO*///			{
+    	switch (use_16bit)
+    	{
+    		case NO_16BIT:
+    		{
+    			/* initialize shrinked palette to all black */
+    			for (i = 0;i < total_shrinked_pens;i++)
+    			{
+    				shrinked_palette[3*i + 0].set((char)0);
+    				shrinked_palette[3*i + 1].set((char)0);
+    				shrinked_palette[3*i + 2].set((char)0);
+    			}
+    
+    			if ((Machine.drv.video_attributes & VIDEO_MODIFIES_PALETTE)!=0)
+    			{
+                            throw new UnsupportedOperationException("palette_init() NO_16BIT VIDEO_MODIFIES_PALETTE unimplemented");
     /*TODO*///				/* initialize pen usage counters */
     /*TODO*///				for (i = 0;i < DYNAMIC_MAX_PENS;i++)
     /*TODO*///					pen_usage_count[i] = 0;
@@ -249,64 +250,66 @@ public class palette {
     /*TODO*///
     /*TODO*///				if (osd_allocate_colors(total_shrinked_pens,shrinked_palette,shrinked_pens,1))
     /*TODO*///					return 1;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				int j,used;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///if (errorlog) fprintf(errorlog,"shrinking %d colors palette...\n",Machine->drv->total_colors);
-    /*TODO*///
-    /*TODO*///				/* shrink palette to fit */
-    /*TODO*///				used = 0;
-    /*TODO*///
-    /*TODO*///				for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///				{
-    /*TODO*///					for (j = 0;j < used;j++)
-    /*TODO*///					{
-    /*TODO*///						if (	shrinked_palette[3*j + 0] == game_palette[3*i + 0] &&
-    /*TODO*///								shrinked_palette[3*j + 1] == game_palette[3*i + 1] &&
-    /*TODO*///								shrinked_palette[3*j + 2] == game_palette[3*i + 2])
-    /*TODO*///							break;
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					palette_map[i] = j;
-    /*TODO*///
-    /*TODO*///					if (j == used)
-    /*TODO*///					{
-    /*TODO*///						used++;
-    /*TODO*///						if (used > total_shrinked_pens)
-    /*TODO*///						{
+    			}
+    			else
+    			{
+    				int j,used;
+    
+    
+                                if (errorlog!=null) fprintf(errorlog,"shrinking %d colors palette...\n",Machine.drv.total_colors);
+    
+    				/* shrink palette to fit */
+    				used = 0;
+    
+    				for (i = 0;i < Machine.drv.total_colors;i++)
+    				{
+    					for (j = 0;j < used;j++)
+    					{
+    						if (	shrinked_palette[3*j + 0].read() == game_palette[3*i + 0].read() &&
+    								shrinked_palette[3*j + 1].read() == game_palette[3*i + 1].read() &&
+    								shrinked_palette[3*j + 2].read() == game_palette[3*i + 2].read())
+    							break;
+    					}
+    
+    					palette_map[i] = (char)j;
+    
+    					if (j == used)
+    					{
+    						used++;
+    						if (used > total_shrinked_pens)
+    						{
+                                                     throw new UnsupportedOperationException("error: ran out of free pens to shrink the palette");
     /*TODO*///							used = total_shrinked_pens;
     /*TODO*///							palette_map[i] = total_shrinked_pens-1;
     /*TODO*///							usrintf_showmessage("cannot shrink static palette");
-    /*TODO*///if (errorlog) fprintf(errorlog,"error: ran out of free pens to shrink the palette.\n");
-    /*TODO*///						}
-    /*TODO*///						else
-    /*TODO*///						{
-    /*TODO*///							shrinked_palette[3*j + 0] = game_palette[3*i + 0];
-    /*TODO*///							shrinked_palette[3*j + 1] = game_palette[3*i + 1];
-    /*TODO*///							shrinked_palette[3*j + 2] = game_palette[3*i + 2];
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///if (errorlog) fprintf(errorlog,"shrinked palette uses %d colors\n",used);
-    /*TODO*///
+    /*TODO*///                                          if (errorlog) fprintf(errorlog,"error: ran out of free pens to shrink the palette.\n");
+    						}
+    						else
+    						{
+    							shrinked_palette[3*j + 0].set((char)game_palette[3*i + 0].read());
+    							shrinked_palette[3*j + 1].set((char)game_palette[3*i + 1].read());
+    							shrinked_palette[3*j + 2].set((char)game_palette[3*i + 2].read());
+    						}
+    					}
+    				}
+    
+                                if (errorlog!=null) fprintf(errorlog,"shrinked palette uses %d colors\n",used);
+    
     /*TODO*///				if (osd_allocate_colors(used,shrinked_palette,shrinked_pens,0))
     /*TODO*///					return 1;
-    /*TODO*///			}
+    			}
     /*TODO*///
     /*TODO*///
-    /*TODO*///			for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///				Machine->pens[i] = shrinked_pens[palette_map[i]];
-    /*TODO*///
-    /*TODO*///			palette_transparent_pen = shrinked_pens[TRANSPARENT_PEN];	/* for dynamic palette games */
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///		case STATIC_16BIT:
-    /*TODO*///		{
+    			for (i = 0;i < Machine.drv.total_colors;i++)
+    				Machine.pens[i] = shrinked_pens[palette_map[i]];
+    
+   /*TODO*/// 			palette_transparent_pen = shrinked_pens[TRANSPARENT_PEN];	/* for dynamic palette games */
+    		}
+    		break;
+    
+    		case STATIC_16BIT:
+    		{
+                    throw new UnsupportedOperationException("palette_init() STATIC_16BIT unimplemented");
     /*TODO*///			unsigned char *p = shrinked_palette;
     /*TODO*///			int r,g,b;
     /*TODO*///
@@ -357,11 +360,12 @@ public class palette {
     /*TODO*///			}
     /*TODO*///
     /*TODO*///			palette_transparent_pen = shrinked_pens[0];	/* we are forced to use black for the transparent pen */
-    /*TODO*///		}
+    		}
     /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///		case PALETTIZED_16BIT:
-    /*TODO*///		{
+    
+    		case PALETTIZED_16BIT:
+    		{
+                    throw new UnsupportedOperationException("palette_init() PALETTIZED_16BIT unimplemented");
     /*TODO*///			for (i = 0;i < RESERVED_PENS;i++)
     /*TODO*///			{
     /*TODO*///				shrinked_palette[3*i + 0] =
@@ -383,9 +387,9 @@ public class palette {
     /*TODO*///				Machine->pens[i] = shrinked_pens[i + RESERVED_PENS];
     /*TODO*///
     /*TODO*///			palette_transparent_pen = shrinked_pens[TRANSPARENT_PEN];	/* for dynamic palette games */
-    /*TODO*///		}
+    		}
     /*TODO*///		break;
-    /*TODO*///	}
+    	}
     /*TODO*///
     /*TODO*///	for (i = 0;i < Machine->drv->color_table_len;i++)
     /*TODO*///	{
