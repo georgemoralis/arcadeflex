@@ -7,28 +7,18 @@ package arcadeflex;
 import static mame.osdependH.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
+import static mame.driverH.*;
 
 public class video {
 
-    public static osd_bitmap osd_new_bitmap(int width, int height, int depth) {
-        throw new UnsupportedOperationException("osd_new_bitmap");
-    }
+    
 
-    public static void osd_free_bitmap(osd_bitmap bitmap) {
-        throw new UnsupportedOperationException("osd_free_bitmap");
-    }
+    
 
-    public static void osd_clearbitmap(osd_bitmap bitmap) {
-        throw new UnsupportedOperationException("osd_clearbitmap");
-    }
+    
 
-    public static void osd_mark_dirty(int _x1, int _y1, int _x2, int _y2, int ui) {
-        throw new UnsupportedOperationException("osd_mark_dirty");
-    }
-    public static void  osd_update_video_and_audio()
-    {
-        throw new UnsupportedOperationException("osd_update_video_and_audio");
-    }
+    
+    
     /*TODO*////* function to make scanline mode */
     /*TODO*///Register *make_scanline_mode(Register *inreg,int entries);
     /*TODO*///
@@ -325,7 +315,7 @@ public class video {
     /*TODO*///int mmxlfb;
     /*TODO*///int use_tweaked;
     /*TODO*///int use_vesa;
-    /*TODO*///int use_dirty;
+    public static int use_dirty;
     /*TODO*///float osd_gamma_correction = 1.0;
     public static int brightness;
     public static float brightness_paused_adjust;
@@ -351,7 +341,7 @@ public class video {
     /*TODO*///static int skiplinesmin;
     /*TODO*///static int skipcolumnsmin;
     /*TODO*///
-    /*TODO*///static int vector_game;
+    public static int vector_game;
     /*TODO*///
     /*TODO*///static Register *reg = 0;       /* for VGA modes */
     /*TODO*///static int reglen = 0;  /* for VGA modes */
@@ -487,8 +477,9 @@ public class video {
     /*TODO*///
     /*TODO*///const int safety = 16;
     /*TODO*///
-    /*TODO*///struct osd_bitmap *osd_new_bitmap(int width,int height,int depth)       /* ASG 980209 */
-    /*TODO*///{
+    public static osd_bitmap osd_new_bitmap(int width, int height, int depth) {
+        throw new UnsupportedOperationException("osd_new_bitmap");
+    
     /*TODO*///	struct osd_bitmap *bitmap;
     /*TODO*///
     /*TODO*///
@@ -551,13 +542,14 @@ public class video {
     /*TODO*///	}
     /*TODO*///
     /*TODO*///	return bitmap;
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
     /*TODO*////* set the bitmap to black */
-    /*TODO*///void osd_clearbitmap(struct osd_bitmap *bitmap)
-    /*TODO*///{
+    public static void osd_clearbitmap(osd_bitmap bitmap) {
+        throw new UnsupportedOperationException("osd_clearbitmap");
+  
     /*TODO*///	int i;
     /*TODO*///
     /*TODO*///
@@ -577,12 +569,11 @@ public class video {
     /*TODO*///		osd_mark_dirty (0,0,bitmap->width-1,bitmap->height-1,1);
     /*TODO*///		bitmap_dirty = 1;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void osd_free_bitmap(struct osd_bitmap *bitmap)
-    /*TODO*///{
+    }
+
+    public static void osd_free_bitmap(osd_bitmap bitmap) {
+        throw new UnsupportedOperationException("osd_free_bitmap");
+    
     /*TODO*///	if (bitmap)
     /*TODO*///	{
     /*TODO*///		bitmap->line -= safety;
@@ -590,11 +581,11 @@ public class video {
     /*TODO*///		free(bitmap->_private);
     /*TODO*///		free(bitmap);
     /*TODO*///	}
-    /*TODO*///}
+    }
     /*TODO*///
-    /*TODO*///
-    /*TODO*///void osd_mark_dirty(int _x1, int _y1, int _x2, int _y2, int ui)
-    /*TODO*///{
+    public static void osd_mark_dirty(int _x1, int _y1, int _x2, int _y2, int ui) {
+        throw new UnsupportedOperationException("osd_mark_dirty");
+   
     /*TODO*///	if (use_dirty)
     /*TODO*///	{
     /*TODO*///		int x, y;
@@ -616,7 +607,7 @@ public class video {
     /*TODO*///			for (x = _x1; x <= _x2 + 15; x += 16)
     /*TODO*///				MARKDIRTY(x,y);
     /*TODO*///	}
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///static void init_dirty(char dirty)
     /*TODO*///{
@@ -1138,27 +1129,27 @@ public class video {
     
     	if (frameskip < 0) frameskip = 0;
     	if (frameskip >= FRAMESKIP_LEVELS) frameskip = FRAMESKIP_LEVELS-1;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    
+    
+    
     /*TODO*///	gone_to_gfx_mode = 0;
-    /*TODO*///
-    /*TODO*///	/* Look if this is a vector game */
-    /*TODO*///	if (Machine->drv->video_attributes & VIDEO_TYPE_VECTOR)
-    /*TODO*///		vector_game = 1;
-    /*TODO*///	else
-    /*TODO*///		vector_game = 0;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (use_dirty == -1)	/* dirty=auto in mame.cfg? */
-    /*TODO*///	{
-    /*TODO*///		/* Is the game using a dirty system? */
-    /*TODO*///		if ((Machine->drv->video_attributes & VIDEO_SUPPORTS_DIRTY) || vector_game)
-    /*TODO*///			use_dirty = 1;
-    /*TODO*///		else
-    /*TODO*///			use_dirty = 0;
-    /*TODO*///	}
-    /*TODO*///
+    
+    	/* Look if this is a vector game */
+    	if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR)!=0)
+    		vector_game = 1;
+    	else
+    		vector_game = 0;
+    
+    
+    	if (use_dirty == -1)	/* dirty=auto in mame.cfg? */
+    	{
+    		/* Is the game using a dirty system? */
+    		if (((Machine.drv.video_attributes & VIDEO_SUPPORTS_DIRTY)!=0) || (vector_game!=0))
+    			use_dirty = 1;
+    		else
+    			use_dirty = 0;
+    	}
+    
     /*TODO*///	select_display_mode(depth);
     /*TODO*///
     /*TODO*///	if (vector_game)
@@ -2059,8 +2050,10 @@ public class video {
     /*TODO*///}
     /*TODO*///
     /*TODO*////* Update the display. */
-    /*TODO*///void osd_update_video_and_audio(void)
-    /*TODO*///{
+    public static void  osd_update_video_and_audio()
+    {
+        throw new UnsupportedOperationException("osd_update_video_and_audio");
+    
     /*TODO*///	static const int waittable[FRAMESKIP_LEVELS][FRAMESKIP_LEVELS] =
     /*TODO*///	{
     /*TODO*///		{ 1,1,1,1,1,1,1,1,1,1,1,1 },
@@ -2449,7 +2442,7 @@ public class video {
     /*TODO*///
     /*TODO*///
     /*TODO*///	frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///

@@ -413,6 +413,7 @@ public class config {
             /*TODO*///	vesamode    = get_string ("config", "vesamode",	NULL,	"vesa3");
             /*TODO*///	use_mmx		= get_bool   ("config", "mmx", 		NULL,	-1);
             /*TODO*///	use_dirty	= get_bool	 ("config", "dirty",	NULL,	-1);
+ /*temphack!!!! */           use_dirty=-1;
             /*TODO*///	options.antialias   = get_bool   ("config", "antialias",    NULL,  1);
             /*TODO*///	options.translucency = get_bool    ("config", "translucency", NULL, 1);
             /*TODO*///
