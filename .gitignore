@@ -5,3 +5,4 @@ emulator/error.log
 emulator/roms/
 emulator/memdump.log
 emulator/arcadeflex.xml
+emulator/arcadeflex.cfg
