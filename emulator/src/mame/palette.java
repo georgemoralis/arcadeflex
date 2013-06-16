@@ -9,6 +9,8 @@ import static arcadeflex.libc_old.*;
 import static mame.mameH.*;
 import static mame.commonH.*;
 import static mame.common.*;
+import static arcadeflex.video.*;
+
 
 public class palette {
     public static UByte[] game_palette;	/* RGB palette as set by the driver. */
@@ -295,11 +297,11 @@ public class palette {
     
                                 if (errorlog!=null) fprintf(errorlog,"shrinked palette uses %d colors\n",used);
     
-    /*TODO*///				if (osd_allocate_colors(used,shrinked_palette,shrinked_pens,0))
-    /*TODO*///					return 1;
+    				if (osd_allocate_colors(used,shrinked_palette,shrinked_pens,0)!=0)
+   					return 1;
     			}
-    /*TODO*///
-    /*TODO*///
+    
+   
     			for (i = 0;i < Machine.drv.total_colors;i++)
     				Machine.pens[i] = shrinked_pens[palette_map[i]];
     

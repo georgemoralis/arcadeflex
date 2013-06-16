@@ -52,7 +52,7 @@ public class usrintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-   void set_ui_visarea (int xmin, int ymin, int xmax, int ymax)
+   public static void set_ui_visarea (int xmin, int ymin, int xmax, int ymax)
    {
    	int temp,w,h;
    
