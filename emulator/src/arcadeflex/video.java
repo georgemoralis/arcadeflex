@@ -1,24 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package arcadeflex;
 
 import static mame.osdependH.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.libc.*;
 import static mame.mame.*;
 import static mame.driverH.*;
 
 public class video {
 
-    
-
-    
-
-    
-
-    
-    
     /*TODO*////* function to make scanline mode */
     /*TODO*///Register *make_scanline_mode(Register *inreg,int entries);
     /*TODO*///
@@ -51,7 +41,7 @@ public class video {
     /*TODO*///	COLOR_DEPTH_16
     /*TODO*///END_COLOR_DEPTH_LIST
     /*TODO*///
-    /*TODO*///#define BACKGROUND 0
+    public static final int BACKGROUND = 0;
     /*TODO*///
     /*TODO*///
     /*TODO*///dirtygrid grid1;
@@ -281,7 +271,7 @@ public class video {
     /*TODO*///
     /*TODO*///};
     /*TODO*///
-    /*TODO*///struct osd_bitmap *scrbitmap;
+    public static osd_bitmap scrbitmap;
     /*TODO*///static int modifiable_palette;
     /*TODO*///static int screen_colors;
     /*TODO*///static unsigned char *current_palette;
@@ -468,107 +458,112 @@ public class video {
     /*TODO*///	{ 512, 512, &tw512x256arc_h, &tw512x256arc_v, 0 },
     /*TODO*///	{ 0, 0 }
     /*TODO*///};
-    /*TODO*///
-    /*TODO*////* Create a bitmap. Also calls osd_clearbitmap() to appropriately initialize */
-    /*TODO*////* it to the background color. */
-    /*TODO*////* VERY IMPORTANT: the function must allocate also a "safety area" 16 pixels wide all */
-    /*TODO*////* around the bitmap. This is required because, for performance reasons, some graphic */
-    /*TODO*////* routines don't clip at boundaries of the bitmap. */
-    /*TODO*///
-    /*TODO*///const int safety = 16;
-    /*TODO*///
-    public static osd_bitmap osd_new_bitmap(int width, int height, int depth) {
-        throw new UnsupportedOperationException("osd_new_bitmap");
     
-    /*TODO*///	struct osd_bitmap *bitmap;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		int temp;
-    /*TODO*///
-    /*TODO*///		temp = width;
-    /*TODO*///		width = height;
-    /*TODO*///		height = temp;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if ((bitmap = malloc(sizeof(struct osd_bitmap))) != 0)
-    /*TODO*///	{
-    /*TODO*///		int i,rowlen,rdwidth;
-    /*TODO*///		unsigned char *bm;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (depth != 8 && depth != 16) depth = 8;
-    /*TODO*///
-    /*TODO*///		bitmap->depth = depth;
-    /*TODO*///		bitmap->width = width;
-    /*TODO*///		bitmap->height = height;
-    /*TODO*///
-    /*TODO*///		rdwidth = (width + 7) & ~7;     /* round width to a quadword */
-    /*TODO*///		if (depth == 16)
-    /*TODO*///			rowlen = 2 * (rdwidth + 2 * safety) * sizeof(unsigned char);
-    /*TODO*///		else
-    /*TODO*///			rowlen =     (rdwidth + 2 * safety) * sizeof(unsigned char);
-    /*TODO*///
-    /*TODO*///		if ((bm = malloc((height + 2 * safety) * rowlen)) == 0)
-    /*TODO*///		{
-    /*TODO*///			free(bitmap);
-    /*TODO*///			return 0;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* clear ALL bitmap, including safety area, to avoid garbage on right */
-    /*TODO*///		/* side of screen is width is not a multiple of 4 */
-    /*TODO*///		memset(bm,0,(height + 2 * safety) * rowlen);
-    /*TODO*///
-    /*TODO*///		if ((bitmap->line = malloc((height + 2 * safety) * sizeof(unsigned char *))) == 0)
-    /*TODO*///		{
-    /*TODO*///			free(bm);
-    /*TODO*///			free(bitmap);
-    /*TODO*///			return 0;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		for (i = 0;i < height + 2 * safety;i++)
-    /*TODO*///		{
-    /*TODO*///			if (depth == 16)
-    /*TODO*///				bitmap->line[i] = &bm[i * rowlen + 2*safety];
-    /*TODO*///			else
-    /*TODO*///				bitmap->line[i] = &bm[i * rowlen + safety];
-    /*TODO*///		}
-    /*TODO*///		bitmap->line += safety;
-    /*TODO*///
-    /*TODO*///		bitmap->_private = bm;
-    /*TODO*///
-    /*TODO*///		osd_clearbitmap(bitmap);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return bitmap;
+    /* Create a bitmap. Also calls osd_clearbitmap() to appropriately initialize */
+    /* it to the background color. */
+    /* VERY IMPORTANT: the function must allocate also a "safety area" 16 pixels wide all */
+    /* around the bitmap. This is required because, for performance reasons, some graphic */
+    /* routines don't clip at boundaries of the bitmap. */
+
+    public static final int safety = 16;
+
+    public static osd_bitmap osd_new_bitmap(int width, int height, int depth) {
+      
+    	osd_bitmap bitmap;
+    
+    
+    	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		int temp;
+    
+    		temp = width;
+    		width = height;
+    		height = temp;
+    	}
+    
+    	if ((bitmap = new osd_bitmap()) != null)
+    	{
+    		int i,rowlen,rdwidth;
+    		UBytePtr bm;
+    
+    
+    		if (depth != 8 && depth != 16) depth = 8;
+    
+    		bitmap.depth = depth;
+    		bitmap.width = width;
+    		bitmap.height = height;
+    
+    		rdwidth = (width + 7) & ~7;     /* round width to a quadword */
+    		if (depth == 16)
+    			rowlen = 2 * (rdwidth + 2 * safety);
+    		else
+    			rowlen =     (rdwidth + 2 * safety);
+    
+    		if ((bm = new UBytePtr((height+2*safety) * rowlen)) == null)
+    		{
+    			bitmap=null;
+    			return null;
+    		}
+    
+    		/* clear ALL bitmap, including safety area, to avoid garbage on right */
+    		/* side of screen is width is not a multiple of 4 */
+    		memset(bm,0,(height + 2 * safety) * rowlen);
+                if ((bitmap.line = new UBytePtr[((height + 2 * safety))]) == null)
+    		{
+    			bm=null;
+    			bitmap=null;
+    			return null;
+    		}
+    
+    		for (i = 0;i < height + 2 * safety;i++)
+    		{
+    			if (depth == 16)
+                        {
+                            //bitmap->line[i] = &bm[i * rowlen + 2*safety];
+                            bitmap.line[i] = new UBytePtr(bm, (i * rowlen + 2 * safety));
+
+                        }
+    				
+    			else
+                        {
+                                //bitmap->line[i] = &bm[i * rowlen + safety];
+                                bitmap.line[i] = new UBytePtr(bm, (i * rowlen + safety));
+
+                        }  
+                         bitmap.line[i].base += safety;
+    		}
+    		//bitmap.line += safety; //moved above TODO check if it's correct (shadow)
+    
+    		bitmap._private = bm;
+    
+    		osd_clearbitmap(bitmap);
+    	}
+    
+    	return bitmap;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* set the bitmap to black */
-    public static void osd_clearbitmap(osd_bitmap bitmap) {
-        throw new UnsupportedOperationException("osd_clearbitmap");
-  
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < bitmap->height;i++)
-    /*TODO*///	{
-    /*TODO*///		if (bitmap->depth == 16)
-    /*TODO*///			memset(bitmap->line[i],0,2*bitmap->width);
-    /*TODO*///		else
-    /*TODO*///			memset(bitmap->line[i],BACKGROUND,bitmap->width);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (bitmap == scrbitmap)
-    /*TODO*///	{
-    /*TODO*///		extern int bitmap_dirty;        /* in mame.c */
-    /*TODO*///
-    /*TODO*///		osd_mark_dirty (0,0,bitmap->width-1,bitmap->height-1,1);
-    /*TODO*///		bitmap_dirty = 1;
-    /*TODO*///	}
+    
+    
+    
+    /* set the bitmap to black */
+    public static void osd_clearbitmap(osd_bitmap bitmap) 
+    {
+    	int i;
+    
+    	for (i = 0;i < bitmap.height;i++)
+    	{
+    		if (bitmap.depth == 16)
+    			memset(bitmap.line[i].memory,0,2*bitmap.width);
+    		else
+    			memset(bitmap.line[i].memory,BACKGROUND,bitmap.width);
+    	}
+    
+    
+    	if (bitmap == scrbitmap)
+    	{
+    
+    		osd_mark_dirty (0,0,bitmap.width-1,bitmap.height-1,1);
+    		bitmap_dirty = 1;
+    	}
     }
 
     public static void osd_free_bitmap(osd_bitmap bitmap) {
@@ -1023,17 +1018,17 @@ public class video {
             throw new UnsupportedOperationException("Unsupported scale_vectorgames");
     /*TODO*///		scale_vectorgames(gfx_width,gfx_height,&width, &height);
     	}
-    /*TODO*///
+
     	game_width = width;
     	game_height = height;
     	game_attributes = attributes;
-    /*TODO*///
-    /*TODO*///	if (depth == 16)
-    /*TODO*///		scrbitmap = osd_new_bitmap(width,height,16);
-    /*TODO*///	else
-    /*TODO*///		scrbitmap = osd_new_bitmap(width,height,8);
-    /*TODO*///
-    /*TODO*///	if (!scrbitmap) return 0;
+    
+    	if (depth == 16)
+    		scrbitmap = osd_new_bitmap(width,height,16);
+   	else
+    		scrbitmap = osd_new_bitmap(width,height,8);
+    
+    	if (scrbitmap==null) return null;
     /*TODO*///
     /*TODO*////* find a VESA driver for 15KHz modes just in case we need it later on */
     /*TODO*///	if (scanrate15KHz)
