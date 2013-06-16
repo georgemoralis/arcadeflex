@@ -6,6 +6,7 @@ import static mame.drawgfxH.*;
 import static mame.mame.*;
 import static mame.driverH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.video.*;
 
 public class drawgfx {
 
@@ -2379,11 +2380,172 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
+       public static void blockmove_opaque8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata)
+       {
+           int end;
+
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+
+            while (srcheight!=0)
+            {
+                    end = dstdata.base + srcwidth;
+                    while (dstdata.base <= end - 8)
+                    {
+                            dstdata.write(0,paldata.read(srcdata.read(0)));
+                            dstdata.write(1,paldata.read(srcdata.read(1)));
+                            dstdata.write(2,paldata.read(srcdata.read(2)));
+                            dstdata.write(3,paldata.read(srcdata.read(3)));
+                            dstdata.write(4,paldata.read(srcdata.read(4)));
+                            dstdata.write(5,paldata.read(srcdata.read(5)));
+                            dstdata.write(6,paldata.read(srcdata.read(6)));
+                            dstdata.write(7,paldata.read(srcdata.read(7)));
+                            dstdata.base += 8;
+                            srcdata.base += 8;
+                    }
+                    while (dstdata.base < end)
+                    {
+                        dstdata.writeinc(paldata.read(srcdata.readinc()));
+                           // *(dstdata++) = paldata[*(srcdata++)];
+                    }
+                    srcdata.base += srcmodulo;
+                    dstdata.base += dstmodulo;
+                    srcheight--;
+            }
+       }
+        
         public static void drawgfx_core8(osd_bitmap dest, GfxElement gfx,
             int code, int color, int flipx, int flipy, int sx, int sy,
             rectangle clip, int transparency, int transparent_color)
         {
-             throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+            int ox;
+            int oy;
+            int ex;
+            int ey;
+
+
+            /* check bounds */
+            ox = sx;
+            oy = sy;
+
+            ex = sx + gfx.width-1;
+            if (sx < 0) sx = 0;
+            if (clip!=null && sx < clip.min_x) sx = clip.min_x;
+            if (ex >= dest.width) ex = dest.width-1;
+            if (clip!=null && ex > clip.max_x) ex = clip.max_x;
+            if (sx > ex) return;
+
+            ey = sy + gfx.height-1;
+            if (sy < 0) sy = 0;
+            if (clip!=null && sy < clip.min_y) sy = clip.min_y;
+            if (ey >= dest.height) ey = dest.height-1;
+            if (clip!=null && ey > clip.max_y) ey = clip.max_y;
+            if (sy > ey) return;
+
+            osd_mark_dirty (sx,sy,ex,ey,0);	/* ASG 971011 */
+            
+            	UBytePtr sd = new UBytePtr(gfx.gfxdata,code * gfx.char_modulo);		/* source data */
+		int sw = ex-sx+1;										/* source width */
+		int sh = ey-sy+1;										/* source height */
+		int sm = gfx.line_modulo;								/* source modulo */
+		UBytePtr dd = new UBytePtr(dest.line[sy],sx);		/* dest data */
+		int dm = (int)((dest.line[1].base)-(dest.line[0].base));	/* dest modulo */
+                CharPtr paldata = new CharPtr(gfx.colortable,gfx.color_granularity*color);
+
+		if (flipx!=0)
+		{
+			//if ((sx-ox) == 0) sd += gfx->width - sw;
+			sd.base += (gfx.width -1 -(sx-ox));
+		}
+		else
+			sd.base += (sx-ox);
+
+		if (flipy!=0)
+		{
+			//if ((sy-oy) == 0) sd += sm * (gfx->height - sh);
+			//dd += dm * (sh - 1);
+			//dm = -dm;
+			sd.base += (sm * (gfx.height -1 -(sy-oy)));
+			sm = -sm;
+		}
+		else
+			sd.base += (sm * (sy-oy));
+            
+                switch (transparency)
+		{
+			case TRANSPARENCY_NONE:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    blockmove_opaque8(sd,sw,sh,sm,dd,dm,paldata);
+                                }
+				//BLOCKMOVE(opaque,flipx,(sd,sw,sh,sm,dd,dm,paldata));
+				break;
+
+			case TRANSPARENCY_PEN:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+				//BLOCKMOVE(transpen,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+			//	break;
+
+			case TRANSPARENCY_PENS:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+				//BLOCKMOVE(transmask,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+			//	break;
+
+			case TRANSPARENCY_COLOR:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+				//BLOCKMOVE(transcolor,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+			//	break;
+
+			case TRANSPARENCY_THROUGH:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+				//BLOCKMOVE(transthrough,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+			//	break;
+
+			case TRANSPARENCY_PEN_TABLE:
+                                if(flipx!=0)
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+                                else
+                                {
+                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                }
+				//BLOCKMOVE(pen_table,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
+			//	break;
+		}
+            
         }
         public static void drawgfx_core16(osd_bitmap dest, GfxElement gfx,
             int code, int color, int flipx, int flipy, int sx, int sy,

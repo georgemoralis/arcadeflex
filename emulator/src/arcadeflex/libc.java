@@ -50,6 +50,10 @@ public class libc {
         public UBytePtr(char[] m) {
             set(m, 0);
         }
+        public UBytePtr(char[] m ,int b)
+        {
+            set(m,b);
+        }
         public UBytePtr(UByte[] m)
         {
             memory = new char[m.length];
