@@ -1822,7 +1822,6 @@ public class video {
     public static void  osd_update_video_and_audio()
     {
         throw new UnsupportedOperationException("osd_update_video_and_audio");
-    
     /*TODO*///	static const int waittable[FRAMESKIP_LEVELS][FRAMESKIP_LEVELS] =
     /*TODO*///	{
     /*TODO*///		{ 1,1,1,1,1,1,1,1,1,1,1,1 },
