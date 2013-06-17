@@ -60,7 +60,8 @@ public class drawgfx {
 				for (plane = 0;plane < gl.planes;plane++)
 				{
 					if ((readbit(src,offs + gl.planeoffset[plane] + gl.yoffset[xoffs] + gl.xoffset[yoffs]))!=0)
-/*tobechecked*/					dp.or((1 << (gl.planes-1-plane)));//dp[x] |= (1 << (gl.planes-1-plane));
+                                            dp.write(x, dp.read(x) | (1 << (gl.planes-1-plane)));
+                                            
 				}
 			}
 			else
@@ -68,11 +69,12 @@ public class drawgfx {
 				for (plane = 0;plane < gl.planes;plane++)
 				{
 					if ((readbit(src,offs + gl.planeoffset[plane] + gl.yoffset[yoffs] + gl.xoffset[xoffs]))!=0)
-/*tobechecked*/					dp.or((1 << (gl.planes-1-plane)));//dp[x] |= (1 << (gl.planes-1-plane));
+					dp.write(x, dp.read(x) | (1 << (gl.planes-1-plane)));
+
 				}
 			}
 		}
-		dp.inc(gfx.line_modulo);  //dp += gfx.line_modulo;
+		dp.inc(gfx.line_modulo);  
 	}
 
 

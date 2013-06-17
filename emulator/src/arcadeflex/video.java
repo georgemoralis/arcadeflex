@@ -2044,7 +2044,7 @@ public class video {
     						}
     						else
     						{
-                                                    System.out.println("TODO");
+                                                  
     /*TODO*///							adjusted_palette.r >>= 2;
     /*TODO*///							adjusted_palette.g >>= 2;
     /*TODO*///							adjusted_palette.b >>= 2;
