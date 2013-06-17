@@ -443,14 +443,15 @@ public class mame {
             if (drv.vh_start == null || drv.vh_start.handler() == 0) /* start the video hardware */ {
                 
                 /*temp testing code*/
-                DisplayText[] dt = DisplayText.create(2);
+                /*DisplayText[] dt = DisplayText.create(2);
                 
                 dt[0].text="Hello arcadeflex rendering!";
                 dt[0].color=DT_COLOR_WHITE;
                 dt[0].x=0;
                 dt[0].y=0;
                 dt[1].text=null;
-                displaytext(dt,0,0);
+                displaytext(dt,0,0);*/
+                showcopyright();
                 do
                 {
                     osd_update_video_and_audio();

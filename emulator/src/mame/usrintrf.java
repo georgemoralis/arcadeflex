@@ -387,107 +387,113 @@ public class usrintrf {
     /*TODO*///	osd_mark_dirty(x,y,x,y,1);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///INLINE void drawhline_norotate(int x, int w, int y, unsigned short color)
-    /*TODO*///{
-    /*TODO*///	if (Machine->scrbitmap->depth == 16)
-    /*TODO*///	{
-    /*TODO*///		int i;
-    /*TODO*///		for (i = x; i < x+w; i++)
-    /*TODO*///			*(unsigned short *)&Machine->scrbitmap->line[y][i*2] = color;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///		memset(&Machine->scrbitmap->line[y][x], color, w);
-    /*TODO*///
-    /*TODO*///	osd_mark_dirty(x,y,x+w-1,y,1);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE void drawvline_norotate(int x, int y, int h, unsigned short color)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	if (Machine->scrbitmap->depth == 16)
-    /*TODO*///	{
-    /*TODO*///		for (i = y; i < y+h; i++)
-    /*TODO*///			*(unsigned short *)&Machine->scrbitmap->line[i][x*2] = color;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		for (i = y; i < y+h; i++)
-    /*TODO*///			Machine->scrbitmap->line[i][x] = color;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	osd_mark_dirty(x,y,x,y+h-1,1);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE void drawhline(int x, int w, int y, unsigned short color)
-    /*TODO*///{
-    /*TODO*///	if (Machine->ui_orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-    /*TODO*///			y = Machine->scrbitmap->width - y - 1;
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-    /*TODO*///			x = Machine->scrbitmap->height - x - w;
-    /*TODO*///
-    /*TODO*///		drawvline_norotate(y,x,w,color);
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-    /*TODO*///			x = Machine->scrbitmap->width - x - w;
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-    /*TODO*///			y = Machine->scrbitmap->height - y - 1;
-    /*TODO*///
-    /*TODO*///		drawhline_norotate(x,w,y,color);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE void drawvline(int x, int y, int h, unsigned short color)
-    /*TODO*///{
-    /*TODO*///	if (Machine->ui_orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-    /*TODO*///			y = Machine->scrbitmap->width - y - h;
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-    /*TODO*///			x = Machine->scrbitmap->height - x - 1;
-    /*TODO*///
-    /*TODO*///		drawhline_norotate(y,h,x,color);
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-    /*TODO*///			x = Machine->scrbitmap->width - x - 1;
-    /*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-    /*TODO*///			y = Machine->scrbitmap->height - y - h;
-    /*TODO*///
-    /*TODO*///		drawvline_norotate(x,y,h,color);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void ui_drawbox(int leftx,int topy,int width,int height)
-    /*TODO*///{
-    /*TODO*///	int y;
-    /*TODO*///	unsigned short black,white;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (leftx < 0) leftx = 0;
-    /*TODO*///	if (topy < 0) topy = 0;
-    /*TODO*///	if (width > Machine->uiwidth) width = Machine->uiwidth;
-    /*TODO*///	if (height > Machine->uiheight) height = Machine->uiheight;
-    /*TODO*///
-    /*TODO*///	leftx += Machine->uixmin;
-    /*TODO*///	topy += Machine->uiymin;
-    /*TODO*///
-    /*TODO*///	black = Machine->uifont->colortable[0];
-    /*TODO*///	white = Machine->uifont->colortable[1];
-    /*TODO*///
-    /*TODO*///	drawhline(leftx,width,topy, 		white);
-    /*TODO*///	drawhline(leftx,width,topy+height-1,white);
-    /*TODO*///	drawvline(leftx,		topy,height,white);
-    /*TODO*///	drawvline(leftx+width-1,topy,height,white);
-    /*TODO*///	for (y = topy+1;y < topy+height-1;y++)
-    /*TODO*///		drawhline(leftx+1,width-2,y,black);
-    /*TODO*///}
+    public static void drawhline_norotate(int x, int w, int y, char color)
+    {
+    	if (Machine.scrbitmap.depth == 16)
+    	{
+    		int i;
+   /*TODO*///	for (i = x; i < x+w; i++)
+   /*TODO*///		*(unsigned short *)&Machine->scrbitmap->line[y][i*2] = color;
+                throw new UnsupportedOperationException("drawhLine 16BIT unimplemented");
+    	}
+    	else
+    		//memset(&Machine->scrbitmap->line[y][x], color, w);
+                for (int i = 0; i < w; i++)
+                    Machine.scrbitmap.line[y].write(x + i,(char)color);
+
+    
+    	osd_mark_dirty(x,y,x+w-1,y,1);
+    }
+    
+    public static void drawvline_norotate(int x, int y, int h, char color)
+    {
+    	int i;
+    
+    	if (Machine.scrbitmap.depth == 16)
+    	{
+  /*TODO*///  		for (i = y; i < y+h; i++)
+  /*TODO*///  			*(unsigned short *)&Machine->scrbitmap->line[i][x*2] = color;
+            throw new UnsupportedOperationException("drawvLine 16BIT unimplemented");
+    	}
+    	else
+    	{
+    		for (i = y; i < y+h; i++)
+                   Machine.scrbitmap.line[i].write(x,(char)color);//Machine->scrbitmap->line[i][x] = color;
+		
+    	}
+    
+    	osd_mark_dirty(x,y,x,y+h-1,1);
+    }
+    
+    public static void drawhline(int x, int w, int y, char color)
+    {
+    	if ((Machine.ui_orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_X)!=0)
+    			y = Machine.scrbitmap.width - y - 1;
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_Y)!=0)
+    			x = Machine.scrbitmap.height - x - w;
+    
+    		drawvline_norotate(y,x,w,color);
+    	}
+    	else
+    	{
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_X)!=0)
+    			x = Machine.scrbitmap.width - x - w;
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_Y)!=0)
+    			y = Machine.scrbitmap.height - y - 1;
+    
+    		drawhline_norotate(x,w,y,color);
+    	}
+    }
+    
+    public static void drawvline(int x, int y, int h, char color)
+    {
+    	if ((Machine.ui_orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_X)!=0)
+    			y = Machine.scrbitmap.width - y - h;
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_Y)!=0)
+    			x = Machine.scrbitmap.height - x - 1;
+    
+    		drawhline_norotate(y,h,x,color);
+    	}
+    	else
+    	{
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_X)!=0)
+    			x = Machine.scrbitmap.width - x - 1;
+    		if ((Machine.ui_orientation & ORIENTATION_FLIP_Y)!=0)
+    			y = Machine.scrbitmap.height - y - h;
+    
+    		drawvline_norotate(x,y,h,color);
+    	}
+    }
+    
+    
+    public static void ui_drawbox(int leftx,int topy,int width,int height)
+    {
+    	int y;
+    	char black,white;
+    
+    
+    	if (leftx < 0) leftx = 0;
+    	if (topy < 0) topy = 0;
+    	if (width > Machine.uiwidth) width = Machine.uiwidth;
+    	if (height > Machine.uiheight) height = Machine.uiheight;
+    
+    	leftx += Machine.uixmin;
+    	topy += Machine.uiymin;
+    
+    	black = Machine.uifont.colortable.read(0);
+    	white = Machine.uifont.colortable.read(1);
+    
+    	drawhline(leftx,width,topy, 		white);
+    	drawhline(leftx,width,topy+height-1,white);
+    	drawvline(leftx,		topy,height,white);
+    	drawvline(leftx+width-1,topy,height,white);
+    	for (y = topy+1;y < topy+height-1;y++)
+    		drawhline(leftx+1,width-2,y,black);
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///static void drawbar(int leftx,int topy,int width,int height,int percentage,int default_percentage)
@@ -775,107 +781,111 @@ public class usrintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///void ui_displaymessagewindow(const char *text)
-    /*TODO*///{
-    /*TODO*///	struct DisplayText dt[256];
-    /*TODO*///	int curr_dt;
-    /*TODO*///	char *c,*c2;
-    /*TODO*///	int i,len,maxlen,lines;
-    /*TODO*///	char textcopy[2048];
-    /*TODO*///	int leftoffs,topoffs;
-    /*TODO*///	int maxcols,maxrows;
-    /*TODO*///
-    /*TODO*///	maxcols = (Machine->uiwidth / Machine->uifontwidth) - 1;
-    /*TODO*///	maxrows = (2 * Machine->uiheight - Machine->uifontheight) / (3 * Machine->uifontheight);
-    /*TODO*///
-    /*TODO*///	/* copy text, calculate max len, count lines, wrap long lines and crop height to fit */
-    /*TODO*///	maxlen = 0;
-    /*TODO*///	lines = 0;
-    /*TODO*///	c = (char *)text;
-    /*TODO*///	c2 = textcopy;
-    /*TODO*///	while (*c)
-    /*TODO*///	{
-    /*TODO*///		len = 0;
-    /*TODO*///		while (*c && *c != '\n')
-    /*TODO*///		{
-    /*TODO*///			*c2++ = *c++;
-    /*TODO*///			len++;
-    /*TODO*///			if (len == maxcols && *c != '\n')
-    /*TODO*///			{
-    /*TODO*///				/* attempt word wrap */
-    /*TODO*///				char *csave = c, *c2save = c2;
-    /*TODO*///				int lensave = len;
-    /*TODO*///
-    /*TODO*///				/* back up to last space or beginning of line */
-    /*TODO*///				while (*c != ' ' && *c != '\n' && c > text)
-    /*TODO*///					--c, --c2, --len;
-    /*TODO*///
-    /*TODO*///				/* if no space was found, hard wrap instead */
-    /*TODO*///				if (*c != ' ')
-    /*TODO*///					c = csave, c2 = c2save, len = lensave;
-    /*TODO*///				else
-    /*TODO*///					c++;
-    /*TODO*///
-    /*TODO*///				*c2++ = '\n'; /* insert wrap */
-    /*TODO*///				break;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (*c == '\n')
-    /*TODO*///			*c2++ = *c++;
-    /*TODO*///
-    /*TODO*///		if (len > maxlen) maxlen = len;
-    /*TODO*///
-    /*TODO*///		lines++;
-    /*TODO*///		if (lines == maxrows)
-    /*TODO*///			break;
-    /*TODO*///	}
-    /*TODO*///	*c2 = '\0';
-    /*TODO*///
-    /*TODO*///	maxlen += 1;
-    /*TODO*///
-    /*TODO*///	leftoffs = (Machine->uiwidth - Machine->uifontwidth * maxlen) / 2;
-    /*TODO*///	if (leftoffs < 0) leftoffs = 0;
-    /*TODO*///	topoffs = (Machine->uiheight - (3 * lines + 1) * Machine->uifontheight / 2) / 2;
-    /*TODO*///
-    /*TODO*///	/* black background */
-    /*TODO*///	ui_drawbox(leftoffs,topoffs,maxlen * Machine->uifontwidth,(3 * lines + 1) * Machine->uifontheight / 2);
-    /*TODO*///
-    /*TODO*///	curr_dt = 0;
-    /*TODO*///	c = textcopy;
-    /*TODO*///	i = 0;
-    /*TODO*///	while (*c)
-    /*TODO*///	{
-    /*TODO*///		c2 = c;
-    /*TODO*///		while (*c && *c != '\n')
-    /*TODO*///			c++;
-    /*TODO*///
-    /*TODO*///		if (*c == '\n')
-    /*TODO*///		{
-    /*TODO*///			*c = '\0';
-    /*TODO*///			c++;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (*c2 == '\t')    /* center text */
-    /*TODO*///		{
-    /*TODO*///			c2++;
-    /*TODO*///			dt[curr_dt].x = (Machine->uiwidth - Machine->uifontwidth * (c - c2)) / 2;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///			dt[curr_dt].x = leftoffs + Machine->uifontwidth/2;
-    /*TODO*///
-    /*TODO*///		dt[curr_dt].text = c2;
-    /*TODO*///		dt[curr_dt].color = DT_COLOR_WHITE;
-    /*TODO*///		dt[curr_dt].y = topoffs + (3*i+1)*Machine->uifontheight/2;
-    /*TODO*///		curr_dt++;
-    /*TODO*///
-    /*TODO*///		i++;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	dt[curr_dt].text = 0;	/* terminate array */
-    /*TODO*///
-    /*TODO*///	displaytext(dt,0,0);
-    /*TODO*///}
+    public static void ui_displaymessagewindow(String text)
+    {
+
+        DisplayText[] dt = DisplayText.create(256);
+        int curr_dt;
+        int c, c2;//use them as counters (shadow)
+        char[] textcopy = new char[2048];
+        int i, len, maxlen, lines;
+        int leftoffs, topoffs;
+        int maxcols, maxrows;
+
+    
+    	maxcols = (Machine.uiwidth / Machine.uifontwidth) - 1;
+    	maxrows = (2 * Machine.uiheight - Machine.uifontheight) / (3 * Machine.uifontheight);
+    
+    	/* copy text, calculate max len, count lines, wrap long lines and crop height to fit */
+    	 maxlen = 0;
+         lines = 0;
+         c = 0;//(char *)text;
+         c2 = 0;//textcopy;
+         while (c < text.length() && text.charAt(c) != '\0')
+         {
+    		len = 0;
+                while (c < text.length() && text.charAt(c) != '\0' && text.charAt(c) != '\n')
+                {
+                    textcopy[c2++] = text.charAt(c++);
+                    len++;
+                    if (len == maxcols && text.charAt(c) != '\n')
+                    {
+                        /* attempt word wrap */
+                        int csave = c, c2save = c2;
+                        int lensave = len;
+
+                        /* back up to last space or beginning of line */
+                        while (text.charAt(c) != ' ' && text.charAt(c) != '\n' && c > 0)
+                        {
+                            --c; --c2; --len;
+                        }
+                        /* if no space was found, hard wrap instead */
+                        if (text.charAt(c) != ' ')
+                        {
+                            c = csave; c2 = c2save; len = lensave;
+                        }
+                        else
+                            c++;
+
+                        textcopy[c2++] = '\n'; /* insert wrap */
+                        break;
+                    }		
+    		}
+                if (c < text.length() && text.charAt(c) == '\n')
+                    textcopy[c2++] = text.charAt(c++);
+  
+    		if (len > maxlen) maxlen = len;
+    
+    		lines++;
+    		if (lines == maxrows)
+    			break;
+    	}
+    	textcopy[c2] = '\0';
+    
+    	maxlen += 1;
+    
+    	leftoffs = (Machine.uiwidth - Machine.uifontwidth * maxlen) / 2;
+    	if (leftoffs < 0) leftoffs = 0;
+    	topoffs = (Machine.uiheight - (3 * lines + 1) * Machine.uifontheight / 2) / 2;
+    
+    	/* black background */
+    	ui_drawbox(leftoffs,topoffs,maxlen * Machine.uifontwidth,(3 * lines + 1) * Machine.uifontheight / 2);
+    
+    	curr_dt = 0;
+    	c = 0;//textcopy;
+    	i = 0;
+         while (c < textcopy.length && textcopy[c] != '\0')
+            {
+                c2 = c;
+                while (c < textcopy.length && textcopy[c] != '\0' && textcopy[c] != '\n')
+                    c++;
+
+                if (textcopy[c] == '\n')
+                {
+                    textcopy[c] = '\0';
+                    c++;
+                }
+
+                if (textcopy[c2] == '\t')    /* center text */
+                {
+                    c2++;
+                    dt[curr_dt].x = (Machine.uiwidth - Machine.uifontwidth * (c - c2)) / 2;
+                }
+                else
+                    dt[curr_dt].x = leftoffs + Machine.uifontwidth / 2;
+
+                dt[curr_dt].text = new String(textcopy).substring(c2);
+                dt[curr_dt].color = DT_COLOR_WHITE;
+                dt[curr_dt].y = topoffs + (3 * i + 1) * Machine.uifontheight / 2;
+                curr_dt++;
+
+                i++;
+            }
+    		
+    	dt[curr_dt].text = null;	/* terminate array */
+    
+    	displaytext(dt,0,0);
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -2051,20 +2061,17 @@ public class usrintrf {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*///int showcopyright(void)
-    /*TODO*///{
+    public static int showcopyright()
+    {
     /*TODO*///	int done;
-    /*TODO*///	char buf[1000];
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	sprintf(buf,
-    /*TODO*///			"Usage of emulators in conjunction with ROMs you don't own "
-    /*TODO*///			"is forbidden by copyright law.\n\n"
-    /*TODO*///			"IF YOU ARE NOT LEGALLY ENTITLED TO PLAY \"%s\" ON THIS EMULATOR, "
-    /*TODO*///			"PRESS ESC.\n\n"
-    /*TODO*///			"Otherwise, type OK to continue",
-    /*TODO*///			Machine->gamedrv->description);
-    /*TODO*///	ui_displaymessagewindow(buf);
+    String buf=sprintf(
+    			"Usage of emulators in conjunction with ROMs you don't own " +
+    			"is forbidden by copyright law.\n\n" +
+    			"IF YOU ARE NOT LEGALLY ENTITLED TO PLAY \"%s\" ON THIS EMULATOR, " +
+    			"PRESS ESC.\n\n" +
+    			"Otherwise, type OK to continue", 
+    			Machine.gamedrv.description);
+    	ui_displaymessagewindow(buf);
     /*TODO*///
     /*TODO*///	setup_selected = -1;////
     /*TODO*///	done = 0;
@@ -2089,8 +2096,8 @@ public class usrintrf {
     /*TODO*///	osd_clearbitmap(Machine->scrbitmap);
     /*TODO*///	osd_update_video_and_audio();
     /*TODO*///
-    /*TODO*///	return 0;
-    /*TODO*///}
+    	return 0;
+    }
     /*TODO*///
     /*TODO*///static int displaygameinfo(int selected)
     /*TODO*///{
