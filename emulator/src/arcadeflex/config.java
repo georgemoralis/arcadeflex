@@ -410,6 +410,7 @@ public class config {
             /*TODO*///	options.use_artwork = get_bool   ("config", "artwork",	NULL,  1);
             /*TODO*///	options.use_samples = get_bool   ("config", "samples",	NULL,  1);
             /*TODO*///	video_sync  = get_bool   ("config", "vsync",        NULL,  0);
+  /*temphack!!!! */            video_sync = 0;
             /*TODO*///	wait_vsync  = get_bool   ("config", "waitvsync",    NULL,  0);
             /*TODO*///	use_triplebuf = get_bool ("config", "triplebuffer",	NULL,  0);
             /*TODO*///	use_tweaked = get_bool   ("config", "tweak",		NULL,  0);

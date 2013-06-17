@@ -4,6 +4,7 @@ package arcadeflex;
 import static mame.osdependH.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.ticker.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -21,8 +22,12 @@ import static arcadeflex.blit.*;
 
 public class video {
 
-    private static software_gfx screen; //for our screen creation
+    public static software_gfx screen; //for our screen creation
     
+    public static class RGB
+    {
+        char r,g,b;
+    }
     /*TODO*////* function to make scanline mode */
     /*TODO*///Register *make_scanline_mode(Register *inreg,int entries);
     /*TODO*///
@@ -292,7 +297,7 @@ public class video {
     public static  /*unsigned int * */ int[] dirtycolor;
     public static int dirtypalette;
     public static int dirty_bright;
-    /*TODO*///static int bright_lookup[256];
+    public static int[] bright_lookup=new int[256];
     /*TODO*///extern unsigned int doublepixel[256];
     /*TODO*///extern unsigned int quadpixel[256]; /* for quadring pixels */
     /*TODO*///extern UINT32 *palette_16bit_lookup;
@@ -306,7 +311,7 @@ public class video {
     /*TODO*///
     /*TODO*///int vgafreq;
     /*TODO*///int always_synced;
-    /*TODO*///int video_sync;
+    static int video_sync;
     /*TODO*///int wait_vsync;
     /*TODO*///int use_triplebuf;
     /*TODO*///int triplebuf_pos,triplebuf_page_width;
@@ -320,7 +325,7 @@ public class video {
     /*TODO*///int use_tweaked;
     public static int use_vesa;
     public static int use_dirty;
-    /*TODO*///float osd_gamma_correction = 1.0;
+    public static float osd_gamma_correction = 1.0f;
     public static int brightness;
     public static float brightness_paused_adjust;
     /*TODO*///char *resolution;
@@ -356,13 +361,13 @@ public class video {
     public static int gfx_display_lines;
     public static int gfx_display_columns;
     public static int xmultiply,ymultiply;
-    /*TODO*///int throttle = 1;       /* toggled by F10 */
-    /*TODO*///
+    public static int throttle = 1;       /* toggled by F10 */
+
     /*TODO*///static int gone_to_gfx_mode;
     public static int frameskip_counter;
     public static int frames_displayed;
-    /*TODO*///static TICKER start_time,end_time;    /* to calculate fps average on exit */
-    /*TODO*///#define FRAMES_TO_SKIP 20       /* skip the first few frames from the FPS calculation */
+    public static long start_time,end_time;    /* to calculate fps average on exit */
+    public static final int FRAMES_TO_SKIP = 20;       /* skip the first few frames from the FPS calculation */
     /*TODO*///							/* to avoid counting the copyright and info screens */
     /*TODO*///
     /*TODO*///unsigned char tw224x288_h, tw224x288_v;
@@ -1050,7 +1055,7 @@ public class video {
     		adjust_display(vis.min_x, vis.min_y, vis.max_x, vis.max_y, depth);
     	}
     
-    
+        
         return scrbitmap;
        
     }
@@ -1448,7 +1453,8 @@ public class video {
         screen = new software_gfx(settings.version + " (based on mame v" +build_version + ")");
         screen.pack();
         //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
-        screen.setSize((scanlines==1),width,height);//this???
+        //screen.setSize((scanlines==1),width,height);//this???
+        screen.setSize((scanlines==1),width,height);
         screen.setBackground(Color.black);
         screen.start();
         screen.run();
@@ -1490,9 +1496,8 @@ public class video {
         } catch (InterruptedException localInterruptedException) {
         }
     }
-    /*TODO*////* shut up the display */
-    /*TODO*///void osd_close_display(void)
-    /*TODO*///{
+    public static void osd_close_display()
+    {
     /*TODO*///	if (gone_to_gfx_mode != 0)
     /*TODO*///	{
     /*TODO*///		/* tidy up if 15.75KHz SVGA mode used */
@@ -1505,8 +1510,8 @@ public class video {
     /*TODO*///
     /*TODO*///		set_gfx_mode (GFX_TEXT,0,0,0,0);
     /*TODO*///
-    /*TODO*///		if (frames_displayed > FRAMES_TO_SKIP)
-    /*TODO*///			printf("Average FPS: %f\n",(double)TICKS_PER_SEC/(end_time-start_time)*(frames_displayed-FRAMES_TO_SKIP));
+    		if (frames_displayed > FRAMES_TO_SKIP)
+   			printf("Average FPS: %f\n",(double)TICKS_PER_SEC/(end_time-start_time)*(frames_displayed-FRAMES_TO_SKIP));
     /*TODO*///	}
     /*TODO*///
     /*TODO*///	free(dirtycolor);
@@ -1520,10 +1525,8 @@ public class video {
     /*TODO*///		osd_free_bitmap(scrbitmap);
     /*TODO*///		scrbitmap = NULL;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    }
+
     public static int osd_allocate_colors(int totalcolors,UByte[] palette,char[] pens,int modifiable)
     {
     	int i;
@@ -1795,89 +1798,95 @@ public class video {
     /*TODO*///	}
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///int osd_skip_this_frame(void)
-    /*TODO*///{
-    /*TODO*///	static const int skiptable[FRAMESKIP_LEVELS][FRAMESKIP_LEVELS] =
-    /*TODO*///	{
-    /*TODO*///		{ 0,0,0,0,0,0,0,0,0,0,0,0 },
-    /*TODO*///		{ 0,0,0,0,0,0,0,0,0,0,0,1 },
-    /*TODO*///		{ 0,0,0,0,0,1,0,0,0,0,0,1 },
-    /*TODO*///		{ 0,0,0,1,0,0,0,1,0,0,0,1 },
-    /*TODO*///		{ 0,0,1,0,0,1,0,0,1,0,0,1 },
-    /*TODO*///		{ 0,1,0,0,1,0,1,0,0,1,0,1 },
-    /*TODO*///		{ 0,1,0,1,0,1,0,1,0,1,0,1 },
-    /*TODO*///		{ 0,1,0,1,1,0,1,0,1,1,0,1 },
-    /*TODO*///		{ 0,1,1,0,1,1,0,1,1,0,1,1 },
-    /*TODO*///		{ 0,1,1,1,0,1,1,1,0,1,1,1 },
-    /*TODO*///		{ 0,1,1,1,1,1,0,1,1,1,1,1 },
-    /*TODO*///		{ 0,1,1,1,1,1,1,1,1,1,1,1 }
-    /*TODO*///	};
-    /*TODO*///
-    /*TODO*///	return skiptable[frameskip][frameskip_counter];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Update the display. */
+    static int[][] skiptable =
+    {
+       new int[]{ 0,0,0,0,0,0,0,0,0,0,0,0 },
+       new int[]{ 0,0,0,0,0,0,0,0,0,0,0,1 },
+       new int[]{ 0,0,0,0,0,1,0,0,0,0,0,1 },
+       new int[]{ 0,0,0,1,0,0,0,1,0,0,0,1 },
+       new int[]{ 0,0,1,0,0,1,0,0,1,0,0,1 },
+       new int[]{ 0,1,0,0,1,0,1,0,0,1,0,1 },
+       new int[]{ 0,1,0,1,0,1,0,1,0,1,0,1 },
+       new int[]{ 0,1,0,1,1,0,1,0,1,1,0,1 },
+       new int[]{ 0,1,1,0,1,1,0,1,1,0,1,1 },
+       new int[]{ 0,1,1,1,0,1,1,1,0,1,1,1 },
+       new int[]{ 0,1,1,1,1,1,0,1,1,1,1,1 },
+       new int[]{ 0,1,1,1,1,1,1,1,1,1,1,1 }
+    };
+    public static int osd_skip_this_frame()
+    {
+      return skiptable[frameskip][frameskip_counter];
+    }    
+
+    static int[][] waittable =
+    {
+      new int[]{ 1,1,1,1,1,1,1,1,1,1,1,1 },
+      new int[]{ 2,1,1,1,1,1,1,1,1,1,1,0 },
+      new int[]{ 2,1,1,1,1,0,2,1,1,1,1,0 },
+      new int[]{ 2,1,1,0,2,1,1,0,2,1,1,0 },
+      new int[]{ 2,1,0,2,1,0,2,1,0,2,1,0 },
+      new int[]{ 2,0,2,1,0,2,0,2,1,0,2,0 },
+      new int[]{ 2,0,2,0,2,0,2,0,2,0,2,0 },
+      new int[]{ 2,0,2,0,0,3,0,2,0,0,3,0 },
+      new int[]{ 3,0,0,3,0,0,3,0,0,3,0,0 },
+      new int[]{ 4,0,0,0,4,0,0,0,4,0,0,0 },
+      new int[]{ 6,0,0,0,0,0,6,0,0,0,0,0 },
+      new int[]{12,0,0,0,0,0,0,0,0,0,0,0 }
+    };
+
+    static int showfps, showfpstemp;
+    
+    static long prev_measure, this_frame_base, prev;
+    static int speed = 100;
+    static int vups, vfcount;
+    
+    static long last1, last2;
+    static int frameskipadjust;
+
+    /*long ticksPerFrame, ticksSinceLastFrame;*/
+
+    /* Update the display. */
     public static void  osd_update_video_and_audio()
     {
-        throw new UnsupportedOperationException("osd_update_video_and_audio");
-    /*TODO*///	static const int waittable[FRAMESKIP_LEVELS][FRAMESKIP_LEVELS] =
-    /*TODO*///	{
-    /*TODO*///		{ 1,1,1,1,1,1,1,1,1,1,1,1 },
-    /*TODO*///		{ 2,1,1,1,1,1,1,1,1,1,1,0 },
-    /*TODO*///		{ 2,1,1,1,1,0,2,1,1,1,1,0 },
-    /*TODO*///		{ 2,1,1,0,2,1,1,0,2,1,1,0 },
-    /*TODO*///		{ 2,1,0,2,1,0,2,1,0,2,1,0 },
-    /*TODO*///		{ 2,0,2,1,0,2,0,2,1,0,2,0 },
-    /*TODO*///		{ 2,0,2,0,2,0,2,0,2,0,2,0 },
-    /*TODO*///		{ 2,0,2,0,0,3,0,2,0,0,3,0 },
-    /*TODO*///		{ 3,0,0,3,0,0,3,0,0,3,0,0 },
-    /*TODO*///		{ 4,0,0,0,4,0,0,0,4,0,0,0 },
-    /*TODO*///		{ 6,0,0,0,0,0,6,0,0,0,0,0 },
-    /*TODO*///		{12,0,0,0,0,0,0,0,0,0,0,0 }
-    /*TODO*///	};
-    /*TODO*///	int i;
-    /*TODO*///	static int showfps,showfpstemp;
-    /*TODO*///	TICKER curr;
-    /*TODO*///	static TICKER prev_measure,this_frame_base,prev;
-    /*TODO*///	static int speed = 100;
-    /*TODO*///	static int vups,vfcount;
-    /*TODO*///	int need_to_clear_bitmap = 0;
-    /*TODO*///	int already_synced;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (warming_up)
-    /*TODO*///	{
-    /*TODO*///		/* first time through, initialize timer */
-    /*TODO*///		prev_measure = ticker() - FRAMESKIP_LEVELS * TICKS_PER_SEC/Machine->drv->frames_per_second;
-    /*TODO*///		warming_up = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (frameskip_counter == 0)
-    /*TODO*///		this_frame_base = prev_measure + FRAMESKIP_LEVELS * TICKS_PER_SEC/Machine->drv->frames_per_second;
-    /*TODO*///
-    /*TODO*///	if (throttle)
-    /*TODO*///	{
-    /*TODO*///		static TICKER last;
-    /*TODO*///
-    /*TODO*///		/* if too much time has passed since last sound update, disable throttling */
-    /*TODO*///		/* temporarily - we wouldn't be able to keep synch anyway. */
-    /*TODO*///		curr = ticker();
-    /*TODO*///		if ((curr - last) > 2*TICKS_PER_SEC / Machine->drv->frames_per_second)
-    /*TODO*///			throttle = 0;
-    /*TODO*///		last = curr;
-    /*TODO*///
+        //throw new UnsupportedOperationException("osd_update_video_and_audio");
+
+    	int i;
+        long curr;
+        int need_to_clear_bitmap = 0;
+        int already_synced;
+
+    	if (warming_up!=0)
+    	{
+    		/* first time through, initialize timer */
+    		prev_measure = ticker() - (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC/Machine.drv.frames_per_second);
+    		warming_up = 0;
+                //ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second);
+    	}
+        if (frameskip_counter == 0)
+        {
+                this_frame_base = (prev_measure + (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC / Machine.drv.frames_per_second));
+        }
+    	if (throttle!=0)
+    	{
+		/* if too much time has passed since last sound update, disable throttling */
+    		/* temporarily - we wouldn't be able to keep synch anyway. */
+    	    curr = ticker();
+            if ((curr - last1) > 2 * TICKS_PER_SEC / Machine.drv.frames_per_second)
+		throttle = 0;
+    		last1 = curr;
+    
     /*TODO*///		already_synced = msdos_update_audio();
-    /*TODO*///
-    /*TODO*///		throttle = 1;
-    /*TODO*///	}
-    /*TODO*///	else
+    /*temphack*/   already_synced=1;
+		throttle = 1;
+    	}
+    	else
+        {
     /*TODO*///		already_synced = msdos_update_audio();
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (osd_skip_this_frame() == 0)
-    /*TODO*///	{
+  /*temphack*/   already_synced=1;
+        }
+    
+    	if (osd_skip_this_frame() == 0)
+    	{
     /*TODO*///		if (showfpstemp)
     /*TODO*///		{
     /*TODO*///			showfpstemp--;
@@ -1906,25 +1915,24 @@ public class video {
     /*TODO*///		}
     /*TODO*///
     /*TODO*///
-    /*TODO*///		/* now wait until it's time to update the screen */
-    /*TODO*///		if (throttle)
-    /*TODO*///		{
-    /*TODO*///			profiler_mark(PROFILER_IDLE);
-    /*TODO*///			if (video_sync)
-    /*TODO*///			{
+    		/* now wait until it's time to update the screen */
+    		if (throttle!=0)
+    		{
+    			if (video_sync!=0)
+    			{
     /*TODO*///				static TICKER last;
     /*TODO*///
     /*TODO*///
     /*TODO*///				do
     /*TODO*///				{
     /*TODO*///					vsync();
-    /*TODO*///					curr = ticker();
+    					curr = ticker();
     /*TODO*///				} while (TICKS_PER_SEC / (curr - last) > Machine->drv->frames_per_second * 11 /10);
     /*TODO*///
     /*TODO*///				last = curr;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
+    			}
+    			else
+    			{
     /*TODO*///				TICKER target;
     /*TODO*///
     /*TODO*///
@@ -1932,7 +1940,7 @@ public class video {
     /*TODO*///				if (wait_vsync)
     /*TODO*///					vsync();
     /*TODO*///
-    /*TODO*///				curr = ticker();
+    				curr = ticker();
     /*TODO*///
     /*TODO*///				if (already_synced == 0)
     /*TODO*///				{
@@ -1950,42 +1958,39 @@ public class video {
     /*TODO*///					}
     /*TODO*///				}
     /*TODO*///
-    /*TODO*///			}
-    /*TODO*///			profiler_mark(PROFILER_END);
-    /*TODO*///		}
-    /*TODO*///		else curr = ticker();
+    			}
+    		}
+    		else curr = ticker();
     /*TODO*///
     /*TODO*///
     /*TODO*///		/* for the FPS average calculation */
-    /*TODO*///		if (++frames_displayed == FRAMES_TO_SKIP)
-    /*TODO*///			start_time = curr;
-    /*TODO*///		else
-    /*TODO*///			end_time = curr;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (frameskip_counter == 0)
-    /*TODO*///		{
-    /*TODO*///			int divdr;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			divdr = Machine->drv->frames_per_second * (curr - prev_measure) / (100 * FRAMESKIP_LEVELS);
-    /*TODO*///			speed = (TICKS_PER_SEC + divdr/2) / divdr;
-    /*TODO*///
-    /*TODO*///			prev_measure = curr;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		prev = curr;
-    /*TODO*///
-    /*TODO*///		vfcount += waittable[frameskip][frameskip_counter];
-    /*TODO*///		if (vfcount >= Machine->drv->frames_per_second)
-    /*TODO*///		{
+    		if (++frames_displayed == FRAMES_TO_SKIP)
+    			start_time = curr;
+    		else
+    			end_time = curr;
+
+ 
+    		if (frameskip_counter == 0)
+    		{
+    			int divdr;
+    
+                        divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100 * FRAMESKIP_LEVELS));
+                        speed = (int)((TICKS_PER_SEC + divdr / 2) / divdr);
+    			prev_measure = curr;
+    		}
+    
+    		prev = curr;
+    
+    		vfcount += waittable[frameskip][frameskip_counter];
+    		if (vfcount >= Machine.drv.frames_per_second)
+    		{
     /*TODO*///			extern int vector_updates; /* avgdvg_go()'s per Mame frame, should be 1 */
     /*TODO*///
     /*TODO*///
-    /*TODO*///			vfcount = 0;
+    			vfcount = 0;
     /*TODO*///			vups = vector_updates;
     /*TODO*///			vector_updates = 0;
-    /*TODO*///		}
+    		}
     /*TODO*///
     /*TODO*///		if (showfps || showfpstemp)
     /*TODO*///		{
@@ -2005,48 +2010,50 @@ public class video {
     /*TODO*///			}
     /*TODO*///		}
     /*TODO*///
-    /*TODO*///		if (scrbitmap->depth == 8)
-    /*TODO*///		{
-    /*TODO*///			if (dirty_bright)
-    /*TODO*///			{
-    /*TODO*///				dirty_bright = 0;
-    /*TODO*///				for (i = 0;i < 256;i++)
-    /*TODO*///				{
-    /*TODO*///					float rate = brightness * brightness_paused_adjust * pow(i / 255.0, 1 / osd_gamma_correction) / 100;
-    /*TODO*///					bright_lookup[i] = 63 * rate + 0.5;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			if (dirtypalette)
-    /*TODO*///			{
-    /*TODO*///				dirtypalette = 0;
-    /*TODO*///				for (i = 0;i < screen_colors;i++)
-    /*TODO*///				{
-    /*TODO*///					if (dirtycolor[i])
-    /*TODO*///					{
-    /*TODO*///						RGB adjusted_palette;
-    /*TODO*///
-    /*TODO*///						dirtycolor[i] = 0;
-    /*TODO*///
-    /*TODO*///						adjusted_palette.r = current_palette[3*i+0];
-    /*TODO*///						adjusted_palette.g = current_palette[3*i+1];
-    /*TODO*///						adjusted_palette.b = current_palette[3*i+2];
-    /*TODO*///						if (i != Machine->uifont->colortable[1])	/* don't adjust the user interface text */
-    /*TODO*///						{
-    /*TODO*///							adjusted_palette.r = bright_lookup[adjusted_palette.r];
-    /*TODO*///							adjusted_palette.g = bright_lookup[adjusted_palette.g];
-    /*TODO*///							adjusted_palette.b = bright_lookup[adjusted_palette.b];
-    /*TODO*///						}
-    /*TODO*///						else
-    /*TODO*///						{
+    		if (scrbitmap.depth == 8)
+    		{
+    			if (dirty_bright!=0)
+    			{
+    				dirty_bright = 0;
+    				for (i = 0;i < 256;i++)
+    				{                                     
+                                        float rate = (float)(brightness * brightness_paused_adjust * Math.pow(i / 255.0, 1 / osd_gamma_correction) / 100);
+      /*bright_lookup[i] = 63 * rate + 0.5;*/  bright_lookup[i] = (int)(255 * rate + 0.5);
+
+    				}
+    			}
+    			if (dirtypalette!=0)
+    			{
+    				dirtypalette = 0;
+   				for (i = 0;i < screen_colors;i++)
+    				{
+    					if (dirtycolor[i]!=0)
+    					{
+    						RGB adjusted_palette=new RGB();
+    
+    						dirtycolor[i] = 0;
+    
+    						adjusted_palette.r = current_palette.read(3*i+0);
+    						adjusted_palette.g = current_palette.read(3*i+1);
+   						adjusted_palette.b = current_palette.read(3*i+2);
+    						if (i != Machine.uifont.colortable.read(1))	/* don't adjust the user interface text */
+    						{
+    							adjusted_palette.r = (char)bright_lookup[adjusted_palette.r];
+    							adjusted_palette.g = (char)bright_lookup[adjusted_palette.g];
+    							adjusted_palette.b = (char)bright_lookup[adjusted_palette.b];
+    						}
+    						else
+    						{
+                                                    System.out.println("TODO");
     /*TODO*///							adjusted_palette.r >>= 2;
     /*TODO*///							adjusted_palette.g >>= 2;
     /*TODO*///							adjusted_palette.b >>= 2;
-    /*TODO*///						}
-    /*TODO*///						set_color(i,&adjusted_palette);
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///		}
+    						}
+    						set_color(i,adjusted_palette);
+    					}
+    				}
+                    }
+    		}
     /*TODO*///		else
     /*TODO*///		{
     /*TODO*///			if (dirty_bright)
@@ -2087,9 +2094,8 @@ public class video {
     /*TODO*///		}
     /*TODO*///
     /*TODO*///		/* copy the bitmap to screen memory */
-    /*TODO*///		profiler_mark(PROFILER_BLIT);
     /*TODO*///		update_screen();
-    /*TODO*///		profiler_mark(PROFILER_END);
+                blitscreen_dirty1_vga();
     /*TODO*///
     /*TODO*///		/* see if we need to give the card enough time to draw both odd/even fields of the interlaced display
     /*TODO*///			(req. for 15.75KHz Arcade Monitor Modes */
@@ -2110,42 +2116,41 @@ public class video {
     /*TODO*///			osd_clearbitmap(scrbitmap);
     /*TODO*///
     /*TODO*///
-    /*TODO*///		if (throttle && autoframeskip && frameskip_counter == 0)
-    /*TODO*///		{
-    /*TODO*///			static int frameskipadjust;
-    /*TODO*///			int adjspeed;
-    /*TODO*///
-    /*TODO*///			/* adjust speed to video refresh rate if vsync is on */
-    /*TODO*///			adjspeed = speed * Machine->drv->frames_per_second / vsync_frame_rate;
-    /*TODO*///
-    /*TODO*///			if (adjspeed >= 100)
-    /*TODO*///			{
-    /*TODO*///				frameskipadjust++;
-    /*TODO*///				if (frameskipadjust >= 3)
-    /*TODO*///				{
-    /*TODO*///					frameskipadjust = 0;
-    /*TODO*///					if (frameskip > 0) frameskip--;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				if (adjspeed < 80)
-    /*TODO*///					frameskipadjust -= (90 - adjspeed) / 5;
-    /*TODO*///				else
-    /*TODO*///				{
-    /*TODO*///					/* don't push frameskip too far if we are close to 100% speed */
-    /*TODO*///					if (frameskip < 8)
-    /*TODO*///						frameskipadjust--;
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				while (frameskipadjust <= -2)
-    /*TODO*///				{
-    /*TODO*///					frameskipadjust += 2;
-    /*TODO*///					if (frameskip < FRAMESKIP_LEVELS-1) frameskip++;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
+    		if (throttle!=0 && autoframeskip!=0 && frameskip_counter == 0)
+    		{
+    			int adjspeed;
+    
+    			/* adjust speed to video refresh rate if vsync is on */		
+                        adjspeed = (int)(speed * Machine.drv.frames_per_second / vsync_frame_rate);
+
+    			if (adjspeed >= 100)
+    			{
+    				frameskipadjust++;
+    				if (frameskipadjust >= 3)
+    				{
+    					frameskipadjust = 0;
+    					if (frameskip > 0) frameskip--;
+    				}
+    			}
+    			else
+    			{
+    				if (adjspeed < 80)
+    					frameskipadjust -= (90 - adjspeed) / 5;
+    				else
+    				{
+    					/* don't push frameskip too far if we are close to 100% speed */
+    					if (frameskip < 8)
+    						frameskipadjust--;
+    				}
+    
+    				while (frameskipadjust <= -2)
+    				{
+    					frameskipadjust += 2;
+    					if (frameskip < FRAMESKIP_LEVELS-1) frameskip++;
+    				}
+    			}
+    		}
+    	}
     /*TODO*///
     /*TODO*///	/* Check for PGUP, PGDN and pan screen */
     /*TODO*///	pan_display();
@@ -2209,7 +2214,7 @@ public class video {
     /*TODO*///	}
     /*TODO*///
     /*TODO*///
-    /*TODO*///	frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
+    	frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
     }
     /*TODO*///
     /*TODO*///

@@ -1,8 +1,51 @@
 
 package arcadeflex;
-
+import static arcadeflex.video.*;
 
 public class blit {
+
+    public static int[] palette = new int[256];
+    public static char[] back_buffer;
+    public static void set_color(int index,RGB entry)
+    {
+        int rgb =  entry.r<<16 | entry.g<<8 | entry.b;
+        palette[index]=rgb;
+    }
+    
+        static void blitscreen_dirty1_vga()
+        {
+            int w, h;
+           
+            while (true)
+            {
+                for (int i = 0; i < scrbitmap.height; i++)
+                {
+                    System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].base, back_buffer, i * scrbitmap.width, scrbitmap.width);
+                }
+
+                {
+                    int sbi = scrbitmap.line[skiplines].base + skipcolumns;
+                    sbi = 0;
+                    //w = drv.screen_width;// gfx_display_columns;
+                    //h = drv.screen_height;// gfx_display_lines;
+                    //w =  gfx_display_columns;
+                    //h =  gfx_display_lines;
+
+                    w = scrbitmap.width;
+                    h = scrbitmap.height;
+                    for (int y = 0; y < h; y++)
+                    {
+
+                        for (int x = 0; x < w; x++)
+                        {
+                            //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
+                            screen._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
+                        }
+                    }
+                    screen.blit();
+                }
+            }
+        }
 
     /*TODO*////* from video.c (required for 15.75KHz Arcade Monitor Modes) */
     /*TODO*///extern int half_yres;

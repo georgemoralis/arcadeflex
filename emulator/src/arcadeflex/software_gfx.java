@@ -32,6 +32,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import static mame.mame.*;
 
 public class software_gfx extends java.awt.Frame implements Runnable, ImageProducer, KeyListener, MouseListener, MouseMotionListener
 {
@@ -105,7 +106,7 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
 			height *= 2;
 		}
 		_height = height;
-                _pixels = new int[_width * _height];
+                _pixels = new int[width * height];
                  /* Setup frame dimensions. */
 		_insets = getInsets();
                  super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
