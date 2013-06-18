@@ -743,8 +743,9 @@ public class input {
     /*TODO*///
     /*TODO*///static struct ui_info ui_map[__ipt_max];
     /*TODO*///
-    /*TODO*///int input_ui_pressed(int code)
-    /*TODO*///{
+    public static int input_ui_pressed(int code)
+    {
+/*TEMPHACK*/        return 0;
     /*TODO*///	int pressed;
     /*TODO*///
     /*TODO*///	profiler_mark(PROFILER_INPUT);
@@ -764,7 +765,7 @@ public class input {
     /*TODO*///	profiler_mark(PROFILER_END);
     /*TODO*///
     /*TODO*///	return pressed;
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///int input_ui_pressed_repeat(int code,int speed)
     /*TODO*///{

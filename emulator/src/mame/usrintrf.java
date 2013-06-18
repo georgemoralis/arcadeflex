@@ -10,6 +10,8 @@ import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
 import static mame.usrintrfH.*;
 import static mame.inputH.*;
+import static mame.inputportH.*;
+import static mame.input.*;
 
 public class usrintrf {
     /*TODO*///#define SEL_BITS 12
@@ -2080,21 +2082,15 @@ public class usrintrf {
     	{
     		osd_update_video_and_audio();
     /*TODO*///		osd_poll_joysticks();
-    /*TODO*///		if (input_ui_pressed(IPT_UI_CANCEL))
-    /*TODO*///		{
-    /*TODO*///			setup_selected = 0;////
-    /*TODO*///			return 1;
-    /*TODO*///		}
-                if(keyboard_pressed_memory(KEYCODE_O)!=0)
-                {
-                    System.out.println("it works!");
-                }
-    /*TODO*///		if (keyboard_pressed_memory(KEYCODE_O) ||
-    /*TODO*///				input_ui_pressed(IPT_UI_LEFT))
-    /*TODO*///			done = 1;
-    /*TODO*///		if (done == 1 && (keyboard_pressed_memory(KEYCODE_K) ||
-    /*TODO*///				input_ui_pressed(IPT_UI_RIGHT)))
-    /*TODO*///			done = 2;
+    		if (input_ui_pressed(IPT_UI_CANCEL)!=0)
+    		{
+    			setup_selected = 0;////
+    			return 1;
+    		}
+    		if (keyboard_pressed_memory(KEYCODE_O)!=0 || input_ui_pressed(IPT_UI_LEFT)!=0)
+    			done = 1;
+    		if (done == 1 && (keyboard_pressed_memory(KEYCODE_K)!=0 || input_ui_pressed(IPT_UI_RIGHT)!=0))
+    			done = 2;
     	} while (done < 2);
     
     	setup_selected = 0;////

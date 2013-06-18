@@ -45,65 +45,101 @@ public class inputportH {
 /*TODO*///
     public static final int IP_ACTIVE_HIGH = 0x0000;
     public static final int IP_ACTIVE_LOW  = 0xffff;
-/*TODO*///
-/*TODO*///enum { IPT_END=1,IPT_PORT,
-/*TODO*///	/* use IPT_JOYSTICK for panels where the player has one single joystick */
-/*TODO*///	IPT_JOYSTICK_UP, IPT_JOYSTICK_DOWN, IPT_JOYSTICK_LEFT, IPT_JOYSTICK_RIGHT,
-/*TODO*///	/* use IPT_JOYSTICKLEFT and IPT_JOYSTICKRIGHT for dual joystick panels */
-/*TODO*///	IPT_JOYSTICKRIGHT_UP, IPT_JOYSTICKRIGHT_DOWN, IPT_JOYSTICKRIGHT_LEFT, IPT_JOYSTICKRIGHT_RIGHT,
-/*TODO*///	IPT_JOYSTICKLEFT_UP, IPT_JOYSTICKLEFT_DOWN, IPT_JOYSTICKLEFT_LEFT, IPT_JOYSTICKLEFT_RIGHT,
-/*TODO*///	IPT_BUTTON1, IPT_BUTTON2, IPT_BUTTON3, IPT_BUTTON4,	/* action buttons */
-/*TODO*///	IPT_BUTTON5, IPT_BUTTON6, IPT_BUTTON7, IPT_BUTTON8, IPT_BUTTON9,
-/*TODO*///
-/*TODO*///	/* analog inputs */
-/*TODO*///	/* the "arg" field contains the default sensitivity expressed as a percentage */
-/*TODO*///	/* (100 = default, 50 = half, 200 = twice) */
-/*TODO*///	IPT_ANALOG_START,
-/*TODO*///	IPT_PADDLE, IPT_PADDLE_V,
-/*TODO*///	IPT_DIAL, IPT_DIAL_V,
-/*TODO*///	IPT_TRACKBALL_X, IPT_TRACKBALL_Y,
-/*TODO*///	IPT_AD_STICK_X, IPT_AD_STICK_Y,
-/*TODO*///	IPT_PEDAL,
-/*TODO*///	IPT_ANALOG_END,
-/*TODO*///
-/*TODO*///	IPT_START1, IPT_START2, IPT_START3, IPT_START4,	/* start buttons */
-/*TODO*///	IPT_COIN1, IPT_COIN2, IPT_COIN3, IPT_COIN4,	/* coin slots */
-/*TODO*///	IPT_SERVICE1, IPT_SERVICE2, IPT_SERVICE3, IPT_SERVICE4,	/* service coin */
-/*TODO*///	IPT_SERVICE, IPT_TILT,
-/*TODO*///	IPT_DIPSWITCH_NAME, IPT_DIPSWITCH_SETTING,
-/*TODO*////* Many games poll an input bit to check for vertical blanks instead of using */
-/*TODO*////* interrupts. This special value allows you to handle that. If you set one of the */
-/*TODO*////* input bits to this, the bit will be inverted while a vertical blank is happening. */
-/*TODO*///	IPT_VBLANK,
-/*TODO*///	IPT_UNKNOWN,
-/*TODO*///	IPT_EXTENSION,	/* this is an extension on the previous InputPort, not a real inputport. */
-/*TODO*///					/* It is used to store additional parameters for analog inputs */
-/*TODO*///
-/*TODO*///	/* the following are special codes for user interface handling - not to be used by drivers! */
-/*TODO*///	IPT_UI_CONFIGURE,
-/*TODO*///	IPT_UI_ON_SCREEN_DISPLAY,
-/*TODO*///	IPT_UI_PAUSE,
-/*TODO*///	IPT_UI_RESET_MACHINE,
-/*TODO*///	IPT_UI_SHOW_GFX,
-/*TODO*///	IPT_UI_FRAMESKIP_DEC,
-/*TODO*///	IPT_UI_FRAMESKIP_INC,
-/*TODO*///	IPT_UI_THROTTLE,
-/*TODO*///	IPT_UI_SHOW_FPS,
-/*TODO*///	IPT_UI_SNAPSHOT,
-/*TODO*///	IPT_UI_TOGGLE_CHEAT,
-/*TODO*///	IPT_UI_UP,
-/*TODO*///	IPT_UI_DOWN,
-/*TODO*///	IPT_UI_LEFT,
-/*TODO*///	IPT_UI_RIGHT,
-/*TODO*///	IPT_UI_SELECT,
-/*TODO*///	IPT_UI_CANCEL,
-/*TODO*///	IPT_UI_PAN_UP, IPT_UI_PAN_DOWN, IPT_UI_PAN_LEFT, IPT_UI_PAN_RIGHT,
-/*TODO*///	IPT_UI_SHOW_PROFILER,
-/*TODO*///	IPT_UI_SHOW_COLORS,
-/*TODO*///	IPT_UI_TOGGLE_UI,
-/*TODO*///	__ipt_max
-/*TODO*///};
-/*TODO*///
+
+    public static final int IPT_END  =1;
+    public static final int IPT_PORT =2;
+    /* use IPT_JOYSTICK for panels where the player has one single joystick */
+    public static final int IPT_JOYSTICK_UP   =3;
+    public static final int IPT_JOYSTICK_DOWN =4;
+    public static final int IPT_JOYSTICK_LEFT =5;
+    public static final int IPT_JOYSTICK_RIGHT=6;
+    /* use IPT_JOYSTICKLEFT and IPT_JOYSTICKRIGHT for dual joystick panels */
+    public static final int IPT_JOYSTICKRIGHT_UP =7;
+    public static final int IPT_JOYSTICKRIGHT_DOWN=8;
+    public static final int IPT_JOYSTICKRIGHT_LEFT=9;
+    public static final int IPT_JOYSTICKRIGHT_RIGHT=10;
+    public static final int IPT_JOYSTICKLEFT_UP=11;
+    public static final int IPT_JOYSTICKLEFT_DOWN=12;
+    public static final int IPT_JOYSTICKLEFT_LEFT=13;
+    public static final int IPT_JOYSTICKLEFT_RIGHT=14;
+    public static final int IPT_BUTTON1=15;
+    public static final int IPT_BUTTON2=16;
+    public static final int IPT_BUTTON3=17;
+    public static final int IPT_BUTTON4=18;	
+    /* action buttons */
+    public static final int IPT_BUTTON5=19;
+    public static final int IPT_BUTTON6=20;
+    public static final int IPT_BUTTON7=21;
+    public static final int IPT_BUTTON8=22;
+    public static final int IPT_BUTTON9=23;
+
+    /* analog inputs */
+    /* the "arg" field contains the default sensitivity expressed as a percentage */
+    /* (100 = default, 50 = half, 200 = twice) */
+    public static final int IPT_ANALOG_START=24;
+    public static final int IPT_PADDLE=25;
+    public static final int IPT_PADDLE_V=26;
+    public static final int IPT_DIAL=27;
+    public static final int IPT_DIAL_V=28;
+    public static final int IPT_TRACKBALL_X=29;
+    public static final int IPT_TRACKBALL_Y=30;
+    public static final int IPT_AD_STICK_X=31;
+    public static final int IPT_AD_STICK_Y=32;
+    public static final int IPT_PEDAL=33;
+    public static final int IPT_ANALOG_END=34;
+
+    public static final int IPT_START1=35;
+    public static final int IPT_START2=36;
+    public static final int IPT_START3=37;
+    public static final int IPT_START4=38;	/* start buttons */
+    public static final int IPT_COIN1=39;
+    public static final int IPT_COIN2=40;
+    public static final int IPT_COIN3=41;
+    public static final int IPT_COIN4=42;	/* coin slots */
+    public static final int IPT_SERVICE1=43;
+    public static final int IPT_SERVICE2=44;
+    public static final int IPT_SERVICE3=45;
+    public static final int IPT_SERVICE4=46;	/* service coin */
+    public static final int IPT_SERVICE=47;
+    public static final int IPT_TILT=48;
+    public static final int IPT_DIPSWITCH_NAME=49;
+    public static final int IPT_DIPSWITCH_SETTING=50;
+    /* Many games poll an input bit to check for vertical blanks instead of using */
+    /* interrupts. This special value allows you to handle that. If you set one of the */
+    /* input bits to this, the bit will be inverted while a vertical blank is happening. */
+    public static final int IPT_VBLANK=51;
+    public static final int IPT_UNKNOWN=52;
+    public static final int IPT_EXTENSION=53;	/* this is an extension on the previous InputPort, not a real inputport. */
+					/* It is used to store additional parameters for analog inputs */
+
+	/* the following are special codes for user interface handling - not to be used by drivers! */
+    public static final int IPT_UI_CONFIGURE=54;
+    public static final int IPT_UI_ON_SCREEN_DISPLAY=55;
+    public static final int IPT_UI_PAUSE=56;
+    public static final int IPT_UI_RESET_MACHINE=57;
+    public static final int IPT_UI_SHOW_GFX=58;
+    public static final int IPT_UI_FRAMESKIP_DEC=59;
+    public static final int IPT_UI_FRAMESKIP_INC=60;
+    public static final int IPT_UI_THROTTLE=61;
+    public static final int IPT_UI_SHOW_FPS=62;
+    public static final int IPT_UI_SNAPSHOT=63;
+    public static final int IPT_UI_TOGGLE_CHEAT=64;
+    public static final int IPT_UI_UP=65;
+    public static final int IPT_UI_DOWN=66;
+    public static final int IPT_UI_LEFT=67;
+    public static final int IPT_UI_RIGHT=68;
+    public static final int IPT_UI_SELECT=69;
+    public static final int IPT_UI_CANCEL=70;
+    public static final int IPT_UI_PAN_UP=71;
+    public static final int IPT_UI_PAN_DOWN=72;
+    public static final int IPT_UI_PAN_LEFT=73;
+    public static final int IPT_UI_PAN_RIGHT=74;
+    public static final int IPT_UI_SHOW_PROFILER=75;
+    public static final int IPT_UI_SHOW_COLORS=76;
+    public static final int IPT_UI_TOGGLE_UI=77;
+    public static final int __ipt_max=78;
+
+
     
     public static final int IPF_MASK      = 0xffffff00;
     public static final int IPF_UNUSED    = 0x80000000;/* The bit is not used by this game, but is used */
