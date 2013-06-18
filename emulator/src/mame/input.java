@@ -2,6 +2,7 @@
 package mame;
 
 import static mame.inputH.*;
+import static arcadeflex.input.*;
 
 public class input {
     /* Codes */
@@ -137,32 +138,34 @@ public class input {
     /*TODO*///		++code_mac;
     /*TODO*///	}
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Find the record of a specific code type */
-    /*TODO*///
-    /*TODO*///INLINE const struct KeyboardInfo* internal_code_find_keyboard_standard(unsigned code)
-    /*TODO*///{
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
-    /*TODO*///	keyinfo = osd_get_key_list();
-    /*TODO*///	while (keyinfo->name)
-    /*TODO*///	{
-    /*TODO*///		if (keyinfo->standardcode == code)
-    /*TODO*///			return keyinfo;
-    /*TODO*///		++keyinfo;
-    /*TODO*///	}
-    /*TODO*///	return 0;
-    /*TODO*///}
-    /*TODO*///
+
+    /* Find the record of a specific code type */
+    
+    public static KeyboardInfo internal_code_find_keyboard_standard(int code)
+    {
+    	KeyboardInfo[] keyinfo;
+    	keyinfo = osd_get_key_list();
+        int ptr=0;
+    	while (keyinfo[ptr].name!=null)
+    	{
+    		if (keyinfo[ptr].standardcode == code)
+    			return keyinfo[ptr];
+    		++ptr;
+    	}
+    	return null;
+    }
+    
     public static KeyboardInfo internal_code_find_keyboard_os(int code)
     {
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
-    /*TODO*///	keyinfo = osd_get_key_list();
-    /*TODO*///	while (keyinfo->name)
-    /*TODO*///	{
-    /*TODO*///		if (keyinfo->standardcode == CODE_OTHER && keyinfo->code == code_map[code].oscode)
-    /*TODO*///			return keyinfo;
-    /*TODO*///      		++keyinfo;
-    /*TODO*///	}
+    	KeyboardInfo[] keyinfo;
+    	keyinfo = osd_get_key_list();
+        int ptr=0;
+    	while (keyinfo[ptr].name!=null)
+    	{
+    		if (keyinfo[ptr].standardcode == CODE_OTHER && keyinfo[ptr].code == code_map[code].oscode)
+    			return keyinfo[ptr];
+          		++ptr;
+    	}
     	return null;
     }
     /*TODO*///
@@ -202,11 +205,10 @@ public class input {
     	{
 
     		case CODE_TYPE_KEYBOARD_STANDARD :
-                    throw new UnsupportedOperationException("CODE_TYPE unimplemented");
- /*   			keyinfo = internal_code_find_keyboard_standard(code);
+   			keyinfo = internal_code_find_keyboard_standard(code);
     			if (keyinfo!=null)
     				return osd_is_key_pressed(keyinfo.code);
-    			break;*/
+    			break;
     		case CODE_TYPE_KEYBOARD_OS :
                     throw new UnsupportedOperationException("CODE_TYPE unimplemented");
     /*TODO*///			keyinfo = internal_code_find_keyboard_os(code);
