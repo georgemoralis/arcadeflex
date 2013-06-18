@@ -12,6 +12,7 @@ import static mame.usrintrfH.*;
 import static mame.inputH.*;
 import static mame.inputportH.*;
 import static mame.input.*;
+import static mame.version.*;
 
 public class usrintrf {
     /*TODO*///#define SEL_BITS 12
@@ -2100,14 +2101,13 @@ public class usrintrf {
     	return 0;
     }
     /*TODO*///
-    /*TODO*///static int displaygameinfo(int selected)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///	char buf[2048];
-    /*TODO*///	int sel;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	sel = selected - 1;
+    public static int displaygameinfo(int selected)
+    {
+    	int i;
+        String buf;
+    	int sel;
+
+    	sel = selected - 1;
     /*TODO*///
     /*TODO*///
     /*TODO*///	sprintf(buf,"%s\n%s %s\n\nCPU:\n",Machine->gamedrv->description,Machine->gamedrv->year,Machine->gamedrv->manufacturer);
@@ -2199,38 +2199,24 @@ public class usrintrf {
     /*TODO*///				Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1,
     /*TODO*///				(Machine->gamedrv->flags & ORIENTATION_SWAP_XY) ? "V" : "H",
     /*TODO*///				Machine->drv->frames_per_second);
-    /*TODO*///#if 0
-    /*TODO*///		sprintf(&buf[strlen(buf)],"pixel aspect ratio %d:%d\n",
-    /*TODO*///				pixelx,pixely);
-    /*TODO*///		sprintf(&buf[strlen(buf)],"%d colors ",Machine->drv->total_colors);
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_REQUIRES_16BIT)
-    /*TODO*///			strcat(buf,"(16-bit required)\n");
-    /*TODO*///		else if (Machine->drv->video_attributes & VIDEO_MODIFIES_PALETTE)
-    /*TODO*///			strcat(buf,"(dynamic)\n");
-    /*TODO*///		else strcat(buf,"(static)\n");
-    /*TODO*///#endif
     /*TODO*///	}
     /*TODO*///
     /*TODO*///
-    /*TODO*///	if (sel == -1)
-    /*TODO*///	{
-    /*TODO*///		/* startup info, print MAME version and ask for any key */
+    	if (sel == -1)
+    	{
+		/* startup info, print MAME version and ask for any key */
+ 
+                buf="\n\tArcadeflex ";    /* \t means that the line will be centered */
+
+    		buf+=build_version;
+                buf+="\n\tPress any key";
+    		ui_drawbox(0,0,Machine.uiwidth,Machine.uiheight);
+    		ui_displaymessagewindow(buf);
     /*TODO*///
-    /*TODO*///		#ifndef MESS
-    /*TODO*///		strcat(buf,"\n\tMAME ");    /* \t means that the line will be centered */
-    /*TODO*///		#else
-    /*TODO*///		strcat(buf,"\n\tMESS ");    /* \t means that the line will be centered */
-    /*TODO*///		#endif
-    /*TODO*///
-    /*TODO*///		strcat(buf,build_version);
-    /*TODO*///		strcat(buf,"\n\tPress any key");
-    /*TODO*///		ui_drawbox(0,0,Machine->uiwidth,Machine->uiheight);
-    /*TODO*///		ui_displaymessagewindow(buf);
-    /*TODO*///
-    /*TODO*///		sel = 0;
+    		sel = 0;
     /*TODO*///		if (code_read_async() != CODE_NONE)
     /*TODO*///			sel = -1;
-    /*TODO*///	}
+    	}
     /*TODO*///	else
     /*TODO*///	{
     /*TODO*///		/* menu system, use the normal menu keys */
@@ -2248,69 +2234,58 @@ public class usrintrf {
     /*TODO*///			sel = -2;
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///	if (sel == -1 || sel == -2)
-    /*TODO*///	{
-    /*TODO*///		/* tell updatescreen() to clean after us */
-    /*TODO*///		need_to_clear_bitmap = 1;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return sel + 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///int showgamewarnings(void)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///	char buf[2048];
-    /*TODO*///
-    /*TODO*///	if (Machine->gamedrv->flags &
-    /*TODO*///			(GAME_NOT_WORKING | GAME_WRONG_COLORS | GAME_IMPERFECT_COLORS |
-    /*TODO*///			  GAME_NO_SOUND | GAME_IMPERFECT_SOUND | GAME_NO_COCKTAIL))
-    /*TODO*///	{
-    /*TODO*///		int done;
-    /*TODO*///
-    /*TODO*///		#ifndef MESS
-    /*TODO*///		strcpy(buf, "There are known problems with this game:\n\n");
-    /*TODO*///		#else
-    /*TODO*///		strcpy(buf, "There are known problems with this system:\n\n");
-    /*TODO*///		#endif
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///#ifdef MESS
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_COMPUTER)
-    /*TODO*///		{
-    /*TODO*///			strcpy(buf, "The emulated system is a computer: \n\n");
-    /*TODO*///			strcat(buf, "The keyboard emulation may not be 100% accurate.\n");
-    /*TODO*///		}
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_IMPERFECT_COLORS)
-    /*TODO*///		{
-    /*TODO*///			strcat(buf, "The colors aren't 100% accurate.\n");
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_WRONG_COLORS)
-    /*TODO*///		{
-    /*TODO*///			strcat(buf, "The colors are completely wrong.\n");
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_IMPERFECT_SOUND)
-    /*TODO*///		{
-    /*TODO*///			strcat(buf, "The sound emulation isn't 100% accurate.\n");
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_NO_SOUND)
-    /*TODO*///		{
-    /*TODO*///			strcat(buf, "The game lacks sound.\n");
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_NO_COCKTAIL)
-    /*TODO*///		{
-    /*TODO*///			strcat(buf, "Screen flipping in cocktail mode is not supported.\n");
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (Machine->gamedrv->flags & GAME_NOT_WORKING)
-    /*TODO*///		{
+    	if (sel == -1 || sel == -2)
+    	{
+    		/* tell updatescreen() to clean after us */
+    		need_to_clear_bitmap = 1;
+    	}
+    
+    	return sel + 1;
+    }
+    
+    
+    public static int showgamewarnings()
+    {
+    	int i;
+    	String buf="";
+    
+    	if ((Machine.gamedrv.flags &
+    			(GAME_NOT_WORKING | GAME_WRONG_COLORS | GAME_IMPERFECT_COLORS |
+    			  GAME_NO_SOUND | GAME_IMPERFECT_SOUND | GAME_NO_COCKTAIL))!=0)
+    	{
+    		int done;
+    
+    		buf ="There are known problems with this system:\n\n";
+
+    		if ((Machine.gamedrv.flags & GAME_IMPERFECT_COLORS)!=0)
+    		{
+    			buf+= "The colors aren't 100% accurate.\n";
+    		}
+    
+    		if ((Machine.gamedrv.flags & GAME_WRONG_COLORS)!=0)
+    		{
+    			buf+= "The colors are completely wrong.\n";
+    		}
+    
+    		if ((Machine.gamedrv.flags & GAME_IMPERFECT_SOUND)!=0)
+    		{
+    			buf+= "The sound emulation isn't 100% accurate.\n";
+    		}
+    
+    		if ((Machine.gamedrv.flags & GAME_NO_SOUND)!=0)
+    		{
+    			buf+= "The game lacks sound.\n";
+    		}
+    
+    		if ((Machine.gamedrv.flags & GAME_NO_COCKTAIL)!=0)
+    		{
+    			buf+= "Screen flipping in cocktail mode is not supported.\n";
+    		}
+    
+    		if ((Machine.gamedrv.flags & GAME_NOT_WORKING)!=0)
+    		{
+                    throw new UnsupportedOperationException("GAME NOT WORKING unsupported");
+                
     /*TODO*///			const struct GameDriver *maindrv;
     /*TODO*///			int foundworking;
     /*TODO*///
@@ -2341,57 +2316,47 @@ public class usrintrf {
     /*TODO*///				}
     /*TODO*///				i++;
     /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		strcat(buf,"\n\nType OK to continue");
-    /*TODO*///
-    /*TODO*///		ui_displaymessagewindow(buf);
-    /*TODO*///
-    /*TODO*///		done = 0;
-    /*TODO*///		do
-    /*TODO*///		{
-    /*TODO*///			osd_update_video_and_audio();
+    		}
+    
+    		buf+="\n\nType OK to continue";
+    
+    		ui_displaymessagewindow(buf);
+    
+    		done = 0;
+    		do
+    		{
+    			osd_update_video_and_audio();
     /*TODO*///			osd_poll_joysticks();
-    /*TODO*///			if (input_ui_pressed(IPT_UI_CANCEL))
-    /*TODO*///				return 1;
-    /*TODO*///			if (code_pressed_memory(KEYCODE_O) ||
-    /*TODO*///					input_ui_pressed(IPT_UI_LEFT))
-    /*TODO*///				done = 1;
-    /*TODO*///			if (done == 1 && (code_pressed_memory(KEYCODE_K) ||
-    /*TODO*///					input_ui_pressed(IPT_UI_RIGHT)))
-    /*TODO*///				done = 2;
-    /*TODO*///		} while (done < 2);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	osd_clearbitmap(Machine->scrbitmap);
+    			if (input_ui_pressed(IPT_UI_CANCEL)!=0)
+    				return 1;
+    			if (code_pressed_memory(KEYCODE_O)!=0 || input_ui_pressed(IPT_UI_LEFT)!=0)
+    				done = 1;
+    			if (done == 1 && (code_pressed_memory(KEYCODE_K)!=0 || input_ui_pressed(IPT_UI_RIGHT)!=0))
+    				done = 2;
+    		} while (done < 2);
+    	}
+    
+    
+   	osd_clearbitmap(Machine.scrbitmap);
     /*TODO*///
     /*TODO*///	/* clear the input memory */
     /*TODO*///	while (code_read_async() != CODE_NONE);
     /*TODO*///
-    /*TODO*///	while (displaygameinfo(0) == 1)
-    /*TODO*///	{
-    /*TODO*///		osd_update_video_and_audio();
+    	while (displaygameinfo(0) == 1)
+    	{
+    		osd_update_video_and_audio();
     /*TODO*///		osd_poll_joysticks();
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	#ifdef MESS
-    /*TODO*///	while (displayimageinfo(0) == 1)
-    /*TODO*///	{
-    /*TODO*///		osd_update_video_and_audio();
-    /*TODO*///		osd_poll_joysticks();
-    /*TODO*///	}
-    /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	osd_clearbitmap(Machine->scrbitmap);
-    /*TODO*///	/* make sure that the screen is really cleared, in case autoframeskip kicked in */
-    /*TODO*///	osd_update_video_and_audio();
-    /*TODO*///	osd_update_video_and_audio();
-    /*TODO*///	osd_update_video_and_audio();
-    /*TODO*///	osd_update_video_and_audio();
-    /*TODO*///
-    /*TODO*///	return 0;
-    /*TODO*///}
+    	}
+ 
+    	osd_clearbitmap(Machine.scrbitmap);
+    	/* make sure that the screen is really cleared, in case autoframeskip kicked in */
+    	osd_update_video_and_audio();
+    	osd_update_video_and_audio();
+    	osd_update_video_and_audio();
+    	osd_update_video_and_audio();
+    
+    	return 0;
+    }
     /*TODO*///
     /*TODO*////* Word-wraps the text in the specified buffer to fit in maxwidth characters per line.
     /*TODO*///   The contents of the buffer are modified.

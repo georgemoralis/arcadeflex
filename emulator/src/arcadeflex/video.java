@@ -571,9 +571,9 @@ public class video {
     	for (i = 0;i < bitmap.height;i++)
     	{
     		if (bitmap.depth == 16)
-    			memset(bitmap.line[i].memory,0,2*bitmap.width);
+    			memset(bitmap.line[i],0,2*bitmap.width);
     		else
-    			memset(bitmap.line[i].memory,BACKGROUND,bitmap.width);
+    			memset(bitmap.line[i],BACKGROUND,bitmap.width);
     	}
     
     
@@ -2104,8 +2104,8 @@ public class video {
     /*TODO*///		interlace_sync();
     /*TODO*///
     /*TODO*///
-    /*TODO*///		if (need_to_clear_bitmap)
-    /*TODO*///			osd_clearbitmap(scrbitmap);
+    		if (need_to_clear_bitmap!=0)
+    			osd_clearbitmap(scrbitmap);
     /*TODO*///
     /*TODO*///		if (use_dirty)
     /*TODO*///		{
