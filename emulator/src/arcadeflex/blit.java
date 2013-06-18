@@ -16,8 +16,8 @@ public class blit {
         {
             int w, h;
            
-            while (true)
-            {
+           /* while (true)
+            {*/
                 for (int i = 0; i < scrbitmap.height; i++)
                 {
                     System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].base, back_buffer, i * scrbitmap.width, scrbitmap.width);
@@ -43,7 +43,7 @@ public class blit {
                         }
                     }
                     screen.blit();
-                }
+                //}
             }
         }
 

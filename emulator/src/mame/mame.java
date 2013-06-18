@@ -37,6 +37,7 @@ import static mame.usrintrf.*;
 import static mame.usrintrfH.*;
 import static arcadeflex.video.*;
 import static arcadeflex.blit.*;
+import static mame.input.*;
 
 public class mame {
 
@@ -170,8 +171,8 @@ public class mame {
     public static int init_machine() {
         int i;
 
-        /*TODO*/ //            if (code_init() != 0)
-/*TODO*/ //                    goto out;
+           if (code_init() != 0)
+                   return out();
 
         for (i = 0; i < MAX_MEMORY_REGIONS; i++) {
             Machine.memory_region[i] = null;
@@ -346,7 +347,7 @@ public class mame {
             vh_close();
             return 1;
         }
- /*temphack?? */       back_buffer = new char[Machine.scrbitmap.line[0].memory.length];
+
         /* create spriteram buffers if necessary */
         if ((drv.video_attributes & VIDEO_BUFFERS_SPRITERAM) != 0) {
 
@@ -452,11 +453,7 @@ public class mame {
                 dt[1].text=null;
                 displaytext(dt,0,0);*/
                 showcopyright();
-                do
-                {
-                    osd_update_video_and_audio();
-                    //osd_close_display();
-                }while(true); 
+                
                 /*test code*/
                 
                 

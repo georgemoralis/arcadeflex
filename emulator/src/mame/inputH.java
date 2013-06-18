@@ -1,19 +1,20 @@
 
 package mame;
 
+import static mame.input.*;
 
 public class inputH {
-/*TODO*////*TODO*///#ifndef INPUT_H
-/*TODO*///#define INPUT_H
-/*TODO*///
-/*TODO*///typedef unsigned InputCode;
-/*TODO*///
-/*TODO*///struct KeyboardInfo
-/*TODO*///{
-/*TODO*///	char *name; /* OS dependant name; 0 terminates the list */
-/*TODO*///	unsigned code; /* OS dependant code */
-/*TODO*///	InputCode standardcode;	/* CODE_xxx equivalent from list below, or CODE_OTHER if n/a */
-/*TODO*///};
+    public static class KeyboardInfo
+    {
+       public KeyboardInfo(String name, int code, int standardcode)
+       {
+                this.name = name; this.code = code; this.standardcode = standardcode;
+       }
+       public String name;/* OS dependant name; 0 terminates the list */
+       public int code;/* OS dependant code */
+       public int standardcode;	/* CODE_xxx equivalent from list below, or CODE_OTHER if n/a */
+    }
+
 /*TODO*///
 /*TODO*///struct JoystickInfo
 /*TODO*///{
@@ -22,60 +23,174 @@ public class inputH {
 /*TODO*///	InputCode standardcode;	/* CODE_xxx equivalent from list below, or CODE_OTHER if n/a */
 /*TODO*///};
 /*TODO*///
-/*TODO*///enum
-/*TODO*///{
-/*TODO*///	/* key */
-/*TODO*///	KEYCODE_A, KEYCODE_B, KEYCODE_C, KEYCODE_D, KEYCODE_E, KEYCODE_F,
-/*TODO*///	KEYCODE_G, KEYCODE_H, KEYCODE_I, KEYCODE_J, KEYCODE_K, KEYCODE_L,
-/*TODO*///	KEYCODE_M, KEYCODE_N, KEYCODE_O, KEYCODE_P, KEYCODE_Q, KEYCODE_R,
-/*TODO*///	KEYCODE_S, KEYCODE_T, KEYCODE_U, KEYCODE_V, KEYCODE_W, KEYCODE_X,
-/*TODO*///	KEYCODE_Y, KEYCODE_Z, KEYCODE_0, KEYCODE_1, KEYCODE_2, KEYCODE_3,
-/*TODO*///	KEYCODE_4, KEYCODE_5, KEYCODE_6, KEYCODE_7, KEYCODE_8, KEYCODE_9,
-/*TODO*///	KEYCODE_0_PAD, KEYCODE_1_PAD, KEYCODE_2_PAD, KEYCODE_3_PAD, KEYCODE_4_PAD,
-/*TODO*///	KEYCODE_5_PAD, KEYCODE_6_PAD, KEYCODE_7_PAD, KEYCODE_8_PAD, KEYCODE_9_PAD,
-/*TODO*///	KEYCODE_F1, KEYCODE_F2, KEYCODE_F3, KEYCODE_F4, KEYCODE_F5,
-/*TODO*///	KEYCODE_F6, KEYCODE_F7, KEYCODE_F8, KEYCODE_F9, KEYCODE_F10,
-/*TODO*///	KEYCODE_F11, KEYCODE_F12,
-/*TODO*///	KEYCODE_ESC, KEYCODE_TILDE, KEYCODE_MINUS, KEYCODE_EQUALS, KEYCODE_BACKSPACE,
-/*TODO*///	KEYCODE_TAB, KEYCODE_OPENBRACE, KEYCODE_CLOSEBRACE, KEYCODE_ENTER, KEYCODE_COLON,
-/*TODO*///	KEYCODE_QUOTE, KEYCODE_BACKSLASH, KEYCODE_BACKSLASH2, KEYCODE_COMMA, KEYCODE_STOP,
-/*TODO*///	KEYCODE_SLASH, KEYCODE_SPACE, KEYCODE_INSERT, KEYCODE_DEL,
-/*TODO*///	KEYCODE_HOME, KEYCODE_END, KEYCODE_PGUP, KEYCODE_PGDN, KEYCODE_LEFT,
-/*TODO*///	KEYCODE_RIGHT, KEYCODE_UP, KEYCODE_DOWN,
-/*TODO*///	KEYCODE_SLASH_PAD, KEYCODE_ASTERISK, KEYCODE_MINUS_PAD, KEYCODE_PLUS_PAD,
-/*TODO*///	KEYCODE_DEL_PAD, KEYCODE_ENTER_PAD, KEYCODE_PRTSCR, KEYCODE_PAUSE,
-/*TODO*///	KEYCODE_LSHIFT, KEYCODE_RSHIFT, KEYCODE_LCONTROL, KEYCODE_RCONTROL,
-/*TODO*///	KEYCODE_LALT, KEYCODE_RALT, KEYCODE_SCRLOCK, KEYCODE_NUMLOCK, KEYCODE_CAPSLOCK,
-/*TODO*///	KEYCODE_LWIN, KEYCODE_RWIN, KEYCODE_MENU,
-/*TODO*///#define __code_key_first KEYCODE_A
-/*TODO*///#define __code_key_last KEYCODE_MENU
-/*TODO*///
-/*TODO*///	/* joy */
-/*TODO*///	JOYCODE_1_LEFT,JOYCODE_1_RIGHT,JOYCODE_1_UP,JOYCODE_1_DOWN,
-/*TODO*///	JOYCODE_1_BUTTON1,JOYCODE_1_BUTTON2,JOYCODE_1_BUTTON3,
-/*TODO*///	JOYCODE_1_BUTTON4,JOYCODE_1_BUTTON5,JOYCODE_1_BUTTON6,
-/*TODO*///	JOYCODE_2_LEFT,JOYCODE_2_RIGHT,JOYCODE_2_UP,JOYCODE_2_DOWN,
-/*TODO*///	JOYCODE_2_BUTTON1,JOYCODE_2_BUTTON2,JOYCODE_2_BUTTON3,
-/*TODO*///	JOYCODE_2_BUTTON4,JOYCODE_2_BUTTON5,JOYCODE_2_BUTTON6,
-/*TODO*///	JOYCODE_3_LEFT,JOYCODE_3_RIGHT,JOYCODE_3_UP,JOYCODE_3_DOWN,
-/*TODO*///	JOYCODE_3_BUTTON1,JOYCODE_3_BUTTON2,JOYCODE_3_BUTTON3,
-/*TODO*///	JOYCODE_3_BUTTON4,JOYCODE_3_BUTTON5,JOYCODE_3_BUTTON6,
-/*TODO*///	JOYCODE_4_LEFT,JOYCODE_4_RIGHT,JOYCODE_4_UP,JOYCODE_4_DOWN,
-/*TODO*///	JOYCODE_4_BUTTON1,JOYCODE_4_BUTTON2,JOYCODE_4_BUTTON3,
-/*TODO*///	JOYCODE_4_BUTTON4,JOYCODE_4_BUTTON5,JOYCODE_4_BUTTON6,
-/*TODO*///#define __code_joy_first JOYCODE_1_LEFT
-/*TODO*///#define __code_joy_last JOYCODE_4_BUTTON6
-/*TODO*///
-/*TODO*///	__code_max, /* Temination of standard code */
-/*TODO*///
-/*TODO*///	/* special */
-/*TODO*///	CODE_NONE = 0x8000, /* no code, also marker of sequence end */
-/*TODO*///	CODE_OTHER, /* OS code not mapped to any other code */
-/*TODO*///	CODE_DEFAULT, /* special for input port definitions */
-/*TODO*///        CODE_PREVIOUS, /* special for input port definitions */
-/*TODO*///	CODE_NOT, /* operators for sequences */
-/*TODO*///	CODE_OR /* operators for sequences */
-/*TODO*///};
+    
+    /* key */
+    public static final int	KEYCODE_A = 0;
+    public static final int	KEYCODE_B = 1;
+    public static final int	KEYCODE_C = 2;
+    public static final int	KEYCODE_D = 3;
+    public static final int	KEYCODE_E = 4;
+    public static final int KEYCODE_F     = 5;
+    public static final int KEYCODE_G     = 6;
+    public static final int KEYCODE_H     = 7;
+    public static final int KEYCODE_I     = 8;
+    public static final int KEYCODE_J     = 9;
+    public static final int KEYCODE_K     =10; 
+    public static final int KEYCODE_L     =11; 
+    public static final int KEYCODE_M     =12; 
+    public static final int KEYCODE_N     =13; 
+    public static final int KEYCODE_O     =14; 
+    public static final int KEYCODE_P     =15; 
+    public static final int KEYCODE_Q     =16; 
+    public static final int KEYCODE_R     =17; 
+    public static final int KEYCODE_S     =18; 
+    public static final int KEYCODE_T     =19; 
+    public static final int KEYCODE_U     =20;
+    public static final int KEYCODE_V     =21;
+    public static final int KEYCODE_W     =22;
+    public static final int KEYCODE_X     =23;
+    public static final int KEYCODE_Y     =24;
+    public static final int KEYCODE_Z     =25;
+    public static final int KEYCODE_0     =26;
+    public static final int KEYCODE_1     =27;
+    public static final int KEYCODE_2     =28;
+    public static final int KEYCODE_3     =29;
+    public static final int KEYCODE_4     =30;
+    public static final int KEYCODE_5     =31;
+    public static final int KEYCODE_6     =32;
+    public static final int KEYCODE_7     =33;
+    public static final int KEYCODE_8     =34;
+    public static final int KEYCODE_9     =35;
+    public static final int KEYCODE_0_PAD =36;
+    public static final int KEYCODE_1_PAD =37;
+    public static final int KEYCODE_2_PAD =38;
+    public static final int KEYCODE_3_PAD =39;
+    public static final int KEYCODE_4_PAD =40;
+    public static final int KEYCODE_5_PAD =41;
+    public static final int KEYCODE_6_PAD =42;
+    public static final int KEYCODE_7_PAD =43;
+    public static final int KEYCODE_8_PAD =44;
+    public static final int KEYCODE_9_PAD =45;
+    public static final int KEYCODE_F1    =46;
+    public static final int KEYCODE_F2    =47;
+    public static final int KEYCODE_F3    =48;
+    public static final int KEYCODE_F4    =49;
+    public static final int KEYCODE_F5    =50;
+    public static final int KEYCODE_F6    =51;
+    public static final int KEYCODE_F7    =52;
+    public static final int KEYCODE_F8    =53;
+    public static final int KEYCODE_F9    =54;
+    public static final int KEYCODE_F10   =55;
+    public static final int KEYCODE_F11   =56;
+    public static final int KEYCODE_F12   =57;
+    public static final int KEYCODE_ESC   =58;
+    public static final int KEYCODE_TILDE       =59;
+    public static final int KEYCODE_MINUS       =60;
+    public static final int KEYCODE_EQUALS      =61;
+    public static final int KEYCODE_BACKSPACE   =62;
+    public static final int KEYCODE_TAB         =63;
+    public static final int KEYCODE_OPENBRACE   =64;
+    public static final int KEYCODE_CLOSEBRACE  =65;
+    public static final int KEYCODE_ENTER       =66;
+    public static final int KEYCODE_COLON       =67;
+    public static final int KEYCODE_QUOTE       =68;
+    public static final int KEYCODE_BACKSLASH   =69;
+    public static final int KEYCODE_BACKSLASH2  =70;
+    public static final int KEYCODE_COMMA       =71;
+    public static final int KEYCODE_STOP        =72;
+    public static final int KEYCODE_SLASH       =73;
+    public static final int KEYCODE_SPACE       =74;
+    public static final int KEYCODE_INSERT      =75;
+    public static final int KEYCODE_DEL         =76;
+    public static final int KEYCODE_HOME        =77;
+    public static final int KEYCODE_END         =78;
+    public static final int KEYCODE_PGUP        =79;
+    public static final int KEYCODE_PGDN        =80;
+    public static final int KEYCODE_LEFT        =81;
+    public static final int KEYCODE_RIGHT       =82;
+    public static final int KEYCODE_UP          =83;
+    public static final int KEYCODE_DOWN        =84;
+    public static final int KEYCODE_SLASH_PAD   =85;
+    public static final int KEYCODE_ASTERISK    =86;
+    public static final int KEYCODE_MINUS_PAD   =87;
+    public static final int KEYCODE_PLUS_PAD    =88;
+    public static final int KEYCODE_DEL_PAD     =89;
+    public static final int KEYCODE_ENTER_PAD   =90;
+    public static final int KEYCODE_PRTSCR      =91;
+    public static final int KEYCODE_PAUSE       =92;
+    public static final int KEYCODE_LSHIFT      =93;
+    public static final int KEYCODE_RSHIFT      =94;
+    public static final int KEYCODE_LCONTROL    =95;
+    public static final int KEYCODE_RCONTROL    =96;
+    public static final int KEYCODE_LALT        =97;
+    public static final int KEYCODE_RALT        =98;
+    public static final int KEYCODE_SCRLOCK     =99;
+    public static final int KEYCODE_NUMLOCK     =100;
+    public static final int KEYCODE_CAPSLOCK    =101;
+    public static final int KEYCODE_LWIN        =102;
+    public static final int KEYCODE_RWIN        =103;
+    public static final int KEYCODE_MENU        =104;
+
+
+    /* joy */
+    public static final int JOYCODE_1_LEFT      =105;
+    public static final int JOYCODE_1_RIGHT     =106;
+    public static final int JOYCODE_1_UP        =107;
+    public static final int JOYCODE_1_DOWN      =108;
+    public static final int JOYCODE_1_BUTTON1   =109;
+    public static final int JOYCODE_1_BUTTON2   =110;
+    public static final int JOYCODE_1_BUTTON3   =111;
+    public static final int JOYCODE_1_BUTTON4   =112;
+    public static final int JOYCODE_1_BUTTON5   =113;
+    public static final int JOYCODE_1_BUTTON6   =114;
+    public static final int JOYCODE_2_LEFT      =115;
+    public static final int JOYCODE_2_RIGHT     =116;
+    public static final int JOYCODE_2_UP        =117;
+    public static final int JOYCODE_2_DOWN      =118;
+    public static final int JOYCODE_2_BUTTON1   =119;
+    public static final int JOYCODE_2_BUTTON2   =120;
+    public static final int JOYCODE_2_BUTTON3   =121;
+    public static final int JOYCODE_2_BUTTON4   =122;
+    public static final int JOYCODE_2_BUTTON5   =123;
+    public static final int JOYCODE_2_BUTTON6   =124;
+    public static final int JOYCODE_3_LEFT      =125;
+    public static final int JOYCODE_3_RIGHT     =126;
+    public static final int JOYCODE_3_UP        =127;
+    public static final int JOYCODE_3_DOWN      =128;
+    public static final int JOYCODE_3_BUTTON1   =129;
+    public static final int JOYCODE_3_BUTTON2   =130;
+    public static final int JOYCODE_3_BUTTON3   =131;
+    public static final int JOYCODE_3_BUTTON4   =132;
+    public static final int JOYCODE_3_BUTTON5   =133;
+    public static final int JOYCODE_3_BUTTON6   =134;
+    public static final int JOYCODE_4_LEFT      =135;
+    public static final int JOYCODE_4_RIGHT     =136;
+    public static final int JOYCODE_4_UP        =137;
+    public static final int JOYCODE_4_DOWN      =138;
+    public static final int JOYCODE_4_BUTTON1   =139;
+    public static final int JOYCODE_4_BUTTON2   =140;
+    public static final int JOYCODE_4_BUTTON3   =141;
+    public static final int JOYCODE_4_BUTTON4   =142;
+    public static final int JOYCODE_4_BUTTON5   =143;
+    public static final int JOYCODE_4_BUTTON6   =144;
+
+    
+    public static final int __code_max = 145; /* Temination of standard code */
+
+	/* special */
+    public static final int CODE_NONE    = 0x8000; /* no code, also marker of sequence end */
+    public static final int CODE_OTHER   = 0x8001; /* OS code not mapped to any other code */
+    public static final int CODE_DEFAULT = 0x8002; /* special for input port definitions */
+    public static final int CODE_PREVIOUS= 0x8003; /* special for input port definitions */
+    public static final int CODE_NOT     = 0x8004; /* operators for sequences */
+    public static final int CODE_OR      = 0x8005; /* operators for sequences */
+
+
+ public static final int __code_key_first = KEYCODE_A;
+ public static final int __code_key_last  = KEYCODE_MENU;
+ public static final int __code_joy_first = JOYCODE_1_LEFT;
+ public static final int __code_joy_last  = JOYCODE_4_BUTTON6;
+
 /*TODO*///
 /*TODO*////* Wrapper for compatibility */
 /*TODO*///#define KEYCODE_OTHER CODE_OTHER
@@ -98,11 +213,11 @@ public class inputH {
 /*TODO*///	return code_pressed(code);
 /*TODO*///}
 /*TODO*///
-/*TODO*///INLINE int keyboard_pressed_memory(int code)
-/*TODO*///{
-/*TODO*///	return code_pressed_memory(code);
-/*TODO*///}
-/*TODO*///
+    public static int keyboard_pressed_memory(int code)
+    {
+            return code_pressed_memory(code);
+    }
+
 /*TODO*///INLINE int keyboard_pressed_memory_repeat(int code, int speed)
 /*TODO*///{
 /*TODO*///	return code_pressed_memory_repeat(code,speed);

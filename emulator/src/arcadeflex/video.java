@@ -597,7 +597,7 @@ public class video {
     }
     /*TODO*///
     public static void osd_mark_dirty(int _x1, int _y1, int _x2, int _y2, int ui) {
-       System.out.println("TODO osd_mark_dirty");
+     //  System.out.println("TODO osd_mark_dirty");
    
     /*TODO*///	if (use_dirty)
     /*TODO*///	{
@@ -1484,6 +1484,7 @@ public class video {
         screen.addKeyListener(screen);
         screen.setFocusTraversalKeysEnabled(false);
         screen.requestFocus();
+
     	return 1;
     }
 
@@ -1704,6 +1705,7 @@ public class video {
     /*TODO*///		}
     /*TODO*///	}
     /*TODO*///
+         /*temphack?? */       back_buffer = new char[Machine.scrbitmap.line[0].memory.length];
     	return 0;
     }
     /*TODO*///

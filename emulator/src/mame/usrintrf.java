@@ -9,6 +9,7 @@ import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
 import static mame.usrintrfH.*;
+import static mame.inputH.*;
 
 public class usrintrf {
     /*TODO*///#define SEL_BITS 12
@@ -45,7 +46,7 @@ public class usrintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///static int setup_selected;
+    public static int setup_selected;
     /*TODO*///static int osd_selected;
     /*TODO*///static int jukebox_selected;
     /*TODO*///static int single_step;
@@ -2063,8 +2064,8 @@ public class usrintrf {
     /*TODO*///
     public static int showcopyright()
     {
-    /*TODO*///	int done;
-    String buf=sprintf(
+    	int done;
+        String buf=sprintf(
     			"Usage of emulators in conjunction with ROMs you don't own " +
     			"is forbidden by copyright law.\n\n" +
     			"IF YOU ARE NOT LEGALLY ENTITLED TO PLAY \"%s\" ON THIS EMULATOR, " +
@@ -2072,30 +2073,34 @@ public class usrintrf {
     			"Otherwise, type OK to continue", 
     			Machine.gamedrv.description);
     	ui_displaymessagewindow(buf);
-    /*TODO*///
-    /*TODO*///	setup_selected = -1;////
-    /*TODO*///	done = 0;
-    /*TODO*///	do
-    /*TODO*///	{
-    /*TODO*///		osd_update_video_and_audio();
+    
+   	setup_selected = -1;////
+    	done = 0;
+   	do
+    	{
+    		osd_update_video_and_audio();
     /*TODO*///		osd_poll_joysticks();
     /*TODO*///		if (input_ui_pressed(IPT_UI_CANCEL))
     /*TODO*///		{
     /*TODO*///			setup_selected = 0;////
     /*TODO*///			return 1;
     /*TODO*///		}
+                if(keyboard_pressed_memory(KEYCODE_O)!=0)
+                {
+                    System.out.println("it works!");
+                }
     /*TODO*///		if (keyboard_pressed_memory(KEYCODE_O) ||
     /*TODO*///				input_ui_pressed(IPT_UI_LEFT))
     /*TODO*///			done = 1;
     /*TODO*///		if (done == 1 && (keyboard_pressed_memory(KEYCODE_K) ||
     /*TODO*///				input_ui_pressed(IPT_UI_RIGHT)))
     /*TODO*///			done = 2;
-    /*TODO*///	} while (done < 2);
-    /*TODO*///
-    /*TODO*///	setup_selected = 0;////
-    /*TODO*///	osd_clearbitmap(Machine->scrbitmap);
-    /*TODO*///	osd_update_video_and_audio();
-    /*TODO*///
+    	} while (done < 2);
+    
+    	setup_selected = 0;////
+    	osd_clearbitmap(Machine.scrbitmap);
+    	osd_update_video_and_audio();
+
     	return 0;
     }
     /*TODO*///
@@ -3463,66 +3468,6 @@ public class usrintrf {
     /*TODO*///	static int show_total_colors;
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*///#ifdef MESS
-    /*TODO*///if (Machine->gamedrv->flags & GAME_COMPUTER)
-    /*TODO*///{
-    /*TODO*///	static int ui_active = 0, ui_toggle_key = 0;
-    /*TODO*///	static int ui_display_count = 4 * 60;
-    /*TODO*///
-    /*TODO*///	if( input_ui_pressed(IPT_UI_TOGGLE_UI) )
-    /*TODO*///	{
-    /*TODO*///		if( !ui_toggle_key )
-    /*TODO*///		{
-    /*TODO*///			ui_toggle_key = 1;
-    /*TODO*///			ui_active = !ui_active;
-    /*TODO*///			ui_display_count = 4 * 60;
-    /*TODO*///			bitmap_dirty = 1;
-    /*TODO*///		 }
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		ui_toggle_key = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if( ui_active )
-    /*TODO*///	{
-    /*TODO*///		if( ui_display_count > 0 )
-    /*TODO*///		{
-    /*TODO*///			char text[] = "KBD: UI  (ScrLock)";
-    /*TODO*///			int x, x0 = Machine->uiwidth - sizeof(text) * Machine->uifont->width - 2;
-    /*TODO*///			int y0 = Machine->uiymin + Machine->uiheight - Machine->uifont->height - 2;
-    /*TODO*///			for( x = 0; text[x]; x++ )
-    /*TODO*///			{
-    /*TODO*///				drawgfx(Machine->scrbitmap,
-    /*TODO*///					Machine->uifont,text[x],0,0,0,
-    /*TODO*///					x0+x*Machine->uifont->width,
-    /*TODO*///					y0,0,TRANSPARENCY_NONE,0);
-    /*TODO*///			}
-    /*TODO*///			if( --ui_display_count == 0 )
-    /*TODO*///				bitmap_dirty = 1;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if( ui_display_count > 0 )
-    /*TODO*///		{
-    /*TODO*///			char text[] = "KBD: EMU (ScrLock)";
-    /*TODO*///			int x, x0 = Machine->uiwidth - sizeof(text) * Machine->uifont->width - 2;
-    /*TODO*///			int y0 = Machine->uiymin + Machine->uiheight - Machine->uifont->height - 2;
-    /*TODO*///			for( x = 0; text[x]; x++ )
-    /*TODO*///			{
-    /*TODO*///				drawgfx(Machine->scrbitmap,
-    /*TODO*///					Machine->uifont,text[x],0,0,0,
-    /*TODO*///					x0+x*Machine->uifont->width,
-    /*TODO*///					y0,0,TRANSPARENCY_NONE,0);
-    /*TODO*///			}
-    /*TODO*///			if( --ui_display_count == 0 )
-    /*TODO*///				bitmap_dirty = 1;
-    /*TODO*///		}
-    /*TODO*///		return 0;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///#endif
     /*TODO*///
     /*TODO*///	/* if the user pressed F12, save the screen to a file */
     /*TODO*///	if (input_ui_pressed(IPT_UI_SNAPSHOT))
