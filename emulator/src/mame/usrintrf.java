@@ -13,6 +13,8 @@ import static mame.inputH.*;
 import static mame.inputportH.*;
 import static mame.input.*;
 import static mame.version.*;
+import static mame.cpuintrf.*;
+import static mame.sndintrf.*;
 
 public class usrintrf {
     /*TODO*///#define SEL_BITS 12
@@ -2068,7 +2070,8 @@ public class usrintrf {
     public static int showcopyright()
     {
     	int done;
-        String buf=sprintf(
+        String buf="";
+        buf=sprintf(
     			"Usage of emulators in conjunction with ROMs you don't own " +
     			"is forbidden by copyright law.\n\n" +
     			"IF YOU ARE NOT LEGALLY ENTITLED TO PLAY \"%s\" ON THIS EMULATOR, " +
@@ -2108,105 +2111,104 @@ public class usrintrf {
     	int sel;
 
     	sel = selected - 1;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	sprintf(buf,"%s\n%s %s\n\nCPU:\n",Machine->gamedrv->description,Machine->gamedrv->year,Machine->gamedrv->manufacturer);
-    /*TODO*///	i = 0;
-    /*TODO*///	while (i < MAX_CPU && Machine->drv->cpu[i].cpu_type)
-    /*TODO*///	{
-    /*TODO*///		if (Machine->drv->cpu[i].cpu_clock >= 1000000)
-    /*TODO*///			sprintf(&buf[strlen(buf)],"%s %d.%06d MHz",
-    /*TODO*///					cputype_name(Machine->drv->cpu[i].cpu_type),
-    /*TODO*///					Machine->drv->cpu[i].cpu_clock / 1000000,
-    /*TODO*///					Machine->drv->cpu[i].cpu_clock % 1000000);
-    /*TODO*///		else
-    /*TODO*///			sprintf(&buf[strlen(buf)],"%s %d.%03d kHz",
-    /*TODO*///					cputype_name(Machine->drv->cpu[i].cpu_type),
-    /*TODO*///					Machine->drv->cpu[i].cpu_clock / 1000,
-    /*TODO*///					Machine->drv->cpu[i].cpu_clock % 1000);
-    /*TODO*///
-    /*TODO*///		if (Machine->drv->cpu[i].cpu_type & CPU_AUDIO_CPU)
-    /*TODO*///			strcat(buf," (sound)");
-    /*TODO*///
-    /*TODO*///		strcat(buf,"\n");
-    /*TODO*///
-    /*TODO*///		i++;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	strcat(buf,"\nSound");
-    /*TODO*///	if (Machine->drv->sound_attributes & SOUND_SUPPORTS_STEREO)
-    /*TODO*///		sprintf(&buf[strlen(buf)]," (stereo)");
-    /*TODO*///	strcat(buf,":\n");
-    /*TODO*///
-    /*TODO*///	i = 0;
-    /*TODO*///	while (i < MAX_SOUND && Machine->drv->sound[i].sound_type)
-    /*TODO*///	{
-    /*TODO*///		if (sound_num(&Machine->drv->sound[i]))
-    /*TODO*///			sprintf(&buf[strlen(buf)],"%dx",sound_num(&Machine->drv->sound[i]));
-    /*TODO*///
-    /*TODO*///		sprintf(&buf[strlen(buf)],"%s",sound_name(&Machine->drv->sound[i]));
-    /*TODO*///
-    /*TODO*///		if (sound_clock(&Machine->drv->sound[i]))
-    /*TODO*///		{
-    /*TODO*///			if (sound_clock(&Machine->drv->sound[i]) >= 1000000)
-    /*TODO*///				sprintf(&buf[strlen(buf)]," %d.%06d MHz",
-    /*TODO*///						sound_clock(&Machine->drv->sound[i]) / 1000000,
-    /*TODO*///						sound_clock(&Machine->drv->sound[i]) % 1000000);
-    /*TODO*///			else
-    /*TODO*///				sprintf(&buf[strlen(buf)]," %d.%03d kHz",
-    /*TODO*///						sound_clock(&Machine->drv->sound[i]) / 1000,
-    /*TODO*///						sound_clock(&Machine->drv->sound[i]) % 1000);
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		strcat(buf,"\n");
-    /*TODO*///
-    /*TODO*///		i++;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (Machine->drv->video_attributes & VIDEO_TYPE_VECTOR)
-    /*TODO*///		sprintf(&buf[strlen(buf)],"\nVector Game\n");
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		int pixelx,pixely,tmax,tmin,rem;
-    /*TODO*///
-    /*TODO*///		pixelx = 4 * (Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1);
-    /*TODO*///		pixely = 3 * (Machine->drv->visible_area.max_x - Machine->drv->visible_area.min_x + 1);
-    /*TODO*///
-    /*TODO*///		/* calculate MCD */
-    /*TODO*///		if (pixelx >= pixely)
-    /*TODO*///		{
-    /*TODO*///			tmax = pixelx;
-    /*TODO*///			tmin = pixely;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			tmax = pixely;
-    /*TODO*///			tmin = pixelx;
-    /*TODO*///		}
-    /*TODO*///		while ( (rem = tmax % tmin) )
-    /*TODO*///		{
-    /*TODO*///			tmax = tmin;
-    /*TODO*///			tmin = rem;
-    /*TODO*///		}
-    /*TODO*///		/* tmin is now the MCD */
-    /*TODO*///
-    /*TODO*///		pixelx /= tmin;
-    /*TODO*///		pixely /= tmin;
-    /*TODO*///
-    /*TODO*///		sprintf(&buf[strlen(buf)],"\nScreen resolution:\n");
-    /*TODO*///		sprintf(&buf[strlen(buf)],"%d x %d (%s) %f Hz\n",
-    /*TODO*///				Machine->drv->visible_area.max_x - Machine->drv->visible_area.min_x + 1,
-    /*TODO*///				Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1,
-    /*TODO*///				(Machine->gamedrv->flags & ORIENTATION_SWAP_XY) ? "V" : "H",
-    /*TODO*///				Machine->drv->frames_per_second);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
+
+        buf=sprintf("%s\n%s %s\n\nCPU:\n",Machine.gamedrv.description,Machine.gamedrv.year,Machine.gamedrv.manufacturer);
+    	i = 0;
+    	while (i < MAX_CPU && Machine.drv.cpu[i].cpu_type!=0)
+    	{
+    		if (Machine.drv.cpu[i].cpu_clock >= 1000000)
+    			buf+=sprintf("%s %d.%06d MHz",
+    					cputype_name(Machine.drv.cpu[i].cpu_type),
+    					Machine.drv.cpu[i].cpu_clock / 1000000,
+    					Machine.drv.cpu[i].cpu_clock % 1000000);
+    		else
+    			buf+=sprintf("%s %d.%03d kHz",
+    					cputype_name(Machine.drv.cpu[i].cpu_type),
+    					Machine.drv.cpu[i].cpu_clock / 1000,
+    					Machine.drv.cpu[i].cpu_clock % 1000);
+    
+    		if ((Machine.drv.cpu[i].cpu_type & CPU_AUDIO_CPU)!=0)
+    			buf+=" (sound)";
+    
+    		buf+="\n";
+    
+    		i++;
+     	}
+    
+    	buf+="\nSound";
+    	if ((Machine.drv.sound_attributes & SOUND_SUPPORTS_STEREO)!=0)
+    		buf+=" (stereo)";
+    	buf+=":\n";
+    
+    	i = 0;
+    	while (i < MAX_SOUND && Machine.drv.sound[i].sound_type!=0)
+    	{
+    		if (sound_num(Machine.drv.sound[i])!=0)
+    			buf+=sprintf("%dx",sound_num(Machine.drv.sound[i]));
+    
+    		buf+=sprintf("%s",sound_name(Machine.drv.sound[i]));
+    
+    		if (sound_clock(Machine.drv.sound[i])!=0)
+    		{
+    			if (sound_clock(Machine.drv.sound[i]) >= 1000000)
+    				buf+=sprintf(" %d.%06d MHz",
+    						sound_clock(Machine.drv.sound[i]) / 1000000,
+    						sound_clock(Machine.drv.sound[i]) % 1000000);
+    			else
+    				buf+=sprintf(" %d.%03d kHz",
+    						sound_clock(Machine.drv.sound[i]) / 1000,
+    						sound_clock(Machine.drv.sound[i]) % 1000);
+    		}
+    
+    		strcat(buf,"\n");
+    
+    		i++;
+    	}
+    
+    	if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR)!=0)
+    		buf+=sprintf("\nVector Game\n");
+    	else
+    	{
+    		int pixelx,pixely,tmax,tmin,rem;
+    
+    		pixelx = 4 * (Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1);
+    		pixely = 3 * (Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x + 1);
+    
+    		/* calculate MCD */
+    		if (pixelx >= pixely)
+    		{
+    			tmax = pixelx;
+    			tmin = pixely;
+    		}
+    		else
+    		{
+    			tmax = pixely;
+    			tmin = pixelx;
+    		}
+    		while ( (rem = tmax % tmin)!=0 )
+    		{
+    			tmax = tmin;
+    			tmin = rem;
+    		}
+    		/* tmin is now the MCD */
+    
+    		pixelx /= tmin;
+    		pixely /= tmin;
+    
+    		buf+=sprintf("\nScreen resolution:\n");
+    		buf+=sprintf("%d x %d (%s) %f Hz\n",
+    				Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x + 1,
+    				Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1,
+    				((Machine.gamedrv.flags & ORIENTATION_SWAP_XY)!=0) ? "V" : "H",
+    				(float)Machine.drv.frames_per_second);
+    	}
+    
+    
     	if (sel == -1)
     	{
 		/* startup info, print MAME version and ask for any key */
  
-                buf="\n\tArcadeflex ";    /* \t means that the line will be centered */
+                buf+="\n\tArcadeflex ";    /* \t means that the line will be centered */
 
     		buf+=build_version;
                 buf+="\n\tPress any key";

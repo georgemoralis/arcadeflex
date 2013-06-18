@@ -909,15 +909,18 @@ public class sndintrf {
              return 0;
        }
     }
-    /*TODO*////*TODO*///int sound_clock(const struct MachineSound *msound)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	if (msound->sound_type < SOUND_COUNT && sndintf[msound->sound_type].chips_clock)
-    /*TODO*////*TODO*///		return (*sndintf[msound->sound_type].chips_clock)(msound);
-    /*TODO*////*TODO*///	else
-    /*TODO*////*TODO*///		return 0;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    public static int sound_clock(MachineSound msound)
+    {
+    	if(msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_clock(msound)!=0)
+        {
+    		return sndintf[msound.sound_type].chips_clock(msound);
+        }
+    	else
+        {
+            return 0;
+        }  		
+    }
+
     /*TODO*////*TODO*///int sound_scalebufferpos(int value)
     /*TODO*////*TODO*///{
     /*TODO*////*TODO*///	int result = (int)((double)value * timer_timeelapsed (sound_update_timer) * refresh_period_inv);
