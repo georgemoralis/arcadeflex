@@ -1454,7 +1454,7 @@ public class video {
         screen.pack();
         //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
         //screen.setSize((scanlines==1),width,height);//this???
-        screen.setSize((scanlines==1),width,height);
+        screen.setSize((scanlines==0),width,height);
         screen.setBackground(Color.black);
         screen.start();
         screen.run();

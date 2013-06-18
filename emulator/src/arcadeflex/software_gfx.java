@@ -109,8 +109,11 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 _pixels = new int[width * height];
                  /* Setup frame dimensions. */
 		_insets = getInsets();
-                 super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
-                 super.createBufferStrategy(2);//double buffering
+                // super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
+                //hacked width height x2
+                super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);
+                
+                super.createBufferStrategy(2);//double buffering
                  this._strategy = super.getBufferStrategy();
         }
 
@@ -168,7 +171,7 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
         _consumer = ic;
 
         /* Set image dimensions. */
-        _consumer.setDimensions(_width, _height);
+        _consumer.setDimensions(_width*2, _height*2);
 
         /* Set image consumer hints for speed. */
         _consumer.setHints(ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES | ImageConsumer.SINGLEPASS | ImageConsumer.SINGLEFRAME);
