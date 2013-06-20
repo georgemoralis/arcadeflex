@@ -38,6 +38,8 @@ import static mame.usrintrfH.*;
 import static arcadeflex.video.*;
 import static arcadeflex.blit.*;
 import static mame.input.*;
+import static vidhrdw.generic.*;
+import static mame.commonH.*;
 
 public class mame {
 
@@ -200,7 +202,8 @@ public class mame {
 
 
         /* Mish:  Multi-session safety - set spriteram size to zero before memory map is set up */
-        /*TODO*/ //            spriteram_size=spriteram_2_size=0;
+        spriteram_size[0]=0;
+        spriteram_2_size[0]=0;
 
         /* first of all initialize the memory handlers, which could be used by the */
         /* other initialization routines */
@@ -230,8 +233,8 @@ public class mame {
     }
 
     static int out_code() {
-        /*TODO*/ //    out_code:
-/*TODO*/ //            code_close();
+
+        code_close();
         return out();
     }
 
@@ -258,7 +261,7 @@ public class mame {
 /*TODO*/ //            input_port_free(Machine.input_ports_default);
 /*TODO*/ //            Machine.input_ports_default = 0;
 
-        /*TODO*/ //            code_close();
+        code_close();
     }
 
     public static void vh_close() {
@@ -433,131 +436,128 @@ public class mame {
      *
      **************************************************************************
      */
-    public static int run_machine() {
-        int res = 1;
+    public static int run_machine()
+    {
+    	int res = 1;
+    
+    
+    	if (vh_open() == 0)
+    	{
+    /*TODO*///		tilemap_init();
+    /*TODO*///		sprite_init();
+    /*TODO*///		gfxobj_init();
+    		if (drv.vh_start == null || drv.vh_start.handler() == 0)      /* start the video hardware */
+    		{
+    /*TODO*///			if (sound_start() == 0) /* start the audio hardware */
+    /*TODO*///			{
+    				int	region;
+    
+    				/* free memory regions allocated with REGIONFLAG_DISPOSE (typically gfx roms) */
+    				for (region = 0; region < MAX_MEMORY_REGIONS; region++)
+    				{
+    					if ((Machine.memory_region_type[region] & REGIONFLAG_DISPOSE)!=0)
+    					{
+    						int i;
+    
+    						/* invalidate contents to avoid subtle bugs */
+    						for (i = 0;i < memory_region_length(region);i++)
+    							memory_region(region).write(i,rand());
+    					
+    						Machine.memory_region[region] = null;
+    					}
+    				}
+    /*TODO*///
+    /*TODO*///				if (settingsloaded == 0)
+    /*TODO*///				{
+    					/* if there is no saved config, it must be first time we run this game, */
+    					/* so show the disclaimer. */
+    					if (showcopyright()!=0) return userquit_goto();
+    /*TODO*///				}
+    /*TODO*///
+    				if (showgamewarnings() == 0)  /* show info about incorrect behaviour (wrong colors etc.) */
+    				{
+    /*TODO*///					init_user_interface();
+    /*TODO*///
+    /*TODO*///					/* disable cheat if no roms */
+    /*TODO*///					if (!gamedrv->rom) options.cheat = 0;
+    /*TODO*///
+    /*TODO*///					if (options.cheat) InitCheat();
+    /*TODO*///
+    /*TODO*///					if (drv->nvram_handler)
+    /*TODO*///					{
+    /*TODO*///						void *f;
+    /*TODO*///
+    /*TODO*///						f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_NVRAM,0);
+    /*TODO*///						(*drv->nvram_handler)(f,0);
+    /*TODO*///						if (f) osd_fclose(f);
+    /*TODO*///					}
+    /*TODO*///
+    /*TODO*///					cpu_run();      /* run the emulation! */
+    /*TODO*///
+    /*TODO*///					if (drv->nvram_handler)
+    /*TODO*///					{
+    /*TODO*///						void *f;
+    /*TODO*///
+    /*TODO*///						if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_NVRAM,1)) != 0)
+    /*TODO*///						{
+    /*TODO*///							(*drv->nvram_handler)(f,1);
+    /*TODO*///							osd_fclose(f);
+    /*TODO*///						}
+    /*TODO*///					}
+    /*TODO*///
+    /*TODO*///					if (options.cheat) StopCheat();
+    /*TODO*///
+    /*TODO*///					/* save input ports settings */
+    /*TODO*///					save_input_port_settings();
+    				}
+    
+    //userquit:
+    				/* the following MUST be done after hiscore_save() otherwise */
+    				/* some 68000 games will not work */
+    /*TODO*///				sound_stop();
+    				if (drv.vh_stop!=null) drv.vh_stop.handler();
+    /*TODO*///
+    				res = 0;
+    /*TODO*///			}
+    /*TODO*///			else if (!bailing)
+    /*TODO*///			{
+    /*TODO*///				bailing = 1;
+    /*TODO*///				printf("Unable to start audio emulation\n");
+    /*TODO*///			}
+    		}
+    		else if (bailing==0)
+    		{
+    			bailing = 1;
+    			printf("Unable to start video emulation\n");
+    		}
 
-
-        if (vh_open() == 0) {
-            /*TODO*/ //                    tilemap_init();
-/*TODO*/ //                    sprite_init();
-/*TODO*/ //                    gfxobj_init();
-            if (drv.vh_start == null || drv.vh_start.handler() == 0) /* start the video hardware */ {
-                
-                /*temp testing code*/
-
-                showcopyright();
-                showgamewarnings();
-                
-                /*test code*/
-                
-                
-                /*TODO*/ //                            if (sound_start() == 0) /* start the audio hardware */
-/*TODO*/ //                            {
-/*TODO*/ //                                    int	region;
-
-                /* free memory regions allocated with REGIONFLAG_DISPOSE (typically gfx roms) */
-                /*TODO*/ //                                   for (region = 0; region < MAX_MEMORY_REGIONS; region++)
- /*TODO*/ //                                   {
- /*TODO*/ //                                           if (Machine.memory_region_type[region] & REGIONFLAG_DISPOSE)
- /*TODO*/ //                                           {
- /*TODO*/ //                                                   int i;
-
-                /* invalidate contents to avoid subtle bugs */
-                /*TODO*/ //                                                   for (i = 0;i < memory_region_length(region);i++)
- /*TODO*/ //                                                           memory_region(region)[i] = rand();
- /*TODO*/ //                                                   free(Machine.memory_region[region]);
- /*TODO*/ //                                                   Machine.memory_region[region] = 0;
- /*TODO*/ //                                           }
- /*TODO*/ //                                   }
-
-                /*TODO*/ //                                   if (settingsloaded == 0)
-/*TODO*/ //                                    {
- /*TODO*/ //                                           /* if there is no saved config, it must be first time we run this game, */
-/*TODO*/ //                                            /* so show the disclaimer. */
-/*TODO*/ //                                            if (showcopyright()) goto userquit;
-/*TODO*/ //                                    }
-/*TODO*/ //
-/*TODO*/ //                                    if (showgamewarnings() == 0)  /* show info about incorrect behaviour (wrong colors etc.) */
-/*TODO*/ //                                    {
-/*TODO*/ //                                            /* shut down the leds (work around Allegro hanging bug in the DOS port) */
-/*TODO*/ //                                            osd_led_w(0,1);
-/*TODO*/ //                                            osd_led_w(1,1);
-/*TODO*/ //                                            osd_led_w(2,1);
-/*TODO*/ //                                            osd_led_w(3,1);
-/*TODO*/ //                                            osd_led_w(0,0);
-/*TODO*/ //                                            osd_led_w(1,0);
-/*TODO*/ //                                            osd_led_w(2,0);
-/*TODO*/ //                                            osd_led_w(3,0);
-
-                /*TODO*/ //                                           init_user_interface();
-
-                /* disable cheat if no roms */
-                /*TODO*/ //                                           if (!gamedrv.rom) options.cheat = 0;
-
-                /*TODO*/ //                                           if (options.cheat) InitCheat();
-
-                /*TODO*/ //                                           if (drv.nvram_handler)
- /*TODO*/ //                                           {
- /*TODO*/ //                                                   void *f;
-
-                /*TODO*/ //                                                   f = osd_fopen(Machine.gamedrv.name,0,OSD_FILETYPE_NVRAM,0);
-/*TODO*/ //                                                    (*drv.nvram_handler)(f,0);
-/*TODO*/ //                                                    if (f) osd_fclose(f);
-/*TODO*/ //                                            }
-
-                /*TODO*/ //                                            cpu_run();      /* run the emulation! */
-
-                /*TODO*/ //                                            if (drv.nvram_handler)
-/*TODO*/ //                                            {
-/*TODO*/ //                                                    void *f;
-
-                /*TODO*/ //                                                   if ((f = osd_fopen(Machine.gamedrv.name,0,OSD_FILETYPE_NVRAM,1)) != 0)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            (*drv.nvram_handler)(f,1);
-/*TODO*/ //                                                            osd_fclose(f);
-/*TODO*/ //                                                    }
-/*TODO*/ //                                            }
-
-                /*TODO*/ //                                            if (options.cheat) StopCheat();
-
-                /* save input ports settings */
-                /*TODO*/ //                                            save_input_port_settings();
- /*TODO*/ //            }
-
-            /*TODO*/ //    userquit:
-                                    /* the following MUST be done after hiscore_save() otherwise */
-            /* some 68000 games will not work */
-            /*TODO*/ //                                    sound_stop();
-/*TODO*/ //                                    if (drv.vh_stop) (*drv.vh_stop)();
-
- /*TODO*/ //                                              res = 0;
-/*TODO*/ //                            }
-/*TODO*/ //                            else if (bailing==0)
-/*TODO*/ //                            {
- /*TODO*/ //                                   bailing = 1;
- /*TODO*/ //                                   printf("Unable to start audio emulation\n");
-/*TODO*/ //                          }
-       } 
-            else if (bailing == 0) 
-            {
-                bailing = 1;
-                printf("Unable to start video emulation\n");
-             }
-
-        /*TODO*/ //                    gfxobj_close();
-/*TODO*/ //                    sprite_close();
-/*TODO*/ //                    tilemap_close();
-/*TODO*/ //                    vh_close();
-            }
-           else if (bailing==0)
-            {
-                    bailing = 1;
-                    printf("Unable to initialize display\n");
-            }
-
+    /*TODO*///		gfxobj_close();
+    /*TODO*///		sprite_close();
+    /*TODO*///		tilemap_close();
+    		vh_close();
+    	}
+    	else if (bailing==0)
+    	{
+    		bailing = 1;
+    		printf("Unable to initialize display\n");
+    	}
+    
+    	return res;
+    }
+    public static int userquit_goto() //java doesn't support proper goto so do it here (shadow)
+    {
+        int res;
+        /* the following MUST be done after hiscore_save() otherwise */
+    	/* some 68000 games will not work */
+    /*TODO*///				sound_stop();
+    	if (drv.vh_stop!=null) drv.vh_stop.handler();
+    	res = 0;
+        /*TODO*///		gfxobj_close();
+        /*TODO*///		sprite_close();
+        /*TODO*///		tilemap_close();
+    	vh_close();
         return res;
     }
-
     public static int mame_highscore_enabled() {
         /* disable high score when record/playback is on */
         if (record != null || playback != null) {

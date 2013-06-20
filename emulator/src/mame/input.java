@@ -60,13 +60,13 @@ public class input {
     	return 0;
     }
     
-    /*TODO*////* Delete the code table */
-    /*TODO*///void code_close(void)
-    /*TODO*///{
-    /*TODO*///	code_mac = 0;
-    /*TODO*///	free(code_map);
-    /*TODO*///}
-    /*TODO*///
+    /* Delete the code table */
+    public static void code_close()
+    {
+    	code_mac = 0;
+    	code_map=null;
+    }
+    
     /* Find the OSD record of a specific standard oscode */
     public static KeyboardInfo internal_code_find_keyboard_standard_os(int oscode)
     {

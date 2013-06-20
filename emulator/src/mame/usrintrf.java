@@ -3467,54 +3467,6 @@ public class usrintrf {
     /*TODO*///	}
     /*TODO*///	if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
     /*TODO*///
-    /*TODO*///
-    /*TODO*///#if 0
-    /*TODO*///	if (keyboard_pressed_memory(KEYCODE_BACKSPACE))
-    /*TODO*///	{
-    /*TODO*///		if (jukebox_selected != -1)
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = -1;
-    /*TODO*///			cpu_halt(0,1);
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = 0;
-    /*TODO*///			cpu_halt(0,0);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (jukebox_selected != -1)
-    /*TODO*///	{
-    /*TODO*///		char buf[40];
-    /*TODO*///		watchdog_reset_w(0,0);
-    /*TODO*///		if (keyboard_pressed_memory(KEYCODE_LCONTROL))
-    /*TODO*///		{
-    /*TODO*///#include "cpu/z80/z80.h"
-    /*TODO*///			soundlatch_w(0,jukebox_selected);
-    /*TODO*///			cpu_cause_interrupt(1,Z80_NMI_INT);
-    /*TODO*///		}
-    /*TODO*///		if (input_ui_pressed_repeat(IPT_UI_RIGHT,8))
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = (jukebox_selected + 1) & 0xff;
-    /*TODO*///		}
-    /*TODO*///		if (input_ui_pressed_repeat(IPT_UI_LEFT,8))
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = (jukebox_selected - 1) & 0xff;
-    /*TODO*///		}
-    /*TODO*///		if (input_ui_pressed_repeat(IPT_UI_UP,8))
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = (jukebox_selected + 16) & 0xff;
-    /*TODO*///		}
-    /*TODO*///		if (input_ui_pressed_repeat(IPT_UI_DOWN,8))
-    /*TODO*///		{
-    /*TODO*///			jukebox_selected = (jukebox_selected - 16) & 0xff;
-    /*TODO*///		}
-    /*TODO*///		sprintf(buf,"sound cmd %02x",jukebox_selected);
-    /*TODO*///		displaymessage(buf);
-    /*TODO*///	}
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///
     /*TODO*///	/* if the user pressed F3, reset the emulation */
     /*TODO*///	if (input_ui_pressed(IPT_UI_RESET_MACHINE))
     /*TODO*///		machine_reset();
@@ -3533,9 +3485,6 @@ public class usrintrf {
     /*TODO*///
     /*TODO*///		while (!input_ui_pressed(IPT_UI_PAUSE))
     /*TODO*///		{
-    /*TODO*///#ifdef MAME_NET
-    /*TODO*///			osd_net_sync();
-    /*TODO*///#endif /* MAME_NET */
     /*TODO*///			profiler_mark(PROFILER_VIDEO);
     /*TODO*///			if (osd_skip_this_frame() == 0)
     /*TODO*///			{
