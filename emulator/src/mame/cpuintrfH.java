@@ -55,7 +55,7 @@ public class cpuintrfH {
  /*TODO*///        void (*exit)(void);
   /*TODO*///       int (*execute)(int cycles);
                    public burnPtr burn;
-  /*TODO*///       void (*burn)(int cycles);
+ 
   /*TODO*///       unsigned (*get_context)(void *reg);
   /*TODO*///       void (*set_context)(void *reg);
   /*TODO*///       unsigned (*get_pc)(void);

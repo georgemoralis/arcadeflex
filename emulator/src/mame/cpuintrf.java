@@ -72,18 +72,18 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///static int watchdog_counter;
     /*TODO*///
-    /*TODO*///static void *vblank_timer;
-    /*TODO*///static int vblank_countdown;
-    /*TODO*///static int vblank_multiplier;
-    /*TODO*///static double vblank_period;
-    /*TODO*///
-    /*TODO*///static void *refresh_timer;
-    /*TODO*///static double refresh_period;
-    /*TODO*///static double refresh_period_inv;
-    /*TODO*///
-    /*TODO*///static void *timeslice_timer;
-    /*TODO*///static double timeslice_period;
-    /*TODO*///
+    static timer_entry vblank_timer;
+    static int vblank_countdown;
+    static int vblank_multiplier;
+    static double vblank_period;
+
+    static timer_entry refresh_timer;
+    static double refresh_period;
+    static double refresh_period_inv;
+
+    static timer_entry timeslice_timer;
+    static double timeslice_period;
+    
     /*TODO*///static double scanline_period;
     /*TODO*///static double scanline_period_inv;
     /*TODO*///
@@ -401,7 +401,7 @@ public class cpuintrf {
 
     	/* reset the timer system */
     	timer_init();
-    /*TODO*///	timeslice_timer = refresh_timer = vblank_timer = NULL;
+    	timeslice_timer = refresh_timer = vblank_timer = null;
     }
     /*TODO*///
     /*TODO*///void cpu_run(void)
