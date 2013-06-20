@@ -47,12 +47,14 @@ public class cpuintrfH {
     public static final int REG_SP_CONTENTS = -2;
 
     /* ASG 971222 -- added this generic structure */
+    public static abstract interface burnPtr { public abstract void handler(int cycles); }
     public static abstract class cpu_interface
     {
         public int cpu_num;
  /*TODO*///        void (*reset)(void *param);
  /*TODO*///        void (*exit)(void);
   /*TODO*///       int (*execute)(int cycles);
+                   public burnPtr burn;
   /*TODO*///       void (*burn)(int cycles);
   /*TODO*///       unsigned (*get_context)(void *reg);
   /*TODO*///       void (*set_context)(void *reg);

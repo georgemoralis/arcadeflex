@@ -33,6 +33,9 @@ public class z80 extends cpu_interface {
         abits1 = ABITS1_16;
         abits2 = ABITS2_16;
         abitsmin = ABITS_MIN_16;
+        
+        //intialize interfaces
+        burn = burn_function;
     }
     @Override
     public String cpu_info(Object context, int regnum) {
@@ -93,5 +96,8 @@ public class z80 extends cpu_interface {
 /*TODO*/ //             return buffer[which];
             throw new UnsupportedOperationException("unsupported z80 cpu_info");
     }
-    
+    public burnPtr burn_function = new burnPtr() { public void handler(int cycles)
+    {
+     throw new UnsupportedOperationException("Not supported yet.");
+    }};
 }

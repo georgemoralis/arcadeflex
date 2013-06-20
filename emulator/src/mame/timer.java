@@ -28,7 +28,7 @@ public class timer {
     public static class cpu_entry
     {
     	public int[] icount;
-        //public abstract void burn(int cycles);
+        public burnPtr burn;
         public int index;
         public int suspended;
         public int trigger;
@@ -224,7 +224,7 @@ public class timer {
     	{
     		/* make a pointer to this CPU's interface functions */
                 cpudata[i].icount = cpuintf[Machine.drv.cpu[i].cpu_type & ~CPU_FLAGS_MASK].icount;
-  //              cpudata[i].burn = cpuintf[Machine.drv.cpu[i].cpu_type & ~CPU_FLAGS_MASK].burn;
+                cpudata[i].burn = cpuintf[Machine.drv.cpu[i].cpu_type & ~CPU_FLAGS_MASK].burn;
     		/* get the CPU's overclocking factor */
     		cpudata[i].overclock = cpuintf[Machine.drv.cpu[i].cpu_type & ~CPU_FLAGS_MASK].overclock;
     
@@ -238,10 +238,7 @@ public class timer {
                 cpudata[i].sec_to_cycles = sec_to_cycles[i] = cpudata[i].overclock * Machine.drv.cpu[i].cpu_clock;
                 cpudata[i].cycles_to_sec = cycles_to_sec[i] = 1.0 / sec_to_cycles[i];
 
-    	}
-        //test stuff...
-        //cpudata[0].burn.burn_handler(0);
-      //  cpuintf[Machine.drv.cpu[0].cpu_type & ~CPU_FLAGS_MASK].burn.burn_handler(0);
+    	}    
     }
     /*TODO*///
     /*TODO*////*
