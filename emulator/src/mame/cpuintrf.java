@@ -10,6 +10,7 @@ import static mame.cpuintrfH.*;
 import mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.mame.*;
+import static mame.timer.*;
 
 public class cpuintrf {
     /*TODO*////* these are triggers sent to the timer system for various interrupt events */
@@ -398,8 +399,8 @@ public class cpuintrf {
         for (i = 0; i < MAX_CPU; i++)
             cpu.add(new cpuinfo(cpuintf[CPU_TYPE(i)]));//cpu[i].intf = &cpuintf[CPU_TYPE(i)];
 
-    /*TODO*///	/* reset the timer system */
-    /*TODO*///	timer_init();
+    	/* reset the timer system */
+    	timer_init();
     /*TODO*///	timeslice_timer = refresh_timer = vblank_timer = NULL;
     }
     /*TODO*///

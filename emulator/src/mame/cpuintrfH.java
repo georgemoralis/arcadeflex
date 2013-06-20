@@ -72,7 +72,7 @@ public class cpuintrfH {
   /*TODO*///       unsigned (*cpu_dasm)(char *buffer,unsigned pc);
         public int num_irqs;
         public int default_vector;
- /*TODO*///        int *icount;
+        public int[] icount;
         public double overclock;
         public int no_int, irq_int, nmi_int;
   /*TODO*///       int (*memory_read)(int offset);
