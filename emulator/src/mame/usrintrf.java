@@ -2103,7 +2103,6 @@ public class usrintrf {
 
     	return 0;
     }
-    /*TODO*///
     public static int displaygameinfo(int selected)
     {
     	int i;
@@ -2214,28 +2213,28 @@ public class usrintrf {
                 buf+="\n\tPress any key";
     		ui_drawbox(0,0,Machine.uiwidth,Machine.uiheight);
     		ui_displaymessagewindow(buf);
-    /*TODO*///
+    
     		sel = 0;
-    /*TODO*///		if (code_read_async() != CODE_NONE)
-    /*TODO*///			sel = -1;
+    		if (code_read_async() != CODE_NONE)
+    			sel = -1;
     	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		/* menu system, use the normal menu keys */
-    /*TODO*///		strcat(buf,"\n\t\x1a Return to Main Menu \x1b");
-    /*TODO*///
-    /*TODO*///		ui_displaymessagewindow(buf);
-    /*TODO*///
-    /*TODO*///		if (input_ui_pressed(IPT_UI_SELECT))
-    /*TODO*///			sel = -1;
-    /*TODO*///
-    /*TODO*///		if (input_ui_pressed(IPT_UI_CANCEL))
-    /*TODO*///			sel = -1;
-    /*TODO*///
-    /*TODO*///		if (input_ui_pressed(IPT_UI_CONFIGURE))
-    /*TODO*///			sel = -2;
-    /*TODO*///	}
-    /*TODO*///
+    	else
+    	{
+    		/* menu system, use the normal menu keys */
+    		buf+="\n\t Return to Main Menu "; // TODO unicode escape character (???)
+                //buf += "\n\t\x1a Return to Main Menu \x1b";
+    		ui_displaymessagewindow(buf);
+    
+    		if (input_ui_pressed(IPT_UI_SELECT)!=0)
+    			sel = -1;
+    
+    		if (input_ui_pressed(IPT_UI_CANCEL)!=0)
+    			sel = -1;
+    
+    		if (input_ui_pressed(IPT_UI_CONFIGURE)!=0)
+    			sel = -2;
+    	}
+    
     	if (sel == -1 || sel == -2)
     	{
     		/* tell updatescreen() to clean after us */
@@ -2340,10 +2339,10 @@ public class usrintrf {
     
     
    	osd_clearbitmap(Machine.scrbitmap);
-    /*TODO*///
-    /*TODO*///	/* clear the input memory */
-    /*TODO*///	while (code_read_async() != CODE_NONE);
-    /*TODO*///
+    
+    	/* clear the input memory */
+    	while (code_read_async() != CODE_NONE);
+    
     	while (displaygameinfo(0) == 1)
     	{
     		osd_update_video_and_audio();

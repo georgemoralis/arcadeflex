@@ -3,6 +3,7 @@ package mame;
 
 import static mame.inputH.*;
 import static arcadeflex.input.*;
+import java.util.Arrays;
 
 public class input {
     /* Codes */
@@ -66,20 +67,21 @@ public class input {
     /*TODO*///	free(code_map);
     /*TODO*///}
     /*TODO*///
-    /*TODO*////* Find the OSD record of a specific standard oscode */
-    /*TODO*///INLINE const struct KeyboardInfo* internal_code_find_keyboard_standard_os(unsigned oscode)
-    /*TODO*///{
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
-    /*TODO*///	keyinfo = osd_get_key_list();
-    /*TODO*///	while (keyinfo->name)
-    /*TODO*///	{
-    /*TODO*///		if (keyinfo->code == oscode && keyinfo->standardcode != CODE_OTHER)
-    /*TODO*///			return keyinfo;
-    /*TODO*///		++keyinfo;
-    /*TODO*///	}
-    /*TODO*///	return 0;
-    /*TODO*///}
-    /*TODO*///
+    /* Find the OSD record of a specific standard oscode */
+    public static KeyboardInfo internal_code_find_keyboard_standard_os(int oscode)
+    {
+    	KeyboardInfo[] keyinfo;
+    	keyinfo = osd_get_key_list();
+        int ptr=0;
+    	while (keyinfo[ptr].name!=null)
+    	{
+    		if (keyinfo[ptr].code == oscode && keyinfo[ptr].standardcode != CODE_OTHER)
+    			return keyinfo[ptr];
+    		++ptr;
+    	}
+    	return null;
+    }
+    
     /*TODO*///INLINE const struct JoystickInfo* internal_code_find_joystick_standard_os(unsigned oscode)
     /*TODO*///{
     /*TODO*///	const struct JoystickInfo *joyinfo;
@@ -93,51 +95,54 @@ public class input {
     /*TODO*///	return 0;
     /*TODO*///}
     /*TODO*///
-    /*TODO*////* Find a osdepend code in the table */
-    /*TODO*///static int code_find_os(unsigned oscode, unsigned type)
-    /*TODO*///{
-    /*TODO*///	unsigned i;
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
+    /* Find a osdepend code in the table */
+    static int code_find_os(int oscode, int type)
+    {
+    	int i;
+    	KeyboardInfo keyinfo;
     /*TODO*///	const struct JoystickInfo *joyinfo;
-    /*TODO*///
-    /*TODO*///	/* Search on the main table */
-    /*TODO*///	for(i=__code_max;i<code_mac;++i)
-    /*TODO*///		if (code_map[i].type == type && code_map[i].oscode == oscode)
-    /*TODO*///			return i;
-    /*TODO*///
-    /*TODO*///	/* Search in the OSD tables for a standard code */
-    /*TODO*///	switch (type)
-    /*TODO*///	{
-    /*TODO*///		case CODE_TYPE_KEYBOARD_OS :
-    /*TODO*///			keyinfo = internal_code_find_keyboard_standard_os(oscode);
-    /*TODO*///			if (keyinfo)
-    /*TODO*///				return keyinfo->standardcode;
-    /*TODO*///			break;
-    /*TODO*///		case CODE_TYPE_JOYSTICK_OS :
+    
+    	/* Search on the main table */
+    	for(i=__code_max;i<code_mac;++i)
+    		if (code_map[i].type == type && code_map[i].oscode == oscode)
+    			return i;
+    
+   	/* Search in the OSD tables for a standard code */
+    	switch (type)
+   	{
+    		case CODE_TYPE_KEYBOARD_OS :
+    			keyinfo = internal_code_find_keyboard_standard_os(oscode);
+    			if (keyinfo!=null)
+    				return keyinfo.standardcode;
+    			break;
+    		case CODE_TYPE_JOYSTICK_OS :
+                    throw new UnsupportedOperationException("CODE_TYPE unimplemented");
     /*TODO*///			joyinfo = internal_code_find_joystick_standard_os(oscode);
     /*TODO*///			if (joyinfo)
     /*TODO*///				return joyinfo->standardcode;
     /*TODO*///			break;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* os code not found */
-    /*TODO*///	return CODE_NONE;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Add a new osdepend code in the table */
-    /*TODO*///static void code_add_os(unsigned oscode, unsigned type)
-    /*TODO*///{
-    /*TODO*///	struct code_info* new_code_map;
-    /*TODO*///	new_code_map = realloc( code_map, (code_mac+1) * sizeof(struct code_info) );
-    /*TODO*///	if (new_code_map)
-    /*TODO*///	{
-    /*TODO*///		code_map = new_code_map;
-    /*TODO*///		code_map[code_mac].memory = 0;
-    /*TODO*///		code_map[code_mac].oscode = oscode;
-    /*TODO*///		code_map[code_mac].type = type;
-    /*TODO*///		++code_mac;
-    /*TODO*///	}
-    /*TODO*///}
+    	}
+
+    	/* os code not found */
+    	return CODE_NONE;
+    }
+    
+    /* Add a new osdepend code in the table */
+    public static void code_add_os(int oscode, int type)
+    {
+//probably ok but throw an exception when you meet it so i can test it (shadow)
+        throw new UnsupportedOperationException("code_add_os unimplemented");
+    	/*code_info[] new_code_map;
+        new_code_map = Arrays.copyOf(code_map,code_mac+1); //new_code_map = realloc( code_map, (code_mac+1) * sizeof(struct code_info) );
+    	if (new_code_map!=null)
+    	{
+    		code_map = new_code_map;
+    		code_map[code_mac].memory = 0;
+    		code_map[code_mac].oscode = oscode;
+    		code_map[code_mac].type = type;
+    		++code_mac;
+    	}*/
+    }
 
     /* Find the record of a specific code type */
     
@@ -209,24 +214,23 @@ public class input {
     			if (keyinfo!=null)
     				return osd_is_key_pressed(keyinfo.code);
     			break;
-    		case CODE_TYPE_KEYBOARD_OS :
-                    throw new UnsupportedOperationException("CODE_TYPE unimplemented");
-    /*TODO*///			keyinfo = internal_code_find_keyboard_os(code);
-    /*TODO*///			if (keyinfo)
-    /*TODO*///				return osd_is_key_pressed(keyinfo->code);
-    /*TODO*///			break;
+    		case CODE_TYPE_KEYBOARD_OS :        
+    			keyinfo = internal_code_find_keyboard_os(code);
+    			if (keyinfo!=null)
+   				return osd_is_key_pressed(keyinfo.code);
+   			break;
     		case CODE_TYPE_JOYSTICK_STANDARD :
-                    throw new UnsupportedOperationException("CODE_TYPE unimplemented");
+                    //throw new UnsupportedOperationException("CODE_TYPE unimplemented");
     /*TODO*///			joyinfo = internal_code_find_joystick_standard(code);
     /*TODO*///			if (joyinfo)
     /*TODO*///				return osd_is_joy_pressed(joyinfo->code);
-    /*TODO*///			break;
+    			break;
     		case CODE_TYPE_JOYSTICK_OS :
-                    throw new UnsupportedOperationException("CODE_TYPE unimplemented");
+                    //throw new UnsupportedOperationException("CODE_TYPE unimplemented");
     /*TODO*///			joyinfo = internal_code_find_joystick_os(code);
     /*TODO*///			if (joyinfo)
     /*TODO*///				return osd_is_joy_pressed(joyinfo->code);
-    /*TODO*///			break;
+    			break;
     	}
     	return 0;
     }
@@ -263,22 +267,23 @@ public class input {
     /*TODO*///}
     /*TODO*///
     /*TODO*////* Update the code table */
-    /*TODO*///static void internal_code_update(void)
-    /*TODO*///{
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
+    public static void internal_code_update()
+    {
+    	KeyboardInfo[] keyinfo;
     /*TODO*///	const struct JoystickInfo *joyinfo;
-    /*TODO*///
-    /*TODO*///	/* add only osdepend code because all standard codes are already present */
-    /*TODO*///
-    /*TODO*///	keyinfo = osd_get_key_list();
-    /*TODO*///	while (keyinfo->name)
-    /*TODO*///	{
-    /*TODO*///		if (keyinfo->standardcode == CODE_OTHER)
-    /*TODO*///			if (code_find_os(keyinfo->code,CODE_TYPE_KEYBOARD_OS) == CODE_NONE)
-    /*TODO*///				code_add_os(keyinfo->code,CODE_TYPE_KEYBOARD_OS);
-    /*TODO*///		++keyinfo;
-    /*TODO*///	}
-    /*TODO*///
+    
+    	/* add only osdepend code because all standard codes are already present */
+    
+    	keyinfo = osd_get_key_list();
+    	int ptr=0;
+    	while (keyinfo[ptr].name!=null)
+    	{
+    		if (keyinfo[ptr].standardcode == CODE_OTHER)
+    			if (code_find_os(keyinfo[ptr].code,CODE_TYPE_KEYBOARD_OS) == CODE_NONE)
+    				code_add_os(keyinfo[ptr].code,CODE_TYPE_KEYBOARD_OS);
+    		++ptr;
+    	}
+        
     /*TODO*///	joyinfo = osd_get_joy_list();
     /*TODO*///	while (joyinfo->name)
     /*TODO*///	{
@@ -287,8 +292,8 @@ public class input {
     /*TODO*///				code_add_os(joyinfo->code,CODE_TYPE_JOYSTICK_OS);
     /*TODO*///		++joyinfo;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    }
+    
     /*TODO*////***************************************************************************/
     /*TODO*////* Save support */
     /*TODO*///
@@ -456,24 +461,20 @@ public class input {
     /*TODO*///
     /*TODO*///	return pressed;
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///InputCode code_read_async(void)
-    /*TODO*///{
-    /*TODO*///	unsigned i;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_INPUT);
-    /*TODO*///
-    /*TODO*///	/* Update the table */
-    /*TODO*///	internal_code_update();
-    /*TODO*///
-    /*TODO*///	for(i=0;i<code_mac;++i)
-    /*TODO*///		if (code_pressed_memory(i))
-    /*TODO*///			return i;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///
-    /*TODO*///	return CODE_NONE;
-    /*TODO*///}
+    
+    public static int code_read_async()
+    {
+    	int i;
+       
+    	/* Update the table */
+    	internal_code_update();
+    
+    	for(i=0;i<code_mac;++i)
+    		if (code_pressed_memory(i)!=0)
+    			return i;
+       
+    	return CODE_NONE;
+    }
     /*TODO*///
     /*TODO*///InputCode code_read_sync(void)
     /*TODO*///{
