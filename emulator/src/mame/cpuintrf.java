@@ -63,15 +63,15 @@ public class cpuintrf {
     public static int cycles_running;	/* number of cycles that the CPU emulation was requested to run */
     					/* (needed by cpu_getfcount) */
     public static int have_to_reset;
-    /*TODO*///
-    /*TODO*///static int interrupt_enable[MAX_CPU];
-    /*TODO*///static int interrupt_vector[MAX_CPU];
-    /*TODO*///
-    /*TODO*///static int irq_line_state[MAX_CPU * MAX_IRQ_LINES];
-    /*TODO*///static int irq_line_vector[MAX_CPU * MAX_IRQ_LINES];
-    /*TODO*///
-    /*TODO*///static int watchdog_counter;
-    /*TODO*///
+    
+    static int[] interrupt_enable = new int[MAX_CPU];
+    static int[] interrupt_vector = new int[MAX_CPU];
+
+    static int[] irq_line_state = new int[MAX_CPU * MAX_IRQ_LINES];
+    static int[] irq_line_vector = new int[MAX_CPU * MAX_IRQ_LINES];
+
+    static int watchdog_counter;
+    
     static timer_entry vblank_timer;
     static int vblank_countdown;
     static int vblank_multiplier;
@@ -84,32 +84,13 @@ public class cpuintrf {
     static timer_entry timeslice_timer;
     static double timeslice_period;
     
-    /*TODO*///static double scanline_period;
-    /*TODO*///static double scanline_period_inv;
-    /*TODO*///
-    /*TODO*///static int usres; /* removed from cpu_run and made global */
-    /*TODO*///static int vblank;
-    /*TODO*///static int current_frame;
-    /*TODO*///
-    /*TODO*///static void cpu_generate_interrupt(int cpunum, int (*func)(void), int num);
-    /*TODO*///static void cpu_vblankintcallback(int param);
-    /*TODO*///static void cpu_timedintcallback(int param);
-    /*TODO*///static void cpu_internal_interrupt(int cpunum, int type);
-    /*TODO*///static void cpu_manualnmicallback(int param);
-    /*TODO*///static void cpu_manualirqcallback(int param);
-    /*TODO*///static void cpu_internalintcallback(int param);
-    /*TODO*///static void cpu_manualintcallback(int param);
-    /*TODO*///static void cpu_clearintcallback(int param);
-    /*TODO*///static void cpu_resetcallback(int param);
-    /*TODO*///static void cpu_haltcallback(int param);
-    /*TODO*///static void cpu_timeslicecallback(int param);
-    /*TODO*///static void cpu_vblankreset(void);
-    /*TODO*///static void cpu_vblankcallback(int param);
-    /*TODO*///static void cpu_updatecallback(int param);
-    /*TODO*///static double cpu_computerate(int value);
-    /*TODO*///static void cpu_inittimers(void);
-    /*TODO*///
-    /*TODO*///
+    static double scanline_period;
+    static double scanline_period_inv;
+
+    static int usres; /* removed from cpu_run and made global */
+    static int vblank;
+    static int current_frame;
+
     /*TODO*////* default irq callback handlers */
     /*TODO*///static int cpu_0_irq_callback(int irqline);
     /*TODO*///static int cpu_1_irq_callback(int irqline);
@@ -124,34 +105,6 @@ public class cpuintrf {
     /*TODO*///	cpu_3_irq_callback
     /*TODO*///};
     /*TODO*///
-    /*TODO*////* Default window layout for the debugger */
-    /*TODO*///UINT8 default_win_layout[] = {
-    /*TODO*///	 0, 0,80, 5,	/* register window (top rows) */
-    /*TODO*///	 0, 5,24,17,	/* disassembler window (left, middle columns) */
-    /*TODO*///	25, 5,55, 8,	/* memory #1 window (right, upper middle) */
-    /*TODO*///	25,14,55, 8,	/* memory #2 window (right, lower middle) */
-    /*TODO*///	 0,23,80, 1 	/* command line window (bottom row) */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*////* Dummy interfaces for non-CPUs */
-    /*TODO*///static void Dummy_reset(void *param);
-    /*TODO*///static void Dummy_exit(void);
-    /*TODO*///static int Dummy_execute(int cycles);
-    /*TODO*///static void Dummy_burn(int cycles);
-    /*TODO*///static unsigned Dummy_get_context(void *regs);
-    /*TODO*///static void Dummy_set_context(void *regs);
-    /*TODO*///static unsigned Dummy_get_pc(void);
-    /*TODO*///static void Dummy_set_pc(unsigned val);
-    /*TODO*///static unsigned Dummy_get_sp(void);
-    /*TODO*///static void Dummy_set_sp(unsigned val);
-    /*TODO*///static unsigned Dummy_get_reg(int regnum);
-    /*TODO*///static void Dummy_set_reg(int regnum, unsigned val);
-    /*TODO*///static void Dummy_set_nmi_line(int state);
-    /*TODO*///static void Dummy_set_irq_line(int irqline, int state);
-    /*TODO*///static void Dummy_set_irq_callback(int (*callback)(int irqline));
-    /*TODO*///static int Dummy_ICount;
-    /*TODO*///static const char *Dummy_info(void *context, int regnum);
-    /*TODO*///static unsigned Dummy_dasm(char *buffer, unsigned pc);
     /*TODO*///
     /*TODO*////* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
     /*TODO*///#define RESET(index)					((*cpu[index].intf->reset)(Machine->drv->cpu[index].reset_param))
@@ -403,14 +356,16 @@ public class cpuintrf {
     	timer_init();
     	timeslice_timer = refresh_timer = vblank_timer = null;
     }
-    /*TODO*///
-    /*TODO*///void cpu_run(void)
-    /*TODO*///{
+
+    public static void cpu_run()
+    {
     /*TODO*///	int i;
     /*TODO*///
-    /*TODO*///	/* determine which CPUs need a context switch */
-    /*TODO*///	for (i = 0; i < totalcpu; i++)
-    /*TODO*///	{
+    	/* determine which CPUs need a context switch */
+    	for (int i = 0; i < totalcpu; i++)
+    	{
+            cpu.get(i).intf.init_context(cpu.get(i).context);
+
     /*TODO*///		int j, size;
     /*TODO*///
     /*TODO*///		/* allocate a context buffer for the CPU */
@@ -441,22 +396,13 @@ public class cpuintrf {
     /*TODO*///			if ( i != j && !strcmp(cpunum_core_file(i),cpunum_core_file(j)) )
     /*TODO*///				cpu[i].save_context = 1;
     /*TODO*///
-    /*TODO*///		#ifdef MAME_DEBUG
-    /*TODO*///
-    /*TODO*///		/* or if we're running with the debugger */
-    /*TODO*///		{
-    /*TODO*///			extern int mame_debug;
-    /*TODO*///			cpu[i].save_context |= mame_debug;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		#endif
     /*TODO*///
     /*TODO*///		for( j = 0; j < MAX_IRQ_LINES; j++ )
     /*TODO*///		{
     /*TODO*///			irq_line_state[i * MAX_IRQ_LINES + j] = CLEAR_LINE;
     /*TODO*///			irq_line_vector[i * MAX_IRQ_LINES + j] = cpuintf[CPU_TYPE(i)].default_vector;
     /*TODO*///		}
-    /*TODO*///	}
+    	}
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -634,7 +580,7 @@ public class cpuintrf {
     /*TODO*///		}
     /*TODO*///	}
     /*TODO*///	totalcpu = 0;
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///

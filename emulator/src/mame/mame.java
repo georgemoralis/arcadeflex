@@ -492,7 +492,7 @@ public class mame {
     /*TODO*///						if (f) osd_fclose(f);
     /*TODO*///					}
     /*TODO*///
-    /*TODO*///					cpu_run();      /* run the emulation! */
+    					cpu_run();      /* run the emulation! */
     /*TODO*///
     /*TODO*///					if (drv->nvram_handler)
     /*TODO*///					{
