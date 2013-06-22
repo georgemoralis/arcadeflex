@@ -70,64 +70,63 @@ public class timer {
     /*TODO*///#if VERBOSE
     /*TODO*///static void verbose_print(char *s, ...);
     /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the current absolute time
-    /*TODO*/// */
-    /*TODO*///INLINE double getabsolutetime(void)
-    /*TODO*///{
-    /*TODO*///	if (activecpu && (*activecpu->icount + activecpu->lost) > 0)
-    /*TODO*///		return base_time - ((double)(*activecpu->icount + activecpu->lost) * activecpu->cycles_to_sec);
-    /*TODO*///	else
-    /*TODO*///		return base_time;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		adjust the current CPU's timer so that a new event will fire at the right time
-    /*TODO*/// */
-    /*TODO*///INLINE void timer_adjust(timer_entry *timer, double time, double period)
-    /*TODO*///{
-    /*TODO*///	int newicount, diff;
-    /*TODO*///
-    /*TODO*///	/* compute a new icount for the current CPU */
-    /*TODO*///	if (period == TIME_NOW)
-    /*TODO*///		newicount = 0;
-    /*TODO*///	else
-    /*TODO*///		newicount = (int)((timer->expire - time) * activecpu->sec_to_cycles) + 1;
-    /*TODO*///
-    /*TODO*///	/* determine if we're scheduled to run more cycles */
-    /*TODO*///	diff = *activecpu->icount - newicount;
-    /*TODO*///
-    /*TODO*///	/* if so, set the new icount and compute the amount of "lost" time */
-    /*TODO*///	if (diff > 0)
-    /*TODO*///	{
-    /*TODO*///		activecpu->lost += diff;
-    /*TODO*///		if (activecpu->burn)
-    /*TODO*///			(*activecpu->burn)(diff);  /* let the CPU burn the cycles */
-    /*TODO*///		else
-    /*TODO*///			*activecpu->icount = newicount;  /* CPU doesn't care */
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		allocate a new timer
-    /*TODO*/// */
-    /*TODO*///INLINE timer_entry *timer_new(void)
-    /*TODO*///{
-    /*TODO*///	timer_entry *timer;
-    /*TODO*///
-    /*TODO*///	/* remove an empty entry */
-    /*TODO*///	if (!timer_free_head)
-    /*TODO*///		return NULL;
-    /*TODO*///	timer = timer_free_head;
-    /*TODO*///	timer_free_head = timer->next;
-    /*TODO*///
-    /*TODO*///	return timer;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    /*
+    *	return the current absolute time
+    */
+    public static double getabsolutetime()
+    {
+        if (activecpu > 0 && (cpudata[activecpu].icount[0] + cpudata[activecpu].lost) > 0)
+            return base_time - ((double)(cpudata[activecpu].icount[0] + cpudata[activecpu].lost) * cpudata[activecpu].cycles_to_sec);
+       else
+            return base_time;
+   }
+    
+    
+    /*
+     *		adjust the current CPU's timer so that a new event will fire at the right time
+     */
+    public static void timer_adjust(timer_entry timer, double time, double period)
+    {
+    	int newicount, diff;
+    
+    	/* compute a new icount for the current CPU */
+    	if (period == TIME_NOW)
+    		newicount = 0;
+    	else
+            newicount = (int)((timer.expire - time) * cpudata[activecpu].sec_to_cycles) + 1;
+    
+    	/* determine if we're scheduled to run more cycles */
+        diff = cpudata[activecpu].icount[0] - newicount;
+    
+    	/* if so, set the new icount and compute the amount of "lost" time */
+        if (diff > 0)
+        {
+               cpudata[activecpu].lost += diff;
+               if (cpudata[activecpu].burn != null)
+                   cpudata[activecpu].burn.handler(diff);  /* let the CPU burn the cycles */
+               else
+                   cpudata[activecpu].icount[0] = newicount;  /* CPU doesn't care */
+        }
+    }
+    
+    
+    /*
+     *		allocate a new timer
+     */
+    public static timer_entry timer_new()
+    {
+    	timer_entry timer;
+    
+    	/* remove an empty entry */
+    	if (timer_free_head==null)
+    		return null;
+    	timer = timer_free_head;
+    	timer_free_head = timer.next;
+    
+    	return timer;
+    }
+    
+    
     /*TODO*////*
     /*TODO*/// *		insert a new timer into the list at the appropriate location
     /*TODO*/// */
@@ -187,9 +186,6 @@ public class timer {
      */
     public static void timer_init()
     {
-    /*TODO*///	cpu_entry *cpu;
-    /*TODO*///	int i;
-    /*TODO*///
     	/* keep a local copy of how many total CPU's */
     	lastcpu = cpu_gettotalcpu() - 1;
     
