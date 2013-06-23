@@ -127,60 +127,60 @@ public class timer {
     }
     
     
-    /*TODO*////*
-    /*TODO*/// *		insert a new timer into the list at the appropriate location
-    /*TODO*/// */
-    /*TODO*///INLINE void timer_list_insert(timer_entry *timer)
-    /*TODO*///{
-    /*TODO*///	double expire = timer->enabled ? timer->expire : TIME_NEVER;
-    /*TODO*///	timer_entry *t, *lt = NULL;
-    /*TODO*///
-    /*TODO*///	/* loop over the timer list */
-    /*TODO*///	for (t = timer_head; t; lt = t, t = t->next)
-    /*TODO*///	{
-    /*TODO*///		/* if the current list entry expires after us, we should be inserted before it */
-    /*TODO*///		/* note that due to floating point rounding, we need to allow a bit of slop here */
-    /*TODO*///		/* because two equal entries -- within rounding precision -- need to sort in */
-    /*TODO*///		/* the order they were inserted into the list */
-    /*TODO*///		if ((t->expire - expire) > TIME_IN_NSEC(1))
-    /*TODO*///		{
-    /*TODO*///			/* link the new guy in before the current list entry */
-    /*TODO*///			timer->prev = t->prev;
-    /*TODO*///			timer->next = t;
-    /*TODO*///
-    /*TODO*///			if (t->prev)
-    /*TODO*///				t->prev->next = timer;
-    /*TODO*///			else
-    /*TODO*///				timer_head = timer;
-    /*TODO*///			t->prev = timer;
-    /*TODO*///			return;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* need to insert after the last one */
-    /*TODO*///	if (lt)
-    /*TODO*///		lt->next = timer;
-    /*TODO*///	else
-    /*TODO*///		timer_head = timer;
-    /*TODO*///	timer->prev = lt;
-    /*TODO*///	timer->next = NULL;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		remove a timer from the linked list
-    /*TODO*/// */
-    /*TODO*///INLINE void timer_list_remove(timer_entry *timer)
-    /*TODO*///{
-    /*TODO*///	/* remove it from the list */
-    /*TODO*///	if (timer->prev)
-    /*TODO*///		timer->prev->next = timer->next;
-    /*TODO*///	else
-    /*TODO*///		timer_head = timer->next;
-    /*TODO*///	if (timer->next)
-    /*TODO*///		timer->next->prev = timer->prev;
-    /*TODO*///}
+    /*
+     *		insert a new timer into the list at the appropriate location
+     */
+    public static void timer_list_insert(timer_entry timer)
+    {
+        double expire = timer.enabled != 0 ? timer.expire : TIME_NEVER;
+    	timer_entry t, lt = null;
+    
+    	/* loop over the timer list */
+        for (t = timer_head; t != null; lt = t, t = t.next)
+    	{
+    		/* if the current list entry expires after us, we should be inserted before it */
+    		/* note that due to floating point rounding, we need to allow a bit of slop here */
+    		/* because two equal entries -- within rounding precision -- need to sort in */
+    		/* the order they were inserted into the list */
+                if ((t.expire - expire) > TIME_IN_NSEC(1))
+    		{
+    			/* link the new guy in before the current list entry */
+                        timer.prev = t.prev;
+                        timer.next = t;
 
+                        if (t.prev != null)
+                            t.prev.next = timer;
+                        else
+                            timer_head = timer;
+                        t.prev = timer;
+                        return;
+    		}
+    	}
+    
+    	/* need to insert after the last one */
+        if (lt != null)
+            lt.next = timer;
+        else
+            timer_head = timer;
+        timer.prev = lt;
+        timer.next = null;
+    }
+    
+    
+    /*
+     *		remove a timer from the linked list
+     */
+    public static void timer_list_remove(timer_entry timer)
+    {
+    	/* remove it from the list */
+    	if (timer.prev != null)
+    		timer.prev.next = timer.next;
+    	else
+    		timer_head = timer.next;
+    	if (timer.next != null)
+    		timer.next.prev = timer.prev;
+    }
+    
     /*
      *		initialize the timer system
      */
@@ -236,27 +236,27 @@ public class timer {
 
     	}    
     }
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		get overclocking factor for a CPU
-    /*TODO*/// */
-    /*TODO*///double timer_get_overclock(int cpunum)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = &cpudata[cpunum];
-    /*TODO*///	return cpu->overclock;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		set overclocking factor for a CPU
-    /*TODO*/// */
-    /*TODO*///void timer_set_overclock(int cpunum, double overclock)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = &cpudata[cpunum];
-    /*TODO*///	cpu->overclock = overclock;
-    /*TODO*///	cpu->sec_to_cycles = sec_to_cycles[cpunum] = cpu->overclock * Machine->drv->cpu[cpunum].cpu_clock;
-    /*TODO*///	cpu->cycles_to_sec = cycles_to_sec[cpunum] = 1.0 / sec_to_cycles[cpunum];
-    /*TODO*///}
-    /*TODO*///
+    
+    /*
+     *		get overclocking factor for a CPU
+     */
+    public static double timer_get_overclock(int cpunum)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    	return cpu.overclock;
+    }
+    
+    /*
+     *		set overclocking factor for a CPU
+     */
+    public static void timer_set_overclock(int cpunum, double overclock)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    	cpu.overclock = overclock;
+        cpu.sec_to_cycles = sec_to_cycles[cpunum] = cpu.overclock * Machine.drv.cpu[cpunum].cpu_clock;
+    	cpu.cycles_to_sec = cycles_to_sec[cpunum] = 1.0 / sec_to_cycles[cpunum];
+    }
+    
     /*TODO*////*
     /*TODO*/// *		allocate a pulse timer, which repeatedly calls the callback using the given period
     /*TODO*/// */
