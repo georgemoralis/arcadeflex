@@ -66,9 +66,9 @@ public class memory {
     static int[] portmask = new int[MAX_CPU];
     static int[] readport_size = new int[MAX_CPU];
     static int[] writeport_size = new int[MAX_CPU];
-    /*TODO*/ ///* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-/*TODO*/ //const struct IOReadPort *cur_readport;
-/*TODO*/ //const struct IOWritePort *cur_writeport;
+    /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
+    static IOReadPort[]  cur_readport;
+    static IOWritePort[] cur_writeport;
     static int cur_portmask;
     /* current hardware element map */
     public static UBytePtr[] cur_mr_element=new UBytePtr[MAX_CPU];
@@ -1070,6 +1070,10 @@ public class memory {
 /*TODO*/ //#define ADDRESS_MASK(abits)			(ADDRESS_TOPBIT(abits) | (ADDRESS_TOPBIT(abits) - 1))
 /*TODO*/ //
 /*TODO*/ //
+    public static int cpu_readmem16(int address)
+    {
+        throw new UnsupportedOperationException("cpu_readmem16 unimplemented");
+    }
 /*TODO*/ ///* generic byte-sized read handler */
 /*TODO*/ //#define READBYTE(name,type,abits)														\
 /*TODO*/ //int name(int address)																	\
@@ -1264,7 +1268,11 @@ public class memory {
 /*TODO*/ //***************************************************************************/
 /*TODO*/ //
 /*TODO*/ ///* generic byte-sized write handler */
-/*TODO*/ //#define WRITEBYTE(name,type,abits)														\
+/*TODO*/ //#define WRITEBYTE(name,type,abits)		
+   public static void cpu_writemem16(int address,int data)
+   {
+       throw new UnsupportedOperationException("cpu_writemem16 unimplemented");
+   }
 /*TODO*/ //void name(int address, int data)														\
 /*TODO*/ //{																						\
 /*TODO*/ //	MHELE hw;																			\
@@ -1523,73 +1531,71 @@ public class memory {
 /*TODO*/ //SETOPBASE(cpu_setOPbase29,    29,    3)
 /*TODO*/ //SETOPBASE(cpu_setOPbase32,    32,    0)
 /*TODO*/ //
-/*TODO*/ //
-/*TODO*/ ///***************************************************************************
-/*TODO*/ //
-/*TODO*/ //  Perform an I/O port read. This function is called by the CPU emulation.
-/*TODO*/ //
-/*TODO*/ //***************************************************************************/
-/*TODO*/ //int cpu_readport(int port)
-/*TODO*/ //{
-/*TODO*/ //	const struct IOReadPort *iorp = cur_readport;
-/*TODO*/ //
-/*TODO*/ //	port &= cur_portmask;
-/*TODO*/ //
-/*TODO*/ //	/* search the handlers. The order is as follows: first the dynamically installed
-/*TODO*/ //	   handlers are searched, followed by the static ones in whatever order they were
-/*TODO*/ //	   specified in the driver */
-/*TODO*/ //	while (iorp->start != -1)
-/*TODO*/ //	{
-/*TODO*/ //		if (port >= iorp->start && port <= iorp->end)
-/*TODO*/ //		{
-/*TODO*/ //			mem_read_handler handler = iorp->handler;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //			if (handler == IORP_NOP) return 0;
-/*TODO*/ //			else return (*handler)(port - iorp->start);
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		iorp++;
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - read unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),port);
-/*TODO*/ //	return 0;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ ///***************************************************************************
-/*TODO*/ //
-/*TODO*/ //  Perform an I/O port write. This function is called by the CPU emulation.
-/*TODO*/ //
-/*TODO*/ //***************************************************************************/
-/*TODO*/ //void cpu_writeport(int port, int value)
-/*TODO*/ //{
-/*TODO*/ //	const struct IOWritePort *iowp = cur_writeport;
-/*TODO*/ //
-/*TODO*/ //	port &= cur_portmask;
-/*TODO*/ //
-/*TODO*/ //	/* search the handlers. The order is as follows: first the dynamically installed
-/*TODO*/ //	   handlers are searched, followed by the static ones in whatever order they were
-/*TODO*/ //	   specified in the driver */
-/*TODO*/ //	while (iowp->start != -1)
-/*TODO*/ //	{
-/*TODO*/ //		if (port >= iowp->start && port <= iowp->end)
-/*TODO*/ //		{
-/*TODO*/ //			mem_write_handler handler = iowp->handler;
-/*TODO*/ //
-/*TODO*/ //
-/*TODO*/ //			if (handler == IOWP_NOP) return;
-/*TODO*/ //			else (*handler)(port - iowp->start,value);
-/*TODO*/ //
-/*TODO*/ //			return;
-/*TODO*/ //		}
-/*TODO*/ //
-/*TODO*/ //		iowp++;
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),value,port);
-/*TODO*/ //}
-/*TODO*/ //
+
+    /***************************************************************************
+
+      Perform an I/O port read. This function is called by the CPU emulation.
+
+    ***************************************************************************/
+    public static int cpu_readport(int port)
+    {
+            int iorp=0;//const struct IOReadPort *iorp = cur_readport;
+
+            port &= cur_portmask;
+
+            /* search the handlers. The order is as follows: first the dynamically installed
+               handlers are searched, followed by the static ones in whatever order they were
+               specified in the driver */
+            while (cur_readport[iorp].start != -1)
+            {
+                    if (port >= cur_readport[iorp].start && port <= cur_readport[iorp].end)
+                    {
+                           int handler = cur_readport[iorp].handler;
+
+
+                            if (handler == IORP_NOP) return 0;
+                            else return cur_readport[iorp]._handler.handler(port - cur_readport[iorp].start);
+                    }
+
+                    iorp++;
+            }
+
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),port);
+            return 0;
+    }
+
+
+    /***************************************************************************
+
+      Perform an I/O port write. This function is called by the CPU emulation.
+
+    ***************************************************************************/
+    public static void cpu_writeport(int port, int value)
+    {
+            int iowp=0;//const struct IOWritePort *iowp = cur_writeport;
+
+            port &= cur_portmask;
+
+            /* search the handlers. The order is as follows: first the dynamically installed
+               handlers are searched, followed by the static ones in whatever order they were
+               specified in the driver */
+            while (cur_writeport[iowp].start != -1)
+            {
+                    if (port >= cur_writeport[iowp].start && port <= cur_writeport[iowp].end)
+                    {
+                            int handler = cur_writeport[iowp].handler;
+
+
+                            if (handler == IOWP_NOP) return;
+                            else cur_writeport[iowp]._handler.handler(port - cur_writeport[iowp].start, value);
+                            return;
+                    }
+
+                    iowp++;
+            }
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),value,port);
+    }
+
 /*TODO*/ //
 /*TODO*/ ///* set readmemory handler for bank memory  */
 /*TODO*/ //void cpu_setbankhandler_r(int bank, mem_read_handler handler)

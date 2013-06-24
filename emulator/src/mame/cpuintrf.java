@@ -662,29 +662,30 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///int cpu_getactivecpu(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return cpunum;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void cpu_setactivecpu(int cpunum)
-    /*TODO*///{
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///}
-    /*TODO*///
+    public static int cpu_getactivecpu()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return cpunum;
+    }
+    
+    public static void cpu_setactivecpu(int cpunum)
+    {
+    	activecpu = cpunum;
+    }
+    
     public static int cpu_gettotalcpu()
     {
        return totalcpu;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///unsigned cpu_get_pc(void)
-    /*TODO*///{
+    
+    
+    
+    public static int cpu_get_pc()
+    {
+        throw new UnsupportedOperationException(" cpu_get_pc() unimplemented");
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
     /*TODO*///	return GETPC(cpunum);
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///void cpu_set_pc(unsigned val)
     /*TODO*///{
