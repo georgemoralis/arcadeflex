@@ -5,6 +5,7 @@ import static mame.timerH.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.mame.*;
+import static arcadeflex.libc_old.*;
 
 public class timer {
     public static final int MAX_TIMERS =256;
@@ -13,11 +14,12 @@ public class timer {
     /*
      *		internal timer structures
      */
+    public static abstract interface timer_callback { public abstract void handler(int i); }
     public static class timer_entry
     {
         public timer_entry next;
         public timer_entry prev;
-    /*TODO*///	void (*callback)(int);
+        public timer_callback callback;
         public int callback_param;
         public int enabled;
         public double period;
@@ -257,78 +259,78 @@ public class timer {
     	cpu.cycles_to_sec = cycles_to_sec[cpunum] = 1.0 / sec_to_cycles[cpunum];
     }
     
-    /*TODO*////*
-    /*TODO*/// *		allocate a pulse timer, which repeatedly calls the callback using the given period
-    /*TODO*/// */
-    /*TODO*///void *timer_pulse(double period, int param, void (*callback)(int))
-    /*TODO*///{
-    /*TODO*///	double time = getabsolutetime();
-    /*TODO*///	timer_entry *timer;
-    /*TODO*///
-    /*TODO*///	/* allocate a new entry */
-    /*TODO*///	timer = timer_new();
-    /*TODO*///	if (!timer)
-    /*TODO*///		return NULL;
-    /*TODO*///
-    /*TODO*///	/* fill in the record */
-    /*TODO*///	timer->callback = callback;
-    /*TODO*///	timer->callback_param = param;
-    /*TODO*///	timer->enabled = 1;
-    /*TODO*///	timer->period = period;
-    /*TODO*///
-    /*TODO*///	/* compute the time of the next firing and insert into the list */
-    /*TODO*///	timer->start = time;
-    /*TODO*///	timer->expire = time + period;
-    /*TODO*///	timer_list_insert(timer);
-    /*TODO*///
-    /*TODO*///	/* if we're supposed to fire before the end of this cycle, adjust the counter */
-    /*TODO*///	if (activecpu && timer->expire < base_time)
-    /*TODO*///		timer_adjust(timer, time, period);
-    /*TODO*///
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: New pulse=%08X, period=%.6g\n", time + global_offset, timer, period);
-    /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* return a handle */
-    /*TODO*///	return timer;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		allocate a one-shot timer, which calls the callback after the given duration
-    /*TODO*/// */
-    /*TODO*///void *timer_set(double duration, int param, void (*callback)(int))
-    /*TODO*///{
-    /*TODO*///	double time = getabsolutetime();
-    /*TODO*///	timer_entry *timer;
-    /*TODO*///
-    /*TODO*///	/* allocate a new entry */
-    /*TODO*///	timer = timer_new();
-    /*TODO*///	if (!timer)
-    /*TODO*///		return NULL;
-    /*TODO*///
-    /*TODO*///	/* fill in the record */
-    /*TODO*///	timer->callback = callback;
-    /*TODO*///	timer->callback_param = param;
-    /*TODO*///	timer->enabled = 1;
-    /*TODO*///	timer->period = 0;
-    /*TODO*///
-    /*TODO*///	/* compute the time of the next firing and insert into the list */
-    /*TODO*///	timer->start = time;
-    /*TODO*///	timer->expire = time + duration;
-    /*TODO*///	timer_list_insert(timer);
-    /*TODO*///
-    /*TODO*///	/* if we're supposed to fire before the end of this cycle, adjust the counter */
-    /*TODO*///	if (activecpu && timer->expire < base_time)
-    /*TODO*///		timer_adjust(timer, time, duration);
-    /*TODO*///
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: New oneshot=%08X, duration=%.6g\n", time + global_offset, timer, duration);
-    /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* return a handle */
-    /*TODO*///	return timer;
-    /*TODO*///}
+    /*
+     *		allocate a pulse timer, which repeatedly calls the callback using the given period
+     */
+    public static timer_entry timer_pulse(double period, int param, timer_callback callback)
+    {
+    	double time = getabsolutetime();
+    	timer_entry timer;
+    
+    	/* allocate a new entry */
+    	timer = timer_new();
+    	if (timer==null)
+    		return null;
+    
+    	/* fill in the record */
+    	timer.callback = callback;
+    	timer.callback_param = param;
+    	timer.enabled = 1;
+    	timer.period = period;
+    
+    	/* compute the time of the next firing and insert into the list */
+    	timer.start = time;
+    	timer.expire = time + period;
+    	timer_list_insert(timer);
+    
+    	/* if we're supposed to fire before the end of this cycle, adjust the counter */
+    	if (activecpu!=0 && timer.expire < base_time)
+    		timer_adjust(timer, time, period);
+    
+    	//#if VERBOSE
+ /*TODO*///           if(errorlog!=null)
+/*TODO*///    		fprintf(errorlog,"T=%.6g: New pulse=%08X, period=%.6g\n", time + global_offset, timer, period);
+    	//#endif
+    	/* return a handle */
+    	return timer;
+    }
+    
+    
+    /*
+     *		allocate a one-shot timer, which calls the callback after the given duration
+     */
+    public static timer_entry timer_set(double duration, int param, timer_callback callback)
+    {
+    	double time = getabsolutetime();
+    	timer_entry timer;
+    
+    	/* allocate a new entry */
+    	timer = timer_new();
+    	if (timer==null)
+    		return null;
+    
+    	/* fill in the record */
+    	timer.callback = callback;
+    	timer.callback_param = param;
+    	timer.enabled = 1;
+    	timer.period = 0;
+    
+    	/* compute the time of the next firing and insert into the list */
+    	timer.start = time;
+    	timer.expire = time + duration;
+    	timer_list_insert(timer);
+    
+    	/* if we're supposed to fire before the end of this cycle, adjust the counter */
+    	if (activecpu!=0 && timer.expire < base_time)
+    		timer_adjust(timer, time, duration);
+    
+    	//#if VERBOSE
+/*TODO*///    		verbose_print("T=%.6g: New oneshot=%08X, duration=%.6g\n", time + global_offset, timer, duration);
+    	//#endif
+    
+    	/* return a handle */
+    	return timer;
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////*
@@ -361,24 +363,25 @@ public class timer {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		remove a timer from the system
-    /*TODO*/// */
-    /*TODO*///void timer_remove(void *which)
-    /*TODO*///{
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///
-    /*TODO*///	/* remove it from the list */
-    /*TODO*///	timer_list_remove(timer);
-    /*TODO*///
-    /*TODO*///	/* free it up by adding it back to the free list */
-    /*TODO*///	timer->next = timer_free_head;
-    /*TODO*///	timer_free_head = timer;
-    /*TODO*///
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: Removed %08X\n", getabsolutetime() + global_offset, timer);
-    /*TODO*///	#endif
-    /*TODO*///}
+    /*
+     *		remove a timer from the system
+     */
+    public static void timer_remove(Object which)
+    {
+    	timer_entry timer = (timer_entry)which;
+    
+    	/* remove it from the list */
+    	timer_list_remove(timer);
+    
+    	/* free it up by adding it back to the free list */
+    	timer.next = timer_free_head;
+    	timer_free_head = timer;
+    
+    	//#if VERBOSE
+/*TODO*///        if(errorlog!=null)
+/*TODO*///   		fprintf(errorlog,"T=%.6g: Removed %08X\n", getabsolutetime() + global_offset, timer);
+    	//#endif
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////*
@@ -815,34 +818,4 @@ public class timer {
     /*TODO*///	/* failure */
     /*TODO*///	return 0;
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		debugging
-    /*TODO*/// */
-    /*TODO*///#if VERBOSE
-    /*TODO*///
-    /*TODO*///#ifdef macintosh
-    /*TODO*///#undef printf
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///static void verbose_print(char *s, ...)
-    /*TODO*///{
-    /*TODO*///	va_list ap;
-    /*TODO*///
-    /*TODO*///	va_start(ap, s);
-    /*TODO*///
-    /*TODO*///	#if (VERBOSE == 1)
-    /*TODO*///		if (errorlog) vfprintf(errorlog, s, ap);
-    /*TODO*///	#else
-    /*TODO*///		vprintf(s, ap);
-    /*TODO*///		fflush(NULL);
-    /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	va_end(ap);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///#endif
-    /*TODO*///    
 }

@@ -11,6 +11,7 @@ import mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.mame.*;
 import static mame.timer.*;
+import static mame.timerH.*;
 
 public class cpuintrf {
     /*TODO*////* these are triggers sent to the timer system for various interrupt events */
@@ -364,7 +365,7 @@ public class cpuintrf {
     	/* determine which CPUs need a context switch */
     	for (int i = 0; i < totalcpu; i++)
     	{
-            cpu.get(i).intf.init_context(cpu.get(i).context);
+            /*TODO*/// cpu.get(i).intf.init_context(cpu.get(i).context);
 
     /*TODO*///		int j, size;
     /*TODO*///
@@ -412,7 +413,7 @@ public class cpuintrf {
     /*TODO*///	hs_init();
     /*TODO*///
     /*TODO*///	/* initialize the various timers (suspends all CPUs at startup) */
-    /*TODO*///	cpu_inittimers();
+    	cpu_inittimers();
     /*TODO*///	watchdog_counter = -1;
     /*TODO*///
     /*TODO*///	/* reset sound chips */
@@ -1772,6 +1773,9 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
+        public static timer_callback cpu_timedintcallback = new timer_callback(){ public void handler(int param){
+        throw new UnsupportedOperationException("Unsupported cpu_timedintcallback Here you go nickblame :D");
+    }};
     /*TODO*///static void cpu_timedintcallback(int param)
     /*TODO*///{
     /*TODO*///	/* bail if there is no routine */
@@ -1871,6 +1875,9 @@ public class cpuintrf {
     /*TODO*///  service VBLANK-synced interrupts and to begin the screen update process.
     /*TODO*///
     /*TODO*///***************************************************************************/
+    public static timer_callback cpu_firstvblankcallback = new timer_callback(){ public void handler(int param){
+        throw new UnsupportedOperationException("Unsupported cpu_firstvblankcallback Here you go nickblame :D");
+    }};
     /*TODO*///static void cpu_firstvblankcallback(int param)
     /*TODO*///{
     /*TODO*///	/* now that we're synced up, pulse from here on out */
@@ -1881,6 +1888,9 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*////* note that calling this with param == -1 means count everything, but call no subroutines */
+    public static timer_callback cpu_vblankcallback = new timer_callback(){ public void handler(int param){
+        throw new UnsupportedOperationException("Unsupported cpu_vblankcallback Here you go nickblame :D");
+    }};
     /*TODO*///static void cpu_vblankcallback(int param)
     /*TODO*///{
     /*TODO*///	int i;
@@ -1958,167 +1968,173 @@ public class cpuintrf {
     /*TODO*///	timer_reset(refresh_timer, TIME_NEVER);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Converts an integral timing rate into a period. Rates can be specified
-    /*TODO*///  as follows:
-    /*TODO*///
-    /*TODO*///		rate > 0	   -> 'rate' cycles per frame
-    /*TODO*///		rate == 0	   -> 0
-    /*TODO*///		rate >= -10000 -> 'rate' cycles per second
-    /*TODO*///		rate < -10000  -> 'rate' nanoseconds
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///static double cpu_computerate(int value)
-    /*TODO*///{
-    /*TODO*///	/* values equal to zero are zero */
-    /*TODO*///	if (value <= 0)
-    /*TODO*///		return 0.0;
-    /*TODO*///
-    /*TODO*///	/* values above between 0 and 50000 are in Hz */
-    /*TODO*///	if (value < 50000)
-    /*TODO*///		return TIME_IN_HZ(value);
-    /*TODO*///
-    /*TODO*///	/* values greater than 50000 are in nanoseconds */
-    /*TODO*///	else
-    /*TODO*///		return TIME_IN_NSEC(value);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cpu_timeslicecallback(int param)
+    
+    /***************************************************************************
+    
+      Converts an integral timing rate into a period. Rates can be specified
+      as follows:
+    
+    		rate > 0	   -> 'rate' cycles per frame
+    		rate == 0	   -> 0
+    		rate >= -10000 -> 'rate' cycles per second
+    		rate < -10000  -> 'rate' nanoseconds
+    
+    ***************************************************************************/
+    public static double cpu_computerate(int value)
+    {
+    	/* values equal to zero are zero */
+    	if (value <= 0)
+    		return 0.0;
+    
+    	/* values above between 0 and 50000 are in Hz */
+    	if (value < 50000)
+    		return TIME_IN_HZ(value);
+    
+    	/* values greater than 50000 are in nanoseconds */
+    	else
+    		return TIME_IN_NSEC(value);
+    }
+    
+    
+    public static timer_callback cpu_timeslicecallback = new timer_callback()
+    { public void handler(int i)
+      {
+          throw new UnsupportedOperationException("Unsupported cpu_timeslicecallback Here you go nickblame :D");
+      }
+    };
+    //public static void cpu_timeslicecallback(int param)
     /*TODO*///{
     /*TODO*///	timer_trigger(TRIGGER_TIMESLICE);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Initializes all the timers used by the CPU system.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///static void cpu_inittimers(void)
-    /*TODO*///{
-    /*TODO*///	double first_time;
-    /*TODO*///	int i, max, ipf;
-    /*TODO*///
-    /*TODO*///	/* remove old timers */
-    /*TODO*///	if (timeslice_timer)
-    /*TODO*///		timer_remove(timeslice_timer);
-    /*TODO*///	if (refresh_timer)
-    /*TODO*///		timer_remove(refresh_timer);
-    /*TODO*///	if (vblank_timer)
-    /*TODO*///		timer_remove(vblank_timer);
-    /*TODO*///
-    /*TODO*///	/* allocate a dummy timer at the minimum frequency to break things up */
-    /*TODO*///	ipf = Machine->drv->cpu_slices_per_frame;
-    /*TODO*///	if (ipf <= 0)
-    /*TODO*///		ipf = 1;
-    /*TODO*///	timeslice_period = TIME_IN_HZ(Machine->drv->frames_per_second * ipf);
-    /*TODO*///	timeslice_timer = timer_pulse(timeslice_period, 0, cpu_timeslicecallback);
-    /*TODO*///
-    /*TODO*///	/* allocate an infinite timer to track elapsed time since the last refresh */
-    /*TODO*///	refresh_period = TIME_IN_HZ(Machine->drv->frames_per_second);
-    /*TODO*///	refresh_period_inv = 1.0 / refresh_period;
-    /*TODO*///	refresh_timer = timer_set(TIME_NEVER, 0, NULL);
-    /*TODO*///
-    /*TODO*///	/* while we're at it, compute the scanline times */
-    /*TODO*///	if (Machine->drv->vblank_duration)
-    /*TODO*///		scanline_period = (refresh_period - TIME_IN_USEC(Machine->drv->vblank_duration)) /
-    /*TODO*///				(double)(Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1);
-    /*TODO*///	else
-    /*TODO*///		scanline_period = refresh_period / (double)Machine->drv->screen_height;
-    /*TODO*///	scanline_period_inv = 1.0 / scanline_period;
-    /*TODO*///
-    /*TODO*///	/*
-    /*TODO*///	 *		The following code finds all the CPUs that are interrupting in sync with the VBLANK
-    /*TODO*///	 *		and sets up the VBLANK timer to run at the minimum number of cycles per frame in
-    /*TODO*///	 *		order to service all the synced interrupts
-    /*TODO*///	 */
-    /*TODO*///
-    /*TODO*///	/* find the CPU with the maximum interrupts per frame */
-    /*TODO*///	max = 1;
-    /*TODO*///	for (i = 0; i < totalcpu; i++)
-    /*TODO*///	{
-    /*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-    /*TODO*///		if (ipf > max)
-    /*TODO*///			max = ipf;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* now find the LCD with the rest of the CPUs (brute force - these numbers aren't huge) */
-    /*TODO*///	vblank_multiplier = max;
-    /*TODO*///	while (1)
-    /*TODO*///	{
-    /*TODO*///		for (i = 0; i < totalcpu; i++)
-    /*TODO*///		{
-    /*TODO*///			ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-    /*TODO*///			if (ipf > 0 && (vblank_multiplier % ipf) != 0)
-    /*TODO*///				break;
-    /*TODO*///		}
-    /*TODO*///		if (i == totalcpu)
-    /*TODO*///			break;
-    /*TODO*///		vblank_multiplier += max;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* initialize the countdown timers and intervals */
-    /*TODO*///	for (i = 0; i < totalcpu; i++)
-    /*TODO*///	{
-    /*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-    /*TODO*///		if (ipf > 0)
-    /*TODO*///			cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier = vblank_multiplier / ipf;
-    /*TODO*///		else
-    /*TODO*///			cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier = -1;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* allocate a vblank timer at the frame rate * the LCD number of interrupts per frame */
-    /*TODO*///	vblank_period = TIME_IN_HZ(Machine->drv->frames_per_second * vblank_multiplier);
-    /*TODO*///	vblank_timer = timer_pulse(vblank_period, 0, cpu_vblankcallback);
-    /*TODO*///	vblank_countdown = vblank_multiplier;
-    /*TODO*///
-    /*TODO*///	/*
-    /*TODO*///	 *		The following code creates individual timers for each CPU whose interrupts are not
-    /*TODO*///	 *		synced to the VBLANK, and computes the typical number of cycles per interrupt
-    /*TODO*///	 */
-    /*TODO*///
-    /*TODO*///	/* start the CPU interrupt timers */
-    /*TODO*///	for (i = 0; i < totalcpu; i++)
-    /*TODO*///	{
-    /*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-    /*TODO*///
-    /*TODO*///		/* remove old timers */
-    /*TODO*///		if (cpu[i].vblankint_timer)
-    /*TODO*///			timer_remove(cpu[i].vblankint_timer);
-    /*TODO*///		if (cpu[i].timedint_timer)
-    /*TODO*///			timer_remove(cpu[i].timedint_timer);
-    /*TODO*///
-    /*TODO*///		/* compute the average number of cycles per interrupt */
-    /*TODO*///		if (ipf <= 0)
-    /*TODO*///			ipf = 1;
-    /*TODO*///		cpu[i].vblankint_period = TIME_IN_HZ(Machine->drv->frames_per_second * ipf);
-    /*TODO*///		cpu[i].vblankint_timer = timer_set(TIME_NEVER, 0, NULL);
-    /*TODO*///
-    /*TODO*///		/* see if we need to allocate a CPU timer */
-    /*TODO*///		ipf = Machine->drv->cpu[i].timed_interrupts_per_second;
-    /*TODO*///		if (ipf)
-    /*TODO*///		{
-    /*TODO*///			cpu[i].timedint_period = cpu_computerate(ipf);
-    /*TODO*///			cpu[i].timedint_timer = timer_pulse(cpu[i].timedint_period, i, cpu_timedintcallback);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* note that since we start the first frame on the refresh, we can't pulse starting
-    /*TODO*///	   immediately; instead, we back up one VBLANK period, and inch forward until we hit
-    /*TODO*///	   positive time. That time will be the time of the first VBLANK timer callback */
-    /*TODO*///	timer_remove(vblank_timer);
-    /*TODO*///
-    /*TODO*///	first_time = -TIME_IN_USEC(Machine->drv->vblank_duration) + vblank_period;
-    /*TODO*///	while (first_time < 0)
-    /*TODO*///	{
-    /*TODO*///		cpu_vblankcallback(-1);
-    /*TODO*///		first_time += vblank_period;
-    /*TODO*///	}
-    /*TODO*///	vblank_timer = timer_set(first_time, 0, cpu_firstvblankcallback);
-    /*TODO*///}
+    
+    /***************************************************************************
+    
+      Initializes all the timers used by the CPU system.
+    
+    ***************************************************************************/
+    public static void cpu_inittimers()
+    {
+    	double first_time;
+    	int i, max, ipf;
+    
+    	/* remove old timers */
+    	if (timeslice_timer!=null)
+    		timer_remove(timeslice_timer);
+    	if (refresh_timer!=null)
+    		timer_remove(refresh_timer);
+    	if (vblank_timer!=null)
+    		timer_remove(vblank_timer);
+    
+    	/* allocate a dummy timer at the minimum frequency to break things up */
+    	ipf = Machine.drv.cpu_slices_per_frame;
+    	if (ipf <= 0)
+    		ipf = 1;
+    	timeslice_period = TIME_IN_HZ(Machine.drv.frames_per_second * ipf);
+    	timeslice_timer = timer_pulse(timeslice_period, 0, cpu_timeslicecallback);
+    
+    	/* allocate an infinite timer to track elapsed time since the last refresh */
+    	refresh_period = TIME_IN_HZ(Machine.drv.frames_per_second);
+    	refresh_period_inv = 1.0 / refresh_period;
+    	refresh_timer = timer_set(TIME_NEVER, 0, null);
+    
+    	/* while we're at it, compute the scanline times */
+    	if (Machine.drv.vblank_duration!=0)
+    		scanline_period = (refresh_period - TIME_IN_USEC(Machine.drv.vblank_duration)) /
+    				(double)(Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1);
+    	else
+    		scanline_period = refresh_period / (double)Machine.drv.screen_height;
+    	scanline_period_inv = 1.0 / scanline_period;
+    
+    	/*
+    	 *		The following code finds all the CPUs that are interrupting in sync with the VBLANK
+    	 *		and sets up the VBLANK timer to run at the minimum number of cycles per frame in
+    	 *		order to service all the synced interrupts
+    	 */
+    
+    	/* find the CPU with the maximum interrupts per frame */
+    	max = 1;
+    	for (i = 0; i < totalcpu; i++)
+    	{
+    		ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+    		if (ipf > max)
+    			max = ipf;
+    	}
+    
+    	/* now find the LCD with the rest of the CPUs (brute force - these numbers aren't huge) */
+    	vblank_multiplier = max;
+    	while (true)
+    	{
+    		for (i = 0; i < totalcpu; i++)
+    		{
+    			ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+    			if (ipf > 0 && (vblank_multiplier % ipf) != 0)
+    				break;
+    		}
+    		if (i == totalcpu)
+    			break;
+    		vblank_multiplier += max;
+    	}
+    
+    	/* initialize the countdown timers and intervals */
+    	for (i = 0; i < totalcpu; i++)
+    	{
+    		ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+    		if (ipf > 0)
+    			cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier = vblank_multiplier / ipf;
+    		else
+    			cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier = -1;
+    	}
+    
+    	/* allocate a vblank timer at the frame rate * the LCD number of interrupts per frame */
+    	vblank_period = TIME_IN_HZ(Machine.drv.frames_per_second * vblank_multiplier);
+    	vblank_timer = timer_pulse(vblank_period, 0, cpu_vblankcallback);
+    	vblank_countdown = vblank_multiplier;
+    
+    	/*
+    	 *		The following code creates individual timers for each CPU whose interrupts are not
+    	 *		synced to the VBLANK, and computes the typical number of cycles per interrupt
+    	 */
+    
+    	/* start the CPU interrupt timers */
+    	for (i = 0; i < totalcpu; i++)
+    	{
+    		ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+    
+    		/* remove old timers */
+    		if (cpu.get(i).vblankint_timer!=null)
+    			timer_remove(cpu.get(i).vblankint_timer);
+    		if (cpu.get(i).timedint_timer!=null)
+    			timer_remove(cpu.get(i).timedint_timer);
+    
+    		/* compute the average number of cycles per interrupt */
+    		if (ipf <= 0)
+    			ipf = 1;
+    		cpu.get(i).vblankint_period = TIME_IN_HZ(Machine.drv.frames_per_second * ipf);
+    		cpu.get(i).vblankint_timer = timer_set(TIME_NEVER, 0, null);
+    
+    		/* see if we need to allocate a CPU timer */
+    		ipf = Machine.drv.cpu[i].timed_interrupts_per_second;
+    		if (ipf!=0)
+    		{
+    			cpu.get(i).timedint_period = cpu_computerate(ipf);
+    			cpu.get(i).timedint_timer = timer_pulse(cpu.get(i).timedint_period, i, cpu_timedintcallback);
+    		}
+    	}
+    
+    	/* note that since we start the first frame on the refresh, we can't pulse starting
+    	   immediately; instead, we back up one VBLANK period, and inch forward until we hit
+    	   positive time. That time will be the time of the first VBLANK timer callback */
+    	timer_remove(vblank_timer);
+    
+    	first_time = -TIME_IN_USEC(Machine.drv.vblank_duration) + vblank_period;
+    	while (first_time < 0)
+    	{
+    		cpu_vblankcallback.handler(-1);
+    		first_time += vblank_period;
+    	}
+    	vblank_timer = timer_set(first_time, 0, cpu_firstvblankcallback);
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////* AJP 981016 */
