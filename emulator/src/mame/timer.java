@@ -1,3 +1,9 @@
+/*
+ * 
+ * 
+ *   this class consider to be complete and fully ported from mame 0.36
+ */
+
 package mame;
 
 import static mame.driverH.*;
@@ -331,38 +337,38 @@ public class timer {
     	/* return a handle */
     	return timer;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		reset the timing on a timer
-    /*TODO*/// */
-    /*TODO*///void timer_reset(void *which, double duration)
-    /*TODO*///{
-    /*TODO*///	double time = getabsolutetime();
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///
-    /*TODO*///	/* compute the time of the next firing */
-    /*TODO*///	timer->start = time;
-    /*TODO*///	timer->expire = time + duration;
-    /*TODO*///
-    /*TODO*///	/* remove the timer and insert back into the list */
-    /*TODO*///	timer_list_remove(timer);
-    /*TODO*///	timer_list_insert(timer);
-    /*TODO*///
-    /*TODO*///	/* if we're supposed to fire before the end of this cycle, adjust the counter */
-    /*TODO*///	if (activecpu && timer->expire < base_time)
-    /*TODO*///		timer_adjust(timer, time, duration);
-    /*TODO*///
-    /*TODO*///	/* if this is the callback timer, mark it modified */
-    /*TODO*///	if (timer == callback_timer)
-    /*TODO*///		callback_timer_modified = 1;
-    /*TODO*///
+    
+    
+    /*
+     *		reset the timing on a timer
+     */
+    public static void timer_reset(Object which, double duration)
+    {
+    	double time = getabsolutetime();
+    	timer_entry timer = (timer_entry)which;
+    
+    	/* compute the time of the next firing */
+    	timer.start = time;
+    	timer.expire = time + duration;
+    
+    	/* remove the timer and insert back into the list */
+    	timer_list_remove(timer);
+    	timer_list_insert(timer);
+    
+    	/* if we're supposed to fire before the end of this cycle, adjust the counter */
+    	if (activecpu!=0 && timer.expire < base_time)
+    		timer_adjust(timer, time, duration);
+    
+    	/* if this is the callback timer, mark it modified */
+    	if (timer == callback_timer)
+    		callback_timer_modified = 1;
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		verbose_print("T=%.6g: Reset %08X, duration=%.6g\n", time + global_offset, timer, duration);
     /*TODO*///	#endif
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    }
+    
+    
     /*
      *		remove a timer from the system
      */
@@ -382,440 +388,432 @@ public class timer {
 /*TODO*///   		fprintf(errorlog,"T=%.6g: Removed %08X\n", getabsolutetime() + global_offset, timer);
     	//#endif
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		enable/disable a timer
-    /*TODO*/// */
-    /*TODO*///int timer_enable(void *which, int enable)
-    /*TODO*///{
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///	int old;
-    /*TODO*///
+    
+    
+    /*
+     *		enable/disable a timer
+     */
+    public static int timer_enable(Object which, int enable)
+    {
+    	timer_entry timer = (timer_entry)which;
+    	int old;
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		if (enable) verbose_print("T=%.6g: Enabled %08X\n", getabsolutetime() + global_offset, timer);
     /*TODO*///		else verbose_print("T=%.6g: Disabled %08X\n", getabsolutetime() + global_offset, timer);
     /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* set the enable flag */
-    /*TODO*///	old = timer->enabled;
-    /*TODO*///	timer->enabled = enable;
-    /*TODO*///
-    /*TODO*///	/* remove the timer and insert back into the list */
-    /*TODO*///	timer_list_remove(timer);
-    /*TODO*///	timer_list_insert(timer);
-    /*TODO*///
-    /*TODO*///	return old;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the time since the last trigger
-    /*TODO*/// */
-    /*TODO*///double timer_timeelapsed(void *which)
-    /*TODO*///{
-    /*TODO*///	double time = getabsolutetime();
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///
-    /*TODO*///	return time - timer->start;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the time until the next trigger
-    /*TODO*/// */
-    /*TODO*///double timer_timeleft(void *which)
-    /*TODO*///{
-    /*TODO*///	double time = getabsolutetime();
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///
-    /*TODO*///	return timer->expire - time;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the current time
-    /*TODO*/// */
-    /*TODO*///double timer_get_time(void)
-    /*TODO*///{
-    /*TODO*///	return global_offset + getabsolutetime();
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the time when this timer started counting
-    /*TODO*/// */
-    /*TODO*///double timer_starttime(void *which)
-    /*TODO*///{
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///	return global_offset + timer->start;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		return the time when this timer will fire next
-    /*TODO*/// */
-    /*TODO*///double timer_firetime(void *which)
-    /*TODO*///{
-    /*TODO*///	timer_entry *timer = which;
-    /*TODO*///	return global_offset + timer->expire;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		begin CPU execution by determining how many cycles the CPU should run
-    /*TODO*/// */
-    /*TODO*///int timer_schedule_cpu(int *cpu, int *cycles)
-    /*TODO*///{
-    /*TODO*///	double end;
-    /*TODO*///
-    /*TODO*///	/* then see if there are any CPUs that aren't suspended and haven't yet been updated */
-    /*TODO*///	if (pick_cpu(cpu, cycles, timer_head->expire))
-    /*TODO*///		return 1;
-    /*TODO*///
-    /*TODO*///	/* everyone is up-to-date; expire any timers now */
-    /*TODO*///	end = timer_head->expire;
-    /*TODO*///	while (timer_head->expire <= end)
-    /*TODO*///	{
-    /*TODO*///		timer_entry *timer = timer_head;
-    /*TODO*///
-    /*TODO*///		/* the base time is now the time of the timer */
-    /*TODO*///		base_time = timer->expire;
-    /*TODO*///
+    
+    	/* set the enable flag */
+    	old = timer.enabled;
+    	timer.enabled = enable;
+    
+    	/* remove the timer and insert back into the list */
+    	timer_list_remove(timer);
+    	timer_list_insert(timer);
+    
+    	return old;
+    }
+    
+    
+    /*
+     *		return the time since the last trigger
+     */
+    public static double timer_timeelapsed(Object which)
+    {
+    	double time = getabsolutetime();
+    	timer_entry timer = (timer_entry)which;
+    
+    	return time - timer.start;
+    }
+    
+    
+    /*
+     *		return the time until the next trigger
+     */
+   public static double timer_timeleft(Object which)
+    {
+    	double time = getabsolutetime();
+    	timer_entry timer = (timer_entry)which;
+    
+    	return timer.expire - time;
+    }
+    
+    
+    /*
+     *		return the current time
+     */
+    public static double timer_get_time()
+    {
+    	return global_offset + getabsolutetime();
+    }
+    
+    
+    /*
+     *		return the time when this timer started counting
+     */
+     public static double timer_starttime(Object which)
+    {
+    	timer_entry timer = (timer_entry)which;
+    	return global_offset + timer.start;
+    }
+    
+    
+    /*
+     *		return the time when this timer will fire next
+     */
+     public static double timer_firetime(Object which)
+    {
+    	timer_entry timer = (timer_entry)which;
+    	return global_offset + timer.expire;
+    }
+    
+    
+    /*
+     *		begin CPU execution by determining how many cycles the CPU should run
+     */
+    int timer_schedule_cpu(int []cpu, int []cycles) //cpu and cycles are tables and only valid is [0] . The only way to simulate references
+    {
+    	double end;
+    
+    	/* then see if there are any CPUs that aren't suspended and haven't yet been updated */
+    	if (pick_cpu(cpu, cycles, timer_head.expire)!=0)
+    		return 1;
+    
+    	/* everyone is up-to-date; expire any timers now */
+    	end = timer_head.expire;
+    	while (timer_head.expire <= end)
+    	{
+    		timer_entry timer = timer_head;
+    
+    		/* the base time is now the time of the timer */
+    		base_time = timer.expire;
+    
     /*TODO*///		#if VERBOSE
     /*TODO*///			verbose_print("T=%.6g: %08X fired (exp time=%.6g)\n", getabsolutetime() + global_offset, timer, timer->expire + global_offset);
     /*TODO*///		#endif
-    /*TODO*///
-    /*TODO*///		/* set the global state of which callback we're in */
-    /*TODO*///		callback_timer_modified = 0;
-    /*TODO*///		callback_timer = timer;
-    /*TODO*///
-    /*TODO*///		/* call the callback */
-    /*TODO*///		if (timer->callback)
-    /*TODO*///		{
-    /*TODO*///			profiler_mark(PROFILER_TIMER_CALLBACK);
-    /*TODO*///			(*timer->callback)(timer->callback_param);
-    /*TODO*///			profiler_mark(PROFILER_END);
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* clear the callback timer global */
-    /*TODO*///		callback_timer = NULL;
-    /*TODO*///
-    /*TODO*///		/* reset or remove the timer, but only if it wasn't modified during the callback */
-    /*TODO*///		if (!callback_timer_modified)
-    /*TODO*///		{
-    /*TODO*///			if (timer->period)
-    /*TODO*///			{
-    /*TODO*///				timer->start = timer->expire;
-    /*TODO*///				timer->expire += timer->period;
-    /*TODO*///
-    /*TODO*///				timer_list_remove(timer);
-    /*TODO*///				timer_list_insert(timer);
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///				timer_remove(timer);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* reset scheduling so it starts with CPU 0 */
-    /*TODO*///	last_activecpu = lastcpu;
-    /*TODO*///
-    /*TODO*///#ifdef MAME_DEBUG
-    /*TODO*///{
-    /*TODO*///	extern int debug_key_delay;
-    /*TODO*///	debug_key_delay = 0x7ffe;
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///	/* go back to scheduling */
-    /*TODO*///	return pick_cpu(cpu, cycles, timer_head->expire);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		end CPU execution by updating the number of cycles the CPU actually ran
-    /*TODO*/// */
-    /*TODO*///void timer_update_cpu(int cpunum, int ran)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///
-    /*TODO*///	/* update the time if we haven't been suspended */
-    /*TODO*///	if (!cpu->suspended)
-    /*TODO*///	{
-    /*TODO*///		cpu->time += (double)(ran - cpu->lost) * cpu->cycles_to_sec;
-    /*TODO*///		cpu->lost = 0;
-    /*TODO*///	}
-    /*TODO*///
+    
+    		/* set the global state of which callback we're in */
+    		callback_timer_modified = 0;
+    		callback_timer = timer;
+    
+    		/* call the callback */
+    		if (timer.callback!=null)
+    		{
+                    timer.callback.handler(timer.callback_param);
+    		}
+    
+    		/* clear the callback timer global */
+    		callback_timer = null;
+    
+    		/* reset or remove the timer, but only if it wasn't modified during the callback */
+    		if (callback_timer_modified==0)
+    		{
+    			if (timer.period!=0)
+    			{
+    				timer.start = timer.expire;
+    				timer.expire += timer.period;
+    
+    				timer_list_remove(timer);
+    				timer_list_insert(timer);
+    			}
+    			else
+    				timer_remove(timer);
+    		}
+    	}
+    
+    	/* reset scheduling so it starts with CPU 0 */
+    	last_activecpu = lastcpu;
+    
+    
+    	/* go back to scheduling */
+    	return pick_cpu(cpu, cycles, timer_head.expire);
+    }
+    
+    
+    /*
+     *		end CPU execution by updating the number of cycles the CPU actually ran
+     */
+    public static void timer_update_cpu(int cpunum, int ran)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    
+    	/* update the time if we haven't been suspended */
+    	if (cpu.suspended==0)
+    	{
+    		cpu.time += (double)(ran - cpu.lost) * cpu.cycles_to_sec;
+    		cpu.lost = 0;
+    	}
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		verbose_print("T=%.6g: CPU %d finished (net=%d)\n", cpu->time + global_offset, cpunum, ran - cpu->lost);
     /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* time to renormalize? */
-    /*TODO*///	if (cpu->time >= 1.0)
-    /*TODO*///	{
-    /*TODO*///		timer_entry *timer;
-    /*TODO*///		double one = 1.0;
-    /*TODO*///		cpu_entry *c;
-    /*TODO*///
+    
+    	/* time to renormalize? */
+    	if (cpu.time >= 1.0)
+    	{
+    		timer_entry timer;
+    		double one = 1.0;
+    		int c; //cpu_entry *c;
+    
     /*TODO*///		#if VERBOSE
     /*TODO*///			verbose_print("T=%.6g: Renormalizing\n", cpu->time + global_offset);
     /*TODO*///		#endif
-    /*TODO*///
-    /*TODO*///		/* renormalize all the CPU timers */
-    /*TODO*///		for (c = cpudata; c <= lastcpu; c++)
-    /*TODO*///			c->time -= one;
-    /*TODO*///
-    /*TODO*///		/* renormalize all the timers' times */
-    /*TODO*///		for (timer = timer_head; timer; timer = timer->next)
-    /*TODO*///		{
-    /*TODO*///			timer->start -= one;
-    /*TODO*///			timer->expire -= one;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* renormalize the global timers */
-    /*TODO*///		global_offset += one;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* now stop counting cycles */
-    /*TODO*///	base_time = cpu->time;
-    /*TODO*///	activecpu = NULL;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		suspend a CPU but continue to count time for it
-    /*TODO*/// */
-    /*TODO*///void timer_suspendcpu(int cpunum, int suspend, int reason)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///	int nocount = cpu->nocount;
-    /*TODO*///	int old = cpu->suspended;
-    /*TODO*///
+    
+    		/* renormalize all the CPU timers */
+    		for(c=0; c<=lastcpu; c++)//for (c = cpudata; c <= lastcpu; c++)
+    			cpudata[c].time -= one;
+    
+    		/* renormalize all the timers' times */
+    		for (timer = timer_head; timer!=null; timer = timer.next)
+    		{
+    			timer.start -= one;
+    			timer.expire -= one;
+    		}
+    
+    		/* renormalize the global timers */
+    		global_offset += one;
+    	}
+    
+    	/* now stop counting cycles */
+    	base_time = cpu.time;
+    	activecpu = -1;
+    }
+    
+    
+    /*
+     *		suspend a CPU but continue to count time for it
+     */
+    public static void timer_suspendcpu(int cpunum, int suspend, int reason)
+    {
+    	//cpu_entry *cpu = cpudata + cpunum;
+    	int nocount = cpudata[cpunum].nocount;
+    	int old = cpudata[cpunum].suspended;
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		if (suspend) verbose_print("T=%.6g: Suspending CPU %d\n", getabsolutetime() + global_offset, cpunum);
     /*TODO*///		else verbose_print("T=%.6g: Resuming CPU %d\n", getabsolutetime() + global_offset, cpunum);
     /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* mark the CPU */
-    /*TODO*///	if (suspend)
-    /*TODO*///		cpu->suspended |= reason;
-    /*TODO*///	else
-    /*TODO*///		cpu->suspended &= ~reason;
-    /*TODO*///	cpu->nocount = 0;
-    /*TODO*///
-    /*TODO*///	/* if this is the active CPU and we're halting, stop immediately */
-    /*TODO*///	if (activecpu && cpu == activecpu && !old && cpu->suspended)
-    /*TODO*///	{
+    
+    	/* mark the CPU */
+    	if (suspend!=0)
+    		cpudata[cpunum].suspended |= reason;
+    	else
+    		cpudata[cpunum].suspended &= ~reason;
+    	cpudata[cpunum].nocount = 0;
+    
+    	/* if this is the active CPU and we're halting, stop immediately */
+    	if (activecpu!=0 && cpunum == activecpu && old==0 && cpudata[cpunum].suspended !=0)
+    	{
     /*TODO*///		#if VERBOSE
     /*TODO*///			verbose_print("T=%.6g: Reset ICount\n", getabsolutetime() + global_offset);
     /*TODO*///		#endif
-    /*TODO*///
-    /*TODO*///		/* set the CPU's time to the current time */
-    /*TODO*///		cpu->time = base_time = getabsolutetime();	/* ASG 990225 - also set base_time */
-    /*TODO*///		cpu->lost = 0;
-    /*TODO*///
-    /*TODO*///		/* no more instructions */
-    /*TODO*///		if (cpu->burn)
-    /*TODO*///			(*cpu->burn)(*cpu->icount); /* let the CPU burn the cycles */
-    /*TODO*///		else
-    /*TODO*///			*cpu->icount = 0;	/* CPU doesn't care */
-    /*TODO*///    }
-    /*TODO*///
-    /*TODO*///	/* else if we're unsuspending a CPU, reset its time */
-    /*TODO*///	else if (old && !cpu->suspended && !nocount)
-    /*TODO*///	{
-    /*TODO*///		double time = getabsolutetime();
-    /*TODO*///
-    /*TODO*///		/* only update the time if it's later than the CPU's time */
-    /*TODO*///		if (time > cpu->time)
-    /*TODO*///			cpu->time = time;
-    /*TODO*///		cpu->lost = 0;
-    /*TODO*///
+    
+    		/* set the CPU's time to the current time */
+    		cpudata[cpunum].time = base_time = getabsolutetime();	/* ASG 990225 - also set base_time */
+    		cpudata[cpunum].lost = 0;
+    
+    		/* no more instructions */
+    		if (cpudata[cpunum].burn!=null)
+    			cpudata[cpunum].burn.handler(cpudata[cpunum].icount[0]); /* let the CPU burn the cycles */
+    		else
+    			cpudata[cpunum].icount[0] = 0;	/* CPU doesn't care */
+        }
+    
+    	/* else if we're unsuspending a CPU, reset its time */
+    	else if (old!=0 && cpudata[cpunum].suspended==0 && nocount==0)
+    	{
+    		double time = getabsolutetime();
+    
+    		/* only update the time if it's later than the CPU's time */
+    		if (time > cpudata[cpunum].time)
+    			cpudata[cpunum].time = time;
+    		cpudata[cpunum].lost = 0;
+    
     /*TODO*///		#if VERBOSE
     /*TODO*///			verbose_print("T=%.6g: Resume time\n", cpu->time + global_offset);
     /*TODO*///		#endif
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		hold a CPU and don't count time for it
-    /*TODO*/// */
-    /*TODO*///void timer_holdcpu(int cpunum, int hold, int reason)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///
-    /*TODO*///	/* same as suspend */
-    /*TODO*///	timer_suspendcpu(cpunum, hold, reason);
-    /*TODO*///
-    /*TODO*///	/* except that we don't count time */
-    /*TODO*///	if (hold)
-    /*TODO*///		cpu->nocount = 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		query if a CPU is suspended or not
-    /*TODO*/// */
-    /*TODO*///int timer_iscpususpended(int cpunum, int reason)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///	return (cpu->suspended & reason) && !cpu->nocount;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		query if a CPU is held or not
-    /*TODO*/// */
-    /*TODO*///int timer_iscpuheld(int cpunum, int reason)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///	return (cpu->suspended & reason) && cpu->nocount;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		suspend a CPU until a specified trigger condition is met
-    /*TODO*/// */
-    /*TODO*///void timer_suspendcpu_trigger(int cpunum, int trigger)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///
+    	}
+    }
+    
+    
+    
+    /*
+     *		hold a CPU and don't count time for it
+     */
+    public static void timer_holdcpu(int cpunum, int hold, int reason)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    
+    	/* same as suspend */
+    	timer_suspendcpu(cpunum, hold, reason);
+    
+    	/* except that we don't count time */
+    	if (hold!=0)
+    		cpu.nocount = 1;
+    }
+    
+    
+    
+    /*
+     *		query if a CPU is suspended or not
+     */
+    public static int timer_iscpususpended(int cpunum, int reason)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+        return (((cpu.suspended & reason)!=0) && (cpu.nocount==0)) ? 1 : 0;
+    }
+    
+    
+    
+    /*
+     *		query if a CPU is held or not
+     */
+    public static int timer_iscpuheld(int cpunum, int reason)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    	return (((cpu.suspended & reason)!=0) && (cpu.nocount!=0)) ? 1 : 0;
+    }
+    
+    
+    
+    /*
+     *		suspend a CPU until a specified trigger condition is met
+     */
+    public static void timer_suspendcpu_trigger(int cpunum, int trigger)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		verbose_print("T=%.6g: CPU %d suspended until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
     /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* suspend the CPU immediately if it's not already */
-    /*TODO*///	timer_suspendcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
-    /*TODO*///
-    /*TODO*///	/* set the trigger */
-    /*TODO*///	cpu->trigger = trigger;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		hold a CPU and don't count time for it
-    /*TODO*/// */
-    /*TODO*///void timer_holdcpu_trigger(int cpunum, int trigger)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = cpudata + cpunum;
-    /*TODO*///
+    
+    	/* suspend the CPU immediately if it's not already */
+    	timer_suspendcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
+    
+    	/* set the trigger */
+    	cpu.trigger = trigger;
+    }
+    
+    
+    
+    /*
+     *		hold a CPU and don't count time for it
+     */
+    public static void timer_holdcpu_trigger(int cpunum, int trigger)
+    {
+    	cpu_entry cpu = cpudata[cpunum];
+    
     /*TODO*///	#if VERBOSE
     /*TODO*///		verbose_print("T=%.6g: CPU %d held until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
     /*TODO*///	#endif
-    /*TODO*///
-    /*TODO*///	/* suspend the CPU immediately if it's not already */
-    /*TODO*///	timer_holdcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
-    /*TODO*///
-    /*TODO*///	/* set the trigger */
-    /*TODO*///	cpu->trigger = trigger;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		generates a trigger to unsuspend any CPUs waiting for it
-    /*TODO*/// */
-    /*TODO*///void timer_trigger(int trigger)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu;
-    /*TODO*///
-    /*TODO*///	/* cause an immediate resynchronization */
-    /*TODO*///	if (activecpu)
-    /*TODO*///	{
-    /*TODO*///		int left = *activecpu->icount;
-    /*TODO*///		if (left > 0)
-    /*TODO*///		{
-    /*TODO*///			activecpu->lost += left;
-    /*TODO*///			if (activecpu->burn)
-    /*TODO*///				(*activecpu->burn)(left); /* let the CPU burn the cycles */
-    /*TODO*///			else
-    /*TODO*///				*activecpu->icount = 0; /* CPU doesn't care */
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* look for suspended CPUs waiting for this trigger and unsuspend them */
-    /*TODO*///	for (cpu = cpudata; cpu <= lastcpu; cpu++)
-    /*TODO*///	{
-    /*TODO*///		if (cpu->suspended && cpu->trigger == trigger)
-    /*TODO*///		{
+    
+    	/* suspend the CPU immediately if it's not already */
+    	timer_holdcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
+    
+    	/* set the trigger */
+    	cpu.trigger = trigger;
+    }
+    
+    
+    
+    /*
+     *		generates a trigger to unsuspend any CPUs waiting for it
+     */
+    public static void timer_trigger(int trigger)
+    {
+    	int cpu;
+    
+    	/* cause an immediate resynchronization */
+    	if (activecpu!=-1)
+    	{
+    		int left = cpudata[activecpu].icount[0];
+    		if (left > 0)
+    		{
+    			cpudata[activecpu].lost += left;
+    			if (cpudata[activecpu].burn!=null)
+    				cpudata[activecpu].burn.handler(left); /* let the CPU burn the cycles */
+    			else
+    				cpudata[activecpu].icount[0] = 0; /* CPU doesn't care */
+    		}
+    	}
+    
+    	/* look for suspended CPUs waiting for this trigger and unsuspend them */
+    	for(cpu=0; cpu<=lastcpu; cpu++)//for (cpu = cpudata; cpu <= lastcpu; cpu++)
+    	{
+    		if (cpudata[cpu].suspended!=0 && cpudata[cpu].trigger == trigger)
+    		{
     /*TODO*///			#if VERBOSE
     /*TODO*///				verbose_print("T=%.6g: CPU %d triggered\n", getabsolutetime() + global_offset, cpu->index);
     /*TODO*///			#endif
-    /*TODO*///
-    /*TODO*///			timer_suspendcpu(cpu->index, 0, SUSPEND_REASON_TRIGGER);
-    /*TODO*///			cpu->trigger = 0;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *		pick the next CPU to run
-    /*TODO*/// */
-    /*TODO*///static int pick_cpu(int *cpunum, int *cycles, double end)
-    /*TODO*///{
-    /*TODO*///	cpu_entry *cpu = last_activecpu;
-    /*TODO*///
-    /*TODO*///	/* look for a CPU that isn't suspended and hasn't run its full timeslice yet */
-    /*TODO*///	do
-    /*TODO*///	{
-    /*TODO*///		/* wrap around */
-    /*TODO*///		cpu += 1;
-    /*TODO*///		if (cpu > lastcpu)
-    /*TODO*///			cpu = cpudata;
-    /*TODO*///
-    /*TODO*///		/* if this CPU is suspended, just bump its time */
-    /*TODO*///		if (cpu->suspended)
-    /*TODO*///		{
-    /*TODO*///			/* ASG 990225 - defer this update until the slice has finished */
-    /*TODO*////*			if (!cpu->nocount)
-    /*TODO*///			{
-    /*TODO*///				cpu->time = end;
-    /*TODO*///				cpu->lost = 0;
-    /*TODO*///			}*/
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* if this CPU isn't suspended and has time left.... */
-    /*TODO*///		else if (cpu->time < end)
-    /*TODO*///		{
-    /*TODO*///			/* mark the CPU active, and remember the CPU number locally */
-    /*TODO*///			activecpu = last_activecpu = cpu;
-    /*TODO*///
-    /*TODO*///			/* return the number of cycles to execute and the CPU number */
-    /*TODO*///			*cpunum = cpu->index;
-    /*TODO*///			*cycles = (int)((double)(end - cpu->time) * cpu->sec_to_cycles);
-    /*TODO*///
-    /*TODO*///			if (*cycles > 0)
-    /*TODO*///			{
-    /*TODO*///				#if VERBOSE
-    /*TODO*///					verbose_print("T=%.6g: CPU %d runs %d cycles\n", cpu->time + global_offset, *cpunum, *cycles);
-    /*TODO*///				#endif
-    /*TODO*///
-    /*TODO*///				/* remember the base time for this CPU */
-    /*TODO*///				base_time = cpu->time + ((double)*cycles * cpu->cycles_to_sec);
-    /*TODO*///
-    /*TODO*///				/* success */
-    /*TODO*///				return 1;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	while (cpu != last_activecpu);
-    /*TODO*///
-    /*TODO*///	/* ASG 990225 - bump all suspended CPU times after the slice has finished */
-    /*TODO*///	for (cpu = cpudata; cpu <= lastcpu; cpu++)
-    /*TODO*///		if (cpu->suspended && !cpu->nocount)
-    /*TODO*///		{
-    /*TODO*///			cpu->time = end;
-    /*TODO*///			cpu->lost = 0;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///	/* failure */
-    /*TODO*///	return 0;
-    /*TODO*///}
+    
+    			timer_suspendcpu(cpudata[cpu].index, 0, SUSPEND_REASON_TRIGGER);
+    			cpudata[cpu].trigger = 0;
+    		}
+    	}
+    }
+    
+    
+    /*
+     *		pick the next CPU to run
+     */
+    public static int pick_cpu(int[] cpunum, int[] cycles, double end) //shadow note cpunum and cycles are reference so pass a table
+    {
+    	int cpu = last_activecpu;
+    
+    	/* look for a CPU that isn't suspended and hasn't run its full timeslice yet */
+    	do
+    	{
+    		/* wrap around */
+    		cpu += 1;
+    		if (cpu > lastcpu)
+    			cpu=0;//cpu = cpudata;
+    
+    		/* if this CPU is suspended, just bump its time */
+    		if (cpudata[cpu].suspended!=0)
+    		{
+    			/* ASG 990225 - defer this update until the slice has finished */
+    /*			if (!cpu->nocount)
+    			{
+    				cpu->time = end;
+    				cpu->lost = 0;
+    			}*/
+    		}
+    
+    		/* if this CPU isn't suspended and has time left.... */
+    		else if (cpudata[cpu].time < end)
+    		{
+    			/* mark the CPU active, and remember the CPU number locally */
+    			activecpu = last_activecpu = cpu;
+    
+    			/* return the number of cycles to execute and the CPU number */
+    			cpunum[0] = cpudata[cpu].index;
+    			cycles[0] = (int)((double)(end - cpudata[cpu].time) * cpudata[cpu].sec_to_cycles);
+    
+    			if (cycles[0] > 0)
+    			{
+  /*TODO*///  				#if VERBOSE
+  /*TODO*///  					verbose_print("T=%.6g: CPU %d runs %d cycles\n", cpu->time + global_offset, *cpunum, *cycles);
+   /*TODO*/// 				#endif
+    
+    				/* remember the base time for this CPU */
+    				base_time = cpudata[cpu].time + ((double)cycles[0] * cpudata[cpu].cycles_to_sec);
+    
+    				/* success */
+    				return 1;
+    			}
+    		}
+    	}
+    	while (cpu != last_activecpu);
+    
+    	/* ASG 990225 - bump all suspended CPU times after the slice has finished */
+    	for (cpu=0; cpu<=lastcpu; cpu++)//for (cpu = cpudata; cpu <= lastcpu; cpu++)
+    		if ((cpudata[cpu].suspended!=0) && (cpudata[cpu].nocount==0))
+    		{
+    			cpudata[cpu].time = end;
+    			cpudata[cpu].lost = 0;
+    		}
+    
+    	/* failure */
+    	return 0;
+    }
 }
