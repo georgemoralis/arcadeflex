@@ -4586,12 +4586,19 @@ public class z80 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }*/
 
+  
+
     
     /*
      * 
      *   OLD Z80 cpu core for reference TOBE REPLACED!!!
      * 
      */
+      @Override
+    public void set_irq_line(int irqline, int linestate) {
+        Interrupt ();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
      	public static class z80_pair
 	{
                 public int H,L,W;

@@ -66,7 +66,7 @@ public class cpuintrfH {
  /*TODO*///        unsigned (*get_reg)(int regnum);
   /*TODO*///       void (*set_reg)(int regnum, unsigned val);
  /*TODO*///        void (*set_nmi_line)(int linestate);
- /*TODO*///        void (*set_irq_line)(int irqline, int linestate);
+                   public abstract void set_irq_line(int irqline, int linestate);
                    public abstract void set_irq_callback(irqcallbacksPtr callback);
   /*TODO*///       void (*internal_interrupt)(int type);
  /*TODO*///        void (*cpu_state_save)(void *file);

@@ -15,9 +15,9 @@ import static mame.timerH.*;
 import static mame.memory.*;
 
 public class cpuintrf {
-    /*TODO*////* these are triggers sent to the timer system for various interrupt events */
+    /* these are triggers sent to the timer system for various interrupt events */
     public static final int TRIGGER_TIMESLICE	=	-1000;
-    /*TODO*///#define TRIGGER_INT 			-2000
+    public static final int TRIGGER_INT 	=	-2000;
     /*TODO*///#define TRIGGER_YIELDTIME		-3000
     /*TODO*///#define TRIGGER_SUSPENDTIME 	-4000
     /*TODO*///
@@ -105,15 +105,15 @@ public class cpuintrf {
     /*TODO*///#define GETREG(index,regnum)			((*cpu[index].intf->get_reg)(regnum))
     /*TODO*///#define SETREG(index,regnum,value)		((*cpu[index].intf->set_reg)(regnum,value))
     /*TODO*///#define SETNMILINE(index,state) 		((*cpu[index].intf->set_nmi_line)(state))
-    /*TODO*///#define SETIRQLINE(index,line,state)	((*cpu[index].intf->set_irq_line)(line,state))
+    static void SETIRQLINE(int index, int line, int state) { cpu.get(index).intf.set_irq_line(line, state); }
     static void SETIRQCALLBACK(int index, irqcallbacksPtr callback) { cpu.get(index).intf.set_irq_callback(callback); }
     /*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
     /*TODO*///#define CPUINFO(index,context,regnum)	((*cpu[index].intf->cpu_info)(context,regnum))
     /*TODO*///#define CPUDASM(index,buffer,pc)		((*cpu[index].intf->cpu_dasm)(buffer,pc))
     /*TODO*///#define ICOUNT(index)					(*cpu[index].intf->icount)
-     static int INT_TYPE_NONE(int index) { return cpu.get(index).intf.no_int; }
-     static int INT_TYPE_IRQ(int index) { return cpu.get(index).intf.irq_int; }
-    /*TODO*///#define INT_TYPE_NMI(index) 			(cpu[index].intf->nmi_int)
+    static int INT_TYPE_NONE(int index)  { return cpu.get(index).intf.no_int; }
+    static int INT_TYPE_IRQ(int index)   { return cpu.get(index).intf.irq_int; }
+    static int INT_TYPE_NMI(int index) 	 { return cpu.get(index).intf.nmi_int; }
     /*TODO*///#define READMEM(index,offset)			((*cpu[index].intf->memory_read)(offset))
     /*TODO*///#define WRITEMEM(index,offset,data) 	((*cpu[index].intf->memory_write)(offset,data))
     static void SET_OP_BASE(int index, int pc) { cpu.get(index).intf.set_op_base(pc); }
@@ -610,21 +610,21 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  This function returns CPUNUM current status  (running or halted)
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///int cpu_getstatus(int cpunum)
-    /*TODO*///{
-    /*TODO*///	if (cpunum >= MAX_CPU) return 0;
-    /*TODO*///
-    /*TODO*///	return !timer_iscpususpended(cpunum,
-    /*TODO*///			SUSPEND_REASON_HALT | SUSPEND_REASON_RESET | SUSPEND_REASON_DISABLE);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    /***************************************************************************
+    
+      This function returns CPUNUM current status  (running or halted)
+    
+    ***************************************************************************/
+    public static int cpu_getstatus(int cpunum)
+    {
+    	if (cpunum >= MAX_CPU) return 0;
+    
+    	return timer_iscpususpended(cpunum,
+    			SUSPEND_REASON_HALT | SUSPEND_REASON_RESET | SUSPEND_REASON_DISABLE)==0 ? 1 :0;
+    }
+    
+    
+    
     public static int cpu_getactivecpu()
     {
     	int cpunum = (activecpu < 0) ? 0 : activecpu;
@@ -940,24 +940,25 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this functions to set the vector for a irq line of a CPU
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_irq_line_vector_w(int cpunum, int irqline, int vector)
-    /*TODO*///{
-    /*TODO*///	cpunum &= (MAX_CPU - 1);
-    /*TODO*///	irqline &= (MAX_IRQ_LINES - 1);
-    /*TODO*///	if( irqline < cpu[cpunum].intf->num_irqs )
-    /*TODO*///	{
-    /*TODO*///		LOG((errorlog,"cpu_irq_line_vector_w(%d,%d,$%04x)\n",cpunum,irqline,vector));
-    /*TODO*///		irq_line_vector[cpunum * MAX_IRQ_LINES + irqline] = vector;
-    /*TODO*///		return;
-    /*TODO*///	}
-    /*TODO*///	LOG((errorlog, "cpu_irq_line_vector_w CPU#%d irqline %d > max irq lines\n", cpunum, irqline));
-    /*TODO*///}
-    /*TODO*///
+    /***************************************************************************
+    
+      Use this functions to set the vector for a irq line of a CPU
+    
+    ***************************************************************************/
+    public static void cpu_irq_line_vector_w(int cpunum, int irqline, int vector)
+    {
+    	cpunum &= (MAX_CPU - 1);
+    	irqline &= (MAX_IRQ_LINES - 1);
+    	if( irqline < cpu.get(cpunum).intf.num_irqs )
+    	{
+    		if(errorlog!=null) fprintf(errorlog,"cpu_irq_line_vector_w(%d,%d,$%04x)\n",cpunum,irqline,vector);
+                
+    		irq_line_vector[cpunum * MAX_IRQ_LINES + irqline] = vector;
+    		return;
+    	}
+    	if(errorlog!=null) fprintf(errorlog,"cpu_irq_line_vector_w CPU#%d irqline %d > max irq lines\n", cpunum, irqline);
+    }
+    
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Use these functions to set the vector (data) for a irq line (offset)
@@ -1275,51 +1276,59 @@ public class cpuintrf {
     /*TODO*///	if (state != CLEAR_LINE)
     /*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void cpu_manualirqcallback(int param)
-    /*TODO*///{
-    /*TODO*///	int cpunum, irqline, state, oldactive;
-    /*TODO*///
-    /*TODO*///	irqline = param & 7;
-    /*TODO*///	cpunum = (param >> 3) & 7;
-    /*TODO*///	state = param >> 6;
-    /*TODO*///
-    /*TODO*///	/* swap to the CPU's context */
-    /*TODO*///	oldactive = activecpu;
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///	memorycontextswap(activecpu);
-    /*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///
-    /*TODO*///	LOG((errorlog,"cpu_manualirqcallback %d,%d,%d\n",cpunum,irqline,state));
-    /*TODO*///
-    /*TODO*///	irq_line_state[cpunum * MAX_IRQ_LINES + irqline] = state;
-    /*TODO*///	switch (state)
-    /*TODO*///	{
-    /*TODO*///		case PULSE_LINE:
-    /*TODO*///			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
-    /*TODO*///			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
-    /*TODO*///			break;
-    /*TODO*///		case HOLD_LINE:
-    /*TODO*///		case ASSERT_LINE:
-    /*TODO*///			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
-    /*TODO*///			break;
-    /*TODO*///		case CLEAR_LINE:
-    /*TODO*///			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
-    /*TODO*///			break;
-    /*TODO*///		default:
-    /*TODO*///			if( errorlog ) fprintf( errorlog, "cpu_manualirqcallback cpu #%d, line %d, unknown state %d\n", cpunum, irqline, state);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* update the CPU's context */
-    /*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///	activecpu = oldactive;
-    /*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-    /*TODO*///
-    /*TODO*///	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
-    /*TODO*///	if (state != CLEAR_LINE)
-    /*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
-    /*TODO*///}
-    /*TODO*///
+    
+    public static void cpu_manualirqcallback(int param)
+    {
+    	int cpunum, irqline, state, oldactive;
+    
+    	irqline = param & 7;
+    	cpunum = (param >> 3) & 7;
+    	state = param >> 6;
+    
+    	/* swap to the CPU's context */
+    	oldactive = activecpu;
+    	activecpu = cpunum;
+    	memorycontextswap(activecpu);
+    	if (cpu.get(activecpu).save_context!=0) 
+        {
+            //SETCONTEXT(activecpu, cpu[activecpu].context);
+            throw new UnsupportedOperationException("Unsupported");
+        }
+    
+    	if(errorlog!=null) fprintf(errorlog,"cpu_manualirqcallback %d,%d,%d\n",cpunum,irqline,state);
+    
+    	irq_line_state[cpunum * MAX_IRQ_LINES + irqline] = state;
+    	switch (state)
+    	{
+    		case PULSE_LINE:
+    			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
+    			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
+    			break;
+    		case HOLD_LINE:
+    		case ASSERT_LINE:
+    			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
+    			break;
+    		case CLEAR_LINE:
+    			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
+    			break;
+    		default:
+    			if( errorlog!=null) fprintf( errorlog, "cpu_manualirqcallback cpu #%d, line %d, unknown state %d\n", cpunum, irqline, state);
+    	}
+    
+    	/* update the CPU's context */
+        if (cpu.get(activecpu).save_context!=0) 
+        {
+            //GETCONTEXT(activecpu, cpu[activecpu].context);
+            throw new UnsupportedOperationException("Unsupported");
+        }
+    	activecpu = oldactive;
+    	if (activecpu >= 0) memorycontextswap(activecpu);
+    
+    	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
+    	if (state != CLEAR_LINE)
+    		timer_trigger(TRIGGER_INT + cpunum);
+    }
+    
     /*TODO*///static void cpu_internal_interrupt(int cpunum, int type)
     /*TODO*///{
     /*TODO*///	int oldactive = activecpu;
@@ -1352,40 +1361,45 @@ public class cpuintrf {
     /*TODO*///
     public static void cpu_generate_interrupt(int cpunum, InterruptPtr func, int num)
     {
-        System.out.println("cpu_generate_interrupt TODO");
-    /*TODO*///	int oldactive = activecpu;
-    /*TODO*///
-    /*TODO*///	/* don't trigger interrupts on suspended CPUs */
-    /*TODO*///	if (cpu_getstatus(cpunum) == 0) return;
-    /*TODO*///
-    /*TODO*///	/* swap to the CPU's context */
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///	memorycontextswap(activecpu);
-    /*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///
-    /*TODO*///	/* cause the interrupt, calling the function if it exists */
-    /*TODO*///	if (func) num = (*func)();
-    /*TODO*///
-    /*TODO*///	/* wrapper for the new interrupt system */
-    /*TODO*///	if (num != INT_TYPE_NONE(cpunum))
-    /*TODO*///	{
-    /*TODO*///		LOG((errorlog,"CPU#%d interrupt type $%04x: ", cpunum, num));
-    /*TODO*///		/* is it the NMI type interrupt of that CPU? */
-    /*TODO*///		if (num == INT_TYPE_NMI(cpunum))
-    /*TODO*///		{
-    /*TODO*///
-    /*TODO*///			LOG((errorlog,"NMI\n"));
-    /*TODO*///			cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );
-    /*TODO*///
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			int irq_line;
-    /*TODO*///
-    /*TODO*///			switch (CPU_TYPE(cpunum))
-    /*TODO*///			{
-    /*TODO*///#if (HAS_Z80)
-    /*TODO*///			case CPU_Z80:				irq_line = 0; LOG((errorlog,"Z80 IRQ\n")); break;
+       	int oldactive = activecpu;
+    
+    	/* don't trigger interrupts on suspended CPUs */
+    	if (cpu_getstatus(cpunum) == 0) return;
+    
+    	/* swap to the CPU's context */
+    	activecpu = cpunum;
+    	memorycontextswap(activecpu);
+    	if (cpu.get(activecpu).save_context!=0) 
+        {
+            //SETCONTEXT(activecpu, cpu[activecpu].context);
+            throw new UnsupportedOperationException("Unsupported");
+        }
+    
+    	/* cause the interrupt, calling the function if it exists */
+    	if (func!=null) num = func.handler();
+    
+    	/* wrapper for the new interrupt system */
+    	if (num != INT_TYPE_NONE(cpunum))
+    	{
+                if(errorlog!=null) fprintf(errorlog,"CPU#%d interrupt type $%04x: ", cpunum, num);
+    		/* is it the NMI type interrupt of that CPU? */
+    		if (num == INT_TYPE_NMI(cpunum))
+    		{
+                    if(errorlog!=null) fprintf(errorlog,"NMI\n");
+    /*TODO*///	//cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );	
+                    throw new UnsupportedOperationException("Unsupported");
+    
+    		}
+    		else
+    		{         
+    			int irq_line;
+    
+    			switch (CPU_TYPE(cpunum))
+    			{
+    			case CPU_Z80:				
+                            irq_line = 0; 
+                            if(errorlog!=null) fprintf(errorlog,"Z80 IRQ\n");
+                            break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_8080)
     /*TODO*///			case CPU_8080:
@@ -1679,22 +1693,27 @@ public class cpuintrf {
     /*TODO*///				}
     /*TODO*///				break;
     /*TODO*///#endif
-    /*TODO*///			default:
-    /*TODO*///				irq_line = 0;
-    /*TODO*///				/* else it should be an IRQ type; assume line 0 and store vector */
-    /*TODO*///				LOG((errorlog,"unknown IRQ\n"));
-    /*TODO*///			}
-    /*TODO*///			cpu_irq_line_vector_w(cpunum, irq_line, num);
-    /*TODO*///			cpu_manualirqcallback(irq_line | (cpunum << 3) | (HOLD_LINE << 6) );
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* update the CPU's context */
-    /*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///	activecpu = oldactive;
-    /*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-    /*TODO*///
-    /*TODO*///	/* trigger already generated by cpu_manualirqcallback or cpu_manualnmicallback */
+    			default:
+    				irq_line = 0;
+    				/* else it should be an IRQ type; assume line 0 and store vector */
+                                if(errorlog!=null) fprintf(errorlog,"unknown IRQ\n");
+                            
+    			}
+    			cpu_irq_line_vector_w(cpunum, irq_line, num);
+    			cpu_manualirqcallback(irq_line | (cpunum << 3) | (HOLD_LINE << 6) );
+    		}
+    	}
+    
+    	/* update the CPU's context */
+    	if (cpu.get(activecpu).save_context!=0)
+        {
+            //GETCONTEXT(activecpu, cpu[activecpu].context);
+            throw new UnsupportedOperationException("Unsupported");
+        }
+    	activecpu = oldactive;
+    	if (activecpu >= 0) memorycontextswap(activecpu);
+    
+    	/* trigger already generated by cpu_manualirqcallback or cpu_manualnmicallback */
     }
  
     public static void cpu_clear_interrupts(int cpunum)

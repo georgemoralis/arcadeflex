@@ -68,5 +68,10 @@ public class Dummy_cpu extends cpu_interface {
     public void set_op_base(int pc) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void set_irq_line(int irqline, int linestate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
