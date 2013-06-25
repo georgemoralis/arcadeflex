@@ -5,6 +5,7 @@ import static mame.driverH.*;
 import static arcadeflex.libc.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static mame.cpuintrf.*;
 
 public class pacman {
    public static int speedcheat = 0;	/* a well known hack allows to make Pac Man run at four times */
@@ -25,11 +26,11 @@ public class pacman {
    
    public static InterruptPtr pacman_interrupt = new InterruptPtr() { public int handler()
    {
-        throw new UnsupportedOperationException("Unsupported pacman_interrupt");
-   /*TODO*///	unsigned char *RAM = memory_region(REGION_CPU1);
-   /*TODO*///
-   /*TODO*///
-   /*TODO*///	/* speed up cheat */
+        UBytePtr RAM = memory_region(REGION_CPU1);
+        
+   
+   
+   	/* speed up cheat */
    /*TODO*///	if (speedcheat)
    /*TODO*///	{
    /*TODO*///		if (readinputport(4) & 1)	/* check status of the fake dip switch */
@@ -46,7 +47,6 @@ public class pacman {
    /*TODO*///		}
    /*TODO*///	}
    /*TODO*///
-   /*TODO*///	return interrupt();
-   }};
-   /*TODO*///   
+   	return interrupt.handler();
+   }};  
 }

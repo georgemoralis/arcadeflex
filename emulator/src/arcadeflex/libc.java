@@ -97,6 +97,9 @@ public class libc {
         public char readinc() {
             return (char)((this.memory[(this.base++)])&0xFF);
         }
+        public char readdec() {
+            return (char)((this.memory[(this.base--)])&0xFF);
+        }
         /*
         public UBytePtr(char[] m) {
             set(m, 0);

@@ -542,8 +542,7 @@ public class drawgfx {
 
 	if (dest.depth != 16)
         {
-            throw new UnsupportedOperationException("copybitmap_core8");
-            //copybitmap_core8(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+            copybitmap_core8(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
         }	
 	else
         {
@@ -552,6 +551,88 @@ public class drawgfx {
         }
 		
     }
+    static void copybitmap_core8(osd_bitmap dest, osd_bitmap src, int flipx, int flipy, int sx, int sy, rectangle clip, int transparency, int transparent_color)
+    {
+            int ox; int oy; int ex; int ey; 
+            /* check bounds */
+            ox = sx;
+            oy = sy;
+            ex = sx + src.width - 1;
+            if (sx < 0) sx = 0;
+            if (clip != null && sx < clip.min_x) sx = clip.min_x;
+            if (ex >= dest.width) ex = dest.width - 1;
+            if (clip != null && ex > clip.max_x) ex = clip.max_x;
+            if (sx > ex) return;
+            ey = sy + src.height - 1; if (sy < 0) sy = 0;
+            if (clip != null && sy < clip.min_y) sy = clip.min_y;
+            if (ey >= dest.height) ey = dest.height - 1;
+            if (clip != null && ey > clip.max_y) ey = clip.max_y;
+            if (sy > ey) return;
+         
+            UBytePtr sd = new UBytePtr(src.line[0]); /* source data */
+            int sw = ex - sx + 1; /* source width */
+            int sh = ey - sy + 1; /* source height */
+            int sm = (int)(src.line[1].base - src.line[0].base); /* source modulo */
+            UBytePtr dd = new UBytePtr(dest.line[sy], sx); /* dest data */
+            int dm = (int)(dest.line[1].base - dest.line[0].base); /* dest modulo */
+                   
+            if (flipx!=0)
+            {
+                sd.base += src.width - 1 - (sx - ox);
+            }
+            else
+                sd.base += (sx - ox);
+            
+            if (flipy!=0)
+            {
+                sd.base += sm * (src.height - 1 - (sy - oy));
+                sm = -sm;
+            }
+            else
+                sd.base += (sm * (sy - oy));
+
+            switch (transparency)
+            {
+                case TRANSPARENCY_NONE:
+                    if (flipx!=0)
+                    {
+                        throw new UnsupportedOperationException("unimplemented");//blockmove_opaque_noremap_flipx8(sd, sw, sh, sm, dd, dm);
+                    }
+                    else
+                    {
+                       blockmove_opaque_noremap8(sd, sw, sh, sm, dd, dm); break;
+                    }
+                    //break;
+                case TRANSPARENCY_PEN:
+                case TRANSPARENCY_COLOR:
+                    if (flipx!=0)
+                        throw new UnsupportedOperationException("unimplemented");//blockmove_transpen_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
+                    else
+                        throw new UnsupportedOperationException("unimplemented");//blockmove_transpen_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
+                   // break;
+                case TRANSPARENCY_THROUGH:
+                    if (flipx!=0)
+                        throw new UnsupportedOperationException("unimplemented");//blockmove_transthrough_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
+                    else
+                        throw new UnsupportedOperationException("unimplemented");//blockmove_transthrough_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
+                   // break;
+            }
+
+        }
+    
+        public static void blockmove_opaque_noremap8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo)
+        {
+            
+            while (srcheight != 0)
+            {
+                System.arraycopy(srcdata.memory, (int)srcdata.base, dstdata.memory, (int)dstdata.base, srcwidth);
+                //memcpy(dstdata,srcdata,srcwidth * sizeof(UINT8));
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+        }
+
 /*TODO*///
 /*TODO*///
 /*TODO*///void copybitmapzoom(struct osd_bitmap *dest_bmp,struct osd_bitmap *source_bmp,int flipx,int flipy,int sx,int sy,
@@ -2421,6 +2502,38 @@ public class drawgfx {
                     srcheight--;
             }
        }
+        static void blockmove_opaque_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata)
+        {
+           
+            int end;
+            srcmodulo += srcwidth;
+            dstmodulo -= srcwidth; 
+            while (srcheight != 0)
+            {
+                end = (int)(dstdata.base + srcwidth);
+                while (dstdata.base <= end - 8)
+                {
+                    srcdata.base = ((int)srcdata.base - 8);
+                    dstdata.write(0,paldata.read(srcdata.read(8)));
+                    dstdata.write(1,paldata.read(srcdata.read(7)));
+                    dstdata.write(2,paldata.read(srcdata.read(6)));
+                    dstdata.write(3,paldata.read(srcdata.read(5)));
+                    dstdata.write(4,paldata.read(srcdata.read(4)));
+                    dstdata.write(5,paldata.read(srcdata.read(3)));
+                    dstdata.write(6,paldata.read(srcdata.read(2)));
+                    dstdata.write(7,paldata.read(srcdata.read(1)));
+                    dstdata.base += 8;
+                }
+                while (dstdata.base < end)
+                {
+                    dstdata.writeinc(paldata.read(srcdata.readdec()));
+                    //*(dstdata++) = paldata[*(srcdata--)];
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+        }
         
         public static void drawgfx_core8(osd_bitmap dest, GfxElement gfx,
             int code, int color, int flipx, int flipy, int sx, int sy,
@@ -2484,13 +2597,12 @@ public class drawgfx {
 			case TRANSPARENCY_NONE:
                                 if(flipx!=0)
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_opaque_flipx8(sd,sw,sh,sm,dd,dm,paldata);
                                 }
                                 else
                                 {
                                     blockmove_opaque8(sd,sw,sh,sm,dd,dm,paldata);
                                 }
-				//BLOCKMOVE(opaque,flipx,(sd,sw,sh,sm,dd,dm,paldata));
 				break;
 
 			case TRANSPARENCY_PEN:
