@@ -16,7 +16,7 @@ import static mame.memory.*;
 
 public class cpuintrf {
     /*TODO*////* these are triggers sent to the timer system for various interrupt events */
-    /*TODO*///#define TRIGGER_TIMESLICE		-1000
+    public static final int TRIGGER_TIMESLICE	=	-1000;
     /*TODO*///#define TRIGGER_INT 			-2000
     /*TODO*///#define TRIGGER_YIELDTIME		-3000
     /*TODO*///#define TRIGGER_SUSPENDTIME 	-4000
@@ -1862,64 +1862,61 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///***************************************************************************/
     public static timer_callback cpu_firstvblankcallback = new timer_callback(){ public void handler(int param){
-        throw new UnsupportedOperationException("Unsupported cpu_firstvblankcallback Here you go nickblame :D");
+
+    	/* now that we're synced up, pulse from here on out */
+    	vblank_timer = timer_pulse(vblank_period, param, cpu_vblankcallback);
+    
+    	/* but we need to call the standard routine as well */
+    	cpu_vblankcallback.handler(param);
     }};
-    /*TODO*///static void cpu_firstvblankcallback(int param)
-    /*TODO*///{
-    /*TODO*///	/* now that we're synced up, pulse from here on out */
-    /*TODO*///	vblank_timer = timer_pulse(vblank_period, param, cpu_vblankcallback);
-    /*TODO*///
-    /*TODO*///	/* but we need to call the standard routine as well */
-    /*TODO*///	cpu_vblankcallback(param);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* note that calling this with param == -1 means count everything, but call no subroutines */
+
+    /* note that calling this with param == -1 means count everything, but call no subroutines */
     public static timer_callback cpu_vblankcallback = new timer_callback(){ public void handler(int param){
-        throw new UnsupportedOperationException("Unsupported cpu_vblankcallback Here you go nickblame :D");
+
+    	int i;
+    
+    	/* loop over CPUs */
+    	for (i = 0; i < totalcpu; i++)
+    	{
+    		/* if the interrupt multiplier is valid */
+    		if (cpu.get(i).vblankint_multiplier != -1)
+    		{
+    			/* decrement; if we hit zero, generate the interrupt and reset the countdown */
+    			if ((--cpu.get(i).vblankint_countdown)==0)
+    			{
+    				if (param != -1)
+                                {
+                                    throw new UnsupportedOperationException("unimplemented");
+    				//	cpu_vblankintcallback(i);
+                                }
+    				cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier;
+    				timer_reset(cpu.get(i).vblankint_timer, TIME_NEVER);
+    			}
+    		}
+    
+    		/* else reset the VBLANK timer if this is going to be a real VBLANK */
+    		else if (vblank_countdown == 1)
+    			timer_reset(cpu.get(i).vblankint_timer, TIME_NEVER);
+    	}
+    
+    	/* is it a real VBLANK? */
+    	if ((--vblank_countdown)==0)
+    	{
+    		/* do we update the screen now? */
+                 if ((Machine.drv.video_attributes & VIDEO_UPDATE_AFTER_VBLANK) == 0)
+    			usres = updatescreen();
+    
+    		/* Set the timer to update the screen */
+                 timer_set(TIME_IN_USEC(Machine.drv.vblank_duration), 0, cpu_updatecallback);
+    		vblank = 1;
+    
+    		/* reset the globals */
+    		cpu_vblankreset();
+    
+    		/* reset the counter */
+    		vblank_countdown = vblank_multiplier;
+    	}
     }};
-    /*TODO*///static void cpu_vblankcallback(int param)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	/* loop over CPUs */
-    /*TODO*///	for (i = 0; i < totalcpu; i++)
-    /*TODO*///	{
-    /*TODO*///		/* if the interrupt multiplier is valid */
-    /*TODO*///		if (cpu[i].vblankint_multiplier != -1)
-    /*TODO*///		{
-    /*TODO*///			/* decrement; if we hit zero, generate the interrupt and reset the countdown */
-    /*TODO*///			if (!--cpu[i].vblankint_countdown)
-    /*TODO*///			{
-    /*TODO*///				if (param != -1)
-    /*TODO*///					cpu_vblankintcallback(i);
-    /*TODO*///				cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier;
-    /*TODO*///				timer_reset(cpu[i].vblankint_timer, TIME_NEVER);
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* else reset the VBLANK timer if this is going to be a real VBLANK */
-    /*TODO*///		else if (vblank_countdown == 1)
-    /*TODO*///			timer_reset(cpu[i].vblankint_timer, TIME_NEVER);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* is it a real VBLANK? */
-    /*TODO*///	if (!--vblank_countdown)
-    /*TODO*///	{
-    /*TODO*///		/* do we update the screen now? */
-    /*TODO*///		if (!(Machine->drv->video_attributes & VIDEO_UPDATE_AFTER_VBLANK))
-    /*TODO*///			usres = updatescreen();
-    /*TODO*///
-    /*TODO*///		/* Set the timer to update the screen */
-    /*TODO*///		timer_set(TIME_IN_USEC(Machine->drv->vblank_duration), 0, cpu_updatecallback);
-    /*TODO*///		vblank = 1;
-    /*TODO*///
-    /*TODO*///		/* reset the globals */
-    /*TODO*///		cpu_vblankreset();
-    /*TODO*///
-    /*TODO*///		/* reset the counter */
-    /*TODO*///		vblank_countdown = vblank_multiplier;
-    /*TODO*///	}
-    /*TODO*///}
     /*TODO*///
     /*TODO*///
     /*TODO*////***************************************************************************
@@ -1928,33 +1925,32 @@ public class cpuintrf {
     /*TODO*///  after the VBLANK in order to trigger a video update.
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///static void cpu_updatecallback(int param)
-    /*TODO*///{
-    /*TODO*///	/* update the screen if we didn't before */
-    /*TODO*///	if (Machine->drv->video_attributes & VIDEO_UPDATE_AFTER_VBLANK)
-    /*TODO*///		usres = updatescreen();
-    /*TODO*///	vblank = 0;
-    /*TODO*///
-    /*TODO*///	/* update IPT_VBLANK input ports */
-    /*TODO*///	inputport_vblank_end();
-    /*TODO*///
-    /*TODO*///	/* check the watchdog */
-    /*TODO*///	if (watchdog_counter > 0)
-    /*TODO*///	{
-    /*TODO*///		if (--watchdog_counter == 0)
-    /*TODO*///		{
-    /*TODO*///if (errorlog) fprintf(errorlog,"reset caused by the watchdog\n");
-    /*TODO*///			machine_reset();
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	current_frame++;
-    /*TODO*///
-    /*TODO*///	/* reset the refresh timer */
-    /*TODO*///	timer_reset(refresh_timer, TIME_NEVER);
-    /*TODO*///}
-    /*TODO*///
+    public static timer_callback cpu_updatecallback = new timer_callback(){ public void handler(int param)
+    {
+    	/* update the screen if we didn't before */
+    	if ((Machine.drv.video_attributes & VIDEO_UPDATE_AFTER_VBLANK)!=0)
+    		usres = updatescreen();
+    	vblank = 0;
     
+    	/* update IPT_VBLANK input ports */
+ /*TODO*///   	inputport_vblank_end();
+    
+    	/* check the watchdog */
+    	if (watchdog_counter > 0)
+    	{
+    		if (--watchdog_counter == 0)
+    		{
+                    if (errorlog!=null) fprintf(errorlog,"reset caused by the watchdog\n");
+/*TODO*///      	machine_reset();
+                    throw new UnsupportedOperationException("unimplemented");
+    		}
+    	}
+    
+    	current_frame++;
+    
+    	/* reset the refresh timer */
+    	timer_reset(refresh_timer, TIME_NEVER);
+    }};
     /***************************************************************************
     
       Converts an integral timing rate into a period. Rates can be specified
@@ -1985,15 +1981,9 @@ public class cpuintrf {
     public static timer_callback cpu_timeslicecallback = new timer_callback()
     { public void handler(int i)
       {
-          throw new UnsupportedOperationException("Unsupported cpu_timeslicecallback Here you go nickblame :D");
+          timer_trigger(TRIGGER_TIMESLICE);
       }
-    };
-    //public static void cpu_timeslicecallback(int param)
-    /*TODO*///{
-    /*TODO*///	timer_trigger(TRIGGER_TIMESLICE);
-    /*TODO*///}
-    /*TODO*///
-    
+    };  
     /***************************************************************************
     
       Initializes all the timers used by the CPU system.

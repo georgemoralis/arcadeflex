@@ -473,78 +473,84 @@ public class drawgfx {
     public static void copybitmap(osd_bitmap dest, osd_bitmap src, int flipx, int flipy, int sx, int sy,
             rectangle clip, int transparency, int transparent_color)
     {
-         throw new UnsupportedOperationException("Unsupported copybitmap Here you go nickblame :D");
-/*TODO*///	struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* if necessary, remap the transparent color */
-/*TODO*///	if (transparency == TRANSPARENCY_COLOR)
-/*TODO*///		transparent_color = Machine->pens[transparent_color];
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int temp;
-/*TODO*///
-/*TODO*///		temp = sx;
-/*TODO*///		sx = sy;
-/*TODO*///		sy = temp;
-/*TODO*///
-/*TODO*///		temp = flipx;
-/*TODO*///		flipx = flipy;
-/*TODO*///		flipy = temp;
-/*TODO*///
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = clip->min_y;
-/*TODO*///			myclip.min_y = temp;
-/*TODO*///			temp = clip->max_x;
-/*TODO*///			myclip.max_x = clip->max_y;
-/*TODO*///			myclip.max_y = temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		sx = dest->width - src->width - sx;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = dest->width-1 - clip->max_x;
-/*TODO*///			myclip.max_x = dest->width-1 - temp;
-/*TODO*///			myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = clip->max_y;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		sy = dest->height - src->height - sy;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = clip->max_x;
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_y;
-/*TODO*///			myclip.min_y = dest->height-1 - clip->max_y;
-/*TODO*///			myclip.max_y = dest->height-1 - temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (dest->depth != 16)
-/*TODO*///		copybitmap_core8(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
-/*TODO*///	else
-/*TODO*///		copybitmap_core16(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+	rectangle myclip=new rectangle();
+
+
+	/* if necessary, remap the transparent color */
+	if (transparency == TRANSPARENCY_COLOR)
+		transparent_color = Machine.pens[transparent_color];
+
+
+	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+	{
+		int temp;
+
+		temp = sx;
+		sx = sy;
+		sy = temp;
+
+		temp = flipx;
+		flipx = flipy;
+		flipy = temp;
+
+		if (clip!=null)
+		{
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = clip.min_y;
+			myclip.min_y = temp;
+			temp = clip.max_x;
+			myclip.max_x = clip.max_y;
+			myclip.max_y = temp;
+			clip = myclip;
+		}
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+	{
+		sx = dest.width - src.width - sx;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = dest.width-1 - clip.max_x;
+			myclip.max_x = dest.width-1 - temp;
+			myclip.min_y = clip.min_y;
+			myclip.max_y = clip.max_y;
+			clip = myclip;
+		}
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+	{
+		sy = dest.height - src.height - sy;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			myclip.min_x = clip.min_x;
+			myclip.max_x = clip.max_x;
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_y;
+			myclip.min_y = dest.height-1 - clip.max_y;
+			myclip.max_y = dest.height-1 - temp;
+			clip = myclip;
+		}
+	}
+
+	if (dest.depth != 16)
+        {
+            throw new UnsupportedOperationException("copybitmap_core8");
+            //copybitmap_core8(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+        }	
+	else
+        {
+            throw new UnsupportedOperationException("copybitmap_core16");
+            //copybitmap_core16(dest,src,flipx,flipy,sx,sy,clip,transparency,transparent_color);
+        }
+		
     }
 /*TODO*///
 /*TODO*///

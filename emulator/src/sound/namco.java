@@ -414,7 +414,7 @@ public class namco extends sndintrf.snd_interface{
     public static WriteHandlerPtr pengo_sound_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
     /*TODO*///	sound_enable = data;
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }};
     public static WriteHandlerPtr pengo_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {

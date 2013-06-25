@@ -138,4 +138,5 @@ public class commonH {
 	public int total;	/* total number of samples */
 	public GameSample sample[]; /*1? */	/* extendable */
     }; 
+    public static final int COIN_COUNTERS	= 4;	/* total # of coin counters */
 }

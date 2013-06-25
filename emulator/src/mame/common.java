@@ -17,10 +17,11 @@ import static arcadeflex.libc.*;
 public class common {
     
     /* These globals are only kept on a machine basis - LBO 042898 */
-/*TODO*/ //    unsigned int dispensed_tickets;
-/*TODO*/ //    unsigned int coins[COIN_COUNTERS];
-/*TODO*/ //    unsigned int lastcoin[COIN_COUNTERS];
-/*TODO*/ //    unsigned int coinlockedout[COIN_COUNTERS];
+    
+    public static int dispensed_tickets;
+    public static int coins[]=new int[COIN_COUNTERS];
+    public static int lastcoin[]=new int[COIN_COUNTERS];
+    public static int coinlockedout[]=new int[COIN_COUNTERS];
     
     public static void showdisclaimer()   /* MAURY_BEGIN: dichiarazione */
     {
@@ -722,14 +723,13 @@ public class common {
     /* LBO 042898 - added coin counters */
     public static WriteHandlerPtr coin_counter_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-        throw new UnsupportedOperationException("Unsupported coin_counter_w");
-/*TODO*/ //            if (offset >= COIN_COUNTERS) return;
-/*TODO*/ //            /* Count it only if the data has changed from 0 to non-zero */
-/*TODO*/ //            if (data && (lastcoin[offset] == 0))
-/*TODO*/ //            {
-/*TODO*/ //                    coins[offset] ++;
-/*TODO*/ //            }
-/*TODO*/ //            lastcoin[offset] = data;
+            if (offset >= COIN_COUNTERS) return;
+            /* Count it only if the data has changed from 0 to non-zero */
+            if (data!=0 && (lastcoin[offset] == 0))
+            {
+                    coins[offset] ++;
+            }
+            lastcoin[offset] = data;
     }};
 /*TODO*/ //
 /*TODO*/ //    void coin_lockout_w (int offset, int data)

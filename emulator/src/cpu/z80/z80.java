@@ -10,7 +10,7 @@ import static mame.memory.*;
 
 
 public class z80 extends cpu_interface {
-    
+    int[] z80_ICount = new int[1];
     public z80()
     {    
         cpu_num = CPU_Z80;
@@ -28,7 +28,7 @@ public class z80 extends cpu_interface {
         abits1 = ABITS1_16;
         abits2 = ABITS2_16;
         abitsmin = ABITS_MIN_16;
-        
+        icount = z80_ICount;
         //intialize interfaces
         burn = burn_function;
     }
@@ -4671,7 +4671,7 @@ public class z80 extends cpu_interface {
         public Z80_Regs R = new Z80_Regs();
         public int Z80_Running = 1;
 	//public int Z80_IPeriod = 50000;
-	public int Z80_ICount = 50000;
+	//public int z80_ICount[0] = 50000;
 	int PTable[] = new int[512];
 	int ZSTable[] = new int[512];
 	int ZSPTable[] = new int[512];
@@ -4694,7 +4694,7 @@ public class z80 extends cpu_interface {
     public int execute(int cycles) {
         		Z80_Running=1;
  		InitTables();
-                Z80_ICount=cycles;	/* NS 970904 */
+                z80_ICount[0]=cycles;	/* NS 970904 */
  		do
  		{
                        if (R.pending_nmi != 0 || R.pending_irq != Z80_IGNORE_INT) Interrupt();	/* NS 970901 */
@@ -4704,7 +4704,7 @@ public class z80 extends cpu_interface {
   			//opcode=M_RDOP(R.PC);
                          int i = M_RDOP(R.PC);
 			R.PC = (R.PC + 1) & 0xFFFF;
-			Z80_ICount -= cycles_main[i];
+			z80_ICount[0] -= cycles_main[i];
   			if (opcode_main[i] != null)
                         {
   				opcode_main[i].handler();
@@ -4716,8 +4716,8 @@ public class z80 extends cpu_interface {
 	  			
 	  		}
  		}
- 		while (Z80_ICount > 0);
- 		return cycles - Z80_ICount;	/* NS 970904 */
+ 		while (z80_ICount[0] > 0);
+ 		return cycles - z80_ICount[0];	/* NS 970904 */
     }
     	final int S_FLAG = 0x80;
 	final int Z_FLAG = 0x40;
@@ -4831,19 +4831,19 @@ public class z80 extends cpu_interface {
 		int q = M_RDMEM_OPCODE_WORD();
 		M_PUSH(R.PC);
 		R.PC = q;
-		Z80_ICount -= 7;
+		z80_ICount[0] -= 7;
 	}
 	public  final void M_JP()
 	{	R.PC = M_RDOP_ARG(R.PC) + ((M_RDOP_ARG((R.PC + 1) & 65535)) << 8);
 
         }
 	public  final void M_JR()
-	{	R.PC = (R.PC + (byte) M_RDOP_ARG(R.PC) + 1) & 0xFFFF; Z80_ICount-=5;
+	{	R.PC = (R.PC + (byte) M_RDOP_ARG(R.PC) + 1) & 0xFFFF; z80_ICount[0]-=5;
 
         }
 	public  final void M_RET()
         {
-            R.PC = M_POP(); Z80_ICount -= 6;
+            R.PC = M_POP(); z80_ICount[0] -= 6;
         }
 	public  final void M_RST(int Addr)
         {
@@ -5225,13 +5225,13 @@ public class z80 extends cpu_interface {
 	  		j = (R.A - i) & 0xFF;
 			R.HL.AddW(-1);
 			R.BC.AddW(-1);
-	 		Z80_ICount -= 21;
+	 		z80_ICount[0] -= 21;
 	 	}
-	 	while (R.BC.W != 0 && j != 0 && Z80_ICount > 0);
+	 	while (R.BC.W != 0 && j != 0 && z80_ICount[0] > 0);
 	 	R.F = (R.F & C_FLAG) | ZSTable[j] |
 	          ((R.A ^ i ^ j) & H_FLAG) | (R.BC.W != 0 ? V_FLAG : 0) | N_FLAG;
 	 	if (R.BC.W != 0 && j != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else Z80_ICount += 5;
+		else z80_ICount[0] += 5;
 	} };
 
 	opcode_fn cpi = new opcode_fn() { public void handler()
@@ -5256,13 +5256,13 @@ public class z80 extends cpu_interface {
 			j = (R.A - i) & 0xFF;
 			R.HL.AddW(1);
 			R.BC.AddW(-1);
-			Z80_ICount -= 21;
+			z80_ICount[0] -= 21;
 		}
-		while (R.BC.W != 0 && j != 0 && Z80_ICount > 0);
+		while (R.BC.W != 0 && j != 0 && z80_ICount[0] > 0);
 		R.F = (R.F & C_FLAG) | ZSTable[j] |
 			  ((R.A ^ i ^ j) & H_FLAG) | (R.BC.W != 0 ? V_FLAG : 0) | N_FLAG;
 		if (R.BC.W != 0 && j != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else Z80_ICount += 5;
+		else z80_ICount[0] += 5;
 	} };
 
 	opcode_fn cpl = new opcode_fn() { public void handler() { R.A ^= 0xFF; R.F |= (H_FLAG | N_FLAG); } };
@@ -5384,7 +5384,7 @@ public class z80 extends cpu_interface {
 	{
 		R.PC = (R.PC - 1) & 0xFFFF;
 		R.HALT = 1;
-		if (Z80_ICount > 0) Z80_ICount = 0;
+		if (z80_ICount[0] > 0) z80_ICount[0] = 0;
 	} };
 
 	opcode_fn im_0 = new opcode_fn() { public void handler() { R.IM = 0; } };
@@ -5450,11 +5450,11 @@ public class z80 extends cpu_interface {
                  int j = R.PC;
                 if (j == i)
                 {
-                    if (Z80_ICount > 0) Z80_ICount = 0;/* speed up busy loop */
+                    if (z80_ICount[0] > 0) z80_ICount[0] = 0;/* speed up busy loop */
                 }
                 else if ((j == i - 3) && (M_RDOP(j) == 0x31))/* LD SP,#xxxx - Galaga */
                 {
-                    if (Z80_ICount > 10) Z80_ICount = 10;
+                    if (z80_ICount[0] > 10) z80_ICount[0] = 10;
                  }
 
             }
@@ -5481,11 +5481,11 @@ public class z80 extends cpu_interface {
                int j = R.PC;
                if (j == i)
                {
-                  if (Z80_ICount > 0) Z80_ICount = 0;/* speed up busy loop */
+                  if (z80_ICount[0] > 0) z80_ICount[0] = 0;/* speed up busy loop */
                }
                else if ((j == i - 1) && (M_RDOP(j) == 0xfb))/* EI - 1942 */
                {
-                   if (Z80_ICount > 4) Z80_ICount = 4;
+                   if (z80_ICount[0] > 4) z80_ICount[0] = 4;
                }
             }
         };
@@ -5719,12 +5719,12 @@ public class z80 extends cpu_interface {
 			R.DE.AddW(-1);
 			R.HL.AddW(-1);
 			R.BC.AddW(-1);
-			Z80_ICount -= 21;
+			z80_ICount[0] -= 21;
 		}
-		while (R.BC.W != 0 && Z80_ICount > 0);
+		while (R.BC.W != 0 && z80_ICount[0] > 0);
 		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
 		if (R.BC.W != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else Z80_ICount += 5;
+		else z80_ICount[0] += 5;
 	 
 	} };
 	opcode_fn ldi = new opcode_fn() { public void handler()
@@ -5745,12 +5745,12 @@ public class z80 extends cpu_interface {
 			R.DE.AddW(1);
 			R.HL.AddW(1);
 			R.BC.AddW(-1);
-			Z80_ICount -= 21;
+			z80_ICount[0] -= 21;
 		}
-		while (R.BC.W != 0 && Z80_ICount > 0);
+		while (R.BC.W != 0 && z80_ICount[0] > 0);
 		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
 		if (R.BC.W != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else Z80_ICount += 5;
+		else z80_ICount[0] += 5;
 	} };
 	opcode_fn neg = new opcode_fn() { public void handler()
 	{
@@ -5790,12 +5790,12 @@ public class z80 extends cpu_interface {
 			Z80_Out(R.BC.L, M_RDMEM(R.HL.W));
 			R.HL.AddW(1);
 			R.BC.AddH(-1);
-			Z80_ICount -= 21;
+			z80_ICount[0] -= 21;
 		}
-		while (R.BC.H != 0 && Z80_ICount > 0);
+		while (R.BC.H != 0 && z80_ICount[0] > 0);
 		R.F = (R.BC.H != 0) ? N_FLAG : (Z_FLAG | N_FLAG);
 		if (R.BC.H != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else Z80_ICount += 5;
+		else z80_ICount[0] += 5;
 	} };
 
 	opcode_fn out_c_a = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.A); } };
@@ -6631,7 +6631,7 @@ public class z80 extends cpu_interface {
 	opcode_fn dd_cb = new opcode_fn() { public void handler()
 	{
 	 	int opcode=M_RDOP_ARG((R.PC+1)&0xFFFF);
-	 	Z80_ICount -= cycles_xx_cb[opcode];
+	 	z80_ICount[0] -= cycles_xx_cb[opcode];
   		if (opcode_dd_cb[opcode] != null)
   			opcode_dd_cb[opcode].handler();
   		else
@@ -6644,7 +6644,7 @@ public class z80 extends cpu_interface {
 	{
 
 		int opcode=M_RDOP_ARG((R.PC+1)&0xFFFF);
-	 	Z80_ICount -= cycles_xx_cb[opcode];
+	 	z80_ICount[0] -= cycles_xx_cb[opcode];
   		if (opcode_fd_cb[opcode] != null)
   			opcode_fd_cb[opcode].handler();
   		else
@@ -6671,7 +6671,7 @@ public class z80 extends cpu_interface {
 	 	R.R += 1;
 		int opcode = M_RDOP(R.PC);
 		R.PC = (R.PC + 1) & 0xFFFF;
-	 	Z80_ICount -= cycles_cb[opcode];
+	 	z80_ICount[0] -= cycles_cb[opcode];
   		if (opcode_cb[opcode] != null)
   			opcode_cb[opcode].handler();
   		else
@@ -6689,7 +6689,7 @@ public class z80 extends cpu_interface {
 	 	R.R += 1;
 		int opcode = M_RDOP(R.PC);
 		R.PC = (R.PC + 1) & 0xFFFF;
-	 	Z80_ICount -= cycles_xx[opcode];
+	 	z80_ICount[0] -= cycles_xx[opcode];
   		if (opcode_dd[opcode] != null)
   			opcode_dd[opcode].handler();
   		else
@@ -6706,7 +6706,7 @@ public class z80 extends cpu_interface {
 	 	R.R += 1;
 		int opcode = M_RDOP(R.PC);
 		R.PC = (R.PC + 1) & 0xFFFF;
-	 	Z80_ICount -= cycles_ed[opcode];
+	 	z80_ICount[0] -= cycles_ed[opcode];
   		if (opcode_ed[opcode] != null)
   			opcode_ed[opcode].handler();
   		else
@@ -6723,7 +6723,7 @@ public class z80 extends cpu_interface {
 	 	R.R += 1;
 		int opcode = M_RDOP(R.PC);
 		R.PC = (R.PC + 1) & 0xFFFF;
-	 	Z80_ICount -= cycles_xx[opcode];
+	 	z80_ICount[0] -= cycles_xx[opcode];
   		if (opcode_fd[opcode] != null)
   			opcode_fd[opcode].handler();
   		else
@@ -6745,7 +6745,7 @@ public class z80 extends cpu_interface {
 			R.R += 1;
 			opcode=M_RDOP(R.PC);
 			R.PC = (R.PC + 1) & 0xFFFF;
-			Z80_ICount -= cycles_main[opcode];
+			z80_ICount[0] -= cycles_main[opcode];
 			//System.out.println(Integer.toHexString(opcode));
 			opcode_main[opcode].handler();
 			Interrupt();
@@ -6933,7 +6933,7 @@ public class z80 extends cpu_interface {
             /* Interrupt mode 1. RST 38h */
             if (R.IM==1)
             {
-             Z80_ICount-=cycles_main[0xFF];
+             z80_ICount[0]-=cycles_main[0xFF];
              opcode_main[0xFF].handler();
             }
             else
@@ -6950,7 +6950,7 @@ public class z80 extends cpu_interface {
                break;
               default:
                j&=255;
-               Z80_ICount-=cycles_main[j];
+               z80_ICount[0]-=cycles_main[j];
                opcode_main[j].handler();
                break;
              }
