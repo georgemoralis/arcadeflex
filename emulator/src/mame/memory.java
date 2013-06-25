@@ -11,6 +11,7 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.commonH.*;
 
+
 public class memory {
 
     /* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
@@ -50,6 +51,12 @@ public class memory {
 /*TODO*/ //	OP_RAM = (base);
 /*TODO*/ //
 /*TODO*/ //
+    static void SET_OP_RAMROM(UBytePtr _base)
+    {
+        OP_ROM = new UBytePtr(_base, (OP_ROM.base - OP_RAM.base));
+        OP_RAM = new UBytePtr(_base);
+    }
+
     public static UByte ophw = new UByte(); /* op-code hardware number */
 
     public static ExtMemory[] ext_memory = new ExtMemory[MAX_EXT_MEMORY];
@@ -144,12 +151,12 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ ///* override OP base handler */
     public static opbase_handlerPtr[] setOPbasefunc = new opbase_handlerPtr[MAX_CPU];
-    /*TODO*/ //static opbase_handler OPbasefunc;
-/*TODO*/ //
-/*TODO*/ ///* current cpu current hardware element map point */
-/*TODO*/ //MHELE *cur_mrhard;
-/*TODO*/ //MHELE *cur_mwhard;
-/*TODO*/ //
+    public static opbase_handlerPtr OPbasefunc;
+
+    /* current cpu current hardware element map point */
+    public static char[] cur_mrhard; //TODO make it UByte
+    public static char[] cur_mwhard; //TODO make it UByte
+
     /* empty port handler structures */
     public static IOReadPort[] empty_readport = {new IOReadPort(-1)};
     public static IOWritePort[] empty_writeport = {new IOWritePort(-1)};
@@ -991,26 +998,26 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //
-/*TODO*/ //void memorycontextswap(int activecpu)
-/*TODO*/ //{
-/*TODO*/ //	cpu_bankbase[0] = ramptr[activecpu];
-/*TODO*/ //
-/*TODO*/ //	cur_mrhard = cur_mr_element[activecpu];
-/*TODO*/ //	cur_mwhard = cur_mw_element[activecpu];
-/*TODO*/ //
-/*TODO*/ //	/* ASG: port speedup */
-/*TODO*/ //	cur_readport = readport[activecpu];
-/*TODO*/ //	cur_writeport = writeport[activecpu];
-/*TODO*/ //	cur_portmask = portmask[activecpu];
-/*TODO*/ //
-/*TODO*/ //	OPbasefunc = setOPbasefunc[activecpu];
-/*TODO*/ //
-/*TODO*/ //	/* op code memory pointer */
-/*TODO*/ //	ophw = HT_RAM;
-/*TODO*/ //	OP_RAM = cpu_bankbase[0];
-/*TODO*/ //	OP_ROM = romptr[activecpu];
-/*TODO*/ //}
-/*TODO*/ //
+    public static void memorycontextswap(int activecpu)
+    {
+            cpu_bankbase[0] = ramptr[activecpu];
+
+            cur_mrhard = cur_mr_element[activecpu].memory;
+            cur_mwhard = cur_mw_element[activecpu].memory;
+
+            /* ASG: port speedup */
+            cur_readport = readport[activecpu];
+            cur_writeport = writeport[activecpu];
+            cur_portmask = portmask[activecpu];
+
+            OPbasefunc = setOPbasefunc[activecpu];
+
+            /* op code memory pointer */
+            ophw.set((char)HT_RAM);
+            OP_RAM = cpu_bankbase[0];
+            OP_ROM = romptr[activecpu];
+    }
+
     public static void memory_shutdown() {
         //normally we shouldn't even reach here yet (shadow)
         throw new UnsupportedOperationException("memory shutdown?? I didn't call you!");
@@ -1269,10 +1276,38 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ ///* generic byte-sized write handler */
 /*TODO*/ //#define WRITEBYTE(name,type,abits)		
-   public static void cpu_writemem16(int address,int data)
+  
+   public static void cpu_writemem16(int address, int data)
    {
-       throw new UnsupportedOperationException("cpu_writemem16 unimplemented");
+            /* first-level lookup */
+            UByte hw=new UByte();
+            hw.set(cur_mwhard[address >>> (ABITS2_16 + ABITS_MIN_16)]);
+
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+            /* for banked memory reads/writes */
+            if (hw.read() == HT_RAM)
+            {
+                cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].base+address] = (char)data;
+                return;
+            }
+
+            /* second-level lookup */
+            if (hw.read() >= MH_HARDMAX)
+            {
+                hw.set((char)(hw.read() - MH_HARDMAX));
+                hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_16) & MHMASK(ABITS2_16))));    
+                /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+                /* for banked memory reads/writes */
+                if (hw.read() == HT_RAM)
+                {
+                    cpu_bankbase[HT_RAM].write(address, data);
+                    return;
+                }
+            }
+
+            memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
    }
+
 /*TODO*/ //void name(int address, int data)														\
 /*TODO*/ //{																						\
 /*TODO*/ //	MHELE hw;																			\
@@ -1531,6 +1566,39 @@ public class memory {
 /*TODO*/ //SETOPBASE(cpu_setOPbase29,    29,    3)
 /*TODO*/ //SETOPBASE(cpu_setOPbase32,    32,    0)
 /*TODO*/ //
+    public static void cpu_setOPbase16(int pc, int shift)
+    {
+      UByte hw=new UByte();
+
+      pc = (int)(pc >>> shift);
+
+            /* allow overrides */
+      if (OPbasefunc != null)
+      {
+         pc = (int)OPbasefunc.handler((int)pc);
+         if (pc == -1)
+            return;
+      }
+
+      /* perform the lookup */
+      hw.set(cur_mrhard[pc >>> (ABITS2_16 + ABITS_MIN_16)]);
+      if (hw.read() >= MH_HARDMAX)
+      {   															
+         hw.set((char)(hw.read() - MH_HARDMAX));
+         hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_16) & MHMASK(ABITS2_16))));
+      }
+            ophw = hw;
+
+            /* RAM or banked memory */
+            if (hw.read() <= HT_BANKMAX)
+            {
+               SET_OP_RAMROM(new UBytePtr(cpu_bankbase[hw.read()], (-memoryreadoffset[hw.read()])));
+                return;
+            }
+
+            /* do not support on callback memory region */
+            printf("CPU #%d PC %04x: warning - op-code execute on mapped i/o\n",        cpu_getactivecpu(),cpu_get_pc());                                                                      
+    }
 
     /***************************************************************************
 

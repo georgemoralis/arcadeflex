@@ -471,7 +471,7 @@ public class timer {
     /*
      *		begin CPU execution by determining how many cycles the CPU should run
      */
-    int timer_schedule_cpu(int []cpu, int []cycles) //cpu and cycles are tables and only valid is [0] . The only way to simulate references
+    public static int timer_schedule_cpu(int []cpu, int []cycles) //cpu and cycles are tables and only valid is [0] . The only way to simulate references
     {
     	double end;
     

@@ -48,17 +48,18 @@ public class cpuintrfH {
 
     /* ASG 971222 -- added this generic structure */
     public static abstract interface burnPtr { public abstract void handler(int cycles); }
+    public static abstract interface irqcallbacksPtr { public abstract int handler(int irqline); }
     public static abstract class cpu_interface
     {
         public int cpu_num;
- /*TODO*///        void (*reset)(void *param);
+        public abstract void reset(Object param);
  /*TODO*///        void (*exit)(void);
-  /*TODO*///       int (*execute)(int cycles);
+                   public abstract int execute(int cycles);
                    public burnPtr burn;
-                   public abstract void init_context(Object reg); //not in mame , used specific for arcadeflex
+                   public abstract Object init_context(); //not in mame , used specific for arcadeflex
   /*TODO*///       unsigned (*get_context)(void *reg);
   /*TODO*///       void (*set_context)(void *reg);
-  /*TODO*///       unsigned (*get_pc)(void);
+                   public abstract int get_pc();
   /*TODO*///       void (*set_pc)(unsigned val);
   /*TODO*///       unsigned (*get_sp)(void);
   /*TODO*///       void (*set_sp)(unsigned val);
@@ -66,7 +67,7 @@ public class cpuintrfH {
   /*TODO*///       void (*set_reg)(int regnum, unsigned val);
  /*TODO*///        void (*set_nmi_line)(int linestate);
  /*TODO*///        void (*set_irq_line)(int irqline, int linestate);
-  /*TODO*///       void (*set_irq_callback)(int(*callback)(int irqline));
+                   public abstract void set_irq_callback(irqcallbacksPtr callback);
   /*TODO*///       void (*internal_interrupt)(int type);
  /*TODO*///        void (*cpu_state_save)(void *file);
   /*TODO*///       void (*cpu_state_load)(void *file);
@@ -79,7 +80,7 @@ public class cpuintrfH {
         public int no_int, irq_int, nmi_int;
   /*TODO*///       int (*memory_read)(int offset);
   /*TODO*///       void (*memory_write)(int offset, int data);
-  /*TODO*///       void (*set_op_base)(int pc);
+        public abstract void set_op_base(int pc);
         public int address_shift;
         public int address_bits, endianess, align_unit, max_inst_len;
         public int abits1, abits2, abitsmin;

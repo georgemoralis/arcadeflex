@@ -40,7 +40,7 @@ import static arcadeflex.blit.*;
 import static mame.input.*;
 import static vidhrdw.generic.*;
 import static mame.commonH.*;
-
+import static mame.inputH.*;
 public class mame {
 
     static RunningMachine machine = new RunningMachine();
@@ -401,29 +401,30 @@ public class mame {
         /* update sound */
         /*TODO*/ //            sound_update();
 
-        /*TODO*/ //            if (osd_skip_this_frame() == 0)
-/*TODO*/ //            {
-/*TODO*/ //                    profiler_mark(PROFILER_VIDEO);
-/*TODO*/ //                    if (need_to_clear_bitmap)
-/*TODO*/ //                    {
-/*TODO*/ //                            osd_clearbitmap(Machine.scrbitmap);
-/*TODO*/ //                            need_to_clear_bitmap = 0;
-/*TODO*/ //                    }
-/*TODO*/ //                    (*drv.vh_update)(Machine.scrbitmap,bitmap_dirty);  /* update screen */
-/*TODO*/ //                    bitmap_dirty = 0;
-/*TODO*/ //                    profiler_mark(PROFILER_END);
-/*TODO*/ //            }
+         if (osd_skip_this_frame() == 0)
+         {
+             if (need_to_clear_bitmap!=0)
+             {
+                osd_clearbitmap(Machine.scrbitmap);
+                need_to_clear_bitmap = 0;
+             }
+             drv.vh_update.handler(Machine.scrbitmap,bitmap_dirty);/* update screen */
+             bitmap_dirty = 0;
+         }
 
         /* the user interface must be called between vh_update() and osd_update_video_and_audio(), */
         /* to allow it to overlay things on the game display. We must call it even */
         /* if the frame is skipped, to keep a consistent timing. */
-        /*TODO*/ //            if (handle_user_interface())
+/*TODO*/ //            if (handle_user_interface())
 /*TODO*/ //                    /* quit if the user asked to */
 /*TODO*/ //                    return 1;
+            
+/*hack code to BE REMOVE*/ if(keyboard_pressed_memory(KEYCODE_ESC)!=0) //TODO remove that when we handle user interface above
+/*hack code*/                     return 1;
 
-        /*TODO*/ //            osd_update_video_and_audio();
+        osd_update_video_and_audio();
 
-        /*TODO*/ //            if (drv.vh_eof_callback) (*drv.vh_eof_callback)();
+        if (drv.vh_eof_callback!=null) drv.vh_eof_callback.handler(); 
 
         return 0;
     }

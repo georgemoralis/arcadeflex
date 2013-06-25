@@ -71,6 +71,10 @@ public class libc {
          public UBytePtr(UBytePtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
+         public UBytePtr(UBytePtr cp)
+         {
+             set(cp.memory,0);
+         }
         public char read() {
             return (char)(memory[base] & 0xFF);
         }

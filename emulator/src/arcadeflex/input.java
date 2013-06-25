@@ -67,9 +67,9 @@ public class input {
 	new KeyboardInfo( "F9",			KEY_F9,				KEYCODE_F9 ),
 	new KeyboardInfo( "F10",		KEY_F10,			KEYCODE_F10 ),
 	new KeyboardInfo( "F11",		KEY_F11,			KEYCODE_F11 ),
-	new KeyboardInfo( "F12",		KEY_F12,			KEYCODE_F12 ),
-	new KeyboardInfo( "ESC",		KEY_ESC,			KEYCODE_ESC ),
-	new KeyboardInfo( "~",			KEY_TILDE,			KEYCODE_TILDE ),
+	new KeyboardInfo( "F12",		KEY_F12,			KEYCODE_F12 ),*/
+	new KeyboardInfo( "ESC",		KeyEvent.VK_ESCAPE,		KEYCODE_ESC ),
+	/*new KeyboardInfo( "~",			KEY_TILDE,			KEYCODE_TILDE ),
 	new KeyboardInfo( "-",          KEY_MINUS,          KEYCODE_MINUS ),
 	new KeyboardInfo( "=",          KEY_EQUALS,         KEYCODE_EQUALS ),
 	new KeyboardInfo( "BKSPACE",	KEY_BACKSPACE,		KEYCODE_BACKSPACE ),
@@ -150,6 +150,6 @@ public class input {
 
     public static WriteHandlerPtr osd_led_w = new WriteHandlerPtr() { public void handler(int led,int on)
     {
-        throw new UnsupportedOperationException("Unsupported osd_led_w");
+        //throw new UnsupportedOperationException("Unsupported osd_led_w");
     }};
 }
