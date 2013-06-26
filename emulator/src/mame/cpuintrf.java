@@ -476,9 +476,7 @@ public class cpuintrf {
     			continue reset;
     		}
     
-    		/* ask the timer system to schedule */
-                cpunum = cpunum_table[0];
-                cycles_running = cycles_table[0];    
+    		/* ask the timer system to schedule */   
     		if (timer_schedule_cpu(cpunum_table, cycles_table)!=0)
     		{
                     cpunum = cpunum_table[0];

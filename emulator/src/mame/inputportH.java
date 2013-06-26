@@ -1,6 +1,8 @@
 
 package mame;
 
+import java.util.ArrayList;
+
 public class inputportH {
 /*TODO*////* input ports handling */
 /*TODO*///
@@ -36,10 +38,6 @@ public class inputportH {
 /*TODO*///	UINT32 type;			/* see defines below */
 /*TODO*///	const char *name;		/* name to display */
 /*TODO*///	InputSeq seq;                  	/* input sequence affecting the input bits */
-/*TODO*///#ifdef MESS
-/*TODO*///	UINT32 arg;				/* extra argument needed in some cases */
-/*TODO*///	UINT16 min, max;		/* for analog controls */
-/*TODO*///#endif
 /*TODO*///};
 /*TODO*///
 /*TODO*///
@@ -216,6 +214,7 @@ public class inputportH {
 /*TODO*///#define IP_KEY_NONE CODE_NONE
 /*TODO*///#define IP_JOY_NONE CODE_NONE
 /*TODO*///
+   static ArrayList<InputPortTiny> inputload = new ArrayList<InputPortTiny>();
 /*TODO*////* start of table */
 /*TODO*///#define INPUT_PORTS_START(name) \
 /*TODO*///	static struct InputPortTiny input_ports_##name[] = {
@@ -224,10 +223,11 @@ public class inputportH {
 /*TODO*///#define INPUT_PORTS_END \
 /*TODO*///	{ 0, 0, IPT_END, 0  } \
 /*TODO*///	};
-/*TODO*////* start of a new input port */
-/*TODO*///#define PORT_START \
-/*TODO*///	{ 0, 0, IPT_PORT, 0 },
-/*TODO*///
+   /* start of a new input port */
+   public static void PORT_START() 
+   {
+       inputload.add(new InputPortTiny(0,0,IPT_PORT,null));
+   }
 /*TODO*////* input bit definition */
 /*TODO*///#define PORT_BIT(mask,default,type) \
 /*TODO*///	{ mask, default, type, IP_NAME_DEFAULT },
