@@ -862,19 +862,19 @@ public class cpuintrf {
     ***************************************************************************/
     
     public static irqcallbacksPtr cpu_0_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
-            	if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-        	{
-        		SETIRQLINE(0, irqline, CLEAR_LINE);
-        		irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-        	}
-        	if(errorlog!=null) fprintf(errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]);
+        if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
+        {
+          SETIRQLINE(0, irqline, CLEAR_LINE);
+          irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+        }
+        if(errorlog!=null) fprintf(errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]);
     	return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
     }};
     public static irqcallbacksPtr cpu_1_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
     	if( irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
    	{
-    		SETIRQLINE(1, irqline, CLEAR_LINE);
-    		irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+    	  SETIRQLINE(1, irqline, CLEAR_LINE);
+    	  irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
     	}
     	if(errorlog!=null) fprintf(errorlog, "cpu_1_irq_callback(%d) $%04x\n", irqline, irq_line_vector[1 * MAX_IRQ_LINES + irqline]);
     	return irq_line_vector[1 * MAX_IRQ_LINES + irqline];
@@ -1213,8 +1213,9 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///***************************************************************************/
     /*TODO*///
-    /*TODO*///static void cpu_manualnmicallback(int param)
-    /*TODO*///{
+    public static void cpu_manualnmicallback(int param)
+    {
+        throw new UnsupportedOperationException("Unsupported");
     /*TODO*///	int cpunum, state, oldactive;
     /*TODO*///	cpunum = param & 7;
     /*TODO*///	state = param >> 3;
@@ -1251,7 +1252,7 @@ public class cpuintrf {
     /*TODO*///	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
     /*TODO*///	if (state != CLEAR_LINE)
     /*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
-    /*TODO*///}
+    }
     
     public static void cpu_manualirqcallback(int param)
     {
@@ -1361,9 +1362,7 @@ public class cpuintrf {
     		if (num == INT_TYPE_NMI(cpunum))
     		{
                     if(errorlog!=null) fprintf(errorlog,"NMI\n");
-    /*TODO*///	//cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );	
-                    throw new UnsupportedOperationException("Unsupported");
-    
+                        cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );	
     		}
     		else
     		{         
