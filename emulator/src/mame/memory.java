@@ -44,13 +44,7 @@ public class memory {
 /*TODO*/ //
     public static UBytePtr OP_RAM = new UBytePtr();
     public static UBytePtr OP_ROM = new UBytePtr();
-    /*TODO*/ //
-/*TODO*/ ///* change bases preserving opcode/data shift for encrypted games */
-/*TODO*/ //#define SET_OP_RAMROM(base)					\
-/*TODO*/ //	OP_ROM = (base) + (OP_ROM - OP_RAM);	\
-/*TODO*/ //	OP_RAM = (base);
-/*TODO*/ //
-/*TODO*/ //
+    
     static void SET_OP_RAMROM(UBytePtr _base)
     {
         OP_ROM = new UBytePtr(_base, (OP_ROM.base - OP_RAM.base));
@@ -90,51 +84,29 @@ public class memory {
     /* memory hardware element map */
     /* value:                      */
     static final int HT_RAM = 0;		/* RAM direct        */
-
     static final int HT_BANK1 = 1;		/* bank memory #1    */
-
     static final int HT_BANK2 = 2;		/* bank memory #2    */
-
     static final int HT_BANK3 = 3;		/* bank memory #3    */
-
     static final int HT_BANK4 = 4;		/* bank memory #4    */
-
     static final int HT_BANK5 = 5;		/* bank memory #5    */
-
     static final int HT_BANK6 = 6;		/* bank memory #6    */
-
     static final int HT_BANK7 = 7;		/* bank memory #7    */
-
     static final int HT_BANK8 = 8;		/* bank memory #8    */
-
     static final int HT_BANK9 = 9;		/* bank memory #9    */
-
     static final int HT_BANK10 = 10;	/* bank memory #10   */
-
     static final int HT_BANK11 = 11;	/* bank memory #11   */
-
     static final int HT_BANK12 = 12;	/* bank memory #12   */
-
     static final int HT_BANK13 = 13;	/* bank memory #13   */
-
     static final int HT_BANK14 = 14;	/* bank memory #14   */
-
     static final int HT_BANK15 = 15;	/* bank memory #15   */
-
     static final int HT_BANK16 = 16;	/* bank memory #16   */
-
     static final int HT_NON = 17;	/* non mapped memory */
-
     static final int HT_NOP = 18;	/* NOP memory        */
-
     static final int HT_RAMROM = 19;	/* RAM ROM memory    */
-
     static final int HT_ROM = 20;	/* ROM memory        */
-
     static final int HT_USER = 21;	/* user functions    */
     /* [MH_HARDMAX]-0xff	  link to sub memory element  */
     /*                        (value-MH_HARDMAX)<<MH_SBITS -> element bank */
-
     static final int HT_BANKMAX = (HT_BANK1 + MAX_BANKS - 1);
 
     /* memory hardware handler */
@@ -259,19 +231,19 @@ public class memory {
     };
     public static ReadHandlerPtr mrh_error = new ReadHandlerPtr() {
         public int handler(int offset) {
-            /*TODO*/ //            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),cpu_bankbase[0][offset],offset);
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),cpu_bankbase[0].read(offset),offset);
             return cpu_bankbase[0].read(offset);
         }
     };
     public static ReadHandlerPtr mrh_error_sparse = new ReadHandlerPtr() {
         public int handler(int offset) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
             return 0;
         }
     };
     public static ReadHandlerPtr mrh_error_sparse_bit = new ReadHandlerPtr() {
         public int handler(int offset) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory bit addr %08x (byte addr %08x)\n",cpu_getactivecpu(),cpu_get_pc(),offset<<3, offset);
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %08x: warning - read unmapped memory bit addr %08x (byte addr %08x)\n",cpu_getactivecpu(),cpu_get_pc(),offset<<3, offset);
             return 0;
         }
     };
@@ -379,23 +351,23 @@ public class memory {
     };
     public static WriteHandlerPtr mwh_error = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
             cpu_bankbase[0].write(offset, data);
         }
     };
     public static WriteHandlerPtr mwh_error_sparse = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+           if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory address %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
         }
     };
     public static WriteHandlerPtr mwh_error_sparse_bit = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory bit addr %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset<<3);
+             if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %08x: warning - write %02x to unmapped memory bit addr %08x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset<<3);
         }
     };
     public static WriteHandlerPtr mwh_rom = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /*TODO*/ //	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to ROM address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+             if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to ROM address %04x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
         }
     };
     public static WriteHandlerPtr mwh_ramrom = new WriteHandlerPtr() {
@@ -1276,7 +1248,8 @@ public class memory {
 /*TODO*/ //
 /*TODO*/ ///* generic byte-sized write handler */
 /*TODO*/ //#define WRITEBYTE(name,type,abits)		
-  
+ /*TODO*/ 
+   //TODO CHECK IF IT IS Valid (added it only for testing) (shadow)
    public static void cpu_writemem16(int address, int data)
    {
             /* first-level lookup */

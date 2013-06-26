@@ -547,49 +547,48 @@ public class cpuintrf {
             break;//needed to exit the loop (shadow)
         }
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this function to initialize, and later maintain, the watchdog. For
-    /*TODO*///  convenience, when the machine is reset, the watchdog is disabled. If you
-    /*TODO*///  call this function, the watchdog is initialized, and from that point
-    /*TODO*///  onwards, if you don't call it at least once every 10 video frames, the
-    /*TODO*///  machine will be reset.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
+    
+    
+    
+    
+    /***************************************************************************
+    
+      Use this function to initialize, and later maintain, the watchdog. For
+      convenience, when the machine is reset, the watchdog is disabled. If you
+      call this function, the watchdog is initialized, and from that point
+      onwards, if you don't call it at least once every 10 video frames, the
+      machine will be reset.
+    
+    ***************************************************************************/
     public static WriteHandlerPtr watchdog_reset_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-    /*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int watchdog_reset_r(int offset)
-    /*TODO*///{
-    /*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
-    /*TODO*///	return 0;
+    	watchdog_counter = Machine.drv.frames_per_second;
     }};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  This function resets the machine (the reset will not take place
-    /*TODO*///  immediately, it will be performed at the end of the active CPU's time
-    /*TODO*///  slice)
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void machine_reset(void)
-    /*TODO*///{
-    /*TODO*///	/* write hi scores to disk - No scores saving if cheat */
+     public static ReadHandlerPtr watchdog_reset_r = new ReadHandlerPtr() { public int handler(int offset)
+     {
+    	watchdog_counter = Machine.drv.frames_per_second;
+   	return 0;
+     }};
+    
+    
+    
+    /***************************************************************************
+    
+      This function resets the machine (the reset will not take place
+      immediately, it will be performed at the end of the active CPU's time
+      slice)
+    
+    ***************************************************************************/
+    public static void machine_reset()
+    {
+    	/* write hi scores to disk - No scores saving if cheat */
     /*TODO*///	hs_close();
-    /*TODO*///
-    /*TODO*///	have_to_reset = 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    
+    	have_to_reset = 1;
+    }
+    
+    
+    
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Use this function to reset a specified CPU immediately
@@ -647,9 +646,8 @@ public class cpuintrf {
     
     public static int cpu_get_pc()
     {
-        throw new UnsupportedOperationException(" cpu_get_pc() unimplemented");
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return GETPC(cpunum);
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return GETPC(cpunum);
     }
     /*TODO*///
     /*TODO*///void cpu_set_pc(unsigned val)
@@ -869,7 +867,13 @@ public class cpuintrf {
     /*TODO*///***************************************************************************/
     
     public static irqcallbacksPtr cpu_0_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
-        throw new UnsupportedOperationException("unimplemented");
+            	if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
+        	{
+        		SETIRQLINE(0, irqline, CLEAR_LINE);
+        		irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+        	}
+        	if(errorlog!=null) fprintf(errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]);
+    	return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
     }};
     public static irqcallbacksPtr cpu_1_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
         throw new UnsupportedOperationException("unimplemented");
@@ -887,17 +891,6 @@ public class cpuintrf {
         cpu_2_irq_callback,
         cpu_3_irq_callback
     };
-    /*TODO*///static int cpu_0_irq_callback(int irqline)
-    /*TODO*///{
-    /*TODO*///	if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-    /*TODO*///	{
-    /*TODO*///		SETIRQLINE(0, irqline, CLEAR_LINE);
-    /*TODO*///		irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-    /*TODO*///	}
-    /*TODO*///	LOG((errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]));
-    /*TODO*///	return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
-    /*TODO*///}
-    /*TODO*///
     /*TODO*///static int cpu_1_irq_callback(int irqline)
     /*TODO*///{
     /*TODO*///	if( irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
@@ -1402,16 +1395,19 @@ public class cpuintrf {
                             irq_line = 0; 
                             if(errorlog!=null) fprintf(errorlog,"Z80 IRQ\n");
                             break;
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_8080)
-    /*TODO*///			case CPU_8080:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case I8080_INTR:		irq_line = 0; LOG((errorlog,"I8080 INTR\n")); break;
-    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"I8080 unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				break;
-    /*TODO*///#endif
+/*TODO*///    			case CPU_8080:
+/*TODO*///                            switch (num)
+/*TODO*///                            {
+/*TODO*///                                case I8080_INTR:		
+/*TODO*///                                    irq_line = 0; 
+/*TODO*///                                     if(errorlog!=null) fprintf(errorlog,"I8080 INTR\n"); 
+/*TODO*///                                    break;
+/*TODO*///    				default:				
+/*TODO*///                                    irq_line = 0; 
+/*TODO*///                                     if(errorlog!=null) fprintf(errorlog,"I8080 unknown\n");
+/*TODO*///    				}
+/*TODO*///                            break;
+   
     /*TODO*///#if (HAS_8085A)
     /*TODO*///			case CPU_8085A:
     /*TODO*///				switch (num)
@@ -1938,14 +1934,14 @@ public class cpuintrf {
     		vblank_countdown = vblank_multiplier;
     	}
     }};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Video update callback. This is called a game-dependent amount of time
-    /*TODO*///  after the VBLANK in order to trigger a video update.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
+    
+    
+    /***************************************************************************
+    
+      Video update callback. This is called a game-dependent amount of time
+      after the VBLANK in order to trigger a video update.
+    
+    /***************************************************************************/
     public static timer_callback cpu_updatecallback = new timer_callback(){ public void handler(int param)
     {
     	/* update the screen if we didn't before */
@@ -1962,8 +1958,7 @@ public class cpuintrf {
     		if (--watchdog_counter == 0)
     		{
                     if (errorlog!=null) fprintf(errorlog,"reset caused by the watchdog\n");
-/*TODO*///      	machine_reset();
-                    throw new UnsupportedOperationException("unimplemented");
+                        machine_reset();
     		}
     	}
     
