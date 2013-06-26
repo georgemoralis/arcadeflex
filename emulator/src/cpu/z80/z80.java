@@ -4690,6 +4690,7 @@ public class z80 extends cpu_interface {
         }
         @Override
     public void set_irq_callback(irqcallbacksPtr callback) {
+            System.out.println("irq callback");
             //ignore for now...
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

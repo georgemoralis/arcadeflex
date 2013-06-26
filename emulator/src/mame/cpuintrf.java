@@ -468,6 +468,8 @@ public class cpuintrf {
     
     	/* loop until the user quits */
     	usres = 0;
+        int cpunum_table[] = new int[1];
+        int cycles_table[] = new int[1];
     	while (usres == 0)
     	{
     		int cpunum;
@@ -479,8 +481,8 @@ public class cpuintrf {
     		}
     
     		/* ask the timer system to schedule */
-                int cpunum_table[] = new int[1];
-                int cycles_table[] = new int[1];
+                cpunum = cpunum_table[0];
+                cycles_running = cycles_table[0];    
     		if (timer_schedule_cpu(cpunum_table, cycles_table)!=0)
     		{
                     cpunum = cpunum_table[0];

@@ -2,6 +2,8 @@
  * 
  * 
  *   this class consider to be complete and fully ported from mame 0.36
+ * 
+ *   TODO : find a proper way to get the address of timer object than System.identityHashCode
  */
 
 package mame;
@@ -72,12 +74,6 @@ public class timer {
     static timer_entry callback_timer;
     static int callback_timer_modified;
 
-    /*TODO*////* prototypes */
-    /*TODO*///static int pick_cpu(int *cpu, int *cycles, double expire);
-    /*TODO*///
-    /*TODO*///#if VERBOSE
-    /*TODO*///static void verbose_print(char *s, ...);
-    /*TODO*///#endif
     /*
     *	return the current absolute time
     */
@@ -293,10 +289,9 @@ public class timer {
     	if (activecpu!=0 && timer.expire < base_time)
     		timer_adjust(timer, time, period);
     
-    	//#if VERBOSE
- /*TODO*///           if(errorlog!=null)
-/*TODO*///    		fprintf(errorlog,"T=%.6g: New pulse=%08X, period=%.6g\n", time + global_offset, timer, period);
-    	//#endif
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)
+    		if(errorlog!=null) fprintf(errorlog,"T=%.6g: New pulse=%08X, period=%.6g\n", time + global_offset, System.identityHashCode(timer), period);
+                
     	/* return a handle */
     	return timer;
     }
@@ -330,9 +325,9 @@ public class timer {
     	if (activecpu!=0 && timer.expire < base_time)
     		timer_adjust(timer, time, duration);
     
-    	//#if VERBOSE
-/*TODO*///    		verbose_print("T=%.6g: New oneshot=%08X, duration=%.6g\n", time + global_offset, timer, duration);
-    	//#endif
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)
+    		if(errorlog!=null) fprintf(errorlog,"T=%.6g: New oneshot=%08X, duration=%.6g\n", time + global_offset, System.identityHashCode(timer), duration);
+
     
     	/* return a handle */
     	return timer;
@@ -363,9 +358,9 @@ public class timer {
     	if (timer == callback_timer)
     		callback_timer_modified = 1;
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: Reset %08X, duration=%.6g\n", time + global_offset, timer, duration);
-    /*TODO*///	#endif
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)
+    		if(errorlog!=null) fprintf(errorlog,"T=%.6g: Reset %08X, duration=%.6g\n", time + global_offset, System.identityHashCode(timer), duration);
+
     }
     
     
@@ -383,10 +378,9 @@ public class timer {
     	timer.next = timer_free_head;
     	timer_free_head = timer;
     
-    	//#if VERBOSE
-/*TODO*///        if(errorlog!=null)
-/*TODO*///   		fprintf(errorlog,"T=%.6g: Removed %08X\n", getabsolutetime() + global_offset, timer);
-    	//#endif
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)
+    	if(errorlog!=null) fprintf(errorlog,"T=%.6g: Removed %08X\n", getabsolutetime() + global_offset, System.identityHashCode(timer));
+    	
     }
     
     
@@ -398,10 +392,16 @@ public class timer {
     	timer_entry timer = (timer_entry)which;
     	int old;
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		if (enable) verbose_print("T=%.6g: Enabled %08X\n", getabsolutetime() + global_offset, timer);
-    /*TODO*///		else verbose_print("T=%.6g: Disabled %08X\n", getabsolutetime() + global_offset, timer);
-    /*TODO*///	#endif
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)		
+		if (enable!=0)
+                {
+                   if(errorlog!=null) fprintf(errorlog,"T=%.6g: Enabled %08X\n", getabsolutetime() + global_offset, System.identityHashCode(timer));
+                }
+   		else 
+                {
+                    if(errorlog!=null) fprintf(errorlog,"T=%.6g: Disabled %08X\n", getabsolutetime() + global_offset, System.identityHashCode(timer));
+                }
+   
     
     	/* set the enable flag */
     	old = timer.enabled;
@@ -488,10 +488,9 @@ public class timer {
     		/* the base time is now the time of the timer */
     		base_time = timer.expire;
     
-    /*TODO*///		#if VERBOSE
-    /*TODO*///			verbose_print("T=%.6g: %08X fired (exp time=%.6g)\n", getabsolutetime() + global_offset, timer, timer->expire + global_offset);
-    /*TODO*///		#endif
-    
+//NOTE : i can't find a reasonable way to get the address of an object other than System.identityHashCode(timer)
+    		if(errorlog!=null) fprintf(errorlog,"T=%.6g: %08X fired (exp time=%.6g)\n", getabsolutetime() + global_offset, System.identityHashCode(timer), timer.expire + global_offset);
+  
     		/* set the global state of which callback we're in */
     		callback_timer_modified = 0;
     		callback_timer = timer;
@@ -544,10 +543,8 @@ public class timer {
     		cpu.lost = 0;
     	}
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: CPU %d finished (net=%d)\n", cpu->time + global_offset, cpunum, ran - cpu->lost);
-    /*TODO*///	#endif
-    
+    	if(errorlog!=null) fprintf(errorlog,"T=%.6g: CPU %d finished (net=%d)\n", cpu.time + global_offset, cpunum, ran - cpu.lost);
+   
     	/* time to renormalize? */
     	if (cpu.time >= 1.0)
     	{
@@ -555,10 +552,9 @@ public class timer {
     		double one = 1.0;
     		int c; //cpu_entry *c;
     
-    /*TODO*///		#if VERBOSE
-    /*TODO*///			verbose_print("T=%.6g: Renormalizing\n", cpu->time + global_offset);
-    /*TODO*///		#endif
-    
+
+                if(errorlog!=null) fprintf(errorlog,"T=%.6g: Renormalizing\n", cpu.time + global_offset);
+
     		/* renormalize all the CPU timers */
     		for(c=0; c<=lastcpu; c++)//for (c = cpudata; c <= lastcpu; c++)
     			cpudata[c].time -= one;
@@ -588,11 +584,16 @@ public class timer {
     	//cpu_entry *cpu = cpudata + cpunum;
     	int nocount = cpudata[cpunum].nocount;
     	int old = cpudata[cpunum].suspended;
+    	
+    	if (suspend!=0) 
+        {
+            if(errorlog!=null) fprintf(errorlog,"T=%.6g: Suspending CPU %d\n", getabsolutetime() + global_offset, cpunum);
+        }
+    	else 
+        {
+            if(errorlog!=null) fprintf(errorlog,"T=%.6g: Resuming CPU %d\n", getabsolutetime() + global_offset, cpunum);
+        }
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		if (suspend) verbose_print("T=%.6g: Suspending CPU %d\n", getabsolutetime() + global_offset, cpunum);
-    /*TODO*///		else verbose_print("T=%.6g: Resuming CPU %d\n", getabsolutetime() + global_offset, cpunum);
-    /*TODO*///	#endif
     
     	/* mark the CPU */
     	if (suspend!=0)
@@ -604,9 +605,7 @@ public class timer {
     	/* if this is the active CPU and we're halting, stop immediately */
     	if (activecpu!=0 && cpunum == activecpu && old==0 && cpudata[cpunum].suspended !=0)
     	{
-    /*TODO*///		#if VERBOSE
-    /*TODO*///			verbose_print("T=%.6g: Reset ICount\n", getabsolutetime() + global_offset);
-    /*TODO*///		#endif
+                if(errorlog!=null) fprintf(errorlog,"T=%.6g: Reset ICount\n", getabsolutetime() + global_offset);
     
     		/* set the CPU's time to the current time */
     		cpudata[cpunum].time = base_time = getabsolutetime();	/* ASG 990225 - also set base_time */
@@ -629,9 +628,8 @@ public class timer {
     			cpudata[cpunum].time = time;
     		cpudata[cpunum].lost = 0;
     
-    /*TODO*///		#if VERBOSE
-    /*TODO*///			verbose_print("T=%.6g: Resume time\n", cpu->time + global_offset);
-    /*TODO*///		#endif
+    		if(errorlog!=null) fprintf(errorlog,"T=%.6g: Resume time\n", cpudata[cpunum].time + global_offset);
+
     	}
     }
     
@@ -683,9 +681,8 @@ public class timer {
     {
     	cpu_entry cpu = cpudata[cpunum];
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: CPU %d suspended until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
-    /*TODO*///	#endif
+
+        if(errorlog!=null) fprintf(errorlog,"T=%.6g: CPU %d suspended until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
     
     	/* suspend the CPU immediately if it's not already */
     	timer_suspendcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
@@ -703,9 +700,9 @@ public class timer {
     {
     	cpu_entry cpu = cpudata[cpunum];
     
-    /*TODO*///	#if VERBOSE
-    /*TODO*///		verbose_print("T=%.6g: CPU %d held until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
-    /*TODO*///	#endif
+    
+       if(errorlog!=null) fprintf(errorlog,"T=%.6g: CPU %d held until %d\n", getabsolutetime() + global_offset, cpunum, trigger);
+
     
     	/* suspend the CPU immediately if it's not already */
     	timer_holdcpu(cpunum, 1, SUSPEND_REASON_TRIGGER);
@@ -742,9 +739,7 @@ public class timer {
     	{
     		if (cpudata[cpu].suspended!=0 && cpudata[cpu].trigger == trigger)
     		{
-    /*TODO*///			#if VERBOSE
-    /*TODO*///				verbose_print("T=%.6g: CPU %d triggered\n", getabsolutetime() + global_offset, cpu->index);
-    /*TODO*///			#endif
+                    if(errorlog!=null) fprintf(errorlog,"T=%.6g: CPU %d triggered\n", getabsolutetime() + global_offset, cpudata[cpu].index);
     
     			timer_suspendcpu(cpudata[cpu].index, 0, SUSPEND_REASON_TRIGGER);
     			cpudata[cpu].trigger = 0;
@@ -791,10 +786,9 @@ public class timer {
     
     			if (cycles[0] > 0)
     			{
-  /*TODO*///  				#if VERBOSE
-  /*TODO*///  					verbose_print("T=%.6g: CPU %d runs %d cycles\n", cpu->time + global_offset, *cpunum, *cycles);
-   /*TODO*/// 				#endif
-    
+
+                            if(errorlog!=null) fprintf(errorlog,"T=%.6g: CPU %d runs %d cycles\n", cpudata[cpu].time + global_offset, cpunum[0], cycles[0]);
+
     				/* remember the base time for this CPU */
     				base_time = cpudata[cpu].time + ((double)cycles[0] * cpudata[cpu].cycles_to_sec);
     
