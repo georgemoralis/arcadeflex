@@ -53,33 +53,33 @@ public class cpuintrfH {
     {
         public int cpu_num;
         public abstract void reset(Object param);
- /*TODO*///        void (*exit)(void);
-                   public abstract int execute(int cycles);
-                   public burnPtr burn;
-                   public abstract Object init_context(); //not in mame , used specific for arcadeflex
-  /*TODO*///       unsigned (*get_context)(void *reg);
-  /*TODO*///       void (*set_context)(void *reg);
-                   public abstract int get_pc();
-  /*TODO*///       void (*set_pc)(unsigned val);
-  /*TODO*///       unsigned (*get_sp)(void);
-  /*TODO*///       void (*set_sp)(unsigned val);
- /*TODO*///        unsigned (*get_reg)(int regnum);
-  /*TODO*///       void (*set_reg)(int regnum, unsigned val);
- /*TODO*///        void (*set_nmi_line)(int linestate);
-                   public abstract void set_irq_line(int irqline, int linestate);
-                   public abstract void set_irq_callback(irqcallbacksPtr callback);
-  /*TODO*///       void (*internal_interrupt)(int type);
- /*TODO*///        void (*cpu_state_save)(void *file);
-  /*TODO*///       void (*cpu_state_load)(void *file);
+        public abstract void exit();
+        public abstract int execute(int cycles);
+        public burnPtr burn;
+        public abstract Object init_context(); //not in mame , used specific for arcadeflex
+        public abstract Object get_context(); //different from mame returns reg object and not size since java doesn't support references
+        public abstract void set_context();
+        public abstract int  get_pc();
+        public abstract void set_pc(int val);
+        public abstract int  get_sp();
+        public abstract void set_sp(int val);
+        public abstract int  get_reg(int regnum);
+        public abstract void set_reg(int regnum, int val);
+        public abstract void set_nmi_line(int linestate);
+        public abstract void set_irq_line(int irqline, int linestate);
+        public abstract void set_irq_callback(irqcallbacksPtr callback);
+        public abstract void internal_interrupt(int type);
+        public abstract void cpu_state_save(Object file);
+        public abstract void cpu_state_load(Object file);
         public abstract String cpu_info(Object context, int regnum);
-  /*TODO*///       unsigned (*cpu_dasm)(char *buffer,unsigned pc);
+  /*TODO*///       unsigned (*cpu_dasm)(char *buffer,unsigned pc); //probably doesn't need to support that (shadow)
         public int num_irqs;
         public int default_vector;
         public int[] icount;
         public double overclock;
         public int no_int, irq_int, nmi_int;
-  /*TODO*///       int (*memory_read)(int offset);
-  /*TODO*///       void (*memory_write)(int offset, int data);
+        public abstract int memory_read(int offset);
+        public abstract void memory_write(int offset, int data);
         public abstract void set_op_base(int pc);
         public int address_shift;
         public int address_bits, endianess, align_unit, max_inst_len;
