@@ -58,7 +58,7 @@ public class cpuintrfH {
         public burnPtr burn;
         public abstract Object init_context(); //not in mame , used specific for arcadeflex
         public abstract Object get_context(); //different from mame returns reg object and not size since java doesn't support references
-        public abstract void set_context();
+        public abstract void set_context(Object reg);
         public abstract int  get_pc();
         public abstract void set_pc(int val);
         public abstract int  get_sp();

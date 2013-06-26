@@ -4602,7 +4602,7 @@ public class z80 extends cpu_interface {
     }
 
     @Override
-    public void set_context() {
+    public void set_context(Object reg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -4633,7 +4633,8 @@ public class z80 extends cpu_interface {
 
     @Override
     public void set_nmi_line(int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("set_nmi_line");
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -4660,7 +4661,11 @@ public class z80 extends cpu_interface {
     public void memory_write(int offset, int data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-  
+    @Override
+    public void set_op_base(int pc) 
+    {
+        cpu_setOPbase16(pc,0);
+    }
 
     
     /*
@@ -4764,6 +4769,7 @@ public class z80 extends cpu_interface {
         }
         @Override
     public void set_irq_callback(irqcallbacksPtr callback) {
+           
             System.out.println("irq callback");
             //ignore for now...
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -4840,10 +4846,7 @@ public class z80 extends cpu_interface {
 			PTable[i + 256] = PTable[i] | C_FLAG;
 		}
 	}
-    @Override
-    public void set_op_base(int pc) {
-        cpu_setOPbase16(pc,0);
-    }
+
     /****************************************************************************/
 	/* Input a byte from given I/O port                                         */
 	/****************************************************************************/

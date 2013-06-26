@@ -132,7 +132,7 @@ public class i8039 extends cpu_interface{
     }
 
     @Override
-    public void set_context() {
+    public void set_context(Object reg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

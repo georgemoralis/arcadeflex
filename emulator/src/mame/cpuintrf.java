@@ -94,29 +94,29 @@ public class cpuintrf {
     static int current_frame;
 
     /* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
-    static void RESET(int index) { cpu.get(index).intf.reset(Machine.drv.cpu[index].reset_param); }
-    static int EXECUTE(int index, int cycles) { return cpu.get(index).intf.execute(cycles); }
-    /*TODO*///#define GETCONTEXT(index,context)		((*cpu[index].intf->get_context)(context))
-    /*TODO*///#define SETCONTEXT(index,context)		((*cpu[index].intf->set_context)(context))
-    static int GETPC(int index) { return cpu.get(index).intf.get_pc(); }
+    static void   RESET(int index) { cpu.get(index).intf.reset(Machine.drv.cpu[index].reset_param); }
+    static int    EXECUTE(int index, int cycles) { return cpu.get(index).intf.execute(cycles); }
+    static Object GETCONTEXT(int index) { return cpu.get(index).intf.get_context(); }
+    static void   SETCONTEXT(int index, Object context) { cpu.get(index).intf.set_context(context); }
+    static int    GETPC(int index) { return cpu.get(index).intf.get_pc(); }
     /*TODO*///#define SETPC(index,val)				((*cpu[index].intf->set_pc)(val))
     /*TODO*///#define GETSP(index)					((*cpu[index].intf->get_sp)())
     /*TODO*///#define SETSP(index,val)				((*cpu[index].intf->set_sp)(val))
     /*TODO*///#define GETREG(index,regnum)			((*cpu[index].intf->get_reg)(regnum))
     /*TODO*///#define SETREG(index,regnum,value)		((*cpu[index].intf->set_reg)(regnum,value))
-    /*TODO*///#define SETNMILINE(index,state) 		((*cpu[index].intf->set_nmi_line)(state))
-    static void SETIRQLINE(int index, int line, int state) { cpu.get(index).intf.set_irq_line(line, state); }
-    static void SETIRQCALLBACK(int index, irqcallbacksPtr callback) { cpu.get(index).intf.set_irq_callback(callback); }
+    static void   SETNMILINE(int index, int state) { cpu.get(index).intf.set_nmi_line(state); }  
+    static void   SETIRQLINE(int index, int line, int state) { cpu.get(index).intf.set_irq_line(line, state); }
+    static void   SETIRQCALLBACK(int index, irqcallbacksPtr callback) { cpu.get(index).intf.set_irq_callback(callback); }
     /*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
     /*TODO*///#define CPUINFO(index,context,regnum)	((*cpu[index].intf->cpu_info)(context,regnum))
     /*TODO*///#define CPUDASM(index,buffer,pc)		((*cpu[index].intf->cpu_dasm)(buffer,pc))
     /*TODO*///#define ICOUNT(index)					(*cpu[index].intf->icount)
-    static int INT_TYPE_NONE(int index)  { return cpu.get(index).intf.no_int; }
-    static int INT_TYPE_IRQ(int index)   { return cpu.get(index).intf.irq_int; }
-    static int INT_TYPE_NMI(int index) 	 { return cpu.get(index).intf.nmi_int; }
+    static int   INT_TYPE_NONE(int index)  { return cpu.get(index).intf.no_int; }
+    static int   INT_TYPE_IRQ(int index)   { return cpu.get(index).intf.irq_int; }
+    static int   INT_TYPE_NMI(int index) 	 { return cpu.get(index).intf.nmi_int; }
     /*TODO*///#define READMEM(index,offset)			((*cpu[index].intf->memory_read)(offset))
     /*TODO*///#define WRITEMEM(index,offset,data) 	((*cpu[index].intf->memory_write)(offset,data))
-    static void SET_OP_BASE(int index, int pc) { cpu.get(index).intf.set_op_base(pc); }
+    static void  SET_OP_BASE(int index, int pc) { cpu.get(index).intf.set_op_base(pc); }
 
     public static int CPU_TYPE(int index)
     {
@@ -346,8 +346,6 @@ public class cpuintrf {
 
     public static void cpu_run()
     {
-    /*TODO*///	int i;
-    /*TODO*///
     	/* determine which CPUs need a context switch */
     	for (int i = 0; i < totalcpu; i++)
     	{
@@ -442,8 +440,7 @@ public class cpuintrf {
     		memorycontextswap(i);
     		if (cpu.get(i).save_context!=0) 
                 {
-                    throw new UnsupportedOperationException("unimplemented");
-                    //SETCONTEXT(i, cpu[i].context);
+                    SETCONTEXT(i, cpu.get(i).context);
                 }
     		activecpu = i;
     		RESET(i);
@@ -454,8 +451,7 @@ public class cpuintrf {
     		/* save the CPU context if necessary */
     		if (cpu.get(i).save_context!=0) 
                 {
-                    throw new UnsupportedOperationException("unimplemented");
-                    //GETCONTEXT (i, cpu[i].context);
+                    cpu.get(i).context = GETCONTEXT(i);
                 }
     
     		/* reset the total number of cycles */
@@ -496,8 +492,7 @@ public class cpuintrf {
 
                         if (cpu.get(activecpu).save_context!=0) 
                         {    
-                            //SETCONTEXT(activecpu, cpu[activecpu].context);
-                            throw new UnsupportedOperationException("unimplemented");
+                            SETCONTEXT(activecpu, cpu.get(activecpu).context);
                         }
     
     			/* make sure any bank switching is reset */
@@ -513,8 +508,8 @@ public class cpuintrf {
     			/* update the contexts */
     			if (cpu.get(activecpu).save_context!=0) 
                         {
-                            //GETCONTEXT(activecpu, cpu[activecpu].context);
-                            throw new UnsupportedOperationException("unimplemented");
+                           cpu.get(activecpu).context=GETCONTEXT(activecpu);
+                            
                         }
     			activecpu = -1;
     
@@ -850,21 +845,21 @@ public class cpuintrf {
     /*TODO*///	return cpu[cpunum].iloops;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Interrupt handling
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  These functions are called when a cpu calls the callback sent to it's
-    /*TODO*///  set_irq_callback function. It clears the irq line if the current state
-    /*TODO*///  is HOLD_LINE and returns the interrupt vector for that line.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
+    
+    
+    /***************************************************************************
+    
+      Interrupt handling
+    
+    ***************************************************************************/
+    
+    /***************************************************************************
+    
+      These functions are called when a cpu calls the callback sent to it's
+      set_irq_callback function. It clears the irq line if the current state
+      is HOLD_LINE and returns the interrupt vector for that line.
+    
+    ***************************************************************************/
     
     public static irqcallbacksPtr cpu_0_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
             	if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
@@ -876,13 +871,31 @@ public class cpuintrf {
     	return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
     }};
     public static irqcallbacksPtr cpu_1_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
-        throw new UnsupportedOperationException("unimplemented");
+    	if( irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
+   	{
+    		SETIRQLINE(1, irqline, CLEAR_LINE);
+    		irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+    	}
+    	if(errorlog!=null) fprintf(errorlog, "cpu_1_irq_callback(%d) $%04x\n", irqline, irq_line_vector[1 * MAX_IRQ_LINES + irqline]);
+    	return irq_line_vector[1 * MAX_IRQ_LINES + irqline];
     }};
     public static irqcallbacksPtr cpu_2_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
-        throw new UnsupportedOperationException("unimplemented");
+        if( irq_line_state[2 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
+    	{
+    		SETIRQLINE(2, irqline, CLEAR_LINE);
+    		irq_line_state[2 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+    	}
+    	if(errorlog!=null) fprintf(errorlog, "cpu_2_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]);
+    	return irq_line_vector[2 * MAX_IRQ_LINES + irqline];
     }};
     public static irqcallbacksPtr cpu_3_irq_callback = new irqcallbacksPtr(){ public int handler(int irqline) {
-        throw new UnsupportedOperationException("unimplemented");
+        if( irq_line_state[3 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
+    	{
+    		SETIRQLINE(3, irqline, CLEAR_LINE);
+    		irq_line_state[3 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+    	}
+   	if(errorlog!=null) fprintf(errorlog, "cpu_3_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]);
+    	return irq_line_vector[3 * MAX_IRQ_LINES + irqline];
     }};
     
     public static final irqcallbacksPtr[] cpu_irq_callbacks = {
@@ -891,39 +904,7 @@ public class cpuintrf {
         cpu_2_irq_callback,
         cpu_3_irq_callback
     };
-    /*TODO*///static int cpu_1_irq_callback(int irqline)
-    /*TODO*///{
-    /*TODO*///	if( irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-    /*TODO*///	{
-    /*TODO*///		SETIRQLINE(1, irqline, CLEAR_LINE);
-    /*TODO*///		irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-    /*TODO*///	}
-    /*TODO*///	LOG((errorlog, "cpu_1_irq_callback(%d) $%04x\n", irqline, irq_line_vector[1 * MAX_IRQ_LINES + irqline]));
-    /*TODO*///	return irq_line_vector[1 * MAX_IRQ_LINES + irqline];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int cpu_2_irq_callback(int irqline)
-    /*TODO*///{
-    /*TODO*///	if( irq_line_state[2 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-    /*TODO*///	{
-    /*TODO*///		SETIRQLINE(2, irqline, CLEAR_LINE);
-    /*TODO*///		irq_line_state[2 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-    /*TODO*///	}
-    /*TODO*///	LOG((errorlog, "cpu_2_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
-    /*TODO*///	return irq_line_vector[2 * MAX_IRQ_LINES + irqline];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int cpu_3_irq_callback(int irqline)
-    /*TODO*///{
-    /*TODO*///	if( irq_line_state[3 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-    /*TODO*///	{
-    /*TODO*///		SETIRQLINE(3, irqline, CLEAR_LINE);
-    /*TODO*///		irq_line_state[3 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-    /*TODO*///	}
-    /*TODO*///	LOG((errorlog, "cpu_3_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
-    /*TODO*///	return irq_line_vector[3 * MAX_IRQ_LINES + irqline];
-    /*TODO*///}
-    /*TODO*///
+
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  This function is used to generate internal interrupts (TMS34010)
@@ -1286,8 +1267,7 @@ public class cpuintrf {
     	memorycontextswap(activecpu);
     	if (cpu.get(activecpu).save_context!=0) 
         {
-            //SETCONTEXT(activecpu, cpu[activecpu].context);
-            throw new UnsupportedOperationException("Unsupported");
+            SETCONTEXT(activecpu,cpu.get(activecpu).context);
         }
     
     	if(errorlog!=null) fprintf(errorlog,"cpu_manualirqcallback %d,%d,%d\n",cpunum,irqline,state);
@@ -1313,8 +1293,8 @@ public class cpuintrf {
     	/* update the CPU's context */
         if (cpu.get(activecpu).save_context!=0) 
         {
-            //GETCONTEXT(activecpu, cpu[activecpu].context);
-            throw new UnsupportedOperationException("Unsupported");
+            cpu.get(activecpu).context=GETCONTEXT(activecpu);
+            
         }
     	activecpu = oldactive;
     	if (activecpu >= 0) memorycontextswap(activecpu);
@@ -1366,8 +1346,8 @@ public class cpuintrf {
     	memorycontextswap(activecpu);
     	if (cpu.get(activecpu).save_context!=0) 
         {
-            //SETCONTEXT(activecpu, cpu[activecpu].context);
-            throw new UnsupportedOperationException("Unsupported");
+            SETCONTEXT(activecpu, cpu.get(activecpu).context);
+            
         }
     
     	/* cause the interrupt, calling the function if it exists */
@@ -1705,8 +1685,7 @@ public class cpuintrf {
     	/* update the CPU's context */
     	if (cpu.get(activecpu).save_context!=0)
         {
-            //GETCONTEXT(activecpu, cpu[activecpu].context);
-            throw new UnsupportedOperationException("Unsupported");
+            cpu.get(activecpu).context=GETCONTEXT(activecpu);
         }
     	activecpu = oldactive;
     	if (activecpu >= 0) memorycontextswap(activecpu);
@@ -1716,26 +1695,26 @@ public class cpuintrf {
  
     public static void cpu_clear_interrupts(int cpunum)
     {
-        System.out.println("TODO cpu_clear_interrupts");
-    /*TODO*///	int oldactive = activecpu;
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	/* swap to the CPU's context */
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///	memorycontextswap(activecpu);
-    /*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///
-    /*TODO*///	/* clear NMI line */
-    /*TODO*///	SETNMILINE(activecpu,CLEAR_LINE);
-    /*TODO*///
-    /*TODO*///	/* clear all IRQ lines */
-    /*TODO*///	for (i = 0; i < cpu[activecpu].intf->num_irqs; i++)
-    /*TODO*///		SETIRQLINE(activecpu,i,CLEAR_LINE);
-    /*TODO*///
-    /*TODO*///	/* update the CPU's context */
-    /*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///	activecpu = oldactive;
-    /*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
+       
+    	int oldactive = activecpu;
+    	int i;
+    
+    	/* swap to the CPU's context */
+    	activecpu = cpunum;
+    	memorycontextswap(activecpu);
+    	if (cpu.get(activecpu).save_context!=0) SETCONTEXT(activecpu, cpu.get(activecpu).context);
+    
+    	/* clear NMI line */
+    	SETNMILINE(activecpu,CLEAR_LINE);
+    
+    	/* clear all IRQ lines */
+    	for (i = 0; i < cpu.get(activecpu).intf.num_irqs; i++)
+    		SETIRQLINE(activecpu,i,CLEAR_LINE);
+    
+    	/* update the CPU's context */
+    	if (cpu.get(activecpu).save_context!=0) cpu.get(activecpu).context=GETCONTEXT(activecpu);
+    	activecpu = oldactive;
+    	if (activecpu >= 0) memorycontextswap(activecpu);
     }
     /*TODO*///
     /*TODO*///
