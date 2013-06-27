@@ -5,6 +5,7 @@ import arcadeflex.libc_old.CharPtr;
 import mame.driverH.ReadHandlerPtr;
 import mame.driverH.WriteHandlerPtr;
 import arcadeflex.libc.*;
+import static mame.memory.*;
 
 /**
  *
@@ -159,5 +160,17 @@ public static class ExtMemory{
             int start, end,region;
             UBytePtr data;
         }
+/* ----- bank switching for CPU cores ----- */
+public static void change_pc_generic(int pc, int abits2, int abitsmin, int shift, setopbase setop)
+{
+    if (cur_mrhard[pc >> (abits2 + abitsmin + shift)] != ophw.read())
+        setop.handler((int)pc, shift);
+}
+public static void change_pc(int pc)
+{
+     change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
+}
+
 public static abstract interface opbase_handlerPtr { public abstract int handler(int address); }
+public static abstract interface setopbase { public abstract void handler(int pc,int shift);}
 }

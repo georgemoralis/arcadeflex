@@ -7,6 +7,9 @@ import static mame.memoryH.*;
 import static cpu.z80.z80H.*;
 import static arcadeflex.libc_old.*;
 import static mame.memory.*;
+import static mame.memoryH.*;
+import static mame.mame.*;
+import static mame.cpuintrf.*;
 
 
 public class z80 extends cpu_interface {
@@ -142,7 +145,7 @@ public class z80 extends cpu_interface {
         public irqcallbacksPtr irq_callback;
         public int     extra_cycles;       /* extra cycles for interrupts */
     };
-
+    
     public static final int CF  =0x01;
     public static final int NF	=0x02;
     public static final int PF	=0x04;
@@ -4557,18 +4560,37 @@ public class z80 extends cpu_interface {
             if( i == 0x7f ) SZHV_dec[i] |= VF;
             if( (i & 0x0f) == 0x0f ) SZHV_dec[i] |= HF;
         }
-  
-    /*TODO*///
-    /*TODO*///	memset(&Z80, 0, sizeof(Z80));
-    /*TODO*///	_IX = _IY = 0xffff; /* IX and IY are FFFF after a reset! */
-    /*TODO*///	_F = ZF;			/* Zero flag is set */
-    /*TODO*///	Z80.request_irq = -1;
-    /*TODO*///	Z80.service_irq = -1;
-    /*TODO*///    Z80.nmi_state = CLEAR_LINE;
-    /*TODO*///	Z80.irq_state = CLEAR_LINE;
-    /*TODO*///
-    /*TODO*///    if( daisy_chain )
-    /*TODO*///	{
+    	//memset(&Z80, 0, sizeof(Z80));
+        Z80.PREPC.SetD(0);
+        Z80.PC.SetD(0);    
+        Z80.SP.SetD(0);    
+        Z80.AF.SetD(0);    
+        Z80.BC.SetD(0);    
+        Z80.DE.SetD(0);    
+        Z80.HL.SetD(0);    
+        Z80.IX.SetD(0);    
+        Z80.IY.SetD(0);    
+        Z80.AF2.SetD(0);   
+        Z80.BC2.SetD(0);   
+        Z80.DE2.SetD(0);    
+        Z80.HL2.SetD(0); 
+        Z80.R=Z80.R2=Z80.IFF1=Z80.IFF2=Z80.HALT=Z80.IM=Z80.I=0;
+        Z80.irq_max=0;         
+        Z80.request_irq = -1;
+        Z80.service_irq = -1;	
+        Z80.nmi_state = CLEAR_LINE;	
+        Z80.irq_state = CLEAR_LINE;	
+        Z80.int_state = new int[Z80_MAXDAISY];
+        Z80.irq = new Z80_DaisyChain[Z80_MAXDAISY];
+        Z80.irq_callback=null;
+        Z80.extra_cycles=0;
+        Z80.IX.SetD(0xFFFF);//_IX = _IY = 0xffff;
+        Z80.IY.SetD(0xFFFF); /* IX and IY are FFFF after a reset! */
+        Z80.AF.AddL(ZF);//	_F = ZF;	/* Zero flag is set */
+
+        if( daisy_chain!=null )
+    	{
+            throw new UnsupportedOperationException("Daisy Chain Not supported yet.");
     /*TODO*///		while( daisy_chain->irq_param != -1 && Z80.irq_max < Z80_MAXDAISY )
     /*TODO*///		{
     /*TODO*///            /* set callbackhandler after reti */
@@ -4579,11 +4601,9 @@ public class z80 extends cpu_interface {
     /*TODO*///			Z80.irq_max++;
     /*TODO*///            daisy_chain++;
     /*TODO*///        }
-    /*TODO*///    }
-    /*TODO*///
-    /*TODO*///    change_pc(_PCD);
+        }
         
-        throw new UnsupportedOperationException("Not supported yet.");
+      change_pc(Z80.PC.D);           
     }
     
     /*TODO*///void z80_exit(void)
@@ -4852,10 +4872,15 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Set IRQ vector callback
     /*TODO*/// ****************************************************************************/
+    @Override
+    public void set_irq_callback(irqcallbacksPtr callback) {
+        //if(errorlog!=null) fprintf(errorlog, "Z80#%d set_irq_callback $%08x\n",cpu_getactivecpu() , (int)callback));
+        if(errorlog!=null) fprintf(errorlog, "Z80#%d set_irq_callback $%08x\n",cpu_getactivecpu() , System.identityHashCode(callback));
+        Z80.irq_callback = callback;
+    }
     /*TODO*///void z80_set_irq_callback(int (*callback)(int))
     /*TODO*///{
-    /*TODO*///	LOG((errorlog, "Z80#%d set_irq_callback $%08x\n",cpu_getactivecpu() , (int)callback));
-    /*TODO*///    Z80.irq_callback = callback;
+    
     /*TODO*///}
     /*TODO*///
     /*TODO*////****************************************************************************
@@ -5003,10 +5028,7 @@ public class z80 extends cpu_interface {
 
 
 
-    @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public int execute(int cycles) {
@@ -5095,7 +5117,7 @@ public class z80 extends cpu_interface {
     @Override
     public void set_op_base(int pc) 
     {
-        cpu_setOPbase16(pc,0);
+        cpu_setOPbase16.handler(pc,0);
     }
 
     public abstract interface opcode

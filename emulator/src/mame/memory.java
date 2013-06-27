@@ -1539,7 +1539,8 @@ public class memory {
 /*TODO*/ //SETOPBASE(cpu_setOPbase29,    29,    3)
 /*TODO*/ //SETOPBASE(cpu_setOPbase32,    32,    0)
 /*TODO*/ //
-    public static void cpu_setOPbase16(int pc, int shift)
+   
+    public static setopbase cpu_setOPbase16 =new setopbase(){ public void handler(int pc, int shift)
     {
       UByte hw=new UByte();
 
@@ -1571,7 +1572,7 @@ public class memory {
 
             /* do not support on callback memory region */
             printf("CPU #%d PC %04x: warning - op-code execute on mapped i/o\n",        cpu_getactivecpu(),cpu_get_pc());                                                                      
-    }
+    }};
 
     /***************************************************************************
 
