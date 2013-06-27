@@ -403,6 +403,7 @@ public class z80 extends cpu_interface {
     /*TODO*///PROTOTYPES(Z80fd,fd);
     /*TODO*///PROTOTYPES(Z80xxcb,xxcb);
     /*TODO*///
+
     /*TODO*////****************************************************************************/
     /*TODO*////* Burn an odd amount of cycles, that is instructions taking something      */
     /*TODO*////* different from 4 T-states per opcode (and R increment)                   */
@@ -436,6 +437,95 @@ public class z80 extends cpu_interface {
     /*TODO*///	(*Z80##prefix[op])();										\
     /*TODO*///}
     /*TODO*///
+    opcode[] Z80op = new opcode[256];
+    opcode[] Z80cb = new opcode[256];
+    opcode[] Z80dd = new opcode[256];
+    opcode[] Z80ed = new opcode[256];
+    opcode[] Z80fd = new opcode[256];
+    opcode[] Z80xxcb = new opcode[256];
+    
+    void setup_op_table()
+    {
+        Z80op[0x00] = op_00; Z80op[0x01] = op_01; Z80op[0x02] = op_02; Z80op[0x03] = op_03;
+        Z80op[0x04] = op_04; Z80op[0x05] = op_05; Z80op[0x06] = op_06; Z80op[0x07] = op_07;
+        Z80op[0x08] = op_08; Z80op[0x09] = op_09; Z80op[0x0a] = op_0a; Z80op[0x0b] = op_0b;
+        Z80op[0x0c] = op_0c; Z80op[0x0d] = op_0d; Z80op[0x0e] = op_0e; Z80op[0x0f] = op_0f;
+
+        Z80op[0x10] = op_10; Z80op[0x11] = op_11; Z80op[0x12] = op_12; Z80op[0x13] = op_13;
+        Z80op[0x14] = op_14; Z80op[0x15] = op_15; Z80op[0x16] = op_16; Z80op[0x17] = op_17;
+        Z80op[0x18] = op_18; Z80op[0x19] = op_19; Z80op[0x1a] = op_1a; Z80op[0x1b] = op_1b;
+        Z80op[0x1c] = op_1c; Z80op[0x1d] = op_1d; Z80op[0x1e] = op_1e; Z80op[0x1f] = op_1f;
+
+        Z80op[0x20] = op_20; Z80op[0x21] = op_21; Z80op[0x22] = op_22; Z80op[0x23] = op_23;
+        Z80op[0x24] = op_24; Z80op[0x25] = op_25; Z80op[0x26] = op_26; Z80op[0x27] = op_27;
+        Z80op[0x28] = op_28; Z80op[0x29] = op_29; Z80op[0x2a] = op_2a; Z80op[0x2b] = op_2b;
+        Z80op[0x2c] = op_2c; Z80op[0x2d] = op_2d; Z80op[0x2e] = op_2e; Z80op[0x2f] = op_2f;
+
+        Z80op[0x30] = op_30; Z80op[0x31] = op_31; Z80op[0x32] = op_32; Z80op[0x33] = op_33;
+        Z80op[0x34] = op_34; Z80op[0x35] = op_35; Z80op[0x36] = op_36; Z80op[0x37] = op_37;
+        Z80op[0x38] = op_38; Z80op[0x39] = op_39; Z80op[0x3a] = op_3a; Z80op[0x3b] = op_3b;
+        Z80op[0x3c] = op_3c; Z80op[0x3d] = op_3d; Z80op[0x3e] = op_3e; Z80op[0x3f] = op_3f;
+
+        Z80op[0x40] = op_40; Z80op[0x41] = op_41; Z80op[0x42] = op_42; Z80op[0x43] = op_43;
+        Z80op[0x44] = op_44; Z80op[0x45] = op_45; Z80op[0x46] = op_46; Z80op[0x47] = op_47;
+        Z80op[0x48] = op_48; Z80op[0x49] = op_49; Z80op[0x4a] = op_4a; Z80op[0x4b] = op_4b;
+        Z80op[0x4c] = op_4c; Z80op[0x4d] = op_4d; Z80op[0x4e] = op_4e; Z80op[0x4f] = op_4f;
+
+        Z80op[0x50] = op_50; Z80op[0x51] = op_51; Z80op[0x52] = op_52; Z80op[0x53] = op_53;
+        Z80op[0x54] = op_54; Z80op[0x55] = op_55; Z80op[0x56] = op_56; Z80op[0x57] = op_57;
+        Z80op[0x58] = op_58; Z80op[0x59] = op_59; Z80op[0x5a] = op_5a; Z80op[0x5b] = op_5b;
+        Z80op[0x5c] = op_5c; Z80op[0x5d] = op_5d; Z80op[0x5e] = op_5e; Z80op[0x5f] = op_5f;
+
+        Z80op[0x60] = op_60; Z80op[0x61] = op_61; Z80op[0x62] = op_62; Z80op[0x63] = op_63;
+        Z80op[0x64] = op_64; Z80op[0x65] = op_65; Z80op[0x66] = op_66; Z80op[0x67] = op_67;
+        Z80op[0x68] = op_68; Z80op[0x69] = op_69; Z80op[0x6a] = op_6a; Z80op[0x6b] = op_6b;
+        Z80op[0x6c] = op_6c; Z80op[0x6d] = op_6d; Z80op[0x6e] = op_6e; Z80op[0x6f] = op_6f;
+
+        Z80op[0x70] = op_70; Z80op[0x71] = op_71; Z80op[0x72] = op_72; Z80op[0x73] = op_73;
+        Z80op[0x74] = op_74; Z80op[0x75] = op_75; Z80op[0x76] = op_76; Z80op[0x77] = op_77;
+        Z80op[0x78] = op_78; Z80op[0x79] = op_79; Z80op[0x7a] = op_7a; Z80op[0x7b] = op_7b;
+        Z80op[0x7c] = op_7c; Z80op[0x7d] = op_7d; Z80op[0x7e] = op_7e; Z80op[0x7f] = op_7f;
+
+        Z80op[0x80] = op_80; Z80op[0x81] = op_81; Z80op[0x82] = op_82; Z80op[0x83] = op_83;
+        Z80op[0x84] = op_84; Z80op[0x85] = op_85; Z80op[0x86] = op_86; Z80op[0x87] = op_87;
+        Z80op[0x88] = op_88; Z80op[0x89] = op_89; Z80op[0x8a] = op_8a; Z80op[0x8b] = op_8b;
+        Z80op[0x8c] = op_8c; Z80op[0x8d] = op_8d; Z80op[0x8e] = op_8e; Z80op[0x8f] = op_8f;
+
+        Z80op[0x90] = op_90; Z80op[0x91] = op_91; Z80op[0x92] = op_92; Z80op[0x93] = op_93;
+        Z80op[0x94] = op_94; Z80op[0x95] = op_95; Z80op[0x96] = op_96; Z80op[0x97] = op_97;
+        Z80op[0x98] = op_98; Z80op[0x99] = op_99; Z80op[0x9a] = op_9a; Z80op[0x9b] = op_9b;
+        Z80op[0x9c] = op_9c; Z80op[0x9d] = op_9d; Z80op[0x9e] = op_9e; Z80op[0x9f] = op_9f;
+
+        Z80op[0xa0] = op_a0; Z80op[0xa1] = op_a1; Z80op[0xa2] = op_a2; Z80op[0xa3] = op_a3;
+        Z80op[0xa4] = op_a4; Z80op[0xa5] = op_a5; Z80op[0xa6] = op_a6; Z80op[0xa7] = op_a7;
+        Z80op[0xa8] = op_a8; Z80op[0xa9] = op_a9; Z80op[0xaa] = op_aa; Z80op[0xab] = op_ab;
+        Z80op[0xac] = op_ac; Z80op[0xad] = op_ad; Z80op[0xae] = op_ae; Z80op[0xaf] = op_af;
+
+        Z80op[0xb0] = op_b0; Z80op[0xb1] = op_b1; Z80op[0xb2] = op_b2; Z80op[0xb3] = op_b3;
+        Z80op[0xb4] = op_b4; Z80op[0xb5] = op_b5; Z80op[0xb6] = op_b6; Z80op[0xb7] = op_b7;
+        Z80op[0xb8] = op_b8; Z80op[0xb9] = op_b9; Z80op[0xba] = op_ba; Z80op[0xbb] = op_bb; 
+        Z80op[0xbc] = op_bc; Z80op[0xbd] = op_bd; Z80op[0xbe] = op_be; Z80op[0xbf] = op_bf;
+
+        Z80op[0xc0] = op_c0; Z80op[0xc1] = op_c1; Z80op[0xc2] = op_c2; Z80op[0xc3] = op_c3;
+        Z80op[0xc4] = op_c4; Z80op[0xc5] = op_c5; Z80op[0xc6] = op_c6; Z80op[0xc7] = op_c7;
+        Z80op[0xc8] = op_c8; Z80op[0xc9] = op_c9; Z80op[0xca] = op_ca; Z80op[0xcb] = op_cb; 
+        Z80op[0xcc] = op_cc; Z80op[0xcd] = op_cd; Z80op[0xce] = op_ce; Z80op[0xcf] = op_cf;
+
+        Z80op[0xd0] = op_d0; Z80op[0xd1] = op_d1; Z80op[0xd2] = op_d2; Z80op[0xd3] = op_d3;
+        Z80op[0xd4] = op_d4; Z80op[0xd5] = op_d5; Z80op[0xd6] = op_d6; Z80op[0xd7] = op_d7;
+        Z80op[0xd8] = op_d8; Z80op[0xd9] = op_d9; Z80op[0xda] = op_da; Z80op[0xdb] = op_db;
+        Z80op[0xdc] = op_dc; Z80op[0xdd] = op_dd; Z80op[0xde] = op_de; Z80op[0xdf] = op_df;
+
+        Z80op[0xe0] = op_e0; Z80op[0xe1] = op_e1; Z80op[0xe2] = op_e2; Z80op[0xe3] = op_e3;
+        Z80op[0xe4] = op_e4; Z80op[0xe5] = op_e5; Z80op[0xe6] = op_e6; Z80op[0xe7] = op_e7;
+        Z80op[0xe8] = op_e8; Z80op[0xe9] = op_e9; Z80op[0xea] = op_ea; Z80op[0xeb] = op_eb;
+        Z80op[0xec] = op_ec; Z80op[0xed] = op_ed; Z80op[0xee] = op_ee; Z80op[0xef] = op_ef;
+
+        Z80op[0xf0] = op_f0; Z80op[0xf1] = op_f1; Z80op[0xf2] = op_f2; Z80op[0xf3] = op_f3;
+        Z80op[0xf4] = op_f4; Z80op[0xf5] = op_f5; Z80op[0xf6] = op_f6; Z80op[0xf7] = op_f7;
+        Z80op[0xf8] = op_f8; Z80op[0xf9] = op_f9; Z80op[0xfa] = op_fa; Z80op[0xfb] = op_fb; 
+        Z80op[0xfc] = op_fc; Z80op[0xfd] = op_fd; Z80op[0xfe] = op_fe; Z80op[0xff] = op_ff;
+    }
     /*TODO*///#if BIG_SWITCH
     /*TODO*///#define EXEC_INLINE(prefix,opcode)								\
     /*TODO*///{																\
@@ -3653,6 +3743,262 @@ public class z80 extends cpu_interface {
     /*TODO*////**********************************************************
     /*TODO*/// * main opcodes
     /*TODO*/// **********************************************************/
+    opcode op_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode op_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode op_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(op,00) { 														} /* NOP			  */
     /*TODO*///OP(op,01) { _BC = ARG16();											} /* LD   BC,w		  */
     /*TODO*///OP(op,02) { WM( _BC, _A );											} /* LD   (BC),A	  */
@@ -4667,7 +5013,10 @@ public class z80 extends cpu_interface {
         cpu_setOPbase16(pc,0);
     }
 
-    
+    public abstract interface opcode
+    {
+        public abstract void handler();
+    }
     /*
      * 
      *   OLD Z80 cpu core for reference TOBE REPLACED!!!
