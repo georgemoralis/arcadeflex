@@ -73,25 +73,76 @@ public class z80 extends cpu_interface {
     /*TODO*///	 0,23,80, 1,	/* command line window (bottom rows) */
     /*TODO*///};
     /*TODO*///
-    /*TODO*////****************************************************************************/
-    /*TODO*////* The Z80 registers. HALT is set to 1 when the CPU is halted, the refresh  */
-    /*TODO*////* register is calculated as follows: refresh=(Regs.R&127)|(Regs.R2&128)    */
-    /*TODO*////****************************************************************************/
-    /*TODO*///typedef struct {
-    /*TODO*////* 00 */    PAIR    PREPC,PC,SP,AF,BC,DE,HL,IX,IY;
-    /*TODO*////* 24 */    PAIR    AF2,BC2,DE2,HL2;
-    /*TODO*////* 34 */    UINT8   R,R2,IFF1,IFF2,HALT,IM,I;
-    /*TODO*////* 3B */    UINT8   irq_max;            /* number of daisy chain devices        */
-    /*TODO*////* 3C */	INT8	request_irq;		/* daisy chain next request device		*/
-    /*TODO*////* 3D */	INT8	service_irq;		/* daisy chain next reti handling device */
-    /*TODO*////* 3E */	UINT8	nmi_state;			/* nmi line state */
-    /*TODO*////* 3F */	UINT8	irq_state;			/* irq line state */
-    /*TODO*////* 40 */    UINT8   int_state[Z80_MAXDAISY];
-    /*TODO*////* 44 */    Z80_DaisyChain irq[Z80_MAXDAISY];
-    /*TODO*////* 84 */    int     (*irq_callback)(int irqline);
-    /*TODO*////* 88 */    int     extra_cycles;       /* extra cycles for interrupts */
-    /*TODO*///}   Z80_Regs;
-    /*TODO*///
+    /****************************************************************************/
+    /* The Z80 registers. HALT is set to 1 when the CPU is halted, the refresh  */
+    /* register is calculated as follows: refresh=(Regs.R&127)|(Regs.R2&128)    */
+    /****************************************************************************/
+    public class PAIR
+    {
+      //L = low 8 bits
+      //H = high 8 bits
+      //D = whole 16 bits
+      public int H,L,D;
+      public void SetH(int val) 
+      {
+        H = val;
+        D = (H << 8) | L;
+      }
+      public void SetL(int val) 
+      {
+        L = val;
+        D = (H << 8) | L;
+      }
+      public void SetD(int val)
+      {
+        D = val;
+        H = D >> 8 & 0xFF;
+        L = D & 0xFF;
+      }
+      public void AddH(int val) 
+      {
+         H = (H + val) & 0xFF;
+         D = (H << 8) | L;
+      }
+      public void AddL(int val)
+      {
+         L = (L + val) & 0xFF;
+         D = (H << 8) | L;
+      }
+      public void AddW(int val)
+      {
+         D = (D + val) & 0xFFFF;
+         H = D >> 8 & 0xFF;
+         L = D & 0xFF;
+      } 
+    };
+    public class Z80_Regs
+    {
+        public PAIR PREPC = new PAIR();
+        public PAIR PC    = new PAIR();
+        public PAIR SP    = new PAIR();
+        public PAIR AF    = new PAIR();
+        public PAIR BC    = new PAIR();
+        public PAIR DE    = new PAIR();
+        public PAIR HL    = new PAIR();
+        public PAIR IX    = new PAIR();
+        public PAIR IY    = new PAIR();
+        public PAIR AF2   = new PAIR();
+        public PAIR BC2   = new PAIR();
+        public PAIR DE2   = new PAIR();
+        public PAIR HL2   = new PAIR();
+        public int /*UINT8*/ R,R2,IFF1,IFF2,HALT,IM,I;
+        public int /*UINT8*/ irq_max;         /* number of daisy chain devices        */
+        public int /*INT8*/  request_irq;	/* daisy chain next request device		*/
+        public int /*INT8*/  service_irq;	/* daisy chain next reti handling device */
+        public int /*UINT8*/ nmi_state;	/* nmi line state */
+        public int /*UINT8*/ irq_state;	/* irq line state */
+        public int /*UNIT8*/ int_state[] = new int[Z80_MAXDAISY];
+        public Z80_DaisyChain[] irq = new Z80_DaisyChain[Z80_MAXDAISY];
+        public irqcallbacksPtr irq_callback;
+        public int     extra_cycles;       /* extra cycles for interrupts */
+    };
+
     public static final int CF  =0x01;
     public static final int NF	=0x02;
     public static final int PF	=0x04;
@@ -5070,7 +5121,7 @@ public class z80 extends cpu_interface {
 	/* The Z80 registers. HALT is set to 1 when the CPU is halted, the refresh  */
 	/* register is calculated as follows: refresh=(Regs.R&127)|(Regs.R2&128)    */
 	/****************************************************************************/
-	public static class Z80_Regs
+	public static class Z80_Regs_OLD
 	{
 	  	public int AF2, BC2, DE2, HL2;
 	  	public int IFF1, IFF2, HALT, IM, I, R, R2;
@@ -5103,7 +5154,7 @@ public class z80 extends cpu_interface {
                 R.pending_irq = Z80_IGNORE_INT;
                 R.pending_nmi = 0;
         }
-        public Z80_Regs R = new Z80_Regs();
+        public Z80_Regs_OLD R = new Z80_Regs_OLD();
         public int Z80_Running = 1;
 	//public int Z80_IPeriod = 50000;
 	//public int z80_ICount[0] = 50000;
@@ -5113,7 +5164,7 @@ public class z80 extends cpu_interface {
         
         @Override
         public Object init_context() {
-            Object reg = new Z80_Regs();
+            Object reg = new Z80_Regs_OLD();
             return reg;
         }
         @Override
@@ -7402,7 +7453,7 @@ public class z80 extends cpu_interface {
 	/****************************************************************************/
 	/* Set all registers to given values                                        */
 	/****************************************************************************/
-	public void Z80_SetRegs(Z80_Regs Regs)
+	public void Z80_SetRegs(Z80_Regs_OLD Regs)
 	{
 		R.AF = Regs.AF; R.PC = Regs.PC; R.SP = Regs.SP;
 		R.A = Regs.A; R.F = Regs.F;
@@ -7415,7 +7466,7 @@ public class z80 extends cpu_interface {
 	/****************************************************************************/
 	/* Get all registers in given buffer                                        */
 	/****************************************************************************/
-	public void Z80_GetRegs(Z80_Regs Regs)
+	public void Z80_GetRegs(Z80_Regs_OLD Regs)
 	{
 		Regs.AF = R.AF; Regs.PC = R.PC; Regs.SP = R.SP;
 		Regs.A = R.A; Regs.F = R.F;

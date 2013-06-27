@@ -96,13 +96,14 @@ public class cpuintrfH {
 
 
     /* daisy-chain link */
-  /*TODO*///   typedef struct {
+  public static class Z80_DaisyChain
+  {
   /*TODO*///       void (*reset)(int);             /* reset callback     */
   /*TODO*///       int  (*interrupt_entry)(int);   /* entry callback     */
   /*TODO*///       void (*interrupt_reti)(int);    /* reti callback      */
-  /*TODO*///       int irq_param;                  /* callback paramater */
-  /*TODO*///   }	Z80_DaisyChain;
-
+         int irq_param;                  /* callback paramater */
+  }	
+ 
     public static final int Z80_MAXDAISY	= 4;		/* maximum of daisy chan device */
 
     public static final int Z80_INT_REQ     = 0x01;    /* interrupt request mask       */
