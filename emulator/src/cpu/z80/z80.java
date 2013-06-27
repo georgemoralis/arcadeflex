@@ -77,7 +77,7 @@ public class z80 extends cpu_interface {
     /* The Z80 registers. HALT is set to 1 when the CPU is halted, the refresh  */
     /* register is calculated as follows: refresh=(Regs.R&127)|(Regs.R2&128)    */
     /****************************************************************************/
-    public class PAIR
+    public static class PAIR
     {
       //L = low 8 bits
       //H = high 8 bits
@@ -116,7 +116,7 @@ public class z80 extends cpu_interface {
          L = D & 0xFF;
       } 
     };
-    public class Z80_Regs
+    public static class Z80_Regs
     {
         public PAIR PREPC = new PAIR();
         public PAIR PC    = new PAIR();
@@ -203,20 +203,21 @@ public class z80 extends cpu_interface {
     /*TODO*///#define _HALT	Z80.HALT
     /*TODO*///
     /*TODO*///int z80_ICount;
-    /*TODO*///static Z80_Regs Z80;
+    private static Z80_Regs Z80 = new Z80_Regs();
     /*TODO*///static UINT32 EA;
     /*TODO*///static int after_EI = 0;
     /*TODO*///
-    /*TODO*///static UINT8 SZ[256];		/* zero and sign flags */
-    /*TODO*///static UINT8 SZ_BIT[256];	/* zero, sign and parity/overflow (=zero) flags for BIT opcode */
-    /*TODO*///static UINT8 SZP[256];		/* zero, sign and parity flags */
-    /*TODO*///static UINT8 SZHV_inc[256]; /* zero, sign, half carry and overflow flags INC r8 */
-    /*TODO*///static UINT8 SZHV_dec[256]; /* zero, sign, half carry and overflow flags DEC r8 */
-    /*TODO*///#include "z80daa.h"
-    /*TODO*///#if BIG_FLAGS_ARRAY
-    /*TODO*///#include <signal.h>
-    /*TODO*///static UINT8 *SZHVC_add = 0;
-    /*TODO*///static UINT8 *SZHVC_sub = 0;
+	
+    private static int  /*UINT8*/ SZ[]        = new int[256];/* zero and sign flags */
+    private static int  /*UINT8*/ SZ_BIT[]    = new int[256];/* zero, sign and parity/overflow (=zero) flags for BIT opcode */
+    private static int  /*UINT8*/ SZP[]       = new int[256];/* zero, sign and parity flags */
+    private static int  /*UINT8*/ SZHV_inc[]  = new int[256];/* zero, sign, half carry and overflow flags INC r8 */
+    private static int  /*UINT8*/ SZHV_dec[]  = new int[256];/* zero, sign, half carry and overflow flags DEC r8 */
+    
+    private static int SZHVC_Add[]     = new int[2 * 256 * 256];//static UINT8 *SZHVC_add = 0;
+    private static int SZHVC_sub[]     = new int[2 * 256 * 256];//static UINT8 *SZHVC_sub = 0;
+    /*TODO*/
+    /*TODO*/
     /*TODO*///#endif
     /*TODO*///
     /*TODO*///#if Z80_EXACT
@@ -4421,107 +4422,142 @@ public class z80 extends cpu_interface {
     /*TODO*/// ****************************************************************************/
     @Override
     public void reset(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    /*TODO*///void z80_reset(void *param)
-    /*TODO*///{
-    /*TODO*///	Z80_DaisyChain *daisy_chain = (Z80_DaisyChain *)param;
-    /*TODO*///	int i, p;
-    /*TODO*///#if BIG_FLAGS_ARRAY
-    /*TODO*///	if( !SZHVC_add || !SZHVC_sub )
-    /*TODO*///    {
-    /*TODO*///		int oldval, newval, val;
-    /*TODO*///		UINT8 *padd, *padc, *psub, *psbc;
-    /*TODO*///        /* allocate big flag arrays once */
-    /*TODO*///		SZHVC_add = (UINT8 *)malloc(2*256*256);
-    /*TODO*///		SZHVC_sub = (UINT8 *)malloc(2*256*256);
-    /*TODO*///		if( !SZHVC_add || !SZHVC_sub )
-    /*TODO*///		{
-    /*TODO*///			LOG((errorlog, "Z80: failed to allocate 2 * 128K flags arrays!!!\n"));
-    /*TODO*///			raise(SIGABRT);
-    /*TODO*///		}
-    /*TODO*///		padd = &SZHVC_add[	0*256];
-    /*TODO*///		padc = &SZHVC_add[256*256];
-    /*TODO*///		psub = &SZHVC_sub[	0*256];
-    /*TODO*///		psbc = &SZHVC_sub[256*256];
-    /*TODO*///		for (oldval = 0; oldval < 256; oldval++)
-    /*TODO*///		{
-    /*TODO*///			for (newval = 0; newval < 256; newval++)
-    /*TODO*///			{
-    /*TODO*///				/* add or adc w/o carry set */
-    /*TODO*///				val = newval - oldval;
-    /*TODO*///				*padd = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///				*padd |= (newval & (YF | XF));	/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///                if( (newval & 0x0f) < (oldval & 0x0f) ) *padd |= HF;
-    /*TODO*///				if( newval < oldval ) *padd |= CF;
-    /*TODO*///				if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padd |= VF;
-    /*TODO*///				padd++;
-    /*TODO*///
-    /*TODO*///				/* adc with carry set */
-    /*TODO*///				val = newval - oldval - 1;
-    /*TODO*///				*padc = (newval) ? ((newval & 0x80) ? SF : 0) : ZF;
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///				*padc |= (newval & (YF | XF));	/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///                if( (newval & 0x0f) <= (oldval & 0x0f) ) *padc |= HF;
-    /*TODO*///				if( newval <= oldval ) *padc |= CF;
-    /*TODO*///				if( (val^oldval^0x80) & (val^newval) & 0x80 ) *padc |= VF;
-    /*TODO*///				padc++;
-    /*TODO*///
-    /*TODO*///				/* cp, sub or sbc w/o carry set */
-    /*TODO*///				val = oldval - newval;
-    /*TODO*///				*psub = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///				*psub |= (newval & (YF | XF));	/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///                if( (newval & 0x0f) > (oldval & 0x0f) ) *psub |= HF;
-    /*TODO*///				if( newval > oldval ) *psub |= CF;
-    /*TODO*///				if( (val^oldval) & (oldval^newval) & 0x80 ) *psub |= VF;
-    /*TODO*///				psub++;
-    /*TODO*///
-    /*TODO*///				/* sbc with carry set */
-    /*TODO*///				val = oldval - newval - 1;
-    /*TODO*///				*psbc = NF | ((newval) ? ((newval & 0x80) ? SF : 0) : ZF);
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///				*psbc |= (newval & (YF | XF));	/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///                if( (newval & 0x0f) >= (oldval & 0x0f) ) *psbc |= HF;
-    /*TODO*///				if( newval >= oldval ) *psbc |= CF;
-    /*TODO*///				if( (val^oldval) & (oldval^newval) & 0x80 ) *psbc |= VF;
-    /*TODO*///				psbc++;
-    /*TODO*///			}
-    /*TODO*///        }
-    /*TODO*///    }
-    /*TODO*///#endif
-    /*TODO*///	for (i = 0; i < 256; i++)
-    /*TODO*///	{
-    /*TODO*///		p = 0;
-    /*TODO*///		if( i&0x01 ) ++p;
-    /*TODO*///		if( i&0x02 ) ++p;
-    /*TODO*///		if( i&0x04 ) ++p;
-    /*TODO*///		if( i&0x08 ) ++p;
-    /*TODO*///		if( i&0x10 ) ++p;
-    /*TODO*///		if( i&0x20 ) ++p;
-    /*TODO*///		if( i&0x40 ) ++p;
-    /*TODO*///		if( i&0x80 ) ++p;
-    /*TODO*///		SZ[i] = i ? i & SF : ZF;
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///		SZ[i] |= (i & (YF | XF));		/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///		SZ_BIT[i] = i ? i & SF : ZF | PF;
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///		SZ_BIT[i] |= (i & (YF | XF));	/* undocumented flag bits 5+3 */
-    /*TODO*///#endif
-    /*TODO*///        SZP[i] = SZ[i] | ((p & 1) ? 0 : PF);
-    /*TODO*///		SZHV_inc[i] = SZ[i];
-    /*TODO*///		if( i == 0x80 ) SZHV_inc[i] |= VF;
-    /*TODO*///		if( (i & 0x0f) == 0x00 ) SZHV_inc[i] |= HF;
-    /*TODO*///		SZHV_dec[i] = SZ[i] | NF;
-    /*TODO*///		if( i == 0x7f ) SZHV_dec[i] |= VF;
-    /*TODO*///		if( (i & 0x0f) == 0x0f ) SZHV_dec[i] |= HF;
-    /*TODO*///	}
+        Z80_DaisyChain[] daisy_chain = (Z80_DaisyChain[])param;
+            
+    	int i, p;
+        
+        int oldval, newval, val;
+        int padd, padc, psub, psbc;
+        padd = 0 * 256;
+        padc = 256 * 256;
+        psub = 0 * 256;
+        psbc = 256 * 256;
+        for (oldval = 0; oldval < 256; oldval++) 
+        {
+            for (newval = 0; newval < 256; newval++) 
+            {
+                /* add or adc w/o carry set */
+                val = newval - oldval;
+                if (newval != 0) {
+                    if ((newval & 0x80) != 0) {
+                        SZHVC_Add[padd] = SF;
+                    } else {
+                        SZHVC_Add[padd] = 0;
+                    }
+                } else {
+                    SZHVC_Add[padd] = ZF;
+                }
+                SZHVC_Add[padd] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                
+                 if ((newval & 0x0f) < (oldval & 0x0f)) {
+                    SZHVC_Add[padd] |= HF;
+                }
+                if (newval < oldval) {
+                    SZHVC_Add[padd] |= CF;
+                }
+                if (((val ^ oldval ^ 0x80) & (val ^ newval) & 0x80) != 0) {
+                    SZHVC_Add[padd] |= VF;
+                }
+                padd++;
+                
+                /* adc with carry set */
+                val = newval - oldval - 1;
+                if (newval != 0) {
+                    if ((newval & 0x80) != 0) {
+                        SZHVC_Add[padc] = SF;
+                    } else {
+                        SZHVC_Add[padc] = 0;
+                    }
+                } else {
+                    SZHVC_Add[padc] = ZF;
+                }
+                
+                SZHVC_Add[padc] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                if ((newval & 0x0f) <= (oldval & 0x0f)) {
+                    SZHVC_Add[padc] |= HF;
+                }
+                if (newval <= oldval) {
+                    SZHVC_Add[padc] |= CF;
+                }
+                if (((val ^ oldval ^ 0x80) & (val ^ newval) & 0x80) != 0) {
+                    SZHVC_Add[padc] |= VF;
+                }
+                padc++;
+                
+                /* cp, sub or sbc w/o carry set */
+                val = oldval - newval;
+                if (newval != 0) {
+                    if ((newval & 0x80) != 0) {
+                        SZHVC_sub[psub] = NF | SF;
+                    } else {
+                        SZHVC_sub[psub] = NF;
+                    }
+                } else {
+                    SZHVC_sub[psub] = NF | ZF;
+                }
+
+                SZHVC_sub[psub] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                if ((newval & 0x0f) > (oldval & 0x0f)) {
+                    SZHVC_sub[psub] |= HF;
+                }
+                if (newval > oldval) {
+                    SZHVC_sub[psub] |= CF;
+                }
+                if (((val ^ oldval) & (oldval ^ newval) & 0x80) != 0) {
+                    SZHVC_sub[psub] |= VF;
+                }
+                psub++;
+ 
+                /* sbc with carry set */
+                val = oldval - newval - 1;
+                if (newval != 0) {
+                    if ((newval & 0x80) != 0) {
+                        SZHVC_sub[psbc] = NF | SF;
+                    } else {
+                        SZHVC_sub[psbc] = NF;
+                    }
+                } else {
+                    SZHVC_sub[psbc] = NF | ZF;
+                }
+
+                SZHVC_sub[psbc] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                if ((newval & 0x0f) >= (oldval & 0x0f)) {
+                    SZHVC_sub[psbc] |= HF;
+                }
+                if (newval >= oldval) {
+                    SZHVC_sub[psbc] |= CF;
+                }
+                if (((val ^ oldval) & (oldval ^ newval) & 0x80) != 0) {
+                    SZHVC_sub[psbc] |= VF;
+                }
+                psbc++;
+            }
+        }
+    	for (i = 0; i < 256; i++)
+    	{
+            p = 0;
+            if ((i & 0x01) != 0)  ++p;
+            if ((i & 0x02) != 0)  ++p;
+            if ((i & 0x04) != 0)  ++p;
+            if ((i & 0x08) != 0)  ++p;
+            if ((i & 0x10) != 0)  ++p;
+            if ((i & 0x20) != 0)  ++p;
+            if ((i & 0x40) != 0)  ++p;
+            if ((i & 0x80) != 0)  ++p;
+            
+            SZ[i] = (i != 0) ? i & SF : ZF;
+            SZ[i] |= (i & (YF | XF)); /* undocumented flag bits 5+3 */
+            SZ_BIT[i] = (i != 0) ? i & SF : ZF | PF;
+            SZ_BIT[i] |= (i & (YF | XF)); /* undocumented flag bits 5+3 */
+            SZP[i] = SZ[i] | (((p & 1) != 0) ? 0 : PF);
+            SZHV_inc[i] = SZ[i];
+            if( i == 0x80 ) SZHV_inc[i] |= VF;
+            if( (i & 0x0f) == 0x00 ) SZHV_inc[i] |= HF;
+            SZHV_dec[i] = SZ[i] | NF;
+            if( i == 0x7f ) SZHV_dec[i] |= VF;
+            if( (i & 0x0f) == 0x0f ) SZHV_dec[i] |= HF;
+        }
+  
     /*TODO*///
     /*TODO*///	memset(&Z80, 0, sizeof(Z80));
     /*TODO*///	_IX = _IY = 0xffff; /* IX and IY are FFFF after a reset! */
@@ -4546,8 +4582,10 @@ public class z80 extends cpu_interface {
     /*TODO*///    }
     /*TODO*///
     /*TODO*///    change_pc(_PCD);
-    /*TODO*///}
-    /*TODO*///
+        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     /*TODO*///void z80_exit(void)
     /*TODO*///{
     /*TODO*///#if BIG_FLAGS_ARRAY
