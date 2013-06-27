@@ -4419,6 +4419,10 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Reset registers to their initial values
     /*TODO*/// ****************************************************************************/
+    @Override
+    public void reset(Object param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     /*TODO*///void z80_reset(void *param)
     /*TODO*///{
     /*TODO*///	Z80_DaisyChain *daisy_chain = (Z80_DaisyChain *)param;
@@ -4594,10 +4598,11 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Get all registers in given buffer
     /*TODO*/// ****************************************************************************/
-  /*  @Override
-    public void init_context(Object reg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    @Override
+    public Object init_context() {
+        Object reg = new Z80_Regs();
+        return reg;
+    }
     /*TODO*///unsigned z80_get_context (void *dst)
     /*TODO*///{
     /*TODO*///	if( dst )
@@ -4958,35 +4963,27 @@ public class z80 extends cpu_interface {
     /*TODO*///#endif
     /*TODO*///}
 
-   /* @Override
-    public void reset(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
 
-   /* @Override
+
+    @Override
     public void set_irq_callback(irqcallbacksPtr callback) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    }
 
-    /*@Override
+    @Override
     public int execute(int cycles) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    }
 
-    /*@Override
+    @Override
     public int get_pc() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    }
 
-   /* @Override
-    public void set_op_base(int pc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
-    /*
-      @Override
+    @Override
     public void set_irq_line(int irqline, int linestate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    }
 
     @Override
     public void exit() {
@@ -5030,8 +5027,7 @@ public class z80 extends cpu_interface {
 
     @Override
     public void set_nmi_line(int linestate) {
-        System.out.println("set_nmi_line");
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -5073,11 +5069,11 @@ public class z80 extends cpu_interface {
      *   OLD Z80 cpu core for reference TOBE REPLACED!!!
      * 
      */
-      @Override
+    /*  @Override
     public void set_irq_line(int irqline, int linestate) {
         Interrupt ();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }*/
      	public static class z80_pair
 	{
                 public int H,L,W;
@@ -5137,7 +5133,7 @@ public class z80 extends cpu_interface {
         /****************************************************************************/
 	/* Reset registers to their initial values                                  */
 	/****************************************************************************/
-    @Override
+    /*@Override
 	public void reset(Object param) 
 	{
 		R.AF = R.PC = R.SP = 0;
@@ -5148,7 +5144,7 @@ public class z80 extends cpu_interface {
 		R.SP = 0xF000;
  		R.R = rand();
 		Z80_Clear_Pending_Interrupts();
-	}
+	}*/
         public void Z80_Clear_Pending_Interrupts()	/* NS 970904 */
         {
                 R.pending_irq = Z80_IGNORE_INT;
@@ -5162,8 +5158,7 @@ public class z80 extends cpu_interface {
 	int ZSTable[] = new int[512];
 	int ZSPTable[] = new int[512];
         
-        @Override
-        public Object init_context() {
+       /* public Object init_context() {
             Object reg = new Z80_Regs_OLD();
             return reg;
         }
@@ -5177,17 +5172,17 @@ public class z80 extends cpu_interface {
     @Override
     public int get_pc() {
         return R.PC;
-    }
-    @Override
+    }*/
+  /*  @Override
     public int execute(int cycles) {
         		Z80_Running=1;
  		InitTables();
                 z80_ICount[0]=cycles;	/* NS 970904 */
- 		do
+/* 		do
  		{
                        if (R.pending_nmi != 0 || R.pending_irq != Z80_IGNORE_INT) Interrupt();	/* NS 970901 */
   			//++R.R;
-                        R.R += 1;
+/*                        R.R += 1;
 			oldPC=R.PC;
   			//opcode=M_RDOP(R.PC);
                          int i = M_RDOP(R.PC);
@@ -5206,7 +5201,7 @@ public class z80 extends cpu_interface {
  		}
  		while (z80_ICount[0] > 0);
  		return cycles - z80_ICount[0];	/* NS 970904 */
-    }
+/*    } */
     	final int S_FLAG = 0x80;
 	final int Z_FLAG = 0x40;
 	final int H_FLAG = 0x10;
