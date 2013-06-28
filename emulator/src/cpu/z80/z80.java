@@ -505,6 +505,11 @@ public class z80 extends cpu_interface {
     void SetupTables()
     {
         setup_op_table();
+        setup_cb_table();
+        setup_dd_table();
+        setup_ed_table();
+        setup_fd_table();
+        setup_xxcb_table();
     }
 
     void setup_op_table()
@@ -588,6 +593,416 @@ public class z80 extends cpu_interface {
         Z80op[0xf4] = op_f4; Z80op[0xf5] = op_f5; Z80op[0xf6] = op_f6; Z80op[0xf7] = op_f7;
         Z80op[0xf8] = op_f8; Z80op[0xf9] = op_f9; Z80op[0xfa] = op_fa; Z80op[0xfb] = op_fb; 
         Z80op[0xfc] = op_fc; Z80op[0xfd] = op_fd; Z80op[0xfe] = op_fe; Z80op[0xff] = op_ff;
+    }
+    void setup_cb_table()
+    {
+        Z80cb[0x00] = cb_00; Z80cb[0x01] = cb_01; Z80cb[0x02] = cb_02; Z80cb[0x03] = cb_03;
+        Z80cb[0x04] = cb_04; Z80cb[0x05] = cb_05; Z80cb[0x06] = cb_06; Z80cb[0x07] = cb_07;
+        Z80cb[0x08] = cb_08; Z80cb[0x09] = cb_09; Z80cb[0x0a] = cb_0a; Z80cb[0x0b] = cb_0b;
+        Z80cb[0x0c] = cb_0c; Z80cb[0x0d] = cb_0d; Z80cb[0x0e] = cb_0e; Z80cb[0x0f] = cb_0f;
+
+        Z80cb[0x10] = cb_10; Z80cb[0x11] = cb_11; Z80cb[0x12] = cb_12; Z80cb[0x13] = cb_13;
+        Z80cb[0x14] = cb_14; Z80cb[0x15] = cb_15; Z80cb[0x16] = cb_16; Z80cb[0x17] = cb_17;
+        Z80cb[0x18] = cb_18; Z80cb[0x19] = cb_19; Z80cb[0x1a] = cb_1a; Z80cb[0x1b] = cb_1b;
+        Z80cb[0x1c] = cb_1c; Z80cb[0x1d] = cb_1d; Z80cb[0x1e] = cb_1e; Z80cb[0x1f] = cb_1f;
+
+        Z80cb[0x20] = cb_20; Z80cb[0x21] = cb_21; Z80cb[0x22] = cb_22; Z80cb[0x23] = cb_23;
+        Z80cb[0x24] = cb_24; Z80cb[0x25] = cb_25; Z80cb[0x26] = cb_26; Z80cb[0x27] = cb_27;
+        Z80cb[0x28] = cb_28; Z80cb[0x29] = cb_29; Z80cb[0x2a] = cb_2a; Z80cb[0x2b] = cb_2b;
+        Z80cb[0x2c] = cb_2c; Z80cb[0x2d] = cb_2d; Z80cb[0x2e] = cb_2e; Z80cb[0x2f] = cb_2f;
+
+        Z80cb[0x30] = cb_30; Z80cb[0x31] = cb_31; Z80cb[0x32] = cb_32; Z80cb[0x33] = cb_33;
+        Z80cb[0x34] = cb_34; Z80cb[0x35] = cb_35; Z80cb[0x36] = cb_36; Z80cb[0x37] = cb_37;
+        Z80cb[0x38] = cb_38; Z80cb[0x39] = cb_39; Z80cb[0x3a] = cb_3a; Z80cb[0x3b] = cb_3b;
+        Z80cb[0x3c] = cb_3c; Z80cb[0x3d] = cb_3d; Z80cb[0x3e] = cb_3e; Z80cb[0x3f] = cb_3f;
+
+        Z80cb[0x40] = cb_40; Z80cb[0x41] = cb_41; Z80cb[0x42] = cb_42; Z80cb[0x43] = cb_43;
+        Z80cb[0x44] = cb_44; Z80cb[0x45] = cb_45; Z80cb[0x46] = cb_46; Z80cb[0x47] = cb_47;
+        Z80cb[0x48] = cb_48; Z80cb[0x49] = cb_49; Z80cb[0x4a] = cb_4a; Z80cb[0x4b] = cb_4b;
+        Z80cb[0x4c] = cb_4c; Z80cb[0x4d] = cb_4d; Z80cb[0x4e] = cb_4e; Z80cb[0x4f] = cb_4f;
+
+        Z80cb[0x50] = cb_50; Z80cb[0x51] = cb_51; Z80cb[0x52] = cb_52; Z80cb[0x53] = cb_53;
+        Z80cb[0x54] = cb_54; Z80cb[0x55] = cb_55; Z80cb[0x56] = cb_56; Z80cb[0x57] = cb_57;
+        Z80cb[0x58] = cb_58; Z80cb[0x59] = cb_59; Z80cb[0x5a] = cb_5a; Z80cb[0x5b] = cb_5b;
+        Z80cb[0x5c] = cb_5c; Z80cb[0x5d] = cb_5d; Z80cb[0x5e] = cb_5e; Z80cb[0x5f] = cb_5f;
+
+        Z80cb[0x60] = cb_60; Z80cb[0x61] = cb_61; Z80cb[0x62] = cb_62; Z80cb[0x63] = cb_63;
+        Z80cb[0x64] = cb_64; Z80cb[0x65] = cb_65; Z80cb[0x66] = cb_66; Z80cb[0x67] = cb_67;
+        Z80cb[0x68] = cb_68; Z80cb[0x69] = cb_69; Z80cb[0x6a] = cb_6a; Z80cb[0x6b] = cb_6b;
+        Z80cb[0x6c] = cb_6c; Z80cb[0x6d] = cb_6d; Z80cb[0x6e] = cb_6e; Z80cb[0x6f] = cb_6f;
+
+        Z80cb[0x70] = cb_70; Z80cb[0x71] = cb_71; Z80cb[0x72] = cb_72; Z80cb[0x73] = cb_73;
+        Z80cb[0x74] = cb_74; Z80cb[0x75] = cb_75; Z80cb[0x76] = cb_76; Z80cb[0x77] = cb_77;
+        Z80cb[0x78] = cb_78; Z80cb[0x79] = cb_79; Z80cb[0x7a] = cb_7a; Z80cb[0x7b] = cb_7b;
+        Z80cb[0x7c] = cb_7c; Z80cb[0x7d] = cb_7d; Z80cb[0x7e] = cb_7e; Z80cb[0x7f] = cb_7f;
+
+        Z80cb[0x80] = cb_80; Z80cb[0x81] = cb_81; Z80cb[0x82] = cb_82; Z80cb[0x83] = cb_83;
+        Z80cb[0x84] = cb_84; Z80cb[0x85] = cb_85; Z80cb[0x86] = cb_86; Z80cb[0x87] = cb_87;
+        Z80cb[0x88] = cb_88; Z80cb[0x89] = cb_89; Z80cb[0x8a] = cb_8a; Z80cb[0x8b] = cb_8b;
+        Z80cb[0x8c] = cb_8c; Z80cb[0x8d] = cb_8d; Z80cb[0x8e] = cb_8e; Z80cb[0x8f] = cb_8f;
+
+        Z80cb[0x90] = cb_90; Z80cb[0x91] = cb_91; Z80cb[0x92] = cb_92; Z80cb[0x93] = cb_93;
+        Z80cb[0x94] = cb_94; Z80cb[0x95] = cb_95; Z80cb[0x96] = cb_96; Z80cb[0x97] = cb_97;
+        Z80cb[0x98] = cb_98; Z80cb[0x99] = cb_99; Z80cb[0x9a] = cb_9a; Z80cb[0x9b] = cb_9b;
+        Z80cb[0x9c] = cb_9c; Z80cb[0x9d] = cb_9d; Z80cb[0x9e] = cb_9e; Z80cb[0x9f] = cb_9f;
+
+        Z80cb[0xa0] = cb_a0; Z80cb[0xa1] = cb_a1; Z80cb[0xa2] = cb_a2; Z80cb[0xa3] = cb_a3;
+        Z80cb[0xa4] = cb_a4; Z80cb[0xa5] = cb_a5; Z80cb[0xa6] = cb_a6; Z80cb[0xa7] = cb_a7;
+        Z80cb[0xa8] = cb_a8; Z80cb[0xa9] = cb_a9; Z80cb[0xaa] = cb_aa; Z80cb[0xab] = cb_ab;
+        Z80cb[0xac] = cb_ac; Z80cb[0xad] = cb_ad; Z80cb[0xae] = cb_ae; Z80cb[0xaf] = cb_af;
+
+        Z80cb[0xb0] = cb_b0; Z80cb[0xb1] = cb_b1; Z80cb[0xb2] = cb_b2; Z80cb[0xb3] = cb_b3;
+        Z80cb[0xb4] = cb_b4; Z80cb[0xb5] = cb_b5; Z80cb[0xb6] = cb_b6; Z80cb[0xb7] = cb_b7;
+        Z80cb[0xb8] = cb_b8; Z80cb[0xb9] = cb_b9; Z80cb[0xba] = cb_ba; Z80cb[0xbb] = cb_bb; 
+        Z80cb[0xbc] = cb_bc; Z80cb[0xbd] = cb_bd; Z80cb[0xbe] = cb_be; Z80cb[0xbf] = cb_bf;
+
+        Z80cb[0xc0] = cb_c0; Z80cb[0xc1] = cb_c1; Z80cb[0xc2] = cb_c2; Z80cb[0xc3] = cb_c3;
+        Z80cb[0xc4] = cb_c4; Z80cb[0xc5] = cb_c5; Z80cb[0xc6] = cb_c6; Z80cb[0xc7] = cb_c7;
+        Z80cb[0xc8] = cb_c8; Z80cb[0xc9] = cb_c9; Z80cb[0xca] = cb_ca; Z80cb[0xcb] = cb_cb; 
+        Z80cb[0xcc] = cb_cc; Z80cb[0xcd] = cb_cd; Z80cb[0xce] = cb_ce; Z80cb[0xcf] = cb_cf;
+
+        Z80cb[0xd0] = cb_d0; Z80cb[0xd1] = cb_d1; Z80cb[0xd2] = cb_d2; Z80cb[0xd3] = cb_d3;
+        Z80cb[0xd4] = cb_d4; Z80cb[0xd5] = cb_d5; Z80cb[0xd6] = cb_d6; Z80cb[0xd7] = cb_d7;
+        Z80cb[0xd8] = cb_d8; Z80cb[0xd9] = cb_d9; Z80cb[0xda] = cb_da; Z80cb[0xdb] = cb_db;
+        Z80cb[0xdc] = cb_dc; Z80cb[0xdd] = cb_dd; Z80cb[0xde] = cb_de; Z80cb[0xdf] = cb_df;
+
+        Z80cb[0xe0] = cb_e0; Z80cb[0xe1] = cb_e1; Z80cb[0xe2] = cb_e2; Z80cb[0xe3] = cb_e3;
+        Z80cb[0xe4] = cb_e4; Z80cb[0xe5] = cb_e5; Z80cb[0xe6] = cb_e6; Z80cb[0xe7] = cb_e7;
+        Z80cb[0xe8] = cb_e8; Z80cb[0xe9] = cb_e9; Z80cb[0xea] = cb_ea; Z80cb[0xeb] = cb_eb;
+        Z80cb[0xec] = cb_ec; Z80cb[0xed] = cb_ed; Z80cb[0xee] = cb_ee; Z80cb[0xef] = cb_ef;
+
+        Z80cb[0xf0] = cb_f0; Z80cb[0xf1] = cb_f1; Z80cb[0xf2] = cb_f2; Z80cb[0xf3] = cb_f3;
+        Z80cb[0xf4] = cb_f4; Z80cb[0xf5] = cb_f5; Z80cb[0xf6] = cb_f6; Z80cb[0xf7] = cb_f7;
+        Z80cb[0xf8] = cb_f8; Z80cb[0xf9] = cb_f9; Z80cb[0xfa] = cb_fa; Z80cb[0xfb] = cb_fb; 
+        Z80cb[0xfc] = cb_fc; Z80cb[0xfd] = cb_fd; Z80cb[0xfe] = cb_fe; Z80cb[0xff] = cb_ff;
+    }
+    void setup_dd_table()
+    {
+        Z80dd[0x00] = dd_00; Z80dd[0x01] = dd_01; Z80dd[0x02] = dd_02; Z80dd[0x03] = dd_03;
+        Z80dd[0x04] = dd_04; Z80dd[0x05] = dd_05; Z80dd[0x06] = dd_06; Z80dd[0x07] = dd_07;
+        Z80dd[0x08] = dd_08; Z80dd[0x09] = dd_09; Z80dd[0x0a] = dd_0a; Z80dd[0x0b] = dd_0b;
+        Z80dd[0x0c] = dd_0c; Z80dd[0x0d] = dd_0d; Z80dd[0x0e] = dd_0e; Z80dd[0x0f] = dd_0f;
+
+        Z80dd[0x10] = dd_10; Z80dd[0x11] = dd_11; Z80dd[0x12] = dd_12; Z80dd[0x13] = dd_13;
+        Z80dd[0x14] = dd_14; Z80dd[0x15] = dd_15; Z80dd[0x16] = dd_16; Z80dd[0x17] = dd_17;
+        Z80dd[0x18] = dd_18; Z80dd[0x19] = dd_19; Z80dd[0x1a] = dd_1a; Z80dd[0x1b] = dd_1b;
+        Z80dd[0x1c] = dd_1c; Z80dd[0x1d] = dd_1d; Z80dd[0x1e] = dd_1e; Z80dd[0x1f] = dd_1f;
+
+        Z80dd[0x20] = dd_20; Z80dd[0x21] = dd_21; Z80dd[0x22] = dd_22; Z80dd[0x23] = dd_23;
+        Z80dd[0x24] = dd_24; Z80dd[0x25] = dd_25; Z80dd[0x26] = dd_26; Z80dd[0x27] = dd_27;
+        Z80dd[0x28] = dd_28; Z80dd[0x29] = dd_29; Z80dd[0x2a] = dd_2a; Z80dd[0x2b] = dd_2b;
+        Z80dd[0x2c] = dd_2c; Z80dd[0x2d] = dd_2d; Z80dd[0x2e] = dd_2e; Z80dd[0x2f] = dd_2f;
+
+        Z80dd[0x30] = dd_30; Z80dd[0x31] = dd_31; Z80dd[0x32] = dd_32; Z80dd[0x33] = dd_33;
+        Z80dd[0x34] = dd_34; Z80dd[0x35] = dd_35; Z80dd[0x36] = dd_36; Z80dd[0x37] = dd_37;
+        Z80dd[0x38] = dd_38; Z80dd[0x39] = dd_39; Z80dd[0x3a] = dd_3a; Z80dd[0x3b] = dd_3b;
+        Z80dd[0x3c] = dd_3c; Z80dd[0x3d] = dd_3d; Z80dd[0x3e] = dd_3e; Z80dd[0x3f] = dd_3f;
+
+        Z80dd[0x40] = dd_40; Z80dd[0x41] = dd_41; Z80dd[0x42] = dd_42; Z80dd[0x43] = dd_43;
+        Z80dd[0x44] = dd_44; Z80dd[0x45] = dd_45; Z80dd[0x46] = dd_46; Z80dd[0x47] = dd_47;
+        Z80dd[0x48] = dd_48; Z80dd[0x49] = dd_49; Z80dd[0x4a] = dd_4a; Z80dd[0x4b] = dd_4b;
+        Z80dd[0x4c] = dd_4c; Z80dd[0x4d] = dd_4d; Z80dd[0x4e] = dd_4e; Z80dd[0x4f] = dd_4f;
+
+        Z80dd[0x50] = dd_50; Z80dd[0x51] = dd_51; Z80dd[0x52] = dd_52; Z80dd[0x53] = dd_53;
+        Z80dd[0x54] = dd_54; Z80dd[0x55] = dd_55; Z80dd[0x56] = dd_56; Z80dd[0x57] = dd_57;
+        Z80dd[0x58] = dd_58; Z80dd[0x59] = dd_59; Z80dd[0x5a] = dd_5a; Z80dd[0x5b] = dd_5b;
+        Z80dd[0x5c] = dd_5c; Z80dd[0x5d] = dd_5d; Z80dd[0x5e] = dd_5e; Z80dd[0x5f] = dd_5f;
+
+        Z80dd[0x60] = dd_60; Z80dd[0x61] = dd_61; Z80dd[0x62] = dd_62; Z80dd[0x63] = dd_63;
+        Z80dd[0x64] = dd_64; Z80dd[0x65] = dd_65; Z80dd[0x66] = dd_66; Z80dd[0x67] = dd_67;
+        Z80dd[0x68] = dd_68; Z80dd[0x69] = dd_69; Z80dd[0x6a] = dd_6a; Z80dd[0x6b] = dd_6b;
+        Z80dd[0x6c] = dd_6c; Z80dd[0x6d] = dd_6d; Z80dd[0x6e] = dd_6e; Z80dd[0x6f] = dd_6f;
+
+        Z80dd[0x70] = dd_70; Z80dd[0x71] = dd_71; Z80dd[0x72] = dd_72; Z80dd[0x73] = dd_73;
+        Z80dd[0x74] = dd_74; Z80dd[0x75] = dd_75; Z80dd[0x76] = dd_76; Z80dd[0x77] = dd_77;
+        Z80dd[0x78] = dd_78; Z80dd[0x79] = dd_79; Z80dd[0x7a] = dd_7a; Z80dd[0x7b] = dd_7b;
+        Z80dd[0x7c] = dd_7c; Z80dd[0x7d] = dd_7d; Z80dd[0x7e] = dd_7e; Z80dd[0x7f] = dd_7f;
+
+        Z80dd[0x80] = dd_80; Z80dd[0x81] = dd_81; Z80dd[0x82] = dd_82; Z80dd[0x83] = dd_83;
+        Z80dd[0x84] = dd_84; Z80dd[0x85] = dd_85; Z80dd[0x86] = dd_86; Z80dd[0x87] = dd_87;
+        Z80dd[0x88] = dd_88; Z80dd[0x89] = dd_89; Z80dd[0x8a] = dd_8a; Z80dd[0x8b] = dd_8b;
+        Z80dd[0x8c] = dd_8c; Z80dd[0x8d] = dd_8d; Z80dd[0x8e] = dd_8e; Z80dd[0x8f] = dd_8f;
+
+        Z80dd[0x90] = dd_90; Z80dd[0x91] = dd_91; Z80dd[0x92] = dd_92; Z80dd[0x93] = dd_93;
+        Z80dd[0x94] = dd_94; Z80dd[0x95] = dd_95; Z80dd[0x96] = dd_96; Z80dd[0x97] = dd_97;
+        Z80dd[0x98] = dd_98; Z80dd[0x99] = dd_99; Z80dd[0x9a] = dd_9a; Z80dd[0x9b] = dd_9b;
+        Z80dd[0x9c] = dd_9c; Z80dd[0x9d] = dd_9d; Z80dd[0x9e] = dd_9e; Z80dd[0x9f] = dd_9f;
+
+        Z80dd[0xa0] = dd_a0; Z80dd[0xa1] = dd_a1; Z80dd[0xa2] = dd_a2; Z80dd[0xa3] = dd_a3;
+        Z80dd[0xa4] = dd_a4; Z80dd[0xa5] = dd_a5; Z80dd[0xa6] = dd_a6; Z80dd[0xa7] = dd_a7;
+        Z80dd[0xa8] = dd_a8; Z80dd[0xa9] = dd_a9; Z80dd[0xaa] = dd_aa; Z80dd[0xab] = dd_ab;
+        Z80dd[0xac] = dd_ac; Z80dd[0xad] = dd_ad; Z80dd[0xae] = dd_ae; Z80dd[0xaf] = dd_af;
+
+        Z80dd[0xb0] = dd_b0; Z80dd[0xb1] = dd_b1; Z80dd[0xb2] = dd_b2; Z80dd[0xb3] = dd_b3;
+        Z80dd[0xb4] = dd_b4; Z80dd[0xb5] = dd_b5; Z80dd[0xb6] = dd_b6; Z80dd[0xb7] = dd_b7;
+        Z80dd[0xb8] = dd_b8; Z80dd[0xb9] = dd_b9; Z80dd[0xba] = dd_ba; Z80dd[0xbb] = dd_bb; 
+        Z80dd[0xbc] = dd_bc; Z80dd[0xbd] = dd_bd; Z80dd[0xbe] = dd_be; Z80dd[0xbf] = dd_bf;
+
+        Z80dd[0xc0] = dd_c0; Z80dd[0xc1] = dd_c1; Z80dd[0xc2] = dd_c2; Z80dd[0xc3] = dd_c3;
+        Z80dd[0xc4] = dd_c4; Z80dd[0xc5] = dd_c5; Z80dd[0xc6] = dd_c6; Z80dd[0xc7] = dd_c7;
+        Z80dd[0xc8] = dd_c8; Z80dd[0xc9] = dd_c9; Z80dd[0xca] = dd_ca; Z80dd[0xcb] = dd_cb; 
+        Z80dd[0xcc] = dd_cc; Z80dd[0xcd] = dd_cd; Z80dd[0xce] = dd_ce; Z80dd[0xcf] = dd_cf;
+
+        Z80dd[0xd0] = dd_d0; Z80dd[0xd1] = dd_d1; Z80dd[0xd2] = dd_d2; Z80dd[0xd3] = dd_d3;
+        Z80dd[0xd4] = dd_d4; Z80dd[0xd5] = dd_d5; Z80dd[0xd6] = dd_d6; Z80dd[0xd7] = dd_d7;
+        Z80dd[0xd8] = dd_d8; Z80dd[0xd9] = dd_d9; Z80dd[0xda] = dd_da; Z80dd[0xdb] = dd_db;
+        Z80dd[0xdc] = dd_dc; Z80dd[0xdd] = dd_dd; Z80dd[0xde] = dd_de; Z80dd[0xdf] = dd_df;
+
+        Z80dd[0xe0] = dd_e0; Z80dd[0xe1] = dd_e1; Z80dd[0xe2] = dd_e2; Z80dd[0xe3] = dd_e3;
+        Z80dd[0xe4] = dd_e4; Z80dd[0xe5] = dd_e5; Z80dd[0xe6] = dd_e6; Z80dd[0xe7] = dd_e7;
+        Z80dd[0xe8] = dd_e8; Z80dd[0xe9] = dd_e9; Z80dd[0xea] = dd_ea; Z80dd[0xeb] = dd_eb;
+        Z80dd[0xec] = dd_ec; Z80dd[0xed] = dd_ed; Z80dd[0xee] = dd_ee; Z80dd[0xef] = dd_ef;
+
+        Z80dd[0xf0] = dd_f0; Z80dd[0xf1] = dd_f1; Z80dd[0xf2] = dd_f2; Z80dd[0xf3] = dd_f3;
+        Z80dd[0xf4] = dd_f4; Z80dd[0xf5] = dd_f5; Z80dd[0xf6] = dd_f6; Z80dd[0xf7] = dd_f7;
+        Z80dd[0xf8] = dd_f8; Z80dd[0xf9] = dd_f9; Z80dd[0xfa] = dd_fa; Z80dd[0xfb] = dd_fb; 
+        Z80dd[0xfc] = dd_fc; Z80dd[0xfd] = dd_fd; Z80dd[0xfe] = dd_fe; Z80dd[0xff] = dd_ff;
+    }
+    void setup_ed_table()
+    {
+        Z80ed[0x00] = ed_00; Z80ed[0x01] = ed_01; Z80ed[0x02] = ed_02; Z80ed[0x03] = ed_03;
+        Z80ed[0x04] = ed_04; Z80ed[0x05] = ed_05; Z80ed[0x06] = ed_06; Z80ed[0x07] = ed_07;
+        Z80ed[0x08] = ed_08; Z80ed[0x09] = ed_09; Z80ed[0x0a] = ed_0a; Z80ed[0x0b] = ed_0b;
+        Z80ed[0x0c] = ed_0c; Z80ed[0x0d] = ed_0d; Z80ed[0x0e] = ed_0e; Z80ed[0x0f] = ed_0f;
+
+        Z80ed[0x10] = ed_10; Z80ed[0x11] = ed_11; Z80ed[0x12] = ed_12; Z80ed[0x13] = ed_13;
+        Z80ed[0x14] = ed_14; Z80ed[0x15] = ed_15; Z80ed[0x16] = ed_16; Z80ed[0x17] = ed_17;
+        Z80ed[0x18] = ed_18; Z80ed[0x19] = ed_19; Z80ed[0x1a] = ed_1a; Z80ed[0x1b] = ed_1b;
+        Z80ed[0x1c] = ed_1c; Z80ed[0x1d] = ed_1d; Z80ed[0x1e] = ed_1e; Z80ed[0x1f] = ed_1f;
+
+        Z80ed[0x20] = ed_20; Z80ed[0x21] = ed_21; Z80ed[0x22] = ed_22; Z80ed[0x23] = ed_23;
+        Z80ed[0x24] = ed_24; Z80ed[0x25] = ed_25; Z80ed[0x26] = ed_26; Z80ed[0x27] = ed_27;
+        Z80ed[0x28] = ed_28; Z80ed[0x29] = ed_29; Z80ed[0x2a] = ed_2a; Z80ed[0x2b] = ed_2b;
+        Z80ed[0x2c] = ed_2c; Z80ed[0x2d] = ed_2d; Z80ed[0x2e] = ed_2e; Z80ed[0x2f] = ed_2f;
+
+        Z80ed[0x30] = ed_30; Z80ed[0x31] = ed_31; Z80ed[0x32] = ed_32; Z80ed[0x33] = ed_33;
+        Z80ed[0x34] = ed_34; Z80ed[0x35] = ed_35; Z80ed[0x36] = ed_36; Z80ed[0x37] = ed_37;
+        Z80ed[0x38] = ed_38; Z80ed[0x39] = ed_39; Z80ed[0x3a] = ed_3a; Z80ed[0x3b] = ed_3b;
+        Z80ed[0x3c] = ed_3c; Z80ed[0x3d] = ed_3d; Z80ed[0x3e] = ed_3e; Z80ed[0x3f] = ed_3f;
+
+        Z80ed[0x40] = ed_40; Z80ed[0x41] = ed_41; Z80ed[0x42] = ed_42; Z80ed[0x43] = ed_43;
+        Z80ed[0x44] = ed_44; Z80ed[0x45] = ed_45; Z80ed[0x46] = ed_46; Z80ed[0x47] = ed_47;
+        Z80ed[0x48] = ed_48; Z80ed[0x49] = ed_49; Z80ed[0x4a] = ed_4a; Z80ed[0x4b] = ed_4b;
+        Z80ed[0x4c] = ed_4c; Z80ed[0x4d] = ed_4d; Z80ed[0x4e] = ed_4e; Z80ed[0x4f] = ed_4f;
+
+        Z80ed[0x50] = ed_50; Z80ed[0x51] = ed_51; Z80ed[0x52] = ed_52; Z80ed[0x53] = ed_53;
+        Z80ed[0x54] = ed_54; Z80ed[0x55] = ed_55; Z80ed[0x56] = ed_56; Z80ed[0x57] = ed_57;
+        Z80ed[0x58] = ed_58; Z80ed[0x59] = ed_59; Z80ed[0x5a] = ed_5a; Z80ed[0x5b] = ed_5b;
+        Z80ed[0x5c] = ed_5c; Z80ed[0x5d] = ed_5d; Z80ed[0x5e] = ed_5e; Z80ed[0x5f] = ed_5f;
+
+        Z80ed[0x60] = ed_60; Z80ed[0x61] = ed_61; Z80ed[0x62] = ed_62; Z80ed[0x63] = ed_63;
+        Z80ed[0x64] = ed_64; Z80ed[0x65] = ed_65; Z80ed[0x66] = ed_66; Z80ed[0x67] = ed_67;
+        Z80ed[0x68] = ed_68; Z80ed[0x69] = ed_69; Z80ed[0x6a] = ed_6a; Z80ed[0x6b] = ed_6b;
+        Z80ed[0x6c] = ed_6c; Z80ed[0x6d] = ed_6d; Z80ed[0x6e] = ed_6e; Z80ed[0x6f] = ed_6f;
+
+        Z80ed[0x70] = ed_70; Z80ed[0x71] = ed_71; Z80ed[0x72] = ed_72; Z80ed[0x73] = ed_73;
+        Z80ed[0x74] = ed_74; Z80ed[0x75] = ed_75; Z80ed[0x76] = ed_76; Z80ed[0x77] = ed_77;
+        Z80ed[0x78] = ed_78; Z80ed[0x79] = ed_79; Z80ed[0x7a] = ed_7a; Z80ed[0x7b] = ed_7b;
+        Z80ed[0x7c] = ed_7c; Z80ed[0x7d] = ed_7d; Z80ed[0x7e] = ed_7e; Z80ed[0x7f] = ed_7f;
+
+        Z80ed[0x80] = ed_80; Z80ed[0x81] = ed_81; Z80ed[0x82] = ed_82; Z80ed[0x83] = ed_83;
+        Z80ed[0x84] = ed_84; Z80ed[0x85] = ed_85; Z80ed[0x86] = ed_86; Z80ed[0x87] = ed_87;
+        Z80ed[0x88] = ed_88; Z80ed[0x89] = ed_89; Z80ed[0x8a] = ed_8a; Z80ed[0x8b] = ed_8b;
+        Z80ed[0x8c] = ed_8c; Z80ed[0x8d] = ed_8d; Z80ed[0x8e] = ed_8e; Z80ed[0x8f] = ed_8f;
+
+        Z80ed[0x90] = ed_90; Z80ed[0x91] = ed_91; Z80ed[0x92] = ed_92; Z80ed[0x93] = ed_93;
+        Z80ed[0x94] = ed_94; Z80ed[0x95] = ed_95; Z80ed[0x96] = ed_96; Z80ed[0x97] = ed_97;
+        Z80ed[0x98] = ed_98; Z80ed[0x99] = ed_99; Z80ed[0x9a] = ed_9a; Z80ed[0x9b] = ed_9b;
+        Z80ed[0x9c] = ed_9c; Z80ed[0x9d] = ed_9d; Z80ed[0x9e] = ed_9e; Z80ed[0x9f] = ed_9f;
+
+        Z80ed[0xa0] = ed_a0; Z80ed[0xa1] = ed_a1; Z80ed[0xa2] = ed_a2; Z80ed[0xa3] = ed_a3;
+        Z80ed[0xa4] = ed_a4; Z80ed[0xa5] = ed_a5; Z80ed[0xa6] = ed_a6; Z80ed[0xa7] = ed_a7;
+        Z80ed[0xa8] = ed_a8; Z80ed[0xa9] = ed_a9; Z80ed[0xaa] = ed_aa; Z80ed[0xab] = ed_ab;
+        Z80ed[0xac] = ed_ac; Z80ed[0xad] = ed_ad; Z80ed[0xae] = ed_ae; Z80ed[0xaf] = ed_af;
+
+        Z80ed[0xb0] = ed_b0; Z80ed[0xb1] = ed_b1; Z80ed[0xb2] = ed_b2; Z80ed[0xb3] = ed_b3;
+        Z80ed[0xb4] = ed_b4; Z80ed[0xb5] = ed_b5; Z80ed[0xb6] = ed_b6; Z80ed[0xb7] = ed_b7;
+        Z80ed[0xb8] = ed_b8; Z80ed[0xb9] = ed_b9; Z80ed[0xba] = ed_ba; Z80ed[0xbb] = ed_bb; 
+        Z80ed[0xbc] = ed_bc; Z80ed[0xbd] = ed_bd; Z80ed[0xbe] = ed_be; Z80ed[0xbf] = ed_bf;
+
+        Z80ed[0xc0] = ed_c0; Z80ed[0xc1] = ed_c1; Z80ed[0xc2] = ed_c2; Z80ed[0xc3] = ed_c3;
+        Z80ed[0xc4] = ed_c4; Z80ed[0xc5] = ed_c5; Z80ed[0xc6] = ed_c6; Z80ed[0xc7] = ed_c7;
+        Z80ed[0xc8] = ed_c8; Z80ed[0xc9] = ed_c9; Z80ed[0xca] = ed_ca; Z80ed[0xcb] = ed_cb; 
+        Z80ed[0xcc] = ed_cc; Z80ed[0xcd] = ed_cd; Z80ed[0xce] = ed_ce; Z80ed[0xcf] = ed_cf;
+
+        Z80ed[0xd0] = ed_d0; Z80ed[0xd1] = ed_d1; Z80ed[0xd2] = ed_d2; Z80ed[0xd3] = ed_d3;
+        Z80ed[0xd4] = ed_d4; Z80ed[0xd5] = ed_d5; Z80ed[0xd6] = ed_d6; Z80ed[0xd7] = ed_d7;
+        Z80ed[0xd8] = ed_d8; Z80ed[0xd9] = ed_d9; Z80ed[0xda] = ed_da; Z80ed[0xdb] = ed_db;
+        Z80ed[0xdc] = ed_dc; Z80ed[0xdd] = ed_dd; Z80ed[0xde] = ed_de; Z80ed[0xdf] = ed_df;
+
+        Z80ed[0xe0] = ed_e0; Z80ed[0xe1] = ed_e1; Z80ed[0xe2] = ed_e2; Z80ed[0xe3] = ed_e3;
+        Z80ed[0xe4] = ed_e4; Z80ed[0xe5] = ed_e5; Z80ed[0xe6] = ed_e6; Z80ed[0xe7] = ed_e7;
+        Z80ed[0xe8] = ed_e8; Z80ed[0xe9] = ed_e9; Z80ed[0xea] = ed_ea; Z80ed[0xeb] = ed_eb;
+        Z80ed[0xec] = ed_ec; Z80ed[0xed] = ed_ed; Z80ed[0xee] = ed_ee; Z80ed[0xef] = ed_ef;
+
+        Z80ed[0xf0] = ed_f0; Z80ed[0xf1] = ed_f1; Z80ed[0xf2] = ed_f2; Z80ed[0xf3] = ed_f3;
+        Z80ed[0xf4] = ed_f4; Z80ed[0xf5] = ed_f5; Z80ed[0xf6] = ed_f6; Z80ed[0xf7] = ed_f7;
+        Z80ed[0xf8] = ed_f8; Z80ed[0xf9] = ed_f9; Z80ed[0xfa] = ed_fa; Z80ed[0xfb] = ed_fb; 
+        Z80ed[0xfc] = ed_fc; Z80ed[0xfd] = ed_fd; Z80ed[0xfe] = ed_fe; Z80ed[0xff] = ed_ff;
+    }
+    void setup_fd_table()
+    {
+        Z80fd[0x00] = fd_00; Z80fd[0x01] = fd_01; Z80fd[0x02] = fd_02; Z80fd[0x03] = fd_03;
+        Z80fd[0x04] = fd_04; Z80fd[0x05] = fd_05; Z80fd[0x06] = fd_06; Z80fd[0x07] = fd_07;
+        Z80fd[0x08] = fd_08; Z80fd[0x09] = fd_09; Z80fd[0x0a] = fd_0a; Z80fd[0x0b] = fd_0b;
+        Z80fd[0x0c] = fd_0c; Z80fd[0x0d] = fd_0d; Z80fd[0x0e] = fd_0e; Z80fd[0x0f] = fd_0f;
+
+        Z80fd[0x10] = fd_10; Z80fd[0x11] = fd_11; Z80fd[0x12] = fd_12; Z80fd[0x13] = fd_13;
+        Z80fd[0x14] = fd_14; Z80fd[0x15] = fd_15; Z80fd[0x16] = fd_16; Z80fd[0x17] = fd_17;
+        Z80fd[0x18] = fd_18; Z80fd[0x19] = fd_19; Z80fd[0x1a] = fd_1a; Z80fd[0x1b] = fd_1b;
+        Z80fd[0x1c] = fd_1c; Z80fd[0x1d] = fd_1d; Z80fd[0x1e] = fd_1e; Z80fd[0x1f] = fd_1f;
+
+        Z80fd[0x20] = fd_20; Z80fd[0x21] = fd_21; Z80fd[0x22] = fd_22; Z80fd[0x23] = fd_23;
+        Z80fd[0x24] = fd_24; Z80fd[0x25] = fd_25; Z80fd[0x26] = fd_26; Z80fd[0x27] = fd_27;
+        Z80fd[0x28] = fd_28; Z80fd[0x29] = fd_29; Z80fd[0x2a] = fd_2a; Z80fd[0x2b] = fd_2b;
+        Z80fd[0x2c] = fd_2c; Z80fd[0x2d] = fd_2d; Z80fd[0x2e] = fd_2e; Z80fd[0x2f] = fd_2f;
+
+        Z80fd[0x30] = fd_30; Z80fd[0x31] = fd_31; Z80fd[0x32] = fd_32; Z80fd[0x33] = fd_33;
+        Z80fd[0x34] = fd_34; Z80fd[0x35] = fd_35; Z80fd[0x36] = fd_36; Z80fd[0x37] = fd_37;
+        Z80fd[0x38] = fd_38; Z80fd[0x39] = fd_39; Z80fd[0x3a] = fd_3a; Z80fd[0x3b] = fd_3b;
+        Z80fd[0x3c] = fd_3c; Z80fd[0x3d] = fd_3d; Z80fd[0x3e] = fd_3e; Z80fd[0x3f] = fd_3f;
+
+        Z80fd[0x40] = fd_40; Z80fd[0x41] = fd_41; Z80fd[0x42] = fd_42; Z80fd[0x43] = fd_43;
+        Z80fd[0x44] = fd_44; Z80fd[0x45] = fd_45; Z80fd[0x46] = fd_46; Z80fd[0x47] = fd_47;
+        Z80fd[0x48] = fd_48; Z80fd[0x49] = fd_49; Z80fd[0x4a] = fd_4a; Z80fd[0x4b] = fd_4b;
+        Z80fd[0x4c] = fd_4c; Z80fd[0x4d] = fd_4d; Z80fd[0x4e] = fd_4e; Z80fd[0x4f] = fd_4f;
+
+        Z80fd[0x50] = fd_50; Z80fd[0x51] = fd_51; Z80fd[0x52] = fd_52; Z80fd[0x53] = fd_53;
+        Z80fd[0x54] = fd_54; Z80fd[0x55] = fd_55; Z80fd[0x56] = fd_56; Z80fd[0x57] = fd_57;
+        Z80fd[0x58] = fd_58; Z80fd[0x59] = fd_59; Z80fd[0x5a] = fd_5a; Z80fd[0x5b] = fd_5b;
+        Z80fd[0x5c] = fd_5c; Z80fd[0x5d] = fd_5d; Z80fd[0x5e] = fd_5e; Z80fd[0x5f] = fd_5f;
+
+        Z80fd[0x60] = fd_60; Z80fd[0x61] = fd_61; Z80fd[0x62] = fd_62; Z80fd[0x63] = fd_63;
+        Z80fd[0x64] = fd_64; Z80fd[0x65] = fd_65; Z80fd[0x66] = fd_66; Z80fd[0x67] = fd_67;
+        Z80fd[0x68] = fd_68; Z80fd[0x69] = fd_69; Z80fd[0x6a] = fd_6a; Z80fd[0x6b] = fd_6b;
+        Z80fd[0x6c] = fd_6c; Z80fd[0x6d] = fd_6d; Z80fd[0x6e] = fd_6e; Z80fd[0x6f] = fd_6f;
+
+        Z80fd[0x70] = fd_70; Z80fd[0x71] = fd_71; Z80fd[0x72] = fd_72; Z80fd[0x73] = fd_73;
+        Z80fd[0x74] = fd_74; Z80fd[0x75] = fd_75; Z80fd[0x76] = fd_76; Z80fd[0x77] = fd_77;
+        Z80fd[0x78] = fd_78; Z80fd[0x79] = fd_79; Z80fd[0x7a] = fd_7a; Z80fd[0x7b] = fd_7b;
+        Z80fd[0x7c] = fd_7c; Z80fd[0x7d] = fd_7d; Z80fd[0x7e] = fd_7e; Z80fd[0x7f] = fd_7f;
+
+        Z80fd[0x80] = fd_80; Z80fd[0x81] = fd_81; Z80fd[0x82] = fd_82; Z80fd[0x83] = fd_83;
+        Z80fd[0x84] = fd_84; Z80fd[0x85] = fd_85; Z80fd[0x86] = fd_86; Z80fd[0x87] = fd_87;
+        Z80fd[0x88] = fd_88; Z80fd[0x89] = fd_89; Z80fd[0x8a] = fd_8a; Z80fd[0x8b] = fd_8b;
+        Z80fd[0x8c] = fd_8c; Z80fd[0x8d] = fd_8d; Z80fd[0x8e] = fd_8e; Z80fd[0x8f] = fd_8f;
+
+        Z80fd[0x90] = fd_90; Z80fd[0x91] = fd_91; Z80fd[0x92] = fd_92; Z80fd[0x93] = fd_93;
+        Z80fd[0x94] = fd_94; Z80fd[0x95] = fd_95; Z80fd[0x96] = fd_96; Z80fd[0x97] = fd_97;
+        Z80fd[0x98] = fd_98; Z80fd[0x99] = fd_99; Z80fd[0x9a] = fd_9a; Z80fd[0x9b] = fd_9b;
+        Z80fd[0x9c] = fd_9c; Z80fd[0x9d] = fd_9d; Z80fd[0x9e] = fd_9e; Z80fd[0x9f] = fd_9f;
+
+        Z80fd[0xa0] = fd_a0; Z80fd[0xa1] = fd_a1; Z80fd[0xa2] = fd_a2; Z80fd[0xa3] = fd_a3;
+        Z80fd[0xa4] = fd_a4; Z80fd[0xa5] = fd_a5; Z80fd[0xa6] = fd_a6; Z80fd[0xa7] = fd_a7;
+        Z80fd[0xa8] = fd_a8; Z80fd[0xa9] = fd_a9; Z80fd[0xaa] = fd_aa; Z80fd[0xab] = fd_ab;
+        Z80fd[0xac] = fd_ac; Z80fd[0xad] = fd_ad; Z80fd[0xae] = fd_ae; Z80fd[0xaf] = fd_af;
+
+        Z80fd[0xb0] = fd_b0; Z80fd[0xb1] = fd_b1; Z80fd[0xb2] = fd_b2; Z80fd[0xb3] = fd_b3;
+        Z80fd[0xb4] = fd_b4; Z80fd[0xb5] = fd_b5; Z80fd[0xb6] = fd_b6; Z80fd[0xb7] = fd_b7;
+        Z80fd[0xb8] = fd_b8; Z80fd[0xb9] = fd_b9; Z80fd[0xba] = fd_ba; Z80fd[0xbb] = fd_bb; 
+        Z80fd[0xbc] = fd_bc; Z80fd[0xbd] = fd_bd; Z80fd[0xbe] = fd_be; Z80fd[0xbf] = fd_bf;
+
+        Z80fd[0xc0] = fd_c0; Z80fd[0xc1] = fd_c1; Z80fd[0xc2] = fd_c2; Z80fd[0xc3] = fd_c3;
+        Z80fd[0xc4] = fd_c4; Z80fd[0xc5] = fd_c5; Z80fd[0xc6] = fd_c6; Z80fd[0xc7] = fd_c7;
+        Z80fd[0xc8] = fd_c8; Z80fd[0xc9] = fd_c9; Z80fd[0xca] = fd_ca; Z80fd[0xcb] = fd_cb; 
+        Z80fd[0xcc] = fd_cc; Z80fd[0xcd] = fd_cd; Z80fd[0xce] = fd_ce; Z80fd[0xcf] = fd_cf;
+
+        Z80fd[0xd0] = fd_d0; Z80fd[0xd1] = fd_d1; Z80fd[0xd2] = fd_d2; Z80fd[0xd3] = fd_d3;
+        Z80fd[0xd4] = fd_d4; Z80fd[0xd5] = fd_d5; Z80fd[0xd6] = fd_d6; Z80fd[0xd7] = fd_d7;
+        Z80fd[0xd8] = fd_d8; Z80fd[0xd9] = fd_d9; Z80fd[0xda] = fd_da; Z80fd[0xdb] = fd_db;
+        Z80fd[0xdc] = fd_dc; Z80fd[0xdd] = fd_dd; Z80fd[0xde] = fd_de; Z80fd[0xdf] = fd_df;
+
+        Z80fd[0xe0] = fd_e0; Z80fd[0xe1] = fd_e1; Z80fd[0xe2] = fd_e2; Z80fd[0xe3] = fd_e3;
+        Z80fd[0xe4] = fd_e4; Z80fd[0xe5] = fd_e5; Z80fd[0xe6] = fd_e6; Z80fd[0xe7] = fd_e7;
+        Z80fd[0xe8] = fd_e8; Z80fd[0xe9] = fd_e9; Z80fd[0xea] = fd_ea; Z80fd[0xeb] = fd_eb;
+        Z80fd[0xec] = fd_ec; Z80fd[0xed] = fd_ed; Z80fd[0xee] = fd_ee; Z80fd[0xef] = fd_ef;
+
+        Z80fd[0xf0] = fd_f0; Z80fd[0xf1] = fd_f1; Z80fd[0xf2] = fd_f2; Z80fd[0xf3] = fd_f3;
+        Z80fd[0xf4] = fd_f4; Z80fd[0xf5] = fd_f5; Z80fd[0xf6] = fd_f6; Z80fd[0xf7] = fd_f7;
+        Z80fd[0xf8] = fd_f8; Z80fd[0xf9] = fd_f9; Z80fd[0xfa] = fd_fa; Z80fd[0xfb] = fd_fb; 
+        Z80fd[0xfc] = fd_fc; Z80fd[0xfd] = fd_fd; Z80fd[0xfe] = fd_fe; Z80fd[0xff] = fd_ff;
+    }
+        void setup_xxcb_table()
+    {
+        Z80xxcb[0x00] = xxcb_00; Z80xxcb[0x01] = xxcb_01; Z80xxcb[0x02] = xxcb_02; Z80xxcb[0x03] = xxcb_03;
+        Z80xxcb[0x04] = xxcb_04; Z80xxcb[0x05] = xxcb_05; Z80xxcb[0x06] = xxcb_06; Z80xxcb[0x07] = xxcb_07;
+        Z80xxcb[0x08] = xxcb_08; Z80xxcb[0x09] = xxcb_09; Z80xxcb[0x0a] = xxcb_0a; Z80xxcb[0x0b] = xxcb_0b;
+        Z80xxcb[0x0c] = xxcb_0c; Z80xxcb[0x0d] = xxcb_0d; Z80xxcb[0x0e] = xxcb_0e; Z80xxcb[0x0f] = xxcb_0f;
+
+        Z80xxcb[0x10] = xxcb_10; Z80xxcb[0x11] = xxcb_11; Z80xxcb[0x12] = xxcb_12; Z80xxcb[0x13] = xxcb_13;
+        Z80xxcb[0x14] = xxcb_14; Z80xxcb[0x15] = xxcb_15; Z80xxcb[0x16] = xxcb_16; Z80xxcb[0x17] = xxcb_17;
+        Z80xxcb[0x18] = xxcb_18; Z80xxcb[0x19] = xxcb_19; Z80xxcb[0x1a] = xxcb_1a; Z80xxcb[0x1b] = xxcb_1b;
+        Z80xxcb[0x1c] = xxcb_1c; Z80xxcb[0x1d] = xxcb_1d; Z80xxcb[0x1e] = xxcb_1e; Z80xxcb[0x1f] = xxcb_1f;
+
+        Z80xxcb[0x20] = xxcb_20; Z80xxcb[0x21] = xxcb_21; Z80xxcb[0x22] = xxcb_22; Z80xxcb[0x23] = xxcb_23;
+        Z80xxcb[0x24] = xxcb_24; Z80xxcb[0x25] = xxcb_25; Z80xxcb[0x26] = xxcb_26; Z80xxcb[0x27] = xxcb_27;
+        Z80xxcb[0x28] = xxcb_28; Z80xxcb[0x29] = xxcb_29; Z80xxcb[0x2a] = xxcb_2a; Z80xxcb[0x2b] = xxcb_2b;
+        Z80xxcb[0x2c] = xxcb_2c; Z80xxcb[0x2d] = xxcb_2d; Z80xxcb[0x2e] = xxcb_2e; Z80xxcb[0x2f] = xxcb_2f;
+
+        Z80xxcb[0x30] = xxcb_30; Z80xxcb[0x31] = xxcb_31; Z80xxcb[0x32] = xxcb_32; Z80xxcb[0x33] = xxcb_33;
+        Z80xxcb[0x34] = xxcb_34; Z80xxcb[0x35] = xxcb_35; Z80xxcb[0x36] = xxcb_36; Z80xxcb[0x37] = xxcb_37;
+        Z80xxcb[0x38] = xxcb_38; Z80xxcb[0x39] = xxcb_39; Z80xxcb[0x3a] = xxcb_3a; Z80xxcb[0x3b] = xxcb_3b;
+        Z80xxcb[0x3c] = xxcb_3c; Z80xxcb[0x3d] = xxcb_3d; Z80xxcb[0x3e] = xxcb_3e; Z80xxcb[0x3f] = xxcb_3f;
+
+        Z80xxcb[0x40] = xxcb_40; Z80xxcb[0x41] = xxcb_41; Z80xxcb[0x42] = xxcb_42; Z80xxcb[0x43] = xxcb_43;
+        Z80xxcb[0x44] = xxcb_44; Z80xxcb[0x45] = xxcb_45; Z80xxcb[0x46] = xxcb_46; Z80xxcb[0x47] = xxcb_47;
+        Z80xxcb[0x48] = xxcb_48; Z80xxcb[0x49] = xxcb_49; Z80xxcb[0x4a] = xxcb_4a; Z80xxcb[0x4b] = xxcb_4b;
+        Z80xxcb[0x4c] = xxcb_4c; Z80xxcb[0x4d] = xxcb_4d; Z80xxcb[0x4e] = xxcb_4e; Z80xxcb[0x4f] = xxcb_4f;
+
+        Z80xxcb[0x50] = xxcb_50; Z80xxcb[0x51] = xxcb_51; Z80xxcb[0x52] = xxcb_52; Z80xxcb[0x53] = xxcb_53;
+        Z80xxcb[0x54] = xxcb_54; Z80xxcb[0x55] = xxcb_55; Z80xxcb[0x56] = xxcb_56; Z80xxcb[0x57] = xxcb_57;
+        Z80xxcb[0x58] = xxcb_58; Z80xxcb[0x59] = xxcb_59; Z80xxcb[0x5a] = xxcb_5a; Z80xxcb[0x5b] = xxcb_5b;
+        Z80xxcb[0x5c] = xxcb_5c; Z80xxcb[0x5d] = xxcb_5d; Z80xxcb[0x5e] = xxcb_5e; Z80xxcb[0x5f] = xxcb_5f;
+
+        Z80xxcb[0x60] = xxcb_60; Z80xxcb[0x61] = xxcb_61; Z80xxcb[0x62] = xxcb_62; Z80xxcb[0x63] = xxcb_63;
+        Z80xxcb[0x64] = xxcb_64; Z80xxcb[0x65] = xxcb_65; Z80xxcb[0x66] = xxcb_66; Z80xxcb[0x67] = xxcb_67;
+        Z80xxcb[0x68] = xxcb_68; Z80xxcb[0x69] = xxcb_69; Z80xxcb[0x6a] = xxcb_6a; Z80xxcb[0x6b] = xxcb_6b;
+        Z80xxcb[0x6c] = xxcb_6c; Z80xxcb[0x6d] = xxcb_6d; Z80xxcb[0x6e] = xxcb_6e; Z80xxcb[0x6f] = xxcb_6f;
+
+        Z80xxcb[0x70] = xxcb_70; Z80xxcb[0x71] = xxcb_71; Z80xxcb[0x72] = xxcb_72; Z80xxcb[0x73] = xxcb_73;
+        Z80xxcb[0x74] = xxcb_74; Z80xxcb[0x75] = xxcb_75; Z80xxcb[0x76] = xxcb_76; Z80xxcb[0x77] = xxcb_77;
+        Z80xxcb[0x78] = xxcb_78; Z80xxcb[0x79] = xxcb_79; Z80xxcb[0x7a] = xxcb_7a; Z80xxcb[0x7b] = xxcb_7b;
+        Z80xxcb[0x7c] = xxcb_7c; Z80xxcb[0x7d] = xxcb_7d; Z80xxcb[0x7e] = xxcb_7e; Z80xxcb[0x7f] = xxcb_7f;
+
+        Z80xxcb[0x80] = xxcb_80; Z80xxcb[0x81] = xxcb_81; Z80xxcb[0x82] = xxcb_82; Z80xxcb[0x83] = xxcb_83;
+        Z80xxcb[0x84] = xxcb_84; Z80xxcb[0x85] = xxcb_85; Z80xxcb[0x86] = xxcb_86; Z80xxcb[0x87] = xxcb_87;
+        Z80xxcb[0x88] = xxcb_88; Z80xxcb[0x89] = xxcb_89; Z80xxcb[0x8a] = xxcb_8a; Z80xxcb[0x8b] = xxcb_8b;
+        Z80xxcb[0x8c] = xxcb_8c; Z80xxcb[0x8d] = xxcb_8d; Z80xxcb[0x8e] = xxcb_8e; Z80xxcb[0x8f] = xxcb_8f;
+
+        Z80xxcb[0x90] = xxcb_90; Z80xxcb[0x91] = xxcb_91; Z80xxcb[0x92] = xxcb_92; Z80xxcb[0x93] = xxcb_93;
+        Z80xxcb[0x94] = xxcb_94; Z80xxcb[0x95] = xxcb_95; Z80xxcb[0x96] = xxcb_96; Z80xxcb[0x97] = xxcb_97;
+        Z80xxcb[0x98] = xxcb_98; Z80xxcb[0x99] = xxcb_99; Z80xxcb[0x9a] = xxcb_9a; Z80xxcb[0x9b] = xxcb_9b;
+        Z80xxcb[0x9c] = xxcb_9c; Z80xxcb[0x9d] = xxcb_9d; Z80xxcb[0x9e] = xxcb_9e; Z80xxcb[0x9f] = xxcb_9f;
+
+        Z80xxcb[0xa0] = xxcb_a0; Z80xxcb[0xa1] = xxcb_a1; Z80xxcb[0xa2] = xxcb_a2; Z80xxcb[0xa3] = xxcb_a3;
+        Z80xxcb[0xa4] = xxcb_a4; Z80xxcb[0xa5] = xxcb_a5; Z80xxcb[0xa6] = xxcb_a6; Z80xxcb[0xa7] = xxcb_a7;
+        Z80xxcb[0xa8] = xxcb_a8; Z80xxcb[0xa9] = xxcb_a9; Z80xxcb[0xaa] = xxcb_aa; Z80xxcb[0xab] = xxcb_ab;
+        Z80xxcb[0xac] = xxcb_ac; Z80xxcb[0xad] = xxcb_ad; Z80xxcb[0xae] = xxcb_ae; Z80xxcb[0xaf] = xxcb_af;
+
+        Z80xxcb[0xb0] = xxcb_b0; Z80xxcb[0xb1] = xxcb_b1; Z80xxcb[0xb2] = xxcb_b2; Z80xxcb[0xb3] = xxcb_b3;
+        Z80xxcb[0xb4] = xxcb_b4; Z80xxcb[0xb5] = xxcb_b5; Z80xxcb[0xb6] = xxcb_b6; Z80xxcb[0xb7] = xxcb_b7;
+        Z80xxcb[0xb8] = xxcb_b8; Z80xxcb[0xb9] = xxcb_b9; Z80xxcb[0xba] = xxcb_ba; Z80xxcb[0xbb] = xxcb_bb; 
+        Z80xxcb[0xbc] = xxcb_bc; Z80xxcb[0xbd] = xxcb_bd; Z80xxcb[0xbe] = xxcb_be; Z80xxcb[0xbf] = xxcb_bf;
+
+        Z80xxcb[0xc0] = xxcb_c0; Z80xxcb[0xc1] = xxcb_c1; Z80xxcb[0xc2] = xxcb_c2; Z80xxcb[0xc3] = xxcb_c3;
+        Z80xxcb[0xc4] = xxcb_c4; Z80xxcb[0xc5] = xxcb_c5; Z80xxcb[0xc6] = xxcb_c6; Z80xxcb[0xc7] = xxcb_c7;
+        Z80xxcb[0xc8] = xxcb_c8; Z80xxcb[0xc9] = xxcb_c9; Z80xxcb[0xca] = xxcb_ca; Z80xxcb[0xcb] = xxcb_cb; 
+        Z80xxcb[0xcc] = xxcb_cc; Z80xxcb[0xcd] = xxcb_cd; Z80xxcb[0xce] = xxcb_ce; Z80xxcb[0xcf] = xxcb_cf;
+
+        Z80xxcb[0xd0] = xxcb_d0; Z80xxcb[0xd1] = xxcb_d1; Z80xxcb[0xd2] = xxcb_d2; Z80xxcb[0xd3] = xxcb_d3;
+        Z80xxcb[0xd4] = xxcb_d4; Z80xxcb[0xd5] = xxcb_d5; Z80xxcb[0xd6] = xxcb_d6; Z80xxcb[0xd7] = xxcb_d7;
+        Z80xxcb[0xd8] = xxcb_d8; Z80xxcb[0xd9] = xxcb_d9; Z80xxcb[0xda] = xxcb_da; Z80xxcb[0xdb] = xxcb_db;
+        Z80xxcb[0xdc] = xxcb_dc; Z80xxcb[0xdd] = xxcb_dd; Z80xxcb[0xde] = xxcb_de; Z80xxcb[0xdf] = xxcb_df;
+
+        Z80xxcb[0xe0] = xxcb_e0; Z80xxcb[0xe1] = xxcb_e1; Z80xxcb[0xe2] = xxcb_e2; Z80xxcb[0xe3] = xxcb_e3;
+        Z80xxcb[0xe4] = xxcb_e4; Z80xxcb[0xe5] = xxcb_e5; Z80xxcb[0xe6] = xxcb_e6; Z80xxcb[0xe7] = xxcb_e7;
+        Z80xxcb[0xe8] = xxcb_e8; Z80xxcb[0xe9] = xxcb_e9; Z80xxcb[0xea] = xxcb_ea; Z80xxcb[0xeb] = xxcb_eb;
+        Z80xxcb[0xec] = xxcb_ec; Z80xxcb[0xed] = xxcb_ed; Z80xxcb[0xee] = xxcb_ee; Z80xxcb[0xef] = xxcb_ef;
+
+        Z80xxcb[0xf0] = xxcb_f0; Z80xxcb[0xf1] = xxcb_f1; Z80xxcb[0xf2] = xxcb_f2; Z80xxcb[0xf3] = xxcb_f3;
+        Z80xxcb[0xf4] = xxcb_f4; Z80xxcb[0xf5] = xxcb_f5; Z80xxcb[0xf6] = xxcb_f6; Z80xxcb[0xf7] = xxcb_f7;
+        Z80xxcb[0xf8] = xxcb_f8; Z80xxcb[0xf9] = xxcb_f9; Z80xxcb[0xfa] = xxcb_fa; Z80xxcb[0xfb] = xxcb_fb; 
+        Z80xxcb[0xfc] = xxcb_fc; Z80xxcb[0xfd] = xxcb_fd; Z80xxcb[0xfe] = xxcb_fe; Z80xxcb[0xff] = xxcb_ff;
     }
     /*TODO*///#if BIG_SWITCH
     /*TODO*///#define EXEC_INLINE(prefix,opcode)								\
@@ -738,19 +1153,19 @@ public class z80 extends cpu_interface {
     	return cpu_readop(pc);
     }
     
-    /*TODO*////****************************************************************
-    /*TODO*/// * ARG() is identical to ROP() except it is used
-    /*TODO*/// * for reading opcode arguments. This difference can be used to
-    /*TODO*/// * support systems that use different encoding mechanisms for
-    /*TODO*/// * opcodes and opcode arguments
-    /*TODO*/// ***************************************************************/
-    /*TODO*///INLINE UINT8 ARG(void)
-    /*TODO*///{
-    /*TODO*///	unsigned pc = _PCD;
-    /*TODO*///    _PC++;
-    /*TODO*///	return cpu_readop_arg(pc);
-    /*TODO*///}
-    /*TODO*///
+    /****************************************************************
+     * ARG() is identical to ROP() except it is used
+     * for reading opcode arguments. This difference can be used to
+     * support systems that use different encoding mechanisms for
+     * opcodes and opcode arguments
+     ***************************************************************/
+    public char ARG()
+    {
+    	int pc = Z80.PC.D;
+    	Z80.PC.AddD(1); //_PC++
+    	return cpu_readop_arg(pc);
+    }
+    
     /*TODO*///INLINE UINT32 ARG16(void)
     /*TODO*///{
     /*TODO*///	unsigned pc = _PCD;
@@ -2226,6 +2641,262 @@ public class z80 extends cpu_interface {
     /*TODO*/// * opcodes with CB prefix
     /*TODO*/// * rotate, shift and bit operations
     /*TODO*/// **********************************************************/
+        opcode cb_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode cb_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode cb_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(cb,00) { _B = RLC(_B);											} /* RLC  B 		  */
     /*TODO*///OP(cb,01) { _C = RLC(_C);											} /* RLC  C 		  */
     /*TODO*///OP(cb,02) { _D = RLC(_D);											} /* RLC  D 		  */
@@ -2519,6 +3190,262 @@ public class z80 extends cpu_interface {
     /*TODO*///* opcodes with DD/FD CB prefix
     /*TODO*///* rotate, shift and bit operations with (IX+o)
     /*TODO*///**********************************************************/
+    opcode xxcb_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode xxcb_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode xxcb_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(xxcb,00) { _B = RLC( RM(EA) ); WM( EA,_B );						} /* RLC  B=(XY+o)	  */
     /*TODO*///OP(xxcb,01) { _C = RLC( RM(EA) ); WM( EA,_C );						} /* RLC  C=(XY+o)	  */
     /*TODO*///OP(xxcb,02) { _D = RLC( RM(EA) ); WM( EA,_D );						} /* RLC  D=(XY+o)	  */
@@ -2817,6 +3744,262 @@ public class z80 extends cpu_interface {
     /*TODO*////**********************************************************
     /*TODO*/// * IX register related opcodes (DD prefix)
     /*TODO*/// **********************************************************/
+    opcode dd_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode dd_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode dd_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(dd,00) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,01) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,02) { illegal_1();											} /* DB   DD		  */
@@ -3104,10 +4287,266 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(dd,fd) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,fe) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,ff) { illegal_1();											} /* DB   DD		  */
-    /*TODO*///
-    /*TODO*////**********************************************************
-    /*TODO*/// * IY register related opcodes (FD prefix)
-    /*TODO*/// **********************************************************/
+
+    /**********************************************************
+     * IY register related opcodes (FD prefix)
+     **********************************************************/
+    opcode fd_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode fd_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode fd_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(fd,00) { illegal_1();											} /* DB   FD		  */
     /*TODO*///OP(fd,01) { illegal_1();											} /* DB   FD		  */
     /*TODO*///OP(fd,02) { illegal_1();											} /* DB   FD		  */
@@ -3402,10 +4841,266 @@ public class z80 extends cpu_interface {
     /*TODO*///		fprintf(errorlog, "Z80#%d ill. opcode $ed $%02x\n",
     /*TODO*///			cpu_getactivecpu(), cpu_readop((_PCD-1)&0xffff));
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////**********************************************************
-    /*TODO*/// * special opcodes (ED prefix)
-    /*TODO*/// **********************************************************/
+
+    /**********************************************************
+     * special opcodes (ED prefix)
+     **********************************************************/
+    opcode ed_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
+    opcode ed_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
+    opcode ed_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(ed,00) { illegal_2();											} /* DB   ED		  */
     /*TODO*///OP(ed,01) { illegal_2();											} /* DB   ED		  */
     /*TODO*///OP(ed,02) { illegal_2();											} /* DB   ED		  */
@@ -3868,7 +5563,10 @@ public class z80 extends cpu_interface {
     opcode op_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3e = new opcode() { public void handler()/* LD   A,n */
+    { 
+        Z80.AF.SetH(ARG());//_A = ARG(); 											
+    }};
     opcode op_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -4049,7 +5747,10 @@ public class z80 extends cpu_interface {
     opcode op_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f3 = new opcode() { public void handler()/* DI */
+    { 
+        Z80.IFF1 = Z80.IFF2 =0;										
+    }};
     opcode op_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -4131,7 +5832,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,3b) { _SP--;													} /* DEC  SP		  */
     /*TODO*///OP(op,3c) { _A = INC(_A);											} /* INC  A 		  */
     /*TODO*///OP(op,3d) { _A = DEC(_A);											} /* DEC  A 		  */
-    /*TODO*///OP(op,3e) { _A = ARG(); 											} /* LD   A,n		  */
+   
     /*TODO*///OP(op,3f) { _F = ((_F&(SF|ZF|PF|CF))|((_F&CF)<<4)|(_A&(YF|XF)))^CF; } /* CCF			  */
     /*TODO*/////OP(op,3f) { _F = ((_F & ~(HF|NF)) | ((_F & CF)<<4)) ^ CF; 		  } /* CCF				*/
     /*TODO*///
@@ -4336,7 +6037,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,f0) { RET( !(_F & SF) );										} /* RET  P 		  */
     /*TODO*///OP(op,f1) { POP(AF);												} /* POP  AF		  */
     /*TODO*///OP(op,f2) { JP_COND( !(_F & SF) );									} /* JP   P,a		  */
-    /*TODO*///OP(op,f3) { _IFF1 = _IFF2 = 0;										} /* DI 			  */
+    
     /*TODO*///OP(op,f4) { CALL( !(_F & SF) ); 									} /* CALL P,a		  */
     /*TODO*///OP(op,f5) { PUSH( AF ); 											} /* PUSH AF		  */
     /*TODO*///OP(op,f6) { OR(ARG());												} /* OR   n 		  */
@@ -4427,10 +6128,10 @@ public class z80 extends cpu_interface {
     /*TODO*///        change_pc(_PCD);
     /*TODO*///    }
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Reset registers to their initial values
-    /*TODO*/// ****************************************************************************/
+
+    /****************************************************************************
+     * Reset registers to their initial values
+     ****************************************************************************/
     @Override
     public void reset(Object param) {
         Z80_DaisyChain[] daisy_chain = (Z80_DaisyChain[])param;
@@ -4623,11 +6324,11 @@ public class z80 extends cpu_interface {
     /*TODO*///	SZHVC_sub = NULL;
     /*TODO*///#endif
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Execute 'cycles' T-states. Return number of T-states really executed
-    /*TODO*/// ****************************************************************************/
-        @Override
+
+    /****************************************************************************
+     * Execute 'cycles' T-states. Return number of T-states really executed
+    / ****************************************************************************/
+    @Override
     public int execute(int cycles) {
   
     	z80_ICount[0] = cycles - Z80.extra_cycles;
@@ -5126,4490 +6827,4 @@ public class z80 extends cpu_interface {
     {
         public abstract void handler();
     }
-    /*
-     * 
-     *   OLD Z80 cpu core for reference TOBE REPLACED!!!
-     * 
-     */
-    /*  @Override
-    public void set_irq_line(int irqline, int linestate) {
-        Interrupt ();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
-     	public static class z80_pair
-	{
-                public int H,L,W;
-		public void SetH(int val) 
-                {
-                    H = val;
-                    W = (H << 8) | L;
-                }
-		public void SetL(int val) 
-                {
-                    L = val;
-                    W = (H << 8) | L;
-                }
-		public void SetW(int val)
-                {
-                    W = val;
-                    H = W >> 8;
-                    L = W & 0xFF;
-                }
-		public void AddH(int val) 
-                {
-                    H = (H + val) & 0xFF;
-                    W = (H << 8) | L;
-                }
-
-		public void AddW(int val)
-                {
-                    W = (W + val) & 0xFFFF;
-                    H = W >> 8;
-                    L = W & 0xFF;
-                }
-              public void AddL(int val)
-              {
-                  L = (L + val) & 0xFF;
-                  W = (H << 8) | L;
-              }
-
-	};
-
-	/****************************************************************************/
-	/* The Z80 registers. HALT is set to 1 when the CPU is halted, the refresh  */
-	/* register is calculated as follows: refresh=(Regs.R&127)|(Regs.R2&128)    */
-	/****************************************************************************/
-	public static class Z80_Regs_OLD
-	{
-	  	public int AF2, BC2, DE2, HL2;
-	  	public int IFF1, IFF2, HALT, IM, I, R, R2;
-                public int AF, PC, SP;
-                public int A, F;
-                public z80_pair BC = new z80_pair();
-                public z80_pair DE = new z80_pair();
-                public z80_pair HL = new z80_pair();
-                public z80_pair IX = new z80_pair();
-                public z80_pair IY = new z80_pair();
-                int pending_irq,pending_nmi;
-	};
-        /****************************************************************************/
-	/* Reset registers to their initial values                                  */
-	/****************************************************************************/
-    /*@Override
-	public void reset(Object param) 
-	{
-		R.AF = R.PC = R.SP = 0;
-		R.A = R.F = 0;
-		R.BC.SetW(0); R.DE.SetW(0); R.HL.SetW(0); R.IX.SetW(0); R.IY.SetW(0);
-		R.AF2 = R.BC2 = R.DE2 = R.HL2 = 0;
-		R.IFF1 = R.IFF2 = R.HALT = R.IM = R.I = R.R = R.R2 = 0;
-		R.SP = 0xF000;
- 		R.R = rand();
-		Z80_Clear_Pending_Interrupts();
-	}*/
-        public void Z80_Clear_Pending_Interrupts()	/* NS 970904 */
-        {
-                R.pending_irq = Z80_IGNORE_INT;
-                R.pending_nmi = 0;
-        }
-        public Z80_Regs_OLD R = new Z80_Regs_OLD();
-        public int Z80_Running = 1;
-	//public int Z80_IPeriod = 50000;
-	//public int z80_ICount[0] = 50000;
-	int PTable[] = new int[512];
-	int ZSTable[] = new int[512];
-	int ZSPTable[] = new int[512];
-        
-       /* public Object init_context() {
-            Object reg = new Z80_Regs_OLD();
-            return reg;
-        }
-        @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
-           
-            System.out.println("irq callback");
-            //ignore for now...
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    @Override
-    public int get_pc() {
-        return R.PC;
-    }*/
-  /*  @Override
-    public int execute(int cycles) {
-        		Z80_Running=1;
- 		InitTables();
-                z80_ICount[0]=cycles;	/* NS 970904 */
-/* 		do
- 		{
-                       if (R.pending_nmi != 0 || R.pending_irq != Z80_IGNORE_INT) Interrupt();	/* NS 970901 */
-  			//++R.R;
-/*                        R.R += 1;
-			oldPC=R.PC;
-  			//opcode=M_RDOP(R.PC);
-                         int i = M_RDOP(R.PC);
-			R.PC = (R.PC + 1) & 0xFFFF;
-			z80_ICount[0] -= cycles_main[i];
-  			if (opcode_main[i] != null)
-                        {
-  				opcode_main[i].handler();
-                              //Z80_RegisterDump();
-                        }
-  			else
-  			{
-	  			System.out.println("MAIN PC = " + Integer.toHexString(oldPC) + " OPCODE = " + Integer.toHexString(i));
-	  			
-	  		}
- 		}
- 		while (z80_ICount[0] > 0);
- 		return cycles - z80_ICount[0];	/* NS 970904 */
-/*    } */
-    	final int S_FLAG = 0x80;
-	final int Z_FLAG = 0x40;
-	final int H_FLAG = 0x10;
-	final int V_FLAG = 0x04;
-	final int N_FLAG = 0x02;
-	final int C_FLAG = 0x01;
-    	void InitTables()//TODO checked it since i modified it for 0.27
-	{
-		int zs;
-		int i, p;
-		if (InitTables_virgin == 0) return;
-		InitTables_virgin = 0;
-		for (i = 0; i < 256; i++)
-		{
-			zs = 0;
-			if (i == 0)
-				zs |= Z_FLAG;
-			if ((i&0x80) != 0)
-				zs |= S_FLAG;
-			p = 0;
-			if ((i&1) != 0) p++;
-			if ((i&2) != 0) p++;
-			if ((i&4) != 0) p++;
-			if ((i&8) != 0) p++;
-			if ((i&16) != 0) p++;
-			if ((i&32) != 0) p++;
-			if ((i&64) != 0) p++;
-			if ((i&128) != 0) p++;
-			PTable[i] = ((p&1) != 0) ? 0:V_FLAG;
-			ZSTable[i] = zs;
-			ZSPTable[i] = zs | PTable[i];
-		}
-		for (i = 0; i < 256; i++)
-		{
-			ZSTable[i + 256] = ZSTable[i] | C_FLAG;
-			ZSPTable[i + 256] = ZSPTable[i] | C_FLAG;
-			PTable[i + 256] = PTable[i] | C_FLAG;
-		}
-	}
-
-    /****************************************************************************/
-	/* Input a byte from given I/O port                                         */
-	/****************************************************************************/
-	static final char Z80_In(int Port) { return (char) cpu_readport(Port); }
-
-	/****************************************************************************/
-	/* Output a byte to given I/O port                                          */
-	/****************************************************************************/
-	static final void Z80_Out(int Port, int Value) { cpu_writeport(Port, Value); }
-
-	/****************************************************************************/
-	/* Read a byte from given memory location                                   */
-	/****************************************************************************/
-	public static final char Z80_RDMEM(int A) { return (char) cpu_readmem16(A); }
-	
-	/****************************************************************************/
-	/* Write a byte to given memory location                                    */
-	/****************************************************************************/
-	public static final void Z80_WRMEM(int A, int V) { cpu_writemem16(A, (char) V); }
-	
-	/****************************************************************************/
-	/* Z80_RDOP() is identical to Z80_RDMEM() except it is used for reading     */
-	/* opcodes. In case of system with memory mapped I/O, this function can be  */
-	/* used to greatly speed up emulation                                       */
-	/****************************************************************************/
-	public static final char Z80_RDOP(int A) { return OP_ROM.read(A); }
-	
-	/****************************************************************************/
-	/* Z80_RDOP_ARG() is identical to Z80_RDOP() except it is used for reading  */
-	/* opcode arguments. This difference can be used to support systems that    */
-	/* use different encoding mechanisms for opcodes and opcode arguments       */
-	/****************************************************************************/
-	public static final char Z80_RDOP_ARG(int A) { return OP_RAM.read(A); }
-	
-	/****************************************************************************/
-	/* Z80_RDSTACK() is identical to Z80_RDMEM() except it is used for reading  */
-	/* stack variables. In case of system with memory mapped I/O, this function */
-	/* can be used to slightly speed up emulation                               */
-	/****************************************************************************/
-	public static final char Z80_RDSTACK(int A) 
-        {
-            //return RAM[A];/* Galaga doesn't work with this */
-            return (char)cpu_readmem16(A);
-        }
-	
-	/****************************************************************************/
-	/* Z80_WRSTACK() is identical to Z80_WRMEM() except it is used for writing  */
-	/* stack variables. In case of system with memory mapped I/O, this function */
-	/* can be used to slightly speed up emulation                               */
-	/****************************************************************************/
-	public static final void Z80_WRSTACK(int A, int V) 
-        {
-            //RAM[A] = (char) V; /* Galaga doesn't work with this */
-            cpu_writemem16(A, (char)V);
-        }
-    	public  final int M_POP()
-	{	int i = M_RDSTACK(R.SP) + (M_RDSTACK((R.SP + 1) & 65535) << 8);
-		R.SP = (R.SP + 2) & 0xFFFF; return i;
-        }
-	public  final void M_PUSH(int Rg)
-	{	R.SP = (R.SP - 2) & 0xFFFF;
-		M_WRSTACK(R.SP, Rg & 0xFF);
-		M_WRSTACK((R.SP + 1) & 65535, Rg >> 8);
-        }
-	public  final void M_CALL()
-	{
-		int q = M_RDMEM_OPCODE_WORD();
-		M_PUSH(R.PC);
-		R.PC = q;
-		z80_ICount[0] -= 7;
-	}
-	public  final void M_JP()
-	{	R.PC = M_RDOP_ARG(R.PC) + ((M_RDOP_ARG((R.PC + 1) & 65535)) << 8);
-
-        }
-	public  final void M_JR()
-	{	R.PC = (R.PC + (byte) M_RDOP_ARG(R.PC) + 1) & 0xFFFF; z80_ICount[0]-=5;
-
-        }
-	public  final void M_RET()
-        {
-            R.PC = M_POP(); z80_ICount[0] -= 6;
-        }
-	public  final void M_RST(int Addr)
-        {
-            M_PUSH(R.PC); R.PC = Addr;
-        }
-	public  final int M_SET(int Bit, int Reg)
-        {
-            return Reg | (1 << Bit);
-        }
-	public  final int M_RES(int Bit, int Reg) //NEW!
-        {
-           // return Reg & ~(1 << Bit);
-            return Reg & (1 << Bit ^ 0xFFFFFFFF);
-        }
-	public  final void M_BIT(int Bit, int Reg)
-	{	R.F = (R.F & C_FLAG) | H_FLAG |
-		(((Reg & (1 << Bit)) != 0) ? ((Bit == 7) ? S_FLAG : 0) : Z_FLAG);
-          //TODO buggy check it..
-         //R.F = (R.F & C_FLAG | H_FLAG | ((Reg & 1 << Bit) != 0 ? 0 : Bit == 7 ? S_FLAG : Z_FLAG));
-        }
-	public  final void M_AND(int Reg)
-        {
-            R.A &= Reg;
-            R.F = ZSPTable[R.A] | H_FLAG;
-        }
-	public  final void M_OR(int Reg) 
-        {
-            R.A |= Reg;
-            R.F = ZSPTable[R.A];
-        }
-	public  final void M_XOR(int Reg) 
-        {
-            R.A ^= Reg;
-            R.F = ZSPTable[R.A];
-        }
-	public  final int M_IN()
-	{	int Reg = Z80_In(R.BC.L); 
-                R.F = (R.F & C_FLAG) | ZSPTable[Reg]; return Reg;
-        }
-	public  final void M_RLCA()
-	{	R.A = ((R.A << 1) | ((R.A & 0x80) >> 7)) & 0xFF;
-		R.F = (R.F & 0xEC) | (R.A & C_FLAG);
-        }
-	public  final void M_RRCA()
-	{	R.F = (R.F & 0xEC) | (R.A & 0x01);
-		R.A = ((R.A >> 1) | (R.A << 7)) & 0xFF;	}
-
-	public  final void M_RLA()
-	{
-		int i;
-		i = R.F & C_FLAG;
-		R.F = (R.F & 0xEC) | ((R.A & 0x80) >> 7);
-		R.A = ((R.A << 1) | i) & 0xFF;
-	};
-	public  final void M_RRA()
-	{
-		int i;
-		i = R.F & C_FLAG;
-		R.F = (R.F & 0xEC) | (R.A & 0x01);
-		R.A = ((R.A >> 1) | (i << 7)) & 0xFF;
-	};
-	public  final int M_RLC(int Reg)
-	{
-		int q = Reg >> 7;
-		Reg = ((Reg << 1) | q) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_RRC(int Reg)
-	{
-		int q= Reg & 1;
-		Reg = ((Reg >> 1) | (q << 7)) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_RL(int Reg)
-	{
-		int q = Reg >> 7;
-		Reg = ((Reg << 1) | (R.F & 1)) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_RR(int Reg)
-	{
-		int q = Reg & 1;
-		Reg = ((Reg >> 1) | (R.F << 7)) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_SLL(int Reg)
-	{
-		int q = Reg >> 7;
-		Reg = ((Reg << 1) | 1) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_SLA(int Reg)
-	{
-		int q = Reg >> 7;
-		Reg = (Reg << 1) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_SRL(int Reg)
-	{
-		int q = Reg & 1;
-		Reg = (Reg >> 1) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_SRA(int Reg)
-	{
-		int q = Reg & 1;
-		Reg = ((Reg >> 1) | (Reg & 0x80)) & 0xFF;
-		R.F = ZSPTable[Reg] | q;
-		return Reg;
-	}
-	public  final int M_INC(int Reg)
-	{
-		Reg = (Reg + 1) & 0xFF;
-		R.F = (R.F & C_FLAG) | ZSTable[Reg] |
-			((Reg == 0x80) ? V_FLAG : 0) | ((Reg &0x0F) != 0 ? 0 : H_FLAG);
-		return Reg;
-	}
-	public  final int M_DEC(int Reg)
-	{
-		R.F = (R.F & C_FLAG) | N_FLAG |
-			((Reg == 0x80) ? V_FLAG : 0) | ((Reg & 0x0F) != 0 ? 0 : H_FLAG);
-		Reg = (Reg - 1) & 0xFF;
- 		R.F |= ZSTable[Reg];
-		return Reg;
-	}
-	public  final void M_ADD(int Reg)
-	{
-		int q = R.A + Reg;
-		R.F = ZSTable[q & 255] | ((q & 256) >> 8) |
-		      ((R.A ^ q ^ Reg) & H_FLAG) |
-		      (((Reg ^ R.A ^ 0x80) & (Reg ^ q) & 0x80) >> 5);
-		R.A = q & 0xFF;
-	}
-
-	public  final void M_ADC(int Reg)
-	{
-		int q = R.A + Reg + (R.F & 1);
-		R.F = ZSTable[q & 255] | ((q & 256) >> 8) |
-		      ((R.A ^ q ^ Reg) & H_FLAG) |
-		      (((Reg ^ R.A ^ 0x80) & (Reg ^ q) & 0x80) >> 5);
-		R.A = q & 0xFF;
-	}
-	public  final void M_SUB(int Reg)
-	{
-		int q = R.A - Reg;
-		R.F = ZSTable[q & 255] | ((q & 256) >> 8) | N_FLAG |
-			((R.A ^ q ^ Reg) & H_FLAG) |
-			(((Reg ^ R.A) & (Reg ^ q) & 0x80) >> 5);
-		R.A = q & 0xFF;
-	}
-	public  final void M_SBC(int Reg)
-	{
-		int q;
-		q = R.A - Reg - (R.F & 1);
-		R.F = ZSTable[q & 255] | ((q & 256) >> 8) | N_FLAG |
-			((R.A ^ q ^ Reg) & H_FLAG) |
-			(((Reg ^ R.A) & (Reg ^ q) & 0x80) >> 5);
-		R.A = q & 0xFF;
-	}
-	public  final void M_CP(int Reg)
-	{
-		int q = R.A - Reg;
-	 	R.F = ZSTable[q & 255] | ((q & 256) >> 8) | N_FLAG |
-	          ((R.A ^ q ^ Reg) & H_FLAG) |
-	          (((Reg ^ R.A) & (Reg ^ q) & 0x80) >> 5);
-	}
-	public  final int M_ADDW(int Reg1, int Reg2)
-	{
-		int q = Reg1 + Reg2;
-		R.F = (R.F & (S_FLAG | Z_FLAG | V_FLAG)) |
-				(((Reg1 ^ q ^ Reg2) & 0x1000) >> 8) |
-				((q >> 16) & 1);
-		return q & 0xFFFF;
-	}
-	public  final void M_ADCW(int Reg)
-	{
-		int q = R.HL.W + Reg + (R.F & 1);
-		R.F = (((R.HL.W ^ q ^ Reg) & 0x1000) >> 8) |
-			((q >> 16) & 1) |
-			((q & 0x8000) >> 8) |
-			(((q & 65535) != 0) ? 0 : Z_FLAG) |
-			(((Reg ^ R.HL.W ^ 0x8000) & (Reg ^ q) & 0x8000) >> 13);
-		R.HL.SetW(q & 0xFFFF);
-	}
-	public  final void M_SBCW(int Reg)
-	{
-		int q = R.HL.W - Reg - (R.F & 1);
-		R.F = (((R.HL.W ^ q ^ Reg) & 0x1000) >> 8) |
-			  ((q >> 16) & 1) |
-			  ((q & 0x8000) >> 8) |
-			  (((q & 65535) != 0) ? 0 : Z_FLAG) |
-			  (((Reg ^ R.HL.W) & (Reg ^ q) & 0x8000) >> 13) |
-			  N_FLAG;
-		R.HL.SetW(q & 0xFFFF);
-	}
-    	opcode_fn adc_a_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_ADC(i); } };
-	opcode_fn adc_a_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_ADC(i); } };
-	opcode_fn adc_a_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_ADC(i); } };
-	opcode_fn adc_a_a = new opcode_fn() { public void handler() { M_ADC(R.A); } };
-	opcode_fn adc_a_b = new opcode_fn() { public void handler() { M_ADC(R.BC.H); } };
-	opcode_fn adc_a_c = new opcode_fn() { public void handler() { M_ADC(R.BC.L); } };
-	opcode_fn adc_a_d = new opcode_fn() { public void handler() { M_ADC(R.DE.H); } };
-	opcode_fn adc_a_e = new opcode_fn() { public void handler() { M_ADC(R.DE.L); } };
-	opcode_fn adc_a_h = new opcode_fn() { public void handler() { M_ADC(R.HL.H); } };
-	opcode_fn adc_a_l = new opcode_fn() { public void handler() { M_ADC(R.HL.L); } };
-	opcode_fn adc_a_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_ADC(i); } };
-
-	opcode_fn adc_hl_bc = new opcode_fn() { public void handler() { M_ADCW(R.BC.W); } };
-	opcode_fn adc_hl_de = new opcode_fn() { public void handler() { M_ADCW(R.DE.W); } };
-	opcode_fn adc_hl_hl = new opcode_fn() { public void handler() { M_ADCW(R.HL.W); } };
-	opcode_fn adc_hl_sp = new opcode_fn() { public void handler() { M_ADCW(R.SP); } };
-
-	opcode_fn add_a_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_ADD(i); } };
-	opcode_fn add_a_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_ADD(i); } };
-	opcode_fn add_a_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_ADD(i); } };
-	opcode_fn add_a_a = new opcode_fn() { public void handler() { M_ADD(R.A); } };
-	opcode_fn add_a_b = new opcode_fn() { public void handler() { M_ADD(R.BC.H); } };
-	opcode_fn add_a_c = new opcode_fn() { public void handler() { M_ADD(R.BC.L); } };
-	opcode_fn add_a_d = new opcode_fn() { public void handler() { M_ADD(R.DE.H); } };
-	opcode_fn add_a_e = new opcode_fn() { public void handler() { M_ADD(R.DE.L); } };
-	opcode_fn add_a_h = new opcode_fn() { public void handler() { M_ADD(R.HL.H); } };
-	opcode_fn add_a_l = new opcode_fn() { public void handler() { M_ADD(R.HL.L); } };
-	opcode_fn add_a_ixh = new opcode_fn() { public void handler() { M_ADD(R.IX.H); } };
-        opcode_fn add_a_ixl = new opcode_fn() { public void handler() { M_ADD(R.IX.L); } } ;
-	opcode_fn add_a_iyh = new opcode_fn() { public void handler() { M_ADD(R.IY.H); } };
-	opcode_fn add_a_iyl = new opcode_fn() { public void handler() { M_ADD(R.IY.L); } };
-	opcode_fn add_a_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_ADD(i); } };
-
-	opcode_fn add_hl_bc = new opcode_fn() { public void handler() { R.HL.SetW(M_ADDW(R.HL.W, R.BC.W)); } };
-	opcode_fn add_hl_de = new opcode_fn() { public void handler() { R.HL.SetW(M_ADDW(R.HL.W, R.DE.W)); } };
-	opcode_fn add_hl_hl = new opcode_fn() { public void handler() { R.HL.SetW(M_ADDW(R.HL.W, R.HL.W)); } };
-	opcode_fn add_hl_sp = new opcode_fn() { public void handler() { R.HL.SetW(M_ADDW(R.HL.W, R.SP)); } };
-	opcode_fn add_ix_bc = new opcode_fn() { public void handler() { R.IX.SetW(M_ADDW(R.IX.W, R.BC.W)); } };
-	opcode_fn add_ix_de = new opcode_fn() { public void handler() { R.IX.SetW(M_ADDW(R.IX.W, R.DE.W)); } };
-	opcode_fn add_ix_ix = new opcode_fn() { public void handler() { R.IX.SetW(M_ADDW(R.IX.W, R.IX.W)); } };
-	opcode_fn add_ix_sp = new opcode_fn() { public void handler() { R.IX.SetW(M_ADDW(R.IX.W, R.SP)); } };
-	opcode_fn add_iy_bc = new opcode_fn() { public void handler() { R.IY.SetW(M_ADDW(R.IY.W, R.BC.W)); } };
-	opcode_fn add_iy_de = new opcode_fn() { public void handler() { R.IY.SetW(M_ADDW(R.IY.W, R.DE.W)); } };
-	opcode_fn add_iy_iy = new opcode_fn() { public void handler() { R.IY.SetW(M_ADDW(R.IY.W, R.IY.W)); } };
-	opcode_fn add_iy_sp = new opcode_fn() { public void handler() { R.IY.SetW(M_ADDW(R.IY.W, R.SP)); } };
-
-	opcode_fn and_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_AND(i); } };
-	opcode_fn and_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_AND(i); } };
-	opcode_fn and_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_AND(i); } };
-	opcode_fn and_a = new opcode_fn() { public void handler() { R.F = ZSPTable[R.A] | H_FLAG; } };
-	opcode_fn and_b = new opcode_fn() { public void handler() { M_AND(R.BC.H); } };
-	opcode_fn and_c = new opcode_fn() { public void handler() { M_AND(R.BC.L); } };
-	opcode_fn and_d = new opcode_fn() { public void handler() { M_AND(R.DE.H); } };
-	opcode_fn and_e = new opcode_fn() { public void handler() { M_AND(R.DE.L); } };
-	opcode_fn and_h = new opcode_fn() { public void handler() { M_AND(R.HL.H); } };
-	opcode_fn and_l = new opcode_fn() { public void handler() { M_AND(R.HL.L); } };
-	opcode_fn and_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_AND(i); } };
-
-	opcode_fn bit_0_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(0, i); } };
-	opcode_fn bit_0_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(0, i); } };
-	opcode_fn bit_0_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(0, i); } };
-	opcode_fn bit_0_a = new opcode_fn() { public void handler() { M_BIT(0, R.A); } };
-	opcode_fn bit_0_b = new opcode_fn() { public void handler() { M_BIT(0, R.BC.H); } };
-	opcode_fn bit_0_c = new opcode_fn() { public void handler() { M_BIT(0, R.BC.L); } };
-	opcode_fn bit_0_d = new opcode_fn() { public void handler() { M_BIT(0, R.DE.H); } };
-	opcode_fn bit_0_e = new opcode_fn() { public void handler() { M_BIT(0, R.DE.L); } };
-	opcode_fn bit_0_h = new opcode_fn() { public void handler() { M_BIT(0, R.HL.H); } };
-	opcode_fn bit_0_l = new opcode_fn() { public void handler() { M_BIT(0, R.HL.L); } };
-
-	opcode_fn bit_1_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(1, i); } };
-	opcode_fn bit_1_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(1, i); } };
-	opcode_fn bit_1_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(1, i); } };
-	opcode_fn bit_1_a = new opcode_fn() { public void handler() { M_BIT(1, R.A); } };
-	opcode_fn bit_1_b = new opcode_fn() { public void handler() { M_BIT(1, R.BC.H); } };
-	opcode_fn bit_1_c = new opcode_fn() { public void handler() { M_BIT(1, R.BC.L); } };
-	opcode_fn bit_1_d = new opcode_fn() { public void handler() { M_BIT(1, R.DE.H); } };
-	opcode_fn bit_1_e = new opcode_fn() { public void handler() { M_BIT(1, R.DE.L); } };
-	opcode_fn bit_1_h = new opcode_fn() { public void handler() { M_BIT(1, R.HL.H); } };
-	opcode_fn bit_1_l = new opcode_fn() { public void handler() { M_BIT(1, R.HL.L); } };
-
-	opcode_fn bit_2_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(2, i); } };
-	opcode_fn bit_2_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(2, i); } };
-	opcode_fn bit_2_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(2, i); } };
-	opcode_fn bit_2_a = new opcode_fn() { public void handler() { M_BIT(2, R.A); } };
-	opcode_fn bit_2_b = new opcode_fn() { public void handler() { M_BIT(2, R.BC.H); } };
-	opcode_fn bit_2_c = new opcode_fn() { public void handler() { M_BIT(2, R.BC.L); } };
-	opcode_fn bit_2_d = new opcode_fn() { public void handler() { M_BIT(2, R.DE.H); } };
-	opcode_fn bit_2_e = new opcode_fn() { public void handler() { M_BIT(2, R.DE.L); } };
-	opcode_fn bit_2_h = new opcode_fn() { public void handler() { M_BIT(2, R.HL.H); } };
-	opcode_fn bit_2_l = new opcode_fn() { public void handler() { M_BIT(2, R.HL.L); } };
-
-	opcode_fn bit_3_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(3, i); } };
-	opcode_fn bit_3_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(3, i); } };
-	opcode_fn bit_3_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(3, i); } };
-	opcode_fn bit_3_a = new opcode_fn() { public void handler() { M_BIT(3, R.A); } };
-	opcode_fn bit_3_b = new opcode_fn() { public void handler() { M_BIT(3, R.BC.H); } };
-	opcode_fn bit_3_c = new opcode_fn() { public void handler() { M_BIT(3, R.BC.L); } };
-	opcode_fn bit_3_d = new opcode_fn() { public void handler() { M_BIT(3, R.DE.H); } };
-	opcode_fn bit_3_e = new opcode_fn() { public void handler() { M_BIT(3, R.DE.L); } };
-	opcode_fn bit_3_h = new opcode_fn() { public void handler() { M_BIT(3, R.HL.H); } };
-	opcode_fn bit_3_l = new opcode_fn() { public void handler() { M_BIT(3, R.HL.L); } };
-
-	opcode_fn bit_4_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(4, i); } };
-	opcode_fn bit_4_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(4, i); } };
-	opcode_fn bit_4_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(4, i); } };
-	opcode_fn bit_4_a = new opcode_fn() { public void handler() { M_BIT(4, R.A); } };
-	opcode_fn bit_4_b = new opcode_fn() { public void handler() { M_BIT(4, R.BC.H); } };
-	opcode_fn bit_4_c = new opcode_fn() { public void handler() { M_BIT(4, R.BC.L); } };
-	opcode_fn bit_4_d = new opcode_fn() { public void handler() { M_BIT(4, R.DE.H); } };
-	opcode_fn bit_4_e = new opcode_fn() { public void handler() { M_BIT(4, R.DE.L); } };
-	opcode_fn bit_4_h = new opcode_fn() { public void handler() { M_BIT(4, R.HL.H); } };
-	opcode_fn bit_4_l = new opcode_fn() { public void handler() { M_BIT(4, R.HL.L); } };
-
-	opcode_fn bit_5_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(5, i); } };
-	opcode_fn bit_5_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(5, i); } };
-	opcode_fn bit_5_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(5, i); } };
-	opcode_fn bit_5_a = new opcode_fn() { public void handler() { M_BIT(5, R.A); } };
-	opcode_fn bit_5_b = new opcode_fn() { public void handler() { M_BIT(5, R.BC.H); } };
-	opcode_fn bit_5_c = new opcode_fn() { public void handler() { M_BIT(5, R.BC.L); } };
-	opcode_fn bit_5_d = new opcode_fn() { public void handler() { M_BIT(5, R.DE.H); } };
-	opcode_fn bit_5_e = new opcode_fn() { public void handler() { M_BIT(5, R.DE.L); } };
-	opcode_fn bit_5_h = new opcode_fn() { public void handler() { M_BIT(5, R.HL.H); } };
-	opcode_fn bit_5_l = new opcode_fn() { public void handler() { M_BIT(5, R.HL.L); } };
-
-	opcode_fn bit_6_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(6, i); } };
-	opcode_fn bit_6_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(6, i); } };
-	opcode_fn bit_6_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(6, i); } };
-	opcode_fn bit_6_a = new opcode_fn() { public void handler() { M_BIT(6, R.A); } };
-	opcode_fn bit_6_b = new opcode_fn() { public void handler() { M_BIT(6, R.BC.H); } };
-	opcode_fn bit_6_c = new opcode_fn() { public void handler() { M_BIT(6, R.BC.L); } };
-	opcode_fn bit_6_d = new opcode_fn() { public void handler() { M_BIT(6, R.DE.H); } };
-	opcode_fn bit_6_e = new opcode_fn() { public void handler() { M_BIT(6, R.DE.L); } };
-	opcode_fn bit_6_h = new opcode_fn() { public void handler() { M_BIT(6, R.HL.H); } };
-	opcode_fn bit_6_l = new opcode_fn() { public void handler() { M_BIT(6, R.HL.L); } };
-
-	opcode_fn bit_7_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_BIT(7, i); } };
-	opcode_fn bit_7_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_BIT(7, i); } };
-	opcode_fn bit_7_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_BIT(7, i); } };
-	opcode_fn bit_7_a = new opcode_fn() { public void handler() { M_BIT(7, R.A); } };
-	opcode_fn bit_7_b = new opcode_fn() { public void handler() { M_BIT(7, R.BC.H); } };
-	opcode_fn bit_7_c = new opcode_fn() { public void handler() { M_BIT(7, R.BC.L); } };
-	opcode_fn bit_7_d = new opcode_fn() { public void handler() { M_BIT(7, R.DE.H); } };
-	opcode_fn bit_7_e = new opcode_fn() { public void handler() { M_BIT(7, R.DE.L); } };
-	opcode_fn bit_7_h = new opcode_fn() { public void handler() { M_BIT(7, R.HL.H); } };
-	opcode_fn bit_7_l = new opcode_fn() { public void handler() { M_BIT(7, R.HL.L); } };
-
-	opcode_fn call_c = new opcode_fn() { public void handler() { if (M_C()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call_m = new opcode_fn() { public void handler() { if (M_M()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call_nc = new opcode_fn() { public void handler() { if (M_NC()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call_nz = new opcode_fn() { public void handler() { if (M_NZ()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call_p = new opcode_fn() { public void handler() { if (M_P()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call_z = new opcode_fn() { public void handler() { if (M_Z()) { M_CALL(); } else { M_SKIP_CALL(); } } };
-	opcode_fn call = new opcode_fn() { public void handler() { M_CALL(); } };
-
-	opcode_fn ccf = new opcode_fn() { public void handler() { R.F = ((R.F & 0xED) | ((R.F & 1) << 4)) ^ 1; } };
-
-	opcode_fn cp_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_CP(i); } };
-	opcode_fn cp_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_CP(i); } };
-	opcode_fn cp_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_CP(i); } };
-	opcode_fn cp_a = new opcode_fn() { public void handler() { M_CP(R.A); } };
-	opcode_fn cp_b = new opcode_fn() { public void handler() { M_CP(R.BC.H); } };
-	opcode_fn cp_c = new opcode_fn() { public void handler() { M_CP(R.BC.L); } };
-	opcode_fn cp_d = new opcode_fn() { public void handler() { M_CP(R.DE.H); } };
-	opcode_fn cp_e = new opcode_fn() { public void handler() { M_CP(R.DE.L); } };
-	opcode_fn cp_h = new opcode_fn() { public void handler() { M_CP(R.HL.H); } };
-	opcode_fn cp_l = new opcode_fn() { public void handler() { M_CP(R.HL.L); } };
-	opcode_fn cp_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_CP(i); } };
-
-	opcode_fn cpdr = new opcode_fn() { public void handler()
-	{
-		int i, j;
-	 	R.R -= 2;
-	 	do
-	 	{
-	  		R.R += 2;
-	  		i = M_RDMEM(R.HL.W);
-	  		j = (R.A - i) & 0xFF;
-			R.HL.AddW(-1);
-			R.BC.AddW(-1);
-	 		z80_ICount[0] -= 21;
-	 	}
-	 	while (R.BC.W != 0 && j != 0 && z80_ICount[0] > 0);
-	 	R.F = (R.F & C_FLAG) | ZSTable[j] |
-	          ((R.A ^ i ^ j) & H_FLAG) | (R.BC.W != 0 ? V_FLAG : 0) | N_FLAG;
-	 	if (R.BC.W != 0 && j != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else z80_ICount[0] += 5;
-	} };
-
-	opcode_fn cpi = new opcode_fn() { public void handler()
-	{
-		int i, j;
-		i = M_RDMEM(R.HL.W);
-		j = (R.A - i) & 0xFF;
-		R.HL.AddW(1);
-		R.BC.AddW(-1);
-		R.F = (R.F & C_FLAG) | ZSTable[j] |
-			  ((R.A ^ i ^ j) & H_FLAG) | (R.BC.W != 0 ? V_FLAG : 0) | N_FLAG;
-	} };
-
-	opcode_fn cpir = new opcode_fn() { public void handler()
-	{
-		int i, j;
-		R.R -= 2;
-		do
-		{
-			R.R += 2;
-			i = M_RDMEM(R.HL.W);
-			j = (R.A - i) & 0xFF;
-			R.HL.AddW(1);
-			R.BC.AddW(-1);
-			z80_ICount[0] -= 21;
-		}
-		while (R.BC.W != 0 && j != 0 && z80_ICount[0] > 0);
-		R.F = (R.F & C_FLAG) | ZSTable[j] |
-			  ((R.A ^ i ^ j) & H_FLAG) | (R.BC.W != 0 ? V_FLAG : 0) | N_FLAG;
-		if (R.BC.W != 0 && j != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else z80_ICount[0] += 5;
-	} };
-
-	opcode_fn cpl = new opcode_fn() { public void handler() { R.A ^= 0xFF; R.F |= (H_FLAG | N_FLAG); } };
-
-	opcode_fn daa = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = R.A;
-		if ((R.F & C_FLAG) != 0) i |= 256;
-		if ((R.F & H_FLAG) != 0) i |= 512;
-		if ((R.F & N_FLAG) != 0) i |= 1024;
-		R.A = ((char) DAATable[i]) >> 8;
-		R.F = ((char) DAATable[i]) & 0xFF;
-	} };
-
-	opcode_fn dec_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_DEC(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn dec_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_DEC(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn dec_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_DEC(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn dec_a = new opcode_fn() { public void handler() { R.A = M_DEC(R.A); } };
-	opcode_fn dec_b = new opcode_fn() { public void handler() { R.BC.SetH(M_DEC(R.BC.H)); } };
-	opcode_fn dec_c = new opcode_fn() { public void handler() { R.BC.SetL(M_DEC(R.BC.L)); } };
-	opcode_fn dec_d = new opcode_fn() { public void handler() { R.DE.SetH(M_DEC(R.DE.H)); } };
-	opcode_fn dec_e = new opcode_fn() { public void handler() { R.DE.SetL(M_DEC(R.DE.L)); } };
-	opcode_fn dec_h = new opcode_fn() { public void handler() { R.HL.SetH(M_DEC(R.HL.H)); } };
-	opcode_fn dec_l = new opcode_fn() { public void handler() { R.HL.SetL(M_DEC(R.HL.L)); } };
-	opcode_fn dec_ixl = new opcode_fn() { public void handler() { R.IX.SetL(M_DEC(R.IX.L)); } } ;
-        opcode_fn dec_iyh = new opcode_fn() { public void handler() { R.IY.SetH(M_DEC(R.IY.H)); } };
-	opcode_fn dec_iyl = new opcode_fn() { public void handler() { R.IY.SetL(M_DEC(R.IY.L)); } };
-
-	opcode_fn dec_bc = new opcode_fn() { public void handler() { R.BC.AddW(-1); } };
-	opcode_fn dec_de = new opcode_fn() { public void handler() { R.DE.AddW(-1); } };
-	opcode_fn dec_hl = new opcode_fn() { public void handler() { R.HL.AddW(-1); } };
-	opcode_fn dec_ix = new opcode_fn() { public void handler() { R.IX.AddW(-1); } };
-	opcode_fn dec_iy = new opcode_fn() { public void handler() { R.IY.AddW(-1); } };
-	opcode_fn dec_sp = new opcode_fn() { public void handler() { R.SP = (R.SP - 1) & 0xFFFF; } };
-
-	opcode_fn di = new opcode_fn() {	public void handler() { R.IFF1 = R.IFF2 = 0; } };
-
-	opcode_fn djnz = new opcode_fn() { public void handler() { R.BC.AddH(-1); if (R.BC.H != 0) { M_JR(); } else { M_SKIP_JR(); } } };
-
-	opcode_fn ex_xsp_hl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM_WORD(R.SP);
-		M_WRMEM_WORD(R.SP, R.HL.W);
-		R.HL.SetW(i);
-	} };
-
-	opcode_fn ex_xsp_ix = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM_WORD(R.SP);
-		M_WRMEM_WORD(R.SP, R.IX.W);
-		R.IX.SetW(i);
-	} };
-
-	opcode_fn ex_xsp_iy = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM_WORD(R.SP);
-		M_WRMEM_WORD(R.SP, R.IY.W);
-		R.IY.SetW(i);
-	} };
-
-	opcode_fn ex_af_af = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = (R.A << 8) | R.F;
-		R.A = (R.AF2 >> 8);
-		R.F = (R.AF2 & 0xFF);
-		R.AF2 = i;
-	} };
-
-	opcode_fn ex_de_hl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = R.DE.W;
-		R.DE.SetW(R.HL.W);
-		R.HL.SetW(i);
-	} };
-
-	opcode_fn exx = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = R.BC.W;
-		R.BC.SetW(R.BC2);
-		R.BC2 = i;
-		i = R.DE.W;
-		R.DE.SetW(R.DE2);
-		R.DE2 = i;
-		i = R.HL.W;
-		R.HL.SetW(R.HL2);
-		R.HL2 = i;
-	} };
-
-	opcode_fn halt = new opcode_fn() { public void handler()
-	{
-		R.PC = (R.PC - 1) & 0xFFFF;
-		R.HALT = 1;
-		if (z80_ICount[0] > 0) z80_ICount[0] = 0;
-	} };
-
-	opcode_fn im_0 = new opcode_fn() { public void handler() { R.IM = 0; } };
-	opcode_fn im_1 = new opcode_fn() { public void handler() { R.IM = 1; } };
-	opcode_fn im_2 = new opcode_fn() { public void handler() { R.IM = 2; } };
-
-	opcode_fn in_a_c = new opcode_fn() { public void handler() { R.A = M_IN(); } };
-	opcode_fn in_c_c = new opcode_fn() { public void handler() { R.BC.SetL(M_IN()); } };
-        opcode_fn in_b_c = new opcode_fn() { public void handler() { R.BC.SetH(M_IN()); } } ;
-        opcode_fn in_e_c = new opcode_fn() { public void handler() { R.DE.SetL(M_IN()); } } ;
-        opcode_fn in_l_c = new opcode_fn() { public void handler() { R.HL.SetL(M_IN()); } } ;
-
-        opcode_fn in_a_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); R.A = Z80_In(i); } };
-
-	opcode_fn inc_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_INC(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn inc_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_INC(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn inc_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_INC(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn inc_a = new opcode_fn() { public void handler() { R.A = M_INC(R.A); } };
-	opcode_fn inc_b = new opcode_fn() { public void handler() { R.BC.SetH(M_INC(R.BC.H)); } };
-	opcode_fn inc_c = new opcode_fn() { public void handler() { R.BC.SetL(M_INC(R.BC.L)); } };
-	opcode_fn inc_d = new opcode_fn() { public void handler() { R.DE.SetH(M_INC(R.DE.H)); } };
-	opcode_fn inc_e = new opcode_fn() { public void handler() { R.DE.SetL(M_INC(R.DE.L)); } };
-	opcode_fn inc_h = new opcode_fn() { public void handler() { R.HL.SetH(M_INC(R.HL.H)); } };
-	opcode_fn inc_l = new opcode_fn() { public void handler() { R.HL.SetL(M_INC(R.HL.L)); } };
-	opcode_fn inc_ixl = new opcode_fn() { public void handler() { R.IX.SetL(M_INC(R.IX.L)); } };
-
-	opcode_fn inc_bc = new opcode_fn() {	public void handler() { R.BC.AddW(1); } };
-	opcode_fn inc_de = new opcode_fn() {	public void handler() { R.DE.AddW(1); } };
-	opcode_fn inc_hl = new opcode_fn() {	public void handler() { R.HL.AddW(1); } };
-	opcode_fn inc_ix = new opcode_fn() {	public void handler() { R.IX.AddW(1); } };
-	opcode_fn inc_iy = new opcode_fn() {	public void handler() { R.IY.AddW(1); } };
-	opcode_fn inc_sp = new opcode_fn() {	public void handler() { R.SP = (R.SP + 1) & 0xFFFF; } };
-
-	opcode_fn jp = new opcode_fn() //TODO changed for v0.27 to be checked
-        {
-            public void handler()
-            {
-               // M_JP();
-                 int i = R.PC - 1;
-                 M_JP();
-                 int j = R.PC;
-                if (j == i)
-                {
-                    if (z80_ICount[0] > 0) z80_ICount[0] = 0;/* speed up busy loop */
-                }
-                else if ((j == i - 3) && (M_RDOP(j) == 0x31))/* LD SP,#xxxx - Galaga */
-                {
-                    if (z80_ICount[0] > 10) z80_ICount[0] = 10;
-                 }
-
-            }
-        };
-	opcode_fn jp_hl = new opcode_fn() { public void handler() { R.PC = R.HL.W; } };
-	opcode_fn jp_ix = new opcode_fn() { public void handler() { R.PC = R.IX.W; } };
-	opcode_fn jp_iy = new opcode_fn() { public void handler() { R.PC = R.IY.W; } };
-	opcode_fn jp_c = new opcode_fn() { public void handler() { if (M_C()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_m = new opcode_fn() { public void handler() { if (M_M()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_nc = new opcode_fn() { public void handler() { if (M_NC()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_nz = new opcode_fn() { public void handler() { if (M_NZ()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_p = new opcode_fn() { public void handler() { if (M_P()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_pe = new opcode_fn() { public void handler() { if (M_PE()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_po = new opcode_fn() { public void handler() { if (M_PO()) { M_JP(); } else { M_SKIP_JP(); } } };
-	opcode_fn jp_z = new opcode_fn() { public void handler() { if (M_Z()) { M_JP(); } else { M_SKIP_JP(); } } };
-
-	opcode_fn jr = new opcode_fn() //TODO changed for v0.27 to be checked
-        {
-            public void handler()
-            {
-               // M_JR();
-               int i = R.PC - 1;
-               M_JR();
-               int j = R.PC;
-               if (j == i)
-               {
-                  if (z80_ICount[0] > 0) z80_ICount[0] = 0;/* speed up busy loop */
-               }
-               else if ((j == i - 1) && (M_RDOP(j) == 0xfb))/* EI - 1942 */
-               {
-                   if (z80_ICount[0] > 4) z80_ICount[0] = 4;
-               }
-            }
-        };
-	opcode_fn jr_c = new opcode_fn() { public void handler() { if (M_C()) { M_JR(); } else { M_SKIP_JR(); } } };
-	opcode_fn jr_nc = new opcode_fn() { public void handler() { if (M_NC()) { M_JR(); } else { M_SKIP_JR(); } } };
-	opcode_fn jr_nz = new opcode_fn() { public void handler() { if (M_NZ()) { M_JR(); } else { M_SKIP_JR(); } } };
-	opcode_fn jr_z = new opcode_fn() { public void handler() { if (M_Z()) { M_JR(); } else { M_SKIP_JR(); } } };
-
-	opcode_fn ld_xbc_a = new opcode_fn() { public void handler() { M_WRMEM(R.BC.W, R.A); } };
-	opcode_fn ld_xde_a = new opcode_fn() { public void handler() { M_WRMEM(R.DE.W, R.A); } };
-	opcode_fn ld_xhl_a = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.A); } };
-	opcode_fn ld_xhl_b = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.BC.H); } };
-	opcode_fn ld_xhl_c = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.BC.L); } };
-	opcode_fn ld_xhl_d = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.DE.H); } };
-	opcode_fn ld_xhl_e = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.DE.L); } };
-	opcode_fn ld_xhl_h = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.HL.H); } };
-	opcode_fn ld_xhl_l = new opcode_fn() { public void handler() { M_WRMEM(R.HL.W, R.HL.L); } };
-	opcode_fn ld_xhl_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_WRMEM(R.HL.W, i); } };
-	opcode_fn ld_xix_a = new opcode_fn() { public void handler() { M_WR_XIX(R.A); } };
-	opcode_fn ld_xix_b = new opcode_fn() { public void handler() { M_WR_XIX(R.BC.H); } };
-	opcode_fn ld_xix_c = new opcode_fn() { public void handler() { M_WR_XIX(R.BC.L); } };
-	opcode_fn ld_xix_d = new opcode_fn() { public void handler() { M_WR_XIX(R.DE.H); } };
-	opcode_fn ld_xix_e = new opcode_fn() { public void handler() { M_WR_XIX(R.DE.L); } };
-	opcode_fn ld_xix_h = new opcode_fn() { public void handler() { M_WR_XIX(R.HL.H); } };
-	opcode_fn ld_xix_l = new opcode_fn() { public void handler() { M_WR_XIX(R.HL.L); } };
-	opcode_fn ld_xix_byte = new opcode_fn() { public void handler()
-	{
-		int i, j;
-		i = M_XIX();
-		j = M_RDMEM_OPCODE();
-		M_WRMEM(i, j);
-	} };
-	opcode_fn ld_xiy_a = new opcode_fn() { public void handler() { M_WR_XIY(R.A); } };
-	opcode_fn ld_xiy_b = new opcode_fn() { public void handler() { M_WR_XIY(R.BC.H); } };
-	opcode_fn ld_xiy_c = new opcode_fn() { public void handler() { M_WR_XIY(R.BC.L); } };
-	opcode_fn ld_xiy_d = new opcode_fn() { public void handler() { M_WR_XIY(R.DE.H); } };
-	opcode_fn ld_xiy_e = new opcode_fn() { public void handler() { M_WR_XIY(R.DE.L); } };
-	opcode_fn ld_xiy_h = new opcode_fn() { public void handler() { M_WR_XIY(R.HL.H); } };
-	opcode_fn ld_xiy_l = new opcode_fn() { public void handler() { M_WR_XIY(R.HL.L); } };
-	opcode_fn ld_xiy_byte = new opcode_fn() { public void handler()
-	{
-		int i, j;
-		i = M_XIY();
-		j = M_RDMEM_OPCODE();
-		M_WRMEM(i, j);
-	} };
-	opcode_fn ld_xbyte_a = new opcode_fn() { public void handler()
-	{ int i = M_RDMEM_OPCODE_WORD(); M_WRMEM(i, R.A); } };
-	opcode_fn ld_xword_bc = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.BC.W); } };
-	opcode_fn ld_xword_de = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.DE.W); } };
-	opcode_fn ld_xword_hl = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.HL.W); } };
-	opcode_fn ld_xword_ix = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.IX.W); } };
-	opcode_fn ld_xword_iy = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.IY.W); } };
-	opcode_fn ld_xword_sp = new opcode_fn() { public void handler() { M_WRMEM_WORD(M_RDMEM_OPCODE_WORD(), R.SP); } };
-	opcode_fn ld_a_xbc = new opcode_fn() { public void handler() { R.A = M_RDMEM(R.BC.W); } };
-	opcode_fn ld_a_xde = new opcode_fn() { public void handler() { R.A = M_RDMEM(R.DE.W); } };
-	opcode_fn ld_a_xhl = new opcode_fn() { public void handler() { R.A = M_RD_XHL(); } };
-	opcode_fn ld_a_xix = new opcode_fn() { public void handler() { R.A = M_RD_XIX(); } };
-	opcode_fn ld_a_xiy = new opcode_fn() { public void handler() { R.A = M_RD_XIY(); } };
-	opcode_fn ld_a_xbyte = new opcode_fn() { public void handler()
-	{ int i = M_RDMEM_OPCODE_WORD(); R.A = M_RDMEM(i); } };
-
-	opcode_fn ld_a_byte = new opcode_fn() { public void handler() { R.A = M_RDMEM_OPCODE(); } };
-	opcode_fn ld_b_byte = new opcode_fn() { public void handler() { R.BC.SetH(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_c_byte = new opcode_fn() { public void handler() { R.BC.SetL(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_d_byte = new opcode_fn() { public void handler() { R.DE.SetH(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_e_byte = new opcode_fn() { public void handler() { R.DE.SetL(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_h_byte = new opcode_fn() { public void handler() { R.HL.SetH(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_l_byte = new opcode_fn() { public void handler() { R.HL.SetL(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_ixh_byte = new opcode_fn() { public void handler() { R.IX.SetH(M_RDMEM_OPCODE()); } } ;
-        opcode_fn ld_ixl_byte = new opcode_fn() { public void handler() { R.IX.SetL(M_RDMEM_OPCODE()); } } ;
-        opcode_fn ld_iyh_byte = new opcode_fn() { public void handler() { R.IY.SetH(M_RDMEM_OPCODE()); } };
-	opcode_fn ld_iyl_byte = new opcode_fn() { public void handler() { R.IY.SetL(M_RDMEM_OPCODE()); } };
-
-	opcode_fn ld_b_xhl = new opcode_fn() { public void handler() { R.BC.SetH(M_RD_XHL()); } };
-	opcode_fn ld_c_xhl = new opcode_fn() { public void handler() { R.BC.SetL(M_RD_XHL()); } };
-	opcode_fn ld_d_xhl = new opcode_fn() { public void handler() { R.DE.SetH(M_RD_XHL()); } };
-	opcode_fn ld_e_xhl = new opcode_fn() { public void handler() { R.DE.SetL(M_RD_XHL()); } };
-	opcode_fn ld_h_xhl = new opcode_fn() { public void handler() { R.HL.SetH(M_RD_XHL()); } };
-	opcode_fn ld_l_xhl = new opcode_fn() { public void handler() { R.HL.SetL(M_RD_XHL()); } };
-	opcode_fn ld_b_xix = new opcode_fn() { public void handler() { R.BC.SetH(M_RD_XIX()); } };
-	opcode_fn ld_c_xix = new opcode_fn() { public void handler() { R.BC.SetL(M_RD_XIX()); } };
-	opcode_fn ld_d_xix = new opcode_fn() { public void handler() { R.DE.SetH(M_RD_XIX()); } };
-	opcode_fn ld_e_xix = new opcode_fn() { public void handler() { R.DE.SetL(M_RD_XIX()); } };
-	opcode_fn ld_h_xix = new opcode_fn() { public void handler() { R.HL.SetH(M_RD_XIX()); } };
-	opcode_fn ld_l_xix = new opcode_fn() { public void handler() { R.HL.SetL(M_RD_XIX()); } };
-	opcode_fn ld_b_xiy = new opcode_fn() { public void handler() { R.BC.SetH(M_RD_XIY()); } };
-	opcode_fn ld_c_xiy = new opcode_fn() { public void handler() { R.BC.SetL(M_RD_XIY()); } };
-	opcode_fn ld_d_xiy = new opcode_fn() { public void handler() { R.DE.SetH(M_RD_XIY()); } };
-	opcode_fn ld_e_xiy = new opcode_fn() { public void handler() { R.DE.SetL(M_RD_XIY()); } };
-	opcode_fn ld_h_xiy = new opcode_fn() { public void handler() { R.HL.SetH(M_RD_XIY()); } };
-	opcode_fn ld_l_xiy = new opcode_fn() { public void handler() { R.HL.SetL(M_RD_XIY()); } };
-	opcode_fn ld_a_a = new opcode_fn() { public void handler() 
-        {
-           System.out.println("Z80: Unsupported ld_a_a instruction!");
-        } };
-	opcode_fn ld_a_b = new opcode_fn() { public void handler() { R.A = R.BC.H; } };
-	opcode_fn ld_a_c = new opcode_fn() { public void handler() { R.A = R.BC.L; } };
-	opcode_fn ld_a_d = new opcode_fn() { public void handler() { R.A = R.DE.H; } };
-	opcode_fn ld_a_e = new opcode_fn() { public void handler() { R.A = R.DE.L; } };
-	opcode_fn ld_a_h = new opcode_fn() { public void handler() { R.A = R.HL.H; } };
-	opcode_fn ld_a_l = new opcode_fn() { public void handler() { R.A = R.HL.L; } };
-        opcode_fn ld_a_ixh = new opcode_fn() { public void handler() { R.A = R.IX.H; } } ;
-	opcode_fn ld_a_ixl = new opcode_fn() { public void handler() { R.A = R.IX.L; } };
-	opcode_fn ld_a_iyh = new opcode_fn() { public void handler() { R.A = R.IY.H; } };
-	opcode_fn ld_a_iyl = new opcode_fn() { public void handler() { R.A = R.IY.L; } };
-	opcode_fn ld_b_b = new opcode_fn() {	public void handler()
-        {
-            System.out.println("Z80: Unsupported ld_b_b instruction!");
-        } };
-
-	opcode_fn ld_b_a = new opcode_fn() {	public void handler() { R.BC.SetH(R.A); } };
-	opcode_fn ld_b_c = new opcode_fn() {	public void handler() { R.BC.SetH(R.BC.L); } };
-	opcode_fn ld_b_d = new opcode_fn() {	public void handler() { R.BC.SetH(R.DE.H); } };
-	opcode_fn ld_b_e = new opcode_fn() {	public void handler() { R.BC.SetH(R.DE.L); } };
-	opcode_fn ld_b_h = new opcode_fn() {	public void handler() { R.BC.SetH(R.HL.H); } };
-	opcode_fn ld_b_l = new opcode_fn() {	public void handler() { R.BC.SetH(R.HL.L); } };
-	opcode_fn ld_c_c = new opcode_fn() {	public void handler() 
-        {
-           System.out.println("Z80: Unsupported ld_c_c instruction!");
-        } };
-
-	opcode_fn ld_c_a = new opcode_fn() {	public void handler() { R.BC.SetL(R.A); } };
-	opcode_fn ld_c_b = new opcode_fn() {	public void handler() { R.BC.SetL(R.BC.H); } };
-	opcode_fn ld_c_d = new opcode_fn() {	public void handler() { R.BC.SetL(R.DE.H); } };
-	opcode_fn ld_c_e = new opcode_fn() {	public void handler() { R.BC.SetL(R.DE.L); } };
-	opcode_fn ld_c_h = new opcode_fn() {	public void handler() { R.BC.SetL(R.HL.H); } };
-        opcode_fn ld_c_l = new opcode_fn() {	public void handler() { R.BC.SetL(R.HL.L); } };
-	opcode_fn ld_c_ixh = new opcode_fn() { public void handler() { R.BC.SetL(R.IX.H); } } ;
-        opcode_fn ld_d_d = new opcode_fn() {	public void handler()
-        {
-           System.out.println("Z80: Unsupported ld_d_d instruction!");
-        } };
-
-	opcode_fn ld_d_a = new opcode_fn() {	public void handler() { R.DE.SetH(R.A); } };
-	opcode_fn ld_d_b = new opcode_fn() {	public void handler() { R.DE.SetH(R.BC.H);} };
-	opcode_fn ld_d_c = new opcode_fn() {	public void handler() { R.DE.SetH(R.BC.L); } };
-	opcode_fn ld_d_e = new opcode_fn() {	public void handler() { R.DE.SetH(R.DE.L); } };
-	opcode_fn ld_d_h = new opcode_fn() {	public void handler() { R.DE.SetH(R.HL.H); } };
-	opcode_fn ld_d_l = new opcode_fn() {	public void handler() { R.DE.SetH(R.HL.L); } };
-	opcode_fn ld_d_iyh = new opcode_fn() { public void handler() { R.DE.SetH(R.IY.H); } };
-	opcode_fn ld_d_iyl = new opcode_fn() { public void handler() { R.DE.SetH(R.IY.L); } };
-	opcode_fn ld_e_e = new opcode_fn() {	public void handler() 
-        {
-          System.out.println("Z80: Unsupported ld_e_e instruction!");
-        } };
-	opcode_fn ld_e_a = new opcode_fn() {	public void handler() { R.DE.SetL(R.A); } };
-	opcode_fn ld_e_b = new opcode_fn() {	public void handler() { R.DE.SetL(R.BC.H); } };
-	opcode_fn ld_e_c = new opcode_fn() {	public void handler() { R.DE.SetL(R.BC.L); } };
-	opcode_fn ld_e_d = new opcode_fn() {	public void handler() { R.DE.SetL(R.DE.H); } };
-	opcode_fn ld_e_h = new opcode_fn() {	public void handler() { R.DE.SetL(R.HL.H); } };
-	opcode_fn ld_e_l = new opcode_fn() {	public void handler() { R.DE.SetL(R.HL.L); } };
-	opcode_fn ld_e_ixl = new opcode_fn() { public void handler() { R.DE.SetL(R.IX.L); } } ;
-        opcode_fn ld_e_iyh = new opcode_fn() { public void handler() { R.DE.SetL(R.IY.H); } };
-	opcode_fn ld_e_iyl = new opcode_fn() { public void handler() { R.DE.SetL(R.IY.L); } };
-	opcode_fn ld_h_h = new opcode_fn() {	public void handler() 
-        {
-           System.out.println("Z80: Unsupported ld_h_h instruction!");
-        } };
-
-	opcode_fn ld_h_a = new opcode_fn() {	public void handler() { R.HL.SetH(R.A); } };
-	opcode_fn ld_h_b = new opcode_fn() {	public void handler() { R.HL.SetH(R.BC.H); } };
-	opcode_fn ld_h_c = new opcode_fn() {	public void handler() { R.HL.SetH(R.BC.L); } };
-	opcode_fn ld_h_d = new opcode_fn() {	public void handler() { R.HL.SetH(R.DE.H); } };
-	opcode_fn ld_h_e = new opcode_fn() {	public void handler() { R.HL.SetH(R.DE.L); } };
-	opcode_fn ld_h_l = new opcode_fn() {	public void handler() { R.HL.SetH(R.HL.L); } };
-	opcode_fn ld_l_l = new opcode_fn() {	public void handler() 
-        {
-            System.out.println("Z80: Unsupported ld_l_l instruction!");
-        } };
-
-        opcode_fn ld_l_a = new opcode_fn() {	public void handler() { R.HL.SetL(R.A); } };
-	opcode_fn ld_l_b = new opcode_fn() {	public void handler() { R.HL.SetL(R.BC.H); } };
-	opcode_fn ld_l_c = new opcode_fn() {	public void handler() { R.HL.SetL(R.BC.L); } };
-	opcode_fn ld_l_d = new opcode_fn() {	public void handler() { R.HL.SetL(R.DE.H); } };
-	opcode_fn ld_l_e = new opcode_fn() {	public void handler() { R.HL.SetL(R.DE.L); } };
-	opcode_fn ld_l_h = new opcode_fn() {	public void handler() { R.HL.SetL(R.HL.H); } };
-	opcode_fn ld_ixl_a = new opcode_fn() { public void handler() { R.IX.SetL(R.A); } };
-	opcode_fn ld_iyh_a = new opcode_fn() { public void handler() { R.IY.SetH(R.A); } };
-	opcode_fn ld_iyl_a = new opcode_fn() { public void handler() { R.IY.SetL(R.A); } };
-        opcode_fn ld_ixh_a = new opcode_fn() { public void handler() { R.IX.SetH(R.A); } } ;
-        opcode_fn ld_ixh_b = new opcode_fn() { public void handler() { R.IX.SetH(R.BC.H); } } ;
-        opcode_fn ld_ixh_c = new opcode_fn() { public void handler() { R.IX.SetH(R.BC.L); } } ;
-        opcode_fn ld_ixh_d = new opcode_fn() { public void handler() { R.IX.SetH(R.DE.H); } } ;
-        opcode_fn ld_ixh_e = new opcode_fn() { public void handler() { R.IX.SetH(R.DE.L); } } ;
-
-	opcode_fn ld_bc_xword = new opcode_fn() { public void handler() { R.BC.SetW(M_RDMEM_WORD(M_RDMEM_OPCODE_WORD())); } };
-	opcode_fn ld_bc_word = new opcode_fn() { public void handler() { R.BC.SetW(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_de_xword = new opcode_fn() { public void handler() { R.DE.SetW(M_RDMEM_WORD(M_RDMEM_OPCODE_WORD())); } };
-	opcode_fn ld_de_word = new opcode_fn() { public void handler() { R.DE.SetW(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_hl_xword = new opcode_fn() { public void handler() { R.HL.SetW(M_RDMEM_WORD(M_RDMEM_OPCODE_WORD())); } };
-	opcode_fn ld_hl_word = new opcode_fn() { public void handler() { R.HL.SetW(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_ix_xword = new opcode_fn() { public void handler() { R.IX.SetW(M_RDMEM_WORD(M_RDMEM_OPCODE_WORD())); } };
-	opcode_fn ld_ix_word = new opcode_fn() { public void handler() { R.IX.SetW(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_iy_xword = new opcode_fn() { public void handler() { R.IY.SetW(M_RDMEM_WORD(M_RDMEM_OPCODE_WORD())); } };
-	opcode_fn ld_iy_word = new opcode_fn() { public void handler() { R.IY.SetW(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_sp_xword = new opcode_fn() { public void handler() { R.SP = M_RDMEM_WORD(M_RDMEM_OPCODE_WORD()); } };
-	opcode_fn ld_sp_word = new opcode_fn() { public void handler() { R.SP = M_RDMEM_OPCODE_WORD(); } };
-	opcode_fn ld_sp_hl = new opcode_fn() {	public void handler() { R.SP = R.HL.W; } };
-	opcode_fn ld_sp_ix = new opcode_fn() {	public void handler() { R.SP = R.IX.W; } };
-	opcode_fn ld_sp_iy = new opcode_fn() {	public void handler() { R.SP = R.IY.W; } };
-	opcode_fn ld_a_i = new opcode_fn() {	public void handler()
-	{
-		R.A = R.I;
-		R.F = (R.F & C_FLAG) | ZSTable[R.I] | (R.IFF2 << 2);
-	} };
-	opcode_fn ld_i_a = new opcode_fn() {	public void handler() { R.I = R.A; } };
-	opcode_fn ld_a_r = new opcode_fn() {	public void handler()
-	{
-		 R.A = (R.R & 127) | (R.R2 & 128);
-		 R.F = (R.F & C_FLAG) | ZSTable[R.A] | (R.IFF2 << 2);
-	} };
-	opcode_fn ld_r_a = new opcode_fn() {	public void handler() { R.R = R.R2 = R.A; } };
-
-	opcode_fn ldd = new opcode_fn() { public void handler()
-	{
-		M_WRMEM(R.DE.W, M_RDMEM(R.HL.W));
-		R.DE.AddW(-1);
-		R.HL.AddW(-1);
-		R.BC.AddW(-1);
-		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
-	} };
-
-	opcode_fn lddr = new opcode_fn() { public void handler()
-	{
-		R.R -= 2;
-		do
-		{
-			R.R += 2;
-			M_WRMEM(R.DE.W, M_RDMEM(R.HL.W));
-			R.DE.AddW(-1);
-			R.HL.AddW(-1);
-			R.BC.AddW(-1);
-			z80_ICount[0] -= 21;
-		}
-		while (R.BC.W != 0 && z80_ICount[0] > 0);
-		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
-		if (R.BC.W != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else z80_ICount[0] += 5;
-	 
-	} };
-	opcode_fn ldi = new opcode_fn() { public void handler()
-	{
-		M_WRMEM(R.DE.W, M_RDMEM(R.HL.W));
-		R.DE.AddW(1);
-		R.HL.AddW(1);
-		R.BC.AddW(-1);
-		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
-	} };
-	opcode_fn ldir = new opcode_fn() { public void handler()
-	{
-		R.R -= 2;
-		do
-		{
-			R.R += 2;
-			M_WRMEM(R.DE.W, M_RDMEM(R.HL.W));
-			R.DE.AddW(1);
-			R.HL.AddW(1);
-			R.BC.AddW(-1);
-			z80_ICount[0] -= 21;
-		}
-		while (R.BC.W != 0 && z80_ICount[0] > 0);
-		R.F = (R.F & 0xE9) | (R.BC.W != 0 ? V_FLAG : 0);
-		if (R.BC.W != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else z80_ICount[0] += 5;
-	} };
-	opcode_fn neg = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = R.A;
-		R.A = 0;
-		M_SUB(i);
-	} };
-
-	opcode_fn nop = new opcode_fn() { public void handler() { } };
-
-	opcode_fn or_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_OR(i); } };
-	opcode_fn or_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_OR(i); } };
-	opcode_fn or_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_OR(i); } };
-	opcode_fn or_a = new opcode_fn() { public void handler() { R.F = ZSPTable[R.A]; } };
-	opcode_fn or_b = new opcode_fn() { public void handler() { M_OR(R.BC.H); } };
-	opcode_fn or_c = new opcode_fn() { public void handler() { M_OR(R.BC.L); } };
-	opcode_fn or_d = new opcode_fn() { public void handler() { M_OR(R.DE.H); } };
-	opcode_fn or_e = new opcode_fn() { public void handler() { M_OR(R.DE.L); } };
-	opcode_fn or_h = new opcode_fn() { public void handler() { M_OR(R.HL.H); } };
-	opcode_fn or_l = new opcode_fn() { public void handler() { M_OR(R.HL.L); } };
-	opcode_fn or_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_OR(i); } };
-
-	opcode_fn outi = new opcode_fn() { public void handler()
-	{
-		Z80_Out (R.BC.L, M_RDMEM(R.HL.W));
-		R.HL.AddW(1);
-		R.BC.AddH(-1);
-		R.F = (R.BC.H != 0) ? N_FLAG : (Z_FLAG | N_FLAG);
-	} };
-	opcode_fn otir = new opcode_fn() { public void handler()
-	{
-		R.R -= 2;
-		do
-		{
-			R.R += 2;
-			Z80_Out(R.BC.L, M_RDMEM(R.HL.W));
-			R.HL.AddW(1);
-			R.BC.AddH(-1);
-			z80_ICount[0] -= 21;
-		}
-		while (R.BC.H != 0 && z80_ICount[0] > 0);
-		R.F = (R.BC.H != 0) ? N_FLAG : (Z_FLAG | N_FLAG);
-		if (R.BC.H != 0) R.PC = (R.PC - 2) & 0xFFFF;
-		else z80_ICount[0] += 5;
-	} };
-
-	opcode_fn out_c_a = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.A); } };
-	opcode_fn out_c_b = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.BC.H); } };
-	opcode_fn out_c_d = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.DE.H); } };
-	opcode_fn out_c_e = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.DE.L); } };
-	opcode_fn out_c_h = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.HL.H); } };
-	opcode_fn out_c_l = new opcode_fn() { public void handler() { Z80_Out(R.BC.L, R.HL.L); } };
-	opcode_fn out_byte_a = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); Z80_Out(i, R.A); } };
-
-	opcode_fn pop_af = new opcode_fn() { public void handler() { R.AF = M_POP(); R.A = R.AF >> 8; R.F = R.AF & 0xFF; } };
-	opcode_fn pop_bc = new opcode_fn() { public void handler() { R.BC.SetW(M_POP()); } };
-	opcode_fn pop_de = new opcode_fn() { public void handler() { R.DE.SetW(M_POP()); } };
-	opcode_fn pop_hl = new opcode_fn() { public void handler() { R.HL.SetW(M_POP()); } };
-	opcode_fn pop_ix = new opcode_fn() { public void handler() { R.IX.SetW(M_POP()); } };
-	opcode_fn pop_iy = new opcode_fn() { public void handler() { R.IY.SetW(M_POP()); } };
-
-	opcode_fn push_af = new opcode_fn() { public void handler() { M_PUSH((R.A << 8) | R.F); } };
-	opcode_fn push_bc = new opcode_fn() { public void handler() { M_PUSH(R.BC.W); } };
-	opcode_fn push_de = new opcode_fn() { public void handler() { M_PUSH(R.DE.W); } };
-	opcode_fn push_hl = new opcode_fn() { public void handler() { M_PUSH(R.HL.W); } };
-	opcode_fn push_ix = new opcode_fn() { public void handler() { M_PUSH(R.IX.W); } };
-	opcode_fn push_iy = new opcode_fn() { public void handler() { M_PUSH(R.IY.W); } };
-
-	opcode_fn res_0_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(0, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_0_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(0, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_0_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(0, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_0_a = new opcode_fn() { public void handler() { R.A = M_RES(0, R.A); } };
-	opcode_fn res_0_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(0, R.BC.H)); } };
-	opcode_fn res_0_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(0, R.BC.L)); } };
-	opcode_fn res_0_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(0, R.DE.H)); } };
-	opcode_fn res_0_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(0, R.DE.L)); } };
-	opcode_fn res_0_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(0, R.HL.H)); } };
-	opcode_fn res_0_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(0, R.HL.L)); } };
-
-	opcode_fn res_1_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(1, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_1_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(1, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_1_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(1, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_1_a = new opcode_fn() { public void handler() { R.A = M_RES(1, R.A); } };
-	opcode_fn res_1_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(1, R.BC.H)); } };
-	opcode_fn res_1_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(1, R.BC.L)); } };
-	opcode_fn res_1_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(1, R.DE.H)); } };
-	opcode_fn res_1_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(1, R.DE.L)); } };
-	opcode_fn res_1_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(1, R.HL.H)); } };
-	opcode_fn res_1_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(1, R.HL.L)); } };
-
-	opcode_fn res_2_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(2, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_2_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(2, i);
-		M_WRMEM(j, i);
-	} };
-        opcode_fn res_2_xiy = new opcode_fn()
-        {
-            public void handler()
-            {
-                int j = M_XIY();
-                int i = M_RDMEM(j);
-                i = M_RES(2, i);
-                M_WRMEM(j, i);
-            }
-        };
-
-	opcode_fn res_2_a = new opcode_fn() { public void handler() { R.A = M_RES(2, R.A); } };
-	opcode_fn res_2_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(2, R.BC.H)); } };
-	opcode_fn res_2_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(2, R.BC.L)); } };
-	opcode_fn res_2_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(2, R.DE.H)); } };
-	opcode_fn res_2_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(2, R.DE.L)); } };
-	opcode_fn res_2_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(2, R.HL.H)); } };
-	opcode_fn res_2_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(2, R.HL.L)); } };
-
-	opcode_fn res_3_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(3, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_3_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(3, i);
-		M_WRMEM(j, i);
-	} };
-        opcode_fn res_3_xiy = new opcode_fn()
-        {
-            public void handler()
-            {
-                int j = M_XIY();
-                int i = M_RDMEM(j);
-                i = M_RES(3, i);
-                M_WRMEM(j, i);
-            }
-        };
-	opcode_fn res_3_a = new opcode_fn() { public void handler() { R.A = M_RES(3, R.A); } };
-	opcode_fn res_3_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(3, R.BC.H)); } };
-	opcode_fn res_3_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(3, R.BC.L)); } };
-	opcode_fn res_3_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(3, R.DE.H)); } };
-	opcode_fn res_3_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(3, R.DE.L)); } };
-	opcode_fn res_3_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(3, R.HL.H)); } };
-	opcode_fn res_3_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(3, R.HL.L)); } };
-
-	opcode_fn res_4_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(4, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_4_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(4, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_4_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(4, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_4_a = new opcode_fn() { public void handler() { R.A = M_RES(4, R.A); } };
-	opcode_fn res_4_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(4, R.BC.H)); } };
-	opcode_fn res_4_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(4, R.BC.L)); } };
-	opcode_fn res_4_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(4, R.DE.H)); } };
-	opcode_fn res_4_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(4, R.DE.L)); } };
-	opcode_fn res_4_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(4, R.HL.H)); } };
-	opcode_fn res_4_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(4, R.HL.L)); } };
-
-	opcode_fn res_5_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(5, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_5_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(5, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_5_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(5, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_5_a = new opcode_fn() { public void handler() { R.A = M_RES(5, R.A); } };
-	opcode_fn res_5_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(5, R.BC.H)); } };
-	opcode_fn res_5_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(5, R.BC.L)); } };
-	opcode_fn res_5_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(5, R.DE.H)); } };
-	opcode_fn res_5_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(5, R.DE.L)); } };
-	opcode_fn res_5_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(5, R.HL.H)); } };
-	opcode_fn res_5_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(5, R.HL.L)); } };
-
-	opcode_fn res_6_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(6, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_6_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(6, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_6_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(6, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_6_a = new opcode_fn() { public void handler() { R.A = M_RES(6, R.A); } };
-	opcode_fn res_6_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(6, R.BC.H)); } };
-	opcode_fn res_6_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(6, R.BC.L)); } };
-	opcode_fn res_6_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(6, R.DE.H)); } };
-	opcode_fn res_6_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(6, R.DE.L)); } };
-	opcode_fn res_6_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(6, R.HL.H)); } };
-	opcode_fn res_6_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(6, R.HL.L)); } };
-
-	opcode_fn res_7_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RES(7, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn res_7_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RES(7, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_7_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RES(7, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn res_7_a = new opcode_fn() { public void handler() { R.A = M_RES(7, R.A); } };
-	opcode_fn res_7_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RES(7, R.BC.H)); } };
-	opcode_fn res_7_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RES(7, R.BC.L)); } };
-	opcode_fn res_7_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RES(7, R.DE.H)); } };
-	opcode_fn res_7_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RES(7, R.DE.L)); } };
-	opcode_fn res_7_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RES(7, R.HL.H)); } };
-	opcode_fn res_7_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RES(7, R.HL.L)); } };
-
-	opcode_fn ret = new opcode_fn() { public void handler() { M_RET(); } };
-	opcode_fn ret_c = new opcode_fn() { public void handler() { if (M_C()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_m = new opcode_fn() { public void handler() { if (M_M()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_nc = new opcode_fn() { public void handler() { if (M_NC()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_nz = new opcode_fn() { public void handler() { if (M_NZ()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_p = new opcode_fn() { public void handler() { if (M_P()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_pe = new opcode_fn() { public void handler() { if (M_PE()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_po = new opcode_fn() { public void handler() { if (M_PO()) { M_RET(); } else { M_SKIP_RET(); } } };
-	opcode_fn ret_z = new opcode_fn() { public void handler() { if (M_Z()) { M_RET(); } else { M_SKIP_RET(); } } };
-
-	opcode_fn reti = new opcode_fn() { public void handler() { /*Z80_Reti();*/ M_RET(); } };
-	opcode_fn retn = new opcode_fn() { public void handler() { R.IFF1 = R.IFF2; /*Z80_Retn();*/ M_RET(); } };
-
-	opcode_fn rl_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RL(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn rl_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RL(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn rl_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_RL(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn rl_a = new opcode_fn() { public void handler() { R.A = M_RL(R.A); } };
-	opcode_fn rl_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RL(R.BC.H)); } };
-	opcode_fn rl_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RL(R.BC.L)); } };
-	opcode_fn rl_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RL(R.DE.H)); } };
-	opcode_fn rl_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RL(R.DE.L)); } };
-	opcode_fn rl_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RL(R.HL.H)); } };
-	opcode_fn rl_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RL(R.HL.L)); } };
-	opcode_fn rla = new opcode_fn() { public void handler() { M_RLA(); } };
-
-	opcode_fn rlc_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RLC(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn rlc_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RLC(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn rlc_a = new opcode_fn() { public void handler() { R.A = M_RLC(R.A); } };
-	opcode_fn rlc_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RLC(R.BC.H)); } };
-	opcode_fn rlc_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RLC(R.BC.L)); } };
-	opcode_fn rlc_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RLC(R.DE.H)); } };
-	opcode_fn rlc_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RLC(R.DE.L)); } };
-	opcode_fn rlc_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RLC(R.HL.H)); } };
-	opcode_fn rlc_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RLC(R.HL.L)); } };
-	opcode_fn rlca = new opcode_fn() { public void handler() { M_RLCA(); } };
-
-	opcode_fn rld = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		M_WRMEM(R.HL.W, ((i << 4) | (R.A & 0x0F)) & 0xFF);
-		R.A = ((R.A & 0xF0) | (i >> 4)) & 0xFF;
-		R.F = (R.F & C_FLAG) | ZSPTable[R.A];
-	} };
-
-	opcode_fn rr_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_RR(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn rr_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_RR(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn rr_a = new opcode_fn() { public void handler() { R.A = M_RR(R.A); } };
-	opcode_fn rr_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RR(R.BC.H)); } };
-	opcode_fn rr_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RR(R.BC.L)); } };
-	opcode_fn rr_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RR(R.DE.H)); } };
-	opcode_fn rr_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RR(R.DE.L)); } };
-	opcode_fn rr_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RR(R.HL.H)); } };
-	opcode_fn rr_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RR(R.HL.L)); } };
-	opcode_fn rra = new opcode_fn() { public void handler() { M_RRA(); } };
-
-	opcode_fn rrc_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-	 	i = M_RDMEM(R.HL.W);
-	 	i = M_RRC(i);
-	 	M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn rrc_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-	 	int j;
-	 	j = M_XIX();
-	 	i = M_RDMEM(j);
-	 	i = M_RRC(i);
-	 	M_WRMEM(j, i);
-	} };
-	opcode_fn rrc_a = new opcode_fn() { public void handler() { R.A = M_RRC(R.A); } };
-	opcode_fn rrc_b = new opcode_fn() { public void handler() { R.BC.SetH(M_RRC(R.BC.H)); } };
-	opcode_fn rrc_c = new opcode_fn() { public void handler() { R.BC.SetL(M_RRC(R.BC.L)); } };
-	opcode_fn rrc_d = new opcode_fn() { public void handler() { R.DE.SetH(M_RRC(R.DE.H)); } };
-	opcode_fn rrc_e = new opcode_fn() { public void handler() { R.DE.SetL(M_RRC(R.DE.L)); } };
-	opcode_fn rrc_h = new opcode_fn() { public void handler() { R.HL.SetH(M_RRC(R.HL.H)); } };
-	opcode_fn rrc_l = new opcode_fn() { public void handler() { R.HL.SetL(M_RRC(R.HL.L)); } };
-	opcode_fn rrca = new opcode_fn() { public void handler() { M_RRCA(); } };
-
-	opcode_fn rrd = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		M_WRMEM(R.HL.W, ((i >> 4) | (R.A << 4)) & 0xFF); 
-		R.A = ((R.A & 0xF0) | (i & 0x0F)) & 0xFF;
-		R.F = (R.F & C_FLAG) | ZSPTable[R.A];
-	} };
-	opcode_fn rst_00 = new opcode_fn() { public void handler() { M_RST(0x00); } };
-	opcode_fn rst_08 = new opcode_fn() { public void handler() { M_RST(0x08); } };
-	opcode_fn rst_10 = new opcode_fn() { public void handler() { M_RST(0x10); } };
-	opcode_fn rst_18 = new opcode_fn() { public void handler() { M_RST(0x18); } };
-	opcode_fn rst_20 = new opcode_fn() { public void handler() { M_RST(0x20); } };
-	opcode_fn rst_28 = new opcode_fn() { public void handler() { M_RST(0x28); } };
-	opcode_fn rst_30 = new opcode_fn() { public void handler() { M_RST(0x30); } };
-	opcode_fn rst_38 = new opcode_fn() { public void handler() { M_RST(0x38); } };
-
-	opcode_fn sbc_a_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_SBC(i); } };
-	opcode_fn sbc_a_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_SBC(i); } };
-	opcode_fn sbc_a_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_SBC(i); } };
-	opcode_fn sbc_a_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_SBC(i); } };
-	
-	opcode_fn sbc_a_a = new opcode_fn() { public void handler() { M_SBC(R.A); } };
-	opcode_fn sbc_a_b = new opcode_fn() { public void handler() { M_SBC(R.BC.H); } };
-	opcode_fn sbc_a_c = new opcode_fn() { public void handler() { M_SBC(R.BC.L); } };
-	opcode_fn sbc_a_d = new opcode_fn() { public void handler() { M_SBC(R.DE.H); } };
-	opcode_fn sbc_a_e = new opcode_fn() { public void handler() { M_SBC(R.DE.L); } };
-	opcode_fn sbc_a_h = new opcode_fn() { public void handler() { M_SBC(R.HL.H); } };
-	opcode_fn sbc_a_l = new opcode_fn() { public void handler() { M_SBC(R.HL.L); } };
-
-	opcode_fn sbc_hl_bc = new opcode_fn() { public void handler() { M_SBCW(R.BC.W); } };
-	opcode_fn sbc_hl_de = new opcode_fn() { public void handler() { M_SBCW(R.DE.W); } };
-	opcode_fn sbc_hl_hl = new opcode_fn() { public void handler() { M_SBCW(R.HL.W); } };
-	opcode_fn sbc_hl_sp = new opcode_fn() { public void handler() { M_SBCW(R.SP); } };
-
-	opcode_fn scf = new opcode_fn() { public void handler() { R.F = (R.F & 0xEC) | C_FLAG; } };
-
-	opcode_fn set_0_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(0, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_0_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(0, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_0_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(0, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_0_a = new opcode_fn() { public void handler() { R.A = M_SET(0, R.A); } };
-	opcode_fn set_0_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(0, R.BC.H)); } };
-	opcode_fn set_0_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(0, R.BC.L)); } };
-	opcode_fn set_0_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(0, R.DE.H)); } };
-	opcode_fn set_0_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(0, R.DE.L)); } };
-	opcode_fn set_0_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(0, R.HL.H)); } };
-	opcode_fn set_0_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(0, R.HL.L)); } };
-
-	opcode_fn set_1_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(1, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_1_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(1, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_1_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(1, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_1_a = new opcode_fn() { public void handler() { R.A = M_SET(1, R.A); } };
-	opcode_fn set_1_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(1, R.BC.H)); } };
-	opcode_fn set_1_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(1, R.BC.L)); } };
-	opcode_fn set_1_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(1, R.DE.H)); } };
-	opcode_fn set_1_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(1, R.DE.L)); } };
-	opcode_fn set_1_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(1, R.HL.H)); } };
-	opcode_fn set_1_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(1, R.HL.L)); } };
-
-	opcode_fn set_2_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(2, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_2_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(2, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_2_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(2, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_2_a = new opcode_fn() { public void handler() { R.A = M_SET(2, R.A); } };
-	opcode_fn set_2_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(2, R.BC.H)); } };
-	opcode_fn set_2_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(2, R.BC.L)); } };
-	opcode_fn set_2_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(2, R.DE.H)); } };
-	opcode_fn set_2_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(2, R.DE.L)); } };
-	opcode_fn set_2_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(2, R.HL.H)); } };
-	opcode_fn set_2_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(2, R.HL.L)); } };
-
-	opcode_fn set_3_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(3, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_3_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(3, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_3_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(3, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_3_a = new opcode_fn() { public void handler() { R.A = M_SET(3, R.A); } };
-	opcode_fn set_3_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(3, R.BC.H)); } };
-	opcode_fn set_3_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(3, R.BC.L)); } };
-	opcode_fn set_3_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(3, R.DE.H)); } };
-	opcode_fn set_3_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(3, R.DE.L)); } };
-	opcode_fn set_3_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(3, R.HL.H)); } };
-	opcode_fn set_3_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(3, R.HL.L)); } };
-
-	opcode_fn set_4_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(4, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_4_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(4, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_4_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(4, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_4_a = new opcode_fn() { public void handler() { R.A = M_SET(4, R.A); } };
-	opcode_fn set_4_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(4, R.BC.H)); } };
-	opcode_fn set_4_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(4, R.BC.L)); } };
-	opcode_fn set_4_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(4, R.DE.H)); } };
-	opcode_fn set_4_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(4, R.DE.L)); } };
-	opcode_fn set_4_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(4, R.HL.H)); } };
-	opcode_fn set_4_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(4, R.HL.L)); } };
-
-	opcode_fn set_5_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(5, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_5_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(5, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_5_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(5, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_5_a = new opcode_fn() { public void handler() { R.A = M_SET(5, R.A); } };
-	opcode_fn set_5_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(5, R.BC.H)); } };
-	opcode_fn set_5_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(5, R.BC.L)); } };
-	opcode_fn set_5_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(5, R.DE.H)); } };
-	opcode_fn set_5_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(5, R.DE.L)); } };
-	opcode_fn set_5_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(5, R.HL.H)); } };
-	opcode_fn set_5_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(5, R.HL.L)); } };
-
-	opcode_fn set_6_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(6, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_6_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(6, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_6_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(6, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_6_a = new opcode_fn() { public void handler() { R.A = M_SET(6, R.A); } };
-	opcode_fn set_6_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(6, R.BC.H)); } };
-	opcode_fn set_6_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(6, R.BC.L)); } };
-	opcode_fn set_6_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(6, R.DE.H)); } };
-	opcode_fn set_6_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(6, R.DE.L)); } };
-	opcode_fn set_6_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(6, R.HL.H)); } };
-	opcode_fn set_6_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(6, R.HL.L)); } };
-
-	opcode_fn set_7_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SET(7, i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn set_7_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SET(7, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_7_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SET(7, i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn set_7_a = new opcode_fn() { public void handler() { R.A = M_SET(7, R.A); } };
-	opcode_fn set_7_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SET(7, R.BC.H)); } };
-	opcode_fn set_7_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SET(7, R.BC.L)); } };
-	opcode_fn set_7_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SET(7, R.DE.H)); } };
-	opcode_fn set_7_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SET(7, R.DE.L)); } };
-	opcode_fn set_7_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SET(7, R.HL.H)); } };
-	opcode_fn set_7_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SET(7, R.HL.L)); } };
-
-	opcode_fn sla_xhl = new opcode_fn() { public void handler()
-	{
-		int i;
-		i = M_RDMEM(R.HL.W);
-		i = M_SLA(i);
-		M_WRMEM(R.HL.W, i);
-	} };
-	opcode_fn sla_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SLA(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn sla_xiy = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIY();
-		i = M_RDMEM(j);
-		i = M_SLA(i);
-		M_WRMEM(j, i);
-	} };
-
-	opcode_fn sla_a = new opcode_fn() { public void handler() { R.A = M_SLA(R.A); } };
-	opcode_fn sla_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SLA(R.BC.H)); } };
-	opcode_fn sla_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SLA(R.BC.L)); } };
-	opcode_fn sla_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SLA(R.DE.H)); } };
-	opcode_fn sla_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SLA(R.DE.L)); } };
-	opcode_fn sla_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SLA(R.HL.H)); } };
-	opcode_fn sla_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SLA(R.HL.L)); } };
-
-	opcode_fn sra_a = new opcode_fn() { public void handler() { R.A = M_SRA(R.A); } };
-	opcode_fn sra_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SRA(R.BC.H)); } };
-	opcode_fn sra_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SRA(R.BC.L)); } };
-	opcode_fn sra_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SRA(R.DE.H)); } };
-	opcode_fn sra_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SRA(R.DE.L)); } };
-	opcode_fn sra_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SRA(R.HL.H)); } };
-	opcode_fn sra_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SRA(R.HL.L)); } };
-
-	opcode_fn srl_xix = new opcode_fn() { public void handler()
-	{
-		int i;
-		int j;
-		j = M_XIX();
-		i = M_RDMEM(j);
-		i = M_SRL(i);
-		M_WRMEM(j, i);
-	} };
-	opcode_fn srl_a = new opcode_fn() { public void handler() { R.A = M_SRL(R.A); } };
-	opcode_fn srl_b = new opcode_fn() { public void handler() { R.BC.SetH(M_SRL(R.BC.H)); } };
-	opcode_fn srl_c = new opcode_fn() { public void handler() { R.BC.SetL(M_SRL(R.BC.L)); } };
-	opcode_fn srl_d = new opcode_fn() { public void handler() { R.DE.SetH(M_SRL(R.DE.H)); } };
-	opcode_fn srl_e = new opcode_fn() { public void handler() { R.DE.SetL(M_SRL(R.DE.L)); } };
-	opcode_fn srl_h = new opcode_fn() { public void handler() { R.HL.SetH(M_SRL(R.HL.H)); } };
-	opcode_fn srl_l = new opcode_fn() { public void handler() { R.HL.SetL(M_SRL(R.HL.L)); } };
-
-	opcode_fn sub_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_SUB(i); } };
-	opcode_fn sub_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_SUB(i); } };
-	opcode_fn sub_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_SUB(i); } };
-	opcode_fn sub_a = new opcode_fn() { public void handler() { R.A = 0; R.F = Z_FLAG | N_FLAG; } };
-	opcode_fn sub_b = new opcode_fn() { public void handler() { M_SUB(R.BC.H); } };
-	opcode_fn sub_c = new opcode_fn() { public void handler() { M_SUB(R.BC.L); } };
-	opcode_fn sub_d = new opcode_fn() { public void handler() { M_SUB(R.DE.H); } };
-	opcode_fn sub_e = new opcode_fn() { public void handler() { M_SUB(R.DE.L); } };
-	opcode_fn sub_h = new opcode_fn() { public void handler() { M_SUB(R.HL.H); } };
-	opcode_fn sub_l = new opcode_fn() { public void handler() { M_SUB(R.HL.L); } };
-        opcode_fn sub_ixh = new opcode_fn() { public void handler() { M_SUB(R.IX.H); } } ;
-        opcode_fn sub_ixl = new opcode_fn() { public void handler() { M_SUB(R.IX.L); } } ;
-	opcode_fn sub_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_SUB(i); } };
-
-	opcode_fn xor_xhl = new opcode_fn() { public void handler() { int i = M_RD_XHL(); M_XOR(i); } };
-	opcode_fn xor_xix = new opcode_fn() { public void handler() { int i = M_RD_XIX(); M_XOR(i); } };
-	opcode_fn xor_xiy = new opcode_fn() { public void handler() { int i = M_RD_XIY(); M_XOR(i); } } ;
-        opcode_fn xor_a = new opcode_fn() { public void handler() { R.A = 0; R.F = Z_FLAG | V_FLAG; } };
-	opcode_fn xor_b = new opcode_fn() { public void handler() { M_XOR(R.BC.H); } };
-	opcode_fn xor_c = new opcode_fn() { public void handler() { M_XOR(R.BC.L); } };
-	opcode_fn xor_d = new opcode_fn() { public void handler() { M_XOR(R.DE.H); } };
-	opcode_fn xor_e = new opcode_fn() { public void handler() { M_XOR(R.DE.L); } };
-	opcode_fn xor_h = new opcode_fn() { public void handler() { M_XOR(R.HL.H); } };
-	opcode_fn xor_l = new opcode_fn() { public void handler() { M_XOR(R.HL.L); } };
-	opcode_fn xor_byte = new opcode_fn() { public void handler() { int i = M_RDMEM_OPCODE(); M_XOR(i); } };
-        opcode_fn xor_ixh = new opcode_fn() { public void handler() { M_XOR(R.IX.H); } } ;
-	opcode_fn no_op = new opcode_fn() { public void handler()
-	{
-		R.PC = (R.PC - 1) & 0xFFFF;
-	} };
-
-  int[] cycles_main = { 4, 10, 7, 6, 4, 4, 7, 4, 4, 11, 7, 6, 4, 4, 7, 4, 8, 10, 7, 6, 4, 4, 7, 4, 7, 11, 7, 6, 4, 4, 7, 4, 7, 10, 16, 6, 4, 4, 7, 4, 7, 11, 16, 6, 4, 4, 7, 4, 7, 10, 13, 6, 11, 11, 10, 4, 7, 11, 13, 6, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 7, 7, 7, 7, 7, 7, 4, 7, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4, 5, 10, 10, 10, 10, 11, 7, 11, 5, 4, 10, 0, 10, 10, 7, 11, 5, 10, 10, 11, 10, 11, 7, 11, 5, 4, 10, 11, 10, 0, 7, 11, 5, 10, 10, 19, 10, 11, 7, 11, 5, 4, 10, 4, 10, 0, 7, 11, 5, 10, 10, 4, 10, 11, 7, 11, 5, 6, 10, 4, 10, 0, 7, 11 };
-
-  int[] cycles_cb = { 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 12, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8, 8, 8, 8, 8, 8, 8, 15, 8 };
-
-  int[] cycles_xx_cb = { 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 23, 0 };
-
-  int[] cycles_xx = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 14, 20, 10, 9, 9, 9, 0, 0, 15, 20, 10, 9, 9, 9, 0, 0, 0, 0, 0, 23, 23, 19, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 19, 19, 19, 19, 19, 19, 19, 19, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 9, 9, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 23, 0, 15, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0 };
-
-  int[] cycles_ed = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 12, 15, 20, 8, 8, 8, 9, 12, 12, 15, 20, 8, 8, 8, 9, 12, 12, 15, 20, 8, 8, 8, 9, 12, 12, 15, 20, 8, 8, 8, 9, 12, 12, 15, 20, 8, 8, 8, 18, 12, 12, 15, 20, 8, 8, 8, 18, 12, 12, 15, 20, 8, 8, 8, 0, 12, 12, 15, 20, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0, 16, 16, 16, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-
-	opcode_fn no_op_xx = new opcode_fn() { public void handler() {
-		R.PC = (R.PC + 1) & 0xFFFF;
-	} };
-        opcode_fn[] opcode_dd_cb = { no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, rlc_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, rrc_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, rl_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, rr_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, sla_xix, no_op_xx, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, srl_xix, no_op_xx, bit_0_xix, bit_0_xix, bit_0_xix, bit_0_xix, bit_0_xix, bit_0_xix, bit_0_xix, bit_0_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_1_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_2_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_3_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_4_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_5_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_6_xix, bit_7_xix, bit_7_xix, bit_7_xix, bit_7_xix, bit_7_xix, bit_7_xix, bit_7_xix, bit_7_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_0_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_1_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_2_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_3_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_4_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_5_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_6_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_7_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_0_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_1_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_2_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_3_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_4_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_5_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_6_xix, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_7_xix, no_op_xx };
-
-        opcode_fn[] opcode_fd_cb = { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, rl_xiy, no_op_xx, null, null, null, null, null, null, null, null, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, sla_xiy, no_op_xx, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_0_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_1_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_2_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_3_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_4_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_5_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_6_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, bit_7_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_0_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_1_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_2_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_3_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_4_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_5_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_6_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, res_7_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_0_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_1_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_2_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_3_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_4_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_5_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_6_xiy, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, no_op_xx, set_7_xiy, no_op_xx };
-
-
-	opcode_fn dd_cb = new opcode_fn() { public void handler()
-	{
-	 	int opcode=M_RDOP_ARG((R.PC+1)&0xFFFF);
-	 	z80_ICount[0] -= cycles_xx_cb[opcode];
-  		if (opcode_dd_cb[opcode] != null)
-  			opcode_dd_cb[opcode].handler();
-  		else
-  		{
-	  		System.out.println("DD CB PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));
-	  	}
-		R.PC = (R.PC + 1) & 0xFFFF;
-	} };
-	opcode_fn fd_cb = new opcode_fn() { public void handler()
-	{
-
-		int opcode=M_RDOP_ARG((R.PC+1)&0xFFFF);
-	 	z80_ICount[0] -= cycles_xx_cb[opcode];
-  		if (opcode_fd_cb[opcode] != null)
-  			opcode_fd_cb[opcode].handler();
-  		else
-  		{
-	  		System.out.println("FD CB PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));
-	  	}
-		R.PC = (R.PC + 1) & 0xFFFF;
-	} };
-
-        opcode_fn[] opcode_cb = { rlc_b, rlc_c, rlc_d, rlc_e, rlc_h, rlc_l, rlc_xhl, rlc_a, rrc_b, rrc_c, rrc_d, rrc_e, rrc_h, rrc_l, rrc_xhl, rrc_a, rl_b, rl_c, rl_d, rl_e, rl_h, rl_l, rl_xhl, rl_a, rr_b, rr_c, rr_d, rr_e, rr_h, rr_l, rr_xhl, rr_a, sla_b, sla_c, sla_d, sla_e, sla_h, sla_l, sla_xhl, sla_a, sra_b, sra_c, sra_d, sra_e, sra_h, sra_l, null, sra_a, null, null, null, null, null, null, null, null, srl_b, srl_c, srl_d, srl_e, srl_h, srl_l, null, srl_a, bit_0_b, bit_0_c, bit_0_d, bit_0_e, bit_0_h, bit_0_l, bit_0_xhl, bit_0_a, bit_1_b, bit_1_c, bit_1_d, bit_1_e, bit_1_h, bit_1_l, bit_1_xhl, bit_1_a, bit_2_b, bit_2_c, bit_2_d, bit_2_e, bit_2_h, bit_2_l, bit_2_xhl, bit_2_a, bit_3_b, bit_3_c, bit_3_d, bit_3_e, bit_3_h, bit_3_l, bit_3_xhl, bit_3_a, bit_4_b, bit_4_c, bit_4_d, bit_4_e, bit_4_h, bit_4_l, bit_4_xhl, bit_4_a, bit_5_b, bit_5_c, bit_5_d, bit_5_e, bit_5_h, bit_5_l, bit_5_xhl, bit_5_a, bit_6_b, bit_6_c, bit_6_d, bit_6_e, bit_6_h, bit_6_l, bit_6_xhl, bit_6_a, bit_7_b, bit_7_c, bit_7_d, bit_7_e, bit_7_h, bit_7_l, bit_7_xhl, bit_7_a, res_0_b, res_0_c, res_0_d, res_0_e, res_0_h, res_0_l, res_0_xhl, res_0_a, res_1_b, res_1_c, res_1_d, res_1_e, res_1_h, res_1_l, res_1_xhl, res_1_a, res_2_b, res_2_c, res_2_d, res_2_e, res_2_h, res_2_l, res_2_xhl, res_2_a, res_3_b, res_3_c, res_3_d, res_3_e, res_3_h, res_3_l, res_3_xhl, res_3_a, res_4_b, res_4_c, res_4_d, res_4_e, res_4_h, res_4_l, res_4_xhl, res_4_a, res_5_b, res_5_c, res_5_d, res_5_e, res_5_h, res_5_l, res_5_xhl, res_5_a, res_6_b, res_6_c, res_6_d, res_6_e, res_6_h, res_6_l, res_6_xhl, res_6_a, res_7_b, res_7_c, res_7_d, res_7_e, res_7_h, res_7_l, res_7_xhl, res_7_a, set_0_b, set_0_c, set_0_d, set_0_e, set_0_h, set_0_l, set_0_xhl, set_0_a, set_1_b, set_1_c, set_1_d, set_1_e, set_1_h, set_1_l, set_1_xhl, set_1_a, set_2_b, set_2_c, set_2_d, set_2_e, set_2_h, set_2_l, set_2_xhl, set_2_a, set_3_b, set_3_c, set_3_d, set_3_e, set_3_h, set_3_l, set_3_xhl, set_3_a, set_4_b, set_4_c, set_4_d, set_4_e, set_4_h, set_4_l, set_4_xhl, set_4_a, set_5_b, set_5_c, set_5_d, set_5_e, set_5_h, set_5_l, set_5_xhl, set_5_a, set_6_b, set_6_c, set_6_d, set_6_e, set_6_h, set_6_l, set_6_xhl, set_6_a, set_7_b, set_7_c, set_7_d, set_7_e, set_7_h, set_7_l, set_7_xhl, set_7_a };
-
-        opcode_fn[] opcode_dd = { no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, add_ix_bc, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, add_ix_de, no_op, no_op, no_op, no_op, no_op, no_op, null, ld_ix_word, ld_xword_ix, inc_ix, null, null, ld_ixh_byte, null, no_op, add_ix_ix, ld_ix_xword, dec_ix, inc_ixl, dec_ixl, ld_ixl_byte, no_op, no_op, no_op, no_op, no_op, inc_xix, dec_xix, ld_xix_byte, no_op, no_op, add_ix_sp, no_op, no_op, no_op, no_op, no_op, no_op, null, null, null, null, null, null, ld_b_xix, null, null, null, null, null, ld_c_ixh, null, ld_c_xix, null, null, null, null, null, null, null, ld_d_xix, null, null, null, null, null, null, ld_e_ixl, ld_e_xix, null, ld_ixh_b, ld_ixh_c, ld_ixh_d, ld_ixh_e, null, null, ld_h_xix, ld_ixh_a, null, null, null, null, null, null, ld_l_xix, ld_ixl_a, ld_xix_b, ld_xix_c, ld_xix_d, ld_xix_e, ld_xix_h, ld_xix_l, no_op, ld_xix_a, no_op, no_op, no_op, no_op, ld_a_ixh, ld_a_ixl, ld_a_xix, no_op, no_op, no_op, no_op, no_op, add_a_ixh, add_a_ixl, add_a_xix, no_op, null, null, null, null, null, null, adc_a_xix, null, no_op, no_op, no_op, no_op, sub_ixh, sub_ixl, sub_xix, no_op, null, null, null, null, null, null, sbc_a_xix, null, null, null, null, null, null, null, and_xix, null, null, null, null, null, xor_ixh, null, xor_xix, null, null, null, null, null, null, null, or_xix, null, null, null, null, null, null, null, cp_xix, null, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, dd_cb, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, pop_ix, no_op, ex_xsp_ix, no_op, push_ix, no_op, no_op, no_op, jp_ix, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, null, null, null, null, null, no_op, no_op, null };
-
-        opcode_fn[] opcode_ed = { nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, in_b_c, out_c_b, sbc_hl_bc, ld_xword_bc, neg, retn, im_0, ld_i_a, in_c_c, null, adc_hl_bc, ld_bc_xword, neg, reti, im_0, ld_r_a, null, out_c_d, sbc_hl_de, ld_xword_de, neg, retn, im_1, ld_a_i, in_e_c, out_c_e, adc_hl_de, ld_de_xword, neg, reti, im_2, ld_a_r, null, out_c_h, null, null, neg, retn, im_0, rrd, in_l_c, out_c_l, adc_hl_hl, null, neg, reti, im_0, rld, null, null, null, ld_xword_sp, neg, retn, im_1, null, in_a_c, out_c_a, null, ld_sp_xword, neg, reti, im_2, null, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, ldi, cpi, null, outi, null, null, null, null, ldd, null, null, null, null, null, null, null, ldir, cpir, null, otir, null, null, null, null, lddr, cpdr, null, null, null, null, null, null, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, nop, null, null, null, null, null, null, null, null };
-
-        opcode_fn[] opcode_fd = { no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, add_iy_bc, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, add_iy_de, no_op, no_op, no_op, no_op, no_op, no_op, null, ld_iy_word, ld_xword_iy, inc_iy, null, dec_iyh, ld_iyh_byte, null, null, null, ld_iy_xword, dec_iy, null, dec_iyl, ld_iyl_byte, null, no_op, no_op, no_op, no_op, inc_xiy, dec_xiy, ld_xiy_byte, no_op, no_op, add_iy_sp, no_op, no_op, no_op, no_op, no_op, no_op, null, null, null, null, null, null, ld_b_xiy, null, null, null, null, null, null, null, ld_c_xiy, null, null, null, null, null, ld_d_iyh, null, ld_d_xiy, null, null, null, no_op, null, null, ld_e_iyl, ld_e_xiy, null, null, null, null, null, null, null, ld_h_xiy, ld_iyh_a, null, null, null, null, null, null, ld_l_xiy, ld_iyl_a, ld_xiy_b, ld_xiy_c, ld_xiy_d, ld_xiy_e, ld_xiy_h, ld_xiy_l, no_op, ld_xiy_a, null, null, null, null, ld_a_iyh, ld_a_iyl, ld_a_xiy, null, null, null, null, null, add_a_iyh, null, add_a_xiy, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, sub_xiy, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, and_xiy, null, null, null, null, null, null, null, xor_xiy, null, null, null, null, null, null, null, or_xiy, null, null, null, null, null, null, null, cp_xiy, null, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, fd_cb, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, pop_iy, no_op, ex_xsp_iy, no_op, push_iy, no_op, no_op, no_op, jp_iy, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, no_op, ld_sp_iy, no_op, no_op, no_op, no_op, no_op, no_op };
-
-
-	opcode_fn cb = new opcode_fn() //TODO checked since it changed!
-        {
-            public void handler()
-	    {
-	 	
-	 	R.R += 1;
-		int opcode = M_RDOP(R.PC);
-		R.PC = (R.PC + 1) & 0xFFFF;
-	 	z80_ICount[0] -= cycles_cb[opcode];
-  		if (opcode_cb[opcode] != null)
-  			opcode_cb[opcode].handler();
-  		else
-  		{
-	  		System.out.println("CB PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));
-	  	}
-	    }
-        };
-
-	opcode_fn dd = new opcode_fn()//TODO checked since it changed!
-        {
-            public void handler()
-	    {
-	 	
-	 	R.R += 1;
-		int opcode = M_RDOP(R.PC);
-		R.PC = (R.PC + 1) & 0xFFFF;
-	 	z80_ICount[0] -= cycles_xx[opcode];
-  		if (opcode_dd[opcode] != null)
-  			opcode_dd[opcode].handler();
-  		else
-  		{
-	  		System.out.println("DD PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));
-	  	}
-	    }
-        };
-	opcode_fn ed = new opcode_fn()//TODO checked since it changed!
-        {
-            public void handler()
-	    {
-	 	
-	 	R.R += 1;
-		int opcode = M_RDOP(R.PC);
-		R.PC = (R.PC + 1) & 0xFFFF;
-	 	z80_ICount[0] -= cycles_ed[opcode];
-  		if (opcode_ed[opcode] != null)
-  			opcode_ed[opcode].handler();
-  		else
-  		{
-	  		System.out.println("ED PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));	
-	  	}
-	    }
-        };
-	opcode_fn fd = new opcode_fn() //TODO checked since it changed!
-        {
-            public void handler()
-	    {
-	 	
-	 	R.R += 1;
-		int opcode = M_RDOP(R.PC);
-		R.PC = (R.PC + 1) & 0xFFFF;
-	 	z80_ICount[0] -= cycles_xx[opcode];
-  		if (opcode_fd[opcode] != null)
-  			opcode_fd[opcode].handler();
-  		else
-  		{
-	  		System.out.println("FD PC = " + Integer.toHexString(R.PC) + " OPCODE = " + Integer.toHexString(opcode));
-	        }
-	    }
-        };
-	opcode_fn ei = new opcode_fn()//TODO checked since it changed!
-        {
-            public void handler()
-	    {
-		int opcode;
-		/* If interrupts were disabled, execute one more instruction and check the */
-		/* IRQ line. If not, simply set interrupt flip/flop 2                      */
-		if (R.IFF1 == 0)
-		{
-			R.IFF1 = R.IFF2 = 1;
-			R.R += 1;
-			opcode=M_RDOP(R.PC);
-			R.PC = (R.PC + 1) & 0xFFFF;
-			z80_ICount[0] -= cycles_main[opcode];
-			//System.out.println(Integer.toHexString(opcode));
-			opcode_main[opcode].handler();
-			Interrupt();
-		}
-		else
-			R.IFF2 = 1;
-	   }
-        };
-
-        opcode_fn[] opcode_main =
-        {
-            nop, ld_bc_word, ld_xbc_a, inc_bc, inc_b, dec_b, ld_b_byte, rlca,
-            ex_af_af, add_hl_bc, ld_a_xbc, dec_bc, inc_c, dec_c, ld_c_byte, rrca,
-            djnz, ld_de_word, ld_xde_a, inc_de, inc_d, dec_d, ld_d_byte, rla, jr,
-            add_hl_de, ld_a_xde, dec_de, inc_e, dec_e, ld_e_byte, rra, jr_nz,
-            ld_hl_word, ld_xword_hl, inc_hl, inc_h, dec_h, ld_h_byte, daa, jr_z,
-            add_hl_hl, ld_hl_xword, dec_hl, inc_l, dec_l, ld_l_byte, cpl, jr_nc,
-            ld_sp_word, ld_xbyte_a, inc_sp, inc_xhl, dec_xhl, ld_xhl_byte, scf,
-            jr_c, add_hl_sp, ld_a_xbyte, dec_sp, inc_a, dec_a, ld_a_byte, ccf,
-            ld_b_b, ld_b_c, ld_b_d, ld_b_e, ld_b_h, ld_b_l, ld_b_xhl, ld_b_a,
-            ld_c_b, ld_c_c, ld_c_d, ld_c_e, ld_c_h, ld_c_l, ld_c_xhl, ld_c_a,
-            ld_d_b, ld_d_c, ld_d_d, ld_d_e, ld_d_h, ld_d_l, ld_d_xhl, ld_d_a,
-            ld_e_b, ld_e_c, ld_e_d, ld_e_e, ld_e_h, ld_e_l, ld_e_xhl, ld_e_a,
-            ld_h_b, ld_h_c, ld_h_d, ld_h_e, ld_h_h, ld_h_l, ld_h_xhl, ld_h_a,
-            ld_l_b, ld_l_c, ld_l_d, ld_l_e, ld_l_h, ld_l_l, ld_l_xhl, ld_l_a,
-            ld_xhl_b, ld_xhl_c, ld_xhl_d, ld_xhl_e, ld_xhl_h, ld_xhl_l, halt,
-            ld_xhl_a, ld_a_b, ld_a_c, ld_a_d, ld_a_e, ld_a_h, ld_a_l, ld_a_xhl,
-            ld_a_a, add_a_b, add_a_c, add_a_d, add_a_e, add_a_h, add_a_l, add_a_xhl,
-            add_a_a, adc_a_b, adc_a_c, adc_a_d, adc_a_e, adc_a_h, adc_a_l, adc_a_xhl,
-            adc_a_a, sub_b, sub_c, sub_d, sub_e, sub_h, sub_l, sub_xhl, sub_a, sbc_a_b,
-            sbc_a_c, sbc_a_d, sbc_a_e, sbc_a_h, sbc_a_l, sbc_a_xhl, sbc_a_a, and_b,
-            and_c, and_d, and_e, and_h, and_l, and_xhl, and_a, xor_b, xor_c, xor_d,
-            xor_e, xor_h, xor_l, xor_xhl, xor_a, or_b, or_c, or_d, or_e, or_h, or_l,
-            or_xhl, or_a, cp_b, cp_c, cp_d, cp_e, cp_h, cp_l, cp_xhl, cp_a, ret_nz,
-            pop_bc, jp_nz, jp, call_nz, push_bc, add_a_byte, rst_00, ret_z, ret, jp_z,
-            cb, call_z, call, adc_a_byte, rst_08, ret_nc, pop_de, jp_nc, out_byte_a,
-            call_nc, push_de, sub_byte, rst_10, ret_c, exx, jp_c, in_a_byte, call_c, dd,
-            sbc_a_byte, rst_18, ret_po, pop_hl, jp_po, ex_xsp_hl, null, push_hl, and_byte,
-            rst_20, ret_pe, jp_hl, jp_pe, ex_de_hl, null, ed, xor_byte, rst_28, ret_p,
-            pop_af, jp_p, di, call_p, push_af, or_byte, rst_30, ret_m, ld_sp_hl, jp_m,
-            ei, call_m, fd, cp_byte, rst_38 };
-
-        int InitTables_virgin = 1;
-        boolean addresses[] = new boolean[0x10000];
-        boolean debug = false;
-	int oldPC;
-
-        public final int M_RDMEM(int A) { return Z80_RDMEM(A); }
-	public final void M_WRMEM(int A, int V) { Z80_WRMEM(A, V); }
-	public final char M_RDOP(int A) { return Z80_RDOP(A); }
-	public final char M_RDOP_ARG(int A) { return Z80_RDOP_ARG(A); }
-	public final char M_RDSTACK(int A) { return Z80_RDSTACK(A); }
-	public final void M_WRSTACK(int A, int V) { Z80_WRSTACK(A, V); }
-
-       public final void M_SKIP_CALL()
-       {
-           R.PC = (R.PC + 2) & 0xFFFF;
-       }
-	public final void M_SKIP_JP()
-        {
-            R.PC = (R.PC + 2) & 0xFFFF;
-        }
-	public final void M_SKIP_JR()
-        {
-            R.PC = (R.PC + 1) & 0xFFFF;
-        }
-	public final void M_SKIP_RET()////TODO check if i need to do something
-        {
-          //  System.out.println("Z80 M_SKIP_RET CALLED! (dunno if i must support that)");
-        }
-
-
-
-        final boolean M_C() { return (R.F & C_FLAG) != 0; }
-	final boolean M_NC() { return (!M_C()); }
-	final boolean M_Z() { return (R.F & Z_FLAG) != 0; }
-	final boolean M_NZ() { return (!M_Z()); }
-	final boolean M_M() { return (R.F & S_FLAG) != 0; }
-	final boolean M_P() { return (!M_M()); }
-	final boolean M_PE() { return (R.F & V_FLAG) != 0; }
-	final boolean M_PO() { return (!M_PE()); }
-
-	/* Get next opcode and increment program counter */
-	char M_RDMEM_OPCODE() //TODO check it i modified for 0.27
-	{
-		int retval = M_RDOP_ARG(R.PC);
-	 	R.PC = (R.PC + 1) & 0xFFFF;
-	 	return (char)retval;
-	}
-	char M_RDMEM_WORD(int A)
-	{
-		int i=M_RDMEM(A);
-		i+=M_RDMEM((A+1)&0xFFFF)<<8;
-		return (char) i;
-	}
-	void M_WRMEM_WORD(int A, int V)
-	{
-		M_WRMEM(A, V & 255);
-		M_WRMEM((A+1)&0xFFFF,V>>8);
-	}
-	char M_RDMEM_OPCODE_WORD()
-	{
-		int i=M_RDMEM_OPCODE();
-		i+=M_RDMEM_OPCODE()<<8;
-		return (char) i;
-	}
-	final int M_XIX()
-        {
-            return (R.IX.W + (byte) M_RDMEM_OPCODE()) & 0xFFFF;
-        }
-	final int M_XIY()
-        {
-            return (R.IY.W + (byte) M_RDMEM_OPCODE()) & 0xFFFF;
-        }
-	final int M_RD_XHL()
-        {
-            return M_RDMEM(R.HL.W);
-        }
-	final int M_RD_XIX()
-	{
-		int i = M_XIX();
-	 	return M_RDMEM(i);
-	}
-	final int M_RD_XIY()
-	{
-		int i = M_XIY();
-	 	return M_RDMEM(i);
-	}
-	final void M_WR_XIX(int a)
-	{
-		int i = M_XIX();
-	 	M_WRMEM(i, a);
-	}
-	final void M_WR_XIY(int a)
-	{
-		int i = M_XIY();
-	 	M_WRMEM(i, a);
-	}
-
-
-
-	/****************************************************************************/
-	/* Issue an interrupt if necessary                                          */
-	/****************************************************************************/
-        void Interrupt ()//rewrote for v0.29
-        {
-        /* Z80_IRQ = j;	* -NS- sticky interrupts *	* NS 970901 */
-
-        /* if (j==Z80_IGNORE_INT) return; */ /* NS 970904*/
-        /* if (j==Z80_NMI_INT || R.IFF1) */
-
-                if (R.pending_irq == Z80_IGNORE_INT && R.pending_nmi == 0) return;	/* NS 970904 */
-                if (R.pending_nmi != 0 || R.IFF1!=0)	/* NS 970904 */
-         {
-        /*Z80_IRQ = Z80_IGNORE_INT;*/	/* NS 970904 */
-          /* Clear interrupt flip-flop 1 */
-          R.IFF1=0;
-          /* Check if processor was halted */
-          if (R.HALT!=0)
-          {
-           R.PC = (R.PC + 1) & 0xFFFF;// ++R.PC.W.l;
-           R.HALT=0;
-          }
-        /*  if (j==Z80_NMI_INT)*/
-                if (R.pending_nmi != 0)	/* NS 970904 */
-          {
-                R.pending_nmi = 0;	/* NS 970904 */
-           M_PUSH (R.PC);
-           R.PC=0x0066;
-          }
-          else
-          {
-                  int j;
-
-                  j = R.pending_irq;	/* NS 970904 */
-                R.pending_irq = Z80_IGNORE_INT;	/* NS 970904 */
-
-           /* Interrupt mode 2. Call [R.I:databyte] */
-           if (R.IM==2)
-           {
-            M_PUSH (R.PC);
-            R.PC=M_RDMEM_WORD((j&255)|(R.I<<8));
-           }
-           else
-            /* Interrupt mode 1. RST 38h */
-            if (R.IM==1)
-            {
-             z80_ICount[0]-=cycles_main[0xFF];
-             opcode_main[0xFF].handler();
-            }
-            else
-            /* Interrupt mode 0. We check for CALL and JP instructions, if neither  */
-            /* of these were found we assume a 1 byte opcode was placed on the      */
-            /* databus                                                              */
-            {
-             switch (j&0xFF0000)
-             {
-              case 0xCD0000:	/* bugfix NS 970904 */
-               M_PUSH(R.PC);
-              case 0xC30000:	/* bugfix NS 970904 */
-               R.PC=j&0xFFFF;
-               break;
-              default:
-               j&=255;
-               z80_ICount[0]-=cycles_main[j];
-               opcode_main[j].handler();
-               break;
-             }
-            }
-          }
-         }
-        }
-	
-	public void Debug(String toto)
-	{
-		System.out.println(toto + " PC " + Integer.toHexString(oldPC) + " SP " + Integer.toHexString(R.SP) + " AF " + Integer.toHexString((R.A << 8) | R.F) + " BC " + Integer.toHexString(R.BC.W) + " DE " + Integer.toHexString(R.DE.W) + " HL " + Integer.toHexString(R.HL.W) + " IX " + Integer.toHexString(R.IX.W));
-
-        }
-
-	/****************************************************************************/
-	/* Set all registers to given values                                        */
-	/****************************************************************************/
-	public void Z80_SetRegs(Z80_Regs_OLD Regs)
-	{
-		R.AF = Regs.AF; R.PC = Regs.PC; R.SP = Regs.SP;
-		R.A = Regs.A; R.F = Regs.F;
-		R.BC.SetW(Regs.BC.W); R.DE.SetW(Regs.DE.W); R.HL.SetW(Regs.HL.W); R.IX.SetW(Regs.IX.W); R.IY.SetW(Regs.IY.W);
-		R.AF2 = Regs.AF2; R.BC2 = Regs.BC2; R.DE2 = Regs.DE2; R.HL2 = Regs.HL2;
-		R.IFF1 = Regs.IFF1; R.IFF2 = Regs.IFF2; R.HALT = Regs.HALT; R.IM = Regs.IM; R.I = Regs.I; R.R = Regs.R; R.R2 = Regs.R2;
-                R.pending_irq=Regs.pending_irq;
-                R.pending_nmi=Regs.pending_nmi;
-	}	
-	/****************************************************************************/
-	/* Get all registers in given buffer                                        */
-	/****************************************************************************/
-	public void Z80_GetRegs(Z80_Regs_OLD Regs)
-	{
-		Regs.AF = R.AF; Regs.PC = R.PC; Regs.SP = R.SP;
-		Regs.A = R.A; Regs.F = R.F;
-		Regs.BC.SetW(R.BC.W); Regs.DE.SetW(R.DE.W); Regs.HL.SetW(R.HL.W); Regs.IX.SetW(R.IX.W); Regs.IY.SetW(R.IY.W);
-		Regs.AF2 = R.AF2; Regs.BC2 = R.BC2; Regs.DE2 = R.DE2; Regs.HL2 = R.HL2;
-		Regs.IFF1 = R.IFF1; Regs.IFF2 = R.IFF2; Regs.HALT = R.HALT; Regs.IM = R.IM; Regs.I = R.I; Regs.R = R.R; Regs.R2 = R.R2;
-                Regs.pending_irq=R.pending_irq;
-                Regs.pending_nmi=R.pending_nmi;
-	}
-
-
-	/****************************************************************************/
-	/* Return program counter                                                   */
-	/****************************************************************************/
-	public int Z80_GetPC()
-	{
-		return R.PC;
-	}
-
-	public void Z80_Cause_Interrupt(int type)	/* NS 970904 */
-        {
-                if (type == Z80_NMI_INT)
-                        R.pending_nmi = 1;
-                else if (type != Z80_IGNORE_INT)
-                        R.pending_irq = type;
-        }
-
-	/****************************************************************************/
-	/* Execute IPeriod T-States. Return 0 if emulation should be stopped        */
-	/****************************************************************************/
-
-
-
-  public abstract interface opcode_fn
-  {
-    public abstract void handler();
-  }
-  public short[] DAATable=
-    {
-    68,
-    256,
-    512,
-    772,
-    1024,
-    1284,
-    1540,
-    1792,
-    2056,
-    2316,
-    4112,
-    4372,
-    4628,
-    4880,
-    5140,
-    5392,
-    4096,
-    4356,
-    4612,
-    4864,
-    5124,
-    5376,
-    5632,
-    5892,
-    6156,
-    6408,
-    8240,
-    8500,
-    8756,
-    9008,
-    9268,
-    9520,
-    8224,
-    8484,
-    8740,
-    8992,
-    9252,
-    9504,
-    9760,
-    10020,
-    10284,
-    10536,
-    12340,
-    12592,
-    12848,
-    13108,
-    13360,
-    13620,
-    12324,
-    12576,
-    12832,
-    13092,
-    13344,
-    13604,
-    13860,
-    14112,
-    14376,
-    14636,
-    16400,
-    16660,
-    16916,
-    17168,
-    17428,
-    17680,
-    16384,
-    16644,
-    16900,
-    17152,
-    17412,
-    17664,
-    17920,
-    18180,
-    18444,
-    18696,
-    20500,
-    20752,
-    21008,
-    21268,
-    21520,
-    21780,
-    20484,
-    20736,
-    20992,
-    21252,
-    21504,
-    21764,
-    22020,
-    22272,
-    22536,
-    22796,
-    24628,
-    24880,
-    25136,
-    25396,
-    25648,
-    25908,
-    24612,
-    24864,
-    25120,
-    25380,
-    25632,
-    25892,
-    26148,
-    26400,
-    26664,
-    26924,
-    28720,
-    28980,
-    29236,
-    29488,
-    29748,
-    30000,
-    28704,
-    28964,
-    29220,
-    29472,
-    29732,
-    29984,
-    30240,
-    30500,
-    30764,
-    31016,
-    -32624,
-    -32364,
-    -32108,
-    -31856,
-    -31596,
-    -31344,
-    -32640,
-    -32380,
-    -32124,
-    -31872,
-    -31612,
-    -31360,
-    -31104,
-    -30844,
-    -30580,
-    -30328,
-    -28524,
-    -28272,
-    -28016,
-    -27756,
-    -27504,
-    -27244,
-    -28540,
-    -28288,
-    -28032,
-    -27772,
-    -27520,
-    -27260,
-    -27004,
-    -26752,
-    -26488,
-    -26228,
-    85,
-    273,
-    529,
-    789,
-    1041,
-    1301,
-    69,
-    257,
-    513,
-    773,
-    1025,
-    1285,
-    1541,
-    1793,
-    2057,
-    2317,
-    4113,
-    4373,
-    4629,
-    4881,
-    5141,
-    5393,
-    4097,
-    4357,
-    4613,
-    4865,
-    5125,
-    5377,
-    5633,
-    5893,
-    6157,
-    6409,
-    8241,
-    8501,
-    8757,
-    9009,
-    9269,
-    9521,
-    8225,
-    8485,
-    8741,
-    8993,
-    9253,
-    9505,
-    9761,
-    10021,
-    10285,
-    10537,
-    12341,
-    12593,
-    12849,
-    13109,
-    13361,
-    13621,
-    12325,
-    12577,
-    12833,
-    13093,
-    13345,
-    13605,
-    13861,
-    14113,
-    14377,
-    14637,
-    16401,
-    16661,
-    16917,
-    17169,
-    17429,
-    17681,
-    16385,
-    16645,
-    16901,
-    17153,
-    17413,
-    17665,
-    17921,
-    18181,
-    18445,
-    18697,
-    20501,
-    20753,
-    21009,
-    21269,
-    21521,
-    21781,
-    20485,
-    20737,
-    20993,
-    21253,
-    21505,
-    21765,
-    22021,
-    22273,
-    22537,
-    22797,
-    24629,
-    24881,
-    25137,
-    25397,
-    25649,
-    25909,
-    24613,
-    24865,
-    25121,
-    25381,
-    25633,
-    25893,
-    26149,
-    26401,
-    26665,
-    26925,
-    28721,
-    28981,
-    29237,
-    29489,
-    29749,
-    30001,
-    28705,
-    28965,
-    29221,
-    29473,
-    29733,
-    29985,
-    30241,
-    30501,
-    30765,
-    31017,
-    -32623,
-    -32363,
-    -32107,
-    -31855,
-    -31595,
-    -31343,
-    -32639,
-    -32379,
-    -32123,
-    -31871,
-    -31611,
-    -31359,
-    -31103,
-    -30843,
-    -30579,
-    -30327,
-    -28523,
-    -28271,
-    -28015,
-    -27755,
-    -27503,
-    -27243,
-    -28539,
-    -28287,
-    -28031,
-    -27771,
-    -27519,
-    -27259,
-    -27003,
-    -26751,
-    -26487,
-    -26227,
-    -24395,
-    -24143,
-    -23887,
-    -23627,
-    -23375,
-    -23115,
-    -24411,
-    -24159,
-    -23903,
-    -23643,
-    -23391,
-    -23131,
-    -22875,
-    -22623,
-    -22359,
-    -22099,
-    -20303,
-    -20043,
-    -19787,
-    -19535,
-    -19275,
-    -19023,
-    -20319,
-    -20059,
-    -19803,
-    -19551,
-    -19291,
-    -19039,
-    -18783,
-    -18523,
-    -18259,
-    -18007,
-    -16235,
-    -15983,
-    -15727,
-    -15467,
-    -15215,
-    -14955,
-    -16251,
-    -15999,
-    -15743,
-    -15483,
-    -15231,
-    -14971,
-    -14715,
-    -14463,
-    -14199,
-    -13939,
-    -12143,
-    -11883,
-    -11627,
-    -11375,
-    -11115,
-    -10863,
-    -12159,
-    -11899,
-    -11643,
-    -11391,
-    -11131,
-    -10879,
-    -10623,
-    -10363,
-    -10099,
-    -9847,
-    -8015,
-    -7755,
-    -7499,
-    -7247,
-    -6987,
-    -6735,
-    -8031,
-    -7771,
-    -7515,
-    -7263,
-    -7003,
-    -6751,
-    -6495,
-    -6235,
-    -5971,
-    -5719,
-    -3915,
-    -3663,
-    -3407,
-    -3147,
-    -2895,
-    -2635,
-    -3931,
-    -3679,
-    -3423,
-    -3163,
-    -2911,
-    -2651,
-    -2395,
-    -2143,
-    -1879,
-    -1619,
-    85,
-    273,
-    529,
-    789,
-    1041,
-    1301,
-    69,
-    257,
-    513,
-    773,
-    1025,
-    1285,
-    1541,
-    1793,
-    2057,
-    2317,
-    4113,
-    4373,
-    4629,
-    4881,
-    5141,
-    5393,
-    4097,
-    4357,
-    4613,
-    4865,
-    5125,
-    5377,
-    5633,
-    5893,
-    6157,
-    6409,
-    8241,
-    8501,
-    8757,
-    9009,
-    9269,
-    9521,
-    8225,
-    8485,
-    8741,
-    8993,
-    9253,
-    9505,
-    9761,
-    10021,
-    10285,
-    10537,
-    12341,
-    12593,
-    12849,
-    13109,
-    13361,
-    13621,
-    12325,
-    12577,
-    12833,
-    13093,
-    13345,
-    13605,
-    13861,
-    14113,
-    14377,
-    14637,
-    16401,
-    16661,
-    16917,
-    17169,
-    17429,
-    17681,
-    16385,
-    16645,
-    16901,
-    17153,
-    17413,
-    17665,
-    17921,
-    18181,
-    18445,
-    18697,
-    20501,
-    20753,
-    21009,
-    21269,
-    21521,
-    21781,
-    20485,
-    20737,
-    20993,
-    21253,
-    21505,
-    21765,
-    22021,
-    22273,
-    22537,
-    22797,
-    24629,
-    24881,
-    25137,
-    25397,
-    25649,
-    25909,
-    1540,
-    1792,
-    2056,
-    2316,
-    2572,
-    2824,
-    3084,
-    3336,
-    3592,
-    3852,
-    4112,
-    4372,
-    4628,
-    4880,
-    5140,
-    5392,
-    5632,
-    5892,
-    6156,
-    6408,
-    6664,
-    6924,
-    7176,
-    7436,
-    7692,
-    7944,
-    8240,
-    8500,
-    8756,
-    9008,
-    9268,
-    9520,
-    9760,
-    10020,
-    10284,
-    10536,
-    10792,
-    11052,
-    11304,
-    11564,
-    11820,
-    12072,
-    12340,
-    12592,
-    12848,
-    13108,
-    13360,
-    13620,
-    13860,
-    14112,
-    14376,
-    14636,
-    14892,
-    15144,
-    15404,
-    15656,
-    15912,
-    16172,
-    16400,
-    16660,
-    16916,
-    17168,
-    17428,
-    17680,
-    17920,
-    18180,
-    18444,
-    18696,
-    18952,
-    19212,
-    19464,
-    19724,
-    19980,
-    20232,
-    20500,
-    20752,
-    21008,
-    21268,
-    21520,
-    21780,
-    22020,
-    22272,
-    22536,
-    22796,
-    23052,
-    23304,
-    23564,
-    23816,
-    24072,
-    24332,
-    24628,
-    24880,
-    25136,
-    25396,
-    25648,
-    25908,
-    26148,
-    26400,
-    26664,
-    26924,
-    27180,
-    27432,
-    27692,
-    27944,
-    28200,
-    28460,
-    28720,
-    28980,
-    29236,
-    29488,
-    29748,
-    30000,
-    30240,
-    30500,
-    30764,
-    31016,
-    31272,
-    31532,
-    31784,
-    32044,
-    32300,
-    32552,
-    -32624,
-    -32364,
-    -32108,
-    -31856,
-    -31596,
-    -31344,
-    -31104,
-    -30844,
-    -30580,
-    -30328,
-    -30072,
-    -29812,
-    -29560,
-    -29300,
-    -29044,
-    -28792,
-    -28524,
-    -28272,
-    -28016,
-    -27756,
-    -27504,
-    -27244,
-    -27004,
-    -26752,
-    -26488,
-    -26228,
-    -25972,
-    -25720,
-    -25460,
-    -25208,
-    -24952,
-    -24692,
-    85,
-    273,
-    529,
-    789,
-    1041,
-    1301,
-    1541,
-    1793,
-    2057,
-    2317,
-    2573,
-    2825,
-    3085,
-    3337,
-    3593,
-    3853,
-    4113,
-    4373,
-    4629,
-    4881,
-    5141,
-    5393,
-    5633,
-    5893,
-    6157,
-    6409,
-    6665,
-    6925,
-    7177,
-    7437,
-    7693,
-    7945,
-    8241,
-    8501,
-    8757,
-    9009,
-    9269,
-    9521,
-    9761,
-    10021,
-    10285,
-    10537,
-    10793,
-    11053,
-    11305,
-    11565,
-    11821,
-    12073,
-    12341,
-    12593,
-    12849,
-    13109,
-    13361,
-    13621,
-    13861,
-    14113,
-    14377,
-    14637,
-    14893,
-    15145,
-    15405,
-    15657,
-    15913,
-    16173,
-    16401,
-    16661,
-    16917,
-    17169,
-    17429,
-    17681,
-    17921,
-    18181,
-    18445,
-    18697,
-    18953,
-    19213,
-    19465,
-    19725,
-    19981,
-    20233,
-    20501,
-    20753,
-    21009,
-    21269,
-    21521,
-    21781,
-    22021,
-    22273,
-    22537,
-    22797,
-    23053,
-    23305,
-    23565,
-    23817,
-    24073,
-    24333,
-    24629,
-    24881,
-    25137,
-    25397,
-    25649,
-    25909,
-    26149,
-    26401,
-    26665,
-    26925,
-    27181,
-    27433,
-    27693,
-    27945,
-    28201,
-    28461,
-    28721,
-    28981,
-    29237,
-    29489,
-    29749,
-    30001,
-    30241,
-    30501,
-    30765,
-    31017,
-    31273,
-    31533,
-    31785,
-    32045,
-    32301,
-    32553,
-    -32623,
-    -32363,
-    -32107,
-    -31855,
-    -31595,
-    -31343,
-    -31103,
-    -30843,
-    -30579,
-    -30327,
-    -30071,
-    -29811,
-    -29559,
-    -29299,
-    -29043,
-    -28791,
-    -28523,
-    -28271,
-    -28015,
-    -27755,
-    -27503,
-    -27243,
-    -27003,
-    -26751,
-    -26487,
-    -26227,
-    -25971,
-    -25719,
-    -25459,
-    -25207,
-    -24951,
-    -24691,
-    -24395,
-    -24143,
-    -23887,
-    -23627,
-    -23375,
-    -23115,
-    -22875,
-    -22623,
-    -22359,
-    -22099,
-    -21843,
-    -21591,
-    -21331,
-    -21079,
-    -20823,
-    -20563,
-    -20303,
-    -20043,
-    -19787,
-    -19535,
-    -19275,
-    -19023,
-    -18783,
-    -18523,
-    -18259,
-    -18007,
-    -17751,
-    -17491,
-    -17239,
-    -16979,
-    -16723,
-    -16471,
-    -16235,
-    -15983,
-    -15727,
-    -15467,
-    -15215,
-    -14955,
-    -14715,
-    -14463,
-    -14199,
-    -13939,
-    -13683,
-    -13431,
-    -13171,
-    -12919,
-    -12663,
-    -12403,
-    -12143,
-    -11883,
-    -11627,
-    -11375,
-    -11115,
-    -10863,
-    -10623,
-    -10363,
-    -10099,
-    -9847,
-    -9591,
-    -9331,
-    -9079,
-    -8819,
-    -8563,
-    -8311,
-    -8015,
-    -7755,
-    -7499,
-    -7247,
-    -6987,
-    -6735,
-    -6495,
-    -6235,
-    -5971,
-    -5719,
-    -5463,
-    -5203,
-    -4951,
-    -4691,
-    -4435,
-    -4183,
-    -3915,
-    -3663,
-    -3407,
-    -3147,
-    -2895,
-    -2635,
-    -2395,
-    -2143,
-    -1879,
-    -1619,
-    -1363,
-    -1111,
-    -851,
-    -599,
-    -343,
-    -83,
-    85,
-    273,
-    529,
-    789,
-    1041,
-    1301,
-    1541,
-    1793,
-    2057,
-    2317,
-    2573,
-    2825,
-    3085,
-    3337,
-    3593,
-    3853,
-    4113,
-    4373,
-    4629,
-    4881,
-    5141,
-    5393,
-    5633,
-    5893,
-    6157,
-    6409,
-    6665,
-    6925,
-    7177,
-    7437,
-    7693,
-    7945,
-    8241,
-    8501,
-    8757,
-    9009,
-    9269,
-    9521,
-    9761,
-    10021,
-    10285,
-    10537,
-    10793,
-    11053,
-    11305,
-    11565,
-    11821,
-    12073,
-    12341,
-    12593,
-    12849,
-    13109,
-    13361,
-    13621,
-    13861,
-    14113,
-    14377,
-    14637,
-    14893,
-    15145,
-    15405,
-    15657,
-    15913,
-    16173,
-    16401,
-    16661,
-    16917,
-    17169,
-    17429,
-    17681,
-    17921,
-    18181,
-    18445,
-    18697,
-    18953,
-    19213,
-    19465,
-    19725,
-    19981,
-    20233,
-    20501,
-    20753,
-    21009,
-    21269,
-    21521,
-    21781,
-    22021,
-    22273,
-    22537,
-    22797,
-    23053,
-    23305,
-    23565,
-    23817,
-    24073,
-    24333,
-    24629,
-    24881,
-    25137,
-    25397,
-    25649,
-    25909,
-    70,
-    258,
-    514,
-    774,
-    1026,
-    1286,
-    1542,
-    1794,
-    2058,
-    2318,
-    1026,
-    1286,
-    1542,
-    1794,
-    2058,
-    2318,
-    4098,
-    4358,
-    4614,
-    4866,
-    5126,
-    5378,
-    5634,
-    5894,
-    6158,
-    6410,
-    5126,
-    5378,
-    5634,
-    5894,
-    6158,
-    6410,
-    8226,
-    8486,
-    8742,
-    8994,
-    9254,
-    9506,
-    9762,
-    10022,
-    10286,
-    10538,
-    9254,
-    9506,
-    9762,
-    10022,
-    10286,
-    10538,
-    12326,
-    12578,
-    12834,
-    13094,
-    13346,
-    13606,
-    13862,
-    14114,
-    14378,
-    14638,
-    13346,
-    13606,
-    13862,
-    14114,
-    14378,
-    14638,
-    16386,
-    16646,
-    16902,
-    17154,
-    17414,
-    17666,
-    17922,
-    18182,
-    18446,
-    18698,
-    17414,
-    17666,
-    17922,
-    18182,
-    18446,
-    18698,
-    20486,
-    20738,
-    20994,
-    21254,
-    21506,
-    21766,
-    22022,
-    22274,
-    22538,
-    22798,
-    21506,
-    21766,
-    22022,
-    22274,
-    22538,
-    22798,
-    24614,
-    24866,
-    25122,
-    25382,
-    25634,
-    25894,
-    26150,
-    26402,
-    26666,
-    26926,
-    25634,
-    25894,
-    26150,
-    26402,
-    26666,
-    26926,
-    28706,
-    28966,
-    29222,
-    29474,
-    29734,
-    29986,
-    30242,
-    30502,
-    30766,
-    31018,
-    29734,
-    29986,
-    30242,
-    30502,
-    30766,
-    31018,
-    -32638,
-    -32378,
-    -32122,
-    -31870,
-    -31610,
-    -31358,
-    -31102,
-    -30842,
-    -30578,
-    -30326,
-    -31610,
-    -31358,
-    -31102,
-    -30842,
-    -30578,
-    -30326,
-    -28538,
-    -28286,
-    -28030,
-    -27770,
-    -27518,
-    -27258,
-    -27002,
-    -26750,
-    -26486,
-    -26226,
-    13347,
-    13607,
-    13863,
-    14115,
-    14379,
-    14639,
-    16387,
-    16647,
-    16903,
-    17155,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    20487,
-    20739,
-    20995,
-    21255,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    24615,
-    24867,
-    25123,
-    25383,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    28707,
-    28967,
-    29223,
-    29475,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    -32637,
-    -32377,
-    -32121,
-    -31869,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -28537,
-    -28285,
-    -28029,
-    -27769,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225,
-    -24409,
-    -24157,
-    -23901,
-    -23641,
-    -23389,
-    -23129,
-    -22873,
-    -22621,
-    -22357,
-    -22097,
-    -23389,
-    -23129,
-    -22873,
-    -22621,
-    -22357,
-    -22097,
-    -20317,
-    -20057,
-    -19801,
-    -19549,
-    -19289,
-    -19037,
-    -18781,
-    -18521,
-    -18257,
-    -18005,
-    -19289,
-    -19037,
-    -18781,
-    -18521,
-    -18257,
-    -18005,
-    -16249,
-    -15997,
-    -15741,
-    -15481,
-    -15229,
-    -14969,
-    -14713,
-    -14461,
-    -14197,
-    -13937,
-    -15229,
-    -14969,
-    -14713,
-    -14461,
-    -14197,
-    -13937,
-    -12157,
-    -11897,
-    -11641,
-    -11389,
-    -11129,
-    -10877,
-    -10621,
-    -10361,
-    -10097,
-    -9845,
-    -11129,
-    -10877,
-    -10621,
-    -10361,
-    -10097,
-    -9845,
-    -8029,
-    -7769,
-    -7513,
-    -7261,
-    -7001,
-    -6749,
-    -6493,
-    -6233,
-    -5969,
-    -5717,
-    -7001,
-    -6749,
-    -6493,
-    -6233,
-    -5969,
-    -5717,
-    -3929,
-    -3677,
-    -3421,
-    -3161,
-    -2909,
-    -2649,
-    -2393,
-    -2141,
-    -1877,
-    -1617,
-    -2909,
-    -2649,
-    -2393,
-    -2141,
-    -1877,
-    -1617,
-    71,
-    259,
-    515,
-    775,
-    1027,
-    1287,
-    1543,
-    1795,
-    2059,
-    2319,
-    1027,
-    1287,
-    1543,
-    1795,
-    2059,
-    2319,
-    4099,
-    4359,
-    4615,
-    4867,
-    5127,
-    5379,
-    5635,
-    5895,
-    6159,
-    6411,
-    5127,
-    5379,
-    5635,
-    5895,
-    6159,
-    6411,
-    8227,
-    8487,
-    8743,
-    8995,
-    9255,
-    9507,
-    9763,
-    10023,
-    10287,
-    10539,
-    9255,
-    9507,
-    9763,
-    10023,
-    10287,
-    10539,
-    12327,
-    12579,
-    12835,
-    13095,
-    13347,
-    13607,
-    13863,
-    14115,
-    14379,
-    14639,
-    13347,
-    13607,
-    13863,
-    14115,
-    14379,
-    14639,
-    16387,
-    16647,
-    16903,
-    17155,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    20487,
-    20739,
-    20995,
-    21255,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    24615,
-    24867,
-    25123,
-    25383,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    28707,
-    28967,
-    29223,
-    29475,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    -32637,
-    -32377,
-    -32121,
-    -31869,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -28537,
-    -28285,
-    -28029,
-    -27769,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225,
-    -1346,
-    -1094,
-    -834,
-    -582,
-    -326,
-    -66,
-    70,
-    258,
-    514,
-    774,
-    1026,
-    1286,
-    1542,
-    1794,
-    2058,
-    2318,
-    2590,
-    2842,
-    3102,
-    3354,
-    3610,
-    3870,
-    4098,
-    4358,
-    4614,
-    4866,
-    5126,
-    5378,
-    5634,
-    5894,
-    6158,
-    6410,
-    6682,
-    6942,
-    7194,
-    7454,
-    7710,
-    7962,
-    8226,
-    8486,
-    8742,
-    8994,
-    9254,
-    9506,
-    9762,
-    10022,
-    10286,
-    10538,
-    10810,
-    11070,
-    11322,
-    11582,
-    11838,
-    12090,
-    12326,
-    12578,
-    12834,
-    13094,
-    13346,
-    13606,
-    13862,
-    14114,
-    14378,
-    14638,
-    14910,
-    15162,
-    15422,
-    15674,
-    15930,
-    16190,
-    16386,
-    16646,
-    16902,
-    17154,
-    17414,
-    17666,
-    17922,
-    18182,
-    18446,
-    18698,
-    18970,
-    19230,
-    19482,
-    19742,
-    19998,
-    20250,
-    20486,
-    20738,
-    20994,
-    21254,
-    21506,
-    21766,
-    22022,
-    22274,
-    22538,
-    22798,
-    23070,
-    23322,
-    23582,
-    23834,
-    24090,
-    24350,
-    24614,
-    24866,
-    25122,
-    25382,
-    25634,
-    25894,
-    26150,
-    26402,
-    26666,
-    26926,
-    27198,
-    27450,
-    27710,
-    27962,
-    28218,
-    28478,
-    28706,
-    28966,
-    29222,
-    29474,
-    29734,
-    29986,
-    30242,
-    30502,
-    30766,
-    31018,
-    31290,
-    31550,
-    31802,
-    32062,
-    32318,
-    32570,
-    -32638,
-    -32378,
-    -32122,
-    -31870,
-    -31610,
-    -31358,
-    -31102,
-    -30842,
-    -30578,
-    -30326,
-    -30054,
-    -29794,
-    -29542,
-    -29282,
-    -29026,
-    -28774,
-    -28538,
-    -28286,
-    -28030,
-    -27770,
-    13347,
-    13607,
-    13863,
-    14115,
-    14379,
-    14639,
-    14911,
-    15163,
-    15423,
-    15675,
-    15931,
-    16191,
-    16387,
-    16647,
-    16903,
-    17155,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    18971,
-    19231,
-    19483,
-    19743,
-    19999,
-    20251,
-    20487,
-    20739,
-    20995,
-    21255,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    23071,
-    23323,
-    23583,
-    23835,
-    24091,
-    24351,
-    24615,
-    24867,
-    25123,
-    25383,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    27199,
-    27451,
-    27711,
-    27963,
-    28219,
-    28479,
-    28707,
-    28967,
-    29223,
-    29475,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    31291,
-    31551,
-    31803,
-    32063,
-    32319,
-    32571,
-    -32637,
-    -32377,
-    -32121,
-    -31869,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -30053,
-    -29793,
-    -29541,
-    -29281,
-    -29025,
-    -28773,
-    -28537,
-    -28285,
-    -28029,
-    -27769,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225,
-    -25953,
-    -25701,
-    -25441,
-    -25189,
-    -24933,
-    -24673,
-    -24409,
-    -24157,
-    -23901,
-    -23641,
-    -23389,
-    -23129,
-    -22873,
-    -22621,
-    -22357,
-    -22097,
-    -21825,
-    -21573,
-    -21313,
-    -21061,
-    -20805,
-    -20545,
-    -20317,
-    -20057,
-    -19801,
-    -19549,
-    -19289,
-    -19037,
-    -18781,
-    -18521,
-    -18257,
-    -18005,
-    -17733,
-    -17473,
-    -17221,
-    -16961,
-    -16705,
-    -16453,
-    -16249,
-    -15997,
-    -15741,
-    -15481,
-    -15229,
-    -14969,
-    -14713,
-    -14461,
-    -14197,
-    -13937,
-    -13665,
-    -13413,
-    -13153,
-    -12901,
-    -12645,
-    -12385,
-    -12157,
-    -11897,
-    -11641,
-    -11389,
-    -11129,
-    -10877,
-    -10621,
-    -10361,
-    -10097,
-    -9845,
-    -9573,
-    -9313,
-    -9061,
-    -8801,
-    -8545,
-    -8293,
-    -8029,
-    -7769,
-    -7513,
-    -7261,
-    -7001,
-    -6749,
-    -6493,
-    -6233,
-    -5969,
-    -5717,
-    -5445,
-    -5185,
-    -4933,
-    -4673,
-    -4417,
-    -4165,
-    -3929,
-    -3677,
-    -3421,
-    -3161,
-    -2909,
-    -2649,
-    -2393,
-    -2141,
-    -1877,
-    -1617,
-    -1345,
-    -1093,
-    -833,
-    -581,
-    -325,
-    -65,
-    71,
-    259,
-    515,
-    775,
-    1027,
-    1287,
-    1543,
-    1795,
-    2059,
-    2319,
-    2591,
-    2843,
-    3103,
-    3355,
-    3611,
-    3871,
-    4099,
-    4359,
-    4615,
-    4867,
-    5127,
-    5379,
-    5635,
-    5895,
-    6159,
-    6411,
-    6683,
-    6943,
-    7195,
-    7455,
-    7711,
-    7963,
-    8227,
-    8487,
-    8743,
-    8995,
-    9255,
-    9507,
-    9763,
-    10023,
-    10287,
-    10539,
-    10811,
-    11071,
-    11323,
-    11583,
-    11839,
-    12091,
-    12327,
-    12579,
-    12835,
-    13095,
-    13347,
-    13607,
-    13863,
-    14115,
-    14379,
-    14639,
-    14911,
-    15163,
-    15423,
-    15675,
-    15931,
-    16191,
-    16387,
-    16647,
-    16903,
-    17155,
-    17415,
-    17667,
-    17923,
-    18183,
-    18447,
-    18699,
-    18971,
-    19231,
-    19483,
-    19743,
-    19999,
-    20251,
-    20487,
-    20739,
-    20995,
-    21255,
-    21507,
-    21767,
-    22023,
-    22275,
-    22539,
-    22799,
-    23071,
-    23323,
-    23583,
-    23835,
-    24091,
-    24351,
-    24615,
-    24867,
-    25123,
-    25383,
-    25635,
-    25895,
-    26151,
-    26403,
-    26667,
-    26927,
-    27199,
-    27451,
-    27711,
-    27963,
-    28219,
-    28479,
-    28707,
-    28967,
-    29223,
-    29475,
-    29735,
-    29987,
-    30243,
-    30503,
-    30767,
-    31019,
-    31291,
-    31551,
-    31803,
-    32063,
-    32319,
-    32571,
-    -32637,
-    -32377,
-    -32121,
-    -31869,
-    -31609,
-    -31357,
-    -31101,
-    -30841,
-    -30577,
-    -30325,
-    -30053,
-    -29793,
-    -29541,
-    -29281,
-    -29025,
-    -28773,
-    -28537,
-    -28285,
-    -28029,
-    -27769,
-    -27517,
-    -27257,
-    -27001,
-    -26749,
-    -26485,
-    -26225
-    };
 }
