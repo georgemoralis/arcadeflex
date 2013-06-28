@@ -160,6 +160,15 @@ public static class ExtMemory{
             int start, end,region;
             UBytePtr data;
         }
+
+
+/* ----- opcode reading ----- */
+public static char cpu_readop(int A) { return OP_ROM.read(A); }
+//#define cpu_readop16(A)		READ_WORD(&OP_ROM[A])
+//#define cpu_readop_arg(A)	(OP_RAM[A])
+//#define cpu_readop_arg16(A)	READ_WORD(&OP_RAM[A])
+
+
 /* ----- bank switching for CPU cores ----- */
 public static void change_pc_generic(int pc, int abits2, int abitsmin, int shift, setopbase setop)
 {

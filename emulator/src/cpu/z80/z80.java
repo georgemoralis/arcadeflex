@@ -34,6 +34,9 @@ public class z80 extends cpu_interface {
         icount = z80_ICount;
         //intialize interfaces
         burn = burn_function;
+        
+        //setup opcode tables
+        SetupTables();
     }
     /*TODO*////* execute main opcodes inside a big switch statement */
     /*TODO*///#ifndef BIG_SWITCH
@@ -112,7 +115,7 @@ public class z80 extends cpu_interface {
          L = (L + val) & 0xFF;
          D = (H << 8) | L;
       }
-      public void AddW(int val)
+      public void AddD(int val)
       {
          D = (D + val) & 0xFFFF;
          H = D >> 8 & 0xFF;
@@ -255,25 +258,25 @@ public class z80 extends cpu_interface {
     /*TODO*///};
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*///static UINT8 cc_op[0x100] = {
-    /*TODO*/// 4,10, 7, 6, 4, 4, 7, 4, 4,11, 7, 6, 4, 4, 7, 4,
-    /*TODO*/// 8,10, 7, 6, 4, 4, 7, 4,12,11, 7, 6, 4, 4, 7, 4,
-    /*TODO*/// 7,10,16, 6, 4, 4, 7, 4, 7,11,16, 6, 4, 4, 7, 4,
-    /*TODO*/// 7,10,13, 6,11,11,10, 4, 7,11,13, 6, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 7, 7, 7, 7, 7, 7, 4, 7, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
-    /*TODO*/// 5,10,10,10,10,11, 7,11, 5, 4,10, 0,10,10, 7,11,
-    /*TODO*/// 5,10,10,11,10,11, 7,11, 5, 4,10,11,10, 0, 7,11,
-    /*TODO*/// 5,10,10,19,10,11, 7,11, 5, 4,10, 4,10, 0, 7,11,
-    /*TODO*/// 5,10,10, 4,10,11, 7,11, 5, 6,10, 4,10, 0, 7,11};
-    /*TODO*///
-    /*TODO*///
+    static int cc_op[] = {
+     4,10, 7, 6, 4, 4, 7, 4, 4,11, 7, 6, 4, 4, 7, 4,
+     8,10, 7, 6, 4, 4, 7, 4,12,11, 7, 6, 4, 4, 7, 4,
+     7,10,16, 6, 4, 4, 7, 4, 7,11,16, 6, 4, 4, 7, 4,
+     7,10,13, 6,11,11,10, 4, 7,11,13, 6, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     7, 7, 7, 7, 7, 7, 4, 7, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     4, 4, 4, 4, 4, 4, 7, 4, 4, 4, 4, 4, 4, 4, 7, 4,
+     5,10,10,10,10,11, 7,11, 5, 4,10, 0,10,10, 7,11,
+     5,10,10,11,10,11, 7,11, 5, 4,10,11,10, 0, 7,11,
+     5,10,10,19,10,11, 7,11, 5, 4,10, 4,10, 0, 7,11,
+     5,10,10, 4,10,11, 7,11, 5, 6,10, 4,10, 0, 7,11};
+    
+    
     /*TODO*///static UINT8 cc_cb[0x100] = {
     /*TODO*/// 8, 8, 8, 8, 8, 8,15, 8, 8, 8, 8, 8, 8, 8,15, 8,
     /*TODO*/// 8, 8, 8, 8, 8, 8,15, 8, 8, 8, 8, 8, 8, 8,15, 8,
@@ -499,6 +502,11 @@ public class z80 extends cpu_interface {
     opcode[] Z80fd = new opcode[256];
     opcode[] Z80xxcb = new opcode[256];
     
+    void SetupTables()
+    {
+        setup_op_table();
+    }
+
     void setup_op_table()
     {
         Z80op[0x00] = op_00; Z80op[0x01] = op_01; Z80op[0x02] = op_02; Z80op[0x03] = op_03;
@@ -717,19 +725,19 @@ public class z80 extends cpu_interface {
     /*TODO*///	WM(addr,r->b.l);
     /*TODO*///	WM((addr+1)&0xffff,r->b.h);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * ROP() is identical to RM() except it is used for
-    /*TODO*/// * reading opcodes. In case of system with memory mapped I/O,
-    /*TODO*/// * this function can be used to greatly speed up emulation
-    /*TODO*/// ***************************************************************/
-    /*TODO*///INLINE UINT8 ROP(void)
-    /*TODO*///{
-    /*TODO*///	unsigned pc = _PCD;
-    /*TODO*///	_PC++;
-    /*TODO*///	return cpu_readop(pc);
-    /*TODO*///}
-    /*TODO*///
+    
+    /***************************************************************
+     * ROP() is identical to RM() except it is used for
+     * reading opcodes. In case of system with memory mapped I/O,
+     * this function can be used to greatly speed up emulation
+     ***************************************************************/
+    public char ROP()
+    {
+    	int pc = Z80.PC.D;
+    	Z80.PC.AddD(1); //_PC++
+    	return cpu_readop(pc);
+    }
+    
     /*TODO*////****************************************************************
     /*TODO*/// * ARG() is identical to ROP() except it is used
     /*TODO*/// * for reading opcode arguments. This difference can be used to
@@ -4619,25 +4627,26 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Execute 'cycles' T-states. Return number of T-states really executed
     /*TODO*/// ****************************************************************************/
-    /*TODO*///int z80_execute(int cycles)
-    /*TODO*///{
-    /*TODO*///	z80_ICount = cycles - Z80.extra_cycles;
-    /*TODO*///	Z80.extra_cycles = 0;
-    /*TODO*///
-    /*TODO*///    do
-    /*TODO*///	{
-    /*TODO*///        _PPC = _PCD;
-    /*TODO*///        CALL_MAME_DEBUG;
-    /*TODO*///		_R++;
-    /*TODO*///        EXEC_INLINE(op,ROP());
-    /*TODO*///	} while( z80_ICount > 0 );
-    /*TODO*///
-    /*TODO*///	z80_ICount -= Z80.extra_cycles;
-    /*TODO*///    Z80.extra_cycles = 0;
-    /*TODO*///
-    /*TODO*///    return cycles - z80_ICount;
-    /*TODO*///}
-    /*TODO*///
+        @Override
+    public int execute(int cycles) {
+  
+    	z80_ICount[0] = cycles - Z80.extra_cycles;
+   	Z80.extra_cycles = 0;
+    
+       do
+    	{
+           Z80.PREPC.SetD(Z80.PC.D); //_PPC = _PCD;
+           Z80.R++;//_R++;
+           int op = ROP();
+           z80_ICount[0] -= cc_op[op];
+           Z80op[op].handler();//EXEC_INLINE(op,ROP());       
+    	} while( z80_ICount[0] > 0 );
+
+    	z80_ICount[0] -= Z80.extra_cycles;
+        Z80.extra_cycles = 0;
+    
+       return cycles - z80_ICount[0];
+    }  
     /*TODO*////****************************************************************************
     /*TODO*/// * Burn 'cycles' T-states. Adjust R register for the lost time
     /*TODO*/// ****************************************************************************/
@@ -4677,15 +4686,14 @@ public class z80 extends cpu_interface {
     /*TODO*///		Z80 = *(Z80_Regs*)src;
     /*TODO*///    change_pc(_PCD);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Return program counter
-    /*TODO*/// ****************************************************************************/
-    /*TODO*///unsigned z80_get_pc (void)
-    /*TODO*///{
-    /*TODO*///    return _PCD;
-    /*TODO*///}
-    /*TODO*///
+ 
+    /****************************************************************************
+     * Return program counter
+     ****************************************************************************/
+    @Override
+    public int get_pc() {
+       return Z80.PC.D;
+    }
     /*TODO*////****************************************************************************
     /*TODO*/// * Set program counter
     /*TODO*/// ****************************************************************************/
@@ -5030,15 +5038,9 @@ public class z80 extends cpu_interface {
 
 
 
-    @Override
-    public int execute(int cycles) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public int get_pc() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
+
 
     @Override
     public void set_irq_line(int irqline, int linestate) {
