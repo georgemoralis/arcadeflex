@@ -180,6 +180,11 @@ public static void change_pc(int pc)
 {
      change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
 }
+public static void change_pc16(int pc)
+{
+     change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
+}
+
 
 public static abstract interface opbase_handlerPtr { public abstract int handler(int address); }
 public static abstract interface setopbase { public abstract void handler(int pc,int shift);}
