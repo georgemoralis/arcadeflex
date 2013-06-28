@@ -2568,33 +2568,7 @@ public class z80 extends cpu_interface {
     /*TODO*///#define OTDR OUTD; if( _B ) { _PC -= 2; CY(5); }
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * EI
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define EI {													\
-    /*TODO*///	/* If interrupts were disabled, execute one more			\
-    /*TODO*///     * instruction and check the IRQ line.                      \
-    /*TODO*///     * If not, simply set interrupt flip-flop 2                 \
-    /*TODO*///     */                                                         \
-    /*TODO*///	if( _IFF1 == 0 )											\
-    /*TODO*///	{															\
-    /*TODO*///        _IFF1 = _IFF2 = 1;                                      \
-    /*TODO*///        _PPC = _PCD;                                            \
-    /*TODO*///        CALL_MAME_DEBUG;                                        \
-    /*TODO*///		_R++;													\
-    /*TODO*///		if( Z80.irq_state != CLEAR_LINE ||						\
-    /*TODO*///			Z80.request_irq >= 0 )								\
-    /*TODO*///		{														\
-    /*TODO*///			after_EI = 1;	/* avoid cycle skip hacks */		\
-    /*TODO*///			EXEC(op,ROP()); 									\
-    /*TODO*///			after_EI = 0;										\
-    /*TODO*///            LOG((errorlog, "Z80#%d EI takes irq\n", cpu_getactivecpu())); \
-    /*TODO*///            take_interrupt();                                   \
-    /*TODO*///        }                                                       \
-    /*TODO*///		else EXEC(op,ROP()); 									\
-    /*TODO*///    } else _IFF2 = 1;                                           \
-    /*TODO*///}
-    /*TODO*///
+
     /*TODO*////**********************************************************
     /*TODO*/// * opcodes with CB prefix
     /*TODO*/// * rotate, shift and bit operations
@@ -4892,7 +4866,7 @@ public class z80 extends cpu_interface {
     opcode ed_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    /* IM   1 		  */opcode ed_56 = new opcode() { public void handler() { Z80.IM = 1; }};
     opcode ed_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5158,7 +5132,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(ed,53) { EA = ARG16(); WM16( EA, &Z80.DE );						} /* LD   (w),DE	  */
     /*TODO*///OP(ed,54) { NEG;													} /* NEG			  */
     /*TODO*///OP(ed,55) { RETN;													} /* RETN;			  */
-    /*TODO*///OP(ed,56) { _IM = 1;												} /* IM   1 		  */
+    
     /*TODO*///OP(ed,57) { LD_A_I; 												} /* LD   A,I		  */
     /*TODO*///
     /*TODO*///OP(ed,58) { _E = IN(_BC); _F = (_F & CF) | SZP[_E]; 				} /* IN   E,(C) 	  */
@@ -5564,7 +5538,10 @@ public class z80 extends cpu_interface {
     opcode op_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_3c = new opcode() { public void handler()/* INC  A 		  */
+    { 
+         Z80.AF.SetH(INC(Z80.AF.H));
+    }};
     opcode op_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_3e = new opcode() { public void handler()/* LD   A,n */
     { 
@@ -5807,7 +5784,40 @@ public class z80 extends cpu_interface {
     opcode op_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fb = new opcode() { public void handler() /* EI 			  */
+    { 
+         /* If interrupts were disabled, execute one more			
+         * instruction and check the IRQ line.                      
+         * If not, simply set interrupt flip-flop 2                 
+         */                                                         
+    	if(Z80.IFF1 == 0 )											
+    	{															
+            Z80.IFF1 = Z80.IFF2 = 1; 
+            Z80.PREPC.SetD(Z80.PC.D); //_PPC = _PCD;                                                                            
+    	    Z80.R= (Z80.R +1) & 0xFF;//_R++;													
+    	    if( Z80.irq_state != CLEAR_LINE || Z80.request_irq >= 0 )								
+    	    {														
+    		after_EI = 1;	/* avoid cycle skip hacks */	
+                int op = ROP();
+                z80_ICount[0] -= cc_op[op];
+                Z80op[op].handler();									
+    		after_EI = 0;										
+                if(errorlog!=null) fprintf(errorlog, "Z80#%d EI takes irq\n", cpu_getactivecpu()); 
+                take_interrupt();                                  
+            }                                                      
+    	    else
+            {
+                int op = ROP();
+                z80_ICount[0] -= cc_op[op];
+                Z80op[op].handler();
+            }
+        } 
+        else
+        {
+            Z80.IFF2 = 1;
+        }                                           
+    int k=0;
+    }};
     opcode op_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5878,7 +5888,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,39) { ADD16(HL,SP);											} /* ADD  HL,SP 	  */
     /*TODO*///OP(op,3a) { EA = ARG16(); _A = RM( EA );							} /* LD   A,(w) 	  */
     /*TODO*///OP(op,3b) { _SP--;													} /* DEC  SP		  */
-    /*TODO*///OP(op,3c) { _A = INC(_A);											} /* INC  A 		  */
+   
     /*TODO*///OP(op,3d) { _A = DEC(_A);											} /* DEC  A 		  */
    
     /*TODO*///OP(op,3f) { _F = ((_F&(SF|ZF|PF|CF))|((_F&CF)<<4)|(_A&(YF|XF)))^CF; } /* CCF			  */
@@ -6088,15 +6098,17 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,f8) { RET(_F & SF);											} /* RET  M 		  */
     /*TODO*///OP(op,f9) { _SP = _HL;												} /* LD   SP,HL 	  */
     /*TODO*///OP(op,fa) { JP_COND(_F & SF);										} /* JP   M,a		  */
-    /*TODO*///OP(op,fb) { EI; 													} /* EI 			  */
+    
     /*TODO*///OP(op,fc) { CALL(_F & SF);											} /* CALL M,a		  */
     /*TODO*///OP(op,fd) { _R++; EXEC(fd,ROP());									} /* **** FD xx 	  */
     /*TODO*///OP(op,fe) { CP(ARG());												} /* CP   n 		  */
     /*TODO*///OP(op,ff) { RST(0x38);												} /* RST  7 		  */
     /*TODO*///
     /*TODO*///
-    /*TODO*///static void take_interrupt(void)
-    /*TODO*///{
+    static void take_interrupt()
+    {
+        throw new UnsupportedOperationException("unimplemented");
+    }
     /*TODO*///    if( _IFF1 )
     /*TODO*///    {
     /*TODO*///        int irq_vector;
@@ -6573,12 +6585,14 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Set IRQ line state
     /*TODO*/// ****************************************************************************/
-    /*TODO*///void z80_set_irq_line(int irqline, int state)
-    /*TODO*///{
-    /*TODO*///	LOG((errorlog, "Z80#%d set_irq_line %d\n",cpu_getactivecpu() , state));
-    /*TODO*///    Z80.irq_state = state;
-    /*TODO*///	if( state == CLEAR_LINE ) return;
-    /*TODO*///
+    @Override
+    public void set_irq_line(int irqline, int state) {
+        
+        if(errorlog!=null) fprintf(errorlog, "Z80#%d set_irq_line %d\n",cpu_getactivecpu() , state);
+        Z80.irq_state = state;
+        if(state==CLEAR_LINE) return;
+        
+        throw new UnsupportedOperationException("Not supported yet."); 
     /*TODO*///	if( Z80.irq_max )
     /*TODO*///	{
     /*TODO*///		int daisychain, device, int_state;
@@ -6618,7 +6632,7 @@ public class z80 extends cpu_interface {
     /*TODO*///		}
     /*TODO*///	}
     /*TODO*///	take_interrupt();
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*////****************************************************************************
     /*TODO*/// * Set IRQ vector callback
@@ -6781,15 +6795,6 @@ public class z80 extends cpu_interface {
 
 
 
-
-
-
-
-    @Override
-    public void set_irq_line(int irqline, int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public void exit() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -6832,6 +6837,7 @@ public class z80 extends cpu_interface {
 
     @Override
     public void set_nmi_line(int linestate) {
+         if (Z80.nmi_state == linestate) return;
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
