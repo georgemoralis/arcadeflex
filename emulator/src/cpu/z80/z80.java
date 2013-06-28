@@ -5531,10 +5531,8 @@ public class z80 extends cpu_interface {
     }};
     opcode op_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_24 = new opcode() { public void handler(){ /* INC  H 		  */
-         /*TODO*///OP(op,24) { _H = INC(_H);											} 
+    opcode op_24 = new opcode() { public void handler(){ /* INC  H 		  */										 
         Z80.HL.SetH(INC(Z80.HL.H));
-        int k=0;
     }};
     opcode op_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5788,7 +5786,7 @@ public class z80 extends cpu_interface {
     opcode op_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_ed = new opcode() { public void handler() /* **** ED xx 	  */
     { 
-        Z80.R++; 
+        Z80.R = (Z80.R +1) & 0xFF;
         int op = ROP(); 
         z80_ICount[0] -= cc_ed[op]; 
         Z80ed[op].handler();
@@ -6381,7 +6379,7 @@ public class z80 extends cpu_interface {
        do
     	{
            Z80.PREPC.SetD(Z80.PC.D); //_PPC = _PCD;
-           Z80.R++;//_R++;
+           Z80.R= (Z80.R +1) & 0xFF;//_R++;
            int op = ROP();
            z80_ICount[0] -= cc_op[op];
            Z80op[op].handler();//EXEC_INLINE(op,ROP());       
