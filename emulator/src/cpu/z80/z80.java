@@ -1081,29 +1081,7 @@ public class z80 extends cpu_interface {
     /*TODO*///#else
     /*TODO*///#define EXEC_INLINE EXEC
     /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Enter HALT state; write 1 to fake port on first execution
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define ENTER_HALT {											\
-    /*TODO*///    _PC--;                                                      \
-    /*TODO*///    _HALT = 1;                                                  \
-    /*TODO*///	if( !after_EI ) 											\
-    /*TODO*///		z80_burn( z80_ICount ); 								\
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Leave HALT state; write 0 to fake port
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define LEAVE_HALT {                                            \
-    /*TODO*///	if( _HALT ) 												\
-    /*TODO*///	{															\
-    /*TODO*///		_HALT = 0;												\
-    /*TODO*///		_PC++;													\
-    /*TODO*///	}															\
-    /*TODO*///}
-    /*TODO*///
+
     /*TODO*////***************************************************************
     /*TODO*/// * Input a byte from given I/O port
     /*TODO*/// ***************************************************************/
@@ -1141,6 +1119,7 @@ public class z80 extends cpu_interface {
     /*TODO*///	WM(addr,r->b.l);
     /*TODO*///	WM((addr+1)&0xffff,r->b.h);
     /*TODO*///}
+        
     
     /***************************************************************
      * ROP() is identical to RM() except it is used for
@@ -1343,14 +1322,7 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * LD	A,I
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define LD_A_I {												\
-    /*TODO*///	_A = _I;													\
-    /*TODO*///	_F = (_F & CF) | SZ[_A] | ( _IFF2 << 2 );					\
-    /*TODO*///}
-    /*TODO*///
+
     /*TODO*////***************************************************************
     /*TODO*/// * RST
     /*TODO*/// ***************************************************************/
@@ -1720,14 +1692,16 @@ public class z80 extends cpu_interface {
     /*TODO*///#define AND(value)												\
     /*TODO*///	_A &= value;												\
     /*TODO*///	_F = SZP[_A] | HF
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * OR	n
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define OR(value)												\
-    /*TODO*///	_A |= value;												\
-    /*TODO*///	_F = SZP[_A]
-    /*TODO*///
+    
+    /***************************************************************
+     * OR	n
+     ***************************************************************/
+    public void OR(int value)
+    {
+        Z80.AF.SetH(Z80.AF.H | value);
+        Z80.AF.SetL(SZP[Z80.AF.H]); 
+    }
+
     /*TODO*////***************************************************************
     /*TODO*/// * XOR	n
     /*TODO*/// ***************************************************************/
@@ -4867,7 +4841,11 @@ public class z80 extends cpu_interface {
     opcode ed_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /* IM   1 		  */opcode ed_56 = new opcode() { public void handler() { Z80.IM = 1; }};
-    opcode ed_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_57 = new opcode() { public void handler()/* LD   A,I		  */
+    { 
+        Z80.AF.SetH(Z80.I);//	_A = _I;
+	Z80.AF.SetL(((Z80.AF.L & CF) | SZ[Z80.AF.H] | (Z80.IFF2 <<2) ) & 0xFF);//_F = (_F & CF) | SZ[_A] | ( _IFF2 << 2 );    
+    }};
     opcode ed_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5133,7 +5111,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(ed,54) { NEG;													} /* NEG			  */
     /*TODO*///OP(ed,55) { RETN;													} /* RETN;			  */
     
-    /*TODO*///OP(ed,57) { LD_A_I; 												} /* LD   A,I		  */
+    
     /*TODO*///
     /*TODO*///OP(ed,58) { _E = IN(_BC); _F = (_F & CF) | SZP[_E]; 				} /* IN   E,(C) 	  */
     /*TODO*///OP(ed,59) { OUT(_BC,_E);											} /* OUT  (C),E 	  */
@@ -5511,7 +5489,20 @@ public class z80 extends cpu_interface {
     opcode op_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_28 = new opcode() { public void handler()/* JR   Z,o		  */
+    { 
+        if((Z80.AF.L & ZF) !=0)
+        {
+            byte arg = (byte)ARG();/* ARG() also increments _PC */
+            Z80.PC.SetD((Z80.PC.D + arg) & 0xFFFF);/* so don't do _PC += ARG() */
+            z80_ICount[0] -= 5; 
+            change_pc16(Z80.PC.D);
+        }
+        else
+        {
+            Z80.PC.AddD(1);//_PC++;
+        }
+    }};
     opcode op_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5602,7 +5593,12 @@ public class z80 extends cpu_interface {
     opcode op_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_76 = new opcode() { public void handler(){ /* HALT			  */
+        Z80.PC.AddD(-1);// _PC--;                                                      
+        Z80.HALT = 1;                                                  
+    	if( after_EI==0) 											
+    		burn.handler(z80_ICount[0]); 								
+    }};
     
     /* LD   (HL),A	  */opcode op_77 = new opcode() { public void handler(){ cpu_writemem16(Z80.HL.D, Z80.AF.H);}};   											
     /* LD   A,B		  */opcode op_78 = new opcode() { public void handler(){ Z80.AF.SetH(Z80.BC.H);}}; 
@@ -5673,7 +5669,10 @@ public class z80 extends cpu_interface {
     opcode op_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b7 = new opcode() { public void handler()/* OR   A 		  */
+    { 
+        OR(Z80.AF.H);
+    }};
     opcode op_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5778,7 +5777,13 @@ public class z80 extends cpu_interface {
         Z80.IFF1 = Z80.IFF2 =0;										
     }};
     opcode op_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f5 = new opcode() { public void handler() /* PUSH AF		  */
+    { 
+       Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF);
+       cpu_writemem16(Z80.SP.D, Z80.AF.L);
+       cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.AF.H);
+    
+    }};
     opcode op_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5816,7 +5821,6 @@ public class z80 extends cpu_interface {
         {
             Z80.IFF2 = 1;
         }                                           
-    int k=0;
     }};
     opcode op_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5866,7 +5870,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,26) { _H = ARG(); 											} /* LD   H,n		  */
     /*TODO*///OP(op,27) { DAA;													} /* DAA			  */
     /*TODO*///
-    /*TODO*///OP(op,28) { JR_COND( _F & ZF ); 									} /* JR   Z,o		  */
+    
     /*TODO*///OP(op,29) { ADD16(HL,HL);											} /* ADD  HL,HL 	  */
     /*TODO*///OP(op,2a) { EA = ARG16(); RM16( EA, &Z80.HL );						} /* LD   HL,(w)	  */
     /*TODO*///OP(op,2b) { _HL--; CHECK_HL_LOOP;									} /* DEC  HL		  */
@@ -5954,7 +5958,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,73) { WM( _HL, _E );											} /* LD   (HL),E	  */
     /*TODO*///OP(op,74) { WM( _HL, _H );											} /* LD   (HL),H	  */
     /*TODO*///OP(op,75) { WM( _HL, _L );											} /* LD   (HL),L	  */
-    /*TODO*///OP(op,76) { ENTER_HALT; 											} /* HALT			  */
+    
 
   
     /*TODO*///OP(op,7e) { _A = RM(_HL);											} /* LD   A,(HL)	  */
@@ -6021,7 +6025,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,b4) { OR(_H); 												} /* OR   H 		  */
     /*TODO*///OP(op,b5) { OR(_L); 												} /* OR   L 		  */
     /*TODO*///OP(op,b6) { OR(RM(_HL));											} /* OR   (HL)		  */
-    /*TODO*///OP(op,b7) { OR(_A); 												} /* OR   A 		  */
+    
     /*TODO*///
     /*TODO*///OP(op,b8) { CP(_B); 												} /* CP   B 		  */
     /*TODO*///OP(op,b9) { CP(_C); 												} /* CP   C 		  */
@@ -6091,7 +6095,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,f2) { JP_COND( !(_F & SF) );									} /* JP   P,a		  */
     
     /*TODO*///OP(op,f4) { CALL( !(_F & SF) ); 									} /* CALL P,a		  */
-    /*TODO*///OP(op,f5) { PUSH( AF ); 											} /* PUSH AF		  */
+    
     /*TODO*///OP(op,f6) { OR(ARG());												} /* OR   n 		  */
     /*TODO*///OP(op,f7) { RST(0x30);												} /* RST  6 		  */
     /*TODO*///
@@ -6107,20 +6111,22 @@ public class z80 extends cpu_interface {
     /*TODO*///
     static void take_interrupt()
     {
-        throw new UnsupportedOperationException("unimplemented");
-    }
-    /*TODO*///    if( _IFF1 )
-    /*TODO*///    {
-    /*TODO*///        int irq_vector;
-    /*TODO*///
-    /*TODO*///        /* there isn't a valid previous program counter */
-    /*TODO*///        _PPC = -1;
-    /*TODO*///
-    /*TODO*///        /* Check if processor was halted */
-    /*TODO*///		LEAVE_HALT;
-    /*TODO*///
-    /*TODO*///        if( Z80.irq_max )           /* daisy chain mode */
-    /*TODO*///        {
+        if( Z80.IFF1!=0)
+        {
+            int irq_vector;
+    
+           /* there isn't a valid previous program counter */
+           Z80.PREPC.SetD(-1);//_PPC = -1;
+    
+            /* Check if processor was halted */
+            if(Z80.HALT!=0) 												
+            {															
+    		Z80.HALT = 0;												
+    		Z80.PC.AddD(1);//_PC++;
+            }
+            if( Z80.irq_max!=0)           /* daisy chain mode */
+            {
+                throw new UnsupportedOperationException("Daisy chain unimplemented");         
     /*TODO*///            if( Z80.request_irq >= 0 )
     /*TODO*///            {
     /*TODO*///                /* Clear both interrupt flip flops */
@@ -6129,36 +6135,42 @@ public class z80 extends cpu_interface {
     /*TODO*///                LOG((errorlog, "Z80#%d daisy chain irq_vector $%02x\n", cpu_getactivecpu(), irq_vector));
     /*TODO*///                Z80.request_irq = -1;
     /*TODO*///            } else return;
-    /*TODO*///        }
-    /*TODO*///        else
-    /*TODO*///        {
-    /*TODO*///            /* Clear both interrupt flip flops */
-    /*TODO*///            _IFF1 = _IFF2 = 0;
-    /*TODO*///            /* call back the cpu interface to retrieve the vector */
-    /*TODO*///            irq_vector = (*Z80.irq_callback)(0);
-    /*TODO*///            LOG((errorlog, "Z80#%d single int. irq_vector $%02x\n", cpu_getactivecpu(), irq_vector));
-    /*TODO*///        }
-    /*TODO*///
-    /*TODO*///        /* Interrupt mode 2. Call [Z80.I:databyte] */
-    /*TODO*///        if( _IM == 2 )
-    /*TODO*///        {
+            }
+            else
+            {
+                
+               /* Clear both interrupt flip flops */
+                Z80.IFF1 = Z80.IFF2 = 0;
+                /* call back the cpu interface to retrieve the vector */
+                irq_vector = Z80.irq_callback.handler(0);
+                if(errorlog!=null) fprintf(errorlog, "Z80#%d single int. irq_vector $%02x\n", cpu_getactivecpu(), System.identityHashCode(irq_vector));
+            }
+    
+            /* Interrupt mode 2. Call [Z80.I:databyte] */
+            if( Z80.IM == 2 )
+            {
+                throw new UnsupportedOperationException("unimplemented");  
     /*TODO*///			irq_vector = (irq_vector & 0xff) | (_I << 8);
     /*TODO*///            PUSH( PC );
     /*TODO*///			RM16( irq_vector, &Z80.PC );
     /*TODO*///            LOG((errorlog, "Z80#%d IM2 [$%04x] = $%04x\n",cpu_getactivecpu() , irq_vector, _PCD));
     /*TODO*///            Z80.extra_cycles += 19;
-    /*TODO*///        }
-    /*TODO*///        else
-    /*TODO*///        /* Interrupt mode 1. RST 38h */
-    /*TODO*///        if( _IM == 1 )
-    /*TODO*///        {
-    /*TODO*///            LOG((errorlog, "Z80#%d IM1 $0038\n",cpu_getactivecpu() ));
-    /*TODO*///            PUSH( PC );
-    /*TODO*///            _PCD = 0x0038;
-    /*TODO*///            Z80.extra_cycles += 11+2; /* RST $38 + 2 cycles */
-    /*TODO*///        }
-    /*TODO*///        else
-    /*TODO*///        {
+            }
+            else
+            {
+                /* Interrupt mode 1. RST 38h */
+                if( Z80.IM == 1 )
+                {
+                   if(errorlog!=null) fprintf(errorlog, "Z80#%d IM1 $0038\n",cpu_getactivecpu());
+                   Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF);
+                   cpu_writemem16(Z80.SP.D, Z80.PC.L);
+                   cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+                   Z80.PC.SetD(0x0038);//_PCD = 0x0038;
+                   Z80.extra_cycles += 11+2; /* RST $38 + 2 cycles */
+                }
+                else
+                {
+                    throw new UnsupportedOperationException("unimplemented");  
     /*TODO*///            /* Interrupt mode 0. We check for CALL and JP instructions, */
     /*TODO*///            /* if neither of these were found we assume a 1 byte opcode */
     /*TODO*///            /* was placed on the databus                                */
@@ -6177,11 +6189,12 @@ public class z80 extends cpu_interface {
     /*TODO*///                    _PCD = irq_vector & 0x0038;
     /*TODO*///                    Z80.extra_cycles += 11 + 2; /* RST $xx + 2 cycles */
     /*TODO*///                    break;
-    /*TODO*///            }
-    /*TODO*///        }
-    /*TODO*///        change_pc(_PCD);
-    /*TODO*///    }
-    /*TODO*///}
+               }
+             }
+          
+            change_pc(Z80.PC.D);
+        }       
+    }
 
     /****************************************************************************
      * Reset registers to their initial values
@@ -6402,19 +6415,18 @@ public class z80 extends cpu_interface {
     
        return cycles - z80_ICount[0];
     }  
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Burn 'cycles' T-states. Adjust R register for the lost time
-    /*TODO*/// ****************************************************************************/
+    /****************************************************************************
+     * Burn 'cycles' T-states. Adjust R register for the lost time
+     ****************************************************************************/
     public burnPtr burn_function = new burnPtr() { public void handler(int cycles)
     {
-           /*TODO*///	if( cycles > 0 )
-        /*TODO*///	{
-        /*TODO*///		/* NOP takes 4 cycles per instruction */
-        /*TODO*///		int n = (cycles + 3) / 4;
-        /*TODO*///		_R += n;
-        /*TODO*///		z80_ICount -= 4 * n;
-        /*TODO*///	}
-     throw new UnsupportedOperationException("Not supported yet.");
+           	if( cycles > 0 )
+        	{
+        		/* NOP takes 4 cycles per instruction */
+        		int n = (cycles + 3) / 4;
+        		Z80.R = (Z80.R + n) & 0xFF;//_R += n;
+        		z80_ICount[0] -= 4 * n;
+        	}
     }};
 
     /*TODO*////****************************************************************************
@@ -6592,9 +6604,10 @@ public class z80 extends cpu_interface {
         Z80.irq_state = state;
         if(state==CLEAR_LINE) return;
         
-        throw new UnsupportedOperationException("Not supported yet."); 
-    /*TODO*///	if( Z80.irq_max )
-    /*TODO*///	{
+        
+    	if( Z80.irq_max!=0 )
+    	{
+            throw new UnsupportedOperationException("Daisychain not supported yet."); 
     /*TODO*///		int daisychain, device, int_state;
     /*TODO*///		daisychain = (*Z80.irq_callback)(irqline);
     /*TODO*///		device = daisychain >> 8;
@@ -6630,8 +6643,8 @@ public class z80 extends cpu_interface {
     /*TODO*///			LOG((errorlog, " no change\n"));
     /*TODO*///			return;
     /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	take_interrupt();
+    	}
+    	take_interrupt();
     }
     /*TODO*///
     /*TODO*////****************************************************************************
