@@ -221,7 +221,7 @@ public class z80 extends cpu_interface {
     private static int  /*UINT8*/ SZHV_inc[]  = new int[256];/* zero, sign, half carry and overflow flags INC r8 */
     private static int  /*UINT8*/ SZHV_dec[]  = new int[256];/* zero, sign, half carry and overflow flags DEC r8 */
     
-    private static int SZHVC_Add[]     = new int[2 * 256 * 256];//static UINT8 *SZHVC_add = 0;
+    private static int SZHVC_add[]     = new int[2 * 256 * 256];//static UINT8 *SZHVC_add = 0;
     private static int SZHVC_sub[]     = new int[2 * 256 * 256];//static UINT8 *SZHVC_sub = 0;
     /*TODO*/
     /*TODO*/
@@ -1433,63 +1433,19 @@ public class z80 extends cpu_interface {
     /*TODO*///    _A = (_A & 0xf0) | (n >> 4);                                \
     /*TODO*///	_F = (_F & CF) | SZP[_A];									\
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * ADD	A,n
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#ifdef X86_ASM
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///#define ADD(value)												\
-    /*TODO*/// asm (															\
-    /*TODO*/// " addb %2,%0           \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " setob %1             \n" /* al = 1 if overflow */            \
-    /*TODO*/// " addb %1,%1           \n"                                     \
-    /*TODO*/// " addb %1,%1           \n" /* shift to P/V bit position */     \
-    /*TODO*/// " andb $0xd1,%%ah      \n" /* sign, zero, half carry, carry */ \
-    /*TODO*/// " orb %%ah,%1          \n"                                     \
-    /*TODO*/// " movb %0,%%ah         \n" /* get result */                    \
-    /*TODO*/// " andb $0x28,%%ah      \n" /* maks flags 5+3 */                \
-    /*TODO*/// " orb %%ah,%1          \n" /* put them into flags */           \
-    /*TODO*/// :"=r" (_A), "=r" (_F)                                          \
-    /*TODO*/// :"r" (value), "1" (_F), "0" (_A)                               \
-    /*TODO*/// )
-    /*TODO*///#else
-    /*TODO*///#define ADD(value)                                              \
-    /*TODO*/// asm (															\
-    /*TODO*/// " addb %2,%0           \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " setob %1             \n" /* al = 1 if overflow */            \
-    /*TODO*/// " addb %1,%1           \n"                                     \
-    /*TODO*/// " addb %1,%1           \n" /* shift to P/V bit position */     \
-    /*TODO*/// " andb $0xd1,%%ah      \n" /* sign, zero, half carry, carry */ \
-    /*TODO*/// " orb %%ah,%1          \n"                                     \
-    /*TODO*/// :"=r" (_A), "=r" (_F)                                          \
-    /*TODO*/// :"r" (value), "1" (_F), "0" (_A)                               \
-    /*TODO*/// )
-    /*TODO*///#endif
-    /*TODO*///#else
-    /*TODO*///#if BIG_FLAGS_ARRAY
-    /*TODO*///#define ADD(value)												\
-    /*TODO*///{																\
-    /*TODO*///	UINT32 ah = _AFD & 0xff00;									\
-    /*TODO*///	UINT32 res = (UINT8)((ah >> 8) + value);					\
-    /*TODO*///	_F = SZHVC_add[ah | res];									\
-    /*TODO*///    _A = res;                                                   \
-    /*TODO*///}
-    /*TODO*///#else
-    /*TODO*///#define ADD(value)												\
-    /*TODO*///{																\
-    /*TODO*///	unsigned val = value;										\
-    /*TODO*///    unsigned res = _A + val;                                    \
-    /*TODO*///    _F = SZ[(UINT8)res] | ((res >> 8) & CF) |                   \
-    /*TODO*///        ((_A ^ res ^ val) & HF) |                               \
-    /*TODO*///        (((val ^ _A ^ 0x80) & (val ^ res) & 0x80) >> 5);        \
-    /*TODO*///    _A = (UINT8)res;                                            \
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///#endif
-    /*TODO*///
+    
+    /***************************************************************
+     * ADD	A,n
+    ***************************************************************/
+    public void ADD(int value)
+    {
+        int ah = Z80.AF.D & 0xff00;
+        if(ah <= -1)//check unsigness TODO crazy check to be removed
+            throw new UnsupportedOperationException("that shouldn't happend");
+        int res = ((ah>>8) + value) & 0xFF;
+        Z80.AF.SetL(SZHVC_add[ah | res]);
+        Z80.AF.SetH(res & 0xFF);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * ADC	A,n
     /*TODO*/// ***************************************************************/
@@ -1692,7 +1648,11 @@ public class z80 extends cpu_interface {
     /*TODO*///#define AND(value)												\
     /*TODO*///	_A &= value;												\
     /*TODO*///	_F = SZP[_A] | HF
-    
+    public void AND(int value)
+    {
+        Z80.AF.SetH(Z80.AF.H & value);
+        Z80.AF.SetL((SZP[Z80.AF.H] | HF) & 0xFF);
+    }
     /***************************************************************
      * OR	n
      ***************************************************************/
@@ -1708,63 +1668,18 @@ public class z80 extends cpu_interface {
     /*TODO*///#define XOR(value)												\
     /*TODO*///	_A ^= value;												\
     /*TODO*///	_F = SZP[_A]
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * CP	n
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#ifdef X86_ASM
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///#define CP(value)												\
-    /*TODO*/// asm (															\
-    /*TODO*/// " cmpb %2,%0           \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " setob %1             \n" /* al = 1 if overflow */            \
-    /*TODO*/// " stc                  \n" /* prepare to set N flag */         \
-    /*TODO*/// " adcb %1,%1           \n" /* shift to P/V bit position */     \
-    /*TODO*/// " addb %1,%1           \n"                                     \
-    /*TODO*/// " andb $0xd1,%%ah      \n" /* sign, zero, half carry, carry */ \
-    /*TODO*/// " orb %%ah,%1          \n" /* combine with P/V */              \
-    /*TODO*/// " movb %2,%%ah         \n" /* get result */                    \
-    /*TODO*/// " andb $0x28,%%ah      \n" /* maks flags 5+3 */                \
-    /*TODO*/// " orb %%ah,%1          \n" /* put them into flags */           \
-    /*TODO*/// :"=r" (_A), "=r" (_F)                                          \
-    /*TODO*/// :"r" (value), "1" (_F), "0" (_A)                               \
-    /*TODO*/// )
-    /*TODO*///#else
-    /*TODO*///#define CP(value)                                               \
-    /*TODO*/// asm (															\
-    /*TODO*/// " cmpb %2,%0           \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " setob %1             \n" /* al = 1 if overflow */            \
-    /*TODO*/// " stc                  \n" /* prepare to set N flag */         \
-    /*TODO*/// " adcb %1,%1           \n" /* shift to P/V bit position */     \
-    /*TODO*/// " addb %1,%1           \n"                                     \
-    /*TODO*/// " andb $0xd1,%%ah      \n" /* sign, zero, half carry, carry */ \
-    /*TODO*/// " orb %%ah,%1          \n" /* combine with P/V */              \
-    /*TODO*/// :"=r" (_A), "=r" (_F)                                          \
-    /*TODO*/// :"r" (value), "1" (_F), "0" (_A)                               \
-    /*TODO*/// )
-    /*TODO*///#endif
-    /*TODO*///#else
-    /*TODO*///#if BIG_FLAGS_ARRAY
-    /*TODO*///#define CP(value)												\
-    /*TODO*///{																\
-    /*TODO*///	UINT32 ah = _AFD & 0xff00;									\
-    /*TODO*///	UINT32 res = (UINT8)((ah >> 8) - value);					\
-    /*TODO*///	_F = SZHVC_sub[ah | res];									\
-    /*TODO*///}
-    /*TODO*///#else
-    /*TODO*///#define CP(value)												\
-    /*TODO*///{																\
-    /*TODO*///	unsigned val = value;										\
-    /*TODO*///	unsigned res = _A - val;									\
-    /*TODO*///	_F = SZ[res & 0xff] | ((res >> 8) & CF) | NF |				\
-    /*TODO*///		((_A ^ res ^ val) & HF) |								\
-    /*TODO*///		((((val ^ _A) & (_A ^ res)) >> 5) & VF);				\
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///#endif
-    /*TODO*///
+    
+    /***************************************************************
+     * CP	n
+     ***************************************************************/
+    public void CP(int value)
+    {
+        int ah = Z80.AF.D & 0xff00;
+        if(ah <= -1)//check unsigness TODO crazy check to be removed
+            throw new UnsupportedOperationException("that shouldn't happend");
+        int res = ((ah>>8) - value) & 0xFF;
+        Z80.AF.SetL(SZHVC_sub[ah | res]);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * EX   AF,AF'
     /*TODO*/// ***************************************************************/
@@ -5557,7 +5472,7 @@ public class z80 extends cpu_interface {
     opcode op_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    /* LD   C,A		  */opcode op_4f = new opcode() { public void handler(){ Z80.BC.SetL(Z80.AF.H); }};
     opcode op_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5589,7 +5504,7 @@ public class z80 extends cpu_interface {
     opcode op_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    /* LD   L,A		  */opcode op_6f = new opcode() { public void handler(){ Z80.HL.SetL(Z80.AF.H); }};
     opcode op_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5621,8 +5536,7 @@ public class z80 extends cpu_interface {
     opcode op_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_86 = new opcode() { public void handler()/* ADD  A,(HL)	  */
     { 
-        /*TODO*///OP(op,86) { ADD(RM(_HL));
-        throw new UnsupportedOperationException("unimplemented");
+        ADD(cpu_readmem16(Z80.HL.D) & 0xFF);//OP(op,86) { ADD(RM(_HL));
     }};
     opcode op_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5656,7 +5570,10 @@ public class z80 extends cpu_interface {
     opcode op_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_a7 = new opcode() { public void handler() /* AND  A 		  */
+    { 
+        AND(Z80.AF.H);	
+    }};
     opcode op_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5690,7 +5607,18 @@ public class z80 extends cpu_interface {
     opcode op_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c2 = new opcode() { public void handler(){ /* JP   NZ,a		  */
+        if((Z80.AF.L & ZF)==0 )													
+   	{															
+    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
+    		change_pc16(Z80.PC.D);										
+    	}															
+    	else														
+    	{															
+    		Z80.PC.AddD(2);//_PC += 2;												
+        }
+        
+    }};
     opcode op_c3 = new opcode() { public void handler() /* JP  a */ 
     { 
         Z80.PC.SetD(ARG16());											
@@ -5728,7 +5656,10 @@ public class z80 extends cpu_interface {
     }};
     opcode op_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c6 = new opcode() { public void handler()/* ADD  A,n		  */
+    { 
+        ADD(ARG() & 0xFF);
+    }};
     opcode op_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5740,7 +5671,19 @@ public class z80 extends cpu_interface {
     opcode op_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d2 = new opcode() { public void handler()/* JP   NC,a		  */
+    { 
+        /*TODO*///OP(op,d2) { JP_COND( !(_F & CF) );	
+        if((Z80.AF.L & CF)==0 )													
+   	{															
+    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
+    		change_pc16(Z80.PC.D);										
+    	}															
+    	else														
+    	{															
+    		Z80.PC.AddD(2);//_PC += 2;												
+        }
+    }};
     opcode op_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5836,7 +5779,10 @@ public class z80 extends cpu_interface {
     }};
     opcode op_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_fe = new opcode() { public void handler()/* CP   n 		  */
+    { 
+        CP(ARG() & 0xFF); //CP(ARG());
+    }};
     opcode op_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
     
@@ -5926,7 +5872,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,4c) { _C = _H;												} /* LD   C,H		  */
     /*TODO*///OP(op,4d) { _C = _L;												} /* LD   C,L		  */
     /*TODO*///OP(op,4e) { _C = RM(_HL);											} /* LD   C,(HL)	  */
-    /*TODO*///OP(op,4f) { _C = _A;												} /* LD   C,A		  */
+    
     /*TODO*///
     /*TODO*///OP(op,50) { _D = _B;												} /* LD   D,B		  */
     /*TODO*///OP(op,51) { _D = _C;												} /* LD   D,C		  */
@@ -5962,7 +5908,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,6c) { _L = _H;												} /* LD   L,H		  */
     /*TODO*///OP(op,6d) { 														} /* LD   L,L		  */
     /*TODO*///OP(op,6e) { _L = RM(_HL);											} /* LD   L,(HL)	  */
-    /*TODO*///OP(op,6f) { _L = _A;												} /* LD   L,A		  */
+    
     /*TODO*///
     /*TODO*///OP(op,70) { WM( _HL, _B );											} /* LD   (HL),B	  */
     /*TODO*///OP(op,71) { WM( _HL, _C );											} /* LD   (HL),C	  */
@@ -6019,7 +5965,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,a4) { AND(_H);												} /* AND  H 		  */
     /*TODO*///OP(op,a5) { AND(_L);												} /* AND  L 		  */
     /*TODO*///OP(op,a6) { AND(RM(_HL));											} /* AND  (HL)		  */
-    /*TODO*///OP(op,a7) { AND(_A);												} /* AND  A 		  */
+   
     /*TODO*///
     /*TODO*///OP(op,a8) { XOR(_B);												} /* XOR  B 		  */
     /*TODO*///OP(op,a9) { XOR(_C);												} /* XOR  C 		  */
@@ -6050,11 +5996,11 @@ public class z80 extends cpu_interface {
     /*TODO*///
     /*TODO*///OP(op,c0) { RET( !(_F & ZF) );										} /* RET  NZ		  */
     /*TODO*///OP(op,c1) { POP(BC);												} /* POP  BC		  */
-    /*TODO*///OP(op,c2) { JP_COND( !(_F & ZF) );									} /* JP   NZ,a		  */
+   
 
     /*TODO*///OP(op,c4) { CALL( !(_F & ZF) ); 									} /* CALL NZ,a		  */
     /*TODO*///OP(op,c5) { PUSH( BC ); 											} /* PUSH BC		  */
-    /*TODO*///OP(op,c6) { ADD(ARG()); 											} /* ADD  A,n		  */
+    
     /*TODO*///OP(op,c7) { RST(0x00);												} /* RST  0 		  */
     /*TODO*///
     /*TODO*///OP(op,c8) { RET( _F & ZF ); 										} /* RET  Z 		  */
@@ -6068,7 +6014,7 @@ public class z80 extends cpu_interface {
     /*TODO*///
     /*TODO*///OP(op,d0) { RET( !(_F & CF) );										} /* RET  NC		  */
     /*TODO*///OP(op,d1) { POP(DE);												} /* POP  DE		  */
-    /*TODO*///OP(op,d2) { JP_COND( !(_F & CF) );									} /* JP   NC,a		  */
+    
     /*TODO*///OP(op,d3) { unsigned n = ARG() | (_A << 8); OUT( n, _A );			} /* OUT  (n),A 	  */
     /*TODO*///OP(op,d4) { CALL( !(_F & CF) ); 									} /* CALL NC,a		  */
     /*TODO*///OP(op,d5) { PUSH( DE ); 											} /* PUSH DE		  */
@@ -6117,7 +6063,7 @@ public class z80 extends cpu_interface {
     
     /*TODO*///OP(op,fc) { CALL(_F & SF);											} /* CALL M,a		  */
     /*TODO*///OP(op,fd) { _R++; EXEC(fd,ROP());									} /* **** FD xx 	  */
-    /*TODO*///OP(op,fe) { CP(ARG());												} /* CP   n 		  */
+    
     /*TODO*///OP(op,ff) { RST(0x38);												} /* RST  7 		  */
     /*TODO*///
     /*TODO*///
@@ -6231,23 +6177,23 @@ public class z80 extends cpu_interface {
                 val = newval - oldval;
                 if (newval != 0) {
                     if ((newval & 0x80) != 0) {
-                        SZHVC_Add[padd] = SF;
+                        SZHVC_add[padd] = SF;
                     } else {
-                        SZHVC_Add[padd] = 0;
+                        SZHVC_add[padd] = 0;
                     }
                 } else {
-                    SZHVC_Add[padd] = ZF;
+                    SZHVC_add[padd] = ZF;
                 }
-                SZHVC_Add[padd] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                SZHVC_add[padd] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
                 
                  if ((newval & 0x0f) < (oldval & 0x0f)) {
-                    SZHVC_Add[padd] |= HF;
+                    SZHVC_add[padd] |= HF;
                 }
                 if (newval < oldval) {
-                    SZHVC_Add[padd] |= CF;
+                    SZHVC_add[padd] |= CF;
                 }
                 if (((val ^ oldval ^ 0x80) & (val ^ newval) & 0x80) != 0) {
-                    SZHVC_Add[padd] |= VF;
+                    SZHVC_add[padd] |= VF;
                 }
                 padd++;
                 
@@ -6255,23 +6201,23 @@ public class z80 extends cpu_interface {
                 val = newval - oldval - 1;
                 if (newval != 0) {
                     if ((newval & 0x80) != 0) {
-                        SZHVC_Add[padc] = SF;
+                        SZHVC_add[padc] = SF;
                     } else {
-                        SZHVC_Add[padc] = 0;
+                        SZHVC_add[padc] = 0;
                     }
                 } else {
-                    SZHVC_Add[padc] = ZF;
+                    SZHVC_add[padc] = ZF;
                 }
                 
-                SZHVC_Add[padc] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
+                SZHVC_add[padc] |= (newval & (YF | XF)); /* undocumented flag bits 5+3 */
                 if ((newval & 0x0f) <= (oldval & 0x0f)) {
-                    SZHVC_Add[padc] |= HF;
+                    SZHVC_add[padc] |= HF;
                 }
                 if (newval <= oldval) {
-                    SZHVC_Add[padc] |= CF;
+                    SZHVC_add[padc] |= CF;
                 }
                 if (((val ^ oldval ^ 0x80) & (val ^ newval) & 0x80) != 0) {
-                    SZHVC_Add[padc] |= VF;
+                    SZHVC_add[padc] |= VF;
                 }
                 padc++;
                 
