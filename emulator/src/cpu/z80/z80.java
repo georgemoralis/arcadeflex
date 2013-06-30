@@ -5622,12 +5622,12 @@ public class z80 extends cpu_interface {
     { 
         OR(Z80.AF.H);
     }};
-    opcode op_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    /* CP   B 		  */opcode op_b8 = new opcode() { public void handler(){ CP(Z80.BC.H);}};
+    /* CP   C 		  */opcode op_b9 = new opcode() { public void handler(){ CP(Z80.BC.L);}};
+    /* CP   D 		  */opcode op_ba = new opcode() { public void handler(){ CP(Z80.DE.H);}};
+    /* CP   E 		  */opcode op_bb = new opcode() { public void handler(){ CP(Z80.DE.L);}};
+    /* CP   H 		  */opcode op_bc = new opcode() { public void handler(){ CP(Z80.HL.H);}};
+    /* CP   L 		  */opcode op_bd = new opcode() { public void handler(){ CP(Z80.HL.L);}};
     opcode op_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -6013,13 +6013,6 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,b5) { OR(_L); 												} /* OR   L 		  */
     /*TODO*///OP(op,b6) { OR(RM(_HL));											} /* OR   (HL)		  */
     
-    /*TODO*///
-    /*TODO*///OP(op,b8) { CP(_B); 												} /* CP   B 		  */
-    /*TODO*///OP(op,b9) { CP(_C); 												} /* CP   C 		  */
-    /*TODO*///OP(op,ba) { CP(_D); 												} /* CP   D 		  */
-    /*TODO*///OP(op,bb) { CP(_E); 												} /* CP   E 		  */
-    /*TODO*///OP(op,bc) { CP(_H); 												} /* CP   H 		  */
-    /*TODO*///OP(op,bd) { CP(_L); 												} /* CP   L 		  */
     /*TODO*///OP(op,be) { CP(RM(_HL));											} /* CP   (HL)		  */
     /*TODO*///OP(op,bf) { CP(_A); 												} /* CP   A 		  */
     /*TODO*///
