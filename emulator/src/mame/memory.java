@@ -231,7 +231,7 @@ public class memory {
     };
     public static ReadHandlerPtr mrh_error = new ReadHandlerPtr() {
         public int handler(int offset) {
-            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),cpu_bankbase[0].read(offset),offset);
+            if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read %02x from unmapped memory address %04x\n",cpu_getactivecpu(),cpu_get_pc(),Integer.valueOf(cpu_bankbase[0].read(offset)),offset);
             return cpu_bankbase[0].read(offset);
         }
     };
@@ -1051,7 +1051,30 @@ public class memory {
 /*TODO*/ //
     public static int cpu_readmem16(int address)
     {
-        throw new UnsupportedOperationException("cpu_readmem16 unimplemented");
+        UByte hw=new UByte();
+        
+        /* first-level lookup */
+        hw.set(cur_mrhard[address >>> (ABITS2_16 + ABITS_MIN_16)]);
+																				
+	/* for compatibility with setbankhandler, 8-bit systems must call handlers */		
+	/* for banked memory reads/writes */												
+	if (hw.read() == HT_RAM)												
+		return cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].base + address];											
+																																							
+        /* second-level lookup */
+        if (hw.read() >= MH_HARDMAX)
+        {
+                hw.set((char)(hw.read() - MH_HARDMAX));
+                hw.set(readhardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_16) & MHMASK(ABITS2_16))));
+
+                /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+                /* for banked memory reads/writes */
+                if (hw.read() == HT_RAM)
+                    return cpu_bankbase[HT_RAM].read(address);
+        }
+        /* fall back to handler */
+
+        return memoryreadhandler[hw.read()].handler(address - memoryreadoffset[hw.read()]);      																					
     }
 /*TODO*/ ///* generic byte-sized read handler */
 /*TODO*/ //#define READBYTE(name,type,abits)														\

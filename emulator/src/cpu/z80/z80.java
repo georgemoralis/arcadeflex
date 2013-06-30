@@ -5416,7 +5416,10 @@ public class z80 extends cpu_interface {
     /*TODO*/// **********************************************************/
 
     /* NOP			  */opcode op_00 = new opcode() { public void handler(){ }};
-    opcode op_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_01 = new opcode() { public void handler()/* LD   BC,w		  */
+    { 	
+        Z80.BC.SetD(ARG16());//_BC = ARG16();
+    }};
     opcode op_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5616,7 +5619,11 @@ public class z80 extends cpu_interface {
     opcode op_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_86 = new opcode() { public void handler()/* ADD  A,(HL)	  */
+    { 
+        /*TODO*///OP(op,86) { ADD(RM(_HL));
+        throw new UnsupportedOperationException("unimplemented");
+    }};
     opcode op_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5770,7 +5777,12 @@ public class z80 extends cpu_interface {
     opcode op_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_f1 = new opcode() { public void handler() /* POP  AF		  */
+    { 
+	Z80.AF.SetL((cpu_readmem16(Z80.SP.D) & 0xFF)); //RM16
+        Z80.AF.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
+        Z80.SP.AddD(2);     
+    }};
     opcode op_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_f3 = new opcode() { public void handler()/* DI */
     { 
@@ -5827,7 +5839,7 @@ public class z80 extends cpu_interface {
     opcode op_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
-    /*TODO*///OP(op,01) { _BC = ARG16();											} /* LD   BC,w		  */
+    
     /*TODO*///OP(op,02) { WM( _BC, _A );											} /* LD   (BC),A	  */
     /*TODO*///OP(op,03) { _BC++;													} /* INC  BC		  */
     /*TODO*///OP(op,04) { _B = INC(_B);											} /* INC  B 		  */
@@ -5970,7 +5982,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,83) { ADD(_E);												} /* ADD  A,E		  */
     /*TODO*///OP(op,84) { ADD(_H);												} /* ADD  A,H		  */
     /*TODO*///OP(op,85) { ADD(_L);												} /* ADD  A,L		  */
-    /*TODO*///OP(op,86) { ADD(RM(_HL));											} /* ADD  A,(HL)	  */
+    
     /*TODO*///OP(op,87) { ADD(_A);												} /* ADD  A,A		  */
     /*TODO*///
     /*TODO*///OP(op,88) { ADC(_B);												} /* ADC  A,B		  */
@@ -6091,7 +6103,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,ef) { RST(0x28);												} /* RST  5 		  */
     /*TODO*///
     /*TODO*///OP(op,f0) { RET( !(_F & SF) );										} /* RET  P 		  */
-    /*TODO*///OP(op,f1) { POP(AF);												} /* POP  AF		  */
+    
     /*TODO*///OP(op,f2) { JP_COND( !(_F & SF) );									} /* JP   P,a		  */
     
     /*TODO*///OP(op,f4) { CALL( !(_F & SF) ); 									} /* CALL P,a		  */
