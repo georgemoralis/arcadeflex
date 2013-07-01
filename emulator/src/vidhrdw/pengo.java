@@ -231,7 +231,7 @@ public class pengo
 	
 				drawgfx(tmpbitmap,Machine.gfx[gfx_bank*2],
 						videoram.read(offs),
-						colorram.read(offs) & 0x1f,
+						(int)(colorram.read(offs) & 0x1f),
 						flipscreen,flipscreen,
 						sx*8,sy*8,
 						Machine.drv.visible_area,TRANSPARENCY_NONE,0);
