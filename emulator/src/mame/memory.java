@@ -1584,7 +1584,7 @@ public class memory {
          hw.set((char)(hw.read() - MH_HARDMAX));
          hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_16) & MHMASK(ABITS2_16))));
       }
-            ophw = hw;
+            ophw.set(hw.read());
 
             /* RAM or banked memory */
             if (hw.read() <= HT_BANKMAX)

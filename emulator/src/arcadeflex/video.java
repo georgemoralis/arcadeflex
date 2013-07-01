@@ -2114,8 +2114,8 @@ public class video {
     /*TODO*///			init_dirty(0);
     /*TODO*///		}
     /*TODO*///
-    /*TODO*///		if (need_to_clear_bitmap)
-    /*TODO*///			osd_clearbitmap(scrbitmap);
+    		if (need_to_clear_bitmap!=0)
+    			osd_clearbitmap(scrbitmap);
     /*TODO*///
     /*TODO*///
     		if (throttle!=0 && autoframeskip!=0 && frameskip_counter == 0)
