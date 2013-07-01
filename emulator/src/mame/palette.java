@@ -392,18 +392,18 @@ public class palette {
     		}
     /*TODO*///		break;
     	}
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < Machine->drv->color_table_len;i++)
-    /*TODO*///	{
-    /*TODO*///		int color = Machine->game_colortable[i];
-    /*TODO*///
-    /*TODO*///		/* check for invalid colors set by Machine->drv->vh_init_palette */
-    /*TODO*///		if (color < Machine->drv->total_colors)
-    /*TODO*///			Machine->remapped_colortable[i] = Machine->pens[color];
+    
+    	for (i = 0;i < Machine.drv.color_table_len;i++)
+    	{
+    		int color = Machine.game_colortable[i];
+    
+   		/* check for invalid colors set by Machine->drv->vh_init_palette */
+    		if (color < Machine.drv.total_colors)
+    			Machine.remapped_colortable[i]=Machine.pens[color];
     /*TODO*///		else
     /*TODO*///			usrintf_showmessage("colortable[%d] (=%d) out of range (total_colors = %d)",
     /*TODO*///					i,color,Machine->drv->total_colors);
-    /*TODO*///	}
+    	}
     /*TODO*///
     	return 0;
     }
