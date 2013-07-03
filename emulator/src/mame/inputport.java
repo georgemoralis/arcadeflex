@@ -1355,7 +1355,9 @@ public class inputport {
     /*TODO*///	}
     /*TODO*///
     /*TODO*///	return input_port_value[port];
-          throw new UnsupportedOperationException("readinputport unimplemented");           
+          //throw new UnsupportedOperationException("readinputport unimplemented"); 
+            System.out.println("TODO readinputport no : " + port);
+            return 0;//TEMP
         }
 
       public static ReadHandlerPtr input_port_0_r = new ReadHandlerPtr() { public int handler(int offset) {return readinputport(0);}};
