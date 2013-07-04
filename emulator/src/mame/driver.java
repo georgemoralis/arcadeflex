@@ -19,7 +19,6 @@ package mame;
 import static mame.driverH.*;
 
 //drivers imports
-import static drivers.mario.*;
 import static drivers.pacman.*;
 
 public class driver {
@@ -438,9 +437,9 @@ public class driver {
 /*TODO*/ //	DRIVER( dkjrbl )	/* (c) 1982 Nintendo of America */
 /*TODO*/ //	DRIVER( dkong3 )	/* (c) 1983 Nintendo of America */
 /*TODO*/ //	DRIVER( dkong3j )	/* (c) 1983 Nintendo */
-                driver_mario,	/* (c) 1983 Nintendo of America */
-                driver_mariojp,	/* (c) 1983 Nintendo */
-                driver_masao,	/* bootleg */
+/*TODO*/ //                driver_mario,	/* (c) 1983 Nintendo of America */
+/*TODO*/ //                driver_mariojp,	/* (c) 1983 Nintendo */
+/*TODO*/ //                driver_masao,	/* bootleg */
 /*TODO*/ //	DRIVER( hunchbkd )	/* (c) 1983 Century */
 /*TODO*/ //	DRIVER( herbiedk )	/* (c) 1984 CVS */
 /*TODO*/ //TESTDRIVER( herocast )
