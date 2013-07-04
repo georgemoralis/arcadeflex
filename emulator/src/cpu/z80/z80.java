@@ -5712,7 +5712,10 @@ public class z80 extends cpu_interface {
     opcode op_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b3 = new opcode() { public void handler()/* OR   E 		  */
+    { 
+        OR(Z80.DE.L);
+    }};
     opcode op_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5726,7 +5729,12 @@ public class z80 extends cpu_interface {
     /* CP   E 		  */opcode op_bb = new opcode() { public void handler(){ CP(Z80.DE.L);}};
     /* CP   H 		  */opcode op_bc = new opcode() { public void handler(){ CP(Z80.HL.H);}};
     /* CP   L 		  */opcode op_bd = new opcode() { public void handler(){ CP(Z80.HL.L);}};
-    opcode op_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_be = new opcode() { public void handler()/* CP   (HL)		  */
+    { 
+        // CP(RM(_HL));
+        CP(cpu_readmem16(Z80.HL.D) & 0xFF);
+        
+    }};
     opcode op_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -6216,12 +6224,12 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,b0) { OR(_B); 												} /* OR   B 		  */
     /*TODO*///OP(op,b1) { OR(_C); 												} /* OR   C 		  */
     /*TODO*///OP(op,b2) { OR(_D); 												} /* OR   D 		  */
-    /*TODO*///OP(op,b3) { OR(_E); 												} /* OR   E 		  */
+    
     /*TODO*///OP(op,b4) { OR(_H); 												} /* OR   H 		  */
     /*TODO*///OP(op,b5) { OR(_L); 												} /* OR   L 		  */
     /*TODO*///OP(op,b6) { OR(RM(_HL));											} /* OR   (HL)		  */
     
-    /*TODO*///OP(op,be) { CP(RM(_HL));											} /* CP   (HL)		  */
+    
     /*TODO*///OP(op,bf) { CP(_A); 												} /* CP   A 		  */
     /*TODO*///
     /*TODO*///OP(op,c0) { RET( !(_F & ZF) );										} /* RET  NZ		  */

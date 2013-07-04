@@ -20,6 +20,7 @@ import static mame.driverH.*;
 
 //drivers imports
 import static drivers.pacman.*;
+import static drivers.minivadr.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -796,7 +797,7 @@ public class driver {
 /*TODO*/ //	DRIVER( sqixbl )	/* bootleg? but (c) 1987 */
 /*TODO*/ //	DRIVER( superman )	/* (c) 1988 Taito Corporation */
 /*TODO*/ //TESTDRIVER( footchmp )	/* (c) 1990 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( minivadr )	/* cabinet test board */
+        driver_minivadr,	/* cabinet test board */
 
 	/* Taito "tnzs" hardware */
 /*TODO*/ //	DRIVER( extrmatn )	/* (c) 1987 World Games */
