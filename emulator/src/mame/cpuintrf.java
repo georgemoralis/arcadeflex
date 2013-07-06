@@ -13,6 +13,7 @@ import static mame.mame.*;
 import static mame.timer.*;
 import static mame.timerH.*;
 import static mame.memory.*;
+import static mame.inputport.*;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -1834,10 +1835,10 @@ public class cpuintrf {
 
     /*TODO*///	hs_update();
 
-    /*TODO*///
-    /*TODO*///	/* read keyboard & update the status of the input ports */
-    /*TODO*///	update_input_ports();
-    /*TODO*///
+    
+   	/* read keyboard & update the status of the input ports */
+    	update_input_ports();
+    
     	/* reset the cycle counters */
     	for (i = 0; i < totalcpu; i++)
     	{
@@ -1926,7 +1927,7 @@ public class cpuintrf {
     	vblank = 0;
     
     	/* update IPT_VBLANK input ports */
- /*TODO*///   	inputport_vblank_end();
+   	inputport_vblank_end();
     
     	/* check the watchdog */
     	if (watchdog_counter > 0)

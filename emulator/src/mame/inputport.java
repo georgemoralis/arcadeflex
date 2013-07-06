@@ -1001,8 +1001,8 @@ public class inputport {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void update_input_ports(void)
-/*TODO*///{
+    public static void update_input_ports()
+    {
 /*TODO*///	int port,ib;
 /*TODO*///	struct InputPort *in;
 /*TODO*///#define MAX_INPUT_BITS 1024
@@ -1289,21 +1289,18 @@ public class inputport {
 /*TODO*///		for (i = 0; i < MAX_INPUT_PORTS; i ++)
 /*TODO*///			writeword(record,input_port_value[i]);
 /*TODO*///	}
-/*TODO*///
-/*TODO*///profiler_mark(PROFILER_END);
-/*TODO*///}
+    }
 /*TODO*///
 /*TODO*///
 /*TODO*///
 /*TODO*////* used the the CPU interface to notify that VBlank has ended, so we can update */
 /*TODO*////* IPT_VBLANK input ports. */
-/*TODO*///void inputport_vblank_end(void)
-/*TODO*///{
+    public static void inputport_vblank_end()
+    {
 /*TODO*///	int port;
 /*TODO*///	int i;
 /*TODO*///
 /*TODO*///
-/*TODO*///profiler_mark(PROFILER_INPUT);
 /*TODO*///	for (port = 0;port < MAX_INPUT_PORTS;port++)
 /*TODO*///	{
 /*TODO*///		if (input_vblank[port])
@@ -1338,8 +1335,7 @@ public class inputport {
 /*TODO*///			update_analog_port(i);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///profiler_mark(PROFILER_END);
-/*TODO*///}
+    }
 /*TODO*///
 /*TODO*///
 /*TODO*///

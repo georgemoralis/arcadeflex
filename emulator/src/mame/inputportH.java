@@ -204,8 +204,7 @@ public class inputportH {
 /*TODO*///#define IP_GET_CODE_OR1(port) ((port)->mask)
 /*TODO*///#define IP_GET_CODE_OR2(port) ((port)->default_value)
 /*TODO*///
-/*TODO*///#define IP_NAME_DEFAULT ((const char *)-1)
-/*TODO*///
+    public static String IP_NAME_DEFAULT = "-1";
 /*TODO*////* Wrapper for compatibility */
 /*TODO*///#define IP_KEY_DEFAULT CODE_DEFAULT
 /*TODO*///#define IP_JOY_DEFAULT CODE_DEFAULT
@@ -214,19 +213,26 @@ public class inputportH {
 /*TODO*///#define IP_KEY_NONE CODE_NONE
 /*TODO*///#define IP_JOY_NONE CODE_NONE
 /*TODO*///
+    
+   /* start of table */
+   static InputPortTiny[] input_macro=null; 
    static ArrayList<InputPortTiny> inputload = new ArrayList<InputPortTiny>();
-/*TODO*////* start of table */
-/*TODO*///#define INPUT_PORTS_START(name) \
-/*TODO*///	static struct InputPortTiny input_ports_##name[] = {
-/*TODO*///
-/*TODO*////* end of table */
-/*TODO*///#define INPUT_PORTS_END \
-/*TODO*///	{ 0, 0, IPT_END, 0  } \
-/*TODO*///	};
+
+    /* end of table */
+   public static void INPUT_PORTS_END()
+   {
+       inputload.add(new InputPortTiny( 0,0,IPT_END,null));
+       input_macro = inputload.toArray(new InputPortTiny[inputload.size()]);
+       inputload.clear();
+   }
    /* start of a new input port */
    public static void PORT_START() 
    {
        inputload.add(new InputPortTiny(0,0,IPT_PORT,null));
+   }
+   public static void PORT_BIT(int mask,int default_value,int type)
+   {
+       inputload.add(new InputPortTiny(mask,default_value,type,IP_NAME_DEFAULT));
    }
 /*TODO*////* input bit definition */
 /*TODO*///#define PORT_BIT(mask,default,type) \

@@ -7,6 +7,7 @@ import static mame.commonH.*;
 import static mame.drawgfxH.*;
 import static mame.sndintrfH.*;
 import static arcadeflex.libc.*;
+import static mame.inputportH.*;
 
 public class driverH 
 {
@@ -55,6 +56,8 @@ public class driverH
             //inputports
             this.driver_init=init;
             romload.handler();//load the rom
+            input.handler();//load input
+            this.input_ports = input_macro;//copy input macro to input ports
             this.rom = rommodule_macro; //copy rommodule_macro to rom
             this.flags=monitor;
         }
@@ -66,7 +69,7 @@ public class driverH
 	public String year;
 	public String manufacturer;
         public MachineDriver drv;
-/*TODO*/ //	const struct InputPortTiny *input_ports;
+        public InputPortTiny[] input_ports;
         public InitDriverPtr driver_init;	/* optional function to be called during initialization */
 						/* This is called ONCE, unlike Machine->init_machine */
 						/* which is called every time the game is reset. */
