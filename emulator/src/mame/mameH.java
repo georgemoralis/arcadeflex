@@ -20,6 +20,9 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
+import static mame.inputportH.*;
+import static mame.commonH.*;
+
 /**
  *
  * @author george
@@ -55,7 +58,7 @@ public class mameH {
                                                         /* the user; osd_init() is allowed to change it to the actual */
                                                         /* sample rate supported by the audio card. */
                 public int obsolete;	// was sample_bits;	/* 8 or 16 */
-   /*TODO*/ //               public GameSamples samples;	/* samples loaded from disk */
+                public GameSamples samples;	/* samples loaded from disk */
                 public InputPort[] input_ports;	/* the input ports definition from the driver */
                                                                         /* is copied here and modified (load settings from disk, */
                                                                         /* remove cheat commands, and so on) */

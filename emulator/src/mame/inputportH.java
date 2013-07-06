@@ -2,6 +2,7 @@
 package mame;
 
 import java.util.ArrayList;
+import static mame.inputH.*;
 
 public class inputportH {
 /*TODO*////* input ports handling */
@@ -29,7 +30,10 @@ public class inputportH {
 	public String name;		/* name to display */
     }
 
-
+    public static class InputPort
+    {
+        
+    }    
 /*TODO*///struct InputPort
 /*TODO*///{
 /*TODO*///	UINT16 mask;			/* bits affected */
@@ -174,7 +178,7 @@ public class inputportH {
 /*TODO*///									/* the key. This is useful e.g. for some coin inputs. */
 /*TODO*///									/* The number of frames the signal should stay active */
 /*TODO*///									/* is specified in the "arg" field. */
-/*TODO*///#define IPF_TOGGLE     0x00200000	/* When this is set, the key acts as a toggle - press */
+    public static final int IPF_TOGGLE  =   0x00200000;	/* When this is set, the key acts as a toggle - press */
 /*TODO*///									/* it once and it goes on, press it again and it goes off. */
 /*TODO*///									/* useful e.g. for sone Test Mode dip switches. */
 /*TODO*///#define IPF_REVERSE    0x00400000	/* By default, analog inputs like IPT_TRACKBALL increase */
@@ -210,10 +214,9 @@ public class inputportH {
 /*TODO*///#define IP_JOY_DEFAULT CODE_DEFAULT
 /*TODO*///#define IP_KEY_PREVIOUS CODE_PREVIOUS
 /*TODO*///#define IP_JOY_PREVIOUS CODE_PREVIOUS
-/*TODO*///#define IP_KEY_NONE CODE_NONE
-/*TODO*///#define IP_JOY_NONE CODE_NONE
-/*TODO*///
-    
+    public static final int IP_KEY_NONE = 0x8000; //CODE_NONE
+    public static final int IP_JOY_NONE = 0x8000; //CODE_NONE
+   
    /* start of table */
    static InputPortTiny[] input_macro=null; 
    static ArrayList<InputPortTiny> inputload = new ArrayList<InputPortTiny>();
@@ -242,15 +245,17 @@ public class inputportH {
 /*TODO*///#define PORT_BIT_IMPULSE(mask,default,type,duration) \
 /*TODO*///	{ mask, default, type | IPF_IMPULSE | ((duration & 0xff) << 8), IP_NAME_DEFAULT },
 /*TODO*///
-/*TODO*////* key/joy code specification */
-/*TODO*///#define PORT_CODE(key,joy) \
-/*TODO*///	{ key, joy, IPT_EXTENSION, 0 },
-/*TODO*///
-/*TODO*////* input bit definition with extended fields */
-/*TODO*///#define PORT_BITX(mask,default,type,name,key,joy) \
-/*TODO*///	{ mask, default, type, name }, \
-/*TODO*///	PORT_CODE(key,joy)
-/*TODO*///
+   /* key/joy code specification */
+   public static void PORT_CODE(int key,int joy)
+   {
+       inputload.add(new InputPortTiny(key,joy,IPT_EXTENSION,null));//{ key, joy, IPT_EXTENSION, 0 },
+   }
+   /* input bit definition with extended fields */
+   public static void PORT_BITX(int mask,int default_value,int type,String name,int key,int joy)
+   {
+       inputload.add(new InputPortTiny(mask, default_value, type, name));
+       PORT_CODE(key,joy);
+   }
 /*TODO*////* analog input */
 /*TODO*///#define PORT_ANALOG(mask,default,type,sensitivity,delta,min,max) \
 /*TODO*///	{ mask, default, type, IP_NAME_DEFAULT }, \
@@ -262,19 +267,22 @@ public class inputportH {
 /*TODO*///	PORT_CODE(keydec,joydec) \
 /*TODO*///	PORT_CODE(keyinc,joyinc)
 /*TODO*///
-/*TODO*////* dip switch definition */
-/*TODO*///#define PORT_DIPNAME(mask,default,name) \
-/*TODO*///	{ mask, default, IPT_DIPSWITCH_NAME, name },
-/*TODO*///
-/*TODO*///#define PORT_DIPSETTING(default,name) \
-/*TODO*///	{ 0, default, IPT_DIPSWITCH_SETTING, name },
-/*TODO*///
-/*TODO*///
-/*TODO*///#define PORT_SERVICE(mask,default)	\
-/*TODO*///	PORT_BITX(    mask, mask & default, IPT_DIPSWITCH_NAME | IPF_TOGGLE, DEF_STR( Service_Mode ), KEYCODE_F2, IP_JOY_NONE )	\
-/*TODO*///	PORT_DIPSETTING(    mask & default, DEF_STR( Off ) )	\
-/*TODO*///	PORT_DIPSETTING(    mask &~default, DEF_STR( On ) )
-/*TODO*///
+    /* dip switch definition */
+    public static void PORT_DIPNAME(int mask,int default_value,String name)
+    {
+        inputload.add(new InputPortTiny(mask, default_value, IPT_DIPSWITCH_NAME, name));//{ mask, default, IPT_DIPSWITCH_NAME, name }
+    }
+    public static void PORT_DIPSETTING(int default_value,String name)
+    {
+        inputload.add(new InputPortTiny(0, default_value, IPT_DIPSWITCH_SETTING, name));//{ 0, default, IPT_DIPSWITCH_SETTING, name }
+    }
+    public static void PORT_SERVICE(int mask,int default_value)
+    {
+        PORT_BITX(    mask, mask & default_value, IPT_DIPSWITCH_NAME | IPF_TOGGLE, DEF_STR( "Service_Mode" ), KEYCODE_F2, IP_JOY_NONE );
+	PORT_DIPSETTING(    mask & default_value, DEF_STR( "Off" ) );
+	PORT_DIPSETTING(    mask &~default_value, DEF_STR( "On" ) );
+    }
+
 /*TODO*///#define MAX_DEFSTR_LEN 20
 /*TODO*///extern char ipdn_defaultstrings[][MAX_DEFSTR_LEN];
 /*TODO*///
@@ -337,42 +345,12 @@ public class inputportH {
 /*TODO*///
 /*TODO*///#define DEF_STR(str_num) (ipdn_defaultstrings[STR_##str_num])
 /*TODO*///
+    public static String DEF_STR(String num)
+    {
+        return null;//TODO fix me!!!
+    }
     public static final int MAX_INPUT_PORTS =20;
-/*TODO*///
-/*TODO*///
-/*TODO*///int load_input_port_settings(void);
-/*TODO*///void save_input_port_settings(void);
-/*TODO*///
-/*TODO*///const char *input_port_name(const struct InputPort *in);
-/*TODO*///InputSeq* input_port_type_seq(int type);
-/*TODO*///InputSeq* input_port_seq(const struct InputPort *in);
-/*TODO*///
-/*TODO*///struct InputPort* input_port_allocate(const struct InputPortTiny *src);
-/*TODO*///void input_port_free(struct InputPort* dst);
-/*TODO*///
-/*TODO*///
-/*TODO*///void update_analog_port(int port);
-/*TODO*///void update_input_ports(void);	/* called by cpuintrf.c - not for external use */
-/*TODO*///void inputport_vblank_end(void);	/* called by cpuintrf.c - not for external use */
-/*TODO*///
-/*TODO*///int readinputport(int port);
-/*TODO*///int input_port_0_r(int offset);
-/*TODO*///int input_port_1_r(int offset);
-/*TODO*///int input_port_2_r(int offset);
-/*TODO*///int input_port_3_r(int offset);
-/*TODO*///int input_port_4_r(int offset);
-/*TODO*///int input_port_5_r(int offset);
-/*TODO*///int input_port_6_r(int offset);
-/*TODO*///int input_port_7_r(int offset);
-/*TODO*///int input_port_8_r(int offset);
-/*TODO*///int input_port_9_r(int offset);
-/*TODO*///int input_port_10_r(int offset);
-/*TODO*///int input_port_11_r(int offset);
-/*TODO*///int input_port_12_r(int offset);
-/*TODO*///int input_port_13_r(int offset);
-/*TODO*///int input_port_14_r(int offset);
-/*TODO*///int input_port_15_r(int offset);
-/*TODO*///
+
 /*TODO*///struct ipd
 /*TODO*///{
 /*TODO*///	UINT32 type;

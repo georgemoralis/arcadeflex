@@ -15,6 +15,8 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static arcadeflex.input.*;
 import static machine.pacman.*;
+import static mame.inputportH.*;
+import static mame.inputH.*;
 
 public class pacman {
     /*TODO*///static void alibaba_sound_w(int offset, int data)
@@ -178,63 +180,63 @@ public class pacman {
     /*TODO*///
     /*TODO*///
     static InputPortPtr input_ports_pacman = new InputPortPtr(){ public void handler() {
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BITX(    0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_SERVICE( 0x10, IP_ACTIVE_LOW )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_DIPNAME(0x80, 0x80, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(   0x80, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(   0x00, DEF_STR( Cocktail ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x00, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "10000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "15000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "20000" )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hard" )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, "Ghost Names" )
-    /*TODO*///	PORT_DIPSETTING(    0x80, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Alternate" )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* FAKE */
-    /*TODO*///	/* This fake input port is used to get the status of the fire button */
-    /*TODO*///	/* and activate the speedup cheat if it is. */
-    /*TODO*///	PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Speedup Cheat", KEYCODE_LCONTROL, JOYCODE_1_BUTTON1 )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
+    	PORT_START();	/* IN0 */
+    	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+    	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+    	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+    	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+    	PORT_BITX(    0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE );
+    	PORT_DIPSETTING(    0x10, DEF_STR( "Off" ) );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "On" ) );
+    	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+    	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+    	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+    
+    	PORT_START();	/* IN1 */
+    	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_SERVICE( 0x10, IP_ACTIVE_LOW );
+    	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+    	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+    	PORT_DIPNAME(0x80, 0x80, DEF_STR( "Cabinet" ) );
+    	PORT_DIPSETTING(   0x80, DEF_STR( "Upright" ) );
+    	PORT_DIPSETTING(   0x00, DEF_STR( "Cocktail" ) );
+    
+    	PORT_START();	/* DSW 1 */
+    	PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage" ) );
+    	PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C" ) );
+    	PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C" ) );
+    	PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C" ) );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play" ) );
+    	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives" ) );
+    	PORT_DIPSETTING(    0x00, "1" );
+    	PORT_DIPSETTING(    0x04, "2" );
+    	PORT_DIPSETTING(    0x08, "3" );
+    	PORT_DIPSETTING(    0x0c, "5" );
+    	PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Bonus_Life" ) );
+    	PORT_DIPSETTING(    0x00, "10000" );
+    	PORT_DIPSETTING(    0x10, "15000" );
+    	PORT_DIPSETTING(    0x20, "20000" );
+    	PORT_DIPSETTING(    0x30, "None" );
+    	PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty" ) );
+    	PORT_DIPSETTING(    0x40, "Normal" );
+    	PORT_DIPSETTING(    0x00, "Hard" );
+    	PORT_DIPNAME( 0x80, 0x80, "Ghost Names" );
+    	PORT_DIPSETTING(    0x80, "Normal" );
+    	PORT_DIPSETTING(    0x00, "Alternate" );
+    
+    	PORT_START();	/* DSW 2 */
+    	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+    
+    	PORT_START();	/* FAKE */
+    	/* This fake input port is used to get the status of the fire button */
+    	/* and activate the speedup cheat if it is. */
+    	PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Speedup Cheat", KEYCODE_LCONTROL, JOYCODE_1_BUTTON1 );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "Off" ) );
+    	PORT_DIPSETTING(    0x01, DEF_STR( "On" ) );
+        INPUT_PORTS_END();
     }};
     /*TODO*////* Ms. Pac-Man input ports are identical to Pac-Man, the only difference is */
     /*TODO*////* the missing Ghost Names dip switch. */

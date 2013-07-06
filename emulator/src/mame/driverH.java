@@ -34,12 +34,6 @@ public class driverH
         public static abstract interface InputPortPtr { public abstract void handler();}
         public static abstract interface nvramPtr { public abstract void handler(Object file,int read_or_write); };
         
-    public static class InputPort
-    {
-        
-    }    
-
-    
 
     public static class GameDriver
     {
