@@ -4,6 +4,7 @@ package mame;
 import static mame.inputH.*;
 import static arcadeflex.input.*;
 import java.util.Arrays;
+import static mame.inputportH.*;
 
 public class input {
     /* Codes */
@@ -492,44 +493,40 @@ public class input {
     /*TODO*///
     /*TODO*///	return code;
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************************/
-    /*TODO*////* Sequences */
-    /*TODO*///
-    /*TODO*///void seq_set_0(InputSeq* a)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	for(j=0;j<SEQ_MAX;++j)
-    /*TODO*///		(*a)[j] = CODE_NONE;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void seq_set_1(InputSeq* a, InputCode code)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	(*a)[0] = code;
-    /*TODO*///	for(j=1;j<SEQ_MAX;++j)
-    /*TODO*///		(*a)[j] = CODE_NONE;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void seq_set_2(InputSeq* a, InputCode code1, InputCode code2)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	(*a)[0] = code1;
-    /*TODO*///	(*a)[1] = code2;
-    /*TODO*///	for(j=2;j<SEQ_MAX;++j)
-    /*TODO*///		(*a)[j] = CODE_NONE;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void seq_set_3(InputSeq* a, InputCode code1, InputCode code2, InputCode code3)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	(*a)[0] = code1;
-    /*TODO*///	(*a)[1] = code2;
-    /*TODO*///	(*a)[2] = code3;
-    /*TODO*///	for(j=3;j<SEQ_MAX;++j)
-    /*TODO*///		(*a)[j] = CODE_NONE;
-    /*TODO*///}
-    /*TODO*///
+
+    
+    /***************************************************************************/
+    /* Sequences */
+
+    public static void seq_set_0(int[] a)
+    {
+        for (int j = 0; j < SEQ_MAX; ++j)
+            a[j] = CODE_TYPE_NONE;
+    }
+    public static void seq_set_1(int[] a, int code)
+    {
+            int j;
+            a[0] = code;
+            for (j = 1; j < SEQ_MAX; ++j)
+                a[j] = CODE_NONE;
+    }
+    public static void seq_set_2(int[] a, int code1, int code2)
+    {
+            int j;
+            a[0] = code1;
+            a[1] = code2;
+            for (j = 2; j < SEQ_MAX; ++j)
+                a[j] = CODE_NONE;
+    }
+    public static void seq_set_3(int[] a, int code1, int code2, int code3)
+    {
+            int j;
+            a[0] = code1;
+            a[1] = code2;
+            a[2] = code3;
+            for (j = 3; j < SEQ_MAX; ++j)
+                a[j] = CODE_NONE;
+    }
     /*TODO*///void seq_copy(InputSeq* a, InputSeq* b)
     /*TODO*///{
     /*TODO*///	int j;

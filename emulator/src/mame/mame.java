@@ -41,6 +41,8 @@ import static mame.input.*;
 import static vidhrdw.generic.*;
 import static mame.commonH.*;
 import static mame.inputH.*;
+import static mame.inputport.*;
+
 public class mame {
 
     static RunningMachine machine = new RunningMachine();
@@ -182,19 +184,19 @@ public class mame {
             Machine.memory_region_type[i] = 0;
         }
 
-        /*TODO*/ //            if (gamedrv.input_ports)
-/*TODO*/ //            {
-/*TODO*/ //                    Machine.input_ports = input_port_allocate(gamedrv.input_ports);
-/*TODO*/ //                    if (!Machine.input_ports)
-/*TODO*/ //                            goto out_code;
-/*TODO*/ //                    Machine.input_ports_default = input_port_allocate(gamedrv.input_ports);
-/*TODO*/ //                    if (!Machine.input_ports_default)
-/*TODO*/ //                    {
-/*TODO*/ //                            input_port_free(Machine.input_ports);
-/*TODO*/ //                            Machine.input_ports = 0;
-/*TODO*/ //                            goto out_code;
-/*TODO*/ //                    }
-/*TODO*/ //            }
+        if (gamedrv.input_ports!=null)
+        {
+                 Machine.input_ports = input_port_allocate(gamedrv.input_ports);
+                    if (Machine.input_ports==null)
+                            return out_code();
+                    Machine.input_ports_default = input_port_allocate(gamedrv.input_ports);
+                    if (Machine.input_ports_default==null)
+                    {
+                            input_port_free(Machine.input_ports);
+                            Machine.input_ports = null;
+                            return out_code();
+                    }
+         }
 
         if (readroms() != 0) {
             return out_free();

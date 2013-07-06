@@ -236,8 +236,8 @@ public class inputH {
 /*TODO*////***************************************************************************/
 /*TODO*////* Sequence code funtions */
 /*TODO*///
-/*TODO*////* NOTE: If you modify this value you need also to modify the SEQ_DEF declarations */
-/*TODO*///#define SEQ_MAX 16
+    /* NOTE: If you modify this value you need also to modify the SEQ_DEF declarations */
+    public static final int SEQ_MAX= 16;
 /*TODO*///
 /*TODO*///typedef InputCode InputSeq[SEQ_MAX];
 /*TODO*///

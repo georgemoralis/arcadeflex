@@ -1,10 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mame;
 
 import static mame.driverH.*;
+import static mame.inputportH.*;
+import static mame.inputH.*;
+import static mame.input.*;
 
 public class inputport {
 /*TODO*////***************************************************************************
@@ -50,15 +49,16 @@ public class inputport {
 /*TODO*///extern unsigned int coins[COIN_COUNTERS];
 /*TODO*///extern unsigned int lastcoin[COIN_COUNTERS];
 /*TODO*///extern unsigned int coinlockedout[COIN_COUNTERS];
-/*TODO*///
-/*TODO*///static unsigned short input_port_value[MAX_INPUT_PORTS];
-/*TODO*///static unsigned short input_vblank[MAX_INPUT_PORTS];
-/*TODO*///
-/*TODO*////* Assuming a maxium of one analog input device per port BW 101297 */
-/*TODO*///static struct InputPort *input_analog[MAX_INPUT_PORTS];
-/*TODO*///static int input_analog_current_value[MAX_INPUT_PORTS],input_analog_previous_value[MAX_INPUT_PORTS];
-/*TODO*///static int input_analog_init[MAX_INPUT_PORTS];
-/*TODO*///
+
+    static int[] input_port_value=new int[MAX_INPUT_PORTS];
+    static int[] input_vblank=new int[MAX_INPUT_PORTS];
+
+    /* Assuming a maxium of one analog input device per port BW 101297 */
+    static InputPort[] input_analog=new InputPort[MAX_INPUT_PORTS];
+    static int[] input_analog_current_value=new int[MAX_INPUT_PORTS];
+    static int[] input_analog_previous_value=new int[MAX_INPUT_PORTS];
+    static int[] input_analog_init=new int[MAX_INPUT_PORTS];
+    
 /*TODO*///static int mouse_delta_x[OSD_MAX_JOY_ANALOG], mouse_delta_y[OSD_MAX_JOY_ANALOG];
 /*TODO*///static int analog_current_x[OSD_MAX_JOY_ANALOG], analog_current_y[OSD_MAX_JOY_ANALOG];
 /*TODO*///static int analog_previous_x[OSD_MAX_JOY_ANALOG], analog_previous_y[OSD_MAX_JOY_ANALOG];
@@ -1376,110 +1376,109 @@ public class inputport {
 /*TODO*///
 /*TODO*///
 /*TODO*////***************************************************************************/
-/*TODO*////* InputPort conversion */
-/*TODO*///
-/*TODO*///static unsigned input_port_count(const struct InputPortTiny *src)
-/*TODO*///{
-/*TODO*///	unsigned total;
-/*TODO*///
-/*TODO*///	total = 0;
-/*TODO*///	while (src->type != IPT_END)
-/*TODO*///	{
-/*TODO*///		int type = src->type & ~IPF_MASK;
-/*TODO*///		if (type > IPT_ANALOG_START && type < IPT_ANALOG_END)
-/*TODO*///			total += 2;
-/*TODO*///		else if (type != IPT_EXTENSION)
-/*TODO*///			++total;
-/*TODO*///		++src;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	++total; /* for IPT_END */
-/*TODO*///
-/*TODO*///	return total;
-/*TODO*///}
-/*TODO*///
-/*TODO*///struct InputPort* input_port_allocate(const struct InputPortTiny *src)
-/*TODO*///{
-/*TODO*///	struct InputPort* dst;
-/*TODO*///	struct InputPort* base;
-/*TODO*///	unsigned total;
-/*TODO*///
-/*TODO*///	total = input_port_count(src);
-/*TODO*///
-/*TODO*///	base = (struct InputPort*)malloc(total * sizeof(struct InputPort));
-/*TODO*///	dst = base;
-/*TODO*///
-/*TODO*///	while (src->type != IPT_END)
-/*TODO*///	{
-/*TODO*///		int type = src->type & ~IPF_MASK;
-/*TODO*///		const struct InputPortTiny *ext;
-/*TODO*///		const struct InputPortTiny *src_end;
-/*TODO*///		InputCode seq_default;
-/*TODO*///
-/*TODO*///		if (type > IPT_ANALOG_START && type < IPT_ANALOG_END)
-/*TODO*///			src_end = src + 2;
-/*TODO*///		else
-/*TODO*///			src_end = src + 1;
-/*TODO*///
-/*TODO*///		switch (type)
-/*TODO*///		{
-/*TODO*///			case IPT_END :
-/*TODO*///			case IPT_PORT :
-/*TODO*///			case IPT_DIPSWITCH_NAME :
-/*TODO*///			case IPT_DIPSWITCH_SETTING :
-/*TODO*///				seq_default = CODE_NONE;
-/*TODO*///			break;
-/*TODO*///			default:
-/*TODO*///				seq_default = CODE_DEFAULT;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		ext = src_end;
-/*TODO*///		while (src != src_end)
-/*TODO*///		{
-/*TODO*///			dst->type = src->type;
-/*TODO*///			dst->mask = src->mask;
-/*TODO*///			dst->default_value = src->default_value;
-/*TODO*///			dst->name = src->name;
-/*TODO*///
-/*TODO*///  			if (ext->type == IPT_EXTENSION)
-/*TODO*///  			{
-/*TODO*///				InputCode or1 =	IP_GET_CODE_OR1(ext);
-/*TODO*///				InputCode or2 =	IP_GET_CODE_OR2(ext);
-/*TODO*///
-/*TODO*///				if (or1 < __code_max)
-/*TODO*///				{
-/*TODO*///					if (or2 < __code_max)
-/*TODO*///						seq_set_3(&dst->seq, or1, CODE_OR, or2);
-/*TODO*///					else
-/*TODO*///						seq_set_1(&dst->seq, or1);
-/*TODO*///				} else {
-/*TODO*///					if (or1 == CODE_NONE)
-/*TODO*///						seq_set_1(&dst->seq, or2);
-/*TODO*///					else
-/*TODO*///						seq_set_1(&dst->seq, or1);
-/*TODO*///				}
-/*TODO*///
-/*TODO*///  				++ext;
-/*TODO*///  			} else {
-/*TODO*///				seq_set_1(&dst->seq,seq_default);
-/*TODO*///  			}
-/*TODO*///
-/*TODO*///			++src;
-/*TODO*///			++dst;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		src = ext;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	dst->type = IPT_END;
-/*TODO*///
-/*TODO*///	return base;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void input_port_free(struct InputPort* dst)
-/*TODO*///{
-/*TODO*///	free(dst);
-/*TODO*///}
-/*TODO*///
-/*TODO*///    
+
+    /* InputPort conversion */
+    public static int input_port_count(InputPortTiny[] src)
+    {
+	int total;
+        int ptr=0;
+	total = 0;
+	while (src[ptr].type != IPT_END)
+	{
+		int type = src[ptr].type & ~IPF_MASK;
+		if (type > IPT_ANALOG_START && type < IPT_ANALOG_END)
+			total += 2;
+		else if (type != IPT_EXTENSION)
+			++total;
+		++ptr;//++src;
+	}
+
+	++total; /* for IPT_END */
+
+	return total;
+    }
+    public static InputPort[] input_port_allocate(InputPortTiny[] src)
+    {
+        int dst; //struct InputPort* dst;
+        int inp_ptr = 0;
+        InputPort[] base;
+        int total;
+        
+        total = input_port_count(src);
+        
+        base = new InputPort[total];
+        dst = 0; //dst = base;
+        
+	while (src[inp_ptr].type != IPT_END)
+	{
+		int type = src[inp_ptr].type & ~IPF_MASK;
+		int ext;//const struct InputPortTiny *ext;
+		int src_end;//const struct InputPortTiny *src_end;
+		int/*InputCode*/ seq_default;
+
+		if (type > IPT_ANALOG_START && type < IPT_ANALOG_END)
+			src_end = inp_ptr + 2;
+		else
+			src_end = inp_ptr + 1;
+
+		switch (type)
+		{
+			case IPT_END :
+			case IPT_PORT :
+			case IPT_DIPSWITCH_NAME :
+			case IPT_DIPSWITCH_SETTING :
+				seq_default = CODE_NONE;
+			break;
+			default:
+				seq_default = CODE_DEFAULT;
+		}
+
+		ext = src_end;
+		while (inp_ptr != src_end)
+		{
+                    base[dst] = new InputPort();
+                    base[dst].type = src[inp_ptr].type;//dst->type = src->type;
+                    base[dst].mask = src[inp_ptr].mask;//dst->mask = src->mask;
+                    base[dst].default_value = src[inp_ptr].default_value;//dst->default_value = src->default_value;
+                    base[dst].name = src[inp_ptr].name;//dst->name = src->name;
+
+                    if (src[ext].type == IPT_EXTENSION)
+                    {
+			int or1 = IP_GET_CODE_OR1(src[ext]);
+			int or2 = IP_GET_CODE_OR2(src[ext]);
+                        
+                        if (or1 < __code_max)
+                        {
+				if (or2 < __code_max)
+                                    seq_set_3(base[dst].seq, or1, CODE_OR, or2);//seq_set_3(&dst->seq, or1, CODE_OR, or2);
+				else
+                                    seq_set_1(base[dst].seq, or1);//seq_set_1(&dst->seq, or1);
+                        } else {
+				if (or1 == CODE_NONE)
+                                    seq_set_1(base[dst].seq, or2);//seq_set_1(&dst->seq, or2);
+				else
+                                    seq_set_1(base[dst].seq, or1);//seq_set_1(&dst->seq, or1);
+			}
+
+  			++ext;
+                    } else {
+				seq_set_1(base[dst].seq, seq_default);//seq_set_1(&dst->seq,seq_default);
+                    }
+
+                    ++inp_ptr;
+                    ++dst;
+		}
+
+		inp_ptr = ext;
+	}
+        base[dst] = new InputPort();
+        base[dst].type = IPT_END;//dst->type = IPT_END;
+
+	return base;
+    }
+
+    public static void input_port_free(InputPort[] dst)
+    {
+	dst=null;
+    }
 }

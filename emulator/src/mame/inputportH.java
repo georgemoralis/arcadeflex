@@ -32,19 +32,18 @@ public class inputportH {
 
     public static class InputPort
     {
-        
+        public int /*UINT16*/ mask;			/* bits affected */
+	public int /*UINT16*/ default_value;	/* default value for the bits affected */
+							/* you can also use one of the IP_ACTIVE defines below */
+	public int /*UINT32*/ type;			/* see defines below */
+	public String name;		/* name to display */
+        public int[] seq = new int[SEQ_MAX]; /* input sequence affecting the input bits */
+        public InputPort()
+        {
+           for (int i = 0; i < SEQ_MAX; i++)
+               seq[i] = 0;
+        }
     }    
-/*TODO*///struct InputPort
-/*TODO*///{
-/*TODO*///	UINT16 mask;			/* bits affected */
-/*TODO*///	UINT16 default_value;	/* default value for the bits affected */
-/*TODO*///							/* you can also use one of the IP_ACTIVE defines below */
-/*TODO*///	UINT32 type;			/* see defines below */
-/*TODO*///	const char *name;		/* name to display */
-/*TODO*///	InputSeq seq;                  	/* input sequence affecting the input bits */
-/*TODO*///};
-/*TODO*///
-/*TODO*///
     public static final int IP_ACTIVE_HIGH = 0x0000;
     public static final int IP_ACTIVE_LOW  = 0xffff;
 
@@ -205,8 +204,8 @@ public class inputportH {
 /*TODO*///#define IP_SET_DELTA(port,val) ((port)+1)->type = ((port+1)->type & 0xff00ffff)|((val&0xff)<<16)
 /*TODO*///#define IP_GET_MIN(port) (((port)+1)->mask)
 /*TODO*///#define IP_GET_MAX(port) (((port)+1)->default_value)
-/*TODO*///#define IP_GET_CODE_OR1(port) ((port)->mask)
-/*TODO*///#define IP_GET_CODE_OR2(port) ((port)->default_value)
+    public static int IP_GET_CODE_OR1(InputPortTiny port) { return port.mask; }
+    public static int IP_GET_CODE_OR2(InputPortTiny port) { return port.default_value; }
 /*TODO*///
     public static String IP_NAME_DEFAULT = "-1";
 /*TODO*////* Wrapper for compatibility */
