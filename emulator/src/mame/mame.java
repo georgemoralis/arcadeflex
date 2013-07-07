@@ -212,7 +212,7 @@ public class mame {
         cpu_init();
 
         /* load input ports settings (keys, dip switches, and so on) */
-        /*TODO*/ //            settingsloaded = load_input_port_settings();
+        settingsloaded = load_input_port_settings();
 
         if (memory_init() == 0) {
             return out_free();
@@ -469,14 +469,14 @@ public class mame {
     						Machine.memory_region[region] = null;
     					}
     				}
-    /*TODO*///
-    /*TODO*///				if (settingsloaded == 0)
-    /*TODO*///				{
+    
+    				if (settingsloaded == 0)
+    				{
     					/* if there is no saved config, it must be first time we run this game, */
     					/* so show the disclaimer. */
     					if (showcopyright()!=0) return userquit_goto();
-    /*TODO*///				}
-    /*TODO*///
+    				}
+    
     				if (showgamewarnings() == 0)  /* show info about incorrect behaviour (wrong colors etc.) */
     				{
     /*TODO*///					init_user_interface();

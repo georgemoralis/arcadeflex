@@ -1,9 +1,11 @@
 package mame;
 
+import static arcadeflex.libc_old.*;
 import static mame.driverH.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
 import static mame.input.*;
+import static mame.mame.*;
 
 public class inputport {
 /*TODO*////***************************************************************************
@@ -54,7 +56,7 @@ public class inputport {
     static int[] input_vblank=new int[MAX_INPUT_PORTS];
 
     /* Assuming a maxium of one analog input device per port BW 101297 */
-    static InputPort[] input_analog=new InputPort[MAX_INPUT_PORTS];
+    static int[] input_analog = new int[MAX_INPUT_PORTS];
     static int[] input_analog_current_value=new int[MAX_INPUT_PORTS];
     static int[] input_analog_previous_value=new int[MAX_INPUT_PORTS];
     static int[] input_analog_init=new int[MAX_INPUT_PORTS];
@@ -425,8 +427,8 @@ public class inputport {
 /*TODO*////***************************************************************************/
 /*TODO*////* Load */
 /*TODO*///
-/*TODO*///static void load_default_keys(void)
-/*TODO*///{
+    public static void load_default_keys()
+    {
 /*TODO*///	void *f;
 /*TODO*///
 /*TODO*///
@@ -485,7 +487,7 @@ public class inputport {
 /*TODO*///getout:
 /*TODO*///		osd_fclose(f);
 /*TODO*///	}
-/*TODO*///}
+    }
 /*TODO*///
 /*TODO*///static void save_default_keys(void)
 /*TODO*///{
@@ -552,8 +554,8 @@ public class inputport {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///int load_input_port_settings(void)
-/*TODO*///{
+    public static int load_input_port_settings()
+    {
 /*TODO*///	void *f;
 /*TODO*///
 /*TODO*///	load_default_keys();
@@ -651,13 +653,14 @@ public class inputport {
 /*TODO*///		for (i = 0; i < MAX_INPUT_PORTS; i++)
 /*TODO*///			input_analog_init[i] = 1;
 /*TODO*///	}
-/*TODO*///	update_input_ports();
+            update_input_ports();
 /*TODO*///
 /*TODO*///	/* if we didn't find a saved config, return 0 so the main core knows that it */
 /*TODO*///	/* is the first time the game is run and it should diplay the disclaimer. */
 /*TODO*///	if (f) return 1;
-/*TODO*///	else return 0;
-/*TODO*///}
+/*TODO*///	else 
+                return 0;
+    }
 /*TODO*///
 /*TODO*////***************************************************************************/
 /*TODO*////* Save */
@@ -1003,8 +1006,8 @@ public class inputport {
 /*TODO*///
     public static void update_input_ports()
     {
-/*TODO*///	int port,ib;
-/*TODO*///	struct InputPort *in;
+	int port,ib;
+	int in_ptr;//struct InputPort *in;
 /*TODO*///#define MAX_INPUT_BITS 1024
 /*TODO*///static int impulsecount[MAX_INPUT_BITS];
 /*TODO*///static int waspressed[MAX_INPUT_BITS];
@@ -1020,32 +1023,24 @@ public class inputport {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///profiler_mark(PROFILER_INPUT);
-/*TODO*///
-/*TODO*///	/* clear all the values before proceeding */
-/*TODO*///	for (port = 0;port < MAX_INPUT_PORTS;port++)
-/*TODO*///	{
-/*TODO*///		input_port_value[port] = 0;
-/*TODO*///		input_vblank[port] = 0;
-/*TODO*///		input_analog[port] = 0;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#ifndef MRU_JOYSTICK
-/*TODO*///	for (i = 0;i < 4*MAX_JOYSTICKS*MAX_PLAYERS;i++)
-/*TODO*///		joystick[i/4][i%4] = 0;
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	in = Machine->input_ports;
-/*TODO*///
-/*TODO*///	if (in->type == IPT_END) return; 	/* nothing to do */
-/*TODO*///
-/*TODO*///	/* make sure the InputPort definition is correct */
-/*TODO*///	if (in->type != IPT_PORT)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Error in InputPort definition: expecting PORT_START\n");
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///	else in++;
+	/* clear all the values before proceeding */
+	for (port = 0;port < MAX_INPUT_PORTS;port++)
+	{
+		input_port_value[port] = 0;
+		input_vblank[port] = 0;
+		input_analog[port] = 0;
+	}
+
+	in_ptr=0;//in = Machine->input_ports;
+        if (Machine.input_ports[in_ptr].type == IPT_END) return; 	/* nothing to do */
+
+	/* make sure the InputPort definition is correct */
+	if (Machine.input_ports[in_ptr].type != IPT_PORT)
+	{
+		if (errorlog!=null) fprintf(errorlog,"Error in InputPort definition: expecting PORT_START\n");
+		return;
+	}
+	else in_ptr++;
 /*TODO*///
 /*TODO*///#ifdef MRU_JOYSTICK
 /*TODO*///	/* scan all the joystick ports */
@@ -1100,32 +1095,32 @@ public class inputport {
 /*TODO*///	in++;
 /*TODO*///#endif
 /*TODO*///
-/*TODO*///
-/*TODO*///	/* scan all the input ports */
-/*TODO*///	port = 0;
-/*TODO*///	ib = 0;
-/*TODO*///	while (in->type != IPT_END && port < MAX_INPUT_PORTS)
-/*TODO*///	{
-/*TODO*///		struct InputPort *start;
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* first of all, scan the whole input port definition and build the */
-/*TODO*///		/* default value. I must do it before checking for input because otherwise */
-/*TODO*///		/* multiple keys associated with the same input bit wouldn't work (the bit */
-/*TODO*///		/* would be reset to its default value by the second entry, regardless if */
-/*TODO*///		/* the key associated with the first entry was pressed) */
-/*TODO*///		start = in;
-/*TODO*///		while (in->type != IPT_END && in->type != IPT_PORT)
-/*TODO*///		{
-/*TODO*///			if ((in->type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING &&	/* skip dipswitch definitions */
-/*TODO*///				(in->type & ~IPF_MASK) != IPT_EXTENSION)			/* skip analog extension fields */
-/*TODO*///			{
-/*TODO*///				input_port_value[port] =
-/*TODO*///						(input_port_value[port] & ~in->mask) | (in->default_value & in->mask);
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			in++;
-/*TODO*///		}
+
+	/* scan all the input ports */
+	port = 0;
+	ib = 0;
+        while (Machine.input_ports[in_ptr].type != IPT_END && port < MAX_INPUT_PORTS)
+	{
+		int start;//struct InputPort *start;
+
+
+		/* first of all, scan the whole input port definition and build the */
+		/* default value. I must do it before checking for input because otherwise */
+		/* multiple keys associated with the same input bit wouldn't work (the bit */
+		/* would be reset to its default value by the second entry, regardless if */
+		/* the key associated with the first entry was pressed) */
+		start = in_ptr;
+		while (Machine.input_ports[in_ptr].type != IPT_END && Machine.input_ports[in_ptr].type != IPT_PORT)
+		{
+			if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING &&	/* skip dipswitch definitions */
+				(Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION)			/* skip analog extension fields */
+			{
+				input_port_value[port] =
+						(input_port_value[port] & ~Machine.input_ports[in_ptr].mask) | (Machine.input_ports[in_ptr].default_value & Machine.input_ports[in_ptr].mask);
+			}
+
+			in_ptr++;
+		}
 /*TODO*///
 /*TODO*///		/* now get back to the beginning of the input port and check the input bits. */
 /*TODO*///		for (in = start;
@@ -1271,9 +1266,9 @@ public class inputport {
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///
-/*TODO*///		port++;
-/*TODO*///		if (in->type == IPT_PORT) in++;
-/*TODO*///	}
+		port++;
+		if (Machine.input_ports[in_ptr].type == IPT_PORT) in_ptr++;
+	}
 /*TODO*///
 /*TODO*///	if (playback)
 /*TODO*///	{
@@ -1297,18 +1292,18 @@ public class inputport {
 /*TODO*////* IPT_VBLANK input ports. */
     public static void inputport_vblank_end()
     {
-/*TODO*///	int port;
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///
-/*TODO*///	for (port = 0;port < MAX_INPUT_PORTS;port++)
-/*TODO*///	{
-/*TODO*///		if (input_vblank[port])
-/*TODO*///		{
-/*TODO*///			input_port_value[port] ^= input_vblank[port];
-/*TODO*///			input_vblank[port] = 0;
-/*TODO*///		}
-/*TODO*///	}
+	int port;
+	int i;
+
+
+	for (port = 0;port < MAX_INPUT_PORTS;port++)
+	{
+		if (input_vblank[port]!=0)
+		{
+			input_port_value[port] ^= input_vblank[port];
+			input_vblank[port] = 0;
+		}
+	}
 /*TODO*///
 /*TODO*///	/* poll all the analog joysticks */
 /*TODO*///	osd_poll_joysticks();
@@ -1349,11 +1344,8 @@ public class inputport {
     /*TODO*///	{
     /*TODO*///		scale_analog_port(port);
     /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return input_port_value[port];
-          //throw new UnsupportedOperationException("readinputport unimplemented"); 
-            System.out.println("TODO readinputport no : " + port);
-            return 0;//TEMP
+    
+            return input_port_value[port];
         }
 
       public static ReadHandlerPtr input_port_0_r = new ReadHandlerPtr() { public int handler(int offset) {return readinputport(0);}};
