@@ -1121,23 +1121,23 @@ public class inputport {
 
 			in_ptr++;
 		}
-/*TODO*///
-/*TODO*///		/* now get back to the beginning of the input port and check the input bits. */
-/*TODO*///		for (in = start;
-/*TODO*///			 in->type != IPT_END && in->type != IPT_PORT;
-/*TODO*///			 in++, ib++)
-/*TODO*///		{
-/*TODO*///			if ((in->type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING &&	/* skip dipswitch definitions */
-/*TODO*///					(in->type & ~IPF_MASK) != IPT_EXTENSION)		/* skip analog extension fields */
-/*TODO*///			{
-/*TODO*///				if ((in->type & ~IPF_MASK) == IPT_VBLANK)
-/*TODO*///				{
-/*TODO*///					input_vblank[port] ^= in->mask;
-/*TODO*///					input_port_value[port] ^= in->mask;
-/*TODO*///if (errorlog && Machine->drv->vblank_duration == 0)
-/*TODO*///	fprintf(errorlog,"Warning: you are using IPT_VBLANK with vblank_duration = 0. You need to increase vblank_duration for IPT_VBLANK to work.\n");
-/*TODO*///				}
-/*TODO*///				/* If it's an analog control, handle it appropriately */
+
+		/* now get back to the beginning of the input port and check the input bits. */
+                 for (in_ptr = start;
+                     Machine.input_ports[in_ptr].type != IPT_END && Machine.input_ports[in_ptr].type != IPT_PORT;
+                     in_ptr++, ib++)
+		{
+			if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING &&	/* skip dipswitch definitions */
+					(Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION)		/* skip analog extension fields */
+			{
+				if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) == IPT_VBLANK)
+				{
+					input_vblank[port] ^= Machine.input_ports[in_ptr].mask;
+					input_port_value[port] ^= Machine.input_ports[in_ptr].mask;
+                                        if (errorlog!=null && Machine.drv.vblank_duration == 0)
+                                            fprintf(errorlog,"Warning: you are using IPT_VBLANK with vblank_duration = 0. You need to increase vblank_duration for IPT_VBLANK to work.\n");
+				}
+				/* If it's an analog control, handle it appropriately */
 /*TODO*///				else if (((in->type & ~IPF_MASK) > IPT_ANALOG_START)
 /*TODO*///					  && ((in->type & ~IPF_MASK) < IPT_ANALOG_END  )) /* LBO 120897 */
 /*TODO*///				{
@@ -1150,8 +1150,8 @@ public class inputport {
 /*TODO*///							= in->default_value * 100 / IP_GET_SENSITIVITY(in);
 /*TODO*///					}
 /*TODO*///				}
-/*TODO*///				else
-/*TODO*///				{
+				else
+				{
 /*TODO*///					InputSeq* seq;
 /*TODO*///
 /*TODO*///					seq = input_port_seq(in);
@@ -1262,10 +1262,10 @@ public class inputport {
 /*TODO*///						waspressed[ib] = 1;
 /*TODO*///						input_port_value[port] ^= in->mask;
 /*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
+				}
+			}
+		}
+
 		port++;
 		if (Machine.input_ports[in_ptr].type == IPT_PORT) in_ptr++;
 	}

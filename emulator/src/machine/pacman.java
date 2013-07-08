@@ -1,4 +1,9 @@
-
+/*
+ * ported to v0.36
+ *
+ *  THIS FILE IS 100% PORTED!!!
+ *
+ */ 
 package machine;
 
 import static mame.driverH.*;
@@ -6,6 +11,7 @@ import static arcadeflex.libc.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
+import static mame.inputport.*;
 
 public class pacman {
    public static int speedcheat = 0;	/* a well known hack allows to make Pac Man run at four times */
@@ -31,22 +37,22 @@ public class pacman {
    
    
    	/* speed up cheat */
-   /*TODO*///	if (speedcheat)
-   /*TODO*///	{
-   /*TODO*///		if (readinputport(4) & 1)	/* check status of the fake dip switch */
-   /*TODO*///		{
-   /*TODO*///			/* activate the cheat */
-   /*TODO*///			RAM[0x180b] = 0x01;
-   /*TODO*///			RAM[0x1ffd] = 0xbd;
-   /*TODO*///		}
-   /*TODO*///		else
-   /*TODO*///		{
-   /*TODO*///			/* remove the cheat */
-   /*TODO*///			RAM[0x180b] = 0xbe;
-   /*TODO*///			RAM[0x1ffd] = 0x00;
-   /*TODO*///		}
-   /*TODO*///	}
-   /*TODO*///
+   	if (speedcheat!=0)
+   	{
+   		if ((readinputport(4) & 1)!=0)	/* check status of the fake dip switch */
+   		{
+   			/* activate the cheat */
+   			RAM.write(0x180b,0x01);
+   			RAM.write(0x1ffd,0xbd);
+   		}
+   		else
+   		{
+   			/* remove the cheat */
+   			RAM.write(0x180b,0xbe);
+   			RAM.write(0x1ffd,0x00);
+   		}
+   	}
+   
    	return interrupt.handler();
    }};  
 }
