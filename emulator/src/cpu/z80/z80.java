@@ -350,116 +350,6 @@ public class z80 extends cpu_interface {
      8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
      8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
     
-    /*TODO*///static void take_interrupt(void);
-    /*TODO*///
-    /*TODO*///#define PROTOTYPES(tablename,prefix) \
-    /*TODO*///	INLINE void prefix##_00(void); INLINE void prefix##_01(void); INLINE void prefix##_02(void); INLINE void prefix##_03(void); \
-    /*TODO*///	INLINE void prefix##_04(void); INLINE void prefix##_05(void); INLINE void prefix##_06(void); INLINE void prefix##_07(void); \
-    /*TODO*///	INLINE void prefix##_08(void); INLINE void prefix##_09(void); INLINE void prefix##_0a(void); INLINE void prefix##_0b(void); \
-    /*TODO*///	INLINE void prefix##_0c(void); INLINE void prefix##_0d(void); INLINE void prefix##_0e(void); INLINE void prefix##_0f(void); \
-    /*TODO*///	INLINE void prefix##_10(void); INLINE void prefix##_11(void); INLINE void prefix##_12(void); INLINE void prefix##_13(void); \
-    /*TODO*///	INLINE void prefix##_14(void); INLINE void prefix##_15(void); INLINE void prefix##_16(void); INLINE void prefix##_17(void); \
-    /*TODO*///	INLINE void prefix##_18(void); INLINE void prefix##_19(void); INLINE void prefix##_1a(void); INLINE void prefix##_1b(void); \
-    /*TODO*///	INLINE void prefix##_1c(void); INLINE void prefix##_1d(void); INLINE void prefix##_1e(void); INLINE void prefix##_1f(void); \
-    /*TODO*///	INLINE void prefix##_20(void); INLINE void prefix##_21(void); INLINE void prefix##_22(void); INLINE void prefix##_23(void); \
-    /*TODO*///	INLINE void prefix##_24(void); INLINE void prefix##_25(void); INLINE void prefix##_26(void); INLINE void prefix##_27(void); \
-    /*TODO*///	INLINE void prefix##_28(void); INLINE void prefix##_29(void); INLINE void prefix##_2a(void); INLINE void prefix##_2b(void); \
-    /*TODO*///	INLINE void prefix##_2c(void); INLINE void prefix##_2d(void); INLINE void prefix##_2e(void); INLINE void prefix##_2f(void); \
-    /*TODO*///	INLINE void prefix##_30(void); INLINE void prefix##_31(void); INLINE void prefix##_32(void); INLINE void prefix##_33(void); \
-    /*TODO*///	INLINE void prefix##_34(void); INLINE void prefix##_35(void); INLINE void prefix##_36(void); INLINE void prefix##_37(void); \
-    /*TODO*///	INLINE void prefix##_38(void); INLINE void prefix##_39(void); INLINE void prefix##_3a(void); INLINE void prefix##_3b(void); \
-    /*TODO*///	INLINE void prefix##_3c(void); INLINE void prefix##_3d(void); INLINE void prefix##_3e(void); INLINE void prefix##_3f(void); \
-    /*TODO*///	INLINE void prefix##_40(void); INLINE void prefix##_41(void); INLINE void prefix##_42(void); INLINE void prefix##_43(void); \
-    /*TODO*///	INLINE void prefix##_44(void); INLINE void prefix##_45(void); INLINE void prefix##_46(void); INLINE void prefix##_47(void); \
-    /*TODO*///	INLINE void prefix##_48(void); INLINE void prefix##_49(void); INLINE void prefix##_4a(void); INLINE void prefix##_4b(void); \
-    /*TODO*///	INLINE void prefix##_4c(void); INLINE void prefix##_4d(void); INLINE void prefix##_4e(void); INLINE void prefix##_4f(void); \
-    /*TODO*///	INLINE void prefix##_50(void); INLINE void prefix##_51(void); INLINE void prefix##_52(void); INLINE void prefix##_53(void); \
-    /*TODO*///	INLINE void prefix##_54(void); INLINE void prefix##_55(void); INLINE void prefix##_56(void); INLINE void prefix##_57(void); \
-    /*TODO*///	INLINE void prefix##_58(void); INLINE void prefix##_59(void); INLINE void prefix##_5a(void); INLINE void prefix##_5b(void); \
-    /*TODO*///	INLINE void prefix##_5c(void); INLINE void prefix##_5d(void); INLINE void prefix##_5e(void); INLINE void prefix##_5f(void); \
-    /*TODO*///	INLINE void prefix##_60(void); INLINE void prefix##_61(void); INLINE void prefix##_62(void); INLINE void prefix##_63(void); \
-    /*TODO*///	INLINE void prefix##_64(void); INLINE void prefix##_65(void); INLINE void prefix##_66(void); INLINE void prefix##_67(void); \
-    /*TODO*///	INLINE void prefix##_68(void); INLINE void prefix##_69(void); INLINE void prefix##_6a(void); INLINE void prefix##_6b(void); \
-    /*TODO*///	INLINE void prefix##_6c(void); INLINE void prefix##_6d(void); INLINE void prefix##_6e(void); INLINE void prefix##_6f(void); \
-    /*TODO*///	INLINE void prefix##_70(void); INLINE void prefix##_71(void); INLINE void prefix##_72(void); INLINE void prefix##_73(void); \
-    /*TODO*///	INLINE void prefix##_74(void); INLINE void prefix##_75(void); INLINE void prefix##_76(void); INLINE void prefix##_77(void); \
-    /*TODO*///	INLINE void prefix##_78(void); INLINE void prefix##_79(void); INLINE void prefix##_7a(void); INLINE void prefix##_7b(void); \
-    /*TODO*///	INLINE void prefix##_7c(void); INLINE void prefix##_7d(void); INLINE void prefix##_7e(void); INLINE void prefix##_7f(void); \
-    /*TODO*///	INLINE void prefix##_80(void); INLINE void prefix##_81(void); INLINE void prefix##_82(void); INLINE void prefix##_83(void); \
-    /*TODO*///	INLINE void prefix##_84(void); INLINE void prefix##_85(void); INLINE void prefix##_86(void); INLINE void prefix##_87(void); \
-    /*TODO*///	INLINE void prefix##_88(void); INLINE void prefix##_89(void); INLINE void prefix##_8a(void); INLINE void prefix##_8b(void); \
-    /*TODO*///	INLINE void prefix##_8c(void); INLINE void prefix##_8d(void); INLINE void prefix##_8e(void); INLINE void prefix##_8f(void); \
-    /*TODO*///	INLINE void prefix##_90(void); INLINE void prefix##_91(void); INLINE void prefix##_92(void); INLINE void prefix##_93(void); \
-    /*TODO*///	INLINE void prefix##_94(void); INLINE void prefix##_95(void); INLINE void prefix##_96(void); INLINE void prefix##_97(void); \
-    /*TODO*///	INLINE void prefix##_98(void); INLINE void prefix##_99(void); INLINE void prefix##_9a(void); INLINE void prefix##_9b(void); \
-    /*TODO*///	INLINE void prefix##_9c(void); INLINE void prefix##_9d(void); INLINE void prefix##_9e(void); INLINE void prefix##_9f(void); \
-    /*TODO*///	INLINE void prefix##_a0(void); INLINE void prefix##_a1(void); INLINE void prefix##_a2(void); INLINE void prefix##_a3(void); \
-    /*TODO*///	INLINE void prefix##_a4(void); INLINE void prefix##_a5(void); INLINE void prefix##_a6(void); INLINE void prefix##_a7(void); \
-    /*TODO*///	INLINE void prefix##_a8(void); INLINE void prefix##_a9(void); INLINE void prefix##_aa(void); INLINE void prefix##_ab(void); \
-    /*TODO*///	INLINE void prefix##_ac(void); INLINE void prefix##_ad(void); INLINE void prefix##_ae(void); INLINE void prefix##_af(void); \
-    /*TODO*///	INLINE void prefix##_b0(void); INLINE void prefix##_b1(void); INLINE void prefix##_b2(void); INLINE void prefix##_b3(void); \
-    /*TODO*///	INLINE void prefix##_b4(void); INLINE void prefix##_b5(void); INLINE void prefix##_b6(void); INLINE void prefix##_b7(void); \
-    /*TODO*///	INLINE void prefix##_b8(void); INLINE void prefix##_b9(void); INLINE void prefix##_ba(void); INLINE void prefix##_bb(void); \
-    /*TODO*///	INLINE void prefix##_bc(void); INLINE void prefix##_bd(void); INLINE void prefix##_be(void); INLINE void prefix##_bf(void); \
-    /*TODO*///	INLINE void prefix##_c0(void); INLINE void prefix##_c1(void); INLINE void prefix##_c2(void); INLINE void prefix##_c3(void); \
-    /*TODO*///	INLINE void prefix##_c4(void); INLINE void prefix##_c5(void); INLINE void prefix##_c6(void); INLINE void prefix##_c7(void); \
-    /*TODO*///	INLINE void prefix##_c8(void); INLINE void prefix##_c9(void); INLINE void prefix##_ca(void); INLINE void prefix##_cb(void); \
-    /*TODO*///	INLINE void prefix##_cc(void); INLINE void prefix##_cd(void); INLINE void prefix##_ce(void); INLINE void prefix##_cf(void); \
-    /*TODO*///	INLINE void prefix##_d0(void); INLINE void prefix##_d1(void); INLINE void prefix##_d2(void); INLINE void prefix##_d3(void); \
-    /*TODO*///	INLINE void prefix##_d4(void); INLINE void prefix##_d5(void); INLINE void prefix##_d6(void); INLINE void prefix##_d7(void); \
-    /*TODO*///	INLINE void prefix##_d8(void); INLINE void prefix##_d9(void); INLINE void prefix##_da(void); INLINE void prefix##_db(void); \
-    /*TODO*///	INLINE void prefix##_dc(void); INLINE void prefix##_dd(void); INLINE void prefix##_de(void); INLINE void prefix##_df(void); \
-    /*TODO*///	INLINE void prefix##_e0(void); INLINE void prefix##_e1(void); INLINE void prefix##_e2(void); INLINE void prefix##_e3(void); \
-    /*TODO*///	INLINE void prefix##_e4(void); INLINE void prefix##_e5(void); INLINE void prefix##_e6(void); INLINE void prefix##_e7(void); \
-    /*TODO*///	INLINE void prefix##_e8(void); INLINE void prefix##_e9(void); INLINE void prefix##_ea(void); INLINE void prefix##_eb(void); \
-    /*TODO*///	INLINE void prefix##_ec(void); INLINE void prefix##_ed(void); INLINE void prefix##_ee(void); INLINE void prefix##_ef(void); \
-    /*TODO*///	INLINE void prefix##_f0(void); INLINE void prefix##_f1(void); INLINE void prefix##_f2(void); INLINE void prefix##_f3(void); \
-    /*TODO*///	INLINE void prefix##_f4(void); INLINE void prefix##_f5(void); INLINE void prefix##_f6(void); INLINE void prefix##_f7(void); \
-    /*TODO*///	INLINE void prefix##_f8(void); INLINE void prefix##_f9(void); INLINE void prefix##_fa(void); INLINE void prefix##_fb(void); \
-    /*TODO*///	INLINE void prefix##_fc(void); INLINE void prefix##_fd(void); INLINE void prefix##_fe(void); INLINE void prefix##_ff(void); \
-    /*TODO*///static void (*tablename[0x100])(void) = {	\
-    /*TODO*///    prefix##_00,prefix##_01,prefix##_02,prefix##_03,prefix##_04,prefix##_05,prefix##_06,prefix##_07, \
-    /*TODO*///    prefix##_08,prefix##_09,prefix##_0a,prefix##_0b,prefix##_0c,prefix##_0d,prefix##_0e,prefix##_0f, \
-    /*TODO*///    prefix##_10,prefix##_11,prefix##_12,prefix##_13,prefix##_14,prefix##_15,prefix##_16,prefix##_17, \
-    /*TODO*///    prefix##_18,prefix##_19,prefix##_1a,prefix##_1b,prefix##_1c,prefix##_1d,prefix##_1e,prefix##_1f, \
-    /*TODO*///    prefix##_20,prefix##_21,prefix##_22,prefix##_23,prefix##_24,prefix##_25,prefix##_26,prefix##_27, \
-    /*TODO*///    prefix##_28,prefix##_29,prefix##_2a,prefix##_2b,prefix##_2c,prefix##_2d,prefix##_2e,prefix##_2f, \
-    /*TODO*///    prefix##_30,prefix##_31,prefix##_32,prefix##_33,prefix##_34,prefix##_35,prefix##_36,prefix##_37, \
-    /*TODO*///    prefix##_38,prefix##_39,prefix##_3a,prefix##_3b,prefix##_3c,prefix##_3d,prefix##_3e,prefix##_3f, \
-    /*TODO*///    prefix##_40,prefix##_41,prefix##_42,prefix##_43,prefix##_44,prefix##_45,prefix##_46,prefix##_47, \
-    /*TODO*///    prefix##_48,prefix##_49,prefix##_4a,prefix##_4b,prefix##_4c,prefix##_4d,prefix##_4e,prefix##_4f, \
-    /*TODO*///    prefix##_50,prefix##_51,prefix##_52,prefix##_53,prefix##_54,prefix##_55,prefix##_56,prefix##_57, \
-    /*TODO*///    prefix##_58,prefix##_59,prefix##_5a,prefix##_5b,prefix##_5c,prefix##_5d,prefix##_5e,prefix##_5f, \
-    /*TODO*///    prefix##_60,prefix##_61,prefix##_62,prefix##_63,prefix##_64,prefix##_65,prefix##_66,prefix##_67, \
-    /*TODO*///    prefix##_68,prefix##_69,prefix##_6a,prefix##_6b,prefix##_6c,prefix##_6d,prefix##_6e,prefix##_6f, \
-    /*TODO*///    prefix##_70,prefix##_71,prefix##_72,prefix##_73,prefix##_74,prefix##_75,prefix##_76,prefix##_77, \
-    /*TODO*///    prefix##_78,prefix##_79,prefix##_7a,prefix##_7b,prefix##_7c,prefix##_7d,prefix##_7e,prefix##_7f, \
-    /*TODO*///    prefix##_80,prefix##_81,prefix##_82,prefix##_83,prefix##_84,prefix##_85,prefix##_86,prefix##_87, \
-    /*TODO*///    prefix##_88,prefix##_89,prefix##_8a,prefix##_8b,prefix##_8c,prefix##_8d,prefix##_8e,prefix##_8f, \
-    /*TODO*///    prefix##_90,prefix##_91,prefix##_92,prefix##_93,prefix##_94,prefix##_95,prefix##_96,prefix##_97, \
-    /*TODO*///    prefix##_98,prefix##_99,prefix##_9a,prefix##_9b,prefix##_9c,prefix##_9d,prefix##_9e,prefix##_9f, \
-    /*TODO*///    prefix##_a0,prefix##_a1,prefix##_a2,prefix##_a3,prefix##_a4,prefix##_a5,prefix##_a6,prefix##_a7, \
-    /*TODO*///    prefix##_a8,prefix##_a9,prefix##_aa,prefix##_ab,prefix##_ac,prefix##_ad,prefix##_ae,prefix##_af, \
-    /*TODO*///    prefix##_b0,prefix##_b1,prefix##_b2,prefix##_b3,prefix##_b4,prefix##_b5,prefix##_b6,prefix##_b7, \
-    /*TODO*///    prefix##_b8,prefix##_b9,prefix##_ba,prefix##_bb,prefix##_bc,prefix##_bd,prefix##_be,prefix##_bf, \
-    /*TODO*///    prefix##_c0,prefix##_c1,prefix##_c2,prefix##_c3,prefix##_c4,prefix##_c5,prefix##_c6,prefix##_c7, \
-    /*TODO*///    prefix##_c8,prefix##_c9,prefix##_ca,prefix##_cb,prefix##_cc,prefix##_cd,prefix##_ce,prefix##_cf, \
-    /*TODO*///    prefix##_d0,prefix##_d1,prefix##_d2,prefix##_d3,prefix##_d4,prefix##_d5,prefix##_d6,prefix##_d7, \
-    /*TODO*///    prefix##_d8,prefix##_d9,prefix##_da,prefix##_db,prefix##_dc,prefix##_dd,prefix##_de,prefix##_df, \
-    /*TODO*///    prefix##_e0,prefix##_e1,prefix##_e2,prefix##_e3,prefix##_e4,prefix##_e5,prefix##_e6,prefix##_e7, \
-    /*TODO*///    prefix##_e8,prefix##_e9,prefix##_ea,prefix##_eb,prefix##_ec,prefix##_ed,prefix##_ee,prefix##_ef, \
-    /*TODO*///    prefix##_f0,prefix##_f1,prefix##_f2,prefix##_f3,prefix##_f4,prefix##_f5,prefix##_f6,prefix##_f7, \
-    /*TODO*///	prefix##_f8,prefix##_f9,prefix##_fa,prefix##_fb,prefix##_fc,prefix##_fd,prefix##_fe,prefix##_ff  \
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///PROTOTYPES(Z80op,op);
-    /*TODO*///PROTOTYPES(Z80cb,cb);
-    /*TODO*///PROTOTYPES(Z80dd,dd);
-    /*TODO*///PROTOTYPES(Z80ed,ed);
-    /*TODO*///PROTOTYPES(Z80fd,fd);
-    /*TODO*///PROTOTYPES(Z80xxcb,xxcb);
-    /*TODO*///
-
     /****************************************************************************/
     /* Burn an odd amount of cycles, that is instructions taking something      */
     /* different from 4 T-states per opcode (and R increment)                   */
@@ -473,26 +363,6 @@ public class z80 extends cpu_interface {
        }
     }
 
-    /*TODO*////***************************************************************
-    /*TODO*/// * define an opcode function
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define OP(prefix,opcode)  INLINE void prefix##_##opcode(void)
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * adjust cycle count by n T-states
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define CY(cycles) z80_ICount -= cycles
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * execute an opcode
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define EXEC(prefix,opcode) 									\
-    /*TODO*///{																\
-    /*TODO*///	unsigned op = opcode;										\
-    /*TODO*///	CY(cc_##prefix[op]);										\
-    /*TODO*///	(*Z80##prefix[op])();										\
-    /*TODO*///}
-    /*TODO*///
     opcode[] Z80op = new opcode[256];
     opcode[] Z80cb = new opcode[256];
     opcode[] Z80dd = new opcode[256];
@@ -1391,6 +1261,13 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
+    public void RLA()
+    {
+        int res = ((Z80.AF.H << 1) | (Z80.AF.L & CF))&0xFF;
+        int c = (Z80.AF.H & 0x80)!=0 ? CF : 0; 
+       Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF))) & 0xFF);
+       Z80.AF.SetH(res);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * RRA
     /*TODO*/// ***************************************************************/
@@ -1987,6 +1864,10 @@ public class z80 extends cpu_interface {
     /*TODO*///{
     /*TODO*///	return value | (1<<bit);
     /*TODO*///}
+    public int SET(int bit,int value)
+    {
+        return (value | (1<<bit) & 0xFF);
+    }
 
     /***************************************************************
     /* LDI
@@ -2716,12 +2597,12 @@ public class z80 extends cpu_interface {
     opcode cb_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    /* SET  7,B		  */opcode cb_f8 = new opcode() { public void handler(){ Z80.BC.SetH(SET(7,Z80.BC.H)); }};
+    /* SET  7,C		  */opcode cb_f9 = new opcode() { public void handler(){ Z80.BC.SetL(SET(7,Z80.BC.L)); }};
+    /* SET  7,D		  */opcode cb_fa = new opcode() { public void handler(){ Z80.DE.SetH(SET(7,Z80.DE.H)); }};
+    /* SET  7,E		  */opcode cb_fb = new opcode() { public void handler(){ Z80.DE.SetL(SET(7,Z80.DE.L)); }};
+    /* SET  7,H		  */opcode cb_fc = new opcode() { public void handler(){ Z80.HL.SetH(SET(7,Z80.HL.H)); }};
+    /* SET  7,L		  */opcode cb_fd = new opcode() { public void handler(){ Z80.HL.SetL(SET(7,Z80.BC.L)); }};
     opcode cb_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(cb,00) { _B = RLC(_B);											} /* RLC  B 		  */
@@ -2997,12 +2878,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(cb,f6) { WM( _HL, SET(6,RM(_HL)) );								} /* SET  6,(HL)	  */
     /*TODO*///OP(cb,f7) { _A = SET(6,_A); 										} /* SET  6,A		  */
     /*TODO*///
-    /*TODO*///OP(cb,f8) { _B = SET(7,_B); 										} /* SET  7,B		  */
-    /*TODO*///OP(cb,f9) { _C = SET(7,_C); 										} /* SET  7,C		  */
-    /*TODO*///OP(cb,fa) { _D = SET(7,_D); 										} /* SET  7,D		  */
-    /*TODO*///OP(cb,fb) { _E = SET(7,_E); 										} /* SET  7,E		  */
-    /*TODO*///OP(cb,fc) { _H = SET(7,_H); 										} /* SET  7,H		  */
-    /*TODO*///OP(cb,fd) { _L = SET(7,_L); 										} /* SET  7,L		  */
+ 
     /*TODO*///OP(cb,fe) { WM( _HL, SET(7,RM(_HL)) );								} /* SET  7,(HL)	  */
     /*TODO*///OP(cb,ff) { _A = SET(7,_A); 										} /* SET  7,A		  */
     /*TODO*///
@@ -5489,7 +5365,11 @@ public class z80 extends cpu_interface {
         // _C = DEC(_C);
         Z80.BC.SetL(DEC(Z80.BC.L));
     }};
-    opcode op_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0e = new opcode() { public void handler()/* LD   C,n		  */
+    { 
+        // _C = ARG();
+        Z80.BC.SetL(ARG() & 0xFF);
+    }};
     opcode op_0f = new opcode() { public void handler()/* RRCA			  */
     { 
 //TODO recheck it not sure if it's ok (shadow)         
@@ -5535,7 +5415,10 @@ public class z80 extends cpu_interface {
     { 
         Z80.DE.SetH(ARG() & 0xFF);
     }};
-    opcode op_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_17 = new opcode() { public void handler()/* RLA			  */
+    { 
+        RLA();
+    }};
     opcode op_18 = new opcode() { public void handler()/* JR   o 		  */
     { 
  //TODO complext check it once more sometime (shadow)
@@ -5914,12 +5797,18 @@ public class z80 extends cpu_interface {
     { 
         AND(Z80.AF.H);	
     }};
-    opcode op_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+     /*TODO*///OP(op,a8) { XOR(_B);												} 
+    /*TODO*///OP(op,a9) { XOR(_C);												} 
+    /*TODO*///OP(op,aa) { XOR(_D);												} 
+    /*TODO*///OP(op,ab) { XOR(_E);												}
+    /*TODO*///OP(op,ac) { XOR(_H);												} 
+    /*TODO*///OP(op,ad) { XOR(_L);												} 
+    /* XOR  B 		  */opcode op_a8 = new opcode() { public void handler(){ XOR(Z80.BC.H); }};
+    /* XOR  C 		  */opcode op_a9 = new opcode() { public void handler(){ XOR(Z80.BC.L); }};
+    /* XOR  D 		  */opcode op_aa = new opcode() { public void handler(){ XOR(Z80.DE.H); }};
+    /* XOR  E 		  */opcode op_ab = new opcode() { public void handler(){ XOR(Z80.DE.L); }};
+    /* XOR  H 		  */opcode op_ac = new opcode() { public void handler(){ XOR(Z80.HL.H); }};
+    /* XOR  L 		  */opcode op_ad = new opcode() { public void handler(){ XOR(Z80.HL.L); }};
     opcode op_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_af = new opcode() { public void handler() /* XOR  A */
     { 
@@ -6147,7 +6036,20 @@ public class z80 extends cpu_interface {
             Z80.PC.SetD(0x10);
             change_pc16(Z80.PC.D);
     }};
-    opcode op_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d8 = new opcode() { public void handler()/* RET  C 		  */
+    { 
+        //RET( _F & CF ); 	
+         if((Z80.AF.L & CF)!=0)
+        {
+            //POP(PC);
+            Z80.PC.SetL((cpu_readmem16(Z80.SP.D) & 0xFF)); //RM16
+            Z80.PC.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
+            Z80.SP.AddD(2);  
+            change_pc16(Z80.PC.D);//change_pc16(_PCD);
+            z80_ICount[0] -= 6;//CY(6);		
+        }
+    
+    }};
     opcode op_d9 = new opcode() { public void handler()/* EXX			  */
     { 
         PAIR tmp = new PAIR();
@@ -6360,8 +6262,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,0b) { _BC--; CHECK_BC_LOOP;									} /* DEC  BC		  */
     
     
-    /*TODO*///OP(op,0e) { _C = ARG(); 											} /* LD   C,n		  */
-   
+    
     /*TODO*///
     
     
@@ -6370,14 +6271,8 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,14) { _D = INC(_D);											} /* INC  D 		  */
     
    
-    /*TODO*///OP(op,17) { RLA;													} /* RLA			  */
-    /*TODO*///
-    
-    
-    
 
-    
-    
+
     /*TODO*///OP(op,25) { _H = DEC(_H);											} /* DEC  H 		  */
     /*TODO*///OP(op,27) { DAA;													} /* DAA			  */
 
@@ -6470,12 +6365,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,a6) { AND(RM(_HL));											} /* AND  (HL)		  */
    
     /*TODO*///
-    /*TODO*///OP(op,a8) { XOR(_B);												} /* XOR  B 		  */
-    /*TODO*///OP(op,a9) { XOR(_C);												} /* XOR  C 		  */
-    /*TODO*///OP(op,aa) { XOR(_D);												} /* XOR  D 		  */
-    /*TODO*///OP(op,ab) { XOR(_E);												} /* XOR  E 		  */
-    /*TODO*///OP(op,ac) { XOR(_H);												} /* XOR  H 		  */
-    /*TODO*///OP(op,ad) { XOR(_L);												} /* XOR  L 		  */
+   
     /*TODO*///OP(op,ae) { XOR(RM(_HL));											} /* XOR  (HL)		  */
     
     /*TODO*///
@@ -6507,7 +6397,6 @@ public class z80 extends cpu_interface {
     
     
     /*TODO*///
-    /*TODO*///OP(op,d8) { RET( _F & CF ); 										} /* RET  C 		  */
     
 
     /*TODO*///OP(op,db) { unsigned n = ARG() | (_A << 8); _A = IN( n );			} /* IN   A,(n) 	  */
