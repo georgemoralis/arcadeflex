@@ -27,19 +27,19 @@ public class driver {
     {
         /* "Pacman hardware" games */
         driver_pacman,/* (c) 1980 Namco */
-/*TODO*/ //	DRIVER( pacmanjp )	/* (c) 1980 Namco */
-/*TODO*/ //	DRIVER( pacmanm )	/* (c) 1980 Midway */
-/*TODO*/ //	DRIVER( npacmod )	/* (c) 1981 Namco */
-/*TODO*/ //	DRIVER( pacmod )	/* (c) 1981 Midway */
-/*TODO*/ //	DRIVER( hangly )	/* hack */
-/*TODO*/ //	DRIVER( hangly2 )	/* hack */
-/*TODO*/ //	DRIVER( puckman )	/* hack */
-/*TODO*/ //	DRIVER( pacheart )	/* hack */
-/*TODO*/ //	DRIVER( piranha )	/* hack */
+        driver_pacmanjp,	/* (c) 1980 Namco */
+        driver_pacmanm,	/* (c) 1980 Midway */
+        driver_npacmod,	/* (c) 1981 Namco */
+        driver_pacmod,	/* (c) 1981 Midway */
+        driver_hangly,	/* hack */
+        driver_hangly2,	/* hack */
+        driver_puckman,	/* hack */
+        driver_pacheart,	/* hack */
+        driver_piranha,	/* hack */
 /*TODO*/ //	DRIVER( pacplus )
-/*TODO*/ //	DRIVER( mspacman )	/* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
-/*TODO*/ //	DRIVER( mspacatk )	/* hack */
-/*TODO*/ //	DRIVER( pacgal )	/* hack */
+        driver_mspacman,	/* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
+        driver_mspacatk,	/* hack */
+        driver_pacgal,	/* hack */
 /*TODO*/ //	DRIVER( maketrax )	/* (c) 1981 Williams, high score table says KRL (fur Kural) */
 /*TODO*/ //	DRIVER( crush )		/* (c) 1981 Kural Samno Electric Ltd */
 /*TODO*/ //	DRIVER( crush2 )	/* (c) 1981 Kural Esco Electric Ltd - bootleg? */

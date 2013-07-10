@@ -111,37 +111,40 @@ public class fileio {
                                     name= sprintf ("%s/%s", dir_name, gamename);
                                     fprintf(errorlog, "Trying %s\n", name);
                                     //java code to emulate stat command (shadow)
-                                    if(new File(name).isDirectory()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
+                                    if(new File(name).isDirectory() && new File(name).exists()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                                     {
                                             name = sprintf ("%s/%s/%s", dir_name, gamename, filename);
-                                            System.out.println(name);
-                                            if( filetype == OSD_FILETYPE_ROM )
+                                            //System.out.println(name);
+                                            if(new File(name).exists())
                                             {
-                                                //java issue since there is no way to pass by reference the data table 
-                                                //get it here
-                                                f.file = fopen(name,"rb");
-                                                long size = ftell(f.file);
-                                                f.data= new char[(int)size];
-                                                fclose(f.file);
-                                                // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
-                                                int tlen[] = new int[1];
-                                                int tcrc[] = new int[1];
-                                                if( checksum_file (name, f.data, tlen, tcrc) == 0 )
+                                                if( filetype == OSD_FILETYPE_ROM )
                                                 {
-                                                    f.type = kRAMFile;
-                                                    f.offset = 0;
-                                                    found = 1;
-                                                }
-                                                //copy values where they belong
-                                                f.length=tlen[0];
-                                                f.crc=tcrc[0];
-                                           }
-                                           else
-                                           {
-                                                   f.type = kPlainFile;
-                                                   f.file = fopen (name, "rb");
-                                                   found = (f.file != null)? 1 :0; //found = f.file !=0;
-                                           }
+                                                    //java issue since there is no way to pass by reference the data table 
+                                                    //get it here
+                                                    f.file = fopen(name,"rb");
+                                                    long size = ftell(f.file);
+                                                    f.data= new char[(int)size];
+                                                    fclose(f.file);
+                                                    // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
+                                                    int tlen[] = new int[1];
+                                                    int tcrc[] = new int[1];
+                                                    if( checksum_file (name, f.data, tlen, tcrc) == 0 )
+                                                    {
+                                                        f.type = kRAMFile;
+                                                        f.offset = 0;
+                                                        found = 1;
+                                                    }
+                                                    //copy values where they belong
+                                                    f.length=tlen[0];
+                                                    f.crc=tcrc[0];
+                                               }
+                                               else
+                                               {
+                                                       f.type = kPlainFile;
+                                                       f.file = fopen (name, "rb");
+                                                       found = (f.file != null)? 1 :0; //found = f.file !=0;
+                                               }
+                                            }
                                  }
                             }
 

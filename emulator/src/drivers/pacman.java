@@ -238,65 +238,66 @@ public class pacman {
     	PORT_DIPSETTING(    0x01, DEF_STR( "On" ) );
         INPUT_PORTS_END();
     }};
-    /*TODO*////* Ms. Pac-Man input ports are identical to Pac-Man, the only difference is */
-    /*TODO*////* the missing Ghost Names dip switch. */
-    /*TODO*///INPUT_PORTS_START( mspacman )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BITX(    0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_SERVICE( 0x10, IP_ACTIVE_LOW )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x00, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "10000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "15000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "20000" )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hard" )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNUSED )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* FAKE */
-    /*TODO*///	/* This fake input port is used to get the status of the fire button */
-    /*TODO*///	/* and activate the speedup cheat if it is. */
-    /*TODO*///	PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Speedup Cheat", KEYCODE_LCONTROL, JOYCODE_1_BUTTON1 )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+    /* Ms. Pac-Man input ports are identical to Pac-Man, the only difference is */
+    /* the missing Ghost Names dip switch. */
+    static InputPortPtr input_ports_mspacman = new InputPortPtr(){ public void handler() {
+    	PORT_START();	/* IN0 */
+    	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+    	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+    	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+    	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+    	PORT_BITX(    0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE );
+    	PORT_DIPSETTING(    0x10, DEF_STR( "Off" ) );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "On" ) );
+    	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+    	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+    	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+    
+    	PORT_START();	/* IN1 */
+    	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+    	PORT_SERVICE( 0x10, IP_ACTIVE_LOW );
+    	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+    	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+    	PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Cabinet" ) );
+    	PORT_DIPSETTING(    0x80, DEF_STR( "Upright" ) );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail" ) );
+    
+    	PORT_START();	/* DSW 1 */
+    	PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage" ) );
+    	PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C" ) );
+    	PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C" ) );
+    	PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C" ) );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play" ) );
+    	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives" ) );
+    	PORT_DIPSETTING(    0x00, "1" );
+    	PORT_DIPSETTING(    0x04, "2" );
+    	PORT_DIPSETTING(    0x08, "3" );
+    	PORT_DIPSETTING(    0x0c, "5" );
+    	PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Bonus_Life" ) );
+    	PORT_DIPSETTING(    0x00, "10000" );
+    	PORT_DIPSETTING(    0x10, "15000" );
+    	PORT_DIPSETTING(    0x20, "20000" );
+    	PORT_DIPSETTING(    0x30, "None" );
+    	PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty" ) );
+    	PORT_DIPSETTING(    0x40, "Normal" );
+    	PORT_DIPSETTING(    0x00, "Hard" );
+    	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNUSED );
+    
+    	PORT_START();	/* DSW 2 */
+    	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+    
+    	PORT_START();	/* FAKE */
+    	/* This fake input port is used to get the status of the fire button */
+    	/* and activate the speedup cheat if it is. */
+    	PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Speedup Cheat", KEYCODE_LCONTROL, JOYCODE_1_BUTTON1 );
+    	PORT_DIPSETTING(    0x00, DEF_STR( "Off" ) );
+    	PORT_DIPSETTING(    0x01, DEF_STR( "On" ) );
+        INPUT_PORTS_END();
+    }};
+    
     /*TODO*///INPUT_PORTS_START( maketrax )
     /*TODO*///	PORT_START	/* IN0 */
     /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
@@ -2149,20 +2150,20 @@ public class pacman {
     /*TODO*///}
     /*TODO*///
     /*TODO*////*          rom       parent    machine   inp       init */
-    public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  ,"pacman.java", rom_pacman, null         , machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 1)" );
-    public static GameDriver driver_pacmanjp = new GameDriver("1980","pacmanjp","pacman.java", rom_pacman, driver_pacman, machine_driver_pacman, input_ports_pacman, null, ROT90,  "Namco", "PuckMan (Japan set 2)" );
-    /*TODO*///GAME( 1980, pacmanm,  pacman,   pacman,   pacman,   0,        ROT90,  "[Namco] (Midway license)", "Pac-Man (Midway)" )
-    /*TODO*///GAME( 1981, npacmod,  pacman,   pacman,   pacman,   0,        ROT90,  "Namco", "PuckMan (harder?)" )
-    /*TODO*///GAME( 1981, pacmod,   pacman,   pacman,   pacman,   0,        ROT90,  "[Namco] (Midway license)", "Pac-Man (Midway, harder)" )
-    /*TODO*///GAME( 1981, hangly,   pacman,   pacman,   pacman,   0,        ROT90,  "hack", "Hangly-Man (set 1)" )
-    /*TODO*///GAME( 1981, hangly2,  pacman,   pacman,   pacman,   0,        ROT90,  "hack", "Hangly-Man (set 2)" )
-    /*TODO*///GAME( 1980, puckman,  pacman,   pacman,   pacman,   0,        ROT90,  "hack", "New Puck-X" )
-    /*TODO*///GAME( 1981, pacheart, pacman,   pacman,   pacman,   0,        ROT90,  "hack", "Pac-Man (Hearts)" )
-    /*TODO*///GAME( 1981, piranha,  pacman,   pacman,   mspacman, 0,        ROT90,  "hack", "Piranha" )
+    public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  , "pacman.java", rom_pacman,   null         ,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 1)" );
+    public static GameDriver driver_pacmanjp = new GameDriver("1980","pacmanjp", "pacman.java", rom_pacmanjp, driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 2)" );
+    public static GameDriver driver_pacmanm  = new GameDriver("1980","pacmanm" , "pacman.java", rom_pacmanm,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "[Namco] (Midway license)", "Pac-Man (Midway)" );
+    public static GameDriver driver_npacmod  = new GameDriver("1981","npacmod" , "pacman.java", rom_npacmod,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (harder?)" );
+    public static GameDriver driver_pacmod   = new GameDriver("1981","pacmod"  , "pacman.java", rom_pacmod,   driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "[Namco] (Midway license)", "Pac-Man (Midway, harder)" );
+    public static GameDriver driver_hangly   = new GameDriver("1981","hangly"  , "pacman.java", rom_hangly,   driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "Hangly-Man (set 1)" );
+    public static GameDriver driver_hangly2  = new GameDriver("1981","hangly2" , "pacman.java", rom_hangly2,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "Hangly-Man (set 2)" );
+    public static GameDriver driver_puckman  = new GameDriver("1980","puckman" , "pacman.java", rom_puckman,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "New Puck-X" );
+    public static GameDriver driver_pacheart = new GameDriver("1981","pacheart", "pacman.java", rom_pacheart, driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "Pac-Man (Hearts)" );
+    public static GameDriver driver_piranha  = new GameDriver("1981","piranha" , "pacman.java", rom_piranha,  driver_pacman,   machine_driver_pacman,   input_ports_mspacman, null, ROT90, "hack", "Piranha" );
     /*TODO*///GAME( 1982, pacplus,  0,        pacman,   pacman,   pacplus,  ROT90,  "[Namco] (Midway license)", "Pac-Man Plus" )
-    /*TODO*///GAME( 1981, mspacman, 0,        pacman,   mspacman, 0,        ROT90,  "bootleg", "Ms. Pac-Man" )
-    /*TODO*///GAME( 1981, mspacatk, mspacman, pacman,   mspacman, 0,        ROT90,  "hack", "Ms. Pac-Man Plus" )
-    /*TODO*///GAME( 1981, pacgal,   mspacman, pacman,   mspacman, 0,        ROT90,  "hack", "Pac-Gal" )
+    public static GameDriver driver_mspacman = new GameDriver("1981", "mspacman","pacman.java", rom_mspacman, null,            machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "bootleg", "Ms. Pac-Man" );
+    public static GameDriver driver_mspacatk = new GameDriver("1981", "mspacatk","pacman.java", rom_mspacatk, driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Ms. Pac-Man Plus" );
+    public static GameDriver driver_pacgal   = new GameDriver("1981", "pacgal"  ,"pacman.java", rom_pacgal,   driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Pac-Gal" );
     /*TODO*///GAME( 1981, crush,    0,        pacman,   maketrax, maketrax, ROT90,  "Kural Samno Electric", "Crush Roller (Kural Samno)" )
     /*TODO*///GAME( 1981, crush2,   crush,    pacman,   maketrax, 0,        ROT90,  "Kural Esco Electric", "Crush Roller (Kural Esco - bootleg?)" )
     /*TODO*///GAME( 1981, crush3,   crush,    pacman,   maketrax, eyes,     ROT90,  "Kural Electric", "Crush Roller (Kural - bootleg?)" )
