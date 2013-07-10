@@ -426,7 +426,7 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///	stream_update(stream, 0);
     /*TODO*///
     /*TODO*///	/* set the register */
-    /*TODO*///	namco_soundregs[offset] = data & 0x0f;
+    	namco_soundregs.write(offset,data & 0x0f);
     /*TODO*///
     /*TODO*///	/* recompute all the voice parameters */
     /*TODO*///	for (base = 0, voice = channel_list; voice < last_channel; voice++, base += 5)
