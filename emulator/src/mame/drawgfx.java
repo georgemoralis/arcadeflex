@@ -2174,6 +2174,58 @@ public class drawgfx {
 /*TODO*///})
 /*TODO*///
 /*TODO*///
+    
+//mostly unchecked TODO recheck it sometime (shadow)    
+    public static void blockmove_transcolor8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    {
+            int end;
+            //const unsigned short *lookupdata = Machine->game_colortable + (paldata - Machine->remapped_colortable);
+            //CharPtr lookupdata = new CharPtr(Machine.game_colortable,(paldata.read()-Machine.remapped_colortable.length));
+            CharPtr lookupdata = new CharPtr(Machine.game_colortable,paldata.base);
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+          
+            while (srcheight!=0)
+            {
+                end = dstdata.base + srcwidth;
+		while (dstdata.base < end)
+		{
+			//if (lookupdata[*srcdata] != transcolor) *dstdata = paldata[*srcdata];
+                    if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.base]] != transcolor)
+                            dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+
+			srcdata.inc();
+			dstdata.inc();
+		}
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+
+                    /*end = dstdata.base + srcwidth;
+                    while (dstdata.base <= end - 8)
+                    {
+                            dstdata.write(0,paldata.read(srcdata.read(0)));
+                            dstdata.write(1,paldata.read(srcdata.read(1)));
+                            dstdata.write(2,paldata.read(srcdata.read(2)));
+                            dstdata.write(3,paldata.read(srcdata.read(3)));
+                            dstdata.write(4,paldata.read(srcdata.read(4)));
+                            dstdata.write(5,paldata.read(srcdata.read(5)));
+                            dstdata.write(6,paldata.read(srcdata.read(6)));
+                            dstdata.write(7,paldata.read(srcdata.read(7)));
+                            dstdata.base += 8;
+                            srcdata.base += 8;
+                    }
+                    while (dstdata.base < end)
+                    {
+                        dstdata.writeinc(paldata.read(srcdata.readinc()));
+                           // *(dstdata++) = paldata[*(srcdata++)];
+                    }
+                    srcdata.base += srcmodulo;
+                    dstdata.base += dstmodulo;
+                    srcheight--;*/
+            }
+    }
+
 /*TODO*///DECLARE(blockmove_transcolor,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2637,10 +2689,10 @@ public class drawgfx {
                                 }
                                 else
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transcolor8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
 				//BLOCKMOVE(transcolor,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
-			//	break;
+				break;
 
 			case TRANSPARENCY_THROUGH:
                                 if(flipx!=0)
