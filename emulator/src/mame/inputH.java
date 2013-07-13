@@ -241,36 +241,38 @@ public class inputH {
 /*TODO*///
 /*TODO*///typedef InputCode InputSeq[SEQ_MAX];
 /*TODO*///
-/*TODO*///INLINE InputCode seq_get_1(InputSeq* a) {
-/*TODO*///	return (*a)[0];
-/*TODO*///}
-/*TODO*///
-/*TODO*///void seq_set_0(InputSeq* seq);
-/*TODO*///void seq_set_1(InputSeq* seq, InputCode code);
-/*TODO*///void seq_set_2(InputSeq* seq, InputCode code1, InputCode code2);
-/*TODO*///void seq_set_3(InputSeq* seq, InputCode code1, InputCode code2, InputCode code3);
-/*TODO*///void seq_copy(InputSeq* seqdst, InputSeq* seqsrc);
-/*TODO*///int seq_cmp(InputSeq* seq1, InputSeq* seq2);
-/*TODO*///void seq_name(InputSeq* seq, char* buffer, unsigned max);
-/*TODO*///int seq_pressed(InputSeq* seq);
-/*TODO*///void seq_read_async_start(void);
-/*TODO*///int seq_read_async(InputSeq* code, int first);
-/*TODO*///
-/*TODO*////* NOTE: It's very important that this sequence is EXACLY long SEQ_MAX */
-/*TODO*///#define SEQ_DEF_6(a,b,c,d,e,f) { a, b, c, d, e, f, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE }
-/*TODO*///#define SEQ_DEF_5(a,b,c,d,e) SEQ_DEF_6(a,b,c,d,e,CODE_NONE)
-/*TODO*///#define SEQ_DEF_4(a,b,c,d) SEQ_DEF_5(a,b,c,d,CODE_NONE)
-/*TODO*///#define SEQ_DEF_3(a,b,c) SEQ_DEF_4(a,b,c,CODE_NONE)
-/*TODO*///#define SEQ_DEF_2(a,b) SEQ_DEF_3(a,b,CODE_NONE)
-/*TODO*///#define SEQ_DEF_1(a) SEQ_DEF_2(a,CODE_NONE)
-/*TODO*///#define SEQ_DEF_0 SEQ_DEF_1(CODE_NONE)
-/*TODO*///
-/*TODO*////***************************************************************************/
-/*TODO*////* input_ui */
-/*TODO*///
-/*TODO*///int input_ui_pressed(int code);
-/*TODO*///int input_ui_pressed_repeat(int code, int speed);
-/*TODO*///
-/*TODO*///#endif
-/*TODO*///    
+
+    public static int seq_get_1(int[] a)
+    {
+            return a[0];
+    }
+    /* NOTE: It's very important that this sequence is EXACLY long SEQ_MAX */
+    public static int[] SEQ_DEF_6(int a,int b,int c, int d, int e , int f)
+    {
+        return new int[] { a, b, c, d, e, f, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE, CODE_NONE };
+    }
+    public static int[] SEQ_DEF_5(int a,int b,int c, int d,int e)
+    {
+        return SEQ_DEF_6(a,b,c,d,e,CODE_NONE);
+    }
+    public static int[] SEQ_DEF_4(int a,int b,int c, int d)
+    {
+        return SEQ_DEF_5(a,b,c,d,CODE_NONE);
+    }
+    public static int[] SEQ_DEF_3(int a,int b,int c)
+    {
+        return SEQ_DEF_4(a,b,c,CODE_NONE);
+    }
+    public static int[] SEQ_DEF_2(int a,int b)
+    {
+        return SEQ_DEF_3(a,b,CODE_NONE);
+    }  
+    public static int[] SEQ_DEF_1(int a)
+    {
+        return SEQ_DEF_2(a,CODE_NONE);
+    }   
+    public static int[] SEQ_DEF_0()
+    {
+        return SEQ_DEF_1(CODE_NONE);
+    }       
 }

@@ -5,6 +5,7 @@ import static mame.inputH.*;
 import static arcadeflex.input.*;
 import java.util.Arrays;
 import static mame.inputportH.*;
+import static arcadeflex.libc_old.*;
 
 public class input {
     /* Codes */
@@ -399,18 +400,14 @@ public class input {
     /*TODO*///	return "n/a";
     /*TODO*///}
     /*TODO*///
-    /*TODO*///int code_pressed(InputCode code)
-    /*TODO*///{
-    /*TODO*///	int pressed;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_INPUT);
-    /*TODO*///
-    /*TODO*///	pressed = internal_code_pressed(code);
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///
-    /*TODO*///	return pressed;
-    /*TODO*///}
+    public static int code_pressed(int code)
+    {
+    	int pressed;
+       
+    	pressed = internal_code_pressed(code);
+      
+    	return pressed;
+    }
 
     public static int code_pressed_memory(int code)
     {
@@ -579,37 +576,38 @@ public class input {
     /*TODO*///		*dest = 0;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///int seq_pressed(InputSeq* code)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	int res = 1;
-    /*TODO*///	int invert = 0;
-    /*TODO*///	int count = 0;
-    /*TODO*///
-    /*TODO*///	for(j=0;j<SEQ_MAX;++j)
-    /*TODO*///	{
-    /*TODO*///		switch ((*code)[j])
-    /*TODO*///		{
-    /*TODO*///			case CODE_NONE :
-    /*TODO*///				return res && count;
-    /*TODO*///			case CODE_OR :
-    /*TODO*///				if (res && count)
-    /*TODO*///					return 1;
-    /*TODO*///				res = 1;
-    /*TODO*///				count = 0;
-    /*TODO*///				break;
-    /*TODO*///			case CODE_NOT :
-    /*TODO*///				invert = !invert;
-    /*TODO*///				break;
-    /*TODO*///			default:
-    /*TODO*///				if (res && (code_pressed((*code)[j]) != 0) == invert)
-    /*TODO*///					res = 0;
-    /*TODO*///				invert = 0;
-    /*TODO*///				++count;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	return res && count;
-    /*TODO*///}
+    public static boolean seq_pressed(int[] code)
+    {
+            int j;
+            boolean res = true;
+            boolean invert = false;
+            int count = 0;
+
+            for (j = 0; j < SEQ_MAX; ++j)
+            {
+                switch (code[j])
+                {
+                    case CODE_NONE:
+                        return res && count != 0;
+                    case CODE_OR:
+                        if (res && count != 0)
+                            return true;
+                        res = true;
+                        count = 0;
+                        break;
+                    case CODE_NOT:
+                        invert = !invert;
+                        break;
+                    default:
+                        if (res && (code_pressed(code[j])!=0) == invert)
+                            res = false;
+                        invert = false;
+                        ++count;
+                        break;
+                }
+            }
+            return res && count != 0;
+        }
     /*TODO*///
     /*TODO*////* Static informations used in key/joy recording */
     /*TODO*///static InputCode record_seq[SEQ_MAX]; /* buffer for key recording */

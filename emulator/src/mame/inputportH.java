@@ -3,6 +3,7 @@ package mame;
 
 import java.util.ArrayList;
 import static mame.inputH.*;
+import static mame.mame.*;
 
 public class inputportH {
 /*TODO*////* input ports handling */
@@ -167,19 +168,19 @@ public class inputportH {
     public static final int IPF_8WAY    =   0;         	/* Joystick modes of operation. 8WAY is the default, */
     public static final int IPF_4WAY    =   0x00080000;	/* it prevents left/right or up/down to be pressed at */
     public static final int IPF_2WAY    =   0;         	/* the same time. 4WAY prevents diagonal directions. */
-/*TODO*///									/* 2WAY should be used for joysticks wich move only */
-/*TODO*///                                 	/* on one axis (e.g. Battle Zone) */
-/*TODO*///
-/*TODO*///#define IPF_IMPULSE    0x00100000	/* When this is set, when the key corrisponding to */
-/*TODO*///									/* the input bit is pressed it will be reported as */
-/*TODO*///									/* pressed for a certain number of video frames and */
-/*TODO*///									/* then released, regardless of the real status of */
-/*TODO*///									/* the key. This is useful e.g. for some coin inputs. */
-/*TODO*///									/* The number of frames the signal should stay active */
-/*TODO*///									/* is specified in the "arg" field. */
+							/* 2WAY should be used for joysticks wich move only */
+                                                  	/* on one axis (e.g. Battle Zone) */
+
+    public static final int IPF_IMPULSE  =  0x00100000;	/* When this is set, when the key corrisponding to */
+									/* the input bit is pressed it will be reported as */
+									/* pressed for a certain number of video frames and */
+									/* then released, regardless of the real status of */
+									/* the key. This is useful e.g. for some coin inputs. */
+									/* The number of frames the signal should stay active */
+									/* is specified in the "arg" field. */
     public static final int IPF_TOGGLE  =   0x00200000;	/* When this is set, the key acts as a toggle - press */
-/*TODO*///									/* it once and it goes on, press it again and it goes off. */
-/*TODO*///									/* useful e.g. for sone Test Mode dip switches. */
+									/* it once and it goes on, press it again and it goes off. */
+									/* useful e.g. for sone Test Mode dip switches. */
 /*TODO*///#define IPF_REVERSE    0x00400000	/* By default, analog inputs like IPT_TRACKBALL increase */
 /*TODO*///									/* when going right/up. This flag inverts them. */
 /*TODO*///
@@ -190,13 +191,17 @@ public class inputportH {
 /*TODO*///									/* it is the responsibility of the driver to call */
 /*TODO*///									/* update_analog_port(int port). */
 /*TODO*///
-/*TODO*///#define IPF_RESETCPU   0x02000000	/* when the key is pressed, reset the first CPU */
+    public static final int IPF_RESETCPU   = 0x02000000;	/* when the key is pressed, reset the first CPU */
 /*TODO*///
 /*TODO*///
 /*TODO*////* The "arg" field contains 4 bytes fields */
 /*TODO*///#define IPF_SENSITIVITY(percent)	((percent & 0xff) << 8)
 /*TODO*///#define IPF_DELTA(val)				((val & 0xff) << 16)
 /*TODO*///
+    public static int IP_GET_IMPULSE(int port)
+    {
+            return ((Machine.input_ports[port].type >> 8) & 0xff);
+    }
 /*TODO*///#define IP_GET_IMPULSE(port) (((port)->type >> 8) & 0xff)
 /*TODO*///#define IP_GET_SENSITIVITY(port) ((((port)+1)->type >> 8) & 0xff)
 /*TODO*///#define IP_SET_SENSITIVITY(port,val) ((port)+1)->type = ((port+1)->type & 0xffff00ff)|((val&0xff)<<8)
@@ -357,4 +362,14 @@ public class inputportH {
 /*TODO*///	InputSeq seq;
 /*TODO*///};
 /*TODO*///
+    public static class ipd
+    {
+       public /*UINT32 */int type;
+       public String name;
+       public /*InputSeq*/int[] seq;
+       public ipd(int type, String name, int[] seq) 
+       { 
+           this.type = type; this.name = name; this.seq = seq; 
+       }
+   }
 }
