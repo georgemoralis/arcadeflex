@@ -588,10 +588,11 @@ public class cpuintrf {
     /*TODO*///  Use this function to reset a specified CPU immediately
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_set_reset_line(int cpunum,int state)
-    /*TODO*///{
-    /*TODO*///	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
-    /*TODO*///}
+    public static void cpu_set_reset_line(int cpunum,int state)
+    {
+         throw new UnsupportedOperationException("Unsupported cpu_set_reset_line");
+    	//timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////***************************************************************************
