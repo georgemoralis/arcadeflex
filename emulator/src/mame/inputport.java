@@ -149,8 +149,8 @@ public class inputport {
     /*TODO*///	{ IPT_UI_TOGGLE_CHEAT,      "Toggle Cheat",      SEQ_DEF_1(KEYCODE_F5) },
     /*TODO*///	{ IPT_UI_UP,                "UI Up",             SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
     /*TODO*///	{ IPT_UI_DOWN,              "UI Down",           SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
-    /*TODO*///	{ IPT_UI_LEFT,              "UI Left",           SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) },
-    /*TODO*///	{ IPT_UI_RIGHT,             "UI Right",          SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) },
+    new ipd( IPT_UI_LEFT,              "UI Left",           SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) ),
+    new ipd( IPT_UI_RIGHT,             "UI Right",          SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) ),
     /*TODO*///	{ IPT_UI_SELECT,            "UI Select",         SEQ_DEF_3(KEYCODE_ENTER, CODE_OR, JOYCODE_1_BUTTON1) },
     /*TODO*///	{ IPT_UI_CANCEL,            "UI Cancel",         SEQ_DEF_1(KEYCODE_ESC) },
     /*TODO*///	{ IPT_UI_PAN_UP,            "Pan Up",            SEQ_DEF_3(KEYCODE_PGUP, CODE_NOT, KEYCODE_LSHIFT) },
@@ -748,20 +748,17 @@ public class inputport {
 /*TODO*///	else
 /*TODO*///		return inputport_defaults[i].name;
 /*TODO*///}
-/*TODO*///
-/*TODO*///InputSeq* input_port_type_seq(int type)
-/*TODO*///{
-/*TODO*///	unsigned i;
-/*TODO*///
-/*TODO*///	i = 0;
-/*TODO*///
-/*TODO*///	while (inputport_defaults[i].type != IPT_END &&
-/*TODO*///			inputport_defaults[i].type != type)
-/*TODO*///		i++;
-/*TODO*///
-/*TODO*///	return &inputport_defaults[i].seq;
-/*TODO*///}
-/*TODO*///
+
+    public static int[] input_port_type_seq(int type)
+    {
+        int i=0;
+        
+        while (inputport_defaults[i].type != IPT_END &&
+                    inputport_defaults[i].type != type)
+                i++;
+
+            return inputport_defaults[i].seq;
+    }
     public static int[] ip_none = SEQ_DEF_1(CODE_NONE);
     
     public static int[] input_port_seq(int in_ptr)

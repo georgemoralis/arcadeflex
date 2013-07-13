@@ -6,6 +6,7 @@ import static arcadeflex.input.*;
 import java.util.Arrays;
 import static mame.inputportH.*;
 import static arcadeflex.libc_old.*;
+import static mame.inputport.*;
 
 public class input {
     /* Codes */
@@ -737,30 +738,32 @@ public class input {
     /*TODO*///	int memory;
     /*TODO*///};
     /*TODO*///
-    /*TODO*///static struct ui_info ui_map[__ipt_max];
-    /*TODO*///
+    public static class ui_info
+    {
+        int memory;
+    }
+    public static ui_info[] ui_map= new ui_info[__ipt_max];
+
     public static int input_ui_pressed(int code)
     {
-/*TEMPHACK*/        return 0;
-    /*TODO*///	int pressed;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_INPUT);
-    /*TODO*///
-    /*TODO*///	pressed = seq_pressed(input_port_type_seq(code));
-    /*TODO*///
-    /*TODO*///	if (pressed)
-    /*TODO*///	{
-    /*TODO*///		if (ui_map[code].memory == 0)
-    /*TODO*///		{
-    /*TODO*///                        ui_map[code].memory = 1;
-    /*TODO*///		} else
-    /*TODO*///			pressed = 0;
-    /*TODO*///	} else
-    /*TODO*///		ui_map[code].memory = 0;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///
-    /*TODO*///	return pressed;
+        if(ui_map[code]==null)
+        {
+            ui_map[code]=new ui_info();
+        }
+    	int pressed;
+    
+    	pressed = seq_pressed(input_port_type_seq(code)) ? 1 :0;
+    
+    	if (pressed!=0)
+    	{
+    		if (ui_map[code].memory == 0)
+    		{
+                            ui_map[code].memory = 1;
+    		} else
+    			pressed = 0;
+    	} else
+    		ui_map[code].memory = 0;
+    	return pressed;
     }
     /*TODO*///
     /*TODO*///int input_ui_pressed_repeat(int code,int speed)
