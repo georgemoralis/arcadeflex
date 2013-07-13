@@ -746,7 +746,7 @@ public class input {
 
     public static int input_ui_pressed(int code)
     {
-        if(ui_map[code]==null)
+        if(ui_map[code]==null)//intialaze it 
         {
             ui_map[code]=new ui_info();
         }

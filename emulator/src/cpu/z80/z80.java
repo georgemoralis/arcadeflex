@@ -10,6 +10,7 @@ import static mame.memory.*;
 import static mame.memoryH.*;
 import static mame.mame.*;
 import static mame.cpuintrf.*;
+import static cpu.z80.z80daaH.*;
 
 
 public class z80 extends cpu_interface {
@@ -1493,7 +1494,14 @@ public class z80 extends cpu_interface {
     /*TODO*///	if( _F & NF ) idx |= 0x400; 								\
     /*TODO*///	_AF = DAATable[idx];										\
     /*TODO*///}
-    
+    public void DAA()
+    {
+        int idx = Z80.AF.H;
+        if( (Z80.AF.L & CF)!=0 ) idx |= 0x100; 								
+        if( (Z80.AF.L & HF)!=0 ) idx |= 0x200; 								
+        if( (Z80.AF.L & NF)!=0 ) idx |= 0x400; 								
+    	Z80.AF.SetD(DAATable[idx]);//_AF = DAATable[idx];		
+    }
     /***************************************************************
      * AND	n
      ***************************************************************/
@@ -1892,7 +1900,7 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     public int SET(int bit,int value)
     {
-        return (value | (1<<bit) & 0xFF);
+        return (value | (1<<bit)) & 0xFF;
     }
 
     /***************************************************************
@@ -2589,7 +2597,11 @@ public class z80 extends cpu_interface {
     opcode cb_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_ce = new opcode() { public void handler()/* SET  1,(HL)	  */
+    { 
+        // WM( _HL, SET(1,RM(_HL)) );
+        cpu_writemem16(Z80.HL.D, SET(1, cpu_readmem16(Z80.HL.D) & 0xFF));
+    }};
     opcode cb_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2863,7 +2875,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(cb,cb) { _E = SET(1,_E); 										} /* SET  1,E		  */
     /*TODO*///OP(cb,cc) { _H = SET(1,_H); 										} /* SET  1,H		  */
     /*TODO*///OP(cb,cd) { _L = SET(1,_L); 										} /* SET  1,L		  */
-    /*TODO*///OP(cb,ce) { WM( _HL, SET(1,RM(_HL)) );								} /* SET  1,(HL)	  */
+    
     /*TODO*///OP(cb,cf) { _A = SET(1,_A); 										} /* SET  1,A		  */
     /*TODO*///
     /*TODO*///OP(cb,d0) { _B = SET(2,_B); 										} /* SET  2,B		  */
@@ -5624,7 +5636,10 @@ public class z80 extends cpu_interface {
     { 
          Z80.HL.SetH(ARG() & 0xFF);
     }};
-    opcode op_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_27 = new opcode() { public void handler()/* DAA			  */
+    { 
+         DAA();
+    }};
     opcode op_28 = new opcode() { public void handler()/* JR   Z,o		  */
     { 
         if((Z80.AF.L & ZF) !=0)
@@ -5892,7 +5907,10 @@ public class z80 extends cpu_interface {
     /* SUB  E 		  */opcode op_93 = new opcode() { public void handler(){ SUB(Z80.DE.L); }};
     /* SUB  H 		  */opcode op_94 = new opcode() { public void handler(){ SUB(Z80.HL.H); }};
     /* SUB  L 		  */opcode op_95 = new opcode() { public void handler(){ SUB(Z80.HL.L); }};
-    opcode op_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_96 = new opcode() { public void handler()
+    { 
+        SUB(cpu_readmem16(Z80.HL.D) & 0xFF);
+    }};
     opcode op_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -6418,7 +6436,7 @@ public class z80 extends cpu_interface {
 
 
     /*TODO*///OP(op,25) { _H = DEC(_H);											} /* DEC  H 		  */
-    /*TODO*///OP(op,27) { DAA;													} /* DAA			  */
+
 
     
     /*TODO*///OP(op,33) { _SP++;													} /* INC  SP		  */   
@@ -6487,7 +6505,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,8f) { ADC(_A);												} /* ADC  A,A		  */
     /*TODO*///
    
-    /*TODO*///OP(op,96) { SUB(RM(_HL));											} /* SUB  (HL)		  */
+    
     /*TODO*///OP(op,97) { SUB(_A);												} /* SUB  A 		  */
     /*TODO*///
     /*TODO*///OP(op,98) { SBC(_B);												} /* SBC  A,B		  */
