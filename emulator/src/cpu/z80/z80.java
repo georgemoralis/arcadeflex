@@ -3541,31 +3541,9 @@ public class z80 extends cpu_interface {
     /*TODO*////**********************************************************
     /*TODO*/// * IX register related opcodes (DD prefix)
     /*TODO*/// **********************************************************/
-    opcode dd_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+ 
     opcode dd_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
-    opcode dd_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode dd_19 = new opcode() { public void handler()/* ADD  IX,DE 	  */
     { 
 //THIS APPEAR A BIT nasty should probably be rechecked sometime
@@ -3574,13 +3552,6 @@ public class z80 extends cpu_interface {
          Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.IX.D ^ res ^ Z80.DE.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
          Z80.IX.SetD(res & 0xFFFF);
     }};
-    opcode dd_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_21 = new opcode() { public void handler()/* LD   IX,w		  */
     {       
          Z80.IX.SetD(ARG16() & 0xFFFF);
@@ -3590,20 +3561,13 @@ public class z80 extends cpu_interface {
     opcode dd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_34 = new opcode() { public void handler(){ }};
+    opcode dd_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
     opcode dd_35 = new opcode() { public void handler()/* DEC  (IX+o)	  */
     { 
         //EAX; WM( EA, DEC(RM(EA))
@@ -3617,31 +3581,13 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
         cpu_writemem16(EA, ARG() & 0xFF);      
     }};
-    opcode dd_37 = new opcode() { public void handler()
-    { 
-        throw new UnsupportedOperationException("unimplemented");
-    }};
+
     
-    opcode dd_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode dd_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_4e = new opcode() { public void handler()
@@ -3650,11 +3596,6 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
          Z80.BC.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode dd_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_56 = new opcode() { public void handler()
@@ -3663,11 +3604,6 @@ public class z80 extends cpu_interface {
          EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
          Z80.DE.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode dd_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_5e = new opcode() { public void handler()
@@ -3676,7 +3612,6 @@ public class z80 extends cpu_interface {
          EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
          Z80.DE.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode dd_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3736,7 +3671,6 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
         cpu_writemem16(EA, Z80.HL.L);
     }};
-    opcode dd_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_77 = new opcode() { public void handler()/* LD   (IX+o),A	  */
     { 
         
@@ -3744,10 +3678,6 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
         cpu_writemem16(EA, Z80.AF.H);
     }};
-    opcode dd_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_7e = new opcode() { public void handler()/* LD   A,(IX+o)	  */
@@ -3757,11 +3687,6 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
         Z80.AF.SetH(cpu_readmem16(EA) &0xFF);     
     }};
-    opcode dd_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_86 = new opcode() { public void handler() /* ADD  A,(IX+o)	  */
@@ -3770,35 +3695,16 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
         ADD(cpu_readmem16(EA) & 0xFF);
     }};
-    opcode dd_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode dd_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_a6 = new opcode() { public void handler()/* AND  (IX+o)	  */
@@ -3807,27 +3713,13 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
         AND(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode dd_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode dd_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_be = new opcode() { public void handler()
@@ -3836,18 +3728,6 @@ public class z80 extends cpu_interface {
            EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF; 
             CP(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode dd_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_cb = new opcode() { public void handler()/* **   DD CB xx	  */
     { 
         //EAX; EXEC(xxcb,ARG());
@@ -3856,27 +3736,6 @@ public class z80 extends cpu_interface {
         z80_ICount[0] -= cc_xxcb[op];
         Z80xxcb[op].handler();//EXEC(xxcb,ARG());
     }};
-    opcode dd_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
-    opcode dd_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_e1 = new opcode() { public void handler()/* POP  IX		  */
     { 
         //POP(IX);
@@ -3884,41 +3743,15 @@ public class z80 extends cpu_interface {
         Z80.IX.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);  
     }};
-    opcode dd_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_e5 = new opcode() { public void handler()/* PUSH IX		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
         cpu_writemem16(Z80.SP.D, Z80.IX.L);
         cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.IX.H);
     }};
-    opcode dd_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(dd,00) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,01) { illegal_1();											} /* DB   DD		  */
     /*TODO*///OP(dd,02) { illegal_1();											} /* DB   DD		  */
@@ -4207,31 +4040,9 @@ public class z80 extends cpu_interface {
     /**********************************************************
      * IY register related opcodes (FD prefix)
      **********************************************************/
-    opcode fd_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+ 
     opcode fd_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
-    opcode fd_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode fd_19 = new opcode() { public void handler()/* ADD  IY,DE 	  */
     { 
         //TODO recheck it not sure if it's ok (shadow)           
@@ -4240,13 +4051,7 @@ public class z80 extends cpu_interface {
          Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.IY.D ^ res ^ Z80.DE.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
          Z80.IY.SetD(res & 0xFFFF); 
     }};
-    opcode fd_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode fd_21 = new opcode() { public void handler()/* LD   IY,w		  */
     { 
         // _IY = ARG16();
@@ -4257,19 +4062,12 @@ public class z80 extends cpu_interface {
     opcode fd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_35 = new opcode() { public void handler()
     { 
@@ -4283,43 +4081,17 @@ public class z80 extends cpu_interface {
         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
         cpu_writemem16((int)EA, ARG() & 0xFF);
     }};
-    opcode fd_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_46 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_56 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode fd_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_5e = new opcode() { public void handler()
@@ -4328,7 +4100,6 @@ public class z80 extends cpu_interface {
         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
         Z80.DE.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
-    opcode fd_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -4371,17 +4142,12 @@ public class z80 extends cpu_interface {
         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
         cpu_writemem16((int)EA, Z80.HL.L);      
     }};
-    opcode fd_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_77 = new opcode() { public void handler()/* LD   (IY+o),A	  */
     { 
         //EAY; WM( EA, _A );
         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
         cpu_writemem16((int)EA, Z80.AF.H); 
     }};
-    opcode fd_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_7b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_7e = new opcode() { public void handler()/* LD   A,(IY+o)	  */
@@ -4391,67 +4157,27 @@ public class z80 extends cpu_interface {
         Z80.AF.SetH(cpu_readmem16((int)EA) & 0xFF);
         int k=0;
     }};
-    opcode fd_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_be = new opcode() { public void handler()
@@ -4461,40 +4187,7 @@ public class z80 extends cpu_interface {
         CP(cpu_readmem16((int)EA) & 0xFF);
  //TODO not sure about above
     }};
-    opcode fd_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
-    opcode fd_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_e1 = new opcode() { public void handler()/* POP  IY		  */
     { 
         //POP(IY); 
@@ -4502,41 +4195,15 @@ public class z80 extends cpu_interface {
         Z80.IY.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);  
     }};
-    opcode fd_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_e5 = new opcode() { public void handler()/* PUSH IY		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
         cpu_writemem16(Z80.SP.D, Z80.IY.L);
         cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.IY.H);
     }};
-    opcode fd_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     /*TODO*///OP(fd,00) { illegal_1();											} /* DB   FD		  */
     /*TODO*///OP(fd,01) { illegal_1();											} /* DB   FD		  */
     /*TODO*///OP(fd,02) { illegal_1();											} /* DB   FD		  */
@@ -4833,70 +4500,9 @@ public class z80 extends cpu_interface {
     /**********************************************************
      * special opcodes (ED prefix)
      **********************************************************/
-    opcode ed_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_09 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_0a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};  
-    opcode ed_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_0c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_0d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_0f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_10 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_11 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_12 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_13 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_2f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_33 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_34 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_38 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
+
+    
     opcode ed_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_42 = new opcode() { public void handler()/* SBC  HL,BC 	  */
@@ -5000,7 +4606,6 @@ public class z80 extends cpu_interface {
     opcode ed_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5014,55 +4619,17 @@ public class z80 extends cpu_interface {
     opcode ed_7c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_7d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_7e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_7f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_83 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_87 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_8f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_90 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_91 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_92 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_93 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode ed_a0 = new opcode() { public void handler(){ LDI();}};
     opcode ed_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_a4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_a5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_a7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode ed_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode ed_b0 = new opcode() { public void handler()/* LDIR			  */
     { 
 //TODO check it for sure (shadow)
@@ -5071,82 +4638,12 @@ public class z80 extends cpu_interface {
     opcode ed_b1 = new opcode() { public void handler(){ CPIR();}};
     opcode ed_b2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_b3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_b4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_b5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_b7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_b8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_b9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_ba = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_be = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_bf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_c9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ca = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_cb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_cc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_cd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ce = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_cf = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_d9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_da = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_dc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_dd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}}; 
-    opcode ed_de = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_df = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_eb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ed = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ee = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ef = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f4 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f5 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_fa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_fb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_fc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_fd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_fe = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
+   
     /*TODO*///OP(ed,00) { illegal_2();											} /* DB   ED		  */
     /*TODO*///OP(ed,01) { illegal_2();											} /* DB   ED		  */
     /*TODO*///OP(ed,02) { illegal_2();											} /* DB   ED		  */
@@ -7532,6 +7029,536 @@ public class z80 extends cpu_interface {
     {
         cpu_setOPbase16.handler(pc,0);
     }
+/////////////////////////////////////illegal opcodes//////////////////////////////////////////////////////////
+    public void illegal_1()
+    {
+        Z80.PC.AddD(-1);
+        if( errorlog!=null )
+            fprintf(errorlog, "Z80#%d ill. opcode $%02x $%02x\n",cpu_getactivecpu(), cpu_readop((Z80.PC.D-1)&0xffff), cpu_readop(Z80.PC.D));
+    }
+    public void illegal_2()
+    {
+        if( errorlog!=null )
+            fprintf(errorlog, "Z80#%d ill. opcode $ed $%02x\n",cpu_getactivecpu(), cpu_readop((Z80.PC.D-1)&0xffff));
+    }
+    opcode dd_00 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_01 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_02 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_03 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_04 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_05 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_06 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_07 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_08 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_0f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_10 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_11 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_12 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_13 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_14 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_15 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_16 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_17 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_18 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_1f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_20 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_27 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_28 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_2f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_30 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_31 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_32 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_33 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_37 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_38 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_3f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_40 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_41 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_42 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_43 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_47 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_48 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_49 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_4a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_4b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_4f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_50 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_51 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_52 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_53 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_57 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_58 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_59 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_5a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_5b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_5f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_76 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_78 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_79 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_7a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_7b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_7f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_80 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_81 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_82 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_83 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_87 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_88 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_89 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_8a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_8b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_8f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_90 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_91 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_92 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_93 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_97 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_98 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_99 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_9a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_9b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_9f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_a9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_aa = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ab = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_af = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_b9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ba = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_bb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_bf = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_c9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ca = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_cc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_cd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ce = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_cf = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_d9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_da = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_db = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_dc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_dd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_de = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_df = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_e8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ea = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_eb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ec = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ed = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ee = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ef = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_f8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_fa = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_fb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_fc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_fd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_fe = new opcode() { public void handler(){  illegal_1();											}}; /* DB   DD		  */
+    opcode dd_ff = new opcode() { public void handler(){  illegal_1();                                                                                  }}; /* DB   DD		  */
+    opcode fd_00 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_01 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_02 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_03 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_04 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_05 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_06 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_07 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_08 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_0f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_10 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_11 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_12 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_13 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_14 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_15 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_16 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_17 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_18 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_1f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_20 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_27 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_28 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_2f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_30 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_31 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_32 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_33 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_37 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_38 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3c = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3d = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3e = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_3f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_40 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_41 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_42 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_43 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_47 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_48 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_49 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_4a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_4b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_4f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_50 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_51 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_52 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_53 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_57 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_58 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_59 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_5a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_5b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_5f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_76 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_78 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_79 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_7a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_7b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_7f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_80 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_81 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_82 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_83 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_87 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_88 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_89 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_8a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_8b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_8f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_90 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_91 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_92 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_93 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_97 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_98 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_99 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_9a = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_9b = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_9f = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_a9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_aa = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ab = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_af = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_b9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ba = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_bb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_bf = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_c9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ca = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_cc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_cd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ce = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_cf = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_d9 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_da = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_db = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_dc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_dd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_de = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_df = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_e8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ea = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_eb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ec = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ed = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ee = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ef = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f0 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f1 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f2 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f3 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f4 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f5 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f6 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f7 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_f8 = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_fa = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_fb = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_fc = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_fd = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_fe = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode fd_ff = new opcode() { public void handler(){  illegal_1();											}}; /* DB   FD		  */
+    opcode ed_00 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_01 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_02 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_03 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_04 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_05 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_06 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_07 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_08 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_09 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_0f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_10 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_11 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_12 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_13 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_14 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_15 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_16 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_17 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_18 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_19 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_1f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_20 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_21 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_22 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_23 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_24 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_25 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_26 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_27 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_28 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_29 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_2f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_30 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_31 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_32 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_33 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_34 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_35 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_36 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_37 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_38 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_39 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_3f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_77 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED,77 	  */
+    opcode ed_7f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED,7F 	  */
+    opcode ed_80 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_81 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_82 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_83 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_84 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_85 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_86 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_87 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_88 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_89 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_8f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_90 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_91 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_92 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_93 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_94 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_95 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_96 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_97 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_98 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_99 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9a = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9b = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9c = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9d = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9e = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_9f = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_a4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_a5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_a6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_a7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ac = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ad = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ae = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_af = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_b4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_b5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_b6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_b7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_bc = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_bd = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_be = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_bf = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c0 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c1 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c2 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c3 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c8 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_c9 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ca = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_cb = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_cc = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_cd = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ce = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_cf = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d0 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d1 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d2 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d3 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d8 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_d9 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_da = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_db = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_dc = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_dd = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_de = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_df = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e0 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e1 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e2 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e3 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e8 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_e9 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ea = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_eb = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ec = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ed = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ee = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ef = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f0 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f1 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f2 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f3 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f4 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f5 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f6 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f7 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f8 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_f9 = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_fa = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_fb = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_fc = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_fd = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_fe = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
+    opcode ed_ff = new opcode() { public void handler(){  illegal_2();											}}; /* DB   ED		  */
 
     public abstract interface opcode
     {
