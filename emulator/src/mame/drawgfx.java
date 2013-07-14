@@ -2253,6 +2253,32 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
+        public static void blockmove_transcolor_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+        {
+            int end;
+
+            int offset = paldata.base;
+            int length = Machine.game_colortable.length - offset;
+             CharPtr lookupdata = new CharPtr(Machine.game_colortable,paldata.base);
+
+            srcmodulo += srcwidth;
+            dstmodulo -= srcwidth; //srcdata += srcwidth-1;
+            while (srcheight != 0)
+            {
+                end = (int)(dstdata.base + srcwidth);
+                while (dstdata.base < end)
+                {
+                   if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.base]] != transcolor)
+                            dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+                    srcdata.base--;
+                    dstdata.base++;
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+        }
+
 /*TODO*///DECLARE(blockmove_transcolor_flipx,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2685,13 +2711,12 @@ public class drawgfx {
 			case TRANSPARENCY_COLOR:
                                 if(flipx!=0)
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transcolor_flipx8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
                                 else
                                 {
                                     blockmove_transcolor8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
-				//BLOCKMOVE(transcolor,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
 				break;
 
 			case TRANSPARENCY_THROUGH:
