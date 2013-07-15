@@ -1318,7 +1318,7 @@ public class z80 extends cpu_interface {
     /***************************************************************
      * ADD	A,n
     ***************************************************************/
-    public void ADD(int value)
+    /*public void ADD(int value)
     {
         int ah = Z80.AF.D & 0xff00;
         if(ah <= -1)//check unsigness TODO crazy check to be removed
@@ -1326,11 +1326,17 @@ public class z80 extends cpu_interface {
         int res = ((ah>>8) + value) & 0xFF;
         Z80.AF.SetL(SZHVC_add[ah | res]);
         Z80.AF.SetH(res & 0xFF);
+    }*/
+    public void ADD(int value)//rewrote for better (phase 2 )
+    {
+        int res = (Z80.AF.H + value) & 0xff;
+        Z80.AF.SetL(SZHVC_add[(Z80.AF.H << 8) | res]);
+        Z80.AF.SetH(res);
     }
     /***************************************************************
      * ADC	A,n
      ***************************************************************/
-    public void ADC(int value)
+    /*public void ADC(int value)
     {
         int ah = Z80.AF.D & 0xff00;
         int c = Z80.AF.D & 1;
@@ -1339,6 +1345,13 @@ public class z80 extends cpu_interface {
         int res = ((ah>>8) + value + c) & 0xFF;
         Z80.AF.SetL(SZHVC_add[(c << 16) | ah | res]);
         Z80.AF.SetH(res & 0xFF);
+    }*/
+    public void ADC(int value)
+    {
+        int c = Z80.AF.L & 1;
+        int res = (Z80.AF.H + value + c) & 0xff;
+        Z80.AF.SetL(SZHVC_add[(c << 16) | (Z80.AF.H << 8) | res]);
+        Z80.AF.SetH(res);
     }
     /*TODO*///#define ADC(value)												\
     /*TODO*///{																\
@@ -1393,7 +1406,7 @@ public class z80 extends cpu_interface {
     /*TODO*///	_F = SZHVC_sub[ah | res];									\
     /*TODO*///    _A = res;                                                   \
     /*TODO*///}
-    public void SUB(int value)
+    /*public void SUB(int value)
     {
         int ah = Z80.AF.D & 0xff00;
         if(ah <= -1)//check unsigness TODO crazy check to be removed
@@ -1401,6 +1414,12 @@ public class z80 extends cpu_interface {
         int res = ((ah>>8) - value) & 0xFF;
         Z80.AF.SetL(SZHVC_sub[ah | res]);
         Z80.AF.SetH(res & 0xFF);
+    }*/
+    public void SUB(int value)//rewrote phase2
+    {
+        int res = (Z80.AF.H - value) & 0xff;
+        Z80.AF.SetL(SZHVC_sub[(Z80.AF.H << 8) | res]);
+        Z80.AF.SetH(res);
     }
     /*TODO*///#else
     /*TODO*///#define SUB(value)												\
