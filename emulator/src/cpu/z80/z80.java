@@ -2245,7 +2245,6 @@ public class z80 extends cpu_interface {
     /*TODO*///
 
 
-
 /**********************************************************
      * opcodes with CB prefix
      * rotate, shift and bit operations
@@ -3423,8 +3422,7 @@ public class z80 extends cpu_interface {
         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
         Z80.AF.SetH(cpu_readmem16(EA) &0xFF);     
     }};
-    opcode dd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+   
     opcode dd_86 = new opcode() { public void handler() /* ADD  A,(IX+o)	  */
     { 
         //EAX; ADD(RM(EA));										
@@ -3878,8 +3876,7 @@ public class z80 extends cpu_interface {
         Z80.AF.SetH(cpu_readmem16((int)EA) & 0xFF);
         int k=0;
     }};
-    opcode fd_84 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_85 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+  
     opcode fd_86 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_8c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_8d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -5191,19 +5188,10 @@ public class z80 extends cpu_interface {
             Z80.AF.SetH(cpu_readmem16(Z80.HL.D) & 0xFF);//_A = RM(_HL);
     }};
     
-    /* ADD  A,B		  */opcode op_80 = new opcode() { public void handler(){  ADD(Z80.BC.H);}};
-    /* ADD  A,C		  */opcode op_81 = new opcode() { public void handler(){  ADD(Z80.BC.L);}};
-    /* ADD  A,D		  */opcode op_82 = new opcode() { public void handler(){  ADD(Z80.DE.H);}};
-    /* ADD  A,E		  */opcode op_83 = new opcode() { public void handler(){  ADD(Z80.DE.L);}};
-    /* ADD  A,H		  */opcode op_84 = new opcode() { public void handler(){  ADD(Z80.HL.H);}};
-    /* ADD  A,L		  */opcode op_85 = new opcode() { public void handler(){  ADD(Z80.HL.L);}};
+   
     opcode op_86 = new opcode() { public void handler()/* ADD  A,(HL)	  */
     { 
         ADD(cpu_readmem16(Z80.HL.D) & 0xFF);//OP(op,86) { ADD(RM(_HL));
-    }};
-    opcode op_87 = new opcode() { public void handler()/* ADD  A,A		  */
-    { 
-        ADD(Z80.AF.H);
     }};
     opcode op_88 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_89 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -6746,7 +6734,20 @@ public class z80 extends cpu_interface {
         cpu_setOPbase16.handler(pc,0);
     }
 
-
+    /**********************************************************
+     * ADD opcodes
+     **********************************************************/
+    opcode dd_84 = new opcode() { public void handler(){  ADD(Z80.IX.H);												}}; /* ADD  A,HX		  */
+    opcode dd_85 = new opcode() { public void handler(){  ADD(Z80.IX.L);												}}; /* ADD  A,LX		  */
+    opcode fd_84 = new opcode() { public void handler(){  ADD(Z80.IY.H);												}}; /* ADD  A,HY		  */
+    opcode fd_85 = new opcode() { public void handler(){  ADD(Z80.IY.L);												}}; /* ADD  A,LY		  */
+    opcode op_80 = new opcode() { public void handler(){  ADD(Z80.BC.H);												}}; /* ADD  A,B		  */
+    opcode op_81 = new opcode() { public void handler(){  ADD(Z80.BC.L);												}}; /* ADD  A,C		  */
+    opcode op_82 = new opcode() { public void handler(){  ADD(Z80.DE.H);												}}; /* ADD  A,D		  */
+    opcode op_83 = new opcode() { public void handler(){  ADD(Z80.DE.L);												}}; /* ADD  A,E		  */
+    opcode op_84 = new opcode() { public void handler(){  ADD(Z80.HL.H);												}}; /* ADD  A,H		  */
+    opcode op_85 = new opcode() { public void handler(){  ADD(Z80.HL.L);												}}; /* ADD  A,L		  */
+    opcode op_87 = new opcode() { public void handler(){  ADD(Z80.AF.H);												}}; /* ADD  A,A		  */
      /**********************************************************
      * Simple LD opcodes
      **********************************************************/
