@@ -1166,32 +1166,17 @@ public class z80 extends cpu_interface {
     /*TODO*///	_A = (_A >> 1) | (_A << 7)
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * RLA
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///#define RLA {													\
-    /*TODO*///	UINT8 res = (_A << 1) | (_F & CF);							\
-    /*TODO*///	UINT8 c = (_A & 0x80) ? CF : 0; 							\
-    /*TODO*///	_F = (_F & (SF | ZF | PF)) | c | (res & (YF | XF)); 		\
-    /*TODO*///	_A = res;													\
-    /*TODO*///}
-    /*TODO*///#else
-    /*TODO*///#define RLA {                                                   \
-    /*TODO*///	UINT8 res = (_A << 1) | (_F & CF);							\
-    /*TODO*///	UINT8 c = (_A & 0x80) ? CF : 0; 							\
-    /*TODO*///	_F = (_F & (SF | ZF | YF | XF | PF)) | c;					\
-    /*TODO*///	_A = res;													\
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///
-    public void RLA()
+    /***************************************************************
+     * RLA
+     ***************************************************************/ 
+    public void RLA() //rewriten (phase 2)
     {
-        int res = ((Z80.AF.H << 1) | (Z80.AF.L & CF))&0xFF;
-        int c = (Z80.AF.H & 0x80)!=0 ? CF : 0; 
-       Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF))) & 0xFF);
-       Z80.AF.SetH(res);
+        int res = ((Z80.AF.H << 1) | (Z80.AF.L & CF)) & 0xff;
+        int c = ((Z80.AF.H & 0x80)!=0) ? CF : 0;
+        Z80.AF.SetL((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF)));
+        Z80.AF.SetH(res);
     }
+    
     /*TODO*////***************************************************************
     /*TODO*/// * RRA
     /*TODO*/// ***************************************************************/
@@ -1516,18 +1501,13 @@ public class z80 extends cpu_interface {
     /*TODO*///	_HL = (UINT16)res;											\
     /*TODO*///}
     /*TODO*///#endif
-    public void ADC16(int reg)
-    {
-         long res = (long)(Z80.HL.D + reg + (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
-         Z80.AF.SetL((int)((((Z80.HL.D ^ res ^ reg) >>> 8) & HF) | 			
-    		((res >>> 16) & CF) |									
-    		((res >>> 8) & SF) | 									
-    		((res & 0xffff)!=0 ? 0 : ZF) | 							
-    		(((reg ^ Z80.HL.D^ 0x8000) & (reg ^ res) & 0x8000) >>> 13)) & 0xFF);
-          Z80.HL.SetD((int)(res & 0xFFFF));
-          int k=0;
+    public void ADC16(int value) {
+        
+        int result = Z80.HL.D + value + (Z80.AF.L & 1);
+        Z80.AF.SetL((((Z80.HL.D^ result ^ value) >> 8) & 0x10) | ((result >> 16) & 1) | ((result >> 8) & 0x80)
+                | (((result & 0xffff) != 0) ? 0 : 0x40) | (((value ^ Z80.HL.D ^ 0x8000) & (value ^ result) & 0x8000) >> 13));
+        Z80.HL.SetD(result & 0xFFFF);
     }
-    
     
     /*TODO*////***************************************************************
     /*TODO*/// * SBC	r16,r16
