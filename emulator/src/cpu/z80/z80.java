@@ -1570,6 +1570,12 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
+     public void SBC16(int value) {
+        int result = Z80.HL.D - value - (Z80.AF.L & 1);
+       Z80.AF.SetL((((Z80.HL.D  ^ result ^ value) >> 8) & 0x10) | 0x02 | ((result >> 16) & 1) | ((result >> 8) & 0x80)
+                | (((result & 0xffff) != 0) ? 0 : 0x40) | (((value ^ Z80.HL.D ) & (Z80.HL.D  ^ result) & 0x8000) >> 13));
+       Z80.HL.SetD(result & 0xFFFF);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * RLC	r8
     /*TODO*/// ***************************************************************/
@@ -1590,6 +1596,13 @@ public class z80 extends cpu_interface {
         Z80.AF.SetL((SZP[res] | c) & 0xFF);
         return res;
     }
+    /*public int RLC(int value) //rewrote
+    {
+        int c = (value & 0x80) >> 7;
+        value = ((value << 1) | (value >> 7)) & 0xff;
+        Z80.AF.SetL(SZP[value] | c);
+        return value;
+    }*/
     /*TODO*////***************************************************************
     /*TODO*/// * RRC	r8
     /*TODO*/// ***************************************************************/
@@ -1652,6 +1665,10 @@ public class z80 extends cpu_interface {
         res = (res <<1) & 0xFF;
         Z80.AF.SetL((SZP[res] |c) & 0xFF );
         return res;
+        /*int c = (value & 0x80) >> 7;
+        value = (value << 1) & 0xff;
+        Z80.AF.SetL(SZP[value] | c);
+        return value;*/
     }
     /*TODO*////***************************************************************
     /*TODO*/// * SRA	r8
@@ -4212,13 +4229,14 @@ public class z80 extends cpu_interface {
     opcode ed_42 = new opcode() { public void handler()/* SBC  HL,BC 	  */
     { 
         //SBC16( BC );	
-         long res = (long)(Z80.HL.D - Z80.BC.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
+         /*long res = (long)(Z80.HL.D - Z80.BC.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
          Z80.AF.SetL((int)((((Z80.HL.D ^ res ^ Z80.BC.D) >>> 8) & HF) | NF |			
     		((res >>> 16) & CF) |									
     		((res >>> 8) & SF) | 									
     		((res & 0xffff)!=0 ? 0 : ZF) | 							
     		(((Z80.BC.D ^ Z80.HL.D) & (Z80.HL.D ^ res) &0x8000) >>> 13)) & 0xFF);
-          Z80.HL.SetD((int)(res & 0xFFFF));
+          Z80.HL.SetD((int)(res & 0xFFFF));*/
+        SBC16(Z80.BC.D);
     }};
     opcode ed_43 = new opcode() { public void handler()
     { 
@@ -4256,13 +4274,14 @@ public class z80 extends cpu_interface {
     opcode ed_52 = new opcode() { public void handler()/* SBC  HL,DE 	  */
     { 
          //SBC16( DE );	
-          long res = (long)(Z80.HL.D - Z80.DE.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
+         /* long res = (long)(Z80.HL.D - Z80.DE.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
          Z80.AF.SetL((int)((((Z80.HL.D ^ res ^ Z80.DE.D) >>> 8) & HF) | NF |			
     		((res >>> 16) & CF) |									
     		((res >>> 8) & SF) | 									
     		((res & 0xffff)!=0 ? 0 : ZF) | 							
     		(((Z80.DE.D ^ Z80.HL.D) & (Z80.HL.D ^ res) &0x8000) >>> 13)) & 0xFF);
-          Z80.HL.SetD((int)(res & 0xFFFF));
+          Z80.HL.SetD((int)(res & 0xFFFF));*/
+         SBC16(Z80.DE.D);
     }};
     opcode ed_53 = new opcode() { public void handler()
     { 
