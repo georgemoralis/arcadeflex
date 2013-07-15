@@ -1382,6 +1382,7 @@ public class z80 extends cpu_interface {
     /*TODO*///	PAIR tmp;													\
     /*TODO*///    tmp = Z80.AF; Z80.AF = Z80.AF2; Z80.AF2 = tmp;              \
     /*TODO*///}
+    
     /*TODO*////***************************************************************
     /*TODO*/// * EX   (SP),r16
     /*TODO*/// ***************************************************************/
@@ -2300,7 +2301,12 @@ public class z80 extends cpu_interface {
         Z80.HL.SetL(SLA(Z80.HL.L));
     }};
     opcode cb_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_27 = new opcode() { public void handler()
+    { 
+        /*TODO*///OP(cb,27) { _A = SLA(_A);											} /* SLA  A 		  */
+        Z80.AF.SetH(SLA(Z80.AF.H));
+        
+    }};
     opcode cb_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2337,7 +2343,11 @@ public class z80 extends cpu_interface {
     
     opcode cb_66 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
-    opcode cb_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_6e = new opcode() { public void handler()
+    { 
+         /*TODO*///OP(cb,6e) { BIT(5,RM(_HL)); 										} /* BIT  5,(HL)	  */
+         BIT(5,cpu_readmem16(Z80.HL.D) & 0xFF);
+    }};
 
     
     opcode cb_76 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2467,8 +2477,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(cb,24) { _H = SLA(_H);											} /* SLA  H 		  */
     
     /*TODO*///OP(cb,26) { WM( _HL, SLA(RM(_HL)) );								} /* SLA  (HL)		  */
-    /*TODO*///OP(cb,27) { _A = SLA(_A);											} /* SLA  A 		  */
-    /*TODO*///
+     /*TODO*///
     /*TODO*///OP(cb,28) { _B = SRA(_B);											} /* SRA  B 		  */
     /*TODO*///OP(cb,29) { _C = SRA(_C);											} /* SRA  C 		  */
     /*TODO*///OP(cb,2a) { _D = SRA(_D);											} /* SRA  D 		  */
@@ -2540,7 +2549,6 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(cb,6b) { BIT(5,_E);												} /* BIT  5,E		  */
     /*TODO*///OP(cb,6c) { BIT(5,_H);												} /* BIT  5,H		  */
     /*TODO*///OP(cb,6d) { BIT(5,_L);												} /* BIT  5,L		  */
-    /*TODO*///OP(cb,6e) { BIT(5,RM(_HL)); 										} /* BIT  5,(HL)	  */
    
     /*TODO*///
     /*TODO*///OP(cb,70) { BIT(6,_B);												} /* BIT  6,B		  */
@@ -4263,7 +4271,18 @@ public class z80 extends cpu_interface {
         Z80.BC.SetH((cpu_readmem16((EA + 1) & 0xffff)& 0xFF));
     }};
     opcode ed_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4d = new opcode() { public void handler()
+    { 
+
+ //RETI TODO AGAIN
+        Z80.PC.SetL((cpu_readmem16(Z80.SP.D) & 0xFF)); //RM16
+            Z80.PC.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
+            Z80.SP.AddD(2);  
+            change_pc16(Z80.PC.D);//change_pc16(_PCD);
+            z80_ICount[0] -= 6;//CY(6);
+        
+            
+    }};
   
     opcode ed_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -4381,78 +4400,7 @@ public class z80 extends cpu_interface {
     opcode ed_bb = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
 
    
-    /*TODO*///OP(ed,00) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,01) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,02) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,03) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,04) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,05) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,06) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,07) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,08) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,09) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,0f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,10) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,11) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,12) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,13) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,14) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,15) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,16) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,17) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,18) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,19) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,1f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,20) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,21) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,22) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,23) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,24) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,25) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,26) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,27) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,28) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,29) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,2f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,30) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,31) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,32) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,33) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,34) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,35) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,36) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,37) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,38) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,39) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,3f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
+ /*TODO*///
     /*TODO*///OP(ed,40) { _B = IN(_BC); _F = (_F & CF) | SZP[_B]; 				} /* IN   B,(C) 	  */
     /*TODO*///OP(ed,41) { OUT(_BC,_B);											} /* OUT  (C),B 	  */
     
@@ -4513,162 +4461,32 @@ public class z80 extends cpu_interface {
     
     /*TODO*///OP(ed,74) { NEG;													} /* NEG			  */
     /*TODO*///OP(ed,75) { RETN;													} /* RETN;			  */
-    /*TODO*///OP(ed,76) { _IM = 1;												} /* IM   1 		  */
-    /*TODO*///OP(ed,77) { illegal_2();											} /* DB   ED,77 	  */
-    /*TODO*///
+
     /*TODO*///OP(ed,78) { _A = IN(_BC); _F = (_F & CF) | SZP[_A]; 				} /* IN   E,(C) 	  */
     /*TODO*///OP(ed,79) { OUT(_BC,_A);											} /* OUT  (C),E 	  */
     /*TODO*///OP(ed,7a) { ADC16( SP );											} /* ADC  HL,SP 	  */
     
     /*TODO*///OP(ed,7c) { NEG;													} /* NEG			  */
     /*TODO*///OP(ed,7d) { RETI;													} /* RETI			  */
-    /*TODO*///OP(ed,7e) { _IM = 2;												} /* IM   2 		  */
-    /*TODO*///OP(ed,7f) { illegal_2();											} /* DB   ED,7F 	  */
-    /*TODO*///
-    /*TODO*///OP(ed,80) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,81) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,82) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,83) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,84) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,85) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,86) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,87) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,88) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,89) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,8f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,90) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,91) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,92) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,93) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,94) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,95) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,96) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,97) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,98) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,99) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9a) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9b) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9c) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9d) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9e) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,9f) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
+
     /*TODO*///OP(ed,a0) { LDI;													} /* LDI			  */
     /*TODO*///OP(ed,a1) { CPI;													} /* CPI			  */
     /*TODO*///OP(ed,a2) { INI;													} /* INI			  */
     /*TODO*///OP(ed,a3) { OUTI;													} /* OUTI			  */
-    /*TODO*///OP(ed,a4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,a5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,a6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,a7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
     /*TODO*///OP(ed,a8) { LDD;													} /* LDD			  */
     /*TODO*///OP(ed,a9) { CPD;													} /* CPD			  */
     /*TODO*///OP(ed,aa) { IND;													} /* IND			  */
     /*TODO*///OP(ed,ab) { OUTD;													} /* OUTD			  */
-    /*TODO*///OP(ed,ac) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ad) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ae) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,af) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    
+  
     /*TODO*///OP(ed,b1) { CPIR;													} /* CPIR			  */
     /*TODO*///OP(ed,b2) { INIR;													} /* INIR			  */
     /*TODO*///OP(ed,b3) { OTIR;													} /* OTIR			  */
-    /*TODO*///OP(ed,b4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,b5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,b6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,b7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
+  
     /*TODO*///OP(ed,b8) { LDDR;													} /* LDDR			  */
     /*TODO*///OP(ed,b9) { CPDR;													} /* CPDR			  */
     /*TODO*///OP(ed,ba) { INDR;													} /* INDR			  */
     /*TODO*///OP(ed,bb) { OTDR;													} /* OTDR			  */
-    /*TODO*///OP(ed,bc) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,bd) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,be) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,bf) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,c0) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c1) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c2) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c3) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,c8) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,c9) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ca) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,cb) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,cc) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,cd) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ce) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,cf) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,d0) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d1) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d2) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d3) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,d8) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,d9) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,da) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,db) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,dc) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,dd) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,de) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,df) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,e0) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e1) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e2) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e3) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,e8) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,e9) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ea) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,eb) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ec) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ed) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ee) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ef) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,f0) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f1) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f2) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f3) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f4) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f5) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f6) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f7) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
-    /*TODO*///OP(ed,f8) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,f9) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,fa) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,fb) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,fc) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,fd) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,fe) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///OP(ed,ff) { illegal_2();											} /* DB   ED		  */
-    /*TODO*///
+  
     /*TODO*///#if TIME_LOOP_HACKS
     /*TODO*///
     /*TODO*///#define CHECK_BC_LOOP                                               \
@@ -4816,7 +4634,11 @@ public class z80 extends cpu_interface {
          Z80.AF.SetH(((Z80.AF.H << 1) | (Z80.AF.H >>> 7)) & 0xFF);
          Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF)))& 0xFF);
     }};
-    opcode op_08 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_08 = new opcode() { public void handler()
+    { 
+        PAIR tmp=new PAIR();													
+      tmp = Z80.AF; Z80.AF = Z80.AF2; Z80.AF2 = tmp;
+    }};
     opcode op_09 = new opcode() { public void handler()/* ADD  HL,BC 	  */
     { 
 //TODO recheck it not sure if it's ok (shadow)           
@@ -4831,7 +4653,12 @@ public class z80 extends cpu_interface {
        // _A = RM(_BC);											} /* LD   A,(BC)	  */
         Z80.AF.SetH((cpu_readmem16(Z80.BC.D) & 0xFF));
     }};  
-    opcode op_0b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_0b = new opcode() { public void handler()
+    { 
+            
+    /*TODO*///OP(op,0b) { _BC--; CHECK_BC_LOOP;									} /* DEC  BC		  */
+        Z80.BC.AddD(-1);
+    }};
     opcode op_0c = new opcode() { public void handler()/* INC  C 		  */
     { 
         // _C = INC(_C); 
@@ -5784,25 +5611,7 @@ public class z80 extends cpu_interface {
     opcode op_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
     
-   
-
-    /*TODO*///
-    /*TODO*///OP(op,08) { EX_AF;													} /* EX   AF,AF'      */
-    
-    
-    /*TODO*///OP(op,0b) { _BC--; CHECK_BC_LOOP;									} /* DEC  BC		  */
-    
-    
-    
-    /*TODO*///
-    
-    
-    
-    
-
-   
-
-
+  
     /*TODO*///OP(op,25) { _H = DEC(_H);											} /* DEC  H 		  */
 
 

@@ -104,10 +104,11 @@ public class input {
 	new KeyboardInfo( "PRTSCR",     KEY_PRTSCR,         KEYCODE_PRTSCR ),
 	new KeyboardInfo( "PAUSE",      KEY_PAUSE,          KEYCODE_PAUSE ),
 	new KeyboardInfo( "LSHIFT",		KEY_LSHIFT,			KEYCODE_LSHIFT ),
-	new KeyboardInfo( "RSHIFT",		KEY_RSHIFT,			KEYCODE_RSHIFT ),
-	new KeyboardInfo( "LCTRL",		KEY_LCONTROL,		KEYCODE_LCONTROL ),
-	new KeyboardInfo( "RCTRL",		KEY_RCONTROL,		KEYCODE_RCONTROL ),
-	new KeyboardInfo( "ALT",		KEY_ALT,			KEYCODE_LALT ),
+	new KeyboardInfo( "RSHIFT",		KEY_RSHIFT,			KEYCODE_RSHIFT ),*/
+//LCONTROL + RCONTROL ARE THE SAME IN JAVA....       
+	new KeyboardInfo( "LCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_LCONTROL ),
+	new KeyboardInfo( "RCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_RCONTROL ),
+	/*new KeyboardInfo( "ALT",		KEY_ALT,			KEYCODE_LALT ),
 	new KeyboardInfo( "ALTGR",		KEY_ALTGR,			KEYCODE_RALT ),
 	new KeyboardInfo( "LWIN",		KEY_LWIN,			KEYCODE_OTHER ),
 	new KeyboardInfo( "RWIN",		KEY_RWIN,			KEYCODE_OTHER ),
