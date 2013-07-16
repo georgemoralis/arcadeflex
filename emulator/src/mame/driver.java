@@ -49,8 +49,8 @@ public class driver {
 /*TODO*/ //	DRIVER( eyes )		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
 /*TODO*/ //	DRIVER( eyes2 )		/* (c) 1982 Techstar + "Rockola presents" */
 /*TODO*/ //	DRIVER( mrtnt )		/* (c) 1983 Telko */
-/*TODO*/ //	DRIVER( ponpoko )	/* (c) 1982 Sigma Ent. Inc. */
-/*TODO*/ //	DRIVER( ponpokov )	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
+       driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
+       driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
 /*TODO*/ //	DRIVER( lizwiz )	/* (c) 1985 Techstar + "Sunn presents" */
 /*TODO*/ //	DRIVER( theglob )	/* (c) 1983 Epos Corporation */
 /*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */

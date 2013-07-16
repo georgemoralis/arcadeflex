@@ -68,6 +68,10 @@ public class libc {
             memory = m;
             base = b;
         }
+        public void set(char[] m) {
+            memory = m;
+            base = 0;
+        }
          public UBytePtr(UBytePtr cp, int b) {
             set(cp.memory, cp.base + b);
         }

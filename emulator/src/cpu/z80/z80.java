@@ -2319,7 +2319,11 @@ public class z80 extends cpu_interface {
         Z80.AF.SetH(SLA(Z80.AF.H));
         
     }};
-    opcode cb_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_28 = new opcode() { public void handler()
+    { 
+        /*TODO*///OP(cb,28) { _B = SRA(_B);											} /* SRA  B 		  */
+        Z80.AF.SetL(SLA(Z80.AF.L));
+    }};
     opcode cb_29 = new opcode() { public void handler()
     { 
     /*TODO*///OP(cb,29) { _C = SRA(_C);											} /* SRA  C 		  */
@@ -2519,8 +2523,7 @@ public class z80 extends cpu_interface {
     
     /*TODO*///OP(cb,26) { WM( _HL, SLA(RM(_HL)) );								} /* SLA  (HL)		  */
      /*TODO*///
-    /*TODO*///OP(cb,28) { _B = SRA(_B);											} /* SRA  B 		  */
-    
+
     /*TODO*///OP(cb,2a) { _D = SRA(_D);											} /* SRA  D 		  */
     /*TODO*///OP(cb,2b) { _E = SRA(_E);											} /* SRA  E 		  */
     /*TODO*///OP(cb,2c) { _H = SRA(_H);											} /* SRA  H 		  */

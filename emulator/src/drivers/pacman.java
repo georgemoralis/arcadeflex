@@ -17,6 +17,7 @@ import static arcadeflex.input.*;
 import static machine.pacman.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
+import static arcadeflex.libc.*;
 
 public class pacman {
     /*TODO*///static void alibaba_sound_w(int offset, int data)
@@ -435,84 +436,84 @@ public class pacman {
     /*TODO*///	PORT_START	/* DSW 2 */
     /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
     /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( ponpoko )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	/* The 2nd player controls are used even in upright mode */
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "10000" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "30000" )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "50000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "0" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "1" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "3" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x20, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_DIPNAME( 0x0f, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "A 3/1 B 3/1" )
-    /*TODO*///	PORT_DIPSETTING(    0x0e, "A 3/1 B 1/2" )
-    /*TODO*///	PORT_DIPSETTING(    0x0f, "A 3/1 B 1/4" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "A 2/1 B 2/1" )
-    /*TODO*///	PORT_DIPSETTING(    0x0d, "A 2/1 B 1/1" )
-    /*TODO*///	PORT_DIPSETTING(    0x07, "A 2/1 B 1/3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0b, "A 2/1 B 1/5" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "A 2/1 B 1/6" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "A 1/1 B 1/1" )
-    /*TODO*///	PORT_DIPSETTING(    0x06, "A 1/1 B 4/5" )
-    /*TODO*///	PORT_DIPSETTING(    0x05, "A 1/1 B 2/3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0a, "A 1/1 B 1/3" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "A 1/1 B 1/5" )
-    /*TODO*///	PORT_DIPSETTING(    0x09, "A 1/1 B 1/6" )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "A 1/2 B 1/2" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Unknown ) )  /* Most likely unused */
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x20, DEF_STR( Unknown ) )  /* Most likely unused */
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x00, DEF_STR( Demo_Sounds ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )  /* Most likely unused */
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+    	static InputPortPtr input_ports_ponpoko = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+	
+		/* The 2nd player controls are used even in upright mode */
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_PLAYER2 );
+		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Bonus_Life" ));
+		PORT_DIPSETTING(    0x01, "10000" );
+		PORT_DIPSETTING(    0x02, "30000" );
+		PORT_DIPSETTING(    0x03, "50000" );
+		PORT_DIPSETTING(    0x00, "None" );
+		PORT_DIPNAME( 0x0c, 0x00, DEF_STR( "Unknown" ));
+		PORT_DIPSETTING(    0x00, "0" );
+		PORT_DIPSETTING(    0x04, "1" );
+		PORT_DIPSETTING(    0x08, "2" );
+		PORT_DIPSETTING(    0x0c, "3" );
+		PORT_DIPNAME( 0x30, 0x20, DEF_STR( "Lives" ));
+		PORT_DIPSETTING(    0x00, "2" );
+		PORT_DIPSETTING(    0x10, "3" );
+		PORT_DIPSETTING(    0x20, "4" );
+		PORT_DIPSETTING(    0x30, "5" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Cabinet" ));
+		PORT_DIPSETTING(    0x40, DEF_STR( "Upright" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail" ));
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown" ));
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_DIPNAME( 0x0f, 0x01, DEF_STR( "Coinage" ));
+		PORT_DIPSETTING(    0x04, "A 3/1 B 3/1" );
+		PORT_DIPSETTING(    0x0e, "A 3/1 B 1/2" );
+		PORT_DIPSETTING(    0x0f, "A 3/1 B 1/4" );
+		PORT_DIPSETTING(    0x02, "A 2/1 B 2/1" );
+		PORT_DIPSETTING(    0x0d, "A 2/1 B 1/1" );
+		PORT_DIPSETTING(    0x07, "A 2/1 B 1/3" );
+		PORT_DIPSETTING(    0x0b, "A 2/1 B 1/5" );
+		PORT_DIPSETTING(    0x0c, "A 2/1 B 1/6" );
+		PORT_DIPSETTING(    0x01, "A 1/1 B 1/1" );
+		PORT_DIPSETTING(    0x06, "A 1/1 B 4/5" );
+		PORT_DIPSETTING(    0x05, "A 1/1 B 2/3" );
+		PORT_DIPSETTING(    0x0a, "A 1/1 B 1/3" );
+		PORT_DIPSETTING(    0x08, "A 1/1 B 1/5" );
+		PORT_DIPSETTING(    0x09, "A 1/1 B 1/6" );
+		PORT_DIPSETTING(    0x03, "A 1/2 B 1/2" );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play" ));
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Unknown" )); /* Most likely unused */
+		PORT_DIPSETTING(    0x10, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Unknown" ));  /* Most likely unused */
+		PORT_DIPSETTING(    0x20, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+		PORT_DIPNAME( 0x40, 0x00, DEF_STR( "Demo_Sounds" ));
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown" )); /* Most likely unused */
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+                INPUT_PORTS_END(); 
+        }}; 
+  
     /*TODO*///INPUT_PORTS_START( eyes )
     /*TODO*///	PORT_START  /* IN0 */
     /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
@@ -2061,42 +2062,70 @@ public class pacman {
     /*TODO*///
     /*TODO*///	maketrax_rom_decode();
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void init_ponpoko(void)
-    /*TODO*///{
-    /*TODO*///	int i, j;
-    /*TODO*///	unsigned char *RAM, temp;
-    /*TODO*///
-    /*TODO*///	/* The gfx data is swapped wrt the other Pac-Man hardware games. */
-    /*TODO*///	/* Here we revert it to the usual format. */
-    /*TODO*///
-    /*TODO*///	/* Characters */
-    /*TODO*///	RAM = memory_region(REGION_GFX1);
-    /*TODO*///	for (i = 0;i < memory_region_length(REGION_GFX1);i += 0x10)
-    /*TODO*///	{
-    /*TODO*///		for (j = 0; j < 8; j++)
-    /*TODO*///		{
-    /*TODO*///			temp          = RAM[i+j+0x08];
-    /*TODO*///			RAM[i+j+0x08] = RAM[i+j+0x00];
-    /*TODO*///			RAM[i+j+0x00] = temp;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* Sprites */
-    /*TODO*///	RAM = memory_region(REGION_GFX2);
-    /*TODO*///	for (i = 0;i < memory_region_length(REGION_GFX2);i += 0x20)
-    /*TODO*///	{
-    /*TODO*///		for (j = 0; j < 8; j++)
-    /*TODO*///		{
-    /*TODO*///			temp          = RAM[i+j+0x18];
-    /*TODO*///			RAM[i+j+0x18] = RAM[i+j+0x10];
-    /*TODO*///			RAM[i+j+0x10] = RAM[i+j+0x08];
-    /*TODO*///			RAM[i+j+0x08] = RAM[i+j+0x00];
-    /*TODO*///			RAM[i+j+0x00] = temp;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    public static InitDriverPtr init_ponpoko = new InitDriverPtr(){ public void handler()
+    {
+        int i, j;
+        UBytePtr RAM= new UBytePtr();
+        UBytePtr temp = new UBytePtr();
+        
+        RAM = memory_region(REGION_GFX1);
+        for (i = 0;i < memory_region_length(REGION_GFX1);i += 0x10)
+    	{
+    		for (j = 0; j < 8; j++)
+    		{
+    			//temp          = RAM[i+j+0x08];
+    			//RAM[i+j+0x08] = RAM[i+j+0x00];
+    			//RAM[i+j+0x00] = temp;
+    		}
+    	}
+        /* Sprites */
+    	RAM = memory_region(REGION_GFX2);
+    	for (i = 0;i < memory_region_length(REGION_GFX2);i += 0x20)
+    	{
+    		for (j = 0; j < 8; j++)
+    		{
+    			//temp          = RAM[i+j+0x18];
+    			//RAM[i+j+0x18] = RAM[i+j+0x10];
+    			//RAM[i+j+0x10] = RAM[i+j+0x08];
+    			//RAM[i+j+0x08] = RAM[i+j+0x00];
+    			//RAM[i+j+0x00] = temp;
+    		}
+    	}
+    }};
+   /* static void init_ponpoko(void)
+    {
+
+    
+    	/* The gfx data is swapped wrt the other Pac-Man hardware games. */
+    	/* Here we revert it to the usual format. */
+    
+    	/* Characters */
+   /* 	RAM = memory_region(REGION_GFX1);
+    	for (i = 0;i < memory_region_length(REGION_GFX1);i += 0x10)
+    	{
+    		for (j = 0; j < 8; j++)
+    		{
+    			temp          = RAM[i+j+0x08];
+    			RAM[i+j+0x08] = RAM[i+j+0x00];
+    			RAM[i+j+0x00] = temp;
+    		}
+    	}
+    
+    	/* Sprites */
+  /*  	RAM = memory_region(REGION_GFX2);
+    	for (i = 0;i < memory_region_length(REGION_GFX2);i += 0x20)
+    	{
+    		for (j = 0; j < 8; j++)
+    		{
+    			temp          = RAM[i+j+0x18];
+    			RAM[i+j+0x18] = RAM[i+j+0x10];
+    			RAM[i+j+0x10] = RAM[i+j+0x08];
+    			RAM[i+j+0x08] = RAM[i+j+0x00];
+    			RAM[i+j+0x00] = temp;
+    		}
+    	}
+    }*/
+    
     /*TODO*///static void eyes_decode(unsigned char *data)
     /*TODO*///{
     /*TODO*///	int j;
@@ -2149,7 +2178,7 @@ public class pacman {
     /*TODO*///	pacplus_decode();
     /*TODO*///}
     /*TODO*///
-    /*TODO*////*          rom       parent    machine   inp       init */
+                                                                                          /*          rom       parent          machine                   inp                  init */
     public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  , "pacman.java", rom_pacman,   null         ,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 1)" );
     public static GameDriver driver_pacmanjp = new GameDriver("1980","pacmanjp", "pacman.java", rom_pacmanjp, driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 2)" );
     public static GameDriver driver_pacmanm  = new GameDriver("1980","pacmanm" , "pacman.java", rom_pacmanm,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "[Namco] (Midway license)", "Pac-Man (Midway)" );
@@ -2170,8 +2199,8 @@ public class pacman {
     /*TODO*///GAME( 1981, maketrax, crush,    pacman,   maketrax, maketrax, ROT270, "[Kural] (Williams license)", "Make Trax" )
     /*TODO*///GAME( 1981, mbrush,   crush,    pacman,   mbrush,   0,        ROT90,  "bootleg", "Magic Brush" )
     /*TODO*///GAME( 1981, paintrlr, crush,    pacman,   paintrlr, 0,        ROT90,  "bootleg", "Paint Roller" )
-    /*TODO*///GAME( 1982, ponpoko,  0,        pacman,   ponpoko,  ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" )
-    /*TODO*///GAME( 1982, ponpokov, ponpoko,  pacman,   ponpoko,  ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" )
+    public static GameDriver driver_ponpoko  = new GameDriver("1982","ponpoko", "pacman.java", rom_ponpoko,  null,            machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" );
+    public static GameDriver driver_ponpokov = new GameDriver("1982","ponpokov","pacman.java", rom_ponpokov, driver_ponpoko,  machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" );
     /*TODO*///GAME( 1982, eyes,     0,        pacman,   eyes,     eyes,     ROT90,  "Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" )
     /*TODO*///GAME( 1982, eyes2,    eyes,     pacman,   eyes,     eyes,     ROT90,  "Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" )
     /*TODO*///GAME( 1983, mrtnt,    0,        pacman,   mrtnt,    eyes,     ROT90,  "Telko", "Mr. TNT" )
