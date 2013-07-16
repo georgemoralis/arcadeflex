@@ -484,7 +484,7 @@ public class video {
     /* around the bitmap. This is required because, for performance reasons, some graphic */
     /* routines don't clip at boundaries of the bitmap. */
 
-    public static final int safety = 16;
+    public static final int safety = 0; // TEMP HACK safety should be 16 (NICKBLAME FIX THIS!)
 
     public static osd_bitmap osd_new_bitmap(int width, int height, int depth) {
       
