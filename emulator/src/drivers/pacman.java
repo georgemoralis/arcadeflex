@@ -299,143 +299,145 @@ public class pacman {
         INPUT_PORTS_END();
     }};
     
-    /*TODO*///INPUT_PORTS_START( maketrax )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection */
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x00, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "6" )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, "First Pattern" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hard" )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x20, "Teleport Holes" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*/// 	PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( mbrush )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "4" )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x20, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( paintrlr )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x00, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "6" )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x20, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED )  /* Protection in Make Trax */
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
+	static InputPortPtr input_ports_maketrax = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_DIPNAME( 0x10, 0x00, DEF_STR( "Cabinet"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright"));
+		PORT_DIPSETTING(    0x10, DEF_STR( "Cocktail"));
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection */
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection */
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage"));
+		PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C"));
+		PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C"));
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play"));
+		PORT_DIPNAME( 0x0c, 0x00, DEF_STR( "Lives"));
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPSETTING(    0x08, "5" );
+		PORT_DIPSETTING(    0x0c, "6" );
+		PORT_DIPNAME( 0x10, 0x10, "First Pattern" );
+		PORT_DIPSETTING(    0x10, "Easy" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x20, 0x20, "Teleport Holes" );
+		PORT_DIPSETTING(    0x20, DEF_STR( "Off"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On"));
+	 	PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection */
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                INPUT_PORTS_END(); 
+        }}; 
+
+	static InputPortPtr input_ports_mbrush = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_DIPNAME( 0x10, 0x00, DEF_STR( "Cabinet" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright" ));
+		PORT_DIPSETTING(    0x10, DEF_STR( "Cocktail" ));
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage" ));
+		PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C" ));
+		PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C" ));
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play" ));
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives" ));
+		PORT_DIPSETTING(    0x00, "1" );
+		PORT_DIPSETTING(    0x04, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x0c, "4" );
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Unknown" ));
+		PORT_DIPSETTING(    0x10, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Unknown" ));
+		PORT_DIPSETTING(    0x20, DEF_STR( "Off" ));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On" ));
+		PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                INPUT_PORTS_END(); 
+        }}; 
+	static InputPortPtr input_ports_paintrlr = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_DIPNAME( 0x10, 0x00, DEF_STR( "Cabinet"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright"));
+		PORT_DIPSETTING(    0x10, DEF_STR( "Cocktail"));
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN3 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage"));
+		PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C"));
+		PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C"));
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play"));
+		PORT_DIPNAME( 0x0c, 0x00, DEF_STR( "Lives"));
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPSETTING(    0x08, "5" );
+		PORT_DIPSETTING(    0x0c, "6" );
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Unknown"));
+		PORT_DIPSETTING(    0x10, DEF_STR( "Off"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On"));
+		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Unknown"));
+		PORT_DIPSETTING(    0x20, DEF_STR( "Off"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On"));
+		PORT_BIT( 0xc0, IP_ACTIVE_HIGH, IPT_UNUSED ); /* Protection in Make Trax */
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                INPUT_PORTS_END(); 
+        }}; 
     	static InputPortPtr input_ports_ponpoko = new InputPortPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY );
@@ -2054,6 +2056,8 @@ public class pacman {
     /*TODO*///	rom[0x3aef + diff] = 0xb0;
     /*TODO*///}
     /*TODO*///
+    public static InitDriverPtr init_maketrax = new InitDriverPtr(){ public void handler()
+    {
     /*TODO*///static void init_maketrax(void)
     /*TODO*///{
     /*TODO*///	/* set up protection handlers */
@@ -2061,7 +2065,7 @@ public class pacman {
     /*TODO*///	install_mem_read_handler(0, 0x50c0, 0x50ff, maketrax_special_port3_r);
     /*TODO*///
     /*TODO*///	maketrax_rom_decode();
-    /*TODO*///}
+    }};
     public static InitDriverPtr init_ponpoko = new InitDriverPtr(){ public void handler()
     {
         int i, j;
@@ -2164,24 +2168,24 @@ public class pacman {
     public static GameDriver driver_mspacman = new GameDriver("1981", "mspacman","pacman.java", rom_mspacman, null,            machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "bootleg", "Ms. Pac-Man" );
     public static GameDriver driver_mspacatk = new GameDriver("1981", "mspacatk","pacman.java", rom_mspacatk, driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Ms. Pac-Man Plus" );
     public static GameDriver driver_pacgal   = new GameDriver("1981", "pacgal"  ,"pacman.java", rom_pacgal,   driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Pac-Gal" );
-    /*TODO*///GAME( 1981, crush,    0,        pacman,   maketrax, maketrax, ROT90,  "Kural Samno Electric", "Crush Roller (Kural Samno)" )
-    /*TODO*///GAME( 1981, crush2,   crush,    pacman,   maketrax, 0,        ROT90,  "Kural Esco Electric", "Crush Roller (Kural Esco - bootleg?)" )
-    /*TODO*///GAME( 1981, crush3,   crush,    pacman,   maketrax, eyes,     ROT90,  "Kural Electric", "Crush Roller (Kural - bootleg?)" )
-    /*TODO*///GAME( 1981, maketrax, crush,    pacman,   maketrax, maketrax, ROT270, "[Kural] (Williams license)", "Make Trax" )
-    /*TODO*///GAME( 1981, mbrush,   crush,    pacman,   mbrush,   0,        ROT90,  "bootleg", "Magic Brush" )
-    /*TODO*///GAME( 1981, paintrlr, crush,    pacman,   paintrlr, 0,        ROT90,  "bootleg", "Paint Roller" )
-    public static GameDriver driver_ponpoko  = new GameDriver("1982","ponpoko", "pacman.java", rom_ponpoko,  null,            machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" );
-    public static GameDriver driver_ponpokov = new GameDriver("1982","ponpokov","pacman.java", rom_ponpokov, driver_ponpoko,  machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" );
-    /*TODO*///GAME( 1982, eyes,     0,        pacman,   eyes,     eyes,     ROT90,  "Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" )
-    /*TODO*///GAME( 1982, eyes2,    eyes,     pacman,   eyes,     eyes,     ROT90,  "Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" )
-    /*TODO*///GAME( 1983, mrtnt,    0,        pacman,   mrtnt,    eyes,     ROT90,  "Telko", "Mr. TNT" )
-    /*TODO*///GAME( 1985, lizwiz,   0,        pacman,   lizwiz,   0,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" )
-    /*TODO*///GAME( 1983, theglob,  0,        theglob,  theglob,  0,        ROT90,  "Epos Corporation", "The Glob" )
-    /*TODO*///GAME( 1984, beastf,   theglob,  theglob,  theglob,  0,        ROT90,  "Epos Corporation", "Beastie Feastie" )
-    /*TODO*///GAMEX(????, jumpshot, 0,        pacman,   pacman,   0,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
-    /*TODO*///GAME( 1982, dremshpr, 0,        dremshpr, dremshpr, 0,        ROT270, "Sanritsu", "Dream Shopper" )
-    /*TODO*///GAME( 1983, vanvan,   0,        vanvan,   vanvan,   0,        ROT270, "Karateco", "Van Van Car" )
-    /*TODO*///GAME( 1983, vanvans,  vanvan,   vanvan,   vanvans,  0,        ROT270, "Sanritsu", "Van Van Car (Sanritsu)" )
-    /*TODO*///GAME( 1982, alibaba,  0,        alibaba,  alibaba,  0,        ROT90,  "Sega", "Ali Baba and 40 Thieves" )
+    public static GameDriver driver_crush    = new GameDriver("1981", "crush"   ,"pacman.java", rom_crush,    null,            machine_driver_pacman,   input_ports_maketrax, init_maketrax, ROT90,  "Kural Samno Electric", "Crush Roller (Kural Samno)" );
+    /*TODO*///GAME( 1981, rom_crush2,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, null,        ROT90,  "Kural Esco Electric", "Crush Roller (Kural Esco - bootleg?)" )
+    /*TODO*///GAME( 1981, rom_crush3,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, eyes,     ROT90,  "Kural Electric", "Crush Roller (Kural - bootleg?)" )
+    /*TODO*///GAME( 1981, rom_maketrax, driver_crush,    machine_driver_pacman,   input_ports_maketrax, maketrax, ROT270, "[Kural] (Williams license)", "Make Trax" )
+    public static GameDriver driver_mbrush   = new GameDriver("1981", "mbrush"   ,"pacman.java", rom_mbrush,   driver_crush,    machine_driver_pacman,   input_ports_mbrush,   null,         ROT90,  "bootleg", "Magic Brush" );
+    public static GameDriver driver_paintrlr = new GameDriver("1981", "paintrlr" ,"pacman.java", rom_paintrlr, driver_crush,    machine_driver_pacman,   input_ports_paintrlr, null,        ROT90,  "bootleg", "Paint Roller" );
+    public static GameDriver driver_ponpoko  = new GameDriver("1982","ponpoko"   , "pacman.java",rom_ponpoko,  null,            machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" );
+    public static GameDriver driver_ponpokov = new GameDriver("1982","ponpokov"  ,"pacman.java", rom_ponpokov, driver_ponpoko,  machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" );
+    /*TODO*///GAME( 1982, rom_eyes,     null,        machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" )
+    /*TODO*///GAME( 1982, rom_eyes2,    driver_eyes,     machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" )
+    /*TODO*///GAME( 1983, rom_mrtnt,    null,        machine_driver_pacman,   input_ports_mrtnt,    eyes,     ROT90,  "Telko", "Mr. TNT" )
+    /*TODO*///GAME( 1985, rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" )
+    /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
+    /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
+    /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
+    /*TODO*///GAME( 1982, rom_dremshpr, null,        machine_driver_dremshpr, input_ports_dremshpr, null,        ROT270, "Sanritsu", "Dream Shopper" )
+    /*TODO*///GAME( 1983, rom_vanvan,   null,        machine_driver_vanvan,   input_ports_vanvan,   null,        ROT270, "Karateco", "Van Van Car" )
+    /*TODO*///GAME( 1983, rom_vanvans,  driver_vanvan,   machine_driver_vanvan,   input_ports_vanvans,  null,        ROT270, "Sanritsu", "Van Van Car (Sanritsu)" )
+    /*TODO*///GAME( 1982, rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" )
     /*TODO*///    
 }

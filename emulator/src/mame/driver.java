@@ -26,26 +26,26 @@ public class driver {
     public static GameDriver drivers[] =
     {
         /* "Pacman hardware" games */
-        driver_pacman,/* (c) 1980 Namco */
-        driver_pacmanjp,	/* (c) 1980 Namco */
-        driver_pacmanm,	/* (c) 1980 Midway */
-        driver_npacmod,	/* (c) 1981 Namco */
-        driver_pacmod,	/* (c) 1981 Midway */
-        driver_hangly,	/* hack */
-        driver_hangly2,	/* hack */
-        driver_puckman,	/* hack */
-        driver_pacheart,	/* hack */
-        driver_piranha,	/* hack */
+        driver_pacman,     /* (c) 1980 Namco */
+        driver_pacmanjp,   /* (c) 1980 Namco */
+        driver_pacmanm,	   /* (c) 1980 Midway */
+        driver_npacmod,	   /* (c) 1981 Namco */
+        driver_pacmod,	   /* (c) 1981 Midway */
+        driver_hangly,	   /* hack */
+        driver_hangly2,	   /* hack */
+        driver_puckman,	   /* hack */
+        driver_pacheart,   /* hack */
+        driver_piranha,	   /* hack */
 /*TODO*/ //	DRIVER( pacplus )
-        driver_mspacman,	/* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
-        driver_mspacatk,	/* hack */
-        driver_pacgal,	/* hack */
+        driver_mspacman,   /* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
+        driver_mspacatk,   /* hack */
+        driver_pacgal,	   /* hack */
 /*TODO*/ //	DRIVER( maketrax )	/* (c) 1981 Williams, high score table says KRL (fur Kural) */
-/*TODO*/ //	DRIVER( crush )		/* (c) 1981 Kural Samno Electric Ltd */
+        driver_crush,	   /* (c) 1981 Kural Samno Electric Ltd */
 /*TODO*/ //	DRIVER( crush2 )	/* (c) 1981 Kural Esco Electric Ltd - bootleg? */
 /*TODO*/ //	DRIVER( crush3 )	/* Kural Electric Ltd - bootleg? */
-/*TODO*/ //	DRIVER( mbrush )	/* 1981 bootleg */
-/*TODO*/ //	DRIVER( paintrlr )	/* 1981 bootleg */
+        driver_mbrush,	  /* 1981 bootleg */
+        driver_paintrlr,  /* 1981 bootleg */
 /*TODO*/ //	DRIVER( eyes )		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
 /*TODO*/ //	DRIVER( eyes2 )		/* (c) 1982 Techstar + "Rockola presents" */
 /*TODO*/ //	DRIVER( mrtnt )		/* (c) 1983 Telko */
