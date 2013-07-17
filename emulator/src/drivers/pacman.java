@@ -2066,16 +2066,20 @@ public class pacman {
     {
         int i, j;
         UBytePtr RAM= new UBytePtr();
-        UBytePtr temp = new UBytePtr();
-        
+        //UBytePtr temp = new UBytePtr();
+        char temp;
+        /* The gfx data is swapped wrt the other Pac-Man hardware games. */
+    	/* Here we revert it to the usual format. */
+    
+    	/* Characters */
         RAM = memory_region(REGION_GFX1);
         for (i = 0;i < memory_region_length(REGION_GFX1);i += 0x10)
     	{
     		for (j = 0; j < 8; j++)
     		{
-    			//temp          = RAM[i+j+0x08];
-    			//RAM[i+j+0x08] = RAM[i+j+0x00];
-    			//RAM[i+j+0x00] = temp;
+    			temp          = RAM.read(i+j+0x08);
+                        RAM.write(i+j+0x08,RAM.read(i+j+0x00));
+                        RAM.write(i+j+0x00,temp);
     		}
     	}
         /* Sprites */
@@ -2084,48 +2088,15 @@ public class pacman {
     	{
     		for (j = 0; j < 8; j++)
     		{
-    			//temp          = RAM[i+j+0x18];
-    			//RAM[i+j+0x18] = RAM[i+j+0x10];
-    			//RAM[i+j+0x10] = RAM[i+j+0x08];
-    			//RAM[i+j+0x08] = RAM[i+j+0x00];
-    			//RAM[i+j+0x00] = temp;
+                    temp = RAM.read(i+j+0x18);
+                    RAM.write(i+j+0x18,RAM.read(i+j+0x10));
+    		    RAM.write(i+j+0x10,RAM.read(i+j+0x08));
+    		    RAM.write(i+j+0x08,RAM.read(i+j+0x00));
+    	            RAM.write(i+j+0x00,temp);
     		}
     	}
     }};
-   /* static void init_ponpoko(void)
-    {
-
-    
-    	/* The gfx data is swapped wrt the other Pac-Man hardware games. */
-    	/* Here we revert it to the usual format. */
-    
-    	/* Characters */
-   /* 	RAM = memory_region(REGION_GFX1);
-    	for (i = 0;i < memory_region_length(REGION_GFX1);i += 0x10)
-    	{
-    		for (j = 0; j < 8; j++)
-    		{
-    			temp          = RAM[i+j+0x08];
-    			RAM[i+j+0x08] = RAM[i+j+0x00];
-    			RAM[i+j+0x00] = temp;
-    		}
-    	}
-    
-    	/* Sprites */
-  /*  	RAM = memory_region(REGION_GFX2);
-    	for (i = 0;i < memory_region_length(REGION_GFX2);i += 0x20)
-    	{
-    		for (j = 0; j < 8; j++)
-    		{
-    			temp          = RAM[i+j+0x18];
-    			RAM[i+j+0x18] = RAM[i+j+0x10];
-    			RAM[i+j+0x10] = RAM[i+j+0x08];
-    			RAM[i+j+0x08] = RAM[i+j+0x00];
-    			RAM[i+j+0x00] = temp;
-    		}
-    	}
-    }*/
-    
+   
     /*TODO*///static void eyes_decode(unsigned char *data)
     /*TODO*///{
     /*TODO*///	int j;

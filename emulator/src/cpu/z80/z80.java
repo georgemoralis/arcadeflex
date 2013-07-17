@@ -1652,7 +1652,13 @@ public class z80 extends cpu_interface {
     /*TODO*///	return res;
     /*TODO*///}
     /*TODO*///
-    
+    public int RR(int value)
+    {
+        int c = (value & 0x01)!=0 ? CF : 0;
+        value = ((value >> 1) | (Z80.AF.L << 7)) & 0xff;
+        Z80.AF.SetL(SZP[value] | c);
+        return value;
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * SLA	r8
     /*TODO*/// ***************************************************************/
@@ -1669,7 +1675,7 @@ public class z80 extends cpu_interface {
         int res = value & 0xFF;
         int c = (res & 0x80)!=0 ? CF : 0 ;
         res = (res <<1) & 0xFF;
-        Z80.AF.SetL((SZP[res] |c) & 0xFF );
+        Z80.AF.SetL((SZP[res] | c) & 0xFF );
         return res;
         /*int c = (value & 0x80) >> 7;
         value = (value << 1) & 0xff;
@@ -2294,14 +2300,7 @@ public class z80 extends cpu_interface {
     opcode cb_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_16 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_18 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_19 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_1a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_1b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_1c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_1d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_1f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_20 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_21 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2842,7 +2841,11 @@ public class z80 extends cpu_interface {
     opcode xxcb_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_4e = new opcode() { public void handler()
+    { 
+    /*TODO*///OP(xxcb,4e) { BIT_XY(1,RM(EA)); 									} /* BIT  1,(XY+o)	  */
+                Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA)& 0xFF) & (1 << 1)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
+    }};
     opcode xxcb_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3122,7 +3125,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(xxcb,4b) { xxcb_4e();											} /* BIT  1,E=(XY+o)  */
     /*TODO*///OP(xxcb,4c) { xxcb_4e();											} /* BIT  1,H=(XY+o)  */
     /*TODO*///OP(xxcb,4d) { xxcb_4e();											} /* BIT  1,L=(XY+o)  */
-    /*TODO*///OP(xxcb,4e) { BIT_XY(1,RM(EA)); 									} /* BIT  1,(XY+o)	  */
+    
     /*TODO*///OP(xxcb,4f) { xxcb_4e();											} /* BIT  1,A=(XY+o)  */
     /*TODO*///
     /*TODO*///OP(xxcb,50) { xxcb_56();											} /* BIT  2,B=(XY+o)  */
@@ -3956,7 +3959,12 @@ public class z80 extends cpu_interface {
     opcode fd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_95 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_96 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_96 = new opcode() { public void handler()
+    { 
+     /*TODO*///OP(fd,96) { EAY; SUB(RM(EA));										} /* SUB  (IY+o)	  */
+         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         SUB(cpu_readmem16((int)EA) & 0xFF);
+    }};
     opcode fd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3992,131 +4000,27 @@ public class z80 extends cpu_interface {
     }};
     opcode fd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    /*TODO*///OP(fd,00) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,01) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,02) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,03) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,04) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,05) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,06) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,07) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,08) { illegal_1();											} /* DB   FD		  */
-   
-    /*TODO*///OP(fd,0a) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,0b) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,0c) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,0d) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,0e) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,0f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,10) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,11) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,12) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,13) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,14) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,15) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,16) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,17) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,18) { illegal_1();											} /* DB   FD		  */
     
-    /*TODO*///OP(fd,1a) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,1b) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,1c) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,1d) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,1e) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,1f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,20) { illegal_1();											} /* DB   FD		  */
-    
-
     /*TODO*///OP(fd,23) { _IY++;													} /* INC  IY		  */
     /*TODO*///OP(fd,24) { _HY = INC(_HY); 										} /* INC  HY		  */
     /*TODO*///OP(fd,25) { _HY = DEC(_HY); 										} /* DEC  HY		  */
     /*TODO*///OP(fd,26) { _HY = ARG();											} /* LD   HY,n		  */
-    /*TODO*///OP(fd,27) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,28) { illegal_1();											} /* DB   FD		  */
+  
     /*TODO*///OP(fd,29) { ADD16(IY,IY);											} /* ADD  IY,IY 	  */
   
     /*TODO*///OP(fd,2b) { _IY--;													} /* DEC  IY		  */
     /*TODO*///OP(fd,2c) { _LY = INC(_LY); 										} /* INC  LY		  */
     /*TODO*///OP(fd,2d) { _LY = DEC(_LY); 										} /* DEC  LY		  */
     /*TODO*///OP(fd,2e) { _LY = ARG();											} /* LD   LY,n		  */
-    /*TODO*///OP(fd,2f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,30) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,31) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,32) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,33) { illegal_1();											} /* DB   FD		  */
+  
     /*TODO*///OP(fd,34) { EAY; WM( EA, INC(RM(EA)) ); 							} /* INC  (IY+o)	  */
      
     /*TODO*///OP(fd,37) { illegal_1();											} /* DB   FD		  */
     /*TODO*///
     /*TODO*///OP(fd,38) { illegal_1();											} /* DB   FD		  */
     /*TODO*///OP(fd,39) { ADD16(IY,SP);											} /* ADD  IY,SP 	  */
-    /*TODO*///OP(fd,3a) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,3b) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,3c) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,3d) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,3e) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,3f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,40) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,41) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,42) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,43) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,44) { _B = _HY;												} /* LD   B,HY		  */
-    /*TODO*///OP(fd,45) { _B = _LY;												} /* LD   B,LY		  */
-    
-    /*TODO*///OP(fd,47) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,48) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,49) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,4a) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,4b) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,4c) { _C = _HY;												} /* LD   C,HY		  */
-    /*TODO*///OP(fd,4d) { _C = _LY;												} /* LD   C,LY		  */
     /*TODO*///OP(fd,4e) { EAY; _C = RM(EA);										} /* LD   C,(IY+o)	  */
-    /*TODO*///OP(fd,4f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,50) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,51) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,52) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,53) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,54) { _D = _HY;												} /* LD   D,HY		  */
-    /*TODO*///OP(fd,55) { _D = _LY;												} /* LD   D,LY		  */
     /*TODO*///OP(fd,56) { EAY; _D = RM(EA);										} /* LD   D,(IY+o)	  */
-    /*TODO*///OP(fd,57) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,58) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,59) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,5a) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,5b) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,5c) { _E = _HY;												} /* LD   E,HY		  */
-    /*TODO*///OP(fd,5d) { _E = _LY;												} /* LD   E,LY		  */
-    
-    /*TODO*///OP(fd,5f) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///
-    /*TODO*///OP(fd,60) { _HY = _B;												} /* LD   HY,B		  */
-    /*TODO*///OP(fd,61) { _HY = _C;												} /* LD   HY,C		  */
-    /*TODO*///OP(fd,62) { _HY = _D;												} /* LD   HY,D		  */
-    /*TODO*///OP(fd,63) { _HY = _E;												} /* LD   HY,E		  */
-    /*TODO*///OP(fd,64) { 														} /* LD   HY,HY 	  */
-    /*TODO*///OP(fd,65) { _HY = _LY;												} /* LD   HY,LY 	  */
-    
-    /*TODO*///OP(fd,67) { _HY = _A;												} /* LD   HY,A		  */
-    /*TODO*///
-    /*TODO*///OP(fd,68) { _LY = _B;												} /* LD   LY,B		  */
-    /*TODO*///OP(fd,69) { _LY = _C;												} /* LD   LY,C		  */
-    /*TODO*///OP(fd,6a) { _LY = _D;												} /* LD   LY,D		  */
-    /*TODO*///OP(fd,6b) { _LY = _E;												} /* LD   LY,E		  */
-    /*TODO*///OP(fd,6c) { _LY = _HY;												} /* LD   LY,HY 	  */
-    /*TODO*///OP(fd,6d) { 														} /* LD   LY,LY 	  */
-    
-    /*TODO*///OP(fd,6f) { _LY = _A;												} /* LD   LY,A		  */
-    /*TODO*///
     /*TODO*///OP(fd,70) { EAY; WM( EA, _B );										} /* LD   (IY+o),B	  */
     /*TODO*///OP(fd,71) { EAY; WM( EA, _C );										} /* LD   (IY+o),C	  */
     /*TODO*///OP(fd,72) { EAY; WM( EA, _D );										} /* LD   (IY+o),D	  */
@@ -4125,7 +4029,7 @@ public class z80 extends cpu_interface {
        /*TODO*///OP(fd,8e) { EAY; ADC(RM(EA));										} /* ADC  A,(IY+o)	  */
      /*TODO*///OP(fd,94) { SUB(_HY);												} /* SUB  HY		  */
     /*TODO*///OP(fd,95) { SUB(_LY);												} /* SUB  LY		  */
-    /*TODO*///OP(fd,96) { EAY; SUB(RM(EA));										} /* SUB  (IY+o)	  */
+   
        /*TODO*///OP(fd,9c) { SBC(_HY);												} /* SBC  A,HY		  */
     /*TODO*///OP(fd,9d) { SBC(_LY);												} /* SBC  A,LY		  */
     /*TODO*///OP(fd,9e) { EAY; SBC(RM(EA));										} /* SBC  A,(IY+o)	  */
@@ -4990,7 +4894,11 @@ public class z80 extends cpu_interface {
     opcode op_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
 
 
-    opcode op_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_b6 = new opcode() { public void handler()
+    { 
+         /*TODO*///OP(op,b6) { OR(RM(_HL));											} /* OR   (HL)		  */
+         OR(cpu_readmem16(Z80.HL.D) & 0xFF);
+    }};
 
     /* CP   B 		  */opcode op_b8 = new opcode() { public void handler(){ CP(Z80.BC.H);}};
     /* CP   C 		  */opcode op_b9 = new opcode() { public void handler(){ CP(Z80.BC.L);}};
@@ -5535,8 +5443,7 @@ public class z80 extends cpu_interface {
 
     /*TODO*///OP(op,ae) { XOR(RM(_HL));											} /* XOR  (HL)		  */
 
-    /*TODO*///OP(op,b6) { OR(RM(_HL));											} /* OR   (HL)		  */
- 
+  
     /*TODO*///OP(op,bf) { CP(_A); 												} /* CP   A 		  */
 
     /*TODO*///OP(op,c7) { RST(0x00);												} /* RST  0 		  */
@@ -6341,6 +6248,16 @@ public class z80 extends cpu_interface {
         cpu_setOPbase16.handler(pc,0);
     }
     /**********************************************************
+    * RR (9-bit right rotate) opcodes
+    **********************************************************/
+    opcode cb_18 = new opcode() { public void handler(){  Z80.BC.SetH(RR(Z80.BC.H));										}}; /* RR   B 		  */
+    opcode cb_19 = new opcode() { public void handler(){  Z80.BC.SetL(RR(Z80.BC.L));											}}; /* RR   C 		  */
+    opcode cb_1a = new opcode() { public void handler(){  Z80.DE.SetH(RR(Z80.DE.H));											}}; /* RR   D 		  */
+    opcode cb_1b = new opcode() { public void handler(){  Z80.DE.SetL(RR(Z80.DE.L));											}}; /* RR   E 		  */
+    opcode cb_1c = new opcode() { public void handler(){  Z80.HL.SetH(RR(Z80.HL.H));											}}; /* RR   H 		  */
+    opcode cb_1d = new opcode() { public void handler(){  Z80.HL.SetL(RR(Z80.HL.L));											}}; /* RR   L 		  */
+    opcode cb_1f = new opcode() { public void handler(){  Z80.AF.SetH(RR(Z80.AF.H));											}}; /* RR   A 		  */
+     /**********************************************************
      * ADC opcodes
      **********************************************************/
     opcode dd_8c = new opcode() { public void handler(){  ADC(Z80.IX.H);												}}; /* ADC  A,HX		  */
