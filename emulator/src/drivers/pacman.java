@@ -612,54 +612,54 @@ public class pacman {
     /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( lizwiz )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY )
-    /*TODO*///	PORT_SERVICE( 0x10, IP_ACTIVE_LOW )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "75000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "100000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "125000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "150000" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hard" )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+	static InputPortPtr input_ports_lizwiz = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_SERVICE( 0x10, IP_ACTIVE_LOW );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Coinage"));
+		PORT_DIPSETTING(    0x01, DEF_STR( "2C_1C"));
+		PORT_DIPSETTING(    0x03, DEF_STR( "1C_1C"));
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play"));
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives"));
+		PORT_DIPSETTING(    0x0c, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Bonus_Life"));
+		PORT_DIPSETTING(    0x30, "75000" );
+		PORT_DIPSETTING(    0x20, "100000" );
+		PORT_DIPSETTING(    0x10, "125000" );
+		PORT_DIPSETTING(    0x00, "150000" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty"));
+		PORT_DIPSETTING(    0x40, "Normal" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown"));
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On"));
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                INPUT_PORTS_END(); 
+        }};         
     /*TODO*///INPUT_PORTS_START( theglob )
     /*TODO*///	PORT_START	/* IN0 */
     /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
@@ -2179,7 +2179,7 @@ public class pacman {
     /*TODO*///GAME( 1982, rom_eyes,     null,        machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" )
     /*TODO*///GAME( 1982, rom_eyes2,    driver_eyes,     machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" )
     /*TODO*///GAME( 1983, rom_mrtnt,    null,        machine_driver_pacman,   input_ports_mrtnt,    eyes,     ROT90,  "Telko", "Mr. TNT" )
-    /*TODO*///GAME( 1985, rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" )
+     public static GameDriver driver_lizwiz = new GameDriver("1985","lizwiz","pacman.java", rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" );
     /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
     /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
     /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */

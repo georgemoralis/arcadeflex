@@ -51,7 +51,7 @@ public class driver {
 /*TODO*/ //	DRIVER( mrtnt )		/* (c) 1983 Telko */
        driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
        driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
-/*TODO*/ //	DRIVER( lizwiz )	/* (c) 1985 Techstar + "Sunn presents" */
+       driver_lizwiz,	/* (c) 1985 Techstar + "Sunn presents" */
 /*TODO*/ //	DRIVER( theglob )	/* (c) 1983 Epos Corporation */
 /*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */
 /*TODO*/ //	DRIVER( jumpshot )
