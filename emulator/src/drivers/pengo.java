@@ -1,6 +1,6 @@
 /*
- * ported to v0.36
- * using automatic conversion tool v0.05
+ * ported to v0.36 
+ * using automatic conversion tool v0.05 + manual changes
  */ 
 package drivers;
 
@@ -21,6 +21,7 @@ import static machine.pacman.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
+import static mame.memory.*;
 
 public class pengo
 {
@@ -354,9 +355,6 @@ public class pengo
 	public static InitDriverPtr init_penta = new InitDriverPtr(){ public void handler()
         {
         
-        }};
-	/*static void init_penta(void)
-	{
 	/*
 		the values vary, but the translation mask is always laid out like this:
 	
@@ -381,54 +379,55 @@ public class pengo
 		(e.g. 0xc0 is XORed with H)
 		therefore in the following tables we only keep track of A, B, C, D, E, F, G and H.
 	*/
-	/*	static const unsigned char data_xortable[2][8] =
+		char data_xortable[][] =
 		{
 			{ 0xa0,0x82,0x28,0x0a,0x82,0xa0,0x0a,0x28 },	/* ...............0 */
-/*			{ 0x88,0x0a,0x82,0x00,0x88,0x0a,0x82,0x00 }		/* ...............1 */
-/*		};
-		static const unsigned char opcode_xortable[8][8] =
+			{ 0x88,0x0a,0x82,0x00,0x88,0x0a,0x82,0x00 }		/* ...............1 */
+		};
+		char opcode_xortable[][] =
 		{
 			{ 0x02,0x08,0x2a,0x20,0x20,0x2a,0x08,0x02 },	/* ...0...0...0.... */
-/*			{ 0x88,0x88,0x00,0x00,0x88,0x88,0x00,0x00 },	/* ...0...0...1.... */
-/*			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...0...1...0.... */
-/*			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...0...1...1.... */
-/*			{ 0x2a,0x08,0x2a,0x08,0x8a,0xa8,0x8a,0xa8 },	/* ...1...0...0.... */
-/*			{ 0x2a,0x08,0x2a,0x08,0x8a,0xa8,0x8a,0xa8 },	/* ...1...0...1.... */
-/*			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...1...1...0.... */
-/*			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 }		/* ...1...1...1.... */
-/*		};
+			{ 0x88,0x88,0x00,0x00,0x88,0x88,0x00,0x00 },	/* ...0...0...1.... */
+			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...0...1...0.... */
+			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...0...1...1.... */
+			{ 0x2a,0x08,0x2a,0x08,0x8a,0xa8,0x8a,0xa8 },	/* ...1...0...0.... */
+			{ 0x2a,0x08,0x2a,0x08,0x8a,0xa8,0x8a,0xa8 },	/* ...1...0...1.... */
+			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 },	/* ...1...1...0.... */
+			{ 0x88,0x0a,0x82,0x00,0xa0,0x22,0xaa,0x28 }		/* ...1...1...1.... */
+		};
 		int A;
-		unsigned char *rom = memory_region(REGION_CPU1);
+                UBytePtr rom = memory_region(REGION_CPU1);
 		int diff = memory_region_length(REGION_CPU1) / 2;
 	
 	
-		memory_set_opcode_base(0,rom+diff);
+		memory_set_opcode_base(0,new UBytePtr(rom,diff));
 	
 		for (A = 0x0000;A < 0x8000;A++)
 		{
 			int i,j;
-			unsigned char src;
+			char src;
 	
 	
-			src = rom[A];
+			src = rom.read(A);
 	
 			/* pick the translation table from bit 0 of the address */
-/*			i = A & 1;
+			i = A & 1;
 	
 			/* pick the offset in the table from bits 1, 3 and 5 of the source data */
-/*			j = ((src >> 1) & 1) + (((src >> 3) & 1) << 1) + (((src >> 5) & 1) << 2);
+			j = ((src >> 1) & 1) + (((src >> 3) & 1) << 1) + (((src >> 5) & 1) << 2);
 			/* the bottom half of the translation table is the mirror image of the top */
-/*			if (src & 0x80) j = 7 - j;
+			if ((src & 0x80)!=0) j = 7 - j;
 	
 			/* decode the ROM data */
-/*			rom[A] = src ^ data_xortable[i][j];
+			rom.write(A,src ^ data_xortable[i][j]);
 	
 			/* now decode the opcodes */
 			/* pick the translation table from bits 4, 8 and 12 of the address */
-/*			i = ((A >> 4) & 1) + (((A >> 8) & 1) << 1) + (((A >> 12) & 1) << 2);
-			rom[A + diff] = src ^ opcode_xortable[i][j];
-		}
-	}*/
+			i = ((A >> 4) & 1) + (((A >> 8) & 1) << 1) + (((A >> 12) & 1) << 2);
+			rom.write(A + diff,src ^ opcode_xortable[i][j]);
+                }
+		
+	}};
 		
 	public static GameDriver driver_pengo    = new GameDriver("1982","pengo",  "pengo.java", rom_pengo,   null,         machine_driver_pengo, input_ports_pengo, init_pengo, ROT90, "Sega", "Pengo (set 1)" );
 	public static GameDriver driver_pengo2   = new GameDriver("1982","pengo2", "pengo.java", rom_pengo2,  driver_pengo, machine_driver_pengo, input_ports_pengo, init_pengo, ROT90, "Sega", "Pengo (set 2)" );

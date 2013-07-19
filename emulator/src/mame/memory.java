@@ -966,12 +966,10 @@ public class memory {
         return 1;	/* ok */
     }
 
-    /*TODO*/ //void memory_set_opcode_base(int cpu,unsigned char *base)
-/*TODO*/ //{
-/*TODO*/ //	romptr[cpu] = base;
-/*TODO*/ //}
-/*TODO*/ //
-/*TODO*/ //
+    public static void memory_set_opcode_base(int cpu,UBytePtr base)
+    {
+	romptr[cpu] = base;
+    }
     public static void memorycontextswap(int activecpu)
     {
             cpu_bankbase[0] = ramptr[activecpu];
