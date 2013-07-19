@@ -245,10 +245,12 @@ public class inputportH {
 /*TODO*///#define PORT_BIT(mask,default,type) \
 /*TODO*///	{ mask, default, type, IP_NAME_DEFAULT },
 /*TODO*///
-/*TODO*////* impulse input bit definition */
-/*TODO*///#define PORT_BIT_IMPULSE(mask,default,type,duration) \
-/*TODO*///	{ mask, default, type | IPF_IMPULSE | ((duration & 0xff) << 8), IP_NAME_DEFAULT },
 /*TODO*///
+   /* impulse input bit definition */
+   public static void PORT_BIT_IMPULSE(int mask, int default_value,int type,int duration)
+   {
+       inputload.add(new InputPortTiny(mask, default_value, type | IPF_IMPULSE | ((duration & 0xff) << 8), IP_NAME_DEFAULT)); //{ mask, default, type | IPF_IMPULSE | ((duration & 0xff) << 8), IP_NAME_DEFAULT },
+   }
    /* key/joy code specification */
    public static void PORT_CODE(int key,int joy)
    {

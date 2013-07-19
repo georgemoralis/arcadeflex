@@ -373,7 +373,9 @@ public class memory {
     public static WriteHandlerPtr mwh_ramrom = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /*TODO*/ //	cpu_bankbase[0][offset] = cpu_bankbase[0][offset + (OP_ROM - OP_RAM)] = data;
-            throw new UnsupportedOperationException("Unsupported mwh_ramrom Here you go nickblame :D");
+//TODO recheck probably OK but not sure.....
+            cpu_bankbase[0].write(offset+(OP_ROM.base-OP_RAM.base),data);
+            cpu_bankbase[0].write(offset, data);
         }
     };
     public static WriteHandlerPtr mwh_nop = new WriteHandlerPtr() {

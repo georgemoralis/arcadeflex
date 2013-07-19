@@ -21,6 +21,7 @@ import static mame.driverH.*;
 //drivers imports
 import static drivers.pacman.*;
 import static drivers.minivadr.*;
+import static drivers.pengo.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -59,10 +60,10 @@ public class driver {
 /*TODO*/ //	DRIVER( vanvan )	/* (c) 1983 Karateco (bootleg?) */
 /*TODO*/ //	DRIVER( vanvans )	/* (c) 1983 Sanritsu */
 /*TODO*/ //	DRIVER( alibaba )	/* (c) 1982 Sega */
-/*TODO*/ //	DRIVER( pengo )		/* 834-0386 (c) 1982 Sega */
-/*TODO*/ //	DRIVER( pengo2 )	/* 834-0386 (c) 1982 Sega */
-/*TODO*/ //	DRIVER( pengo2u )	/* 834-0386 (c) 1982 Sega */
-/*TODO*/ //	DRIVER( penta )		/* bootleg */
+        driver_pengo,		/* 834-0386 (c) 1982 Sega */
+        driver_pengo2,	/* 834-0386 (c) 1982 Sega */
+        driver_pengo2u,	/* 834-0386 (c) 1982 Sega */
+        driver_penta,		/* bootleg */
 /*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
 
 	/* "Galaxian hardware" games */
