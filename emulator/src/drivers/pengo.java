@@ -1,5 +1,6 @@
 /*
  * ported to v0.36 
+ * This file is 100% ported!!
  * using automatic conversion tool v0.05 + manual changes
  */ 
 package drivers;
@@ -22,6 +23,7 @@ import static mame.inputportH.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
 import static mame.memory.*;
+import static machine.segacrpt.*;
 
 public class pengo
 {
@@ -350,7 +352,7 @@ public class pengo
 	
 	public static InitDriverPtr init_pengo = new InitDriverPtr(){ public void handler()
         {
-            //pengo_decode();
+            pengo_decode();
         }};
 	public static InitDriverPtr init_penta = new InitDriverPtr(){ public void handler()
         {
