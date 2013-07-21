@@ -142,7 +142,7 @@ public class inputport {
     /*TODO*///	{ IPT_UI_FRAMESKIP_DEC,     "Frameskip Dec",     SEQ_DEF_1(KEYCODE_F8) },
     /*TODO*///	{ IPT_UI_FRAMESKIP_INC,     "Frameskip Inc",     SEQ_DEF_1(KEYCODE_F9) },
     /*TODO*///	{ IPT_UI_THROTTLE,          "Throttle",          SEQ_DEF_1(KEYCODE_F10) },
-    /*TODO*///	{ IPT_UI_SHOW_FPS,          "Show FPS",          SEQ_DEF_5(KEYCODE_F11, CODE_NOT, KEYCODE_LCONTROL, CODE_NOT, KEYCODE_LSHIFT) },
+    new ipd( IPT_UI_SHOW_FPS,          "Show FPS",          SEQ_DEF_5(KEYCODE_F11, CODE_NOT, KEYCODE_LCONTROL, CODE_NOT, KEYCODE_LSHIFT) ),
     /*TODO*///	{ IPT_UI_SHOW_PROFILER,     "Show Profiler",     SEQ_DEF_2(KEYCODE_F11, KEYCODE_LSHIFT) },
     /*TODO*///	{ IPT_UI_SHOW_COLORS,       "Show Colors",	 SEQ_DEF_2(KEYCODE_F11, KEYCODE_LCONTROL) },
     /*TODO*///	{ IPT_UI_SNAPSHOT,          "Save Snapshot",     SEQ_DEF_1(KEYCODE_F12) },

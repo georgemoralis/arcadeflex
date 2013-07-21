@@ -344,34 +344,34 @@ public class usrintrf {
     
     	if (update_screen!=0) osd_update_video_and_audio();
     }
-    /*TODO*///
-    /*TODO*////* Writes messages on the screen. */
-    /*TODO*///static void ui_text_ex(const char* buf_begin, const char* buf_end, int x, int y, int color)
-    /*TODO*///{
-    /*TODO*///	int trueorientation;
-    /*TODO*///
-    /*TODO*///	/* hack: force the display into standard orientation to avoid */
-    /*TODO*///	/* rotating the text */
-    /*TODO*///	trueorientation = Machine->orientation;
-    /*TODO*///	Machine->orientation = Machine->ui_orientation;
-    /*TODO*///
-    /*TODO*///	for (;buf_begin != buf_end; ++buf_begin)
-    /*TODO*///	{
-    /*TODO*///		drawgfx(Machine->scrbitmap,Machine->uifont,*buf_begin,color,0,0,
-    /*TODO*///				x + Machine->uixmin,
-    /*TODO*///				y + Machine->uiymin, 0,TRANSPARENCY_NONE,0);
-    /*TODO*///		x += Machine->uifontwidth;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	Machine->orientation = trueorientation;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Writes messages on the screen. */
-    /*TODO*///void ui_text(const char *buf,int x,int y)
-    /*TODO*///{
-    /*TODO*///	ui_text_ex(buf, buf + strlen(buf), x, y, DT_COLOR_WHITE);
-    /*TODO*///}
-    /*TODO*///
+    
+    /* Writes messages on the screen. */
+    public static void ui_text_ex(String buf_begin, int buf_end, int x, int y, int color)
+    {
+        int trueorientation;
+
+        /* hack: force the display into standard orientation to avoid */
+        /* rotating the text */
+        trueorientation = Machine.orientation;
+        Machine.orientation = Machine.ui_orientation;
+
+        for (int i = 0; i < buf_end; ++i)
+        {
+             drawgfx(Machine.scrbitmap, Machine.uifont, buf_begin.charAt(i), color, 0, 0,
+                        x + Machine.uixmin,
+                        y + Machine.uiymin, null, TRANSPARENCY_NONE, 0);
+                x += Machine.uifontwidth;
+        }
+
+        Machine.orientation = trueorientation;
+    }
+
+    /* Writes messages on the screen. */
+    public static void ui_text(String buf,int x,int y)
+    {
+    	ui_text_ex(buf, buf.length(), x, y, DT_COLOR_WHITE);
+    }
+    
     /*TODO*///INLINE void drawpixel(int x, int y, unsigned short color)
     /*TODO*///{
     /*TODO*///	int temp;

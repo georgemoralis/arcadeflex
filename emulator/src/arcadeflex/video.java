@@ -19,6 +19,9 @@ import static mame.version.*;
 import static mame.drawgfxH.*;
 import static mame.usrintrf.*;
 import static arcadeflex.blit.*;
+import static mame.inputportH.*;
+import static mame.input.*;
+
 
 public class video {
 
@@ -1889,34 +1892,34 @@ public class video {
     
     	if (osd_skip_this_frame() == 0)
     	{
-    /*TODO*///		if (showfpstemp)
-    /*TODO*///		{
-    /*TODO*///			showfpstemp--;
-    /*TODO*///			if (showfps == 0 && showfpstemp == 0)
-    /*TODO*///			{
-    /*TODO*///				need_to_clear_bitmap = 1;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (input_ui_pressed(IPT_UI_SHOW_FPS))
-    /*TODO*///		{
-    /*TODO*///			if (showfpstemp)
-    /*TODO*///			{
-    /*TODO*///				showfpstemp = 0;
-    /*TODO*///				need_to_clear_bitmap = 1;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				showfps ^= 1;
-    /*TODO*///				if (showfps == 0)
-    /*TODO*///				{
-    /*TODO*///					need_to_clear_bitmap = 1;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///
+    		if (showfpstemp!=0)
+    		{
+    			showfpstemp--;
+    			if (showfps == 0 && showfpstemp == 0)
+    			{
+    				need_to_clear_bitmap = 1;
+    			}
+    		}
+    
+    
+    		if (input_ui_pressed(IPT_UI_SHOW_FPS)!=0)
+    		{
+    			if (showfpstemp!=0)
+    			{
+    				showfpstemp = 0;
+    				need_to_clear_bitmap = 1;
+    			}
+    			else
+    			{
+    				showfps ^= 1;
+    				if (showfps == 0)
+    				{
+    					need_to_clear_bitmap = 1;
+    				}
+    			}
+    		}
+    
+    
     		/* now wait until it's time to update the screen */
     		if (throttle!=0)
     		{
@@ -1993,25 +1996,25 @@ public class video {
     /*TODO*///			vups = vector_updates;
     /*TODO*///			vector_updates = 0;
     		}
-    /*TODO*///
-    /*TODO*///		if (showfps || showfpstemp)
-    /*TODO*///		{
-    /*TODO*///			int fps;
-    /*TODO*///			char buf[30];
-    /*TODO*///			int divdr;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			divdr = 100 * FRAMESKIP_LEVELS;
-    /*TODO*///			fps = (Machine->drv->frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
-    /*TODO*///			sprintf(buf,"%s%2d%4d%%%4d/%d fps",autoframeskip?"auto":"fskp",frameskip,speed,fps,(int)(Machine->drv->frames_per_second+0.5));
-    /*TODO*///			ui_text(buf,Machine->uiwidth-strlen(buf)*Machine->uifontwidth,0);
-    /*TODO*///			if (vector_game)
-    /*TODO*///			{
-    /*TODO*///				sprintf(buf," %d vector updates",vups);
-    /*TODO*///				ui_text(buf,Machine->uiwidth-strlen(buf)*Machine->uifontwidth,Machine->uifontheight);
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
+  
+    		if (showfps!=0 || showfpstemp!=0)
+    		{
+    			int fps;
+    			String buf;
+   			int divdr;
+    
+    
+    			divdr = 100 * FRAMESKIP_LEVELS;
+    			fps = (Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
+    			buf=sprintf("%s%2d%4d%%%4d/%d fps",autoframeskip!=0?"auto":"fskp",frameskip,speed,fps,(int)(Machine.drv.frames_per_second+0.5));
+                        ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
+    			if (vector_game!=0)
+    			{
+    				sprintf(buf," %d vector updates",vups);
+    				ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,Machine.uifontheight);
+    			}
+                }
+    
     		if (scrbitmap.depth == 8)
     		{
     			if (dirty_bright!=0)
