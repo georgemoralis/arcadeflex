@@ -1848,10 +1848,10 @@ public class video {
     static long last1, last2;
     static int frameskipadjust;
 
-    /*long ticksPerFrame, ticksSinceLastFrame;*/
+     static long ticksPerFrame, ticksSinceLastFrame; //not in mame
 
     /* Update the display. */
-    public static void  osd_update_video_and_audio()
+    public static void  osd_update_video_and_audio1()
     {
         //throw new UnsupportedOperationException("osd_update_video_and_audio");
 
@@ -1975,12 +1975,12 @@ public class video {
     			end_time = curr;
 
  
-    		if (frameskip_counter == 0)
+    		//if (frameskip_counter == 0)
     		{
-    			int divdr;
+    			long divdr;
     
-                        divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100 * FRAMESKIP_LEVELS));
-                        speed = (int)((TICKS_PER_SEC + divdr / 2) / divdr);
+                        divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100L * FRAMESKIP_LEVELS));
+                        speed = (int)((TICKS_PER_SEC + divdr / 2L) / divdr);
     			prev_measure = curr;
     		}
     
@@ -2121,12 +2121,12 @@ public class video {
     			osd_clearbitmap(scrbitmap);
     /*TODO*///
     /*TODO*///
-    		if (throttle!=0 && autoframeskip!=0 && frameskip_counter == 0)
+    		/*if (throttle!=0 && autoframeskip!=0 && frameskip_counter == 0)
     		{
     			int adjspeed;
     
     			/* adjust speed to video refresh rate if vsync is on */		
-                        adjspeed = (int)(speed * Machine.drv.frames_per_second / vsync_frame_rate);
+           /*             adjspeed = (int)(speed * Machine.drv.frames_per_second / vsync_frame_rate);
 
     			if (adjspeed >= 100)
     			{
@@ -2144,7 +2144,7 @@ public class video {
     				else
     				{
     					/* don't push frameskip too far if we are close to 100% speed */
-    					if (frameskip < 8)
+    	/*				if (frameskip < 8)
     						frameskipadjust--;
     				}
     
@@ -2154,7 +2154,7 @@ public class video {
     					if (frameskip < FRAMESKIP_LEVELS-1) frameskip++;
     				}
     			}
-    		}
+    		}*/
     	}
     /*TODO*///
     /*TODO*///	/* Check for PGUP, PGDN and pan screen */
@@ -2219,7 +2219,158 @@ public class video {
     /*TODO*///	}
     /*TODO*///
     /*TODO*///
-    	frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
+    	/*TODO*///frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
+    }
+    
+    
+    
+    //TEMP HACK used old arcadeflex's sync. should be rewriten to new format
+     static final int MEMORY = 10;
+     static long[] prev1 = new long[10];
+     static int clock_counter;
+     static int framecount = 0;
+    public static void osd_update_video_and_audio()
+    {
+        if (++framecount > frameskip) {
+            framecount = 0;
+            
+              if (input_ui_pressed(IPT_UI_SHOW_FPS)!=0)
+                {
+                    if (showfpstemp != 0)
+                    {
+                        showfpstemp = 0;
+                        need_to_clear_bitmap = 1;
+                    }
+                    else
+                    {
+                        showfps ^= 1;
+                        if (showfps == 0)
+                        {
+                            need_to_clear_bitmap = 1;
+                        }
+                    }
+                }
+                           
+            long curr;
+            /* now wait until it's time to trigger the interrupt */
+            do {
+
+                curr = uclock();
+            } while ((throttle != 0) && (curr - prev1[clock_counter] < (frameskip + 1) * 1000000000 / Machine.drv.frames_per_second));
+            //while (throttle != 0 && video_sync == 0 && (curr - prev[i]) < (frameskip+1) * UCLOCKS_PER_SEC/drv.frames_per_second);
+    		if (showfps!=0 || showfpstemp!=0)
+    		{
+    			int fps;
+    			String buf;
+   			int divdr;
+    
+    
+    			divdr = 100 * FRAMESKIP_LEVELS;
+    			fps = (Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
+    			buf=sprintf("%s%2d%4d%%%4d/%d fps",autoframeskip!=0?"auto":"fskp",frameskip,speed,fps,(int)(Machine.drv.frames_per_second+0.5));
+                        ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
+    			if (vector_game!=0)
+    			{
+    				sprintf(buf," %d vector updates",vups);
+    				ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,Machine.uifontheight);
+    			}
+                }
+               	if (scrbitmap.depth == 8)
+    		{
+    			if (dirty_bright!=0)
+    			{
+    				dirty_bright = 0;
+    				for (int i = 0;i < 256;i++)
+    				{                                     
+                                        float rate = (float)(brightness * brightness_paused_adjust * Math.pow(i / 255.0, 1 / osd_gamma_correction) / 100);
+      /*bright_lookup[i] = 63 * rate + 0.5;*/  bright_lookup[i] = (int)(255 * rate + 0.5);
+
+    				}
+    			}
+    			if (dirtypalette!=0)
+    			{
+    				dirtypalette = 0;
+   				for (int i = 0;i < screen_colors;i++)
+    				{
+    					if (dirtycolor[i]!=0)
+    					{
+    						RGB adjusted_palette=new RGB();
+    
+    						dirtycolor[i] = 0;
+    
+    						adjusted_palette.r = current_palette.read(3*i+0);
+    						adjusted_palette.g = current_palette.read(3*i+1);
+   						adjusted_palette.b = current_palette.read(3*i+2);
+    						if (i != Machine.uifont.colortable.read(1))	/* don't adjust the user interface text */
+    						{
+    							adjusted_palette.r = (char)bright_lookup[adjusted_palette.r];
+    							adjusted_palette.g = (char)bright_lookup[adjusted_palette.g];
+    							adjusted_palette.b = (char)bright_lookup[adjusted_palette.b];
+    						}
+    						else
+    						{
+                                                  
+    /*TODO*///							adjusted_palette.r >>= 2;
+    /*TODO*///							adjusted_palette.g >>= 2;
+    /*TODO*///							adjusted_palette.b >>= 2;
+    						}
+    						set_color(i,adjusted_palette);
+    					}
+    				}
+                    }
+    		}
+    /*TODO*///		else
+    /*TODO*///		{
+    /*TODO*///			if (dirty_bright)
+    /*TODO*///			{
+    /*TODO*///				dirty_bright = 0;
+    /*TODO*///				for (i = 0;i < 256;i++)
+    /*TODO*///				{
+    /*TODO*///					float rate = brightness * brightness_paused_adjust * pow(i / 255.0, 1 / osd_gamma_correction) / 100;
+    /*TODO*///					bright_lookup[i] = 255 * rate + 0.5;
+    /*TODO*///				}
+    /*TODO*///			}
+    /*TODO*///			if (dirtypalette)
+    /*TODO*///			{
+    /*TODO*///				if (use_dirty) init_dirty(1);	/* have to redraw the whole screen */
+    /*TODO*///
+    /*TODO*///				dirtypalette = 0;
+    /*TODO*///				for (i = 0;i < screen_colors;i++)
+    /*TODO*///				{
+    /*TODO*///					if (dirtycolor[i])
+    /*TODO*///					{
+    /*TODO*///						int r,g,b;
+    /*TODO*///
+    /*TODO*///						dirtycolor[i] = 0;
+    /*TODO*///
+    /*TODO*///						r = current_palette[3*i+0];
+    /*TODO*///						g = current_palette[3*i+1];
+    /*TODO*///						b = current_palette[3*i+2];
+    /*TODO*///						if (i != Machine->uifont->colortable[1])	/* don't adjust the user interface text */
+    /*TODO*///						{
+    /*TODO*///							r = bright_lookup[r];
+    /*TODO*///							g = bright_lookup[g];
+    /*TODO*///							b = bright_lookup[b];
+    /*TODO*///						}
+    /*TODO*///						palette_16bit_lookup[i] = makecol(r,g,b) * 0x10001;
+    /*TODO*///					}
+    /*TODO*///				}
+    /*TODO*///			}
+    /*TODO*///		}
+            blitscreen_dirty1_vga();
+            if (need_to_clear_bitmap!=0)
+                    osd_clearbitmap(scrbitmap);
+            clock_counter = (clock_counter + 1) % MEMORY;
+		if ((curr - prev1[clock_counter])!=0)
+		{
+			long divdr = Machine.drv.frames_per_second * (curr - prev1[clock_counter]) / (100L * MEMORY);
+
+
+			speed = (int)((UCLOCKS_PER_SEC * (frameskip+1) + divdr/2L) / divdr);
+		}
+
+		prev1[clock_counter] = curr;
+        }
     }
     /*TODO*///
     /*TODO*///
