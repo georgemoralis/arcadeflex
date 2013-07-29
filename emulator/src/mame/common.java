@@ -731,24 +731,23 @@ public class common {
             }
             lastcoin[offset] = data;
     }};
-/*TODO*/ //
-/*TODO*/ //    void coin_lockout_w (int offset, int data)
-/*TODO*/ //    {
-/*TODO*/ //            if (offset >= COIN_COUNTERS) return;
-/*TODO*/ //
-/*TODO*/ //            coinlockedout[offset] = data;
-/*TODO*/ //    }
+    public static WriteHandlerPtr coin_lockout_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+            if (offset >= COIN_COUNTERS) return;
+
+            coinlockedout[offset] = data;
+    }};
 
     /* Locks out all the coin inputs */
-/*TODO*/ //    void coin_lockout_global_w (int offset, int data)
-/*TODO*/ //    {
-/*TODO*/ //            int i;
-/*TODO*/ //
-/*TODO*/ //            for (i = 0; i < COIN_COUNTERS; i++)
-/*TODO*/ //            {
-/*TODO*/ //                    coin_lockout_w(i, data);
-/*TODO*/ //            }
-/*TODO*/ //    }
+    public static WriteHandlerPtr coin_lockout_global_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+            int i;
+
+            for (i = 0; i < COIN_COUNTERS; i++)
+            {
+                    coin_lockout_w.handler(i, data);
+            }
+    }};
 
 
 

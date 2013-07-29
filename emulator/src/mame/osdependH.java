@@ -2,6 +2,8 @@
 package mame;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.video.*;
+import static mame.mame.*;
 
 public class osdependH {
         /******************************************************************************
@@ -18,9 +20,10 @@ public class osdependH {
             public UBytePtr[] line;		/* pointers to the start of each line */
         };
 
-/*TODO*/ //         #define osd_create_bitmap(w,h) osd_new_bitmap((w),(h),Machine->scrbitmap->depth)		/* ASG 980209 */
-
-
+        public static osd_bitmap osd_create_bitmap(int w,int h)
+        {
+              return osd_new_bitmap(w,h,Machine.scrbitmap.depth);		
+        }
         /******************************************************************************
 
           Keyboard

@@ -18,47 +18,40 @@ import static machine.pacman.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 
 public class pacman {
-    /*TODO*///static void alibaba_sound_w(int offset, int data)
-    /*TODO*///{
-    /*TODO*///	/* since the sound region in Ali Baba is not contiguous, translate the
-    /*TODO*///	   offset into the 0-0x1f range */
-    /*TODO*/// 	if (offset < 0x10)
-    /*TODO*///		pengo_sound_w(offset, data);
-    /*TODO*///	else if (offset < 0x20)
-    /*TODO*///		spriteram_2[offset - 0x10] = data;
-    /*TODO*///	else
-    /*TODO*///		pengo_sound_w(offset - 0x10, data);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static int alibaba_mystery_1_r(int offset)
-    /*TODO*///{
-    /*TODO*///	// The return value determines what the mystery item is.  Each bit corresponds
-    /*TODO*///	// to a question mark
-    /*TODO*///
-    /*TODO*///	return rand() & 0x0f;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int alibaba_mystery_2_r(int offset)
-    /*TODO*///{
-    /*TODO*///	static int mystery = 0;
-    /*TODO*///
-    /*TODO*///	// The single bit return value determines when the mystery is lit up.
-    /*TODO*///	// This is certainly wrong
-    /*TODO*///
-    /*TODO*///	mystery++;
-    /*TODO*///	return (mystery >> 10) & 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void pacman_coin_lockout_global_w(int offset, int data)
-    /*TODO*///{
-    /*TODO*///	coin_lockout_global_w(offset, ~data & 0x01);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///\
+    public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        /* since the sound region in Ali Baba is not contiguous, translate the
+	   offset into the null-0x1f range */
+	if (offset < 0x10)
+	   pengo_sound_w.handler(offset, data);
+	else if (offset < 0x20)
+	   spriteram_2.write(offset - 0x10,data);
+	else
+	   pengo_sound_w.handler(offset - 0x10, data);
+    }};
+
+    public static ReadHandlerPtr alibaba_mystery_1_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        // The return value determines what the mystery item is.  Each bit corresponds
+    	// to a question mark
+        return rand() & 0x0f;
+    }};
+    static int mystery = 0;
+    public static ReadHandlerPtr alibaba_mystery_2_r = new ReadHandlerPtr() { public int handler(int offset)
+    {       
+        //The single bit return value determines when the mystery is lit up.
+    	// This is certainly wrong
+        mystery++;
+        return (mystery >> 10) & 1;
+    }};
+    public static WriteHandlerPtr pacman_coin_lockout_global_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        coin_lockout_global_w.handler(offset, ~data & 0x01);
+    }};
+
     	static MemoryReadAddress readmem[] =
 	{
 		new MemoryReadAddress( 0x0000, 0x3fff, MRA_ROM ),
@@ -94,51 +87,46 @@ public class pacman {
 		new MemoryWriteAddress( 0xffff, 0xffff, MWA_NOP ),	/* Eyes writes to this location to simplify code */
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress alibaba_readmem[] =
-    /*TODO*///	{
-    /*TODO*///	{ 0x0000, 0x3fff, MRA_ROM },
-    /*TODO*///	{ 0x4000, 0x47ff, MRA_RAM },	/* video and color RAM */
-    /*TODO*///	{ 0x4c00, 0x4fff, MRA_RAM },	/* including sprite codes at 4ef0-4eff */
-    /*TODO*///	{ 0x5000, 0x503f, input_port_0_r },	/* IN0 */
-    /*TODO*///	{ 0x5040, 0x507f, input_port_1_r },	/* IN1 */
-    /*TODO*///	{ 0x5080, 0x50bf, input_port_2_r },	/* DSW1 */
-    /*TODO*///	{ 0x50c0, 0x50c0, alibaba_mystery_1_r },
-    /*TODO*///	{ 0x50c1, 0x50c1, alibaba_mystery_2_r },
-    /*TODO*///	{ 0x8000, 0x8fff, MRA_ROM },
-    /*TODO*///	{ 0x9000, 0x93ff, MRA_RAM },
-    /*TODO*///	{ 0xa000, 0xa7ff, MRA_ROM },
-    /*TODO*///	{ -1 }	/* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress alibaba_writemem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x3fff, MWA_ROM },
-    /*TODO*///	{ 0x4000, 0x43ff, videoram_w, &videoram, &videoram_size },
-    /*TODO*///	{ 0x4400, 0x47ff, colorram_w, &colorram },
-    /*TODO*///	{ 0x4ef0, 0x4eff, MWA_RAM, &spriteram, &spriteram_size },
-    /*TODO*///	{ 0x4c00, 0x4fff, MWA_RAM },
-    /*TODO*///	{ 0x5000, 0x5000, watchdog_reset_w },
-    /*TODO*/// 	{ 0x5004, 0x5005, osd_led_w },
-    /*TODO*/// 	{ 0x5006, 0x5006, pacman_coin_lockout_global_w },
-    /*TODO*/// 	{ 0x5007, 0x5007, coin_counter_w },
-    /*TODO*///	{ 0x5040, 0x506f, alibaba_sound_w, &pengo_soundregs },  /* the sound region is not contiguous */
-    /*TODO*///	{ 0x5060, 0x506f, MWA_RAM, &spriteram_2 }, /* actually at 5050-505f, here to point to free RAM */
-    /*TODO*///	{ 0x50c0, 0x50c0, pengo_sound_enable_w },
-    /*TODO*///	{ 0x50c1, 0x50c1, pengo_flipscreen_w },
-    /*TODO*///	{ 0x50c2, 0x50c2, interrupt_enable_w },
-    /*TODO*///	{ 0x8000, 0x8fff, MWA_ROM },
-    /*TODO*///	{ 0x9000, 0x93ff, MWA_RAM },
-    /*TODO*///	{ 0xa000, 0xa7ff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xc3ff, videoram_w }, /* mirror address for video ram, */
-    /*TODO*///	{ 0xc400, 0xc7ef, colorram_w }, /* used to display HIGH SCORE and CREDITS */
-    /*TODO*///	{ -1 }	/* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    	static MemoryReadAddress alibaba_readmem[] =
+	{
+		new MemoryReadAddress( 0x0000, 0x3fff, MRA_ROM ),
+		new MemoryReadAddress( 0x4000, 0x47ff, MRA_RAM ),	/* video and color RAM */
+		new MemoryReadAddress( 0x4c00, 0x4fff, MRA_RAM ),	/* including sprite codes at 4ef0-4eff */
+		new MemoryReadAddress( 0x5000, 0x503f, input_port_0_r ),	/* IN0 */
+		new MemoryReadAddress( 0x5040, 0x507f, input_port_1_r ),	/* IN1 */
+		new MemoryReadAddress( 0x5080, 0x50bf, input_port_2_r ),	/* DSW1 */
+		new MemoryReadAddress( 0x50c0, 0x50c0, alibaba_mystery_1_r ),
+		new MemoryReadAddress( 0x50c1, 0x50c1, alibaba_mystery_2_r ),
+		new MemoryReadAddress( 0x8000, 0x8fff, MRA_ROM ),
+		new MemoryReadAddress( 0x9000, 0x93ff, MRA_RAM ),
+		new MemoryReadAddress( 0xa000, 0xa7ff, MRA_ROM ),
+		new MemoryReadAddress( -1 )	/* end of table */
+	};
+	
+	static MemoryWriteAddress alibaba_writemem[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0x3fff, MWA_ROM ),
+		new MemoryWriteAddress( 0x4000, 0x43ff, videoram_w, videoram, videoram_size ),
+		new MemoryWriteAddress( 0x4400, 0x47ff, colorram_w, colorram ),
+		new MemoryWriteAddress( 0x4ef0, 0x4eff, MWA_RAM, spriteram, spriteram_size ),
+		new MemoryWriteAddress( 0x4c00, 0x4fff, MWA_RAM ),
+		new MemoryWriteAddress( 0x5000, 0x5000, watchdog_reset_w ),
+	 	new MemoryWriteAddress( 0x5004, 0x5005, osd_led_w ),
+	 	new MemoryWriteAddress( 0x5006, 0x5006, pacman_coin_lockout_global_w ),
+	 	new MemoryWriteAddress( 0x5007, 0x5007, coin_counter_w ),
+		new MemoryWriteAddress( 0x5040, 0x506f, alibaba_sound_w, namco_soundregs ),  /* the sound region is not contiguous */
+		new MemoryWriteAddress( 0x5060, 0x506f, MWA_RAM, spriteram_2 ), /* actually at 5050-505f, here to point to free RAM */
+		new MemoryWriteAddress( 0x50c0, 0x50c0, pengo_sound_enable_w ),
+		new MemoryWriteAddress( 0x50c1, 0x50c1, pengo_flipscreen_w ),
+		new MemoryWriteAddress( 0x50c2, 0x50c2, interrupt_enable_w ),
+		new MemoryWriteAddress( 0x8000, 0x8fff, MWA_ROM ),
+		new MemoryWriteAddress( 0x9000, 0x93ff, MWA_RAM ),
+		new MemoryWriteAddress( 0xa000, 0xa7ff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xc3ff, videoram_w ), /* mirror address for video ram, */
+		new MemoryWriteAddress( 0xc400, 0xc7ef, colorram_w ), /* used to display HIGH SCORE and CREDITS */
+		new MemoryWriteAddress( -1 )	/* end of table */
+	};
+        
     static IOWritePort writeport[] =
     {
 	new IOWritePort( 0x00, 0x00, interrupt_vector_w ),	/* Pac-Man only */
@@ -913,56 +901,56 @@ public class pacman {
     /*TODO*///	PORT_BIT( 0xfe, IP_ACTIVE_LOW, IPT_UNUSED )
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( alibaba )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BITX(0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPSETTING(0x10, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x01, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x00, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "10000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "15000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "20000" )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hard" )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///
+	static InputPortPtr input_ports_alibaba = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BITX(0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Rack Test", KEYCODE_F1, IP_JOY_NONE );
+		PORT_DIPSETTING(0x10, DEF_STR( "Off"));
+		PORT_DIPSETTING(0x00, DEF_STR( "On"));
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Cabinet"));
+		PORT_DIPSETTING(    0x80, DEF_STR( "Upright"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail"));
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Coinage"));
+		PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C"));
+		PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C"));
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play"));
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives"));
+		PORT_DIPSETTING(    0x00, "1" );
+		PORT_DIPSETTING(    0x04, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x0c, "5" );
+		PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Bonus_Life"));
+		PORT_DIPSETTING(    0x00, "10000" );
+		PORT_DIPSETTING(    0x10, "15000" );
+		PORT_DIPSETTING(    0x20, "20000" );
+		PORT_DIPSETTING(    0x30, "None" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty"));
+		PORT_DIPSETTING(    0x40, "Normal" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown"));
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off"));
+		PORT_DIPSETTING(    0x00, DEF_STR( "On"));
+                INPUT_PORTS_END(); 
+        }}; 
+
 	static GfxLayout tilelayout = new GfxLayout
 	(
 		8,8,	/* 8*8 characters */
@@ -995,8 +983,7 @@ public class pacman {
 		new GfxDecodeInfo( REGION_GFX2, 0, spritelayout, 0, 32 ),
 		new GfxDecodeInfo( -1 ) /* end of array */
 	};
-    /*TODO*///
-    /*TODO*///
+
     static namco_interface namco_interface = new namco_interface
     (
     	3072000/32,	/* sample rate */
@@ -1174,48 +1161,49 @@ public class pacman {
     /*TODO*///	}
     /*TODO*///};
     /*TODO*///
-    /*TODO*///static struct MachineDriver machine_driver_alibaba =
-    /*TODO*///{
-    /*TODO*///	/* basic machine hardware */
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			18432000/6,	/* 3.072 Mhz */
-    /*TODO*///			alibaba_readmem,alibaba_writemem,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		}
-    /*TODO*///	},
-    /*TODO*///	60, 2500,	/* frames per second, vblank duration */
-    /*TODO*///	1,	/* single CPU, no need for interleaving */
-    /*TODO*///	0,
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	36*8, 28*8, { 0*8, 36*8-1, 0*8, 28*8-1 },
-    /*TODO*///	gfxdecodeinfo,
-    /*TODO*///	16, 4*32,
-    /*TODO*///	pacman_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
-    /*TODO*///	0,
-    /*TODO*///	pacman_vh_start,
-    /*TODO*///	generic_vh_stop,
-    /*TODO*///	pengo_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_NAMCO,
-    /*TODO*///			&namco_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Game driver(s)
-    /*TODO*///
-    /*TODO*///***************************************************************************/
+        static MachineDriver machine_driver_alibaba = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				18432000/6,	/* 3.072 Mhz */
+				alibaba_readmem,alibaba_writemem,null,null,
+				interrupt,1
+			)
+		},
+		60, 2500,	/* frames per second, vblank duration */
+		1,	/* single CPU, no need for interleaving */
+		null,
+	
+		/* video hardware */
+		36*8, 28*8, new rectangle( 0*8, 36*8-1, 0*8, 28*8-1 ),
+		gfxdecodeinfo,
+		16, 4*32,
+		pacman_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+		null,
+		pacman_vh_start,
+		generic_vh_stop,
+		pengo_vh_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (	
+			SOUND_NAMCO,
+			namco_interface
+                    )
+		}
+	);
+ 
+    /***************************************************************************
+    
+    *  Game driver(s)
+    
+    ***************************************************************************/
 	static RomLoadPtr rom_pacman = new RomLoadPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "namcopac.6e",  0x0000, 0x1000, 0xfee263b3 );
@@ -2186,6 +2174,6 @@ public class pacman {
     /*TODO*///GAME( 1982, rom_dremshpr, null,        machine_driver_dremshpr, input_ports_dremshpr, null,        ROT270, "Sanritsu", "Dream Shopper" )
     /*TODO*///GAME( 1983, rom_vanvan,   null,        machine_driver_vanvan,   input_ports_vanvan,   null,        ROT270, "Karateco", "Van Van Car" )
     /*TODO*///GAME( 1983, rom_vanvans,  driver_vanvan,   machine_driver_vanvan,   input_ports_vanvans,  null,        ROT270, "Sanritsu", "Van Van Car (Sanritsu)" )
-    /*TODO*///GAME( 1982, rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" )
+    public static GameDriver driver_alibaba = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" );
     /*TODO*///    
 }

@@ -181,19 +181,19 @@ public class inputportH {
     public static final int IPF_TOGGLE  =   0x00200000;	/* When this is set, the key acts as a toggle - press */
 									/* it once and it goes on, press it again and it goes off. */
 									/* useful e.g. for sone Test Mode dip switches. */
-/*TODO*///#define IPF_REVERSE    0x00400000	/* By default, analog inputs like IPT_TRACKBALL increase */
-/*TODO*///									/* when going right/up. This flag inverts them. */
-/*TODO*///
-/*TODO*///#define IPF_CENTER     0x00800000	/* always preload in->default, autocentering the STICK/TRACKBALL */
-/*TODO*///
-/*TODO*///#define IPF_CUSTOM_UPDATE 0x01000000 /* normally, analog ports are updated when they are accessed. */
-/*TODO*///									/* When this flag is set, they are never updated automatically, */
-/*TODO*///									/* it is the responsibility of the driver to call */
-/*TODO*///									/* update_analog_port(int port). */
-/*TODO*///
+    public static final int IPF_REVERSE=    0x00400000;	/* By default, analog inputs like IPT_TRACKBALL increase */
+									/* when going right/up. This flag inverts them. */
+
+    public static final int IPF_CENTER=     0x00800000;	/* always preload in->default, autocentering the STICK/TRACKBALL */
+
+    public static final int IPF_CUSTOM_UPDATE= 0x01000000; /* normally, analog ports are updated when they are accessed. */
+									/* When this flag is set, they are never updated automatically, */
+									/* it is the responsibility of the driver to call */
+									/* update_analog_port(int port). */
+
     public static final int IPF_RESETCPU   = 0x02000000;	/* when the key is pressed, reset the first CPU */
-/*TODO*///
-/*TODO*///
+
+
 /*TODO*////* The "arg" field contains 4 bytes fields */
 /*TODO*///#define IPF_SENSITIVITY(percent)	((percent & 0xff) << 8)
 /*TODO*///#define IPF_DELTA(val)				((val & 0xff) << 16)
@@ -241,11 +241,6 @@ public class inputportH {
    {
        inputload.add(new InputPortTiny(mask,default_value,type,IP_NAME_DEFAULT));
    }
-/*TODO*////* input bit definition */
-/*TODO*///#define PORT_BIT(mask,default,type) \
-/*TODO*///	{ mask, default, type, IP_NAME_DEFAULT },
-/*TODO*///
-/*TODO*///
    /* impulse input bit definition */
    public static void PORT_BIT_IMPULSE(int mask, int default_value,int type,int duration)
    {
@@ -262,7 +257,11 @@ public class inputportH {
        inputload.add(new InputPortTiny(mask, default_value, type, name));
        PORT_CODE(key,joy);
    }
-/*TODO*////* analog input */
+   /* analog input */
+   public static void PORT_ANALOG(int mask,int default_value,int type,int sensitivity,int delta,int min,int max)
+   {
+       
+   }
 /*TODO*///#define PORT_ANALOG(mask,default,type,sensitivity,delta,min,max) \
 /*TODO*///	{ mask, default, type, IP_NAME_DEFAULT }, \
 /*TODO*///	{ min, max, IPT_EXTENSION | IPF_SENSITIVITY(sensitivity) | IPF_DELTA(delta), IP_NAME_DEFAULT },

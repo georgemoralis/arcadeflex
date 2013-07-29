@@ -22,6 +22,7 @@ import static mame.driverH.*;
 import static drivers.pacman.*;
 import static drivers.minivadr.*;
 import static drivers.pengo.*;
+import static drivers.zaxxon.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -59,8 +60,8 @@ public class driver {
 /*TODO*/ //	DRIVER( dremshpr )	/* (c) 1982 Sanritsu */
 /*TODO*/ //	DRIVER( vanvan )	/* (c) 1983 Karateco (bootleg?) */
 /*TODO*/ //	DRIVER( vanvans )	/* (c) 1983 Sanritsu */
-/*TODO*/ //	DRIVER( alibaba )	/* (c) 1982 Sega */
-        driver_pengo,		/* 834-0386 (c) 1982 Sega */
+        driver_alibaba,	/* (c) 1982 Sega */
+        driver_pengo,	/* 834-0386 (c) 1982 Sega */
         driver_pengo2,	/* 834-0386 (c) 1982 Sega */
         driver_pengo2u,	/* 834-0386 (c) 1982 Sega */
         driver_penta,		/* bootleg */
@@ -1263,13 +1264,13 @@ public class driver {
 /*TODO*/ //	DRIVER( pignewta )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( sindbadm )	/* 834-5244 (c) 1983 Sega */
 
-	/* Sega "Zaxxon hardware" games */
-/*TODO*/ //	DRIVER( zaxxon )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( zaxxon2 )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( zaxxonb )	/* bootleg */
-/*TODO*/ //	DRIVER( szaxxon )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( futspy )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( razmataz )	/* modified 834-0213, 834-0214 (c) 1983 */
+    /* Sega "Zaxxon hardware" games */
+    driver_zaxxon,	/* (c) 1982 */
+    driver_zaxxon2,	/* (c) 1982 */
+    driver_zaxxonb,	/* bootleg */
+    driver_szaxxon,	/* (c) 1982 */
+    driver_futspy,	/* (c) 1984 */
+    driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
 /*TODO*/ //	DRIVER( congo )		/* 605-5167 (c) 1983 */
 /*TODO*/ //	DRIVER( tiptop )	/* 605-5167 (c) 1983 */
 

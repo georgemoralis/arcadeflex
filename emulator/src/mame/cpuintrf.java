@@ -1046,6 +1046,10 @@ public class cpuintrf {
     
     /*TODO*///
     /*TODO*///
+    public static InterruptPtr nmi_interrupt = new InterruptPtr() { public int handler()
+    {
+        throw new UnsupportedOperationException("Unsupported nmi interrupt");
+    }};
     /*TODO*///int nmi_interrupt(void)
     /*TODO*///{
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;

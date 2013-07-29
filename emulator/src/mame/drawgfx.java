@@ -955,319 +955,324 @@ public class drawgfx {
 /*TODO*///  scrolls as a whole in at least one direction.
 /*TODO*///
 /*TODO*///***************************************************************************/
-/*TODO*///void copyscrollbitmap(struct osd_bitmap *dest,struct osd_bitmap *src,
-/*TODO*///		int rows,const int *rowscroll,int cols,const int *colscroll,
-/*TODO*///		const struct rectangle *clip,int transparency,int transparent_color)
-/*TODO*///{
-/*TODO*///	int srcwidth,srcheight,destwidth,destheight;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (rows == 0 && cols == 0)
-/*TODO*///	{
-/*TODO*///		copybitmap(dest,src,0,0,0,0,clip,transparency,transparent_color);
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		srcwidth = src->height;
-/*TODO*///		srcheight = src->width;
-/*TODO*///		destwidth = dest->height;
-/*TODO*///		destheight = dest->width;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		srcwidth = src->width;
-/*TODO*///		srcheight = src->height;
-/*TODO*///		destwidth = dest->width;
-/*TODO*///		destheight = dest->height;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (rows == 0)
-/*TODO*///	{
-/*TODO*///		/* scrolling columns */
-/*TODO*///		int col,colwidth;
-/*TODO*///		struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///		colwidth = srcwidth / cols;
-/*TODO*///
-/*TODO*///		myclip.min_y = clip->min_y;
-/*TODO*///		myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///		col = 0;
-/*TODO*///		while (col < cols)
-/*TODO*///		{
-/*TODO*///			int cons,scroll;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* count consecutive columns scrolled by the same amount */
-/*TODO*///			scroll = colscroll[col];
-/*TODO*///			cons = 1;
-/*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
-/*TODO*///				cons++;
-/*TODO*///
-/*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
-/*TODO*///			else scroll %= srcheight;
-/*TODO*///
-/*TODO*///			myclip.min_x = col * colwidth;
-/*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = (col + cons) * colwidth - 1;
-/*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,0,scroll,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,0,scroll - srcheight,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			col += cons;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else if (cols == 0)
-/*TODO*///	{
-/*TODO*///		/* scrolling rows */
-/*TODO*///		int row,rowheight;
-/*TODO*///		struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///		rowheight = srcheight / rows;
-/*TODO*///
-/*TODO*///		myclip.min_x = clip->min_x;
-/*TODO*///		myclip.max_x = clip->max_x;
-/*TODO*///
-/*TODO*///		row = 0;
-/*TODO*///		while (row < rows)
-/*TODO*///		{
-/*TODO*///			int cons,scroll;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* count consecutive rows scrolled by the same amount */
-/*TODO*///			scroll = rowscroll[row];
-/*TODO*///			cons = 1;
-/*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
-/*TODO*///				cons++;
-/*TODO*///
-/*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
-/*TODO*///			else scroll %= srcwidth;
-/*TODO*///
-/*TODO*///			myclip.min_y = row * rowheight;
-/*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = (row + cons) * rowheight - 1;
-/*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,scroll,0,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,0,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			row += cons;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else if (rows == 1 && cols == 1)
-/*TODO*///	{
-/*TODO*///		/* XY scrolling playfield */
-/*TODO*///		int scrollx,scrolly,sx,sy;
-/*TODO*///
-/*TODO*///
-/*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
-/*TODO*///		else scrollx = rowscroll[0] % srcwidth;
-/*TODO*///
-/*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
-/*TODO*///		else scrolly = colscroll[0] % srcheight;
-/*TODO*///
-/*TODO*///		for (sx = scrollx - srcwidth;sx < destwidth;sx += srcwidth)
-/*TODO*///			for (sy = scrolly - srcheight;sy < destheight;sy += srcheight)
-/*TODO*///				copybitmap(dest,src,0,0,sx,sy,clip,transparency,transparent_color);
-/*TODO*///	}
-/*TODO*///	else if (rows == 1)
-/*TODO*///	{
-/*TODO*///		/* scrolling columns + horizontal scroll */
-/*TODO*///		int col,colwidth;
-/*TODO*///		int scrollx;
-/*TODO*///		struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
-/*TODO*///		else scrollx = rowscroll[0] % srcwidth;
-/*TODO*///
-/*TODO*///		colwidth = srcwidth / cols;
-/*TODO*///
-/*TODO*///		myclip.min_y = clip->min_y;
-/*TODO*///		myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///		col = 0;
-/*TODO*///		while (col < cols)
-/*TODO*///		{
-/*TODO*///			int cons,scroll;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* count consecutive columns scrolled by the same amount */
-/*TODO*///			scroll = colscroll[col];
-/*TODO*///			cons = 1;
-/*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
-/*TODO*///				cons++;
-/*TODO*///
-/*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
-/*TODO*///			else scroll %= srcheight;
-/*TODO*///
-/*TODO*///			myclip.min_x = col * colwidth + scrollx;
-/*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx;
-/*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll - srcheight,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			myclip.min_x = col * colwidth + scrollx - srcwidth;
-/*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx - srcwidth;
-/*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll - srcheight,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			col += cons;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else if (cols == 1)
-/*TODO*///	{
-/*TODO*///		/* scrolling rows + vertical scroll */
-/*TODO*///		int row,rowheight;
-/*TODO*///		int scrolly;
-/*TODO*///		struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
-/*TODO*///		else scrolly = colscroll[0] % srcheight;
-/*TODO*///
-/*TODO*///		rowheight = srcheight / rows;
-/*TODO*///
-/*TODO*///		myclip.min_x = clip->min_x;
-/*TODO*///		myclip.max_x = clip->max_x;
-/*TODO*///
-/*TODO*///		row = 0;
-/*TODO*///		while (row < rows)
-/*TODO*///		{
-/*TODO*///			int cons,scroll;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* count consecutive rows scrolled by the same amount */
-/*TODO*///			scroll = rowscroll[row];
-/*TODO*///			cons = 1;
-/*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
-/*TODO*///				cons++;
-/*TODO*///
-/*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
-/*TODO*///			else scroll %= srcwidth;
-/*TODO*///
-/*TODO*///			myclip.min_y = row * rowheight + scrolly;
-/*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly;
-/*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			myclip.min_y = row * rowheight + scrolly - srcheight;
-/*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly - srcheight;
-/*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly - srcheight,&myclip,transparency,transparent_color);
-/*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly - srcheight,&myclip,transparency,transparent_color);
-/*TODO*///
-/*TODO*///			row += cons;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* fill a bitmap using the specified pen */
-/*TODO*///void fillbitmap(struct osd_bitmap *dest,int pen,const struct rectangle *clip)
-/*TODO*///{
-/*TODO*///	int sx,sy,ex,ey,y;
-/*TODO*///	struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			myclip.min_x = clip->min_y;
-/*TODO*///			myclip.max_x = clip->max_y;
-/*TODO*///			myclip.min_y = clip->min_x;
-/*TODO*///			myclip.max_y = clip->max_x;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = dest->width-1 - clip->max_x;
-/*TODO*///			myclip.max_x = dest->width-1 - temp;
-/*TODO*///			myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = clip->max_y;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = clip->max_x;
-/*TODO*///			temp = clip->min_y;
-/*TODO*///			myclip.min_y = dest->height-1 - clip->max_y;
-/*TODO*///			myclip.max_y = dest->height-1 - temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///	sx = 0;
-/*TODO*///	ex = dest->width - 1;
-/*TODO*///	sy = 0;
-/*TODO*///	ey = dest->height - 1;
-/*TODO*///
-/*TODO*///	if (clip && sx < clip->min_x) sx = clip->min_x;
-/*TODO*///	if (clip && ex > clip->max_x) ex = clip->max_x;
-/*TODO*///	if (sx > ex) return;
-/*TODO*///	if (clip && sy < clip->min_y) sy = clip->min_y;
-/*TODO*///	if (clip && ey > clip->max_y) ey = clip->max_y;
-/*TODO*///	if (sy > ey) return;
-/*TODO*///
-/*TODO*///	osd_mark_dirty (sx,sy,ex,ey,0);	/* ASG 971011 */
-/*TODO*///
-/*TODO*///	/* ASG 980211 */
-/*TODO*///	if (dest->depth == 16)
-/*TODO*///	{
-/*TODO*///		if ((pen >> 8) == (pen & 0xff))
-/*TODO*///		{
-/*TODO*///			for (y = sy;y <= ey;y++)
-/*TODO*///				memset(&dest->line[y][sx*2],pen&0xff,(ex-sx+1)*2);
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			unsigned short *sp = (unsigned short *)dest->line[sy];
-/*TODO*///			int x;
-/*TODO*///
-/*TODO*///			for (x = sx;x <= ex;x++)
-/*TODO*///				sp[x] = pen;
-/*TODO*///			sp+=sx;
-/*TODO*///			for (y = sy+1;y <= ey;y++)
-/*TODO*///				memcpy(&dest->line[y][sx*2],sp,(ex-sx+1)*2);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		for (y = sy;y <= ey;y++)
-/*TODO*///			memset(&dest->line[y][sx],pen,ex-sx+1);
-/*TODO*///	}
-/*TODO*///}
+    public static void copyscrollbitmap(osd_bitmap dest,osd_bitmap src,
+                    int rows,int rowscroll,int cols,int colscroll,
+                    rectangle clip,int transparency,int transparent_color)
+    {
+        throw new UnsupportedOperationException("unimplemented copyscrollbitmap");
+    /*TODO*///	int srcwidth,srcheight,destwidth,destheight;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///	if (rows == 0 && cols == 0)
+    /*TODO*///	{
+    /*TODO*///		copybitmap(dest,src,0,0,0,0,clip,transparency,transparent_color);
+    /*TODO*///		return;
+    /*TODO*///	}
+    /*TODO*///
+    /*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
+    /*TODO*///	{
+    /*TODO*///		srcwidth = src->height;
+    /*TODO*///		srcheight = src->width;
+    /*TODO*///		destwidth = dest->height;
+    /*TODO*///		destheight = dest->width;
+    /*TODO*///	}
+    /*TODO*///	else
+    /*TODO*///	{
+    /*TODO*///		srcwidth = src->width;
+    /*TODO*///		srcheight = src->height;
+    /*TODO*///		destwidth = dest->width;
+    /*TODO*///		destheight = dest->height;
+    /*TODO*///	}
+    /*TODO*///
+    /*TODO*///	if (rows == 0)
+    /*TODO*///	{
+    /*TODO*///		/* scrolling columns */
+    /*TODO*///		int col,colwidth;
+    /*TODO*///		struct rectangle myclip;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///		colwidth = srcwidth / cols;
+    /*TODO*///
+    /*TODO*///		myclip.min_y = clip->min_y;
+    /*TODO*///		myclip.max_y = clip->max_y;
+    /*TODO*///
+    /*TODO*///		col = 0;
+    /*TODO*///		while (col < cols)
+    /*TODO*///		{
+    /*TODO*///			int cons,scroll;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///			/* count consecutive columns scrolled by the same amount */
+    /*TODO*///			scroll = colscroll[col];
+    /*TODO*///			cons = 1;
+    /*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
+    /*TODO*///				cons++;
+    /*TODO*///
+    /*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
+    /*TODO*///			else scroll %= srcheight;
+    /*TODO*///
+    /*TODO*///			myclip.min_x = col * colwidth;
+    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
+    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1;
+    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,0,scroll,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,0,scroll - srcheight,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			col += cons;
+    /*TODO*///		}
+    /*TODO*///	}
+    /*TODO*///	else if (cols == 0)
+    /*TODO*///	{
+    /*TODO*///		/* scrolling rows */
+    /*TODO*///		int row,rowheight;
+    /*TODO*///		struct rectangle myclip;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///		rowheight = srcheight / rows;
+    /*TODO*///
+    /*TODO*///		myclip.min_x = clip->min_x;
+    /*TODO*///		myclip.max_x = clip->max_x;
+    /*TODO*///
+    /*TODO*///		row = 0;
+    /*TODO*///		while (row < rows)
+    /*TODO*///		{
+    /*TODO*///			int cons,scroll;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///			/* count consecutive rows scrolled by the same amount */
+    /*TODO*///			scroll = rowscroll[row];
+    /*TODO*///			cons = 1;
+    /*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
+    /*TODO*///				cons++;
+    /*TODO*///
+    /*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
+    /*TODO*///			else scroll %= srcwidth;
+    /*TODO*///
+    /*TODO*///			myclip.min_y = row * rowheight;
+    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
+    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1;
+    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,scroll,0,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,0,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			row += cons;
+    /*TODO*///		}
+    /*TODO*///	}
+    /*TODO*///	else if (rows == 1 && cols == 1)
+    /*TODO*///	{
+    /*TODO*///		/* XY scrolling playfield */
+    /*TODO*///		int scrollx,scrolly,sx,sy;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
+    /*TODO*///		else scrollx = rowscroll[0] % srcwidth;
+    /*TODO*///
+    /*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
+    /*TODO*///		else scrolly = colscroll[0] % srcheight;
+    /*TODO*///
+    /*TODO*///		for (sx = scrollx - srcwidth;sx < destwidth;sx += srcwidth)
+    /*TODO*///			for (sy = scrolly - srcheight;sy < destheight;sy += srcheight)
+    /*TODO*///				copybitmap(dest,src,0,0,sx,sy,clip,transparency,transparent_color);
+    /*TODO*///	}
+    /*TODO*///	else if (rows == 1)
+    /*TODO*///	{
+    /*TODO*///		/* scrolling columns + horizontal scroll */
+    /*TODO*///		int col,colwidth;
+    /*TODO*///		int scrollx;
+    /*TODO*///		struct rectangle myclip;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
+    /*TODO*///		else scrollx = rowscroll[0] % srcwidth;
+    /*TODO*///
+    /*TODO*///		colwidth = srcwidth / cols;
+    /*TODO*///
+    /*TODO*///		myclip.min_y = clip->min_y;
+    /*TODO*///		myclip.max_y = clip->max_y;
+    /*TODO*///
+    /*TODO*///		col = 0;
+    /*TODO*///		while (col < cols)
+    /*TODO*///		{
+    /*TODO*///			int cons,scroll;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///			/* count consecutive columns scrolled by the same amount */
+    /*TODO*///			scroll = colscroll[col];
+    /*TODO*///			cons = 1;
+    /*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
+    /*TODO*///				cons++;
+    /*TODO*///
+    /*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
+    /*TODO*///			else scroll %= srcheight;
+    /*TODO*///
+    /*TODO*///			myclip.min_x = col * colwidth + scrollx;
+    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
+    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx;
+    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll - srcheight,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			myclip.min_x = col * colwidth + scrollx - srcwidth;
+    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
+    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx - srcwidth;
+    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll - srcheight,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			col += cons;
+    /*TODO*///		}
+    /*TODO*///	}
+    /*TODO*///	else if (cols == 1)
+    /*TODO*///	{
+    /*TODO*///		/* scrolling rows + vertical scroll */
+    /*TODO*///		int row,rowheight;
+    /*TODO*///		int scrolly;
+    /*TODO*///		struct rectangle myclip;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
+    /*TODO*///		else scrolly = colscroll[0] % srcheight;
+    /*TODO*///
+    /*TODO*///		rowheight = srcheight / rows;
+    /*TODO*///
+    /*TODO*///		myclip.min_x = clip->min_x;
+    /*TODO*///		myclip.max_x = clip->max_x;
+    /*TODO*///
+    /*TODO*///		row = 0;
+    /*TODO*///		while (row < rows)
+    /*TODO*///		{
+    /*TODO*///			int cons,scroll;
+    /*TODO*///
+    /*TODO*///
+    /*TODO*///			/* count consecutive rows scrolled by the same amount */
+    /*TODO*///			scroll = rowscroll[row];
+    /*TODO*///			cons = 1;
+    /*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
+    /*TODO*///				cons++;
+    /*TODO*///
+    /*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
+    /*TODO*///			else scroll %= srcwidth;
+    /*TODO*///
+    /*TODO*///			myclip.min_y = row * rowheight + scrolly;
+    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
+    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly;
+    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			myclip.min_y = row * rowheight + scrolly - srcheight;
+    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
+    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly - srcheight;
+    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
+    /*TODO*///
+    /*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly - srcheight,&myclip,transparency,transparent_color);
+    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly - srcheight,&myclip,transparency,transparent_color);
+    /*TODO*///
+    /*TODO*///			row += cons;
+    /*TODO*///		}
+    /*TODO*///	}
+    }
+
+    /* fill a bitmap using the specified pen */
+    public static void fillbitmap(osd_bitmap dest,int pen,rectangle clip)
+    {
+    	int sx,sy,ex,ey,y;
+    	rectangle myclip=new rectangle();
+    
+    
+    	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		if (clip!=null)
+    		{
+    			myclip.min_x = clip.min_y;
+    			myclip.max_x = clip.max_y;
+    			myclip.min_y = clip.min_x;
+    			myclip.max_y = clip.max_x;
+    			clip = myclip;
+    		}
+    	}
+    	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+    	{
+    		if (clip!=null)
+    		{
+    			int temp;
+    
+    
+    			temp = clip.min_x;
+    			myclip.min_x = dest.width-1 - clip.max_x;
+    			myclip.max_x = dest.width-1 - temp;
+    			myclip.min_y = clip.min_y;
+    			myclip.max_y = clip.max_y;
+    			clip = myclip;
+    		}
+    	}
+    	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+    	{
+    		if (clip!=null)
+    		{
+    			int temp;
+    
+    
+    			myclip.min_x = clip.min_x;
+    			myclip.max_x = clip.max_x;
+    			temp = clip.min_y;
+    			myclip.min_y = dest.height-1 - clip.max_y;
+    			myclip.max_y = dest.height-1 - temp;
+    			clip = myclip;
+    		}
+    	}
+    
+    
+    	sx = 0;
+    	ex = dest.width - 1;
+    	sy = 0;
+    	ey = dest.height - 1;
+    
+    	if (clip!=null && sx < clip.min_x) sx = clip.min_x;
+    	if (clip!=null && ex > clip.max_x) ex = clip.max_x;
+    	if (sx > ex) return;
+    	if (clip!=null && sy < clip.min_y) sy = clip.min_y;
+    	if (clip!=null && ey > clip.max_y) ey = clip.max_y;
+    	if (sy > ey) return;
+    
+    	osd_mark_dirty (sx,sy,ex,ey,0);	/* ASG 971011 */
+    
+    	/* ASG 980211 */
+    	if (dest.depth == 16)
+    	{
+            throw new UnsupportedOperationException("Unsupported fillbitmap depth =16");
+    /*TODO*///		if ((pen >> 8) == (pen & 0xff))
+    /*TODO*///		{
+    /*TODO*///			for (y = sy;y <= ey;y++)
+    /*TODO*///				memset(&dest->line[y][sx*2],pen&0xff,(ex-sx+1)*2);
+    /*TODO*///		}
+    /*TODO*///		else
+    /*TODO*///		{
+    /*TODO*///			unsigned short *sp = (unsigned short *)dest->line[sy];
+    /*TODO*///			int x;
+    /*TODO*///
+    /*TODO*///			for (x = sx;x <= ex;x++)
+    /*TODO*///				sp[x] = pen;
+    /*TODO*///			sp+=sx;
+    /*TODO*///			for (y = sy+1;y <= ey;y++)
+    /*TODO*///				memcpy(&dest->line[y][sx*2],sp,(ex-sx+1)*2);
+    /*TODO*///		}
+    	}
+    	else
+    	{
+    		for (y = sy;y <= ey;y++)
+                {
+    			//memset(&dest->line[y][sx],pen,ex-sx+1);
+                    for (int k = 0; k < ex - sx + 1; k++) 
+                        dest.line[y].write(sx + k,pen);
+                }
+    	}
+    }
 /*TODO*///
 /*TODO*///
 /*TODO*///void drawgfxzoom( struct osd_bitmap *dest_bmp,const struct GfxElement *gfx,
@@ -1639,8 +1644,8 @@ public class drawgfx {
         throw new UnsupportedOperationException("Unsupported pp_8_nd_s");
     }};  
 /*TODO*///static void pp_8_nd_fx_s(struct osd_bitmap *b,int x,int y,int p)  { b->line[x][b->width-1-y] = p; }
-                   public static plot_pixel_procPtr pp_8_nd_fx_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
-        throw new UnsupportedOperationException("Unsupported pp_8_nd_fx_s");
+    public static plot_pixel_procPtr pp_8_nd_fx_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
+         bitmap.line[x].write(bitmap.width-1-y, pen);
     }};                  
 /*TODO*///static void pp_8_nd_fy_s(struct osd_bitmap *b,int x,int y,int p)  { b->line[b->height-1-x][y] = p; }
                     public static plot_pixel_procPtr pp_8_nd_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
@@ -1650,7 +1655,6 @@ public class drawgfx {
     public static plot_pixel_procPtr pp_8_nd_fxy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
         throw new UnsupportedOperationException("Unsupported pp_8_nd_fxy_s");
     }};  
-/*TODO*///static void pp_8_d(struct osd_bitmap *b,int x,int y,int p)  { b->line[y][x] = p; osd_mark_dirty (x,y,x,y,0); }
         public static plot_pixel_procPtr pp_8_d = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
         bitmap.line[y].write(x, pen);
         osd_mark_dirty(x, y, x, y, 0);
@@ -1771,8 +1775,8 @@ public class drawgfx {
         throw new UnsupportedOperationException("Unsupported rp_8_s");
     }};       
 /*TODO*///static int rp_8_fx_s(struct osd_bitmap *b,int x,int y)  { return b->line[x][b->width-1-y]; }
-           public static read_pixel_procPtr rp_8_fx_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
-        throw new UnsupportedOperationException("Unsupported rp_8_fx_s");
+    public static read_pixel_procPtr rp_8_fx_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
+        return bitmap.line[x].read(bitmap.width-1-y);
     }};
 /*TODO*///static int rp_8_fy_s(struct osd_bitmap *b,int x,int y)  { return b->line[b->height-1-x][y]; }
             public static read_pixel_procPtr rp_8_fy_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
@@ -2200,29 +2204,6 @@ public class drawgfx {
                 srcdata.base += srcmodulo;
                 dstdata.base += dstmodulo;
                 srcheight--;
-
-                    /*end = dstdata.base + srcwidth;
-                    while (dstdata.base <= end - 8)
-                    {
-                            dstdata.write(0,paldata.read(srcdata.read(0)));
-                            dstdata.write(1,paldata.read(srcdata.read(1)));
-                            dstdata.write(2,paldata.read(srcdata.read(2)));
-                            dstdata.write(3,paldata.read(srcdata.read(3)));
-                            dstdata.write(4,paldata.read(srcdata.read(4)));
-                            dstdata.write(5,paldata.read(srcdata.read(5)));
-                            dstdata.write(6,paldata.read(srcdata.read(6)));
-                            dstdata.write(7,paldata.read(srcdata.read(7)));
-                            dstdata.base += 8;
-                            srcdata.base += 8;
-                    }
-                    while (dstdata.base < end)
-                    {
-                        dstdata.writeinc(paldata.read(srcdata.readinc()));
-                           // *(dstdata++) = paldata[*(srcdata++)];
-                    }
-                    srcdata.base += srcmodulo;
-                    dstdata.base += dstmodulo;
-                    srcheight--;*/
             }
     }
 
@@ -2694,7 +2675,7 @@ public class drawgfx {
                                     throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
                                 }
 				//BLOCKMOVE(transpen,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
-			//	break;
+				//break;
 
 			case TRANSPARENCY_PENS:
                                 if(flipx!=0)

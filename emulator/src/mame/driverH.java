@@ -55,6 +55,24 @@ public class driverH
             this.rom = rommodule_macro; //copy rommodule_macro to rom
             this.flags=monitor;
         }
+        //GAMEX macro
+        public GameDriver(String year,String name,String source,RomLoadPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverPtr init,int monitor,String manufacture,String fullname,int flags)
+        {
+            this.year=year;
+            this.source_file=source;
+            this.clone_of=parent;
+            this.name=name;
+            this.description=fullname;
+            this.manufacturer=manufacture;
+            this.drv=drv;
+            //inputports
+            this.driver_init=init;
+            romload.handler();//load the rom
+            input.handler();//load input
+            this.input_ports = input_macro;//copy input macro to input ports
+            this.rom = rommodule_macro; //copy rommodule_macro to rom
+            this.flags=monitor | flags;
+        }
         public String source_file;	
 	public GameDriver clone_of; /* if this is a clone, point to */
 				    /* the main version of the game */
