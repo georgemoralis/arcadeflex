@@ -4876,7 +4876,11 @@ public class z80 extends cpu_interface {
         Z80.HL.SetH(cpu_readmem16(Z80.HL.D) & 0xFF);
     }};
   
-    opcode op_6e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_6e = new opcode() { public void handler()
+    { 
+    // _L = RM(_HL);
+        Z80.HL.SetL(cpu_readmem16(Z80.HL.D) & 0xFF);
+    }};
    
     /* LD   (HL),B	  */opcode op_70 = new opcode() { public void handler(){ cpu_writemem16(Z80.HL.D, Z80.BC.H); }};
     /* LD   (HL),C	  */opcode op_71 = new opcode() { public void handler(){ cpu_writemem16(Z80.HL.D, Z80.BC.L); }};
@@ -4921,7 +4925,7 @@ public class z80 extends cpu_interface {
     { 
         SUB(cpu_readmem16(Z80.HL.D) & 0xFF);
     }};
-    opcode op_97 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_97 = new opcode() { public void handler(){ SUB(Z80.AF.H);}};
     opcode op_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
