@@ -1940,6 +1940,64 @@ public class drawgfx {
 /*TODO*///})
 /*TODO*///
 /*TODO*///
+        public static void blockmove_transpen8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transpen)
+        {
+            
+            int end;
+            int trans4;
+            IntPtr sd4;//UINT32 *sd4;
+            
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+            trans4 = transpen * 0x01010101;
+ 
+            while (srcheight != 0)
+            {
+                end = dstdata.base + srcwidth;
+                while ((srcdata.base & 3) != 0 && dstdata.base < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+                {
+                    int col = srcdata.read(0);
+                    srcdata.base++;
+                    if (col != transpen)
+                        dstdata.write(0,paldata.read(col));
+                    dstdata.base++;
+                }
+
+                sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
+                while (dstdata.base <= end - 4)
+                {
+                    int col4;
+                    if ((col4 = sd4.read(0)) != trans4)
+                    {
+                        int  xod4;
+                        xod4= col4 ^ trans4;
+                        if ((xod4 & 0x000000ff) != 0)
+                            dstdata.write(0,paldata.read((col4) & 0xff));
+                        if ((xod4 & 0x0000ff00) != 0)
+                            dstdata.write(1,paldata.read((col4>>8) & 0xff));
+                        if ((xod4 & 0x00ff0000) != 0)
+                            dstdata.write(2,paldata.read((col4>>16) & 0xff));
+                        if ((xod4 & 0xff000000) != 0)
+                            dstdata.write(3,paldata.read((col4>>24) & 0xff));
+                    }
+                    sd4.base += 4;
+                    dstdata.base += 4;
+                }
+                srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
+                
+                while (dstdata.base < end)
+                {
+                    int col = srcdata.read(0);
+                    srcdata.base++;
+                    if (col != transpen)
+                        dstdata.write(0,paldata.read(col));
+                    dstdata.base++;
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+        }
 /*TODO*///DECLARE(blockmove_transpen,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -1998,6 +2056,66 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
+    public static void blockmove_transpen_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transpen)
+    {
+    
+            int end;
+            IntPtr sd4 = new IntPtr(srcdata);//UINT32 *sd4;
+            srcmodulo += srcwidth;
+            dstmodulo -= srcwidth;
+            srcdata.base -= 3;
+
+            int trans4 = transpen * 0x01010101;
+
+            while (srcheight != 0)
+            {
+                end = dstdata.base + srcwidth;
+                while ((srcdata.base & 3) != 0 && dstdata.base < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+                {
+                    int col = srcdata.read(3);
+                    srcdata.base--;
+                    if (col != transpen)
+                        dstdata.write(0, paldata.read(col));
+                    dstdata.base++;
+                }
+ 
+             
+                sd4.base = srcdata.base;
+                while (dstdata.base <= end - 4)
+                {
+                    int col4;//UINT32 col4
+                    if ((col4 = sd4.read(0)) != trans4)//if ((col4 = *(sd4--)) != trans4)
+                    {
+                        int xod4; //UINT32 xod4;
+
+                        xod4 = col4 ^ trans4;
+                        if ((xod4 & 0xff000000) != 0)
+                            dstdata.write(0, paldata.read((col4 >> 24) &0xff));//is 0xFF neccesary here???
+                        if ((xod4 & 0x00ff0000) != 0)
+                            dstdata.write(1, paldata.read((col4 >> 16) &0xff));
+                        if ((xod4 & 0x0000ff00) != 0)
+                            dstdata.write(2, paldata.read((col4 >> 8) &0xff));
+                        if ((xod4 & 0x000000ff) != 0)
+                            dstdata.write(3, paldata.read(col4 &0xff));
+                    }
+                    sd4.base -= 4;
+                    dstdata.base += 4;
+                }
+                srcdata.base = sd4.base;
+                while (dstdata.base < end)
+                {
+                    int col = srcdata.read(3);
+                    srcdata.base--;
+                    if (col != transpen)
+                        dstdata.write(0,paldata.read(col)); 
+                    dstdata.base++;
+
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+        }
 /*TODO*///DECLARE(blockmove_transpen_flipx,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2668,14 +2786,13 @@ public class drawgfx {
 			case TRANSPARENCY_PEN:
                                 if(flipx!=0)
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                   blockmove_transpen_flipx8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
                                 else
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transpen8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
-				//BLOCKMOVE(transpen,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
-				//break;
+				break;
 
 			case TRANSPARENCY_PENS:
                                 if(flipx!=0)

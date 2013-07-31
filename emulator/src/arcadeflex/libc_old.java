@@ -637,11 +637,15 @@ public class libc_old {
         public IntPtr(IntPtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
-
+        public IntPtr(UBytePtr p)
+        {
+            set(p.memory,p.base);
+        }
         public void set(char[] input, int b) {
             base = b;
             memory = input;
         }
+        
 
         public void inc() {
             base += 4;

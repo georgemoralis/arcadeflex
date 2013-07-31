@@ -4102,14 +4102,6 @@ public class z80 extends cpu_interface {
     opcode ed_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_42 = new opcode() { public void handler()/* SBC  HL,BC 	  */
     { 
-        //SBC16( BC );	
-         /*long res = (long)(Z80.HL.D - Z80.BC.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
-         Z80.AF.SetL((int)((((Z80.HL.D ^ res ^ Z80.BC.D) >>> 8) & HF) | NF |			
-    		((res >>> 16) & CF) |									
-    		((res >>> 8) & SF) | 									
-    		((res & 0xffff)!=0 ? 0 : ZF) | 							
-    		(((Z80.BC.D ^ Z80.HL.D) & (Z80.HL.D ^ res) &0x8000) >>> 13)) & 0xFF);
-          Z80.HL.SetD((int)(res & 0xFFFF));*/
         SBC16(Z80.BC.D);
     }};
     opcode ed_43 = new opcode() { public void handler()
@@ -4162,14 +4154,6 @@ public class z80 extends cpu_interface {
     opcode ed_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_52 = new opcode() { public void handler()/* SBC  HL,DE 	  */
     { 
-         //SBC16( DE );	
-         /* long res = (long)(Z80.HL.D - Z80.DE.D - (Z80.AF.L & CF)) & 0xFFFFFFFFL; 
-         Z80.AF.SetL((int)((((Z80.HL.D ^ res ^ Z80.DE.D) >>> 8) & HF) | NF |			
-    		((res >>> 16) & CF) |									
-    		((res >>> 8) & SF) | 									
-    		((res & 0xffff)!=0 ? 0 : ZF) | 							
-    		(((Z80.DE.D ^ Z80.HL.D) & (Z80.HL.D ^ res) &0x8000) >>> 13)) & 0xFF);
-          Z80.HL.SetD((int)(res & 0xFFFF));*/
          SBC16(Z80.DE.D);
     }};
     opcode ed_53 = new opcode() { public void handler()
