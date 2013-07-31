@@ -96,6 +96,7 @@ public class zaxxon
 	
 		/* color_prom now points to the beginning of the character color codes */
 		color_codes = new UBytePtr(color_prom);//color_codes = color_prom;
+                color_codes.base = color_prom.base;
 	
 	
 		/* all gfx elements use the same palette */
