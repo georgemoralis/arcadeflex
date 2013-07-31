@@ -1648,8 +1648,8 @@ public class drawgfx {
          bitmap.line[x].write(bitmap.width-1-y, pen);
     }};                  
 /*TODO*///static void pp_8_nd_fy_s(struct osd_bitmap *b,int x,int y,int p)  { b->line[b->height-1-x][y] = p; }
-                    public static plot_pixel_procPtr pp_8_nd_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
-        throw new UnsupportedOperationException("Unsupported pp_8_nd_fy_s");
+   public static plot_pixel_procPtr pp_8_nd_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
+        bitmap.line[bitmap.height-1-x].write(y,pen);
     }};                   
 /*TODO*///static void pp_8_nd_fxy_s(struct osd_bitmap *b,int x,int y,int p)  { b->line[b->height-1-x][b->width-1-y] = p; }
     public static plot_pixel_procPtr pp_8_nd_fxy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
@@ -1779,8 +1779,8 @@ public class drawgfx {
         return bitmap.line[x].read(bitmap.width-1-y);
     }};
 /*TODO*///static int rp_8_fy_s(struct osd_bitmap *b,int x,int y)  { return b->line[b->height-1-x][y]; }
-            public static read_pixel_procPtr rp_8_fy_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
-        throw new UnsupportedOperationException("Unsupported rp_8_fy_s");
+     public static read_pixel_procPtr rp_8_fy_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
+        return bitmap.line[bitmap.height-1-x].read(y);
     }};
 /*TODO*///static int rp_8_fxy_s(struct osd_bitmap *b,int x,int y)  { return b->line[b->height-1-x][b->width-1-y]; }
      public static read_pixel_procPtr rp_8_fxy_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {

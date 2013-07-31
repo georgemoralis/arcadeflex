@@ -2284,7 +2284,7 @@ public class z80 extends cpu_interface {
      * rotate, shift and bit operations
      **********************************************************/
     /* RLC  B 		  */opcode cb_00 = new opcode() { public void handler(){ Z80.BC.SetH(RLC(Z80.BC.H)); }};
-    opcode cb_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode cb_01 = new opcode() { public void handler(){ Z80.BC.SetL(RLC(Z80.BC.L));}};
     opcode cb_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
