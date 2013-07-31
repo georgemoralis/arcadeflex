@@ -1200,12 +1200,12 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
-    public void RRA()
+    public void RRA()//OK
     {
-        int res = ((Z80.AF.H >>> 1) | (Z80.AF.L << 7)) & 0xFF;
+        int res = ((Z80.AF.H >> 1) | (Z80.AF.L << 7)) & 0xFF;
         int c = (Z80.AF.H & 0x01) != 0 ? CF : 0;
-        Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF))) & 0xFF); 
-        Z80.AF.SetH(res);
+        Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF)))); 
+        Z80.AF.SetH(res);     
     }
     /*TODO*////***************************************************************
     /*TODO*/// * RRD
@@ -1740,13 +1740,13 @@ public class z80 extends cpu_interface {
     /*TODO*///	return res;
     /*TODO*///}
     /*TODO*///
-    public int SRL(int value)//TODO check it again sometime (shadow)
+    public int SRL(int value)//should be ok
     {
         int res = value & 0xFF;
         int c = (res & 0x01) != 0 ? CF : 0;
-        res = (res >>> 1) & 0xff;
-        Z80.AF.SetL((SZP[res] | c) & 0xFF);
-        return (res & 0xFF);
+        res = (res >> 1) & 0xff;
+        Z80.AF.SetL((SZP[res] | c));
+        return res;
     }
     
     /***************************************************************
