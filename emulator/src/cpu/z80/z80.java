@@ -2347,7 +2347,7 @@ public class z80 extends cpu_interface {
     opcode cb_28 = new opcode() { public void handler()
     { 
         /*TODO*///OP(cb,28) { _B = SRA(_B);											} /* SRA  B 		  */
-        Z80.AF.SetL(SLA(Z80.AF.L));
+        Z80.BC.SetH(SRA(Z80.BC.H));
     }};
     opcode cb_29 = new opcode() { public void handler()
     { 
