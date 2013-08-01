@@ -954,13 +954,18 @@ public class z80 extends cpu_interface {
         return (char)(cpu_readop_arg(pc) | (cpu_readop_arg((pc+1)&0xffff) << 8));
     }
 
-    /*TODO*////***************************************************************
-    /*TODO*/// * Calculate the effective address EA of an opcode using
-    /*TODO*/// * IX+offset resp. IY+offset addressing.
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define EAX EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
-    /*TODO*///#define EAY EA = (UINT32)(UINT16)(_IY+(INT8)ARG())
-    /*TODO*///
+    /***************************************************************
+    * Calculate the effective address EA of an opcode using
+    * IX+offset resp. IY+offset addressing.
+    ***************************************************************/
+    public void EAX()
+    {
+       EA = (Z80.IX.D + (byte) ARG()) & 0xFFFF; //EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+    }
+    public void EAY()
+    {
+       EA = (Z80.IY.D + (byte) ARG()) & 0xFFFF; //EA = (UINT32)(UINT16)(_IY+(INT8)ARG())
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * POP
     /*TODO*/// ***************************************************************/
@@ -3014,20 +3019,20 @@ public class z80 extends cpu_interface {
     { 
         //throw new UnsupportedOperationException("unimplemented");
            /*TODO*///OP(dd,34) { EAX; WM( EA, INC(RM(EA)) ); 							} /* INC  (IX+o)	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, INC(cpu_readmem16((int)EA) & 0xFF));
     }}; 
     opcode dd_35 = new opcode() { public void handler()/* DEC  (IX+o)	  */
     { 
         //EAX; WM( EA, DEC(RM(EA))
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, DEC(cpu_readmem16((int)EA) & 0xFF));
     }};
    
     opcode dd_36 = new opcode() { public void handler()/* LD   (IX+o),n	  */
     { 
         //EAX; WM( EA, ARG()
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, ARG() & 0xFF);      
     }};
 
@@ -3037,100 +3042,100 @@ public class z80 extends cpu_interface {
     opcode dd_46 = new opcode() { public void handler()
     { 
          /*TODO*///OP(dd,46) { EAX; _B = RM(EA);										} /* LD   B,(IX+o)	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
          Z80.BC.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
 
     opcode dd_4e = new opcode() { public void handler()
     { 
         //EAX; _C = RM(EA);										} /* LD   C,(IX+o)	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
          Z80.BC.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
 
     opcode dd_56 = new opcode() { public void handler()
     { 
        /*TODO*///OP(dd,56) { EAX; _D = RM(EA);										} /* LD   D,(IX+o)	  */
-         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+         EAX();
          Z80.DE.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
 
     opcode dd_5e = new opcode() { public void handler()
     { 
          /*TODO*///OP(dd,5e) { EAX; _E = RM(EA);										} /* LD   E,(IX+o)	  */
-         EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+         EAX();
          Z80.DE.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
     opcode dd_66 = new opcode() { public void handler() /* LD   H,(IX+o)	  */
     { 
          //EAX; _H = RM(EA);
-              EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+         EAX();
          Z80.HL.SetH(cpu_readmem16((int)EA) & 0xFF);
         
     }};
     opcode dd_6e = new opcode() { public void handler()/* LD   L,(IX+o) */
     { 
        //EAX; _L = RM(EA);
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
          Z80.HL.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
  
     opcode dd_70 = new opcode() { public void handler()/* LD   (IX+o),B	  */
     { 
         //EAX; WM( EA, _B );
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+       EAX();
         cpu_writemem16(EA, Z80.BC.H);  
     }};
     opcode dd_71 = new opcode() { public void handler()
     { 
         //EAX; WM( EA, _C );										} /* LD   (IX+o),C	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.BC.L);
     }};
     opcode dd_72 = new opcode() { public void handler()
     { 
          /*TODO*///OP(dd,72) { EAX; WM( EA, _D );										} /* LD   (IX+o),D	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.DE.H);
     }};
     opcode dd_73 = new opcode() { public void handler()/* LD   (IX+o),E	  */
     { 
         //EAX; WM( EA, _E );	
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.DE.L);
     }};
     opcode dd_74 = new opcode() { public void handler()/* LD   (IX+o),H	  */
     { 
         //EAX; WM( EA, _H );
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.HL.H);
     
     }};
     opcode dd_75 = new opcode() { public void handler()/* LD   (IX+o),L	  */
     { 
         //EAX; WM( EA, _L );
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.HL.L);
     }};
     opcode dd_77 = new opcode() { public void handler()/* LD   (IX+o),A	  */
     { 
         
         //EAX; WM( EA, _A );     
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;//EA = (UINT32)(UINT16)(_IX+(INT8)ARG())
+        EAX();
         cpu_writemem16(EA, Z80.AF.H);
     }};
     opcode dd_7e = new opcode() { public void handler()/* LD   A,(IX+o)	  */
     { 
        
         //EAX; _A = RM(EA);	
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+       EAX();
         Z80.AF.SetH(cpu_readmem16(EA) &0xFF);     
     }};
    
     opcode dd_86 = new opcode() { public void handler() /* ADD  A,(IX+o)	  */
     { 
         //EAX; ADD(RM(EA));										
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+       EAX();
         ADD(cpu_readmem16(EA) & 0xFF);
     }};
 
@@ -3138,7 +3143,7 @@ public class z80 extends cpu_interface {
     opcode dd_8e = new opcode() { public void handler()
     { 
      //EAX; ADC(RM(EA));
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
         ADC(RM(EA));
     }};
     opcode dd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3146,7 +3151,7 @@ public class z80 extends cpu_interface {
     opcode dd_96 = new opcode() { public void handler()
     { 
         /*TODO*///OP(dd,96) { EAX; SUB(RM(EA));										} /* SUB  (IX+o)	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
         SUB(cpu_readmem16((int)EA) & 0xFF);
     }};
     opcode dd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3156,7 +3161,7 @@ public class z80 extends cpu_interface {
     opcode dd_a6 = new opcode() { public void handler()/* AND  (IX+o)	  */
     { 
         //EAX; AND(RM(EA));	 
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF;
+        EAX();
         AND(cpu_readmem16((int)EA) & 0xFF);
     }};
 
@@ -3166,7 +3171,7 @@ public class z80 extends cpu_interface {
     opcode dd_b6 = new opcode() { public void handler()
     { 
         /*TODO*///OP(dd,b6) { EAX; OR(RM(EA));										} /* OR   (IX+o)	  */
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF; 
+        EAX();
         OR(cpu_readmem16((int)EA) & 0xFF);
     }};
     opcode dd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3174,13 +3179,13 @@ public class z80 extends cpu_interface {
     opcode dd_be = new opcode() { public void handler()
     { 
             /*TODO*///OP(dd,be) { EAX; CP(RM(EA));										} /* CP   (IX+o)	  */
-           EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF; 
+           EAX();
             CP(cpu_readmem16((int)EA) & 0xFF);
     }};
     opcode dd_cb = new opcode() { public void handler()/* **   DD CB xx	  */
     { 
         //EAX; EXEC(xxcb,ARG());
-        EA = (Z80.IX.D + (byte)ARG()) & 0xFFFF; 
+        EAX();
         int op = ARG();
         z80_ICount[0] -= cc_xxcb[op];
         Z80xxcb[op].handler();//EXEC(xxcb,ARG());
@@ -3432,118 +3437,118 @@ public class z80 extends cpu_interface {
     opcode fd_34 = new opcode() { public void handler()
     { 
      /*TODO*///OP(fd,34) { EAY; WM( EA, INC(RM(EA)) ); 							} /* INC  (IY+o)	  */
-      EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+      EAY();
          cpu_writemem16((int)EA,  INC(cpu_readmem16(EA)& 0xFF));
     }};
     opcode fd_35 = new opcode() { public void handler()
     { 
           /*TODO*///OP(fd,35) { EAY; WM( EA, DEC(RM(EA)) ); 							} /* DEC  (IY+o)	  */
-         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
          cpu_writemem16((int)EA,  DEC(cpu_readmem16(EA)& 0xFF));
     }};
     opcode fd_36 = new opcode() { public void handler()/* LD   (IY+o),n	  */
     { 
         /*TODO*///OP(fd,36) { EAY; WM( EA, ARG() );
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, ARG() & 0xFF);
     }};
 
     opcode fd_46 = new opcode() { public void handler()
     { 
     /*TODO*///OP(fd,46) { EAY; _B = RM(EA);										} /* LD   B,(IY+o)	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.BC.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
    
     opcode fd_4e = new opcode() { public void handler()
     { 
        /*TODO*///OP(fd,4e) { EAY; _C = RM(EA);										} /* LD   C,(IY+o)	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.BC.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
    
     opcode fd_56 = new opcode() { public void handler()
     { 
     /*TODO*///OP(fd,56) { EAY; _D = RM(EA);										} /* LD   D,(IY+o)	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.DE.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
 
     opcode fd_5e = new opcode() { public void handler()
     { 
         // { EAY; _E = RM(EA);										} /* LD   E,(IY+o)	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.DE.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
   
     opcode fd_66 = new opcode() { public void handler()/* LD   H,(IY+o)	  */
     { 
         // EAY; _H = RM(EA);
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.HL.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
    
     opcode fd_6e = new opcode() { public void handler()/* LD   L,(IY+o)	  */
     { 
         //EAY; _L = RM(EA);										
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.HL.SetL(cpu_readmem16((int)EA) & 0xFF);
     }};
    
     opcode fd_70 = new opcode() { public void handler()
     { 
      /*TODO*///OP(fd,70) { EAY; WM( EA, _B );										} /* LD   (IY+o),B	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.BC.H);
     }};
     opcode fd_71 = new opcode() { public void handler()
     { 
         /*TODO*///OP(fd,71) { EAY; WM( EA, _C );										} /* LD   (IY+o),C	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.BC.L);
     }};
     opcode fd_72 = new opcode() { public void handler()
     { 
     /*TODO*///OP(fd,72) { EAY; WM( EA, _D );										} /* LD   (IY+o),D	  */
-            EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.DE.H);
     }};
     opcode fd_73 = new opcode() { public void handler()
     { 
         /*TODO*///OP(fd,73) { EAY; WM( EA, _E );										} /* LD   (IY+o),E	  *    
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.DE.L);
     }};
     opcode fd_74 = new opcode() { public void handler()/* LD   (IY+o),H	  */
     { 
         //EAY; WM( EA, _H );
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.HL.H);
     }};
     opcode fd_75 = new opcode() { public void handler() /* LD   (IY+o),L	  */
     { 
        //EAY; WM( EA, _L );
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.HL.L);      
     }};
     opcode fd_77 = new opcode() { public void handler()/* LD   (IY+o),A	  */
     { 
         //EAY; WM( EA, _A );
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         cpu_writemem16((int)EA, Z80.AF.H); 
     }};
    
     opcode fd_7e = new opcode() { public void handler()/* LD   A,(IY+o)	  */
     { 
         //EAY; _A = RM(EA);
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         Z80.AF.SetH(cpu_readmem16((int)EA) & 0xFF);
     }};
   
     opcode fd_86 = new opcode() { public void handler()
     { 
         //EAY; ADD(RM(EA));
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         ADD(cpu_readmem16((int)EA) & 0xFF);
     }};
   
@@ -3553,7 +3558,7 @@ public class z80 extends cpu_interface {
     opcode fd_96 = new opcode() { public void handler()
     { 
      /*TODO*///OP(fd,96) { EAY; SUB(RM(EA));										} /* SUB  (IY+o)	  */
-         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+          EAY();
          SUB(cpu_readmem16((int)EA) & 0xFF);
     }};
     opcode fd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3570,14 +3575,14 @@ public class z80 extends cpu_interface {
     opcode fd_be = new opcode() { public void handler()
     { 
          /*TODO*///OP(fd,be) { EAY; CP(RM(EA));										} /* CP   (IY+o)	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         CP(cpu_readmem16((int)EA) & 0xFF);
  //TODO not sure about above
     }};
     opcode fd_cb = new opcode() { public void handler()
     { 
      /*TODO*///OP(fd,cb) { EAY; EXEC(xxcb,ARG());									} /* **   FD CB xx	  */
-        EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
+         EAY();
         int op = ARG();
         z80_ICount[0] -= cc_xxcb[op];
         Z80xxcb[op].handler();//EXEC(xxcb,ARG());
