@@ -2166,7 +2166,7 @@ public class z80 extends cpu_interface {
     public void LDDR()
     {
         CY(5);
-        Z80.PC.SetD(-2);
+        Z80.PC.AddD(-2);
         do
         {
             LDD();
@@ -2564,7 +2564,7 @@ public class z80 extends cpu_interface {
     opcode xxcb_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_9e = new opcode() { public void handler(){ WM( EA, RES(3,RM(EA)) );}};
     opcode xxcb_9f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_a0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_a1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2583,7 +2583,7 @@ public class z80 extends cpu_interface {
     opcode xxcb_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_ac = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_ad = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_ae = new opcode() { public void handler(){ WM( EA, RES(5,RM(EA)) );}};
     opcode xxcb_af = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_b0 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_b1 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2864,7 +2864,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(xxcb,9b) { _E = RES(3, RM(EA) ); WM( EA,_E );					} /* RES  3,E=(XY+o)  */
     /*TODO*///OP(xxcb,9c) { _H = RES(3, RM(EA) ); WM( EA,_H );					} /* RES  3,H=(XY+o)  */
     /*TODO*///OP(xxcb,9d) { _L = RES(3, RM(EA) ); WM( EA,_L );					} /* RES  3,L=(XY+o)  */
-    /*TODO*///OP(xxcb,9e) { WM( EA, RES(3,RM(EA)) );								} /* RES  3,(XY+o)	  */
+    /*TODO*///OP(xxcb,9e) { 								} /* RES  3,(XY+o)	  */
     /*TODO*///OP(xxcb,9f) { _A = RES(3, RM(EA) ); WM( EA,_A );					} /* RES  3,A=(XY+o)  */
     /*TODO*///
     /*TODO*///OP(xxcb,a0) { _B = RES(4, RM(EA) ); WM( EA,_B );					} /* RES  4,B=(XY+o)  */
@@ -3166,7 +3166,7 @@ public class z80 extends cpu_interface {
     }};
 
     
-    opcode dd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_ae = new opcode() { public void handler(){ EAX(); XOR(RM(EA));}};
 
     opcode dd_b6 = new opcode() { public void handler()
     { 
