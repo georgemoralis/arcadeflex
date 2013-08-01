@@ -152,7 +152,7 @@ public class inputport {
     new ipd( IPT_UI_LEFT,              "UI Left",           SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) ),
     new ipd( IPT_UI_RIGHT,             "UI Right",          SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) ),
     /*TODO*///	{ IPT_UI_SELECT,            "UI Select",         SEQ_DEF_3(KEYCODE_ENTER, CODE_OR, JOYCODE_1_BUTTON1) },
-    /*TODO*///	{ IPT_UI_CANCEL,            "UI Cancel",         SEQ_DEF_1(KEYCODE_ESC) },
+    new ipd( IPT_UI_CANCEL,            "UI Cancel",         SEQ_DEF_1(KEYCODE_ESC) ),
     /*TODO*///	{ IPT_UI_PAN_UP,            "Pan Up",            SEQ_DEF_3(KEYCODE_PGUP, CODE_NOT, KEYCODE_LSHIFT) },
     /*TODO*///	{ IPT_UI_PAN_DOWN,          "Pan Down",          SEQ_DEF_3(KEYCODE_PGDN, CODE_NOT, KEYCODE_LSHIFT) },
     /*TODO*///	{ IPT_UI_PAN_LEFT,          "Pan Left",          SEQ_DEF_2(KEYCODE_PGUP, KEYCODE_LSHIFT) },
