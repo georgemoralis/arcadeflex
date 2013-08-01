@@ -108,9 +108,10 @@ public class input {
 //LCONTROL + RCONTROL ARE THE SAME IN JAVA....       
 	new KeyboardInfo( "LCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_LCONTROL ),
 	new KeyboardInfo( "RCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_RCONTROL ),
-	/*new KeyboardInfo( "ALT",		KEY_ALT,			KEYCODE_LALT ),
-	new KeyboardInfo( "ALTGR",		KEY_ALTGR,			KEYCODE_RALT ),
-	new KeyboardInfo( "LWIN",		KEY_LWIN,			KEYCODE_OTHER ),
+ //RALT - LALT ARE THE SAME IN JAVA
+	new KeyboardInfo( "ALT",		KeyEvent.VK_ALT,		KEYCODE_LALT ),
+	new KeyboardInfo( "ALTGR",		KeyEvent.VK_ALT,		KEYCODE_RALT ),
+	/*new KeyboardInfo( "LWIN",		KEY_LWIN,			KEYCODE_OTHER ),
 	new KeyboardInfo( "RWIN",		KEY_RWIN,			KEYCODE_OTHER ),
 	new KeyboardInfo( "MENU",		KEY_MENU,			KEYCODE_OTHER ),
 	new KeyboardInfo( "SCRLOCK",    KEY_SCRLOCK,        KEYCODE_SCRLOCK ),
