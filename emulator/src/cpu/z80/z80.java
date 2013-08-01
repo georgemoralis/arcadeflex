@@ -882,12 +882,14 @@ public class z80 extends cpu_interface {
     /*TODO*/// * Output a byte to given I/O port
     /*TODO*/// ***************************************************************/
     /*TODO*///#define OUT(port,value) cpu_writeport(port,value)
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Read a byte from given memory location
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define RM(addr) (UINT8)cpu_readmem16(addr)
-    /*TODO*///
+
+    /***************************************************************
+    * Read a byte from given memory location
+    / ***************************************************************/
+    public int RM(int addr)
+    {
+        return (cpu_readmem16(addr) & 0xFF);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * Read a word from given memory location
     /*TODO*/// ***************************************************************/
@@ -897,19 +899,21 @@ public class z80 extends cpu_interface {
     /*TODO*///	r->b.h = RM((addr+1)&0xffff);
     /*TODO*///}
     /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Write a byte to given memory location
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define WM(addr,value) cpu_writemem16(addr,value)
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Write a word to given memory location
-    /*TODO*/// ***************************************************************/
-    /*TODO*///INLINE void WM16( UINT32 addr, PAIR *r )
-    /*TODO*///{
-    /*TODO*///	WM(addr,r->b.l);
-    /*TODO*///	WM((addr+1)&0xffff,r->b.h);
-    /*TODO*///}
+    /***************************************************************
+    * Write a byte to given memory location
+    ***************************************************************/
+    public void WM(int addr,int value)
+    {
+        cpu_writemem16(addr,value);
+    }
+    /***************************************************************
+    * Write a word to given memory location
+    ***************************************************************/
+    public void WM16(int addr, int reg)
+    {
+        WM(Z80.SP.D, reg & 0xFF);//WM(addr,r->b.l);
+        WM((Z80.SP.D + 1) & 0xFFFF, reg >> 8);//WM((addr+1)&0xffff,r->b.h);
+    }
         
     
     /***************************************************************
@@ -960,6 +964,11 @@ public class z80 extends cpu_interface {
     /*TODO*/// ***************************************************************/
     /*TODO*///#define PUSH(SR) { _SP -= 2; WM16( _SPD, &Z80.SR ); }
     /*TODO*///
+    public void PUSH(int reg)//reg should be D value (e.g Z80.PC.D)
+    {
+        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); // _SP -= 2;
+        WM16(Z80.SP.D, reg); //WM16( _SPD, &Z80.SR );
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * JP
     /*TODO*/// ***************************************************************/
@@ -1017,7 +1026,18 @@ public class z80 extends cpu_interface {
     /*TODO*///		_PC += 2;												\
     /*TODO*///    }
     /*TODO*///
-
+    public void JP_COND(boolean cond)
+    {
+        if(cond)
+        {
+            Z80.PC.SetD(ARG16() & 0xFFFF);
+            change_pc16(Z80.PC.D);
+        }
+        else
+        {
+            Z80.PC.AddD(2);
+        }
+    }
 
     /*TODO*////***************************************************************
     /*TODO*/// * JR_COND
@@ -1180,7 +1200,6 @@ public class z80 extends cpu_interface {
         Z80.AF.SetL((Z80.AF.L & (SF | ZF | PF)) | c | (res & (YF | XF)));
         Z80.AF.SetH(res);
     }
-    
     /*TODO*////***************************************************************
     /*TODO*/// * RRA
     /*TODO*/// ***************************************************************/
@@ -1366,13 +1385,9 @@ public class z80 extends cpu_interface {
         Z80.AF.SetH(Z80.AF.H | value);
         Z80.AF.SetL(SZP[Z80.AF.H]); 
     }
-
-    /*TODO*////***************************************************************
-    /*TODO*/// * XOR	n
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define XOR(value)												\
-    /*TODO*///	_A ^= value;												\
-    /*TODO*///	_F = SZP[_A]
+    /***************************************************************
+     * XOR	n
+    ***************************************************************/
     public void XOR(int value)
     {
         Z80.AF.SetH(Z80.AF.H ^ value);
@@ -1404,51 +1419,10 @@ public class z80 extends cpu_interface {
     /*TODO*///	WM16( _SPD, &Z80.DR );										\
     /*TODO*///	Z80.DR = tmp;												\
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * ADD16
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#ifdef	X86_ASM
-    /*TODO*///#if Z80_EXACT
-    /*TODO*///#define ADD16(DR,SR)											\
-    /*TODO*/// asm (															\
-    /*TODO*/// " andb $0xc4,%1        \n"                                     \
-    /*TODO*/// " addb %%dl,%%cl       \n"                                     \
-    /*TODO*/// " adcb %%dh,%%ch       \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " andb $0x11,%%ah      \n"                                     \
-    /*TODO*/// " orb %%ah,%1          \n"                                     \
-    /*TODO*/// " movb %%ch,%%ah       \n" /* get result MSB */                \
-    /*TODO*/// " andb $0x28,%%ah      \n" /* maks flags 5+3 */                \
-    /*TODO*/// " orb %%ah,%1          \n" /* put them into flags */           \
-    /*TODO*/// :"=c" (Z80.DR.d), "=r" (_F)                                    \
-    /*TODO*/// :"0" (Z80.DR.d), "1" (_F), "d" (Z80.SR.d)                      \
-    /*TODO*/// )
-    /*TODO*///#else
-    /*TODO*///#define ADD16(DR,SR)                                            \
-    /*TODO*/// asm (															\
-    /*TODO*/// " andb $0xc4,%1        \n"                                     \
-    /*TODO*/// " addb %%dl,%%cl       \n"                                     \
-    /*TODO*/// " adcb %%dh,%%ch       \n"                                     \
-    /*TODO*/// " lahf                 \n"                                     \
-    /*TODO*/// " andb $0x11,%%ah      \n"                                     \
-    /*TODO*/// " orb %%ah,%1          \n"                                     \
-    /*TODO*/// :"=c" (Z80.DR.d), "=r" (_F)                                    \
-    /*TODO*/// :"0" (Z80.DR.d), "1" (_F), "d" (Z80.SR.d)                      \
-    /*TODO*/// )
-    /*TODO*///#endif
-    /*TODO*///#else
-    /*TODO*///#define ADD16(DR,SR)											\
-    /*TODO*///{																\
-    /*TODO*///	UINT32 res = Z80.DR.d + Z80.SR.d;							\
-    /*TODO*///	_F = (_F & (SF | ZF | VF)) |								\
-    /*TODO*///		(((Z80.DR.d ^ res ^ Z80.SR.d) >> 8) & HF) | 			\
-    /*TODO*///		((res >> 16) & CF); 									\
-    /*TODO*///	Z80.DR.w.l = (UINT16)res;									\
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///
+
+    /***************************************************************
+     * ADD16
+    ***************************************************************/
     public int ADD16(int a, int b) 
     {
         int result = a + b;
@@ -1604,8 +1578,8 @@ public class z80 extends cpu_interface {
     {
         int res = value & 0xFF;
         int c = (res & 0x80)!=0 ? CF : 0;
-        res = ((res << 1) | (res >>> 7)) & 0xff;
-        Z80.AF.SetL((SZP[res] | c) & 0xFF);
+        res = ((res << 1) | (res >> 7)) & 0xff;
+        Z80.AF.SetL((SZP[res] | c));
         return res;
     }
     /*public int RLC(int value) //rewrote
@@ -1690,7 +1664,7 @@ public class z80 extends cpu_interface {
         int res = value & 0xFF;
         int c = (res & 0x80)!=0 ? CF : 0 ;
         res = (res <<1) & 0xFF;
-        Z80.AF.SetL((SZP[res] | c) & 0xFF );
+        Z80.AF.SetL((SZP[res] | c));
         return res;
         /*int c = (value & 0x80) >> 7;
         value = (value << 1) & 0xff;
@@ -1769,7 +1743,7 @@ public class z80 extends cpu_interface {
     public void BIT_XY(int bit,int reg)
     {
        // _F = (_F & CF) | HF | (SZ_BIT[reg & (1<<bit)] & ~(YF|XF)) | ((EA>>8) & (YF|XF))
-        Z80.AF.SetL(((Z80.AF.L & CF) | HF | (SZ_BIT[reg & (1 << bit)] & ~(YF|XF)) | ((EA >>> 8) & (YF|XF))) & 0xFF);
+       Z80.AF.SetL(((Z80.AF.L & CF) | HF | (SZ_BIT[reg & (1 << bit)] & ~(YF|XF)) | ((EA >> 8) & (YF|XF))));
     }
     /*TODO*////***************************************************************
     /*TODO*/// * RES	bit,r8
@@ -2279,91 +2253,29 @@ public class z80 extends cpu_interface {
     /*TODO*///
 
 
+
 /**********************************************************
      * opcodes with CB prefix
      * rotate, shift and bit operations
      **********************************************************/
-    /* RLC  B 		  */opcode cb_00 = new opcode() { public void handler(){ Z80.BC.SetH(RLC(Z80.BC.H)); }};
-    opcode cb_01 = new opcode() { public void handler(){ Z80.BC.SetL(RLC(Z80.BC.L));}};
-    opcode cb_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_03 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_04 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
- 
-    opcode cb_05 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+   
     opcode cb_06 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_07 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode cb_0e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
   
-    opcode cb_10 = new opcode() { public void handler(){ Z80.BC.SetH(RL(Z80.BC.H));}};
-    opcode cb_11 = new opcode() { public void handler(){ Z80.BC.SetL(RL(Z80.BC.L));}};
-    opcode cb_12 = new opcode() { public void handler() /* RL   D 		  */
-    { 
-        // _D = RL(_D);
-        Z80.DE.SetH(RL(Z80.DE.H));
-    }};
-    opcode cb_13 = new opcode() { public void handler()/* RL   E 		  */
-    { 
-        // _E = RL(_E);	
-        Z80.DE.SetL(RL(Z80.DE.L));
-    }};
-    opcode cb_14 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_15 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+   
     opcode cb_16 = new opcode() { public void handler()
     { 
      /*TODO*///OP(cb,16) { WM( _HL, RL(RM(_HL)) ); 								} /* RL   (HL)		  */
         cpu_writemem16(Z80.HL.D,RL(cpu_readmem16(Z80.HL.D) & 0xFF));
     }};
-    opcode cb_17 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode cb_1e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_20 = new opcode() { public void handler()
-    { 
-         /*TODO*///OP(cb,20) { _B = SLA(_B);											} /* SLA  B 		  */
-         Z80.BC.SetH(SLA(Z80.BC.H));
-    }};
-    opcode cb_21 = new opcode() { public void handler()
-    { 
-     /*TODO*///OP(cb,21) { _C = SLA(_C);											} /* SLA  C 		  */
-        Z80.BC.SetL(SLA(Z80.BC.L));
-    }};
-    opcode cb_22 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_23 = new opcode() { public void handler()
-    { 
-     /*TODO*///OP(cb,23) { _E = SLA(_E);											} /* SLA  E 		  */
-         Z80.DE.SetL(SLA(Z80.DE.L));
-    }};
-    opcode cb_24 = new opcode() { public void handler(){  Z80.HL.SetH(SLA(Z80.HL.H));}};
-    opcode cb_25 = new opcode() { public void handler() /* SLA  L 		  */
-    { 
-       // _L = SLA(_L);
-        Z80.HL.SetL(SLA(Z80.HL.L));
-    }};
+    
     opcode cb_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_27 = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,27) { _A = SLA(_A);											} /* SLA  A 		  */
-        Z80.AF.SetH(SLA(Z80.AF.H));
-        
-    }};
-    opcode cb_28 = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,28) { _B = SRA(_B);											} /* SRA  B 		  */
-        Z80.BC.SetH(SRA(Z80.BC.H));
-    }};
-    opcode cb_29 = new opcode() { public void handler()
-    { 
-    /*TODO*///OP(cb,29) { _C = SRA(_C);											} /* SRA  C 		  */
-        Z80.BC.SetL(SRA(Z80.BC.L));
-    }};
-    opcode cb_2a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_2b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+   
     opcode cb_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode cb_2f = new opcode() { public void handler()
-    { 
-     /*TODO*///OP(cb,2f) { _A = SRA(_A);											} /* SRA  A 		  */
-        Z80.AF.SetH(SRA(Z80.AF.H));
-    }};
+    
     opcode cb_30 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_31 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_32 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2372,153 +2284,40 @@ public class z80 extends cpu_interface {
     opcode cb_35 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_36 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode cb_37 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    /* SRL  B 		  */opcode cb_38 = new opcode() { public void handler(){ Z80.BC.SetH(SRL(Z80.BC.H)); }};
-    /* SRL  C 		  */opcode cb_39 = new opcode() { public void handler(){ Z80.BC.SetL(SRL(Z80.BC.L)); }};
-    /* SRL  D 		  */opcode cb_3a = new opcode() { public void handler(){ Z80.DE.SetH(SRL(Z80.DE.H)); }};
-    /* SRL  E 		  */opcode cb_3b = new opcode() { public void handler(){ Z80.DE.SetL(SRL(Z80.DE.L)); }};
-    /* SRL  H 		  */opcode cb_3c = new opcode() { public void handler(){ Z80.HL.SetH(SRL(Z80.HL.H)); }};
-    /* SRL  L 		  */opcode cb_3d = new opcode() { public void handler(){ Z80.HL.SetL(SRL(Z80.HL.L)); }};
+    
     opcode cb_3e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-     /* SRL  A 		  */opcode cb_3f = new opcode() { public void handler(){ Z80.AF.SetH(SRL(Z80.AF.H)); }};
-   
-    opcode cb_46 = new opcode() { public void handler()
-    { 
-         /*TODO*///OP(cb,46) { BIT(0,RM(_HL)); 										} /* BIT  0,(HL)	  */
-        BIT(0,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-
   
-    opcode cb_4e = new opcode() { public void handler()
-    { 
-    /*TODO*///OP(cb,4e) { BIT(1,RM(_HL)); 										} /* BIT  1,(HL)	  */
-        BIT(1,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-  
-    opcode cb_56 = new opcode() { public void handler()
-    { 
-         BIT(2,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-   
-    opcode cb_5e = new opcode() { public void handler()
-    {
-         BIT(3,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-    
-    opcode cb_66 = new opcode() { public void handler()
-    { 
-         BIT(4,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-   
-    opcode cb_6e = new opcode() { public void handler()
-    { 
-         /*TODO*///OP(cb,6e) { BIT(5,RM(_HL)); 										} /* BIT  5,(HL)	  */
-         BIT(5,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
+    opcode cb_46 = new opcode() { public void handler(){  BIT(0,RM(Z80.HL.D)); 										}}; /* BIT  0,(HL)	  */
+    opcode cb_4e = new opcode() { public void handler(){  BIT(1,RM(Z80.HL.D)); 										}}; /* BIT  1,(HL)	  */
+    opcode cb_56 = new opcode() { public void handler(){  BIT(2,RM(Z80.HL.D)); 										}}; /* BIT  2,(HL)	  */
+    opcode cb_5e = new opcode() { public void handler(){  BIT(3,RM(Z80.HL.D)); 										}}; /* BIT  3,(HL)	  */
+    opcode cb_66 = new opcode() { public void handler(){  BIT(4,RM(Z80.HL.D)); 										}}; /* BIT  4,(HL)	  */
+    opcode cb_6e = new opcode() { public void handler(){  BIT(5,RM(Z80.HL.D)); 										}}; /* BIT  5,(HL)	  */
+    opcode cb_76 = new opcode() { public void handler(){  BIT(6,RM(Z80.HL.D)); 										}}; /* BIT  6,(HL)	  */
+    opcode cb_7e = new opcode() { public void handler(){  BIT(7,RM(Z80.HL.D)); 										}}; /* BIT  7,(HL)	  */
 
     
-    opcode cb_76 = new opcode() { public void handler()
-    { 
-         BIT(6,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-
-   
-    opcode cb_7e = new opcode() { public void handler()/* BIT  7,(HL)	  */
-    {
-        BIT(7,cpu_readmem16(Z80.HL.D) & 0xFF);
-    }};
-    
-    opcode cb_86 = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,86) { WM( _HL, RES(0,RM(_HL)) );								} /* RES  0,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(0, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-  
-    opcode cb_8e = new opcode() { public void handler()
-    { 
-      /*TODO*///OP(cb,8e) { WM( _HL, RES(1,RM(_HL)) );								} /* RES  1,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(1, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-   
-    opcode cb_96 = new opcode() { public void handler()
-    { 
-         /*TODO*///OP(cb,96) { WM( _HL, RES(2,RM(_HL)) );								} /* RES  2,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(2, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-   
-    opcode cb_9e = new opcode() { public void handler()
-    { 
-        cpu_writemem16(Z80.HL.D, RES(3, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-    
-    opcode cb_a6 = new opcode() { public void handler()
-    { 
-      /*TODO*///OP(cb,a6) { WM( _HL, RES(4,RM(_HL)) );								} /* RES  4,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(4, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-    
-    opcode cb_ae = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,ae) { WM( _HL, RES(5,RM(_HL)) );								} /* RES  5,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(5, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-    
-    opcode cb_b6 = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,b6) { WM( _HL, RES(6,RM(_HL)) );								} /* RES  6,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(6, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-   
-    opcode cb_be = new opcode() { public void handler()
-    { 
-      /*TODO*///OP(cb,be) { WM( _HL, RES(7,RM(_HL)) );								} /* RES  7,(HL)	  */
-        cpu_writemem16(Z80.HL.D, RES(7, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
-
-    opcode cb_c6 = new opcode() { public void handler()
-    {
-        /*TODO*///OP(cb,c6) { WM( _HL, SET(0,RM(_HL)) );								} /* SET  0,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(0, cpu_readmem16(Z80.HL.D)& 0xFF));
-    }};
+    opcode cb_86 = new opcode() { public void handler(){  WM( Z80.HL.D, RES(0,RM(Z80.HL.D)) );								}}; /* RES  0,(HL)	  */
+    opcode cb_8e = new opcode() { public void handler(){  WM( Z80.HL.D, RES(1,RM(Z80.HL.D)) );								}}; /* RES  1,(HL)	  */
+    opcode cb_96 = new opcode() { public void handler(){  WM( Z80.HL.D, RES(2,RM(Z80.HL.D)) );								}}; /* RES  2,(HL)	  */
+    opcode cb_9e = new opcode() { public void handler(){  WM( Z80.HL.D, RES(3,RM(Z80.HL.D)) );								}}; /* RES  3,(HL)	  */
+    opcode cb_a6 = new opcode() { public void handler(){  WM( Z80.HL.D, RES(4,RM(Z80.HL.D)) );								}}; /* RES  4,(HL)	  */
+    opcode cb_ae = new opcode() { public void handler(){  WM( Z80.HL.D, RES(5,RM(Z80.HL.D)) );								}}; /* RES  5,(HL)	  */
+    opcode cb_b6 = new opcode() { public void handler(){  WM( Z80.HL.D, RES(6,RM(Z80.HL.D)) );								}}; /* RES  6,(HL)	  */
+    opcode cb_be = new opcode() { public void handler(){  WM( Z80.HL.D, RES(7,RM(Z80.HL.D)) );								}}; /* RES  7,(HL)	  */
 
 
-  
-    opcode cb_ce = new opcode() { public void handler()/* SET  1,(HL)	  */
-    { 
-        // WM( _HL, SET(1,RM(_HL)) );
-        cpu_writemem16(Z80.HL.D, SET(1, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
 
-    opcode cb_d6 = new opcode() { public void handler()
-    {
-         /*TODO*///OP(cb,d6) { WM( _HL, SET(2,RM(_HL)) );								}/* SET  2,(HL) 	 */
-        cpu_writemem16(Z80.HL.D, SET(2, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-    opcode cb_de = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,de) { WM( _HL, SET(3,RM(_HL)) );								} /* SET  3,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(3, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-    opcode cb_e6 = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(cb,e6) { WM( _HL, SET(4,RM(_HL)) );								} /* SET  4,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(4, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-    opcode cb_ee = new opcode() { public void handler()
-    { 
-    /*TODO*///OP(cb,ee) { WM( _HL, SET(5,RM(_HL)) );								} /* SET  5,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(5, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-    opcode cb_f6 = new opcode() { public void handler()
-    {
-    /*TODO*///OP(cb,f6) { WM( _HL, SET(6,RM(_HL)) );								} /* SET  6,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(6, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-    opcode cb_fe = new opcode() { public void handler()
-    { 
-     /*TODO*///OP(cb,fe) { WM( _HL, SET(7,RM(_HL)) );								} /* SET  7,(HL)	  */
-        cpu_writemem16(Z80.HL.D, SET(7, cpu_readmem16(Z80.HL.D) & 0xFF));
-    }};
-   
+    opcode cb_c6 = new opcode() { public void handler(){  WM( Z80.HL.D, SET(0,RM(Z80.HL.D)) );								}}; /* SET  0,(HL)	  */
+    opcode cb_ce = new opcode() { public void handler(){  WM( Z80.HL.D, SET(1,RM(Z80.HL.D)) );								}}; /* SET  1,(HL)	  */
+    opcode cb_d6 = new opcode() { public void handler(){  WM( Z80.HL.D, SET(2,RM(Z80.HL.D)) );								}};/* SET  2,(HL) 	 */
+    opcode cb_de = new opcode() { public void handler(){  WM( Z80.HL.D, SET(3,RM(Z80.HL.D)) );								}}; /* SET  3,(HL)	  */
+    opcode cb_e6 = new opcode() { public void handler(){  WM( Z80.HL.D, SET(4,RM(Z80.HL.D)) );								}}; /* SET  4,(HL)	  */
+    opcode cb_ee = new opcode() { public void handler(){  WM( Z80.HL.D, SET(5,RM(Z80.HL.D)) );								}}; /* SET  5,(HL)	  */
+    opcode cb_f6 = new opcode() { public void handler(){  WM( Z80.HL.D, SET(6,RM(Z80.HL.D)) );								}}; /* SET  6,(HL)	  */
+    opcode cb_fe = new opcode() { public void handler(){  WM( Z80.HL.D, SET(7,RM(Z80.HL.D)) );								}}; /* SET  7,(HL)	  */
+
+
     /*TODO*///OP(cb,01) { _C = RLC(_C);											} /* RLC  C 		  */
     /*TODO*///OP(cb,02) { _D = RLC(_D);											} /* RLC  D 		  */
     /*TODO*///OP(cb,03) { _E = RLC(_E);											} /* RLC  E 		  */
@@ -2580,220 +2379,15 @@ public class z80 extends cpu_interface {
     /*TODO*///
     /*TODO*///OP(cb,3e) { WM( _HL, SRL(RM(_HL)) );								} /* SRL  (HL)		  */
     
-    /*TODO*///OP(cb,40) { BIT(0,_B);												} /* BIT  0,B		  */
-    /*TODO*///OP(cb,41) { BIT(0,_C);												} /* BIT  0,C		  */
-    /*TODO*///OP(cb,42) { BIT(0,_D);												} /* BIT  0,D		  */
-    /*TODO*///OP(cb,43) { BIT(0,_E);												} /* BIT  0,E		  */
-    /*TODO*///OP(cb,44) { BIT(0,_H);												} /* BIT  0,H		  */
-    /*TODO*///OP(cb,45) { BIT(0,_L);												} /* BIT  0,L		  */
-   
-    /*TODO*///
-    /*TODO*///OP(cb,48) { BIT(1,_B);												} /* BIT  1,B		  */
-    /*TODO*///OP(cb,49) { BIT(1,_C);												} /* BIT  1,C		  */
-    /*TODO*///OP(cb,4a) { BIT(1,_D);												} /* BIT  1,D		  */
-    /*TODO*///OP(cb,4b) { BIT(1,_E);												} /* BIT  1,E		  */
-    /*TODO*///OP(cb,4c) { BIT(1,_H);												} /* BIT  1,H		  */
-    /*TODO*///OP(cb,4d) { BIT(1,_L);												} /* BIT  1,L		  */
-    
-    /*TODO*///OP(cb,4f) { BIT(1,_A);												} /* BIT  1,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,50) { BIT(2,_B);												} /* BIT  2,B		  */
-    /*TODO*///OP(cb,51) { BIT(2,_C);												} /* BIT  2,C		  */
-    /*TODO*///OP(cb,52) { BIT(2,_D);												} /* BIT  2,D		  */
-    /*TODO*///OP(cb,53) { BIT(2,_E);												} /* BIT  2,E		  */
-    /*TODO*///OP(cb,54) { BIT(2,_H);												} /* BIT  2,H		  */
-    /*TODO*///OP(cb,55) { BIT(2,_L);												} /* BIT  2,L		  */
-    /*TODO*///OP(cb,56) { BIT(2,RM(_HL)); 										} /* BIT  2,(HL)	  */
-    /*TODO*///OP(cb,57) { BIT(2,_A);												} /* BIT  2,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,58) { BIT(3,_B);												} /* BIT  3,B		  */
-    /*TODO*///OP(cb,59) { BIT(3,_C);												} /* BIT  3,C		  */
-    /*TODO*///OP(cb,5a) { BIT(3,_D);												} /* BIT  3,D		  */
-    /*TODO*///OP(cb,5b) { BIT(3,_E);												} /* BIT  3,E		  */
-    /*TODO*///OP(cb,5c) { BIT(3,_H);												} /* BIT  3,H		  */
-    /*TODO*///OP(cb,5d) { BIT(3,_L);												} /* BIT  3,L		  */
-    /*TODO*///OP(cb,5e) { BIT(3,RM(_HL)); 										} /* BIT  3,(HL)	  */
-    /*TODO*///OP(cb,5f) { BIT(3,_A);												} /* BIT  3,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,60) { BIT(4,_B);												} /* BIT  4,B		  */
-    /*TODO*///OP(cb,61) { BIT(4,_C);												} /* BIT  4,C		  */
-    /*TODO*///OP(cb,62) { BIT(4,_D);												} /* BIT  4,D		  */
-    /*TODO*///OP(cb,63) { BIT(4,_E);												} /* BIT  4,E		  */
-    /*TODO*///OP(cb,64) { BIT(4,_H);												} /* BIT  4,H		  */
-    /*TODO*///OP(cb,65) { BIT(4,_L);												} /* BIT  4,L		  */
-    /*TODO*///OP(cb,66) { BIT(4,RM(_HL)); 										} /* BIT  4,(HL)	  */
-    /*TODO*///OP(cb,67) { BIT(4,_A);												} /* BIT  4,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,68) { BIT(5,_B);												} /* BIT  5,B		  */
-    /*TODO*///OP(cb,69) { BIT(5,_C);												} /* BIT  5,C		  */
-    /*TODO*///OP(cb,6a) { BIT(5,_D);												} /* BIT  5,D		  */
-    /*TODO*///OP(cb,6b) { BIT(5,_E);												} /* BIT  5,E		  */
-    /*TODO*///OP(cb,6c) { BIT(5,_H);												} /* BIT  5,H		  */
-    /*TODO*///OP(cb,6d) { BIT(5,_L);												} /* BIT  5,L		  */
-   
-    /*TODO*///
-    /*TODO*///OP(cb,70) { BIT(6,_B);												} /* BIT  6,B		  */
-    /*TODO*///OP(cb,71) { BIT(6,_C);												} /* BIT  6,C		  */
-    /*TODO*///OP(cb,72) { BIT(6,_D);												} /* BIT  6,D		  */
-    /*TODO*///OP(cb,73) { BIT(6,_E);												} /* BIT  6,E		  */
-    /*TODO*///OP(cb,74) { BIT(6,_H);												} /* BIT  6,H		  */
-    /*TODO*///OP(cb,75) { BIT(6,_L);												} /* BIT  6,L		  */
-    /*TODO*///OP(cb,76) { BIT(6,RM(_HL)); 										} /* BIT  6,(HL)	  */
-    
-    /*TODO*///
-    /*TODO*///OP(cb,78) { BIT(7,_B);												} /* BIT  7,B		  */
-    /*TODO*///OP(cb,79) { BIT(7,_C);												} /* BIT  7,C		  */
-    /*TODO*///OP(cb,7a) { BIT(7,_D);												} /* BIT  7,D		  */
-    /*TODO*///OP(cb,7b) { BIT(7,_E);												} /* BIT  7,E		  */
-    /*TODO*///OP(cb,7c) { BIT(7,_H);												} /* BIT  7,H		  */
-    /*TODO*///OP(cb,7d) { BIT(7,_L);												} /* BIT  7,L		  */
-    
-    /*TODO*///OP(cb,7f) { BIT(7,_A);												} /* BIT  7,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,80) { _B = RES(0,_B); 										} /* RES  0,B		  */
-   
-    /*TODO*///OP(cb,82) { _D = RES(0,_D); 										} /* RES  0,D		  */
-    /*TODO*///OP(cb,83) { _E = RES(0,_E); 										} /* RES  0,E		  */
-    /*TODO*///OP(cb,84) { _H = RES(0,_H); 										} /* RES  0,H		  */
-    /*TODO*///OP(cb,85) { _L = RES(0,_L); 										} /* RES  0,L		  */
-    
-    /*TODO*///OP(cb,87) { _A = RES(0,_A); 										} /* RES  0,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,88) { _B = RES(1,_B); 										} /* RES  1,B		  */
-    /*TODO*///OP(cb,89) { _C = RES(1,_C); 										} /* RES  1,C		  */
-    /*TODO*///OP(cb,8a) { _D = RES(1,_D); 										} /* RES  1,D		  */
-    /*TODO*///OP(cb,8b) { _E = RES(1,_E); 										} /* RES  1,E		  */
-    /*TODO*///OP(cb,8c) { _H = RES(1,_H); 										} /* RES  1,H		  */
-    /*TODO*///OP(cb,8d) { _L = RES(1,_L); 										} /* RES  1,L		  */
-  
-    /*TODO*///OP(cb,8f) { _A = RES(1,_A); 										} /* RES  1,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,90) { _B = RES(2,_B); 										} /* RES  2,B		  */
-    /*TODO*///OP(cb,91) { _C = RES(2,_C); 										} /* RES  2,C		  */
-    /*TODO*///OP(cb,92) { _D = RES(2,_D); 										} /* RES  2,D		  */
-    /*TODO*///OP(cb,93) { _E = RES(2,_E); 										} /* RES  2,E		  */
-    /*TODO*///OP(cb,94) { _H = RES(2,_H); 										} /* RES  2,H		  */
-    /*TODO*///OP(cb,95) { _L = RES(2,_L); 										} /* RES  2,L		  */
-   
-    /*TODO*///OP(cb,97) { _A = RES(2,_A); 										} /* RES  2,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,98) { _B = RES(3,_B); 										} /* RES  3,B		  */
-    /*TODO*///OP(cb,99) { _C = RES(3,_C); 										} /* RES  3,C		  */
-    /*TODO*///OP(cb,9a) { _D = RES(3,_D); 										} /* RES  3,D		  */
-    /*TODO*///OP(cb,9b) { _E = RES(3,_E); 										} /* RES  3,E		  */
-    /*TODO*///OP(cb,9c) { _H = RES(3,_H); 										} /* RES  3,H		  */
-    /*TODO*///OP(cb,9d) { _L = RES(3,_L); 										} /* RES  3,L		  */
-    /*TODO*///OP(cb,9e) { WM( _HL, RES(3,RM(_HL)) );								} /* RES  3,(HL)	  */
-    /*TODO*///OP(cb,9f) { _A = RES(3,_A); 										} /* RES  3,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,a0) { _B = RES(4,_B); 										} /* RES  4,B		  */
-    /*TODO*///OP(cb,a1) { _C = RES(4,_C); 										} /* RES  4,C		  */
-    /*TODO*///OP(cb,a2) { _D = RES(4,_D); 										} /* RES  4,D		  */
-    /*TODO*///OP(cb,a3) { _E = RES(4,_E); 										} /* RES  4,E		  */
-    /*TODO*///OP(cb,a4) { _H = RES(4,_H); 										} /* RES  4,H		  */
-    /*TODO*///OP(cb,a5) { _L = RES(4,_L); 										} /* RES  4,L		  */
-  
-    /*TODO*///OP(cb,a7) { _A = RES(4,_A); 										} /* RES  4,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,a8) { _B = RES(5,_B); 										} /* RES  5,B		  */
-    /*TODO*///OP(cb,a9) { _C = RES(5,_C); 										} /* RES  5,C		  */
-    /*TODO*///OP(cb,aa) { _D = RES(5,_D); 										} /* RES  5,D		  */
-    /*TODO*///OP(cb,ab) { _E = RES(5,_E); 										} /* RES  5,E		  */
-    /*TODO*///OP(cb,ac) { _H = RES(5,_H); 										} /* RES  5,H		  */
-    /*TODO*///OP(cb,ad) { _L = RES(5,_L); 										} /* RES  5,L		  */
-    
-    /*TODO*///OP(cb,af) { _A = RES(5,_A); 										} /* RES  5,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,b0) { _B = RES(6,_B); 										} /* RES  6,B		  */
-    /*TODO*///OP(cb,b1) { _C = RES(6,_C); 										} /* RES  6,C		  */
-    /*TODO*///OP(cb,b2) { _D = RES(6,_D); 										} /* RES  6,D		  */
-    /*TODO*///OP(cb,b3) { _E = RES(6,_E); 										} /* RES  6,E		  */
-    /*TODO*///OP(cb,b4) { _H = RES(6,_H); 										} /* RES  6,H		  */
-    /*TODO*///OP(cb,b5) { _L = RES(6,_L); 										} /* RES  6,L		  */
-   
-    /*TODO*///OP(cb,b7) { _A = RES(6,_A); 										} /* RES  6,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,b8) { _B = RES(7,_B); 										} /* RES  7,B		  */
-    /*TODO*///OP(cb,b9) { _C = RES(7,_C); 										} /* RES  7,C		  */
-    /*TODO*///OP(cb,ba) { _D = RES(7,_D); 										} /* RES  7,D		  */
-    /*TODO*///OP(cb,bb) { _E = RES(7,_E); 										} /* RES  7,E		  */
-    /*TODO*///OP(cb,bc) { _H = RES(7,_H); 										} /* RES  7,H		  */
-    /*TODO*///OP(cb,bd) { _L = RES(7,_L); 										} /* RES  7,L		  */
-    
-    /*TODO*///OP(cb,bf) { _A = RES(7,_A); 										} /* RES  7,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,c0) { _B = SET(0,_B); 										} /* SET  0,B		  */
-    /*TODO*///OP(cb,c1) { _C = SET(0,_C); 										} /* SET  0,C		  */
-    /*TODO*///OP(cb,c2) { _D = SET(0,_D); 										} /* SET  0,D		  */
-    /*TODO*///OP(cb,c3) { _E = SET(0,_E); 										} /* SET  0,E		  */
-    /*TODO*///OP(cb,c4) { _H = SET(0,_H); 										} /* SET  0,H		  */
-    /*TODO*///OP(cb,c5) { _L = SET(0,_L); 										} /* SET  0,L		  */
 
-
-    /*TODO*///
-    /*TODO*///OP(cb,c8) { _B = SET(1,_B); 										} /* SET  1,B		  */
-    /*TODO*///OP(cb,c9) { _C = SET(1,_C); 										} /* SET  1,C		  */
-    /*TODO*///OP(cb,ca) { _D = SET(1,_D); 										} /* SET  1,D		  */
-    /*TODO*///OP(cb,cb) { _E = SET(1,_E); 										} /* SET  1,E		  */
-    /*TODO*///OP(cb,cc) { _H = SET(1,_H); 										} /* SET  1,H		  */
-    /*TODO*///OP(cb,cd) { _L = SET(1,_L); 										} /* SET  1,L		  */
-    
-    /*TODO*///OP(cb,cf) { _A = SET(1,_A); 										} /* SET  1,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,d0) { _B = SET(2,_B); 										} /* SET  2,B		  */
-    /*TODO*///OP(cb,d1) { _C = SET(2,_C); 										} /* SET  2,C		  */
-    /*TODO*///OP(cb,d2) { _D = SET(2,_D); 										} /* SET  2,D		  */
-    /*TODO*///OP(cb,d3) { _E = SET(2,_E); 										} /* SET  2,E		  */
-    /*TODO*///OP(cb,d4) { _H = SET(2,_H); 										} /* SET  2,H		  */
-    /*TODO*///OP(cb,d5) { _L = SET(2,_L); 										} /* SET  2,L		  */
-   
-    /*TODO*///OP(cb,d7) { _A = SET(2,_A); 										} /* SET  2,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,d8) { _B = SET(3,_B); 										} /* SET  3,B		  */
-    /*TODO*///OP(cb,d9) { _C = SET(3,_C); 										} /* SET  3,C		  */
-    /*TODO*///OP(cb,da) { _D = SET(3,_D); 										} /* SET  3,D		  */
-    /*TODO*///OP(cb,db) { _E = SET(3,_E); 										} /* SET  3,E		  */
-    /*TODO*///OP(cb,dc) { _H = SET(3,_H); 										} /* SET  3,H		  */
-    /*TODO*///OP(cb,dd) { _L = SET(3,_L); 										} /* SET  3,L		  */
-    
-    /*TODO*///OP(cb,df) { _A = SET(3,_A); 										} /* SET  3,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,e0) { _B = SET(4,_B); 										} /* SET  4,B		  */
-    /*TODO*///OP(cb,e1) { _C = SET(4,_C); 										} /* SET  4,C		  */
-    /*TODO*///OP(cb,e2) { _D = SET(4,_D); 										} /* SET  4,D		  */
-    /*TODO*///OP(cb,e3) { _E = SET(4,_E); 										} /* SET  4,E		  */
-    /*TODO*///OP(cb,e4) { _H = SET(4,_H); 										} /* SET  4,H		  */
-    /*TODO*///OP(cb,e5) { _L = SET(4,_L); 										} /* SET  4,L		  */
-   
-    /*TODO*///OP(cb,e7) { _A = SET(4,_A); 										} /* SET  4,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,e8) { _B = SET(5,_B); 										} /* SET  5,B		  */
-    /*TODO*///OP(cb,e9) { _C = SET(5,_C); 										} /* SET  5,C		  */
-    /*TODO*///OP(cb,ea) { _D = SET(5,_D); 										} /* SET  5,D		  */
-    /*TODO*///OP(cb,eb) { _E = SET(5,_E); 										} /* SET  5,E		  */
-    /*TODO*///OP(cb,ec) { _H = SET(5,_H); 										} /* SET  5,H		  */
-    /*TODO*///OP(cb,ed) { _L = SET(5,_L); 										} /* SET  5,L		  */
-    
-    /*TODO*///OP(cb,ef) { _A = SET(5,_A); 										} /* SET  5,A		  */
-    /*TODO*///
-    /*TODO*///OP(cb,f0) { _B = SET(6,_B); 										} /* SET  6,B		  */
-    /*TODO*///OP(cb,f1) { _C = SET(6,_C); 										} /* SET  6,C		  */
-    /*TODO*///OP(cb,f2) { _D = SET(6,_D); 										} /* SET  6,D		  */
-    /*TODO*///OP(cb,f3) { _E = SET(6,_E); 										} /* SET  6,E		  */
-    /*TODO*///OP(cb,f4) { _H = SET(6,_H); 										} /* SET  6,H		  */
-    /*TODO*///OP(cb,f5) { _L = SET(6,_L); 										} /* SET  6,L		  */
-    
-    /*TODO*///OP(cb,f7) { _A = SET(6,_A); 										} /* SET  6,A		  */
-    /*TODO*///
- 
-   
-    /*TODO*///OP(cb,ff) { _A = SET(7,_A); 										} /* SET  7,A		  */
-    /*TODO*///
-    /*TODO*///
     /*TODO*////**********************************************************
     /*TODO*///* opcodes with DD/FD CB prefix
     /*TODO*///* rotate, shift and bit operations with (IX+o)
     /*TODO*///**********************************************************/
+    
+
+
+    
     opcode xxcb_00 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_01 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_02 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -2866,99 +2460,16 @@ public class z80 extends cpu_interface {
         cpu_writemem16(EA,SRL(cpu_readmem16(EA) & 0xFF));
     }};
     opcode xxcb_3f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_40 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_41 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_42 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_43 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_44 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_46 = new opcode() { public void handler()/* BIT  0,(XY+o)	  */
-    { 
-       //BIT_XY(0,RM(EA));
-        Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA)& 0xFF) & (1 << 0)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_47 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_48 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_49 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_4e = new opcode() { public void handler()
-    { 
-    /*TODO*///OP(xxcb,4e) { BIT_XY(1,RM(EA)); 									} /* BIT  1,(XY+o)	  */
-              
-    }};
-    opcode xxcb_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_52 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_53 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_54 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_55 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_56 = new opcode() { public void handler()
-    { 
-          Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA)& 0xFF) & (1 << 2)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_57 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_58 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_59 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_5a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_5b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_5c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_5d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_5e = new opcode() { public void handler()
-    { 
-        Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA)& 0xFF) & (1 << 3)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_5f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_60 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_61 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_62 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_63 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_66 = new opcode() { public void handler()
-    { 
-    //BIT_XY(4,RM(EA));
-     Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA)& 0xFF) & (1 << 4)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_6a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_6e = new opcode() { public void handler()
-    { 
-        /*TODO*///OP(xxcb,6e) { BIT_XY(5,RM(EA)); 									} /* BIT  5,(XY+o)	  */
-        Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA) & 0xFF) & (1 << 5)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_6f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_70 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_71 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_72 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_73 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_74 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_76 = new opcode() { public void handler()
-    { 
-         Z80.AF.SetL(((Z80.AF.L & 0x01) | 0x10 | (SZ_BIT[(cpu_readmem16((int)EA) & 0xFF) & (1 << 6)] & ~(0x20 | 0x08)) | ((EA >> 8) & (0x20 | 0x08))) & 0xFF);
-    }};
-    opcode xxcb_77 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    /* BIT  7,B=(XY+o)  */opcode xxcb_78 = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    /* BIT  7,C=(XY+o)	*/opcode xxcb_79 = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    /* BIT  7,D=(XY+o)  */opcode xxcb_7a = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    /* BIT  7,E=(XY+o)  */opcode xxcb_7b = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    /* BIT  7,H=(XY+o)  */opcode xxcb_7c = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    /* BIT  7,L=(XY+o)  */opcode xxcb_7d = new opcode() { public void handler(){ xxcb_7e.handler();}};
-    opcode xxcb_7e = new opcode() { public void handler()/* BIT  7,(XY+o)	  */
-    { 
-        //BIT_XY(7,RM(EA);
-        BIT_XY(7,cpu_readmem16((int)EA) & 0xFF);
-    }};
-    /* BIT  7,A=(XY+o)  */opcode xxcb_7f = new opcode() { public void handler(){ xxcb_7e.handler();}};
+    
+    opcode xxcb_46 = new opcode() { public void handler(){  BIT_XY(0,RM(EA)); 									}}; /* BIT  0,(XY+o)	  */
+    opcode xxcb_4e = new opcode() { public void handler(){  BIT_XY(1,RM(EA)); 									}}; /* BIT  1,(XY+o)	  */
+    opcode xxcb_56 = new opcode() { public void handler(){  BIT_XY(2,RM(EA)); 									}}; /* BIT  2,(XY+o)	  */
+    opcode xxcb_5e = new opcode() { public void handler(){  BIT_XY(3,RM(EA)); 									}}; /* BIT  3,(XY+o)	  */
+    opcode xxcb_66 = new opcode() { public void handler(){  BIT_XY(4,RM(EA)); 									}}; /* BIT  4,(XY+o)	  */
+    opcode xxcb_6e = new opcode() { public void handler(){  BIT_XY(5,RM(EA)); 									}}; /* BIT  5,(XY+o)	  */
+    opcode xxcb_76 = new opcode() { public void handler(){  BIT_XY(6,RM(EA)); 									}}; /* BIT  6,(XY+o)	  */
+    opcode xxcb_7e = new opcode() { public void handler(){  BIT_XY(7,RM(EA)); 									}}; /* BIT  7,(XY+o)	  */
+    
     opcode xxcb_80 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_81 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_82 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3419,19 +2930,7 @@ public class z80 extends cpu_interface {
     /*TODO*/// **********************************************************/
 											
 
-    opcode dd_09 = new opcode() { public void handler()
-    { 
-           /*TODO*///OP(dd,09) { ADD16(IX,BC);	
-          /* ADD  IX,BC 	  */
-            Z80.IX.SetD(ADD16(Z80.IX.D,Z80.BC.D));
-    }};
-    
-    opcode dd_19 = new opcode() { public void handler()/* ADD  IX,DE 	  */
-    { 
-//THIS APPEAR A BIT nasty should probably be rechecked sometime
-         // ADD16(IX,DE);	
-         Z80.IX.SetD(ADD16(Z80.IX.D,Z80.DE.D));
-    }};
+
     opcode dd_21 = new opcode() { public void handler()/* LD   IX,w		  */
     {       
          Z80.IX.SetD(ARG16() & 0xFFFF);
@@ -3447,7 +2946,7 @@ public class z80 extends cpu_interface {
     opcode dd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+  
     opcode dd_2a = new opcode() { public void handler()
     { 
       /*TODO*///OP(dd,2a) { EA = ARG16(); RM16( EA, &Z80.IX );						} /* LD   IX,(w)	  */
@@ -3481,8 +2980,7 @@ public class z80 extends cpu_interface {
     }};
 
     
-    opcode dd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-
+  
 
     opcode dd_46 = new opcode() { public void handler()
     { 
@@ -3844,21 +3342,7 @@ public class z80 extends cpu_interface {
      * IY register related opcodes (FD prefix)
      **********************************************************/
  
-    opcode fd_09 = new opcode() { public void handler()
-    { 
-     /*TODO*///OP(fd,09) { ADD16(IY,BC);											} /* ADD  IY,BC 	  */
-         Z80.IY.SetD(ADD16(Z80.IY.D,Z80.BC.D));
-    }};
 
-    opcode fd_19 = new opcode() { public void handler()/* ADD  IY,DE 	  */
-    { 
-        //TODO recheck it not sure if it's ok (shadow)           
-         //ADD16(IY,DE);	
-         /*int res = (Z80.IY.D + Z80.DE.D) & 0xFFFF; 
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.IY.D ^ res ^ Z80.DE.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
-         Z80.IY.SetD(res & 0xFFFF);*/
-         Z80.IY.SetD(ADD16(Z80.IY.D,Z80.DE.D));
-    }};
 
     opcode fd_21 = new opcode() { public void handler()/* LD   IY,w		  */
     { 
@@ -3876,7 +3360,7 @@ public class z80 extends cpu_interface {
     opcode fd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+   
     opcode fd_2a = new opcode() { public void handler()
     { 
          /*TODO*///OP(fd,2a) { EA = ARG16(); RM16( EA, &Z80.IY );						} /* LD   IY,(w)	  */
@@ -3906,8 +3390,7 @@ public class z80 extends cpu_interface {
         EA = (Z80.IY.D + (byte)ARG()) & 0xFFFF;
         cpu_writemem16((int)EA, ARG() & 0xFF);
     }};
-    opcode fd_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-   
+
     opcode fd_46 = new opcode() { public void handler()
     { 
     /*TODO*///OP(fd,46) { EAY; _B = RM(EA);										} /* LD   B,(IY+o)	  */
@@ -4063,9 +3546,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(fd,24) { _HY = INC(_HY); 										} /* INC  HY		  */
     /*TODO*///OP(fd,25) { _HY = DEC(_HY); 										} /* DEC  HY		  */
     /*TODO*///OP(fd,26) { _HY = ARG();											} /* LD   HY,n		  */
-  
-    /*TODO*///OP(fd,29) { ADD16(IY,IY);											} /* ADD  IY,IY 	  */
-  
+
     /*TODO*///OP(fd,2b) { _IY--;													} /* DEC  IY		  */
     /*TODO*///OP(fd,2c) { _LY = INC(_LY); 										} /* INC  LY		  */
     /*TODO*///OP(fd,2d) { _LY = DEC(_LY); 										} /* DEC  LY		  */
@@ -4075,9 +3556,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(fd,37) { illegal_1();											} /* DB   FD		  */
     /*TODO*///
     /*TODO*///OP(fd,38) { illegal_1();											} /* DB   FD		  */
-    /*TODO*///OP(fd,39) { ADD16(IY,SP);											} /* ADD  IY,SP 	  */
-    
-    
+
    
     /*TODO*///OP(fd,86) { 										} /* ADD  A,(IY+o)	  */
        /*TODO*///OP(fd,8e) { EAY; ADC(RM(EA));										} /* ADC  A,(IY+o)	  */
@@ -4502,23 +3981,17 @@ public class z80 extends cpu_interface {
 //TODO recheck it not sure if it's ok (shadow)     
           // A = (_A << 1) | (_A >> 7); 								
          // _F = (_F & (SF | ZF | PF)) | (_A & (YF | XF | CF))
-         Z80.AF.SetH(((Z80.AF.H << 1) | (Z80.AF.H >>> 7)) & 0xFF);
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF)))& 0xFF);
+      /*   Z80.AF.SetH(((Z80.AF.H << 1) | (Z80.AF.H >>> 7)) & 0xFF);
+         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF)))& 0xFF);*/
+        Z80.AF.SetH(((Z80.AF.H << 1) | (Z80.AF.H >> 7)) & 0xff);
+        Z80.AF.SetL((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF)));
     }};
     opcode op_08 = new opcode() { public void handler()
     { 
         PAIR tmp=new PAIR();													
       tmp = Z80.AF; Z80.AF = Z80.AF2; Z80.AF2 = tmp;
     }};
-    opcode op_09 = new opcode() { public void handler()/* ADD  HL,BC 	  */
-    { 
-//TODO recheck it not sure if it's ok (shadow)           
-         // ADD16(HL,BC);	
-         /*int res = (Z80.HL.D + Z80.BC.D) & 0xFFFF; 
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.HL.D ^ res ^ Z80.BC.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
-         Z80.HL.SetD(res & 0xFFFF);*/
-         Z80.HL.SetD(ADD16(Z80.HL.D,Z80.BC.D));
-    }};
+
     opcode op_0a = new opcode() { public void handler()
     { 
        // _A = RM(_BC);											} /* LD   A,(BC)	  */
@@ -4550,8 +4023,10 @@ public class z80 extends cpu_interface {
 //TODO recheck it not sure if it's ok (shadow)         
          //_F = (_F & (SF | ZF | PF)) | (_A & (YF | XF | CF)); 		
          //_A = (_A >> 1) | (_A << 7)
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF))) & 0xFF);
-         Z80.AF.SetH(((Z80.AF.H >>> 1) | (Z80.AF.H << 7)) & 0xFF);
+         /*Z80.AF.SetL(((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF))) & 0xFF);
+         Z80.AF.SetH(((Z80.AF.H >>> 1) | (Z80.AF.H << 7)) & 0xFF);*/
+        Z80.AF.SetL((Z80.AF.L & (SF | ZF | PF)) | (Z80.AF.H & (YF | XF | CF)));
+         Z80.AF.SetH(((Z80.AF.H >> 1) | (Z80.AF.H << 7)) & 0xff);
     }};
     opcode op_10 = new opcode() { public void handler()  /* DJNZ o 		  */
     { 
@@ -4630,16 +4105,7 @@ public class z80 extends cpu_interface {
 		}														
         }    
     }};
-    opcode op_19 = new opcode() { public void handler()/* ADD  HL,DE 	  */
-    { 
-       /*TODO*///OP(op,19) { ADD16(HL,DE);
-//THIS APPEAR A BIT nasty should probably be rechecked sometime
-         // ADD16(HL,DE);	
-         /*int res = (Z80.HL.D + Z80.DE.D) & 0xFFFF; 
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.HL.D ^ res ^ Z80.DE.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
-         Z80.HL.SetD(res & 0xFFFF); */
-         Z80.HL.SetD(ADD16(Z80.HL.D,Z80.DE.D));
-    }};
+
     opcode op_1a = new opcode() { public void handler() /* LD   A,(DE)	  */
     { 
         // _A = RM(_DE);
@@ -4716,14 +4182,7 @@ public class z80 extends cpu_interface {
             Z80.PC.AddD(1);//_PC++;
         }
     }};
-    opcode op_29 = new opcode() { public void handler()/* ADD  HL,HL 	  */
-    { 
-         // ADD16(HL,HL)               
-         /*int res = (Z80.HL.D + Z80.HL.D) & 0xFFFF; 
-         Z80.AF.SetL(((Z80.AF.L & (SF | ZF | VF)) | (((Z80.HL.D ^ res ^ Z80.HL.D) >> 8) & HF) | ((res >> 16) & CF)) & 0xFF); 
-         Z80.HL.SetD(res & 0xFFFF);*/
-         Z80.HL.SetD(ADD16(Z80.HL.D,Z80.HL.D));
-    }};
+
     opcode op_2a = new opcode() { public void handler()/* LD   HL,(w)	  */
     { 
         // EA = ARG16(); RM16( EA, &Z80.HL );
@@ -4754,7 +4213,8 @@ public class z80 extends cpu_interface {
 //TODO recheck it i am not sure (shadow)      
         // _A ^= 0xff; _F = (_F&(SF|ZF|PF|CF))|HF|NF|(_A&(YF|XF));  
         Z80.AF.SetH(Z80.AF.H ^ 0xff);
-        Z80.AF.SetL(((Z80.AF.L & (SF|ZF|PF|CF)) | HF|NF | (Z80.AF.H & (YF|XF))) & 0xFF);
+        //Z80.AF.SetL(((Z80.AF.L & (SF|ZF|PF|CF)) | HF|NF | (Z80.AF.H & (YF|XF))) & 0xFF);
+        Z80.AF.SetL((Z80.AF.L & (0xc5)) | 0x12 | (Z80.AF.H & (0x28)));
     }};
     opcode op_30 = new opcode() { public void handler()/* JR   NC,o		  */
     { 
@@ -4798,7 +4258,8 @@ public class z80 extends cpu_interface {
     opcode op_37 = new opcode() { public void handler()/* SCF			  */
     { 
         // _F = (_F & (SF|ZF|PF)) | CF | (_A & (YF|XF)); 
-        Z80.AF.SetL(((Z80.AF.L & (SF|ZF|PF)) | CF | (Z80.AF.H & (YF|XF))) & 0xFF);
+        //Z80.AF.SetL(((Z80.AF.L & (SF|ZF|PF)) | CF | (Z80.AF.H & (YF|XF))) & 0xFF);
+        Z80.AF.SetL((Z80.AF.L & 0xc4) | 1 | (Z80.AF.H & (0x28)));
     }};
     opcode op_38 = new opcode() { public void handler()/* JR   C,o		  */
     { 
@@ -4816,7 +4277,7 @@ public class z80 extends cpu_interface {
             Z80.PC.AddD(1);//_PC++;
         }
     }};
-    opcode op_39 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode op_3a = new opcode() { public void handler()/* LD   A,(w) 	  */
     { 
         //EA = ARG16(); _A = RM( EA );		
@@ -4839,7 +4300,8 @@ public class z80 extends cpu_interface {
     opcode op_3f = new opcode() { public void handler()/* CCF			  */
     { 
         // _F = ((_F&(SF|ZF|PF|CF))|((_F&CF)<<4)|(_A&(YF|XF)))^CF; 
-       Z80.AF.SetL((((Z80.AF.L &(SF|ZF|PF|CF))|((Z80.AF.L &CF)<<4)|(Z80.AF.H &(YF|XF)))^CF ) & 0xff);
+       //Z80.AF.SetL((((Z80.AF.L &(SF|ZF|PF|CF))|((Z80.AF.L &CF)<<4)|(Z80.AF.H &(YF|XF)))^CF ) & 0xff);
+        Z80.AF.SetL(((Z80.AF.L & 0xc5) | ((Z80.AF.L & 1) << 4) | (Z80.AF.H & 0x28)) ^ 1);
     }};
    
     opcode op_46 = new opcode() { public void handler()/* LD   B,(HL)	  */
@@ -4910,23 +4372,12 @@ public class z80 extends cpu_interface {
         ADC(cpu_readmem16(Z80.HL.D) & 0xFF);
     }};
     
-    /* SUB  B 		  */opcode op_90 = new opcode() { public void handler(){ SUB(Z80.BC.H); }};
-    /* SUB  C 		  */opcode op_91 = new opcode() { public void handler(){ SUB(Z80.BC.L); }};
-    /* SUB  D 		  */opcode op_92 = new opcode() { public void handler(){ SUB(Z80.DE.H); }};
-    /* SUB  E 		  */opcode op_93 = new opcode() { public void handler(){ SUB(Z80.DE.L); }};
-    /* SUB  H 		  */opcode op_94 = new opcode() { public void handler(){ SUB(Z80.HL.H); }};
-    /* SUB  L 		  */opcode op_95 = new opcode() { public void handler(){ SUB(Z80.HL.L); }};
+
     opcode op_96 = new opcode() { public void handler()
     { 
         SUB(cpu_readmem16(Z80.HL.D) & 0xFF);
     }};
-    opcode op_97 = new opcode() { public void handler(){ SUB(Z80.AF.H);}};
-    opcode op_98 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_99 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_9a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_9b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode op_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+
     opcode op_9e = new opcode() { public void handler()
     { 
      //SBC(RM(_HL));
@@ -4987,18 +4438,7 @@ public class z80 extends cpu_interface {
         Z80.BC.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2); 
     }};
-    opcode op_c2 = new opcode() { public void handler(){ /* JP   NZ,a		  */
-        if((Z80.AF.L & ZF)==0 )													
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-        
-    }};
+ 
     opcode op_c3 = new opcode() { public void handler() /* JP  a */ 
     { 
         Z80.PC.SetD(ARG16());											
@@ -5088,19 +4528,7 @@ public class z80 extends cpu_interface {
             z80_ICount[0] -= 6;//CY(6);		
         }
     }};
-    opcode op_ca = new opcode() { public void handler()/* JP   Z,a		  */
-    { 
-        //JP_COND( _F & ZF ); 
-        if((Z80.AF.L & ZF)!=0 )													
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_cb = new opcode() { public void handler()/* **** CB xx 	  */
     { 
         Z80.R= (Z80.R +1) & 0xFF;//_R++;
@@ -5178,19 +4606,7 @@ public class z80 extends cpu_interface {
         Z80.DE.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);  
     }};
-    opcode op_d2 = new opcode() { public void handler()/* JP   NC,a		  */
-    { 
-        //JP_COND( !(_F & CF) );	
-        if((Z80.AF.L & CF)==0 )													
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_d4 = new opcode() { public void handler()
     { 
@@ -5255,18 +4671,7 @@ public class z80 extends cpu_interface {
         tmp = Z80.HL; Z80.HL = Z80.HL2; Z80.HL2 = tmp;
         tmp=null;
     }};
-    opcode op_da = new opcode() { public void handler()/* JP   C,a		  */
-    { 
-        if((Z80.AF.L & CF )!=0 ) //JP_COND( _F & CF );											
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode op_dc = new opcode() { public void handler()
     { 
@@ -5312,19 +4717,7 @@ public class z80 extends cpu_interface {
         Z80.HL.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);  
     }};
-    opcode op_e2 = new opcode() { public void handler()
-    { 
-     /* JP   PO,a		  */
-        if((Z80.AF.L & PF )==0 ) //JP_COND( !(_F & PF) );											
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_e3 = new opcode() { public void handler()
     { 
 //PROBABLY OK but i need to check it again!      
@@ -5381,7 +4774,7 @@ public class z80 extends cpu_interface {
         Z80.PC.SetD(Z80.HL.D);
         change_pc16(Z80.PC.D);
     }};
-    opcode op_ea = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    
     opcode op_eb = new opcode() { public void handler()/* EX   DE,HL 	  */
     { 
        PAIR tmp = new PAIR();													
@@ -5428,19 +4821,7 @@ public class z80 extends cpu_interface {
         Z80.AF.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);     
     }};
-    opcode op_f2 = new opcode() { public void handler()
-    { 
-           /*TODO*///OP(op,f2) { JP_COND( !(_F & SF) );									} /* JP   P,a		  */
-         if((Z80.AF.L & SF )==0 ) 										
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_f3 = new opcode() { public void handler()/* DI */
     { 
         Z80.IFF1 = Z80.IFF2 =0;										
@@ -5485,18 +4866,7 @@ public class z80 extends cpu_interface {
         // _SP = _HL;
         Z80.SP.SetD(Z80.HL.D);
     }};
-    opcode op_fa = new opcode() { public void handler()/* JP   M,a		  */
-    { 
-        if((Z80.AF.L & SF )!=0 ) //JP_COND(_F & SF);										
-   	{															
-    		Z80.PC.SetD(ARG16());//_PCD = ARG16(); 										
-    		change_pc16(Z80.PC.D);										
-    	}															
-    	else														
-    	{															
-    		Z80.PC.AddD(2);//_PC += 2;												
-        }
-    }};
+
     opcode op_fb = new opcode() { public void handler() /* EI 			  */
     { 
          /* If interrupts were disabled, execute one more			
@@ -6381,6 +5751,101 @@ public class z80 extends cpu_interface {
         cpu_setOPbase16.handler(pc,0);
     }
     /**********************************************************
+    * JP_COND opcodes
+    **********************************************************/  
+    opcode op_c2 = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & ZF)==0 );									}}; /* JP   NZ,a		  */
+    opcode op_ca = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & ZF)!=0 ); 									}}; /* JP   Z,a		  */
+    opcode op_d2 = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & CF)==0 );									}}; /* JP   NC,a		  */
+    opcode op_da = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & CF)!=0 ); 									}}; /* JP   C,a		  */
+    opcode op_e2 = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & PF)==0 );									}}; /* JP   PO,a		  */
+    opcode op_ea = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & PF)!=0 ); 									}}; /* JP   PE,a		  */
+    opcode op_f2 = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & SF)==0 );									}}; /* JP   P,a		  */
+    opcode op_fa = new opcode() { public void handler(){  JP_COND( (Z80.AF.L & SF)!=0 );									}}; /* JP   M,a		  */
+    /**********************************************************
+    * ADD16 opcodes
+    **********************************************************/
+    opcode dd_09 = new opcode() { public void handler(){  Z80.IX.SetD(ADD16(Z80.IX.D,Z80.BC.D)); 		}}; /* ADD  IX,BC 	  */
+    opcode dd_19 = new opcode() { public void handler(){  Z80.IX.SetD(ADD16(Z80.IX.D,Z80.DE.D));		}}; /* ADD  IX,DE 	  */
+    opcode dd_29 = new opcode() { public void handler(){  Z80.IX.SetD(ADD16(Z80.IX.D,Z80.IX.D));		}}; /* ADD  IX,IX 	  */
+    opcode dd_39 = new opcode() { public void handler(){  Z80.IX.SetD(ADD16(Z80.IX.D,Z80.SP.D));		}}; /* ADD  IX,SP 	  */
+    opcode fd_09 = new opcode() { public void handler(){  Z80.IY.SetD(ADD16(Z80.IY.D,Z80.BC.D));		}}; /* ADD  IY,BC 	  */
+    opcode fd_19 = new opcode() { public void handler(){  Z80.IY.SetD(ADD16(Z80.IY.D,Z80.DE.D));		}}; /* ADD  IY,DE 	  */
+    opcode fd_29 = new opcode() { public void handler(){  Z80.IY.SetD(ADD16(Z80.IY.D,Z80.IY.D));		}}; /* ADD  IY,IY 	  */
+    opcode fd_39 = new opcode() { public void handler(){  Z80.IY.SetD(ADD16(Z80.IY.D,Z80.SP.D));		}}; /* ADD  IY,SP 	  */
+    opcode op_09 = new opcode() { public void handler(){  Z80.HL.SetD(ADD16(Z80.HL.D,Z80.BC.D));		}}; /* ADD  HL,BC 	  */
+    opcode op_19 = new opcode() { public void handler(){  Z80.HL.SetD(ADD16(Z80.HL.D,Z80.DE.D));		}}; /* ADD  HL,DE 	  */
+    opcode op_29 = new opcode() { public void handler(){  Z80.HL.SetD(ADD16(Z80.HL.D,Z80.HL.D));		}}; /* ADD  HL,HL 	  */
+    opcode op_39 = new opcode() { public void handler(){  Z80.HL.SetD(ADD16(Z80.HL.D,Z80.SP.D));		}}; /* ADD  HL,SP 	  */
+    /**********************************************************
+    * RLC opcodes
+    **********************************************************/
+    opcode cb_00 = new opcode() { public void handler(){  Z80.BC.SetH(RLC(Z80.BC.H));											}}; /* RLC  B 		  */
+    opcode cb_01 = new opcode() { public void handler(){  Z80.BC.SetL(RLC(Z80.BC.L));											}}; /* RLC  C 		  */
+    opcode cb_02 = new opcode() { public void handler(){  Z80.DE.SetH(RLC(Z80.DE.H));											}}; /* RLC  D 		  */
+    opcode cb_03 = new opcode() { public void handler(){  Z80.DE.SetL(RLC(Z80.DE.L));											}}; /* RLC  E 		  */
+    opcode cb_04 = new opcode() { public void handler(){  Z80.HL.SetH(RLC(Z80.HL.H));											}}; /* RLC  H 		  */
+    opcode cb_05 = new opcode() { public void handler(){  Z80.HL.SetL(RLC(Z80.HL.L));											}}; /* RLC  L 		  */
+    opcode cb_07 = new opcode() { public void handler(){  Z80.AF.SetH(RLC(Z80.AF.H));											}}; /* RLC  A 		  */
+    /**********************************************************
+    * RL opcodes
+    **********************************************************/
+    opcode cb_10 = new opcode() { public void handler(){  Z80.BC.SetH(RL(Z80.BC.H));											}}; /* RL   B 		  */
+    opcode cb_11 = new opcode() { public void handler(){  Z80.BC.SetL(RL(Z80.BC.L));											}}; /* RL   C 		  */
+    opcode cb_12 = new opcode() { public void handler(){  Z80.DE.SetH(RL(Z80.DE.H));											}}; /* RL   D 		  */
+    opcode cb_13 = new opcode() { public void handler(){  Z80.DE.SetL(RL(Z80.DE.L));											}}; /* RL   E 		  */
+    opcode cb_14 = new opcode() { public void handler(){  Z80.HL.SetH(RL(Z80.HL.H));											}}; /* RL   H 		  */
+    opcode cb_15 = new opcode() { public void handler(){  Z80.HL.SetL(RL(Z80.HL.L));											}}; /* RL   L 		  */
+    opcode cb_17 = new opcode() { public void handler(){  Z80.AF.SetH(RL(Z80.AF.H));											}}; /* RL   A 		  */
+    /**********************************************************
+    * SLA opcodes
+    **********************************************************/
+    opcode cb_20 = new opcode() { public void handler(){  Z80.BC.SetH(SLA(Z80.BC.H));											}}; /* SLA  B 		  */
+    opcode cb_21 = new opcode() { public void handler(){  Z80.BC.SetL(SLA(Z80.BC.L));											}}; /* SLA  C 		  */
+    opcode cb_22 = new opcode() { public void handler(){  Z80.DE.SetH(SLA(Z80.DE.H));											}}; /* SLA  D 		  */
+    opcode cb_23 = new opcode() { public void handler(){  Z80.DE.SetL(SLA(Z80.DE.L));											}}; /* SLA  E 		  */
+    opcode cb_24 = new opcode() { public void handler(){  Z80.HL.SetH(SLA(Z80.HL.H));											}}; /* SLA  H 		  */
+    opcode cb_25 = new opcode() { public void handler(){  Z80.HL.SetL(SLA(Z80.HL.L));											}}; /* SLA  L 		  */
+    opcode cb_27 = new opcode() { public void handler(){  Z80.AF.SetH(SLA(Z80.AF.H));											}}; /* SLA  A 		  */
+    /**********************************************************
+    * SRA opcodes
+    **********************************************************/
+    opcode cb_28 = new opcode() { public void handler(){  Z80.BC.SetH(SRA(Z80.BC.H));											}}; /* SRA  B 		  */
+    opcode cb_29 = new opcode() { public void handler(){  Z80.BC.SetL(SRA(Z80.BC.L));											}}; /* SRA  C 		  */
+    opcode cb_2a = new opcode() { public void handler(){  Z80.DE.SetH(SRA(Z80.DE.H));											}}; /* SRA  D 		  */
+    opcode cb_2b = new opcode() { public void handler(){  Z80.DE.SetL(SRA(Z80.DE.L));											}}; /* SRA  E 		  */
+    opcode cb_2c = new opcode() { public void handler(){  Z80.HL.SetH(SRA(Z80.HL.H));											}}; /* SRA  H 		  */
+    opcode cb_2d = new opcode() { public void handler(){  Z80.HL.SetL(SRA(Z80.HL.L));											}}; /* SRA  L 		  */
+    opcode cb_2f = new opcode() { public void handler(){  Z80.AF.SetH(SRA(Z80.AF.H));											}}; /* SRA  A 		  */
+    /**********************************************************
+    * SRL opcodes
+    **********************************************************/
+    opcode cb_38 = new opcode() { public void handler(){  Z80.BC.SetH(SRL(Z80.BC.H));											}}; /* SRL  B 		  */
+    opcode cb_39 = new opcode() { public void handler(){  Z80.BC.SetL(SRL(Z80.BC.L));											}}; /* SRL  C 		  */
+    opcode cb_3a = new opcode() { public void handler(){  Z80.DE.SetH(SRL(Z80.DE.H));											}}; /* SRL  D 		  */
+    opcode cb_3b = new opcode() { public void handler(){  Z80.DE.SetL(SRL(Z80.DE.L));											}}; /* SRL  E 		  */
+    opcode cb_3c = new opcode() { public void handler(){  Z80.HL.SetH(SRL(Z80.HL.H));											}}; /* SRL  H 		  */
+    opcode cb_3d = new opcode() { public void handler(){  Z80.HL.SetL(SRL(Z80.HL.L));											}}; /* SRL  L 		  */
+    opcode cb_3f = new opcode() { public void handler(){  Z80.AF.SetH(SRL(Z80.AF.H));											}}; /* SRL  A 		  */
+    /**********************************************************
+    * SUB opcodes
+    **********************************************************/
+    opcode op_90 = new opcode() { public void handler(){  SUB(Z80.BC.H);												}}; /* SUB  B 		  */
+    opcode op_91 = new opcode() { public void handler(){  SUB(Z80.BC.L);												}}; /* SUB  C 		  */
+    opcode op_92 = new opcode() { public void handler(){  SUB(Z80.DE.H);												}}; /* SUB  D 		  */
+    opcode op_93 = new opcode() { public void handler(){  SUB(Z80.DE.L);												}}; /* SUB  E 		  */
+    opcode op_94 = new opcode() { public void handler(){  SUB(Z80.HL.H);												}}; /* SUB  H 		  */
+    opcode op_95 = new opcode() { public void handler(){  SUB(Z80.HL.L);												}}; /* SUB  L 		  */
+    opcode op_97 = new opcode() { public void handler(){  SUB(Z80.AF.H);												}}; /* SUB  A 		  */
+    /**********************************************************
+    * SBC opcodes
+    **********************************************************/
+    opcode op_98 = new opcode() { public void handler(){  SBC(Z80.BC.H);												}}; /* SBC  A,B		  */
+    opcode op_99 = new opcode() { public void handler(){  SBC(Z80.BC.L);												}}; /* SBC  A,C		  */
+    opcode op_9a = new opcode() { public void handler(){  SBC(Z80.DE.H);												}}; /* SBC  A,D		  */
+    opcode op_9b = new opcode() { public void handler(){  SBC(Z80.DE.L);												}}; /* SBC  A,E		  */
+    opcode op_9c = new opcode() { public void handler(){  SBC(Z80.HL.H);												}}; /* SBC  A,H		  */
+    opcode op_9d = new opcode() { public void handler(){  SBC(Z80.HL.L);												}}; /* SBC  A,L		  */
+    /**********************************************************
     * RRC (right rotate) opcodes
     **********************************************************/
     opcode cb_08 = new opcode() { public void handler(){  Z80.BC.SetH(RRC(Z80.BC.H));											}}; /* RRC  B 		  */
@@ -6775,7 +6240,65 @@ public class z80 extends cpu_interface {
     opcode ed_6e = new opcode() { public void handler(){  Z80.IM = 0;												}}; /* IM   0 		  */
     opcode ed_76 = new opcode() { public void handler(){  Z80.IM = 1;												}}; /* IM   1 		  */
     opcode ed_7e = new opcode() { public void handler(){  Z80.IM = 2;												}}; /* IM   2 		  */
-
+    /**********************************************************
+     * Redirected opcodes
+     **********************************************************/
+    opcode xxcb_40 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,B=(XY+o)  */
+    opcode xxcb_41 = new opcode() { public void handler(){  xxcb_46.handler();													  }}; /* BIT	0,C=(XY+o)	*/
+    opcode xxcb_42 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,D=(XY+o)  */
+    opcode xxcb_43 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,E=(XY+o)  */
+    opcode xxcb_44 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,H=(XY+o)  */
+    opcode xxcb_45 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,L=(XY+o)  */
+    opcode xxcb_47 = new opcode() { public void handler(){  xxcb_46.handler();											}}; /* BIT  0,A=(XY+o)  */
+    opcode xxcb_48 = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,B=(XY+o)  */
+    opcode xxcb_49 = new opcode() { public void handler(){  xxcb_4e.handler();													  }}; /* BIT	1,C=(XY+o)	*/
+    opcode xxcb_4a = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,D=(XY+o)  */
+    opcode xxcb_4b = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,E=(XY+o)  */
+    opcode xxcb_4c = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,H=(XY+o)  */
+    opcode xxcb_4d = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,L=(XY+o)  */
+    opcode xxcb_4f = new opcode() { public void handler(){  xxcb_4e.handler();											}}; /* BIT  1,A=(XY+o)  */
+    opcode xxcb_50 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,B=(XY+o)  */
+    opcode xxcb_51 = new opcode() { public void handler(){  xxcb_56.handler();													  }}; /* BIT	2,C=(XY+o)	*/
+    opcode xxcb_52 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,D=(XY+o)  */
+    opcode xxcb_53 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,E=(XY+o)  */
+    opcode xxcb_54 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,H=(XY+o)  */
+    opcode xxcb_55 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,L=(XY+o)  */
+    opcode xxcb_57 = new opcode() { public void handler(){  xxcb_56.handler();											}}; /* BIT  2,A=(XY+o)  */
+    opcode xxcb_58 = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,B=(XY+o)  */
+    opcode xxcb_59 = new opcode() { public void handler(){  xxcb_5e.handler();													  }}; /* BIT	3,C=(XY+o)	*/
+    opcode xxcb_5a = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,D=(XY+o)  */
+    opcode xxcb_5b = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,E=(XY+o)  */
+    opcode xxcb_5c = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,H=(XY+o)  */
+    opcode xxcb_5d = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,L=(XY+o)  */
+    opcode xxcb_5f = new opcode() { public void handler(){  xxcb_5e.handler();											}}; /* BIT  3,A=(XY+o)  */
+    opcode xxcb_60 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,B=(XY+o)  */
+    opcode xxcb_61 = new opcode() { public void handler(){  xxcb_66.handler();													  }}; /* BIT	4,C=(XY+o)	*/
+    opcode xxcb_62 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,D=(XY+o)  */
+    opcode xxcb_63 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,E=(XY+o)  */
+    opcode xxcb_64 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,H=(XY+o)  */
+    opcode xxcb_65 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,L=(XY+o)  */
+    opcode xxcb_67 = new opcode() { public void handler(){  xxcb_66.handler();											}}; /* BIT  4,A=(XY+o)  */
+    opcode xxcb_68 = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,B=(XY+o)  */
+    opcode xxcb_69 = new opcode() { public void handler(){  xxcb_6e.handler();													  }}; /* BIT	5,C=(XY+o)	*/
+    opcode xxcb_6a = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,D=(XY+o)  */
+    opcode xxcb_6b = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,E=(XY+o)  */
+    opcode xxcb_6c = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,H=(XY+o)  */
+    opcode xxcb_6d = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,L=(XY+o)  */
+    opcode xxcb_6f = new opcode() { public void handler(){  xxcb_6e.handler();											}}; /* BIT  5,A=(XY+o)  */
+    opcode xxcb_70 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,B=(XY+o)  */
+    opcode xxcb_71 = new opcode() { public void handler(){  xxcb_76.handler();													  }}; /* BIT	6,C=(XY+o)	*/
+    opcode xxcb_72 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,D=(XY+o)  */
+    opcode xxcb_73 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,E=(XY+o)  */
+    opcode xxcb_74 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,H=(XY+o)  */
+    opcode xxcb_75 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,L=(XY+o)  */
+    opcode xxcb_77 = new opcode() { public void handler(){  xxcb_76.handler();											}}; /* BIT  6,A=(XY+o)  */
+    opcode xxcb_78 = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,B=(XY+o)  */
+    opcode xxcb_79 = new opcode() { public void handler(){  xxcb_7e.handler();													  }}; /* BIT	7,C=(XY+o)	*/
+    opcode xxcb_7a = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,D=(XY+o)  */
+    opcode xxcb_7b = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,E=(XY+o)  */
+    opcode xxcb_7c = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,H=(XY+o)  */
+    opcode xxcb_7d = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,L=(XY+o)  */
+    opcode xxcb_7f = new opcode() { public void handler(){  xxcb_7e.handler();											}}; /* BIT  7,A=(XY+o)  */
     /////////////////////////////////////illegal opcodes//////////////////////////////////////////////////////////
     public void illegal_1()
     {
