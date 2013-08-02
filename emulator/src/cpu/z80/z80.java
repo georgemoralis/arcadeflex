@@ -3543,7 +3543,7 @@ public class z80 extends cpu_interface {
     opcode fd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     
-    opcode fd_a6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_a6 = new opcode() { public void handler(){ EAY(); AND(RM(EA));}};
  
     opcode fd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
