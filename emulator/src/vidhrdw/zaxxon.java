@@ -492,9 +492,9 @@ public class zaxxon
 			scroll = 2*(zaxxon_background_position.read(0) + 256*(zaxxon_background_position.read(1)&7));
 	
 			if ((zaxxon_background_color_bank.read() & 1)!=0)
-				copyscrollbitmap(bitmap,backgroundbitmap2,0,0,1,scroll,Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+				copyscrollbitmap(bitmap,backgroundbitmap2,0,null,1,new int[] {scroll},Machine.drv.visible_area,TRANSPARENCY_NONE,0);
 			else
-				copyscrollbitmap(bitmap,backgroundbitmap1,0,0,1,scroll,Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+				copyscrollbitmap(bitmap,backgroundbitmap1,0,null,1,new int[] {scroll},Machine.drv.visible_area,TRANSPARENCY_NONE,0);
 		}
 		else fillbitmap(bitmap,Machine.pens[0],Machine.drv.visible_area);
 	

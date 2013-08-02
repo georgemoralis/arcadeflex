@@ -956,226 +956,226 @@ public class drawgfx {
 /*TODO*///
 /*TODO*///***************************************************************************/
     public static void copyscrollbitmap(osd_bitmap dest,osd_bitmap src,
-                    int rows,int rowscroll,int cols,int colscroll,
+                    int rows,int[] rowscroll,int cols,int[] colscroll,
                     rectangle clip,int transparency,int transparent_color)
     {
-        throw new UnsupportedOperationException("unimplemented copyscrollbitmap");
-    /*TODO*///	int srcwidth,srcheight,destwidth,destheight;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (rows == 0 && cols == 0)
-    /*TODO*///	{
-    /*TODO*///		copybitmap(dest,src,0,0,0,0,clip,transparency,transparent_color);
-    /*TODO*///		return;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		srcwidth = src->height;
-    /*TODO*///		srcheight = src->width;
-    /*TODO*///		destwidth = dest->height;
-    /*TODO*///		destheight = dest->width;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		srcwidth = src->width;
-    /*TODO*///		srcheight = src->height;
-    /*TODO*///		destwidth = dest->width;
-    /*TODO*///		destheight = dest->height;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (rows == 0)
-    /*TODO*///	{
-    /*TODO*///		/* scrolling columns */
-    /*TODO*///		int col,colwidth;
-    /*TODO*///		struct rectangle myclip;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		colwidth = srcwidth / cols;
-    /*TODO*///
-    /*TODO*///		myclip.min_y = clip->min_y;
-    /*TODO*///		myclip.max_y = clip->max_y;
-    /*TODO*///
-    /*TODO*///		col = 0;
-    /*TODO*///		while (col < cols)
-    /*TODO*///		{
-    /*TODO*///			int cons,scroll;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			/* count consecutive columns scrolled by the same amount */
-    /*TODO*///			scroll = colscroll[col];
-    /*TODO*///			cons = 1;
-    /*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
-    /*TODO*///				cons++;
-    /*TODO*///
-    /*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
-    /*TODO*///			else scroll %= srcheight;
-    /*TODO*///
-    /*TODO*///			myclip.min_x = col * colwidth;
-    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1;
-    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,0,scroll,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,0,scroll - srcheight,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			col += cons;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else if (cols == 0)
-    /*TODO*///	{
-    /*TODO*///		/* scrolling rows */
-    /*TODO*///		int row,rowheight;
-    /*TODO*///		struct rectangle myclip;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		rowheight = srcheight / rows;
-    /*TODO*///
-    /*TODO*///		myclip.min_x = clip->min_x;
-    /*TODO*///		myclip.max_x = clip->max_x;
-    /*TODO*///
-    /*TODO*///		row = 0;
-    /*TODO*///		while (row < rows)
-    /*TODO*///		{
-    /*TODO*///			int cons,scroll;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			/* count consecutive rows scrolled by the same amount */
-    /*TODO*///			scroll = rowscroll[row];
-    /*TODO*///			cons = 1;
-    /*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
-    /*TODO*///				cons++;
-    /*TODO*///
-    /*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
-    /*TODO*///			else scroll %= srcwidth;
-    /*TODO*///
-    /*TODO*///			myclip.min_y = row * rowheight;
-    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1;
-    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,scroll,0,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,0,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			row += cons;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else if (rows == 1 && cols == 1)
-    /*TODO*///	{
-    /*TODO*///		/* XY scrolling playfield */
-    /*TODO*///		int scrollx,scrolly,sx,sy;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
-    /*TODO*///		else scrollx = rowscroll[0] % srcwidth;
-    /*TODO*///
-    /*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
-    /*TODO*///		else scrolly = colscroll[0] % srcheight;
-    /*TODO*///
-    /*TODO*///		for (sx = scrollx - srcwidth;sx < destwidth;sx += srcwidth)
-    /*TODO*///			for (sy = scrolly - srcheight;sy < destheight;sy += srcheight)
-    /*TODO*///				copybitmap(dest,src,0,0,sx,sy,clip,transparency,transparent_color);
-    /*TODO*///	}
-    /*TODO*///	else if (rows == 1)
-    /*TODO*///	{
-    /*TODO*///		/* scrolling columns + horizontal scroll */
-    /*TODO*///		int col,colwidth;
-    /*TODO*///		int scrollx;
-    /*TODO*///		struct rectangle myclip;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
-    /*TODO*///		else scrollx = rowscroll[0] % srcwidth;
-    /*TODO*///
-    /*TODO*///		colwidth = srcwidth / cols;
-    /*TODO*///
-    /*TODO*///		myclip.min_y = clip->min_y;
-    /*TODO*///		myclip.max_y = clip->max_y;
-    /*TODO*///
-    /*TODO*///		col = 0;
-    /*TODO*///		while (col < cols)
-    /*TODO*///		{
-    /*TODO*///			int cons,scroll;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			/* count consecutive columns scrolled by the same amount */
-    /*TODO*///			scroll = colscroll[col];
-    /*TODO*///			cons = 1;
-    /*TODO*///			while (col + cons < cols &&	colscroll[col + cons] == scroll)
-    /*TODO*///				cons++;
-    /*TODO*///
-    /*TODO*///			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
-    /*TODO*///			else scroll %= srcheight;
-    /*TODO*///
-    /*TODO*///			myclip.min_x = col * colwidth + scrollx;
-    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx;
-    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,scrollx,scroll - srcheight,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			myclip.min_x = col * colwidth + scrollx - srcwidth;
-    /*TODO*///			if (myclip.min_x < clip->min_x) myclip.min_x = clip->min_x;
-    /*TODO*///			myclip.max_x = (col + cons) * colwidth - 1 + scrollx - srcwidth;
-    /*TODO*///			if (myclip.max_x > clip->max_x) myclip.max_x = clip->max_x;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll - srcheight,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			col += cons;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else if (cols == 1)
-    /*TODO*///	{
-    /*TODO*///		/* scrolling rows + vertical scroll */
-    /*TODO*///		int row,rowheight;
-    /*TODO*///		int scrolly;
-    /*TODO*///		struct rectangle myclip;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
-    /*TODO*///		else scrolly = colscroll[0] % srcheight;
-    /*TODO*///
-    /*TODO*///		rowheight = srcheight / rows;
-    /*TODO*///
-    /*TODO*///		myclip.min_x = clip->min_x;
-    /*TODO*///		myclip.max_x = clip->max_x;
-    /*TODO*///
-    /*TODO*///		row = 0;
-    /*TODO*///		while (row < rows)
-    /*TODO*///		{
-    /*TODO*///			int cons,scroll;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			/* count consecutive rows scrolled by the same amount */
-    /*TODO*///			scroll = rowscroll[row];
-    /*TODO*///			cons = 1;
-    /*TODO*///			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
-    /*TODO*///				cons++;
-    /*TODO*///
-    /*TODO*///			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
-    /*TODO*///			else scroll %= srcwidth;
-    /*TODO*///
-    /*TODO*///			myclip.min_y = row * rowheight + scrolly;
-    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly;
-    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			myclip.min_y = row * rowheight + scrolly - srcheight;
-    /*TODO*///			if (myclip.min_y < clip->min_y) myclip.min_y = clip->min_y;
-    /*TODO*///			myclip.max_y = (row + cons) * rowheight - 1 + scrolly - srcheight;
-    /*TODO*///			if (myclip.max_y > clip->max_y) myclip.max_y = clip->max_y;
-    /*TODO*///
-    /*TODO*///			copybitmap(dest,src,0,0,scroll,scrolly - srcheight,&myclip,transparency,transparent_color);
-    /*TODO*///			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly - srcheight,&myclip,transparency,transparent_color);
-    /*TODO*///
-    /*TODO*///			row += cons;
-    /*TODO*///		}
-    /*TODO*///	}
+      
+    	int srcwidth,srcheight,destwidth,destheight;
+    
+    
+    	if (rows == 0 && cols == 0)
+    	{
+    		copybitmap(dest,src,0,0,0,0,clip,transparency,transparent_color);
+    		return;
+    	}
+    
+    	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		srcwidth = src.height;
+    		srcheight = src.width;
+    		destwidth = dest.height;
+    		destheight = dest.width;
+    	}
+    	else
+    	{
+    		srcwidth = src.width;
+    		srcheight = src.height;
+    		destwidth = dest.width;
+    		destheight = dest.height;
+    	}
+    
+    	if (rows == 0)
+    	{
+    		/* scrolling columns */
+    		int col,colwidth;
+    		rectangle myclip=new rectangle();
+    
+    
+    		colwidth = srcwidth / cols;
+    
+    		myclip.min_y = clip.min_y;
+    		myclip.max_y = clip.max_y;
+    
+    		col = 0;
+    		while (col < cols)
+    		{
+    			int cons,scroll;
+    
+    
+    			/* count consecutive columns scrolled by the same amount */
+    			scroll = colscroll[col];
+    			cons = 1;
+    			while (col + cons < cols &&	colscroll[col + cons] == scroll)
+    				cons++;
+    
+    			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
+    			else scroll %= srcheight;
+    
+    			myclip.min_x = col * colwidth;
+    			if (myclip.min_x < clip.min_x) myclip.min_x = clip.min_x;
+    			myclip.max_x = (col + cons) * colwidth - 1;
+    			if (myclip.max_x > clip.max_x) myclip.max_x = clip.max_x;
+    
+    			copybitmap(dest,src,0,0,0,scroll,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,0,scroll - srcheight,myclip,transparency,transparent_color);
+    
+    			col += cons;
+    		}
+    	}
+    	else if (cols == 0)
+    	{
+    		/* scrolling rows */
+    		int row,rowheight;
+    		rectangle myclip= new rectangle();
+    
+    
+    		rowheight = srcheight / rows;
+    
+    		myclip.min_x = clip.min_x;
+    		myclip.max_x = clip.max_x;
+    
+    		row = 0;
+    		while (row < rows)
+    		{
+    			int cons,scroll;
+    
+    
+    			/* count consecutive rows scrolled by the same amount */
+    			scroll = rowscroll[row];
+    			cons = 1;
+    			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
+    				cons++;
+    
+    			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
+    			else scroll %= srcwidth;
+    
+    			myclip.min_y = row * rowheight;
+    			if (myclip.min_y < clip.min_y) myclip.min_y = clip.min_y;
+    			myclip.max_y = (row + cons) * rowheight - 1;
+    			if (myclip.max_y > clip.max_y) myclip.max_y = clip.max_y;
+    
+    			copybitmap(dest,src,0,0,scroll,0,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,scroll - srcwidth,0,myclip,transparency,transparent_color);
+    
+    			row += cons;
+    		}
+    	}
+    	else if (rows == 1 && cols == 1)
+    	{
+    		/* XY scrolling playfield */
+    		int scrollx,scrolly,sx,sy;
+    
+    
+    		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
+    		else scrollx = rowscroll[0] % srcwidth;
+    
+    		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
+    		else scrolly = colscroll[0] % srcheight;
+    
+    		for (sx = scrollx - srcwidth;sx < destwidth;sx += srcwidth)
+    			for (sy = scrolly - srcheight;sy < destheight;sy += srcheight)
+    				copybitmap(dest,src,0,0,sx,sy,clip,transparency,transparent_color);
+    	}
+    	else if (rows == 1)
+    	{
+    		/* scrolling columns + horizontal scroll */
+    		int col,colwidth;
+    		int scrollx;
+    		rectangle myclip=new rectangle();
+    
+    
+    		if (rowscroll[0] < 0) scrollx = srcwidth - (-rowscroll[0]) % srcwidth;
+    		else scrollx = rowscroll[0] % srcwidth;
+    
+    		colwidth = srcwidth / cols;
+    
+    		myclip.min_y = clip.min_y;
+    		myclip.max_y = clip.max_y;
+    
+    		col = 0;
+    		while (col < cols)
+    		{
+    			int cons,scroll;
+    
+    
+    			/* count consecutive columns scrolled by the same amount */
+    			scroll = colscroll[col];
+    			cons = 1;
+    			while (col + cons < cols &&	colscroll[col + cons] == scroll)
+    				cons++;
+    
+    			if (scroll < 0) scroll = srcheight - (-scroll) % srcheight;
+    			else scroll %= srcheight;
+    
+    			myclip.min_x = col * colwidth + scrollx;
+    			if (myclip.min_x < clip.min_x) myclip.min_x = clip.min_x;
+    			myclip.max_x = (col + cons) * colwidth - 1 + scrollx;
+    			if (myclip.max_x > clip.max_x) myclip.max_x = clip.max_x;
+    
+    			copybitmap(dest,src,0,0,scrollx,scroll,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,scrollx,scroll - srcheight,myclip,transparency,transparent_color);
+    
+    			myclip.min_x = col * colwidth + scrollx - srcwidth;
+    			if (myclip.min_x < clip.min_x) myclip.min_x = clip.min_x;
+    			myclip.max_x = (col + cons) * colwidth - 1 + scrollx - srcwidth;
+    			if (myclip.max_x > clip.max_x) myclip.max_x = clip.max_x;
+    
+    			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,scrollx - srcwidth,scroll - srcheight,myclip,transparency,transparent_color);
+    
+    			col += cons;
+    		}
+    	}
+    	else if (cols == 1)
+    	{
+    		/* scrolling rows + vertical scroll */
+    		int row,rowheight;
+    		int scrolly;
+    		rectangle myclip=new rectangle();
+    
+    
+    		if (colscroll[0] < 0) scrolly = srcheight - (-colscroll[0]) % srcheight;
+    		else scrolly = colscroll[0] % srcheight;
+    
+    		rowheight = srcheight / rows;
+    
+    		myclip.min_x = clip.min_x;
+    		myclip.max_x = clip.max_x;
+    
+    		row = 0;
+    		while (row < rows)
+    		{
+    			int cons,scroll;
+    
+    
+    			/* count consecutive rows scrolled by the same amount */
+    			scroll = rowscroll[row];
+    			cons = 1;
+    			while (row + cons < rows &&	rowscroll[row + cons] == scroll)
+    				cons++;
+    
+    			if (scroll < 0) scroll = srcwidth - (-scroll) % srcwidth;
+    			else scroll %= srcwidth;
+    
+    			myclip.min_y = row * rowheight + scrolly;
+    			if (myclip.min_y < clip.min_y) myclip.min_y = clip.min_y;
+    			myclip.max_y = (row + cons) * rowheight - 1 + scrolly;
+    			if (myclip.max_y > clip.max_y) myclip.max_y = clip.max_y;
+    
+    			copybitmap(dest,src,0,0,scroll,scrolly,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly,myclip,transparency,transparent_color);
+    
+    			myclip.min_y = row * rowheight + scrolly - srcheight;
+    			if (myclip.min_y < clip.min_y) myclip.min_y = clip.min_y;
+    			myclip.max_y = (row + cons) * rowheight - 1 + scrolly - srcheight;
+    			if (myclip.max_y > clip.max_y) myclip.max_y = clip.max_y;
+    
+    			copybitmap(dest,src,0,0,scroll,scrolly - srcheight,myclip,transparency,transparent_color);
+    			copybitmap(dest,src,0,0,scroll - srcwidth,scrolly - srcheight,myclip,transparency,transparent_color);
+    
+    			row += cons;
+    		}
+    	}
     }
 
     /* fill a bitmap using the specified pen */
