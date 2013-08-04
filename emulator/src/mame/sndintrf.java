@@ -3,6 +3,7 @@ import sound.Dummy_snd;
 import sound.dac;
 import sound.samples;
 import sound.namco;
+import sound.sn76496;
 import static mame.sndintrfH.*;
 
 
@@ -245,10 +246,7 @@ public class sndintrf {
     /*TODO*////*TODO*///#if (HAS_SN76477)
     /*TODO*////*TODO*///int SN76477_num(const struct MachineSound *msound) { return ((struct SN76477interface*)msound->sound_interface)->num; }
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_SN76496)
-    /*TODO*////*TODO*///int SN76496_clock(const struct MachineSound *msound) { return ((struct SN76496interface*)msound->sound_interface)->baseclock[0]; }
-    /*TODO*////*TODO*///int SN76496_num(const struct MachineSound *msound) { return ((struct SN76496interface*)msound->sound_interface)->num; }
-    /*TODO*////*TODO*///#endif
+
     /*TODO*////*TODO*///#if (HAS_MSM5205)
     /*TODO*////*TODO*///int MSM5205_clock(const struct MachineSound *msound) { return ((struct MSM5205interface*)msound->sound_interface)->baseclock; }
     /*TODO*////*TODO*///#endif
@@ -477,18 +475,8 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-               /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_SN76496)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_SN76496,
-    /*TODO*////*TODO*///		"SN76496",
-    /*TODO*////*TODO*///		SN76496_num,
-    /*TODO*////*TODO*///		SN76496_clock,
-    /*TODO*////*TODO*///		SN76496_sh_start,
-    /*TODO*////*TODO*///        0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+          new sn76496(),
+
                 /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_POKEY)
     /*TODO*////*TODO*///    {
