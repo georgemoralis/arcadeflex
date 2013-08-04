@@ -24,6 +24,7 @@ import static drivers.minivadr.*;
 import static drivers.pengo.*;
 import static drivers.zaxxon.*;
 import static drivers.rallyx.*;
+import static drivers.ladybug.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -408,10 +409,10 @@ public class driver {
 /*TODO*/ //	DRIVER( nomnlnd )	/* (c) [1980?] */
 /*TODO*/ //	DRIVER( nomnlndg )	/* (c) [1980?] + Gottlieb */
 /*TODO*/ //	DRIVER( cheekyms )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( ladybug )	/* (c) 1981 */
-/*TODO*/ //	DRIVER( ladybugb )	/* bootleg */
-/*TODO*/ //	DRIVER( snapjack )	/* (c) */
-/*TODO*/ //	DRIVER( cavenger )	/* (c) 1981 */
+    driver_ladybug,	/* (c) 1981 */
+    driver_ladybugb,	/* bootleg */
+    driver_snapjack,	/* (c) */
+    driver_cavenger,	/* (c) 1981 */
 /*TODO*/ //	DRIVER( mrdo )		/* (c) 1982 */
 /*TODO*/ //	DRIVER( mrdot )		/* (c) 1982 + Taito license */
 /*TODO*/ //	DRIVER( mrdofix )	/* (c) 1982 + Taito license */

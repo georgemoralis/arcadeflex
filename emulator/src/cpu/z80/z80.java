@@ -1108,26 +1108,26 @@ public class z80 extends cpu_interface {
             CY(6);
         }
     }
-    /*TODO*////***************************************************************
-    /*TODO*/// * RETN
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define RETN	{												\
-    /*TODO*///	LOG((errorlog,"Z80#%d RETN IFF1:%d IFF2:%d\n", cpu_getactivecpu(), _IFF1, _IFF2)); \
-    /*TODO*///    RET(1);                                                     \
-    /*TODO*///	if( _IFF1 == 0 && _IFF2 == 1 )								\
-    /*TODO*///	{															\
-    /*TODO*///		_IFF1 = 1;												\
-    /*TODO*///		if( Z80.irq_state != CLEAR_LINE ||						\
-    /*TODO*///			Z80.request_irq >= 0 )								\
-    /*TODO*///		{														\
-    /*TODO*///			LOG((errorlog, "Z80#%d RETN takes IRQ\n",           \
-    /*TODO*///				cpu_getactivecpu()));							\
-    /*TODO*///			take_interrupt();									\
-    /*TODO*///        }                                                       \
-    /*TODO*///	}															\
-    /*TODO*///	else _IFF1 = _IFF2; 										\
-    /*TODO*///}
-    /*TODO*///
+    /***************************************************************
+     * RETN
+     ***************************************************************/
+     public void RETN()
+     {												
+    	if(errorlog!=null) fprintf(errorlog,"Z80#%d RETN IFF1:%d IFF2:%d\n", cpu_getactivecpu(), Z80.IFF1, Z80.IFF2);
+        RET(true);                                                     
+    	if( Z80.IFF1 == 0 && Z80.IFF2 == 1 )								
+    	{															
+    		Z80.IFF1 = 1;												
+    		if( Z80.irq_state != CLEAR_LINE ||						
+    			Z80.request_irq >= 0 )								
+    		{														
+    			if(errorlog!=null) fprintf(errorlog, "Z80#%d RETN takes IRQ\n",cpu_getactivecpu());							
+    			take_interrupt();									
+            }                                                       
+    	}															
+    	else Z80.IFF1 = Z80.IFF2; 										
+    }
+    
     /*TODO*////***************************************************************
     /*TODO*/// * RETI
     /*TODO*/// ***************************************************************/
@@ -1263,6 +1263,12 @@ public class z80 extends cpu_interface {
     /*TODO*///	_A = (_A & 0xf0) | (n & 0x0f);								\
     /*TODO*///	_F = (_F & CF) | SZP[_A];									\
     /*TODO*///}
+    private final void RRD() {
+        int n = RM(Z80.HL.D);
+        WM(Z80.HL.D, ((n >> 4) | (Z80.AF.H << 4)) & 0xff );
+        Z80.AF.SetH((Z80.AF.H & 0xf0) | (n & 0x0f));
+        Z80.AF.SetL((Z80.AF.L & CF) | SZP[Z80.AF.H]);
+    }
     /*TODO*///
     /*TODO*////***************************************************************
     /*TODO*/// * RLD
@@ -3559,7 +3565,7 @@ public class z80 extends cpu_interface {
     
     opcode fd_a6 = new opcode() { public void handler(){ EAY(); AND(RM(EA));}};
  
-    opcode fd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_ae = new opcode() { public void handler(){ EAY(); XOR(RM(EA));}};
    
     opcode fd_b6 = new opcode() { public void handler(){ EAY(); OR(RM(EA));}};
     opcode fd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
@@ -3623,7 +3629,7 @@ public class z80 extends cpu_interface {
        /*TODO*///OP(fd,a6) { EAY; AND(RM(EA));										} /* AND  (IY+o)	  */
      /*TODO*///OP(fd,ac) { XOR(_HY);												} /* XOR  HY		  */
     /*TODO*///OP(fd,ad) { XOR(_LY);												} /* XOR  LY		  */
-    /*TODO*///OP(fd,ae) { EAY; XOR(RM(EA));										} /* XOR  (IY+o)	  */
+    /*TODO*///OP(fd,ae) { 										} /* XOR  (IY+o)	  */
      /*TODO*///OP(fd,b4) { OR(_HY);												} /* OR   HY		  */
     /*TODO*///OP(fd,b5) { OR(_LY);												} /* OR   LY		  */
     /*TODO*///OP(fd,b6) { EAY; OR(RM(EA));										} /* OR   (IY+o)	  */
@@ -3659,7 +3665,7 @@ public class z80 extends cpu_interface {
     { 
         NEG();
     }};
-    opcode ed_45 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_45 = new opcode() { public void handler(){RETN();}};
    
     opcode ed_47 = new opcode() { public void handler() /* LD   I,A */
     { 
@@ -3740,7 +3746,7 @@ public class z80 extends cpu_interface {
     opcode ed_64 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_65 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     
-    opcode ed_67 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_67 = new opcode() { public void handler(){ RRD();}};
     opcode ed_68 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_69 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_6a = new opcode() { public void handler()/* ADC  HL,HL 	  */
@@ -3811,9 +3817,6 @@ public class z80 extends cpu_interface {
     
 
     
-    /*TODO*///OP(ed,45) { RETN;													} /* RETN;			  */
-    /*TODO*///OP(ed,46) { _IM = 0;												} /* IM   0 		  */
-   	
     /*TODO*///
     /*TODO*///OP(ed,48) { _C = IN(_BC); _F = (_F & CF) | SZP[_C]; 				} /* IN   C,(C) 	  */
     /*TODO*///OP(ed,49) { OUT(_BC,_C);											} /* OUT  (C),C 	  */
@@ -5413,30 +5416,36 @@ public class z80 extends cpu_interface {
     /*TODO*///    }
     /*TODO*///}
     /*TODO*///
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Set NMI line state
-    /*TODO*/// ****************************************************************************/
-    /*TODO*///void z80_set_nmi_line(int state)
-    /*TODO*///{
-    /*TODO*///	if( Z80.nmi_state == state ) return;
-    /*TODO*///
-    /*TODO*///    LOG((errorlog, "Z80#%d set_nmi_line %d\n", cpu_getactivecpu(), state));
-    /*TODO*///    Z80.nmi_state = state;
-    /*TODO*///	if( state == CLEAR_LINE ) return;
-    /*TODO*///
-    /*TODO*///    LOG((errorlog, "Z80#%d take NMI\n", cpu_getactivecpu()));
-    /*TODO*///	_PPC = -1;			/* there isn't a valid previous program counter */
-    /*TODO*///	LEAVE_HALT; 		/* Check if processor was halted */
-    /*TODO*///
-    /*TODO*///	_IFF1 = 0;
-    /*TODO*///    PUSH( PC );
-    /*TODO*///	_PCD = 0x0066;
-    /*TODO*///	Z80.extra_cycles += 11;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////****************************************************************************
-    /*TODO*/// * Set IRQ line state
-    /*TODO*/// ****************************************************************************/
+    /****************************************************************************
+     * Set NMI line state
+     ****************************************************************************/
+    @Override
+    public void set_nmi_line(int state) 
+    {
+    	if( Z80.nmi_state == state ) return;
+    
+        if(errorlog!=null) fprintf(errorlog, "Z80#%d set_nmi_line %d\n", cpu_getactivecpu(), state);
+        Z80.nmi_state = state;
+    	if( state == CLEAR_LINE ) return;
+    
+        if(errorlog!=null) fprintf(errorlog, "Z80#%d take NMI\n", cpu_getactivecpu());
+    	Z80.PREPC.SetD(-1);//_PPC = -1;			/* there isn't a valid previous program counter */
+    	
+        if(Z80.HALT!=0) //LEAVE_HALT; 		/* Check if processor was halted */										
+        {															
+    		Z80.HALT = 0;												
+    		Z80.PC.AddD(1);//_PC++;
+        }
+    	Z80.IFF1 = 0;
+         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+         cpu_writemem16(Z80.SP.D, Z80.PC.L);
+         cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+    	Z80.PC.SetD(0x0066);
+    	Z80.extra_cycles += 11;
+    }
+    /****************************************************************************
+     * Set IRQ line state
+     ****************************************************************************/
     @Override
     public void set_irq_line(int irqline, int state) {
         
@@ -5496,11 +5505,7 @@ public class z80 extends cpu_interface {
         if(errorlog!=null) fprintf(errorlog, "Z80#%d set_irq_callback $%08x\n",cpu_getactivecpu() , System.identityHashCode(callback));
         Z80.irq_callback = callback;
     }
-    /*TODO*///void z80_set_irq_callback(int (*callback)(int))
-    /*TODO*///{
-    
-    /*TODO*///}
-    /*TODO*///
+
     /*TODO*////****************************************************************************
     /*TODO*/// * Save CPU state
     /*TODO*/// ****************************************************************************/
@@ -5688,11 +5693,7 @@ public class z80 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void set_nmi_line(int linestate) {
-         if (Z80.nmi_state == linestate) return;
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void internal_interrupt(int type) {

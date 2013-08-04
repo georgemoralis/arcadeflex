@@ -1044,24 +1044,16 @@ public class cpuintrf {
     	return val;
     }};
     
-    /*TODO*///
-    /*TODO*///
     public static InterruptPtr nmi_interrupt = new InterruptPtr() { public int handler()
     {
-        throw new UnsupportedOperationException("Unsupported nmi interrupt");
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+    
+    	if (interrupt_enable[cpunum] == 0)
+    		return INT_TYPE_NONE(cpunum);
+    	return INT_TYPE_NMI(cpunum);
     }};
-    /*TODO*///int nmi_interrupt(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///
-    /*TODO*///	if (interrupt_enable[cpunum] == 0)
-    /*TODO*///		return INT_TYPE_NONE(cpunum);
-    /*TODO*///
-    /*TODO*///	return INT_TYPE_NMI(cpunum);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+
+
     /*TODO*///int m68_level1_irq(void)
     /*TODO*///{
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
@@ -1106,15 +1098,12 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///
-    /*TODO*///int ignore_interrupt(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return INT_TYPE_NONE(cpunum);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    public static InterruptPtr ignore_interrupt = new InterruptPtr() { public int handler()
+    {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return INT_TYPE_NONE(cpunum);
+    }};
+
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  CPU timing and synchronization functions.
@@ -1219,43 +1208,50 @@ public class cpuintrf {
     /*TODO*///
     public static void cpu_manualnmicallback(int param)
     {
-        throw new UnsupportedOperationException("Unsupported");
-    /*TODO*///	int cpunum, state, oldactive;
-    /*TODO*///	cpunum = param & 7;
-    /*TODO*///	state = param >> 3;
-    /*TODO*///
-    /*TODO*///	/* swap to the CPU's context */
-    /*TODO*///	oldactive = activecpu;
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///	memorycontextswap(activecpu);
-    /*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///
-    /*TODO*///	LOG((errorlog,"cpu_manualnmicallback %d,%d\n",cpunum,state));
-    /*TODO*///
-    /*TODO*///	switch (state)
-    /*TODO*///	{
-    /*TODO*///		case PULSE_LINE:
-    /*TODO*///			SETNMILINE(cpunum,ASSERT_LINE);
-    /*TODO*///			SETNMILINE(cpunum,CLEAR_LINE);
-    /*TODO*///			break;
-    /*TODO*///		case HOLD_LINE:
-    /*TODO*///		case ASSERT_LINE:
-    /*TODO*///			SETNMILINE(cpunum,ASSERT_LINE);
-    /*TODO*///			break;
-    /*TODO*///		case CLEAR_LINE:
-    /*TODO*///			SETNMILINE(cpunum,CLEAR_LINE);
-    /*TODO*///			break;
-    /*TODO*///		default:
-    /*TODO*///			if( errorlog ) fprintf( errorlog, "cpu_manualnmicallback cpu #%d unknown state %d\n", cpunum, state);
-    /*TODO*///	}
-    /*TODO*///	/* update the CPU's context */
-    /*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///	activecpu = oldactive;
-    /*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-    /*TODO*///
-    /*TODO*///	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
-    /*TODO*///	if (state != CLEAR_LINE)
-    /*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
+        
+    	int cpunum, state, oldactive;
+    	cpunum = param & 7;
+    	state = param >> 3;
+    
+    	/* swap to the CPU's context */
+    	oldactive = activecpu;
+    	activecpu = cpunum;
+    	memorycontextswap(activecpu);
+        if (cpu.get(activecpu).save_context!=0) 
+        {
+            SETCONTEXT(activecpu,cpu.get(activecpu).context);
+        }
+    
+    	if(errorlog!=null) fprintf(errorlog,"cpu_manualnmicallback %d,%d\n",cpunum,state);
+    
+    	switch (state)
+    	{
+    		case PULSE_LINE:
+    			SETNMILINE(cpunum,ASSERT_LINE);
+    			SETNMILINE(cpunum,CLEAR_LINE);
+    			break;
+    		case HOLD_LINE:
+    		case ASSERT_LINE:
+    			SETNMILINE(cpunum,ASSERT_LINE);
+    			break;
+    		case CLEAR_LINE:
+    			SETNMILINE(cpunum,CLEAR_LINE);
+    			break;
+    		default:
+    			if( errorlog!=null ) fprintf( errorlog, "cpu_manualnmicallback cpu #%d unknown state %d\n", cpunum, state);
+    	}
+    	/* update the CPU's context */
+        if (cpu.get(activecpu).save_context!=0) 
+        {
+            cpu.get(activecpu).context=GETCONTEXT(activecpu);
+            
+        }
+    	activecpu = oldactive;
+    	if (activecpu >= 0) memorycontextswap(activecpu);
+    
+    	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
+    	if (state != CLEAR_LINE)
+    		timer_trigger(TRIGGER_INT + cpunum);
     }
     
     public static void cpu_manualirqcallback(int param)
