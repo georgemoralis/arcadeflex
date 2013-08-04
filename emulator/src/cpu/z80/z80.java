@@ -2511,7 +2511,7 @@ public class z80 extends cpu_interface {
     opcode xxcb_23 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode xxcb_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode xxcb_26 = new opcode() { public void handler(){ WM( EA,SLA( RM(EA) ) ); }};
     opcode xxcb_27 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_28 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode xxcb_29 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
