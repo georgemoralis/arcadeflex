@@ -23,6 +23,7 @@ import static drivers.pacman.*;
 import static drivers.minivadr.*;
 import static drivers.pengo.*;
 import static drivers.zaxxon.*;
+import static drivers.rallyx.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -242,9 +243,9 @@ public class driver {
 /*TODO*/ //	DRIVER( warpwarp )	/* (c) 1981 Namco */
 /*TODO*/ //	DRIVER( warpwarr )	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
 /*TODO*/ //	DRIVER( warpwar2 )	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
-/*TODO*/ //	DRIVER( rallyx )	/* (c) 1980 Namco */
-/*TODO*/ //	DRIVER( rallyxm )	/* (c) 1980 Midway */
-/*TODO*/ //	DRIVER( nrallyx )	/* (c) 1981 Namco */
+    driver_rallyx,/* (c) 1980 Namco */
+    driver_rallyxm, 	/* (c) 1980 Midway */
+    driver_nrallyx, 	/* (c) 1981 Namco */
 /*TODO*/ //	DRIVER( jungler )	/* GX327 (c) 1981 Konami */
 /*TODO*/ //	DRIVER( junglers )	/* GX327 (c) 1981 Stern */
 /*TODO*/ //	DRIVER( locomotn )	/* GX359 (c) 1982 Konami + Centuri license */

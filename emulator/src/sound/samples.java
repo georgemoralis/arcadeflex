@@ -43,5 +43,8 @@ public class samples extends sndintrf.snd_interface
     public void reset() {
         
     }
-    
+    public static void sample_start(int channel,int samplenum,int loop)
+    {
+        
+    }
 }
