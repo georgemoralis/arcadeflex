@@ -889,7 +889,10 @@ public class z80 extends cpu_interface {
     /*TODO*/// * Output a byte to given I/O port
     /*TODO*/// ***************************************************************/
     /*TODO*///#define OUT(port,value) cpu_writeport(port,value)
-
+    public void OUT(int port,int value)
+    {
+        cpu_writeport(port,value);
+    }
     /***************************************************************
     * Read a byte from given memory location
     / ***************************************************************/
@@ -3399,7 +3402,11 @@ public class z80 extends cpu_interface {
     
     opcode fd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_26 = new opcode() { public void handler()
+    { 
+    //_HY = ARG();
+        Z80.IY.SetH(ARG()&0xFF);
+    }};
    
     opcode fd_2a = new opcode() { public void handler()
     { 
@@ -3410,8 +3417,15 @@ public class z80 extends cpu_interface {
      }};
     
     opcode fd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_2d = new opcode() { public void handler()
+    { 
+        Z80.IY.SetL(DEC(Z80.IY.L));
+    }};
+    opcode fd_2e = new opcode() { public void handler()
+    { 
+     //    /*TODO*///OP(fd,2e) { _LY = ARG();											} /* LD   LY,n		  */
+        Z80.IY.SetL(ARG()&0xFF);
+    }};
     opcode fd_34 = new opcode() { public void handler()
     { 
      /*TODO*///OP(fd,34) { EAY; WM( EA, INC(RM(EA)) ); 							} /* INC  (IY+o)	  */
@@ -3547,7 +3561,7 @@ public class z80 extends cpu_interface {
  
     opcode fd_ae = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
-    opcode fd_b6 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_b6 = new opcode() { public void handler(){ EAY(); OR(RM(EA));}};
     opcode fd_bc = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_bd = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_be = new opcode() { public void handler()
@@ -4599,7 +4613,13 @@ public class z80 extends cpu_interface {
         Z80.SP.AddD(2);  
     }};
 
-    opcode op_d3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_d3 = new opcode() { public void handler()
+    { 
+  //TODO recheck!!
+        //unsigned n = ARG() | (_A << 8); OUT( n, _A );
+        int n = (ARG() & 0xFF) | (Z80.AF.H << 8); 
+        OUT( n, Z80.AF.H );
+    }};
     opcode op_d4 = new opcode() { public void handler()
     { 
            /*TODO*///OP(op,d4) { CALL( !(_F & CF) ); 									} /* CALL NC,a		  */
@@ -4980,28 +5000,33 @@ public class z80 extends cpu_interface {
                 }
                 else
                 {
-                    throw new UnsupportedOperationException("unimplemented");  
-    /*TODO*///            /* Interrupt mode 0. We check for CALL and JP instructions, */
-    /*TODO*///            /* if neither of these were found we assume a 1 byte opcode */
-    /*TODO*///            /* was placed on the databus                                */
-    /*TODO*///            LOG((errorlog, "Z80#%d IM0 $%04x\n",cpu_getactivecpu() , irq_vector));
-    /*TODO*///            switch (irq_vector & 0xff0000)
-    /*TODO*///            {
-    /*TODO*///                case 0xcd0000:  /* call */
-    /*TODO*///                    PUSH( PC );
-    /*TODO*///                    Z80.extra_cycles += 5;  /* CALL $xxxx cycles (JP $xxxx follows)*/
-    /*TODO*///                case 0xc30000:  /* jump */
-    /*TODO*///                    _PCD = irq_vector & 0xffff;
-    /*TODO*///                    Z80.extra_cycles += 10 + 2; /* JP $xxxx + 2 cycles */
-    /*TODO*///                    break;
-    /*TODO*///                default:        /* rst */
-    /*TODO*///                    PUSH( PC );
-    /*TODO*///                    _PCD = irq_vector & 0x0038;
-    /*TODO*///                    Z80.extra_cycles += 11 + 2; /* RST $xx + 2 cycles */
-    /*TODO*///                    break;
+                      
+                /* Interrupt mode 0. We check for CALL and JP instructions, */
+                /* if neither of these were found we assume a 1 byte opcode */
+                /* was placed on the databus                                */
+                if(errorlog!=null) fprintf(errorlog, "Z80#%d IM0 $%04x\n",cpu_getactivecpu() , irq_vector);
+                switch (irq_vector & 0xff0000)
+                {
+                    case 0xcd0000:  /* call */
+                        
+                        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+                        cpu_writemem16(Z80.SP.D, Z80.PC.L);
+                        cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+                        Z80.extra_cycles += 5;  /* CALL $xxxx cycles (JP $xxxx follows)*/
+                    case 0xc30000:  /* jump */
+                        Z80.PC.SetD(irq_vector & 0xffff);
+                        Z80.extra_cycles += 10 + 2; /* JP $xxxx + 2 cycles */
+                        break;
+                    default:        /* rst */
+                        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+                        cpu_writemem16(Z80.SP.D, Z80.PC.L);
+                        cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+                        Z80.PC.SetD(irq_vector & 0x0038);
+                        Z80.extra_cycles += 11 + 2; /* RST $xx + 2 cycles */
+                        break;
                }
              }
-          
+            }
             change_pc(Z80.PC.D);
         }       
     }

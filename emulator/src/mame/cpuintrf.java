@@ -1015,20 +1015,20 @@ public class cpuintrf {
     }};
     public static WriteHandlerPtr interrupt_vector_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-        throw new UnsupportedOperationException("Unsupported interrupt_vector_w");
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_vector[cpunum] != data)
-    /*TODO*///	{
-    /*TODO*///		LOG((errorlog,"CPU#%d interrupt_vector_w $%02x\n", cpunum, data));
-    /*TODO*///		interrupt_vector[cpunum] = data;
-    /*TODO*///
-    /*TODO*///		/* make sure there are no queued interrupts */
-    /*TODO*///		cpu_clear_pending_interrupts(cpunum);
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_vector[cpunum] != data)
+    	{
+    		if(errorlog!=null) fprintf(errorlog,"CPU#%d interrupt_vector_w $%02x\n", cpunum, data);
+    		interrupt_vector[cpunum] = data;
+    
+    		/* make sure there are no queued interrupts */
+    		cpu_clear_pending_interrupts(cpunum);
+        }
     }};
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    
+    
+    
+    
     public static InterruptPtr interrupt = new InterruptPtr() { public int handler() 
     {
     	int cpunum = (activecpu < 0) ? 0 : activecpu;
