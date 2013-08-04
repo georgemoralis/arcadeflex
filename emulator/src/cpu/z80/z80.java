@@ -4979,12 +4979,17 @@ public class z80 extends cpu_interface {
             /* Interrupt mode 2. Call [Z80.I:databyte] */
             if( Z80.IM == 2 )
             {
-                throw new UnsupportedOperationException("unimplemented");  
-    /*TODO*///			irq_vector = (irq_vector & 0xff) | (_I << 8);
-    /*TODO*///            PUSH( PC );
-    /*TODO*///			RM16( irq_vector, &Z80.PC );
-    /*TODO*///            LOG((errorlog, "Z80#%d IM2 [$%04x] = $%04x\n",cpu_getactivecpu() , irq_vector, _PCD));
-    /*TODO*///            Z80.extra_cycles += 19;
+                  
+    		   irq_vector = (irq_vector & 0xff) | (Z80.I << 8);
+                //PUSH( PC );
+                   Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF);
+                   cpu_writemem16(Z80.SP.D, Z80.PC.L);
+                   cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+    		// RM16( irq_vector, &Z80.PC );
+                   Z80.PC.SetL((cpu_readmem16(irq_vector) & 0xFF)); //RM16
+                   Z80.PC.SetH((cpu_readmem16((irq_vector + 1) & 0xffff)& 0xFF));
+                  if(errorlog!=null) fprintf(errorlog, "Z80#%d IM2 [$%04x] = $%04x\n",cpu_getactivecpu() , irq_vector, Z80.PC.D);
+                   Z80.extra_cycles += 19;
             }
             else
             {
