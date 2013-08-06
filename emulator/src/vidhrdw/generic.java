@@ -65,7 +65,7 @@ public class generic {
         }
     };
     
-    public static VhStartPtr generic_bitmapped_vh_startt = new VhStartPtr() {
+    public static VhStartPtr generic_bitmapped_vh_start = new VhStartPtr() {
         public int handler() {
 	if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width,Machine.drv.screen_height,Machine.scrbitmap.depth)) == null)
 	{
