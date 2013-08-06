@@ -47,4 +47,8 @@ public class samples extends sndintrf.snd_interface
     {
         
     }
+    public static void sample_stop(int channel)
+    {
+        
+    }
 }

@@ -7,6 +7,8 @@ import static mame.osdependH.*;
 import static mame.driverH.*;
 import static mame.mame.*;
 import static arcadeflex.video.*;
+import static mame.drawgfx.*;
+import static mame.drawgfxH.*;
 
 public class generic {
 
@@ -62,25 +64,24 @@ public class generic {
             return 0;
         }
     };
-    /*TODO*///
-/*TODO*///
-/*TODO*///int generic_bitmapped_vh_start(void)
-/*TODO*///{
-/*TODO*///	if ((tmpbitmap = osd_new_bitmap(Machine->drv->screen_width,Machine->drv->screen_height,Machine->scrbitmap->depth)) == 0)
-/*TODO*///	{
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Stop the video hardware emulation.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void generic_vh_stop(void)
+    
+    public static VhStartPtr generic_bitmapped_vh_startt = new VhStartPtr() {
+        public int handler() {
+	if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width,Machine.drv.screen_height,Machine.scrbitmap.depth)) == null)
+	{
+		return 1;
+	}
+
+	return 0;
+    }};
+
+
+    /***************************************************************************
+
+      Stop the video hardware emulation.
+
+    ***************************************************************************/
+
     public static VhStopPtr generic_vh_stop = new VhStopPtr() {
         public void handler() {
             dirtybuffer = null;
@@ -88,27 +89,28 @@ public class generic {
             tmpbitmap = null;
         }
     };
-    /*TODO*///
-/*TODO*///void generic_bitmapped_vh_stop(void)
-/*TODO*///{
-/*TODO*///	osd_free_bitmap(tmpbitmap);
-/*TODO*///
-/*TODO*///	tmpbitmap = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Draw the game screen in the given osd_bitmap.
-/*TODO*///  To be used by bitmapped games not using sprites.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void generic_bitmapped_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
-/*TODO*///{
-/*TODO*///	if (full_refresh)
-/*TODO*///		copybitmap(bitmap,tmpbitmap,0,0,0,0,&Machine->drv->visible_area,TRANSPARENCY_NONE,0);
-/*TODO*///}
-/*TODO*///
+    public static VhStopPtr generic_bitmapped_vh_stop = new VhStopPtr() {
+        public void handler() {    
+
+	osd_free_bitmap(tmpbitmap);
+
+	tmpbitmap = null;
+    }};
+
+
+    /***************************************************************************
+
+      Draw the game screen in the given osd_bitmap.
+      To be used by bitmapped games not using sprites.
+
+    ***************************************************************************/
+    public static VhUpdatePtr generic_bitmapped_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+    {
+
+	if (full_refresh!=0)
+		copybitmap(bitmap,tmpbitmap,0,0,0,0,Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+    }};
+
     public static ReadHandlerPtr videoram_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return videoram.read(offset);
