@@ -1206,8 +1206,10 @@ public class palette {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///const unsigned char *palette_recalc(void)
-    /*TODO*///{
+    public static UBytePtr palette_recalc()
+    {
+        throw new UnsupportedOperationException("palette_recalc unimplemented");
+    
     /*TODO*///	/* if we are not dynamically reducing the palette, return immediately. */
     /*TODO*///	if (palette_used_colors == 0)
     /*TODO*///		return 0;
@@ -1221,7 +1223,7 @@ public class palette {
     /*TODO*///		case PALETTIZED_16BIT:
     /*TODO*///			return palette_recalc_16_palettized();
     /*TODO*///	}
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
