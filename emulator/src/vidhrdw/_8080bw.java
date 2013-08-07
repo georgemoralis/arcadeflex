@@ -1,6 +1,6 @@
 /*
  * ported to v0.36
- * using automatic conversion tool v0.07
+ * using automatic conversion tool v0.07 + manual fixes
  *
  *  TODO : overlay support missing
  *
