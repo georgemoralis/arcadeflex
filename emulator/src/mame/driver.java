@@ -25,6 +25,7 @@ import static drivers.pengo.*;
 import static drivers.zaxxon.*;
 import static drivers.rallyx.*;
 import static drivers.ladybug.*;
+import static drivers.z80bw.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -525,10 +526,10 @@ public class driver {
 /*TODO*/ //	DRIVER( spceking )
 /*TODO*/ //	DRIVER( spcewars )
 
-	/* "Midway" Z80 b/w games */
-/*TODO*/ //	DRIVER( astinvad )	/* (c) 1980 Stern */
-/*TODO*/ //	DRIVER( kamikaze )	/* Leijac Corporation */
-/*TODO*/ //	DRIVER( spaceint )	/* [1980] Shoei */
+    /* "Midway" Z80 b/w games */
+    driver_astinvad,	/* (c) 1980 Stern */
+    driver_kamikaze,	/* Leijac Corporation */
+    driver_spaceint,	/* [1980] Shoei */
 
 	/* Meadows S2650 games */
 /*TODO*/ //	DRIVER( lazercmd )	/* [1976?] */

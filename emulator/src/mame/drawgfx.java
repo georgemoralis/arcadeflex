@@ -1680,8 +1680,10 @@ public class drawgfx {
         throw new UnsupportedOperationException("Unsupported pp_8_d_fx_s");
     }};              
 /*TODO*///static void pp_8_d_fy_s(struct osd_bitmap *b,int x,int y,int p)  { int newx = b->height-1-x; b->line[newx][y] = p; osd_mark_dirty (y,newx,y,newx,0); }
-                public static plot_pixel_procPtr pp_8_d_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
-        throw new UnsupportedOperationException("Unsupported pp_8_d_fy_s");
+    public static plot_pixel_procPtr pp_8_d_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
+        int newx = bitmap.height-1-x; 
+        bitmap.line[newx].write(y,pen); 
+        osd_mark_dirty (y,newx,y,newx,0);
     }};              
 /*TODO*///static void pp_8_d_fxy_s(struct osd_bitmap *b,int x,int y,int p)  { int newx = b->height-1-x; int newy = b->width-1-y; b->line[newx][newy] = p; osd_mark_dirty (newy,newx,newy,newx,0); }
                  public static plot_pixel_procPtr pp_8_d_fxy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {

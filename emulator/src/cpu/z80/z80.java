@@ -880,15 +880,17 @@ public class z80 extends cpu_interface {
         Z80xxcb[0xf8] = xxcb_f8; Z80xxcb[0xf9] = xxcb_f9; Z80xxcb[0xfa] = xxcb_fa; Z80xxcb[0xfb] = xxcb_fb; 
         Z80xxcb[0xfc] = xxcb_fc; Z80xxcb[0xfd] = xxcb_fd; Z80xxcb[0xfe] = xxcb_fe; Z80xxcb[0xff] = xxcb_ff;
     }
-    /*TODO*////***************************************************************
-    /*TODO*/// * Input a byte from given I/O port
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define IN(port)   ((UINT8)cpu_readport(port))
-    /*TODO*///
-    /*TODO*////***************************************************************
-    /*TODO*/// * Output a byte to given I/O port
-    /*TODO*/// ***************************************************************/
-    /*TODO*///#define OUT(port,value) cpu_writeport(port,value)
+    /***************************************************************
+     * Input a byte from given I/O port
+     ***************************************************************/
+    public int IN(int port)
+    {
+        return cpu_readport(port) & 0xFF;
+    }
+    /***************************************************************
+     * Output a byte to given I/O port
+     ***************************************************************/
+    
     public void OUT(int port,int value)
     {
         cpu_writeport(port,value);
@@ -4674,7 +4676,13 @@ public class z80 extends cpu_interface {
         tmp=null;
     }};
 
-    opcode op_db = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_db = new opcode() { public void handler()
+    { 
+//TODO recheck!!
+        //unsigned n = ARG() | (_A << 8); _A = IN( n );
+        int n = (ARG() & 0xFF) | (Z80.AF.H << 8); 
+        Z80.AF.SetH(IN(n));
+    }};
     opcode op_dc = new opcode() { public void handler()
     { 
         //CALL( _F & CF );
