@@ -61,8 +61,8 @@ public class driver {
 /*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */
 /*TODO*/ //	DRIVER( jumpshot )
 /*TODO*/ //	DRIVER( dremshpr )	/* (c) 1982 Sanritsu */
-/*TODO*/ //	DRIVER( vanvan )	/* (c) 1983 Karateco (bootleg?) */
-/*TODO*/ //	DRIVER( vanvans )	/* (c) 1983 Sanritsu */
+        driver_vanvan,	/* (c) 1983 Karateco (bootleg?) */
+        driver_vanvans,	/* (c) 1983 Sanritsu */
         driver_alibaba,	/* (c) 1982 Sega */
         driver_pengo,	/* 834-0386 (c) 1982 Sega */
         driver_pengo2,	/* 834-0386 (c) 1982 Sega */

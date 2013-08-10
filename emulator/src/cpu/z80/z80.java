@@ -3186,7 +3186,17 @@ public class z80 extends cpu_interface {
         Z80.IX.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
         Z80.SP.AddD(2);  
     }};
-    opcode dd_e3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_e3 = new opcode() { public void handler()
+    { 
+        //EXSP(IX);
+        //TODO recheck!
+        PAIR tmp = new PAIR();
+        tmp.SetL((cpu_readmem16(Z80.SP.D) & 0xFF)); //RM16
+        tmp.SetH((cpu_readmem16((Z80.SP.D + 1) & 0xffff)& 0xFF));
+        cpu_writemem16(Z80.SP.D, Z80.IX.L);
+        cpu_writemem16((Z80.SP.D + 1) & 0xffff, Z80.IX.H);
+        Z80.IX.SetD(tmp.D);
+    }};
     opcode dd_e5 = new opcode() { public void handler()/* PUSH IX		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
@@ -3777,7 +3787,10 @@ public class z80 extends cpu_interface {
     opcode ed_75 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
    
     opcode ed_78 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_79 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_79 = new opcode() { public void handler()
+    { 
+        OUT(Z80.BC.D,Z80.AF.H);
+    }};
     opcode ed_7a = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_7b = new opcode() { public void handler()/* LD   SP,(w)	  */
     { 
@@ -4903,7 +4916,15 @@ public class z80 extends cpu_interface {
     { 
         CP(ARG() & 0xFF); //CP(ARG());
     }};
-    opcode op_ff = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ff = new opcode() { public void handler()
+    { 
+        //RST(0x38)
+        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+            cpu_writemem16(Z80.SP.D, Z80.PC.L);
+            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+            Z80.PC.SetD(0x38);
+            change_pc16(Z80.PC.D);
+    }};
    
 
     /*TODO*///OP(op,33) { _SP++;													} /* INC  SP		  */     

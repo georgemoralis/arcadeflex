@@ -19,6 +19,8 @@ import static mame.inputportH.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import static sound.sn76496H.*;
+import static sound.sn76496.*;
 
 public class pacman {
     public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -132,14 +134,13 @@ public class pacman {
 	new IOWritePort( 0x00, 0x00, interrupt_vector_w ),	/* Pac-Man only */
 	new IOWritePort( -1 )	/* end of table */
     };
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct IOWritePort vanvan_writeport[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x01, 0x01, SN76496_0_w },
-    /*TODO*///	{ 0x02, 0x02, SN76496_1_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
+    
+	static IOWritePort vanvan_writeport[] =
+	{
+		new IOWritePort( 0x01, 0x01, SN76496_0_w ),
+		new IOWritePort( 0x02, 0x02, SN76496_1_w ),
+		new IOWritePort( -1 )
+	};
     /*TODO*///
     /*TODO*///static struct IOWritePort dremshpr_writeport[] =
     /*TODO*///{
@@ -504,102 +505,102 @@ public class pacman {
                 INPUT_PORTS_END(); 
         }}; 
   
-    /*TODO*///INPUT_PORTS_START( eyes )
-    /*TODO*///	PORT_START  /* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_SERVICE( 0x10, IP_ACTIVE_LOW )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "50000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "75000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "100000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "125000" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )  /* Not accessed */
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( mrtnt )
-    /*TODO*///	PORT_START  /* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_SERVICE( 0x10, IP_ACTIVE_LOW )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "2" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "75000" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "100000" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "125000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "150000" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+ 	static InputPortPtr input_ports_eyes = new InputPortPtr(){ public void handler() { 
+		PORT_START();   /* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_SERVICE( 0x10, IP_ACTIVE_LOW );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Coinage") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x03, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play") );
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x0c, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x30, "50000" );
+		PORT_DIPSETTING(    0x20, "75000" );
+		PORT_DIPSETTING(    0x10, "100000" );
+		PORT_DIPSETTING(    0x00, "125000" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );  /* Not accessed */
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+	INPUT_PORTS_END(); }}; 
+    
+  	static InputPortPtr input_ports_mrtnt = new InputPortPtr(){ public void handler() { 
+		PORT_START();   /* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_SERVICE( 0x10, IP_ACTIVE_LOW );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_TILT );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Coinage") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x03, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play") );
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x0c, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x30, "75000" );
+		PORT_DIPSETTING(    0x20, "100000" );
+		PORT_DIPSETTING(    0x10, "125000" );
+		PORT_DIPSETTING(    0x00, "150000" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+	INPUT_PORTS_END(); }}; 
+  
 	static InputPortPtr input_ports_lizwiz = new InputPortPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
@@ -647,260 +648,261 @@ public class pacman {
 		PORT_START(); 	/* DSW 2 */
 		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
                 INPUT_PORTS_END(); 
-        }};         
-    /*TODO*///INPUT_PORTS_START( theglob )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON2 )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "6" )
-    /*TODO*///	PORT_DIPNAME( 0x1c, 0x1c, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x1c, "Easiest" )
-    /*TODO*///	PORT_DIPSETTING(    0x18, "Very Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x14, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "Difficult" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "Very Difficult" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "Very Hard" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hardest" )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x00, DEF_STR( Demo_Sounds ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( vanvan )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	/* The 2nd player controls are used even in upright mode */
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Flip_Screen ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x04, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "6" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Coin_A ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Coin_B ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_3C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( On ) )
-    /*TODO*///	PORT_BITX(    0x02, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", KEYCODE_F1, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( vanvans )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	/* The 2nd player controls are used even in upright mode */
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Flip_Screen ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x04, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "6" )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0xc0, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_3C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( On ) )
-    /*TODO*///	PORT_BITX(    0x02, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", KEYCODE_F1, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x20, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x00, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( dremshpr )
-    /*TODO*///	PORT_START	/* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x01, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Flip_Screen ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "30000" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "50000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "70000" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "5" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "6" )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0xc0, DEF_STR( Coinage ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_3C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW 2 */
-    /*TODO*///  //PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", IP_KEY_NONE, IP_JOY_NONE )
-    /*TODO*///  //PORT_DIPSETTING(    0x00, DEF_STR( Off ) )		/* turning this on crashes puts the */
-    /*TODO*///  //PORT_DIPSETTING(    0x01, DEF_STR( On ) )       /* emulated machine in an infinite loop once in a while */
-    /*TODO*/////	PORT_DIPNAME( 0xff, 0x00, DEF_STR( Unused ) )
-    /*TODO*///	PORT_BIT( 0xfe, IP_ACTIVE_LOW, IPT_UNUSED )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+        }};  
+        
+    	static InputPortPtr input_ports_theglob = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x03, "3" );
+		PORT_DIPSETTING(    0x02, "4" );
+		PORT_DIPSETTING(    0x01, "5" );
+		PORT_DIPSETTING(    0x00, "6" );
+		PORT_DIPNAME( 0x1c, 0x1c, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x1c, "Easiest" );
+		PORT_DIPSETTING(    0x18, "Very Easy" );
+		PORT_DIPSETTING(    0x14, "Easy" );
+		PORT_DIPSETTING(    0x10, "Normal" );
+		PORT_DIPSETTING(    0x0c, "Difficult" );
+		PORT_DIPSETTING(    0x08, "Very Difficult" );
+		PORT_DIPSETTING(    0x04, "Very Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x20, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x20, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+	INPUT_PORTS_END(); }}; 
+	
+	static InputPortPtr input_ports_vanvan = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		/* The 2nd player controls are used even in upright mode */
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Flip_Screen") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x04, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x30, "3" );
+		PORT_DIPSETTING(    0x20, "4" );
+		PORT_DIPSETTING(    0x10, "5" );
+		PORT_DIPSETTING(    0x00, "6" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Coin_A") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_1C") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Coin_B") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_3C") );
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "On") );
+		PORT_BITX(    0x02, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", KEYCODE_F1, IP_JOY_NONE );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x08, DEF_STR( "On") );
+		PORT_DIPNAME( 0x10, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "On") );
+		PORT_DIPNAME( 0x20, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x20, DEF_STR( "On") );
+		PORT_DIPNAME( 0x40, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+	
+	static InputPortPtr input_ports_vanvans = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		/* The 2nd player controls are used even in upright mode */
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Flip_Screen") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x04, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x30, "3" );
+		PORT_DIPSETTING(    0x20, "4" );
+		PORT_DIPSETTING(    0x10, "5" );
+		PORT_DIPSETTING(    0x00, "6" );
+		PORT_DIPNAME( 0xc0, 0xc0, DEF_STR( "Coinage") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_3C") );
+	
+		PORT_START(); 	/* DSW 2 */
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "On") );
+		PORT_BITX(    0x02, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", KEYCODE_F1, IP_JOY_NONE );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x08, DEF_STR( "On") );
+		PORT_DIPNAME( 0x10, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "On") );
+		PORT_DIPNAME( 0x20, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x20, DEF_STR( "On") );
+		PORT_DIPNAME( 0x40, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x00, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+	
+	static InputPortPtr input_ports_dremshpr = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 	/* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
+	
+		PORT_START(); 	/* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 	/* DSW 1 */
+		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Flip_Screen") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x08, "30000" );
+		PORT_DIPSETTING(    0x04, "50000" );
+		PORT_DIPSETTING(    0x00, "70000" );
+		PORT_DIPSETTING(    0x0c, "None" );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x30, "3" );
+		PORT_DIPSETTING(    0x20, "4" );
+		PORT_DIPSETTING(    0x10, "5" );
+		PORT_DIPSETTING(    0x00, "6" );
+		PORT_DIPNAME( 0xc0, 0xc0, DEF_STR( "Coinage") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_3C") );
+	
+		PORT_START(); 	/* DSW 2 */
+	  //PORT_BITX(    0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", IP_KEY_NONE, IP_JOY_NONE );
+	  //PORT_DIPSETTING(    0x00, DEF_STR( "Off") );		/* turning this on crashes puts the */
+	  //PORT_DIPSETTING(    0x01, DEF_STR( "On") );       /* emulated machine in an infinite loop once in a while */
+	//	PORT_DIPNAME( 0xff, 0x00, DEF_STR( "Unused") );
+		PORT_BIT( 0xfe, IP_ACTIVE_LOW, IPT_UNUSED );
+	INPUT_PORTS_END(); }}; 
+
 	static InputPortPtr input_ports_alibaba = new InputPortPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
@@ -991,14 +993,14 @@ public class pacman {
     	100,		/* playback volume */
    	REGION_SOUND1	/* memory region */
     );
-    /*TODO*///
-    /*TODO*///static struct SN76496interface sn76496_interface =
-    /*TODO*///{
-    /*TODO*///	2,
-    /*TODO*///	{ 1789750, 1789750 },	/* 1.78975 Mhz ? */
-    /*TODO*///	{ 75, 75 }
-    /*TODO*///};
-    /*TODO*///
+    
+    static SN76496interface sn76496_interface = new SN76496interface
+    (
+    	2,
+    	new int[]{ 1789750, 1789750 },	/* 1.78975 Mhz ? */
+    	new int[]{ 75, 75 }
+    );
+    
     /*TODO*///static struct AY8910interface dremshpr_ay8910_interface =
     /*TODO*///{
     /*TODO*///	1,	/* 1 chip */
@@ -1087,6 +1089,43 @@ public class pacman {
     /*TODO*///	}
     /*TODO*///};
     /*TODO*///
+        static MachineDriver machine_driver_vanvan = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				18432000/6,	/* 3.072 Mhz */
+				readmem,writemem,null,vanvan_writeport,
+				nmi_interrupt,1
+			)
+		},
+		60, 2500,	/* frames per second, vblank duration */
+		1,	/* single CPU, no need for interleaving */
+		null,
+	
+		/* video hardware */
+		36*8, 28*8, new rectangle( 0*8, 36*8-1, 0*8, 28*8-1 ),
+		gfxdecodeinfo,
+		16, 4*32,
+		pacman_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+		null,
+		pacman_vh_start,
+		generic_vh_stop,
+		pengo_vh_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_SN76496,
+				sn76496_interface
+                    )
+		}
+	);
     /*TODO*///static struct MachineDriver machine_driver_vanvan =
     /*TODO*///{
     /*TODO*///	/* basic machine hardware */
@@ -2172,8 +2211,8 @@ public class pacman {
     /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
     /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
     /*TODO*///GAME( 1982, rom_dremshpr, null,        machine_driver_dremshpr, input_ports_dremshpr, null,        ROT270, "Sanritsu", "Dream Shopper" )
-    /*TODO*///GAME( 1983, rom_vanvan,   null,        machine_driver_vanvan,   input_ports_vanvan,   null,        ROT270, "Karateco", "Van Van Car" )
-    /*TODO*///GAME( 1983, rom_vanvans,  driver_vanvan,   machine_driver_vanvan,   input_ports_vanvans,  null,        ROT270, "Sanritsu", "Van Van Car (Sanritsu)" )
+    public static GameDriver driver_vanvan  = new GameDriver("1983"	,"vanvan"	,"pacman.java"	,rom_vanvan,null	,machine_driver_vanvan	,input_ports_vanvan	,null	,ROT270	,	"Karateco", "Van Van Car" );
+    public static GameDriver driver_vanvans = new GameDriver("1983"	,"vanvans"	,"pacman.java"	,rom_vanvans,driver_vanvan	,machine_driver_vanvan	,input_ports_vanvans	,null	,ROT270	,	"Sanritsu", "Van Van Car (Sanritsu)" );
     public static GameDriver driver_alibaba = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" );
     /*TODO*///    
 }
