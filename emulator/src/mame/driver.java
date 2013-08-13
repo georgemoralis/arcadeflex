@@ -51,12 +51,12 @@ public class driver {
 /*TODO*/ //	DRIVER( crush3 )	/* Kural Electric Ltd - bootleg? */
         driver_mbrush,	  /* 1981 bootleg */
         driver_paintrlr,  /* 1981 bootleg */
-/*TODO*/ //	DRIVER( eyes )		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
-/*TODO*/ //	DRIVER( eyes2 )		/* (c) 1982 Techstar + "Rockola presents" */
-/*TODO*/ //	DRIVER( mrtnt )		/* (c) 1983 Telko */
-       driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
-       driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
-       driver_lizwiz,	/* (c) 1985 Techstar + "Sunn presents" */
+        driver_eyes,		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
+        driver_eyes2,		/* (c) 1982 Techstar + "Rockola presents" */
+        driver_mrtnt,		/* (c) 1983 Telko */
+        driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
+        driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
+        driver_lizwiz,	/* (c) 1985 Techstar + "Sunn presents" */
 /*TODO*/ //	DRIVER( theglob )	/* (c) 1983 Epos Corporation */
 /*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */
 /*TODO*/ //	DRIVER( jumpshot )

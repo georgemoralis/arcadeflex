@@ -1126,43 +1126,7 @@ public class pacman {
                     )
 		}
 	);
-    /*TODO*///static struct MachineDriver machine_driver_vanvan =
-    /*TODO*///{
-    /*TODO*///	/* basic machine hardware */
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			18432000/6,	/* 3.072 Mhz */
-    /*TODO*///			readmem,writemem,0,vanvan_writeport,
-    /*TODO*///			nmi_interrupt,1
-    /*TODO*///		}
-    /*TODO*///	},
-    /*TODO*///	60, 2500,	/* frames per second, vblank duration */
-    /*TODO*///	1,	/* single CPU, no need for interleaving */
-    /*TODO*///	0,
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	36*8, 28*8, { 0*8, 36*8-1, 0*8, 28*8-1 },
-    /*TODO*///	gfxdecodeinfo,
-    /*TODO*///	16, 4*32,
-    /*TODO*///	pacman_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
-    /*TODO*///	0,
-    /*TODO*///	pacman_vh_start,
-    /*TODO*///	generic_vh_stop,
-    /*TODO*///	pengo_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_SN76496,
-    /*TODO*///			&sn76496_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
-    /*TODO*///
+
     /*TODO*///static struct MachineDriver machine_driver_dremshpr =
     /*TODO*///{
     /*TODO*///	/* basic machine hardware */
@@ -2128,53 +2092,53 @@ public class pacman {
     	}
     }};
    
-    /*TODO*///static void eyes_decode(unsigned char *data)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	unsigned char swapbuffer[8];
-    /*TODO*///
-    /*TODO*///	for (j = 0; j < 8; j++)
-    /*TODO*///	{
-    /*TODO*///		swapbuffer[j] = data[(j >> 2) + (j & 2) + ((j & 1) << 2)];
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	for (j = 0; j < 8; j++)
-    /*TODO*///	{
-    /*TODO*///		char ch = swapbuffer[j];
-    /*TODO*///
-    /*TODO*///		data[j] = (ch & 0x80) | ((ch & 0x10) << 2) |
-    /*TODO*///					 (ch & 0x20) | ((ch & 0x40) >> 2) | (ch & 0x0f);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void init_eyes(void)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///	unsigned char *RAM;
-    /*TODO*///
-    /*TODO*///	/* CPU ROMs */
-    /*TODO*///
-    /*TODO*///	/* Data lines D3 and D5 swapped */
-    /*TODO*///	RAM = memory_region(REGION_CPU1);
-    /*TODO*///	for (i = 0; i < 0x4000; i++)
-    /*TODO*///	{
-    /*TODO*///		RAM[i] =  (RAM[i] & 0xc0) | ((RAM[i] & 0x08) << 2) |
-    /*TODO*///				  (RAM[i] & 0x10) | ((RAM[i] & 0x20) >> 2) | (RAM[i] & 0x07);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* Graphics ROMs */
-    /*TODO*///
-    /*TODO*///	/* Data lines D4 and D6 and address lines A0 and A2 are swapped */
-    /*TODO*///	RAM = memory_region(REGION_GFX1);
-    /*TODO*///	for (i = 0;i < memory_region_length(REGION_GFX1);i += 8)
-    /*TODO*///		eyes_decode(&RAM[i]);
-    /*TODO*///	RAM = memory_region(REGION_GFX2);
-    /*TODO*///	for (i = 0;i < memory_region_length(REGION_GFX2);i += 8)
-    /*TODO*///		eyes_decode(&RAM[i]);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    static void eyes_decode(UBytePtr data)
+    {
+    	int j;
+    	char[] swapbuffer=new char[8];
+    
+    	for (j = 0; j < 8; j++)
+    	{
+    		swapbuffer[j] = data.read((j >> 2) + (j & 2) + ((j & 1) << 2));
+    	}
+    
+    	for (j = 0; j < 8; j++)
+    	{
+    		char ch = swapbuffer[j];
+    
+    		data.write(j,(ch & 0x80) | ((ch & 0x10) << 2) |
+    					 (ch & 0x20) | ((ch & 0x40) >> 2) | (ch & 0x0f));
+    	}
+    }
+    
+    public static InitDriverPtr init_eyes = new InitDriverPtr(){ public void handler()
+    {
+    	int i;
+    	UBytePtr RAM= new UBytePtr();
+    
+    	/* CPU ROMs */
+    
+    	/* Data lines D3 and D5 swapped */
+    	RAM = memory_region(REGION_CPU1);
+    	for (i = 0; i < 0x4000; i++)
+    	{
+    		RAM.write(i,(RAM.read(i) & 0xc0) | ((RAM.read(i) & 0x08) << 2) |
+    				  (RAM.read(i) & 0x10) | ((RAM.read(i) & 0x20) >> 2) | (RAM.read(i) & 0x07));
+    	}
+    
+    
+    	/* Graphics ROMs */
+    
+    	/* Data lines D4 and D6 and address lines A0 and A2 are swapped */
+    	RAM = memory_region(REGION_GFX1);
+    	for (i = 0;i < memory_region_length(REGION_GFX1);i += 8)
+    		eyes_decode(new UBytePtr(RAM,i));
+    	RAM = memory_region(REGION_GFX2);
+    	for (i = 0;i < memory_region_length(REGION_GFX2);i += 8)
+    		eyes_decode(new UBytePtr(RAM,i));
+    }};
+    
+    
     /*TODO*///static void init_pacplus(void)
     /*TODO*///{
     /*TODO*///	pacplus_decode();
@@ -2203,16 +2167,15 @@ public class pacman {
     public static GameDriver driver_paintrlr = new GameDriver("1981", "paintrlr" ,"pacman.java", rom_paintrlr, driver_crush,    machine_driver_pacman,   input_ports_paintrlr, null,        ROT90,  "bootleg", "Paint Roller" );
     public static GameDriver driver_ponpoko  = new GameDriver("1982","ponpoko"   , "pacman.java",rom_ponpoko,  null,            machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" );
     public static GameDriver driver_ponpokov = new GameDriver("1982","ponpokov"  ,"pacman.java", rom_ponpokov, driver_ponpoko,  machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" );
-    /*TODO*///GAME( 1982, rom_eyes,     null,        machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" )
-    /*TODO*///GAME( 1982, rom_eyes2,    driver_eyes,     machine_driver_pacman,   input_ports_eyes,     eyes,     ROT90,  "Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" )
-    /*TODO*///GAME( 1983, rom_mrtnt,    null,        machine_driver_pacman,   input_ports_mrtnt,    eyes,     ROT90,  "Telko", "Mr. TNT" )
-     public static GameDriver driver_lizwiz = new GameDriver("1985","lizwiz","pacman.java", rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" );
+    public static GameDriver driver_eyes     = new GameDriver("1982"	,"eyes"	,"pacman.java"	,rom_eyes,null	,machine_driver_pacman	,input_ports_eyes	,init_eyes	,ROT90	,	"Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" );
+    public static GameDriver driver_eyes2    = new GameDriver("1982"	,"eyes2"	,"pacman.java"	,rom_eyes2,driver_eyes	,machine_driver_pacman	,input_ports_eyes	,init_eyes	,ROT90	,	"Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" );
+    public static GameDriver driver_mrtn     = new GameDriver("1983"	,"mrtnt"	,"pacman.java"	,rom_mrtnt,null	,machine_driver_pacman	,input_ports_mrtnt	,init_eyes	,ROT90	,	"Telko", "Mr. TNT" );
+    public static GameDriver driver_lizwiz = new GameDriver("1985","lizwiz","pacman.java", rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" );
     /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
     /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
     /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
     /*TODO*///GAME( 1982, rom_dremshpr, null,        machine_driver_dremshpr, input_ports_dremshpr, null,        ROT270, "Sanritsu", "Dream Shopper" )
     public static GameDriver driver_vanvan  = new GameDriver("1983"	,"vanvan"	,"pacman.java"	,rom_vanvan,null	,machine_driver_vanvan	,input_ports_vanvan	,null	,ROT270	,	"Karateco", "Van Van Car" );
     public static GameDriver driver_vanvans = new GameDriver("1983"	,"vanvans"	,"pacman.java"	,rom_vanvans,driver_vanvan	,machine_driver_vanvan	,input_ports_vanvans	,null	,ROT270	,	"Sanritsu", "Van Van Car (Sanritsu)" );
-    public static GameDriver driver_alibaba = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" );
-    /*TODO*///    
+    public static GameDriver driver_alibaba = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" ); 
 }
