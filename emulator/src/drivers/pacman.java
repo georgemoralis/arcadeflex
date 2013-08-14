@@ -21,6 +21,8 @@ import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
+import static sound.ay8910H.*;
+import static sound.ay8910.*;
 
 public class pacman {
     public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -141,13 +143,12 @@ public class pacman {
 		new IOWritePort( 0x02, 0x02, SN76496_1_w ),
 		new IOWritePort( -1 )
 	};
-    /*TODO*///
-    /*TODO*///static struct IOWritePort dremshpr_writeport[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x06, 0x06, AY8910_write_port_0_w },
-    /*TODO*///	{ 0x07, 0x07, AY8910_control_port_0_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
+	static IOWritePort dremshpr_writeport[] =
+	{
+		new IOWritePort( 0x06, 0x06, AY8910_write_port_0_w ),
+		new IOWritePort( 0x07, 0x07, AY8910_control_port_0_w ),
+		new IOWritePort( -1 )
+	};
     /*TODO*///
     /*TODO*///
     /*TODO*///static struct MemoryReadAddress theglob_readmem[] =
@@ -1001,18 +1002,17 @@ public class pacman {
     	new int[]{ 75, 75 }
     );
     
-    /*TODO*///static struct AY8910interface dremshpr_ay8910_interface =
-    /*TODO*///{
-    /*TODO*///	1,	/* 1 chip */
-    /*TODO*///	14318000/8,	/* 1.78975 MHz ??? */
-    /*TODO*///	{ 50 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
+    static AY8910interface dremshpr_ay8910_interface = new AY8910interface
+    (
+    	1,	/* 1 chip */
+    	14318000/8,	/* 1.78975 MHz ??? */
+    	new int[]{ 50 },
+    	new ReadHandlerPtr[]{ null },
+    	new ReadHandlerPtr[]{ null },
+    	new WriteHandlerPtr[]{ null },
+    	new WriteHandlerPtr[]{ null }
+    );
+
     	static MachineDriver machine_driver_pacman = new MachineDriver
 	(
 		/* basic machine hardware */
@@ -1127,43 +1127,44 @@ public class pacman {
 		}
 	);
 
-    /*TODO*///static struct MachineDriver machine_driver_dremshpr =
-    /*TODO*///{
-    /*TODO*///	/* basic machine hardware */
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			18432000/6,	/* 3.072 Mhz */
-    /*TODO*///			readmem,writemem,0,dremshpr_writeport,
-    /*TODO*///			nmi_interrupt,1
-    /*TODO*///		}
-    /*TODO*///	},
-    /*TODO*///	60, 2500,	/* frames per second, vblank duration */
-    /*TODO*///	1,	/* single CPU, no need for interleaving */
-    /*TODO*///	0,
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	36*8, 28*8, { 0*8, 36*8-1, 0*8, 28*8-1 },
-    /*TODO*///	gfxdecodeinfo,
-    /*TODO*///	16, 4*32,
-    /*TODO*///	pacman_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
-    /*TODO*///	0,
-    /*TODO*///	pacman_vh_start,
-    /*TODO*///	generic_vh_stop,
-    /*TODO*///	pengo_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_AY8910,
-    /*TODO*///			&dremshpr_ay8910_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
-    /*TODO*///
+        static MachineDriver machine_driver_dremshpr = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				18432000/6,	/* 3.072 Mhz */
+				readmem,writemem,null,dremshpr_writeport,
+				nmi_interrupt,1
+			)
+		},
+		60, 2500,	/* frames per second, vblank duration */
+		1,	/* single CPU, no need for interleaving */
+		null,
+	
+		/* video hardware */
+		36*8, 28*8, new rectangle( 0*8, 36*8-1, 0*8, 28*8-1 ),
+		gfxdecodeinfo,
+		16, 4*32,
+		pacman_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+		null,
+		pacman_vh_start,
+		generic_vh_stop,
+		pengo_vh_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_AY8910,
+				dremshpr_ay8910_interface
+                     )
+		}
+	);
+   
         static MachineDriver machine_driver_alibaba = new MachineDriver
 	(
 		/* basic machine hardware */
@@ -2174,8 +2175,8 @@ public class pacman {
     /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
     /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
     /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
-    /*TODO*///GAME( 1982, rom_dremshpr, null,        machine_driver_dremshpr, input_ports_dremshpr, null,        ROT270, "Sanritsu", "Dream Shopper" )
-    public static GameDriver driver_vanvan  = new GameDriver("1983"	,"vanvan"	,"pacman.java"	,rom_vanvan,null	,machine_driver_vanvan	,input_ports_vanvan	,null	,ROT270	,	"Karateco", "Van Van Car" );
-    public static GameDriver driver_vanvans = new GameDriver("1983"	,"vanvans"	,"pacman.java"	,rom_vanvans,driver_vanvan	,machine_driver_vanvan	,input_ports_vanvans	,null	,ROT270	,	"Sanritsu", "Van Van Car (Sanritsu)" );
-    public static GameDriver driver_alibaba = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" ); 
+    public static GameDriver driver_dremshpr  = new GameDriver("1982"	,"dremshpr"	,"pacman.java"	,rom_dremshpr,null	,machine_driver_dremshpr	,input_ports_dremshpr	,null	,ROT270	,	"Sanritsu", "Dream Shopper" );
+    public static GameDriver driver_vanvan    = new GameDriver("1983"	,"vanvan"	,"pacman.java"	,rom_vanvan,null	,machine_driver_vanvan	,input_ports_vanvan	,null	,ROT270	,	"Karateco", "Van Van Car" );
+    public static GameDriver driver_vanvans   = new GameDriver("1983"	,"vanvans"	,"pacman.java"	,rom_vanvans,driver_vanvan	,machine_driver_vanvan	,input_ports_vanvans	,null	,ROT270	,	"Sanritsu", "Van Van Car (Sanritsu)" );
+    public static GameDriver driver_alibaba   = new GameDriver("1982","alibaba","pacman.java", rom_alibaba,  null,        machine_driver_alibaba,  input_ports_alibaba,  null,        ROT90,  "Sega", "Ali Baba and 40 Thieves" ); 
 }

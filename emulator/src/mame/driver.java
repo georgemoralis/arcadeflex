@@ -60,7 +60,7 @@ public class driver {
 /*TODO*/ //	DRIVER( theglob )	/* (c) 1983 Epos Corporation */
 /*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */
 /*TODO*/ //	DRIVER( jumpshot )
-/*TODO*/ //	DRIVER( dremshpr )	/* (c) 1982 Sanritsu */
+        driver_dremshpr,/* (c) 1982 Sanritsu */
         driver_vanvan,	/* (c) 1983 Karateco (bootleg?) */
         driver_vanvans,	/* (c) 1983 Sanritsu */
         driver_alibaba,	/* (c) 1982 Sega */

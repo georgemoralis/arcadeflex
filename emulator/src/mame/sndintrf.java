@@ -5,7 +5,7 @@ import sound.samples;
 import sound.namco;
 import sound.sn76496;
 import static mame.sndintrfH.*;
-
+import sound.ay8910;
 
 public class sndintrf {
     /*TODO*////*TODO*///static int cleared_value = 0x00;
@@ -192,10 +192,6 @@ public class sndintrf {
     /*TODO*////*TODO*///#if (HAS_K007232)
     /*TODO*////*TODO*///int K007232_num(const struct MachineSound *msound) { return ((struct K007232_interface*)msound->sound_interface)->num_chips; }
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_AY8910)
-    /*TODO*////*TODO*///int AY8910_clock(const struct MachineSound *msound) { return ((struct AY8910interface*)msound->sound_interface)->baseclock; }
-    /*TODO*////*TODO*///int AY8910_num(const struct MachineSound *msound) { return ((struct AY8910interface*)msound->sound_interface)->num; }
-    /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_YM2203)
     /*TODO*////*TODO*///int YM2203_clock(const struct MachineSound *msound) { return ((struct YM2203interface*)msound->sound_interface)->baseclock; }
     /*TODO*////*TODO*///int YM2203_num(const struct MachineSound *msound) { return ((struct YM2203interface*)msound->sound_interface)->num; }
@@ -294,19 +290,7 @@ public class sndintrf {
     /*TODO*////*TODO*///#endif
     new samples(),
     new dac(),
-  /*TEMPHACK*/   new Dummy_snd(),   
-    /*TODO*////*TODO*///#if (HAS_AY8910)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_AY8910,
-    /*TODO*////*TODO*///		"AY-8910",
-    /*TODO*////*TODO*///		AY8910_num,
-    /*TODO*////*TODO*///		AY8910_clock,
-    /*TODO*////*TODO*///		AY8910_sh_start,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+    new ay8910(),   
    /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2203)
     /*TODO*////*TODO*///    {
