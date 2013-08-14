@@ -2169,7 +2169,7 @@ public class pacman {
     public static GameDriver driver_ponpokov = new GameDriver("1982","ponpokov"  ,"pacman.java", rom_ponpokov, driver_ponpoko,  machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc. (Venture Line license)", "Ponpoko (Venture Line)" );
     public static GameDriver driver_eyes     = new GameDriver("1982"	,"eyes"	,"pacman.java"	,rom_eyes,null	,machine_driver_pacman	,input_ports_eyes	,init_eyes	,ROT90	,	"Digitrex Techstar (Rock-ola license)", "Eyes (Digitrex Techstar)" );
     public static GameDriver driver_eyes2    = new GameDriver("1982"	,"eyes2"	,"pacman.java"	,rom_eyes2,driver_eyes	,machine_driver_pacman	,input_ports_eyes	,init_eyes	,ROT90	,	"Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" );
-    public static GameDriver driver_mrtn     = new GameDriver("1983"	,"mrtnt"	,"pacman.java"	,rom_mrtnt,null	,machine_driver_pacman	,input_ports_mrtnt	,init_eyes	,ROT90	,	"Telko", "Mr. TNT" );
+    public static GameDriver driver_mrtnt     = new GameDriver("1983"	,"mrtnt"	,"pacman.java"	,rom_mrtnt,null	,machine_driver_pacman	,input_ports_mrtnt	,init_eyes	,ROT90	,	"Telko", "Mr. TNT" );
     public static GameDriver driver_lizwiz = new GameDriver("1985","lizwiz","pacman.java", rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" );
     /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
     /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
