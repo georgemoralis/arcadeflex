@@ -23,6 +23,7 @@ import static sound.sn76496H.*;
 import static sound.sn76496.*;
 import static sound.ay8910H.*;
 import static sound.ay8910.*;
+import static machine.pacplus.*;
 
 public class pacman {
     public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -2139,12 +2140,10 @@ public class pacman {
     		eyes_decode(new UBytePtr(RAM,i));
     }};
     
-    
-    /*TODO*///static void init_pacplus(void)
-    /*TODO*///{
-    /*TODO*///	pacplus_decode();
-    /*TODO*///}
-    /*TODO*///
+    public static InitDriverPtr init_pacplus = new InitDriverPtr(){ public void handler()
+    {
+		pacplus_decode();
+    }};
                                                                                           /*          rom       parent          machine                   inp                  init */
     public static GameDriver driver_pacman   = new GameDriver("1980","pacman"  , "pacman.java", rom_pacman,   null         ,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 1)" );
     public static GameDriver driver_pacmanjp = new GameDriver("1980","pacmanjp", "pacman.java", rom_pacmanjp, driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "Namco", "PuckMan (Japan set 2)" );
@@ -2156,7 +2155,7 @@ public class pacman {
     public static GameDriver driver_puckman  = new GameDriver("1980","puckman" , "pacman.java", rom_puckman,  driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "New Puck-X" );
     public static GameDriver driver_pacheart = new GameDriver("1981","pacheart", "pacman.java", rom_pacheart, driver_pacman,   machine_driver_pacman,   input_ports_pacman,   null, ROT90, "hack", "Pac-Man (Hearts)" );
     public static GameDriver driver_piranha  = new GameDriver("1981","piranha" , "pacman.java", rom_piranha,  driver_pacman,   machine_driver_pacman,   input_ports_mspacman, null, ROT90, "hack", "Piranha" );
-    /*TODO*///GAME( 1982, pacplus,  0,        pacman,   pacman,   pacplus,  ROT90,  "[Namco] (Midway license)", "Pac-Man Plus" )
+    public static GameDriver driver_pacplus	   = new GameDriver("1982"	,"pacplus"	,"pacman.java"	,rom_pacplus,null	,machine_driver_pacman	,input_ports_pacman	,init_pacplus	,ROT90	,	"[Namco] (Midway license)", "Pac-Man Plus" );
     public static GameDriver driver_mspacman = new GameDriver("1981", "mspacman","pacman.java", rom_mspacman, null,            machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "bootleg", "Ms. Pac-Man" );
     public static GameDriver driver_mspacatk = new GameDriver("1981", "mspacatk","pacman.java", rom_mspacatk, driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Ms. Pac-Man Plus" );
     public static GameDriver driver_pacgal   = new GameDriver("1981", "pacgal"  ,"pacman.java", rom_pacgal,   driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Pac-Gal" );

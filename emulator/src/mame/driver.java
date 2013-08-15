@@ -41,7 +41,7 @@ public class driver {
         driver_puckman,	   /* hack */
         driver_pacheart,   /* hack */
         driver_piranha,	   /* hack */
-/*TODO*/ //	DRIVER( pacplus )
+        driver_pacplus,
         driver_mspacman,   /* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
         driver_mspacatk,   /* hack */
         driver_pacgal,	   /* hack */
