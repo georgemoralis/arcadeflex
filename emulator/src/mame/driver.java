@@ -26,6 +26,8 @@ import static drivers.zaxxon.*;
 import static drivers.rallyx.*;
 import static drivers.ladybug.*;
 import static drivers.z80bw.*;
+import static drivers.arkanoid.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -789,12 +791,12 @@ public class driver {
 /*TODO*/ //	DRIVER( rainbow )	/* (c) 1987 Taito Corporation */
 /*TODO*/ //	DRIVER( rainbowe )	/* (c) 1988 Taito Corporation */
 /*TODO*/ //	DRIVER( jumping )	/* bootleg */
-/*TODO*/ //	DRIVER( arkanoid )	/* (c) 1986 Taito Corporation Japan (World) */
+        driver_arkanoid,	/* (c) 1986 Taito Corporation Japan (World) */
 /*TODO*/ //	DRIVER( arknoidu )	/* (c) 1986 Taito America Corporation + Romstar license (US) */
 /*TODO*/ //	DRIVER( arknoidj )	/* (c) 1986 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( arkbl2 )	/* bootleg */
 /*TODO*/ //TESTDRIVER( arkbl3 )	/* bootleg */
-/*TODO*/ //	DRIVER( arkatayt )	/* bootleg */
+        driver_arkatayt,	/* bootleg */
 /*TODO*/ //TESTDRIVER( arkblock )	/* bootleg */
 /*TODO*/ //	DRIVER( arkbloc2 )	/* bootleg */
 /*TODO*/ //	DRIVER( arkangc )	/* bootleg */

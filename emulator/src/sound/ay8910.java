@@ -316,6 +316,10 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///
     /*TODO*///
     /*TODO*////* AY8910 interface */
+    public static ReadHandlerPtr AY8910_read_port_0_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        return 0; //dummy 
+    }};
     /*TODO*///int AY8910_read_port_0_r(int offset) { return AY8910Read(0); }
     /*TODO*///int AY8910_read_port_1_r(int offset) { return AY8910Read(1); }
     /*TODO*///int AY8910_read_port_2_r(int offset) { return AY8910Read(2); }
