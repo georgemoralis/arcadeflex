@@ -798,7 +798,7 @@ public class driver {
 /*TODO*/ //TESTDRIVER( arkbl3 )	/* bootleg */
         driver_arkatayt,	/* bootleg */
 /*TODO*/ //TESTDRIVER( arkblock )	/* bootleg */
-/*TODO*/ //	DRIVER( arkbloc2 )	/* bootleg */
+        driver_arkbloc2,	/* bootleg */
 /*TODO*/ //	DRIVER( arkangc )	/* bootleg */
 /*TODO*/ //	DRIVER( superqix )	/* 1987 */
 /*TODO*/ //	DRIVER( sqixbl )	/* bootleg? but (c) 1987 */

@@ -15,6 +15,9 @@ import mame.sndintrfH;
 import static mame.sndintrfH.*;
 import static sound.ay8910H.*;
 import static mame.driverH.*;
+import static mame.mame.*;
+import static arcadeflex.libc_old.*;
+import static mame.cpuintrf.*;
 
 public class ay8910 extends sndintrf.snd_interface
 {
@@ -22,6 +25,7 @@ public class ay8910 extends sndintrf.snd_interface
     {
         sound_num=SOUND_AY8910;
         name="AY-8910";
+        for (int i = 0; i < MAX_8910; i++) AYPSG[i] = new AY8910();
     }
     @Override
     public int chips_num(MachineSound msound) {
@@ -32,13 +36,6 @@ public class ay8910 extends sndintrf.snd_interface
     public int chips_clock(MachineSound msound) {
         return ((AY8910interface)msound.sound_interface).baseclock;
     }
-
-    @Override
-    public int start(MachineSound msound) {
-        //TODO
-        return 0;
-    }
-
     @Override
     public void stop() {
         //no functionality expected
@@ -53,32 +50,33 @@ public class ay8910 extends sndintrf.snd_interface
     public void reset() {
        //no functionality expected
     }
-    /*TODO*///#define MAX_OUTPUT 0x7fff
-    /*TODO*///
-    /*TODO*///#define STEP 0x8000
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///struct AY8910
-    /*TODO*///{
-    /*TODO*///	int Channel;
-    /*TODO*///	int SampleRate;
-    /*TODO*///	int (*PortAread)(int offset);
-    /*TODO*///	int (*PortBread)(int offset);
-    /*TODO*///	void (*PortAwrite)(int offset,int data);
-    /*TODO*///	void (*PortBwrite)(int offset,int data);
-    /*TODO*///	int register_latch;
-    /*TODO*///	unsigned char Regs[16];
-    /*TODO*///	unsigned int UpdateStep;
-    /*TODO*///	int PeriodA,PeriodB,PeriodC,PeriodN,PeriodE;
-    /*TODO*///	int CountA,CountB,CountC,CountN,CountE;
-    /*TODO*///	unsigned int VolA,VolB,VolC,VolE;
-    /*TODO*///	unsigned char EnvelopeA,EnvelopeB,EnvelopeC;
-    /*TODO*///	unsigned char OutputA,OutputB,OutputC,OutputN;
-    /*TODO*///	signed char CountEnv;
-    /*TODO*///	unsigned char Hold,Alternate,Attack,Holding;
-    /*TODO*///	int RNG;
-    /*TODO*///	unsigned int VolTable[32];
-    /*TODO*///};
+    
+    public static final int MAX_OUTPUT = 0x7fff;
+    
+    public static final int STEP = 0x8000;
+    
+    public static class AY8910
+    {
+        int Channel;
+    	int SampleRate;
+    	ReadHandlerPtr PortAread;//int (*PortAread)(int offset);
+    	ReadHandlerPtr PortBread;//int (*PortBread)(int offset);
+    	WriteHandlerPtr PortAwrite;//void (*PortAwrite)(int offset,int data);
+    	WriteHandlerPtr PortBwrite;//void (*PortBwrite)(int offset,int data);
+    	int register_latch;
+    	/*unsigned*/ char Regs[]=new char[16];
+    	/*unsigned*/ int UpdateStep;
+    	int PeriodA,PeriodB,PeriodC,PeriodN,PeriodE;
+    	int CountA,CountB,CountC,CountN,CountE;
+    	/*unsigned*/ int VolA,VolB,VolC,VolE;
+    	/*unsigned*/ char EnvelopeA,EnvelopeB,EnvelopeC;
+    	/*unsigned*/ char OutputA,OutputB,OutputC,OutputN;
+    	char CountEnv;
+    	/*unsigned*/ char Hold,Alternate,Attack,Holding;
+    	int RNG;
+    	/*unsigned*/ int VolTable[] = new int[32];
+    }
+
     /*TODO*///
     /*TODO*////* register id's */
     /*TODO*///#define AY_AFINE	(0)
@@ -88,19 +86,19 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///#define AY_CFINE	(4)
     /*TODO*///#define AY_CCOARSE	(5)
     /*TODO*///#define AY_NOISEPER	(6)
-    /*TODO*///#define AY_ENABLE	(7)
+    public static final int AY_ENABLE	= 7;
     /*TODO*///#define AY_AVOL		(8)
     /*TODO*///#define AY_BVOL		(9)
     /*TODO*///#define AY_CVOL		(10)
     /*TODO*///#define AY_EFINE	(11)
     /*TODO*///#define AY_ECOARSE	(12)
     /*TODO*///#define AY_ESHAPE	(13)
-    /*TODO*///
-    /*TODO*///#define AY_PORTA	(14)
-    /*TODO*///#define AY_PORTB	(15)
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct AY8910 AYPSG[MAX_8910];		/* array of PSG's */
+    
+    public static final int AY_PORTA =	14;
+    public static final int AY_PORTB =	15;
+
+    
+    static AY8910[] AYPSG = new AY8910[MAX_8910]; /* array of PSG's */
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -266,61 +264,60 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///
-    /*TODO*///unsigned char AYReadReg(int n, int r)
-    /*TODO*///{
-    /*TODO*///	struct AY8910 *PSG = &AYPSG[n];
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (r > 15) return 0;
-    /*TODO*///
-    /*TODO*///	switch (r)
-    /*TODO*///	{
-    /*TODO*///	case AY_PORTA:
-    /*TODO*///		if ((PSG->Regs[AY_ENABLE] & 0x40) != 0)
-    /*TODO*///if (errorlog) fprintf(errorlog,"warning: read from 8910 #%d Port A set as output\n",n);
-    /*TODO*///if (PSG->PortAread) PSG->Regs[AY_PORTA] = (*PSG->PortAread)(0);
-    /*TODO*///else if (errorlog) fprintf(errorlog,"PC %04x: warning - read 8910 #%d Port A\n",cpu_get_pc(),n);
-    /*TODO*///		break;
-    /*TODO*///	case AY_PORTB:
-    /*TODO*///		if ((PSG->Regs[AY_ENABLE] & 0x80) != 0)
-    /*TODO*///if (errorlog) fprintf(errorlog,"warning: read from 8910 #%d Port B set as output\n",n);
-    /*TODO*///if (PSG->PortBread) PSG->Regs[AY_PORTB] = (*PSG->PortBread)(0);
-    /*TODO*///else if (errorlog) fprintf(errorlog,"PC %04x: warning - read 8910 #%d Port B\n",cpu_get_pc(),n);
-    /*TODO*///		break;
-    /*TODO*///	}
-    /*TODO*///	return PSG->Regs[r];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void AY8910Write(int chip,int a,int data)
-    /*TODO*///{
-    /*TODO*///	struct AY8910 *PSG = &AYPSG[chip];
-    /*TODO*///
-    /*TODO*///	if (a & 1)
-    /*TODO*///	{	/* Data port */
+    
+    static /*unsigned*/ char AYReadReg(int n, int r)
+    {
+    	AY8910 PSG = AYPSG[n];
+    
+    
+    	if (r > 15) return 0;
+    
+    	switch (r)
+    	{
+    	case AY_PORTA:
+    		if ((PSG.Regs[AY_ENABLE] & 0x40) != 0)
+                    if (errorlog!=null) fprintf(errorlog,"warning: read from 8910 #%d Port A set as output\n",n);
+                    if (PSG.PortAread!=null) PSG.Regs[AY_PORTA] = (char)(PSG.PortAread.handler(0) & 0xFF);//(*PSG->PortAread)(0);
+                    else if (errorlog!=null) fprintf(errorlog,"PC %04x: warning - read 8910 #%d Port A\n",cpu_get_pc(),n);
+    		break;
+    	case AY_PORTB:
+    		if ((PSG.Regs[AY_ENABLE] & 0x80) != 0)
+                if (errorlog!=null) fprintf(errorlog,"warning: read from 8910 #%d Port B set as output\n",n);
+                if (PSG.PortBread!=null) PSG.Regs[AY_PORTB] = (char)(PSG.PortBread.handler(0) & 0xFF);
+                else if (errorlog!=null) fprintf(errorlog,"PC %04x: warning - read 8910 #%d Port B\n",cpu_get_pc(),n);
+    		break;
+    	}
+    	return (char)(PSG.Regs[r] & 0xFF);
+    }
+    
+    
+    public static void AY8910Write(int chip,int a,int data)
+    {
+    	AY8910 PSG = AYPSG[chip];
+    
+    	if ((a & 1)!=0)
+    	{	/* Data port */
     /*TODO*///		AYWriteReg(chip,PSG->register_latch,data);
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{	/* Register port */
-    /*TODO*///		PSG->register_latch = data & 0x0f;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int AY8910Read(int chip)
-    /*TODO*///{
-    /*TODO*///	struct AY8910 *PSG = &AYPSG[chip];
-    /*TODO*///
-    /*TODO*///	return AYReadReg(chip,PSG->register_latch);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* AY8910 interface */
+    	}
+    	else
+    	{	/* Register port */
+    		PSG.register_latch = data & 0x0f;
+    	}
+    }
+    
+    static int AY8910Read(int chip)
+    {
+    	AY8910 PSG = AYPSG[chip];
+    
+    	return AYReadReg(chip,PSG.register_latch);
+    }
+    
+    
+    /* AY8910 interface */
     public static ReadHandlerPtr AY8910_read_port_0_r = new ReadHandlerPtr() { public int handler(int offset)
     {
-        return 0; //dummy 
+        return AY8910Read(0);
     }};
-    /*TODO*///int AY8910_read_port_0_r(int offset) { return AY8910Read(0); }
     /*TODO*///int AY8910_read_port_1_r(int offset) { return AY8910Read(1); }
     /*TODO*///int AY8910_read_port_2_r(int offset) { return AY8910Read(2); }
     /*TODO*///int AY8910_read_port_3_r(int offset) { return AY8910Read(3); }
@@ -328,7 +325,7 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///
     public static WriteHandlerPtr AY8910_control_port_0_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
     {
-        
+        AY8910Write(0,0,data);
     }};
     /*TODO*///void AY8910_control_port_0_w(int offset,int data) { AY8910Write(0,0,data); }
     /*TODO*///void AY8910_control_port_1_w(int offset,int data) { AY8910Write(1,0,data); }
@@ -338,7 +335,7 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///
     public static WriteHandlerPtr AY8910_write_port_0_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
     {
-        
+        AY8910Write(0,1,data);
     }};
     /*TODO*///void AY8910_write_port_0_w(int offset,int data) { AY8910Write(0,1,data); }
     /*TODO*///void AY8910_write_port_1_w(int offset,int data) { AY8910Write(1,1,data); }
@@ -642,8 +639,8 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static void build_mixer_table(int chip)
-    /*TODO*///{
+    static void build_mixer_table(int chip)
+    {
     /*TODO*///	struct AY8910 *PSG = &AYPSG[chip];
     /*TODO*///	int i;
     /*TODO*///	double out;
@@ -661,12 +658,10 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///		out /= 1.188502227;	/* = 10 ^ (1.5/20) = 1.5dB */
     /*TODO*///	}
     /*TODO*///	PSG->VolTable[0] = 0;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void AY8910_reset(int chip)
-    /*TODO*///{
+    }
+
+    void AY8910_reset(int chip)
+    {
     /*TODO*///	int i;
     /*TODO*///	struct AY8910 *PSG = &AYPSG[chip];
     /*TODO*///
@@ -681,26 +676,26 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///		_AYWriteReg(chip,i,0);	/* AYWriteReg() uses the timer system; we cannot */
     /*TODO*///								/* call it at this time because the timer system */
     /*TODO*///								/* has not been initialized. */
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int AY8910_init(const struct MachineSound *msound,int chip,
-    /*TODO*///		int clock,int volume,int sample_rate,
-    /*TODO*///		int (*portAread)(int offset),int (*portBread)(int offset),
-    /*TODO*///		void (*portAwrite)(int offset,int data),void (*portBwrite)(int offset,int data))
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///	struct AY8910 *PSG = &AYPSG[chip];
+    }
+    
+    static int AY8910_init(MachineSound msound,int chip,
+    		int clock,int volume,int sample_rate,
+    		ReadHandlerPtr portAread,ReadHandlerPtr portBread,
+    		WriteHandlerPtr portAwrite,WriteHandlerPtr portBwrite)
+    {
+    	int i;
+        AY8910 PSG = AYPSG[chip];
     /*TODO*///	char buf[3][40];
     /*TODO*///	const char *name[3];
     /*TODO*///	int vol[3];
     /*TODO*///
     /*TODO*///
     /*TODO*///	memset(PSG,0,sizeof(struct AY8910));
-    /*TODO*///	PSG->SampleRate = sample_rate;
-    /*TODO*///	PSG->PortAread = portAread;
-    /*TODO*///	PSG->PortBread = portBread;
-    /*TODO*///	PSG->PortAwrite = portAwrite;
-    /*TODO*///	PSG->PortBwrite = portBwrite;
+    	PSG.SampleRate = sample_rate;
+    	PSG.PortAread = portAread;
+    	PSG.PortBread = portBread;
+    	PSG.PortAwrite = portAwrite;
+    	PSG.PortBwrite = portBwrite;
     /*TODO*///	for (i = 0;i < 3;i++)
     /*TODO*///	{
     /*TODO*///		vol[i] = volume;
@@ -715,27 +710,25 @@ public class ay8910 extends sndintrf.snd_interface
     /*TODO*///	AY8910_set_clock(chip,clock);
     /*TODO*///	AY8910_reset(chip);
     /*TODO*///
-    /*TODO*///	return 0;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///int AY8910_sh_start(const struct MachineSound *msound)
-    /*TODO*///{
-    /*TODO*///	int chip;
-    /*TODO*///	const struct AY8910interface *intf = msound->sound_interface;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	for (chip = 0;chip < intf->num;chip++)
-    /*TODO*///	{
-    /*TODO*///		if (AY8910_init(msound,chip,intf->baseclock,
-    /*TODO*///				intf->mixing_level[chip] & 0xffff,
-    /*TODO*///				Machine->sample_rate,
-    /*TODO*///				intf->portAread[chip],intf->portBread[chip],
-    /*TODO*///				intf->portAwrite[chip],intf->portBwrite[chip]) != 0)
-    /*TODO*///			return 1;
-    /*TODO*///		build_mixer_table(chip);
-    /*TODO*///	}
-    /*TODO*///	return 0;
-    /*TODO*///}    
+    	return 0;
+    }
+
+    @Override
+    public int start(MachineSound msound) {
+    	int chip;
+        AY8910interface intf = (AY8910interface)msound.sound_interface;
+    
+    
+    	for (chip = 0;chip < intf.num;chip++)
+    	{
+    		if (AY8910_init(msound,chip,intf.baseclock,
+    				intf.mixing_level[chip] & 0xffff,
+    				Machine.sample_rate,
+    				intf.portAread[chip],intf.portBread[chip],
+    				intf.portAwrite[chip],intf.portBwrite[chip]) != 0)
+    			return 1;
+    		build_mixer_table(chip);
+    	}
+        return 0;
+    }    
 }
