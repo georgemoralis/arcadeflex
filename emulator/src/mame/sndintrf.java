@@ -6,32 +6,34 @@ import sound.namco;
 import sound.sn76496;
 import static mame.sndintrfH.*;
 import sound.ay8910;
+import static mame.driverH.*;
+import static mame.timer.*;
+import static mame.timerH.*;
+import static mame.mame.*;
+import static arcadeflex.libc_old.*;
 
 public class sndintrf {
-    /*TODO*////*TODO*///static int cleared_value = 0x00;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///static int latch,read_debug;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///static void soundlatch_callback(int param)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///if (errorlog && read_debug == 0 && latch != param)
-    /*TODO*////*TODO*///	fprintf(errorlog,"Warning: sound latch written before being read. Previous: %02x, new: %02x\n",latch,param);
-    /*TODO*////*TODO*///	latch = param;
-    /*TODO*////*TODO*///	read_debug = 0;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void soundlatch_w(int offset,int data)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
-    /*TODO*////*TODO*///	timer_set(TIME_NOW,data,soundlatch_callback);
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///int soundlatch_r(int offset)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	read_debug = 1;
-    /*TODO*////*TODO*///	return latch;
-    /*TODO*////*TODO*///}
+    static int cleared_value = 0x00;
+    
+    static int latch,read_debug;
+
+    public static timer_callback soundlatch_callback = new timer_callback(){ public void handler(int param){
+        if (errorlog!=null && read_debug == 0 && latch != param)
+    	fprintf(errorlog,"Warning: sound latch written before being read. Previous: %02x, new: %02x\n",latch,param);
+    	latch = param;
+    	read_debug = 0;
+    }};
+    public static WriteHandlerPtr soundlatch_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+
+    	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
+    	timer_set(TIME_NOW,data,soundlatch_callback);
+    }};
+    public static ReadHandlerPtr soundlatch_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        read_debug = 1;
+        return latch;
+    }};
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///void soundlatch_clear_w(int offset, int data)
     /*TODO*////*TODO*///{

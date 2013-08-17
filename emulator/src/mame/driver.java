@@ -27,7 +27,7 @@ import static drivers.rallyx.*;
 import static drivers.ladybug.*;
 import static drivers.z80bw.*;
 import static drivers.arkanoid.*;
-
+import static drivers.congo.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1276,8 +1276,8 @@ public class driver {
     driver_szaxxon,	/* (c) 1982 */
     driver_futspy,	/* (c) 1984 */
     driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
-/*TODO*/ //	DRIVER( congo )		/* 605-5167 (c) 1983 */
-/*TODO*/ //	DRIVER( tiptop )	/* 605-5167 (c) 1983 */
+    driver_congo,	/* 605-5167 (c) 1983 */
+    driver_tiptop,	/* 605-5167 (c) 1983 */
 
 	/* Sega System 1 / System 2 games */
 /*TODO*/ //	DRIVER( starjack )	/* 834-5191 (c) 1983 (S1) */

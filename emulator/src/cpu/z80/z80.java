@@ -5657,9 +5657,8 @@ public class z80 extends cpu_interface {
     /*TODO*///			break;
                 case CPU_INFO_NAME: return "Z80";
                 case CPU_INFO_FAMILY: return "Zilog Z80";
-                case CPU_INFO_VERSION: return "2.7";
-    
-    /*TODO*///		case CPU_INFO_FILE: return __FILE__;
+                case CPU_INFO_VERSION: return "2.7"; 
+    		case CPU_INFO_FILE: return "z80.java";
                 case CPU_INFO_CREDITS: return "Copyright (C) 1998,1999 Juergen Buchmueller, all rights reserved.";
     /*TODO*///		case CPU_INFO_REG_LAYOUT: return (const char *)z80_reg_layout;
     /*TODO*///		case CPU_INFO_WIN_LAYOUT: return (const char *)z80_win_layout;
@@ -5689,12 +5688,72 @@ public class z80 extends cpu_interface {
 
     @Override
     public Object get_context() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Z80_Regs Regs = new Z80_Regs();
+       Regs.PREPC.SetD(Z80.PREPC.D);
+       Regs.PC.SetD(Z80.PC.D);
+       Regs.SP.SetD(Z80.SP.D);
+       Regs.AF.SetD(Z80.AF.D);
+       Regs.BC.SetD(Z80.BC.D);
+       Regs.DE.SetD(Z80.DE.D);
+       Regs.HL.SetD(Z80.HL.D);
+       Regs.IX.SetD(Z80.IX.D);
+       Regs.IY.SetD(Z80.IY.D);
+       Regs.AF2.SetD(Z80.AF2.D);
+       Regs.BC2.SetD(Z80.BC2.D);
+       Regs.DE2.SetD(Z80.DE2.D);
+       Regs.HL2.SetD(Z80.HL2.D);
+       Regs.R = Z80.R;
+       Regs.R2 = Z80.R2;
+       Regs.IFF1 = Z80.IFF1;
+       Regs.IFF2 = Z80.IFF2;
+       Regs.HALT = Z80.HALT;
+       Regs.IM = Z80.IM;
+       Regs.I = Z80.I;
+       Regs.irq_max = Z80.irq_max;
+       Regs.request_irq = Z80.request_irq;
+       Regs.service_irq = Z80.service_irq;
+       Regs.nmi_state = Z80.nmi_state;
+       Regs.irq_state = Z80.irq_state;
+       // public int /*UNIT8*/ int_state[] = new int[Z80_MAXDAISY];  //DAISY CHAIN TODO!!
+       // public Z80_DaisyChain[] irq = new Z80_DaisyChain[Z80_MAXDAISY];
+       Regs.irq_callback = Z80.irq_callback;
+       Regs.extra_cycles = Z80.extra_cycles;
+       return Regs;
     }
 
     @Override
     public void set_context(Object reg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Z80_Regs Regs = (Z80_Regs)reg;
+        Z80.PREPC.SetD(Regs.PREPC.D);
+        Z80.PC.SetD(Regs.PC.D);
+        Z80.SP.SetD(Regs.SP.D);
+        Z80.AF.SetD(Regs.AF.D);
+        Z80.BC.SetD(Regs.BC.D);
+        Z80.DE.SetD(Regs.DE.D);
+        Z80.HL.SetD(Regs.HL.D);
+        Z80.IX.SetD(Regs.IX.D);
+        Z80.IY.SetD(Regs.IY.D);
+        Z80.AF2.SetD(Regs.AF2.D);
+        Z80.BC2.SetD(Regs.BC2.D);
+        Z80.DE2.SetD(Regs.DE2.D);
+        Z80.HL2.SetD(Regs.HL2.D);
+        Z80.R = Regs.R;
+        Z80.R2 = Regs.R2;
+        Z80.IFF1 = Regs.IFF1;
+        Z80.IFF2 = Regs.IFF2;
+        Z80.HALT = Regs.HALT;
+        Z80.IM = Regs.IM;
+        Z80.I = Regs.I;
+        Z80.irq_max = Regs.irq_max;
+        Z80.request_irq = Regs.request_irq;
+        Z80.service_irq = Regs.service_irq;
+        Z80.nmi_state = Regs.nmi_state;
+        Z80.irq_state = Regs.irq_state;
+       // public int /*UNIT8*/ int_state[] = new int[Z80_MAXDAISY];//DAISY CHAIN TODO!!
+       // public Z80_DaisyChain[] irq = new Z80_DaisyChain[Z80_MAXDAISY];
+        Z80.irq_callback = Regs.irq_callback;
+        Z80.extra_cycles = Regs.extra_cycles;
+    
     }
 
     @Override
