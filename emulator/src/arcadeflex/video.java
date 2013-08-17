@@ -537,7 +537,7 @@ public class video {
     			return null;
     		}
     
-    		for (i = 0;i < height + 2 * safety;i++)
+    		for (i = bitmap.ptrPos;i < height + 2 * safety;i++)
     		{
     			if (depth == 16)
                         {
@@ -552,10 +552,10 @@ public class video {
                                 bitmap.line[i] = new UBytePtr(bm, (i * rowlen + safety));
 
                         }  
-                         bitmap.line[i].base += safety;
+                         //bitmap.line[i].base += safety;
     		}
     		//bitmap.line += safety; //moved above TODO check if it's correct (shadow)
-    
+                bitmap.ptrPos += safety;
     		bitmap._private = bm;
     
     		osd_clearbitmap(bitmap);
@@ -571,7 +571,7 @@ public class video {
     {
     	int i;
     
-    	for (i = 0;i < bitmap.height;i++)
+    	for (i = bitmap.ptrPos;i < bitmap.height;i++)
     	{
     		if (bitmap.depth == 16)
     			memset(bitmap.line[i],0,2*bitmap.width);
@@ -593,7 +593,8 @@ public class video {
 	if (bitmap!=null)
     	{
    		//bitmap->line -= safety;   //what's the point of this? TODO check it (shadow)
-    		bitmap.line=null;
+                bitmap.ptrPos -= safety;
+                bitmap.line=null;
     		bitmap._private=null;
     		bitmap=null;
     	}
@@ -1708,7 +1709,7 @@ public class video {
     /*TODO*///		}
     /*TODO*///	}
     /*TODO*///
-         /*temphack?? */       back_buffer = new char[Machine.scrbitmap.line[0].memory.length];
+         /*temphack?? */       back_buffer = new char[Machine.scrbitmap.line[scrbitmap.ptrPos].memory.length];
     	return 0;
     }
     /*TODO*///
