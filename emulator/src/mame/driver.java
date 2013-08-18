@@ -28,6 +28,7 @@ import static drivers.ladybug.*;
 import static drivers.z80bw.*;
 import static drivers.arkanoid.*;
 import static drivers.congo.*;
+import static drivers.yamato.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -187,8 +188,8 @@ public class driver {
 /*TODO*/ //	DRIVER( monkeyd )	/* bootleg */
 /*TODO*/ //	DRIVER( rpatrolb )	/* bootleg */
 /*TODO*/ //	DRIVER( silvland )	/* Falcon */
-/*TODO*/ //	DRIVER( yamato )	/* (c) 1983 Sega */
-/*TODO*/ //	DRIVER( yamato2 )	/* (c) 1983 Sega */
+        driver_yamato,	/* (c) 1983 Sega */
+        driver_yamato2,	/* (c) 1983 Sega */
 /*TODO*/ //	DRIVER( swimmer )	/* (c) 1982 Tehkan */
 /*TODO*/ //	DRIVER( swimmera )	/* (c) 1982 Tehkan */
 /*TODO*/ //	DRIVER( guzzler )	/* (c) 1983 Tehkan */

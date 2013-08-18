@@ -608,8 +608,8 @@ public class drawgfx {
                     if (flipx!=0)
                         throw new UnsupportedOperationException("unimplemented");//blockmove_transpen_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
                     else
-                        throw new UnsupportedOperationException("unimplemented");//blockmove_transpen_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
-                   // break;
+                       blockmove_transpen_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
+                    break;
                 case TRANSPARENCY_THROUGH:
                     if (flipx!=0)
                         throw new UnsupportedOperationException("unimplemented");//blockmove_transthrough_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
@@ -632,6 +632,11 @@ public class drawgfx {
                 srcheight--;
             }
         }
+        static void blockmove_transpen_noremap8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, int transpen)
+        {
+            throw new UnsupportedOperationException("unimplemented");
+        }
+
 
 /*TODO*///
 /*TODO*///
