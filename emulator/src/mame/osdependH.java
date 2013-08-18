@@ -18,6 +18,7 @@ public class osdependH {
             public int depth;		/* bits per pixel*/
             public Object _private; /* don't touch! - reserved for osdepend use */
             public UBytePtr[] line;		/* pointers to the start of each line */
+            public int ptrPos = 0;      /* maybe this is a way to implement that (nick) */
         };
 
         public static osd_bitmap osd_create_bitmap(int w,int h)
