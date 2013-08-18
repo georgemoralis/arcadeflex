@@ -632,9 +632,73 @@ public class drawgfx {
                 srcheight--;
             }
         }
+        static void write_dword(UBytePtr address, int data)//TODO probably okay but might need to recheck this
+        {
+                address.write(0,data & 0xff);
+                address.write(1,(data >> 8)& 0xff);
+                address.write(2,(data >> 16)& 0xff);
+                address.write(3,(data >> 24)& 0xff); 
+        }
+
         static void blockmove_transpen_noremap8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, int transpen)
         {
-            throw new UnsupportedOperationException("unimplemented");
+            
+            int end;
+            int trans4;
+            IntPtr sd4;
+
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+
+            trans4 = transpen * 0x01010101;
+
+            while (srcheight != 0)
+            {
+                end = dstdata.base + srcwidth;
+                while ((srcdata.base & 3) != 0 && dstdata.base < end) /* longword align */
+                {
+                    int col = srcdata.read(0); srcdata.base++;
+                    if (col != transpen) dstdata.write(0,col);
+                    dstdata.base++;
+                }
+                sd4 = new IntPtr(srcdata);
+                while (dstdata.base <= end - 4)
+                {
+                    int col4;
+
+                    if ((col4 = sd4.read(0)) != trans4)
+                    {
+                        int xod4;
+
+                        xod4 = (col4 ^ trans4);
+                        if ((xod4 & 0x000000ff) != 0 && (xod4 & 0x0000ff00) != 0 &&
+                         (xod4 & 0x00ff0000) != 0 && (xod4 & 0xff000000) != 0)
+                        {
+                            write_dword(dstdata, (int)col4);
+                        }
+                        else
+                        {
+                            if ((xod4 & 0xff000000) != 0) dstdata.write(3,(col4 >> 24) & 0xFF);
+                            if ((xod4 & 0x00ff0000) != 0) dstdata.write(2,(col4 >> 16)& 0xFF);
+                            if ((xod4 & 0x0000ff00) != 0) dstdata.write(1,(col4 >> 8)& 0xFF);
+                            if ((xod4 & 0x000000ff) != 0) dstdata.write(0,(col4)& 0xFF);
+                        }
+                    }
+                    sd4.base += 4;
+                    dstdata.base += 4;
+                }
+                srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
+                while (dstdata.base < end)
+                {
+                    int col = srcdata.read(0); srcdata.base++;
+                    if (col != transpen) dstdata.write(0,col);
+                    dstdata.base++;
+                }
+
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
         }
 
 
