@@ -1,5 +1,6 @@
 package mame;
 
+import static mame.driverH.*;
 
 public class sndintrfH {
     public static class MachineSound
@@ -67,11 +68,19 @@ public class sndintrfH {
     public static final int 	SOUND_WAVE     = 41;
     public static final int     SOUND_COUNT    = 42;
 
-    /*TODO*////* structure for SOUND_CUSTOM sound drivers */
-    /*TODO*///struct CustomSound_interface
-    /*TODO*///{
-    /*TODO*///	int (*sh_start)(const struct MachineSound *msound);
-    /*TODO*///	void (*sh_stop)(void);
-    /*TODO*///	void (*sh_update)(void);
-    /*TODO*///};  
+    
+    /* structure for SOUND_CUSTOM sound drivers */
+    public static class CustomSound_interface
+    {
+        public CustomSound_interface(ShStartPtr sh_start,ShStopPtr sh_stop,ShUpdatePtr sh_update)
+        {
+            this.sh_start=sh_start;
+            this.sh_stop=sh_stop;
+            this.sh_update=sh_update;
+        }
+        public ShStartPtr sh_start;
+        public ShStopPtr sh_stop;
+        public ShUpdatePtr sh_update;
+
+    }  
 }

@@ -11,6 +11,7 @@ import static mame.timer.*;
 import static mame.timerH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
+import sound.CustomSound;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -157,27 +158,6 @@ public class sndintrf {
         public abstract void reset();									/* resets sound emulation */
     }
 
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///#if (HAS_CUSTOM)
-    /*TODO*////*TODO*///static const struct CustomSound_interface *cust_intf;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///int custom_sh_start(const struct MachineSound *msound)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	cust_intf = msound->sound_interface;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	if (cust_intf->sh_start)
-    /*TODO*////*TODO*///		return (*cust_intf->sh_start)(msound);
-    /*TODO*////*TODO*///	else return 0;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///void custom_sh_stop(void)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	if (cust_intf->sh_stop) (*cust_intf->sh_stop)();
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///void custom_sh_update(void)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	if (cust_intf->sh_update) (*cust_intf->sh_update)();
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_ADPCM)
     /*TODO*////*TODO*///int ADPCM_num(const struct MachineSound *msound) { return ((struct ADPCMinterface*)msound->sound_interface)->num; }
     /*TODO*////*TODO*///#endif
@@ -277,22 +257,10 @@ public class sndintrf {
     static snd_interface sndintf[] =
     {
           new Dummy_snd(),   
- /*TEMPHACK*/   new Dummy_snd(), 
-    /*TODO*////*TODO*///#if (HAS_CUSTOM)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_CUSTOM,
-    /*TODO*////*TODO*///		"Custom",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		custom_sh_start,
-    /*TODO*////*TODO*///		custom_sh_stop,
-    /*TODO*////*TODO*///		custom_sh_update,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-    new samples(),
-    new dac(),
-    new ay8910(),   
+          new CustomSound(), 
+          new samples(),
+          new dac(),
+          new ay8910(),   
    /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2203)
     /*TODO*////*TODO*///    {

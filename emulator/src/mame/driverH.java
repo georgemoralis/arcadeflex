@@ -23,7 +23,7 @@ public class driverH
 	public static abstract interface VhStopPtr { public abstract void handler(); }
 	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap,int full_refresh); }
 	public static abstract interface ShInitPtr { public abstract int handler(String gamename); }
-	public static abstract interface ShStartPtr { public abstract int handler(); }
+	public static abstract interface ShStartPtr { public abstract int handler(MachineSound msound); }
 	public static abstract interface ShStopPtr { public abstract void handler(); }
 	public static abstract interface ShUpdatePtr { public abstract void handler(); }
 	public static abstract interface DecodePtr {  public abstract void handler();}

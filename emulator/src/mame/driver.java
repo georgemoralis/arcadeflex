@@ -29,6 +29,7 @@ import static drivers.z80bw.*;
 import static drivers.arkanoid.*;
 import static drivers.congo.*;
 import static drivers.yamato.*;
+import static drivers.cclimber.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -176,16 +177,16 @@ public class driver {
 /*TODO*/ //	DRIVER( jumpcoas )	/* (c) 1983 Kaneko */
 
 	/* "Crazy Climber hardware" games */
-/*TODO*/ //	DRIVER( cclimber )	/* (c) 1980 Nichibutsu */
-/*TODO*/ //	DRIVER( cclimbrj )	/* (c) 1980 Nichibutsu */
-/*TODO*/ //	DRIVER( ccboot )	/* bootleg */
-/*TODO*/ //	DRIVER( ccboot2 )	/* bootleg */
-/*TODO*/ //	DRIVER( ckong )		/* (c) 1981 Falcon */
-/*TODO*/ //	DRIVER( ckonga )	/* (c) 1981 Falcon */
-/*TODO*/ //	DRIVER( ckongjeu )	/* bootleg */
-/*TODO*/ //	DRIVER( ckongo )	/* bootleg */
-/*TODO*/ //	DRIVER( ckongalc )	/* bootleg */
-/*TODO*/ //	DRIVER( monkeyd )	/* bootleg */
+        driver_cclimber, /* (c) 1980 Nichibutsu */
+        driver_cclimbrj,/* (c) 1980 Nichibutsu */
+        driver_ccboot, 	/* bootleg */
+        driver_ccboot2,	/* bootleg */
+        driver_ckong,	/* (c) 1981 Falcon */
+        driver_ckonga,	/* (c) 1981 Falcon */
+        driver_ckongjeu,/* bootleg */
+        driver_ckongo,	/* bootleg */
+        driver_ckongalc,/* bootleg */
+        driver_monkeyd,	/* bootleg */
 /*TODO*/ //	DRIVER( rpatrolb )	/* bootleg */
 /*TODO*/ //	DRIVER( silvland )	/* Falcon */
         driver_yamato,	/* (c) 1983 Sega */
