@@ -23,6 +23,7 @@ import static sound.ay8910H.*;
 import static mame.mame.*;
 import static sound.CustomSound.*;
 import static sndhrdw.cclimber.*;
+import static mame.sndintrf.*;
 
 public class cclimber {
     public static InitMachinePtr cclimber_init_machine = new InitMachinePtr() { public void handler() 
@@ -870,416 +871,397 @@ public class cclimber {
 		/* no samples */
 	ROM_END(); }}; 
 
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Swimmer driver
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///void swimmer_bgcolor_w(int offset,int data);
-    /*TODO*///void swimmer_palettebank_w(int offset,int data);
-    /*TODO*///void swimmer_vh_convert_color_prom(unsigned char *palette, unsigned short *colortable,const unsigned char *color_prom);
-    /*TODO*///void swimmer_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh);
-    /*TODO*///void swimmer_sidepanel_enable_w(int offset,int data);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void swimmer_sh_soundlatch_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	soundlatch_w(offset,data);
-    /*TODO*///	cpu_cause_interrupt(1,0xff);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress swimmer_readmem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
-    /*TODO*///	{ 0x8000, 0x87ff, MRA_RAM },
-    /*TODO*///	{ 0x9000, 0x93ff, MRA_RAM },
-    /*TODO*///	{ 0x9400, 0x97ff, videoram_r }, /* mirror address (used by Swimmer) */
-    /*TODO*///	{ 0x9c00, 0x9fff, MRA_RAM },
-    /*TODO*///	{ 0xa000, 0xa000, input_port_0_r },
-    /*TODO*///	{ 0xa800, 0xa800, input_port_1_r },
-    /*TODO*///	{ 0xb000, 0xb000, input_port_2_r },
-    /*TODO*///	{ 0xb800, 0xb800, input_port_3_r },
-    /*TODO*///	{ 0xb880, 0xb880, input_port_4_r },
-    /*TODO*///	{ 0xc000, 0xc7ff, MRA_RAM },    /* ??? used by Guzzler */
-    /*TODO*///	{ 0xe000, 0xffff, MRA_ROM },    /* Guzzler only */
-    /*TODO*///	{ -1 }  /* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress swimmer_writemem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x7fff, MWA_ROM },
-    /*TODO*///	{ 0x8000, 0x87ff, MWA_RAM },
-    /*TODO*///	{ 0x8800, 0x88ff, cclimber_bigsprite_videoram_w, &cclimber_bsvideoram, &cclimber_bsvideoram_size },
-    /*TODO*///	{ 0x8900, 0x89ff, cclimber_bigsprite_videoram_w },      /* mirror for the above (Guzzler writes to both) */
-    /*TODO*///	{ 0x9000, 0x93ff, videoram_w, &videoram, &videoram_size },
-    /*TODO*///	{ 0x9400, 0x97ff, videoram_w }, /* mirror address (used by Guzzler) */
-    /*TODO*///	{ 0x9800, 0x981f, MWA_RAM, &cclimber_column_scroll },
-    /*TODO*///	{ 0x9880, 0x989f, MWA_RAM, &spriteram, &spriteram_size },
-    /*TODO*///	{ 0x98fc, 0x98ff, MWA_RAM, &cclimber_bigspriteram },
-    /*TODO*///	{ 0x9c00, 0x9fff, cclimber_colorram_w, &colorram },
-    /*TODO*///	{ 0xa000, 0xa000, interrupt_enable_w },
-    /*TODO*///	{ 0xa001, 0xa002, cclimber_flipscreen_w },
-    /*TODO*///	{ 0xa003, 0xa003, swimmer_sidepanel_enable_w },
-    /*TODO*///	{ 0xa004, 0xa004, swimmer_palettebank_w },
-    /*TODO*///	{ 0xa800, 0xa800, swimmer_sh_soundlatch_w },
-    /*TODO*///	{ 0xb800, 0xb800, swimmer_bgcolor_w },  /* river color in Swimmer */
-    /*TODO*///	{ 0xc000, 0xc7ff, MWA_RAM },    /* ??? used by Guzzler */
-    /*TODO*///	{ 0xe000, 0xffff, MWA_ROM },    /* Guzzler only */
-    /*TODO*///	{ -1 }  /* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress sound_readmem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x0fff, MRA_ROM },
-    /*TODO*///	{ 0x2000, 0x23ff, MRA_RAM },
-    /*TODO*///	{ 0x3000, 0x3000, soundlatch_r },
-    /*TODO*///	{ 0x4000, 0x4001, MRA_RAM },    /* ??? */
-    /*TODO*///	{ -1 }  /* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress sound_writemem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x0fff, MWA_ROM },
-    /*TODO*///	{ 0x2000, 0x23ff, MWA_RAM },
-    /*TODO*///	{ 0x4000, 0x4000, MWA_RAM },    /* ??? */
-    /*TODO*///	{ -1 }  /* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct IOWritePort sound_writeport[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x00, 0x00, AY8910_write_port_0_w },
-    /*TODO*///	{ 0x01, 0x01, AY8910_control_port_0_w },
-    /*TODO*///	{ 0x80, 0x80, AY8910_write_port_1_w },
-    /*TODO*///	{ 0x81, 0x81, AY8910_control_port_1_w },
-    /*TODO*///	{ -1 }  /* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( swimmer )
-    /*TODO*///	PORT_START      /* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///
-    /*TODO*///	PORT_START      /* DSW1 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x00, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "5" )
-    /*TODO*///	PORT_BITX( 0,       0x03, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "Infinite", IP_KEY_NONE, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x00, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "10000" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "20000" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "30000" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x00, DEF_STR( Coin_A ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0020, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, DEF_STR( 1C_3C ) )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0x00, DEF_STR( Coin_B ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_3C ) )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_6C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN3/DSW2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_START2 )
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x0020, 0x0020, DEF_STR( Demo_Sounds ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0020, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0x80, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "???" )
-    /*TODO*///	PORT_DIPSETTING(    0x80, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, "Hard" )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN4 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0xfc, IP_ACTIVE_HIGH, IPT_UNKNOWN )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///INPUT_PORTS_START( guzzler )
-    /*TODO*///	PORT_START      /* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_4WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN )   /* probably unused */
-    /*TODO*///
-    /*TODO*///	PORT_START      /* DSW0 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x00, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "4" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "5" )
-    /*TODO*///	PORT_BITX( 0,       0x03, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "64", IP_KEY_NONE, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x00, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "20000 50000" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "30000 100000" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "30000" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x00, DEF_STR( Coin_A ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x0020, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, DEF_STR( 1C_3C ) )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0x00, DEF_STR( Coin_B ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_3C ) )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_6C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* DSW1 */
-    /*TODO*///	PORT_BIT( 0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN )     /* probably unused */
-    /*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x0020, 0x00, "High Score Names" )
-    /*TODO*///	PORT_DIPSETTING(    0x0020, "3 Letters" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "10 Letters" )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0x00, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x40, "Medium" )
-    /*TODO*///	PORT_DIPSETTING(    0x80, "Hard" )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, "Hardest" )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* coin */
-    /*TODO*///	PORT_BIT_IMPULSE( 0x01, IP_ACTIVE_HIGH, IPT_COIN1, 2)
-    /*TODO*///	PORT_BIT_IMPULSE( 0x02, IP_ACTIVE_HIGH, IPT_COIN2, 2)
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_START1 )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNKNOWN )     /* probably unused */
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct GfxLayout swimmer_charlayout =
-    /*TODO*///{
-    /*TODO*///	8,8,    /* 8*8 characters */
-    /*TODO*///	512,    /* 512 characters */
-    /*TODO*///	3,      /* 3 bits per pixel */
-    /*TODO*///	{ 0, 512*8*8, 512*2*8*8 },      /* the bitplanes are separated */
-    /*TODO*///	{ 0, 1, 2, 3, 4, 5, 6, 7 },	     /* characters are upside down */
-    /*TODO*///	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
-    /*TODO*///	8*8     /* every char takes 8 consecutive bytes */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct GfxLayout swimmer_spritelayout =
-    /*TODO*///{
-    /*TODO*///	16,16,  /* 16*16 sprites */
-    /*TODO*///	128,    /* 128 sprites */
-    /*TODO*///	3,	      /* 3 bits per pixel */
-    /*TODO*///	{ 0, 128*16*16, 128*2*16*16 },  /* the bitplanes are separated */
-    /*TODO*///	{ 0, 1, 2, 3, 4, 5, 6, 7,       /* pretty straightforward layout */
-    /*TODO*///			8*8+0, 8*8+1, 8*8+2, 8*8+3, 8*8+4, 8*8+5, 8*8+6, 8*8+7 },
-    /*TODO*///	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
-    /*TODO*///			16*8, 17*8, 18*8, 19*8, 20*8, 21*8, 22*8, 23*8 },
-    /*TODO*///	32*8    /* every sprite takes 32 consecutive bytes */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct GfxDecodeInfo swimmer_gfxdecodeinfo[] =
-    /*TODO*///{
-    /*TODO*///	{ REGION_GFX1, 0, &swimmer_charlayout,      0, 64 }, /* characters */
-    /*TODO*///	{ REGION_GFX1, 0, &swimmer_spritelayout,    0, 32 }, /* sprite set #1 */
-    /*TODO*///	{ REGION_GFX2, 0, &swimmer_charlayout,   64*8, 4 },  /* big sprite set */
-    /*TODO*///	{ -1 } /* end of array */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct AY8910interface swimmer_ay8910_interface =
-    /*TODO*///{
-    /*TODO*///	2,      /* 2 chips */
-    /*TODO*///	4000000/2,	/* 2 MHz */
-    /*TODO*///	{ 25, 25 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 },
-    /*TODO*///	{ 0 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct MachineDriver machine_driver_swimmer =
-    /*TODO*///{
-    /*TODO*///	/* basic machine hardware */
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			3072000,	/* 3.072 MHz */
-    /*TODO*///			swimmer_readmem,swimmer_writemem,0,0,
-    /*TODO*///			nmi_interrupt,1
-    /*TODO*///		},
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-    /*TODO*///			4000000/2,	/* 2 MHz */
-    /*TODO*///			sound_readmem,sound_writemem,0,sound_writeport,
-    /*TODO*///			0,0,
-    /*TODO*///			nmi_interrupt,4000000/16384 /* IRQs are triggered by the main CPU */
-    /*TODO*///		}
-    /*TODO*///	},
-    /*TODO*///	60, DEFAULT_60HZ_VBLANK_DURATION,       /* frames per second, vblank duration */
-    /*TODO*///	1,      /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
-    /*TODO*///	0,
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	32*8, 32*8, { 0*8, 32*8-1, 2*8, 30*8-1 },
-    /*TODO*///	swimmer_gfxdecodeinfo,
-    /*TODO*///	256+32+2,64*8+4*8,
-    /*TODO*///	swimmer_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER|VIDEO_MODIFIES_PALETTE,
-    /*TODO*///	0,
-    /*TODO*///	cclimber_vh_start,
-    /*TODO*///	cclimber_vh_stop,
-    /*TODO*///	swimmer_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_AY8910,
-    /*TODO*///			&swimmer_ay8910_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///ROM_START( swimmer )
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU1 )     /* 64k for code */
-    /*TODO*///	ROM_LOAD( "sw1",          0x0000, 0x1000, 0xf12481e7 )
-    /*TODO*///	ROM_LOAD( "sw2",          0x1000, 0x1000, 0xa0b6fdd2 )
-    /*TODO*///	ROM_LOAD( "sw3",          0x2000, 0x1000, 0xec93d7de )
-    /*TODO*///	ROM_LOAD( "sw4",          0x3000, 0x1000, 0x0107927d )
-    /*TODO*///	ROM_LOAD( "sw5",          0x4000, 0x1000, 0xebd8a92c )
-    /*TODO*///	ROM_LOAD( "sw6",          0x5000, 0x1000, 0xf8539821 )
-    /*TODO*///	ROM_LOAD( "sw7",          0x6000, 0x1000, 0x37efb64e )
-    /*TODO*///	ROM_LOAD( "sw8",          0x7000, 0x1000, 0x33d6001e )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )     /* 64k for sound board */
-    /*TODO*///	ROM_LOAD( "sw12",         0x0000, 0x1000, 0x2eee9bcb )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "sw15",         0x0000, 0x1000, 0x4f3608cb )  /* chars */
-    /*TODO*///	ROM_LOAD( "sw14",         0x1000, 0x1000, 0x7181c8b4 )
-    /*TODO*///	ROM_LOAD( "sw13",         0x2000, 0x1000, 0x2eb1af5c )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "sw23",         0x0000, 0x0800, 0x9ca67e24 )  /* bigsprite data */
-    /*TODO*///	ROM_RELOAD(               0x0800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///	ROM_LOAD( "sw22",         0x1000, 0x0800, 0x02c10992 )
-    /*TODO*///	ROM_RELOAD(               0x1800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///	ROM_LOAD( "sw21",         0x2000, 0x0800, 0x7f4993c1 )
-    /*TODO*///	ROM_RELOAD(               0x2800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x0220, REGION_PROMS )
-    /*TODO*///	ROM_LOAD( "8220.clr",     0x0000, 0x100, 0x72c487ed )
-    /*TODO*///	ROM_LOAD( "8212.clr",     0x0100, 0x100, 0x39037799 )
-    /*TODO*///	ROM_LOAD( "8221.clr",     0x0200, 0x020, 0x3b2deb3a )
-    /*TODO*///ROM_END
-    /*TODO*///
-    /*TODO*///ROM_START( swimmera )
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU1 )     /* 64k for code */
-    /*TODO*///	ROM_LOAD( "swa1",         0x0000, 0x1000, 0x42c2b6c5 )
-    /*TODO*///	ROM_LOAD( "swa2",         0x1000, 0x1000, 0x49bac195 )
-    /*TODO*///	ROM_LOAD( "swa3",         0x2000, 0x1000, 0xa6d8cb01 )
-    /*TODO*///	ROM_LOAD( "swa4",         0x3000, 0x1000, 0x7be75182 )
-    /*TODO*///	ROM_LOAD( "swa5",         0x4000, 0x1000, 0x78f79573 )
-    /*TODO*///	ROM_LOAD( "swa6",         0x5000, 0x1000, 0xfda9b311 )
-    /*TODO*///	ROM_LOAD( "swa7",         0x6000, 0x1000, 0x7090e5ee )
-    /*TODO*///	ROM_LOAD( "swa8",         0x7000, 0x1000, 0xab86efa9 )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )     /* 64k for sound board */
-    /*TODO*///	ROM_LOAD( "sw12",         0x0000, 0x1000, 0x2eee9bcb )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "sw15",         0x0000, 0x1000, 0x4f3608cb )  /* chars */
-    /*TODO*///	ROM_LOAD( "sw14",         0x1000, 0x1000, 0x7181c8b4 )
-    /*TODO*///	ROM_LOAD( "sw13",         0x2000, 0x1000, 0x2eb1af5c )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "sw23",         0x0000, 0x0800, 0x9ca67e24 )  /* bigsprite data */
-    /*TODO*///	ROM_RELOAD(               0x0800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///	ROM_LOAD( "sw22",         0x1000, 0x0800, 0x02c10992 )
-    /*TODO*///	ROM_RELOAD(               0x1800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///	ROM_LOAD( "sw21",         0x2000, 0x0800, 0x7f4993c1 )
-    /*TODO*///	ROM_RELOAD(               0x2800, 0x0800 )	/* Guzzler has larger ROMs */
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x0220, REGION_PROMS )
-    /*TODO*///	ROM_LOAD( "8220.clr",     0x0000, 0x100, 0x72c487ed )
-    /*TODO*///	ROM_LOAD( "8212.clr",     0x0100, 0x100, 0x39037799 )
-    /*TODO*///	ROM_LOAD( "8221.clr",     0x0200, 0x020, 0x3b2deb3a )
-    /*TODO*///ROM_END
-    /*TODO*///
-    /*TODO*///ROM_START( guzzler )
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU1 )     /* 64k for code */
-    /*TODO*///	ROM_LOAD( "guzz-01.bin",  0x0000, 0x2000, 0x58aaa1e9 )
-    /*TODO*///	ROM_LOAD( "guzz-02.bin",  0x2000, 0x2000, 0xf80ceb17 )
-    /*TODO*///	ROM_LOAD( "guzz-03.bin",  0x4000, 0x2000, 0xe63c65a2 )
-    /*TODO*///	ROM_LOAD( "guzz-04.bin",  0x6000, 0x2000, 0x45be42f5 )
-    /*TODO*///	ROM_LOAD( "guzz-16.bin",  0xe000, 0x2000, 0x61ee00b7 )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )     /* 64k for sound board */
-    /*TODO*///	ROM_LOAD( "guzz-12.bin",  0x0000, 0x1000, 0xf3754d9e )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "guzz-13.bin",  0x0000, 0x1000, 0xafc464e2 )   /* chars */
-    /*TODO*///	ROM_LOAD( "guzz-14.bin",  0x1000, 0x1000, 0xacbdfe1f )
-    /*TODO*///	ROM_LOAD( "guzz-15.bin",  0x2000, 0x1000, 0x66978c05 )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "guzz-11.bin",  0x0000, 0x1000, 0xec2e9d86 )   /* big sprite */
-    /*TODO*///	ROM_LOAD( "guzz-10.bin",  0x1000, 0x1000, 0xbd3f0bf7 )
-    /*TODO*///	ROM_LOAD( "guzz-09.bin",  0x2000, 0x1000, 0x18927579 )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x0220, REGION_PROMS )
-    /*TODO*///	ROM_LOAD( "guzzler.003",  0x0000, 0x100, 0xf86930c1 )
-    /*TODO*///	ROM_LOAD( "guzzler.002",  0x0100, 0x100, 0xb566ea9e )
-    /*TODO*///	ROM_LOAD( "guzzler.001",  0x0200, 0x020, 0x69089495 )
-    /*TODO*///ROM_END
-    /*TODO*///
+	/***************************************************************************
+	
+	  Swimmer driver
+	
+	***************************************************************************/
+	public static WriteHandlerPtr swimmer_sh_soundlatch_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+        {
+		soundlatch_w.handler(offset,data);
+		cpu_cause_interrupt(1,0xff);
+	}};
+ 	static MemoryReadAddress swimmer_readmem[] =
+	{
+		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
+		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
+		new MemoryReadAddress( 0x9000, 0x93ff, MRA_RAM ),
+		new MemoryReadAddress( 0x9400, 0x97ff, videoram_r ), /* mirror address (used by Swimmer) */
+		new MemoryReadAddress( 0x9c00, 0x9fff, MRA_RAM ),
+		new MemoryReadAddress( 0xa000, 0xa000, input_port_0_r ),
+		new MemoryReadAddress( 0xa800, 0xa800, input_port_1_r ),
+		new MemoryReadAddress( 0xb000, 0xb000, input_port_2_r ),
+		new MemoryReadAddress( 0xb800, 0xb800, input_port_3_r ),
+		new MemoryReadAddress( 0xb880, 0xb880, input_port_4_r ),
+		new MemoryReadAddress( 0xc000, 0xc7ff, MRA_RAM ),    /* ??? used by Guzzler */
+		new MemoryReadAddress( 0xe000, 0xffff, MRA_ROM ),    /* Guzzler only */
+		new MemoryReadAddress( -1 )  /* end of table */
+	};
+	
+	static MemoryWriteAddress swimmer_writemem[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
+		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
+		new MemoryWriteAddress( 0x8800, 0x88ff, cclimber_bigsprite_videoram_w, cclimber_bsvideoram, cclimber_bsvideoram_size ),
+		new MemoryWriteAddress( 0x8900, 0x89ff, cclimber_bigsprite_videoram_w ),      /* mirror for the above (Guzzler writes to both) */
+		new MemoryWriteAddress( 0x9000, 0x93ff, videoram_w, videoram, videoram_size ),
+		new MemoryWriteAddress( 0x9400, 0x97ff, videoram_w ), /* mirror address (used by Guzzler) */
+		new MemoryWriteAddress( 0x9800, 0x981f, MWA_RAM, cclimber_column_scroll ),
+		new MemoryWriteAddress( 0x9880, 0x989f, MWA_RAM, spriteram, spriteram_size ),
+		new MemoryWriteAddress( 0x98fc, 0x98ff, MWA_RAM, cclimber_bigspriteram ),
+		new MemoryWriteAddress( 0x9c00, 0x9fff, cclimber_colorram_w, colorram ),
+		new MemoryWriteAddress( 0xa000, 0xa000, interrupt_enable_w ),
+		new MemoryWriteAddress( 0xa001, 0xa002, cclimber_flipscreen_w ),
+		new MemoryWriteAddress( 0xa003, 0xa003, swimmer_sidepanel_enable_w ),
+		new MemoryWriteAddress( 0xa004, 0xa004, swimmer_palettebank_w ),
+		new MemoryWriteAddress( 0xa800, 0xa800, swimmer_sh_soundlatch_w ),
+		new MemoryWriteAddress( 0xb800, 0xb800, swimmer_bgcolor_w ),  /* river color in Swimmer */
+		new MemoryWriteAddress( 0xc000, 0xc7ff, MWA_RAM ),    /* ??? used by Guzzler */
+		new MemoryWriteAddress( 0xe000, 0xffff, MWA_ROM ),    /* Guzzler only */
+		new MemoryWriteAddress( -1 )  /* end of table */
+	};
+	
+	
+	static MemoryReadAddress sound_readmem[] =
+	{
+		new MemoryReadAddress( 0x0000, 0x0fff, MRA_ROM ),
+		new MemoryReadAddress( 0x2000, 0x23ff, MRA_RAM ),
+		new MemoryReadAddress( 0x3000, 0x3000, soundlatch_r ),
+		new MemoryReadAddress( 0x4000, 0x4001, MRA_RAM ),    /* ??? */
+		new MemoryReadAddress( -1 )  /* end of table */
+	};
+	
+	static MemoryWriteAddress sound_writemem[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0x0fff, MWA_ROM ),
+		new MemoryWriteAddress( 0x2000, 0x23ff, MWA_RAM ),
+		new MemoryWriteAddress( 0x4000, 0x4000, MWA_RAM ),    /* ??? */
+		new MemoryWriteAddress( -1 )  /* end of table */
+	};
+	
+	static IOWritePort sound_writeport[] =
+	{
+		new IOWritePort( 0x00, 0x00, AY8910_write_port_0_w ),
+		new IOWritePort( 0x01, 0x01, AY8910_control_port_0_w ),
+		new IOWritePort( 0x80, 0x80, AY8910_write_port_1_w ),
+		new IOWritePort( 0x81, 0x81, AY8910_control_port_1_w ),
+		new IOWritePort( -1 )  /* end of table */
+	};
+	
+	
+	
+	static InputPortPtr input_ports_swimmer = new InputPortPtr(){ public void handler() { 
+		PORT_START();       /* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 );
+		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+	
+		PORT_START();       /* DSW1 */
+		PORT_DIPNAME( 0x03, 0x00, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPSETTING(    0x01, "4" );
+		PORT_DIPSETTING(    0x02, "5" );
+		PORT_BITX( 0,       0x03, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "Infinite", IP_KEY_NONE, IP_JOY_NONE );
+		PORT_DIPNAME( 0x0c, 0x00, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x00, "10000" );
+		PORT_DIPSETTING(    0x04, "20000" );
+		PORT_DIPSETTING(    0x08, "30000" );
+		PORT_DIPSETTING(    0x0c, "None" );
+		PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Coin_A") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x0020, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x30, DEF_STR( "1C_3C") );
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Coin_B") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_3C") );
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_6C") );
+	
+		PORT_START();       /* IN3/DSW2 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_START1 );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_START2 );
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x0020, 0x0020, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x0020, DEF_STR( "On") );
+		PORT_DIPNAME( 0xc0, 0x80, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x00, "Easy" );
+		PORT_DIPSETTING(    0x40, "???" );
+		PORT_DIPSETTING(    0x80, "Normal" );
+		PORT_DIPSETTING(    0xc0, "Hard" );
+	
+		PORT_START();       /* IN4 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
+		PORT_BIT( 0xfc, IP_ACTIVE_HIGH, IPT_UNKNOWN );
+	INPUT_PORTS_END(); }}; 
+	
+	static InputPortPtr input_ports_guzzler = new InputPortPtr(){ public void handler() { 
+		PORT_START();       /* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_4WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT  | IPF_4WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_4WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_4WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 );
+		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN );  /* probably unused */
+	
+		PORT_START();       /* DSW0 */
+		PORT_DIPNAME( 0x03, 0x00, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPSETTING(    0x01, "4" );
+		PORT_DIPSETTING(    0x02, "5" );
+		PORT_BITX( 0,       0x03, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "64", IP_KEY_NONE, IP_JOY_NONE );
+		PORT_DIPNAME( 0x0c, 0x00, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x04, "20000 50000" );
+		PORT_DIPSETTING(    0x00, "30000 100000" );
+		PORT_DIPSETTING(    0x08, "30000" );
+		PORT_DIPSETTING(    0x0c, "None" );
+		PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Coin_A") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x0020, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x30, DEF_STR( "1C_3C") );
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Coin_B") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_3C") );
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_6C") );
+	
+		PORT_START();       /* DSW1 */
+		PORT_BIT( 0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN );    /* probably unused */
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x0020, 0x00, "High Score Names" );
+		PORT_DIPSETTING(    0x0020, "3 Letters" );
+		PORT_DIPSETTING(    0x00, "10 Letters" );
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x00, "Easy" );
+		PORT_DIPSETTING(    0x40, "Medium" );
+		PORT_DIPSETTING(    0x80, "Hard" );
+		PORT_DIPSETTING(    0xc0, "Hardest" );
+	
+		PORT_START();       /* coin */
+		PORT_BIT_IMPULSE( 0x01, IP_ACTIVE_HIGH, IPT_COIN1, 2);
+		PORT_BIT_IMPULSE( 0x02, IP_ACTIVE_HIGH, IPT_COIN2, 2);
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_START1 );
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_START2 );
+		PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNKNOWN );    /* probably unused */
+	INPUT_PORTS_END(); }}; 
+ 	static GfxLayout swimmer_charlayout = new GfxLayout
+	(
+		8,8,    /* 8*8 characters */
+		512,    /* 512 characters */
+		3,      /* 3 bits per pixel */
+		new int[] { 0, 512*8*8, 512*2*8*8 },      /* the bitplanes are separated */
+		new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },	     /* characters are upside down */
+		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
+		8*8     /* every char takes 8 consecutive bytes */
+	);
+	
+	static GfxLayout swimmer_spritelayout = new GfxLayout
+	(
+		16,16,  /* 16*16 sprites */
+		128,    /* 128 sprites */
+		3,	      /* 3 bits per pixel */
+		new int[] { 0, 128*16*16, 128*2*16*16 },  /* the bitplanes are separated */
+		new int[] { 0, 1, 2, 3, 4, 5, 6, 7,       /* pretty straightforward layout */
+				8*8+0, 8*8+1, 8*8+2, 8*8+3, 8*8+4, 8*8+5, 8*8+6, 8*8+7 },
+		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
+				16*8, 17*8, 18*8, 19*8, 20*8, 21*8, 22*8, 23*8 },
+		32*8    /* every sprite takes 32 consecutive bytes */
+	);
+	
+	static GfxDecodeInfo swimmer_gfxdecodeinfo[] =
+	{
+		new GfxDecodeInfo( REGION_GFX1, 0, swimmer_charlayout,      0, 64 ), /* characters */
+		new GfxDecodeInfo( REGION_GFX1, 0, swimmer_spritelayout,    0, 32 ), /* sprite set #1 */
+		new GfxDecodeInfo( REGION_GFX2, 0, swimmer_charlayout,   64*8, 4 ),  /* big sprite set */
+		new GfxDecodeInfo( -1 ) /* end of array */
+	};
+	
+	
+	
+	static AY8910interface swimmer_ay8910_interface = new AY8910interface
+	(
+		2,      /* 2 chips */
+		4000000/2,	/* 2 MHz */
+		new int[]{ 25, 25 },
+		new ReadHandlerPtr[]{ null,null},
+		new ReadHandlerPtr[]{ null,null },
+		new WriteHandlerPtr[]{ null,null },
+		new WriteHandlerPtr[]{ null,null }
+	);
+ 	static MachineDriver machine_driver_swimmer = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				3072000,	/* 3.072 MHz */
+				swimmer_readmem,swimmer_writemem,null,null,
+				nmi_interrupt,1
+			),
+			new MachineCPU(
+				CPU_Z80 | CPU_AUDIO_CPU,
+				4000000/2,	/* 2 MHz */
+				sound_readmem,sound_writemem,null,sound_writeport,
+                                null,0,
+				nmi_interrupt,4000000/16384,null /* IRQs are triggered by the main CPU */
+			)
+		},
+		60, DEFAULT_60HZ_VBLANK_DURATION,       /* frames per second, vblank duration */
+		1,      /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
+		null,
+	
+		/* video hardware */
+		32*8, 32*8, new rectangle( 0*8, 32*8-1, 2*8, 30*8-1 ),
+		swimmer_gfxdecodeinfo,
+		256+32+2,64*8+4*8,
+		swimmer_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER|VIDEO_MODIFIES_PALETTE,
+		null,
+		cclimber_vh_start,
+		cclimber_vh_stop,
+		swimmer_vh_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+                new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_AY8910,
+				swimmer_ay8910_interface
+                    )
+                }	
+	);
+        
+	static RomLoadPtr rom_swimmer = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for code */
+		ROM_LOAD( "sw1",          0x0000, 0x1000, 0xf12481e7 );
+		ROM_LOAD( "sw2",          0x1000, 0x1000, 0xa0b6fdd2 );
+		ROM_LOAD( "sw3",          0x2000, 0x1000, 0xec93d7de );
+		ROM_LOAD( "sw4",          0x3000, 0x1000, 0x0107927d );
+		ROM_LOAD( "sw5",          0x4000, 0x1000, 0xebd8a92c );
+		ROM_LOAD( "sw6",          0x5000, 0x1000, 0xf8539821 );
+		ROM_LOAD( "sw7",          0x6000, 0x1000, 0x37efb64e );
+		ROM_LOAD( "sw8",          0x7000, 0x1000, 0x33d6001e );
+	
+		ROM_REGION( 0x10000, REGION_CPU2 );    /* 64k for sound board */
+		ROM_LOAD( "sw12",         0x0000, 0x1000, 0x2eee9bcb );
+	
+		ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "sw15",         0x0000, 0x1000, 0x4f3608cb ); /* chars */
+		ROM_LOAD( "sw14",         0x1000, 0x1000, 0x7181c8b4 );
+		ROM_LOAD( "sw13",         0x2000, 0x1000, 0x2eb1af5c );
+	
+		ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "sw23",         0x0000, 0x0800, 0x9ca67e24 ); /* bigsprite data */
+		ROM_RELOAD(               0x0800, 0x0800 );/* Guzzler has larger ROMs */
+		ROM_LOAD( "sw22",         0x1000, 0x0800, 0x02c10992 );
+		ROM_RELOAD(               0x1800, 0x0800 );/* Guzzler has larger ROMs */
+		ROM_LOAD( "sw21",         0x2000, 0x0800, 0x7f4993c1 );
+		ROM_RELOAD(               0x2800, 0x0800 );/* Guzzler has larger ROMs */
+	
+		ROM_REGION( 0x0220, REGION_PROMS );
+		ROM_LOAD( "8220.clr",     0x0000, 0x100, 0x72c487ed );
+		ROM_LOAD( "8212.clr",     0x0100, 0x100, 0x39037799 );
+		ROM_LOAD( "8221.clr",     0x0200, 0x020, 0x3b2deb3a );
+	ROM_END(); }}; 
+	
+	static RomLoadPtr rom_swimmera = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for code */
+		ROM_LOAD( "swa1",         0x0000, 0x1000, 0x42c2b6c5 );
+		ROM_LOAD( "swa2",         0x1000, 0x1000, 0x49bac195 );
+		ROM_LOAD( "swa3",         0x2000, 0x1000, 0xa6d8cb01 );
+		ROM_LOAD( "swa4",         0x3000, 0x1000, 0x7be75182 );
+		ROM_LOAD( "swa5",         0x4000, 0x1000, 0x78f79573 );
+		ROM_LOAD( "swa6",         0x5000, 0x1000, 0xfda9b311 );
+		ROM_LOAD( "swa7",         0x6000, 0x1000, 0x7090e5ee );
+		ROM_LOAD( "swa8",         0x7000, 0x1000, 0xab86efa9 );
+	
+		ROM_REGION( 0x10000, REGION_CPU2 );    /* 64k for sound board */
+		ROM_LOAD( "sw12",         0x0000, 0x1000, 0x2eee9bcb );
+	
+		ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "sw15",         0x0000, 0x1000, 0x4f3608cb ); /* chars */
+		ROM_LOAD( "sw14",         0x1000, 0x1000, 0x7181c8b4 );
+		ROM_LOAD( "sw13",         0x2000, 0x1000, 0x2eb1af5c );
+	
+		ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "sw23",         0x0000, 0x0800, 0x9ca67e24 ); /* bigsprite data */
+		ROM_RELOAD(               0x0800, 0x0800 );/* Guzzler has larger ROMs */
+		ROM_LOAD( "sw22",         0x1000, 0x0800, 0x02c10992 );
+		ROM_RELOAD(               0x1800, 0x0800 );/* Guzzler has larger ROMs */
+		ROM_LOAD( "sw21",         0x2000, 0x0800, 0x7f4993c1 );
+		ROM_RELOAD(               0x2800, 0x0800 );/* Guzzler has larger ROMs */
+	
+		ROM_REGION( 0x0220, REGION_PROMS );
+		ROM_LOAD( "8220.clr",     0x0000, 0x100, 0x72c487ed );
+		ROM_LOAD( "8212.clr",     0x0100, 0x100, 0x39037799 );
+		ROM_LOAD( "8221.clr",     0x0200, 0x020, 0x3b2deb3a );
+	ROM_END(); }}; 
+	
+	static RomLoadPtr rom_guzzler = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for code */
+		ROM_LOAD( "guzz-01.bin",  0x0000, 0x2000, 0x58aaa1e9 );
+		ROM_LOAD( "guzz-02.bin",  0x2000, 0x2000, 0xf80ceb17 );
+		ROM_LOAD( "guzz-03.bin",  0x4000, 0x2000, 0xe63c65a2 );
+		ROM_LOAD( "guzz-04.bin",  0x6000, 0x2000, 0x45be42f5 );
+		ROM_LOAD( "guzz-16.bin",  0xe000, 0x2000, 0x61ee00b7 );
+	
+		ROM_REGION( 0x10000, REGION_CPU2 );    /* 64k for sound board */
+		ROM_LOAD( "guzz-12.bin",  0x0000, 0x1000, 0xf3754d9e );
+	
+		ROM_REGION( 0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "guzz-13.bin",  0x0000, 0x1000, 0xafc464e2 );  /* chars */
+		ROM_LOAD( "guzz-14.bin",  0x1000, 0x1000, 0xacbdfe1f );
+		ROM_LOAD( "guzz-15.bin",  0x2000, 0x1000, 0x66978c05 );
+	
+		ROM_REGION( 0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "guzz-11.bin",  0x0000, 0x1000, 0xec2e9d86 );  /* big sprite */
+		ROM_LOAD( "guzz-10.bin",  0x1000, 0x1000, 0xbd3f0bf7 );
+		ROM_LOAD( "guzz-09.bin",  0x2000, 0x1000, 0x18927579 );
+	
+		ROM_REGION( 0x0220, REGION_PROMS );
+		ROM_LOAD( "guzzler.003",  0x0000, 0x100, 0xf86930c1 );
+		ROM_LOAD( "guzzler.002",  0x0100, 0x100, 0xb566ea9e );
+		ROM_LOAD( "guzzler.001",  0x0200, 0x020, 0x69089495 );
+	ROM_END(); }}; 
+ 
         public static GameDriver driver_cclimber   = new GameDriver("1980"	,"cclimber"	,"cclimber.java"	,rom_cclimber   ,null	            ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimber	,ROT0	,	"Nichibutsu", "Crazy Climber (US)" );
 	public static GameDriver driver_cclimbrj   = new GameDriver("1980"	,"cclimbrj"	,"cclimber.java"	,rom_cclimbrj   ,driver_cclimber    ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"Nichibutsu", "Crazy Climber (Japan)" );
 	public static GameDriver driver_ccboot	   = new GameDriver("1980"	,"ccboot"	,"cclimber.java"	,rom_ccboot     ,driver_cclimber    ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"bootleg", "Crazy Climber (bootleg set 1)" );
@@ -1293,6 +1275,7 @@ public class cclimber {
         public static GameDriver driver_rpatrolb   = new GameDriver("????"     ,"rpatrolb"      ,"cclimber.java"        ,rom_rpatrolb   , null              ,machine_driver_cclimber, input_ports_rpatrolb, null,        ROT0,   "bootleg", "River Patrol (bootleg)" );
         public static GameDriver driver_silvland   = new GameDriver("????"     ,"silvland"      ,"cclimber.java"        ,rom_silvland   , driver_rpatrolb   ,machine_driver_cclimber, input_ports_rpatrolb, null,        ROT0,   "Falcon", "Silver Land" );
 
+        public static GameDriver driver_swimmer	   = new GameDriver("1982"	,"swimmer"	,"cclimber.java"	,rom_swimmer,null	,machine_driver_swimmer	,input_ports_swimmer	,null	,ROT0	,	"Tehkan", "Swimmer (set 1)" );
     /*TODO*///GAME( 1982, swimmer,  0,       swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 1)" )
     /*TODO*///GAME( 1982, swimmera, swimmer, swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 2)" )
     /*TODO*///GAME( 1983, guzzler,  0,       swimmer, guzzler, 0, ROT90, "Tehkan", "Guzzler" )

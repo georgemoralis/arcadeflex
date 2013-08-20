@@ -16,6 +16,7 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.video.*;
+import static mame.palette.*;
 
 public class cclimber
 {
@@ -229,20 +230,22 @@ public class cclimber
 			bit2 = (color_prom.read(i) >> 7) & 0x01;
 			palette[p_inc++].set((char)(0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
 	
-/*TODO*///			if (i % 8 == 0) COLOR(2,i) = BGPEN;  /* enforce transparency */
-/*TODO*///			else COLOR(2,i) = i+256;
+			if (i % 8 == 0) 
+                            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=(char)BGPEN;//COLOR(2,i) = BGPEN;  /* enforce transparency */
+			else 
+                            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i]=(char)(i+256);//COLOR(2,i) = i+256;
 		}
 	
 		/* background */
-/*TODO*///		*(palette++) = 0;
-/*TODO*///		*(palette++) = 0;
-/*TODO*///		*(palette++) = 0;
+		palette[p_inc++].set((char)(0));
+		palette[p_inc++].set((char)(0));
+		palette[p_inc++].set((char)(0));
 		/* side panel background color */
-/*TODO*///		*(palette++) = 0x24;
-/*TODO*///		*(palette++) = 0x5d;
-/*TODO*///		*(palette++) = 0x4e;
+		palette[p_inc++].set((char)(0x24));
+		palette[p_inc++].set((char)(0x5d));
+		palette[p_inc++].set((char)(0x4e));
 	
-/*TODO*///		palette_transparent_color = BGPEN; /* background color */
+		palette_transparent_color = BGPEN; /* background color */
 		bgpen = BGPEN;
 	} };
 	
@@ -592,155 +595,155 @@ public class cclimber
 	} };
 	
 	
-	
+	static int lastcol_swimmer;
 	public static VhUpdatePtr swimmer_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	
 	
-/*TODO*///		if (palette_recalc())
-/*TODO*///		{
-/*TODO*///			memset(dirtybuffer,1,videoram_size);
-/*TODO*///			memset(bsdirtybuffer,1,cclimber_bsvideoram_size);
-/*TODO*///		}
+		if (palette_recalc()!=null)
+		{
+			memset(dirtybuffer,1,videoram_size[0]);
+			memset(bsdirtybuffer,1,cclimber_bsvideoram_size[0]);
+		}
 	
 		/* for every character in the Video RAM, check if it has been modified */
 		/* since last time and update it accordingly. */
-/*TODO*///		for (offs = videoram_size - 1;offs >= 0;offs--)
-/*TODO*///		{
-/*TODO*///			if (dirtybuffer[offs])
-/*TODO*///			{
-/*TODO*///				int sx,sy,flipx,flipy,color;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///				dirtybuffer[offs] = 0;
-/*TODO*///	
-/*TODO*///				sx = offs % 32;
-/*TODO*///				sy = offs / 32;
-/*TODO*///				flipx = colorram[offs] & 0x40;
-/*TODO*///				flipy = colorram[offs] & 0x80;
+		for (offs = videoram_size[0] - 1;offs >= 0;offs--)
+		{
+			if (dirtybuffer[offs]!=0)
+			{
+				int sx,sy,flipx,flipy,color;
+	
+	
+				dirtybuffer[offs] = 0;
+	
+				sx = offs % 32;
+				sy = offs / 32;
+				flipx = colorram.read(offs) & 0x40;
+				flipy = colorram.read(offs) & 0x80;
 				/* vertical flipping flips two adjacent characters */
-/*TODO*///				if (flipy != 0) sy ^= 1;
+				if (flipy != 0) sy ^= 1;
 	
-/*TODO*///				if (flipscreen[0])
-/*TODO*///				{
-/*TODO*///					sx = 31 - sx;
-/*TODO*///					flipx = !flipx;
-/*TODO*///				}
-/*TODO*///				if (flipscreen[1])
-/*TODO*///				{
-/*TODO*///					sy = 31 - sy;
-/*TODO*///					flipy = !flipy;
-/*TODO*///				}
+				if (flipscreen[0]!=0)
+				{
+					sx = 31 - sx;
+					flipx = NOT(flipx);
+				}
+				if (flipscreen[1]!=0)
+				{
+					sy = 31 - sy;
+					flipy = NOT(flipy);
+				}
 	
-/*TODO*///				color = (colorram[offs] & 0x0f) + 0x10 * palettebank;
-/*TODO*///				if (sx >= 24 && sidepanel_enabled)
-/*TODO*///				{
-/*TODO*///				    color += 32;
-/*TODO*///				}
+				color = (colorram.read(offs) & 0x0f) + 0x10 * palettebank;
+				if (sx >= 24 && sidepanel_enabled !=0)
+				{
+				    color += 32;
+				}
 	
-/*TODO*///				drawgfx(tmpbitmap,Machine.gfx[0],
-/*TODO*///						videoram[offs] + ((colorram[offs] & 0x10) << 4),
-/*TODO*///						color,
-/*TODO*///						flipx,flipy,
-/*TODO*///						8*sx,8*sy,
-/*TODO*///						0,TRANSPARENCY_NONE,0);
-/*TODO*///			}
-/*TODO*///		}
+				drawgfx(tmpbitmap,Machine.gfx[0],
+						videoram.read(offs) + ((colorram.read(offs) & 0x10) << 4),
+						color,
+						flipx,flipy,
+						8*sx,8*sy,
+						null,TRANSPARENCY_NONE,0);
+			}
+		}
 	
 	
 		/* copy the temporary bitmap to the screen */
-/*TODO*///		{
-/*TODO*///			int scroll[32];
-/*TODO*///	
-/*TODO*///	
-/*TODO*///			if (flipscreen[1])
-/*TODO*///			{
-/*TODO*///				for (offs = 0;offs < 32;offs++)
-/*TODO*///					scroll[offs] = cclimber_column_scroll[31 - offs];
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				for (offs = 0;offs < 32;offs++)
-/*TODO*///					scroll[offs] = -cclimber_column_scroll[offs];
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			copyscrollbitmap(bitmap,tmpbitmap,0,0,32,scroll,&Machine.drv.visible_area,TRANSPARENCY_NONE,0);
-/*TODO*///		}
+		{
+			int[] scroll=new int[32];
+	
+	
+			if (flipscreen[1]!=0)
+			{
+				for (offs = 0;offs < 32;offs++)
+					scroll[offs] = cclimber_column_scroll.read(31 - offs);
+			}
+			else
+			{
+				for (offs = 0;offs < 32;offs++)
+					scroll[offs] = -cclimber_column_scroll.read(offs);
+			}
+	
+			copyscrollbitmap(bitmap,tmpbitmap,0,null,32,scroll,Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+		}
 	
 	
 		/* update the "big sprite" */
-/*TODO*///		{
-/*TODO*///			int newcol;
-/*TODO*///			static int lastcol;
-/*TODO*///	
-	
-/*TODO*///			newcol = cclimber_bigspriteram[1] & 0x03;
-	
-/*TODO*///			for (offs = cclimber_bsvideoram_size - 1;offs >= 0;offs--)
-/*TODO*///			{
-/*TODO*///				int sx,sy;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///				if (bsdirtybuffer[offs] || newcol != lastcol)
-/*TODO*///				{
-/*TODO*///					bsdirtybuffer[offs] = 0;
-/*TODO*///	
-/*TODO*///					sx = offs % 16;
-/*TODO*///					sy = offs / 16;
-/*TODO*///	
-/*TODO*///					drawgfx(bsbitmap,Machine.gfx[2],
-/*TODO*///							cclimber_bsvideoram[offs] + ((cclimber_bigspriteram[1] & 0x08) << 5),
-/*TODO*///							newcol,
-/*TODO*///							0,0,
-/*TODO*///							8*sx,8*sy,
-/*TODO*///							0,TRANSPARENCY_NONE,0);
-/*TODO*///				}
-	
-/*TODO*///			}
-	
-/*TODO*///			lastcol = newcol;
-/*TODO*///		}
+		{
+			int newcol;
+			
 	
 	
-/*TODO*///		if (cclimber_bigspriteram[0] & 1)
+			newcol = cclimber_bigspriteram.read(1) & 0x03;
+	
+			for (offs = cclimber_bsvideoram_size[0] - 1;offs >= 0;offs--)
+			{
+				int sx,sy;
+	
+	
+				if (bsdirtybuffer[offs]!=0 || newcol != lastcol_swimmer)
+				{
+					bsdirtybuffer[offs] = 0;
+	
+					sx = offs % 16;
+					sy = offs / 16;
+	
+					drawgfx(bsbitmap,Machine.gfx[2],
+							cclimber_bsvideoram.read(offs) + ((cclimber_bigspriteram.read(1) & 0x08) << 5),
+							newcol,
+							0,0,
+							8*sx,8*sy,
+							null,TRANSPARENCY_NONE,0);
+				}
+	
+			}
+	
+			lastcol_swimmer = newcol;
+		}
+	
+	
+		if ((cclimber_bigspriteram.read(0) & 1)!=0)
 			/* draw the "big sprite" below sprites */
-/*TODO*///			drawbigsprite(bitmap);
+			drawbigsprite(bitmap);
 	
 	
 		/* Draw the sprites. Note that it is important to draw them exactly in this */
 		/* order, to have the correct priorities. */
-/*TODO*///		for (offs = spriteram_size - 4;offs >= 0;offs -= 4)
-/*TODO*///		{
-/*TODO*///			int sx,sy,flipx,flipy;
-/*TODO*///	
-	
-/*TODO*///			sx = spriteram[offs + 3];
-/*TODO*///			sy = 240 - spriteram[offs + 2];
-/*TODO*///			flipx = spriteram[offs] & 0x40;
-/*TODO*///			flipy = spriteram[offs] & 0x80;
-/*TODO*///			if (flipscreen[0])
-/*TODO*///			{
-/*TODO*///				sx = 240 - sx;
-/*TODO*///				flipx = !flipx;
-/*TODO*///			}
-/*TODO*///			if (flipscreen[1])
-/*TODO*///			{
-/*TODO*///				sy = 240 - sy;
-/*TODO*///				flipy = !flipy;
-/*TODO*///			}
-	
-/*TODO*///			drawgfx(bitmap,Machine.gfx[1],
-/*TODO*///					(spriteram[offs] & 0x3f) | (spriteram[offs + 1] & 0x10) << 2,
-/*TODO*///					(spriteram[offs + 1] & 0x0f) + 0x10 * palettebank,
-/*TODO*///					flipx,flipy,
-/*TODO*///					sx,sy,
-/*TODO*///					&Machine.drv.visible_area,TRANSPARENCY_PEN,0);
-/*TODO*///		}
+		for (offs = spriteram_size[0] - 4;offs >= 0;offs -= 4)
+		{
+			int sx,sy,flipx,flipy;
 	
 	
-/*TODO*///		if ((cclimber_bigspriteram[0] & 1) == 0)
-/*TODO*///			/* draw the "big sprite" over sprites */
-/*TODO*///			drawbigsprite(bitmap);
+			sx = spriteram.read(offs + 3);
+			sy = 240 - spriteram.read(offs + 2);
+			flipx = spriteram.read(offs) & 0x40;
+			flipy = spriteram.read(offs) & 0x80;
+			if (flipscreen[0]!=0)
+			{
+				sx = 240 - sx;
+				flipx = NOT(flipx);
+			}
+			if (flipscreen[1]!=0)
+			{
+				sy = 240 - sy;
+				flipy = NOT(flipy);
+			}
+	
+			drawgfx(bitmap,Machine.gfx[1],
+					(spriteram.read(offs) & 0x3f) | (spriteram.read(offs + 1) & 0x10) << 2,
+					(spriteram.read(offs + 1) & 0x0f) + 0x10 * palettebank,
+					flipx,flipy,
+					sx,sy,
+					Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+		}
+	
+	
+		if ((cclimber_bigspriteram.read(0) & 1) == 0)
+			/* draw the "big sprite" over sprites */
+			drawbigsprite(bitmap);
 	} };
 }

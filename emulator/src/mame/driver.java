@@ -191,7 +191,7 @@ public class driver {
         driver_silvland,	/* Falcon */
         driver_yamato,	/* (c) 1983 Sega */
         driver_yamato2,	/* (c) 1983 Sega */
-/*TODO*/ //	DRIVER( swimmer )	/* (c) 1982 Tehkan */
+        driver_swimmer,	/* (c) 1982 Tehkan */
 /*TODO*/ //	DRIVER( swimmera )	/* (c) 1982 Tehkan */
 /*TODO*/ //	DRIVER( guzzler )	/* (c) 1983 Tehkan */
 

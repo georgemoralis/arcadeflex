@@ -978,22 +978,22 @@ public class cpuintrf {
     /*TODO*///	LOG((errorlog,"cpu_set_irq_line(%d,%d,%d)\n",cpunum,irqline,state));
     /*TODO*///	timer_set(TIME_NOW, (irqline & 7) | ((cpunum & 7) << 3) | (state << 6), cpu_manualirqcallback);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this function to cause an interrupt immediately (don't have to wait
-    /*TODO*///  until the next call to the interrupt handler)
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_cause_interrupt(int cpunum,int type)
-    /*TODO*///{
-    /*TODO*///	/* don't trigger interrupts on suspended CPUs */
-    /*TODO*///	if (cpu_getstatus(cpunum) == 0) return;
-    /*TODO*///
-    /*TODO*///	timer_set(TIME_NOW, (cpunum & 7) | (type << 3), cpu_manualintcallback);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    /***************************************************************************
+    
+      Use this function to cause an interrupt immediately (don't have to wait
+      until the next call to the interrupt handler)
+    
+    ***************************************************************************/
+    public static void cpu_cause_interrupt(int cpunum,int type)
+    {
+    	/* don't trigger interrupts on suspended CPUs */
+    	if (cpu_getstatus(cpunum) == 0) return;
+    
+    	timer_set(TIME_NOW, (cpunum & 7) | (type << 3), cpu_manualintcallback);
+    }
+    
+    
     
     public static void cpu_clear_pending_interrupts(int cpunum)
     {
@@ -1755,30 +1755,24 @@ public class cpuintrf {
     }
     
     
-        public static timer_callback cpu_timedintcallback = new timer_callback(){ public void handler(int param){
-        throw new UnsupportedOperationException("Unsupported cpu_timedintcallback Here you go nickblame :D");
+    public static timer_callback cpu_timedintcallback = new timer_callback(){ public void handler(int param){
+       /* bail if there is no routine */
+    	if (Machine.drv.cpu[param].timed_interrupt==null)
+    		return;
+    
+    	/* generate the interrupt */
+    	cpu_generate_interrupt(param, Machine.drv.cpu[param].timed_interrupt, 0);
     }};
-    /*TODO*///static void cpu_timedintcallback(int param)
-    /*TODO*///{
-    /*TODO*///	/* bail if there is no routine */
-    /*TODO*///	if (!Machine->drv->cpu[param].timed_interrupt)
-    /*TODO*///		return;
-    /*TODO*///
-    /*TODO*///	/* generate the interrupt */
-    /*TODO*///	cpu_generate_interrupt(param, Machine->drv->cpu[param].timed_interrupt, 0);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cpu_manualintcallback(int param)
-    /*TODO*///{
-    /*TODO*///	int intnum = param >> 3;
-    /*TODO*///	int cpunum = param & 7;
-    /*TODO*///
-    /*TODO*///	/* generate the interrupt */
-    /*TODO*///	cpu_generate_interrupt(cpunum, 0, intnum);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    public static timer_callback cpu_manualintcallback = new timer_callback(){ public void handler(int param)
+    {
+    	int intnum = param >> 3;
+    	int cpunum = param & 7;
+    
+    	/* generate the interrupt */
+    	cpu_generate_interrupt(cpunum, null, intnum);
+    }};
+    
+    
     public static timer_callback cpu_clearintcallback = new timer_callback(){ public void handler(int param)
     {
     	/* clear the interrupts */
