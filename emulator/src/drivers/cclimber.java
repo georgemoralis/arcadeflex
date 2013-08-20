@@ -1280,19 +1280,19 @@ public class cclimber {
     /*TODO*///	ROM_LOAD( "guzzler.001",  0x0200, 0x020, 0x69089495 )
     /*TODO*///ROM_END
     /*TODO*///
-        public static GameDriver driver_cclimber	   = new GameDriver("1980"	,"cclimber"	,"cclimber.java"	,rom_cclimber,null	,machine_driver_cclimber	,input_ports_cclimber	,init_cclimber	,ROT0	,	"Nichibutsu", "Crazy Climber (US)" );
-	public static GameDriver driver_cclimbrj	   = new GameDriver("1980"	,"cclimbrj"	,"cclimber.java"	,rom_cclimbrj,driver_cclimber	,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"Nichibutsu", "Crazy Climber (Japan)" );
-	public static GameDriver driver_ccboot	   = new GameDriver("1980"	,"ccboot"	,"cclimber.java"	,rom_ccboot,driver_cclimber	,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"bootleg", "Crazy Climber (bootleg set 1)" );
-	public static GameDriver driver_ccboot2	   = new GameDriver("1980"	,"ccboot2"	,"cclimber.java"	,rom_ccboot2,driver_cclimber	,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"bootleg", "Crazy Climber (bootleg set 2)" );
-	public static GameDriver driver_ckong	   = new GameDriver("1981"	,"ckong"	,"cclimber.java"	,rom_ckong,null	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"Falcon", "Crazy Kong (set 1)" );
-	public static GameDriver driver_ckonga	   = new GameDriver("1981"	,"ckonga"	,"cclimber.java"	,rom_ckonga,driver_ckong	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"Falcon", "Crazy Kong (set 2)" );
-	public static GameDriver driver_ckongjeu	   = new GameDriver("1981"	,"ckongjeu"	,"cclimber.java"	,rom_ckongjeu,driver_ckong	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Jeutel bootleg)" );
-	public static GameDriver driver_ckongo	   = new GameDriver("1981"	,"ckongo"	,"cclimber.java"	,rom_ckongo,driver_ckong	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Orca bootleg)" );
-	public static GameDriver driver_ckongalc	   = new GameDriver("1981"	,"ckongalc"	,"cclimber.java"	,rom_ckongalc,driver_ckong	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Alca bootleg)" );
-	public static GameDriver driver_monkeyd	   = new GameDriver("1981"	,"monkeyd"	,"cclimber.java"	,rom_monkeyd,driver_ckong	,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Monkey Donkey" );
-    /*TODO*///GAME( ????, rpatrolb, 0,        cclimber, rpatrolb, 0,        ROT0,   "bootleg", "River Patrol (bootleg)" )
-    /*TODO*///GAME( ????, silvland, rpatrolb, cclimber, rpatrolb, 0,        ROT0,   "Falcon", "Silver Land" )
-    /*TODO*///
+        public static GameDriver driver_cclimber   = new GameDriver("1980"	,"cclimber"	,"cclimber.java"	,rom_cclimber   ,null	            ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimber	,ROT0	,	"Nichibutsu", "Crazy Climber (US)" );
+	public static GameDriver driver_cclimbrj   = new GameDriver("1980"	,"cclimbrj"	,"cclimber.java"	,rom_cclimbrj   ,driver_cclimber    ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"Nichibutsu", "Crazy Climber (Japan)" );
+	public static GameDriver driver_ccboot	   = new GameDriver("1980"	,"ccboot"	,"cclimber.java"	,rom_ccboot     ,driver_cclimber    ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"bootleg", "Crazy Climber (bootleg set 1)" );
+	public static GameDriver driver_ccboot2	   = new GameDriver("1980"	,"ccboot2"	,"cclimber.java"	,rom_ccboot2    ,driver_cclimber    ,machine_driver_cclimber	,input_ports_cclimber	,init_cclimbrj	,ROT0	,	"bootleg", "Crazy Climber (bootleg set 2)" );
+	public static GameDriver driver_ckong	   = new GameDriver("1981"	,"ckong"	,"cclimber.java"	,rom_ckong      ,null	            ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"Falcon", "Crazy Kong (set 1)" );
+	public static GameDriver driver_ckonga	   = new GameDriver("1981"	,"ckonga"	,"cclimber.java"	,rom_ckonga     ,driver_ckong	    ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"Falcon", "Crazy Kong (set 2)" );
+	public static GameDriver driver_ckongjeu   = new GameDriver("1981"	,"ckongjeu"	,"cclimber.java"	,rom_ckongjeu   ,driver_ckong	    ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Jeutel bootleg)" );
+	public static GameDriver driver_ckongo	   = new GameDriver("1981"	,"ckongo"	,"cclimber.java"	,rom_ckongo     ,driver_ckong	    ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Orca bootleg)" );
+	public static GameDriver driver_ckongalc   = new GameDriver("1981"	,"ckongalc"	,"cclimber.java"	,rom_ckongalc   ,driver_ckong	    ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Crazy Kong (Alca bootleg)" );
+	public static GameDriver driver_monkeyd	   = new GameDriver("1981"	,"monkeyd"	,"cclimber.java"	,rom_monkeyd    ,driver_ckong	    ,machine_driver_cclimber	,input_ports_ckong	,null	,ROT270	,	"bootleg", "Monkey Donkey" );
+        public static GameDriver driver_rpatrolb   = new GameDriver("????"     ,"rpatrolb"      ,"cclimber.java"        ,rom_rpatrolb   , null              ,machine_driver_cclimber, input_ports_rpatrolb, null,        ROT0,   "bootleg", "River Patrol (bootleg)" );
+        public static GameDriver driver_silvland   = new GameDriver("????"     ,"silvland"      ,"cclimber.java"        ,rom_silvland   , driver_rpatrolb   ,machine_driver_cclimber, input_ports_rpatrolb, null,        ROT0,   "Falcon", "Silver Land" );
+
     /*TODO*///GAME( 1982, swimmer,  0,       swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 1)" )
     /*TODO*///GAME( 1982, swimmera, swimmer, swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 2)" )
     /*TODO*///GAME( 1983, guzzler,  0,       swimmer, guzzler, 0, ROT90, "Tehkan", "Guzzler" )

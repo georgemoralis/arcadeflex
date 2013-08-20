@@ -206,70 +206,7 @@ public class drawgfx {
 /*TODO*///		srcheight--;
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*///INLINE void blockmove_transpen_noremap_flipx8(
-/*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
-/*TODO*///		UINT8 *dstdata,int dstmodulo,
-/*TODO*///		int transpen)
-/*TODO*///{
-/*TODO*///	UINT8 *end;
-/*TODO*///	int trans4;
-/*TODO*///	UINT32 *sd4;
-/*TODO*///
-/*TODO*///	srcmodulo += srcwidth;
-/*TODO*///	dstmodulo -= srcwidth;
-/*TODO*///	//srcdata += srcwidth-1;
-/*TODO*///	srcdata -= 3;
-/*TODO*///
-/*TODO*///	trans4 = transpen * 0x01010101;
-/*TODO*///
-/*TODO*///	while (srcheight)
-/*TODO*///	{
-/*TODO*///		end = dstdata + srcwidth;
-/*TODO*///		while (((long)srcdata & 3) && dstdata < end)	/* longword align */
-/*TODO*///		{
-/*TODO*///			int col;
-/*TODO*///
-/*TODO*///			col = srcdata[3];
-/*TODO*///			srcdata--;
-/*TODO*///			if (col != transpen) *dstdata = col;
-/*TODO*///			dstdata++;
-/*TODO*///		}
-/*TODO*///		sd4 = (UINT32 *)srcdata;
-/*TODO*///		while (dstdata <= end - 4)
-/*TODO*///		{
-/*TODO*///			UINT32 col4;
-/*TODO*///
-/*TODO*///			if ((col4 = *(sd4--)) != trans4)
-/*TODO*///			{
-/*TODO*///				UINT32 xod4;
-/*TODO*///
-/*TODO*///				xod4 = col4 ^ trans4;
-/*TODO*///				if (xod4 & 0x000000ff) dstdata[BL3] = col4;
-/*TODO*///				if (xod4 & 0x0000ff00) dstdata[BL2] = col4 >>  8;
-/*TODO*///				if (xod4 & 0x00ff0000) dstdata[BL1] = col4 >> 16;
-/*TODO*///				if (xod4 & 0xff000000) dstdata[BL0] = col4 >> 24;
-/*TODO*///			}
-/*TODO*///			dstdata += 4;
-/*TODO*///		}
-/*TODO*///		srcdata = (unsigned char *)sd4;
-/*TODO*///		while (dstdata < end)
-/*TODO*///		{
-/*TODO*///			int col;
-/*TODO*///
-/*TODO*///			col = srcdata[3];
-/*TODO*///			srcdata--;
-/*TODO*///			if (col != transpen) *dstdata = col;
-/*TODO*///			dstdata++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		srcdata += srcmodulo;
-/*TODO*///		dstdata += dstmodulo;
-/*TODO*///		srcheight--;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+
 /*TODO*///INLINE void blockmove_transpen_noremap16(
 /*TODO*///		const UINT16 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		UINT16 *dstdata,int dstmodulo,
@@ -606,7 +543,7 @@ public class drawgfx {
                 case TRANSPARENCY_PEN:
                 case TRANSPARENCY_COLOR:
                     if (flipx!=0)
-                        throw new UnsupportedOperationException("unimplemented");//blockmove_transpen_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
+                        blockmove_transpen_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
                     else
                        blockmove_transpen_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
                     break;
@@ -700,7 +637,59 @@ public class drawgfx {
                 srcheight--;
             }
         }
+        static void blockmove_transpen_noremap_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, int transpen)
+        {
+            int end;
+            int trans4;
+            IntPtr sd4;
 
+            srcmodulo += srcwidth;
+            dstmodulo -= srcwidth;
+            //srcdata += srcwidth-1;
+            srcdata.base -= 3;
+
+            trans4 = transpen * 0x01010101;
+
+            while (srcheight != 0)
+            {
+                end = dstdata.base + srcwidth;
+                while ((srcdata.base & 3) != 0 && dstdata.base < end) /* longword align */
+                {
+                    int col = srcdata.read(3); srcdata.base--;
+                    if (col != transpen) dstdata.write(0,col);
+                    dstdata.base++;
+                }
+                sd4 = new IntPtr(srcdata);
+                while (dstdata.base <= end - 4)
+                {
+                    int col4;
+
+                    if ((col4 = sd4.read(0)) != trans4)//if ((col4 = *(sd4--)) != trans4)
+                    {
+                        int xod4;
+
+                        xod4 = (col4 ^ trans4);
+                        if ((xod4 & 0x000000ff)!= 0) dstdata.write(3,(col4)& 0xFF);
+                        if ((xod4 & 0x0000ff00)!= 0) dstdata.write(2,(col4 >> 8)& 0xFF);
+                        if ((xod4 & 0x00ff0000)!= 0) dstdata.write(1,(col4 >> 16)& 0xFF);
+                        if ((xod4 & 0xff000000)!= 0) dstdata.write(0,(col4 >> 24) & 0xFF);            
+                    }
+                    sd4.base -= 4;
+                    dstdata.base += 4;
+                } 
+                srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
+                while (dstdata.base < end)
+                {
+                    int col = srcdata.read(3); srcdata.base--;
+                    if (col != transpen) dstdata.write(0,col);
+                    dstdata.base++;
+                }
+
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;                     
+            }
+        }
 
 /*TODO*///
 /*TODO*///

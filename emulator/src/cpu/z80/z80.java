@@ -3145,7 +3145,7 @@ public class z80 extends cpu_interface {
     }};
     opcode dd_9c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_9d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode dd_9e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_9e = new opcode() { public void handler(){ EAX(); SBC(RM(EA));}};
    
     opcode dd_a6 = new opcode() { public void handler()/* AND  (IX+o)	  */
     { 
@@ -3611,7 +3611,11 @@ public class z80 extends cpu_interface {
         cpu_writemem16(Z80.SP.D, Z80.IY.L);
         cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.IY.H);
     }};
-    opcode fd_e9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_e9 = new opcode() { public void handler()
+    { 
+         Z80.PC.SetD(Z80.IY.D);//_PC = _IY; 
+         change_pc16(Z80.PC.D);
+    }};
     opcode fd_f9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     
     /*TODO*///OP(fd,23) { _IY++;													} /* INC  IY		  */

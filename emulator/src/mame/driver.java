@@ -187,8 +187,8 @@ public class driver {
         driver_ckongo,	/* bootleg */
         driver_ckongalc,/* bootleg */
         driver_monkeyd,	/* bootleg */
-/*TODO*/ //	DRIVER( rpatrolb )	/* bootleg */
-/*TODO*/ //	DRIVER( silvland )	/* Falcon */
+        driver_rpatrolb,	/* bootleg */
+        driver_silvland,	/* Falcon */
         driver_yamato,	/* (c) 1983 Sega */
         driver_yamato2,	/* (c) 1983 Sega */
 /*TODO*/ //	DRIVER( swimmer )	/* (c) 1982 Tehkan */
