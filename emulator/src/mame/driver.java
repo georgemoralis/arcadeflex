@@ -30,6 +30,7 @@ import static drivers.arkanoid.*;
 import static drivers.congo.*;
 import static drivers.yamato.*;
 import static drivers.cclimber.*;
+import static drivers.bombjack.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1584,8 +1585,8 @@ public class driver {
 /*TODO*/ //	DRIVER( starfore )	/* (c) 1984 Tehkan */
 /*TODO*/ //	DRIVER( megaforc )	/* (c) 1985 Tehkan + Video Ware license */
 /*TODO*/ //	DRIVER( baluba )	/* (c) 1986 Able Corp. */
-/*TODO*/ //	DRIVER( bombjack )	/* (c) 1984 Tehkan */
-/*TODO*/ //	DRIVER( bombjac2 )	/* (c) 1984 Tehkan */
+    driver_bombjack,	/* (c) 1984 Tehkan */
+    driver_bombjac2,	/* (c) 1984 Tehkan */
 /*TODO*/ //	DRIVER( pbaction )	/* (c) 1985 Tehkan */
 /*TODO*/ //	DRIVER( pbactio2 )	/* (c) 1985 Tehkan */
 	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */

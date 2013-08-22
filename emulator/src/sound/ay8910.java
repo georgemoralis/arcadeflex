@@ -331,6 +331,10 @@ public class ay8910 extends sndintrf.snd_interface
     {
         AY8910Write(1,0,data);
     }};
+    public static WriteHandlerPtr AY8910_control_port_2_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
+    {
+        AY8910Write(2,0,data);
+    }};
     /*TODO*///void AY8910_control_port_0_w(int offset,int data) { AY8910Write(0,0,data); }
     /*TODO*///void AY8910_control_port_1_w(int offset,int data) { AY8910Write(1,0,data); }
     /*TODO*///void AY8910_control_port_2_w(int offset,int data) { AY8910Write(2,0,data); }
@@ -344,6 +348,10 @@ public class ay8910 extends sndintrf.snd_interface
     public static WriteHandlerPtr AY8910_write_port_1_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
     {
         AY8910Write(1,1,data);
+    }};
+    public static WriteHandlerPtr AY8910_write_port_2_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
+    {
+        AY8910Write(2,1,data);
     }};
     /*TODO*///void AY8910_write_port_0_w(int offset,int data) { AY8910Write(0,1,data); }
     /*TODO*///void AY8910_write_port_1_w(int offset,int data) { AY8910Write(1,1,data); }

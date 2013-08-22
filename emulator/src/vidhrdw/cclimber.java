@@ -291,7 +291,7 @@ public class cclimber
 		bit2 = (data >> 2) & 0x01;
 		b = 0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2;
 	
-/*TODO*///		palette_change_color(BGPEN,r,g,b);
+		palette_change_color(BGPEN,r,g,b);
 	} };
 	
 	

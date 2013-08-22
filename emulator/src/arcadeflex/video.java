@@ -1714,27 +1714,27 @@ public class video {
     }
     /*TODO*///
     /*TODO*///
-    /*TODO*///void osd_modify_pen(int pen,unsigned char red, unsigned char green, unsigned char blue)
-    /*TODO*///{
-    /*TODO*///	if (modifiable_palette == 0)
-    /*TODO*///	{
-    /*TODO*///		if (errorlog) fprintf(errorlog,"error: osd_modify_pen() called with modifiable_palette == 0\n");
-    /*TODO*///		return;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (	current_palette[3*pen+0] != red ||
-    /*TODO*///			current_palette[3*pen+1] != green ||
-    /*TODO*///			current_palette[3*pen+2] != blue)
-    /*TODO*///	{
-    /*TODO*///		current_palette[3*pen+0] = red;
-    /*TODO*///		current_palette[3*pen+1] = green;
-    /*TODO*///		current_palette[3*pen+2] = blue;
-    /*TODO*///
-    /*TODO*///		dirtycolor[pen] = 1;
-    /*TODO*///		dirtypalette = 1;
-    /*TODO*///	}
-    /*TODO*///}
+    public static void osd_modify_pen(int pen,int red, int green, int blue)
+    {
+    	if (modifiable_palette == 0)
+    	{
+    		if (errorlog!=null) fprintf(errorlog,"error: osd_modify_pen() called with modifiable_palette == 0\n");
+    		return;
+    	}
+    
+    
+    	if (	current_palette.read(3*pen+0) != red ||
+    			current_palette.read(3*pen+1) != green ||
+    			current_palette.read(3*pen+2) != blue)
+    	{
+    		current_palette.write(3*pen+0,red);
+    		current_palette.write(3*pen+1,green);
+    		current_palette.write(3*pen+2,blue);
+    
+    		dirtycolor[pen] = 1;
+    		dirtypalette = 1;
+    	}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///
