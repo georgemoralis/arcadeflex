@@ -1276,8 +1276,6 @@ public class cclimber {
         public static GameDriver driver_silvland   = new GameDriver("????"     ,"silvland"      ,"cclimber.java"        ,rom_silvland   , driver_rpatrolb   ,machine_driver_cclimber, input_ports_rpatrolb, null,        ROT0,   "Falcon", "Silver Land" );
 
         public static GameDriver driver_swimmer	   = new GameDriver("1982"	,"swimmer"	,"cclimber.java"	,rom_swimmer,null	,machine_driver_swimmer	,input_ports_swimmer	,null	,ROT0	,	"Tehkan", "Swimmer (set 1)" );
-    /*TODO*///GAME( 1982, swimmer,  0,       swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 1)" )
-    /*TODO*///GAME( 1982, swimmera, swimmer, swimmer, swimmer, 0, ROT0,  "Tehkan", "Swimmer (set 2)" )
-    /*TODO*///GAME( 1983, guzzler,  0,       swimmer, guzzler, 0, ROT90, "Tehkan", "Guzzler" )
-    /*TODO*///    
+        public static GameDriver driver_swimmera   = new GameDriver("1982"	,"swimmera"	,"cclimber.java"	,rom_swimmera,driver_swimmer	,machine_driver_swimmer	,input_ports_swimmer	,null	,ROT0	,	"Tehkan", "Swimmer (set 2)" );
+	public static GameDriver driver_guzzler	   = new GameDriver("1983"	,"guzzler"	,"cclimber.java"	,rom_guzzler,null	,machine_driver_swimmer	,input_ports_guzzler	,null	,ROT90	,	"Tehkan", "Guzzler" ); 
 }

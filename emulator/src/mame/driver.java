@@ -193,8 +193,8 @@ public class driver {
         driver_yamato,	/* (c) 1983 Sega */
         driver_yamato2,	/* (c) 1983 Sega */
         driver_swimmer,	/* (c) 1982 Tehkan */
-/*TODO*/ //	DRIVER( swimmera )	/* (c) 1982 Tehkan */
-/*TODO*/ //	DRIVER( guzzler )	/* (c) 1983 Tehkan */
+        driver_swimmera,/* (c) 1982 Tehkan */
+        driver_guzzler,	/* (c) 1983 Tehkan */
 
 	/* Nichibutsu games */
 /*TODO*/ //	DRIVER( friskyt )	/* (c) 1981 */
