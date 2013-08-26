@@ -31,6 +31,7 @@ import static drivers.congo.*;
 import static drivers.yamato.*;
 import static drivers.cclimber.*;
 import static drivers.bombjack.*;
+import static drivers._1942.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -956,9 +957,9 @@ public class driver {
 /*TODO*/ //	DRIVER( vulgusj )	/*  5/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( sonson )	/*  7/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( 1942 )		/* 12/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( 1942a )		/* 12/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( 1942b )		/* 12/1984 (c) 1984 */
+        driver_1942,		/* 12/1984 (c) 1984 */
+        driver_1942a,		/* 12/1984 (c) 1984 */
+        driver_1942b,		/* 12/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( exedexes )	/*  2/1985 (c) 1985 */
 /*TODO*/ //	DRIVER( savgbees )	/*  2/1985 (c) 1985 + Memetron license */
 /*TODO*/ //	DRIVER( commando )	/*  5/1985 (c) 1985 (World) */

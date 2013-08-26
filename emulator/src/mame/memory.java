@@ -118,10 +118,10 @@ public class memory {
     /* bank ram base address; RAM is bank 0 */
     static UBytePtr[] cpu_bankbase = new UBytePtr[HT_BANKMAX + 1];
 
-    /*TODO*/ //static int bankreadoffset[HT_BANKMAX + 1];
-/*TODO*/ //static int bankwriteoffset[HT_BANKMAX + 1];
-/*TODO*/ //
-/*TODO*/ ///* override OP base handler */
+    static int[] bankreadoffset = new int[HT_BANKMAX + 1];
+    static int[] bankwriteoffset = new int[HT_BANKMAX + 1];
+
+     ///* override OP base handler */
     public static opbase_handlerPtr[] setOPbasefunc = new opbase_handlerPtr[MAX_CPU];
     public static opbase_handlerPtr OPbasefunc;
 
@@ -841,12 +841,10 @@ public class memory {
                         case MRA_BANK14:
                         case MRA_BANK15:
                         case MRA_BANK16: {
-                            throw new UnsupportedOperationException("Unsupported MRA bank read Here you go nickblame :D");
-                            /*TODO*/ //					hardware = (int)MRA_BANK1 - (int)handler + 1;
-/*TODO*/ //					memoryreadoffset[hardware] = bankreadoffset[hardware] = mra->start;
-/*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mra->start);
-
-                            /*TODO*/ //                          break;
+                            hardware.set((char)(MRA_BANK1 - (int)handler + 1));
+                            memoryreadoffset[hardware.read()] = bankreadoffset[hardware.read()] = Machine.drv.cpu[cpu].memory_read[mra_ptr].start;
+                            cpu_bankbase[hardware.read()] = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_read[mra_ptr].start);
+                            break;
                         }
                         case MRA_NOP:
                             hardware.set((char) HT_NOP);

@@ -6,6 +6,7 @@ import mame.driverH.ReadHandlerPtr;
 import mame.driverH.WriteHandlerPtr;
 import arcadeflex.libc.*;
 import static mame.memory.*;
+import static mame.cpuintrf.*;
 
 /**
  *
@@ -185,6 +186,18 @@ public static void change_pc16(int pc)
      change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
 }
 
+ public static void cpu_setbank(int bank, UBytePtr _base)
+        {
+            if (bank >= 1 && bank <= MAX_BANKS)
+            {
+                cpu_bankbase[bank] = _base;
+                if (ophw.read() == bank)
+                {
+                    ophw.set((char)0xff);
+                    cpu_setOPbase16.handler(cpu_get_pc(), 0);
+                }
+            }
+        }
 
 public static abstract interface opbase_handlerPtr { public abstract int handler(int address); }
 public static abstract interface setopbase { public abstract void handler(int pc,int shift);}

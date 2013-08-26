@@ -829,22 +829,22 @@ public class cpuintrf {
     /*TODO*///						 (double)Machine->drv->screen_width);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Returns the number of times the interrupt handler will be called before
-    /*TODO*///  the end of the current video frame. This can be useful to interrupt
-    /*TODO*///  handlers to synchronize their operation. If you call this from outside
-    /*TODO*///  an interrupt handler, add 1 to the result, i.e. if it returns 0, it means
-    /*TODO*///  that the interrupt handler will be called once.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///int cpu_getiloops(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return cpu[cpunum].iloops;
-    /*TODO*///}
-    /*TODO*///
+    
+    /***************************************************************************
+    
+      Returns the number of times the interrupt handler will be called before
+      the end of the current video frame. This can be useful to interrupt
+      handlers to synchronize their operation. If you call this from outside
+      an interrupt handler, add 1 to the result, i.e. if it returns 0, it means
+      that the interrupt handler will be called once.
+    
+    ***************************************************************************/
+    public static int cpu_getiloops()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return cpu.get(cpunum).iloops;
+    }
+    
     
     
     /***************************************************************************
