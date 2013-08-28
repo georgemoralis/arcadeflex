@@ -1682,8 +1682,8 @@ public class drawgfx {
 /*TODO*///}
 /*TODO*///
 /*TODO*///static void pp_8_nd(struct osd_bitmap *b,int x,int y,int p)  { b->line[y][x] = p; }
-        public static plot_pixel_procPtr pp_8_nd = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
-        throw new UnsupportedOperationException("Unsupported pp_8_nd");
+    public static plot_pixel_procPtr pp_8_nd = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
+        bitmap.line[y].write(x,pen);
     }};
 /*TODO*///static void pp_8_nd_fx(struct osd_bitmap *b,int x,int y,int p)  { b->line[y][b->width-1-x] = p; }
        public static plot_pixel_procPtr pp_8_nd_fx = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {

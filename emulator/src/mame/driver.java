@@ -32,6 +32,7 @@ import static drivers.yamato.*;
 import static drivers.cclimber.*;
 import static drivers.bombjack.*;
 import static drivers._1942.*;
+import static drivers.system1.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1273,67 +1274,67 @@ public class driver {
 /*TODO*/ //	DRIVER( pignewta )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( sindbadm )	/* 834-5244 (c) 1983 Sega */
 
-    /* Sega "Zaxxon hardware" games */
-    driver_zaxxon,	/* (c) 1982 */
-    driver_zaxxon2,	/* (c) 1982 */
-    driver_zaxxonb,	/* bootleg */
-    driver_szaxxon,	/* (c) 1982 */
-    driver_futspy,	/* (c) 1984 */
-    driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
-    driver_congo,	/* 605-5167 (c) 1983 */
-    driver_tiptop,	/* 605-5167 (c) 1983 */
+        /* Sega "Zaxxon hardware" games */
+        driver_zaxxon,	/* (c) 1982 */
+        driver_zaxxon2,	/* (c) 1982 */
+        driver_zaxxonb,	/* bootleg */
+        driver_szaxxon,	/* (c) 1982 */
+        driver_futspy,	/* (c) 1984 */
+        driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
+        driver_congo,	/* 605-5167 (c) 1983 */
+        driver_tiptop,	/* 605-5167 (c) 1983 */
 
 	/* Sega System 1 / System 2 games */
-/*TODO*/ //	DRIVER( starjack )	/* 834-5191 (c) 1983 (S1) */
-/*TODO*/ //	DRIVER( starjacs )	/* (c) 1983 Stern (S1) */
-/*TODO*/ //	DRIVER( regulus )	/* 834-5328(c) 1983 (S1) */
-/*TODO*/ //	DRIVER( regulusu )	/* 834-5328(c) 1983 (S1) */
-/*TODO*/ //	DRIVER( upndown )	/* (c) 1983 (S1) */
-/*TODO*/ //	DRIVER( mrviking )	/* 834-5383 (c) 1984 (S1) */
-/*TODO*/ //	DRIVER( mrvikinj )	/* 834-5383 (c) 1984 (S1) */
-/*TODO*/ //	DRIVER( swat )		/* 834-5388 (c) 1984 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( flicky )	/* (c) 1984 (S1) */
-/*TODO*/ //	DRIVER( flicky2 )	/* (c) 1984 (S1) */
+        driver_starjack,	/* 834-5191 (c) 1983 (S1) */
+        driver_starjacs,	/* (c) 1983 Stern (S1) */
+        driver_regulus,	/* 834-5328(c) 1983 (S1) */
+	driver_regulusu,	/* 834-5328(c) 1983 (S1) */
+	driver_upndown,	/* (c) 1983 (S1) */
+	driver_mrviking,	/* 834-5383 (c) 1984 (S1) */
+	driver_mrvikinj,	/* 834-5383 (c) 1984 (S1) */
+	driver_swat,		/* 834-5388 (c) 1984 Coreland / Sega (S1) */
+	driver_flicky,	/* (c) 1984 (S1) */
+	driver_flicky2,	/* (c) 1984 (S1) */
 	/* Water Match (S1) */
-/*TODO*/ //	DRIVER( bullfgtj )	/* 834-5478 (c) 1984 Sega / Coreland (S1) */
-/*TODO*/ //	DRIVER( pitfall2 )	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-/*TODO*/ //	DRIVER( pitfallu )	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-/*TODO*/ //	DRIVER( seganinj )	/* 834-5677 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( seganinu )	/* 834-5677 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( nprinces )	/* 834-5677 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( nprincsu )	/* 834-5677 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( nprincsb )	/* bootleg? (S1) */
-/*TODO*/ //	DRIVER( imsorry )	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( imsorryj )	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( teddybb )	/* 834-5712 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( hvymetal )	/* 834-5745 (c) 1985 (S2?) */
-/*TODO*/ //	DRIVER( myhero )	/* 834-5755 (c) 1985 (S1) */
-/*TODO*/ //	DRIVER( myheroj )	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( myherok )	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( shtngmst )	/* 834-5719/5720 (c) 1985 (S2) */
-/*TODO*/ //	DRIVER( chplft )	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-/*TODO*/ //	DRIVER( chplftb )	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-/*TODO*/ //	DRIVER( chplftbl )	/* bootleg (S2) */
-/*TODO*/ //	DRIVER( 4dwarrio )	/* 834-5918 (c) 1985 Coreland / Sega (S1) */
-/*TODO*/ //	DRIVER( brain )		/* (c) 1986 Coreland / Sega (S2?) */
-/*TODO*/ //	DRIVER( wboy )		/* 834-5984 (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( wboy2 )		/* 834-5984 (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( wboy3 )
-/*TODO*/ //	DRIVER( wboy4 )		/* 834-5984 (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( wboyu )		/* 834-5753 (? maybe a conversion) (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( wboy4u )	/* 834-5984 (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( wbdeluxe )	/* (c) 1986 + Escape license (S1) */
-/*TODO*/ //	DRIVER( gardia )	/* 834-6119 (S2?) */
-/*TODO*/ //	DRIVER( gardiab )	/* bootleg */
-/*TODO*/ //	DRIVER( blockgal )	/* 834-6303 (S1) */
-/*TODO*/ //	DRIVER( blckgalb )	/* bootleg */
-/*TODO*/ //	DRIVER( tokisens )	/* (c) 1987 (from a bootleg board) (S2) */
-/*TODO*/ //	DRIVER( wbml )		/* bootleg (S2) */
-/*TODO*/ //	DRIVER( wbmlj )		/* (c) 1987 Sega/Westone (S2) */
-/*TODO*/ //	DRIVER( wbmlj2 )	/* (c) 1987 Sega/Westone (S2) */
-/*TODO*/ //	DRIVER( wbmlju )	/* bootleg? (S2) */
-/*TODO*/ //	DRIVER( dakkochn )	/* 836-6483? (S2) */
-/*TODO*/ //	DRIVER( ufosensi )	/* 834-6659 (S2) */
+	driver_bullfgtj,	/* 834-5478 (c) 1984 Sega / Coreland (S1) */
+	driver_pitfall2,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
+	driver_pitfallu,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
+	driver_seganinj,	/* 834-5677 (c) 1985 (S1) */
+	driver_seganinu,	/* 834-5677 (c) 1985 (S1) */
+	driver_nprinces,	/* 834-5677 (c) 1985 (S1) */
+	driver_nprincsu,	/* 834-5677 (c) 1985 (S1) */
+	driver_nprincsb,	/* bootleg? (S1) */
+	driver_imsorry,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
+	driver_imsorryj,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
+	driver_teddybb,	/* 834-5712 (c) 1985 (S1) */
+	driver_hvymetal,	/* 834-5745 (c) 1985 (S2?) */
+	driver_myhero,	/* 834-5755 (c) 1985 (S1) */
+	driver_myheroj,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
+	driver_myherok,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
+	driver_shtngmst,	/* 834-5719/5720 (c) 1985 (S2) */
+        driver_chplft,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
+        driver_chplftb,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
+	driver_chplftbl,	/* bootleg (S2) */
+	driver_4dwarrio,	/* 834-5918 (c) 1985 Coreland / Sega (S1) */
+	driver_brain,		/* (c) 1986 Coreland / Sega (S2?) */
+        driver_wboy,		/* 834-5984 (c) 1986 + Escape license (S1) */
+	driver_wboy2,		/* 834-5984 (c) 1986 + Escape license (S1) */
+	driver_wboy3,
+	driver_wboy4,		/* 834-5984 (c) 1986 + Escape license (S1) */
+	driver_wboyu,		/* 834-5753 (? maybe a conversion) (c) 1986 + Escape license (S1) */
+	driver_wboy4u,	/* 834-5984 (c) 1986 + Escape license (S1) */
+	driver_wbdeluxe,	/* (c) 1986 + Escape license (S1) */
+	driver_gardia,	/* 834-6119 (S2?) */
+	driver_gardiab,	/* bootleg */
+	driver_blockgal,	/* 834-6303 (S1) */
+	driver_blckgalb,	/* bootleg */
+	driver_tokisens,	/* (c) 1987 (from a bootleg board) (S2) */
+        driver_wbml,		/* bootleg (S2) */
+        driver_wbmlj,		/* (c) 1987 Sega/Westone (S2) */
+	driver_wbmlj2,	/* (c) 1987 Sega/Westone (S2) */
+	driver_wbmlju,	/* bootleg? (S2) */
+	driver_dakkochn,	/* 836-6483? (S2) */
+	driver_ufosensi,	/* 834-6659 (S2) */
 
 	/* other Sega 8-bit games */
 /*TODO*/ //	DRIVER( turbo )		/* (c) 1981 Sega */

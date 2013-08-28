@@ -919,59 +919,59 @@ public class palette {
     				}
     				else
     				{
-                                    throw new UnsupportedOperationException("palette_recalc unimplemented");
+//                                    throw new UnsupportedOperationException("palette_recalc unimplemented");
                                 
-    /*TODO*///					/* the pen is shared with other colors, let's see if all of them */
-    /*TODO*///					/* have been changed to the same value */
-    /*TODO*///					for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///					{
-    /*TODO*///						if ((old_used_colors[i] & PALETTE_COLOR_VISIBLE) &&
-    /*TODO*///								palette_map[i] == pen)
-    /*TODO*///						{
-    /*TODO*///							if (palette_dirty[i] == 0 ||
-    /*TODO*///									new_palette[3*i + 0] != r ||
-    /*TODO*///									new_palette[3*i + 1] != g ||
-    /*TODO*///									new_palette[3*i + 2] != b)
-    /*TODO*///								break;
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					if (i == Machine->drv->total_colors)
-    /*TODO*///					{
-    /*TODO*///						/* all colors sharing this pen still are the same, so we */
-    /*TODO*///						/* just change the palette. */
-    /*TODO*///						shrinked_palette[3*pen + 0] = r;
-    /*TODO*///						shrinked_palette[3*pen + 1] = g;
-    /*TODO*///						shrinked_palette[3*pen + 2] = b;
-    /*TODO*///						osd_modify_pen(Machine->pens[color],r,g,b);
-    /*TODO*///
-    /*TODO*///						for (i = color;i < Machine->drv->total_colors;i++)
-    /*TODO*///						{
-    /*TODO*///							if (palette_dirty[i] != 0 && palette_map[i] == pen)
-    /*TODO*///							{
-    /*TODO*///								palette_dirty[i] = 0;
-    /*TODO*///								game_palette[3*i + 0] = r;
-    /*TODO*///								game_palette[3*i + 1] = g;
-    /*TODO*///								game_palette[3*i + 2] = b;
-    /*TODO*///							}
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///					else
-    /*TODO*///					{
-    /*TODO*///						/* the colors sharing this pen now are different, we'll */
-    /*TODO*///						/* have to remap them. */
-    /*TODO*///						for (i = color;i < Machine->drv->total_colors;i++)
-    /*TODO*///						{
-    /*TODO*///							if (palette_dirty[i] != 0 && palette_map[i] == pen)
-    /*TODO*///							{
-    /*TODO*///								palette_dirty[i] = 0;
-    /*TODO*///								game_palette[3*i + 0] = new_palette[3*i + 0];
-    /*TODO*///								game_palette[3*i + 1] = new_palette[3*i + 1];
-    /*TODO*///								game_palette[3*i + 2] = new_palette[3*i + 2];
-    /*TODO*///								old_used_colors[i] |= PALETTE_COLOR_NEEDS_REMAP;
-    /*TODO*///							}
-    /*TODO*///						}
-    /*TODO*///					}
+    					/* the pen is shared with other colors, let's see if all of them */
+    					/* have been changed to the same value */
+    					for (i = 0;i < Machine.drv.total_colors;i++)
+    					{
+    						if (((old_used_colors.read(i) & PALETTE_COLOR_VISIBLE)!=0) &&
+    								palette_map[i] == pen)
+    						{
+    							if (palette_dirty.read(i) == 0 ||
+    									new_palette.read(3*i + 0) != r ||
+    									new_palette.read(3*i + 1) != g ||
+    									new_palette.read(3*i + 2) != b)
+    								break;
+    						}
+    					}
+    
+    					if (i == Machine.drv.total_colors)
+    					{
+    						/* all colors sharing this pen still are the same, so we */
+    						/* just change the palette. */
+    						shrinked_palette[3*pen + 0].set((char)r);
+    						shrinked_palette[3*pen + 1].set((char)g);
+    						shrinked_palette[3*pen + 2].set((char)b);
+    						osd_modify_pen(Machine.pens[color],r,g,b);
+    
+    						for (i = color;i < Machine.drv.total_colors;i++)
+    						{
+    							if (palette_dirty.read(i) != 0 && palette_map[i] == pen)
+    							{
+    								palette_dirty.write(i,0);
+    								game_palette[3*i + 0].set((char)r);
+    								game_palette[3*i + 1].set((char)g);
+    								game_palette[3*i + 2].set((char)b);
+    							}
+    						}
+    					}
+    					else
+    					{
+    						/* the colors sharing this pen now are different, we'll */
+    						/* have to remap them. */
+    						for (i = color;i < Machine.drv.total_colors;i++)
+    						{
+    							if (palette_dirty.read(i) != 0 && palette_map[i] == pen)
+    							{
+    								palette_dirty.write(i,0);
+    								game_palette[3*i + 0].set(new_palette.read(3*i + 0));
+    								game_palette[3*i + 1].set(new_palette.read(3*i + 1));
+    								game_palette[3*i + 2].set(new_palette.read(3*i + 2));
+    								old_used_colors.write(i,old_used_colors.read(i) |PALETTE_COLOR_NEEDS_REMAP);
+    							}
+    						}
+    					}
     				}
         		}
     		}
@@ -1027,23 +1027,22 @@ public class palette {
     
     			if ((palette_used_colors.read(color) & PALETTE_COLOR_TRANSPARENT_FLAG)!=0)
     			{
-                            throw new UnsupportedOperationException("palette_recalc unimplemented");
-    /*TODO*///				if (palette_map[color] != TRANSPARENT_PEN)
-    /*TODO*///				{
-    /*TODO*///					/* use the fixed transparent black for this */
-    /*TODO*///					did_remap = 1;
-    /*TODO*///					if (old_used_colors[color] & palette_used_colors[color] & PALETTE_COLOR_CACHED)
-    /*TODO*///					{
-    /*TODO*///						/* the color was and still is cached, we'll have to redraw everything */
-    /*TODO*///						need_refresh = 1;
-    /*TODO*///						just_remapped[color] = 1;
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					palette_map[color] = TRANSPARENT_PEN;
-    /*TODO*///				}
-    /*TODO*///				pen_usage_count[palette_map[color]]++;
-    /*TODO*///				Machine->pens[color] = shrinked_pens[palette_map[color]];
-    /*TODO*///				old_used_colors[color] = palette_used_colors[color];
+    				if (palette_map[color] != TRANSPARENT_PEN)
+    				{
+    					/* use the fixed transparent black for this */
+    					did_remap = 1;
+    					if ((old_used_colors.read(color) & palette_used_colors.read(color) & PALETTE_COLOR_CACHED)!=0)
+    					{
+    						/* the color was and still is cached, we'll have to redraw everything */
+    						need_refresh = 1;
+    						just_remapped.write(color,1);
+    					}
+    
+    					palette_map[color] = TRANSPARENT_PEN;
+    				}
+    				pen_usage_count[palette_map[color]]++;
+    				Machine.pens[color] = shrinked_pens[palette_map[color]];
+    				old_used_colors.write(color,palette_used_colors.read(color));
     			}
     			else
     			{                           

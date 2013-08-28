@@ -282,6 +282,9 @@ public class libc_old {
     public static void memset(UBytePtr buf, int value, int size) {
         memset(buf.memory,value,size);
     }
+    public static void memset(UBytePtr buf,int offset,int value, int size) {
+        memset(buf.memory,offset,value,size);
+    }
     public static void memset(IntPtr buf, int value, int size) {
         memset(buf.memory,value,size);
     }
@@ -564,6 +567,10 @@ public class libc_old {
         public void set(char[] m, int b) {
             memory = m;
             base = b;
+        }
+        public void set(CharPtr cp,int b)
+        {
+            set(cp.memory, cp.base + b);
         }
 
         public char read(int offset) {

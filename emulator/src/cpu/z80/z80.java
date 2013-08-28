@@ -4567,7 +4567,15 @@ public class z80 extends cpu_interface {
     { 
         ADD(ARG() & 0xFF);
     }};
-    opcode op_c7 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_c7 = new opcode() { public void handler()
+    { 
+       //RST(0x00);
+        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+            cpu_writemem16(Z80.SP.D, Z80.PC.L);
+            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+            Z80.PC.SetD(0x00);
+            change_pc16(Z80.PC.D);
+    }};
    
    
 

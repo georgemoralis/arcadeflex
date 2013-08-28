@@ -19,8 +19,8 @@ public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
     public static final int TRIGGER_TIMESLICE	=	-1000;
     public static final int TRIGGER_INT 	=	-2000;
-    /*TODO*///#define TRIGGER_YIELDTIME		-3000
-    /*TODO*///#define TRIGGER_SUSPENDTIME 	-4000
+    public static final int TRIGGER_YIELDTIME	=	-3000;
+    public static final int TRIGGER_SUSPENDTIME =	-4000;
     /*TODO*///
     /*TODO*///#define VERBOSE 0
     /*TODO*///
@@ -1104,33 +1104,30 @@ public class cpuintrf {
     	return INT_TYPE_NONE(cpunum);
     }};
 
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  CPU timing and synchronization functions.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*////* generate a trigger */
-    /*TODO*///void cpu_trigger(int trigger)
-    /*TODO*///{
-    /*TODO*///	timer_trigger(trigger);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* generate a trigger after a specific period of time */
-    /*TODO*///void cpu_triggertime(double duration, int trigger)
-    /*TODO*///{
-    /*TODO*///	timer_set(duration, trigger, cpu_trigger);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* burn CPU cycles until a timer trigger */
-    /*TODO*///void cpu_spinuntil_trigger(int trigger)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	timer_suspendcpu_trigger(cpunum, trigger);
-    /*TODO*///}
-    /*TODO*///
+    /***************************************************************************
+    
+      CPU timing and synchronization functions.
+    
+    ***************************************************************************/
+    
+    /* generate a trigger */
+    public static timer_callback cpu_trigger = new timer_callback(){ public void handler(int trigger)
+    {
+    	timer_trigger(trigger);
+    }};
+    /* generate a trigger after a specific period of time */
+    public static void cpu_triggertime(double duration, int trigger)
+    {
+    	timer_set(duration, trigger, cpu_trigger);
+    }
+
+    /* burn CPU cycles until a timer trigger */
+    public static void cpu_spinuntil_trigger(int trigger)
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	timer_suspendcpu_trigger(cpunum, trigger);
+    }
+    
     /*TODO*////* burn CPU cycles until the next interrupt */
     /*TODO*///void cpu_spinuntil_int(void)
     /*TODO*///{
@@ -1143,18 +1140,17 @@ public class cpuintrf {
     /*TODO*///{
     /*TODO*///	cpu_spinuntil_trigger(TRIGGER_TIMESLICE);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////* burn CPU cycles for a specific period of time */
-    /*TODO*///void cpu_spinuntil_time(double duration)
-    /*TODO*///{
-    /*TODO*///	static int timetrig = 0;
-    /*TODO*///
-    /*TODO*///	cpu_spinuntil_trigger(TRIGGER_SUSPENDTIME + timetrig);
-    /*TODO*///	cpu_triggertime(duration, TRIGGER_SUSPENDTIME + timetrig);
-    /*TODO*///	timetrig = (timetrig + 1) & 255;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    /* burn CPU cycles for a specific period of time */
+    static int timetrig = 0;
+    public static void cpu_spinuntil_time(double duration)
+    {
+    	cpu_spinuntil_trigger(TRIGGER_SUSPENDTIME + timetrig);
+    	cpu_triggertime(duration, TRIGGER_SUSPENDTIME + timetrig);
+    	timetrig = (timetrig + 1) & 255;
+    }
+    
+    
     /*TODO*///
     /*TODO*////* yield our timeslice for a specific period of time */
     /*TODO*///void cpu_yielduntil_trigger(int trigger)
