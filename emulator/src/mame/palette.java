@@ -1090,8 +1090,7 @@ public class palette {
     								/* from now on, try to reuse already allocated pens */
     								reuse_pens = 1;
     								if (compress_palette() > 0)
-    								{
-                                                                        System.out.println("again");
+    								{ 
     									did_remap = 1;
     									need_refresh = 1;	/* we'll have to redraw everything */
     
@@ -1142,25 +1141,7 @@ public class palette {
     
     	if (ran_out > 1)
     	{
-    /*TODO*///#ifdef MAME_DEBUG
-    /*TODO*///		char buf[80];
-    /*TODO*///
-    /*TODO*///		sprintf(buf,"Error: Palette overflow -%d",ran_out-1);
-    /*TODO*///		usrintf_showmessage(buf);
-    /*TODO*///#endif
             if (errorlog!=null) fprintf(errorlog,"Error: no way to shrink the palette to 256 colors, left out %d colors.\n",ran_out-1);
-    /*TODO*///#if 0
-    /*TODO*///fprintf(errorlog,"color list:\n");
-    /*TODO*///for (color = 0;color < Machine->drv->total_colors;color++)
-    /*TODO*///{
-    /*TODO*///	int r,g,b;
-    /*TODO*///	r = game_palette[3*color + 0];
-    /*TODO*///	g = game_palette[3*color + 1];
-    /*TODO*///	b = game_palette[3*color + 2];
-    /*TODO*///	if (palette_used_colors[color] & PALETTE_COLOR_VISIBLE)
-    /*TODO*///		fprintf(errorlog,"%02x %02x %02x\n",r,g,b);
-    /*TODO*///}
-    /*TODO*///#endif
     	}
     
     	/* Reclaim unused pens; we do this AFTER allocating the new ones, to avoid */
@@ -1175,26 +1156,7 @@ public class palette {
     			old_used_colors.write(color,palette_used_colors.read(color));
                     
     		}
-    	}
-    /*TODO*///
-    /*TODO*///#ifdef PEDANTIC
-    /*TODO*///	/* invalidate unused pens to make bugs in color allocation evident. */
-    /*TODO*///	for (i = 0;i < DYNAMIC_MAX_PENS;i++)
-    /*TODO*///	{
-    /*TODO*///		if (pen_usage_count[i] == 0)
-    /*TODO*///		{
-    /*TODO*///			int r,g,b;
-    /*TODO*///			r = rand() & 0xff;
-    /*TODO*///			g = rand() & 0xff;
-    /*TODO*///			b = rand() & 0xff;
-    /*TODO*///			shrinked_palette[3*i + 0] = r;
-    /*TODO*///			shrinked_palette[3*i + 1] = g;
-    /*TODO*///			shrinked_palette[3*i + 2] = b;
-    /*TODO*///			osd_modify_pen(shrinked_pens[i],r,g,b);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///#endif
-    
+    	}   
     	if (did_remap!=0)
     	{
     		/* rebuild the color lookup table */
