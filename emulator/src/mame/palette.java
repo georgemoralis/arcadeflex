@@ -696,68 +696,45 @@ public class palette {
     		}
     	}
     }
-    /*TODO*///
-    /*TODO*///static int compress_palette(void)
-    /*TODO*///{
-    /*TODO*///	int i,j,saved,r,g,b;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	build_rgb_to_pen();
-    /*TODO*///
-    /*TODO*///	saved = 0;
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///	{
-    /*TODO*///		/* merge pens of the same color */
-    /*TODO*///		if ((old_used_colors[i] & PALETTE_COLOR_VISIBLE) &&
-    /*TODO*///				!(old_used_colors[i] & (PALETTE_COLOR_NEEDS_REMAP|PALETTE_COLOR_TRANSPARENT_FLAG)))
-    /*TODO*///		{
-    /*TODO*///			r = game_palette[3*i + 0] >> 2;
-    /*TODO*///			g = game_palette[3*i + 1] >> 2;
-    /*TODO*///			b = game_palette[3*i + 2] >> 2;
-    /*TODO*///
-    /*TODO*///			j = rgb6_to_pen[r][g][b];
-    /*TODO*///
-    /*TODO*///			if (palette_map[i] != j)
-    /*TODO*///			{
-    /*TODO*///				just_remapped[i] = 1;
-    /*TODO*///
-    /*TODO*///				pen_usage_count[palette_map[i]]--;
-    /*TODO*///				if (pen_usage_count[palette_map[i]] == 0)
-    /*TODO*///					saved++;
-    /*TODO*///				palette_map[i] = j;
-    /*TODO*///				pen_usage_count[palette_map[i]]++;
-    /*TODO*///				Machine->pens[i] = shrinked_pens[palette_map[i]];
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///#if VERBOSE
-    /*TODO*///if (errorlog)
-    /*TODO*///{
-    /*TODO*///	int subcount[8];
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < 8;i++)
-    /*TODO*///		subcount[i] = 0;
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///		subcount[palette_used_colors[i]]++;
-    /*TODO*///
-    /*TODO*///	fprintf(errorlog,"Ran out of pens! %d colors used (%d unused, %d visible %d cached %d visible+cached, %d transparent)\n",
-    /*TODO*///			subcount[PALETTE_COLOR_VISIBLE]+subcount[PALETTE_COLOR_CACHED]+subcount[PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED]+subcount[PALETTE_COLOR_TRANSPARENT],
-    /*TODO*///			subcount[PALETTE_COLOR_UNUSED],
-    /*TODO*///			subcount[PALETTE_COLOR_VISIBLE],
-    /*TODO*///			subcount[PALETTE_COLOR_CACHED],
-    /*TODO*///			subcount[PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED],
-    /*TODO*///			subcount[PALETTE_COLOR_TRANSPARENT]);
-    /*TODO*///	fprintf(errorlog,"Compressed the palette, saving %d pens\n",saved);
-    /*TODO*///}
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///	return saved;
-    /*TODO*///}
-    /*TODO*///
+    
+    public static int compress_palette()
+    {
+    	int i,j,saved,r,g,b;
+    
+    
+    	build_rgb_to_pen();
+    
+    	saved = 0;
+    
+    	for (i = 0;i < Machine.drv.total_colors;i++)
+    	{
+    		/* merge pens of the same color */
+    		if (((old_used_colors.read(i) & PALETTE_COLOR_VISIBLE)!=0) &&
+    				((old_used_colors.read(i) & (PALETTE_COLOR_NEEDS_REMAP|PALETTE_COLOR_TRANSPARENT_FLAG))==0))
+    		{
+    			r = game_palette[3*i + 0].read() >> 2;
+    			g = game_palette[3*i + 1].read() >> 2;
+    			b = game_palette[3*i + 2].read() >> 2;
+    
+    			j = rgb6_to_pen[r][g][b];
+    
+    			if (palette_map[i] != j)
+    			{
+    				just_remapped.write(i,1);
+    
+    				pen_usage_count[palette_map[i]]--;
+    				if (pen_usage_count[palette_map[i]] == 0)
+    					saved++;
+    				palette_map[i] = (char)j;
+    				pen_usage_count[palette_map[i]]++;
+    				Machine.pens[i] = shrinked_pens[palette_map[i]];
+    			}
+    		}
+    	}
+    
+    	return saved;
+    }
+    
     /*TODO*///
     /*TODO*///static const unsigned char *palette_recalc_16_static(void)
     /*TODO*///{
@@ -1081,7 +1058,8 @@ public class palette {
     					}
     					else	/* allocate a new pen */
     					{
-    /*TODO*///retry:
+    retry:
+        for(;;){
     						while (first_free_pen < DYNAMIC_MAX_PENS && pen_usage_count[first_free_pen] > 0)
     							first_free_pen++;
     
@@ -1101,33 +1079,36 @@ public class palette {
     						}
     						else
     						{
-                                                    throw new UnsupportedOperationException("palette_recalc unimplemented");
+                                                    
                                                 
-    /*TODO*///							/* Ran out of pens! Let's see what we can do. */
-    /*TODO*///
-    /*TODO*///							if (ran_out == 0)
-    /*TODO*///							{
-    /*TODO*///								ran_out++;
-    /*TODO*///
-    /*TODO*///								/* from now on, try to reuse already allocated pens */
-    /*TODO*///								reuse_pens = 1;
-    /*TODO*///								if (compress_palette() > 0)
-    /*TODO*///								{
-    /*TODO*///									did_remap = 1;
-    /*TODO*///									need_refresh = 1;	/* we'll have to redraw everything */
-    /*TODO*///
-    /*TODO*///									first_free_pen = RESERVED_PENS;
-    /*TODO*///									goto retry;
-    /*TODO*///								}
-    /*TODO*///							}
-    /*TODO*///
-    /*TODO*///							ran_out++;
-    /*TODO*///
-    /*TODO*///							/* we failed, but go on with the loop, there might */
-    /*TODO*///							/* be some transparent pens to remap */
-    /*TODO*///
-    /*TODO*///							continue;
+    							/* Ran out of pens! Let's see what we can do. */
+    
+    							if (ran_out == 0)
+    							{
+    								ran_out++;
+    
+    								/* from now on, try to reuse already allocated pens */
+    								reuse_pens = 1;
+    								if (compress_palette() > 0)
+    								{
+                                                                        System.out.println("again");
+    									did_remap = 1;
+    									need_refresh = 1;	/* we'll have to redraw everything */
+    
+    									first_free_pen = RESERVED_PENS;
+    									continue retry;
+    								}
+    							}
+    
+    							ran_out++;
+    
+    							/* we failed, but go on with the loop, there might */
+    							/* be some transparent pens to remap */
+    
+    							continue;
     						}
+                                break;//for goto        
+                                }//for goto
     					}
     
     					{
@@ -1154,6 +1135,7 @@ public class palette {
     
     					old_used_colors.write(color,palette_used_colors.read(color));
     				}
+                                
     			}
     		}
     	}
