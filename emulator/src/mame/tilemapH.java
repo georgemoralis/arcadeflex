@@ -15,21 +15,21 @@ public class tilemapH {
     /*TODO*///#define TILEMAP_TRANSPARENT		0x01
     public static final int TILEMAP_SPLIT=		0x02;
     /*TODO*///#define TILEMAP_BITMASK			0x04
-    /*TODO*////*
-    /*TODO*///	TILEMAP_SPLIT should be used if the pixels from a single tile
-    /*TODO*///	can appear in more than one plane.
-    /*TODO*///
-    /*TODO*///	TILEMAP_BITMASK is needed for Namco SystemI
-    /*TODO*///*/
-    /*TODO*///
-    /*TODO*///#define TILEMAP_IGNORE_TRANSPARENCY		0x10
-    /*TODO*///#define TILEMAP_BACK					0x20
-    /*TODO*///#define TILEMAP_FRONT					0x40
-    /*TODO*////*
-    /*TODO*///	when rendering a split layer, pass TILEMAP_FRONT or TILEMAP_BACK or'd with the
-    /*TODO*///	tile_priority value to specify the part to draw.
-    /*TODO*///*/
-    /*TODO*///
+    /*
+    	TILEMAP_SPLIT should be used if the pixels from a single tile
+    	can appear in more than one plane.
+    
+    	TILEMAP_BITMASK is needed for Namco SystemI
+    */
+    
+    public static final int TILEMAP_IGNORE_TRANSPARENCY		=0x10;
+    public static final int TILEMAP_BACK			=0x20;
+    public static final int TILEMAP_FRONT			=0x40;
+    /*
+    	when rendering a split layer, pass TILEMAP_FRONT or TILEMAP_BACK or'd with the
+    	tile_priority value to specify the part to draw.
+    */
+    
     /*TODO*///#define TILEMAP_BITMASK_TRANSPARENT (0)
     /*TODO*///#define TILEMAP_BITMAK_OPAQUE       ((unsigned char *)-1)
     /*TODO*///
@@ -56,9 +56,9 @@ public class tilemapH {
     /*TODO*///	tile_info.pen_usage = gfx->pen_usage?gfx->pen_usage[_code]:0; \
     /*TODO*///}
     /*TODO*///
-    /*TODO*////* tile flags, set by get_tile_info callback */
-    /*TODO*///#define TILE_FLIPX					0x01
-    /*TODO*///#define TILE_FLIPY					0x02
+    /* tile flags, set by get_tile_info callback */
+    public static final int TILE_FLIPX			=0x01;
+    public static final int TILE_FLIPY			=0x02;
     /*TODO*///#define TILE_SPLIT(T)				((T)<<2)
     /*TODO*////* TILE_SPLIT is for use with TILEMAP_SPLIT layers.  It selects transparency type. */
     /*TODO*///#define TILE_IGNORE_TRANSPARENCY	0x10
@@ -72,8 +72,8 @@ public class tilemapH {
     /*TODO*///	tile attributes byte.
     /*TODO*///*/
     /*TODO*///
-    /*TODO*///#define TILE_LINE_DISABLED 0x80000000
-    /*TODO*///
+    public static final int TILE_LINE_DISABLED =0x80000000;
+    
     public static class tilemap 
     {
         public tilemap()

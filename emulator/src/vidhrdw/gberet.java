@@ -278,13 +278,13 @@ public class gberet
 	
 	public static VhUpdatePtr gberet_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
-/*TODO*///		tilemap_update(ALL_TILEMAPS);
+		tilemap_update(ALL_TILEMAPS);
 	
-/*TODO*///		tilemap_render(ALL_TILEMAPS);
+		tilemap_render(ALL_TILEMAPS);
 	
-/*TODO*///		tilemap_draw(bitmap,bg_tilemap,TILEMAP_BACK);
+		tilemap_draw(bitmap,bg_tilemap,TILEMAP_BACK);
 		if (sprites_type == 0) draw_sprites0(bitmap);	/* original */
 		else draw_sprites1(bitmap);	/* bootleg */
-/*TODO*///		tilemap_draw(bitmap,bg_tilemap,TILEMAP_FRONT);
+		tilemap_draw(bitmap,bg_tilemap,TILEMAP_FRONT);
 	} };
 }
