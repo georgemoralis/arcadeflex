@@ -137,7 +137,7 @@ public class gberet
 		if (gberet_videoram.read(offset) != data)
 		{
 			gberet_videoram.write(offset,data);
-/*TODO*///			tilemap_mark_tile_dirty(bg_tilemap,offset%64,offset/64);
+			tilemap_mark_tile_dirty(bg_tilemap,offset%64,offset/64);
 		}
 	} };
 	
@@ -146,7 +146,7 @@ public class gberet
 		if (gberet_colorram.read(offset) != data)
 		{
 			gberet_colorram.write(offset,data);
-/*TODO*///			tilemap_mark_tile_dirty(bg_tilemap,offset%64,offset/64);
+			tilemap_mark_tile_dirty(bg_tilemap,offset%64,offset/64);
 		}
 	} };
 	
@@ -157,7 +157,7 @@ public class gberet
 	
 		/* bit 3 flips screen */
 		flipscreen = data & 0x08;
-/*TODO*///		tilemap_set_flip(ALL_TILEMAPS,flipscreen ? (TILEMAP_FLIPY | TILEMAP_FLIPX) : 0);
+		tilemap_set_flip(ALL_TILEMAPS,flipscreen!=0 ? (TILEMAP_FLIPY | TILEMAP_FLIPX) : 0);
 	
 		/* don't know about the other bits */
 	} };
@@ -169,15 +169,15 @@ public class gberet
 		gberet_scrollram.write(offset, data);
 	
 		scroll = gberet_scrollram.read(offset & 0x1f) | (gberet_scrollram.read(offset | 0x20) << 8);
-/*TODO*///		tilemap_set_scrollx(bg_tilemap,offset & 0x1f,scroll);
+		tilemap_set_scrollx(bg_tilemap,offset & 0x1f,scroll);
 	} };
 	
 	public static WriteHandlerPtr gberetb_scroll_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
 		if (offset != 0) data |= 0x100;
 	
-/*TODO*///		for (offset = 6;offset < 29;offset++)
-/*TODO*///			tilemap_set_scrollx(bg_tilemap,offset,data + 64-8);
+		for (offset = 6;offset < 29;offset++)
+			tilemap_set_scrollx(bg_tilemap,offset,data + 64-8);
 	} };
 	
 	public static InterruptPtr gberet_interrupt = new InterruptPtr() { public int handler()

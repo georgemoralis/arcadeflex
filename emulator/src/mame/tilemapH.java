@@ -3,13 +3,14 @@ package mame;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
 
 public class tilemapH {
-    /*TODO*///#define ALL_TILEMAPS	0
-    /*TODO*////* ALL_TILEMAPS may be used with:
-    /*TODO*///	tilemap_update, tilemap_render, tilemap_set_flip, tilemap_mark_all_pixels_dirty
-    /*TODO*///*/
-    /*TODO*///
+    public static final tilemap ALL_TILEMAPS	=null;
+    /* ALL_TILEMAPS may be used with:
+    	tilemap_update, tilemap_render, tilemap_set_flip, tilemap_mark_all_pixels_dirty
+    */
+    
     /*TODO*///#define TILEMAP_OPAQUE			0x00
     /*TODO*///#define TILEMAP_TRANSPARENT		0x01
     public static final int TILEMAP_SPLIT=		0x02;
@@ -95,34 +96,34 @@ public class tilemapH {
     	public WriteHandlerPtr mark_visible;//void (*mark_visible)( int, int );
     	public WriteHandlerPtr draw;//void (*draw)( int, int );
     	public WriteHandlerPtr draw_opaque;//void (*draw_opaque)( int, int );
+    
+    	public UBytePtr[] pendata;//unsigned char **pendata;
+    	public UBytePtr[] maskdata;//unsigned char **maskdata;
+        public CharPtr[] paldata; //unsigned short **paldata;
+    	public int[] pen_usage;//unsigned int *pen_usage;
+    
+        public char[] priority;//char *priority,	/* priority for each tile */
+        public UBytePtr[] priority_row;
+   
+        public char[] visible;//char *visible, /* boolean flag for each tile */
+    	public UBytePtr[] visible_row;
     /*TODO*///
-    /*TODO*///	unsigned char **pendata;
-    /*TODO*///	unsigned char **maskdata;
-    /*TODO*///	unsigned short **paldata;
-    /*TODO*///	unsigned int *pen_usage;
-    /*TODO*///
-    /*TODO*///	char *priority,	/* priority for each tile */
-    /*TODO*///		**priority_row;
-    /*TODO*///
-    /*TODO*///	char *visible, /* boolean flag for each tile */
-    /*TODO*///		**visible_row;
-    /*TODO*///
-    /*TODO*///	char *dirty_vram, /* boolean flag for each tile */
+    	public char[] dirty_vram;//char *dirty_vram, /* boolean flag for each tile */
     /*TODO*///		**dirty_vram_row; /* TBA */
     /*TODO*///
     /*TODO*///	int *span,	/* contains transparency type, and run length, for adjacent tiles of same transparency_type and priority */
     /*TODO*///		**span_row;
     /*TODO*///
-    /*TODO*///	char *dirty_pixels;
-    /*TODO*///	unsigned char *flags;
-    /*TODO*///
+    	public char[] dirty_pixels;//char *dirty_pixels;
+    	public char[] flags;//unsigned char *flags;
+   
     	/* callback to interpret video VRAM for the tilemap */
     	public  WriteHandlerPtr tile_get_info;//void (*tile_get_info)( int col, int row );
     
     	public int scrolled;
     	public int scroll_rows, scroll_cols;
-    /*TODO*///	int *rowscroll, *colscroll;
-    /*TODO*///
+    	int rowscroll[], colscroll[];
+
     	public int orientation;
     	public int clip_left,clip_right,clip_top,clip_bottom;
     
@@ -137,19 +138,18 @@ public class tilemapH {
     	public int fg_mask_line_offset;
     /*TODO*///	unsigned short *fg_span, **fg_span_row;
     /*TODO*///
-    /*TODO*///	/* background mask - for the back half of a split layer */
-    /*TODO*///	struct osd_bitmap *bg_mask;
-    /*TODO*///	unsigned char *bg_mask_data;
-    /*TODO*///	unsigned char **bg_mask_data_row;
-    /*TODO*///	int bg_mask_line_offset;
+    	/* background mask - for the back half of a split layer */
+    	public osd_bitmap bg_mask;
+    	public char[] bg_mask_data;//unsigned char *bg_mask_data;
+    	public UBytePtr[] bg_mask_data_row;//unsigned char **bg_mask_data_row;
+    	public int bg_mask_line_offset;
     /*TODO*///	unsigned short *bg_span, **bg_span_row;
     /*TODO*///
-    /*TODO*///	struct tilemap *next; /* resource tracking */
+        public tilemap next; /* resource tracking */
     };
 
-    /*TODO*///
-    /*TODO*///#define TILEMAP_FLIPX 0x1
-    /*TODO*///#define TILEMAP_FLIPY 0x2
-    /*TODO*///
-    /*TODO*///    
+    
+    public static final int TILEMAP_FLIPX =0x1;
+    public static final int TILEMAP_FLIPY =0x2;
+   
 }
