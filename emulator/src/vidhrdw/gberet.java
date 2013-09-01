@@ -89,10 +89,10 @@ public class gberet
 	
 	public static WriteHandlerPtr get_tile_info = new WriteHandlerPtr() { public void handler(int col, int row)
 	{
-/*TODO*///		int tile_index = row*64+col;
-/*TODO*///		unsigned char attr = gberet_colorram[tile_index];
-/*TODO*///		SET_TILE_INFO(0,gberet_videoram[tile_index] + ((attr & 0x40) << 2),attr & 0x0f)
-/*TODO*///		tile_info.flags = TILE_FLIPYX((attr & 0x30) >> 4) | TILE_SPLIT((attr & 0x80) >> 7);
+		int tile_index = row*64+col;
+		/*unsigned*/ char attr = gberet_colorram.read(tile_index);
+		SET_TILE_INFO(0,gberet_videoram.read(tile_index) + ((attr & 0x40) << 2),attr & 0x0f);
+		tile_info.flags = (char)(TILE_FLIPYX((attr & 0x30) >> 4) | TILE_SPLIT((attr & 0x80) >> 7));
 	} };
 	
 	

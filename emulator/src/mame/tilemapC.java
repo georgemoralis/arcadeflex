@@ -9,6 +9,8 @@ import mame.tilemapH.tilemap;
 import static mame.tilemapH.*;
 import static arcadeflex.video.*;
 import static mame.osdependH.*;
+import static mame.palette.*;
+import static mame.paletteH.*;
 
 public class tilemapC {
     /*TODO*///#ifndef DECLARE
@@ -19,7 +21,7 @@ public class tilemapC {
     static char[] flip_bit_table=new char[0x100]; /* horizontal flip for 8 pixels */
     static tilemap first_tilemap; /* resource tracking */
     static int screen_width, screen_height;
-    /*TODO*///struct tile_info tile_info;
+    public static _tile_info tile_info = new _tile_info();
     /*TODO*///
     /*TODO*///enum {
     /*TODO*///	TILE_TRANSPARENT,
@@ -1457,61 +1459,65 @@ public class tilemapC {
     				if(( Machine.orientation & ORIENTATION_FLIP_X )!=0) tile_flip ^= TILE_FLIPX;
     				if(( Machine.orientation & ORIENTATION_FLIP_Y )!=0) tile_flip ^= TILE_FLIPY;
     			}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			tile_info.flags = 0;
-    /*TODO*///			tile_info.priority = 0;
-    /*TODO*///
-    /*TODO*///			for( tile_index=0; tile_index<tilemap->num_tiles; tile_index++ ){
-    /*TODO*///				if( visible[tile_index] && dirty_vram[tile_index] ){
-    /*TODO*///					int row = tile_index/tilemap->num_cols;
-    /*TODO*///					int col = tile_index%tilemap->num_cols;
-    /*TODO*///					int flags;
-    /*TODO*///
-    /*TODO*///					if( tilemap->orientation & ORIENTATION_FLIP_Y ) row = tilemap->num_rows-1-row;
-    /*TODO*///					if( tilemap->orientation & ORIENTATION_FLIP_X ) col = tilemap->num_cols-1-col;
-    /*TODO*///					if( tilemap->orientation & ORIENTATION_SWAP_XY ) SWAP(col,row)
-    /*TODO*///
-    /*TODO*///					{
-    /*TODO*///						unsigned short *the_color = paldata[tile_index];
-    /*TODO*///						if( the_color ){
-    /*TODO*///							unsigned int old_pen_usage = pen_usage[tile_index];
-    /*TODO*///							if( old_pen_usage ){
-    /*TODO*///								palette_decrease_usage_count( the_color-Machine->remapped_colortable, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///							}
-    /*TODO*///							else {
-    /*TODO*///								palette_decrease_usage_countx( the_color-Machine->remapped_colortable, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///							}
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///					tilemap->tile_get_info( col, row );
-    /*TODO*///
-    /*TODO*///					flags = tile_info.flags ^ tile_flip;
-    /*TODO*///					if( tilemap->orientation & ORIENTATION_SWAP_XY ){
-    /*TODO*///						flags =
-    /*TODO*///							(flags&0xfc) |
-    /*TODO*///							((flags&1)<<1) | ((flags&2)>>1);
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					pen_usage[tile_index] = tile_info.pen_usage;
-    /*TODO*///					pendata[tile_index] = tile_info.pen_data;
-    /*TODO*///					paldata[tile_index] = tile_info.pal_data;
-    /*TODO*///					maskdata[tile_index] = tile_info.mask_data; // needed for TILEMAP_BITMASK
-    /*TODO*///					tilemap->flags[tile_index] = flags;
-    /*TODO*///					tilemap->priority[tile_index] = tile_info.priority;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///					if( tile_info.pen_usage ){
-    /*TODO*///						palette_increase_usage_count( tile_info.pal_data-Machine->remapped_colortable, tile_info.pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///					}
-    /*TODO*///					else {
-    /*TODO*///						palette_increase_usage_countx( tile_info.pal_data-Machine->remapped_colortable, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					dirty_pixels[tile_index] = 1;
-    /*TODO*///					dirty_vram[tile_index] = 0;
-    /*TODO*///				}
-    /*TODO*///			}
+    
+    
+    			tile_info.flags = 0;
+    			tile_info.priority = 0;
+    
+    			for( tile_index=0; tile_index<_tilemap.num_tiles; tile_index++ ){
+    				if( visible[tile_index]!=0 && dirty_vram[tile_index]!=0 ){
+    					int row = tile_index/_tilemap.num_cols;
+    					int col = tile_index%_tilemap.num_cols;
+    					int flags;
+    
+    					if(( _tilemap.orientation & ORIENTATION_FLIP_Y )!=0) row = _tilemap.num_rows-1-row;
+    					if(( _tilemap.orientation & ORIENTATION_FLIP_X )!=0) col = _tilemap.num_cols-1-col;
+    					if(( _tilemap.orientation & ORIENTATION_SWAP_XY )!=0)
+                                        {
+                                            //SWAP(col,row)
+                                            int temp=col; col=row; row=temp;
+                                        }
+    
+    					{
+    						CharPtr the_color = paldata[tile_index];
+    						if( the_color!=null ){
+    							/*unsigned*/ int old_pen_usage = pen_usage[tile_index];
+    							if( old_pen_usage!=0 ){
+    		/*TODO RECHECK THIS*/				palette_decrease_usage_count( the_color.base-Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    							}
+    							else {
+    		/*TODO RECHECK THIS*/				palette_decrease_usage_countx( the_color.base-Machine.remapped_colortable.length, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    							}
+    						}
+    					}
+    					_tilemap.tile_get_info.handler(col, row );
+    
+    					flags = tile_info.flags ^ tile_flip;
+    					if(( _tilemap.orientation & ORIENTATION_SWAP_XY )!=0){
+    						flags =
+    							(flags&0xfc) |
+    							((flags&1)<<1) | ((flags&2)>>1);
+    					}
+    
+    					pen_usage[tile_index] = tile_info.pen_usage;
+    					pendata[tile_index] = tile_info.pen_data;
+    					paldata[tile_index] = tile_info.pal_data;
+    					maskdata[tile_index] = tile_info.mask_data; // needed for TILEMAP_BITMASK
+    					_tilemap.flags[tile_index] = (char)flags;
+    					_tilemap.priority[tile_index] = tile_info.priority;
+    
+    
+    					if( tile_info.pen_usage!=0 ){
+  /*TODO RECHECK THIS*/  			palette_increase_usage_count( tile_info.pal_data.base-Machine.remapped_colortable.length, tile_info.pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    					}
+    					else {
+ /*TODO RECHECK THIS*/   			palette_increase_usage_countx( tile_info.pal_data.base-Machine.remapped_colortable.length, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    					}
+    
+    					dirty_pixels[tile_index] = 1;
+    					dirty_vram[tile_index] = 0;
+    				}
+    			}
     		}
    	}
     }

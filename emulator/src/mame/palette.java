@@ -553,10 +553,12 @@ public class palette {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*///void palette_increase_usage_count(int table_offset,unsigned int usage_mask,int color_flags)
-    /*TODO*///{
-    /*TODO*///	/* if we are not dynamically reducing the palette, return immediately. */
-    /*TODO*///	if (palette_used_colors == 0) return;
+    public static void palette_increase_usage_count(int table_offset,int usage_mask,int color_flags)
+    {
+    	/* if we are not dynamically reducing the palette, return immediately. */
+    	if (palette_used_colors == null) return;
+        
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///
     /*TODO*///	while (usage_mask)
     /*TODO*///	{
@@ -570,12 +572,13 @@ public class palette {
     /*TODO*///		table_offset++;
     /*TODO*///		usage_mask >>= 1;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void palette_decrease_usage_count(int table_offset,unsigned int usage_mask,int color_flags)
-    /*TODO*///{
-    /*TODO*///	/* if we are not dynamically reducing the palette, return immediately. */
-    /*TODO*///	if (palette_used_colors == 0) return;
+    }
+    
+    public static void palette_decrease_usage_count(int table_offset,int usage_mask,int color_flags)
+    {
+    	/* if we are not dynamically reducing the palette, return immediately. */
+    	if (palette_used_colors == null) return;
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///
     /*TODO*///	while (usage_mask)
     /*TODO*///	{
@@ -589,10 +592,11 @@ public class palette {
     /*TODO*///		table_offset++;
     /*TODO*///		usage_mask >>= 1;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void palette_increase_usage_countx(int table_offset,int num_pens,const unsigned char *pen_data,int color_flags)
-    /*TODO*///{
+    }
+    
+    public static void palette_increase_usage_countx(int table_offset,int num_pens,UBytePtr pen_data,int color_flags)
+    {
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///	char flag[256];
     /*TODO*///	memset(flag,0,256);
     /*TODO*///
@@ -608,10 +612,11 @@ public class palette {
     /*TODO*///			flag[pen] = 1;
     /*TODO*///		}
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void palette_decrease_usage_countx(int table_offset, int num_pens, const unsigned char *pen_data,int color_flags)
-    /*TODO*///{
+    }
+    
+    public static void palette_decrease_usage_countx(int table_offset, int num_pens, UBytePtr pen_data,int color_flags)
+    {
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///	char flag[256];
     /*TODO*///	memset(flag,0,256);
     /*TODO*///
@@ -627,7 +632,7 @@ public class palette {
     /*TODO*///			flag[pen] = 1;
     /*TODO*///		}
     /*TODO*///	}
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///void palette_init_used_colors(void)
     /*TODO*///{

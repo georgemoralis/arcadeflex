@@ -4,6 +4,9 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import static mame.drawgfxH.*;
+import static mame.mame.*;
+import static mame.tilemapC.*;
 
 public class tilemapH {
     public static final tilemap ALL_TILEMAPS	=null;
@@ -33,45 +36,49 @@ public class tilemapH {
     /*TODO*///#define TILEMAP_BITMASK_TRANSPARENT (0)
     /*TODO*///#define TILEMAP_BITMAK_OPAQUE       ((unsigned char *)-1)
     /*TODO*///
-    /*TODO*///extern struct tile_info {
-    /*TODO*///	unsigned char *pen_data; /* pointer to gfx data */
-    /*TODO*///	unsigned short *pal_data; /* pointer to palette */
-    /*TODO*///	unsigned char *mask_data; /* pointer to mask data (for TILEMAP_BITMASK) */
-    /*TODO*///	unsigned int pen_usage;	/* used pens mask */
-    /*TODO*///	/*
-    /*TODO*///		you must set tile_info.pen_data, tile_info.pal_data and tile_info.pen_usage
-    /*TODO*///		in the callback.  You can use the SET_TILE_INFO() macro below to do this.
-    /*TODO*///		tile_info.flags and tile_info.priority will be automatically preset to 0,
-    /*TODO*///		games that don't need them don't need to explicitly set them to 0
-    /*TODO*///	*/
-    /*TODO*///	unsigned char flags; /* see below */
-    /*TODO*///	unsigned char priority;
-    /*TODO*///} tile_info;
-    /*TODO*///
-    /*TODO*///#define SET_TILE_INFO(GFX,CODE,COLOR) { \
-    /*TODO*///	const struct GfxElement *gfx = Machine->gfx[(GFX)]; \
-    /*TODO*///	int _code = (CODE) % gfx->total_elements; \
-    /*TODO*///	tile_info.pen_data = gfx->gfxdata + _code*gfx->char_modulo; \
-    /*TODO*///	tile_info.pal_data = &gfx->colortable[gfx->color_granularity * (COLOR)]; \
-    /*TODO*///	tile_info.pen_usage = gfx->pen_usage?gfx->pen_usage[_code]:0; \
-    /*TODO*///}
-    /*TODO*///
+    public static class _tile_info {
+    	public UBytePtr pen_data; /* pointer to gfx data */
+    	public CharPtr pal_data; /* pointer to palette */
+    	public UBytePtr mask_data; /* pointer to mask data (for TILEMAP_BITMASK) */
+    	public /*unsigned*/ int pen_usage;	/* used pens mask */
+    	/*
+    		you must set tile_info.pen_data, tile_info.pal_data and tile_info.pen_usage
+    		in the callback.  You can use the SET_TILE_INFO() macro below to do this.
+    		tile_info.flags and tile_info.priority will be automatically preset to 0,
+    		games that don't need them don't need to explicitly set them to 0
+    	*/
+    	public/*unsigned*/char flags; /* see below */
+    	public/*unsigned*/ char priority;
+    };
+    public static void SET_TILE_INFO(int GFX, int CODE, int COLOR)
+    {
+            GfxElement gfx = Machine.gfx[(GFX)];
+            int _code = (int)((CODE) % gfx.total_elements);
+            tile_info.pen_data = new UBytePtr(gfx.gfxdata, _code * gfx.char_modulo);
+            tile_info.pal_data = new CharPtr(gfx.colortable, gfx.color_granularity * (COLOR));
+            tile_info.pen_usage = gfx.pen_usage != null ? gfx.pen_usage[_code] : 0;
+    }   
+
     /* tile flags, set by get_tile_info callback */
     public static final int TILE_FLIPX			=0x01;
     public static final int TILE_FLIPY			=0x02;
-    /*TODO*///#define TILE_SPLIT(T)				((T)<<2)
-    /*TODO*////* TILE_SPLIT is for use with TILEMAP_SPLIT layers.  It selects transparency type. */
-    /*TODO*///#define TILE_IGNORE_TRANSPARENCY	0x10
-    /*TODO*////* TILE_IGNORE_TRANSPARENCY is used if you need an opaque tile in a transparent layer */
-    /*TODO*///
-    /*TODO*///#define TILE_FLIPYX(YX)				(YX)
-    /*TODO*///#define TILE_FLIPXY(XY)			((((XY)>>1)|((XY)<<1))&3)
-    /*TODO*////*
-    /*TODO*///	TILE_FLIPYX is a shortcut that can be used by approx 80% of games,
-    /*TODO*///	since yflip frequently occurs one bit higher than xflip within a
-    /*TODO*///	tile attributes byte.
-    /*TODO*///*/
-    /*TODO*///
+    public static int TILE_SPLIT(int t) { return t << 2; }
+    /* TILE_SPLIT is for use with TILEMAP_SPLIT layers.  It selects transparency type. */
+    public static final int TILE_IGNORE_TRANSPARENCY	=0x10;
+    /* TILE_IGNORE_TRANSPARENCY is used if you need an opaque tile in a transparent layer */
+    
+    public static int TILE_FLIPYX(int YX) { return YX; }
+    public static int TILE_FLIPXY(int XY) { return ((((XY) >> 1) | ((XY) << 1)) & 3); }
+
+    /*
+    	TILE_FLIPYX is a shortcut that can be used by approx 80% of games,
+    	since yflip frequently occurs one bit higher than xflip within a
+    	tile attributes byte.
+    */
+    
+     
+        
+
     public static final int TILE_LINE_DISABLED =0x80000000;
     
     public static class tilemap 
