@@ -33,6 +33,7 @@ import static drivers.cclimber.*;
 import static drivers.bombjack.*;
 import static drivers._1942.*;
 import static drivers.system1.*;
+import static drivers.gberet.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1653,10 +1654,10 @@ public class driver {
 /*TODO*/ //	DRIVER( kicker )	/* GX477 (c) 1985 */
 /*TODO*/ //	DRIVER( shaolins )	/* GX477 (c) 1985 */
 /*TODO*/ //	DRIVER( pingpong )	/* GX555 (c) 1985 */
-/*TODO*/ //	DRIVER( gberet )	/* GX577 (c) 1985 */
-/*TODO*/ //	DRIVER( rushatck )	/* GX577 (c) 1985 */
-/*TODO*/ //	DRIVER( gberetb )	/* bootleg on different hardware */
-/*TODO*/ //	DRIVER( mrgoemon )	/* GX621 (c) 1986 (Japan) */
+        driver_gberet,	/* GX577 (c) 1985 */
+        driver_rushatck,/* GX577 (c) 1985 */
+        driver_gberetb,	/* bootleg on different hardware */
+        driver_mrgoemon,/* GX621 (c) 1986 (Japan) */
 /*TODO*/ //	DRIVER( jailbrek )	/* GX507 (c) 1986 */
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
 /*TODO*/ //	DRIVER( finalizb )	/* bootleg */

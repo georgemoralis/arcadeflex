@@ -42,6 +42,7 @@ import static vidhrdw.generic.*;
 import static mame.commonH.*;
 import static mame.inputH.*;
 import static mame.inputport.*;
+import static mame.tilemapC.*;
 
 public class mame {
 
@@ -446,7 +447,7 @@ public class mame {
     
     	if (vh_open() == 0)
     	{
-    /*TODO*///		tilemap_init();
+    		tilemap_init();
     /*TODO*///		sprite_init();
     /*TODO*///		gfxobj_init();
     		if (drv.vh_start == null || drv.vh_start.handler() == 0)      /* start the video hardware */
