@@ -14,10 +14,10 @@ public class tilemapH {
     	tilemap_update, tilemap_render, tilemap_set_flip, tilemap_mark_all_pixels_dirty
     */
     
-    /*TODO*///#define TILEMAP_OPAQUE			0x00
-    /*TODO*///#define TILEMAP_TRANSPARENT		0x01
-    public static final int TILEMAP_SPLIT=		0x02;
-    /*TODO*///#define TILEMAP_BITMASK			0x04
+    public static final int TILEMAP_OPAQUE			=0x00;
+    public static final int TILEMAP_TRANSPARENT		        =0x01;
+    public static final int TILEMAP_SPLIT		        =0x02;
+    public static final int TILEMAP_BITMASK			=0x04;
     /*
     	TILEMAP_SPLIT should be used if the pixels from a single tile
     	can appear in more than one plane.
