@@ -1656,8 +1656,8 @@ public class tilemapC {
     
     		//source_baseaddr = (DATA_TYPE *)blit.pixmap->line[y1];
     		//mask_baseaddr = blit.bitmask->line[y1];
-                source_baseaddr = new UBytePtr(blit.pixmap.line[y1]);
-                mask_baseaddr = new UBytePtr(blit.bitmask.line[y1]);
+                source_baseaddr = blit.pixmap.line[y1];
+                mask_baseaddr = blit.bitmask.line[y1];
 
 
     
@@ -1681,8 +1681,8 @@ public class tilemapC {
     
     		for(;;){
     			int row = y/8;
-    			UBytePtr mask_data = new UBytePtr(blit.mask_data_row[row]);
-    			UBytePtr priority_data = new UBytePtr(blit.priority_data_row[row]);
+    			UBytePtr mask_data = blit.mask_data_row[row];
+    			UBytePtr priority_data = blit.priority_data_row[row];
     
     			char/*UINT8*/ tile_type;
     			char/*UINT8*/ prev_tile_type = TILE_TRANSPARENT;
@@ -1750,9 +1750,9 @@ public class tilemapC {
     
     			if( y_next==y2 ) break; /* we are done! */
     
-    			dest_baseaddr = new UBytePtr(dest_next);
-    			source_baseaddr = new UBytePtr(source_next);
-    			mask_baseaddr = new UBytePtr(mask_next);
+    			dest_baseaddr = dest_next;
+    			source_baseaddr = source_next;
+    			mask_baseaddr = mask_next;
     
     			y = y_next;
     			y_next += 8;
