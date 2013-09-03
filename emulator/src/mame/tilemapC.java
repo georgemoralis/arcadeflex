@@ -1733,7 +1733,7 @@ public class tilemapC {
     							int i = y;
     							for(;;){
                                                           
-                                                            System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels*16);
+                                                            System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
     								//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) );
     								if( ++i == y_next ) break;
     
