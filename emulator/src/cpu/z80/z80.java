@@ -4833,7 +4833,20 @@ public class z80 extends cpu_interface {
        tmp = Z80.DE; Z80.DE = Z80.HL; Z80.HL = tmp;             
        tmp=null;
     }};
-    opcode op_ec = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode op_ec = new opcode() { public void handler()
+    { 
+    //CALL( _F & PF );
+        if ((Z80.AF.L & PF) != 0) 
+        { 
+            EA = ARG16();
+            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
+            cpu_writemem16(Z80.SP.D, Z80.PC.L);
+            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+            Z80.PC.SetD(EA & 0xFFFF);
+            z80_ICount[0] -= 7; 
+            change_pc16(Z80.PC.D); 
+        } 
+    }};
     opcode op_ed = new opcode() { public void handler() /* **** ED xx 	  */
     { 
         Z80.R = (Z80.R +1) & 0xFF;
