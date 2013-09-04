@@ -350,7 +350,7 @@ public class tilemapC {
     public static int create_pixmap( tilemap _tilemap ){
     	_tilemap.pixmap = create_tmpbitmap( _tilemap.width, _tilemap.height );
     	if( _tilemap.pixmap!=null ){
-    		_tilemap.pixmap_line_offset = _tilemap.pixmap.line[1].read() - _tilemap.pixmap.line[0].read();
+    		_tilemap.pixmap_line_offset = _tilemap.pixmap.line[1].base - _tilemap.pixmap.line[0].base;
     		return 1; /* done */
     	}
     	return 0; /* error */
@@ -384,7 +384,7 @@ public class tilemapC {
     		if( _tilemap.fg_mask_data_row!=null ){
     			_tilemap.fg_mask = create_bitmask( MASKROWBYTES(_tilemap.width), _tilemap.height );
     			if( _tilemap.fg_mask!=null ){
-    				_tilemap.fg_mask_line_offset = _tilemap.fg_mask.line[1].read() - _tilemap.fg_mask.line[0].read();
+    				_tilemap.fg_mask_line_offset = _tilemap.fg_mask.line[1].base - _tilemap.fg_mask.line[0].base;
     				return 1; /* done */
     			}
     			 _tilemap.fg_mask_data_row=null;
@@ -403,7 +403,7 @@ public class tilemapC {
     		if( _tilemap.bg_mask_data_row!=null ){
     			_tilemap.bg_mask = create_bitmask( MASKROWBYTES(_tilemap.width), _tilemap.height );
     			if( _tilemap.bg_mask!=null ){
-    				_tilemap.bg_mask_line_offset = _tilemap.bg_mask.line[1].read() - _tilemap.bg_mask.line[0].read();
+    				_tilemap.bg_mask_line_offset = _tilemap.bg_mask.line[1].base - _tilemap.bg_mask.line[0].base;
     				return 1; /* done */
     			}
     			 _tilemap.bg_mask_data_row =null;
@@ -952,7 +952,7 @@ public class tilemapC {
     		int tile_height = _tilemap.tile_height;
     
     		blit.screen = dest;
-    		blit.dest_line_offset = dest.line[1].read() - dest.line[0].read();
+    		blit.dest_line_offset = dest.line[1].base - dest.line[0].base;
     
     		blit.pixmap = _tilemap.pixmap;
     		blit.source_line_offset = _tilemap.pixmap_line_offset;
