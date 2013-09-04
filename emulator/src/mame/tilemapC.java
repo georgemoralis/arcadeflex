@@ -727,7 +727,7 @@ public class tilemapC {
     				/*UINT8*/char data = 0;
     				for( bit=0; bit<8; bit++ ){
     					char/*UINT8*/ p = pendata.readinc();
-    					data = (char)(((data>>1)|((((1<<(p & 0xFF))&transmask)!=0)?0x00:0x80)) & 0xFF);
+    					data = (char)((data>>1)|(((1<<p)&transmask)!=0?0x00:0x80));
     				}
     				mask_dest.write(x,(data & 0xFF));
     			}
@@ -741,7 +741,7 @@ public class tilemapC {
     				/*UINT8*/char data = 0;
     				for( bit=0; bit<8; bit++ ){
     					char/*UINT8*/ p = pendata.readinc();
-    					data = (char)(((data<<1)|((((1<<(p & 0xFF))&transmask)!=0)?0x00:0x01))& 0xFF);
+    					data = (char)((data<<1)|(((1<<p)&transmask)!=0?0x00:0x01));
     				}
     				mask_dest.write(x,(data & 0xFF));
     			}
@@ -862,7 +862,7 @@ public class tilemapC {
     						else {
                                                   
     							int fg_transmask = transmask[(flags>>2)&3];
-    							int bg_transmask = (~fg_transmask)|pen_mask;
+    							long bg_transmask = (long)(((~fg_transmask)|pen_mask) & 0xFFFFFFFFL);
     							if( (pen_usage & fg_transmask)==0 ){ /* foreground totally opaque */
     								_tilemap.fg_mask_data_row[row].write(col,TILE_OPAQUE);
     								_tilemap.bg_mask_data_row[row].write(col,TILE_TRANSPARENT);
@@ -894,7 +894,7 @@ public class tilemapC {
     									pendata, fg_transmask, flags );
     								draw_mask( _tilemap.bg_mask,
     									col, row, tile_width, tile_height,
-    									pendata, bg_transmask, flags );
+    									pendata, (int)bg_transmask, flags );
     								_tilemap.fg_mask_data_row[row].write(col,TILE_MASKED);
     								_tilemap.bg_mask_data_row[row].write(col,TILE_MASKED);
     							}
