@@ -53,20 +53,22 @@ public class tilemapC {
     public static int MASKROWBYTES(int W) { return (W + 7) / 8; }
     
     static void memcpybitmask8( UBytePtr dest, UBytePtr source, UBytePtr bitmask, int count ){
-    	for(;;){
-    		/*UINT8*/ char data = (char)(bitmask.readinc() & 0xFF);
-    		if(( data&0x80 )!=0) dest.write(0,source.read(0));
-    		if(( data&0x40 )!=0) dest.write(1,source.read(1));
-    		if(( data&0x20 )!=0) dest.write(2,source.read(2));
-    		if(( data&0x10 )!=0) dest.write(3,source.read(3));
-    		if(( data&0x08 )!=0) dest.write(4,source.read(4));
-    		if(( data&0x04 )!=0) dest.write(5,source.read(5));
-    		if(( data&0x02 )!=0) dest.write(6,source.read(6));
-    		if(( data&0x01 )!=0) dest.write(7,source.read(7));
-    		if( --count == 0 ) break;
-    		source.inc(8);
-    		dest.inc(8);
-    	}
+    	int bi = 0, di = 0, si = 0;
+            for (; ; )
+            {
+                int  data = bitmask.read(bi++) & 0xFF;
+                if ((data & 0x80) != 0) dest.write(di + 0,source.read(si + 0));
+                if ((data & 0x40) != 0) dest.write(di + 1,source.read(si + 1));
+                if ((data & 0x20) != 0) dest.write(di + 2,source.read(si + 2));
+                if ((data & 0x10) != 0) dest.write(di + 3,source.read(si + 3));
+                if ((data & 0x08) != 0) dest.write(di + 4,source.read(si + 4));
+                if ((data & 0x04) != 0) dest.write(di + 5,source.read(si + 5));
+                if ((data & 0x02) != 0) dest.write(di + 6,source.read(si + 6));
+                if ((data & 0x01) != 0) dest.write(di + 7,source.read(si + 7));
+                if (--count == 0) break;
+                si += 8;
+                di += 8;
+            }
     }
     /*TODO*///static void memcpybitmask16( UINT16 *dest, const UINT16 *source, const UINT8 *bitmask, int count ){
     /*TODO*///	for(;;){
