@@ -22,7 +22,7 @@ public class frogger
 	
 	static int flipscreen;
 	
-	public static CharPtr frogger_attributesram;
+	public static CharPtr frogger_attributesram=new CharPtr();
 	
 	/* Cocktail mode implemented by Chad Hendrickson, July 26, 1999           */
 	

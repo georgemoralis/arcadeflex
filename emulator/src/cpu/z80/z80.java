@@ -1085,6 +1085,25 @@ public class z80 extends cpu_interface {
     /*TODO*///	{															\
     /*TODO*///		_PC+=2; 												\
     /*TODO*///	}
+    public void CALL(boolean cond)
+    {
+        if (cond) 
+        { 
+            EA = ARG16();
+            ////PUSH( PC );
+            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
+            cpu_writemem16(Z80.SP.D, Z80.PC.L);
+            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+            //END OF PUSH
+            Z80.PC.SetD(EA & 0xFFFF);
+            CY(7); 
+            change_pc16(Z80.PC.D); 
+        } 
+        else 
+        { 
+            Z80.PC.AddD(2);//_PC+=2; 
+        }
+    }
     /*TODO*///
     /*TODO*////***************************************************************
     /*TODO*/// * RET
@@ -1156,8 +1175,8 @@ public class z80 extends cpu_interface {
     /*TODO*///
      public void LD_R_A()
      {
-         Z80.R = Z80.AF.H;
-         Z80.R2= Z80.AF.H & 0x80;
+         Z80.R = Z80.AF.H & 0xFF;
+         Z80.R2= (Z80.AF.H & 0x80) & 0xFF;
      }
     /*TODO*////***************************************************************
     /*TODO*/// * LD	A,R
@@ -1180,7 +1199,17 @@ public class z80 extends cpu_interface {
     /*TODO*///	PUSH( PC ); 												\
     /*TODO*///	_PCD = addr;												\
     /*TODO*///	change_pc16(_PCD)
-    
+    public void RST(int addr)
+    {
+         //PUSH( PC );
+         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
+         cpu_writemem16(Z80.SP.D, Z80.PC.L);
+         cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
+         //END OF PUSH
+         Z80.PC.SetD(addr);
+         change_pc16(Z80.PC.D);
+    }
+        
     /***************************************************************
      * INC	r8
      ***************************************************************/
@@ -4559,24 +4588,7 @@ public class z80 extends cpu_interface {
         /*TODO*///		}														\
         /*TODO*///	}															\
     }};
-    opcode op_c4 = new opcode() { public void handler()/* CALL NZ,a		  */
-    { 
-        //CALL( !(_F & ZF) ); 
-         if ((Z80.AF.L & ZF) == 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        else 
-        { 
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
+  
     opcode op_c5 = new opcode() { public void handler()/* PUSH BC		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
@@ -4587,16 +4599,7 @@ public class z80 extends cpu_interface {
     { 
         ADD(ARG() & 0xFF);
     }};
-    opcode op_c7 = new opcode() { public void handler()
-    { 
-       //RST(0x00);
-        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x00);
-            change_pc16(Z80.PC.D);
-    }};
-   
+
    
 
     opcode op_cb = new opcode() { public void handler()/* **** CB xx 	  */
@@ -4606,55 +4609,14 @@ public class z80 extends cpu_interface {
         z80_ICount[0] -= cc_cb[op];
         Z80cb[op].handler();//EXEC(cb,ROP());
     }};
-    opcode op_cc = new opcode() { public void handler()/* CALL Z,a		  */
-    { 
-        // CALL( _F & ZF );
-        if ((Z80.AF.L & ZF) != 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        else 
-        { 
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
-    opcode op_cd = new opcode() { public void handler()/* CALL a 		  */
-    { 
-        if(true)
-        {
-            EA = ARG16() & 0xFFFF;
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA); //_PCD = EA;
-            z80_ICount[0] -= 7; //CY(7); 
-            change_pc16(Z80.PC.D);
-        }
-        else
-        {
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
+  
+ 
     opcode op_ce = new opcode() { public void handler()/* ADC  A,n		  */
     { 
         ADC(ARG() & 0xFF); 									
    
     }};
-    opcode op_cf = new opcode() { public void handler()/* RST  1 		  */
-    { 
-            //RST(0x08);
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x08);
-            change_pc16(Z80.PC.D);
-    }};
+
     
     opcode op_d1 = new opcode() { public void handler()/* POP  DE		  */
     { 
@@ -4670,24 +4632,7 @@ public class z80 extends cpu_interface {
         int n = (ARG() & 0xFF) | (Z80.AF.H << 8); 
         OUT( n, Z80.AF.H );
     }};
-    opcode op_d4 = new opcode() { public void handler()
-    { 
-           /*TODO*///OP(op,d4) { CALL( !(_F & CF) ); 									} /* CALL NC,a		  */
-        if ((Z80.AF.L & CF) == 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        else 
-        { 
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
+
     opcode op_d5 = new opcode() { public void handler()/* PUSH DE		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
@@ -4698,16 +4643,7 @@ public class z80 extends cpu_interface {
     { 
         SUB(ARG() & 0xFF);
     }};
-    opcode op_d7 = new opcode() { public void handler()/* RST  2 		  */
-    { 
-            //RST(0x10);
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x10);
-            change_pc16(Z80.PC.D);
-    }};
-    
+
     opcode op_d9 = new opcode() { public void handler()/* EXX			  */
     { 
         PAIR tmp = new PAIR();
@@ -4728,24 +4664,7 @@ public class z80 extends cpu_interface {
         int n = (ARG() & 0xFF) | (Z80.AF.H << 8); 
         Z80.AF.SetH(IN(n));
     }};
-    opcode op_dc = new opcode() { public void handler()
-    { 
-        //CALL( _F & CF );
-        if ((Z80.AF.L & CF) != 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        else 
-        { 
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
+   
     opcode op_dd = new opcode() { public void handler()/* **** DD xx 	  */
     { 
 
@@ -4756,15 +4675,7 @@ public class z80 extends cpu_interface {
     
     }}; 
     opcode op_de = new opcode() { public void handler(){ SBC(ARG() & 0xFF); }};
-    opcode op_df = new opcode() { public void handler()/* RST  3 		  */
-    { 
-            //RST(0x18);
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x18);
-            change_pc16(Z80.PC.D);
-    }};
+
     
     opcode op_e1 = new opcode() { public void handler()/* POP  HL		  */
     { 
@@ -4789,21 +4700,7 @@ public class z80 extends cpu_interface {
         Z80.HL.SetD(tmp.D);
         
     }};
-    opcode op_e4 = new opcode() { public void handler()
-    { 
-        //CALL( !(_F & PF) ); 
-        if ((Z80.AF.L & PF) == 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        
-    }};
+    
     opcode op_e5 = new opcode() { public void handler()/* PUSH HL		  */
     { 
         Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); 
@@ -4815,16 +4712,7 @@ public class z80 extends cpu_interface {
     { 
         AND(ARG() & 0xFF);
     }};
-    opcode op_e7 = new opcode() { public void handler()/* RST  4 		  */
-    { 
-        //RST(0x20);												
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x20);
-            change_pc16(Z80.PC.D);
-    }};
-   
+
     opcode op_e9 = new opcode() { public void handler()/* JP   (HL)		  */
     { 
     // _PC = _HL; change_pc16(_PCD);
@@ -4838,20 +4726,7 @@ public class z80 extends cpu_interface {
        tmp = Z80.DE; Z80.DE = Z80.HL; Z80.HL = tmp;             
        tmp=null;
     }};
-    opcode op_ec = new opcode() { public void handler()
-    { 
-    //CALL( _F & PF );
-        if ((Z80.AF.L & PF) != 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-    }};
+ 
     opcode op_ed = new opcode() { public void handler() /* **** ED xx 	  */
     { 
         Z80.R = (Z80.R +1) & 0xFF;
@@ -4863,16 +4738,7 @@ public class z80 extends cpu_interface {
     { 
         XOR(ARG() & 0xFF);
     }};
-    opcode op_ef = new opcode() { public void handler()/* RST  5 		  */
-    { 
-        //RST(0x28);
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x28);
-            change_pc16(Z80.PC.D);
-    }};
- 
+
     opcode op_f1 = new opcode() { public void handler() /* POP  AF		  */
     { 
 	Z80.AF.SetL((cpu_readmem16(Z80.SP.D) & 0xFF)); //RM16
@@ -4884,20 +4750,7 @@ public class z80 extends cpu_interface {
     { 
         Z80.IFF1 = Z80.IFF2 =0;										
     }};
-    opcode op_f4 = new opcode() { public void handler()
-    { 
-        //CALL( !(_F & SF) );
-        if ((Z80.AF.L & SF) == 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-    }};
+
     opcode op_f5 = new opcode() { public void handler() /* PUSH AF		  */
     { 
        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF);
@@ -4910,16 +4763,7 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,f6) { OR(ARG());												} /* OR   n 		  */
        OR(ARG() & 0xFF);
     }};
-    opcode op_f7 = new opcode() { public void handler()/* RST  6 		  */
-    { 
-            //RST(0x30);	
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x30);
-            change_pc16(Z80.PC.D);
-    }};
-    
+ 
     opcode op_f9 = new opcode() { public void handler()/* LD   SP,HL 	  */
     { 
         // _SP = _HL;
@@ -4959,24 +4803,7 @@ public class z80 extends cpu_interface {
             Z80.IFF2 = 1;
         }                                           
     }};
-    opcode op_fc = new opcode() { public void handler()
-    { 
-        //CALL(_F & SF);
-        if ((Z80.AF.L & SF) != 0) 
-        { 
-            EA = ARG16();
-            Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(EA & 0xFFFF);
-            z80_ICount[0] -= 7; 
-            change_pc16(Z80.PC.D); 
-        } 
-        else 
-        { 
-            Z80.PC.AddD(2);//_PC+=2; 
-        }
-    }};
+    
     opcode op_fd = new opcode() { public void handler()/* **** FD xx 	  */
     { 
         Z80.R= (Z80.R +1) & 0xFF;//_R++;
@@ -4988,17 +4815,7 @@ public class z80 extends cpu_interface {
     { 
         CP(ARG() & 0xFF); //CP(ARG());
     }};
-    opcode op_ff = new opcode() { public void handler()
-    { 
-        //RST(0x38)
-        Z80.SP.SetD((Z80.SP.D - 2) & 0xFFFF); //PUSH( PC );
-            cpu_writemem16(Z80.SP.D, Z80.PC.L);
-            cpu_writemem16((int)(Z80.SP.D + 1) & 0xffff, Z80.PC.H);
-            Z80.PC.SetD(0x38);
-            change_pc16(Z80.PC.D);
-    }};
-   
-
+ 
     /*TODO*///OP(op,33) { _SP++;													} /* INC  SP		  */     
     /*TODO*///OP(op,39) { ADD16(HL,SP);											} /* ADD  HL,SP 	  */
     /*TODO*/////OP(op,3f) { _F = ((_F & ~(HF|NF)) | ((_F & CF)<<4)) ^ CF; 		  } /* CCF				*/
@@ -5027,22 +4844,15 @@ public class z80 extends cpu_interface {
     /*TODO*///OP(op,d3) { unsigned n = ARG() | (_A << 8); OUT( n, _A );			} /* OUT  (n),A 	  */
  
     /*TODO*///OP(op,db) { unsigned n = ARG() | (_A << 8); _A = IN( n );			} /* IN   A,(n) 	  */
-    /*TODO*///OP(op,dc) { CALL( _F & CF );										} /* CALL C,a		  */
-    
+  
     /*TODO*///OP(op,de) { SBC(ARG()); 											} /* SBC  A,n		  */
 
     /*TODO*///OP(op,e0) { RET( !(_F & PF) );										} /* RET  PO		  */
     
-   
-    /*TODO*///OP(op,e4) { CALL( !(_F & PF) ); 									} /* CALL PO,a		  */
 
-    
     /*TODO*///OP(op,ea) { JP_COND( _F & PF ); 									} /* JP   PE,a		  */
     
-    /*TODO*///OP(op,ec) { CALL( _F & PF );										} /* CALL PE,a		  */
 
-    /*TODO*///OP(op,f4) { CALL( !(_F & SF) ); 									} /* CALL P,a		  */
- 
     static void take_interrupt()
     {
         if( Z80.IFF1!=0)
@@ -5884,6 +5694,30 @@ public class z80 extends cpu_interface {
     {
         cpu_setOPbase16.handler(pc,0);
     }
+ 
+    /**********************************************************
+    * RST opcodes
+    **********************************************************/   
+    opcode op_c7 = new opcode() { public void handler(){  RST(0x00);												}}; /* RST  0 		  */
+    opcode op_cf = new opcode() { public void handler(){  RST(0x08);												}}; /* RST  1 		  */
+    opcode op_d7 = new opcode() { public void handler(){  RST(0x10);												}}; /* RST  2 		  */
+    opcode op_df = new opcode() { public void handler(){  RST(0x18);												}}; /* RST  3 		  */
+    opcode op_e7 = new opcode() { public void handler(){  RST(0x20);												}}; /* RST  4 		  */
+    opcode op_ef = new opcode() { public void handler(){  RST(0x28);												}}; /* RST  5 		  */
+    opcode op_f7 = new opcode() { public void handler(){  RST(0x30);												}}; /* RST  6 		  */
+    opcode op_ff = new opcode() { public void handler(){  RST(0x38);												}}; /* RST  7 		  */
+    /**********************************************************
+    * CALL opcodes
+    **********************************************************/    
+    opcode op_c4 = new opcode() { public void handler(){  CALL( (Z80.AF.L & ZF)==0 ); 									}}; /* CALL NZ,a		  */
+    opcode op_cc = new opcode() { public void handler(){  CALL( (Z80.AF.L & ZF)!=0 );									}}; /* CALL Z,a		  */
+    opcode op_cd = new opcode() { public void handler(){  CALL(true);												    }}; /* CALL a 		  */
+    opcode op_d4 = new opcode() { public void handler(){  CALL( (Z80.AF.L & CF)==0 ); 									}}; /* CALL NC,a		  */
+    opcode op_dc = new opcode() { public void handler(){  CALL( (Z80.AF.L & CF)!=0 );									}}; /* CALL C,a		  */
+    opcode op_e4 = new opcode() { public void handler(){  CALL( (Z80.AF.L & PF)==0 ); 									}}; /* CALL PO,a		  */
+    opcode op_ec = new opcode() { public void handler(){  CALL( (Z80.AF.L & PF)!=0 );									}}; /* CALL PE,a		  */
+    opcode op_f4 = new opcode() { public void handler(){  CALL( (Z80.AF.L & SF)==0 ); 									}}; /* CALL P,a		  */
+    opcode op_fc = new opcode() { public void handler(){  CALL( (Z80.AF.L & SF)!=0 );									}}; /* CALL M,a		  */
     /**********************************************************
     * RET opcodes
     **********************************************************/ 
