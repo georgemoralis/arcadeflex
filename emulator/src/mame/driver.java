@@ -34,6 +34,7 @@ import static drivers.bombjack.*;
 import static drivers._1942.*;
 import static drivers.system1.*;
 import static drivers.gberet.*;
+import static drivers.locomotn.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -253,15 +254,15 @@ public class driver {
 /*TODO*/ //	DRIVER( warpwarp )	/* (c) 1981 Namco */
 /*TODO*/ //	DRIVER( warpwarr )	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
 /*TODO*/ //	DRIVER( warpwar2 )	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
-    driver_rallyx,/* (c) 1980 Namco */
-    driver_rallyxm, 	/* (c) 1980 Midway */
-    driver_nrallyx, 	/* (c) 1981 Namco */
-/*TODO*/ //	DRIVER( jungler )	/* GX327 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( junglers )	/* GX327 (c) 1981 Stern */
-/*TODO*/ //	DRIVER( locomotn )	/* GX359 (c) 1982 Konami + Centuri license */
-/*TODO*/ //	DRIVER( gutangtn )	/* GX359 (c) 1982 Konami + Sega license */
-/*TODO*/ //	DRIVER( cottong )	/* bootleg */
-/*TODO*/ //	DRIVER( commsega )	/* (c) 1983 Sega */
+        driver_rallyx,/* (c) 1980 Namco */
+        driver_rallyxm, /* (c) 1980 Midway */
+        driver_nrallyx, /* (c) 1981 Namco */
+        driver_jungler,	/* GX327 (c) 1981 Konami */
+        driver_junglers,/* GX327 (c) 1981 Stern */
+        driver_locomotn,/* GX359 (c) 1982 Konami + Centuri license */
+        driver_gutangtn,/* GX359 (c) 1982 Konami + Sega license */
+        driver_cottong,	/* bootleg */
+        driver_commsega,/* (c) 1983 Sega */
 	/* the following ones all have a custom I/O chip */
 /*TODO*/ //	DRIVER( bosco )		/* (c) 1981 */
 /*TODO*/ //	DRIVER( boscoo )	/* (c) 1981 */

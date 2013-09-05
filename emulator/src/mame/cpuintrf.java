@@ -111,7 +111,7 @@ public class cpuintrf {
     /*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
     /*TODO*///#define CPUINFO(index,context,regnum)	((*cpu[index].intf->cpu_info)(context,regnum))
     /*TODO*///#define CPUDASM(index,buffer,pc)		((*cpu[index].intf->cpu_dasm)(buffer,pc))
-    /*TODO*///#define ICOUNT(index)					(*cpu[index].intf->icount)
+    static int   ICOUNT(int index)          {	return cpu.get(index).intf.icount[0]; }
     static int   INT_TYPE_NONE(int index)  { return cpu.get(index).intf.no_int; }
     static int   INT_TYPE_IRQ(int index)   { return cpu.get(index).intf.irq_int; }
     static int   INT_TYPE_NMI(int index) 	 { return cpu.get(index).intf.nmi_int; }
@@ -662,13 +662,13 @@ public class cpuintrf {
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
     /*TODO*///	SETSP(cpunum,val);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////* these are available externally, for the timer system */
-    /*TODO*///public static int cycles_currently_ran()
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return cycles_running - ICOUNT(cpunum);
-    /*TODO*///}
+    
+    /* these are available externally, for the timer system */
+    public static int cycles_currently_ran()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return cycles_running - ICOUNT(cpunum);
+    }
     /*TODO*///
     /*TODO*///int cycles_left_to_run(void)
     /*TODO*///{
@@ -690,14 +690,14 @@ public class cpuintrf {
     /*TODO*///  of wraparound).
     /*TODO*///
     /*TODO*///***************************************************************************/
-    /*TODO*///public static int cpu_gettotalcycles()
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return cpu.get(cpunum).totalcycles + cycles_currently_ran();
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    public static int cpu_gettotalcycles()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return cpu.get(cpunum).totalcycles + cycles_currently_ran();
+    }
+    
+    
+    
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Returns the number of CPU cycles before the next interrupt handler call

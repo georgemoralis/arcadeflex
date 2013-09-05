@@ -1154,6 +1154,11 @@ public class z80 extends cpu_interface {
     /*TODO*///	_R2 = _A & 0x80;				/* keep bit 7 of R */		\
     /*TODO*///}
     /*TODO*///
+     public void LD_R_A()
+     {
+         Z80.R = Z80.AF.H;
+         Z80.R2= Z80.AF.H & 0x80;
+     }
     /*TODO*////***************************************************************
     /*TODO*/// * LD	A,R
     /*TODO*/// ***************************************************************/
@@ -3562,7 +3567,7 @@ public class z80 extends cpu_interface {
         ADD(cpu_readmem16((int)EA) & 0xFF);
     }};
   
-    opcode fd_8e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_8e = new opcode() { public void handler(){ EAY(); ADC(RM(EA));}};
     opcode fd_94 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode fd_95 = new opcode() { public void handler()
     { 
@@ -3723,7 +3728,7 @@ public class z80 extends cpu_interface {
             
     }};
   
-    opcode ed_4f = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_4f = new opcode() { public void handler(){ LD_R_A();}};
     opcode ed_50 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_51 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_52 = new opcode() { public void handler()/* SBC  HL,DE 	  */
@@ -3819,7 +3824,7 @@ public class z80 extends cpu_interface {
     opcode ed_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_a3 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     
-    opcode ed_a8 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a8 = new opcode() { public void handler(){ LDD();}};
     opcode ed_a9 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode ed_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
