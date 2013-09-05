@@ -36,7 +36,7 @@ import static drivers.system1.*;
 import static drivers.gberet.*;
 import static drivers.locomotn.*;
 import static drivers.pooyan.*;
-
+import static drivers.frogger.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -167,10 +167,10 @@ public class driver {
 /*TODO*/ //	DRIVER( hustler )	/* GX343 (c) 1981 Konami */
 /*TODO*/ //	DRIVER( billiard )	/* bootleg */
 /*TODO*/ //	DRIVER( hustlerb )	/* bootleg */
-/*TODO*/ //	DRIVER( frogger )	/* GX392 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( frogseg1 )	/* (c) 1981 Sega */
-/*TODO*/ //	DRIVER( frogseg2 )	/* 834-0068 (c) 1981 Sega */
-/*TODO*/ //	DRIVER( froggrmc )	/* 800-3110 (c) 1981 Sega */
+            driver_frogger ,	/* GX392 (c) 1981 Konami */
+            driver_frogseg1 ,	/* (c) 1981 Sega */
+            driver_frogseg2 ,	/* 834-0068 (c) 1981 Sega */
+            driver_froggrmc ,	/* 800-3110 (c) 1981 Sega */
 /*TODO*/ //	DRIVER( amidar )	/* GX337 (c) 1981 Konami */
 /*TODO*/ //	DRIVER( amidaru )	/* GX337 (c) 1982 Konami + Stern license */
 /*TODO*/ //	DRIVER( amidaro )	/* GX337 (c) 1982 Konami + Olympia license */
