@@ -2994,7 +2994,7 @@ public class z80 extends cpu_interface {
         cpu_writemem16((int)(EA + 1) & 0xffff, Z80.IX.H);
     }};
     
-    opcode dd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_24 = new opcode() { public void handler(){ Z80.IX.SetH(INC(Z80.IX.H));}};
     opcode dd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_26 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
   
@@ -3006,7 +3006,7 @@ public class z80 extends cpu_interface {
         Z80.IX.SetH((cpu_readmem16((EA + 1) & 0xffff)& 0xFF));
     }};
 
-    opcode dd_2c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2c = new opcode() { public void handler(){ Z80.IX.SetL(INC(Z80.IX.L));}};
     opcode dd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_34 = new opcode() { public void handler()
@@ -3424,7 +3424,7 @@ public class z80 extends cpu_interface {
     }};
     
     opcode fd_24 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode fd_25 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode fd_25 = new opcode() { public void handler(){ Z80.IY.SetH(DEC(Z80.IY.H));}};
     opcode fd_26 = new opcode() { public void handler()
     { 
     //_HY = ARG();

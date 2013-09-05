@@ -35,6 +35,8 @@ import static drivers._1942.*;
 import static drivers.system1.*;
 import static drivers.gberet.*;
 import static drivers.locomotn.*;
+import static drivers.pooyan.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1617,9 +1619,9 @@ public class driver {
 /*TODO*/ //	DRIVER( junofrst )	/* GX310 (c) 1983 Konami */
 
 	/* Konami games */
-/*TODO*/ //	DRIVER( pooyan )	/* GX320 (c) 1982 */
-/*TODO*/ //	DRIVER( pooyans )	/* GX320 (c) 1982 Stern */
-/*TODO*/ //	DRIVER( pootan )	/* bootleg */
+        driver_pooyan,	/* GX320 (c) 1982 */
+        driver_pooyans,	/* GX320 (c) 1982 Stern */
+        driver_pootan,	/* bootleg */
 /*TODO*/ //	DRIVER( timeplt )	/* GX393 (c) 1982 */
 /*TODO*/ //	DRIVER( timepltc )	/* GX393 (c) 1982 + Centuri license*/
 /*TODO*/ //	DRIVER( spaceplt )	/* bootleg */
