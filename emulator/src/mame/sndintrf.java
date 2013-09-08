@@ -12,6 +12,8 @@ import static mame.timerH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import sound.CustomSound;
+import sound._3526intf;
+import sound._3812intf;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -201,10 +203,6 @@ public class sndintrf {
     /*TODO*////*TODO*///#if (HAS_TIA)
     /*TODO*////*TODO*///int TIA_clock(const struct MachineSound *msound) { return ((struct TIAinterface*)msound->sound_interface)->baseclock; }
     /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_YM3812)
-    /*TODO*////*TODO*///int YM3812_clock(const struct MachineSound *msound) { return ((struct YM3812interface*)msound->sound_interface)->baseclock; }
-    /*TODO*////*TODO*///int YM3812_num(const struct MachineSound *msound) { return ((struct YM3812interface*)msound->sound_interface)->num; }
-    /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_VLM5030)
     /*TODO*////*TODO*///int VLM5030_clock(const struct MachineSound *msound) { return ((struct VLM5030interface*)msound->sound_interface)->baseclock; }
     /*TODO*////*TODO*///#endif
@@ -377,32 +375,9 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-           /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_YM3812)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_YM3812,
-    /*TODO*////*TODO*///		"YM-3812",
-    /*TODO*////*TODO*///		YM3812_num,
-    /*TODO*////*TODO*///		YM3812_clock,
-    /*TODO*////*TODO*///		YM3812_sh_start,
-    /*TODO*////*TODO*///		YM3812_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-            /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_YM3526)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_YM3526,
-    /*TODO*////*TODO*///		"YM-3526",
-    /*TODO*////*TODO*///		YM3812_num,
-    /*TODO*////*TODO*///		YM3812_clock,
-    /*TODO*////*TODO*///		YM3812_sh_start,
-    /*TODO*////*TODO*///		YM3812_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+              new _3812intf(),
+              new _3526intf(),
+
              /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_Y8950)
     /*TODO*////*TODO*///	{

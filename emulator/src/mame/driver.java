@@ -37,6 +37,7 @@ import static drivers.gberet.*;
 import static drivers.locomotn.*;
 import static drivers.pooyan.*;
 import static drivers.frogger.*;
+import static drivers.snk.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2013,10 +2014,10 @@ public class driver {
 /*TODO*/ //	DRIVER( hal21 )		/*            (c) 1985 */
 /*TODO*/ //	DRIVER( hal21j )	/*            (c) 1985 (Japan) */
 /*TODO*/ //	DRIVER( aso )		/*            (c) 1985 */
-/*TODO*/ //	DRIVER( tnk3 )		/* A5001      (c) 1985 */
-/*TODO*/ //	DRIVER( tnk3j )		/* A5001      (c) 1985 */
-/*TODO*/ //	DRIVER( athena )	/*       'UP' (c) 1986 */
-/*TODO*/ //	DRIVER( fitegolf )	/*       'GU' (c) 1988 */
+        driver_tnk3,		/* A5001      (c) 1985 */
+        driver_tnk3j,		/* A5001      (c) 1985 */
+        driver_athena,	        /*       'UP' (c) 1986 */
+        driver_fitegolf,	/*       'GU' (c) 1988 */
 /*TODO*/ //	DRIVER( ikari )		/* A5004 'IW' (c) 1986 */
 /*TODO*/ //	DRIVER( ikarijp )	/* A5004 'IW' (c) 1986 (Japan) */
 /*TODO*/ //	DRIVER( ikarijpb )	/* bootleg */

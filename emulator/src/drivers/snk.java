@@ -20,7 +20,8 @@ import static arcadeflex.libc_old.*;
 import static mame.mame.*;
 import static cpu.z80.z80H.*;
 import static drivers.hal21.*;
-
+import static sound._3812intfH.*;
+import static sound._3526intf.*;
 
 public class snk {
     /*********************************************************************/
@@ -129,37 +130,41 @@ public class snk {
     	return 0;
     }
     
-    /*TODO*////*********************************************************************/
-    /*TODO*///
-    /*TODO*///static void snk_sound_register_w( int offset, int data ){
-    /*TODO*///	snk_sound_register &= (data>>4);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int snk_sound_register_r( int offset ){
-    /*TODO*///	return snk_sound_register;// | 0x2; /* hack; lets chopper1 play music */
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void snk_sound_callback0_w( int state ){ /* ? */
-    /*TODO*///	if( state ) snk_sound_register |= 0x01;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void snk_sound_callback1_w( int state ){ /* ? */
-    /*TODO*///	if( state ) snk_sound_register |= 0x02;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static struct YM3526interface ym3526_interface = {
-    /*TODO*///	1,			/* number of chips */
-    /*TODO*///	4000000,	/* 4 MHz */
-    /*TODO*///	{ 50 },		/* mixing level */
-    /*TODO*///	{ snk_sound_callback0_w } /* ? */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct YM3526interface ym3526_ym3526_interface = {
-    /*TODO*///	2,			/* number of chips */
-    /*TODO*///	4000000,	/* 4 MHz */
-    /*TODO*///	{ 50,50 },	/* mixing level */
-    /*TODO*///	{ snk_sound_callback0_w, snk_sound_callback1_w } /* ? */
-    /*TODO*///};
+    /*********************************************************************/
+    public static WriteHandlerPtr snk_sound_register_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        snk_sound_register &= (data>>4);
+    }};
+
+    public static ReadHandlerPtr snk_sound_register_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        return snk_sound_register;// | 0x2; /* hack; lets chopper1 play music */
+    }};
+ 
+    public static WriteYmHandlerPtr snk_sound_callback0_w = new WriteYmHandlerPtr() { public void handler(int state)
+    {
+        if( state!=0 ) snk_sound_register |= 0x01;
+    }};
+    public static WriteYmHandlerPtr snk_sound_callback1_w = new WriteYmHandlerPtr() { public void handler(int state)
+    {
+        if( state!=0 ) snk_sound_register |= 0x02;
+    }};
+   
+    static YM3526interface ym3526_interface = new YM3526interface
+    (
+    	1,			/* number of chips */
+    	4000000,	/* 4 MHz */
+    	new int[]{ 50 },		/* mixing level */
+    	new WriteYmHandlerPtr[]{ snk_sound_callback0_w } /* ? */
+    );
+    
+    static YM3526interface ym3526_ym3526_interface  = new YM3526interface
+    (
+    	2,			/* number of chips */
+    	4000000,	/* 4 MHz */
+    	new int[]{ 50,50 },	/* mixing level */
+    	new WriteYmHandlerPtr[]{ snk_sound_callback0_w, snk_sound_callback1_w } /* ? */
+    );
     /*TODO*///
     /*TODO*///static struct Y8950interface y8950_interface = {
     /*TODO*///	1,			/* number of chips */
@@ -217,27 +222,26 @@ public class snk {
 		new MemoryWriteAddress( 0xe001, 0xe001, YM3526_write_port_0_w ),
 		new MemoryWriteAddress( -1 )
 	};
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress YM3526_YM3526_readmem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MRA_RAM },
-    /*TODO*///	{ 0xe000, 0xe000, soundlatch_r },
-    /*TODO*///	{ 0xe800, 0xe800, YM3526_status_port_0_r },
-    /*TODO*///	{ 0xf000, 0xf000, YM3526_status_port_1_r },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_r },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress YM3526_YM3526_writemem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MWA_RAM },
-    /*TODO*///	{ 0xe800, 0xe800, YM3526_control_port_0_w },
-    /*TODO*///	{ 0xec00, 0xec00, YM3526_write_port_0_w },
-    /*TODO*///	{ 0xf000, 0xf000, YM3526_control_port_1_w },
-    /*TODO*///	{ 0xf400, 0xf400, YM3526_write_port_1_w },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
+	static MemoryReadAddress YM3526_YM3526_readmem_sound[] ={
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, MRA_RAM ),
+		new MemoryReadAddress( 0xe000, 0xe000, soundlatch_r ),
+		new MemoryReadAddress( 0xe800, 0xe800, YM3526_status_port_0_r ),
+		new MemoryReadAddress( 0xf000, 0xf000, YM3526_status_port_1_r ),
+		new MemoryReadAddress( 0xf800, 0xf800, snk_sound_register_r ),
+		new MemoryReadAddress( -1 )
+	};
+	
+	static MemoryWriteAddress YM3526_YM3526_writemem_sound[] ={
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, MWA_RAM ),
+		new MemoryWriteAddress( 0xe800, 0xe800, YM3526_control_port_0_w ),
+		new MemoryWriteAddress( 0xec00, 0xec00, YM3526_write_port_0_w ),
+		new MemoryWriteAddress( 0xf000, 0xf000, YM3526_control_port_1_w ),
+		new MemoryWriteAddress( 0xf400, 0xf400, YM3526_write_port_1_w ),
+		new MemoryWriteAddress( 0xf800, 0xf800, snk_sound_register_w ),
+		new MemoryWriteAddress( -1 )
+	};
     /*TODO*///
     /*TODO*///static struct MemoryReadAddress YM3526_Y8950_readmem_sound[] = {
     /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
@@ -779,7 +783,7 @@ public class snk {
 		tnk3_vh_screenrefresh,
 	
 		/* sound hardware */
-		null,0,0,0,
+		0,0,0,0,
 		new MachineSound[] {
                     new MachineSound
                     (	
@@ -788,56 +792,57 @@ public class snk {
 		    )
 		}
 	);
-    /*TODO*///static struct MachineDriver machine_driver_athena =
-    /*TODO*////* mostly identical to TNK3, but with an aditional YM3526 */
-    /*TODO*///{
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			4000000, /* ? */
-    /*TODO*///			tnk3_readmem_cpuA,tnk3_writemem_cpuA,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			4000000, /* ? */
-    /*TODO*///			tnk3_readmem_cpuB,tnk3_writemem_cpuB,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-    /*TODO*///			4000000,	/* 4 Mhz (?) */
-    /*TODO*///			YM3526_YM3526_readmem_sound,YM3526_YM3526_writemem_sound,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///
-    /*TODO*///	},
-    /*TODO*///	60, DEFAULT_REAL_60HZ_VBLANK_DURATION,
-    /*TODO*///	600,	/* CPU slices per frame */
-    /*TODO*///	0, /* init machine */
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	36*8, 28*8, { 0*8, 36*8-1, 1*8, 28*8-1 },
-    /*TODO*///
-    /*TODO*///	athena_gfxdecodeinfo,
-    /*TODO*///	1024,1024,
-    /*TODO*///	aso_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER,
-    /*TODO*///	0,
-    /*TODO*///	snk_vh_start,
-    /*TODO*///	snk_vh_stop,
-    /*TODO*///	tnk3_vh_screenrefresh,  //athena_vh...
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_YM3526,
-    /*TODO*///			&ym3526_ym3526_interface
-    /*TODO*///	    }
-    /*TODO*///	}
-    /*TODO*///};
+    	static MachineDriver machine_driver_athena = new MachineDriver
+	/* mostly identical to TNK3, but with an aditional YM3526 */
+	(
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				4000000, /* ? */
+				tnk3_readmem_cpuA,tnk3_writemem_cpuA,null,null,
+				interrupt,1
+			),
+			new MachineCPU(
+				CPU_Z80,
+				4000000, /* ? */
+				tnk3_readmem_cpuB,tnk3_writemem_cpuB,null,null,
+				interrupt,1
+			),
+			new MachineCPU(
+				CPU_Z80 | CPU_AUDIO_CPU,
+				4000000,	/* 4 Mhz (?) */
+				YM3526_YM3526_readmem_sound,YM3526_YM3526_writemem_sound,null,null,
+				interrupt,1
+			),
+	
+		},
+		60, DEFAULT_REAL_60HZ_VBLANK_DURATION,
+		600,	/* CPU slices per frame */
+		null, /* init machine */
+	
+		/* video hardware */
+		36*8, 28*8, new rectangle( 0*8, 36*8-1, 1*8, 28*8-1 ),
+	
+		athena_gfxdecodeinfo,
+		1024,1024,
+		aso_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER,
+		null,
+		snk_vh_start,
+		snk_vh_stop,
+		tnk3_vh_screenrefresh,  //athena_vh...
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_YM3526,
+				ym3526_ym3526_interface
+		    )
+		}
+	);
     /*TODO*///
     /*TODO*///static struct MachineDriver machine_driver_ikari =
     /*TODO*///{
@@ -2534,77 +2539,87 @@ public class snk {
     /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( athena )
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )  /* sound CPU status */
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x01, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x00, DEF_STR( Cabinet ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Cocktail ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x04, "Bonus Occurance" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "1st & every 2nd" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1st & 2nd only" )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	SNK_COINAGE
-    /*TODO*///
-    /*TODO*///	PORT_START /* DSW2 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x02, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "Hard" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hardest" )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Demo_Sounds ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, "Freeze" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "50k 100k" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "80k 160k" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "100k 200k" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Unused ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, "Energy" )
-    /*TODO*///	PORT_DIPSETTING(    0x80, "12" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "14" )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+    static InputPortPtr input_ports_athena = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN ); /* sound CPU status */
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 );
+	
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x04, 0x04, "Bonus Occurance" );
+		PORT_DIPSETTING(    0x04, "1st & every 2nd" );
+		PORT_DIPSETTING(    0x00, "1st & 2nd only" );
+		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x00, "5" );
+		
+                PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Coin_A") ); 
+		PORT_DIPSETTING(    0x00, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x10, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x20, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x30, DEF_STR( "1C_1C") ); 
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Coin_B") ); 
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_6C") );
+	
+		PORT_START();  /* DSW2 */
+		PORT_DIPNAME( 0x03, 0x02, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x03, "Easy" );
+		PORT_DIPSETTING(    0x02, "Normal" );
+		PORT_DIPSETTING(    0x01, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x04, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x08, "Freeze" );
+		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x30, "50k 100k" );
+		PORT_DIPSETTING(    0x20, "80k 160k" );
+		PORT_DIPSETTING(    0x10, "100k 200k" );
+		PORT_DIPSETTING(    0x00, "None" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x80, "Energy" );
+		PORT_DIPSETTING(    0x80, "12" );
+		PORT_DIPSETTING(    0x00, "14" );
+	INPUT_PORTS_END(); }}; 
+    
  	static InputPortPtr input_ports_tnk3 = new InputPortPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2875,85 +2890,85 @@ public class snk {
     /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( fitegolf )
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )  /* sound related? */
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START	/* DSW1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x01, "Continue?" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "Coin Up" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Standard" )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Flip_Screen ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x04, "Bonus?" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "Every?" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Only?" )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, "Lives?" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Coin_A ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 4C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( 3C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( 2C_1C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, DEF_STR( 1C_1C ) )
-    /*TODO*///	PORT_DIPNAME( 0xc0, 0x00, DEF_STR( Coin_B ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 1C_2C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 1C_3C ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 1C_4C ) )
-    /*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_6C ) )
-    /*TODO*///
-    /*TODO*///	PORT_START /* DSW2 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x03, "Difficulty?" )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "Hard" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hardest" )
-    /*TODO*///	PORT_DIPNAME( 0x0c, 0x0c, "Game Mode" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "Demo Sound Off" )
-    /*TODO*///	PORT_DIPSETTING(    0x0c, "Demo Sound On" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Freeze" )
-    /*TODO*///	PORT_BITX( 0,       0x04, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "Never Finish?", IP_KEY_NONE, IP_JOY_NONE )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, "Bonus?" )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "50k 100k?" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "60k 120k?" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "100k 200k?" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "None?" )
-    /*TODO*///	PORT_DIPNAME( 0x40, 0x40, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+	static InputPortPtr input_ports_fitegolf = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN ); /* sound related? */
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 );
+	
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_PLAYER2 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_PLAYER2 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_PLAYER2 );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x01, "Continue?" );
+		PORT_DIPSETTING(    0x01, "Coin Up" );
+		PORT_DIPSETTING(    0x00, "Standard" );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Flip_Screen") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x04, "Bonus?" );
+		PORT_DIPSETTING(    0x04, "Every?" );
+		PORT_DIPSETTING(    0x00, "Only?" );
+		PORT_DIPNAME( 0x08, 0x08, "Lives?" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Coin_A") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "4C_1C") );
+		PORT_DIPSETTING(    0x10, DEF_STR( "3C_1C") );
+		PORT_DIPSETTING(    0x20, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(    0x30, DEF_STR( "1C_1C") );
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Coin_B") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_3C") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_4C") );
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_6C") );
+	
+		PORT_START();  /* DSW2 */
+		PORT_DIPNAME( 0x03, 0x03, "Difficulty?" );
+		PORT_DIPSETTING(    0x03, "Easy" );
+		PORT_DIPSETTING(    0x02, "Normal" );
+		PORT_DIPSETTING(    0x01, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x0c, 0x0c, "Game Mode" );
+		PORT_DIPSETTING(    0x08, "Demo Sound Off" );
+		PORT_DIPSETTING(    0x0c, "Demo Sound On" );
+		PORT_DIPSETTING(    0x00, "Freeze" );
+		PORT_BITX( 0,       0x04, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "Never Finish?", IP_KEY_NONE, IP_JOY_NONE );
+		PORT_DIPNAME( 0x30, 0x30, "Bonus?" );
+		PORT_DIPSETTING(    0x30, "50k 100k?" );
+		PORT_DIPSETTING(    0x20, "60k 120k?" );
+		PORT_DIPSETTING(    0x10, "100k 200k?" );
+		PORT_DIPSETTING(    0x00, "None?" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+
     /*TODO*///INPUT_PORTS_START( ftsoccer )
     /*TODO*///	PORT_START
     /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
@@ -3179,16 +3194,16 @@ public class snk {
     /*TODO*///
     /*TODO*////* input port configuration */
     /*TODO*///
-    /*TODO*///const SNK_INPUT_PORT_TYPE athena_io[SNK_MAX_INPUT_PORTS] = {
-    /*TODO*///	/* c000 */ SNK_INP0,
-    /*TODO*///	/* c100 */ SNK_INP1,	SNK_UNUSED,
-    /*TODO*///	/* c200 */ SNK_INP2,	SNK_UNUSED,
-    /*TODO*///	/* c300 */ SNK_UNUSED,	SNK_UNUSED,
-    /*TODO*///	/* c400 */ SNK_UNUSED,	SNK_UNUSED,
-    /*TODO*///	/* c500 */ SNK_INP3,	SNK_UNUSED,
-    /*TODO*///	/* c600 */ SNK_INP4
-    /*TODO*///};
-    /*TODO*///
+    public static int[] athena_io = {
+    	/* c000 */ SNK_INP0,
+    	/* c100 */ SNK_INP1,	SNK_UNUSED,
+    	/* c200 */ SNK_INP2,	SNK_UNUSED,
+    	/* c300 */ SNK_UNUSED,	SNK_UNUSED,
+    	/* c400 */ SNK_UNUSED,	SNK_UNUSED,
+    	/* c500 */ SNK_INP3,	SNK_UNUSED,
+    	/* c600 */ SNK_INP4
+    };
+    
     public static int[] ikari_io = {
     	/* c000 */ SNK_INP0,
     	/* c100 */ SNK_ROT12_PLAYER1,	SNK_UNUSED,
@@ -3368,22 +3383,20 @@ public class snk {
             snk_bg_tilemap_baseaddr = 0xd800;
   
         }};
-    /*TODO*///
-    /*TODO*///static void init_athena( void ){
-    /*TODO*///	snk_sound_busy_bit = 0x01;
-    /*TODO*///	snk_io = athena_io;
-    /*TODO*///	hard_flags = 0;
-    /*TODO*///	gwar_sprite_placement=0;
-    /*TODO*///	snk_bg_tilemap_baseaddr = 0xd800;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void init_fitegolf( void ){
-    /*TODO*///	snk_sound_busy_bit = 0x01;
-    /*TODO*///	snk_io = athena_io;
-    /*TODO*///	hard_flags = 0;
-    /*TODO*///	gwar_sprite_placement=0;
-    /*TODO*///	snk_bg_tilemap_baseaddr = 0xd800;
-    /*TODO*///}
+    public static InitDriverPtr init_athena = new InitDriverPtr() { public void handler() {
+    	snk_sound_busy_bit = 0x01;
+    	snk_io = athena_io;
+    	hard_flags = 0;
+    	gwar_sprite_placement=0;
+    	snk_bg_tilemap_baseaddr = 0xd800;
+    }};
+    public static InitDriverPtr init_fitegolf = new InitDriverPtr() { public void handler() {
+    	snk_sound_busy_bit = 0x01;
+    	snk_io = athena_io;
+    	hard_flags = 0;
+    	gwar_sprite_placement=0;
+    	snk_bg_tilemap_baseaddr = 0xd800;
+    }};
     /*TODO*///
     /*TODO*///static void init_psychos( void ){
     /*TODO*///	snk_sound_busy_bit = 0x01;
@@ -3394,9 +3407,9 @@ public class snk {
     /*TODO*///}
 
     public static GameDriver driver_tnk3	   = new GameDriver("1985"	,"tnk3"	,"snk.java"	,rom_tnk3,null	,machine_driver_tnk3	,input_ports_tnk3	,init_tnk3	,ROT270	,	"SNK", "TNK III (US?)", GAME_NO_COCKTAIL );
-    /*TODO*///GAMEX( 1985, tnk3j,    tnk3,     tnk3,     tnk3,     tnk3,     ROT270,       "SNK", "Tank (Japan)", GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1986, athena,   0,        athena,   athena,   athena,   ROT0_16BIT,   "SNK", "Athena", GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1988, fitegolf, 0,        athena,   fitegolf, fitegolf, ROT0,         "SNK", "Fighting Golf", GAME_NO_COCKTAIL )
+    public static GameDriver driver_tnk3j	   = new GameDriver("1985"	,"tnk3j"	,"snk.java"	,rom_tnk3j,driver_tnk3	,machine_driver_tnk3	,input_ports_tnk3	,init_tnk3	,ROT270	,	"SNK", "Tank (Japan)", GAME_NO_COCKTAIL );
+    public static GameDriver driver_athena	   = new GameDriver("1986"	,"athena"	,"snk.java"	,rom_athena,null	,machine_driver_athena	,input_ports_athena	,init_athena	,ROT0_16BIT	,	"SNK", "Athena", GAME_NO_COCKTAIL );
+    public static GameDriver driver_fitegolf	   = new GameDriver("1988"	,"fitegolf"	,"snk.java"	,rom_fitegolf,null	,machine_driver_athena	,input_ports_fitegolf	,init_fitegolf	,ROT0	,	"SNK", "Fighting Golf", GAME_NO_COCKTAIL );
     /*TODO*///GAMEX( 1986, ikari,    0,        ikari,    ikari,    ikari,    ROT270,       "SNK", "Ikari Warriors (US)", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1986, ikarijp,  ikari,    ikari,    ikarijp,  ikarijp,  ROT270,       "SNK", "Ikari Warriors (Japan)", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1986, ikarijpb, ikari,    ikari,    ikarijp,  ikarijpb, ROT270,       "bootleg", "Ikari Warriors (Japan bootleg)", GAME_NO_COCKTAIL )
