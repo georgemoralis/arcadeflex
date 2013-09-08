@@ -262,6 +262,10 @@ public class inputportH {
    {
        
    }
+   public static void PORT_ANALOGX(int mask,int default_value,int type,int sensitivity,int delta,int min,int max,int keydec,int keyinc,int joydec,int joyinc)
+   {
+       
+   }
 /*TODO*///#define PORT_ANALOG(mask,default,type,sensitivity,delta,min,max) \
 /*TODO*///	{ mask, default, type, IP_NAME_DEFAULT }, \
 /*TODO*///	{ min, max, IPT_EXTENSION | IPF_SENSITIVITY(sensitivity) | IPF_DELTA(delta), IP_NAME_DEFAULT },

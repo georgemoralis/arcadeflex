@@ -563,6 +563,10 @@ public class libc_old {
         public CharPtr(CharPtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
+        public CharPtr(UBytePtr cp,int b)
+        {
+            set(cp.memory,cp.base+b);
+        }
 
         public void set(char[] m, int b) {
             memory = m;
