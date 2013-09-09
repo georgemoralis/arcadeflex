@@ -2023,10 +2023,10 @@ public class driver {
 /*TODO*/ //	DRIVER( ikarijpb )	/* bootleg */
 /*TODO*/ //	DRIVER( victroad )	/*            (c) 1986 */
 /*TODO*/ //	DRIVER( dogosoke )	/*            (c) 1986 */
-/*TODO*/ //	DRIVER( gwar )		/* A7003 'GV' (c) 1987 */
-/*TODO*/ //	DRIVER( gwarj )		/* A7003 'GV' (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( gwara )		/* A7003 'GV' (c) 1987 */
-/*TODO*/ //	DRIVER( gwarb )		/* bootleg */
+        driver_gwar,		/* A7003 'GV' (c) 1987 */
+        driver_gwarj,		/* A7003 'GV' (c) 1987 (Japan) */
+        driver_gwara,		/* A7003 'GV' (c) 1987 */
+        driver_gwarb,		/* bootleg */
 /*TODO*/ //	DRIVER( bermudat )	/* A6003 'WW' (c) 1987 */
 /*TODO*/ //	DRIVER( bermudaj )	/* A6003 'WW' (c) 1987 */
 /*TODO*/ //	DRIVER( bermudaa )	/* A6003 'WW' (c) 1987 */

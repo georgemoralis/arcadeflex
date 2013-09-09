@@ -451,47 +451,47 @@ public class snk
 /*TODO*///
 /*TODO*////**************************************************************/
 /*TODO*///
-/*TODO*///static void tdfever_draw_background( struct osd_bitmap *bitmap,
-/*TODO*///		int xscroll, int yscroll )
-/*TODO*///{
-/*TODO*///	const struct GfxElement *gfx = Machine->gfx[GFX_TILES];
-/*TODO*///	const unsigned char *source = &memory_region(REGION_CPU1)[0xd000]; //d000
-/*TODO*///
-/*TODO*///	int offs;
-/*TODO*///	for( offs=0; offs<32*32*2; offs+=2 ){
-/*TODO*///		int tile_number = source[offs];
-/*TODO*///		unsigned char attributes = source[offs+1];
-/*TODO*///
-/*TODO*///		if( tile_number!=dirtybuffer[offs] ||
-/*TODO*///			attributes != dirtybuffer[offs+1] ){
-/*TODO*///
-/*TODO*///			int sy = ((offs/2)%32)*16;
-/*TODO*///			int sx = ((offs/2)/32)*16;
-/*TODO*///
-/*TODO*///			int color = (attributes>>4); /* color */
-/*TODO*///
-/*TODO*///			dirtybuffer[offs] = tile_number;
-/*TODO*///			dirtybuffer[offs+1] = attributes;
-/*TODO*///
-/*TODO*///			tile_number+=256*(attributes&0xf);
-/*TODO*///
-/*TODO*///			drawgfx(tmpbitmap,gfx,
-/*TODO*///				tile_number,
-/*TODO*///				color,
-/*TODO*///				0,0, /* no flip */
-/*TODO*///				sx,sy,
-/*TODO*///				0,TRANSPARENCY_NONE,0);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		struct rectangle clip = Machine->drv->visible_area;
-/*TODO*///		copyscrollbitmap(bitmap,tmpbitmap,
-/*TODO*///			1,&xscroll,1,&yscroll,
-/*TODO*///			&clip,
-/*TODO*///			TRANSPARENCY_NONE,0);
-/*TODO*///	}
-/*TODO*///}
+    static void tdfever_draw_background(osd_bitmap bitmap,
+                    int xscroll, int yscroll )
+    {
+            GfxElement gfx = Machine.gfx[GFX_TILES];
+            //const unsigned char *source = &memory_region(REGION_CPU1)[0xd000]; //d000
+            UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xd000);
+            int offs;
+            for( offs=0; offs<32*32*2; offs+=2 ){
+                    int tile_number = source.read(offs);
+                    /*unsigned*/ char attributes = source.read(offs+1);
+
+                    if( tile_number!=dirtybuffer[offs] ||
+                            attributes != dirtybuffer[offs+1] ){
+
+                            int sy = ((offs/2)%32)*16;
+                            int sx = ((offs/2)/32)*16;
+
+                            int color = (attributes>>4); /* color */
+
+                            dirtybuffer[offs] = (char)tile_number;
+                            dirtybuffer[offs+1] = attributes;
+
+                            tile_number+=256*(attributes&0xf);
+
+                            drawgfx(tmpbitmap,gfx,
+                                    tile_number,
+                                    color,
+                                    0,0, /* no flip */
+                                    sx,sy,
+                                    null,TRANSPARENCY_NONE,0);
+                    }
+            }
+
+            {
+                    rectangle clip = Machine.drv.visible_area;
+                    copyscrollbitmap(bitmap,tmpbitmap,
+                            1,new int[]{xscroll},1,new int[] {yscroll},
+                            clip,
+                            TRANSPARENCY_NONE,0);
+            }
+    }
 /*TODO*///
 /*TODO*///static void tdfever_draw_sprites( struct osd_bitmap *bitmap, int xscroll, int yscroll ){
 /*TODO*///	int transp_mode  = shadows_visible ? TRANSPARENCY_PEN : TRANSPARENCY_PENS;
@@ -525,34 +525,34 @@ public class snk
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///static void tdfever_draw_text( struct osd_bitmap *bitmap, int attributes, int dx, int dy, int base ){
-/*TODO*///	int bank = attributes>>4;
-/*TODO*///	int color = attributes&0xf;
-/*TODO*///
-/*TODO*///	const struct rectangle *clip = &Machine->drv->visible_area;
-/*TODO*///	const struct GfxElement *gfx = Machine->gfx[GFX_CHARS];
-/*TODO*///
-/*TODO*///	const unsigned char *source = &memory_region(REGION_CPU1)[base];
-/*TODO*///
-/*TODO*///	int offs;
-/*TODO*///
-/*TODO*///	int bank_offset = bank*256;
-/*TODO*///
-/*TODO*///	for( offs = 0;offs <0x800; offs++ ){
-/*TODO*///		int tile_number = source[offs];
-/*TODO*///		int sy = dx+(offs % 32)*8;
-/*TODO*///		int sx = dy+(offs / 32)*8;
-/*TODO*///
-/*TODO*///		if( source[offs] != 0x20 ){
-/*TODO*///			drawgfx(bitmap,gfx,
-/*TODO*///				tile_number + bank_offset,
-/*TODO*///				color,
-/*TODO*///				0,0, /* no flip */
-/*TODO*///				sx,sy,
-/*TODO*///				clip,TRANSPARENCY_PEN,15);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
+    static void tdfever_draw_text(osd_bitmap bitmap, int attributes, int dx, int dy, int base ){
+            int bank = attributes>>4;
+            int color = attributes&0xf;
+
+            rectangle clip = Machine.drv.visible_area;
+            GfxElement gfx = Machine.gfx[GFX_CHARS];
+
+            //const unsigned char *source = &memory_region(REGION_CPU1)[base];
+            UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),base);
+            int offs;
+
+            int bank_offset = bank*256;
+
+            for( offs = 0;offs <0x800; offs++ ){
+                    int tile_number = source.read(offs);
+                    int sy = dx+(offs % 32)*8;
+                    int sx = dy+(offs / 32)*8;
+
+                    if( source.read(offs) != 0x20 ){
+                            drawgfx(bitmap,gfx,
+                                    tile_number + bank_offset,
+                                    color,
+                                    0,0, /* no flip */
+                                    sx,sy,
+                                    clip,TRANSPARENCY_PEN,15);
+                    }
+            }
+    }
 /*TODO*///
 /*TODO*///void tdfever_vh_screenrefresh( struct osd_bitmap *bitmap, int fullrefresh ){
 /*TODO*///	const unsigned char *ram = memory_region(REGION_CPU1);
@@ -600,135 +600,137 @@ public class snk
 /*TODO*///		tdfever_draw_text( bitmap, text_attributes, 0,0, 0xf800 );
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*///static void gwar_draw_sprites_16x16( struct osd_bitmap *bitmap, int xscroll, int yscroll ){
-/*TODO*///	const struct GfxElement *gfx = Machine->gfx[GFX_SPRITES];
-/*TODO*///	const unsigned char *source = &memory_region(REGION_CPU1)[0xe800];
-/*TODO*///
-/*TODO*///	const struct rectangle *clip = &Machine->drv->visible_area;
-/*TODO*///
-/*TODO*///	int which;
-/*TODO*///	for( which=0; which<(64)*4; which+=4 )
-/*TODO*///	{
-/*TODO*///		int attributes = source[which+3]; /* YBBX.BCCC */
-/*TODO*///		int tile_number = source[which+1];
-/*TODO*///		int sy = -xscroll + source[which];
-/*TODO*///		int sx =  yscroll - source[which+2];
-/*TODO*///		if( attributes&0x10 ) sy += 256;
-/*TODO*///		if( attributes&0x80 ) sx -= 256;
-/*TODO*///
-/*TODO*///		if( attributes&0x08 ) tile_number += 256;
-/*TODO*///		if( attributes&0x20 ) tile_number += 512;
-/*TODO*///		if( attributes&0x40 ) tile_number += 1024;
-/*TODO*///
-/*TODO*///		sy &= 0x1ff; if( sy>512-16 ) sy-=512;
-/*TODO*///		sx = (-sx)&0x1ff; if( sx>512-16 ) sx-=512;
-/*TODO*///
-/*TODO*///		drawgfx(bitmap,gfx,
-/*TODO*///			tile_number,
-/*TODO*///			(attributes&7), /* color */
-/*TODO*///			0,0, /* flip */
-/*TODO*///			sx,sy,
-/*TODO*///			clip,TRANSPARENCY_PEN,15 );
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///void gwar_draw_sprites_32x32( struct osd_bitmap *bitmap, int xscroll, int yscroll ){
-/*TODO*///	const struct GfxElement *gfx = Machine->gfx[GFX_BIGSPRITES];
-/*TODO*///	const unsigned char *source = &memory_region(REGION_CPU1)[0xe000];
-/*TODO*///
-/*TODO*///	const struct rectangle *clip = &Machine->drv->visible_area;
-/*TODO*///
-/*TODO*///	int which;
-/*TODO*///	for( which=0; which<(32)*4; which+=4 )
-/*TODO*///	{
-/*TODO*///		int attributes = source[which+3];
-/*TODO*///		int tile_number = source[which+1] + 8*(attributes&0x60);
-/*TODO*///
-/*TODO*///		int sy = - xscroll + source[which];
-/*TODO*///		int sx = yscroll - source[which+2];
-/*TODO*///		if( attributes&0x10 ) sy += 256;
-/*TODO*///		if( attributes&0x80 ) sx -= 256;
-/*TODO*///
-/*TODO*///		sy = (sy&0x1ff);
-/*TODO*///		sx = ((-sx)&0x1ff);
-/*TODO*///		if( sy>512-32 ) sy-=512;
-/*TODO*///		if( sx>512-32 ) sx-=512;
-/*TODO*///
-/*TODO*///		drawgfx(bitmap,gfx,
-/*TODO*///			tile_number,
-/*TODO*///			(attributes&0xf), /* color */
-/*TODO*///			0,0, /* no flip */
-/*TODO*///			sx,sy,
-/*TODO*///			clip,TRANSPARENCY_PEN,15);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+
+    static void gwar_draw_sprites_16x16(osd_bitmap bitmap, int xscroll, int yscroll ){
+            GfxElement gfx = Machine.gfx[GFX_SPRITES];
+            //const unsigned char *source = &memory_region(REGION_CPU1)[0xe800];
+            UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe800);
+            
+            rectangle clip = Machine.drv.visible_area;
+
+            int which;
+            for( which=0; which<(64)*4; which+=4 )
+            {
+                    int attributes = source.read(which+3); /* YBBX.BCCC */
+                    int tile_number = source.read(which+1);
+                    int sy = -xscroll + source.read(which);
+                    int sx =  yscroll - source.read(which+2);
+                    if(( attributes&0x10 )!=0) sy += 256;
+                    if(( attributes&0x80 )!=0) sx -= 256;
+
+                    if(( attributes&0x08 )!=0) tile_number += 256;
+                    if(( attributes&0x20 )!=0) tile_number += 512;
+                    if(( attributes&0x40 )!=0) tile_number += 1024;
+
+                    sy &= 0x1ff; if( sy>512-16 ) sy-=512;
+                    sx = (-sx)&0x1ff; if( sx>512-16 ) sx-=512;
+
+                    drawgfx(bitmap,gfx,
+                            tile_number,
+                            (attributes&7), /* color */
+                            0,0, /* flip */
+                            sx,sy,
+                            clip,TRANSPARENCY_PEN,15 );
+            }
+    }
+
+    public static void gwar_draw_sprites_32x32(osd_bitmap bitmap, int xscroll, int yscroll ){
+            GfxElement gfx = Machine.gfx[GFX_BIGSPRITES];
+            //const unsigned char *source = &memory_region(REGION_CPU1)[0xe000];
+            UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe000);
+            
+            rectangle clip = Machine.drv.visible_area;
+
+            int which;
+            for( which=0; which<(32)*4; which+=4 )
+            {
+                    int attributes = source.read(which+3);
+                    int tile_number = source.read(which+1) + 8*(attributes&0x60);
+
+                    int sy = - xscroll + source.read(which);
+                    int sx = yscroll - source.read(which+2);
+                    if(( attributes&0x10 )!=0) sy += 256;
+                    if(( attributes&0x80 )!=0) sx -= 256;
+
+                    sy = (sy&0x1ff);
+                    sx = ((-sx)&0x1ff);
+                    if( sy>512-32 ) sy-=512;
+                    if( sx>512-32 ) sx-=512;
+
+                    drawgfx(bitmap,gfx,
+                            tile_number,
+                            (attributes&0xf), /* color */
+                            0,0, /* no flip */
+                            sx,sy,
+                            clip,TRANSPARENCY_PEN,15);
+            }
+    }
+
      public static VhUpdatePtr gwar_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
      {     
 
-/*TODO*///	const unsigned char *ram = memory_region(REGION_CPU1);
-/*TODO*///	unsigned char bg_attributes, sp_attributes;
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		int bg_scroll_y, bg_scroll_x;
-/*TODO*///
-/*TODO*///		if( gwar_sprite_placement==2 ) { /* Gwar alternate */
-/*TODO*///			bg_attributes = ram[0xf880];
-/*TODO*///			sp_attributes = ram[0xfa80];
-/*TODO*///			bg_scroll_y = - ram[0xf800] - ((bg_attributes&0x01)?256:0);
-/*TODO*///			bg_scroll_x  = 16 - ram[0xf840] - ((bg_attributes&0x02)?256:0);
-/*TODO*///		} else {
-/*TODO*///			bg_attributes = ram[0xc880];
-/*TODO*///			sp_attributes = ram[0xcac0];
-/*TODO*///			bg_scroll_y = - ram[0xc800] - ((bg_attributes&0x01)?256:0);
-/*TODO*///			bg_scroll_x  = 16 - ram[0xc840] - ((bg_attributes&0x02)?256:0);
-/*TODO*///		}
-/*TODO*///		tdfever_draw_background( bitmap, bg_scroll_x, bg_scroll_y );
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		int sp16_y = ram[0xc900]+15;
-/*TODO*///		int sp16_x = ram[0xc940]+8;
-/*TODO*///		int sp32_y = ram[0xc980]+31;
-/*TODO*///		int sp32_x = ram[0xc9c0]+8;
-/*TODO*///
-/*TODO*///		if( gwar_sprite_placement ) /* gwar */
-/*TODO*///		{
-/*TODO*///			if( bg_attributes&0x10 ) sp16_y += 256;
-/*TODO*///			if( bg_attributes&0x40 ) sp16_x += 256;
-/*TODO*///			if( bg_attributes&0x20 ) sp32_y += 256;
-/*TODO*///			if( bg_attributes&0x80 ) sp32_x += 256;
-/*TODO*///		}
-/*TODO*///		else{ /* psychos, bermudet, chopper1... */
-/*TODO*///			unsigned char spp_attributes = ram[0xca80];
-/*TODO*///			if( spp_attributes&0x04 ) sp16_y += 256;
-/*TODO*///			if( spp_attributes&0x08 ) sp32_y += 256;
-/*TODO*///			if( spp_attributes&0x10 ) sp16_x += 256;
-/*TODO*///			if( spp_attributes&0x20 ) sp32_x += 256;
-/*TODO*///		}
-/*TODO*///		if (sp_attributes & 0x20)
-/*TODO*///		{
-/*TODO*///			gwar_draw_sprites_16x16( bitmap, sp16_y, sp16_x );
-/*TODO*///			gwar_draw_sprites_32x32( bitmap, sp32_y, sp32_x );
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			gwar_draw_sprites_32x32( bitmap, sp32_y, sp32_x );
-/*TODO*///			gwar_draw_sprites_16x16( bitmap, sp16_y, sp16_x );
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		if( gwar_sprite_placement==2) { /* Gwar alternate */
-/*TODO*///			unsigned char text_attributes = ram[0xf8c0];
-/*TODO*///			tdfever_draw_text( bitmap, text_attributes,0,0, 0xc800 );
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			unsigned char text_attributes = ram[0xc8c0];
-/*TODO*///			tdfever_draw_text( bitmap, text_attributes,0,0, 0xf800 );
-/*TODO*///		}
-/*TODO*///	}
+	UBytePtr ram = memory_region(REGION_CPU1);
+	/*unsigned*/ char bg_attributes, sp_attributes;
+
+	{
+		int bg_scroll_y, bg_scroll_x;
+
+		if( gwar_sprite_placement==2 ) { /* Gwar alternate */
+			bg_attributes = ram.read(0xf880);
+			sp_attributes = ram.read(0xfa80);
+			bg_scroll_y = - ram.read(0xf800) - ((bg_attributes&0x01)!=0?256:0);
+			bg_scroll_x  = 16 - ram.read(0xf840) - ((bg_attributes&0x02)!=0?256:0);
+		} else {
+			bg_attributes = ram.read(0xc880);
+			sp_attributes = ram.read(0xcac0);
+			bg_scroll_y = - ram.read(0xc800) - ((bg_attributes&0x01)!=0?256:0);
+			bg_scroll_x  = 16 - ram.read(0xc840) - ((bg_attributes&0x02)!=0?256:0);
+		}
+		tdfever_draw_background( bitmap, bg_scroll_x, bg_scroll_y );
+	}
+
+	{
+		int sp16_y = ram.read(0xc900)+15;
+		int sp16_x = ram.read(0xc940)+8;
+		int sp32_y = ram.read(0xc980)+31;
+		int sp32_x = ram.read(0xc9c0)+8;
+
+		if( gwar_sprite_placement!=0 ) /* gwar */
+		{
+			if(( bg_attributes&0x10 )!=0) sp16_y += 256;
+			if(( bg_attributes&0x40 )!=0) sp16_x += 256;
+			if(( bg_attributes&0x20 )!=0) sp32_y += 256;
+			if(( bg_attributes&0x80 )!=0) sp32_x += 256;
+		}
+		else{ /* psychos, bermudet, chopper1... */
+			/*unsigned*/ char spp_attributes = ram.read(0xca80);
+			if(( spp_attributes&0x04 )!=0) sp16_y += 256;
+			if(( spp_attributes&0x08 )!=0) sp32_y += 256;
+			if(( spp_attributes&0x10 )!=0) sp16_x += 256;
+			if(( spp_attributes&0x20 )!=0) sp32_x += 256;
+		}
+		if ((sp_attributes & 0x20)!=0)
+		{
+			gwar_draw_sprites_16x16( bitmap, sp16_y, sp16_x );
+			gwar_draw_sprites_32x32( bitmap, sp32_y, sp32_x );
+		}
+		else {
+			gwar_draw_sprites_32x32( bitmap, sp32_y, sp32_x );
+			gwar_draw_sprites_16x16( bitmap, sp16_y, sp16_x );
+		}
+	}
+
+	{
+		if( gwar_sprite_placement==2) { /* Gwar alternate */
+			/*unsigned*/ char text_attributes = ram.read(0xf8c0);
+			tdfever_draw_text( bitmap, text_attributes,0,0, 0xc800 );
+		}
+		else {
+			/*unsigned*/ char text_attributes = ram.read(0xc8c0);
+			tdfever_draw_text( bitmap, text_attributes,0,0, 0xf800 );
+		}
+	}
      }};
-/*TODO*///
-/*TODO*///
+
+
 }

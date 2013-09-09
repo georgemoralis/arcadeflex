@@ -2481,63 +2481,91 @@ public class snk {
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( gwar )
-    /*TODO*///	PORT_START
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN ) 	/* sound related ??? */
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* causes reset */
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 )
-    /*TODO*///
-    /*TODO*///	SNK_JOY1_PORT
-    /*TODO*///
-    /*TODO*///	SNK_JOY2_PORT
-    /*TODO*///
-    /*TODO*///	SNK_BUTTON_PORT
-    /*TODO*///
-    /*TODO*///	PORT_START /* DSW 1 */
-    /*TODO*///	PORT_DIPNAME( 0x01, 0x01, "Allow Continue" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( No ) )
-    /*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Yes ) )
-    /*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Flip_Screen ) )
-    /*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x04, "Bonus Occurance" )
-    /*TODO*///	PORT_DIPSETTING(    0x04, "1st & every 2nd" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "1st & 2nd only" )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Lives ) )
-    /*TODO*///	PORT_DIPSETTING(    0x08, "3" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-    /*TODO*///	SNK_COINAGE
-    /*TODO*///
-    /*TODO*///	PORT_START /* DSW 2 */
-    /*TODO*///	PORT_DIPNAME( 0x03, 0x02, DEF_STR( Difficulty ) )
-    /*TODO*///	PORT_DIPSETTING(    0x03, "Easy" )
-    /*TODO*///	PORT_DIPSETTING(    0x02, "Normal" )
-    /*TODO*///	PORT_DIPSETTING(    0x01, "Hard" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "Hardest" )
-    /*TODO*///	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Demo_Sounds ) )
-    /*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x08, 0x08, "Freeze" )
-    /*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x30, 0x30, DEF_STR( Bonus_Life ) )
-    /*TODO*///	PORT_DIPSETTING(    0x30, "30k 50k" )
-    /*TODO*///	PORT_DIPSETTING(    0x20, "40k 80k" )
-    /*TODO*///	PORT_DIPSETTING(    0x10, "50k 100k" )
-    /*TODO*///	PORT_DIPSETTING(    0x00, "None" )
-    /*TODO*///	PORT_DIPNAME( 0x40 ,0x40, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///	PORT_DIPNAME( 0x80, 0x80, DEF_STR( Unknown ) )
-    /*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-    /*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+	static InputPortPtr input_ports_gwar = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );	/* sound related ??? */
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN3 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );/* causes reset */
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 );
+	
+		PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_ANALOGX( 0xf0, 0x00, IPT_DIAL, 25, 10, 0, 0, KEYCODE_Z, KEYCODE_X, 0, 0 );
+	
+		PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
+		PORT_ANALOGX( 0xf0, 0x00, IPT_DIAL | IPF_PLAYER2, 25, 10, 0, 0, KEYCODE_N, KEYCODE_M, 0, 0 );
+	
+		PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START();  /* DSW 1 */
+		PORT_DIPNAME( 0x01, 0x01, "Allow Continue" );
+		PORT_DIPSETTING(    0x00, DEF_STR( "No") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Yes") );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Flip_Screen") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x04, "Bonus Occurance" );
+		PORT_DIPSETTING(    0x04, "1st & every 2nd" );
+		PORT_DIPSETTING(    0x00, "1st & 2nd only" );
+		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x00, "5" );
+		
+                PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Coin_A") ); 
+		PORT_DIPSETTING(    0x00, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x10, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x20, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x30, DEF_STR( "1C_1C") ); 
+		PORT_DIPNAME( 0xc0, 0x00, DEF_STR( "Coin_B") ); 
+		PORT_DIPSETTING(    0x00, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0x40, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0x80, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_6C") );
+	
+		PORT_START();  /* DSW 2 */
+		PORT_DIPNAME( 0x03, 0x02, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x03, "Easy" );
+		PORT_DIPSETTING(    0x02, "Normal" );
+		PORT_DIPSETTING(    0x01, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x04, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x08, "Freeze" );
+		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x30, "30k 50k" );
+		PORT_DIPSETTING(    0x20, "40k 80k" );
+		PORT_DIPSETTING(    0x10, "50k 100k" );
+		PORT_DIPSETTING(    0x00, "None" );
+		PORT_DIPNAME( 0x40 ,0x40, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+        
     static InputPortPtr input_ports_athena = new InputPortPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN ); /* sound CPU status */
@@ -3318,15 +3346,15 @@ public class snk {
     	gwar_sprite_placement=1;
     	snk_bg_tilemap_baseaddr = 0xd800;
     }};
-    /*TODO*///
-    /*TODO*///static void init_gwara(void){
-    /*TODO*///	snk_sound_busy_bit = 0x01;
-    /*TODO*///	snk_io = ikari_io;
-    /*TODO*///	hard_flags = 0;
-    /*TODO*///	gwar_sprite_placement=2;
-    /*TODO*///	snk_bg_tilemap_baseaddr = 0xd800;
-    /*TODO*///}
-    /*TODO*///
+    
+    public static InitDriverPtr init_gwara = new InitDriverPtr() { public void handler() {
+    	snk_sound_busy_bit = 0x01;
+    	snk_io = ikari_io;
+    	hard_flags = 0;
+    	gwar_sprite_placement=2;
+    	snk_bg_tilemap_baseaddr = 0xd800;
+    }};
+    
     /*TODO*///static void init_chopper(void){
     /*TODO*///	snk_sound_busy_bit = 0x01;
     /*TODO*///	snk_io = athena_io;
@@ -3414,10 +3442,10 @@ public class snk {
     /*TODO*///GAMEX( 1986, ikarijpb, ikari,    ikari,    ikarijp,  ikarijpb, ROT270,       "bootleg", "Ikari Warriors (Japan bootleg)", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1986, victroad, 0,        victroad, victroad, victroad, ROT270,       "SNK", "Victory Road", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1986, dogosoke, victroad, victroad, victroad, dogosoke, ROT270,       "SNK", "Dogou Souken", GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1987, gwar,     0,        gwar,     gwar,     gwar,     ROT270,       "SNK", "Guerrilla War (US)", GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1987, gwarj,    gwar,     gwar,     gwar,     gwar,     ROT270,       "SNK", "Guevara (Japan)", GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1987, gwara,    gwar,     gwar,     gwar,     gwara,    ROT270,       "SNK", "Guerrilla War (Version 1)", GAME_NOT_WORKING | GAME_NO_COCKTAIL )
-    /*TODO*///GAMEX( 1987, gwarb,    gwar,     gwar,     gwar,     gwar,     ROT270,       "bootleg", "Guerrilla War (bootleg)", GAME_NO_COCKTAIL )
+    public static GameDriver driver_gwar	   = new GameDriver("1987"	,"gwar"	,"snk.java"	,rom_gwar,null	,machine_driver_gwar	,input_ports_gwar	,init_gwar	,ROT270	,	"SNK", "Guerrilla War (US)", GAME_NO_COCKTAIL );
+    public static GameDriver driver_gwarj	   = new GameDriver("1987"	,"gwarj"	,"snk.java"	,rom_gwarj,driver_gwar	,machine_driver_gwar	,input_ports_gwar	,init_gwar	,ROT270	,	"SNK", "Guevara (Japan)", GAME_NO_COCKTAIL );
+    public static GameDriver driver_gwara	   = new GameDriver("1987"	,"gwara"	,"snk.java"	,rom_gwara,driver_gwar	,machine_driver_gwar	,input_ports_gwar	,init_gwara	,ROT270	,	"SNK", "Guerrilla War (Version 1)", GAME_NOT_WORKING | GAME_NO_COCKTAIL );
+    public static GameDriver driver_gwarb	   = new GameDriver("1987"	,"gwarb"	,"snk.java"	,rom_gwarb,driver_gwar	,machine_driver_gwar	,input_ports_gwar	,init_gwar	,ROT270	,	"bootleg", "Guerrilla War (bootleg)", GAME_NO_COCKTAIL );
     /*TODO*///GAMEX( 1987, bermudat, 0,        bermudat, bermudat, bermudat, ROT270_16BIT, "SNK", "Bermuda Triangle (US)", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1987, bermudaj, bermudat, bermudat, bermudat, bermudat, ROT270_16BIT, "SNK", "Bermuda Triangle (Japan)", GAME_NO_COCKTAIL )
     /*TODO*///GAMEX( 1987, bermudaa, bermudat, bermudat, bermudat, worldwar, ROT270_16BIT, "SNK", "Bermuda Triangle (US early version)", GAME_NO_COCKTAIL )
