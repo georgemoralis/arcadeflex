@@ -2018,26 +2018,26 @@ public class driver {
         driver_tnk3j,		/* A5001      (c) 1985 */
         driver_athena,	        /*       'UP' (c) 1986 */
         driver_fitegolf,	/*       'GU' (c) 1988 */
-/*TODO*/ //	DRIVER( ikari )		/* A5004 'IW' (c) 1986 */
-/*TODO*/ //	DRIVER( ikarijp )	/* A5004 'IW' (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( ikarijpb )	/* bootleg */
-/*TODO*/ //	DRIVER( victroad )	/*            (c) 1986 */
-/*TODO*/ //	DRIVER( dogosoke )	/*            (c) 1986 */
+        driver_ikari,		/* A5004 'IW' (c) 1986 */
+        driver_ikarijp,         /* A5004 'IW' (c) 1986 (Japan) */
+        driver_ikarijpb,	/* bootleg */
+        driver_victroad,	/*            (c) 1986 */
+        driver_dogosoke,	/*            (c) 1986 */
         driver_gwar,		/* A7003 'GV' (c) 1987 */
         driver_gwarj,		/* A7003 'GV' (c) 1987 (Japan) */
         driver_gwara,		/* A7003 'GV' (c) 1987 */
         driver_gwarb,		/* bootleg */
-/*TODO*/ //	DRIVER( bermudat )	/* A6003 'WW' (c) 1987 */
-/*TODO*/ //	DRIVER( bermudaj )	/* A6003 'WW' (c) 1987 */
-/*TODO*/ //	DRIVER( bermudaa )	/* A6003 'WW' (c) 1987 */
-/*TODO*/ //	DRIVER( worldwar )	/* A6003 'WW' (c) 1987 */
-/*TODO*/ //	DRIVER( psychos )	/*       'PS' (c) 1987 */
-/*TODO*/ //	DRIVER( psychosj )	/*       'PS' (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( chopper )	/* A7003 'KK' (c) 1988 */
-/*TODO*/ //	DRIVER( legofair )	/* A7003 'KK' (c) 1988 */
-/*TODO*/ //	DRIVER( ftsoccer )	/*            (c) 1988 */
-/*TODO*/ //	DRIVER( tdfever )	/* A6006 'TD' (c) 1987 */
-/*TODO*/ //	DRIVER( tdfeverj )	/* A6006 'TD' (c) 1987 */
+        driver_bermudat,	/* A6003 'WW' (c) 1987 */
+        driver_bermudaj,	/* A6003 'WW' (c) 1987 */
+        driver_bermudaa,	/* A6003 'WW' (c) 1987 */
+        driver_worldwar,	/* A6003 'WW' (c) 1987 */
+        driver_psychos,         /*       'PS' (c) 1987 */
+        driver_psychosj,	/*       'PS' (c) 1987 (Japan) */
+        driver_chopper,         /* A7003 'KK' (c) 1988 */
+        driver_legofair,	/* A7003 'KK' (c) 1988 */
+        driver_ftsoccer,	/*            (c) 1988 */
+        driver_tdfever,         /* A6006 'TD' (c) 1987 */
+        driver_tdfeverj,	/* A6006 'TD' (c) 1987 */
 /*TODO*/ //	DRIVER( ikari3 )	/* A7007 'IK3'(c) 1989 */
 /*TODO*/ //	DRIVER( pow )		/* A7008 'DG' (c) 1988 */
 /*TODO*/ //	DRIVER( powj )		/* A7008 'DG' (c) 1988 */
