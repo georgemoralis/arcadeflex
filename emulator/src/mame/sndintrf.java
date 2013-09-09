@@ -14,6 +14,7 @@ import static arcadeflex.libc_old.*;
 import sound.CustomSound;
 import sound._3526intf;
 import sound._3812intf;
+import sound.y8950;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -377,20 +378,8 @@ public class sndintrf {
     /*TODO*////*TODO*///#endif
               new _3812intf(),
               new _3526intf(),
+              new y8950(),
 
-             /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_Y8950)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		SOUND_Y8950,
-    /*TODO*////*TODO*///		"Y8950",	/* (MSX-AUDIO) */
-    /*TODO*////*TODO*///		YM3812_num,
-    /*TODO*////*TODO*///		YM3812_clock,
-    /*TODO*////*TODO*///		Y8950_sh_start,
-    /*TODO*////*TODO*///		Y8950_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
               /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_SN76477)
     /*TODO*////*TODO*///    {

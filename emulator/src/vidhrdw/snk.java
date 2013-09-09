@@ -664,7 +664,9 @@ public class snk
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///void gwar_vh_screenrefresh( struct osd_bitmap *bitmap, int full_refresh ){
+     public static VhUpdatePtr gwar_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+     {     
+
 /*TODO*///	const unsigned char *ram = memory_region(REGION_CPU1);
 /*TODO*///	unsigned char bg_attributes, sp_attributes;
 /*TODO*///
@@ -726,7 +728,7 @@ public class snk
 /*TODO*///			tdfever_draw_text( bitmap, text_attributes,0,0, 0xf800 );
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///}
+     }};
 /*TODO*///
 /*TODO*///
 }

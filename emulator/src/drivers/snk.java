@@ -22,6 +22,7 @@ import static cpu.z80.z80H.*;
 import static drivers.hal21.*;
 import static sound._3812intfH.*;
 import static sound._3526intf.*;
+import static sound.y8950.*;
 
 public class snk {
     /*********************************************************************/
@@ -180,21 +181,21 @@ public class snk {
     /*TODO*///	{ 50,50 },	/* mixing level */
     /*TODO*///	{ snk_sound_callback0_w } /* ? */
     /*TODO*///};
-    /*TODO*///
-    /*TODO*////*	We don't actually have any games that use two Y8950s,
-    /*TODO*///	but the soundchip implementation misbehaves if we
-    /*TODO*///	declare both a YM3526 and Y8950.
-    /*TODO*///
-    /*TODO*///	Since Y8950 is a superset of YM3526, this works.
-    /*TODO*///*/
-    /*TODO*///static struct Y8950interface ym3526_y8950_interface = {
-    /*TODO*///	2,			/* number of chips */
-    /*TODO*///	4000000,	/* 4 MHz */
-    /*TODO*///	{ 50, 50 },		/* mixing level */
-    /*TODO*///	{ snk_sound_callback0_w, snk_sound_callback1_w }, /* ? */
-    /*TODO*///	{ REGION_SOUND1, REGION_SOUND1 }
-    /*TODO*///};
-    /*TODO*///
+    
+    /*	We don't actually have any games that use two Y8950s,
+    	but the soundchip implementation misbehaves if we
+    	declare both a YM3526 and Y8950.
+    
+    	Since Y8950 is a superset of YM3526, this works.
+    */
+    static Y8950interface ym3526_y8950_interface =  new Y8950interface(
+    	2,			/* number of chips */
+    	4000000,	/* 4 MHz */
+    	new int[]{ 50, 50 },		/* mixing level */
+    	new WriteYmHandlerPtr[]{ snk_sound_callback0_w, snk_sound_callback1_w }, /* ? */
+        new int[] { REGION_SOUND1, REGION_SOUND1 }
+    );
+    
 	static void snk_soundlatch_w( int offset, int data ){
 		snk_sound_register |= 0x08 | 0x04;
 		soundlatch_w.handler(offset, data );
@@ -242,70 +243,68 @@ public class snk {
 		new MemoryWriteAddress( 0xf800, 0xf800, snk_sound_register_w ),
 		new MemoryWriteAddress( -1 )
 	};
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress YM3526_Y8950_readmem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MRA_RAM },
-    /*TODO*///	{ 0xe000, 0xe000, soundlatch_r },
-    /*TODO*///	{ 0xe800, 0xe800, Y8950_status_port_0_r }, // YM3526_status_port_0_r
-    /*TODO*///	{ 0xf000, 0xf000, Y8950_status_port_1_r },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_r },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress YM3526_Y8950_writemem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MWA_RAM },
-    /*TODO*///	{ 0xe800, 0xe800, Y8950_control_port_0_w }, // YM3526_control_port_0_w
-    /*TODO*///	{ 0xec00, 0xec00, Y8950_write_port_0_w }, // YM3526_write_port_0_w
-    /*TODO*///	{ 0xf000, 0xf000, Y8950_control_port_1_w },
-    /*TODO*///	{ 0xf400, 0xf400, Y8950_write_port_1_w },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress YM3812_Y8950_readmem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MRA_RAM },
-    /*TODO*///	{ 0xe000, 0xe000, soundlatch_r },
-    /*TODO*///	{ 0xe800, 0xe800, YM3812_status_port_0_r },
-    /*TODO*///	{ 0xf000, 0xf000, Y8950_status_port_0_r },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_r },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress YM3812_Y8950_writemem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MWA_RAM },
-    /*TODO*///	{ 0xe800, 0xe800, YM3812_control_port_0_w },
-    /*TODO*///	{ 0xec00, 0xec00, YM3812_write_port_0_w },
-    /*TODO*///	{ 0xf000, 0xf000, Y8950_control_port_0_w },
-    /*TODO*///	{ 0xf400, 0xf400, Y8950_write_port_0_w },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress Y8950_readmem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MRA_RAM },
-    /*TODO*///	{ 0xe000, 0xe000, soundlatch_r },
-    /*TODO*///	{ 0xf000, 0xf000, YM3526_status_port_0_r },
-    /*TODO*/////	{ 0xf000, 0xf000, Y8950_status_port_0_r },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_r },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryWriteAddress Y8950_writemem_sound[] = {
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, MWA_RAM },
-    /*TODO*///	{ 0xf000, 0xf000, YM3526_control_port_0_w },
-    /*TODO*///	{ 0xf400, 0xf400, YM3526_write_port_0_w },
-    /*TODO*/////	{ 0xf000, 0xf000, Y8950_control_port_0_w },
-    /*TODO*/////	{ 0xf400, 0xf400, Y8950_write_port_0_w },
-    /*TODO*///	{ 0xf800, 0xf800, snk_sound_register_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
+	static MemoryReadAddress YM3526_Y8950_readmem_sound[] ={
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, MRA_RAM ),
+		new MemoryReadAddress( 0xe000, 0xe000, soundlatch_r ),
+		new MemoryReadAddress( 0xe800, 0xe800, Y8950_status_port_0_r ), // YM3526_status_port_0_r
+		new MemoryReadAddress( 0xf000, 0xf000, Y8950_status_port_1_r ),
+		new MemoryReadAddress( 0xf800, 0xf800, snk_sound_register_r ),
+		new MemoryReadAddress( -1 )
+	};
+	
+	static MemoryWriteAddress YM3526_Y8950_writemem_sound[] ={
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, MWA_RAM ),
+		new MemoryWriteAddress( 0xe800, 0xe800, Y8950_control_port_0_w ), // YM3526_control_port_0_w
+		new MemoryWriteAddress( 0xec00, 0xec00, Y8950_write_port_0_w ), // YM3526_write_port_0_w
+		new MemoryWriteAddress( 0xf000, 0xf000, Y8950_control_port_1_w ),
+		new MemoryWriteAddress( 0xf400, 0xf400, Y8950_write_port_1_w ),
+		new MemoryWriteAddress( 0xf800, 0xf800, snk_sound_register_w ),
+		new MemoryWriteAddress( -1 )
+	};
+	
+	static MemoryReadAddress YM3812_Y8950_readmem_sound[] ={
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, MRA_RAM ),
+		new MemoryReadAddress( 0xe000, 0xe000, soundlatch_r ),
+		new MemoryReadAddress( 0xe800, 0xe800, YM3812_status_port_0_r ),
+		new MemoryReadAddress( 0xf000, 0xf000, Y8950_status_port_0_r ),
+		new MemoryReadAddress( 0xf800, 0xf800, snk_sound_register_r ),
+		new MemoryReadAddress( -1 )
+	};
+	
+	static MemoryWriteAddress YM3812_Y8950_writemem_sound[] ={
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, MWA_RAM ),
+		new MemoryWriteAddress( 0xe800, 0xe800, YM3812_control_port_0_w ),
+		new MemoryWriteAddress( 0xec00, 0xec00, YM3812_write_port_0_w ),
+		new MemoryWriteAddress( 0xf000, 0xf000, Y8950_control_port_0_w ),
+		new MemoryWriteAddress( 0xf400, 0xf400, Y8950_write_port_0_w ),
+		new MemoryWriteAddress( 0xf800, 0xf800, snk_sound_register_w ),
+		new MemoryWriteAddress( -1 )
+	};
+	
+	static MemoryReadAddress Y8950_readmem_sound[] ={
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, MRA_RAM ),
+		new MemoryReadAddress( 0xe000, 0xe000, soundlatch_r ),
+		new MemoryReadAddress( 0xf000, 0xf000, YM3526_status_port_0_r ),
+	//	new MemoryReadAddress( 0xf000, 0xf000, Y8950_status_port_0_r ),
+		new MemoryReadAddress( 0xf800, 0xf800, snk_sound_register_r ),
+		new MemoryReadAddress( -1 )
+	};
+	
+	static MemoryWriteAddress Y8950_writemem_sound[] ={
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, MWA_RAM ),
+		new MemoryWriteAddress( 0xf000, 0xf000, YM3526_control_port_0_w ),
+		new MemoryWriteAddress( 0xf400, 0xf400, YM3526_write_port_0_w ),
+	//	new MemoryWriteAddress( 0xf000, 0xf000, Y8950_control_port_0_w ),
+	//	new MemoryWriteAddress( 0xf400, 0xf400, Y8950_write_port_0_w ),
+		new MemoryWriteAddress( 0xf800, 0xf800, snk_sound_register_w ),
+		new MemoryWriteAddress( -1 )
+	};
     /**********************  Tnk3, Athena, Fighting Golf ********************/
 	
         public static ReadHandlerPtr shared_ram_r = new ReadHandlerPtr() { public int handler(int offset)
@@ -463,40 +462,39 @@ public class snk {
 		new MemoryWriteAddress( 0xf800, 0xffff, shared_ram_w ),
 		new MemoryWriteAddress( -1 )
 	};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* Chopper I, T.D.Fever, Psycho S., Bermuda T. */
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress readmem_cpuA[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, cpuA_io_r },
-    /*TODO*///	{ 0xd000, 0xffff, MRA_RAM },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///static struct MemoryWriteAddress writemem_cpuA[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, cpuA_io_w, &io_ram },
-    /*TODO*///	{ 0xd000, 0xffff, MWA_RAM, &shared_ram },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress readmem_cpuB[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0xbfff, MRA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, cpuB_io_r },
-    /*TODO*///	{ 0xd000, 0xffff, shared_ram_r },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///static struct MemoryWriteAddress writemem_cpuB[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0xbfff, MWA_ROM },
-    /*TODO*///	{ 0xc000, 0xcfff, cpuB_io_w },
-    /*TODO*///	{ 0xd000, 0xffff, shared_ram_w },
-    /*TODO*///	{ -1 }
-    /*TODO*///};
-    /*TODO*///
+        
+        
+	/* Chopper I, T.D.Fever, Psycho S., Bermuda T. */
+	
+	static MemoryReadAddress readmem_cpuA[] =
+	{
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, cpuA_io_r ),
+		new MemoryReadAddress( 0xd000, 0xffff, MRA_RAM ),
+		new MemoryReadAddress( -1 )
+	};
+	static MemoryWriteAddress writemem_cpuA[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, cpuA_io_w, io_ram ),
+		new MemoryWriteAddress( 0xd000, 0xffff, MWA_RAM, shared_ram ),
+		new MemoryWriteAddress( -1 )
+	};
+	
+	static MemoryReadAddress readmem_cpuB[] =
+	{
+		new MemoryReadAddress( 0x0000, 0xbfff, MRA_ROM ),
+		new MemoryReadAddress( 0xc000, 0xcfff, cpuB_io_r ),
+		new MemoryReadAddress( 0xd000, 0xffff, shared_ram_r ),
+		new MemoryReadAddress( -1 )
+	};
+	static MemoryWriteAddress writemem_cpuB[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
+		new MemoryWriteAddress( 0xc000, 0xcfff, cpuB_io_w ),
+		new MemoryWriteAddress( 0xd000, 0xffff, shared_ram_w ),
+		new MemoryWriteAddress( -1 )
+	};
     	/*********************************************************************/
 	
 	static GfxLayout char512 = new GfxLayout
@@ -943,53 +941,54 @@ public class snk {
     /*TODO*///	}
     /*TODO*///};
     /*TODO*///
-    /*TODO*///static struct MachineDriver machine_driver_gwar =
-    /*TODO*///{
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			4000000,	/* 4.0 Mhz (?) */
-    /*TODO*///			readmem_cpuA,writemem_cpuA,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			4000000,	/* 4.0 Mhz (?) */
-    /*TODO*///			readmem_cpuB,writemem_cpuB,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-    /*TODO*///			4000000,	/* 4 Mhz (?) */
-    /*TODO*///			YM3526_Y8950_readmem_sound,YM3526_Y8950_writemem_sound,0,0,
-    /*TODO*///			interrupt,1
-    /*TODO*///		},
-    /*TODO*///	},
-    /*TODO*///	60, DEFAULT_REAL_60HZ_VBLANK_DURATION,
-    /*TODO*///	100,	/* CPU slices per frame */
-    /*TODO*///	0, /* init machine */
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	384, 240, { 16, 383,0, 239-16 },
-    /*TODO*///	gwar_gfxdecodeinfo,
-    /*TODO*///	1024,1024,
-    /*TODO*///	snk_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER,
-    /*TODO*///	0,
-    /*TODO*///	snk_vh_start,
-    /*TODO*///	snk_vh_stop,
-    /*TODO*///	gwar_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_Y8950,
-    /*TODO*///			&ym3526_y8950_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
+	static MachineDriver machine_driver_gwar = new MachineDriver
+	(
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				4000000,	/* 4.0 Mhz (?) */
+				readmem_cpuA,writemem_cpuA,null,null,
+				interrupt,1
+			),
+			new MachineCPU(
+				CPU_Z80,
+				4000000,	/* 4.0 Mhz (?) */
+				readmem_cpuB,writemem_cpuB,null,null,
+				interrupt,1
+			),
+			new MachineCPU(
+				CPU_Z80 | CPU_AUDIO_CPU,
+				4000000,	/* 4 Mhz (?) */
+				YM3526_Y8950_readmem_sound,YM3526_Y8950_writemem_sound,null,null,
+				interrupt,1
+			),
+		},
+		60, DEFAULT_REAL_60HZ_VBLANK_DURATION,
+		100,	/* CPU slices per frame */
+		null, /* init machine */
+	
+		/* video hardware */
+		384, 240, new rectangle( 16, 383,0, 239-16 ),
+		gwar_gfxdecodeinfo,
+		1024,1024,
+		snk_vh_convert_color_prom,
+	
+		VIDEO_TYPE_RASTER,
+		null,
+		snk_vh_start,
+		snk_vh_stop,
+		gwar_vh_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_Y8950,
+				ym3526_y8950_interface
+                    )
+		}
+	);
     /*TODO*///
     /*TODO*///static struct MachineDriver machine_driver_bermudat =
     /*TODO*///{
@@ -3312,13 +3311,13 @@ public class snk {
     /*TODO*///	snk_bg_tilemap_baseaddr = 0xd800;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void init_gwar(void){
-    /*TODO*///	snk_sound_busy_bit = 0x01;
-    /*TODO*///	snk_io = ikari_io;
-    /*TODO*///	hard_flags = 0;
-    /*TODO*///	gwar_sprite_placement=1;
-    /*TODO*///	snk_bg_tilemap_baseaddr = 0xd800;
-    /*TODO*///}
+    public static InitDriverPtr init_gwar = new InitDriverPtr() { public void handler() {
+    	snk_sound_busy_bit = 0x01;
+    	snk_io = ikari_io;
+    	hard_flags = 0;
+    	gwar_sprite_placement=1;
+    	snk_bg_tilemap_baseaddr = 0xd800;
+    }};
     /*TODO*///
     /*TODO*///static void init_gwara(void){
     /*TODO*///	snk_sound_busy_bit = 0x01;
