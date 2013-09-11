@@ -593,41 +593,41 @@ public class tilemapC {
     		memset( _tilemap.dirty_vram, 1, _tilemap.num_tiles );
     	}
     }
-    /*TODO*///
-    /*TODO*///void tilemap_mark_all_pixels_dirty( struct tilemap *tilemap ){
-    /*TODO*///	if( tilemap==ALL_TILEMAPS ){
-    /*TODO*///		tilemap = first_tilemap;
-    /*TODO*///		while( tilemap ){
-    /*TODO*///			tilemap_mark_all_pixels_dirty( tilemap );
-    /*TODO*///			tilemap = tilemap->next;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else {
-    /*TODO*///		/* let's invalidate all offscreen tiles, decreasing the refcounts */
-    /*TODO*///		int tile_index;
-    /*TODO*///		int num_pens = tilemap->tile_width*tilemap->tile_height; /* precalc - needed for >4bpp pen management handling */
-    /*TODO*///		for( tile_index=0; tile_index<tilemap->num_tiles; tile_index++ ){
-    /*TODO*///			if( !tilemap->visible[tile_index] ){
-    /*TODO*///				unsigned short *the_color = tilemap->paldata[tile_index];
-    /*TODO*///				if( the_color ){
-    /*TODO*///					unsigned int old_pen_usage = tilemap->pen_usage[tile_index];
-    /*TODO*///					if( old_pen_usage ){
-    /*TODO*///						palette_decrease_usage_count( the_color-Machine->remapped_colortable, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///					}
-    /*TODO*///					else {
-    /*TODO*///						palette_decrease_usage_countx( the_color-Machine->remapped_colortable, num_pens, tilemap->pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-    /*TODO*///					}
-    /*TODO*///					tilemap->paldata[tile_index] = NULL;
-    /*TODO*///				}
-    /*TODO*///				tilemap->dirty_vram[tile_index] = 1;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		memset( tilemap->dirty_pixels, 1, tilemap->num_tiles );
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////***********************************************************************************/
-    /*TODO*///
+    
+    public static void tilemap_mark_all_pixels_dirty(tilemap _tilemap ){
+    	if( _tilemap==ALL_TILEMAPS ){
+    		_tilemap = first_tilemap;
+    		while( _tilemap!=null ){
+    			tilemap_mark_all_pixels_dirty( _tilemap );
+    			_tilemap = _tilemap.next;
+    		}
+    	}
+    	else {
+    		/* let's invalidate all offscreen tiles, decreasing the refcounts */
+    		int tile_index;
+    		int num_pens = _tilemap.tile_width*_tilemap.tile_height; /* precalc - needed for >4bpp pen management handling */
+    		for( tile_index=0; tile_index<_tilemap.num_tiles; tile_index++ ){
+    			if( _tilemap.visible[tile_index]==0 ){
+    				CharPtr the_color = _tilemap.paldata[tile_index];
+    				if( the_color!=null ){
+    					/*unsigned */int old_pen_usage = _tilemap.pen_usage[tile_index];
+    					if( old_pen_usage!=0 ){
+   /*TODO*/ 						palette_decrease_usage_count( the_color.base- Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    					}
+    					else {
+  /*TODO*/  						palette_decrease_usage_countx( the_color.base-Machine.remapped_colortable.length, num_pens, _tilemap.pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    					}
+    					_tilemap.paldata[tile_index] = null;
+    				}
+    				_tilemap.dirty_vram[tile_index] = 1;
+    			}
+    		}
+    		memset( _tilemap.dirty_pixels, 1, _tilemap.num_tiles );
+    	}
+    }
+    
+    /***********************************************************************************/
+    
     public static void draw_tile(
     		osd_bitmap pixmap,
     		int col, int row, int tile_width, int tile_height,

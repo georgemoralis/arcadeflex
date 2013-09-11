@@ -633,15 +633,16 @@ public class palette {
     /*TODO*///		}
     /*TODO*///	}
     }
-    /*TODO*///
-    /*TODO*///void palette_init_used_colors(void)
-    /*TODO*///{
-    /*TODO*///	int pen;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* if we are not dynamically reducing the palette, return immediately. */
-    /*TODO*///	if (palette_used_colors == 0) return;
-    /*TODO*///
+    
+    public static void palette_init_used_colors()
+    {
+    	int pen;
+    
+    
+    	/* if we are not dynamically reducing the palette, return immediately. */
+    	if (palette_used_colors == null) return;
+    
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///	memset(palette_used_colors,PALETTE_COLOR_UNUSED,Machine->drv->total_colors * sizeof(unsigned char));
     /*TODO*///
     /*TODO*///	for (pen = 0;pen < Machine->drv->total_colors;pen++)
@@ -649,18 +650,14 @@ public class palette {
     /*TODO*///		if (pen_visiblecount[pen]) palette_used_colors[pen] |= PALETTE_COLOR_VISIBLE;
     /*TODO*///		if (pen_cachedcount[pen]) palette_used_colors[pen] |= PALETTE_COLOR_CACHED;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    }
+
     static char[][][] rgb6_to_pen=new char[64][64][64];
     
     public static void build_rgb_to_pen()
     {
     	int i,rr,gg,bb;
     
-    /*TODO*///	memset(rgb6_to_pen,DYNAMIC_MAX_PENS,sizeof(rgb6_to_pen));
         for (int k = 0; k < 64; k++)
         {
                 for (int j = 0; j < 64; j++)
@@ -1220,10 +1217,10 @@ public class palette {
     public static CharPtr paletteram = new CharPtr();//unsigned char *paletteram,*paletteram_2;
     public static CharPtr paletteram_2 = new CharPtr();
     
-    /*TODO*///int paletteram_r(int offset)
-    /*TODO*///{
-    /*TODO*///	return paletteram[offset];
-    /*TODO*///}
+    public static ReadHandlerPtr paletteram_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+	return paletteram.read(offset);
+    }};
     /*TODO*///
     /*TODO*///int paletteram_2_r(int offset)
     /*TODO*///{

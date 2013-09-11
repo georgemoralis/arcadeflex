@@ -551,7 +551,10 @@ public class libc_old {
 
         public CharPtr() {
         }
-
+        public CharPtr(int size) {
+            memory = new char[size];
+            base=0;
+        }
         public CharPtr(char[] m) {
             set(m, 0);
         }
