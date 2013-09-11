@@ -38,6 +38,7 @@ import static drivers.locomotn.*;
 import static drivers.pooyan.*;
 import static drivers.frogger.*;
 import static drivers.snk.*;
+import static drivers.mrdo.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -426,13 +427,13 @@ public class driver {
     driver_ladybugb,	/* bootleg */
     driver_snapjack,	/* (c) */
     driver_cavenger,	/* (c) 1981 */
-/*TODO*/ //	DRIVER( mrdo )		/* (c) 1982 */
-/*TODO*/ //	DRIVER( mrdot )		/* (c) 1982 + Taito license */
-/*TODO*/ //	DRIVER( mrdofix )	/* (c) 1982 + Taito license */
-/*TODO*/ //	DRIVER( mrlo )		/* bootleg */
-/*TODO*/ //	DRIVER( mrdu )		/* bootleg */
-/*TODO*/ //	DRIVER( mrdoy )		/* bootleg */
-/*TODO*/ //	DRIVER( yankeedo )	/* bootleg */
+    driver_mrdo,		/* (c) 1982 */
+    driver_mrdot,		/* (c) 1982 + Taito license */
+    driver_mrdofix,	/* (c) 1982 + Taito license */
+    driver_mrlo,		/* bootleg */
+    driver_mrdu,		/* bootleg */
+    driver_mrdoy,		/* bootleg */
+    driver_yankeedo,	       /* bootleg */
 /*TODO*/ //	DRIVER( docastle )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( docastl2 )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( douni )		/* (c) 1983 */

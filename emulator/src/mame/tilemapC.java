@@ -1080,42 +1080,41 @@ public class tilemapC {
     /*TODO*///			}
     		}
     		else if( rows == 1 && cols == 1 ){ /* XY scrolling playfield */
-                    throw new UnsupportedOperationException("tilemap draw unimplemented");
-    /*TODO*///			int scrollx = rowscroll[0];
-    /*TODO*///			int scrolly = colscroll[0];
-    /*TODO*///
-    /*TODO*///			if( scrollx < 0 ){
-    /*TODO*///				scrollx = blit.source_width - (-scrollx) % blit.source_width;
-    /*TODO*///			}
-    /*TODO*///			else {
-    /*TODO*///				scrollx = scrollx % blit.source_width;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if( scrolly < 0 ){
-    /*TODO*///				scrolly = blit.source_height - (-scrolly) % blit.source_height;
-    /*TODO*///			}
-    /*TODO*///			else {
-    /*TODO*///				scrolly = scrolly % blit.source_height;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///	 		blit.clip_left = left;
-    /*TODO*///	 		blit.clip_top = top;
-    /*TODO*///	 		blit.clip_right = right;
-    /*TODO*///	 		blit.clip_bottom = bottom;
-    /*TODO*///
-    /*TODO*///			for(
-    /*TODO*///				ypos = scrolly - blit.source_height;
-    /*TODO*///				ypos < blit.clip_bottom;
-    /*TODO*///				ypos += blit.source_height
-    /*TODO*///			){
-    /*TODO*///				for(
-    /*TODO*///					xpos = scrollx - blit.source_width;
-    /*TODO*///					xpos < blit.clip_right;
-    /*TODO*///					xpos += blit.source_width
-    /*TODO*///				){
-    /*TODO*///					draw( xpos,ypos );
-    /*TODO*///				}
-    /*TODO*///			}
+    			int scrollx = rowscroll[0];
+    			int scrolly = colscroll[0];
+    
+    			if( scrollx < 0 ){
+    				scrollx = blit.source_width - (-scrollx) % blit.source_width;
+    			}
+    			else {
+    				scrollx = scrollx % blit.source_width;
+    			}
+    
+    			if( scrolly < 0 ){
+    				scrolly = blit.source_height - (-scrolly) % blit.source_height;
+    			}
+    			else {
+    				scrolly = scrolly % blit.source_height;
+    			}
+    
+    	 		blit.clip_left = left;
+    	 		blit.clip_top = top;
+    	 		blit.clip_right = right;
+    	 		blit.clip_bottom = bottom;
+    
+    			for(
+    				ypos = scrolly - blit.source_height;
+    				ypos < blit.clip_bottom;
+    				ypos += blit.source_height
+    			){
+    				for(
+    					xpos = scrollx - blit.source_width;
+    					xpos < blit.clip_right;
+    					xpos += blit.source_width
+    				){
+    					draw.handler(xpos,ypos );
+    				}
+    			}
     		}
     		else if( rows == 1 ){ /* scrolling columns + horizontal scroll */
                     throw new UnsupportedOperationException("tilemap draw unimplemented");
@@ -1570,27 +1569,27 @@ public class tilemapC {
     		}
     	}
     }
-    /*TODO*///void tilemap_set_scrolly( struct tilemap *tilemap, int which, int value ){
-    /*TODO*///	value = tilemap->scrolly_delta - value;
-    /*TODO*///
-    /*TODO*///	if( tilemap->orientation & ORIENTATION_SWAP_XY ){
-    /*TODO*///		if( tilemap->orientation & ORIENTATION_FLIP_Y ) which = tilemap->scroll_rows-1 - which;
-    /*TODO*///		if( tilemap->orientation & ORIENTATION_FLIP_X ) value = screen_width-tilemap->width-value;
-    /*TODO*///		if( tilemap->rowscroll[which]!=value ){
-    /*TODO*///			tilemap->scrolled = 1;
-    /*TODO*///			tilemap->rowscroll[which] = value;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else {
-    /*TODO*///		if( tilemap->orientation & ORIENTATION_FLIP_X ) which = tilemap->scroll_cols-1 - which;
-    /*TODO*///		if( tilemap->orientation & ORIENTATION_FLIP_Y ) value = screen_height-tilemap->height-value;
-    /*TODO*///		if( tilemap->colscroll[which]!=value ){
-    /*TODO*///			tilemap->scrolled = 1;
-    /*TODO*///			tilemap->colscroll[which] = value;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    public static void tilemap_set_scrolly(tilemap _tilemap, int which, int value ){
+    	value = _tilemap.scrolly_delta - value;
+    
+    	if(( _tilemap.orientation & ORIENTATION_SWAP_XY )!=0){
+    		if(( _tilemap.orientation & ORIENTATION_FLIP_Y )!=0) which = _tilemap.scroll_rows-1 - which;
+    		if(( _tilemap.orientation & ORIENTATION_FLIP_X )!=0) value = screen_width-_tilemap.width-value;
+    		if( _tilemap.rowscroll[which]!=value ){
+    			_tilemap.scrolled = 1;
+    			_tilemap.rowscroll[which] = value;
+    		}
+    	}
+    	else {
+    		if(( _tilemap.orientation & ORIENTATION_FLIP_X )!=0) which = _tilemap.scroll_cols-1 - which;
+    		if(( _tilemap.orientation & ORIENTATION_FLIP_Y )!=0) value = screen_height-_tilemap.height-value;
+    		if(_tilemap.colscroll[which]!=value ){
+    			_tilemap.scrolled = 1;
+    			_tilemap.colscroll[which] = value;
+    		}
+    	}
+    }
+    
     /*TODO*///void tilemap_set_scrolldx( struct tilemap *tilemap, int dx, int dx_if_flipped ){
     /*TODO*///	tilemap->dx = dx;
     /*TODO*///	tilemap->dx_if_flipped = dx_if_flipped;

@@ -5243,16 +5243,16 @@ public class z80 extends cpu_interface {
     /*TODO*////****************************************************************************
     /*TODO*/// * Return a specific register
     /*TODO*/// ****************************************************************************/
-    /*TODO*///unsigned z80_get_reg (int regnum)
-    /*TODO*///{
-    /*TODO*///	switch( regnum )
-    /*TODO*///	{
-    /*TODO*///		case Z80_PC: return Z80.PC.w.l;
-    /*TODO*///		case Z80_SP: return Z80.SP.w.l;
-    /*TODO*///		case Z80_AF: return Z80.AF.w.l;
-    /*TODO*///		case Z80_BC: return Z80.BC.w.l;
-    /*TODO*///		case Z80_DE: return Z80.DE.w.l;
-    /*TODO*///		case Z80_HL: return Z80.HL.w.l;
+    @Override
+    public int get_reg(int regnum) {
+        switch( regnum )
+    	{
+    		case Z80_PC: return Z80.PC.D;
+    		case Z80_SP: return Z80.SP.D;
+    		case Z80_AF: return Z80.AF.D;
+    		case Z80_BC: return Z80.BC.D;
+    		case Z80_DE: return Z80.DE.D;
+    		case Z80_HL: return Z80.HL.D;
     /*TODO*///		case Z80_IX: return Z80.IX.w.l;
     /*TODO*///		case Z80_IY: return Z80.IY.w.l;
     /*TODO*///        case Z80_R: return (Z80.R & 0x7f) | (Z80.R2 & 0x80);
@@ -5272,16 +5272,18 @@ public class z80 extends cpu_interface {
     /*TODO*///		case Z80_DC2: return Z80.int_state[2];
     /*TODO*///		case Z80_DC3: return Z80.int_state[3];
     /*TODO*///        case REG_PREVIOUSPC: return Z80.PREPC.w.l;
-    /*TODO*///		default:
+    		default:
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
     /*TODO*///			if( regnum <= REG_SP_CONTENTS )
     /*TODO*///			{
     /*TODO*///				unsigned offset = _SPD + 2 * (REG_SP_CONTENTS - regnum);
     /*TODO*///				if( offset < 0xffff )
     /*TODO*///					return RM( offset ) | ( RM( offset + 1) << 8 );
     /*TODO*///			}
-    /*TODO*///	}
-    /*TODO*///    return 0;
-    /*TODO*///}
+   	}
+    /*TODO*/// return 0;
+    }
     /*TODO*///
     /*TODO*////****************************************************************************
     /*TODO*/// * Set a specific register
@@ -5653,10 +5655,7 @@ public class z80 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public int get_reg(int regnum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void set_reg(int regnum, int val) {

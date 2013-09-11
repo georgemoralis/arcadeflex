@@ -103,7 +103,7 @@ public class cpuintrf {
     /*TODO*///#define SETPC(index,val)				((*cpu[index].intf->set_pc)(val))
     /*TODO*///#define GETSP(index)					((*cpu[index].intf->get_sp)())
     /*TODO*///#define SETSP(index,val)				((*cpu[index].intf->set_sp)(val))
-    /*TODO*///#define GETREG(index,regnum)			((*cpu[index].intf->get_reg)(regnum))
+    static int   GETREG(int index,int regnum)		{	return cpu.get(index).intf.get_reg(regnum);}
     /*TODO*///#define SETREG(index,regnum,value)		((*cpu[index].intf->set_reg)(regnum,value))
     static void   SETNMILINE(int index, int state) { cpu.get(index).intf.set_nmi_line(state); }  
     static void   SETIRQLINE(int index, int line, int state) { cpu.get(index).intf.set_irq_line(line, state); }
@@ -2131,12 +2131,12 @@ public class cpuintrf {
     /*TODO*///  Retrieve or set the value of a specific register of the active CPU
     /*TODO*///***************************************************************************/
     /*TODO*///
-    /*TODO*///unsigned cpu_get_reg(int regnum)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	return GETREG(cpunum,regnum);
-    /*TODO*///}
-    /*TODO*///
+    public static int/*unsigned*/ cpu_get_reg(int regnum)
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	return GETREG(cpunum,regnum);
+    }
+    
     /*TODO*///void cpu_set_reg(int regnum, unsigned val)
     /*TODO*///{
     /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
