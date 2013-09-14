@@ -1863,7 +1863,11 @@ public class video {
                 /* first time through, initialize timer */
                 prev_measure = (ticker() - (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC / Machine.drv.frames_per_second));
                 warming_up = 0;
-                ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second);
+                //use different settings depending on fps (shadow)
+                if(Machine.drv.frames_per_second==30)
+                     ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second*0.95);
+                if(Machine.drv.frames_per_second==60)
+                     ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second*0.90);
             }
 
             if (frameskip_counter == 0)
