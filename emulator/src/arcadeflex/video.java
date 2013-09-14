@@ -1923,7 +1923,7 @@ public class video {
                         {
                             //vsync();
                             curr = ticker();
-                        } while ((TICKS_PER_SEC / (curr - last2)) > (long)(Machine.drv.frames_per_second * 11 / 10));
+                        } while ((long)(TICKS_PER_SEC / (curr - last2)) > (long)(Machine.drv.frames_per_second * 11L / 10L));
 
                         last2 = curr;
                     }
@@ -1933,7 +1933,7 @@ public class video {
                         /* wait for video sync but use normal throttling */
                         //                        if (wait_vsync != 0)
                         //vsync();
-                        while ((ticker() - ticksSinceLastFrame) < ticksPerFrame);
+                        while ((ticker() - ticksSinceLastFrame) < ticksPerFrame/**0.95*/);
                         
                         curr = ticker();
 
@@ -1963,9 +1963,8 @@ public class video {
 
                 if (frameskip_counter == 0)
                 {
-                    int divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100 * FRAMESKIP_LEVELS));
+                    long divdr = (Machine.drv.frames_per_second * (curr - prev_measure) / (100L * FRAMESKIP_LEVELS));
                     speed = (int)((TICKS_PER_SEC + divdr / 2L) / divdr);
-
                     prev_measure = curr;
                 }
 
@@ -1982,7 +1981,7 @@ public class video {
                 if (showfps != 0 || showfpstemp != 0)
                 {
                     int divdr = 100 * FRAMESKIP_LEVELS;
-                    int fps = (int)(Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
+                    int fps = (Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
                     String buf=sprintf("%s%2d%4d%%%4d/%d fps",autoframeskip!=0?"auto":"fskp",frameskip,speed,fps,(int)(Machine.drv.frames_per_second+0.5));
                     ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
                     if (vector_game!=0)
@@ -2129,11 +2128,11 @@ public class video {
             /* Check for PGUP, PGDN and pan screen */
             //xxxpan_display();
 
-           /* if (input_ui_pressed((int)ports.inptports.IPT_UI_FRAMESKIP_INC))
+            if (input_ui_pressed(IPT_UI_FRAMESKIP_INC)!=0)
             {
-                if (autoframeskip)
+                if (autoframeskip!=0)
                 {
-                    autoframeskip = false;
+                    autoframeskip =0;
                     frameskip = 0;
                 }
                 else
@@ -2141,7 +2140,7 @@ public class video {
                     if (frameskip == FRAMESKIP_LEVELS - 1)
                     {
                         frameskip = 0;
-                        autoframeskip = true;
+                        autoframeskip = 1;
                     }
                     else
                         frameskip++;
@@ -2152,20 +2151,20 @@ public class video {
 
                 /* reset the frame counter every time the frameskip key is pressed, so */
                 /* we'll measure the average FPS on a consistent status. */
-           //     frames_displayed = 0;
-           // }
+                frames_displayed = 0;
+            }
 
-            /*if (input_ui_pressed((int)ports.inptports.IPT_UI_FRAMESKIP_DEC))
+            if (input_ui_pressed(IPT_UI_FRAMESKIP_DEC)!=0)
             {
-                if (autoframeskip)
+                if (autoframeskip!=0)
                 {
-                    autoframeskip = false;
+                    autoframeskip = 0;
                     frameskip = FRAMESKIP_LEVELS - 1;
                 }
                 else
                 {
                     if (frameskip == 0)
-                        autoframeskip = true;
+                        autoframeskip = 1;
                     else
                         frameskip--;
                 }
@@ -2175,8 +2174,8 @@ public class video {
 
                 /* reset the frame counter every time the frameskip key is pressed, so */
                 /* we'll measure the average FPS on a consistent status. */
-              //  frames_displayed = 0;
-            //}
+                frames_displayed = 0;
+            }
             if (input_ui_pressed(IPT_UI_THROTTLE)!=0)
             {
                 throttle ^= 1;
