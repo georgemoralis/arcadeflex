@@ -5,6 +5,7 @@ import static mame.driver.*;
 import static arcadeflex.fronthlp.*;
 import static mame.mame.*;
 import static arcadeflex.config.*;
+import static arcadeflex.ticker.*;
 
 /**
  * This file is relative to msdos.c in mame
@@ -104,7 +105,7 @@ public class osdepend {
     /*TODO*///		return (1);
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///	init_ticker();	/* after Allegro init because we use cpu_cpuid */
+    	init_ticker();	/* after Allegro init because we use cpu_cpuid */
     /*TODO*///
     /*TODO*///    /* handle playback which is not available in mame.cfg */
     /*TODO*///	init_inpdir(); /* Init input directory for opening .inp for playback */

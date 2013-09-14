@@ -10,7 +10,7 @@ public class ticker {
   {
       return uclock();
   }
-  public void init_ticker()
+  public static void init_ticker()
   {
     TICKS_PER_SEC = UCLOCKS_PER_SEC;
 

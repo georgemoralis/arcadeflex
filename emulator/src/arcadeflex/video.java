@@ -1852,176 +1852,152 @@ public class video {
      static long ticksPerFrame, ticksSinceLastFrame; //not in mame
 
     /* Update the display. */
-    public static void  osd_update_video_and_audio1()
-    {
-        //throw new UnsupportedOperationException("osd_update_video_and_audio");
-
-    	int i;
-        long curr;
-        int need_to_clear_bitmap = 0;
-        int already_synced;
-
-    	if (warming_up!=0)
-    	{
-    		/* first time through, initialize timer */
-    		prev_measure = ticker() - (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC/Machine.drv.frames_per_second);
-    		warming_up = 0;
-                //ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second);
-    	}
-        if (frameskip_counter == 0)
+     public static void osd_update_video_and_audio()
         {
-                this_frame_base = (prev_measure + (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC / Machine.drv.frames_per_second));
-        }
-    	if (throttle!=0)
-    	{
-		/* if too much time has passed since last sound update, disable throttling */
-    		/* temporarily - we wouldn't be able to keep synch anyway. */
-    	    curr = ticker();
-            if ((curr - last1) > 2 * TICKS_PER_SEC / Machine.drv.frames_per_second)
-		throttle = 0;
-    		last1 = curr;
-    
-    /*TODO*///		already_synced = msdos_update_audio();
-    /*temphack*/   already_synced=1;
-		throttle = 1;
-    	}
-    	else
-        {
-    /*TODO*///		already_synced = msdos_update_audio();
-  /*temphack*/   already_synced=1;
-        }
-    
-    	if (osd_skip_this_frame() == 0)
-    	{
-    		if (showfpstemp!=0)
-    		{
-    			showfpstemp--;
-    			if (showfps == 0 && showfpstemp == 0)
-    			{
-    				need_to_clear_bitmap = 1;
-    			}
-    		}
-    
-    
-    		if (input_ui_pressed(IPT_UI_SHOW_FPS)!=0)
-    		{
-    			if (showfpstemp!=0)
-    			{
-    				showfpstemp = 0;
-    				need_to_clear_bitmap = 1;
-    			}
-    			else
-    			{
-    				showfps ^= 1;
-    				if (showfps == 0)
-    				{
-    					need_to_clear_bitmap = 1;
-    				}
-    			}
-    		}
-    
-    
-    		/* now wait until it's time to update the screen */
-    		if (throttle!=0)
-    		{
-    			if (video_sync!=0)
-    			{
-    /*TODO*///				static TICKER last;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///				do
-    /*TODO*///				{
-    /*TODO*///					vsync();
-    					curr = ticker();
-    /*TODO*///				} while (TICKS_PER_SEC / (curr - last) > Machine->drv->frames_per_second * 11 /10);
-    /*TODO*///
-    /*TODO*///				last = curr;
-    			}
-    			else
-    			{
-    /*TODO*///				TICKER target;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///				/* wait for video sync but use normal throttling */
-    /*TODO*///				if (wait_vsync)
-    /*TODO*///					vsync();
-    /*TODO*///
-    				curr = ticker();
-    /*TODO*///
-    /*TODO*///				if (already_synced == 0)
-    /*TODO*///				{
-    /*TODO*///				/* wait only if the audio update hasn't synced us already */
-    /*TODO*///
-    /*TODO*///					target = this_frame_base +
-    /*TODO*///							frameskip_counter * TICKS_PER_SEC/Machine->drv->frames_per_second;
-    /*TODO*///
-    /*TODO*///					if (curr - target < 0)
-    /*TODO*///					{
-    /*TODO*///						do
-    /*TODO*///						{
-    /*TODO*///							curr = ticker();
-    /*TODO*///						} while (curr - target < 0);
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    			}
-    		}
-    		else curr = ticker();
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		/* for the FPS average calculation */
-    		if (++frames_displayed == FRAMES_TO_SKIP)
-    			start_time = curr;
-    		else
-    			end_time = curr;
-
+            long curr;
+            int need_to_clear_bitmap=0;
+            int already_synced;
  
-    		//if (frameskip_counter == 0)
-    		{
-    			long divdr;
-    
-                        divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100L * FRAMESKIP_LEVELS));
-                        speed = (int)((TICKS_PER_SEC + divdr / 2L) / divdr);
-    			prev_measure = curr;
-    		}
-    
-    		prev = curr;
-    
-    		vfcount += waittable[frameskip][frameskip_counter];
-    		if (vfcount >= Machine.drv.frames_per_second)
-    		{
-    /*TODO*///			extern int vector_updates; /* avgdvg_go()'s per Mame frame, should be 1 */
-    /*TODO*///
-    /*TODO*///
-    			vfcount = 0;
-    /*TODO*///			vups = vector_updates;
-    /*TODO*///			vector_updates = 0;
-    		}
-  
-    		if (showfps!=0 || showfpstemp!=0)
-    		{
-    			int fps;
-    			String buf;
-   			int divdr;
-    
-    
-    			divdr = 100 * FRAMESKIP_LEVELS;
-    			fps = (Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
-    			buf=sprintf("%s%2d%4d%%%4d/%d fps",autoframeskip!=0?"auto":"fskp",frameskip,speed,fps,(int)(Machine.drv.frames_per_second+0.5));
-                        ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
-    			if (vector_game!=0)
-    			{
-    				sprintf(buf," %d vector updates",vups);
-    				ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,Machine.uifontheight);
-    			}
+            if (warming_up!=0)
+            {
+                /* first time through, initialize timer */
+                prev_measure = (ticker() - (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC / Machine.drv.frames_per_second));
+                warming_up = 0;
+                ticksPerFrame = (long)(TICKS_PER_SEC / Machine.drv.frames_per_second);
+            }
+
+            if (frameskip_counter == 0)
+                this_frame_base = (prev_measure + (long)(FRAMESKIP_LEVELS * TICKS_PER_SEC / Machine.drv.frames_per_second));
+
+            if (throttle!=0)
+            {
+                /* if too much time has passed since last sound update, disable throttling */
+                /* temporarily - we wouldn't be able to keep synch anyway. */
+                curr = ticker();
+                if ((curr - last1) > (2 * TICKS_PER_SEC / Machine.drv.frames_per_second))
+                    throttle = 1;
+                last1 = curr;
+
+                already_synced = 1;//xna_update_audio();
+
+                throttle = 1;
+            }
+            else
+                already_synced = 1;//xna_update_audio();
+
+            if (osd_skip_this_frame() == 0)
+            {
+                if (showfpstemp != 0)
+                {
+                    showfpstemp--;
+                    if (showfps == 0 && showfpstemp == 0)
+                    {
+                        need_to_clear_bitmap = 1;
+                    }
                 }
-    
+
+                if (input_ui_pressed(IPT_UI_SHOW_FPS)!=0)
+                {
+                    if (showfpstemp != 0)
+                    {
+                        showfpstemp = 0;
+                        need_to_clear_bitmap = 1;
+                    }
+                    else
+                    {
+                        showfps ^= 1;
+                        if (showfps == 0)
+                        {
+                            need_to_clear_bitmap = 1;
+                        }
+                    }
+                }
+
+                /* now wait until it's time to update the screen */
+                //while ((ticker() - ticksSinceLastFrame) < ticksPerFrame)System.Threading.Thread.Sleep(0);
+                if (throttle!=0)
+                {
+                    if (video_sync != 0)
+                    {
+                        do
+                        {
+                            //vsync();
+                            curr = ticker();
+                        } while ((TICKS_PER_SEC / (curr - last2)) > (long)(Machine.drv.frames_per_second * 11 / 10));
+
+                        last2 = curr;
+                    }
+                    else
+                    {
+                        long target;
+                        /* wait for video sync but use normal throttling */
+                        //                        if (wait_vsync != 0)
+                        //vsync();
+                        while ((ticker() - ticksSinceLastFrame) < ticksPerFrame);
+                        
+                        curr = ticker();
+
+                        if (already_synced==0)
+                        {
+                            /* wait only if the audio update hasn't synced us already */
+
+                            target = this_frame_base + (long)(frameskip_counter * TICKS_PER_SEC / Machine.drv.frames_per_second);
+
+                            if (curr - target < 0)
+                            {
+                                do
+                                {
+                                    curr = ticker();
+                                } while (curr - target < 0);
+                            }
+                        }
+                    }
+                }
+                else curr = ticker();
+
+                /* for the FPS average calculation */
+                if (++frames_displayed == FRAMES_TO_SKIP)
+                    start_time = curr;
+                else
+                    end_time = curr;
+
+                if (frameskip_counter == 0)
+                {
+                    int divdr = (int)(Machine.drv.frames_per_second * (curr - prev_measure) / (100 * FRAMESKIP_LEVELS));
+                    speed = (int)((TICKS_PER_SEC + divdr / 2L) / divdr);
+
+                    prev_measure = curr;
+                }
+
+                prev = curr;
+
+                vfcount += waittable[frameskip][frameskip_counter];
+                if (vfcount >= Machine.drv.frames_per_second)
+                {
+                    vfcount = 0;
+                //    vups = AvgDvg.vector_updates;
+               //     AvgDvg.vector_updates = 0;
+                }
+
+                if (showfps != 0 || showfpstemp != 0)
+                {
+                    int divdr = 100 * FRAMESKIP_LEVELS;
+                    int fps = (int)(Machine.drv.frames_per_second * (FRAMESKIP_LEVELS - frameskip) * speed + (divdr / 2)) / divdr;
+                    String buf=sprintf("%s%2d%4d%%%4d/%d fps",autoframeskip!=0?"auto":"fskp",frameskip,speed,fps,(int)(Machine.drv.frames_per_second+0.5));
+                    ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
+                    if (vector_game!=0)
+                    {
+                        //buf += sprintf(" %d vector updates", vups);
+                        //ui_text(buf, Machine.uiwidth - (buf.Length) * Machine.uifontwidth, Machine.uifontheight);
+                    }
+                }
+
     		if (scrbitmap.depth == 8)
     		{
     			if (dirty_bright!=0)
     			{
     				dirty_bright = 0;
-    				for (i = 0;i < 256;i++)
+    				for (int i = 0;i < 256;i++)
     				{                                     
                                         float rate = (float)(brightness * brightness_paused_adjust * Math.pow(i / 255.0, 1 / osd_gamma_correction) / 100);
       /*bright_lookup[i] = 63 * rate + 0.5;*/  bright_lookup[i] = (int)(255 * rate + 0.5);
@@ -2031,7 +2007,7 @@ public class video {
     			if (dirtypalette!=0)
     			{
     				dirtypalette = 0;
-   				for (i = 0;i < screen_colors;i++)
+   				for (int i = 0;i < screen_colors;i++)
     				{
     					if (dirtycolor[i]!=0)
     					{
@@ -2098,130 +2074,122 @@ public class video {
     /*TODO*///				}
     /*TODO*///			}
     /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* copy the bitmap to screen memory */
-    /*TODO*///		update_screen();
-                blitscreen_dirty1_vga();
-    /*TODO*///
-    /*TODO*///		/* see if we need to give the card enough time to draw both odd/even fields of the interlaced display
-    /*TODO*///			(req. for 15.75KHz Arcade Monitor Modes */
-    /*TODO*///		interlace_sync();
-    /*TODO*///
-    /*TODO*///
-    		if (need_to_clear_bitmap!=0)
-    			osd_clearbitmap(scrbitmap);
-    /*TODO*///
-    /*TODO*///		if (use_dirty)
-    /*TODO*///		{
-    /*TODO*///			if (!vector_game)
-    /*TODO*///				swap_dirty();
-    /*TODO*///			init_dirty(0);
-    /*TODO*///		}
-    /*TODO*///
-    		if (need_to_clear_bitmap!=0)
-    			osd_clearbitmap(scrbitmap);
-    /*TODO*///
-    /*TODO*///
-    		/*if (throttle!=0 && autoframeskip!=0 && frameskip_counter == 0)
-    		{
-    			int adjspeed;
-    
-    			/* adjust speed to video refresh rate if vsync is on */		
-           /*             adjspeed = (int)(speed * Machine.drv.frames_per_second / vsync_frame_rate);
 
-    			if (adjspeed >= 100)
-    			{
-    				frameskipadjust++;
-    				if (frameskipadjust >= 3)
-    				{
-    					frameskipadjust = 0;
-    					if (frameskip > 0) frameskip--;
-    				}
-    			}
-    			else
-    			{
-    				if (adjspeed < 80)
-    					frameskipadjust -= (90 - adjspeed) / 5;
-    				else
-    				{
-    					/* don't push frameskip too far if we are close to 100% speed */
-    	/*				if (frameskip < 8)
-    						frameskipadjust--;
-    				}
+                /* copy the bitmap to screen memory */
+                //doupdate_screen();
+               blitscreen_dirty1_vga();
+
+                if (need_to_clear_bitmap!=0)
+                    osd_clearbitmap(scrbitmap);
+
+                if (use_dirty != 0)
+                {
+                    //if (!vector_game)
+                    //    swap_dirty();
+                   // init_dirty(0);
+                }
+
+                if (need_to_clear_bitmap!=0)
+                    osd_clearbitmap(scrbitmap);
+
+                if (throttle==0 && autoframeskip==0 && frameskip_counter == 0)
+                {
+                    /* adjust speed to video refresh rate if vsync is on */
+                    int adjspeed = (int)(speed * Machine.drv.frames_per_second / vsync_frame_rate);
+
+                    if (adjspeed >= 100)
+                    {
+                        frameskipadjust++;
+                        if (frameskipadjust >= 3)
+                        {
+                            frameskipadjust = 0;
+                            if (frameskip > 0) frameskip--;
+                        }
+                    }
+                    else
+                    {
+                        if (adjspeed < 80)
+                            frameskipadjust -= (90 - adjspeed) / 5;
+                        else
+                        {
+                            /* don't push frameskip too far if we are close to 100% speed */
+                            if (frameskip < 8)
+                                frameskipadjust--;
+                        }
+
+                        while (frameskipadjust <= -2)
+                        {
+                            frameskipadjust += 2;
+                            if (frameskip < FRAMESKIP_LEVELS - 1) frameskip++;
+                        }
+                    }
+                }
+            }
+
+            /* Check for PGUP, PGDN and pan screen */
+            //xxxpan_display();
+
+           /* if (input_ui_pressed((int)ports.inptports.IPT_UI_FRAMESKIP_INC))
+            {
+                if (autoframeskip)
+                {
+                    autoframeskip = false;
+                    frameskip = 0;
+                }
+                else
+                {
+                    if (frameskip == FRAMESKIP_LEVELS - 1)
+                    {
+                        frameskip = 0;
+                        autoframeskip = true;
+                    }
+                    else
+                        frameskip++;
+                }
+
+                if (showfps == 0)
+                    showfpstemp = (int)(2 * Machine.drv.frames_per_second);
+
+                /* reset the frame counter every time the frameskip key is pressed, so */
+                /* we'll measure the average FPS on a consistent status. */
+           //     frames_displayed = 0;
+           // }
+
+            /*if (input_ui_pressed((int)ports.inptports.IPT_UI_FRAMESKIP_DEC))
+            {
+                if (autoframeskip)
+                {
+                    autoframeskip = false;
+                    frameskip = FRAMESKIP_LEVELS - 1;
+                }
+                else
+                {
+                    if (frameskip == 0)
+                        autoframeskip = true;
+                    else
+                        frameskip--;
+                }
+
+                if (showfps == 0)
+                    showfpstemp = (int)(2 * Machine.drv.frames_per_second);
+
+                /* reset the frame counter every time the frameskip key is pressed, so */
+                /* we'll measure the average FPS on a consistent status. */
+              //  frames_displayed = 0;
+            //}
+            if (input_ui_pressed(IPT_UI_THROTTLE)!=0)
+            {
+                throttle ^= 1;
+
+                /* reset the frame counter every time the throttle key is pressed, so */
+                /* we'll measure the average FPS on a consistent status. */
+                frames_displayed = 0;
+            }
+
+            frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
+            ticksSinceLastFrame = ticker();
+        }
     
-    				while (frameskipadjust <= -2)
-    				{
-    					frameskipadjust += 2;
-    					if (frameskip < FRAMESKIP_LEVELS-1) frameskip++;
-    				}
-    			}
-    		}*/
-    	}
-    /*TODO*///
-    /*TODO*///	/* Check for PGUP, PGDN and pan screen */
-    /*TODO*///	pan_display();
-    /*TODO*///
-    /*TODO*///	if (input_ui_pressed(IPT_UI_FRAMESKIP_INC))
-    /*TODO*///	{
-    /*TODO*///		if (autoframeskip)
-    /*TODO*///		{
-    /*TODO*///			autoframeskip = 0;
-    /*TODO*///			frameskip = 0;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			if (frameskip == FRAMESKIP_LEVELS-1)
-    /*TODO*///			{
-    /*TODO*///				frameskip = 0;
-    /*TODO*///				autoframeskip = 1;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///				frameskip++;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (showfps == 0)
-    /*TODO*///			showfpstemp = 2*Machine->drv->frames_per_second;
-    /*TODO*///
-    /*TODO*///		/* reset the frame counter every time the frameskip key is pressed, so */
-    /*TODO*///		/* we'll measure the average FPS on a consistent status. */
-    /*TODO*///		frames_displayed = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (input_ui_pressed(IPT_UI_FRAMESKIP_DEC))
-    /*TODO*///	{
-    /*TODO*///		if (autoframeskip)
-    /*TODO*///		{
-    /*TODO*///			autoframeskip = 0;
-    /*TODO*///			frameskip = FRAMESKIP_LEVELS-1;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			if (frameskip == 0)
-    /*TODO*///				autoframeskip = 1;
-    /*TODO*///			else
-    /*TODO*///				frameskip--;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (showfps == 0)
-    /*TODO*///			showfpstemp = 2*Machine->drv->frames_per_second;
-    /*TODO*///
-    /*TODO*///		/* reset the frame counter every time the frameskip key is pressed, so */
-    /*TODO*///		/* we'll measure the average FPS on a consistent status. */
-    /*TODO*///		frames_displayed = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (input_ui_pressed(IPT_UI_THROTTLE))
-    /*TODO*///	{
-    /*TODO*///		throttle ^= 1;
-    /*TODO*///
-    /*TODO*///		/* reset the frame counter every time the throttle key is pressed, so */
-    /*TODO*///		/* we'll measure the average FPS on a consistent status. */
-    /*TODO*///		frames_displayed = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    	/*TODO*///frameskip_counter = (frameskip_counter + 1) % FRAMESKIP_LEVELS;
-    }
     
     
     
@@ -2230,7 +2198,7 @@ public class video {
      static long[] prev1 = new long[10];
      static int clock_counter;
      static int framecount = 0;
-    public static void osd_update_video_and_audio()
+    public static void osd_update_video_and_audio1()
     {
         if (++framecount > frameskip) {
             framecount = 0;
