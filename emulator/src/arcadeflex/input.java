@@ -88,9 +88,9 @@ public class input {
 	new KeyboardInfo( "INS",		KEY_INSERT,			KEYCODE_INSERT ),
 	new KeyboardInfo( "DEL",		KEY_DEL,			KEYCODE_DEL ),
 	new KeyboardInfo( "HOME",		KEY_HOME,			KEYCODE_HOME ),
-	new KeyboardInfo( "END",		KEY_END,			KEYCODE_END ),
-	new KeyboardInfo( "PGUP",		KEY_PGUP,			KEYCODE_PGUP ),
-	new KeyboardInfo( "PGDN",		KEY_PGDN,			KEYCODE_PGDN ),*/
+	new KeyboardInfo( "END",		KEY_END,			KEYCODE_END ),*/
+	new KeyboardInfo( "PGUP",		KeyEvent.VK_PAGE_UP,		KEYCODE_PGUP ),
+	new KeyboardInfo( "PGDN",		KeyEvent.VK_PAGE_DOWN,		KEYCODE_PGDN ),
 	new KeyboardInfo( "LEFT",		KeyEvent.VK_LEFT,	        KEYCODE_LEFT ),
 	new KeyboardInfo( "RIGHT",		KeyEvent.VK_RIGHT,		KEYCODE_RIGHT ),
 	new KeyboardInfo( "UP",			KeyEvent.VK_UP,                 KEYCODE_UP ),
@@ -102,9 +102,10 @@ public class input {
 	new KeyboardInfo( ". PAD",      KEY_DEL_PAD,        KEYCODE_DEL_PAD ),
 	new KeyboardInfo( "ENTER PAD",  KEY_ENTER_PAD,      KEYCODE_ENTER_PAD ),
 	new KeyboardInfo( "PRTSCR",     KEY_PRTSCR,         KEYCODE_PRTSCR ),
-	new KeyboardInfo( "PAUSE",      KEY_PAUSE,          KEYCODE_PAUSE ),
-	new KeyboardInfo( "LSHIFT",		KEY_LSHIFT,			KEYCODE_LSHIFT ),
-	new KeyboardInfo( "RSHIFT",		KEY_RSHIFT,			KEYCODE_RSHIFT ),*/
+	new KeyboardInfo( "PAUSE",      KEY_PAUSE,          KEYCODE_PAUSE ),*/
+//LSHIFT + RSHOFT SAME IN JAVA
+	new KeyboardInfo( "LSHIFT",		KeyEvent.VK_SHIFT,			KEYCODE_LSHIFT ),
+	new KeyboardInfo( "RSHIFT",		KeyEvent.VK_SHIFT,			KEYCODE_RSHIFT ),
 //LCONTROL + RCONTROL ARE THE SAME IN JAVA....       
 	new KeyboardInfo( "LCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_LCONTROL ),
 	new KeyboardInfo( "RCTRL",		KeyEvent.VK_CONTROL,		KEYCODE_RCONTROL ),

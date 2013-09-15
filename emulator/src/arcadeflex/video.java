@@ -1762,48 +1762,54 @@ public class video {
     /*TODO*///		fprintf(errorlog, "msdos/video.c: undefined update_screen() function for %d x %d!\n",xmultiply,ymultiply);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///INLINE void pan_display(void)
-    /*TODO*///{
-    /*TODO*///	int pan_changed = 0;
-    /*TODO*///
-    /*TODO*///	/* horizontal panning */
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_PAN_LEFT,1))
-    /*TODO*///		if (skipcolumns < skipcolumnsmax)
-    /*TODO*///		{
-    /*TODO*///			skipcolumns++;
-    /*TODO*///			osd_mark_dirty (0,0,scrbitmap->width-1,scrbitmap->height-1,1);
-    /*TODO*///			pan_changed = 1;
-    /*TODO*///		}
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_PAN_RIGHT,1))
-    /*TODO*///		if (skipcolumns > skipcolumnsmin)
-    /*TODO*///		{
-    /*TODO*///			skipcolumns--;
-    /*TODO*///			osd_mark_dirty (0,0,scrbitmap->width-1,scrbitmap->height-1,1);
-    /*TODO*///			pan_changed = 1;
-    /*TODO*///		}
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_PAN_DOWN,1))
-    /*TODO*///		if (skiplines < skiplinesmax)
-    /*TODO*///		{
-    /*TODO*///			skiplines++;
-    /*TODO*///			osd_mark_dirty (0,0,scrbitmap->width-1,scrbitmap->height-1,1);
-    /*TODO*///			pan_changed = 1;
-    /*TODO*///		}
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_PAN_UP,1))
-    /*TODO*///		if (skiplines > skiplinesmin)
-    /*TODO*///		{
-    /*TODO*///			skiplines--;
-    /*TODO*///			osd_mark_dirty (0,0,scrbitmap->width-1,scrbitmap->height-1,1);
-    /*TODO*///			pan_changed = 1;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///	if (pan_changed)
-    /*TODO*///	{
-    /*TODO*///		if (use_dirty) init_dirty(1);
-    /*TODO*///
-    /*TODO*///		set_ui_visarea (skipcolumns, skiplines, skipcolumns+gfx_display_columns-1, skiplines+gfx_display_lines-1);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    public static void pan_display()
+    {
+    	int pan_changed = 0;
+    
+    	/* horizontal panning */
+    	if (input_ui_pressed_repeat(IPT_UI_PAN_LEFT,1)!=0)
+        {
+    		if (skipcolumns < skipcolumnsmax)
+    		{
+    			skipcolumns++;
+    			osd_mark_dirty (0,0,scrbitmap.width-1,scrbitmap.height-1,1);
+    			pan_changed = 1;      
+    		}
+        }
+    	if (input_ui_pressed_repeat(IPT_UI_PAN_RIGHT,1)!=0)
+        {
+    		if (skipcolumns > skipcolumnsmin)
+    		{
+    			skipcolumns--;
+    			osd_mark_dirty (0,0,scrbitmap.width-1,scrbitmap.height-1,1);
+    			pan_changed = 1;                     
+    		}
+        }
+    	if (input_ui_pressed_repeat(IPT_UI_PAN_DOWN,1)!=0)
+        {
+    		if (skiplines < skiplinesmax)
+    		{
+    			skiplines++;
+    			osd_mark_dirty (0,0,scrbitmap.width-1,scrbitmap.height-1,1);
+    			pan_changed = 1;
+    		}
+        }
+    	if (input_ui_pressed_repeat(IPT_UI_PAN_UP,1)!=0)
+        {
+    		if (skiplines > skiplinesmin)
+    		{
+    			skiplines--;
+    			osd_mark_dirty (0,0,scrbitmap.width-1,scrbitmap.height-1,1);
+    			pan_changed = 1;
+    		}
+        }
+    	if (pan_changed!=0)
+    	{
+  /*TODO*///  		if (use_dirty) init_dirty(1);
+    
+    		set_ui_visarea (skipcolumns, skiplines, skipcolumns+gfx_display_columns-1, skiplines+gfx_display_lines-1);
+    	}
+    }
     static int[][] skiptable =
     {
        new int[]{ 0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -1980,6 +1986,7 @@ public class video {
                     vfcount = 0;
                 //    vups = AvgDvg.vector_updates;
                //     AvgDvg.vector_updates = 0;
+//                    throw new UnsupportedOperationException("Not supported yet.");
                 }
 
                 if (showfps != 0 || showfpstemp != 0)
@@ -1990,6 +1997,7 @@ public class video {
                     ui_text(buf,Machine.uiwidth-buf.length()*Machine.uifontwidth,0);
                     if (vector_game!=0)
                     {
+                        throw new UnsupportedOperationException("Not supported yet.");
                         //buf += sprintf(" %d vector updates", vups);
                         //ui_text(buf, Machine.uiwidth - (buf.Length) * Machine.uifontwidth, Machine.uifontheight);
                     }
@@ -2039,8 +2047,10 @@ public class video {
     				}
                     }
     		}
-    /*TODO*///		else
-    /*TODO*///		{
+    		else
+    		{
+                    throw new UnsupportedOperationException("Not supported yet.");
+                
     /*TODO*///			if (dirty_bright)
     /*TODO*///			{
     /*TODO*///				dirty_bright = 0;
@@ -2076,7 +2086,7 @@ public class video {
     /*TODO*///					}
     /*TODO*///				}
     /*TODO*///			}
-    /*TODO*///		}
+    		}
 
                 /* copy the bitmap to screen memory */
                 //doupdate_screen();
@@ -2087,9 +2097,9 @@ public class video {
 
                 if (use_dirty != 0)
                 {
-                    //if (!vector_game)
-                    //    swap_dirty();
-                   // init_dirty(0);
+ /*TODO*///                   if (!vector_game)
+ /*TODO*///                       swap_dirty();
+ /*TODO*///                   init_dirty(0);
                 }
 
                 if (need_to_clear_bitmap!=0)
@@ -2130,7 +2140,7 @@ public class video {
             }
 
             /* Check for PGUP, PGDN and pan screen */
-            //xxxpan_display();
+            pan_display();
 
             if (input_ui_pressed(IPT_UI_FRAMESKIP_INC)!=0)
             {

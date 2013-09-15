@@ -7,6 +7,7 @@ import java.util.Arrays;
 import static mame.inputportH.*;
 import static arcadeflex.libc_old.*;
 import static mame.inputport.*;
+import static mame.mame.*;
 
 public class input {
     /* Codes */
@@ -31,6 +32,8 @@ public class input {
     
     /* Element in the table */
     static int code_mac;
+    
+    public static ui_info[] ui_map= new ui_info[__ipt_max];
     
     /* Create the code table */        
     public static int code_init()
@@ -59,7 +62,10 @@ public class input {
     			code_map[code_mac].type = CODE_TYPE_NONE; /* never happen */
     		++code_mac;
     	}
-    
+        //(shadow) we should intialaze that at startup
+        for(i=0; i<__ipt_max; i++)
+                ui_map[i]=new ui_info();
+            
     	return 0;
     }
     
@@ -742,14 +748,11 @@ public class input {
     {
         int memory;
     }
-    public static ui_info[] ui_map= new ui_info[__ipt_max];
+    
 
     public static int input_ui_pressed(int code)
     {
-        if(ui_map[code]==null)//intialaze it 
-        {
-            ui_map[code]=new ui_info();
-        }
+
     	int pressed;
     
     	pressed = seq_pressed(input_port_type_seq(code)) ? 1 :0;
@@ -765,35 +768,32 @@ public class input {
     		ui_map[code].memory = 0;
     	return pressed;
     }
-    /*TODO*///
-    /*TODO*///int input_ui_pressed_repeat(int code,int speed)
-    /*TODO*///{
-    /*TODO*///	static int counter,inputdelay;
-    /*TODO*///	int pressed;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_INPUT);
-    /*TODO*///
-    /*TODO*///	pressed = seq_pressed(input_port_type_seq(code));
-    /*TODO*///
-    /*TODO*///	if (pressed)
-    /*TODO*///	{
-    /*TODO*///		if (ui_map[code].memory == 0)
-    /*TODO*///		{
-    /*TODO*///			ui_map[code].memory = 1;
-    /*TODO*///			inputdelay = 3;
-    /*TODO*///			counter = 0;
-    /*TODO*///		}
-    /*TODO*///		else if (++counter > inputdelay * speed * Machine->drv->frames_per_second / 60)
-    /*TODO*///		{
-    /*TODO*///			inputdelay = 1;
-    /*TODO*///			counter = 0;
-    /*TODO*///		} else
-    /*TODO*///			pressed = 0;
-    /*TODO*///	} else
-    /*TODO*///		ui_map[code].memory = 0;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///
-    /*TODO*///	return pressed;
-    /*TODO*///}    
+    static int repeat_counter,repeat_inputdelay;
+    public static int input_ui_pressed_repeat(int code,int speed)
+    {
+    	
+    	int pressed;
+    
+
+    	pressed = seq_pressed(input_port_type_seq(code))  ? 1 :0;
+    
+    	if (pressed!=0)
+    	{
+    		if (ui_map[code].memory == 0)
+    		{
+    			ui_map[code].memory = 1;
+    			repeat_inputdelay = 3;
+    			repeat_counter = 0;
+    		}
+    		else if (++repeat_counter > repeat_inputdelay * speed * Machine.drv.frames_per_second / 60)
+    		{
+    			repeat_inputdelay = 1;
+    			repeat_counter = 0;
+    		} else
+    			pressed = 0;
+    	} else
+    		ui_map[code].memory = 0;
+    
+    	return pressed;
+    }    
 }
