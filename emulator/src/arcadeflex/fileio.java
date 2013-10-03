@@ -1,11 +1,14 @@
 package arcadeflex;
 
 import static arcadeflex.libc_old.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.Checksum;
@@ -100,14 +103,16 @@ public class fileio {
 
                 for (indx = 0; indx < pathc && found == 0; ++indx) {
                     String dir_name = pathv[indx];
-                    unZipIt(dir_name + File.separator + gamename + ".zip", dir_name + File.separator + gamename, filename);
+                    //unZipIt(dir_name + File.separator + gamename + ".zip", dir_name + File.separator + gamename, filename);
                     if (found == 0) {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
                         //java code to emulate stat command (shadow)
-
+                        
+                        //case where file exists in rom folder
                         if (new File(name).isDirectory() && new File(name).exists()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                         {
+                            //System.out.println("case where file exists in rom folder");
                             name = sprintf("%s/%s/%s", dir_name, gamename, filename);
                             //System.out.println(name);
                             if (new File(name).exists()) {
@@ -135,6 +140,43 @@ public class fileio {
                                     found = (f.file != null) ? 1 : 0; //found = f.file !=0;
                                 }
                             }
+                        } else if (new File(dir_name + File.separator + gamename + ".zip").exists()){ //case where file exists in rom zip file
+                            //System.out.println("case where file exists in rom zip file");
+                            File thefile = unZipIt2(dir_name + File.separator + gamename + ".zip", filename);
+                            if(thefile!=null){
+                                name = sprintf("%s/%s/%s", dir_name, gamename, filename);
+                            //System.out.println(name);
+                            //if (new File(name).exists()) {
+                                if (filetype == OSD_FILETYPE_ROM) {
+                                    //java issue since there is no way to pass by reference the data table 
+                                    //get it here
+                                    f.file = fopen(thefile, "rb");
+                                    long size = ftell(f.file);
+                                    f.data = new char[(int) size];
+                                    fclose(f.file);
+                                    // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
+                                    int tlen[] = new int[1];
+                                    int tcrc[] = new int[1];
+                                    if (checksum_file2(thefile, f.data, tlen, tcrc) == 0) {
+                                        f.type = kRAMFile;
+                                        f.offset = 0;
+                                        found = 1;
+                                    }
+                                    //copy values where they belong
+                                    f.length = tlen[0];
+                                    f.crc = tcrc[0];
+                                } else {
+                                    f.type = kPlainFile;
+                                    f.file = fopen(unZipIt2(dir_name + File.separator + gamename + ".zip", filename), "rb");
+                                    found = (f.file != null) ? 1 : 0; //found = f.file !=0;
+                                }
+                                thefile.delete();
+                                thefile=null;
+                            //}
+                            }else{
+                                System.out.println(filename+" does not seem to exist in the zip file");
+                            }
+                            
                         }
                     }
 
@@ -503,6 +545,113 @@ public class fileio {
 
         return 0;
     }
+    
+    public static int checksum_file2(File fl, char[] p, int[] size, int[] crc) {
+        FILE f;
+        f = fopen(fl, "rb");
+        if (f == null) {
+            return -1;
+        }
+
+        long length = ftell(f);
+
+
+        if (fread(p, 0, 1, (int) length, f) != length) {
+            fclose(f);
+            return -1;
+        }
+        size[0] = (int) length;
+        /*Checksum crcal = new CRC32();
+         String temp = new String(p);//make string to be able to get the bytes
+         crcal.update(temp.getBytes(), 0, size[0]);
+         long result =crcal.getValue();*/
+        try {
+
+            CheckedInputStream cis = null;
+            long fileSize = 0;
+            try {
+                // Computer CRC32 checksum
+                cis = new CheckedInputStream(
+                        new FileInputStream(fl), new CRC32());
+
+                fileSize = fl.length();
+
+            } catch (FileNotFoundException e) {
+                System.err.println("File not found.");
+                System.exit(1);
+            }
+
+            byte[] buf = new byte[(int) fileSize];
+            while (cis.read(buf) >= 0) {
+            }
+
+            long checksum = cis.getChecksum().getValue();
+            crc[0] = (int) checksum;
+            //System.out.println(checksum + " " + fileSize + " " + file);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+
+        fclose(f);
+        /*     int length;
+         unsigned char *data;
+         FILE *f;
+
+         f = fopen (file, "rb");
+         if( !f )
+         return -1;
+
+         /* determine length of file */
+        /*     if( fseek (f, 0L, SEEK_END) != 0 )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         length = ftell (f);
+         if( length == -1L )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         /* allocate space for entire file */
+        /*    data = (unsigned char *) malloc (length);
+         if( !data )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         /* read entire file into memory */
+        /*     if( fseek (f, 0L, SEEK_SET) != 0 )
+         {
+         free (data);
+         fclose (f);
+         return -1;
+         }
+
+         if( fread (data, sizeof (unsigned char), length, f) != length )
+         {
+         free (data);
+         fclose (f);
+         return -1;
+         }
+
+         *size = length;
+         *crc = crc32 (0L, data, length);
+         if( p )
+         *p = data;
+         else
+         free (data);
+
+         fclose (f);*/
+
+        return 0;
+    }
 
     public static int osd_fsize(Object file) {
         FakeFileHandle f = (FakeFileHandle) file;
@@ -602,7 +751,7 @@ public class fileio {
                     zis.closeEntry();
                     zis.close();
 
-                    System.out.println("Done ");
+                    //System.out.println("Done ");
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -611,5 +760,128 @@ public class fileio {
 
         }
 
+    }
+    
+    public static File unZipIt2(String zipFile, String filename) {
+        File out = null;
+
+        if (!new File(zipFile).exists()) {
+            System.out.println("unzip failed");
+        } else {
+            //System.out.println("entered unzipit2 for "+filename);
+            
+                byte[] buffer = new byte[1024];
+
+                try {
+
+                   
+
+                    //get the zip file content
+                    ZipInputStream zis =
+                            new ZipInputStream(new FileInputStream(zipFile));
+                    //get the zipped file list entry
+                    ZipEntry ze = zis.getNextEntry();
+
+                    while (ze != null) {
+
+                        String fileName = ze.getName();
+                        //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                        if (fileName.equalsIgnoreCase(filename)) {
+                            //System.out.println("extracting!!!!!!!");
+                            out = new File(System.getProperty("java.io.tmpdir")+"tmp");
+                            //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                            //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+
+                            //create all non exists folders
+                            //else you will hit FileNotFoundException for compressed folder
+                            //new File(out.getParent()).mkdirs();
+
+                            FileOutputStream fos = new FileOutputStream(out);
+
+                            int len;
+                            while ((len = zis.read(buffer)) > 0) {
+                                fos.write(buffer, 0, len);
+                            }
+
+                            fos.close();
+                        }
+                        ze = zis.getNextEntry();
+                    }
+
+                    zis.closeEntry();
+                    zis.close();
+
+                    //System.out.println("Done ");
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            
+
+        }
+        return out;
+    }
+    public static ByteArrayInputStream unZipIt3(String zipFile, String filename) { //not used yet. needs major changes in libc_old..
+        ByteArrayInputStream inb = null;
+        ByteArrayOutputStream outb = null;
+
+        if (!new File(zipFile).exists()) {
+            System.out.println("unzip failed");
+        } else {
+            //System.out.println("entered unzipit2 for "+filename);
+            
+                byte[] buffer = new byte[1024];
+
+                try {
+
+                   
+
+                    //get the zip file content
+                    ZipInputStream zis =
+                            new ZipInputStream(new FileInputStream(zipFile));
+                    //get the zipped file list entry
+                    ZipEntry ze = zis.getNextEntry();
+
+                    while (ze != null) {
+
+                        String fileName = ze.getName();
+                        //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                        if (fileName.equalsIgnoreCase(filename)) {
+                            //System.out.println("extracting!!!!!!!");
+                            outb = new ByteArrayOutputStream();
+                            //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                            //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+
+                            //create all non exists folders
+                            //else you will hit FileNotFoundException for compressed folder
+                            //new File(out.getParent()).mkdirs();
+
+
+
+                            int len;
+                            while ((len = zis.read(buffer)) > 0) {
+
+                                outb.write(buffer, 0, len);
+                            }
+
+                            outb.close();
+                            inb = new ByteArrayInputStream(outb.toByteArray());
+                        }
+
+                        ze = zis.getNextEntry();
+                    }
+
+                    zis.closeEntry();
+                    zis.close();
+
+                    System.out.println("Done ");
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            
+
+        }
+        return inb;
     }
 }

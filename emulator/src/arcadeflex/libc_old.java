@@ -429,6 +429,41 @@ public class libc_old {
         file = null;
         return null;
     }
+    
+    public static FILE fopen(File fl, String format) {
+        FILE file;
+        file = new FILE();
+        if (format.compareTo("rb") == 0) {
+            try {
+                    file.raf = new RandomAccessFile(fl, "r");
+                file.Name = fl.getName();
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        } else if (format.compareTo("wb") == 0) {
+            try {
+                    file.fos = new FileOutputStream(fl, false);
+                
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        } else if (format.compareTo("wa") == 0) {
+            try {
+                    file.fw = new FileWriter(fl, false);
+
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        }
+        file = null;
+        return null;
+    }
 
     public static int fread(char[] buf, int offset, int size, int count, FILE file) {
         byte bbuf[] = new byte[size * count];
