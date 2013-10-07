@@ -680,8 +680,8 @@ public class sndintrf {
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///int sound_start(void)
-    /*TODO*////*TODO*///{
+    public static int sound_start()
+    {
     /*TODO*////*TODO*///	int totalsound = 0;
     /*TODO*////*TODO*///	int i;
     /*TODO*////*TODO*///
@@ -717,18 +717,18 @@ public class sndintrf {
     /*TODO*////*TODO*///		totalsound++;
     /*TODO*////*TODO*///	}
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	return 0;
+    	return 0;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///getout:
     /*TODO*////*TODO*///	/* TODO: should also free the resources allocated before */
     /*TODO*////*TODO*///	return 1;
-    /*TODO*////*TODO*///}
+    }
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void sound_stop(void)
-    /*TODO*////*TODO*///{
+    public static void sound_stop()
+    {
     /*TODO*////*TODO*///	int totalsound = 0;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
@@ -752,12 +752,12 @@ public class sndintrf {
     /*TODO*////*TODO*///	/* free audio samples */
     /*TODO*////*TODO*///	freesamples(Machine->samples);
     /*TODO*////*TODO*///	Machine->samples = 0;
-    /*TODO*////*TODO*///}
+    }
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void sound_update(void)
-    /*TODO*////*TODO*///{
+    public static void sound_update()
+    {
     /*TODO*////*TODO*///	int totalsound = 0;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
@@ -777,11 +777,11 @@ public class sndintrf {
     /*TODO*////*TODO*///	timer_reset(sound_update_timer,TIME_NEVER);
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*////*TODO*///}
+    }
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void sound_reset(void)
-    /*TODO*////*TODO*///{
+    public static void sound_reset()
+    {
     /*TODO*////*TODO*///	int totalsound = 0;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
@@ -792,10 +792,8 @@ public class sndintrf {
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///		totalsound++;
     /*TODO*////*TODO*///	}
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    }
+
     public static String sound_name(MachineSound msound)
     {
     	 if(msound.sound_type < SOUND_COUNT)

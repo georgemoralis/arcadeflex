@@ -43,6 +43,7 @@ import static mame.commonH.*;
 import static mame.inputH.*;
 import static mame.inputport.*;
 import static mame.tilemapC.*;
+import static mame.sndintrf.*;
 
 public class mame {
 
@@ -402,7 +403,7 @@ public class mame {
 
     public static int updatescreen() {
         /* update sound */
-        /*TODO*/ //            sound_update();
+        sound_update();
 
          if (osd_skip_this_frame() == 0)
          {
@@ -452,8 +453,8 @@ public class mame {
     /*TODO*///		gfxobj_init();
     		if (drv.vh_start == null || drv.vh_start.handler() == 0)      /* start the video hardware */
     		{
-    /*TODO*///			if (sound_start() == 0) /* start the audio hardware */
-    /*TODO*///			{
+    			if (sound_start() == 0) /* start the audio hardware */
+    			{
     				int	region;
     
     				/* free memory regions allocated with REGIONFLAG_DISPOSE (typically gfx roms) */
@@ -518,16 +519,15 @@ public class mame {
     //userquit:
     				/* the following MUST be done after hiscore_save() otherwise */
     				/* some 68000 games will not work */
-    /*TODO*///				sound_stop();
+    				sound_stop();
     				if (drv.vh_stop!=null) drv.vh_stop.handler();
-    /*TODO*///
     				res = 0;
-    /*TODO*///			}
-    /*TODO*///			else if (!bailing)
-    /*TODO*///			{
-    /*TODO*///				bailing = 1;
-    /*TODO*///				printf("Unable to start audio emulation\n");
-    /*TODO*///			}
+    			}
+    			else if (bailing==0)
+    			{
+    				bailing = 1;
+    				printf("Unable to start audio emulation\n");
+    			}
     		}
     		else if (bailing==0)
     		{
@@ -553,7 +553,7 @@ public class mame {
         int res;
         /* the following MUST be done after hiscore_save() otherwise */
     	/* some 68000 games will not work */
-    /*TODO*///				sound_stop();
+   	sound_stop();
     	if (drv.vh_stop!=null) drv.vh_stop.handler();
     	res = 0;
         /*TODO*///		gfxobj_close();

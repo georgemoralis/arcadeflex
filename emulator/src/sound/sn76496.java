@@ -2,7 +2,6 @@
 package sound;
 
 import mame.sndintrf;
-import mame.sndintrfH;
 import static mame.sndintrfH.*;
 import static sound.sn76496H.*;
 import static mame.driverH.*;
@@ -271,13 +270,6 @@ public class sn76496 extends sndintrf.snd_interface
 		length--;
 	}
     }};
-
-
-
-
-
-
-
 
     static void SN76496_set_clock(int chip,int clock)
     {
