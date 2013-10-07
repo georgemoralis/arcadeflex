@@ -682,7 +682,7 @@ public class sndintrf {
     /*TODO*////*TODO*///
     public static int sound_start()
     {
-    /*TODO*////*TODO*///	int totalsound = 0;
+    	int totalsound = 0;
     /*TODO*////*TODO*///	int i;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///	/* Verify the order of entries in the sndintf[] array */
@@ -709,14 +709,14 @@ public class sndintrf {
     /*TODO*////*TODO*///	if (streams_sh_start() != 0)
     /*TODO*////*TODO*///		return 1;
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		if ((*sndintf[Machine->drv->sound[totalsound].sound_type].start)(&Machine->drv->sound[totalsound]) != 0)
-    /*TODO*////*TODO*///			goto getout;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///		totalsound++;
-    /*TODO*////*TODO*///	}
-    /*TODO*////*TODO*///
+        //if(msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_num(msound)!=0)
+    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	{
+    		if ((sndintf[Machine.drv.sound[totalsound].sound_type].start(Machine.drv.sound[totalsound])) != 0)
+    			return 1;//goto getout;
+    
+    		totalsound++;
+    	}
     	return 0;
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///

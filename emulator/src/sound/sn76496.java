@@ -316,6 +316,9 @@ public class sn76496 extends sndintrf.snd_interface
 
     static int SN76496_init(MachineSound msound,int chip,int clock,int volume,int sample_rate)
     {
+            for(int k=0; k<sn.length; k++)
+                sn[k] = new SN76496();
+            
             int i;
             SN76496 R = sn[chip];
             String name;
