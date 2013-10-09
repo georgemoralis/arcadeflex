@@ -15,6 +15,8 @@ import sound.CustomSound;
 import sound._3526intf;
 import sound._3812intf;
 import sound.y8950;
+import static sound.mixer.*;
+import static sound.streams.*;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -144,11 +146,11 @@ public class sndintrf {
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///***************************************************************************/
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///static void *sound_update_timer;
-    /*TODO*////*TODO*///static double refresh_period;
-    /*TODO*////*TODO*///static double refresh_period_inv;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    static timer_entry sound_update_timer;
+    static double refresh_period;
+    static double refresh_period_inv;
+    
+    
     public static abstract class snd_interface
     {
         public int sound_num;
@@ -695,21 +697,20 @@ public class sndintrf {
     /*TODO*////*TODO*///		}
     /*TODO*////*TODO*///	}
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	/* samples will be read later if needed */
-    /*TODO*////*TODO*///	Machine->samples = 0;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	refresh_period = TIME_IN_HZ(Machine->drv->frames_per_second);
-    /*TODO*////*TODO*///	refresh_period_inv = 1.0 / refresh_period;
-    /*TODO*////*TODO*///	sound_update_timer = timer_set(TIME_NEVER,0,NULL);
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	if (mixer_sh_start() != 0)
-    /*TODO*////*TODO*///		return 1;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	if (streams_sh_start() != 0)
-    /*TODO*////*TODO*///		return 1;
-    /*TODO*////*TODO*///
-        //if(msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_num(msound)!=0)
+    
+    	/* samples will be read later if needed */
+    	Machine.samples = null;
+    
+    	refresh_period = TIME_IN_HZ(Machine.drv.frames_per_second);
+    	refresh_period_inv = 1.0 / refresh_period;
+    	sound_update_timer = timer_set(TIME_NEVER,0,null);
+    
+    	if (mixer_sh_start() != 0)
+    		return 1;
+    
+    	if (streams_sh_start() != 0)
+    		return 1;
+
     	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
     	{
     		if ((sndintf[Machine.drv.sound[totalsound].sound_type].start(Machine.drv.sound[totalsound])) != 0)
@@ -718,15 +719,7 @@ public class sndintrf {
     		totalsound++;
     	}
     	return 0;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///getout:
-    /*TODO*////*TODO*///	/* TODO: should also free the resources allocated before */
-    /*TODO*////*TODO*///	return 1;
     }
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
     public static void sound_stop()
     {
     /*TODO*////*TODO*///	int totalsound = 0;
