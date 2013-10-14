@@ -722,69 +722,64 @@ public class sndintrf {
     }
     public static void sound_stop()
     {
-    /*TODO*////*TODO*///	int totalsound = 0;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].stop)
-    /*TODO*////*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].stop)();
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///		totalsound++;
-    /*TODO*////*TODO*///	}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	streams_sh_stop();
-    /*TODO*////*TODO*///	mixer_sh_stop();
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	if (sound_update_timer)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		timer_remove(sound_update_timer);
-    /*TODO*////*TODO*///		sound_update_timer = 0;
-    /*TODO*////*TODO*///	}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	/* free audio samples */
-    /*TODO*////*TODO*///	freesamples(Machine->samples);
-    /*TODO*////*TODO*///	Machine->samples = 0;
+    	int totalsound = 0;
+    
+    
+    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	{
+    		//if (sndintf[Machine.drv.sound[totalsound].sound_type].stop()!=null)
+    			sndintf[Machine.drv.sound[totalsound].sound_type].stop();
+    
+    		totalsound++;
+    	}
+    
+    	streams_sh_stop();
+    	mixer_sh_stop();
+    
+    	if (sound_update_timer!=null)
+    	{
+    		timer_remove(sound_update_timer);
+    		sound_update_timer = null;
+    	}
+    
+    	/* free audio samples */
+ //*TODO*///   	freesamples(Machine.samples);
+    	Machine.samples = null;
     }
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    
+    
+    
     public static void sound_update()
     {
-    /*TODO*////*TODO*///	int totalsound = 0;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	profiler_mark(PROFILER_SOUND);
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].update)
-    /*TODO*////*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].update)();
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///		totalsound++;
-    /*TODO*////*TODO*///	}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	streams_sh_update();
-    /*TODO*////*TODO*///	mixer_sh_update();
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	timer_reset(sound_update_timer,TIME_NEVER);
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	profiler_mark(PROFILER_END);
+    	int totalsound = 0;
+    
+    
+    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	{
+    		//if (sndintf[Machine->drv->sound[totalsound].sound_type].update)
+    			sndintf[Machine.drv.sound[totalsound].sound_type].update();
+    
+    		totalsound++;
+    	}
+    
+    	streams_sh_update();
+    	mixer_sh_update();
+    
+    	timer_reset(sound_update_timer,TIME_NEVER);
     }
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    
+    
     public static void sound_reset()
     {
-    /*TODO*////*TODO*///	int totalsound = 0;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-    /*TODO*////*TODO*///	{
-    /*TODO*////*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].reset)
-    /*TODO*////*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].reset)();
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///		totalsound++;
-    /*TODO*////*TODO*///	}
+    	int totalsound = 0;
+    
+    
+    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	{
+    		//if (sndintf[Machine->drv->sound[totalsound].sound_type].reset)
+                    sndintf[Machine.drv.sound[totalsound].sound_type].reset();
+    		totalsound++;
+    	}
     }
 
     public static String sound_name(MachineSound msound)
@@ -818,12 +813,10 @@ public class sndintrf {
         }  		
     }
 
-    /*TODO*////*TODO*///int sound_scalebufferpos(int value)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	int result = (int)((double)value * timer_timeelapsed (sound_update_timer) * refresh_period_inv);
-    /*TODO*////*TODO*///	if (value >= 0) return (result < value) ? result : value;
-    /*TODO*////*TODO*///	else return (result > value) ? result : value;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO
-    
+    public static int sound_scalebufferpos(int value)
+    {
+    	int result = (int)((double)value * timer_timeelapsed (sound_update_timer) * refresh_period_inv);
+    	if (value >= 0) return (result < value) ? result : value;
+    	else return (result > value) ? result : value;
+    }   
 }

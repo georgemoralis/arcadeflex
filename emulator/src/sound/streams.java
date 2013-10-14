@@ -7,6 +7,8 @@ package sound;
  */
 import static arcadeflex.libc_old.*;
 import static sound.mixerH.*;
+import static sound.mixer.*;
+
 public class streams {
     
     public static abstract interface StreamInitPtr { public abstract void handler(int param,CharPtr buffer,int length); }
@@ -95,8 +97,8 @@ public class streams {
     }
     
     
-    /*TODO*///void streams_sh_stop(void)
-    /*TODO*///{
+    public static void streams_sh_stop()
+    {
     /*TODO*///	int i;
     /*TODO*///
     /*TODO*///
@@ -105,10 +107,10 @@ public class streams {
     /*TODO*///		free(stream_buffer[i]);
     /*TODO*///		stream_buffer[i] = 0;
     /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    public static void stream_update(int channel,int min_interval)
+    }
+
+    
+    public static void streams_sh_update()
     {
     /*TODO*///	int channel,i;
     /*TODO*///
@@ -182,14 +184,14 @@ public class streams {
 		int sample_rate,
 		int param,StreamInitPtr callback)
     {
-    /*TODO*///	int channel;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	channel = mixer_allocate_channel(default_mixing_level);
-    /*TODO*///
-    /*TODO*///	stream_joined_channels[channel] = 1;
-    /*TODO*///
-    /*TODO*///	mixer_set_name(channel,name);
+    	int channel;
+    
+    
+    	channel = mixer_allocate_channel(default_mixing_level);
+    
+    	stream_joined_channels[channel] = 1;
+    
+    	mixer_set_name(channel,name);
     /*TODO*///
     /*TODO*///	if ((stream_buffer[channel] = malloc(sizeof(INT16)*BUFFER_LEN)) == 0)
     /*TODO*///		return -1;
@@ -244,8 +246,8 @@ public class streams {
     /*TODO*///
     /*TODO*///
     /*TODO*////* min_interval is in usec */
-    /*TODO*///void stream_update(int channel,int min_interval)
-    /*TODO*///{
+    public static void stream_update(int channel,int min_interval)
+    {
     /*TODO*///	int newpos;
     /*TODO*///	int buflen;
     /*TODO*///
@@ -290,5 +292,5 @@ public class streams {
     /*TODO*///			stream_buffer_pos[channel] += buflen;
     /*TODO*///		}
     /*TODO*///	}
-    /*TODO*///}
+    }
 }
