@@ -52,9 +52,9 @@ public class sn76496 extends sndintrf.snd_interface
     /* noise generator start preset (for periodic noise) */
     private static final int NG_PRESET =0x0f35;
 
-    public static class SN76496
+    public static class _SN76496
     {
-        public SN76496()
+        public _SN76496()
         {
             VolTable = new int[16];
             Register = new int[8];
@@ -85,13 +85,13 @@ public class sn76496 extends sndintrf.snd_interface
     }
 
 
-    static SN76496[] sn =new SN76496[MAX_76496];
+    public static _SN76496[] sn =new _SN76496[MAX_76496];
 
 
 
-    static void SN76496Write(int chip,int data)
+    public static void SN76496Write(int chip,int data)
     {
-            SN76496 R = sn[chip];
+            _SN76496 R = sn[chip];
 
 
             /* update the output buffer before changing the registers */
@@ -184,10 +184,9 @@ public class sn76496 extends sndintrf.snd_interface
     public static StreamInitPtr SN76496Update = new StreamInitPtr(){ public void handler(int chip,CharPtr buffer,int length)
     {
         int i;
-	SN76496 R = sn[chip];
-
-
-	/* If the volume is 0, increase the counter */
+	_SN76496 R = sn[chip];
+        
+        /* If the volume is 0, increase the counter */
 	for (i = 0;i < 4;i++)
 	{
 		if (R.Volume[i] == 0)
@@ -227,7 +226,10 @@ public class sn76496 extends sndintrf.snd_interface
 				if (R.Count[i] > 0)
 				{
 					R.Output[i] ^= 1;
-					if (R.Output[i]!=0) vol[i] += R.Period[i];
+					if (R.Output[i]!=0) 
+                                        {
+                                            vol[i] += R.Period[i];                                       
+                                        }
 					break;
 				}
 				R.Count[i] += R.Period[i];
@@ -273,7 +275,7 @@ public class sn76496 extends sndintrf.snd_interface
 
     static void SN76496_set_clock(int chip,int clock)
     {
-            SN76496 R = sn[chip];
+            _SN76496 R = sn[chip];
 
 
             /* the base clock for the tone generators is the chip clock divided by 16; */
@@ -288,7 +290,7 @@ public class sn76496 extends sndintrf.snd_interface
 
     static void SN76496_set_gain(int chip,int gain)
     {
-            SN76496 R = sn[chip];
+            _SN76496 R = sn[chip];
             int i;
             double out;
 
@@ -315,12 +317,9 @@ public class sn76496 extends sndintrf.snd_interface
 
 
     static int SN76496_init(MachineSound msound,int chip,int clock,int volume,int sample_rate)
-    {
-            for(int k=0; k<sn.length; k++)
-                sn[k] = new SN76496();
-            
+    {           
             int i;
-            SN76496 R = sn[chip];
+            _SN76496 R = sn[chip];
             String name;
 
 
@@ -358,7 +357,8 @@ public class sn76496 extends sndintrf.snd_interface
         int chip;
         
         SN76496interface intf = ((SN76496interface)msound.sound_interface);
-        
+        for(int k=0; k<intf.num; k++)
+                sn[k] = new _SN76496();
         for (chip = 0;chip < intf.num;chip++)
 	{
 	   if (SN76496_init(msound,chip,intf.baseclock[chip],intf.volume[chip] & 0xff,Machine.sample_rate) != 0)

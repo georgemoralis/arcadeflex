@@ -42,7 +42,7 @@ public class mixer {
     /*TODO*///
     /*TODO*///	/* current playback positions */
     /*TODO*///	UINT32		input_frac;
-    /*TODO*///	UINT32		samples_available;
+    	int/*UINT32*/		samples_available;
     /*TODO*///	UINT32		frequency;
     /*TODO*///	UINT32		step_size;
     /*TODO*///
@@ -132,6 +132,7 @@ public class mixer {
 
     public static void mixer_update_channel(mixer_channel_data channel, int total_sample_count)
     {
+        System.out.println("mixer_update_channel");
     /*TODO*///	int samples_to_generate = total_sample_count - channel->samples_available;
     /*TODO*///
     /*TODO*///	/* don't do anything for streaming channels */
@@ -162,6 +163,7 @@ public class mixer {
     /*TODO*///
     public static void mixer_sh_update()
     {
+        System.out.println("mixer_sh_update");
     /*TODO*///	struct mixer_channel_data *	channel;
     /*TODO*///	UINT32 accum_pos = accum_base;
     /*TODO*///	INT16 *mix;
@@ -448,8 +450,9 @@ public class mixer {
     /*TODO*///	mixer_play_streamed_sample_16
     /*TODO*///***************************************************************************/
     /*TODO*///
-    /*TODO*///void mixer_play_streamed_sample_16(int ch, INT16 *data, int len, int freq)
-    /*TODO*///{
+    public static void mixer_play_streamed_sample_16(int ch, CharPtr data, int len, int freq)
+    {
+        System.out.println("mixer_play_streamed_sample");
     /*TODO*///	struct mixer_channel_data *channel = &mixer_channel[ch];
     /*TODO*///	UINT32 step_size, input_pos, output_pos, samples_mixed;
     /*TODO*///	INT32 mixing_volume;
@@ -526,7 +529,7 @@ public class mixer {
     /*TODO*///	channel->samples_available += samples_mixed;
     /*TODO*///
     /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///}
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////***************************************************************************
@@ -538,17 +541,17 @@ public class mixer {
     /*TODO*///	return samples_this_frame;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///	mixer_need_samples_this_frame
-    /*TODO*///***************************************************************************/
-    /*TODO*///#define EXTRA_SAMPLES 1    // safety margin for sampling rate conversion
-    /*TODO*///int mixer_need_samples_this_frame(int channel,int freq)
-    /*TODO*///{
-    /*TODO*///	return (samples_this_frame - mixer_channel[channel].samples_available + EXTRA_SAMPLES)
-    /*TODO*///			* freq / Machine->sample_rate;
-    /*TODO*///}
-    /*TODO*///
+    
+    /***************************************************************************
+    	mixer_need_samples_this_frame
+    ***************************************************************************/
+    public static final int EXTRA_SAMPLES =1;    // safety margin for sampling rate conversion
+    public static int mixer_need_samples_this_frame(int channel,int freq)
+    {
+    	return (samples_this_frame - mixer_channel[channel].samples_available + EXTRA_SAMPLES)
+    			* freq / Machine.sample_rate;
+    }
+    
     /*TODO*///
     /*TODO*////***************************************************************************
     /*TODO*///	mixer_play_sample
