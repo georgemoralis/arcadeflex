@@ -39,21 +39,22 @@ public class mixer {
     	char /*UINT8*/		default_mixing_level;
     	char /*UINT8*/		config_mixing_level;
     	char /*UINT8*/		config_default_mixing_level;
-    /*TODO*///
-    /*TODO*///	/* current playback positions */
-    /*TODO*///	UINT32		input_frac;
+    
+    	/* current playback positions */
+    	int/*UINT32*/		input_frac;
     	int/*UINT32*/		samples_available;
-    /*TODO*///	UINT32		frequency;
-    /*TODO*///	UINT32		step_size;
-    /*TODO*///
-    /*TODO*///	/* state of non-streamed playback */
-    /*TODO*///	UINT8		is_stream;
-    /*TODO*///	UINT8		is_playing;
-    /*TODO*///	UINT8		is_looping;
-    /*TODO*///	UINT8		is_16bit;
-    /*TODO*///	void *		data_start;
-    /*TODO*///	void *		data_end;
-    /*TODO*///	void *		data_current;
+        int /*UINT32*/		frequency;
+        int/*UINT32*/		step_size;
+   
+        /* state of non-streamed playback */
+    	boolean/*UINT8*/	is_stream;
+        boolean/*UINT8*/		is_playing;
+        boolean/*UINT8*/		is_looping;
+        boolean/*UINT8*/		is_16bit;
+
+        CharPtr data_start;
+        int data_end;
+        int data_current;
     };
     
     
@@ -123,134 +124,129 @@ public class mixer {
     {
     /*TODO*///	osd_stop_audio_stream();
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///	mixer_update_channel
-    /*TODO*///***************************************************************************/
-    /*TODO*///
+    
+    
+    /***************************************************************************
+    	mixer_update_channel
+    ***************************************************************************/
+    
 
     public static void mixer_update_channel(mixer_channel_data channel, int total_sample_count)
     {
-        System.out.println("mixer_update_channel");
-    /*TODO*///	int samples_to_generate = total_sample_count - channel->samples_available;
-    /*TODO*///
-    /*TODO*///	/* don't do anything for streaming channels */
-    /*TODO*///	if (channel->is_stream)
-    /*TODO*///		return;
-    /*TODO*///
-    /*TODO*///	/* if we're all caught up, just return */
-    /*TODO*///	if (samples_to_generate <= 0)
-    /*TODO*///		return;
-    /*TODO*///
-    /*TODO*///	/* if we're playing, mix in the data */
-    /*TODO*///	if (channel->is_playing)
-    /*TODO*///	{
-    /*TODO*///		if (channel->is_16bit)
-    /*TODO*///			mix_sample_16(channel, samples_to_generate);
-    /*TODO*///		else
-    /*TODO*///			mix_sample_8(channel, samples_to_generate);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* just eat the rest */
-    /*TODO*///	channel->samples_available += samples_to_generate;
+    	int samples_to_generate = total_sample_count - channel.samples_available;
+    
+    	/* don't do anything for streaming channels */
+    	if (channel.is_stream)
+    		return;
+    
+    	/* if we're all caught up, just return */
+    	if (samples_to_generate <= 0)
+    		return;
+    
+    	/* if we're playing, mix in the data */
+    	if (channel.is_playing)
+    	{
+    		if (channel.is_16bit)
+                {
+    			//mix_sample_16(channel, samples_to_generate);
+                    throw new UnsupportedOperationException("mix sample 16bit unsupported ");
+                }
+    		else
+    			mix_sample_8(channel, samples_to_generate);
+    	}
+    
+    	/* just eat the rest */
+    	channel.samples_available += samples_to_generate;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///	mixer_sh_update
-    /*TODO*///***************************************************************************/
-    /*TODO*///
+    
+    
+    /***************************************************************************
+    	mixer_sh_update
+    ***************************************************************************/
+    
     public static void mixer_sh_update()
     {
-        System.out.println("mixer_sh_update");
-    /*TODO*///	struct mixer_channel_data *	channel;
-    /*TODO*///	UINT32 accum_pos = accum_base;
-    /*TODO*///	INT16 *mix;
-    /*TODO*///	INT32 sample;
-    /*TODO*///	int	i;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_MIXER);
-    /*TODO*///
-    /*TODO*///	/* update all channels (for streams this is a no-op) */
-    /*TODO*///	for (i = 0, channel = mixer_channel; i < first_free_channel; i++, channel++)
-    /*TODO*///	{
-    /*TODO*///		mixer_update_channel(channel, samples_this_frame);
-    /*TODO*///
-    /*TODO*///		/* if we needed more than they could give, adjust their pointers */
-    /*TODO*///		if (samples_this_frame > channel->samples_available)
-    /*TODO*///			channel->samples_available = 0;
-    /*TODO*///		else
-    /*TODO*///			channel->samples_available -= samples_this_frame;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* copy the mono 32-bit data to a 16-bit buffer, clipping along the way */
-    /*TODO*///	if (!is_stereo)
-    /*TODO*///	{
-    /*TODO*///		mix = mix_buffer;
-    /*TODO*///		for (i = 0; i < samples_this_frame; i++)
-    /*TODO*///		{
-    /*TODO*///			/* fetch and clip the sample */
-    /*TODO*///			sample = left_accum[accum_pos];
-    /*TODO*///#if !DISABLE_CLIPPING
-    /*TODO*///			if (sample < -32768)
-    /*TODO*///				sample = -32768;
-    /*TODO*///			else if (sample > 32767)
-    /*TODO*///				sample = 32767;
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///			/* store and zero out behind us */
-    /*TODO*///			*mix++ = sample;
-    /*TODO*///			left_accum[accum_pos] = 0;
-    /*TODO*///
-    /*TODO*///			/* advance to the next sample */
-    /*TODO*///			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* copy the stereo 32-bit data to a 16-bit buffer, clipping along the way */
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		mix = mix_buffer;
-    /*TODO*///		for (i = 0; i < samples_this_frame; i++)
-    /*TODO*///		{
-    /*TODO*///			/* fetch and clip the left sample */
-    /*TODO*///			sample = left_accum[accum_pos];
-    /*TODO*///#if !DISABLE_CLIPPING
-    /*TODO*///			if (sample < -32768)
-    /*TODO*///				sample = -32768;
-    /*TODO*///			else if (sample > 32767)
-    /*TODO*///				sample = 32767;
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///			/* store and zero out behind us */
-    /*TODO*///			*mix++ = sample;
-    /*TODO*///			left_accum[accum_pos] = 0;
-    /*TODO*///
-    /*TODO*///			/* fetch and clip the right sample */
-    /*TODO*///			sample = right_accum[accum_pos];
-    /*TODO*///#if !DISABLE_CLIPPING
-    /*TODO*///			if (sample < -32768)
-    /*TODO*///				sample = -32768;
-    /*TODO*///			else if (sample > 32767)
-    /*TODO*///				sample = 32767;
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///			/* store and zero out behind us */
-    /*TODO*///			*mix++ = sample;
-    /*TODO*///			right_accum[accum_pos] = 0;
-    /*TODO*///
-    /*TODO*///			/* advance to the next sample */
-    /*TODO*///			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* play the result */
-    /*TODO*///	samples_this_frame = osd_update_audio_stream(mix_buffer);
-    /*TODO*///
-    /*TODO*///	accum_base = accum_pos;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
+    	int/*UINT32 */accum_pos = accum_base;
+    	//INT16 *mix;
+    	int sample;
+    	
+    	/* update all channels (for streams this is a no-op) */
+    	for (int i = 0; i < first_free_channel; i++)
+    	{
+    		mixer_update_channel(mixer_channel[i], samples_this_frame);
+    
+    		/* if we needed more than they could give, adjust their pointers */
+    		if (samples_this_frame > mixer_channel[i].samples_available)
+    			mixer_channel[i].samples_available = 0;
+    		else
+    			mixer_channel[i].samples_available -= samples_this_frame;
+    	}
+    
+    	/* copy the mono 32-bit data to a 16-bit buffer, clipping along the way */
+    	if (!is_stereo)
+    	{
+    		int mix = 0;//mix = mix_buffer;
+    		for (int i = 0; i < samples_this_frame; i++)
+    		{
+    			/* fetch and clip the sample */
+    			sample = left_accum[accum_pos];
+    //#if !DISABLE_CLIPPING
+    			if (sample < -32768)
+    				sample = -32768;
+    			else if (sample > 32767)
+    				sample = 32767;
+    //#endif
+    
+    			/* store and zero out behind us */
+    			mix_buffer[mix++]=(short)sample;//*mix++ = sample;
+    			left_accum[accum_pos] = 0;
+    
+    			/* advance to the next sample */
+    			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
+    		}
+    	}
+    
+    	/* copy the stereo 32-bit data to a 16-bit buffer, clipping along the way */
+    	else
+    	{
+    		int mix = 0;//mix = mix_buffer;
+    		for (int i = 0; i < samples_this_frame; i++)
+    		{
+    			/* fetch and clip the left sample */
+    			sample = left_accum[accum_pos];
+    //#if !DISABLE_CLIPPING
+    			if (sample < -32768)
+    				sample = -32768;
+    			else if (sample > 32767)
+    				sample = 32767;
+    //#endif
+    
+    			/* store and zero out behind us */
+    			mix_buffer[mix++] = (short)sample;//*mix++ = sample;
+    			left_accum[accum_pos] = 0;
+    
+    			/* fetch and clip the right sample */
+    			sample = right_accum[accum_pos];
+    //#if !DISABLE_CLIPPING
+    			if (sample < -32768)
+    				sample = -32768;
+    			else if (sample > 32767)
+    				sample = 32767;
+    //#endif
+    
+    			/* store and zero out behind us */
+    			mix_buffer[mix++] = (short)sample;//*mix++ = sample;
+    			right_accum[accum_pos] = 0;
+    
+    			/* advance to the next sample */
+    			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
+    		}
+    	}
+    
+    	/* play the result */
+    	samples_this_frame = osd_update_audio_stream(mix_buffer);
+    
+    	accum_base = accum_pos;
     }
     
     /***************************************************************************
@@ -452,83 +448,82 @@ public class mixer {
     /*TODO*///
     public static void mixer_play_streamed_sample_16(int ch, CharPtr data, int len, int freq)
     {
-        System.out.println("mixer_play_streamed_sample");
-    /*TODO*///	struct mixer_channel_data *channel = &mixer_channel[ch];
-    /*TODO*///	UINT32 step_size, input_pos, output_pos, samples_mixed;
-    /*TODO*///	INT32 mixing_volume;
-    /*TODO*///
-    /*TODO*///	/* skip if sound is off */
-    /*TODO*///	if (Machine->sample_rate == 0)
-    /*TODO*///		return;
-    /*TODO*///	channel->is_stream = 1;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_MIXER);
-    /*TODO*///
-    /*TODO*///	/* compute the overall mixing volume */
-    /*TODO*///	if (mixer_sound_enabled)
-    /*TODO*///		mixing_volume = ((channel->volume * channel->mixing_level * 256) << channel->gain) / (100*100);
-    /*TODO*///	else
-    /*TODO*///		mixing_volume = 0;
-    /*TODO*///
-    /*TODO*///	/* compute the step size for sample rate conversion */
-    /*TODO*///	if (freq != channel->frequency)
-    /*TODO*///	{
-    /*TODO*///		channel->frequency = freq;
-    /*TODO*///		channel->step_size = (UINT32)((double)freq * (double)(1 << FRACTION_BITS) / (double)Machine->sample_rate);
-    /*TODO*///	}
-    /*TODO*///	step_size = channel->step_size;
-    /*TODO*///
-    /*TODO*///	/* now determine where to mix it */
-    /*TODO*///	input_pos = channel->input_frac;
-    /*TODO*///	output_pos = (accum_base + channel->samples_available) & ACCUMULATOR_MASK;
-    /*TODO*///
-    /*TODO*///	/* compute the length in fractional form */
-    /*TODO*///	len = (len / 2) << FRACTION_BITS;
-    /*TODO*///	samples_mixed = 0;
-    /*TODO*///
-    /*TODO*///	/* if we're mono or left panning, just mix to the left channel */
-    /*TODO*///	if (!is_stereo || channel->pan == MIXER_PAN_LEFT)
-    /*TODO*///	{
-    /*TODO*///		while (input_pos < len)
-    /*TODO*///		{
-    /*TODO*///			left_accum[output_pos] += (data[input_pos >> FRACTION_BITS] * mixing_volume) >> 8;
-    /*TODO*///			input_pos += step_size;
-    /*TODO*///			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///			samples_mixed++;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* if we're right panning, just mix to the right channel */
-    /*TODO*///	else if (channel->pan == MIXER_PAN_RIGHT)
-    /*TODO*///	{
-    /*TODO*///		while (input_pos < len)
-    /*TODO*///		{
-    /*TODO*///			right_accum[output_pos] += (data[input_pos >> FRACTION_BITS] * mixing_volume) >> 8;
-    /*TODO*///			input_pos += step_size;
-    /*TODO*///			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///			samples_mixed++;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* if we're stereo center, mix to both channels */
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		while (input_pos < len)
-    /*TODO*///		{
-    /*TODO*///			INT32 mixing_value = (data[input_pos >> FRACTION_BITS] * mixing_volume) >> 8;
-    /*TODO*///			left_accum[output_pos] += mixing_value;
-    /*TODO*///			right_accum[output_pos] += mixing_value;
-    /*TODO*///			input_pos += step_size;
-    /*TODO*///			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///			samples_mixed++;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* update the final positions */
-    /*TODO*///	channel->input_frac = input_pos & FRACTION_MASK;
-    /*TODO*///	channel->samples_available += samples_mixed;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
+    	int/*UINT32*/ step_size, input_pos, output_pos, samples_mixed;
+        int mixing_volume;
+    
+    	/* skip if sound is off */
+    	if (Machine.sample_rate == 0)
+    		return;
+    	mixer_channel[ch].is_stream = true;
+    
+    	/* compute the overall mixing volume */
+    	if (mixer_sound_enabled!=0)
+    		mixing_volume = ((mixer_channel[ch].volume * mixer_channel[ch].mixing_level * 256) << mixer_channel[ch].gain) / (100*100);
+    	else
+    		mixing_volume = 0;
+    
+    	/* compute the step size for sample rate conversion */
+    	if (freq != mixer_channel[ch].frequency)
+    	{
+    		mixer_channel[ch].frequency = freq;
+    		mixer_channel[ch].step_size = (int/*UINT32*/)((double)freq * (double)(1 << FRACTION_BITS) / (double)Machine.sample_rate);
+                if(mixer_channel[ch].step_size<0)//do a check (to be remove) (shadow)
+                {
+                    throw new UnsupportedOperationException("step_size <1");
+                }
+        }
+    	step_size = mixer_channel[ch].step_size;
+    
+    	/* now determine where to mix it */
+    	input_pos = mixer_channel[ch].input_frac;
+    	output_pos = (accum_base + mixer_channel[ch].samples_available) & ACCUMULATOR_MASK;
+    
+    	/* compute the length in fractional form */
+    	len = (len / 2) << FRACTION_BITS;
+    	samples_mixed = 0;
+    
+    	/* if we're mono or left panning, just mix to the left channel */
+    	if (!is_stereo || mixer_channel[ch].pan == MIXER_PAN_LEFT)
+    	{
+    		while (input_pos < len)
+    		{
+    			left_accum[output_pos] += (data.read(input_pos >> FRACTION_BITS) * mixing_volume) >> 8;
+    			input_pos += step_size;
+    			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    			samples_mixed++;
+    		}
+    	}
+    
+    	/* if we're right panning, just mix to the right channel */
+    	else if (mixer_channel[ch].pan == MIXER_PAN_RIGHT)
+    	{
+    		while (input_pos < len)
+    		{
+    			right_accum[output_pos] += (data.read(input_pos >> FRACTION_BITS) * mixing_volume) >> 8;
+    			input_pos += step_size;
+    			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    			samples_mixed++;
+    		}
+    	}
+    
+    	/* if we're stereo center, mix to both channels */
+    	else
+    	{
+    		while (input_pos < len)
+    		{
+    			int mixing_value = (data.read(input_pos >> FRACTION_BITS) * mixing_volume) >> 8;
+    			left_accum[output_pos] += mixing_value;
+    			right_accum[output_pos] += mixing_value;
+    			input_pos += step_size;
+    			output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    			samples_mixed++;
+    		}
+    	}
+    
+    	/* update the final positions */
+    	mixer_channel[ch].input_frac = input_pos & FRACTION_MASK;
+    	mixer_channel[ch].samples_available += samples_mixed;
+    
     }
     /*TODO*///
     /*TODO*///
@@ -682,99 +677,101 @@ public class mixer {
     /*TODO*///	mixer_sound_enabled = enable;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///	mix_sample_8
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///void mix_sample_8(struct mixer_channel_data *channel, int samples_to_generate)
-    /*TODO*///{
-    /*TODO*///	UINT32 step_size, input_frac, output_pos;
-    /*TODO*///	INT8 *source, *source_end;
-    /*TODO*///	INT32 mixing_volume;
-    /*TODO*///
-    /*TODO*///	/* compute the overall mixing volume */
-    /*TODO*///	if (mixer_sound_enabled)
-    /*TODO*///		mixing_volume = ((channel->volume * channel->mixing_level * 256) << channel->gain) / (100*100);
-    /*TODO*///	else
-    /*TODO*///		mixing_volume = 0;
-    /*TODO*///
-    /*TODO*///	/* get the initial state */
-    /*TODO*///	step_size = channel->step_size;
-    /*TODO*///	source = channel->data_current;
-    /*TODO*///	source_end = channel->data_end;
-    /*TODO*///	input_frac = channel->input_frac;
-    /*TODO*///	output_pos = (accum_base + channel->samples_available) & ACCUMULATOR_MASK;
-    /*TODO*///
-    /*TODO*///	/* an outer loop to handle looping samples */
-    /*TODO*///	while (samples_to_generate > 0)
-    /*TODO*///	{
-    /*TODO*///		/* if we're mono or left panning, just mix to the left channel */
-    /*TODO*///		if (!is_stereo || channel->pan == MIXER_PAN_LEFT)
-    /*TODO*///		{
-    /*TODO*///			while (source < source_end && samples_to_generate > 0)
-    /*TODO*///			{
-    /*TODO*///				left_accum[output_pos] += *source * mixing_volume;
-    /*TODO*///				input_frac += step_size;
-    /*TODO*///				source += input_frac >> FRACTION_BITS;
-    /*TODO*///				input_frac &= FRACTION_MASK;
-    /*TODO*///				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///				samples_to_generate--;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* if we're right panning, just mix to the right channel */
-    /*TODO*///		else if (channel->pan == MIXER_PAN_RIGHT)
-    /*TODO*///		{
-    /*TODO*///			while (source < source_end && samples_to_generate > 0)
-    /*TODO*///			{
-    /*TODO*///				right_accum[output_pos] += *source * mixing_volume;
-    /*TODO*///				input_frac += step_size;
-    /*TODO*///				source += input_frac >> FRACTION_BITS;
-    /*TODO*///				input_frac &= FRACTION_MASK;
-    /*TODO*///				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///				samples_to_generate--;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* if we're stereo center, mix to both channels */
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			while (source < source_end && samples_to_generate > 0)
-    /*TODO*///			{
-    /*TODO*///				INT32 mixing_value = *source * mixing_volume;
-    /*TODO*///				left_accum[output_pos] += mixing_value;
-    /*TODO*///				right_accum[output_pos] += mixing_value;
-    /*TODO*///				input_frac += step_size;
-    /*TODO*///				source += input_frac >> FRACTION_BITS;
-    /*TODO*///				input_frac &= FRACTION_MASK;
-    /*TODO*///				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///				samples_to_generate--;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* handle the end case */
-    /*TODO*///		if (source >= source_end)
-    /*TODO*///		{
-    /*TODO*///			/* if we're done, stop playing */
-    /*TODO*///			if (!channel->is_looping)
-    /*TODO*///			{
-    /*TODO*///				channel->is_playing = 0;
-    /*TODO*///				break;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			/* if we're looping, wrap to the beginning */
-    /*TODO*///			else
-    /*TODO*///				source -= (INT8 *)source_end - (INT8 *)channel->data_start;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* update the final positions */
-    /*TODO*///	channel->input_frac = input_frac;
-    /*TODO*///	channel->data_current = source;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    /***************************************************************************
+    	mix_sample_8
+    ***************************************************************************/
+    
+    public static void mix_sample_8(mixer_channel_data channel, int samples_to_generate)
+    {
+    	int/*UINT32*/ step_size, input_frac, output_pos;
+    	//INT8 *source, *source_end;
+        CharPtr source;
+        int source_end;
+    	int mixing_volume;
+    
+    	/* compute the overall mixing volume */
+    	if (mixer_sound_enabled!=0)
+    		mixing_volume = ((channel.volume * channel.mixing_level * 256) << channel.gain) / (100*100);
+    	else
+    		mixing_volume = 0;
+    
+    	/* get the initial state */
+    	step_size = channel.step_size;
+    	source = new CharPtr(channel.data_start,channel.data_current);
+    	source_end = channel.data_end;
+    	input_frac = channel.input_frac;
+    	output_pos = (accum_base + channel.samples_available) & ACCUMULATOR_MASK;
+    
+    	/* an outer loop to handle looping samples */
+    	while (samples_to_generate > 0)
+    	{
+    		/* if we're mono or left panning, just mix to the left channel */
+    		if (!is_stereo || channel.pan == MIXER_PAN_LEFT)
+    		{
+    			while (source.base < source_end && samples_to_generate > 0)
+    			{
+    				left_accum[output_pos] += (source.read()&0xff) * mixing_volume;
+    				input_frac += step_size;
+    				source.base += (int)(input_frac >> FRACTION_BITS);
+    				input_frac &= FRACTION_MASK;
+    				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    				samples_to_generate--;
+    			}
+    		}
+    
+    		/* if we're right panning, just mix to the right channel */
+    		else if (channel.pan == MIXER_PAN_RIGHT)
+    		{
+    			while (source.base < source_end && samples_to_generate > 0)
+    			{
+    				right_accum[output_pos] += (source.read()&0xff) * mixing_volume;
+    				input_frac += step_size;
+    				source.base += (int)(input_frac >> FRACTION_BITS);
+    				input_frac &= FRACTION_MASK;
+    				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    				samples_to_generate--;
+    			}
+    		}
+    
+    		/* if we're stereo center, mix to both channels */
+    		else
+    		{
+    			while (source.base < source_end && samples_to_generate > 0)
+    			{
+    				int mixing_value = (source.read()&0xff) * mixing_volume;
+    				left_accum[output_pos] += mixing_value;
+    				right_accum[output_pos] += mixing_value;
+    				input_frac += step_size;
+    				source.base += (int)(input_frac >> FRACTION_BITS);
+    				input_frac &= FRACTION_MASK;
+    				output_pos = (output_pos + 1) & ACCUMULATOR_MASK;
+    				samples_to_generate--;
+    			}
+    		}
+    
+    		/* handle the end case */
+    		if (source.base >= source_end)
+    		{
+    			/* if we're done, stop playing */
+    			if (!channel.is_looping)
+    			{
+    				channel.is_playing = false;
+    				break;
+    			}
+    
+    			/* if we're looping, wrap to the beginning */
+    			else
+    				 source.base -= source_end;//source -= (INT8 *)source_end - (INT8 *)channel.data_start;
+    		}
+    	}
+    
+    	/* update the final positions */
+    	channel.input_frac = input_frac;
+    	channel.data_current = source.base;
+    }
+    
+    
     /*TODO*////***************************************************************************
     /*TODO*///	mix_sample_16
     /*TODO*///***************************************************************************/

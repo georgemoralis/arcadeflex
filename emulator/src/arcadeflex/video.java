@@ -21,6 +21,8 @@ import static mame.usrintrf.*;
 import static arcadeflex.blit.*;
 import static mame.inputportH.*;
 import static mame.input.*;
+import static arcadeflex.sound.*;
+
 
 
 public class video {
@@ -1888,12 +1890,12 @@ public class video {
                     throttle = 1;
                 last1 = curr;
 
-                already_synced = 1;//xna_update_audio();
+                already_synced = update_audio();
 
                 throttle = 1;
             }
             else
-                already_synced = 1;//xna_update_audio();
+                already_synced = update_audio();
 
             if (osd_skip_this_frame() == 0)
             {
