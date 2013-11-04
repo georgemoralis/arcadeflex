@@ -25,6 +25,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.fileio.*;
 import static arcadeflex.libc.*;
 import static mame.driver.*;
 import static arcadeflex.osdepend.*;
@@ -44,6 +45,7 @@ import static mame.inputH.*;
 import static mame.inputport.*;
 import static mame.tilemapC.*;
 import static mame.sndintrf.*;
+import static mame.osdependH.*;
 
 public class mame {
 
@@ -488,32 +490,32 @@ public class mame {
     /*TODO*///
     /*TODO*///					if (options.cheat) InitCheat();
     /*TODO*///
-    /*TODO*///					if (drv->nvram_handler)
-    /*TODO*///					{
-    /*TODO*///						void *f;
-    /*TODO*///
-    /*TODO*///						f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_NVRAM,0);
-    /*TODO*///						(*drv->nvram_handler)(f,0);
-    /*TODO*///						if (f) osd_fclose(f);
-    /*TODO*///					}
-    /*TODO*///
+    					if (drv.nvram_handler!=null)
+    					{
+    						Object f;
+    
+    						f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_NVRAM,0);
+    						drv.nvram_handler.handler(f,0);
+    						if (f!=null) osd_fclose(f);
+    					}
+    
     					cpu_run();      /* run the emulation! */
-    /*TODO*///
-    /*TODO*///					if (drv->nvram_handler)
-    /*TODO*///					{
-    /*TODO*///						void *f;
-    /*TODO*///
-    /*TODO*///						if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_NVRAM,1)) != 0)
-    /*TODO*///						{
-    /*TODO*///							(*drv->nvram_handler)(f,1);
-    /*TODO*///							osd_fclose(f);
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///
-    /*TODO*///					if (options.cheat) StopCheat();
-    /*TODO*///
-    /*TODO*///					/* save input ports settings */
-    /*TODO*///					save_input_port_settings();
+    
+    					if (drv.nvram_handler!=null)
+    					{
+    						Object f;
+    
+    						if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_NVRAM,1)) != 0)
+    						{
+    							drv.nvram_handler.handler(f,1);
+    							osd_fclose(f);
+    						}
+    					}
+    
+    /*TODO*/// 					if (options.cheat) StopCheat();
+    
+    					/* save input ports settings */
+    /*TODO*/// 					save_input_port_settings();
     				}
     
     //userquit:

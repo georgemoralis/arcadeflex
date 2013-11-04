@@ -22,105 +22,108 @@ import static sound.ay8910H.*;
 import static mame.mame.*;
 import static mame.sndintrf.*;
 import static vidhrdw.mitchell.*;
-
+import static machine.eepromH.*;
+import static machine.eeprom.*;
+import static mame.cpuintrfH.*;
+import static arcadeflex.libc_old.*;
+import static arcadeflex.fileio.*;
 
 import static machine.kabuki.*;
 
 public class mitchell {
 
-    /*TODO*///
-    /*TODO*///static void pang_bankswitch_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	int bankaddress;
-    /*TODO*///	unsigned char *RAM = memory_region(REGION_CPU1);
-    /*TODO*///
-    /*TODO*///	bankaddress = 0x10000 + (data & 0x0f) * 0x4000;
-    /*TODO*///
-    /*TODO*///	cpu_setbank(1,&RAM[bankaddress]);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  EEPROM
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///static struct EEPROM_interface eeprom_interface =
-    /*TODO*///{
-    /*TODO*///	6,		/* address bits */
-    /*TODO*///	16,		/* data bits */
-    /*TODO*///	"0110",	/*  read command */
-    /*TODO*///	"0101",	/* write command */
-    /*TODO*///	"0111"	/* erase command */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static unsigned char *nvram;
+    
+    public static WriteHandlerPtr pang_bankswitch_w= new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+    	int bankaddress;
+    	UBytePtr RAM = memory_region(REGION_CPU1);
+    
+    	bankaddress = 0x10000 + (data & 0x0f) * 0x4000;
+    
+    	cpu_setbank(1,new UBytePtr(RAM,bankaddress));
+    }};
+    
+    
+    
+    /***************************************************************************
+    
+      EEPROM
+    
+    ***************************************************************************/
+    
+    static EEPROM_interface eeprom_interface = new EEPROM_interface
+    (
+    	6,		/* address bits */
+    	16,		/* data bits */
+    	"0110",	/*  read command */
+    	"0101",	/* write command */
+    	"0111"	/* erase command */
+    );
+    
+    static CharPtr nvram=new CharPtr();
     static int nvram_size;
-    /*TODO*///static int init_eeprom_count;
-    /*TODO*///
-    /*TODO*///static void nvram_handler(void *file,int read_or_write)
-    /*TODO*///{
-    /*TODO*///	if (read_or_write)
-    /*TODO*///	{
-    /*TODO*///		EEPROM_save(file);					/* EEPROM */
-    /*TODO*///		if (nvram_size)	/* Super Pang, Block Block */
-    /*TODO*///			osd_fwrite(file,nvram,nvram_size);	/* NVRAM */
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		EEPROM_init(&eeprom_interface);
-    /*TODO*///
-    /*TODO*///		if (file)
-    /*TODO*///		{
-    /*TODO*///			init_eeprom_count = 0;
-    /*TODO*///			EEPROM_load(file);					/* EEPROM */
-    /*TODO*///			if (nvram_size)	/* Super Pang, Block Block */
-    /*TODO*///			osd_fread(file,nvram,nvram_size);	/* NVRAM */
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///			init_eeprom_count = 1000;	/* for Super Pang */
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int pang_port5_r(int offset)
-    /*TODO*///{
-    /*TODO*///	int bit;
+    static int init_eeprom_count;
+    
+    public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+    {
+    	if (read_or_write!=0)
+    	{
+    		EEPROM_save(file);					/* EEPROM */
+    		if (nvram_size!=0)	/* Super Pang, Block Block */
+    			osd_fwrite(file,nvram,nvram_size);	/* NVRAM */
+    	}
+    	else
+    	{
+    		EEPROM_init(eeprom_interface);
+    
+    		if (file!=null)
+    		{
+    			init_eeprom_count = 0;
+    			EEPROM_load(file);					/* EEPROM */
+    			if (nvram_size!=0)	/* Super Pang, Block Block */
+    			osd_fread(file,nvram,nvram_size);	/* NVRAM */
+    		}
+    		else
+    			init_eeprom_count = 1000;	/* for Super Pang */
+    	}   
+    }};
+    public static ReadHandlerPtr pang_port5_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+    	int bit;
     /*TODO*///	extern struct GameDriver driver_mgakuen2;
     /*TODO*///
-    /*TODO*///	bit = EEPROM_read_bit() << 7;
+    	bit = EEPROM_read_bit() << 7;
     /*TODO*///
     /*TODO*///	/* bits 0 and (sometimes) 3 are checked in the interrupt handler. */
     /*TODO*///	/* Maybe they are vblank related, but I'm not sure. */
     /*TODO*///	/* bit 3 is checked before updating the palette so it really seems to be vblank. */
     /*TODO*///	/* Many games require two interrupts per frame and for these bits to toggle, */
     /*TODO*///	/* otherwise music doesn't work. */
-    /*TODO*///	if (cpu_getiloops() & 1) bit |= 0x01;
-    /*TODO*///	else bit |= 0x08;
+    	if ((cpu_getiloops() & 1)!=0) bit |= 0x01;
+    	else bit |= 0x08;
     /*TODO*///if (Machine->gamedrv == &driver_mgakuen2)	/* hack... music doesn't work otherwise */
     /*TODO*///	bit ^= 0x08;
     /*TODO*///
-    /*TODO*///	return (input_port_0_r(0) & 0x76) | bit;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void eeprom_cs_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	EEPROM_set_cs_line(data ? CLEAR_LINE : ASSERT_LINE);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void eeprom_clock_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	EEPROM_set_clock_line(data ? CLEAR_LINE : ASSERT_LINE);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void eeprom_serial_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	EEPROM_write_bit(data);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    	return (input_port_0_r.handler(0) & 0x76) | bit;
+    }};
+    
+    public static WriteHandlerPtr eeprom_cs_w= new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+    	EEPROM_set_cs_line(data!=0 ? CLEAR_LINE : ASSERT_LINE);
+    }};
+    
+    public static WriteHandlerPtr eeprom_clock_w= new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+    	EEPROM_set_clock_line(data!=0 ? CLEAR_LINE : ASSERT_LINE);
+    }};
+    
+    public static WriteHandlerPtr eeprom_serial_w= new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+    	EEPROM_write_bit(data);
+    }};
+    
+    
+    
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Input handling
@@ -205,24 +208,28 @@ public class mitchell {
     /*TODO*///
     /*TODO*///
     static int input_type;
-    /*TODO*///
-    /*TODO*///static int input_r(int offset)
-    /*TODO*///{
-    /*TODO*///	switch (input_type)
-    /*TODO*///	{
-    /*TODO*///		case 0:
-    /*TODO*///		default:
-    /*TODO*///			return readinputport(1 + offset);
+
+    public static ReadHandlerPtr input_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        
+    	switch (input_type)
+    	{
+    		case 0:
+    		default:
+    			return readinputport(1 + offset);
     /*TODO*///			break;
-    /*TODO*///		case 1:	/* Mahjong games */
+    		case 1:	/* Mahjong games */
+                    throw new UnsupportedOperationException("unsupported");
     /*TODO*///			if (offset) return mahjong_input_r(offset-1);
     /*TODO*///			else return readinputport(1);
     /*TODO*///			break;
-    /*TODO*///		case 2:	/* Block Block - dial control */
+    		case 2:	/* Block Block - dial control */
+                    throw new UnsupportedOperationException("unsupported");
     /*TODO*///			if (offset) return block_input_r(offset-1);
     /*TODO*///			else return readinputport(1);
     /*TODO*///			break;
-    /*TODO*///		case 3:	/* Super Pang - simulate START 1 press to initialize EEPROM */
+    		case 3:	/* Super Pang - simulate START 1 press to initialize EEPROM */
+                    throw new UnsupportedOperationException("unsupported");
     /*TODO*///			if (offset || init_eeprom_count == 0) return readinputport(1 + offset);
     /*TODO*///			else
     /*TODO*///			{
@@ -230,11 +237,12 @@ public class mitchell {
     /*TODO*///				return readinputport(1) & ~0x08;
     /*TODO*///			}
     /*TODO*///			break;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void input_w(int offset,int data)
-    /*TODO*///{
+	}
+    }};
+
+    public static WriteHandlerPtr input_w= new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        throw new UnsupportedOperationException("unsupported");
     /*TODO*///	switch (input_type)
     /*TODO*///	{
     /*TODO*///		case 0:
@@ -248,7 +256,7 @@ public class mitchell {
     /*TODO*///			block_dial_control_w(offset,data);
     /*TODO*///			break;
     /*TODO*///	}
-    /*TODO*///}
+    }};
     /*TODO*///
     /*TODO*///
     /*TODO*///
@@ -304,27 +312,27 @@ public class mitchell {
 
 	static IOReadPort readport[] =
 	{
-    /*TODO*///		new IOReadPort( 0x00, 0x02, input_r ),	/* Super Pang needs a kludge to initialize EEPROM;
-    /*TODO*///							the Mahjong games and Block Block need special input treatment */
+    		new IOReadPort( 0x00, 0x02, input_r ),	/* Super Pang needs a kludge to initialize EEPROM;
+    							the Mahjong games and Block Block need special input treatment */
 		new IOReadPort( 0x03, 0x03, input_port_12_r ),	/* mgakuen only */
 		new IOReadPort( 0x04, 0x04, input_port_13_r ),	/* mgakuen only */
-    /*TODO*///		new IOReadPort( 0x05, 0x05, pang_port5_r ),
+    		new IOReadPort( 0x05, 0x05, pang_port5_r ),
 		new IOReadPort( -1 )  /* end of table */
 	};
 	
 	static IOWritePort writeport[] =
 	{
 		new IOWritePort( 0x00, 0x00, pang_gfxctrl_w ),    /* Palette bank, layer enable, coin counters, more */
-    /*TODO*///		new IOWritePort( 0x01, 0x01, input_w ),
-    /*TODO*///		new IOWritePort( 0x02, 0x02, pang_bankswitch_w ),      /* Code bank register */
+    		new IOWritePort( 0x01, 0x01, input_w ),
+    		new IOWritePort( 0x02, 0x02, pang_bankswitch_w ),      /* Code bank register */
 /*TODO*///		new IOWritePort( 0x03, 0x03, YM2413_data_port_0_w ),
 /*TODO*///		new IOWritePort( 0x04, 0x04, YM2413_register_port_0_w ),
 /*TODO*///		new IOWritePort( 0x05, 0x05, OKIM6295_data_0_w ),
 		new IOWritePort( 0x06, 0x06, MWA_NOP ),	/* watchdog? irq ack? */
 		new IOWritePort( 0x07, 0x07, pang_video_bank_w ),      /* Video RAM bank register */
-    /*TODO*///		new IOWritePort( 0x08, 0x08, eeprom_cs_w ),
-    /*TODO*///		new IOWritePort( 0x10, 0x10, eeprom_clock_w ),
-    /*TODO*///		new IOWritePort( 0x18, 0x18, eeprom_serial_w ),
+    		new IOWritePort( 0x08, 0x08, eeprom_cs_w ),
+    		new IOWritePort( 0x10, 0x10, eeprom_clock_w ),
+    		new IOWritePort( 0x18, 0x18, eeprom_serial_w ),
 		new IOWritePort( -1 )  /* end of table */
 	};
     /*TODO*///
@@ -1016,7 +1024,7 @@ public class mitchell {
 			},
 		},*/
 	
-/*TODO*///		,nvram_handler
+		,nvram_handler
 	);
     /*TODO*///static struct MachineDriver machine_driver_pang =
     /*TODO*///{

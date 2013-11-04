@@ -39,6 +39,7 @@ import static drivers.pooyan.*;
 import static drivers.frogger.*;
 import static drivers.snk.*;
 import static drivers.mrdo.*;
+import static drivers.mitchell.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1178,7 +1179,7 @@ public class driver {
 /*TODO*/ //	DRIVER( pkladies )	/* (c) 1989 Mitchell */
 /*TODO*/ //	DRIVER( dokaben )	/*  3/1989 (c) 1989 Capcom (Japan) */
 	/*  8/1989 Dokaben 2 (baseball) */
-/*TODO*/ //	DRIVER( pang )		/* (c) 1989 Mitchell (World) */
+        driver_pang,		/* (c) 1989 Mitchell (World) */
 /*TODO*/ //	DRIVER( pangb )		/* bootleg */
 /*TODO*/ //	DRIVER( bbros )		/* (c) 1989 Capcom (US) not listed on Capcom's site */
 /*TODO*/ //	DRIVER( pompingw )	/* (c) 1989 Mitchell (Japan) */

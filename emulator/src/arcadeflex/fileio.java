@@ -29,7 +29,7 @@ public class fileio {
 
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
  /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
-
+    /*temp nvdir, will be configurable lator*/ static String nvdir="nvram";
     /*TODO*/ //     char *alternate_name;				   /* for "-romdir" */
     public static final int kPlainFile = 1;
     public static final int kRAMFile = 2;
@@ -203,15 +203,15 @@ public class fileio {
 
                 break;
 
-            /*TODO*///            case OSD_FILETYPE_NVRAM:
-/*TODO*///                    if( !found )
-/*TODO*///                    {
-/*TODO*///                            sprintf (name, "%s/%s.nv", nvdir, gamename);
-/*TODO*///                            f->type = kPlainFile;
-/*TODO*///                            f->file = fopen (name, _write ? "wb" : "rb");
-/*TODO*///                            found = f->file != 0;
-/*TODO*///                    }
-/*TODO*///                    break;
+                case OSD_FILETYPE_NVRAM:
+                    if( found==0 )
+                    {
+                            name = sprintf ("%s/%s.nv", nvdir, gamename);
+                            f.type = kPlainFile;
+                            f.file = fopen (name, _write!=0 ? "wb" : "rb");
+                            found = (f.file != null) ? 1 : 0; //found = f.file !=0;
+                    }
+                    break;
 
             /*TODO*///           case OSD_FILETYPE_HIGHSCORE:
  /*TODO*///                   if( mame_highscore_enabled () )
@@ -388,6 +388,22 @@ public class fileio {
     }
     /* JB 980920 update */
 
+    public static int osd_fwrite(Object file, CharPtr buffer, int length) {
+        osd_fwrite(file, buffer.memory, buffer.base, length);
+        return 0;
+    }
+    public static void osd_fwrite (Object file, char[] buffer,int offset, int length)
+    {
+            FakeFileHandle f = (FakeFileHandle) file;
+
+            switch( f.type )
+            {
+            case kPlainFile:
+                    fwrite (buffer, offset,1, length, f.file);
+            default:
+                    return;
+            }
+    }
     public static int osd_fseek(Object file, int offset, int whence) {
         FakeFileHandle f = (FakeFileHandle) file;
         int err = 0;

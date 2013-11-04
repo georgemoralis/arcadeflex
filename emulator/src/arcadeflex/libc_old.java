@@ -246,6 +246,12 @@ public class libc_old {
      {
       return str1.compareTo(str2);
      }
+     public static boolean strncmp(char[] s1, String s2, int n)
+     {
+        if (n > s2.length()) n = s2.length();
+        return new String(s1).compareTo(s2.substring(0, n)) == 0;
+     }
+
      
     /*
      *   measure a String

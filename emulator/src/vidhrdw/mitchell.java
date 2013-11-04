@@ -227,8 +227,8 @@ public class mitchell
 	
 	public static WriteHandlerPtr pang_paletteram_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		if (paletteram_bank != 0) paletteram_xxxxRRRRGGGGBBBB_w(offset + 0x800,data);
-/*TODO*///		else paletteram_xxxxRRRRGGGGBBBB_w(offset,data);
+		if (paletteram_bank != 0) paletteram_xxxxRRRRGGGGBBBB_w.handler(offset + 0x800,data);
+		else paletteram_xxxxRRRRGGGGBBBB_w.handler(offset,data);
 	} };
 	
 	public static ReadHandlerPtr pang_paletteram_r = new ReadHandlerPtr() { public int handler(int offset)
@@ -239,7 +239,7 @@ public class mitchell
 	
 	public static WriteHandlerPtr mgakuen_paletteram_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		paletteram_xxxxRRRRGGGGBBBB_w(offset,data);
+		paletteram_xxxxRRRRGGGGBBBB_w.handler(offset,data);
 	} };
 	
 	public static ReadHandlerPtr mgakuen_paletteram_r = new ReadHandlerPtr() { public int handler(int offset)
