@@ -505,7 +505,7 @@ public class mame {
     					{
     						Object f;
     
-    						if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_NVRAM,1)) != 0)
+    						if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_NVRAM,1)) != null)
     						{
     							drv.nvram_handler.handler(f,1);
     							osd_fclose(f);
