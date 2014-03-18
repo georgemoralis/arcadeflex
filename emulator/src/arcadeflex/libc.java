@@ -77,7 +77,7 @@ public class libc {
         }
          public UBytePtr(UBytePtr cp)
          {
-             set(cp.memory,0);
+             set(cp.memory,cp.base);
          }
         public char read() {
             return (char)(memory[base] & 0xFF);
@@ -212,4 +212,42 @@ public class libc {
         }
         char memory;
     }   
+    public static class IntSubArray
+    {
+        public int[] buffer;
+        public int offset;
+        
+        public IntSubArray(int size)
+        {
+            this.buffer = new int[size];
+            this.offset = 0;
+        }
+        public IntSubArray(IntSubArray subarray, int offset)
+        {
+            this.buffer = subarray.buffer;
+            this.offset = subarray.offset + offset;
+        }
+        public IntSubArray(int[] buffer, int offset)
+        {
+            this.buffer = buffer;
+            this.offset = offset;
+        }
+        public int read(int index)
+        {
+            return buffer[index+offset];
+        }
+        public void write(int index,int value)
+        {
+            buffer[index+offset]=value;
+        }
+        public void writeinc(int value)
+        {
+            buffer[offset++]=value;
+        }
+        public void writedec(int value)
+        {
+            buffer[offset--]=value;
+        }
+        
+    }
 }
