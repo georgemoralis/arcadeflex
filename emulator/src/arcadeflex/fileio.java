@@ -8,7 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.Checksum;
@@ -29,11 +34,16 @@ public class fileio {
 
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
  /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
-    /*temp nvdir, will be configurable lator*/ static String nvdir="nvram";
+    /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
     /*TODO*/ //     char *alternate_name;				   /* for "-romdir" */
     public static final int kPlainFile = 1;
     public static final int kRAMFile = 2;
     public static final int kZippedFile = 3;
+    private static boolean cacheExist = false, checkedExists = false;
+    private static byte[] zipOnlineCacheData1 = null;
+    private static String zipOnlineCacheName1 = "";
+    private static byte[] zipOnlineCacheData2 = null;
+    private static String zipOnlineCacheName2 = "";
 
     static class FakeFileHandle {
 
@@ -55,6 +65,7 @@ public class fileio {
   /*TODO*/ //    }	FakeFileHandle;
 
     public static Object osd_fopen(String game, String filename, int filetype, int _write) {
+        //System.out.println("entering osd_fopen for "+game+" "+filename);
         String name = "";
         String gamename;
         int found = 0;
@@ -62,7 +73,6 @@ public class fileio {
         FakeFileHandle f;
         int pathc = 0;
         String[] pathv = null;
-
 
         f = new FakeFileHandle();
         if (f == null) {
@@ -108,7 +118,7 @@ public class fileio {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
                         //java code to emulate stat command (shadow)
-                        
+                        osdepend.dlprogress.setFileName("loading file: "+name);
                         //case where file exists in rom folder
                         if (new File(name).isDirectory() && new File(name).exists()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                         {
@@ -139,25 +149,29 @@ public class fileio {
                                     f.file = fopen(name, "rb");
                                     found = (f.file != null) ? 1 : 0; //found = f.file !=0;
                                 }
+                            } else {
+                                System.out.println(filename + " does not seem to exist as a file");
                             }
-                        } else if (new File(dir_name + File.separator + gamename + ".zip").exists()){ //case where file exists in rom zip file
+                        } else if (new File(dir_name + File.separator + gamename + ".zip").exists()) { //case where file exists in rom zip file
                             //System.out.println("case where file exists in rom zip file");
-                            File thefile = unZipIt2(dir_name + File.separator + gamename + ".zip", filename);
-                            if(thefile!=null){
+                            System.out.println("loading " + filename + " from zip");
+                            //File thefile = unZipIt2(dir_name + File.separator + gamename + ".zip", filename);
+                            byte[] bytes = unZipIt3(dir_name + File.separator + gamename + ".zip", filename);
+                            if (bytes != null) {
                                 name = sprintf("%s/%s/%s", dir_name, gamename, filename);
-                            //System.out.println(name);
-                            //if (new File(name).exists()) {
+                                //System.out.println(name);
+                                //if (new File(name).exists()) {
                                 if (filetype == OSD_FILETYPE_ROM) {
                                     //java issue since there is no way to pass by reference the data table 
                                     //get it here
-                                    f.file = fopen(thefile, "rb");
+                                    f.file = fopen(bytes, filename, "rb");
                                     long size = ftell(f.file);
                                     f.data = new char[(int) size];
                                     fclose(f.file);
                                     // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
                                     int tlen[] = new int[1];
                                     int tcrc[] = new int[1];
-                                    if (checksum_file2(thefile, f.data, tlen, tcrc) == 0) {
+                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
                                         f.type = kRAMFile;
                                         f.offset = 0;
                                         found = 1;
@@ -167,20 +181,90 @@ public class fileio {
                                     f.crc = tcrc[0];
                                 } else {
                                     f.type = kPlainFile;
-                                    f.file = fopen(unZipIt2(dir_name + File.separator + gamename + ".zip", filename), "rb");
+                                    f.file = fopen(bytes, filename, "rb");
                                     found = (f.file != null) ? 1 : 0; //found = f.file !=0;
                                 }
-                                thefile.delete();
-                                thefile=null;
-                            //}
-                            }else{
-                                System.out.println(filename+" does not seem to exist in the zip file");
+                                //thefile.delete();
+                                //thefile=null;
+                                //}
+                            } else {
+                                System.out.println(filename + " does not seem to exist in the zip file");
                             }
-                            
+
+                        } else if (URLexistsWithCache("http://www.arcadeflex.com/roms/" + gamename + ".zip")) {// url loading here, the last resort of finding the rom. *todo.
+                            System.out.println("loading " + filename + " from zip online");
+                            byte[] bytes = unZipItOnlineWithCache("http://www.arcadeflex.com/roms/" + gamename + ".zip", filename);
+                            if (bytes != null) {
+                                name = sprintf("%s/%s/%s", dir_name, gamename, filename);
+                                //System.out.println(name);
+                                //if (new File(name).exists()) {
+                                if (filetype == OSD_FILETYPE_ROM) {
+                                    //java issue since there is no way to pass by reference the data table 
+                                    //get it here
+                                    f.file = fopen(bytes, filename, "rb");
+                                    long size = ftell(f.file);
+                                    f.data = new char[(int) size];
+                                    fclose(f.file);
+                                    // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
+                                    int tlen[] = new int[1];
+                                    int tcrc[] = new int[1];
+                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
+                                        f.type = kRAMFile;
+                                        f.offset = 0;
+                                        found = 1;
+                                    }
+                                    //copy values where they belong
+                                    f.length = tlen[0];
+                                    f.crc = tcrc[0];
+                                } else {
+                                    f.type = kPlainFile;
+                                    f.file = fopen(bytes, filename, "rb");
+                                    found = (f.file != null) ? 1 : 0; //found = f.file !=0;
+                                }
+
+                            } else {
+                                System.out.println(filename + " does not seem to exist in the zip file online");
+                                System.out.println("possibly it is in parent rom: "+Machine.gamedrv.clone_of.name);
+                            }
+                        } else if (URLexists("http://www.arcadeflex.com/roms/" + gamename + "/" + filename)) {
+                            System.out.println("(loading file online)");
+                            byte[] bytes = FetchOnlineFile("http://www.arcadeflex.com/roms/" + gamename + "/" + filename);
+                            if (bytes != null) {
+                                name = sprintf("%s/%s/%s", dir_name, gamename, filename);
+                                //System.out.println(name);
+                                //if (new File(name).exists()) {
+                                if (filetype == OSD_FILETYPE_ROM) {
+                                    //java issue since there is no way to pass by reference the data table 
+                                    //get it here
+                                    f.file = fopen(bytes, filename, "rb");
+                                    long size = ftell(f.file);
+                                    f.data = new char[(int) size];
+                                    fclose(f.file);
+                                    // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
+                                    int tlen[] = new int[1];
+                                    int tcrc[] = new int[1];
+                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
+                                        f.type = kRAMFile;
+                                        f.offset = 0;
+                                        found = 1;
+                                    }
+                                    //copy values where they belong
+                                    f.length = tlen[0];
+                                    f.crc = tcrc[0];
+                                } else {
+                                    f.type = kPlainFile;
+                                    f.file = fopen(bytes, filename, "rb");
+                                    found = (f.file != null) ? 1 : 0; //found = f.file !=0;
+                                }
+                                //thefile.delete();
+                                //thefile=null;
+                                //}
+                            } else {
+                                System.out.println(filename + " does not seem to exist in the zip file");
+                                osdepend.dlprogress.setFileName(filename + " does not seem to exist in the zip file");
+                            }
                         }
                     }
-
-                    
 
                     /*TODO*///                           if( !found )
 /*TODO*///                            {
@@ -203,15 +287,14 @@ public class fileio {
 
                 break;
 
-                case OSD_FILETYPE_NVRAM:
-                    if( found==0 )
-                    {
-                            name = sprintf ("%s/%s.nv", nvdir, gamename);
-                            f.type = kPlainFile;
-                            f.file = fopen (name, _write!=0 ? "wb" : "rb");
-                            found = (f.file != null) ? 1 : 0; //found = f.file !=0;
-                    }
-                    break;
+            case OSD_FILETYPE_NVRAM:
+                if (found == 0) {
+                    name = sprintf("%s/%s.nv", nvdir, gamename);
+                    f.type = kPlainFile;
+                    f.file = fopen(name, _write != 0 ? "wb" : "rb");
+                    found = (f.file != null) ? 1 : 0; //found = f.file !=0;
+                }
+                break;
 
             /*TODO*///           case OSD_FILETYPE_HIGHSCORE:
  /*TODO*///                   if( mame_highscore_enabled () )
@@ -352,6 +435,7 @@ public class fileio {
 
         if (found == 0) {
             f = null;
+            //System.out.println("null returned osd_fopen for "+game+" "+filename);
             return null;
         }
 
@@ -386,24 +470,73 @@ public class fileio {
         osd_fread(file, buffer.memory, buffer.base, length);
         return 0;
     }
+    public static int osd_fread_scatter(Object file,CharPtr buffer,int length, int increment)
+    {
+        //unsigned char *buf = buffer;
+	FakeFileHandle f = (FakeFileHandle) file;
+	char[] tempbuf=new char[4096];
+	int totread, r, i;
+        int buf=0;
+	switch( f.type )
+	{
+	case kPlainFile:
+		totread = 0;
+		while (length!=0)
+		{
+			r = length;
+			if( r > 4096 )
+				r = 4096;
+			r = fread (tempbuf,buffer.base,1, r, f.file);
+			if( r == 0 )
+				return totread;		   /* error */
+			for( i = 0; i < r; i++ )
+			{
+				buffer.write(buf,tempbuf[i]);
+				buf += increment;
+			}
+			totread += r;
+			length -= r;
+		}
+		return totread;
+		//break;
+	case kZippedFile:
+	case kRAMFile:
+		/* reading from the RAM image of a file */
+		if( f.data!=null )
+		{
+			if( length + f.offset > f.length )
+				length = f.length - f.offset;
+			for( i = 0; i < length; i++ )
+			{
+				buffer.write(buf,f.data[f.offset + i]);
+				buf += increment;
+			}
+			f.offset += length;
+			return length;
+		}
+		break;
+	}
+
+	return 0;
+    }
     /* JB 980920 update */
 
     public static int osd_fwrite(Object file, CharPtr buffer, int length) {
         osd_fwrite(file, buffer.memory, buffer.base, length);
         return 0;
     }
-    public static void osd_fwrite (Object file, char[] buffer,int offset, int length)
-    {
-            FakeFileHandle f = (FakeFileHandle) file;
 
-            switch( f.type )
-            {
+    public static void osd_fwrite(Object file, char[] buffer, int offset, int length) {
+        FakeFileHandle f = (FakeFileHandle) file;
+
+        switch (f.type) {
             case kPlainFile:
-                    fwrite (buffer, offset,1, length, f.file);
+                fwrite(buffer, offset, 1, length, f.file);
             default:
-                    return;
-            }
+                return;
+        }
     }
+
     public static int osd_fseek(Object file, int offset, int whence) {
         FakeFileHandle f = (FakeFileHandle) file;
         int err = 0;
@@ -464,7 +597,6 @@ public class fileio {
 
         long length = ftell(f);
 
-
         if (fread(p, 0, 1, (int) length, f) != length) {
             fclose(f);
             return -1;
@@ -502,7 +634,6 @@ public class fileio {
             e.printStackTrace();
             System.exit(1);
         }
-
 
         fclose(f);
         /*     int length;
@@ -561,7 +692,7 @@ public class fileio {
 
         return 0;
     }
-    
+
     public static int checksum_file2(File fl, char[] p, int[] size, int[] crc) {
         FILE f;
         f = fopen(fl, "rb");
@@ -570,7 +701,6 @@ public class fileio {
         }
 
         long length = ftell(f);
-
 
         if (fread(p, 0, 1, (int) length, f) != length) {
             fclose(f);
@@ -610,6 +740,110 @@ public class fileio {
             System.exit(1);
         }
 
+        fclose(f);
+        /*     int length;
+         unsigned char *data;
+         FILE *f;
+
+         f = fopen (file, "rb");
+         if( !f )
+         return -1;
+
+         /* determine length of file */
+        /*     if( fseek (f, 0L, SEEK_END) != 0 )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         length = ftell (f);
+         if( length == -1L )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         /* allocate space for entire file */
+        /*    data = (unsigned char *) malloc (length);
+         if( !data )
+         {
+         fclose (f);
+         return -1;
+         }
+
+         /* read entire file into memory */
+        /*     if( fseek (f, 0L, SEEK_SET) != 0 )
+         {
+         free (data);
+         fclose (f);
+         return -1;
+         }
+
+         if( fread (data, sizeof (unsigned char), length, f) != length )
+         {
+         free (data);
+         fclose (f);
+         return -1;
+         }
+
+         *size = length;
+         *crc = crc32 (0L, data, length);
+         if( p )
+         *p = data;
+         else
+         free (data);
+
+         fclose (f);*/
+
+        return 0;
+    }
+
+    public static int checksum_file3(byte[] bytes, String filename, char[] p, int[] size, int[] crc) {
+        FILE f;
+        f = fopen(bytes, filename, "rb");
+        if (f == null) {
+            return -1;
+        }
+
+        long length = ftell(f);
+
+        if (fread(p, 0, 1, (int) length, f) != length) {
+            fclose(f);
+            return -1;
+        }
+        size[0] = (int) length;
+        /*Checksum crcal = new CRC32();
+         String temp = new String(p);//make string to be able to get the bytes
+         crcal.update(temp.getBytes(), 0, size[0]);
+         long result =crcal.getValue();*/
+        try {
+
+            CheckedInputStream cis = null;
+            long fileSize = 0;
+            try {
+                // Computer CRC32 checksum
+                cis = new CheckedInputStream(
+                        new ByteArrayInputStream(bytes), new CRC32());
+
+                fileSize = bytes.length;
+
+            } catch (Exception e) {
+                System.err.println("File not found.");
+                System.exit(1);
+            }
+
+            byte[] buf = new byte[(int) fileSize];
+            while (cis.read(buf) >= 0) {
+            }
+
+            long checksum = cis.getChecksum().getValue();
+            crc[0] = (int) checksum;
+            //System.out.println(checksum + " " + fileSize + " " + file);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         fclose(f);
         /*     int length;
@@ -709,7 +943,6 @@ public class fileio {
 
         /*TODO*///            if( keyboard_pressed (KEYCODE_LCONTROL) && keyboard_pressed (KEYCODE_C) )
 /*TODO*///                    return 1;
-
         return 0;
     }
 
@@ -732,8 +965,8 @@ public class fileio {
                     }
 
                     //get the zip file content
-                    ZipInputStream zis =
-                            new ZipInputStream(new FileInputStream(zipFile));
+                    ZipInputStream zis
+                            = new ZipInputStream(new FileInputStream(zipFile));
                     //get the zipped file list entry
                     ZipEntry ze = zis.getNextEntry();
 
@@ -768,7 +1001,6 @@ public class fileio {
                     zis.close();
 
                     //System.out.println("Done ");
-
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -777,7 +1009,7 @@ public class fileio {
         }
 
     }
-    
+
     public static File unZipIt2(String zipFile, String filename) {
         File out = null;
 
@@ -785,59 +1017,206 @@ public class fileio {
             System.out.println("unzip failed");
         } else {
             //System.out.println("entered unzipit2 for "+filename);
-            
-                byte[] buffer = new byte[1024];
 
-                try {
+            byte[] buffer = new byte[1024];
 
-                   
+            try {
 
-                    //get the zip file content
-                    ZipInputStream zis =
-                            new ZipInputStream(new FileInputStream(zipFile));
-                    //get the zipped file list entry
-                    ZipEntry ze = zis.getNextEntry();
+                //get the zip file content
+                ZipInputStream zis
+                        = new ZipInputStream(new FileInputStream(zipFile));
+                //get the zipped file list entry
+                ZipEntry ze = zis.getNextEntry();
 
-                    while (ze != null) {
+                while (ze != null) {
 
-                        String fileName = ze.getName();
-                        //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
-                        if (fileName.equalsIgnoreCase(filename)) {
-                            //System.out.println("extracting!!!!!!!");
-                            out = new File(System.getProperty("java.io.tmpdir")+"tmp");
+                    String fileName = ze.getName();
+                    //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                    if (fileName.equalsIgnoreCase(filename)) {
+                        //System.out.println("extracting!!!!!!!");
+                        out = new File(System.getProperty("java.io.tmpdir") + "tmp");
                             //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
-                            //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+                        //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
 
-                            //create all non exists folders
-                            //else you will hit FileNotFoundException for compressed folder
-                            //new File(out.getParent()).mkdirs();
+                        //create all non exists folders
+                        //else you will hit FileNotFoundException for compressed folder
+                        //new File(out.getParent()).mkdirs();
+                        FileOutputStream fos = new FileOutputStream(out);
 
-                            FileOutputStream fos = new FileOutputStream(out);
-
-                            int len;
-                            while ((len = zis.read(buffer)) > 0) {
-                                fos.write(buffer, 0, len);
-                            }
-
-                            fos.close();
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
                         }
-                        ze = zis.getNextEntry();
+
+                        fos.close();
                     }
-
-                    zis.closeEntry();
-                    zis.close();
-
-                    //System.out.println("Done ");
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    ze = zis.getNextEntry();
                 }
-            
+
+                zis.closeEntry();
+                zis.close();
+
+                //System.out.println("Done ");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
         }
         return out;
     }
-    public static ByteArrayInputStream unZipIt3(String zipFile, String filename) { //not used yet. needs major changes in libc_old..
+
+    public static byte[] unZipIt3(String zipFile, String filename) {
+        byte[] out = null;
+
+        if (!new File(zipFile).exists()) {
+            System.out.println("unzip failed");
+        } else {
+            //System.out.println("entered unzipit2 for "+filename);
+
+            byte[] buffer = new byte[1024];
+
+            try {
+                //get the zip file content
+                ZipInputStream zis
+                        = new ZipInputStream(new FileInputStream(zipFile));
+                //get the zipped file list entry
+                ZipEntry ze = zis.getNextEntry();
+
+                while (ze != null) {
+
+                    String fileName = ze.getName();
+                    //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                    if (fileName.equalsIgnoreCase(filename)) {
+                            //System.out.println("extracting!!!!!!!");
+                        //out = new File(System.getProperty("java.io.tmpdir")+"tmp");
+                        //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                        //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+
+                        //create all non exists folders
+                        //else you will hit FileNotFoundException for compressed folder
+                        //new File(out.getParent()).mkdirs();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        //FileOutputStream fos = new FileOutputStream(out);
+
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
+                            baos.write(buffer, 0, len);
+                        }
+
+                        baos.close();
+                        out = baos.toByteArray();
+                    }
+                    ze = zis.getNextEntry();
+                }
+
+                zis.closeEntry();
+                zis.close();
+
+                //System.out.println("Done ");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+        return out;
+    }
+
+    public static byte[] unZipItOnlineWithCache(String zipFileURL, String filename) {
+        byte[] out = null;
+        //fetching if not already fetched
+        byte[] zipbytes = null;
+        if(zipOnlineCacheName1.equals(zipFileURL)){
+            zipbytes = zipOnlineCacheData1;
+        } else  if(zipOnlineCacheName2.equals(zipFileURL)){
+            zipbytes = zipOnlineCacheData2;
+        } else {
+            if(zipOnlineCacheName1.isEmpty()){
+                zipbytes = FetchOnlineFile(zipFileURL);
+                zipOnlineCacheData1 = zipbytes;
+                zipOnlineCacheName1 = zipFileURL;
+            }else if(zipOnlineCacheName2.isEmpty()){
+                zipbytes = FetchOnlineFile(zipFileURL);
+                zipOnlineCacheData2 = zipbytes;
+                zipOnlineCacheName2 = zipFileURL;
+            }else{
+                System.out.println("Both caches missed! weird!");
+                zipbytes = FetchOnlineFile(zipFileURL);
+            }
+        }
+        
+        
+        //System.out.println("entered unzipit2 for "+filename);
+        byte[] buffer = new byte[1024];
+        try {
+            //get the zip file content
+            ZipInputStream zis
+                    = new ZipInputStream(new ByteArrayInputStream(zipbytes));
+            //get the zipped file list entry
+            ZipEntry ze = zis.getNextEntry();
+            while (ze != null) {
+                String fileName = ze.getName();
+                //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                if (fileName.equalsIgnoreCase(filename)) {
+                    //System.out.println("extracting!!!!!!!");
+                    //out = new File(System.getProperty("java.io.tmpdir")+"tmp");
+                    //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                    //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+
+                    //create all non exists folders
+                    //else you will hit FileNotFoundException for compressed folder
+                    //new File(out.getParent()).mkdirs();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    //FileOutputStream fos = new FileOutputStream(out);
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        baos.write(buffer, 0, len);
+                    }
+                    baos.close();
+                    out = baos.toByteArray();
+                }
+                ze = zis.getNextEntry();
+            }
+            zis.closeEntry();
+            zis.close();
+            //System.out.println("Done ");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return out;
+    }
+
+    public static byte[] FetchOnlineFile(String fileURL) {
+        byte[] out = null;
+        ByteArrayOutputStream bais = new ByteArrayOutputStream();
+        InputStream is = null;
+        URL url = null;
+        try {
+            url = new URL(fileURL);
+            is = url.openStream();
+            byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
+            int n;
+
+            while ((n = is.read(byteChunk)) > 0) {
+                bais.write(byteChunk, 0, n);
+            }
+        } catch (IOException e) {
+            System.err.printf("Failed while reading bytes from %s: %s", url.toExternalForm(), e.getMessage());
+            e.printStackTrace();
+            // Perform any other exception handling that's appropriate.
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(fileio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        out = bais.toByteArray();
+        return out;
+    }
+
+    public static ByteArrayInputStream unZipIt4(String zipFile, String filename) { //not used yet. needs major changes in libc_old..
         ByteArrayInputStream inb = null;
         ByteArrayOutputStream outb = null;
 
@@ -845,59 +1224,78 @@ public class fileio {
             System.out.println("unzip failed");
         } else {
             //System.out.println("entered unzipit2 for "+filename);
-            
-                byte[] buffer = new byte[1024];
 
-                try {
+            byte[] buffer = new byte[1024];
 
-                   
+            try {
 
-                    //get the zip file content
-                    ZipInputStream zis =
-                            new ZipInputStream(new FileInputStream(zipFile));
-                    //get the zipped file list entry
-                    ZipEntry ze = zis.getNextEntry();
+                //get the zip file content
+                ZipInputStream zis
+                        = new ZipInputStream(new FileInputStream(zipFile));
+                //get the zipped file list entry
+                ZipEntry ze = zis.getNextEntry();
 
-                    while (ze != null) {
+                while (ze != null) {
 
-                        String fileName = ze.getName();
-                        //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
-                        if (fileName.equalsIgnoreCase(filename)) {
-                            //System.out.println("extracting!!!!!!!");
-                            outb = new ByteArrayOutputStream();
+                    String fileName = ze.getName();
+                    //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
+                    if (fileName.equalsIgnoreCase(filename)) {
+                        //System.out.println("extracting!!!!!!!");
+                        outb = new ByteArrayOutputStream();
                             //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
-                            //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
+                        //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
 
-                            //create all non exists folders
-                            //else you will hit FileNotFoundException for compressed folder
-                            //new File(out.getParent()).mkdirs();
+                        //create all non exists folders
+                        //else you will hit FileNotFoundException for compressed folder
+                        //new File(out.getParent()).mkdirs();
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
 
-
-
-                            int len;
-                            while ((len = zis.read(buffer)) > 0) {
-
-                                outb.write(buffer, 0, len);
-                            }
-
-                            outb.close();
-                            inb = new ByteArrayInputStream(outb.toByteArray());
+                            outb.write(buffer, 0, len);
                         }
 
-                        ze = zis.getNextEntry();
+                        outb.close();
+                        inb = new ByteArrayInputStream(outb.toByteArray());
                     }
 
-                    zis.closeEntry();
-                    zis.close();
-
-                    System.out.println("Done ");
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    ze = zis.getNextEntry();
                 }
-            
+
+                zis.closeEntry();
+                zis.close();
+
+                System.out.println("Done ");
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
         }
         return inb;
+    }
+
+    public static boolean URLexistsWithCache(String URLName) {
+        if (checkedExists) {
+            return cacheExist;
+        }
+        cacheExist = URLexists(URLName);
+        checkedExists = true;
+        return cacheExist;
+    }
+
+    public static boolean URLexists(String URLName) {
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            // note : you may also need
+            //        HttpURLConnection.setInstanceFollowRedirects(false)
+            HttpURLConnection con
+                    = (HttpURLConnection) new URL(URLName).openConnection();
+            con.setRequestMethod("HEAD");
+            boolean exists = (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+            return exists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

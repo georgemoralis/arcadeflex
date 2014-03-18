@@ -1,18 +1,18 @@
 /*
-This file is part of Arcadeflex.
+ This file is part of Arcadeflex.
 
-Arcadeflex is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ Arcadeflex is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-Arcadeflex is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ Arcadeflex is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package arcadeflex;
 
@@ -27,6 +27,10 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import arcadeflex.libc.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.nio.file.Files;
 
 /**
  *
@@ -34,10 +38,10 @@ import arcadeflex.libc.*;
  */
 public class libc_old {
 
-    public static final int SEEK_SET=0;
-    public static final int SEEK_CUR=1;
-    public static final int SEEK_END=2;
-    
+    public static final int SEEK_SET = 0;
+    public static final int SEEK_CUR = 1;
+    public static final int SEEK_END = 2;
+
     public static int argc;
     public static String[] argv;
     private static Random rand = new Random();
@@ -55,7 +59,7 @@ public class libc_old {
 
         }
     }
-    
+
     public static char[] CreateArray(int size, char[] array) {
         char[] arrayChar = new char[size];
         for (int i = 0; i < array.length; i++) {
@@ -64,11 +68,10 @@ public class libc_old {
         }
         return arrayChar;
     }
-    
+
     /*
      *  function equals to c bool
      */
-
     public static int BOOL(int value) {
         return value != 0 ? 1 : 0;
     }
@@ -76,7 +79,7 @@ public class libc_old {
     public static int BOOL(boolean value) {
         return value ? 1 : 0;
     }
-    
+
     public static int NOT(int value) {
         return value == 0 ? 1 : 0;
     }
@@ -84,11 +87,10 @@ public class libc_old {
     public static int NOT(boolean value) {
         return !value ? 1 : 0;
     }
-    
+
     /*
      *  function equals to c printf syntax
      */
-
     public static void printf(String str, Object... arguments) {
         System.out.printf(str, arguments);
     }
@@ -179,46 +181,57 @@ public class libc_old {
     /*
      *   Compare 2 Strings
      */
-     /**
+    /**
      * Compares string1 and string2 without sensitivity to case
-     * @param string1 
+     *
+     * @param string1
      * @param string2
-     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     * @return a negative integer, zero, or a positive integer as the specified
+     * String is greater than, equal to, or less than this String, ignoring case
+     * considerations.
      */
     public static int stricmp(String str1, String str2) {
         return str1.compareToIgnoreCase(str2);
     }
+
     /**
      * Compares array and string without sensitivity to case
-     * @param array 
+     *
+     * @param array
      * @param String2
-     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     * @return a negative integer, zero, or a positive integer as the specified
+     * String is greater than, equal to, or less than this String, ignoring case
+     * considerations.
      */
     public static int stricmp(char[] array, String str2) {
         String str = makeString(array);
         return str.compareToIgnoreCase(str2);
     }
+
     /**
      * Compares string1 and string2 without sensitivity to case
-     * @param array1 
+     *
+     * @param array1
      * @param array2
-     * @return a negative integer, zero, or a positive integer as the specified String is greater than, equal to, or less than this String, ignoring case considerations.
+     * @return a negative integer, zero, or a positive integer as the specified
+     * String is greater than, equal to, or less than this String, ignoring case
+     * considerations.
      */
     public static int stricmp(char[] array1, char[] array2) {
         String str1 = makeString(array1);
         String str2 = makeString(array2);
         return str1.compareToIgnoreCase(str2);
-    }  
+    }
+
     /**
-     * Copy characters from string 
-     * @param dst  - destination
-     * @param src  - source
+     * Copy characters from string
+     *
+     * @param dst - destination
+     * @param src - source
      * @param size - number of character to copy
      */
-    public static void strncpy(char[] dst ,String src , int size)
-    {
-        if(src.length()>0)
-        {
+    public static void strncpy(char[] dst, String src, int size) {
+        if (src.length() > 0) {
             for (int i = 0; i < size; i++) {
                 dst[i] = src.charAt(i);
             }
@@ -227,6 +240,7 @@ public class libc_old {
     /*
      *   copy String to array
      */
+
     public static void strcpy(char[] dst, String src) {
         for (int i = 0; i < src.length(); i++) {
             dst[i] = src.charAt(i);
@@ -241,32 +255,29 @@ public class libc_old {
     public static String strcat(String str1, String str2) {
         return str1 + str2;
     }
-    
-     public static int strcmp(String str1, String str2)
-     {
-      return str1.compareTo(str2);
-     }
-     public static boolean strncmp(char[] s1, String s2, int n)
-     {
-        if (n > s2.length()) n = s2.length();
-        return new String(s1).compareTo(s2.substring(0, n)) == 0;
-     }
 
-     
+    public static int strcmp(String str1, String str2) {
+        return str1.compareTo(str2);
+    }
+
+    public static boolean strncmp(char[] s1, String s2, int n) {
+        if (n > s2.length()) {
+            n = s2.length();
+        }
+        return new String(s1).compareTo(s2.substring(0, n)) == 0;
+    }
+
     /*
      *   measure a String
      */
-
     public static int strlen(String str) {
         return str.length();
     }
-    public static int strlen(char[] ch)
-    {
-        int size=0;
-        for(int i=0; i<ch.length; i++)
-        {
-            if(ch[i]==0)
-            {
+
+    public static int strlen(char[] ch) {
+        int size = 0;
+        for (int i = 0; i < ch.length; i++) {
+            if (ch[i] == 0) {
                 break;
             }
             size++;
@@ -284,16 +295,19 @@ public class libc_old {
 
         }
     }
-    
+
     public static void memset(UBytePtr buf, int value, int size) {
-        memset(buf.memory,value,size);
+        memset(buf.memory, value, size);
     }
-    public static void memset(UBytePtr buf,int offset,int value, int size) {
-        memset(buf.memory,offset,value,size);
+
+    public static void memset(UBytePtr buf, int offset, int value, int size) {
+        memset(buf.memory, offset, value, size);
     }
+
     public static void memset(IntPtr buf, int value, int size) {
-        memset(buf.memory,value,size);
+        memset(buf.memory, value, size);
     }
+
     public static void memset(char[] buf, int ofs, int value, int size) {
         for (int mem = 0; mem < size; mem++) {
             buf[ofs + mem] = (char) value;
@@ -329,6 +343,7 @@ public class libc_old {
         }
         return 0;
     }
+
     public static int memcmp(char[] dist, int dstoffs, String src, int size) {
         char[] srcc = src.toCharArray();
         for (int i = 0; i < size; i++) {
@@ -356,9 +371,13 @@ public class libc_old {
 
     public static void memcpy(CharPtr dst, CharPtr src, int size) {
         for (int i = 0; i < size; i++) {
-            dst.write(i, src.read(i));
-
+            dst.write(i, src.read(i));     
         }
+    }
+    public static void memcpy(CharPtr dst,int dstoffs, CharPtr src,int srcoffs, int size) 
+    {
+        memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
+    
     }
 
     public static void memcpy(char[] dst, CharPtr src, int size) {
@@ -382,31 +401,73 @@ public class libc_old {
         return new String(array, 0, i);
     }
 
-    /*************************************
+    /**
+     * ***********************************
      *
      *
-     *  FILE functions
-     ************************************/
+     * FILE functions
+     ***********************************
+     */
     public static class FILE {
+
+        public ByteArrayInputStream bais;
+        public byte[] bytes;
+
+        public void setBytes(byte[] bytes) {
+            this.bytes = bytes;
+            bais = new ByteArrayInputStream(bytes);
+        }
 
         public FILE() {
         }
-        public RandomAccessFile raf;
         public FileOutputStream fos;
         public FileWriter fw;
         public InputStream is;
         public String Name;
     }
-    public static FILE fopen(char[] name,String format) {
-        String nameS=new String(name);
-        return fopen(nameS,format);
+
+    public static FILE fopen(char[] name, String format) {
+        String nameS = new String(name);
+        return fopen(nameS, format);
     }
+
+    public static byte[] getFileBytes(File file) throws IOException {
+        ByteArrayOutputStream ous = null;
+        InputStream ios = null;
+        try {
+            byte[] buffer = new byte[4096];
+            ous = new ByteArrayOutputStream();
+            ios = new FileInputStream(file);
+            int read = 0;
+            while ((read = ios.read(buffer)) != -1) {
+                ous.write(buffer, 0, read);
+            }
+        } finally {
+            try {
+                if (ous != null) {
+                    ous.close();
+                }
+            } catch (IOException e) {
+                // swallow, since not that important
+            }
+            try {
+                if (ios != null) {
+                    ios.close();
+                }
+            } catch (IOException e) {
+                // swallow, since not that important
+            }
+        }
+        return ous.toByteArray();
+    }
+
     public static FILE fopen(String name, String format) {
         FILE file;
         file = new FILE();
         if (format.compareTo("rb") == 0) {
             try {
-                    file.raf = new RandomAccessFile(name, "r");
+                //file.raf = new RandomAccessFile(name, "r");
+                file.setBytes(getFileBytes(new File(name)));
                 file.Name = name;
             } catch (Exception e) {
                 file = null;
@@ -415,8 +476,8 @@ public class libc_old {
             return file;
         } else if (format.compareTo("wb") == 0) {
             try {
-                    file.fos = new FileOutputStream(name, false);
-                
+                file.fos = new FileOutputStream(name, false);
+
             } catch (Exception e) {
                 file = null;
                 return null;
@@ -424,7 +485,7 @@ public class libc_old {
             return file;
         } else if (format.compareTo("wa") == 0) {
             try {
-                    file.fw = new FileWriter(name, false);
+                file.fw = new FileWriter(name, false);
 
             } catch (Exception e) {
                 file = null;
@@ -435,13 +496,50 @@ public class libc_old {
         file = null;
         return null;
     }
-    
+
+    public static FILE fopen(byte[] bytes, String name, String format) {
+        FILE file;
+        file = new FILE();
+        if (format.compareTo("rb") == 0) {
+            try {
+                //file.raf = new RandomAccessFile(name, "r");
+                file.setBytes(bytes);
+                file.Name = name;
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        } else if (format.compareTo("wb") == 0) {
+            try {
+                file.fos = new FileOutputStream(name, false);
+
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        } else if (format.compareTo("wa") == 0) {
+            try {
+                file.fw = new FileWriter(name, false);
+
+            } catch (Exception e) {
+                file = null;
+                return null;
+            }
+            return file;
+        }
+        file = null;
+        return null;
+    }
+
     public static FILE fopen(File fl, String format) {
         FILE file;
         file = new FILE();
         if (format.compareTo("rb") == 0) {
             try {
-                    file.raf = new RandomAccessFile(fl, "r");
+                //file.raf = new RandomAccessFile(fl, "r");
+                file.setBytes(getFileBytes(fl));
                 file.Name = fl.getName();
             } catch (Exception e) {
                 file = null;
@@ -450,8 +548,8 @@ public class libc_old {
             return file;
         } else if (format.compareTo("wb") == 0) {
             try {
-                    file.fos = new FileOutputStream(fl, false);
-                
+                file.fos = new FileOutputStream(fl, false);
+
             } catch (Exception e) {
                 file = null;
                 return null;
@@ -459,7 +557,7 @@ public class libc_old {
             return file;
         } else if (format.compareTo("wa") == 0) {
             try {
-                    file.fw = new FileWriter(fl, false);
+                file.fw = new FileWriter(fl, false);
 
             } catch (Exception e) {
                 file = null;
@@ -476,7 +574,7 @@ public class libc_old {
         int readsize;
 
         try {
-            readsize = file.raf.read(bbuf);
+            readsize = file.bais.read(bbuf);
         } catch (Exception e) {
             bbuf = null;
             return -1;
@@ -492,13 +590,15 @@ public class libc_old {
     public static int fread(char[] buf, int size, int count, FILE file) {
         return fread(buf, 0, size, count, file);
     }
+
     public static void fseek(FILE file, int pos) {
-        if (file.raf != null) {
-            try {
-                file.raf.seek(pos);
-            } catch (IOException ex) {
-                file = null;
-            }
+        if (file.bais != null) {
+            //try {
+            file.bais.reset();
+            file.bais.skip(pos);
+            //} catch (IOException ex) {
+            //    file = null;
+            //}
 
         }
     }
@@ -522,11 +622,11 @@ public class libc_old {
     public static void fwrite(char[] buf, int size, int count, FILE file) {
         fwrite(buf, 0, size, count, file);
     }
-    public static void fwrite(char buf,int size,int count,FILE file)
-    {
+
+    public static void fwrite(char buf, int size, int count, FILE file) {
         byte bbuf[] = new byte[size * count];
-  
-            bbuf[0] = (byte) (buf & 0xFF);  
+
+        bbuf[0] = (byte) (buf & 0xFF);
         try {
             file.fos.write(bbuf);
         } catch (Exception e) {
@@ -536,15 +636,16 @@ public class libc_old {
 
         bbuf = null;
     }
-    public static long ftell(FILE file)
-    {
+
+    public static long ftell(FILE file) {
         try {
-            return file.raf.length();
-        } catch (IOException ex) {
-            Logger.getLogger(libc_old.class.getName()).log(Level.SEVERE, null, ex);
+            return file.bytes.length;
+        } catch (Exception e) {
+            Logger.getLogger(libc_old.class.getName()).log(Level.SEVERE, null, e);
         }
         return 0;
     }
+
     public static void fprintf(FILE file, String str, Object... arguments) {
         String print = String.format(str, arguments);
         try {
@@ -554,9 +655,9 @@ public class libc_old {
     }
 
     public static void fclose(FILE file) {
-        if (file.raf != null) {
+        if (file.bais != null) {
             try {
-                file.raf.close();
+                file.bais.close();
             } catch (Exception e) {
             }
 
@@ -584,18 +685,22 @@ public class libc_old {
         }
     }
 
-    /*************************************
+    /**
+     * ***********************************
      *
-     *  Char Pointer Emulation
-     *************************************/
+     * Char Pointer Emulation
+     ************************************
+     */
     public static class CharPtr {
 
         public CharPtr() {
         }
+
         public CharPtr(int size) {
             memory = new char[size];
-            base=0;
+            base = 0;
         }
+
         public CharPtr(char[] m) {
             set(m, 0);
         }
@@ -607,17 +712,17 @@ public class libc_old {
         public CharPtr(CharPtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
-        public CharPtr(UBytePtr cp,int b)
-        {
-            set(cp.memory,cp.base+b);
+
+        public CharPtr(UBytePtr cp, int b) {
+            set(cp.memory, cp.base + b);
         }
 
         public void set(char[] m, int b) {
             memory = m;
             base = b;
         }
-        public void set(CharPtr cp,int b)
-        {
+
+        public void set(CharPtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
 
@@ -668,20 +773,20 @@ public class libc_old {
         public void inc() {
             this.base += 1;
         }
-        public void inc(int count)
-        {
-            this.base+=count;
+
+        public void inc(int count) {
+            this.base += count;
         }
         public char[] memory;
         public int base;
     }
 
-    
-    
-    /*************************************
+    /**
+     * ***********************************
      *
-     *  Int Pointer Emulation
-     *************************************/
+     * Int Pointer Emulation
+     ************************************
+     */
     public static class IntPtr {
 
         public IntPtr() {
@@ -690,22 +795,24 @@ public class libc_old {
         public IntPtr(char[] m) {
             set(m, 0);
         }
+
         public IntPtr(int size) {
             memory = new char[size];
-            base=0;
+            base = 0;
         }
+
         public IntPtr(IntPtr cp, int b) {
             set(cp.memory, cp.base + b);
         }
-        public IntPtr(UBytePtr p)
-        {
-            set(p.memory,p.base);
+
+        public IntPtr(UBytePtr p) {
+            set(p.memory, p.base);
         }
+
         public void set(char[] input, int b) {
             base = b;
             memory = input;
         }
-        
 
         public void inc() {
             base += 4;
@@ -747,13 +854,13 @@ public class libc_old {
         public int base;
         char[] memory;
     }
-    
 
-
-    /*************************************
+    /**
+     * ***********************************
      *
-     *  Char Buffer Emulation
-     *************************************/
+     * Char Buffer Emulation
+     ************************************
+     */
     public static class CharBuf {
 
         public CharBuf() {
