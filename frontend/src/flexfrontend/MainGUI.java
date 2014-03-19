@@ -61,10 +61,7 @@ public class MainGUI extends javax.swing.JFrame {
         filter.setBackground(Color.yellow);
         setTitle("flexFrontend " + Settings.version);
         setLocationRelativeTo(null);
-        jCheckBox1.setSelected(Settings.scanlines);
         jCheckBox2.setSelected(Settings.log);
-        cheatCheck.setSelected(Settings.cheat);
-        soundBox.setSelected(Settings.soundEnabled);
         romTable.setModel(romlist);
         romTable.setAutoCreateRowSorter(true);
         
@@ -142,7 +139,6 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        soundBox = new javax.swing.JCheckBox();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         previewPanel = new javax.swing.JPanel();
         flyerLabel = new javax.swing.JLabel();
@@ -158,9 +154,6 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        changelogTextArea = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         debugArea = new javax.swing.JTextArea();
@@ -168,9 +161,7 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         romTable = new javax.swing.JTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
-        cheatCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 51, 102));
@@ -184,13 +175,6 @@ public class MainGUI extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        soundBox.setText("sound");
-        soundBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                soundBoxActionPerformed(evt);
             }
         });
 
@@ -305,29 +289,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Screenshots", jPanel2);
 
-        changelogTextArea.setColumns(20);
-        changelogTextArea.setRows(5);
-        jScrollPane4.setViewportView(changelogTextArea);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Changelog", jPanel4);
-
         debugArea.setColumns(20);
         debugArea.setRows(5);
         jScrollPane3.setViewportView(debugArea);
@@ -374,24 +335,10 @@ public class MainGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(romTable);
 
-        jCheckBox1.setText("scanlines");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
         jCheckBox2.setText("log");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox2ActionPerformed(evt);
-            }
-        });
-
-        cheatCheck.setText("cheat");
-        cheatCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cheatCheckActionPerformed(evt);
             }
         });
 
@@ -412,17 +359,9 @@ public class MainGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cheatCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(soundBox)
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jCheckBox2))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,11 +376,8 @@ public class MainGUI extends javax.swing.JFrame {
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(soundBox)
-                            .addComponent(jCheckBox1)
                             .addComponent(jCheckBox2)
-                            .addComponent(jButton1)
-                            .addComponent(cheatCheck)))
+                            .addComponent(jButton1)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -459,18 +395,7 @@ public class MainGUI extends javax.swing.JFrame {
                 {
                     Options+= " -log";
                 }
-                if(!jCheckBox1.isSelected())
-                {
-                    Options+=" -noscanlines";
-                }
-                if(!soundBox.isSelected())
-                {
-                    Options+=" -nosound";
-                }
-                if(cheatCheck.isSelected())
-                {
-                    Options+=" -cheat";
-                }
+              
                 runarcadeflex(a[0],Options);
             } catch (IOException ex) {
                 Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -479,23 +404,9 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void soundBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soundBoxActionPerformed
-        Settings.soundEnabled = soundBox.isSelected();
-    }//GEN-LAST:event_soundBoxActionPerformed
-
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
 
     }//GEN-LAST:event_formKeyPressed
-
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        // TODO add your handling code here:
-        updateEverything();
-    }//GEN-LAST:event_jTabbedPane1StateChanged
-
-    private void screenshotsPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_screenshotsPaneStateChanged
-        // TODO add your handling code here:
-        updateEverything();
-}//GEN-LAST:event_screenshotsPaneStateChanged
 
     private void romTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_romTableKeyPressed
         // TODO add your handling code here:
@@ -506,18 +417,20 @@ public class MainGUI extends javax.swing.JFrame {
         updateEverything();
     }//GEN-LAST:event_romTableMouseReleased
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        Settings.scanlines = jCheckBox1.isSelected();
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
         Settings.log = jCheckBox2.isSelected();
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
-private void cheatCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cheatCheckActionPerformed
-       Settings.cheat=cheatCheck.isSelected();
-}//GEN-LAST:event_cheatCheckActionPerformed
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        updateEverything();
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void screenshotsPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_screenshotsPaneStateChanged
+        // TODO add your handling code here:
+        updateEverything();
+    }//GEN-LAST:event_screenshotsPaneStateChanged
     public void updateEverything() {
         int lastselection = -1;
         int newselection = romTable.getSelectedRow();
@@ -535,10 +448,7 @@ private void cheatCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 new LoadTextThread("flexfrontend/info/" + (String) sorter.getModel().getValueAt(romTable.convertRowIndexToModel(romTable.getSelectedRow()), 0) + ".ini", descrArea, cpuInfo, audioInfo).start();
 
             }
-            if(changelogTextArea.isShowing())
-            {
-                new LoadChangelogThread("flexfrontend/changelog/" + (String) sorter.getModel().getValueAt(romTable.convertRowIndexToModel(romTable.getSelectedRow()), 0), changelogTextArea).start();
-            }
+            
         }
     }
 
@@ -641,15 +551,12 @@ private void cheatCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField audioInfo;
-    private javax.swing.JTextArea changelogTextArea;
-    private javax.swing.JCheckBox cheatCheck;
     private javax.swing.JTextField cpuInfo;
     private javax.swing.JTextArea debugArea;
     private javax.swing.JTextArea descrArea;
     private javax.swing.JTextField filter;
     private javax.swing.JLabel flyerLabel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -660,15 +567,12 @@ private void cheatCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel previewPanel;
     private javax.swing.JTable romTable;
     private javax.swing.JTabbedPane screenshotsPane;
-    private javax.swing.JCheckBox soundBox;
     // End of variables declaration//GEN-END:variables
 }
