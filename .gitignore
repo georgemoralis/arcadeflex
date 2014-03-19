@@ -6,3 +6,6 @@ emulator/roms/
 emulator/memdump.log
 emulator/arcadeflex.xml
 emulator/arcadeflex.cfg
+/frontend/nbproject/private/
+/frontend/build/
+/frontend/dist/
