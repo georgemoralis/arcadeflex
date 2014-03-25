@@ -325,8 +325,8 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///
     @Override
     public int start(MachineSound msound) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;//temp
     /*TODO*///	const char *mono_name = "NAMCO sound";
     /*TODO*///	const char *stereo_names[] =
     /*TODO*///	{
@@ -402,7 +402,7 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///
     @Override
     public void stop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     /*TODO*///	free (mixer_table);
     /*TODO*///	free (mixer_buffer);
     }

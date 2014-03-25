@@ -1456,6 +1456,10 @@ public class video {
         
         /*part of the old arcadeflex emulator probably need refactoring */
         Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        //kill loading window
+        osdepend.dlprogress.setVisible(false);
+
         screen = new software_gfx(settings.version + " (based on mame v" +build_version + ")");
         screen.pack();
         //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???

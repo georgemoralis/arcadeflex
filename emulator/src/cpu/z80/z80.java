@@ -3867,7 +3867,7 @@ public class z80 extends cpu_interface {
     opcode ed_69 = new opcode() { public void handler(){ OUT(Z80.BC.D,Z80.HL.L);}};
 
     opcode ed_6b = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
-    opcode ed_6c = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_6c = new opcode() { public void handler(){ NEG();}};
     opcode ed_6d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
   
     opcode ed_6f = new opcode() { public void handler(){ RLD();}};
