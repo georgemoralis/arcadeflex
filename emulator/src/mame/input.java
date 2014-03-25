@@ -243,24 +243,24 @@ public class input {
     	}
     	return 0;
     }
-    /*TODO*///
-    /*TODO*////* Return the name of the code */
-    /*TODO*///INLINE const char* internal_code_name(unsigned code)
-    /*TODO*///{
-    /*TODO*///	const struct KeyboardInfo *keyinfo;
+    
+    /* Return the name of the code */
+    public static String internal_code_name(int code)
+    {
+        KeyboardInfo keyinfo;
     /*TODO*///	const struct JoystickInfo *joyinfo;
-    /*TODO*///	switch (code_map[code].type)
-    /*TODO*///	{
-    /*TODO*///		case CODE_TYPE_KEYBOARD_STANDARD :
-    /*TODO*///			keyinfo = internal_code_find_keyboard_standard(code);
-    /*TODO*///			if (keyinfo)
-    /*TODO*///				return keyinfo->name;
-    /*TODO*///			break;
-    /*TODO*///		case CODE_TYPE_KEYBOARD_OS :
-    /*TODO*///			keyinfo = internal_code_find_keyboard_os(code);
-    /*TODO*///			if (keyinfo)
-    /*TODO*///				return keyinfo->name;
-    /*TODO*///			break;
+    	switch (code_map[code].type)
+    	{
+    		case CODE_TYPE_KEYBOARD_STANDARD :
+    			keyinfo = internal_code_find_keyboard_standard(code);
+    			if (keyinfo!=null)
+    				return keyinfo.name;
+    			break;
+    		case CODE_TYPE_KEYBOARD_OS :
+    			keyinfo = internal_code_find_keyboard_os(code);
+    			if (keyinfo!=null)
+    				return keyinfo.name;
+    			break;
     /*TODO*///		case CODE_TYPE_JOYSTICK_STANDARD :
     /*TODO*///			joyinfo = internal_code_find_joystick_standard(code);
     /*TODO*///			if (joyinfo)
@@ -271,11 +271,11 @@ public class input {
     /*TODO*///			if (joyinfo)
     /*TODO*///				return joyinfo->name;
     /*TODO*///			break;
-    /*TODO*///	}
-    /*TODO*///	return "n/a";
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Update the code table */
+    	}
+    	return "n/a";
+    }
+    
+    /* Update the code table */
     public static void internal_code_update()
     {
     	KeyboardInfo[] keyinfo;
@@ -392,21 +392,20 @@ public class input {
     /*TODO*////***************************************************************************/
     /*TODO*////* Interface */
     /*TODO*///
-    /*TODO*///const char *code_name(InputCode code)
-    /*TODO*///{
-    /*TODO*///	if (code < code_mac)
-    /*TODO*///		return internal_code_name(code);
-    /*TODO*///
-    /*TODO*///	switch (code)
-    /*TODO*///	{
-    /*TODO*///		case CODE_NONE : return "None";
-    /*TODO*///		case CODE_NOT : return "not";
-    /*TODO*///		case CODE_OR : return "or";
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return "n/a";
-    /*TODO*///}
-    /*TODO*///
+    public static String code_name(int code)
+    {
+         if (code < code_mac)
+            return internal_code_name(code);
+
+         switch (code)
+         {
+                case CODE_NONE: return "None";
+                case CODE_NOT: return "not";
+                case CODE_OR: return "or";
+        }
+
+        return "n/a";
+    }
     public static int code_pressed(int code)
     {
     	int pressed;
@@ -547,42 +546,42 @@ public class input {
     /*TODO*///	return 0;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///void seq_name(InputSeq* code, char* buffer, unsigned max)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	char* dest = buffer;
-    /*TODO*///	for(j=0;j<SEQ_MAX;++j)
-    /*TODO*///	{
-    /*TODO*///		const char* name;
-    /*TODO*///
-    /*TODO*///		if ((*code)[j]==CODE_NONE)
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		if (j && 1 + 1 <= max)
-    /*TODO*///		{
-    /*TODO*///			*dest = ' ';
-    /*TODO*///			dest += 1;
-    /*TODO*///			max -= 1;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		name = code_name((*code)[j]);
-    /*TODO*///		if (!name)
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		if (strlen(name) + 1 <= max)
-    /*TODO*///		{
-    /*TODO*///			strcpy(dest,name);
-    /*TODO*///			dest += strlen(name);
-    /*TODO*///			max -= strlen(name);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (dest == buffer && 4 + 1 <= max)
-    /*TODO*///		strcpy(dest,"None");
-    /*TODO*///	else
-    /*TODO*///		*dest = 0;
-    /*TODO*///}
-    /*TODO*///
+    static String seq_name(int[] code, int max)
+    {
+    	int j;
+        String buffer="";
+    	StringBuilder dest = new StringBuilder();
+    	for(j=0;j<SEQ_MAX;++j)
+    	{
+    		String name;
+    
+    		if ((code)[j] ==CODE_NONE)
+    			break;
+    
+    		if (j != 0 && 1 + 1 <= max)
+    		{
+    			dest.append(' ');//*dest = ' ';
+    			//dest += 1;
+    			max -= 1;
+    		}
+    
+    		name = code_name(code[j]);
+    		if (name==null)
+    			break;
+    
+    		if (name.length() + 1 <= max)//if (strlen(name) + 1 <= max)
+    		{
+    			dest.append(name);
+    			//dest += strlen(name);
+    			max -= strlen(name);
+    		}
+    	}
+        if (dest.toString().equals(buffer) && 4 + 1 <= max)
+             return dest.append("None").toString();
+        else
+            return dest.toString();
+    }
+    
     public static boolean seq_pressed(int[] code)
     {
             int j;
@@ -615,127 +614,127 @@ public class input {
             }
             return res && count != 0;
         }
-    /*TODO*///
-    /*TODO*////* Static informations used in key/joy recording */
-    /*TODO*///static InputCode record_seq[SEQ_MAX]; /* buffer for key recording */
-    /*TODO*///static int record_count; /* number of key/joy press recorded */
-    /*TODO*///static clock_t record_last; /* time of last key/joy press */
-    /*TODO*///
-    /*TODO*///#define RECORD_TIME (CLOCKS_PER_SEC*2/3) /* max time between key press */
-    /*TODO*///
-    /*TODO*////* Start a sequence recording */
-    /*TODO*///void seq_read_async_start(void)
-    /*TODO*///{
-    /*TODO*///	unsigned i;
-    /*TODO*///
-    /*TODO*///	record_count = 0;
-    /*TODO*///	record_last = clock();
-    /*TODO*///
-    /*TODO*///	/* reset code memory, otherwise this memory may interferes with the input memory */
-    /*TODO*///	for(i=0;i<code_mac;++i)
-    /*TODO*///		code_map[i].memory = 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Check that almost one key/joy must be pressed */
-    /*TODO*///static int seq_valid(InputSeq* seq)
-    /*TODO*///{
-    /*TODO*///	int j;
-    /*TODO*///	int positive = 0;
-    /*TODO*///	int pred_not = 0;
-    /*TODO*///	int operand = 0;
-    /*TODO*///	for(j=0;j<SEQ_MAX;++j)
-    /*TODO*///	{
-    /*TODO*///		switch ((*seq)[j])
-    /*TODO*///		{
-    /*TODO*///			case CODE_NONE :
-    /*TODO*///				break;
-    /*TODO*///			case CODE_OR :
-    /*TODO*///				if (!operand || !positive)
-    /*TODO*///					return 0;
-    /*TODO*///				pred_not = 0;
-    /*TODO*///				positive = 0;
-    /*TODO*///				operand = 0;
-    /*TODO*///				break;
-    /*TODO*///			case CODE_NOT :
-    /*TODO*///				if (pred_not)
-    /*TODO*///					return 0;
-    /*TODO*///				pred_not = !pred_not;
-    /*TODO*///				operand = 0;
-    /*TODO*///				break;
-    /*TODO*///			default:
-    /*TODO*///				if (!pred_not)
-    /*TODO*///					positive = 1;
-    /*TODO*///				pred_not = 0;
-    /*TODO*///				operand = 1;
-    /*TODO*///				break;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	return positive && operand;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* Record a key/joy sequence
-    /*TODO*///	return <0 if more input is needed
-    /*TODO*///	return ==0 if sequence succesfully recorded
-    /*TODO*///	return >0 if aborted
-    /*TODO*///*/
-    /*TODO*///int seq_read_async(InputSeq* seq, int first)
-    /*TODO*///{
-    /*TODO*///	InputCode newkey;
-    /*TODO*///
-    /*TODO*///	if (input_ui_pressed(IPT_UI_CANCEL))
-    /*TODO*///		return 1;
-    /*TODO*///
-    /*TODO*///	if (record_count == SEQ_MAX
-    /*TODO*///		|| (record_count > 0 && clock() > record_last + RECORD_TIME))	{
-    /*TODO*///		int k = 0;
-    /*TODO*///		if (!first)
-    /*TODO*///		{
-    /*TODO*///			/* search the first space free */
-    /*TODO*///			while (k < SEQ_MAX && (*seq)[k] != CODE_NONE)
-    /*TODO*///				++k;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		/* if no space restart */
-    /*TODO*///		if (k + record_count + (k!=0) > SEQ_MAX)
-    /*TODO*///			k = 0;
-    /*TODO*///
-    /*TODO*///		/* insert */
-    /*TODO*///		if (k + record_count + (k!=0) <= SEQ_MAX)
-    /*TODO*///		{
-    /*TODO*///			int j;
-    /*TODO*///			if (k!=0)
-    /*TODO*///				(*seq)[k++] = CODE_OR;
-    /*TODO*///			for(j=0;j<record_count;++j,++k)
-    /*TODO*///				(*seq)[k] = record_seq[j];
-    /*TODO*///		}
-    /*TODO*///		/* fill to end */
-    /*TODO*///		while (k < SEQ_MAX)
-    /*TODO*///		{
-    /*TODO*///			(*seq)[k] = CODE_NONE;
-    /*TODO*///			++k;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (!seq_valid(seq))
-    /*TODO*///			seq_set_1(seq,CODE_NONE);
-    /*TODO*///
-    /*TODO*///		return 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	newkey = code_read_async();
-    /*TODO*///
-    /*TODO*///	if (newkey != CODE_NONE)
-    /*TODO*///	{
-    /*TODO*///		/* if code is duplicate negate the code */
-    /*TODO*///		if (record_count && newkey == record_seq[record_count-1])
-    /*TODO*///			record_seq[record_count-1] = CODE_NOT;
-    /*TODO*///
-    /*TODO*///		record_seq[record_count++] = newkey;
-    /*TODO*///		record_last = clock();
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return -1;
-    /*TODO*///}
-    /*TODO*///
+    
+    /* Static informations used in key/joy recording */
+    static int[] record_seq=new int[SEQ_MAX]; /* buffer for key recording */
+    static int record_count; /* number of key/joy press recorded */
+    static long record_last; /* time of last key/joy press */
+    
+    public static final int RECORD_TIME= (UCLOCKS_PER_SEC*2/3); /* max time between key press */
+    
+    /* Start a sequence recording */
+    public static void seq_read_async_start()
+    {
+    	int i;
+    
+    	record_count = 0;
+    	record_last = uclock();
+    
+    	/* reset code memory, otherwise this memory may interferes with the input memory */
+    	for(i=0;i<code_mac;++i)
+    		code_map[i].memory = 1;
+    }
+    
+    /* Check that almost one key/joy must be pressed */
+    static boolean seq_valid(int[] seq)
+    {
+    	int j;
+    	boolean positive = false;
+    	boolean pred_not = false;
+    	boolean operand = false;
+    	for(j=0;j<SEQ_MAX;++j)
+    	{
+    		switch ((seq)[j])
+    		{
+    			case CODE_NONE :
+    				break;
+    			case CODE_OR :
+    				if (!operand || !positive)
+    					return false;
+    				pred_not = false;
+    				positive = false;
+    				operand = false;
+    				break;
+    			case CODE_NOT :
+    				if (pred_not)
+    					return false;
+    				pred_not = !pred_not;
+    				operand = false;
+    				break;
+    			default:
+    				if (!pred_not)
+    					positive = true;
+    				pred_not = false;
+    				operand = true;
+    				break;
+    		}
+    	}
+    	return positive && operand;
+    }
+    
+    /* Record a key/joy sequence
+    	return <0 if more input is needed
+    	return ==0 if sequence succesfully recorded
+    	return >0 if aborted
+    */
+    static int seq_read_async(int[] seq, int first)
+    {
+    	int newkey;
+    
+    	if (input_ui_pressed(IPT_UI_CANCEL)!=0)
+    		return 1;
+    
+    	if (record_count == SEQ_MAX
+    		|| (record_count > 0 && uclock() > record_last + RECORD_TIME))	{
+    		int k = 0;
+    		if (first==0)
+    		{
+    			/* search the first space free */
+    			while (k < SEQ_MAX && (seq)[k] != CODE_NONE)
+    				++k;
+    		}
+    
+    		/* if no space restart */
+    		if (k + record_count + ((k!=0)? 1:0) > SEQ_MAX)
+    			k = 0;
+    
+    		/* insert */
+    		if (k + record_count + ((k!=0)? 1:0) <= SEQ_MAX)
+    		{
+    			int j;
+    			if (k!=0)
+    				(seq)[k++] = CODE_OR;
+    			for(j=0;j<record_count;++j,++k)
+    				(seq)[k] = record_seq[j];
+    		}
+    		/* fill to end */
+    		while (k < SEQ_MAX)
+    		{
+    			(seq)[k] = CODE_NONE;
+    			++k;
+    		}
+    
+    		if (!seq_valid(seq))
+    			seq_set_1(seq,CODE_NONE);
+    
+    		return 0;
+    	}
+    
+    	newkey = code_read_async();
+    
+    	if (newkey != CODE_NONE)
+    	{
+    		/* if code is duplicate negate the code */
+    		if (record_count!=0 && newkey == record_seq[record_count-1])
+    			record_seq[record_count-1] = CODE_NOT;
+    
+    		record_seq[record_count++] = newkey;
+    		record_last = uclock();
+    	}
+    
+    	return -1;
+    }
+    
     /*TODO*////***************************************************************************/
     /*TODO*////* input ui */
     /*TODO*///

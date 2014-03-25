@@ -1,6 +1,7 @@
 package mame;
 
 import static arcadeflex.libc_old.*;
+import java.util.HashMap;
 import static mame.driverH.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
@@ -75,69 +76,69 @@ public class inputport {
 /*TODO*///
 /*TODO*///***************************************************************************/
 /*TODO*///
-/*TODO*///char ipdn_defaultstrings[][MAX_DEFSTR_LEN] =
-/*TODO*///{
-/*TODO*///	"Off",
-/*TODO*///	"On",
-/*TODO*///	"No",
-/*TODO*///	"Yes",
-/*TODO*///	"Lives",
-/*TODO*///	"Bonus Life",
-/*TODO*///	"Difficulty",
-/*TODO*///	"Demo Sounds",
-/*TODO*///	"Coinage",
-/*TODO*///	"Coin A",
-/*TODO*///	"Coin B",
-/*TODO*///	"9 Coins/1 Credit",
-/*TODO*///	"8 Coins/1 Credit",
-/*TODO*///	"7 Coins/1 Credit",
-/*TODO*///	"6 Coins/1 Credit",
-/*TODO*///	"5 Coins/1 Credit",
-/*TODO*///	"4 Coins/1 Credit",
-/*TODO*///	"3 Coins/1 Credit",
-/*TODO*///	"8 Coins/3 Credits",
-/*TODO*///	"4 Coins/2 Credits",
-/*TODO*///	"2 Coins/1 Credit",
-/*TODO*///	"5 Coins/3 Credits",
-/*TODO*///	"3 Coins/2 Credits",
-/*TODO*///	"4 Coins/3 Credits",
-/*TODO*///	"4 Coins/4 Credits",
-/*TODO*///	"3 Coins/3 Credits",
-/*TODO*///	"2 Coins/2 Credits",
-/*TODO*///	"1 Coin/1 Credit",
-/*TODO*///	"4 Coins/5 Credits",
-/*TODO*///	"3 Coins/4 Credits",
-/*TODO*///	"2 Coins/3 Credits",
-/*TODO*///	"4 Coins/7 Credits",
-/*TODO*///	"2 Coins/4 Credits",
-/*TODO*///	"1 Coin/2 Credits",
-/*TODO*///	"2 Coins/5 Credits",
-/*TODO*///	"2 Coins/6 Credits",
-/*TODO*///	"1 Coin/3 Credits",
-/*TODO*///	"2 Coins/7 Credits",
-/*TODO*///	"2 Coins/8 Credits",
-/*TODO*///	"1 Coin/4 Credits",
-/*TODO*///	"1 Coin/5 Credits",
-/*TODO*///	"1 Coin/6 Credits",
-/*TODO*///	"1 Coin/7 Credits",
-/*TODO*///	"1 Coin/8 Credits",
-/*TODO*///	"1 Coin/9 Credits",
-/*TODO*///	"Free Play",
-/*TODO*///	"Cabinet",
-/*TODO*///	"Upright",
-/*TODO*///	"Cocktail",
-/*TODO*///	"Flip Screen",
-/*TODO*///	"Service Mode",
-/*TODO*///	"Unused",
-/*TODO*///	"Unknown"	/* must be the last one, mame.c relies on that */
-/*TODO*///};
-/*TODO*///
+    public static HashMap<String,String> ipdn_defaultstrings = new HashMap<String,String>(){{
+        put("Off","Off");
+        put("On","On");
+        put("Yes","Yes");
+        put("Lives","Lives");
+        put("Bonus_Life","Bonus Life");
+        put("Difficulty","Difficulty");
+        put("Demo_Sounds","Demo Sounds");
+        put("Coinage","Coinage");
+        put("Coin_A","Coin A");
+	put("Coin_B","Coin B");
+	put("9C_1C","9 Coins/1 Credit");
+	put("8C_1C","8 Coins/1 Credit");
+	put("7C_1C","7 Coins/1 Credit");
+	put("6C_1C","6 Coins/1 Credit");
+	put("5C_1C","5 Coins/1 Credit");
+	put("4C_1C","4 Coins/1 Credit");
+	put("3C_1C","3 Coins/1 Credit");
+	put("8C_3C","8 Coins/3 Credits");
+	put("4C_2C","4 Coins/2 Credits");
+	put("2C_1C","2 Coins/1 Credit");
+	put("5C_3C","5 Coins/3 Credits");
+	put("3C_2C","3 Coins/2 Credits");
+	put("4C_3C","4 Coins/3 Credits");
+	put("4C_4C","4 Coins/4 Credits");
+	put("3C_3C","3 Coins/3 Credits");
+	put("2C_2C","2 Coins/2 Credits");
+	put("1C_1C","1 Coin/1 Credit");	
+	put("4C_5C","4 Coins/5 Credits");
+	put("3C_4C","3 Coins/4 Credits");
+	put("2C_3C","2 Coins/3 Credits");
+	put("4C_7C","4 Coins/7 Credits");
+	put("2C_4C","2 Coins/4 Credits");
+	put("1C_2C","1 Coin/2 Credits");
+	put("2C_5C","2 Coins/5 Credits");
+	put("2C_6C","2 Coins/6 Credits");
+	put("1C_3C","1 Coin/3 Credits");
+	put("2C_7C","2 Coins/7 Credits");
+	put("2C_8C","2 Coins/8 Credits");
+	put("1C_4C","1 Coin/4 Credits");
+	put("1C_5C","1 Coin/5 Credits");
+	put("1C_6C","1 Coin/6 Credits");
+	put("1C_7C","1 Coin/7 Credits");
+	put("1C_8C","1 Coin/8 Credits");
+	put("1C_9C","1 Coin/9 Credits");
+	put("Free_Play","Free Play");
+	put("Cabinet","Cabinet");
+	put("Upright","Upright");
+	put("Cocktail","Cocktail");
+	put("Flip_Screen","Flip Screen");
+	put("Service_Mode","Service Mode");
+	put("Unused","Unused");
+	put("Unknown","Unknown");/* must be the last one, mame.c relies on that */
+        
+    }};
+
     public static ipd[] inputport_defaults =
     {
-    /*TODO*///	{ IPT_UI_CONFIGURE,         "Config Menu",       SEQ_DEF_1(KEYCODE_TAB) },
-    /*TODO*///	{ IPT_UI_ON_SCREEN_DISPLAY, "On Screen Display", SEQ_DEF_1(KEYCODE_TILDE) },
+  //changed to support BACKSPACE IN APPLET MODE AS WELL  new ipd( IPT_UI_CONFIGURE,         "Config Menu",       SEQ_DEF_1(KEYCODE_TAB) ),
+    new ipd( IPT_UI_CONFIGURE,         "Config Menu",       SEQ_DEF_3(KEYCODE_TAB, CODE_OR, KEYCODE_BACKSPACE) ),
+        /*TODO*///	{ IPT_UI_ON_SCREEN_DISPLAY, "On Screen Display", SEQ_DEF_1(KEYCODE_TILDE) },
     /*TODO*///	{ IPT_UI_PAUSE,             "Pause",             SEQ_DEF_1(KEYCODE_P) },
-    /*TODO*///	{ IPT_UI_RESET_MACHINE,     "Reset Game",        SEQ_DEF_1(KEYCODE_F3) },
+    new ipd( IPT_UI_RESET_MACHINE,     "Reset Game",        SEQ_DEF_1(KEYCODE_F3) ),
     /*TODO*///	{ IPT_UI_SHOW_GFX,          "Show Gfx",          SEQ_DEF_1(KEYCODE_F4) },
     new ipd( IPT_UI_FRAMESKIP_DEC,     "Frameskip Dec",     SEQ_DEF_1(KEYCODE_F8) ),
     new ipd( IPT_UI_FRAMESKIP_INC,     "Frameskip Inc",     SEQ_DEF_1(KEYCODE_F9) ),
@@ -147,11 +148,11 @@ public class inputport {
     /*TODO*///	{ IPT_UI_SHOW_COLORS,       "Show Colors",	 SEQ_DEF_2(KEYCODE_F11, KEYCODE_LCONTROL) },
     /*TODO*///	{ IPT_UI_SNAPSHOT,          "Save Snapshot",     SEQ_DEF_1(KEYCODE_F12) },
     /*TODO*///	{ IPT_UI_TOGGLE_CHEAT,      "Toggle Cheat",      SEQ_DEF_1(KEYCODE_F5) },
-    /*TODO*///	{ IPT_UI_UP,                "UI Up",             SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
-    /*TODO*///	{ IPT_UI_DOWN,              "UI Down",           SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
+    new ipd( IPT_UI_UP,                "UI Up",             SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) ),
+    new ipd( IPT_UI_DOWN,              "UI Down",           SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) ),
     new ipd( IPT_UI_LEFT,              "UI Left",           SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) ),
     new ipd( IPT_UI_RIGHT,             "UI Right",          SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) ),
-    /*TODO*///	{ IPT_UI_SELECT,            "UI Select",         SEQ_DEF_3(KEYCODE_ENTER, CODE_OR, JOYCODE_1_BUTTON1) },
+    new ipd( IPT_UI_SELECT,            "UI Select",         SEQ_DEF_3(KEYCODE_ENTER, CODE_OR, JOYCODE_1_BUTTON1) ),
     new ipd( IPT_UI_CANCEL,            "UI Cancel",         SEQ_DEF_1(KEYCODE_ESC) ),
     new ipd( IPT_UI_PAN_UP,            "Pan Up",            SEQ_DEF_3(KEYCODE_PGUP, CODE_NOT, KEYCODE_LSHIFT) ),
     new ipd( IPT_UI_PAN_DOWN,          "Pan Down",          SEQ_DEF_3(KEYCODE_PGDN, CODE_NOT, KEYCODE_LSHIFT) ),
@@ -723,32 +724,31 @@ public class inputport {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///
-/*TODO*////* Note that the following 3 routines have slightly different meanings with analog ports */
-/*TODO*///const char *input_port_name(const struct InputPort *in)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///	unsigned type;
-/*TODO*///
-/*TODO*///	if (in->name != IP_NAME_DEFAULT) return in->name;
-/*TODO*///
-/*TODO*///	i = 0;
-/*TODO*///
-/*TODO*///	if ((in->type & ~IPF_MASK) == IPT_EXTENSION)
-/*TODO*///		type = (in-1)->type & (~IPF_MASK | IPF_PLAYERMASK);
-/*TODO*///	else
-/*TODO*///		type = in->type & (~IPF_MASK | IPF_PLAYERMASK);
-/*TODO*///
-/*TODO*///	while (inputport_defaults[i].type != IPT_END &&
-/*TODO*///			inputport_defaults[i].type != type)
-/*TODO*///		i++;
-/*TODO*///
-/*TODO*///	if ((in->type & ~IPF_MASK) == IPT_EXTENSION)
-/*TODO*///		return inputport_defaults[i+1].name;
-/*TODO*///	else
-/*TODO*///		return inputport_defaults[i].name;
-/*TODO*///}
 
+    /* Note that the following 3 routines have slightly different meanings with analog ports */
+    public static String input_port_name(InputPort[] in, int in_ptr)
+    {
+            int i;
+            /*unsigned*/ int type;
+
+            if (in[in_ptr].name != IP_NAME_DEFAULT) return in[in_ptr].name;
+
+            i = 0;
+
+            if ((in[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION)
+                    type = in[in_ptr-1].type & (~IPF_MASK | IPF_PLAYERMASK);
+            else
+                    type = in[in_ptr].type & (~IPF_MASK | IPF_PLAYERMASK);
+
+            while (inputport_defaults[i].type != IPT_END &&
+                            inputport_defaults[i].type != type)
+                    i++;
+
+            if ((in[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION)
+                    return inputport_defaults[i+1].name;
+            else
+                    return inputport_defaults[i].name;
+    }
     public static int[] input_port_type_seq(int type)
     {
         int i=0;
@@ -795,6 +795,41 @@ public class inputport {
             else
                 return inputport_defaults[i].seq;
     }
+    public static int[] input_port_seq(InputPort[] input_ports, int _in)//need to do it again for other ports ;/ TODO refactor it
+    {
+            int i, type;
+
+            while (seq_get_1(input_ports[_in].seq) == CODE_PREVIOUS) _in--;
+
+            if ((input_ports[_in].type & ~IPF_MASK) == IPT_EXTENSION)
+            {
+                type = (int)(input_ports[_in - 1].type & (~IPF_MASK | IPF_PLAYERMASK));
+                /* if port is disabled, or cheat with cheats disabled, return no key */
+                if ((input_ports[_in - 1].type & IPF_UNUSED) != 0 || (options.cheat==0 && (input_ports[_in - 1].type & IPF_CHEAT) != 0))
+                    return ip_none;
+            }
+            else
+            {
+                type = (int)(input_ports[_in].type & (~IPF_MASK | IPF_PLAYERMASK));
+                /* if port is disabled, or cheat with cheats disabled, return no key */
+                if ((input_ports[_in].type & IPF_UNUSED) != 0 || (options.cheat==0 && (input_ports[_in].type & IPF_CHEAT) != 0))
+                    return ip_none;
+            }
+
+            if (seq_get_1(input_ports[_in].seq) != CODE_DEFAULT)
+                return input_ports[_in].seq;
+
+            i = 0;
+
+            while (inputport_defaults[i].type != IPT_END &&
+                    inputport_defaults[i].type != type)
+                i++;
+
+            if ((input_ports[_in].type & ~IPF_MASK) == IPT_EXTENSION)
+                return inputport_defaults[i + 1].seq;
+            else
+                return inputport_defaults[i].seq;
+        }
 
 /*TODO*///void update_analog_port(int port)
 /*TODO*///{

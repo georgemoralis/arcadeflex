@@ -421,12 +421,11 @@ public class mame {
         /* the user interface must be called between vh_update() and osd_update_video_and_audio(), */
         /* to allow it to overlay things on the game display. We must call it even */
         /* if the frame is skipped, to keep a consistent timing. */
-/*TODO*/ //            if (handle_user_interface())
-/*TODO*/ //                    /* quit if the user asked to */
-/*TODO*/ //                    return 1;
+            if (handle_user_interface()!=0)
+                   /* quit if the user asked to */
+                    return 1;
             
-/*hack code to BE REMOVE*/ if(keyboard_pressed_memory(KEYCODE_ESC)!=0) //TODO remove that when we handle user interface above
-/*hack code*/                     return 1;
+
 
         osd_update_video_and_audio();
 
@@ -483,7 +482,7 @@ public class mame {
     
     				if (showgamewarnings() == 0)  /* show info about incorrect behaviour (wrong colors etc.) */
     				{
-    /*TODO*///					init_user_interface();
+    					init_user_interface();
     /*TODO*///
     /*TODO*///					/* disable cheat if no roms */
     /*TODO*///					if (!gamedrv->rom) options.cheat = 0;

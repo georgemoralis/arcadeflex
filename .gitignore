@@ -9,3 +9,5 @@ emulator/arcadeflex.cfg
 /frontend/nbproject/private/
 /frontend/build/
 /frontend/dist/
+emulator/arcadeflex.jar
+emulator/flexFrontend.jar

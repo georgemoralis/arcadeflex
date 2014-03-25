@@ -71,21 +71,21 @@ public class input {
   /*TODO the rest codes */  
 	/*new KeyboardInfo( "~",			KEY_TILDE,			KEYCODE_TILDE ),
 	new KeyboardInfo( "-",          KEY_MINUS,          KEYCODE_MINUS ),
-	new KeyboardInfo( "=",          KEY_EQUALS,         KEYCODE_EQUALS ),
-	new KeyboardInfo( "BKSPACE",	KEY_BACKSPACE,		KEYCODE_BACKSPACE ),
-	new KeyboardInfo( "TAB",		KEY_TAB,			KEYCODE_TAB ),
-	new KeyboardInfo( "[",          KEY_OPENBRACE,      KEYCODE_OPENBRACE ),
-	new KeyboardInfo( "]",          KEY_CLOSEBRACE,     KEYCODE_CLOSEBRACE ),
-	new KeyboardInfo( "ENTER",		KEY_ENTER,			KEYCODE_ENTER ),
-	new KeyboardInfo( ";",          KEY_COLON,          KEYCODE_COLON ),
+	new KeyboardInfo( "=",          KEY_EQUALS,         KEYCODE_EQUALS ),*/
+	new KeyboardInfo( "BKSPACE",	KeyEvent.VK_BACK_SPACE,		KEYCODE_BACKSPACE ),
+	new KeyboardInfo( "TAB",	KeyEvent.VK_TAB,		KEYCODE_TAB ),
+	/*new KeyboardInfo( "[",          KEY_OPENBRACE,      KEYCODE_OPENBRACE ),
+	new KeyboardInfo( "]",          KEY_CLOSEBRACE,     KEYCODE_CLOSEBRACE ),*/
+	new KeyboardInfo( "ENTER",		KeyEvent.VK_ENTER,			KEYCODE_ENTER ),
+	/*new KeyboardInfo( ";",          KEY_COLON,          KEYCODE_COLON ),
 	new KeyboardInfo( ":",          KEY_QUOTE,          KEYCODE_QUOTE ),
 	new KeyboardInfo( "\\",         KEY_BACKSLASH,      KEYCODE_BACKSLASH ),
 	new KeyboardInfo( "<",          KEY_BACKSLASH2,     KEYCODE_BACKSLASH2 ),
 	new KeyboardInfo( ",",          KEY_COMMA,          KEYCODE_COMMA ),
 	new KeyboardInfo( ".",          KEY_STOP,           KEYCODE_STOP ),
-	new KeyboardInfo( "/",          KEY_SLASH,          KEYCODE_SLASH ),
-	new KeyboardInfo( "SPACE",		KEY_SPACE,			KEYCODE_SPACE ),
-	new KeyboardInfo( "INS",		KEY_INSERT,			KEYCODE_INSERT ),
+	new KeyboardInfo( "/",          KEY_SLASH,          KEYCODE_SLASH ),*/
+	new KeyboardInfo( "SPACE",		KeyEvent.VK_SPACE,		KEYCODE_SPACE ),
+	/*new KeyboardInfo( "INS",		KEY_INSERT,			KEYCODE_INSERT ),
 	new KeyboardInfo( "DEL",		KEY_DEL,			KEYCODE_DEL ),
 	new KeyboardInfo( "HOME",		KEY_HOME,			KEYCODE_HOME ),
 	new KeyboardInfo( "END",		KEY_END,			KEYCODE_END ),*/
@@ -147,8 +147,9 @@ public class input {
 
                     return res;
             }*/ 
+                return screen.key[keycode] ? 1 :0;
 
-            return screen.key[keycode] ? 1 :0;
+            
     }
 
     public static WriteHandlerPtr osd_led_w = new WriteHandlerPtr() { public void handler(int led,int on)

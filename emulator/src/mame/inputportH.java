@@ -3,6 +3,7 @@ package mame;
 
 import java.util.ArrayList;
 import static mame.inputH.*;
+import static mame.inputport.ipdn_defaultstrings;
 import static mame.mame.*;
 
 public class inputportH {
@@ -214,8 +215,8 @@ public class inputportH {
 /*TODO*///
     public static String IP_NAME_DEFAULT = "-1";
 /*TODO*////* Wrapper for compatibility */
-/*TODO*///#define IP_KEY_DEFAULT CODE_DEFAULT
-/*TODO*///#define IP_JOY_DEFAULT CODE_DEFAULT
+    public static final int IP_KEY_DEFAULT=CODE_DEFAULT;
+    public static final int IP_JOY_DEFAULT=CODE_DEFAULT;
 /*TODO*///#define IP_KEY_PREVIOUS CODE_PREVIOUS
 /*TODO*///#define IP_JOY_PREVIOUS CODE_PREVIOUS
     public static final int IP_KEY_NONE = 0x8000; //CODE_NONE
@@ -291,82 +292,12 @@ public class inputportH {
 	PORT_DIPSETTING(    mask & default_value, DEF_STR( "Off" ) );
 	PORT_DIPSETTING(    mask &~default_value, DEF_STR( "On" ) );
     }
-
-/*TODO*///#define MAX_DEFSTR_LEN 20
-/*TODO*///extern char ipdn_defaultstrings[][MAX_DEFSTR_LEN];
-/*TODO*///
-/*TODO*///enum {
-/*TODO*///	STR_Off,
-/*TODO*///	STR_On,
-/*TODO*///	STR_No,
-/*TODO*///	STR_Yes,
-/*TODO*///	STR_Lives,
-/*TODO*///	STR_Bonus_Life,
-/*TODO*///	STR_Difficulty,
-/*TODO*///	STR_Demo_Sounds,
-/*TODO*///	STR_Coinage,
-/*TODO*///	STR_Coin_A,
-/*TODO*///	STR_Coin_B,
-/*TODO*///	STR_9C_1C,
-/*TODO*///	STR_8C_1C,
-/*TODO*///	STR_7C_1C,
-/*TODO*///	STR_6C_1C,
-/*TODO*///	STR_5C_1C,
-/*TODO*///	STR_4C_1C,
-/*TODO*///	STR_3C_1C,
-/*TODO*///	STR_8C_3C,
-/*TODO*///	STR_4C_2C,
-/*TODO*///	STR_2C_1C,
-/*TODO*///	STR_5C_3C,
-/*TODO*///	STR_3C_2C,
-/*TODO*///	STR_4C_3C,
-/*TODO*///	STR_4C_4C,
-/*TODO*///	STR_3C_3C,
-/*TODO*///	STR_2C_2C,
-/*TODO*///	STR_1C_1C,
-/*TODO*///	STR_4C_5C,
-/*TODO*///	STR_3C_4C,
-/*TODO*///	STR_2C_3C,
-/*TODO*///	STR_4C_7C,
-/*TODO*///	STR_2C_4C,
-/*TODO*///	STR_1C_2C,
-/*TODO*///	STR_2C_5C,
-/*TODO*///	STR_2C_6C,
-/*TODO*///	STR_1C_3C,
-/*TODO*///	STR_2C_7C,
-/*TODO*///	STR_2C_8C,
-/*TODO*///	STR_1C_4C,
-/*TODO*///	STR_1C_5C,
-/*TODO*///	STR_1C_6C,
-/*TODO*///	STR_1C_7C,
-/*TODO*///	STR_1C_8C,
-/*TODO*///	STR_1C_9C,
-/*TODO*///	STR_Free_Play,
-/*TODO*///	STR_Cabinet,
-/*TODO*///	STR_Upright,
-/*TODO*///	STR_Cocktail,
-/*TODO*///	STR_Flip_Screen,
-/*TODO*///	STR_Service_Mode,
-/*TODO*///	STR_Unused,
-/*TODO*///	STR_Unknown,
-/*TODO*///	STR_TOTAL
-/*TODO*///};
-/*TODO*///
-/*TODO*///#define DEF_STR(str_num) (ipdn_defaultstrings[STR_##str_num])
-/*TODO*///
     public static String DEF_STR(String num)
-    {
-        return null;//TODO fix me!!!
+    {       
+        return ipdn_defaultstrings.get(num);
     }
     public static final int MAX_INPUT_PORTS =20;
 
-/*TODO*///struct ipd
-/*TODO*///{
-/*TODO*///	UINT32 type;
-/*TODO*///	const char *name;
-/*TODO*///	InputSeq seq;
-/*TODO*///};
-/*TODO*///
     public static class ipd
     {
        public /*UINT32 */int type;
