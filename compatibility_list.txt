@@ -1,0 +1,213 @@
+Perfect
+-------
+minivadr
+
+
+Working without sound
+---------------------
+1942
+1942a
+1942b
+4dwarrio  (small screen size issue)
+alibaba
+bombjack
+bombjac2
+bullfgtj
+cavenger
+ccboot
+ccboot2
+cclimber
+cclimbrj
+chplftb
+chplftbl
+ckong
+ckonga
+ckongalc
+ckongjeu
+ckongo
+commsega
+congo
+cottong
+zaxxon
+zaxxon2
+zaxxonb
+yamato
+yamato2
+wbdeluxe     (small screen size issue)
+wbml         (small screen size issue)
+wbmlju       (small screen size issue)
+wboy         (small screen size issue)
+wboy2        (small screen size issue)
+wboy4        (small screen size issue)
+wboy4u       (small screen size issue)
+wboyu        (small screen size issue)
+vanvan
+vanvans
+dremshpr
+eyes
+eyes2
+fitegolf
+flicky      (small screen size issue)
+flicky2     (small screen size issue)
+frogger
+froggmc
+frogseg1
+frogseg2
+futspy
+gutangtn
+guzzler
+gwar	(small screen size issue)
+gwara	(small screen size issue)
+gwarb	(small screen size issue)
+gwarj	(small screen size issue)
+hangly
+hangly2
+hvymetal (small screen size issue)
+imsorry	 (small screen size issue)
+imsorryj (small screen size issue)
+jungler
+junglers
+kamikaze (small screen size issue)
+ladybug
+ladybugb
+lizwiz
+locomotn
+mbrush
+monkeyd
+mrtnt
+mrviking (small screen size issue)
+mrvikinj (small screen size issue)
+mspacatk
+mspacman
+myhero	(small screen size issue)
+myheroj (small screen size issue)
+myherok (small screen size issue)
+npacmod
+nprinces (small screen size issue)
+nprincsb (small screen size issue)
+nprincsu (small screen size issue)
+nrallyx
+pacgal
+pacheart
+pacman
+pacmanjp
+pacmanm
+pacmod
+pacplus
+paintrlr
+pengo
+pengo2
+pengo2u
+penta
+piranha
+pitfall2 (small screen size issue)
+pitfallu (small screen size issue)
+ponpoko
+ponpokov
+pootan
+pooyan
+pooyans
+puckman
+rallyx
+rallyxm
+regulus  (small screen size issue)
+regulusu (small screen size issue)
+rpatrolb
+seganinj (small screen size issue)
+seganinu (small screen size issue)
+slivland
+snapjack
+spaceint
+starjack (small screen size issue)
+starjacs (small screen size issue)
+swat (small screen size issue)
+swimmer
+swimmera
+szaxxon
+teddybb (small screen size issue)
+tiptop
+tnk3 (small screen size issue)
+tnk3j (small screen size issue)
+upndown (small screen size issue)
+
+
+
+Small graphic issues
+--------------------
+gberet (tilemaps?)
+gberetb (tilemaps?)
+rushatck (tilemaps?)
+
+
+Serious graphics issues
+-----------------------
+yankeedo (tilemaps?)
+mrdo	(tilemaps?)
+mrdofix (tilemaps?)
+mrdot	(tilemaps?)
+mrdoy	(tilemaps?)
+mrdu	(tilemaps?)
+mrlo    (tilemaps?)
+
+
+
+Serious screen size
+---------------------
+astinvad 
+
+
+Missing 16-bits support
+-----------------------
+athena
+bermudaa
+bermudaj
+bermudat
+chopper
+worldwar
+ftsoccer
+psychos
+psychosj
+
+
+
+
+Missing analog pads support
+---------------------------
+arkatayt
+arkbloc2
+razmataz
+
+
+Not working various reasons
+---------------------------
+arkanoid - missing M68705 emulation
+brain - java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:505)
+victroad - boots but doesn't start
+crush - missing decryption
+dogosoke - boots but doesn't start
+ikari - boots but doesn't start
+ikarijp - boots but doesn't start
+ikarikpb - boots but doesn't start
+legofair - bootsbut doesn't start
+mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
+pang - java.lang.UnsupportedOperationException: unsupported at mame.palette.palette_increase_usage_count(palette.java:561)
+tdfever - unsupported drawgfx mode
+tdfeverj - unsupported drawgfx mode
+tokisens - doesn't start
+
+
+Game not working in 0.36 anyway
+-------------------------------
+shtngmst
+wboy3
+wbmlj
+wbmlj2
+dakkochn
+ufosensi
+gardia
+gardiab
+blockgal
+blckgalb
+chplft
+
+
