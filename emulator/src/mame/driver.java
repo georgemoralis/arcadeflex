@@ -40,6 +40,7 @@ import static drivers.frogger.*;
 import static drivers.snk.*;
 import static drivers.mrdo.*;
 import static drivers.mitchell.*;
+import static drivers.bankp.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1352,7 +1353,7 @@ public class driver {
 /*TODO*/ //	DRIVER( champbas )	/* (c) 1983 Sega */
 /*TODO*/ //	DRIVER( champbb2 )
 /*TODO*/ //	DRIVER( appoooh )	/* (c) 1984 Sega */
-/*TODO*/ //	DRIVER( bankp )		/* (c) 1984 Sega */
+        driver_bankp,		/* (c) 1984 Sega */
 /*TODO*/ //	DRIVER( dotrikun )	/* cabinet test board */
 /*TODO*/ //	DRIVER( dotriku2 )	/* cabinet test board */
 

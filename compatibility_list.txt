@@ -131,6 +131,7 @@ tnk3j (small screen size issue)
 upndown (small screen size issue)
 tdfever (small screen size issue)
 tdfeverj (small screen size issue)
+bankp
 
 
 
