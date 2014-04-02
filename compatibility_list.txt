@@ -129,6 +129,8 @@ tiptop
 tnk3 (small screen size issue)
 tnk3j (small screen size issue)
 upndown (small screen size issue)
+tdfever (small screen size issue)
+tdfeverj (small screen size issue)
 
 
 
@@ -191,8 +193,6 @@ ikarikpb - boots but doesn't start
 legofair - bootsbut doesn't start
 mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
 pang - java.lang.UnsupportedOperationException: unsupported at mame.palette.palette_increase_usage_count(palette.java:561)
-tdfever - unsupported drawgfx mode
-tdfeverj - unsupported drawgfx mode
 tokisens - doesn't start
 
 

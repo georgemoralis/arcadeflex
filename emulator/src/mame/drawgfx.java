@@ -691,328 +691,330 @@ public class drawgfx {
             }
         }
 
-/*TODO*///
-/*TODO*///
-/*TODO*///void copybitmapzoom(struct osd_bitmap *dest_bmp,struct osd_bitmap *source_bmp,int flipx,int flipy,int sx,int sy,
-/*TODO*///		const struct rectangle *clip,int transparency,int transparent_color,int scalex,int scaley)
-/*TODO*///{
-/*TODO*///	struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///	scalex and scaley are 16.16 fixed point numbers
-/*TODO*///	1<<15 : shrink to 50%
-/*TODO*///	1<<16 : uniform scale
-/*TODO*///	1<<17 : double to 200%
-/*TODO*///	*/
-/*TODO*///
-/*TODO*///	/* if necessary, remap the transparent color */
-/*TODO*///	if (transparency == TRANSPARENCY_COLOR)
-/*TODO*///		transparent_color = Machine->pens[transparent_color];
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int temp;
-/*TODO*///
-/*TODO*///		temp = sx;
-/*TODO*///		sx = sy;
-/*TODO*///		sy = temp;
-/*TODO*///
-/*TODO*///		temp = flipx;
-/*TODO*///		flipx = flipy;
-/*TODO*///		flipy = temp;
-/*TODO*///
-/*TODO*///		temp = scalex;
-/*TODO*///		scalex = scaley;
-/*TODO*///		scaley = temp;
-/*TODO*///
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = clip->min_y;
-/*TODO*///			myclip.min_y = temp;
-/*TODO*///			temp = clip->max_x;
-/*TODO*///			myclip.max_x = clip->max_y;
-/*TODO*///			myclip.max_y = temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		sx = dest_bmp->width - ((source_bmp->width * scalex + 0x7fff) >> 16) - sx;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = dest_bmp->width-1 - clip->max_x;
-/*TODO*///			myclip.max_x = dest_bmp->width-1 - temp;
-/*TODO*///			myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = clip->max_y;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		sy = dest_bmp->height - ((source_bmp->height * scaley + 0x7fff) >> 16) - sy;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = clip->max_x;
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_y;
-/*TODO*///			myclip.min_y = dest_bmp->height-1 - clip->max_y;
-/*TODO*///			myclip.max_y = dest_bmp->height-1 - temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* ASG 980209 -- added 16-bit version */
-/*TODO*///	if (dest_bmp->depth != 16)
-/*TODO*///	{
-/*TODO*///		int sprite_screen_height = (scaley*source_bmp->height+0x8000)>>16;
-/*TODO*///		int sprite_screen_width = (scalex*source_bmp->width+0x8000)>>16;
-/*TODO*///
-/*TODO*///		/* compute sprite increment per screen pixel */
-/*TODO*///		int dx = (source_bmp->width<<16)/sprite_screen_width;
-/*TODO*///		int dy = (source_bmp->height<<16)/sprite_screen_height;
-/*TODO*///
-/*TODO*///		int ex = sx+sprite_screen_width;
-/*TODO*///		int ey = sy+sprite_screen_height;
-/*TODO*///
-/*TODO*///		int x_index_base;
-/*TODO*///		int y_index;
-/*TODO*///
-/*TODO*///		if( flipx )
-/*TODO*///		{
-/*TODO*///			x_index_base = (sprite_screen_width-1)*dx;
-/*TODO*///			dx = -dx;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			x_index_base = 0;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( flipy )
-/*TODO*///		{
-/*TODO*///			y_index = (sprite_screen_height-1)*dy;
-/*TODO*///			dy = -dy;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			y_index = 0;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( clip )
-/*TODO*///		{
-/*TODO*///			if( sx < clip->min_x)
-/*TODO*///			{ /* clip left */
-/*TODO*///				int pixels = clip->min_x-sx;
-/*TODO*///				sx += pixels;
-/*TODO*///				x_index_base += pixels*dx;
-/*TODO*///			}
-/*TODO*///			if( sy < clip->min_y )
-/*TODO*///			{ /* clip top */
-/*TODO*///				int pixels = clip->min_y-sy;
-/*TODO*///				sy += pixels;
-/*TODO*///				y_index += pixels*dy;
-/*TODO*///			}
-/*TODO*///			/* NS 980211 - fixed incorrect clipping */
-/*TODO*///			if( ex > clip->max_x+1 )
-/*TODO*///			{ /* clip right */
-/*TODO*///				int pixels = ex-clip->max_x-1;
-/*TODO*///				ex -= pixels;
-/*TODO*///			}
-/*TODO*///			if( ey > clip->max_y+1 )
-/*TODO*///			{ /* clip bottom */
-/*TODO*///				int pixels = ey-clip->max_y-1;
-/*TODO*///				ey -= pixels;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( ex>sx )
-/*TODO*///		{ /* skip if inner loop doesn't draw anything */
-/*TODO*///			int y;
-/*TODO*///
-/*TODO*///			switch (transparency)
-/*TODO*///			{
-/*TODO*///				case TRANSPARENCY_NONE:
-/*TODO*///					for( y=sy; y<ey; y++ )
-/*TODO*///					{
-/*TODO*///						unsigned char *source = source_bmp->line[(y_index>>16)];
-/*TODO*///						unsigned char *dest = dest_bmp->line[y];
-/*TODO*///
-/*TODO*///						int x, x_index = x_index_base;
-/*TODO*///						for( x=sx; x<ex; x++ )
-/*TODO*///						{
-/*TODO*///							dest[x] = source[x_index>>16];
-/*TODO*///							x_index += dx;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						y_index += dy;
-/*TODO*///					}
-/*TODO*///					break;
-/*TODO*///
-/*TODO*///				case TRANSPARENCY_PEN:
-/*TODO*///				case TRANSPARENCY_COLOR:
-/*TODO*///					for( y=sy; y<ey; y++ )
-/*TODO*///					{
-/*TODO*///						unsigned char *source = source_bmp->line[(y_index>>16)];
-/*TODO*///						unsigned char *dest = dest_bmp->line[y];
-/*TODO*///
-/*TODO*///						int x, x_index = x_index_base;
-/*TODO*///						for( x=sx; x<ex; x++ )
-/*TODO*///						{
-/*TODO*///							int c = source[x_index>>16];
-/*TODO*///							if( c != transparent_color ) dest[x] = c;
-/*TODO*///							x_index += dx;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						y_index += dy;
-/*TODO*///					}
-/*TODO*///					break;
-/*TODO*///
-/*TODO*///				case TRANSPARENCY_THROUGH:
-/*TODO*///usrintf_showmessage("copybitmapzoom() TRANSPARENCY_THROUGH");
-/*TODO*///					break;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* ASG 980209 -- new 16-bit part */
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		int sprite_screen_height = (scaley*source_bmp->height+0x8000)>>16;
-/*TODO*///		int sprite_screen_width = (scalex*source_bmp->width+0x8000)>>16;
-/*TODO*///
-/*TODO*///		/* compute sprite increment per screen pixel */
-/*TODO*///		int dx = (source_bmp->width<<16)/sprite_screen_width;
-/*TODO*///		int dy = (source_bmp->height<<16)/sprite_screen_height;
-/*TODO*///
-/*TODO*///		int ex = sx+sprite_screen_width;
-/*TODO*///		int ey = sy+sprite_screen_height;
-/*TODO*///
-/*TODO*///		int x_index_base;
-/*TODO*///		int y_index;
-/*TODO*///
-/*TODO*///		if( flipx )
-/*TODO*///		{
-/*TODO*///			x_index_base = (sprite_screen_width-1)*dx;
-/*TODO*///			dx = -dx;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			x_index_base = 0;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( flipy )
-/*TODO*///		{
-/*TODO*///			y_index = (sprite_screen_height-1)*dy;
-/*TODO*///			dy = -dy;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			y_index = 0;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( clip )
-/*TODO*///		{
-/*TODO*///			if( sx < clip->min_x)
-/*TODO*///			{ /* clip left */
-/*TODO*///				int pixels = clip->min_x-sx;
-/*TODO*///				sx += pixels;
-/*TODO*///				x_index_base += pixels*dx;
-/*TODO*///			}
-/*TODO*///			if( sy < clip->min_y )
-/*TODO*///			{ /* clip top */
-/*TODO*///				int pixels = clip->min_y-sy;
-/*TODO*///				sy += pixels;
-/*TODO*///				y_index += pixels*dy;
-/*TODO*///			}
-/*TODO*///			/* NS 980211 - fixed incorrect clipping */
-/*TODO*///			if( ex > clip->max_x+1 )
-/*TODO*///			{ /* clip right */
-/*TODO*///				int pixels = ex-clip->max_x-1;
-/*TODO*///				ex -= pixels;
-/*TODO*///			}
-/*TODO*///			if( ey > clip->max_y+1 )
-/*TODO*///			{ /* clip bottom */
-/*TODO*///				int pixels = ey-clip->max_y-1;
-/*TODO*///				ey -= pixels;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if( ex>sx )
-/*TODO*///		{ /* skip if inner loop doesn't draw anything */
-/*TODO*///			int y;
-/*TODO*///
-/*TODO*///			switch (transparency)
-/*TODO*///			{
-/*TODO*///				case TRANSPARENCY_NONE:
-/*TODO*///					for( y=sy; y<ey; y++ )
-/*TODO*///					{
-/*TODO*///						unsigned short *source = (unsigned short *)source_bmp->line[(y_index>>16)];
-/*TODO*///						unsigned short *dest = (unsigned short *)dest_bmp->line[y];
-/*TODO*///
-/*TODO*///						int x, x_index = x_index_base;
-/*TODO*///						for( x=sx; x<ex; x++ )
-/*TODO*///						{
-/*TODO*///							dest[x] = source[x_index>>16];
-/*TODO*///							x_index += dx;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						y_index += dy;
-/*TODO*///					}
-/*TODO*///					break;
-/*TODO*///
-/*TODO*///				case TRANSPARENCY_PEN:
-/*TODO*///				case TRANSPARENCY_COLOR:
-/*TODO*///					for( y=sy; y<ey; y++ )
-/*TODO*///					{
-/*TODO*///						unsigned short *source = (unsigned short *)source_bmp->line[(y_index>>16)];
-/*TODO*///						unsigned short *dest = (unsigned short *)dest_bmp->line[y];
-/*TODO*///
-/*TODO*///						int x, x_index = x_index_base;
-/*TODO*///						for( x=sx; x<ex; x++ )
-/*TODO*///						{
-/*TODO*///							int c = source[x_index>>16];
-/*TODO*///							if( c != transparent_color ) dest[x] = c;
-/*TODO*///							x_index += dx;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						y_index += dy;
-/*TODO*///					}
-/*TODO*///					break;
-/*TODO*///
-/*TODO*///				case TRANSPARENCY_THROUGH:
-/*TODO*///usrintf_showmessage("copybitmapzoom() TRANSPARENCY_THROUGH");
-/*TODO*///					break;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Copy a bitmap onto another with scroll and wraparound.
-/*TODO*///  This function supports multiple independently scrolling rows/columns.
-/*TODO*///  "rows" is the number of indepentently scrolling rows. "rowscroll" is an
-/*TODO*///  array of integers telling how much to scroll each row. Same thing for
-/*TODO*///  "cols" and "colscroll".
-/*TODO*///  If the bitmap cannot scroll in one direction, set rows or columns to 0.
-/*TODO*///  If the bitmap scrolls as a whole, set rows and/or cols to 1.
-/*TODO*///  Bidirectional scrolling is, of course, supported only if the bitmap
-/*TODO*///  scrolls as a whole in at least one direction.
-/*TODO*///
-/*TODO*///***************************************************************************/
+
+
+    public static void copybitmapzoom(osd_bitmap dest_bmp,osd_bitmap source_bmp,int flipx,int flipy,int sx,int sy,
+                    rectangle clip,int transparency,int transparent_color,int scalex,int scaley)
+    {
+            rectangle myclip=new rectangle();
+    
+    
+    	/*
+    	scalex and scaley are 16.16 fixed point numbers
+    	1<<15 : shrink to 50%
+    	1<<16 : uniform scale
+    	1<<17 : double to 200%
+    	*/
+    
+    	/* if necessary, remap the transparent color */
+    	if (transparency == TRANSPARENCY_COLOR)
+    		transparent_color = Machine.pens[transparent_color];
+    
+    	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		int temp;
+    
+    		temp = sx;
+    		sx = sy;
+    		sy = temp;
+    
+    		temp = flipx;
+    		flipx = flipy;
+    		flipy = temp;
+    
+    		temp = scalex;
+    		scalex = scaley;
+    		scaley = temp;
+    
+    		if (clip!=null)
+    		{
+    			/* clip and myclip might be the same, so we need a temporary storage */
+    			temp = clip.min_x;
+    			myclip.min_x = clip.min_y;
+    			myclip.min_y = temp;
+    			temp = clip.max_x;
+    			myclip.max_x = clip.max_y;
+    			myclip.max_y = temp;
+    			clip = myclip;
+    		}
+    	}
+    	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+    	{
+    		sx = dest_bmp.width - ((source_bmp.width * scalex + 0x7fff) >> 16) - sx;
+    		if (clip!=null)
+    		{
+    			int temp;
+    
+    
+    			/* clip and myclip might be the same, so we need a temporary storage */
+    			temp = clip.min_x;
+    			myclip.min_x = dest_bmp.width-1 - clip.max_x;
+    			myclip.max_x = dest_bmp.width-1 - temp;
+    			myclip.min_y = clip.min_y;
+    			myclip.max_y = clip.max_y;
+    			clip = myclip;
+    		}
+    	}
+    	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+    	{
+    		sy = dest_bmp.height - ((source_bmp.height * scaley + 0x7fff) >> 16) - sy;
+    		if (clip!=null)
+    		{
+    			int temp;
+    
+    
+    			myclip.min_x = clip.min_x;
+    			myclip.max_x = clip.max_x;
+    			/* clip and myclip might be the same, so we need a temporary storage */
+    			temp = clip.min_y;
+    			myclip.min_y = dest_bmp.height-1 - clip.max_y;
+    			myclip.max_y = dest_bmp.height-1 - temp;
+    			clip = myclip;
+    		}
+    	}
+    
+    
+    	/* ASG 980209 -- added 16-bit version */
+    	if (dest_bmp.depth != 16)
+    	{
+    		int sprite_screen_height = (scaley*source_bmp.height+0x8000)>>16;
+    		int sprite_screen_width = (scalex*source_bmp.width+0x8000)>>16;
+    
+    		/* compute sprite increment per screen pixel */
+    		int dx = (source_bmp.width<<16)/sprite_screen_width;
+    		int dy = (source_bmp.height<<16)/sprite_screen_height;
+    
+    		int ex = sx+sprite_screen_width;
+    		int ey = sy+sprite_screen_height;
+    
+    		int x_index_base;
+    		int y_index;
+    
+    		if( flipx!=0 )
+    		{
+    			x_index_base = (sprite_screen_width-1)*dx;
+    			dx = -dx;
+    		}
+    		else
+    		{
+    			x_index_base = 0;
+    		}
+    
+    		if( flipy!=0 )
+    		{
+    			y_index = (sprite_screen_height-1)*dy;
+    			dy = -dy;
+    		}
+    		else
+    		{
+    			y_index = 0;
+    		}
+    
+    		if( clip!=null )
+    		{
+    			if( sx < clip.min_x)
+    			{ /* clip left */
+    				int pixels = clip.min_x-sx;
+    				sx += pixels;
+    				x_index_base += pixels*dx;
+    			}
+    			if( sy < clip.min_y )
+    			{ /* clip top */
+    				int pixels = clip.min_y-sy;
+    				sy += pixels;
+    				y_index += pixels*dy;
+    			}
+    			/* NS 980211 - fixed incorrect clipping */
+    			if( ex > clip.max_x+1 )
+    			{ /* clip right */
+    				int pixels = ex-clip.max_x-1;
+    				ex -= pixels;
+    			}
+    			if( ey > clip.max_y+1 )
+    			{ /* clip bottom */
+    				int pixels = ey-clip.max_y-1;
+    				ey -= pixels;
+    			}
+    		}
+    
+    		if( ex>sx )
+    		{ /* skip if inner loop doesn't draw anything */
+    			int y;
+    
+    			switch (transparency)
+    			{
+    				case TRANSPARENCY_NONE:
+                                    throw new UnsupportedOperationException("Unsupported drawgfxzoom TRANSPARENCY_NONE");
+    /*TODO*///					for( y=sy; y<ey; y++ )
+    /*TODO*///					{
+    /*TODO*///						unsigned char *source = source_bmp.line[(y_index>>16)];
+    /*TODO*///						unsigned char *dest = dest_bmp.line[y];
+    /*TODO*///
+    /*TODO*///						int x, x_index = x_index_base;
+    /*TODO*///						for( x=sx; x<ex; x++ )
+    /*TODO*///						{
+    /*TODO*///							dest[x] = source[x_index>>16];
+    /*TODO*///							x_index += dx;
+    /*TODO*///						}
+    /*TODO*///
+    /*TODO*///						y_index += dy;
+    /*TODO*///					}
+    /*TODO*///					break;
+    /*TODO*///
+    				case TRANSPARENCY_PEN:
+    				case TRANSPARENCY_COLOR:                        
+    					for( y=sy; y<ey; y++ )
+    					{
+    						UBytePtr source = source_bmp.line[y_index>>16];
+    						UBytePtr dest = dest_bmp.line[y];
+    
+    						int x, x_index = x_index_base;
+    						for( x=sx; x<ex; x++ )
+    						{
+    							int c = source.read(x_index>>16);
+    							if( c != transparent_color ) dest.write(x,c);
+    							x_index += dx;
+    						}
+    
+    						y_index += dy;
+    					}
+    					break;
+    
+    				case TRANSPARENCY_THROUGH:
+                                        throw new UnsupportedOperationException("Unsupported drawgfxzoom TRANSPARENCY_THROUGH");
+    					//break;
+    			}
+    		}
+    	}
+    /*TODO*///
+    /*TODO*///	/* ASG 980209 -- new 16-bit part */
+    	else
+    	{
+            throw new UnsupportedOperationException("Unsupported drawgfxzoom depth =16");
+    /*TODO*///		int sprite_screen_height = (scaley*source_bmp->height+0x8000)>>16;
+    /*TODO*///		int sprite_screen_width = (scalex*source_bmp->width+0x8000)>>16;
+    /*TODO*///
+    /*TODO*///		/* compute sprite increment per screen pixel */
+    /*TODO*///		int dx = (source_bmp->width<<16)/sprite_screen_width;
+    /*TODO*///		int dy = (source_bmp->height<<16)/sprite_screen_height;
+    /*TODO*///
+    /*TODO*///		int ex = sx+sprite_screen_width;
+    /*TODO*///		int ey = sy+sprite_screen_height;
+    /*TODO*///
+    /*TODO*///		int x_index_base;
+    /*TODO*///		int y_index;
+    /*TODO*///
+    /*TODO*///		if( flipx )
+    /*TODO*///		{
+    /*TODO*///			x_index_base = (sprite_screen_width-1)*dx;
+    /*TODO*///			dx = -dx;
+    /*TODO*///		}
+    /*TODO*///		else
+    /*TODO*///		{
+    /*TODO*///			x_index_base = 0;
+    /*TODO*///		}
+    /*TODO*///
+    /*TODO*///		if( flipy )
+    /*TODO*///		{
+    /*TODO*///			y_index = (sprite_screen_height-1)*dy;
+    /*TODO*///			dy = -dy;
+    /*TODO*///		}
+    /*TODO*///		else
+    /*TODO*///		{
+    /*TODO*///			y_index = 0;
+    /*TODO*///		}
+    /*TODO*///
+    /*TODO*///		if( clip )
+    /*TODO*///		{
+    /*TODO*///			if( sx < clip->min_x)
+    /*TODO*///			{ /* clip left */
+    /*TODO*///				int pixels = clip->min_x-sx;
+    /*TODO*///				sx += pixels;
+    /*TODO*///				x_index_base += pixels*dx;
+    /*TODO*///			}
+    /*TODO*///			if( sy < clip->min_y )
+    /*TODO*///			{ /* clip top */
+    /*TODO*///				int pixels = clip->min_y-sy;
+    /*TODO*///				sy += pixels;
+    /*TODO*///				y_index += pixels*dy;
+    /*TODO*///			}
+    /*TODO*///			/* NS 980211 - fixed incorrect clipping */
+    /*TODO*///			if( ex > clip->max_x+1 )
+    /*TODO*///			{ /* clip right */
+    /*TODO*///				int pixels = ex-clip->max_x-1;
+    /*TODO*///				ex -= pixels;
+    /*TODO*///			}
+    /*TODO*///			if( ey > clip->max_y+1 )
+    /*TODO*///			{ /* clip bottom */
+    /*TODO*///				int pixels = ey-clip->max_y-1;
+    /*TODO*///				ey -= pixels;
+    /*TODO*///			}
+    /*TODO*///		}
+    /*TODO*///
+    /*TODO*///		if( ex>sx )
+    /*TODO*///		{ /* skip if inner loop doesn't draw anything */
+    /*TODO*///			int y;
+    /*TODO*///
+    /*TODO*///			switch (transparency)
+    /*TODO*///			{
+    /*TODO*///				case TRANSPARENCY_NONE:
+    /*TODO*///					for( y=sy; y<ey; y++ )
+    /*TODO*///					{
+    /*TODO*///						unsigned short *source = (unsigned short *)source_bmp->line[(y_index>>16)];
+    /*TODO*///						unsigned short *dest = (unsigned short *)dest_bmp->line[y];
+    /*TODO*///
+    /*TODO*///						int x, x_index = x_index_base;
+    /*TODO*///						for( x=sx; x<ex; x++ )
+    /*TODO*///						{
+    /*TODO*///							dest[x] = source[x_index>>16];
+    /*TODO*///							x_index += dx;
+    /*TODO*///						}
+    /*TODO*///
+    /*TODO*///						y_index += dy;
+    /*TODO*///					}
+    /*TODO*///					break;
+    /*TODO*///
+    /*TODO*///				case TRANSPARENCY_PEN:
+    /*TODO*///				case TRANSPARENCY_COLOR:
+    /*TODO*///					for( y=sy; y<ey; y++ )
+    /*TODO*///					{
+    /*TODO*///						unsigned short *source = (unsigned short *)source_bmp->line[(y_index>>16)];
+    /*TODO*///						unsigned short *dest = (unsigned short *)dest_bmp->line[y];
+    /*TODO*///
+    /*TODO*///						int x, x_index = x_index_base;
+    /*TODO*///						for( x=sx; x<ex; x++ )
+    /*TODO*///						{
+    /*TODO*///							int c = source[x_index>>16];
+    /*TODO*///							if( c != transparent_color ) dest[x] = c;
+    /*TODO*///							x_index += dx;
+    /*TODO*///						}
+    /*TODO*///
+    /*TODO*///						y_index += dy;
+    /*TODO*///					}
+    /*TODO*///					break;
+    /*TODO*///
+    /*TODO*///				case TRANSPARENCY_THROUGH:
+    /*TODO*///usrintf_showmessage("copybitmapzoom() TRANSPARENCY_THROUGH");
+    /*TODO*///					break;
+    /*TODO*///			}
+    /*TODO*///		}
+    	}
+    }
+
+
+    /***************************************************************************
+
+      Copy a bitmap onto another with scroll and wraparound.
+      This function supports multiple independently scrolling rows/columns.
+      "rows" is the number of indepentently scrolling rows. "rowscroll" is an
+      array of integers telling how much to scroll each row. Same thing for
+      "cols" and "colscroll".
+      If the bitmap cannot scroll in one direction, set rows or columns to 0.
+      If the bitmap scrolls as a whole, set rows and/or cols to 1.
+      Bidirectional scrolling is, of course, supported only if the bitmap
+      scrolls as a whole in at least one direction.
+
+    ***************************************************************************/
     public static void copyscrollbitmap(osd_bitmap dest,osd_bitmap src,
                     int rows,int[] rowscroll,int cols,int[] colscroll,
                     rectangle clip,int transparency,int transparent_color)
@@ -1734,8 +1736,10 @@ public class drawgfx {
         throw new UnsupportedOperationException("Unsupported pp_8_d_s");
     }};           
 /*TODO*///static void pp_8_d_fx_s(struct osd_bitmap *b,int x,int y,int p)  { int newy = b->width-1-y; b->line[x][newy] = p; osd_mark_dirty (newy,x,newy,x,0); }
-              public static plot_pixel_procPtr pp_8_d_fx_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
-        throw new UnsupportedOperationException("Unsupported pp_8_d_fx_s");
+    public static plot_pixel_procPtr pp_8_d_fx_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
+        int newy = bitmap.width-1-y; 
+        bitmap.line[x].write(newy,pen); 
+        osd_mark_dirty (newy,x,newy,x,0);
     }};              
 /*TODO*///static void pp_8_d_fy_s(struct osd_bitmap *b,int x,int y,int p)  { int newx = b->height-1-x; b->line[newx][y] = p; osd_mark_dirty (y,newx,y,newx,0); }
     public static plot_pixel_procPtr pp_8_d_fy_s = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
@@ -2241,6 +2245,62 @@ public class drawgfx {
 /*TODO*///
 /*TODO*///#define PEN_IS_OPAQUE ((1<<col)&transmask) == 0
 /*TODO*///
+    static void blockmove_transmask8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transmask)
+    {
+        int end;
+	IntPtr sd4;//UINT32 *sd4;
+
+	srcmodulo -= srcwidth;
+	dstmodulo -= srcwidth;
+
+	while (srcheight!=0)
+	{
+		end = dstdata.base + srcwidth;
+		while ((srcdata.base & 3) != 0 && dstdata.base < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+		{
+			int col;
+
+			col = srcdata.read(0);
+                        srcdata.base++;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col)); //*dstdata = paldata[col];
+			dstdata.base++;
+		}
+		sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
+		while (dstdata.base <= end - 4)
+		{
+			int col;
+			int col4;
+
+			col4 = sd4.read(0);
+			col = (col4 >>  0) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));
+			col = (col4 >>  8) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(1,paldata.read(col));
+			col = (col4 >> 16) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(2,paldata.read(col));
+			col = (col4 >> 24) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(3,paldata.read(col));
+			sd4.base += 4;
+                        dstdata.base += 4;
+		}
+                srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
+		
+		while (dstdata.base < end)
+		{
+			int col;
+
+			col = srcdata.read(0);
+                        srcdata.base++;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));//*dstdata = paldata[col];
+			dstdata.base++;
+		}
+
+		srcdata.base += srcmodulo;
+		dstdata.base += dstmodulo;
+		srcheight--;
+	}
+    }
+
 /*TODO*///DECLARE(blockmove_transmask,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2296,6 +2356,62 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
+    static void blockmove_transmask_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transmask)
+    {
+        int end;
+	IntPtr sd4;//UINT32 *sd4;
+
+	srcmodulo += srcwidth;
+	dstmodulo -= srcwidth;
+        //srcdata += srcwidth-1;
+        srcdata.base -= 3;
+
+	while (srcheight!=0)
+	{
+		end = dstdata.base + srcwidth;
+		while ((srcdata.base & 3) != 0 && dstdata.base < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+		{
+			int col;
+
+			col = srcdata.read(3);
+                        srcdata.base--;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col)); //*dstdata = paldata[col];
+			dstdata.base++;
+		}
+		sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
+		while (dstdata.base <= end - 4)
+		{
+			int col;
+			int col4;
+			col4 = sd4.read(0);//col4 = *(sd4--);
+			col = (col4 >> 24) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));
+			col = (col4 >> 16) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(1,paldata.read(col));
+			col = (col4 >>  8) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(2,paldata.read(col));
+			col = (col4 >>  0) & 0xff;
+			if (((1<<col)&transmask) == 0) dstdata.write(3,paldata.read(col));
+			sd4.base -= 4;
+                        dstdata.base += 4;
+		}
+                srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
+		
+		while (dstdata.base < end)
+		{
+			int col;
+
+			col = srcdata.read(3);
+                        srcdata.base--;
+			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));//*dstdata = paldata[col];
+			dstdata.base++;
+		}
+
+		srcdata.base += srcmodulo;
+		dstdata.base += dstmodulo;
+		srcheight--;
+	}
+    }
 /*TODO*///DECLARE(blockmove_transmask_flipx,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2467,6 +2583,27 @@ public class drawgfx {
 /*TODO*///})
 /*TODO*///
 /*TODO*///
+    public static void blockmove_transthrough8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    {
+            int end;
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+            
+            while (srcheight!=0)
+            {
+                end = dstdata.base + srcwidth;
+		while (dstdata.base < end)
+		{
+                    if(dstdata.read()==transcolor) 
+                        dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+                    srcdata.inc();
+                    dstdata.inc();
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+    }
 /*TODO*///DECLARE(blockmove_transthrough,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2493,6 +2630,27 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
+    public static void blockmove_transthrough_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    {
+            int end;
+            srcmodulo += srcwidth;
+            dstmodulo -= srcwidth;
+            
+            while (srcheight!=0)
+            {
+                end = dstdata.base + srcwidth;
+		while (dstdata.base < end)
+		{
+                    if(dstdata.read()==transcolor) 
+                        dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+                    srcdata.base--;
+                    dstdata.inc();
+                }
+                srcdata.base += srcmodulo;
+                dstdata.base += dstmodulo;
+                srcheight--;
+            }
+    }
 /*TODO*///DECLARE(blockmove_transthrough_flipx,(
 /*TODO*///		const UINT8 *srcdata,int srcwidth,int srcheight,int srcmodulo,
 /*TODO*///		DATA_TYPE *dstdata,int dstmodulo,
@@ -2857,14 +3015,15 @@ public class drawgfx {
 			case TRANSPARENCY_PENS:
                                 if(flipx!=0)
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transmask_flipx8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
                                 else
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                   
+                                    blockmove_transmask8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
 				//BLOCKMOVE(transmask,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
-			//	break;
+				break;
 
 			case TRANSPARENCY_COLOR:
                                 if(flipx!=0)
@@ -2880,14 +3039,14 @@ public class drawgfx {
 			case TRANSPARENCY_THROUGH:
                                 if(flipx!=0)
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transthrough_flipx8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
                                 else
                                 {
-                                    throw new UnsupportedOperationException("Unsupported drawgfx!! Here you go nickblame :D");
+                                    blockmove_transthrough8(sd, sw, sh, sm, dd, dm, paldata, transparent_color);
                                 }
 				//BLOCKMOVE(transthrough,flipx,(sd,sw,sh,sm,dd,dm,paldata,transparent_color));
-			//	break;
+				break;
 
 			case TRANSPARENCY_PEN_TABLE:
                                 if(flipx!=0)

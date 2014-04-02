@@ -43,8 +43,8 @@ public class drawgfxH {
 								/* drawgfgx() to do optimizations like skipping */
 								/* drawing of a totally transparent characters */
 	public char[] gfxdata; //unsigned char *gfxdata;	/* pixel data */
-	int line_modulo;	/* amount to add to get to the next line (usually = width) */
-	int char_modulo;	/* = line_modulo * height */
+	public int line_modulo;	/* amount to add to get to the next line (usually = width) */
+	public int char_modulo;	/* = line_modulo * height */
     };
     public static class GfxDecodeInfo
     {
