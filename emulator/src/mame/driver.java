@@ -41,6 +41,8 @@ import static drivers.snk.*;
 import static drivers.mrdo.*;
 import static drivers.mitchell.*;
 import static drivers.bankp.*;
+import static drivers.superqix.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -813,8 +815,8 @@ public class driver {
 /*TODO*/ //TESTDRIVER( arkblock )	/* bootleg */
         driver_arkbloc2,	/* bootleg */
 /*TODO*/ //	DRIVER( arkangc )	/* bootleg */
-/*TODO*/ //	DRIVER( superqix )	/* 1987 */
-/*TODO*/ //	DRIVER( sqixbl )	/* bootleg? but (c) 1987 */
+        driver_superqix,	/* 1987 */
+        driver_sqixbl,	/* bootleg? but (c) 1987 */
 /*TODO*/ //	DRIVER( superman )	/* (c) 1988 Taito Corporation */
 /*TODO*/ //TESTDRIVER( footchmp )	/* (c) 1990 Taito Corporation Japan (World) */
         driver_minivadr,	/* cabinet test board */

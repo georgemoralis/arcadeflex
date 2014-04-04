@@ -132,7 +132,7 @@ upndown (small screen size issue)
 tdfever (small screen size issue)
 tdfeverj (small screen size issue)
 bankp
-
+sqixbl
 
 
 Small graphic issues
@@ -210,5 +210,5 @@ gardiab
 blockgal
 blckgalb
 chplft
-
+superqix
 
