@@ -45,6 +45,7 @@ import static drivers.superqix.*;
 import static drivers.troangel.*;
 import static drivers.ddragon.*;
 import static drivers.contra.*;
+import static drivers.travrusa.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -643,8 +644,8 @@ public class driver {
 /*TODO*/ //	DRIVER( yard )		/* (c) 1983 */
 /*TODO*/ //	DRIVER( vsyard )	/* (c) 1983/1984 */
 /*TODO*/ //	DRIVER( vsyard2 )	/* (c) 1983/1984 */
-/*TODO*/ //	DRIVER( travrusa )	/* (c) 1983 */
-/*TODO*/ //	DRIVER( motorace )	/* (c) 1983 Williams license */
+            driver_travrusa,	/* (c) 1983 */
+            driver_motorace,	/* (c) 1983 Williams license */
 	/* M62 */
 /*TODO*/ //	DRIVER( kungfum )	/* (c) 1984 */
 /*TODO*/ //	DRIVER( kungfud )	/* (c) 1984 + Data East license */
