@@ -19,16 +19,16 @@ public class generic {
 
     public static CharPtr spriteram_2 = new CharPtr();
     public static CharPtr spriteram_3 = new CharPtr();
-    /*TODO*///unsigned char *buffered_spriteram;	/* not used in this module... */
-/*TODO*///unsigned char *buffered_spriteram_2;	/* ... */
+    public static CharPtr buffered_spriteram = new CharPtr();	/* not used in this module... */
+    public static CharPtr buffered_spriteram_2 = new CharPtr();	/* ... */
     public static int[] spriteram_size = new int[1];/* ... here just for convenience */
 
     public static int[] spriteram_2_size = new int[1];/* ... here just for convenience */
 
     public static int[] spriteram_3_size = new int[1];/* ... here just for convenience */
     /*TODO*///unsigned char *flip_screen;	/* ... */
-/*TODO*///unsigned char *flip_screen_x;	/* ... */
-/*TODO*///unsigned char *flip_screen_y;	/* ... */
+    public static CharPtr flip_screen_x = new CharPtr();	/* ... */
+    public static CharPtr flip_screen_y = new CharPtr();	/* ... */
 
     public static char dirtybuffer[];
     static osd_bitmap tmpbitmap;
@@ -139,16 +139,15 @@ public class generic {
             }
         }
     };
-    /*TODO*///int spriteram_r(int offset)
-/*TODO*///{
-/*TODO*///	return spriteram[offset];
-/*TODO*///}
-/*TODO*///
-/*TODO*///void spriteram_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	spriteram[offset] = data;
-/*TODO*///}
-/*TODO*///
+    public static ReadHandlerPtr spriteram_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return spriteram.read(offset);
+    }};
+    public static WriteHandlerPtr spriteram_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            spriteram.write(offset,data);
+        }
+    };
 /*TODO*///int spriteram_2_r(int offset)
 /*TODO*///{
 /*TODO*///	return spriteram_2[offset];
@@ -159,10 +158,11 @@ public class generic {
 /*TODO*///	spriteram_2[offset] = data;
 /*TODO*///}
 /*TODO*///
-/*TODO*///void buffer_spriteram_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	memcpy(buffered_spriteram,spriteram,spriteram_size);
-/*TODO*///}
+    public static WriteHandlerPtr buffer_spriteram_w = new WriteHandlerPtr() {public void handler(int offset, int data) 
+    {
+        memcpy(buffered_spriteram,spriteram,spriteram_size[0]);
+    }};
+
 /*TODO*///
 /*TODO*///void buffer_spriteram_2_w(int offset,int data)
 /*TODO*///{
