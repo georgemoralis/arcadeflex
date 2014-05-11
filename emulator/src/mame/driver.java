@@ -42,7 +42,7 @@ import static drivers.mrdo.*;
 import static drivers.mitchell.*;
 import static drivers.bankp.*;
 import static drivers.superqix.*;
-
+import static drivers.troangel.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -637,7 +637,7 @@ public class driver {
 /*TODO*/ //	DRIVER( mpatrol )	/* (c) 1982 */
 /*TODO*/ //	DRIVER( mpatrolw )	/* (c) 1982 + Williams license */
 /*TODO*/ //	DRIVER( mranger )	/* bootleg */
-/*TODO*/ //	DRIVER( troangel )	/* (c) 1983 */
+            driver_troangel,	/* (c) 1983 */
 /*TODO*/ //	DRIVER( yard )		/* (c) 1983 */
 /*TODO*/ //	DRIVER( vsyard )	/* (c) 1983/1984 */
 /*TODO*/ //	DRIVER( vsyard2 )	/* (c) 1983/1984 */

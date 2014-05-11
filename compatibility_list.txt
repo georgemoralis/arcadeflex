@@ -133,6 +133,7 @@ tdfever (small screen size issue)
 tdfeverj (small screen size issue)
 bankp
 sqixbl
+troangel
 
 
 Small graphic issues
