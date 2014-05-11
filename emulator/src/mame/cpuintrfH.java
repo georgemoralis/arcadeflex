@@ -1,5 +1,6 @@
 
 package mame;
+import static mame.cpuintrf.*;
 
 public class cpuintrfH {
     /* The old system is obsolete and no longer supported by the core */
@@ -86,8 +87,10 @@ public class cpuintrfH {
         public int abits1, abits2, abitsmin;
     }
     /* Returns previous pc (start of opcode causing read/write) */
-    /* int cpu_getpreviouspc(void); */
- /*TODO*///    #define cpu_getpreviouspc() cpu_get_reg(REG_PREVIOUSPC)
+    public static int cpu_getpreviouspc()
+    {
+        return cpu_get_reg(REG_PREVIOUSPC);
+    }
 
     /* Returns the return address from the top of the stack (Z80 only) */
     /* int cpu_getreturnpc(void); */

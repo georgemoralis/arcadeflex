@@ -3,8 +3,11 @@ package mame;
 
 import static arcadeflex.libc_old.*;
 import cpu.Dummy_cpu;
+import cpu.hd6309.hd6309;
 import cpu.z80.z80;
 import cpu.i8039.i8039;
+import cpu.m6809.m6809;
+import static cpu.m6809.m6809H.*;
 import java.util.ArrayList;
 import static mame.cpuintrfH.*;
 import mame.cpuintrfH.*;
@@ -203,45 +206,20 @@ public class cpuintrf {
         new Dummy_cpu(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
         new Dummy_cpu(),/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
         new i8039(),
-        new Dummy_cpu()/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-    /*TODO*///#if (HAS_N7751)
-    /*TODO*///	CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6800)
-    /*TODO*///	CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6801)
-    /*TODO*///	CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6802)
-    /*TODO*///	CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6803)
-    /*TODO*///	CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6808)
-    /*TODO*///	CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_HD63701)
-    /*TODO*///	CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_NSC8105)
-    /*TODO*///	CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6805)
-    /*TODO*///	CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M68705)
-    /*TODO*///	CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_HD63705)
-    /*TODO*///	CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_HD6309)
-    /*TODO*///	CPU0(HD6309,   hd6309,	 2,  0,1.00,HD6309_INT_NONE,   HD6309_INT_IRQ, HD6309_INT_NMI, 16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6809)
-    /*TODO*///	CPU0(M6809,    m6809,	 2,  0,1.00,M6809_INT_NONE,    M6809_INT_IRQ,  M6809_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+        new Dummy_cpu(),/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+        new Dummy_cpu(),/*TODO*///CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
+	new Dummy_cpu(),/*TODO*///CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
+	new hd6309(),
+	new m6809()
     /*TODO*///#endif
     /*TODO*///#if (HAS_KONAMI)
     /*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
@@ -590,22 +568,22 @@ public class cpuintrf {
     /*TODO*///***************************************************************************/
     public static void cpu_set_reset_line(int cpunum,int state)
     {
-         throw new UnsupportedOperationException("Unsupported cpu_set_reset_line");
-    	//timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
+   //      throw new UnsupportedOperationException("Unsupported cpu_set_reset_line");
+    	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this function to control the HALT line on a CPU
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_set_halt_line(int cpunum,int state)
-    /*TODO*///{
-    /*TODO*///	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_haltcallback);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    
+    /***************************************************************************
+    
+      Use this function to control the HALT line on a CPU
+    
+    ***************************************************************************/
+    public static void cpu_set_halt_line(int cpunum,int state)
+    {
+    	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_haltcallback);
+    }
+    
+    
     /***************************************************************************
     
       This function returns CPUNUM current status  (running or halted)
@@ -949,35 +927,35 @@ public class cpuintrf {
     /*TODO*///void cpu_5_irq_line_vector_w(int offset, int data) { cpu_irq_line_vector_w(5, offset, data); }
     /*TODO*///void cpu_6_irq_line_vector_w(int offset, int data) { cpu_irq_line_vector_w(6, offset, data); }
     /*TODO*///void cpu_7_irq_line_vector_w(int offset, int data) { cpu_irq_line_vector_w(7, offset, data); }
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this function to set the state the NMI line of a CPU
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_set_nmi_line(int cpunum, int state)
-    /*TODO*///{
-    /*TODO*///	/* don't trigger interrupts on suspended CPUs */
-    /*TODO*///	if (cpu_getstatus(cpunum) == 0) return;
-    /*TODO*///
-    /*TODO*///	LOG((errorlog,"cpu_set_nmi_line(%d,%d)\n",cpunum,state));
-    /*TODO*///	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_manualnmicallback);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Use this function to set the state of an IRQ line of a CPU
-    /*TODO*///  The meaning of irqline varies between the different CPU types
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///void cpu_set_irq_line(int cpunum, int irqline, int state)
-    /*TODO*///{
-    /*TODO*///	/* don't trigger interrupts on suspended CPUs */
-    /*TODO*///	if (cpu_getstatus(cpunum) == 0) return;
-    /*TODO*///
-    /*TODO*///	LOG((errorlog,"cpu_set_irq_line(%d,%d,%d)\n",cpunum,irqline,state));
-    /*TODO*///	timer_set(TIME_NOW, (irqline & 7) | ((cpunum & 7) << 3) | (state << 6), cpu_manualirqcallback);
-    /*TODO*///}
+    
+    /***************************************************************************
+    
+      Use this function to set the state the NMI line of a CPU
+    
+    ***************************************************************************/
+    public static void cpu_set_nmi_line(int cpunum, int state)
+    {
+    	/* don't trigger interrupts on suspended CPUs */
+    	if (cpu_getstatus(cpunum) == 0) return;
+    
+    	//LOG((errorlog,"cpu_set_nmi_line(%d,%d)\n",cpunum,state));
+    	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_manualnmicallback);
+    }
+    
+    /***************************************************************************
+    
+      Use this function to set the state of an IRQ line of a CPU
+      The meaning of irqline varies between the different CPU types
+    
+    /***************************************************************************/
+    public static void cpu_set_irq_line(int cpunum, int irqline, int state)
+    {
+    	/* don't trigger interrupts on suspended CPUs */
+    	if (cpu_getstatus(cpunum) == 0) return;
+    
+    	//LOG((errorlog,"cpu_set_irq_line(%d,%d,%d)\n",cpunum,irqline,state));
+    	timer_set(TIME_NOW, (irqline & 7) | ((cpunum & 7) << 3) | (state << 6), cpu_manualirqcallback);
+    }
     
     /***************************************************************************
     
@@ -1190,10 +1168,10 @@ public class cpuintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///int cpu_getcurrentframe(void)
-    /*TODO*///{
-    /*TODO*///	return current_frame;
-    /*TODO*///}
+    public static int cpu_getcurrentframe()
+    {
+    	return current_frame;
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*////***************************************************************************
@@ -1202,9 +1180,8 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///***************************************************************************/
     /*TODO*///
-    public static void cpu_manualnmicallback(int param)
-    {
-        
+    public static timer_callback cpu_manualnmicallback = new timer_callback(){ public void handler(int param)
+    {       
     	int cpunum, state, oldactive;
     	cpunum = param & 7;
     	state = param >> 3;
@@ -1248,9 +1225,8 @@ public class cpuintrf {
     	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
     	if (state != CLEAR_LINE)
     		timer_trigger(TRIGGER_INT + cpunum);
-    }
-    
-    public static void cpu_manualirqcallback(int param)
+    }};
+    public static timer_callback cpu_manualirqcallback = new timer_callback(){ public void handler(int param)
     {
     	int cpunum, irqline, state, oldactive;
     
@@ -1299,7 +1275,7 @@ public class cpuintrf {
     	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
     	if (state != CLEAR_LINE)
     		timer_trigger(TRIGGER_INT + cpunum);
-    }
+    }};
     
     /*TODO*///static void cpu_internal_interrupt(int cpunum, int type)
     /*TODO*///{
@@ -1358,7 +1334,7 @@ public class cpuintrf {
     		if (num == INT_TYPE_NMI(cpunum))
     		{
                     if(errorlog!=null) fprintf(errorlog,"NMI\n");
-                        cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );	
+                        cpu_manualnmicallback.handler(cpunum | (PULSE_LINE << 3) );	
     		}
     		else
     		{         
@@ -1478,25 +1454,25 @@ public class cpuintrf {
     /*TODO*///#if (HAS_HD63705)
     /*TODO*///			case CPU_HD63705:			irq_line = 0; LOG((errorlog,"HD68705 IRQ\n")); break;
     /*TODO*///#endif
-    /*TODO*///#if (HAS_HD6309)
-    /*TODO*///			case CPU_HD6309:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case HD6309_INT_IRQ:	irq_line = 0; LOG((errorlog,"M6309 IRQ\n")); break;
-    /*TODO*///				case HD6309_INT_FIRQ:	irq_line = 1; LOG((errorlog,"M6309 FIRQ\n")); break;
-    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"M6309 unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				break;
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M6809)
-    /*TODO*///			case CPU_M6809:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case M6809_INT_IRQ: 	irq_line = 0; LOG((errorlog,"M6809 IRQ\n")); break;
-    /*TODO*///				case M6809_INT_FIRQ:	irq_line = 1; LOG((errorlog,"M6809 FIRQ\n")); break;
-    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"M6809 unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				break;
+
+    			case CPU_HD6309:
+    				switch (num)
+    				{
+    				case HD6309_INT_IRQ:	irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6309 IRQ\n"); break;
+    				case HD6309_INT_FIRQ:	irq_line = 1; if(errorlog!=null) fprintf(errorlog,"M6309 FIRQ\n"); break;
+    				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6309 unknown\n");
+    				}
+    				break;
+
+    
+    			case CPU_M6809:
+   				switch (num)
+    				{
+    				case M6809_INT_IRQ: 	irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6809 IRQ\n"); break;
+    				case M6809_INT_FIRQ:	irq_line = 1; if(errorlog!=null) fprintf(errorlog,"M6809 FIRQ\n"); break;
+   				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6809 unknown\n");
+    				}
+   				break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_KONAMI)
     /*TODO*///				case CPU_KONAMI:
@@ -1673,7 +1649,7 @@ public class cpuintrf {
                             
     			}
     			cpu_irq_line_vector_w(cpunum, irq_line, num);
-    			cpu_manualirqcallback(irq_line | (cpunum << 3) | (HOLD_LINE << 6) );
+    			cpu_manualirqcallback.handler(irq_line | (cpunum << 3) | (HOLD_LINE << 6) );
     		}
     	}
     
@@ -1711,28 +1687,26 @@ public class cpuintrf {
     	activecpu = oldactive;
     	if (activecpu >= 0) memorycontextswap(activecpu);
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cpu_reset_cpu(int cpunum)
-    /*TODO*///{
-    /*TODO*///	int oldactive = activecpu;
-    /*TODO*///
-    /*TODO*///	/* swap to the CPU's context */
-    /*TODO*///	activecpu = cpunum;
-    /*TODO*///	memorycontextswap(activecpu);
-    /*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///
-    /*TODO*///	/* reset the CPU */
-    /*TODO*///	RESET(cpunum);
-    /*TODO*///
-    /*TODO*///	/* Set the irq callback for the cpu */
-    /*TODO*///	SETIRQCALLBACK(cpunum,cpu_irq_callbacks[cpunum]);
-    /*TODO*///
-    /*TODO*///	/* update the CPU's context */
-    /*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-    /*TODO*///	activecpu = oldactive;
-    /*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-    /*TODO*///}
+    static void cpu_reset_cpu(int cpunum)
+    {
+    	int oldactive = activecpu;
+    
+    	/* swap to the CPU's context */
+    	activecpu = cpunum;
+    	memorycontextswap(activecpu);
+    	if (cpu.get(activecpu).save_context!=0) SETCONTEXT(activecpu, cpu.get(activecpu).context);
+
+    	/* reset the CPU */
+    	RESET(cpunum);
+    
+    	/* Set the irq callback for the cpu */
+    	SETIRQCALLBACK(cpunum,cpu_irq_callbacks[cpunum]);
+    
+    	/* update the CPU's context */
+    	if (cpu.get(activecpu).save_context!=0) cpu.get(activecpu).context=GETCONTEXT(activecpu);
+    	activecpu = oldactive;
+    	if (activecpu >= 0) memorycontextswap(activecpu);
+    }
     /*TODO*///
     /*TODO*////***************************************************************************
     /*TODO*///
@@ -1774,43 +1748,40 @@ public class cpuintrf {
     	/* clear the interrupts */
     	cpu_clear_interrupts(param);
     }};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cpu_resetcallback(int param)
-    /*TODO*///{
-    /*TODO*///	int state = param >> 3;
-    /*TODO*///	int cpunum = param & 7;
-    /*TODO*///
-    /*TODO*///	/* reset the CPU */
-    /*TODO*///	if (state == PULSE_LINE)
-    /*TODO*///		cpu_reset_cpu(cpunum);
-    /*TODO*///	else if (state == ASSERT_LINE)
-    /*TODO*///	{
-    /*TODO*////* ASG - do we need this?		cpu_reset_cpu(cpunum);*/
-    /*TODO*///		timer_suspendcpu(cpunum, 1, SUSPEND_REASON_RESET);	/* halt cpu */
-    /*TODO*///	}
-    /*TODO*///	else if (state == CLEAR_LINE)
-    /*TODO*///	{
-    /*TODO*///		if (timer_iscpususpended(cpunum, SUSPEND_REASON_RESET))
-    /*TODO*///			cpu_reset_cpu(cpunum);
-    /*TODO*///		timer_suspendcpu(cpunum, 0, SUSPEND_REASON_RESET);	/* restart cpu */
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cpu_haltcallback(int param)
-    /*TODO*///{
-    /*TODO*///	int state = param >> 3;
-    /*TODO*///	int cpunum = param & 7;
-    /*TODO*///
-    /*TODO*///	/* reset the CPU */
-    /*TODO*///	if (state == ASSERT_LINE)
-    /*TODO*///		timer_suspendcpu(cpunum, 1, SUSPEND_REASON_HALT);	/* halt cpu */
-    /*TODO*///	else if (state == CLEAR_LINE)
-    /*TODO*///		timer_suspendcpu(cpunum, 0, SUSPEND_REASON_HALT);	/* restart cpu */
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+
+    public static timer_callback cpu_resetcallback = new timer_callback(){ public void handler(int param)
+    {
+    	int state = param >> 3;
+    	int cpunum = param & 7;
+    
+    	/* reset the CPU */
+    	if (state == PULSE_LINE)
+    		cpu_reset_cpu(cpunum);
+    	else if (state == ASSERT_LINE)
+    	{
+    /* ASG - do we need this?		cpu_reset_cpu(cpunum);*/
+    		timer_suspendcpu(cpunum, 1, SUSPEND_REASON_RESET);	/* halt cpu */
+    	}
+    	else if (state == CLEAR_LINE)
+    	{
+    		if (timer_iscpususpended(cpunum, SUSPEND_REASON_RESET)!=0)
+    			cpu_reset_cpu(cpunum);
+    		timer_suspendcpu(cpunum, 0, SUSPEND_REASON_RESET);	/* restart cpu */
+    	}
+   }};
+    public static timer_callback cpu_haltcallback = new timer_callback(){ public void handler(int param)
+    {
+    	int state = param >> 3;
+    	int cpunum = param & 7;
+    
+    	/* reset the CPU */
+    	if (state == ASSERT_LINE)
+    		timer_suspendcpu(cpunum, 1, SUSPEND_REASON_HALT);	/* halt cpu */
+    	else if (state == CLEAR_LINE)
+    		timer_suspendcpu(cpunum, 0, SUSPEND_REASON_HALT);	/* restart cpu */
+    }};
+    
+   
     
     /***************************************************************************
     
