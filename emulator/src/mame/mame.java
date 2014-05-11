@@ -359,18 +359,16 @@ public class mame {
 
         /* create spriteram buffers if necessary */
         if ((drv.video_attributes & VIDEO_BUFFERS_SPRITERAM) != 0) {
-
-            throw new UnsupportedOperationException("video attributes VIDEO_BUFFERS_SPRITERAM not yet supported!");
-            /*TODO*/ //                    if (spriteram_size!=0) {
-/*TODO*/ //                            buffered_spriteram= malloc(spriteram_size);
-/*TODO*/ //                            if (!buffered_spriteram) { vh_close(); return 1; }
-/*TODO*/ //                            if (spriteram_2_size!=0) buffered_spriteram_2 = malloc(spriteram_2_size);
-/*TODO*/ //                            if (spriteram_2_size && !buffered_spriteram_2) { vh_close(); return 1; }
-/*TODO*/ //                    } else {
-/*TODO*/ //                            if (errorlog) fprintf(errorlog,"vh_open():  Video buffers spriteram but spriteram_size is 0\n");
-/*TODO*/ //                            buffered_spriteram=NULL;
-/*TODO*/ //                            buffered_spriteram_2=NULL;
-/*TODO*/ //                    }
+                   if (spriteram_size[0]!=0) {
+                           buffered_spriteram= new CharPtr(spriteram_size[0]);
+                           if (buffered_spriteram==null) { vh_close(); return 1; }
+                           if (spriteram_2_size[0]!=0) buffered_spriteram_2 =new CharPtr(spriteram_2_size[0]);
+                           if (spriteram_2_size[0]!=0 && buffered_spriteram_2==null) { vh_close(); return 1; }
+                   } else {
+                           if (errorlog!=null) fprintf(errorlog,"vh_open():  Video buffers spriteram but spriteram_size is 0\n");
+                           buffered_spriteram=null;
+                           buffered_spriteram_2=null;
+                   }
         }
 
         /* build our private user interface font */
@@ -422,11 +420,9 @@ public class mame {
         /* to allow it to overlay things on the game display. We must call it even */
         /* if the frame is skipped, to keep a consistent timing. */
             if (handle_user_interface()!=0)
-                   /* quit if the user asked to */
+                    /* quit if the user asked to */
                     return 1;
             
-
-
         osd_update_video_and_audio();
 
         if (drv.vh_eof_callback!=null) drv.vh_eof_callback.handler(); 
