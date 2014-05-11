@@ -173,9 +173,10 @@ public class common {
                                             int i;
                                             int length = romp[romp_ptr].length & ~ROMFLAG_MASK;
 
-
-                                            if (romp[romp_ptr].name == "-1")
-                                                    osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
+                                            if ((romp[romp_ptr].name != null) && (romp[romp_ptr].name.compareTo("-1") == 0))
+                                            {
+                                                osd_fseek(f,0,SEEK_SET);	/* ROM_RELOAD */
+                                            }                                       
                                             else
                                                     explength += length;
 
@@ -231,16 +232,15 @@ public class common {
                                             }
                                             else if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)    
                                             {
-                                                throw new UnsupportedOperationException("Unsupported readrom() ROMFLAG_ALTERNATE");
+                                                
                                                     /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
-                                                    /* copy the ROM data */
-                                            
-/*TODO*/ //                                                    c = Machine.memory_region[region] + (romp[romp_ptr].offset ^ 1);
+                                                    /* copy the ROM data */                    
+                                                CharPtr c = new CharPtr(Machine.memory_region[region],(romp[romp_ptr].offset ^ 1));
                                            
-/*TODO*/ //                                                    if (osd_fread_scatter(f,c,length,2) != length)
-/*TODO*/ //                                                    {
-/*TODO*/ //                                                            printf("Unable to read ROM %s\n",name);
-/*TODO*/ //                                                    }
+                                                    if (osd_fread_scatter(f,c,length,2) != length)
+                                                    {
+                                                            printf("Unable to read ROM %s\n",name);
+                                                    }
                                             }
                                             else if ((romp[romp_ptr].length & ROMFLAG_QUAD)!=0) {
                                               throw new UnsupportedOperationException("Unsupported readrom() ROMFLAG_QUAD");  
@@ -291,7 +291,7 @@ public class common {
                                             }
 
                                             romp_ptr++;
-                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
+                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name.compareTo("-1") == 0));
 
                                     if (explength != osd_fsize (f))
                                     {
@@ -349,7 +349,7 @@ public class common {
 /*TODO*/ //                                                     }
                                             }
                                             romp_ptr++;
-                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name == "-1"));
+                                    } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name.compareTo("-1") == 0));
                             
                             }
                     }

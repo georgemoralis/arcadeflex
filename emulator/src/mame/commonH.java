@@ -91,9 +91,9 @@ public class commonH {
 
         /* The following ones are for code ONLY - don't use for graphics data!!! */
         /* load the ROM at even/odd addresses. Useful with 16 bit games */
-/*TODO*/ //#define ROM_LOAD_EVEN(name,offset,length,crc) { name, (offset) & ~1, (length) | ROMFLAG_ALTERNATE, crc },
+    public static void ROM_LOAD_EVEN(String name,int offset,int length,int crc) { arload.add(new RomModule(name, (offset) & ~1, (length) | ROMFLAG_ALTERNATE, crc)); }
 /*TODO*/ //#define ROM_RELOAD_EVEN(offset,length) { (char *)-1, (offset) & ~1, (length) | ROMFLAG_ALTERNATE, 0 },
-/*TODO*/ //#define ROM_LOAD_ODD(name,offset,length,crc)  { name, (offset) |  1, (length) | ROMFLAG_ALTERNATE, crc },
+    public static void ROM_LOAD_ODD(String name,int offset,int length,int crc)  { arload.add(new RomModule(name, (offset) |  1, (length) | ROMFLAG_ALTERNATE, crc)); }
 /*TODO*/ //#define ROM_RELOAD_ODD(offset,length)  { (char *)-1, (offset) |  1, (length) | ROMFLAG_ALTERNATE, 0 },
         /* load the ROM at even/odd addresses. Useful with 16 bit games */
 /*TODO*/ //#define ROM_LOAD_WIDE(name,offset,length,crc) { name, offset, (length) | ROMFLAG_WIDE, crc },
@@ -111,8 +111,8 @@ public class commonH {
 
     /* Use THESE ones for graphics data */
 
-/*TODO*///     #define ROM_LOAD_GFX_EVEN    ROM_LOAD_ODD
-/*TODO*///     #define ROM_LOAD_GFX_ODD     ROM_LOAD_EVEN
+    public static void ROM_LOAD_GFX_EVEN(String name,int offset,int length,int crc){    ROM_LOAD_ODD(name,offset,length,crc); }
+    public static void ROM_LOAD_GFX_ODD(String name,int offset,int length,int crc){     ROM_LOAD_EVEN(name,offset,length,crc); }
 /*TODO*/ //    #define ROM_LOAD_GFX_SWAP    ROM_LOAD_WIDE
     
     /* end of table */
