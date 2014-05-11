@@ -144,6 +144,7 @@ pang - tilemap issues after first stage...
 pkladies - tilemap issues..
 
 
+
 Small graphic issues
 --------------------
 gberet (tilemaps?)
@@ -160,6 +161,11 @@ mrdot	(tilemaps?)
 mrdoy	(tilemaps?)
 mrdu	(tilemaps?)
 mrlo    (tilemaps?)
+contra
+contrab
+contraj
+contrajb
+gryzor
 
 
 

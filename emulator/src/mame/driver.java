@@ -44,6 +44,7 @@ import static drivers.bankp.*;
 import static drivers.superqix.*;
 import static drivers.troangel.*;
 import static drivers.ddragon.*;
+import static drivers.contra.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1679,11 +1680,11 @@ public class driver {
 /*TODO*/ //	DRIVER( jackalj )	/* GX631 (c) 1986 (Japan) */
 /*TODO*/ //	DRIVER( topgunbl )	/* bootleg */
 /*TODO*/ //	DRIVER( ddribble )	/* GX690 (c) 1986 */
-/*TODO*/ //	DRIVER( contra )	/* GX633 (c) 1987 */
-/*TODO*/ //	DRIVER( contrab )	/* bootleg */
-/*TODO*/ //	DRIVER( contraj )	/* GX633 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( contrajb )	/* bootleg */
-/*TODO*/ //	DRIVER( gryzor )	/* GX633 (c) 1987 */
+        driver_contra,	/* GX633 (c) 1987 */
+        driver_contrab,	/* bootleg */
+        driver_contraj,	/* GX633 (c) 1987 (Japan) */
+        driver_contrajb,	/* bootleg */
+        driver_gryzor,	/* GX633 (c) 1987 */
 /*TODO*/ //	DRIVER( combasc )	/* GX611 (c) 1988 */
 /*TODO*/ //	DRIVER( combasct )	/* GX611 (c) 1987 */
 /*TODO*/ //	DRIVER( combascj )	/* GX611 (c) 1987 (Japan) */
