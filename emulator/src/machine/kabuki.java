@@ -93,7 +93,7 @@ public class kabuki {
     		kabuki_decode(new UBytePtr(rom,i),new UBytePtr(rom,i+diff),new UBytePtr(rom,i),0x8000,0x4000, swap_key1,swap_key2,addr_key,xor_key);
     }
     
-    /*TODO*///void mgakuen2_decode(void) { mitchell_decode(0x76543210,0x01234567,0xaa55,0xa5); }
+    public static void mgakuen2_decode() { mitchell_decode(0x76543210,0x01234567,0xaa55,0xa5); }
     public static void pang_decode()     { mitchell_decode(0x01234567,0x76543210,0x6548,0x24); }
     /*TODO*///void cworld_decode(void)   { mitchell_decode(0x04152637,0x40516273,0x5751,0x43); }
     /*TODO*///void hatena_decode(void)   { mitchell_decode(0x45670123,0x45670123,0x5751,0x43); }

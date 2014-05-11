@@ -1179,7 +1179,7 @@ public class driver {
 	/* Mitchell games */
 /*TODO*/ //	DRIVER( mgakuen )	/* (c) 1988 Yuga */
 /*TODO*/ //	DRIVER( mgakuen2 )	/* (c) 1989 Face */
-/*TODO*/ //	DRIVER( pkladies )	/* (c) 1989 Mitchell */
+        driver_pkladies,	/* (c) 1989 Mitchell */
 /*TODO*/ //	DRIVER( dokaben )	/*  3/1989 (c) 1989 Capcom (Japan) */
 	/*  8/1989 Dokaben 2 (baseball) */
         driver_pang,		/* (c) 1989 Mitchell (World) */

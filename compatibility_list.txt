@@ -138,6 +138,7 @@ troangel
 Partially playable
 ------------------
 pang - tilemap issues after first stage...
+pkladies - tilemap issues..
 
 
 Small graphic issues

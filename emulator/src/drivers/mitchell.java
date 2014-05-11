@@ -28,6 +28,7 @@ import static mame.cpuintrfH.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.fileio.*;
 
+
 import static machine.kabuki.*;
 
 public class mitchell {
@@ -189,24 +190,24 @@ public class mitchell {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static int keymatrix;
-    /*TODO*///
-    /*TODO*///static int mahjong_input_r(int offset)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < 5;i++)
-    /*TODO*///		if (keymatrix & (0x80 >> i)) return readinputport(2 + 5 * offset + i);
-    /*TODO*///
-    /*TODO*///	return 0xff;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void mahjong_input_select_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	keymatrix = data;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    static int keymatrix;
+    
+    static int mahjong_input_r(int offset)
+    {
+    	int i;
+    
+    	for (i = 0;i < 5;i++)
+    		if ((keymatrix & (0x80 >> i))!=0) return readinputport(2 + 5 * offset + i);
+    
+    	return 0xff;
+    }
+    
+    static void mahjong_input_select_w(int offset,int data)
+    {
+    	keymatrix = data;
+    }
+    
+    
     static int input_type;
 
     public static ReadHandlerPtr input_r = new ReadHandlerPtr() { public int handler(int offset)
@@ -219,10 +220,9 @@ public class mitchell {
     			return readinputport(1 + offset);
     /*TODO*///			break;
     		case 1:	/* Mahjong games */
-                    throw new UnsupportedOperationException("unsupported");
-    /*TODO*///			if (offset) return mahjong_input_r(offset-1);
-    /*TODO*///			else return readinputport(1);
-    /*TODO*///			break;
+    			if (offset!=0) return mahjong_input_r(offset-1);
+    			else return readinputport(1);
+    			//break;
     		case 2:	/* Block Block - dial control */
                     throw new UnsupportedOperationException("unsupported");
     /*TODO*///			if (offset) return block_input_r(offset-1);
@@ -242,20 +242,21 @@ public class mitchell {
 
     public static WriteHandlerPtr input_w= new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-        throw new UnsupportedOperationException("unsupported");
-    /*TODO*///	switch (input_type)
-    /*TODO*///	{
-    /*TODO*///		case 0:
+	switch (input_type)
+    	{
+    		case 0:
+                    throw new UnsupportedOperationException("unsupported");
     /*TODO*///		default:
     /*TODO*///if (errorlog) fprintf(errorlog,"PC %04x: write %02x to port 01\n",cpu_get_pc(),data);
-    /*TODO*///			break;
-    /*TODO*///		case 1:
-    /*TODO*///			mahjong_input_select_w(offset,data);
-    /*TODO*///			break;
-    /*TODO*///		case 2:
+    			//break;
+    		case 1:
+    			mahjong_input_select_w(offset,data);
+    			break;
+    		case 2:
+                    throw new UnsupportedOperationException("unsupported");
     /*TODO*///			block_dial_control_w(offset,data);
     /*TODO*///			break;
-    /*TODO*///	}
+    	}
     }};
     /*TODO*///
     /*TODO*///
@@ -626,128 +627,128 @@ public class mitchell {
     /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
     /*TODO*///INPUT_PORTS_END
     /*TODO*///
-    /*TODO*///INPUT_PORTS_START( pkladies )
-    /*TODO*///	PORT_START      /* DSW */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* USED - handled in port5_r */
-    /*TODO*///	PORT_BITX(0x02, 0x02, IPT_SERVICE, DEF_STR( Service_Mode ), KEYCODE_F2, IP_JOY_NONE )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* unused? */
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* USED - handled in port5_r */
-    /*TODO*///	PORT_BIT( 0x70, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* unused? */
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* data from EEPROM */
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN0 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_SERVICE )	/* same as the service mode farther down */
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN1 )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Deal", KEYCODE_LCONTROL, IP_JOY_NONE )
-    /*TODO*///	PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 E", KEYCODE_E, IP_JOY_NONE )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 A", KEYCODE_A, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Cancel", KEYCODE_LALT, IP_JOY_NONE )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 B", KEYCODE_B, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Flip", KEYCODE_SPACE, IP_JOY_NONE )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 C", KEYCODE_C, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 D", KEYCODE_D, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN1 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Deal", KEYCODE_LCONTROL, IP_JOY_NONE )
-    /*TODO*///	PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 E", KEYCODE_E, IP_JOY_NONE )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 A", KEYCODE_A, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Cancel", KEYCODE_LALT, IP_JOY_NONE )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 B", KEYCODE_B, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Flip", KEYCODE_SPACE, IP_JOY_NONE )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 C", KEYCODE_C, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 D", KEYCODE_D, IP_JOY_NONE )
-    /*TODO*///
-    /*TODO*///	PORT_START      /* IN2 */
-    /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-    /*TODO*///INPUT_PORTS_END
-    /*TODO*///
+ 	static InputPortPtr input_ports_pkladies = new InputPortPtr(){ public void handler() { 
+		PORT_START();       /* DSW */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );/* USED - handled in port5_r */
+		PORT_BITX(0x02, 0x02, IPT_SERVICE, DEF_STR( "Service_Mode" ), KEYCODE_F2, IP_JOY_NONE );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );/* unused? */
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );/* USED - handled in port5_r */
+		PORT_BIT( 0x70, IP_ACTIVE_LOW, IPT_UNKNOWN );/* unused? */
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );/* data from EEPROM */
+	
+		PORT_START();       /* IN0 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_SERVICE );/* same as the service mode farther down */
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN1 );
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Deal", KEYCODE_LCONTROL, IP_JOY_NONE );
+		PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 E", KEYCODE_E, IP_JOY_NONE );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 A", KEYCODE_A, IP_JOY_NONE );
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Cancel", KEYCODE_LALT, IP_JOY_NONE );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 B", KEYCODE_B, IP_JOY_NONE );
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P1 Flip", KEYCODE_SPACE, IP_JOY_NONE );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 C", KEYCODE_C, IP_JOY_NONE );
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 D", KEYCODE_D, IP_JOY_NONE );
+	
+		PORT_START();       /* IN1 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+		PORT_START();       /* IN2 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Deal", KEYCODE_LCONTROL, IP_JOY_NONE );
+		PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 E", KEYCODE_E, IP_JOY_NONE );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 A", KEYCODE_A, IP_JOY_NONE );
+	
+		PORT_START();       /* IN2 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Cancel", KEYCODE_LALT, IP_JOY_NONE );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 B", KEYCODE_B, IP_JOY_NONE );
+	
+		PORT_START();       /* IN2 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x20, IP_ACTIVE_LOW, 0, "P2 Flip", KEYCODE_SPACE, IP_JOY_NONE );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 C", KEYCODE_C, IP_JOY_NONE );
+	
+		PORT_START();       /* IN2 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 D", KEYCODE_D, IP_JOY_NONE );
+	
+		PORT_START();       /* IN2 */
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	INPUT_PORTS_END(); }}; 
+        
     static InputPortPtr input_ports_pang = new InputPortPtr(){ public void handler() { 
 		PORT_START();       /* DSW */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );/* USED - handled in port5_r */
@@ -887,17 +888,16 @@ public class mitchell {
 		16*8    /* every char takes 16 consecutive bytes */
 	);
     /*TODO*///
-    /*TODO*///static struct GfxLayout marukin_charlayout =
-    /*TODO*///{
-    /*TODO*///	8,8,	/* 8*8 characters */
-    /*TODO*///	65536,	/* 65536 characters */
-    /*TODO*///	4,		/* 4 bits per pixel */
-    /*TODO*///	{ 3*4, 2*4, 1*4, 0*4 },
-    /*TODO*///	{ 0, 1, 2, 3, 16+0, 16+1, 16+2, 16+3 },
-    /*TODO*///	{ 0*32, 1*32, 2*32, 3*32, 4*32, 5*32, 6*32, 7*32 },
-    /*TODO*///	32*8    /* every char takes 32 consecutive bytes */
-    /*TODO*///};
-    /*TODO*///
+	static GfxLayout marukin_charlayout = new GfxLayout
+	(
+		8,8,	/* 8*8 characters */
+		65536,	/* 65536 characters */
+		4,		/* 4 bits per pixel */
+		new int[] { 3*4, 2*4, 1*4, 0*4 },
+		new int[] { 0, 1, 2, 3, 16+0, 16+1, 16+2, 16+3 },
+		new int[] { 0*32, 1*32, 2*32, 3*32, 4*32, 5*32, 6*32, 7*32 },
+		32*8    /* every char takes 32 consecutive bytes */
+	);
 	static GfxLayout spritelayout = new GfxLayout
 	(
 		16,16,  /* 16*16 sprites */
@@ -918,13 +918,13 @@ public class mitchell {
     /*TODO*///	{ -1 } /* end of array */
     /*TODO*///};
     /*TODO*///
-    /*TODO*///static struct GfxDecodeInfo marukin_gfxdecodeinfo[] =
-    /*TODO*///{
-    /*TODO*///	{ REGION_GFX1, 0, &marukin_charlayout, 0, 128 }, /* colors 0-2047 */
-    /*TODO*///	{ REGION_GFX2, 0, &spritelayout,       0,  16 }, /* colors 0- 255 */
-    /*TODO*///	{ -1 } /* end of array */
-    /*TODO*///};
-    /*TODO*///
+	static GfxDecodeInfo marukin_gfxdecodeinfo[] =
+	{
+		new GfxDecodeInfo( REGION_GFX1, 0, marukin_charlayout, 0, 128 ), /* colors 0-2047 */
+		new GfxDecodeInfo( REGION_GFX2, 0, spritelayout,       0,  16 ), /* colors 0- 255 */
+		new GfxDecodeInfo( -1 ) /* end of array */
+	};
+  
 	static GfxDecodeInfo gfxdecodeinfo[] =
 	{
 		new GfxDecodeInfo( REGION_GFX1, 0, charlayout,     0, 128 ), /* colors 0-2047 */
@@ -1013,7 +1013,8 @@ public class mitchell {
 		pang_vh_stop,
 		pang_vh_screenrefresh,
 		0,0,0,0,
-/*todo*/		null/*{
+/*todo*/		null
+                /*{
 			{
 				SOUND_OKIM6295,
 				&okim6295_interface
@@ -1102,6 +1103,44 @@ public class mitchell {
     /*TODO*///	nvram_handler
     /*TODO*///};
     /*TODO*///
+        static MachineDriver machine_driver_marukin = new MachineDriver
+	(
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_Z80,
+				8000000,	/* Super Pang says 8MHZ ORIGINAL BOARD */
+				readmem,writemem,readport,writeport,
+				interrupt,2	/* ??? one extra irq seems to be needed for music (see input5_r) */
+			),
+		},
+		60, DEFAULT_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
+		1,
+		null,
+	
+		64*8, 32*8, new rectangle( 8*8, (64-8)*8-1, 1*8, 31*8-1 ),
+		marukin_gfxdecodeinfo,
+		2048, 2048,
+		null,
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+		null,
+		pang_vh_start,
+		pang_vh_stop,
+		pang_vh_screenrefresh,
+		0,0,0,0,
+/*todo*/		null
+		/*{
+			{
+				SOUND_OKIM6295,
+				&okim6295_interface
+			},
+			{
+				SOUND_YM2413,
+				&ym2413_interface
+			},
+		},*/
+                ,
+		nvram_handler
+	);
     /*TODO*///
     /*TODO*///
     /*TODO*///ROM_START( mgakuen )
@@ -1143,25 +1182,25 @@ public class mitchell {
     /*TODO*///	ROM_LOAD( "mg2-e.1c",     0x00000, 0x80000, 0x70fd0809 )	/* banked */
     /*TODO*///ROM_END
     /*TODO*///
-    /*TODO*///ROM_START( pkladies )
-    /*TODO*///	ROM_REGION( 2*0x20000, REGION_CPU1 )	/* 128k for code + 128k for decrypted opcodes */
-    /*TODO*///	ROM_LOAD( "pko-prg1.14f", 0x00000, 0x08000, 0x86585a94 )
-    /*TODO*///	ROM_LOAD( "pko-prg2.15f", 0x10000, 0x10000, 0x86cbe82d )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x200000, REGION_GFX1 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD_GFX_EVEN( "pko-001.8h",   0x000000, 0x80000, 0x1ead5d9b )	/* chars */
-    /*TODO*///	ROM_LOAD_GFX_ODD ( "pko-003.8j",   0x000000, 0x80000, 0x339ab4e6 )
-    /*TODO*///	ROM_LOAD_GFX_EVEN( "pko-002.9h",   0x100000, 0x80000, 0x1cf02586 )
-    /*TODO*///	ROM_LOAD_GFX_ODD ( "pko-004.9j",   0x100000, 0x80000, 0x09ccb442 )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x040000, REGION_GFX2 | REGIONFLAG_DISPOSE )
-    /*TODO*///	ROM_LOAD( "pko-chr1.2j",  0x000000, 0x20000, 0x31ce33cd )	/* sprites */
-    /*TODO*///	ROM_LOAD( "pko-chr2.3j",  0x020000, 0x20000, 0xad7e055f )
-    /*TODO*///
-    /*TODO*///	ROM_REGION( 0x80000, REGION_SOUND1 )	/* OKIM */
-    /*TODO*///	ROM_LOAD( "pko-voi1.2d",  0x00000, 0x20000, 0x07e0f531 )
-    /*TODO*///	ROM_LOAD( "pko-voi2.3d",  0x20000, 0x20000, 0x18398bf6 )
-    /*TODO*///ROM_END
+        static RomLoadPtr rom_pkladies = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 2*0x20000, REGION_CPU1 );/* 128k for code + 128k for decrypted opcodes */
+		ROM_LOAD( "pko-prg1.14f", 0x00000, 0x08000, 0x86585a94 );
+		ROM_LOAD( "pko-prg2.15f", 0x10000, 0x10000, 0x86cbe82d );
+	
+		ROM_REGION( 0x200000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD_GFX_EVEN( "pko-001.8h",   0x000000, 0x80000, 0x1ead5d9b );	/* chars */
+		ROM_LOAD_GFX_ODD ( "pko-003.8j",   0x000000, 0x80000, 0x339ab4e6 );
+		ROM_LOAD_GFX_EVEN( "pko-002.9h",   0x100000, 0x80000, 0x1cf02586 );
+		ROM_LOAD_GFX_ODD ( "pko-004.9j",   0x100000, 0x80000, 0x09ccb442 );
+	
+		ROM_REGION( 0x040000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "pko-chr1.2j",  0x000000, 0x20000, 0x31ce33cd );/* sprites */
+		ROM_LOAD( "pko-chr2.3j",  0x020000, 0x20000, 0xad7e055f );
+	
+		ROM_REGION( 0x80000, REGION_SOUND1 );/* OKIM */
+		ROM_LOAD( "pko-voi1.2d",  0x00000, 0x20000, 0x07e0f531 );
+		ROM_LOAD( "pko-voi2.3d",  0x20000, 0x20000, 0x18398bf6 );
+	ROM_END(); }}; 
     /*TODO*///
     /*TODO*///ROM_START( dokaben )
     /*TODO*///	ROM_REGION( 2*0x50000, REGION_CPU1 )	/* 320k for code + 320k for decrypted opcodes */
@@ -1577,12 +1616,12 @@ public class mitchell {
     /*TODO*///{
     /*TODO*///	input_type = 1;
     /*TODO*///}
-    /*TODO*///static void init_mgakuen2(void)
-    /*TODO*///{
-    /*TODO*///	input_type = 1;
-    /*TODO*///	nvram_size = 0;
-    /*TODO*///	mgakuen2_decode();
-    /*TODO*///}
+        public static InitDriverPtr init_mgakuen2 = new InitDriverPtr() { public void handler() 
+	{
+            input_type = 1;
+            nvram_size = 0;
+            mgakuen2_decode();
+        }};
     /*TODO*///static void init_marukin(void)
     /*TODO*///{
     /*TODO*///	input_type = 1;
@@ -1608,7 +1647,7 @@ public class mitchell {
     /*TODO*///
     /*TODO*///GAME( 1988, mgakuen,  0,     mgakuen, mgakuen,  mgakuen,  ROT0,   "Yuga", "Mahjong Gakuen" )
     /*TODO*///GAME( 1989, mgakuen2, 0,     marukin, marukin,  mgakuen2, ROT0,   "Face", "Mahjong Gakuen 2 Gakuen-chou no Fukushuu" )
-    /*TODO*///GAME( 1989, pkladies, 0,     marukin, pkladies, mgakuen2, ROT0,   "Mitchell", "Poker Ladies" )
+    public static GameDriver driver_pkladies	   = new GameDriver("1989"	,"pkladies"	,"mitchell.java"	,rom_pkladies,null	,machine_driver_marukin	,input_ports_pkladies	,init_mgakuen2	,ROT0	,	"Mitchell", "Poker Ladies" );
     /*TODO*///GAME( 1989, dokaben,  0,     pang,    pang,     dokaben,  ROT0,   "Capcom", "Dokaben (Japan)" )
     public static GameDriver driver_pang	   = new GameDriver("1989"	,"pang"	,"mitchell.java"	,rom_pang,null	,machine_driver_pang	,input_ports_pang	,init_pang	,ROT0	,	"Mitchell", "Pang (World)" );
     /*TODO*///GAME( 1989, pangb,    pang,  pang,    pang,     pangb,    ROT0,   "bootleg", "Pang (bootleg)" )
