@@ -43,6 +43,7 @@ import static drivers.mitchell.*;
 import static drivers.bankp.*;
 import static drivers.superqix.*;
 import static drivers.troangel.*;
+import static drivers.ddragon.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2094,9 +2095,9 @@ public class driver {
 /*TODO*/ //	DRIVER( battlane )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan2 )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan3 )	/* TA-???? (c) 1986 + Taito license */
-/*TODO*/ //	DRIVER( ddragon )
-/*TODO*/ //	DRIVER( ddragonb )	/* TA-0021 bootleg */
-/*TODO*/ //	DRIVER( ddragon2 )	/* TA-0026 (c) 1988 */
+        driver_ddragon,
+        driver_ddragonb,	/* TA-0021 bootleg */
+        driver_ddragon2,	/* TA-0026 (c) 1988 */
 /*TODO*/ //	DRIVER( ctribe )	/* TA-0028 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( ctribeb )	/* bootleg */
 /*TODO*/ //	DRIVER( blockout )	/* TA-0029 (c) 1989 + California Dreams */

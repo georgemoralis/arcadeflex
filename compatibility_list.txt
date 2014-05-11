@@ -134,6 +134,9 @@ tdfeverj (small screen size issue)
 bankp
 sqixbl
 troangel
+ddragonb
+ddragon2
+
 
 Partially playable
 ------------------
@@ -200,7 +203,7 @@ ikarikpb - boots but doesn't start
 legofair - bootsbut doesn't start
 mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
 tokisens - doesn't start
-
+ddragon - Missing HD63701 cpu but i think it isn't working in mame0.36 as well
 
 Game not working in 0.36 anyway
 -------------------------------
