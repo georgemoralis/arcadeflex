@@ -911,12 +911,13 @@ public class memory {
                         case MWA_BANK13:
                         case MWA_BANK14:
                         case MWA_BANK15:
-                        case MWA_BANK16: {
-                            throw new UnsupportedOperationException("Unsupported MWA Bank write Here you go nickblame :D");
-                            /*TODO*/ //					hardware = (int)MWA_BANK1 - (int)handler + 1;
-/*TODO*/ //					memorywriteoffset[hardware] = bankwriteoffset[hardware] = mwa->start;
-/*TODO*/ //					cpu_bankbase[hardware] = memory_find_base(cpu, mwa->start);
-/*TODO*/ //					break;
+                        case MWA_BANK16: 
+                        {
+                           hardware.set((char)((int)MWA_BANK1 - (int)handler + 1));
+                          memorywriteoffset[hardware.read()] = bankwriteoffset[hardware.read()] = Machine.drv.cpu[cpu].memory_write[mwa_ptr].start;
+			  cpu_bankbase[hardware.read()] = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[mwa_ptr].start);
+                          break;
+                           
                         }
                         case MWA_NOP:
                             hardware.set((char) HT_NOP);
@@ -1760,6 +1761,10 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //
+public static void install_mem_read_handler(int cpu,int start,int end,ReadHandlerPtr _handler)
+{
+    throw new UnsupportedOperationException("Unsupported install_mem_read_handler");
+}
 /*TODO*/ //void *install_mem_read_handler(int cpu, int start, int end, mem_read_handler handler)
 /*TODO*/ //{
 /*TODO*/ //	MHELE hardware = 0;

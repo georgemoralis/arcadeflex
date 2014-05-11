@@ -164,9 +164,15 @@ public static class ExtMemory{
 
 
 /* ----- opcode reading ----- */
-public static char cpu_readop(int A) { return OP_ROM.read(A); }
+public static char cpu_readop(int A) 
+{ 
+    return OP_ROM.read(A); 
+}
 //#define cpu_readop16(A)		READ_WORD(&OP_ROM[A])
-public static char cpu_readop_arg(int A) { return OP_RAM.read(A); }
+public static char cpu_readop_arg(int A) 
+{ 
+    return OP_RAM.read(A); 
+}
 
 //#define cpu_readop_arg16(A)	READ_WORD(&OP_RAM[A])
 
