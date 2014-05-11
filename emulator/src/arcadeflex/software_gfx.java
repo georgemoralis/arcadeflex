@@ -48,7 +48,7 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
     public boolean[] key = new boolean[1024];
     public int readkey = 0;
     Image _image;
-    Thread _thread;
+    public Thread _thread;
     ImageConsumer _consumer;
     DirectColorModel _model;
     BufferStrategy _strategy;
@@ -74,7 +74,21 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 int j = getHeight() - this._insets.top - this._insets.bottom;
                 /* Draw image to graphics context. */
                 Graphics2D localGraphics2D = (Graphics2D)this._strategy.getDrawGraphics();
-                localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
+                if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
+                    localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i + (int) (i * 0.78), j, null);
+                } else if (Machine.gamedrv.source_file.equals("system1.java")) 
+                {
+                    if(Machine.gamedrv.name.equals("starjack")|| Machine.gamedrv.name.equals("starjacs") || Machine.gamedrv.name.equals("regulus") || Machine.gamedrv.name.equals("regulusu") || Machine.gamedrv.name.equals("upndown") || Machine.gamedrv.name.equals("mrviking")|| Machine.gamedrv.name.equals("mrvikinj")|| Machine.gamedrv.name.equals("swat"))
+                    {
+                        localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i+ (int) (i * 0.15), j, null);
+                    }
+                    else
+                    {
+                        localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j + (int) (j * 0.14), null);
+                    }
+                } else {
+                    localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
+                }
                 this._strategy.show();
                 Toolkit.getDefaultToolkit().sync();
         }
@@ -98,7 +112,8 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
 		_scanlines = scanlines;
 
                  /* Setup pixel buffer and dimensions. */
-		ratio = ((float) width) / ((float) height);
+                ratio = ((float) width) / ((float) height);
+                    
                 _width = width;
                 if (_scanlines)
 		{
@@ -111,17 +126,21 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
 		_insets = getInsets();
                 // super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
                 //hacked width height x2
-                super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);
-                
+                if(Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")){//temp hack for airwolf and flashgal
+                    super.setSize(width + this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
+                }else{
+                    super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
+                }
                 super.createBufferStrategy(2);//double buffering
                  this._strategy = super.getBufferStrategy();
         }
 
 	public void resizeVideo()
 	{
+             /*
              int i = getWidth() - this._insets.left - this._insets.right;
              int j = getHeight() - this._insets.top - this._insets.bottom;
-
+             System.out.println("before width=" + i + " height="+ j);
             if ((j < this._height) || (i < this._width))
             {
                  i = this._width;
@@ -141,7 +160,11 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                  this.oldHeight = (int)(i / this.ratio);
                }
             }
+
+            System.out.println("after  width=" + this.oldWidth + " height="+ this.oldHeight);
+           
             setSize(this.oldWidth + this._insets.left + this._insets.right, this.oldHeight + this._insets.top + this._insets.bottom);
+            */
 	}
         public void run()
         {
