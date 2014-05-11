@@ -18,7 +18,7 @@ public class driverH
         public static abstract interface InitDriverPtr { public abstract void handler(); }
 	public static abstract interface InterruptPtr { public abstract int handler(); }
 	public static abstract interface VhConvertColorPromPtr { public abstract void handler(UByte []palette, char []colortable, UBytePtr color_prom); }
-	public static abstract interface VhEofCallbackPtr { public abstract int handler(); }
+	public static abstract interface VhEofCallbackPtr { public abstract void handler(); }
 	public static abstract interface VhStartPtr { public abstract int handler(); }
 	public static abstract interface VhStopPtr { public abstract void handler(); }
 	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap,int full_refresh); }
