@@ -135,6 +135,10 @@ bankp
 sqixbl
 troangel
 
+Partially playable
+------------------
+pang - tilemap issues after first stage...
+
 
 Small graphic issues
 --------------------
@@ -194,7 +198,6 @@ ikarijp - boots but doesn't start
 ikarikpb - boots but doesn't start
 legofair - bootsbut doesn't start
 mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
-pang - java.lang.UnsupportedOperationException: unsupported at mame.palette.palette_increase_usage_count(palette.java:561)
 tokisens - doesn't start
 
 
