@@ -47,6 +47,7 @@ import static drivers.ddragon.*;
 import static drivers.contra.*;
 import static drivers.travrusa.*;
 import static drivers.pingpong.*;
+import static drivers.tecmo.*;
 
 
 public class driver {
@@ -1602,8 +1603,8 @@ public class driver {
 /*TODO*/ //	DRIVER( starfore )	/* (c) 1984 Tehkan */
 /*TODO*/ //	DRIVER( megaforc )	/* (c) 1985 Tehkan + Video Ware license */
 /*TODO*/ //	DRIVER( baluba )	/* (c) 1986 Able Corp. */
-    driver_bombjack,	/* (c) 1984 Tehkan */
-    driver_bombjac2,	/* (c) 1984 Tehkan */
+        driver_bombjack,	/* (c) 1984 Tehkan */
+        driver_bombjac2,	/* (c) 1984 Tehkan */
 /*TODO*/ //	DRIVER( pbaction )	/* (c) 1985 Tehkan */
 /*TODO*/ //	DRIVER( pbactio2 )	/* (c) 1985 Tehkan */
 	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
@@ -1611,12 +1612,12 @@ public class driver {
 /*TODO*/ //	DRIVER( gridiron )	/* (c) 1985 Tehkan */
 /*TODO*/ //	DRIVER( teedoff )	/* 6102 - (c) 1986 Tecmo */
 /*TODO*/ //	DRIVER( solomon )	/* (c) 1986 Tecmo */
-/*TODO*/ //	DRIVER( rygar )		/* 6002 - (c) 1986 Tecmo */
-/*TODO*/ //	DRIVER( rygar2 )	/* 6002 - (c) 1986 Tecmo */
-/*TODO*/ //	DRIVER( rygarj )	/* 6002 - (c) 1986 Tecmo */
-/*TODO*/ //	DRIVER( gemini )	/* (c) 1987 Tecmo */
-/*TODO*/ //	DRIVER( silkworm )	/* 6217 - (c) 1988 Tecmo */
-/*TODO*/ //	DRIVER( silkwrm2 )	/* 6217 - (c) 1988 Tecmo */
+        driver_rygar,	/* 6002 - (c) 1986 Tecmo */
+        driver_rygar2,	/* 6002 - (c) 1986 Tecmo */
+        driver_rygarj,	/* 6002 - (c) 1986 Tecmo */
+        driver_gemini,	/* (c) 1987 Tecmo */
+        driver_silkworm,/* 6217 - (c) 1988 Tecmo */
+        driver_silkwrm2,/* 6217 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( gaiden )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( shadoww )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( tknight )	/* (c) 1989 Tecmo */

@@ -7,4 +7,34 @@ Supported games :
 		-Misses SN76496 sound
 
 =========================================================
- 
+==========
+tecmo
+=========================================================
+Supported games:
+	rygar:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound
+        rygar2:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound
+        rygarj:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound 
+        gemini:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound
+        silkworm:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound
+        silkwrm2:
+		-Playable in 0.36.1 (20/5/2014) 
+		-Misses ym3812 sound
+		-Misses adpcm sound
+
+
+=========================================================
