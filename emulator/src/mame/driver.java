@@ -46,6 +46,8 @@ import static drivers.troangel.*;
 import static drivers.ddragon.*;
 import static drivers.contra.*;
 import static drivers.travrusa.*;
+import static drivers.pingpong.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1665,7 +1667,7 @@ public class driver {
 /*TODO*/ //	DRIVER( yiear2 )	/* GX407 (c) 1985 */
 /*TODO*/ //	DRIVER( kicker )	/* GX477 (c) 1985 */
 /*TODO*/ //	DRIVER( shaolins )	/* GX477 (c) 1985 */
-/*TODO*/ //	DRIVER( pingpong )	/* GX555 (c) 1985 */
+        driver_pingpong,	/* GX555 (c) 1985 */
         driver_gberet,	/* GX577 (c) 1985 */
         driver_rushatck,/* GX577 (c) 1985 */
         driver_gberetb,	/* bootleg on different hardware */
