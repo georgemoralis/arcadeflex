@@ -49,6 +49,7 @@ import static drivers.travrusa.*;
 import static drivers.pingpong.*;
 import static drivers.tecmo.*;
 import static drivers.sidepckt.*;
+import static drivers.vigilant.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -667,10 +668,10 @@ public class driver {
 /*TODO*/ //	DRIVER( spelunkr )	/* (c) 1985 licensed from Broderbund */
 /*TODO*/ //	DRIVER( spelunk2 )	/* (c) 1986 licensed from Broderbund */
 
-/*TODO*/ //	DRIVER( vigilant )	/* (c) 1988 (World) */
-/*TODO*/ //	DRIVER( vigilntu )	/* (c) 1988 (US) */
-/*TODO*/ //	DRIVER( vigilntj )	/* (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( kikcubic )	/* (c) 1988 (Japan) */
+        driver_vigilant,	/* (c) 1988 (World) */
+        driver_vigilntu,	/* (c) 1988 (US) */
+        driver_vigilntj,	/* (c) 1988 (Japan) */
+        driver_kikcubic,	/* (c) 1988 (Japan) */
 	/* M72 (and derivatives) */
 /*TODO*/ //	DRIVER( rtype )		/* (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( rtypeu )	/* (c) 1987 + Nintendo USA license (US) */

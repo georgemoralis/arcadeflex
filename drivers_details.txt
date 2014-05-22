@@ -59,3 +59,22 @@ Supported games:
 
 
 =========================================================
+=========
+vigilant
+=========================================================
+Supported games:
+	vigilant
+		-Playable in 0.36.1 (23/5/2014) 
+		-Misses YM2151 sound
+		-Misses DAC sound
+	vigilntu
+		-Misses YM2151 sound
+		-Misses DAC sound
+	vigilntj
+		-Misses YM2151 sound
+		-Misses DAC sound
+	kikcubic
+		-Misses YM2151 sound
+		-Misses DAC sound
+
+=========================================================
