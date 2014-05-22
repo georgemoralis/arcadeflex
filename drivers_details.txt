@@ -8,6 +8,27 @@ Supported games :
 
 =========================================================
 ==========
+sidepckt
+=========================================================
+Supported games
+	sidepckt
+		-Tilemap issues
+		-Misses 6502 sound cpu
+		-Misses YM2203 sound
+		-Misses YM3526 sound	
+        sidepctj
+		-Tilemap issues
+		-Misses 6502 sound cpu
+		-Misses YM2203 sound
+		-Misses YM3526 sound	
+        sidepctb
+		-Tilemap issues
+		-Misses 6502 sound cpu
+		-Misses YM2203 sound
+		-Misses YM3526 sound
+
+=========================================================
+==========
 tecmo
 =========================================================
 Supported games:

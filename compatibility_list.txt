@@ -137,7 +137,15 @@ troangel
 ddragonb
 ddragon2
 travrusa
-motrace
+motorace
+pingpong
+rygar
+rygar2
+rygarj
+gemini
+slikworm
+silkwrm2
+
 
 Partially playable
 ------------------
@@ -151,6 +159,9 @@ Small graphic issues
 gberet (tilemaps?)
 gberetb (tilemaps?)
 rushatck (tilemaps?)
+sidepckt (tilemaps?)
+sidepctj (tilemaps?)
+sidepctb (tilemaps?)
 
 
 Serious graphics issues

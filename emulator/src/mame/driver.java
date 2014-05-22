@@ -48,7 +48,7 @@ import static drivers.contra.*;
 import static drivers.travrusa.*;
 import static drivers.pingpong.*;
 import static drivers.tecmo.*;
-
+import static drivers.sidepckt.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1502,9 +1502,9 @@ public class driver {
 /*TODO*/ //	DRIVER( shootout )	/* (c) 1985 Data East USA (US) */
 /*TODO*/ //	DRIVER( shootouj )	/* (c) 1985 Data East USA (Japan) */
 /*TODO*/ //	DRIVER( shootoub )	/* bootleg */
-/*TODO*/ //	DRIVER( sidepckt )	/* (c) 1986 Data East Corporation */
-/*TODO*/ //	DRIVER( sidepctj )	/* (c) 1986 Data East Corporation */
-/*TODO*/ //	DRIVER( sidepctb )	/* bootleg */
+        driver_sidepckt,	/* (c) 1986 Data East Corporation */
+        driver_sidepctj,	/* (c) 1986 Data East Corporation */
+        driver_sidepctb,	/* bootleg */
 /*TODO*/ //	DRIVER( exprraid )	/* (c) 1986 Data East USA (US) */
 /*TODO*/ //	DRIVER( wexpress )	/* (c) 1986 Data East Corporation (World?) */
 /*TODO*/ //	DRIVER( wexpresb )	/* bootleg */
