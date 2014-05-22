@@ -50,6 +50,7 @@ import static drivers.pingpong.*;
 import static drivers.tecmo.*;
 import static drivers.sidepckt.*;
 import static drivers.vigilant.*;
+import static drivers.rocnrope.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1649,8 +1650,8 @@ public class driver {
 /*TODO*/ //	DRIVER( trackflc )	/* GX361 (c) 1983 + Centuri license */
 /*TODO*/ //	DRIVER( hyprolym )	/* GX361 (c) 1983 */
 /*TODO*/ //	DRIVER( hyprolyb )	/* bootleg */
-/*TODO*/ //	DRIVER( rocnrope )	/* GX364 (c) 1983 */
-/*TODO*/ //	DRIVER( rocnropk )	/* GX364 (c) 1983 + Kosuka */
+        driver_rocnrope,	/* GX364 (c) 1983 */
+        driver_rocnropk,	/* GX364 (c) 1983 + Kosuka */
 /*TODO*/ //	DRIVER( circusc )	/* GX380 (c) 1984 */
 /*TODO*/ //	DRIVER( circusc2 )	/* GX380 (c) 1984 */
 /*TODO*/ //	DRIVER( circuscc )	/* GX380 (c) 1984 + Centuri license */
