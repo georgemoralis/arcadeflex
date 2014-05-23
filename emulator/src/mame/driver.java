@@ -52,6 +52,8 @@ import static drivers.sidepckt.*;
 import static drivers.vigilant.*;
 import static drivers.rocnrope.*;
 import static drivers.mikie.*;
+import static drivers.dec8.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1522,22 +1524,22 @@ public class driver {
 /*TODO*/ //	DRIVER( triothep )	/* (c) 1989 Data East Corporation (Japan) */
 
 	/* Data East 8-bit games */
-/*TODO*/ //	DRIVER( lastmiss )	/* (c) 1986 Data East USA (US) */
-/*TODO*/ //	DRIVER( lastmss2 )	/* (c) 1986 Data East USA (US) */
-/*TODO*/ //	DRIVER( shackled )	/* (c) 1986 Data East USA (US) */
-/*TODO*/ //	DRIVER( breywood )	/* (c) 1986 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( csilver )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( ghostb )	/* (c) 1987 Data East USA (US) */
-/*TODO*/ //	DRIVER( ghostb3 )	/* (c) 1987 Data East USA (US) */
-/*TODO*/ //	DRIVER( meikyuh )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( srdarwin )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( gondo )		/* (c) 1987 Data East USA (US) */
-/*TODO*/ //	DRIVER( makyosen )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( garyoret )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( cobracom )	/* (c) 1988 Data East Corporation (World) */
-/*TODO*/ //	DRIVER( cobracmj )	/* (c) 1988 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( oscar )		/* (c) 1988 Data East USA (US) */
-/*TODO*/ //	DRIVER( oscarj )	/* (c) 1987 Data East Corporation (Japan) */
+        driver_lastmiss,	/* (c) 1986 Data East USA (US) */
+        driver_lastmss2,	/* (c) 1986 Data East USA (US) */
+        driver_shackled,	/* (c) 1986 Data East USA (US) */
+        driver_breywood,	/* (c) 1986 Data East Corporation (Japan) */
+        driver_csilver,	/* (c) 1987 Data East Corporation (Japan) */
+        driver_ghostb,	/* (c) 1987 Data East USA (US) */
+        driver_ghostb3,	/* (c) 1987 Data East USA (US) */
+        driver_meikyuh,	/* (c) 1987 Data East Corporation (Japan) */
+        driver_srdarwin,	/* (c) 1987 Data East Corporation (Japan) */
+        driver_gondo,		/* (c) 1987 Data East USA (US) */
+        driver_makyosen,	/* (c) 1987 Data East Corporation (Japan) */
+        driver_garyoret,	/* (c) 1987 Data East Corporation (Japan) */
+        driver_cobracom,	/* (c) 1988 Data East Corporation (World) */
+        driver_cobracmj,	/* (c) 1988 Data East Corporation (Japan) */
+        driver_oscar,	/* (c) 1988 Data East USA (US) */
+        driver_oscarj,	/* (c) 1987 Data East Corporation (Japan) */
 
 	/* Data East 16-bit games */
 /*TODO*/ //	DRIVER( karnov )	/* (c) 1987 Data East USA (US) */

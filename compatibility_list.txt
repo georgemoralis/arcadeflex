@@ -154,6 +154,20 @@ rocnropk
 mikie
 mikiej
 mikiehs
+shackled
+breywood
+csilver 
+cobracom
+cobracmj 
+ghostb - Some small graphics issues at the bottom and top of the screen
+ghostb3 - Some small graphics issues at the bottom and top of the screen
+meikyuh - Some small graphics issues at the bottom and top of the screen
+gondo
+makyosen
+garyoret - Some small graphics issues at the bottom and top of the screen
+
+
+
 
 
 
@@ -188,6 +202,7 @@ contrab
 contraj
 contrajb
 gryzor
+srdarwin --tilemap_init() tile_width==16 && tile_height==16 unimplemented
 
 
 
@@ -232,6 +247,11 @@ legofair - bootsbut doesn't start
 mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
 tokisens - doesn't start
 ddragon - Missing HD63701 cpu but i think it isn't working in mame0.36 as well
+lastmiss - controls issues?
+lastmss2 - controls issues?
+oscar  -freeze emu
+oscarj -freeze emu
+
 
 Game not working in 0.36 anyway
 -------------------------------

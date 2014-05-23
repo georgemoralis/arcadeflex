@@ -1,4 +1,103 @@
 ============
+dec8
+=========================================================
+Supported games
+
+	lastmiss      
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526
+	    -Game has a lot of warning - op-code execute on mapped i/o in CPU #1 (probably because of sound missing?)
+	    -Controls doesn't response
+                                      
+	lastmss2
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526
+	    -Game has a lot of warning - op-code execute on mapped i/o in CPU #1 (probably because of sound missing?)
+	    -Controls doesn't response 
+                                   
+shackled 
+	    -Playable in 0.36.1 (23/5/2014) 
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526
+breywood 
+	    -Playable in 0.36.1 (23/5/2014) 
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526  
+                            
+csilver  
+	    -Playable in 0.36.1 (23/5/2014) 
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526  
+	    -Missing 1xMSM5205
+
+srdarwin 
+	    -tilemap_init() tile_width==16 && tile_height==16 unimplemented
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812
+
+                                     
+cobracom  
+	    -Playable in 0.36.1 (23/5/2014)
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812 
+                                      
+cobracmj    
+	    -Playable in 0.36.1 (23/5/2014)
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812 
+                                    
+ghostb 
+	    -Playable in 0.36.1 (23/5/2014) - Some small graphics issues at the bottom and top of the screen
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812                                       
+ghostb3  
+	    -Playable in 0.36.1 (23/5/2014) - Some small graphics issues at the bottom and top of the screen
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812        
+                             
+meikyuh       
+	    -Playable in 0.36.1 (23/5/2014) - Some small graphics issues at the bottom and top of the screen
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203 
+	    -Missing 1xYM-3812  
+
+gondo  
+	    -Playable in 0.36.1 (23/5/2014) 
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526                                        
+makyosen 
+	    -Playable in 0.36.1 (23/5/2014) 
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526                                       
+garyoret
+	    -Playable in 0.36.1 (23/5/2014)  - Some small graphics issues at the bottom and top of the screen
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526                                        
+oscar   
+	    -Doesn't work (freeze emu)
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526                                           
+oscarj 
+	    -Doesn't work (freeze emu)
+            -Missing [M6502 ]                                              
+            -Missing 1xYM-2203   
+            -Missing 1xYM-3526           
+=========================================================
+============
 mikie
 =========================================================
 Supported games
