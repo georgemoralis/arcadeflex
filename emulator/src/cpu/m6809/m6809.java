@@ -1037,7 +1037,7 @@ public class m6809 extends cpu_interface
     			case 0xb6: lda_ex();   m6809_ICount[0]-= 5; break;
     			case 0xb7: sta_ex();   m6809_ICount[0]-= 5; break;
     			case 0xb8: eora_ex();  m6809_ICount[0]-= 5; break;
-    /*TODO*///			case 0xb9: adca_ex();  m6809_ICount-= 5; break;
+    			case 0xb9: adca_ex();  m6809_ICount[0]-= 5; break;
     			case 0xba: ora_ex();   m6809_ICount[0]-= 5; break;
     			case 0xbb: adda_ex();  m6809_ICount[0]-= 5; break;
     			case 0xbc: cmpx_ex();  m6809_ICount[0]-= 7; break;
@@ -3627,17 +3627,16 @@ public class m6809 extends cpu_interface
         if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
         
     }
-    /*TODO*///
-    /*TODO*////* $b9 ADCA extended ***** */
+    /* $b9 ADCA extended ***** */
     public void adca_ex()
     {
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	EXTBYTE(t);
-    /*TODO*///	r = A + t + (CC & CC_C);
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///	SET_H(A,t,r);
-    /*TODO*///	A = r;
+        int  t,r;
+    	t=EXTBYTE();
+    	r = (m6809.a + t + (m6809.cc & CC_C)) & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(m6809.a,t,r);
+    	SET_H(m6809.a,t,r);
+    	m6809.a = r & 0xFF;
     }
     /* $bA ORA extended -**0- */
     public void ora_ex()
