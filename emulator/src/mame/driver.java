@@ -51,6 +51,7 @@ import static drivers.tecmo.*;
 import static drivers.sidepckt.*;
 import static drivers.vigilant.*;
 import static drivers.rocnrope.*;
+import static drivers.mikie.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1661,9 +1662,9 @@ public class driver {
 /*TODO*/ //	DRIVER( hyperspt )	/* GX330 (c) 1984 + Centuri */
 /*TODO*/ //	DRIVER( hpolym84 )	/* GX330 (c) 1984 */
 /*TODO*/ //	DRIVER( sbasketb )	/* GX405 (c) 1984 */
-/*TODO*/ //	DRIVER( mikie )		/* GX469 (c) 1984 */
-/*TODO*/ //	DRIVER( mikiej )	/* GX469 (c) 1984 */
-/*TODO*/ //	DRIVER( mikiehs )	/* GX469 (c) 1984 */
+        driver_mikie,	/* GX469 (c) 1984 */
+        driver_mikiej,	/* GX469 (c) 1984 */
+        driver_mikiehs,	/* GX469 (c) 1984 */
 /*TODO*/ //	DRIVER( roadf )		/* GX461 (c) 1984 */
 /*TODO*/ //	DRIVER( roadf2 )	/* GX461 (c) 1984 */
 /*TODO*/ //	DRIVER( yiear )		/* GX407 (c) 1985 */

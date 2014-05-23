@@ -1,4 +1,18 @@
 ============
+mikie
+=========================================================
+Supported games
+	mikie
+		-Playable in 0.36.1 (23/5/2014) 
+		-Misses SN76496 sound
+	mikiej
+		-Playable in 0.36.1 (23/5/2014) 
+		-Misses SN76496 sound
+	mikiehs	
+		-Playable in 0.36.1 (23/5/2014) 
+		-Misses SN76496 sound
+=========================================================
+============
 pingpong
 =========================================================
 Supported games : 
