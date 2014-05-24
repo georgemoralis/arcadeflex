@@ -55,7 +55,7 @@ import static drivers.mikie.*;
 import static drivers.dec8.*;
 import static drivers.hexa.*;
 import static drivers.sonson.*;
-
+import static drivers.amidar.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -190,13 +190,13 @@ public class driver {
             driver_frogseg1 ,	/* (c) 1981 Sega */
             driver_frogseg2 ,	/* 834-0068 (c) 1981 Sega */
             driver_froggrmc ,	/* 800-3110 (c) 1981 Sega */
-/*TODO*/ //	DRIVER( amidar )	/* GX337 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( amidaru )	/* GX337 (c) 1982 Konami + Stern license */
-/*TODO*/ //	DRIVER( amidaro )	/* GX337 (c) 1982 Konami + Olympia license */
-/*TODO*/ //	DRIVER( amigo )		/* bootleg */
-/*TODO*/ //	DRIVER( turtles )	/* (c) 1981 Stern */
-/*TODO*/ //	DRIVER( turpin )	/* (c) 1981 Sega */
-/*TODO*/ //	DRIVER( 600 )		/* GX353 (c) 1981 Konami */
+            driver_amidar,	/* GX337 (c) 1981 Konami */
+            driver_amidaru,	/* GX337 (c) 1982 Konami + Stern license */
+            driver_amidaro,	/* GX337 (c) 1982 Konami + Olympia license */
+            driver_amigo,		/* bootleg */
+            driver_turtles,	/* (c) 1981 Stern */
+            driver_turpin,	/* (c) 1981 Sega */
+            driver_600,		/* GX353 (c) 1981 Konami */
 /*TODO*/ //	DRIVER( flyboy )	/* (c) 1982 Kaneko */
 /*TODO*/ //	DRIVER( flyboyb )	/* bootleg */
 /*TODO*/ //	DRIVER( fastfred )	/* (c) 1982 Atari */

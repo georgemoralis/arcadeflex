@@ -20,7 +20,6 @@ import static mame.inputH.*;
 import static vidhrdw.sonson.*;
 import static machine.konami.*;
 import static cpu.m6809.m6809H.*;
-import static drivers.hexa.ay8910_interface;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;
 import mame.sndintrfH.MachineSound;

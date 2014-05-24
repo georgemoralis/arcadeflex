@@ -167,8 +167,13 @@ makyosen
 garyoret - Some small graphics issues at the bottom and top of the screen
 hexa
 sonson
-
-
+amidar
+amidaru
+amidaro
+amigo
+turtles
+turpin
+600
 
 
 Partially playable
