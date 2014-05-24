@@ -54,6 +54,7 @@ import static drivers.rocnrope.*;
 import static drivers.mikie.*;
 import static drivers.dec8.*;
 import static drivers.hexa.*;
+import static drivers.sonson.*;
 
 
 public class driver {
@@ -978,7 +979,7 @@ public class driver {
 /*TODO*/ //	DRIVER( vulgus )	/*  5/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( vulgus2 )	/*  5/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( vulgusj )	/*  5/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( sonson )	/*  7/1984 (c) 1984 */
+        driver_sonson,	/*  7/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
         driver_1942,		/* 12/1984 (c) 1984 */
         driver_1942a,		/* 12/1984 (c) 1984 */
