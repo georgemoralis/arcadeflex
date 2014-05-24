@@ -53,6 +53,7 @@ import static drivers.vigilant.*;
 import static drivers.rocnrope.*;
 import static drivers.mikie.*;
 import static drivers.dec8.*;
+import static drivers.hexa.*;
 
 
 public class driver {
@@ -2366,7 +2367,7 @@ public class driver {
 /*TODO*/ //	DRIVER( wiseguy )	/* (c) 1990 Dooyong */
 /*TODO*/ //	DRIVER( leprechn )	/* (c) 1982 Tong Electronic */
 /*TODO*/ //	DRIVER( potogold )	/* (c) 1982 Tong Electronic */
-/*TODO*/ //	DRIVER( hexa )		/* D. R. Korea */
+            driver_hexa,   /* D. R. Korea */
 /*TODO*/ //	DRIVER( redalert )	/* (c) 1981 Irem (GDI game) */
 /*TODO*/ //	DRIVER( irobot )	/* (c) 1983 Atari */
 /*TODO*/ //	DRIVER( spiders )	/* (c) 1981 Sigma Ent. Inc. */
