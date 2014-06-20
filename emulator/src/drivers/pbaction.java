@@ -250,7 +250,7 @@ public class pbaction
        
         static AY8910interface ay8910_interface = new AY8910interface
 	(
-		3,	/* 1 chip */
+		3,	/* 3 chip */
 		1500000,	/* 1.5 MHz??? */
 		new int[]{ 25,25,25 },
 		new ReadHandlerPtr[]{ null,null,null },

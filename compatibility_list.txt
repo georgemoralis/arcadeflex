@@ -183,6 +183,9 @@ sbagmans
 pickin
 pbaction
 pbactio2
+kangaroo
+kangaroa
+kangarob
 
 
 Partially playable

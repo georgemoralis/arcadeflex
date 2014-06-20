@@ -58,7 +58,7 @@ import static drivers.sonson.*;
 import static drivers.amidar.*;
 import static drivers.bagman.*;
 import static drivers.pbaction.*;
-
+import static drivers.kangaroo.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1920,9 +1920,9 @@ public class driver {
 
 	/* "Kangaroo hardware" games */
 /*TODO*/ //TESTDRIVER( fnkyfish )	/* (c) 1981 Sun Electronics */
-/*TODO*/ //	DRIVER( kangaroo )	/* (c) 1982 Sun Electronics */
-/*TODO*/ //	DRIVER( kangaroa )	/* (c) 1982 Atari */
-/*TODO*/ //	DRIVER( kangarob )	/* bootleg */
+    driver_kangaroo,	/* (c) 1982 Sun Electronics */
+    driver_kangaroa,	/* (c) 1982 Atari */
+    driver_kangarob,	/* bootleg */
 /*TODO*/ //	DRIVER( arabian )	/* (c) 1983 Sun Electronics */
 /*TODO*/ //	DRIVER( arabiana )	/* (c) 1983 Atari */
 
