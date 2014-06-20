@@ -56,6 +56,9 @@ import static drivers.dec8.*;
 import static drivers.hexa.*;
 import static drivers.sonson.*;
 import static drivers.amidar.*;
+import static drivers.bagman.*;
+import static drivers.pbaction.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1612,8 +1615,8 @@ public class driver {
 /*TODO*/ //	DRIVER( baluba )	/* (c) 1986 Able Corp. */
         driver_bombjack,	/* (c) 1984 Tehkan */
         driver_bombjac2,	/* (c) 1984 Tehkan */
-/*TODO*/ //	DRIVER( pbaction )	/* (c) 1985 Tehkan */
-/*TODO*/ //	DRIVER( pbactio2 )	/* (c) 1985 Tehkan */
+        driver_pbaction,	/* (c) 1985 Tehkan */
+        driver_pbactio2,	/* (c) 1985 Tehkan */
 	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
 /*TODO*/ //	DRIVER( tehkanwc )	/* (c) 1985 Tehkan */
 /*TODO*/ //	DRIVER( gridiron )	/* (c) 1985 Tehkan */
@@ -2225,13 +2228,13 @@ public class driver {
 /*TODO*/ //	DRIVER( machomou )	/* (c) 1982 Techstar */
 
 	/* Valadon Automation games */
-/*TODO*/ //	DRIVER( bagman )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( bagnard )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( bagmans )	/* (c) 1982 + Stern license */
-/*TODO*/ //	DRIVER( bagmans2 )	/* (c) 1982 + Stern license */
-/*TODO*/ //	DRIVER( sbagman )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( sbagmans )	/* (c) 1984 + Stern license */
-/*TODO*/ //	DRIVER( pickin )	/* (c) 1983 */
+        driver_bagman,	/* (c) 1982 */
+        driver_bagnard,	/* (c) 1982 */
+        driver_bagmans,	/* (c) 1982 + Stern license */
+        driver_bagmans2,	/* (c) 1982 + Stern license */
+        driver_sbagman,	/* (c) 1984 */
+        driver_sbagmans,	/* (c) 1984 + Stern license */
+        driver_pickin,	/* (c) 1983 */
 
 	/* Seibu Denshi / Seibu Kaihatsu games */
 /*TODO*/ //	DRIVER( stinger )	/* (c) 1983 Seibu Denshi */
