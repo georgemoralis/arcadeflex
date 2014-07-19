@@ -186,6 +186,8 @@ pbactio2
 kangaroo
 kangaroa
 kangarob
+espial
+espiale
 
 
 Partially playable

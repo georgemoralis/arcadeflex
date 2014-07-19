@@ -59,6 +59,7 @@ import static drivers.amidar.*;
 import static drivers.bagman.*;
 import static drivers.pbaction.*;
 import static drivers.kangaroo.*;
+import static drivers.espial.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2330,8 +2331,8 @@ public class driver {
 /*TODO*/ //	DRIVER( dogfight )	/* (c) 1983 Thunderbolt */
 /*TODO*/ //	DRIVER( moguchan )	/* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */
 /*TODO*/ //	DRIVER( percuss )	/* (c) 1981 Orca */
-/*TODO*/ //	DRIVER( espial )	/* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
-/*TODO*/ //	DRIVER( espiale )	/* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
+        driver_espial,	/* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
+        driver_espiale,	/* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
 	/* Vastar was made by Orca, but when it was finished, Orca had already bankrupted. */
 	/* So they sold this game as "Made by Sesame Japan" because they couldn't use */
 	/* the name "Orca" */
