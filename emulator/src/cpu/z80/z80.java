@@ -3077,7 +3077,7 @@ public class z80 extends cpu_interface {
     }};
 
     opcode dd_2c = new opcode() { public void handler(){ Z80.IX.SetL(INC(Z80.IX.L));}};
-    opcode dd_2d = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode dd_2d = new opcode() { public void handler(){ Z80.IX.SetL(DEC(Z80.IX.L)); }};
     opcode dd_2e = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
     opcode dd_34 = new opcode() { public void handler()
     { 

@@ -60,6 +60,7 @@ import static drivers.bagman.*;
 import static drivers.pbaction.*;
 import static drivers.kangaroo.*;
 import static drivers.espial.*;
+import static drivers.m62.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -661,22 +662,22 @@ public class driver {
             driver_travrusa,	/* (c) 1983 */
             driver_motorace,	/* (c) 1983 Williams license */
 	/* M62 */
-/*TODO*/ //	DRIVER( kungfum )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( kungfud )	/* (c) 1984 + Data East license */
-/*TODO*/ //	DRIVER( spartanx )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( kungfub )	/* bootleg */
-/*TODO*/ //	DRIVER( kungfub2 )	/* bootleg */
-/*TODO*/ //	DRIVER( battroad )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( ldrun )		/* (c) 1984 licensed from Broderbund */
-/*TODO*/ //	DRIVER( ldruna )	/* (c) 1984 licensed from Broderbund */
-/*TODO*/ //	DRIVER( ldrun2 )	/* (c) 1984 licensed from Broderbund */
-/*TODO*/ //	DRIVER( ldrun3 )	/* (c) 1985 licensed from Broderbund */
-/*TODO*/ //	DRIVER( ldrun4 )	/* (c) 1986 licensed from Broderbund */
-/*TODO*/ //	DRIVER( lotlot )	/* (c) 1985 licensed from Tokuma Shoten */
-/*TODO*/ //	DRIVER( kidniki )	/* (c) 1986 + Data East USA license */
-/*TODO*/ //	DRIVER( yanchamr )	/* (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( spelunkr )	/* (c) 1985 licensed from Broderbund */
-/*TODO*/ //	DRIVER( spelunk2 )	/* (c) 1986 licensed from Broderbund */
+            driver_kungfum,	/* (c) 1984 */
+            driver_kungfud,	/* (c) 1984 + Data East license */
+            driver_spartanx,	/* (c) 1984 */
+            driver_kungfub,	/* bootleg */
+            driver_kungfub2,	/* bootleg */
+            driver_battroad,	/* (c) 1984 */
+            driver_ldrun,		/* (c) 1984 licensed from Broderbund */
+            driver_ldruna,	/* (c) 1984 licensed from Broderbund */
+            driver_ldrun2,	/* (c) 1984 licensed from Broderbund */
+            driver_ldrun3,	/* (c) 1985 licensed from Broderbund */
+            driver_ldrun4,	/* (c) 1986 licensed from Broderbund */
+            driver_lotlot,	/* (c) 1985 licensed from Tokuma Shoten */
+            driver_kidniki,	/* (c) 1986 + Data East USA license */
+            driver_yanchamr,	/* (c) 1986 (Japan) */
+            driver_spelunkr,	/* (c) 1985 licensed from Broderbund */
+            driver_spelunk2,	/* (c) 1986 licensed from Broderbund */
 
         driver_vigilant,	/* (c) 1988 (World) */
         driver_vigilntu,	/* (c) 1988 (US) */
