@@ -11,3 +11,4 @@ emulator/arcadeflex.cfg
 /frontend/dist/
 emulator/arcadeflex.jar
 emulator/flexFrontend.jar
+emulator/tilemaps.log

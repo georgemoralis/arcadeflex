@@ -8,11 +8,13 @@ import static mame.drawgfxH.*;
 import mame.tilemapH.tilemap;
 import static mame.tilemapH.*;
 import static arcadeflex.video.*;
+import static mame.cpuintrf.cpu_getactivecpu;
 import static mame.osdependH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
 
 public class tilemapC {
+    public static FILE tilemapslog=null;//=fopen("tilemaps.log", "wa");  //for debug purposes
     /*TODO*///#ifndef DECLARE
     /*TODO*///
     /*TODO*///#include "driver.h"
@@ -231,7 +233,7 @@ public class tilemapC {
     	_tilemap.clip_right = right;
     	_tilemap.clip_top = top;
     	_tilemap.clip_bottom = bottom;
-    	if( errorlog!=null ) fprintf( errorlog, "clip: %d,%d,%d,%d\n", left,top,right,bottom );   
+    	if( tilemapslog!=null ) fprintf( tilemapslog, "clip: %d,%d,%d,%d\n", left,top,right,bottom );   
     }
     
     public static void tilemap_init()
@@ -452,10 +454,10 @@ public class tilemapC {
                         int temp2 = num_cols; num_cols=num_rows; num_rows=temp2;
     		}
     
-    		if( errorlog!=null ){
-    			fprintf( errorlog, "cached tilemap info:\n" );
-    			fprintf( errorlog, "tilewidth,tileheight:%d,%d\n",tile_width,tile_height );
-    			fprintf( errorlog, "cols,rows:%d,%d\n",num_cols,num_rows );
+    		if( tilemapslog!=null ){
+    			fprintf( tilemapslog, "cached tilemap info:\n" );
+    			fprintf( tilemapslog, "tilewidth,tileheight:%d,%d\n",tile_width,tile_height );
+    			fprintf( tilemapslog, "cols,rows:%d,%d\n",num_cols,num_rows );
     		}
     
     		_tilemap.tile_get_info = tile_get_info;
@@ -704,7 +706,7 @@ public class tilemapC {
     static void draw_mask(
     		osd_bitmap mask,
     		int col, int row, int tile_width, int tile_height,
-    		UBytePtr pendata, int transmask,
+    		UBytePtr pendata, long transmask,
     		char flags )
     {
     	int x,bit,sx = tile_width*col;
@@ -836,7 +838,7 @@ public class tilemapC {
     				if( dirty_pixels[tile_index]!=0 && visible[tile_index]!=0 ){
     					int pen_usage = _tilemap.pen_usage[tile_index];
     					UBytePtr pendata = _tilemap.pendata[tile_index];
-    					char flags = _tilemap.flags[tile_index];
+    					char flags = (char)(_tilemap.flags[tile_index] & 0xff);
     
     					draw_tile(
     						_tilemap.pixmap,
@@ -864,9 +866,14 @@ public class tilemapC {
     						}
     						else {
                                                   
-    							int fg_transmask = transmask[(flags>>2)&3];
-    							long bg_transmask = (long)(((~fg_transmask)|pen_mask) & 0xFFFFFFFFL);
-    							if( (pen_usage & fg_transmask)==0 ){ /* foreground totally opaque */
+    							long fg_transmask = transmask[(flags>>2)&3] & 0xFFFFFFFFL;
+    							//long bg_transmask = (long)(((~fg_transmask)|pen_mask) & 0xFFFFFFFFL);
+                                                        long bg_transmask = ((~fg_transmask) | pen_mask);
+                                                        if(tilemapslog!=null) fprintf(tilemapslog, "pen_mask = %d\n",pen_mask);
+                                                        if(tilemapslog!=null) fprintf(tilemapslog, "fg_transmask = %d\n",fg_transmask);
+                                                        if(tilemapslog!=null) fprintf(tilemapslog, "bg_transmask = %d\n",bg_transmask);
+   
+                                                        if( (pen_usage & fg_transmask)==0 ){ /* foreground totally opaque */
     								_tilemap.fg_mask_data_row[row].write(col,TILE_OPAQUE);
     								_tilemap.bg_mask_data_row[row].write(col,TILE_TRANSPARENT);
     							}
@@ -892,12 +899,12 @@ public class tilemapC {
     							}
     							else { /* split tile - opacity in both foreground and background */
 
-    								draw_mask( _tilemap.fg_mask,
+                                                                draw_mask( _tilemap.fg_mask,
     									col, row, tile_width, tile_height,
     									pendata, fg_transmask, flags );
     								draw_mask( _tilemap.bg_mask,
     									col, row, tile_width, tile_height,
-    									pendata, (int)bg_transmask, flags );
+    									pendata, bg_transmask, flags );
     								_tilemap.fg_mask_data_row[row].write(col,TILE_MASKED);
     								_tilemap.bg_mask_data_row[row].write(col,TILE_MASKED);
     							}
