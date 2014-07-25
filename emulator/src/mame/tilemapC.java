@@ -14,7 +14,7 @@ import static mame.palette.*;
 import static mame.paletteH.*;
 
 public class tilemapC {
-    public static FILE tilemapslog=null;//=fopen("tilemaps.log", "wa");  //for debug purposes
+    public static FILE tilemapslog=fopen("tilemaps.log", "wa");  //for debug purposes
     /*TODO*///#ifndef DECLARE
     /*TODO*///
     /*TODO*///#include "driver.h"
@@ -639,7 +639,7 @@ public class tilemapC {
     {
     	int x, sx = tile_width*col;
     	int sy,y1,y2,dy;
-    
+        int ptr=0;
     	if( Machine.scrbitmap.depth==16 ){
             throw new UnsupportedOperationException("draw_tile in 16bit unimplemented");
     /*TODO*///		if( flags&TILE_FLIPY ){
@@ -686,7 +686,7 @@ public class tilemapC {
                             for (x = tile_width; x >= 0; x--)
                             { 
                                 //dest[x] = paldata[*pendata++];
-                                dest.write(x,paldata.read(pendata.readinc()));
+                                dest.write(x,paldata.read(pendata.read(ptr++)));
                             }
     			}
     		}
@@ -696,7 +696,7 @@ public class tilemapC {
     				for( x=0; x<tile_width; x++ ) 
                                 {
                                     //dest[x] = paldata[*pendata++];
-                                    dest.write(x,paldata.read(pendata.readinc()));
+                                    dest.write(x,paldata.read(pendata.read(ptr++)));
                                 }
     			}
     		}
@@ -709,9 +709,12 @@ public class tilemapC {
     		UBytePtr pendata, long transmask,
     		char flags )
     {
-    	int x,bit,sx = tile_width*col;
+       // if(tilemapslog!=null) fprintf(tilemapslog, "draw_mask transmask= %d flags = %d\n",transmask , (int)flags);
+    	int x;
+        int bit;
+        int sx = tile_width*col;
     	int sy,y1,y2,dy;
-    
+        int ptr=0;
     	if(( flags&TILE_FLIPY )!=0){
     		y1 = tile_height*row+tile_height-1;
     		y2 = y1-tile_height;
@@ -731,7 +734,8 @@ public class tilemapC {
     			for( x=tile_width/8; x>=0; x-- ){
     				/*UINT8*/char data = 0;
     				for( bit=0; bit<8; bit++ ){
-    					char/*UINT8*/ p = pendata.readinc();
+    					char p = (char)(pendata.read(ptr++) & 0xFF);
+                                        //if(tilemapslog!=null) fprintf(tilemapslog,"draw_mask tiles_flipx_p= %d\n",(int)p);
     					data = (char)((data>>1)|(((1<<p)&transmask)!=0?0x00:0x80));
     				}
     				mask_dest.write(x,(data & 0xFF));
@@ -743,9 +747,10 @@ public class tilemapC {
     			//UINT8 *mask_dest  = mask->line[sy]+sx/8;
                         UBytePtr mask_dest = new UBytePtr(mask.line[sy], sx / 8);
     			for( x=0; x<tile_width/8; x++ ){
-    				/*UINT8*/char data = 0;
+    				char data = 0;
     				for( bit=0; bit<8; bit++ ){
-    					char/*UINT8*/ p = pendata.readinc();
+    					char p = (char)(pendata.read(ptr++) & 0xFF);
+                                        //if(tilemapslog!=null) fprintf(tilemapslog,"draw_mask tiles_p= %d\n",(int)p);
     					data = (char)((data<<1)|(((1<<p)&transmask)!=0?0x00:0x01));
     				}
     				mask_dest.write(x,(data & 0xFF));
