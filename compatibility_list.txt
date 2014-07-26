@@ -204,12 +204,27 @@ kidniki
 yanchamr
 spelunkr
 spelunk2
-
-Partially playable
-------------------
-pang - tilemap issues after first stage...
-pkladies - tilemap issues..
-
+yankeedo 
+mrdo	
+mrdofix 
+mrdot	
+mrdoy	
+mrdu	
+mrlo 
+sidepckt 
+sidepctj 
+sidepctb
+pang
+pkladies
+spang
+mgakuen
+mgakuen2
+pangb
+bbros
+pompingw
+cworld
+hatena
+sbbros
 
 
 Small graphic issues
@@ -217,20 +232,11 @@ Small graphic issues
 gberet (tilemaps?)
 gberetb (tilemaps?)
 rushatck (tilemaps?)
-sidepckt (tilemaps?)
-sidepctj (tilemaps?)
-sidepctb (tilemaps?)
+
 
 
 Serious graphics issues
 -----------------------
-yankeedo (tilemaps?)
-mrdo	(tilemaps?)
-mrdofix (tilemaps?)
-mrdot	(tilemaps?)
-mrdoy	(tilemaps?)
-mrdu	(tilemaps?)
-mrlo    (tilemaps?)
 contra
 contrab
 contraj
@@ -265,6 +271,9 @@ Missing analog pads support
 arkatayt
 arkbloc2
 razmataz
+block
+blockj
+blockbl
 
 
 Not working various reasons
@@ -285,6 +294,11 @@ lastmiss - controls issues?
 lastmss2 - controls issues?
 oscar  -freeze emu
 oscarj -freeze emu
+dokaben  - displays RAM error message
+marukin - dusplays RAM error message
+qtono1 - not sure how that works it's in chinese
+qsangoku - seems to freeze ingame...
+
 
 
 Game not working in 0.36 anyway

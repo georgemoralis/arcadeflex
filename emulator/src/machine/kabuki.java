@@ -95,14 +95,14 @@ public class kabuki {
     
     public static void mgakuen2_decode() { mitchell_decode(0x76543210,0x01234567,0xaa55,0xa5); }
     public static void pang_decode()     { mitchell_decode(0x01234567,0x76543210,0x6548,0x24); }
-    /*TODO*///void cworld_decode(void)   { mitchell_decode(0x04152637,0x40516273,0x5751,0x43); }
-    /*TODO*///void hatena_decode(void)   { mitchell_decode(0x45670123,0x45670123,0x5751,0x43); }
-    /*TODO*///void spang_decode(void)    { mitchell_decode(0x45670123,0x45670123,0x5852,0x43); }
-    /*TODO*///void sbbros_decode(void)   { mitchell_decode(0x45670123,0x45670123,0x2130,0x12); }
-    /*TODO*///void marukin_decode(void)  { mitchell_decode(0x54321076,0x54321076,0x4854,0x4f); }
-    /*TODO*///void qtono1_decode(void)   { mitchell_decode(0x12345670,0x12345670,0x1111,0x11); }
-    /*TODO*///void qsangoku_decode(void) { mitchell_decode(0x23456701,0x23456701,0x1828,0x18); }
-    /*TODO*///void block_decode(void)    { mitchell_decode(0x02461357,0x64207531,0x0002,0x01); }
+    public static void cworld_decode()   { mitchell_decode(0x04152637,0x40516273,0x5751,0x43); }
+    public static void hatena_decode()   { mitchell_decode(0x45670123,0x45670123,0x5751,0x43); }
+    public static void spang_decode()    { mitchell_decode(0x45670123,0x45670123,0x5852,0x43); }
+    public static void sbbros_decode()   { mitchell_decode(0x45670123,0x45670123,0x2130,0x12); }
+    public static void marukin_decode()  { mitchell_decode(0x54321076,0x54321076,0x4854,0x4f); }
+    public static void qtono1_decode()   { mitchell_decode(0x12345670,0x12345670,0x1111,0x11); }
+    public static void qsangoku_decode() { mitchell_decode(0x23456701,0x23456701,0x1828,0x18); }
+    public static void block_decode()    { mitchell_decode(0x02461357,0x64207531,0x0002,0x01); }
     /*TODO*///
     /*TODO*///
     /*TODO*///static void cps1_decode(int swap_key1,int swap_key2,int addr_key,int xor_key)

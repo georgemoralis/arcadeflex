@@ -1195,27 +1195,27 @@ public class driver {
 						/*  Star Gladiator 2 */
 						/*  Rival Schools 2 */
 	/* Mitchell games */
-/*TODO*/ //	DRIVER( mgakuen )	/* (c) 1988 Yuga */
-/*TODO*/ //	DRIVER( mgakuen2 )	/* (c) 1989 Face */
+        driver_mgakuen,	/* (c) 1988 Yuga */
+        driver_mgakuen2,	/* (c) 1989 Face */
         driver_pkladies,	/* (c) 1989 Mitchell */
-/*TODO*/ //	DRIVER( dokaben )	/*  3/1989 (c) 1989 Capcom (Japan) */
+        driver_dokaben,	/*  3/1989 (c) 1989 Capcom (Japan) */
 	/*  8/1989 Dokaben 2 (baseball) */
         driver_pang,		/* (c) 1989 Mitchell (World) */
-/*TODO*/ //	DRIVER( pangb )		/* bootleg */
-/*TODO*/ //	DRIVER( bbros )		/* (c) 1989 Capcom (US) not listed on Capcom's site */
-/*TODO*/ //	DRIVER( pompingw )	/* (c) 1989 Mitchell (Japan) */
-/*TODO*/ //	DRIVER( cbasebal )	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
-/*TODO*/ //	DRIVER( cworld )	/* 11/1989 (QUIZ 1) (c) 1989 Capcom */
-/*TODO*/ //	DRIVER( hatena )	/*  2/28/1990 (QUIZ 2) (c) 1990 Capcom (Japan) */
-/*TODO*/ //	DRIVER( spang )		/*  9/14/1990 (c) 1990 Mitchell (World) */
-/*TODO*/ //	DRIVER( sbbros )	/* 10/ 1/1990 (c) 1990 Mitchell + Capcom (US) not listed on Capcom's site */
-/*TODO*/ //	DRIVER( marukin )	/* 10/17/1990 (c) 1990 Yuga (Japan) */
-/*TODO*/ //	DRIVER( qtono1 )	/* 12/25/1990 (QUIZ 3) (c) 1991 Capcom (Japan) */
+        driver_pangb,		/* bootleg */
+        driver_bbros,		/* (c) 1989 Capcom (US) not listed on Capcom's site */
+        driver_pompingw,	/* (c) 1989 Mitchell (Japan) */
+  /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
+        driver_cworld,	/* 11/1989 (QUIZ 1) (c) 1989 Capcom */
+        driver_hatena,/*  2/28/1990 (QUIZ 2) (c) 1990 Capcom (Japan) */
+        driver_spang,	/*  9/14/1990 (c) 1990 Mitchell (World) */
+        driver_sbbros,	/* 10/ 1/1990 (c) 1990 Mitchell + Capcom (US) not listed on Capcom's site */
+        driver_marukin,	/* 10/17/1990 (c) 1990 Yuga (Japan) */
+        driver_qtono1,	/* 12/25/1990 (QUIZ 3) (c) 1991 Capcom (Japan) */
 	/*  4/1991 Ashita Tenki ni Naare (golf) */
-/*TODO*/ //	DRIVER( qsangoku )	/*  6/ 7/1991 (QUIZ 4) (c) 1991 Capcom (Japan) */
-/*TODO*/ //	DRIVER( block )		/*  9/10/1991 (c) 1991 Capcom (World) */
-/*TODO*/ //	DRIVER( blockj )	/*  9/10/1991 (c) 1991 Capcom (Japan) */
-/*TODO*/ //	DRIVER( blockbl )	/* bootleg */
+        driver_qsangoku,	/*  6/ 7/1991 (QUIZ 4) (c) 1991 Capcom (Japan) */
+        driver_block, 	/*  9/10/1991 (c) 1991 Capcom (World) */
+        driver_blockj,	/*  9/10/1991 (c) 1991 Capcom (Japan) */
+        driver_blockbl,	/* bootleg */
 
 	/* Incredible Technologies games */
 /*TODO*/ //	DRIVER( capbowl )	/* (c) 1988 Incredible Technologies */

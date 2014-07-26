@@ -144,17 +144,17 @@ sidepckt
 =========================================================
 Supported games
 	sidepckt
-		-Tilemap issues
+		-Playable in 0.36.1 (25/7/2014) 
 		-Misses 6502 sound cpu
 		-Misses YM2203 sound
 		-Misses YM3526 sound	
         sidepctj
-		-Tilemap issues
+		-Playable in 0.36.1 (23/5/2014) 
 		-Misses 6502 sound cpu
 		-Misses YM2203 sound
 		-Misses YM3526 sound	
         sidepctb
-		-Tilemap issues
+		-Playable in 0.36.1 (23/5/2014) 
 		-Misses 6502 sound cpu
 		-Misses YM2203 sound
 		-Misses YM3526 sound
