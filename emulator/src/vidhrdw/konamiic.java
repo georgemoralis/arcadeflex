@@ -66,9 +66,16 @@ public  class konamiic
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///
         public static final int MAX_K007121=2;
-        static char[][] K007121_ctrlram=new char[MAX_K007121][8];
+        static char[][] K007121_ctrlram=new char[MAX_K007121][];
         public static int[] K007121_flipscreen=new int[MAX_K007121];
 
+        static 
+        {
+            for(int i=0; i<MAX_K007121; i++)
+            {
+                K007121_ctrlram[i]=new char[8];
+            }
+        }
         public static void K007121_ctrl_w(int chip,int offset,int data)
         {
                 switch (offset)

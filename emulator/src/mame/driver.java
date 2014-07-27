@@ -62,6 +62,7 @@ import static drivers.kangaroo.*;
 import static drivers.espial.*;
 import static drivers.m62.*;
 import static drivers.timeplt.*;
+import static drivers.gng.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -985,24 +986,24 @@ public class driver {
 /*TODO*/ //	DRIVER( vulgus )	/*  5/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( vulgus2 )	/*  5/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( vulgusj )	/*  5/1984 (c) 1984 */
-        driver_sonson,	/*  7/1984 (c) 1984 */
+            driver_sonson,	/*  7/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
-        driver_1942,		/* 12/1984 (c) 1984 */
-        driver_1942a,		/* 12/1984 (c) 1984 */
-        driver_1942b,		/* 12/1984 (c) 1984 */
+            driver_1942,		/* 12/1984 (c) 1984 */
+            driver_1942a,		/* 12/1984 (c) 1984 */
+            driver_1942b,		/* 12/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( exedexes )	/*  2/1985 (c) 1985 */
 /*TODO*/ //	DRIVER( savgbees )	/*  2/1985 (c) 1985 + Memetron license */
 /*TODO*/ //	DRIVER( commando )	/*  5/1985 (c) 1985 (World) */
 /*TODO*/ //	DRIVER( commandu )	/*  5/1985 (c) 1985 + Data East license (US) */
 /*TODO*/ //	DRIVER( commandj )	/*  5/1985 (c) 1985 (Japan) */
 /*TODO*/ //	DRIVER( spaceinv )	/* bootleg */
-/*TODO*/ //	DRIVER( gng )		/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( gnga )		/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( gngt )		/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( makaimur )	/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( makaimuc )	/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( makaimug )	/*  9/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( diamond )	/* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
+            driver_gng,		/*  9/1985 (c) 1985 */
+            driver_gnga,		/*  9/1985 (c) 1985 */
+            driver_gngt,		/*  9/1985 (c) 1985 */
+            driver_makaimur,	/*  9/1985 (c) 1985 */
+            driver_makaimuc,	/*  9/1985 (c) 1985 */
+            driver_makaimug,	/*  9/1985 (c) 1985 */
+            driver_diamond,	/* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
 /*TODO*/ //	DRIVER( gunsmoke )	/* 11/1985 (c) 1985 (World) */
 /*TODO*/ //	DRIVER( gunsmrom )	/* 11/1985 (c) 1985 + Romstar (US) */
 /*TODO*/ //	DRIVER( gunsmoka )	/* 11/1985 (c) 1985 (US) */

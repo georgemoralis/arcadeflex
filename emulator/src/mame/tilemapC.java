@@ -490,10 +490,9 @@ public class tilemapC {
     		            _tilemap.draw_opaque = draw_opaque8x8x8BPP;
     			}
     			else if( tile_width==16 && tile_height==16 ){
-                            throw new UnsupportedOperationException("tilemap_init() tile_width==16 && tile_height==16 unimplemented");
-    /*TODO*///				tilemap->mark_visible = mark_visible16x16x8BPP;
-    /*TODO*///				tilemap->draw = draw16x16x8BPP;
-    /*TODO*///				tilemap->draw_opaque = draw_opaque16x16x8BPP;
+    				_tilemap.mark_visible = mark_visible16x16x8BPP;
+    				_tilemap.draw = draw16x16x8BPP;
+    				_tilemap.draw_opaque = draw_opaque16x16x8BPP;
     			}
     			else if( tile_width==32 && tile_height==32 ){
                             throw new UnsupportedOperationException("tilemap_init() tile_width==32 && tile_height==32 unimplemented");
@@ -1783,6 +1782,144 @@ public class tilemapC {
     		} /* process next row */
     	} /* not totally clipped */
     }};
+    public static WriteHandlerPtr draw16x16x8BPP = new WriteHandlerPtr() { public void handler(int xpos, int ypos)
+    {
+        	int x1 = xpos;
+	int y1 = ypos;
+	int x2 = xpos+blit.source_width;
+	int y2 = ypos+blit.source_height;
+
+	/* clip source coordinates */
+	if( x1<blit.clip_left ) x1 = blit.clip_left;
+	if( x2>blit.clip_right ) x2 = blit.clip_right;
+	if( y1<blit.clip_top ) y1 = blit.clip_top;
+	if( y2>blit.clip_bottom ) y2 = blit.clip_bottom;
+
+	if( x1<x2 && y1<y2 ){ /* do nothing if totally clipped */
+		/*UINT8*/char priority = blit.priority;
+    
+    		UBytePtr dest_baseaddr;
+    		UBytePtr dest_next;
+    		UBytePtr source_baseaddr;
+    		UBytePtr source_next;
+    		UBytePtr mask_baseaddr;
+    		UBytePtr mask_next;
+
+		int c1;
+		int c2; /* leftmost and rightmost visible columns in source tilemap */
+		int y; /* current screen line to render */
+		int y_next;
+
+		dest_baseaddr = new UBytePtr(blit.screen.line[y1], xpos);//dest_baseaddr = xpos + (DATA_TYPE *)blit.screen->line[y1];
+    
+    		/* convert screen coordinates to source tilemap coordinates */
+    		x1 -= xpos;
+    		y1 -= ypos;
+    		x2 -= xpos;
+    		y2 -= ypos;
+    
+    		//source_baseaddr = (DATA_TYPE *)blit.pixmap->line[y1];
+    		//mask_baseaddr = blit.bitmask->line[y1];
+                source_baseaddr = new UBytePtr(blit.pixmap.line[y1]);
+                mask_baseaddr = new UBytePtr(blit.bitmask.line[y1]);
+
+		c1 = x1/16; /* round down */
+		c2 = (x2+16-1)/16; /* round up */
+
+		y = y1;
+		y_next = 16*(y1/16) + 16;
+		if( y_next>y2 ) y_next = y2;
+
+		{
+			int dy = y_next-y;
+			dest_next = new UBytePtr(dest_baseaddr, dy * blit.dest_line_offset);
+                        source_next = new UBytePtr(source_baseaddr, dy * blit.source_line_offset);
+                        mask_next = new UBytePtr(mask_baseaddr, dy * blit.mask_line_offset);
+		}
+
+		for(;;){
+			int row = y/16;
+			UBytePtr mask_data = new UBytePtr(blit.mask_data_row[row]);
+    			UBytePtr priority_data = new UBytePtr(blit.priority_data_row[row]);
+    
+    			char/*UINT8*/ tile_type;
+    			char/*UINT8*/ prev_tile_type = TILE_TRANSPARENT;
+
+			int x_start = x1;
+			int x_end;
+
+			int column;
+			for( column=c1; column<=c2; column++ ){
+				if( column==c2 || priority_data.read(column)!=priority )
+					tile_type = TILE_TRANSPARENT;
+				else
+					tile_type = mask_data.read(column);
+
+				if( tile_type!=prev_tile_type ){
+					x_end = column*16;
+					if( x_end<x1 ) x_end = x1;
+					if( x_end>x2 ) x_end = x2;
+
+					if( prev_tile_type != TILE_TRANSPARENT ){
+						if( prev_tile_type == TILE_MASKED ){
+							int count = (x_end+7)/8 - x_start/8;
+							UBytePtr mask0 = new UBytePtr(mask_baseaddr,x_start/8);
+                                                        UBytePtr source0 = new UBytePtr(source_baseaddr,(x_start&0xfff8));
+                                                        UBytePtr dest0 = new UBytePtr(dest_baseaddr,(x_start&0xfff8));
+							int i = y;
+							for(;;){
+    								memcpybitmask8( dest0, source0, mask0, count );
+    								if( ++i == y_next ) break;
+    
+    								dest0.base +=blit.dest_line_offset;
+    								source0.base +=blit.source_line_offset;
+    								mask0.base +=blit.mask_line_offset;
+    							}
+						}
+						else { /* TILE_OPAQUE */         
+							int num_pixels = x_end - x_start;
+                                                        UBytePtr dest0 = new UBytePtr(dest_baseaddr, x_start);
+                                                        UBytePtr source0 = new UBytePtr(source_baseaddr, x_start);
+    							//DATA_TYPE *dest0 = dest_baseaddr+x_start;
+    							//const DATA_TYPE *source0 = source_baseaddr+x_start;
+    							int i = y;
+    							for(;;){
+                                                          
+                                                            System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+    								//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) );
+    								if( ++i == y_next ) break;
+    
+    								dest0.base += blit.dest_line_offset;
+    								source0.base +=blit.source_line_offset;
+    							}
+						}
+					}
+					x_start = x_end;
+				}
+
+				prev_tile_type = tile_type;
+			}
+
+			if( y_next==y2 ) break; /* we are done! */
+
+			dest_baseaddr = new UBytePtr(dest_next);
+    			source_baseaddr = new UBytePtr(source_next);
+    			mask_baseaddr = new UBytePtr(mask_next);
+
+			y = y_next;
+			y_next += 16;
+
+			if( y_next>=y2 ){
+				y_next = y2;
+			}
+			else {
+				dest_next.base += blit.dest_row_offset;
+				source_next.base += blit.source_row_offset;
+				mask_next.base += blit.mask_row_offset;
+			}
+		} /* process next row */
+	} /* not totally clipped */
+    }};
     /*TODO*///DECLARE( draw, (int xpos, int ypos),
     /*TODO*///{
     /*TODO*///	int x1 = xpos;
@@ -2032,6 +2169,120 @@ public class tilemapC {
     		} /* process next row */
     	} /* not totally clipped */
     }};
+    public static WriteHandlerPtr draw_opaque16x16x8BPP = new WriteHandlerPtr() { public void handler(int xpos, int ypos)
+    {
+        int x1 = xpos;
+	int y1 = ypos;
+	int x2 = xpos+blit.source_width;
+	int y2 = ypos+blit.source_height;
+
+	/* clip source coordinates */
+	if( x1<blit.clip_left ) x1 = blit.clip_left;
+	if( x2>blit.clip_right ) x2 = blit.clip_right;
+	if( y1<blit.clip_top ) y1 = blit.clip_top;
+	if( y2>blit.clip_bottom ) y2 = blit.clip_bottom;
+
+	if( x1<x2 && y1<y2 ){ /* do nothing if totally clipped */
+    		/*UINT8*/char priority = (char)(blit.priority & 0xFF);
+    
+    		UBytePtr dest_baseaddr;
+    		UBytePtr dest_next;
+    		UBytePtr source_baseaddr;
+    		UBytePtr source_next;
+    
+    		int c1;
+    		int c2; /* leftmost and rightmost visible columns in source tilemap */
+    		int y; /* current screen line to render */
+    		int y_next;
+    
+    		 dest_baseaddr = new UBytePtr(blit.screen.line[y1], xpos);//dest_baseaddr = xpos + (DATA_TYPE *)blit.screen->line[y1];
+    
+    		/* convert screen coordinates to source tilemap coordinates */
+    		x1 -= xpos;
+    		y1 -= ypos;
+    		x2 -= xpos;
+    		y2 -= ypos;
+    
+    		source_baseaddr = new UBytePtr(blit.pixmap.line[y1]);//source_baseaddr = (DATA_TYPE *)blit.pixmap->line[y1];
+    
+
+		c1 = x1/16; /* round down */
+		c2 = (x2+16-1)/16; /* round up */
+
+		y = y1;
+		y_next = 16*(y1/16) + 16;
+		if( y_next>y2 ) y_next = y2;
+
+		{
+			int dy = y_next-y;
+			dest_next = new UBytePtr(dest_baseaddr, dy * blit.dest_line_offset);
+                        source_next = new UBytePtr(source_baseaddr, dy * blit.source_line_offset);
+		}
+
+		for(;;){
+			int row = y/16;
+			UBytePtr priority_data = new UBytePtr(blit.priority_data_row[row]);
+
+    			char/*UINT8*/ tile_type;
+    			char/*UINT8*/ prev_tile_type = TILE_TRANSPARENT;
+
+			int x_start = x1;
+			int x_end;
+
+			int column;
+			for( column=c1; column<=c2; column++ ){
+				if( column==c2 || priority_data.read(column)!=priority )
+					tile_type = TILE_TRANSPARENT;
+				else
+					tile_type = TILE_OPAQUE;
+
+				if( tile_type!=prev_tile_type ){
+					x_end = column*16;
+					if( x_end<x1 ) x_end = x1;
+					if( x_end>x2 ) x_end = x2;
+
+					if( prev_tile_type != TILE_TRANSPARENT ){
+						/* TILE_OPAQUE */
+    						int num_pixels = x_end - x_start;
+    						//DATA_TYPE *dest0 = dest_baseaddr+x_start;
+    						//const DATA_TYPE *source0 = source_baseaddr+x_start;
+                                                UBytePtr dest0 = new UBytePtr(dest_baseaddr, x_start);
+                                                UBytePtr source0 = new UBytePtr(source_baseaddr, x_start);
+
+    						int i = y;
+    						for(;;){
+                                                    System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+                                                	//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) ); 							
+    							if( ++i == y_next ) break;
+    
+    							dest0.base += blit.dest_line_offset;
+    							source0.base += blit.source_line_offset;
+    						}
+					}
+					x_start = x_end;
+				}
+
+				prev_tile_type = tile_type;
+			}
+
+			if( y_next==y2 ) break; /* we are done! */
+
+			dest_baseaddr = new UBytePtr(dest_next);
+    			source_baseaddr = new UBytePtr(source_next);
+
+			y = y_next;
+			y_next += 16;
+
+			if( y_next>=y2 ){
+				y_next = y2;
+			}
+			else {
+				dest_next.base += blit.dest_row_offset;
+				source_next.base += blit.source_row_offset;
+			}
+		} /* process next row */
+	} /* not totally clipped */
+    }};
     public static WriteHandlerPtr mark_visible8x8x8BPP = new WriteHandlerPtr() { public void handler(int xpos, int ypos)
     {
 	int x1 = xpos;
@@ -2074,7 +2325,48 @@ public class tilemapC {
     		}
     	}
     }};
+    public static WriteHandlerPtr mark_visible16x16x8BPP = new WriteHandlerPtr() { public void handler(int xpos, int ypos)
+    {
+        int x1 = xpos;
+	int y1 = ypos;
+	int x2 = xpos+blit.source_width;
+	int y2 = ypos+blit.source_height;
 
+	/* clip source coordinates */
+	if( x1<blit.clip_left ) x1 = blit.clip_left;
+	if( x2>blit.clip_right ) x2 = blit.clip_right;
+	if( y1<blit.clip_top ) y1 = blit.clip_top;
+	if( y2>blit.clip_bottom ) y2 = blit.clip_bottom;
+
+	if( x1<x2 && y1<y2 ){ /* do nothing if totally clipped */
+		int c1;
+		int c2; /* leftmost and rightmost visible columns in source tilemap */
+		int r1;
+		int r2;
+		UBytePtr[] visible_row;
+		int span;
+		int row;
+
+		/* convert screen coordinates to source tilemap coordinates */
+		x1 -= xpos;
+		y1 -= ypos;
+		x2 -= xpos;
+		y2 -= ypos;
+
+		r1 = y1/16;
+		r2 = (y2+16-1)/16;
+
+		c1 = x1/16; /* round down */
+		c2 = (x2+16-1)/16; /* round up */
+		visible_row = blit.visible_row;
+		span = c2-c1;
+
+		for( row=r1; row<r2; row++ ){
+                    for (int i = 0; i < span; i++)
+    			visible_row[row].write(c1 + i, 1);//memset( visible_row[row]+c1, 1, span );
+		}
+	}
+    }};
     /*TODO*///DECLARE( mark_visible, (int xpos, int ypos),
     /*TODO*///{
     /*TODO*///	int x1 = xpos;

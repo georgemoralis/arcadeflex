@@ -233,6 +233,15 @@ timeplt
 timepltc
 spaceplt
 psurge  -colors looks wrong
+gng
+gnga
+gngt
+makaimur
+makaimuc
+makaimug
+diamond
+srdarwin
+
 
 
 
@@ -247,7 +256,7 @@ contrab
 contraj
 contrajb
 gryzor
-srdarwin --tilemap_init() tile_width==16 && tile_height==16 unimplemented
+
 
 
 
