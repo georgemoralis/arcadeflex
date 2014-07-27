@@ -63,6 +63,7 @@ import static drivers.espial.*;
 import static drivers.m62.*;
 import static drivers.timeplt.*;
 import static drivers.gng.*;
+import static drivers.gundealr.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2369,10 +2370,10 @@ public class driver {
 /*TODO*/ //	DRIVER( omegrace )	/* (c) 1981 Midway */
 /*TODO*/ //	DRIVER( dday )		/* (c) 1982 Olympia */
 /*TODO*/ //	DRIVER( ddayc )		/* (c) 1982 Olympia + Centuri license */
-/*TODO*/ //	DRIVER( gundealr )	/* (c) 1990 Dooyong */
-/*TODO*/ //	DRIVER( gundeala )	/* (c) Dooyong */
-/*TODO*/ //	DRIVER( yamyam )	/* (c) 1990 Dooyong */
-/*TODO*/ //	DRIVER( wiseguy )	/* (c) 1990 Dooyong */
+            driver_gundealr,	/* (c) 1990 Dooyong */
+            driver_gundeala,	/* (c) Dooyong */
+            driver_yamyam,	/* (c) 1990 Dooyong */
+            driver_wiseguy,	/* (c) 1990 Dooyong */
 /*TODO*/ //	DRIVER( leprechn )	/* (c) 1982 Tong Electronic */
 /*TODO*/ //	DRIVER( potogold )	/* (c) 1982 Tong Electronic */
             driver_hexa,   /* D. R. Korea */
