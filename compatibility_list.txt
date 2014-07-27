@@ -225,13 +225,18 @@ pompingw
 cworld
 hatena
 sbbros
+gberet   - small gfx glitches at the left-right of screen (clipping?)
+gberetb  - small gfx glitches at the left-right of screen (clipping?)
+rushatck   - small gfx glitches at the left-right of screen (clipping?)
+mrgoemon - small gfx glitches at the left-right of screen (clipping?)
+timeplt
+timepltc
+spaceplt
+psurge  -colors looks wrong
 
 
-Small graphic issues
---------------------
-gberet (tilemaps?)
-gberetb (tilemaps?)
-rushatck (tilemaps?)
+
+
 
 
 
@@ -287,7 +292,6 @@ ikari - boots but doesn't start
 ikarijp - boots but doesn't start
 ikarikpb - boots but doesn't start
 legofair - bootsbut doesn't start
-mrgoemon - java.lang.ArrayIndexOutOfBoundsException: 32768 at arcadeflex.libc$UBytePtr.readinc(libc.java:102) at mame.tilemapC.draw_mask(tilemapC.java:745)
 tokisens - doesn't start
 ddragon - Missing HD63701 cpu but i think it isn't working in mame0.36 as well
 lastmiss - controls issues?

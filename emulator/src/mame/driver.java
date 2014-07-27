@@ -61,6 +61,7 @@ import static drivers.pbaction.*;
 import static drivers.kangaroo.*;
 import static drivers.espial.*;
 import static drivers.m62.*;
+import static drivers.timeplt.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1646,10 +1647,10 @@ public class driver {
         driver_pooyan,	/* GX320 (c) 1982 */
         driver_pooyans,	/* GX320 (c) 1982 Stern */
         driver_pootan,	/* bootleg */
-/*TODO*/ //	DRIVER( timeplt )	/* GX393 (c) 1982 */
-/*TODO*/ //	DRIVER( timepltc )	/* GX393 (c) 1982 + Centuri license*/
-/*TODO*/ //	DRIVER( spaceplt )	/* bootleg */
-/*TODO*/ //	DRIVER( psurge )	/* (c) 1988 unknown (NOT Konami) */
+        driver_timeplt,	/* GX393 (c) 1982 */
+        driver_timepltc,	/* GX393 (c) 1982 + Centuri license*/
+        driver_spaceplt,	/* bootleg */
+        driver_psurge,	/* (c) 1988 unknown (NOT Konami) */
 /*TODO*/ //	DRIVER( megazone )	/* GX319 (c) 1983 */
 /*TODO*/ //	DRIVER( megaznik )	/* GX319 (c) 1983 + Interlogic / Kosuka */
 /*TODO*/ //	DRIVER( pandoras )	/* GX328 (c) 1984 + Interlogic */

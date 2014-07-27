@@ -717,19 +717,19 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Scales a given value by the ratio of fcount / fperiod
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///int cpu_scalebyfcount(int value)
-    /*TODO*///{
-    /*TODO*///	int result = (int)((double)value * timer_timeelapsed(refresh_timer) * refresh_period_inv);
-    /*TODO*///	if (value >= 0) return (result < value) ? result : value;
-    /*TODO*///	else return (result > value) ? result : value;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    /***************************************************************************
+    
+      Scales a given value by the ratio of fcount / fperiod
+    
+    ***************************************************************************/
+    public static ReadHandlerPtr cpu_scalebyfcount = new ReadHandlerPtr() { public int handler(int value)
+    {
+    	int result = (int)((double)value * timer_timeelapsed(refresh_timer) * refresh_period_inv);
+    	if (value >= 0) return (result < value) ? result : value;
+    	else return (result > value) ? result : value;
+    }};
+    
+    
     /*TODO*///
     /*TODO*////***************************************************************************
     /*TODO*///
