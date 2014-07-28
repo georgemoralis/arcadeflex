@@ -27,7 +27,8 @@ import static vidhrdw.circusc.*;
 import static machine.konami.*;
 import static sound.dacH.*;
 import static sound.dac.*;
-
+import static sound.sn76496H.*;
+import static sound.sn76496.*;
 
 public class circusc
 {
@@ -102,8 +103,8 @@ public class circusc
 										/* command and send it to the chip, but we just use */
 										/* the triggers below because the program always writes */
 										/* the same number here and there. */
-/*TODO*///		new MemoryWriteAddress( 0xa001, 0xa001, SN76496_0_w ),        /* trigger the 76496 to read the latch */
-/*TODO*///		new MemoryWriteAddress( 0xa002, 0xa002, SN76496_1_w ),        /* trigger the 76496 to read the latch */
+		new MemoryWriteAddress( 0xa001, 0xa001, SN76496_0_w ),        /* trigger the 76496 to read the latch */
+		new MemoryWriteAddress( 0xa002, 0xa002, SN76496_1_w ),        /* trigger the 76496 to read the latch */
 		new MemoryWriteAddress( 0xa003, 0xa003, circusc_dac_w ),
 		new MemoryWriteAddress( 0xa004, 0xa004, MWA_NOP ),            /* ??? */
 		new MemoryWriteAddress( 0xa07c, 0xa07c, MWA_NOP ),            /* ??? */
@@ -238,12 +239,12 @@ public class circusc
 		new GfxDecodeInfo( -1 ) /* end of array */
 	};
 	
-                /*static struct SN76496interface sn76496_interface =
-	{
+        static SN76496interface sn76496_interface = new SN76496interface
+	(
 		2,      /* 2 chips */
-	/*	{ 14318180/8, 14318180/8 },     /*  1.7897725 Mhz */
-	/*	{ 100, 100 }
-	};*/
+		new int[]{ 14318180/8, 14318180/8 },     /*  1.7897725 Mhz */
+		new int[]{ 100, 100 }
+        );
 	
 	static DACinterface dac_interface = new DACinterface
 	(
@@ -288,22 +289,16 @@ public class circusc
                 0,0,0,0,
                 new MachineSound[] {
                     new MachineSound
+                    (  
+				SOUND_SN76496,
+				sn76496_interface
+                    ),
+                    new MachineSound
                     (
 				SOUND_DAC,
 				dac_interface
 			)
                 }
-		/*0,0,0,0,
-		{
-			{
-				SOUND_SN76496,
-				&sn76496_interface
-			},
-			{
-				SOUND_DAC,
-				&dac_interface
-			}
-		}*/
 	);
 	
 	
