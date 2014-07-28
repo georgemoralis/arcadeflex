@@ -64,6 +64,8 @@ import static drivers.m62.*;
 import static drivers.timeplt.*;
 import static drivers.gng.*;
 import static drivers.gundealr.*;
+import static drivers.circusc.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1665,10 +1667,10 @@ public class driver {
 /*TODO*/ //	DRIVER( hyprolyb )	/* bootleg */
         driver_rocnrope,	/* GX364 (c) 1983 */
         driver_rocnropk,	/* GX364 (c) 1983 + Kosuka */
-/*TODO*/ //	DRIVER( circusc )	/* GX380 (c) 1984 */
-/*TODO*/ //	DRIVER( circusc2 )	/* GX380 (c) 1984 */
-/*TODO*/ //	DRIVER( circuscc )	/* GX380 (c) 1984 + Centuri license */
-/*TODO*/ //	DRIVER( circusce )	/* GX380 (c) 1984 + Centuri license */
+        driver_circusc,	/* GX380 (c) 1984 */
+        driver_circusc2,	/* GX380 (c) 1984 */
+        driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
+        driver_circusce,	/* GX380 (c) 1984 + Centuri license */
 /*TODO*/ //	DRIVER( tp84 )		/* GX388 (c) 1984 */
 /*TODO*/ //	DRIVER( tp84a )		/* GX388 (c) 1984 */
 /*TODO*/ //	DRIVER( hyperspt )	/* GX330 (c) 1984 + Centuri */
