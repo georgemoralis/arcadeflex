@@ -24,6 +24,8 @@ import static sound.sn76496.*;
 import static sound.ay8910H.*;
 import static sound.ay8910.*;
 import static machine.pacplus.*;
+import static mame.cpuintrfH.*;
+import static mame.memory.*;
 
 public class pacman {
     public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -1976,88 +1978,82 @@ public class pacman {
 		ROM_LOAD( "82s126.1m",    0x0000, 0x0100, 0xa9cc86bf );
 		ROM_LOAD( "82s126.3m",    0x0100, 0x0100, 0x77245b66 );/* timing - not used */
 	ROM_END(); }}; 
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static int maketrax_special_port2_r(int offset)
-    /*TODO*///{
-    /*TODO*///	int pc,data;
-    /*TODO*///
-    /*TODO*///	pc = cpu_getpreviouspc();
-    /*TODO*///
-    /*TODO*///	data = input_port_2_r(offset);
-    /*TODO*///
-    /*TODO*///	if ((pc == 0x1973) || (pc == 0x2389)) return data | 0x40;
-    /*TODO*///
-    /*TODO*///	switch (offset)
-    /*TODO*///	{
-    /*TODO*///		case 0x01:
-    /*TODO*///		case 0x04:
-    /*TODO*///			data |= 0x40; break;
-    /*TODO*///		case 0x05:
-    /*TODO*///			data |= 0xc0; break;
-    /*TODO*///		default:
-    /*TODO*///			data &= 0x3f; break;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return data;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int maketrax_special_port3_r(int offset)
-    /*TODO*///{
-    /*TODO*///	int pc;
-    /*TODO*///
-    /*TODO*///	pc = cpu_getpreviouspc();
-    /*TODO*///
-    /*TODO*///	if ( pc == 0x040e) return 0x20;
-    /*TODO*///
-    /*TODO*///	if ((pc == 0x115e) || (pc == 0x3ae2)) return 0x00;
-    /*TODO*///
-    /*TODO*///	switch (offset)
-    /*TODO*///	{
-    /*TODO*///		case 0x00:
-    /*TODO*///			return 0x1f;
-    /*TODO*///		case 0x09:
-    /*TODO*///			return 0x30;
-    /*TODO*///		case 0x0c:
-    /*TODO*///			return 0x00;
-    /*TODO*///		default:
-    /*TODO*///			return 0x20;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void maketrax_rom_decode(void)
-    /*TODO*///{
-    /*TODO*///	unsigned char *rom = memory_region(REGION_CPU1);
-    /*TODO*///	int diff = memory_region_length(REGION_CPU1) / 2;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* patch protection using a copy of the opcodes so ROM checksum */
-    /*TODO*///	/* tests will not fail */
-    /*TODO*///	memory_set_opcode_base(0,rom+diff);
-    /*TODO*///
-    /*TODO*///	memcpy(rom+diff,rom,diff);
-    /*TODO*///
-    /*TODO*///	rom[0x0415 + diff] = 0xc9;
-    /*TODO*///	rom[0x1978 + diff] = 0x18;
-    /*TODO*///	rom[0x238e + diff] = 0xc9;
-    /*TODO*///	rom[0x3ae5 + diff] = 0xe6;
-    /*TODO*///	rom[0x3ae7 + diff] = 0x00;
-    /*TODO*///	rom[0x3ae8 + diff] = 0xc9;
-    /*TODO*///	rom[0x3aed + diff] = 0x86;
-    /*TODO*///	rom[0x3aee + diff] = 0xc0;
-    /*TODO*///	rom[0x3aef + diff] = 0xb0;
-    /*TODO*///}
-    /*TODO*///
+    
+    public static ReadHandlerPtr maketrax_special_port2_r = new ReadHandlerPtr() { public int handler(int offset)
+    { 
+    	int pc,data;
+    
+    	pc = cpu_getpreviouspc();
+    
+    	data = input_port_2_r.handler(offset);
+    
+    	if ((pc == 0x1973) || (pc == 0x2389)) return data | 0x40;
+    
+    	switch (offset)
+    	{
+    		case 0x01:
+    		case 0x04:
+    			data |= 0x40; break;
+    		case 0x05:
+    			data |= 0xc0; break;
+    		default:
+    			data &= 0x3f; break;
+    	}
+    
+    	return data;
+    }};
+    public static ReadHandlerPtr maketrax_special_port3_r = new ReadHandlerPtr() { public int handler(int offset)
+    { 
+    	int pc;
+    
+    	pc = cpu_getpreviouspc();
+    
+    	if ( pc == 0x040e) return 0x20;
+    
+    	if ((pc == 0x115e) || (pc == 0x3ae2)) return 0x00;
+    
+    	switch (offset)
+    	{
+    		case 0x00:
+    			return 0x1f;
+    		case 0x09:
+    			return 0x30;
+    		case 0x0c:
+    			return 0x00;
+    		default:
+    			return 0x20;
+    	}
+    }};
+    static void maketrax_rom_decode()
+    {
+    	UBytePtr rom = memory_region(REGION_CPU1);
+    	int diff = memory_region_length(REGION_CPU1) / 2;
+    
+    
+    	/* patch protection using a copy of the opcodes so ROM checksum */
+    	/* tests will not fail */
+    	memory_set_opcode_base(0,new UBytePtr(rom,diff));
+    
+    	memcpy(rom.memory,diff,rom.memory,0,diff);
+    
+    	rom.write(0x0415 + diff,0xc9);
+    	rom.write(0x1978 + diff,0x18);
+    	rom.write(0x238e + diff,0xc9);
+    	rom.write(0x3ae5 + diff,0xe6);
+    	rom.write(0x3ae7 + diff,0x00);
+    	rom.write(0x3ae8 + diff,0xc9);
+    	rom.write(0x3aed + diff,0x86);
+    	rom.write(0x3aee + diff,0xc0);
+    	rom.write(0x3aef + diff,0xb0);
+    }
+    
     public static InitDriverPtr init_maketrax = new InitDriverPtr(){ public void handler()
     {
-    /*TODO*///static void init_maketrax(void)
-    /*TODO*///{
-    /*TODO*///	/* set up protection handlers */
-    /*TODO*///	install_mem_read_handler(0, 0x5080, 0x50bf, maketrax_special_port2_r);
-    /*TODO*///	install_mem_read_handler(0, 0x50c0, 0x50ff, maketrax_special_port3_r);
-    /*TODO*///
-    /*TODO*///	maketrax_rom_decode();
+    	/* set up protection handlers */
+    	install_mem_read_handler(0, 0x5080, 0x50bf, maketrax_special_port2_r);
+    	install_mem_read_handler(0, 0x50c0, 0x50ff, maketrax_special_port3_r);
+    
+        maketrax_rom_decode();
     }};
     public static InitDriverPtr init_ponpoko = new InitDriverPtr(){ public void handler()
     {

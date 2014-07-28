@@ -1761,101 +1761,102 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //
-public static void install_mem_read_handler(int cpu,int start,int end,ReadHandlerPtr _handler)
+public static UBytePtr install_mem_read_handler(int cpu,int start,int end,ReadHandlerPtr _handler)
 {
-    throw new UnsupportedOperationException("Unsupported install_mem_read_handler");
+	UByte hardware = new UByte();
+	int abitsmin;
+	int i, hw_set;
+	if (errorlog!=null) fprintf(errorlog, "Install new memory read handler:\n");
+	if (errorlog!=null) fprintf(errorlog, "             cpu: %d\n", cpu);
+	if (errorlog!=null) fprintf(errorlog, "           start: 0x%08x\n", start);
+	if (errorlog!=null) fprintf(errorlog, "             end: 0x%08x\n", end);
+
+	if (errorlog!=null) fprintf(errorlog, " handler address: 0x%08x\n", _handler);
+
+	abitsmin = ABITSMIN (cpu);
+
+	/* see if this function is already registered */
+	hw_set = 0;
+	for ( i = 0 ; i < MH_HARDMAX ; i++)
+	{
+		/* record it if it matches */
+		if (( memoryreadhandler[i] == _handler ) &&
+			(  memoryreadoffset[i] == start))
+		{
+			if (errorlog!=null) fprintf(errorlog,"handler match - use old one\n");
+			hardware.set((char)i);                  
+			hw_set = 1;
+                        //we don't handle it properly place a holder to check it later
+                        throw new UnsupportedOperationException("Unsupported install_mem_read_handler for exsting match");
+		}
+	}
+	/*switch (handler)//TODO
+	{
+		case MRA_RAM:
+		case MRA_ROM:
+			hardware.set((char) HT_RAM);	/* sprcial case ram read */
+	/*		hw_set = 1;
+			break;
+		case MRA_BANK1:
+		case MRA_BANK2:
+		case MRA_BANK3:
+		case MRA_BANK4:
+		case MRA_BANK5:
+		case MRA_BANK6:
+		case MRA_BANK7:
+		case MRA_BANK8:
+		case MRA_BANK9:
+		case MRA_BANK10:
+		case MRA_BANK11:
+		case MRA_BANK12:
+		case MRA_BANK13:
+		case MRA_BANK14:
+		case MRA_BANK15:
+		case MRA_BANK16:
+		{
+			hardware = (int)MRA_BANK1 - (int)handler + 1;
+			hw_set = 1;
+			break;
+		}
+		case MRA_NOP:
+			hardware.set((char) HT_NOP);
+			hw_set = 1;
+			break;
+	}*/
+	if (hw_set==0)  /* no match */
+	{
+		/* create newer hardware handler */
+		if( rdhard_max == MH_HARDMAX )
+		{
+			if (errorlog!=null) fprintf(errorlog, "read memory hardware pattern over !\n");
+			if (errorlog!=null) fprintf(errorlog, "Failed to install new memory handler.\n");
+			return memory_find_base(cpu, start);
+		}
+		else
+		{
+			/* register hardware function */
+                        hardware.set((char) rdhard_max++);
+                        memoryreadhandler[hardware.read()] = _handler;
+                        memoryreadoffset[hardware.read()] = start;
+		}
+	}
+	/* set hardware element table entry */
+                    int temp_rdelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
+                    temp_rdelement_max[0] = rdelement_max;
+                    set_element(cpu, cur_mr_element[cpu],
+                            (int) ((start) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            (int) ((end) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            hardware, readhardware, temp_rdelement_max);
+                    //cur_mr_element[cpu] = tem1.getUBytes();
+                    //readhardware = tem2.getUBytes();
+                    rdelement_max = temp_rdelement_max[0];
+	if (errorlog!=null) fprintf(errorlog, "Done installing new memory handler.\n");
+	if (errorlog!=null){
+		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
+		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
+	}
+	return memory_find_base(cpu, start);
 }
-/*TODO*/ //void *install_mem_read_handler(int cpu, int start, int end, mem_read_handler handler)
-/*TODO*/ //{
-/*TODO*/ //	MHELE hardware = 0;
-/*TODO*/ //	int abitsmin;
-/*TODO*/ //	int i, hw_set;
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Install new memory read handler:\n");
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "             cpu: %d\n", cpu);
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "           start: 0x%08x\n", start);
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "             end: 0x%08x\n", end);
-/*TODO*/ //#ifdef __LP64__
-/*TODO*/ //	if (errorlog) fprintf(errorlog, " handler address: 0x%016lx\n", (unsigned long) handler);
-/*TODO*/ //#else
-/*TODO*/ //	if (errorlog) fprintf(errorlog, " handler address: 0x%08x\n", (unsigned int) handler);
-/*TODO*/ //#endif
-/*TODO*/ //	abitsmin = ABITSMIN (cpu);
-/*TODO*/ //
-/*TODO*/ //	/* see if this function is already registered */
-/*TODO*/ //	hw_set = 0;
-/*TODO*/ //	for ( i = 0 ; i < MH_HARDMAX ; i++)
-/*TODO*/ //	{
-/*TODO*/ //		/* record it if it matches */
-/*TODO*/ //		if (( memoryreadhandler[i] == handler ) &&
-/*TODO*/ //			(  memoryreadoffset[i] == start))
-/*TODO*/ //		{
-/*TODO*/ //			if (errorlog) fprintf(errorlog,"handler match - use old one\n");
-/*TODO*/ //			hardware = i;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //		}
-/*TODO*/ //	}
-/*TODO*/ //	switch ((FPTR)handler)
-/*TODO*/ //	{
-/*TODO*/ //		case (FPTR)MRA_RAM:
-/*TODO*/ //		case (FPTR)MRA_ROM:
-/*TODO*/ //			hardware = HT_RAM;	/* sprcial case ram read */
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		case (FPTR)MRA_BANK1:
-/*TODO*/ //		case (FPTR)MRA_BANK2:
-/*TODO*/ //		case (FPTR)MRA_BANK3:
-/*TODO*/ //		case (FPTR)MRA_BANK4:
-/*TODO*/ //		case (FPTR)MRA_BANK5:
-/*TODO*/ //		case (FPTR)MRA_BANK6:
-/*TODO*/ //		case (FPTR)MRA_BANK7:
-/*TODO*/ //		case (FPTR)MRA_BANK8:
-/*TODO*/ //		case (FPTR)MRA_BANK9:
-/*TODO*/ //		case (FPTR)MRA_BANK10:
-/*TODO*/ //		case (FPTR)MRA_BANK11:
-/*TODO*/ //		case (FPTR)MRA_BANK12:
-/*TODO*/ //		case (FPTR)MRA_BANK13:
-/*TODO*/ //		case (FPTR)MRA_BANK14:
-/*TODO*/ //		case (FPTR)MRA_BANK15:
-/*TODO*/ //		case (FPTR)MRA_BANK16:
-/*TODO*/ //		{
-/*TODO*/ //			hardware = (int)MRA_BANK1 - (int)handler + 1;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		}
-/*TODO*/ //		case (FPTR)MRA_NOP:
-/*TODO*/ //			hardware = HT_NOP;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //	}
-/*TODO*/ //	if (!hw_set)  /* no match */
-/*TODO*/ //	{
-/*TODO*/ //		/* create newer hardware handler */
-/*TODO*/ //		if( rdhard_max == MH_HARDMAX )
-/*TODO*/ //		{
-/*TODO*/ //			if (errorlog) fprintf(errorlog, "read memory hardware pattern over !\n");
-/*TODO*/ //			if (errorlog) fprintf(errorlog, "Failed to install new memory handler.\n");
-/*TODO*/ //			return memory_find_base(cpu, start);
-/*TODO*/ //		}
-/*TODO*/ //		else
-/*TODO*/ //		{
-/*TODO*/ //			/* register hardware function */
-/*TODO*/ //			hardware = rdhard_max++;
-/*TODO*/ //			memoryreadhandler[hardware] = handler;
-/*TODO*/ //			memoryreadoffset[hardware] = start;
-/*TODO*/ //		}
-/*TODO*/ //	}
-/*TODO*/ //	/* set hardware element table entry */
-/*TODO*/ //	set_element( cpu , cur_mr_element[cpu] ,
-/*TODO*/ //		(((unsigned int) start) >> abitsmin) ,
-/*TODO*/ //		(((unsigned int) end) >> abitsmin) ,
-/*TODO*/ //		hardware , readhardware , &rdelement_max );
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Done installing new memory handler.\n");
-/*TODO*/ //	if (errorlog){
-/*TODO*/ //		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
-/*TODO*/ //		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
-/*TODO*/ //	}
-/*TODO*/ //	return memory_find_base(cpu, start);
-/*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ //void *install_mem_write_handler(int cpu, int start, int end, mem_write_handler handler)
 /*TODO*/ //{
