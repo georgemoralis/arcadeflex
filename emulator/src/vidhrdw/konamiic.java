@@ -94,16 +94,17 @@ public  class konamiic
         }
 
         public static WriteHandlerPtr K007121_ctrl_0_w = new WriteHandlerPtr() { public void handler(int offset, int data){       
-            K007121_ctrl_w(0,offset,data);
+            K007121_ctrl_w(0,offset,data & 0xFF);
         }};
 
         public static WriteHandlerPtr K007121_ctrl_1_w = new WriteHandlerPtr() { public void handler(int offset, int data){
-            K007121_ctrl_w(1,offset,data);
+            K007121_ctrl_w(1,offset,data & 0xFF);
         }};
 
     public static void K007121_sprites_draw(int chip,osd_bitmap bitmap,
                     CharPtr source,int base_color,int global_x_offset,int bank_base)
     {
+
             GfxElement gfx = Machine.gfx[chip];
             int flip_screen = K007121_flipscreen[chip];
             int i,num,inc,trans;

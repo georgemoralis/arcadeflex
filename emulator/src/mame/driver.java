@@ -65,7 +65,7 @@ import static drivers.timeplt.*;
 import static drivers.gng.*;
 import static drivers.gundealr.*;
 import static drivers.circusc.*;
-
+import static drivers.combatsc.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1706,11 +1706,11 @@ public class driver {
         driver_contraj,	/* GX633 (c) 1987 (Japan) */
         driver_contrajb,	/* bootleg */
         driver_gryzor,	/* GX633 (c) 1987 */
-/*TODO*/ //	DRIVER( combasc )	/* GX611 (c) 1988 */
-/*TODO*/ //	DRIVER( combasct )	/* GX611 (c) 1987 */
-/*TODO*/ //	DRIVER( combascj )	/* GX611 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( bootcamp )	/* GX611 (c) 1987 */
-/*TODO*/ //	DRIVER( combascb )	/* bootleg */
+        driver_combasc,	/* GX611 (c) 1988 */
+        driver_combasct,	/* GX611 (c) 1987 */
+        driver_combascj,	/* GX611 (c) 1987 (Japan) */
+        driver_bootcamp,	/* GX611 (c) 1987 */
+        driver_combascb,	/* bootleg */
 /*TODO*/ //	DRIVER( rockrage )	/* GX620 (c) 1986 (World?) */
 /*TODO*/ //	DRIVER( rockragj )	/* GX620 (c) 1986 (Japan) */
 /*TODO*/ //	DRIVER( mx5000 )	/* GX669 (c) 1987 */
