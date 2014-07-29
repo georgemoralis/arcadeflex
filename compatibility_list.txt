@@ -253,7 +253,8 @@ crush3
 maketrax
 theglob
 beastf
-
+yamyam
+wiseguy
 
 
 
@@ -318,8 +319,7 @@ dokaben  - displays RAM error message
 marukin - dusplays RAM error message
 qtono1 - not sure how that works it's in chinese
 qsangoku - seems to freeze ingame...
-yamyam - misses install mem handler
-wiseguy - misses install mem handler
+
 
 
 

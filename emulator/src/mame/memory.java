@@ -1764,6 +1764,7 @@ public class memory {
 public static UBytePtr install_mem_read_handler(int cpu,int start,int end,ReadHandlerPtr _handler)
 {
 	UByte hardware = new UByte();
+        hardware.set((char)0);
 	int abitsmin;
 	int i, hw_set;
 	if (errorlog!=null) fprintf(errorlog, "Install new memory read handler:\n");
@@ -1857,107 +1858,112 @@ public static UBytePtr install_mem_read_handler(int cpu,int start,int end,ReadHa
 	}
 	return memory_find_base(cpu, start);
 }
-/*TODO*/ //
-/*TODO*/ //void *install_mem_write_handler(int cpu, int start, int end, mem_write_handler handler)
-/*TODO*/ //{
-/*TODO*/ //	MHELE hardware = 0;
-/*TODO*/ //	int abitsmin;
-/*TODO*/ //	int i, hw_set;
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Install new memory write handler:\n");
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "             cpu: %d\n", cpu);
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "           start: 0x%08x\n", start);
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "             end: 0x%08x\n", end);
-/*TODO*/ //#ifdef __LP64__
-/*TODO*/ //	if (errorlog) fprintf(errorlog, " handler address: 0x%016lx\n", (unsigned long) handler);
-/*TODO*/ //#else
-/*TODO*/ //	if (errorlog) fprintf(errorlog, " handler address: 0x%08x\n", (unsigned int) handler);
-/*TODO*/ //#endif
-/*TODO*/ //	abitsmin = ABITSMIN (cpu);
-/*TODO*/ //
-/*TODO*/ //	/* see if this function is already registered */
-/*TODO*/ //	hw_set = 0;
-/*TODO*/ //	for ( i = 0 ; i < MH_HARDMAX ; i++)
-/*TODO*/ //	{
-/*TODO*/ //		/* record it if it matches */
-/*TODO*/ //		if (( memorywritehandler[i] == handler ) &&
-/*TODO*/ //			(  memorywriteoffset[i] == start))
-/*TODO*/ //		{
-/*TODO*/ //			if (errorlog) fprintf(errorlog,"handler match - use old one\n");
-/*TODO*/ //			hardware = i;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //		}
-/*TODO*/ //	}
-/*TODO*/ //
-/*TODO*/ //	switch( (FPTR)handler )
-/*TODO*/ //	{
-/*TODO*/ //		case (FPTR)MWA_RAM:
-/*TODO*/ //			hardware = HT_RAM;	/* sprcial case ram write */
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		case (FPTR)MWA_BANK1:
-/*TODO*/ //		case (FPTR)MWA_BANK2:
-/*TODO*/ //		case (FPTR)MWA_BANK3:
-/*TODO*/ //		case (FPTR)MWA_BANK4:
-/*TODO*/ //		case (FPTR)MWA_BANK5:
-/*TODO*/ //		case (FPTR)MWA_BANK6:
-/*TODO*/ //		case (FPTR)MWA_BANK7:
-/*TODO*/ //		case (FPTR)MWA_BANK8:
-/*TODO*/ //		case (FPTR)MWA_BANK9:
-/*TODO*/ //		case (FPTR)MWA_BANK10:
-/*TODO*/ //		case (FPTR)MWA_BANK11:
-/*TODO*/ //		case (FPTR)MWA_BANK12:
-/*TODO*/ //		case (FPTR)MWA_BANK13:
-/*TODO*/ //		case (FPTR)MWA_BANK14:
-/*TODO*/ //		case (FPTR)MWA_BANK15:
-/*TODO*/ //		case (FPTR)MWA_BANK16:
-/*TODO*/ //		{
-/*TODO*/ //			hardware = (int)MWA_BANK1 - (int)handler + 1;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		}
-/*TODO*/ //		case (FPTR)MWA_NOP:
-/*TODO*/ //			hardware = HT_NOP;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		case (FPTR)MWA_RAMROM:
-/*TODO*/ //			hardware = HT_RAMROM;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //		case (FPTR)MWA_ROM:
-/*TODO*/ //			hardware = HT_ROM;
-/*TODO*/ //			hw_set = 1;
-/*TODO*/ //			break;
-/*TODO*/ //	}
-/*TODO*/ //	if (!hw_set)  /* no match */
-/*TODO*/ //	{
-/*TODO*/ //		/* create newer hardware handler */
-/*TODO*/ //		if( wrhard_max == MH_HARDMAX )
-/*TODO*/ //		{
-/*TODO*/ //			if (errorlog) fprintf(errorlog, "write memory hardware pattern over !\n");
-/*TODO*/ //			if (errorlog) fprintf(errorlog, "Failed to install new memory handler.\n");
-/*TODO*/ //
-/*TODO*/ //			return memory_find_base(cpu, start);
-/*TODO*/ //		}
-/*TODO*/ //		else
-/*TODO*/ //		{
-/*TODO*/ //			/* register hardware function */
-/*TODO*/ //			hardware = wrhard_max++;
-/*TODO*/ //			memorywritehandler[hardware] = handler;
-/*TODO*/ //			memorywriteoffset[hardware] = start;
-/*TODO*/ //		}
-/*TODO*/ //	}
-/*TODO*/ //	/* set hardware element table entry */
-/*TODO*/ //	set_element( cpu , cur_mw_element[cpu] ,
-/*TODO*/ //		(((unsigned int) start) >> abitsmin) ,
-/*TODO*/ //		(((unsigned int) end) >> abitsmin) ,
-/*TODO*/ //		hardware , writehardware , &wrelement_max );
-/*TODO*/ //	if (errorlog) fprintf(errorlog, "Done installing new memory handler.\n");
-/*TODO*/ //	if (errorlog){
-/*TODO*/ //		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
-/*TODO*/ //		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
-/*TODO*/ //	}
-/*TODO*/ //	return memory_find_base(cpu, start);
-/*TODO*/ //}
+
+public static UBytePtr install_mem_write_handler(int cpu, int start, int end, WriteHandlerPtr _handler)
+{
+	UByte hardware = new UByte();
+        hardware.set((char)0);
+	int abitsmin;
+	int i, hw_set;
+	if (errorlog!=null) fprintf(errorlog, "Install new memory write handler:\n");
+	if (errorlog!=null) fprintf(errorlog, "             cpu: %d\n", cpu);
+	if (errorlog!=null) fprintf(errorlog, "           start: 0x%08x\n", start);
+	if (errorlog!=null) fprintf(errorlog, "             end: 0x%08x\n", end);
+
+	if (errorlog!=null) fprintf(errorlog, " handler address: 0x%08x\n", _handler);
+
+	abitsmin = ABITSMIN (cpu);
+
+	/* see if this function is already registered */
+	hw_set = 0;
+	for ( i = 0 ; i < MH_HARDMAX ; i++)
+	{
+		/* record it if it matches */
+		if (( memorywritehandler[i] == _handler ) &&
+			(  memorywriteoffset[i] == start))
+		{
+			if (errorlog!=null) fprintf(errorlog,"handler match - use old one\n");
+			hardware.set((char)i);
+			hw_set = 1;
+                        throw new UnsupportedOperationException("Unsupported install_mem_write_handler for exsting match");
+		}
+	}
+        /*
+	switch( (FPTR)handler )
+	{
+		case (FPTR)MWA_RAM:
+			hardware = HT_RAM;	/* sprcial case ram write */
+	/*		hw_set = 1;
+			break;
+		case (FPTR)MWA_BANK1:
+		case (FPTR)MWA_BANK2:
+		case (FPTR)MWA_BANK3:
+		case (FPTR)MWA_BANK4:
+		case (FPTR)MWA_BANK5:
+		case (FPTR)MWA_BANK6:
+		case (FPTR)MWA_BANK7:
+		case (FPTR)MWA_BANK8:
+		case (FPTR)MWA_BANK9:
+		case (FPTR)MWA_BANK10:
+		case (FPTR)MWA_BANK11:
+		case (FPTR)MWA_BANK12:
+		case (FPTR)MWA_BANK13:
+		case (FPTR)MWA_BANK14:
+		case (FPTR)MWA_BANK15:
+		case (FPTR)MWA_BANK16:
+		{
+			hardware = (int)MWA_BANK1 - (int)handler + 1;
+			hw_set = 1;
+			break;
+		}
+		case (FPTR)MWA_NOP:
+			hardware = HT_NOP;
+			hw_set = 1;
+			break;
+		case (FPTR)MWA_RAMROM:
+			hardware = HT_RAMROM;
+			hw_set = 1;
+			break;
+		case (FPTR)MWA_ROM:
+			hardware = HT_ROM;
+			hw_set = 1;
+			break;
+	}*/
+	if (hw_set==0)  /* no match */
+	{
+		/* create newer hardware handler */
+		if( wrhard_max == MH_HARDMAX )
+		{
+			if (errorlog!=null) fprintf(errorlog, "write memory hardware pattern over !\n");
+			if (errorlog!=null) fprintf(errorlog, "Failed to install new memory handler.\n");
+
+			return memory_find_base(cpu, start);
+		}
+		else
+		{
+			/* register hardware function */
+			hardware.set((char) wrhard_max++);
+                                memorywritehandler[hardware.read()] = _handler;
+                                memorywriteoffset[hardware.read()] = start;
+		}
+	}
+	/* set hardware element table entry */
+	int temp_wrelement_max[] = new int[1]; //i can't pass a reference so here you go (shadow)
+                    temp_wrelement_max[0] = wrelement_max;
+                    set_element(cpu, cur_mw_element[cpu],
+                            (int) ((start) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            (int) ((end) >>> abitsmin), /*TODO checked unsigned if it's correct */
+                            hardware, writehardware, temp_wrelement_max);
+
+                    wrelement_max = temp_wrelement_max[0];
+                    
+	if (errorlog!=null) fprintf(errorlog, "Done installing new memory handler.\n");
+	if (errorlog!=null){
+		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
+		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
+	}
+	return memory_find_base(cpu, start);
+}
 /*TODO*/ //
 /*TODO*/ //void *install_port_read_handler(int cpu, int start, int end, mem_read_handler handler)
 /*TODO*/ //{

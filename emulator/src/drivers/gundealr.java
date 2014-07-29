@@ -65,6 +65,9 @@ import static arcadeflex.libc.*;
 import static vidhrdw.gundealr.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
+import static mame.mame.*;
+import static arcadeflex.libc_old.*;
+import static mame.memory.*;
 
 public class gundealr
 {
@@ -99,45 +102,45 @@ public class gundealr
 	
 	public static WriteHandlerPtr yamyam_protection_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*		unsigned char *RAM = memory_region(REGION_CPU1);
+	   UBytePtr RAM = memory_region(REGION_CPU1);
 	
-	if (errorlog) fprintf(errorlog,"e000 = %02x\n",RAM[0xe000]);
-		RAM[0xe000] = data;
-		if (data == 0x03) RAM[0xe001] = 0x03;
-		if (data == 0x04) RAM[0xe001] = 0x04;
-		if (data == 0x05) RAM[0xe001] = 0x05;
-		if (data == 0x0a) RAM[0xe001] = 0x08;
-		if (data == 0x0d) RAM[0xe001] = 0x07;
+	if (errorlog!=null) fprintf(errorlog,"e000 = %02x\n",RAM.read(0xe000));
+		RAM.write(0xe000,data);
+		if (data == 0x03) RAM.write(0xe001,0x03);
+		if (data == 0x04) RAM.write(0xe001,0x04);
+		if (data == 0x05) RAM.write(0xe001,0x05);
+		if (data == 0x0a) RAM.write(0xe001,0x08);
+		if (data == 0x0d) RAM.write(0xe001,0x07);
 	
 		if (data == 0x03)
 		{
-			RAM[0xe010] = 0x3a;
-			RAM[0xe011] = 0x00;
-			RAM[0xe012] = 0xc0;
-			RAM[0xe013] = 0x47;
-			RAM[0xe014] = 0x3a;
-			RAM[0xe015] = 0x01;
-			RAM[0xe016] = 0xc0;
-			RAM[0xe017] = 0xc9;
+			RAM.write(0xe010,0x3a);
+			RAM.write(0xe011,0x00);
+			RAM.write(0xe012,0xc0);
+			RAM.write(0xe013,0x47);
+			RAM.write(0xe014,0x3a);
+			RAM.write(0xe015,0x01);
+			RAM.write(0xe016,0xc0);
+			RAM.write(0xe017,0xc9);
 		}
 		if (data == 0x05)
 		{
-			RAM[0xe020] = 0xc5;
-			RAM[0xe021] = 0x01;
-			RAM[0xe022] = 0x00;
-			RAM[0xe023] = 0x00;
-			RAM[0xe024] = 0x4f;
-			RAM[0xe025] = 0x09;
-			RAM[0xe026] = 0xc1;
-			RAM[0xe027] = 0xc9;
+			RAM.write(0xe020,0xc5);
+			RAM.write(0xe021,0x01);
+			RAM.write(0xe022,0x00);
+			RAM.write(0xe023,0x00);
+			RAM.write(0xe024,0x4f);
+			RAM.write(0xe025,0x09);
+			RAM.write(0xe026,0xc1);
+			RAM.write(0xe027,0xc9);
 			
-			RAM[0xe010] = 0xcd;
-			RAM[0xe011] = 0x20;
-			RAM[0xe012] = 0xe0;
-			RAM[0xe013] = 0x7e;
-			RAM[0xe014] = 0xc9;
-		}*/
-	} };
+			RAM.write(0xe010,0xcd);
+			RAM.write(0xe011,0x20);
+			RAM.write(0xe012,0xe0);
+			RAM.write(0xe013,0x7e);
+			RAM.write(0xe014,0xc9);
+		}
+        } };
 	
 	public static InitDriverPtr init_gundealr = new InitDriverPtr() { public void handler() 
 	{
@@ -147,8 +150,7 @@ public class gundealr
 	public static InitDriverPtr init_yamyam = new InitDriverPtr() { public void handler() 
 	{
 		input_ports_hack = 1;
-                throw new UnsupportedOperationException("install_mem_write_handler unimplemented");
-/*TODO*///		install_mem_write_handler(0, 0xe000, 0xe000, yamyam_protection_w);
+		install_mem_write_handler(0, 0xe000, 0xe000, yamyam_protection_w);
 	} };
 	
 	
