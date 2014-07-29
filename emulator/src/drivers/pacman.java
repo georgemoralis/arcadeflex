@@ -26,6 +26,8 @@ import static sound.ay8910.*;
 import static machine.pacplus.*;
 import static mame.cpuintrfH.*;
 import static mame.memory.*;
+import static machine.theglob.*;
+
 
 public class pacman {
     public static WriteHandlerPtr alibaba_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -152,27 +154,27 @@ public class pacman {
 		new IOWritePort( 0x07, 0x07, AY8910_control_port_0_w ),
 		new IOWritePort( -1 )
 	};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static struct MemoryReadAddress theglob_readmem[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x0000, 0x3fff, MRA_BANK1 },
-    /*TODO*///	{ 0x4000, 0x47ff, MRA_RAM },	/* video and color RAM */
-    /*TODO*///	{ 0x4c00, 0x4fff, MRA_RAM },	/* including sprite codes at 4ff0-4fff */
-    /*TODO*///	{ 0x5000, 0x503f, input_port_0_r },	/* IN0 */
-    /*TODO*///	{ 0x5040, 0x507f, input_port_1_r },	/* IN1 */
-    /*TODO*///	{ 0x5080, 0x50bf, input_port_2_r },	/* DSW1 */
-    /*TODO*///	{ 0x50c0, 0x50ff, input_port_3_r },	/* DSW2 */
-    /*TODO*///	{ -1 }	/* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct IOReadPort theglob_readport[] =
-    /*TODO*///{
-    /*TODO*///	{ 0x00, 0xff, theglob_decrypt_rom },	/* Switch protection logic */
-    /*TODO*///	{ -1 }	/* end of table */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
+    
+    
+    static MemoryReadAddress theglob_readmem[] =
+    {
+    	new MemoryReadAddress( 0x0000, 0x3fff, MRA_BANK1 ),
+    	new MemoryReadAddress( 0x4000, 0x47ff, MRA_RAM ),	/* video and color RAM */
+    	new MemoryReadAddress( 0x4c00, 0x4fff, MRA_RAM ),	/* including sprite codes at 4ff0-4fff */
+    	new MemoryReadAddress( 0x5000, 0x503f, input_port_0_r ),	/* IN0 */
+    	new MemoryReadAddress( 0x5040, 0x507f, input_port_1_r ),	/* IN1 */
+    	new MemoryReadAddress( 0x5080, 0x50bf, input_port_2_r ),	/* DSW1 */
+    	new MemoryReadAddress( 0x50c0, 0x50ff, input_port_3_r ),	/* DSW2 */
+    	new MemoryReadAddress( -1 )	/* end of table */
+    };
+    
+    static IOReadPort theglob_readport[] =
+    {
+    	new IOReadPort( 0x00, 0xff, theglob_decrypt_rom ),	/* Switch protection logic */
+    	new IOReadPort( -1 )	/* end of table */
+    };
+    
+   
     static InputPortPtr input_ports_pacman = new InputPortPtr(){ public void handler() {
     	PORT_START();	/* IN0 */
     	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_4WAY );
@@ -1054,44 +1056,43 @@ public class pacman {
 		}
 	);
 
-    /*TODO*///
-    /*TODO*///static struct MachineDriver machine_driver_theglob =
-    /*TODO*///{
-    /*TODO*///	/* basic machine hardware */
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			CPU_Z80,
-    /*TODO*///			18432000/6,	/* 3.072 Mhz */
-    /*TODO*///			theglob_readmem,writemem,theglob_readport,writeport,
-    /*TODO*///			pacman_interrupt,1
-    /*TODO*///		}
-    /*TODO*///	},
-    /*TODO*///	60, 2500,	/* frames per second, vblank duration */
-    /*TODO*///	1,	/* single CPU, no need for interleaving */
-    /*TODO*///	theglob_init_machine,
-    /*TODO*///
-    /*TODO*///	/* video hardware */
-    /*TODO*///	36*8, 28*8, { 0*8, 36*8-1, 0*8, 28*8-1 },
-    /*TODO*///	gfxdecodeinfo,
-    /*TODO*///	16, 4*32,
-    /*TODO*///	pacman_vh_convert_color_prom,
-    /*TODO*///
-    /*TODO*///	VIDEO_TYPE_RASTER,
-    /*TODO*///	0,
-    /*TODO*///	pacman_vh_start,
-    /*TODO*///	generic_vh_stop,
-    /*TODO*///	pengo_vh_screenrefresh,
-    /*TODO*///
-    /*TODO*///	/* sound hardware */
-    /*TODO*///	0,0,0,0,
-    /*TODO*///	{
-    /*TODO*///		{
-    /*TODO*///			SOUND_NAMCO,
-    /*TODO*///			&namco_interface
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///};
-    /*TODO*///
+    static MachineDriver machine_driver_theglob = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+    			CPU_Z80,
+    			18432000/6,	/* 3.072 Mhz */
+    			theglob_readmem,writemem,theglob_readport,writeport,
+    			pacman_interrupt,1
+                        )
+    	},
+    	60, 2500,	/* frames per second, vblank duration */
+    	1,	/* single CPU, no need for interleaving */
+    	theglob_init_machine,
+    
+    	/* video hardware */
+    	36*8, 28*8, new rectangle( 0*8, 36*8-1, 0*8, 28*8-1 ),
+    	gfxdecodeinfo,
+    	16, 4*32,
+    	pacman_vh_convert_color_prom,
+    
+    	VIDEO_TYPE_RASTER,
+    	null,
+    	pacman_vh_start,
+    	generic_vh_stop,
+    	pengo_vh_screenrefresh,
+    
+            /* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (	
+			SOUND_NAMCO,
+			namco_interface
+                    )
+		}
+	);
         static MachineDriver machine_driver_vanvan = new MachineDriver
 	(
 		/* basic machine hardware */
@@ -2156,9 +2157,9 @@ public class pacman {
     public static GameDriver driver_mspacatk = new GameDriver("1981", "mspacatk","pacman.java", rom_mspacatk, driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Ms. Pac-Man Plus" );
     public static GameDriver driver_pacgal   = new GameDriver("1981", "pacgal"  ,"pacman.java", rom_pacgal,   driver_mspacman, machine_driver_pacman,   input_ports_mspacman, null, ROT90,  "hack", "Pac-Gal" );
     public static GameDriver driver_crush    = new GameDriver("1981", "crush"   ,"pacman.java", rom_crush,    null,            machine_driver_pacman,   input_ports_maketrax, init_maketrax, ROT90,  "Kural Samno Electric", "Crush Roller (Kural Samno)" );
-    /*TODO*///GAME( 1981, rom_crush2,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, null,        ROT90,  "Kural Esco Electric", "Crush Roller (Kural Esco - bootleg?)" )
-    /*TODO*///GAME( 1981, rom_crush3,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, eyes,     ROT90,  "Kural Electric", "Crush Roller (Kural - bootleg?)" )
-    /*TODO*///GAME( 1981, rom_maketrax, driver_crush,    machine_driver_pacman,   input_ports_maketrax, maketrax, ROT270, "[Kural] (Williams license)", "Make Trax" )
+    public static GameDriver driver_crush2    = new GameDriver("1981", "crush2"   ,"pacman.java", rom_crush2,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, null,        ROT90,  "Kural Esco Electric", "Crush Roller (Kural Esco - bootleg?)" );
+    public static GameDriver driver_crush3    = new GameDriver("1981", "crush3"   ,"pacman.java", rom_crush3,   driver_crush,    machine_driver_pacman,   input_ports_maketrax, init_eyes,     ROT90,  "Kural Electric", "Crush Roller (Kural - bootleg?)" );
+    public static GameDriver driver_maketrax = new GameDriver("1981", "maketrax"   ,"pacman.java", rom_maketrax, driver_crush,    machine_driver_pacman,   input_ports_maketrax, init_maketrax, ROT270, "[Kural] (Williams license)", "Make Trax" );
     public static GameDriver driver_mbrush   = new GameDriver("1981", "mbrush"   ,"pacman.java", rom_mbrush,   driver_crush,    machine_driver_pacman,   input_ports_mbrush,   null,         ROT90,  "bootleg", "Magic Brush" );
     public static GameDriver driver_paintrlr = new GameDriver("1981", "paintrlr" ,"pacman.java", rom_paintrlr, driver_crush,    machine_driver_pacman,   input_ports_paintrlr, null,        ROT90,  "bootleg", "Paint Roller" );
     public static GameDriver driver_ponpoko  = new GameDriver("1982","ponpoko"   , "pacman.java",rom_ponpoko,  null,            machine_driver_pacman,   input_ports_ponpoko,  init_ponpoko,  ROT0,   "Sigma Ent. Inc.", "Ponpoko" );
@@ -2167,9 +2168,9 @@ public class pacman {
     public static GameDriver driver_eyes2    = new GameDriver("1982"	,"eyes2"	,"pacman.java"	,rom_eyes2,driver_eyes	,machine_driver_pacman	,input_ports_eyes	,init_eyes	,ROT90	,	"Techstar Inc. (Rock-ola license)", "Eyes (Techstar Inc.)" );
     public static GameDriver driver_mrtnt     = new GameDriver("1983"	,"mrtnt"	,"pacman.java"	,rom_mrtnt,null	,machine_driver_pacman	,input_ports_mrtnt	,init_eyes	,ROT90	,	"Telko", "Mr. TNT" );
     public static GameDriver driver_lizwiz = new GameDriver("1985","lizwiz","pacman.java", rom_lizwiz,   null,        machine_driver_pacman,   input_ports_lizwiz,   null,        ROT90,  "Techstar (Sunn license)", "Lizard Wizard" );
-    /*TODO*///GAME( 1983, rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" )
-    /*TODO*///GAME( 1984, rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" )
-    /*TODO*///GAMEX(????, rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING )	/* not working, encrypted */
+    public static GameDriver driver_theglob = new GameDriver("1983","theglob","pacman.java", rom_theglob,  null,        machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "The Glob" );
+    public static GameDriver driver_beastf = new GameDriver("1984","beastf","pacman.java", rom_beastf,   driver_theglob,  machine_driver_theglob,  input_ports_theglob,  null,        ROT90,  "Epos Corporation", "Beastie Feastie" );
+    public static GameDriver driver_jumpshot = new GameDriver("????","jumpshot","pacman.java", rom_jumpshot, null,        machine_driver_pacman,   input_ports_pacman,   null,        ROT90,  "<unknown>", "Jump Shot", GAME_NOT_WORKING );	/* not working, encrypted */
     public static GameDriver driver_dremshpr  = new GameDriver("1982"	,"dremshpr"	,"pacman.java"	,rom_dremshpr,null	,machine_driver_dremshpr	,input_ports_dremshpr	,null	,ROT270	,	"Sanritsu", "Dream Shopper" );
     public static GameDriver driver_vanvan    = new GameDriver("1983"	,"vanvan"	,"pacman.java"	,rom_vanvan,null	,machine_driver_vanvan	,input_ports_vanvan	,null	,ROT270	,	"Karateco", "Van Van Car" );
     public static GameDriver driver_vanvans   = new GameDriver("1983"	,"vanvans"	,"pacman.java"	,rom_vanvans,driver_vanvan	,machine_driver_vanvan	,input_ports_vanvans	,null	,ROT270	,	"Sanritsu", "Van Van Car (Sanritsu)" );

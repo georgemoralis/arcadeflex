@@ -1929,6 +1929,13 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
+    public void INI()
+    {
+        Z80.BC.AddH(-1);
+        WM(Z80.HL.D, IN(Z80.BC.D));
+        Z80.HL.AddD(1);
+        Z80.AF.SetL(Z80.BC.H !=0 ? NF : NF | ZF);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * OUTI
     /*TODO*/// ***************************************************************/
@@ -2070,6 +2077,13 @@ public class z80 extends cpu_interface {
     /*TODO*///}
     /*TODO*///#endif
     /*TODO*///
+    public void IND()
+    {
+        Z80.BC.AddH(-1);
+        WM(Z80.HL.D, IN(Z80.BC.D));
+        Z80.HL.AddD(-1);
+        Z80.AF.SetL(Z80.BC.H !=0 ? NF : NF | ZF);
+    }
     /*TODO*////***************************************************************
     /*TODO*/// * OUTD
     /*TODO*/// ***************************************************************/
@@ -3907,12 +3921,12 @@ public class z80 extends cpu_interface {
     
     opcode ed_a0 = new opcode() { public void handler(){ LDI();}};
     opcode ed_a1 = new opcode() { public void handler(){ CPI();}};
-    opcode ed_a2 = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_a2 = new opcode() { public void handler(){ INI();}};
     opcode ed_a3 = new opcode() { public void handler(){ OUTI();}};
     
     opcode ed_a8 = new opcode() { public void handler(){ LDD();}};
     opcode ed_a9 = new opcode() { public void handler(){ CPD();}};
-    opcode ed_aa = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
+    opcode ed_aa = new opcode() { public void handler(){ IND();}};
     opcode ed_ab = new opcode() { public void handler(){ throw new UnsupportedOperationException("unimplemented");}};
 
     opcode ed_b0 = new opcode() { public void handler()/* LDIR			  */

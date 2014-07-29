@@ -85,10 +85,10 @@ public class driver {
         driver_mspacman,   /* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
         driver_mspacatk,   /* hack */
         driver_pacgal,	   /* hack */
-/*TODO*/ //	DRIVER( maketrax )	/* (c) 1981 Williams, high score table says KRL (fur Kural) */
+        driver_maketrax,	/* (c) 1981 Williams, high score table says KRL (fur Kural) */
         driver_crush,	   /* (c) 1981 Kural Samno Electric Ltd */
-/*TODO*/ //	DRIVER( crush2 )	/* (c) 1981 Kural Esco Electric Ltd - bootleg? */
-/*TODO*/ //	DRIVER( crush3 )	/* Kural Electric Ltd - bootleg? */
+        driver_crush2,	/* (c) 1981 Kural Esco Electric Ltd - bootleg? */
+        driver_crush3,	/* Kural Electric Ltd - bootleg? */
         driver_mbrush,	  /* 1981 bootleg */
         driver_paintrlr,  /* 1981 bootleg */
         driver_eyes,		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
@@ -97,9 +97,9 @@ public class driver {
         driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
         driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
         driver_lizwiz,	/* (c) 1985 Techstar + "Sunn presents" */
-/*TODO*/ //	DRIVER( theglob )	/* (c) 1983 Epos Corporation */
-/*TODO*/ //	DRIVER( beastf )	/* (c) 1984 Epos Corporation */
-/*TODO*/ //	DRIVER( jumpshot )
+        driver_theglob,	/* (c) 1983 Epos Corporation */
+        driver_beastf,	/* (c) 1984 Epos Corporation */
+        driver_jumpshot,
         driver_dremshpr,/* (c) 1982 Sanritsu */
         driver_vanvan,	/* (c) 1983 Karateco (bootleg?) */
         driver_vanvans,	/* (c) 1983 Sanritsu */

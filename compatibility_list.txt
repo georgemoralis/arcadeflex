@@ -247,7 +247,12 @@ circusc
 circusc2
 circuscc
 circusce
-
+crush
+crush2
+crush3
+maketrax
+theglob
+beastf
 
 
 
@@ -298,7 +303,6 @@ Not working various reasons
 arkanoid - missing M68705 emulation
 brain - java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:505)
 victroad - boots but doesn't start
-crush - missing decryption
 dogosoke - boots but doesn't start
 ikari - boots but doesn't start
 ikarijp - boots but doesn't start
@@ -334,4 +338,4 @@ blockgal
 blckgalb
 chplft
 superqix
-
+jumpshot - missing encryption
