@@ -17,6 +17,8 @@ import static mame.paletteH.*;
 
 public  class konamiic
 {
+    public static FILE konamiicclog=fopen("konamiicc.log", "wa");  //for debug purposes
+    
 /*TODO*////*TODO*////*
 /*TODO*////*TODO*///	This recursive function doesn't use additional memory
 /*TODO*////*TODO*///	(it could be easily converted into an iterative one).
@@ -66,7 +68,7 @@ public  class konamiic
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///
         public static final int MAX_K007121=2;
-        static char[][] K007121_ctrlram=new char[MAX_K007121][];
+        public static char[][] K007121_ctrlram=new char[MAX_K007121][];
         public static int[] K007121_flipscreen=new int[MAX_K007121];
 
         static 
@@ -91,6 +93,7 @@ public  class konamiic
                 }
 
                 K007121_ctrlram[chip][offset] = (char)(data &0xff);
+                //if(konamiicclog!=null) fprintf( konamiicclog, "K007121_ctrlram: chip=%d,offset=%d,data=%d\n",chip,offset,data );
         }
 
         public static WriteHandlerPtr K007121_ctrl_0_w = new WriteHandlerPtr() { public void handler(int offset, int data){       
@@ -104,13 +107,16 @@ public  class konamiic
     public static void K007121_sprites_draw(int chip,osd_bitmap bitmap,
                     CharPtr source,int base_color,int global_x_offset,int bank_base)
     {
-
             GfxElement gfx = Machine.gfx[chip];
             int flip_screen = K007121_flipscreen[chip];
             int i,num,inc,trans;
             int[] offs=new int[5];
             int is_flakatck = K007121_ctrlram[chip][0x06] & 0x04;	/* WRONG!!!! */
 
+     /*       if(konamiicclog!=null) fprintf( konamiicclog,"%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x  %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\n",
+	(int)K007121_ctrlram[0][0x00],(int)K007121_ctrlram[0][0x01],(int)K007121_ctrlram[0][0x02],(int)K007121_ctrlram[0][0x03],(int)K007121_ctrlram[0][0x04],(int)K007121_ctrlram[0][0x05],(int)K007121_ctrlram[0][0x06],(int)K007121_ctrlram[0][0x07],
+	(int)K007121_ctrlram[1][0x00],(int)K007121_ctrlram[1][0x01],(int)K007121_ctrlram[1][0x02],(int)K007121_ctrlram[1][0x03],(int)K007121_ctrlram[1][0x04],(int)K007121_ctrlram[1][0x05],(int)K007121_ctrlram[1][0x06],(int)K007121_ctrlram[1][0x07]);
+           */
             if (is_flakatck!=0)
             {
                     num = 0x40;
@@ -158,7 +164,7 @@ public  class konamiic
                     number += ((sprite_bank & 0x3) << 8) + ((attr & 0xc0) << 4);
                     number = number << 2;
                     number += (sprite_bank >> 2) & 3;
-
+                    if(konamiicclog!=null) fprintf( konamiicclog,"number=%d,sprite_bank=%d,sx=%d,sy=%d,attr=%d,xflip=%d,yflip=%d,color=%d\n",number,sprite_bank,sx,sy,attr,xflip,yflip,color );
                     if (is_flakatck==0 || source.read(0x00)!=0)	/* Flak Attack needs this */
                     {
                             number += bank_base;

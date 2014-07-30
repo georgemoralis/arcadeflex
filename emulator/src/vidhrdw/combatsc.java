@@ -507,12 +507,12 @@ public class combatsc
 		{
 			if ((data & 0x08) != 0)
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, 0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
+                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].base+0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
 				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1000,0x800);
                         }
                         else
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, 0x1800, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
+                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].base+0x1800, private_spriteram[combasc_video_circuit].memory,0, 0x800);
 				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1800,0x800);
 		
                         }
@@ -540,7 +540,7 @@ public class combatsc
 	static void draw_sprites(osd_bitmap bitmap, CharPtr source, int circuit)
 	{
 		int base_color = (circuit*4)*16+(K007121_ctrlram[circuit][6]&0x10)*2;       
-		K007121_sprites_draw(circuit,bitmap,source,base_color,0,0);
+		K007121_sprites_draw(circuit,bitmap,new CharPtr(source,source.base),base_color,0,0);
 	}
 	
 	public static VhUpdatePtr combasc_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 

@@ -14,7 +14,7 @@ import static mame.palette.*;
 import static mame.paletteH.*;
 
 public class tilemapC {
-    public static FILE tilemapslog=fopen("tilemaps.log", "wa");  //for debug purposes
+    public static FILE tilemapslog=null;//fopen("tilemaps.log", "wa");  //for debug purposes
     /*TODO*///#ifndef DECLARE
     /*TODO*///
     /*TODO*///#include "driver.h"
