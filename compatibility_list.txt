@@ -259,6 +259,10 @@ tp84
 tp84a
 ironhors
 dairesya
+gunsmoke
+gunsmrom
+gunsmoka
+gunsmokj
 
 
 Serious graphics issues

@@ -68,6 +68,7 @@ import static drivers.circusc.*;
 import static drivers.combatsc.*;
 import static drivers.tp84.*;
 import static drivers.ironhors.*;
+import static drivers.gunsmoke.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1009,10 +1010,10 @@ public class driver {
             driver_makaimuc,	/*  9/1985 (c) 1985 */
             driver_makaimug,	/*  9/1985 (c) 1985 */
             driver_diamond,	/* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
-/*TODO*/ //	DRIVER( gunsmoke )	/* 11/1985 (c) 1985 (World) */
-/*TODO*/ //	DRIVER( gunsmrom )	/* 11/1985 (c) 1985 + Romstar (US) */
-/*TODO*/ //	DRIVER( gunsmoka )	/* 11/1985 (c) 1985 (US) */
-/*TODO*/ //	DRIVER( gunsmokj )	/* 11/1985 (c) 1985 (Japan) */
+            driver_gunsmoke,	/* 11/1985 (c) 1985 (World) */
+            driver_gunsmrom,	/* 11/1985 (c) 1985 + Romstar (US) */
+            driver_gunsmoka,	/* 11/1985 (c) 1985 (US) */
+            driver_gunsmokj,	/* 11/1985 (c) 1985 (Japan) */
 /*TODO*/ //	DRIVER( sectionz )	/* 12/1985 (c) 1985 */
 /*TODO*/ //	DRIVER( sctionza )	/* 12/1985 (c) 1985 */
 /*TODO*/ //	DRIVER( trojan )	/*  4/1986 (c) 1986 (US) */
