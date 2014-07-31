@@ -67,6 +67,7 @@ import static drivers.gundealr.*;
 import static drivers.circusc.*;
 import static drivers.combatsc.*;
 import static drivers.tp84.*;
+import static drivers.ironhors.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1694,9 +1695,9 @@ public class driver {
 /*TODO*/ //	DRIVER( jailbrek )	/* GX507 (c) 1986 */
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
 /*TODO*/ //	DRIVER( finalizb )	/* bootleg */
-/*TODO*/ //	DRIVER( ironhors )	/* GX560 (c) 1986 */
-/*TODO*/ //	DRIVER( dairesya )	/* GX560 (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( farwest )
+        driver_ironhors,	/* GX560 (c) 1986 */
+        driver_dairesya,	/* GX560 (c) 1986 (Japan) */
+        driver_farwest,
 /*TODO*/ //	DRIVER( jackal )	/* GX631 (c) 1986 (World) */
 /*TODO*/ //	DRIVER( topgunr )	/* GX631 (c) 1986 (US) */
 /*TODO*/ //	DRIVER( jackalj )	/* GX631 (c) 1986 (Japan) */

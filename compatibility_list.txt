@@ -257,7 +257,8 @@ yamyam
 wiseguy
 tp84
 tp84a
-
+ironhors
+dairesya
 
 
 Serious graphics issues
@@ -342,3 +343,5 @@ blckgalb
 chplft
 superqix
 jumpshot - missing encryption
+farwest
+
