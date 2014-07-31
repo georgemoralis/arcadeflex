@@ -29,9 +29,6 @@ public class driverConvert {
       static final int IOREAD = 4;
       static final int IOWRITE = 5;
       static final int INPUTPORT = 6;
-      static final int TRAKPORT = 7;
-      static final int KEYSET = 8;
-      static final int DSW = 9;
       static final int GFXLAYOUT = 10;
       static final int GFXDECODE = 11;
       static final int HILOAD=12;
@@ -41,6 +38,7 @@ public class driverConvert {
       static final int MEM_WRITE=16;
       static final int MACHINE_INTERRUPT=17;
       static final int SN76496interface=18;
+      static final int DACinterface=19;
       
       //type2 fields
       static final int NEWINPUT =12;
@@ -131,6 +129,7 @@ public class driverConvert {
                      sUtil.putString((new StringBuilder()).append("INPUT_PORTS_END(); }}; ").toString()); 
                      continue;
                  }
+                 
                   break;
               case 'P':
                  if(sUtil.getToken("PORT_START"))
@@ -143,6 +142,7 @@ public class driverConvert {
                  {
                      i8++;
                      type2=NEWINPUT;
+                     sUtil.skipSpace();
                      if (sUtil.parseChar() == '(')
                      {
                               Convertor.inpos = h;
@@ -267,11 +267,12 @@ public class driverConvert {
                      sUtil.putString((new StringBuilder()).append("ROM_END(); }}; ").toString()); 
                      continue;
                  }
-                 if(sUtil.getToken("ROM_REGION") || sUtil.getToken("ROM_LOAD") || sUtil.getToken("ROM_RELOAD") || sUtil.getToken("ROM_CONTINUE"))
+                 if(sUtil.getToken("ROM_REGION") || sUtil.getToken("ROM_LOAD") || sUtil.getToken("ROM_RELOAD") || sUtil.getToken("ROM_CONTINUE") || sUtil.getToken("ROM_LOAD_GFX_ODD")|| sUtil.getToken("ROM_LOAD_GFX_EVEN"))
                  {
                      i8++;
                      type2=ROMDEF;
-                     if (sUtil.parseChar() == '(')
+                     sUtil.skipSpace();
+                     if (sUtil.parseChar() == '(') 
                      {
                               Convertor.inpos = r;
                      }
@@ -602,102 +603,7 @@ public class driverConvert {
                               }
                             }
                           }
-                        } else if (sUtil.getToken("TrakPort"))
-                        {
-                          sUtil.skipSpace();
-                          Convertor.token[0] = sUtil.parseToken();
-                          sUtil.skipSpace();
-                          if (sUtil.parseChar() != '[')
-                          {
-                            Convertor.inpos = i;
-                          }
-                          else {
-                            sUtil.skipSpace();
-                            if (sUtil.parseChar() != ']')
-                            {
-                              Convertor.inpos = i;
-                            }
-                            else {
-                              sUtil.skipSpace();
-                              if (sUtil.parseChar() != '=')
-                              {
-                                Convertor.inpos = i;
-                              }
-                              else {
-                                sUtil.skipSpace();
-                                sUtil.putString("static TrakPort " + Convertor.token[0] + "[] =");
-                                if (sUtil.getChar() == '{')
-                                {
-                                  sUtil.putString("\r\n");
-                                  //m = 1;
-                                }
-                                type=TRAKPORT;
-                                i3 = -1;
-                                continue;
-                              }
-                            }
-                          }
-                        } else if (sUtil.getToken("KEYSet"))
-                        {
-                          sUtil.skipSpace();
-                          Convertor.token[0] = sUtil.parseToken();
-                          sUtil.skipSpace();
-                          if (sUtil.parseChar() != '[')
-                          {
-                            Convertor.inpos = i;
-                          }
-                          else {
-                            sUtil.skipSpace();
-                            if (sUtil.parseChar() != ']')
-                            {
-                              Convertor.inpos = i;
-                            }
-                            else {
-                              sUtil.skipSpace();
-                              if (sUtil.parseChar() != '=')
-                              {
-                                Convertor.inpos = i;
-                              }
-                              else {
-                                sUtil.skipSpace();
-                                sUtil.putString("static KEYSet " + Convertor.token[0] + "[] =");
-                                type=KEYSET;
-                                i3 = -1;
-                                continue;
-                              }
-                            }
-                          }
-                        } else if (sUtil.getToken("DSW"))
-                        {
-                          sUtil.skipSpace();
-                          Convertor.token[0] = sUtil.parseToken();
-                          sUtil.skipSpace();
-                          if (sUtil.parseChar() != '[')
-                          {
-                            Convertor.inpos = i;
-                          }
-                          else {
-                            sUtil.skipSpace();
-                            if (sUtil.parseChar() != ']')
-                            {
-                              Convertor.inpos = i;
-                            }
-                            else {
-                              sUtil.skipSpace();
-                              if (sUtil.parseChar() != '=')
-                              {
-                                Convertor.inpos = i;
-                              }
-                              else {
-                                sUtil.skipSpace();
-                                sUtil.putString("static DSW " + Convertor.token[0] + "[] =");
-                                type=DSW;
-                                i3 = -1;
-                                continue;
-                              }
-                            }
-                          }
-                        } 
+                        }  
                         else if (sUtil.getToken("GfxLayout"))
                         {
                           sUtil.skipSpace();
@@ -728,6 +634,23 @@ public class driverConvert {
                             sUtil.skipSpace();
                             sUtil.putString("static SN76496interface " + Convertor.token[0] + " = new SN76496interface");
                             type=SN76496interface;
+                            i3 = -1;
+                            continue;
+                          }
+                        } 
+                        else if (sUtil.getToken("DACinterface"))
+                        {
+                          sUtil.skipSpace();
+                          Convertor.token[0] = sUtil.parseToken();
+                          sUtil.skipSpace();
+                          if (sUtil.parseChar() != '=')
+                          {
+                            Convertor.inpos = i;
+                          }
+                          else {
+                            sUtil.skipSpace();
+                            sUtil.putString("static DACinterface " + Convertor.token[0] + " = new DACinterface");
+                            type=DACinterface;
                             i3 = -1;
                             continue;
                           }
@@ -837,9 +760,81 @@ public class driverConvert {
                               Convertor.inpos += 1;
                               continue;
                         }
+                        if ((i3 == 1) && (insideagk[0] == 21))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 22))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 23))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 24))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 25))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 26))
+                        {
+                          sUtil.putString("new MachineSound[] {");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
                         if ((i3 == 2) && (insideagk[0] == 0))
                         {
                           sUtil.putString("new MachineCPU(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        if ((i3 == 2) && (insideagk[0] == 21))
+                        {
+                          sUtil.putString("new MachineSound(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 2) && (insideagk[0] == 22))
+                        {
+                          sUtil.putString("new MachineSound(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 2) && (insideagk[0] == 23))
+                        {
+                          sUtil.putString("new MachineSound(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 2) && (insideagk[0] == 24))
+                        {
+                          sUtil.putString("new MachineSound(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 2) && (insideagk[0] == 25))
+                        {
+                          sUtil.putString("new MachineSound(");
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 2) && (insideagk[0] == 26))
+                        {
+                          sUtil.putString("new MachineSound(");
                           Convertor.inpos += 1;
                           continue;
                         }
@@ -888,28 +883,6 @@ public class driverConvert {
                       continue;
                     }
                   }
-                  else if (type == TRAKPORT)
-                  {
-                    i3++;
-                    insideagk[i3] = 0;
-                    if (i3 == 1)
-                    {
-                      sUtil.putString("new TrakPort(");
-                      Convertor.inpos += 1;
-                      continue;
-                    }
-                  }
-                  else if (type == KEYSET)
-                  {
-                    i3++;
-                    insideagk[i3] = 0;
-                    if (i3 == 1)
-                    {
-                       sUtil.putString("new KEYSet(");
-                      Convertor.inpos += 1;
-                      continue;
-                    }
-                  }
                   else if (type == GFXDECODE)
                   {
                     i3++;
@@ -954,20 +927,20 @@ public class driverConvert {
                       Convertor.inpos += 1;
                       continue;
                     }
-                  }
-                  else if (type== DSW)
+                  }                  
+                  else if (type == DACinterface)
                   {
                     i3++;
                     insideagk[i3] = 0;
-                    if (i3 == 1)
+                    if (i3 == 0)
                     {
-                      sUtil.putString("new DSW(");
+                      Convertor.outbuf[(Convertor.outpos++)] = '(';
                       Convertor.inpos += 1;
                       continue;
                     }
-                    if ((i3 == 2) && (insideagk[1] == 3))
+                    if ((i3 == 1) && ((insideagk[0] == 1)))
                     {
-                      sUtil.putString("new String[] {");
+                      sUtil.putString("new int[] {");
                       Convertor.inpos += 1;
                       continue;
                     }
@@ -1031,6 +1004,42 @@ public class driverConvert {
                           Convertor.inpos += 1;
                           continue;
                         }
+                        if ((i3 == 1) && (insideagk[0] == 21))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 22))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 23))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 24))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 25))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 26))
+                        {
+                          Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;
+                          continue;
+                        }
                         if ((i3 == 0) && (insideagk[0] == 7))
                         {
                           Convertor.outbuf[(Convertor.outpos++)] = 41;
@@ -1044,7 +1053,7 @@ public class driverConvert {
                           continue;
                         }
                   }
-                  else if ((type == MEMORYREAD) || (type == MEMORYWRITE) || (type== IOREAD) || (type == IOWRITE) || (type==TRAKPORT) || (type==KEYSET) || (type==GFXDECODE))
+                  else if ((type == MEMORYREAD) || (type == MEMORYWRITE) || (type== IOREAD) || (type == IOWRITE) || (type==GFXDECODE))
                   {
                     i3--;
                     if (i3 == -1)
@@ -1080,17 +1089,14 @@ public class driverConvert {
                       continue;
                     }
                   }
-                  else if (type == DSW)
+                  else if (type == DACinterface)
                   {
                     i3--;
                     if (i3 == -1)
                     {
-                      type = -1;
-                    }
-                    else if (i3 == 0)
-                    {
                       Convertor.outbuf[(Convertor.outpos++)] = 41;
                       Convertor.inpos += 1;
+                      type = -1;
                       continue;
                     }
                   }
@@ -1170,7 +1176,7 @@ public class driverConvert {
                         }
                         if (type==MACHINEDRIVER)
                         {
-                          if ((i3 == 0) && ((insideagk[i3] == 3) || (insideagk[i3] == 6) || (insideagk[i3] == 12) || (insideagk[i3] == 14) || (insideagk[i3] == 15) || (insideagk[i3] == 16)))
+                          if ((i3 == 0) && ((insideagk[i3] == 3) || (insideagk[i3] == 5) || (insideagk[i3] == 6) || (insideagk[i3] == 12) || (insideagk[i3] == 14) || (insideagk[i3] == 15) || (insideagk[i3] == 16)))
                           {
                             sUtil.putString("null");
                             Convertor.inpos += 1;
@@ -1182,7 +1188,7 @@ public class driverConvert {
                              Convertor.inpos += 1;
                              continue;
                           }
-                          if ((i3 == 2) && (insideagk[0] == 0) && ((insideagk[i3] == 5) || (insideagk[i3] == 6)))
+                          if ((i3 == 2) && (insideagk[0] == 0) && ((insideagk[i3] == 4) || (insideagk[i3] == 6)))
                           {
                             sUtil.putString("null");
                             Convertor.inpos += 1;
@@ -1206,6 +1212,11 @@ public class driverConvert {
                         {
                             Convertor.inpos+=1;
                             continue;
+                        }
+                        if(type==MACHINEDRIVER)
+                        {
+                              Convertor.inpos += 1;
+                              continue;
                         }
                     break;
                  case ',':
@@ -1235,24 +1246,78 @@ public class driverConvert {
                           }
                           break; 
                      case 'v':
-                         if(type==HILOAD || type==HISAVE)
-                         {
-                              i = Convertor.inpos;
-                              if (sUtil.getToken("void"))
-                              {
-                                sUtil.skipSpace();
-                                if (sUtil.parseChar() != '*')
-                                {
-                                  Convertor.inpos = i;
-                                }
-                                else {
-                                  sUtil.skipSpace();
-                                  Convertor.token[0] = sUtil.parseToken();
-                                  sUtil.skipSpace();
-                                  sUtil.putString("FILE " + Convertor.token[0]);
-                                }
-                              }
-                         }
+                         i = Convertor.inpos;
+                        if(sUtil.getToken("void"))
+                        {
+                            sUtil.skipSpace();
+                            Convertor.token[0] = sUtil.parseToken();
+                            if(sUtil.parseChar() != '(')
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            if(sUtil.getToken("void"))//an to soma tis function einai (void)
+                            {
+                                    if(sUtil.parseChar() != ')')
+                                    {
+                                        Convertor.inpos = i;
+                                        break;
+                                    }
+                                    
+                                    if(Convertor.token[0].contains("hisave"))
+                                    {
+                                        sUtil.putString((new StringBuilder()).append("static HiscoreSavePtr ").append(Convertor.token[0]).append(" = new HiscoreSavePtr() { public void handler() ").toString());
+                                        type = HISAVE;
+                                        i3 = -1;
+                                        continue; 
+                                    }   
+                                    if(Convertor.token[0].startsWith("init_"))
+                                    {
+                                        sUtil.putString((new StringBuilder()).append("public static InitDriverPtr ").append(Convertor.token[0]).append(" = new InitDriverPtr() { public void handler() ").toString());
+                                        type = DRIVER_INIT;
+                                        i3 = -1;
+                                        continue;
+                                    } 
+                            }
+                            if(!sUtil.getToken("int"))
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            sUtil.skipSpace();
+                            Convertor.token[1] = sUtil.parseToken();
+                            sUtil.skipSpace();
+                            if(sUtil.parseChar() != ',')
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            sUtil.skipSpace();
+                            if(!sUtil.getToken("int"))
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            sUtil.skipSpace();
+                            Convertor.token[2] = sUtil.parseToken();
+                            sUtil.skipSpace();
+                            if(sUtil.parseChar() != ')')
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            sUtil.skipSpace();
+                            if(Convertor.token[0].length()>0 && Convertor.token[1].length()>0 && Convertor.token[2].length()>0)
+                            {
+                                sUtil.putString((new StringBuilder()).append("public static WriteHandlerPtr ").append(Convertor.token[0]).append(" = new WriteHandlerPtr() { public void handler(int ").append(Convertor.token[1]).append(", int ").append(Convertor.token[2]).append(")").toString());
+                                type = MEM_WRITE;
+                                i3 = -1;
+                                continue; 
+                            }
+
+                            Convertor.inpos = i;           
+                            break;
+                        }
                          break;
                      case 'u':
                          if(type==HILOAD || type==HISAVE)
@@ -1356,6 +1421,57 @@ public class driverConvert {
                             }
                           }
                          }
+                        }
+                        break;
+                    case 'i':
+                        i = Convertor.inpos;
+                        if(sUtil.getToken("int"))
+                        {
+                            sUtil.skipSpace();
+                            Convertor.token[0] = sUtil.parseToken();
+                            if(sUtil.parseChar() != '(')
+                            {
+                                Convertor.inpos = i;
+                                break;
+                            }
+                            if(sUtil.getToken("void"))//an to soma tis function einai (void)
+                            {
+                                    if(sUtil.parseChar() != ')')
+                                    {
+                                        Convertor.inpos = i;
+                                        break;
+                                    }
+                                     if(Convertor.token[0].contains("_interrupt"))
+                                    {
+                                        sUtil.putString((new StringBuilder()).append("public static InterruptPtr ").append(Convertor.token[0]).append(" = new InterruptPtr() { public int handler() ").toString());
+                                        type = MACHINE_INTERRUPT;
+                                        i3 = -1;
+                                        continue; 
+                                    } 
+                                      
+                            }
+                            if(sUtil.getToken("int"))
+                            {
+                                sUtil.skipSpace();
+                                Convertor.token[1] = sUtil.parseToken();
+                                sUtil.skipSpace();
+                                if(sUtil.parseChar() != ')')
+                                {
+                                    Convertor.inpos = i;
+                                    break;
+                                }
+                                sUtil.skipSpace();
+                                if(Convertor.token[0].length()>0 && Convertor.token[1].length()>0)
+                                {
+                                        sUtil.putString((new StringBuilder()).append("public static ReadHandlerPtr ").append(Convertor.token[0]).append(" = new ReadHandlerPtr() { public int handler(int ").append(Convertor.token[1]).append(")").toString());
+                                        type = MEM_READ;
+                                        i3 = -1;
+                                        continue;
+                                }
+
+                            }
+                            Convertor.inpos = i;
+                            break;
                         }
                         break;
                      case 'm':
