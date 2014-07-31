@@ -255,6 +255,8 @@ theglob
 beastf
 yamyam
 wiseguy
+tp84
+tp84a
 
 
 
@@ -265,6 +267,7 @@ contrab
 contraj
 contrajb
 gryzor
+combasc
 
 
 

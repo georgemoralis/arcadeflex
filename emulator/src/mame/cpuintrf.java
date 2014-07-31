@@ -1106,13 +1106,13 @@ public class cpuintrf {
     	timer_suspendcpu_trigger(cpunum, trigger);
     }
     
-    /*TODO*////* burn CPU cycles until the next interrupt */
-    /*TODO*///void cpu_spinuntil_int(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	cpu_spinuntil_trigger(TRIGGER_INT + cpunum);
-    /*TODO*///}
-    /*TODO*///
+    /* burn CPU cycles until the next interrupt */
+    public static void cpu_spinuntil_int()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	cpu_spinuntil_trigger(TRIGGER_INT + cpunum);
+    }
+    
     /*TODO*////* burn CPU cycles until our timeslice is up */
     /*TODO*///void cpu_spin(void)
     /*TODO*///{

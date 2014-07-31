@@ -2954,17 +2954,15 @@ public class m6809 extends cpu_interface
         if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $118C CMPS immediate -**** */
+    /* $118C CMPS immediate -**** */
     public void cmps_im()
     {
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	IMMWORD(b);
-    /*TODO*///	d = S;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
+        int r,d;
+        int b=IMMWORD();
+	d = m6809.s;
+    	r = (d - b); //&0xFFFF;//should be unsigned?
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
     }
     /* $8D BSR ----- */
     public void bsr()
@@ -4471,14 +4469,13 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
     	SET_NZ16(m6809.u);
     }
-    /*TODO*///
-    /*TODO*////* $10fE LDS extended -**0- */
+    /* $10fE LDS extended -**0- */
     public void lds_ex()
     {
-    /*TODO*///	EXTWORD(pS);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	m6809.int_state |= M6809_LDS;
+        m6809.s=EXTWORD();
+    	CLR_NZV();
+    	SET_NZ16(m6809.s);
+	m6809.int_state |= M6809_LDS;
     }
     /* $fF STU (STS) extended -**0- */
     public void stu_ex()
@@ -4488,14 +4485,13 @@ public class m6809 extends cpu_interface
     	EXTENDED();
     	WM16(ea,m6809.u);
     }
-    /*TODO*///
-    /*TODO*////* $10fF STS extended -**0- */
+    /* $10fF STS extended -**0- */
     public void sts_ex()
     {
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	EXTENDED;
-    /*TODO*///	WM16(EAD,&pS);
+    	CLR_NZV();
+    	SET_NZ16(m6809.s);
+    	EXTENDED();
+    	WM16(ea,m6809.s);
     }
     /*TODO*///
     /*TODO*////* $10xx opcodes */
@@ -4552,8 +4548,8 @@ public class m6809 extends cpu_interface
     /*TODO*///		case 0xee: lds_ix();	m6809_ICount-=6;	break;
     /*TODO*///		case 0xef: sts_ix();	m6809_ICount-=6;	break;
     /*TODO*///
-    /*TODO*///		case 0xfe: lds_ex();	m6809_ICount-=7;	break;
-    /*TODO*///		case 0xff: sts_ex();	m6809_ICount-=7;	break;
+    		case 0xfe: lds_ex();	m6809_ICount[0]-=7;	break;
+    		case 0xff: sts_ex();	m6809_ICount[0]-=7;	break;
     /*TODO*///
     /*TODO*///		default:   illegal();						break;
             default:
@@ -4570,7 +4566,7 @@ public class m6809 extends cpu_interface
     /*TODO*///		case 0x3f: swi3();		m6809_ICount-=20;	break;
     /*TODO*///
     		case 0x83: cmpu_im();	m6809_ICount[0]-=5;	break;
-    /*TODO*///		case 0x8c: cmps_im();	m6809_ICount-=5;	break;
+    		case 0x8c: cmps_im();	m6809_ICount[0]-=5;	break;
     /*TODO*///
     		case 0x93: cmpu_di();	m6809_ICount[0]-=7;	break;
     /*TODO*///		case 0x9c: cmps_di();	m6809_ICount-=7;	break;

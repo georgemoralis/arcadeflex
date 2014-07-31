@@ -66,6 +66,7 @@ import static drivers.gng.*;
 import static drivers.gundealr.*;
 import static drivers.circusc.*;
 import static drivers.combatsc.*;
+import static drivers.tp84.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1671,8 +1672,8 @@ public class driver {
         driver_circusc2,	/* GX380 (c) 1984 */
         driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
         driver_circusce,	/* GX380 (c) 1984 + Centuri license */
-/*TODO*/ //	DRIVER( tp84 )		/* GX388 (c) 1984 */
-/*TODO*/ //	DRIVER( tp84a )		/* GX388 (c) 1984 */
+        driver_tp84,		/* GX388 (c) 1984 */
+        driver_tp84a,		/* GX388 (c) 1984 */
 /*TODO*/ //	DRIVER( hyperspt )	/* GX330 (c) 1984 + Centuri */
 /*TODO*/ //	DRIVER( hpolym84 )	/* GX330 (c) 1984 */
 /*TODO*/ //	DRIVER( sbasketb )	/* GX405 (c) 1984 */
