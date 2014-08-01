@@ -2049,18 +2049,12 @@ public class m6809 extends cpu_interface
         if(m6809log!=null) fprintf(m6809log,"M6809#%d ble :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $102F LBLE relative ----- */
+    /* $102F LBLE relative ----- */
     public void lble()
     {
-    /*TODO*///	LBRANCH( (NXORV || (CC&CC_Z)) );
+    	LBRANCH( (NXORV()!=0 || (m6809.cc&CC_Z)!=0) );
     }
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____3x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $30 LEAX indexed --*-- */
+    /* $30 LEAX indexed --*-- */
     public void leax()
     {
     	fetch_effective_address();
@@ -4515,7 +4509,7 @@ public class m6809 extends cpu_interface
     		case 0x2c: lbge();		m6809_ICount[0]-=5;	break;
     		case 0x2d: lblt();		m6809_ICount[0]-=5;	break;
     		case 0x2e: lbgt();		m6809_ICount[0]-=5;	break;
-    /*TODO*///		case 0x2f: lble();		m6809_ICount-=5;	break;
+    		case 0x2f: lble();		m6809_ICount[0]-=5;	break;
     /*TODO*///
     /*TODO*///		case 0x3f: swi2();		m6809_ICount-=20;	break;
     /*TODO*///

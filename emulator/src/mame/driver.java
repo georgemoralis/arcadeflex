@@ -71,6 +71,8 @@ import static drivers.ironhors.*;
 import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
 import static drivers.trackfld.*;
+import static drivers.commando.*;
+
 
 
 public class driver {
@@ -95,7 +97,10 @@ public class driver {
         /*trackfld*/driver_trackflc,
         /*trackfld*/driver_hyprolym,
         /*trackfld*/driver_hyprolyb,
-        
+        /*commando*/driver_commando,
+        /*commando*/driver_commandu,
+        /*commando*/driver_commandj,
+        /*commando*/driver_spaceinv,     
         
         /**
          * Games not working in mame 0.36 either
@@ -1030,10 +1035,7 @@ public class driver {
             driver_1942b,		/* 12/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( exedexes )	/*  2/1985 (c) 1985 */
 /*TODO*/ //	DRIVER( savgbees )	/*  2/1985 (c) 1985 + Memetron license */
-/*TODO*/ //	DRIVER( commando )	/*  5/1985 (c) 1985 (World) */
-/*TODO*/ //	DRIVER( commandu )	/*  5/1985 (c) 1985 + Data East license (US) */
-/*TODO*/ //	DRIVER( commandj )	/*  5/1985 (c) 1985 (Japan) */
-/*TODO*/ //	DRIVER( spaceinv )	/* bootleg */
+
             driver_gng,		/*  9/1985 (c) 1985 */
             driver_gnga,		/*  9/1985 (c) 1985 */
             driver_gngt,		/*  9/1985 (c) 1985 */

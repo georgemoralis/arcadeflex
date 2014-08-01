@@ -275,6 +275,10 @@ trackfld
 trackflc
 hyprolym
 hyprolyb
+commando
+commandu
+commandj
+spaceinv
 
 Serious graphics issues
 -----------------------
