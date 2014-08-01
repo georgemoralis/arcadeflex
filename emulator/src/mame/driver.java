@@ -70,6 +70,8 @@ import static drivers.tp84.*;
 import static drivers.ironhors.*;
 import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
+import static drivers.trackfld.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -80,8 +82,7 @@ public class driver {
          * Games that only misses sound
          * 
          */
-        
-        
+           
         /*lwings*/driver_sectionz,
         /*lwings*/driver_sctionza,
         /*lwings*/driver_trojan,
@@ -90,6 +91,16 @@ public class driver {
         /*lwings*/driver_lwings,
         /*lwings*/driver_lwings2,
         /*lwings*/driver_lwingsjp,
+        /*trackfld*/driver_trackfld,
+        /*trackfld*/driver_trackflc,
+        /*trackfld*/driver_hyprolym,
+        /*trackfld*/driver_hyprolyb,
+        
+        
+        /**
+         * Games not working in mame 0.36 either
+         */
+        
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
 
@@ -1678,10 +1689,7 @@ public class driver {
 /*TODO*/ //	DRIVER( gyruss )	/* GX347 (c) 1983 */
 /*TODO*/ //	DRIVER( gyrussce )	/* GX347 (c) 1983 + Centuri license */
 /*TODO*/ //	DRIVER( venus )		/* bootleg */
-/*TODO*/ //	DRIVER( trackfld )	/* GX361 (c) 1983 */
-/*TODO*/ //	DRIVER( trackflc )	/* GX361 (c) 1983 + Centuri license */
-/*TODO*/ //	DRIVER( hyprolym )	/* GX361 (c) 1983 */
-/*TODO*/ //	DRIVER( hyprolyb )	/* bootleg */
+
         driver_rocnrope,	/* GX364 (c) 1983 */
         driver_rocnropk,	/* GX364 (c) 1983 + Kosuka */
         driver_circusc,	/* GX380 (c) 1984 */
