@@ -69,10 +69,30 @@ import static drivers.combatsc.*;
 import static drivers.tp84.*;
 import static drivers.ironhors.*;
 import static drivers.gunsmoke.*;
+import static drivers.lwings.*;
 
 public class driver {
     public static GameDriver drivers[] =
     {
+        
+        
+        /**
+         * Games that only misses sound
+         * 
+         */
+        
+        
+        /*lwings*/driver_sectionz,
+        /*lwings*/driver_sctionza,
+        /*lwings*/driver_trojan,
+        /*lwings*/driver_trojanr,
+        /*lwings*/driver_trojanj,
+        /*lwings*/driver_lwings,
+        /*lwings*/driver_lwings2,
+        /*lwings*/driver_lwingsjp,
+        /*lwings*/driver_avengers,
+        /*lwings*/driver_avenger2,
+
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
         driver_pacmanjp,   /* (c) 1980 Namco */
@@ -1014,24 +1034,18 @@ public class driver {
             driver_gunsmrom,	/* 11/1985 (c) 1985 + Romstar (US) */
             driver_gunsmoka,	/* 11/1985 (c) 1985 (US) */
             driver_gunsmokj,	/* 11/1985 (c) 1985 (Japan) */
-/*TODO*/ //	DRIVER( sectionz )	/* 12/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( sctionza )	/* 12/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( trojan )	/*  4/1986 (c) 1986 (US) */
-/*TODO*/ //	DRIVER( trojanr )	/*  4/1986 (c) 1986 + Romstar */
-/*TODO*/ //	DRIVER( trojanj )	/*  4/1986 (c) 1986 (Japan) */
+
+            
 /*TODO*/ //	DRIVER( srumbler )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( srumblr2 )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( rushcrsh )	/*  9/1986 (c) 1986 */
-/*TODO*/ //	DRIVER( lwings )	/* 11/1986 (c) 1986 */
-/*TODO*/ //	DRIVER( lwings2 )	/* 11/1986 (c) 1986 */
-/*TODO*/ //	DRIVER( lwingsjp )	/* 11/1986 (c) 1986 */
+
 /*TODO*/ //	DRIVER( sidearms )	/* 12/1986 (c) 1986 (World) */
 /*TODO*/ //	DRIVER( sidearmr )	/* 12/1986 (c) 1986 + Romstar license (US) */
 /*TODO*/ //	DRIVER( sidearjp )	/* 12/1986 (c) 1986 (Japan) */
 /*TODO*/ //	DRIVER( turtship )	/* (c) 1988 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
 /*TODO*/ //	DRIVER( dyger )		/* (c) 1989 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
-/*TODO*/ //	DRIVER( avengers )	/*  2/1987 (c) 1987 (US) */
-/*TODO*/ //	DRIVER( avenger2 )	/*  2/1987 (c) 1987 (US) */
+
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */

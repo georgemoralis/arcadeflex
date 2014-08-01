@@ -263,6 +263,14 @@ gunsmoke
 gunsmrom
 gunsmoka
 gunsmokj
+sectionz
+sctionza
+trojan
+trojanr
+trojanj
+lwings
+lwings2,
+lwingsjp
 
 
 Serious graphics issues
@@ -348,4 +356,5 @@ chplft
 superqix
 jumpshot - missing encryption
 farwest
-
+avengers
+avenger2
