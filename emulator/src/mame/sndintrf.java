@@ -47,22 +47,20 @@ public class sndintrf {
     /*TODO*////*TODO*///}
     /*TODO*////*TODO*///
     /*TODO*////*TODO*///
-    /*TODO*////*TODO*///static int latch2,read_debug2;
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///static void soundlatch2_callback(int param)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///if (errorlog && read_debug2 == 0 && latch2 != param)
-    /*TODO*////*TODO*///	fprintf(errorlog,"Warning: sound latch 2 written before being read. Previous: %02x, new: %02x\n",latch2,param);
-    /*TODO*////*TODO*///	latch2 = param;
-    /*TODO*////*TODO*///	read_debug2 = 0;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void soundlatch2_w(int offset,int data)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
-    /*TODO*////*TODO*///	timer_set(TIME_NOW,data,soundlatch2_callback);
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
+    static int latch2,read_debug2;
+    
+    public static timer_callback soundlatch2_callback = new timer_callback(){ public void handler(int param){
+        if (errorlog!=null && read_debug2 == 0 && latch2 != param)
+    	fprintf(errorlog,"Warning: sound latch 2 written before being read. Previous: %02x, new: %02x\n",latch2,param);
+    	latch2 = param;
+    	read_debug2 = 0;
+    }};
+    public static WriteHandlerPtr soundlatch2_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+
+    	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
+    	timer_set(TIME_NOW,data,soundlatch2_callback);
+    }};
     /*TODO*////*TODO*///int soundlatch2_r(int offset)
     /*TODO*////*TODO*///{
     /*TODO*////*TODO*///	read_debug2 = 1;

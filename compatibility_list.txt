@@ -279,6 +279,9 @@ commando
 commandu
 commandj
 spaceinv
+citycon
+citycona
+cruisin
 
 Serious graphics issues
 -----------------------

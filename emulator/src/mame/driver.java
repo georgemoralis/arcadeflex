@@ -72,7 +72,7 @@ import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
 import static drivers.trackfld.*;
 import static drivers.commando.*;
-
+import static drivers.citycon.*;
 
 
 public class driver {
@@ -100,7 +100,11 @@ public class driver {
         /*commando*/driver_commando,
         /*commando*/driver_commandu,
         /*commando*/driver_commandj,
-        /*commando*/driver_spaceinv,     
+        /*commando*/driver_spaceinv,         
+        /*citycon*/driver_citycon,
+        /*citycon*/driver_citycona,
+        /*citycon*/driver_cruisin,
+        
         
         /**
          * Games not working in mame 0.36 either
@@ -2304,9 +2308,7 @@ public class driver {
 /*TODO*/ //	DRIVER( exerionb )	/* bootleg */
 /*TODO*/ //	DRIVER( formatz )	/* (c) 1984 Jaleco */
 /*TODO*/ //	DRIVER( aeroboto )	/* (c) 1984 Williams */
-/*TODO*/ //	DRIVER( citycon )	/* (c) 1985 Jaleco */
-/*TODO*/ //	DRIVER( citycona )	/* (c) 1985 Jaleco */
-/*TODO*/ //	DRIVER( cruisin )	/* (c) 1985 Jaleco/Kitkorp */
+
 /*TODO*/ //	DRIVER( pinbo )		/* (c) 1984 Jaleco */
 /*TODO*/ //	DRIVER( pinbos )	/* (c) 1985 Strike */
 /*TODO*/ //	DRIVER( psychic5 )	/* (c) 1987 Jaleco */
