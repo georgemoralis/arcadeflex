@@ -111,7 +111,10 @@ public class driver {
         /*_1943*/driver_1943,
         /*_1943*/driver_1943j,
         /*_1943*/driver_1943kai,/*background islands doesn't draw properly*/
-        
+        /*blktiger*/driver_blktiger,
+        /*blktiger*/driver_bktigerb,
+        /*blktiger*/driver_blkdrgon,
+        /*blktiger*/driver_blkdrgnb,
         
         /**
          * Games not working (various reasons)
@@ -134,10 +137,7 @@ public class driver {
          * WIP section
          */
         
-        /*blktiger*/driver_blktiger,
-        /*blktiger*/driver_bktigerb,
-        /*blktiger*/driver_blkdrgon,
-        /*blktiger*/driver_blkdrgnb,      
+              
 
         
         /* "Pacman hardware" games */
