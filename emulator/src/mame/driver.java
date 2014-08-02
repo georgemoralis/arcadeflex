@@ -75,6 +75,7 @@ import static drivers.commando.*;
 import static drivers.citycon.*;
 import static drivers.jackal.*;
 import static drivers._1943.*;
+import static drivers.blktiger.*;
 
 
 
@@ -133,6 +134,10 @@ public class driver {
          * WIP section
          */
         
+        /*blktiger*/driver_blktiger,
+        /*blktiger*/driver_bktigerb,
+        /*blktiger*/driver_blkdrgon,
+        /*blktiger*/driver_blkdrgnb,      
 
         
         /* "Pacman hardware" games */
@@ -1089,10 +1094,7 @@ public class driver {
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
 
-/*TODO*/ //	DRIVER( blktiger )	/*  8/1987 (c) 1987 (US) */
-/*TODO*/ //	DRIVER( bktigerb )	/* bootleg */
-/*TODO*/ //	DRIVER( blkdrgon )	/*  8/1987 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( blkdrgnb )	/* bootleg, hacked to say Black Tiger */
+
 /*TODO*/ //	DRIVER( sf1 )		/*  8/1987 (c) 1987 (World) */
 /*TODO*/ //	DRIVER( sf1us )		/*  8/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( sf1jp )		/*  8/1987 (c) 1987 (Japan) */

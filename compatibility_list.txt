@@ -285,7 +285,10 @@ cruisin
 1943
 1943j
 1943kai /*background islands doesn't draw properly*/
-
+blktiger
+bktigerb
+blkdrgon
+blkdrgnb
 
 Serious graphics issues
 -----------------------
