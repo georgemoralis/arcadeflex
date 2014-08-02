@@ -74,6 +74,8 @@ import static drivers.trackfld.*;
 import static drivers.commando.*;
 import static drivers.citycon.*;
 import static drivers.jackal.*;
+import static drivers._1943.*;
+
 
 
 public class driver {
@@ -105,6 +107,10 @@ public class driver {
         /*citycon*/driver_citycon,
         /*citycon*/driver_citycona,
         /*citycon*/driver_cruisin,
+        /*_1943*/driver_1943,
+        /*_1943*/driver_1943j,
+        /*_1943*/driver_1943kai,/*background islands doesn't draw properly*/
+        
         
         /**
          * Games not working (various reasons)
@@ -123,7 +129,11 @@ public class driver {
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
 
+        /**
+         * WIP section
+         */
         
+
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -1078,8 +1088,7 @@ public class driver {
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( 1943 )		/*  6/1987 (c) 1987 (US) */
-/*TODO*/ //	DRIVER( 1943j )		/*  6/1987 (c) 1987 (Japan) */
+
 /*TODO*/ //	DRIVER( blktiger )	/*  8/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bktigerb )	/* bootleg */
 /*TODO*/ //	DRIVER( blkdrgon )	/*  8/1987 (c) 1987 (Japan) */
@@ -1091,7 +1100,6 @@ public class driver {
 /*TODO*/ //	DRIVER( toramich )	/* 11/1987 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( f1dream )	/*  4/1988 (c) 1988 + Romstar */
 /*TODO*/ //	DRIVER( f1dreamb )	/* bootleg */
-/*TODO*/ //	DRIVER( 1943kai )	/*  6/1988 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( lastduel )	/*  7/1988 (c) 1988 (US) */
 /*TODO*/ //	DRIVER( lstduela )	/*  7/1988 (c) 1988 (US) */
 /*TODO*/ //	DRIVER( lstduelb )	/* bootleg */

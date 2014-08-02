@@ -282,6 +282,10 @@ spaceinv
 citycon
 citycona
 cruisin
+1943
+1943j
+1943kai /*background islands doesn't draw properly*/
+
 
 Serious graphics issues
 -----------------------
