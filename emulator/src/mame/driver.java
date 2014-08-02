@@ -73,6 +73,7 @@ import static drivers.lwings.*;
 import static drivers.trackfld.*;
 import static drivers.commando.*;
 import static drivers.citycon.*;
+import static drivers.jackal.*;
 
 
 public class driver {
@@ -105,6 +106,15 @@ public class driver {
         /*citycon*/driver_citycona,
         /*citycon*/driver_cruisin,
         
+        /**
+         * Games not working (various reasons)
+        */
+        
+        /*jackal*/driver_jackal, //boots but doesn't start
+        /*jackal*/driver_topgunr,//boots but doesn't start
+        /*jackal*/driver_jackalj,//boots but doesn't  start
+        /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
+        
         
         /**
          * Games not working in mame 0.36 either
@@ -113,6 +123,8 @@ public class driver {
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
 
+        
+        
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
         driver_pacmanjp,   /* (c) 1980 Namco */
@@ -1727,10 +1739,7 @@ public class driver {
         driver_ironhors,	/* GX560 (c) 1986 */
         driver_dairesya,	/* GX560 (c) 1986 (Japan) */
         driver_farwest,
-/*TODO*/ //	DRIVER( jackal )	/* GX631 (c) 1986 (World) */
-/*TODO*/ //	DRIVER( topgunr )	/* GX631 (c) 1986 (US) */
-/*TODO*/ //	DRIVER( jackalj )	/* GX631 (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( topgunbl )	/* bootleg */
+
 /*TODO*/ //	DRIVER( ddribble )	/* GX690 (c) 1986 */
         driver_contra,	/* GX633 (c) 1987 */
         driver_contrab,	/* bootleg */

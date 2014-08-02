@@ -345,7 +345,11 @@ dokaben  - displays RAM error message
 marukin - dusplays RAM error message
 qtono1 - not sure how that works it's in chinese
 qsangoku - seems to freeze ingame...
-
+jackal  //boots but doesn't start
+topgunr //boots but doesn't start
+jackalj //boots but doesn't  start
+topgunbl //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
+        
 
 
 
