@@ -77,6 +77,7 @@ import static drivers.jackal.*;
 import static drivers._1943.*;
 import static drivers.blktiger.*;
 import static drivers.brkthru.*;
+import static drivers.jailbrek.*;
 
 
 
@@ -120,7 +121,7 @@ public class driver {
         /*brkthru*/driver_brkthruj,
         /*brkthru*/driver_darwin,     
               
-        
+        /*jailbrek*/driver_jailbrek,
         /**
          * Games not working (various reasons)
         */
@@ -1745,7 +1746,6 @@ public class driver {
         driver_rushatck,/* GX577 (c) 1985 */
         driver_gberetb,	/* bootleg on different hardware */
         driver_mrgoemon,/* GX621 (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( jailbrek )	/* GX507 (c) 1986 */
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
 /*TODO*/ //	DRIVER( finalizb )	/* bootleg */
         driver_ironhors,	/* GX560 (c) 1986 */

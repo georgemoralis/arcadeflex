@@ -113,6 +113,10 @@ public class driverH
                         timed_interrupts_per_second=tif;
                         reset_param=reset;
 		};
+                public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
+		{
+                    this(ct,cc,mr,mw,pr,pw,vb,vbf,ti,tif,null);
+                }
 		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf)
 		{
                     //3 last parameter are null
