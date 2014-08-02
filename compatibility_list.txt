@@ -289,6 +289,9 @@ blktiger
 bktigerb
 blkdrgon
 blkdrgnb
+brkthru
+brkthruj
+darwin
 
 Serious graphics issues
 -----------------------

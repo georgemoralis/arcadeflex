@@ -76,6 +76,7 @@ import static drivers.citycon.*;
 import static drivers.jackal.*;
 import static drivers._1943.*;
 import static drivers.blktiger.*;
+import static drivers.brkthru.*;
 
 
 
@@ -115,6 +116,10 @@ public class driver {
         /*blktiger*/driver_bktigerb,
         /*blktiger*/driver_blkdrgon,
         /*blktiger*/driver_blkdrgnb,
+        /*brkthru*/driver_brkthru,
+        /*brkthru*/driver_brkthruj,
+        /*brkthru*/driver_darwin,     
+              
         
         /**
          * Games not working (various reasons)
@@ -136,8 +141,7 @@ public class driver {
         /**
          * WIP section
          */
-        
-              
+
 
         
         /* "Pacman hardware" games */
@@ -1569,9 +1573,7 @@ public class driver {
 /*TODO*/ //	DRIVER( karatevs )	/* (c) 1984 Data East Corporation (Japan) */
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */
-/*TODO*/ //	DRIVER( brkthru )	/* (c) 1986 Data East USA (US) */
-/*TODO*/ //	DRIVER( brkthruj )	/* (c) 1986 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( darwin )	/* (c) 1986 Data East Corporation (Japan) */
+
 /*TODO*/ //	DRIVER( shootout )	/* (c) 1985 Data East USA (US) */
 /*TODO*/ //	DRIVER( shootouj )	/* (c) 1985 Data East USA (Japan) */
 /*TODO*/ //	DRIVER( shootoub )	/* bootleg */
