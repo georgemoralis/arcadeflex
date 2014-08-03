@@ -292,6 +292,13 @@ blkdrgnb
 brkthru
 brkthruj
 darwin
+sidearms
+sidearmr
+sidearjp
+turtship
+dyger //screen height is too big
+
+
 
 Serious graphics issues
 -----------------------

@@ -78,6 +78,7 @@ import static drivers._1943.*;
 import static drivers.blktiger.*;
 import static drivers.brkthru.*;
 import static drivers.jailbrek.*;
+import static drivers.sidearms.*;
 
 
 
@@ -120,8 +121,12 @@ public class driver {
         /*brkthru*/driver_brkthru,
         /*brkthru*/driver_brkthruj,
         /*brkthru*/driver_darwin,     
-              
-        /*jailbrek*/driver_jailbrek,
+        /*sidearms*/driver_sidearms,
+        /*sidearms*/driver_sidearmr,
+        /*sidearms*/driver_sidearjp,
+        /*sidearms*/driver_turtship,
+        /*sidearms*/driver_dyger, //screen height is too big      
+        
         /**
          * Games not working (various reasons)
         */
@@ -130,7 +135,7 @@ public class driver {
         /*jackal*/driver_topgunr,//boots but doesn't start
         /*jackal*/driver_jackalj,//boots but doesn't  start
         /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
-        
+        /*jailbrek*/driver_jailbrek, //reboots when i try to start game?
         
         /**
          * Games not working in mame 0.36 either
@@ -1088,18 +1093,9 @@ public class driver {
 /*TODO*/ //	DRIVER( srumbler )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( srumblr2 )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( rushcrsh )	/*  9/1986 (c) 1986 */
-
-/*TODO*/ //	DRIVER( sidearms )	/* 12/1986 (c) 1986 (World) */
-/*TODO*/ //	DRIVER( sidearmr )	/* 12/1986 (c) 1986 + Romstar license (US) */
-/*TODO*/ //	DRIVER( sidearjp )	/* 12/1986 (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( turtship )	/* (c) 1988 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
-/*TODO*/ //	DRIVER( dyger )		/* (c) 1989 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
-
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
-
-
 /*TODO*/ //	DRIVER( sf1 )		/*  8/1987 (c) 1987 (World) */
 /*TODO*/ //	DRIVER( sf1us )		/*  8/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( sf1jp )		/*  8/1987 (c) 1987 (Japan) */
