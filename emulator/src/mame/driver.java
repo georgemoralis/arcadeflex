@@ -79,6 +79,7 @@ import static drivers.blktiger.*;
 import static drivers.brkthru.*;
 import static drivers.jailbrek.*;
 import static drivers.sidearms.*;
+import static drivers.retofinv.*;
 
 
 
@@ -126,6 +127,9 @@ public class driver {
         /*sidearms*/driver_sidearjp,
         /*sidearms*/driver_turtship,
         /*sidearms*/driver_dyger, //screen height is too big      
+        /*retofinv*/driver_retofinv,
+        /*retofinv*/driver_retofin1,
+        /*retofinv*/driver_retofin2,
         
         /**
          * Games not working (various reasons)
@@ -881,9 +885,6 @@ public class driver {
 /*TODO*/ //	DRIVER( gsword )	/* (c) 1984 Taito Corporation */
 /*TODO*/ //	DRIVER( lkage )		/* (c) 1984 Taito Corporation */
 /*TODO*/ //	DRIVER( lkageb )	/* bootleg */
-/*TODO*/ //	DRIVER( retofinv )	/* (c) 1985 Taito Corporation */
-/*TODO*/ //	DRIVER( retofin1 )	/* bootleg */
-/*TODO*/ //	DRIVER( retofin2 )	/* bootleg */
 /*TODO*/ //	DRIVER( tsamurai )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( tsamura2 )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( nunchaku )	/* (c) 1985 Taito */

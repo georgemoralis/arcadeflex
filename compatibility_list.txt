@@ -297,6 +297,9 @@ sidearmr
 sidearjp
 turtship
 dyger //screen height is too big
+retofinv
+retofin1
+retofin2
 
 
 
