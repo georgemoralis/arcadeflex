@@ -300,7 +300,16 @@ dyger //screen height is too big
 retofinv
 retofin1
 retofin2
-
+gyrodine
+sonofphx
+repulse
+99lstwar
+99lstwra
+flashgal
+srdmissn
+airwolf
+skywolf
+skywolf2
 
 
 Serious graphics issues

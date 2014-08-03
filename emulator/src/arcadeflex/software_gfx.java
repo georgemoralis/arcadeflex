@@ -74,8 +74,16 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 int j = getHeight() - this._insets.top - this._insets.bottom;
                 /* Draw image to graphics context. */
                 Graphics2D localGraphics2D = (Graphics2D)this._strategy.getDrawGraphics();
-                if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
-                    localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i + (int) (i * 0.78), j, null);
+                if(Machine.gamedrv.source_file.equals("kyugo.java"))
+                {
+                    if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
+                        localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i + (int) (i * 0.78), j, null);
+                    }
+                    else
+                    {
+                        localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j+ (int) (i * 0.78), null);
+                    
+                    }           
                 } else if (Machine.gamedrv.source_file.equals("system1.java")) 
                 {
                     if(Machine.gamedrv.name.equals("starjack")|| Machine.gamedrv.name.equals("starjacs") || Machine.gamedrv.name.equals("regulus") || Machine.gamedrv.name.equals("regulusu") || Machine.gamedrv.name.equals("upndown") || Machine.gamedrv.name.equals("mrviking")|| Machine.gamedrv.name.equals("mrvikinj")|| Machine.gamedrv.name.equals("swat"))
@@ -126,9 +134,17 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
 		_insets = getInsets();
                 // super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
                 //hacked width height x2
-                if(Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")){//temp hack for airwolf and flashgal
-                    super.setSize(width + this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
-                }else{
+                if(Machine.gamedrv.source_file.equals("kyugo.java"))
+                {
+                    if(Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")){//temp hack for airwolf and flashgal
+                        super.setSize(width + this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
+                    }
+                    else
+                    {
+                        super.setSize(width*2+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);             
+                    }
+                }
+                else{
                     super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
                 }
                 super.createBufferStrategy(2);//double buffering

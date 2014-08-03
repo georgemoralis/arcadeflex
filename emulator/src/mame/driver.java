@@ -80,6 +80,7 @@ import static drivers.brkthru.*;
 import static drivers.jailbrek.*;
 import static drivers.sidearms.*;
 import static drivers.retofinv.*;
+import static drivers.kyugo.*;
 
 
 
@@ -130,6 +131,16 @@ public class driver {
         /*retofinv*/driver_retofinv,
         /*retofinv*/driver_retofin1,
         /*retofinv*/driver_retofin2,
+        /*kyugo*/driver_gyrodine,
+        /*kyugo*/driver_sonofphx,
+        /*kyugo*/driver_repulse,
+        /*kyugo*/driver_99lstwar,
+        /*kyugo*/driver_99lstwra,
+        /*kyugo*/driver_flashgal,
+        /*kyugo*/driver_srdmissn,
+        /*kyugo*/driver_airwolf,
+        /*kyugo*/driver_skywolf,
+        /*kyugo*/driver_skywolf2,
         
         /**
          * Games not working (various reasons)
@@ -1019,20 +1030,6 @@ public class driver {
 /*TODO*/ //	DRIVER( vfive )		/* TP-027 (c) 1993 Toaplan */
 /*TODO*/ //	DRIVER( batsugun )	/* TP-030 (c) 1993 Toaplan */
 /*TODO*/ //	DRIVER( snowbro2 )	/* TP-??? (c) 1994 Hanafram */
-
-	/* Kyugo games */
-	/* Kyugo only made four games: Repulse, Flash Gal, SRD Mission and Air Wolf. */
-	/* Gyrodine was made by Crux. Crux was antecedent of Toa Plan, and spin-off from Orca. */
-/*TODO*/ //	DRIVER( gyrodine )	/* (c) 1984 Taito Corporation */
-/*TODO*/ //	DRIVER( sonofphx )	/* (c) 1985 Associated Overseas MFR */
-/*TODO*/ //	DRIVER( repulse )	/* (c) 1985 Sega */
-/*TODO*/ //	DRIVER( 99lstwar )	/* (c) 1985 Proma */
-/*TODO*/ //	DRIVER( 99lstwra )	/* (c) 1985 Proma */
-/*TODO*/ //	DRIVER( flashgal )	/* (c) 1985 Sega */
-/*TODO*/ //	DRIVER( srdmissn )	/* (c) 1986 Taito Corporation */
-/*TODO*/ //	DRIVER( airwolf )	/* (c) 1987 Kyugo */
-/*TODO*/ //	DRIVER( skywolf )	/* bootleg */
-/*TODO*/ //	DRIVER( skywolf2 )	/* bootleg */
 
 	/* Williams games */
 /*TODO*/ //	DRIVER( defender )	/* (c) 1980 */
