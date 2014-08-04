@@ -1371,9 +1371,12 @@ public class cpuintrf {
     /*TODO*///				}
     /*TODO*///				break;
     /*TODO*///#endif
-    /*TODO*///#if (HAS_M6502)
-    /*TODO*///			case CPU_M6502: 			irq_line = 0; LOG((errorlog,"M6502 IRQ\n")); break;
-    /*TODO*///#endif
+
+		case CPU_M6502: 			
+                    irq_line = 0; 
+                    if(errorlog!=null) fprintf(errorlog,"M6502 IRQ\n");
+                    break;
+
     /*TODO*///#if (HAS_M65C02)
     /*TODO*///			case CPU_M65C02:			irq_line = 0; LOG((errorlog,"M65C02 IRQ\n")); break;
     /*TODO*///#endif
