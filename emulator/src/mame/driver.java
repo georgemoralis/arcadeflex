@@ -141,10 +141,10 @@ public class driver {
         /*kyugo*/driver_airwolf,
         /*kyugo*/driver_skywolf,
         /*kyugo*/driver_skywolf2,
-/*kingobox*/driver_kingofb,
-/*kingobox*/driver_ringking,
-/*kingobox*/driver_ringkin2,
-/*kingobox*/driver_ringkin3,
+        /*kingobox*/driver_kingofb,
+        /*kingobox*/driver_ringking,
+        /*kingobox*/driver_ringkin3,
+        
         /**
          * Games not working (various reasons)
         */
@@ -161,6 +161,7 @@ public class driver {
         
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
+        /*kingobox*/driver_ringkin2,
 
         /**
          * WIP section
