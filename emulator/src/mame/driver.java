@@ -85,6 +85,8 @@ import static drivers.kingobox.*;
 import static drivers.wc90.*;
 import static drivers.atetris.*;
 import static drivers.mystston.*;
+import static drivers.jack.*;
+
 
 
 public class driver {
@@ -148,6 +150,15 @@ public class driver {
         /*kingobox*/driver_ringking,
         /*kingobox*/driver_ringkin3,
         /*wc90*/driver_wc90,
+        /*jack*/driver_jack,
+        /*jack*/driver_jack2,
+        /*jack*/driver_jack3,
+        /*jack*/driver_treahunt,
+        /*jack*/driver_zzyzzyxx,
+        /*jack*/driver_zzyzzyx2,
+        /*jack*/driver_brix,
+        /*jack*/driver_freeze,
+        /*jack*/driver_sucasino,
         
         /**
          * Games not working (various reasons)
@@ -171,6 +182,7 @@ public class driver {
          * WIP section
          */
 
+        
         
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
@@ -2244,17 +2256,6 @@ public class driver {
 /*TODO*/ //	DRIVER( nbajam )	/* (c) 1993 Midway */
 /*TODO*/ //	DRIVER( nbajamr2 )	/* (c) 1993 Midway */
 /*TODO*/ //	DRIVER( nbajamte )	/* (c) 1994 Midway */
-
-	/* Cinematronics raster games */
-/*TODO*/ //	DRIVER( jack )		/* (c) 1982 Cinematronics */
-/*TODO*/ //	DRIVER( jack2 )		/* (c) 1982 Cinematronics */
-/*TODO*/ //	DRIVER( jack3 )		/* (c) 1982 Cinematronics */
-/*TODO*/ //	DRIVER( treahunt )	/* (c) 1982 Hara Ind. */
-/*TODO*/ //	DRIVER( zzyzzyxx )	/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-/*TODO*/ //	DRIVER( zzyzzyx2 )	/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-/*TODO*/ //	DRIVER( brix )		/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-/*TODO*/ //	DRIVER( freeze )	/* Cinematronics */
-/*TODO*/ //	DRIVER( sucasino )	/* (c) 1982 Data Amusement */
 
 	/* Cinematronics vector games */
 /*TODO*/ //	DRIVER( spacewar )
