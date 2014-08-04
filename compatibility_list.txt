@@ -310,7 +310,9 @@ srdmissn
 airwolf
 skywolf
 skywolf2
-
+kingofb
+ringking
+ringkin3
 
 Serious graphics issues
 -----------------------
@@ -402,3 +404,4 @@ jumpshot - missing encryption
 farwest
 avengers
 avenger2
+ringkin2

@@ -81,7 +81,7 @@ import static drivers.jailbrek.*;
 import static drivers.sidearms.*;
 import static drivers.retofinv.*;
 import static drivers.kyugo.*;
-
+import static drivers.kingobox.*;
 
 
 public class driver {
@@ -141,7 +141,10 @@ public class driver {
         /*kyugo*/driver_airwolf,
         /*kyugo*/driver_skywolf,
         /*kyugo*/driver_skywolf2,
-        
+/*kingobox*/driver_kingofb,
+/*kingobox*/driver_ringking,
+/*kingobox*/driver_ringkin2,
+/*kingobox*/driver_ringkin3,
         /**
          * Games not working (various reasons)
         */
@@ -2430,10 +2433,6 @@ public class driver {
 /*TODO*/ //	DRIVER( stactics )	/* [1981 Sega] */
 /*TODO*/ //	DRIVER( exterm )	/* (c) 1989 Premier Technology - a Gottlieb game */
 /*TODO*/ //	DRIVER( sharkatt )	/* (c) Pacific Novelty */
-/*TODO*/ //	DRIVER( kingofb )	/* (c) 1985 Woodplace Inc. */
-/*TODO*/ //	DRIVER( ringking )	/* (c) 1985 Data East USA */
-/*TODO*/ //	DRIVER( ringkin2 )
-/*TODO*/ //	DRIVER( ringkin3 )	/* (c) 1985 Data East USA */
 /*TODO*/ //	DRIVER( zerozone )	/* (c) 1993 Comad */
 /*TODO*/ //	DRIVER( exctsccr )	/* (c) 1983 Alpha Denshi Co. */
 /*TODO*/ //	DRIVER( exctscca )	/* (c) 1983 Alpha Denshi Co. */
