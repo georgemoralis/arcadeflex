@@ -83,6 +83,8 @@ import static drivers.retofinv.*;
 import static drivers.kyugo.*;
 import static drivers.kingobox.*;
 import static drivers.wc90.*;
+import static drivers.atetris.*;
+import static drivers.mystston.*;
 
 
 public class driver {
@@ -169,7 +171,13 @@ public class driver {
          * WIP section
          */
 
-
+        
+        /*atetris*/driver_atetris,
+        /*atetris*/driver_atetrisa,
+        /*atetris*/driver_atetrisb,
+        /*atetris*/driver_atetcktl,
+        /*atetris*/driver_atetckt2,
+        /*mystston*/driver_mystston,
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -2027,11 +2035,6 @@ public class driver {
 /*TODO*/ //	DRIVER( gaunt2p )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( gaunt2 )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( vindctr2 )	/* (c) 1988 */
-/*TODO*/ //	DRIVER( atetris )	/* (c) 1988 */
-/*TODO*/ //	DRIVER( atetrisa )	/* (c) 1988 */
-/*TODO*/ //	DRIVER( atetrisb )	/* bootleg */
-/*TODO*/ //	DRIVER( atetcktl )	/* (c) 1989 */
-/*TODO*/ //	DRIVER( atetckt2 )	/* (c) 1989 */
 /*TODO*/ //	DRIVER( toobin )	/* (c) 1988 */
 /*TODO*/ //	DRIVER( toobin2 )	/* (c) 1988 */
 /*TODO*/ //	DRIVER( toobinp )	/* (c) 1988 */
@@ -2152,7 +2155,6 @@ public class driver {
 /*TODO*/ //	DRIVER( bigprowr )	/* TA-0007 (c) 1983 */
 /*TODO*/ //	DRIVER( tagteam )	/* TA-0007 (c) 1983 + Data East license */
 /*TODO*/ //	DRIVER( ssozumo )	/* TA-0008 (c) 1984 */
-/*TODO*/ //	DRIVER( mystston )	/* TA-0010 (c) 1984 */
 	/* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
 /*TODO*/ //	DRIVER( bogeyman )	/* X-0204-0 (Data East part number) (c) [1985?] */
 /*TODO*/ //	DRIVER( matmania )	/* TA-0015 (c) 1985 + Taito America license */
