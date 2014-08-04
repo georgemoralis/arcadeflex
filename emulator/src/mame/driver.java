@@ -82,6 +82,7 @@ import static drivers.sidearms.*;
 import static drivers.retofinv.*;
 import static drivers.kyugo.*;
 import static drivers.kingobox.*;
+import static drivers.wc90.*;
 
 
 public class driver {
@@ -144,6 +145,7 @@ public class driver {
         /*kingobox*/driver_kingofb,
         /*kingobox*/driver_ringking,
         /*kingobox*/driver_ringkin3,
+        /*wc90*/driver_wc90,
         
         /**
          * Games not working (various reasons)
@@ -1696,7 +1698,6 @@ public class driver {
 /*TODO*/ //	DRIVER( shadoww )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( tknight )	/* (c) 1989 Tecmo */
 /*TODO*/ //	DRIVER( wildfang )	/* (c) 1989 Tecmo */
-/*TODO*/ //	DRIVER( wc90 )		/* (c) 1989 Tecmo */
 /*TODO*/ //	DRIVER( wc90b )		/* bootleg */
 
 	/* Konami bitmap games */
