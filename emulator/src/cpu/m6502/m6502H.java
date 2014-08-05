@@ -7,6 +7,12 @@ package cpu.m6502;
  * @author george
  */
 public class m6502H {
+    public static final int SUBTYPE_6502	=0;
+    public static final int SUBTYPE_65C02	=1;
+    public static final int SUBTYPE_6510	=2;
+    public static final int SUBTYPE_2A03	=3;
+    public static final int SUBTYPE_65SC02	=4;
+
      public static final int M6502_INT_NONE	=0;
      public static final int M6502_INT_IRQ	=1;
      public static final int M6502_INT_NMI	=2;
