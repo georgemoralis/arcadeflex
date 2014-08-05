@@ -5176,7 +5176,7 @@ public class z80 extends cpu_interface {
         Z80.extra_cycles=0;
         Z80.IX.SetD(0xFFFF);//_IX = _IY = 0xffff;
         Z80.IY.SetD(0xFFFF); /* IX and IY are FFFF after a reset! */
-        Z80.AF.AddL(ZF);//	_F = ZF;	/* Zero flag is set */
+        Z80.AF.SetL(ZF);//	_F = ZF;	/* Zero flag is set */
 
         if( daisy_chain!=null )
     	{
