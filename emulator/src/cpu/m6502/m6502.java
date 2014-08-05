@@ -9,6 +9,7 @@ import static mame.cpuintrfH.*;
 import static mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
+import static mame.memory.*;
 import static cpu.m6502.m6502H.*;
 
 public class m6502 extends cpu_interface {
@@ -43,7 +44,7 @@ public class m6502 extends cpu_interface {
 
     public void setupTables()
     {
-                insn6502[0x00] = m6502_00; insn6502[0x01] = m6502_01; insn6502[0x02] = m6502_02; insn6502[0x03] = m6502_03;
+        insn6502[0x00] = m6502_00; insn6502[0x01] = m6502_01; insn6502[0x02] = m6502_02; insn6502[0x03] = m6502_03;
         insn6502[0x04] = m6502_04; insn6502[0x05] = m6502_05; insn6502[0x06] = m6502_06; insn6502[0x07] = m6502_07;
         insn6502[0x08] = m6502_08; insn6502[0x09] = m6502_09; insn6502[0x0a] = m6502_0a; insn6502[0x0b] = m6502_0b;
         insn6502[0x0c] = m6502_0c; insn6502[0x0d] = m6502_0d; insn6502[0x0e] = m6502_0e; insn6502[0x0f] = m6502_0f;
@@ -167,37 +168,37 @@ public class m6502 extends cpu_interface {
     };
     public static class m6502_Regs
     {
-	/*UINT8*/int	subtype;		/* currently selected cpu sub type */
-/*TODO*///	void	(**insn)(void); /* pointer to the function pointer table */
-/*TODO*///	PAIR	ppc;			/* previous program counter */
-/*TODO*///	PAIR	pc; 			/* program counter */
-/*TODO*///	PAIR	sp; 			/* stack pointer (always 100 - 1FF) */
+	public /*UINT8*/int	subtype;		/* currently selected cpu sub type */
+        public opcode[] insn; /* pointer to the function pointer table */
+        public PAIR ppc    = new PAIR();	/* previous program counter */
+        public PAIR pc     = new PAIR(); 	/* program counter */
+        public PAIR sp    = new PAIR(); 	/* stack pointer (always 100 - 1FF) */
 /*TODO*///	PAIR	zp; 			/* zero page address */
 /*TODO*///	PAIR	ea; 			/* effective address */
-/*TODO*///	UINT8	a;				/* Accumulator */
-/*TODO*///	UINT8	x;				/* X index register */
-/*TODO*///	UINT8	y;				/* Y index register */
-/*TODO*///	UINT8	p;				/* Processor status */
-/*TODO*///	UINT8	pending_irq;	/* nonzero if an IRQ is pending */
-/*TODO*///	UINT8	after_cli;		/* pending IRQ and last insn cleared I */
-/*TODO*///	UINT8	nmi_state;
-/*TODO*///	UINT8	irq_state;
-/*TODO*///	UINT8   so_state;
-/*TODO*///	int 	(*irq_callback)(int irqline);	/* IRQ callback */
+	public /*UINT8*/int	a;				/* Accumulator */
+	public /*UINT8*/int	x;				/* X index register */
+	public /*UINT8*/int	y;				/* Y index register */
+	public /*UINT8*/int	p;				/* Processor status */
+	public /*UINT8*/int	pending_irq;	/* nonzero if an IRQ is pending */
+	public /*UINT8*/int	after_cli;		/* pending IRQ and last insn cleared I */
+	public /*UINT8*/int	nmi_state;
+	public /*UINT8*/int	irq_state;
+	public /*UINT8*/int     so_state;
+        public irqcallbacksPtr irq_callback;	/* IRQ callback */
     }
 
     private static m6502_Regs m6502=new m6502_Regs();
     
-    /*TODO*////* 6502 flags */
-/*TODO*///#define F_C 0x01
-/*TODO*///#define F_Z 0x02
-/*TODO*///#define F_I 0x04
-/*TODO*///#define F_D 0x08
-/*TODO*///#define F_B 0x10
-/*TODO*///#define F_T 0x20
-/*TODO*///#define F_V 0x40
-/*TODO*///#define F_N 0x80
-/*TODO*///
+   /* 6502 flags */
+    public static final int F_C =0x01;
+    public static final int F_Z =0x02;
+    public static final int F_I =0x04;
+    public static final int F_D =0x08;
+    public static final int F_B =0x10;
+    public static final int F_T =0x20;
+    public static final int F_V =0x40;
+    public static final int F_N =0x80;
+
 /*TODO*////* some shortcuts for improved readability */
 /*TODO*///#define A	m6502.a
 /*TODO*///#define X	m6502.x
@@ -258,6 +259,10 @@ public class m6502 extends cpu_interface {
 /*TODO*///#define RDMEM(addr) cpu_readmem16(addr)
 /*TODO*///#endif
 /*TODO*///
+    public int RDMEM(int addr)
+    {
+        return cpu_readmem16(addr);
+    }
 /*TODO*////***************************************************************
 /*TODO*/// *	WRMEM	write memory
 /*TODO*/// ***************************************************************/
@@ -1226,20 +1231,20 @@ public class m6502 extends cpu_interface {
     @Override
     public void reset(Object param) {
 	m6502.subtype = SUBTYPE_6502;
-/*TODO*///	m6502.insn = insn6502;
-/*TODO*///
-/*TODO*///	/* wipe out the rest of the m6502 structure */
-/*TODO*///	/* read the reset vector into PC */
-/*TODO*///	PCL = RDMEM(M6502_RST_VEC);
-/*TODO*///	PCH = RDMEM(M6502_RST_VEC+1);
-/*TODO*///
-/*TODO*///	m6502.sp.d = 0x01ff;	/* stack pointer starts at page 1 offset FF */
-/*TODO*///	m6502.p = F_T|F_I|F_Z;	/* set T, I and Z flags */
-/*TODO*///	m6502.pending_irq = 0;	/* nonzero if an IRQ is pending */
-/*TODO*///	m6502.after_cli = 0;	/* pending IRQ and last insn cleared I */
-/*TODO*///	m6502.irq_callback = NULL;
-/*TODO*///
-/*TODO*///	change_pc16(PCD);
+	m6502.insn = insn6502;
+
+	/* wipe out the rest of the m6502 structure */
+	/* read the reset vector into PC */
+	m6502.pc.SetL(RDMEM(M6502_RST_VEC));
+	m6502.pc.SetH(RDMEM(M6502_RST_VEC+1));
+
+	m6502.sp.SetD(0x01ff);	/* stack pointer starts at page 1 offset FF */
+	m6502.p = F_T|F_I|F_Z;	/* set T, I and Z flags */
+	m6502.pending_irq = 0;	/* nonzero if an IRQ is pending */
+	m6502.after_cli = 0;	/* pending IRQ and last insn cleared I */
+	m6502.irq_callback = null;
+
+	change_pc16(m6502.pc.D);
     }
 /*TODO*///
 /*TODO*///void m6502_exit(void)
@@ -1263,10 +1268,10 @@ public class m6502 extends cpu_interface {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///unsigned m6502_get_pc (void)
-/*TODO*///{
-/*TODO*///	return PCD;
-/*TODO*///}
+    @Override
+    public int get_pc() {
+       return m6502.pc.D;
+    }
 /*TODO*///
 /*TODO*///void m6502_set_pc (unsigned val)
 /*TODO*///{
@@ -1448,11 +1453,10 @@ public class m6502 extends cpu_interface {
 /*TODO*///		m6502.pending_irq = 1;
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*///void m6502_set_irq_callback(int (*callback)(int))
-/*TODO*///{
-/*TODO*///	m6502.irq_callback = callback;
-/*TODO*///}
+    @Override
+    public void set_irq_callback(irqcallbacksPtr callback) {
+         m6502.irq_callback = callback;
+    }
 /*TODO*///
 /*TODO*///void m6502_state_save(void *file)
 /*TODO*///{
@@ -1580,27 +1584,15 @@ public class m6502 extends cpu_interface {
     };
 
 
-
-
-
-    @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public int execute(int cycles) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int get_pc() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void set_op_base(int pc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void set_op_base(int pc) 
+    {
+        cpu_setOPbase16.handler(pc,0);
     }
 
     @Override
