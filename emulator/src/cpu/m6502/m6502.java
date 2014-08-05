@@ -5,12 +5,15 @@
 package cpu.m6502;
 
 import mame.cpuintrfH.cpu_interface;
-import static mame.cpuintrfH.*;
+import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m6502.m6502H.*;
+import static arcadeflex.libc_old.*;
+import static mame.mame.*;
+
 
 public class m6502 extends cpu_interface {
 
@@ -243,6 +246,12 @@ public class m6502 extends cpu_interface {
 /*TODO*/// ***************************************************************/
 /*TODO*///#define RDOP() cpu_readop(PCW++)
 /*TODO*///
+    public int RDOP()
+    {
+        int tmp =cpu_readop(m6502.pc.D);
+        m6502.pc.AddD(1);
+        return tmp;
+    }
 /*TODO*////***************************************************************
 /*TODO*/// *	RDOPARG read an opcode argument
 /*TODO*/// ***************************************************************/
@@ -635,14 +644,16 @@ public class m6502 extends cpu_interface {
 /*TODO*///	A = (UINT8)(A ^ tmp);										\
 /*TODO*///	SET_NZ(A)
 /*TODO*///
-/*TODO*////* 6502 ********************************************************
-/*TODO*/// *	ILL Illegal opcode
-/*TODO*/// ***************************************************************/
-/*TODO*///#define ILL 													\
-/*TODO*///	if (errorlog)												\
-/*TODO*///		fprintf(errorlog, "M6502 illegal opcode %04x: %02x\n",  \
-/*TODO*///			(PCW-1)&0xffff, cpu_readop((PCW-1)&0xffff))
-/*TODO*///
+   /* 6502 ********************************************************
+    *	ILL Illegal opcode
+    ***************************************************************/
+    public void ILL()
+    {
+        if (errorlog!=null)												
+		fprintf(errorlog, "M6502 illegal opcode %04x: %02x\n",  
+			(m6502.pc.D-1)&0xffff, cpu_readop((m6502.pc.D-1)&0xffff));
+    }
+
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// *	INC Increment memory
 /*TODO*/// ***************************************************************/
@@ -932,15 +943,13 @@ public class m6502 extends cpu_interface {
      *	 plain vanilla 6502 opcodes
      *
      *****************************************************************************/
-    opcode m6502_00 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* 		  m6502_ICount -= 7;		 BRK;		  */ }}; /* 7 BRK */
-    opcode m6502_20 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 6;		 JSR;		  */ }}; /* 6 JSR */
-    opcode m6502_40 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 6;		 RTI;		  */ }}; /* 6 RTI */
-    opcode m6502_60 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 6;		 RTS;		  */ }}; /* 6 RTS */
-    opcode m6502_80 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_a0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; LDY;		  */ }}; /* 2 LDY IMM */
-    opcode m6502_c0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; CPY;		  */ }}; /* 2 CPY IMM */
-    opcode m6502_e0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; CPX;		  */ }}; /* 2 CPX IMM */
-
+    opcode m6502_00 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* 		  m6502_ICount[0] -= 7;		 BRK;		  */ }}; /* 7 BRK */
+    opcode m6502_20 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 6;		 JSR;		  */ }}; /* 6 JSR */
+    opcode m6502_40 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 6;		 RTI;		  */ }}; /* 6 RTI */
+    opcode m6502_60 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 6;		 RTS;		  */ }}; /* 6 RTS */
+    opcode m6502_a0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; LDY;		  */ }}; /* 2 LDY IMM */
+    opcode m6502_c0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; CPY;		  */ }}; /* 2 CPY IMM */
+    opcode m6502_e0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; CPX;		  */ }}; /* 2 CPX IMM */
     opcode m6502_10 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BPL;		  */ }}; /* 2 BPL REL */
     opcode m6502_30 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BMI;		  */ }}; /* 2 BMI REL */
     opcode m6502_50 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BVC;		  */ }}; /* 2 BVC REL */
@@ -949,276 +958,283 @@ public class m6502 extends cpu_interface {
     opcode m6502_b0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BCS;		  */ }}; /* 2 BCS REL */
     opcode m6502_d0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BNE;		  */ }}; /* 2 BNE REL */
     opcode m6502_f0 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp;							 BEQ;		  */ }}; /* 2 BEQ REL */
+    opcode m6502_01 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; ORA;		  */ }}; /* 6 ORA IDX */
+    opcode m6502_21 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; AND;		  */ }}; /* 6 AND IDX */
+    opcode m6502_41 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; EOR;		  */ }}; /* 6 EOR IDX */
+    opcode m6502_61 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; ADC;		  */ }}; /* 6 ADC IDX */
+    opcode m6502_81 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6;		 STA; WR_IDX; */ }}; /* 6 STA IDX */
+    opcode m6502_a1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; LDA;		  */ }}; /* 6 LDA IDX */
+    opcode m6502_c1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; CMP;		  */ }}; /* 6 CMP IDX */
+    opcode m6502_e1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_IDX; SBC;		  */ }}; /* 6 SBC IDX */
 
-    opcode m6502_01 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; ORA;		  */ }}; /* 6 ORA IDX */
-    opcode m6502_21 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; AND;		  */ }}; /* 6 AND IDX */
-    opcode m6502_41 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; EOR;		  */ }}; /* 6 EOR IDX */
-    opcode m6502_61 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; ADC;		  */ }}; /* 6 ADC IDX */
-    opcode m6502_81 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6;		 STA; WR_IDX; */ }}; /* 6 STA IDX */
-    opcode m6502_a1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; LDA;		  */ }}; /* 6 LDA IDX */
-    opcode m6502_c1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; CMP;		  */ }}; /* 6 CMP IDX */
-    opcode m6502_e1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_IDX; SBC;		  */ }}; /* 6 SBC IDX */
+    opcode m6502_11 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; ORA;		  */ }}; /* 5 ORA IDY */
+    opcode m6502_31 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; AND;		  */ }}; /* 5 AND IDY */
+    opcode m6502_51 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; EOR;		  */ }}; /* 5 EOR IDY */
+    opcode m6502_71 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; ADC;		  */ }}; /* 5 ADC IDY */
+    opcode m6502_91 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6;		 STA; WR_IDY; */ }}; /* 6 STA IDY */
+    opcode m6502_b1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; LDA;		  */ }}; /* 5 LDA IDY */
+    opcode m6502_d1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; CMP;		  */ }}; /* 5 CMP IDY */
+    opcode m6502_f1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; SBC;		  */ }}; /* 5 SBC IDY */
 
-    opcode m6502_11 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; ORA;		  */ }}; /* 5 ORA IDY */
-    opcode m6502_31 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; AND;		  */ }}; /* 5 AND IDY */
-    opcode m6502_51 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; EOR;		  */ }}; /* 5 EOR IDY */
-    opcode m6502_71 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; ADC;		  */ }}; /* 5 ADC IDY */
-    opcode m6502_91 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6;		 STA; WR_IDY; */ }}; /* 6 STA IDY */
-    opcode m6502_b1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; LDA;		  */ }}; /* 5 LDA IDY */
-    opcode m6502_d1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; CMP;		  */ }}; /* 5 CMP IDY */
-    opcode m6502_f1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_IDY; SBC;		  */ }}; /* 5 SBC IDY */
 
-    opcode m6502_02 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_22 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_42 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_62 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_82 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_a2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; LDX;		  */ }}; /* 2 LDX IMM */
-    opcode m6502_c2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_e2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_a2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; LDX;		  */ }}; /* 2 LDX IMM */
 
-    opcode m6502_12 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_32 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_52 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_72 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_92 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_b2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_d2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_f2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_24 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; BIT;		  */ }}; /* 3 BIT ZPG */
 
-    opcode m6502_03 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_23 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_43 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_63 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_83 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_a3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_c3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_e3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_84 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3;		 STY; WR_ZPG; */ }}; /* 3 STY ZPG */
+    opcode m6502_a4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; LDY;		  */ }}; /* 3 LDY ZPG */
+    opcode m6502_c4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; CPY;		  */ }}; /* 3 CPY ZPG */
+    opcode m6502_e4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; CPX;		  */ }}; /* 3 CPX ZPG */
 
-    opcode m6502_13 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_33 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_53 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_73 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_93 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_b3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_d3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_f3 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_04 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_24 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; BIT;		  */ }}; /* 3 BIT ZPG */
-    opcode m6502_44 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_64 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_84 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3;		 STY; WR_ZPG; */ }}; /* 3 STY ZPG */
-    opcode m6502_a4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; LDY;		  */ }}; /* 3 LDY ZPG */
-    opcode m6502_c4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; CPY;		  */ }}; /* 3 CPY ZPG */
-    opcode m6502_e4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; CPX;		  */ }}; /* 3 CPX ZPG */
+    opcode m6502_94 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STY; WR_ZPX; */ }}; /* 4 STY ZPX */
+    opcode m6502_b4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; LDY;		  */ }}; /* 4 LDY ZPX */
 
-    opcode m6502_14 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_34 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_54 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_74 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_94 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4;		 STY; WR_ZPX; */ }}; /* 4 STY ZPX */
-    opcode m6502_b4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; LDY;		  */ }}; /* 4 LDY ZPX */
-    opcode m6502_d4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_f4 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_05 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; ORA;		  */ }}; /* 3 ORA ZPG */
-    opcode m6502_25 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; AND;		  */ }}; /* 3 AND ZPG */
-    opcode m6502_45 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; EOR;		  */ }}; /* 3 EOR ZPG */
-    opcode m6502_65 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; ADC;		  */ }}; /* 3 ADC ZPG */
-    opcode m6502_85 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3;		 STA; WR_ZPG; */ }}; /* 3 STA ZPG */
-    opcode m6502_a5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; LDA;		  */ }}; /* 3 LDA ZPG */
-    opcode m6502_c5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; CMP;		  */ }}; /* 3 CMP ZPG */
-    opcode m6502_e5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; SBC;		  */ }}; /* 3 SBC ZPG */
+    opcode m6502_05 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; ORA;		  */ }}; /* 3 ORA ZPG */
+    opcode m6502_25 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; AND;		  */ }}; /* 3 AND ZPG */
+    opcode m6502_45 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; EOR;		  */ }}; /* 3 EOR ZPG */
+    opcode m6502_65 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; ADC;		  */ }}; /* 3 ADC ZPG */
+    opcode m6502_85 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3;		 STA; WR_ZPG; */ }}; /* 3 STA ZPG */
+    opcode m6502_a5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; LDA;		  */ }}; /* 3 LDA ZPG */
+    opcode m6502_c5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; CMP;		  */ }}; /* 3 CMP ZPG */
+    opcode m6502_e5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; SBC;		  */ }}; /* 3 SBC ZPG */
 
-    opcode m6502_15 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; ORA;		  */ }}; /* 4 ORA ZPX */
-    opcode m6502_35 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; AND;		  */ }}; /* 4 AND ZPX */
-    opcode m6502_55 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; EOR;		  */ }}; /* 4 EOR ZPX */
-    opcode m6502_75 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; ADC;		  */ }}; /* 4 ADC ZPX */
-    opcode m6502_95 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4;		 STA; WR_ZPX; */ }}; /* 4 STA ZPX */
-    opcode m6502_b5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; LDA;		  */ }}; /* 4 LDA ZPX */
-    opcode m6502_d5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; CMP;		  */ }}; /* 4 CMP ZPX */
-    opcode m6502_f5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPX; SBC;		  */ }}; /* 4 SBC ZPX */
+    opcode m6502_15 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; ORA;		  */ }}; /* 4 ORA ZPX */
+    opcode m6502_35 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; AND;		  */ }}; /* 4 AND ZPX */
+    opcode m6502_55 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; EOR;		  */ }}; /* 4 EOR ZPX */
+    opcode m6502_75 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; ADC;		  */ }}; /* 4 ADC ZPX */
+    opcode m6502_95 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STA; WR_ZPX; */ }}; /* 4 STA ZPX */
+    opcode m6502_b5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; LDA;		  */ }}; /* 4 LDA ZPX */
+    opcode m6502_d5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; CMP;		  */ }}; /* 4 CMP ZPX */
+    opcode m6502_f5 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPX; SBC;		  */ }}; /* 4 SBC ZPX */
 
-    opcode m6502_06 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; ASL; WB_EA;  */ }}; /* 5 ASL ZPG */
-    opcode m6502_26 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; ROL; WB_EA;  */ }}; /* 5 ROL ZPG */
-    opcode m6502_46 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; LSR; WB_EA;  */ }}; /* 5 LSR ZPG */
-    opcode m6502_66 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; ROR; WB_EA;  */ }}; /* 5 ROR ZPG */
-    opcode m6502_86 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3;		 STX; WR_ZPG; */ }}; /* 3 STX ZPG */
-    opcode m6502_a6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 3; RD_ZPG; LDX;		  */ }}; /* 3 LDX ZPG */
-    opcode m6502_c6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; DEC; WB_EA;  */ }}; /* 5 DEC ZPG */
-    opcode m6502_e6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; RD_ZPG; INC; WB_EA;  */ }}; /* 5 INC ZPG */
+    opcode m6502_06 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; ASL; WB_EA;  */ }}; /* 5 ASL ZPG */
+    opcode m6502_26 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; ROL; WB_EA;  */ }}; /* 5 ROL ZPG */
+    opcode m6502_46 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; LSR; WB_EA;  */ }}; /* 5 LSR ZPG */
+    opcode m6502_66 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; ROR; WB_EA;  */ }}; /* 5 ROR ZPG */
+    opcode m6502_86 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3;		 STX; WR_ZPG; */ }}; /* 3 STX ZPG */
+    opcode m6502_a6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; LDX;		  */ }}; /* 3 LDX ZPG */
+    opcode m6502_c6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; DEC; WB_EA;  */ }}; /* 5 DEC ZPG */
+    opcode m6502_e6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_ZPG; INC; WB_EA;  */ }}; /* 5 INC ZPG */
 
-    opcode m6502_16 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; ASL; WB_EA;  */ }}; /* 6 ASL ZPX */
-    opcode m6502_36 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; ROL; WB_EA;  */ }}; /* 6 ROL ZPX */
-    opcode m6502_56 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; LSR; WB_EA;  */ }}; /* 6 LSR ZPX */
-    opcode m6502_76 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; ROR; WB_EA;  */ }}; /* 6 ROR ZPX */
-    opcode m6502_96 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4;		 STX; WR_ZPY; */ }}; /* 4 STX ZPY */
-    opcode m6502_b6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ZPY; LDX;		  */ }}; /* 4 LDX ZPY */
-    opcode m6502_d6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; DEC; WB_EA;  */ }}; /* 6 DEC ZPX */
-    opcode m6502_f6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ZPX; INC; WB_EA;  */ }}; /* 6 INC ZPX */
+    opcode m6502_16 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; ASL; WB_EA;  */ }}; /* 6 ASL ZPX */
+    opcode m6502_36 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; ROL; WB_EA;  */ }}; /* 6 ROL ZPX */
+    opcode m6502_56 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; LSR; WB_EA;  */ }}; /* 6 LSR ZPX */
+    opcode m6502_76 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; ROR; WB_EA;  */ }}; /* 6 ROR ZPX */
+    opcode m6502_96 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STX; WR_ZPY; */ }}; /* 4 STX ZPY */
+    opcode m6502_b6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ZPY; LDX;		  */ }}; /* 4 LDX ZPY */
+    opcode m6502_d6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; DEC; WB_EA;  */ }}; /* 6 DEC ZPX */
+    opcode m6502_f6 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ZPX; INC; WB_EA;  */ }}; /* 6 INC ZPX */
 
-    opcode m6502_07 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_27 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_47 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_67 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_87 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_a7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_c7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_e7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_17 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_37 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_57 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_77 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_97 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_b7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_d7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_f7 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_08 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 PHP;		  */ }}; /* 2 PHP */
-    opcode m6502_28 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 PLP;		  */ }}; /* 2 PLP */
-    opcode m6502_48 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 PHA;		  */ }}; /* 2 PHA */
-    opcode m6502_68 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 PLA;		  */ }}; /* 2 PLA */
-    opcode m6502_88 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 DEY;		  */ }}; /* 2 DEY */
-    opcode m6502_a8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TAY;		  */ }}; /* 2 TAY */
-    opcode m6502_c8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 INY;		  */ }}; /* 2 INY */
-    opcode m6502_e8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 INX;		  */ }}; /* 2 INX */
+    opcode m6502_08 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 PHP;		  */ }}; /* 2 PHP */
+    opcode m6502_28 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 PLP;		  */ }}; /* 2 PLP */
+    opcode m6502_48 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 PHA;		  */ }}; /* 2 PHA */
+    opcode m6502_68 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 PLA;		  */ }}; /* 2 PLA */
+    opcode m6502_88 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 DEY;		  */ }}; /* 2 DEY */
+    opcode m6502_a8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TAY;		  */ }}; /* 2 TAY */
+    opcode m6502_c8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 INY;		  */ }}; /* 2 INY */
+    opcode m6502_e8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 INX;		  */ }}; /* 2 INX */
 
-    opcode m6502_18 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 CLC;		  */ }}; /* 2 CLC */
-    opcode m6502_38 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 SEC;		  */ }}; /* 2 SEC */
-    opcode m6502_58 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 CLI;		  */ }}; /* 2 CLI */
-    opcode m6502_78 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 SEI;		  */ }}; /* 2 SEI */
-    opcode m6502_98 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TYA;		  */ }}; /* 2 TYA */
-    opcode m6502_b8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 CLV;		  */ }}; /* 2 CLV */
-    opcode m6502_d8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 CLD;		  */ }}; /* 2 CLD */
-    opcode m6502_f8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 SED;		  */ }}; /* 2 SED */
+    opcode m6502_18 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLC;		  */ }}; /* 2 CLC */
+    opcode m6502_38 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SEC;		  */ }}; /* 2 SEC */
+    opcode m6502_58 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLI;		  */ }}; /* 2 CLI */
+    opcode m6502_78 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SEI;		  */ }}; /* 2 SEI */
+    opcode m6502_98 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TYA;		  */ }}; /* 2 TYA */
+    opcode m6502_b8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLV;		  */ }}; /* 2 CLV */
+    opcode m6502_d8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLD;		  */ }}; /* 2 CLD */
+    opcode m6502_f8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SED;		  */ }}; /* 2 SED */
 
-    opcode m6502_09 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; ORA;		  */ }}; /* 2 ORA IMM */
-    opcode m6502_29 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; AND;		  */ }}; /* 2 AND IMM */
-    opcode m6502_49 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; EOR;		  */ }}; /* 2 EOR IMM */
-    opcode m6502_69 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; ADC;		  */ }}; /* 2 ADC IMM */
-    opcode m6502_89 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_a9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; LDA;		  */ }}; /* 2 LDA IMM */
-    opcode m6502_c9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; CMP;		  */ }}; /* 2 CMP IMM */
-    opcode m6502_e9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_IMM; SBC;		  */ }}; /* 2 SBC IMM */
+    opcode m6502_09 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; ORA;		  */ }}; /* 2 ORA IMM */
+    opcode m6502_29 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; AND;		  */ }}; /* 2 AND IMM */
+    opcode m6502_49 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; EOR;		  */ }}; /* 2 EOR IMM */
+    opcode m6502_69 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; ADC;		  */ }}; /* 2 ADC IMM */
 
-    opcode m6502_19 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; ORA;		  */ }}; /* 4 ORA ABY */
-    opcode m6502_39 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; AND;		  */ }}; /* 4 AND ABY */
-    opcode m6502_59 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; EOR;		  */ }}; /* 4 EOR ABY */
-    opcode m6502_79 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; ADC;		  */ }}; /* 4 ADC ABY */
-    opcode m6502_99 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5;		 STA; WR_ABY; */ }}; /* 5 STA ABY */
-    opcode m6502_b9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; LDA;		  */ }}; /* 4 LDA ABY */
-    opcode m6502_d9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; CMP;		  */ }}; /* 4 CMP ABY */
-    opcode m6502_f9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; SBC;		  */ }}; /* 4 SBC ABY */
+    opcode m6502_a9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; LDA;		  */ }}; /* 2 LDA IMM */
+    opcode m6502_c9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; CMP;		  */ }}; /* 2 CMP IMM */
+    opcode m6502_e9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; SBC;		  */ }}; /* 2 SBC IMM */
 
-    opcode m6502_0a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_ACC; ASL; WB_ACC; */ }}; /* 2 ASL A */
-    opcode m6502_2a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_ACC; ROL; WB_ACC; */ }}; /* 2 ROL A */
-    opcode m6502_4a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_ACC; LSR; WB_ACC; */ }}; /* 2 LSR A */
-    opcode m6502_6a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 2; RD_ACC; ROR; WB_ACC; */ }}; /* 2 ROR A */
-    opcode m6502_8a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TXA;		  */ }}; /* 2 TXA */
-    opcode m6502_aa = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TAX;		  */ }}; /* 2 TAX */
-    opcode m6502_ca = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 DEX;		  */ }}; /* 2 DEX */
-    opcode m6502_ea = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 NOP;		  */ }}; /* 2 NOP */
+    opcode m6502_19 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; ORA;		  */ }}; /* 4 ORA ABY */
+    opcode m6502_39 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; AND;		  */ }}; /* 4 AND ABY */
+    opcode m6502_59 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; EOR;		  */ }}; /* 4 EOR ABY */
+    opcode m6502_79 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; ADC;		  */ }}; /* 4 ADC ABY */
+    opcode m6502_99 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5;		 STA; WR_ABY; */ }}; /* 5 STA ABY */
+    opcode m6502_b9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; LDA;		  */ }}; /* 4 LDA ABY */
+    opcode m6502_d9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; CMP;		  */ }}; /* 4 CMP ABY */
+    opcode m6502_f9 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; SBC;		  */ }}; /* 4 SBC ABY */
 
-    opcode m6502_1a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_3a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_5a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_7a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_9a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TXS;		  */ }}; /* 2 TXS */
-    opcode m6502_ba = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 TSX;		  */ }}; /* 2 TSX */
-    opcode m6502_da = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_fa = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_0a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_ACC; ASL; WB_ACC; */ }}; /* 2 ASL A */
+    opcode m6502_2a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_ACC; ROL; WB_ACC; */ }}; /* 2 ROL A */
+    opcode m6502_4a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_ACC; LSR; WB_ACC; */ }}; /* 2 LSR A */
+    opcode m6502_6a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_ACC; ROR; WB_ACC; */ }}; /* 2 ROR A */
+    opcode m6502_8a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TXA;		  */ }}; /* 2 TXA */
+    opcode m6502_aa = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TAX;		  */ }}; /* 2 TAX */
+    opcode m6502_ca = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 DEX;		  */ }}; /* 2 DEX */
+    opcode m6502_ea = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 NOP;		  */ }}; /* 2 NOP */
 
-    opcode m6502_0b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_2b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_4b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_6b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_8b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_ab = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_cb = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_eb = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_1b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_3b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_5b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_7b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_9b = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_bb = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_db = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_fb = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_9a = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TXS;		  */ }}; /* 2 TXS */
+    opcode m6502_ba = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TSX;		  */ }}; /* 2 TSX */
 
-    opcode m6502_0c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_2c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; BIT;		  */ }}; /* 4 BIT ABS */
-    opcode m6502_4c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 3; EA_ABS; JMP;		  */ }}; /* 3 JMP ABS */
-    opcode m6502_6c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5; EA_IND; JMP;		  */ }}; /* 5 JMP IND */
-    opcode m6502_8c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4;		 STY; WR_ABS; */ }}; /* 4 STY ABS */
-    opcode m6502_ac = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; LDY;		  */ }}; /* 4 LDY ABS */
-    opcode m6502_cc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; CPY;		  */ }}; /* 4 CPY ABS */
-    opcode m6502_ec = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; CPX;		  */ }}; /* 4 CPX ABS */
+ 
+    opcode m6502_2c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; BIT;		  */ }}; /* 4 BIT ABS */
+    opcode m6502_4c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 3; EA_ABS; JMP;		  */ }}; /* 3 JMP ABS */
+    opcode m6502_6c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; EA_IND; JMP;		  */ }}; /* 5 JMP IND */
+    opcode m6502_8c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STY; WR_ABS; */ }}; /* 4 STY ABS */
+    opcode m6502_ac = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; LDY;		  */ }}; /* 4 LDY ABS */
+    opcode m6502_cc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; CPY;		  */ }}; /* 4 CPY ABS */
+    opcode m6502_ec = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; CPX;		  */ }}; /* 4 CPX ABS */
 
-    opcode m6502_1c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_3c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_5c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_7c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_9c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_bc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; LDY;		  */ }}; /* 4 LDY ABX */
-    opcode m6502_dc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_fc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
 
-    opcode m6502_0d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; ORA;		  */ }}; /* 4 ORA ABS */
-    opcode m6502_2d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; AND;		  */ }}; /* 4 AND ABS */
-    opcode m6502_4d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; EOR;		  */ }}; /* 4 EOR ABS */
-    opcode m6502_6d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; ADC;		  */ }}; /* 4 ADC ABS */
-    opcode m6502_8d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4;		 STA; WR_ABS; */ }}; /* 4 STA ABS */
-    opcode m6502_ad = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; LDA;		  */ }}; /* 4 LDA ABS */
-    opcode m6502_cd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; CMP;		  */ }}; /* 4 CMP ABS */
-    opcode m6502_ed = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; SBC;		  */ }}; /* 4 SBC ABS */
+    opcode m6502_bc = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; LDY;		  */ }}; /* 4 LDY ABX */
 
-    opcode m6502_1d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; ORA;		  */ }}; /* 4 ORA ABX */
-    opcode m6502_3d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; AND;		  */ }}; /* 4 AND ABX */
-    opcode m6502_5d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; EOR;		  */ }}; /* 4 EOR ABX */
-    opcode m6502_7d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; ADC;		  */ }}; /* 4 ADC ABX */
-    opcode m6502_9d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5;		 STA; WR_ABX; */ }}; /* 5 STA ABX */
-    opcode m6502_bd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; LDA;		  */ }}; /* 4 LDA ABX */
-    opcode m6502_dd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; CMP;		  */ }}; /* 4 CMP ABX */
-    opcode m6502_fd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABX; SBC;		  */ }}; /* 4 SBC ABX */
 
-    opcode m6502_0e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; ASL; WB_EA;  */ }}; /* 6 ASL ABS */
-    opcode m6502_2e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; ROL; WB_EA;  */ }}; /* 6 ROL ABS */
-    opcode m6502_4e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; LSR; WB_EA;  */ }}; /* 6 LSR ABS */
-    opcode m6502_6e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; ROR; WB_EA;  */ }}; /* 6 ROR ABS */
-    opcode m6502_8e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 5;		 STX; WR_ABS; */ }}; /* 5 STX ABS */
-    opcode m6502_ae = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABS; LDX;		  */ }}; /* 4 LDX ABS */
-    opcode m6502_ce = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; DEC; WB_EA;  */ }}; /* 6 DEC ABS */
-    opcode m6502_ee = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 6; RD_ABS; INC; WB_EA;  */ }}; /* 6 INC ABS */
+    opcode m6502_0d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; ORA;		  */ }}; /* 4 ORA ABS */
+    opcode m6502_2d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; AND;		  */ }}; /* 4 AND ABS */
+    opcode m6502_4d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; EOR;		  */ }}; /* 4 EOR ABS */
+    opcode m6502_6d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; ADC;		  */ }}; /* 4 ADC ABS */
+    opcode m6502_8d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STA; WR_ABS; */ }}; /* 4 STA ABS */
+    opcode m6502_ad = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; LDA;		  */ }}; /* 4 LDA ABS */
+    opcode m6502_cd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; CMP;		  */ }}; /* 4 CMP ABS */
+    opcode m6502_ed = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; SBC;		  */ }}; /* 4 SBC ABS */
 
-    opcode m6502_1e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; ASL; WB_EA;  */ }}; /* 7 ASL ABX */
-    opcode m6502_3e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; ROL; WB_EA;  */ }}; /* 7 ROL ABX */
-    opcode m6502_5e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; LSR; WB_EA;  */ }}; /* 7 LSR ABX */
-    opcode m6502_7e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; ROR; WB_EA;  */ }}; /* 7 ROR ABX */
-    opcode m6502_9e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_be = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 4; RD_ABY; LDX;		  */ }}; /* 4 LDX ABY */
-    opcode m6502_de = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; DEC; WB_EA;  */ }}; /* 7 DEC ABX */
-    opcode m6502_fe = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount -= 7; RD_ABX; INC; WB_EA;  */ }}; /* 7 INC ABX */
+    opcode m6502_1d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; ORA;		  */ }}; /* 4 ORA ABX */
+    opcode m6502_3d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; AND;		  */ }}; /* 4 AND ABX */
+    opcode m6502_5d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; EOR;		  */ }}; /* 4 EOR ABX */
+    opcode m6502_7d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; ADC;		  */ }}; /* 4 ADC ABX */
+    opcode m6502_9d = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5;		 STA; WR_ABX; */ }}; /* 5 STA ABX */
+    opcode m6502_bd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; LDA;		  */ }}; /* 4 LDA ABX */
+    opcode m6502_dd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; CMP;		  */ }}; /* 4 CMP ABX */
+    opcode m6502_fd = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABX; SBC;		  */ }}; /* 4 SBC ABX */
 
-    opcode m6502_0f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_2f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_4f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_6f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_8f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_af = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_cf = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_ef = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_0e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; ASL; WB_EA;  */ }}; /* 6 ASL ABS */
+    opcode m6502_2e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; ROL; WB_EA;  */ }}; /* 6 ROL ABS */
+    opcode m6502_4e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; LSR; WB_EA;  */ }}; /* 6 LSR ABS */
+    opcode m6502_6e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; ROR; WB_EA;  */ }}; /* 6 ROR ABS */
+    opcode m6502_8e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5;		 STX; WR_ABS; */ }}; /* 5 STX ABS */
+    opcode m6502_ae = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; LDX;		  */ }}; /* 4 LDX ABS */
+    opcode m6502_ce = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; DEC; WB_EA;  */ }}; /* 6 DEC ABS */
+    opcode m6502_ee = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 6; RD_ABS; INC; WB_EA;  */ }}; /* 6 INC ABS */
 
-    opcode m6502_1f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_3f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_5f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_7f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_9f = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_bf = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_df = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
-    opcode m6502_ff = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount -= 2;		 ILL;		  */ }}; /* 2 ILL */
+    opcode m6502_1e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ASL; WB_EA;  */ }}; /* 7 ASL ABX */
+    opcode m6502_3e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ROL; WB_EA;  */ }}; /* 7 ROL ABX */
+    opcode m6502_5e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; LSR; WB_EA;  */ }}; /* 7 LSR ABX */
+    opcode m6502_7e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ROR; WB_EA;  */ }}; /* 7 ROR ABX */
+
+    opcode m6502_be = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABY; LDX;		  */ }}; /* 4 LDX ABY */
+    opcode m6502_de = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; DEC; WB_EA;  */ }}; /* 7 DEC ABX */
+    opcode m6502_fe = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; INC; WB_EA;  */ }}; /* 7 INC ABX */
+
+    /*
+    *  ILLEGAL Instructions
+    */
+    opcode m6502_80 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_14 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_34 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_54 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_74 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_02 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_22 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_42 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_62 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_82 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_c2 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_e2 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_12 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_32 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_52 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_72 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_92 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_b2 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_d2 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_f2 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_03 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_23 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_43 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_63 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_83 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_a3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_c3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_e3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_13 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_33 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_53 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_73 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_93 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_b3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_d3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_f3 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_04 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_d4 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_f4 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_44 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_64 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_07 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_27 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_47 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_67 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_87 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_a7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_c7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_e7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_17 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_37 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_57 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_77 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_97 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_b7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_d7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_f7 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_1a = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_3a = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_5a = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_7a = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_89 = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_da = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_fa = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_0b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_2b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_4b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_6b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_8b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_ab = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_cb = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_eb = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_1b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_3b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_5b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_7b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_9b = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_bb = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_db = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_fb = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_0c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_1c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_3c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_5c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_7c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_9c = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_dc = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_fc = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_9e = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		    }}; /* 2 ILL */
+    opcode m6502_0f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_2f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_4f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_6f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_8f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_af = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_cf = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_ef = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_1f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_3f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_5f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_7f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_9f = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_bf = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_df = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
+    opcode m6502_ff = new opcode() { public void handler(){  		  m6502_ICount[0] -= 2;		 ILL();		   }}; /* 2 ILL */
 
 
 
@@ -1350,12 +1366,13 @@ public class m6502 extends cpu_interface {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///INLINE void take_irq(void)
-/*TODO*///{
+    public void take_irq()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
 /*TODO*///	if( !(P & F_I) )
 /*TODO*///	{
 /*TODO*///		EAD = M6502_IRQ_VEC;
-/*TODO*///		m6502_ICount -= 7;
+/*TODO*///		m6502_ICount[0] -= 7;
 /*TODO*///		PUSH(PCH);
 /*TODO*///		PUSH(PCL);
 /*TODO*///		PUSH(P & ~F_B);
@@ -1368,51 +1385,52 @@ public class m6502 extends cpu_interface {
 /*TODO*///		change_pc16(PCD);
 /*TODO*///	}
 /*TODO*///	m6502.pending_irq = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int m6502_execute(int cycles)
-/*TODO*///{
-/*TODO*///	m6502_ICount = cycles;
-/*TODO*///
-/*TODO*///	change_pc16(PCD);
-/*TODO*///
-/*TODO*///	do
-/*TODO*///	{
-/*TODO*///		UINT8 op;
-/*TODO*///		PPC = PCD;
-/*TODO*///
-/*TODO*///		CALL_MAME_DEBUG;
-/*TODO*///
-/*TODO*///		op = RDOP();
-/*TODO*///		/* if an irq is pending, take it now */
-/*TODO*///		if( m6502.pending_irq && op == 0x78 )
-/*TODO*///			take_irq();
-/*TODO*///
-/*TODO*///		(*m6502.insn[op])();
-/*TODO*///
-/*TODO*///		/* check if the I flag was just reset (interrupts enabled) */
-/*TODO*///		if( m6502.after_cli )
-/*TODO*///		{
-/*TODO*///			LOG((errorlog,"M6502#%d after_cli was >0", cpu_getactivecpu()));
-/*TODO*///			m6502.after_cli = 0;
-/*TODO*///			if (m6502.irq_state != CLEAR_LINE)
-/*TODO*///			{
-/*TODO*///				LOG((errorlog,": irq line is asserted: set pending IRQ\n"));
-/*TODO*///				m6502.pending_irq = 1;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				LOG((errorlog,": irq line is clear\n"));
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		if( m6502.pending_irq )
-/*TODO*///			take_irq();
-/*TODO*///
-/*TODO*///	} while (m6502_ICount > 0);
-/*TODO*///
-/*TODO*///	return cycles - m6502_ICount;
-/*TODO*///}
+    }
+
+    @Override
+    public int execute(int cycles) {
+      
+    	m6502_ICount[0] = cycles;
+    
+    	change_pc16(m6502.pc.D);
+    
+    	do
+    	{
+    		int /*UINT8*/ op;
+                m6502.ppc.SetD(m6502.pc.D);
+    
+    		//CALL_MAME_DEBUG;
+    
+    		op = RDOP();
+    		/* if an irq is pending, take it now */
+    		if( m6502.pending_irq!=0 && op == 0x78 )
+    			take_irq();
+    
+    		m6502.insn[op].handler();
+    
+    		/* check if the I flag was just reset (interrupts enabled) */
+    		if( m6502.after_cli!=0 )
+    		{
+    			if(errorlog!=null) fprintf(errorlog,"M6502#%d after_cli was >0", cpu_getactivecpu());
+    			m6502.after_cli = 0;
+    			if (m6502.irq_state != CLEAR_LINE)
+    			{
+    				if(errorlog!=null) fprintf(errorlog,": irq line is asserted: set pending IRQ\n");
+    				m6502.pending_irq = 1;
+    			}
+    			else
+    			{
+    				if(errorlog!=null) fprintf(errorlog,": irq line is clear\n");
+    			}
+    		}
+    		else
+    		if( m6502.pending_irq!=0 )
+    			take_irq();
+    
+    	} while (m6502_ICount[0] > 0);
+    
+    	return cycles - m6502_ICount[0];
+    }
 /*TODO*///
 /*TODO*///void m6502_set_nmi_line(int state)
 /*TODO*///{
@@ -1422,7 +1440,7 @@ public class m6502 extends cpu_interface {
 /*TODO*///	{
 /*TODO*///		LOG((errorlog, "M6502#%d set_nmi_line(ASSERT)\n", cpu_getactivecpu()));
 /*TODO*///		EAD = M6502_NMI_VEC;
-/*TODO*///		m6502_ICount -= 7;
+/*TODO*///		m6502_ICount[0] -= 7;
 /*TODO*///		PUSH(PCH);
 /*TODO*///		PUSH(PCL);
 /*TODO*///		PUSH(P & ~F_B);
@@ -1584,10 +1602,7 @@ public class m6502 extends cpu_interface {
     };
 
 
-    @Override
-    public int execute(int cycles) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void set_op_base(int pc) 
