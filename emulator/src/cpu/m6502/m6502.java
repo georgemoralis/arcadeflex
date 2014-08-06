@@ -16,7 +16,7 @@ import static mame.mame.*;
 
 
 public class m6502 extends cpu_interface {
-
+    public static FILE m6502log=fopen("m6502.log", "wa");  //for debug purposes
     int[] m6502_ICount = new int[1];
 
     public m6502() {
@@ -176,8 +176,8 @@ public class m6502 extends cpu_interface {
         public PAIR ppc    = new PAIR();	/* previous program counter */
         public PAIR pc     = new PAIR(); 	/* program counter */
         public PAIR sp    = new PAIR(); 	/* stack pointer (always 100 - 1FF) */
-/*TODO*///	PAIR	zp; 			/* zero page address */
-/*TODO*///	PAIR	ea; 			/* effective address */
+        public PAIR zp    = new PAIR(); 	/* zero page address */
+        public PAIR ea    = new PAIR();		/* effective address */
 	public /*UINT8*/int	a;				/* Accumulator */
 	public /*UINT8*/int	x;				/* X index register */
 	public /*UINT8*/int	y;				/* Y index register */
@@ -240,23 +240,25 @@ public class m6502 extends cpu_interface {
 /*TODO*///extern	MHELE	*cur_mrhard;
 /*TODO*///extern	UINT8	*RAM;
 /*TODO*///#endif
-/*TODO*///
-/*TODO*////***************************************************************
-/*TODO*/// *	RDOP	read an opcode
-/*TODO*/// ***************************************************************/
-/*TODO*///#define RDOP() cpu_readop(PCW++)
-/*TODO*///
+
+    /***************************************************************
+     *	RDOP	read an opcode
+     ***************************************************************/
     public int RDOP()
     {
         int tmp =cpu_readop(m6502.pc.D);
         m6502.pc.AddD(1);
         return tmp;
     }
-/*TODO*////***************************************************************
-/*TODO*/// *	RDOPARG read an opcode argument
-/*TODO*/// ***************************************************************/
-/*TODO*///#define RDOPARG() cpu_readop_arg(PCW++)
-/*TODO*///
+    /***************************************************************
+     *	RDOPARG read an opcode argument
+     ***************************************************************/
+    public int RDOPARG()
+    {
+        int tmp = cpu_readop_arg(m6502.pc.D);
+        m6502.pc.AddD(1);
+        return tmp;
+    }
 /*TODO*////***************************************************************
 /*TODO*/// *	RDMEM	read memory
 /*TODO*/// ***************************************************************/
@@ -337,7 +339,12 @@ public class m6502 extends cpu_interface {
 /*TODO*///#define EA_ABS													\
 /*TODO*///	EAL = RDOPARG();											\
 /*TODO*///	EAH = RDOPARG()
-/*TODO*///
+    public void EA_ABS()
+    {
+        m6502.ea.SetL(RDOPARG());
+        m6502.ea.SetH(RDOPARG());
+    }
+
 /*TODO*////***************************************************************
 /*TODO*/// *	EA = absolute address + X
 /*TODO*/// ***************************************************************/
@@ -566,13 +573,16 @@ public class m6502 extends cpu_interface {
 /*TODO*/// ***************************************************************/
 /*TODO*///#define CLC 													\
 /*TODO*///	P &= ~F_C
-/*TODO*///
-/*TODO*////* 6502 ********************************************************
-/*TODO*/// * CLD	Clear decimal flag
-/*TODO*/// ***************************************************************/
-/*TODO*///#define CLD 													\
-/*TODO*///	P &= ~F_D
-/*TODO*///
+
+    /* 6502 ********************************************************
+     * CLD	Clear decimal flag
+     ***************************************************************/
+    public void CLD()
+    {
+            //m6502.p &= ~F_D;
+            m6502.p = (m6502.p & ~F_D) & 0xFF;
+    }
+
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// * CLI	Clear interrupt flag
 /*TODO*/// ***************************************************************/
@@ -675,16 +685,18 @@ public class m6502 extends cpu_interface {
 /*TODO*///	Y = (UINT8)++Y; 											\
 /*TODO*///	SET_NZ(Y)
 /*TODO*///
-/*TODO*////* 6502 ********************************************************
-/*TODO*/// *	JMP Jump to address
-/*TODO*/// *	set PC to the effective address
-/*TODO*/// ***************************************************************/
-/*TODO*///#define JMP 													\
-/*TODO*///	if( EAD == PPC && !m6502.pending_irq && !m6502.after_cli )	\
-/*TODO*///		if( m6502_ICount > 0 ) m6502_ICount = 0;				\
-/*TODO*///	PCD = EAD;													\
-/*TODO*///	change_pc16(PCD)
-/*TODO*///
+    /* 6502 ********************************************************
+     *	JMP Jump to address
+     *	set PC to the effective address
+     ***************************************************************/
+    public void JMP() 
+    {
+            if( m6502.ea.D == m6502.ppc.D && m6502.pending_irq==0 && m6502.after_cli==0 )	
+                    if( m6502_ICount[0] > 0 ) m6502_ICount[0] = 0;
+            m6502.pc.SetD(m6502.ea.D);												
+            change_pc16(m6502.pc.D);
+    }
+
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// *	JSR Jump to subroutine
 /*TODO*/// *	decrement PC (sic!) push PC hi, push PC lo and set
@@ -869,13 +881,16 @@ public class m6502 extends cpu_interface {
 /*TODO*/// ***************************************************************/
 /*TODO*///#define SED 													\
 /*TODO*///	P |= F_D
-/*TODO*///
-/*TODO*////* 6502 ********************************************************
-/*TODO*/// *	SEI Set interrupt flag
-/*TODO*/// ***************************************************************/
-/*TODO*///#define SEI 													\
-/*TODO*///	P |= F_I
-/*TODO*///
+
+    /* 6502 ********************************************************
+     *	SEI Set interrupt flag
+     ***************************************************************/
+    public void SEI()
+    {
+            //m6502.p |= F_I;
+        m6502.p = (m6502.p | F_I) & 0xFF;
+    }
+
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// * STA	Store accumulator
 /*TODO*/// ***************************************************************/
@@ -977,7 +992,11 @@ public class m6502 extends cpu_interface {
     opcode m6502_f1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; SBC;		  */ }}; /* 5 SBC IDY */
 
 
-    opcode m6502_a2 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; LDX;		  */ }}; /* 2 LDX IMM */
+    opcode m6502_a2 = new opcode() { public void handler()
+    {  
+        fclose(m6502log);
+        throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; LDX;		  */ 
+    }}; /* 2 LDX IMM */
 
     opcode m6502_24 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 3; RD_ZPG; BIT;		  */ }}; /* 3 BIT ZPG */
 
@@ -1041,10 +1060,20 @@ public class m6502 extends cpu_interface {
     opcode m6502_18 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLC;		  */ }}; /* 2 CLC */
     opcode m6502_38 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SEC;		  */ }}; /* 2 SEC */
     opcode m6502_58 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLI;		  */ }}; /* 2 CLI */
-    opcode m6502_78 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SEI;		  */ }}; /* 2 SEI */
+    opcode m6502_78 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 2;		 
+        SEI();		
+        if(m6502log!=null) fprintf(m6502log,"M6509#%d 78 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
+    }}; /* 2 SEI */
     opcode m6502_98 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TYA;		  */ }}; /* 2 TYA */
     opcode m6502_b8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLV;		  */ }}; /* 2 CLV */
-    opcode m6502_d8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLD;		  */ }}; /* 2 CLD */
+    opcode m6502_d8 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 2;		 
+        CLD();
+        if(m6502log!=null) fprintf(m6502log,"M6509#%d d8 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
+    }}; /* 2 CLD */
     opcode m6502_f8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 SED;		  */ }}; /* 2 SED */
 
     opcode m6502_09 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 2; RD_IMM; ORA;		  */ }}; /* 2 ORA IMM */
@@ -1080,7 +1109,13 @@ public class m6502 extends cpu_interface {
 
  
     opcode m6502_2c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; BIT;		  */ }}; /* 4 BIT ABS */
-    opcode m6502_4c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 3; EA_ABS; JMP;		  */ }}; /* 3 JMP ABS */
+    opcode m6502_4c = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 3; 
+        EA_ABS();
+        JMP();
+        if(m6502log!=null) fprintf(m6502log,"M6509#%d 4c :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
+    }}; /* 3 JMP ABS */
     opcode m6502_6c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; EA_IND; JMP;		  */ }}; /* 5 JMP IND */
     opcode m6502_8c = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4;		 STY; WR_ABS; */ }}; /* 4 STY ABS */
     opcode m6502_ac = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 4; RD_ABS; LDY;		  */ }}; /* 4 LDY ABS */
