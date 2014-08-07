@@ -1942,7 +1942,7 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_4a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 2 LSR A */
-    opcode m6502_6a = new opcode() { public void handler(){  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2 =ROR(tmp); WB_ACC(tmp);  }}; /* 2 ROR A */
+    opcode m6502_6a = new opcode() { public void handler(){  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2 =ROR(tmp); WB_ACC(tmp2);  }}; /* 2 ROR A */
     opcode m6502_8a = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 2;		 
