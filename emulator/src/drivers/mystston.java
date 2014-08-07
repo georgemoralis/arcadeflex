@@ -79,7 +79,7 @@ import static mame.palette.*;
 
 public class mystston
 {
-	static int coin;
+	static int coin_myst;
 	public static InterruptPtr mystston_interrupt = new InterruptPtr() { public int handler() 
 	{
 		
@@ -87,13 +87,13 @@ public class mystston
 	
 		if ((readinputport(0) & 0xc0) != 0xc0)
 		{
-			if (coin == 0)
+			if (coin_myst == 0)
 			{
-				coin = 1;
+				coin_myst = 1;
 				return nmi_interrupt.handler();
 			}
 		}
-		else coin = 0;
+		else coin_myst = 0;
 	
 		return interrupt.handler();
 	} };

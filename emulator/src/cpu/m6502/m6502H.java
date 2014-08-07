@@ -23,4 +23,6 @@ public class m6502H {
 
      public static final int M6502_NMI_VEC	=0xfffa;
      public static final int M6502_RST_VEC	=0xfffc; 
+     public static final int M6502_IRQ_VEC	=0xfffe;
+
 }

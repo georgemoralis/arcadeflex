@@ -1819,7 +1819,7 @@ public class drawgfx {
 
 /*TODO*///static int rp_8(struct osd_bitmap *b,int x,int y)  { return b->line[y][x]; }
     public static read_pixel_procPtr rp_8 = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
-        throw new UnsupportedOperationException("Unsupported rp_8");
+        return bitmap.line[y].read(x);
     }};
 /*TODO*///static int rp_8_fx(struct osd_bitmap *b,int x,int y)  { return b->line[y][b->width-1-x]; }
     public static read_pixel_procPtr rp_8_fx = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {

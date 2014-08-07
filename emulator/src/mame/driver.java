@@ -86,8 +86,8 @@ import static drivers.wc90.*;
 import static drivers.atetris.*;
 import static drivers.mystston.*;
 import static drivers.jack.*;
-
-
+import static drivers.copsnrob.*;
+import static drivers.pcktgal.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -190,6 +190,13 @@ public class driver {
         /*atetris*/driver_atetcktl,
         /*atetris*/driver_atetckt2,
         /*mystston*/driver_mystston,
+        /*copsnrob*/driver_copsnrob,
+        
+        /*pcktgal*/driver_pcktgal,	
+        /*pcktgal*/driver_pcktgalb,	
+        /*pcktgal*/driver_pcktgal2,	
+        /*pcktgal*/driver_spool3,	
+        /*pcktgal*/driver_spool3i,
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -1604,11 +1611,8 @@ public class driver {
 /*TODO*/ //	DRIVER( exprraid )	/* (c) 1986 Data East USA (US) */
 /*TODO*/ //	DRIVER( wexpress )	/* (c) 1986 Data East Corporation (World?) */
 /*TODO*/ //	DRIVER( wexpresb )	/* bootleg */
-/*TODO*/ //	DRIVER( pcktgal )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( pcktgalb )	/* bootleg */
-/*TODO*/ //	DRIVER( pcktgal2 )	/* (c) 1989 Data East Corporation (World?) */
-/*TODO*/ //	DRIVER( spool3 )	/* (c) 1989 Data East Corporation (World?) */
-/*TODO*/ //	DRIVER( spool3i )	/* (c) 1990 Data East Corporation + I-Vics license */
+
+
 /*TODO*/ //	DRIVER( actfancr )	/* (c) 1989 Data East Corporation (World) */
 /*TODO*/ //	DRIVER( actfanc1 )	/* (c) 1989 Data East Corporation (World) */
 /*TODO*/ //	DRIVER( actfancj )	/* (c) 1989 Data East Corporation (Japan) */
@@ -1974,7 +1978,6 @@ public class driver {
 /*TODO*/ //	DRIVER( dominos )	/* no copyright notice */
 /*TODO*/ //	DRIVER( nitedrvr )	/* no copyright notice [1976] */
 /*TODO*/ //	DRIVER( bsktball )	/* no copyright notice */
-/*TODO*/ //	DRIVER( copsnrob )	/* [1976] */
 /*TODO*/ //	DRIVER( avalnche )	/* no copyright notice [1978] */
 /*TODO*/ //	DRIVER( subs )		/* no copyright notice [1976] */
 /*TODO*/ //	DRIVER( atarifb )	/* no copyright notice [1978] */
