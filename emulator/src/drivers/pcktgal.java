@@ -70,8 +70,8 @@ public class pcktgal
 	
 	public static WriteHandlerPtr pcktgal_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		soundlatch_w.handler(0,data);
-/*TODO*///		cpu_cause_interrupt(1,M6502_INT_NMI);
+		soundlatch_w.handler(0,data);
+		cpu_cause_interrupt(1,M6502_INT_NMI);
 	} };
 	
 	static int msm5205next;
@@ -300,15 +300,15 @@ public class pcktgal
 				2000000,
 				readmem,writemem,null,null,
 				nmi_interrupt,1
-			)//,
-/*			new MachineCPU(
+			),
+			new MachineCPU(
 				CPU_M6502 | CPU_AUDIO_CPU,
 				2000000,
 				sound_readmem,sound_writemem,null,null,
 				ignore_interrupt,0
 								/* IRQs are caused by the ADPCM chip */
 								/* NMIs are caused by the main CPU */
-//			)
+			)
 		},
 		60, DEFAULT_60HZ_VBLANK_DURATION,  /* frames per second, vblank duration */
 		1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */

@@ -1514,8 +1514,8 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_b1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
    
     }}; /* 5 LDA IDY */
-    opcode m6502_d1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; CMP;		  */ }}; /* 5 CMP IDY */
-    opcode m6502_f1 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 5; RD_IDY; SBC;		  */ }}; /* 5 SBC IDY */
+    opcode m6502_d1 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); CMP(tmp);		   }}; /* 5 CMP IDY */
+    opcode m6502_f1 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); SBC(tmp);		   }}; /* 5 SBC IDY */
 
 
     opcode m6502_a2 = new opcode() { public void handler()
@@ -2113,10 +2113,10 @@ public class m6502 extends cpu_interface {
 
     }}; /* 6 INC ABS */
 
-    opcode m6502_1e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ASL; WB_EA;  */ }}; /* 7 ASL ABX */
-    opcode m6502_3e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ROL; WB_EA;  */ }}; /* 7 ROL ABX */
-    opcode m6502_5e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; LSR; WB_EA;  */ }}; /* 7 LSR ABX */
-    opcode m6502_7e = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /* int tmp; m6502_ICount[0] -= 7; RD_ABX; ROR; WB_EA;  */ }}; /* 7 ROR ABX */
+    opcode m6502_1e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ASL(tmp); WB_EA(tmp2);   }}; /* 7 ASL ABX */
+    opcode m6502_3e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROL(tmp); WB_EA(tmp2);   }}; /* 7 ROL ABX */
+    opcode m6502_5e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=LSR(tmp); WB_EA(tmp2);   }}; /* 7 LSR ABX */
+    opcode m6502_7e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROR(tmp); WB_EA(tmp2);   }}; /* 7 ROR ABX */
 
     opcode m6502_be = new opcode() { public void handler()
     {  
@@ -2277,6 +2277,52 @@ public class m6502 extends cpu_interface {
 /*TODO*///	return sizeof(m6502_Regs);
 /*TODO*///}
 /*TODO*///
+   @Override
+    public Object get_context() {
+        m6502_Regs regs = new m6502_Regs();
+        regs.subtype = m6502.subtype;
+        regs.insn=m6502.insn;
+        regs.ppc.SetD(m6502.ppc.D);       
+        regs.pc.SetD(m6502.pc.D); 
+        regs.zp.SetD(m6502.zp.D);
+        regs.sp.SetD(m6502.sp.D);
+        regs.ea.SetD(m6502.ea.D);
+	regs.a=m6502.a;			
+	regs.x=m6502.x;
+	regs.y=m6502.y;
+	regs.p=m6502.p;
+	regs.pending_irq=m6502.pending_irq;	
+	regs.after_cli=m6502.after_cli;
+	regs.nmi_state=m6502.nmi_state;
+	regs.irq_state=m6502.irq_state;
+	regs.so_state=m6502.so_state;
+        regs.irq_callback=m6502.irq_callback;     
+        return regs;
+    }
+
+    @Override
+    public void set_context(Object reg) {
+        m6502_Regs regs = (m6502_Regs)reg;
+        m6502.subtype=regs.subtype;
+        m6502.insn=regs.insn;
+        m6502.ppc.SetD(regs.ppc.D);
+        m6502.pc.SetD(regs.pc.D);
+        m6502.zp.SetD(regs.zp.D);
+        m6502.sp.SetD(regs.sp.D);
+        m6502.ea.SetD(regs.ea.D);
+        m6502.a=regs.a;			
+	m6502.x=regs.x;
+	m6502.y=regs.y;
+	m6502.p=regs.p;
+	m6502.pending_irq=regs.pending_irq;	
+	m6502.after_cli=regs.after_cli;
+	m6502.nmi_state=regs.nmi_state;
+	m6502.irq_state=regs.irq_state;
+	m6502.so_state=regs.so_state;
+        m6502.irq_callback=regs.irq_callback;
+        
+        change_pc(m6502.pc.D);
+    }
 /*TODO*///void m6502_set_context (void *src)
 /*TODO*///{
 /*TODO*///	if( src )
@@ -2628,15 +2674,7 @@ public class m6502 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Object get_context() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void set_context(Object reg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void set_pc(int val) {
