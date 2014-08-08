@@ -1,6 +1,7 @@
 Perfect
 -------
 minivadr
+copsnrob
 
 
 Working without sound
@@ -323,6 +324,14 @@ zzyzzyx2
 brix
 freeze
 sucasino
+bogeyman
+pcktgal	
+pcktgalb
+pcktgal2	
+spool3	
+spool3i
+
+
 
 Serious graphics issues
 -----------------------
@@ -391,7 +400,7 @@ topgunr //boots but doesn't start
 jackalj //boots but doesn't  start
 topgunbl //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
 jailbrek  //reboots when i try to start game?
-        
+mystston //no controls ?
 
 
 

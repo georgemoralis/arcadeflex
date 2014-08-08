@@ -95,6 +95,11 @@ public class driver {
     public static GameDriver drivers[] =
     {
         
+        /**
+        *
+        *   Perfect games
+        */
+        /*copsnrob*/driver_copsnrob, 
         
         /**
          * Games that only misses sound
@@ -161,6 +166,12 @@ public class driver {
         /*jack*/driver_brix,
         /*jack*/driver_freeze,
         /*jack*/driver_sucasino,
+        /*bogeyman*/driver_bogeyman, 
+        /*pcktgal*/driver_pcktgal,	
+        /*pcktgal*/driver_pcktgalb,	
+        /*pcktgal*/driver_pcktgal2,	
+        /*pcktgal*/driver_spool3,	
+        /*pcktgal*/driver_spool3i,
         
         /**
          * Games not working (various reasons)
@@ -171,7 +182,8 @@ public class driver {
         /*jackal*/driver_jackalj,//boots but doesn't  start
         /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
         /*jailbrek*/driver_jailbrek, //reboots when i try to start game?
-        
+         /*mystston*/driver_mystston, //no controls
+         
         /**
          * Games not working in mame 0.36 either
          */
@@ -191,14 +203,10 @@ public class driver {
         /*atetris*/driver_atetrisb,
         /*atetris*/driver_atetcktl,
         /*atetris*/driver_atetckt2,
-        /*mystston*/driver_mystston,
-        /*copsnrob*/driver_copsnrob,      
-        /*pcktgal*/driver_pcktgal,	
-        /*pcktgal*/driver_pcktgalb,	
-        /*pcktgal*/driver_pcktgal2,	
-        /*pcktgal*/driver_spool3,	
-        /*pcktgal*/driver_spool3i,
-        /*bogeyman*/driver_bogeyman, //buggy windows rendering
+       
+             
+
+        
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
