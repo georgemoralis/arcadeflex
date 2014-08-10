@@ -788,6 +788,18 @@ public class m6502 extends cpu_interface {
 /*TODO*///	PCH = RDMEM(M6502_IRQ_VEC+1);								\
 /*TODO*///	change_pc16(PCD)
 /*TODO*///
+    public void BRK()
+    {
+        m6502.pc.AddD(1);
+        PUSH(m6502.pc.H);
+        PUSH(m6502.pc.L);
+        PUSH(m6502.p | F_B);
+        m6502.p = ((m6502.p | F_I) & ~F_D)&0xFF;
+        m6502.pc.SetL(RDMEM(M6502_IRQ_VEC));
+        m6502.pc.SetH(RDMEM(M6502_IRQ_VEC+1));
+        change_pc16(m6502.pc.D);
+        
+    }
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// * BVC	Branch if overflow clear
 /*TODO*/// ***************************************************************/
@@ -849,6 +861,10 @@ public class m6502 extends cpu_interface {
 /*TODO*///#define CLV 													\
 /*TODO*///	P &= ~F_V
 /*TODO*///
+    public void CLV()
+    {
+        m6502.p = (m6502.p & ~F_V)&0xFF;
+    }
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// *	CMP Compare accumulator
 /*TODO*/// ***************************************************************/
@@ -1349,6 +1365,11 @@ public class m6502 extends cpu_interface {
 /*TODO*///	X = S;														\
 /*TODO*///	SET_NZ(X)
 /*TODO*///
+    public void TSX()
+    {
+        m6502.x =m6502.sp.L;
+        SET_NZ(m6502.x);
+    }
 /*TODO*////* 6502 ********************************************************
 /*TODO*/// * TXA	Transfer index X to accumulator
 /*TODO*/// ***************************************************************/
@@ -1390,8 +1411,8 @@ public class m6502 extends cpu_interface {
      *****************************************************************************/
     opcode m6502_00 = new opcode() { public void handler()
     {  
-        fclose(m6502log);
-        throw new UnsupportedOperationException("unimplemented"); /* 		  m6502_ICount[0] -= 7;		 BRK;		  */ 
+        m6502_ICount[0] -= 7;		 
+        BRK();		  
     }}; /* 7 BRK */
     opcode m6502_20 = new opcode() { public void handler()
     {  
@@ -1818,7 +1839,7 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_98 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 2 TYA */
-    opcode m6502_b8 = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 CLV;		  */ }}; /* 2 CLV */
+    opcode m6502_b8 = new opcode() { public void handler(){ m6502_ICount[0] -= 2;		 CLV();		 }}; /* 2 CLV */
     opcode m6502_d8 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 2;		 
@@ -1974,7 +1995,7 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d 9a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 2 TXS */
-    opcode m6502_ba = new opcode() { public void handler(){  throw new UnsupportedOperationException("unimplemented"); /*		  m6502_ICount[0] -= 2;		 TSX;		  */ }}; /* 2 TSX */
+    opcode m6502_ba = new opcode() { public void handler(){  m6502_ICount[0] -= 2;		 TSX();		   }}; /* 2 TSX */
 
  
     opcode m6502_2c = new opcode() { public void handler()
@@ -2358,10 +2379,10 @@ public class m6502 extends cpu_interface {
        Object reg = new m6502_Regs();
        return reg;
     }
-/*TODO*///unsigned m6502_get_reg (int regnum)
-/*TODO*///{
-/*TODO*///	switch( regnum )
-/*TODO*///	{
+    @Override
+    public int get_reg(int regnum) {
+	switch( regnum )
+	{
 /*TODO*///		case M6502_PC: return m6502.pc.w.l;
 /*TODO*///		case M6502_S: return m6502.sp.b.l;
 /*TODO*///		case M6502_P: return m6502.p;
@@ -2374,17 +2395,18 @@ public class m6502 extends cpu_interface {
 /*TODO*///		case M6502_IRQ_STATE: return m6502.irq_state;
 /*TODO*///		case M6502_SO_STATE: return m6502.so_state;
 /*TODO*///		case M6502_SUBTYPE: return m6502.subtype;
-/*TODO*///		case REG_PREVIOUSPC: return m6502.ppc.w.l;
-/*TODO*///		default:
+		case REG_PREVIOUSPC: return m6502.ppc.D;
+		default:
+                    throw new UnsupportedOperationException("unsupported m6502 get_reg");
 /*TODO*///			if( regnum <= REG_SP_CONTENTS )
 /*TODO*///			{
 /*TODO*///				unsigned offset = S + 2 * (REG_SP_CONTENTS - regnum);
 /*TODO*///				if( offset < 0x1ff )
 /*TODO*///					return RDMEM( offset ) | ( RDMEM( offset + 1 ) << 8 );
 /*TODO*///			}
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
+	}
+	//return 0;
+    }
 /*TODO*///
 /*TODO*///void m6502_set_reg (int regnum, unsigned val)
 /*TODO*///{
@@ -2655,7 +2677,7 @@ public class m6502 extends cpu_interface {
 
     public burnPtr burn_function = new burnPtr() {
         public void handler(int cycles) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            //throw new UnsupportedOperationException("Not supported yet.");
         }
     };
 
@@ -2691,10 +2713,7 @@ public class m6502 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public int get_reg(int regnum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     @Override
     public void set_reg(int regnum, int val) {

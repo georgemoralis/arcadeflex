@@ -89,6 +89,7 @@ import static drivers.jack.*;
 import static drivers.copsnrob.*;
 import static drivers.pcktgal.*;
 import static drivers.bogeyman.*;
+import static drivers.btime.*;
 
 
 public class driver {
@@ -204,7 +205,21 @@ public class driver {
         /*atetris*/driver_atetcktl,
         /*atetris*/driver_atetckt2,
        
-             
+             	/* Data East "Burger Time hardware" games */
+        /*btime*/driver_lnc,
+        /*btime*/driver_zoar,
+        /*btime*/driver_btime,
+        /*btime*/driver_btime2,
+        /*btime*/driver_btimem,
+        /*btime*/driver_wtennis,
+        /*btime*/driver_brubber,
+        /*btime*/driver_bnj,
+        /*btime*/driver_caractn,
+        /*btime*/driver_disco,
+        /*btime*/driver_mmonkey,
+                /* cassette system */
+        /*btime*/ //TESTDRIVER( decocass )
+        /*btime*/driver_cookrace,
 
         
         
@@ -1583,21 +1598,7 @@ public class driver {
 /*TODO*/ //	DRIVER( wb3bl )		/* (c) 1988 Sega / Westone (but bootleg) */
 /*TODO*/ //	DRIVER( wrestwar )	/* (c) 1989 */
 
-	/* Data East "Burger Time hardware" games */
-/*TODO*/ //	DRIVER( lnc )		/* (c) 1981 */
-/*TODO*/ //	DRIVER( zoar )		/* (c) 1982 */
-/*TODO*/ //	DRIVER( btime )		/* (c) 1982 */
-/*TODO*/ //	DRIVER( btime2 )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( btimem )	/* (c) 1982 + Midway */
-/*TODO*/ //	DRIVER( wtennis )	/* bootleg 1982 */
-/*TODO*/ //	DRIVER( brubber )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( bnj )		/* (c) 1982 + Midway */
-/*TODO*/ //	DRIVER( caractn )	/* bootleg */
-/*TODO*/ //	DRIVER( disco )		/* (c) 1982 */
-/*TODO*/ //	DRIVER( mmonkey )	/* (c) 1982 Technos Japan + Roller Tron */
-	/* cassette system */
-/*TODO*/ //TESTDRIVER( decocass )
-/*TODO*/ //	DRIVER( cookrace )	/* bootleg */
+
 
 	/* other Data East games */
 /*TODO*/ //	DRIVER( astrof )	/* (c) [1980?] */
