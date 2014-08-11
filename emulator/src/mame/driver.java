@@ -96,6 +96,8 @@ import static drivers.matmania.*;
 import static drivers.renegade.*;
 import static drivers.funkybee.*;
 import static drivers.hyperspt.*;
+import static drivers.flkatck.*;
+
 
 
 public class driver {
@@ -253,7 +255,8 @@ public class driver {
          */
         /*btime*/ //TESTDRIVER( decocass )
         
-
+        /*flkatck*/driver_mx5000,
+        /*flkatck*/driver_flkatck,
 
         
         /* "Pacman hardware" games */
@@ -1828,8 +1831,7 @@ public class driver {
         driver_combascb,	/* bootleg */
 /*TODO*/ //	DRIVER( rockrage )	/* GX620 (c) 1986 (World?) */
 /*TODO*/ //	DRIVER( rockragj )	/* GX620 (c) 1986 (Japan) */
-/*TODO*/ //	DRIVER( mx5000 )	/* GX669 (c) 1987 */
-/*TODO*/ //	DRIVER( flkatck )	/* GX669 (c) 1987 (Japan) */
+
 /*TODO*/ //	DRIVER( fastlane )	/* GX752 (c) 1987 */
 /*TODO*/ //	DRIVER( labyrunr )	/* GX771 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( thehustl )	/* GX765 (c) 1987 (Japan) */
