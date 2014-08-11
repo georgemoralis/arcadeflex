@@ -95,6 +95,8 @@ import static drivers.exprraid.*;
 import static drivers.matmania.*;
 import static drivers.renegade.*;
 import static drivers.funkybee.*;
+import static drivers.hyperspt.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -179,7 +181,11 @@ public class driver {
         /*pcktgal*/driver_spool3i,
         /*scregg*/driver_scregg,
         /*scregg*/driver_eggs,
-        
+        /*funkybee*/driver_funkybee,
+        /*funkybee*/driver_skylancr,       
+        /*hyperspt*/driver_hyperspt,
+        /*hyperspt*/driver_hpolym84,
+        /*hyperspt*/driver_roadf,
         
         /**
          *  No inputs working
@@ -210,6 +216,7 @@ public class driver {
         /*exprraid*/driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
+        /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
         
 
          
@@ -224,9 +231,8 @@ public class driver {
         /**
          * WIP section
          */
-        /*funkybee*/driver_funkybee,
-        /*funkybee*/driver_skylancr,       
-        
+
+
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
         /*atetris*/driver_atetrisb,
@@ -1788,14 +1794,12 @@ public class driver {
         driver_circusce,	/* GX380 (c) 1984 + Centuri license */
         driver_tp84,		/* GX388 (c) 1984 */
         driver_tp84a,		/* GX388 (c) 1984 */
-/*TODO*/ //	DRIVER( hyperspt )	/* GX330 (c) 1984 + Centuri */
-/*TODO*/ //	DRIVER( hpolym84 )	/* GX330 (c) 1984 */
+     
 /*TODO*/ //	DRIVER( sbasketb )	/* GX405 (c) 1984 */
         driver_mikie,	/* GX469 (c) 1984 */
         driver_mikiej,	/* GX469 (c) 1984 */
         driver_mikiehs,	/* GX469 (c) 1984 */
-/*TODO*/ //	DRIVER( roadf )		/* GX461 (c) 1984 */
-/*TODO*/ //	DRIVER( roadf2 )	/* GX461 (c) 1984 */
+
 /*TODO*/ //	DRIVER( yiear )		/* GX407 (c) 1985 */
 /*TODO*/ //	DRIVER( yiear2 )	/* GX407 (c) 1985 */
 /*TODO*/ //	DRIVER( kicker )	/* GX477 (c) 1985 */
