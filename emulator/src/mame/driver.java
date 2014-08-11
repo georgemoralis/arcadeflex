@@ -93,6 +93,7 @@ import static drivers.btime.*;
 import static drivers.scregg.*;
 import static drivers.exprraid.*;
 import static drivers.matmania.*;
+import static drivers.renegade.*;
 
 
 public class driver {
@@ -236,6 +237,9 @@ public class driver {
         /*matmania*/driver_maniach,
         /*matmania*/driver_maniach2,
         
+        /*renegade*/driver_renegade,
+        /*renegade*/driver_kuniokun,
+        /*renegade*/driver_kuniokub,
         /**
          *  Test (Not working) drivers
          */
@@ -2200,9 +2204,7 @@ public class driver {
 /*TODO*/ //	DRIVER( ssozumo )	/* TA-0008 (c) 1984 */
 	/* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
 
-/*TODO*/ //	DRIVER( renegade )	/* TA-0018 (c) 1986 + Taito America license */
-/*TODO*/ //	DRIVER( kuniokun )	/* TA-0018 (c) 1986 */
-/*TODO*/ //	DRIVER( kuniokub )	/* bootleg */
+
 /*TODO*/ //	DRIVER( xsleena )	/* TA-0019 (c) 1986 */
 /*TODO*/ //	DRIVER( xsleenab )	/* bootleg */
 /*TODO*/ //	DRIVER( solarwar )	/* TA-0019 (c) 1986 Taito + Memetron license */

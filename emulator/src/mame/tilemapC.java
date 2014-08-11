@@ -1603,18 +1603,18 @@ public class tilemapC {
     	}
     }
     
-    /*TODO*///void tilemap_set_scrolldx( struct tilemap *tilemap, int dx, int dx_if_flipped ){
-    /*TODO*///	tilemap->dx = dx;
-    /*TODO*///	tilemap->dx_if_flipped = dx_if_flipped;
-    /*TODO*///	tilemap->scrollx_delta = ( tilemap->attributes & TILEMAP_FLIPX )?dx_if_flipped:dx;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void tilemap_set_scrolldy( struct tilemap *tilemap, int dy, int dy_if_flipped ){
-    /*TODO*///	tilemap->dy = dy;
-    /*TODO*///	tilemap->dy_if_flipped = dy_if_flipped;
-    /*TODO*///	tilemap->scrolly_delta = ( tilemap->attributes & TILEMAP_FLIPY )?dy_if_flipped:dy;
-    /*TODO*///}
-    /*TODO*///
+    public static void tilemap_set_scrolldx( tilemap _tilemap, int dx, int dx_if_flipped ){
+    	_tilemap.dx = dx;
+    	_tilemap.dx_if_flipped = dx_if_flipped;
+    	_tilemap.scrollx_delta = ( _tilemap.attributes & TILEMAP_FLIPX )!=0?dx_if_flipped:dx;
+    }
+    
+    public static void tilemap_set_scrolldy( tilemap _tilemap, int dy, int dy_if_flipped ){
+    	_tilemap.dy = dy;
+    	_tilemap.dy_if_flipped = dy_if_flipped;
+    	_tilemap.scrolly_delta = ( _tilemap.attributes & TILEMAP_FLIPY )!=0?dy_if_flipped:dy;
+    }
+    
     /*TODO*///#else // DECLARE
     /*TODO*////*
     /*TODO*///	The following procedure body is #included several times by
