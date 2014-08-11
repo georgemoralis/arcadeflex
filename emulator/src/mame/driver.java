@@ -90,7 +90,7 @@ import static drivers.copsnrob.*;
 import static drivers.pcktgal.*;
 import static drivers.bogeyman.*;
 import static drivers.btime.*;
-
+import static drivers.scregg.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -221,7 +221,8 @@ public class driver {
         /*btime*/ //TESTDRIVER( decocass )
         /*btime*/driver_cookrace,
 
-        
+        /*scregg*/driver_scregg,
+        /*scregg*/driver_eggs,
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -2176,8 +2177,6 @@ public class driver {
 /*TODO*/ //	DRIVER( sbasebal )	/* Alpha-68K96V       (c) 1989 SNK of America licensed from Alpha */
 
 	/* Technos games */
-/*TODO*/ //	DRIVER( scregg )	/* TA-0001 (c) 1983 */
-/*TODO*/ //	DRIVER( eggs )		/* TA-0002 (c) 1983 Universal USA */
 /*TODO*/ //	DRIVER( bigprowr )	/* TA-0007 (c) 1983 */
 /*TODO*/ //	DRIVER( tagteam )	/* TA-0007 (c) 1983 + Data East license */
 /*TODO*/ //	DRIVER( ssozumo )	/* TA-0008 (c) 1984 */

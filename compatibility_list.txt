@@ -330,8 +330,24 @@ pcktgalb
 pcktgal2	
 spool3	
 spool3i
+scregg
+eggs
 
 
+No inputs working
+-----------------------------
+lnc,
+zoar,
+btime,
+btime2,
+btimem,
+wtennis,
+brubber,
+bnj,
+caractn,
+disco,
+mmonkey,
+cookrace,
 
 Serious graphics issues
 -----------------------
