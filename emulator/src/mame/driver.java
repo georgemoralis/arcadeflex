@@ -91,6 +91,7 @@ import static drivers.pcktgal.*;
 import static drivers.bogeyman.*;
 import static drivers.btime.*;
 import static drivers.scregg.*;
+import static drivers.exprraid.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -173,6 +174,26 @@ public class driver {
         /*pcktgal*/driver_pcktgal2,	
         /*pcktgal*/driver_spool3,	
         /*pcktgal*/driver_spool3i,
+        /*scregg*/driver_scregg,
+        /*scregg*/driver_eggs,
+        
+        
+        /**
+         *  No inputs working
+         */
+        /*btime*/driver_lnc,
+        /*btime*/driver_zoar,
+        /*btime*/driver_btime,
+        /*btime*/driver_btime2,
+        /*btime*/driver_btimem,
+        /*btime*/driver_wtennis,
+        /*btime*/driver_brubber,
+        /*btime*/driver_bnj,
+        /*btime*/driver_caractn,
+        /*btime*/driver_disco,
+        /*btime*/driver_mmonkey,
+        /*btime*/driver_cookrace,
+        /*mystston*/driver_mystston, //no controls
         
         /**
          * Games not working (various reasons)
@@ -183,7 +204,11 @@ public class driver {
         /*jackal*/driver_jackalj,//boots but doesn't  start
         /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
         /*jailbrek*/driver_jailbrek, //reboots when i try to start game?
-         /*mystston*/driver_mystston, //no controls
+        /*exprraid*/driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
+        /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
+        /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
+        
+
          
         /**
          * Games not working in mame 0.36 either
@@ -198,31 +223,21 @@ public class driver {
          */
 
         
-        
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
         /*atetris*/driver_atetrisb,
         /*atetris*/driver_atetcktl,
         /*atetris*/driver_atetckt2,
        
-             	/* Data East "Burger Time hardware" games */
-        /*btime*/driver_lnc,
-        /*btime*/driver_zoar,
-        /*btime*/driver_btime,
-        /*btime*/driver_btime2,
-        /*btime*/driver_btimem,
-        /*btime*/driver_wtennis,
-        /*btime*/driver_brubber,
-        /*btime*/driver_bnj,
-        /*btime*/driver_caractn,
-        /*btime*/driver_disco,
-        /*btime*/driver_mmonkey,
-                /* cassette system */
-        /*btime*/ //TESTDRIVER( decocass )
-        /*btime*/driver_cookrace,
 
-        /*scregg*/driver_scregg,
-        /*scregg*/driver_eggs,
+        
+        /**
+         *  Test (Not working) drivers
+         */
+        /*btime*/ //TESTDRIVER( decocass )
+        
+
+
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -1620,9 +1635,7 @@ public class driver {
         driver_sidepckt,	/* (c) 1986 Data East Corporation */
         driver_sidepctj,	/* (c) 1986 Data East Corporation */
         driver_sidepctb,	/* bootleg */
-/*TODO*/ //	DRIVER( exprraid )	/* (c) 1986 Data East USA (US) */
-/*TODO*/ //	DRIVER( wexpress )	/* (c) 1986 Data East Corporation (World?) */
-/*TODO*/ //	DRIVER( wexpresb )	/* bootleg */
+
 
 
 /*TODO*/ //	DRIVER( actfancr )	/* (c) 1989 Data East Corporation (World) */

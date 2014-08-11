@@ -1114,11 +1114,11 @@ public class cpuintrf {
     	cpu_spinuntil_trigger(TRIGGER_INT + cpunum);
     }
     
-    /*TODO*////* burn CPU cycles until our timeslice is up */
-    /*TODO*///void cpu_spin(void)
-    /*TODO*///{
-    /*TODO*///	cpu_spinuntil_trigger(TRIGGER_TIMESLICE);
-    /*TODO*///}
+    /* burn CPU cycles until our timeslice is up */
+    public static void cpu_spin()
+    {
+    	cpu_spinuntil_trigger(TRIGGER_TIMESLICE);
+    }
     
     /* burn CPU cycles for a specific period of time */
     static int timetrig = 0;
