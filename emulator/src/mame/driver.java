@@ -94,7 +94,7 @@ import static drivers.scregg.*;
 import static drivers.exprraid.*;
 import static drivers.matmania.*;
 import static drivers.renegade.*;
-
+import static drivers.funkybee.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -224,7 +224,8 @@ public class driver {
         /**
          * WIP section
          */
-
+        /*funkybee*/driver_funkybee,
+        /*funkybee*/driver_skylancr,       
         
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
@@ -237,9 +238,10 @@ public class driver {
         /*matmania*/driver_maniach,
         /*matmania*/driver_maniach2,
         
-        /*renegade*/driver_renegade,
-        /*renegade*/driver_kuniokun,
-        /*renegade*/driver_kuniokub,
+        /*renegade*/driver_renegade,//no sprites?
+        /*renegade*/driver_kuniokun,//no sprites?
+        /*renegade*/driver_kuniokub,//no sprites?
+        
         /**
          *  Test (Not working) drivers
          */
@@ -2412,8 +2414,7 @@ public class driver {
 /*TODO*/ //	DRIVER( hoccer2 )	/* (c) 1983 Eastern Micro Electronics, Inc. */
 /*TODO*/ //	DRIVER( hopprobo )	/* (c) 1983 Sega */
 /*TODO*/ //	DRIVER( wanted )	/* (c) 1984 Sigma Ent. Inc. */
-/*TODO*/ //	DRIVER( funkybee )	/* (c) 1982 Orca */
-/*TODO*/ //	DRIVER( skylancr )	/* (c) 1983 Orca + Esco Trading Co license */
+
 /*TODO*/ //	DRIVER( zodiack )	/* (c) 1983 Orca + Esco Trading Co license */
 /*TODO*/ //	DRIVER( dogfight )	/* (c) 1983 Thunderbolt */
 /*TODO*/ //	DRIVER( moguchan )	/* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */

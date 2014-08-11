@@ -332,6 +332,9 @@ spool3
 spool3i
 scregg
 eggs
+funkybee
+skylancr
+
 
 
 No inputs working
