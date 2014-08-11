@@ -92,6 +92,8 @@ import static drivers.bogeyman.*;
 import static drivers.btime.*;
 import static drivers.scregg.*;
 import static drivers.exprraid.*;
+import static drivers.matmania.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -229,7 +231,10 @@ public class driver {
         /*atetris*/driver_atetcktl,
         /*atetris*/driver_atetckt2,
        
-
+        /*matmania*/driver_matmania,
+        /*matmania*/driver_excthour,
+        /*matmania*/driver_maniach,
+        /*matmania*/driver_maniach2,
         
         /**
          *  Test (Not working) drivers
@@ -2194,10 +2199,7 @@ public class driver {
 /*TODO*/ //	DRIVER( tagteam )	/* TA-0007 (c) 1983 + Data East license */
 /*TODO*/ //	DRIVER( ssozumo )	/* TA-0008 (c) 1984 */
 	/* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
-/*TODO*/ //	DRIVER( matmania )	/* TA-0015 (c) 1985 + Taito America license */
-/*TODO*/ //	DRIVER( excthour )	/* TA-0015 (c) 1985 + Taito license */
-/*TODO*/ //	DRIVER( maniach )	/* TA-0017 (c) 1986 + Taito America license */
-/*TODO*/ //	DRIVER( maniach2 )	/* TA-0017 (c) 1986 + Taito America license */
+
 /*TODO*/ //	DRIVER( renegade )	/* TA-0018 (c) 1986 + Taito America license */
 /*TODO*/ //	DRIVER( kuniokun )	/* TA-0018 (c) 1986 */
 /*TODO*/ //	DRIVER( kuniokub )	/* bootleg */
