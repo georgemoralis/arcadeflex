@@ -97,7 +97,7 @@ import static drivers.renegade.*;
 import static drivers.funkybee.*;
 import static drivers.hyperspt.*;
 import static drivers.flkatck.*;
-
+import static drivers.tnzs.*;
 
 
 public class driver {
@@ -231,9 +231,27 @@ public class driver {
         /*kingobox*/driver_ringkin2,
 
         /**
+         *  Test (Not working) drivers
+         */
+        /*btime*/ //TESTDRIVER( decocass )
+        
+        
+        /**
          * WIP section
          */
-
+        driver_extrmatn,/*tnzs.java*///CPU #0 PC f21e: warning - op-code execute on mapped i/o
+	driver_arkanoi2,  /*tnzs.java*///i can hear some sound but no video output?
+	driver_ark2us,   /*tnzs.java*///i can hear some sound but no video output?
+	driver_ark2jp,   /*tnzs.java*///i can hear some sound but no video output?
+	driver_plumppop, /*tnzs.java*///doesn't seem to boot
+	driver_drtoppel, /*tnzs.java*///got a startup grid but nothing more after that
+	driver_chukatai, /*tnzs.java*///doesn't seem to boot	
+	driver_tnzs,	/*tnzs.java*/	//CPU #0 PC fc31: warning - op-code execute on mapped i/o
+	driver_tnzsb,	/*tnzs.java*/	//CPU #0 PC fc7c: warning - op-code execute on mapped i/o
+	driver_tnzs2,	/*tnzs.java*/	//CPU #0 PC e024: warning - op-code execute on mapped i/o
+	driver_insectx,	/*tnzs.java*/   //requires install_mem_handler
+	driver_kageki,	/*tnzs.java*/   //doesn't boot..
+	driver_kagekij,/*tnzs.java*/    //doesn't boot...
 
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
@@ -250,10 +268,7 @@ public class driver {
         /*renegade*/driver_kuniokun,//no sprites?
         /*renegade*/driver_kuniokub,//no sprites?
         
-        /**
-         *  Test (Not working) drivers
-         */
-        /*btime*/ //TESTDRIVER( decocass )
+
         
         /*flkatck*/driver_mx5000,
         /*flkatck*/driver_flkatck,
@@ -1030,21 +1045,7 @@ public class driver {
 /*TODO*/ //TESTDRIVER( footchmp )	/* (c) 1990 Taito Corporation Japan (World) */
         driver_minivadr,	/* cabinet test board */
 
-	/* Taito "tnzs" hardware */
-/*TODO*/ //	DRIVER( extrmatn )	/* (c) 1987 World Games */
-/*TODO*/ //	DRIVER( arkanoi2 )	/* (c) 1987 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( ark2us )	/* (c) 1987 Taito America Corporation + Romstar license (US) */
-/*TODO*/ //	DRIVER( ark2jp )	/* (c) 1987 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( plumppop )	/* (c) 1987 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( drtoppel )	/* (c) 1987 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( chukatai )	/* (c) 1988 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( tnzs )		/* (c) 1988 Taito Corporation (Japan) (new logo) */
-/*TODO*/ //	DRIVER( tnzsb )		/* bootleg but Taito Corporation Japan (World) (new logo) */
-/*TODO*/ //	DRIVER( tnzs2 )		/* (c) 1988 Taito Corporation Japan (World) (old logo) */
-/*TODO*/ //	DRIVER( insectx )	/* (c) 1989 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( kageki )	/* (c) 1988 Taito America Corporation + Romstar license (US) */
-/*TODO*/ //	DRIVER( kagekij )	/* (c) 1988 Taito Corporation (Japan) */
-
+        
 	/* Taito L-System games */
 /*TODO*/ //	DRIVER( fhawk )		/* (c) 1988 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( raimais )	/* (c) 1988 Taito Corporation (Japan) */

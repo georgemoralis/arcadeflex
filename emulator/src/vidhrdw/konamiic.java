@@ -107,7 +107,6 @@ public  class konamiic
     public static void K007121_sprites_draw(int chip,osd_bitmap bitmap,
                     CharPtr source,int base_color,int global_x_offset,int bank_base)
     {
-            source.inc(0x1000);
             GfxElement gfx = Machine.gfx[chip];
             int flip_screen = K007121_flipscreen[chip];
             int i,num,inc,trans;
