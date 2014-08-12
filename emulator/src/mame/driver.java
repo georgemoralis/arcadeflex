@@ -98,6 +98,7 @@ import static drivers.funkybee.*;
 import static drivers.hyperspt.*;
 import static drivers.flkatck.*;
 import static drivers.tnzs.*;
+import static drivers.airbustr.*;
 
 
 public class driver {
@@ -239,19 +240,19 @@ public class driver {
         /**
          * WIP section
          */
-        driver_extrmatn,/*tnzs.java*///CPU #0 PC f21e: warning - op-code execute on mapped i/o
-	driver_arkanoi2,  /*tnzs.java*///i can hear some sound but no video output?
-	driver_ark2us,   /*tnzs.java*///i can hear some sound but no video output?
-	driver_ark2jp,   /*tnzs.java*///i can hear some sound but no video output?
-	driver_plumppop, /*tnzs.java*///doesn't seem to boot
-	driver_drtoppel, /*tnzs.java*///got a startup grid but nothing more after that
-	driver_chukatai, /*tnzs.java*///doesn't seem to boot	
-	driver_tnzs,	/*tnzs.java*/	//CPU #0 PC fc31: warning - op-code execute on mapped i/o
-	driver_tnzsb,	/*tnzs.java*/	//CPU #0 PC fc7c: warning - op-code execute on mapped i/o
-	driver_tnzs2,	/*tnzs.java*/	//CPU #0 PC e024: warning - op-code execute on mapped i/o
-	driver_insectx,	/*tnzs.java*/   //requires install_mem_handler
-	driver_kageki,	/*tnzs.java*/   //doesn't boot..
-	driver_kagekij,/*tnzs.java*/    //doesn't boot...
+        /*tnzs*/driver_extrmatn,
+	/*tnzs*/driver_arkanoi2,  
+	/*tnzs*/driver_ark2us,   
+	/*tnzs*/driver_ark2jp,   
+	/*tnzs*/driver_plumppop, 
+	/*tnzs*/driver_drtoppel, 
+	/*tnzs*/driver_chukatai, 	
+	/*tnzs*/driver_tnzs,	
+	/*tnzs*/driver_tnzsb,	
+	/*tnzs*/driver_tnzs2,	
+	/*tnzs*/driver_insectx,
+	/*tnzs*/driver_kageki,	
+	/*tnzs*/driver_kagekij,
 
         /*atetris*/driver_atetris,
         /*atetris*/driver_atetrisa,
@@ -273,6 +274,7 @@ public class driver {
         /*flkatck*/driver_mx5000,
         /*flkatck*/driver_flkatck,
 
+        /*airbustr*/driver_airbustr,	/* (c) 1990 Kaneko */
         
         /* "Pacman hardware" games */
         driver_pacman,     /* (c) 1980 Namco */
@@ -2448,7 +2450,7 @@ public class driver {
 
 	/* other Kaneko games */
 /*TODO*/ //	DRIVER( galpanic )	/* (c) 1990 Kaneko */
-/*TODO*/ //	DRIVER( airbustr )	/* (c) 1990 Kaneko */
+
 
 /*TODO*/ //	DRIVER( spacefb )	/* (c) [1980?] Nintendo */
 /*TODO*/ //	DRIVER( spacefbg )	/* 834-0031 (c) 1980 Gremlin */

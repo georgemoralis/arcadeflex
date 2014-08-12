@@ -61,12 +61,11 @@ public class sndintrf {
     	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
     	timer_set(TIME_NOW,data,soundlatch2_callback);
     }};
-    /*TODO*////*TODO*///int soundlatch2_r(int offset)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	read_debug2 = 1;
-    /*TODO*////*TODO*///	return latch2;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
+    public static ReadHandlerPtr soundlatch2_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+        read_debug2 = 1;
+        return latch2;
+    }};
     /*TODO*////*TODO*///void soundlatch2_clear_w(int offset, int data)
     /*TODO*////*TODO*///{
     /*TODO*////*TODO*///	latch2 = cleared_value;
