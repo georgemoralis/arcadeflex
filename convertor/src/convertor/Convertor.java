@@ -29,7 +29,7 @@ import java.util.Calendar;
 public class Convertor {
 
     static final String mameversion = "0.36";
-    static final String convertorversion="0.09";
+    static final String convertorversion="0.10";
     static FileInputStream fInput; //input 
     static FileOutputStream fOutput;//output streams
     

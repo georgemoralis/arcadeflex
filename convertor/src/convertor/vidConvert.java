@@ -27,6 +27,7 @@ public class vidConvert {
     static final int vh_screenrefresh=23;
     static final int vh_convert=24;
     static final int vh_start=25;
+    static final int spriteram=26;
     
     
     public static void ConvertVideo()
@@ -61,6 +62,26 @@ label0:
             }
             switch(c)
             {
+              case 's':
+                       /* if(sUtil.parseChar() != '[')
+                        {
+                            Convertor.inpos = r;
+                            break;
+                        }
+                        sUtil.skipSpace();
+                        Convertor.token[0] = sUtil.parseToken();
+                         sUtil.skipSpace();
+                        if(sUtil.parseChar() != ']')
+                        {
+                            Convertor.inpos = r;
+                            break;
+                        }
+                        sUtil.skipSpace();
+                        //if(sUtil.parseChar() != '=')
+                           sUtil.putString((new StringBuilder()).append("spriteram.read(").append(Convertor.token[0]).append(")").toString()); 
+                        //else
+                          //  Convertor.inpos = r;*/
+                  break;
               case 35: // '#'
                 if(!sUtil.getToken("#include"))//an den einai #include min to trexeis
                 {
@@ -152,6 +173,7 @@ label0:
                 sUtil.skipSpace();
                 if(sUtil.getToken("void"))//an to soma tis function einai (void)
                 {
+                        sUtil.skipSpace();
                         if(sUtil.parseChar() != ')')
                         {
                             Convertor.inpos = i;
@@ -206,6 +228,7 @@ label0:
                     sUtil.skipSpace();
                     if(sUtil.getToken("struct osd_bitmap *bitmap,int full_refresh"))
                     {
+                        sUtil.skipSpace();
                         if(sUtil.parseChar() != ')')
                         {
                             Convertor.inpos = j;
@@ -238,6 +261,7 @@ label0:
                     }                  
                     if(sUtil.getToken("void"))//an to soma tis function einai (void)
                     {
+                        sUtil.skipSpace();
                         if(sUtil.parseChar() != ')')
                         {
                             Convertor.inpos = j;
