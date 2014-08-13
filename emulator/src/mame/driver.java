@@ -100,7 +100,7 @@ import static drivers.flkatck.*;
 import static drivers.tnzs.*;
 import static drivers.airbustr.*;
 import static drivers.xain.*;
-
+import static drivers.vulgus.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -190,6 +190,9 @@ public class driver {
         /*hyperspt*/driver_hyperspt,
         /*hyperspt*/driver_hpolym84,
         /*hyperspt*/driver_roadf,
+        /*vulgus*/driver_vulgus,
+        /*vulgus*/driver_vulgus2,
+        /*vulgus*/driver_vulgusj, 
         
         /**
          *  No inputs working
@@ -252,7 +255,7 @@ public class driver {
         /**
          * WIP section
          */
-        
+
 
         
         /*tnzs*/driver_extrmatn,
@@ -1176,9 +1179,7 @@ public class driver {
 	/* Capcom games */
 	/* The following is a COMPLETE list of the Capcom games up to 1997, as shown on */
 	/* their web site. The list is sorted by production date. */
-/*TODO*/ //	DRIVER( vulgus )	/*  5/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( vulgus2 )	/*  5/1984 (c) 1984 */
-/*TODO*/ //	DRIVER( vulgusj )	/*  5/1984 (c) 1984 */
+
             driver_sonson,	/*  7/1984 (c) 1984 */
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
             driver_1942,		/* 12/1984 (c) 1984 */
