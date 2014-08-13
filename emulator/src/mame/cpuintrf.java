@@ -1130,26 +1130,26 @@ public class cpuintrf {
     }
     
     
-    /*TODO*///
-    /*TODO*////* yield our timeslice for a specific period of time */
-    /*TODO*///void cpu_yielduntil_trigger(int trigger)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	timer_holdcpu_trigger(cpunum, trigger);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* yield our timeslice until the next interrupt */
-    /*TODO*///void cpu_yielduntil_int(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	cpu_yielduntil_trigger(TRIGGER_INT + cpunum);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////* yield our current timeslice */
-    /*TODO*///void cpu_yield(void)
-    /*TODO*///{
-    /*TODO*///	cpu_yielduntil_trigger(TRIGGER_TIMESLICE);
-    /*TODO*///}
+    
+    /* yield our timeslice for a specific period of time */
+    public static void cpu_yielduntil_trigger(int trigger)
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	timer_holdcpu_trigger(cpunum, trigger);
+    }
+    
+    /* yield our timeslice until the next interrupt */
+    public static void cpu_yielduntil_int()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	cpu_yielduntil_trigger(TRIGGER_INT + cpunum);
+    }
+    
+    /* yield our current timeslice */
+    public static void cpu_yield()
+    {
+    	cpu_yielduntil_trigger(TRIGGER_TIMESLICE);
+    }
     /*TODO*///
     /*TODO*////* yield our timeslice for a specific period of time */
     /*TODO*///void cpu_yielduntil_time(double duration)

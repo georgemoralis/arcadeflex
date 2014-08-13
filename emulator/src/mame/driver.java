@@ -99,6 +99,7 @@ import static drivers.hyperspt.*;
 import static drivers.flkatck.*;
 import static drivers.tnzs.*;
 import static drivers.airbustr.*;
+import static drivers.xain.*;
 
 
 public class driver {
@@ -208,6 +209,17 @@ public class driver {
         /*mystston*/driver_mystston, //no controls
         
         /**
+         *  Tilemaps issues
+         */
+        /*xain*/driver_xsleena,  //background image looks not to spilt ok (doubling??)
+        /*xain*/driver_xsleenab, //background image looks not to spilt ok (doubling??)
+        /*xain*/driver_solarwar, //background image looks not to spilt ok (doubling??)
+        /*gberet*/driver_gberet,   //garbage remains in left and right of screen (clipping?)
+        /*gberet*/driver_rushatck, //garbage remains in left and right of screen (clipping?)
+        /*gberet*/driver_gberetb,  //garbage remains in left and right of screen (clipping?)	
+        /*gberet*/driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
+        
+        /**
          * Games not working (various reasons)
         */
         
@@ -240,6 +252,9 @@ public class driver {
         /**
          * WIP section
          */
+        
+
+        
         /*tnzs*/driver_extrmatn,
 	/*tnzs*/driver_arkanoi2,  
 	/*tnzs*/driver_ark2us,   
@@ -1811,10 +1826,7 @@ public class driver {
 /*TODO*/ //	DRIVER( kicker )	/* GX477 (c) 1985 */
 /*TODO*/ //	DRIVER( shaolins )	/* GX477 (c) 1985 */
         driver_pingpong,	/* GX555 (c) 1985 */
-        driver_gberet,	/* GX577 (c) 1985 */
-        driver_rushatck,/* GX577 (c) 1985 */
-        driver_gberetb,	/* bootleg on different hardware */
-        driver_mrgoemon,/* GX621 (c) 1986 (Japan) */
+
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
 /*TODO*/ //	DRIVER( finalizb )	/* bootleg */
         driver_ironhors,	/* GX560 (c) 1986 */
@@ -2216,9 +2228,7 @@ public class driver {
 	/* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
 
 
-/*TODO*/ //	DRIVER( xsleena )	/* TA-0019 (c) 1986 */
-/*TODO*/ //	DRIVER( xsleenab )	/* bootleg */
-/*TODO*/ //	DRIVER( solarwar )	/* TA-0019 (c) 1986 Taito + Memetron license */
+
 /*TODO*/ //	DRIVER( battlane )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan2 )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan3 )	/* TA-???? (c) 1986 + Taito license */

@@ -1100,7 +1100,7 @@ public class m6809 extends cpu_interface
     			case 0xf5: bitb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xf6: ldb_ex();   m6809_ICount[0]-= 5; break;
     			case 0xf7: stb_ex();   m6809_ICount[0]-= 5; break;
-    /*TODO*///			case 0xf8: eorb_ex();  m6809_ICount-= 5; break;
+    			case 0xf8: eorb_ex();  m6809_ICount[0]-= 5; break;
     /*TODO*///			case 0xf9: adcb_ex();  m6809_ICount-= 5; break;
     			case 0xfa: orb_ex();   m6809_ICount[0]-= 5; break;
     			case 0xfb: addb_ex();  m6809_ICount[0]-= 5; break;
@@ -1247,13 +1247,13 @@ public class m6809 extends cpu_interface
     	case 0x6d: ea=m6809.s+13&0xFFFF; 											m6809_ICount[0]-=1;   break;
     	case 0x6e: ea=m6809.s+14&0xFFFF; 											m6809_ICount[0]-=1;   break;
     	case 0x6f: ea=m6809.s+15&0xFFFF;												m6809_ICount[0]-=1;   break;
-    /*TODO*///
-    /*TODO*///	case 0x70: EA=S-16; 											m6809_ICount-=1;   break;
+
+    	case 0x70: ea=m6809.s-16 &0xFFFF; 											m6809_ICount[0]-=1;   break;
     	case 0x71: ea=m6809.s-15 &0xFFFF; 											m6809_ICount[0]-=1;   break;
-    /*TODO*///	case 0x72: EA=S-14; 											m6809_ICount-=1;   break;
-    /*TODO*///	case 0x73: EA=S-13; 											m6809_ICount-=1;   break;
-    /*TODO*///	case 0x74: EA=S-12; 											m6809_ICount-=1;   break;
-    /*TODO*///	case 0x75: EA=S-11; 											m6809_ICount-=1;   break;
+    	case 0x72: ea=m6809.s-14 &0xFFFF; 											m6809_ICount[0]-=1;   break;
+    	case 0x73: ea=m6809.s-13 &0xFFFF;											m6809_ICount[0]-=1;   break;
+   	case 0x74: ea=m6809.s-12 &0xFFFF; 											m6809_ICount[0]-=1;   break;
+    	case 0x75: ea=m6809.s-11 &0xFFFF; 											m6809_ICount[0]-=1;   break;
     	case 0x76: ea=m6809.s-10 &0xFFFF;											m6809_ICount[0]-=1;   break;
     	case 0x77: ea=m6809.s-9 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x78: ea=m6809.s-8 &0xFFFF;												m6809_ICount[0]-=1;   break;
@@ -4394,11 +4394,10 @@ public class m6809 extends cpu_interface
     /*TODO*////* $f8 EORB extended -**0- */
     public void eorb_ex()
     {
-    /*TODO*///	UINT8 t;
-    /*TODO*///	EXTBYTE(t);
-    /*TODO*///	B ^= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
+        int t=EXTBYTE();
+    	m6809.b ^= t;
+    	CLR_NZV();
+    	SET_NZ8(m6809.b);
     }
     /*TODO*///
     /*TODO*////* $f9 ADCB extended ***** */
