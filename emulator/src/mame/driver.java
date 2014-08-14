@@ -104,7 +104,7 @@ import static drivers.vulgus.*;
 import static drivers.wiz.*;
 import static drivers.ddrible.*;
 import static drivers.lkage.*;
-
+import static drivers.shaolins.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -250,7 +250,9 @@ public class driver {
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
         /*ddrible*/driver_ddribble, //fails on self booting
         /*ddragon*/driver_ddragon,  //missing HD63701 cpu
-         
+        /*shaolins*/driver_kicker,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 1024 at vidhrdw.shaolins$3.handler(shaolins.java:155)
+        /*shaolins*/driver_shaolins,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 1024 at vidhrdw.shaolins$3.handler(shaolins.java:155)
+    
         /**
          * Games not working in mame 0.36 either
          */
@@ -268,7 +270,6 @@ public class driver {
         /**
          * WIP section
          */
-
 
 
         
@@ -1836,8 +1837,7 @@ public class driver {
 
 /*TODO*/ //	DRIVER( yiear )		/* GX407 (c) 1985 */
 /*TODO*/ //	DRIVER( yiear2 )	/* GX407 (c) 1985 */
-/*TODO*/ //	DRIVER( kicker )	/* GX477 (c) 1985 */
-/*TODO*/ //	DRIVER( shaolins )	/* GX477 (c) 1985 */
+
         driver_pingpong,	/* GX555 (c) 1985 */
 
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
