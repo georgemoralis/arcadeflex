@@ -340,6 +340,11 @@ roadf
 vulgus
 vulgus2
 vulgusj
+stinger
+scion
+scionc
+wiz
+wizt
 
 
 No inputs working

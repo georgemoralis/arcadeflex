@@ -101,6 +101,7 @@ import static drivers.tnzs.*;
 import static drivers.airbustr.*;
 import static drivers.xain.*;
 import static drivers.vulgus.*;
+import static drivers.wiz.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -255,7 +256,11 @@ public class driver {
         /**
          * WIP section
          */
-
+        /*wiz*/driver_stinger,
+        /*wiz*/driver_scion,
+        /*wiz*/driver_scionc,
+        /*wiz*/driver_wiz,
+        /*wiz*/driver_wizt,
 
         
         /*tnzs*/driver_extrmatn,
@@ -2349,11 +2354,7 @@ public class driver {
         driver_pickin,	/* (c) 1983 */
 
 	/* Seibu Denshi / Seibu Kaihatsu games */
-/*TODO*/ //	DRIVER( stinger )	/* (c) 1983 Seibu Denshi */
-/*TODO*/ //	DRIVER( scion )		/* (c) 1984 Seibu Denshi */
-/*TODO*/ //	DRIVER( scionc )	/* (c) 1984 Seibu Denshi + Cinematronics license */
-/*TODO*/ //	DRIVER( wiz )		/* (c) 1985 Seibu Kaihatsu */
-/*TODO*/ //	DRIVER( wizt )		/* (c) 1985 Taito Corporation */
+
 /*TODO*/ //	DRIVER( empcity )	/* (c) 1986 Seibu Kaihatsu (bootleg?) */
 /*TODO*/ //	DRIVER( empcityj )	/* (c) 1986 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( stfight )	/* (c) 1986 Seibu Kaihatsu (Germany) (bootleg?) */
