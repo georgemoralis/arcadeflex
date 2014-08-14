@@ -102,6 +102,7 @@ import static drivers.airbustr.*;
 import static drivers.xain.*;
 import static drivers.vulgus.*;
 import static drivers.wiz.*;
+import static drivers.ddrible.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -194,6 +195,11 @@ public class driver {
         /*vulgus*/driver_vulgus,
         /*vulgus*/driver_vulgus2,
         /*vulgus*/driver_vulgusj, 
+        /*wiz*/driver_stinger,
+        /*wiz*/driver_scion,
+        /*wiz*/driver_scionc,
+        /*wiz*/driver_wiz,
+        /*wiz*/driver_wizt,
         
         /**
          *  No inputs working
@@ -236,7 +242,7 @@ public class driver {
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
-        
+        /*ddrible*/driver_ddribble, //fails on self booting
 
          
         /**
@@ -256,11 +262,7 @@ public class driver {
         /**
          * WIP section
          */
-        /*wiz*/driver_stinger,
-        /*wiz*/driver_scion,
-        /*wiz*/driver_scionc,
-        /*wiz*/driver_wiz,
-        /*wiz*/driver_wizt,
+        
 
         
         /*tnzs*/driver_extrmatn,
@@ -1838,8 +1840,6 @@ public class driver {
         driver_ironhors,	/* GX560 (c) 1986 */
         driver_dairesya,	/* GX560 (c) 1986 (Japan) */
         driver_farwest,
-
-/*TODO*/ //	DRIVER( ddribble )	/* GX690 (c) 1986 */
         driver_contra,	/* GX633 (c) 1987 */
         driver_contrab,	/* bootleg */
         driver_contraj,	/* GX633 (c) 1987 (Japan) */
