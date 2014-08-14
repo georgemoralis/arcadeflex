@@ -114,9 +114,9 @@ public class renegade
 	    rectangle clip = Machine.drv.visible_area;
 	
 	    CharPtr source = new CharPtr(spriteram,0);
-	    CharPtr finish = new CharPtr(source,96*4);
+	    int finish = source.base+96*4;//CharPtr finish = new CharPtr(source,96*4);
 	
-	    while( source.base<finish.base ){
+	    while( source.base<finish ){
 	        int sy = 240-source.read(0);
 	        if( sy>=16 ){
 	            int attributes = source.read(1); /* SFCCBBBB */
@@ -146,7 +146,7 @@ public class renegade
 	                sx,sy,
 	                clip,TRANSPARENCY_PEN,0);
 	        }
-	        source.inc(4);
+                source.inc(4);
 	    }
 	}
 	public static VhUpdatePtr renegade_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
