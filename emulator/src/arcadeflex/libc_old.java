@@ -769,6 +769,9 @@ public class libc_old {
         public void dec() {
             this.base -= 1;
         }
+        public void dec(int count) {
+            this.base -= count;
+        }
 
         public void inc() {
             this.base += 1;

@@ -103,6 +103,8 @@ import static drivers.xain.*;
 import static drivers.vulgus.*;
 import static drivers.wiz.*;
 import static drivers.ddrible.*;
+import static drivers.lkage.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -200,6 +202,8 @@ public class driver {
         /*wiz*/driver_scionc,
         /*wiz*/driver_wiz,
         /*wiz*/driver_wizt,
+        /*ddragon*/driver_ddragonb,
+        /*ddragon*/driver_ddragon2,
         
         /**
          *  No inputs working
@@ -228,6 +232,8 @@ public class driver {
         /*gberet*/driver_rushatck, //garbage remains in left and right of screen (clipping?)
         /*gberet*/driver_gberetb,  //garbage remains in left and right of screen (clipping?)	
         /*gberet*/driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
+        /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
+        /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
         
         /**
          * Games not working (various reasons)
@@ -243,7 +249,7 @@ public class driver {
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
         /*ddrible*/driver_ddribble, //fails on self booting
-
+        /*ddragon*/driver_ddragon,  //missing HD63701 cpu
          
         /**
          * Games not working in mame 0.36 either
@@ -262,7 +268,8 @@ public class driver {
         /**
          * WIP section
          */
-        
+
+
 
         
         /*tnzs*/driver_extrmatn,
@@ -1030,8 +1037,6 @@ public class driver {
 	/* other Taito games */
 /*TODO*/ //	DRIVER( bking2 )	/* (c) 1983 Taito Corporation */
 /*TODO*/ //	DRIVER( gsword )	/* (c) 1984 Taito Corporation */
-/*TODO*/ //	DRIVER( lkage )		/* (c) 1984 Taito Corporation */
-/*TODO*/ //	DRIVER( lkageb )	/* bootleg */
 /*TODO*/ //	DRIVER( tsamurai )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( tsamura2 )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( nunchaku )	/* (c) 1985 Taito */
@@ -2238,9 +2243,7 @@ public class driver {
 /*TODO*/ //	DRIVER( battlane )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan2 )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan3 )	/* TA-???? (c) 1986 + Taito license */
-        driver_ddragon,
-        driver_ddragonb,	/* TA-0021 bootleg */
-        driver_ddragon2,	/* TA-0026 (c) 1988 */
+
 /*TODO*/ //	DRIVER( ctribe )	/* TA-0028 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( ctribeb )	/* bootleg */
 /*TODO*/ //	DRIVER( blockout )	/* TA-0029 (c) 1989 + California Dreams */
