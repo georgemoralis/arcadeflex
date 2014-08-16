@@ -1335,210 +1335,212 @@ public class drawgfx {
     }
 /*TODO*///
 /*TODO*///
-/*TODO*///void drawgfxzoom( struct osd_bitmap *dest_bmp,const struct GfxElement *gfx,
-/*TODO*///		unsigned int code,unsigned int color,int flipx,int flipy,int sx,int sy,
-/*TODO*///		const struct rectangle *clip,int transparency,int transparent_color,int scalex, int scaley)
-/*TODO*///{
-/*TODO*///	struct rectangle myclip;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* only support TRANSPARENCY_PEN and TRANSPARENCY_COLOR */
-/*TODO*///	if (transparency != TRANSPARENCY_PEN && transparency != TRANSPARENCY_COLOR)
-/*TODO*///		return;
-/*TODO*///
-/*TODO*///	if (transparency == TRANSPARENCY_COLOR)
-/*TODO*///		transparent_color = Machine->pens[transparent_color];
-/*TODO*///
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///	scalex and scaley are 16.16 fixed point numbers
-/*TODO*///	1<<15 : shrink to 50%
-/*TODO*///	1<<16 : uniform scale
-/*TODO*///	1<<17 : double to 200%
-/*TODO*///	*/
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int temp;
-/*TODO*///
-/*TODO*///		temp = sx;
-/*TODO*///		sx = sy;
-/*TODO*///		sy = temp;
-/*TODO*///
-/*TODO*///		temp = flipx;
-/*TODO*///		flipx = flipy;
-/*TODO*///		flipy = temp;
-/*TODO*///
-/*TODO*///		temp = scalex;
-/*TODO*///		scalex = scaley;
-/*TODO*///		scaley = temp;
-/*TODO*///
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = clip->min_y;
-/*TODO*///			myclip.min_y = temp;
-/*TODO*///			temp = clip->max_x;
-/*TODO*///			myclip.max_x = clip->max_y;
-/*TODO*///			myclip.max_y = temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		sx = dest_bmp->width - ((gfx->width * scalex + 0x7fff) >> 16) - sx;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_x;
-/*TODO*///			myclip.min_x = dest_bmp->width-1 - clip->max_x;
-/*TODO*///			myclip.max_x = dest_bmp->width-1 - temp;
-/*TODO*///			myclip.min_y = clip->min_y;
-/*TODO*///			myclip.max_y = clip->max_y;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		flipx = !flipx;
-/*TODO*///
-/*TODO*///	}
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		sy = dest_bmp->height - ((gfx->height * scaley + 0x7fff) >> 16) - sy;
-/*TODO*///		if (clip)
-/*TODO*///		{
-/*TODO*///			int temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///			myclip.min_x = clip->min_x;
-/*TODO*///			myclip.max_x = clip->max_x;
-/*TODO*///			/* clip and myclip might be the same, so we need a temporary storage */
-/*TODO*///			temp = clip->min_y;
-/*TODO*///			myclip.min_y = dest_bmp->height-1 - clip->max_y;
-/*TODO*///			myclip.max_y = dest_bmp->height-1 - temp;
-/*TODO*///			clip = &myclip;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		flipy = !flipy;
-/*TODO*///
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* KW 991012 -- Added code to force clip to bitmap boundary */
-/*TODO*///	if(clip)
-/*TODO*///	{
-/*TODO*///		myclip.min_x = clip->min_x;
-/*TODO*///		myclip.max_x = clip->max_x;
-/*TODO*///		myclip.min_y = clip->min_y;
-/*TODO*///		myclip.max_y = clip->max_y;
-/*TODO*///
-/*TODO*///		if (myclip.min_x < 0) myclip.min_x = 0;
-/*TODO*///		if (myclip.max_x >= dest_bmp->width) myclip.max_x = dest_bmp->width-1;
-/*TODO*///		if (myclip.min_y < 0) myclip.min_y = 0;
-/*TODO*///		if (myclip.max_y >= dest_bmp->height) myclip.max_y = dest_bmp->height-1;
-/*TODO*///
-/*TODO*///		clip=&myclip;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* ASG 980209 -- added 16-bit version */
-/*TODO*///	if (dest_bmp->depth != 16)
-/*TODO*///	{
-/*TODO*///		if( gfx && gfx->colortable )
-/*TODO*///		{
-/*TODO*///			const unsigned short *pal = &gfx->colortable[gfx->color_granularity * (color % gfx->total_colors)]; /* ASG 980209 */
-/*TODO*///			int source_base = (code % gfx->total_elements) * gfx->height;
-/*TODO*///
-/*TODO*///			int sprite_screen_height = (scaley*gfx->height+0x8000)>>16;
-/*TODO*///			int sprite_screen_width = (scalex*gfx->width+0x8000)>>16;
-/*TODO*///
-/*TODO*///			/* compute sprite increment per screen pixel */
-/*TODO*///			int dx = (gfx->width<<16)/sprite_screen_width;
-/*TODO*///			int dy = (gfx->height<<16)/sprite_screen_height;
-/*TODO*///
-/*TODO*///			int ex = sx+sprite_screen_width;
-/*TODO*///			int ey = sy+sprite_screen_height;
-/*TODO*///
-/*TODO*///			int x_index_base;
-/*TODO*///			int y_index;
-/*TODO*///
-/*TODO*///			if( flipx )
-/*TODO*///			{
-/*TODO*///				x_index_base = (sprite_screen_width-1)*dx;
-/*TODO*///				dx = -dx;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				x_index_base = 0;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if( flipy )
-/*TODO*///			{
-/*TODO*///				y_index = (sprite_screen_height-1)*dy;
-/*TODO*///				dy = -dy;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				y_index = 0;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if( clip )
-/*TODO*///			{
-/*TODO*///				if( sx < clip->min_x)
-/*TODO*///				{ /* clip left */
-/*TODO*///					int pixels = clip->min_x-sx;
-/*TODO*///					sx += pixels;
-/*TODO*///					x_index_base += pixels*dx;
-/*TODO*///				}
-/*TODO*///				if( sy < clip->min_y )
-/*TODO*///				{ /* clip top */
-/*TODO*///					int pixels = clip->min_y-sy;
-/*TODO*///					sy += pixels;
-/*TODO*///					y_index += pixels*dy;
-/*TODO*///				}
-/*TODO*///				/* NS 980211 - fixed incorrect clipping */
-/*TODO*///				if( ex > clip->max_x+1 )
-/*TODO*///				{ /* clip right */
-/*TODO*///					int pixels = ex-clip->max_x-1;
-/*TODO*///					ex -= pixels;
-/*TODO*///				}
-/*TODO*///				if( ey > clip->max_y+1 )
-/*TODO*///				{ /* clip bottom */
-/*TODO*///					int pixels = ey-clip->max_y-1;
-/*TODO*///					ey -= pixels;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if( ex>sx )
-/*TODO*///			{ /* skip if inner loop doesn't draw anything */
-/*TODO*///				int y;
-/*TODO*///
-/*TODO*///				/* case 1: TRANSPARENCY_PEN */
-/*TODO*///				if (transparency == TRANSPARENCY_PEN)
-/*TODO*///				{
-/*TODO*///					for( y=sy; y<ey; y++ )
-/*TODO*///					{
-/*TODO*///						unsigned char *source = gfx->gfxdata + (source_base+(y_index>>16)) * gfx->line_modulo;
-/*TODO*///						unsigned char *dest = dest_bmp->line[y];
-/*TODO*///
-/*TODO*///						int x, x_index = x_index_base;
-/*TODO*///						for( x=sx; x<ex; x++ )
-/*TODO*///						{
-/*TODO*///							int c = source[x_index>>16];
-/*TODO*///							if( c != transparent_color ) dest[x] = pal[c];
-/*TODO*///							x_index += dx;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						y_index += dy;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///
-/*TODO*///				/* case 2: TRANSPARENCY_COLOR */
-/*TODO*///				else if (transparency == TRANSPARENCY_COLOR)
-/*TODO*///				{
+    public static void drawgfxzoom(osd_bitmap dest_bmp,GfxElement gfx,
+		/*unsigned*/ int code,/*unsigned*/ int color,int flipx,int flipy,int sx,int sy,
+		rectangle clip,int transparency,int transparent_color,int scalex, int scaley)
+    {
+	rectangle myclip=new rectangle();
+
+
+	/* only support TRANSPARENCY_PEN and TRANSPARENCY_COLOR */
+	if (transparency != TRANSPARENCY_PEN && transparency != TRANSPARENCY_COLOR)
+		return;
+
+	if (transparency == TRANSPARENCY_COLOR)
+		transparent_color = Machine.pens[transparent_color];
+
+        
+
+	/*
+	scalex and scaley are 16.16 fixed point numbers
+	1<<15 : shrink to 50%
+	1<<16 : uniform scale
+	1<<17 : double to 200%
+	*/
+
+
+	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+	{
+		int temp;
+
+		temp = sx;
+		sx = sy;
+		sy = temp;
+
+		temp = flipx;
+		flipx = flipy;
+		flipy = temp;
+
+		temp = scalex;
+		scalex = scaley;
+		scaley = temp;
+
+		if (clip!=null)
+		{
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = clip.min_y;
+			myclip.min_y = temp;
+			temp = clip.max_x;
+			myclip.max_x = clip.max_y;
+			myclip.max_y = temp;
+			clip = myclip;
+		}
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+	{
+		sx = dest_bmp.width - ((gfx.width * scalex + 0x7fff) >> 16) - sx;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_x;
+			myclip.min_x = dest_bmp.width-1 - clip.max_x;
+			myclip.max_x = dest_bmp.width-1 - temp;
+			myclip.min_y = clip.min_y;
+			myclip.max_y = clip.max_y;
+			clip = myclip;
+		}
+
+		flipx = NOT(flipx);
+
+	}
+	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+	{
+		sy = dest_bmp.height - ((gfx.height * scaley + 0x7fff) >> 16) - sy;
+		if (clip!=null)
+		{
+			int temp;
+
+
+			myclip.min_x = clip.min_x;
+			myclip.max_x = clip.max_x;
+			/* clip and myclip might be the same, so we need a temporary storage */
+			temp = clip.min_y;
+			myclip.min_y = dest_bmp.height-1 - clip.max_y;
+			myclip.max_y = dest_bmp.height-1 - temp;
+			clip = myclip;
+		}
+
+		flipy = NOT(flipy);
+
+	}
+
+	/* KW 991012 -- Added code to force clip to bitmap boundary */
+	if(clip!=null)
+	{
+		myclip.min_x = clip.min_x;
+		myclip.max_x = clip.max_x;
+		myclip.min_y = clip.min_y;
+		myclip.max_y = clip.max_y;
+
+		if (myclip.min_x < 0) myclip.min_x = 0;
+		if (myclip.max_x >= dest_bmp.width) myclip.max_x = dest_bmp.width-1;
+		if (myclip.min_y < 0) myclip.min_y = 0;
+		if (myclip.max_y >= dest_bmp.height) myclip.max_y = dest_bmp.height-1;
+
+		clip=myclip;
+	}
+
+
+	/* ASG 980209 -- added 16-bit version */
+	if (dest_bmp.depth != 16)
+	{
+		if( gfx!=null && gfx.colortable!=null )
+		{
+			CharPtr pal = new CharPtr(gfx.colortable,gfx.color_granularity * (color % gfx.total_colors)); /* ASG 980209 */
+			int source_base = (code % gfx.total_elements) * gfx.height;
+
+			int sprite_screen_height = (scaley*gfx.height+0x8000)>>16;
+			int sprite_screen_width = (scalex*gfx.width+0x8000)>>16;
+
+			/* compute sprite increment per screen pixel */
+			int dx = (gfx.width<<16)/sprite_screen_width;
+			int dy = (gfx.height<<16)/sprite_screen_height;
+
+			int ex = sx+sprite_screen_width;
+			int ey = sy+sprite_screen_height;
+
+			int x_index_base;
+			int y_index;
+
+			if( flipx!=0 )
+			{
+				x_index_base = (sprite_screen_width-1)*dx;
+				dx = -dx;
+			}
+			else
+			{
+				x_index_base = 0;
+			}
+
+			if( flipy!=0 )
+			{
+				y_index = (sprite_screen_height-1)*dy;
+				dy = -dy;
+			}
+			else
+			{
+				y_index = 0;
+			}
+
+			if( clip!=null )
+			{
+				if( sx < clip.min_x)
+				{ /* clip left */
+					int pixels = clip.min_x-sx;
+					sx += pixels;
+					x_index_base += pixels*dx;
+				}
+				if( sy < clip.min_y )
+				{ /* clip top */
+					int pixels = clip.min_y-sy;
+					sy += pixels;
+					y_index += pixels*dy;
+				}
+				/* NS 980211 - fixed incorrect clipping */
+				if( ex > clip.max_x+1 )
+				{ /* clip right */
+					int pixels = ex-clip.max_x-1;
+					ex -= pixels;
+				}
+				if( ey > clip.max_y+1 )
+				{ /* clip bottom */
+					int pixels = ey-clip.max_y-1;
+					ey -= pixels;
+				}
+			}
+
+			if( ex>sx )
+			{ /* skip if inner loop doesn't draw anything */
+				int y;
+
+				/* case 1: TRANSPARENCY_PEN */
+				if (transparency == TRANSPARENCY_PEN)
+				{
+					for( y=sy; y<ey; y++ )
+					{
+						UBytePtr source = new UBytePtr(gfx.gfxdata, (source_base+(y_index>>16)) * gfx.line_modulo);
+						UBytePtr dest = dest_bmp.line[y];
+
+						int x, x_index = x_index_base;
+						for( x=sx; x<ex; x++ )
+						{
+							int c = source.read(x_index>>16);
+							if( c != transparent_color ) dest.write(x,pal.read(c));
+							x_index += dx;
+						}
+
+						y_index += dy;
+					}
+				}
+
+				/* case 2: TRANSPARENCY_COLOR */
+				else if (transparency == TRANSPARENCY_COLOR)
+				{
+                                    throw new UnsupportedOperationException("drawgfxzoom");
 /*TODO*///					for( y=sy; y<ey; y++ )
 /*TODO*///					{
 /*TODO*///						unsigned char *source = gfx->gfxdata + (source_base+(y_index>>16)) * gfx->line_modulo;
@@ -1554,15 +1556,16 @@ public class drawgfx {
 /*TODO*///
 /*TODO*///						y_index += dy;
 /*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* ASG 980209 -- new 16-bit part */
-/*TODO*///	else
-/*TODO*///	{
+				}
+			}
+
+		}
+	}
+
+	/* ASG 980209 -- new 16-bit part */
+	else
+	{
+            throw new UnsupportedOperationException("drawgfxzoom");
 /*TODO*///		if( gfx && gfx->colortable )
 /*TODO*///		{
 /*TODO*///			const unsigned short *pal = &gfx->colortable[gfx->color_granularity * (color % gfx->total_colors)]; /* ASG 980209 */
@@ -1673,8 +1676,8 @@ public class drawgfx {
 /*TODO*///				}
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
+	}
+    }
 /*TODO*///
 /*TODO*///
 /*TODO*///void plot_pixel2(struct osd_bitmap *bitmap1,struct osd_bitmap *bitmap2,int x,int y,int pen)

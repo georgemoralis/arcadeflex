@@ -318,21 +318,21 @@ public class tilemapC {
     	return 0; /* error */
     }
     
-    /*TODO*///void tilemap_set_scroll_cols( struct tilemap *tilemap, int n ){
-    /*TODO*///	if( tilemap->orientation & ORIENTATION_SWAP_XY ){
-    /*TODO*///		if (tilemap->scroll_rows != n){
-    /*TODO*///			tilemap->scroll_rows = n;
-    /*TODO*///			tilemap->scrolled = 1;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else {
-    /*TODO*///		if (tilemap->scroll_cols != n){
-    /*TODO*///			tilemap->scroll_cols = n;
-    /*TODO*///			tilemap->scrolled = 1;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    public static void tilemap_set_scroll_cols( tilemap _tilemap, int n ){
+    	if(( _tilemap.orientation & ORIENTATION_SWAP_XY )!=0)
+        {
+    		if (_tilemap.scroll_rows != n){
+    			_tilemap.scroll_rows = n;
+    			_tilemap.scrolled = 1;
+    		}
+    	}
+    	else {
+    		if (_tilemap.scroll_cols != n){
+    			_tilemap.scroll_cols = n;
+    			_tilemap.scrolled = 1;
+    		}
+    	}
+    }
     public static void tilemap_set_scroll_rows( tilemap _tilemap, int n )
     {
     	if(( _tilemap.orientation & ORIENTATION_SWAP_XY )!=0)

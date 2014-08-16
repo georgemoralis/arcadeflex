@@ -785,6 +785,34 @@ public class libc_old {
     }
 
     /**
+     * 
+     *  short pointer Emulation
+     */
+    public static class ShortPtr
+    {
+        public ShortPtr(char[] memory,int base)
+        {
+            this.memory=memory;
+            this.base=base;
+        }
+        public ShortPtr(ShortPtr sp,int base)
+        {
+            this.memory=sp.memory;
+            this.base=base+sp.base;
+        }
+        public char read(int offset)
+        {
+            return (char)(memory[base + 1 + offset * 2] << 8 | memory[base + offset * 2]);
+        }
+        public void write(int offset,int value)
+        {
+            memory[base + offset*2] = (char)(value&0xFF);
+            memory[base + offset * 2 + 1] = (char)((value >> 8)&0xFF);
+        }
+        public int base;
+        char[] memory;
+    }
+    /**
      * ***********************************
      *
      * Int Pointer Emulation

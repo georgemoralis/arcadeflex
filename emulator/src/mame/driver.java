@@ -105,6 +105,8 @@ import static drivers.wiz.*;
 import static drivers.ddrible.*;
 import static drivers.lkage.*;
 import static drivers.shaolins.*;
+import static drivers.mainevt.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -223,17 +225,29 @@ public class driver {
         /*mystston*/driver_mystston, //no controls
         
         /**
-         *  Tilemaps issues
+         *  Small tilemap issues
          */
-        /*xain*/driver_xsleena,  //background image looks not to spilt ok (doubling??)
-        /*xain*/driver_xsleenab, //background image looks not to spilt ok (doubling??)
-        /*xain*/driver_solarwar, //background image looks not to spilt ok (doubling??)
         /*gberet*/driver_gberet,   //garbage remains in left and right of screen (clipping?)
         /*gberet*/driver_rushatck, //garbage remains in left and right of screen (clipping?)
         /*gberet*/driver_gberetb,  //garbage remains in left and right of screen (clipping?)	
         /*gberet*/driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
         /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
         /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
+        /*mainevt*/driver_mainevt,//small garbage left and right of screen
+        /*mainevt*/driver_mainevt2,//small garbage left and right of screen
+        /*mainevt*/driver_ringohja,//small garbage left and right of screen
+        /*mainevt*/driver_devstors,//small garbage in right of screen
+        /*mainevt*/driver_devstor2,//small garbage in right of screen
+        /*mainevt*/driver_devstor3,//small garbage in right of screen
+        /*mainevt*/driver_garuka,//small garbage in right of screen
+
+        /**
+         *  Tilemaps issues
+         */
+        /*xain*/driver_xsleena,  //background image looks not to spilt ok (doubling??)
+        /*xain*/driver_xsleenab, //background image looks not to spilt ok (doubling??)
+        /*xain*/driver_solarwar, //background image looks not to spilt ok (doubling??)
+        
         
         /**
          * Games not working (various reasons)
@@ -270,7 +284,6 @@ public class driver {
         /**
          * WIP section
          */
-
 
         
         /*tnzs*/driver_extrmatn,
@@ -1875,13 +1888,7 @@ public class driver {
 /*TODO*/ //	DRIVER( scontraj )	/* GX775 (c) 1988 (Japan) */
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( mainevt )	/* GX799 (c) 1988 */
-/*TODO*/ //	DRIVER( mainevt2 )	/* GX799 (c) 1988 */
-/*TODO*/ //	DRIVER( ringohja )	/* GX799 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( devstors )	/* GX890 (c) 1988 */
-/*TODO*/ //	DRIVER( devstor2 )	/* GX890 (c) 1988 */
-/*TODO*/ //	DRIVER( devstor3 )	/* GX890 (c) 1988 */
-/*TODO*/ //	DRIVER( garuka )	/* GX890 (c) 1988 (Japan) */
+
 /*TODO*/ //	DRIVER( 88games )	/* GX861 (c) 1988 */
 /*TODO*/ //	DRIVER( konami88 )	/* GX861 (c) 1988 */
 /*TODO*/ //	DRIVER( hypsptsp )	/* GX861 (c) 1988 (Japan) */
