@@ -108,6 +108,7 @@ import static drivers.shaolins.*;
 import static drivers.mainevt.*;
 import static drivers.battlnts.*;
 import static drivers.bladestl.*;
+import static drivers.rockrage.*;
 
 
 public class driver {
@@ -212,6 +213,16 @@ public class driver {
         /*battlnts*/driver_thehustj,
         /*battlnts*/driver_battlnts,
         /*battlnts*/driver_battlntj,
+        /*bladestl*/driver_bladestl, //also need analog(?) work ok with digital controls
+        /*rockrage*/driver_rockrage,
+        /*rockrage*/driver_rockragj,
+        
+        
+        /**
+         *  Requires analog controls
+         */
+        /*bladestl*/driver_bladstle, //requires analog controls
+        
         
         /**
          *  No inputs working
@@ -290,8 +301,8 @@ public class driver {
         /**
          * WIP section
          */
-        /*bladestl*/driver_bladestl,
-        /*bladestl*/driver_bladstle,
+
+
         
         
         /*tnzs*/driver_extrmatn,
@@ -1876,8 +1887,7 @@ public class driver {
         driver_combascj,	/* GX611 (c) 1987 (Japan) */
         driver_bootcamp,	/* GX611 (c) 1987 */
         driver_combascb,	/* bootleg */
-/*TODO*/ //	DRIVER( rockrage )	/* GX620 (c) 1986 (World?) */
-/*TODO*/ //	DRIVER( rockragj )	/* GX620 (c) 1986 (Japan) */
+
 
 /*TODO*/ //	DRIVER( fastlane )	/* GX752 (c) 1987 */
 /*TODO*/ //	DRIVER( labyrunr )	/* GX771 (c) 1987 (Japan) */
