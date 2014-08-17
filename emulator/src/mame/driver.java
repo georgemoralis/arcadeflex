@@ -107,6 +107,7 @@ import static drivers.lkage.*;
 import static drivers.shaolins.*;
 import static drivers.mainevt.*;
 import static drivers.battlnts.*;
+import static drivers.bladestl.*;
 
 
 public class driver {
@@ -289,7 +290,8 @@ public class driver {
         /**
          * WIP section
          */
-
+        /*bladestl*/driver_bladestl,
+        /*bladestl*/driver_bladstle,
         
         
         /*tnzs*/driver_extrmatn,
@@ -1880,8 +1882,7 @@ public class driver {
 /*TODO*/ //	DRIVER( fastlane )	/* GX752 (c) 1987 */
 /*TODO*/ //	DRIVER( labyrunr )	/* GX771 (c) 1987 (Japan) */
 
-/*TODO*/ //	DRIVER( bladestl )	/* GX797 (c) 1987 */
-/*TODO*/ //	DRIVER( bladstle )	/* GX797 (c) 1987 */
+
 /*TODO*/ //	DRIVER( hcastle )	/* GX768 (c) 1988 */
 /*TODO*/ //	DRIVER( hcastlea )	/* GX768 (c) 1988 */
 /*TODO*/ //	DRIVER( hcastlej )	/* GX768 (c) 1988 (Japan) */
