@@ -349,7 +349,13 @@ thehustl
 thehustj
 battlnts
 battlntj
-        
+bladestl
+rockrage
+rockragj
+superpac
+superpcm
+pacnpal,
+pacnchmp            
 
 No inputs working
 -----------------------------

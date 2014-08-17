@@ -484,11 +484,14 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///
     /*TODO*////********************************************************************************/
     /*TODO*///
+    public static WriteHandlerPtr mappy_sound_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
     /*TODO*///void mappy_sound_enable_w(int offset,int data)
     /*TODO*///{
     /*TODO*///	sound_enable = offset;
-    /*TODO*///}
-    /*TODO*///
+    }};
+    public static WriteHandlerPtr mappy_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
     /*TODO*///void mappy_sound_w(int offset,int data)
     /*TODO*///{
     /*TODO*///	sound_channel *voice;
@@ -498,7 +501,7 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///	stream_update(stream, 0);
     /*TODO*///
     /*TODO*///	/* set the register */
-    /*TODO*///	namco_soundregs[offset] = data;
+    	namco_soundregs.write(offset,data);
     /*TODO*///
     /*TODO*///	/* recompute all the voice parameters */
     /*TODO*///	for (base = 0, voice = channel_list; voice < last_channel; voice++, base += 8)
@@ -510,7 +513,7 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///		voice->volume[0] = namco_soundregs[0x03 + base] & 0x0f;
     /*TODO*///		voice->wave = &sound_prom[32 * ((namco_soundregs[0x06 + base] >> 4) & 7)];
     /*TODO*///	}
-    /*TODO*///}
+    }};
     /*TODO*///
     /*TODO*///
     /*TODO*////********************************************************************************/

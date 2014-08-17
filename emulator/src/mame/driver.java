@@ -111,6 +111,7 @@ import static drivers.bladestl.*;
 import static drivers.rockrage.*;
 import static drivers.thunderx.*;
 import static drivers.spy.*;
+import static drivers.superpac.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -217,7 +218,10 @@ public class driver {
         /*bladestl*/driver_bladestl, //also need analog(?) work ok with digital controls
         /*rockrage*/driver_rockrage,
         /*rockrage*/driver_rockragj,
-        
+        /*superpac*/driver_superpac,
+        /*superpac*/driver_superpcm,
+        /*superpac*/driver_pacnpal,
+        /*superpac*/driver_pacnchmp,        
         
         /**
          *  Requires analog controls
@@ -303,6 +307,9 @@ public class driver {
         /**
          * WIP section
          */
+        
+
+        
         /*thunderx*/driver_scontra,
         /*thunderx*/driver_scontraj,
 
@@ -588,10 +595,7 @@ public class driver {
 /*TODO*/ //	DRIVER( xeviousa )	/* (c) 1982 + Atari license */
 /*TODO*/ //	DRIVER( xevios )	/* bootleg */
 /*TODO*/ //	DRIVER( sxevious )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( superpac )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( superpcm )	/* (c) 1982 Midway */
-/*TODO*/ //	DRIVER( pacnpal )	/* (c) 1983 */
-/*TODO*/ //	DRIVER( pacnchmp )	/* (c) 1983 */
+
 /*TODO*/ //	DRIVER( phozon )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( mappy )		/* (c) 1983 */
 /*TODO*/ //	DRIVER( mappyjp )	/* (c) 1983 */

@@ -217,8 +217,8 @@ public class inputportH {
 /*TODO*////* Wrapper for compatibility */
     public static final int IP_KEY_DEFAULT=CODE_DEFAULT;
     public static final int IP_JOY_DEFAULT=CODE_DEFAULT;
-/*TODO*///#define IP_KEY_PREVIOUS CODE_PREVIOUS
-/*TODO*///#define IP_JOY_PREVIOUS CODE_PREVIOUS
+    public static final int IP_KEY_PREVIOUS=CODE_PREVIOUS;
+    public static final int IP_JOY_PREVIOUS=CODE_PREVIOUS;
     public static final int IP_KEY_NONE = 0x8000; //CODE_NONE
     public static final int IP_JOY_NONE = 0x8000; //CODE_NONE
    

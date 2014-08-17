@@ -4273,15 +4273,14 @@ public class m6809 extends cpu_interface
     	SET_NZ16(m6809.u);
         if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
     }
-    /*TODO*///
-    /*TODO*////* $10eE LDS indexed -**0- */
+    /* $10eE LDS indexed -**0- */
     public void lds_ix()
     {
-    /*TODO*///	fetch_effective_address();
-    /*TODO*///    S=RM16(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	m6809.int_state |= M6809_LDS;
+        fetch_effective_address();
+        m6809.s=RM16(ea);
+    	CLR_NZV();
+    	SET_NZ16(m6809.s);
+        m6809.int_state |= M6809_LDS;
     }
     /* $eF STU (STS) indexed -**0- */
     public void stu_ix()
@@ -4533,7 +4532,7 @@ public class m6809 extends cpu_interface
     		case 0xde: lds_di();	m6809_ICount[0]-=4;	break;
     		case 0xdf: sts_di();	m6809_ICount[0]-=4;	break;
     /*TODO*///
-    /*TODO*///		case 0xee: lds_ix();	m6809_ICount-=6;	break;
+    		case 0xee: lds_ix();	m6809_ICount[0]-=6;	break;
     /*TODO*///		case 0xef: sts_ix();	m6809_ICount-=6;	break;
     /*TODO*///
     		case 0xfe: lds_ex();	m6809_ICount[0]-=7;	break;
