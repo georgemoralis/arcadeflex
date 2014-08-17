@@ -1555,42 +1555,45 @@ public  class konamiic
                     }
             }
         }
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051960_mark_sprites_colors(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int offs,i;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	unsigned short palette_map[512];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	memset (palette_map, 0, sizeof (palette_map));
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* sprites */
-/*TODO*////*TODO*///	for (offs = 0x400-8;offs >= 0;offs -= 8)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		if (K051960_ram[offs] & 0x80)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			int code,color,pri;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			code = K051960_ram[offs+2] + ((K051960_ram[offs+1] & 0x1f) << 8);
-/*TODO*////*TODO*///			color = (K051960_ram[offs+3] & 0xff);
-/*TODO*////*TODO*///			pri = 0;
-/*TODO*////*TODO*///			(*K051960_callback)(&code,&color,&pri);
-/*TODO*////*TODO*///			palette_map[color] |= 0xffff;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* now build the final table */
-/*TODO*////*TODO*///	for (i = 0; i < 512; i++)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int usage = palette_map[i], j;
-/*TODO*////*TODO*///		if (usage)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			for (j = 1; j < 16; j++)
-/*TODO*////*TODO*///				if (usage & (1 << j))
-/*TODO*////*TODO*///					palette_used_colors[i * 16 + j] |= PALETTE_COLOR_VISIBLE;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
+
+        public static void K051960_mark_sprites_colors()
+        {
+                int offs,i;
+
+                /*unsigned short*/ char[] palette_map=new char[512];
+
+                memset (palette_map, 0, sizeof (palette_map));
+
+                /* sprites */
+                for (offs = 0x400-8;offs >= 0;offs -= 8)
+                {
+                        if ((K051960_ram.read(offs) & 0x80)!=0)
+                        {
+                                //int code,color,pri;
+                                int[] code = new int[1];
+                                int[] color= new int[1];
+                                int[] pri=new int[1];
+
+                                code[0] = K051960_ram.read(offs+2) + ((K051960_ram.read(offs+1) & 0x1f) << 8);
+                                color[0] = (K051960_ram.read(offs+3) & 0xff);
+                                pri[0] = 0;
+                                K051960_callback.handler(code, color, pri);//(*K051960_callback)(&code,&color,&pri);
+                                palette_map[color[0]] |= 0xffff;
+                        }
+                }
+
+                /* now build the final table */
+                for (i = 0; i < 512; i++)
+                {
+                        int usage = palette_map[i], j;
+                        if (usage!=0)
+                        {
+                                for (j = 1; j < 16; j++)
+                                        if ((usage & (1 << j))!=0)
+                                                palette_used_colors.write(i * 16 + j,palette_used_colors.read(i * 16 + j) | PALETTE_COLOR_VISIBLE);
+                        }
+                }
+        }
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///int K051960_is_IRQ_enabled(void)
 /*TODO*////*TODO*///{

@@ -33,6 +33,7 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
+
 public class mainevt
 {
 	

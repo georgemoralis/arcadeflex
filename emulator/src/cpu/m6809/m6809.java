@@ -1351,7 +1351,7 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xcf: IMMWORD(ea); 										m6809_ICount-=5;   break;
     /*TODO*///
     /*TODO*///	case 0xd0: EA=U;	U++;						EAD=RM16(EAD);	m6809_ICount-=5;   break;
-    /*TODO*///	case 0xd1: EA=U;	U+=2;						EAD=RM16(EAD);	m6809_ICount-=6;   break;
+        case 0xd1: ea=m6809.u;	m6809.u=m6809.u+2&0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
     /*TODO*///	case 0xd2: U--; 	EA=U;						EAD=RM16(EAD);	m6809_ICount-=5;   break;
     /*TODO*///	case 0xd3: U-=2;	EA=U;						EAD=RM16(EAD);	m6809_ICount-=6;   break;
     	case 0xd4: ea=m6809.u;								ea=RM16(ea);	m6809_ICount[0]-=3;   break;

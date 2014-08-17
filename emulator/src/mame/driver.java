@@ -109,7 +109,8 @@ import static drivers.mainevt.*;
 import static drivers.battlnts.*;
 import static drivers.bladestl.*;
 import static drivers.rockrage.*;
-
+import static drivers.thunderx.*;
+import static drivers.spy.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -291,6 +292,7 @@ public class driver {
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
         /*kingobox*/driver_ringkin2,
+        /*spy*/driver_spy,  //works a bit doesn't have collision though
 
         /**
          *  Test (Not working) drivers
@@ -301,9 +303,10 @@ public class driver {
         /**
          * WIP section
          */
+        /*thunderx*/driver_scontra,
+        /*thunderx*/driver_scontraj,
 
 
-        
         
         /*tnzs*/driver_extrmatn,
 	/*tnzs*/driver_arkanoi2,  
@@ -1898,8 +1901,6 @@ public class driver {
 /*TODO*/ //	DRIVER( hcastlej )	/* GX768 (c) 1988 (Japan) */
 /*TODO*/ //	DRIVER( ajax )		/* GX770 (c) 1987 */
 /*TODO*/ //	DRIVER( ajaxj )		/* GX770 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( scontra )	/* GX775 (c) 1988 */
-/*TODO*/ //	DRIVER( scontraj )	/* GX775 (c) 1988 (Japan) */
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
 
@@ -1911,7 +1912,7 @@ public class driver {
 /*TODO*/ //	DRIVER( crimfght )	/* GX821 (c) 1989 (US) */
 /*TODO*/ //	DRIVER( crimfgt2 )	/* GX821 (c) 1989 (World) */
 /*TODO*/ //	DRIVER( crimfgtj )	/* GX821 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( spy )		/* GX857 (c) 1989 (US) */
+
 /*TODO*/ //	DRIVER( bottom9 )	/* GX891 (c) 1989 */
 /*TODO*/ //	DRIVER( bottom9n )	/* GX891 (c) 1989 */
 /*TODO*/ //	DRIVER( blockhl )	/* GX973 (c) 1989 */
