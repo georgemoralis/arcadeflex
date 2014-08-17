@@ -964,7 +964,7 @@ public class m6809 extends cpu_interface
     			case 0x6d: tst_ix();   m6809_ICount[0]-= 6; break;
     			case 0x6e: jmp_ix();   m6809_ICount[0]-= 3; break;
     			case 0x6f: clr_ix();   m6809_ICount[0]-= 6; break;
-    /*TODO*///			case 0x70: neg_ex();   m6809_ICount-= 7; break;
+    			case 0x70: neg_ex();   m6809_ICount[0]-= 7; break;
     /*TODO*///			case 0x71: illegal();  m6809_ICount-= 2; break;
     /*TODO*///			case 0x72: illegal();  m6809_ICount-= 2; break;
     			case 0x73: com_ex();   m6809_ICount[0]-= 7; break;
@@ -2640,18 +2640,15 @@ public class m6809 extends cpu_interface
         SEZ();
         if(m6809log!=null) fprintf(m6809log,"M6809#%d clr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
     }
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____7x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $70 NEG extended ?**** */
+    /* $70 NEG extended ?**** */
     public void neg_ex()
     {
-    /*TODO*///	UINT16 r,t;
-    /*TODO*///	EXTBYTE(t); r=-t;
-    /*TODO*///	CLR_NZVC; SET_FLAGS8(0,t,r);
-    /*TODO*///	WM(EAD,r);
+        int r,t;
+    	t=EXTBYTE();
+    	r=-t & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(0,t,r);
+    	WM(ea,r);
     }
     /* $73 COM extended -**01 */
     public void com_ex()

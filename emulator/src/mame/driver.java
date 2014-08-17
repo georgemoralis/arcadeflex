@@ -106,6 +106,7 @@ import static drivers.ddrible.*;
 import static drivers.lkage.*;
 import static drivers.shaolins.*;
 import static drivers.mainevt.*;
+import static drivers.battlnts.*;
 
 
 public class driver {
@@ -206,6 +207,10 @@ public class driver {
         /*wiz*/driver_wizt,
         /*ddragon*/driver_ddragonb,
         /*ddragon*/driver_ddragon2,
+        /*battlnts*/driver_thehustl,
+        /*battlnts*/driver_thehustj,
+        /*battlnts*/driver_battlnts,
+        /*battlnts*/driver_battlntj,
         
         /**
          *  No inputs working
@@ -285,6 +290,7 @@ public class driver {
          * WIP section
          */
 
+        
         
         /*tnzs*/driver_extrmatn,
 	/*tnzs*/driver_arkanoi2,  
@@ -1873,10 +1879,7 @@ public class driver {
 
 /*TODO*/ //	DRIVER( fastlane )	/* GX752 (c) 1987 */
 /*TODO*/ //	DRIVER( labyrunr )	/* GX771 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( thehustl )	/* GX765 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( thehustj )	/* GX765 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( battlnts )	/* GX777 (c) 1987 */
-/*TODO*/ //	DRIVER( battlntj )	/* GX777 (c) 1987 (Japan) */
+
 /*TODO*/ //	DRIVER( bladestl )	/* GX797 (c) 1987 */
 /*TODO*/ //	DRIVER( bladstle )	/* GX797 (c) 1987 */
 /*TODO*/ //	DRIVER( hcastle )	/* GX768 (c) 1988 */

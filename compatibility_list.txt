@@ -345,7 +345,11 @@ scion
 scionc
 wiz
 wizt
-
+thehustl
+thehustj
+battlnts
+battlntj
+        
 
 No inputs working
 -----------------------------

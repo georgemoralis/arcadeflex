@@ -137,9 +137,9 @@ public class tilemapC {
     /*TODO*///
     /*TODO*///#define SWAP(X,Y) {int temp=X; X=Y; Y=temp; }
     /*TODO*///
-    /*TODO*///void tilemap_set_enable( struct tilemap *tilemap, int enable ){
-    /*TODO*///	tilemap->enable = enable;
-    /*TODO*///}
+    public static void tilemap_set_enable( tilemap _tilemap, int enable ){
+   	_tilemap.enable = enable;
+    }
     
     public static void tilemap_set_flip(tilemap _tilemap, int attributes ){
     	if( _tilemap==ALL_TILEMAPS ){
