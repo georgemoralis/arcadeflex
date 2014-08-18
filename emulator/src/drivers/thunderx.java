@@ -61,7 +61,8 @@ public class thunderx
 	
 	static int palette_selected;
 	static int bank;
-	static CharPtr ram,unknownram;
+	static CharPtr ram=new CharPtr();
+        static CharPtr unknownram=new CharPtr();
 	
 	public static ReadHandlerPtr scontra_bankedram_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
