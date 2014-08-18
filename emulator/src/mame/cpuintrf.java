@@ -18,6 +18,9 @@ import static mame.timer.*;
 import static mame.timerH.*;
 import static mame.memory.*;
 import static mame.inputport.*;
+import cpu.konami.konami;
+import static cpu.konami.konamiH.*;
+
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -220,11 +223,8 @@ public class cpuintrf {
 	new Dummy_cpu(),/*TODO*///CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
 	new hd6309(),
-	new m6809()
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_KONAMI)
-    /*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
-    /*TODO*///#endif
+	new m6809(),
+        new konami()
     /*TODO*///#if (HAS_M68000)
     /*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
     /*TODO*///#endif
@@ -1477,16 +1477,14 @@ public class cpuintrf {
    				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6809 unknown\n");
     				}
    				break;
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_KONAMI)
-    /*TODO*///				case CPU_KONAMI:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case KONAMI_INT_IRQ:	irq_line = 0; LOG((errorlog,"KONAMI IRQ\n")); break;
-    /*TODO*///				case KONAMI_INT_FIRQ:	irq_line = 1; LOG((errorlog,"KONAMI FIRQ\n")); break;
-    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"KONAMI unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				break;
+    			case CPU_KONAMI:
+    				switch (num)
+    				{
+    				case KONAMI_INT_IRQ:	irq_line = 0; if(errorlog!=null) fprintf(errorlog,"KONAMI IRQ\n"); break;
+    				case KONAMI_INT_FIRQ:	irq_line = 1; if(errorlog!=null) fprintf(errorlog,"KONAMI FIRQ\n"); break;
+    				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"KONAMI unknown\n");
+    				}
+    				break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_M68000)
     /*TODO*///			case CPU_M68000:
