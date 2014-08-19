@@ -108,12 +108,12 @@ public class thunderx
 	
 	static void calculate_collisions() //not tested (shadow)
         {
-		CharPtr ptr1 = new CharPtr(unknownram,0x10);
+/*		CharPtr ptr1 = new CharPtr(unknownram,0x10);
                 CharPtr ptr2;
 		int i, j;
 	
 		/* each sprite is defined as: flags height width xpos ypos */
-		for( i = 0; i < 127; i++, ptr1.base += 5 ) {
+/*		for( i = 0; i < 127; i++, ptr1.base += 5 ) {
 			int w,h;
 			int	x,y;
 	
@@ -122,8 +122,8 @@ public class thunderx
 	
 			ptr2 = new CharPtr(ptr1, 5);
 			w = 4; /* ? */
-			h = 4; /* ? */
-			x = ptr1.read(3);
+/*			h = 4; /* ? */
+/*			x = ptr1.read(3);
 			y = ptr1.read(4);
 	
 			for( j = i+1; j < 128; j++, ptr2.base += 5 ) {
@@ -158,30 +158,30 @@ public class thunderx
 	58 - 60 - enemy ships
 	118 - ? - ?
 	*/
-				if ( i > 117 )
+/*				if ( i > 117 )
 					continue;
 	
 				if ( i < 42 ) { /* our ship & bullets */
-					if ( j < 42 ) /* our ship & bullets */
-						continue;
-				} else { /* enemy ships & bullets */
-					if ( j > 41 ) /* enemy ships & bullets */
-						continue;
+/*					if ( j < 42 ) /* our ship & bullets */
+/*						continue;
+/*				} else { /* enemy ships & bullets */
+/*					if ( j > 41 ) /* enemy ships & bullets */
+/*						continue;
 				}
 	
 				/* bullets dont collide eachother */
-				if ( i > 1 && i < 42 )
+/*				if ( i > 1 && i < 42 )
 					if ( j > 41 && j < 58 )
 						continue;
 	
 				/* collision */
-				if (( ptr1.read(0) & 0x20 )!=0)
+/*				if (( ptr1.read(0) & 0x20 )!=0)
 					ptr1.write(0,ptr1.read(0) | 0x10);
 	
 				if (( ptr2.read(0) & 0x20 )!=0)
 					ptr2.write(0,ptr2.read(0) | 0x10);
 			}
-		}
+		}*/
 	}
 	
 	public static WriteHandlerPtr thunderx_1f98_w = new WriteHandlerPtr() { public void handler(int offset, int data)

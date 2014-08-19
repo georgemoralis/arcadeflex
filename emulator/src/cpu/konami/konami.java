@@ -6,10 +6,13 @@ package cpu.konami;
 
 import mame.cpuintrfH.cpu_interface;
 import static mame.cpuintrfH.*;
+import static mame.cpuintrf.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static cpu.konami.konamiH.*;
 import static mame.memory.*;
+import static mame.mame.*;
+import static arcadeflex.libc_old.*;
 
 
 public class konami extends cpu_interface{
@@ -51,28 +54,45 @@ public class konami extends cpu_interface{
     public void Setup_konamiMain_Tables()
     {
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
-	konami_main[0x08]=opcode2;  konami_main[0x09]=opcode2;  konami_main[0x0a]=opcode2;  konami_main[0x0b]=opcode2;  konami_main[0x0c]=pshs;  /*,pshu   ,*/konami_main[0x0e]=puls;   /*,pulu   ,*/
-        konami_main[0x10]=lda_im;   konami_main[0x11]=ldb_im;   konami_main[0x12]=opcode2;  konami_main[0x13]=opcode2;  konami_main[0x14]=adda_im;/*addb_im,opcode2,opcode2,	/* 10 */
-/*TODO*///	adca_im,adcb_im,opcode2,opcode2,suba_im,subb_im,opcode2,opcode2,
-/*TODO*///	sbca_im,sbcb_im,opcode2,opcode2,anda_im,andb_im,opcode2,opcode2,	/* 20 */
-        konami_main[0x28]=bita_im;/*,bitb_im,opcode2,opcode2,eora_im,eorb_im,opcode2,opcode2,
-/*	ora_im ,orb_im ,opcode2,opcode2,*/konami_main[0x34]=cmpa_im;/*,cmpb_im,*/konami_main[0x36]=opcode2;konami_main[0x37]=opcode2;	/* 30 */
-	/*setline_im,*/             konami_main[0x39]=opcode2;  konami_main[0x3a]=opcode2;  konami_main[0x3b]=opcode2;/*andcc,orcc  ,exg    ,tfr    ,*/
-        konami_main[0x40]=ldd_im;   konami_main[0x41]=opcode2;  konami_main[0x42]=ldx_im;   konami_main[0x43]=opcode2;/*ldy_im ,opcode2,*/konami_main[0x46]=ldu_im; konami_main[0x47]=opcode2;	/* 40 */
-	konami_main[0x48]=lds_im;   konami_main[0x49]=opcode2;//,cmpd_im,opcode2,cmpx_im,opcode2,cmpy_im,opcode2,
-/*TODO*///	cmpu_im,opcode2,cmps_im,opcode2,addd_im,opcode2,subd_im,opcode2,	/* 50 */
-/*TODO*///	opcode2,opcode2,opcode2,opcode2,opcode2,illegal,illegal,illegal,
-	/*bra    ,bhi    ,bcc    ,*/konami_main[0x63]=bne;   /* ,bvc    ,bpl    ,bge    ,bgt    ,	/* 60 */
-/*	lbra   ,lbhi   ,lbcc   ,*/konami_main[0x6b]=lbne;   /*,lbvc   ,lbpl   ,lbge   ,lbgt   ,
-/*TODO*///	brn    ,bls    ,bcs    ,beq    ,bvs    ,bmi    ,blt    ,ble    ,	/* 70 */
-/*TODO*///	lbrn   ,lbls   ,lbcs   ,lbeq   ,lbvs   ,lbmi   ,lblt   ,lble   ,
-	konami_main[0x80]=clra;     konami_main[0x81]=clrb;  /* ,opcode2,coma   ,comb   ,opcode2,nega   ,negb   ,	/* 80 */
-	/*opcode2,*/konami_main[0x89]=inca;   /*,incb   ,opcode2,deca   ,*/konami_main[0x8d]=decb;   /*,opcode2,rts    ,
-/*TODO*///	tsta   ,tstb   ,opcode2,lsra   ,lsrb   ,opcode2,rora   ,rorb   ,	/* 90 */
-/*	opcode2,asra   ,asrb   ,opcode2,asla   ,*/konami_main[0x9d]=aslb; konami_main[0x9e]=opcode2;/*,rti    */
-/*TODO*///	rola   ,rolb   ,opcode2,opcode2,opcode2,opcode2,opcode2,opcode2,	/* a0 */
-/*TODO*///	opcode2,opcode2,bsr    ,lbsr   ,decbjnz,decxjnz,nop    ,illegal,
-/*TODO*///	abx    ,daa	   ,sex    ,mul    ,lmul   ,divx   ,bmove  ,move   ,	/* b0 */
+	konami_main[0x08]=opcode2;  konami_main[0x09]=opcode2;  konami_main[0x0a]=opcode2;  konami_main[0x0b]=opcode2;  
+        konami_main[0x0c]=pshs;  /*,pshu   ,*/konami_main[0x0e]=puls;   /*,pulu   ,*/
+        konami_main[0x10]=lda_im;   konami_main[0x11]=ldb_im;   konami_main[0x12]=opcode2;  konami_main[0x13]=opcode2;  
+        konami_main[0x14]=adda_im;  /*addb_im,*/                konami_main[0x16]=opcode2;  konami_main[0x17]=opcode2;	/* 10 */
+	konami_main[0x18]=adca_im;/*,adcb_im,opcode2,opcode2,*/
+        konami_main[0x1c]=suba_im;  konami_main[0x1d]=subb_im;  konami_main[0x1e]=opcode2;  konami_main[0x1f]=opcode2;
+/*	sbca_im,sbcb_im,opcode2,opcode2,*/
+        konami_main[0x24]=anda_im;  konami_main[0x25]=andb_im;  konami_main[0x26]=opcode2;  konami_main[0x27]=opcode2;	/* 20 */
+        konami_main[0x28]=bita_im;  konami_main[0x29]=bitb_im;  konami_main[0x2a]=opcode2;  konami_main[0x2b]=opcode2;
+        //eora_im,eorb_im,opcode2,opcode2,
+	konami_main[0x30]=ora_im;   /*orb_im ,*/                konami_main[0x32]=opcode2;  konami_main[0x33]=opcode2; 
+        konami_main[0x34]=cmpa_im;  konami_main[0x35]=cmpb_im;  konami_main[0x36]=opcode2;  konami_main[0x37]=opcode2;	/* 30 */
+	/*setline_im,*/             konami_main[0x39]=opcode2;  konami_main[0x3a]=opcode2;  konami_main[0x3b]=opcode2;
+        konami_main[0x3c]=andcc;    konami_main[0x3d]=orcc;  /*,exg    ,tfr    ,*/
+        konami_main[0x40]=ldd_im;   konami_main[0x41]=opcode2;  konami_main[0x42]=ldx_im;   konami_main[0x43]=opcode2;
+        konami_main[0x44]=ldy_im;   konami_main[0x45]=opcode2;  konami_main[0x46]=ldu_im;   konami_main[0x47]=opcode2;	/* 40 */
+	konami_main[0x48]=lds_im;   konami_main[0x49]=opcode2;/*,cmpd_im,*/                 konami_main[0x4b]=opcode2;
+        konami_main[0x4c]=cmpx_im;  konami_main[0x4d]=opcode2;  konami_main[0x4e]=cmpy_im;  konami_main[0x4f]=opcode2;
+	konami_main[0x50]=cmpu_im;  konami_main[0x51]=opcode2;/*cmps_im,opcode2,*/
+        /*addd_im,*/konami_main[0x55]=opcode2;/*subd_im,opcode2,	/* 50 */
+	konami_main[0x58]=opcode2;  konami_main[0x59]=opcode2;  konami_main[0x5a]=opcode2;  konami_main[0x5b]=opcode2;
+        konami_main[0x5c]=opcode2;  konami_main[0x5d]=illegal;  konami_main[0x5e]=illegal;  konami_main[0x5f]=illegal;
+	konami_main[0x60]=bra;      /*,bhi    ,*/               konami_main[0x62]=bcc;      konami_main[0x63]=bne;
+        konami_main[0x64]=bvc;      konami_main[0x65]=bpl;   /* ,bge    ,bgt    ,	/* 60 */
+        konami_main[0x68]=lbra;   /*,lbhi   ,lbcc   ,*/konami_main[0x6b]=lbne;   /*,lbvc   ,lbpl   ,lbge   ,lbgt   ,
+/*	brn*/ konami_main[0x71]=bls;konami_main[0x72]=bcs;    konami_main[0x73]=beq;    /*,bvs    ,*/konami_main[0x75]=bmi;    /*,blt    ,ble    ,	/* 70 */
+/*	lbrn   ,lbls   ,lbcs   ,*/konami_main[0x7b]=lbeq;   /*,lbvs   ,lbmi   ,lblt   ,lble   ,*/
+	konami_main[0x80]=clra;     konami_main[0x81]=clrb;     konami_main[0x82]=opcode2;  konami_main[0x83]=coma;
+        konami_main[0x84]=comb;     konami_main[0x85]=opcode2;/*nega   ,negb   ,	/* 80 */
+	konami_main[0x88]=opcode2;  konami_main[0x89]=inca;     /*,incb   ,*/               konami_main[0x8b]=opcode2;
+        konami_main[0x8c]=deca;     konami_main[0x8d]=decb;   konami_main[0x8e]=opcode2;    konami_main[0x8f]=rts;
+/*	tsta   ,tstb*/   konami_main[0x92]=opcode2; konami_main[0x93]=lsra;   
+        konami_main[0x94]=lsrb;     konami_main[0x95]=opcode2;/*rora   ,rorb   ,	/* 90 */
+/*	opcode2,asra   ,asrb   ,opcode2,*/
+        konami_main[0x9c]=asla;     konami_main[0x9d]=aslb;     konami_main[0x9e]=opcode2;  konami_main[0x9f]=rti;
+	konami_main[0xa0]=rola;   /*,rolb   ,opcode2,opcode2,opcode2,opcode2,opcode2,opcode2,	/* a0 */
+	konami_main[0xa8]=opcode2;  konami_main[0xa9]=opcode2;  konami_main[0xaa]=bsr;      konami_main[0xab]=lbsr;  
+/*,decbjnz,decxjnz,*/konami_main[0xae]=nop;    konami_main[0xaf]=illegal;
+/*	abx    ,daa*/	   konami_main[0xb2]=sex;    /*,mul    ,lmul   ,divx   ,bmove  ,move   ,	/* b0 */
 /*TODO*///	lsrd   ,opcode2,rord   ,opcode2,asrd   ,opcode2,asld   ,opcode2,
 /*TODO*///	rold   ,opcode2,clrd   ,opcode2,negd   ,opcode2,incd   ,opcode2,	/* c0 */
 /*TODO*///	decd   ,opcode2,tstd   ,opcode2,absa   ,absb   ,absd   ,bset   ,
@@ -86,27 +106,29 @@ public class konami extends cpu_interface{
     public void Setup_konamiIndexed_Tables()
     {
  /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
-    	konami_indexed[0x08]=leax;   /*,leay   ,leau   ,leas   ,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,lda_ix ,ldb_ix ,illegal,illegal,adda_ix,addb_ix,	/* 10 */
+    	konami_indexed[0x08]=leax;      konami_indexed[0x09]=leay;      konami_indexed[0x0a]=leau;  /*,leas   ,illegal,illegal,illegal,illegal,
+/*	illegal,illegal,*/konami_indexed[0x12]=lda_ix; konami_indexed[0x13]=ldb_ix;/*,illegal,illegal,adda_ix,*/konami_indexed[0x17]=addb_ix;	/* 10 */
 /*TODO*///	illegal,illegal,adca_ix,adcb_ix,illegal,illegal,suba_ix,subb_ix,
 /*TODO*///	illegal,illegal,sbca_ix,sbcb_ix,illegal,illegal,anda_ix,andb_ix,	/* 20 */
 /*TODO*///	illegal,illegal,bita_ix,bitb_ix,illegal,illegal,eora_ix,eorb_ix,
 /*	illegal,illegal,ora_ix ,orb_ix ,illegal,illegal,*/konami_indexed[0x36]=cmpa_ix; /*cmpb_ix,	/* 30 */
-/*	illegal,setline_ix,*/konami_indexed[0x3a]=sta_ix;/*,stb_ix,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,ldd_ix ,illegal,ldx_ix ,illegal,ldy_ix ,illegal,ldu_ix ,	/* 40 */
-/*TODO*///	illegal,lds_ix ,illegal,cmpd_ix,illegal,cmpx_ix,illegal,cmpy_ix,
-/*TODO*///	illegal,cmpu_ix,illegal,cmps_ix,illegal,addd_ix,illegal,subd_ix,	/* 50 */
-/*TODO*///	std_ix ,stx_ix ,sty_ix ,stu_ix ,sts_ix ,illegal,illegal,illegal,
+/*	illegal,setline_ix,*/konami_indexed[0x3a]=sta_ix; konami_indexed[0x3b]=stb_ix;//,illegal,illegal,illegal,illegal,
+	konami_indexed[0x40]=illegal;   konami_indexed[0x41]=ldd_ix;    konami_indexed[0x42]=illegal;   konami_indexed[0x43]=ldx_ix;
+        konami_indexed[0x44]=illegal;   konami_indexed[0x45]=ldy_ix;    konami_indexed[0x46]=illegal;   konami_indexed[0x47]=ldu_ix;	/* 40 */
+/*	illegal,lds_ix ,illegal,*/konami_indexed[0x4b]=cmpd_ix;/*,illegal,cmpx_ix,illegal,cmpy_ix,
+/*	illegal,cmpu_ix,illegal,cmps_ix,illegal,addd_ix,illegal,*/konami_indexed[0x57]=subd_ix;	/* 50 */
+	konami_indexed[0x58]=std_ix;    konami_indexed[0x59]=stx_ix;    konami_indexed[0x5a]=sty_ix;    konami_indexed[0x5b]=stu_ix;
+        /*,sts_ix ,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,clr_ix ,illegal,illegal,com_ix ,illegal,illegal,	/* 80 */
 /*TODO*///	neg_ix ,illegal,illegal,inc_ix ,illegal,illegal,dec_ix ,illegal,
-/*TODO*///	illegal,illegal,tst_ix ,illegal,illegal,lsr_ix ,illegal,illegal,	/* 90 */
+/*	illegal,illegal,*/konami_indexed[0x92]=tst_ix; /*,illegal,illegal,lsr_ix ,illegal,illegal,	/* 90 */
 /*TODO*///	ror_ix ,illegal,illegal,asr_ix ,illegal,illegal,asl_ix ,illegal,
 /*TODO*///	illegal,illegal,rol_ix ,lsrw_ix,rorw_ix,asrw_ix,aslw_ix,rolw_ix,	/* a0 */
-/*TODO*///	jmp_ix ,jsr_ix ,illegal,illegal,illegal,illegal,illegal,illegal,
+	konami_indexed[0xa8]=jmp_ix;    konami_indexed[0xa9]=jsr_ix; /*,illegal,illegal,illegal,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
 /*TODO*///	illegal,lsrd_ix,illegal,rord_ix,illegal,asrd_ix,illegal,asld_ix,
 /*TODO*///	illegal,rold_ix,illegal,clrw_ix,illegal,negw_ix,illegal,incw_ix,	/* c0 */
@@ -122,23 +144,25 @@ public class konami extends cpu_interface{
     {
  /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,lda_di ,ldb_di ,illegal,illegal,adda_di,addb_di,	/* 10 */
+/*	illegal,illegal,*/konami_direct[0x12]=lda_di; konami_direct[0x13]=ldb_di; /*,illegal,illegal,adda_di,addb_di,	/* 10 */
 /*TODO*///	illegal,illegal,adca_di,adcb_di,illegal,illegal,suba_di,subb_di,
-/*TODO*///	illegal,illegal,sbca_di,sbcb_di,illegal,illegal,anda_di,andb_di,	/* 20 */
+/*	illegal,illegal,sbca_di,sbcb_di,illegal,illegal,anda_di,*/konami_direct[0x27]=andb_di;	/* 20 */
 /*TODO*///	illegal,illegal,bita_di,bitb_di,illegal,illegal,eora_di,eorb_di,
-/*TODO*///	illegal,illegal,ora_di ,orb_di ,illegal,illegal,cmpa_di,cmpb_di,	/* 30 */
-/*TODO*///	illegal,setline_di,sta_di,stb_di,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,ldd_di ,illegal,ldx_di ,illegal,ldy_di ,illegal,ldu_di ,	/* 40 */
-/*TODO*///	illegal,lds_di ,illegal,cmpd_di,illegal,cmpx_di,illegal,cmpy_di,
-/*TODO*///	illegal,cmpu_di,illegal,cmps_di,illegal,addd_di,illegal,subd_di,	/* 50 */
-/*TODO*///	std_di ,stx_di ,sty_di ,stu_di ,sts_di ,illegal,illegal,illegal,
+/*	illegal,illegal,*/konami_direct[0x32]=ora_di; konami_direct[0x33]=orb_di; /*,illegal,illegal,cmpa_di,cmpb_di,	/* 30 */
+/*	illegal,setline_di,*/konami_direct[0x3a]=sta_di; konami_direct[0x3b]=stb_di;/*,illegal,illegal,illegal,illegal,
+/*	illegal,ldd_di ,illegal,*/konami_direct[0x43]=ldx_di;
+        konami_direct[0x44]=illegal;    konami_direct[0x45]=ldy_di;     konami_direct[0x46]=illegal;    konami_direct[0x47]=ldu_di;	/* 40 */
+/*	illegal,lds_di ,illegal,cmpd_di,illegal,*/konami_direct[0x4d]=cmpx_di;/*illegal,cmpy_di,*/
+/*	illegal,cmpu_di,illegal,cmps_di,illegal,*/konami_direct[0x55]=addd_di;/*,illegal,subd_di,	/* 50 */
+	konami_direct[0x58]=std_di; konami_direct[0x59]=stx_di;  konami_direct[0x5a]=sty_di; konami_direct[0x5b]=stu_di; //,sts_di ,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,clr_di ,illegal,illegal,com_di ,illegal,illegal,	/* 80 */
-/*TODO*///	neg_di ,illegal,illegal,inc_di ,illegal,illegal,dec_di ,illegal,
-/*TODO*///	illegal,illegal,tst_di ,illegal,illegal,lsr_di ,illegal,illegal,	/* 90 */
+/*	illegal,illegal,*/konami_direct[0x82]=clr_di;/* ,illegal,illegal,com_di ,illegal,illegal,	/* 80 */
+/*	neg_di ,illegal,illegal,*/konami_direct[0x8b]=inc_di; /*,illegal,illegal,*/konami_direct[0x8e]=dec_di; /*,illegal,*/
+	konami_direct[0x90]=illegal;    konami_direct[0x91]=illegal;    konami_direct[0x92]=tst_di;     konami_direct[0x93]=illegal; 
+        konami_direct[0x94]=illegal;/*lsr_di ,illegal,illegal,	/* 90 */
 /*TODO*///	ror_di ,illegal,illegal,asr_di ,illegal,illegal,asl_di ,illegal,
 /*TODO*///	illegal,illegal,rol_di ,lsrw_di,rorw_di,asrw_di,aslw_di,rolw_di,	/* a0 */
 /*TODO*///	jmp_di ,jsr_di ,illegal,illegal,illegal,illegal,illegal,illegal,
@@ -157,21 +181,21 @@ public class konami extends cpu_interface{
     {
         /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_extended[0x12]=lda_ex; /*,ldb_ex ,illegal,illegal,adda_ex,addb_ex,	/* 10 */
+/*	illegal,illegal,*/konami_extended[0x12]=lda_ex; konami_extended[0x13]=ldb_ex; /*,illegal,illegal,adda_ex,addb_ex,	/* 10 */
 /*TODO*///	illegal,illegal,adca_ex,adcb_ex,illegal,illegal,suba_ex,subb_ex,
 /*TODO*///	illegal,illegal,sbca_ex,sbcb_ex,illegal,illegal,anda_ex,andb_ex,	/* 20 */
 /*TODO*///	illegal,illegal,bita_ex,bitb_ex,illegal,illegal,eora_ex,eorb_ex,
 /*TODO*///	illegal,illegal,ora_ex ,orb_ex ,illegal,illegal,cmpa_ex,cmpb_ex,	/* 30 */
 	/*illegal,setline_ex,*/konami_extended[0x3a]=sta_ex; konami_extended[0x3b]=stb_ex;/*,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,ldd_ex ,illegal,ldx_ex ,illegal,ldy_ex ,illegal,ldu_ex ,	/* 40 */
+/*	illegal,*/konami_extended[0x41]=ldd_ex; /*,illegal,ldx_ex ,illegal,ldy_ex ,illegal,ldu_ex ,	/* 40 */
 /*TODO*///	illegal,lds_ex ,illegal,cmpd_ex,illegal,cmpx_ex,illegal,cmpy_ex,
 /*TODO*///	illegal,cmpu_ex,illegal,cmps_ex,illegal,addd_ex,illegal,subd_ex,	/* 50 */
-/*TODO*///	std_ex ,stx_ex ,sty_ex ,stu_ex ,sts_ex ,illegal,illegal,illegal,
+                konami_extended[0x58]=std_ex;/*,stx_ex ,sty_ex ,stu_ex ,sts_ex ,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
 /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,clr_ex ,illegal,illegal,com_ex ,illegal,illegal,	/* 80 */
+/*	illegal,illegal,*/konami_extended[0x82]=clr_ex; /*,illegal,illegal,com_ex ,illegal,illegal,	/* 80 */
 /*TODO*///	neg_ex ,illegal,illegal,inc_ex ,illegal,illegal,dec_ex ,illegal,
 /*TODO*///	illegal,illegal,tst_ex ,illegal,illegal,lsr_ex ,illegal,illegal,	/* 90 */
 /*TODO*///	ror_ex ,illegal,illegal,asr_ex ,illegal,illegal,asl_ex ,illegal,
@@ -268,62 +292,60 @@ public class konami extends cpu_interface{
     
     public void CHECK_IRQ_LINES()
     {
-        System.out.println("TODO check IRQ lines");
+        if( konami.irq_state[KONAMI_IRQ_LINE] != CLEAR_LINE || konami.irq_state[KONAMI_FIRQ_LINE] != CLEAR_LINE )	
+        {
+    		konami.int_state &= ~KONAMI_SYNC; /* clear SYNC flag */			
+        }
+        if( konami.irq_state[KONAMI_FIRQ_LINE]!=CLEAR_LINE && ((konami.cc & CC_IF)==0) ) 
+    	{																	
+    		/* fast IRQ */													
+    		/* HJB 990225: state already saved by CWAI? */					
+    		if(( konami.int_state & KONAMI_CWAI )!=0)								
+    		{																
+    			konami.int_state &= ~KONAMI_CWAI;  /* clear CWAI */			
+    			konami.extra_cycles += 7;		 /* subtract +7 cycles */	
+                } 
+                else															
+    		{																
+    			konami.cc &= ~CC_E;				/* save 'short' state */        
+    			PUSHWORD(konami.pc);												
+    			PUSHBYTE(konami.cc);												
+    			konami.extra_cycles += 10;	/* subtract +10 cycles */		
+    		}																
+    		konami.cc |= CC_IF | CC_II;			/* inhibit FIRQ and IRQ */		
+    		konami.pc=RM16(0xfff6);												
+    		change_pc(konami.pc);														
+    		konami.irq_callback.handler(KONAMI_FIRQ_LINE);	
+        }																	
+        else if( konami.irq_state[KONAMI_IRQ_LINE]!=CLEAR_LINE && ((konami.cc & CC_II)==0) )	
+    	{																	
+    		/* standard IRQ */												
+    		/* HJB 990225: state already saved by CWAI? */					
+    		if(( konami.int_state & KONAMI_CWAI )!=0)								
+    		{																
+    			konami.int_state &= ~KONAMI_CWAI;  /* clear CWAI flag */		
+    			konami.extra_cycles += 7;		 /* subtract +7 cycles */	
+    		}  
+                else															
+    		{																
+    			konami.cc |= CC_E; 				/* save entire state */ 		
+    			PUSHWORD(konami.pc);												
+    			PUSHWORD(konami.u);												
+    			PUSHWORD(konami.y);												
+    			PUSHWORD(konami.x);												
+    			PUSHBYTE(konami.dp);												
+    			PUSHBYTE(konami.b);												
+    			PUSHBYTE(konami.a);												
+    			PUSHBYTE(konami.cc);												
+    			konami.extra_cycles += 19;	 /* subtract +19 cycles */		
+    		}																
+    		konami.cc |= CC_II;					/* inhibit IRQ */				
+    		konami.pc=RM16(0xfff8);												
+    		change_pc(konami.pc);														
+    		konami.irq_callback.handler(KONAMI_IRQ_LINE);					
+    	}
     }
-/*TODO*///#define CHECK_IRQ_LINES 												\
-/*TODO*///	if( konami.irq_state[KONAMI_IRQ_LINE] != CLEAR_LINE ||				\
-/*TODO*///		konami.irq_state[KONAMI_FIRQ_LINE] != CLEAR_LINE )				\
-/*TODO*///		konami.int_state &= ~KONAMI_SYNC; /* clear SYNC flag */			\
-/*TODO*///	if( konami.irq_state[KONAMI_FIRQ_LINE]!=CLEAR_LINE && !(CC & CC_IF) ) \
-/*TODO*///	{																	\
-/*TODO*///		/* fast IRQ */													\
-/*TODO*///		/* state already saved by CWAI? */								\
-/*TODO*///		if( konami.int_state & KONAMI_CWAI )							\
-/*TODO*///		{																\
-/*TODO*///			konami.int_state &= ~KONAMI_CWAI;  /* clear CWAI */			\
-/*TODO*///			konami.extra_cycles += 7;		 /* subtract +7 cycles */	\
-/*TODO*///        }                                                               \
-/*TODO*///		else															\
-/*TODO*///		{																\
-/*TODO*///			CC &= ~CC_E;				/* save 'short' state */        \
-/*TODO*///			PUSHWORD(pPC);												\
-/*TODO*///			PUSHBYTE(CC);												\
-/*TODO*///			konami.extra_cycles += 10;	/* subtract +10 cycles */		\
-/*TODO*///		}																\
-/*TODO*///		CC |= CC_IF | CC_II;			/* inhibit FIRQ and IRQ */		\
-/*TODO*///		PCD = RM16(0xfff6); 											\
-/*TODO*///		change_pc(PC);					/* TS 971002 */ 				\
-/*TODO*///		(void)(*konami.irq_callback)(KONAMI_FIRQ_LINE);					\
-/*TODO*///	}																	\
-/*TODO*///	else																\
-/*TODO*///	if( konami.irq_state[KONAMI_IRQ_LINE]!=CLEAR_LINE && !(CC & CC_II) )\
-/*TODO*///	{																	\
-/*TODO*///		/* standard IRQ */												\
-/*TODO*///		/* state already saved by CWAI? */								\
-/*TODO*///		if( konami.int_state & KONAMI_CWAI )							\
-/*TODO*///		{																\
-/*TODO*///			konami.int_state &= ~KONAMI_CWAI;  /* clear CWAI flag */	\
-/*TODO*///			konami.extra_cycles += 7;		 /* subtract +7 cycles */	\
-/*TODO*///		}																\
-/*TODO*///		else															\
-/*TODO*///		{																\
-/*TODO*///			CC |= CC_E; 				/* save entire state */ 		\
-/*TODO*///			PUSHWORD(pPC);												\
-/*TODO*///			PUSHWORD(pU);												\
-/*TODO*///			PUSHWORD(pY);												\
-/*TODO*///			PUSHWORD(pX);												\
-/*TODO*///			PUSHBYTE(DP);												\
-/*TODO*///			PUSHBYTE(B);												\
-/*TODO*///			PUSHBYTE(A);												\
-/*TODO*///			PUSHBYTE(CC);												\
-/*TODO*///			konami.extra_cycles += 19;	 /* subtract +19 cycles */		\
-/*TODO*///		}																\
-/*TODO*///		CC |= CC_II;					/* inhibit IRQ */				\
-/*TODO*///		PCD = RM16(0xfff8); 											\
-/*TODO*///		change_pc(PC);					/* TS 971002 */ 				\
-/*TODO*///		(void)(*konami.irq_callback)(KONAMI_IRQ_LINE);					\
-/*TODO*///	}
-/*TODO*///
+  
 
 /*TODO*///int konami_Flags;	/* flags for speed optimization (obsolete!!) */
 /*TODO*///void (*konami_cpu_setlines_callback)( int lines ) = 0; /* callback called when A16-A23 are set */
@@ -481,8 +503,12 @@ public class konami extends cpu_interface{
     public void SET_FLAGS8(int a,int b,int r)	{SET_N8(r);SET_Z8(r);SET_V8(a,b,r);SET_C8(r);}
     public void SET_FLAGS16(int a,int b,int r)	{SET_N16(r);SET_Z16(r);SET_V16(a,b,r);SET_C16(r);}
 
-/*TODO*////* macros for addressing modes (postbytes have their own code) */
-/*TODO*///#define DIRECT	EAD = DPD; IMMBYTE(ea.b.l)
+    /* macros for addressing modes (postbytes have their own code) */
+    public void DIRECT()//TODO rececheck!
+    {
+        ea=IMMBYTE();
+        ea |= konami.dp <<8;  
+    }
 /*TODO*///#define IMM8	EAD = PCD; PC++
 /*TODO*///#define IMM16	EAD = PCD; PC+=2
 public void EXTENDED(){ ea=IMMWORD();}
@@ -498,17 +524,29 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///#define CLV CC&=~CC_V
     /*TODO*///#define SEH CC|=CC_H
     /*TODO*///#define CLH CC&=~CC_H
-/*TODO*///
-/*TODO*////* macros for convenience */
-/*TODO*///#define DIRBYTE(b) DIRECT; b=RM(EAD)
-/*TODO*///#define DIRWORD(w) DIRECT; w.d=RM16(EAD)
+    
+    /* macros for convenience */
+    public int DIRBYTE()
+    {
+        DIRECT();
+        return RM(ea);
+    }
+
+    public int DIRWORD()
+    {
+        DIRECT();
+        return RM16(ea);
+    }
     public int EXTBYTE()
     {
         EXTENDED();
         return RM(ea);
     }
-/*TODO*///#define EXTWORD(w) EXTENDED; w.d=RM16(EAD)
-/*TODO*///
+    public int EXTWORD()
+    {
+        EXTENDED();
+        return RM16(ea);
+    }
     /* macros for branch instructions */
     public void BRANCH(boolean f)
     {
@@ -783,14 +821,13 @@ public void EXTENDED(){ ea=IMMWORD();}
 /*TODO*////****************************************************************************
 /*TODO*/// * Set IRQ line state
 /*TODO*/// ****************************************************************************/
-/*TODO*///void konami_set_irq_line(int irqline, int state)
-/*TODO*///{
-/*TODO*///    LOG((errorlog, "KONAMI#%d set_irq_line %d, %d\n", cpu_getactivecpu(), irqline, state));
-/*TODO*///	konami.irq_state[irqline] = state;
-/*TODO*///	if (state == CLEAR_LINE) return;
-/*TODO*///	CHECK_IRQ_LINES;
-/*TODO*///}
-
+    @Override
+    public void set_irq_line(int irqline, int linestate) {
+        if(errorlog!=null)fprintf(errorlog, "KONAMI#%d set_irq_line %d, %d\n", cpu_getactivecpu(), irqline, linestate);
+	konami.irq_state[irqline] = linestate;
+	if (linestate == CLEAR_LINE) return;
+	CHECK_IRQ_LINES();
+    }
     /****************************************************************************
      * Set IRQ vector callback
      ****************************************************************************/
@@ -958,16 +995,13 @@ public void EXTENDED(){ ea=IMMWORD();}
         cpu_setOPbase16.handler(pc, 0);
     }
 
-    /*TODO*///#ifdef NEW
-    /*TODO*///static void illegal= new opcode() { public void handler()
-    /*TODO*///#else
-    /*TODO*///opcode illegal= new opcode() { public void handler()
-    /*TODO*///#endif
-    /*TODO*///{
-    /*TODO*///	if( errorlog )
-    /*TODO*///		fprintf(errorlog, "KONAMI: illegal opcode at %04x\n",PC);
-    /*TODO*///}};
-    /*TODO*///
+
+   opcode illegal= new opcode() { public void handler()
+   {
+   	if( errorlog!=null )
+   		fprintf(errorlog, "KONAMI: illegal opcode at %04x\n",konami.pc);
+   }};
+   
     /*TODO*///#if macintosh
     /*TODO*///#pragma mark ____0x____
     /*TODO*///#endif
@@ -1059,71 +1093,59 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $0A DEC direct -***- */
-    /*TODO*///opcode dec_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	--t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_FLAGS8D(t);
-    /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $0B ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $OC INC direct -***- */
-    /*TODO*///opcode inc_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	++t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_FLAGS8I(t);
-    /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $OD TST direct -**0- */
-    /*TODO*///opcode tst_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $0E JMP direct ----- */
+    
+    /* $0A DEC direct -***- */
+    opcode dec_di= new opcode() { public void handler()
+    {
+        int t=DIRBYTE();
+	t= t-1 & 0xFF;
+    	CLR_NZV();
+    	SET_FLAGS8D(t);
+    	WM(ea,t);
+    }};
+
+    /* $OC INC direct -***- */
+    opcode inc_di= new opcode() { public void handler()
+    {
+        int t=DIRBYTE();
+    	t=t+1 & 0xFF;
+    	CLR_NZV();
+    	SET_FLAGS8I(t);
+    	WM(ea,t);    
+    }};
+    
+    /* $OD TST direct -**0- */
+    opcode tst_di= new opcode() { public void handler()
+    {
+        int t=DIRBYTE();
+    	CLR_NZV();
+    	SET_NZ8(t);
+    }};
+    
+    /* $0E JMP direct ----- */
     /*TODO*///opcode jmp_di= new opcode() { public void handler()
     /*TODO*///{
     /*TODO*///    DIRECT;
     /*TODO*///	PCD=EAD;
     /*TODO*///	change_pc(PCD);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $0F CLR direct -0100 */
-    /*TODO*///opcode clr_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM(EAD,0);
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SEZ;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____1x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $10 FLAG */
-    /*TODO*///
-    /*TODO*////* $11 FLAG */
-    /*TODO*///
-    /*TODO*////* $12 NOP inherent ----- */
-    /*TODO*///opcode nop= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	;
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $0F CLR direct -0100 */
+    opcode clr_di= new opcode() { public void handler()
+    {
+        DIRECT();
+    	WM(ea,0);
+    	CLR_NZVC();
+    	SEZ();
+    }};
+    
+
+    /* $12 NOP inherent ----- */
+    opcode nop= new opcode() { public void handler()
+    {
+    	;
+    }};
+    
     /*TODO*////* $13 SYNC inherent ----- */
     /*TODO*///opcode sync= new opcode() { public void handler()
     /*TODO*///{
@@ -1141,28 +1163,28 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*////* $14 ILLEGAL */
     /*TODO*///
     /*TODO*////* $15 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $16 LBRA relative ----- */
-    /*TODO*///opcode lbra= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	IMMWORD(ea);
-    /*TODO*///	PC += EA;
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///
-    /*TODO*///	/* EHC 980508 speed up busy loop */
-    /*TODO*///	if( EA == 0xfffd && konami_ICount > 0 )
-    /*TODO*///		konami_ICount = 0;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $17 LBSR relative ----- */
-    /*TODO*///opcode lbsr= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	IMMWORD(ea);
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PC += EA;
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $16 LBRA relative ----- */
+    opcode lbra= new opcode() { public void handler()
+    {
+       ea=IMMWORD();
+       konami.pc = konami.pc + ea & 0xFFFF;
+       change_pc(konami.pc);
+    
+    	/* EHC 980508 speed up busy loop */
+    	if( ea == 0xfffd && konami_ICount[0] > 0 )
+    		konami_ICount[0] = 0;
+    }};
+    
+    /* $17 LBSR relative ----- */
+    opcode lbsr= new opcode() { public void handler()
+    {
+        ea=IMMWORD();
+    	PUSHWORD(konami.pc);
+    	konami.pc=konami.pc + ea &0xFFFF;
+    	change_pc(konami.pc);
+    }};
+    
     /*TODO*////* $18 ILLEGAL */
     /*TODO*///
     /*TODO*///#if 1
@@ -1194,37 +1216,32 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	A = t;
     /*TODO*///}};
     /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $1A ORCC immediate ##### */
-    /*TODO*///opcode orcc= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	CC |= t;
-    /*TODO*///	CHECK_IRQ_LINES;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1B ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $1C ANDCC immediate ##### */
-    /*TODO*///opcode andcc= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	CC &= t;
-    /*TODO*///	CHECK_IRQ_LINES;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1D SEX inherent -**0- */
-    /*TODO*///opcode sex= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t;
-    /*TODO*///	t = SIGNED(B);
-    /*TODO*///	D = t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(t);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $1A ORCC immediate ##### */
+    opcode orcc= new opcode() { public void handler()
+    {
+        int t=	IMMBYTE();
+    	konami.cc |= t;
+    	CHECK_IRQ_LINES();
+    }};
+    
+    /* $1C ANDCC immediate ##### */
+    opcode andcc= new opcode() { public void handler()
+    {
+        int t= IMMBYTE();
+    	konami.cc &= t;
+    	CHECK_IRQ_LINES();
+    }};
+    
+    /* $1D SEX inherent -**0- */
+    opcode sex= new opcode() { public void handler()
+    {
+        int t = (byte)konami.b & 0xFFFF;
+        setDreg(t);
+    	CLR_NZV();
+    	SET_NZ16(t);
+    }};
+    
     /*TODO*////* $1E EXG inherent ----- */
     /*TODO*///opcode exg= new opcode() { public void handler()
     /*TODO*///{
@@ -1251,23 +1268,21 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	GETREG( t, tb & 0x0f );
     /*TODO*///	SETREG( t, ( tb >> 4 ) & 0x07 );
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____2x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $20 BRA relative ----- */
-    /*TODO*///opcode bra= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	PC += SIGNED(t);
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///	/* JB 970823 - speed up busy loops */
-    /*TODO*///	if( t == 0xfe && konami_ICount > 0 )
-    /*TODO*///		konami_ICount = 0;
-    /*TODO*///}};
-    /*TODO*///
+
+    
+    /* $20 BRA relative ----- */
+    opcode bra= new opcode() { public void handler()
+    {
+        int t;
+        t=IMMBYTE();
+        konami.pc=konami.pc+(byte)t & 0xFFFF;
+        change_pc(konami.pc);
+    	/* JB 970823 - speed up busy loops */
+    	if( t == 0xfe && konami_ICount[0] > 0 )
+    		 konami_ICount[0] = 0;
+
+    }};
+    
     /*TODO*////* $21 BRN relative ----- */
     /*TODO*///opcode brn= new opcode() { public void handler()
     /*TODO*///{
@@ -1292,43 +1307,43 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///{
     /*TODO*///	LBRANCH( !(CC & (CC_Z|CC_C)) );
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $23 BLS relative ----- */
-    /*TODO*///opcode bls= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( (CC & (CC_Z|CC_C)) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1023 LBLS relative ----- */
-    /*TODO*///opcode lbls= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( (CC&(CC_Z|CC_C)) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $24 BCC relative ----- */
-    /*TODO*///opcode bcc= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( !(CC&CC_C) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1024 LBCC relative ----- */
-    /*TODO*///opcode lbcc= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( !(CC&CC_C) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $25 BCS relative ----- */
-    /*TODO*///opcode bcs= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( (CC&CC_C) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1025 LBCS relative ----- */
-    /*TODO*///opcode lbcs= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( (CC&CC_C) );
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $23 BLS relative ----- */
+    opcode bls= new opcode() { public void handler()
+    {
+        BRANCH( (konami.cc & (CC_Z|CC_C))!=0 );
+    }};
+    
+    /* $1023 LBLS relative ----- */
+    opcode lbls= new opcode() { public void handler()
+    {
+    	LBRANCH( (konami.cc & (CC_Z|CC_C))!=0 );
+    }};
+    
+    /* $24 BCC relative ----- */
+    opcode bcc= new opcode() { public void handler()
+    {
+    	BRANCH( (konami.cc&CC_C)==0 );
+    }};
+    
+    /* $1024 LBCC relative ----- */
+    opcode lbcc= new opcode() { public void handler()
+    {
+        LBRANCH( (konami.cc&CC_C) ==0);
+    }};
+    
+    /* $25 BCS relative ----- */
+    opcode bcs= new opcode() { public void handler()
+    {
+    	BRANCH( (konami.cc&CC_C)!=0 );
+    }};
+    
+    /* $1025 LBCS relative ----- */
+    opcode lbcs= new opcode() { public void handler()
+    {
+    	LBRANCH( (konami.cc&CC_C)!=0 );
+    }};
+    
     /* $26 BNE relative ----- */
     opcode bne= new opcode() { public void handler()
     {
@@ -1341,25 +1356,25 @@ public void EXTENDED(){ ea=IMMWORD();}
     	LBRANCH( (konami.cc&CC_Z)==0 );
     }};
     
-    /*TODO*////* $27 BEQ relative ----- */
-    /*TODO*///opcode beq= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( (CC&CC_Z) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1027 LBEQ relative ----- */
-    /*TODO*///opcode lbeq= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( (CC&CC_Z) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $28 BVC relative ----- */
-    /*TODO*///opcode bvc= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( !(CC&CC_V) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1028 LBVC relative ----- */
+    /* $27 BEQ relative ----- */
+    opcode beq= new opcode() { public void handler()
+    {
+        BRANCH( (konami.cc&CC_Z)!=0 );
+    }};
+    
+    /* $1027 LBEQ relative ----- */
+    opcode lbeq= new opcode() { public void handler()
+    {
+        LBRANCH( (konami.cc&CC_Z)!=0 );
+    }};
+    
+    /* $28 BVC relative ----- */
+    opcode bvc= new opcode() { public void handler()
+    {
+        BRANCH( (konami.cc&CC_V)==0 );
+    }};
+    
+    /* $1028 LBVC relative ----- */
     /*TODO*///opcode lbvc= new opcode() { public void handler()
     /*TODO*///{
     /*TODO*///	LBRANCH( !(CC&CC_V) );
@@ -1376,30 +1391,30 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///{
     /*TODO*///	LBRANCH( (CC&CC_V) );
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $2A BPL relative ----- */
-    /*TODO*///opcode bpl= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( !(CC&CC_N) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $102A LBPL relative ----- */
-    /*TODO*///opcode lbpl= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( !(CC&CC_N) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $2B BMI relative ----- */
-    /*TODO*///opcode bmi= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	BRANCH( (CC&CC_N) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $102B LBMI relative ----- */
-    /*TODO*///opcode lbmi= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	LBRANCH( (CC&CC_N) );
-    /*TODO*///}};
+    
+    /* $2A BPL relative ----- */
+    opcode bpl= new opcode() { public void handler()
+    {
+        BRANCH( (konami.cc&CC_N)==0 );
+    }};
+    
+    /* $102A LBPL relative ----- */
+    opcode lbpl= new opcode() { public void handler()
+    {
+    	LBRANCH( (konami.cc&CC_N)==0 );
+    }};
+    
+    /* $2B BMI relative ----- */
+    opcode bmi= new opcode() { public void handler()
+    {
+    	BRANCH( (konami.cc&CC_N)!=0 );
+    }};
+    
+    /* $102B LBMI relative ----- */
+    opcode lbmi= new opcode() { public void handler()
+    {
+    	LBRANCH( (konami.cc&CC_N)!=0 );
+    }};
     /*TODO*///
     /*TODO*////* $2C BGE relative ----- */
     /*TODO*///opcode bge= new opcode() { public void handler()
@@ -1461,27 +1476,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_Z(konami.x);       
     }};
     
-    /*TODO*////* $31 LEAY indexed --*-- */
-    /*TODO*///opcode leay= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	Y = EA;
-    /*TODO*///	CLR_Z;
-    /*TODO*///	SET_Z(Y);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $32 LEAS indexed ----- */
-    /*TODO*///opcode leas= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	S = EA;
-    /*TODO*///	konami.int_state |= KONAMI_LDS;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $33 LEAU indexed ----- */
-    /*TODO*///opcode leau= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	U = EA;
-    /*TODO*///}};
-    /*TODO*///
+    /* $31 LEAY indexed --*-- */
+    opcode leay= new opcode() { public void handler()
+    {
+        konami.y = ea;
+    	CLR_Z();
+    	SET_Z(konami.y);
+    }};
+    
+    /* $32 LEAS indexed ----- */
+    opcode leas= new opcode() { public void handler()
+    {
+    	konami.s = ea;
+    	konami.int_state |= KONAMI_LDS;
+    }};
+    
+    /* $33 LEAU indexed ----- */
+    opcode leau= new opcode() { public void handler()
+    {
+    	konami.u = ea;
+    }};
     /* $34 PSHS inherent ----- */
     opcode pshs= new opcode() { public void handler()
     {
@@ -1547,41 +1561,44 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	/* check after all PULLs */
     /*TODO*///	if( t&0x01 ) { CHECK_IRQ_LINES; }};
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $38 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $39 RTS inherent ----- */
-    /*TODO*///opcode rts= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PULLWORD(PCD);
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $38 ILLEGAL */
+    
+    /* $39 RTS inherent ----- */
+    opcode rts= new opcode() { public void handler()
+    {
+        konami.pc=PULLWORD();
+    	change_pc(konami.pc);
+    }};
+    
     /*TODO*////* $3A ABX inherent ----- */
     /*TODO*///opcode abx= new opcode() { public void handler()
     /*TODO*///{
     /*TODO*///	X += B;
     /*TODO*///}};
     /*TODO*///
-    /*TODO*////* $3B RTI inherent ##### */
-    /*TODO*///opcode rti= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PULLBYTE(CC);
-    /*TODO*///	if( CC & CC_E ) /* entire state saved? */
-    /*TODO*///	{
-    /*TODO*///        konami_ICount -= 9;
-    /*TODO*///		PULLBYTE(A);
-    /*TODO*///		PULLBYTE(B);
-    /*TODO*///		PULLBYTE(DP);
-    /*TODO*///		PULLWORD(XD);
-    /*TODO*///		PULLWORD(YD);
-    /*TODO*///		PULLWORD(UD);
-    /*TODO*///	}};
-    /*TODO*///	PULLWORD(PCD);
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///	CHECK_IRQ_LINES;
-    /*TODO*///}};
-    /*TODO*///
+    /* $3B RTI inherent ##### */
+    opcode rti= new opcode() { public void handler()
+    {
+        int t;
+    	konami.cc=PULLBYTE();
+    	t = konami.cc & CC_E;		/* HJB 990225: entire state saved? */
+    	if(t!=0)
+    	{
+            konami_ICount[0] -= 9;
+    		konami.a=PULLBYTE();
+    		konami.b=PULLBYTE();
+    		konami.dp=PULLBYTE();
+    		konami.x=PULLWORD();
+    		konami.y=PULLWORD();
+    		konami.u=PULLWORD();
+    	}
+    	konami.pc=PULLWORD();
+    	change_pc(konami.pc);
+    	CHECK_IRQ_LINES();
+        
+    }};
+    
     /*TODO*////* $3C CWAI inherent ----1 */
     /*TODO*///opcode cwai= new opcode() { public void handler()
     /*TODO*///{
@@ -1681,29 +1698,25 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(0,A,r);
     /*TODO*///	A = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $41 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $42 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $43 COMA inherent -**01 */
-    /*TODO*///opcode coma= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	A = ~A;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///	SEC;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $44 LSRA inherent -0*-* */
-    /*TODO*///opcode lsra= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZC;
-    /*TODO*///	CC |= (A & CC_C);
-    /*TODO*///	A >>= 1;
-    /*TODO*///	SET_Z8(A);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $43 COMA inherent -**01 */
+    opcode coma= new opcode() { public void handler()
+    {
+        konami.a = (konami.a ^ 0xFFFFFFFF) & 0xFF;
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    	SEC();
+    }};
+    
+    /* $44 LSRA inherent -0*-* */
+    opcode lsra= new opcode() { public void handler()//todo recheck
+    {
+        CLR_NZC();
+    	konami.cc |= (konami.a & CC_C);
+    	konami.a = konami.a >> 1 & 0xFF;
+    	SET_Z8(konami.a);
+    }};
+    
     /*TODO*////* $45 ILLEGAL */
     /*TODO*///
     /*TODO*////* $46 RORA inherent -**-* */
@@ -1727,35 +1740,34 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_NZ8(A);
     /*TODO*///}};
     /*TODO*///
-    /*TODO*////* $48 ASLA inherent ?**** */
-    /*TODO*///opcode asla= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 r;
-    /*TODO*///	r = A << 1;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(A,A,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $49 ROLA inherent -**** */
-    /*TODO*///opcode rola= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	t = A;
-    /*TODO*///	r = (CC & CC_C) | (t<<1);
-    /*TODO*///	CLR_NZVC; SET_FLAGS8(t,t,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $4A DECA inherent -***- */
-    /*TODO*///opcode deca= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	--A;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_FLAGS8D(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $4B ILLEGAL */
+    /* $48 ASLA inherent ?**** */
+    opcode asla= new opcode() { public void handler()
+    {
+        int r = (konami.a << 1) & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.a,konami.a,r);
+    	konami.a = r & 0xFF;
+    }};
+    
+    /* $49 ROLA inherent -**** */
+    opcode rola= new opcode() { public void handler()//todo recheck
+    {
+         //BUGGY have to figure it out!
+        int t,r;
+    	t = konami.a;
+   	r = ((konami.cc & CC_C) | ((t<<1))) &0xFFFF;//is that correct???
+    	CLR_NZVC(); 
+        SET_FLAGS8(t,t,r);
+    	konami.a = r & 0xFF;
+    }};
+    
+    /* $4A DECA inherent -***- */
+    opcode deca= new opcode() { public void handler()
+    {
+        konami.a = konami.a -1 & 0xFF;
+    	CLR_NZV();
+    	SET_FLAGS8D(konami.a);
+    }};
     
     /* $4C INCA inherent -***- */
     opcode inca= new opcode() { public void handler()
@@ -1795,31 +1807,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(0,B,r);
     /*TODO*///	B = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $51 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $52 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $53 COMB inherent -**01 */
-    /*TODO*///opcode comb= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	B = ~B;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///	SEC;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $54 LSRB inherent -0*-* */
-    /*TODO*///opcode lsrb= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZC;
-    /*TODO*///	CC |= (B & CC_C);
-    /*TODO*///	B >>= 1;
-    /*TODO*///	SET_Z8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $55 ILLEGAL */
-    /*TODO*///
+    
+    /* $53 COMB inherent -**01 */
+    opcode comb= new opcode() { public void handler()
+    {
+        konami.b = (konami.b ^ 0xFFFFFFFF) & 0xFF;
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    	SEC();
+    }};
+    
+    /* $54 LSRB inherent -0*-* */
+    opcode lsrb= new opcode() { public void handler()
+    {
+        CLR_NZC();
+    	konami.cc |= (konami.b & CC_C);
+    	konami.b = konami.b >> 1 &0xFF;
+    	SET_Z8(konami.b);
+    }};
+    
+
     /*TODO*////* $56 RORB inherent -**-* */
     /*TODO*///opcode rorb= new opcode() { public void handler()
     /*TODO*///{
@@ -2002,23 +2009,23 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV; SET_FLAGS8I(t);
     /*TODO*///	WM(EAD,t);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $6D TST indexed -**0- */
-    /*TODO*///opcode tst_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	t = RM(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $6E JMP indexed ----- */
-    /*TODO*///opcode jmp_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PCD=EAD;
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $6D TST indexed -**0- */
+    opcode tst_ix= new opcode() { public void handler()
+    {
+        int t;
+    	t = RM(ea);
+    	CLR_NZV();
+    	SET_NZ8(t);
+    }};
+    
+   /* $6E JMP indexed ----- */
+   opcode jmp_ix= new opcode() { public void handler()
+   {
+   	konami.pc = ea;
+    	change_pc(konami.pc);	
+   }};
+   
     /*TODO*////* $6F CLR indexed -0100 */
     /*TODO*///opcode clr_ix= new opcode() { public void handler()
     /*TODO*///{
@@ -2135,30 +2142,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	PCD=EAD;
     /*TODO*///	change_pc(PCD);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $7F CLR extended -0100 */
-    /*TODO*///opcode clr_ex= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	EXTENDED;
-    /*TODO*///	WM(EAD,0);
-    /*TODO*///	CLR_NZVC; SEZ;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____8x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $80 SUBA immediate ?**** */
-    /*TODO*///opcode suba_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = A - t;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
+    
+    /* $7F CLR extended -0100 */
+    opcode clr_ex= new opcode() { public void handler()
+    {
+        EXTENDED();
+    	WM(ea,0);
+    	CLR_NZVC(); 
+        SEZ();
+    }};
+    
+    /* $80 SUBA immediate ?**** */
+    opcode suba_im= new opcode() { public void handler()
+    {
+        int t,r;
+        t=IMMBYTE();
+    	r = konami.a - t & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.a,t,r);
+    	konami.a = r & 0xFF;
+    }};
     
     /* $81 CMPA immediate ?**** */
     opcode cmpa_im= new opcode() { public void handler()
@@ -2205,28 +2208,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1183 CMPU immediate -**** */
-    /*TODO*///opcode cmpu_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r, d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	IMMWORD(b);
-    /*TODO*///	d = U;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $84 ANDA immediate -**0- */
-    /*TODO*///opcode anda_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	A &= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
+    
+    /* $1183 CMPU immediate -**** */
+    opcode cmpu_im= new opcode() { public void handler()
+    {
+        int r, d;
+        int b=IMMWORD();
+    	d = konami.u;
+    	r = (d - b); //& 0xFFFF;//should be unsigned?
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    }};
+    
+    /* $84 ANDA immediate -**0- */
+    opcode anda_im= new opcode() { public void handler()//todo recheck
+    {
+        int t=IMMBYTE();
+    	konami.a &= t;
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    }};
     
     /* $85 BITA immediate -**0- */
     opcode bita_im= new opcode() { public void handler()
@@ -2265,28 +2266,27 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $89 ADCA immediate ***** */
-    /*TODO*///opcode adca_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = A + t + (CC & CC_C);
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///	SET_H(A,t,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $8A ORA immediate -**0- */
-    /*TODO*///opcode ora_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	A |= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
+    
+    /* $89 ADCA immediate ***** */
+    opcode adca_im= new opcode() { public void handler()
+    {
+        int t,r;
+    	t=IMMBYTE();
+    	r = konami.a + t + (konami.cc & CC_C) & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(konami.a,t,r);
+    	SET_H(konami.a,t,r);
+    	konami.a = r & 0xFF;
+    }};
+    
+    /* $8A ORA immediate -**0- */
+    opcode ora_im= new opcode() { public void handler()
+    {
+        int t=IMMBYTE();
+    	konami.a |= t; //TODO should unsigned it??
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    }};
     
     /* $8B ADDA immediate ***** */
     opcode adda_im= new opcode() { public void handler()
@@ -2300,30 +2300,28 @@ public void EXTENDED(){ ea=IMMWORD();}
     	konami.a = r & 0xFF;
     }};
     
-    /*TODO*////* $8C CMPX (CMPY CMPS) immediate -**** */
-    /*TODO*///opcode cmpx_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	IMMWORD(b);
-    /*TODO*///	d = X;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $108C CMPY immediate -**** */
-    /*TODO*///opcode cmpy_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	IMMWORD(b);
-    /*TODO*///	d = Y;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
+    /* $8C CMPX (CMPY CMPS) immediate -**** */
+    opcode cmpx_im= new opcode() { public void handler()//todo recheck
+    {
+        int r,d;
+        int b=IMMWORD();
+	d = konami.x;
+    	r = (d - b); //&0xFFFF;//should be unsigned?
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    }};
+    
+    /* $108C CMPY immediate -**** */
+    opcode cmpy_im= new opcode() { public void handler()
+    {
+        int r,d;
+        int b=IMMWORD();
+	d = konami.y;
+    	r = (d - b); //&0xFFFF;//should be unsigned?
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    }};
+    
     /*TODO*////* $118C CMPS immediate -**** */
     /*TODO*///opcode cmps_im= new opcode() { public void handler()
     /*TODO*///{
@@ -2335,17 +2333,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $8D BSR ----- */
-    /*TODO*///opcode bsr= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PC += SIGNED(t);
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $8D BSR ----- */
+    opcode bsr= new opcode() { public void handler()
+    {
+        int t=IMMBYTE();
+    	PUSHWORD(konami.pc);
+    	konami.pc = konami.pc + (byte)t & 0xFFFF; 
+    	change_pc(konami.pc);
+    }};
+    
     /* $8E LDX (LDY) immediate -**0- */
     opcode ldx_im= new opcode() { public void handler()
     {
@@ -2354,14 +2351,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ16(konami.x);
     }};
     
-    /*TODO*////* $108E LDY immediate -**0- */
-    /*TODO*///opcode ldy_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	IMMWORD(pY);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(Y);
-    /*TODO*///}};
-    /*TODO*///
+    /* $108E LDY immediate -**0- */
+    opcode ldy_im= new opcode() { public void handler()
+    {
+        konami.y=IMMWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.y);
+    }};
+    
     /*TODO*////* is this a legal instruction? */
     /*TODO*////* $8F STX (STY) immediate -**0- */
     /*TODO*///opcode stx_im= new opcode() { public void handler()
@@ -2474,23 +2471,23 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $96 LDA direct -**0- */
-    /*TODO*///opcode lda_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRBYTE(A);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $97 STA direct -**0- */
-    /*TODO*///opcode sta_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM(EAD,A);
-    /*TODO*///}};
+    
+    /* $96 LDA direct -**0- */
+    opcode lda_di= new opcode() { public void handler()
+    {
+        konami.a=DIRBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    }};
+    
+    /* $97 STA direct -**0- */
+    opcode sta_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.a);
+    	DIRECT();
+    	WM(ea,konami.a);
+    }};
     /*TODO*///
     /*TODO*////* $98 EORA direct -**0- */
     /*TODO*///opcode eora_di= new opcode() { public void handler()
@@ -2513,17 +2510,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_H(A,t,r);
     /*TODO*///	A = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $9A ORA direct -**0- */
-    /*TODO*///opcode ora_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	A |= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $9A ORA direct -**0- */
+    opcode ora_di= new opcode() { public void handler()
+    {
+        int t= DIRBYTE();
+    	konami.a |= t;
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    }};
+    
     /*TODO*////* $9B ADDA direct ***** */
     /*TODO*///opcode adda_di= new opcode() { public void handler()
     /*TODO*///{
@@ -2535,18 +2531,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_H(A,t,r);
     /*TODO*///	A = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $9C CMPX (CMPY CMPS) direct -**** */
-    /*TODO*///opcode cmpx_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	DIRWORD(b);
-    /*TODO*///	d = X;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
+    
+    /* $9C CMPX (CMPY CMPS) direct -**** */
+    opcode cmpx_di= new opcode() { public void handler()
+    {
+        int r,d;
+    	int b=DIRWORD();
+    	d = konami.x;
+    	r = d - b;
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    }};
     /*TODO*///
     /*TODO*////* $109C CMPY direct -**** */
     /*TODO*///opcode cmpy_di= new opcode() { public void handler()
@@ -2580,46 +2575,41 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	PCD=EAD;
     /*TODO*///	change_pc(PCD);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $9E LDX (LDY) direct -**0- */
-    /*TODO*///opcode ldx_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRWORD(pX);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(X);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $109E LDY direct -**0- */
-    /*TODO*///opcode ldy_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRWORD(pY);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(Y);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $9F STX (STY) direct -**0- */
-    /*TODO*///opcode stx_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(X);
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM16(EAD,&pX);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $109F STY direct -**0- */
-    /*TODO*///opcode sty_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(Y);
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM16(EAD,&pY);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____Ax____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///
+    
+    /* $9E LDX (LDY) direct -**0- */
+    opcode ldx_di= new opcode() { public void handler()
+    {
+        konami.x=DIRWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.x);
+    }};
+    
+    /* $109E LDY direct -**0- */
+    opcode ldy_di= new opcode() { public void handler()
+    {
+        konami.y=DIRWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.y);
+    }};
+    
+    /* $9F STX (STY) direct -**0- */
+    opcode stx_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.x);
+    	DIRECT();
+    	WM16(ea,konami.x);
+    }};
+    
+    /* $109F STY direct -**0- */
+    opcode sty_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.y);
+    	DIRECT();
+    	WM16(ea,konami.y);
+    }};
+
     /*TODO*////* $a0 SUBA indexed ?**** */
     /*TODO*///opcode suba_ix= new opcode() { public void handler()
     /*TODO*///{
@@ -2652,33 +2642,34 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $a3 SUBD (CMPD CMPU) indexed -**** */
-    /*TODO*///opcode subd_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	b.d=RM16(EAD);
-    /*TODO*///	d = D;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $10a3 CMPD indexed -**** */
-    /*TODO*///opcode cmpd_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	b.d=RM16(EAD);
-    /*TODO*///	d = D;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $11a3 CMPU indexed -**** */
+    
+    /* $a3 SUBD (CMPD CMPU) indexed -**** */
+    opcode subd_ix= new opcode() { public void handler()
+    {
+        int r,d;
+        int b;
+        b=RM16(ea);
+    	d = getDreg();
+    	r = d - b;
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    	setDreg(r);
+        
+    }};
+    
+    /* $10a3 CMPD indexed -**** */
+    opcode cmpd_ix= new opcode() { public void handler()
+    {
+        int r,d;
+        int b;
+        b=RM16(ea);
+    	d = getDreg();
+    	r = (d -  b); //& 0xFFFF; //should be unsinged?????
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    }};
+    
+    /* $11a3 CMPU indexed -**** */
     /*TODO*///opcode cmpu_ix= new opcode() { public void handler()
     /*TODO*///{
     /*TODO*///	UINT32 r;
@@ -2705,14 +2696,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $a6 LDA indexed -**0- */
-    /*TODO*///opcode lda_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	A = RM(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
+    
+    /* $a6 LDA indexed -**0- */
+    opcode lda_ix= new opcode() { public void handler()
+    {
+        konami.a = RM(ea);
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+    }};
     
     /* $a7 STA indexed -**0- */
     opcode sta_ix= new opcode() { public void handler()
@@ -2797,51 +2788,47 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $aD JSR indexed ----- */
-    /*TODO*///opcode jsr_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PCD=EAD;
-    /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $aE LDX (LDY) indexed -**0- */
-    /*TODO*///opcode ldx_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	X=RM16(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(X);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $10aE LDY indexed -**0- */
-    /*TODO*///opcode ldy_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	Y=RM16(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(Y);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $aF STX (STY) indexed -**0- */
-    /*TODO*///opcode stx_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(X);
-    /*TODO*///	WM16(EAD,&pX);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $10aF STY indexed -**0- */
-    /*TODO*///opcode sty_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(Y);
-    /*TODO*///	WM16(EAD,&pY);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____Bx____
-    /*TODO*///#endif
-    /*TODO*///
+    
+    /* $aD JSR indexed ----- */
+    opcode jsr_ix= new opcode() { public void handler()
+    {
+        PUSHWORD(konami.pc);
+    	konami.pc = ea;
+    	change_pc(konami.pc);
+    }};
+    
+    /* $aE LDX (LDY) indexed -**0- */
+    opcode ldx_ix= new opcode() { public void handler()
+    {
+        konami.x=RM16(ea);
+    	CLR_NZV();
+    	SET_NZ16(konami.x);
+    }};
+    
+    /* $10aE LDY indexed -**0- */
+    opcode ldy_ix= new opcode() { public void handler()
+    {
+        konami.y=RM16(ea);
+    	CLR_NZV();
+    	SET_NZ16(konami.y);    
+    }};
+    
+    /* $aF STX (STY) indexed -**0- */
+    opcode stx_ix= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.x);
+    	WM16(ea,konami.x);
+    }};
+    
+    /* $10aF STY indexed -**0- */
+    opcode sty_ix= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.y);
+    	WM16(ea,konami.y);  
+    }};
+
     /*TODO*////* $b0 SUBA extended ?**** */
     /*TODO*///opcode suba_ex= new opcode() { public void handler()
     /*TODO*///{
@@ -3074,27 +3061,29 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///#if macintosh
     /*TODO*///#pragma mark ____Cx____
     /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $c0 SUBB immediate ?**** */
-    /*TODO*///opcode subb_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = B - t;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	B = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $c1 CMPB immediate ?**** */
-    /*TODO*///opcode cmpb_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = B - t;
-    /*TODO*///	CLR_NZVC; SET_FLAGS8(B,t,r);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $c0 SUBB immediate ?**** */
+    opcode subb_im= new opcode() { public void handler()
+    {
+        int t,r;
+        t=IMMBYTE();
+    	r = konami.b - t & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.b,t,r);
+    	konami.b = r & 0xFF;
+
+    }};
+    
+    /* $c1 CMPB immediate ?**** */
+    opcode cmpb_im= new opcode() { public void handler()
+    {
+       int t,r;
+       t=IMMBYTE();
+       r = (konami.b - t) & 0xFFFF;
+       CLR_NZVC();
+       SET_FLAGS8(konami.b,t,r);
+    }};
+    
     /*TODO*////* $c2 SBCB immediate ?**** */
     /*TODO*///opcode sbcb_im= new opcode() { public void handler()
     /*TODO*///{
@@ -3118,27 +3107,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS16(d,b.d,r);
     /*TODO*///	D = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $c4 ANDB immediate -**0- */
-    /*TODO*///opcode andb_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	B &= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $c5 BITB immediate -**0- */
-    /*TODO*///opcode bitb_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = B & t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $c4 ANDB immediate -**0- */
+    opcode andb_im= new opcode() { public void handler()
+    {
+        int t=IMMBYTE();
+    	konami.b &= t;//should be unsigned?
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
+    /* $c5 BITB immediate -**0- */
+    opcode bitb_im= new opcode() { public void handler()
+    {
+        int t,r;
+        t=IMMBYTE();
+    	r = konami.b & t;
+       	CLR_NZV();
+    	SET_NZ8(r);
+    }};
+    
     /* $c6 LDB immediate -**0- */
     opcode ldb_im= new opcode() { public void handler()
     {
@@ -3293,30 +3281,28 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	B = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $d3 ADDD direct -**** */
-    /*TODO*///opcode addd_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	DIRWORD(b);
-    /*TODO*///	d = D;
-    /*TODO*///	r = d + b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $d4 ANDB direct -**0- */
-    /*TODO*///opcode andb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	B &= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $d3 ADDD direct -**** */
+    opcode addd_di= new opcode() { public void handler()
+    {
+        int r,d;
+        int b=DIRWORD();
+    	d = getDreg();
+    	r = d + b;
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+    	setDreg(r);
+    }};
+    
+    /* $d4 ANDB direct -**0- */
+    opcode andb_di= new opcode() { public void handler()
+    {
+        int t=DIRBYTE();
+    	konami.b &= t; //TODO should be unsigned?
+        CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
     /*TODO*////* $d5 BITB direct -**0- */
     /*TODO*///opcode bitb_di= new opcode() { public void handler()
     /*TODO*///{
@@ -3326,34 +3312,33 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $d6 LDB direct -**0- */
-    /*TODO*///opcode ldb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRBYTE(B);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $d7 STB direct -**0- */
-    /*TODO*///opcode stb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM(EAD,B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $d8 EORB direct -**0- */
-    /*TODO*///opcode eorb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	B ^= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $d6 LDB direct -**0- */
+    opcode ldb_di= new opcode() { public void handler()
+    {
+        konami.b=DIRBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
+    /* $d7 STB direct -**0- */
+    opcode stb_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.b);
+    	DIRECT();
+    	WM(ea,konami.b);
+    }};
+    
+    /* $d8 EORB direct -**0- */
+    opcode eorb_di= new opcode() { public void handler()
+    {
+        int t=DIRBYTE();
+    	konami.b ^= t;
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
     /*TODO*////* $d9 ADCB direct ***** */
     /*TODO*///opcode adcb_di= new opcode() { public void handler()
     /*TODO*///{
@@ -3366,16 +3351,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	B = r;
     /*TODO*///}};
     /*TODO*///
-    /*TODO*////* $dA ORB direct -**0- */
-    /*TODO*///opcode orb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	B |= t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
+    /* $dA ORB direct -**0- */
+    opcode orb_di= new opcode() { public void handler()
+    {
+        int t=	DIRBYTE();
+    	konami.b |= t;  //todo check if it should be unsigned
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
     /*TODO*////* $dB ADDB direct ***** */
     /*TODO*///opcode addb_di= new opcode() { public void handler()
     /*TODO*///{
@@ -3395,42 +3379,44 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(D);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $dD STD direct -**0- */
-    /*TODO*///opcode std_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(D);
-    /*TODO*///    DIRECT;
-    /*TODO*///	WM16(EAD,&pD);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $dE LDU (LDS) direct -**0- */
-    /*TODO*///opcode ldu_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRWORD(pU);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(U);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $10dE LDS direct -**0- */
-    /*TODO*///opcode lds_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	DIRWORD(pS);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	konami.int_state |= KONAMI_LDS;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $dF STU (STS) direct -**0- */
-    /*TODO*///opcode stu_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(U);
-    /*TODO*///	DIRECT;
-    /*TODO*///	WM16(EAD,&pU);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $dD STD direct -**0- */
+    opcode std_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+        int temp = getDreg();
+    	SET_NZ16(temp);
+        DIRECT();
+    	WM16(ea,temp);
+        
+    }};
+    
+    /* $dE LDU (LDS) direct -**0- */
+    opcode ldu_di= new opcode() { public void handler()
+    {
+        konami.u=DIRWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.u);
+    }};
+    
+    /* $10dE LDS direct -**0- */
+    opcode lds_di= new opcode() { public void handler()
+    {
+        konami.s=DIRWORD();
+        CLR_NZV();
+    	SET_NZ16(konami.s);
+    	konami.int_state |= KONAMI_LDS;
+    }};
+    
+    /* $dF STU (STS) direct -**0- */
+    opcode stu_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+   	SET_NZ16(konami.u);
+    	DIRECT();
+    	WM16(ea,konami.u);
+    }};
+    
     /*TODO*////* $10dF STS direct -**0- */
     /*TODO*///opcode sts_di= new opcode() { public void handler()
     /*TODO*///{
@@ -3497,32 +3483,32 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $e5 BITB indexed -**0- */
-    /*TODO*///opcode bitb_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 r;
-    /*TODO*///	r = B & RM(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $e6 LDB indexed -**0- */
-    /*TODO*///opcode ldb_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	B = RM(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $e7 STB indexed -**0- */
-    /*TODO*///opcode stb_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///	WM(EAD,B);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $e5 BITB indexed -**0- */
+    opcode bitb_ix= new opcode() { public void handler()
+    {
+        int r;
+        r = konami.b & RM(ea);
+    	CLR_NZV();
+    	SET_NZ8(r);
+    }};
+    
+    /* $e6 LDB indexed -**0- */
+    opcode ldb_ix= new opcode() { public void handler()
+    {
+        konami.b = RM(ea);
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
+    
+    /* $e7 STB indexed -**0- */
+    opcode stb_ix= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.b);
+    	WM(ea,konami.b);
+    }};
+    
     /*TODO*////* $e8 EORB indexed -**0- */
     /*TODO*///opcode eorb_ix= new opcode() { public void handler()
     /*TODO*///{
@@ -3550,59 +3536,62 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $eb ADDB indexed ***** */
-    /*TODO*///opcode addb_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	t = RM(EAD);
-    /*TODO*///	r = B + t;
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	SET_H(B,t,r);
-    /*TODO*///	B = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $ec LDD indexed -**0- */
-    /*TODO*///opcode ldd_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	D=RM16(EAD);
-    /*TODO*///	CLR_NZV; SET_NZ16(D);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $eD STD indexed -**0- */
-    /*TODO*///opcode std_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(D);
-    /*TODO*///	WM16(EAD,&pD);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $eE LDU (LDS) indexed -**0- */
-    /*TODO*///opcode ldu_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	U=RM16(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(U);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $10eE LDS indexed -**0- */
-    /*TODO*///opcode lds_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	S=RM16(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	konami.int_state |= KONAMI_LDS;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $eF STU (STS) indexed -**0- */
-    /*TODO*///opcode stu_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(U);
-    /*TODO*///	WM16(EAD,&pU);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $eb ADDB indexed ***** */
+    opcode addb_ix= new opcode() { public void handler()
+    {
+        int t,r;
+    	t = RM(ea);
+    	r = konami.b + t & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(konami.b,t,r);
+    	SET_H(konami.b,t,r);
+    	konami.b = r & 0xFF;
+    }};
+    
+    /* $ec LDD indexed -**0- */
+    opcode ldd_ix= new opcode() { public void handler()
+    {
+        int temp=RM16(ea);
+        setDreg(temp);
+    	CLR_NZV(); 
+        SET_NZ16(temp);
+    }};
+   
+   /* $eD STD indexed -**0- */
+   opcode std_ix= new opcode() { public void handler()
+   {
+        CLR_NZV();
+        int temp=getDreg();
+    	SET_NZ16(temp);
+    	WM16(ea,temp);
+   }};
+    
+    /* $eE LDU (LDS) indexed -**0- */
+    opcode ldu_ix= new opcode() { public void handler()
+    {
+        konami.u=RM16(ea);
+    	CLR_NZV();
+    	SET_NZ16(konami.u);
+    }};
+    
+    /* $10eE LDS indexed -**0- */
+    opcode lds_ix= new opcode() { public void handler()
+    {
+        konami.s=RM16(ea);
+    	CLR_NZV();
+    	SET_NZ16(konami.s);
+        konami.int_state |= KONAMI_LDS;
+    }};
+    
+    /* $eF STU (STS) indexed -**0- */
+    opcode stu_ix= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.u);
+    	WM16(ea,konami.u);
+    }};
+    
     /*TODO*////* $10eF STS indexed -**0- */
     /*TODO*///opcode sts_ix= new opcode() { public void handler()
     /*TODO*///{
@@ -3679,14 +3668,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $f6 LDB extended -**0- */
-    /*TODO*///opcode ldb_ex= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	EXTBYTE(B);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
+    
+    /* $f6 LDB extended -**0- */
+    opcode ldb_ex= new opcode() { public void handler()
+    {
+        konami.b=EXTBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
     
     /* $f7 STB extended -**0- */
     opcode stb_ex= new opcode() { public void handler()
@@ -3740,24 +3729,26 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
     /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $fC LDD extended -**0- */
-    /*TODO*///opcode ldd_ex= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	EXTWORD(pD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(D);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $fD STD extended -**0- */
-    /*TODO*///opcode std_ex= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(D);
-    /*TODO*///    EXTENDED;
-    /*TODO*///	WM16(EAD,&pD);
-    /*TODO*///}};
-    /*TODO*///
+    
+    /* $fC LDD extended -**0- */
+    opcode ldd_ex= new opcode() { public void handler()
+    {
+        int temp=EXTWORD();
+        setDreg(temp);
+    	CLR_NZV();
+    	SET_NZ16(temp);
+    }};
+    
+    /* $fD STD extended -**0- */
+    opcode std_ex= new opcode() { public void handler()
+    {
+        CLR_NZV();
+        int temp = getDreg();
+    	SET_NZ16(temp);
+        EXTENDED();
+    	WM16(ea,temp);
+    }};
+    
     /*TODO*////* $fE LDU (LDS) extended -**0- */
     /*TODO*///opcode ldu_ex= new opcode() { public void handler()
     /*TODO*///{
@@ -4731,17 +4722,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*/////	case 0x1e: EA=0; break; /* indirect - normal */
     /*TODO*/////	case 0x1f: EA=0; break; /* indirect - extended */
     /*TODO*///
-    /*TODO*////* base X */
-    /*TODO*///    case 0x20:              /* auto increment */
-    /*TODO*///		EA=X;
-    /*TODO*///		X++;
-    /*TODO*///        konami_ICount-=2;
-    /*TODO*///		break;
-    /*TODO*///	case 0x21:				/* double auto increment */
-    /*TODO*///		EA=X;
-    /*TODO*///		X+=2;
-    /*TODO*///        konami_ICount-=3;
-    /*TODO*///        break;
+    /* base X */
+        case 0x20:              /* auto increment */
+    		ea=konami.x;
+    		konami.x=konami.x + 1 & 0xFFFF;//X++;
+                konami_ICount[0]-=2;
+    		break;
+    	case 0x21:				/* double auto increment */
+    		ea=konami.x;
+    		konami.x=konami.x + 2 & 0xFFFF;
+                konami_ICount[0]-=3;
+                break;
     /*TODO*///	case 0x22:				/* auto decrement */
     /*TODO*///		X--;
     /*TODO*///		EA=X;
@@ -4757,14 +4748,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     		ea = konami.x + (byte)ea & 0xFFFF;//EA=X+SIGNED(EA);
                 konami_ICount[0]-=2;
     		break;
-    /*TODO*///	case 0x25:				/* postword offs */
-    /*TODO*///		IMMWORD(ea);
-    /*TODO*///		EA+=X;
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
-    /*TODO*///	case 0x26:				/* normal */
-    /*TODO*///		EA=X;
-    /*TODO*///		break;
+    	case 0x25:				/* postword offs */
+    		ea=IMMWORD();
+    		ea= ea + konami.x & 0xFFFF;//EA+=X;
+                konami_ICount[0]-=4;
+    		break;
+   	case 0x26:				/* normal */
+   		ea = konami.x;
+   		break;
     /*TODO*/////	case 0x27: EA=0; break; /* extended */
     /*TODO*///	case 0x28:				/* indirect - auto increment */
     /*TODO*///		EA=X;
@@ -4809,17 +4800,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		break;
     /*TODO*/////	case 0x2f: EA=0; break; /* indirect - extended */
     /*TODO*///
-    /*TODO*////* base Y */
-    /*TODO*///    case 0x30:              /* auto increment */
-    /*TODO*///		EA=Y;
-    /*TODO*///		Y++;
-    /*TODO*///        konami_ICount-=2;
-    /*TODO*///		break;
-    /*TODO*///	case 0x31:				/* double auto increment */
-    /*TODO*///		EA=Y;
-    /*TODO*///		Y+=2;
-    /*TODO*///        konami_ICount-=3;
-    /*TODO*///		break;
+    /* base Y */
+        case 0x30:              /* auto increment */
+                ea=konami.y;
+    		konami.y=konami.y+1 & 0xFFFF;//Y++;
+                konami_ICount[0]-=2;
+    		break;
+   	case 0x31:				/* double auto increment */
+   		ea=konami.y;
+    		konami.y=konami.y+2 & 0xFFFF;
+                konami_ICount[0]-=3;
+   		break;
     /*TODO*///	case 0x32:				/* auto decrement */
     /*TODO*///		Y--;
     /*TODO*///		EA=Y;
@@ -4840,9 +4831,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		EA+=Y;
     /*TODO*///        konami_ICount-=4;
     /*TODO*///		break;
-    /*TODO*///	case 0x36:				/* normal */
-    /*TODO*///		EA=Y;
-    /*TODO*///		break;
+    	case 0x36:				/* normal */
+    		ea=konami.y;
+    		break;
     /*TODO*/////	case 0x37: EA=0; break; /* extended */
     /*TODO*///	case 0x38:				/* indirect - auto increment */
     /*TODO*///		EA=Y;
@@ -4910,11 +4901,11 @@ public void EXTENDED(){ ea=IMMWORD();}
     		konami.u=konami.u+1 & 0xFFFF;//U++;
                 konami_ICount[0]-=2;
     		break;
-    /*TODO*///	case 0x51:				/* double auto increment */
-    /*TODO*///		EA=U;
-    /*TODO*///		U+=2;
-    /*TODO*///        konami_ICount-=3;
-    /*TODO*///		break;
+    	case 0x51:				/* double auto increment */
+    		ea=konami.u;
+    		konami.u=konami.u+2 & 0xFFFF;
+                konami_ICount[0]-=3;
+    		break;
     /*TODO*///	case 0x52:				/* auto decrement */
     /*TODO*///		U--;
     /*TODO*///		EA=U;
@@ -4925,19 +4916,19 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		EA=U;
     /*TODO*///        konami_ICount-=3;
     /*TODO*///		break;
-    /*TODO*///	case 0x54:				/* postbyte offs */
-    /*TODO*///		IMMBYTE(EA);
-    /*TODO*///		EA=U+SIGNED(EA);
-    /*TODO*///        konami_ICount-=2;
-    /*TODO*///		break;
+    	case 0x54:				/* postbyte offs */
+                ea=IMMBYTE();
+    		ea = konami.u + (byte)ea & 0xFFFF;//EA=U+SIGNED(EA);
+                konami_ICount[0]-=2;
+    		break;
     /*TODO*///	case 0x55:				/* postword offs */
     /*TODO*///		IMMWORD(ea);
     /*TODO*///		EA+=U;
     /*TODO*///        konami_ICount-=4;
     /*TODO*///		break;
-    /*TODO*///	case 0x56:				/* normal */
-    /*TODO*///		EA=U;
-    /*TODO*///		break;
+    	case 0x56:				/* normal */
+    		ea=konami.u;
+    		break;
     /*TODO*/////	case 0x57: EA=0; break; /* extended */
     /*TODO*///	case 0x58:				/* indirect - auto increment */
     /*TODO*///		EA=U;
@@ -4982,22 +4973,22 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		break;
     /*TODO*/////	case 0x5f: EA=0; break; /* indirect - extended */
     /*TODO*///
-    /*TODO*////* base S */
-    /*TODO*///    case 0x60:              /* auto increment */
-    /*TODO*///		EAD=SD;
-    /*TODO*///		S++;
-    /*TODO*///        konami_ICount-=2;
-    /*TODO*///		break;
+    /* base S */
+        case 0x60:              /* auto increment */
+    		ea = konami.s;
+    		konami.s = konami.s + 1 & 0xFFFF;
+                konami_ICount[0]-=2;
+    		break;
     /*TODO*///	case 0x61:				/* double auto increment */
     /*TODO*///		EAD=SD;
     /*TODO*///		S+=2;
     /*TODO*///        konami_ICount-=3;
     /*TODO*///		break;
-    /*TODO*///	case 0x62:				/* auto decrement */
-    /*TODO*///		S--;
-    /*TODO*///		EAD=SD;
-    /*TODO*///        konami_ICount-=2;
-    /*TODO*///		break;
+    	case 0x62:				/* auto decrement */
+    		konami.s = konami.s - 1 & 0xFFFF;
+    		ea=konami.s;
+                konami_ICount[0]-=2;
+    		break;
     /*TODO*///	case 0x63:				/* double auto decrement */
     /*TODO*///		S-=2;
     /*TODO*///		EAD=SD;
@@ -5170,14 +5161,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*/////	case 0x9d: EA=0; break; /* indirect - ???? */
     /*TODO*/////	case 0x9e: EA=0; break; /* indirect - register d */
     /*TODO*/////	case 0x9f: EA=0; break; /* indirect - ???? */
-    /*TODO*///	case 0xa0:				/* register a */
-    /*TODO*///		EA=X+SIGNED(A);
-    /*TODO*///        konami_ICount-=1;
-    /*TODO*///		break;
-    /*TODO*///	case 0xa1:				/* register b */
-    /*TODO*///		EA=X+SIGNED(B);
-    /*TODO*///        konami_ICount-=1;
-    /*TODO*///		break;
+    	case 0xa0:				/* register a */
+    		ea = konami.x + (byte)konami.a & 0xFFFF;//EA=X+SIGNED(A);
+                konami_ICount[0]-=1;
+    		break;
+    	case 0xa1:				/* register b */
+    		ea = konami.x + (byte)konami.b & 0xFFFF;//EA=X+SIGNED(B);
+                konami_ICount[0]-=1;
+    		break;
     /*TODO*/////	case 0xa2: EA=0; break; /* ???? */
     /*TODO*/////	case 0xa3: EA=0; break; /* ???? */
     /*TODO*/////	case 0xa4: EA=0; break; /* ???? */
@@ -5187,11 +5178,11 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		EA=X+D;
     /*TODO*///        konami_ICount-=4;
     /*TODO*///		break;
-    /*TODO*///	case 0xa8:				/* indirect - register a */
-    /*TODO*///		EA=X+SIGNED(A);
-    /*TODO*///		EA=RM16(EAD);
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
+    	case 0xa8:				/* indirect - register a */
+    		ea = konami.x + (byte)konami.a & 0xFFFF;//EA=X+SIGNED(A);
+    		ea=RM16(ea);
+                konami_ICount[0]-=4;
+    		break;
     /*TODO*///	case 0xa9:				/* indirect - register b */
     /*TODO*///		EA=X+SIGNED(B);
     /*TODO*///		EA=RM16(EAD);
@@ -5207,10 +5198,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		EA=RM16(EAD);
     /*TODO*///        konami_ICount-=7;
     /*TODO*///		break;
-    /*TODO*///	case 0xb0:				/* register a */
-    /*TODO*///		EA=Y+SIGNED(A);
-    /*TODO*///        konami_ICount-=1;
-    /*TODO*///		break;
+    	case 0xb0:				/* register a */
+    		ea = konami.y + (byte)konami.a & 0xFFFF;//EA=Y+SIGNED(A);
+                konami_ICount[0]-=1;
+    		break;
     /*TODO*///	case 0xb1:				/* register b */
     /*TODO*///		EA=Y+SIGNED(B);
     /*TODO*///        konami_ICount-=1;
@@ -5220,15 +5211,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*/////	case 0xb4: EA=0; break; /* ???? */
     /*TODO*/////	case 0xb5: EA=0; break; /* ???? */
     /*TODO*/////	case 0xb6: EA=0; break; /* ???? */
-    /*TODO*///	case 0xb7:				/* register d */
-    /*TODO*///		EA=Y+D;
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
-    /*TODO*///	case 0xb8:				/* indirect - register a */
-    /*TODO*///		EA=Y+SIGNED(A);
-    /*TODO*///		EA=RM16(EAD);
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
+    	case 0xb7:				/* register d */
+    		ea=konami.y+getDreg() & 0xFFFF;//EA=Y+D;
+                konami_ICount[0]-=4;
+    		break;
+    	case 0xb8:				/* indirect - register a */
+    		ea = konami.y + (byte)konami.a & 0xFFFF;//EA=Y+SIGNED(A);
+    		ea=RM16(ea);
+                konami_ICount[0]-=4;
+    		break;
     /*TODO*///	case 0xb9:				/* indirect - register b */
     /*TODO*///		EA=Y+SIGNED(B);
     /*TODO*///		EA=RM16(EAD);
@@ -5248,11 +5239,20 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*/////	case 0xc1: EA=0; break; /* register b */
     /*TODO*/////	case 0xc2: EA=0; break; /* ???? */
     /*TODO*/////	case 0xc3: EA=0; break; /* ???? */
-    /*TODO*///	case 0xc4:
-    /*TODO*///		EAD=0;
-    /*TODO*///		(*konami_direct[konami.ireg])();
-    /*TODO*///        konami_ICount -= 1;
-    /*TODO*///		return;
+    	case 0xc4:
+        {
+    		ea=0;
+                if(konami_direct[konami.ireg]!=null)
+                {
+                    konami_direct[konami.ireg].handler();//(*konami_direct[konami.ireg])();
+                }
+                else
+                {
+                    System.out.println("Unsupported konami_direct instruction 0x" + Integer.toHexString(konami.ireg));
+                }  		
+                konami_ICount[0] -= 1;
+    		return;
+        }
     /*TODO*/////	case 0xc5: EA=0; break; /* ???? */
     /*TODO*/////	case 0xc6: EA=0; break; /* ???? */
     /*TODO*/////	case 0xc7: EA=0; break; /* register d */
@@ -5280,10 +5280,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*/////	case 0xd4: EA=0; break; /* ???? */
     /*TODO*/////	case 0xd5: EA=0; break; /* ???? */
     /*TODO*/////	case 0xd6: EA=0; break; /* ???? */
-    /*TODO*///	case 0xd7:				/* register d */
-    /*TODO*///		EA=U+D;
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
+    	case 0xd7:				/* register d */
+    		ea=konami.u + getDreg() & 0xFFFF;//EA=U+D;
+                konami_ICount[0]-=4;
+    		break;
     /*TODO*///	case 0xd8:				/* indirect - register a */
     /*TODO*///		EA=U+SIGNED(A);
     /*TODO*///		EA=RM16(EAD);
@@ -5394,10 +5394,7 @@ public void EXTENDED(){ ea=IMMWORD();}
         }	
     }};
 
-    @Override
-    public void set_irq_line(int irqline, int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void exit() {
