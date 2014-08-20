@@ -1594,11 +1594,11 @@ public  class konamiic
                         }
                 }
         }
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051960_is_IRQ_enabled(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051960_irq_enabled;
-/*TODO*////*TODO*///}
+
+        public static int K051960_is_IRQ_enabled()
+        {
+                return K051960_irq_enabled;
+        }
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///int K051960_is_NMI_enabled(void)
 /*TODO*////*TODO*///{

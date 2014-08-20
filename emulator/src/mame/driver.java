@@ -112,6 +112,7 @@ import static drivers.rockrage.*;
 import static drivers.thunderx.*;
 import static drivers.spy.*;
 import static drivers.superpac.*;
+import static drivers.aliens.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -308,7 +309,10 @@ public class driver {
          * WIP section
          */
         
-
+        /*aliens*/driver_aliens,
+        /*aliens*/driver_aliens2,
+        /*aliens*/driver_aliensu,
+        /*aliens*/driver_aliensj,
         
         /*thunderx*/driver_scontra,
         /*thunderx*/driver_scontraj,
@@ -1921,10 +1925,7 @@ public class driver {
 /*TODO*/ //	DRIVER( bottom9n )	/* GX891 (c) 1989 */
 /*TODO*/ //	DRIVER( blockhl )	/* GX973 (c) 1989 */
 /*TODO*/ //	DRIVER( quarth )	/* GX973 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( aliens )	/* GX875 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( aliens2 )	/* GX875 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( aliensu )	/* GX875 (c) 1990 (US) */
-/*TODO*/ //	DRIVER( aliensj )	/* GX875 (c) 1990 (Japan) */
+
 /*TODO*/ //	DRIVER( surpratk )	/* GX911 (c) 1990 (Japan) */
 /*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */
 /*TODO*/ //	DRIVER( rollerg )	/* GX999 (c) 1991 (US) */
