@@ -2463,10 +2463,10 @@ public class m6809 extends cpu_interface
         int t,r;
     	t = m6809.b;
     	r = m6809.cc & CC_C;
-    	r = (r | t << 1) &0xFF;
+    	r = (r | t << 1) &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(t,t,r);
-    	m6809.b = r;
+    	m6809.b = r & 0xFF;
         if(m6809log!=null) fprintf(m6809log,"M6809#%d rolb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
     }
     /* $5A DECB inherent -***- */
