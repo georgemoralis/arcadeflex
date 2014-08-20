@@ -16,6 +16,8 @@ import static arcadeflex.libc_old.*;
 
 
 public class konami extends cpu_interface{
+    public static FILE konamilog=fopen("konami.log", "wa");  //for debug purposes
+    
     public static abstract interface konami_cpu_setlines_callbackPtr { public abstract void handler(int lines); }
     public int[] konami_ICount = new int[1];
     public static konami_cpu_setlines_callbackPtr konami_cpu_setlines_callback;
@@ -42,191 +44,9 @@ public class konami extends cpu_interface{
           
         //intialize interfaces
         burn = burn_function;
-        Setup_konamiMain_Tables();
-        Setup_konamiIndexed_Tables();
-        Setup_konamiDirect_Tables();
-        Setup_konamiExtended_Tables();
         
     }
-    opcode[] konami_main    = new opcode[256];
-    opcode[] konami_indexed = new opcode[256];
-    opcode[] konami_direct  = new opcode[256];
-    opcode[] konami_extended= new opcode[256];
-    
-    public void Setup_konamiMain_Tables()
-    {
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
-	konami_main[0x08]=opcode2;      konami_main[0x09]=opcode2;  konami_main[0x0a]=opcode2;  konami_main[0x0b]=opcode2;  
-        konami_main[0x0c]=pshs;  /*,pshu   ,*/konami_main[0x0e]=puls;   /*,pulu   ,*/
-        konami_main[0x10]=lda_im;       konami_main[0x11]=ldb_im;   konami_main[0x12]=opcode2;  konami_main[0x13]=opcode2;  
-        konami_main[0x14]=adda_im;  /*addb_im,*/                konami_main[0x16]=opcode2;  konami_main[0x17]=opcode2;	/* 10 */
-	konami_main[0x18]=adca_im;      /*,adcb_im,*/               konami_main[0x1a]=opcode2;  konami_main[0x1b]=opcode2;
-        konami_main[0x1c]=suba_im;      konami_main[0x1d]=subb_im;  konami_main[0x1e]=opcode2;  konami_main[0x1f]=opcode2;
-/*	sbca_im,sbcb_im,opcode2,opcode2,*/
-        konami_main[0x24]=anda_im;      konami_main[0x25]=andb_im;  konami_main[0x26]=opcode2;  konami_main[0x27]=opcode2;	/* 20 */
-        konami_main[0x28]=bita_im;      konami_main[0x29]=bitb_im;  konami_main[0x2a]=opcode2;  konami_main[0x2b]=opcode2;
-        konami_main[0x2c]=eora_im;      konami_main[0x2d]=eorb_im;  konami_main[0x2e]=opcode2;  konami_main[0x2f]=opcode2;
-	konami_main[0x30]=ora_im;       konami_main[0x31]=orb_im;   konami_main[0x32]=opcode2;  konami_main[0x33]=opcode2; 
-        konami_main[0x34]=cmpa_im;      konami_main[0x35]=cmpb_im;  konami_main[0x36]=opcode2;  konami_main[0x37]=opcode2;	/* 30 */
-	konami_main[0x38]=setline_im;   konami_main[0x39]=opcode2;  konami_main[0x3a]=opcode2;  konami_main[0x3b]=opcode2;
-        konami_main[0x3c]=andcc;        konami_main[0x3d]=orcc;     konami_main[0x3e]=exg;      konami_main[0x3f]=tfr;
-        konami_main[0x40]=ldd_im;       konami_main[0x41]=opcode2;  konami_main[0x42]=ldx_im;   konami_main[0x43]=opcode2;
-        konami_main[0x44]=ldy_im;       konami_main[0x45]=opcode2;  konami_main[0x46]=ldu_im;   konami_main[0x47]=opcode2;	/* 40 */
-	konami_main[0x48]=lds_im;       konami_main[0x49]=opcode2;  konami_main[0x4a]=cmpd_im;  konami_main[0x4b]=opcode2;
-        konami_main[0x4c]=cmpx_im;      konami_main[0x4d]=opcode2;  konami_main[0x4e]=cmpy_im;  konami_main[0x4f]=opcode2;
-	konami_main[0x50]=cmpu_im;      konami_main[0x51]=opcode2;/*cmps_im,opcode2,*/
-        konami_main[0x54]=addd_im;      konami_main[0x55]=opcode2;  konami_main[0x56]=subd_im;  konami_main[0x57]=opcode2;	/* 50 */
-	konami_main[0x58]=opcode2;      konami_main[0x59]=opcode2;  konami_main[0x5a]=opcode2;  konami_main[0x5b]=opcode2;
-        konami_main[0x5c]=opcode2;      konami_main[0x5d]=illegal;  konami_main[0x5e]=illegal;  konami_main[0x5f]=illegal;
-	konami_main[0x60]=bra;          konami_main[0x61]=bhi;      konami_main[0x62]=bcc;      konami_main[0x63]=bne;
-        konami_main[0x64]=bvc;          konami_main[0x65]=bpl;   /* ,bge    ,bgt    ,	/* 60 */
-        konami_main[0x68]=lbra;         /*,lbhi*/                   konami_main[0x6a]=lbcc;     konami_main[0x6b]=lbne;   
-        /*,lbvc   ,lbpl   ,lbge   ,lbgt   ,
-/*	brn*/ konami_main[0x71]=bls;konami_main[0x72]=bcs;    konami_main[0x73]=beq;    /*,bvs    ,*/konami_main[0x75]=bmi;    /*,blt    ,*/konami_main[0x77]=ble;	/* 70 */
-/*	lbrn   ,lbls   ,*/konami_main[0x7a]=lbcs;  konami_main[0x7b]=lbeq;   /*,lbvs   ,lbmi   ,lblt   ,lble   ,*/
-	konami_main[0x80]=clra;         konami_main[0x81]=clrb;     konami_main[0x82]=opcode2;  konami_main[0x83]=coma;
-        konami_main[0x84]=comb;         konami_main[0x85]=opcode2;  konami_main[0x86]=nega;     konami_main[0x87]=negb;	/* 80 */
-	konami_main[0x88]=opcode2;      konami_main[0x89]=inca;     konami_main[0x8a]=incb;     konami_main[0x8b]=opcode2;
-        konami_main[0x8c]=deca;         konami_main[0x8d]=decb;     konami_main[0x8e]=opcode2;  konami_main[0x8f]=rts;
-	konami_main[0x90]=tsta;         konami_main[0x91]=tstb;     konami_main[0x92]=opcode2;  konami_main[0x93]=lsra;   
-        konami_main[0x94]=lsrb;         konami_main[0x95]=opcode2;  konami_main[0x96]=rora;     konami_main[0x97]=rorb;	/* 90 */
-	konami_main[0x98]=opcode2;/*,asra   ,asrb   ,opcode2,*/
-        konami_main[0x9c]=asla;     konami_main[0x9d]=aslb;     konami_main[0x9e]=opcode2;  konami_main[0x9f]=rti;
-	konami_main[0xa0]=rola;   /*,rolb   ,opcode2,opcode2,opcode2,opcode2,opcode2,opcode2,	/* a0 */
-	konami_main[0xa8]=opcode2;  konami_main[0xa9]=opcode2;  konami_main[0xaa]=bsr;      konami_main[0xab]=lbsr;  
-        konami_main[0xac]=decbjnz;/*,decxjnz,*/konami_main[0xae]=nop;    konami_main[0xaf]=illegal;
-        konami_main[0xb0]=abx;          konami_main[0xb1]=daa;	   konami_main[0xb2]=sex;       konami_main[0xb3]=mul;   
-        /* ,lmul   ,divx   ,*/konami_main[0xb6]=bmove;  /*,move   ,	/* b0 */
-/*TODO*///	lsrd   ,opcode2,rord   ,opcode2,asrd   ,opcode2,asld   ,opcode2,
-/*	rold   ,opcode2,*/konami_main[0xc2]=clrd;   konami_main[0xc3]=opcode2; /*negd   ,opcode2,incd   ,opcode2,	/* c0 */
-/*	decd   ,opcode2,tstd   ,opcode2,absa   ,*/konami_main[0xcd]=absb;   /*,absd   ,*/konami_main[0xcf]=bset;
-	konami_main[0xd0]=bset2;    konami_main[0xd1]=illegal;     konami_main[0xd2]=illegal;   konami_main[0xd3]=illegal;
-        konami_main[0xd4]=illegal;  konami_main[0xd5]=illegal;     konami_main[0xd6]=illegal;   konami_main[0xd7]=illegal;	/* d0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
-    }
-    public void Setup_konamiIndexed_Tables()
-    {
- 	konami_indexed[0x00]=illegal;   konami_indexed[0x01]=illegal;   konami_indexed[0x02]=illegal;   konami_indexed[0x03]=illegal;
-        konami_indexed[0x04]=illegal;   konami_indexed[0x05]=illegal;   konami_indexed[0x06]=illegal;   konami_indexed[0x07]=illegal;	/* 00 */
-    	konami_indexed[0x08]=leax;      konami_indexed[0x09]=leay;      konami_indexed[0x0a]=leau;      konami_indexed[0x0b]=leas;
-        konami_indexed[0x0c]=illegal;   konami_indexed[0x0d]=illegal;   konami_indexed[0x0e]=illegal;   konami_indexed[0x0f]=illegal;
-	konami_indexed[0x10]=illegal;   konami_indexed[0x11]=illegal;   konami_indexed[0x12]=lda_ix;    konami_indexed[0x13]=ldb_ix;
-        konami_indexed[0x14]=illegal;   konami_indexed[0x15]=illegal;   konami_indexed[0x16]=adda_ix;   konami_indexed[0x17]=addb_ix;	/* 10 */
-/*	illegal,illegal,*/konami_indexed[0x1a]=adca_ix;/*adcb_ix,illegal,illegal,suba_ix,*/konami_indexed[0x1f]=subb_ix;
-/*	illegal,illegal,sbca_ix,sbcb_ix,illegal,illegal,*/konami_indexed[0x26]=anda_ix;/*andb_ix,	/* 20 */
-/*TODO*///	illegal,illegal,bita_ix,bitb_ix,illegal,illegal,eora_ix,eorb_ix,
-	konami_indexed[0x30]=illegal;   konami_indexed[0x31]=illegal;   konami_indexed[0x32]=ora_ix;    konami_indexed[0x33]=orb_ix; 
-        konami_indexed[0x34]=illegal;   konami_indexed[0x35]=illegal;   konami_indexed[0x36]=cmpa_ix; /*cmpb_ix,	/* 30 */
-/*	illegal,setline_ix,*/konami_indexed[0x3a]=sta_ix; konami_indexed[0x3b]=stb_ix;//,illegal,illegal,illegal,illegal,
-	konami_indexed[0x40]=illegal;   konami_indexed[0x41]=ldd_ix;    konami_indexed[0x42]=illegal;   konami_indexed[0x43]=ldx_ix;
-        konami_indexed[0x44]=illegal;   konami_indexed[0x45]=ldy_ix;    konami_indexed[0x46]=illegal;   konami_indexed[0x47]=ldu_ix;	/* 40 */
-/*	illegal,lds_ix ,illegal,*/konami_indexed[0x4b]=cmpd_ix; 
-        konami_indexed[0x4c]=illegal;   konami_indexed[0x4d]=cmpx_ix;   konami_indexed[0x4e]=illegal; //cmpy_ix,
-/*	illegal,cmpu_ix,illegal,cmps_ix,illegal,*/konami_indexed[0x55]=addd_ix; konami_indexed[0x56]=illegal; konami_indexed[0x57]=subd_ix;	/* 50 */
-	konami_indexed[0x58]=std_ix;    konami_indexed[0x59]=stx_ix;    konami_indexed[0x5a]=sty_ix;    konami_indexed[0x5b]=stu_ix;
-        /*,sts_ix ,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_indexed[0x82]=clr_ix; /*,illegal,illegal,com_ix ,illegal,illegal,	/* 80 */
-/*	neg_ix ,illegal,illegal,*/konami_indexed[0x8b]=inc_ix; /*,illegal,illegal,*/konami_indexed[0x8e]=dec_ix; konami_indexed[0x8f]=illegal;
-/*	illegal,illegal,*/konami_indexed[0x92]=tst_ix; /*,illegal,illegal,lsr_ix ,illegal,illegal,	/* 90 */
-	konami_indexed[0x98]=ror_ix;    konami_indexed[0x99]=illegal;   konami_indexed[0x9a]=illegal; //asr_ix ,illegal,illegal,asl_ix ,illegal,
-/*TODO*///	illegal,illegal,rol_ix ,lsrw_ix,rorw_ix,asrw_ix,aslw_ix,rolw_ix,	/* a0 */
-	konami_indexed[0xa8]=jmp_ix;    konami_indexed[0xa9]=jsr_ix; /*,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
-/*TODO*///	illegal,lsrd_ix,illegal,rord_ix,illegal,asrd_ix,illegal,asld_ix,
-/*	illegal,rold_ix,illegal,*/konami_indexed[0xc3]=clrw_ix; /*illegal,negw_ix,illegal,incw_ix,	/* c0 */
-/*TODO*///	illegal,decw_ix,illegal,tstw_ix,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal       
-    }
-    public void Setup_konamiDirect_Tables()
-    {
- /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_direct[0x12]=lda_di; konami_direct[0x13]=ldb_di; /*,illegal,illegal,*/konami_direct[0x16]=adda_di;/*,addb_di,	/* 10 */
-/*	illegal,illegal,adca_di,adcb_di,illegal,illegal,suba_di,*/konami_direct[0x1f]=subb_di;
-/*	illegal,illegal,sbca_di,sbcb_di,illegal,illegal,anda_di,*/konami_direct[0x27]=andb_di;	/* 20 */
-/*	illegal,illegal,bita_di,bitb_di,illegal,illegal,eora_di,*/konami_direct[0x2f]=eorb_di;
-	konami_direct[0x30]=illegal;    konami_direct[0x31]=illegal;    konami_direct[0x32]=ora_di;     konami_direct[0x33]=orb_di; 
-        konami_direct[0x34]=illegal;    konami_direct[0x35]=illegal;    konami_direct[0x36]=cmpa_di;    konami_direct[0x37]=cmpb_di;	/* 30 */
-	konami_direct[0x38]=illegal;    konami_direct[0x39]=setline_di; konami_direct[0x3a]=sta_di;     konami_direct[0x3b]=stb_di;
-        konami_direct[0x3c]=illegal;    konami_direct[0x3d]=illegal;    konami_direct[0x3e]=illegal;    konami_direct[0x3f]=illegal;
-	konami_direct[0x40]=illegal;    konami_direct[0x41]=ldd_di;     konami_direct[0x42]=illegal;    konami_direct[0x43]=ldx_di;
-        konami_direct[0x44]=illegal;    konami_direct[0x45]=ldy_di;     konami_direct[0x46]=illegal;    konami_direct[0x47]=ldu_di;	/* 40 */
-/*	illegal,lds_di ,illegal,*/ konami_direct[0x4b]=cmpd_di;/*illegal,*/konami_direct[0x4d]=cmpx_di;/*illegal,cmpy_di,*/
-/*	illegal,cmpu_di,illegal,cmps_di,illegal,*/konami_direct[0x55]=addd_di;/*,illegal,subd_di,	/* 50 */
-	konami_direct[0x58]=std_di; konami_direct[0x59]=stx_di;  konami_direct[0x5a]=sty_di; konami_direct[0x5b]=stu_di; //,sts_di ,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_direct[0x82]=clr_di;/* ,illegal,illegal,com_di ,illegal,illegal,	/* 80 */
-/*	neg_di ,illegal,illegal,*/konami_direct[0x8b]=inc_di; /*,illegal,illegal,*/konami_direct[0x8e]=dec_di; /*,illegal,*/
-	konami_direct[0x90]=illegal;    konami_direct[0x91]=illegal;    konami_direct[0x92]=tst_di;     konami_direct[0x93]=illegal; 
-        konami_direct[0x94]=illegal;/*lsr_di ,illegal,illegal,	/* 90 */
-/*TODO*///	ror_di ,illegal,illegal,asr_di ,illegal,illegal,asl_di ,illegal,
-/*TODO*///	illegal,illegal,rol_di ,lsrw_di,rorw_di,asrw_di,aslw_di,rolw_di,	/* a0 */
-/*TODO*///	jmp_di ,jsr_di ,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
-/*TODO*///	illegal,lsrd_di,illegal,rord_di,illegal,asrd_di,illegal,asld_di,
-/*	illegal,rold_di,illegal,*/konami_direct[0xc3]=clrw_di;/*,illegal,negw_di,illegal,incw_di,	/* c0 */
-/*TODO*///	illegal,decw_di,illegal,tstw_di,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal       
-    }
-    public void Setup_konamiExtended_Tables()
-    {
-        /*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_extended[0x12]=lda_ex; konami_extended[0x13]=ldb_ex; /*,illegal,illegal,*/konami_extended[0x16]=adda_ex;/*,addb_ex,	/* 10 */
-/*	illegal,illegal,adca_ex,adcb_ex,illegal,illegal,suba_ex,*/konami_extended[0x1f]=subb_ex;
-/*TODO*///	illegal,illegal,sbca_ex,sbcb_ex,illegal,illegal,anda_ex,andb_ex,	/* 20 */
-/*TODO*///	illegal,illegal,bita_ex,bitb_ex,illegal,illegal,eora_ex,eorb_ex,
-/*	illegal,illegal,ora_ex ,*/konami_extended[0x33]=orb_ex; /*,illegal,illegal,cmpa_ex,*/konami_extended[0x37]=cmpb_ex;	/* 30 */
-	/*illegal,setline_ex,*/konami_extended[0x3a]=sta_ex; konami_extended[0x3b]=stb_ex;/*,illegal,illegal,illegal,illegal,
-/*	illegal,*/konami_extended[0x41]=ldd_ex; /*,illegal,*/konami_extended[0x43]=ldx_ex;
-                konami_extended[0x44]=illegal;      konami_extended[0x45]=ldy_ex;   konami_extended[0x46]=illegal;  konami_extended[0x47]=ldu_ex;	/* 40 */
-/*	illegal,lds_ex ,illegal,*/konami_extended[0x4b]=cmpd_ex;    konami_extended[0x4c]=illegal; konami_extended[0x4d]=cmpx_ex;//illegal,cmpy_ex,
-/*	illegal,cmpu_ex,illegal,cmps_ex,illegal,*/konami_extended[0x55]=addd_ex; konami_extended[0x56]=illegal;konami_extended[0x57]=subd_ex;	/* 50 */
-                konami_extended[0x58]=std_ex;       konami_extended[0x59]=stx_ex;       konami_extended[0x5a]=sty_ex;   konami_extended[0x5b]=stu_ex;
-                /* ,sts_ex ,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*	illegal,illegal,*/konami_extended[0x82]=clr_ex; /*,illegal,illegal,com_ex ,illegal,illegal,	/* 80 */
-/*	neg_ex ,illegal,illegal,*/konami_extended[0x8b]=inc_ex; 
-                konami_extended[0x8c]=illegal; konami_extended[0x8d]=illegal; konami_extended[0x8e]=dec_ex; konami_extended[0x8f]=illegal;
-/*	illegal,illegal,*/konami_extended[0x92]=tst_ex; /*,illegal,illegal,lsr_ex ,illegal,illegal,	/* 90 */
-/*TODO*///	ror_ex ,illegal,illegal,asr_ex ,illegal,illegal,asl_ex ,illegal,
-/*TODO*///	illegal,illegal,rol_ex ,lsrw_ex,rorw_ex,asrw_ex,aslw_ex,rolw_ex,	/* a0 */
-                konami_extended[0xa8]=jmp_ex; konami_extended[0xa9]=jsr_ex; //,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
-/*TODO*///	illegal,lsrd_ex,illegal,rord_ex,illegal,asrd_ex,illegal,asld_ex,
-/*TODO*///	illegal,rold_ex,illegal,clrw_ex,illegal,negw_ex,illegal,incw_ex,	/* c0 */
-/*TODO*///	illegal,decw_ex,illegal,tstw_ex,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
-/*TODO*///	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
-    }
+ 
     /* Konami Registers */
     public static class konami_Regs
     {
@@ -1018,40 +838,33 @@ public void EXTENDED(){ ea=IMMWORD();}
    		fprintf(errorlog, "KONAMI: illegal opcode at %04x\n",konami.pc);
    }};
    
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____0x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $00 NEG direct ?**** */
-    /*TODO*///opcode neg_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $00 NEG direct ?**** */
+    opcode neg_di= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
     /*TODO*///	UINT16 r,t;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = -t;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(0,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $01 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $02 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $03 COM direct -**01 */
-    /*TODO*///opcode com_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	t = ~t;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(t);
-    /*TODO*///	SEC;
-    /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $04 LSR direct -0*-* */
-    /*TODO*///opcode lsr_di= new opcode() { public void handler()
-    /*TODO*///{
+    }};
+
+    /* $03 COM direct -**01 */
+    opcode com_di= new opcode() { public void handler()
+    {
+        int t=	DIRBYTE();
+    	t = (t^ 0xFFFFFFFF) & 0xFF;
+    	CLR_NZV();
+    	SET_NZ8(t);
+    	SEC();
+    	WM(ea,t);
+    }};
+    
+    /* $04 LSR direct -0*-* */
+    opcode lsr_di= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
     /*TODO*///	UINT8 t;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	CLR_NZC;
@@ -1059,13 +872,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t >>= 1;
     /*TODO*///	SET_Z8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $05 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $06 ROR direct -**-* */
-    /*TODO*///opcode ror_di= new opcode() { public void handler()
-    /*TODO*///{
+    }};
+
+    /* $06 ROR direct -**-* */
+    opcode ror_di= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
     /*TODO*///	UINT8 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r= (CC & CC_C) << 7;
@@ -1074,11 +886,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r |= t>>1;
     /*TODO*///	SET_NZ8(r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $07 ASR direct ?**-* */
-    /*TODO*///opcode asr_di= new opcode() { public void handler()
-    /*TODO*///{
+    }};
+    
+    /* $07 ASR direct ?**-* */
+    opcode asr_di= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
     /*TODO*///	UINT8 t;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	CLR_NZC;
@@ -1086,29 +899,34 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t = (t & 0x80) | (t >> 1);
     /*TODO*///	SET_NZ8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $08 ASL direct ?**** */
-    /*TODO*///opcode asl_di= new opcode() { public void handler()
-    /*TODO*///{
+    }};
+    
+    /* $08 ASL direct ?**** */
+    opcode asl_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = t << 1;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $09 ROL direct -**** */
-    /*TODO*///opcode rol_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	r = (CC & CC_C) | (t << 1);
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(t,t,r);
-    /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $09 ROL direct -**** */
+    opcode rol_di= new opcode() { public void handler()
+    {
+        if(konamilog!=null) fprintf(konamilog,"konami#%d rol_di_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+        int t,r;
+        t=DIRBYTE();
+    	r = (konami.cc & CC_C) | (t << 1);
+    	CLR_NZVC();
+   	SET_FLAGS8(t,t,r);
+    	WM(ea,r);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d rol_di_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
     
     /* $0A DEC direct -***- */
     opcode dec_di= new opcode() { public void handler()
@@ -1139,12 +957,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     }};
     
     /* $0E JMP direct ----- */
-    /*TODO*///opcode jmp_di= new opcode() { public void handler()
-    /*TODO*///{
+    opcode jmp_di= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    
     /*TODO*///    DIRECT;
     /*TODO*///	PCD=EAD;
     /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
+    }};
     
     /* $0F CLR direct -0100 */
     opcode clr_di= new opcode() { public void handler()
@@ -1162,9 +982,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	;
     }};
     
-    /*TODO*////* $13 SYNC inherent ----- */
-    /*TODO*///opcode sync= new opcode() { public void handler()
-    /*TODO*///{
+    /* $13 SYNC inherent ----- */
+    opcode sync= new opcode() { public void handler()
+    {
     /*TODO*///	/* SYNC stops processing instructions until an interrupt request happens. */
     /*TODO*///	/* This doesn't require the corresponding interrupt to be enabled: if it */
     /*TODO*///	/* is disabled, execution continues with the next instruction. */
@@ -1174,11 +994,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	 * stop execution until the interrupt lines change. */
     /*TODO*///	if( (konami.int_state & KONAMI_SYNC) && konami_ICount > 0 )
     /*TODO*///		konami_ICount = 0;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $14 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $15 ILLEGAL */
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+
     
     /* $16 LBRA relative ----- */
     opcode lbra= new opcode() { public void handler()
@@ -1204,6 +1022,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /* $19 DAA inherent (A) -**0* */
     opcode daa= new opcode() { public void handler()
     {
+        if(konamilog!=null) fprintf(konamilog,"konami#%d daa_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
         int/*UINT8*/ msn, lsn;
     	int/*UINT16*/ t, cf = 0;
     	msn = konami.a & 0xf0; 
@@ -1216,6 +1036,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(/*(UINT8)*/t & 0xFF); 
         SET_C8(t);
     	konami.a = t & 0xFF;
+        
+        if(konamilog!=null) fprintf(konamilog,"konami#%d daa_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
     }};
 
     
@@ -1338,18 +1161,19 @@ public void EXTENDED(){ ea=IMMWORD();}
 
     }};
     
-    /*TODO*////* $21 BRN relative ----- */
-    /*TODO*///opcode brn= new opcode() { public void handler()
-    /*TODO*///{
+    /* $21 BRN relative ----- */
+    opcode brn= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	IMMBYTE(t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1021 LBRN relative ----- */
-    /*TODO*///opcode lbrn= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    /* $1021 LBRN relative ----- */
+    opcode lbrn= new opcode() { public void handler()
+    {
     /*TODO*///	IMMWORD(ea);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $22 BHI relative ----- */
     opcode bhi= new opcode() { public void handler()
@@ -1430,22 +1254,25 @@ public void EXTENDED(){ ea=IMMWORD();}
     }};
     
     /* $1028 LBVC relative ----- */
-    /*TODO*///opcode lbvc= new opcode() { public void handler()
-    /*TODO*///{
+    opcode lbvc= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( !(CC&CC_V) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $29 BVS relative ----- */
-    /*TODO*///opcode bvs= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $29 BVS relative ----- */
+    opcode bvs= new opcode() { public void handler()
+    {
     /*TODO*///	BRANCH( (CC&CC_V) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $1029 LBVS relative ----- */
-    /*TODO*///opcode lbvs= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $1029 LBVS relative ----- */
+    opcode lbvs= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( (CC&CC_V) );
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $2A BPL relative ----- */
     opcode bpl= new opcode() { public void handler()
@@ -1470,59 +1297,62 @@ public void EXTENDED(){ ea=IMMWORD();}
     {
     	LBRANCH( (konami.cc&CC_N)!=0 );
     }};
-    /*TODO*///
-    /*TODO*////* $2C BGE relative ----- */
-    /*TODO*///opcode bge= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $2C BGE relative ----- */
+    opcode bge= new opcode() { public void handler()
+    {
     /*TODO*///	BRANCH( !NXORV );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $102C LBGE relative ----- */
-    /*TODO*///opcode lbge= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $102C LBGE relative ----- */
+    opcode lbge= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( !NXORV );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $2D BLT relative ----- */
-    /*TODO*///opcode blt= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $2D BLT relative ----- */
+    opcode blt= new opcode() { public void handler()
+    {
     /*TODO*///	BRANCH( NXORV );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $102D LBLT relative ----- */
-    /*TODO*///opcode lblt= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $102D LBLT relative ----- */
+    opcode lblt= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( NXORV );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $2E BGT relative ----- */
-    /*TODO*///opcode bgt= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $2E BGT relative ----- */
+    opcode bgt= new opcode() { public void handler()
+    {
     /*TODO*///	BRANCH( !(NXORV || (CC&CC_Z)) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $102E LBGT relative ----- */
-    /*TODO*///opcode lbgt= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $102E LBGT relative ----- */
+    opcode lbgt= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( !(NXORV || (CC&CC_Z)) );
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $2F BLE relative ----- */
     opcode ble= new opcode() { public void handler()
     {
         BRANCH( (NXORV()!=0 || (konami.cc&CC_Z)!=0) );
     }};
-    /*TODO*///
-    /*TODO*////* $102F LBLE relative ----- */
-    /*TODO*///opcode lble= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $102F LBLE relative ----- */
+    opcode lble= new opcode() { public void handler()
+    {
     /*TODO*///	LBRANCH( (NXORV || (CC&CC_Z)) );
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____3x____
-    /*TODO*///#endif
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+
     /* $30 LEAX indexed --*-- */
     opcode leax= new opcode() { public void handler()
     {
@@ -1585,8 +1415,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     }};
     
     /* $36 PSHU inherent ----- */
-    /*TODO*///opcode pshu= new opcode() { public void handler()
-    /*TODO*///{
+    opcode pshu= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	if( t&0x80 ) { PSHUWORD(pPC); konami_ICount -= 2; }};
@@ -1597,11 +1427,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	if( t&0x04 ) { PSHUBYTE(B);   konami_ICount -= 1; }};
     /*TODO*///	if( t&0x02 ) { PSHUBYTE(A);   konami_ICount -= 1; }};
     /*TODO*///	if( t&0x01 ) { PSHUBYTE(CC);  konami_ICount -= 1; }};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* 37 PULU inherent ----- */
-    /*TODO*///opcode pulu= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* 37 PULU inherent ----- */
+    opcode pulu= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	if( t&0x01 ) { PULUBYTE(CC); konami_ICount -= 1; }};
@@ -1612,10 +1443,11 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	if( t&0x20 ) { PULUWORD(YD); konami_ICount -= 2; }};
     /*TODO*///	if( t&0x40 ) { PULUWORD(SD); konami_ICount -= 2; }};
     /*TODO*///	if( t&0x80 ) { PULUWORD(PCD); change_pc(PCD); konami_ICount -= 2; }};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    
     /*TODO*///	/* check after all PULLs */
     /*TODO*///	if( t&0x01 ) { CHECK_IRQ_LINES; }};
-    /*TODO*///}};
+    }};
     
     /* $38 ILLEGAL */
     
@@ -1654,9 +1486,9 @@ public void EXTENDED(){ ea=IMMWORD();}
         
     }};
     
-    /*TODO*////* $3C CWAI inherent ----1 */
-    /*TODO*///opcode cwai= new opcode() { public void handler()
-    /*TODO*///{
+    /* $3C CWAI inherent ----1 */
+    opcode cwai= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	CC &= t;
@@ -1678,7 +1510,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CHECK_IRQ_LINES;
     /*TODO*///	if( (konami.int_state & KONAMI_CWAI) && konami_ICount > 0 )
     /*TODO*///		konami_ICount = 0;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $3D MUL inherent --*-@ */
     opcode mul= new opcode() { public void handler()
@@ -1691,12 +1524,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     	setDreg(t);
         
     }};
-    
-    /*TODO*////* $3E ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $3F SWI (SWI2 SWI3) absolute indirect ----- */
-    /*TODO*///opcode swi= new opcode() { public void handler()
-    /*TODO*///{
+
+    /* $3F SWI (SWI2 SWI3) absolute indirect ----- */
+    opcode swi= new opcode() { public void handler()
+    {
     /*TODO*///	CC |= CC_E; 			/* HJB 980225: save entire state */
     /*TODO*///	PUSHWORD(pPC);
     /*TODO*///	PUSHWORD(pU);
@@ -1709,11 +1540,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CC |= CC_IF | CC_II;	/* inhibit FIRQ and IRQ */
     /*TODO*///	PCD=RM16(0xfffa);
     /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $103F SWI2 absolute indirect ----- */
-    /*TODO*///opcode swi2= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $103F SWI2 absolute indirect ----- */
+    opcode swi2= new opcode() { public void handler()
+    {
     /*TODO*///	CC |= CC_E; 			/* HJB 980225: save entire state */
     /*TODO*///	PUSHWORD(pPC);
     /*TODO*///	PUSHWORD(pU);
@@ -1725,11 +1557,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///    PUSHBYTE(CC);
     /*TODO*///	PCD=RM16(0xfff4);
     /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $113F SWI3 absolute indirect ----- */
-    /*TODO*///opcode swi3= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $113F SWI3 absolute indirect ----- */
+    opcode swi3= new opcode() { public void handler()
+    {
     /*TODO*///	CC |= CC_E; 			/* HJB 980225: save entire state */
     /*TODO*///	PUSHWORD(pPC);
     /*TODO*///	PUSHWORD(pU);
@@ -1741,7 +1574,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///    PUSHBYTE(CC);
     /*TODO*///	PCD=RM16(0xfff2);
     /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
 
     /* $40 NEGA inherent ?**** */
     opcode nega= new opcode() { public void handler()
@@ -1783,15 +1617,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	konami.a = r&0xFF;
     }};
     
-    /*TODO*////* $47 ASRA inherent ?**-* */
-    /*TODO*///opcode asra= new opcode() { public void handler()
-    /*TODO*///{
+    /* $47 ASRA inherent ?**-* */
+    opcode asra= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZC;
     /*TODO*///	CC |= (A & CC_C);
     /*TODO*///	A = (A & 0x80) | (A >> 1);
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $48 ASLA inherent ?**** */
     opcode asla= new opcode() { public void handler()
     {
@@ -1885,14 +1720,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	konami.b = r&0xFF;
     }};
     
-    /*TODO*////* $57 ASRB inherent ?**-* */
-    /*TODO*///opcode asrb= new opcode() { public void handler()
-    /*TODO*///{
+    /* $57 ASRB inherent ?**-* */
+    opcode asrb= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZC;
     /*TODO*///	CC |= (B & CC_C);
     /*TODO*///	B= (B & 0x80) | (B >> 1);
     /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $58 ASLB inherent ?**** */
     opcode aslb= new opcode() { public void handler()
@@ -1904,16 +1740,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     }};
     
     /* $59 ROLB inherent -**** */
-    /*TODO*///opcode rolb= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	t = B;
-    /*TODO*///	r = CC & CC_C;
-    /*TODO*///	r |= t << 1;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(t,t,r);
-    /*TODO*///	B = r;
-    /*TODO*///}};
+    opcode rolb= new opcode() { public void handler()
+    {
+        int t,r;
+    	t = konami.b;
+    	r = konami.cc & CC_C;
+    	r = (r | t << 1) &0xFFFF; //recheck!
+    	CLR_NZVC();
+    	SET_FLAGS8(t,t,r);
+    	konami.b = r & 0xFF;
+    }};
     /* $5A DECB inherent -***- */
     opcode decb= new opcode() { public void handler()
     {
@@ -1945,51 +1781,43 @@ public void EXTENDED(){ ea=IMMWORD();}
         konami.b = 0;
     	CLR_NZVC(); SEZ();
     }};
-    
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____6x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $60 NEG indexed ?**** */
-    /*TODO*///opcode neg_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $60 NEG indexed ?**** */
+    opcode neg_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r,t;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = -t;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(0,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $61 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $62 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $63 COM indexed -**01 */
-    /*TODO*///opcode com_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $63 COM indexed -**01 */
+    opcode com_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	t = ~RM(EAD);
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(t);
     /*TODO*///	SEC;
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $64 LSR indexed -0*-* */
-    /*TODO*///opcode lsr_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $64 LSR indexed -0*-* */
+    opcode lsr_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	CLR_NZC;
     /*TODO*///	CC |= (t & CC_C);
     /*TODO*///	t>>=1; SET_Z8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $65 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $66 ROR indexed -**-* */
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $66 ROR indexed -**-* */
     opcode ror_ix= new opcode() { public void handler()
     {
         int t,r;
@@ -2002,9 +1830,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM(ea,r);
     }};
     
-    /*TODO*////* $67 ASR indexed ?**-* */
-    /*TODO*///opcode asr_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $67 ASR indexed ?**-* */
+    opcode asr_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	CLR_NZC;
@@ -2012,22 +1840,24 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t=(t&0x80)|(t>>=1);
     /*TODO*///	SET_NZ8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $68 ASL indexed ?**** */
-    /*TODO*///opcode asl_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $68 ASL indexed ?**** */
+    opcode asl_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = t << 1;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $69 ROL indexed -**** */
-    /*TODO*///opcode rol_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $69 ROL indexed -**** */
+    opcode rol_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = CC & CC_C;
@@ -2035,7 +1865,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $6A DEC indexed -***- */
     opcode dec_ix= new opcode() { public void handler()
@@ -2080,80 +1911,79 @@ public void EXTENDED(){ ea=IMMWORD();}
         SEZ();
     }};
     
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____7x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $70 NEG extended ?**** */
-    /*TODO*///opcode neg_ex= new opcode() { public void handler()
-    /*TODO*///{
+
+    /* $70 NEG extended ?**** */
+    opcode neg_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r,t;
     /*TODO*///	EXTBYTE(t); r=-t;
     /*TODO*///	CLR_NZVC; SET_FLAGS8(0,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $71 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $72 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $73 COM extended -**01 */
-    /*TODO*///opcode com_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    /* $73 COM extended -**01 */
+    opcode com_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t); t = ~t;
     /*TODO*///	CLR_NZV; SET_NZ8(t); SEC;
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $74 LSR extended -0*-* */
-    /*TODO*///opcode lsr_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $74 LSR extended -0*-* */
+    opcode lsr_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t); CLR_NZC; CC |= (t & CC_C);
     /*TODO*///	t>>=1; SET_Z8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $75 ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $76 ROR extended -**-* */
-    /*TODO*///opcode ror_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $75 ILLEGAL */
+    
+    /* $76 ROR extended -**-* */
+    opcode ror_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t,r;
     /*TODO*///	EXTBYTE(t); r=(CC & CC_C) << 7;
     /*TODO*///	CLR_NZC; CC |= (t & CC_C);
     /*TODO*///	r |= t>>1; SET_NZ8(r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $77 ASR extended ?**-* */
-    /*TODO*///opcode asr_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $77 ASR extended ?**-* */
+    opcode asr_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t); CLR_NZC; CC |= (t & CC_C);
     /*TODO*///	t=(t&0x80)|(t>>1);
     /*TODO*///	SET_NZ8(t);
     /*TODO*///	WM(EAD,t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $78 ASL extended ?**** */
-    /*TODO*///opcode asl_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $78 ASL extended ?**** */
+    opcode asl_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	EXTBYTE(t); r=t<<1;
     /*TODO*///	CLR_NZVC; SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $79 ROL extended -**** */
-    /*TODO*///opcode rol_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $79 ROL extended -**** */
+    opcode rol_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	EXTBYTE(t); r = (CC & CC_C) | (t << 1);
     /*TODO*///	CLR_NZVC; SET_FLAGS8(t,t,r);
     /*TODO*///	WM(EAD,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $7A DEC extended -***- */
     opcode dec_ex= new opcode() { public void handler()
@@ -2223,17 +2053,18 @@ public void EXTENDED(){ ea=IMMWORD();}
        SET_FLAGS8(konami.a,t,r);
     }};
     
-    /*TODO*////* $82 SBCA immediate ?**** */
-    /*TODO*///opcode sbca_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* $82 SBCA immediate ?**** */
+    opcode sbca_im= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	r = A - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $83 SUBD (CMPD CMPU) immediate -**** */
     opcode subd_im= new opcode() { public void handler()
     {
@@ -2297,14 +2128,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     
     /* is this a legal instruction? */
     /* $87 STA immediate -**0- */
-    /*TODO*///opcode sta_im= new opcode() { public void handler()
-    /*TODO*///{
+    opcode sta_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
     /*TODO*///	IMM8;
     /*TODO*///	WM(EAD,A);
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $88 EORA immediate -**0- */
     opcode eora_im= new opcode() { public void handler()
     {
@@ -2369,9 +2201,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS16(d,b,r);
     }};
     
-    /*TODO*////* $118C CMPS immediate -**** */
-    /*TODO*///opcode cmps_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* $118C CMPS immediate -**** */
+    opcode cmps_im= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	IMMWORD(b);
@@ -2379,7 +2211,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $8D BSR ----- */
     opcode bsr= new opcode() { public void handler()
@@ -2406,40 +2239,38 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ16(konami.y);
     }};
     
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $8F STX (STY) immediate -**0- */
-    /*TODO*///opcode stx_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* is this a legal instruction? */
+    /* $8F STX (STY) immediate -**0- */
+    opcode stx_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(X);
     /*TODO*///	IMM16;
     /*TODO*///	WM16(EAD,&pX);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $108F STY immediate -**0- */
-    /*TODO*///opcode sty_im= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* is this a legal instruction? */
+    /* $108F STY immediate -**0- */
+    opcode sty_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(Y);
     /*TODO*///	IMM16;
     /*TODO*///	WM16(EAD,&pY);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____9x____
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*////* $90 SUBA direct ?**** */
-    /*TODO*///opcode suba_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	r = A - t;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+
+    /* $90 SUBA direct ?**** */
+    opcode suba_di= new opcode() { public void handler()
+    {
+        int t,r;
+        t= DIRBYTE();
+    	r = konami.a - t & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.a,t,r);
+    	konami.a = r & 0xFF;
+    }};
     
     /* $91 CMPA direct ?**** */
     opcode cmpa_di= new opcode() { public void handler()
@@ -2451,29 +2282,29 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS8(konami.a,t,r);
     }};
     
-    /*TODO*////* $92 SBCA direct ?**** */
-    /*TODO*///opcode sbca_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $92 SBCA direct ?**** */
+    opcode sbca_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = A - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $93 SUBD (CMPD CMPU) direct -**** */
-    /*TODO*///opcode subd_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	DIRWORD(b);
-    /*TODO*///	d = D;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///	D = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $93 SUBD (CMPD CMPU) direct -**** */
+    opcode subd_di= new opcode() { public void handler()
+    {
+        int r,d;
+        int b=DIRWORD();
+    	d = getDreg();
+    	r = d - b;
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+   	setDreg(r);
+    }};
     
     /* $1093 CMPD direct -**** */
     opcode cmpd_di= new opcode() { public void handler()
@@ -2487,37 +2318,38 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS16(d,b,r);
     }};
     
-    /*TODO*////* $1193 CMPU direct -**** */
-    /*TODO*///opcode cmpu_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	DIRWORD(b);
-    /*TODO*///	d = U;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(U,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $94 ANDA direct -**0- */
-    /*TODO*///opcode anda_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $1193 CMPU direct -**** */
+    opcode cmpu_di= new opcode() { public void handler()
+    {
+        int r,d;
+    	int b=DIRWORD();
+    	d = konami.u;
+    	r = d - b;
+    	CLR_NZVC();
+    	SET_FLAGS16(konami.u,b,r);
+    }};
+    
+    /* $94 ANDA direct -**0- */
+    opcode anda_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	A &= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $95 BITA direct -**0- */
-    /*TODO*///opcode bita_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $95 BITA direct -**0- */
+    opcode bita_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = A & t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $96 LDA direct -**0- */
     opcode lda_di= new opcode() { public void handler()
@@ -2535,20 +2367,21 @@ public void EXTENDED(){ ea=IMMWORD();}
     	DIRECT();
     	WM(ea,konami.a);
     }};
-    /*TODO*///
-    /*TODO*////* $98 EORA direct -**0- */
-    /*TODO*///opcode eora_di= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $98 EORA direct -**0- */
+    opcode eora_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	A ^= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $99 ADCA direct ***** */
-    /*TODO*///opcode adca_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $99 ADCA direct ***** */
+    opcode adca_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = A + t + (CC & CC_C);
@@ -2556,7 +2389,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	SET_H(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $9A ORA direct -**0- */
     opcode ora_di= new opcode() { public void handler()
@@ -2589,10 +2423,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     }};
-    /*TODO*///
-    /*TODO*////* $109C CMPY direct -**** */
-    /*TODO*///opcode cmpy_di= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $109C CMPY direct -**** */
+    opcode cmpy_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	DIRWORD(b);
@@ -2600,11 +2434,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $119C CMPS direct -**** */
-    /*TODO*///opcode cmps_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $119C CMPS direct -**** */
+    opcode cmps_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	DIRWORD(b);
@@ -2612,16 +2447,18 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $9D JSR direct ----- */
-    /*TODO*///opcode jsr_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $9D JSR direct ----- */
+    opcode jsr_di= new opcode() { public void handler()
+    {
     /*TODO*///	DIRECT;
     /*TODO*///	PUSHWORD(pPC);
     /*TODO*///	PCD=EAD;
     /*TODO*///	change_pc(PCD);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $9E LDX (LDY) direct -**0- */
     opcode ldx_di= new opcode() { public void handler()
@@ -2657,16 +2494,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM16(ea,konami.y);
     }};
 
-    /*TODO*////* $a0 SUBA indexed ?**** */
-    /*TODO*///opcode suba_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	t = RM(EAD);
-    /*TODO*///	r = A - t;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///	A = r;
-    /*TODO*///}};
+    /* $a0 SUBA indexed ?**** */
+    opcode suba_ix= new opcode() { public void handler()
+    {
+        int t,r;
+    	t = RM(ea);
+    	r = konami.a - t & 0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.a,t,r);
+    	konami.a = r & 0xFF;
+    }};
     
     /* $a1 CMPA indexed ?**** */
     opcode cmpa_ix= new opcode() { public void handler()
@@ -2679,16 +2516,17 @@ public void EXTENDED(){ ea=IMMWORD();}
         
     }};
     
-    /*TODO*////* $a2 SBCA indexed ?**** */
-    /*TODO*///opcode sbca_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $a2 SBCA indexed ?**** */
+    opcode sbca_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = A - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $a3 SUBD (CMPD CMPU) indexed -**** */
     opcode subd_ix= new opcode() { public void handler()
@@ -2717,15 +2555,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     }};
     
     /* $11a3 CMPU indexed -**** */
-    /*TODO*///opcode cmpu_ix= new opcode() { public void handler()
-    /*TODO*///{
+    opcode cmpu_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r;
     /*TODO*///	PAIR b;
     /*TODO*///	b.d=RM16(EAD);
     /*TODO*///	r = U - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(U,b.d,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $a4 ANDA indexed -**0- */
     opcode anda_ix= new opcode() { public void handler()
@@ -2735,14 +2574,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.a);
     }};
     
-    /*TODO*////* $a5 BITA indexed -**0- */
-    /*TODO*///opcode bita_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 r;
-    /*TODO*///	r = A & RM(EAD);
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
+    /* $a5 BITA indexed -**0- */
+    opcode bita_ix= new opcode() { public void handler()
+    {
+        /*UINT8*/int r;
+    	r = konami.a & RM(ea); //& 0xFF; ?? recheck!
+    	CLR_NZV();
+    	SET_NZ8(r);
+        
+    }};
     
     /* $a6 LDA indexed -**0- */
     opcode lda_ix= new opcode() { public void handler()
@@ -2760,13 +2600,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM(ea,konami.a);
     }};
     
-    /*TODO*////* $a8 EORA indexed -**0- */
-    /*TODO*///opcode eora_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $a8 EORA indexed -**0- */
+    opcode eora_ix= new opcode() { public void handler()
+    {
     /*TODO*///	A ^= RM(EAD);
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $a9 ADCA indexed ***** */
     opcode adca_ix= new opcode() { public void handler()
@@ -2811,10 +2652,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     }};
-    /*TODO*///
-    /*TODO*////* $10aC CMPY indexed -**** */
-    /*TODO*///opcode cmpy_ix= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $10aC CMPY indexed -**** */
+    opcode cmpy_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	b.d=RM16(EAD);
@@ -2822,11 +2663,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $11aC CMPS indexed -**** */
-    /*TODO*///opcode cmps_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $11aC CMPS indexed -**** */
+    opcode cmps_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	b.d=RM16(EAD);
@@ -2834,7 +2676,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $aD JSR indexed ----- */
     opcode jsr_ix= new opcode() { public void handler()
@@ -2876,37 +2719,40 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM16(ea,konami.y);  
     }};
 
-    /*TODO*////* $b0 SUBA extended ?**** */
-    /*TODO*///opcode suba_ex= new opcode() { public void handler()
-    /*TODO*///{
+    /* $b0 SUBA extended ?**** */
+    opcode suba_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = A - t;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $b1 CMPA extended ?**** */
-    /*TODO*///opcode cmpa_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $b1 CMPA extended ?**** */
+    opcode cmpa_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = A - t;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $b2 SBCA extended ?**** */
-    /*TODO*///opcode sbca_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $b2 SBCA extended ?**** */
+    opcode sbca_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = A - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $b3 SUBD (CMPD CMPU) extended -**** */
     opcode subd_ex= new opcode() { public void handler()
@@ -2930,10 +2776,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     }};
-    /*TODO*///
-    /*TODO*////* $11b3 CMPU extended -**** */
-    /*TODO*///opcode cmpu_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $11b3 CMPU extended -**** */
+    opcode cmpu_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	EXTWORD(b);
@@ -2941,27 +2787,30 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $b4 ANDA extended -**0- */
-    /*TODO*///opcode anda_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $b4 ANDA extended -**0- */
+    opcode anda_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	A &= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $b5 BITA extended -**0- */
-    /*TODO*///opcode bita_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $b5 BITA extended -**0- */
+    opcode bita_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = A & t;
     /*TODO*///	CLR_NZV; SET_NZ8(r);
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $b6 LDA extended -**0- */
     opcode lda_ex= new opcode() { public void handler()
     {
@@ -2978,20 +2827,21 @@ public void EXTENDED(){ ea=IMMWORD();}
     	EXTENDED();
     	WM(ea,konami.a);
     }};
-    /*TODO*///
-    /*TODO*////* $b8 EORA extended -**0- */
-    /*TODO*///opcode eora_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $b8 EORA extended -**0- */
+    opcode eora_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	A ^= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $b9 ADCA extended ***** */
-    /*TODO*///opcode adca_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $b9 ADCA extended ***** */
+    opcode adca_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = A + t + (CC & CC_C);
@@ -2999,17 +2849,19 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(A,t,r);
     /*TODO*///	SET_H(A,t,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $bA ORA extended -**0- */
-    /*TODO*///opcode ora_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $bA ORA extended -**0- */
+    opcode ora_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	A |= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(A);
-    /*TODO*///}};
+            throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $bB ADDA extended ***** */
     opcode adda_ex= new opcode() { public void handler()
@@ -3034,9 +2886,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS16(d,b,r);
     }};
     
-    /*TODO*////* $10bC CMPY extended -**** */
-    /*TODO*///opcode cmpy_ex= new opcode() { public void handler()
-    /*TODO*///{
+    /* $10bC CMPY extended -**** */
+    opcode cmpy_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	EXTWORD(b);
@@ -3044,11 +2896,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $11bC CMPS extended -**** */
-    /*TODO*///opcode cmps_ex= new opcode() { public void handler()
-    /*TODO*///{
+throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $11bC CMPS extended -**** */
+    opcode cmps_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r,d;
     /*TODO*///	PAIR b;
     /*TODO*///	EXTWORD(b);
@@ -3056,8 +2909,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r = d - b.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(d,b.d,r);
-    /*TODO*///}};
-    /*TODO*///
+throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $bD JSR extended ----- */
     opcode jsr_ex= new opcode() { public void handler()
     {
@@ -3124,16 +2978,17 @@ public void EXTENDED(){ ea=IMMWORD();}
        SET_FLAGS8(konami.b,t,r);
     }};
     
-    /*TODO*////* $c2 SBCB immediate ?**** */
-    /*TODO*///opcode sbcb_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* $c2 SBCB immediate ?**** */
+    opcode sbcb_im= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	r = B - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $c3 ADDD immediate -**** */
     opcode addd_im= new opcode() { public void handler()
@@ -3173,16 +3028,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZV();
     	SET_NZ8(konami.b);
     }};
-    /*TODO*///
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $c7 STB immediate -**0- */
-    /*TODO*///opcode stb_im= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* is this a legal instruction? */
+    /* $c7 STB immediate -**0- */
+    opcode stb_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
     /*TODO*///	IMM8;
     /*TODO*///	WM(EAD,B);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $c8 EORB immediate -**0- */
     opcode eorb_im= new opcode() { public void handler()
@@ -3193,9 +3049,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
     }};
     
-    /*TODO*////* $c9 ADCB immediate ***** */
-    /*TODO*///opcode adcb_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* $c9 ADCB immediate ***** */
+    opcode adcb_im= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	IMMBYTE(t);
     /*TODO*///	r = B + t + (CC & CC_C);
@@ -3203,7 +3059,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $cA ORB immediate -**0- */
     opcode orb_im= new opcode() { public void handler()
@@ -3214,17 +3071,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
     }};
     
-    /*TODO*////* $cB ADDB immediate ***** */
-    /*TODO*///opcode addb_im= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = B + t;
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	SET_H(B,t,r);
-    /*TODO*///	B = r;
-    /*TODO*///}};
+    /* $cB ADDB immediate ***** */
+    opcode addb_im= new opcode() { public void handler()
+    {
+        int t,r;
+        t=IMMBYTE();
+    	r = konami.b + t & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(konami.b,t,r);
+    	SET_H(konami.b,t,r);
+    	konami.b = r & 0xFF;    
+    }};
     /* $cC LDD immediate -**0- */
     opcode ldd_im= new opcode() { public void handler()
     {
@@ -3234,15 +3091,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ16(temp);
     }};
     
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $cD STD immediate -**0- */
-    /*TODO*///opcode std_im= new opcode() { public void handler()
-    /*TODO*///{
+    /* is this a legal instruction? */
+    /* $cD STD immediate -**0- */
+    opcode std_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(D);
     /*TODO*///    IMM16;
     /*TODO*///	WM16(EAD,&pD);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $cE LDU (LDS) immediate -**0- */
     opcode ldu_im= new opcode() { public void handler()
@@ -3261,26 +3119,28 @@ public void EXTENDED(){ ea=IMMWORD();}
     	konami.int_state |= KONAMI_LDS;        
 
     }};
-    /*TODO*///
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $cF STU (STS) immediate -**0- */
-    /*TODO*///opcode stu_im= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* is this a legal instruction? */
+    /* $cF STU (STS) immediate -**0- */
+    opcode stu_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(U);
     /*TODO*///    IMM16;
     /*TODO*///	WM16(EAD,&pU);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* is this a legal instruction? */
-    /*TODO*////* $10cF STS immediate -**0- */
-    /*TODO*///opcode sts_im= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* is this a legal instruction? */
+    /* $10cF STS immediate -**0- */
+    opcode sts_im= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(S);
     /*TODO*///    IMM16;
     /*TODO*///	WM16(EAD,&pS);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
 
     /* $d0 SUBB direct ?**** */
     opcode subb_di= new opcode() { public void handler()
@@ -3302,17 +3162,18 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SET_FLAGS8(konami.b,t,r);
     }};
-    /*TODO*///
-    /*TODO*////* $d2 SBCB direct ?**** */
-    /*TODO*///opcode sbcb_di= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $d2 SBCB direct ?**** */
+    opcode sbcb_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = B - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $d3 ADDD direct -**** */
     opcode addd_di= new opcode() { public void handler()
@@ -3335,15 +3196,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
     }};
     
-    /*TODO*////* $d5 BITB direct -**0- */
-    /*TODO*///opcode bitb_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $d5 BITB direct -**0- */
+    opcode bitb_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = B & t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $d6 LDB direct -**0- */
     opcode ldb_di= new opcode() { public void handler()
@@ -3371,9 +3233,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
     }};
     
-    /*TODO*////* $d9 ADCB direct ***** */
-    /*TODO*///opcode adcb_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $d9 ADCB direct ***** */
+    opcode adcb_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	DIRBYTE(t);
     /*TODO*///	r = B + t + (CC & CC_C);
@@ -3381,8 +3243,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* $dA ORB direct -**0- */
     opcode orb_di= new opcode() { public void handler()
     {
@@ -3392,17 +3255,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
     }};
     
-    /*TODO*////* $dB ADDB direct ***** */
-    /*TODO*///opcode addb_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	r = B + t;
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	SET_H(B,t,r);
-    /*TODO*///	B = r;
-    /*TODO*///}};
+    /* $dB ADDB direct ***** */
+    opcode addb_di= new opcode() { public void handler()
+    {
+        int t,r;
+        t=DIRBYTE();
+    	r = konami.b + t &0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(konami.b,t,r);
+    	SET_H(konami.b,t,r);
+    	konami.b = r & 0xFF;
+    }};
     
     /* $dC LDD direct -**0- */
     opcode ldd_di= new opcode() { public void handler()
@@ -3450,14 +3313,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM16(ea,konami.u);
     }};
     
-    /*TODO*////* $10dF STS direct -**0- */
-    /*TODO*///opcode sts_di= new opcode() { public void handler()
-    /*TODO*///{
+    /* $10dF STS direct -**0- */
+    opcode sts_di= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(S);
     /*TODO*///	DIRECT;
     /*TODO*///	WM16(EAD,&pS);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
  
     /* $e0 SUBB indexed ?**** */
@@ -3470,27 +3334,28 @@ public void EXTENDED(){ ea=IMMWORD();}
    	SET_FLAGS8(konami.b,t,r);
     	konami.b = r & 0xFF;      
     }};
-    /*TODO*///
-    /*TODO*////* $e1 CMPB indexed ?**** */
-    /*TODO*///opcode cmpb_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	t = RM(EAD);
-    /*TODO*///	r = B - t;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $e2 SBCB indexed ?**** */
-    /*TODO*///opcode sbcb_ix= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $e1 CMPB indexed ?**** */
+    opcode cmpb_ix= new opcode() { public void handler()
+    {
+        /*UINT16*/int t,r;
+    	t = RM(ea);
+    	r = (konami.b - t) &0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.b,t,r);
+    }};
+    
+    /* $e2 SBCB indexed ?**** */
+    opcode sbcb_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = B - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $e3 ADDD indexed -**** */
     opcode addd_ix= new opcode() { public void handler()
@@ -3505,13 +3370,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     	setDreg(r);
     }};
     
-    /*TODO*////* $e4 ANDB indexed -**0- */
-    /*TODO*///opcode andb_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $e4 ANDB indexed -**0- */
+    opcode andb_ix= new opcode() { public void handler()
+    {
     /*TODO*///	B &= RM(EAD);
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $e5 BITB indexed -**0- */
     opcode bitb_ix= new opcode() { public void handler()
@@ -3538,17 +3404,18 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM(ea,konami.b);
     }};
     
-    /*TODO*////* $e8 EORB indexed -**0- */
-    /*TODO*///opcode eorb_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $e8 EORB indexed -**0- */
+    opcode eorb_ix= new opcode() { public void handler()
+    {
     /*TODO*///	B ^= RM(EAD);
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $e9 ADCB indexed ***** */
-    /*TODO*///opcode adcb_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $e9 ADCB indexed ***** */
+    opcode adcb_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	t = RM(EAD);
     /*TODO*///	r = B + t + (CC & CC_C);
@@ -3556,7 +3423,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $eA ORB indexed -**0- */
     opcode orb_ix= new opcode() { public void handler()
@@ -3621,17 +3489,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM16(ea,konami.u);
     }};
     
-    /*TODO*////* $10eF STS indexed -**0- */
-    /*TODO*///opcode sts_ix= new opcode() { public void handler()
-    /*TODO*///{
+    /* $10eF STS indexed -**0- */
+    opcode sts_ix= new opcode() { public void handler()
+    {
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(S);
     /*TODO*///	WM16(EAD,&pS);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*///#if macintosh
-    /*TODO*///#pragma mark ____Fx____
-    /*TODO*///#endif
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+
     
     /* $f0 SUBB extended ?**** */
     opcode subb_ex= new opcode() { public void handler()
@@ -3654,16 +3520,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS8(konami.b,t,r);
     }};
     
-    /*TODO*////* $f2 SBCB extended ?**** */
-    /*TODO*///opcode sbcb_ex= new opcode() { public void handler()
-    /*TODO*///{
+    /* $f2 SBCB extended ?**** */
+    opcode sbcb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16	  t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = B - t - (CC & CC_C);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $f3 ADDD extended -**** */
     opcode addd_ex= new opcode() { public void handler()
@@ -3676,26 +3543,28 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
     }};
-    /*TODO*///
-    /*TODO*////* $f4 ANDB extended -**0- */
-    /*TODO*///opcode andb_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $f4 ANDB extended -**0- */
+    opcode andb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	B &= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $f5 BITB extended -**0- */
-    /*TODO*///opcode bitb_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $f5 BITB extended -**0- */
+    opcode bitb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = B & t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(r);
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $f6 LDB extended -**0- */
     opcode ldb_ex= new opcode() { public void handler()
@@ -3714,19 +3583,20 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM(ea,konami.b);
     }};
     
-    /*TODO*////* $f8 EORB extended -**0- */
-    /*TODO*///opcode eorb_ex= new opcode() { public void handler()
-    /*TODO*///{
+    /* $f8 EORB extended -**0- */
+    opcode eorb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	B ^= t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ8(B);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* $f9 ADCB extended ***** */
-    /*TODO*///opcode adcb_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* $f9 ADCB extended ***** */
+    opcode adcb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = B + t + (CC & CC_C);
@@ -3734,7 +3604,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $fA ORB extended -**0- */
     opcode orb_ex= new opcode() { public void handler()
@@ -3744,10 +3615,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZV();
     	SET_NZ8(konami.b);
     }};
-    /*TODO*///
-    /*TODO*////* $fB ADDB extended ***** */
-    /*TODO*///opcode addb_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* $fB ADDB extended ***** */
+    opcode addb_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t,r;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///	r = B + t;
@@ -3755,7 +3626,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	SET_FLAGS8(B,t,r);
     /*TODO*///	SET_H(B,t,r);
     /*TODO*///	B = r;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* $fC LDD extended -**0- */
     opcode ldd_ex= new opcode() { public void handler()
@@ -3818,16 +3690,17 @@ public void EXTENDED(){ ea=IMMWORD();}
     	if ( konami_cpu_setlines_callback!=null )
     		konami_cpu_setlines_callback.handler(t);
     }};
-    /*TODO*///
-    /*TODO*///opcode setline_ix= new opcode() { public void handler()
-    /*TODO*///{
+    
+    opcode setline_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	t = RM(EA);
     /*TODO*///
     /*TODO*///	if ( konami_cpu_setlines_callback )
     /*TODO*///		(*konami_cpu_setlines_callback)( t );
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     opcode setline_di= new opcode() { public void handler()
     {
     	/*UINT8 t;*/
@@ -3836,15 +3709,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	if ( konami_cpu_setlines_callback!=null )
     		konami_cpu_setlines_callback.handler(t);
     }};
-    /*TODO*///
-    /*TODO*///opcode setline_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    opcode setline_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///	EXTBYTE(t);
     /*TODO*///
     /*TODO*///	if ( konami_cpu_setlines_callback )
     /*TODO*///		(*konami_cpu_setlines_callback)( t );
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     opcode bmove= new opcode() { public void handler()//konami specific
     {
@@ -3859,9 +3733,9 @@ public void EXTENDED(){ ea=IMMWORD();}
     		konami_ICount[0] -= 2;
     	}
     }};
-    /*TODO*///
-    /*TODO*///opcode move= new opcode() { public void handler()
-    /*TODO*///{
+    
+    opcode move= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8	t;
     /*TODO*///
     /*TODO*///	t = RM(Y);
@@ -3869,7 +3743,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	Y++;
     /*TODO*///	X++;
     /*TODO*///	U--;
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* CLRD inherent -0100 */
     opcode clrd= new opcode() { public void handler()//konami specific
@@ -3901,35 +3776,43 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SEZ();
     }};
-    /*TODO*///
-    /*TODO*////* CLRW extended -0100 */
-    /*TODO*///opcode clrw_ex= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* CLRW extended -0100 */
+    opcode clrw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	t.d = 0;
     /*TODO*///	EXTENDED;
     /*TODO*///	WM16(EAD,&t);
     /*TODO*///	CLR_NZVC; SEZ;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRD immediate -0*-* */
-    /*TODO*///opcode lsrd= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT8 t;
-    /*TODO*///
-    /*TODO*///	IMMBYTE( t );
-    /*TODO*///
-    /*TODO*///	while ( t-- ) {
-    /*TODO*///		CLR_NZC;
-    /*TODO*///		CC |= (D & CC_C);
-    /*TODO*///		D >>= 1;
-    /*TODO*///		SET_Z16(D);
-    /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORD immediate -**-* */
-    /*TODO*///opcode rord= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* LSRD immediate -0*-* */
+    opcode lsrd= new opcode() { public void handler() //TODO recheck!
+    {
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lsrd_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    	/*UINT8 t;*/
+    
+    	int t = IMMBYTE( ) & 0xFF;
+    
+    	while (( t-- )!=0) {
+    		CLR_NZC();
+    		konami.cc |= (getDreg() & CC_C);
+                int tmp = getDreg();
+    		tmp >>=1;//D >>= 1;
+                setDreg(tmp);
+    		SET_Z16(tmp);
+    	}
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lsrd_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
+    
+    /* RORD immediate -**-* */
+    opcode rord= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -3943,11 +3826,11 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRD immediate ?**-* */
-    /*TODO*///opcode asrd= new opcode() { public void handler()
-    /*TODO*///{
+    }};
+    
+    /* ASRD immediate ?**-* */
+    opcode asrd= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	IMMBYTE(t);
@@ -3958,27 +3841,29 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D = (D & 0x8000) | (D >> 1);
     /*TODO*///		SET_NZ16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLD immediate ?**** */
-    /*TODO*///opcode asld= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32	r;
-    /*TODO*///	UINT8	t;
-    /*TODO*///
-    /*TODO*///	IMMBYTE( t );
-    /*TODO*///
-    /*TODO*///	while ( t-- ) {
-    /*TODO*///		r = D << 1;
-    /*TODO*///		CLR_NZVC;
-    /*TODO*///		SET_FLAGS16(D,D,r);
-    /*TODO*///		D = r;
-    /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLD immediate -**-* */
-    /*TODO*///opcode rold= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLD immediate ?**** */
+    opcode asld= new opcode() { public void handler()//todo recheck
+    {
+    	/*UINT32*/int	r;
+    	/*UINT8*/int	t;
+    
+    	t=IMMBYTE();
+    
+    	while (( t-- )!=0) {
+                int tmp = getDreg();
+    		r = tmp << 1;
+    		CLR_NZVC();
+    		SET_FLAGS16(tmp,tmp,r);
+    		setDreg(r);
+    	}
+    }};
+    
+    /* ROLD immediate -**-* */
+    opcode rold= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -3992,7 +3877,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     /* DECB,JNZ relative ----- */
     opcode decbjnz= new opcode() { public void handler()//konami specific
@@ -4002,15 +3888,16 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_FLAGS8D(konami.b);
     	BRANCH( (konami.cc&CC_Z)==0 );
     }};
-    /*TODO*///
-    /*TODO*////* DECX,JNZ relative ----- */
-    /*TODO*///opcode decxjnz= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* DECX,JNZ relative ----- */
+    opcode decxjnz= new opcode() { public void handler()
+    {
     /*TODO*///	--X;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_NZ16(X);	/* should affect V as well? */
     /*TODO*///	BRANCH( !(CC&CC_Z) );
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     opcode bset= new opcode() { public void handler()
     {
@@ -4034,20 +3921,22 @@ public void EXTENDED(){ ea=IMMWORD();}
     		konami_ICount[0] -= 3;
     	}
     }};
-    /*TODO*///
-    /*TODO*////* LMUL inherent --*-@ */
-    /*TODO*///opcode lmul= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 t;
-    /*TODO*///	t = X * Y;
-    /*TODO*///	X = (t >> 16);
-    /*TODO*///	Y = (t & 0xffff);
-    /*TODO*///	CLR_ZC; SET_Z(t); if( t & 0x8000 ) SEC;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* DIVX inherent --*-@ */
-    /*TODO*///opcode divx= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* LMUL inherent --*-@ */
+    opcode lmul= new opcode() { public void handler()
+    {
+    	/*UINT32*/ int t;
+    	t = konami.x * konami.y;
+    	konami.x = (t >> 16);
+    	konami.y = (t & 0xffff);
+    	CLR_ZC(); 
+        SET_Z(t);
+        if(( t & 0x8000 )!=0) SEC();
+    }};
+    
+    /* DIVX inherent --*-@ */
+    opcode divx= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 t;
     /*TODO*///	UINT8 r;
     /*TODO*///	if ( B != 0 )
@@ -4064,33 +3953,43 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_ZC; SET_Z16(t); if ( t & 0x80 ) SEC;
     /*TODO*///	X = t;
     /*TODO*///	B = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* INCD inherent -***- */
-    /*TODO*///opcode incd= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* INCD inherent -***- */
+    opcode incd= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r;
     /*TODO*///	r = D + 1;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_FLAGS16(D,D,r);
     /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* INCW direct -***- */
-    /*TODO*///opcode incw_di= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PAIR t,r;
-    /*TODO*///	DIRWORD(t);
-    /*TODO*///	r = t;
-    /*TODO*///	++r.d;
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_FLAGS16(t.d, t.d, r.d);;
-    /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* INCW indexed -***- */
-    /*TODO*///opcode incw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* INCW direct -***- */
+    opcode incw_di= new opcode() { public void handler()//konami specific recheck
+    {
+        int t,r;
+        t= DIRWORD();
+        r=t;
+        r=r+1;  //?? unsigned?
+        CLR_NZV();
+        SET_FLAGS16(t, t, r);
+    	WM16(ea,r);
+        /*
+    	PAIR t,r;
+    	DIRWORD(t);
+    	r = t;
+    	++r.d;
+    	CLR_NZV;
+    	SET_FLAGS16(t.d, t.d, r.d);;
+    	WM16(EAD,&r);*/
+    }};
+    
+    /* INCW indexed -***- */
+    opcode incw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	r = t;
@@ -4098,32 +3997,35 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_FLAGS16(t.d, t.d, r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* INCW extended -***- */
-    /*TODO*///opcode incw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* INCW extended -***- */
+    opcode incw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t, r;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r = t;
     /*TODO*///	++r.d;
     /*TODO*///	CLR_NZV; SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* DECD inherent -***- */
-    /*TODO*///opcode decd= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* DECD inherent -***- */
+    opcode decd= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32 r;
     /*TODO*///	r = D - 1;
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_FLAGS16(D,D,r);
     /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* DECW direct -***- */
-    /*TODO*///opcode decw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* DECW direct -***- */
+    opcode decw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	r = t;
@@ -4131,67 +4033,74 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZV;
     /*TODO*///	SET_FLAGS16(t.d, t.d, r.d);;
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* DECW indexed -***- */
-    /*TODO*///opcode decw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* DECW indexed -***- */
+    opcode decw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t, r;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	r = t;
     /*TODO*///	--r.d;
     /*TODO*///	CLR_NZV; SET_FLAGS16(t.d, t.d, r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* DECW extended -***- */
-    /*TODO*///opcode decw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* DECW extended -***- */
+    opcode decw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t, r;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r = t;
     /*TODO*///	--r.d;
     /*TODO*///	CLR_NZV; SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* TSTD inherent -**0- */
-    /*TODO*///opcode tstd= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	CLR_NZV;
-    /*TODO*///	SET_NZ16(D);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* TSTW direct -**0- */
-    /*TODO*///opcode tstw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* TSTD inherent -**0- */
+    opcode tstd= new opcode() { public void handler()
+    {
+    	CLR_NZV();
+        int tmp=getDreg();
+    	SET_NZ16(tmp);
+    }};
+    
+    /* TSTW direct -**0- */
+    opcode tstw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	SET_NZ16(t.d);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* TSTW indexed -**0- */
-    /*TODO*///opcode tstw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* TSTW indexed -**0- */
+    opcode tstw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	SET_NZ16(t.d);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* TSTW extended -**0- */
-    /*TODO*///opcode tstw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* TSTW extended -**0- */
+    opcode tstw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	CLR_NZV;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	SET_NZ16(t.d);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRW direct -0*-* */
-    /*TODO*///opcode lsrw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* LSRW direct -0*-* */
+    opcode lsrw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	CLR_NZC;
@@ -4199,23 +4108,32 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t.d >>= 1;
     /*TODO*///	SET_Z16(t.d);
     /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRW indexed -0*-* */
-    /*TODO*///opcode lsrw_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PAIR t;
-    /*TODO*///	t.d=RM16(EAD);
-    /*TODO*///	CLR_NZC;
-    /*TODO*///	CC |= (t.d & CC_C);
-    /*TODO*///	t.d >>= 1;
-    /*TODO*///	SET_Z16(t.d);
-    /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRW extended -0*-* */
-    /*TODO*///opcode lsrw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* LSRW indexed -0*-* */
+    opcode lsrw_ix= new opcode() { public void handler()
+    {
+        int t;
+        t= RM16(ea);
+        CLR_NZC();
+        konami.cc |= (t & CC_C);
+    	t >>= 1;
+    	SET_Z16(t);
+    	WM16(ea,t);
+                
+    	/*PAIR t;
+    	t.d=RM16(EAD);
+    	CLR_NZC;
+    	CC |= (t.d & CC_C);
+    	t.d >>= 1;
+    	SET_Z16(t.d);
+    	WM16(EAD,&t);*/
+    }};
+    
+    /* LSRW extended -0*-* */
+    opcode lsrw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	CLR_NZC;
@@ -4223,11 +4141,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t.d >>= 1;
     /*TODO*///	SET_Z16(t.d);
     /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORW direct -**-* */
-    /*TODO*///opcode rorw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORW direct -**-* */
+    opcode rorw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	r.d = (CC & CC_C) << 15;
@@ -4236,11 +4155,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r.d |= t.d>>1;
     /*TODO*///	SET_NZ16(r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORW indexed -**-* */
-    /*TODO*///opcode rorw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORW indexed -**-* */
+    opcode rorw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	r.d = (CC & CC_C) << 15;
@@ -4249,11 +4169,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r.d |= t.d>>1;
     /*TODO*///	SET_NZ16(r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORW extended -**-* */
-    /*TODO*///opcode rorw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORW extended -**-* */
+    opcode rorw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r.d = (CC & CC_C) << 15;
@@ -4262,11 +4183,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	r.d |= t.d>>1;
     /*TODO*///	SET_NZ16(r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRW direct ?**-* */
-    /*TODO*///opcode asrw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRW direct ?**-* */
+    opcode asrw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	CLR_NZC;
@@ -4274,11 +4196,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t.d = (t.d & 0x8000) | (t.d >> 1);
     /*TODO*///	SET_NZ16(t.d);
     /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRW indexed ?**-* */
-    /*TODO*///opcode asrw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRW indexed ?**-* */
+    opcode asrw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	CLR_NZC;
@@ -4286,11 +4209,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t.d = (t.d & 0x8000) | (t.d >> 1);
     /*TODO*///	SET_NZ16(t.d);
     /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRW extended ?**-* */
-    /*TODO*///opcode asrw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRW extended ?**-* */
+    opcode asrw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	CLR_NZC;
@@ -4298,120 +4222,141 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	t.d = (t.d & 0x8000) | (t.d >> 1);
     /*TODO*///	SET_NZ16(t.d);
     /*TODO*///	WM16(EAD,&t);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLW direct ?**** */
-    /*TODO*///opcode aslw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLW direct ?**** */
+    opcode aslw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	r.d = t.d << 1;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLW indexed ?**** */
-    /*TODO*///opcode aslw_ix= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	PAIR t,r;
-    /*TODO*///	t.d=RM16(EAD);
-    /*TODO*///	r.d = t.d << 1;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
-    /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLW extended ?**** */
-    /*TODO*///opcode aslw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLW indexed ?**** */
+    opcode aslw_ix= new opcode() { public void handler()
+    {
+        int t,r;
+        t= RM16(ea);
+        r = t << 1;
+    	CLR_NZVC();
+    	SET_FLAGS16(t,t,r);
+    	WM16(ea,r);
+        /*
+    	PAIR t,r;
+    	t.d=RM16(EAD);
+    	r.d = t.d << 1;
+    	CLR_NZVC;
+    	SET_FLAGS16(t.d,t.d,r.d);
+    	WM16(EAD,&r);*/
+    }};
+    
+    /* ASLW extended ?**** */
+    opcode aslw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r.d = t.d << 1;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLW direct -**** */
-    /*TODO*///opcode rolw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLW direct -**** */
+    opcode rolw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	r.d = (CC & CC_C) | (t.d << 1);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLW indexed -**** */
-    /*TODO*///opcode rolw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLW indexed -**** */
+    opcode rolw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	r.d = (CC & CC_C) | (t.d << 1);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLW extended -**** */
-    /*TODO*///opcode rolw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLW extended -**** */
+    opcode rolw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR t,r;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r.d = (CC & CC_C) | (t.d << 1);
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(t.d,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* NEGD inherent ?**** */
-    /*TODO*///opcode negd= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r;
-    /*TODO*///	r = -D;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(0,D,r);
-    /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* NEGW direct ?**** */
-    /*TODO*///opcode negw_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* NEGD inherent ?**** */
+    opcode negd= new opcode() { public void handler()//todo recheck!
+    {
+        if(konamilog!=null) fprintf(konamilog,"konami#%d negd_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    	int r;//UINT32 r;
+        int tmp = getDreg();
+    	r = -tmp;
+    	CLR_NZVC();
+    	SET_FLAGS16(0,tmp,r);
+    	setDreg(r);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d negd_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
+    
+    /* NEGW direct ?**** */
+    opcode negw_di= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR r,t;
     /*TODO*///	DIRWORD(t);
     /*TODO*///	r.d = -t.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(0,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* NEGW indexed ?**** */
-    /*TODO*///opcode negw_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* NEGW indexed ?**** */
+    opcode negw_ix= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR r,t;
     /*TODO*///	t.d=RM16(EAD);
     /*TODO*///	r.d = -t.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(0,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* NEGW extended ?**** */
-    /*TODO*///opcode negw_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* NEGW extended ?**** */
+    opcode negw_ex= new opcode() { public void handler()
+    {
     /*TODO*///	PAIR r,t;
     /*TODO*///	EXTWORD(t);
     /*TODO*///	r.d = -t.d;
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS16(0,t.d,r.d);
     /*TODO*///	WM16(EAD,&r);
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ABSA inherent ?**** */
-    /*TODO*///opcode absa= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ABSA inherent ?**** */
+    opcode absa= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	if (A & 0x80)
     /*TODO*///		r = -A;
@@ -4420,11 +4365,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///	CLR_NZVC;
     /*TODO*///	SET_FLAGS8(0,A,r);
     /*TODO*///	A = r;
-    /*TODO*///}};
-    /*TODO*///
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
     /* ABSB inherent ?**** */
     opcode absb= new opcode() { public void handler()//konami specific (to be rechecked)
     {
+        if(konamilog!=null) fprintf(konamilog,"konami#%d absb_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
     	/*UINT16*/ int r;
     	if ((konami.b & 0x80)!=0)
     		r = -konami.b;
@@ -4433,24 +4381,36 @@ public void EXTENDED(){ ea=IMMWORD();}
     	CLR_NZVC();
     	SET_FLAGS8(0,konami.b,r);
     	konami.b = r & 0xFF;
+        if(konamilog!=null) fprintf(konamilog,"konami#%d absb_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
     }};
-    /*TODO*///
-    /*TODO*////* ABSD inherent ?**** */
-    /*TODO*///opcode absd= new opcode() { public void handler()
-    /*TODO*///{
-    /*TODO*///	UINT32 r;
-    /*TODO*///	if (D & 0x8000)
-    /*TODO*///		r = -D;
-    /*TODO*///	else
-    /*TODO*///		r = D;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(0,D,r);
-    /*TODO*///	D = r;
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRD direct -0*-* */
-    /*TODO*///opcode lsrd_di= new opcode() { public void handler()
-    /*TODO*///{
+    
+    /* ABSD inherent ?**** */
+    opcode absd= new opcode() { public void handler()
+    {
+        int r;
+        int tmp = getDreg();
+    	if ((tmp & 0x8000)!=0)
+    		r = -tmp;
+    	else
+    		r = tmp;
+    	CLR_NZVC();
+    	SET_FLAGS16(0,tmp,r);
+    	setDreg(r);
+        
+    	/*UINT32 r;
+    	if (D & 0x8000)
+    		r = -D;
+    	else
+    		r = D;
+    	CLR_NZVC;
+    	SET_FLAGS16(0,D,r);
+    	D = r;*/
+    }};
+    
+    /* LSRD direct -0*-* */
+    opcode lsrd_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	DIRBYTE( t );
@@ -4461,11 +4421,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D >>= 1;
     /*TODO*///		SET_Z16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORD direct -**-* */
-    /*TODO*///opcode rord_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORD direct -**-* */
+    opcode rord_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4479,11 +4440,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRD direct ?**-* */
-    /*TODO*///opcode asrd_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRD direct ?**-* */
+    opcode asrd_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	DIRBYTE(t);
@@ -4494,11 +4456,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D = (D & 0x8000) | (D >> 1);
     /*TODO*///		SET_NZ16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLD direct ?**** */
-    /*TODO*///opcode asld_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLD direct ?**** */
+    opcode asld_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32	r;
     /*TODO*///	UINT8	t;
     /*TODO*///
@@ -4510,11 +4473,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_FLAGS16(D,D,r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLD direct -**-* */
-    /*TODO*///opcode rold_di= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLD direct -**-* */
+    opcode rold_di= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4528,11 +4492,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRD indexed -0*-* */
-    /*TODO*///opcode lsrd_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* LSRD indexed -0*-* */
+    opcode lsrd_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	t=RM(EA);
@@ -4543,11 +4508,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D >>= 1;
     /*TODO*///		SET_Z16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORD indexed -**-* */
-    /*TODO*///opcode rord_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORD indexed -**-* */
+    opcode rord_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4561,11 +4527,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRD indexed ?**-* */
-    /*TODO*///opcode asrd_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRD indexed ?**-* */
+    opcode asrd_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	t=RM(EA);
@@ -4576,11 +4543,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D = (D & 0x8000) | (D >> 1);
     /*TODO*///		SET_NZ16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLD indexed ?**** */
-    /*TODO*///opcode asld_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLD indexed ?**** */
+    opcode asld_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32	r;
     /*TODO*///	UINT8	t;
     /*TODO*///
@@ -4592,11 +4560,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_FLAGS16(D,D,r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLD indexed -**-* */
-    /*TODO*///opcode rold_ix= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLD indexed -**-* */
+    opcode rold_ix= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4610,11 +4579,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* LSRD extended -0*-* */
-    /*TODO*///opcode lsrd_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* LSRD extended -0*-* */
+    opcode lsrd_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	EXTBYTE(t);
@@ -4625,11 +4595,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D >>= 1;
     /*TODO*///		SET_Z16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* RORD extended -**-* */
-    /*TODO*///opcode rord_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* RORD extended -**-* */
+    opcode rord_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4643,11 +4614,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASRD extended ?**-* */
-    /*TODO*///opcode asrd_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASRD extended ?**-* */
+    opcode asrd_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT8 t;
     /*TODO*///
     /*TODO*///	EXTBYTE(t);
@@ -4658,11 +4630,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		D = (D & 0x8000) | (D >> 1);
     /*TODO*///		SET_NZ16(D);
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ASLD extended ?**** */
-    /*TODO*///opcode asld_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ASLD extended ?**** */
+    opcode asld_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT32	r;
     /*TODO*///	UINT8	t;
     /*TODO*///
@@ -4674,11 +4647,12 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_FLAGS16(D,D,r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
-    /*TODO*///
-    /*TODO*////* ROLD extended -**-* */
-    /*TODO*///opcode rold_ex= new opcode() { public void handler()
-    /*TODO*///{
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
+    
+    /* ROLD extended -**-* */
+    opcode rold_ex= new opcode() { public void handler()
+    {
     /*TODO*///	UINT16 r;
     /*TODO*///	UINT8  t;
     /*TODO*///
@@ -4692,7 +4666,8 @@ public void EXTENDED(){ ea=IMMWORD();}
     /*TODO*///		SET_NZ16(r);
     /*TODO*///		D = r;
     /*TODO*///	}};
-    /*TODO*///}};
+        throw new UnsupportedOperationException("unsupported m6502 get_reg");
+    }};
     
     opcode opcode2= new opcode() { public void handler()
     {
@@ -4856,11 +4831,11 @@ public void EXTENDED(){ ea=IMMWORD();}
     		ea = konami.y + (byte)ea & 0xFFFF;//EA=Y+SIGNED(EA);
                 konami_ICount[0]-=2;
     		break;
-    /*TODO*///	case 0x35:				/* postword offs */
-    /*TODO*///		IMMWORD(ea);
-    /*TODO*///		EA+=Y;
-    /*TODO*///        konami_ICount-=4;
-    /*TODO*///		break;
+    	case 0x35:				/* postword offs */
+    		ea=IMMWORD();
+    		ea=ea + konami.y & 0xFFFF;//EA+=Y;
+                konami_ICount[0]-=4;
+    		break;
     	case 0x36:				/* normal */
     		ea=konami.y;
     		break;
@@ -5232,10 +5207,10 @@ public void EXTENDED(){ ea=IMMWORD();}
     		ea = konami.y + (byte)konami.a & 0xFFFF;//EA=Y+SIGNED(A);
                 konami_ICount[0]-=1;
     		break;
-    /*TODO*///	case 0xb1:				/* register b */
-    /*TODO*///		EA=Y+SIGNED(B);
-    /*TODO*///        konami_ICount-=1;
-    /*TODO*///		break;
+    	case 0xb1:				/* register b */
+    		ea = konami.y + (byte)konami.b & 0xFFFF;//EA=Y+SIGNED(B);
+                konami_ICount[0]-=1;
+    		break;
     /*TODO*/////	case 0xb2: EA=0; break; /* ???? */
     /*TODO*/////	case 0xb3: EA=0; break; /* ???? */
     /*TODO*/////	case 0xb4: EA=0; break; /* ???? */
@@ -5495,6 +5470,144 @@ public void EXTENDED(){ ea=IMMWORD();}
     public void memory_write(int offset, int data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    opcode[] konami_main = {
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
+            opcode2,opcode2,opcode2,opcode2,pshs   ,pshu   ,puls   ,pulu   ,
+            lda_im ,ldb_im ,opcode2,opcode2,adda_im,addb_im,opcode2,opcode2,	/* 10 */
+            adca_im,adcb_im,opcode2,opcode2,suba_im,subb_im,opcode2,opcode2,
+            sbca_im,sbcb_im,opcode2,opcode2,anda_im,andb_im,opcode2,opcode2,	/* 20 */
+            bita_im,bitb_im,opcode2,opcode2,eora_im,eorb_im,opcode2,opcode2,
+            ora_im ,orb_im ,opcode2,opcode2,cmpa_im,cmpb_im,opcode2,opcode2,	/* 30 */
+            setline_im,opcode2,opcode2,opcode2,andcc,orcc  ,exg    ,tfr    ,
+            ldd_im ,opcode2,ldx_im ,opcode2,ldy_im ,opcode2,ldu_im ,opcode2,	/* 40 */
+            lds_im ,opcode2,cmpd_im,opcode2,cmpx_im,opcode2,cmpy_im,opcode2,
+            cmpu_im,opcode2,cmps_im,opcode2,addd_im,opcode2,subd_im,opcode2,	/* 50 */
+            opcode2,opcode2,opcode2,opcode2,opcode2,illegal,illegal,illegal,
+            bra    ,bhi    ,bcc    ,bne    ,bvc    ,bpl    ,bge    ,bgt    ,	/* 60 */
+            lbra   ,lbhi   ,lbcc   ,lbne   ,lbvc   ,lbpl   ,lbge   ,lbgt   ,
+            brn    ,bls    ,bcs    ,beq    ,bvs    ,bmi    ,blt    ,ble    ,	/* 70 */
+            lbrn   ,lbls   ,lbcs   ,lbeq   ,lbvs   ,lbmi   ,lblt   ,lble   ,
+            clra   ,clrb   ,opcode2,coma   ,comb   ,opcode2,nega   ,negb   ,	/* 80 */
+            opcode2,inca   ,incb   ,opcode2,deca   ,decb   ,opcode2,rts    ,
+            tsta   ,tstb   ,opcode2,lsra   ,lsrb   ,opcode2,rora   ,rorb   ,	/* 90 */
+            opcode2,asra   ,asrb   ,opcode2,asla   ,aslb   ,opcode2,rti    ,
+            rola   ,rolb   ,opcode2,opcode2,opcode2,opcode2,opcode2,opcode2,	/* a0 */
+            opcode2,opcode2,bsr    ,lbsr   ,decbjnz,decxjnz,nop    ,illegal,
+            abx    ,daa	   ,sex    ,mul    ,lmul   ,divx   ,bmove  ,move   ,	/* b0 */
+            lsrd   ,opcode2,rord   ,opcode2,asrd   ,opcode2,asld   ,opcode2,
+            rold   ,opcode2,clrd   ,opcode2,negd   ,opcode2,incd   ,opcode2,	/* c0 */
+            decd   ,opcode2,tstd   ,opcode2,absa   ,absb   ,absd   ,bset   ,
+            bset2  ,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
+            illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
+    };
+    opcode[] konami_indexed = {
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
+	leax   ,leay   ,leau   ,leas   ,illegal,illegal,illegal,illegal,
+	illegal,illegal,lda_ix ,ldb_ix ,illegal,illegal,adda_ix,addb_ix,	/* 10 */
+	illegal,illegal,adca_ix,adcb_ix,illegal,illegal,suba_ix,subb_ix,
+	illegal,illegal,sbca_ix,sbcb_ix,illegal,illegal,anda_ix,andb_ix,	/* 20 */
+	illegal,illegal,bita_ix,bitb_ix,illegal,illegal,eora_ix,eorb_ix,
+	illegal,illegal,ora_ix ,orb_ix ,illegal,illegal,cmpa_ix,cmpb_ix,	/* 30 */
+	illegal,setline_ix,sta_ix,stb_ix,illegal,illegal,illegal,illegal,
+	illegal,ldd_ix ,illegal,ldx_ix ,illegal,ldy_ix ,illegal,ldu_ix ,	/* 40 */
+	illegal,lds_ix ,illegal,cmpd_ix,illegal,cmpx_ix,illegal,cmpy_ix,
+	illegal,cmpu_ix,illegal,cmps_ix,illegal,addd_ix,illegal,subd_ix,	/* 50 */
+	std_ix ,stx_ix ,sty_ix ,stu_ix ,sts_ix ,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,clr_ix ,illegal,illegal,com_ix ,illegal,illegal,	/* 80 */
+	neg_ix ,illegal,illegal,inc_ix ,illegal,illegal,dec_ix ,illegal,
+	illegal,illegal,tst_ix ,illegal,illegal,lsr_ix ,illegal,illegal,	/* 90 */
+	ror_ix ,illegal,illegal,asr_ix ,illegal,illegal,asl_ix ,illegal,
+	illegal,illegal,rol_ix ,lsrw_ix,rorw_ix,asrw_ix,aslw_ix,rolw_ix,	/* a0 */
+	jmp_ix ,jsr_ix ,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
+	illegal,lsrd_ix,illegal,rord_ix,illegal,asrd_ix,illegal,asld_ix,
+	illegal,rold_ix,illegal,clrw_ix,illegal,negw_ix,illegal,incw_ix,	/* c0 */
+	illegal,decw_ix,illegal,tstw_ix,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
+    };
+
+    opcode[] konami_direct = {
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,lda_di ,ldb_di ,illegal,illegal,adda_di,addb_di,	/* 10 */
+	illegal,illegal,adca_di,adcb_di,illegal,illegal,suba_di,subb_di,
+	illegal,illegal,sbca_di,sbcb_di,illegal,illegal,anda_di,andb_di,	/* 20 */
+	illegal,illegal,bita_di,bitb_di,illegal,illegal,eora_di,eorb_di,
+	illegal,illegal,ora_di ,orb_di ,illegal,illegal,cmpa_di,cmpb_di,	/* 30 */
+	illegal,setline_di,sta_di,stb_di,illegal,illegal,illegal,illegal,
+	illegal,ldd_di ,illegal,ldx_di ,illegal,ldy_di ,illegal,ldu_di ,	/* 40 */
+	illegal,lds_di ,illegal,cmpd_di,illegal,cmpx_di,illegal,cmpy_di,
+	illegal,cmpu_di,illegal,cmps_di,illegal,addd_di,illegal,subd_di,	/* 50 */
+	std_di ,stx_di ,sty_di ,stu_di ,sts_di ,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,clr_di ,illegal,illegal,com_di ,illegal,illegal,	/* 80 */
+	neg_di ,illegal,illegal,inc_di ,illegal,illegal,dec_di ,illegal,
+	illegal,illegal,tst_di ,illegal,illegal,lsr_di ,illegal,illegal,	/* 90 */
+	ror_di ,illegal,illegal,asr_di ,illegal,illegal,asl_di ,illegal,
+	illegal,illegal,rol_di ,lsrw_di,rorw_di,asrw_di,aslw_di,rolw_di,	/* a0 */
+	jmp_di ,jsr_di ,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
+	illegal,lsrd_di,illegal,rord_di,illegal,asrd_di,illegal,asld_di,
+	illegal,rold_di,illegal,clrw_di,illegal,negw_di,illegal,incw_di,	/* c0 */
+	illegal,decw_di,illegal,tstw_di,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
+    };
+
+    opcode[] konami_extended = {
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 00 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,lda_ex ,ldb_ex ,illegal,illegal,adda_ex,addb_ex,	/* 10 */
+	illegal,illegal,adca_ex,adcb_ex,illegal,illegal,suba_ex,subb_ex,
+	illegal,illegal,sbca_ex,sbcb_ex,illegal,illegal,anda_ex,andb_ex,	/* 20 */
+	illegal,illegal,bita_ex,bitb_ex,illegal,illegal,eora_ex,eorb_ex,
+	illegal,illegal,ora_ex ,orb_ex ,illegal,illegal,cmpa_ex,cmpb_ex,	/* 30 */
+	illegal,setline_ex,sta_ex,stb_ex,illegal,illegal,illegal,illegal,
+	illegal,ldd_ex ,illegal,ldx_ex ,illegal,ldy_ex ,illegal,ldu_ex ,	/* 40 */
+	illegal,lds_ex ,illegal,cmpd_ex,illegal,cmpx_ex,illegal,cmpy_ex,
+	illegal,cmpu_ex,illegal,cmps_ex,illegal,addd_ex,illegal,subd_ex,	/* 50 */
+	std_ex ,stx_ex ,sty_ex ,stu_ex ,sts_ex ,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 60 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* 70 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,clr_ex ,illegal,illegal,com_ex ,illegal,illegal,	/* 80 */
+	neg_ex ,illegal,illegal,inc_ex ,illegal,illegal,dec_ex ,illegal,
+	illegal,illegal,tst_ex ,illegal,illegal,lsr_ex ,illegal,illegal,	/* 90 */
+	ror_ex ,illegal,illegal,asr_ex ,illegal,illegal,asl_ex ,illegal,
+	illegal,illegal,rol_ex ,lsrw_ex,rorw_ex,asrw_ex,aslw_ex,rolw_ex,	/* a0 */
+	jmp_ex ,jsr_ex ,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* b0 */
+	illegal,lsrd_ex,illegal,rord_ex,illegal,asrd_ex,illegal,asld_ex,
+	illegal,rold_ex,illegal,clrw_ex,illegal,negw_ex,illegal,incw_ex,	/* c0 */
+	illegal,decw_ex,illegal,tstw_ex,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* d0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* e0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal,	/* f0 */
+	illegal,illegal,illegal,illegal,illegal,illegal,illegal,illegal
+    };
     public abstract interface opcode
     {
         public abstract void handler();
