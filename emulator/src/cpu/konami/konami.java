@@ -839,354 +839,607 @@ public void EXTENDED(){ ea=IMMWORD();}
         printf("KONAMI: illegal opcode at %04x\n",konami.pc);
    }};
    
-    opcode abx= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adca_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adca_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adca_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adca_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adcb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adcb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adcb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adcb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adda_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adda_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adda_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode adda_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addd_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode addd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode anda_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode anda_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode anda_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode anda_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode andb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode andb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode andb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode andb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode andcc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asl_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asl_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asl_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asla= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode aslb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asr_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asr_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asr_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asra= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asrb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bcc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bcs= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode beq= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bge= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bgt= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bhi= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bita_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bita_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bita_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bita_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bitb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bitb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bitb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bitb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ble= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bls= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode blt= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bmi= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bne= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bpl= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bra= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode brn= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bsr= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bvc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bvs= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode clr_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode clr_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode clr_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode clra= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode clrb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpa_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpa_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpa_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpa_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpd_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmps_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmps_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmps_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmps_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpu_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpu_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpu_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpu_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpx_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpx_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpx_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpx_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpy_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpy_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpy_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cmpy_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode com_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode com_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode com_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode coma= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode comb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode cwai= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode daa= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode dec_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode dec_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode dec_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode deca= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eora_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eora_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eora_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eora_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eorb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eorb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eorb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode eorb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode exg= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode inc_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode inc_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode inc_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode inca= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode incb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jmp_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jmp_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jmp_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jsr_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jsr_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode jsr_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbcc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbcs= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbeq= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbge= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbgt= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbhi= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lble= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbls= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lblt= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbmi= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbne= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbpl= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbra= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbrn= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbsr= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbvc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lbvs= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lda_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lda_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lda_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lda_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldd_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lds_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lds_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lds_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lds_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldu_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldu_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldu_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldu_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldx_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldx_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldx_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldx_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldy_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldy_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldy_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ldy_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode leas= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode leau= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode leax= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode leay= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsr_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsr_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsr_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsra= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsrb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode mul= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode neg_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode neg_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode neg_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode nega= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode negb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode nop= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ora_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ora_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ora_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ora_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode orb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode orb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode orb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode orb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode orcc= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode pshs= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode pshu= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode puls= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode pulu= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rol_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rol_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rol_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rola= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rolb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ror_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ror_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode ror_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rora= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rorb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rti= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rts= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbca_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbca_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbca_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbca_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbcb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbcb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbcb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sbcb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sta_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sta_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sta_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sta_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode std_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode std_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode std_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode std_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sts_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sts_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sts_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sts_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stu_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stu_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stu_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stu_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stx_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stx_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stx_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode stx_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sty_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sty_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sty_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sty_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode suba_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode suba_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode suba_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode suba_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subb_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subb_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subb_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subb_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subd_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode subd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode swi= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode swi2= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode swi3= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode sync= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tfr= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tst_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tst_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tst_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tsta= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tstb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode abx= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adca_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adca_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adca_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adca_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adcb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adcb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adcb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adcb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adda_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adda_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode adda_im= new opcode() { public void handler()
+    {
+        /*UINT16*/int t,r;
+        t=IMMBYTE();
+    	r = konami.a + t & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(konami.a,t,r);
+    	SET_H(konami.a,t,r);
+    	konami.a = r & 0xFF;
+        if(konamilog!=null) fprintf(konamilog,"konami#%d adda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);     
+    }};
+    opcode adda_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addd_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode addd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode anda_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode anda_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode anda_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode anda_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andcc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asl_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asl_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asl_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asla= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode aslb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asr_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asr_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asr_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asra= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asrb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bcc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bcs= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode beq= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bge= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bgt= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bhi= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bita_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bita_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bita_im= new opcode() { public void handler()//todo recheck
+    {
+        int t,r;
+        t=IMMBYTE();
+    	r = konami.a & t;
+       	CLR_NZV();
+    	SET_NZ8(r);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d bita_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+   
+    }};
+    opcode bita_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bitb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bitb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bitb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bitb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ble= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bls= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode blt= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bmi= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
 
-    opcode clrd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode clrw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode clrw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode clrw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode negd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode negw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode negw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode negw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode lsrd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode lsrd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode lsrd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode lsrd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rord= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode rord_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rord_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rord_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asrd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode asrd_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asrd_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asrd_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asld= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asld_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asld_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode asld_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rold= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
-    opcode rold_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rold_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode rold_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
-    opcode tstd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tstw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tstw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode tstw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bpl= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bra= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode brn= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bsr= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bvc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bvs= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode clr_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode clr_ex= new opcode() { public void handler()
+    {
+        EXTENDED();
+    	WM(ea,0);
+    	CLR_NZVC(); 
+        SEZ();
+        if(konamilog!=null) fprintf(konamilog,"konami#%d clr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);  
+    }};
+    opcode clr_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode clra= new opcode() { public void handler()
+    {
+        konami.a = 0;
+    	CLR_NZVC(); 
+        SEZ();
+        if(konamilog!=null) fprintf(konamilog,"konami#%d clra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);  
+    
+    }};
+    opcode clrb= new opcode() { public void handler()
+    {
+        konami.b = 0;
+    	CLR_NZVC(); 
+        SEZ();
+        if(konamilog!=null) fprintf(konamilog,"konami#%d clrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+  
+    }};
+    opcode cmpa_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpa_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpa_im= new opcode() { public void handler()
+    {
+       /*UINT16*/int t,r;
+       t=IMMBYTE();
+       r = (konami.a - t) & 0xFFFF;
+       CLR_NZVC();
+       SET_FLAGS8(konami.a,t,r);
+       if(konamilog!=null) fprintf(konamilog,"konami#%d cmpa_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);  
+    
+    }};
+    opcode cmpa_ix= new opcode() { public void handler()
+    {
+        /*UINT16*/int t,r;
+    	t = RM(ea);
+    	r = (konami.a - t) &0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(konami.a,t,r);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d cmpa_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
+    opcode cmpb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpd_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmps_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmps_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmps_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmps_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpu_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpu_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpu_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpu_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpx_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpx_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpx_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpy_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpy_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpy_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpy_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode com_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode com_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode com_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode coma= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode comb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cwai= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode daa= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode dec_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode dec_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode dec_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode deca= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decb= new opcode() { public void handler()
+    {
+       konami.b = konami.b-1&0xFF;	
+       CLR_NZV();
+       SET_FLAGS8D(konami.b);
+       if(konamilog!=null) fprintf(konamilog,"konami#%d decb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+     
+    }};
+    opcode eora_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eora_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eora_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eora_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eorb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eorb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eorb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode eorb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode exg= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode inc_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode inc_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode inc_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode inca= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode incb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jmp_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jmp_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jmp_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jsr_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jsr_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode jsr_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbcc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbcs= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbeq= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbge= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbgt= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbhi= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lble= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbls= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lblt= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbmi= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbne= new opcode() { public void handler()
+    {
+        LBRANCH( (konami.cc&CC_Z)==0 );
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lbne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode lbpl= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbra= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbrn= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbsr= new opcode() { public void handler()
+    {
+    	ea=IMMWORD();
+    	PUSHWORD(konami.pc);
+    	konami.pc=konami.pc + ea &0xFFFF;
+    	change_pc(konami.pc);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lbsr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+  
+    }};
+    opcode lbvc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lbvs= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lda_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lda_ex= new opcode() { public void handler()
+    {
+        konami.a=EXTBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);     
+    }};
+    opcode lda_im= new opcode() { public void handler()
+    {
+        konami.a=IMMBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.a);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    }};
+    opcode lda_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldb_im= new opcode() { public void handler()
+    {
+        konami.b=IMMBYTE();
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    }};
+    opcode ldb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldd_im= new opcode() { public void handler()
+    {
+        int temp=IMMWORD();
+        setDreg(temp);
+    	CLR_NZV();
+    	SET_NZ16(temp);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode ldd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lds_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lds_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lds_im= new opcode() { public void handler()
+    {
+        konami.s=IMMWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.s);
+    	konami.int_state |= KONAMI_LDS;
+        if(konamilog!=null) fprintf(konamilog,"konami#%d lds_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode lds_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldu_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldu_ex= new opcode() { public void handler()
+    {
+        konami.u=EXTWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.u);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldu_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode ldu_im= new opcode() { public void handler()
+    {
+        konami.u=IMMWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.u);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldu_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode ldu_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldx_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldx_im= new opcode() { public void handler()
+    {
+        konami.x=IMMWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.x);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldx_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode ldx_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldy_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldy_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldy_im= new opcode() { public void handler()
+    {
+        konami.y=IMMWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.y);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea); 
+    
+    }};
+    opcode ldy_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode leas= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode leau= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+
+    opcode leay= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsr_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsr_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsr_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsra= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsrb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode mul= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode neg_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode neg_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode neg_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode nega= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode negb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode nop= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ora_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ora_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ora_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ora_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orcc= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode pshs= new opcode() { public void handler()
+    {
+        int t=IMMBYTE();
+    	if((  t&0x80 )!=0) { PUSHWORD(konami.pc); konami_ICount[0]-= 2; }
+    	if((  t&0x40 )!=0) { PUSHWORD(konami.u);  konami_ICount[0]-= 2; }
+    	if((  t&0x20 )!=0) { PUSHWORD(konami.y);  konami_ICount[0]-= 2; }
+    	if((  t&0x10 )!=0) { PUSHWORD(konami.x);  konami_ICount[0]-= 2; }
+    	if((  t&0x08 )!=0) { PUSHBYTE(konami.dp);  konami_ICount[0]-= 1; }
+    	if((  t&0x04 )!=0) { PUSHBYTE(konami.b);   konami_ICount[0]-= 1; }
+    	if((  t&0x02 )!=0) { PUSHBYTE(konami.a);   konami_ICount[0]-= 1; }
+    	if((  t&0x01 )!=0) { PUSHBYTE(konami.cc);  konami_ICount[0]-= 1; }
+        if(konamilog!=null) fprintf(konamilog,"konami#%d pshs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode pshu= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode puls= new opcode() { public void handler()    
+    {
+        int t=IMMBYTE();
+    	if(( t&0x01 )!=0) { konami.cc=PULLBYTE(); konami_ICount[0] -= 1; }
+    	if(( t&0x02 )!=0) { konami.a=PULLBYTE();  konami_ICount[0] -= 1; }
+    	if(( t&0x04 )!=0) { konami.b=PULLBYTE();  konami_ICount[0] -= 1; }
+    	if(( t&0x08 )!=0) { konami.dp=PULLBYTE(); konami_ICount[0] -= 1; }
+    	if(( t&0x10 )!=0) { konami.x=PULLWORD(); konami_ICount[0] -= 2; }
+    	if(( t&0x20 )!=0) { konami.y=PULLWORD(); konami_ICount[0] -= 2; }
+    	if(( t&0x40 )!=0) { konami.u=PULLWORD(); konami_ICount[0] -= 2; }
+    	if(( t&0x80 )!=0) { konami.pc=PULLWORD(); change_pc(konami.pc); konami_ICount[0] -= 2; }
+    
+    	/* check after all PULLs */
+    	if(( t&0x01 )!=0) { CHECK_IRQ_LINES(); }
+        if(konamilog!=null) fprintf(konamilog,"konami#%d puls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode pulu= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rol_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rol_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rol_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rola= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rolb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ror_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ror_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ror_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rora= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rorb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rti= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rts= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbca_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbca_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbca_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbca_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbcb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbcb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbcb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sbcb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sta_di= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.a);
+    	DIRECT();
+    	WM(ea,konami.a);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d sta_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode sta_ex= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.a);
+    	EXTENDED();
+    	WM(ea,konami.a);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d sta_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode sta_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sta_ix= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.a);
+    	WM(ea,konami.a);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d sta_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode stb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stb_ex= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ8(konami.b);
+    	EXTENDED();
+    	WM(ea,konami.b);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d stb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode stb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode std_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode std_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode std_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode std_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sts_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sts_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sts_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sts_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stu_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stu_ex= new opcode() { public void handler()
+    {
+        CLR_NZV();
+   	SET_NZ16(konami.u);
+    	EXTENDED();
+    	WM16(ea,konami.u);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d stu_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode stu_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stu_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stx_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stx_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stx_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sty_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sty_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sty_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sty_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode suba_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode suba_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode suba_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode suba_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subb_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subd_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode subd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode swi= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode swi2= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode swi3= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode sync= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tfr= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tst_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tst_ex= new opcode() { public void handler()
+    {
+        int t=EXTBYTE(); 
+        CLR_NZV(); 
+        SET_NZ8(t);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d tst_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
+    opcode tst_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tsta= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tstb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+
+    opcode clrd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode clrw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode clrw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode clrw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode negd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode negw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode negw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode negw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode lsrd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode lsrd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode lsrd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode lsrd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode rord= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode rord_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode rord_ix= new opcode() { public void handler()
+    {
+        throw new UnsupportedOperationException("unsupported opcode");
+        /*
+    	UINT16 r;
+	UINT8  t;
+	if(konamilog!=null) fprintf(konamilog,"konami#%d rord_ix_b :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+
+	t=RM(EA);
+
+	while ( t-- ) {
+		r = (CC & CC_C) << 15;
+		CLR_NZC;
+		CC |= (D & CC_C);
+		r |= D >> 1;
+		SET_NZ16(r);
+		D = r;
+	}
+	if(konamilog!=null) fprintf(konamilog,"konami#%d rord_ix_a :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+*/
+    }}; /* 6309 */
+    opcode rord_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asrd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode asrd_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asrd_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asrd_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asld= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asld_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asld_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode asld_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode rold= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
+    opcode rold_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode rold_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode rold_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode tstd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tstw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tstw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode tstw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
 
     /* Custom opcodes */
-    opcode setline_im= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode setline_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode setline_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode setline_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bmove= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode move= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decbjnz= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decxjnz= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bset= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bset2= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lmul= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode divx= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode incd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode incw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode incw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode incw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsrw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsrw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode lsrw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rorw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rorw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rorw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asrw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asrw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode asrw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode aslw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode aslw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode aslw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rolw_di= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rolw_ix= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode rolw_ex= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode absa= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode absb= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode absd= new opcode() { public void handler(){throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode setline_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode setline_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode setline_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode setline_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bmove= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode move= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decbjnz= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decxjnz= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bset= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bset2= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lmul= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode divx= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode incd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode incw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode incw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode incw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsrw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsrw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode lsrw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rorw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rorw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rorw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asrw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asrw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode asrw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode aslw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode aslw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode aslw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rolw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rolw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode rolw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode absa= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode absb= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode absd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    /**
+     *  Approved opcodes (99% bug free)
+     */
+    opcode leax= new opcode() { public void handler()
+    {
+        konami.x = ea;
+    	CLR_Z();
+    	SET_Z(konami.x);
+        //if(konamilog!=null) fprintf(konamilog,"konami#%d leax :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);  
+    }};
+    opcode bne= new opcode() { public void handler()
+    {
+        BRANCH( (konami.cc&CC_Z)==0 );
+        //if(konamilog!=null) fprintf(konamilog,"konami#%d bne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    }};
+    /**
+     * End of Approved opcodes
+     */
     opcode opcode2= new opcode() { public void handler()
     {
         /*UINT8*/int ireg2 = ROP_ARG(konami.pc);
