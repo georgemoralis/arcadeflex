@@ -113,6 +113,8 @@ import static drivers.thunderx.*;
 import static drivers.spy.*;
 import static drivers.superpac.*;
 import static drivers.aliens.*;
+import static drivers.crimfght.*;
+import static drivers.gbusters.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -317,7 +319,12 @@ public class driver {
         /*thunderx*/driver_scontra,
         /*thunderx*/driver_scontraj,
 
+        /*crimfght*/driver_crimfght,
+        /*crimfght*/driver_crimfgt2,
+        /*crimfght*/driver_crimfgtj,
 
+        /*gbusters*/driver_gbusters,
+        /*gbusters*/driver_crazycop,
         
         /*tnzs*/driver_extrmatn,
 	/*tnzs*/driver_arkanoi2,  
@@ -1915,11 +1922,8 @@ public class driver {
 /*TODO*/ //	DRIVER( 88games )	/* GX861 (c) 1988 */
 /*TODO*/ //	DRIVER( konami88 )	/* GX861 (c) 1988 */
 /*TODO*/ //	DRIVER( hypsptsp )	/* GX861 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( gbusters )	/* GX878 (c) 1988 */
-/*TODO*/ //	DRIVER( crazycop )	/* GX878 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( crimfght )	/* GX821 (c) 1989 (US) */
-/*TODO*/ //	DRIVER( crimfgt2 )	/* GX821 (c) 1989 (World) */
-/*TODO*/ //	DRIVER( crimfgtj )	/* GX821 (c) 1989 (Japan) */
+
+
 
 /*TODO*/ //	DRIVER( bottom9 )	/* GX891 (c) 1989 */
 /*TODO*/ //	DRIVER( bottom9n )	/* GX891 (c) 1989 */
