@@ -1078,7 +1078,14 @@ public void EXTENDED(){ ea=IMMWORD();}
         SEZ();
         if(konamilog!=null) fprintf(konamilog,"konami#%d clr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);  
     }};
-    opcode clr_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode clr_ix= new opcode() { public void handler()
+    {
+        WM(ea,0);
+    	CLR_NZVC(); 
+        SEZ();
+        if(konamilog!=null) fprintf(konamilog,"konami#%d clr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+   
+    }};
     opcode clra= new opcode() { public void handler()
     {
         konami.a = 0;
@@ -1193,7 +1200,17 @@ public void EXTENDED(){ ea=IMMWORD();}
         if(konamilog!=null) fprintf(konamilog,"konami#%d cmpx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
  
     }};
-    opcode cmpx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode cmpx_ex= new opcode() { public void handler()
+    {
+        /*UINT32*/int r,d;
+    	int b=EXTWORD();
+    	d = konami.x;
+    	r = d - b;
+    	CLR_NZVC();
+    	SET_FLAGS16(d,b,r);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d cmpx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
     opcode cmpx_im= new opcode() { public void handler()//todo recheck
     {
         /*UINT32*/int r,d;
@@ -1299,7 +1316,54 @@ public void EXTENDED(){ ea=IMMWORD();}
     opcode eorb_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode eorb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode eorb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode exg= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode");}};
+    opcode exg= new opcode() { public void handler()
+    {
+       /*UINT16*/int t1,t2;
+       /*UINT8*/int tb;
+       tb=IMMBYTE();
+       //GETREG( t1, tb >> 4 );
+       switch(tb >> 4) {	
+       case 0: t1 = konami.a;	break;	
+       case 1: t1 = konami.b; break;
+       case 2: t1 = konami.x; break;	
+       case 3: t1 = konami.y;	break;
+       case 4: t1 = konami.s; break; /* ? */	
+       case 5: t1 = konami.u;	break;	
+       default: t1 = 0xff; if ( errorlog!=null ) fprintf( errorlog, "Unknown TFR/EXG idx at PC:%04x\n", konami.pc ); break;
+       }
+       //GETREG( t2, tb & 0x0f );
+       switch(tb & 0x0f) {	
+       case 0: t2 = konami.a;	break;	
+       case 1: t2 = konami.b; break;
+       case 2: t2 = konami.x; break;	
+       case 3: t2 = konami.y;	break;
+       case 4: t2 = konami.s; break; /* ? */	
+       case 5: t2 = konami.u;	break;	
+       default: t2 = 0xff; if ( errorlog!=null ) fprintf( errorlog, "Unknown TFR/EXG idx at PC:%04x\n", konami.pc ); break;
+       }
+       //SETREG( t2, tb >> 4 );
+       switch(tb >> 4) {	
+       case 0: konami.a = t2;	break;	
+       case 1: konami.b = t2;	break;	
+       case 2: konami.x = t2; break;	
+       case 3: konami.y = t2;	break;	
+       case 4: konami.s = t2;	break; /* ? */	
+       case 5: konami.u = t2; break;	
+       default: if ( errorlog!=null ) fprintf( errorlog, "Unknown TFR/EXG idx at PC:%04x\n", konami.pc ); break;
+       }
+       //SETREG( t1, tb & 0x0f );
+       switch(tb & 0x0f) {	
+       case 0: konami.a = t1;	break;	
+       case 1: konami.b = t1;	break;	
+       case 2: konami.x = t1; break;	
+       case 3: konami.y = t1;	break;	
+       case 4: konami.s = t1;	break; /* ? */	
+       case 5: konami.u = t1; break;	
+       default: if ( errorlog!=null ) fprintf( errorlog, "Unknown TFR/EXG idx at PC:%04x\n", konami.pc ); break;
+       }   
+       if(konamilog!=null) fprintf(konamilog,"konami#%d exg :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
     opcode inc_di= new opcode() { public void handler()
     {
         int t=DIRBYTE();
@@ -1531,7 +1595,14 @@ public void EXTENDED(){ ea=IMMWORD();}
         //if(konamilog!=null) fprintf(konamilog,"konami#%d ldx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
  
     }};
-    opcode ldx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode ldx_ex= new opcode() { public void handler()
+    {
+        konami.x=EXTWORD();
+    	CLR_NZV();
+    	SET_NZ16(konami.x);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d ldx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+     
+    }};
     opcode ldx_im= new opcode() { public void handler()//ok
     {
         konami.x=IMMWORD();
@@ -1613,7 +1684,17 @@ public void EXTENDED(){ ea=IMMWORD();}
         if(konamilog!=null) fprintf(konamilog,"konami#%d lsrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);    
     
     }};
-    opcode mul= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode mul= new opcode() { public void handler()
+    {
+        /*UINT16*/int t;
+    	t = konami.a * konami.b & 0xFFFF;
+    	CLR_ZC(); 
+        SET_Z16(t); 
+        if((t&0x80)!=0) SEC();
+    	setDreg(t);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d mul :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+       
+    }};
     opcode neg_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode neg_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode neg_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
@@ -1659,7 +1740,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	SET_NZ8(konami.b);
         if(konamilog!=null) fprintf(konamilog,"konami#%d orb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
     }};
-    opcode orb_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode orb_im= new opcode() { public void handler()
+    {
+        /*UINT8*/int t=IMMBYTE();
+    	konami.b |= t; 
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d orb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+ 
+    }};
     opcode orb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode orcc= new opcode() { public void handler()
     {
@@ -1887,7 +1976,15 @@ public void EXTENDED(){ ea=IMMWORD();}
     	WM16(ea,konami.x);
         if(konamilog!=null) fprintf(konamilog,"konami#%d stx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
     }};
-    opcode stx_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode stx_ex= new opcode() { public void handler()
+    {
+        CLR_NZV();
+    	SET_NZ16(konami.x);
+    	EXTENDED();
+    	WM16(ea,konami.x);
+        if(konamilog!=null) fprintf(konamilog,"konami#%d stx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+     
+    }};
     opcode stx_im= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode stx_ix= new opcode() { public void handler()//ok
     {
@@ -2024,7 +2121,14 @@ public void EXTENDED(){ ea=IMMWORD();}
     
     }};
 
-    opcode clrd= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 */
+    opcode clrd= new opcode() { public void handler()
+    {
+        setDreg(0);//D = 0;
+	CLR_NZVC(); 
+        SEZ();
+        if(konamilog!=null) fprintf(konamilog,"konami#%d clrd :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }}; /* 6309 */
     opcode clrw_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
     opcode clrw_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
     opcode clrw_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }}; /* 6309 ? */
@@ -2089,9 +2193,30 @@ public void EXTENDED(){ ea=IMMWORD();}
     opcode setline_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode setline_di= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode setline_ex= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode bmove= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode bmove= new opcode() { public void handler()
+    {
+        /*UINT8*/int	t;
+        while( konami.u != 0 ) {
+            t = RM(konami.y)&0xFF;
+            WM(konami.x,t);
+            konami.y = konami.y +1 & 0xFFFF;//Y++;
+            konami.x= konami.x+1 & 0xFFFF;//X++;
+            konami.u = konami.u-1 & 0xFFFF;//U--;
+            konami_ICount[0] -= 2;
+        }
+        if(konamilog!=null) fprintf(konamilog,"konami#%d bmove :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
     opcode move= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
-    opcode decbjnz= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode decbjnz= new opcode() { public void handler()
+    {
+        konami.b=konami.b -1 & 0xFF;
+	CLR_NZV();
+	SET_FLAGS8D(konami.b);
+	BRANCH( (konami.cc&CC_Z)==0 );
+        if(konamilog!=null) fprintf(konamilog,"konami#%d decbjnz :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
+    
+    }};
     opcode decxjnz= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode bset= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
     opcode bset2= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
