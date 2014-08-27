@@ -15,6 +15,7 @@ import static mame.common.*;
 import static mame.paletteH.*;
 import static mame.mameH.*;
 import static mame.cpuintrfH.*;
+import static mame.memoryH.*;
 
 
 public  class konamiic
@@ -24,6 +25,11 @@ public  class konamiic
     /**
     *   Macros from konamiic.h and specific arcadeflex ones
     */
+        public static final int K053251_CI0=0;
+        public static final int K053251_CI1=1;
+        public static final int K053251_CI2=2;
+        public static final int K053251_CI3=3;
+        public static final int K053251_CI4=4;
         //K052109_callback interface
         public static abstract interface K052109_callbackProcPtr { public abstract void handler(int layer,int bank,int[] code,int[] color); }
         //K051960_callback interface
@@ -32,8 +38,10 @@ public  class konamiic
         public static abstract interface K007342_callbackProcPtr { public abstract void handler(int tilemap,int bank,int[] code,int[] color); }
         //K007420_callback interface
         public static abstract interface K007420_callbackProcPtr { public abstract void handler(int[] code,int[] color); }
-        
-
+        //K053245 callback interface
+        public static abstract interface K053245_callbackProcPtr { public abstract void handler(int[] code,int[] color,int[] priority); }
+        //(*K051316_callback[MAX_K051316])(int *code,int *color);
+        public static abstract interface K051316_callbackProcPtr { public abstract void handler(int[] code,int[] color); }
     /**
      *  
      * end of macros 
@@ -1632,77 +1640,75 @@ public  class konamiic
 			K051960_w.handler(offset - 0x3c00,data);
 	} };
 
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static int K053245_memory_region=2;
-/*TODO*////*TODO*///static struct GfxElement *K053245_gfx;
-/*TODO*////*TODO*///static void (*K053245_callback)(int *code,int *color,int *priority);
-/*TODO*////*TODO*///static int K053244_romoffset,K053244_rombank;
-/*TODO*////*TODO*///static int K053244_readroms;
-/*TODO*////*TODO*///static int K053245_flipscreenX,K053245_flipscreenY;
-/*TODO*////*TODO*///static int K053245_spriteoffsX,K053245_spriteoffsY;
-/*TODO*////*TODO*///static unsigned char *K053245_ram;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053245_vh_start(int gfx_memory_region,int plane0,int plane1,int plane2,int plane3,
-/*TODO*////*TODO*///		void (*callback)(int *code,int *color,int *priority))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int gfx_index;
-/*TODO*////*TODO*///	static struct GfxLayout spritelayout =
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		16,16,
-/*TODO*////*TODO*///		0,				/* filled in later */
-/*TODO*////*TODO*///		4,
-/*TODO*////*TODO*///		{ 0, 0, 0, 0 },	/* filled in later */
-/*TODO*////*TODO*///		{ 0, 1, 2, 3, 4, 5, 6, 7,
-/*TODO*////*TODO*///				8*32+0, 8*32+1, 8*32+2, 8*32+3, 8*32+4, 8*32+5, 8*32+6, 8*32+7 },
-/*TODO*////*TODO*///		{ 0*32, 1*32, 2*32, 3*32, 4*32, 5*32, 6*32, 7*32,
-/*TODO*////*TODO*///				16*32, 17*32, 18*32, 19*32, 20*32, 21*32, 22*32, 23*32 },
-/*TODO*////*TODO*///		128*8
-/*TODO*////*TODO*///	};
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* find first empty slot to decode gfx */
-/*TODO*////*TODO*///	for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
-/*TODO*////*TODO*///		if (Machine->gfx[gfx_index] == 0)
-/*TODO*////*TODO*///			break;
-/*TODO*////*TODO*///	if (gfx_index == MAX_GFX_ELEMENTS)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* tweak the structure for the number of tiles we have */
-/*TODO*////*TODO*///	spritelayout.total = memory_region_length(gfx_memory_region) / 128;
-/*TODO*////*TODO*///	spritelayout.planeoffset[0] = plane3 * 8;
-/*TODO*////*TODO*///	spritelayout.planeoffset[1] = plane2 * 8;
-/*TODO*////*TODO*///	spritelayout.planeoffset[2] = plane1 * 8;
-/*TODO*////*TODO*///	spritelayout.planeoffset[3] = plane0 * 8;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* decode the graphics */
-/*TODO*////*TODO*///	Machine->gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),&spritelayout);
-/*TODO*////*TODO*///	if (!Machine->gfx[gfx_index])
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* set the color information */
-/*TODO*////*TODO*///	Machine->gfx[gfx_index]->colortable = Machine->remapped_colortable;
-/*TODO*////*TODO*///	Machine->gfx[gfx_index]->total_colors = Machine->drv->color_table_len / 16;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K053245_memory_region = gfx_memory_region;
-/*TODO*////*TODO*///	K053245_gfx = Machine->gfx[gfx_index];
-/*TODO*////*TODO*///	K053245_callback = callback;
-/*TODO*////*TODO*///	K053244_rombank = 0;
-/*TODO*////*TODO*///	K053245_ram = malloc(0x800);
-/*TODO*////*TODO*///	if (!K053245_ram) return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	memset(K053245_ram,0,0x800);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	return 0;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053245_vh_stop(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	free(K053245_ram);
-/*TODO*////*TODO*///	K053245_ram = 0;
-/*TODO*////*TODO*///}
+
+
+
+
+    static int K053245_memory_region=2;
+    static GfxElement K053245_gfx;
+    static K053245_callbackProcPtr K053245_callback;//static void (*K053245_callback)(int *code,int *color,int *priority);
+    static int K053244_romoffset,K053244_rombank;
+    static int K053244_readroms;
+    static int K053245_flipscreenX,K053245_flipscreenY;
+    static int K053245_spriteoffsX,K053245_spriteoffsY;
+    static UBytePtr K053245_ram;
+
+    public static int K053245_vh_start(int gfx_memory_region,int plane0,int plane1,int plane2,int plane3,
+                    K053245_callbackProcPtr callback)
+    {
+            int gfx_index;
+            GfxLayout spritelayout = new GfxLayout
+            (
+                    16,16,
+                    0,				/* filled in later */
+                    4,
+                    new int[]{ 0, 0, 0, 0 },	/* filled in later */
+                    new int[]{ 0, 1, 2, 3, 4, 5, 6, 7,
+                                    8*32+0, 8*32+1, 8*32+2, 8*32+3, 8*32+4, 8*32+5, 8*32+6, 8*32+7 },
+                    new int[]{ 0*32, 1*32, 2*32, 3*32, 4*32, 5*32, 6*32, 7*32,
+                                    16*32, 17*32, 18*32, 19*32, 20*32, 21*32, 22*32, 23*32 },
+                    128*8
+            );
+
+            /* find first empty slot to decode gfx */
+            for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
+                    if (Machine.gfx[gfx_index] == null)
+                            break;
+            if (gfx_index == MAX_GFX_ELEMENTS)
+                    return 1;
+
+            /* tweak the structure for the number of tiles we have */
+            spritelayout.total = memory_region_length(gfx_memory_region) / 128;
+            spritelayout.planeoffset[0] = plane3 * 8;
+            spritelayout.planeoffset[1] = plane2 * 8;
+            spritelayout.planeoffset[2] = plane1 * 8;
+            spritelayout.planeoffset[3] = plane0 * 8;
+
+            /* decode the graphics */
+            Machine.gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),spritelayout);
+            if (Machine.gfx[gfx_index]==null)
+                    return 1;
+
+            /* set the color information */
+            Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+            Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / 16;
+
+            K053245_memory_region = gfx_memory_region;
+            K053245_gfx = Machine.gfx[gfx_index];
+            K053245_callback = callback;
+            K053244_rombank = 0;
+            K053245_ram = new UBytePtr(0x800);
+            if (K053245_ram==null) return 1;
+
+            for (int i = 0; i < 0x800; i++) K053245_ram.write(i,0);//memset(K053245_ram,0,0x800);
+
+            return 0;
+    }
+
+    public static void K053245_vh_stop()
+    {
+            K053245_ram = null;
+    }
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///int K053245_word_r(int offset)
 /*TODO*////*TODO*///{
@@ -1714,82 +1720,87 @@ public  class konamiic
 /*TODO*////*TODO*///	COMBINE_WORD_MEM(&K053245_ram[offset],data);
 /*TODO*////*TODO*///}
 /*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053245_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int shift = ((offset & 1) ^ 1) << 3;
-/*TODO*////*TODO*///	return (READ_WORD(&K053245_ram[offset & ~1]) >> shift) & 0xff;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053245_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int shift = ((offset & 1) ^ 1) << 3;
-/*TODO*////*TODO*///	offset &= ~1;
-/*TODO*////*TODO*///	COMBINE_WORD_MEM(&K053245_ram[offset],(0xff000000 >> shift) | ((data & 0xff) << shift));
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053244_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	if (K053244_readroms && offset >= 0x0c && offset < 0x10)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int addr;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		addr = 0x200000 * K053244_rombank + 4 * (K053244_romoffset & 0x7ffff) + ((offset & 3) ^ 1);
-/*TODO*////*TODO*///		addr &= memory_region_length(K053245_memory_region)-1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///#if 0
-/*TODO*////*TODO*///	usrintf_showmessage("%04x: offset %02x addr %06x",cpu_get_pc(),offset&3,addr);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		return memory_region(K053245_memory_region)[addr];
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: read from unknown 053244 address %x\n",cpu_get_pc(),offset);
-/*TODO*////*TODO*///		return 0;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053244_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	if (offset == 0x00)
-/*TODO*////*TODO*///		K053245_spriteoffsX = (K053245_spriteoffsX & 0x00ff) | (data << 8);
-/*TODO*////*TODO*///	else if (offset == 0x01)
-/*TODO*////*TODO*///		K053245_spriteoffsX = (K053245_spriteoffsX & 0xff00) | data;
-/*TODO*////*TODO*///	else if (offset == 0x02)
-/*TODO*////*TODO*///		K053245_spriteoffsY = (K053245_spriteoffsY & 0x00ff) | (data << 8);
-/*TODO*////*TODO*///	else if (offset == 0x03)
-/*TODO*////*TODO*///		K053245_spriteoffsY = (K053245_spriteoffsY & 0xff00) | data;
-/*TODO*////*TODO*///	else if (offset == 0x05)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///#ifdef MAME_DEBUG
-/*TODO*////*TODO*///if (data & 0xc8)
-/*TODO*////*TODO*///	usrintf_showmessage("053244 reg 05 = %02x",data);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///		/* bit 0/1 = flip screen */
-/*TODO*////*TODO*///		K053245_flipscreenX = data & 0x01;
-/*TODO*////*TODO*///		K053245_flipscreenY = data & 0x02;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* bit 2 = unknown, Parodius uses it */
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* bit 4 = enable gfx ROM reading */
-/*TODO*////*TODO*///		K053244_readroms = data & 0x10;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* bit 5 = unknown, Rollergames uses it */
-/*TODO*////*TODO*///#if VERBOSE
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: write %02x to 053244 address 5\n",cpu_get_pc(),data);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else if (offset >= 0x08 && offset < 0x0c)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		offset = 8*((offset & 0x03) ^ 0x01);
-/*TODO*////*TODO*///		K053244_romoffset = (K053244_romoffset & ~(0xff << offset)) | (data << offset);
-/*TODO*////*TODO*///		return;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: write %02x to unknown 053244 address %x\n",cpu_get_pc(),data,offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+        public static ReadHandlerPtr K053245_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+       
+            int shift = ((offset & 1) ^ 1) << 3;
+            return (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
+                    
+            //return (READ_WORD(&K053245_ram[offset & ~1]) >> shift) & 0xff;
+        }};
+
+        public static WriteHandlerPtr K053245_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+        	int shift = ((offset & 1) ^ 1) << 3;
+        	offset &= ~1;
+                //K053245_ram.COMBINE_WORD_MEM(offset,(char)((0xff000000 >> shift) | ((data & 0xff) << shift)));
+        	COMBINE_WORD_MEM(K053245_ram,offset,(0xff000000 >> shift) | ((data & 0xff) << shift));
+
+        }};
+
+        public static ReadHandlerPtr K053244_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+                if (K053244_readroms!=0 && offset >= 0x0c && offset < 0x10)
+                {
+                        int addr;
+
+
+                        addr = 0x200000 * K053244_rombank + 4 * (K053244_romoffset & 0x7ffff) + ((offset & 3) ^ 1);
+                        addr &= memory_region_length(K053245_memory_region)-1;
+
+        /*#if 0
+                usrintf_showmessage("%04x: offset %02x addr %06x",cpu_get_pc(),offset&3,addr);
+        #endif*/
+
+                        return memory_region(K053245_memory_region).read(addr);
+                }
+                else
+                {
+                        if (errorlog!=null) fprintf(errorlog,"%04x: read from unknown 053244 address %x\n",cpu_get_pc(),offset);
+                        return 0;
+                }
+        }};
+
+        public static WriteHandlerPtr K053244_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+                if (offset == 0x00)
+                        K053245_spriteoffsX = (K053245_spriteoffsX & 0x00ff) | (data << 8);
+                else if (offset == 0x01)
+                        K053245_spriteoffsX = (K053245_spriteoffsX & 0xff00) | data;
+                else if (offset == 0x02)
+                        K053245_spriteoffsY = (K053245_spriteoffsY & 0x00ff) | (data << 8);
+                else if (offset == 0x03)
+                        K053245_spriteoffsY = (K053245_spriteoffsY & 0xff00) | data;
+                else if (offset == 0x05)
+                {
+        /*#ifdef MAME_DEBUG
+        if (data & 0xc8)
+                usrintf_showmessage("053244 reg 05 = %02x",data);
+        #endif*/
+                        /* bit 0/1 = flip screen */
+                        K053245_flipscreenX = data & 0x01;
+                        K053245_flipscreenY = data & 0x02;
+
+                        /* bit 2 = unknown, Parodius uses it */
+
+                        /* bit 4 = enable gfx ROM reading */
+                        K053244_readroms = data & 0x10;
+
+                        /* bit 5 = unknown, Rollergames uses it */
+        /*#if VERBOSE
+        if (errorlog) fprintf(errorlog,"%04x: write %02x to 053244 address 5\n",cpu_get_pc(),data);
+        #endif*/
+                }
+                else if (offset >= 0x08 && offset < 0x0c)
+                {
+                        offset = 8*((offset & 0x03) ^ 0x01);
+                        K053244_romoffset = (K053244_romoffset & ~(0xff << offset)) | (data << offset);
+                        return;
+                }
+                else
+        if (errorlog!=null) fprintf(errorlog,"%04x: write %02x to unknown 053244 address %x\n",cpu_get_pc(),data,offset);
+        }};
+
 /*TODO*////*TODO*///void K053244_bankselect(int bank)   /* used by TMNT2 for ROM testing */
 /*TODO*////*TODO*///{
 /*TODO*////*TODO*///	K053244_rombank = bank;
@@ -2625,518 +2636,523 @@ public  class konamiic
 /*TODO*////*TODO*///}
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///
-/*TODO*////*TODO*///#define MAX_K051316 3
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static int K051316_memory_region[MAX_K051316];
-/*TODO*////*TODO*///static int K051316_gfxnum[MAX_K051316];
-/*TODO*////*TODO*///static int K051316_wraparound[MAX_K051316];
-/*TODO*////*TODO*///static int K051316_offset[MAX_K051316][2];
-/*TODO*////*TODO*///static int K051316_bpp[MAX_K051316];
-/*TODO*////*TODO*///static void (*K051316_callback[MAX_K051316])(int *code,int *color);
-/*TODO*////*TODO*///static unsigned char *K051316_ram[MAX_K051316];
-/*TODO*////*TODO*///static unsigned char K051316_ctrlram[MAX_K051316][16];
-/*TODO*////*TODO*///static struct tilemap *K051316_tilemap[MAX_K051316];
-/*TODO*////*TODO*///static int K051316_chip_selected;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_vh_stop(int chip);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*////***************************************************************************
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///  Callbacks for the TileMap code
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///***************************************************************************/
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static void K051316_preupdate(int chip)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_chip_selected = chip;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static void K051316_get_tile_info(int col,int row)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int tile_index = 32*row+col;
-/*TODO*////*TODO*///	int code = K051316_ram[K051316_chip_selected][tile_index];
-/*TODO*////*TODO*///	int color = K051316_ram[K051316_chip_selected][tile_index + 0x400];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	(*K051316_callback[K051316_chip_selected])(&code,&color);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	SET_TILE_INFO(K051316_gfxnum[K051316_chip_selected],code,color);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_vh_start(int chip, int gfx_memory_region,int bpp,
-/*TODO*////*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int gfx_index;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* find first empty slot to decode gfx */
-/*TODO*////*TODO*///	for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
-/*TODO*////*TODO*///		if (Machine->gfx[gfx_index] == 0)
-/*TODO*////*TODO*///			break;
-/*TODO*////*TODO*///	if (gfx_index == MAX_GFX_ELEMENTS)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (bpp == 4)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		static struct GfxLayout charlayout =
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			16,16,
-/*TODO*////*TODO*///			0,				/* filled in later */
-/*TODO*////*TODO*///			4,
-/*TODO*////*TODO*///			{ 0, 1, 2, 3 },
-/*TODO*////*TODO*///			{ 0*4, 1*4, 2*4, 3*4, 4*4, 5*4, 6*4, 7*4,
-/*TODO*////*TODO*///					8*4, 9*4, 10*4, 11*4, 12*4, 13*4, 14*4, 15*4 },
-/*TODO*////*TODO*///			{ 0*64, 1*64, 2*64, 3*64, 4*64, 5*64, 6*64, 7*64,
-/*TODO*////*TODO*///					8*64, 9*64, 10*64, 11*64, 12*64, 13*64, 14*64, 15*64 },
-/*TODO*////*TODO*///			128*8
-/*TODO*////*TODO*///		};
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* tweak the structure for the number of tiles we have */
-/*TODO*////*TODO*///		charlayout.total = memory_region_length(gfx_memory_region) / 128;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* decode the graphics */
-/*TODO*////*TODO*///		Machine->gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),&charlayout);
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else if (bpp == 7)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		static struct GfxLayout charlayout =
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			16,16,
-/*TODO*////*TODO*///			0,				/* filled in later */
-/*TODO*////*TODO*///			7,
-/*TODO*////*TODO*///			{ 1, 2, 3, 4, 5, 6, 7 },
-/*TODO*////*TODO*///			{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
-/*TODO*////*TODO*///					8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
-/*TODO*////*TODO*///			{ 0*128, 1*128, 2*128, 3*128, 4*128, 5*128, 6*128, 7*128,
-/*TODO*////*TODO*///					8*128, 9*128, 10*128, 11*128, 12*128, 13*128, 14*128, 15*128 },
-/*TODO*////*TODO*///			256*8
-/*TODO*////*TODO*///		};
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* tweak the structure for the number of tiles we have */
-/*TODO*////*TODO*///		charlayout.total = memory_region_length(gfx_memory_region) / 256;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* decode the graphics */
-/*TODO*////*TODO*///		Machine->gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),&charlayout);
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"K051316_vh_start supports only 4 or 7 bpp\n");
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (!Machine->gfx[gfx_index])
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* set the color information */
-/*TODO*////*TODO*///	Machine->gfx[gfx_index]->colortable = Machine->remapped_colortable;
-/*TODO*////*TODO*///	Machine->gfx[gfx_index]->total_colors = Machine->drv->color_table_len / (1 << bpp);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K051316_memory_region[chip] = gfx_memory_region;
-/*TODO*////*TODO*///	K051316_gfxnum[chip] = gfx_index;
-/*TODO*////*TODO*///	K051316_bpp[chip] = bpp;
-/*TODO*////*TODO*///	K051316_callback[chip] = callback;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K051316_tilemap[chip] = tilemap_create(K051316_get_tile_info,TILEMAP_OPAQUE,16,16,32,32);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K051316_ram[chip] = malloc(0x800);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (!K051316_ram[chip] || !K051316_tilemap[chip])
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		K051316_vh_stop(chip);
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	tilemap_set_clip(K051316_tilemap[chip],0);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K051316_wraparound[chip] = 0;	/* default = no wraparound */
-/*TODO*////*TODO*///	K051316_offset[chip][0] = K051316_offset[chip][1] = 0;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	return 0;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_vh_start_0(int gfx_memory_region,int bpp,
-/*TODO*////*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_vh_start(0,gfx_memory_region,bpp,callback);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_vh_start_1(int gfx_memory_region,int bpp,
-/*TODO*////*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_vh_start(1,gfx_memory_region,bpp,callback);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_vh_start_2(int gfx_memory_region,int bpp,
-/*TODO*////*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_vh_start(2,gfx_memory_region,bpp,callback);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_vh_stop(int chip)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	free(K051316_ram[chip]);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_vh_stop_0(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_vh_stop(0);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_vh_stop_1(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_vh_stop(1);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_vh_stop_2(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_vh_stop(2);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_r(int chip, int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_ram[chip][offset];
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_0_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_r(0, offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_1_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_r(1, offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_2_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_r(2, offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_w(int chip,int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	if (K051316_ram[chip][offset] != data)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		K051316_ram[chip][offset] = data;
-/*TODO*////*TODO*///		tilemap_mark_tile_dirty(K051316_tilemap[chip],offset%32,(offset%0x400)/32);
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_0_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_w(0,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_1_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_w(1,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_2_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_w(2,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_rom_r(int chip, int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	if ((K051316_ctrlram[chip][0x0e] & 0x01) == 0)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int addr;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		addr = offset + (K051316_ctrlram[chip][0x0c] << 11) + (K051316_ctrlram[chip][0x0d] << 19);
-/*TODO*////*TODO*///		if (K051316_bpp[chip] <= 4) addr /= 2;
-/*TODO*////*TODO*///		addr &= memory_region_length(K051316_memory_region[chip])-1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///#if 0
-/*TODO*////*TODO*///	usrintf_showmessage("%04x: offset %04x addr %04x",cpu_get_pc(),offset,addr);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		return memory_region(K051316_memory_region[chip])[addr];
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///	else
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: read 051316 ROM offset %04x but reg 0x0c bit 0 not clear\n",cpu_get_pc(),offset);
-/*TODO*////*TODO*///		return 0;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_rom_0_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_rom_r(0,offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_rom_1_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_rom_r(1,offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K051316_rom_2_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K051316_rom_r(2,offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_ctrl_w(int chip,int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_ctrlram[chip][offset] = data;
-/*TODO*////*TODO*///if (errorlog && offset >= 0x0c) fprintf(errorlog,"%04x: write %02x to 051316 reg %x\n",cpu_get_pc(),data,offset);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_ctrl_0_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_ctrl_w(0,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_ctrl_1_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_ctrl_w(1,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_ctrl_2_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_ctrl_w(2,offset,data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_wraparound_enable(int chip, int status)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_wraparound[chip] = status;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_set_offset(int chip, int xoffs, int yoffs)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_offset[chip][0] = xoffs;
-/*TODO*////*TODO*///	K051316_offset[chip][1] = yoffs;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_tilemap_update(int chip)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_preupdate(chip);
-/*TODO*////*TODO*///	tilemap_update(K051316_tilemap[chip]);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_tilemap_update_0(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_tilemap_update(0);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_tilemap_update_1(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_tilemap_update(1);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_tilemap_update_2(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_tilemap_update(2);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*////* Note: rotation support doesn't handle asymmetrical visible areas. This doesn't */
-/*TODO*////*TODO*////* matter because in the Konami games the visible area is always symmetrical. */
-/*TODO*////*TODO*///void K051316_zoom_draw(int chip, struct osd_bitmap *bitmap)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	UINT32 startx,starty,cx,cy;
-/*TODO*////*TODO*///	int incxx,incxy,incyx,incyy;
-/*TODO*////*TODO*///	int x,sx,sy,ex,ey;
-/*TODO*////*TODO*///	struct osd_bitmap *srcbitmap = K051316_tilemap[chip]->pixmap;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	startx = 256 * ((INT16)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01]));
-/*TODO*////*TODO*///	incxx  =        (INT16)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
-/*TODO*////*TODO*///	incyx  =        (INT16)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
-/*TODO*////*TODO*///	starty = 256 * ((INT16)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07]));
-/*TODO*////*TODO*///	incxy  =        (INT16)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
-/*TODO*////*TODO*///	incyy  =        (INT16)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	startx += (Machine->drv->visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx;
-/*TODO*////*TODO*///	starty += (Machine->drv->visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	startx += (Machine->drv->visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx;
-/*TODO*////*TODO*///	starty += (Machine->drv->visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	sx = Machine->drv->visible_area.min_x;
-/*TODO*////*TODO*///	sy = Machine->drv->visible_area.min_y;
-/*TODO*////*TODO*///	ex = Machine->drv->visible_area.max_x;
-/*TODO*////*TODO*///	ey = Machine->drv->visible_area.max_y;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int t;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		t = startx; startx = starty; starty = t;
-/*TODO*////*TODO*///		t = sx; sx = sy; sy = t;
-/*TODO*////*TODO*///		t = ex; ex = ey; ey = t;
-/*TODO*////*TODO*///		t = incxx; incxx = incyy; incyy = t;
-/*TODO*////*TODO*///		t = incxy; incxy = incyx; incyx = t;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int w = ex - sx;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		incxy = -incxy;
-/*TODO*////*TODO*///		incyx = -incyx;
-/*TODO*////*TODO*///		startx = 0xfffff - startx;
-/*TODO*////*TODO*///		startx -= incxx * w;
-/*TODO*////*TODO*///		starty -= incxy * w;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int h = ey - sy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		incxy = -incxy;
-/*TODO*////*TODO*///		incyx = -incyx;
-/*TODO*////*TODO*///		starty = 0xfffff - starty;
-/*TODO*////*TODO*///		startx -= incyx * h;
-/*TODO*////*TODO*///		starty -= incyy * h;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (bitmap->depth == 8)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		unsigned char *dest;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if (incxy == 0 && incyx == 0 && !K051316_wraparound[chip])
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			/* optimized loop for the not rotated case */
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			if (incxx == 0x800)
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				/* optimized loop for the not zoomed case */
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				/* startx is unsigned */
-/*TODO*////*TODO*///				startx = ((INT32)startx) >> 11;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if (startx >= 512)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					sx += -startx;
-/*TODO*////*TODO*///					startx = 0;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if (sx <= ex)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					while (sy <= ey)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						if ((starty & 0xfff00000) == 0)
-/*TODO*////*TODO*///						{
-/*TODO*////*TODO*///							x = sx;
-/*TODO*////*TODO*///							cx = startx;
-/*TODO*////*TODO*///							cy = starty >> 11;
-/*TODO*////*TODO*///							dest = &bitmap->line[sy][sx];
-/*TODO*////*TODO*///							while (x <= ex && cx < 512)
-/*TODO*////*TODO*///							{
-/*TODO*////*TODO*///								int c = srcbitmap->line[cy][cx];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///								if (c != palette_transparent_pen)
-/*TODO*////*TODO*///									*dest = c;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///								cx++;
-/*TODO*////*TODO*///								x++;
-/*TODO*////*TODO*///								dest++;
-/*TODO*////*TODO*///							}
-/*TODO*////*TODO*///						}
-/*TODO*////*TODO*///						starty += incyy;
-/*TODO*////*TODO*///						sy++;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///			else
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				while ((startx & 0xfff00000) != 0 && sx <= ex)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					startx += incxx;
-/*TODO*////*TODO*///					sx++;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if ((startx & 0xfff00000) == 0)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					while (sy <= ey)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						if ((starty & 0xfff00000) == 0)
-/*TODO*////*TODO*///						{
-/*TODO*////*TODO*///							x = sx;
-/*TODO*////*TODO*///							cx = startx;
-/*TODO*////*TODO*///							cy = starty >> 11;
-/*TODO*////*TODO*///							dest = &bitmap->line[sy][sx];
-/*TODO*////*TODO*///							while (x <= ex && (cx & 0xfff00000) == 0)
-/*TODO*////*TODO*///							{
-/*TODO*////*TODO*///								int c = srcbitmap->line[cy][cx >> 11];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///								if (c != palette_transparent_pen)
-/*TODO*////*TODO*///									*dest = c;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///								cx += incxx;
-/*TODO*////*TODO*///								x++;
-/*TODO*////*TODO*///								dest++;
-/*TODO*////*TODO*///							}
-/*TODO*////*TODO*///						}
-/*TODO*////*TODO*///						starty += incyy;
-/*TODO*////*TODO*///						sy++;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		else
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			if (K051316_wraparound[chip])
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				/* plot with wraparound */
-/*TODO*////*TODO*///				while (sy <= ey)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					x = sx;
-/*TODO*////*TODO*///					cx = startx;
-/*TODO*////*TODO*///					cy = starty;
-/*TODO*////*TODO*///					dest = &bitmap->line[sy][sx];
-/*TODO*////*TODO*///					while (x <= ex)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						int c = srcbitmap->line[(cy >> 11) & 0x1ff][(cx >> 11) & 0x1ff];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///						if (c != palette_transparent_pen)
-/*TODO*////*TODO*///							*dest = c;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///						cx += incxx;
-/*TODO*////*TODO*///						cy += incxy;
-/*TODO*////*TODO*///						x++;
-/*TODO*////*TODO*///						dest++;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					startx += incyx;
-/*TODO*////*TODO*///					starty += incyy;
-/*TODO*////*TODO*///					sy++;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///			else
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				while (sy <= ey)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					x = sx;
-/*TODO*////*TODO*///					cx = startx;
-/*TODO*////*TODO*///					cy = starty;
-/*TODO*////*TODO*///					dest = &bitmap->line[sy][sx];
-/*TODO*////*TODO*///					while (x <= ex)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						if ((cx & 0xfff00000) == 0 && (cy & 0xfff00000) == 0)
-/*TODO*////*TODO*///						{
-/*TODO*////*TODO*///							int c = srcbitmap->line[cy >> 11][cx >> 11];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///							if (c != palette_transparent_pen)
-/*TODO*////*TODO*///								*dest = c;
-/*TODO*////*TODO*///						}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///						cx += incxx;
-/*TODO*////*TODO*///						cy += incxy;
-/*TODO*////*TODO*///						x++;
-/*TODO*////*TODO*///						dest++;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					startx += incyx;
-/*TODO*////*TODO*///					starty += incyy;
-/*TODO*////*TODO*///					sy++;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
+        //public static int MAX_K051316= 3;
+
+        public static int[] K051316_memory_region=new int[3];
+        static int[] K051316_gfxnum=new int[3];
+        static int[] K051316_wraparound=new int[3];
+        static int[][] K051316_offset=new int[3][];
+        static int[] K051316_bpp=new int[3];
+        static K051316_callbackProcPtr[] K051316_callback=new K051316_callbackProcPtr[3];//static void (*K051316_callback[MAX_K051316])(int *code,int *color);
+        static UBytePtr[] K051316_ram=new UBytePtr[3];
+        static char[][] K051316_ctrlram=new char[3][];
+        static tilemap[] K051316_tilemap=new tilemap[3];
+        static int K051316_chip_selected;
+        
+        static
+        {
+             for (int i = 0; i < 3; i++)
+                K051316_offset[i] = new int[2];
+            for (int i = 0; i < 3; i++)
+                K051316_ctrlram[i] = new char[16];
+
+        }
+
+        /***************************************************************************
+
+          Callbacks for the TileMap code
+
+        ***************************************************************************/
+
+        public static void K051316_preupdate(int chip)
+        {
+                K051316_chip_selected = chip;
+        }
+
+        public static WriteHandlerPtr K051316_get_tile_info = new WriteHandlerPtr() { public void handler(int col, int row)
+	{
+                int tile_index = 32*row+col;
+                int[] code = new int[1];
+                int[] color= new int[1];
+                code[0] = K051316_ram[K051316_chip_selected].read(tile_index);
+                color[0] = K051316_ram[K051316_chip_selected].read(tile_index + 0x400);
+
+                K051316_callback[K051316_chip_selected].handler(code, color);//(*K051316_callback[K051316_chip_selected])(&code,&color);
+
+                SET_TILE_INFO(K051316_gfxnum[K051316_chip_selected],code[0],color[0]);
+        }};
+
+
+        public static int K051316_vh_start(int chip, int gfx_memory_region,int bpp,K051316_callbackProcPtr callback)
+        {
+                int gfx_index;
+
+
+                /* find first empty slot to decode gfx */
+                for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
+                        if (Machine.gfx[gfx_index] == null)
+                                break;
+                if (gfx_index == MAX_GFX_ELEMENTS)
+                        return 1;
+
+                if (bpp == 4)
+                {
+                        GfxLayout charlayout = new GfxLayout
+                        (
+                                16,16,
+                                0,				/* filled in later */
+                                4,
+                                new int[]{ 0, 1, 2, 3 },
+                                new int[]{ 0*4, 1*4, 2*4, 3*4, 4*4, 5*4, 6*4, 7*4,
+                                                8*4, 9*4, 10*4, 11*4, 12*4, 13*4, 14*4, 15*4 },
+                                new int[]{ 0*64, 1*64, 2*64, 3*64, 4*64, 5*64, 6*64, 7*64,
+                                                8*64, 9*64, 10*64, 11*64, 12*64, 13*64, 14*64, 15*64 },
+                                128*8
+                        );
+
+
+                        /* tweak the structure for the number of tiles we have */
+                        charlayout.total = memory_region_length(gfx_memory_region) / 128;
+
+                        /* decode the graphics */
+                        Machine.gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),charlayout);
+                }
+                else if (bpp == 7)
+                {
+                        GfxLayout charlayout = new GfxLayout
+                        (
+                                16,16,
+                                0,				/* filled in later */
+                                7,
+                                new int[]{ 1, 2, 3, 4, 5, 6, 7 },
+                                new int[]{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
+                                                8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
+                                new int[]{ 0*128, 1*128, 2*128, 3*128, 4*128, 5*128, 6*128, 7*128,
+                                                8*128, 9*128, 10*128, 11*128, 12*128, 13*128, 14*128, 15*128 },
+                                256*8
+                        );
+
+
+                        /* tweak the structure for the number of tiles we have */
+                        charlayout.total = memory_region_length(gfx_memory_region) / 256;
+
+                        /* decode the graphics */
+                        Machine.gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),charlayout);
+                }
+                else
+                {
+                        if (errorlog!=null) fprintf(errorlog,"K051316_vh_start supports only 4 or 7 bpp\n");
+                        return 1;
+                }
+
+                if (Machine.gfx[gfx_index]==null)
+                        return 1;
+
+                /* set the color information */
+                Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+                Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / (1 << bpp);
+
+                K051316_memory_region[chip] = gfx_memory_region;
+                K051316_gfxnum[chip] = gfx_index;
+                K051316_bpp[chip] = bpp;
+                K051316_callback[chip] = callback;
+
+                K051316_tilemap[chip] = tilemap_create(K051316_get_tile_info,TILEMAP_OPAQUE,16,16,32,32);
+
+                K051316_ram[chip] = new UBytePtr(0x800);
+
+                if (K051316_ram[chip]==null || K051316_tilemap[chip]==null)
+                {
+                        K051316_vh_stop(chip);
+                        return 1;
+                }
+
+                tilemap_set_clip(K051316_tilemap[chip],null);
+
+                K051316_wraparound[chip] = 0;	/* default = no wraparound */
+                K051316_offset[chip][0] = K051316_offset[chip][1] = 0;
+
+                return 0;
+        }
+
+        public static int K051316_vh_start_0(int gfx_memory_region,int bpp,
+                        K051316_callbackProcPtr callback)
+        {
+                return K051316_vh_start(0,gfx_memory_region,bpp,callback);
+        }
+
+        public static int K051316_vh_start_1(int gfx_memory_region,int bpp,
+                        K051316_callbackProcPtr callback)
+        {
+                return K051316_vh_start(1,gfx_memory_region,bpp,callback);
+        }
+
+        public static int K051316_vh_start_2(int gfx_memory_region,int bpp,
+                        K051316_callbackProcPtr callback)
+        {
+                return K051316_vh_start(2,gfx_memory_region,bpp,callback);
+        }
+
+
+        public static void K051316_vh_stop(int chip)
+        {
+                K051316_ram[chip]=null;
+        }
+
+        public static void K051316_vh_stop_0()
+        {
+                K051316_vh_stop(0);
+        }
+
+        public static void K051316_vh_stop_1()
+        {
+                K051316_vh_stop(1);
+        }
+
+        public static void K051316_vh_stop_2()
+        {
+                K051316_vh_stop(2);
+        }
+
+	public static int K051316_r(int chip, int offset)
+	{
+		return K051316_ram[chip].read(offset);
+	}
+	
+	public static ReadHandlerPtr K051316_0_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_r(0, offset);
+	} };
+	
+	public static ReadHandlerPtr K051316_1_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_r(1, offset);
+	} };
+	
+	public static ReadHandlerPtr K051316_2_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_r(2, offset);
+	} };
+	public static void K051316_w(int chip,int offset,int data)
+	{
+		if (K051316_ram[chip].read(offset) != data)
+		{
+			K051316_ram[chip].write(offset,data);
+			tilemap_mark_tile_dirty(K051316_tilemap[chip],offset%32,(offset%0x400)/32);
+		}
+	}
+	
+	public static WriteHandlerPtr K051316_0_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_w(0,offset,data);
+	} };
+	
+	public static WriteHandlerPtr K051316_1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_w(1,offset,data);
+	} };
+	
+	public static WriteHandlerPtr K051316_2_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_w(2,offset,data);
+	} };
+
+        public static int K051316_rom_r(int chip, int offset)
+        {
+                if ((K051316_ctrlram[chip][0x0e] & 0x01) == 0)
+                {
+                        int addr;
+
+                        addr = offset + (K051316_ctrlram[chip][0x0c] << 11) + (K051316_ctrlram[chip][0x0d] << 19);
+                        if (K051316_bpp[chip] <= 4) addr /= 2;
+                        addr &= memory_region_length(K051316_memory_region[chip])-1;
+
+       /* #if 0
+                usrintf_showmessage("%04x: offset %04x addr %04x",cpu_get_pc(),offset,addr);
+        #endif*/
+
+                        return memory_region(K051316_memory_region[chip]).read(addr);
+                }
+                else
+                {
+                    if (errorlog!=null) fprintf(errorlog,"%04x: read 051316 ROM offset %04x but reg 0x0c bit 0 not clear\n",cpu_get_pc(),offset);
+                        return 0;
+                }
+        }
+
+	public static ReadHandlerPtr K051316_rom_0_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_rom_r(0,offset);
+	} };
+	
+	public static ReadHandlerPtr K051316_rom_1_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_rom_r(1,offset);
+	} };
+	
+	public static ReadHandlerPtr K051316_rom_2_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return K051316_rom_r(2,offset);
+	} };
+
+
+
+        public static void K051316_ctrl_w(int chip,int offset,int data)
+        {
+                K051316_ctrlram[chip][offset] = (char)(data &0xFF);
+                if (errorlog!=null && offset >= 0x0c) fprintf(errorlog,"%04x: write %02x to 051316 reg %x\n",cpu_get_pc(),data,offset);
+        }
+
+	public static WriteHandlerPtr K051316_ctrl_0_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_ctrl_w(0,offset,data);
+	} };
+	
+	public static WriteHandlerPtr K051316_ctrl_1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_ctrl_w(1,offset,data);
+	} };
+	
+	public static WriteHandlerPtr K051316_ctrl_2_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		K051316_ctrl_w(2,offset,data);
+	} };
+
+        public static void K051316_wraparound_enable(int chip, int status)
+        {
+                K051316_wraparound[chip] = status;
+        }
+
+        public static void K051316_set_offset(int chip, int xoffs, int yoffs)
+        {
+                K051316_offset[chip][0] = xoffs;
+                K051316_offset[chip][1] = yoffs;
+        }
+
+        public static void K051316_tilemap_update(int chip)
+        {
+                K051316_preupdate(chip);
+                tilemap_update(K051316_tilemap[chip]);
+        }
+
+        public static void K051316_tilemap_update_0()
+        {
+                K051316_tilemap_update(0);
+        }
+
+        public static void K051316_tilemap_update_1()
+        {
+                K051316_tilemap_update(1);
+        }
+
+        public static void K051316_tilemap_update_2()
+        {
+                K051316_tilemap_update(2);
+        }
+
+
+/* Note: rotation support doesn't handle asymmetrical visible areas. This doesn't */
+/* matter because in the Konami games the visible area is always symmetrical. */
+public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
+{
+	/*UINT32*/int startx,starty,cx,cy;
+	int incxx,incxy,incyx,incyy;
+	int x,sx,sy,ex,ey;
+	osd_bitmap srcbitmap = K051316_tilemap[chip].pixmap;
+
+	startx = 256 * ((char)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01]));
+	incxx  =        (char)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
+	incyx  =        (char)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
+	starty = 256 * ((char)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07]));
+	incxy  =        (char)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
+	incyy  =        (char)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
+
+	startx += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx;
+	starty += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy;
+
+	startx += (Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx;
+	starty += (Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy;
+
+	sx = Machine.drv.visible_area.min_x;
+	sy = Machine.drv.visible_area.min_y;
+	ex = Machine.drv.visible_area.max_x;
+	ey = Machine.drv.visible_area.max_y;
+
+	if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+	{
+		int t;
+
+		t = startx; startx = starty; starty = t;
+		t = sx; sx = sy; sy = t;
+		t = ex; ex = ey; ey = t;
+		t = incxx; incxx = incyy; incyy = t;
+		t = incxy; incxy = incyx; incyx = t;
+	}
+
+	if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+	{
+		int w = ex - sx;
+
+		incxy = -incxy;
+		incyx = -incyx;
+		startx = 0xfffff - startx;
+		startx -= incxx * w;
+		starty -= incxy * w;
+	}
+
+	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+	{
+		int h = ey - sy;
+
+		incxy = -incxy;
+		incyx = -incyx;
+		starty = 0xfffff - starty;
+		startx -= incyx * h;
+		starty -= incyy * h;
+	}
+
+	if (bitmap.depth == 8)
+	{
+		UBytePtr dest;
+
+		if (incxy == 0 && incyx == 0 && K051316_wraparound[chip]==0)
+		{
+			/* optimized loop for the not rotated case */
+
+			if (incxx == 0x800)
+			{
+				/* optimized loop for the not zoomed case */
+
+				/* startx is unsigned */
+				startx = ((int)startx) >> 11;
+
+				if (startx >= 512)
+				{
+					sx += -startx;
+					startx = 0;
+				}
+
+				if (sx <= ex)
+				{
+					while (sy <= ey)
+					{
+						if ((starty & 0xfff00000) == 0)
+						{
+							x = sx;
+							cx = startx;
+							cy = starty >> 11;
+							dest = new UBytePtr(bitmap.line[sy],sx);
+							while (x <= ex && cx < 512)
+							{
+								int c = srcbitmap.line[cy].read(cx);
+
+								if (c != palette_transparent_pen)
+									dest.write(0, c);//*dest = c; ????
+
+								cx++;
+								x++;
+								dest.base++;
+							}
+						}
+						starty += incyy;
+						sy++;
+					}
+				}
+			}
+			else
+			{
+				while ((startx & 0xfff00000) != 0 && sx <= ex)
+				{
+					startx += incxx;
+					sx++;
+				}
+
+				if ((startx & 0xfff00000) == 0)
+				{
+					while (sy <= ey)
+					{
+						if ((starty & 0xfff00000) == 0)
+						{
+							x = sx;
+							cx = startx;
+							cy = starty >> 11;
+							dest = new UBytePtr(bitmap.line[sy],sx);
+							while (x <= ex && (cx & 0xfff00000) == 0)
+							{
+								int c = srcbitmap.line[cy].read(cx >> 11);
+
+								if (c != palette_transparent_pen)
+									dest.write(0, c);//*dest = c;
+
+								cx += incxx;
+								x++;
+								dest.base++;
+							}
+						}
+						starty += incyy;
+						sy++;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (K051316_wraparound[chip]!=0)
+			{
+				/* plot with wraparound */
+				while (sy <= ey)
+				{
+					x = sx;
+					cx = startx;
+					cy = starty;
+					dest = new UBytePtr(bitmap.line[sy],sx);
+					while (x <= ex)
+					{
+						int c = srcbitmap.line[(cy >> 11) & 0x1ff].read((cx >> 11) & 0x1ff);
+
+						if (c != palette_transparent_pen)
+							dest.write(0, c);//*dest = c;
+
+						cx += incxx;
+						cy += incxy;
+						x++;
+						dest.base++;
+					}
+					startx += incyx;
+					starty += incyy;
+					sy++;
+				}
+			}
+			else
+			{
+				while (sy <= ey)
+				{
+					x = sx;
+					cx = startx;
+					cy = starty;
+					dest = new UBytePtr(bitmap.line[sy],sx);
+					while (x <= ex)
+					{
+						if ((cx & 0xfff00000) == 0 && (cy & 0xfff00000) == 0)
+						{
+							int c = srcbitmap.line[cy >> 11].read(cx >> 11);
+
+							if (c != palette_transparent_pen)
+								dest.write(0,c);//*dest = c;
+						}
+
+						cx += incxx;
+						cy += incxy;
+						x++;
+						dest.base++;
+					}
+					startx += incyx;
+					starty += incyy;
+					sy++;
+				}
+			}
+		}
+	}
 /*TODO*////*TODO*///	else
 /*TODO*////*TODO*///	{
 /*TODO*////*TODO*///		/* 16-bit case */
@@ -3300,13 +3316,13 @@ public  class konamiic
 /*TODO*////*TODO*///			K051316_ctrlram[chip][0x0e],	/* 0 = test ROMs */
 /*TODO*////*TODO*///			K051316_ctrlram[chip][0x0f]);
 /*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K051316_zoom_draw_0(struct osd_bitmap *bitmap)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_zoom_draw(0, bitmap);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+}
+
+        public static void K051316_zoom_draw_0(osd_bitmap bitmap)
+        {
+                K051316_zoom_draw(0, bitmap);
+        }
+
 /*TODO*////*TODO*///void K051316_zoom_draw_1(struct osd_bitmap *bitmap)
 /*TODO*////*TODO*///{
 /*TODO*////*TODO*///	K051316_zoom_draw(1, bitmap);
@@ -3318,59 +3334,59 @@ public  class konamiic
 /*TODO*////*TODO*///}
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static unsigned char K053251_ram[16];
-/*TODO*////*TODO*///static int K053251_palette_index[5];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053251_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	data &= 0x3f;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (K053251_ram[offset] != data)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		K053251_ram[offset] = data;
-/*TODO*////*TODO*///		if (offset == 9)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			/* palette base index */
-/*TODO*////*TODO*///			K053251_palette_index[0] = 32 * ((data >> 0) & 0x03);
-/*TODO*////*TODO*///			K053251_palette_index[1] = 32 * ((data >> 2) & 0x03);
-/*TODO*////*TODO*///			K053251_palette_index[2] = 32 * ((data >> 4) & 0x03);
-/*TODO*////*TODO*///			tilemap_mark_all_tiles_dirty(ALL_TILEMAPS);
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		else if (offset == 10)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			/* palette base index */
-/*TODO*////*TODO*///			K053251_palette_index[3] = 16 * ((data >> 0) & 0x07);
-/*TODO*////*TODO*///			K053251_palette_index[4] = 16 * ((data >> 3) & 0x07);
-/*TODO*////*TODO*///			tilemap_mark_all_tiles_dirty(ALL_TILEMAPS);
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///#if 0
-/*TODO*////*TODO*///else
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///if (errorlog)
-/*TODO*////*TODO*///fprintf(errorlog,"%04x: write %02x to K053251 register %04x\n",cpu_get_pc(),data&0xff,offset);
-/*TODO*////*TODO*///usrintf_showmessage("pri = %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
-/*TODO*////*TODO*///	K053251_ram[0],K053251_ram[1],K053251_ram[2],K053251_ram[3],
-/*TODO*////*TODO*///	K053251_ram[4],K053251_ram[5],K053251_ram[6],K053251_ram[7],
-/*TODO*////*TODO*///	K053251_ram[8],K053251_ram[9],K053251_ram[10],K053251_ram[11],
-/*TODO*////*TODO*///	K053251_ram[12],K053251_ram[13],K053251_ram[14],K053251_ram[15]
-/*TODO*////*TODO*///	);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053251_get_priority(int ci)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K053251_ram[ci];
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053251_get_palette_index(int ci)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return K053251_palette_index[ci];
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+
+
+        static /*unsigned*/ char[] K053251_ram=new char[16];
+        static int[] K053251_palette_index=new int[5];
+
+        public static WriteHandlerPtr K053251_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+                data &= 0x3f;
+
+                if (K053251_ram[offset] != data)
+                {
+                        K053251_ram[offset] = (char)(data&0xFF);
+                        if (offset == 9)
+                        {
+                                /* palette base index */
+                                K053251_palette_index[0] = 32 * ((data >> 0) & 0x03);
+                                K053251_palette_index[1] = 32 * ((data >> 2) & 0x03);
+                                K053251_palette_index[2] = 32 * ((data >> 4) & 0x03);
+                                tilemap_mark_all_tiles_dirty(ALL_TILEMAPS);
+                        }
+                        else if (offset == 10)
+                        {
+                                /* palette base index */
+                                K053251_palette_index[3] = 16 * ((data >> 0) & 0x07);
+                                K053251_palette_index[4] = 16 * ((data >> 3) & 0x07);
+                                tilemap_mark_all_tiles_dirty(ALL_TILEMAPS);
+                        }
+        /*#if 0
+        else
+        {
+        if (errorlog)
+        fprintf(errorlog,"%04x: write %02x to K053251 register %04x\n",cpu_get_pc(),data&0xff,offset);
+        usrintf_showmessage("pri = %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
+                K053251_ram[0],K053251_ram[1],K053251_ram[2],K053251_ram[3],
+                K053251_ram[4],K053251_ram[5],K053251_ram[6],K053251_ram[7],
+                K053251_ram[8],K053251_ram[9],K053251_ram[10],K053251_ram[11],
+                K053251_ram[12],K053251_ram[13],K053251_ram[14],K053251_ram[15]
+                );
+        }
+        #endif*/
+                }
+        }};
+
+        static int K053251_get_priority(int ci)
+        {
+                return K053251_ram[ci];
+        }
+
+        static int K053251_get_palette_index(int ci)
+        {
+                return K053251_palette_index[ci];
+        }
+
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///
 /*TODO*////*TODO*///static unsigned char K054000_ram[0x20];

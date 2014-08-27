@@ -64,11 +64,13 @@ public class gbusters
 		konami_cpu_setlines_callback = gbusters_banking;
 	
 		/* mirror address for banked ROM */
-		//memcpy(RAM,0x18000,RAM,0x10000, 0x08000 );
-                for(int i=0; i<0x08000; i++)
+		memcpy(RAM.memory,0x18000+ram.base,RAM.memory,0x10000+ram.base, 0x08000 );
+                
+                /*for(int i=0; i<0x08000; i++)
                 {
                     RAM.write(i+18000, RAM.read(i+0x10000));
-                }
+                }*/
+               
 	
 		paletteram = new CharPtr(RAM,0x30000);
 	} };

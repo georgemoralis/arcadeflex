@@ -104,6 +104,15 @@ public class libc {
         public char readdec() {
             return (char)((this.memory[(this.base--)])&0xFF);
         }
+        public char READ_WORD(int index)
+        {
+            return (char)(memory[base + 1 + index]&0xFF << 8 | memory[base + index]&0xFF);
+        }
+        public void WRITE_WORD(int index,char value)
+        {
+            memory[base + index] = (char)(value & 0xFF);
+            memory[base + index  + 1] = (char)((value >> 8) & 0xFF);
+        }
         /*
         public UBytePtr(char[] m) {
             set(m, 0);

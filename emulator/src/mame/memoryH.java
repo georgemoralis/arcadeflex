@@ -162,6 +162,21 @@ public static class ExtMemory{
             UBytePtr data;
         }
 
+/* ----- 16-bit memory accessing ----- */
+
+/*TODO*///#define READ_WORD(a)          (*(UINT16 *)(a))
+/*TODO*///#define WRITE_WORD(a,d)       (*(UINT16 *)(a) = (d))
+/*TODO*///#define COMBINE_WORD(w,d)     (((w) & ((d) >> 16)) | ((d) & 0xffff))
+/*TODO*///#define COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))
+        public static void COMBINE_WORD_MEM(UBytePtr a, int offset,int d)
+        {
+            a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
+            
+        }
+        public static int COMBINE_WORD(int w, int d)
+        {
+            return (((w) & ((d) >> 16)) | ((d) & 0xffff));
+        }
 
 /* ----- opcode reading ----- */
 public static char cpu_readop(int A) 

@@ -115,6 +115,10 @@ import static drivers.superpac.*;
 import static drivers.aliens.*;
 import static drivers.crimfght.*;
 import static drivers.gbusters.*;
+import static drivers.blockhl.*;
+import static drivers.surpratk.*;
+import static drivers.rollerg.*;
+import static drivers._88games.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -310,6 +314,17 @@ public class driver {
         /**
          * WIP section
          */
+        /*88games*/driver_88games,
+        /*88games*/driver_konami88,
+        /*88games*/driver_hypsptsp,
+        
+        /*rollerg*/driver_rollerg,
+        /*rollerg*/driver_rollergj,
+        
+        /*surpratk*/driver_surpratk,
+        
+        /*blockhl*/driver_blockhl,
+        /*blockhl*/driver_quarth,
         
         /*aliens*/driver_aliens,
         /*aliens*/driver_aliens2,
@@ -1919,21 +1934,17 @@ public class driver {
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
 
-/*TODO*/ //	DRIVER( 88games )	/* GX861 (c) 1988 */
-/*TODO*/ //	DRIVER( konami88 )	/* GX861 (c) 1988 */
-/*TODO*/ //	DRIVER( hypsptsp )	/* GX861 (c) 1988 (Japan) */
+
 
 
 
 /*TODO*/ //	DRIVER( bottom9 )	/* GX891 (c) 1989 */
 /*TODO*/ //	DRIVER( bottom9n )	/* GX891 (c) 1989 */
-/*TODO*/ //	DRIVER( blockhl )	/* GX973 (c) 1989 */
-/*TODO*/ //	DRIVER( quarth )	/* GX973 (c) 1989 (Japan) */
 
-/*TODO*/ //	DRIVER( surpratk )	/* GX911 (c) 1990 (Japan) */
+
+
 /*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( rollerg )	/* GX999 (c) 1991 (US) */
-/*TODO*/ //	DRIVER( rollergj )	/* GX999 (c) 1991 (Japan) */
+
 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
 /*TODO*/ //	DRIVER( simpsons )	/* GX072 (c) 1991 */
 /*TODO*/ //	DRIVER( simpsn2p )	/* GX072 (c) 1991 */
