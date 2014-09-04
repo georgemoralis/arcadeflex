@@ -119,6 +119,7 @@ import static drivers.blockhl.*;
 import static drivers.surpratk.*;
 import static drivers.rollerg.*;
 import static drivers._88games.*;
+import static drivers.bottom9.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -314,6 +315,11 @@ public class driver {
         /**
          * WIP section
          */
+        
+        
+        /*bottom9*/driver_bottom9,
+        /*bottom9*/driver_bottom9n,
+        
         /*88games*/driver_88games,
         /*88games*/driver_konami88,
         /*88games*/driver_hypsptsp,
@@ -1933,14 +1939,6 @@ public class driver {
 /*TODO*/ //	DRIVER( ajaxj )		/* GX770 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
-
-
-
-
-
-/*TODO*/ //	DRIVER( bottom9 )	/* GX891 (c) 1989 */
-/*TODO*/ //	DRIVER( bottom9n )	/* GX891 (c) 1989 */
-
 
 
 /*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */

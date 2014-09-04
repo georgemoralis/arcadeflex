@@ -1724,7 +1724,9 @@ public  class konamiic
 	{
        
             int shift = ((offset & 1) ^ 1) << 3;
-            return (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
+            int d= (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
+            if(konamiicclog!=null) fprintf( konamiicclog,"read %d\n",d);
+            return d;
                     
             //return (READ_WORD(&K053245_ram[offset & ~1]) >> shift) & 0xff;
         }};
@@ -1735,6 +1737,7 @@ public  class konamiic
         	offset &= ~1;
                 //K053245_ram.COMBINE_WORD_MEM(offset,(char)((0xff000000 >> shift) | ((data & 0xff) << shift)));
         	COMBINE_WORD_MEM(K053245_ram,offset,(0xff000000 >> shift) | ((data & 0xff) << shift));
+                if(konamiicclog!=null) fprintf( konamiicclog,"write shift=%d offset=%d write=%d\n",shift,offset,(int)K053245_ram.read(offset));
 
         }};
 

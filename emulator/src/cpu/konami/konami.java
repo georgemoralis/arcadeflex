@@ -16,7 +16,7 @@ import static arcadeflex.libc_old.*;
 
 
 public class konami extends cpu_interface{
-    public static FILE konamilog=null;//fopen("konami.log", "wa");  //for debug purposes
+    public static FILE konamilog=fopen("konami.log", "wa");  //for debug purposes
     
     public static abstract interface konami_cpu_setlines_callbackPtr { public abstract void handler(int lines); }
     public int[] konami_ICount = new int[1];
