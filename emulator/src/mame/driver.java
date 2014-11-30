@@ -120,6 +120,8 @@ import static drivers.surpratk.*;
 import static drivers.rollerg.*;
 import static drivers._88games.*;
 import static drivers.bottom9.*;
+import static drivers.cheekyms.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -759,7 +761,7 @@ public class driver {
 /*TODO*/ //	DRIVER( devzone )	/* 8022 (c) [1980] */
 /*TODO*/ //	DRIVER( nomnlnd )	/* (c) [1980?] */
 /*TODO*/ //	DRIVER( nomnlndg )	/* (c) [1980?] + Gottlieb */
-/*TODO*/ //	DRIVER( cheekyms )	/* (c) [1980?] */
+    driver_cheekyms,
     driver_ladybug,	/* (c) 1981 */
     driver_ladybugb,	/* bootleg */
     driver_snapjack,	/* (c) */

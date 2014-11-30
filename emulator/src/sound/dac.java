@@ -5,6 +5,8 @@ import mame.sndintrf;
 import mame.sndintrfH;
 import static mame.sndintrfH.*;
 import static sound.dacH.*;
+import static mame.driverH.*;
+import static sound.streams.*;
 
 public class dac extends sndintrf.snd_interface
 {
@@ -58,21 +60,20 @@ public class dac extends sndintrf.snd_interface
 
             while (length--) *(buffer++) = out;
     }
-
-
-    void DAC_data_w(int num,int data)
+*/
+   public static WriteHandlerPtr DAC_data_w = new WriteHandlerPtr() { public void handler(int num, int data)
     {
             int out = UnsignedVolTable[data];
 
             if (output[num] != out)
             {
                     /* update the output buffer before changing the registers */
-  /*                  stream_update(channel[num],0);
+                    stream_update(channel[num],0);
                     output[num] = out;
             }
-    }
+    }};
 
-
+   /*
     void DAC_signed_data_w(int num,int data)
     {
             int out = SignedVolTable[data];
