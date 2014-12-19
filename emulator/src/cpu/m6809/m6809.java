@@ -1392,7 +1392,7 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xf5: EA=S+SIGNED(B);						EAD=RM16(EAD);	m6809_ICount-=4;   break;
     /*TODO*///	case 0xf6: EA=S+SIGNED(A);						EAD=RM16(EAD);	m6809_ICount-=4;   break;
     /*TODO*///	case 0xf7: EA=0;																   break; /*ILLEGAL*/
-    /*TODO*///	case 0xf8: IMMBYTE(EA); 	EA=S+SIGNED(EA);	EAD=RM16(EAD);	m6809_ICount-=4;   break;
+    	case 0xf8: ea=IMMBYTE(); 	ea=m6809.s+(byte)ea & 0xFFFF;	ea=RM16(ea);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xf9: IMMWORD(ea); 	EA+=S;				EAD=RM16(EAD);	m6809_ICount-=7;   break;
     /*TODO*///	case 0xfa: EA=0;																   break; /*ILLEGAL*/
     /*TODO*///	case 0xfb: EA=S+D;								EAD=RM16(EAD);	m6809_ICount-=7;   break;
@@ -4292,14 +4292,14 @@ public class m6809 extends cpu_interface
         //if(m6809log!=null) fprintf(m6809log,"M6809#%d stu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
     
     }
-    /*TODO*///
-    /*TODO*////* $10eF STS indexed -**0- */
+    
+    /* $10eF STS indexed -**0- */
     public void sts_ix()
     {
-    /*TODO*///	fetch_effective_address();
-    /*TODO*///    CLR_NZV;
-    /*TODO*///	SET_NZ16(S);
-    /*TODO*///	WM16(EAD,&pS);
+        fetch_effective_address();
+        CLR_NZV();
+    	SET_NZ16(m6809.s);
+    	WM16(ea,m6809.s);
     }
     /* $f0 SUBB extended ?**** */
     public void subb_ex()
@@ -4533,7 +4533,8 @@ public class m6809 extends cpu_interface
     		case 0xdf: sts_di();	m6809_ICount[0]-=4;	break;
     /*TODO*///
     		case 0xee: lds_ix();	m6809_ICount[0]-=6;	break;
-    /*TODO*///		case 0xef: sts_ix();	m6809_ICount-=6;	break;
+    
+                case 0xef: sts_ix();	m6809_ICount[0]-=6;	break;
     /*TODO*///
     		case 0xfe: lds_ex();	m6809_ICount[0]-=7;	break;
     		case 0xff: sts_ex();	m6809_ICount[0]-=7;	break;
