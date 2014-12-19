@@ -4,9 +4,8 @@ import static mame.driverH.*;
 
 public class _3812intfH {
     
-    /*TODO*///#define MAX_3812 2
-    /*TODO*///#define MAX_8950 MAX_3812
-    /*TODO*///
+    public static final int MAX_3812 =2;
+    public static final int MAX_8950 =MAX_3812;
 
     public static class YM3812interface
     {
@@ -16,6 +15,13 @@ public class _3812intfH {
             this.baseclock=baseclock;
             this.mixing_level=mixing_level;
             this.handler=handler;
+        }
+        public YM3812interface(int num,int baseclock,int[] mixing_level)
+        {
+            this.num =num;
+            this.baseclock=baseclock;
+            this.mixing_level=mixing_level;
+            this.handler=null;
         }
         int num;
         int baseclock;
