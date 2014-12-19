@@ -262,15 +262,14 @@ public class driver {
         /*125*//*wiz*/driver_scionc,
         /*126*//*wiz*/driver_wiz,
         /*127*//*wiz*/driver_wizt,
-        /*128*//*appoooh*/driver_appoooh,
-        
-        /*retofinv*/driver_retofinv,
-        /*retofinv*/driver_retofin1,
-        /*retofinv*/driver_retofin2,
-        /*scregg*/driver_scregg,
-        /*scregg*/driver_eggs,
-        /*yamato*/driver_yamato,	
-        /*yamato*/driver_yamato2,	
+        /*128*//*appoooh*/driver_appoooh,    
+        /*129*//*retofinv*/driver_retofinv,
+        /*130*//*retofinv*/driver_retofin1,
+        /*131*//*retofinv*/driver_retofin2,
+        /*132*//*scregg*/driver_scregg,
+        /*133*//*scregg*/driver_eggs,
+        /*134*//*yamato*/driver_yamato,	
+        /*135*//*yamato*/driver_yamato2,	
         
         /*
           Possible cpu bugs
