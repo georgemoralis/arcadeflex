@@ -31,7 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.nio.file.Files;
-
+import static arcadeflex.ptrlib.*;
 /**
  *
  * @author shadow
@@ -374,7 +374,17 @@ public class libc_old {
             dst.write(i, src.read(i));     
         }
     }
+    public static void memcpy(UBytePtr dst, UBytePtr src, int size) {
+        for (int i = 0; i < size; i++) {
+            dst.write(i, src.read(i));     
+        }
+    }
     public static void memcpy(CharPtr dst,int dstoffs, CharPtr src,int srcoffs, int size) 
+    {
+        memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
+    
+    }
+    public static void memcpy(UBytePtr dst,int dstoffs, UBytePtr src,int srcoffs, int size) 
     {
         memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
     
@@ -714,7 +724,7 @@ public class libc_old {
         }
 
         public CharPtr(UBytePtr cp, int b) {
-            set(cp.memory, cp.base + b);
+            set(cp.memory, cp.offset + b);
         }
 
         public void set(char[] m, int b) {
@@ -837,7 +847,7 @@ public class libc_old {
         }
 
         public IntPtr(UBytePtr p) {
-            set(p.memory, p.base);
+            set(p.memory, p.offset);
         }
 
         public void set(char[] input, int b) {

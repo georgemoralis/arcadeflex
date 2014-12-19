@@ -20,7 +20,8 @@ import static mame.usrintrf.*;
 import static arcadeflex.blit.*;
 import static mame.inputportH.*;
 import static mame.input.*;
-
+import static arcadeflex.sound.*;
+import static arcadeflex.ptrlib.*;
 public class video {
 
     public static software_gfx screen; //for our screen creation
@@ -2237,6 +2238,7 @@ public class video {
     /*TODO*///			}
     /*TODO*///		}
             blitscreen_dirty1_vga();
+            update_audio();
             if (need_to_clear_bitmap != 0) {
                 osd_clearbitmap(scrbitmap);
             }

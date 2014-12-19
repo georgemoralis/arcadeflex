@@ -20,11 +20,11 @@ public class blit {
             {*/
                 for (int i = 0; i < scrbitmap.height; i++)
                 {
-                    System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].base, back_buffer, i * scrbitmap.width, scrbitmap.width);
+                    System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].offset, back_buffer, i * scrbitmap.width, scrbitmap.width);
                 }
 
                 {
-                    int sbi = scrbitmap.line[skiplines].base + skipcolumns;
+                    int sbi = scrbitmap.line[skiplines].offset + skipcolumns;
                     sbi = 0;
                     //w = drv.screen_width;// gfx_display_columns;
                     //h = drv.screen_height;// gfx_display_lines;

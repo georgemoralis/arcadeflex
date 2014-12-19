@@ -21,6 +21,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import static mame.osdependH.*;
 import static mame.mame.*;
+import static arcadeflex.ptrlib.*;
 
 public class fileio {
 
@@ -470,6 +471,10 @@ public class fileio {
         osd_fread(file, buffer.memory, buffer.base, length);
         return 0;
     }
+    public static int osd_fread(Object file, UBytePtr buffer, int length) {
+        osd_fread(file, buffer.memory, buffer.offset, length);
+        return 0;
+    }
     public static int osd_fread_scatter(Object file,CharPtr buffer,int length, int increment)
     {
         //unsigned char *buf = buffer;
@@ -523,6 +528,10 @@ public class fileio {
 
     public static int osd_fwrite(Object file, CharPtr buffer, int length) {
         osd_fwrite(file, buffer.memory, buffer.base, length);
+        return 0;
+    }
+    public static int osd_fwrite(Object file, UBytePtr buffer, int length) {
+        osd_fwrite(file, buffer.memory, buffer.offset, length);
         return 0;
     }
 
