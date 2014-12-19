@@ -7,6 +7,7 @@ import mame.driverH.WriteHandlerPtr;
 import arcadeflex.libc.*;
 import static mame.memory.*;
 import static mame.cpuintrf.*;
+import static arcadeflex.ptrlib.*;
 
 /**
  *
@@ -18,17 +19,17 @@ public class memoryH {
 
      public static class MemoryReadAddress
      {
-        public MemoryReadAddress(int s, int e, int h, CharPtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
-        public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, CharPtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = rhp; this.base = b; this.size = size; }
-        public MemoryReadAddress(int s, int e, int h, CharPtr b) { start = s; end = e; handler = h; base = b; };
+        public MemoryReadAddress(int s, int e, int h, UBytePtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
+        public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, UBytePtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = rhp; this.base = b; this.size = size; }
+        public MemoryReadAddress(int s, int e, int h, UBytePtr b) { start = s; end = e; handler = h; base = b; };
         public MemoryReadAddress(int s, int e, int h) { this(s, e, h, null); };
-        public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, CharPtr b) { start = s; end = e; handler = 1; _handler = rhp; base = b; };
+        public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, UBytePtr b) { start = s; end = e; handler = 1; _handler = rhp; base = b; };
         public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp) { this(s, e, rhp, null); };
         public MemoryReadAddress(int s) { this(s, -1, null); };
         public int start,end;
         public int handler;
         public ReadHandlerPtr _handler;	/* see special values below */
-        public CharPtr base;
+        public UBytePtr base;
         public int[] size;
     };
 
@@ -56,17 +57,17 @@ public class memoryH {
     
     public static class MemoryWriteAddress
     {
-        public MemoryWriteAddress(int s, int e, int h, CharPtr b, int[] size){this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
-        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, CharPtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = whp; this.base = b; this.size = size; }
-        public MemoryWriteAddress(int s, int e, int h, CharPtr b) { start = s; end = e; handler = h; base = b; };
+        public MemoryWriteAddress(int s, int e, int h, UBytePtr b, int[] size){this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
+        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, UBytePtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = whp; this.base = b; this.size = size; }
+        public MemoryWriteAddress(int s, int e, int h, UBytePtr b) { start = s; end = e; handler = h; base = b; };
         public MemoryWriteAddress(int s, int e, int h) { this(s, e, h, null); };
-        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, CharPtr b) { start = s; end = e; handler = 1; _handler = whp; base = b; };
-        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp) { this(s, e, whp, null); };
+        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, UBytePtr b) { start = s; end = e; handler = 1; _handler = whp; base = b; };
+        public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp) { start = s; end = e; handler = 1; _handler = whp; base = null;/*this(s, e, whp, null);*/ };
         public MemoryWriteAddress(int s) { this(s, -1, null); };
         public int start,end;
         public int handler;
         public WriteHandlerPtr _handler;	/* see special values below */
-        public CharPtr base;
+        public UBytePtr base;
         public int[] size;
     };
 
@@ -170,7 +171,7 @@ public static class ExtMemory{
 /*TODO*///#define COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))
         public static void COMBINE_WORD_MEM(UBytePtr a, int offset,int d)
         {
-            a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
+ //           a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
             
         }
         public static int COMBINE_WORD(int w, int d)

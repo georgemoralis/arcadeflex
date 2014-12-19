@@ -7,7 +7,7 @@ import static mame.mame.*;
 import static mame.driverH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class drawgfx {
 
 /*TODO*///#define BL0 0
@@ -509,24 +509,24 @@ public class drawgfx {
             UBytePtr sd = new UBytePtr(src.line[0]); /* source data */
             int sw = ex - sx + 1; /* source width */
             int sh = ey - sy + 1; /* source height */
-            int sm = (int)(src.line[1].base - src.line[0].base); /* source modulo */
+            int sm = (int)(src.line[1].offset - src.line[0].offset); /* source modulo */
             UBytePtr dd = new UBytePtr(dest.line[sy], sx); /* dest data */
-            int dm = (int)(dest.line[1].base - dest.line[0].base); /* dest modulo */
+            int dm = (int)(dest.line[1].offset - dest.line[0].offset); /* dest modulo */
                    
             if (flipx!=0)
             {
-                sd.base += src.width - 1 - (sx - ox);
+                sd.offset += src.width - 1 - (sx - ox);
             }
             else
-                sd.base += (sx - ox);
+                sd.offset += (sx - ox);
             
             if (flipy!=0)
             {
-                sd.base += sm * (src.height - 1 - (sy - oy));
+                sd.offset += sm * (src.height - 1 - (sy - oy));
                 sm = -sm;
             }
             else
-                sd.base += (sm * (sy - oy));
+                sd.offset += (sm * (sy - oy));
 
             switch (transparency)
             {
@@ -562,10 +562,10 @@ public class drawgfx {
             
             while (srcheight != 0)
             {
-                System.arraycopy(srcdata.memory, (int)srcdata.base, dstdata.memory, (int)dstdata.base, srcwidth);
+                System.arraycopy(srcdata.memory, (int)srcdata.offset, dstdata.memory, (int)dstdata.offset, srcwidth);
                 //memcpy(dstdata,srcdata,srcwidth * sizeof(UINT8));
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -591,15 +591,15 @@ public class drawgfx {
 
             while (srcheight != 0)
             {
-                end = dstdata.base + srcwidth;
-                while ((srcdata.base & 3) != 0 && dstdata.base < end) /* longword align */
+                end = dstdata.offset + srcwidth;
+                while ((srcdata.offset & 3) != 0 && dstdata.offset < end) /* longword align */
                 {
-                    int col = srcdata.read(0); srcdata.base++;
+                    int col = srcdata.read(0); srcdata.offset++;
                     if (col != transpen) dstdata.write(0,col);
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
                 sd4 = new IntPtr(srcdata);
-                while (dstdata.base <= end - 4)
+                while (dstdata.offset <= end - 4)
                 {
                     int col4;
 
@@ -622,18 +622,18 @@ public class drawgfx {
                         }
                     }
                     sd4.base += 4;
-                    dstdata.base += 4;
+                    dstdata.offset += 4;
                 }
                 srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
-                while (dstdata.base < end)
+                while (dstdata.offset < end)
                 {
-                    int col = srcdata.read(0); srcdata.base++;
+                    int col = srcdata.read(0); srcdata.offset++;
                     if (col != transpen) dstdata.write(0,col);
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
 
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -646,21 +646,21 @@ public class drawgfx {
             srcmodulo += srcwidth;
             dstmodulo -= srcwidth;
             //srcdata += srcwidth-1;
-            srcdata.base -= 3;
+            srcdata.offset -= 3;
 
             trans4 = transpen * 0x01010101;
 
             while (srcheight != 0)
             {
-                end = dstdata.base + srcwidth;
-                while ((srcdata.base & 3) != 0 && dstdata.base < end) /* longword align */
+                end = dstdata.offset + srcwidth;
+                while ((srcdata.offset & 3) != 0 && dstdata.offset < end) /* longword align */
                 {
-                    int col = srcdata.read(3); srcdata.base--;
+                    int col = srcdata.read(3); srcdata.offset--;
                     if (col != transpen) dstdata.write(0,col);
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
                 sd4 = new IntPtr(srcdata);
-                while (dstdata.base <= end - 4)
+                while (dstdata.offset <= end - 4)
                 {
                     int col4;
 
@@ -675,18 +675,18 @@ public class drawgfx {
                         if ((xod4 & 0xff000000)!= 0) dstdata.write(0,(col4 >> 24) & 0xFF);            
                     }
                     sd4.base -= 4;
-                    dstdata.base += 4;
+                    dstdata.offset += 4;
                 } 
                 srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
-                while (dstdata.base < end)
+                while (dstdata.offset < end)
                 {
-                    int col = srcdata.read(3); srcdata.base--;
+                    int col = srcdata.read(3); srcdata.offset--;
                     if (col != transpen) dstdata.write(0,col);
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
 
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;                     
             }
         }
@@ -2020,18 +2020,18 @@ public class drawgfx {
  
             while (srcheight != 0)
             {
-                end = dstdata.base + srcwidth;
-                while ((srcdata.base & 3) != 0 && dstdata.base < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+                end = dstdata.offset + srcwidth;
+                while ((srcdata.offset & 3) != 0 && dstdata.offset < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
                 {
                     int col = srcdata.read(0);
-                    srcdata.base++;
+                    srcdata.offset++;
                     if (col != transpen)
                         dstdata.write(0,paldata.read(col));
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
 
                 sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
-                while (dstdata.base <= end - 4)
+                while (dstdata.offset <= end - 4)
                 {
                     int col4;
                     if ((col4 = sd4.read(0)) != trans4)
@@ -2048,20 +2048,20 @@ public class drawgfx {
                             dstdata.write(3,paldata.read((col4>>24) & 0xff));
                     }
                     sd4.base += 4;
-                    dstdata.base += 4;
+                    dstdata.offset += 4;
                 }
                 srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
                 
-                while (dstdata.base < end)
+                while (dstdata.offset < end)
                 {
                     int col = srcdata.read(0);
-                    srcdata.base++;
+                    srcdata.offset++;
                     if (col != transpen)
                         dstdata.write(0,paldata.read(col));
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -2130,25 +2130,25 @@ public class drawgfx {
             IntPtr sd4 = new IntPtr(srcdata);//UINT32 *sd4;
             srcmodulo += srcwidth;
             dstmodulo -= srcwidth;
-            srcdata.base -= 3;
+            srcdata.offset -= 3;
 
             int trans4 = transpen * 0x01010101;
 
             while (srcheight != 0)
             {
-                end = dstdata.base + srcwidth;
-                while ((srcdata.base & 3) != 0 && dstdata.base < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+                end = dstdata.offset + srcwidth;
+                while ((srcdata.offset & 3) != 0 && dstdata.offset < end) //while (((long)srcdata & 3) && dstdata < end)	/* longword align */
                 {
                     int col = srcdata.read(3);
-                    srcdata.base--;
+                    srcdata.offset--;
                     if (col != transpen)
                         dstdata.write(0, paldata.read(col));
-                    dstdata.base++;
+                    dstdata.offset++;
                 }
  
              
-                sd4.base = srcdata.base;
-                while (dstdata.base <= end - 4)
+                sd4.base = srcdata.offset;
+                while (dstdata.offset <= end - 4)
                 {
                     int col4;//UINT32 col4
                     if ((col4 = sd4.read(0)) != trans4)//if ((col4 = *(sd4--)) != trans4)
@@ -2166,20 +2166,20 @@ public class drawgfx {
                             dstdata.write(3, paldata.read(col4 &0xff));
                     }
                     sd4.base -= 4;
-                    dstdata.base += 4;
+                    dstdata.offset += 4;
                 }
-                srcdata.base = sd4.base;
-                while (dstdata.base < end)
+                srcdata.offset = sd4.base;
+                while (dstdata.offset < end)
                 {
                     int col = srcdata.read(3);
-                    srcdata.base--;
+                    srcdata.offset--;
                     if (col != transpen)
                         dstdata.write(0,paldata.read(col)); 
-                    dstdata.base++;
+                    dstdata.offset++;
 
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -2258,18 +2258,18 @@ public class drawgfx {
 
 	while (srcheight!=0)
 	{
-		end = dstdata.base + srcwidth;
-		while ((srcdata.base & 3) != 0 && dstdata.base < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+		end = dstdata.offset + srcwidth;
+		while ((srcdata.offset & 3) != 0 && dstdata.offset < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
 		{
 			int col;
 
 			col = srcdata.read(0);
-                        srcdata.base++;
+                        srcdata.offset++;
 			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col)); //*dstdata = paldata[col];
-			dstdata.base++;
+			dstdata.offset++;
 		}
 		sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
-		while (dstdata.base <= end - 4)
+		while (dstdata.offset <= end - 4)
 		{
 			int col;
 			int col4;
@@ -2284,22 +2284,22 @@ public class drawgfx {
 			col = (col4 >> 24) & 0xff;
 			if (((1<<col)&transmask) == 0) dstdata.write(3,paldata.read(col));
 			sd4.base += 4;
-                        dstdata.base += 4;
+                        dstdata.offset += 4;
 		}
                 srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
 		
-		while (dstdata.base < end)
+		while (dstdata.offset < end)
 		{
 			int col;
 
 			col = srcdata.read(0);
-                        srcdata.base++;
+                        srcdata.offset++;
 			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));//*dstdata = paldata[col];
-			dstdata.base++;
+			dstdata.offset++;
 		}
 
-		srcdata.base += srcmodulo;
-		dstdata.base += dstmodulo;
+		srcdata.offset += srcmodulo;
+		dstdata.offset += dstmodulo;
 		srcheight--;
 	}
     }
@@ -2367,22 +2367,22 @@ public class drawgfx {
 	srcmodulo += srcwidth;
 	dstmodulo -= srcwidth;
         //srcdata += srcwidth-1;
-        srcdata.base -= 3;
+        srcdata.offset -= 3;
 
 	while (srcheight!=0)
 	{
-		end = dstdata.base + srcwidth;
-		while ((srcdata.base & 3) != 0 && dstdata.base < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
+		end = dstdata.offset + srcwidth;
+		while ((srcdata.offset & 3) != 0 && dstdata.offset < end)//while (((long)srcdata & 3) && dstdata < end)	/* longword align */
 		{
 			int col;
 
 			col = srcdata.read(3);
-                        srcdata.base--;
+                        srcdata.offset--;
 			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col)); //*dstdata = paldata[col];
-			dstdata.base++;
+			dstdata.offset++;
 		}
 		sd4 = new IntPtr(srcdata);//sd4 = (UINT32 *)srcdata;
-		while (dstdata.base <= end - 4)
+		while (dstdata.offset <= end - 4)
 		{
 			int col;
 			int col4;
@@ -2396,22 +2396,22 @@ public class drawgfx {
 			col = (col4 >>  0) & 0xff;
 			if (((1<<col)&transmask) == 0) dstdata.write(3,paldata.read(col));
 			sd4.base -= 4;
-                        dstdata.base += 4;
+                        dstdata.offset += 4;
 		}
                 srcdata.set(sd4.readCA(), sd4.getBase());//srcdata = (unsigned char *)sd4;
 		
-		while (dstdata.base < end)
+		while (dstdata.offset < end)
 		{
 			int col;
 
 			col = srcdata.read(3);
-                        srcdata.base--;
+                        srcdata.offset--;
 			if (((1<<col)&transmask) == 0) dstdata.write(0,paldata.read(col));//*dstdata = paldata[col];
-			dstdata.base++;
+			dstdata.offset++;
 		}
 
-		srcdata.base += srcmodulo;
-		dstdata.base += dstmodulo;
+		srcdata.offset += srcmodulo;
+		dstdata.offset += dstmodulo;
 		srcheight--;
 	}
     }
@@ -2488,18 +2488,18 @@ public class drawgfx {
           
             while (srcheight!=0)
             {
-                end = dstdata.base + srcwidth;
-		while (dstdata.base < end)
+                end = dstdata.offset + srcwidth;
+		while (dstdata.offset < end)
 		{
 			//if (lookupdata[*srcdata] != transcolor) *dstdata = paldata[*srcdata];
-                    if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.base]] != transcolor)
-                            dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+                    if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.offset]] != transcolor)
+                            dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
 
 			srcdata.inc();
 			dstdata.inc();
 		}
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
     }
@@ -2543,16 +2543,16 @@ public class drawgfx {
             dstmodulo -= srcwidth; //srcdata += srcwidth-1;
             while (srcheight != 0)
             {
-                end = (int)(dstdata.base + srcwidth);
-                while (dstdata.base < end)
+                end = (int)(dstdata.offset + srcwidth);
+                while (dstdata.offset < end)
                 {
-                   if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.base]] != transcolor)
-                            dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
-                    srcdata.base--;
-                    dstdata.base++;
+                   if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.offset]] != transcolor)
+                            dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
+                    srcdata.offset--;
+                    dstdata.offset++;
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -2594,16 +2594,16 @@ public class drawgfx {
             
             while (srcheight!=0)
             {
-                end = dstdata.base + srcwidth;
-		while (dstdata.base < end)
+                end = dstdata.offset + srcwidth;
+		while (dstdata.offset < end)
 		{
                     if(dstdata.read()==transcolor) 
-                        dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
+                        dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
                     srcdata.inc();
                     dstdata.inc();
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
     }
@@ -2641,16 +2641,16 @@ public class drawgfx {
             
             while (srcheight!=0)
             {
-                end = dstdata.base + srcwidth;
-		while (dstdata.base < end)
+                end = dstdata.offset + srcwidth;
+		while (dstdata.offset < end)
 		{
                     if(dstdata.read()==transcolor) 
-                        dstdata.memory[dstdata.base] = paldata.read(srcdata.memory[srcdata.base]);
-                    srcdata.base--;
+                        dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
+                    srcdata.offset--;
                     dstdata.inc();
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
     }
@@ -2877,8 +2877,8 @@ public class drawgfx {
 
             while (srcheight!=0)
             {
-                    end = dstdata.base + srcwidth;
-                    while (dstdata.base <= end - 8)
+                    end = dstdata.offset + srcwidth;
+                    while (dstdata.offset <= end - 8)
                     {
                             dstdata.write(0,paldata.read(srcdata.read(0)));
                             dstdata.write(1,paldata.read(srcdata.read(1)));
@@ -2888,16 +2888,16 @@ public class drawgfx {
                             dstdata.write(5,paldata.read(srcdata.read(5)));
                             dstdata.write(6,paldata.read(srcdata.read(6)));
                             dstdata.write(7,paldata.read(srcdata.read(7)));
-                            dstdata.base += 8;
-                            srcdata.base += 8;
+                            dstdata.offset += 8;
+                            srcdata.offset += 8;
                     }
-                    while (dstdata.base < end)
+                    while (dstdata.offset < end)
                     {
                         dstdata.writeinc(paldata.read(srcdata.readinc()));
                            // *(dstdata++) = paldata[*(srcdata++)];
                     }
-                    srcdata.base += srcmodulo;
-                    dstdata.base += dstmodulo;
+                    srcdata.offset += srcmodulo;
+                    dstdata.offset += dstmodulo;
                     srcheight--;
             }
        }
@@ -2909,10 +2909,10 @@ public class drawgfx {
             dstmodulo -= srcwidth; 
             while (srcheight != 0)
             {
-                end = (int)(dstdata.base + srcwidth);
-                while (dstdata.base <= end - 8)
+                end = (int)(dstdata.offset + srcwidth);
+                while (dstdata.offset <= end - 8)
                 {
-                    srcdata.base = ((int)srcdata.base - 8);
+                    srcdata.offset = ((int)srcdata.offset - 8);
                     dstdata.write(0,paldata.read(srcdata.read(8)));
                     dstdata.write(1,paldata.read(srcdata.read(7)));
                     dstdata.write(2,paldata.read(srcdata.read(6)));
@@ -2921,15 +2921,15 @@ public class drawgfx {
                     dstdata.write(5,paldata.read(srcdata.read(3)));
                     dstdata.write(6,paldata.read(srcdata.read(2)));
                     dstdata.write(7,paldata.read(srcdata.read(1)));
-                    dstdata.base += 8;
+                    dstdata.offset += 8;
                 }
-                while (dstdata.base < end)
+                while (dstdata.offset < end)
                 {
                     dstdata.writeinc(paldata.read(srcdata.readdec()));
                     //*(dstdata++) = paldata[*(srcdata--)];
                 }
-                srcdata.base += srcmodulo;
-                dstdata.base += dstmodulo;
+                srcdata.offset += srcmodulo;
+                dstdata.offset += dstmodulo;
                 srcheight--;
             }
         }
@@ -2969,27 +2969,27 @@ public class drawgfx {
 		int sh = ey-sy+1;										/* source height */
 		int sm = gfx.line_modulo;								/* source modulo */
 		UBytePtr dd = new UBytePtr(dest.line[sy],sx);		/* dest data */
-		int dm = (int)((dest.line[1].base)-(dest.line[0].base));	/* dest modulo */
+		int dm = (int)((dest.line[1].offset)-(dest.line[0].offset));	/* dest modulo */
                 CharPtr paldata = new CharPtr(gfx.colortable,gfx.color_granularity*color);
 
 		if (flipx!=0)
 		{
 			//if ((sx-ox) == 0) sd += gfx->width - sw;
-			sd.base += (gfx.width -1 -(sx-ox));
+			sd.offset += (gfx.width -1 -(sx-ox));
 		}
 		else
-			sd.base += (sx-ox);
+			sd.offset += (sx-ox);
 
 		if (flipy!=0)
 		{
 			//if ((sy-oy) == 0) sd += sm * (gfx->height - sh);
 			//dd += dm * (sh - 1);
 			//dm = -dm;
-			sd.base += (sm * (gfx.height -1 -(sy-oy)));
+			sd.offset += (sm * (gfx.height -1 -(sy-oy)));
 			sm = -sm;
 		}
 		else
-			sd.base += (sm * (sy-oy));
+			sd.offset += (sm * (sy-oy));
             
                 switch (transparency)
 		{

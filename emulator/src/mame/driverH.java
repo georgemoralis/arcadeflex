@@ -8,6 +8,7 @@ import static mame.drawgfxH.*;
 import static mame.sndintrfH.*;
 import static arcadeflex.libc.*;
 import static mame.inputportH.*;
+import static arcadeflex.ptrlib.*;
 
 public class driverH 
 {

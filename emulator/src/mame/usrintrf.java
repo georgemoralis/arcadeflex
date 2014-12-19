@@ -19,7 +19,7 @@ import static mame.inputport.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.driver.*;
-
+import static arcadeflex.ptrlib.*;
 public class usrintrf {
     public static final int SEL_BITS =12;
     public static final int SEL_MASK =((1<<SEL_BITS)-1);

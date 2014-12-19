@@ -13,7 +13,7 @@ import static arcadeflex.fileio.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static arcadeflex.libc.*;
-
+import static arcadeflex.ptrlib.*;
 public class common {
     
     /* These globals are only kept on a machine basis - LBO 042898 */

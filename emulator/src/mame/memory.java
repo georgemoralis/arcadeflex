@@ -10,6 +10,7 @@ import static mame.mame.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
 
 
 public class memory {
@@ -47,7 +48,7 @@ public class memory {
     
     static void SET_OP_RAMROM(UBytePtr _base)
     {
-        OP_ROM = new UBytePtr(_base, (OP_ROM.base - OP_RAM.base));
+        OP_ROM = new UBytePtr(_base, (OP_ROM.offset - OP_RAM.offset));
         OP_RAM = new UBytePtr(_base);
     }
 
@@ -374,7 +375,7 @@ public class memory {
         public void handler(int offset, int data) {
             /*TODO*/ //	cpu_bankbase[0][offset] = cpu_bankbase[0][offset + (OP_ROM - OP_RAM)] = data;
 //TODO recheck probably OK but not sure.....
-            cpu_bankbase[0].write(offset+(OP_ROM.base-OP_RAM.base),data);
+            cpu_bankbase[0].write(offset+(OP_ROM.offset-OP_RAM.offset),data);
             cpu_bankbase[0].write(offset, data);
         }
     };
@@ -667,7 +668,7 @@ public class memory {
             int _mra = 0;
             if (Machine.drv.cpu[cpu].memory_read != null && Machine.drv.cpu[cpu].memory_read[_mra] != null) {
                 while (Machine.drv.cpu[cpu].memory_read[_mra].start != -1) {
-                    //                              if (_mra.base) *_mra.base = memory_find_base (cpu, _mra.start);
+                    //                              if (_mra.offset) *_mra.offset = memory_find_base (cpu, _mra.start);
                     //                              if (_mra.size) *_mra.size = _mra.end - _mra.start + 1;
                     _mra++;
                 }
@@ -679,7 +680,7 @@ public class memory {
                     if (Machine.drv.cpu[cpu].memory_write[_mwa].base != null) {
                         UBytePtr b = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[_mwa].start);
                         Machine.drv.cpu[cpu].memory_write[_mwa].base.memory = b.memory;
-                        Machine.drv.cpu[cpu].memory_write[_mwa].base.base = b.base;
+                        Machine.drv.cpu[cpu].memory_write[_mwa].base.offset = b.offset;
                     }
                     if (Machine.drv.cpu[cpu].memory_write[_mwa].size != null) {
                         Machine.drv.cpu[cpu].memory_write[_mwa].size[0] = Machine.drv.cpu[cpu].memory_write[_mwa].end - Machine.drv.cpu[cpu].memory_write[_mwa].start + 1;
@@ -1058,7 +1059,7 @@ public class memory {
 	/* for compatibility with setbankhandler, 8-bit systems must call handlers */		
 	/* for banked memory reads/writes */												
 	if (hw.read() == HT_RAM)												
-		return cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].base + address];											
+		return cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset + address];											
 																																							
         /* second-level lookup */
         if (hw.read() >= MH_HARDMAX)
@@ -1282,7 +1283,7 @@ public class memory {
             /* for banked memory reads/writes */
             if (hw.read() == HT_RAM)
             {
-                cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].base+address] = (char)data;
+                cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset+address] = (char)data;
                 return;
             }
 

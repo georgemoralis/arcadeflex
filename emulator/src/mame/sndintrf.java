@@ -15,8 +15,11 @@ import sound.CustomSound;
 import sound._3526intf;
 import sound._3812intf;
 import sound.y8950;
+import sound.adpcm;
+import sound.okim6295;
 import static sound.mixer.*;
 import static sound.streams.*;
+import sound.MSM5205;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -446,7 +449,8 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-           new namco()       
+           new namco(),    
+            /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_TMS36XX)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TMS36XX,
@@ -459,6 +463,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+            /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_TMS5220)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TMS5220,
@@ -471,6 +476,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+            /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_VLM5030)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_VLM5030,
@@ -483,6 +489,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+            /*TEMPHACK*/   new adpcm(),
     /*TODO*////*TODO*///#if (HAS_ADPCM)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_ADPCM,
@@ -495,6 +502,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new okim6295(),
     /*TODO*////*TODO*///#if (HAS_OKIM6295)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_OKIM6295,
@@ -507,6 +515,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new MSM5205(),
     /*TODO*////*TODO*///#if (HAS_MSM5205)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_MSM5205,

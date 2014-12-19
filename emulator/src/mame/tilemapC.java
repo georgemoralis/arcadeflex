@@ -12,6 +12,7 @@ import static mame.cpuintrf.cpu_getactivecpu;
 import static mame.osdependH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
 
 public class tilemapC {
     public static FILE tilemapslog=null;//fopen("tilemaps.log", "wa");  //for debug purposes
@@ -354,7 +355,7 @@ public class tilemapC {
     public static int create_pixmap( tilemap _tilemap ){
     	_tilemap.pixmap = create_tmpbitmap( _tilemap.width, _tilemap.height );
     	if( _tilemap.pixmap!=null ){
-    		_tilemap.pixmap_line_offset = _tilemap.pixmap.line[1].base - _tilemap.pixmap.line[0].base;
+    		_tilemap.pixmap_line_offset = _tilemap.pixmap.line[1].offset - _tilemap.pixmap.line[0].offset;
     		return 1; /* done */
     	}
     	return 0; /* error */
@@ -388,7 +389,7 @@ public class tilemapC {
     		if( _tilemap.fg_mask_data_row!=null ){
     			_tilemap.fg_mask = create_bitmask( MASKROWBYTES(_tilemap.width), _tilemap.height );
     			if( _tilemap.fg_mask!=null ){
-    				_tilemap.fg_mask_line_offset = _tilemap.fg_mask.line[1].base - _tilemap.fg_mask.line[0].base;
+    				_tilemap.fg_mask_line_offset = _tilemap.fg_mask.line[1].offset - _tilemap.fg_mask.line[0].offset;
     				return 1; /* done */
     			}
     			 _tilemap.fg_mask_data_row=null;
@@ -407,7 +408,7 @@ public class tilemapC {
     		if( _tilemap.bg_mask_data_row!=null ){
     			_tilemap.bg_mask = create_bitmask( MASKROWBYTES(_tilemap.width), _tilemap.height );
     			if( _tilemap.bg_mask!=null ){
-    				_tilemap.bg_mask_line_offset = _tilemap.bg_mask.line[1].base - _tilemap.bg_mask.line[0].base;
+    				_tilemap.bg_mask_line_offset = _tilemap.bg_mask.line[1].offset - _tilemap.bg_mask.line[0].offset;
     				return 1; /* done */
     			}
     			 _tilemap.bg_mask_data_row =null;
@@ -613,7 +614,7 @@ public class tilemapC {
     				if( the_color!=null ){
     					/*unsigned */int old_pen_usage = _tilemap.pen_usage[tile_index];
     					if( old_pen_usage!=0 ){
-   /*TODO*/ 						//palette_decrease_usage_count( the_color.base- Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+   /*TODO*/ 						//palette_decrease_usage_count( the_color.offset- Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
                                                 palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
@@ -966,7 +967,7 @@ public class tilemapC {
     		int tile_height = _tilemap.tile_height;
     
     		blit.screen = dest;
-    		blit.dest_line_offset = dest.line[1].base - dest.line[0].base;
+    		blit.dest_line_offset = dest.line[1].offset - dest.line[0].offset;
     
     		blit.pixmap = _tilemap.pixmap;
     		blit.source_line_offset = _tilemap.pixmap_line_offset;
@@ -1521,7 +1522,7 @@ public class tilemapC {
     						if( the_color!=null ){
     							/*unsigned*/ int old_pen_usage = pen_usage[tile_index];
     							if( old_pen_usage!=0 ){
-    		/*TODO RECHECK THIS*/				//palette_decrease_usage_count( the_color.base-Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    		/*TODO RECHECK THIS*/				//palette_decrease_usage_count( the_color.offset-Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
                                                                 palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                                         }
     							else {
@@ -1547,7 +1548,7 @@ public class tilemapC {
     
     
     					if( tile_info.pen_usage!=0 ){
-  /*TODO RECHECK THIS*/  			//palette_increase_usage_count( tile_info.pal_data.base-Machine.remapped_colortable.length, tile_info.pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+  /*TODO RECHECK THIS*/  			//palette_increase_usage_count( tile_info.pal_data.offset-Machine.remapped_colortable.length, tile_info.pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
                                             palette_increase_usage_count(tile_info.pal_data.base, tile_info.pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
@@ -1732,9 +1733,9 @@ public class tilemapC {
     								memcpybitmask8( dest0, source0, mask0, count );
     								if( ++i == y_next ) break;
     
-    								dest0.base +=blit.dest_line_offset;
-    								source0.base +=blit.source_line_offset;
-    								mask0.base +=blit.mask_line_offset;
+    								dest0.offset +=blit.dest_line_offset;
+    								source0.offset +=blit.source_line_offset;
+    								mask0.offset +=blit.mask_line_offset;
     							}
     						}
     						else { /* TILE_OPAQUE */
@@ -1747,12 +1748,12 @@ public class tilemapC {
     							int i = y;
     							for(;;){
                                                           
-                                                            System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+                                                            System.arraycopy(source0.memory, source0.offset, dest0.memory, dest0.offset, num_pixels);
     								//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) );
     								if( ++i == y_next ) break;
     
-    								dest0.base += blit.dest_line_offset;
-    								source0.base +=blit.source_line_offset;
+    								dest0.offset += blit.dest_line_offset;
+    								source0.offset +=blit.source_line_offset;
     							}
     						}
     					}
@@ -1775,9 +1776,9 @@ public class tilemapC {
     				y_next = y2;
     			}
     			else {
-    				dest_next.base += blit.dest_row_offset;
-    				source_next.base += blit.source_row_offset;
-    				mask_next.base += blit.mask_row_offset;
+    				dest_next.offset += blit.dest_row_offset;
+    				source_next.offset += blit.source_row_offset;
+    				mask_next.offset += blit.mask_row_offset;
     			}
     		} /* process next row */
     	} /* not totally clipped */
@@ -1871,9 +1872,9 @@ public class tilemapC {
     								memcpybitmask8( dest0, source0, mask0, count );
     								if( ++i == y_next ) break;
     
-    								dest0.base +=blit.dest_line_offset;
-    								source0.base +=blit.source_line_offset;
-    								mask0.base +=blit.mask_line_offset;
+    								dest0.offset +=blit.dest_line_offset;
+    								source0.offset +=blit.source_line_offset;
+    								mask0.offset +=blit.mask_line_offset;
     							}
 						}
 						else { /* TILE_OPAQUE */         
@@ -1885,12 +1886,12 @@ public class tilemapC {
     							int i = y;
     							for(;;){
                                                           
-                                                            System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+                                                            System.arraycopy(source0.memory, source0.offset, dest0.memory, dest0.offset, num_pixels);
     								//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) );
     								if( ++i == y_next ) break;
     
-    								dest0.base += blit.dest_line_offset;
-    								source0.base +=blit.source_line_offset;
+    								dest0.offset += blit.dest_line_offset;
+    								source0.offset +=blit.source_line_offset;
     							}
 						}
 					}
@@ -1913,9 +1914,9 @@ public class tilemapC {
 				y_next = y2;
 			}
 			else {
-				dest_next.base += blit.dest_row_offset;
-				source_next.base += blit.source_row_offset;
-				mask_next.base += blit.mask_row_offset;
+				dest_next.offset += blit.dest_row_offset;
+				source_next.offset += blit.source_row_offset;
+				mask_next.offset += blit.mask_row_offset;
 			}
 		} /* process next row */
 	} /* not totally clipped */
@@ -2137,12 +2138,12 @@ public class tilemapC {
 
     						int i = y;
     						for(;;){
-                                                    System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+                                                    System.arraycopy(source0.memory, source0.offset, dest0.memory, dest0.offset, num_pixels);
                                                 	//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) ); 							
     							if( ++i == y_next ) break;
     
-    							dest0.base += blit.dest_line_offset;
-    							source0.base += blit.source_line_offset;
+    							dest0.offset += blit.dest_line_offset;
+    							source0.offset += blit.source_line_offset;
     						}
     					}
     					x_start = x_end;
@@ -2163,8 +2164,8 @@ public class tilemapC {
     				y_next = y2;
     			}
     			else {
-    				dest_next.base += blit.dest_row_offset;
-    				source_next.base += blit.source_row_offset;
+    				dest_next.offset += blit.dest_row_offset;
+    				source_next.offset += blit.source_row_offset;
     			}
     		} /* process next row */
     	} /* not totally clipped */
@@ -2251,12 +2252,12 @@ public class tilemapC {
 
     						int i = y;
     						for(;;){
-                                                    System.arraycopy(source0.memory, source0.base, dest0.memory, dest0.base, num_pixels);
+                                                    System.arraycopy(source0.memory, source0.offset, dest0.memory, dest0.offset, num_pixels);
                                                 	//memcpy( dest0, source0, num_pixels*sizeof(DATA_TYPE) ); 							
     							if( ++i == y_next ) break;
     
-    							dest0.base += blit.dest_line_offset;
-    							source0.base += blit.source_line_offset;
+    							dest0.offset += blit.dest_line_offset;
+    							source0.offset += blit.source_line_offset;
     						}
 					}
 					x_start = x_end;
@@ -2277,8 +2278,8 @@ public class tilemapC {
 				y_next = y2;
 			}
 			else {
-				dest_next.base += blit.dest_row_offset;
-				source_next.base += blit.source_row_offset;
+				dest_next.offset += blit.dest_row_offset;
+				source_next.offset += blit.source_row_offset;
 			}
 		} /* process next row */
 	} /* not totally clipped */

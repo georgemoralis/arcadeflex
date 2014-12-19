@@ -4,6 +4,7 @@ package mame;
 import static arcadeflex.libc.*;
 import static arcadeflex.video.*;
 import static mame.mame.*;
+import static arcadeflex.ptrlib.*;
 
 public class osdependH {
         /******************************************************************************

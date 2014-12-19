@@ -20,6 +20,7 @@ package mame;
  *
  * @author george
  */
+import static arcadeflex.ptrlib.*;
 import static mame.mameH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
@@ -360,9 +361,9 @@ public class mame {
         /* create spriteram buffers if necessary */
         if ((drv.video_attributes & VIDEO_BUFFERS_SPRITERAM) != 0) {
                    if (spriteram_size[0]!=0) {
-                           buffered_spriteram= new CharPtr(spriteram_size[0]);
+                           buffered_spriteram= new UBytePtr(spriteram_size[0]);
                            if (buffered_spriteram==null) { vh_close(); return 1; }
-                           if (spriteram_2_size[0]!=0) buffered_spriteram_2 =new CharPtr(spriteram_2_size[0]);
+                           if (spriteram_2_size[0]!=0) buffered_spriteram_2 =new UBytePtr(spriteram_2_size[0]);
                            if (spriteram_2_size[0]!=0 && buffered_spriteram_2==null) { vh_close(); return 1; }
                    } else {
                            if (errorlog!=null) fprintf(errorlog,"vh_open():  Video buffers spriteram but spriteram_size is 0\n");

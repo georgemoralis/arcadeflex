@@ -10,6 +10,7 @@ import static mame.mameH.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static arcadeflex.video.*;
+import static arcadeflex.ptrlib.*;
 
 
 public class palette {
@@ -1214,8 +1215,8 @@ public class palette {
     /*TODO*///
     /*TODO*///******************************************************************************/
     /*TODO*///
-    public static CharPtr paletteram = new CharPtr();//unsigned char *paletteram,*paletteram_2;
-    public static CharPtr paletteram_2 = new CharPtr();
+    public static UBytePtr paletteram = new UBytePtr();//unsigned char *paletteram,*paletteram_2;
+    public static UBytePtr paletteram_2 = new UBytePtr();
     
     public static ReadHandlerPtr paletteram_r = new ReadHandlerPtr() { public int handler(int offset)
     {
