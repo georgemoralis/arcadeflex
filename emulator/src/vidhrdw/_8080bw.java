@@ -18,7 +18,7 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.palette.*;
-
+import static arcadeflex.ptrlib.*;
 public class _8080bw
 {
 	

@@ -15,14 +15,14 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-
+import static arcadeflex.ptrlib.*;
 public class circusc
 {
 	
 	
 	
-	public static CharPtr circusc_spritebank=new CharPtr();
-	public static CharPtr circusc_scroll=new CharPtr();
+	public static UBytePtr circusc_spritebank=new UBytePtr();
+	public static UBytePtr circusc_scroll=new UBytePtr();
 	static int flipscreen;
 	
 	
@@ -174,7 +174,7 @@ public class circusc
 	
 		/* Draw the sprites. */
 		{
-			CharPtr sr;
+			UBytePtr sr;
 	
 	
 			if ((circusc_spritebank.read() & 0x01) != 0)

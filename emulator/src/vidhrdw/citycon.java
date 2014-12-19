@@ -21,12 +21,13 @@ import static mame.palette.*;
 import static mame.paletteH.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
 
 public class citycon
 {
 	
-	public static CharPtr citycon_charlookup=new CharPtr();
-	public static CharPtr citycon_scroll=new CharPtr();
+	public static UBytePtr citycon_charlookup=new UBytePtr();
+	public static UBytePtr citycon_scroll=new UBytePtr();
 	static osd_bitmap tmpbitmap2;
 	static int bg_image,dirty_background;
 	static char[] dirtylookup=new char[32];

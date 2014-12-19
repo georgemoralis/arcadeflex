@@ -19,11 +19,11 @@ import static arcadeflex.libc_old.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.memoryH.*;
-
+import static arcadeflex.ptrlib.*;
 public class gunsmoke
 {
-	public static CharPtr gunsmoke_bg_scrolly=new CharPtr();
-	public static CharPtr gunsmoke_bg_scrollx=new CharPtr();
+	public static UBytePtr gunsmoke_bg_scrolly=new UBytePtr();
+	public static UBytePtr gunsmoke_bg_scrollx=new UBytePtr();
 	static int chon,objon,bgon;
 	static int sprite3bank;
 	static int flipscreen;
@@ -221,7 +221,7 @@ public class gunsmoke
 					int tile, attr, offset;
 					int tx = (sx + left) % 9;
 					//unsigned char *map = &bgmap[ty][tx][0];
-					CharPtr map = new CharPtr(bgmap[ty][tx],0);
+					UBytePtr map = new UBytePtr(bgmap[ty][tx],0);
                                         offset=offs+(sx*2);
 	
 					tile=p.read(offset);

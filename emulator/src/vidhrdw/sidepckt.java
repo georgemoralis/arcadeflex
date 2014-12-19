@@ -20,7 +20,7 @@ import static mame.palette.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.paletteH.*;
-
+import static arcadeflex.ptrlib.*;
 public class sidepckt
 {
 	

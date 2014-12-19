@@ -20,22 +20,22 @@ import static mame.palette.*;
 import static mame.paletteH.*;
 import static mame.common.*;
 import static mame.commonH.*;
-
+import static arcadeflex.ptrlib.*;
 public class lwings
 {
 	
 	
 	static int trojan_vh_type;
-	public static CharPtr lwings_backgroundram=new CharPtr();
-	public static CharPtr lwings_backgroundattribram=new CharPtr();
+	public static UBytePtr lwings_backgroundram=new UBytePtr();
+	public static UBytePtr lwings_backgroundattribram=new UBytePtr();
 	public static int[] lwings_backgroundram_size=new int[1];
-	public static CharPtr lwings_scrolly=new CharPtr();
-	public static CharPtr lwings_scrollx=new CharPtr();
+	public static UBytePtr lwings_scrolly=new UBytePtr();
+	public static UBytePtr lwings_scrollx=new UBytePtr();
 	
-	public static CharPtr trojan_scrolly=new CharPtr();
-	public static CharPtr trojan_scrollx=new CharPtr();
-	public static CharPtr trojan_bk_scrolly=new CharPtr();
-	public static CharPtr trojan_bk_scrollx=new CharPtr();
+	public static UBytePtr trojan_scrolly=new UBytePtr();
+	public static UBytePtr trojan_scrollx=new UBytePtr();
+	public static UBytePtr trojan_bk_scrolly=new UBytePtr();
+	public static UBytePtr trojan_bk_scrollx=new UBytePtr();
 	
 	static char[] dirtybuffer2;
 	static char[] dirtybuffer4;

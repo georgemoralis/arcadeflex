@@ -20,7 +20,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
@@ -41,10 +41,10 @@ public class mystston
 	
 	
 	
-	public static CharPtr mystston_videoram2=new CharPtr();
-        public static CharPtr mystston_colorram2=new CharPtr();
+	public static UBytePtr mystston_videoram2=new UBytePtr();
+        public static UBytePtr mystston_colorram2=new UBytePtr();
 	public static int[] mystston_videoram2_size=new int[1];
-	public static CharPtr mystston_scroll=new CharPtr();
+	public static UBytePtr mystston_scroll=new UBytePtr();
 	static int textcolor;
 	static int flipscreen;
 	

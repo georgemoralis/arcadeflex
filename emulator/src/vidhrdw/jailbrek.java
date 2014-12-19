@@ -16,12 +16,12 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 
 public class jailbrek
 {
 	
-	public static CharPtr jailbrek_scroll_x=new CharPtr();
+	public static UBytePtr jailbrek_scroll_x=new UBytePtr();
 	
         static int TOTAL_COLORS(int gfxn) 
         {

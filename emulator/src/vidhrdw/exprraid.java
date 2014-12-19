@@ -17,13 +17,13 @@ import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static mame.common.*;
 import static mame.commonH.*;
-
+import static arcadeflex.ptrlib.*;
 
 public class exprraid
 {
 	
 	
-	public static CharPtr exprraid_bgcontrol=new CharPtr();
+	public static UBytePtr exprraid_bgcontrol=new UBytePtr();
 	
 	
 	public static VhConvertColorPromPtr exprraid_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 

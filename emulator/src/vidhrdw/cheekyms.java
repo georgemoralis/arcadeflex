@@ -16,8 +16,8 @@ Functions to emulate the video hardware of the machine.
  *
  */ 
 package vidhrdw;
-
-import static arcadeflex.libc.*;
+import static arcadeflex.ptrlib.*;
+import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -25,7 +25,7 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static sound.dac.*;
-import static arcadeflex.libc_old.*;
+import static arcadeflex.libc.*;
 import static mame.cpuintrf.*;
 
 public class cheekyms
@@ -47,7 +47,7 @@ public class cheekyms
 		{
 			//const unsigned char* color_prom_save = color_prom;
                         UBytePtr color_prom_save = new UBytePtr(color_prom);
-                        color_prom_save.base=color_prom.base;
+                        color_prom_save.offset=color_prom.offset;
 	
                         int p_inc=0;
 			/* lower nibble */

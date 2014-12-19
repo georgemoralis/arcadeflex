@@ -18,7 +18,7 @@ import static mame.mame.*;
 import static arcadeflex.video.*;
 import static mame.commonH.*;
 import static mame.common.*;
-
+import static arcadeflex.ptrlib.*;
 public class snk
 {
 	
@@ -210,12 +210,12 @@ public class snk
 	
 	public static void tnk3_draw_sprites(osd_bitmap bitmap, int xscroll, int yscroll ){
 		int n = 50;
-		CharPtr source = new CharPtr(spriteram,0);
-		CharPtr finish = new CharPtr(source,n*4);
+		UBytePtr source = new UBytePtr(spriteram,0);
+		UBytePtr finish = new UBytePtr(source,n*4);
 		rectangle clip = Machine.drv.visible_area;
 
 	
-		while( source.base<finish.base){
+		while( source.offset<finish.offset){
 			int attributes = source.read(3); /* YBBX.CCCC */
 			int tile_number = source.read(1);
 			int sy = source.read(0) + ((attributes&0x10)!=0?256:0) - yscroll;
@@ -232,7 +232,7 @@ public class snk
 				(256-sx)&0x1ff,sy&0x1ff,
 				clip,TRANSPARENCY_PEN,7);
 	
-			source.base+=4;
+			source.offset+=4;
 		}
 	}
 	public static VhUpdatePtr tnk3_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
@@ -251,8 +251,8 @@ public class snk
 		*/
 	
 		/* to be moved to memmap */
-		spriteram = new CharPtr(ram,0xd000);
-		videoram = new CharPtr(ram,0xd800);
+		spriteram = new UBytePtr(ram,0xd000);
+		videoram = new UBytePtr(ram,0xd800);
 	
 		{
 			int scrolly =  -8+ram.read(0xcb00)+((attributes&0x10)!=0?256:0);

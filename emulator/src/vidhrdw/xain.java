@@ -22,7 +22,7 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.memoryH.*;
@@ -33,13 +33,14 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
 import static mame.paletteH.*;
+import static arcadeflex.libc_old.*;
 
 public class xain
 {
 	
-	public static CharPtr xain_charram=new CharPtr();
-        public static CharPtr xain_bgram0=new CharPtr();
-        public static CharPtr xain_bgram1=new CharPtr();
+	public static UBytePtr xain_charram=new UBytePtr();
+        public static UBytePtr xain_bgram0=new UBytePtr();
+        public static UBytePtr xain_bgram1=new UBytePtr();
 	
 	static tilemap char_tilemap, bgram0_tilemap, bgram1_tilemap;
 	public static int flipscreen;

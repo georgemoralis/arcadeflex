@@ -19,13 +19,13 @@ import static arcadeflex.video.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.memoryH.*;
-
+import static arcadeflex.ptrlib.*;
 public class brkthru
 {
 	
 	
-	public static CharPtr brkthru_scroll=new CharPtr();
-	public static CharPtr brkthru_videoram=new CharPtr();
+	public static UBytePtr brkthru_scroll=new UBytePtr();
+	public static UBytePtr brkthru_videoram=new UBytePtr();
 	public static int[] brkthru_videoram_size=new int[1];
 	static int bgscroll;
 	static int bgbasecolor;

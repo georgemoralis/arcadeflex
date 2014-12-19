@@ -26,7 +26,7 @@ import static mame.paletteH.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class dec8
 {
 	
@@ -37,8 +37,8 @@ public class dec8
         static int[] pf1_attr=new int[8];
         static int[] pf2_attr=new int[8];
 	static osd_bitmap pf1_bitmap,pf2_bitmap,tf2_bitmap;
-	public static CharPtr dec8_row=new CharPtr();
-        public static CharPtr srdarwin_tileram=new CharPtr();
+	public static UBytePtr dec8_row=new UBytePtr();
+        public static UBytePtr srdarwin_tileram=new UBytePtr();
 	
 	static int blank_tile,shackled_priority,flipscreen;
 	

@@ -17,13 +17,13 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
-
+import static arcadeflex.ptrlib.*;
 public class mrdo
 {
 	
 	
-	public static CharPtr mrdo_bgvideoram=new CharPtr();
-        public static CharPtr mrdo_fgvideoram=new CharPtr();
+	public static UBytePtr mrdo_bgvideoram=new UBytePtr();
+        public static UBytePtr mrdo_fgvideoram=new UBytePtr();
 	static tilemap bg_tilemap,fg_tilemap;
 	static int flipscreen;
 	

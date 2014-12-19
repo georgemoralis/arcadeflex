@@ -12,7 +12,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
@@ -28,19 +28,19 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.paletteH.*;
 import static vidhrdw.konamiic.*;
-
+import static arcadeflex.ptrlib.*;
 public class contra
 {
 	
 	//static int spriteram_offset;
-	public static CharPtr private_spriteram_2,private_spriteram;
+	public static UBytePtr private_spriteram_2,private_spriteram;
 	
-	public static CharPtr contra_fg_vram=new CharPtr();
-        public static CharPtr contra_fg_cram=new CharPtr();
-	public static CharPtr contra_text_vram=new CharPtr();
-        public static CharPtr contra_text_cram=new CharPtr();
-	public static CharPtr contra_bg_vram=new CharPtr();
-        public static CharPtr contra_bg_cram=new CharPtr();
+	public static UBytePtr contra_fg_vram=new UBytePtr();
+        public static UBytePtr contra_fg_cram=new UBytePtr();
+	public static UBytePtr contra_text_vram=new UBytePtr();
+        public static UBytePtr contra_text_cram=new UBytePtr();
+	public static UBytePtr contra_bg_vram=new UBytePtr();
+        public static UBytePtr contra_bg_cram=new UBytePtr();
 	
 	static tilemap bg_tilemap, fg_tilemap, text_tilemap;
 	
@@ -261,8 +261,8 @@ public class contra
 			32,32	/* number of columns, number of rows */
 		);
 	
-		private_spriteram=new CharPtr(0x800);
-		private_spriteram_2=new CharPtr(0x800);
+		private_spriteram=new UBytePtr(0x800);
+		private_spriteram_2=new UBytePtr(0x800);
 	
 		if( bg_tilemap!=null && fg_tilemap!=null && text_tilemap!=null ){
 			rectangle clip = Machine.drv.visible_area;
@@ -290,11 +290,11 @@ public class contra
 	
 	static void draw_sprites( osd_bitmap bitmap, int bank )
 	{
-		CharPtr source;
+		UBytePtr source;
 		int base_color = (K007121_ctrlram[bank][6]&0x30)*2;
 	
-		if (bank==0) source=new CharPtr(private_spriteram,0);
-		else source=new CharPtr(private_spriteram_2,0);
+		if (bank==0) source=new UBytePtr(private_spriteram,0);
+		else source=new UBytePtr(private_spriteram_2,0);
 	
 		K007121_sprites_draw(bank,bitmap,source,base_color,40,0);
 	}

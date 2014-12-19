@@ -32,11 +32,12 @@ import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.common.*;
 import static mame.inputport.*;
+import static arcadeflex.ptrlib.*;
 
 public class travrusa
 {
 	
-	public static CharPtr travrusa_videoram=new CharPtr();
+	public static UBytePtr travrusa_videoram=new UBytePtr();
 	
 	static tilemap bg_tilemap;
 	static int flipscreen;

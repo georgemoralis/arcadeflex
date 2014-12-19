@@ -16,14 +16,14 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static drivers.kingobox.*;
-
+import static arcadeflex.ptrlib.*;
 public class kingobox
 {
 	
-	public static CharPtr kingobox_videoram1=new CharPtr();
-	public static CharPtr kingobox_colorram1=new CharPtr();
+	public static UBytePtr kingobox_videoram1=new UBytePtr();
+	public static UBytePtr kingobox_colorram1=new UBytePtr();
 	public static int[] kingobox_videoram1_size=new int[1];
-	public static CharPtr kingobox_scroll_y=new CharPtr();
+	public static UBytePtr kingobox_scroll_y=new UBytePtr();
 	
 	public static int palette_bank;
 	

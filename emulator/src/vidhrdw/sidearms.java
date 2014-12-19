@@ -20,16 +20,16 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-
+import static arcadeflex.ptrlib.*;
 
 public class sidearms
 {
 	
 	
-	public static CharPtr sidearms_bg_scrollx=new CharPtr();
-        public static CharPtr sidearms_bg_scrolly=new CharPtr();
-	public static CharPtr sidearms_bg2_scrollx=new CharPtr();
-        public static CharPtr sidearms_bg2_scrolly=new CharPtr();
+	public static UBytePtr sidearms_bg_scrollx=new UBytePtr();
+        public static UBytePtr sidearms_bg_scrolly=new UBytePtr();
+	public static UBytePtr sidearms_bg2_scrollx=new UBytePtr();
+        public static UBytePtr sidearms_bg2_scrolly=new UBytePtr();
 	public static osd_bitmap tmpbitmap2;
 	public static int flipscreen;
 	public static int bgon,objon;

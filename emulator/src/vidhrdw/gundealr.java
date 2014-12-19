@@ -26,13 +26,15 @@ import static arcadeflex.libc_old.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.palette.*;
+import static arcadeflex.ptrlib.*;
+
 public class gundealr
 {
 	
 	
 	
-	public static CharPtr gundealr_bg_videoram=new CharPtr();
-        public static CharPtr gundealr_fg_videoram=new CharPtr();
+	public static UBytePtr gundealr_bg_videoram=new UBytePtr();
+        public static UBytePtr gundealr_fg_videoram=new UBytePtr();
 	
 	static tilemap bg_tilemap,fg_tilemap;
 	static int flipscreen;

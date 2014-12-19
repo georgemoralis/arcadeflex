@@ -12,7 +12,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.drawgfxH.*;
@@ -27,7 +27,8 @@ import static mame.palette.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.paletteH.*;
-
+import static sound.okim6295H.*;
+import static sound.okim6295.*;
 
 public class mitchell
 {
@@ -35,11 +36,11 @@ public class mitchell
 	
 	/* Globals */
 	public static int pang_videoram_size[]=new int[1];
-	public static CharPtr pang_videoram=new CharPtr();
-	public static CharPtr pang_colorram=new CharPtr();
+	public static UBytePtr pang_videoram=new UBytePtr();
+	public static UBytePtr pang_colorram=new UBytePtr();
 	
 	/* Private */
-	public static CharPtr pang_objram=new CharPtr();           /* Sprite RAM */
+	public static UBytePtr pang_objram=new UBytePtr();           /* Sprite RAM */
 	
 	static tilemap bg_tilemap;
 	static int flipscreen;
@@ -86,7 +87,7 @@ public class mitchell
 		/*
 			OBJ RAM
 		*/
-		pang_objram=new CharPtr(pang_videoram_size[0]);
+		pang_objram=new UBytePtr(pang_videoram_size[0]);
 		if (pang_objram==null)
 		{
 			pang_vh_stop.handler();
@@ -97,7 +98,7 @@ public class mitchell
 		/*
 			Palette RAM
 		*/
-		paletteram = new CharPtr(2*Machine.drv.total_colors);
+		paletteram = new UBytePtr(2*Machine.drv.total_colors);
 		if (paletteram==null)
 		{
 			pang_vh_stop.handler();
@@ -214,7 +215,7 @@ public class mitchell
 		/* bit 3 is unknown (used, e.g. marukin pulses it on the title screen) */
 	
 		/* bit 4 selects OKI M6295 bank */
-/*TODO*///		OKIM6295_set_bank_base(0, ALL_VOICES, (data & 0x10) ? 0x40000 : 0x00000);
+		OKIM6295_set_bank_base(0, ALL_VOICES, (data & 0x10)!=0 ? 0x40000 : 0x00000);
 	
 		/* bit 5 is palette RAM bank selector (doesn't apply to mgakuen) */
 		paletteram_bank = data & 0x20;

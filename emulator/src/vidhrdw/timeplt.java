@@ -26,11 +26,12 @@ import static mame.tilemapH.*;
 import static mame.tilemapC.*;
 import static arcadeflex.libc_old.*;
 import static mame.cpuintrf.*;
+import static arcadeflex.ptrlib.*;
 public class timeplt
 {
 	
-	public static CharPtr timeplt_videoram=new CharPtr();
-        public static CharPtr timeplt_colorram=new CharPtr();
+	public static UBytePtr timeplt_videoram=new UBytePtr();
+        public static UBytePtr timeplt_colorram=new UBytePtr();
 	static tilemap bg_tilemap;
 	static int flipscreen;
 	static int sprite_multiplex_hack;

@@ -18,15 +18,16 @@ import static mame.mame.*;
 import static arcadeflex.video.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
 
 public class tecmo
 {
 	
-	public static CharPtr tecmo_videoram=new CharPtr();
-        public static CharPtr tecmo_colorram=new CharPtr();
-	public static CharPtr tecmo_videoram2=new CharPtr();
-        public static CharPtr tecmo_colorram2=new CharPtr();
-	public static CharPtr tecmo_scroll=new CharPtr();
+	public static UBytePtr tecmo_videoram=new UBytePtr();
+        public static UBytePtr tecmo_colorram=new UBytePtr();
+	public static UBytePtr tecmo_videoram2=new UBytePtr();
+        public static UBytePtr tecmo_colorram2=new UBytePtr();
+	public static UBytePtr tecmo_scroll=new UBytePtr();
 	public static int[] tecmo_videoram2_size=new int[1];
 	
 	static char[] dirtybuffer2;

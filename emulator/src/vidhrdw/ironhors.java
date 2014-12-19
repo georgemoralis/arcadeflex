@@ -16,12 +16,13 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 public class ironhors
 {
 	
 	
 	
-	public static CharPtr ironhors_scroll=new CharPtr();
+	public static UBytePtr ironhors_scroll=new UBytePtr();
 	public static int palettebank,charbank,spriterambank;
 	
 	
@@ -183,7 +184,7 @@ public class ironhors
 	
 		/* Draw the sprites. */
 		{
-			CharPtr sr;
+			UBytePtr sr;
 	
 	
 			if (spriterambank != 0)

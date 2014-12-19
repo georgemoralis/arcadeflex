@@ -17,15 +17,17 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.video.*;
 import static mame.palette.*;
+import static arcadeflex.ptrlib.*;
+
 
 public class ddragon
 {
 	
-	public static CharPtr dd_videoram=new CharPtr();
+	public static UBytePtr dd_videoram=new UBytePtr();
 	public static int dd_scrollx_hi, dd_scrolly_hi;
-	public static CharPtr dd_scrollx_lo=new CharPtr();
-	public static CharPtr dd_scrolly_lo=new CharPtr();
-	public static CharPtr dd_spriteram=new CharPtr();
+	public static UBytePtr dd_scrollx_lo=new UBytePtr();
+	public static UBytePtr dd_scrolly_lo=new UBytePtr();
+	public static UBytePtr dd_spriteram=new UBytePtr();
 	public static int dd2_video;
 	
 	
@@ -117,7 +119,7 @@ public class ddragon
 		rectangle clip = Machine.drv.visible_area;
 		GfxElement gfx = Machine.gfx[1];
 	
-		CharPtr src = new CharPtr(dd_spriteram,0x800 );
+		UBytePtr src = new UBytePtr(dd_spriteram,0x800 );
 		int i;
 	
 		for( i = 0; i < ( 64 * 5 ); i += 5 ) {
@@ -179,7 +181,7 @@ public class ddragon
 	static void dd_draw_foreground( osd_bitmap bitmap )
 	{
 		GfxElement gfx = Machine.gfx[0];
-		CharPtr source = new CharPtr(videoram,0);
+		UBytePtr source = new UBytePtr(videoram,0);
 	
 		int sx,sy;
 	
@@ -197,7 +199,7 @@ public class ddragon
 					null, /* no need to clip */
 					TRANSPARENCY_PEN,0);
 				}
-				source.base+=2;
+				source.offset+=2;
 			}
 		}
 	}

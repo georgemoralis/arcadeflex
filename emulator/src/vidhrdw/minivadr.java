@@ -10,6 +10,7 @@ package vidhrdw;
  *
  * @author shadow
  */
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
 import static mame.driverH.*;

@@ -16,17 +16,17 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class commando
 {
 	
 	
 	
-	public static CharPtr commando_bgvideoram=new CharPtr();
-        public static CharPtr commando_bgcolorram=new CharPtr();
+	public static UBytePtr commando_bgvideoram=new UBytePtr();
+        public static UBytePtr commando_bgcolorram=new UBytePtr();
 	public static int[] commando_bgvideoram_size=new int[1];
-	public static CharPtr commando_scrollx=new CharPtr();
-        public static CharPtr commando_scrolly=new CharPtr();
+	public static UBytePtr commando_scrollx=new UBytePtr();
+        public static UBytePtr commando_scrolly=new UBytePtr();
 	public static char[] dirtybuffer2;
 	public static osd_bitmap tmpbitmap2;
 	public static int flipscreen;

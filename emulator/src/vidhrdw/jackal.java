@@ -19,14 +19,16 @@ import static arcadeflex.video.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
+import static arcadeflex.ptrlib.*;
+import static arcadeflex.ptrlib.*;
 
 
 
 public class jackal
 {
 	
-	public static CharPtr jackal_scrollram=new CharPtr();
-        public static CharPtr jackal_videoctrl=new CharPtr();
+	public static UBytePtr jackal_scrollram=new UBytePtr();
+        public static UBytePtr jackal_videoctrl=new UBytePtr();
 	
 	
 	static int TOTAL_COLORS(int gfxn) 
@@ -107,9 +109,9 @@ public class jackal
 			memset(dirtybuffer,1,videoram_size[0]);
 		}
 	
-		jackal_scrollram = new CharPtr(RAM,0x0020);
-		colorram = new CharPtr(RAM,0x2000);
-		videoram = new CharPtr(RAM,0x2400);
+		jackal_scrollram = new UBytePtr(RAM,0x0020);
+		colorram = new UBytePtr(RAM,0x2000);
+		videoram = new UBytePtr(RAM,0x2400);
 	
 		spriteram_size[0] = 0x500;
 	

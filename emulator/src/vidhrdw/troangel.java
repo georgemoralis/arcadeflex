@@ -17,12 +17,12 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.inputport.*;
 import static mame.common.*;
-
+import static arcadeflex.ptrlib.*;
 public class troangel
 {
 	
 	
-	public static CharPtr troangel_scroll=new CharPtr();
+	public static UBytePtr troangel_scroll=new UBytePtr();
 	
 	public static int flipscreen;
 	

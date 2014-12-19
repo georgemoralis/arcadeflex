@@ -31,13 +31,14 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
+import static arcadeflex.ptrlib.*;
 
 public class flkatck
 {
 	
 	static tilemap[] k007121_tilemap=new tilemap[2];
 	
-	public static CharPtr k007121_ram=new CharPtr();
+	public static UBytePtr k007121_ram=new UBytePtr();
 	
 	public static int flkatck_irq_enabled;
 	
@@ -184,7 +185,7 @@ public class flkatck
 		tilemap_update( ALL_TILEMAPS );
 	
 		palette_init_used_colors();
-		K007121_mark_sprites_colors(0,new CharPtr(k007121_ram,0x1000),0,0);
+		K007121_mark_sprites_colors(0,new UBytePtr(k007121_ram,0x1000),0,0);
 		if (palette_recalc()!=null)
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 	
@@ -196,7 +197,7 @@ public class flkatck
 	
 		/* draw the graphics */
 		tilemap_draw(bitmap,k007121_tilemap[0],0);
-		K007121_sprites_draw(0,bitmap,new CharPtr(k007121_ram,0x1000),0,40,0);
+		K007121_sprites_draw(0,bitmap,new UBytePtr(k007121_ram,0x1000),0,40,0);
 		tilemap_draw(bitmap,k007121_tilemap[1],0);
 	} };
 }

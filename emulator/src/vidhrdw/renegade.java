@@ -20,7 +20,7 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.palette.*;
@@ -31,7 +31,7 @@ import static mame.paletteH.*;
 public class renegade
 {
 	
-	public static CharPtr renegade_textram=new CharPtr();
+	public static UBytePtr renegade_textram=new UBytePtr();
 	static int renegade_scrollx;
 	static tilemap bg_tilemap;
 	static tilemap fg_tilemap;
@@ -54,7 +54,7 @@ public class renegade
 	} };
 	
 	public static WriteHandlerPtr renegade_flipscreen_w = new WriteHandlerPtr() { public void handler(int offset, int data){
-	    flipscreen = NOT(data);
+	    flipscreen = data==0?1:0; //!data
 	    tilemap_set_flip( ALL_TILEMAPS, flipscreen!=0?(TILEMAP_FLIPY|TILEMAP_FLIPX):0);
 	} };
 	
@@ -67,7 +67,7 @@ public class renegade
 	} };
 	
 	public static WriteHandlerPtr get_bg_tilemap_info = new WriteHandlerPtr() { public void handler(int col, int row){
-	    CharPtr source = new CharPtr(videoram,col+row*64);
+	    UBytePtr source = new UBytePtr(videoram,col+row*64);
 	    char attributes = source.read(0x400); /* CCC??BBB */
 	    SET_TILE_INFO(
 	        1+(attributes&0x7), /* bank */
@@ -77,7 +77,7 @@ public class renegade
 	} };
 	
 	public static WriteHandlerPtr get_fg_tilemap_info = new WriteHandlerPtr() { public void handler(int col, int row){
-	    CharPtr source = new CharPtr(renegade_textram,col+row*32);
+	    UBytePtr source = new UBytePtr(renegade_textram,col+row*32);
 	    char attributes = source.read(0x400);
 	    SET_TILE_INFO(
 	        0,
@@ -113,10 +113,10 @@ public class renegade
 	static void draw_sprites(osd_bitmap bitmap ){
 	    rectangle clip = Machine.drv.visible_area;
 	
-	    CharPtr source = new CharPtr(spriteram,0);
-	    int finish = source.base+96*4;//CharPtr finish = new CharPtr(source,96*4);
+	    UBytePtr source = new UBytePtr(spriteram,0);
+	    int finish = source.offset+96*4;//UBytePtr finish = new UBytePtr(source,96*4);
 	
-	    while( source.base<finish ){
+	    while( source.offset<finish ){
 	        int sy = 240-source.read(0);
 	        if( sy>=16 ){
 	            int attributes = source.read(1); /* SFCCBBBB */

@@ -19,27 +19,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
 
 public class wc90
 {
 	
-	public static CharPtr wc90_shared=new CharPtr();
-	public static CharPtr wc90_tile_colorram=new CharPtr();
-        public static CharPtr wc90_tile_videoram=new CharPtr();
-	public static CharPtr wc90_tile_colorram2=new CharPtr();
-        public static CharPtr wc90_tile_videoram2=new CharPtr();
-	public static CharPtr wc90_scroll0xlo=new CharPtr();
-        public static CharPtr wc90_scroll0xhi=new CharPtr();
-	public static CharPtr wc90_scroll1xlo=new CharPtr();
-        public static CharPtr wc90_scroll1xhi=new CharPtr();
-	public static CharPtr wc90_scroll2xlo=new CharPtr();
-        public static CharPtr wc90_scroll2xhi=new CharPtr();
-	public static CharPtr wc90_scroll0ylo=new CharPtr(); 
-        public static CharPtr wc90_scroll0yhi=new CharPtr();
-	public static CharPtr wc90_scroll1ylo=new CharPtr(); 
-        public static CharPtr wc90_scroll1yhi=new CharPtr();
-	public static CharPtr wc90_scroll2ylo=new CharPtr();
-        public static CharPtr wc90_scroll2yhi=new CharPtr();
+	public static UBytePtr wc90_shared=new UBytePtr();
+	public static UBytePtr wc90_tile_colorram=new UBytePtr();
+        public static UBytePtr wc90_tile_videoram=new UBytePtr();
+	public static UBytePtr wc90_tile_colorram2=new UBytePtr();
+        public static UBytePtr wc90_tile_videoram2=new UBytePtr();
+	public static UBytePtr wc90_scroll0xlo=new UBytePtr();
+        public static UBytePtr wc90_scroll0xhi=new UBytePtr();
+	public static UBytePtr wc90_scroll1xlo=new UBytePtr();
+        public static UBytePtr wc90_scroll1xhi=new UBytePtr();
+	public static UBytePtr wc90_scroll2xlo=new UBytePtr();
+        public static UBytePtr wc90_scroll2xhi=new UBytePtr();
+	public static UBytePtr wc90_scroll0ylo=new UBytePtr(); 
+        public static UBytePtr wc90_scroll0yhi=new UBytePtr();
+	public static UBytePtr wc90_scroll1ylo=new UBytePtr(); 
+        public static UBytePtr wc90_scroll1yhi=new UBytePtr();
+	public static UBytePtr wc90_scroll2ylo=new UBytePtr();
+        public static UBytePtr wc90_scroll2yhi=new UBytePtr();
 	
 	public static int[] wc90_tile_videoram_size=new int[1];
 	public static int[] wc90_tile_videoram_size2=new int[1];

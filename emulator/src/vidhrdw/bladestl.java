@@ -6,7 +6,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;

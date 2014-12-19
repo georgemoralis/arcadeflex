@@ -8,16 +8,11 @@
 package vidhrdw;
 
 import static arcadeflex.libc.*;
-import static mame.drawgfxH.*;
-import static mame.drawgfx.*;
-import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
-import static mame.memoryH.*;
 import static vidhrdw.konamiic.*;
 import static mame.sndintrf.*;
 import static mame.cpuintrf.*;
@@ -25,7 +20,7 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
-
+import static arcadeflex.ptrlib.*;
 public class rockrage
 {
 	

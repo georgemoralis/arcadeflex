@@ -16,7 +16,7 @@ import static mame.paletteH.*;
 import static mame.mameH.*;
 import static mame.cpuintrfH.*;
 import static mame.memoryH.*;
-
+import static arcadeflex.ptrlib.*;
 
 public  class konamiic
 {
@@ -81,7 +81,7 @@ public  class konamiic
         /* helper function to join two 16-bit ROMs and form a 32-bit data stream */
         public static void konami_rom_deinterleave_2(int mem_region)
         {
-        	shuffle(new ShortPtr(memory_region(mem_region).memory,memory_region(mem_region).base),memory_region_length(mem_region)/2);
+        	shuffle(new ShortPtr(memory_region(mem_region).memory,memory_region(mem_region).offset),memory_region_length(mem_region)/2);
         }
 
 /*TODO*////*TODO*////* helper function to join four 16-bit ROMs and form a 64-bit data stream */
@@ -136,7 +136,7 @@ public  class konamiic
         }};
 
     public static void K007121_sprites_draw(int chip,osd_bitmap bitmap,
-                    CharPtr source,int base_color,int global_x_offset,int bank_base)
+                    UBytePtr source,int base_color,int global_x_offset,int bank_base)
     {
             GfxElement gfx = Machine.gfx[chip];
             int flip_screen = K007121_flipscreen[chip];
@@ -240,7 +240,7 @@ public  class konamiic
                     source.inc(inc);
             }
     }
-    public static void K007121_mark_sprites_colors(int chip,CharPtr source,int base_color,int bank_base)
+    public static void K007121_mark_sprites_colors(int chip,UBytePtr source,int base_color,int bank_base)
     {
             int i,num,inc;
             int[] offs=new int[5];
@@ -1724,7 +1724,7 @@ public  class konamiic
 	{
        
             int shift = ((offset & 1) ^ 1) << 3;
-            int d= (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
+/*TODO*/            int d=0;// (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
             if(konamiicclog!=null) fprintf( konamiicclog,"read %d\n",d);
             return d;
                     
@@ -3054,7 +3054,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 
 								cx++;
 								x++;
-								dest.base++;
+								dest.offset++;
 							}
 						}
 						starty += incyy;
@@ -3089,7 +3089,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 
 								cx += incxx;
 								x++;
-								dest.base++;
+								dest.offset++;
 							}
 						}
 						starty += incyy;
@@ -3119,7 +3119,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 						cx += incxx;
 						cy += incxy;
 						x++;
-						dest.base++;
+						dest.offset++;
 					}
 					startx += incyx;
 					starty += incyy;
@@ -3147,7 +3147,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 						cx += incxx;
 						cy += incxy;
 						x++;
-						dest.base++;
+						dest.offset++;
 					}
 					startx += incyx;
 					starty += incyy;

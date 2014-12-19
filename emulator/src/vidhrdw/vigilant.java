@@ -18,6 +18,7 @@ import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
 
 public class vigilant
 {
@@ -34,8 +35,8 @@ public class vigilant
 		6*8, 32*8-1
         );
 	
-	public static CharPtr vigilant_paletteram=new CharPtr();
-	public static CharPtr vigilant_sprite_paletteram=new CharPtr();
+	public static UBytePtr vigilant_paletteram=new UBytePtr();
+	public static UBytePtr vigilant_sprite_paletteram=new UBytePtr();
 	
 	static int horiz_scroll_low=0;
 	static int horiz_scroll_high=0;

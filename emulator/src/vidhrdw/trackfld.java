@@ -16,13 +16,13 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-
+import static arcadeflex.ptrlib.*;
 public class trackfld
 {
 	
 	
-	public static CharPtr trackfld_scroll=new CharPtr();
-	public static CharPtr trackfld_scroll2=new CharPtr();
+	public static UBytePtr trackfld_scroll=new UBytePtr();
+	public static UBytePtr trackfld_scroll2=new UBytePtr();
 	static int flipscreen;
 	
 	

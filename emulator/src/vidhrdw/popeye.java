@@ -16,7 +16,7 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class popeye
 {
 	

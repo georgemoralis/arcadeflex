@@ -6,7 +6,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
@@ -28,10 +28,10 @@ import static mame.common.*;
 public class ddrible
 {
 	
-	public static CharPtr ddrible_fg_videoram=new CharPtr();
-	public static CharPtr ddrible_bg_videoram=new CharPtr();
-	public static CharPtr ddrible_spriteram_1=new CharPtr();
-	public static CharPtr ddrible_spriteram_2=new CharPtr();
+	public static UBytePtr ddrible_fg_videoram=new UBytePtr();
+	public static UBytePtr ddrible_bg_videoram=new UBytePtr();
+	public static UBytePtr ddrible_spriteram_1=new UBytePtr();
+	public static UBytePtr ddrible_spriteram_2=new UBytePtr();
 	
 	static tilemap fg_tilemap,bg_tilemap;
 	
@@ -260,12 +260,12 @@ public class ddrible
 	
 	***************************************************************************/
 	
-	static void draw_sprites( osd_bitmap bitmap, CharPtr source, int lenght, int gfxset )
+	static void draw_sprites( osd_bitmap bitmap, UBytePtr source, int lenght, int gfxset )
 	{
             	GfxElement gfx = Machine.gfx[gfxset];
-		int finish = source.base + lenght;//const unsigned char *finish = source + lenght;
+		int finish = source.offset + lenght;//const unsigned char *finish = source + lenght;
 	
-		while (source.base < finish)//( source < finish )
+		while (source.offset < finish)//( source < finish )
 		{
 			int sprite_number = source.read(0);		/* sprite number */
 			int sprite_bank = source.read(1) & 0x07;	/* sprite bank */
@@ -327,8 +327,8 @@ public class ddrible
 		tilemap_render( ALL_TILEMAPS );
 	
 		tilemap_draw(bitmap,bg_tilemap,0);
-		draw_sprites(bitmap,new CharPtr(ddrible_spriteram_1,0),  0x7d,2);	/* sprites set 1 */
-		draw_sprites(bitmap,new CharPtr(ddrible_spriteram_2,0), 0x140,3);	/* sprites set 2 */
+		draw_sprites(bitmap,new UBytePtr(ddrible_spriteram_1,0),  0x7d,2);	/* sprites set 1 */
+		draw_sprites(bitmap,new UBytePtr(ddrible_spriteram_2,0), 0x140,3);	/* sprites set 2 */
 		tilemap_draw(bitmap,fg_tilemap,0);
 	}};
 }

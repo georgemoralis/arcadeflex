@@ -20,7 +20,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
@@ -38,17 +38,17 @@ public class matmania
 	
 	
 	
-	public static CharPtr matmania_videoram2=new CharPtr();
-        public static CharPtr matmania_colorram2=new CharPtr();
+	public static UBytePtr matmania_videoram2=new UBytePtr();
+        public static UBytePtr matmania_colorram2=new UBytePtr();
 	public static int[] matmania_videoram2_size=new int[1];
-	public static CharPtr matmania_videoram3=new CharPtr();
-        public static CharPtr matmania_colorram3=new CharPtr();
+	public static UBytePtr matmania_videoram3=new UBytePtr();
+        public static UBytePtr matmania_colorram3=new UBytePtr();
 	public static int[] matmania_videoram3_size=new int[1];
-	public static CharPtr matmania_scroll=new CharPtr();
+	public static UBytePtr matmania_scroll=new UBytePtr();
 	static osd_bitmap tmpbitmap2;
 	static char[] dirtybuffer2;
 	
-	public static CharPtr matmania_pageselect=new CharPtr();
+	public static UBytePtr matmania_pageselect=new UBytePtr();
 	
 	/***************************************************************************
 	

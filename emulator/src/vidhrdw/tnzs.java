@@ -18,15 +18,15 @@ import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-
+import static arcadeflex.ptrlib.*;
 public class tnzs
 {
 	
 	
 	
-	public static CharPtr tnzs_objram=new CharPtr();
-	public static CharPtr tnzs_vdcram=new CharPtr();
-	public static CharPtr tnzs_scrollram=new CharPtr();
+	public static UBytePtr tnzs_objram=new UBytePtr();
+	public static UBytePtr tnzs_vdcram=new UBytePtr();
+	public static UBytePtr tnzs_scrollram=new UBytePtr();
 	
 	
 	static osd_bitmap[] tnzs_column=new osd_bitmap[16];
@@ -123,7 +123,7 @@ public class tnzs
 	
 	***************************************************************************/
 	
-	public static void tnzs_vh_draw_background(osd_bitmap bitmap,CharPtr m)
+	public static void tnzs_vh_draw_background(osd_bitmap bitmap,UBytePtr m)
 	{
 		int i,x,y,column,tot;
 		int scrollx, scrolly;
@@ -220,11 +220,11 @@ public class tnzs
 	}
 	
 	public static void tnzs_vh_draw_foreground(osd_bitmap bitmap,
-								 CharPtr char_pointer,
-								 CharPtr x_pointer,
-								 CharPtr y_pointer,
-								 CharPtr ctrl_pointer,
-								 CharPtr color_pointer)
+								 UBytePtr char_pointer,
+								 UBytePtr x_pointer,
+								 UBytePtr y_pointer,
+								 UBytePtr ctrl_pointer,
+								 UBytePtr color_pointer)
 	{
 		int i;
 	
@@ -282,15 +282,15 @@ public class tnzs
 		fillbitmap(bitmap, Machine.pens[0], Machine.drv.visible_area);
 	
 		/* Redraw the background tiles (c400-c5ff) */
-		tnzs_vh_draw_background(bitmap, new CharPtr(tnzs_objram,0x400));
+		tnzs_vh_draw_background(bitmap, new UBytePtr(tnzs_objram,0x400));
 	
 		/* Draw the sprites on top */
 		tnzs_vh_draw_foreground(bitmap,
-								new CharPtr(tnzs_objram,0x0000), /*  chars : c000 */
-								new CharPtr(tnzs_objram,0x0200), /*	  x : c200 */
-								new CharPtr(tnzs_vdcram,0x0000), /*	  y : f000 */
-								new CharPtr(tnzs_objram,0x1000), /*   ctrl : d000 */
-								new CharPtr(tnzs_objram,0x1200)); /* color : d200 */
+								new UBytePtr(tnzs_objram,0x0000), /*  chars : c000 */
+								new UBytePtr(tnzs_objram,0x0200), /*	  x : c200 */
+								new UBytePtr(tnzs_vdcram,0x0000), /*	  y : f000 */
+								new UBytePtr(tnzs_objram,0x1000), /*   ctrl : d000 */
+								new UBytePtr(tnzs_objram,0x1200)); /* color : d200 */
 	} };
 	
 	public static VhUpdatePtr tnzs_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 

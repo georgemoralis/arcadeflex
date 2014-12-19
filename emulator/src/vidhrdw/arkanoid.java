@@ -17,7 +17,7 @@ import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static mame.common.*;
 import static machine.arkanoid.*;
-
+import static arcadeflex.ptrlib.*;
 public class arkanoid
 {
 

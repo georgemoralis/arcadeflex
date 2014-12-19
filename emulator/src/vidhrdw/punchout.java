@@ -18,7 +18,7 @@ import static arcadeflex.libc_old.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class punchout
 {
 	

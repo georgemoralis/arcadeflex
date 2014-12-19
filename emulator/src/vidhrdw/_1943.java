@@ -19,12 +19,12 @@ import static arcadeflex.libc_old.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.memoryH.*;
-
+import static arcadeflex.ptrlib.*;
 public class _1943
 {
-	public static CharPtr c1943_scrollx=new CharPtr();
-        public static CharPtr c1943_scrolly=new CharPtr();
-        public static CharPtr c1943_bgscrolly=new CharPtr();
+	public static UBytePtr c1943_scrollx=new UBytePtr();
+        public static UBytePtr c1943_scrolly=new UBytePtr();
+        public static UBytePtr c1943_bgscrolly=new UBytePtr();
         static int chon,objon,sc1on,sc2on;
         static int flipscreen;
         
@@ -255,7 +255,7 @@ public class _1943
 			{
 				int ty = (sy + top) % 9;
 				//unsigned char *map = &sc2map[ty][0][0];
-				CharPtr map = new CharPtr(sc2map[ty][0],0);
+				UBytePtr map = new UBytePtr(sc2map[ty][0],0);
                                 offs &= 0x7fff; /* Enforce limits (for top of scroll) */
 	
 				for (sx = 0;sx < 8;sx++)
@@ -351,7 +351,7 @@ public class _1943
 					int tile, attr, offset;
 					int tx = (sx + left) % 9;
 					//unsigned char *map = &sc1map[ty][tx][0];
-					CharPtr map = new CharPtr(sc1map[ty][tx],0);
+					UBytePtr map = new UBytePtr(sc1map[ty][tx],0);
                                         offset=offs+(sx*2);
 
                                         tile=p.read(offset);

@@ -24,12 +24,13 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
+import static arcadeflex.ptrlib.*;
 
 public class hyperspt
 {
 	
 	
-	public static CharPtr hyperspt_scroll=new CharPtr();
+	public static UBytePtr hyperspt_scroll=new UBytePtr();
 	static int flipscreen;
 	
 	

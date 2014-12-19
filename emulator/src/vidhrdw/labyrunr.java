@@ -19,12 +19,12 @@ import static mame.tilemapH.*;
 import static arcadeflex.libc_old.*;
 import static vidhrdw.konamiic.*;
 import static mame.palette.*;
-
+import static arcadeflex.ptrlib.*;
 public class labyrunr
 {
 	
-	public static CharPtr labyrunr_videoram1= new CharPtr();
-        public static CharPtr labyrunr_videoram2= new CharPtr();
+	public static UBytePtr labyrunr_videoram1= new UBytePtr();
+        public static UBytePtr labyrunr_videoram2= new UBytePtr();
 	static tilemap layer0, layer1;
 	
 	

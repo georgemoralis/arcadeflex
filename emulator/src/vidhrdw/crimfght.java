@@ -26,6 +26,7 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
 import static mame.common.*;
+import static arcadeflex.ptrlib.*;
 
 
 public class crimfght
@@ -92,7 +93,7 @@ public class crimfght
 	
 	public static VhStartPtr crimfght_vh_start = new VhStartPtr() { public int handler() 
 	{
-		paletteram = new CharPtr(0x400);
+		paletteram = new UBytePtr(0x400);
 		if (paletteram==null) return 1;
 	
 		layer_colorbase[0] = 0;

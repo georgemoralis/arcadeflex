@@ -28,12 +28,12 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.video.*;
-
+import static arcadeflex.ptrlib.*;
 public class shaolins
 {
 	
 	
-	public static CharPtr shaolins_scroll=new CharPtr();
+	public static UBytePtr shaolins_scroll=new UBytePtr();
 	static int palettebank;
 	
 	

@@ -9,26 +9,27 @@ import static mame.mame.*;
 import static arcadeflex.video.*;
 import static mame.drawgfx.*;
 import static mame.drawgfxH.*;
+import static arcadeflex.ptrlib.*;
 
 public class generic {
 
-    public static CharPtr videoram = new CharPtr();
+    public static UBytePtr videoram = new UBytePtr();
     public static int[] videoram_size = new int[1];
-    public static CharPtr colorram = new CharPtr();
-    public static CharPtr spriteram = new CharPtr();	/* not used in this module... */
+    public static UBytePtr colorram = new UBytePtr();
+    public static UBytePtr spriteram = new UBytePtr();	/* not used in this module... */
 
-    public static CharPtr spriteram_2 = new CharPtr();
-    public static CharPtr spriteram_3 = new CharPtr();
-    public static CharPtr buffered_spriteram = new CharPtr();	/* not used in this module... */
-    public static CharPtr buffered_spriteram_2 = new CharPtr();	/* ... */
+    public static UBytePtr spriteram_2 = new UBytePtr();
+    public static UBytePtr spriteram_3 = new UBytePtr();
+    public static UBytePtr buffered_spriteram = new UBytePtr();	/* not used in this module... */
+    public static UBytePtr buffered_spriteram_2 = new UBytePtr();	/* ... */
     public static int[] spriteram_size = new int[1];/* ... here just for convenience */
 
     public static int[] spriteram_2_size = new int[1];/* ... here just for convenience */
 
     public static int[] spriteram_3_size = new int[1];/* ... here just for convenience */
     /*TODO*///unsigned char *flip_screen;	/* ... */
-    public static CharPtr flip_screen_x = new CharPtr();	/* ... */
-    public static CharPtr flip_screen_y = new CharPtr();	/* ... */
+    public static UBytePtr flip_screen_x = new UBytePtr();	/* ... */
+    public static UBytePtr flip_screen_y = new UBytePtr();	/* ... */
 
     public static char dirtybuffer[];
     static osd_bitmap tmpbitmap;

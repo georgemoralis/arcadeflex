@@ -31,11 +31,13 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
+import static arcadeflex.ptrlib.*;
+
 public class lkage
 {
 	
-	public static CharPtr lkage_scroll=new CharPtr();
-        public static CharPtr lkage_vreg=new CharPtr();
+	public static UBytePtr lkage_scroll=new UBytePtr();
+        public static UBytePtr lkage_vreg=new UBytePtr();
 	public static /*unsigned*/char bg_tile_bank, fg_tile_bank;
 	
 	/*
@@ -141,11 +143,11 @@ public class lkage
 	
 	static void draw_sprites( osd_bitmap bitmap, int priority ){
 	    rectangle clip = Machine.drv.visible_area;
-	    int finish = spriteram.base;//const unsigned char *finish = spriteram;
-	    CharPtr source = new CharPtr(spriteram,0x60-4);//const unsigned char *source = spriteram+0x60-4;
+	    int finish = spriteram.offset;//const unsigned char *finish = spriteram;
+	    UBytePtr source = new UBytePtr(spriteram,0x60-4);//const unsigned char *source = spriteram+0x60-4;
 	    GfxElement gfx = Machine.gfx[3];
 	
-	    while( source.base>=finish ){
+	    while( source.offset>=finish ){
 	        int attributes = source.read(2);
 	        /*
 	            bit 0: horizontal flip
@@ -212,7 +214,7 @@ public class lkage
 	}
 	
 	public static void lkage_set_palette_row( int virtual_row, int logical_row, int len ){
-	    CharPtr source = new CharPtr(paletteram,logical_row*32);
+	    UBytePtr source = new UBytePtr(paletteram,logical_row*32);
 	    int indx = virtual_row*16;
 	    while( (len--)!=0 ){
 	        /*unsigned*/ char greenblue = source.readinc();

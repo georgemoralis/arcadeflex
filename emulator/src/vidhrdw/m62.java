@@ -13,7 +13,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
@@ -31,14 +31,14 @@ public class m62
 	
 	
 	public static int flipscreen;
-	public static CharPtr sprite_height_prom;
+	public static UBytePtr sprite_height_prom;
 	public static int kidniki_background_bank;
 	public static int irem_background_hscroll;
 	public static int irem_background_vscroll;
 	public static int kidniki_text_vscroll;
 	public static int spelunk2_palbank;
 	
-	public static CharPtr irem_textram=new CharPtr();
+	public static UBytePtr irem_textram=new UBytePtr();
 	public static int[] irem_textram_size=new int[1];
 	
 	
@@ -102,7 +102,7 @@ public class m62
 		color_prom.inc(2*Machine.drv.total_colors);
 		/* color_prom now points to the beginning of the sprite height table */
 	
-		sprite_height_prom = new CharPtr(color_prom,0);	/* we'll need this at run time */
+		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
 	public static VhConvertColorPromPtr battroad_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
@@ -162,7 +162,7 @@ public class m62
 		color_prom.inc(32);
 		/* color_prom now points to the beginning of the sprite height table */
 	
-		sprite_height_prom = new CharPtr(color_prom,0);	/* we'll need this at run time */
+		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
 	public static VhConvertColorPromPtr spelunk2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
@@ -230,7 +230,7 @@ public class m62
 	
 	
 		/* color_prom now points to the beginning of the sprite height table */
-		sprite_height_prom = new CharPtr(color_prom,0);	/* we'll need this at run time */
+		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
 	

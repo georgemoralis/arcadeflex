@@ -18,14 +18,14 @@ import static mame.commonH.*;
 import static mame.common.*;
 import static arcadeflex.video.*;
 import static arcadeflex.libc_old.*;
-
+import static arcadeflex.ptrlib.*;
 public class zaxxon
 {
 	
-	public static CharPtr zaxxon_background_position = new CharPtr();
-	public static CharPtr zaxxon_background_color_bank = new CharPtr();
-	public static CharPtr zaxxon_background_enable = new CharPtr();
-	public static CharPtr zaxxon_char_color_bank= new CharPtr();
+	public static UBytePtr zaxxon_background_position = new UBytePtr();
+	public static UBytePtr zaxxon_background_color_bank = new UBytePtr();
+	public static UBytePtr zaxxon_background_enable = new UBytePtr();
+	public static UBytePtr zaxxon_char_color_bank= new UBytePtr();
 	public static UBytePtr color_codes= new UBytePtr();
 	static osd_bitmap backgroundbitmap1,backgroundbitmap2;
 	
@@ -96,7 +96,7 @@ public class zaxxon
 	
 		/* color_prom now points to the beginning of the character color codes */
 		color_codes = new UBytePtr(color_prom);//color_codes = color_prom;
-                color_codes.base = color_prom.base;
+                color_codes.offset = color_prom.offset;
 	
 	
 		/* all gfx elements use the same palette */

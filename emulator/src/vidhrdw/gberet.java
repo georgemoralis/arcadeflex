@@ -18,15 +18,16 @@ import static arcadeflex.libc_old.*;
 import static mame.cpuintrf.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
+import static arcadeflex.ptrlib.*;
 public class gberet
 {
 	
 	
 	
-	public static CharPtr gberet_videoram=new CharPtr();
-        public static CharPtr gberet_colorram=new CharPtr();
-	public static CharPtr gberet_spritebank=new CharPtr();
-	public static CharPtr gberet_scrollram=new CharPtr();
+	public static UBytePtr gberet_videoram=new UBytePtr();
+        public static UBytePtr gberet_colorram=new UBytePtr();
+	public static UBytePtr gberet_spritebank=new UBytePtr();
+	public static UBytePtr gberet_scrollram=new UBytePtr();
 	public static tilemap bg_tilemap;
 	static int interruptenable;
 	static int flipscreen;
@@ -202,11 +203,11 @@ public class gberet
 	static void draw_sprites0(osd_bitmap bitmap)
 	{
 		int offs;
-		CharPtr sr;
+		UBytePtr sr;
 	
 		if ((gberet_spritebank.read() & 0x08)!=0)
-			sr = new CharPtr(spriteram_2,0);
-		else sr = new CharPtr(spriteram,0);
+			sr = new UBytePtr(spriteram_2,0);
+		else sr = new UBytePtr(spriteram,0);
 	
 		for (offs = 0;offs < spriteram_size[0];offs += 4)
 		{
@@ -242,7 +243,7 @@ public class gberet
 	static void draw_sprites1(osd_bitmap bitmap)
 	{
 		int offs;
-		CharPtr sr=new CharPtr(spriteram,0);
+		UBytePtr sr=new UBytePtr(spriteram,0);
 	
 		for (offs = spriteram_size[0] - 4;offs >= 0;offs -= 4)
 		{

@@ -26,16 +26,17 @@ import static arcadeflex.libc_old.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.palette.*;
+import static arcadeflex.ptrlib.*;
 
 public class gng
 {
 	
 
 	
-	public static CharPtr gng_fgvideoram=new CharPtr();
-        public static CharPtr gng_fgcolorram=new CharPtr();
-	public static CharPtr gng_bgvideoram=new CharPtr();
-        public static CharPtr gng_bgcolorram=new CharPtr();
+	public static UBytePtr gng_fgvideoram=new UBytePtr();
+        public static UBytePtr gng_fgcolorram=new UBytePtr();
+	public static UBytePtr gng_bgvideoram=new UBytePtr();
+        public static UBytePtr gng_bgcolorram=new UBytePtr();
 	static tilemap bg_tilemap,fg_tilemap;
 	static int flipscreen;
 	

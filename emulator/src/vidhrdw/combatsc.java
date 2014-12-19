@@ -14,7 +14,7 @@
  *
  */ 
 package vidhrdw;
-
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
@@ -41,21 +41,21 @@ public class combatsc
 	
 	static tilemap[] tilemap=new tilemap[2];
 	static tilemap textlayer;
-        static CharPtr[] private_spriteram=new CharPtr[2];
+        static UBytePtr[] private_spriteram=new UBytePtr[2];
 	static int priority;
 	
-	public static CharPtr combasc_io_ram=new CharPtr();
+	public static UBytePtr combasc_io_ram=new UBytePtr();
 	static int combasc_vreg;
-	public static CharPtr banked_area=new CharPtr();
+	public static UBytePtr banked_area=new UBytePtr();
 	
 	static int combasc_bank_select; /* 0x00..0x1f */
 	static int combasc_video_circuit; /* 0 or 1 */
-	static CharPtr[] combasc_page=new CharPtr[2];
+	static UBytePtr[] combasc_page=new UBytePtr[2];
 	//static unsigned char combasc_scrollram0[0x40];
-        static CharPtr combasc_scrollram0=new CharPtr(0x40);
+        static UBytePtr combasc_scrollram0=new UBytePtr(0x40);
 	//static unsigned char combasc_scrollram1[0x40];
-        static CharPtr combasc_scrollram1=new CharPtr(0x40);
-	static CharPtr combasc_scrollram=new CharPtr();
+        static UBytePtr combasc_scrollram1=new UBytePtr(0x40);
+	static UBytePtr combasc_scrollram=new UBytePtr();
 	
 
 	public static VhConvertColorPromPtr combasc_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
@@ -253,8 +253,8 @@ public class combatsc
 		tilemap[1] = tilemap_create(get_tile_info1,TILEMAP_TRANSPARENT,8,8,32,32);
 		textlayer =  tilemap_create(get_text_info, TILEMAP_TRANSPARENT,8,8,32,32);
 	
-		private_spriteram[0] = new CharPtr(0x800);
-		private_spriteram[1] = new CharPtr(0x800);
+		private_spriteram[0] = new UBytePtr(0x800);
+		private_spriteram[1] = new UBytePtr(0x800);
                 for(int i=0; i<0x800; i++)
                 {
                     private_spriteram[0].write(i,0);
@@ -285,8 +285,8 @@ public class combatsc
 		tilemap[1] =  tilemap_create(get_tile_info1_bootleg,TILEMAP_TRANSPARENT,8,8,32,32);
 		textlayer = tilemap_create(get_text_info_bootleg, TILEMAP_TRANSPARENT,8,8,32,32);
 	
-		private_spriteram[0] = new CharPtr(0x800);
-		private_spriteram[1] = new CharPtr(0x800);
+		private_spriteram[0] = new UBytePtr(0x800);
+		private_spriteram[1] = new UBytePtr(0x800);
                 for(int i=0; i<0x800; i++)
                 {
                     private_spriteram[0].write(i,0);
@@ -472,9 +472,9 @@ public class combatsc
 		UBytePtr MEM = new UBytePtr(memory_region(REGION_CPU1), 0x38000);
 	
 	
-		combasc_io_ram  = new CharPtr(MEM,0x0000);
-		combasc_page[0] = new CharPtr(MEM,0x4000);
-		combasc_page[1] = new CharPtr(MEM,0x6000);
+		combasc_io_ram  = new UBytePtr(MEM,0x0000);
+		combasc_page[0] = new UBytePtr(MEM,0x4000);
+		combasc_page[1] = new UBytePtr(MEM,0x6000);
 	
                 for(int i=0; i<0x4000; i++)
                 {
@@ -507,12 +507,12 @@ public class combatsc
 		{
 			if ((data & 0x08) != 0)
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].base+0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
+                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
 				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1000,0x800);
                         }
                         else
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].base+0x1800, private_spriteram[combasc_video_circuit].memory,0, 0x800);
+                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1800, private_spriteram[combasc_video_circuit].memory,0, 0x800);
 				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1800,0x800);
 		
                         }
@@ -537,10 +537,10 @@ public class combatsc
 	
 	***************************************************************************/
 	
-	static void draw_sprites(osd_bitmap bitmap, CharPtr source, int circuit)
+	static void draw_sprites(osd_bitmap bitmap, UBytePtr source, int circuit)
 	{
 		int base_color = (circuit*4)*16+(K007121_ctrlram[circuit][6]&0x10)*2;       
-		K007121_sprites_draw(circuit,bitmap,new CharPtr(source,source.base),base_color,0,0);
+		K007121_sprites_draw(circuit,bitmap,new UBytePtr(source,source.offset),base_color,0,0);
 	}
 	
 	public static VhUpdatePtr combasc_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 

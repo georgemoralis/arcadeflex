@@ -19,12 +19,14 @@ import static arcadeflex.video.*;
 import static mame.common.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
+
 
 public class blktiger
 {
-	public static CharPtr blktiger_backgroundram=new CharPtr();
+	public static UBytePtr blktiger_backgroundram=new UBytePtr();
 	static char blktiger_video_control;
-	public static CharPtr blktiger_screen_layout=new CharPtr();
+	public static UBytePtr blktiger_screen_layout=new UBytePtr();
 	public static int[] blktiger_backgroundram_size=new int[1];
 	static int blktiger_scroll_bank;
 	static int scroll_page_count=4;

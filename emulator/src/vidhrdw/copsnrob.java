@@ -23,6 +23,7 @@ import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static mame.drawgfx.*;
 import static mame.drawgfxH.*;
+import static arcadeflex.ptrlib.*;
 
 
 public class copsnrob
@@ -48,10 +49,10 @@ public class copsnrob
 	        COPSNROB_Y_OFFSET*8, (COPSNROB_VISIBLE_LINE+COPSNROB_Y_OFFSET)*8-1
         );
 	
-	public static CharPtr copsnrob_bulletsram=new CharPtr();
-	public static CharPtr copsnrob_carimage=new CharPtr();
-	public static CharPtr copsnrob_cary=new CharPtr();
-	public static CharPtr copsnrob_trucky=new CharPtr();
+	public static UBytePtr copsnrob_bulletsram=new UBytePtr();
+	public static UBytePtr copsnrob_carimage=new UBytePtr();
+	public static UBytePtr copsnrob_cary=new UBytePtr();
+	public static UBytePtr copsnrob_trucky=new UBytePtr();
 	
 	/***************************************************************************
 	

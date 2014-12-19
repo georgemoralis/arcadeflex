@@ -57,6 +57,8 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
 import static mame.paletteH.*;
+import static arcadeflex.ptrlib.*;
+
 
 public class airbustr
 {
@@ -64,8 +66,8 @@ public class airbustr
 	static tilemap bg_tilemap,fg_tilemap;
 	
 	/* Variables that drivers has access to */
-	public static CharPtr airbustr_bgram=new CharPtr();
-        public static CharPtr airbustr_fgram=new CharPtr();
+	public static UBytePtr airbustr_bgram=new UBytePtr();
+        public static UBytePtr airbustr_fgram=new UBytePtr();
 	
 	/* Variables defined in drivers */
 	//extern unsigned char *spriteram;
@@ -212,7 +214,7 @@ public class airbustr
 		/* Let's draw the sprites */
 		for (i = 0 ; i < 2 ; i++)
 		{
-			CharPtr ram = new CharPtr(spriteram,i * 0x800);//unsigned char *ram = &spriteram[i * 0x800];
+			UBytePtr ram = new UBytePtr(spriteram,i * 0x800);//unsigned char *ram = &spriteram[i * 0x800];
 			int sx = 0;
 			int sy = 0;
 	
@@ -255,7 +257,7 @@ public class airbustr
 	
 	public static VhUpdatePtr airbustr_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
-	CharPtr ram;
+	UBytePtr ram;
 	int i, offs;
 	
 
@@ -285,7 +287,7 @@ public class airbustr
 		/* Sprites */
 		for (i = 0 ; i < 2 ; i++)
 		{
-			ram = new CharPtr(spriteram,i * 0x800 + 0x300);	// color code
+			ram = new UBytePtr(spriteram,i * 0x800 + 0x300);	// color code
 			for ( offs = 0 ; offs < 0x100 ; offs++)
 			{
 				int color = 256 * 2 + (ram.read(offs) & 0xf0);
