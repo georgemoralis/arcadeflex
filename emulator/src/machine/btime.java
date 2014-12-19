@@ -23,7 +23,7 @@ import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.memory.*;
 import static mame.mame.*;
-
+import static arcadeflex.ptrlib.*;
 public class btime
 {
 	

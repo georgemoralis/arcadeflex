@@ -15,6 +15,7 @@
  *
  */ 
 package machine;
+import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;

@@ -15,6 +15,7 @@
  *
  */ 
 package machine;
+import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
@@ -36,8 +37,8 @@ import static cpu.m6809.m6809H.*;
 public class ddrible
 {
 	
-	public static CharPtr ddrible_sharedram=new CharPtr();
-	public static CharPtr ddrible_snd_sharedram=new CharPtr();
+	public static UBytePtr ddrible_sharedram=new UBytePtr();
+	public static UBytePtr ddrible_snd_sharedram=new UBytePtr();
 	public static int int_enable_0, int_enable_1;
 	
         public static InitMachinePtr ddrible_init_machine = new InitMachinePtr() { public void handler() 

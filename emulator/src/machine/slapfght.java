@@ -25,12 +25,13 @@ import static arcadeflex.libc_old.*;
 import static mame.memory.*;
 import static mame.mame.*;
 import static mame.cpuintrfH.*;
+import static arcadeflex.ptrlib.*;
 
 public class slapfght
 {
 	
 	
-	public static CharPtr slapfight_dpram=new CharPtr();
+	public static UBytePtr slapfight_dpram=new UBytePtr();
 	public static int[] slapfight_dpram_size=new int[1];
 	
 	public static int slapfight_status;
@@ -38,7 +39,7 @@ public class slapfght
 	public static int getstar_sh_intenabled;
 	
 	public static  int slapfight_status_state;
-	public static CharPtr getstar_e803=new CharPtr();
+	public static UBytePtr getstar_e803=new UBytePtr();
 	
 	/* Perform basic machine initialisation */
 	

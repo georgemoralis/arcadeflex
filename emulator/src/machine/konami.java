@@ -17,7 +17,7 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.libc.*;
 import static mame.memory.*;
-        
+  import static arcadeflex.ptrlib.*;      
 public class konami
 {
 	
