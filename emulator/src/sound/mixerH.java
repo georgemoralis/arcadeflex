@@ -1,9 +1,8 @@
+/*
+ *  this file should be fully compatible for 0.36
+ */
 package sound;
 
-/**
- *
- * @author shadow
- */
 public class mixerH 
 {
     public static final int MIXER_MAX_CHANNELS =16;
