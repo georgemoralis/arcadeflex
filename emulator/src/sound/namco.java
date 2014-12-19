@@ -1,29 +1,34 @@
-/***************************************************************************
-
-	NAMCO sound driver.
-
-	This driver handles the three known types of NAMCO wavetable sounds:
-
-		- 3-voice mono (Pac-Man, Pengo, Dig Dug, etc)
-		- 8-voice mono (Mappy, Dig Dug 2, etc)
-		- 8-voice stereo (System 1)
-		- 6-voice stereo (Pole Position 1, Pole Position 2)
-
-***************************************************************************/
+/**
+ * *************************************************************************
+ *
+ * NAMCO sound driver.
+ *
+ * This driver handles the three known types of NAMCO wavetable sounds:
+ *
+ * - 3-voice mono (Pac-Man, Pengo, Dig Dug, etc) - 8-voice mono (Mappy, Dig Dug
+ * 2, etc) - 8-voice stereo (System 1) - 6-voice stereo (Pole Position 1, Pole
+ * Position 2)
+ *
+ **************************************************************************
+ */
 package sound;
-import static arcadeflex.libc_old.*;
-import mame.sndintrf;
-import mame.sndintrfH;
+
+import mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static sound.namcoH.*;
 import static mame.driverH.*;
+import static arcadeflex.ptrlib.*;
+import static mame.common.*;
+import static sound.streams.*;
+import static mame.mame.*;
 
-public class namco extends sndintrf.snd_interface{
-    public namco()
-    {
-        sound_num=SOUND_NAMCO;
-        name="Namco";
+public class namco extends snd_interface {
+
+    public namco() {
+        sound_num = SOUND_NAMCO;
+        name = "Namco";
     }
+
     @Override
     public int chips_num(MachineSound msound) {
         return 0;
@@ -33,174 +38,174 @@ public class namco extends sndintrf.snd_interface{
     public int chips_clock(MachineSound msound) {
         return 0;
     }
-    /*TODO*////* 8 voices max */
-    /*TODO*///#define MAX_VOICES 8
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* this structure defines the parameters for a channel */
-    /*TODO*///typedef struct
-    /*TODO*///{
-    /*TODO*///	int frequency;
-    /*TODO*///	int counter;
-    /*TODO*///	int volume[2];
-    /*TODO*///	int noise_sw;
-    /*TODO*///	int noise_state;
-    /*TODO*///	int noise_seed;
-    /*TODO*///	int noise_counter;
-    /*TODO*///	const unsigned char *wave;
-    /*TODO*///} sound_channel;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* globals available to everyone */
-    public static CharPtr namco_soundregs = new CharPtr();//unsigned char *namco_soundregs;
-    /*TODO*///unsigned char *namco_wavedata;
-    /*TODO*///
-    /*TODO*////* data about the sound system */
-    /*TODO*///static sound_channel channel_list[MAX_VOICES];
-    /*TODO*///static sound_channel *last_channel;
-    /*TODO*///
-    /*TODO*////* global sound parameters */
-    /*TODO*///static const unsigned char *sound_prom;
-    /*TODO*///static int samples_per_byte;
-    /*TODO*///static int num_voices;
-    /*TODO*///static int sound_enable;
-    /*TODO*///static int stream;
-    /*TODO*///static int namco_clock;
-    /*TODO*///static int sample_rate;
+    /* 8 voices max */
+    public static final int MAX_VOICES = 8;
+
+    /* this structure defines the parameters for a channel */
+    public static class sound_channel {
+
+        int frequency;
+        int counter;
+        int[] volume = new int[2];
+        int noise_sw;
+        int noise_state;
+        int noise_seed;
+        int noise_counter;
+        UBytePtr wave;
+    }
+
+    /* globals available to everyone */
+    public static UBytePtr namco_soundregs = new UBytePtr();//unsigned char *namco_soundregs;
+    public static UBytePtr namco_wavedata = new UBytePtr();//unsigned char *namco_wavedata;
+
+    /* data about the sound system */
+    static sound_channel[] channel_list = new sound_channel[MAX_VOICES];
+    static int last_channel;
+
+    /* global sound parameters */
+    static UBytePtr sound_prom;
+    static int samples_per_byte;
+    static int num_voices;
+    static int sound_enable;
+    static int stream;
+    static int namco_clock;
+    static int sample_rate;
+
     /*TODO*///
     /*TODO*////* mixer tables and internal buffers */
     /*TODO*///static INT16 *mixer_table;
-    /*TODO*///static INT16 *mixer_lookup;
-    /*TODO*///static short *mixer_buffer;
-    /*TODO*///static short *mixer_buffer_2;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* build a table to divide by the number of voices */
-    /*TODO*///static int make_mixer_table(int voices)
-    /*TODO*///{
-    /*TODO*///	int count = voices * 128;
-    /*TODO*///	int i;
-    /*TODO*///	int gain = 16;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* allocate memory */
-    /*TODO*///	mixer_table = malloc(256 * voices * sizeof(INT16));
-    /*TODO*///	if (!mixer_table)
-    /*TODO*///		return 1;
-    /*TODO*///
-    /*TODO*///	/* find the middle of the table */
-    /*TODO*///	mixer_lookup = mixer_table + (128 * voices);
-    /*TODO*///
-    /*TODO*///	/* fill in the table - 16 bit case */
-    /*TODO*///	for (i = 0; i < count; i++)
-    /*TODO*///	{
-    /*TODO*///		int val = i * gain * 16 / voices;
-    /*TODO*///		if (val > 32767) val = 32767;
-    /*TODO*///		mixer_lookup[ i] = val;
-    /*TODO*///		mixer_lookup[-i] = -val;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return 0;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* generate sound to the mix buffer in mono */
-    /*TODO*///static void namco_update_mono(int ch, INT16 *buffer, int length)
-    /*TODO*///{
-    /*TODO*///	sound_channel *voice;
-    /*TODO*///	short *mix;
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	/* if no sound, we're done */
-    /*TODO*///	if (sound_enable == 0)
-    /*TODO*///	{
-    /*TODO*///		memset(buffer, 0, length * sizeof(INT16));
-    /*TODO*///		return;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* zap the contents of the mixer buffer */
-    /*TODO*///	memset(mixer_buffer, 0, length * sizeof(short));
-    /*TODO*///
-    /*TODO*///	/* loop over each voice and add its contribution */
-    /*TODO*///	for (voice = channel_list; voice < last_channel; voice++)
-    /*TODO*///	{
-    /*TODO*///		int f = voice->frequency;
-    /*TODO*///		int v = voice->volume[0];
-    /*TODO*///
-    /*TODO*///		mix = mixer_buffer;
-    /*TODO*///
-    /*TODO*///		if (voice->noise_sw)
-    /*TODO*///		{
-    /*TODO*///			/* only update if we have non-zero volume and frequency */
-    /*TODO*///			if (v && (f & 0xff))
-    /*TODO*///			{
-    /*TODO*///				float fbase = (float)sample_rate / (float)namco_clock;
-    /*TODO*///				int delta = (float)((f & 0xff) << 4) * fbase;
-    /*TODO*///				int c = voice->noise_counter;
-    /*TODO*///
-    /*TODO*///				/* add our contribution */
-    /*TODO*///				for (i = 0; i < length; i++)
-    /*TODO*///				{
-    /*TODO*///					int noise_data;
-    /*TODO*///					int cnt;
-    /*TODO*///
-    /*TODO*///					if (voice->noise_state)	noise_data = 0x07;
-    /*TODO*///					else noise_data = -0x07;
-    /*TODO*///					*mix++ += noise_data * (v >> 1);
-    /*TODO*///
-    /*TODO*///					c += delta;
-    /*TODO*///					cnt = (c >> 12);
-    /*TODO*///					c &= (1 << 12) - 1;
-    /*TODO*///					for( ;cnt > 0; cnt--)
-    /*TODO*///					{
-    /*TODO*///						if ((voice->noise_seed + 1) & 2) voice->noise_state ^= 1;
-    /*TODO*///						if (voice->noise_seed & 1) voice->noise_seed ^= 0x28000;
-    /*TODO*///						voice->noise_seed >>= 1;
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				/* update the counter for this voice */
-    /*TODO*///				voice->noise_counter = c;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			/* only update if we have non-zero volume and frequency */
-    /*TODO*///			if (v && f)
-    /*TODO*///			{
-    /*TODO*///				const unsigned char *w = voice->wave;
-    /*TODO*///				int c = voice->counter;
-    /*TODO*///
-    /*TODO*///				/* add our contribution */
-    /*TODO*///				for (i = 0; i < length; i++)
-    /*TODO*///				{
-    /*TODO*///					int offs;
-    /*TODO*///
-    /*TODO*///					c += f;
-    /*TODO*///					offs = (c >> 15) & 0x1f;
-    /*TODO*///					if (samples_per_byte == 1)	/* use only low 4 bits */
-    /*TODO*///						*mix++ += ((w[offs] & 0x0f) - 8) * v;
-    /*TODO*///					else	/* use full byte, first the high 4 bits, then the low 4 bits */
-    /*TODO*///					{
-    /*TODO*///						if (offs & 1)
-    /*TODO*///							*mix++ += ((w[offs>>1] & 0x0f) - 8) * v;
-    /*TODO*///						else
-    /*TODO*///							*mix++ += (((w[offs>>1]>>4) & 0x0f) - 8) * v;
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				/* update the counter for this voice */
-    /*TODO*///				voice->counter = c;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* mix it down */
-    /*TODO*///	mix = mixer_buffer;
-    /*TODO*///	for (i = 0; i < length; i++)
-    /*TODO*///		*buffer++ = mixer_lookup[*mix++];
-    /*TODO*///}
+    static short[] mixer_lookup;
+    static UShortPtr mixer_buffer;
+    static UShortPtr mixer_buffer_2;
+
+    /* build a table to divide by the number of voices */
+    static int mixer_lookup_middle;
+
+    static int make_mixer_table(int voices) {
+        int count = voices * 128;
+        int i;
+        int gain = 16;
+
+        /* allocate memory */
+    	//mixer_table = malloc(256 * voices * sizeof(INT16));
+        //if (!mixer_table)
+        //	return 1;
+        /* find the middle of the table */
+        //mixer_lookup = mixer_table + (128 * voices);
+        mixer_lookup = new short[256 * voices];
+        mixer_lookup_middle = voices * 128;
+        /* fill in the table - 16 bit case */
+        for (i = 0; i < count; i++) {
+            short val = (short) (i * gain * 16 / voices);
+            if (val > 32767) {
+                val = 32767;
+            }
+            mixer_lookup[mixer_lookup_middle + i] = val;
+            mixer_lookup[mixer_lookup_middle - i] = (short) -val;
+        }
+
+        return 0;
+    }
+
+    /* generate sound to the mix buffer in mono */
+    public static StreamInitPtr namco_update_mono = new StreamInitPtr() {
+        public void handler(int chip, UShortPtr buffer, int length) {
+            UShortPtr mix;
+
+            /* if no sound, we're done */
+            if (sound_enable == 0) {
+                //memset(buffer, 0, length * sizeof(INT16));
+                for (int i = 0; i < length * 2; i++) {
+                    buffer.memory[buffer.offset + i] = 0;
+                }
+                return;
+            }
+
+            /* zap the contents of the mixer buffer */
+            //memset(mixer_buffer, 0, length * sizeof(short));
+            for (int i = 0; i < length * 2; i++) {
+                mixer_buffer.memory[mixer_buffer.offset + i] = 0;
+            }
+
+            /* loop over each voice and add its contribution */
+            for (int voice = 0; voice < last_channel; voice++)//; voice < last_channel; voice++)
+            {
+                int f = channel_list[voice].frequency;
+                int v = channel_list[voice].volume[0];
+                mix = new UShortPtr(mixer_buffer);
+
+                if (channel_list[voice].noise_sw != 0) {
+                    /* only update if we have non-zero volume and frequency */
+                    if (v != 0 && (f & 0xff) != 0) {
+                        float fbase = (float) sample_rate / (float) namco_clock;
+                        int delta = (int) ((float) ((f & 0xff) << 4) * fbase);
+                        int c = channel_list[voice].noise_counter;
+                        /* add our contribution */
+                        for (int i = 0; i < length; i++) {
+                            int noise_data;
+                            int cnt;
+
+                            if (channel_list[voice].noise_state != 0) {
+                                noise_data = 0x07;
+                            } else {
+                                noise_data = -0x07;
+                            }
+                            mix.write(0, (char) ((short) mix.read(0) + noise_data * (v >> 1)));
+                            mix.offset += 2;
+                            c += delta;
+                            cnt = (c >> 12);
+                            c &= (1 << 12) - 1;
+                            for (; cnt > 0; cnt--) {
+                                if (((channel_list[voice].noise_seed + 1) & 2) != 0) {
+                                    channel_list[voice].noise_state ^= 1;
+                                }
+                                if ((channel_list[voice].noise_seed & 1) != 0) {
+                                    channel_list[voice].noise_seed ^= 0x28000;
+                                }
+                                channel_list[voice].noise_seed >>= 1;
+                            }
+                        }
+                        /* update the counter for this voice */
+                        channel_list[voice].noise_counter = c;
+                    }
+                } else {
+                    /* only update if we have non-zero volume and frequency */
+                    if (v != 0 && f != 0) {
+                        int c = channel_list[voice].counter;
+                        /* add our contribution */
+                        for (int i = 0; i < length; i++) {
+                            c += f;
+                            int offs = (c >> 15) & 0x1f;
+                            //ushort currentmix = mix.read16(0);
+                            if (samples_per_byte == 1) /* use only low 4 bits */ {
+                                mix.write(0, (char) ((short) mix.read(0) + ((channel_list[voice].wave.read(offs) & 0x0f) - 8) * v));
+                                mix.offset += 2;
+                            } else /* use full byte, first the high 4 bits, then the low 4 bits */ {
+                                if ((offs & 1) != 0) {
+                                    mix.write(0, (char) ((short) mix.read(0) + ((channel_list[voice].wave.read(offs >> 1) & 0x0f) - 8) * v));
+                                    mix.offset += 2;
+                                } else {
+                                    mix.write(0, (char) ((short) mix.read(0) + (((channel_list[voice].wave.read(offs >> 1) >> 4) & 0x0f) - 8) * v));
+                                    mix.offset += 2;
+                                }
+                            }
+                        }
+
+                        /* update the counter for this voice */
+                        channel_list[voice].counter = c;
+                    }
+                }
+
+            }
+            /* mix it down */
+            mix = new UShortPtr(mixer_buffer);
+            for (int i = 0; i < length; i++) {
+                buffer.write(0, (char) mixer_lookup[mixer_lookup_middle + (short) mix.read(0)]);
+                buffer.offset += 2;
+                mix.offset += 2;
+            }
+        }
+    };
     /*TODO*///
     /*TODO*///
     /*TODO*////* generate sound to the mix buffer in stereo */
@@ -323,128 +328,112 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///}
     /*TODO*///
     /*TODO*///
+
     @Override
     public int start(MachineSound msound) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return 0;//temp
-    /*TODO*///	const char *mono_name = "NAMCO sound";
-    /*TODO*///	const char *stereo_names[] =
-    /*TODO*///	{
-    /*TODO*///		"NAMCO sound left",
-    /*TODO*///		"NAMCO sound right"
-    /*TODO*///	};
-    /*TODO*///	sound_channel *voice;
-    /*TODO*///	const struct namco_interface *intf = msound->sound_interface;
-    /*TODO*///
-    /*TODO*///	namco_clock = intf->samplerate;
-    /*TODO*///	sample_rate = Machine->sample_rate;
-    /*TODO*///
-    /*TODO*///	/* get stream channels */
-    /*TODO*///	if (intf->stereo)
-    /*TODO*///	{
-    /*TODO*///		int vol[2];
+        String mono_name = "NAMCO sound";
+        String[] stereo_names = {"NAMCO sound left", "NAMCO sound right"};
+
+        namco_interface intf = (namco_interface) msound.sound_interface;
+
+        namco_clock = intf.samplerate;
+        sample_rate = Machine.sample_rate;
+        /* get stream channels */
+        if (intf.stereo != 0) {
+            throw new UnsupportedOperationException("Namco stereo unsupported ");
+            /*TODO*///		int vol[2];
     /*TODO*///
     /*TODO*///		vol[0] = MIXER(intf->volume,MIXER_PAN_LEFT);
     /*TODO*///		vol[1] = MIXER(intf->volume,MIXER_PAN_RIGHT);
     /*TODO*///		stream = stream_init_multi(2, stereo_names, vol, intf->samplerate, 0, namco_update_stereo);
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		stream = stream_init(mono_name, intf->volume, intf->samplerate, 0, namco_update_mono);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* allocate a pair of buffers to mix into - 1 second's worth should be more than enough */
-    /*TODO*///	if ((mixer_buffer = malloc(2 * sizeof(short) * intf->samplerate)) == 0)
-    /*TODO*///		return 1;
-    /*TODO*///	mixer_buffer_2 = mixer_buffer + intf->samplerate;
-    /*TODO*///
-    /*TODO*///	/* build the mixer table */
-    /*TODO*///	if (make_mixer_table(intf->voices))
-    /*TODO*///	{
-    /*TODO*///		free (mixer_buffer);
-    /*TODO*///		return 1;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* extract globals from the interface */
-    /*TODO*///	num_voices = intf->voices;
-    /*TODO*///	last_channel = channel_list + num_voices;
-    /*TODO*///
-    /*TODO*///	if (intf->region == -1)
-    /*TODO*///	{
-    /*TODO*///		sound_prom = namco_wavedata;
-    /*TODO*///		samples_per_byte = 2;	/* first 4 high bits, then low 4 bits */
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		sound_prom = memory_region(intf->region);
-    /*TODO*///		samples_per_byte = 1;	/* use only low 4 bits */
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* start with sound enabled, many games don't have a sound enable register */
-    /*TODO*///	sound_enable = 1;
-    /*TODO*///
-    /*TODO*///	/* reset all the voices */
-    /*TODO*///	for (voice = channel_list; voice < last_channel; voice++)
-    /*TODO*///	{
-    /*TODO*///		voice->frequency = 0;
-    /*TODO*///		voice->volume[0] = voice->volume[1] = 0;
-    /*TODO*///		voice->wave = &sound_prom[0];
-    /*TODO*///		voice->counter = 0;
-    /*TODO*///		voice->noise_sw = 0;
-    /*TODO*///		voice->noise_state = 0;
-    /*TODO*///		voice->noise_seed = 1;
-    /*TODO*///		voice->noise_counter = 0;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return 0;
+        } else {
+            stream = stream_init(mono_name, intf.volume, intf.samplerate, 0, namco_update_mono);
+        }
+        /* allocate a pair of buffers to mix into - 1 second's worth should be more than enough */
+        mixer_buffer = new UShortPtr(2 * intf.samplerate * 2);
+        mixer_buffer_2 = new UShortPtr(mixer_buffer, intf.samplerate * 2);
+
+        /* build the mixer table */
+        make_mixer_table(intf.voices);
+        /* extract globals from the interface */
+        num_voices = intf.voices;
+        last_channel = num_voices;
+
+        if (intf.region == -1) {
+            sound_prom = namco_wavedata;
+            samples_per_byte = 2;	/* first 4 high bits, then low 4 bits */
+
+        } else {
+            sound_prom = memory_region(intf.region);
+            samples_per_byte = 1;	/* use only low 4 bits */
+
+        }
+
+        /* start with sound enabled, many games don't have a sound enable register */
+        sound_enable = 1;
+        /* reset all the voices */
+        for (int i = 0; i < last_channel; i++) //for (voice = channel_list; voice < last_channel; voice++)
+        {
+            channel_list[i] = new sound_channel();
+            channel_list[i].frequency = 0;
+            channel_list[i].volume[0] = channel_list[i].volume[1] = 0;
+            channel_list[i].wave = sound_prom;
+            channel_list[i].counter = 0;
+            channel_list[i].noise_sw = 0;
+            channel_list[i].noise_state = 0;
+            channel_list[i].noise_seed = 1;
+            channel_list[i].noise_counter = 0;
+        }
+
+        return 0;
+
     }
-    /*TODO*///
-    /*TODO*///
+
     @Override
     public void stop() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     /*TODO*///	free (mixer_table);
     /*TODO*///	free (mixer_buffer);
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////********************************************************************************/
-    /*TODO*///
-    /*TODO*///
-    public static WriteHandlerPtr pengo_sound_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-    /*TODO*///	sound_enable = data;
-//        throw new UnsupportedOperationException("Not supported yet.");
-    }};
-    public static WriteHandlerPtr pengo_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    /*TODO*///	sound_channel *voice;
-    /*TODO*///	int base;
-    /*TODO*///
-    /*TODO*///	/* update the streams */
-    /*TODO*///	stream_update(stream, 0);
-    /*TODO*///
-    /*TODO*///	/* set the register */
-    	namco_soundregs.write(offset,data & 0x0f);
-    /*TODO*///
-    /*TODO*///	/* recompute all the voice parameters */
-    /*TODO*///	for (base = 0, voice = channel_list; voice < last_channel; voice++, base += 5)
-    /*TODO*///	{
-    /*TODO*///		voice->frequency = namco_soundregs[0x14 + base];	/* always 0 */
-    /*TODO*///		voice->frequency = voice->frequency * 16 + namco_soundregs[0x13 + base];
-    /*TODO*///		voice->frequency = voice->frequency * 16 + namco_soundregs[0x12 + base];
-    /*TODO*///		voice->frequency = voice->frequency * 16 + namco_soundregs[0x11 + base];
-    /*TODO*///		if (base == 0)	/* the first voice has extra frequency bits */
-    /*TODO*///			voice->frequency = voice->frequency * 16 + namco_soundregs[0x10 + base];
-    /*TODO*///		else
-    /*TODO*///			voice->frequency = voice->frequency * 16;
-    /*TODO*///
-    /*TODO*///		voice->volume[0] = namco_soundregs[0x15 + base] & 0x0f;
-    /*TODO*///		voice->wave = &sound_prom[32 * (namco_soundregs[0x05 + base] & 7)];
-    /*TODO*///	}
-    }};
-    /*TODO*///
+
+    /**
+     * *****************************************************************************
+     */
+    public static WriteHandlerPtr pengo_sound_enable_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            sound_enable = data;
+        }
+    };
+    public static WriteHandlerPtr pengo_sound_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int voice;
+            int _base;
+
+            /* update the streams */
+            stream_update(stream, 0);
+
+            /* set the register */
+            namco_soundregs.write(offset, data & 0x0f);
+
+            /* recompute all the voice parameters */
+            for (_base = 0, voice = 0; voice < last_channel; voice++, _base += 5) {
+                channel_list[voice].frequency = namco_soundregs.read(0x14 + _base);	/* always 0 */
+
+                channel_list[voice].frequency = channel_list[voice].frequency * 16 + namco_soundregs.read(0x13 + _base);
+                channel_list[voice].frequency = channel_list[voice].frequency * 16 + namco_soundregs.read(0x12 + _base);
+                channel_list[voice].frequency = channel_list[voice].frequency * 16 + namco_soundregs.read(0x11 + _base);
+                if (_base == 0) /* the first voice has extra frequency bits */ {
+                    channel_list[voice].frequency = channel_list[voice].frequency * 16 + namco_soundregs.read(0x10 + _base);
+                } else {
+                    channel_list[voice].frequency = channel_list[voice].frequency * 16;
+                }
+
+                channel_list[voice].volume[0] = namco_soundregs.read(0x15 + _base) & 0x0f;
+                channel_list[voice].wave = new UBytePtr(sound_prom, 32 * (namco_soundregs.read(0x05 + _base) & 7));
+            }
+        }
+    };
+
     /*TODO*///
     /*TODO*////********************************************************************************/
     /*TODO*///
@@ -484,36 +473,34 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///
     /*TODO*////********************************************************************************/
     /*TODO*///
-    public static WriteHandlerPtr mappy_sound_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-    /*TODO*///void mappy_sound_enable_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	sound_enable = offset;
-    }};
-    public static WriteHandlerPtr mappy_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-    /*TODO*///void mappy_sound_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	sound_channel *voice;
-    /*TODO*///	int base;
-    /*TODO*///
-    /*TODO*///	/* update the streams */
-    /*TODO*///	stream_update(stream, 0);
-    /*TODO*///
-    /*TODO*///	/* set the register */
-    	namco_soundregs.write(offset,data);
-    /*TODO*///
-    /*TODO*///	/* recompute all the voice parameters */
-    /*TODO*///	for (base = 0, voice = channel_list; voice < last_channel; voice++, base += 8)
-    /*TODO*///	{
-    /*TODO*///		voice->frequency = namco_soundregs[0x06 + base] & 15;	/* high bits are from here */
-    /*TODO*///		voice->frequency = voice->frequency * 256 + namco_soundregs[0x05 + base];
-    /*TODO*///		voice->frequency = voice->frequency * 256 + namco_soundregs[0x04 + base];
-    /*TODO*///
-    /*TODO*///		voice->volume[0] = namco_soundregs[0x03 + base] & 0x0f;
-    /*TODO*///		voice->wave = &sound_prom[32 * ((namco_soundregs[0x06 + base] >> 4) & 7)];
-    /*TODO*///	}
-    }};
+    public static WriteHandlerPtr mappy_sound_enable_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            sound_enable = offset;
+        }
+    };
+    public static WriteHandlerPtr mappy_sound_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int voice;
+            int _base;
+
+            /* update the streams */
+            stream_update(stream, 0);
+
+            /* set the register */
+            namco_soundregs.write(offset, data);
+
+            /* recompute all the voice parameters */
+            for (_base = 0, voice = 0; voice < last_channel; voice++, _base += 8) {
+                channel_list[voice].frequency = namco_soundregs.read(0x06 + _base) & 15;	/* high bits are from here */
+
+                channel_list[voice].frequency = channel_list[voice].frequency * 256 + namco_soundregs.read(0x05 + _base);
+                channel_list[voice].frequency = channel_list[voice].frequency * 256 + namco_soundregs.read(0x04 + _base);
+
+                channel_list[voice].volume[0] = namco_soundregs.read(0x03 + _base) & 0x0f;
+                channel_list[voice].wave = new UBytePtr(sound_prom, 32 * ((namco_soundregs.read(0x06 + _base) >> 4) & 7));
+            }
+        }
+    };
     /*TODO*///
     /*TODO*///
     /*TODO*////********************************************************************************/
@@ -597,6 +584,7 @@ public class namco extends sndintrf.snd_interface{
     /*TODO*///}
     /*TODO*///
     /*TODO*///
+
     @Override
     public void update() {
         //no functionality expected
@@ -606,5 +594,5 @@ public class namco extends sndintrf.snd_interface{
     public void reset() {
         //no functionality expected
     }
-    
+
 }
