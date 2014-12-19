@@ -23,6 +23,7 @@ import static sound.samplesH.*;
 import static mame.memory.*;
 import static machine.segacrpt.*;
 import static sndhrdw.zaxxon.*;
+import static arcadeflex.ptrlib.*;
 
 public class zaxxon
 {

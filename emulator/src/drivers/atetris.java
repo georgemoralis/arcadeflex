@@ -52,11 +52,11 @@ import static arcadeflex.libc_old.*;
 import static mame.palette.*;
 import static mame.input.*;
 import static mame.inputH.*;
-
+import static arcadeflex.ptrlib.*;
 public class atetris
 {
 	
-	static CharPtr nvram=new CharPtr();
+	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
 	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)

@@ -65,6 +65,7 @@ import static mame.input.*;
 import static mame.inputH.*;
 import static vidhrdw.copsnrob.*;
 import static machine.copsnrob.*;
+import static arcadeflex.ptrlib.*;
 
 public class copsnrob
 {

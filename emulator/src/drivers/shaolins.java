@@ -21,7 +21,7 @@ import static vidhrdw.shaolins.*;
 import static mame.sndintrfH.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc.*;
+import static arcadeflex.ptrlib.*;
 import arcadeflex.libc_old.*;
 import static mame.cpuintrf.*;
 import static mame.sndintrfH.*;
@@ -34,7 +34,7 @@ public class shaolins
 	
 	
 	
-	public static CharPtr shaolins_nmi_enable=new CharPtr();
+	public static UBytePtr shaolins_nmi_enable=new UBytePtr();
 	
 	
 	public static InterruptPtr shaolins_interrupt = new InterruptPtr() { public int handler() 

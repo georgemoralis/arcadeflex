@@ -24,6 +24,7 @@ import static mame.mame.*;
 import static sound.CustomSound.*;
 import static sndhrdw.cclimber.*;
 import static mame.sndintrf.*;
+import static arcadeflex.ptrlib.*;
 
 public class cclimber {
     public static InitMachinePtr cclimber_init_machine = new InitMachinePtr() { public void handler() 

@@ -21,6 +21,7 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
@@ -53,7 +54,7 @@ public class spy
 	
 	
 	static int rambank;
-	static CharPtr ram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
 	
 	public static ReadHandlerPtr spy_bankedram1_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
@@ -402,7 +403,7 @@ public class spy
 	
 	public static InitDriverPtr init_spy = new InitDriverPtr() { public void handler() 
 	{
-		paletteram = new CharPtr(memory_region(REGION_CPU1),0x28000);
+		paletteram = new UBytePtr(memory_region(REGION_CPU1),0x28000);
 		gfx_untangle();
 	} };
 	

@@ -27,14 +27,14 @@ import static mame.sndintrf.*;
 import static vidhrdw.jailbrek.*;
 import static mame.sndintrf.*;
 import static mame.sndintrfH.*;
-import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 import static machine.konami.*;
 
 
 public class jailbrek
 {
 	
-	static CharPtr interrupt_control=new CharPtr();
+	static UBytePtr interrupt_control=new UBytePtr();
 	
 	public static InitMachinePtr jailbrek_machine_init = new InitMachinePtr() { public void handler() 
 	{

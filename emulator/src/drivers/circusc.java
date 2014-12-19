@@ -49,7 +49,7 @@ public class circusc
 	}};
 	public static WriteHandlerPtr circusc_dac_w = new WriteHandlerPtr() { public void handler(int offset, int data)
         {
-/*TODO*///		DAC_data_w(0,data);
+		DAC_data_w.handler(0,data);
 	}};
 	
 	

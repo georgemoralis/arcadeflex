@@ -23,6 +23,7 @@ package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;

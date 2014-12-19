@@ -25,13 +25,13 @@ import static mame.memory.*;
 import static vidhrdw.airbustr.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
-
+import static arcadeflex.ptrlib.*;
 
 public class airbustr
 {
 	
-	static CharPtr devram=new CharPtr();
-        static CharPtr sharedram=new CharPtr();
+	static UBytePtr devram=new UBytePtr();
+        static UBytePtr sharedram=new UBytePtr();
         static int soundlatch_status, soundlatch2_status;
 	
 	

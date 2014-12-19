@@ -13,12 +13,7 @@ import static vidhrdw.generic.*;
 import static mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
-import static mame.common.*;
-import static arcadeflex.input.*;
 import static mame.inputportH.*;
-import static mame.inputH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
 import static sndhrdw.timeplt.*;
 import static vidhrdw.pooyan.*;
 

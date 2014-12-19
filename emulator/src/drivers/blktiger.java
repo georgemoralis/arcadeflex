@@ -32,6 +32,7 @@ import static mame.commonH.*;
 import static arcadeflex.libc.*;
 import static mame.palette.*;
 import static mame.cpuintrfH.*;
+import static arcadeflex.ptrlib.*;
 
 public class blktiger
 {

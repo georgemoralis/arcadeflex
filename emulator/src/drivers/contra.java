@@ -23,6 +23,7 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static arcadeflex.libc.*;
 import static vidhrdw.contra.*;
+import static arcadeflex.ptrlib.*;
 
 public class contra
 {

@@ -20,6 +20,7 @@ import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
+import static arcadeflex.ptrlib.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
@@ -55,11 +56,11 @@ public class surpratk
 	{
 		konami_cpu_setlines_callback = surpratk_banking;
 	
-		paletteram = new CharPtr(memory_region(REGION_CPU1),0x48000);
+		paletteram = new UBytePtr(memory_region(REGION_CPU1),0x48000);
 	} };
 	
 	static int videobank;
-	static CharPtr ram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
 	
 	public static InterruptPtr surpratk_interrupt = new InterruptPtr() { public int handler() 
 	{

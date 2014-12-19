@@ -28,6 +28,7 @@ import static mame.sndintrf.*;
 import static mame.palette.*;
 import static mame.cpuintrfH.*;
 import static cpu.m6502.m6502H.*;
+import static arcadeflex.ptrlib.*;
 
 public class btime
 {

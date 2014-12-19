@@ -13,11 +13,15 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.ptrlib.*;
 import static vidhrdw.tecmo.*;
 import static mame.sndintrf.*;
 import static cpu.z80.z80H.*;
 import static mame.palette.*;
-
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_ADPCM;
+import static sound.adpcm.*;
+import static sound.adpcmH.*;
 public class tecmo
 {
 	
@@ -49,10 +53,10 @@ public class tecmo
 	} };
 	public static WriteHandlerPtr tecmo_adpcm_trigger_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		ADPCM_setvol(0,(data & 0x0f) * 0x11);
-/*TODO*///		if (data & 0x0f)	/* maybe this selects the volume? */
-/*TODO*///			if (adpcm_start < 0x8000)
-/*TODO*///				ADPCM_play(0,adpcm_start,(adpcm_end - adpcm_start)*2);
+		ADPCM_setvol(0,(data & 0x0f) * 0x11);
+		if ((data & 0x0f)!=0)	/* maybe this selects the volume? */
+			if (adpcm_start < 0x8000)
+				ADPCM_play(0,adpcm_start,(adpcm_end - adpcm_start)*2);
 	} };
 		
 	static MemoryReadAddress readmem[] =
@@ -593,14 +597,14 @@ public class tecmo
 /*TODO*///	};
 	
 	/* ADPCM chip is a MSM5205 @ 400kHz */
-/*TODO*///	static struct ADPCMinterface adpcm_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 channel */
-/*TODO*///		8333,       /* 8000Hz playback */
-/*TODO*///		REGION_SOUND1,	/* memory region 3 */
-/*TODO*///		0,			/* init function */
-/*TODO*///		{ 255 }
-/*TODO*///	};
+	static ADPCMinterface adpcm_interface = new ADPCMinterface
+	(
+		1,			/* 1 channel */
+		8333,       /* 8000Hz playback */
+		REGION_SOUND1,	/* memory region 3 */
+		null,			/* init function */
+		new int[]{ 255 }
+        );
 	
 	
 	
@@ -640,8 +644,13 @@ public class tecmo
 	
 		/* sound hardware */
                 0,0,0,0,
-		
-                null
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_ADPCM,
+				adpcm_interface
+			),
+		}
 		/*{
 			{
 				SOUND_YM3812,
@@ -690,7 +699,13 @@ public class tecmo
 	
 		/* sound hardware */
                 0,0,0,0,
-		null
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_ADPCM,
+				adpcm_interface
+			),
+		}
 		/*0,0,0,0,
 		{
 			{

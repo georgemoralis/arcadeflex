@@ -30,6 +30,7 @@ Notes:
  * using automatic conversion tool v0.10
  */ 
 package drivers;
+import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;

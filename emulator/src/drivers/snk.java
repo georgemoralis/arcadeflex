@@ -19,10 +19,12 @@ import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
 import static cpu.z80.z80H.*;
+import static arcadeflex.ptrlib.*;
 import static drivers.hal21.*;
 import static sound._3812intfH.*;
 import static sound._3526intf.*;
 import static sound.y8950.*;
+import static arcadeflex.ptrlib.*;
 
 public class snk {
     /*********************************************************************/
@@ -31,9 +33,9 @@ public class snk {
     public static final int SNK_NMI_PENDING	=2;
     static int cpuA_latch, cpuB_latch;
 
-    static CharPtr shared_ram=new CharPtr();
-    static CharPtr io_ram=new CharPtr();
-    static CharPtr shared_ram2=new CharPtr();
+    static UBytePtr shared_ram=new UBytePtr();
+    static UBytePtr io_ram=new UBytePtr();
+    static UBytePtr shared_ram2=new UBytePtr();
  
     /*********************************************************************/
    

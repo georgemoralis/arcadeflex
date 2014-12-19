@@ -21,6 +21,7 @@ package drivers;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
@@ -43,7 +44,8 @@ import static mame.palette.*;
 import static cpu.m6502.m6502H.*;
 import static vidhrdw.dec8.*;
 import static vidhrdw.pcktgal.*;
-
+import static sound.MSM5205.*;
+import static sound.MSM5205H.*;
 public class pcktgal
 {
 	
@@ -75,18 +77,18 @@ public class pcktgal
 	} };
 	
 	static int msm5205next;
+        static int toggle;
+	public static vclk_interruptPtr pcktgal_adpcm_int = new vclk_interruptPtr() {
+        public void handler(int num) {
+		
 	
-	/*static void pcktgal_adpcm_int(int data)
-	{
-		static int toggle;
-	
-		MSM5205_data_w(0,msm5205next >> 4);
+		MSM5205_data_w.handler(0,msm5205next >> 4);
 		msm5205next<<=4;
 	
 		toggle = 1 - toggle;
-		if (toggle)
+		if (toggle!=0)
 			cpu_cause_interrupt(1,M6502_INT_IRQ);
-	}*/
+	}};
 	
 	public static WriteHandlerPtr pcktgal_adpcm_data_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
@@ -95,7 +97,7 @@ public class pcktgal
 	
 	public static ReadHandlerPtr pcktgal_adpcm_reset_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
-/*TODO*///		MSM5205_reset_w(0,0);
+		MSM5205_reset_w.handler(0,0);
 		return 0;
 	} };
 	
@@ -280,14 +282,14 @@ public class pcktgal
 /*TODO*///		{ 50 }
 /*TODO*///	};
 	
-/*TODO*///	static struct MSM5205interface msm5205_interface =
-/*TODO*///	{
-/*TODO*///		1,					/* 1 chip			 */
-/*TODO*///		384000,				/* 384KHz			 */
-/*TODO*///		{ pcktgal_adpcm_int },/* interrupt function */
-/*TODO*///		{ MSM5205_S48_4B},	/* 8KHz			   */
-/*TODO*///		{ 70 }
-/*TODO*///	};
+            static MSM5205interface msm5205_interface = new MSM5205interface(
+	
+		1,					/* 1 chip			 */
+		384000,				/* 384KHz			 */
+		new vclk_interruptPtr[]{ pcktgal_adpcm_int },/* interrupt function */
+		new int[]{ MSM5205_S48_4B},	/* 8KHz			   */
+		new int[]{ 70 }
+                );
 	
 	/***************************************************************************/
 	
@@ -328,21 +330,20 @@ public class pcktgal
 	
 		/* sound hardware */
 		0,0,0,0,
-                null
-		/*new MachineSound[] {
-			new MachineSound(
+                new MachineSound[] {
+			/*new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			),
 			new MachineSound(
 				SOUND_YM3812,
 				ym3812_interface
-			),
+			),*/
 			new MachineSound(
 				SOUND_MSM5205,
 				msm5205_interface
 			)
-		}*/
+		}
 	);
 	
 	static MachineDriver machine_driver_bootleg = new MachineDriver

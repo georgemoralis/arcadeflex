@@ -33,6 +33,7 @@ import static mame.memory.*;
 import static vidhrdw._88games.*;
 import static vidhrdw.konamiic.*;
 import static arcadeflex.fileio.*;
+import static arcadeflex.ptrlib.*;
 
 public class _88games
 {
@@ -48,23 +49,23 @@ public class _88games
 		/* bit 4: when 0, 051316 RAM at 3800-3fff; when 1, work RAM at 2000-3fff (NVRAM 3370-37ff) */
 		offs = 0x10000 + (lines & 0x07) * 0x2000;
 		
-                for(int i=0; i<0x1000; i++) RAM.write(RAM.base+i,RAM.read(offs+i));//memcpy(RAM,&RAM[offs],0x1000);
+                for(int i=0; i<0x1000; i++) RAM.write(RAM.offset+i,RAM.read(offs+i));//memcpy(RAM,&RAM[offs],0x1000);
 		if ((lines & 0x08)!=0)
 		{
 			if (paletteram.read() != RAM.read(0x1000))
 			{
-                                int base = paletteram.base;
+                                int base = paletteram.offset;
 				for(int i=0; i<0x1000; i++) RAM.write(i+0x1000,paletteram.read(i));//memcpy(&RAM[0x1000],paletteram,0x1000);
-				paletteram = new CharPtr(RAM,0x1000);//paletteram = &RAM[0x1000];
+				paletteram = new UBytePtr(RAM,0x1000);//paletteram = &RAM[0x1000];
 			}
 		}
 		else
 		{
 			if (paletteram.read() != RAM.read(0x20000))
 			{
-                                int base = paletteram.base;
+                                int base = paletteram.offset;
 				for(int i=0; i<0x1000; i++) RAM.write(i+0x20000,paletteram.read(base+i));//memcpy(&RAM[0x20000],paletteram,0x1000);
-				paletteram = new CharPtr(RAM,0x20000);//paletteram = &RAM[0x20000];
+				paletteram = new UBytePtr(RAM,0x20000);//paletteram = &RAM[0x20000];
 			}
 			for(int i=0; i<0x1000; i++) RAM.write(i+0x1000,RAM.read(i+offs+0x1000));//memcpy(&RAM[0x1000],&RAM[offs+0x1000],0x1000);
 		}
@@ -82,11 +83,11 @@ public class _88games
 	public static InitMachinePtr k88games_init_machine = new InitMachinePtr() { public void handler() 
 	{
 		konami_cpu_setlines_callback = k88games_banking;
-		paletteram = new CharPtr(memory_region(REGION_CPU1),0x20000);
+		paletteram = new UBytePtr(memory_region(REGION_CPU1),0x20000);
 	} };	
-	static CharPtr ram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
 	static int videobank;
-	static CharPtr nvram=new CharPtr();
+	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
 	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)

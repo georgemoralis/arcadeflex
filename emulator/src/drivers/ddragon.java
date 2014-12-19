@@ -25,6 +25,7 @@ multiple sampling rates, all samples currently play at 8khz.
 package drivers;
 import static mame.driverH.*;
 import static mame.memoryH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
@@ -43,6 +44,13 @@ import static cpu.z80.z80H.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_ADPCM;
+import static mame.sndintrfH.SOUND_OKIM6295;
+import static sound.adpcmH.*;
+import static sound.adpcm.*;
+import static sound.okim6295H.*;
+import static sound.okim6295.*;
 
 public class ddragon
 {
@@ -133,14 +141,13 @@ public class ddragon
 				break;
 	
 			case 0:
-/*TODO*///				ADPCM_play( chip, 0x10000*chip + start_snd[chip]*0x200, (end_snd[chip]-start_snd[chip])*0x400);
+				ADPCM_play( chip, 0x10000*chip + start_snd[chip]*0x200, (end_snd[chip]-start_snd[chip])*0x400);
 				break;
 		}
 	} };
 	public static ReadHandlerPtr dd_adpcm_status_r = new ReadHandlerPtr() { public int handler(int offset)
         {
-            return 0;//for now
-/*TODO*///		return ( ADPCM_playing( 0 ) + ( ADPCM_playing( 1 ) << 1 ) );
+            return ( ADPCM_playing( 0 ) + ( ADPCM_playing( 1 ) << 1 ) );
 	}};
 	
 	
@@ -261,7 +268,7 @@ public class ddragon
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
 /*TODO*///		new MemoryReadAddress( 0x8801, 0x8801, YM2151_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x9800, 0x9800, OKIM6295_status_0_r ),
+		new MemoryReadAddress( 0x9800, 0x9800, OKIM6295_status_0_r ),
 		new MemoryReadAddress( 0xA000, 0xA000, soundlatch_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
@@ -272,7 +279,7 @@ public class ddragon
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
 /*TODO*///		new MemoryWriteAddress( 0x8800, 0x8800, YM2151_register_port_0_w ),
 /*TODO*///		new MemoryWriteAddress( 0x8801, 0x8801, YM2151_data_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x9800, 0x9800, OKIM6295_data_0_w ),
+		new MemoryWriteAddress( 0x9800, 0x9800, OKIM6295_data_0_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
@@ -525,22 +532,22 @@ public class ddragon
 /*TODO*///		{ dd_irq_handler }
 /*TODO*///	};
 	
-/*TODO*///	static struct ADPCMinterface adpcm_interface =
-/*TODO*///	{
-/*TODO*///		2,			/* 2 channels */
-/*TODO*///		8000,       /* 8000Hz playback */
-/*TODO*////*TODO*///		REGION_SOUND1,	/* memory region 4 */
-/*TODO*///		0,			/* init function */
-/*TODO*///		{ 50, 50 }
-/*TODO*///	};
+	static ADPCMinterface adpcm_interface = new ADPCMinterface
+	(
+		2,			/* 2 channels */
+		8000,       /* 8000Hz playback */
+		REGION_SOUND1,	/* memory region 4 */
+		null,			/* init function */
+		new int[]{ 50, 50 }
+        );
 	
-/*TODO*///	static struct OKIM6295interface okim6295_interface =
-/*TODO*///	{
-/*TODO*///		1,              /* 1 chip */
-/*TODO*///		{ 8000 },           /* frequency (Hz) */
-/*TODO*///		{ REGION_SOUND1 },  /* memory region */
-/*TODO*///		{ 15 }
-/*TODO*///	};
+	static OKIM6295interface okim6295_interface = new OKIM6295interface
+	(
+		1,              /* 1 chip */
+		new int[]{ 8000 },           /* frequency (Hz) */
+		new int[]{ REGION_SOUND1 },  /* memory region */
+		new int[]{ 15 }
+        );
 	
 	public static InterruptPtr dd_interrupt = new InterruptPtr() { public int handler() 
 	{
@@ -590,8 +597,8 @@ public class ddragon
 		dd_vh_screenrefresh,
 	
 		/* sound hardware */
-		SOUND_SUPPORTS_STEREO,0,0,0,
-                null
+		//SOUND_SUPPORTS_STEREO,0,0,0,
+                //null
 		/*{
 			{
 				SOUND_YM2151,
@@ -602,7 +609,14 @@ public class ddragon
 				&adpcm_interface
 			}
 		}*/
-                
+                0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_ADPCM,
+				adpcm_interface
+			),
+		}
 	);
 	
 	static MachineDriver machine_driver_ddragonb = new MachineDriver
@@ -644,8 +658,8 @@ public class ddragon
 		dd_vh_screenrefresh,
 	
 		/* sound hardware */
-		SOUND_SUPPORTS_STEREO,0,0,0,
-                null
+		//SOUND_SUPPORTS_STEREO,0,0,0,
+                //null
 		/*{
 			{
 				SOUND_YM2151,
@@ -656,6 +670,14 @@ public class ddragon
 				&adpcm_interface
 			}
 		}*/
+                0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_ADPCM,
+				adpcm_interface
+			),
+		}
                 
 	);
 	
@@ -699,8 +721,8 @@ public class ddragon
 		dd_vh_screenrefresh,
 	
 		/* sound hardware */
-		SOUND_SUPPORTS_STEREO,0,0,0,
-                null
+		//SOUND_SUPPORTS_STEREO,0,0,0,
+                //null
 		/*{
 			{
 				SOUND_YM2151,
@@ -711,6 +733,14 @@ public class ddragon
 				&okim6295_interface
 			}
 		}*/
+                0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_OKIM6295,
+				okim6295_interface
+                     )
+		}
                 
 	);
 	

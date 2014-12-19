@@ -2,6 +2,7 @@ package drivers;
 
 import static mame.driverH.*;
 import static arcadeflex.libc.*;
+import static arcadeflex.ptrlib.*;
 
 public class hal21 {
     /*TODO*///static int scrollx_base; /* this is the only difference in video hardware found so far */

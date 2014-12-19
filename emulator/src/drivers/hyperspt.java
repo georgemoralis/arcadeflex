@@ -25,7 +25,7 @@ import static mame.inputportH.*;
 import static sndhrdw.trackfld.*;
 import static arcadeflex.libc_old.*;
 import static mame.common.*;
-
+import static arcadeflex.ptrlib.*;
 public class hyperspt
 {
 	
@@ -55,7 +55,7 @@ public class hyperspt
 	/*
 	 Track'n'Field has 1k of battery backed RAM which can be erased by setting a dipswitch
 	*/
-	static CharPtr nvram=new CharPtr();
+	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	static int we_flipped_the_switch;
 	

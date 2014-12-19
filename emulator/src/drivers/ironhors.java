@@ -49,12 +49,13 @@ import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import static cpu.m6809.m6809H.*;
 import static vidhrdw.ironhors.*;
+import static arcadeflex.ptrlib.*;
 
 public class ironhors
 {
 	
 	
-	public static CharPtr ironhors_interrupt_enable=new CharPtr();
+	public static UBytePtr ironhors_interrupt_enable=new UBytePtr();
 	
 	
 	public static InterruptPtr ironhors_interrupt = new InterruptPtr() { public int handler() 

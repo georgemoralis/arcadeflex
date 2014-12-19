@@ -11,6 +11,7 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static arcadeflex.input.*;
 import static mame.inputportH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
@@ -28,7 +29,8 @@ import static mame.cpuintrfH.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.fileio.*;
 import static mame.driver.*;
-
+import static sound.okim6295.*;
+import static sound.okim6295H.*;
 
 import static machine.kabuki.*;
 
@@ -324,7 +326,7 @@ public class mitchell {
     		new IOWritePort( 0x02, 0x02, pang_bankswitch_w ),      /* Code bank register */
 /*TODO*///		new IOWritePort( 0x03, 0x03, YM2413_data_port_0_w ),
 /*TODO*///		new IOWritePort( 0x04, 0x04, YM2413_register_port_0_w ),
-/*TODO*///		new IOWritePort( 0x05, 0x05, OKIM6295_data_0_w ),
+		new IOWritePort( 0x05, 0x05, OKIM6295_data_0_w ),
 		new IOWritePort( 0x06, 0x06, MWA_NOP ),	/* watchdog? irq ack? */
 		new IOWritePort( 0x07, 0x07, pang_video_bank_w ),      /* Video RAM bank register */
     		new IOWritePort( 0x08, 0x08, eeprom_cs_w ),
@@ -927,17 +929,17 @@ public class mitchell {
     /*TODO*///	8000000,	/* 8MHz ??? (hand tuned) */
     /*TODO*///	{ 50 },	/* Volume */
     /*TODO*///};
-    /*TODO*///
-    /*TODO*///static struct OKIM6295interface okim6295_interface =
-    /*TODO*///{
-    /*TODO*///	1,			/* 1 chip */
-    /*TODO*///	{ 8000 },	/* 8000Hz ??? */
-    /*TODO*///	{ REGION_SOUND1 },		/* memory region 2 */
-    /*TODO*///	{ 50 }
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    
+    static OKIM6295interface okim6295_interface = new OKIM6295interface
+    (
+    	1,			/* 1 chip */
+    	new int[]{ 8000 },	/* 8000Hz ??? */
+    	new int[]{ REGION_SOUND1 },		/* memory region 2 */
+    	new int[]{ 50 }
+     );
+    
+    
+    
         static MachineDriver machine_driver_mgakuen = new MachineDriver
 	(
 		new MachineCPU[] {
@@ -962,12 +964,14 @@ public class mitchell {
 		pang_vh_stop,
 		pang_vh_screenrefresh,
 		0,0,0,0,
-                null
-		/*{
-			{
+		new MachineSound[] {
+                    new MachineSound
+                    (
 				SOUND_OKIM6295,
-				&okim6295_interface
-			},
+				okim6295_interface
+                     )
+		}
+		/*
 			{
 				SOUND_YM2413,
 				&ym2413_interface
@@ -999,13 +1003,15 @@ public class mitchell {
 		pang_vh_start,
 		pang_vh_stop,
 		pang_vh_screenrefresh,
-		0,0,0,0,
-/*todo*/		null
-                /*{
-			{
+                0,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
 				SOUND_OKIM6295,
-				&okim6295_interface
-			},
+				okim6295_interface
+                     )
+		}
+                /*
 			{
 				SOUND_YM2413,
 				&ym2413_interface
@@ -1038,12 +1044,14 @@ public class mitchell {
 		pang_vh_stop,
 		pang_vh_screenrefresh,
 		0,0,0,0,
-/*todo*/		null
-		/*{
-			{
+		new MachineSound[] {
+                    new MachineSound
+                    (
 				SOUND_OKIM6295,
-				&okim6295_interface
-			},
+				okim6295_interface
+                     )
+		}
+		/*
 			{
 				SOUND_YM2413,
 				&ym2413_interface

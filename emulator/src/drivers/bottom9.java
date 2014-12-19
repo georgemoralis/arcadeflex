@@ -32,6 +32,7 @@ import static cpu.konami.konami.*;
 import static cpu.z80.z80H.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.palette.*;
 import static mame.memory.*;
 import static vidhrdw.bottom9.*;

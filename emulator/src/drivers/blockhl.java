@@ -24,6 +24,7 @@ found it.
  * using automatic conversion tool v0.10
  */ 
 package drivers;
+import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
@@ -83,11 +84,11 @@ public class blockhl
 	
 		konami_cpu_setlines_callback = blockhl_banking;
 	
-		paletteram = new CharPtr(RAM,0x18000);
+		paletteram = new UBytePtr(RAM,0x18000);
 	} };
 
 	static int palette_selected;
-	static CharPtr ram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
 	static int rombank;
 	
 	public static InterruptPtr blockhl_interrupt = new InterruptPtr() { public int handler() 

@@ -25,6 +25,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
+import static arcadeflex.ptrlib.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
@@ -32,7 +33,7 @@ import static mame.common.*;
 import static mame.inputportH.*;
 import static arcadeflex.libc.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 import static vidhrdw.kingobox.*;
 import static mame.sndintrf.*;
 import static sound.ay8910.*;
@@ -44,8 +45,8 @@ import static sound.dacH.*;
 public class kingobox
 {
 	
-	public static CharPtr video_shared=new CharPtr();
-	public static CharPtr sprite_shared=new CharPtr();
+	public static UBytePtr video_shared=new UBytePtr();
+	public static UBytePtr sprite_shared=new UBytePtr();
 	public static int kingofb_nmi_enable =0;
 	
         public static ReadHandlerPtr video_shared_r = new ReadHandlerPtr() { public int handler(int offset)

@@ -56,6 +56,7 @@ import static arcadeflex.libc.*;
 import static mame.memory.*;
 import static vidhrdw.commando.*;
 import static mame.sndintrf.*;
+import static arcadeflex.ptrlib.*;
 
 public class commando
 {

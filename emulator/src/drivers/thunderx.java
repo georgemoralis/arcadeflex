@@ -15,6 +15,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
+import static arcadeflex.ptrlib.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
@@ -61,8 +62,8 @@ public class thunderx
 	
 	static int palette_selected;
 	static int bank;
-	static CharPtr ram=new CharPtr();
-        static CharPtr unknownram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
+        static UBytePtr unknownram=new UBytePtr();
 	
 	public static ReadHandlerPtr scontra_bankedram_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
@@ -108,8 +109,8 @@ public class thunderx
 	
 	static void calculate_collisions() //not tested (shadow)
         {
-/*		CharPtr ptr1 = new CharPtr(unknownram,0x10);
-                CharPtr ptr2;
+/*		UBytePtr ptr1 = new UBytePtr(unknownram,0x10);
+                UBytePtr ptr2;
 		int i, j;
 	
 		/* each sprite is defined as: flags height width xpos ypos */
@@ -120,7 +121,7 @@ public class thunderx
 			if ( ( ptr1.read(0) & 0x80 ) == 0x00 )
 				continue;
 	
-			ptr2 = new CharPtr(ptr1, 5);
+			ptr2 = new UBytePtr(ptr1, 5);
 			w = 4; /* ? */
 /*			h = 4; /* ? */
 /*			x = ptr1.read(3);
@@ -254,7 +255,7 @@ public class thunderx
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
-		paletteram = new CharPtr(RAM,0x30000);
+		paletteram = new UBytePtr(RAM,0x30000);
 	} };
 	
 	public static InitMachinePtr thunderx_init_machine = new InitMachinePtr() { public void handler() 

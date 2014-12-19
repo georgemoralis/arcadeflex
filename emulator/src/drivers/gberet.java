@@ -14,6 +14,7 @@ import static vidhrdw.gberet.*;
 import static mame.sndintrfH.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
+import static arcadeflex.ptrlib.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static arcadeflex.input.*;

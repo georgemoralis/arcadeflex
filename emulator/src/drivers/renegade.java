@@ -126,6 +126,7 @@ import static sound.ay8910.*;
 import static sound.ay8910H.*;
 import static mame.mame.*;
 import static mame.sndintrf.*;
+import static arcadeflex.ptrlib.*;
 import static mame.palette.*;
 import static cpu.m6809.m6809H.*;
 
@@ -383,7 +384,9 @@ public class renegade
 		
 		ren_count = NOT(ren_count);
 		if( ren_count!=0 )
+                {
 		return nmi_interrupt.handler();
+                }
 		return interrupt.handler();
 	} };
 	

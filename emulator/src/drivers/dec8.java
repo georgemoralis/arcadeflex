@@ -24,6 +24,7 @@ import static mame.inputH.*;
 import static mame.mame.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.palette.*;
 
 public class dec8 {
@@ -35,8 +36,8 @@ public class dec8 {
         }};
         /******************************************************************************/
 
-	static CharPtr dec8_shared_ram=new CharPtr();
-        static CharPtr dec8_shared2_ram=new CharPtr();
+	static UBytePtr dec8_shared_ram=new UBytePtr();
+        static UBytePtr dec8_shared2_ram=new UBytePtr();
 	
 	static int nmi_enable,int_enable;
 	static int i8751_return, i8751_value;

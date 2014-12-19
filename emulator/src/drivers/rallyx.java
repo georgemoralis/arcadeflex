@@ -23,7 +23,7 @@ import static arcadeflex.libc_old.*;
 import static sound.samplesH.*;
 import static sound.samples.*;
 import static vidhrdw.rallyx.*;
-
+import static arcadeflex.ptrlib.*;
 public class rallyx
 {
 	

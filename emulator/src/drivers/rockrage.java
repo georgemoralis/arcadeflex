@@ -21,6 +21,7 @@ import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
 import static mame.sndintrf.soundlatch_r;

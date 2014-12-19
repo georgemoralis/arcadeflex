@@ -16,6 +16,7 @@ import static mame.common.*;
 import static arcadeflex.input.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
+import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static mame.memory.*;
@@ -29,6 +30,7 @@ import static mame.timerH.*;
 import static vidhrdw.system1H.*;
 import static vidhrdw.system1.*;
 import static mame.palette.*;
+import static arcadeflex.ptrlib.*;
 
 public class system1
 {
@@ -266,7 +268,7 @@ public class system1
 	};
 	
 	
-	static CharPtr work_ram=new CharPtr();
+	static UBytePtr work_ram=new UBytePtr();
 	
 	public static ReadHandlerPtr work_ram_r = new ReadHandlerPtr() { public int handler(int offset)
 	{

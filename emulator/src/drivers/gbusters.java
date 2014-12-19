@@ -21,6 +21,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
+import static arcadeflex.ptrlib.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
@@ -64,7 +65,7 @@ public class gbusters
 		konami_cpu_setlines_callback = gbusters_banking;
 	
 		/* mirror address for banked ROM */
-		memcpy(RAM.memory,0x18000+ram.base,RAM.memory,0x10000+ram.base, 0x08000 );
+		memcpy(RAM.memory,0x18000+ram.offset,RAM.memory,0x10000+ram.offset, 0x08000 );
                 
                 /*for(int i=0; i<0x08000; i++)
                 {
@@ -72,11 +73,11 @@ public class gbusters
                 }*/
                
 	
-		paletteram = new CharPtr(RAM,0x30000);
+		paletteram = new UBytePtr(RAM,0x30000);
 	} };
 	
 	static int palette_selected;
-	static CharPtr ram=new CharPtr();
+	static UBytePtr ram=new UBytePtr();
 	
 	public static InterruptPtr gbusters_interrupt = new InterruptPtr() { public int handler() 
 	{
