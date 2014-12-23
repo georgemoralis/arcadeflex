@@ -147,7 +147,11 @@ public class input {
 
                     return res;
             }*/ 
+            if(MainApplet.inst==null){
                 return screen.key[keycode] ? 1 :0;
+            }else{
+                return MainApplet.inst.key[keycode] ? 1 :0;
+            }
 
             
     }

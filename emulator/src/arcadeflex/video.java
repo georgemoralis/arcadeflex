@@ -1418,6 +1418,7 @@ public class video {
 
         //kill loading window
         osdepend.dlprogress.setVisible(false);
+        if (MainApplet.inst == null) {
             screen = new software_gfx(settings.version + " (based on mame v" + build_version + ")");
             screen.pack();
         //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
@@ -1452,7 +1453,15 @@ public class video {
             screen.addKeyListener(screen);
             screen.setFocusTraversalKeysEnabled(false);
             screen.requestFocus();
+        } else {
         
+            MainApplet.inst.addKeyListener(MainApplet.inst);
+            MainApplet.inst.setSize((scanlines == 0), width, height);
+            MainApplet.inst.setBackground(Color.black);
+            MainApplet.inst.start();
+            MainApplet.inst.run();
+            MainApplet.inst.getFocus();
+        }
         return 1;
     }
 
@@ -1460,6 +1469,9 @@ public class video {
 
         if (screen != null) {
             screen.blit();
+        }
+        if (MainApplet.inst != null) {
+            MainApplet.inst.blit();
         }
         try {
             Thread.sleep(100L);

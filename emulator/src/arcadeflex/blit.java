@@ -33,8 +33,8 @@ public class blit {
 
                     w = scrbitmap.width;
                     h = scrbitmap.height;
-                    for (int y = 0; y < h; y++)
-                    {
+            if (MainApplet.inst == null) {
+                for (int y = 0; y < h; y++) {
 
                         for (int x = 0; x < w; x++)
                         {
@@ -43,6 +43,17 @@ public class blit {
                         }
                     }
                     screen.blit();
+            }else{
+                for (int y = 0; y < h; y++) {
+
+                    for (int x = 0; x < w; x++) {
+                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
+                        MainApplet.inst._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
+                    }
+                }
+                MainApplet.inst.blit();                
+            }
+
                 //}
             }
         }
