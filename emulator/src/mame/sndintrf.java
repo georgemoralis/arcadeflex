@@ -17,9 +17,11 @@ import sound._3812intf;
 import sound.y8950;
 import sound.adpcm;
 import sound.okim6295;
+import sound._2413intfH.*;
 import static sound.mixer.*;
 import static sound.streams.*;
 import sound.MSM5205;
+import sound.ym2413;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -365,7 +367,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2612_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-          /*TEMPHACK*/   new Dummy_snd(),
+          /*TEMPHACK*/   new ym2413(),
     /*TODO*////*TODO*///#if (HAS_YM2413)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2413,

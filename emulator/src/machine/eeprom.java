@@ -65,9 +65,9 @@ public class eeprom
                             if (serial_buffer[i + strlen(intf.cmd_read)] == '1') address |= 1;
                     }
                     if (intf.data_bits == 16)
-                            eeprom_data_bits = (eeprom_data[2*address+0] << 8) + eeprom_data[2*address+1];
+                            eeprom_data_bits = (((eeprom_data[2*address+0] << 8)&0xFF) + ((eeprom_data[2*address+1])&0xFF));
                     else
-                            eeprom_data_bits = eeprom_data[address];
+                            eeprom_data_bits = eeprom_data[address] &0xFF;
                     sending = 1;
                     serial_count = 0;
                     if (errorlog!=null) fprintf(errorlog,"EEPROM read %04x from address %02x\n",eeprom_data_bits,address);
@@ -95,8 +95,10 @@ public class eeprom
                                     eeprom_data[address] = 0x00;
                     }
                     else
-                    if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
-                    serial_count = 0;
+                    {
+                        if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
+                        serial_count = 0;
+                    }
             }
             else if (intf.cmd_write!=null && serial_count == (strlen(intf.cmd_write) + intf.address_bits + intf.data_bits) &&
                             !strncmp(serial_buffer,intf.cmd_write,strlen(intf.cmd_write)))
@@ -127,8 +129,10 @@ public class eeprom
                                     eeprom_data[address] = (char)(data&0xff);
                     }
                     else
-                    if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
-                    serial_count = 0;
+                    {
+                        if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
+                        serial_count = 0;
+                    }
             }
             else if (intf.cmd_lock!=null && serial_count == strlen(intf.cmd_lock) &&
                             !strncmp(serial_buffer,intf.cmd_lock,strlen(intf.cmd_lock)))
@@ -149,7 +153,9 @@ public class eeprom
     public static void EEPROM_reset()
     {
     if (errorlog!=null && serial_count!=0)
+    {
             fprintf(errorlog,"EEPROM reset, buffer = %s\n",serial_buffer);
+    }
 
             serial_count = 0;
             sending = 0;
@@ -218,5 +224,9 @@ public class eeprom
     public static void EEPROM_save(Object f)
     {
             osd_fwrite(f,eeprom_data,0,(1 << intf.address_bits) * intf.data_bits / 8);
+            for(int i=0; i<eeprom_data.length; i++)
+            {
+                System.out.print(eeprom_data[i]);
+            }
     }    
 }

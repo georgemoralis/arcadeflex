@@ -5,33 +5,24 @@ import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
-import static vidhrdw.generic.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
 import static mame.inputportH.*;
 import static arcadeflex.ptrlib.*;
 import static mame.inputH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
-import static vidhrdw._1942.*;
-import static sound.samplesH.*;
 import static mame.memory.*;
-import static sound.ay8910.*;
-import static sound.ay8910H.*;
 import static mame.mame.*;
-import static mame.sndintrf.*;
 import static vidhrdw.mitchell.*;
 import static machine.eepromH.*;
 import static machine.eeprom.*;
 import static mame.cpuintrfH.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.fileio.*;
-import static mame.driver.*;
 import static sound.okim6295.*;
 import static sound.okim6295H.*;
-
+import static sound._2413intfH.*;
+import static sound.ym2413.*;
 import static machine.kabuki.*;
 
 public class mitchell {
@@ -64,7 +55,7 @@ public class mitchell {
     	"0111"	/* erase command */
     );
     
-    static CharPtr nvram=new CharPtr();
+    static UBytePtr nvram=new UBytePtr();
     static int nvram_size;
     static int init_eeprom_count;
     
@@ -94,21 +85,20 @@ public class mitchell {
     public static ReadHandlerPtr pang_port5_r = new ReadHandlerPtr() { public int handler(int offset)
     {
     	int bit;
-    /*TODO*///	extern struct GameDriver driver_mgakuen2;
-    /*TODO*///
+
     	bit = EEPROM_read_bit() << 7;
-    /*TODO*///
-    /*TODO*///	/* bits 0 and (sometimes) 3 are checked in the interrupt handler. */
-    /*TODO*///	/* Maybe they are vblank related, but I'm not sure. */
-    /*TODO*///	/* bit 3 is checked before updating the palette so it really seems to be vblank. */
-    /*TODO*///	/* Many games require two interrupts per frame and for these bits to toggle, */
-    /*TODO*///	/* otherwise music doesn't work. */
+    
+    	/* bits 0 and (sometimes) 3 are checked in the interrupt handler. */
+    	/* Maybe they are vblank related, but I'm not sure. */
+    	/* bit 3 is checked before updating the palette so it really seems to be vblank. */
+    	/* Many games require two interrupts per frame and for these bits to toggle, */
+    	/* otherwise music doesn't work. */
     	if ((cpu_getiloops() & 1)!=0) bit |= 0x01;
     	else bit |= 0x08;
         if (Machine.gamedrv == driver_mgakuen2)	/* hack... music doesn't work otherwise */
             bit ^= 0x08;
 
-    	return (input_port_0_r.handler(0) & 0x76) | bit;
+    	return ((input_port_0_r.handler(0) & 0x76) | bit);
     }};
     
     public static WriteHandlerPtr eeprom_cs_w= new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -324,8 +314,8 @@ public class mitchell {
 		new IOWritePort( 0x00, 0x00, pang_gfxctrl_w ),    /* Palette bank, layer enable, coin counters, more */
     		new IOWritePort( 0x01, 0x01, input_w ),
     		new IOWritePort( 0x02, 0x02, pang_bankswitch_w ),      /* Code bank register */
-/*TODO*///		new IOWritePort( 0x03, 0x03, YM2413_data_port_0_w ),
-/*TODO*///		new IOWritePort( 0x04, 0x04, YM2413_register_port_0_w ),
+		new IOWritePort( 0x03, 0x03, YM2413_data_port_0_w ),
+		new IOWritePort( 0x04, 0x04, YM2413_register_port_0_w ),
 		new IOWritePort( 0x05, 0x05, OKIM6295_data_0_w ),
 		new IOWritePort( 0x06, 0x06, MWA_NOP ),	/* watchdog? irq ack? */
 		new IOWritePort( 0x07, 0x07, pang_video_bank_w ),      /* Video RAM bank register */
@@ -923,12 +913,12 @@ public class mitchell {
 		new GfxDecodeInfo( -1 ) /* end of array */
 	};
 
-    /*TODO*///static struct YM2413interface ym2413_interface=
-    /*TODO*///{
-    /*TODO*///	1,	/* 1 chip */
-    /*TODO*///	8000000,	/* 8MHz ??? (hand tuned) */
-    /*TODO*///	{ 50 },	/* Volume */
-    /*TODO*///};
+    static YM2413interface ym2413_interface= new YM2413interface
+    (
+    	1,	/* 1 chip */
+    	8000000,	/* 8MHz ??? (hand tuned) */
+    	new int[]{ 50 }	/* Volume */
+    );
     
     static OKIM6295interface okim6295_interface = new OKIM6295interface
     (
@@ -969,16 +959,14 @@ public class mitchell {
                     (
 				SOUND_OKIM6295,
 				okim6295_interface
-                     )
+                     ),
+                    new MachineSound
+                    (
+                         SOUND_YM2413,
+			  ym2413_interface   
+                    )
+                    
 		}
-		/*
-			{
-				SOUND_YM2413,
-				&ym2413_interface
-			},
-		}*/
-	
-		/* no EEPROM */
 	);
     	static MachineDriver machine_driver_pang = new MachineDriver
 	(
@@ -1005,18 +993,19 @@ public class mitchell {
 		pang_vh_screenrefresh,
                 0,0,0,0,
 		new MachineSound[] {
+                    
                     new MachineSound
                     (
 				SOUND_OKIM6295,
 				okim6295_interface
-                     )
+                     ),
+                        new MachineSound
+                    (
+                         SOUND_YM2413,
+			  ym2413_interface   
+                    )
 		}
-                /*
-			{
-				SOUND_YM2413,
-				&ym2413_interface
-			},
-		},*/
+
 	
 		,nvram_handler
 	);
@@ -1045,18 +1034,19 @@ public class mitchell {
 		pang_vh_screenrefresh,
 		0,0,0,0,
 		new MachineSound[] {
+                    
                     new MachineSound
                     (
 				SOUND_OKIM6295,
 				okim6295_interface
-                     )
+                     ),
+                      new MachineSound
+                    (
+                         SOUND_YM2413,
+			  ym2413_interface   
+                    )
 		}
-		/*
-			{
-				SOUND_YM2413,
-				&ym2413_interface
-			},
-		},*/
+
                 ,
 		nvram_handler
 	);
@@ -1506,14 +1496,14 @@ public class mitchell {
 	{
 		input_type = 3;
 		nvram_size = 0x80;
-		nvram = new CharPtr(memory_region(REGION_CPU1),(0xe000));	/* NVRAM */
+		nvram = new UBytePtr(memory_region(REGION_CPU1),(0xe000));	/* NVRAM */
 		spang_decode();
 	} };
        	public static InitDriverPtr init_sbbros = new InitDriverPtr() { public void handler() 
 	{
 		input_type = 3;
 		nvram_size = 0x80;
-		nvram = new CharPtr(memory_region(REGION_CPU1),(0xe000));	/* NVRAM */
+		nvram = new UBytePtr(memory_region(REGION_CPU1),(0xe000));	/* NVRAM */
 		sbbros_decode();
 	} };
 	public static InitDriverPtr init_qtono1 = new InitDriverPtr() { public void handler() 
@@ -1548,14 +1538,14 @@ public class mitchell {
 	{
 		input_type = 2;
 		nvram_size = 0x80;
-		nvram = new CharPtr(memory_region(REGION_CPU1),(0xff80)); /* NVRAM */
+		nvram = new UBytePtr(memory_region(REGION_CPU1),(0xff80)); /* NVRAM */
 		block_decode();
 	} };
 	public static InitDriverPtr init_blockbl = new InitDriverPtr() { public void handler() 
 	{
 		input_type = 2;
 		nvram_size = 0x80;
-		nvram = new CharPtr(memory_region(REGION_CPU1),(0xff80));	/* NVRAM */
+		nvram = new UBytePtr(memory_region(REGION_CPU1),(0xff80));	/* NVRAM */
 		bootleg_decode();
 	} };
 

@@ -129,6 +129,8 @@ import static mame.sndintrf.*;
 import static arcadeflex.ptrlib.*;
 import static mame.palette.*;
 import static cpu.m6809.m6809H.*;
+import static sound._3812intfH.*;
+import static sound._3526intf.*;
 
 public class renegade
 {
@@ -427,7 +429,7 @@ public class renegade
 	static MemoryReadAddress sound_readmem[] ={
 		new MemoryReadAddress( 0x0000, 0x0fff, MRA_RAM ),
 		new MemoryReadAddress( 0x1000, 0x1000, soundlatch_r ),
-/*TODO*///		new MemoryReadAddress( 0x2801, 0x2801, YM3526_status_port_0_r ),
+		new MemoryReadAddress( 0x2801, 0x2801, YM3526_status_port_0_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )
 	};
@@ -436,8 +438,8 @@ public class renegade
 		new MemoryWriteAddress( 0x0000, 0x0fff, MWA_RAM ),
 		new MemoryWriteAddress( 0x1800, 0x1800, MWA_NOP ), // this gets written the same values as 0x2000
 		new MemoryWriteAddress( 0x2000, 0x2000, adpcm_play_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2800, 0x2800, YM3526_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2801, 0x2801, YM3526_write_port_0_w ),
+		new MemoryWriteAddress( 0x2800, 0x2800, YM3526_control_port_0_w ),
+		new MemoryWriteAddress( 0x2801, 0x2801, YM3526_write_port_0_w ),
 		new MemoryWriteAddress( 0x3000, 0x3000, MWA_NOP ), /* adpcm related? stereo pan? */
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),
 		new MemoryWriteAddress( -1 )
@@ -640,19 +642,19 @@ public class renegade
 	
 	
 	/* handler called by the 3526 emulator when the internal timers cause an IRQ */
-	static void irqhandler(int linestate)
-	{
-		cpu_set_irq_line(1,M6809_FIRQ_LINE,linestate);
-		//cpu_cause_interrupt(1,M6809_INT_FIRQ);
-	}
+        public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int state)
+        {
+            cpu_set_irq_line(1,M6809_FIRQ_LINE,state);
+                    //cpu_cause_interrupt(1,M6809_INT_IRQ);
+        }};
 	
-/*TODO*///	static struct YM3526interface ym3526_interface = {
-/*TODO*///		1,			/* 1 chip (no more supported) */
-/*TODO*///		3000000,	/* 3 MHz ? (hand tuned) */
-/*TODO*///		{ 50 },		/* volume */
-/*TODO*///		{ irqhandler },
-/*TODO*///	};
-	
+	static YM3526interface ym3526_interface = new YM3526interface
+	(
+		1,			/* 1 chip (no more supported) */
+		3000000,	/* 3 MHz ? (hand tuned) */
+		new int[]{ 50 },		/* volume */
+		new WriteYmHandlerPtr[]{ irqhandler }
+        );
 /*TODO*///	static struct ADPCMinterface adpcm_interface =
 /*TODO*///	{
 /*TODO*///		1,			/* 1 channel */
@@ -700,17 +702,16 @@ public class renegade
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM3526,
 				ym3526_interface
-			),
-			new MachineSound(
+			)
+			/*new MachineSound(
 				SOUND_ADPCM,
 				adpcm_interface
-			)
-		}*/
-                null
+			)*/
+                }
 	);
 	
 	

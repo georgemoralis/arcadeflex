@@ -18,6 +18,10 @@ import static vidhrdw.brkthru.*;
 import static mame.sndintrf.*;
 import static mame.mame.*;
 import static cpu.m6809.m6809H.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM3526;
+import static sound._3812intfH.*;
+import static sound._3526intf.*;
 
 public class brkthru
 {
@@ -122,8 +126,8 @@ public class brkthru
 	static MemoryWriteAddress sound_writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x2000, 0x2000, YM3526_control_port_0_w  ),
-/*TODO*///		new MemoryWriteAddress( 0x2001, 0x2001, YM3526_write_port_0_w ),
+		new MemoryWriteAddress( 0x2000, 0x2000, YM3526_control_port_0_w  ),
+		new MemoryWriteAddress( 0x2001, 0x2001, YM3526_write_port_0_w ),
 /*TODO*///		new MemoryWriteAddress( 0x6000, 0x6000, YM2203_control_port_0_w ),
 /*TODO*///		new MemoryWriteAddress( 0x6001, 0x6001, YM2203_write_port_0_w ),
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),
@@ -344,12 +348,12 @@ public class brkthru
 	};
 	
 	/* handler called by the 3812 emulator when the internal timers cause an IRQ */
-/*TODO*///	static void irqhandler(int linestate)
-/*TODO*///	{
-/*TODO*///		cpu_set_irq_line(1,0,linestate);
-		//cpu_cause_interrupt(1,M6809_INT_IRQ);
-/*TODO*///	}
-	
+        public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int state)
+        {
+            cpu_set_irq_line(1,0,state);
+                    //cpu_cause_interrupt(1,M6809_INT_IRQ);
+        }};
+
 /*TODO*///	static struct YM2203interface ym2203_interface =
 /*TODO*///	{
 /*TODO*///		1,
@@ -361,13 +365,13 @@ public class brkthru
 /*TODO*///		{ 0 }
 /*TODO*///	};
 	
-/*TODO*///	static struct YM3526interface ym3526_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip (no more supported) */
-/*TODO*///		3000000,	/* 3.000000 MHz ? (partially supported) */
-/*TODO*///		{ 255 },		/* (not supported) */
-/*TODO*///		{ irqhandler },
-/*TODO*///	};
+	static YM3526interface ym3526_interface = new YM3526interface
+	(
+		1,			/* 1 chip (no more supported) */
+		3000000,	/* 3.000000 MHz ? (partially supported) */
+		new int[]{ 255 },		/* (not supported) */
+		new WriteYmHandlerPtr[]{ irqhandler }
+        );
 	
 	
 	
@@ -406,17 +410,16 @@ public class brkthru
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
-			new MachineSound(
+		new MachineSound[] {
+			/*new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			),
+			),*/
 			new MachineSound(
 				SOUND_YM3526,
 				ym3526_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_darwin = new MachineDriver
@@ -454,17 +457,16 @@ public class brkthru
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
-			new MachineSound(
+		new MachineSound[] {
+			/*new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			),
+			),*/
 			new MachineSound(
 				SOUND_YM3526,
 				ym3526_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	

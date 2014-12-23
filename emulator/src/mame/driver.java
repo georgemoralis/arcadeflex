@@ -262,26 +262,113 @@ public class driver {
         /*125*//*wiz*/driver_scionc,
         /*126*//*wiz*/driver_wiz,
         /*127*//*wiz*/driver_wizt,
-        /*128*//*appoooh*/driver_appoooh,    
+        /*128*//*appoooh*/driver_appoooh,  
         /*129*//*retofinv*/driver_retofinv,
         /*130*//*retofinv*/driver_retofin1,
         /*131*//*retofinv*/driver_retofin2,
         /*132*//*scregg*/driver_scregg,
         /*133*//*scregg*/driver_eggs,
         /*134*//*yamato*/driver_yamato,	
-        /*135*//*yamato*/driver_yamato2,	
+        /*135*//*yamato*/driver_yamato2,	        
+        /* Sega System 1 / System 2 games */
+        /*136*//*system1*/driver_starjack,	
+        /*137*//*system1*/driver_starjacs,	
+        /*138*//*system1*/driver_regulus,	
+	/*139*//*system1*/driver_regulusu,	
+	/*140*//*system1*/driver_upndown,	
+	/*141*//*system1*/driver_mrviking,	
+	/*142*//*system1*/driver_mrvikinj,	
+	/*143*//*system1*/driver_swat,		
+	/*144*//*system1*/driver_flicky,	
+	/*145*//*system1*/driver_flicky2,	
+	/*146*//*system1*/driver_bullfgtj,	
+	/*147*//*system1*/driver_pitfall2,	
+	/*148*//*system1*/driver_pitfallu,	
+	/*149*//*system1*/driver_seganinj,	
+	/*150*//*system1*/driver_seganinu,	
+	/*151*//*system1*/driver_nprinces,	
+	/*152*//*system1*/driver_nprincsu,	
+	/*153*//*system1*/driver_nprincsb,	
+	/*154*//*system1*/driver_imsorry,	
+	/*155*//*system1*/driver_imsorryj,	
+	/*156*//*system1*/driver_teddybb,	
+	/*157*//*system1*/driver_hvymetal,	
+	/*158*//*system1*/driver_myhero,	
+	/*159*//*system1*/driver_myheroj,	
+	/*160*//*system1*/driver_myherok,	
+        /*161*//*system1*/driver_chplftb,	
+	/*162*//*system1*/driver_chplftbl,	
+	/*163*//*system1*/driver_4dwarrio,		
+        /*164*//*system1*/driver_wboy,		
+	/*165*//*system1*/driver_wboy2,		
+	/*166*//*system1*/driver_wboy4,		
+	/*167*//*system1*/driver_wboyu,		
+	/*168*//*system1*/driver_wboy4u,	
+	/*169*//*system1*/driver_wbdeluxe,	
+        /*170*//*system1*/driver_wbml,		
+	/*171*//*system1*/driver_wbmlju,	
+        /*172*//*jack*/driver_jack,
+        /*173*//*jack*/driver_jack2,
+        /*174*//*jack*/driver_jack3,
+        /*175*//*jack*/driver_treahunt,
+        /*176*//*jack*/driver_zzyzzyxx,
+        /*177*//*jack*/driver_zzyzzyx2,
+        /*178*//*jack*/driver_brix,
+        /*179*//*jack*/driver_freeze,
+        /*180*//*jack*/driver_sucasino,
+        /*181*//*timeplt*/driver_timeplt,
+        /*182*//*timeplt*/driver_timepltc,	
+        /*183*//*timeplt*/driver_spaceplt,	
+        /*184*//*timeplt*/driver_psurge,	
+        /*185*//*mrdo*/driver_mrdo,		
+        /*186*//*mrdo*/driver_mrdot,		
+        /*187*//*mrdo*/driver_mrdofix,	
+        /*188*//*mrdo*/driver_mrlo,		
+        /*189*//*mrdo*/driver_mrdu,		
+        /*190*//*mrdo*/driver_mrdoy,		
+        /*191*//*mrdo*/driver_yankeedo,	       
+        /*192*//*battlnts*/driver_battlnts,
+        /*193*//*battlnts*/driver_battlntj,
+	/*194*//*tecmo*/driver_gemini,	
+        /*195*//*tecmo*/driver_silkworm,
+        /*196*//*tecmo*/driver_silkwrm2,
         
         /*
           Possible cpu bugs
         */
         /*001*//*pacman*/driver_lizwiz,//reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
+        
+        /*
+           Sound issues
+        */
+        /*001*//*battlnts*/driver_thehustl, //issues with fmopl implementation (wave type)
+        /*002*//*battlnts*/driver_thehustj,//issues with fmopl implementation (wave type)
+        /*003*//*tecmo*/driver_rygar,	//- crashes ADPCM in generate_adpcm
+        /*004*//*tecmo*/driver_rygar2,	//- crashes ADPCM in generate_adpcm
+        /*005*//*tecmo*/driver_rygarj,	//- crashes ADPCM in generate_adpcm
+        /*
+           Unknown issues 
+        */
+        /*001*//*system1*/driver_brain,		// Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:468)
+        /*002*//*system1*/driver_tokisens,  // Game Freezes at startup
+
         /*
           GAME NOT WORKING FLAG
         */
         /*001*//*superqix*/driver_superqix,
         /*002*//*pacman*/driver_jumpshot,
         /*003*//*kangaroo*/driver_fnkyfish,
-        
+        /*004*//*system1*/driver_shtngmst,	
+        /*005*//*system1*/driver_chplft,	
+        /*006*//*system1*/driver_wboy3,
+        /*007*//*system1*/driver_gardia,	
+	/*008*//*system1*/driver_gardiab,	
+	/*009*//*system1*/driver_blockgal,	
+	/*010*//*system1*/driver_blckgalb,			
+        /*011*//*system1*/driver_wbmlj,		
+	/*012*//*system1*/driver_wbmlj2,	
+        /*013*//*system1*/driver_dakkochn,	
+	/*014*//*system1*/driver_ufosensi,	
         
         /*TO RECHECK
         */
@@ -334,15 +421,7 @@ public class driver {
         /*kingobox*/driver_ringking,
         /*kingobox*/driver_ringkin3,
         /*wc90*/driver_wc90,
-        /*jack*/driver_jack,
-        /*jack*/driver_jack2,
-        /*jack*/driver_jack3,
-        /*jack*/driver_treahunt,
-        /*jack*/driver_zzyzzyxx,
-        /*jack*/driver_zzyzzyx2,
-        /*jack*/driver_brix,
-        /*jack*/driver_freeze,
-        /*jack*/driver_sucasino,
+        
         
         /*pcktgal*/driver_pcktgal,	
         /*pcktgal*/driver_pcktgalb,	
@@ -358,10 +437,7 @@ public class driver {
         
         /*ddragon*/driver_ddragonb,
         /*ddragon*/driver_ddragon2,
-        /*battlnts*/driver_thehustl,
-        /*battlnts*/driver_thehustj,
-        /*battlnts*/driver_battlnts,
-        /*battlnts*/driver_battlntj,
+        
         /*bladestl*/driver_bladestl, //also need analog(?) work ok with digital controls
         /*rockrage*/driver_rockrage,
         /*rockrage*/driver_rockragj,
@@ -836,13 +912,7 @@ public class driver {
 /*TODO*/ //	DRIVER( nomnlndg )/	* (c) [1980?] + Gottlieb */
     driver_cheekyms,
 
-    driver_mrdo,		/* (c) 1982 */
-    driver_mrdot,		/* (c) 1982 + Taito license */
-    driver_mrdofix,	/* (c) 1982 + Taito license */
-    driver_mrlo,		/* bootleg */
-    driver_mrdu,		/* bootleg */
-    driver_mrdoy,		/* bootleg */
-    driver_yankeedo,	       /* bootleg */
+    
 /*TODO*/ //	DRIVER( docastle )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( docastl2 )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( douni )		/* (c) 1983 */
@@ -1638,57 +1708,7 @@ public class driver {
         driver_congo,	/* 605-5167 (c) 1983 */
         driver_tiptop,	/* 605-5167 (c) 1983 */
 
-	/* Sega System 1 / System 2 games */
-        driver_starjack,	/* 834-5191 (c) 1983 (S1) */
-        driver_starjacs,	/* (c) 1983 Stern (S1) */
-        driver_regulus,	/* 834-5328(c) 1983 (S1) */
-	driver_regulusu,	/* 834-5328(c) 1983 (S1) */
-	driver_upndown,	/* (c) 1983 (S1) */
-	driver_mrviking,	/* 834-5383 (c) 1984 (S1) */
-	driver_mrvikinj,	/* 834-5383 (c) 1984 (S1) */
-	driver_swat,		/* 834-5388 (c) 1984 Coreland / Sega (S1) */
-	driver_flicky,	/* (c) 1984 (S1) */
-	driver_flicky2,	/* (c) 1984 (S1) */
-	/* Water Match (S1) */
-	driver_bullfgtj,	/* 834-5478 (c) 1984 Sega / Coreland (S1) */
-	driver_pitfall2,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-	driver_pitfallu,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-	driver_seganinj,	/* 834-5677 (c) 1985 (S1) */
-	driver_seganinu,	/* 834-5677 (c) 1985 (S1) */
-	driver_nprinces,	/* 834-5677 (c) 1985 (S1) */
-	driver_nprincsu,	/* 834-5677 (c) 1985 (S1) */
-	driver_nprincsb,	/* bootleg? (S1) */
-	driver_imsorry,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-	driver_imsorryj,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-	driver_teddybb,	/* 834-5712 (c) 1985 (S1) */
-	driver_hvymetal,	/* 834-5745 (c) 1985 (S2?) */
-	driver_myhero,	/* 834-5755 (c) 1985 (S1) */
-	driver_myheroj,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-	driver_myherok,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-	driver_shtngmst,	/* 834-5719/5720 (c) 1985 (S2) */
-        driver_chplft,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-        driver_chplftb,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-	driver_chplftbl,	/* bootleg (S2) */
-	driver_4dwarrio,	/* 834-5918 (c) 1985 Coreland / Sega (S1) */
-	driver_brain,		/* (c) 1986 Coreland / Sega (S2?) */
-        driver_wboy,		/* 834-5984 (c) 1986 + Escape license (S1) */
-	driver_wboy2,		/* 834-5984 (c) 1986 + Escape license (S1) */
-	driver_wboy3,
-	driver_wboy4,		/* 834-5984 (c) 1986 + Escape license (S1) */
-	driver_wboyu,		/* 834-5753 (? maybe a conversion) (c) 1986 + Escape license (S1) */
-	driver_wboy4u,	/* 834-5984 (c) 1986 + Escape license (S1) */
-	driver_wbdeluxe,	/* (c) 1986 + Escape license (S1) */
-	driver_gardia,	/* 834-6119 (S2?) */
-	driver_gardiab,	/* bootleg */
-	driver_blockgal,	/* 834-6303 (S1) */
-	driver_blckgalb,	/* bootleg */
-	driver_tokisens,	/* (c) 1987 (from a bootleg board) (S2) */
-        driver_wbml,		/* bootleg (S2) */
-        driver_wbmlj,		/* (c) 1987 Sega/Westone (S2) */
-	driver_wbmlj2,	/* (c) 1987 Sega/Westone (S2) */
-	driver_wbmlju,	/* bootleg? (S2) */
-	driver_dakkochn,	/* 836-6483? (S2) */
-	driver_ufosensi,	/* 834-6659 (S2) */
+	
 
 	/* other Sega 8-bit games */
 /*TODO*/ //	DRIVER( turbo )		/* (c) 1981 Sega */
@@ -1926,12 +1946,7 @@ public class driver {
 /*TODO*/ //	DRIVER( gridiron )	/* (c) 1985 Tehkan */
 /*TODO*/ //	DRIVER( teedoff )	/* 6102 - (c) 1986 Tecmo */
 /*TODO*/ //	DRIVER( solomon )	/* (c) 1986 Tecmo */
-        driver_rygar,	/* 6002 - (c) 1986 Tecmo */
-        driver_rygar2,	/* 6002 - (c) 1986 Tecmo */
-        driver_rygarj,	/* 6002 - (c) 1986 Tecmo */
-        driver_gemini,	/* (c) 1987 Tecmo */
-        driver_silkworm,/* 6217 - (c) 1988 Tecmo */
-        driver_silkwrm2,/* 6217 - (c) 1988 Tecmo */
+        
 /*TODO*/ //	DRIVER( gaiden )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( shadoww )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( tknight )	/* (c) 1989 Tecmo */
@@ -1945,10 +1960,7 @@ public class driver {
 
 	/* Konami games */
 
-        driver_timeplt,	/* GX393 (c) 1982 */
-        driver_timepltc,	/* GX393 (c) 1982 + Centuri license*/
-        driver_spaceplt,	/* bootleg */
-        driver_psurge,	/* (c) 1988 unknown (NOT Konami) */
+        
 /*TODO*/ //	DRIVER( megazone )	/* GX319 (c) 1983 */
 /*TODO*/ //	DRIVER( megaznik )	/* GX319 (c) 1983 + Interlogic / Kosuka */
 /*TODO*/ //	DRIVER( pandoras )	/* GX328 (c) 1984 + Interlogic */
