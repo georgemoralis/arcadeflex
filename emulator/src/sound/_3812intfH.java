@@ -82,32 +82,16 @@ public class _3812intfH {
     /*TODO*///	void (*portwrite[MAX_8950])(int offset,int data);
     /*TODO*///};
     /*TODO*///
-    /*TODO*////* YM3812 */
-    /*TODO*///int YM3812_status_port_0_r(int offset);
-    /*TODO*///void YM3812_control_port_0_w(int offset,int data);
-    /*TODO*///void YM3812_write_port_0_w(int offset,int data);
-    /*TODO*///int YM3812_status_port_1_r(int offset);
-    /*TODO*///void YM3812_control_port_1_w(int offset,int data);
-    /*TODO*///void YM3812_write_port_1_w(int offset,int data);
-    /*TODO*///
-    /*TODO*///int YM3812_sh_start(const struct MachineSound *msound);
-    /*TODO*///void YM3812_sh_stop(void);
-    /*TODO*///void YM3812_sh_reset(void);
-    /*TODO*///
-    /*TODO*////* YM3526 */
-    public static class YM3526interface
+    /* YM3526 */
+    public static class YM3526interface extends YM3812interface
     {
-        public YM3526interface(int num,int baseclock,int[] mixing_level,WriteYmHandlerPtr []handler)
-        {
-            this.num =num;
-            this.baseclock=baseclock;
-            this.mixing_level=mixing_level;
-            this.handler=handler;
+        public YM3526interface(int num, int baseclock, int[] mixing_level, WriteYmHandlerPtr[] handler) {
+            super(num, baseclock, mixing_level, handler);
         }
-        int num;
-        int baseclock;
-        int[] mixing_level;//[MAX_3812];
-        public WriteYmHandlerPtr handler[];//void (*handler[MAX_3812])(int linestate);
+
+        public YM3526interface(int num, int baseclock, int[] mixing_level) {
+            super(num, baseclock, mixing_level);
+        }
     };
     /*TODO*///#define YM3526_status_port_0_r YM3812_status_port_0_r
     /*TODO*///#define YM3526_control_port_0_w YM3812_control_port_0_w

@@ -41,6 +41,11 @@ public class _3812intf extends snd_interface {
     @Override
     public int start(sndintrfH.MachineSound msound) {
         chiptype = OPL_TYPE_YM3812;
+        return OPL_sh_start(msound);
+    }
+
+    public static int OPL_sh_start(sndintrfH.MachineSound msound) {
+
         int i;
         int rate = Machine.sample_rate;
 
@@ -86,20 +91,26 @@ public class _3812intf extends snd_interface {
         }
         return 0;
     }
-    public static timer_callback timer_callback_3812 = new timer_callback(){ public void handler(int param)
-    {
-        int n=param>>1;
-	int c=param&1;
-	Timer[param] = 0;
-	OPLTimerOver(F3812[n],c);
-    }};
+
+    public static int YM3812_sh_start(MachineSound msound) {
+        chiptype = OPL_TYPE_YM3812;
+        return OPL_sh_start(msound);
+    }
+    public static timer_callback timer_callback_3812 = new timer_callback() {
+        public void handler(int param) {
+            int n = param >> 1;
+            int c = param & 1;
+            Timer[param] = 0;
+            OPLTimerOver(F3812[n], c);
+        }
+    };
     public static OPL_TIMERHANDLERPtr TimerHandler = new OPL_TIMERHANDLERPtr() {
 
         @Override
         public void handler(int c, double period) {
             if (period == 0) {	/* Reset FM Timer */
 
-                if (Timer[c]!=null) {
+                if (Timer[c] != null) {
                     timer_remove(Timer[c]);
                     Timer[c] = 0;
                 }
@@ -113,7 +124,9 @@ public class _3812intf extends snd_interface {
 
         @Override
         public void handler(int n, int irq) {
-            if (intf.handler == null) return;
+            if (intf.handler == null) {
+                return;
+            }
             if (intf.handler[n] != null) {
                 (intf.handler[n]).handler(irq != 0 ? ASSERT_LINE : CLEAR_LINE);
             }
@@ -129,6 +142,10 @@ public class _3812intf extends snd_interface {
 
     @Override
     public void stop() {
+        YM3812_sh_stop();
+    }
+
+    public static void YM3812_sh_stop() {
         int i;
 
         for (i = 0; i < intf.num; i++) {
