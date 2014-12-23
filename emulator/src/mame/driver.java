@@ -126,6 +126,8 @@ import static drivers.digdug.*;
 import static drivers.phozon.*;
 import static drivers.speedbal.*;
 import static drivers.appoooh.*;
+import static drivers.scobra.*;
+import static drivers.scramble.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -332,6 +334,40 @@ public class driver {
 	/*194*//*tecmo*/driver_gemini,	
         /*195*//*tecmo*/driver_silkworm,
         /*196*//*tecmo*/driver_silkwrm2,
+        /*197*//*scobra*/driver_scobra,
+	/*198*//*scobra*/driver_scobras,
+	/*199*//*scobra*/driver_scobrab,
+	/*200*//*scobra*/driver_stratgyx,
+	/*201*//*scobra*/driver_stratgys,
+	/*202*//*scobra*/driver_armorcar,
+	/*203*//*scobra*/driver_armorca2,
+	/*204*//*scobra*/driver_spdcoin,
+        /*205*//*scobra*/driver_tazmania,
+	/*206*//*scobra*/driver_tazmani2,
+	/*207*//*scobra*/driver_calipso,
+	/*208*//*scobra*/driver_anteater,
+	/*209*//*scobra*/driver_rescue,
+	/*210*//*scobra*/driver_minefld,
+	/*211*//*scobra*/driver_losttomb,
+	/*212*//*scobra*/driver_losttmbh,
+	/*213*//*scobra*/driver_superbon,
+	/*214*//*scobra*/driver_hustler,
+	/*215*//*scobra*/driver_billiard,
+	/*216*//*scobra*/driver_hustlerb,
+        /*217*//*scramble*/driver_scramble,
+	/*218*//*scramble*/driver_scrambls,	
+	/*219*//*scramble*/driver_atlantis,
+	/*220*//*scramble*/driver_atlants2,
+	/*221*//*scramble*/driver_theend,
+	/*222*//*scramble*/driver_theends,
+	/*223*//*scramble*/driver_ckongs,
+	/*224*//*scramble*/driver_froggers,
+	/*225*//*scramble*/driver_amidars,
+	/*226*//*scramble*/driver_triplep,
+	/*227*//*scramble*/driver_knockout,
+	/*228*//*scramble*/driver_mariner,
+	/*229*//*scramble*/driver_hotshock,
+ 
         
         /*
           Possible cpu bugs
@@ -346,12 +382,20 @@ public class driver {
         /*003*//*tecmo*/driver_rygar,	//- crashes ADPCM in generate_adpcm
         /*004*//*tecmo*/driver_rygar2,	//- crashes ADPCM in generate_adpcm
         /*005*//*tecmo*/driver_rygarj,	//- crashes ADPCM in generate_adpcm
+        
+        /* controls issues
+        
+        */
+        /*001*//*scobra*/driver_moonwar2,//misses analog controls
+	/*002*//*scobra*/driver_monwar2a,//misses analog controls
         /*
            Unknown issues 
         */
         /*001*//*system1*/driver_brain,		// Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:468)
         /*002*//*system1*/driver_tokisens,  // Game Freezes at startup
-
+        /*003*//*scramble*/driver_mars,//-CPU #0 PC 7702: warning - op-code execute on mapped i/o
+	/*004*//*scramble*/driver_devilfsh,//doesn't start..
+	/*005*//*scramble*/driver_newsin7, //-CPU #1 PC e8a1: warning - op-code execute on mapped i/o
         /*
           GAME NOT WORKING FLAG
         */
@@ -369,6 +413,7 @@ public class driver {
 	/*012*//*system1*/driver_wbmlj2,	
         /*013*//*system1*/driver_dakkochn,	
 	/*014*//*system1*/driver_ufosensi,	
+        /*015*//*scobra*/driver_darkplnt,
         
         /*TO RECHECK
         */
@@ -644,47 +689,10 @@ public class driver {
 /*TODO*/ //	DRIVER( kingbalj )	/* (c) 1980 Namco */
 
 	/* "Scramble hardware" (and variations) games */
-/*TODO*/ //	DRIVER( scramble )	/* GX387 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( scrambls )	/* GX387 (c) 1981 Stern */
-/*TODO*/ //	DRIVER( scramblb )	/* bootleg */
-/*TODO*/ //	DRIVER( atlantis )	/* (c) 1981 Comsoft */
-/*TODO*/ //	DRIVER( atlants2 )	/* (c) 1981 Comsoft */
-/*TODO*/ //	DRIVER( theend )	/* (c) 1980 Konami */
-/*TODO*/ //	DRIVER( theends )	/* (c) 1980 Stern */
-/*TODO*/ //	DRIVER( ckongs )	/* bootleg */
-/*TODO*/ //	DRIVER( froggers )	/* bootleg */
-/*TODO*/ //	DRIVER( amidars )	/* (c) 1982 Konami */
-/*TODO*/ //	DRIVER( triplep )	/* (c) 1982 KKI */
-/*TODO*/ //	DRIVER( knockout )	/* (c) 1982 KKK */
-/*TODO*/ //	DRIVER( mariner )	/* (c) 1981 Amenip */
-/*TODO*/ //	DRIVER( mars )		/* (c) 1981 Artic */
-/*TODO*/ //	DRIVER( devilfsh )	/* (c) 1982 Artic */
-/*TODO*/ //	DRIVER( newsin7 )	/* (c) 1983 ATW USA, Inc. */
-/*TODO*/ //	DRIVER( hotshock )	/* (c) 1982 E.G. Felaco */
+	
+/*TODO*///driver_scramblb,
 /*TODO*/ //	DRIVER( hunchbks )	/* (c) 1983 Century */
-/*TODO*/ //	DRIVER( scobra )	/* GX316 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( scobras )	/* GX316 (c) 1981 Stern */
-/*TODO*/ //	DRIVER( scobrab )	/* GX316 (c) 1981 Karateco (bootleg?) */
-/*TODO*/ //	DRIVER( stratgyx )	/* GX306 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( stratgys )	/* GX306 (c) 1981 Stern */
-/*TODO*/ //	DRIVER( armorcar )	/* (c) 1981 Stern */
-/*TODO*/ //	DRIVER( armorca2 )	/* (c) 1981 Stern */
-/*TODO*/ //	DRIVER( moonwar2 )	/* (c) 1981 Stern */
-/*TODO*/ //	DRIVER( monwar2a )	/* (c) 1981 Stern */
-/*TODO*/ //	DRIVER( spdcoin )	/* (c) 1984 Stern */
-/*TODO*/ //	DRIVER( darkplnt )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( tazmania )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( tazmani2 )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( calipso )	/* (c) 1982 Tago */
-/*TODO*/ //	DRIVER( anteater )	/* (c) 1982 Tago */
-/*TODO*/ //	DRIVER( rescue )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( minefld )	/* (c) 1983 Stern */
-/*TODO*/ //	DRIVER( losttomb )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( losttmbh )	/* (c) 1982 Stern */
-/*TODO*/ //	DRIVER( superbon )	/* bootleg */
-/*TODO*/ //	DRIVER( hustler )	/* GX343 (c) 1981 Konami */
-/*TODO*/ //	DRIVER( billiard )	/* bootleg */
-/*TODO*/ //	DRIVER( hustlerb )	/* bootleg */
+
             
             
 /*TODO*/ //	DRIVER( flyboy )	/* (c) 1982 Kaneko */
