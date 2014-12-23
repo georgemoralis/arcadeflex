@@ -374,7 +374,7 @@ public class system1 {
         char sp_usage[] = new char[64];
         int i;
 
-		//memset (bg_usage, 0, sizeof (bg_usage));
+        //memset (bg_usage, 0, sizeof (bg_usage));
         //memset (tx_usage, 0, sizeof (tx_usage));
         //memset (sp_usage, 0, sizeof (sp_usage));
         for (i = 0; i < system1_backgroundram_size[0]; i += 2) {

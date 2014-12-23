@@ -84,6 +84,11 @@ public class libc {
             this.buffer = new int[size];
             this.offset = 0;
         }
+        public IntSubArray(int[] buffer)
+        {
+            this.buffer=buffer;
+            this.offset=0;
+        }
         public IntSubArray(IntSubArray subarray, int offset)
         {
             this.buffer = subarray.buffer;
