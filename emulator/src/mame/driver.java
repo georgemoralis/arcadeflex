@@ -656,9 +656,9 @@ public class driver {
 	/*slapfght*/driver_getstarj,
 	/*slapfght*/driver_getstarb,
         
-        /*marvins*/driver_marvins,
-        /*marvins*/driver_madcrash,
-        /*marvins*/driver_vangrd2,
+        /*marvins*/driver_marvins, //screen issues 
+        /*marvins*/driver_madcrash,//screen issues (offscreen drawing)
+        /*marvins*/driver_vangrd2,// screen issues (offscreen drawing)
         
 /*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
 
