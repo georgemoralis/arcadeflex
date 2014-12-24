@@ -8,8 +8,8 @@ import static arcadeflex.libc.*;
 public class FM_OPL {
 
     public FM_OPL() {
-        AR_TABLE = new int[75];
-        DR_TABLE = new int[75];
+        AR_TABLE = new int[76];
+        DR_TABLE = new int[76];
         FN_TABLE = new long[1024];
         T=new int[2];
         st=new int[2];

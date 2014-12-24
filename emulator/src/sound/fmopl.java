@@ -413,7 +413,7 @@ public class fmopl {
 
     static int OP_OUT(OPL_SLOT slot, int env, int con) {
 
-        return slot.wavetable[(int) ((slot.Cnt + con) / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1)].read(env);
+        return slot.wavetable[(int) (((slot.Cnt + con) / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1))+slot.wt_offset].read(env);
     }
     /* ---------- calcrate one of channel ---------- */
 
@@ -962,8 +962,7 @@ public class fmopl {
                 CH = OPL.P_CH[slot / 2];
                 if (OPL.wavesel != 0) {
                     /* Log(LOG_INF,"OPL SLOT %d wave select %d\n",slot,v&3); */
-                    throw new UnsupportedOperationException("unimplemented");
-                    //CH.SLOT[slot & 1].wavetable = new IntSubArray(SIN_TABLE[(v & 0x03) * SIN_ENT]);
+                    CH.SLOT[slot & 1].wt_offset=(v & 0x03) * SIN_ENT;//CH.SLOT[slot & 1].wavetable = new IntSubArray(SIN_TABLE[(v & 0x03) * SIN_ENT]);
                 }
                 return;
             default:

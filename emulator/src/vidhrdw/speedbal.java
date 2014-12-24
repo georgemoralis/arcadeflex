@@ -42,7 +42,7 @@ public class speedbal {
     public static VhConvertColorPromPtr speedbal_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
+            //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
 
             int p_inc = 0;
@@ -89,8 +89,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Start-Stop	* *
-	 ************************************
+     * Start-Stop	* * ***********************************
      */
     public static VhStartPtr speedbal_vh_start = new VhStartPtr() {
         public int handler() {
@@ -136,8 +135,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Foreground characters RAM * *
-	 ************************************
+     * Foreground characters RAM * * ***********************************
      */
     public static WriteHandlerPtr speedbal_foreground_videoram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -155,8 +153,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Background tiles RAM * *
-	 ************************************
+     * Background tiles RAM * * ***********************************
      */
     public static WriteHandlerPtr speedbal_background_videoram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -174,8 +171,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Sprite drawing	* *
-	 ************************************
+     * Sprite drawing	* * ***********************************
      */
     public static void speedbal_draw_sprites(osd_bitmap bitmap) {
         int SPTX, SPTY, SPTTile, SPTColor, offset, f;
@@ -212,8 +208,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Background drawing: Tiles * *
-	 ************************************
+     * Background drawing: Tiles * * ***********************************
      */
     public static void speedbal_draw_background(osd_bitmap bitmap) {
         int sx, sy, code, tile, offset, color;
@@ -243,8 +238,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Foreground drawing: 8x8 graphs * *
-	 ************************************
+     * Foreground drawing: 8x8 graphs * * ***********************************
      */
     public static void speedbal_draw_foreground1(osd_bitmap bitmap) {
         int sx, sy, code, caracter, color, offset;
@@ -276,8 +270,7 @@ public class speedbal {
     /**
      * ***********************************
      *				   *
-     * Refresh screen	* *
-	 ************************************
+     * Refresh screen	* * ***********************************
      */
     public static VhUpdatePtr speedbal_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {

@@ -369,6 +369,9 @@ public class driver {
 	/*227*//*scramble*/driver_knockout,
 	/*228*//*scramble*/driver_mariner,
 	/*229*//*scramble*/driver_hotshock,
+        /*230*//*battlnts*/driver_thehustl, 
+        /*231*//*battlnts*/driver_thehustj,
+        /*232*//*speedbal*/driver_speedbal,	
  
         
         /*
@@ -379,11 +382,10 @@ public class driver {
         /*
            Sound issues
         */
-        /*001*//*battlnts*/driver_thehustl, //issues with fmopl implementation (wave type)
-        /*002*//*battlnts*/driver_thehustj,//issues with fmopl implementation (wave type)
-        /*003*//*tecmo*/driver_rygar,	//- crashes ADPCM in generate_adpcm
-        /*004*//*tecmo*/driver_rygar2,	//- crashes ADPCM in generate_adpcm
-        /*005*//*tecmo*/driver_rygarj,	//- crashes ADPCM in generate_adpcm
+        
+        /*001*//*tecmo*/driver_rygar,	//- crashes ADPCM in generate_adpcm
+        /*002*//*tecmo*/driver_rygar2,	//- crashes ADPCM in generate_adpcm
+        /*003*//*tecmo*/driver_rygarj,	//- crashes ADPCM in generate_adpcm
         
         /* controls issues
         
@@ -2609,7 +2611,7 @@ public class driver {
 /*TODO*/ //	DRIVER( exctscca )	/* (c) 1983 Alpha Denshi Co. */
 /*TODO*/ //	DRIVER( exctsccb )	/* bootleg */
 /*TODO*/ //	DRIVER( exctscc2 )
-            driver_speedbal,	/* (c) 1987 Tecfri */
+            
 /*TODO*/ //	DRIVER( sauro )		/* (c) 1987 Tecfri */
 /*TODO*/ //	DRIVER( ambush )	/* (c) 1983 Nippon Amuse Co-Ltd */
 /*TODO*/ //	DRIVER( starcrus )	/* [1977 Ramtek] */
