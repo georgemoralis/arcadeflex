@@ -13,7 +13,7 @@ import static sound.fmoplH.*;
 import static sound.fmopl.*;
 import static mame.cpuintrfH.*;
 import static mame.timer.*;
-import sound.fm.FM_OPL;
+import sound.fm_c.FM_OPL;
 
 public class _3812intf extends snd_interface {
 

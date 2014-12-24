@@ -1,7 +1,7 @@
-package sound.fm;
+package sound.fm_c;
 
 import static sound.fmoplH.*;
-import static sound.fm.OPL_CH.*;
+import static sound.fm_c.OPL_CH.*;
 import static arcadeflex.libc.*;
 
 

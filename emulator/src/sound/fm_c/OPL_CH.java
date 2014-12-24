@@ -1,4 +1,4 @@
-package sound.fm;
+package sound.fm_c;
 
 
 public class OPL_CH {

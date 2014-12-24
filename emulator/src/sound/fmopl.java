@@ -2,12 +2,12 @@ package sound;
 
 import static sound.fmoplH.*;
 import static arcadeflex.ptrlib.*;
-import sound.fm.FM_OPL;
+import sound.fm_c.FM_OPL;
 import sound.fmoplH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
-import sound.fm.OPL_CH;
-import sound.fm.OPL_SLOT;
+import sound.fm_c.OPL_CH;
+import sound.fm_c.OPL_SLOT;
 
 public class fmopl {
 

@@ -17,10 +17,10 @@ import sound._3812intf;
 import sound.y8950;
 import sound.adpcm;
 import sound.okim6295;
-import sound._2413intfH.*;
 import static sound.mixer.*;
 import static sound.streams.*;
 import sound.MSM5205;
+import sound._2203intf;
 import sound.ym2413;
 
 public class sndintrf {
@@ -257,26 +257,14 @@ public class sndintrf {
     /*TODO*////*TODO*///int wave_num(const struct MachineSound *msound) { return ((struct Wave_interface*)msound->sound_interface)->num; }
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///
-    static snd_interface sndintf[] =
+    public static snd_interface sndintf[] =
     {
           new Dummy_snd(),   
           new CustomSound(), 
           new samples(),
           new dac(),
           new ay8910(),   
-   /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_YM2203)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_YM2203,
-    /*TODO*////*TODO*///		"YM-2203",
-    /*TODO*////*TODO*///		YM2203_num,
-    /*TODO*////*TODO*///		YM2203_clock,
-    /*TODO*////*TODO*///		YM2203_sh_start,
-    /*TODO*////*TODO*///		YM2203_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		YM2203_sh_reset
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+          new _2203intf(),
     /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2151)
     /*TODO*////*TODO*///    {
