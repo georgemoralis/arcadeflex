@@ -128,6 +128,8 @@ import static drivers.speedbal.*;
 import static drivers.appoooh.*;
 import static drivers.scobra.*;
 import static drivers.scramble.*;
+import static drivers.slapfght.*;
+import static drivers.marvins.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -641,6 +643,22 @@ public class driver {
         /*airbustr*/driver_airbustr,	/* (c) 1990 Kaneko */
         
 
+        /*slapfght*/driver_tigerh,
+	/*slapfght*/driver_tigerh2,
+	/*slapfght*/driver_tigerhj,
+	/*slapfght*/driver_tigerhb1,
+	/*slapfght*/driver_tigerhb2,
+	/*slapfght*/driver_slapfigh,
+	/*slapfght*/driver_slapbtjp,
+	/*slapfght*/driver_slapbtuk,
+	/*slapfght*/driver_alcon,
+	/*slapfght*/driver_getstar,
+	/*slapfght*/driver_getstarj,
+	/*slapfght*/driver_getstarb,
+        
+        /*marvins*/driver_marvins,
+        /*marvins*/driver_madcrash,
+        /*marvins*/driver_vangrd2,
         
 /*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
 
@@ -1325,18 +1343,7 @@ public class driver {
 /*TODO*/ //	DRIVER( runark )	/* (c) 1990 Taito Corporation (Japan) */
 
 	/* Toaplan games */
-/*TODO*/ //	DRIVER( tigerh )	/* GX-551 [not a Konami board!] */
-/*TODO*/ //	DRIVER( tigerh2 )	/* GX-551 [not a Konami board!] */
-/*TODO*/ //	DRIVER( tigerhj )	/* GX-551 [not a Konami board!] */
-/*TODO*/ //	DRIVER( tigerhb1 )	/* bootleg but (c) 1985 Taito Corporation */
-/*TODO*/ //	DRIVER( tigerhb2 )	/* bootleg but (c) 1985 Taito Corporation */
-/*TODO*/ //	DRIVER( slapfigh )	/* TP-??? */
-/*TODO*/ //	DRIVER( slapbtjp )	/* bootleg but (c) 1986 Taito Corporation */
-/*TODO*/ //	DRIVER( slapbtuk )	/* bootleg but (c) 1986 Taito Corporation */
-/*TODO*/ //	DRIVER( alcon )		/* TP-??? */
-/*TODO*/ //	DRIVER( getstar )
-/*TODO*/ //	DRIVER( getstarj )
-/*TODO*/ //	DRIVER( getstarb )	/* GX-006 bootleg but (c) 1986 Taito Corporation */
+
 
 /*TODO*/ //	DRIVER( fshark )	/* TP-007 (c) 1987 Taito Corporation (World) */
 /*TODO*/ //	DRIVER( skyshark )	/* TP-007 (c) 1987 Taito America Corporation + Romstar license (US) */
@@ -2289,9 +2296,7 @@ public class driver {
 /*TODO*/ //	DRIVER( lasso )		/*       'WM' (c) 1982 */
 /*TODO*/ //	DRIVER( joyfulr )	/* A2001      (c) 1983 */
 /*TODO*/ //	DRIVER( mnchmobl )	/* A2001      (c) 1983 + Centuri license */
-/*TODO*/ //	DRIVER( marvins )	/* A2003      (c) 1983 */
-/*TODO*/ //	DRIVER( madcrash )	/* A2005      (c) 1984 */
-/*TODO*/ //	DRIVER( vangrd2 )	/*            (c) 1984 */
+
 /*TODO*/ //	DRIVER( hal21 )		/*            (c) 1985 */
 /*TODO*/ //	DRIVER( hal21j )	/*            (c) 1985 (Japan) */
 /*TODO*/ //	DRIVER( aso )		/*            (c) 1985 */

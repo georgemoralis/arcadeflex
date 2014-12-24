@@ -563,27 +563,25 @@ public class namco extends snd_interface {
     /*TODO*///
     /*TODO*////********************************************************************************/
     /*TODO*///
-    /*TODO*///void snkwave_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	static int freq0 = 0xff;
-    /*TODO*///	sound_channel *voice = channel_list;
-    /*TODO*///	if( offset==0 ) freq0 = data;
-    /*TODO*///	if( offset==1 )
-    /*TODO*///	{
-    /*TODO*///		stream_update(stream, 0);
-    /*TODO*///		if( data==0xff || freq0==0 )
-    /*TODO*///		{
-    /*TODO*///			voice->volume[0] = 0x0;
-    /*TODO*///		}
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			voice->volume[0] = 0x8;
-    /*TODO*///			voice->frequency = (data<<16)/freq0;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    public static WriteHandlerPtr snkwave_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+
+            int freq0 = 0xff;
+            sound_channel voice = channel_list[0];//sound_channel *voice = channel_list
+            if (offset == 0) {
+                freq0 = data;
+            }
+            if (offset == 1) {
+                stream_update(stream, 0);
+                if (data == 0xff || freq0 == 0) {
+                    voice.volume[0] = 0x0;
+                } else {
+                    voice.volume[0] = 0x8;
+                    voice.frequency = (data << 16) / freq0;
+                }
+            }
+        }
+    };
 
     @Override
     public void update() {
