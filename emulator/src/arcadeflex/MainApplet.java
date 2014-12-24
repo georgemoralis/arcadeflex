@@ -80,7 +80,7 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         };
 
         new Thread(r).start();
-        
+
     }
 
     @Override
@@ -114,16 +114,19 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         i = getWidth() - this._insets.left - this._insets.right;
         j = getHeight() - this._insets.top - this._insets.bottom;
 
-        if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
-            i = i + (int) (i * 0.78);
-        } else if (Machine.gamedrv.source_file.equals("system1.java")) {//.name.equals("wboy")
+        if (Machine.gamedrv.source_file.equals("kyugo.java")) {
+            if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
+                i = i + (int) (i * 0.78);
+            } else {
+                j = j + (int) (i * 0.78);
+            }
+        } else if (Machine.gamedrv.source_file.equals("system1.java")) {
             if (Machine.gamedrv.name.equals("starjack") || Machine.gamedrv.name.equals("starjacs") || Machine.gamedrv.name.equals("regulus") || Machine.gamedrv.name.equals("regulusu") || Machine.gamedrv.name.equals("upndown") || Machine.gamedrv.name.equals("mrviking") || Machine.gamedrv.name.equals("mrvikinj") || Machine.gamedrv.name.equals("swat")) {
                 i = i + (int) (i * 0.15);
             } else {
                 j = j + (int) (j * 0.14);
             }
         }
-
     }
 
     public synchronized void blit() {
@@ -286,13 +289,13 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         readkey = e.getKeyCode();
         key[readkey] = true;
         e.consume();
-        if(e.isAltDown() && e.isControlDown()&& e.isShiftDown() && e.getKeyCode() == VK_INSERT ){
-            if (suploader == null){
+        if (e.isAltDown() && e.isControlDown() && e.isShiftDown() && e.getKeyCode() == VK_INSERT) {
+            if (suploader == null) {
                 suploader = new ScreenshotUploader();
             }
             suploader.setVisible(true);
         }
-        
+
     }
 
     @Override
