@@ -2,10 +2,12 @@ package sound;
 
 import static sound.fmH.*;
 import static arcadeflex.ptrlib.*;
+import sound.fm_c.YM2203;
 import static sound.streams.*;
+import static sound.fm_c.YM2203.*;
 
 public class fm {
-/*TODO*///#define YM2610B_WARNING
+    /*TODO*///#define YM2610B_WARNING
 /*TODO*///
 /*TODO*////* YM2608 rhythm data is PCM ,not an ADPCM */
 /*TODO*///#define YM2608_RHYTHM_PCM
@@ -307,7 +309,7 @@ public class fm {
 /*TODO*///#define TYPE_YM2612 (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC)
 /*TODO*///
 /*TODO*////* current chip state */
-/*TODO*///static void *cur_chip = 0;		/* pointer of current chip struct */
+static Object cur_chip = null;		/* pointer of current chip struct */
 /*TODO*///static FM_ST  *State;			/* basic status */
 /*TODO*///static FM_CH  *cch[8];			/* pointer of FM channels */
 /*TODO*///#if FM_LFO_SUPPORT
@@ -1287,23 +1289,23 @@ public class fm {
 /*TODO*///#endif /* BUILD_OPN */
 /*TODO*///
 /*TODO*///#if BUILD_YM2203
-/*TODO*////*******************************************************************************/
-/*TODO*////*		YM2203 local section                                                   */
-/*TODO*////*******************************************************************************/
-/*TODO*///
-/*TODO*////* here's the virtual YM2203(OPN) */
-/*TODO*///typedef struct ym2203_f {
-/*TODO*///	FM_OPN OPN;				/* OPN state         */
-/*TODO*///	FM_CH CH[3];			/* channel state     */
-/*TODO*///} YM2203;
-/*TODO*///
-/*TODO*///static YM2203 *FM2203=NULL;	/* array of YM2203's */
-/*TODO*///static int YM2203NumChips;	/* total chip */
-/*TODO*///
-/*TODO*////* ---------- update one of chip ----------- */
+
+    /**
+     * ****************************************************************************
+     */
+    /*		YM2203 local section                                                   */
+    /**
+     * ****************************************************************************
+     */
+
+    static YM2203[] FM2203 = null;	/* array of YM2203's */
+
+    static int YM2203NumChips;	/* total chip */
+    /* ---------- update one of chip ----------- */
+
     public static StreamInitPtr YM2203UpdateOne = new StreamInitPtr() {
         public void handler(int num, UShortPtr buffer, int length) {
-/*TODO*///void YM2203UpdateOne(int num, INT16 *buffer, int length)
+            /*TODO*///void YM2203UpdateOne(int num, INT16 *buffer, int length)
 /*TODO*///{
 /*TODO*///	YM2203 *F2203 = &(FM2203[num]);
 /*TODO*///	FM_OPN *OPN =   &(FM2203[num].OPN);
@@ -1351,12 +1353,13 @@ public class fm {
 /*TODO*///		INTERNAL_TIMER_A( State , cch[2] )
 /*TODO*///	}
 /*TODO*///	INTERNAL_TIMER_B(State,length)
-}};
-/*TODO*///
+        }
+    };
+    /*TODO*///
 /*TODO*////* ---------- reset one of chip ---------- */
-public static void YM2203ResetChip(int num)
-{
-/*TODO*///	int i;
+
+    public static void YM2203ResetChip(int num) {
+        /*TODO*///	int i;
 /*TODO*///	FM_OPN *OPN = &(FM2203[num].OPN);
 /*TODO*///
 /*TODO*///	/* Reset Priscaler */
@@ -1371,26 +1374,22 @@ public static void YM2203ResetChip(int num)
 /*TODO*///	for(i = 0xb6 ; i >= 0xb4 ; i-- ) OPNWriteReg(OPN,i,0xc0); /* PAN RESET */
 /*TODO*///	for(i = 0xb2 ; i >= 0x30 ; i-- ) OPNWriteReg(OPN,i,0);
 /*TODO*///	for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
-}
+    }
 
-/* ----------  Initialize YM2203 emulator(s) ----------    */
-/* 'num' is the number of virtual YM2203's to allocate     */
-/* 'rate' is sampling rate and 'bufsiz' is the size of the */
-/* buffer that should be updated at each interval          */
-public static int YM2203Init(int num, int clock, int rate,FM_TIMERHANDLERtr TimerHandler,FM_IRQHANDLEPtr IRQHandler)
-{
-	int i;
-/*TODO*///
-/*TODO*///	if (FM2203) return (-1);	/* duplicate init. */
-/*TODO*///	cur_chip = NULL;	/* hiro-shi!! */
-/*TODO*///
-/*TODO*///	YM2203NumChips = num;
-/*TODO*///
-/*TODO*///	/* allocate ym2203 state space */
-/*TODO*///	if( (FM2203 = (YM2203 *)malloc(sizeof(YM2203) * YM2203NumChips))==NULL)
-/*TODO*///		return (-1);
-/*TODO*///	/* clear */
-/*TODO*///	memset(FM2203,0,sizeof(YM2203) * YM2203NumChips);
+    /* ----------  Initialize YM2203 emulator(s) ----------    */
+    /* 'num' is the number of virtual YM2203's to allocate     */
+    /* 'rate' is sampling rate and 'bufsiz' is the size of the */
+    /* buffer that should be updated at each interval          */
+    public static int YM2203Init(int num, int clock, int rate, FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
+        int i;
+        if (FM2203 != null) return (-1);	/* duplicate init. */
+            cur_chip = null;	/* hiro-shi!! */
+
+            YM2203NumChips = num;
+
+            FM2203 = new YM2203[YM2203NumChips];
+            for (i = 0; i < YM2203NumChips; i++) FM2203[i] = new YM2203();
+
 /*TODO*///	/* allocate total level table (128kb space) */
 /*TODO*///	if( !FMInitTable() )
 /*TODO*///	{
@@ -1412,23 +1411,22 @@ public static int YM2203Init(int num, int clock, int rate,FM_TIMERHANDLERtr Time
 /*TODO*///		FM2203[i].OPN.ST.IRQ_Handler   = IRQHandler;
 /*TODO*///		YM2203ResetChip(i);
 /*TODO*///	}
-	return(0);
-}
+        return (0);
+    }
 
-/* ---------- shut down emurator ----------- */
-public static void YM2203Shutdown()
-{
-/*TODO*///    if (!FM2203) return;
+    /* ---------- shut down emurator ----------- */
+    public static void YM2203Shutdown() {
+        /*TODO*///    if (!FM2203) return;
 /*TODO*///
 /*TODO*///	FMCloseTable();
 /*TODO*///	free(FM2203);
 /*TODO*///	FM2203 = NULL;
-}
-/* ---------- YM2203 I/O interface ---------- */
-public static int YM2203Write(int n,int a,int/*UINT8*/ v)
-{
-    throw new UnsupportedOperationException("unimplemented");
-/*TODO*///	FM_OPN *OPN = &(FM2203[n].OPN);
+    }
+    /* ---------- YM2203 I/O interface ---------- */
+
+    public static int YM2203Write(int n, int a, int/*UINT8*/ v) {
+        throw new UnsupportedOperationException("unimplemented");
+        /*TODO*///	FM_OPN *OPN = &(FM2203[n].OPN);
 /*TODO*///
 /*TODO*///	if( !(a&1) )
 /*TODO*///	{	/* address port */
@@ -1469,11 +1467,11 @@ public static int YM2203Write(int n,int a,int/*UINT8*/ v)
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	return OPN->ST.irq;
-}
-public static int/*UINT8*/ YM2203Read(int n,int a)
-{
-    throw new UnsupportedOperationException("unimplemented");
-/*TODO*///	YM2203 *F2203 = &(FM2203[n]);
+    }
+
+    public static int/*UINT8*/ YM2203Read(int n, int a) {
+        throw new UnsupportedOperationException("unimplemented");
+        /*TODO*///	YM2203 *F2203 = &(FM2203[n]);
 /*TODO*///	int addr = F2203->OPN.ST.address;
 /*TODO*///	int ret = 0;
 /*TODO*///
@@ -1486,12 +1484,12 @@ public static int/*UINT8*/ YM2203Read(int n,int a)
 /*TODO*///		if( addr < 16 ) ret = SSGRead(n);
 /*TODO*///	}
 /*TODO*///	return ret;
-}
-/*TODO*///
-public static int YM2203TimerOver(int n,int c)
-{
-    throw new UnsupportedOperationException("unimplemented");
-/*TODO*///	YM2203 *F2203 = &(FM2203[n]);
+    }
+    /*TODO*///
+
+    public static int YM2203TimerOver(int n, int c) {
+        throw new UnsupportedOperationException("unimplemented");
+        /*TODO*///	YM2203 *F2203 = &(FM2203[n]);
 /*TODO*///
 /*TODO*///	if( c )
 /*TODO*///	{	/* Timer B */
@@ -1509,8 +1507,8 @@ public static int YM2203TimerOver(int n,int c)
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	return F2203->OPN.ST.irq;
-}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*///#endif /* BUILD_YM2203 */
 /*TODO*///
 /*TODO*///#if (BUILD_YM2608||BUILD_OPNB)
