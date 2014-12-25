@@ -21,18 +21,28 @@ public class FM_ST {
     public int rate;			/* sampling rate (Hz)  */
 
     public double freqbase;	/* frequency base      */
+
     public double TimerBase;	/* Timer base time     */
-/*TODO*///	UINT8 address;		/* address register    */
+
+    public int /*UINT8*/ address;		/* address register    */
+
     public int /*UINT8*/ irq;			/* interrupt level     */
+
     public int /*UINT8*/ irqmask;		/* irq mask            */
+
     public int /*UINT8*/ status;		/* status flag         */
+
     public long /*UINT32*/ mode;		/* mode  CSM / 3SLOT   */
-public int TA;				/* timer a             */
-public int TAC;			/* timer a counter     */
-public int /*UINT8*/ TB;			/* timer b             */
+
+    public int TA;				/* timer a             */
+
+    public int TAC;			/* timer a counter     */
+
+    public int /*UINT8*/ TB;			/* timer b             */
+
     public int TBC;			/* timer b counter     */
-/*TODO*///	/* speedup customize */
-/*TODO*///	/* local time tables */
+    /* speedup customize */
+    /* local time tables */
 
     public int[][] DT_TABLE;/* DeTune tables       */
 

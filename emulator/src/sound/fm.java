@@ -7,6 +7,7 @@ import static sound.streams.*;
 import static sound.fm_c.YM2203.*;
 import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc.*;
+import static sound._2203intf.YM2203UpdateRequest;
 import sound.fm_c.FM_CH;
 import sound.fm_c.FM_OPN;
 import sound.fm_c.FM_SLOT;
@@ -1318,67 +1319,75 @@ public class fm {
     /* ---------- YM2203 I/O interface ---------- */
 
     public static int YM2203Write(int n, int a, int/*UINT8*/ v) {
-        throw new UnsupportedOperationException("unimplemented");
-        /*TODO*///	FM_OPN *OPN = &(FM2203[n].OPN);
-/*TODO*///
-/*TODO*///	if( !(a&1) )
-/*TODO*///	{	/* address port */
-/*TODO*///		OPN->ST.address = v & 0xff;
-/*TODO*///		/* Write register to SSG emurator */
-/*TODO*///		if( v < 16 ) SSGWrite(n,0,v);
-/*TODO*///		switch(OPN->ST.address)
-/*TODO*///		{
-/*TODO*///		case 0x2d:	/* divider sel */
-/*TODO*///			OPNSetPris( OPN, 6*12, 6*12 ,4); /* OPN 1/6 , SSG 1/4 */
-/*TODO*///			break;
-/*TODO*///		case 0x2e:	/* divider sel */
-/*TODO*///			OPNSetPris( OPN, 3*12, 3*12,2); /* OPN 1/3 , SSG 1/2 */
-/*TODO*///			break;
-/*TODO*///		case 0x2f:	/* divider sel */
-/*TODO*///			OPNSetPris( OPN, 2*12, 2*12,1); /* OPN 1/2 , SSG 1/1 */
-/*TODO*///			break;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* data port */
-/*TODO*///		int addr = OPN->ST.address;
-/*TODO*///		switch( addr & 0xf0 )
-/*TODO*///		{
-/*TODO*///		case 0x00:	/* 0x00-0x0f : SSG section */
-/*TODO*///			/* Write data to SSG emurator */
-/*TODO*///			SSGWrite(n,a,v);
-/*TODO*///			break;
-/*TODO*///		case 0x20:	/* 0x20-0x2f : Mode section */
-/*TODO*///			YM2203UpdateReq(n);
-/*TODO*///			/* write register */
-/*TODO*///			 OPNWriteMode(OPN,addr,v);
-/*TODO*///			break;
-/*TODO*///		default:	/* 0x30-0xff : OPN section */
-/*TODO*///			YM2203UpdateReq(n);
-/*TODO*///			/* write register */
-/*TODO*///			 OPNWriteReg(OPN,addr,v);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	return OPN->ST.irq;
+        FM_OPN OPN = (FM2203[n].OPN);
+
+        if ((a & 1) == 0) {	/* address port */
+
+            OPN.ST.address = (v & 0xff);
+            /* Write register to SSG emurator */
+            if (v < 16) {
+                SSGWrite(n, 0, v& 0xff);
+            }
+            switch (OPN.ST.address) {
+                case 0x2d:	/* divider sel */
+
+                    OPNSetPris(OPN, 6 * 12, 6 * 12, 4); /* OPN 1/6 , SSG 1/4 */
+
+                    break;
+                case 0x2e:	/* divider sel */
+
+                    OPNSetPris(OPN, 3 * 12, 3 * 12, 2); /* OPN 1/3 , SSG 1/2 */
+
+                    break;
+                case 0x2f:	/* divider sel */
+
+                    OPNSetPris(OPN, 2 * 12, 2 * 12, 1); /* OPN 1/2 , SSG 1/1 */
+
+                    break;
+            }
+        } else {	/* data port */
+
+            int addr = OPN.ST.address;
+            switch (addr & 0xf0) {
+                case 0x00:	/* 0x00-0x0f : SSG section */
+                    /* Write data to SSG emurator */
+
+                    SSGWrite(n, a, v& 0xff);
+                    break;
+                case 0x20:	/* 0x20-0x2f : Mode section */
+
+                    YM2203UpdateRequest(n);
+                    /* write register */
+                    OPNWriteMode(OPN, addr, v& 0xff);
+                    break;
+                default:	/* 0x30-0xff : OPN section */
+
+                    YM2203UpdateRequest(n);
+                    /* write register */
+                    OPNWriteReg(OPN, addr, v& 0xff);
+                    break;
+            }
+        }
+        return OPN.ST.irq & 0xFF;
     }
 
     public static int/*UINT8*/ YM2203Read(int n, int a) {
-        throw new UnsupportedOperationException("unimplemented");
-        /*TODO*///	YM2203 *F2203 = &(FM2203[n]);
-/*TODO*///	int addr = F2203->OPN.ST.address;
-/*TODO*///	int ret = 0;
-/*TODO*///
-/*TODO*///	if( !(a&1) )
-/*TODO*///	{	/* status port */
-/*TODO*///		ret = F2203->OPN.ST.status;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* data port (ONLY SSG) */
-/*TODO*///		if( addr < 16 ) ret = SSGRead(n);
-/*TODO*///	}
-/*TODO*///	return ret;
+        YM2203 F2203 = (FM2203[n]);
+        int addr = F2203.OPN.ST.address;
+        int ret = 0;
+
+        if ((a & 1) == 0) {	/* status port */
+
+            ret = F2203.OPN.ST.status;
+        } else {	/* data port (ONLY SSG) */
+
+            if (addr < 16) {
+                ret = SSGRead(n);
+            }
+        }
+        return ret & 0xFF;
+
     }
-    /*TODO*///
 
     public static int YM2203TimerOver(int n, int c) {
         throw new UnsupportedOperationException("unimplemented");

@@ -34,16 +34,20 @@ public class fmH {
         AY8910_set_clock(chip, clock);
     }
 
-    /*TODO*////* SSGWrite : Write SSG port     */
-/*TODO*////* int n    = chip number        */
-/*TODO*////* int a    = address            */
-/*TODO*////* int v    = data               */
-/*TODO*///#define SSGWrite(n,a,v) AY8910Write(n,a,v)
-/*TODO*///
-/*TODO*////* SSGRead  : Read SSG port */
-/*TODO*////* int n    = chip number   */
-/*TODO*////* return   = Read data     */
-/*TODO*///#define SSGRead(n) AY8910Read(n)
+    /* SSGWrite : Write SSG port     */
+    /* int n    = chip number        */
+    /* int a    = address            */
+    /* int v    = data               */
+    public static void SSGWrite(int n, int a, int v) {
+        AY8910Write(n, a, v);
+    }
+
+    /* SSGRead  : Read SSG port */
+    /* int n    = chip number   */
+    /* return   = Read data     */
+    public static int SSGRead(int n) {
+        return AY8910Read(n);
+    }
 
     /* SSGReset : Reset SSG chip */
     /* int n    = chip number   */
@@ -116,6 +120,7 @@ public class fmH {
 
         public abstract void handler(int n, int irq);
     }
+
     public static abstract interface EGPtr {
 
         public abstract void handler(FM_SLOT SLOT);
