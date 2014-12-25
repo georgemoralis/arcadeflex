@@ -13,7 +13,7 @@ public class fmH {
 /*TODO*////* select stereo output buffer : mixing / separate */
 /*TODO*/////#define FM_STEREO_MIX
 /*TODO*////* select output size : 8bit or 16bit */
-/*TODO*///#define FM_OUTPUT_BIT 16
+public static final int FM_OUTPUT_BIT= 16;
 /*TODO*///
 /*TODO*////* --- speed optimize --- */
 /*TODO*///#define FM_LFO_SUPPORT 1 	/* support LFO unit */

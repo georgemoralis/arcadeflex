@@ -5,6 +5,8 @@ import static arcadeflex.ptrlib.*;
 import sound.fm_c.YM2203;
 import static sound.streams.*;
 import static sound.fm_c.YM2203.*;
+import static arcadeflex.ptrlib.*;
+import static arcadeflex.libc.*;
 
 public class fm {
     /*TODO*///#define YM2610B_WARNING
@@ -31,19 +33,20 @@ public class fm {
 /*TODO*///#define INTERNAL_TIMER 			/* use internal timer */
 /*TODO*///#endif
 /*TODO*///
-/*TODO*////* -------------------- sound quality define selection --------------------- */
-/*TODO*////* sinwave entries */
-/*TODO*////* used static memory = SIN_ENT * 4 (byte) */
-/*TODO*///#define SIN_ENT 2048
-/*TODO*///
-/*TODO*////* lower bits of envelope counter */
-/*TODO*///#define ENV_BITS 16
-/*TODO*///
-/*TODO*////* envelope output entries */
-/*TODO*///#define EG_ENT   4096
-/*TODO*///#define EG_STEP (96.0/EG_ENT) /* OPL == 0.1875 dB */
-/*TODO*///
-/*TODO*///#if FM_LFO_SUPPORT
+/* -------------------- sound quality define selection --------------------- */
+    /* sinwave entries */
+    /* used static memory = SIN_ENT * 4 (byte) */
+
+    public static final int SIN_ENT = 2048;
+
+    /* lower bits of envelope counter */
+    public static final int ENV_BITS = 16;
+
+    /* envelope output entries */
+    public static final int EG_ENT = 4096;
+    public static final double EG_STEP = (96.0 / EG_ENT); /* OPL == 0.1875 dB */
+
+    /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*////* LFO table entries */
 /*TODO*///#define LFO_ENT 512
 /*TODO*///#define LFO_SHIFT (32-9)
@@ -57,38 +60,38 @@ public class fm {
 /*TODO*////* It is not checked , because I haven't YM2203 rate */
 /*TODO*///#define OPN_ARRATE  OPM_ARRATE
 /*TODO*///#define OPN_DRRATE  OPM_DRRATE
-/*TODO*///
-/*TODO*////* PG output cut off level : 78dB(14bit)? */
-/*TODO*///#define PG_CUT_OFF ((int)(78.0/EG_STEP))
-/*TODO*////* EG output cut off level : 68dB? */
-/*TODO*///#define EG_CUT_OFF ((int)(68.0/EG_STEP))
-/*TODO*///
-/*TODO*///#define FREQ_BITS 24		/* frequency turn          */
-/*TODO*///
-/*TODO*////* PG counter is 21bits @oct.7 */
-/*TODO*///#define FREQ_RATE   (1<<(FREQ_BITS-21))
-/*TODO*///#define TL_BITS    (FREQ_BITS+2)
-/*TODO*////* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
-/*TODO*///#define TL_SHIFT (TL_BITS+1-(14-16))
-/*TODO*///
-/*TODO*////* output final shift */
-/*TODO*///#define FM_OUTSB  (TL_SHIFT-FM_OUTPUT_BIT)
-/*TODO*///#define FM_MAXOUT ((1<<(TL_SHIFT-1))-1)
-/*TODO*///#define FM_MINOUT (-(1<<(TL_SHIFT-1)))
-/*TODO*///
-/*TODO*////* -------------------- local defines , macros --------------------- */
-/*TODO*///
-/*TODO*////* envelope counter position */
-/*TODO*///#define EG_AST   0					/* start of Attack phase */
-/*TODO*///#define EG_AED   (EG_ENT<<ENV_BITS)	/* end   of Attack phase */
-/*TODO*///#define EG_DST   EG_AED				/* start of Decay/Sustain/Release phase */
-/*TODO*///#define EG_DED   (EG_DST+((EG_ENT-1)<<ENV_BITS))	/* end   of Decay/Sustain/Release phase */
-/*TODO*///#define EG_OFF   EG_DED				/* off */
-/*TODO*///#if FM_SEG_SUPPORT
-/*TODO*///#define EG_UST   ((2*EG_ENT)<<ENV_BITS)  /* start of SEG UPSISE */
-/*TODO*///#define EG_UED   ((3*EG_ENT)<<ENV_BITS)  /* end of SEG UPSISE */
-/*TODO*///#endif
-/*TODO*///
+
+    /* PG output cut off level : 78dB(14bit)? */
+    public static final int PG_CUT_OFF = ((int) (78.0 / EG_STEP));
+    /* EG output cut off level : 68dB? */
+    public static final int EG_CUT_OFF = ((int) (68.0 / EG_STEP));
+
+    public static final int FREQ_BITS = 24;		/* frequency turn          */
+
+    /* PG counter is 21bits @oct.7 */
+    public static final int FREQ_RATE = (1 << (FREQ_BITS - 21));
+    public static final int TL_BITS = (FREQ_BITS + 2);
+    /* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
+    public static final int TL_SHIFT = (TL_BITS + 1 - (14 - 16));
+
+    /* output final shift */
+    public static final int FM_OUTSB = (TL_SHIFT - FM_OUTPUT_BIT);
+    public static final int FM_MAXOUT = ((1 << (TL_SHIFT - 1)) - 1);
+    public static final int FM_MINOUT = (-(1 << (TL_SHIFT - 1)));
+
+    /* -------------------- local defines , macros --------------------- */
+    /* envelope counter position */
+    public static final int EG_AST = 0;					/* start of Attack phase */
+
+    public static final int EG_AED = (EG_ENT << ENV_BITS);	/* end   of Attack phase */
+
+    public static final int EG_DST = EG_AED;				/* start of Decay/Sustain/Release phase */
+
+    public static final int EG_DED = (EG_DST + ((EG_ENT - 1) << ENV_BITS));	/* end   of Decay/Sustain/Release phase */
+
+    public static final int EG_OFF = EG_DED;				/* off */
+
+    /*TODO*///
 /*TODO*////* register number to channel number , slot offset */
 /*TODO*///#define OPN_CHAN(N) (N&3)
 /*TODO*///#define OPN_SLOT(N) ((N>>2)&3)
@@ -107,8 +110,8 @@ public class fm {
 /*TODO*///
 /*TODO*////* FM timer model */
 /*TODO*///#define FM_TIMER_SINGLE (0)
-/*TODO*///#define FM_TIMER_INTERVAL (1)
-/*TODO*///
+    public static final int FM_TIMER_INTERVAL = (1);
+    /*TODO*///
 /*TODO*////* ---------- OPN / OPM one channel  ---------- */
 /*TODO*///typedef struct fm_slot {
 /*TODO*///	INT32 *DT;			/* detune          :DT_TABLE[DT]       */
@@ -161,34 +164,8 @@ public class fm {
 /*TODO*///	UINT8 kcode;		/* key code    :                   */
 /*TODO*///} FM_CH;
 /*TODO*///
-/*TODO*////* OPN/OPM common state */
-/*TODO*///typedef struct fm_state {
-/*TODO*///	UINT8 index;		/* chip index (number of chip) */
-/*TODO*///	int clock;			/* master clock  (Hz)  */
-/*TODO*///	int rate;			/* sampling rate (Hz)  */
-/*TODO*///	double freqbase;	/* frequency base      */
-/*TODO*///	double TimerBase;	/* Timer base time     */
-/*TODO*///	UINT8 address;		/* address register    */
-/*TODO*///	UINT8 irq;			/* interrupt level     */
-/*TODO*///	UINT8 irqmask;		/* irq mask            */
-/*TODO*///	UINT8 status;		/* status flag         */
-/*TODO*///	UINT32 mode;		/* mode  CSM / 3SLOT   */
-/*TODO*///	int TA;				/* timer a             */
-/*TODO*///	int TAC;			/* timer a counter     */
-/*TODO*///	UINT8 TB;			/* timer b             */
-/*TODO*///	int TBC;			/* timer b counter     */
-/*TODO*///	/* speedup customize */
-/*TODO*///	/* local time tables */
-/*TODO*///	INT32 DT_TABLE[8][32];	/* DeTune tables       */
-/*TODO*///	INT32 AR_TABLE[94];		/* Atttack rate tables */
-/*TODO*///	INT32 DR_TABLE[94];		/* Decay rate tables   */
-/*TODO*///	/* Extention Timer and IRQ handler */
-/*TODO*///	FM_TIMERHANDLER	Timer_Handler;
-/*TODO*///	FM_IRQHANDLER	IRQ_Handler;
-/*TODO*///	/* timer model single / interval */
-/*TODO*///	UINT8 timermodel;
-/*TODO*///}FM_ST;
-/*TODO*///
+
+    /*TODO*///
 /*TODO*////* -------------------- tables --------------------- */
 /*TODO*///
 /*TODO*///#if 0	/* OPN/OPM does not contain KeyScaleLevel ? */
@@ -222,29 +199,26 @@ public class fm {
 /*TODO*///};
 /*TODO*///#undef SC
 /*TODO*///
-/*TODO*////* size of TL_TABLE = sinwave(max cut_off) + cut_off(tl + ksr + envelope + ams) */
-/*TODO*///#define TL_MAX (PG_CUT_OFF+EG_CUT_OFF+1)
-/*TODO*///
-/*TODO*////* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
-/*TODO*////* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
-/*TODO*////* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
-/*TODO*///static INT32 *TL_TABLE;
-/*TODO*///
-/*TODO*////* pointers to TL_TABLE with sinwave output offset */
-/*TODO*///static INT32 *SIN_TABLE[SIN_ENT];
-/*TODO*///
-/*TODO*////* envelope output curve table */
-/*TODO*///#if FM_SEG_SUPPORT
-/*TODO*////* attack + decay + SSG upside + OFF */
-/*TODO*///static INT32 ENV_CURVE[3*EG_ENT+1];
-/*TODO*///#else
-/*TODO*////* attack + decay + OFF */
-/*TODO*///static INT32 ENV_CURVE[2*EG_ENT+1];
-/*TODO*///#endif
-/*TODO*////* envelope counter conversion table when change Decay to Attack phase */
-/*TODO*///static int DRAR_TABLE[EG_ENT];
-/*TODO*///
-/*TODO*///#define OPM_DTTABLE OPN_DTTABLE
+    /* size of TL_TABLE = sinwave(max cut_off) + cut_off(tl + ksr + envelope + ams) */
+    public static final int TL_MAX = (PG_CUT_OFF + EG_CUT_OFF + 1);
+
+    /* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
+    /* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
+    /* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
+    static int[] TL_TABLE;
+
+    /* pointers to TL_TABLE with sinwave output offset */
+    static IntSubArray[] SIN_TABLE = new IntSubArray[SIN_ENT];
+
+    /* envelope output curve table */
+
+    /* attack + decay + OFF */
+    static int[] ENV_CURVE = new int[2 * EG_ENT + 1];
+
+    /* envelope counter conversion table when change Decay to Attack phase */
+    static int[] DRAR_TABLE = new int[EG_ENT];
+
+    /*TODO*///#define OPM_DTTABLE OPN_DTTABLE
 /*TODO*///static UINT8 OPN_DTTABLE[4 * 32]={
 /*TODO*////* this table is YM2151 and YM2612 data */
 /*TODO*////* FD=0 */
@@ -296,21 +270,22 @@ public class fm {
 /*TODO*////* -------------------- state --------------------- */
 /*TODO*///
 /*TODO*////* some globals */
-/*TODO*///#define TYPE_SSG    0x01    /* SSG support          */
-/*TODO*///#define TYPE_OPN    0x02    /* OPN device           */
+    public static final int TYPE_SSG = 0x01;    /* SSG support          */
+    /*TODO*///#define TYPE_OPN    0x02    /* OPN device           */
 /*TODO*///#define TYPE_LFOPAN 0x04    /* OPN type LFO and PAN */
 /*TODO*///#define TYPE_6CH    0x08    /* FM 6CH / 3CH         */
 /*TODO*///#define TYPE_DAC    0x10    /* YM2612's DAC device  */
 /*TODO*///#define TYPE_ADPCM  0x20    /* two ADPCM unit       */
 /*TODO*///
-/*TODO*///#define TYPE_YM2203 (TYPE_SSG)
-/*TODO*///#define TYPE_YM2608 (TYPE_SSG |TYPE_LFOPAN |TYPE_6CH |TYPE_ADPCM)
+
+    public static final int TYPE_YM2203 = (TYPE_SSG);
+    /*TODO*///#define TYPE_YM2608 (TYPE_SSG |TYPE_LFOPAN |TYPE_6CH |TYPE_ADPCM)
 /*TODO*///#define TYPE_YM2610 (TYPE_SSG |TYPE_LFOPAN |TYPE_6CH |TYPE_ADPCM)
 /*TODO*///#define TYPE_YM2612 (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC)
 /*TODO*///
 /*TODO*////* current chip state */
-static Object cur_chip = null;		/* pointer of current chip struct */
-/*TODO*///static FM_ST  *State;			/* basic status */
+    static Object cur_chip = null;		/* pointer of current chip struct */
+    /*TODO*///static FM_ST  *State;			/* basic status */
 /*TODO*///static FM_CH  *cch[8];			/* pointer of FM channels */
 /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///static UINT32 LFOCnt,LFOIncr;	/* LFO PhaseGenerator */
@@ -869,77 +844,80 @@ static Object cur_chip = null;		/* pointer of current chip struct */
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*////* ---------- generic table initialize ---------- */
-/*TODO*///static int FMInitTable( void )
-/*TODO*///{
-/*TODO*///	int s,t;
-/*TODO*///	double rate;
-/*TODO*///	int i,j;
-/*TODO*///	double pom;
-/*TODO*///
-/*TODO*///	/* allocate total level table plus+minus section */
-/*TODO*///	TL_TABLE = malloc(2*TL_MAX*sizeof(int));
-/*TODO*///	if( TL_TABLE == 0 ) return 0;
-/*TODO*///	/* make total level table */
-/*TODO*///	for (t = 0;t < TL_MAX ;t++){
-/*TODO*///		if(t >= PG_CUT_OFF)
-/*TODO*///			rate = 0;	/* under cut off area */
-/*TODO*///		else
-/*TODO*///			rate = ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);	/* dB -> voltage */
-/*TODO*///		TL_TABLE[       t] =  (int)rate;
-/*TODO*///		TL_TABLE[TL_MAX+t] = -TL_TABLE[t];
-/*TODO*////*		Log(LOG_INF,"TotalLevel(%3d) = %x\n",t,TL_TABLE[t]);*/
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* make sinwave table (total level offet) */
-/*TODO*///
-/*TODO*///	for (s = 1;s <= SIN_ENT/4;s++){
-/*TODO*///		pom = sin(2.0*PI*s/SIN_ENT); /* sin   */
-/*TODO*///		pom = 20*log10(1/pom);	     /* -> decibel */
-/*TODO*///		j = pom / EG_STEP;    /* TL_TABLE steps */
-/*TODO*///		/* cut off check */
-/*TODO*///		if(j > PG_CUT_OFF)
-/*TODO*///			j = PG_CUT_OFF;
-/*TODO*///		/* degree 0   -  90    , degree 180 -  90 : plus section */
-/*TODO*///		SIN_TABLE[          s] = SIN_TABLE[SIN_ENT/2-s] = &TL_TABLE[j];
-/*TODO*///		/* degree 180 - 270    , degree 360 - 270 : minus section */
-/*TODO*///		SIN_TABLE[SIN_ENT/2+s] = SIN_TABLE[SIN_ENT  -s] = &TL_TABLE[TL_MAX+j];
-/*TODO*///		/* Log(LOG_INF,"sin(%3d) = %f:%f db\n",s,pom,(double)j * EG_STEP); */
-/*TODO*///	}
-/*TODO*///	/* degree 0 = degree 180                   = off */
-/*TODO*///	SIN_TABLE[0] = SIN_TABLE[SIN_ENT/2]        = &TL_TABLE[PG_CUT_OFF];
-/*TODO*///
-/*TODO*///	/* envelope counter -> envelope output table */
-/*TODO*///	for (i=0; i<EG_ENT; i++)
-/*TODO*///	{
-/*TODO*///		/* ATTACK curve */
-/*TODO*///		/* !!!!! preliminary !!!!! */
-/*TODO*///		pom = pow( ((double)(EG_ENT-1-i)/EG_ENT) , 8 ) * EG_ENT;
-/*TODO*///		/* if( pom >= EG_ENT ) pom = EG_ENT-1; */
-/*TODO*///		ENV_CURVE[i] = (int)pom;
-/*TODO*///		/* DECAY ,RELEASE curve */
-/*TODO*///		ENV_CURVE[(EG_DST>>ENV_BITS)+i]= i;
-/*TODO*///#if FM_SEG_SUPPORT
-/*TODO*///		/* DECAY UPSIDE (SSG ENV) */
-/*TODO*///		ENV_CURVE[(EG_UST>>ENV_BITS)+i]= EG_ENT-1-i;
-/*TODO*///#endif
-/*TODO*///	}
-/*TODO*///	/* off */
-/*TODO*///	ENV_CURVE[EG_OFF>>ENV_BITS]= EG_ENT-1;
-/*TODO*///
-/*TODO*///	/* decay to reattack envelope converttable */
-/*TODO*///	j = EG_ENT-1;
-/*TODO*///	for (i=0; i<EG_ENT; i++)
-/*TODO*///	{
-/*TODO*///		while( j && (ENV_CURVE[j] < i) ) j--;
-/*TODO*///		DRAR_TABLE[i] = j<<ENV_BITS;
-/*TODO*///		/* Log(LOG_INF,"DR %06X = %06X,AR=%06X\n",i,DRAR_TABLE[i],ENV_CURVE[DRAR_TABLE[i]>>ENV_BITS] ); */
-/*TODO*///	}
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///static void FMCloseTable( void )
+/* ---------- generic table initialize ---------- */
+
+
+    public static int FMInitTable() {
+        int s, t;
+        double rate;
+        int i, j;
+        double pom;
+
+        /* allocate total level table plus+minus section */
+        TL_TABLE = new int[2 * TL_MAX];
+
+        /* make total level table */
+        for (t = 0; t < TL_MAX; t++) {
+            if (t >= PG_CUT_OFF) {
+                rate = 0;	/* under cut off area */
+
+            } else {
+                rate = ((1 << TL_BITS) - 1) / Math.pow(10, EG_STEP * t / 20);	/* dB . voltage */
+
+            }
+            TL_TABLE[t] = (int) rate;
+            TL_TABLE[TL_MAX + t] = -TL_TABLE[t];
+            /*		Log(LOG_INF,"TotalLevel(%3d) = %x\n",t,TL_TABLE[t]);*/
+        }
+        /* make sinwave table (total level offet) */
+
+        for (s = 1; s <= SIN_ENT / 4; s++) {
+            pom = Math.sin(2.0 * Math.PI * s / SIN_ENT); /* sin   */
+
+            pom = 20 * Math.log10(1 / pom);	     /* . decibel */
+
+            j = (int) (pom / EG_STEP);    /* TL_TABLE steps */
+            /* cut off check */
+
+            if (j > PG_CUT_OFF) {
+                j = PG_CUT_OFF;
+            }
+            /* degree 0   -  90    , degree 180 -  90 : plus section */
+            SIN_TABLE[s] = SIN_TABLE[SIN_ENT / 2 - s] = new IntSubArray(TL_TABLE, j);
+            /* degree 180 - 270    , degree 360 - 270 : minus section */
+            SIN_TABLE[SIN_ENT / 2 + s] = SIN_TABLE[SIN_ENT - s] = new IntSubArray(TL_TABLE, TL_MAX + j);
+            /* Log(LOG_INF,"sin(%3d) = %f:%f db\n",s,pom,(double)j * EG_STEP); */
+        }
+        /* degree 0 = degree 180                   = off */
+        SIN_TABLE[0] = SIN_TABLE[SIN_ENT / 2] = new IntSubArray(TL_TABLE, PG_CUT_OFF);
+
+        /* envelope counter . envelope output table */
+        for (i = 0; i < EG_ENT; i++) {
+            /* ATTACK curve */
+            /* !!!!! preliminary !!!!! */
+            pom = Math.pow(((double) (EG_ENT - 1 - i) / EG_ENT), 8) * EG_ENT;
+            /* if( pom >= EG_ENT ) pom = EG_ENT-1; */
+            ENV_CURVE[i] = (int) pom;
+            /* DECAY ,RELEASE curve */
+            ENV_CURVE[(EG_DST >> ENV_BITS) + i] = i;
+        }
+        /* off */
+        ENV_CURVE[EG_OFF >> ENV_BITS] = EG_ENT - 1;
+
+        /* decay to reattack envelope converttable */
+        j = EG_ENT - 1;
+        for (i = 0; i < EG_ENT; i++) {
+            while (j != 0 && (ENV_CURVE[j] < i)) {
+                j--;
+            }
+            DRAR_TABLE[i] = j << ENV_BITS;
+            /* Log(LOG_INF,"DR %06X = %06X,AR=%06X\n",i,DRAR_TABLE[i],ENV_CURVE[DRAR_TABLE[i]>>ENV_BITS] ); */
+        }
+        return 1;
+
+    }
+
+    /*TODO*///static void FMCloseTable( void )
 /*TODO*///{
 /*TODO*///	if( TL_TABLE ) free( TL_TABLE );
 /*TODO*///	return;
@@ -1059,22 +1037,8 @@ static Object cur_chip = null;		/* pointer of current chip struct */
 /*TODO*///	UINT8 kcode[3];		/* key code    :          */
 /*TODO*///}FM_3SLOT;
 /*TODO*///
-/*TODO*////* OPN/A/B common state */
-/*TODO*///typedef struct opn_f {
-/*TODO*///	UINT8 type;		/* chip type         */
-/*TODO*///	FM_ST ST;				/* general state     */
-/*TODO*///	FM_3SLOT SL3;			/* 3 slot mode state */
-/*TODO*///	FM_CH *P_CH;			/* pointer of CH     */
-/*TODO*///	UINT32 FN_TABLE[2048]; /* fnumber -> increment counter */
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///	/* LFO */
-/*TODO*///	UINT32 LFOCnt;
-/*TODO*///	UINT32 LFOIncr;
-/*TODO*///	UINT32 LFO_FREQ[8];/* LFO FREQ table */
-/*TODO*///	INT32 LFO_wave[LFO_ENT];
-/*TODO*///#endif
-/*TODO*///} FM_OPN;
-/*TODO*///
+
+    /*TODO*///
 /*TODO*////* OPN key frequency number -> key code follow table */
 /*TODO*////* fnum higher 4bit -> keycode lower 2bit */
 /*TODO*///static const UINT8 OPN_FKTABLE[16]={0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,3};
@@ -1289,7 +1253,6 @@ static Object cur_chip = null;		/* pointer of current chip struct */
 /*TODO*///#endif /* BUILD_OPN */
 /*TODO*///
 /*TODO*///#if BUILD_YM2203
-
     /**
      * ****************************************************************************
      */
@@ -1297,7 +1260,6 @@ static Object cur_chip = null;		/* pointer of current chip struct */
     /**
      * ****************************************************************************
      */
-
     static YM2203[] FM2203 = null;	/* array of YM2203's */
 
     static int YM2203NumChips;	/* total chip */
@@ -1382,35 +1344,38 @@ static Object cur_chip = null;		/* pointer of current chip struct */
     /* buffer that should be updated at each interval          */
     public static int YM2203Init(int num, int clock, int rate, FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
         int i;
-        if (FM2203 != null) return (-1);	/* duplicate init. */
-            cur_chip = null;	/* hiro-shi!! */
+        if (FM2203 != null) {
+            return (-1);	/* duplicate init. */
 
-            YM2203NumChips = num;
+        }
+        cur_chip = null;	/* hiro-shi!! */
 
-            FM2203 = new YM2203[YM2203NumChips];
-            for (i = 0; i < YM2203NumChips; i++) FM2203[i] = new YM2203();
+        YM2203NumChips = num;
 
-/*TODO*///	/* allocate total level table (128kb space) */
-/*TODO*///	if( !FMInitTable() )
-/*TODO*///	{
-/*TODO*///		free( FM2203 );
-/*TODO*///		return (-1);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	for ( i = 0 ; i < YM2203NumChips; i++ ) {
-/*TODO*///		FM2203[i].OPN.ST.index = i;
-/*TODO*///		FM2203[i].OPN.type = TYPE_YM2203;
-/*TODO*///		FM2203[i].OPN.P_CH = FM2203[i].CH;
-/*TODO*///		FM2203[i].OPN.ST.clock = clock;
-/*TODO*///		FM2203[i].OPN.ST.rate = rate;
-/*TODO*///		/* FM2203[i].OPN.ST.irq = 0; */
-/*TODO*///		/* FM2203[i].OPN.ST.satus = 0; */
-/*TODO*///		FM2203[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
-/*TODO*///		/* Extend handler */
-/*TODO*///		FM2203[i].OPN.ST.Timer_Handler = TimerHandler;
-/*TODO*///		FM2203[i].OPN.ST.IRQ_Handler   = IRQHandler;
-/*TODO*///		YM2203ResetChip(i);
-/*TODO*///	}
+        FM2203 = new YM2203[YM2203NumChips];
+        for (i = 0; i < YM2203NumChips; i++) {
+            FM2203[i] = new YM2203();
+        }
+
+        /* allocate total level table (128kb space) */
+        if (FMInitTable() == 0) {
+            FM2203 = null;
+            return (-1);
+        }
+        for (i = 0; i < YM2203NumChips; i++) {
+            FM2203[i].OPN.ST.index = i;
+            FM2203[i].OPN.type = TYPE_YM2203;
+            FM2203[i].OPN.P_CH = FM2203[i].CH;
+            FM2203[i].OPN.ST.clock = clock;
+            FM2203[i].OPN.ST.rate = rate;
+            /* FM2203[i].OPN.ST.irq = 0; */
+            /* FM2203[i].OPN.ST.satus = 0; */
+            FM2203[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
+            /* Extend handler */
+            FM2203[i].OPN.ST.Timer_Handler = TimerHandler;
+            FM2203[i].OPN.ST.IRQ_Handler = IRQHandler;
+            YM2203ResetChip(i);
+        }
         return (0);
     }
 
