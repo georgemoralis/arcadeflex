@@ -1,21 +1,27 @@
 package sound.fm_c;
 
+import static sound.fm.*;
+
 public class FM_OPN {
-    public FM_OPN()
-    {
-        ST=new FM_ST();
+
+    public FM_OPN() {
+        ST = new FM_ST();
+        LFO_wave = new int[LFO_ENT];
+        FN_TABLE = new long[2048];
+        LFO_FREQ=new long[8];
     }
     public int /*UINT8*/ type;		/* chip type         */
-    public	FM_ST ST;				/* general state     */
-/*TODO*///	FM_3SLOT SL3;			/* 3 slot mode state */
+
+    public FM_ST ST;				/* general state     */
+    /*TODO*///	FM_3SLOT SL3;			/* 3 slot mode state */
+
     public FM_CH[] P_CH;			/* pointer of CH     */
-/*TODO*///	UINT32 FN_TABLE[2048]; /* fnumber -> increment counter */
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///	/* LFO */
+    public long[] /*UINT32*/ FN_TABLE; /* fnumber -> increment counter */
+
+    /*TODO*///	/* LFO */
 /*TODO*///	UINT32 LFOCnt;
-/*TODO*///	UINT32 LFOIncr;
-/*TODO*///	UINT32 LFO_FREQ[8];/* LFO FREQ table */
-/*TODO*///	INT32 LFO_wave[LFO_ENT];
-/*TODO*///#endif    
+public long /*UINT32*/ LFOIncr;
+    public long[] /*UINT32*/ LFO_FREQ;/* LFO FREQ table */
+    public int[] LFO_wave;
 
 }

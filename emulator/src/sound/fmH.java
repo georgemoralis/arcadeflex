@@ -1,5 +1,8 @@
 package sound;
 
+import static sound.ay8910.*;
+import sound.fm_c.FM_SLOT;
+
 public class fmH {
     /*TODO*////* --- select emulation chips --- */
 /*TODO*///#define BUILD_YM2203  (HAS_YM2203)		/* build YM2203(OPN)   emulator */
@@ -8,27 +11,30 @@ public class fmH {
 /*TODO*///#define BUILD_YM2610B (HAS_YM2610B)		/* build YM2610B(OPNB?)emulator */
 /*TODO*///#define BUILD_YM2612  (HAS_YM2612)		/* build YM2612(OPN2)  emulator */
 /*TODO*///#define BUILD_YM2151  (HAS_YM2151)		/* build YM2151(OPM)   emulator */
-/*TODO*///
-/*TODO*////* --- system optimize --- */
-/*TODO*////* select stereo output buffer : mixing / separate */
-/*TODO*/////#define FM_STEREO_MIX
-/*TODO*////* select output size : 8bit or 16bit */
-public static final int FM_OUTPUT_BIT= 16;
-/*TODO*///
-/*TODO*////* --- speed optimize --- */
-/*TODO*///#define FM_LFO_SUPPORT 1 	/* support LFO unit */
-/*TODO*///#define FM_SEG_SUPPORT 0	/* OPN SSG type envelope support   */
-/*TODO*///
-/*TODO*////* --- external SSG(YM2149/AY-3-8910)emulator interface port */
-/*TODO*////* used by YM2203,YM2608,and YM2610 */
-/*TODO*///
-/*TODO*////* SSGClk   : Set SSG Clock      */
-/*TODO*////* int n    = chip number        */
-/*TODO*////* int clk  = MasterClock(Hz)    */
-/*TODO*////* int rate = sample rate(Hz) */
-/*TODO*///#define SSGClk(chip,clock) AY8910_set_clock(chip,clock)
-/*TODO*///
-/*TODO*////* SSGWrite : Write SSG port     */
+
+    /* --- system optimize --- */
+    /* select stereo output buffer : mixing / separate */
+//#define FM_STEREO_MIX
+
+    /* select output size : 8bit or 16bit */
+    public static final int FM_OUTPUT_BIT = 16;
+
+    /* --- speed optimize --- */
+//#define FM_LFO_SUPPORT 1 	/* support LFO unit */
+//#define FM_SEG_SUPPORT 0	/* OPN SSG type envelope support   */
+
+    /* --- external SSG(YM2149/AY-3-8910)emulator interface port */
+    /* used by YM2203,YM2608,and YM2610 */
+
+    /* SSGClk   : Set SSG Clock      */
+    /* int n    = chip number        */
+    /* int clk  = MasterClock(Hz)    */
+    /* int rate = sample rate(Hz) */
+    public static void SSGClk(int chip, int clock) {
+        AY8910_set_clock(chip, clock);
+    }
+
+    /*TODO*////* SSGWrite : Write SSG port     */
 /*TODO*////* int n    = chip number        */
 /*TODO*////* int a    = address            */
 /*TODO*////* int v    = data               */
@@ -38,12 +44,14 @@ public static final int FM_OUTPUT_BIT= 16;
 /*TODO*////* int n    = chip number   */
 /*TODO*////* return   = Read data     */
 /*TODO*///#define SSGRead(n) AY8910Read(n)
-/*TODO*///
-/*TODO*////* SSGReset : Reset SSG chip */
-/*TODO*////* int n    = chip number   */
-/*TODO*///#define SSGReset(chip) AY8910_reset(chip)
-/*TODO*///
-/*TODO*////* --- external callback funstions for realtime update --- */
+
+    /* SSGReset : Reset SSG chip */
+    /* int n    = chip number   */
+    public static void SSGReset(int chip) {
+        AY8910_reset(chip);
+    }
+
+    /*TODO*////* --- external callback funstions for realtime update --- */
 /*TODO*///#if BUILD_YM2203
 /*TODO*///  /* in 2203intf.c */
 /*TODO*///  #define YM2203UpdateReq(chip) YM2203UpdateRequest(chip)
@@ -99,7 +107,6 @@ public static final int FM_OUTPUT_BIT= 16;
 /*TODO*///typedef unsigned short FMSAMPLE_MIX;
 /*TODO*///#endif
 /*TODO*///
-
     public static abstract interface FM_TIMERHANDLERtr {
 
         public abstract void handler(int n, int c, int count, double stepTime);
@@ -108,6 +115,10 @@ public static final int FM_OUTPUT_BIT= 16;
     public static abstract interface FM_IRQHANDLEPtr {
 
         public abstract void handler(int n, int irq);
+    }
+    public static abstract interface EGPtr {
+
+        public abstract void handler(FM_SLOT SLOT);
     }
 
     /* FM_TIMERHANDLER : Stop or Start timer         */
