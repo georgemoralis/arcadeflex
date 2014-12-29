@@ -16,16 +16,13 @@ import static mame.memoryH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static mame.cpuintrf.*;
-import static mame.cpuintrfH.*;
 import static arcadeflex.ptrlib.*;
 import static mame.inputportH.*;
 import static mame.sndintrf.*;
-import static cpu.m6809.m6809H.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.sndintrfH.*;
-import static vidhrdw.konamiic.*;
 import static vidhrdw.hcastle.*;
 import static sound.k007232.*;
 import static sound.k007232H.*;
@@ -34,6 +31,8 @@ import static sound._3812intf.*;
 import static sound._3812intfH.*;
 import static cpu.z80.z80H.*;
 import static vidhrdw.generic.*;
+import static sound.k051649.*;
+import static sound.k051649H.*;
 
 public class hcastle
 {
@@ -143,10 +142,10 @@ public class hcastle
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x9800, 0x987f, K051649_waveform_w ),
-/*TODO*///		new MemoryWriteAddress( 0x9880, 0x9889, K051649_frequency_w ),
-/*TODO*///		new MemoryWriteAddress( 0x988a, 0x988e, K051649_volume_w ),
-/*TODO*///		new MemoryWriteAddress( 0x988f, 0x988f, K051649_keyonoff_w ),
+		new MemoryWriteAddress( 0x9800, 0x987f, K051649_waveform_w ),
+		new MemoryWriteAddress( 0x9880, 0x9889, K051649_frequency_w ),
+		new MemoryWriteAddress( 0x988a, 0x988e, K051649_volume_w ),
+		new MemoryWriteAddress( 0x988f, 0x988f, K051649_keyonoff_w ),
 		new MemoryWriteAddress( 0xa000, 0xa000, YM3812_control_port_0_w ),
 		new MemoryWriteAddress( 0xa001, 0xa001, YM3812_write_port_0_w ),
 		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_0_w ),
@@ -312,11 +311,11 @@ public class hcastle
 		new WriteYmHandlerPtr[]{ irqhandler }
         );
 	
-/*TODO*///	static struct k051649_interface k051649_interface =
-/*TODO*///	{
-/*TODO*///		3579545/2,	/* Clock */
-/*TODO*///		45,			/* Volume */
-/*TODO*///	};
+	static k051649_interface k051649_interface = new k051649_interface
+	(
+		3579545/2,	/* Clock */
+		45			/* Volume */
+        );
 	
 	static MachineDriver machine_driver_hcastle = new MachineDriver
 	(
@@ -363,11 +362,11 @@ public class hcastle
 			new MachineSound(
 				SOUND_YM3812,
 				ym3812_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_K051649,
-				k051649_interface,
-			)*/
+				k051649_interface
+			)
 		}
 	);
 	

@@ -23,6 +23,7 @@ import sound.MSM5205;
 import sound._2203intf;
 import sound.k007232;
 import sound.ym2413;
+import sound.k051649;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -571,6 +572,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new k051649(),
     /*TODO*////*TODO*///#if (HAS_K051649)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_K051649,

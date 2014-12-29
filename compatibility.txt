@@ -232,6 +232,10 @@ Playable
 230)thehustl battlnts.c HD6309   [Z80   ]                                                       2xYM-3812                                                   The Hustler (Japan version M)  
 231)thehustj battlnts.c HD6309   [Z80   ]                                                       2xYM-3812                                                   The Hustler (Japan version J)   
 232)speedbal speedbal.c Z80      Z80                                                            1xYM-3812                                                   Speed Ball
+233)hcastle  hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 1)
+234)hcastlea hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 2)
+235)hcastlej hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Akuma-Jou Dracula (Japan)
+
 
 
 Probably CPU bugs
@@ -1403,9 +1407,6 @@ fastlane fastlane.c HD6309                                                      
 labyrunr labyrunr.c HD6309                                                                  2xYM-2203                                                   Labyrinth Runner (Japan)
 bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T)
 bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E)
-hcastle  hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 1)
-hcastlea hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 2)
-hcastlej hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Akuma-Jou Dracula (Japan)
 ajax     ajax.c     KONAMI   M6809    Z80                                                   1xYM-2151   2x007232                                        Ajax
 ajaxj    ajax.c     KONAMI   M6809    Z80                                                   1xYM-2151   2x007232                                        Ajax (Japan)
 scontra  thunderx.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Super Contra

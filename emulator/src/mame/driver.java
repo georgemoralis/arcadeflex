@@ -373,6 +373,9 @@ public class driver {
         /*230*//*battlnts*/driver_thehustl, 
         /*231*//*battlnts*/driver_thehustj,
         /*232*//*speedbal*/driver_speedbal,	
+        /*233*//*hcastle*/driver_hcastle,
+        /*234*//*hcastle*/driver_hcastlea,
+        /*235*//*hcastle*/driver_hcastlej,
  
         
         /*
@@ -664,9 +667,7 @@ public class driver {
         /*marvins*/driver_madcrash,//screen issues (offscreen drawing)
         /*marvins*/driver_vangrd2,// screen issues (offscreen drawing)
         
-        driver_hcastle,
-        driver_hcastlea,
-        driver_hcastlej,
+        
         
 /*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
 
