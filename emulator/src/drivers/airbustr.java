@@ -26,6 +26,10 @@ import static vidhrdw.airbustr.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static arcadeflex.ptrlib.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
 
 public class airbustr
 {
@@ -379,8 +383,8 @@ public class airbustr
 	
 	static IOReadPort sound_readport[] =
 	{
-/*TODO*///		new IOReadPort( 0x02, 0x02, YM2203_status_port_0_r ),
-/*TODO*///		new IOReadPort( 0x03, 0x03, YM2203_read_port_0_r ),
+		new IOReadPort( 0x02, 0x02, YM2203_status_port_0_r ),
+		new IOReadPort( 0x03, 0x03, YM2203_read_port_0_r ),
 /*TODO*///		new IOReadPort( 0x04, 0x04, OKIM6295_status_0_r ),
 		new IOReadPort( 0x06, 0x06, soundcommand_r ),			// read command from sub cpu
 		new IOReadPort( -1 )
@@ -389,8 +393,8 @@ public class airbustr
 	static IOWritePort sound_writeport[] =
 	{
 		new IOWritePort( 0x00, 0x00, sound_bankswitch_w ),
-/*TODO*///		new IOWritePort( 0x02, 0x02, YM2203_control_port_0_w ),
-/*TODO*///		new IOWritePort( 0x03, 0x03, YM2203_write_port_0_w ),
+		new IOWritePort( 0x02, 0x02, YM2203_control_port_0_w ),
+		new IOWritePort( 0x03, 0x03, YM2203_write_port_0_w ),
 /*TODO*///		new IOWritePort( 0x04, 0x04, OKIM6295_data_0_w ),
 		new IOWritePort( 0x06, 0x06, soundcommand2_w ),		// write command result to sub cpu
 		new IOWritePort( -1 )
@@ -528,18 +532,16 @@ public class airbustr
 	};
 	
 	
-	
-/*	static struct YM2203interface ym2203_interface =
-	{
-		1,
-		3000000,					/* ?? */
-/*		{ YM2203_VOL(0xff,0xff) },	/* gain,volume */
-/*		{ input_port_3_r },			/* DSW-1 connected to port A */
-/*		{ input_port_4_r },			/* DSW-2 connected to port B */
-/*		{ 0 },
-		{ 0 },
-		{ 0 }
-	};*/
+	static YM2203interface ym2203_interface = new YM2203interface(
+            1, 
+            3000000,					/* ?? */
+            new int[]{YM2203_VOL(0xff,0xff)},/* gain,volume */
+            new ReadHandlerPtr[]{input_port_3_r},/* DSW-1 connected to port A */
+            new ReadHandlerPtr[]{input_port_4_r},/* DSW-2 connected to port B */
+            new WriteHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null}
+    );
+
 	
 /*	static struct OKIM6295interface okim6295_interface =
 	{
@@ -590,17 +592,17 @@ public class airbustr
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			),
+			)/*,
 			new MachineSound(
 				SOUND_OKIM6295,
 				okim6295_interface
-			)
-		}*/
-                null
+			)*/
+		}
+                
 	);
 	
 	
