@@ -1,16 +1,12 @@
 package sound;
 
-import mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static sound.k007232H.*;
 import static mame.driverH.*;
 import static mame.sndintrf.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
-import static sound.fm.*;
-import static sound.fmH.*;
 import static sound.streams.*;
-import static mame.timer.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
 
@@ -77,7 +73,6 @@ public class k007232 extends snd_interface {
             }
             vol[0] = intf.volume[j] & 0xffff;
             vol[1] = intf.volume[j] >> 16;
-            System.out.println(vol[0] + " " + vol[1]);//for debug
 
             pcm_chan[j] = stream_init_multi(2, name, vol, Machine.sample_rate, j, KDAC_A_update);
         }
@@ -110,71 +105,65 @@ public class k007232 extends snd_interface {
     }
     public static StreamInitMultiPtr KDAC_A_update = new StreamInitMultiPtr() {
         public void handler(int chip, UShortPtr[] buffer, int buffer_len) {
-	int i;
+            int i;
 
+            ///memset(buffer[0],0,buffer_len * sizeof(INT16));
+            //memset(buffer[1],0,buffer_len * sizeof(INT16));
+            for (i = 0; i < buffer_len; i++) {
+                buffer[0].write(i, (char) 0);
+                buffer[1].write(i, (char) 0);
+            }
 
-	///memset(buffer[0],0,buffer_len * sizeof(INT16));
-	//memset(buffer[1],0,buffer_len * sizeof(INT16));
-        for(i=0; i<buffer_len; i++)
-        {
-            buffer[0].write(i,(char)0);
-            buffer[1].write(i,(char)0);
-        }
+            for (i = 0; i < KDAC_A_PCM_MAX; i++) {
+                if (kpcm[chip].play[i] != 0) {
+                    int volA, volB, j, out;
+                    /*unsigned int*/
+                    long addr, old_addr;
 
-	for( i = 0; i < KDAC_A_PCM_MAX; i++ )
-	{
-		if (kpcm[chip].play[i]!=0)
-		{
-			int volA,volB,j,out;
-			/*unsigned int*/long addr, old_addr;
+                    /**
+                     * ** PCM setup ***
+                     */
+                    addr = kpcm[chip].start[i] + ((kpcm[chip].addr[i] >> BASE_SHIFT) & 0x000fffff);
+                    volA = 2 * kpcm[chip].vol[i][0];
+                    volB = 2 * kpcm[chip].vol[i][1];
+                    for (j = 0; j < buffer_len; j++) {
+                        old_addr = addr;
+                        addr = kpcm[chip].start[i] + ((kpcm[chip].addr[i] >> BASE_SHIFT) & 0x000fffff);
+                        while (old_addr <= addr) {
+                            if ((kpcm[chip].pcmbuf[i].read((int) old_addr) & 0x80) != 0) {
+                                /* end of sample */
 
-			/**** PCM setup ****/
-			addr = kpcm[chip].start[i] + ((kpcm[chip].addr[i]>>BASE_SHIFT)&0x000fffff);
-			volA = 2 * kpcm[chip].vol[i][0];
-			volB = 2 * kpcm[chip].vol[i][1];
-			for( j = 0; j < buffer_len; j++ )
-			{
-				old_addr = addr;
-				addr = kpcm[chip].start[i] + ((kpcm[chip].addr[i]>>BASE_SHIFT)&0x000fffff);
-				while (old_addr <= addr)
-				{
-					if ((kpcm[chip].pcmbuf[i].read((int)old_addr) & 0x80)!=0)
-					{
-						/* end of sample */
+                                if (kpcm[chip].loop[i] != 0) {
+                                    /* loop to the beginning */
+                                    addr = kpcm[chip].start[i];
+                                    kpcm[chip].addr[i] = 0;
+                                } else {
+                                    /* stop sample */
+                                    kpcm[chip].play[i] = 0;
+                                }
+                                break;
+                            }
 
-						if (kpcm[chip].loop[i]!=0)
-						{
-							/* loop to the beginning */
-							addr = kpcm[chip].start[i];
-							kpcm[chip].addr[i] = 0;
-						}
-						else
-						{
-							/* stop sample */
-							kpcm[chip].play[i] = 0;
-						}
-						break;
-					}
+                            old_addr++;
+                        }
 
-					old_addr++;
-				}
+                        if (kpcm[chip].play[i] == 0) {
+                            break;
+                        }
 
-				if (kpcm[chip].play[i] == 0)
-					break;
+                        kpcm[chip].addr[i] += kpcm[chip].step[i];
 
-				kpcm[chip].addr[i] += kpcm[chip].step[i];
+                        /*out = (kpcm[chip].pcmbuf[i][addr] & 0x7f) - 0x40;
 
-				/*out = (kpcm[chip].pcmbuf[i][addr] & 0x7f) - 0x40;
+                         buffer[0][j] += out * volA;
+                         buffer[1][j] += out * volB;*/
+                        out = (kpcm[chip].pcmbuf[i].read((int) addr) & 0x7f) - 0x40;
 
-				buffer[0][j] += out * volA;
-				buffer[1][j] += out * volB;*/
-                                out = (kpcm[chip].pcmbuf[i].read((int)addr) & 0x7f) - 0x40;
-
-				buffer[0].write(j,(char)(buffer[0].read(j) +out * volA));
-				buffer[1].write(j,(char)(buffer[1].read(j)+ out * volB));
-			}
-		}
-	}
+                        buffer[0].write(j, (char) (buffer[0].read(j) + out * volA));
+                        buffer[1].write(j, (char) (buffer[1].read(j) + out * volB));
+                    }
+                }
+            }
         }
     };
 
@@ -269,19 +258,19 @@ public class k007232 extends snd_interface {
                      * ** start address ***
                      */
                     /*kpcm[chip].start[reg_port]
-                            = ((((unsigned int)
-                    kpcm[chip].wreg[reg_port * 0x06 + 0x04] << 16
-                    )&0x00010000) |
-					(((unsigned int
-                    )kpcm[chip].wreg[reg_port * 0x06 + 0x03] << 8
-                    )&0x0000ff00) |
-					(((unsigned int
-                    )kpcm[chip].wreg[reg_port * 0x06 + 0x02]    )&0x000000ff));*/
-                    kpcm[chip].start[reg_port] =
-                            ((((long)kpcm[chip].wreg[reg_port * 0x06 + 0x04] << 16) & 0x00010000) |
-                            (((long)kpcm[chip].wreg[reg_port * 0x06 + 0x03] << 8) & 0x0000ff00) |
-                            (((long)kpcm[chip].wreg[reg_port * 0x06 + 0x02]) & 0x000000ff));
-			break;
+                     = ((((unsigned int)
+                     kpcm[chip].wreg[reg_port * 0x06 + 0x04] << 16
+                     )&0x00010000) |
+                     (((unsigned int
+                     )kpcm[chip].wreg[reg_port * 0x06 + 0x03] << 8
+                     )&0x0000ff00) |
+                     (((unsigned int
+                     )kpcm[chip].wreg[reg_port * 0x06 + 0x02]    )&0x000000ff));*/
+                    kpcm[chip].start[reg_port]
+                            = ((((long) kpcm[chip].wreg[reg_port * 0x06 + 0x04] << 16) & 0x00010000)
+                            | (((long) kpcm[chip].wreg[reg_port * 0x06 + 0x03] << 8) & 0x0000ff00)
+                            | (((long) kpcm[chip].wreg[reg_port * 0x06 + 0x02]) & 0x000000ff));
+                    break;
             }
         }
     }

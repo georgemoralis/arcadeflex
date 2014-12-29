@@ -418,6 +418,7 @@ public class driver {
         /*013*//*system1*/driver_dakkochn,	
 	/*014*//*system1*/driver_ufosensi,	
         /*015*//*scobra*/driver_darkplnt,
+        /*016*//*spy*/driver_spy,  //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)
         
         /*TO RECHECK
         */
@@ -565,7 +566,7 @@ public class driver {
         /*lwings*/driver_avengers,
         /*lwings*/driver_avenger2,
         /*kingobox*/driver_ringkin2,
-        /*spy*/driver_spy,  //works a bit doesn't have collision though
+        
 
         /**
          *  Test (Not working) drivers

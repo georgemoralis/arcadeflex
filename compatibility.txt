@@ -278,6 +278,7 @@ NOT WORKING IN MAME 0.36 EITHER
 013)dakkochn system1.c  Z80      [Z80   ]                                                       2xSN76496                                                   DakkoChan Jansoh
 014)ufosensi system1.c  Z80      [Z80   ]                                                       2xSN76496                                                   Ufo Senshi Yohko Chan
 015)darkplnt scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Dark Planet
+016)spy      spy.c      HD6309   [Z80   ]                                                       1xYM-3812   2x007232                                        S.P.Y. - Special Project Y (US)
 
 TODO
 ---------
@@ -1426,7 +1427,6 @@ crazycop gbusters.c KONAMI   [Z80   ]                                           
 crimfght crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (US 4 players)
 crimfgt2 crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (World 2 Players)
 crimfgtj crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (Japan 2 Players)
-spy      spy.c      HD6309   [Z80   ]                                                       1xYM-3812   2x007232                                        S.P.Y. - Special Project Y (US)
 bottom9  bottom9.c  M6809    [Z80   ]                                                       2x007232                                                    Bottom of the Ninth (version T)
 bottom9n bottom9.c  M6809    [Z80   ]                                                       2x007232                                                    Bottom of the Ninth (version N)
 blockhl  blockhl.c  KONAMI   [Z80   ]                                                       1xYM-2151                                                   Block Hole
