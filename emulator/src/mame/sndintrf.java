@@ -21,6 +21,7 @@ import static sound.mixer.*;
 import static sound.streams.*;
 import sound.MSM5205;
 import sound._2203intf;
+import sound.k007232;
 import sound.ym2413;
 
 public class sndintrf {
@@ -518,6 +519,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		MSM5205_sh_reset,
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_UPD7759)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_UPD7759,
@@ -530,6 +532,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_HC55516)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_HC55516,
@@ -542,6 +545,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_K005289)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_K005289,
@@ -554,6 +558,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new k007232(),
     /*TODO*////*TODO*///#if (HAS_K007232)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_K007232,

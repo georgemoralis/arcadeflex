@@ -38,6 +38,12 @@ import static mame.memory.*;
 import static vidhrdw.bottom9.*;
 import static vidhrdw.konamiic.*;
 import static arcadeflex.fileio.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_K007232;
+import static sound.k007232.*;
+import static sound.k007232H.*;
+import static sound.mixerH.*;
+
 
 public class bottom9
 {
@@ -142,11 +148,11 @@ public class bottom9
 		RAM = memory_region(REGION_SOUND1);
 		bank_A = 0x20000 * ((data >> 0) & 0x03);
 		bank_B = 0x20000 * ((data >> 2) & 0x03);
-/*TODO*///		K007232_bankswitch(0,RAM + bank_A,RAM + bank_B);
+		K007232_bankswitch(0,new UBytePtr(RAM,bank_A),new UBytePtr(RAM,bank_B));
 		RAM = memory_region(REGION_SOUND2);
 		bank_A = 0x20000 * ((data >> 4) & 0x03);
 		bank_B = 0x20000 * ((data >> 6) & 0x03);
-/*TODO*///		K007232_bankswitch(1,RAM + bank_A,RAM + bank_B);
+		K007232_bankswitch(1,new UBytePtr(RAM,bank_A),new UBytePtr(RAM,bank_B));
 	} };
 	
 	
@@ -188,8 +194,8 @@ public class bottom9
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( 0xa000, 0xa00d, K007232_read_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xb000, 0xb00d, K007232_read_port_1_r ),
+		new MemoryReadAddress( 0xa000, 0xa00d, K007232_read_port_0_r ),
+		new MemoryReadAddress( 0xb000, 0xb00d, K007232_read_port_1_r ),
 		new MemoryReadAddress( 0xd000, 0xd000, soundlatch_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
@@ -199,8 +205,8 @@ public class bottom9
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
 		new MemoryWriteAddress( 0x9000, 0x9000, sound_bank_w ),
-/*TODO*///		new MemoryWriteAddress( 0xa000, 0xa00d, K007232_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_1_w ),
+		new MemoryWriteAddress( 0xa000, 0xa00d, K007232_write_port_0_w ),
+		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_1_w ),
 		new MemoryWriteAddress( 0xf000, 0xf000, nmi_enable_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -306,27 +312,26 @@ public class bottom9
 	INPUT_PORTS_END(); }}; 
 	
 	
-	
-/*TODO*///	static void volume_callback0(int v)
-/*TODO*///	{
-/*TODO*///		K007232_set_volume(0,0,(v >> 4) * 0x11,0);
-/*TODO*///		K007232_set_volume(0,1,0,(v & 0x0f) * 0x11);
-/*TODO*///	}
-	
-/*TODO*///	static void volume_callback1(int v)
-/*TODO*///	{
-/*TODO*///		K007232_set_volume(1,0,(v >> 4) * 0x11,0);
-/*TODO*///		K007232_set_volume(1,1,0,(v & 0x0f) * 0x11);
-/*TODO*///	}
-	
-/*TODO*///	static struct K007232_interface k007232_interface =
-/*TODO*///	{
-/*TODO*///		2,			/* number of chips */
-/*TODO*///		{ REGION_SOUND1, REGION_SOUND2 },	/* memory regions */
-/*TODO*///		{ K007232_VOL(40,MIXER_PAN_CENTER,40,MIXER_PAN_CENTER),
-/*TODO*///				K007232_VOL(40,MIXER_PAN_CENTER,40,MIXER_PAN_CENTER) },	/* volume */
-/*TODO*///		{ volume_callback0, volume_callback1 }	/* external port callback */
-/*TODO*///	};
+	public static portwritehandlerPtr volume_callback0 = new portwritehandlerPtr() { public void handler(int v)
+        {
+            K007232_set_volume(0,0,(v >> 4) * 0x11,0);
+            K007232_set_volume(0,1,0,(v & 0x0f) * 0x11);
+        }};
+
+	public static portwritehandlerPtr volume_callback1 = new portwritehandlerPtr() { public void handler(int v)
+        {
+            K007232_set_volume(1,0,(v >> 4) * 0x11,0);
+	    K007232_set_volume(1,1,0,(v & 0x0f) * 0x11);
+        }};
+
+	static K007232_interface k007232_interface = new K007232_interface
+	(
+		2,			/* number of chips */
+		new int[]{ REGION_SOUND1, REGION_SOUND2 },	/* memory regions */
+		new int[]{ K007232_VOL(40,MIXER_PAN_CENTER,40,MIXER_PAN_CENTER),
+				K007232_VOL(40,MIXER_PAN_CENTER,40,MIXER_PAN_CENTER) },	/* volume */
+		new portwritehandlerPtr[]{ volume_callback0, volume_callback1 }	/* external port callback */
+        );
 	
 	
 	
@@ -364,13 +369,12 @@ public class bottom9
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_K007232,
 				k007232_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	
