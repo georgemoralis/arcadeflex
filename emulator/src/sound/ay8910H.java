@@ -9,7 +9,7 @@ public class ay8910H {
 
     public static class AY8910interface
     {
-        public AY8910interface(int num,int baseclock, int []mixing_level, ReadHandlerPtr []pAr, ReadHandlerPtr []pBr, WriteHandlerPtr []pAw, WriteHandlerPtr []pBw,ReadHandlerPtr []ym_handler)
+        public AY8910interface(int num,int baseclock, int []mixing_level, ReadHandlerPtr []pAr, ReadHandlerPtr []pBr, WriteHandlerPtr []pAw, WriteHandlerPtr []pBw,WriteYmHandlerPtr []ym_handler)
 	{
             this.num=num;
             this.baseclock=baseclock;
@@ -41,6 +41,6 @@ public class ay8910H {
         public ReadHandlerPtr portBread[];      // int (*portBread[MAX_8910])(int offset);
         public WriteHandlerPtr portAwrite[];    // void (*portAwrite[MAX_8910])(int offset,int data);
         public WriteHandlerPtr portBwrite[];    //void (*portBwrite[MAX_8910])(int offset,int data);
-        public ReadHandlerPtr YM2203_handler[]; //void (*handler[MAX_8910])(int irq);	/* IRQ handler for the YM2203 */
+        public WriteYmHandlerPtr YM2203_handler[]; //void (*handler[MAX_8910])(int irq);	/* IRQ handler for the YM2203 */
     };
 }

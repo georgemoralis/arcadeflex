@@ -33,6 +33,10 @@ import static arcadeflex.libc.*;
 import static mame.palette.*;
 import static mame.cpuintrfH.*;
 import static arcadeflex.ptrlib.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
 
 public class blktiger
 {
@@ -114,10 +118,10 @@ public class blktiger
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0xc000, 0xc7ff, MRA_RAM ),
 		new MemoryReadAddress( 0xc800, 0xc800, soundlatch_r ),
-/*TODO*///		new MemoryReadAddress( 0xe000, 0xe000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xe001, 0xe001, YM2203_read_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xe002, 0xe002, YM2203_status_port_1_r ),
-/*TODO*///		new MemoryReadAddress( 0xe003, 0xe003, YM2203_read_port_1_r ),
+		new MemoryReadAddress( 0xe000, 0xe000, YM2203_status_port_0_r ),
+		new MemoryReadAddress( 0xe001, 0xe001, YM2203_read_port_0_r ),
+		new MemoryReadAddress( 0xe002, 0xe002, YM2203_status_port_1_r ),
+		new MemoryReadAddress( 0xe003, 0xe003, YM2203_read_port_1_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -125,10 +129,10 @@ public class blktiger
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0xc000, 0xc7ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe002, 0xe002, YM2203_control_port_1_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe003, 0xe003, YM2203_write_port_1_w ),
+		new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0xe002, 0xe002, YM2203_control_port_1_w ),
+		new MemoryWriteAddress( 0xe003, 0xe003, YM2203_write_port_1_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
@@ -259,18 +263,22 @@ public class blktiger
 /*TODO*///	{
 /*TODO*///		cpu_set_irq_line(1,0,irq ? ASSERT_LINE : CLEAR_LINE);
 /*TODO*///	}
-	
-/*TODO*///	static struct YM2203interface ym2203_interface =
-/*TODO*///	{
-/*TODO*///		2,			/* 2 chips */
-/*TODO*///		3579545,	/* 3.579 MHz ? (hand tuned) */
-/*TODO*///		{ YM2203_VOL(15,15), YM2203_VOL(15,15) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ irqhandler }
-/*TODO*///	};
+        public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int irq)
+	{
+            cpu_set_irq_line(1,0,irq!=0 ? ASSERT_LINE : CLEAR_LINE);
+            
+        }};
+	static YM2203interface ym2203_interface = new YM2203interface
+	(
+		2,			/* 2 chips */
+		3579545,	/* 3.579 MHz ? (hand tuned) */
+		new int[]{ YM2203_VOL(15,15), YM2203_VOL(15,15) },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new WriteHandlerPtr[]{ null,null },
+		new WriteHandlerPtr[]{ null,null },
+		new WriteYmHandlerPtr[]{ irqhandler,irqhandler }
+        );
 	
 	
 	
@@ -309,13 +317,12 @@ public class blktiger
 	
 		/* sound hardware */
 		0,0,0,0,
-                null
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
+		}
 	);
 	
 	

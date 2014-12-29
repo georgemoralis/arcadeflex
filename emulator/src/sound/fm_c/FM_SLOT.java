@@ -4,6 +4,10 @@ import sound.fmH.*;
 import static arcadeflex.libc.*;
 
 public class FM_SLOT {
+    public FM_SLOT()
+    {
+        DT=new int[32];
+    }
     public int[] DT;			/* detune          :DT_TABLE[DT]       */
 public int DT2;			/* multiple,Detune2:(DT2<<4)|ML for OPM*/
 public int TL;				/* total level     :TL << 8            */

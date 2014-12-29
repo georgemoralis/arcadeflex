@@ -1,0 +1,36 @@
+0.36.7
+=======================================
+
+
+=======================================
+0.36.6 - First official release (24-december 2014)
+=======================================
+First official release with the following features:
+
+232 fully playable games (check compatibility list)
+
+CPU emulation
+============
+Z89
+M6809
+HD6309
+M6502
+Konami (intial)
+
+Audio emulation
+=============
+MSM5205
+YM-2413
+YM-3812
+YM-3526
+AY-8910
+ADPCM (issues with a few games)
+NAMCO
+SN76496
+OKI6295
+
+Video emulation
+=============
+Working timemap emulation
+Working K007342 , K007420 konami chips + some WIP work to others
+

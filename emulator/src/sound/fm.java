@@ -349,8 +349,23 @@ public static int PMS_RATE =0x400;
 /*TODO*////* external timer mode */
 /*TODO*///#define INTERNAL_TIMER_A(ST,CSM_CH)
 /*TODO*///#define INTERNAL_TIMER_B(ST,step)
-    static void INTERNAL_TIMER_A(FM_ST ST, FM_CH CSM_CH) { }
-    static void INTERNAL_TIMER_B(FM_ST ST, int step) { }
+    static void INTERNAL_TIMER_A(FM_ST ST, FM_CH CSM_CH) 
+    {
+        /*if( ST.TAC != 0 &&  (ST.Timer_Handler==null) )		
+		if( (ST.TAC -= ST.freqbase*4096) <= 0 )	
+		{											
+			TimerAOver(ST);						
+			/* CSM mode total level latch and auto key on */	
+		/*	if( (ST.mode & 0x80) != 0 )					
+				CSMKeyControll(CSM_CH);			
+		}*/
+    }
+    static void INTERNAL_TIMER_B(FM_ST ST, int step) 
+    { 
+       /* if( ST.TBC != 0 && (ST.Timer_Handler==null) )				
+		if( (ST.TBC -= ST.freqbase*4096*step) <= 0 )	
+		TimerBOver(ST);*/
+    }
 /*TODO*///#endif
 /*TODO*///
 /* --------------------- subroutines  --------------------- */
@@ -360,7 +375,7 @@ public static int PMS_RATE =0x400;
     static void FM_STATUS_SET(FM_ST ST, int flag) {
         /* set status flag */
         /*RECHECK*/
-        ST.status = (ST.status | flag) & 0xFF;
+        ST.status |= ST.status;//ST.status = (ST.status | flag) & 0xFF;
         if ((ST.irq) == 0 && (ST.status & ST.irqmask) != 0) {
             ST.irq = 1;
             /* callback user interrupt handler (IRQ is OFF to ON) */
@@ -374,7 +389,7 @@ public static int PMS_RATE =0x400;
     static void FM_STATUS_RESET(FM_ST ST, int flag) {
         /* reset status flag */
         /*RECHECK*/
-        ST.status = (ST.status & ~flag) & 0xFF;
+        ST.status &= ~ST.status;//ST.status = (ST.status & ~flag) & 0xFF;
         if ((ST.irq) != 0 && (ST.status & ST.irqmask) == 0) {
             ST.irq = 0;
             /* callback user interrupt handler (IRQ is ON to OFF) */
@@ -508,7 +523,7 @@ public static int PMS_RATE =0x400;
                 /* PG---S1---S2-+--OUT */
                 /* PG---S3---S4-+      */
                 CH.connect1 = new IntSubArray(pg_in2);
-                CH.connect2 = new IntSubArray(carrier);
+                CH.connect2 = carrier;
                 CH.connect3 = new IntSubArray(pg_in4);
                 break;
             case 5:
@@ -517,28 +532,28 @@ public static int PMS_RATE =0x400;
                 /*         +-S4-+     */
                 CH.connect1 = null;	/* special case */
 
-                CH.connect2 = new IntSubArray(carrier);
-                CH.connect3 = new IntSubArray(carrier);
+                CH.connect2 = carrier;
+                CH.connect3 = carrier;
                 break;
             case 6:
                 /* PG---S1---S2-+     */
                 /* PG--------S3-+-OUT */
                 /* PG--------S4-+     */
                 CH.connect1 = new IntSubArray(pg_in2);
-                CH.connect2 = new IntSubArray(carrier);
-                CH.connect3 = new IntSubArray(carrier);
+                CH.connect2 = carrier;
+                CH.connect3 = carrier;
                 break;
             case 7:
                 /* PG---S1-+     */
                 /* PG---S2-+-OUT */
                 /* PG---S3-+     */
                 /* PG---S4-+     */
-                CH.connect1 = new IntSubArray(carrier);
-                CH.connect2 = new IntSubArray(carrier);
-                CH.connect3 = new IntSubArray(carrier);
+                CH.connect1 = carrier;
+                CH.connect2 = carrier;
+                CH.connect3 = carrier;
                 break;
         }
-        CH.connect4 = new IntSubArray(carrier);
+        CH.connect4 = carrier;//new IntSubArray(carrier);
     }
 
     /* set detune & multiple */
@@ -620,13 +635,26 @@ public static int PMS_RATE =0x400;
 /*TODO*///}
 /*TODO*///#else
 /*TODO*///#endif
+    static long FM_CALC_EG(FM_SLOT SLOT)						
+	{													
+		if ((SLOT.evc += SLOT.evs) >= SLOT.eve)
+                {
+                    SLOT.eg_next.handler((SLOT));     
+                }
+		long OUT = (SLOT.TLL + ENV_CURVE[SLOT.evc >> ENV_BITS]);	
+		if (SLOT.ams != 0)
+                {
+		OUT += (SLOT.ams * lfo_amd / LFO_RATE);	
+                }
+		return OUT;
+	}
     static void FM_CALC_EG(long[] OUT, FM_SLOT SLOT)
         {
             if ((SLOT.evc += SLOT.evs) >= SLOT.eve)
                 SLOT.eg_next.handler((SLOT));
-            OUT[0] =(SLOT.TLL + ENV_CURVE[SLOT.evc >> ENV_BITS])&0xFFFFFFFFL;
+            OUT[0] =(SLOT.TLL + ENV_CURVE[SLOT.evc >> ENV_BITS]);
             if (SLOT.ams != 0)
-                OUT[0] = (OUT[0] + (SLOT.ams * lfo_amd / LFO_RATE))&0xFFFFFFFFL;
+                OUT[0] = (OUT[0] + (SLOT.ams * lfo_amd / LFO_RATE));
         }
 /* ---------- calcrate one of channel ---------- */
 static void FM_CALC_CH(FM_CH CH)
@@ -652,15 +680,10 @@ static void FM_CALC_CH(FM_CH CH)
 
 	}
 	/* Envelope Generator */
-        long[] tmp =new long[1];
-        FM_CALC_EG(tmp, CH.SLOT[SLOT1]);
-        eg_out1=tmp[0];
-        FM_CALC_EG(tmp, CH.SLOT[SLOT2]);
-        eg_out2=tmp[0];
-        FM_CALC_EG(tmp, CH.SLOT[SLOT3]);
-        eg_out3=tmp[0];
-        FM_CALC_EG(tmp, CH.SLOT[SLOT4]);
-        eg_out4=tmp[0];
+        eg_out1=FM_CALC_EG(CH.SLOT[SLOT1]);
+        eg_out2=FM_CALC_EG(CH.SLOT[SLOT2]);
+        eg_out3=FM_CALC_EG(CH.SLOT[SLOT3]);
+        eg_out4=FM_CALC_EG(CH.SLOT[SLOT4]);
         
             /* connection */
             if (eg_out1 < EG_CUT_OFF)	/* SLOT 1 */
@@ -845,6 +868,7 @@ static void FM_CALC_CH(FM_CH CH)
             ENV_CURVE[i] = (int) pom;
             /* DECAY ,RELEASE curve */
             ENV_CURVE[(EG_DST >> ENV_BITS) + i] = i;
+            
         }
         /* off */
         ENV_CURVE[EG_OFF >> ENV_BITS] = EG_ENT - 1;
@@ -927,6 +951,18 @@ static void FM_CALC_CH(FM_CH CH)
     }
 
     /*TODO*////* Timer A Overflow */
+     static void TimerAOver(FM_ST ST)
+        {
+            /* status set if enabled */
+            if ((ST.mode & 0x04) != 0) FM_STATUS_SET(ST, 0x01);
+            /* clear or reload the counter */
+            if (ST.timermodel == FM_TIMER_INTERVAL)
+            {
+                ST.TAC = (1024 - ST.TA);
+                if (ST.Timer_Handler != null) ST.Timer_Handler.handler(ST.index, 0, (int)ST.TAC, ST.TimerBase);
+            }
+            else ST.TAC = 0;
+        }
 /*TODO*///INLINE void TimerAOver(FM_ST *ST)
 /*TODO*///{
 /*TODO*///	/* status set if enabled */
@@ -940,6 +976,19 @@ static void FM_CALC_CH(FM_CH CH)
 /*TODO*///	else ST->TAC = 0;
 /*TODO*///}
 /*TODO*////* Timer B Overflow */
+     /* Timer B Overflow */
+        static void TimerBOver(FM_ST ST)
+        {
+            /* status set if enabled */
+            if ((ST.mode & 0x08) != 0) FM_STATUS_SET(ST, 0x02);
+            /* clear or reload the counter */
+            if (ST.timermodel == FM_TIMER_INTERVAL)
+            {
+                ST.TBC = (256 - ST.TB) << 4;
+                if (ST.Timer_Handler != null) ST.Timer_Handler.handler(ST.index, 1, (int)ST.TBC, ST.TimerBase);
+            }
+            else ST.TBC = 0;
+        }
 /*TODO*///INLINE void TimerBOver(FM_ST *ST)
 /*TODO*///{
 /*TODO*///	/* status set if enabled */
@@ -953,6 +1002,26 @@ static void FM_CALC_CH(FM_CH CH)
 /*TODO*///	else ST->TBC = 0;
 /*TODO*///}
 /*TODO*////* CSM Key Controll */
+        /* CSM Key Controll */
+        static void CSMKeyControll(FM_CH CH)
+        {
+            /* int ksl = KSL[CH.kcode]; */
+            /* all key off */
+            FM_KEYOFF(CH, SLOT1);
+            FM_KEYOFF(CH, SLOT2);
+            FM_KEYOFF(CH, SLOT3);
+            FM_KEYOFF(CH, SLOT4);
+            /* total level latch */
+            CH.SLOT[SLOT1].TLL = CH.SLOT[SLOT1].TL /*+ ksl*/;
+            CH.SLOT[SLOT2].TLL = CH.SLOT[SLOT2].TL /*+ ksl*/;
+            CH.SLOT[SLOT3].TLL = CH.SLOT[SLOT3].TL /*+ ksl*/;
+            CH.SLOT[SLOT4].TLL = CH.SLOT[SLOT4].TL /*+ ksl*/;
+            /* all key on */
+            FM_KEYON(CH, SLOT1);
+            FM_KEYON(CH, SLOT2);
+            FM_KEYON(CH, SLOT3);
+            FM_KEYON(CH, SLOT4);
+        }
 /*TODO*///INLINE void CSMKeyControll(FM_CH *CH)
 /*TODO*///{
 /*TODO*///	/* int ksl = KSL[CH->kcode]; */
@@ -973,18 +1042,8 @@ static void FM_CALC_CH(FM_CH CH)
 /*TODO*///	FM_KEYON(CH,SLOT4);
 /*TODO*///}
 /*TODO*///
-/*TODO*///#if BUILD_OPN
-/*TODO*////***********************************************************/
-/*TODO*////* OPN unit                                                */
-/*TODO*////***********************************************************/
-/*TODO*///
-/*TODO*////* OPN 3slot struct */
-/*TODO*///typedef struct opn_3slot {
-/*TODO*///	UINT32  fc[3];		/* fnum3,blk3  :calcrated */
-/*TODO*///	UINT8 fn_h[3];		/* freq3 latch            */
-/*TODO*///	UINT8 kcode[3];		/* key code    :          */
-/*TODO*///}FM_3SLOT;
-/*TODO*///
+
+
 
     /* OPN key frequency number -> key code follow table */
     /* fnum higher 4bit -> keycode lower 2bit */
@@ -1008,7 +1067,7 @@ static void FM_CALC_CH(FM_CH CH)
         for (i = 0; i < 2048; i++) {
             /* it is freq table for octave 7 */
             /* opn freq counter = 20bit */
-            OPN.FN_TABLE[i] = ((long) ((double) i * OPN.ST.freqbase * FREQ_RATE * (1 << 7) / 2)) & 0xFFFFFFFFL;
+            OPN.FN_TABLE[i] = (long) ((double) i * OPN.ST.freqbase * FREQ_RATE * (1 << 7) / 2);
         }
         /* LFO wave table */
         for (i = 0; i < LFO_ENT; i++) {
@@ -1040,10 +1099,10 @@ static void FM_CALC_CH(FM_CH CH)
 
             case 0x22:	/* LFO FREQ (YM2608/YM2612) */
 
-                if ((OPN.type & TYPE_LFOPAN) != 0) {
+                /*if ((OPN.type & TYPE_LFOPAN) != 0) {
                     OPN.LFOIncr = ((v & 0x08) != 0 ? OPN.LFO_FREQ[v & 7] : 0) & 0xFFFFFFFFL;
                     cur_chip = null;
-                }
+                }*/
                 break;
             case 0x24:	/* timer A High 8*/
 
@@ -1109,10 +1168,8 @@ static void FM_CALC_CH(FM_CH CH)
         FM_SLOT SLOT;
 
         /* 0x30 - 0xff */
-        if ((c = (OPN_CHAN(r) & 0xFF)) == 3) {
-            return; /* 0xX3,0xX7,0xXB,0xXF */
+        if( (c = OPN_CHAN(r)) == 3 ) return;  /* 0xX3,0xX7,0xXB,0xXF */
 
-        }
         if ((r >= 0x100) /* && (OPN.type & TYPE_6CH) */) {
             c += 3;
         }
@@ -1162,34 +1219,48 @@ static void FM_CALC_CH(FM_CH CH)
             case 0xa0:
                 switch (OPN_SLOT(r)) {
                     /*recheck*/ case 0: /* 0xa0-0xa2 : FNUM1 */ {
-                        long fn = ((((long) ((CH.fn_h) & 7)) << 8) + v) & 0xFFFFFFFFL;//(((UINT32)( (CH->fn_h)&7))<<8) + v;
+                        /*long fn = ((((long) ((CH.fn_h) & 7)) << 8) + v) & 0xFFFFFFFFL;//(((UINT32)( (CH->fn_h)&7))<<8) + v;
                         int blk = (CH.fn_h >> 3) & 0xFF;
                         /* make keyscale code */
-                        CH.kcode = ((blk << 2) | OPN_FKTABLE[(int) (fn >> 7)]) & 0xFF;
+                        /*CH.kcode = ((blk << 2) | OPN_FKTABLE[(int) (fn >> 7)]) & 0xFF;
                         /* make basic increment counter 32bit = 1 cycle */
-                        CH.fc = (OPN.FN_TABLE[(int) fn] >> (7 - blk)) & 0xFFFFFFFFL;
-                        CH.SLOT[SLOT1].Incr = -1;
+                        /*CH.fc = (OPN.FN_TABLE[(int) fn] >> (7 - blk)) & 0xFFFFFFFFL;
+                        CH.SLOT[SLOT1].Incr = -1;*/
+                        int fn  = (((int)( (CH.fn_h)&7))<<8) + v;
+				int blk = CH.fn_h>>3;
+				/* make keyscale code */
+				CH.kcode = (blk<<2)|OPN_FKTABLE[(fn>>7)];
+				/* make basic increment counter 32bit = 1 cycle */
+				CH.fc = (int) (OPN.FN_TABLE[fn]>>(7-blk));
+				CH.SLOT[SLOT1].Incr=-1;
                     }
                     break;
                     case 1:		/* 0xa4-0xa6 : FNUM2,BLK */
-			CH.fn_h = (v&0x3f)&0xFF;
+			CH.fn_h = (v&0x3f);
 			break;
-/*TODO*///		case 2:		/* 0xa8-0xaa : 3CH FNUM1 */
-/*TODO*///			if( r < 0x100)
-/*TODO*///			{
-/*TODO*///				UINT32 fn  = (((UINT32)(OPN->SL3.fn_h[c]&7))<<8) + v;
-/*TODO*///				UINT8 blk = OPN->SL3.fn_h[c]>>3;
-/*TODO*///				/* make keyscale code */
-/*TODO*///				OPN->SL3.kcode[c]= (blk<<2)|OPN_FKTABLE[(fn>>7)];
-/*TODO*///				/* make basic increment counter 32bit = 1 cycle */
-/*TODO*///				OPN->SL3.fc[c] = OPN->FN_TABLE[fn]>>(7-blk);
-/*TODO*///				(OPN->P_CH)[2].SLOT[SLOT1].Incr=-1;
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///		case 3:		/* 0xac-0xae : 3CH FNUM2,BLK */
-/*TODO*///			if( r < 0x100)
-/*TODO*///				OPN->SL3.fn_h[c] = v&0x3f;
-/*TODO*///			break;
+                        		case 2:		/* 0xa8-0xaa : 3CH FNUM1 */
+			if( r < 0x100)
+			{
+                            /*long fn = ((((long) ((OPN.SL3.fn_h[c]) & 7)) << 8) + v) & 0xFFFFFFFFL;//UINT32 fn  = (((UINT32)(OPN->SL3.fn_h[c]&7))<<8) + v;
+				int blk = (OPN.SL3.fn_h[c]>>3) & 0xFF;
+				/* make keyscale code */
+				/*OPN.SL3.kcode[c]= ((blk<<2)|OPN_FKTABLE[(int)(fn>>7)]&0xFF);
+				/* make basic increment counter 32bit = 1 cycle */
+				/*OPN.SL3.fc[c] = (OPN.FN_TABLE[(int)fn]>>(7-blk))& 0xFFFFFFFFL;
+				(OPN.P_CH)[2].SLOT[SLOT1].Incr=-1;*/
+                            int fn  = (((int)(OPN.SL3.fn_h[c]&7))<<8) + v;
+					int blk = OPN.SL3.fn_h[c]>>3;
+					/* make keyscale code */
+					OPN.SL3.kcode[c]= (blk<<2)|OPN_FKTABLE[(fn>>7)];
+					/* make basic increment counter 32bit = 1 cycle */
+					OPN.SL3.fc[c] = OPN.FN_TABLE[fn]>>(7-blk);
+					(OPN.P_CH)[2].SLOT[SLOT1].Incr=-1;
+			}
+			break;
+		case 3:		/* 0xac-0xae : 3CH FNUM2,BLK */
+			if( r < 0x100)
+				OPN.SL3.fn_h[c] = (v&0x3f);
+			break;
                     default:
                         System.out.println("Unsupported 0xa0");
                         break;
@@ -1199,14 +1270,15 @@ static void FM_CALC_CH(FM_CH CH)
                 switch (OPN_SLOT(r)) {
                     case 0: /* 0xb0-0xb2 : FB,ALGO */ {
                         int feedback = (v >> 3) & 7;
-                        CH.ALGO = (v & 7) & 0xFF;
-                        CH.FB = (feedback != 0 ? 8 + 1 - feedback : 0) & 0xFF;
+                        CH.ALGO = (v & 7);
+                        CH.FB = (feedback != 0 ? 8 + 1 - feedback : 0);
                         setup_connection(CH);
                     }
                     break;
-                    /*TODO*///		case 1:		/* 0xb4-0xb6 : L , R , AMS , PMS (YM2612/YM2608) */
-/*TODO*///			if( OPN->type & TYPE_LFOPAN)
-/*TODO*///			{
+		case 1:		/* 0xb4-0xb6 : L , R , AMS , PMS (YM2612/YM2608) */
+			if(( OPN.type & TYPE_LFOPAN)!=0)
+			{
+                            System.out.println("LFOPAN");
 /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///				/* b0-2 PMS */
 /*TODO*///				/* 0,3.4,6.7,10,14,20,40,80(cent) */
@@ -1225,15 +1297,16 @@ static void FM_CALC_CH(FM_CH CH)
 /*TODO*///				CH->PAN = (v>>6)&0x03; /* PAN : b6 = R , b7 = L */
 /*TODO*///				setup_connection( CH );
 /*TODO*///				/* Log(LOG_INF,"OPN %d,%d : PAN %d\n",n,c,CH->PAN);*/
-/*TODO*///			}
-/*TODO*///			break;
+			}
+			break;
                         default:
                         System.out.println("Unsupported 0xb0");
                         break;
                 }
                 break;
             default:
-                System.out.println("OPNwritereg " + Integer.toHexString(r & 0xf0));
+                if((r&0xf0)!=32){
+                 System.out.println("OPNwritereg " + Integer.toHexString(r & 0xf0));}
                 break;
         }
     }
@@ -1276,12 +1349,11 @@ static void FM_CALC_CH(FM_CH CH)
                 /* 3SLOT MODE */
                 if (cch[2].SLOT[SLOT1].Incr == -1)
                 {
-                    System.out.println("3 slot mode unsupported");
-                    /*TODO*///			/* 3 slot mode */
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT1] , OPN->SL3.fc[1] , OPN->SL3.kcode[1] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT2] , OPN->SL3.fc[2] , OPN->SL3.kcode[2] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT3] , OPN->SL3.fc[0] , OPN->SL3.kcode[0] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT4] , cch[2]->fc , cch[2]->kcode );
+                    /* 3 slot mode */
+                    CALC_FCSLOT(cch[2].SLOT[SLOT1], (int)OPN.SL3.fc[1], OPN.SL3.kcode[1]);
+                    CALC_FCSLOT(cch[2].SLOT[SLOT2], (int)OPN.SL3.fc[2], OPN.SL3.kcode[2]);
+                    CALC_FCSLOT(cch[2].SLOT[SLOT3], (int)OPN.SL3.fc[0], OPN.SL3.kcode[0]);
+                    CALC_FCSLOT(cch[2].SLOT[SLOT4], (int)cch[2].fc, cch[2].kcode);
                 }
             }
             else CALC_FCOUNT(cch[2]);
@@ -1461,7 +1533,22 @@ static void FM_CALC_CH(FM_CH CH)
 
     public static int YM2203TimerOver(int n, int c) {
         YM2203 F2203 = (FM2203[n]);
-        throw new UnsupportedOperationException("unimplemented");
+        if (c!=0)
+            {	/* Timer B */
+                TimerBOver((F2203.OPN.ST));
+            }
+            else
+            {	/* Timer A */
+                YM2203UpdateRequest(n);
+                /* timer update */
+                TimerAOver((F2203.OPN.ST));
+                /* CSM mode key,TL controll */
+                if ((F2203.OPN.ST.mode & 0x80)!=0)
+                {	/* CSM mode total level latch and auto key on */
+                    CSMKeyControll((F2203.CH[2]));
+                }
+            }
+            return F2203.OPN.ST.irq;
         /*TODO*///
 /*TODO*///	if( c )
 /*TODO*///	{	/* Timer B */

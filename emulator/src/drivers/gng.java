@@ -18,6 +18,10 @@ import static arcadeflex.ptrlib.*;
 import static vidhrdw.gng.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
 
 public class gng
 {
@@ -77,10 +81,10 @@ public class gng
 	static MemoryWriteAddress sound_writemem[] =
 	{
 		new MemoryWriteAddress( 0xc000, 0xc7ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe002, 0xe002, YM2203_control_port_1_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe003, 0xe003, YM2203_write_port_1_w ),
+		new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0xe002, 0xe002, YM2203_control_port_1_w ),
+		new MemoryWriteAddress( 0xe003, 0xe003, YM2203_write_port_1_w ),
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -393,6 +397,15 @@ public class gng
 		{ 0 },
 		{ 0 }
 	};*/
+        static YM2203interface ym2203_interface = new YM2203interface(
+            2, /* 2 chips */
+            1500000, /* 1.5 MHz */
+            new int[]{YM2203_VOL(10,40), YM2203_VOL(10,40)},
+            new ReadHandlerPtr[]{null, null},
+            new ReadHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null}
+    );
 
 	
 	
@@ -431,14 +444,13 @@ public class gng
 		gng_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,
-                null
-                /*{
-                        {
-                                SOUND_YM2203,
-                                &ym2203_interface
-                        }
-                }*/
+		0, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                )
+            }
 	);
 	
 	
