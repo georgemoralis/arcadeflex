@@ -170,14 +170,14 @@ public class generic {
 /*TODO*///	memcpy(buffered_spriteram_2,spriteram_2,spriteram_2_size);
 /*TODO*///}
 /*TODO*///
-/*TODO*///void buffer_spriteram(unsigned char *ptr,int length)
-/*TODO*///{
-/*TODO*///	memcpy(buffered_spriteram,ptr,length);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void buffer_spriteram_2(unsigned char *ptr,int length)
-/*TODO*///{
-/*TODO*///	memcpy(buffered_spriteram_2,ptr,length);
-/*TODO*///}
-/*TODO*///    
+    public static void buffer_spriteram(UBytePtr ptr,int length)
+    {
+            memcpy(buffered_spriteram,ptr,length);
+    }
+
+    public static void buffer_spriteram_2(UBytePtr ptr,int length)
+    {
+            memcpy(buffered_spriteram_2,ptr,length);
+    }
+    
 }

@@ -130,6 +130,7 @@ import static drivers.scobra.*;
 import static drivers.scramble.*;
 import static drivers.slapfght.*;
 import static drivers.marvins.*;
+import static drivers.hcastle.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -662,6 +663,10 @@ public class driver {
         /*marvins*/driver_marvins, //screen issues 
         /*marvins*/driver_madcrash,//screen issues (offscreen drawing)
         /*marvins*/driver_vangrd2,// screen issues (offscreen drawing)
+        
+        driver_hcastle,
+        driver_hcastlea,
+        driver_hcastlej,
         
 /*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
 
@@ -2022,9 +2027,7 @@ public class driver {
 /*TODO*/ //	DRIVER( labyrunr )	/* GX771 (c) 1987 (Japan) */
 
 
-/*TODO*/ //	DRIVER( hcastle )	/* GX768 (c) 1988 */
-/*TODO*/ //	DRIVER( hcastlea )	/* GX768 (c) 1988 */
-/*TODO*/ //	DRIVER( hcastlej )	/* GX768 (c) 1988 (Japan) */
+
 /*TODO*/ //	DRIVER( ajax )		/* GX770 (c) 1987 */
 /*TODO*/ //	DRIVER( ajaxj )		/* GX770 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
