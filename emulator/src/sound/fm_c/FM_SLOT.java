@@ -4,27 +4,36 @@ import sound.fmH.*;
 import static arcadeflex.libc.*;
 
 public class FM_SLOT {
-    public FM_SLOT()
-    {
-        DT=new int[32];
-    }
+
     public int[] DT;			/* detune          :DT_TABLE[DT]       */
-public int DT2;			/* multiple,Detune2:(DT2<<4)|ML for OPM*/
-public int TL;				/* total level     :TL << 8            */
- public int /*UINT8*/KSR;			/* key scale rate  :3-KSR              */
+
+    public int DT2;			/* multiple,Detune2:(DT2<<4)|ML for OPM*/
+
+    public int TL;				/* total level     :TL << 8            */
+
+    public int /*UINT8*/ KSR;			/* key scale rate  :3-KSR              */
+
     public IntSubArray AR;	/* attack rate     :&AR_TABLE[AR<<1]   */
+
     public IntSubArray DR;	/* decay rate      :&DR_TABLE[DR<<1]   */
+
     public IntSubArray SR;	/* sustin rate     :&DR_TABLE[SR<<1]   */
-public int   SL;			/* sustin level    :SL_TABLE[SL]       */
+
+    public int SL;			/* sustin level    :SL_TABLE[SL]       */
+
     public IntSubArray RR;	/* release rate    :&DR_TABLE[RR<<2+2] */
 
     public int /*UINT8*/ SEG;			/* SSG EG type     :SSGEG              */
+
     public int /*UINT8*/ ksr;			/* key scale rate  :kcode>>(3-KSR)     */
+
     public long /*UINT32*/ mul;			/* multiple        :ML_TABLE[ML]       */
-	/* Phase Generator */
-public long /*UINT32*/ Cnt;			/* frequency count :                   */
-public long /*UINT32*/ Incr;		/* frequency step  :                   */
-	/* Envelope Generator */
+    /* Phase Generator */
+
+    public long /*UINT32*/ Cnt;			/* frequency count :                   */
+
+    public long /*UINT32*/ Incr;		/* frequency step  :                   */
+    /* Envelope Generator */
 
     public EGPtr eg_next;	//void (*eg_next)(struct fm_slot *SLOT);	/* pointer of phase handler */
 
@@ -44,7 +53,9 @@ public long /*UINT32*/ Incr;		/* frequency step  :                   */
 
     public int TLL;			/* adjusted TotalLevel                 */
     /* LFO */
-public int /*UINT8*/ amon;			/* AMS enable flag              */
-public long /*UINT32*/ ams;			/* AMS depth level of this SLOT */   
+
+    public int /*UINT8*/ amon;			/* AMS enable flag              */
+
+    public long /*UINT32*/ ams;			/* AMS depth level of this SLOT */
 
 }
