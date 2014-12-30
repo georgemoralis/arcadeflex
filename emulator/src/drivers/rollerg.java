@@ -33,10 +33,14 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM3812;
 import static mame.timer.*;
 import static mame.timerH.*;
 import static vidhrdw.rollerg.*;
 import static vidhrdw.konamiic.*;
+import static sound._3812intf.*;
+import static sound._3812intfH.*;
 
 public class rollerg
 {
@@ -154,7 +158,7 @@ public class rollerg
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
 /*TODO*///		new MemoryReadAddress( 0xa000, 0xa02f, K053260_ReadReg ),
-/*TODO*///		new MemoryReadAddress( 0xc000, 0xc000, YM3812_status_port_0_r ),
+		new MemoryReadAddress( 0xc000, 0xc000, YM3812_status_port_0_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -163,8 +167,8 @@ public class rollerg
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
 /*TODO*///		new MemoryWriteAddress( 0xa000, 0xa02f, K053260_WriteReg ),
-/*TODO*///		new MemoryWriteAddress( 0xc000, 0xc000, YM3812_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc001, 0xc001, YM3812_write_port_0_w ),
+		new MemoryWriteAddress( 0xc000, 0xc000, YM3812_control_port_0_w ),
+		new MemoryWriteAddress( 0xc001, 0xc001, YM3812_write_port_0_w ),
 		new MemoryWriteAddress( 0xfc00, 0xfc00, sound_arm_nmi ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -281,13 +285,13 @@ public class rollerg
 	
 	***************************************************************************/
 	
-/*TODO*///	static struct YM3812interface ym3812_interface =
-/*TODO*///	{
-/*TODO*///		1,
-/*TODO*///		3579545,
-/*TODO*///		{ 80 },
-/*TODO*///		{ 0 },
-/*TODO*///	};
+	static YM3812interface ym3812_interface = new YM3812interface
+	(
+		1,
+		3579545,
+		new int[]{ 80 },
+		new WriteYmHandlerPtr[]{null }
+        );
 	
 /*TODO*///	static struct K053260_interface k053260_interface =
 /*TODO*///	{
@@ -333,17 +337,16 @@ public class rollerg
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM3812,
 				ym3812_interface
-			),
+			)/*,
 			new MachineSound(
 				SOUND_K053260,
 				k053260_interface
-			)
-		}*/
-                null
+			)*/
+		}
 	);
 	
 	

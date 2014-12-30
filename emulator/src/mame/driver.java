@@ -131,6 +131,7 @@ import static drivers.scramble.*;
 import static drivers.slapfght.*;
 import static drivers.marvins.*;
 import static drivers.hcastle.*;
+import static drivers.snowbros.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -581,7 +582,10 @@ public class driver {
         /**
          * WIP section
          */
-        
+        driver_snowbros,
+        driver_snowbroa,
+        driver_snowbrob,
+        driver_snowbroj,
         
         /*bottom9*/driver_bottom9,
         /*bottom9*/driver_bottom9n,
@@ -1377,10 +1381,7 @@ public class driver {
 /*TODO*/ //	DRIVER( vimana )	/* TP-019 (c) 1991 Toaplan (+ Tecmo license when set to Japan) */
 /*TODO*/ //	DRIVER( vimana2 )	/* TP-019 (c) 1991 Toaplan (+ Tecmo license when set to Japan)  */
 /*TODO*/ //	DRIVER( vimanan )	/* TP-019 (c) 1991 Toaplan (+ Nova Apparate GMBH & Co license) */
-/*TODO*/ //	DRIVER( snowbros )	/* MIN16-02 (c) 1990 Toaplan + Romstar license */
-/*TODO*/ //	DRIVER( snowbroa )	/* MIN16-02 (c) 1990 Toaplan + Romstar license */
-/*TODO*/ //	DRIVER( snowbrob )	/* MIN16-02 (c) 1990 Toaplan + Romstar license */
-/*TODO*/ //	DRIVER( snowbroj )	/* MIN16-02 (c) 1990 Toaplan */
+
 
 /*TODO*/ //	DRIVER( tekipaki )	/* TP-020 (c) 1991 Toaplan */
 /*TODO*/ //	DRIVER( ghox )		/* TP-021 (c) 1991 Toaplan */

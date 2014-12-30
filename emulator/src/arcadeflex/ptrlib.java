@@ -69,6 +69,10 @@ public class ptrlib {
         public char read() {
             return (char) (memory[offset] & 0xFF);
         }
+        public char READ_WORD(int index)
+        {
+            return (char)(((memory[offset + 1 + index] << 8)& 0xFF) | (memory[offset + index]& 0xFF));
+        }
 
         public char read(int index) {
             return (char) (memory[offset + index] & 0xFF); //return only the first 8bits
@@ -80,6 +84,11 @@ public class ptrlib {
 
         public char readdec() {
             return (char) ((memory[(this.offset--)]) & 0xFF);
+        }
+        public void WRITE_WORD(int index , int value)
+        {
+            memory[offset + index] = (char)(value & 0xFF);
+            memory[offset + index+ 1] = (char)((value >> 8)&0xFF);
         }
 
         public void write(int index, int value) {

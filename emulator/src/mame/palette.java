@@ -1226,11 +1226,11 @@ public class palette {
     {
 	return paletteram_2.read(offset);
     }};
-    /*TODO*///
-    /*TODO*///int paletteram_word_r(int offset)
-    /*TODO*///{
-    /*TODO*///	return READ_WORD(&paletteram[offset]);
-    /*TODO*///}
+    public static ReadHandlerPtr paletteram_word_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+	return paletteram_2.READ_WORD(offset);//untested
+    }};
+
     /*TODO*///
     /*TODO*///int paletteram_2_word_r(int offset)
     /*TODO*///{
@@ -1605,6 +1605,9 @@ public class palette {
         changecolor_xBBBBBGGGGGRRRRR(offset / 2,paletteram.read(offset | 1) | (paletteram.read(offset & ~1) << 8));
     }};
 
+    public static WriteHandlerPtr paletteram_xBBBBBGGGGGRRRRR_word_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        throw new UnsupportedOperationException("Unsupported");
     /*TODO*///void paletteram_xBBBBBGGGGGRRRRR_word_w(int offset,int data)
     /*TODO*///{
     /*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
@@ -1613,8 +1616,8 @@ public class palette {
     /*TODO*///
     /*TODO*///	WRITE_WORD(&paletteram[offset],newword);
     /*TODO*///	changecolor_xBBBBBGGGGGRRRRR(offset / 2,newword);
-    /*TODO*///}
-    /*TODO*///
+    }};
+    
     
     public static void changecolor_xRRRRRGGGGGBBBBB(int color,int data)
     {

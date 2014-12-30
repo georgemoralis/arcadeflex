@@ -156,7 +156,27 @@ public static final int ABITS_MIN_16LEW	=1;			/* minimum memory block is 2 bytes
 /* 16 bits address (big endian word access) */
 public static final int ABITS1_16BEW	=12;
 public static final int ABITS2_16BEW	=3;
-public static final int ABITS_MIN_16BEW	=1;			/* minimum memory block is 2 bytes */        
+public static final int ABITS_MIN_16BEW	=1;			/* minimum memory block is 2 bytes */    
+/* 20 bits address */
+public static final int ABITS1_20		=12;
+public static final int ABITS2_20		=8;
+public static final int ABITS_MIN_20	=0;			/* minimum memory block is 1 byte */
+/* 21 bits address */
+public static final int ABITS1_21		=13;
+public static final int ABITS2_21		=8;
+public static final int ABITS_MIN_21	=0;			/* minimum memory block is 1 byte */
+/* 24 bits address (word access) */
+public static final int ABITS1_24		=15;
+public static final int ABITS2_24		=8;
+public static final int ABITS_MIN_24	=1;			/* minimum memory block is 2 bytes */
+/* 29 bits address (dword access) */
+public static final int ABITS1_29		=19;
+public static final int ABITS2_29		=8;
+public static final int ABITS_MIN_29	=2;			/* minimum memory block is 4 bytes */
+/* 32 bits address (dword access) */
+public static final int ABITS1_32		=23;
+public static final int ABITS2_32		=8;
+public static final int ABITS_MIN_32	=1;			/* minimum memory block is 2 bytes */
 public static final int MAX_EXT_MEMORY = 64;        
 public static class ExtMemory{
             int start, end,region;
@@ -165,13 +185,13 @@ public static class ExtMemory{
 
 /* ----- 16-bit memory accessing ----- */
 
-/*TODO*///#define READ_WORD(a)          (*(UINT16 *)(a))
-/*TODO*///#define WRITE_WORD(a,d)       (*(UINT16 *)(a) = (d))
-/*TODO*///#define COMBINE_WORD(w,d)     (((w) & ((d) >> 16)) | ((d) & 0xffff))
-/*TODO*///#define COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))
+/*public static final int READ_WORD(a)          (*(UINT16 *)(a))
+public static final int WRITE_WORD(a,d)       (*(UINT16 *)(a) = (d))
+public static final int COMBINE_WORD(w,d)     (((w) & ((d) >> 16)) | ((d) & 0xffff))
+public static final int COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))*/
         public static void COMBINE_WORD_MEM(UBytePtr a, int offset,int d)
         {
- //           a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
+            a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
             
         }
         public static int COMBINE_WORD(int w, int d)

@@ -20,6 +20,7 @@ import static mame.memory.*;
 import static mame.inputport.*;
 import cpu.konami.konami;
 import static cpu.konami.konamiH.*;
+import cpu.m68000.m68000;
 
 
 public class cpuintrf {
@@ -224,7 +225,8 @@ public class cpuintrf {
 	new Dummy_cpu(),/*TODO*///CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
 	new hd6309(),
 	new m6809(),
-        new konami()
+        new konami(),
+        new m68000()
     /*TODO*///#if (HAS_M68000)
     /*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
     /*TODO*///#endif

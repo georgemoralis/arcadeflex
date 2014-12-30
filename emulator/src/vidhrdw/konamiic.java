@@ -1724,8 +1724,9 @@ public  class konamiic
 	{
        
             int shift = ((offset & 1) ^ 1) << 3;
-/*TODO*/            int d=0;// (K053245_ram.READ_WORD(offset & ~1)>>shift)&0xff;
+            int d=(K053245_ram.READ_WORD(offset & ~1)>>>shift)&0xff;
             if(konamiicclog!=null) fprintf( konamiicclog,"read %d\n",d);
+            System.out.println(d);
             return d;
                     
             //return (READ_WORD(&K053245_ram[offset & ~1]) >> shift) & 0xff;
