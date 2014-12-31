@@ -1,14 +1,3 @@
-/***************************************************************************
-
-  Black Tiger
-
-  Driver provided by Paul Leaman
-
-  Thanks to Ishmair for providing information about the screen
-  layout on level 3.
-
-***************************************************************************/
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.09
@@ -23,18 +12,15 @@ import static mame.cpuintrf.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
-import static mame.sndintrf.soundlatch_r;
-import static mame.sndintrf.soundlatch_w;
 import static cpu.z80.z80H.*;
 import static vidhrdw.blktiger.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.libc.*;
 import static mame.palette.*;
 import static mame.cpuintrfH.*;
 import static arcadeflex.ptrlib.*;
-import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_YM2203;
+import static mame.sndintrf.*;
+import static mame.sndintrfH.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;
 
@@ -259,10 +245,6 @@ public class blktiger
 	
 	
 	/* handler called by the 2203 emulator when the internal timers cause an IRQ */
-/*TODO*///	static void irqhandler(int irq)
-/*TODO*///	{
-/*TODO*///		cpu_set_irq_line(1,0,irq ? ASSERT_LINE : CLEAR_LINE);
-/*TODO*///	}
         public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int irq)
 	{
             cpu_set_irq_line(1,0,irq!=0 ? ASSERT_LINE : CLEAR_LINE);
@@ -277,7 +259,7 @@ public class blktiger
 		new ReadHandlerPtr[]{ null,null },
 		new WriteHandlerPtr[]{ null,null },
 		new WriteHandlerPtr[]{ null,null },
-		new WriteYmHandlerPtr[]{ irqhandler,irqhandler }
+		new WriteYmHandlerPtr[]{ irqhandler }
         );
 	
 	
