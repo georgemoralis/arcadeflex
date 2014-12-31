@@ -1,8 +1,11 @@
 package sound;
 
+import sound.fm_c.FM_ST;
+import static sound.fmH.*;
+import sound.fm_c.FM_SLOT;
 
 public class fm {
-/*TODO*///#define YM2610B_WARNING
+    /*TODO*///#define YM2610B_WARNING
 /*TODO*///
 /*TODO*////* YM2608 rhythm data is PCM ,not an ADPCM */
 /*TODO*///#define YM2608_RHYTHM_PCM
@@ -33,10 +36,10 @@ public class fm {
 /*TODO*///#define SIN_ENT 2048
 /*TODO*///
 /*TODO*////* lower bits of envelope counter */
-/*TODO*///#define ENV_BITS 16
+public static final int ENV_BITS =16;
 /*TODO*///
 /*TODO*////* envelope output entries */
-/*TODO*///#define EG_ENT   4096
+public static final int EG_ENT   =4096;
 /*TODO*///#define EG_STEP (96.0/EG_ENT) /* OPL == 0.1875 dB */
 /*TODO*///
 /*TODO*///#if FM_LFO_SUPPORT
@@ -59,13 +62,13 @@ public class fm {
 /*TODO*////* EG output cut off level : 68dB? */
 /*TODO*///#define EG_CUT_OFF ((int)(68.0/EG_STEP))
 /*TODO*///
-/*TODO*///#define FREQ_BITS 24		/* frequency turn          */
+public static final int FREQ_BITS =24;		/* frequency turn          */
 /*TODO*///
 /*TODO*////* PG counter is 21bits @oct.7 */
-/*TODO*///#define FREQ_RATE   (1<<(FREQ_BITS-21))
-/*TODO*///#define TL_BITS    (FREQ_BITS+2)
+public static final int FREQ_RATE   =(1<<(FREQ_BITS-21));
+public static final int TL_BITS    =(FREQ_BITS+2);
 /*TODO*////* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
-/*TODO*///#define TL_SHIFT (TL_BITS+1-(14-16))
+public static final int TL_SHIFT =(TL_BITS+1-(14-16));
 /*TODO*///
 /*TODO*////* output final shift */
 /*TODO*///#define FM_OUTSB  (TL_SHIFT-FM_OUTPUT_BIT)
@@ -75,14 +78,14 @@ public class fm {
 /*TODO*////* -------------------- local defines , macros --------------------- */
 /*TODO*///
 /*TODO*////* envelope counter position */
-/*TODO*///#define EG_AST   0					/* start of Attack phase */
-/*TODO*///#define EG_AED   (EG_ENT<<ENV_BITS)	/* end   of Attack phase */
-/*TODO*///#define EG_DST   EG_AED				/* start of Decay/Sustain/Release phase */
-/*TODO*///#define EG_DED   (EG_DST+((EG_ENT-1)<<ENV_BITS))	/* end   of Decay/Sustain/Release phase */
-/*TODO*///#define EG_OFF   EG_DED				/* off */
+public static final int EG_AST   =0;					/* start of Attack phase */
+public static final int EG_AED   =(EG_ENT<<ENV_BITS);	/* end   of Attack phase */
+public static final int EG_DST   =EG_AED;				/* start of Decay/Sustain/Release phase */
+public static final int EG_DED   =(EG_DST+((EG_ENT-1)<<ENV_BITS));	/* end   of Decay/Sustain/Release phase */
+public static final int EG_OFF   =EG_DED;				/* off */
 /*TODO*///#if FM_SEG_SUPPORT
-/*TODO*///#define EG_UST   ((2*EG_ENT)<<ENV_BITS)  /* start of SEG UPSISE */
-/*TODO*///#define EG_UED   ((3*EG_ENT)<<ENV_BITS)  /* end of SEG UPSISE */
+public static final int EG_UST   =((2*EG_ENT)<<ENV_BITS);  /* start of SEG UPSISE */
+public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE */
 /*TODO*///#endif
 /*TODO*///
 /*TODO*////* register number to channel number , slot offset */
@@ -432,42 +435,52 @@ public class fm {
 /*TODO*///	FM_STATUS_RESET(ST,0);
 /*TODO*///}
 /*TODO*///
-/*TODO*////* ---------- event hander of Phase Generator ---------- */
-/*TODO*///
-/*TODO*////* Release end -> stop counter */
-/*TODO*///static void FM_EG_Release( FM_SLOT *SLOT )
-/*TODO*///{
-/*TODO*///	SLOT->evc = EG_OFF;
-/*TODO*///	SLOT->eve = EG_OFF+1;
-/*TODO*///	SLOT->evs = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* SUSTAIN end -> stop counter */
-/*TODO*///static void FM_EG_SR( FM_SLOT *SLOT )
-/*TODO*///{
-/*TODO*///	SLOT->evc = EG_OFF;
-/*TODO*///	SLOT->eve = EG_OFF+1;
-/*TODO*///	SLOT->evs = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* Decay end -> Sustain */
-/*TODO*///static void FM_EG_DR( FM_SLOT *SLOT )
-/*TODO*///{
-/*TODO*///	SLOT->eg_next = FM_EG_SR;
-/*TODO*///	SLOT->evc = SLOT->SL;
-/*TODO*///	SLOT->eve = EG_DED;
-/*TODO*///	SLOT->evs = SLOT->evss;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* Attack end -> Decay */
-/*TODO*///static void FM_EG_AR( FM_SLOT *SLOT )
-/*TODO*///{
-/*TODO*///	/* next DR */
-/*TODO*///	SLOT->eg_next = FM_EG_DR;
-/*TODO*///	SLOT->evc = EG_DST;
-/*TODO*///	SLOT->eve = SLOT->SL;
-/*TODO*///	SLOT->evs = SLOT->evsd;
-/*TODO*///}
+/* ---------- event hander of Phase Generator ---------- */
+    /* Release end -> stop counter */
+    public static EGPtr FM_EG_Release = new EGPtr() {
+
+        @Override
+        public void handler(FM_SLOT SLOT) {
+            SLOT.evc = EG_OFF;
+            SLOT.eve = EG_OFF + 1;
+            SLOT.evs = 0;
+        }
+    };
+/* SUSTAIN end -> stop counter */
+    public static EGPtr FM_EG_SR = new EGPtr() {
+
+        @Override
+        public void handler(FM_SLOT SLOT) {
+            SLOT.evc = EG_OFF;
+            SLOT.eve = EG_OFF + 1;
+            SLOT.evs = 0;
+        }
+    };
+/* Decay end -> Sustain */
+    public static EGPtr FM_EG_DR = new EGPtr() {
+
+        @Override
+        public void handler(FM_SLOT SLOT) {
+            SLOT.eg_next = FM_EG_SR;
+            SLOT.evc = SLOT.SL;
+            SLOT.eve = EG_DED;
+            SLOT.evs = SLOT.evss;
+
+        }
+    };
+/* Attack end -> Decay */
+    public static EGPtr FM_EG_AR = new EGPtr() {
+
+        @Override
+        public void handler(FM_SLOT SLOT) {
+            /* next DR */
+            SLOT.eg_next = FM_EG_DR;
+            SLOT.evc = EG_DST;
+            SLOT.eve = SLOT.SL;
+            SLOT.evs = SLOT.evsd;
+
+        }
+    };
 /*TODO*///
 /*TODO*///#if FM_SEG_SUPPORT
 /*TODO*///static void FM_EG_SSG_SR( FM_SLOT *SLOT );
@@ -764,27 +777,27 @@ public class fm {
 /*TODO*///	if( eg_out4 < EG_CUT_OFF )	/* SLOT 4 */
 /*TODO*///		*CH->connect4 += OP_OUT(pg_in4,eg_out4);
 /*TODO*///}
-/*TODO*////* ---------- frequency counter for operater update ---------- */
-/*TODO*///INLINE void CALC_FCSLOT(FM_SLOT *SLOT , int fc , int kc )
-/*TODO*///{
-/*TODO*///	int ksr;
-/*TODO*///
-/*TODO*///	/* frequency step counter */
-/*TODO*///	/* SLOT->Incr= (fc+SLOT->DT[kc])*SLOT->mul; */
-/*TODO*///	SLOT->Incr= fc*SLOT->mul + SLOT->DT[kc];
-/*TODO*///	ksr = kc >> SLOT->KSR;
-/*TODO*///	if( SLOT->ksr != ksr )
-/*TODO*///	{
-/*TODO*///		SLOT->ksr = ksr;
-/*TODO*///		/* attack , decay rate recalcration */
-/*TODO*///		SLOT->evsa = SLOT->AR[ksr];
-/*TODO*///		SLOT->evsd = SLOT->DR[ksr];
-/*TODO*///		SLOT->evss = SLOT->SR[ksr];
-/*TODO*///		SLOT->evsr = SLOT->RR[ksr];
-/*TODO*///	}
-/*TODO*///	SLOT->TLL = SLOT->TL /* + KSL[kc]*/;
-/*TODO*///}
-/*TODO*///
+/* ---------- frequency counter for operater update ---------- */
+public static void CALC_FCSLOT(FM_SLOT SLOT , int fc , int kc )
+{
+	int ksr;
+
+	/* frequency step counter */
+	/* SLOT->Incr= (fc+SLOT->DT[kc])*SLOT->mul; */
+	SLOT.Incr= fc*SLOT.mul + SLOT.DT[kc];
+	ksr = kc >> SLOT.KSR;
+	if( SLOT.ksr != ksr )
+	{
+		SLOT.ksr = ksr;
+		/* attack , decay rate recalcration */
+		SLOT.evsa = SLOT.AR.read(ksr);
+		SLOT.evsd = SLOT.DR.read(ksr);
+		SLOT.evss = SLOT.SR.read(ksr);
+		SLOT.evsr = SLOT.RR.read(ksr);
+	}
+	SLOT.TLL = SLOT.TL /* + KSL[kc]*/;
+}
+
 /*TODO*////* ---------- frequency counter  ---------- */
 /*TODO*///INLINE void CALC_FCOUNT(FM_CH *CH )
 /*TODO*///{
@@ -798,46 +811,49 @@ public class fm {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*////* ----------- initialize time tabls ----------- */
-/*TODO*///static void init_timetables( FM_ST *ST , UINT8 *DTTABLE , int ARRATE , int DRRATE )
-/*TODO*///{
-/*TODO*///	int i,d;
-/*TODO*///	double rate;
-/*TODO*///
-/*TODO*///	/* DeTune table */
-/*TODO*///	for (d = 0;d <= 3;d++){
-/*TODO*///		for (i = 0;i <= 31;i++){
-/*TODO*///			rate = (double)DTTABLE[d*32 + i] * ST->freqbase * FREQ_RATE;
-/*TODO*///			ST->DT_TABLE[d][i]   =  rate;
-/*TODO*///			ST->DT_TABLE[d+4][i] = -rate;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	/* make Attack & Decay tables */
-/*TODO*///	for (i = 0;i < 4;i++) ST->AR_TABLE[i] = ST->DR_TABLE[i] = 0;
-/*TODO*///	for (i = 4;i < 64;i++){
-/*TODO*///		rate  = ST->freqbase;						/* frequency rate */
-/*TODO*///		if( i < 60 ) rate *= 1.0+(i&3)*0.25;		/* b0-1 : x1 , x1.25 , x1.5 , x1.75 */
-/*TODO*///		rate *= 1<<((i>>2)-1);						/* b2-5 : shift bit */
-/*TODO*///		rate *= (double)(EG_ENT<<ENV_BITS);
-/*TODO*///		ST->AR_TABLE[i] = rate / ARRATE;
-/*TODO*///		ST->DR_TABLE[i] = rate / DRRATE;
-/*TODO*///	}
-/*TODO*///	ST->AR_TABLE[62] = EG_AED-1;
-/*TODO*///	ST->AR_TABLE[63] = EG_AED-1;
-/*TODO*///	for (i = 64;i < 94 ;i++){	/* make for overflow area */
-/*TODO*///		ST->AR_TABLE[i] = ST->AR_TABLE[63];
-/*TODO*///		ST->DR_TABLE[i] = ST->DR_TABLE[63];
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#if 0
-/*TODO*///	for (i = 0;i < 64 ;i++){
-/*TODO*///		Log(LOG_WAR,"rate %2d , ar %f ms , dr %f ms \n",i,
-/*TODO*///			((double)(EG_ENT<<ENV_BITS) / ST->AR_TABLE[i]) * (1000.0 / ST->rate),
-/*TODO*///			((double)(EG_ENT<<ENV_BITS) / ST->DR_TABLE[i]) * (1000.0 / ST->rate) );
-/*TODO*///	}
-/*TODO*///#endif
-/*TODO*///}
-/*TODO*///
+/* ----------- initialize time tabls ----------- */
+
+    static void init_timetables(FM_ST ST, int[] DTTABLE, int ARRATE, int DRRATE) {
+        int i, d;
+        double rate;
+
+        /* DeTune table */
+        for (d = 0; d <= 3; d++) {
+            for (i = 0; i <= 31; i++) {
+                rate = (double) DTTABLE[d * 32 + i] * ST.freqbase * FREQ_RATE;
+                ST.DT_TABLE[d][i] = (int) rate;
+                ST.DT_TABLE[d + 4][i] = (int) -rate;
+            }
+        }
+
+        /* make Attack & Decay tables */
+        for (i = 0; i < 4; i++) {
+            ST.AR_TABLE.write(i, 0);
+            ST.DR_TABLE.write(i, 0);
+        }
+        for (i = 4; i < 64; i++) {
+            rate = ST.freqbase;						/* frequency rate */
+
+            if (i < 60) {
+                rate *= 1.0 + (i & 3) * 0.25;		/* b0-1 : x1 , x1.25 , x1.5 , x1.75 */
+            }
+            rate *= 1 << ((i >> 2) - 1);						/* b2-5 : shift bit */
+
+            rate *= (double) (EG_ENT << ENV_BITS);
+            ST.AR_TABLE.write(i, (int) (rate / ARRATE));
+            ST.DR_TABLE.write(i, (int) (rate / DRRATE));
+        }
+
+        ST.AR_TABLE.write(62, EG_AED - 1);
+        ST.AR_TABLE.write(63, EG_AED - 1);
+        for (i = 64; i < 94; i++) {	/* make for overflow area */
+
+            ST.AR_TABLE.write(i, ST.AR_TABLE.read(63));
+            ST.DR_TABLE.write(i, ST.DR_TABLE.read(63));
+        }
+
+    }
+    /*TODO*///
 /*TODO*////* ---------- reset one of channel  ---------- */
 /*TODO*///static void reset_channel( FM_ST *ST , FM_CH *CH , int chan )
 /*TODO*///{
@@ -1048,30 +1064,8 @@ public class fm {
 /*TODO*////* OPN unit                                                */
 /*TODO*////***********************************************************/
 /*TODO*///
-/*TODO*////* OPN 3slot struct */
-/*TODO*///typedef struct opn_3slot {
-/*TODO*///	UINT32  fc[3];		/* fnum3,blk3  :calcrated */
-/*TODO*///	UINT8 fn_h[3];		/* freq3 latch            */
-/*TODO*///	UINT8 kcode[3];		/* key code    :          */
-/*TODO*///}FM_3SLOT;
-/*TODO*///
-/*TODO*////* OPN/A/B common state */
-/*TODO*///typedef struct opn_f {
-/*TODO*///	UINT8 type;		/* chip type         */
-/*TODO*///	FM_ST ST;				/* general state     */
-/*TODO*///	FM_3SLOT SL3;			/* 3 slot mode state */
-/*TODO*///	FM_CH *P_CH;			/* pointer of CH     */
-/*TODO*///	UINT32 FN_TABLE[2048]; /* fnumber -> increment counter */
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///	/* LFO */
-/*TODO*///	UINT32 LFOCnt;
-/*TODO*///	UINT32 LFOIncr;
-/*TODO*///	UINT32 LFO_FREQ[8];/* LFO FREQ table */
-/*TODO*///	INT32 LFO_wave[LFO_ENT];
-/*TODO*///#endif
-/*TODO*///} FM_OPN;
-/*TODO*///
-/*TODO*////* OPN key frequency number -> key code follow table */
+
+    /*TODO*////* OPN key frequency number -> key code follow table */
 /*TODO*////* fnum higher 4bit -> keycode lower 2bit */
 /*TODO*///static const UINT8 OPN_FKTABLE[16]={0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,3};
 /*TODO*///

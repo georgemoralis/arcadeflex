@@ -1,6 +1,8 @@
 
 package sound;
 
+import sound.fm_c.FM_SLOT;
+
 
 public class fmH {
 /*TODO*////* --- select emulation chips --- */
@@ -101,18 +103,31 @@ public class fmH {
 /*TODO*///typedef unsigned short FMSAMPLE_MIX;
 /*TODO*///#endif
 /*TODO*///
-/*TODO*///typedef void (*FM_TIMERHANDLER)(int n,int c,int cnt,double stepTime);
-/*TODO*///typedef void (*FM_IRQHANDLER)(int n,int irq);
-/*TODO*////* FM_TIMERHANDLER : Stop or Start timer         */
-/*TODO*////* int n          = chip number                  */
-/*TODO*////* int c          = Channel 0=TimerA,1=TimerB    */
-/*TODO*////* int count      = timer count (0=stop)         */
-/*TODO*////* doube stepTime = step time of one count (sec.)*/
-/*TODO*///
-/*TODO*////* FM_IRQHHANDLER : IRQ level changing sense     */
-/*TODO*////* int n       = chip number                     */
-/*TODO*////* int irq     = IRQ level 0=OFF,1=ON            */
-/*TODO*///
+    public static abstract interface FM_TIMERHANDLERtr {
+
+        public abstract void handler(int n, int c, int count, double stepTime);
+    }
+
+    public static abstract interface FM_IRQHANDLEPtr {
+
+        public abstract void handler(int n, int irq);
+    }
+
+    public static abstract interface EGPtr {
+
+        public abstract void handler(FM_SLOT SLOT);
+    }
+
+    /* FM_TIMERHANDLER : Stop or Start timer         */
+    /* int n          = chip number                  */
+    /* int c          = Channel 0=TimerA,1=TimerB    */
+    /* int count      = timer count (0=stop)         */
+    /* doube stepTime = step time of one count (sec.)*/
+
+    /* FM_IRQHHANDLER : IRQ level changing sense     */
+    /* int n       = chip number                     */
+    /* int irq     = IRQ level 0=OFF,1=ON            */
+    
 /*TODO*///#if BUILD_YM2203
 /*TODO*////* -------------------- YM2203(OPN) Interface -------------------- */
 /*TODO*///
