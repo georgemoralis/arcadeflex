@@ -81,8 +81,8 @@ public class fm {
 
     /* output final shift */
     public static final int FM_OUTSB = (TL_SHIFT - FM_OUTPUT_BIT);
-    public static final int FM_MAXOUT =((1<<(TL_SHIFT-1))-1);
-    public static final int FM_MINOUT= (-(1<<(TL_SHIFT-1)));
+    public static final int FM_MAXOUT = ((1 << (TL_SHIFT - 1)) - 1);
+    public static final int FM_MINOUT = (-(1 << (TL_SHIFT - 1)));
 
     /* -------------------- local defines , macros --------------------- */
 
@@ -331,19 +331,18 @@ public class fm {
 /*TODO*///}
 /*TODO*///#else
     /* external timer mode */
-    static void INTERNAL_TIMER_A(FM_ST ST, FM_CH CSM_CH) 
-    {
-        
-    }
-    static void INTERNAL_TIMER_B(FM_ST ST, int step) 
-    {
-        
+
+
+    static void INTERNAL_TIMER_A(FM_ST ST, FM_CH CSM_CH) {
+
     }
 
-/* --------------------- subroutines  --------------------- */
+    static void INTERNAL_TIMER_B(FM_ST ST, int step) {
+
+    }
+
+    /* --------------------- subroutines  --------------------- */
     /* status set and IRQ handling */
-
-
     static void FM_STATUS_SET(FM_ST ST, int flag) {
         /* set status flag */
         ST.status |= flag;
@@ -959,33 +958,41 @@ public class fm {
         }
     }
 
-    /*TODO*////* Timer A Overflow */
-/*TODO*///INLINE void TimerAOver(FM_ST *ST)
-/*TODO*///{
-/*TODO*///	/* status set if enabled */
-/*TODO*///	if(ST->mode & 0x04) FM_STATUS_SET(ST,0x01);
-/*TODO*///	/* clear or reload the counter */
-/*TODO*///	if (ST->timermodel == FM_TIMER_INTERVAL)
-/*TODO*///	{
-/*TODO*///		ST->TAC = (1024-ST->TA);
-/*TODO*///		if (ST->Timer_Handler) (ST->Timer_Handler)(ST->index,0,(double)ST->TAC,ST->TimerBase);
-/*TODO*///	}
-/*TODO*///	else ST->TAC = 0;
-/*TODO*///}
-/*TODO*////* Timer B Overflow */
-/*TODO*///INLINE void TimerBOver(FM_ST *ST)
-/*TODO*///{
-/*TODO*///	/* status set if enabled */
-/*TODO*///	if(ST->mode & 0x08) FM_STATUS_SET(ST,0x02);
-/*TODO*///	/* clear or reload the counter */
-/*TODO*///	if (ST->timermodel == FM_TIMER_INTERVAL)
-/*TODO*///	{
-/*TODO*///		ST->TBC = ( 256-ST->TB)<<4;
-/*TODO*///		if (ST->Timer_Handler) (ST->Timer_Handler)(ST->index,1,(double)ST->TBC,ST->TimerBase);
-/*TODO*///	}
-/*TODO*///	else ST->TBC = 0;
-/*TODO*///}
-/* CSM Key Controll */
+    /* Timer A Overflow */
+    static void TimerAOver(FM_ST ST) {
+        /* status set if enabled */
+        if ((ST.mode & 0x04) != 0) {
+            FM_STATUS_SET(ST, 0x01);
+        }
+        /* clear or reload the counter */
+        if (ST.timermodel == FM_TIMER_INTERVAL) {
+            ST.TAC = (1024 - ST.TA);
+            if (ST.Timer_Handler != null) {
+                (ST.Timer_Handler).handler(ST.index, 0, (double) ST.TAC, ST.TimerBase);
+            }
+        } else {
+            ST.TAC = 0;
+        }
+    }
+    /* Timer B Overflow */
+
+    static void TimerBOver(FM_ST ST) {
+        /* status set if enabled */
+        if ((ST.mode & 0x08) != 0) {
+            FM_STATUS_SET(ST, 0x02);
+        }
+        /* clear or reload the counter */
+        if (ST.timermodel == FM_TIMER_INTERVAL) {
+            ST.TBC = (256 - ST.TB) << 4;
+            if (ST.Timer_Handler != null) {
+                (ST.Timer_Handler).handler(ST.index, 1, (double) ST.TBC, ST.TimerBase);
+            }
+        } else {
+            ST.TBC = 0;
+        }
+    }
+    /* CSM Key Controll */
+
     static void CSMKeyControll(FM_CH CH) {
         /* int ksl = KSL[CH->kcode]; */
         /* all key off */
@@ -1319,17 +1326,18 @@ public class fm {
                 }
                 /* limit check */
                 //Limit( out_ch[OUTD_CENTER] , FM_MAXOUT, FM_MINOUT );
-                if (out_ch[OUTD_CENTER] > FM_MAXOUT)
+                if (out_ch[OUTD_CENTER] > FM_MAXOUT) {
                     out_ch[OUTD_CENTER] = FM_MAXOUT;
-                else if (out_ch[OUTD_CENTER] < FM_MINOUT)
+                } else if (out_ch[OUTD_CENTER] < FM_MINOUT) {
                     out_ch[OUTD_CENTER] = FM_MINOUT;
-		/* store to sound buffer */
+                }
+                /* store to sound buffer */
 
                 buf.write(i, (char) (out_ch[OUTD_CENTER] >> FM_OUTSB));
                 /* timer controll */
-        	INTERNAL_TIMER_A( State , cch[2] );
+                INTERNAL_TIMER_A(State, cch[2]);
             }
-            INTERNAL_TIMER_B(State,length);
+            INTERNAL_TIMER_B(State, length);
         }
     };
 
@@ -1484,25 +1492,24 @@ public class fm {
     }
 
     public static int YM2203TimerOver(int n, int c) {
-        throw new UnsupportedOperationException("Unsupported");
-        /*TODO*///	YM2203 *F2203 = &(FM2203[n]);
-/*TODO*///
-/*TODO*///	if( c )
-/*TODO*///	{	/* Timer B */
-/*TODO*///		TimerBOver( &(F2203->OPN.ST) );
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* Timer A */
-/*TODO*///		YM2203UpdateReq(n);
-/*TODO*///		/* timer update */
-/*TODO*///		TimerAOver( &(F2203->OPN.ST) );
-/*TODO*///		/* CSM mode key,TL controll */
-/*TODO*///		if( F2203->OPN.ST.mode & 0x80 )
-/*TODO*///		{	/* CSM mode total level latch and auto key on */
-/*TODO*///			CSMKeyControll( &(F2203->CH[2]) );
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	return F2203->OPN.ST.irq;
+
+        YM2203 F2203 = (FM2203[n]);
+
+        if (c != 0) {	/* Timer B */
+
+            TimerBOver((F2203.OPN.ST));
+        } else {	/* Timer A */
+
+            YM2203UpdateRequest(n);
+            /* timer update */
+            TimerAOver((F2203.OPN.ST));
+            /* CSM mode key,TL controll */
+            if ((F2203.OPN.ST.mode & 0x80) != 0) {	/* CSM mode total level latch and auto key on */
+
+                CSMKeyControll((F2203.CH[2]));
+            }
+        }
+        return F2203.OPN.ST.irq;
     }
     /*TODO*///
 /*TODO*///#endif /* BUILD_YM2203 */
