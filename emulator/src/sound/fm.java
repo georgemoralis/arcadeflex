@@ -79,14 +79,14 @@ public class fm {
     /* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
     public static final int TL_SHIFT = (TL_BITS + 1 - (14 - 16));
 
-    /*TODO*////* output final shift */
+    /* output final shift */
     public static final int FM_OUTSB = (TL_SHIFT - FM_OUTPUT_BIT);
-    /*TODO*///#define FM_MAXOUT ((1<<(TL_SHIFT-1))-1)
-/*TODO*///#define FM_MINOUT (-(1<<(TL_SHIFT-1)))
-/*TODO*///
-/*TODO*////* -------------------- local defines , macros --------------------- */
-/*TODO*///
-/*TODO*////* envelope counter position */
+    public static final int FM_MAXOUT =((1<<(TL_SHIFT-1))-1);
+    public static final int FM_MINOUT= (-(1<<(TL_SHIFT-1)));
+
+    /* -------------------- local defines , macros --------------------- */
+
+    /* envelope counter position */
     public static final int EG_AST = 0;					/* start of Attack phase */
 
     public static final int EG_AED = (EG_ENT << ENV_BITS);	/* end   of Attack phase */
@@ -330,11 +330,16 @@ public class fm {
 /*TODO*///			TimerBOver( ST );							\
 /*TODO*///}
 /*TODO*///#else
-/*TODO*////* external timer mode */
-/*TODO*///#define INTERNAL_TIMER_A(ST,CSM_CH)
-/*TODO*///#define INTERNAL_TIMER_B(ST,step)
-/*TODO*///#endif
-/*TODO*///
+    /* external timer mode */
+    static void INTERNAL_TIMER_A(FM_ST ST, FM_CH CSM_CH) 
+    {
+        
+    }
+    static void INTERNAL_TIMER_B(FM_ST ST, int step) 
+    {
+        
+    }
+
 /* --------------------- subroutines  --------------------- */
     /* status set and IRQ handling */
 
@@ -580,7 +585,7 @@ public class fm {
                 CH.connect3 = carrier;
                 break;
         }
-        CH.connect4 = new IntSubArray(carrier);
+        CH.connect4 = carrier;
     }
 
     /* set detune & multiple */
@@ -1312,15 +1317,19 @@ public class fm {
                 for (int kk = 0; kk < 2; kk++) {
                     FM_CALC_CH(cch[kk]);
                 }
-                /*TODO*///		/* limit check */
-/*TODO*///		Limit( out_ch[OUTD_CENTER] , FM_MAXOUT, FM_MINOUT );
-/*TODO*///		/* store to sound buffer */
-/*TODO*///		buf[i] = out_ch[OUTD_CENTER] >> FM_OUTSB;
+                /* limit check */
+                //Limit( out_ch[OUTD_CENTER] , FM_MAXOUT, FM_MINOUT );
+                if (out_ch[OUTD_CENTER] > FM_MAXOUT)
+                    out_ch[OUTD_CENTER] = FM_MAXOUT;
+                else if (out_ch[OUTD_CENTER] < FM_MINOUT)
+                    out_ch[OUTD_CENTER] = FM_MINOUT;
+		/* store to sound buffer */
+
                 buf.write(i, (char) (out_ch[OUTD_CENTER] >> FM_OUTSB));
-                /*TODO*///		/* timer controll */
-/*TODO*///		INTERNAL_TIMER_A( State , cch[2] )
+                /* timer controll */
+        	INTERNAL_TIMER_A( State , cch[2] );
             }
-            /*TODO*///	INTERNAL_TIMER_B(State,length)
+            INTERNAL_TIMER_B(State,length);
         }
     };
 
