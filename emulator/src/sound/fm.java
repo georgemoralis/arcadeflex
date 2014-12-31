@@ -1,7 +1,9 @@
 package sound;
 
+import arcadeflex.libc.IntSubArray;
 import sound.fm_c.FM_ST;
 import static sound.fmH.*;
+import sound.fm_c.FM_CH;
 import sound.fm_c.FM_SLOT;
 
 public class fm {
@@ -29,25 +31,26 @@ public class fm {
 /*TODO*///#ifdef __RAINE__
 /*TODO*///#define INTERNAL_TIMER 			/* use internal timer */
 /*TODO*///#endif
-/*TODO*///
-/*TODO*////* -------------------- sound quality define selection --------------------- */
-/*TODO*////* sinwave entries */
-/*TODO*////* used static memory = SIN_ENT * 4 (byte) */
-/*TODO*///#define SIN_ENT 2048
-/*TODO*///
-/*TODO*////* lower bits of envelope counter */
-public static final int ENV_BITS =16;
-/*TODO*///
-/*TODO*////* envelope output entries */
-public static final int EG_ENT   =4096;
-/*TODO*///#define EG_STEP (96.0/EG_ENT) /* OPL == 0.1875 dB */
-/*TODO*///
+
+    /* -------------------- sound quality define selection --------------------- */
+    /* sinwave entries */
+    /* used static memory = SIN_ENT * 4 (byte) */
+    public static final int SIN_ENT = 2048;
+
+    /* lower bits of envelope counter */
+    public static final int ENV_BITS = 16;
+
+    /* envelope output entries */
+    public static final int EG_ENT = 4096;
+    public static final double EG_STEP = (96.0 / EG_ENT); /* OPL == 0.1875 dB */
+    /*TODO*///
 /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*////* LFO table entries */
 /*TODO*///#define LFO_ENT 512
 /*TODO*///#define LFO_SHIFT (32-9)
-/*TODO*///#define LFO_RATE 0x10000
-/*TODO*///#endif
+
+    public static final int LFO_RATE = 0x10000;
+    /*TODO*///#endif
 /*TODO*///
 /*TODO*////* -------------------- preliminary define section --------------------- */
 /*TODO*////* attack/decay rate time rate */
@@ -56,20 +59,21 @@ public static final int EG_ENT   =4096;
 /*TODO*////* It is not checked , because I haven't YM2203 rate */
 /*TODO*///#define OPN_ARRATE  OPM_ARRATE
 /*TODO*///#define OPN_DRRATE  OPM_DRRATE
-/*TODO*///
-/*TODO*////* PG output cut off level : 78dB(14bit)? */
-/*TODO*///#define PG_CUT_OFF ((int)(78.0/EG_STEP))
-/*TODO*////* EG output cut off level : 68dB? */
-/*TODO*///#define EG_CUT_OFF ((int)(68.0/EG_STEP))
-/*TODO*///
-public static final int FREQ_BITS =24;		/* frequency turn          */
-/*TODO*///
-/*TODO*////* PG counter is 21bits @oct.7 */
-public static final int FREQ_RATE   =(1<<(FREQ_BITS-21));
-public static final int TL_BITS    =(FREQ_BITS+2);
-/*TODO*////* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
-public static final int TL_SHIFT =(TL_BITS+1-(14-16));
-/*TODO*///
+
+    /* PG output cut off level : 78dB(14bit)? */
+    public static final int PG_CUT_OFF = ((int) (78.0 / EG_STEP));
+    /* EG output cut off level : 68dB? */
+    public static final int EG_CUT_OFF = ((int) (68.0 / EG_STEP));
+
+    public static final int FREQ_BITS = 24;		/* frequency turn          */
+
+    /* PG counter is 21bits @oct.7 */
+
+    public static final int FREQ_RATE = (1 << (FREQ_BITS - 21));
+    public static final int TL_BITS = (FREQ_BITS + 2);
+    /*TODO*////* OPbit = 14(13+sign) : TL_BITS+1(sign) / output = 16bit */
+    public static final int TL_SHIFT = (TL_BITS + 1 - (14 - 16));
+    /*TODO*///
 /*TODO*////* output final shift */
 /*TODO*///#define FM_OUTSB  (TL_SHIFT-FM_OUTPUT_BIT)
 /*TODO*///#define FM_MAXOUT ((1<<(TL_SHIFT-1))-1)
@@ -78,27 +82,34 @@ public static final int TL_SHIFT =(TL_BITS+1-(14-16));
 /*TODO*////* -------------------- local defines , macros --------------------- */
 /*TODO*///
 /*TODO*////* envelope counter position */
-public static final int EG_AST   =0;					/* start of Attack phase */
-public static final int EG_AED   =(EG_ENT<<ENV_BITS);	/* end   of Attack phase */
-public static final int EG_DST   =EG_AED;				/* start of Decay/Sustain/Release phase */
-public static final int EG_DED   =(EG_DST+((EG_ENT-1)<<ENV_BITS));	/* end   of Decay/Sustain/Release phase */
-public static final int EG_OFF   =EG_DED;				/* off */
-/*TODO*///#if FM_SEG_SUPPORT
-public static final int EG_UST   =((2*EG_ENT)<<ENV_BITS);  /* start of SEG UPSISE */
-public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE */
-/*TODO*///#endif
+    public static final int EG_AST = 0;					/* start of Attack phase */
+
+    public static final int EG_AED = (EG_ENT << ENV_BITS);	/* end   of Attack phase */
+
+    public static final int EG_DST = EG_AED;				/* start of Decay/Sustain/Release phase */
+
+    public static final int EG_DED = (EG_DST + ((EG_ENT - 1) << ENV_BITS));	/* end   of Decay/Sustain/Release phase */
+
+    public static final int EG_OFF = EG_DED;				/* off */
+    /*TODO*///#if FM_SEG_SUPPORT
+
+    public static final int EG_UST = ((2 * EG_ENT) << ENV_BITS);  /* start of SEG UPSISE */
+
+    public static final int EG_UED = ((3 * EG_ENT) << ENV_BITS);  /* end of SEG UPSISE */
+    /*TODO*///#endif
 /*TODO*///
 /*TODO*////* register number to channel number , slot offset */
 /*TODO*///#define OPN_CHAN(N) (N&3)
 /*TODO*///#define OPN_SLOT(N) ((N>>2)&3)
 /*TODO*///#define OPM_CHAN(N) (N&7)
 /*TODO*///#define OPM_SLOT(N) ((N>>3)&3)
-/*TODO*////* slot number */
-/*TODO*///#define SLOT1 0
-/*TODO*///#define SLOT2 2
-/*TODO*///#define SLOT3 1
-/*TODO*///#define SLOT4 3
-/*TODO*///
+/* slot number */
+
+    public static final int SLOT1 = 0;
+    public static final int SLOT2 = 2;
+    public static final int SLOT3 = 1;
+    public static final int SLOT4 = 3;
+    /*TODO*///
 /*TODO*////* bit0 = Right enable , bit1 = Left enable */
 /*TODO*///#define OUTD_RIGHT  1
 /*TODO*///#define OUTD_LEFT   2
@@ -221,29 +232,28 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///};
 /*TODO*///#undef SC
 /*TODO*///
-/*TODO*////* size of TL_TABLE = sinwave(max cut_off) + cut_off(tl + ksr + envelope + ams) */
-/*TODO*///#define TL_MAX (PG_CUT_OFF+EG_CUT_OFF+1)
-/*TODO*///
-/*TODO*////* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
-/*TODO*////* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
-/*TODO*////* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
-/*TODO*///static INT32 *TL_TABLE;
-/*TODO*///
-/*TODO*////* pointers to TL_TABLE with sinwave output offset */
-/*TODO*///static INT32 *SIN_TABLE[SIN_ENT];
-/*TODO*///
+/* size of TL_TABLE = sinwave(max cut_off) + cut_off(tl + ksr + envelope + ams) */
+    public static final int TL_MAX = (PG_CUT_OFF + EG_CUT_OFF + 1);
+
+    /* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
+    /* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
+    /* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
+    static int[] TL_TABLE;
+    /* pointers to TL_TABLE with sinwave output offset */
+    static IntSubArray[] SIN_TABLE = new IntSubArray[SIN_ENT];
+    /*TODO*///
 /*TODO*////* envelope output curve table */
 /*TODO*///#if FM_SEG_SUPPORT
 /*TODO*////* attack + decay + SSG upside + OFF */
 /*TODO*///static INT32 ENV_CURVE[3*EG_ENT+1];
 /*TODO*///#else
 /*TODO*////* attack + decay + OFF */
-/*TODO*///static INT32 ENV_CURVE[2*EG_ENT+1];
-/*TODO*///#endif
-/*TODO*////* envelope counter conversion table when change Decay to Attack phase */
-/*TODO*///static int DRAR_TABLE[EG_ENT];
-/*TODO*///
-/*TODO*///#define OPM_DTTABLE OPN_DTTABLE
+    public static int[] ENV_CURVE = new int[2 * EG_ENT + 1];
+    /*TODO*///#endif
+/* envelope counter conversion table when change Decay to Attack phase */
+    public static int[] DRAR_TABLE = new int[EG_ENT];
+
+    /*TODO*///#define OPM_DTTABLE OPN_DTTABLE
 /*TODO*///static UINT8 OPN_DTTABLE[4 * 32]={
 /*TODO*////* this table is YM2151 and YM2612 data */
 /*TODO*////* FD=0 */
@@ -284,8 +294,8 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///
 /*TODO*////* LFO runtime work */
 /*TODO*///static INT32 *LFO_wave;
-/*TODO*///static UINT32 lfo_amd;
-/*TODO*///static INT32 lfo_pmd;
+    public static long/*UINT32*/ lfo_amd;
+    /*TODO*///static INT32 lfo_pmd;
 /*TODO*///#endif
 /*TODO*///
 /*TODO*////* Dummy table of Attack / Decay rate ( use when rate == 0 ) */
@@ -399,43 +409,43 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///#define INTERNAL_TIMER_B(ST,step)
 /*TODO*///#endif
 /*TODO*///
-/*TODO*////* --------------------- subroutines  --------------------- */
-/*TODO*////* status set and IRQ handling */
-/*TODO*///INLINE void FM_STATUS_SET(FM_ST *ST,int flag)
-/*TODO*///{
-/*TODO*///	/* set status flag */
-/*TODO*///	ST->status |= flag;
-/*TODO*///	if ( !(ST->irq) && (ST->status & ST->irqmask) )
-/*TODO*///	{
-/*TODO*///		ST->irq = 1;
-/*TODO*///		/* callback user interrupt handler (IRQ is OFF to ON) */
-/*TODO*///		if(ST->IRQ_Handler) (ST->IRQ_Handler)(ST->index,1);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* status reset and IRQ handling */
-/*TODO*///INLINE void FM_STATUS_RESET(FM_ST *ST,int flag)
-/*TODO*///{
-/*TODO*///	/* reset status flag */
-/*TODO*///	ST->status &=~flag;
-/*TODO*///	if ( (ST->irq) && !(ST->status & ST->irqmask) )
-/*TODO*///	{
-/*TODO*///		ST->irq = 0;
-/*TODO*///		/* callback user interrupt handler (IRQ is ON to OFF) */
-/*TODO*///		if(ST->IRQ_Handler) (ST->IRQ_Handler)(ST->index,0);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* IRQ mask set */
-/*TODO*///INLINE void FM_IRQMASK_SET(FM_ST *ST,int flag)
-/*TODO*///{
-/*TODO*///	ST->irqmask = flag;
-/*TODO*///	/* IRQ handling check */
-/*TODO*///	FM_STATUS_SET(ST,0);
-/*TODO*///	FM_STATUS_RESET(ST,0);
-/*TODO*///}
-/*TODO*///
-/* ---------- event hander of Phase Generator ---------- */
+/* --------------------- subroutines  --------------------- */
+    /* status set and IRQ handling */
+
+    static void FM_STATUS_SET(FM_ST ST, int flag) {
+        /* set status flag */
+        ST.status |= flag;
+        if (((ST.irq) == 0) && ((ST.status & ST.irqmask) != 0)) {
+            ST.irq = 1;
+            /* callback user interrupt handler (IRQ is OFF to ON) */
+            if (ST.IRQ_Handler != null) {
+                (ST.IRQ_Handler).handler(ST.index, 1);
+            }
+        }
+    }
+
+    /* status reset and IRQ handling */
+    static void FM_STATUS_RESET(FM_ST ST, int flag) {
+        /* reset status flag */
+        ST.status &= ~flag;
+        if (((ST.irq) != 0) && ((ST.status & ST.irqmask) == 0)) {
+            ST.irq = 0;
+            /* callback user interrupt handler (IRQ is ON to OFF) */
+            if (ST.IRQ_Handler != null) {
+                (ST.IRQ_Handler).handler(ST.index, 0);
+            }
+        }
+    }
+
+    /* IRQ mask set */
+    static void FM_IRQMASK_SET(FM_ST ST, int flag) {
+        ST.irqmask = flag;
+        /* IRQ handling check */
+        FM_STATUS_SET(ST, 0);
+        FM_STATUS_RESET(ST, 0);
+    }
+
+    /* ---------- event hander of Phase Generator ---------- */
     /* Release end -> stop counter */
     public static EGPtr FM_EG_Release = new EGPtr() {
 
@@ -446,7 +456,7 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
             SLOT.evs = 0;
         }
     };
-/* SUSTAIN end -> stop counter */
+    /* SUSTAIN end -> stop counter */
     public static EGPtr FM_EG_SR = new EGPtr() {
 
         @Override
@@ -456,7 +466,7 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
             SLOT.evs = 0;
         }
     };
-/* Decay end -> Sustain */
+    /* Decay end -> Sustain */
     public static EGPtr FM_EG_DR = new EGPtr() {
 
         @Override
@@ -468,7 +478,7 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 
         }
     };
-/* Attack end -> Decay */
+    /* Attack end -> Decay */
     public static EGPtr FM_EG_AR = new EGPtr() {
 
         @Override
@@ -481,7 +491,7 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 
         }
     };
-/*TODO*///
+    /*TODO*///
 /*TODO*///#if FM_SEG_SUPPORT
 /*TODO*///static void FM_EG_SSG_SR( FM_SLOT *SLOT );
 /*TODO*///
@@ -538,51 +548,46 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///}
 /*TODO*///#endif /* FM_SEG_SUPPORT */
 /*TODO*///
-/*TODO*////* ----- key on of SLOT ----- */
-/*TODO*///#define FM_KEY_IS(SLOT) ((SLOT)->eg_next!=FM_EG_Release)
-/*TODO*///
-/*TODO*///INLINE void FM_KEYON(FM_CH *CH , int s )
-/*TODO*///{
-/*TODO*///	FM_SLOT *SLOT = &CH->SLOT[s];
-/*TODO*///	if( !FM_KEY_IS(SLOT) )
-/*TODO*///	{
-/*TODO*///		/* restart Phage Generator */
-/*TODO*///		SLOT->Cnt = 0;
-/*TODO*///		/* phase -> Attack */
-/*TODO*///#if FM_SEG_SUPPORT
+    /* ----- key on of SLOT ----- */
+
+    static boolean FM_KEY_IS(FM_SLOT SLOT) {
+        return (SLOT.eg_next != FM_EG_Release);
+    }
+
+    static void FM_KEYON(FM_CH CH, int s) {
+        FM_SLOT SLOT = CH.SLOT[s];
+        if (!FM_KEY_IS(SLOT)) {
+            /* restart Phage Generator */
+            SLOT.Cnt = 0;
+            /* phase -> Attack */
+            /*TODO*///#if FM_SEG_SUPPORT
 /*TODO*///		if( SLOT->SEG&8 ) SLOT->eg_next = FM_EG_SSG_AR;
 /*TODO*///		else
 /*TODO*///#endif
-/*TODO*///		SLOT->eg_next = FM_EG_AR;
-/*TODO*///		SLOT->evs     = SLOT->evsa;
-/*TODO*///#if 0
-/*TODO*///		/* convert decay count to attack count */
-/*TODO*///		/* --- This caused the problem by credit sound of paper boy. --- */
-/*TODO*///		SLOT->evc = EG_AST + DRAR_TABLE[ENV_CURVE[SLOT->evc>>ENV_BITS]];/* + SLOT->evs;*/
-/*TODO*///#else
-/*TODO*///		/* reset attack counter */
-/*TODO*///		SLOT->evc = EG_AST;
-/*TODO*///#endif
-/*TODO*///		SLOT->eve = EG_AED;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*////* ----- key off of SLOT ----- */
-/*TODO*///INLINE void FM_KEYOFF(FM_CH *CH , int s )
-/*TODO*///{
-/*TODO*///	FM_SLOT *SLOT = &CH->SLOT[s];
-/*TODO*///	if( FM_KEY_IS(SLOT) )
-/*TODO*///	{
-/*TODO*///		/* if Attack phase then adjust envelope counter */
-/*TODO*///		if( SLOT->evc < EG_DST )
-/*TODO*///			SLOT->evc = (ENV_CURVE[SLOT->evc>>ENV_BITS]<<ENV_BITS) + EG_DST;
-/*TODO*///		/* phase -> Release */
-/*TODO*///		SLOT->eg_next = FM_EG_Release;
-/*TODO*///		SLOT->eve     = EG_DED;
-/*TODO*///		SLOT->evs     = SLOT->evsr;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* setup Algorythm and PAN connection */
+            SLOT.eg_next = FM_EG_AR;
+            SLOT.evs = SLOT.evsa;
+            /* reset attack counter */
+            SLOT.evc = EG_AST;
+            SLOT.eve = EG_AED;
+        }
+    }
+    /* ----- key off of SLOT ----- */
+
+    static void FM_KEYOFF(FM_CH CH, int s) {
+        FM_SLOT SLOT = CH.SLOT[s];
+        if (FM_KEY_IS(SLOT)) {
+            /* if Attack phase then adjust envelope counter */
+            if (SLOT.evc < EG_DST) {
+                SLOT.evc = (ENV_CURVE[SLOT.evc >> ENV_BITS] << ENV_BITS) + EG_DST;
+            }
+            /* phase -> Release */
+            SLOT.eg_next = FM_EG_Release;
+            SLOT.eve = EG_DED;
+            SLOT.evs = SLOT.evsr;
+        }
+    }
+
+    /*TODO*////* setup Algorythm and PAN connection */
 /*TODO*///static void setup_connection( FM_CH *CH )
 /*TODO*///{
 /*TODO*///	INT32 *carrier = &out_ch[CH->PAN]; /* NONE,LEFT,RIGHT or CENTER */
@@ -702,9 +707,11 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///	if( SLOT->eg_next == FM_EG_Release ) SLOT->evs = SLOT->evsr;
 /*TODO*///}
 /*TODO*///
-/*TODO*////* operator output calcrator */
-/*TODO*///#define OP_OUT(PG,EG)   SIN_TABLE[(PG/(0x1000000/SIN_ENT))&(SIN_ENT-1)][EG]
-/*TODO*///#define OP_OUTN(PG,EG)  NOISE_TABLE[(PG/(0x1000000/SIN_ENT))&(SIN_ENT-1)][EG]
+    /* operator output calcrator */
+    static int OP_OUT(int PG, int EG) {
+        return SIN_TABLE[(PG / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1)].read(EG);
+    }
+    /*TODO*///#define OP_OUTN(PG,EG)  NOISE_TABLE[(PG/(0x1000000/SIN_ENT))&(SIN_ENT-1)][EG]
 /*TODO*///
 /*TODO*////* eg calcration */
 /*TODO*///#if FM_LFO_SUPPORT
@@ -719,7 +726,18 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///#else
 /*TODO*///#endif
 /*TODO*///
-/*TODO*////* ---------- calcrate one of channel ---------- */
+
+    public int FM_CALC_EG(FM_SLOT SLOT) {
+        if ((SLOT.evc += SLOT.evs) >= SLOT.eve) {
+            SLOT.eg_next.handler(SLOT);
+        }
+        int OUT = SLOT.TLL + ENV_CURVE[SLOT.evc >> ENV_BITS];
+        if (SLOT.ams != 0) {
+            OUT += (SLOT.ams * lfo_amd / LFO_RATE);
+        }
+        return OUT;
+    }
+    /*TODO*////* ---------- calcrate one of channel ---------- */
 /*TODO*///INLINE void FM_CALC_CH( FM_CH *CH )
 /*TODO*///{
 /*TODO*///	UINT32 eg_out1,eg_out2,eg_out3,eg_out4;  //envelope output
@@ -778,41 +796,38 @@ public static final int EG_UED   =((3*EG_ENT)<<ENV_BITS);  /* end of SEG UPSISE 
 /*TODO*///		*CH->connect4 += OP_OUT(pg_in4,eg_out4);
 /*TODO*///}
 /* ---------- frequency counter for operater update ---------- */
-public static void CALC_FCSLOT(FM_SLOT SLOT , int fc , int kc )
-{
-	int ksr;
 
-	/* frequency step counter */
-	/* SLOT->Incr= (fc+SLOT->DT[kc])*SLOT->mul; */
-	SLOT.Incr= fc*SLOT.mul + SLOT.DT[kc];
-	ksr = kc >> SLOT.KSR;
-	if( SLOT.ksr != ksr )
-	{
-		SLOT.ksr = ksr;
-		/* attack , decay rate recalcration */
-		SLOT.evsa = SLOT.AR.read(ksr);
-		SLOT.evsd = SLOT.DR.read(ksr);
-		SLOT.evss = SLOT.SR.read(ksr);
-		SLOT.evsr = SLOT.RR.read(ksr);
-	}
-	SLOT.TLL = SLOT.TL /* + KSL[kc]*/;
-}
+    public static void CALC_FCSLOT(FM_SLOT SLOT, int fc, int kc) {
+        int ksr;
 
-/*TODO*////* ---------- frequency counter  ---------- */
-/*TODO*///INLINE void CALC_FCOUNT(FM_CH *CH )
-/*TODO*///{
-/*TODO*///	if( CH->SLOT[SLOT1].Incr==-1){
-/*TODO*///		int fc = CH->fc;
-/*TODO*///		int kc = CH->kcode;
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT1] , fc , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT2] , fc , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT3] , fc , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT4] , fc , kc );
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/* ----------- initialize time tabls ----------- */
+        /* frequency step counter */
+        /* SLOT->Incr= (fc+SLOT->DT[kc])*SLOT->mul; */
+        SLOT.Incr = fc * SLOT.mul + SLOT.DT[kc];
+        ksr = kc >> SLOT.KSR;
+        if (SLOT.ksr != ksr) {
+            SLOT.ksr = ksr;
+            /* attack , decay rate recalcration */
+            SLOT.evsa = SLOT.AR.read(ksr);
+            SLOT.evsd = SLOT.DR.read(ksr);
+            SLOT.evss = SLOT.SR.read(ksr);
+            SLOT.evsr = SLOT.RR.read(ksr);
+        }
+        SLOT.TLL = SLOT.TL /* + KSL[kc]*/;
+    }
 
+    /* ---------- frequency counter  ---------- */
+    static void CALC_FCOUNT(FM_CH CH) {
+        if (CH.SLOT[SLOT1].Incr == -1) {
+            int fc = (int) CH.fc;
+            int kc = CH.kcode;
+            CALC_FCSLOT(CH.SLOT[SLOT1], fc, kc);
+            CALC_FCSLOT(CH.SLOT[SLOT2], fc, kc);
+            CALC_FCSLOT(CH.SLOT[SLOT3], fc, kc);
+            CALC_FCSLOT(CH.SLOT[SLOT4], fc, kc);
+        }
+    }
+
+    /* ----------- initialize time tabls ----------- */
     static void init_timetables(FM_ST ST, int[] DTTABLE, int ARRATE, int DRRATE) {
         int i, d;
         double rate;
@@ -836,6 +851,7 @@ public static void CALC_FCSLOT(FM_SLOT SLOT , int fc , int kc )
 
             if (i < 60) {
                 rate *= 1.0 + (i & 3) * 0.25;		/* b0-1 : x1 , x1.25 , x1.5 , x1.75 */
+
             }
             rate *= 1 << ((i >> 2) - 1);						/* b2-5 : shift bit */
 
@@ -881,76 +897,81 @@ public static void CALC_FCSLOT(FM_SLOT SLOT , int fc , int kc )
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*////* ---------- generic table initialize ---------- */
-/*TODO*///static int FMInitTable( void )
-/*TODO*///{
-/*TODO*///	int s,t;
-/*TODO*///	double rate;
-/*TODO*///	int i,j;
-/*TODO*///	double pom;
-/*TODO*///
-/*TODO*///	/* allocate total level table plus+minus section */
-/*TODO*///	TL_TABLE = malloc(2*TL_MAX*sizeof(int));
-/*TODO*///	if( TL_TABLE == 0 ) return 0;
-/*TODO*///	/* make total level table */
-/*TODO*///	for (t = 0;t < TL_MAX ;t++){
-/*TODO*///		if(t >= PG_CUT_OFF)
-/*TODO*///			rate = 0;	/* under cut off area */
-/*TODO*///		else
-/*TODO*///			rate = ((1<<TL_BITS)-1)/pow(10,EG_STEP*t/20);	/* dB -> voltage */
-/*TODO*///		TL_TABLE[       t] =  (int)rate;
-/*TODO*///		TL_TABLE[TL_MAX+t] = -TL_TABLE[t];
-/*TODO*////*		Log(LOG_INF,"TotalLevel(%3d) = %x\n",t,TL_TABLE[t]);*/
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* make sinwave table (total level offet) */
-/*TODO*///
-/*TODO*///	for (s = 1;s <= SIN_ENT/4;s++){
-/*TODO*///		pom = sin(2.0*PI*s/SIN_ENT); /* sin   */
-/*TODO*///		pom = 20*log10(1/pom);	     /* -> decibel */
-/*TODO*///		j = pom / EG_STEP;    /* TL_TABLE steps */
-/*TODO*///		/* cut off check */
-/*TODO*///		if(j > PG_CUT_OFF)
-/*TODO*///			j = PG_CUT_OFF;
-/*TODO*///		/* degree 0   -  90    , degree 180 -  90 : plus section */
-/*TODO*///		SIN_TABLE[          s] = SIN_TABLE[SIN_ENT/2-s] = &TL_TABLE[j];
-/*TODO*///		/* degree 180 - 270    , degree 360 - 270 : minus section */
-/*TODO*///		SIN_TABLE[SIN_ENT/2+s] = SIN_TABLE[SIN_ENT  -s] = &TL_TABLE[TL_MAX+j];
-/*TODO*///		/* Log(LOG_INF,"sin(%3d) = %f:%f db\n",s,pom,(double)j * EG_STEP); */
-/*TODO*///	}
-/*TODO*///	/* degree 0 = degree 180                   = off */
-/*TODO*///	SIN_TABLE[0] = SIN_TABLE[SIN_ENT/2]        = &TL_TABLE[PG_CUT_OFF];
-/*TODO*///
-/*TODO*///	/* envelope counter -> envelope output table */
-/*TODO*///	for (i=0; i<EG_ENT; i++)
-/*TODO*///	{
-/*TODO*///		/* ATTACK curve */
-/*TODO*///		/* !!!!! preliminary !!!!! */
-/*TODO*///		pom = pow( ((double)(EG_ENT-1-i)/EG_ENT) , 8 ) * EG_ENT;
-/*TODO*///		/* if( pom >= EG_ENT ) pom = EG_ENT-1; */
-/*TODO*///		ENV_CURVE[i] = (int)pom;
-/*TODO*///		/* DECAY ,RELEASE curve */
-/*TODO*///		ENV_CURVE[(EG_DST>>ENV_BITS)+i]= i;
-/*TODO*///#if FM_SEG_SUPPORT
+/* ---------- generic table initialize ---------- */
+
+    static int FMInitTable() {
+        int s, t;
+        double rate;
+        int i, j;
+        double pom;
+
+        /* allocate total level table plus+minus section */
+        TL_TABLE = new int[2 * TL_MAX];
+        /* make total level table */
+        for (t = 0; t < TL_MAX; t++) {
+            if (t >= PG_CUT_OFF) {
+                rate = 0;	/* under cut off area */
+
+            } else {
+                rate = ((1 << TL_BITS) - 1) / Math.pow(10, EG_STEP * t / 20);	/* dB -> voltage */
+
+            }
+            TL_TABLE[t] = (int) rate;
+            TL_TABLE[TL_MAX + t] = -TL_TABLE[t];
+            /*		Log(LOG_INF,"TotalLevel(%3d) = %x\n",t,TL_TABLE[t]);*/
+        }
+
+        /* make sinwave table (total level offet) */
+        for (s = 1; s <= SIN_ENT / 4; s++) {
+            pom = Math.sin(2.0 * Math.PI * s / SIN_ENT); /* sin   */
+
+            pom = 20 * Math.log10(1 / pom);	     /* -> decibel */
+
+            j = (int) (pom / EG_STEP);    /* TL_TABLE steps */
+            /* cut off check */
+
+            if (j > PG_CUT_OFF) {
+                j = PG_CUT_OFF;
+            }
+            /* degree 0   -  90    , degree 180 -  90 : plus section */
+            SIN_TABLE[s] = SIN_TABLE[SIN_ENT / 2 - s] = new IntSubArray(TL_TABLE, j);
+            /* degree 180 - 270    , degree 360 - 270 : minus section */
+            SIN_TABLE[SIN_ENT / 2 + s] = SIN_TABLE[SIN_ENT - s] = new IntSubArray(TL_TABLE, TL_MAX + j);
+            /* Log(LOG_INF,"sin(%3d) = %f:%f db\n",s,pom,(double)j * EG_STEP); */
+        }
+        /* degree 0 = degree 180                   = off */
+        SIN_TABLE[0] = SIN_TABLE[SIN_ENT / 2] = new IntSubArray(TL_TABLE, PG_CUT_OFF);
+
+        /* envelope counter -> envelope output table */
+        for (i = 0; i < EG_ENT; i++) {
+            /* ATTACK curve */
+            /* !!!!! preliminary !!!!! */
+            pom = Math.pow(((double) (EG_ENT - 1 - i) / EG_ENT), 8) * EG_ENT;
+            /* if( pom >= EG_ENT ) pom = EG_ENT-1; */
+            ENV_CURVE[i] = (int) pom;
+            /* DECAY ,RELEASE curve */
+            ENV_CURVE[(EG_DST >> ENV_BITS) + i] = i;
+            /*TODO*///#if FM_SEG_SUPPORT
 /*TODO*///		/* DECAY UPSIDE (SSG ENV) */
 /*TODO*///		ENV_CURVE[(EG_UST>>ENV_BITS)+i]= EG_ENT-1-i;
 /*TODO*///#endif
-/*TODO*///	}
-/*TODO*///	/* off */
-/*TODO*///	ENV_CURVE[EG_OFF>>ENV_BITS]= EG_ENT-1;
-/*TODO*///
-/*TODO*///	/* decay to reattack envelope converttable */
-/*TODO*///	j = EG_ENT-1;
-/*TODO*///	for (i=0; i<EG_ENT; i++)
-/*TODO*///	{
-/*TODO*///		while( j && (ENV_CURVE[j] < i) ) j--;
-/*TODO*///		DRAR_TABLE[i] = j<<ENV_BITS;
-/*TODO*///		/* Log(LOG_INF,"DR %06X = %06X,AR=%06X\n",i,DRAR_TABLE[i],ENV_CURVE[DRAR_TABLE[i]>>ENV_BITS] ); */
-/*TODO*///	}
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+        }
+        /* off */
+        ENV_CURVE[EG_OFF >> ENV_BITS] = EG_ENT - 1;
+
+        /* decay to reattack envelope converttable */
+        j = EG_ENT - 1;
+        for (i = 0; i < EG_ENT; i++) {
+            while (j != 0 && (ENV_CURVE[j] < i)) {
+                j--;
+            }
+            DRAR_TABLE[i] = j << ENV_BITS;
+            /* Log(LOG_INF,"DR %06X = %06X,AR=%06X\n",i,DRAR_TABLE[i],ENV_CURVE[DRAR_TABLE[i]>>ENV_BITS] ); */
+        }
+        return 1;
+    }
+
+    /*TODO*///
 /*TODO*///static void FMCloseTable( void )
 /*TODO*///{
 /*TODO*///	if( TL_TABLE ) free( TL_TABLE );
@@ -1038,28 +1059,27 @@ public static void CALC_FCSLOT(FM_SLOT SLOT , int fc , int kc )
 /*TODO*///	}
 /*TODO*///	else ST->TBC = 0;
 /*TODO*///}
-/*TODO*////* CSM Key Controll */
-/*TODO*///INLINE void CSMKeyControll(FM_CH *CH)
-/*TODO*///{
-/*TODO*///	/* int ksl = KSL[CH->kcode]; */
-/*TODO*///	/* all key off */
-/*TODO*///	FM_KEYOFF(CH,SLOT1);
-/*TODO*///	FM_KEYOFF(CH,SLOT2);
-/*TODO*///	FM_KEYOFF(CH,SLOT3);
-/*TODO*///	FM_KEYOFF(CH,SLOT4);
-/*TODO*///	/* total level latch */
-/*TODO*///	CH->SLOT[SLOT1].TLL = CH->SLOT[SLOT1].TL /*+ ksl*/;
-/*TODO*///	CH->SLOT[SLOT2].TLL = CH->SLOT[SLOT2].TL /*+ ksl*/;
-/*TODO*///	CH->SLOT[SLOT3].TLL = CH->SLOT[SLOT3].TL /*+ ksl*/;
-/*TODO*///	CH->SLOT[SLOT4].TLL = CH->SLOT[SLOT4].TL /*+ ksl*/;
-/*TODO*///	/* all key on */
-/*TODO*///	FM_KEYON(CH,SLOT1);
-/*TODO*///	FM_KEYON(CH,SLOT2);
-/*TODO*///	FM_KEYON(CH,SLOT3);
-/*TODO*///	FM_KEYON(CH,SLOT4);
-/*TODO*///}
-/*TODO*///
-/*TODO*///#if BUILD_OPN
+/* CSM Key Controll */
+    static void CSMKeyControll(FM_CH CH) {
+        /* int ksl = KSL[CH->kcode]; */
+        /* all key off */
+        FM_KEYOFF(CH, SLOT1);
+        FM_KEYOFF(CH, SLOT2);
+        FM_KEYOFF(CH, SLOT3);
+        FM_KEYOFF(CH, SLOT4);
+        /* total level latch */
+        CH.SLOT[SLOT1].TLL = CH.SLOT[SLOT1].TL /*+ ksl*/;
+        CH.SLOT[SLOT2].TLL = CH.SLOT[SLOT2].TL /*+ ksl*/;
+        CH.SLOT[SLOT3].TLL = CH.SLOT[SLOT3].TL /*+ ksl*/;
+        CH.SLOT[SLOT4].TLL = CH.SLOT[SLOT4].TL /*+ ksl*/;
+        /* all key on */
+        FM_KEYON(CH, SLOT1);
+        FM_KEYON(CH, SLOT2);
+        FM_KEYON(CH, SLOT3);
+        FM_KEYON(CH, SLOT4);
+    }
+
+    /*TODO*///#if BUILD_OPN
 /*TODO*////***********************************************************/
 /*TODO*////* OPN unit                                                */
 /*TODO*////***********************************************************/
