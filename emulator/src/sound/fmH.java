@@ -2,7 +2,7 @@
 package sound;
 
 import sound.fm_c.FM_SLOT;
-
+import static sound.ay8910.*;
 
 public class fmH {
 /*TODO*////* --- select emulation chips --- */
@@ -23,30 +23,37 @@ public class fmH {
 /*TODO*///#define FM_LFO_SUPPORT 1 	/* support LFO unit */
 /*TODO*///#define FM_SEG_SUPPORT 0	/* OPN SSG type envelope support   */
 /*TODO*///
-/*TODO*////* --- external SSG(YM2149/AY-3-8910)emulator interface port */
-/*TODO*////* used by YM2203,YM2608,and YM2610 */
-/*TODO*///
-/*TODO*////* SSGClk   : Set SSG Clock      */
-/*TODO*////* int n    = chip number        */
-/*TODO*////* int clk  = MasterClock(Hz)    */
-/*TODO*////* int rate = sample rate(Hz) */
-/*TODO*///#define SSGClk(chip,clock) AY8910_set_clock(chip,clock)
-/*TODO*///
-/*TODO*////* SSGWrite : Write SSG port     */
-/*TODO*////* int n    = chip number        */
-/*TODO*////* int a    = address            */
-/*TODO*////* int v    = data               */
-/*TODO*///#define SSGWrite(n,a,v) AY8910Write(n,a,v)
-/*TODO*///
-/*TODO*////* SSGRead  : Read SSG port */
-/*TODO*////* int n    = chip number   */
-/*TODO*////* return   = Read data     */
-/*TODO*///#define SSGRead(n) AY8910Read(n)
-/*TODO*///
-/*TODO*////* SSGReset : Reset SSG chip */
-/*TODO*////* int n    = chip number   */
-/*TODO*///#define SSGReset(chip) AY8910_reset(chip)
-/*TODO*///
+    /* --- external SSG(YM2149/AY-3-8910)emulator interface port */
+    /* used by YM2203,YM2608,and YM2610 */
+
+    /* SSGClk   : Set SSG Clock      */
+    /* int n    = chip number        */
+    /* int clk  = MasterClock(Hz)    */
+    /* int rate = sample rate(Hz) */
+    public static void SSGClk(int chip, int clock) {
+        AY8910_set_clock(chip, clock);
+    }
+
+    /* SSGWrite : Write SSG port     */
+    /* int n    = chip number        */
+    /* int a    = address            */
+    /* int v    = data               */
+    public static void SSGWrite(int n, int a, int v) {
+        AY8910Write(n, a, v);
+    }
+
+    /* SSGRead  : Read SSG port */
+    /* int n    = chip number   */
+    /* return   = Read data     */
+    public static int SSGRead(int n) {
+        return AY8910Read(n);
+    }
+
+    /* SSGReset : Reset SSG chip */
+    /* int n    = chip number   */
+    public static void SSGReset(int chip) {
+        AY8910_reset(chip);
+    }
 /*TODO*////* --- external callback funstions for realtime update --- */
 /*TODO*///#if BUILD_YM2203
 /*TODO*///  /* in 2203intf.c */
@@ -105,7 +112,7 @@ public class fmH {
 /*TODO*///
     public static abstract interface FM_TIMERHANDLERtr {
 
-        public abstract void handler(int n, int c, int count, double stepTime);
+        public abstract void handler(int n, int c, double count, double stepTime);
     }
 
     public static abstract interface FM_IRQHANDLEPtr {

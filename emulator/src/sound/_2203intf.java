@@ -71,7 +71,7 @@ public class _2203intf extends snd_interface {
     public static FM_TIMERHANDLERtr TimerHandler = new FM_TIMERHANDLERtr() {
 
         @Override
-        public void handler(int n, int c, int count, double stepTime) {
+        public void handler(int n, int c, double count, double stepTime) {
             if (count == 0)
             {	/* Reset FM Timer */
                 if (Timer[n][c]!=null)
