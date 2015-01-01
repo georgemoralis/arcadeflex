@@ -26,10 +26,11 @@ import static vidhrdw.airbustr.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static arcadeflex.ptrlib.*;
-import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_YM2203;
+import static mame.sndintrfH.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;
+import static sound.okim6295.*;
+import static sound.okim6295H.*;
 
 public class airbustr
 {
@@ -116,7 +117,7 @@ public class airbustr
 		if ((data & 7) <  3)	RAM = new UBytePtr(RAM,0x4000 * (data & 7));
 		else					RAM = new UBytePtr(RAM,0x10000 + 0x4000 * ((data & 7)-3));
 	
-		cpu_setbank(1,RAM);
+		cpu_setbank(1,new UBytePtr(RAM));
 	//	if (errorlog && (data > 7))	fprintf(errorlog, "CPU #0 - suspicious bank: %d ! - PC = %04X\n", data, cpu_get_pc());
 	
 		u1 = data & 0xf8;
@@ -197,7 +198,7 @@ public class airbustr
 		if ((data & 7) <  3)	RAM = new UBytePtr(RAM,0x4000 * (data & 7));
 		else					RAM = new UBytePtr(RAM,0x10000 + 0x4000 * ((data & 7)-3));
 	
-		cpu_setbank(2,RAM);
+		cpu_setbank(2,new UBytePtr(RAM));
 	//	if (errorlog && (data > 7))	fprintf(errorlog, "CPU #1 - suspicious bank: %d ! - PC = %04X\n", data, cpu_get_pc());
 	
 		flipscreen = data & 0x10;	// probably..
@@ -340,7 +341,7 @@ public class airbustr
 		if ((data & 7) <  3)	RAM = new UBytePtr(RAM,0x4000 * (data & 7));
 		else					RAM = new UBytePtr(RAM,0x10000 + 0x4000 * ((data & 7)-3));
 	
-		cpu_setbank(3,RAM);
+		cpu_setbank(3,new UBytePtr(RAM));
 	//	if (errorlog && (data > 7))	fprintf(errorlog, "CPU #2 - suspicious bank: %d ! - PC = %04X\n", data, cpu_get_pc());
 	
 		u3 = data & 0xf8;
@@ -385,7 +386,7 @@ public class airbustr
 	{
 		new IOReadPort( 0x02, 0x02, YM2203_status_port_0_r ),
 		new IOReadPort( 0x03, 0x03, YM2203_read_port_0_r ),
-/*TODO*///		new IOReadPort( 0x04, 0x04, OKIM6295_status_0_r ),
+		new IOReadPort( 0x04, 0x04, OKIM6295_status_0_r ),
 		new IOReadPort( 0x06, 0x06, soundcommand_r ),			// read command from sub cpu
 		new IOReadPort( -1 )
 	};
@@ -395,7 +396,7 @@ public class airbustr
 		new IOWritePort( 0x00, 0x00, sound_bankswitch_w ),
 		new IOWritePort( 0x02, 0x02, YM2203_control_port_0_w ),
 		new IOWritePort( 0x03, 0x03, YM2203_write_port_0_w ),
-/*TODO*///		new IOWritePort( 0x04, 0x04, OKIM6295_data_0_w ),
+		new IOWritePort( 0x04, 0x04, OKIM6295_data_0_w ),
 		new IOWritePort( 0x06, 0x06, soundcommand2_w ),		// write command result to sub cpu
 		new IOWritePort( -1 )
 	};
@@ -543,13 +544,13 @@ public class airbustr
     );
 
 	
-/*	static struct OKIM6295interface okim6295_interface =
-	{
+	static OKIM6295interface okim6295_interface = new OKIM6295interface
+	(
 		1,
-		{ 18000 },		/* ?? */
-/*		{ REGION_SOUND1 },
-		{ 50 }
-	};*/
+		new int[]{ 18000 },		/* ?? */
+		new int[]{ REGION_SOUND1 },
+		new int[]{ 50 }
+        );
 	
 	
 	static MachineDriver machine_driver_airbustr = new MachineDriver
@@ -596,11 +597,11 @@ public class airbustr
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_OKIM6295,
 				okim6295_interface
-			)*/
+			)
 		}
                 
 	);

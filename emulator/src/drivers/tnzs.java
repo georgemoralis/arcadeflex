@@ -17,6 +17,11 @@ import static mame.sndintrf.*;
 import static mame.palette.*;
 import static mame.cpuintrfH.*;
 import static mame.cpuintrf.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
+
 public class tnzs
 {
 	
@@ -163,8 +168,8 @@ public class tnzs
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x9fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0xb000, 0xb000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xb001, 0xb001, YM2203_read_port_0_r ),
+		new MemoryReadAddress( 0xb000, 0xb000, YM2203_status_port_0_r ),
+		new MemoryReadAddress( 0xb001, 0xb001, YM2203_read_port_0_r ),
 		new MemoryReadAddress( 0xc000, 0xc001, tnzs_mcu_r ),	/* plain input ports in insectx (memory handler */
 										/* changed in insectx_init() ) */
 		new MemoryReadAddress( 0xd000, 0xdfff, MRA_RAM ),
@@ -179,8 +184,8 @@ public class tnzs
 	{
 		new MemoryWriteAddress( 0x0000, 0x9fff, MWA_ROM ),
 		new MemoryWriteAddress( 0xa000, 0xa000, tnzs_bankswitch1_w ),
-/*TODO*///		new MemoryWriteAddress( 0xb000, 0xb000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xb001, 0xb001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0xb000, 0xb000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0xb001, 0xb001, YM2203_write_port_0_w ),
 		new MemoryWriteAddress( 0xc000, 0xc001, tnzs_mcu_w ),	/* not present in insectx */
 		new MemoryWriteAddress( 0xd000, 0xdfff, MWA_RAM ),
 		new MemoryWriteAddress( 0xe000, 0xefff, tnzs_workram_sub_w ),
@@ -191,8 +196,8 @@ public class tnzs
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x9fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0xb000, 0xb000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xb001, 0xb001, YM2203_read_port_0_r ),
+		new MemoryReadAddress( 0xb000, 0xb000, YM2203_status_port_0_r ),
+		new MemoryReadAddress( 0xb001, 0xb001, YM2203_read_port_0_r ),
 		new MemoryReadAddress( 0xc000, 0xc000, input_port_2_r ),
 		new MemoryReadAddress( 0xc001, 0xc001, input_port_3_r ),
 		new MemoryReadAddress( 0xc002, 0xc002, input_port_4_r ),
@@ -205,8 +210,8 @@ public class tnzs
 	{
 		new MemoryWriteAddress( 0x0000, 0x9fff, MWA_ROM ),
 		new MemoryWriteAddress( 0xa000, 0xa000, tnzs_bankswitch1_w ),
-/*TODO*///		new MemoryWriteAddress( 0xb000, 0xb000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xb001, 0xb001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0xb000, 0xb000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0xb001, 0xb001, YM2203_write_port_0_w ),
 		new MemoryWriteAddress( 0xd000, 0xdfff, MWA_RAM ),
 		new MemoryWriteAddress( 0xe000, 0xefff, tnzs_workram_sub_w ),
 		new MemoryWriteAddress( -1 )  /* end of table */
@@ -262,15 +267,15 @@ public class tnzs
 	
 	static IOReadPort tnzsb_readport[] =
 	{
-/*TODO*///		new IOReadPort( 0x00, 0x00, YM2203_status_port_0_r  ),
+		new IOReadPort( 0x00, 0x00, YM2203_status_port_0_r  ),
 		new IOReadPort( 0x02, 0x02, soundlatch_r  ),
 		new IOReadPort( -1 )	/* end of table */
 	};
 	
 	static IOWritePort tnzsb_writeport[] =
 	{
-/*TODO*///		new IOWritePort( 0x00, 0x00, YM2203_control_port_0_w  ),
-/*TODO*///		new IOWritePort( 0x01, 0x01, YM2203_write_port_0_w  ),
+		new IOWritePort( 0x00, 0x00, YM2203_control_port_0_w  ),
+		new IOWritePort( 0x01, 0x01, YM2203_write_port_0_w  ),
 		new IOWritePort( -1 )	/* end of table */
 	};
 	
@@ -1206,25 +1211,35 @@ public class tnzs
 /*TODO*///		{ 0 },
 /*TODO*///		{ 0 }
 /*TODO*///	};
+        static YM2203interface ym2203_interface = new YM2203interface
+	(
+		1,			/* 1 chip */
+		3000000,	/* 3 MHz ??? */
+		new int[]{ YM2203_VOL(30,30) },
+		new ReadHandlerPtr[]{ input_port_0_r },
+		new ReadHandlerPtr[]{ input_port_1_r },
+		new WriteHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null }
+        );
 	
 	
 	/* handler called by the 2203 emulator when the internal timers cause an IRQ */
-	static void irqhandler(int irq)
+	public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int irq)
 	{
-/*TODO*///		cpu_set_nmi_line(2,irq ? ASSERT_LINE : CLEAR_LINE);
-	}
-	
-/*TODO*///	static struct YM2203interface ym2203b_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3000000,	/* 3 MHz ??? */
-/*TODO*///		{ YM2203_VOL(100,100) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ irqhandler }
-/*TODO*///	};
+            cpu_set_nmi_line(2,irq!=0 ? ASSERT_LINE : CLEAR_LINE);
+            
+        }};
+	static YM2203interface ym2203b_interface = new YM2203interface
+	(
+		1,			/* 1 chip */
+		3000000,	/* 3 MHz ??? */
+		new int[]{ YM2203_VOL(100,100) },
+		new ReadHandlerPtr[]{ null },
+		new ReadHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null },
+		new WriteYmHandlerPtr[]{ irqhandler }
+        );
 	
 /*TODO*///	static struct YM2203interface kageki_ym2203_interface =
 /*TODO*///	{
@@ -1376,13 +1391,12 @@ public class tnzs
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_tnzsb = new MachineDriver

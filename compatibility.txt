@@ -235,12 +235,56 @@ Playable
 233)hcastle  hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 1)
 234)hcastlea hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Haunted Castle (set 2)
 235)hcastlej hcastle.c  KONAMI   [Z80   ]                                                       1x007232    1xYM-3812   051649                              Akuma-Jou Dracula (Japan)
+236)blktiger blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Tiger
+237)bktigerb blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Tiger (bootleg)
+238)blkdrgon blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Dragon
+239)blkdrgnb blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Dragon (bootleg)
+240)citycon  citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   City Connection (set 1)
+241)citycona citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   City Connection (set 2)
+242)cruisin  citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   Cruisin
 
+ironhors ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Iron Horse
+dairesya ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Dai Ressya Goutou (Japan)
+wc90     wc90.c     Z80      Z80      [Z80   ]                                              2xYM-2203                                                   World Cup 90
+gundealr gundealr.c Z80                                                                     1xYM-2203                                                   Gun Dealer (set 1)
+gundeala gundealr.c Z80                                                                     1xYM-2203                                                   Gun Dealer (set 2)
+yamyam   gundealr.c Z80                                                                     1xYM-2203                                                   Yam! Yam!?
+wiseguy  gundealr.c Z80                                                                     1xYM-2203                                                   Wise Guy
+commando commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Commando (World)
+commandu commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Commando (US)
+commandj commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Senjo no Ookami
+spaceinv commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Space Invasion
+brkthru  brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Break Thru (US)
+brkthruj brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Kyohkoh-Toppa (Japan)
+darwin   brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Darwin 4078 (Japan)
+gunsmoke gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (World)
+gunsmrom gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (US set 1)
+gunsmoka gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (US set 2)
+gunsmokj gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (Japan)
+gng      gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (World? set 1)
+gnga     gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (World? set 2)
+gngt     gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (US)
+makaimur gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura
+makaimuc gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura (Revision C)
+makaimug gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura (Revision G)
+diamond  gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Diamond Run
+1943     1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 - The Battle of Midway (US)
+1943j    1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 - The Battle of Midway (Japan)
+sidearms sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (World)
+sidearmr sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (US)
+sidearjp sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (Japan)
+turtship sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Turtle Ship
 
 
 Probably CPU bugs
 -------------------------------
 001)lizwiz   pacman.c   Z80                                                                     Namco                                                       Lizard Wizard   - reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
+
+
+GFX isssues
+==========
+001)1943kai  1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 Kai  /*background islands doesn't draw properly*/
+002)dyger    sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Dyger   //screen height is too big  
 
 
 Sound issues
@@ -283,6 +327,7 @@ NOT WORKING IN MAME 0.36 EITHER
 014)ufosensi system1.c  Z80      [Z80   ]                                                       2xSN76496                                                   Ufo Senshi Yohko Chan
 015)darkplnt scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Dark Planet
 016)spy      spy.c      HD6309   [Z80   ]                                                       1xYM-3812   2x007232                                        S.P.Y. - Special Project Y (US)
+017)farwest  ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Far West
 
 TODO
 ---------
@@ -939,21 +984,6 @@ higemaru higemaru.c Z80                                                         
 
 exedexes exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Exed Exes
 savgbees exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Savage Bees
-commando commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Commando (World)
-commandu commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Commando (US)
-commandj commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Senjo no Ookami
-spaceinv commando.c Z80      [Z80   ]                                                       2xYM-2203                                                   Space Invasion
-gng      gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (World? set 1)
-gnga     gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (World? set 2)
-gngt     gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Ghosts'n Goblins (US)
-makaimur gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura
-makaimuc gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura (Revision C)
-makaimug gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Makai-Mura (Revision G)
-diamond  gng.c      M6809    [Z80   ]                                                       2xYM-2203                                                   Diamond Run
-gunsmoke gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (World)
-gunsmrom gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (US set 1)
-gunsmoka gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (US set 2)
-gunsmokj gunsmoke.c Z80      [Z80   ]                                                       2xYM-2203                                                   Gun.Smoke (Japan)
 sectionz lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 1)
 sctionza lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 2)
 trojan   lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Trojan (US)
@@ -965,22 +995,12 @@ rushcrsh srumbler.c M6809    [Z80   ]                                           
 lwings   lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 1)
 lwings2  lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 2)
 lwingsjp lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ales no Tsubasa (Japan)
-sidearms sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (World)
-sidearmr sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (US)
-sidearjp sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (Japan)
-turtship sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Turtle Ship
-dyger    sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Dyger
+
 avengers lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 1)
 avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 bionicc  bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 1)
 bionicc2 bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 2)
 topsecrt bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Top Secret (Japan)
-1943     1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 - The Battle of Midway (US)
-1943j    1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 - The Battle of Midway (Japan)
-blktiger blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Tiger
-bktigerb blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Tiger (bootleg)
-blkdrgon blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Dragon
-blkdrgnb blktiger.c Z80      [Z80   ]                                                       2xYM-2203                                                   Black Dragon (bootleg)
 sf1      sf1.c      68000    [Z80   ] [Z80   ]                                              1xYM-2151   2xMSM5205                                       Street Fighter (World)
 sf1us    sf1.c      68000    [Z80   ] [Z80   ]                                              1xYM-2151   2xMSM5205                                       Street Fighter (US)
 sf1jp    sf1.c      68000    [Z80   ] [Z80   ]                                              1xYM-2151   2xMSM5205                                       Street Fighter (Japan)
@@ -988,7 +1008,7 @@ tigeroad tigeroad.c 68000    [Z80   ]                                           
 toramich tigeroad.c 68000    [Z80   ] [Z80   ]                                              2xYM-2203   1xMSM5205                                       Tora eno Michi (Japan)
 f1dream  tigeroad.c 68000    [Z80   ]                                                       2xYM-2203                                                   F-1 Dream
 f1dreamb tigeroad.c 68000    [Z80   ]                                                       2xYM-2203                                                   F-1 Dream (bootleg)
-1943kai  1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 Kai
+
 lastduel lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 1)
 lstduela lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 2)
 lstduelb lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (bootleg)
@@ -1251,9 +1271,7 @@ kchampvs kchamp.c   Z80      [Z80   ]                                           
 karatevs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Taisen Karate Dou (Japan VS version)
 firetrap firetrap.c Z80      [M6502 ]                                                       1xYM-3526   1xMSM5205                                       Fire Trap
 firetpbl firetrap.c Z80      [M6502 ]                                                       1xYM-3526   1xMSM5205                                       Fire Trap (Japan bootleg)
-brkthru  brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Break Thru (US)
-brkthruj brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Kyohkoh-Toppa (Japan)
-darwin   brkthru.c  M6809    [M6809 ]                                                       1xYM-2203   1xYM-3526                                       Darwin 4078 (Japan)
+
 shootout shootout.c M6502    [M6502 ]                                                       1xYM-2203                                                   Shoot Out (US)
 shootouj shootout.c M6502                                                                   1xYM-2203                                                   Shoot Out (Japan)
 shootoub shootout.c M6502                                                                   1xYM-2203                                                   Shoot Out (Korean Bootleg)
@@ -1345,7 +1363,6 @@ gaiden   gaiden.c   68000    [Z80   ]                                           
 shadoww  gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Shadow Warriors
 tknight  gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Tecmo Knight
 wildfang gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Wild Fang
-wc90     wc90.c     Z80      Z80      [Z80   ]                                              2xYM-2203                                                   World Cup 90
 wc90b    wc90b.c    Z80      Z80      [Z80   ]                                              2xYM-2203                                                   Euro League
 tutankhm tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham
 tutankst tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham (Stern)
@@ -1381,9 +1398,6 @@ mrgoemon gberet.c   Z80                                                         
 jailbrek jailbrek.c M6809                                                                   1xSN76496   VLM5030                                         Jail Break
 finalizr finalizr.c M6809    [I8039 ]                                                       1xSN76496   1xDAC                                           Finalizer - Super Transformation
 finalizb finalizr.c M6809    [I8039 ]                                                       1xSN76496   1xDAC                                           Finalizer - Super Transformation (bootleg)
-ironhors ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Iron Horse
-dairesya ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Dai Ressya Goutou (Japan)
-farwest  ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Far West
 jackal   jackal.c   M6809    M6809                                                          1xYM-2151                                                   Jackal (World)
 topgunr  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (US)
 jackalj  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Tokushu Butai Jackal (Japan)
@@ -1849,9 +1863,6 @@ exeriont exerion.c  Z80                                                         
 exerionb exerion.c  Z80                                                                     2xAY-8910                                                   Exerion (bootleg)
 formatz  aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Formation Z
 aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
-citycon  citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   City Connection (set 1)
-citycona citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   City Connection (set 2)
-cruisin  citycon.c  M6809    [M6809 ]                                                       2xYM-2203                                                   Cruisin
 pinbo    pinbo.c    M6502    Z80                                                            2xAY-8910                                                   Pinbo
 pinbos   pinbo.c    M6502    Z80                                                            2xAY-8910                                                   Pinbo (Strike)
 psychic5 psychic5.c Z80      [Z80   ]                                                       2xYM-2203                                                   Psychic 5
@@ -1920,10 +1931,6 @@ saturn   blueprnt.c Z80      Z80                                                
 omegrace omegrace.c Z80      [Z80   ]                                                       2xAY-8910                                                   Omega Race
 dday     dday.c     Z80                                                                     2xAY-8910                                                   D-Day
 ddayc    dday.c     Z80                                                                     2xAY-8910                                                   D-Day (Centuri)
-gundealr gundealr.c Z80                                                                     1xYM-2203                                                   Gun Dealer (set 1)
-gundeala gundealr.c Z80                                                                     1xYM-2203                                                   Gun Dealer (set 2)
-yamyam   gundealr.c Z80                                                                     1xYM-2203                                                   Yam! Yam!?
-wiseguy  gundealr.c Z80                                                                     1xYM-2203                                                   Wise Guy
 leprechn leprechn.c M6502    [M6502 ]                                                       1xAY-8910                                                   Leprechaun
 potogold leprechn.c M6502    [M6502 ]                                                       1xAY-8910                                                   Pot of Gold
 redalert redalert.c M6502    [M6502 ] [8085A ]                                              1xAY-8910                                                   Red Alert
