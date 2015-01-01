@@ -1,10 +1,4 @@
 /*
-
- TODO: 1943 is almost identical to GunSmoke (one more scrolling playfield). We
- should merge the two drivers.
- */
-
-/*
  * ported to v0.36
  * using automatic conversion tool v0.09
  */
