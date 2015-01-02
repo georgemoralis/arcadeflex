@@ -275,21 +275,22 @@ public class adpcm extends snd_interface {
         compute_tables();
         sample_list = null;
 
-        /*TODO*///
-    /*TODO*///	/* generate the sample table, if one is needed */
-    /*TODO*///	if (intf->init)
-    /*TODO*///	{
-    /*TODO*///		/* allocate memory for it */
-    /*TODO*///		sample_list = malloc(257 * sizeof(struct ADPCMsample));
-    /*TODO*///		if (!sample_list)
-    /*TODO*///			return 1;
-    /*TODO*///		memset(sample_list, 0, 257 * sizeof(struct ADPCMsample));
-    /*TODO*///
-    /*TODO*///		/* callback to initialize */
-    /*TODO*///		(*intf->init)(intf, sample_list, 256);
-    /*TODO*///	}
-    /*TODO*///
-            /* initialize the voices */
+        /* generate the sample table, if one is needed */
+        if (intf.init != null) {
+            /* allocate memory for it */
+            sample_list = new ADPCMsample[257];
+            if (sample_list == null) {
+                return 1;
+            }
+            for (int i = 0; i < 257; i++) {
+                sample_list[i] = new ADPCMsample();
+            }
+
+            /* callback to initialize */
+            intf.init.handler(intf, sample_list, 256);
+        }
+
+        /* initialize the voices */
         //memset(adpcm, 0, sizeof(adpcm));
         for (int i = 0; i < num_voices; i++) {
             /* generate the name and create the stream */
@@ -339,51 +340,56 @@ public class adpcm extends snd_interface {
         //NO functionality expected
     }
 
-    /*TODO*////**********************************************************************************************
-    /*TODO*///
-    /*TODO*///     ADPCM_trigger -- handle a write to the ADPCM data stream
-    /*TODO*///
-    /*TODO*///***********************************************************************************************/
-    /*TODO*///
-    /*TODO*///void ADPCM_trigger(int num, int which)
-    /*TODO*///{
-    /*TODO*///	struct ADPCMVoice *voice = &adpcm[num];
-    /*TODO*///	struct ADPCMsample *sample;
-    /*TODO*///
-    /*TODO*///	/* bail if we're not playing anything */
-    /*TODO*///	if (Machine->sample_rate == 0)
-    /*TODO*///		return;
-    /*TODO*///
-    /*TODO*///	/* range check the numbers */
-    /*TODO*///	if (num >= num_voices)
-    /*TODO*///	{
-    /*TODO*///		if (errorlog) fprintf(errorlog,"error: ADPCM_trigger() called with channel = %d, but only %d channels allocated\n", num, num_voices);
-    /*TODO*///		return;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* find a match */
-    /*TODO*///	for (sample = sample_list; sample->length > 0; sample++)
-    /*TODO*///		if (sample->num == which)
-    /*TODO*///		{
-    /*TODO*///			/* update the ADPCM voice */
-    /*TODO*///			stream_update(voice->stream, 0);
-    /*TODO*///
-    /*TODO*///			/* set up the voice to play this sample */
-    /*TODO*///			voice->playing = 1;
-    /*TODO*///			voice->base = &voice->region_base[sample->offset];
-    /*TODO*///			voice->sample = 0;
-    /*TODO*///			voice->count = sample->length;
-    /*TODO*///
-    /*TODO*///			/* also reset the ADPCM parameters */
-    /*TODO*///			voice->signal = -2;
-    /*TODO*///			voice->step = 0;
-    /*TODO*///			return;
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///	if (errorlog) fprintf(errorlog,"warning: ADPCM_trigger() called with unknown trigger = %08x\n",which);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    /**********************************************************************************************
+    
+         ADPCM_trigger -- handle a write to the ADPCM data stream
+    
+    ***********************************************************************************************/
+    
+    public static void ADPCM_trigger(int num, int which)
+    {
+    	ADPCMVoice voice = adpcm[num];//struct ADPCMVoice *voice = &adpcm[num];
+    	//struct ADPCMsample *sample;
+    
+    	/* bail if we're not playing anything */
+    	if (Machine.sample_rate == 0)
+    		return;
+    
+    	/* range check the numbers */
+    	if (num >= num_voices)
+    	{
+    		if (errorlog!=null) fprintf(errorlog,"error: ADPCM_trigger() called with channel = %d, but only %d channels allocated\n", num, num_voices);
+    		return;
+    	}
+    
+    	/* find a match */
+    	//for (sample = sample_list; sample->length > 0; sample++)
+        for(ADPCMsample sample : sample_list)
+        {
+            if(sample.length>0)
+            {
+    		if (sample.num == which)
+    		{
+    			/* update the ADPCM voice */
+    			stream_update(voice.stream, 0);
+    
+    			/* set up the voice to play this sample */
+    			voice.playing = 1;
+    			voice._base = new UBytePtr(voice.region_base,sample.offset);//&voice->region_base[sample->offset];
+    			voice.sample = 0;
+    			voice.count = sample.length;
+    
+    			/* also reset the ADPCM parameters */
+    			voice.signal = -2;
+    			voice.step = 0;
+    			return;
+    		}
+            }
+        }
+    
+    	if (errorlog!=null) fprintf(errorlog,"warning: ADPCM_trigger() called with unknown trigger = %08x\n",which);
+    }
+    
     /**
      * ********************************************************************************************
      *
@@ -412,7 +418,7 @@ public class adpcm extends snd_interface {
 
         /* set up the voice to play this sample */
         voice.playing = 1;
-        voice._base = new UBytePtr(voice.region_base,offset);
+        voice._base = new UBytePtr(voice.region_base, offset);
         voice.sample = 0;
         voice.count = length;
 
@@ -453,34 +459,35 @@ public class adpcm extends snd_interface {
     /*TODO*///
     /*TODO*///
     /*TODO*///
-    /**********************************************************************************************
-    
-         ADPCM_setvol -- change volume on an ADPCM data channel
-    
-    ***********************************************************************************************/
-    
-    public static void ADPCM_setvol(int num, int vol)
-    {
-    	ADPCMVoice voice = adpcm[num];
-    
-    	/* bail if we're not playing anything */
-    	if (Machine.sample_rate == 0)
-    		return;
-    
-    	/* range check the numbers */
-    	if (num >= num_voices)
-    	{
-    		if (errorlog!=null) fprintf(errorlog,"error: ADPCM_setvol() called with channel = %d, but only %d channels allocated\n", num, num_voices);
-    		return;
-    	}
-    
-    	/* update the ADPCM voice */
-    	stream_update(voice.stream, 0);
-    	voice.volume = vol;
+
+    /**
+     * ********************************************************************************************
+     *
+     * ADPCM_setvol -- change volume on an ADPCM data channel
+     *
+     **********************************************************************************************
+     */
+
+    public static void ADPCM_setvol(int num, int vol) {
+        ADPCMVoice voice = adpcm[num];
+
+        /* bail if we're not playing anything */
+        if (Machine.sample_rate == 0) {
+            return;
+        }
+
+        /* range check the numbers */
+        if (num >= num_voices) {
+            if (errorlog != null) {
+                fprintf(errorlog, "error: ADPCM_setvol() called with channel = %d, but only %d channels allocated\n", num, num_voices);
+            }
+            return;
+        }
+
+        /* update the ADPCM voice */
+        stream_update(voice.stream, 0);
+        voice.volume = vol;
     }
-    
-    
-    
 
     /**
      * ********************************************************************************************
@@ -509,6 +516,5 @@ public class adpcm extends snd_interface {
         stream_update(voice.stream, 0);
         return voice.playing;
     }
-
 
 }
