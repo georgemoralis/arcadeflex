@@ -274,7 +274,13 @@ sidearms sidearms.c Z80      [Z80   ]                                           
 sidearmr sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (US)
 sidearjp sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Side Arms - Hyper Dyne (Japan)
 turtship sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Turtle Ship
-
+pcktgal  pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal (Japan)
+pcktgalb pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal (bootleg)
+pcktgal2 pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal 2 (World?)
+spool3   pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Super Pool III (World?)
+spool3i  pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Super Pool III (I-Vics)
+copsnrob copsnrob.c M6502                                                                                                                               Cops'n Robbers
+minivadr minivadr.c Z80                                                                                                                                 Minivader
 
 Probably CPU bugs
 -------------------------------
@@ -872,7 +878,7 @@ arkbloc2 arkanoid.c Z80                                                         
 arkangc  arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Game Corporation bootleg)
 
 superman superman.c 68000    Z80                                                            1xYM-2610                                                   Superman
-minivadr minivadr.c Z80                                                                                                                                 Minivader
+
 extrmatn tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Extermination (US)
 arkanoi2 tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Arkanoid - Revenge of DOH (World)
 ark2us   tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Arkanoid - Revenge of DOH (US)
@@ -1281,11 +1287,6 @@ sidepctb sidepckt.c M6809    [M6502 ]                                           
 exprraid exprraid.c M6502    M6809                                                          1xYM-2203   1xYM-3526                                       Express Raider (US)
 wexpress exprraid.c M6502    M6809                                                          1xYM-2203   1xYM-3526                                       Western Express (World?)
 wexpresb exprraid.c M6502    M6809                                                          1xYM-2203   1xYM-3526                                       Western Express (bootleg)
-pcktgal  pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal (Japan)
-pcktgalb pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal (bootleg)
-pcktgal2 pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Pocket Gal 2 (World?)
-spool3   pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Super Pool III (World?)
-spool3i  pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Super Pool III (I-Vics)
 actfancr actfancr.c HuC6280  [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Act-Fancer Cybernetick Hyper Weapon (World revision 2)
 actfanc1 actfancr.c HuC6280  [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Act-Fancer Cybernetick Hyper Weapon (World revision 1)
 actfancj actfancr.c HuC6280  [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Act-Fancer Cybernetick Hyper Weapon (Japan revision 1)
@@ -1578,7 +1579,7 @@ sbrkout  sbrkout.c  M6502                                                       
 dominos  dominos.c  M6502                                                                                                                               Dominos
 nitedrvr nitedrvr.c M6502                                                                                                                               Night Driver
 bsktball bsktball.c M6502                                                                   3xDAC                                                       Basketball
-copsnrob copsnrob.c M6502                                                                                                                               Cops'n Robbers
+
 avalnche avalnche.c M6502                                                                   2xDAC                                                       Avalanche
 subs     subs.c     M6502                                                                                                                               Subs
 atarifb  atarifb.c  M6502                                                                   3xDAC                                                       Atari Football (revision 2)

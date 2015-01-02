@@ -22,7 +22,7 @@ First official release with the following features:
 
 CPU emulation
 ============
-Z89
+Z80
 M6809
 HD6309
 M6502

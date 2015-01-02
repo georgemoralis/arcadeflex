@@ -415,7 +415,13 @@ public class driver {
         /*271*//*sidearms*/driver_sidearmr,
         /*272*//*sidearms*/driver_sidearjp,
         /*273*//*sidearms*/driver_turtship,
-        
+        /*274*//*pcktgal*/driver_pcktgal,	
+        /*275*//*pcktgal*/driver_pcktgalb,	
+        /*276*//*pcktgal*/driver_pcktgal2,	
+        /*277*//*pcktgal*/driver_spool3,	
+        /*278*//*pcktgal*/driver_spool3i,
+        /*279*//*minivadr*/driver_minivadr,
+        /*280*//*copsnrob*/driver_copsnrob,
         
         /*
           Possible cpu bugs
@@ -468,8 +474,7 @@ public class driver {
         /*013*//*system1*/driver_dakkochn,	
 	/*014*//*system1*/driver_ufosensi,	
         /*015*//*scobra*/driver_darkplnt,
-        /*016*//*spy*/driver_spy,  //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)
-        
+        /*016*//*spy*/driver_spy,  //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
         /*017//*ironhors*/driver_farwest,
         
         
@@ -477,7 +482,7 @@ public class driver {
         */
         
         
-        /*copsnrob*/driver_copsnrob, 
+         
         
         /**
          * Games that only misses sound
@@ -500,16 +505,7 @@ public class driver {
         /*kingobox*/driver_kingofb,
         /*kingobox*/driver_ringking,
         /*kingobox*/driver_ringkin3,
-        
-        
-        
-        /*pcktgal*/driver_pcktgal,	
-        /*pcktgal*/driver_pcktgalb,	
-        /*pcktgal*/driver_pcktgal2,	
-        /*pcktgal*/driver_spool3,	
-        /*pcktgal*/driver_spool3i,
-        
-            
+    
         /*hyperspt*/driver_hyperspt,
         /*hyperspt*/driver_hpolym84,
         /*hyperspt*/driver_roadf,
@@ -782,7 +778,7 @@ public class driver {
         driver_bootcamp,	/* GX611 (c) 1987 */
         driver_combascb,	/* bootleg */
       driver_cheekyms,
-        driver_minivadr,	/* cabinet test board */
+        
 
             /* "Midway" Z80 b/w games */
     driver_astinvad,	/* (c) 1980 Stern */
