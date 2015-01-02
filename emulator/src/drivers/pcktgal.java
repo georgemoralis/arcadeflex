@@ -49,6 +49,8 @@ import static sound.MSM5205.*;
 import static sound.MSM5205H.*;
 import static sound._3812intfH.*;
 import static sound._3812intf.*;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
 
 public class pcktgal {
 
@@ -161,8 +163,8 @@ public class pcktgal {
     static MemoryWriteAddress sound_writemem[]
             = {
                 new MemoryWriteAddress(0x0000, 0x07ff, MWA_RAM),
-                /*TODO*///		new MemoryWriteAddress( 0x0800, 0x0800, YM2203_control_port_0_w ),
-                /*TODO*///		new MemoryWriteAddress( 0x0801, 0x0801, YM2203_write_port_0_w ),
+                new MemoryWriteAddress(0x0800, 0x0800, YM2203_control_port_0_w),
+                new MemoryWriteAddress(0x0801, 0x0801, YM2203_write_port_0_w),
                 new MemoryWriteAddress(0x1000, 0x1000, YM3812_control_port_0_w),
                 new MemoryWriteAddress(0x1001, 0x1001, YM3812_write_port_0_w),
                 new MemoryWriteAddress(0x1800, 0x1800, pcktgal_adpcm_data_w), /* ADPCM data for the MSM5205 chip */
@@ -282,16 +284,16 @@ public class pcktgal {
     /**
      * ************************************************************************
      */
-    /*TODO*///	static struct YM2203interface ym2203_interface =
-/*TODO*///	{
-/*TODO*///		1,	  /* 1 chip */
-/*TODO*///		4000000,		/* 4.0 MHz ??? */
-/*TODO*///		{ YM2203_VOL(60,60) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 }
-/*TODO*///	};
+    static YM2203interface ym2203_interface = new YM2203interface(
+            1, /* 1 chip */
+            4000000, /* 4.0 MHz ??? */
+            new int[]{YM2203_VOL(60, 60)},
+            new ReadHandlerPtr[]{null},
+            new ReadHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null}
+    );
+
     static YM3812interface ym3812_interface = new YM3812interface(
             1, /* 1 chip (no more supported) */
             3000000, /* 3 MHz? (hand tuned) */
@@ -343,14 +345,14 @@ public class pcktgal {
             /* sound hardware */
             0, 0, 0, 0,
             new MachineSound[]{
-                /*new MachineSound(
-                 SOUND_YM2203,
-                 ym2203_interface
-                 ),*/
-                 new MachineSound(
-                 SOUND_YM3812,
-                 ym3812_interface
-                 ),
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3812,
+                        ym3812_interface
+                ),
                 new MachineSound(
                         SOUND_MSM5205,
                         msm5205_interface
@@ -366,15 +368,15 @@ public class pcktgal {
                         2000000,
                         readmem, writemem, null, null,
                         nmi_interrupt, 1
-                )//,
-/*			new MachineCPU(
-             CPU_M6502 | CPU_AUDIO_CPU,
-             2000000,
-             sound_readmem,sound_writemem,null,null,
-             ignore_interrupt,0
-             /* IRQs are caused by the ADPCM chip */
-            /* NMIs are caused by the main CPU */
-//			)
+                ),
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        2000000,
+                        sound_readmem, sound_writemem, null, null,
+                        ignore_interrupt, 0
+                /* IRQs are caused by the ADPCM chip */
+                /* NMIs are caused by the main CPU */
+                )
             },
             60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
             1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
@@ -391,21 +393,20 @@ public class pcktgal {
             pcktgal_vh_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,
-            /*new MachineSound[] {
-             new MachineSound(
-             SOUND_YM2203,
-             ym2203_interface
-             ),
-             new MachineSound(
-             SOUND_YM3812,
-             ym3812_interface
-             ),
-             new MachineSound(
-             SOUND_MSM5205,
-             msm5205_interface
-             )
-             }*/
-            null
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3812,
+                        ym3812_interface
+                ),
+                new MachineSound(
+                        SOUND_MSM5205,
+                        msm5205_interface
+                )
+            }
     );
 
     /**
