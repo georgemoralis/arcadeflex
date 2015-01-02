@@ -1094,7 +1094,7 @@ public class m6809 extends cpu_interface
     			case 0xef: stu_ix();   m6809_ICount[0]-= 5; break;
     			case 0xf0: subb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xf1: cmpb_ex();  m6809_ICount[0]-= 5; break;
-    /*TODO*///			case 0xf2: sbcb_ex();  m6809_ICount-= 5; break;
+    			case 0xf2: sbcb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xf3: addd_ex();  m6809_ICount[0]-= 7; break;
     			case 0xf4: andb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xf5: bitb_ex();  m6809_ICount[0]-= 5; break;
@@ -4324,16 +4324,15 @@ public class m6809 extends cpu_interface
         if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
   
     }
-    /*TODO*///
-    /*TODO*////* $f2 SBCB extended ?**** */
+    /* $f2 SBCB extended ?**** */
     public void sbcb_ex()
     {
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	EXTBYTE(t);
-    /*TODO*///	r = B - t - (CC & CC_C);
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	B = r;
+        int t,r;
+    	t = EXTBYTE();
+    	r = (m6809.b - t - (m6809.cc & CC_C))&0xFFFF;
+    	CLR_NZVC();
+    	SET_FLAGS8(m6809.b,t,r);
+    	m6809.b = r & 0xFF;
     }
     /* $f3 ADDD extended -**** */
     public void addd_ex()

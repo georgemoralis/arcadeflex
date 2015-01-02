@@ -132,6 +132,8 @@ import static drivers.slapfght.*;
 import static drivers.marvins.*;
 import static drivers.hcastle.*;
 import static drivers.snowbros.*;
+import static drivers.mnight.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -430,6 +432,11 @@ public class driver {
         /*286*//*lwings*/driver_lwings,
         /*287*//*lwings*/driver_lwings2,
         /*288*//*lwings*/driver_lwingsjp,
+        /*289*//*snk*/driver_tnk3,		
+        /*290*//*snk*/driver_tnk3j,		
+        /*291*//*snk*/driver_fitegolf,	
+        /*292*//*snk*/driver_tdfever,        
+        /*293*//*snk*/driver_tdfeverj,
         
         /*
           Possible cpu bugs
@@ -669,6 +676,8 @@ public class driver {
         /*renegade*/driver_kuniokub,//no sprites?
         
 
+        /*mnight*/driver_mnight,
+        /*mnight*/driver_arkarea,
         
         /*flkatck*/driver_mx5000,
         /*flkatck*/driver_flkatck,
@@ -679,14 +688,15 @@ public class driver {
         /*slapfght*/driver_tigerh,
 	/*slapfght*/driver_tigerh2,
 	/*slapfght*/driver_tigerhj,
-	/*slapfght*/driver_tigerhb1,
-	/*slapfght*/driver_tigerhb2,
-	/*slapfght*/driver_slapfigh,
-	/*slapfght*/driver_slapbtjp,
-	/*slapfght*/driver_slapbtuk,
-	/*slapfght*/driver_alcon,
+        /*slapfght*/driver_slapfigh,
+        /*slapfght*/driver_alcon,
 	/*slapfght*/driver_getstar,
 	/*slapfght*/driver_getstarj,
+        
+	/*slapfght*/driver_tigerhb1,
+	/*slapfght*/driver_tigerhb2,
+	/*slapfght*/driver_slapbtjp,
+	/*slapfght*/driver_slapbtuk,	
 	/*slapfght*/driver_getstarb,
         
         /*marvins*/driver_marvins, //screen issues 
@@ -739,11 +749,8 @@ public class driver {
         driver_vigilntu,	/* (c) 1988 (US) */
         driver_vigilntj,	/* (c) 1988 (Japan) */
         driver_kikcubic,	/* (c) 1988 (Japan) */
-        
-         driver_tnk3,		/* A5001      (c) 1985 */
-        driver_tnk3j,		/* A5001      (c) 1985 */
+                
         driver_athena,	        /*       'UP' (c) 1986 */
-        driver_fitegolf,	/*       'GU' (c) 1988 */
         driver_ikari,		/* A5004 'IW' (c) 1986 */
         driver_ikarijp,         /* A5004 'IW' (c) 1986 (Japan) */
         driver_ikarijpb,	/* bootleg */
@@ -762,8 +769,7 @@ public class driver {
         driver_chopper,         /* A7003 'KK' (c) 1988 */
         driver_legofair,	/* A7003 'KK' (c) 1988 */
         driver_ftsoccer,	/*            (c) 1988 */
-        driver_tdfever,         /* A6006 'TD' (c) 1987 */
-        driver_tdfeverj,	/* A6006 'TD' (c) 1987 */
+        
         
         
             
@@ -2442,8 +2448,7 @@ public class driver {
 /*TODO*/ //	DRIVER( ninjak2a )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( ninjak2b )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( rdaction )	/* (c) 1987 + World Games license */
-/*TODO*/ //	DRIVER( mnight )	/* (c) 1987 distributed by Kawakus */
-/*TODO*/ //	DRIVER( arkarea )	/* UPL-87007 (c) [1988?] */
+
 
 	/* Williams/Midway TMS34010 games */
 /*TODO*/ //	DRIVER( narc )		/* (c) 1988 Williams */

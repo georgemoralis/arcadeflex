@@ -289,6 +289,11 @@ trojanj  lwings.c   Z80      [Z80   ]                                           
 lwings   lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 1)
 lwings2  lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 2)
 lwingsjp lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ales no Tsubasa (Japan)
+tnk3     snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   TNK III (US?)
+tnk3j    snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   Tank (Japan)
+fitegolf snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Fighting Golf
+tdfever  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever
+tdfeverj snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever (Japan)
 
 
 
@@ -1696,10 +1701,7 @@ vangrd2  marvins.c  Z80      Z80      [Z80   ]                                  
 hal21    hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21
 hal21j   hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21 (Japan)
 aso      hal21.c    Z80      Z80      [Z80   ]                                              1xYM-3526                                                   ASO - Armored Scrum Object
-tnk3     snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   TNK III (US?)
-tnk3j    snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   Tank (Japan)
 athena   snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Athena
-fitegolf snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Fighting Golf
 ikari    snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (US)
 ikarijp  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan)
 ikarijpb snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan bootleg)
@@ -1718,8 +1720,6 @@ psychosj snk.c      Z80      Z80      [Z80   ]                                  
 chopper  snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Chopper I
 legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
 ftsoccer snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   Fighting Soccer
-tdfever  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever
-tdfeverj snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever (Japan)
 ikari3   snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Ikari III - The Rescue
 pow      snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         P.O.W. - Prisoners of War (US)
 powj     snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Datsugoku - Prisoners of War (Japan)

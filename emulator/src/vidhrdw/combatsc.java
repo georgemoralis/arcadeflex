@@ -402,13 +402,13 @@ public class combatsc
 		if ((data & 0x40) != 0)
 		{
 			combasc_video_circuit = 1;
-			videoram = combasc_page[1];
+			videoram = new UBytePtr(combasc_page[1]);
 			combasc_scrollram = combasc_scrollram1;
 		}
 		else
 		{
 			combasc_video_circuit = 0;
-			videoram = combasc_page[0];
+			videoram = new UBytePtr(combasc_page[0]);
 			combasc_scrollram = combasc_scrollram0;
 		}
 	
@@ -429,12 +429,12 @@ public class combatsc
 		if ((data & 0x40) != 0)
 		{
 			combasc_video_circuit = 1;
-			videoram = combasc_page[1];
+			videoram = new UBytePtr(combasc_page[1]);
 		}
 		else
 		{
 			combasc_video_circuit = 0;
-			videoram = combasc_page[0];
+			videoram = new UBytePtr(combasc_page[0]);
 		}
 	
 		data = data & 0x1f;
@@ -507,13 +507,13 @@ public class combatsc
 		{
 			if ((data & 0x08) != 0)
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
-				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1000,0x800);
+                            //System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1000, private_spriteram[combasc_video_circuit].memory, 0, 0x800);
+				memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1000,0x800);
                         }
                         else
                         {
-                            System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1800, private_spriteram[combasc_video_circuit].memory,0, 0x800);
-				//memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1800,0x800);
+                            //System.arraycopy(combasc_page[combasc_video_circuit].memory, combasc_page[combasc_video_circuit].offset+0x1800, private_spriteram[combasc_video_circuit].memory,0, 0x800);
+				memcpy(private_spriteram[combasc_video_circuit],0,combasc_page[combasc_video_circuit],0x1800,0x800);
 		
                         }
                 }
@@ -540,7 +540,7 @@ public class combatsc
 	static void draw_sprites(osd_bitmap bitmap, UBytePtr source, int circuit)
 	{
 		int base_color = (circuit*4)*16+(K007121_ctrlram[circuit][6]&0x10)*2;       
-		K007121_sprites_draw(circuit,bitmap,new UBytePtr(source,source.offset),base_color,0,0);
+		K007121_sprites_draw(circuit,bitmap,new UBytePtr(source),base_color,0,0);
 	}
 	
 	public static VhUpdatePtr combasc_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 

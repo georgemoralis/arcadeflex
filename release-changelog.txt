@@ -3,13 +3,28 @@
 Drivers
 ======
 Haunted castle (hcastle)
-
+blktiger
+citycon
+ironhors
+wc90
+gundealr
+commando
+brkthru
+gng
+gunsmoke
+1943
+sidearms
+pcktgal
+minivadr
+copsnrob
+lwings
 
 Audio emulation
 =============
 K0073232
 K051649
 YM2203
+Improvements to ADPCM
 
 
 

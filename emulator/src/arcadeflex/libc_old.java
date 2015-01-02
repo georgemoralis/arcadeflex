@@ -386,8 +386,10 @@ public class libc_old {
     }
     public static void memcpy(UBytePtr dst,int dstoffs, UBytePtr src,int srcoffs, int size) 
     {
-        memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
-    
+        //memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
+        for (int i = 0; i < size; i++) {
+            dst.write(i+dstoffs, src.read(i+srcoffs));     
+        }
     }
 
     public static void memcpy(char[] dst, CharPtr src, int size) {

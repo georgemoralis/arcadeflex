@@ -24,6 +24,11 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static vidhrdw.ddrible.*;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
+import static mame.sndintrfH.*;
+import static sound.streams.*;
+
 
 public class ddrible
 {
@@ -31,8 +36,8 @@ public class ddrible
 	public static ReadHandlerPtr ddrible_vlm5030_busy_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		return rand(); /* patch */
-/*TODO*///		if (VLM5030_BSY()) return 1;
-/*TODO*///		else return 0;
+		//if (VLM5030_BSY()) return 1;
+                //else return 0;
 	} };
 	
 	public static WriteHandlerPtr ddrible_vlm5030_ctrl_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -50,9 +55,9 @@ public class ddrible
 		/* b2 : SSG-C rc filter enable */
 		/* b1 : SSG-B rc filter enable */
 		/* b0 : SSG-A rc filter enable */
-/*TODO*///		set_RC_filter(2,1000,2200,1000,data & 0x04 ? 150000 : 0); /* YM2203-SSG-C */
-/*TODO*///		set_RC_filter(1,1000,2200,1000,data & 0x02 ? 150000 : 0); /* YM2203-SSG-B */
-/*TODO*///		set_RC_filter(0,1000,2200,1000,data & 0x01 ? 150000 : 0); /* YM2203-SSG-A */
+		set_RC_filter(2,1000,2200,1000,(data & 0x04)!=0 ? 150000 : 0); /* YM2203-SSG-C */
+		set_RC_filter(1,1000,2200,1000,(data & 0x02)!=0 ? 150000 : 0); /* YM2203-SSG-B */
+		set_RC_filter(0,1000,2200,1000,(data & 0x01)!=0 ? 150000 : 0); /* YM2203-SSG-A */
 	} };
 	
 		/* CPU 0 read addresses */
@@ -121,8 +126,8 @@ public class ddrible
 	static MemoryReadAddress readmem_cpu2[] =
 	{
 		new MemoryReadAddress( 0x0000, 0x07ff, ddrible_snd_sharedram_r ),	/* shared RAM with CPU #1 */
-/*TODO*///		new MemoryReadAddress( 0x1000, 0x1000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x1001, 0x1001, YM2203_read_port_0_r ),
+		new MemoryReadAddress( 0x1000, 0x1000, YM2203_status_port_0_r ),
+		new MemoryReadAddress( 0x1001, 0x1001, YM2203_read_port_0_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
@@ -131,8 +136,8 @@ public class ddrible
 	static MemoryWriteAddress writemem_cpu2[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x07ff, ddrible_snd_sharedram_w, ddrible_snd_sharedram  ),/* shared RAM with CPU #1 */
-/*TODO*///		new MemoryWriteAddress( 0x1000, 0x1000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x1001, 0x1001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0x1000, 0x1000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0x1001, 0x1001, YM2203_write_port_0_w ),
 /*TODO*///		new MemoryWriteAddress( 0x3000, 0x3000, VLM5030_data_w ),
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),
 		new MemoryWriteAddress( -1 )	/* end of table */
@@ -304,16 +309,17 @@ public class ddrible
 		new GfxDecodeInfo( -1 ) /* end of array */
 	};
 	
-/*TODO*///	static struct YM2203interface ym2203_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3580000,	/* 3.58 MHz */
-/*TODO*///		{ YM2203_VOL(25,25) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ ddrible_vlm5030_busy_r },
-/*TODO*///		{ ddrible_vlm5030_ctrl_w },
-/*TODO*///		{ 0 }
-/*TODO*///	};
+
+        static YM2203interface ym2203_interface = new YM2203interface
+	(
+		1,			/* 1 chip */
+		3580000,	/* 3.58 MHz */
+		new int[] { YM2203_VOL(25,25) },
+		new ReadHandlerPtr[] { null },
+		new ReadHandlerPtr[] { ddrible_vlm5030_busy_r },
+		new WriteHandlerPtr[] { ddrible_vlm5030_ctrl_w },
+		new WriteHandlerPtr[] { null }
+	);
 	
 /*TODO*///	static struct VLM5030interface vlm5030_interface =
 /*TODO*///	{
@@ -365,17 +371,16 @@ public class ddrible
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			),
+			)/*,
 			new MachineSound(
 				SOUND_VLM5030,
 				vlm5030_interface
-			)
-		}*/
-                null
+			)*/
+		}
 	);
 	
 	

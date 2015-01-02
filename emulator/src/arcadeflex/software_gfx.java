@@ -94,7 +94,17 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                     {
                         localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j + (int) (j * 0.14), null);
                     }
-                } else {
+                } 
+                else if(Machine.gamedrv.name.equals("tnk3")|| Machine.gamedrv.name.equals("tnk3j"))
+                {
+                    localGraphics2D.drawImage(this._image, this._insets.left-(int)(i*0.02), this._insets.top, i, j, null);
+                }
+                else if(Machine.gamedrv.name.equals("tdfever")|| Machine.gamedrv.name.equals("tdfeverj"))
+                {
+                    localGraphics2D.drawImage(this._image, this._insets.left+(int)(i*0.03), this._insets.top, i, j, null);
+                }               
+                else 
+                {
                     localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
                 }
                 this._strategy.show();
