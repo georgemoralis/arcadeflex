@@ -281,6 +281,16 @@ spool3   pcktgal.c  M6502    [M6502 ]                                           
 spool3i  pcktgal.c  M6502    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xMSM5205                           Super Pool III (I-Vics)
 copsnrob copsnrob.c M6502                                                                                                                               Cops'n Robbers
 minivadr minivadr.c Z80                                                                                                                                 Minivader
+sectionz lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 1)
+sctionza lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 2)
+trojan   lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Trojan (US)
+trojanr  lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Trojan (Romstar)
+trojanj  lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Tatakai no Banka (Japan)
+lwings   lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 1)
+lwings2  lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 2)
+lwingsjp lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ales no Tsubasa (Japan)
+
+
 
 Probably CPU bugs
 -------------------------------
@@ -334,6 +344,8 @@ NOT WORKING IN MAME 0.36 EITHER
 015)darkplnt scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Dark Planet
 016)spy      spy.c      HD6309   [Z80   ]                                                       1xYM-3812   2x007232                                        S.P.Y. - Special Project Y (US)
 017)farwest  ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Far West
+018)avengers lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 1)
+019)avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 
 TODO
 ---------
@@ -990,20 +1002,11 @@ higemaru higemaru.c Z80                                                         
 
 exedexes exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Exed Exes
 savgbees exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Savage Bees
-sectionz lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 1)
-sctionza lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Section Z (set 2)
-trojan   lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Trojan (US)
-trojanr  lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Trojan (Romstar)
-trojanj  lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Tatakai no Banka (Japan)
+
 srumbler srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 1)
 srumblr2 srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 2)
 rushcrsh srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   Rush & Crash (Japan)
-lwings   lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 1)
-lwings2  lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Legendary Wings (US set 2)
-lwingsjp lwings.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ales no Tsubasa (Japan)
 
-avengers lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 1)
-avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 bionicc  bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 1)
 bionicc2 bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 2)
 topsecrt bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Top Secret (Japan)

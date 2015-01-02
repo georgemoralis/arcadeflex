@@ -422,6 +422,14 @@ public class driver {
         /*278*//*pcktgal*/driver_spool3i,
         /*279*//*minivadr*/driver_minivadr,
         /*280*//*copsnrob*/driver_copsnrob,
+        /*281*//*lwings*/driver_sectionz,
+        /*282*//*lwings*/driver_sctionza,
+        /*283*//*lwings*/driver_trojan,
+        /*284*//*lwings*/driver_trojanr,
+        /*285*//*lwings*/driver_trojanj,
+        /*286*//*lwings*/driver_lwings,
+        /*287*//*lwings*/driver_lwings2,
+        /*288*//*lwings*/driver_lwingsjp,
         
         /*
           Possible cpu bugs
@@ -476,7 +484,8 @@ public class driver {
         /*015*//*scobra*/driver_darkplnt,
         /*016*//*spy*/driver_spy,  //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
         /*017//*ironhors*/driver_farwest,
-        
+        /*018*//*lwings*/driver_avengers,
+        /*019*//*lwings*/driver_avenger2,
         
         /*TO RECHECK
         */
@@ -489,14 +498,7 @@ public class driver {
          * 
          */
            
-        /*lwings*/driver_sectionz,
-        /*lwings*/driver_sctionza,
-        /*lwings*/driver_trojan,
-        /*lwings*/driver_trojanr,
-        /*lwings*/driver_trojanj,
-        /*lwings*/driver_lwings,
-        /*lwings*/driver_lwings2,
-        /*lwings*/driver_lwingsjp,
+        
         /*trackfld*/driver_trackfld,
         /*trackfld*/driver_trackflc,
         /*trackfld*/driver_hyprolym,
@@ -589,8 +591,7 @@ public class driver {
          * Games not working in mame 0.36 either
          */
         
-        /*lwings*/driver_avengers,
-        /*lwings*/driver_avenger2,
+        
         /*kingobox*/driver_ringkin2,
         
 
