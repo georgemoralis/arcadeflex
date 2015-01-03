@@ -446,6 +446,10 @@ public class driver {
         /*296*//*bublbobl*/driver_boblbobl,
         /*297*//*bublbobl*/driver_sboblbob,
         /*298*//*bublbobl*/driver_tokiob,
+        /*299*//*nova2001*/driver_nova2001,
+        /*300*//*nova2001*/driver_nov2001u,
+        /*301*//*pkunwar*/driver_pkunwar,
+        /*302*//*pkunwar*/driver_pkunwarj,
         
         /*
           Possible cpu bugs
@@ -2447,10 +2451,7 @@ public class driver {
 /*TODO*/ //	DRIVER( jackrabs )	/* (c) 1984 */
 
 	/* UPL games */
-/*nova2001*/driver_nova2001,
-/*nova2001*/driver_nov2001u,
-/*pkunwar*/driver_pkunwar,
-/*pkunwar*/driver_pkunwarj,
+
 /*TODO*/ //	DRIVER( ninjakd2 )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( ninjak2a )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( ninjak2b )	/* (c) 1987 */

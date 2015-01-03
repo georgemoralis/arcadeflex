@@ -18,6 +18,9 @@ pcktgal
 minivadr
 copsnrob
 lwings
+exedexes
+nova2001
+pkunwar
 
 Audio emulation
 =============
