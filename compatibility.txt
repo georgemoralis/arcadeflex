@@ -294,7 +294,8 @@ tnk3j    snk.c      Z80      Z80      [Z80   ]                                  
 fitegolf snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Fighting Golf
 tdfever  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever
 tdfeverj snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever (Japan)
-
+exedexes exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Exed Exes
+savgbees exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Savage Bees
 
 
 Probably CPU bugs
@@ -1004,9 +1005,6 @@ joust2   williams.c M6809    [M6808 ] [M6809 ]                                  
 
 
 higemaru higemaru.c Z80                                                                     2xAY-8910                                                   Pirate Ship HigeMaru
-
-exedexes exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Exed Exes
-savgbees exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Savage Bees
 
 srumbler srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 1)
 srumblr2 srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 2)

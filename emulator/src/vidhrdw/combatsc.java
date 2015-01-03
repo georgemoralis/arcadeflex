@@ -403,13 +403,13 @@ public class combatsc
 		{
 			combasc_video_circuit = 1;
 			videoram = new UBytePtr(combasc_page[1]);
-			combasc_scrollram = combasc_scrollram1;
+			combasc_scrollram = new UBytePtr(combasc_scrollram1);
 		}
 		else
 		{
 			combasc_video_circuit = 0;
 			videoram = new UBytePtr(combasc_page[0]);
-			combasc_scrollram = combasc_scrollram0;
+			combasc_scrollram = new UBytePtr(combasc_scrollram0);
 		}
 	
 		priority = data & 0x20;
@@ -429,12 +429,12 @@ public class combatsc
 		if ((data & 0x40) != 0)
 		{
 			combasc_video_circuit = 1;
-			videoram = new UBytePtr(combasc_page[1]);
+			videoram = combasc_page[1];
 		}
 		else
 		{
 			combasc_video_circuit = 0;
-			videoram = new UBytePtr(combasc_page[0]);
+			videoram = combasc_page[0];
 		}
 	
 		data = data & 0x1f;

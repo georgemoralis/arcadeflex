@@ -133,7 +133,7 @@ import static drivers.marvins.*;
 import static drivers.hcastle.*;
 import static drivers.snowbros.*;
 import static drivers.mnight.*;
-
+import static drivers.exedexes.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -437,6 +437,8 @@ public class driver {
         /*291*//*snk*/driver_fitegolf,	
         /*292*//*snk*/driver_tdfever,        
         /*293*//*snk*/driver_tdfeverj,
+        /*294*//*exedexes*/driver_exedexes,
+        /*295*//*exedexes*/driver_savgbees,
         
         /*
           Possible cpu bugs
@@ -1566,12 +1568,8 @@ public class driver {
             
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
             
-/*TODO*/ //	DRIVER( exedexes )	/*  2/1985 (c) 1985 */
-/*TODO*/ //	DRIVER( savgbees )	/*  2/1985 (c) 1985 + Memetron license */
 
-            
-
-            
+        
 /*TODO*/ //	DRIVER( srumbler )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( srumblr2 )	/*  9/1986 (c) 1986 */
 /*TODO*/ //	DRIVER( rushcrsh )	/*  9/1986 (c) 1986 */
