@@ -71,7 +71,22 @@ public class ptrlib {
         }
         public char READ_WORD(int index)
         {
-            return (char)(((memory[offset + 1 + index] << 8)& 0xFF) | (memory[offset + index]& 0xFF));
+            //return (char)(((memory[offset + 1 + index] << 8)& 0xFF) | (memory[offset + index]& 0xFF));
+            return (char)((( memory[offset+index]&0xFF) << 0)
+                    | (( memory[offset+index + 1]&0xFF) << 8));
+            
+        }
+        public int READ_DWORD(int index)//unchecked!
+        {
+           /*return( ((memory[offset + 3 + index] << 24)& 0xFF)
+            | ((memory[offset + 2 + index] << 16)& 0xFF)
+            | ((memory[offset + 1 + index] << 8)& 0xFF) 
+            | ((memory[offset + index]& 0xFF)));*/
+            int myNumber = (( memory[offset+index]&0xFF) << 0)
+                    | (( memory[offset+index + 1]&0xFF) << 8)
+                    | (( memory[offset+index + 2]&0xFF) << 16)
+                    | (( memory[offset+index + 3]&0xFF) << 24);
+            return myNumber;
         }
 
         public char read(int index) {

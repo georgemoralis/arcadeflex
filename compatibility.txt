@@ -296,6 +296,9 @@ tdfever  snk.c      Z80      Z80      [Z80   ]                                  
 tdfeverj snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   TouchDown Fever (Japan)
 exedexes exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Exed Exes
 savgbees exedexes.c Z80      [Z80   ]                                                       2xAY-8910   2xSN76496                                       Savage Bees
+boblbobl bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Bobble Bobble
+sboblbob bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Super Bobble Bobble
+tokiob   bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation (bootleg)
 
 
 Probably CPU bugs
@@ -352,6 +355,7 @@ NOT WORKING IN MAME 0.36 EITHER
 017)farwest  ironhors.c M6809    [Z80   ]                                                       1xYM-2203                                                   Far West
 018)avengers lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 1)
 019)avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
+020)tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
 
 TODO
 ---------
@@ -873,10 +877,6 @@ ogonsiro gladiatr.c Z80      Z80      [M6809 ]                                  
 bublbobl bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble
 bublbobr bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble (US set 1)
 bubbobr1 bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble (US set 2)
-boblbobl bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Bobble Bobble
-sboblbob bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Super Bobble Bobble
-tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
-tokiob   bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation (bootleg)
 kicknrun mexico86.c Z80      Z80      M68705                                                1xYM-2203                                                   Kick and Run
 mexico86 mexico86.c Z80      Z80      M68705                                                1xYM-2203                                                   Mexico 86
 kikikai  mexico86.c Z80      Z80      M68705                                                1xYM-2203                                                   KiKi KaiKai
