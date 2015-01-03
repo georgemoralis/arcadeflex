@@ -1241,16 +1241,17 @@ public class tnzs
 		new WriteYmHandlerPtr[]{ irqhandler }
         );
 	
-/*TODO*///	static struct YM2203interface kageki_ym2203_interface =
-/*TODO*///	{
-/*TODO*///		1,					/* 1 chip */
-/*TODO*///		3000000,				/* 12000000/4 ??? */
-/*TODO*///		{ YM2203_VOL(35, 15) },
-/*TODO*///		{ kageki_csport_r },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ kageki_csport_w },
-/*TODO*///	};
+        static YM2203interface kageki_ym2203_interface = new YM2203interface
+	(
+		1,			/* 1 chip */
+		3000000,				/* 12000000/4 ??? */
+		new int[]{ YM2203_VOL(35, 15) },
+		new ReadHandlerPtr[]{ kageki_csport_r },
+		new ReadHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ kageki_csport_w}
+        );
+
 	
 /*TODO*///	static struct Samplesinterface samples_interface =
 /*TODO*///	{
@@ -1302,13 +1303,12 @@ public class tnzs
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_drtoppel = new MachineDriver
@@ -1346,13 +1346,12 @@ public class tnzs
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_tnzs = new MachineDriver
@@ -1441,13 +1440,12 @@ public class tnzs
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203b_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_insectx = new MachineDriver
@@ -1486,13 +1484,12 @@ public class tnzs
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	static MachineDriver machine_driver_kageki = new MachineDriver
@@ -1530,11 +1527,11 @@ public class tnzs
 	
 		/* sound hardware */
 		0, 0, 0, 0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				kageki_ym2203_interface
-			),
+			)/*,
 			new MachineSound(
 				SOUND_SAMPLES,
 				samples_interface
@@ -1542,9 +1539,8 @@ public class tnzs
 			new MachineSound(
 				SOUND_CUSTOM,
 				custom_interface
-			)
-		}*/
-                null
+			)*/
+		}
 	);
 	
 	

@@ -531,7 +531,7 @@ public class tnzs
 	
 		/* there's code which falls through from the fixed ROM to bank #2, I have to */
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
-		memcpy(RAM.memory,RAM.offset+0x08000,RAM.memory,RAM.offset+0x18000,0x4000);
+		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
 	public static InitDriverPtr init_drtoppel = new InitDriverPtr() { public void handler() 
 	{
@@ -541,7 +541,7 @@ public class tnzs
 	
 		/* there's code which falls through from the fixed ROM to bank #0, I have to */
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
-		memcpy(RAM.memory,RAM.offset+0x08000,RAM.memory,RAM.offset+0x18000,0x4000);
+		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
 	public static InitDriverPtr init_chukatai = new InitDriverPtr() { public void handler() 
 	{
@@ -551,7 +551,7 @@ public class tnzs
 	
 		/* there's code which falls through from the fixed ROM to bank #0, I have to */
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
-		memcpy(RAM.memory,RAM.offset+0x08000,RAM.memory,RAM.offset+0x18000,0x4000);
+		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
 	public static InitDriverPtr init_tnzs = new InitDriverPtr() { public void handler() 
 	{
@@ -560,7 +560,7 @@ public class tnzs
 	
 		/* there's code which falls through from the fixed ROM to bank #0, I have to */
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
-		memcpy(RAM.memory,RAM.offset+0x08000,RAM.memory,RAM.offset+0x18000,0x4000);
+		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
 	public static InitDriverPtr init_insectx = new InitDriverPtr() { public void handler() 
 	{

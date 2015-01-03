@@ -134,6 +134,8 @@ import static drivers.hcastle.*;
 import static drivers.snowbros.*;
 import static drivers.mnight.*;
 import static drivers.exedexes.*;
+import static drivers.bublbobl.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -439,6 +441,9 @@ public class driver {
         /*293*//*snk*/driver_tdfeverj,
         /*294*//*exedexes*/driver_exedexes,
         /*295*//*exedexes*/driver_savgbees,
+        /*296*//*bublbobl*/driver_boblbobl,
+        /*297*//*bublbobl*/driver_sboblbob,
+        /*298*//*bublbobl*/driver_tokiob,
         
         /*
           Possible cpu bugs
@@ -495,6 +500,7 @@ public class driver {
         /*017//*ironhors*/driver_farwest,
         /*018*//*lwings*/driver_avengers,
         /*019*//*lwings*/driver_avenger2,
+        /*020*//*bublbobl*/driver_tokio,
         
         /*TO RECHECK
         */
@@ -613,6 +619,13 @@ public class driver {
         /**
          * WIP section
          */
+        /*bublbobl*/driver_bublbobl,//M68705  
+        /*bublbobl*/driver_bublbobr,//M68705  
+        /*bublbobl*/driver_bubbobr1,//M68705  
+
+        
+
+
         driver_snowbros,
         driver_snowbroa,
         driver_snowbrob,
@@ -1435,13 +1448,7 @@ public class driver {
 /*TODO*/ //TESTDRIVER( flstoryj )	/* (c) 1985 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( gladiatr )	/* (c) 1986 Taito America Corporation (US) */
 /*TODO*/ //	DRIVER( ogonsiro )	/* (c) 1986 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( bublbobl )	/* (c) 1986 Taito Corporation */
-/*TODO*/ //	DRIVER( bublbobr )	/* (c) 1986 Taito America Corporation + Romstar license */
-/*TODO*/ //	DRIVER( bubbobr1 )	/* (c) 1986 Taito America Corporation + Romstar license */
-/*TODO*/ //	DRIVER( boblbobl )	/* bootleg */
-/*TODO*/ //	DRIVER( sboblbob )	/* bootleg */
-/*TODO*/ //	DRIVER( tokio )		/* 1986 */
-/*TODO*/ //	DRIVER( tokiob )	/* bootleg */
+
 /*TODO*/ //	DRIVER( kicknrun )	/* (c) 1986 Taito Corporation */
 /*TODO*/ //	DRIVER( mexico86 )	/* bootleg (Micro Research) */
 /*TODO*/ //	DRIVER( kikikai )	/* (c) 1986 Taito Corporation */
