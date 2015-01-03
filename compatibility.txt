@@ -299,6 +299,10 @@ savgbees exedexes.c Z80      [Z80   ]                                           
 boblbobl bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Bobble Bobble
 sboblbob bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203   1xYM-3526                                       Super Bobble Bobble
 tokiob   bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation (bootleg)
+nova2001 nova2001.c Z80                                                                     2xAY-8910                                                   Nova 2001 (Japan)
+nov2001u nova2001.c Z80                                                                     2xAY-8910                                                   Nova 2001 (US)
+pkunwar  pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (US)
+pkunwarj pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (Japan)
 
 
 Probably CPU bugs
@@ -1780,10 +1784,6 @@ monymony zaccaria.c Z80      [M6802 ] [M6802 ]                                  
 jackrabt zaccaria.c Z80      [M6802 ] [M6802 ]                                                                                                          Jack Rabbit (set 1)
 jackrab2 zaccaria.c Z80      [M6802 ] [M6802 ]                                                                                                          Jack Rabbit (set 2)
 jackrabs zaccaria.c Z80      [M6802 ] [M6802 ]                                                                                                          Jack Rabbit (special)
-nova2001 nova2001.c Z80                                                                     2xAY-8910                                                   Nova 2001 (Japan)
-nov2001u nova2001.c Z80                                                                     2xAY-8910                                                   Nova 2001 (US)
-pkunwar  pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (US)
-pkunwarj pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (Japan)
 ninjakd2 ninjakd2.c Z80                                                                     2xYM-2203                                                   Ninja Kid II (set 1)
 ninjak2a ninjakd2.c Z80      [Z80   ]                                                       2xYM-2203   Samples     Custom                              Ninja Kid II (set 2)
 ninjak2b ninjakd2.c Z80      [Z80   ]                                                       2xYM-2203   Samples     Custom                              Ninja Kid II (set 3)

@@ -198,7 +198,7 @@ public class contra
 		if (offset == 3)
 		{
 			if ((data&0x8)==0)
-				memcpy(private_spriteram,0,spriteram,0x800,0x800);
+				memcpy(private_spriteram,new UBytePtr(spriteram,0x800),0x800);
 			else
 				memcpy(private_spriteram,spriteram,0x800);
 		}
@@ -218,9 +218,9 @@ public class contra
 		if (offset == 3)
 		{
 			if ((data&0x8)==0)
-				memcpy(private_spriteram_2,0,spriteram,0x2800,0x800);
+				memcpy(private_spriteram_2,new UBytePtr(spriteram,0x2800),0x800);
 			else
-				memcpy(private_spriteram_2,0,spriteram,0x2000,0x800);
+				memcpy(private_spriteram_2,new UBytePtr(spriteram,0x2000),0x800);
 		}
 		if (offset == 6)
 		{
@@ -293,10 +293,10 @@ public class contra
 		UBytePtr source;
 		int base_color = (K007121_ctrlram[bank][6]&0x30)*2;
 	
-		if (bank==0) source=new UBytePtr(private_spriteram,0);
-		else source=new UBytePtr(private_spriteram_2,0);
+		if (bank==0) source=new UBytePtr(private_spriteram);
+		else source=new UBytePtr(private_spriteram_2);
 	
-		K007121_sprites_draw(bank,bitmap,source,base_color,40,0);
+		K007121_sprites_draw(bank,bitmap,new UBytePtr(source),base_color,40,0);
 	}
 	
 	public static VhUpdatePtr contra_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 

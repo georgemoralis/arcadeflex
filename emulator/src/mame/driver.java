@@ -135,6 +135,8 @@ import static drivers.snowbros.*;
 import static drivers.mnight.*;
 import static drivers.exedexes.*;
 import static drivers.bublbobl.*;
+import static drivers.pkunwar.*;
+import static drivers.nova2001.*;
 
 
 public class driver {
@@ -2445,10 +2447,10 @@ public class driver {
 /*TODO*/ //	DRIVER( jackrabs )	/* (c) 1984 */
 
 	/* UPL games */
-/*TODO*/ //	DRIVER( nova2001 )	/* UPL-83005 (c) 1983 */
-/*TODO*/ //	DRIVER( nov2001u )	/* UPL-83005 (c) [1983] + Universal license */
-/*TODO*/ //	DRIVER( pkunwar )	/* [1985?] */
-/*TODO*/ //	DRIVER( pkunwarj )	/* [1985?] */
+/*nova2001*/driver_nova2001,
+/*nova2001*/driver_nov2001u,
+/*pkunwar*/driver_pkunwar,
+/*pkunwar*/driver_pkunwarj,
 /*TODO*/ //	DRIVER( ninjakd2 )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( ninjak2a )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( ninjak2b )	/* (c) 1987 */
