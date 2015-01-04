@@ -24,6 +24,7 @@ import sound._2203intf;
 import sound.k007232;
 import sound.ym2413;
 import sound.k051649;
+import sound.vlm5030;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -468,58 +469,10 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-            /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_VLM5030)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_VLM5030,
-    /*TODO*////*TODO*///		"VLM5030",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		VLM5030_clock,
-    /*TODO*////*TODO*///		VLM5030_sh_start,
-    /*TODO*////*TODO*///		VLM5030_sh_stop,
-    /*TODO*////*TODO*///		VLM5030_sh_update,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-            /*TEMPHACK*/   new adpcm(),
-    /*TODO*////*TODO*///#if (HAS_ADPCM)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_ADPCM,
-    /*TODO*////*TODO*///		"ADPCM",
-    /*TODO*////*TODO*///		ADPCM_num,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		ADPCM_sh_start,
-    /*TODO*////*TODO*///		ADPCM_sh_stop,
-    /*TODO*////*TODO*///		ADPCM_sh_update,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-             new okim6295(),
-    /*TODO*////*TODO*///#if (HAS_OKIM6295)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_OKIM6295,
-    /*TODO*////*TODO*///		"OKI6295",
-    /*TODO*////*TODO*///		OKIM6295_num,
-    /*TODO*////*TODO*///		OKIM6295_clock,
-    /*TODO*////*TODO*///		OKIM6295_sh_start,
-    /*TODO*////*TODO*///		OKIM6295_sh_stop,
-    /*TODO*////*TODO*///		OKIM6295_sh_update,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-             new MSM5205(),
-    /*TODO*////*TODO*///#if (HAS_MSM5205)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_MSM5205,
-    /*TODO*////*TODO*///		"MSM5205",
-    /*TODO*////*TODO*///		MSM5205_num,
-    /*TODO*////*TODO*///		MSM5205_clock,
-    /*TODO*////*TODO*///		MSM5205_sh_start,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		MSM5205_sh_reset,
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+            new vlm5030(),
+            new adpcm(),
+            new okim6295(),
+            new MSM5205(),
              new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_UPD7759)
     /*TODO*////*TODO*///    {
