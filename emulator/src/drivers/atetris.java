@@ -293,11 +293,7 @@ public class atetris
 	
 	
 	    // Move the lower 16k to 0x10000
-	    //memcpy(RAM,0x10000, RAM,0x00000, 0x4000);
-            for(int i=0; i<0x4000; i++)
-            {
-                RAM.write(0x1000+i, RAM.read(i));
-            }
+	    memcpy(RAM,0x10000, RAM,0x00000, 0x4000);
 	    memset(RAM,0x00000, 0, 0x4000);
 	} };
 	

@@ -303,7 +303,13 @@ nova2001 nova2001.c Z80                                                         
 nov2001u nova2001.c Z80                                                                     2xAY-8910                                                   Nova 2001 (US)
 pkunwar  pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (US)
 pkunwarj pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (Japan)
+gsword   gsword.c   Z80      Z80      [Z80   ]                                              2xAY-8910   1xMSM5205                                       Great Swordsman
 
+
+Small issues that doesn't affect playable status
+=======================================
+gladiatr gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Gladiator (US)                 -no nvram support
+ogonsiro gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Ohgon no Siro (Japan)  -no nvram support
 
 Probably CPU bugs
 -------------------------------
@@ -869,15 +875,12 @@ hwrace   taitosj.c  Z80      [Z80   ]                                           
 sfposeid taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Sea Fighter Poseidon
 kikstart taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Kick Start Wheelie King
 bking2   bking2.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Birdie King 2
-gsword   gsword.c   Z80      Z80      [Z80   ]                                              2xAY-8910   1xMSM5205                                       Great Swordsman
 lkage    lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage
 lkageb   lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage (bootleg)
 tsamurai tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 1)
 tsamura2 tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 2)
 nunchaku tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Nunchackun
 yamagchi tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Go Go Mr. Yamaguchi / Yuke Yuke Yamaguchi-kun
-gladiatr gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Gladiator (US)
-ogonsiro gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Ohgon no Siro (Japan)
 bublbobl bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble
 bublbobr bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble (US set 1)
 bubbobr1 bublbobl.c Z80      Z80      [Z80   ] M68705                                       1xYM-2203   1xYM-3526                                       Bubble Bobble (US set 2)

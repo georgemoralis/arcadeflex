@@ -137,6 +137,8 @@ import static drivers.exedexes.*;
 import static drivers.bublbobl.*;
 import static drivers.pkunwar.*;
 import static drivers.nova2001.*;
+import static drivers.gladiatr.*;
+import static drivers.gsword.*;
 
 
 public class driver {
@@ -450,6 +452,14 @@ public class driver {
         /*300*//*nova2001*/driver_nov2001u,
         /*301*//*pkunwar*/driver_pkunwar,
         /*302*//*pkunwar*/driver_pkunwarj,
+        /*303*//*gsword*/driver_gsword,
+        
+        
+        /*
+           Small issues that doesn't affect playable status
+        */
+        /*001*//*gladiatr*/driver_gladiatr, //no nvram support
+        /*002*//*gladiatr*/driver_ogonsiro, //no nvram support
         
         /*
           Possible cpu bugs
@@ -1445,15 +1455,14 @@ public class driver {
 
 	/* other Taito games */
 /*TODO*/ //	DRIVER( bking2 )	/* (c) 1983 Taito Corporation */
-/*TODO*/ //	DRIVER( gsword )	/* (c) 1984 Taito Corporation */
+
 /*TODO*/ //	DRIVER( tsamurai )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( tsamura2 )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( nunchaku )	/* (c) 1985 Taito */
 /*TODO*/ //	DRIVER( yamagchi )	/* (c) 1985 Taito */
 /*TODO*/ //TESTDRIVER( flstory )	/* (c) 1985 Taito Corporation */
 /*TODO*/ //TESTDRIVER( flstoryj )	/* (c) 1985 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( gladiatr )	/* (c) 1986 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( ogonsiro )	/* (c) 1986 Taito Corporation (Japan) */
+
 
 /*TODO*/ //	DRIVER( kicknrun )	/* (c) 1986 Taito Corporation */
 /*TODO*/ //	DRIVER( mexico86 )	/* bootleg (Micro Research) */

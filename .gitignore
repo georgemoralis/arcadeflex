@@ -15,3 +15,4 @@ emulator/tilemaps.log
 emulator/konamiicc.log
 emulator/m6502.log
 emulator/konami.log
+emulator/nvram/*

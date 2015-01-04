@@ -81,6 +81,7 @@ public class atetris
 	        else
 	        {
 	            if (slapstic_primed != 0)
+                    {
 	            switch (offset & 0xff)
 	            {
 	            case 0x80:
@@ -147,7 +148,9 @@ public class atetris
 	
 	            default:
 	                slapstic_primed = 0;
+                        break;
 	            }
+                    }
 	
 	            slapstic_last60xx = (offset & 0xff);
 	            slapstic_75xxcnt = 0;
