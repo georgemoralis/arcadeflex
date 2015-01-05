@@ -126,7 +126,11 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
 import static vidhrdw.combatsc.*;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
 
 public class combatsc
 {
@@ -291,7 +295,7 @@ public class combatsc
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),					/* RAM */
 /*TODO*///		new MemoryReadAddress( 0xb000, 0xb000, UPD7759_busy_r ),				/* UPD7759 busy? */
 		new MemoryReadAddress( 0xd000, 0xd000, soundlatch_r ),				/* soundlatch_r? */
-/*TODO*///	    new MemoryReadAddress( 0xe000, 0xe000, YM2203_status_port_0_r ),		/* YM 2203 */
+	        new MemoryReadAddress( 0xe000, 0xe000, YM2203_status_port_0_r ),		/* YM 2203 */
 		new MemoryReadAddress( -1 )
 	};
 	
@@ -302,8 +306,8 @@ public class combatsc
 		new MemoryWriteAddress( 0x9000, 0x9000, combasc_play_w ),		/* uPD7759 play voice */
 /*TODO*///		new MemoryWriteAddress( 0xa000, 0xa000, UPD7759_message_w ),		/* uPD7759 voice select */
 		new MemoryWriteAddress( 0xc000, 0xc000, combasc_voice_reset_w ),	/* uPD7759 reset? */
-/*TODO*///	 	new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),/* YM 2203 */
-/*TODO*///		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),	/* YM 2203 */
+	 	new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),/* YM 2203 */
+		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),	/* YM 2203 */
 		new MemoryWriteAddress( -1 )
 	};
 	
@@ -660,17 +664,17 @@ public class combatsc
 		new GfxDecodeInfo( -1 )
 	};
 	
-/*	static struct YM2203interface ym2203_interface =
-	{
+        static YM2203interface ym2203_interface = new YM2203interface
+	(
 		1,							/* 1 chip */
-/*		3500000,					/* this is wrong but gives the correct music tempo. */
+		3500000,					/* this is wrong but gives the correct music tempo. */
 		/* the correct value is 20MHz/8=2.5MHz, which gives correct pitch but wrong tempo */
-/*		{ YM2203_VOL(20,20) },
-		{ 0 },
-		{ 0 },
-		{ combasc_portA_w },
-		{ 0 }
-	};*/
+		new int[] { YM2203_VOL(20,20) },
+		new ReadHandlerPtr[] { null },
+		new ReadHandlerPtr[] { null },
+		new WriteHandlerPtr[] { combasc_portA_w },
+		new WriteHandlerPtr[] { null }
+	);
 	
 /*	static struct UPD7759_interface upd7759_interface =
 	{
@@ -718,17 +722,16 @@ public class combatsc
 	
 		/* sound hardware */
 		0,0,0,0,
-                null
-		/*{
-			{
+                new MachineSound[] {
+			new MachineSound(
 				SOUND_YM2203,
-				&ym2203_interface
-			},
-			{
+				ym2203_interface
+			)/*,
+			new MachineSound(
 				SOUND_UPD7759,
-				&upd7759_interface
-			}
-		}*/
+				upd7759_interface
+			)*/
+		}
 	);
 	
 	/* combat school (bootleg on different hardware) */
@@ -765,17 +768,16 @@ public class combatsc
 	
 		/* We are using the original sound subsystem */
 		0,0,0,0,
-		null
-                /*{
-			{
+		new MachineSound[] {
+			new MachineSound(
 				SOUND_YM2203,
-				&ym2203_interface
-			},
-			{
+				ym2203_interface
+			)/*,
+			new MachineSound(
 				SOUND_UPD7759,
-				&upd7759_interface
-			}
-		}*/
+				upd7759_interface
+			)*/
+		}
 	);
 	
 	
