@@ -40,7 +40,12 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2203;
 import static vidhrdw.xain.*;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
+
 
 
 public class xain
@@ -209,10 +214,10 @@ public class xain
 	static MemoryWriteAddress sound_writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x07ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x2800, 0x2800, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2801, 0x2801, YM2203_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3000, 0x3000, YM2203_control_port_1_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3001, 0x3001, YM2203_write_port_1_w ),
+		new MemoryWriteAddress( 0x2800, 0x2800, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0x2801, 0x2801, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0x3000, 0x3000, YM2203_control_port_1_w ),
+		new MemoryWriteAddress( 0x3001, 0x3001, YM2203_write_port_1_w ),
 		new MemoryWriteAddress( 0x4000, 0xffff, MWA_ROM ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -333,22 +338,23 @@ public class xain
 	
 	
 	/* handler called by the 2203 emulator when the internal timers cause an IRQ */
-/*TODO*///	static void irqhandler(int irq)
-/*TODO*///	{
-/*TODO*///		cpu_set_irq_line(2,M6809_FIRQ_LINE,irq ? ASSERT_LINE : CLEAR_LINE);
-/*TODO*///	}
+	/* handler called by the 2203 emulator when the internal timers cause an IRQ */
+	public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int irq)
+	{
+		cpu_set_irq_line(2,M6809_FIRQ_LINE,irq!=0 ? ASSERT_LINE : CLEAR_LINE);
+	} };
 	
-/*TODO*///	static struct YM2203interface ym2203_interface =
-/*TODO*///	{
-/*TODO*///		2,			/* 2 chips */
-/*TODO*///		3000000,	/* 3 MHz ??? */
-/*TODO*///		{ YM2203_VOL(40,50), YM2203_VOL(40,50) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ irqhandler }
-/*TODO*///	};
+	static YM2203interface ym2203_interface = new YM2203interface
+	(
+		2,			/* 2 chips */
+		3000000,	/* 3 MHz ??? */
+		new int[] { YM2203_VOL(40,50), YM2203_VOL(40,50) },
+		new ReadHandlerPtr[] { null,null },
+		new ReadHandlerPtr[] { null,null },
+		new WriteHandlerPtr[] { null,null },
+		new WriteHandlerPtr[] { null,null },
+		new WriteYmHandlerPtr[] { irqhandler }
+	);
 	
 	
 	
@@ -398,13 +404,12 @@ public class xain
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	
