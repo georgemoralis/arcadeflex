@@ -367,6 +367,11 @@ NOT WORKING IN MAME 0.36 EITHER
 019)avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 020)tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
 
+WIP
+===
+bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T) //missing uPD7759 emulation , artifacts left and right of drawing screen,also need analog(?) work ok with digital controls
+bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) //requires analog controls,missing uPD7759 emulation , artifacts left and right of drawing screen
+
 TODO
 ---------
 
@@ -1433,8 +1438,7 @@ mx5000   flkatck.c  HD6309   Z80                                                
 flkatck  flkatck.c  HD6309   Z80                                                            1xYM-2151   1x007232                                        Flak Attack (Japan)
 fastlane fastlane.c HD6309                                                                  2x007232                                                    Fast Lane
 labyrunr labyrunr.c HD6309                                                                  2xYM-2203                                                   Labyrinth Runner (Japan)
-bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T)
-bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E)
+
 ajax     ajax.c     KONAMI   M6809    Z80                                                   1xYM-2151   2x007232                                        Ajax
 ajaxj    ajax.c     KONAMI   M6809    Z80                                                   1xYM-2151   2x007232                                        Ajax (Japan)
 scontra  thunderx.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Super Contra
