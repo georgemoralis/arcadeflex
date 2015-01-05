@@ -170,254 +170,249 @@ public class vlm5030 extends snd_interface {
         /* sample file is found */
         return 1;
     }
-    /*TODO*///
-/*TODO*///static int get_bits(int sbit,int bits)
-/*TODO*///{
-/*TODO*///	int offset = VLM5030_address + (sbit>>3);
-/*TODO*///	int data;
-/*TODO*///
-/*TODO*///	data = VLM5030_rom[offset&VLM5030_address_mask] |
-/*TODO*///	       (((int)VLM5030_rom[(offset+1)&VLM5030_address_mask])<<8);
-/*TODO*///	data >>= sbit;
-/*TODO*///	data &= (0xff>>(8-bits));
-/*TODO*///
-/*TODO*///	return data;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* get next frame */
-/*TODO*///static int parse_frame (void)
-/*TODO*///{
-/*TODO*///	unsigned char cmd;
-/*TODO*///
-/*TODO*///	/* remember previous frame */
-/*TODO*///	old_energy = new_energy;
-/*TODO*///	old_pitch = new_pitch;
-/*TODO*///	memcpy( old_k , new_k , sizeof(old_k) );
-/*TODO*///	/* command byte check */
-/*TODO*///	cmd = VLM5030_rom[VLM5030_address&VLM5030_address_mask];
-/*TODO*///	if( cmd & 0x01 )
-/*TODO*///	{	/* extend frame */
-/*TODO*///		new_energy = new_pitch = 0;
-/*TODO*///		memset( new_k , 0 , sizeof(new_k));
-/*TODO*///		VLM5030_address++;
-/*TODO*///		if( cmd & 0x02 )
-/*TODO*///		{	/* end of speech */
-/*TODO*///			if(errorlog) fprintf(errorlog,"VLM5030 %04X end \n",VLM5030_address );
-/*TODO*///			return 0;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{	/* silent frame */
-/*TODO*///			int nums = ( (cmd>>2)+1 )*2;
-/*TODO*///			if(errorlog) fprintf(errorlog,"VLM5030 %04X silent %d frame\n",VLM5030_address,nums );
-/*TODO*///			return nums * FR_SIZE;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	/* normal frame */
-/*TODO*///
-/*TODO*///	new_pitch  = pitchtable[get_bits( 1,5)];
-/*TODO*///	new_energy = energytable[get_bits( 6,5)] >> 6;
-/*TODO*///
-/*TODO*///	/* 10 K's */
-/*TODO*///	new_k[9] = k10table[get_bits(11,3)];
-/*TODO*///	new_k[8] = k9table[get_bits(14,3)];
-/*TODO*///	new_k[7] = k8table[get_bits(17,3)];
-/*TODO*///	new_k[6] = k7table[get_bits(20,3)];
-/*TODO*///	new_k[5] = k6table[get_bits(23,3)];
-/*TODO*///	new_k[4] = k5table[get_bits(26,3)];
-/*TODO*///	new_k[3] = k4table[get_bits(29,4)];
-/*TODO*///	new_k[2] = k3table[get_bits(33,4)];
-/*TODO*///	new_k[1] = k2table[get_bits(37,4)];
-/*TODO*///	new_k[0] = k1table[get_bits(41,7)];
-/*TODO*///
-/*TODO*///	VLM5030_address+=6;
-/*TODO*///	if(errorlog) fprintf(errorlog,"VLM5030 %04X voice \n",VLM5030_address );
-/*TODO*///	return FR_SIZE;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* decode and buffering data */
+
+    static int get_bits(int sbit, int bits) {
+        int offset = VLM5030_address + (sbit >> 3);
+        int data;
+
+        data = VLM5030_rom.read(offset & VLM5030_address_mask)
+                | (((int) VLM5030_rom.read((offset + 1) & VLM5030_address_mask)) << 8);
+        data >>= sbit;
+        data &= (0xff >> (8 - bits));
+
+        return data;
+    }
+
+    /* get next frame */
+    static int parse_frame() {
+        /*unsigned char*/
+        int cmd;
+
+        /* remember previous frame */
+        old_energy = new_energy;
+        old_pitch = new_pitch;
+        memcpy(old_k, new_k, old_k.length);
+        /* command byte check */
+        cmd = VLM5030_rom.read(VLM5030_address & VLM5030_address_mask);
+        if ((cmd & 0x01) != 0) {	/* extend frame */
+
+            new_energy = new_pitch = 0;
+            memset(new_k, 0, new_k.length);
+            VLM5030_address++;
+            if ((cmd & 0x02) != 0) {	/* end of speech */
+
+                if (errorlog != null) {
+                    fprintf(errorlog, "VLM5030 %04X end \n", VLM5030_address);
+                }
+                return 0;
+            } else {	/* silent frame */
+
+                int nums = ((cmd >> 2) + 1) * 2;
+                if (errorlog != null) {
+                    fprintf(errorlog, "VLM5030 %04X silent %d frame\n", VLM5030_address, nums);
+                }
+                return nums * FR_SIZE;
+            }
+        }
+        /* normal frame */
+
+        new_pitch = (char) pitchtable[get_bits(1, 5)];
+        new_energy = (char) (energytable[get_bits(6, 5)] >> 6);
+
+        /* 10 K's */
+        new_k[9] = k10table[get_bits(11, 3)];
+        new_k[8] = k9table[get_bits(14, 3)];
+        new_k[7] = k8table[get_bits(17, 3)];
+        new_k[6] = k7table[get_bits(20, 3)];
+        new_k[5] = k6table[get_bits(23, 3)];
+        new_k[4] = k5table[get_bits(26, 3)];
+        new_k[3] = k4table[get_bits(29, 4)];
+        new_k[2] = k3table[get_bits(33, 4)];
+        new_k[1] = k2table[get_bits(37, 4)];
+        new_k[0] = k1table[get_bits(41, 7)];
+
+        VLM5030_address += 6;
+        if (errorlog != null) {
+            fprintf(errorlog, "VLM5030 %04X voice \n", VLM5030_address);
+        }
+        return FR_SIZE;
+    }
+
+    /* decode and buffering data */
     public static StreamInitPtr vlm5030_update_callback = new StreamInitPtr() {
         public void handler(int chip, UShortPtr buffer, int length) {
-            /*TODO*///	int buf_count=0;
-/*TODO*///	int interp_effect;
-/*TODO*///
-/*TODO*///	/* running */
-/*TODO*///	if( phase == PH_RUN )
-/*TODO*///	{
-/*TODO*///		/* playing speech */
-/*TODO*///		while (length > 0)
-/*TODO*///		{
-/*TODO*///			int current_val;
-/*TODO*///
-/*TODO*///			/* check new interpolator or  new frame */
-/*TODO*///			if( sample_count == 0 )
-/*TODO*///			{
-/*TODO*///				sample_count = IP_SIZE;
-/*TODO*///				/* interpolator changes */
-/*TODO*///				if ( interp_count == 0 )
-/*TODO*///				{
-/*TODO*///					/* change to new frame */
-/*TODO*///					interp_count = parse_frame(); /* with change phase */
-/*TODO*///					if ( interp_count == 0 )
-/*TODO*///					{
-/*TODO*///						sample_count = 160; /* end -> stop time */
-/*TODO*///						phase = PH_STOP;
-/*TODO*///						goto phase_stop; /* continue to stop phase */
-/*TODO*///					}
-/*TODO*///					/* Set old target as new start of frame */
-/*TODO*///					current_energy = old_energy;
-/*TODO*///					current_pitch = old_pitch;
-/*TODO*///					memcpy( current_k , old_k , sizeof(current_k) );
-/*TODO*///					/* is this a zero energy frame? */
-/*TODO*///					if (current_energy == 0)
-/*TODO*///					{
-/*TODO*///						/*printf("processing frame: zero energy\n");*/
-/*TODO*///						target_energy = 0;
-/*TODO*///						target_pitch = current_pitch;
-/*TODO*///						memcpy( target_k , current_k , sizeof(target_k) );
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						/*printf("processing frame: Normal\n");*/
-/*TODO*///						/*printf("*** Energy = %d\n",current_energy);*/
-/*TODO*///						/*printf("proc: %d %d\n",last_fbuf_head,fbuf_head);*/
-/*TODO*///						target_energy = new_energy;
-/*TODO*///						target_pitch = new_pitch;
-/*TODO*///						memcpy( target_k , new_k , sizeof(target_k) );
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///				/* next interpolator */
-/*TODO*///				/* Update values based on step values */
-/*TODO*///				/*printf("\n");*/
-/*TODO*///				interp_effect = (int)(interp_coeff[(FR_SIZE-1) - (interp_count%FR_SIZE)]);
-/*TODO*///
-/*TODO*///				current_energy += (target_energy - current_energy) / interp_effect;
-/*TODO*///				if (old_pitch != 0)
-/*TODO*///					current_pitch += (target_pitch - current_pitch) / interp_effect;
-/*TODO*///				/*printf("*** Energy = %d\n",current_energy);*/
-/*TODO*///				current_k[0] += (target_k[0] - current_k[0]) / interp_effect;
-/*TODO*///				current_k[1] += (target_k[1] - current_k[1]) / interp_effect;
-/*TODO*///				current_k[2] += (target_k[2] - current_k[2]) / interp_effect;
-/*TODO*///				current_k[3] += (target_k[3] - current_k[3]) / interp_effect;
-/*TODO*///				current_k[4] += (target_k[4] - current_k[4]) / interp_effect;
-/*TODO*///				current_k[5] += (target_k[5] - current_k[5]) / interp_effect;
-/*TODO*///				current_k[6] += (target_k[6] - current_k[6]) / interp_effect;
-/*TODO*///				current_k[7] += (target_k[7] - current_k[7]) / interp_effect;
-/*TODO*///				current_k[8] += (target_k[8] - current_k[8]) / interp_effect;
-/*TODO*///				current_k[9] += (target_k[9] - current_k[9]) / interp_effect;
-/*TODO*///				interp_count --;
-/*TODO*///			}
-/*TODO*///			/* calcrate digital filter */
-/*TODO*///			if (old_energy == 0)
-/*TODO*///			{
-/*TODO*///				/* generate silent samples here */
-/*TODO*///				current_val = 0x00;
-/*TODO*///			}
-/*TODO*///			else if (old_pitch == 0)
-/*TODO*///			{
-/*TODO*///				/* generate unvoiced samples here */
-/*TODO*///				int randvol = (rand () % 10);
-/*TODO*///				current_val = (randvol * current_energy) / 10;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				/* generate voiced samples here */
-/*TODO*///				if (pitch_count < sizeof (chirptable))
-/*TODO*///					current_val = (chirptable[pitch_count] * current_energy) / 256;
-/*TODO*///				else
-/*TODO*///					current_val = 0x00;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			/* Lattice filter here */
-/*TODO*///			u[10] = current_val;
-/*TODO*///			u[9] = u[10] - ((current_k[9] * x[9]) / 32768);
-/*TODO*///			u[8] = u[ 9] - ((current_k[8] * x[8]) / 32768);
-/*TODO*///			u[7] = u[ 8] - ((current_k[7] * x[7]) / 32768);
-/*TODO*///			u[6] = u[ 7] - ((current_k[6] * x[6]) / 32768);
-/*TODO*///			u[5] = u[ 6] - ((current_k[5] * x[5]) / 32768);
-/*TODO*///			u[4] = u[ 5] - ((current_k[4] * x[4]) / 32768);
-/*TODO*///			u[3] = u[ 4] - ((current_k[3] * x[3]) / 32768);
-/*TODO*///			u[2] = u[ 3] - ((current_k[2] * x[2]) / 32768);
-/*TODO*///			u[1] = u[ 2] - ((current_k[1] * x[1]) / 32768);
-/*TODO*///			u[0] = u[ 1] - ((current_k[0] * x[0]) / 32768);
-/*TODO*///
-/*TODO*///			x[9] = x[8] + ((current_k[8] * u[8]) / 32768);
-/*TODO*///			x[8] = x[7] + ((current_k[7] * u[7]) / 32768);
-/*TODO*///			x[7] = x[6] + ((current_k[6] * u[6]) / 32768);
-/*TODO*///			x[6] = x[5] + ((current_k[5] * u[5]) / 32768);
-/*TODO*///			x[5] = x[4] + ((current_k[4] * u[4]) / 32768);
-/*TODO*///			x[4] = x[3] + ((current_k[3] * u[3]) / 32768);
-/*TODO*///			x[3] = x[2] + ((current_k[2] * u[2]) / 32768);
-/*TODO*///			x[2] = x[1] + ((current_k[1] * u[1]) / 32768);
-/*TODO*///			x[1] = x[0] + ((current_k[0] * u[0]) / 32768);
-/*TODO*///			x[0] = u[0];
-/*TODO*///			/* clipping, buffering */
-/*TODO*///			if (u[0] > 511)
-/*TODO*///				buffer[buf_count] = 127<<8;
-/*TODO*///			else if (u[0] < -512)
-/*TODO*///				buffer[buf_count] = -128<<8;
-/*TODO*///			else
-/*TODO*///				buffer[buf_count] = u[0] << 6;
-/*TODO*///			buf_count++;
-/*TODO*///
-/*TODO*///			/* sample count */
-/*TODO*///			sample_count--;
-/*TODO*///			/* pitch */
-/*TODO*///			pitch_count++;
-/*TODO*///			if (pitch_count >= current_pitch )
-/*TODO*///				pitch_count = 0;
-/*TODO*///			/* size */
-/*TODO*///			length--;
-/*TODO*///		}
-/*TODO*////*		return;*/
-/*TODO*///	}
-/*TODO*///	/* stop phase */
-/*TODO*///phase_stop:
-/*TODO*///	switch( phase )
-/*TODO*///	{
-/*TODO*///	case PH_SETUP:
-/*TODO*///		sample_count -= length;
-/*TODO*///		if( sample_count <= 0 )
-/*TODO*///		{
-/*TODO*///			if(errorlog) fprintf(errorlog,"VLM5030 BSY=H\n" );
-/*TODO*///			/* pin_BSY = 1; */
-/*TODO*///			phase = PH_WAIT;
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///	case PH_STOP:
-/*TODO*///		sample_count -= length;
-/*TODO*///		if( sample_count <= 0 )
-/*TODO*///		{
-/*TODO*///			if(errorlog) fprintf(errorlog,"VLM5030 BSY=L\n" );
-/*TODO*///			pin_BSY = 0;
-/*TODO*///			phase = PH_IDLE;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	/* silent buffering */
-/*TODO*///	while (length > 0)
-/*TODO*///	{
-/*TODO*///		buffer[buf_count++] = 0x00;
-/*TODO*///		length--;
-/*TODO*///	}
+            int buf_count = 0;
+            int interp_effect;
+
+            /* running */
+            if (phase == PH_RUN) {
+                /* playing speech */
+                while (length > 0) {
+                    int current_val;
+
+                    /* check new interpolator or  new frame */
+                    if (sample_count == 0) {
+                        sample_count = IP_SIZE;
+                        /* interpolator changes */
+                        if (interp_count == 0) {
+                            /* change to new frame */
+                            interp_count = parse_frame(); /* with change phase */
+
+                            if (interp_count == 0) {
+                                sample_count = 160; /* end -> stop time */
+
+                                phase = PH_STOP;
+                                /* stop phase */
+                                switch (phase) {
+                                    case PH_SETUP:
+                                        sample_count -= length;
+                                        if (sample_count <= 0) {
+                                            if (errorlog != null) {
+                                                fprintf(errorlog, "VLM5030 BSY=H\n");
+                                            }
+                                            /* pin_BSY = 1; */
+                                            phase = PH_WAIT;
+                                        }
+                                        break;
+                                    case PH_STOP:
+                                        sample_count -= length;
+                                        if (sample_count <= 0) {
+                                            if (errorlog != null) {
+                                                fprintf(errorlog, "VLM5030 BSY=L\n");
+                                            }
+                                            pin_BSY = 0;
+                                            phase = PH_IDLE;
+                                        }
+                                }
+                                /* silent buffering */
+                                while (length > 0) {
+                                    buffer.write(buf_count++, (char) 0x00);
+                                    length--;
+                                }
+                                break;//break while loop
+                            }
+                            /* Set old target as new start of frame */
+                            current_energy = old_energy;
+                            current_pitch = old_pitch;
+                            memcpy(current_k, old_k, current_k.length);
+                            /* is this a zero energy frame? */
+                            if (current_energy == 0) {
+                                /*printf("processing frame: zero energy\n");*/
+                                target_energy = 0;
+                                target_pitch = current_pitch;
+                                memcpy(target_k, current_k, target_k.length);
+                            } else {
+                                /*printf("processing frame: Normal\n");*/
+                                /*printf("*** Energy = %d\n",current_energy);*/
+                                /*printf("proc: %d %d\n",last_fbuf_head,fbuf_head);*/
+                                target_energy = new_energy;
+                                target_pitch = new_pitch;
+                                memcpy(target_k, new_k, target_k.length);
+                            }
+                        }
+                        /* next interpolator */
+                        /* Update values based on step values */
+                        /*printf("\n");*/
+                        interp_effect = (int) (interp_coeff[(FR_SIZE - 1) - (interp_count % FR_SIZE)]);
+
+                        current_energy += (char)((target_energy - current_energy) / interp_effect);
+                        if (old_pitch != 0) {
+                            current_pitch += (char)((target_pitch - current_pitch) / interp_effect);
+                        }
+                        /*printf("*** Energy = %d\n",current_energy);*/
+                        current_k[0] += (target_k[0] - current_k[0]) / interp_effect;
+                        current_k[1] += (target_k[1] - current_k[1]) / interp_effect;
+                        current_k[2] += (target_k[2] - current_k[2]) / interp_effect;
+                        current_k[3] += (target_k[3] - current_k[3]) / interp_effect;
+                        current_k[4] += (target_k[4] - current_k[4]) / interp_effect;
+                        current_k[5] += (target_k[5] - current_k[5]) / interp_effect;
+                        current_k[6] += (target_k[6] - current_k[6]) / interp_effect;
+                        current_k[7] += (target_k[7] - current_k[7]) / interp_effect;
+                        current_k[8] += (target_k[8] - current_k[8]) / interp_effect;
+                        current_k[9] += (target_k[9] - current_k[9]) / interp_effect;
+                        interp_count--;
+                    }
+                    /* calcrate digital filter */
+                    if (old_energy == 0) {
+                        /* generate silent samples here */
+                        current_val = 0x00;
+                    } else if (old_pitch == 0) {
+                        /* generate unvoiced samples here */
+                        int randvol = (rand() % 10);
+                        current_val = (randvol * current_energy) / 10;
+                    } else {
+                        /* generate voiced samples here */
+                        if (pitch_count < chirptable.length) {
+                            current_val = (chirptable[pitch_count] * current_energy) / 256;
+                        } else {
+                            current_val = 0x00;
+                        }
+                    }
+
+                    /* Lattice filter here */
+                    u[10] = current_val;
+                    u[9] = u[10] - ((current_k[9] * x[9]) / 32768);
+                    u[8] = u[9] - ((current_k[8] * x[8]) / 32768);
+                    u[7] = u[8] - ((current_k[7] * x[7]) / 32768);
+                    u[6] = u[7] - ((current_k[6] * x[6]) / 32768);
+                    u[5] = u[6] - ((current_k[5] * x[5]) / 32768);
+                    u[4] = u[5] - ((current_k[4] * x[4]) / 32768);
+                    u[3] = u[4] - ((current_k[3] * x[3]) / 32768);
+                    u[2] = u[3] - ((current_k[2] * x[2]) / 32768);
+                    u[1] = u[2] - ((current_k[1] * x[1]) / 32768);
+                    u[0] = u[1] - ((current_k[0] * x[0]) / 32768);
+
+                    x[9] = x[8] + ((current_k[8] * u[8]) / 32768);
+                    x[8] = x[7] + ((current_k[7] * u[7]) / 32768);
+                    x[7] = x[6] + ((current_k[6] * u[6]) / 32768);
+                    x[6] = x[5] + ((current_k[5] * u[5]) / 32768);
+                    x[5] = x[4] + ((current_k[4] * u[4]) / 32768);
+                    x[4] = x[3] + ((current_k[3] * u[3]) / 32768);
+                    x[3] = x[2] + ((current_k[2] * u[2]) / 32768);
+                    x[2] = x[1] + ((current_k[1] * u[1]) / 32768);
+                    x[1] = x[0] + ((current_k[0] * u[0]) / 32768);
+                    x[0] = u[0];
+                    /* clipping, buffering */
+                    if (u[0] > 511) {
+                        buffer.write(buf_count, (char) (127 << 8));
+                    } else if (u[0] < -512) {
+                        buffer.write(buf_count, (char) (-128 << 8));
+                    } else {
+                        buffer.write(buf_count, (char) (u[0] << 6));
+                    }
+                    buf_count++;
+
+                    /* sample count */
+                    sample_count--;
+                    /* pitch */
+                    pitch_count++;
+                    if (pitch_count >= current_pitch) {
+                        pitch_count = 0;
+                    }
+                    /* size */
+                    length--;
+                }
+                /*		return;*/
+            }
+
         }
     };
 
 
     /* realtime update */
     public static void VLM5030_update() {
-        /*TODO*///	if( !sampling_mode )
-/*TODO*///	{
-/*TODO*///		/* docode mode */
-/*TODO*///		stream_update(channel,0);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		/* sampling mode (check  busy flag) */
+        if (sampling_mode == 0) {
+            /* docode mode */
+            stream_update(channel, 0);
+        } else {
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///		/* sampling mode (check  busy flag) */
 /*TODO*///		if( pin_ST == 0 && pin_BSY == 1 )
 /*TODO*///		{
 /*TODO*///			if( !mixer_is_sample_playing(schannel) )
 /*TODO*///				pin_BSY = 0;
 /*TODO*///		}
-/*TODO*///	}
+        }
     }
 
     /* set speech rom address */
@@ -596,7 +591,7 @@ public class vlm5030 extends snd_interface {
     /* stop VLM5030 */
     @Override
     public void stop() {
-        
+
     }
 
     @Override

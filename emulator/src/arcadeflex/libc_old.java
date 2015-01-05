@@ -295,6 +295,12 @@ public class libc_old {
 
         }
     }
+    public static void memset(int[] buf, int value, int size) {
+        for (int mem = 0; mem < size; mem++) {
+            buf[mem] = value;
+
+        }
+    }
 
     public static void memset(UBytePtr buf, int value, int size) {
         memset(buf.memory, value, size);
@@ -356,6 +362,12 @@ public class libc_old {
     }
 
     public static void memcpy(char[] dst, char[] src, int size) {
+        for (int i = 0; i < Math.min(size, src.length); i++) {
+            dst[i] = src[i];
+
+        }
+    }
+    public static void memcpy(int[] dst, int[] src, int size) {
         for (int i = 0; i < Math.min(size, src.length); i++) {
             dst[i] = src[i];
 
