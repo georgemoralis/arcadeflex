@@ -306,6 +306,9 @@ pkunwarj pkunwar.c  Z80                                                         
 gsword   gsword.c   Z80      Z80      [Z80   ]                                              2xAY-8910   1xMSM5205                                       Great Swordsman
 kicker   shaolins.c M6809                                                                   2xSN76496                                                   Kicker
 shaolins shaolins.c M6809                                                                   2xSN76496                                                   Shao-Lin's Road
+empcity  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (bootleg?)
+empcityj stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (Japan)
+stfight  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Street Fight (Germany)
 
 
 Small issues that doesn't affect playable status
@@ -1848,9 +1851,6 @@ portman  thepit.c   Z80      [Z80   ]                                           
 suprmous thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Super Mouse
 suprmou2 thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Funny Mouse (bootleg?)
 machomou thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Macho Mouse
-empcity  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (bootleg?)
-empcityj stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (Japan)
-stfight  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Street Fight (Germany)
 dynduke  dynduke.c  V30      V30                                                            1xYM-3812   1xOKI6295                                       Dynamite Duke
 dbldyn   dynduke.c  V30      V30                                                            1xYM-3812   1xOKI6295                                       The Double Dynamites
 raiden   raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden

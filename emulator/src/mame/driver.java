@@ -139,6 +139,7 @@ import static drivers.pkunwar.*;
 import static drivers.nova2001.*;
 import static drivers.gladiatr.*;
 import static drivers.gsword.*;
+import static drivers.stfight.*;
 
 
 public class driver {
@@ -455,6 +456,9 @@ public class driver {
         /*303*//*gsword*/driver_gsword,
         /*304*//*shaolins*/driver_kicker,
         /*305*//*shaolins*/driver_shaolins,
+        /*306*//*stfight*/driver_empcity,
+        /*307*//*stfight*/driver_empcityj,
+        /*308*//*stfight*/driver_stfight,
     
         
         
@@ -2539,9 +2543,7 @@ public class driver {
 
 	/* Seibu Denshi / Seibu Kaihatsu games */
 
-/*TODO*/ //	DRIVER( empcity )	/* (c) 1986 Seibu Kaihatsu (bootleg?) */
-/*TODO*/ //	DRIVER( empcityj )	/* (c) 1986 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( stfight )	/* (c) 1986 Seibu Kaihatsu (Germany) (bootleg?) */
+
 /*TODO*/ //	DRIVER( dynduke )	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
 /*TODO*/ //	DRIVER( dbldyn )	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
 /*TODO*/ //	DRIVER( raiden )	/* (c) 1990 Seibu Kaihatsu */
