@@ -304,6 +304,8 @@ nov2001u nova2001.c Z80                                                         
 pkunwar  pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (US)
 pkunwarj pkunwar.c  Z80                                                                     2xAY-8910                                                   Penguin-Kun Wars (Japan)
 gsword   gsword.c   Z80      Z80      [Z80   ]                                              2xAY-8910   1xMSM5205                                       Great Swordsman
+kicker   shaolins.c M6809                                                                   2xSN76496                                                   Kicker
+shaolins shaolins.c M6809                                                                   2xSN76496                                                   Shao-Lin's Road
 
 
 Small issues that doesn't affect playable status
@@ -371,6 +373,9 @@ WIP
 ===
 bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T) //missing uPD7759 emulation , artifacts left and right of drawing screen,also need analog(?) work ok with digital controls
 bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) //requires analog controls,missing uPD7759 emulation , artifacts left and right of drawing screen
+xsleena  xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena   //freezes after a while ym2203 issue? (works okay if i remove sound)
+xsleenab xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena (bootleg) //freezes after a while ym2203 issue? (works okay if i remove sound)
+solarwar xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Solar Warrior //freezes after a while ym2203 issue? (works okay if i remove sound)
 
 TODO
 ---------
@@ -1408,8 +1413,6 @@ roadf    hyperspt.c M6809    [Z80   ]                                           
 roadf2   hyperspt.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Road Fighter (set 2)
 yiear    yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 1)
 yiear2   yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 2)
-kicker   shaolins.c M6809                                                                   2xSN76496                                                   Kicker
-shaolins shaolins.c M6809                                                                   2xSN76496                                                   Shao-Lin's Road
 gberet   gberet.c   Z80                                                                     1xSN76496                                                   Green Beret
 rushatck gberet.c   Z80                                                                     1xSN76496                                                   Rush'n Attack
 gberetb  gberet.c   Z80                                                                     1xSN76496                                                   Green Beret (bootleg)
@@ -1760,9 +1763,6 @@ maniach2 matmania.c M6502    [M6809 ] M68705                                    
 renegade renegade.c M6502    [M6809 ]                                                       1xYM-3526   1xADPCM                                         Renegade (US)
 kuniokun renegade.c M6502    [M6809 ]                                                       1xYM-3526   1xADPCM                                         Nekketsu Kouha Kunio-kun (Japan)
 kuniokub renegade.c M6502    [M6809 ]                                                       1xYM-3526   1xADPCM                                         Nekketsu Kouha Kunio-kun (Japan bootleg)
-xsleena  xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena
-xsleenab xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena (bootleg)
-solarwar xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Solar Warrior
 battlane battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 1)
 battlan2 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 2)
 battlan3 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 3)

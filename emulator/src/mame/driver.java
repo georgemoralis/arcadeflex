@@ -453,6 +453,9 @@ public class driver {
         /*301*//*pkunwar*/driver_pkunwar,
         /*302*//*pkunwar*/driver_pkunwarj,
         /*303*//*gsword*/driver_gsword,
+        /*304*//*shaolins*/driver_kicker,
+        /*305*//*shaolins*/driver_shaolins,
+    
         
         
         /*
@@ -523,7 +526,11 @@ public class driver {
         /*
         WIP drivers
         */
-        
+        /*bladestl*/driver_bladestl, //missing uPD7759 emulation , artifacts left and right of drawing screen,also need analog(?) work ok with digital controls
+        /*bladestl*/driver_bladstle, //requires analog controls,missing uPD7759 emulation , artifacts left and right of drawing screen
+        /*xain*/driver_xsleena,  //freezes after a while ym2203 issue? (works okay if i remove sound)
+        /*xain*/driver_xsleenab,  //freezes after a while ym2203 issue? (works okay if i remove sound)
+        /*xain*/driver_solarwar,  //freezes after a while ym2203 issue? (works okay if i remove sound)
 
         /*TO RECHECK
         */
@@ -554,7 +561,7 @@ public class driver {
         /*ddragon*/driver_ddragonb,
         /*ddragon*/driver_ddragon2,
         
-        /*bladestl*/driver_bladestl, //also need analog(?) work ok with digital controls
+        
         /*rockrage*/driver_rockrage,
         /*rockrage*/driver_rockragj,
                
@@ -562,7 +569,7 @@ public class driver {
         /**
          *  Requires analog controls
          */
-        /*bladestl*/driver_bladstle, //requires analog controls
+        
         
         
         /**
@@ -602,9 +609,7 @@ public class driver {
         /**
          *  Tilemaps issues
          */
-        /*xain*/driver_xsleena,  //background image looks not to spilt ok (doubling??)
-        /*xain*/driver_xsleenab, //background image looks not to spilt ok (doubling??)
-        /*xain*/driver_solarwar, //background image looks not to spilt ok (doubling??)
+        
         
         
         /**
@@ -622,9 +627,7 @@ public class driver {
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
         /*ddrible*/driver_ddribble, //fails on self booting
         /*ddragon*/driver_ddragon,  //missing HD63701 cpu
-        /*shaolins*/driver_kicker,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 1024 at vidhrdw.shaolins$3.handler(shaolins.java:155)
-        /*shaolins*/driver_shaolins,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 1024 at vidhrdw.shaolins$3.handler(shaolins.java:155)
-    
+
         /**
          * Games not working in mame 0.36 either
          */
