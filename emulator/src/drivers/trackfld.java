@@ -489,11 +489,11 @@ public class trackfld
 			new MachineSound(
 				SOUND_SN76496,
 				konami_sn76496_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_ADPCM,
 				hyprolyb_adpcm_interface
-			)*/
+			)
 		},
 	
 		nvram_handler

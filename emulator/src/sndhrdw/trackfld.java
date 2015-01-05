@@ -10,6 +10,13 @@ import static mame.driverH.*;
 import static mame.cpuintrf.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
+import static sound.adpcm.*;
+import static sound.adpcmH.*;
+import static mame.common.*;
+import static mame.commonH.*;
+import static arcadeflex.ptrlib.*;
+
+
 
 public class trackfld
 {
@@ -40,14 +47,14 @@ public class trackfld
 /*TODO*///	    { 80 }
 /*TODO*///	};
 	
-/*TODO*///	struct ADPCMinterface hyprolyb_adpcm_interface =
-/*TODO*///	{
-/*TODO*///	    1,          /* 1 channel */
-/*TODO*///	    4000,       /* 4000Hz playback */
-/*TODO*///	    4,          /* memory region 4 */
-/*TODO*///	    0,          /* init function */
-/*TODO*///	    { 100 }
-/*TODO*///	};
+	public static ADPCMinterface hyprolyb_adpcm_interface = new ADPCMinterface
+	(
+	    1,          /* 1 channel */
+	    4000,       /* 4000Hz playback */
+	    4,          /* memory region 4 */
+	    null,          /* init function */
+	    new int[]{ 100 }
+        );
 	
 	
 	static int SN76496_latch;
@@ -157,21 +164,20 @@ public class trackfld
 	
 	public static ReadHandlerPtr hyprolyb_speech_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
-/*TODO*///	    return ADPCM_playing(0) ? 0x10 : 0x00;
-            return 0;//hack
+	    return ADPCM_playing(0)!=0 ? 0x10 : 0x00;
 	} };
 	
 	public static WriteHandlerPtr hyprolyb_ADPCM_data_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///	    int cmd,start,end;
-/*TODO*///	    unsigned char *RAM = memory_region(REGION_CPU3);
+	    int cmd,start,end;
+	    UBytePtr RAM = memory_region(REGION_CPU3);
 	
 	
 	    /* simulate the operation of the 6802 */
-/*TODO*///	    cmd = RAM[0xfe01 + data] + 256 * RAM[0xfe00 + data];
-/*TODO*///	    start = RAM[cmd + 1] + 256 * RAM[cmd];
-/*TODO*///	    end = RAM[cmd + 3] + 256 * RAM[cmd + 2];
-/*TODO*///	    if (end > start)
-/*TODO*///	        ADPCM_play(0,start,(end - start)*2);
+	    cmd = RAM.read(0xfe01 + data) + 256 * RAM.read(0xfe00 + data);
+	    start = RAM.read(cmd + 1) + 256 * RAM.read(cmd);
+	    end = RAM.read(cmd + 3) + 256 * RAM.read(cmd + 2);
+	    if (end > start)
+	        ADPCM_play(0,start,(end - start)*2);
 	} };
 }
