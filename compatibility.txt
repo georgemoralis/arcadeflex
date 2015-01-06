@@ -315,6 +315,7 @@ Small issues that doesn't affect playable status
 =======================================
 gladiatr gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Gladiator (US)                 -no nvram support
 ogonsiro gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Ohgon no Siro (Japan)  -no nvram support
+jailbrek jailbrek.c M6809                                                                   1xSN76496   VLM5030                                         Jail Break      -vlm5030 exists but doesn't work
 
 Probably CPU bugs
 -------------------------------
@@ -1420,7 +1421,6 @@ gberet   gberet.c   Z80                                                         
 rushatck gberet.c   Z80                                                                     1xSN76496                                                   Rush'n Attack
 gberetb  gberet.c   Z80                                                                     1xSN76496                                                   Green Beret (bootleg)
 mrgoemon gberet.c   Z80                                                                     1xSN76496                                                   Mr. Goemon (Japan)
-jailbrek jailbrek.c M6809                                                                   1xSN76496   VLM5030                                         Jail Break
 finalizr finalizr.c M6809    [I8039 ]                                                       1xSN76496   1xDAC                                           Finalizer - Super Transformation
 finalizb finalizr.c M6809    [I8039 ]                                                       1xSN76496   1xDAC                                           Finalizer - Super Transformation (bootleg)
 jackal   jackal.c   M6809    M6809                                                          1xYM-2151                                                   Jackal (World)

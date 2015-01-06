@@ -467,6 +467,7 @@ public class driver {
         */
         /*001*//*gladiatr*/driver_gladiatr, //no nvram support
         /*002*//*gladiatr*/driver_ogonsiro, //no nvram support
+        /*003*//*jailbrek*/driver_jailbrek, //vlm5030 exists but doesn't work...
         
         /*
           Possible cpu bugs
@@ -624,7 +625,6 @@ public class driver {
         /*jackal*/driver_topgunr,//boots but doesn't start
         /*jackal*/driver_jackalj,//boots but doesn't  start
         /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
-        /*jailbrek*/driver_jailbrek, //reboots when i try to start game?
         /*exprraid*/driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)

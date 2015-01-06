@@ -62,7 +62,7 @@ public class jailbrek
 		color_prom.inc(Machine.drv.total_colors);
 	
 		for ( i = 0; i < TOTAL_COLORS(0); i++ )
-			colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char)( color_prom.readinc()+ 0x1);
+			colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char)( color_prom.readinc()+ 0x10);
 	
 		for ( i = 0; i < TOTAL_COLORS(1); i++ )
 			colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char)( color_prom.readinc() );
