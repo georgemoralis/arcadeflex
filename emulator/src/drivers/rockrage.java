@@ -32,12 +32,15 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
-import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_VLM5030;
+import static mame.sndintrfH.*;
 import static vidhrdw.konamiic.*;
 import static vidhrdw.rockrage.*;
 import static sound.vlm5030.*;
 import static sound.vlm5030H.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
+import static sound.mixerH.*;
+
 
 public class rockrage
 {
@@ -122,7 +125,7 @@ public class rockrage
 	{
 		new MemoryReadAddress( 0x3000, 0x3000, rockrage_VLM5030_busy_r ),/* VLM5030 */
 		new MemoryReadAddress( 0x5000, 0x5000, soundlatch_r ),			/* soundlatch_r */
-/*TODO*///		new MemoryReadAddress( 0x6001, 0x6001, YM2151_status_port_0_r ),	/* YM 2151 */
+		new MemoryReadAddress( 0x6001, 0x6001, YM2151_status_port_0_r ),	/* YM 2151 */
 		new MemoryReadAddress( 0x7000, 0x77ff, MRA_RAM ),				/* RAM */
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),				/* ROM */
 		new MemoryReadAddress( -1 )	/* end of table */
@@ -132,8 +135,8 @@ public class rockrage
 	{
 		new MemoryWriteAddress( 0x2000, 0x2000, VLM5030_data_w ), 			/* VLM5030 */
 		new MemoryWriteAddress( 0x4000, 0x4000, rockrage_speech_w ),			/* VLM5030 */
-/*TODO*///		new MemoryWriteAddress( 0x6000, 0x6000, YM2151_register_port_0_w ),	/* YM 2151 */
-/*TODO*///		new MemoryWriteAddress( 0x6001, 0x6001, YM2151_data_port_0_w ),		/* YM 2151 */
+		new MemoryWriteAddress( 0x6000, 0x6000, YM2151_register_port_0_w ),	/* YM 2151 */
+		new MemoryWriteAddress( 0x6001, 0x6001, YM2151_data_port_0_w ),		/* YM 2151 */
 		new MemoryWriteAddress( 0x7000, 0x77ff, MWA_RAM ),					/* RAM */
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),					/* ROM */
 		new MemoryWriteAddress( -1 )	/* end of table */
@@ -278,14 +281,14 @@ public class rockrage
 	
 	***************************************************************************/
 	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3579545,	/* 3.579545 MHz */
-/*TODO*///		{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 }
-/*TODO*///	};
+	static YM2151interface ym2151_interface = new YM2151interface
+	(
+		1,			/* 1 chip */
+		3579545,	/* 3.579545 MHz */
+		new int[]{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null }
+        );
 	
 	static VLM5030interface vlm5030_interface = new VLM5030interface
         (
@@ -332,10 +335,10 @@ public class rockrage
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_VLM5030,
 				vlm5030_interface

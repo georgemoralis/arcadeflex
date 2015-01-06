@@ -87,6 +87,10 @@ public class _2151intf extends snd_interface {
         }
     };
 
+    public static void YM2151UpdateRequest(int chip) {
+        stream_update(stream[chip], 0);
+    }
+
     static int my_YM2151_sh_start(MachineSound msound, int mode) {
         int i, j;
         int rate = Machine.sample_rate;
@@ -96,6 +100,7 @@ public class _2151intf extends snd_interface {
 
         if (rate == 0) {
             rate = 1000;	/* kludge to prevent nasty crashes */
+
         }
 
         intf = (YM2151interface) msound.sound_interface;

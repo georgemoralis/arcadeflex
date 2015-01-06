@@ -9,8 +9,11 @@ import static sound.fmH.*;
 import sound.fm_c.FM_CH;
 import sound.fm_c.FM_OPN;
 import sound.fm_c.FM_SLOT;
+import sound.fm_c.YM2151;
 import sound.fm_c.YM2203;
 import sound.streams.StreamInitPtr;
+import static arcadeflex.libc_old.*;
+import static sound._2151intf.YM2151UpdateRequest;
 
 public class fm {
     /*TODO*///#define YM2610B_WARNING
@@ -650,8 +653,10 @@ public class fm {
     static int OP_OUT(int PG, int EG) {
         return SIN_TABLE[(PG / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1)].read(EG);
     }
-    /*TODO*///#define OP_OUTN(PG,EG)  NOISE_TABLE[(PG/(0x1000000/SIN_ENT))&(SIN_ENT-1)][EG]
-/*TODO*///
+
+    static int OP_OUTN(int PG, int EG) {
+        return NOISE_TABLE[(int) ((PG / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1))].read(EG);
+    }
 
     public static int FM_CALC_EG(FM_SLOT SLOT) {
         if ((SLOT.evc += SLOT.evs) >= SLOT.eve) {
@@ -2956,76 +2961,54 @@ public class fm {
 /*TODO*///#undef  FM_SEG_SUPPORT
 /*TODO*///#define FM_SEG_SUPPORT 0	/* OPM has not SEG type envelope */
 /*TODO*///
-/*TODO*////* here's the virtual YM2151(OPM)  */
-/*TODO*///typedef struct ym2151_f {
-/*TODO*///	FM_ST ST;					/* general state     */
-/*TODO*///	FM_CH CH[8];				/* channel state     */
-/*TODO*///	UINT8 ct;					/* CT0,1             */
-/*TODO*///	UINT32 NoiseCnt;			/* noise generator   */
-/*TODO*///	UINT32 NoiseIncr;			/* noise mode enable & step */
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///	/* LFO */
-/*TODO*///	UINT32 LFOCnt;
-/*TODO*///	UINT32 LFOIncr;
-/*TODO*///	UINT8 pmd;					/* LFO pmd level     */
-/*TODO*///	UINT8 amd;					/* LFO amd level     */
-/*TODO*///	INT32 *wavetype;			/* LFO waveform      */
-/*TODO*///	INT32 LFO_wave[LFO_ENT*4];	/* LFO wave tabel    */
-/*TODO*///	UINT8 testreg;				/* test register (LFO reset) */
-/*TODO*///#endif
-/*TODO*///	UINT32 KC_TABLE[8*12*64+950];/* keycode,keyfunction -> count */
-/*TODO*///	void (*PortWrite)(int offset,int data);/*  callback when write CT0/CT1 */
-/*TODO*///} YM2151;
-/*TODO*///
-/*TODO*///static YM2151 *FMOPM=NULL;	/* array of YM2151's */
-/*TODO*///static int YM2151NumChips;	/* total chip */
-/*TODO*///
-/*TODO*////* current chip state */
-/*TODO*///static UINT32 NoiseCnt , NoiseIncr;
-/*TODO*///
-/*TODO*///static INT32 *NOISE_TABLE[SIN_ENT];
-/*TODO*///
-/*TODO*///static const int DT2_TABLE[4]={ /* 4 DT2 values */
-/*TODO*////*
-/*TODO*/// *   DT2 defines offset in cents from base note
-/*TODO*/// *
-/*TODO*/// *   The table below defines offset in deltas table...
-/*TODO*/// *   User's Manual page 22
-/*TODO*/// *   Values below were calculated using formula:  value = orig.val * 1.5625
-/*TODO*/// *
-/*TODO*/// * DT2=0 DT2=1 DT2=2 DT2=3
-/*TODO*/// * 0     600   781   950
-/*TODO*/// */
-/*TODO*///	0,    384,  500,  608
-/*TODO*///};
-/*TODO*///
-/*TODO*///static const int KC_TO_SEMITONE[16]={
-/*TODO*///	/*translate note code KC into more usable number of semitone*/
-/*TODO*///	0*64, 1*64, 2*64, 3*64,
-/*TODO*///	3*64, 4*64, 5*64, 6*64,
-/*TODO*///	6*64, 7*64, 8*64, 9*64,
-/*TODO*///	9*64,10*64,11*64,12*64
-/*TODO*///};
-/*TODO*///
-/*TODO*////* ---------- frequency counter  ---------- */
-/*TODO*///INLINE void OPM_CALC_FCOUNT(YM2151 *OPM , FM_CH *CH )
-/*TODO*///{
-/*TODO*///	if( CH->SLOT[SLOT1].Incr==-1)
-/*TODO*///	{
-/*TODO*///		int fc = CH->fc;
-/*TODO*///		int kc = CH->kcode;
-/*TODO*///
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT1] , OPM->KC_TABLE[fc + CH->SLOT[SLOT1].DT2] , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT2] , OPM->KC_TABLE[fc + CH->SLOT[SLOT2].DT2] , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT3] , OPM->KC_TABLE[fc + CH->SLOT[SLOT3].DT2] , kc );
-/*TODO*///		CALC_FCSLOT(&CH->SLOT[SLOT4] , OPM->KC_TABLE[fc + CH->SLOT[SLOT4].DT2] , kc );
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- calcrate one of channel7 ---------- */
-/*TODO*///INLINE void OPM_CALC_CH7( FM_CH *CH )
-/*TODO*///{
-/*TODO*///	UINT32 eg_out1,eg_out2,eg_out3,eg_out4;  //envelope output
+
+    static YM2151[] FMOPM = null;/* array of YM2151's */
+
+    static int YM2151NumChips;/* total chip */
+
+    /* current chip state */
+    static long NoiseCnt, NoiseIncr;
+
+    static IntSubArray[] NOISE_TABLE = new IntSubArray[SIN_ENT];
+
+    static int DT2_TABLE[] = { /* 4 DT2 values */
+        /*
+         *   DT2 defines offset in cents from base note
+         *
+         *   The table below defines offset in deltas table...
+         *   User's Manual page 22
+         *   Values below were calculated using formula:  value = orig.val * 1.5625
+         *
+         * DT2=0 DT2=1 DT2=2 DT2=3
+         * 0     600   781   950
+         */
+        0, 384, 500, 608
+    };
+
+    static int KC_TO_SEMITONE[] = {
+        /*translate note code KC into more usable number of semitone*/
+        0 * 64, 1 * 64, 2 * 64, 3 * 64,
+        3 * 64, 4 * 64, 5 * 64, 6 * 64,
+        6 * 64, 7 * 64, 8 * 64, 9 * 64,
+        9 * 64, 10 * 64, 11 * 64, 12 * 64
+    };
+
+    /* ---------- frequency counter  ---------- */
+    public static void OPM_CALC_FCOUNT(YM2151 OPM, FM_CH CH) {
+        if (CH.SLOT[SLOT1].Incr == -1) {
+            int fc = (int) CH.fc;
+            int kc = CH.kcode;
+
+            CALC_FCSLOT(CH.SLOT[SLOT1], (int) (OPM.KC_TABLE[fc + CH.SLOT[SLOT1].DT2]), kc);
+            CALC_FCSLOT(CH.SLOT[SLOT2], (int) (OPM.KC_TABLE[fc + CH.SLOT[SLOT2].DT2]), kc);
+            CALC_FCSLOT(CH.SLOT[SLOT3], (int) (OPM.KC_TABLE[fc + CH.SLOT[SLOT3].DT2]), kc);
+            CALC_FCSLOT(CH.SLOT[SLOT4], (int) (OPM.KC_TABLE[fc + CH.SLOT[SLOT4].DT2]), kc);
+        }
+    }
+    /* ---------- calcrate one of channel7 ---------- */
+
+    public static void OPM_CALC_CH7(FM_CH CH) {
+        long eg_out1, eg_out2, eg_out3, eg_out4;  //envelope output
 /*TODO*///
 /*TODO*///	/* Phase Generator */
 /*TODO*///#if FM_LFO_SUPPORT
@@ -3040,80 +3023,82 @@ public class fm {
 /*TODO*///	else
 /*TODO*///#endif
 /*TODO*///	{
-/*TODO*///		pg_in1 = (CH->SLOT[SLOT1].Cnt += CH->SLOT[SLOT1].Incr);
-/*TODO*///		pg_in2 = (CH->SLOT[SLOT2].Cnt += CH->SLOT[SLOT2].Incr);
-/*TODO*///		pg_in3 = (CH->SLOT[SLOT3].Cnt += CH->SLOT[SLOT3].Incr);
-/*TODO*///		pg_in4 = (CH->SLOT[SLOT4].Cnt += CH->SLOT[SLOT4].Incr);
-/*TODO*///	}
-/*TODO*///	/* Envelope Generator */
-/*TODO*///	FM_CALC_EG(eg_out1,CH->SLOT[SLOT1]);
-/*TODO*///	FM_CALC_EG(eg_out2,CH->SLOT[SLOT2]);
-/*TODO*///	FM_CALC_EG(eg_out3,CH->SLOT[SLOT3]);
-/*TODO*///	FM_CALC_EG(eg_out4,CH->SLOT[SLOT4]);
-/*TODO*///
-/*TODO*///	/* connection */
-/*TODO*///	if( eg_out1 < EG_CUT_OFF )	/* SLOT 1 */
-/*TODO*///	{
-/*TODO*///		if( CH->FB ){
-/*TODO*///			/* with self feed back */
-/*TODO*///			pg_in1 += (CH->op1_out[0]+CH->op1_out[1])>>CH->FB;
-/*TODO*///			CH->op1_out[1] = CH->op1_out[0];
-/*TODO*///		}
-/*TODO*///		CH->op1_out[0] = OP_OUT(pg_in1,eg_out1);
-/*TODO*///		/* output slot1 */
-/*TODO*///		if( !CH->connect1 )
-/*TODO*///		{
-/*TODO*///			/* algorythm 5  */
-/*TODO*///			pg_in2 += CH->op1_out[0];
-/*TODO*///			pg_in3 += CH->op1_out[0];
-/*TODO*///			pg_in4 += CH->op1_out[0];
-/*TODO*///		}else{
-/*TODO*///			/* other algorythm */
-/*TODO*///			*CH->connect1 += CH->op1_out[0];
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	if( eg_out2 < EG_CUT_OFF )	/* SLOT 2 */
-/*TODO*///		*CH->connect2 += OP_OUT(pg_in2,eg_out2);
-/*TODO*///	if( eg_out3 < EG_CUT_OFF )	/* SLOT 3 */
-/*TODO*///		*CH->connect3 += OP_OUT(pg_in3,eg_out3);
-/*TODO*///	/* SLOT 4 */
-/*TODO*///	if(NoiseIncr)
-/*TODO*///	{
-/*TODO*///		NoiseCnt += NoiseIncr;
-/*TODO*///		if( eg_out4 < EG_CUT_OFF )
-/*TODO*///			*CH->connect4 += OP_OUTN(NoiseCnt,eg_out4);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		if( eg_out4 < EG_CUT_OFF )
-/*TODO*///			*CH->connect4 += OP_OUT(pg_in4,eg_out4);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- priscaler set(and make time tables) ---------- */
-/*TODO*///static void OPMInitTable( int num )
-/*TODO*///{
-/*TODO*///    YM2151 *OPM = &(FMOPM[num]);
-/*TODO*///	int i;
-/*TODO*///	double pom;
-/*TODO*///	double rate;
-/*TODO*///
-/*TODO*///	if (FMOPM[num].ST.rate)
-/*TODO*///		rate = (double)(1<<FREQ_BITS) / (3579545.0 / FMOPM[num].ST.clock * FMOPM[num].ST.rate);
-/*TODO*///	else rate = 1;
-/*TODO*///
-/*TODO*///	for (i=0; i<8*12*64+950; i++)
-/*TODO*///	{
-/*TODO*///		/* This calculation type was used from the Jarek's YM2151 emulator */
-/*TODO*///		pom = 6.875 * pow (2, ((i+4*64)*1.5625/1200.0) ); /*13.75Hz is note A 12semitones below A-0, so D#0 is 4 semitones above then*/
-/*TODO*///		/*calculate phase increment for above precounted Hertz value*/
-/*TODO*///		OPM->KC_TABLE[i] = (UINT32)(pom * rate);
-/*TODO*///		/*Log(LOG_WAR,"OPM KC %d = %x\n",i,OPM->KC_TABLE[i]);*/
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* make time tables */
-/*TODO*///	init_timetables( &OPM->ST , OPM_DTTABLE , OPM_ARRATE , OPM_DRRATE );
-/*TODO*///#if FM_LFO_SUPPORT
+        pg_in1[0] = (int) (CH.SLOT[SLOT1].Cnt += CH.SLOT[SLOT1].Incr);
+        pg_in2[0] = (int) (CH.SLOT[SLOT2].Cnt += CH.SLOT[SLOT2].Incr);
+        pg_in3[0] = (int) (CH.SLOT[SLOT3].Cnt += CH.SLOT[SLOT3].Incr);
+        pg_in4[0] = (int) (CH.SLOT[SLOT4].Cnt += CH.SLOT[SLOT4].Incr);
+        /*TODO*///	}
+
+        /* Envelope Generator */
+        eg_out1 = FM_CALC_EG(CH.SLOT[SLOT1]);
+        eg_out2 = FM_CALC_EG(CH.SLOT[SLOT2]);
+        eg_out3 = FM_CALC_EG(CH.SLOT[SLOT3]);
+        eg_out4 = FM_CALC_EG(CH.SLOT[SLOT4]);
+        /* connection */
+        if (eg_out1 < EG_CUT_OFF) /* SLOT 1 */ {
+            if (CH.FB != 0) {
+                /* with self feed back */
+                pg_in1[0] += (CH.op1_out[0] + CH.op1_out[1]) >> CH.FB;
+                CH.op1_out[1] = CH.op1_out[0];
+            }
+            CH.op1_out[0] = OP_OUT(pg_in1[0], (int) eg_out1);
+            /* output slot1 */
+            if (CH.connect1 == null) {
+                /* algorythm 5  */
+                pg_in2[0] += CH.op1_out[0];
+                pg_in3[0] += CH.op1_out[0];
+                pg_in4[0] += CH.op1_out[0];
+            } else {
+                /* other algorythm */
+                CH.connect1.write(0, CH.connect1.read(0) + CH.op1_out[0]);//*CH->connect1 += CH->op1_out[0];
+            }
+        }
+        if (eg_out2 < EG_CUT_OFF) {	/* SLOT 2 */
+
+            CH.connect2.write(0, CH.connect2.read(0) + OP_OUT(pg_in2[0], (int) eg_out2));//*CH->connect2 += OP_OUT(pg_in2,eg_out2);
+        }
+        if (eg_out3 < EG_CUT_OFF) {	/* SLOT 3 */
+
+            CH.connect3.write(0, CH.connect3.read(0) + OP_OUT(pg_in3[0], (int) eg_out3));//*CH->connect3 += OP_OUT(pg_in3,eg_out3);
+        }
+        /* SLOT 4 */
+        if (NoiseIncr != 0) {
+            NoiseCnt += NoiseIncr;
+            if (eg_out4 < EG_CUT_OFF) {
+                CH.connect4.write(0, CH.connect4.read(0) + OP_OUTN((int)NoiseCnt, (int) eg_out4));//*CH->connect4 += OP_OUTN(NoiseCnt,eg_out4);
+            }
+        } else {
+            if (eg_out4 < EG_CUT_OFF) {
+                CH.connect4.write(0, CH.connect4.read(0) + OP_OUT(pg_in4[0], (int) eg_out4));//*CH->connect4 += OP_OUT(pg_in4,eg_out4);
+            }
+        }
+    }
+
+    /* ---------- priscaler set(and make time tables) ---------- */
+    static void OPMInitTable(int num) {
+        YM2151 OPM = (FMOPM[num]);
+        int i;
+        double pom;
+        double rate;
+
+        if (FMOPM[num].ST.rate != 0) {
+            rate = (double) (1 << FREQ_BITS) / (3579545.0 / FMOPM[num].ST.clock * FMOPM[num].ST.rate);
+        } else {
+            rate = 1;
+        }
+
+        for (i = 0; i < 8 * 12 * 64 + 950; i++) {
+            /* This calculation type was used from the Jarek's YM2151 emulator */
+            pom = 6.875 * Math.pow(2, ((i + 4 * 64) * 1.5625 / 1200.0)); /*13.75Hz is note A 12semitones below A-0, so D#0 is 4 semitones above then*/
+            /*calculate phase increment for above precounted Hertz value*/
+
+            OPM.KC_TABLE[i] = (long) (pom * rate);
+            /*Log(LOG_WAR,"OPM KC %d = %x\n",i,OPM->KC_TABLE[i]);*/
+        }
+
+        /* make time tables */
+        init_timetables(OPM.ST, OPN_DTTABLE, OPM_ARRATE, OPM_DRRATE);
+        /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///	/* LFO wave table */
 /*TODO*///	for(i=0;i<LFO_ENT;i++)
 /*TODO*///	{
@@ -3123,34 +3108,33 @@ public class fm {
 /*TODO*///		OPM->LFO_wave[LFO_ENT*3+i]= LFO_RATE * (rand()&0xff) /256 /127;
 /*TODO*///	}
 /*TODO*///#endif
-/*TODO*///	/* NOISE wave table */
-/*TODO*///	for(i=0;i<SIN_ENT;i++)
-/*TODO*///	{
-/*TODO*///		int sign = rand()&1 ? TL_MAX : 0;
-/*TODO*///		int lev = rand()&0x1ff;
-/*TODO*///		//pom = lev ? 20*log10(0x200/lev) : 0;   /* decibel */
-/*TODO*///		//NOISE_TABLE[i] = &TL_TABLE[sign + (int)(pom / EG_STEP)]; /* TL_TABLE steps */
-/*TODO*///		NOISE_TABLE[i] = &TL_TABLE[sign + lev * EG_ENT/0x200]; /* TL_TABLE steps */
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- write a register on YM2151 chip number 'n' ---------- */
-/*TODO*///static void OPMWriteReg(int n, int r, int v)
-/*TODO*///{
-/*TODO*///	UINT8 c;
-/*TODO*///	FM_CH *CH;
-/*TODO*///	FM_SLOT *SLOT;
-/*TODO*///
-/*TODO*///    YM2151 *OPM = &(FMOPM[n]);
-/*TODO*///
-/*TODO*///	c   = OPM_CHAN(r);
-/*TODO*///	CH  = &OPM->CH[c];
-/*TODO*///	SLOT= &CH->SLOT[OPM_SLOT(r)];
-/*TODO*///
-/*TODO*///	switch( r & 0xe0 ){
-/*TODO*///	case 0x00: /* 0x00-0x1f */
-/*TODO*///		switch( r ){
-/*TODO*///#if FM_LFO_SUPPORT
+	/* NOISE wave table */
+        for (i = 0; i < SIN_ENT; i++) {
+            int sign = (rand() & 1) != 0 ? TL_MAX : 0;
+            int lev = rand() & 0x1ff;
+		//pom = lev ? 20*log10(0x200/lev) : 0;   /* decibel */
+            //NOISE_TABLE[i] = &TL_TABLE[sign + (int)(pom / EG_STEP)]; /* TL_TABLE steps */
+            NOISE_TABLE[i] = new IntSubArray(TL_TABLE, sign + lev * EG_ENT / 0x200); //&TL_TABLE[sign + lev * EG_ENT/0x200]; /* TL_TABLE steps */
+        }
+    }
+
+    /* ---------- write a register on YM2151 chip number 'n' ---------- */
+    static void OPMWriteReg(int n, int r, int v) {
+        int /*UINT8*/ c;
+        FM_CH CH;
+        FM_SLOT SLOT;
+
+        YM2151 OPM = (FMOPM[n]);
+
+        c = OPM_CHAN(r);
+        CH = OPM.CH[c];
+        SLOT = CH.SLOT[OPM_SLOT(r)];
+
+        switch (r & 0xe0) {
+            case 0x00: /* 0x00-0x1f */
+
+                switch (r) {
+                    /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		case 0x01:	/* test */
 /*TODO*///			if( (OPM->testreg&(OPM->testreg^v))&0x02 ) /* fall eggge */
 /*TODO*///			{	/* reset LFO counter */
@@ -3160,42 +3144,60 @@ public class fm {
 /*TODO*///			OPM->testreg = v;
 /*TODO*///			break;
 /*TODO*///#endif
-/*TODO*///		case 0x08:	/* key on / off */
-/*TODO*///			c = v&7;
-/*TODO*///			/* CSM mode */
-/*TODO*///			if( OPM->ST.mode & 0x80 ) break;
-/*TODO*///			CH = &OPM->CH[c];
-/*TODO*///			if(v&0x08) FM_KEYON(CH,SLOT1); else FM_KEYOFF(CH,SLOT1);
-/*TODO*///			if(v&0x10) FM_KEYON(CH,SLOT2); else FM_KEYOFF(CH,SLOT2);
-/*TODO*///			if(v&0x20) FM_KEYON(CH,SLOT3); else FM_KEYOFF(CH,SLOT3);
-/*TODO*///			if(v&0x40) FM_KEYON(CH,SLOT4); else FM_KEYOFF(CH,SLOT4);
-/*TODO*///			break;
-/*TODO*///		case 0x0f:	/* Noise freq (ch7.op4) */
-/*TODO*///			/* b7 = Noise enable */
-/*TODO*///			/* b0-4 noise freq  */
-/*TODO*///			OPM->NoiseIncr = !(v&0x80) ? 0 :
-/*TODO*///				/* !!!!! unknown noise freqency rate !!!!! */
-/*TODO*///				(1<<FREQ_BITS) / 65536 * (v&0x1f) * OPM->ST.freqbase;
-/*TODO*///			cur_chip = NULL;
-/*TODO*///#if 1
-/*TODO*///			if( v & 0x80 ){
-/*TODO*///				Log(LOG_WAR,"OPM Noise mode selelted\n");
-/*TODO*///			}
-/*TODO*///#endif
-/*TODO*///			break;
-/*TODO*///		case 0x10:	/* timer A High 8*/
-/*TODO*///			OPM->ST.TA = (OPM->ST.TA & 0x03)|(((int)v)<<2);
-/*TODO*///			break;
-/*TODO*///		case 0x11:	/* timer A Low 2*/
-/*TODO*///			OPM->ST.TA = (OPM->ST.TA & 0x3fc)|(v&3);
-/*TODO*///			break;
-/*TODO*///		case 0x12:	/* timer B */
-/*TODO*///			OPM->ST.TB = v;
-/*TODO*///			break;
-/*TODO*///		case 0x14:	/* mode , timer controll */
-/*TODO*///			FMSetMode( &(OPM->ST),n,v );
-/*TODO*///			break;
-/*TODO*///#if FM_LFO_SUPPORT
+                    case 0x08:	/* key on / off */
+
+                        c = v & 7;
+                        /* CSM mode */
+                        if ((OPM.ST.mode & 0x80) != 0) {
+                            break;
+                        }
+                        CH = OPM.CH[c];
+                        if ((v & 0x08) != 0) {
+                            FM_KEYON(CH, SLOT1);
+                        } else {
+                            FM_KEYOFF(CH, SLOT1);
+                        }
+                        if ((v & 0x10) != 0) {
+                            FM_KEYON(CH, SLOT2);
+                        } else {
+                            FM_KEYOFF(CH, SLOT2);
+                        }
+                        if ((v & 0x20) != 0) {
+                            FM_KEYON(CH, SLOT3);
+                        } else {
+                            FM_KEYOFF(CH, SLOT3);
+                        }
+                        if ((v & 0x40) != 0) {
+                            FM_KEYON(CH, SLOT4);
+                        } else {
+                            FM_KEYOFF(CH, SLOT4);
+                        }
+                        break;
+                    case 0x0f:	/* Noise freq (ch7.op4) */
+                        /* b7 = Noise enable */
+                        /* b0-4 noise freq  */
+
+                        OPM.NoiseIncr = (v & 0x80) == 0 ? (long) 0
+                                : /* !!!!! unknown noise freqency rate !!!!! */ (long) ((1 << FREQ_BITS) / 65536 * (v & 0x1f) * OPM.ST.freqbase);
+                        cur_chip = null;
+                        break;
+                    case 0x10:	/* timer A High 8*/
+
+                        OPM.ST.TA = (OPM.ST.TA & 0x03) | (((int) v) << 2);
+                        break;
+                    case 0x11:	/* timer A Low 2*/
+
+                        OPM.ST.TA = (OPM.ST.TA & 0x3fc) | (v & 3);
+                        break;
+                    case 0x12:	/* timer B */
+
+                        OPM.ST.TB = v;
+                        break;
+                    case 0x14:	/* mode , timer controll */
+
+                        FMSetMode((OPM.ST), n, v);
+                        break;
+                    /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		case 0x18:	/* lfreq   */
 /*TODO*///			/* f = fm * 2^(LFRQ/16) / (4295*10^6) */
 /*TODO*///			{
@@ -3214,55 +3216,52 @@ public class fm {
 /*TODO*///			else           OPM->amd = v & 0x7f;
 /*TODO*///			break;
 /*TODO*///#endif
-/*TODO*///		case 0x1b:	/* CT , W  */
-/*TODO*///			/* b7 = CT1 */
-/*TODO*///			/* b6 = CT0 */
-/*TODO*///			/* b0-2 = wave form(LFO) 0=nokogiri,1=houkei,2=sankaku,3=noise */
-/*TODO*///			//if(OPM->ct != v)
-/*TODO*///			{
-/*TODO*///				OPM->ct = v>>6;
-/*TODO*///				if( OPM->PortWrite != 0)
-/*TODO*///					OPM->PortWrite(0, OPM->ct ); /* bit0 = CT0,bit1 = CT1 */
-/*TODO*///			}
-/*TODO*///#if FM_LFO_SUPPORT
+                    case 0x1b: /* CT , W  */ /* b7 = CT1 */ /* b6 = CT0 */ /* b0-2 = wave form(LFO) 0=nokogiri,1=houkei,2=sankaku,3=noise */ //if(OPM->ct != v)
+                    {
+                        OPM.ct = v >> 6;
+                        if (OPM.PortWrite != null) {
+                            OPM.PortWrite.handler(0, OPM.ct); /* bit0 = CT0,bit1 = CT1 */
+                        }
+                    }
+                    /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///			if( OPM->wavetype != &OPM->LFO_wave[(v&3)*LFO_ENT])
 /*TODO*///			{
 /*TODO*///				OPM->wavetype = &OPM->LFO_wave[(v&3)*LFO_ENT];
 /*TODO*///				cur_chip = NULL;
 /*TODO*///			}
 /*TODO*///#endif
-/*TODO*///			break;
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///	case 0x20:	/* 20-3f */
-/*TODO*///		switch( OPM_SLOT(r) ){
-/*TODO*///		case 0: /* 0x20-0x27 : RL,FB,CON */
-/*TODO*///			{
-/*TODO*///				int feedback = (v>>3)&7;
-/*TODO*///				CH->ALGO = v&7;
-/*TODO*///				CH->FB  = feedback ? 8+1 - feedback : 0;
-/*TODO*///				/* RL order -> LR order */
-/*TODO*///				CH->PAN = ((v>>7)&1) | ((v>>5)&2);
-/*TODO*///				setup_connection( CH );
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///		case 1: /* 0x28-0x2f : Keycode */
-/*TODO*///			{
-/*TODO*///				int blk = (v>>4)&7;
-/*TODO*///				/* make keyscale code */
-/*TODO*///				CH->kcode = (v>>2)&0x1f;
-/*TODO*///				/* make basic increment counter 22bit = 1 cycle */
-/*TODO*///				CH->fc = (blk * (12*64)) + KC_TO_SEMITONE[v&0x0f] + CH->fn_h;
-/*TODO*///				CH->SLOT[SLOT1].Incr=-1;
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///		case 2: /* 0x30-0x37 : Keyfunction */
-/*TODO*///			CH->fc -= CH->fn_h;
-/*TODO*///			CH->fn_h = v>>2;
-/*TODO*///			CH->fc += CH->fn_h;
-/*TODO*///			CH->SLOT[SLOT1].Incr=-1;
-/*TODO*///			break;
-/*TODO*///#if FM_LFO_SUPPORT
+                    break;
+                }
+                break;
+            case 0x20:	/* 20-3f */
+
+                switch (OPM_SLOT(r)) {
+                    case 0: /* 0x20-0x27 : RL,FB,CON */ {
+                        int feedback = (v >> 3) & 7;
+                        CH.ALGO = v & 7;
+                        CH.FB = feedback != 0 ? 8 + 1 - feedback : 0;
+                        /* RL order -> LR order */
+                        CH.PAN = ((v >> 7) & 1) | ((v >> 5) & 2);
+                        setup_connection(CH);
+                    }
+                    break;
+                    case 1: /* 0x28-0x2f : Keycode */ {
+                        int blk = (v >> 4) & 7;
+                        /* make keyscale code */
+                        CH.kcode = (v >> 2) & 0x1f;
+                        /* make basic increment counter 22bit = 1 cycle */
+                        CH.fc = (blk * (12 * 64)) + KC_TO_SEMITONE[v & 0x0f] + CH.fn_h;
+                        CH.SLOT[SLOT1].Incr = -1;
+                    }
+                    break;
+                    case 2: /* 0x30-0x37 : Keyfunction */
+
+                        CH.fc -= CH.fn_h;
+                        CH.fn_h = v >> 2;
+                        CH.fc += CH.fn_h;
+                        CH.SLOT[SLOT1].Incr = -1;
+                        break;
+                    /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		case 3: /* 0x38-0x3f : PMS / AMS */
 /*TODO*///			/* b0-1 AMS */
 /*TODO*///			/* AMS * 23.90625db @ AMD=127 */
@@ -3282,190 +3281,198 @@ public class fm {
 /*TODO*///			}
 /*TODO*///			break;
 /*TODO*///#endif
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///	case 0x40:	/* DT1,MUL */
-/*TODO*///		set_det_mul(&OPM->ST,CH,SLOT,v);
-/*TODO*///		break;
-/*TODO*///	case 0x60:	/* TL */
-/*TODO*///		set_tl(CH,SLOT,v,(c == 7) && (OPM->ST.mode & 0x80) );
-/*TODO*///		break;
-/*TODO*///	case 0x80:	/* KS, AR */
-/*TODO*///		set_ar_ksr(CH,SLOT,v,OPM->ST.AR_TABLE);
-/*TODO*///		break;
-/*TODO*///	case 0xa0:	/* AMS EN,D1R */
-/*TODO*///		set_dr(SLOT,v,OPM->ST.DR_TABLE);
-/*TODO*///#if FM_LFO_SUPPORT
+                }
+                break;
+            case 0x40:	/* DT1,MUL */
+
+                set_det_mul(OPM.ST, CH, SLOT, v);
+                break;
+            case 0x60:	/* TL */
+
+                set_tl(CH, SLOT, v, (((c == 7) && (OPM.ST.mode & 0x80) != 0) ? 1 : 0));
+                break;
+            case 0x80:	/* KS, AR */
+
+                set_ar_ksr(CH, SLOT, v, OPM.ST.AR_TABLE);
+                break;
+            case 0xa0:	/* AMS EN,D1R */
+
+                set_dr(SLOT, v, OPM.ST.DR_TABLE);
+                /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		/* bit7 = AMS ENABLE */
 /*TODO*///		SLOT->amon = v>>7;
 /*TODO*///		SLOT->ams = CH->ams * SLOT->amon;
 /*TODO*///#endif
-/*TODO*///		break;
-/*TODO*///	case 0xc0:	/* DT2 ,D2R */
-/*TODO*///		SLOT->DT2  = DT2_TABLE[v>>6];
-/*TODO*///		CH->SLOT[SLOT1].Incr=-1;
-/*TODO*///		set_sr(SLOT,v,OPM->ST.DR_TABLE);
-/*TODO*///		break;
-/*TODO*///	case 0xe0:	/* D1L, RR */
-/*TODO*///		set_sl_rr(SLOT,v,OPM->ST.DR_TABLE);
-/*TODO*///		break;
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
+                break;
+            case 0xc0:	/* DT2 ,D2R */
+
+                SLOT.DT2 = DT2_TABLE[v >> 6];
+                CH.SLOT[SLOT1].Incr = -1;
+                set_sr(SLOT, v, OPM.ST.DR_TABLE);
+                break;
+            case 0xe0:	/* D1L, RR */
+
+                set_sl_rr(SLOT, v, OPM.ST.DR_TABLE);
+                break;
+        }
+    }
+    /*TODO*///
 /*TODO*////* ---------- read status port ---------- */
 /*TODO*///static UINT8 OPMReadStatus(int n)
 /*TODO*///{
 /*TODO*///	return FMOPM[n].ST.status;
 /*TODO*///}
 /*TODO*///
-public static int YM2151Write(int n,int a,/*UINT8*/int v)
-{
-    throw new UnsupportedOperationException("Unsupported");
-/*TODO*///	YM2151 *F2151 = &(FMOPM[n]);
-/*TODO*///
-/*TODO*///	if( !(a&1) )
-/*TODO*///	{	/* address port */
-/*TODO*///		F2151->ST.address = v & 0xff;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* data port */
-/*TODO*///		int addr = F2151->ST.address;
-/*TODO*///		YM2151UpdateReq(n);
-/*TODO*///		/* write register */
-/*TODO*///		 OPMWriteReg(n,addr,v);
-/*TODO*///	}
-/*TODO*///	return F2151->ST.irq;
-}
-/* ---------- reset one of chip ---------- */
-public static void OPMResetChip(int num)
-{
-/*TODO*///	int i;
-/*TODO*///    YM2151 *OPM = &(FMOPM[num]);
-/*TODO*///
-/*TODO*///	OPMInitTable( num );
-/*TODO*///	reset_channel( &OPM->ST , &OPM->CH[0] , 8 );
-/*TODO*///	/* status clear */
-/*TODO*///	FM_IRQMASK_SET(&OPM->ST,0x03);
-/*TODO*///	OPMWriteReg(num,0x1b,0x00);
-/*TODO*///	/* reset OPerator paramater */
-/*TODO*///	for(i = 0xff ; i >= 0x20 ; i-- ) OPMWriteReg(num,i,0);
-}
-/*TODO*////* ----------  Initialize YM2151 emulator(s) ----------    */
-/*TODO*////* 'num' is the number of virtual YM2151's to allocate     */
-/*TODO*////* 'rate' is sampling rate and 'bufsiz' is the size of the */
-/*TODO*////* buffer that should be updated at each interval          */
-public static int OPMInit(int num, int clock, int rate,FM_TIMERHANDLERtr TimerHandler,FM_IRQHANDLEPtr IRQHandler)
-{
-/*TODO*///    int i;
-/*TODO*///
-/*TODO*///    if (FMOPM) return (-1);	/* duplicate init. */
-/*TODO*///    cur_chip = NULL;	/* hiro-shi!! */
-/*TODO*///
-/*TODO*///	YM2151NumChips = num;
-/*TODO*///
-/*TODO*///	/* allocate ym2151 state space */
-/*TODO*///	if( (FMOPM = (YM2151 *)malloc(sizeof(YM2151) * YM2151NumChips))==NULL)
-/*TODO*///		return (-1);
-/*TODO*///
-/*TODO*///	/* clear */
-/*TODO*///	memset(FMOPM,0,sizeof(YM2151) * YM2151NumChips);
-/*TODO*///
-/*TODO*///	/* allocate total lebel table (128kb space) */
-/*TODO*///	if( !FMInitTable() )
-/*TODO*///	{
-/*TODO*///		free( FMOPM );
-/*TODO*///		return (-1);
-/*TODO*///	}
-/*TODO*///	for ( i = 0 ; i < YM2151NumChips; i++ ) {
-/*TODO*///		FMOPM[i].ST.index = i;
-/*TODO*///		FMOPM[i].ST.clock = clock;
-/*TODO*///		FMOPM[i].ST.rate = rate;
-/*TODO*///		/* FMOPM[i].ST.irq  = 0; */
-/*TODO*///		/* FMOPM[i].ST.status = 0; */
-/*TODO*///		FMOPM[i].ST.timermodel = FM_TIMER_INTERVAL;
-/*TODO*///		FMOPM[i].ST.freqbase  = rate ? ((double)clock / rate) / 64 : 0;
-/*TODO*///		FMOPM[i].ST.TimerBase = 1.0/((double)clock / 64.0);
-/*TODO*///		/* Extend handler */
-/*TODO*///		FMOPM[i].ST.Timer_Handler = TimerHandler;
-/*TODO*///		FMOPM[i].ST.IRQ_Handler   = IRQHandler;
-/*TODO*///		/* Reset callback handler of CT0/1 */
-/*TODO*///		FMOPM[i].PortWrite = 0;
-/*TODO*///		OPMResetChip(i);
-/*TODO*///	}
-	return(0);
-}
-/* ---------- shut down emurator ----------- */
-public static void OPMShutdown()
-{
-/*TODO*///    if (!FMOPM) return;
-/*TODO*///
-/*TODO*///	FMCloseTable();
-/*TODO*///	free(FMOPM);
-/*TODO*///	FMOPM = NULL;
-}
-public static int/*UINT8*/ YM2151Read(int n,int a)
-{
-    throw new UnsupportedOperationException("Unsupported");
-/*TODO*///	if( !(a&1) ) return 0;
-/*TODO*///	else         return FMOPM[n].ST.status;
-}
+
+    public static int YM2151Write(int n, int a,/*UINT8*/ int v) {
+        YM2151 F2151 = (FMOPM[n]);
+
+        if ((a & 1) == 0) {	/* address port */
+
+            F2151.ST.address = (v & 0xff);
+        } else {	/* data port */
+
+            int addr = F2151.ST.address;
+            YM2151UpdateRequest(n);
+            /* write register */
+            OPMWriteReg(n, addr, v);
+        }
+        return F2151.ST.irq;
+
+    }
+    /* ---------- reset one of chip ---------- */
+
+    public static void OPMResetChip(int num) {
+        int i;
+        YM2151 OPM = FMOPM[num];
+
+        OPMInitTable(num);
+        reset_channel(OPM.ST, /*&OPM->CH[0]*/ OPM.CH, 8);
+        /* status clear */
+        FM_IRQMASK_SET(OPM.ST, 0x03);
+        OPMWriteReg(num, 0x1b, 0x00);
+        /* reset OPerator paramater */
+        for (i = 0xff; i >= 0x20; i--) {
+            OPMWriteReg(num, i, 0);
+        }
+    }
+    /* ----------  Initialize YM2151 emulator(s) ----------    */
+    /* 'num' is the number of virtual YM2151's to allocate     */
+    /* 'rate' is sampling rate and 'bufsiz' is the size of the */
+    /* buffer that should be updated at each interval          */
+
+    public static int OPMInit(int num, int clock, int rate, FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
+        if (FMOPM != null) {
+            return (-1);	/* duplicate init. */
+        }
+        cur_chip = null;	/* hiro-shi!! */
+
+        YM2151NumChips = num;
+
+        /* allocate ym2151 state space */
+        FMOPM = new YM2151[YM2151NumChips];
+
+        for (int i = 0; i < YM2151NumChips; i++) {
+            FMOPM[i] = new YM2151();
+        }
+
+        /* allocate total lebel table (128kb space) */
+        if (FMInitTable() == 0) {
+            FMOPM = null;
+            return (-1);
+        }
+        for (int i = 0; i < YM2151NumChips; i++) {
+            FMOPM[i].ST.index = i;
+            FMOPM[i].ST.clock = clock;
+            FMOPM[i].ST.rate = rate;
+            /* FMOPM[i].ST.irq  = 0; */
+            /* FMOPM[i].ST.status = 0; */
+            FMOPM[i].ST.timermodel = FM_TIMER_INTERVAL;
+            FMOPM[i].ST.freqbase = rate != 0 ? ((double) clock / rate) / 64 : 0;
+            FMOPM[i].ST.TimerBase = 1.0 / ((double) clock / 64.0);
+            /* Extend handler */
+            FMOPM[i].ST.Timer_Handler = TimerHandler;
+            FMOPM[i].ST.IRQ_Handler = IRQHandler;
+            /* Reset callback handler of CT0/1 */
+            FMOPM[i].PortWrite = null;
+            OPMResetChip(i);
+        }
+        return (0);
+    }
+    /* ---------- shut down emurator ----------- */
+
+    public static void OPMShutdown() {
+        if (FMOPM == null) {
+            return;
+        }
+
+        FMCloseTable();
+        FMOPM = null;
+    }
+
+    public static int/*UINT8*/ YM2151Read(int n, int a) {
+        if ((a & 1) == 0) {
+            return 0;
+        } else {
+            return FMOPM[n].ST.status;
+        }
+    }
     /* ---------- make digital sound data ---------- */
     public static streams.StreamInitMultiPtr OPMUpdateOne = new streams.StreamInitMultiPtr() {
-        public void handler(int chip, UShortPtr[] buffer, int length) {
-/*TODO*///	YM2151 *OPM = &(FMOPM[num]);
-/*TODO*///	int i;
-/*TODO*///	int amd,pmd;
-/*TODO*///	FM_CH *ch;
-/*TODO*///	FMSAMPLE  *bufL,*bufR;
-/*TODO*///
-/*TODO*///	/* set bufer */
-/*TODO*///	bufL = buffer[0];
-/*TODO*///	bufR = buffer[1];
-/*TODO*///
-/*TODO*///	if( (void *)OPM != cur_chip ){
-/*TODO*///		cur_chip = (void *)OPM;
-/*TODO*///
-/*TODO*///		State = &OPM->ST;
-/*TODO*///		/* channel pointer */
-/*TODO*///		cch[0] = &OPM->CH[0];
-/*TODO*///		cch[1] = &OPM->CH[1];
-/*TODO*///		cch[2] = &OPM->CH[2];
-/*TODO*///		cch[3] = &OPM->CH[3];
-/*TODO*///		cch[4] = &OPM->CH[4];
-/*TODO*///		cch[5] = &OPM->CH[5];
-/*TODO*///		cch[6] = &OPM->CH[6];
-/*TODO*///		cch[7] = &OPM->CH[7];
-/*TODO*///		/* ch7.op4 noise mode / step */
-/*TODO*///		NoiseIncr = OPM->NoiseIncr;
-/*TODO*///		NoiseCnt  = OPM->NoiseCnt;
-/*TODO*///#if FM_LFO_SUPPORT
+        public void handler(int num, UShortPtr[] buffer, int length) {
+            YM2151 OPM = (FMOPM[num]);
+            int i;
+            int amd, pmd;
+            FM_CH ch;
+            UShortPtr bufL, bufR;
+
+            /* set bufer */
+            bufL = buffer[0];
+            bufR = buffer[1];
+
+            if ((Object) OPM != cur_chip) {
+                cur_chip = OPM;
+
+                State = OPM.ST;
+                /* channel pointer */
+                cch[0] = OPM.CH[0];
+                cch[1] = OPM.CH[1];
+                cch[2] = OPM.CH[2];
+                cch[3] = OPM.CH[3];
+                cch[4] = OPM.CH[4];
+                cch[5] = OPM.CH[5];
+                cch[6] = OPM.CH[6];
+                cch[7] = OPM.CH[7];
+                /* ch7.op4 noise mode / step */
+                NoiseIncr = OPM.NoiseIncr;
+                NoiseCnt = OPM.NoiseCnt;
+                /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		/* LFO */
 /*TODO*///		LFOCnt  = OPM->LFOCnt;
 /*TODO*///		//LFOIncr = OPM->LFOIncr;
 /*TODO*///		if( !LFOIncr ) lfo_amd = lfo_pmd = 0;
 /*TODO*///		LFO_wave = OPM->wavetype;
 /*TODO*///#endif
-/*TODO*///	}
-/*TODO*///	amd = OPM->amd;
+            }
+            /*TODO*///	amd = OPM->amd;
 /*TODO*///	pmd = OPM->pmd;
 /*TODO*///	if(amd==0 && pmd==0)
 /*TODO*///		LFOIncr = 0;
 /*TODO*///	else
 /*TODO*///		LFOIncr = OPM->LFOIncr;
 /*TODO*///
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[0] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[1] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[2] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[3] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[4] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[5] );
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[6] );
-/*TODO*///	/* CSM check */
-/*TODO*///	OPM_CALC_FCOUNT( OPM , cch[7] );
-/*TODO*///
-/*TODO*///	for( i=0; i < length ; i++ )
-/*TODO*///	{
-/*TODO*///#if FM_LFO_SUPPORT
+            OPM_CALC_FCOUNT(OPM, cch[0]);
+            OPM_CALC_FCOUNT(OPM, cch[1]);
+            OPM_CALC_FCOUNT(OPM, cch[2]);
+            OPM_CALC_FCOUNT(OPM, cch[3]);
+            OPM_CALC_FCOUNT(OPM, cch[4]);
+            OPM_CALC_FCOUNT(OPM, cch[5]);
+            OPM_CALC_FCOUNT(OPM, cch[6]);
+            /* CSM check */
+            OPM_CALC_FCOUNT(OPM, cch[7]);
+
+            for (i = 0; i < length; i++) {
+                /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		/* LFO */
 /*TODO*///		if( LFOIncr )
 /*TODO*///		{
@@ -3474,32 +3481,47 @@ public static int/*UINT8*/ YM2151Read(int n,int a)
 /*TODO*///			lfo_pmd = (depth-(LFO_RATE/127/2)) * pmd;
 /*TODO*///		}
 /*TODO*///#endif
-/*TODO*///		/* clear output acc. */
-/*TODO*///		out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT]= out_ch[OUTD_CENTER] = 0;
-/*TODO*///		/* calcrate channel output */
-/*TODO*///		for(ch = cch[0] ; ch <= cch[6] ; ch++)
-/*TODO*///			FM_CALC_CH( ch );
-/*TODO*///		OPM_CALC_CH7( cch[7] );
-/*TODO*///		/* buffering */
-/*TODO*///		FM_BUFFERING_STEREO;
-/*TODO*///		/* timer A controll */
-/*TODO*///		INTERNAL_TIMER_A( State , cch[7] )
-/*TODO*///    }
-/*TODO*///	INTERNAL_TIMER_B(State,length)
-/*TODO*///	OPM->NoiseCnt = NoiseCnt;
-/*TODO*///#if FM_LFO_SUPPORT
+		/* clear output acc. */
+                out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT] = out_ch[OUTD_CENTER] = 0;
+                /* calcrate channel output */
+                for (int k = 0; k < 6; k++)//for(ch = cch[0] ; ch <= cch[6] ; ch++)
+                {
+                    ch = cch[k];
+                    FM_CALC_CH(ch);//FM_( ch );
+                }
+
+                OPM_CALC_CH7(cch[7]);
+                /* buffering */
+		//FM_BUFFERING_STEREO;
+                /* stereo separate */
+                    {
+                        /* get left & right output with clipping */
+                        out_ch[OUTD_LEFT] += out_ch[OUTD_CENTER];
+                        //Limit(ref  out_ch[OUTD_LEFT], FM_MAXOUT, FM_MINOUT);
+                        out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
+                        //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
+                        /* buffering */
+                        bufL.write(i, (char)(out_ch[OUTD_LEFT] >> FM_OUTSB));
+                        bufR.write(i, (char)(out_ch[OUTD_RIGHT] >> FM_OUTSB));
+                    }
+		/* timer A controll */
+                INTERNAL_TIMER_A(State, cch[7]);
+            }
+            INTERNAL_TIMER_B(State, length);
+            OPM.NoiseCnt = NoiseCnt;
+            /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///	OPM->LFOCnt = LFOCnt;
 /*TODO*///#endif
-}};
-public static void OPMSetPortHander(int n,WriteHandlerPtr PortWrite/*void (*PortWrite)(int offset,int CT)*/ )
-{
-/*TODO*///	FMOPM[n].PortWrite = PortWrite;
-}
+        }
+    };
 
-public static int YM2151TimerOver(int n,int c)
-{
-    throw new UnsupportedOperationException("Unsupported");
-/*TODO*///	YM2151 *F2151 = &(FMOPM[n]);
+    public static void OPMSetPortHander(int n, WriteHandlerPtr PortWrite/*void (*PortWrite)(int offset,int CT)*/) {
+        FMOPM[n].PortWrite = PortWrite;
+    }
+
+    public static int YM2151TimerOver(int n, int c) {
+        throw new UnsupportedOperationException("Unsupported");
+        /*TODO*///	YM2151 *F2151 = &(FMOPM[n]);
 /*TODO*///
 /*TODO*///	if( c )
 /*TODO*///	{	/* Timer B */
@@ -3524,6 +3546,6 @@ public static int YM2151TimerOver(int n,int c)
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	return F2151->ST.irq;
-}
+    }
 
 }
