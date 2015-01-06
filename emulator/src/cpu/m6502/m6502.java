@@ -1448,6 +1448,8 @@ public class m6502 extends cpu_interface {
         m6502_ICount[0] -= 2; 
         int tmp=RD_IMM(); 
         CPY(tmp);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d c0 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 2 CPY IMM */
     opcode m6502_e0 = new opcode() { public void handler()
     {  
@@ -1469,7 +1471,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d 30 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
     
     }}; /* 2 BMI REL */
-    opcode m6502_50 = new opcode() { public void handler(){  BVC();		 }}; /* 2 BVC REL */
+    opcode m6502_50 = new opcode() { public void handler()
+    {  BVC();		 
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 50 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 2 BVC REL */
     opcode m6502_70 = new opcode() { public void handler()
     {  						 
         BVS();		  
@@ -1499,11 +1505,36 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_f0 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
     
     }}; /* 2 BEQ REL */
-    opcode m6502_01 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); ORA(tmp);		   }}; /* 6 ORA IDX */
-    opcode m6502_21 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); AND(tmp);;		   }}; /* 6 AND IDX */
-    opcode m6502_41 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); EOR(tmp);;		   }}; /* 6 EOR IDX */
-    opcode m6502_61 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); ADC(tmp);;		   }}; /* 6 ADC IDX */
-    opcode m6502_81 = new opcode() { public void handler(){   m6502_ICount[0] -= 6;	int tmp=STA(); WR_IDX(tmp);  }}; /* 6 STA IDX */
+    opcode m6502_01 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 6; int tmp=RD_IDX(); ORA(tmp);		   
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 01 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+      
+    }}; /* 6 ORA IDX */
+    opcode m6502_21 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_IDX(); AND(tmp);;		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 21 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 6 AND IDX */
+    opcode m6502_41 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 6; int tmp=RD_IDX(); EOR(tmp);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 41 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    
+    }}; /* 6 EOR IDX */
+    opcode m6502_61 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 6; int tmp=RD_IDX(); ADC(tmp);		   
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 61 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+     
+    }}; /* 6 ADC IDX */
+    opcode m6502_81 = new opcode() { public void handler()
+    {   
+        m6502_ICount[0] -= 6;	int tmp=STA(); WR_IDX(tmp);  
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 81 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 6 STA IDX */
     opcode m6502_a1 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 6; 
@@ -1512,13 +1543,39 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_a1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
     
     }}; /* 6 LDA IDX */
-    opcode m6502_c1 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); CMP(tmp);		   }}; /* 6 CMP IDX */
-    opcode m6502_e1 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_IDX(); SBC(tmp);		   }}; /* 6 SBC IDX */
+    opcode m6502_c1 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 6; int tmp=RD_IDX(); CMP(tmp);		   
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d c1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 6 CMP IDX */
+    opcode m6502_e1 = new opcode() { public void handler()
+    {  
+        m6502_ICount[0] -= 6; int tmp=RD_IDX(); SBC(tmp);		   
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d e1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 SBC IDX */
 
-    opcode m6502_11 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); ORA(tmp);		   }}; /* 5 ORA IDY */
-    opcode m6502_31 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); AND(tmp);		   }}; /* 5 AND IDY */
-    opcode m6502_51 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); EOR(tmp);		   }}; /* 5 EOR IDY */
-    opcode m6502_71 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); ADC(tmp);		   }}; /* 5 ADC IDY */
+    opcode m6502_11 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); ORA(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 11 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 ORA IDY */
+    opcode m6502_31 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); AND(tmp);		  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 31 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 AND IDY */
+    opcode m6502_51 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); EOR(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 51 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 EOR IDY */
+    opcode m6502_71 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); ADC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 71 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 ADC IDY */
     opcode m6502_91 = new opcode() { public void handler()
     {  
          m6502_ICount[0] -= 6;		 
@@ -1535,8 +1592,16 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_b1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
    
     }}; /* 5 LDA IDY */
-    opcode m6502_d1 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); CMP(tmp);		   }}; /* 5 CMP IDY */
-    opcode m6502_f1 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_IDY(); SBC(tmp);		   }}; /* 5 SBC IDY */
+    opcode m6502_d1 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); CMP(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d d1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 CMP IDY */
+    opcode m6502_f1 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_IDY(); SBC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d f1 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 5 SBC IDY */
 
 
     opcode m6502_a2 = new opcode() { public void handler()
@@ -1573,8 +1638,16 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_a4 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
    
     }}; /* 3 LDY ZPG */
-    opcode m6502_c4 = new opcode() { public void handler(){  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CPY(tmp);		   }}; /* 3 CPY ZPG */
-    opcode m6502_e4 = new opcode() { public void handler(){  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CPX(tmp);		   }}; /* 3 CPX ZPG */
+    opcode m6502_c4 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CPY(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d c4 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 3 CPY ZPG */
+    opcode m6502_e4 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CPX(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d e4 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 3 CPX ZPG */
 
 
     opcode m6502_94 = new opcode() { public void handler()
@@ -1611,7 +1684,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_25 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
    
     }}; /* 3 AND ZPG */
-    opcode m6502_45 = new opcode() { public void handler(){  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); EOR(tmp);		   }}; /* 3 EOR ZPG */
+    opcode m6502_45 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); EOR(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 45 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 3 EOR ZPG */
     opcode m6502_65 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 3; 
@@ -1637,7 +1714,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d a5 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 3 LDA ZPG */
-    opcode m6502_c5 = new opcode() { public void handler(){  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CMP(tmp);		   }}; /* 3 CMP ZPG */
+    opcode m6502_c5 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 3; int tmp=RD_ZPG(); CMP(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d c5 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 3 CMP ZPG */
     opcode m6502_e5 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 3; 
@@ -1647,10 +1728,26 @@ public class m6502 extends cpu_interface {
     
     }}; /* 3 SBC ZPG */
 
-    opcode m6502_15 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); ORA(tmp);		   }}; /* 4 ORA ZPX */
-    opcode m6502_35 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); AND(tmp);		   }}; /* 4 AND ZPX */
-    opcode m6502_55 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); EOR(tmp);		   }}; /* 4 EOR ZPX */
-    opcode m6502_75 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); ADC(tmp);		   }}; /* 4 ADC ZPX */
+    opcode m6502_15 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); ORA(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 15 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 ORA ZPX */
+    opcode m6502_35 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); AND(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 35 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 4 AND ZPX */
+    opcode m6502_55 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); EOR(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 55 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 EOR ZPX */
+    opcode m6502_75 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); ADC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 75 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+        
+    }}; /* 4 ADC ZPX */
     opcode m6502_95 = new opcode() { public void handler()
     {  
          m6502_ICount[0] -= 4;		 
@@ -1666,7 +1763,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_b5 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 4 LDA ZPX */
-    opcode m6502_d5 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); CMP(tmp);		  }}; /* 4 CMP ZPX */
+    opcode m6502_d5 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPX(); CMP(tmp);		  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d d5 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 CMP ZPX */
     opcode m6502_f5 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
@@ -1691,8 +1792,14 @@ public class m6502 extends cpu_interface {
         int tmp=RD_ZPG(); 
         int tmp2=ROL(tmp); 
         WB_EA(tmp2); 
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 26 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 5 ROL ZPG */
-    opcode m6502_46 = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=RD_ZPG(); int tmp2=LSR(tmp); WB_EA(tmp2);}}; /* 5 LSR ZPG */
+    opcode m6502_46 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=RD_ZPG(); int tmp2=LSR(tmp); WB_EA(tmp2);
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 46 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 LSR ZPG */
     opcode m6502_66 = new opcode() { public void handler()
     {   
         m6502_ICount[0] -= 5; 
@@ -1737,14 +1844,47 @@ public class m6502 extends cpu_interface {
     
     }}; /* 5 INC ZPG */
 
-    opcode m6502_16 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ASL(tmp); WB_EA(tmp2);   }}; /* 6 ASL ZPX */
-    opcode m6502_36 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ROL(tmp); WB_EA(tmp2);   }}; /* 6 ROL ZPX */
-    opcode m6502_56 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=LSR(tmp); WB_EA(tmp2);   }}; /* 6 LSR ZPX */
-    opcode m6502_76 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ROR(tmp); WB_EA(tmp2);   }}; /* 6 ROR ZPX */
-    opcode m6502_96 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=STX(); WR_ZPY(tmp);  }}; /* 4 STX ZPY */
-    opcode m6502_b6 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ZPY(); LDX(tmp);		   }}; /* 4 LDX ZPY */
-    opcode m6502_d6 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=DEC(tmp); WB_EA(tmp2);   }}; /* 6 DEC ZPX */
-    opcode m6502_f6 = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=INC(tmp); WB_EA(tmp2);   }}; /* 6 INC ZPX */
+    opcode m6502_16 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ASL(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 16 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 ASL ZPX */
+    opcode m6502_36 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ROL(tmp); WB_EA(tmp2);   
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 36 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+
+    }}; /* 6 ROL ZPX */
+    opcode m6502_56 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=LSR(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 56 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 LSR ZPX */
+    opcode m6502_76 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=ROR(tmp); WB_EA(tmp2);   
+    if(m6502log!=null) fprintf(m6502log,"M6502#%d 76 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 ROR ZPX */
+    opcode m6502_96 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=STX(); WR_ZPY(tmp);  
+    if(m6502log!=null) fprintf(m6502log,"M6502#%d 96 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 STX ZPY */
+    opcode m6502_b6 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ZPY(); LDX(tmp);		  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d b6 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 LDX ZPY */
+    opcode m6502_d6 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=DEC(tmp); WB_EA(tmp2);   
+    if(m6502log!=null) fprintf(m6502log,"M6502#%d d6 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    
+    }}; /* 6 DEC ZPX */
+    opcode m6502_f6 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ZPX(); int tmp2=INC(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d f6 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 INC ZPX */
 
 
 
@@ -1839,7 +1979,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_98 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 2 TYA */
-    opcode m6502_b8 = new opcode() { public void handler(){ m6502_ICount[0] -= 2;		 CLV();		 }}; /* 2 CLV */
+    opcode m6502_b8 = new opcode() { public void handler()
+    { m6502_ICount[0] -= 2;		 CLV();		 
+      if(m6502log!=null) fprintf(m6502log,"M6502#%d b8 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 2 CLV */
     opcode m6502_d8 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 2;		 
@@ -1857,7 +2001,9 @@ public class m6502 extends cpu_interface {
     {  
         m6502_ICount[0] -= 2; 
         int tmp=RD_IMM(); 
-        ORA(tmp);		  
+        ORA(tmp);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 09 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 2 ORA IMM */
     opcode m6502_29 = new opcode() { public void handler()
     {  
@@ -1909,7 +2055,11 @@ public class m6502 extends cpu_interface {
     
     }}; /* 2 SBC IMM */
 
-    opcode m6502_19 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABY(); ORA(tmp);		   }}; /* 4 ORA ABY */
+    opcode m6502_19 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABY(); ORA(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 19 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 ORA ABY */
     opcode m6502_39 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
@@ -1918,12 +2068,17 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_39 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 4 AND ABY */
-    opcode m6502_59 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABY(); EOR(tmp);		   }}; /* 4 EOR ABY */
+    opcode m6502_59 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABY(); EOR(tmp);		
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 59 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    }}; /* 4 EOR ABY */
     opcode m6502_79 = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABY(); 
-        ADC(tmp);		  
+        ADC(tmp);		
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 79 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 ADC ABY */
     opcode m6502_99 = new opcode() { public void handler()
     {  
@@ -1941,8 +2096,16 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_b9 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 4 LDA ABY */
-    opcode m6502_d9 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABY(); CMP(tmp);		   }}; /* 4 CMP ABY */
-    opcode m6502_f9 = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABY(); SBC(tmp);		   }}; /* 4 SBC ABY */
+    opcode m6502_d9 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABY(); CMP(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d d9 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 CMP ABY */
+    opcode m6502_f9 = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABY(); SBC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d f9 :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 SBC ABY */
 
     opcode m6502_0a = new opcode() { public void handler()
     {  
@@ -1953,7 +2116,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_0a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 2 ASL A */
-    opcode m6502_2a = new opcode() { public void handler(){  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2=ROL(tmp); WB_ACC(tmp2);  }}; /* 2 ROL A */
+    opcode m6502_2a = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2=ROL(tmp); WB_ACC(tmp2);  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 2a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 2 ROL A */
     opcode m6502_4a = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 2; 
@@ -1963,7 +2130,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_4a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
     }}; /* 2 LSR A */
-    opcode m6502_6a = new opcode() { public void handler(){  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2 =ROR(tmp); WB_ACC(tmp2);  }}; /* 2 ROR A */
+    opcode m6502_6a = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 2; int tmp=RD_ACC(); int tmp2 =ROR(tmp); WB_ACC(tmp2);  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 6a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 2 ROR A */
     opcode m6502_8a = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 2;		 
@@ -1995,7 +2166,11 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d 9a :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 2 TXS */
-    opcode m6502_ba = new opcode() { public void handler(){  m6502_ICount[0] -= 2;		 TSX();		   }}; /* 2 TSX */
+    opcode m6502_ba = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 2;		 TSX();		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d ba :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 2 TSX */
 
  
     opcode m6502_2c = new opcode() { public void handler()
@@ -2014,30 +2189,42 @@ public class m6502 extends cpu_interface {
         JMP();
         if(m6502log!=null) fprintf(m6502log,"M6502#%d 4c :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
     }}; /* 3 JMP ABS */
-    opcode m6502_6c = new opcode() { public void handler(){  m6502_ICount[0] -= 5; EA_IND(); JMP();		}}; /* 5 JMP IND */
+    opcode m6502_6c = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; EA_IND(); JMP();		
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 6c :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 JMP IND */
     opcode m6502_8c = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4;	
         int tmp=STY(); 
-        WR_ABS(tmp); 
+        WR_ABS(tmp);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 8c :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 STY ABS */
     opcode m6502_ac = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4;
         int tmp=RD_ABS(); 
-        LDY(tmp);		  
+        LDY(tmp);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d ac :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 LDY ABS */
     opcode m6502_cc = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABS(); 
-        CPY(tmp);		  
+        CPY(tmp);	
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d cc :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 CPY ABS */
     opcode m6502_ec = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABS();
-        CPX(tmp);		  
+        CPX(tmp);	
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d ec :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 CPX ABS */
 
 
@@ -2045,7 +2232,9 @@ public class m6502 extends cpu_interface {
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABX(); 
-        LDY(tmp);		  
+        LDY(tmp);		
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d bc :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 LDY ABX */
 
 
@@ -2057,9 +2246,21 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_0d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 4 ORA ABS */
-    opcode m6502_2d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABS(); AND(tmp);		   }}; /* 4 AND ABS */
-    opcode m6502_4d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABS(); EOR(tmp);		   }}; /* 4 EOR ABS */
-    opcode m6502_6d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABS(); ADC(tmp);		   }}; /* 4 ADC ABS */
+    opcode m6502_2d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABS(); AND(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 2d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 AND ABS */
+    opcode m6502_4d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABS(); EOR(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 4d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 EOR ABS */
+    opcode m6502_6d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABS(); ADC(tmp);		  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 6d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 ADC ABS */
     opcode m6502_8d = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4;		 
@@ -2076,18 +2277,40 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_ad :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 4 LDA ABS */
-    opcode m6502_cd = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABS(); CMP(tmp);		   }}; /* 4 CMP ABS */
-    opcode m6502_ed = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp=RD_ABS(); SBC(tmp);		   }}; /* 4 SBC ABS */
+    opcode m6502_cd = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABS(); CMP(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d cd :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 CMP ABS */
+    opcode m6502_ed = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp=RD_ABS(); SBC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d ed :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 SBC ABS */
 
-    opcode m6502_1d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp = RD_ABX(); ORA(tmp);		   }}; /* 4 ORA ABX */
+    opcode m6502_1d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp = RD_ABX(); ORA(tmp);		
+    if(m6502log!=null) fprintf(m6502log,"M6502#%d 1d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 ORA ABX */
     opcode m6502_3d = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABX(); 
-        AND(tmp);		 
+        AND(tmp);	
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d 3d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 AND ABX */
-    opcode m6502_5d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp =RD_ABX(); EOR(tmp);		   }}; /* 4 EOR ABX */
-    opcode m6502_7d = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp =RD_ABX(); ADC(tmp);		   }}; /* 4 ADC ABX */
+    opcode m6502_5d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp =RD_ABX(); EOR(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 5d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 EOR ABX */
+    opcode m6502_7d = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp =RD_ABX(); ADC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 7d :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 ADC ABX */
     opcode m6502_9d = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 5;		 
@@ -2103,19 +2326,49 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_bd :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 4 LDA ABX */
-    opcode m6502_dd = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp =RD_ABX(); CMP(tmp);		   }}; /* 4 CMP ABX */
-    opcode m6502_fd = new opcode() { public void handler(){  m6502_ICount[0] -= 4; int tmp =RD_ABX(); SBC(tmp);		   }}; /* 4 SBC ABX */
+    opcode m6502_dd = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp =RD_ABX(); CMP(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d dd :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 CMP ABX */
+    opcode m6502_fd = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 4; int tmp =RD_ABX(); SBC(tmp);		   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d fd :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 4 SBC ABX */
 
-    opcode m6502_0e = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ASL(tmp); WB_EA(tmp2);   }}; /* 6 ASL ABS */
-    opcode m6502_2e = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ROL(tmp); WB_EA(tmp2);   }}; /* 6 ROL ABS */
-    opcode m6502_4e = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=LSR(tmp); WB_EA(tmp2);   }}; /* 6 LSR ABS */
-    opcode m6502_6e = new opcode() { public void handler(){  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ROR(tmp); WB_EA(tmp2);   }}; /* 6 ROR ABS */
-    opcode m6502_8e = new opcode() { public void handler(){  m6502_ICount[0] -= 5; int tmp=STX(); WR_ABS(tmp);  }}; /* 5 STX ABS */
+    opcode m6502_0e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ASL(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 0e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 ASL ABS */
+    opcode m6502_2e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ROL(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 2e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 ROL ABS */
+    opcode m6502_4e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=LSR(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 4e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 LSR ABS */
+    opcode m6502_6e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 6; int tmp=RD_ABS(); int tmp2=ROR(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 6e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 6 ROR ABS */
+    opcode m6502_8e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 5; int tmp=STX(); WR_ABS(tmp);  
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 8e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 5 STX ABS */
     opcode m6502_ae = new opcode() { public void handler()
     {  
         m6502_ICount[0] -= 4; 
         int tmp=RD_ABS(); 
-        LDX(tmp);		  
+        LDX(tmp);	
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d ae :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 4 LDX ABS */
     opcode m6502_ce = new opcode() { public void handler()
     {  
@@ -2123,6 +2376,8 @@ public class m6502 extends cpu_interface {
         int tmp=RD_ABS(); 
         int tmp2=DEC(tmp); 
         WB_EA(tmp2);  
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d ce :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
     }}; /* 6 DEC ABS */
     opcode m6502_ee = new opcode() { public void handler()
     {  
@@ -2134,10 +2389,26 @@ public class m6502 extends cpu_interface {
 
     }}; /* 6 INC ABS */
 
-    opcode m6502_1e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ASL(tmp); WB_EA(tmp2);   }}; /* 7 ASL ABX */
-    opcode m6502_3e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROL(tmp); WB_EA(tmp2);   }}; /* 7 ROL ABX */
-    opcode m6502_5e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=LSR(tmp); WB_EA(tmp2);   }}; /* 7 LSR ABX */
-    opcode m6502_7e = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROR(tmp); WB_EA(tmp2);   }}; /* 7 ROR ABX */
+    opcode m6502_1e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ASL(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 1e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 ASL ABX */
+    opcode m6502_3e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROL(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 3e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 ROL ABX */
+    opcode m6502_5e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=LSR(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 5e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 LSR ABX */
+    opcode m6502_7e = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=ROR(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d 7e :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 ROR ABX */
 
     opcode m6502_be = new opcode() { public void handler()
     {  
@@ -2147,8 +2418,16 @@ public class m6502 extends cpu_interface {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d m6502_be :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);      
 
     }}; /* 4 LDX ABY */
-    opcode m6502_de = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=DEC(tmp); WB_EA(tmp2);   }}; /* 7 DEC ABX */
-    opcode m6502_fe = new opcode() { public void handler(){  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=INC(tmp); WB_EA(tmp2); }}; /* 7 INC ABX */
+    opcode m6502_de = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=DEC(tmp); WB_EA(tmp2);   
+       if(m6502log!=null) fprintf(m6502log,"M6502#%d de :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 DEC ABX */
+    opcode m6502_fe = new opcode() { public void handler()
+    {  m6502_ICount[0] -= 7; int tmp=RD_ABX(); int tmp2=INC(tmp); WB_EA(tmp2); 
+    if(m6502log!=null) fprintf(m6502log,"M6502#%d fe :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);               
+    
+    }}; /* 7 INC ABX */
 
     /*
     *  ILLEGAL Instructions

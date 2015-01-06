@@ -80,6 +80,11 @@ import static mame.cpuintrfH.*;
 import static cpu.m6502.m6502H.*;
 import static cpu.m6809.m6809H.*;
 import static mame.cpuintrf.*;
+import static sound._2203intf.*;
+import static sound._2203intfH.*;
+import static sound._3526intf.*;
+import static sound._3812intfH.*;
+
 
 public class exprraid
 {
@@ -148,9 +153,9 @@ public class exprraid
 	static MemoryReadAddress sub_readmem[] =
 	{
 	    new MemoryReadAddress( 0x0000, 0x1fff, MRA_RAM ),
-/*TODO*///	    new MemoryReadAddress( 0x2000, 0x2000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x2001, 0x2001, YM2203_read_port_0_r ),
-/*TODO*///	    new MemoryReadAddress( 0x4000, 0x4000, YM3526_status_port_0_r ),
+	    new MemoryReadAddress( 0x2000, 0x2000, YM2203_status_port_0_r ),
+		new MemoryReadAddress( 0x2001, 0x2001, YM2203_read_port_0_r ),
+	    new MemoryReadAddress( 0x4000, 0x4000, YM3526_status_port_0_r ),
 		new MemoryReadAddress( 0x6000, 0x6000, soundlatch_r ),
 	    new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 	    new MemoryReadAddress( -1 )  /* end of table */
@@ -159,10 +164,10 @@ public class exprraid
 	static MemoryWriteAddress sub_writemem[] =
 	{
 	    new MemoryWriteAddress( 0x0000, 0x1fff, MWA_RAM ),
-/*TODO*///	    new MemoryWriteAddress( 0x2000, 0x2000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2001, 0x2001, YM2203_write_port_0_w ),
-/*TODO*///	    new MemoryWriteAddress( 0x4000, 0x4000, YM3526_control_port_0_w ),
-/*TODO*///	    new MemoryWriteAddress( 0x4001, 0x4001, YM3526_write_port_0_w ),
+	    new MemoryWriteAddress( 0x2000, 0x2000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0x2001, 0x2001, YM2203_write_port_0_w ),
+	    new MemoryWriteAddress( 0x4000, 0x4000, YM3526_control_port_0_w ),
+	    new MemoryWriteAddress( 0x4001, 0x4001, YM3526_write_port_0_w ),
 	    new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),
 	    new MemoryWriteAddress( -1 )  /* end of table */
 	};
@@ -303,30 +308,30 @@ public class exprraid
 	
 	
 	/* handler called by the 3812 emulator when the internal timers cause an IRQ */
-	static void irqhandler(int linestate)
+	public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int linestate)
 	{
 		cpu_set_irq_line(1,0,linestate);
 		//cpu_cause_interrupt(1,0xff);
-	}
+	} };
 	
-/*TODO*///	static struct YM2203interface ym2203_interface =
-/*TODO*///	{
-/*TODO*///	    1,      /* 1 chip */
-/*TODO*///	    1500000,        /* 1.5 MHz ??? */
-/*TODO*///	    { YM2203_VOL(30,30) },
-/*TODO*///	    { 0 },
-/*TODO*///	    { 0 },
-/*TODO*///	    { 0 },
-/*TODO*///	    { 0 }
-/*TODO*///	};
+	static YM2203interface ym2203_interface = new YM2203interface
+	(
+	    1,      /* 1 chip */
+	    1500000,        /* 1.5 MHz ??? */
+	    new int[] { YM2203_VOL(30,30) },
+	    new ReadHandlerPtr[] { null},
+	    new ReadHandlerPtr[] { null },
+	    new WriteHandlerPtr[] { null },
+	    new WriteHandlerPtr[] { null }
+	);
 	
-/*TODO*///	static struct YM3526interface ym3526_interface =
-/*TODO*///	{
-/*TODO*///	    1,                      /* 1 chip (no more supported) */
-/*TODO*///		3600000,	/* 3.600000 MHz ? (partially supported) */
-/*TODO*///	    { 30 },		/* volume */
-/*TODO*///		{ irqhandler }
-/*TODO*///	};
+	static YM3526interface ym3526_interface = new YM3526interface
+	(
+	    1,                      /* 1 chip (no more supported) */
+		3600000,	/* 3.600000 MHz ? (partially supported) */
+	    new int[] { 30 },		/* volume */
+		new WriteYmHandlerPtr[] { irqhandler }
+	);
 	static int coinexp = 0;
 	public static InterruptPtr exprraid_interrupt = new InterruptPtr() { public int handler() 
 	{
@@ -379,7 +384,7 @@ public class exprraid
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 		    new MachineSound(
 		        SOUND_YM2203,
 		        ym2203_interface
@@ -388,8 +393,7 @@ public class exprraid
 		        SOUND_YM3526,
 		        ym3526_interface
 		    )
-		}*/
-                null
+		}
 	);
 	
 	
@@ -518,18 +522,18 @@ public class exprraid
 	
 		for ( i = 0x8000-0x1000; i >= 0; i-= 0x1000 )
 		{
-			//memcpy( &(gfx[offs]), &(gfx[i]), 0x1000 );
-                        for(int k=0; k<0x1000; k++)
+			memcpy( gfx,offs, gfx,i, 0x1000 );
+                        /*for(int k=0; k<0x1000; k++)
                         {
-                            gfx.write(offs,gfx.read(i));
-                        }
+                            gfx.write(offs+k,gfx.read(i+k));
+                        }*/
 			offs -= 0x1000;
 	
-			//memcpy( &(gfx[offs]), &(gfx[i]), 0x1000 );
-                        for(int k=0; k<0x1000; k++)
+			memcpy( gfx,offs, gfx,i, 0x1000 );
+                        /*for(int k=0; k<0x1000; k++)
                         {
-                            gfx.write(offs,gfx.read(i));
-                        }
+                            gfx.write(offs+k,gfx.read(i+k));
+                        }*/
 			offs -= 0x1000;
 		}
 	}
