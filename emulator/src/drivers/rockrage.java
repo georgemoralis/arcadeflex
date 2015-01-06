@@ -32,8 +32,12 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_VLM5030;
 import static vidhrdw.konamiic.*;
 import static vidhrdw.rockrage.*;
+import static sound.vlm5030.*;
+import static sound.vlm5030H.*;
 
 public class rockrage
 {
@@ -70,14 +74,14 @@ public class rockrage
 	} };
 	
 	public static ReadHandlerPtr rockrage_VLM5030_busy_r = new ReadHandlerPtr() { public int handler(int offs){
-/*TODO*///		return ( VLM5030_BSY() ? 1 : 0 );
-            return 0;//hack
+		return ( VLM5030_BSY()!=0 ? 1 : 0 );
+
 	} };
 	
 	public static WriteHandlerPtr rockrage_speech_w = new WriteHandlerPtr() { public void handler(int offs, int data){
-/*TODO*///		VLM5030_RST( ( data >> 2 ) & 0x01 );
-/*TODO*///		VLM5030_ST(  ( data >> 0 ) & 0x01 );
-/*TODO*///		VLM5030_VCU( ( data >> 1 ) & 0x01 );
+		VLM5030_RST( ( data >> 2 ) & 0x01 );
+		VLM5030_ST(  ( data >> 0 ) & 0x01 );
+		VLM5030_VCU( ( data >> 1 ) & 0x01 );
 	} };
 	
 	static MemoryReadAddress rockrage_readmem[] =
@@ -126,7 +130,7 @@ public class rockrage
 	
 	static MemoryWriteAddress rockrage_writemem_sound[] =
 	{
-/*TODO*///		new MemoryWriteAddress( 0x2000, 0x2000, VLM5030_data_w ), 			/* VLM5030 */
+		new MemoryWriteAddress( 0x2000, 0x2000, VLM5030_data_w ), 			/* VLM5030 */
 		new MemoryWriteAddress( 0x4000, 0x4000, rockrage_speech_w ),			/* VLM5030 */
 /*TODO*///		new MemoryWriteAddress( 0x6000, 0x6000, YM2151_register_port_0_w ),	/* YM 2151 */
 /*TODO*///		new MemoryWriteAddress( 0x6001, 0x6001, YM2151_data_port_0_w ),		/* YM 2151 */
@@ -283,14 +287,14 @@ public class rockrage
 /*TODO*///		{ 0 }
 /*TODO*///	};
 	
-/*TODO*///	static struct VLM5030interface vlm5030_interface =
-/*TODO*///	{
-/*TODO*///		3579545,	/* 3.579545 MHz */
-/*TODO*///		60,			/* volume */
-/*TODO*///		REGION_SOUND1,	/* memory region of speech rom */
-/*TODO*///		0,
-/*TODO*///		0
-/*TODO*///	};
+	static VLM5030interface vlm5030_interface = new VLM5030interface
+        (
+		3579545,	/* 3.579545 MHz */
+		60,			/* volume */
+		REGION_SOUND1,	/* memory region of speech rom */
+		0,
+		0
+        );
 	
 	static MachineDriver machine_driver_rockrage = new MachineDriver
 	(
@@ -327,17 +331,16 @@ public class rockrage
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
-			new MachineSound(
+		new MachineSound[] {
+			/*new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
-			),
+			),*/
 			new MachineSound(
 				SOUND_VLM5030,
 				vlm5030_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	

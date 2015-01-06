@@ -61,21 +61,21 @@ public class vlm5030 extends snd_interface {
     static int phase;
 
     /* these contain data describing the current and previous voice frames */
-    static /*unsigned short*/ char old_energy = 0;
-    static /*unsigned short*/ char old_pitch = 0;
+    static /*unsigned short*/ int old_energy = 0;
+    static /*unsigned short*/ int old_pitch = 0;
     static int old_k[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    static /*unsigned short*/ char new_energy = 0;
-    static /*unsigned short*/ char new_pitch = 0;
+    static /*unsigned short*/ int new_energy = 0;
+    static /*unsigned short*/ int new_pitch = 0;
     static int new_k[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     /* these are all used to contain the current state of the sound generation */
-    static /*unsigned short*/ char current_energy = 0;
-    static /*unsigned short*/ char current_pitch = 0;
+    static /*unsigned short*/ int current_energy = 0;
+    static /*unsigned short*/ int current_pitch = 0;
     static int current_k[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    static /*unsigned short*/ char target_energy = 0;
-    static /*unsigned short*/ char target_pitch = 0;
+    static /*unsigned short*/ int target_energy = 0;
+    static /*unsigned short*/ int target_pitch = 0;
     static int target_k[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     static int interp_count = 0;       /* number of interp periods (0-7) */
@@ -90,7 +90,7 @@ public class vlm5030 extends snd_interface {
     /* ROM Tables */
     /* This is the energy lookup table */
     /* !!!!!!!!!! preliminary !!!!!!!!!! */
-    static /*unsigned short*/ char[] energytable = new char[0x20];
+    static /*unsigned short*/ int[] energytable = new int[0x20];
 
     /* This is the pitch lookup table */
     static int pitchtable[]
@@ -189,8 +189,8 @@ public class vlm5030 extends snd_interface {
         int cmd;
 
         /* remember previous frame */
-        old_energy = new_energy;
-        old_pitch = new_pitch;
+        old_energy = new_energy & 0xFFFF;
+        old_pitch = new_pitch & 0xFFFF;
         memcpy(old_k, new_k, old_k.length);
         /* command byte check */
         cmd = VLM5030_rom.read(VLM5030_address & VLM5030_address_mask);
@@ -216,8 +216,8 @@ public class vlm5030 extends snd_interface {
         }
         /* normal frame */
 
-        new_pitch = (char) pitchtable[get_bits(1, 5)];
-        new_energy = (char) (energytable[get_bits(6, 5)] >> 6);
+        new_pitch = pitchtable[get_bits(1, 5)] & 0xFFFF;
+        new_energy = (energytable[get_bits(6, 5)] >> 6) & 0xFFFF;
 
         /* 10 K's */
         new_k[9] = k10table[get_bits(11, 3)];
@@ -292,8 +292,8 @@ public class vlm5030 extends snd_interface {
                                 break;//break while loop
                             }
                             /* Set old target as new start of frame */
-                            current_energy = old_energy;
-                            current_pitch = old_pitch;
+                            current_energy = old_energy & 0xFFFF;
+                            current_pitch = old_pitch & 0xFFFF;
                             memcpy(current_k, old_k, current_k.length);
                             /* is this a zero energy frame? */
                             if (current_energy == 0) {
@@ -305,8 +305,8 @@ public class vlm5030 extends snd_interface {
                                 /*printf("processing frame: Normal\n");*/
                                 /*printf("*** Energy = %d\n",current_energy);*/
                                 /*printf("proc: %d %d\n",last_fbuf_head,fbuf_head);*/
-                                target_energy = new_energy;
-                                target_pitch = new_pitch;
+                                target_energy = new_energy & 0xFFFF;
+                                target_pitch = new_pitch & 0xFFFF;
                                 memcpy(target_k, new_k, target_k.length);
                             }
                         }
@@ -315,9 +315,9 @@ public class vlm5030 extends snd_interface {
                         /*printf("\n");*/
                         interp_effect = (int) (interp_coeff[(FR_SIZE - 1) - (interp_count % FR_SIZE)]);
 
-                        current_energy += (char)((target_energy - current_energy) / interp_effect);
+                        current_energy = (current_energy + ((target_energy - current_energy) / interp_effect)) & 0xFFFF;
                         if (old_pitch != 0) {
-                            current_pitch += (char)((target_pitch - current_pitch) / interp_effect);
+                            current_pitch = (current_pitch + ((target_pitch - current_pitch) / interp_effect)) & 0xFFFF;
                         }
                         /*printf("*** Energy = %d\n",current_energy);*/
                         current_k[0] += (target_k[0] - current_k[0]) / interp_effect;
@@ -420,14 +420,13 @@ public class vlm5030 extends snd_interface {
         VLM5030_rom = new UBytePtr(speech_rom);
     }
 
-    /*TODO*////* get BSY pin level */
-/*TODO*///int VLM5030_BSY(void)
-/*TODO*///{
-/*TODO*///	VLM5030_update();
-/*TODO*///	return pin_BSY;
-/*TODO*///}
-/*TODO*///
-/* latch contoll data */
+    /* get BSY pin level */
+    public static int VLM5030_BSY() {
+        VLM5030_update();
+        return pin_BSY;
+    }
+
+    /* latch contoll data */
     public static WriteHandlerPtr VLM5030_data_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             latch_data = data;
@@ -556,7 +555,7 @@ public class vlm5030 extends snd_interface {
 
             /* initialize energy table */
             for (i = 0; i < 0x20; i++) {
-                energytable[i] = (char) (0x7fff * i / 0x1f);
+                energytable[i] = (0x7fff * i / 0x1f) & 0xFFFF;
             }
 
             /* initialize filter table */
