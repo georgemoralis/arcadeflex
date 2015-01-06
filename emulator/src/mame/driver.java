@@ -629,7 +629,7 @@ public class driver {
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
-        /*ddrible*/driver_ddribble, //fails on self booting
+        /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
         /*ddragon*/driver_ddragon,  //missing HD63701 cpu
 
         /**

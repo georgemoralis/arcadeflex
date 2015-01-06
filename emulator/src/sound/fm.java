@@ -2,6 +2,7 @@ package sound;
 
 import arcadeflex.libc.IntSubArray;
 import arcadeflex.ptrlib.UShortPtr;
+import mame.driverH.WriteHandlerPtr;
 import static sound._2203intf.YM2203UpdateRequest;
 import sound.fm_c.FM_ST;
 import static sound.fmH.*;
@@ -3317,8 +3318,9 @@ public class fm {
 /*TODO*///	return FMOPM[n].ST.status;
 /*TODO*///}
 /*TODO*///
-/*TODO*///int YM2151Write(int n,int a,UINT8 v)
-/*TODO*///{
+public static int YM2151Write(int n,int a,/*UINT8*/int v)
+{
+    throw new UnsupportedOperationException("Unsupported");
 /*TODO*///	YM2151 *F2151 = &(FMOPM[n]);
 /*TODO*///
 /*TODO*///	if( !(a&1) )
@@ -3333,11 +3335,10 @@ public class fm {
 /*TODO*///		 OPMWriteReg(n,addr,v);
 /*TODO*///	}
 /*TODO*///	return F2151->ST.irq;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- reset one of chip ---------- */
-/*TODO*///void OPMResetChip(int num)
-/*TODO*///{
+}
+/* ---------- reset one of chip ---------- */
+public static void OPMResetChip(int num)
+{
 /*TODO*///	int i;
 /*TODO*///    YM2151 *OPM = &(FMOPM[num]);
 /*TODO*///
@@ -3348,15 +3349,13 @@ public class fm {
 /*TODO*///	OPMWriteReg(num,0x1b,0x00);
 /*TODO*///	/* reset OPerator paramater */
 /*TODO*///	for(i = 0xff ; i >= 0x20 ; i-- ) OPMWriteReg(num,i,0);
-/*TODO*///}
-/*TODO*///
+}
 /*TODO*////* ----------  Initialize YM2151 emulator(s) ----------    */
 /*TODO*////* 'num' is the number of virtual YM2151's to allocate     */
 /*TODO*////* 'rate' is sampling rate and 'bufsiz' is the size of the */
 /*TODO*////* buffer that should be updated at each interval          */
-/*TODO*///int OPMInit(int num, int clock, int rate,
-/*TODO*///               FM_TIMERHANDLER TimerHandler,FM_IRQHANDLER IRQHandler)
-/*TODO*///{
+public static int OPMInit(int num, int clock, int rate,FM_TIMERHANDLERtr TimerHandler,FM_IRQHANDLEPtr IRQHandler)
+{
 /*TODO*///    int i;
 /*TODO*///
 /*TODO*///    if (FMOPM) return (-1);	/* duplicate init. */
@@ -3393,28 +3392,26 @@ public class fm {
 /*TODO*///		FMOPM[i].PortWrite = 0;
 /*TODO*///		OPMResetChip(i);
 /*TODO*///	}
-/*TODO*///	return(0);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- shut down emurator ----------- */
-/*TODO*///void OPMShutdown()
-/*TODO*///{
+	return(0);
+}
+/* ---------- shut down emurator ----------- */
+public static void OPMShutdown()
+{
 /*TODO*///    if (!FMOPM) return;
 /*TODO*///
 /*TODO*///	FMCloseTable();
 /*TODO*///	free(FMOPM);
 /*TODO*///	FMOPM = NULL;
-/*TODO*///}
-/*TODO*///
-/*TODO*///UINT8 YM2151Read(int n,int a)
-/*TODO*///{
+}
+public static int/*UINT8*/ YM2151Read(int n,int a)
+{
+    throw new UnsupportedOperationException("Unsupported");
 /*TODO*///	if( !(a&1) ) return 0;
 /*TODO*///	else         return FMOPM[n].ST.status;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- make digital sound data ---------- */
-/*TODO*///void OPMUpdateOne(int num, INT16 **buffer, int length)
-/*TODO*///{
+}
+    /* ---------- make digital sound data ---------- */
+    public static streams.StreamInitMultiPtr OPMUpdateOne = new streams.StreamInitMultiPtr() {
+        public void handler(int chip, UShortPtr[] buffer, int length) {
 /*TODO*///	YM2151 *OPM = &(FMOPM[num]);
 /*TODO*///	int i;
 /*TODO*///	int amd,pmd;
@@ -3493,15 +3490,15 @@ public class fm {
 /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///	OPM->LFOCnt = LFOCnt;
 /*TODO*///#endif
-/*TODO*///}
-/*TODO*///
-/*TODO*///void OPMSetPortHander(int n,void (*PortWrite)(int offset,int CT) )
-/*TODO*///{
+}};
+public static void OPMSetPortHander(int n,WriteHandlerPtr PortWrite/*void (*PortWrite)(int offset,int CT)*/ )
+{
 /*TODO*///	FMOPM[n].PortWrite = PortWrite;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int YM2151TimerOver(int n,int c)
-/*TODO*///{
+}
+
+public static int YM2151TimerOver(int n,int c)
+{
+    throw new UnsupportedOperationException("Unsupported");
 /*TODO*///	YM2151 *F2151 = &(FMOPM[n]);
 /*TODO*///
 /*TODO*///	if( c )
@@ -3527,8 +3524,6 @@ public class fm {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	return F2151->ST.irq;
-/*TODO*///}
-/*TODO*///
-/*TODO*///#endif /* BUILD_YM2151 */
-/*TODO*///   
+}
+
 }

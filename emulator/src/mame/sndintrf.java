@@ -25,6 +25,7 @@ import sound.k007232;
 import sound.ym2413;
 import sound.k051649;
 import sound.vlm5030;
+import sound._2151intf;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -268,7 +269,7 @@ public class sndintrf {
           new dac(),
           new ay8910(),   
           new _2203intf(),
-    /*TEMPHACK*/   new Dummy_snd(),
+          new _2151intf(),
     /*TODO*////*TODO*///#if (HAS_YM2151)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2151,
