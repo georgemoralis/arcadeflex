@@ -145,6 +145,11 @@ public class memory {
             return cpu_bankbase[0].read(offset);
         }
     };
+    public static ReadHandlerPtr mrh_rom = new ReadHandlerPtr() {//fake??
+        public int handler(int offset) {
+            return cpu_bankbase[0].read(offset);
+        }
+    };
     public static ReadHandlerPtr mrh_bank1 = new ReadHandlerPtr() {
         public int handler(int offset) {
             return cpu_bankbase[1].read(offset);
@@ -1663,6 +1668,34 @@ public class memory {
 
 /*TODO*/ //
 /*TODO*/ ///* set readmemory handler for bank memory  */
+    public static void cpu_setbankhandler_r(int bank,ReadHandlerPtr _handler)
+    {
+        int offset =0;
+        UByte hardware = new UByte();
+       
+        if(_handler==mrh_ram || _handler==mrh_rom){ _handler= mrh_ram;}
+        else if(_handler==mrh_bank1){hardware.set((char)1); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank2){hardware.set((char)2); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank3){hardware.set((char)3); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank4){hardware.set((char)4); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank5){hardware.set((char)5); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank6){hardware.set((char)6); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank7){hardware.set((char)7); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank8){hardware.set((char)8); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank9){hardware.set((char)9); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank10){hardware.set((char)10); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank11){hardware.set((char)11); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank12){hardware.set((char)12); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank13){hardware.set((char)13); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank14){hardware.set((char)14); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank15){hardware.set((char)15); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else if(_handler==mrh_bank16){hardware.set((char)16); _handler=bank_read_handler[hardware.read()]; offset=bankreadoffset[hardware.read()];}
+        else
+            offset=bankreadoffset[bank];
+        
+        memoryreadoffset[bank]=offset;
+        memoryreadhandler[bank]=_handler;
+    }
 /*TODO*/ //void cpu_setbankhandler_r(int bank, mem_read_handler handler)
 /*TODO*/ //{
 /*TODO*/ //	int offset = 0;
@@ -1706,6 +1739,38 @@ public class memory {
 /*TODO*/ //}
 /*TODO*/ //
 /*TODO*/ ///* set writememory handler for bank memory  */
+    public static void cpu_setbankhandler_w(int bank, WriteHandlerPtr _handler)
+    {
+        int offset =0;
+        UByte hardware = new UByte();
+        
+        if(_handler==mwh_ram) { _handler=mwh_ram;}
+        else if( _handler==mwh_ramrom) { _handler=mwh_ramrom;}
+        else if( _handler==mwh_rom){ _handler=mwh_rom;}
+        else if( _handler==mwh_nop){ _handler=mwh_nop;}
+        else if( _handler==mwh_bank1){ hardware.set((char)1); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+        else if( _handler==mwh_bank2){ hardware.set((char)2); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank3){ hardware.set((char)3); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank4){ hardware.set((char)4); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank5){ hardware.set((char)5); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank6){ hardware.set((char)6); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank7){ hardware.set((char)7); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank8){ hardware.set((char)8); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank9){ hardware.set((char)9); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank10){ hardware.set((char)10); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank11){ hardware.set((char)11); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank12){ hardware.set((char)12); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank13){ hardware.set((char)13); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank14){ hardware.set((char)14); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank15){ hardware.set((char)15); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else if( _handler==mwh_bank16){ hardware.set((char)16); _handler=bank_write_handler[hardware.read()]; offset=bankwriteoffset[hardware.read()];}
+         else
+             offset=bankwriteoffset[bank];
+        
+        memorywriteoffset[bank]=offset;
+        memorywritehandler[bank]=_handler;
+        
+    }
 /*TODO*/ //void cpu_setbankhandler_w(int bank, mem_write_handler handler)
 /*TODO*/ //{
 /*TODO*/ //	int offset = 0;
