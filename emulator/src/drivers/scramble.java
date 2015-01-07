@@ -21,7 +21,7 @@ import static mame.memory.*;
 import static sndhrdw.frogger.*;
 import static vidhrdw.galaxian.*;
 import static machine.scramble.*;
-import static drivers.cclimber.*;
+import static drivers.WIP.cclimber.*;
 import static mame.inputH.*;
 import static drivers.frogger.*;
 import static drivers.amidar.*;

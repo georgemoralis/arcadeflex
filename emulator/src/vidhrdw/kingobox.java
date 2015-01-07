@@ -15,7 +15,7 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
-import static drivers.kingobox.*;
+import static drivers.WIP.kingobox.*;
 import static arcadeflex.ptrlib.*;
 public class kingobox
 {
