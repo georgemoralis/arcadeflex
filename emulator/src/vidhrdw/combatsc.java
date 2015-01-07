@@ -33,6 +33,8 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.common.*;
+import static mame.memory.*;
+
 
 
 
@@ -455,15 +457,14 @@ public class combatsc
 			if (data == 0x1f)
 			{
                                 cpu_setbank(1,new UBytePtr(page,0x20000 + 0x4000 * (data & 1)));
-                                System.out.println("HELLO00");
-/*ARGG*///				cpu_setbankhandler_r (1, combasc_io_r);/* IO RAM & Video Registers */
-/*ARGG*///				cpu_setbankhandler_w (1, combasc_io_w);
+
+				cpu_setbankhandler_r (1, combasc_io_r);/* IO RAM & Video Registers */
+				cpu_setbankhandler_w (1, combasc_io_w);
 			}
 			else
 			{
-                            System.out.println("HELLO");
-/*ARGG*///				cpu_setbankhandler_r (1, MRA_BANK1);	/* banked ROM */
-/*ARGG*///				cpu_setbankhandler_w (1, MWA_ROM);
+				cpu_setbankhandler_r (1, mrh_bank1);	/* banked ROM */
+				cpu_setbankhandler_w (1, mwh_rom);
 			}
 		}
 	} };
@@ -661,85 +662,85 @@ public class combatsc
 		bits 4..7:	sprite color
 	
 	***************************************************************************/
-/*	
-	static void bootleg_draw_sprites( osd_bitmap bitmap, const unsigned char *source, int circuit )
+	
+	static void bootleg_draw_sprites( osd_bitmap bitmap, UBytePtr source, int circuit )
 	{
-		const struct GfxElement *gfx = Machine.gfx[circuit+2];
-		const struct rectangle *clip = &Machine.drv.visible_area;
+		GfxElement gfx = Machine.gfx[circuit+2];
+		rectangle clip = Machine.drv.visible_area;
 	
-		unsigned char *RAM = memory_region(REGION_CPU1);
-		int limit = ( circuit) ? (RAM[0xc2]*256 + RAM[0xc3]) : (RAM[0xc0]*256 + RAM[0xc1]);
-		const unsigned char *finish;
+		UBytePtr RAM = memory_region(REGION_CPU1);
+		int limit = ( circuit)!=0 ? (RAM.read(0xc2)*256 + RAM.read(0xc3)) : (RAM.read(0xc0)*256 + RAM.read(0xc1));
+		int finish;//const unsigned char *finish;
 	
-		source+=0x1000;
-		finish = source;
-		source+=0x400;
+		source.inc(0x1000);
+		finish = source.offset;
+		source.inc(0x400);
 		limit = (0x3400-limit)/8;
-		if( limit>=0 ) finish = source-limit*8;
-		source-=8;
+		if( limit>=0 ) finish = source.offset-limit*8;
+		source.dec(8);
 	
-		while( source>finish )
+		while( source.offset>finish )
 		{
-			unsigned char attributes = source[3]; /* PBxF ?xxX */
-/*			{
-				int number = source[0];
-				int x = source[2] - 71 + (attributes & 0x01)*256;
-				int y = 242 - source[1];
-				unsigned char color = source[4]; /* CCCC xxBB */
+			/*unsigned*/ char attributes = source.read(3); /* PBxF ?xxX */
+			{
+				int number = source.read(0);
+				int x = source.read(2) - 71 + (attributes & 0x01)*256;
+				int y = 242 - source.read(1);
+				/*unsigned*/ char color = source.read(4); /* CCCC xxBB */
 	
-/*				int bank = (color & 0x03) | ((attributes & 0x40) >> 4);
+				int bank = (color & 0x03) | ((attributes & 0x40) >> 4);
 	
 				number = ((number & 0x02) << 1) | ((number & 0x04) >> 1) | (number & (~6));
 				number += 256*bank;
 	
-				color = (circuit*4)*16 + (color >> 4);
+				color = (char)((circuit*4)*16 + (color >> 4));
 	
 				/*	hacks to select alternate palettes */
 	//			if(combasc_vreg == 0x40 && (attributes & 0x40)) color += 1*16;
 	//			if(combasc_vreg == 0x23 && (attributes & 0x02)) color += 1*16;
 	//			if(combasc_vreg == 0x66 ) color += 2*16;
 	
-/*				drawgfx( bitmap, gfx,
+				drawgfx( bitmap, gfx,
 					number, color,
 					attributes & 0x10,0, /* flip */
-/*					x,y,
+					x,y,
 					clip, TRANSPARENCY_PEN, 15 );
 			}
-			source -= 8;
+			source.dec(8);
 		}
-	}*/
+	}
 	public static VhUpdatePtr combascb_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
-	/*	int i;
+		int i;
 	
 		for( i=0; i<32; i++ )
 		{
-			tilemap_set_scrollx( tilemap[0],i, combasc_io_ram[0x040+i]+5 );
-			tilemap_set_scrollx( tilemap[1],i, combasc_io_ram[0x060+i]+3 );
+			tilemap_set_scrollx( tilemap[0],i, combasc_io_ram.read(0x040+i)+5 );
+			tilemap_set_scrollx( tilemap[1],i, combasc_io_ram.read(0x060+i)+3 );
 		}
-		tilemap_set_scrolly( tilemap[0],0, combasc_io_ram[0x000] );
-		tilemap_set_scrolly( tilemap[1],0, combasc_io_ram[0x020] );
+		tilemap_set_scrolly( tilemap[0],0, combasc_io_ram.read(0x000) );
+		tilemap_set_scrolly( tilemap[1],0, combasc_io_ram.read(0x020) );
 	
 		tilemap_update( ALL_TILEMAPS );
-		if (palette_recalc())
+		if (palette_recalc()!=null)
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 		tilemap_render( ALL_TILEMAPS );
 	
 		if (priority == 0)
 		{
 			tilemap_draw( bitmap,tilemap[1],TILEMAP_IGNORE_TRANSPARENCY );
-			bootleg_draw_sprites( bitmap, combasc_page[0], 0 );
+			bootleg_draw_sprites( bitmap, new UBytePtr(combasc_page[0]), 0 );
 			tilemap_draw( bitmap,tilemap[0],0 );
-			bootleg_draw_sprites( bitmap, combasc_page[1], 1 );
+			bootleg_draw_sprites( bitmap, new UBytePtr(combasc_page[1]), 1 );
 		}
 		else
 		{
 			tilemap_draw( bitmap,tilemap[0],TILEMAP_IGNORE_TRANSPARENCY );
-			bootleg_draw_sprites( bitmap, combasc_page[0], 0 );
+			bootleg_draw_sprites( bitmap, new UBytePtr(combasc_page[0]), 0 );
 			tilemap_draw( bitmap,tilemap[1],0 );
-			bootleg_draw_sprites( bitmap, combasc_page[1], 1 );
+			bootleg_draw_sprites( bitmap, new UBytePtr(combasc_page[1]), 1 );
 		}
 	
-		tilemap_draw( bitmap,textlayer,0 );*/
+		tilemap_draw( bitmap,textlayer,0 );
 	}};
 }

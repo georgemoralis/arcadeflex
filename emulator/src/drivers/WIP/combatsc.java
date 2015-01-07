@@ -118,6 +118,7 @@ import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
+import arcadeflex.ptrlib.UBytePtr;
 import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import static cpu.m6809.m6809H.*;
@@ -942,16 +943,16 @@ public class combatsc
 	}};
 	public static InitDriverPtr init_combascb = new InitDriverPtr() { public void handler() 
 	{
-	/*TODO	unsigned char *gfx;
+		UBytePtr gfx;
 		int i;
 	
 		gfx = memory_region(REGION_GFX1);
 		for (i = 0;i < memory_region_length(REGION_GFX1);i++)
-			gfx[i] = ~gfx[i];
+			gfx.write(i,~gfx.read(i));
 	
 		gfx = memory_region(REGION_GFX2);
 		for (i = 0;i < memory_region_length(REGION_GFX2);i++)
-			gfx[i] = ~gfx[i];*/
+			gfx.write(i,~gfx.read(i));
 	}};
 	
 	
