@@ -45,15 +45,14 @@ public class crimfght
 		int offs = 0;
 	
 		/* bit 5 = select work RAM or palette */
-                System.out.println("crimfght TODO bankhandler!!!");
-/*TODO*///		if ((lines & 0x20)!=0){
-/*TODO*///			cpu_setbankhandler_r (1, paletteram_r);							/* palette */
-/*TODO*///			cpu_setbankhandler_w (1, paletteram_xBBBBBGGGGGRRRRR_swap_w);	/* palette */
-/*TODO*///		}
-/*TODO*///		else{
-/*TODO*///			cpu_setbankhandler_r (1, MRA_RAM);								/* RAM */
-/*TODO*///			cpu_setbankhandler_w (1, MWA_RAM);								/* RAM */
-/*TODO*///		}
+		if ((lines & 0x20)!=0){
+			cpu_setbankhandler_r (1, paletteram_r);							/* palette */
+			cpu_setbankhandler_w (1, paletteram_xBBBBBGGGGGRRRRR_swap_w);	/* palette */
+		}
+		else{
+			cpu_setbankhandler_r (1, mrh_ram);								/* RAM */
+			cpu_setbankhandler_w (1, mwh_ram);								/* RAM */
+		}
 	
 		/* bit 6 = enable char ROM reading through the video RAM */
 		K052109_set_RMRD_line((lines & 0x40)!=0 ? ASSERT_LINE : CLEAR_LINE);
@@ -478,7 +477,7 @@ public class crimfght
 		crimfght_vh_screenrefresh,
 	
 		/* sound hardware */
-		SOUND_SUPPORTS_STEREO,0,0,0,
+		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
 		/*new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
