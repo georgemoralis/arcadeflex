@@ -54,7 +54,6 @@ import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
 import static drivers.commando.*;
 import static drivers.citycon.*;
-import static drivers.jackal.*;
 import static drivers._1943.*;
 import static drivers.blktiger.*;
 import static drivers.brkthru.*;
@@ -93,6 +92,7 @@ import static drivers.stfight.*;
 /*
   WIP Drivers
 */
+import static drivers.WIP.jackal.*;
 import static drivers.WIP.cclimber.*;
 import static drivers.WIP.gberet.*;
 import static drivers.WIP.mitchell.*;

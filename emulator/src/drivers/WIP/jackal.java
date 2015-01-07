@@ -108,7 +108,7 @@ C000-ffff  ROM
  * ported to v0.36
  * using automatic conversion tool v0.09
  */ 
-package drivers;
+package drivers.WIP;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
