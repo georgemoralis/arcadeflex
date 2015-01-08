@@ -309,6 +309,7 @@ shaolins shaolins.c M6809                                                       
 empcity  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (bootleg?)
 empcityj stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Empire City: 1931 (Japan)
 stfight  stfight.c  Z80      [Z80   ]                                                       2xYM-2203   1xMSM5205                                       Street Fight (Germany)
+jrpacman jrpacman.c Z80                                                                     Namco                                                       Jr. Pac-Man
 
 
 Small issues that doesn't affect playable status
@@ -384,7 +385,7 @@ solarwar xain.c     M6809    M6809    [M6809 ]                                  
 TODO
 ---------
 
-jrpacman jrpacman.c Z80                                                                     Namco                                                       Jr. Pac-Man
+
 galaxian galaxian.c Z80                                                                     Custom                                                      Galaxian (Namco)
 galmidw  galaxian.c Z80                                                                     Custom                                                      Galaxian (Midway)
 superg   galaxian.c Z80                                                                     Custom                                                      Super Galaxians

@@ -87,6 +87,8 @@ import static drivers.pkunwar.*;
 import static drivers.nova2001.*;
 import static drivers.gsword.*;
 import static drivers.stfight.*;
+import static drivers.jrpacman.*;
+
 
 
 /*
@@ -463,6 +465,7 @@ public class driver {
         /*306*//*stfight*/driver_empcity,
         /*307*//*stfight*/driver_empcityj,
         /*308*//*stfight*/driver_stfight,
+        /*309*//*jrpacman*/driver_jrpacman,
     
         
         
@@ -901,7 +904,8 @@ public class driver {
         driver_circusc2,	/* GX380 (c) 1984 */
         driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
         driver_circusce,	/* GX380 (c) 1984 + Centuri license */  
-/*TODO*/ //	DRIVER( jrpacman )	/* (c) 1983 Midway */
+        
+        
 
 	/* "Galaxian hardware" games */
 /*TODO*/ //	DRIVER( galaxian )	/* (c) Namco */
