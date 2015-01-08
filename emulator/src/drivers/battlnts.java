@@ -18,6 +18,8 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.sndintrfH.*;
 import static vidhrdw.konamiic.*;
+import static vidhrdw.konami.K007342.*;
+import static vidhrdw.konami.K007420.*;
 import static vidhrdw.battlnts.*;
 import static sound._3812intf.*;
 import static sound._3812intfH.*;

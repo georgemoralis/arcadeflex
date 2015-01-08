@@ -12,6 +12,8 @@ import static mame.osdependH.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static vidhrdw.konamiic.*;
+import static vidhrdw.konami.K007342.*;
+import static vidhrdw.konami.K007420.*;
 import static mame.palette.*;
 
 public class battlnts {

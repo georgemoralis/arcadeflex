@@ -49,6 +49,8 @@ import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_YM2203;
 import static vidhrdw.konamiic.*;
+import static vidhrdw.konami.K007342.*;
+import static vidhrdw.konami.K007420.*;
 import static vidhrdw.bladestl.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;

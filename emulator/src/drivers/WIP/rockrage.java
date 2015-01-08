@@ -34,6 +34,8 @@ import static mame.palette.*;
 import static mame.memory.*;
 import static mame.sndintrfH.*;
 import static vidhrdw.konamiic.*;
+import static vidhrdw.konami.K007342.*;
+import static vidhrdw.konami.K007420.*;
 import static vidhrdw.rockrage.*;
 import static sound.vlm5030.*;
 import static sound.vlm5030H.*;

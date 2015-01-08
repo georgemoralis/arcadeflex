@@ -14,6 +14,8 @@ import static mame.mame.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static vidhrdw.konamiic.*;
+import static vidhrdw.konami.K007342.*;
+import static vidhrdw.konami.K007420.*;
 import static mame.sndintrf.*;
 import static mame.cpuintrf.*;
 import static mame.inputport.*;
