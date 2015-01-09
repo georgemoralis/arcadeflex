@@ -148,6 +148,7 @@ import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
 import static drivers.WIP.congo.*;
 import static drivers.WIP.skydiver.*;
+import static drivers.WIP.simpsons.*;
 
 
 public class driver {
@@ -2142,9 +2143,9 @@ public class driver {
 /*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */
 
 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
-/*TODO*/ //	DRIVER( simpsons )	/* GX072 (c) 1991 */
-/*TODO*/ //	DRIVER( simpsn2p )	/* GX072 (c) 1991 */
-/*TODO*/ //	DRIVER( simps2pj )	/* GX072 (c) 1991 (Japan) */
+driver_simpsons,	
+driver_simpsn2p,
+driver_simps2pj,
 /*TODO*/ //	DRIVER( vendetta )	/* GX081 (c) 1991 (Asia) */
 /*TODO*/ //	DRIVER( vendett2 )	/* GX081 (c) 1991 (Asia) */
 /*TODO*/ //	DRIVER( vendettj )	/* GX081 (c) 1991 (Japan) */
