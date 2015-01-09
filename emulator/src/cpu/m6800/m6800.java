@@ -32,15 +32,54 @@ public class m6800 extends cpu_interface {
                 icount = m6800_ICount;
                 icount[0] = 50000;       
     }
+        public static class PAIR
+    {
+      //L = low 8 bits
+      //H = high 8 bits
+      //D = whole 16 bits
+      public int H,L,D;
+      public void SetH(int val) 
+      {
+        H = val;
+        D = (H << 8) | L;
+      }
+      public void SetL(int val) 
+      {
+        L = val;
+        D = (H << 8) | L;
+      }
+      public void SetD(int val)
+      {
+        D = val;
+        H = D >> 8 & 0xFF;
+        L = D & 0xFF;
+      }
+      public void AddH(int val) 
+      {
+         H = (H + val) & 0xFF;
+         D = (H << 8) | L;
+      }
+      public void AddL(int val)
+      {
+         L = (L + val) & 0xFF;
+         D = (H << 8) | L;
+      }
+      public void AddD(int val)
+      {
+         D = (D + val) & 0xFFFF;
+         H = D >> 8 & 0xFF;
+         L = D & 0xFF;
+      } 
+    };
     /* 6800 Registers */
     public static class m6800_Regs
     {
     //	int 	subtype;		/* CPU subtype */
             public /*PAIR*/ int	ppc;			/* Previous program counter */
             public /*PAIR*/ int	pc; 			/* Program counter */
-            public /*PAIR*/ int	s;				/* Stack pointer */
-            public /*PAIR*/ int	x;				/* Index register */
-            public /*PAIR*/ int	d;				/* Accumulators */
+            public PAIR	s;				/* Stack pointer */
+            public PAIR	x;				/* Index register */
+            public PAIR	d;				/* Accumulators */
             public int /*UINT8*/	cc; 			/* Condition codes */
             public int /*UINT8*/	wai_state;		/* WAI opcode state ,(or sleep opcode state) */
             public int /*UINT8*/	nmi_state;		/* NMI line state */
@@ -59,10 +98,10 @@ public class m6800 extends cpu_interface {
             public int /*UINT8*/	pending_tcsr;	/* pending IRQ flag for clear IRQflag process */
             public int /*UINT8*/	irq2;			/* IRQ2 flags */
             public int /*UINT8*/	ram_ctrl;
-            public /*PAIR*/ int	counter;		/* free running counter */
-            public /*PAIR*/ int	output_compare;	/* output compare       */
+            public PAIR	counter;		/* free running counter */
+            public PAIR	output_compare;	/* output compare       */
             public int /*UINT16*/	input_capture;	/* input capture        */
-            public /*PAIR*/ int	timer_over;
+            public PAIR	timer_over;
     }   
     public static m6800_Regs m6800 = new m6800_Regs();
     
@@ -188,9 +227,9 @@ eorb_ex,adcb_ex,orb_ex, addb_ex,illegal,illegal,ldx_ex, stx_ex*/
 	m6800.tcsr = 0x00;
 	m6800.pending_tcsr = 0x00;
 	m6800.irq2 = 0;
-	m6800.counter = 0x0000;
-	m6800.output_compare = 0xffff;
-	m6800.timer_over = 0xffff;
+	m6800.counter.SetD(0x0000);
+	m6800.output_compare.SetD(0xffff);
+	m6800.timer_over.SetD(0xffff);
 	m6800.ram_ctrl |= 0x40;
     }
 
