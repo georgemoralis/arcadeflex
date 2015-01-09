@@ -147,6 +147,8 @@ import static drivers.WIP.rallyx.*;
 import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
 import static drivers.WIP.congo.*;
+import static drivers.WIP.skydiver.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -656,6 +658,8 @@ public class driver {
         /**
          * WIP section
          */
+        
+        /*skydiver*/driver_skydiver,//M6800
         /*bublbobl*/driver_bublbobl,//M68705  
         /*bublbobl*/driver_bublbobr,//M68705  
         /*bublbobl*/driver_bubbobr1,//M68705  
@@ -2290,7 +2294,7 @@ public class driver {
 /*TODO*/ //	DRIVER( soccer )	/* no copyright notice */
 /*TODO*/ //	DRIVER( canyon )	/* no copyright notice [1977] */
 /*TODO*/ //	DRIVER( canbprot )	/* no copyright notice [1977] */
-/*TODO*/ //	DRIVER( skydiver )	/* no copyright notice [1977] */
+
 
 	/* Atari "Centipede hardware" games */
 /*TODO*/ //	DRIVER( warlord )	/* (c) 1980 */
