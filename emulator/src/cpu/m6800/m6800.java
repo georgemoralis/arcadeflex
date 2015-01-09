@@ -32,7 +32,7 @@ public class m6800 extends cpu_interface {
                 icount = m6800_ICount;
                 icount[0] = 50000;       
     }
-        public static class PAIR
+    public static class PAIR
     {
       //L = low 8 bits
       //H = high 8 bits
@@ -104,6 +104,8 @@ public class m6800 extends cpu_interface {
             public PAIR	timer_over;
     }   
     public static m6800_Regs m6800 = new m6800_Regs();
+    /* point of next timer event */
+    static /*UINT32*/int timer_next;
     
     static int cycles_6800[] =
     {
@@ -170,6 +172,18 @@ public class m6800 extends cpu_interface {
     public void SEI() {m6800.cc|=0x10;}
     public void CLI() {m6800.cc&=~0x10;}
     
+    public void SET_TIMRE_EVENT()
+    {
+	timer_next = (m6800.output_compare.D < m6800.timer_over.D) ? m6800.output_compare.D : m6800.timer_over.D;	
+    }
+    /* cleanup high-word of counters */
+    public void CLEANUP_conters() 
+    {						
+            OCH -= CTH;									
+            TOH -= CTH;									
+            CTH = 0;									
+            SET_TIMRE_EVENT();							
+    }
     static opcode[] m6800_insn = {
 /*illegal,nop,	illegal,illegal,illegal,illegal,tap,	tpa,
 inx,	dex,	clv,	sev,	clc,	sec,	cli,	sei,
