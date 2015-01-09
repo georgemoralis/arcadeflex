@@ -222,7 +222,7 @@ eorb_ex,adcb_ex,orb_ex, addb_ex,illegal,illegal,ldx_ex, stx_ex*/
 
     @Override
     public int get_pc() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return m6800.pc & 0xFFFF;
     }
 
     @Override
@@ -305,7 +305,7 @@ eorb_ex,adcb_ex,orb_ex, addb_ex,illegal,illegal,ldx_ex, stx_ex*/
 
     @Override
     public void set_op_base(int pc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cpu_setOPbase16.handler(pc, 0);
     }
     public static abstract interface opcode {
 
