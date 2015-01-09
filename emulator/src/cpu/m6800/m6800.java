@@ -179,9 +179,9 @@ public class m6800 extends cpu_interface {
     /* cleanup high-word of counters */
     public void CLEANUP_conters() 
     {						
-            OCH -= CTH;									
-            TOH -= CTH;									
-            CTH = 0;									
+/*TODO*///            OCH -= CTH;									
+/*TODO*///            TOH -= CTH;									
+/*TODO*///            CTH = 0;									
             SET_TIMRE_EVENT();							
     }
     static opcode[] m6800_insn = {
