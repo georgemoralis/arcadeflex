@@ -21,6 +21,7 @@ import static mame.inputport.*;
 import cpu.konami.konami;
 import static cpu.konami.konamiH.*;
 import cpu.m68000.m68000;
+import cpu.m6800.m6800;
 
 
 public class cpuintrf {
@@ -213,7 +214,7 @@ public class cpuintrf {
         new i8039(),
         new Dummy_cpu(),/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
         new Dummy_cpu(),/*TODO*///CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-	new Dummy_cpu(),/*TODO*///CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+	new m6800(),/*TODO*///CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
@@ -1433,8 +1434,7 @@ public class cpuintrf {
     /*TODO*///#if (HAS_N7751)
     /*TODO*///			case CPU_N7751: 			irq_line = 0; LOG((errorlog,"N7751 IRQ\n")); break;
     /*TODO*///#endif
-    /*TODO*///#if (HAS_M6800)
-    /*TODO*///			case CPU_M6800: 			irq_line = 0; LOG((errorlog,"M6800 IRQ\n")); break;
+		case CPU_M6800: 			irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6800 IRQ\n"); break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_M6801)
     /*TODO*///			case CPU_M6801: 			irq_line = 0; LOG((errorlog,"M6801 IRQ\n")); break;
