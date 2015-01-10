@@ -13,10 +13,11 @@ import static mame.tilemapH.*;
 import static mame.palette.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static mame.paletteH.*;
+import static vidhrdw.konamiic.*;
 import static mame.mameH.*;
 import static mame.cpuintrfH.*;
 import static mame.memoryH.*;
+import static mame.paletteH.PALETTE_COLOR_VISIBLE;
 
 public class K053247 {
 
@@ -94,7 +95,9 @@ public class K053247 {
     }
     public static ReadHandlerPtr K053247_word_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            return K053247_ram.READ_WORD(offset);
+            int read = K053247_ram.READ_WORD(offset); 
+            if(konamiicclog!=null) fprintf( konamiicclog,"K053247_word_r offset=%d return=%d\n",offset,read);
+            return read;
         }
     };
     public static WriteHandlerPtr K053247_word_w = new WriteHandlerPtr() {
@@ -105,7 +108,9 @@ public class K053247 {
     public static ReadHandlerPtr K053247_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             int shift = ((offset & 1) ^ 1) << 3;
-            return (K053247_ram.READ_WORD(offset & ~1) >>> shift) & 0xff;  //unsigned shift?
+            int read = (K053247_ram.READ_WORD(offset & ~1) >>> shift) & 0xff;  //unsigned shift?
+            if(konamiicclog!=null) fprintf( konamiicclog,"K053247_r offset=%d shift=%d return=%d\n",offset,shift,read);
+            return read;
         }
     };
     public static WriteHandlerPtr K053247_w = new WriteHandlerPtr() {
@@ -508,43 +513,45 @@ public class K053247 {
 /*TODO*////*TODO*///#endif
 /*TODO*////*TODO*///#undef NUM_SPRITES
 /*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053247_mark_sprites_colors(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int offs,i;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	unsigned short palette_map[512];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	memset (palette_map, 0, sizeof (palette_map));
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* sprites */
-/*TODO*////*TODO*///	for (offs = 0x1000-16;offs >= 0;offs -= 16)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		if (READ_WORD(&K053247_ram[offs]) & 0x8000)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			int code,color,pri;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			code = READ_WORD(&K053247_ram[offs+0x02]);
-/*TODO*////*TODO*///			color = READ_WORD(&K053247_ram[offs+0x0c]);
-/*TODO*////*TODO*///			pri = 0;
-/*TODO*////*TODO*///			(*K053247_callback)(&code,&color,&pri);
-/*TODO*////*TODO*///			palette_map[color] |= 0xffff;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* now build the final table */
-/*TODO*////*TODO*///	for (i = 0; i < 512; i++)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int usage = palette_map[i], j;
-/*TODO*////*TODO*///		if (usage)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			for (j = 1; j < 16; j++)
-/*TODO*////*TODO*///				if (usage & (1 << j))
-/*TODO*////*TODO*///					palette_used_colors[i * 16 + j] |= PALETTE_COLOR_VISIBLE;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+
+public static void K053247_mark_sprites_colors()
+{
+	int offs,i;
+
+	/*unsigned short*/int[] palette_map=new int[512];
+
+	//memset (palette_map, 0, sizeof (palette_map));
+
+	/* sprites */
+	for (offs = 0x1000-16;offs >= 0;offs -= 16)
+	{
+		if ((K053247_ram.READ_WORD(offs) & 0x8000)!=0)
+		{
+			int[] code=new int[1];
+                        int[] color=new int[1];
+                        int[] pri=new int[1];
+
+			code[0] = K053247_ram.READ_WORD(offs+0x02);
+			color[0] = K053247_ram.READ_WORD(offs+0x0c);
+			pri[0] = 0;
+			K053247_callback.handler(code,color,pri);
+			palette_map[color[0]] |= 0xffff;
+		}
+	}
+
+	/* now build the final table */
+	for (i = 0; i < 512; i++)
+	{
+		int usage = palette_map[i], j;
+		if (usage!=0)
+		{
+			for (j = 1; j < 16; j++)
+				if ((usage & (1 << j))!=0)
+					palette_used_colors.write(i * 16 + j,palette_used_colors.read(i * 16 + j) | PALETTE_COLOR_VISIBLE);
+		}
+	}
+}
+
     public static int K053247_is_IRQ_enabled() {
         return K053247_irq_enabled;
     }

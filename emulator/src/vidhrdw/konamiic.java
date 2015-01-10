@@ -20,7 +20,7 @@ import static arcadeflex.ptrlib.*;
 
 public  class konamiic
 {
-    public static FILE konamiicclog=null;//fopen("konamiicc.log", "wa");  //for debug purposes
+    public static FILE konamiicclog=fopen("konamiicc.log", "wa");  //for debug purposes
     
     /**
     *   Macros from konamiic.h and specific arcadeflex ones

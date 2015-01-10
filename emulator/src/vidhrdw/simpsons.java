@@ -123,7 +123,7 @@ public class simpsons
 		K052109_tilemap_update();
 	
 		palette_init_used_colors();
-	/*TODO*///	K053247_mark_sprites_colors();
+		K053247_mark_sprites_colors();
 		palette_used_colors.write(16 * bg_colorbase,  palette_used_colors.read(16 * bg_colorbase) |PALETTE_COLOR_VISIBLE);
 		if (palette_recalc()!=null)
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
