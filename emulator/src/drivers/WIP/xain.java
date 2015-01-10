@@ -18,7 +18,7 @@ TODO:
  * ported to v0.36
  * using automatic conversion tool v0.10
  */ 
-package drivers;
+package drivers.WIP;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
