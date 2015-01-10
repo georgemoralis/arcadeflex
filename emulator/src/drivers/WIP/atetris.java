@@ -53,6 +53,8 @@ import static mame.palette.*;
 import static mame.input.*;
 import static mame.inputH.*;
 import static arcadeflex.ptrlib.*;
+import static sound.pokeyH.*;
+
 public class atetris
 {
 	
@@ -175,23 +177,23 @@ public class atetris
 	
 	
 	
-/*TODO*///	static struct POKEYinterface pokey_interface =
-/*TODO*///	{
-/*TODO*///		2,      /* 2 chips */
-/*TODO*///		1789790,	/* ? */
-/*TODO*///		{ 50, 50 },
+	static POKEYinterface pokey_interface = new POKEYinterface
+	(
+		2,      /* 2 chips */
+		1789790,	/* ? */
+		new int[]{ 50, 50 },
 		/* The 8 pot handlers */
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
-/*TODO*///		{ 0, 0 },
+		new ReadHandlerPtr[]{null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
+		new ReadHandlerPtr[]{ null,null },
 		/* The allpot handler */
-/*TODO*///		{ input_port_0_r, input_port_1_r }
-/*TODO*///	};
+		new ReadHandlerPtr[]{ input_port_0_r, input_port_1_r }
+        );
 	
 	static MachineDriver machine_driver_atetris = new MachineDriver
 	(

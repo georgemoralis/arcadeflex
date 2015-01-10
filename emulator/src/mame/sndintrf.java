@@ -26,6 +26,7 @@ import sound.ym2413;
 import sound.k051649;
 import sound.vlm5030;
 import sound._2151intf;
+import sound.pokey;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -390,8 +391,7 @@ public class sndintrf {
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
           new sn76496(),
-
-                /*TEMPHACK*/   new Dummy_snd(),
+          new pokey(),
     /*TODO*////*TODO*///#if (HAS_POKEY)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_POKEY,
