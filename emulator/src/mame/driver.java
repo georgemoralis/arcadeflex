@@ -149,6 +149,7 @@ import static drivers.WIP.arkanoid.*;
 import static drivers.WIP.congo.*;
 import static drivers.WIP.skydiver.*;
 import static drivers.WIP.simpsons.*;
+import static drivers.WIP.vendetta.*;
 
 
 public class driver {
@@ -2146,9 +2147,9 @@ public class driver {
 driver_simpsons,	
 driver_simpsn2p,
 driver_simps2pj,
-/*TODO*/ //	DRIVER( vendetta )	/* GX081 (c) 1991 (Asia) */
-/*TODO*/ //	DRIVER( vendett2 )	/* GX081 (c) 1991 (Asia) */
-/*TODO*/ //	DRIVER( vendettj )	/* GX081 (c) 1991 (Japan) */
+driver_vendetta,
+driver_vendett2,
+driver_vendettj,
 /*TODO*/ //	DRIVER( wecleman )	/* GX602 (c) 1986 */
 /*TODO*/ //	DRIVER( hotchase )	/* GX763 (c) 1988 */
 /*TODO*/ //	DRIVER( ultraman )	/* GX910 (c) 1991 Banpresto/Bandai */

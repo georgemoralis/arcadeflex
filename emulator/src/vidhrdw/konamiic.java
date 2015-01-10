@@ -2446,64 +2446,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
                 return K053251_palette_index[ci];
         }
 
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static unsigned char K054000_ram[0x20];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///static void collision_w( int offs, int data )
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K054000_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///#if VERBOSE
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: write %02x to 054000 address %02x\n",cpu_get_pc(),data,offset);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	K054000_ram[offset] = data;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K054000_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int Acx,Acy,Aax,Aay;
-/*TODO*////*TODO*///	int Bcx,Bcy,Bax,Bay;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///#if VERBOSE
-/*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"%04x: read 054000 address %02x\n",cpu_get_pc(),offset);
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (offset != 0x18) return 0;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	Acx = (K054000_ram[0x01] << 16) | (K054000_ram[0x02] << 8) | K054000_ram[0x03];
-/*TODO*////*TODO*///	Acy = (K054000_ram[0x09] << 16) | (K054000_ram[0x0a] << 8) | K054000_ram[0x0b];
-/*TODO*////*TODO*////* TODO: this is a hack to make thndrx2 pass the startup check. It is certainly wrong. */
-/*TODO*////*TODO*///if (K054000_ram[0x04] == 0xff) Acx+=3;
-/*TODO*////*TODO*///if (K054000_ram[0x0c] == 0xff) Acy+=3;
-/*TODO*////*TODO*///	Aax = K054000_ram[0x06] + 1;
-/*TODO*////*TODO*///	Aay = K054000_ram[0x07] + 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	Bcx = (K054000_ram[0x15] << 16) | (K054000_ram[0x16] << 8) | K054000_ram[0x17];
-/*TODO*////*TODO*///	Bcy = (K054000_ram[0x11] << 16) | (K054000_ram[0x12] << 8) | K054000_ram[0x13];
-/*TODO*////*TODO*///	Bax = K054000_ram[0x0e] + 1;
-/*TODO*////*TODO*///	Bay = K054000_ram[0x0f] + 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Acx + Aax < Bcx - Bax)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Bcx + Bax < Acx - Aax)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Acy + Aay < Bcy - Bay)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	if (Bcy + Bay < Acy - Aay)
-/*TODO*////*TODO*///		return 1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	return 0;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+
         static /*unsigned*/ char[] K051733_ram=new char[0x20];
 
         public static WriteHandlerPtr K051733_w = new WriteHandlerPtr() { public void handler(int offset, int data)
