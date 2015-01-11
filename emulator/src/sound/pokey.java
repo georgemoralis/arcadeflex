@@ -14,7 +14,7 @@ import static mame.timerH.*;
 
 public class pokey extends snd_interface {
 
-    public static FILE pokeylog = fopen("pokeylog.log", "wa");
+    public static FILE pokeylog =null; //fopen("pokeylog.log", "wa");
 
     public pokey() {
         this.sound_num = SOUND_POKEY;
