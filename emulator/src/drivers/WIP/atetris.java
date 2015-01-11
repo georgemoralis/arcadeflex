@@ -53,7 +53,11 @@ import static mame.palette.*;
 import static mame.input.*;
 import static mame.inputH.*;
 import static arcadeflex.ptrlib.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_POKEY;
 import static sound.pokeyH.*;
+import static sound.pokey.*;
+
 
 public class atetris
 {
@@ -80,8 +84,8 @@ public class atetris
 	{
 		new MemoryReadAddress( 0x0000, 0x20ff, MRA_RAM ),
 		new MemoryReadAddress( 0x2400, 0x25ff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( 0x2800, 0x280f, pokey1_r ),
-/*TODO*///		new MemoryReadAddress( 0x2810, 0x281f, pokey2_r ),
+		new MemoryReadAddress( 0x2800, 0x280f, pokey1_r ),
+		new MemoryReadAddress( 0x2810, 0x281f, pokey2_r ),
 		new MemoryReadAddress( 0x4000, 0x7fff, atetris_slapstic_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )  /* end of table */
@@ -93,8 +97,8 @@ public class atetris
 		new MemoryWriteAddress( 0x1000, 0x1fff, videoram_w, videoram, videoram_size ),
 		new MemoryWriteAddress( 0x2000, 0x20ff, paletteram_RRRGGGBB_w, paletteram ),
 		new MemoryWriteAddress( 0x2400, 0x25ff, MWA_RAM, nvram, nvram_size ),
-/*TODO*///		new MemoryWriteAddress( 0x2800, 0x280f, pokey1_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2810, 0x281f, pokey2_w ),
+		new MemoryWriteAddress( 0x2800, 0x280f, pokey1_w ),
+		new MemoryWriteAddress( 0x2810, 0x281f, pokey2_w ),
 		new MemoryWriteAddress( 0x3000, 0x3000, watchdog_reset_w ),
 		new MemoryWriteAddress( 0x3400, 0x3400, MWA_NOP ),  // EEPROM enable
 		new MemoryWriteAddress( 0x3800, 0x3800, MWA_NOP ),  // ???
@@ -224,13 +228,12 @@ public class atetris
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_POKEY,
 				pokey_interface
 			)
-		},*/
-                null,
+		},
 	
 		nvram_handler
 	);
