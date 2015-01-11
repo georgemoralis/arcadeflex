@@ -13,7 +13,7 @@ import static mame.timer.*;
 import static mame.timerH.*;
 
 public class pokey extends snd_interface {
-
+    public static FILE pokeylog=fopen("pokeylog.log", "wa");
     public pokey() {
         this.sound_num = SOUND_POKEY;
         this.name = "Pokey";
@@ -586,10 +586,10 @@ public class pokey extends snd_interface {
         int mask = (1 << size) - 1;
         int x = 0;
         int pi = 0;
-        //LOG_POLY((errorlog,"poly %d\n", size));
+        if(pokeylog!=null)fprintf(pokeylog,"poly %d\n", size);
         for (int i = 0; i < mask; i++) {
             poly[pi++] = (char) ((x & 1) & 0xFF);
-            //LOG_POLY((errorlog,"%05x: %d\n", x, x&1));
+            if(pokeylog!=null)fprintf(pokeylog,"%05x: %d\n", x, (x&1)&0xFF);
                 /* calculate next bit */
             x = ((x << left) + (x >>> right) + add) & mask;
         }
@@ -599,11 +599,11 @@ public class pokey extends snd_interface {
         int mask = (1 << size) - 1;
         int x = 0;
         int ri = 0;
-        //	LOG_RAND((errorlog,"rand %d\n", size));
+        if(pokeylog!=null)fprintf(pokeylog,"rand %d\n", size);
         for (int i = 0; i < mask; i++) {
             rng[ri] = (char) ((x >>> (size - 8)) & 0xFF);   /* use the upper 8 bits */
 
-            //LOG_RAND((errorlog, "%05x: %02x\n", x, *rng));
+            if(pokeylog!=null)fprintf(pokeylog, "%05x: %02x\n", x, (int)rng[ri]);
 
             ri++;
             /* calculate next bit */
@@ -664,11 +664,11 @@ public class pokey extends snd_interface {
             if(intf.interrupt_cb!=null)
                 _pokey[chip].interrupt_cb = intf.interrupt_cb[chip];
 
-            sprintf(name, "Pokey #%d", chip);
+            name = sprintf(name, "Pokey #%d", chip);
             _pokey[chip].channel = stream_init(name, intf.mixing_level[chip], Machine.sample_rate, chip, update[chip]);
 
             if (_pokey[chip].channel == -1) {
-                //perror("failed to initialize sound channel");
+                printf("failed to initialize sound channel");
                 return 1;
             }
         }

@@ -16,3 +16,4 @@ emulator/konamiicc.log
 emulator/m6502.log
 emulator/konami.log
 emulator/nvram/*
+emulator/pokeylog.log
