@@ -481,6 +481,11 @@ public class driver {
         /*001*//*gladiatr*/driver_gladiatr, //no nvram support
         /*002*//*gladiatr*/driver_ogonsiro, //no nvram support
         /*003*//*jailbrek*/driver_jailbrek, //vlm5030 exists but doesn't work...
+        /*004*//*atetris*/driver_atetris,//no nvram support
+        /*005*//*atetris*/driver_atetrisa,//no nvram support
+        /*006*//*atetris*/driver_atetrisb,//no nvram support
+        /*007*//*atetris*/driver_atetcktl,//no nvram support ,screen needs to be a bit righter
+        /*008*//*atetris*/driver_atetckt2,//no nvram support ,screen needs to be a bit righter
         
         /*
           Possible cpu bugs
@@ -720,11 +725,7 @@ public class driver {
 	/*tnzs*/driver_kageki,	
 	/*tnzs*/driver_kagekij,
 
-        /*atetris*/driver_atetris,
-        /*atetris*/driver_atetrisa,
-        /*atetris*/driver_atetrisb,
-        /*atetris*/driver_atetcktl,
-        /*atetris*/driver_atetckt2,
+
        
         /*matmania*/driver_matmania,
         /*matmania*/driver_excthour,

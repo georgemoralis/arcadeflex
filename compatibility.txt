@@ -317,6 +317,11 @@ Small issues that doesn't affect playable status
 gladiatr gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Gladiator (US)                 -no nvram support
 ogonsiro gladiatr.c Z80      Z80      [M6809 ]                                              1xYM-2203   1xMSM5205                                       Ohgon no Siro (Japan)  -no nvram support
 jailbrek jailbrek.c M6809                                                                   1xSN76496   VLM5030                                         Jail Break      -vlm5030 exists but doesn't work
+atetris  atetris.c  M6502                                                                   2xPokey                                                     Tetris (set 1) -no nvram support
+atetrisa atetris.c  M6502                                                                   2xPokey                                                     Tetris (set 2) -no nvram support
+atetrisb atetris.c  M6502                                                                   2xPokey                                                     Tetris (bootleg) -no nvram support
+atetcktl atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 1) -no nvram support , screen needs to be a bit right
+atetckt2 atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 2) -no nvram support, screen needs to be a bit right
 
 Probably CPU bugs
 -------------------------------
@@ -1657,11 +1662,6 @@ gauntir2 gauntlet.c 68010    M6502                                              
 gaunt2p  gauntlet.c 68010    M6502                                                          1xYM-2151   1xPokey     TMS5520                             Gauntlet (2 Players)
 gaunt2   gauntlet.c 68010    M6502                                                          1xYM-2151   1xPokey     TMS5520                             Gauntlet II
 vindctr2 gauntlet.c 68010    M6502                                                          1xYM-2151   1xPokey     TMS5520                             Vindicators Part II
-atetris  atetris.c  M6502                                                                   2xPokey                                                     Tetris (set 1)
-atetrisa atetris.c  M6502                                                                   2xPokey                                                     Tetris (set 2)
-atetrisb atetris.c  M6502                                                                   2xPokey                                                     Tetris (bootleg)
-atetcktl atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 1)
-atetckt2 atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 2)
 toobin   toobin.c   68010    M6502                                                          1xYM-2151   1xPokey                                         Toobin' (version 3)
 toobin2  toobin.c   68010    M6502                                                          1xYM-2151   1xPokey                                         Toobin' (version 2)
 toobinp  toobin.c   68010    M6502                                                          1xYM-2151   1xPokey                                         Toobin' (Prototype)

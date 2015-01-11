@@ -57,7 +57,7 @@ import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_POKEY;
 import static sound.pokeyH.*;
 import static sound.pokey.*;
-
+import static arcadeflex.fileio.*;
 
 public class atetris
 {
@@ -67,15 +67,16 @@ public class atetris
 	
 	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
         {
-	/*	if (read_or_write)
-			osd_fwrite(file,nvram,nvram_size);
+		if (read_or_write!=0)
+			osd_fwrite(file,nvram,nvram_size[0]);
 		else
 		{
-			if (file)
-				osd_fread(file,nvram,nvram_size);
+			if (file!=null)
+				osd_fread(file,nvram,nvram_size[0]);
 			else
-				memset(nvram,0xff,nvram_size);
-		}*/
+				for (int i = 0; i < nvram_size[0]; i++)
+                                    nvram.memory[i] = 0xff;
+		}
 	} };
 	
 	
@@ -299,7 +300,8 @@ public class atetris
 	
 	    // Move the lower 16k to 0x10000
 	    memcpy(RAM,0x10000, RAM,0x00000, 0x4000);
-	    memset(RAM,0x00000, 0, 0x4000);
+	    //memset(RAM,0x00000, 0, 0x4000);// shadow (breaks the game don't know why...)
+            
 	} };
 	
 	
