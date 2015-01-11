@@ -150,6 +150,8 @@ import static drivers.WIP.congo.*;
 import static drivers.WIP.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
+import static drivers.WIP.missile.*;
+
 
 
 public class driver {
@@ -2312,9 +2314,9 @@ driver_vendettj,
 /*TODO*/ //	DRIVER( arabiana )	/* (c) 1983 Atari */
 
 	/* Atari "Missile Command hardware" games */
-/*TODO*/ //	DRIVER( missile )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( missile2 )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( suprmatk )	/* (c) 1980 + (c) 1981 Gencomp */
+driver_missile,
+driver_missile2,
+driver_suprmatk,
 
 	/* misc Atari games */
 /*TODO*/ //	DRIVER( foodf )		/* (c) 1982 */	/* made by Gencomp */

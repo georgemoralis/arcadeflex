@@ -13,7 +13,9 @@ import static mame.timer.*;
 import static mame.timerH.*;
 
 public class pokey extends snd_interface {
-    public static FILE pokeylog=fopen("pokeylog.log", "wa");
+
+    public static FILE pokeylog = fopen("pokeylog.log", "wa");
+
     public pokey() {
         this.sound_num = SOUND_POKEY;
         this.name = "Pokey";
@@ -52,18 +54,18 @@ public class pokey extends snd_interface {
 /*TODO*///
 /*TODO*///#define SUPPRESS_INAUDIBLE	1
 /*TODO*///
-/*TODO*////* Four channels with a range of 0..32767 and volume 0..15 */
-/*TODO*/////#define POKEY_DEFAULT_GAIN (32767/15/4)
-/*TODO*///
-/*TODO*////*
-/*TODO*/// * But we raise the gain and risk clipping, the old Pokey did
-/*TODO*/// * this too. It defined POKEY_DEFAULT_GAIN 6 and this was
-/*TODO*/// * 6 * 15 * 4 = 360, 360/256 = 1.40625
-/*TODO*/// * I use 15/11 = 1.3636, so this is a little lower.
-/*TODO*/// */
-/*TODO*///#define POKEY_DEFAULT_GAIN (32767/11/4)
-/*TODO*///
-/*TODO*///#define VERBOSE 		0
+/* Four channels with a range of 0..32767 and volume 0..15 */
+//#define POKEY_DEFAULT_GAIN (32767/15/4)
+
+    /*
+     * But we raise the gain and risk clipping, the old Pokey did
+     * this too. It defined POKEY_DEFAULT_GAIN 6 and this was
+     * 6 * 15 * 4 = 360, 360/256 = 1.40625
+     * I use 15/11 = 1.3636, so this is a little lower.
+     */
+    public static double POKEY_DEFAULT_GAIN = (32767 / 11 / 4);
+
+    /*TODO*///#define VERBOSE 		0
 /*TODO*///#define VERBOSE_SOUND	0
 /*TODO*///#define VERBOSE_TIMER	0
 /*TODO*///#define VERBOSE_POLY	0
@@ -107,58 +109,82 @@ public class pokey extends snd_interface {
     public static final int TIMER1 = 0;
     public static final int TIMER2 = 1;
     public static final int TIMER4 = 2;
-    /*TODO*///
-/*TODO*////* values to add to the divisors for the different modes */
-/*TODO*///#define DIVADD_LOCLK		1
-/*TODO*///#define DIVADD_HICLK		4
-/*TODO*///#define DIVADD_HICLK_JOINED 7
-/*TODO*///
-/*TODO*////* AUDCx */
-/*TODO*///#define NOTPOLY5	0x80	/* selects POLY5 or direct CLOCK */
-/*TODO*///#define POLY4		0x40	/* selects POLY4 or POLY17 */
-/*TODO*///#define PURE		0x20	/* selects POLY4/17 or PURE tone */
-/*TODO*///#define VOLUME_ONLY 0x10	/* selects VOLUME OUTPUT ONLY */
-/*TODO*///#define VOLUME_MASK 0x0f	/* volume mask */
-/*TODO*///
-/*TODO*////* AUDCTL */
-/*TODO*///#define POLY9		0x80	/* selects POLY9 or POLY17 */
-/*TODO*///#define CH1_HICLK	0x40	/* selects 1.78979 MHz for Ch 1 */
-/*TODO*///#define CH3_HICLK	0x20	/* selects 1.78979 MHz for Ch 3 */
-/*TODO*///#define CH12_JOINED 0x10	/* clocks channel 1 w/channel 2 */
-/*TODO*///#define CH34_JOINED 0x08	/* clocks channel 3 w/channel 4 */
-/*TODO*///#define CH1_FILTER	0x04	/* selects channel 1 high pass filter */
-/*TODO*///#define CH2_FILTER	0x02	/* selects channel 2 high pass filter */
-/*TODO*///#define CLK_15KHZ	0x01	/* selects 15.6999 kHz or 63.9211 kHz */
-/*TODO*///
-/*TODO*////* IRQEN (D20E) */
+
+    /* values to add to the divisors for the different modes */
+    public static final int DIVADD_LOCLK = 1;
+    public static final int DIVADD_HICLK = 4;
+    public static final int DIVADD_HICLK_JOINED = 7;
+
+    /* AUDCx */
+    public static final int NOTPOLY5 = 0x80;	/* selects POLY5 or direct CLOCK */
+
+    public static final int POLY4 = 0x40;	/* selects POLY4 or POLY17 */
+
+    public static final int PURE = 0x20;	/* selects POLY4/17 or PURE tone */
+
+    public static final int VOLUME_ONLY = 0x10;	/* selects VOLUME OUTPUT ONLY */
+
+    public static final int VOLUME_MASK = 0x0f;	/* volume mask */
+
+    /* AUDCTL */
+    public static final int POLY9 = 0x80;	/* selects POLY9 or POLY17 */
+
+    public static final int CH1_HICLK = 0x40;	/* selects 1.78979 MHz for Ch 1 */
+
+    public static final int CH3_HICLK = 0x20;	/* selects 1.78979 MHz for Ch 3 */
+
+    public static final int CH12_JOINED = 0x10;	/* clocks channel 1 w/channel 2 */
+
+    public static final int CH34_JOINED = 0x08;	/* clocks channel 3 w/channel 4 */
+
+    public static final int CH1_FILTER = 0x04;	/* selects channel 1 high pass filter */
+
+    public static final int CH2_FILTER = 0x02;	/* selects channel 2 high pass filter */
+
+    public static final int CLK_15KHZ = 0x01;	/* selects 15.6999 kHz or 63.9211 kHz */
+
+    /*TODO*////* IRQEN (D20E) */
 /*TODO*///#define IRQ_BREAK	0x80	/* BREAK key pressed interrupt */
 /*TODO*///#define IRQ_KEYBD	0x40	/* keyboard data ready interrupt */
 /*TODO*///#define IRQ_SERIN	0x20	/* serial input data ready interrupt */
 /*TODO*///#define IRQ_SEROR	0x10	/* serial output register ready interrupt */
 /*TODO*///#define IRQ_SEROC	0x08	/* serial output complete interrupt */
-/*TODO*///#define IRQ_TIMR4	0x04	/* timer channel #4 interrupt */
-/*TODO*///#define IRQ_TIMR2	0x02	/* timer channel #2 interrupt */
-/*TODO*///#define IRQ_TIMR1	0x01	/* timer channel #1 interrupt */
-/*TODO*///
-/*TODO*////* SKSTAT (R/D20F) */
-/*TODO*///#define SK_FRAME	0x80	/* serial framing error */
-/*TODO*///#define SK_OVERRUN	0x40	/* serial overrun error */
-/*TODO*///#define SK_KBERR	0x20	/* keyboard overrun error */
-/*TODO*///#define SK_SERIN	0x10	/* serial input high */
-/*TODO*///#define SK_SHIFT	0x08	/* shift key pressed */
-/*TODO*///#define SK_KEYBD	0x04	/* keyboard key pressed */
-/*TODO*///#define SK_SEROUT	0x02	/* serial output active */
-/*TODO*///
-/*TODO*////* SKCTL (W/D20F) */
-/*TODO*///#define SK_BREAK	0x80	/* serial out break signal */
-/*TODO*///#define SK_BPS		0x70	/* bits per second */
-/*TODO*///#define SK_FM		0x08	/* FM mode */
-/*TODO*///#define SK_PADDLE	0x04	/* fast paddle a/d conversion */
+    public static final int IRQ_TIMR4 = 0x04;	/* timer channel #4 interrupt */
+
+    public static final int IRQ_TIMR2 = 0x02;	/* timer channel #2 interrupt */
+
+    public static final int IRQ_TIMR1 = 0x01;	/* timer channel #1 interrupt */
+
+    /* SKSTAT (R/D20F) */
+    public static final int SK_FRAME = 0x80;	/* serial framing error */
+
+    public static final int SK_OVERRUN = 0x40;	/* serial overrun error */
+
+    public static final int SK_KBERR = 0x20;	/* keyboard overrun error */
+
+    public static final int SK_SERIN = 0x10;	/* serial input high */
+
+    public static final int SK_SHIFT = 0x08;	/* shift key pressed */
+
+    public static final int SK_KEYBD = 0x04;	/* keyboard key pressed */
+
+    public static final int SK_SEROUT = 0x02;	/* serial output active */
+
+
+    /* SKCTL (W/D20F) */
+    public static final int SK_BREAK = 0x80;	/* serial out break signal */
+
+    public static final int SK_BPS = 0x70;	/* bits per second */
+
+    public static final int SK_FM = 0x08;	/* FM mode */
+
+    public static final int SK_PADDLE = 0x04;	/* fast paddle a/d conversion */
+
     public static final int SK_RESET = 0x03;	/* reset serial/keyboard interface */
 
     public static final int DIV_64 = 28;		 /* divisor for 1.78979 MHz clock to 63.9211 kHz */
-    /*TODO*///#define DIV_15		114 	 /* divisor for 1.78979 MHz clock to 15.6999 kHz */
-/*TODO*///
+
+    public static final int DIV_15 = 114; 	 /* divisor for 1.78979 MHz clock to 15.6999 kHz */
 
 
     public static class POKEYregisters {
@@ -171,7 +197,7 @@ public class pokey extends snd_interface {
 
         int[]/*UINT8*/ output = new int[4];		/* channel output signal (1 active, 0 inactive) */
 
-        int[]/*UINT8*/ audible = new int[4];		/* channel plays an audible tone/effect */
+        boolean[]/*UINT8*/ audible = new boolean[4];		/* channel plays an audible tone/effect */
 
         long /*UINT32*/ samplerate_24_8; /* sample rate in 24.8 format */
 
@@ -567,7 +593,116 @@ public class pokey extends snd_interface {
 /*TODO*///
     public static StreamInitPtr pokey_update = new StreamInitPtr() {
         public void handler(int chip, UShortPtr buffer, int length) {
+           long sum = 0;
+            if (_pokey[chip].output[CHAN1] != 0)
+                sum += _pokey[chip].volume[CHAN1];
+            if (_pokey[chip].output[CHAN2] != 0)
+                sum += _pokey[chip].volume[CHAN2];
+            if (_pokey[chip].output[CHAN3] != 0)
+                sum += _pokey[chip].volume[CHAN3];
+            if (_pokey[chip].output[CHAN4] != 0)
+                sum += _pokey[chip].volume[CHAN4];
+            while (length > 0)
+            {
+                long _event = _pokey[chip].samplepos_whole;
+                long channel = -1;
+                if (_pokey[chip].counter[CHAN1] < _event)
+                {
+                    _event = (long)_pokey[chip].counter[CHAN1];
+                    channel = CHAN1;
+                }
+                if (_pokey[chip].counter[CHAN2] < _event)
+                {
+                    _event = (long)_pokey[chip].counter[CHAN2];
+                    channel = CHAN2;
+                }
+                if (_pokey[chip].counter[CHAN3] < _event)
+                {
+                    _event = (long)_pokey[chip].counter[CHAN3];
+                    channel = CHAN3;
+                }
+                if (_pokey[chip].counter[CHAN4] < _event)
+                {
+                    _event = (long)_pokey[chip].counter[CHAN4];
+                    channel = CHAN4;
+                }
+                if (channel == -1)
+                {
+                    _pokey[chip].counter[CHAN1] -= (int)_event;
+                    _pokey[chip].counter[CHAN2] -= (int)_event;
+                    _pokey[chip].counter[CHAN3] -= (int)_event;
+                    _pokey[chip].counter[CHAN4] -= (int)_event;
+                    _pokey[chip].samplepos_whole -= _event;
+                    _pokey[chip].polyadjust += _event;
 
+                    /* adjust the sample position */
+                    _pokey[chip].samplepos_fract += _pokey[chip].samplerate_24_8;
+                    if ((_pokey[chip].samplepos_fract & 0xffffff00) != 0)
+                    {
+                        _pokey[chip].samplepos_whole += _pokey[chip].samplepos_fract >> 8;
+                        _pokey[chip].samplepos_fract &= 0x000000ff;
+                    }
+                    /* store sum of output signals into the buffer */
+                    buffer.write(0, (char)((sum > 65535) ? 0x7fff : sum - 0x8000));
+                    buffer.offset += 2;
+                    length--;
+                }
+                else
+                {
+                    int toggle = 0;
+                    _pokey[chip].counter[CHAN1] -= (int)_event;
+                    _pokey[chip].counter[CHAN2] -= (int)_event;
+                    _pokey[chip].counter[CHAN3] -= (int)_event;
+                    _pokey[chip].counter[CHAN4] -= (int)_event;
+                    _pokey[chip].samplepos_whole -= _event;
+                    _pokey[chip].polyadjust += _event;
+                    /* reset the channel counter */
+                    if (_pokey[chip].audible[(int)channel])
+                        _pokey[chip].counter[(int)channel] = _pokey[chip].divisor[(int)channel];
+                    else
+                        _pokey[chip].counter[(int)channel] = 0x7fffffff;
+                    _pokey[chip].p4 = (_pokey[chip].p4 + _pokey[chip].polyadjust) % 0x0000f;
+                    _pokey[chip].p5 = (_pokey[chip].p5 + _pokey[chip].polyadjust) % 0x0001f;
+                    _pokey[chip].p9 = (_pokey[chip].p9 + _pokey[chip].polyadjust) % 0x001ff;
+                    _pokey[chip].p17 = (_pokey[chip].p17 + _pokey[chip].polyadjust) % 0x1ffff;
+                    _pokey[chip].polyadjust = 0;
+                    if ((_pokey[chip].AUDC[(int)channel] & NOTPOLY5) != 0 || poly5[(int)_pokey[chip].p5] != 0)
+                    {
+                        if ((_pokey[chip].AUDC[(int)channel] & PURE) != 0)
+                            toggle = 1;
+                        else
+                            if ((_pokey[chip].AUDC[(int)channel] & POLY4) != 0)
+                                toggle = _pokey[chip].output[(int)channel] == (poly4[(int)_pokey[chip].p4] == 0 ? 1 : 0) ? 1 : 0;
+                            else
+                                if ((_pokey[chip].AUDCTL & POLY9) != 0)
+                                    toggle = _pokey[chip].output[(int)channel] == (poly9[(int)_pokey[chip].p9] == 0 ? 1 : 0) ? 1 : 0;
+                                else
+                                    toggle = _pokey[chip].output[(int)channel] == (poly17[(int)_pokey[chip].p17] == 0 ? 1 : 0) ? 1 : 0;
+                    }
+                    if (toggle != 0)
+                    {
+                        if (_pokey[chip].audible[(int)channel])
+                        {
+                            if (_pokey[chip].output[(int)channel] != 0)
+                                sum -= _pokey[chip].volume[(int)channel];
+                            else
+                                sum += _pokey[chip].volume[(int)channel];
+                        }
+                        _pokey[chip].output[(int)channel] ^= 1;
+                    }
+                    /* is this a filtering channel (3/4) and is the filter active? */
+                    if ((_pokey[chip].AUDCTL & ((CH1_FILTER | CH2_FILTER) & (0x10 >> (int)channel))) != 0)
+                    {
+                        if (_pokey[chip].output[(int)channel] != 0)
+                        {
+                            _pokey[chip].output[(int)channel - 2] = 0;
+                            if (_pokey[chip].audible[(int)channel])
+                                sum -= _pokey[chip].volume[(int)(channel - 2)];
+                        }
+                    }
+                }
+            }
+            timer_reset(_pokey[chip].rtimer, TIME_NEVER);
         }
     };
     StreamInitPtr[] update = {pokey_update, pokey_update, pokey_update, pokey_update};
@@ -586,11 +721,15 @@ public class pokey extends snd_interface {
         int mask = (1 << size) - 1;
         int x = 0;
         int pi = 0;
-        if(pokeylog!=null)fprintf(pokeylog,"poly %d\n", size);
+        if (pokeylog != null) {
+            fprintf(pokeylog, "poly %d\n", size);
+        }
         for (int i = 0; i < mask; i++) {
             poly[pi++] = (char) ((x & 1) & 0xFF);
-            if(pokeylog!=null)fprintf(pokeylog,"%05x: %d\n", x, (x&1)&0xFF);
-                /* calculate next bit */
+            if (pokeylog != null) {
+                fprintf(pokeylog, "%05x: %d\n", x, (x & 1) & 0xFF);
+            }
+            /* calculate next bit */
             x = ((x << left) + (x >>> right) + add) & mask;
         }
     }
@@ -599,11 +738,15 @@ public class pokey extends snd_interface {
         int mask = (1 << size) - 1;
         int x = 0;
         int ri = 0;
-        if(pokeylog!=null)fprintf(pokeylog,"rand %d\n", size);
+        if (pokeylog != null) {
+            fprintf(pokeylog, "rand %d\n", size);
+        }
         for (int i = 0; i < mask; i++) {
             rng[ri] = (char) ((x >>> (size - 8)) & 0xFF);   /* use the upper 8 bits */
 
-            if(pokeylog!=null)fprintf(pokeylog, "%05x: %02x\n", x, (int)rng[ri]);
+            if (pokeylog != null) {
+                fprintf(pokeylog, "%05x: %02x\n", x, (int) rng[ri]);
+            }
 
             ri++;
             /* calculate next bit */
@@ -657,12 +800,15 @@ public class pokey extends snd_interface {
             _pokey[chip].pot_r[6] = intf.pot6_r[chip];
             _pokey[chip].pot_r[7] = intf.pot7_r[chip];
             _pokey[chip].allpot_r = intf.allpot_r[chip];
-            if(intf.serin_r!=null)
+            if (intf.serin_r != null) {
                 _pokey[chip].serin_r = intf.serin_r[chip];
-            if(intf.serout_w!=null)
+            }
+            if (intf.serout_w != null) {
                 _pokey[chip].serout_w = intf.serout_w[chip];
-            if(intf.interrupt_cb!=null)
+            }
+            if (intf.interrupt_cb != null) {
                 _pokey[chip].interrupt_cb = intf.interrupt_cb[chip];
+            }
 
             name = sprintf(name, "Pokey #%d", chip);
             _pokey[chip].channel = stream_init(name, intf.mixing_level[chip], Machine.sample_rate, chip, update[chip]);
@@ -679,16 +825,20 @@ public class pokey extends snd_interface {
     @Override
     public void stop() {
 
-        if( rand17!=null ) 
-	rand17 = null;
-	if( poly17!=null ) 
-	poly17 = null;
-	if( rand9!=null )  
-	rand9 = null;
-	if( poly9!=null )  
-	poly9 = null;
+        if (rand17 != null) {
+            rand17 = null;
+        }
+        if (poly17 != null) {
+            poly17 = null;
+        }
+        if (rand9 != null) {
+            rand9 = null;
+        }
+        if (poly9 != null) {
+            poly9 = null;
+        }
     }
-/*TODO*///static void pokey_timer_expire(int param)
+    /*TODO*///static void pokey_timer_expire(int param)
 /*TODO*///{
 /*TODO*///	int chip = param >> 3;
 /*TODO*///	int timers = param & 7;
@@ -796,7 +946,10 @@ public class pokey extends snd_interface {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///static void pokey_pot_trigger(int param)
+    public static timer_callback pokey_pot_trigger = new timer_callback() {
+        public void handler(int trigger) {
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///static void pokey_pot_trigger(int param)
 /*TODO*///{
 /*TODO*///	int chip = param >> 3;
 /*TODO*///    int pot = param & 7;
@@ -805,66 +958,60 @@ public class pokey extends snd_interface {
 /*TODO*///	LOG((errorlog, "POKEY #%d POT%d triggers after %dus\n", chip, pot, (int)(1000000ul*timer_timeelapsed(p->ptimer[pot]))));
 /*TODO*///	p->ptimer[pot] = NULL;
 /*TODO*///	p->ALLPOT &= ~(1 << pot);	/* set the enabled timer irq status bits */
-/*TODO*///}
-/*TODO*///
-/*TODO*////* A/D conversion time:
-/*TODO*/// * In normal, slow mode (SKCTL bit SK_PADDLE is clear) the conversion
-/*TODO*/// * takes N scanlines, where N is the paddle value. A single scanline
-/*TODO*/// * takes approximately 64us to finish (1.78979MHz clock).
-/*TODO*/// * In quick mode (SK_PADDLE set) the conversion is done very fast
-/*TODO*/// * (takes two scalines) but the result is not as accurate.
-/*TODO*/// */
-/*TODO*///#define AD_TIME (double)(((p->SKCTL & SK_PADDLE) ? 64.0*2/228 : 64.0) * FREQ_17_EXACT / intf.baseclock)
-/*TODO*///
-/*TODO*///static void pokey_potgo(int chip)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    int pot;
-/*TODO*///
-/*TODO*///	LOG((errorlog, "POKEY #%d pokey_potgo\n", chip));
-/*TODO*///
-/*TODO*///    p->ALLPOT = 0xff;
-/*TODO*///
-/*TODO*///    for( pot = 0; pot < 8; pot++ )
-/*TODO*///	{
-/*TODO*///        if( p->ptimer[pot] )
-/*TODO*///		{
-/*TODO*///			timer_remove(p->ptimer[pot]);
-/*TODO*///			p->ptimer[pot] = NULL;
-/*TODO*///			p->POTx[pot] = 0xff;
-/*TODO*///		}
-/*TODO*///		if( p->pot_r[pot] )
-/*TODO*///		{
-/*TODO*///			int r = (*p->pot_r[pot])(pot);
-/*TODO*///			LOG((errorlog, "POKEY #%d pot_r(%d) returned $%02x\n", chip, pot, r));
-/*TODO*///			if( r != -1 )
-/*TODO*///			{
-/*TODO*///				if (r > 228)
-/*TODO*///                    r = 228;
-/*TODO*///                /* final value */
-/*TODO*///                p->POTx[pot] = r;
-/*TODO*///				p->ptimer[pot] = timer_set(TIME_IN_USEC(r * AD_TIME), (chip<<3)|pot, pokey_pot_trigger);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///int pokey_register_r(int chip, int offs)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    int data = 0, pot;
-/*TODO*///
-/*TODO*///#ifdef MAME_DEBUG
-/*TODO*///	if( chip >= intf.num )
-/*TODO*///	{
-/*TODO*///		if( errorlog ) fprintf(errorlog, "POKEY #%d is >= number of Pokeys!\n", chip);
-/*TODO*///		return data;
-/*TODO*///	}
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///    switch (offs & 15)
-/*TODO*///	{
-/*TODO*///	case POT0_C: case POT1_C: case POT2_C: case POT3_C:
+        }
+    };
+    /*TODO*///
+    /* A/D conversion time:
+     * In normal, slow mode (SKCTL bit SK_PADDLE is clear) the conversion
+     * takes N scanlines, where N is the paddle value. A single scanline
+     * takes approximately 64us to finish (1.78979MHz clock).
+     * In quick mode (SK_PADDLE set) the conversion is done very fast
+     * (takes two scalines) but the result is not as accurate.
+     */
+
+    public static double AD_TIME(int chip) {
+        return (double) (((_pokey[chip].SKCTL & SK_PADDLE) != 0 ? 64.0 * 2 / 228 : 64.0) * FREQ_17_EXACT / intf.baseclock);
+    }
+
+    static void pokey_potgo(int chip) {
+        //struct POKEYregisters *p = &pokey[chip];
+        int pot;
+
+        if (pokeylog != null) {
+            fprintf(pokeylog, "POKEY #%d pokey_potgo\n", chip);
+        }
+
+        _pokey[chip].ALLPOT = 0xff;
+
+        for (pot = 0; pot < 8; pot++) {
+            if (_pokey[chip].ptimer[pot] != null) {
+                timer_remove(_pokey[chip].ptimer[pot]);
+                _pokey[chip].ptimer[pot] = null;
+                _pokey[chip].POTx[pot] = 0xff;
+            }
+            if (_pokey[chip].pot_r[pot] != null) {
+                int r = (_pokey[chip].pot_r[pot]).handler(pot);
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d pot_r(%d) returned $%02x\n", chip, pot, r);
+                }
+                if (r != -1) {
+                    if (r > 228) {
+                        r = 228;
+                    }
+                    /* final value */
+                    _pokey[chip].POTx[pot] = r & 0xFF;
+                    _pokey[chip].ptimer[pot] = timer_set(TIME_IN_USEC(r * AD_TIME(chip)), (chip << 3) | pot, pokey_pot_trigger);
+                }
+            }
+        }
+    }
+
+    static int pokey_register_r(int chip, int offs) {
+        //struct POKEYregisters *p = &pokey[chip];
+        int data = 0, pot;
+
+        switch (offs & 15) {
+            /*TODO*///	case POT0_C: case POT1_C: case POT2_C: case POT3_C:
 /*TODO*///	case POT4_C: case POT5_C: case POT6_C: case POT7_C:
 /*TODO*///		pot = offs & 7;
 /*TODO*///		if( p->pot_r[pot] )
@@ -889,56 +1036,57 @@ public class pokey extends snd_interface {
 /*TODO*///		if (errorlog)
 /*TODO*///			fprintf(errorlog,"PC %04x: warning - read p[chip] #%d POT%d\n", cpu_get_pc(), chip, pot);
 /*TODO*///		break;
-/*TODO*///
-/*TODO*///    case ALLPOT_C:
-/*TODO*///		if( p->allpot_r )
-/*TODO*///		{
-/*TODO*///			data = (*p->allpot_r)(offs);
-/*TODO*///			LOG((errorlog,"POKEY #%d ALLPOT callback $%02x\n", chip, data));
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			data = p->ALLPOT;
-/*TODO*///			LOG((errorlog,"POKEY #%d ALLPOT internal $%02x\n", chip, data));
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///
+
+            case ALLPOT_C:
+                if (_pokey[chip].allpot_r != null) {
+                    data = (_pokey[chip].allpot_r).handler(offs);
+                    if (pokeylog != null) {
+                        fprintf(pokeylog, "POKEY #%d ALLPOT callback $%02x\n", chip, data);
+                    }
+                } else {
+                    data = _pokey[chip].ALLPOT;
+                    if (pokeylog != null) {
+                        fprintf(pokeylog, "POKEY #%d ALLPOT internal $%02x\n", chip, data);
+                    }
+                }
+                break;
+            /*TODO*///
 /*TODO*///	case KBCODE_C:
 /*TODO*///		data = p->KBCODE;
 /*TODO*///		break;
 /*TODO*///
-/*TODO*///	case RANDOM_C:
-/*TODO*///		/****************************************************************
-/*TODO*///		 * If the 2 least significant bits of SKCTL are 0, the random
-/*TODO*///		 * number generator is disabled (SKRESET). Thanks to Eric Smith
-/*TODO*///		 * for pointing out this critical bit of info! If the random
-/*TODO*///		 * number generator is enabled, get a new random number. Take
-/*TODO*///		 * the time gone since the last read into account and read the
-/*TODO*///		 * new value from an appropriate offset in the rand17 table.
-/*TODO*///		 ****************************************************************/
-/*TODO*///		if( p->SKCTL & SK_RESET )
-/*TODO*///		{
-/*TODO*///			UINT32 adjust = (UINT32)(timer_timeelapsed(p->rtimer) * intf.baseclock);
-/*TODO*///			p->r9 = (p->r9 + adjust) % 0x001ff;
-/*TODO*///			p->r17 = (p->r17 + adjust) % 0x1ffff;
-/*TODO*///			if( p->AUDCTL & POLY9 )
-/*TODO*///			{
-/*TODO*///				p->RANDOM = rand9[p->r9];
-/*TODO*///				LOG_RAND((errorlog, "POKEY #%d adjust %u rand9[$%05x]: $%02x\n", chip, adjust, p->r9, p->RANDOM));
-/*TODO*///			}
-/*TODO*///            else
-/*TODO*///			{
-/*TODO*///				p->RANDOM = rand17[p->r17];
-/*TODO*///				LOG_RAND((errorlog, "POKEY #%d adjust %u rand17[$%05x]: $%02x\n", chip, adjust, p->r17, p->RANDOM));
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			LOG_RAND((errorlog, "POKEY #%d rand17 freezed (SKCTL): $%02x\n", chip, p->RANDOM));
-/*TODO*///		}
-/*TODO*///		timer_reset(p->rtimer, TIME_NEVER);
-/*TODO*///		data = p->RANDOM;
-/*TODO*///		break;
+	case RANDOM_C:
+		/****************************************************************
+		 * If the 2 least significant bits of SKCTL are 0, the random
+		 * number generator is disabled (SKRESET). Thanks to Eric Smith
+		 * for pointing out this critical bit of info! If the random
+		 * number generator is enabled, get a new random number. Take
+		 * the time gone since the last read into account and read the
+		 * new value from an appropriate offset in the rand17 table.
+		 ****************************************************************/
+		if(( _pokey[chip].SKCTL & SK_RESET )!=0)
+		{
+			long adjust = (long)(timer_timeelapsed(_pokey[chip].rtimer) * intf.baseclock);
+			_pokey[chip].r9 = (_pokey[chip].r9 + adjust) % 0x001ff;
+			_pokey[chip].r17 = (_pokey[chip].r17 + adjust) % 0x1ffff;
+			if(( _pokey[chip].AUDCTL & POLY9 )!=0)
+			{
+				_pokey[chip].RANDOM = rand9[(int)_pokey[chip].r9];
+				//if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand9[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r9, _pokey[chip].RANDOM);
+			}
+            else
+			{
+				_pokey[chip].RANDOM = rand17[(int)_pokey[chip].r17];
+				//if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand17[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r17, _pokey[chip].RANDOM);
+			}
+		}
+		else
+		{
+			if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d rand17 freezed (SKCTL): $%02x\n", chip, _pokey[chip].RANDOM);
+		}
+		timer_reset(_pokey[chip].rtimer, TIME_NEVER);
+		data = _pokey[chip].RANDOM;
+		break;
 /*TODO*///
 /*TODO*///	case SERIN_C:
 /*TODO*///		if( p->serin_r )
@@ -954,29 +1102,29 @@ public class pokey extends snd_interface {
 /*TODO*///		LOG((errorlog, "POKEY #%d IRQST  $%02x\n", chip, data));
 /*TODO*///		break;
 /*TODO*///
-/*TODO*///	case SKSTAT_C:
-/*TODO*///		/* SKSTAT is also an active low input port */
-/*TODO*///		data = p->SKSTAT ^ 0xff;
-/*TODO*///		LOG((errorlog, "POKEY #%d SKSTAT $%02x\n", chip, data));
-/*TODO*///		break;
-/*TODO*///
-/*TODO*///	default:
-/*TODO*///		LOG((errorlog, "POKEY #%d register $%02x\n", chip, offs));
+	case SKSTAT_C:
+		/* SKSTAT is also an active low input port */
+		data = _pokey[chip].SKSTAT ^ 0xff;
+                if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d SKSTAT $%02x\n", chip, data);
+		break;
+
+            default:
+                System.out.println(offs & 15);
+                throw new UnsupportedOperationException("Not supported yet.");
+            /*TODO*///		LOG((errorlog, "POKEY #%d register $%02x\n", chip, offs));
 /*TODO*///        break;
-/*TODO*///    }
-/*TODO*///    return data;
-/*TODO*///}
-/*TODO*///
+        }
+        return data;
+    }
+
     public static ReadHandlerPtr pokey1_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            throw new UnsupportedOperationException("Not supported yet.");
-            //return pokey_register_r(0, offset);
+            return pokey_register_r(0, offset);
         }
     };
     public static ReadHandlerPtr pokey2_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            throw new UnsupportedOperationException("Not supported yet.");
-            //return pokey_register_r(1, offset);
+            return pokey_register_r(1, offset);
         }
     };
     /*TODO*///int pokey3_r (int offset)
@@ -999,104 +1147,119 @@ public class pokey extends snd_interface {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void pokey_register_w(int chip, int offs, int data)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///	int ch_mask = 0, new_val;
-/*TODO*///
-/*TODO*///#ifdef MAME_DEBUG
-/*TODO*///	if( chip >= intf.num )
-/*TODO*///	{
-/*TODO*///		if( errorlog ) fprintf(errorlog, "POKEY #%d is >= number of Pokeys!\n", chip);
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///#endif
-/*TODO*///	stream_update(p->channel, 0);
-/*TODO*///
-/*TODO*///    /* determine which address was changed */
-/*TODO*///	switch (offs & 15)
-/*TODO*///    {
-/*TODO*///    case AUDF1_C:
-/*TODO*///		if( data == p->AUDF[CHAN1] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDF1  $%02x\n", chip, data));
-/*TODO*///		p->AUDF[CHAN1] = data;
-/*TODO*///        ch_mask = 1 << CHAN1;
-/*TODO*///		if( p->AUDCTL & CH12_JOINED )		/* if ch 1&2 tied together */
-/*TODO*///            ch_mask |= 1 << CHAN2;    /* then also change on ch2 */
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDC1_C:
-/*TODO*///		if( data == p->AUDC[CHAN1] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDC1  $%02x (%s)\n", chip, data, audc2str(data)));
-/*TODO*///		p->AUDC[CHAN1] = data;
-/*TODO*///        ch_mask = 1 << CHAN1;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDF2_C:
-/*TODO*///		if( data == p->AUDF[CHAN2] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDF2  $%02x\n", chip, data));
-/*TODO*///		p->AUDF[CHAN2] = data;
-/*TODO*///        ch_mask = 1 << CHAN2;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDC2_C:
-/*TODO*///		if( data == p->AUDC[CHAN2] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDC2  $%02x (%s)\n", chip, data, audc2str(data)));
-/*TODO*///		p->AUDC[CHAN2] = data;
-/*TODO*///        ch_mask = 1 << CHAN2;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDF3_C:
-/*TODO*///		if( data == p->AUDF[CHAN3] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDF3  $%02x\n", chip, data));
-/*TODO*///		p->AUDF[CHAN3] = data;
-/*TODO*///        ch_mask = 1 << CHAN3;
-/*TODO*///
-/*TODO*///		if( p->AUDCTL & CH34_JOINED )	/* if ch 3&4 tied together */
-/*TODO*///            ch_mask |= 1 << CHAN4;  /* then also change on ch4 */
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDC3_C:
-/*TODO*///		if( data == p->AUDC[CHAN3] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDC3  $%02x (%s)\n", chip, data, audc2str(data)));
-/*TODO*///		p->AUDC[CHAN3] = data;
-/*TODO*///        ch_mask = 1 << CHAN3;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDF4_C:
-/*TODO*///		if( data == p->AUDF[CHAN4] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDF4  $%02x\n", chip, data));
-/*TODO*///		p->AUDF[CHAN4] = data;
-/*TODO*///        ch_mask = 1 << CHAN4;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDC4_C:
-/*TODO*///		if( data == p->AUDC[CHAN4] )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDC4  $%02x (%s)\n", chip, data, audc2str(data)));
-/*TODO*///		p->AUDC[CHAN4] = data;
-/*TODO*///        ch_mask = 1 << CHAN4;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case AUDCTL_C:
-/*TODO*///		if( data == p->AUDCTL )
-/*TODO*///            return;
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d AUDCTL $%02x (%s)\n", chip, data, audctl2str(data)));
-/*TODO*///		p->AUDCTL = data;
-/*TODO*///        ch_mask = 15;       /* all channels */
-/*TODO*///        /* determine the base multiplier for the 'div by n' calculations */
-/*TODO*///		p->clockmult = (p->AUDCTL & CLK_15KHZ) ? DIV_15 : DIV_64;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case STIMER_C:
-/*TODO*///        /* first remove any existing timers */
+
+    public static void pokey_register_w(int chip, int offs, int data) {
+        //struct POKEYregisters *p = &pokey[chip];
+        int ch_mask = 0, new_val;
+
+        stream_update(_pokey[chip].channel, 0);
+
+        /* determine which address was changed */
+        switch (offs & 15) {
+            case AUDF1_C:
+                if (data == _pokey[chip].AUDF[CHAN1]) {
+                    return;
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d AUDF1  $%02x\n", chip, data);
+                }
+                _pokey[chip].AUDF[CHAN1] = data & 0xFF;
+                ch_mask = 1 << CHAN1;
+                if ((_pokey[chip].AUDCTL & CH12_JOINED) != 0) /* if ch 1&2 tied together */ {
+                    ch_mask |= 1 << CHAN2;    /* then also change on ch2 */
+
+                }
+                break;
+
+            case AUDC1_C:
+                if (data == _pokey[chip].AUDC[CHAN1]) {
+                    return;
+                }
+                //LOG_SOUND((errorlog, "POKEY #%d AUDC1  $%02x (%s)\n", chip, data, audc2str(data)));
+                _pokey[chip].AUDC[CHAN1] = data & 0xFF;
+                ch_mask = 1 << CHAN1;
+                break;
+
+            case AUDF2_C:
+                if (data == _pokey[chip].AUDF[CHAN2]) {
+                    return;
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d AUDF2  $%02x\n", chip, data);
+                }
+                _pokey[chip].AUDF[CHAN2] = data & 0xFF;
+                ch_mask = 1 << CHAN2;
+                break;
+
+            case AUDC2_C:
+                if (data == _pokey[chip].AUDC[CHAN2]) {
+                    return;
+                }
+                //LOG_SOUND((errorlog, "POKEY #%d AUDC2  $%02x (%s)\n", chip, data, audc2str(data)));
+                _pokey[chip].AUDC[CHAN2] = data & 0xFF;
+                ch_mask = 1 << CHAN2;
+                break;
+
+            case AUDF3_C:
+                if (data == _pokey[chip].AUDF[CHAN3]) {
+                    return;
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d AUDF3  $%02x\n", chip, data);
+                }
+                _pokey[chip].AUDF[CHAN3] = data & 0xFF;
+                ch_mask = 1 << CHAN3;
+
+                if ((_pokey[chip].AUDCTL & CH34_JOINED) != 0) /* if ch 3&4 tied together */ {
+                    ch_mask |= 1 << CHAN4;  /* then also change on ch4 */
+
+                }
+                break;
+
+            case AUDC3_C:
+                if (data == _pokey[chip].AUDC[CHAN3]) {
+                    return;
+                }
+                //LOG_SOUND((errorlog, "POKEY #%d AUDC3  $%02x (%s)\n", chip, data, audc2str(data)));
+                _pokey[chip].AUDC[CHAN3] = data & 0xFF;
+                ch_mask = 1 << CHAN3;
+                break;
+
+            case AUDF4_C:
+                if (data == _pokey[chip].AUDF[CHAN4]) {
+                    return;
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d AUDF4  $%02x\n", chip, data);
+                }
+                _pokey[chip].AUDF[CHAN4] = data & 0xFF;
+                ch_mask = 1 << CHAN4;
+                break;
+
+            case AUDC4_C:
+                if (data == _pokey[chip].AUDC[CHAN4]) {
+                    return;
+                }
+                //LOG_SOUND((errorlog, "POKEY #%d AUDC4  $%02x (%s)\n", chip, data, audc2str(data)));
+                _pokey[chip].AUDC[CHAN4] = data & 0xFF;
+                ch_mask = 1 << CHAN4;
+                break;
+
+            case AUDCTL_C:
+                if (data == _pokey[chip].AUDCTL) {
+                    return;
+                }
+                //LOG_SOUND((errorlog, "POKEY #%d AUDCTL $%02x (%s)\n", chip, data, audctl2str(data)));
+                _pokey[chip].AUDCTL = data & 0xFF;
+                ch_mask = 15;       /* all channels */
+                /* determine the base multiplier for the 'div by n' calculations */
+
+                _pokey[chip].clockmult = ((_pokey[chip].AUDCTL & CLK_15KHZ) != 0) ? DIV_15 : DIV_64;
+                break;
+
+            case STIMER_C:
+                throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///        /* first remove any existing timers */
 /*TODO*///		LOG_TIMER((errorlog, "POKEY #%d STIMER $%02x\n", chip, data));
 /*TODO*///		if( p->timer[TIMER1] )
 /*TODO*///			timer_remove(p->timer[TIMER1]);
@@ -1184,19 +1347,23 @@ public class pokey extends snd_interface {
 /*TODO*///			timer_enable(p->timer[TIMER4], p->IRQEN & IRQ_TIMR4);
 /*TODO*///        break;
 /*TODO*///
-/*TODO*///    case SKREST_C:
-/*TODO*///        /* reset SKSTAT */
-/*TODO*///		LOG((errorlog, "POKEY #%d SKREST $%02x\n", chip, data));
-/*TODO*///		p->SKSTAT &= ~(SK_FRAME|SK_OVERRUN|SK_KBERR);
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case POTGO_C:
-/*TODO*///		LOG((errorlog, "POKEY #%d POTGO  $%02x\n", chip, data));
-/*TODO*///		pokey_potgo(chip);
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case SEROUT_C:
-/*TODO*///		LOG((errorlog, "POKEY #%d SEROUT $%02x\n", chip, data));
+            case SKREST_C:
+                /* reset SKSTAT */
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d SKREST $%02x\n", chip, data);
+                }
+                _pokey[chip].SKSTAT = (_pokey[chip].SKSTAT & ~(SK_FRAME | SK_OVERRUN | SK_KBERR)) & 0xFF;
+                break;
+
+            case POTGO_C:
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d POTGO  $%02x\n", chip, data);
+                }
+                pokey_potgo(chip);
+                break;
+            case SEROUT_C:
+                throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///		LOG((errorlog, "POKEY #%d SEROUT $%02x\n", chip, data));
 /*TODO*///		if (p->serout_w)
 /*TODO*///			(*p->serout_w)(offs, data);
 /*TODO*///		p->SKSTAT |= SK_SEROUT;
@@ -1209,324 +1376,332 @@ public class pokey extends snd_interface {
 /*TODO*///        /* 10 bits (assumption 1 start, 8 data and 1 stop bit) take how long? */
 /*TODO*///        timer_set(TIME_IN_USEC(2000), chip, pokey_serout_complete);
 /*TODO*///        break;
-/*TODO*///
-/*TODO*///    case IRQEN_C:
-/*TODO*///		LOG((errorlog, "POKEY #%d IRQEN  $%02x\n", chip, data));
-/*TODO*///
-/*TODO*///        /* acknowledge one or more IRQST bits ? */
-/*TODO*///		if( p->IRQST & ~data )
-/*TODO*///        {
-/*TODO*///            /* reset IRQST bits that are masked now */
-/*TODO*///			p->IRQST &= data;
-/*TODO*///        }
-/*TODO*///        else
-/*TODO*///        {
-/*TODO*///			/* enable/disable timers now to avoid unneeded
-/*TODO*///               breaking of the CPU cores for masked timers */
-/*TODO*///			if( p->timer[TIMER1] && ((p->IRQEN^data) & IRQ_TIMR1) )
-/*TODO*///				timer_enable(p->timer[TIMER1], data & IRQ_TIMR1);
-/*TODO*///			if( p->timer[TIMER2] && ((p->IRQEN^data) & IRQ_TIMR2) )
-/*TODO*///				timer_enable(p->timer[TIMER2], data & IRQ_TIMR2);
-/*TODO*///			if( p->timer[TIMER4] && ((p->IRQEN^data) & IRQ_TIMR4) )
-/*TODO*///				timer_enable(p->timer[TIMER4], data & IRQ_TIMR4);
-/*TODO*///        }
-/*TODO*///		/* store irq enable */
-/*TODO*///		p->IRQEN = data;
-/*TODO*///        break;
-/*TODO*///
-/*TODO*///    case SKCTL_C:
-/*TODO*///		if( data == p->SKCTL )
-/*TODO*///            return;
-/*TODO*///		LOG((errorlog, "POKEY #%d SKCTL  $%02x\n", chip, data));
-/*TODO*///		p->SKCTL = data;
-/*TODO*///        if( !(data & SK_RESET) )
-/*TODO*///        {
-/*TODO*///            pokey_register_w(chip, IRQEN_C,  0);
-/*TODO*///            pokey_register_w(chip, SKREST_C, 0);
-/*TODO*///        }
-/*TODO*///        break;
-/*TODO*///    }
-/*TODO*///
-/*TODO*///	/************************************************************
-/*TODO*///	 * As defined in the manual, the exact counter values are
-/*TODO*///	 * different depending on the frequency and resolution:
-/*TODO*///	 *	  64 kHz or 15 kHz - AUDF + 1
-/*TODO*///	 *	  1.79 MHz, 8-bit  - AUDF + 4
-/*TODO*///	 *	  1.79 MHz, 16-bit - AUDF[CHAN1]+256*AUDF[CHAN2] + 7
-/*TODO*///	 ************************************************************/
-/*TODO*///
-/*TODO*///    /* only reset the channels that have changed */
-/*TODO*///
-/*TODO*///    if( ch_mask & (1 << CHAN1) )
-/*TODO*///    {
-/*TODO*///        /* process channel 1 frequency */
-/*TODO*///		if( p->AUDCTL & CH1_HICLK )
-/*TODO*///			new_val = p->AUDF[CHAN1] + DIVADD_HICLK;
-/*TODO*///        else
-/*TODO*///			new_val = (p->AUDF[CHAN1] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d chan1 %d\n", chip, new_val));
-/*TODO*///
-/*TODO*///		p->volume[CHAN1] = (p->AUDC[CHAN1] & VOLUME_MASK) * POKEY_DEFAULT_GAIN;
-/*TODO*///        p->divisor[CHAN1] = new_val;
-/*TODO*///		if( new_val < p->counter[CHAN1] )
-/*TODO*///			p->counter[CHAN1] = new_val;
-/*TODO*///		if( p->interrupt_cb && p->timer[TIMER1] )
-/*TODO*///			timer_reset(p->timer[TIMER1], 1.0 * new_val / intf.baseclock);
-/*TODO*///		p->audible[CHAN1] = !(
-/*TODO*///			(p->AUDC[CHAN1] & VOLUME_ONLY) ||
-/*TODO*///			(p->AUDC[CHAN1] & VOLUME_MASK) == 0 ||
-/*TODO*///			((p->AUDC[CHAN1] & PURE) && new_val < (p->samplerate_24_8 >> 8)));
-/*TODO*///		if( !p->audible[CHAN1] )
-/*TODO*///		{
-/*TODO*///			p->output[CHAN1] = 1;
-/*TODO*///			p->counter[CHAN1] = 0x7fffffff;
-/*TODO*///			/* 50% duty cycle should result in half volume */
-/*TODO*///            p->volume[CHAN1] >>= 1;
-/*TODO*///        }
-/*TODO*///    }
-/*TODO*///
-/*TODO*///    if( ch_mask & (1 << CHAN2) )
-/*TODO*///    {
-/*TODO*///        /* process channel 2 frequency */
-/*TODO*///		if( p->AUDCTL & CH12_JOINED )
-/*TODO*///        {
-/*TODO*///			if( p->AUDCTL & CH1_HICLK )
-/*TODO*///				new_val = p->AUDF[CHAN2] * 256 + p->AUDF[CHAN1] + DIVADD_HICLK_JOINED;
-/*TODO*///            else
-/*TODO*///				new_val = (p->AUDF[CHAN2] * 256 + p->AUDF[CHAN1] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///			LOG_SOUND((errorlog, "POKEY #%d chan1+2 %d\n", chip, new_val));
-/*TODO*///        }
-/*TODO*///        else
-/*TODO*///		{
-/*TODO*///			new_val = (p->AUDF[CHAN2] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///			LOG_SOUND((errorlog, "POKEY #%d chan2 %d\n", chip, new_val));
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		p->volume[CHAN2] = (p->AUDC[CHAN2] & VOLUME_MASK) * POKEY_DEFAULT_GAIN;
-/*TODO*///		p->divisor[CHAN2] = new_val;
-/*TODO*///		if( new_val < p->counter[CHAN2] )
-/*TODO*///			p->counter[CHAN2] = new_val;
-/*TODO*///		if( p->interrupt_cb && p->timer[TIMER2] )
-/*TODO*///			timer_reset(p->timer[TIMER2], 1.0 * new_val / intf.baseclock);
-/*TODO*///		p->audible[CHAN2] = !(
-/*TODO*///			(p->AUDC[CHAN2] & VOLUME_ONLY) ||
-/*TODO*///			(p->AUDC[CHAN2] & VOLUME_MASK) == 0 ||
-/*TODO*///			((p->AUDC[CHAN2] & PURE) && new_val < (p->samplerate_24_8 >> 8)));
-/*TODO*///		if( !p->audible[CHAN2] )
-/*TODO*///		{
-/*TODO*///			p->output[CHAN2] = 1;
-/*TODO*///			p->counter[CHAN2] = 0x7fffffff;
-/*TODO*///			/* 50% duty cycle should result in half volume */
-/*TODO*///			p->volume[CHAN2] >>= 1;
-/*TODO*///        }
-/*TODO*///    }
-/*TODO*///
-/*TODO*///    if( ch_mask & (1 << CHAN3) )
-/*TODO*///    {
-/*TODO*///        /* process channel 3 frequency */
-/*TODO*///		if( p->AUDCTL & CH3_HICLK )
-/*TODO*///			new_val = p->AUDF[CHAN3] + DIVADD_HICLK;
-/*TODO*///        else
-/*TODO*///			new_val = (p->AUDF[CHAN3] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///
-/*TODO*///		LOG_SOUND((errorlog, "POKEY #%d chan3 %d\n", chip, new_val));
-/*TODO*///
-/*TODO*///		p->volume[CHAN3] = (p->AUDC[CHAN3] & VOLUME_MASK) * POKEY_DEFAULT_GAIN;
-/*TODO*///		p->divisor[CHAN3] = new_val;
-/*TODO*///		if( new_val < p->counter[CHAN3] )
-/*TODO*///			p->counter[CHAN3] = new_val;
-/*TODO*///		/* channel 3 does not have a timer associated */
-/*TODO*///		p->audible[CHAN3] = !(
-/*TODO*///			(p->AUDC[CHAN3] & VOLUME_ONLY) ||
-/*TODO*///			(p->AUDC[CHAN3] & VOLUME_MASK) == 0 ||
-/*TODO*///			((p->AUDC[CHAN3] & PURE) && new_val < (p->samplerate_24_8 >> 8))) ||
-/*TODO*///			(p->AUDCTL & CH1_FILTER);
-/*TODO*///		if( !p->audible[CHAN3] )
-/*TODO*///		{
-/*TODO*///			p->output[CHAN3] = 1;
-/*TODO*///			p->counter[CHAN3] = 0x7fffffff;
-/*TODO*///			/* 50% duty cycle should result in half volume */
-/*TODO*///			p->volume[CHAN3] >>= 1;
-/*TODO*///        }
-/*TODO*///    }
-/*TODO*///
-/*TODO*///    if( ch_mask & (1 << CHAN4) )
-/*TODO*///    {
-/*TODO*///        /* process channel 4 frequency */
-/*TODO*///		if( p->AUDCTL & CH34_JOINED )
-/*TODO*///        {
-/*TODO*///			if( p->AUDCTL & CH3_HICLK )
-/*TODO*///				new_val = p->AUDF[CHAN4] * 256 + p->AUDF[CHAN3] + DIVADD_HICLK_JOINED;
-/*TODO*///            else
-/*TODO*///				new_val = (p->AUDF[CHAN4] * 256 + p->AUDF[CHAN3] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///			LOG_SOUND((errorlog, "POKEY #%d chan3+4 %d\n", chip, new_val));
-/*TODO*///        }
-/*TODO*///        else
-/*TODO*///		{
-/*TODO*///			new_val = (p->AUDF[CHAN4] + DIVADD_LOCLK) * p->clockmult;
-/*TODO*///			LOG_SOUND((errorlog, "POKEY #%d chan4 %d\n", chip, new_val));
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		p->volume[CHAN4] = (p->AUDC[CHAN4] & VOLUME_MASK) * POKEY_DEFAULT_GAIN;
-/*TODO*///		p->divisor[CHAN4] = new_val;
-/*TODO*///		if( new_val < p->counter[CHAN4] )
-/*TODO*///			p->counter[CHAN4] = new_val;
-/*TODO*///		if( p->interrupt_cb && p->timer[TIMER4] )
-/*TODO*///			timer_reset(p->timer[TIMER4], 1.0 * new_val / intf.baseclock);
-/*TODO*///		p->audible[CHAN4] = !(
-/*TODO*///			(p->AUDC[CHAN4] & VOLUME_ONLY) ||
-/*TODO*///			(p->AUDC[CHAN4] & VOLUME_MASK) == 0 ||
-/*TODO*///			((p->AUDC[CHAN4] & PURE) && new_val < (p->samplerate_24_8 >> 8))) ||
-/*TODO*///			(p->AUDCTL & CH2_FILTER);
-/*TODO*///		if( !p->audible[CHAN4] )
-/*TODO*///		{
-/*TODO*///			p->output[CHAN4] = 1;
-/*TODO*///			p->counter[CHAN4] = 0x7fffffff;
-/*TODO*///			/* 50% duty cycle should result in half volume */
-/*TODO*///			p->volume[CHAN4] >>= 1;
-/*TODO*///        }
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
+
+            case IRQEN_C:
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d IRQEN  $%02x\n", chip, data);
+                }
+
+                /* acknowledge one or more IRQST bits ? */
+                if ((_pokey[chip].IRQST & ~data) != 0) {
+                    /* reset IRQST bits that are masked now */
+                    _pokey[chip].IRQST = (_pokey[chip].IRQST & data) & 0xFF;
+                } else {
+                    /* enable/disable timers now to avoid unneeded
+                     breaking of the CPU cores for masked timers */
+                    if (_pokey[chip].timer[TIMER1] != null && (((_pokey[chip].IRQEN ^ data) & IRQ_TIMR1) != 0)) {
+                        timer_enable(_pokey[chip].timer[TIMER1], data & IRQ_TIMR1);
+                    }
+                    if (_pokey[chip].timer[TIMER2] != null && (((_pokey[chip].IRQEN ^ data) & IRQ_TIMR2) != 0)) {
+                        timer_enable(_pokey[chip].timer[TIMER2], data & IRQ_TIMR2);
+                    }
+                    if (_pokey[chip].timer[TIMER4] != null && (((_pokey[chip].IRQEN ^ data) & IRQ_TIMR4) != 0)) {
+                        timer_enable(_pokey[chip].timer[TIMER4], data & IRQ_TIMR4);
+                    }
+                }
+                /* store irq enable */
+                _pokey[chip].IRQEN = data & 0xFF;
+                break;
+
+            case SKCTL_C:
+                if (data == _pokey[chip].SKCTL) {
+                    return;
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d SKCTL  $%02x\n", chip, data);
+                }
+                _pokey[chip].SKCTL = data & 0xff;
+                if ((data & SK_RESET) == 0) {
+                    pokey_register_w(chip, IRQEN_C, 0);
+                    pokey_register_w(chip, SKREST_C, 0);
+                }
+                break;
+            default:
+                System.out.println("unsupported");
+                break;
+        }
+
+        /**
+         * **********************************************************
+         * As defined in the manual, the exact counter values are different
+         * depending on the frequency and resolution: 64 kHz or 15 kHz - AUDF +
+         * 1 1.79 MHz, 8-bit - AUDF + 4 1.79 MHz, 16-bit -
+         * AUDF[CHAN1]+256*AUDF[CHAN2] + 7
+         * **********************************************************
+         */
+
+        /* only reset the channels that have changed */
+        if ((ch_mask & (1 << CHAN1)) != 0) {
+            /* process channel 1 frequency */
+            if ((_pokey[chip].AUDCTL & CH1_HICLK) != 0) {
+                new_val = _pokey[chip].AUDF[CHAN1] + DIVADD_HICLK;
+            } else {
+                new_val = (int) ((_pokey[chip].AUDF[CHAN1] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+            }
+
+            if (pokeylog != null) {
+                fprintf(pokeylog, "POKEY #%d chan1 %d\n", chip, new_val);
+            }
+
+            _pokey[chip].volume[CHAN1] = (long) ((_pokey[chip].AUDC[CHAN1] & VOLUME_MASK) * POKEY_DEFAULT_GAIN);
+            _pokey[chip].divisor[CHAN1] = new_val;
+            if (new_val < _pokey[chip].counter[CHAN1]) {
+                _pokey[chip].counter[CHAN1] = new_val;
+            }
+            if (_pokey[chip].interrupt_cb != null && _pokey[chip].timer[TIMER1] != null) {
+                timer_reset(_pokey[chip].timer[TIMER1], 1.0 * new_val / intf.baseclock);
+            }
+            _pokey[chip].audible[CHAN1] = !((_pokey[chip].AUDC[CHAN1] & VOLUME_ONLY) != 0
+                    || (_pokey[chip].AUDC[CHAN1] & VOLUME_MASK) == 0
+                    || ((_pokey[chip].AUDC[CHAN1] & PURE) != 0 && new_val < (_pokey[chip].samplerate_24_8 >> 8)));
+            if (!_pokey[chip].audible[CHAN1]) {
+                _pokey[chip].output[CHAN1] = 1;
+                _pokey[chip].counter[CHAN1] = 0x7fffffff;
+                /* 50% duty cycle should result in half volume */
+                _pokey[chip].volume[CHAN1] >>= 1;
+            }
+        }
+
+        if ((ch_mask & (1 << CHAN2)) != 0) {
+            /* process channel 2 frequency */
+            if ((_pokey[chip].AUDCTL & CH12_JOINED) != 0) {
+                if ((_pokey[chip].AUDCTL & CH1_HICLK) != 0) {
+                    new_val = _pokey[chip].AUDF[CHAN2] * 256 + _pokey[chip].AUDF[CHAN1] + DIVADD_HICLK_JOINED;
+                } else {
+                    new_val = (int) ((_pokey[chip].AUDF[CHAN2] * 256 + _pokey[chip].AUDF[CHAN1] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d chan1+2 %d\n", chip, new_val);
+                }
+            } else {
+                new_val = (int) ((_pokey[chip].AUDF[CHAN2] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d chan2 %d\n", chip, new_val);
+                }
+            }
+
+            _pokey[chip].volume[CHAN2] = (long) ((_pokey[chip].AUDC[CHAN2] & VOLUME_MASK) * POKEY_DEFAULT_GAIN);
+            _pokey[chip].divisor[CHAN2] = new_val;
+            if (new_val < _pokey[chip].counter[CHAN2]) {
+                _pokey[chip].counter[CHAN2] = new_val;
+            }
+            if (_pokey[chip].interrupt_cb != null && _pokey[chip].timer[TIMER2] != null) {
+                timer_reset(_pokey[chip].timer[TIMER2], 1.0 * new_val / intf.baseclock);
+            }
+            _pokey[chip].audible[CHAN2] = !((_pokey[chip].AUDC[CHAN2] & VOLUME_ONLY) != 0
+                    || (_pokey[chip].AUDC[CHAN2] & VOLUME_MASK) == 0
+                    || ((_pokey[chip].AUDC[CHAN2] & PURE) != 0 && new_val < (_pokey[chip].samplerate_24_8 >> 8)));
+            if (!_pokey[chip].audible[CHAN2]) {
+                _pokey[chip].output[CHAN2] = 1;
+                _pokey[chip].counter[CHAN2] = 0x7fffffff;
+                /* 50% duty cycle should result in half volume */
+                _pokey[chip].volume[CHAN2] >>= 1;
+            }
+        }
+
+        if ((ch_mask & (1 << CHAN3)) != 0) {
+            /* process channel 3 frequency */
+            if ((_pokey[chip].AUDCTL & CH3_HICLK) != 0) {
+                new_val = _pokey[chip].AUDF[CHAN3] + DIVADD_HICLK;
+            } else {
+                new_val = (int) ((_pokey[chip].AUDF[CHAN3] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+            }
+
+            if (pokeylog != null) {
+                fprintf(pokeylog, "POKEY #%d chan3 %d\n", chip, new_val);
+            }
+
+            _pokey[chip].volume[CHAN3] = (long) ((_pokey[chip].AUDC[CHAN3] & VOLUME_MASK) * POKEY_DEFAULT_GAIN);
+            _pokey[chip].divisor[CHAN3] = new_val;
+            if (new_val < _pokey[chip].counter[CHAN3]) {
+                _pokey[chip].counter[CHAN3] = new_val;
+            }
+            /* channel 3 does not have a timer associated */
+            _pokey[chip].audible[CHAN3] = !((_pokey[chip].AUDC[CHAN3] & VOLUME_ONLY) != 0
+                    || (_pokey[chip].AUDC[CHAN3] & VOLUME_MASK) == 0
+                    || ((_pokey[chip].AUDC[CHAN3] & PURE) != 0 && new_val < (_pokey[chip].samplerate_24_8 >> 8)))
+                    || (_pokey[chip].AUDCTL & CH1_FILTER) != 0;
+            if (!_pokey[chip].audible[CHAN3]) {
+                _pokey[chip].output[CHAN3] = 1;
+                _pokey[chip].counter[CHAN3] = 0x7fffffff;
+                /* 50% duty cycle should result in half volume */
+                _pokey[chip].volume[CHAN3] >>= 1;
+            }
+        }
+
+        if ((ch_mask & (1 << CHAN4)) != 0) {
+            /* process channel 4 frequency */
+            if ((_pokey[chip].AUDCTL & CH34_JOINED) != 0) {
+                if ((_pokey[chip].AUDCTL & CH3_HICLK) != 0) {
+                    new_val = _pokey[chip].AUDF[CHAN4] * 256 + _pokey[chip].AUDF[CHAN3] + DIVADD_HICLK_JOINED;
+                } else {
+                    new_val = (int) ((_pokey[chip].AUDF[CHAN4] * 256 + _pokey[chip].AUDF[CHAN3] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+                }
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d chan3+4 %d\n", chip, new_val);
+                }
+            } else {
+                new_val = (int) ((_pokey[chip].AUDF[CHAN4] + DIVADD_LOCLK) * _pokey[chip].clockmult);
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d chan4 %d\n", chip, new_val);
+                }
+            }
+
+            _pokey[chip].volume[CHAN4] = (long) ((_pokey[chip].AUDC[CHAN4] & VOLUME_MASK) * POKEY_DEFAULT_GAIN);
+            _pokey[chip].divisor[CHAN4] = new_val;
+            if (new_val < _pokey[chip].counter[CHAN4]) {
+                _pokey[chip].counter[CHAN4] = new_val;
+            }
+            if (_pokey[chip].interrupt_cb != null && _pokey[chip].timer[TIMER4] != null) {
+                timer_reset(_pokey[chip].timer[TIMER4], 1.0 * new_val / intf.baseclock);
+            }
+            _pokey[chip].audible[CHAN4] = !((_pokey[chip].AUDC[CHAN4] & VOLUME_ONLY) != 0
+                    || (_pokey[chip].AUDC[CHAN4] & VOLUME_MASK) == 0
+                    || ((_pokey[chip].AUDC[CHAN4] & PURE) != 0 && new_val < (_pokey[chip].samplerate_24_8 >> 8)))
+                    || (_pokey[chip].AUDCTL & CH2_FILTER) != 0;
+            if (!_pokey[chip].audible[CHAN4]) {
+                _pokey[chip].output[CHAN4] = 1;
+                _pokey[chip].counter[CHAN4] = 0x7fffffff;
+                /* 50% duty cycle should result in half volume */
+                _pokey[chip].volume[CHAN4] >>= 1;
+            }
+        }
+    }
     public static WriteHandlerPtr pokey1_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            //pokey_register_w(0, offset, data);
-            throw new UnsupportedOperationException("Not supported yet.");
+            pokey_register_w(0, offset, data);
         }
     };
     public static WriteHandlerPtr pokey2_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            //pokey_register_w(1, offset, data);
-            throw new UnsupportedOperationException("Not supported yet.");
+            pokey_register_w(1, offset, data);
         }
     };
 
-    /*TODO*///void pokey3_w (int offset,int data)
-/*TODO*///{
-/*TODO*///    pokey_register_w(2,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey4_w (int offset,int data)
-/*TODO*///{
-/*TODO*///    pokey_register_w(3,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void quad_pokey_w (int offset,int data)
-/*TODO*///{
-/*TODO*///    int pokey_num = (offset >> 3) & ~0x04;
-/*TODO*///    int control = (offset & 0x20) >> 2;
-/*TODO*///    int pokey_reg = (offset % 8) | control;
-/*TODO*///
-/*TODO*///    pokey_register_w(pokey_num, pokey_reg, data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey1_serin_ready(int after)
-/*TODO*///{
-/*TODO*///	timer_set(1.0 * after / intf.baseclock, 0, pokey_serin_ready);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey2_serin_ready(int after)
-/*TODO*///{
-/*TODO*///	timer_set(1.0 * after / intf.baseclock, 1, pokey_serin_ready);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey3_serin_ready(int after)
-/*TODO*///{
-/*TODO*///	timer_set(1.0 * after / intf.baseclock, 2, pokey_serin_ready);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey4_serin_ready(int after)
-/*TODO*///{
-/*TODO*///	timer_set(1.0 * after / intf.baseclock, 3, pokey_serin_ready);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey_break_w(int chip, int shift)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    if( shift )                     /* shift code ? */
-/*TODO*///		p->SKSTAT |= SK_SHIFT;
-/*TODO*///	else
-/*TODO*///		p->SKSTAT &= ~SK_SHIFT;
-/*TODO*///	/* check if the break IRQ is enabled */
-/*TODO*///	if( p->IRQEN & IRQ_BREAK )
-/*TODO*///	{
-/*TODO*///		/* set break IRQ status and call back the interrupt handler */
-/*TODO*///		p->IRQST |= IRQ_BREAK;
-/*TODO*///		if( p->interrupt_cb )
-/*TODO*///			(*p->interrupt_cb)(IRQ_BREAK);
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey1_break_w(int shift)
-/*TODO*///{
-/*TODO*///	pokey_break_w(0, shift);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey2_break_w(int shift)
-/*TODO*///{
-/*TODO*///	pokey_break_w(1, shift);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey3_break_w(int shift)
-/*TODO*///{
-/*TODO*///	pokey_break_w(2, shift);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey4_break_w(int shift)
-/*TODO*///{
-/*TODO*///	pokey_break_w(3, shift);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey_kbcode_w(int chip, int kbcode, int make)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    /* make code ? */
-/*TODO*///	if( make )
-/*TODO*///	{
-/*TODO*///		p->KBCODE = kbcode;
-/*TODO*///		p->SKSTAT |= SK_KEYBD;
-/*TODO*///		if( kbcode & 0x40 ) 		/* shift code ? */
-/*TODO*///			p->SKSTAT |= SK_SHIFT;
-/*TODO*///		else
-/*TODO*///			p->SKSTAT &= ~SK_SHIFT;
-/*TODO*///
-/*TODO*///		if( p->IRQEN & IRQ_KEYBD )
-/*TODO*///		{
-/*TODO*///			/* last interrupt not acknowledged ? */
-/*TODO*///			if( p->IRQST & IRQ_KEYBD )
-/*TODO*///				p->SKSTAT |= SK_KBERR;
-/*TODO*///			p->IRQST |= IRQ_KEYBD;
-/*TODO*///			if( p->interrupt_cb )
-/*TODO*///				(*p->interrupt_cb)(IRQ_KEYBD);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		p->KBCODE = kbcode;
-/*TODO*///		p->SKSTAT &= ~SK_KEYBD;
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey1_kbcode_w(int kbcode, int make)
-/*TODO*///{
-/*TODO*///	pokey_kbcode_w(0, kbcode, make);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey2_kbcode_w(int kbcode, int make)
-/*TODO*///{
-/*TODO*///	pokey_kbcode_w(1, kbcode, make);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey3_kbcode_w(int kbcode, int make)
-/*TODO*///{
-/*TODO*///	pokey_kbcode_w(2, kbcode, make);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void pokey4_kbcode_w(int kbcode, int make)
-/*TODO*///{
-/*TODO*///	pokey_kbcode_w(3, kbcode, make);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    /*TODO*///void pokey3_w(int offset, int data) /*TODO*///{
+    /*TODO*///    pokey_register_w(2,offset,data);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey4_w (int offset,int data)
+    /*TODO*///{
+    /*TODO*///    pokey_register_w(3,offset,data);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void quad_pokey_w (int offset,int data)
+    /*TODO*///{
+    /*TODO*///    int pokey_num = (offset >> 3) & ~0x04;
+    /*TODO*///    int control = (offset & 0x20) >> 2;
+    /*TODO*///    int pokey_reg = (offset % 8) | control;
+    /*TODO*///
+    /*TODO*///    pokey_register_w(pokey_num, pokey_reg, data);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey1_serin_ready(int after)
+    /*TODO*///{
+    /*TODO*///	timer_set(1.0 * after / intf.baseclock, 0, pokey_serin_ready);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey2_serin_ready(int after)
+    /*TODO*///{
+    /*TODO*///	timer_set(1.0 * after / intf.baseclock, 1, pokey_serin_ready);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey3_serin_ready(int after)
+    /*TODO*///{
+    /*TODO*///	timer_set(1.0 * after / intf.baseclock, 2, pokey_serin_ready);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey4_serin_ready(int after)
+    /*TODO*///{
+    /*TODO*///	timer_set(1.0 * after / intf.baseclock, 3, pokey_serin_ready);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey_break_w(int chip, int shift)
+    /*TODO*///{
+    /*TODO*///	struct POKEYregisters *p = &pokey[chip];
+    /*TODO*///    if( shift )                     /* shift code ? */
+    /*TODO*///		p->SKSTAT |= SK_SHIFT;
+    /*TODO*///	else
+    /*TODO*///		p->SKSTAT &= ~SK_SHIFT;
+    /*TODO*///	/* check if the break IRQ is enabled */
+    /*TODO*///	if( p->IRQEN & IRQ_BREAK )
+    /*TODO*///	{
+    /*TODO*///		/* set break IRQ status and call back the interrupt handler */
+    /*TODO*///		p->IRQST |= IRQ_BREAK;
+    /*TODO*///		if( p->interrupt_cb )
+    /*TODO*///			(*p->interrupt_cb)(IRQ_BREAK);
+    /*TODO*///    }
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey1_break_w(int shift)
+    /*TODO*///{
+    /*TODO*///	pokey_break_w(0, shift);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey2_break_w(int shift)
+    /*TODO*///{
+    /*TODO*///	pokey_break_w(1, shift);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey3_break_w(int shift)
+    /*TODO*///{
+    /*TODO*///	pokey_break_w(2, shift);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey4_break_w(int shift)
+    /*TODO*///{
+    /*TODO*///	pokey_break_w(3, shift);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey_kbcode_w(int chip, int kbcode, int make)
+    /*TODO*///{
+    /*TODO*///	struct POKEYregisters *p = &pokey[chip];
+    /*TODO*///    /* make code ? */
+    /*TODO*///	if( make )
+    /*TODO*///	{
+    /*TODO*///		p->KBCODE = kbcode;
+    /*TODO*///		p->SKSTAT |= SK_KEYBD;
+    /*TODO*///		if( kbcode & 0x40 ) 		/* shift code ? */
+    /*TODO*///			p->SKSTAT |= SK_SHIFT;
+    /*TODO*///		else
+    /*TODO*///			p->SKSTAT &= ~SK_SHIFT;
+    /*TODO*///
+    /*TODO*///		if( p->IRQEN & IRQ_KEYBD )
+    /*TODO*///		{
+    /*TODO*///			/* last interrupt not acknowledged ? */
+    /*TODO*///			if( p->IRQST & IRQ_KEYBD )
+    /*TODO*///				p->SKSTAT |= SK_KBERR;
+    /*TODO*///			p->IRQST |= IRQ_KEYBD;
+    /*TODO*///			if( p->interrupt_cb )
+    /*TODO*///				(*p->interrupt_cb)(IRQ_KEYBD);
+    /*TODO*///		}
+    /*TODO*///	}
+    /*TODO*///	else
+    /*TODO*///	{
+    /*TODO*///		p->KBCODE = kbcode;
+    /*TODO*///		p->SKSTAT &= ~SK_KEYBD;
+    /*TODO*///    }
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey1_kbcode_w(int kbcode, int make)
+    /*TODO*///{
+    /*TODO*///	pokey_kbcode_w(0, kbcode, make);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey2_kbcode_w(int kbcode, int make)
+    /*TODO*///{
+    /*TODO*///	pokey_kbcode_w(1, kbcode, make);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey3_kbcode_w(int kbcode, int make)
+    /*TODO*///{
+    /*TODO*///	pokey_kbcode_w(2, kbcode, make);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///void pokey4_kbcode_w(int kbcode, int make)
+    /*TODO*///{
+    /*TODO*///	pokey_kbcode_w(3, kbcode, make);
+    /*TODO*///}
+    /*TODO*///
+    /*TODO*///
 }
