@@ -88,6 +88,8 @@ import static drivers.nova2001.*;
 import static drivers.gsword.*;
 import static drivers.stfight.*;
 import static drivers.jrpacman.*;
+import static drivers.WIP.psychic5.*;
+
 
 
 
@@ -675,7 +677,7 @@ public class driver {
 
         
 
-
+        /*psychic5*/driver_psychic5,
         driver_snowbros,
         driver_snowbroa,
         driver_snowbrob,
@@ -2589,7 +2591,7 @@ driver_suprmatk,
 
 /*TODO*/ //	DRIVER( pinbo )		/* (c) 1984 Jaleco */
 /*TODO*/ //	DRIVER( pinbos )	/* (c) 1985 Strike */
-/*TODO*/ //	DRIVER( psychic5 )	/* (c) 1987 Jaleco */
+
 /*TODO*/ //	DRIVER( ginganin )	/* (c) 1987 Jaleco */
 /*TODO*/ //	DRIVER( cischeat )	/* (c) 1990 Jaleco */
 /*TODO*/ //	DRIVER( f1gpstar )	/* (c) 1991 Jaleco */
