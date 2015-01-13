@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cpu.m68000;
 
 import mame.cpuintrfH.cpu_interface;
@@ -11,15 +6,23 @@ import static mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
+import static cpu.m68000.m68000H.*;
 
 public class m68000 extends cpu_interface {
+
+    static int m68k_emulation_initialized = 0;                /* flag if emulation has been initialized */
+    /*TODO*///void         (*m68k_instruction_jump_table[0x10000])(void); /* opcode handler jump table */
+
+    static int[] m68k_clks_left = new int[1];                            /* Number of clocks remaining */
+    /*TODO*///uint         m68k_tracing = 0;
+
 
     public m68000() {
         cpu_num = CPU_M68000;
         num_irqs = 8;
         default_vector = -1;
         overclock = 1.0;
-        //        no_int = MC68000_INT_NONE;
+        no_int = MC68000_INT_NONE;
         irq_int = -1;
         nmi_int = -1;
         address_shift = 0;
@@ -30,13 +33,15 @@ public class m68000 extends cpu_interface {
         abits1 = ABITS1_24;
         abits2 = ABITS2_24;
         abitsmin = ABITS_MIN_24;
-        //        icount = m68k_clks_left;
-        //       m68k_clks_left[0] = 0;
+        icount = m68k_clks_left;
+        m68k_clks_left[0] = 0;
     }
+
+    static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
 
     @Override
     public void reset(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        m68k_pulse_reset(param);
     }
 
     @Override
@@ -51,7 +56,8 @@ public class m68000 extends cpu_interface {
 
     @Override
     public Object init_context() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object reg = new m68k_cpu_core();
+        return reg;
     }
 
     @Override
@@ -156,4 +162,38 @@ public class m68000 extends cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public static void m68k_pulse_reset(Object param) {
+        /*TOD0*///   CPU_HALTED = 0;
+/*TOD0*///   CPU_STOPPED = 0;
+/*TOD0*///   CPU_INT_STATE = 0;	/* ASG: changed from CPU_INTS_PENDING */
+/*TOD0*///   CPU_T1 = CPU_T0 = 0;
+/*TOD0*///   m68ki_clear_trace();
+/*TOD0*///   CPU_S = 1;
+/*TOD0*///   CPU_M = 0;
+/*TOD0*///   CPU_INT_MASK = 7;
+/*TOD0*///   CPU_VBR = 0;
+/*TOD0*///   CPU_A[7] = m68ki_read_32(0);
+/*TOD0*///   m68ki_set_pc(m68ki_read_32(4));
+/*TOD0*///#if M68K_USE_PREFETCH
+/*TOD0*///   CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TOD0*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TOD0*///#endif /* M68K_USE_PREFETCH */
+/*TOD0*///   m68k_clks_left = 0;
+
+        /*TOD0*///   if (CPU_MODE == 0) CPU_MODE = M68K_DEFAULT_CPU_MODE;	/* KW 990319 */
+   /* The first call to this function initializes the opcode handler jump table */
+        if (m68k_emulation_initialized != 0) {
+            return;
+        } else {
+            /*TOD0*///     m68ki_build_opcode_table();
+ /*TOD0*///      m68k_set_int_ack_callback(NULL);
+ /*TOD0*///      m68k_set_bkpt_ack_callback(NULL);
+ /*TOD0*///      m68k_set_reset_instr_callback(NULL);
+ /*TOD0*///      m68k_set_pc_changed_callback(NULL);
+ /*TOD0*///      m68k_set_fc_callback(NULL);
+ /*TOD0*///      m68k_set_instr_hook_callback(NULL);
+
+            m68k_emulation_initialized = 1;
+        }
+    }
 }
