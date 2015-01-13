@@ -8,8 +8,12 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m6800.m6800H.*;
-public class m6800 extends cpu_interface {
+import static arcadeflex.libc_old.*;
 
+public class m6800 extends cpu_interface {
+    
+    public static FILE m6800log=null;//fopen("m6800.log", "wa");  //for debug purposes
+    
     public static int[] m6800_ICount=new int[1];
     
     public m6800()
@@ -71,6 +75,45 @@ public class m6800 extends cpu_interface {
          L = D & 0xFF;
       } 
     };
+    public static class PAIRD
+    {
+      //L = low 16 bits
+      //H = high 16 bits
+      //D = whole 32 bits
+      public long H,L,D;
+      public void SetH(long val) 
+      {
+        H = val;
+        D = (H << 16) | L;
+      }
+      public void SetL(long val) 
+      {
+        L = val;
+        D = (H << 16) | L;
+      }
+      public void SetD(long val)
+      {
+        D = val;
+        H = D >> 16 & 0xFFFF;
+        L = D & 0xFFFF;
+      }
+      public void AddH(long val) 
+      {
+         H = (H + val) & 0xFFFF;
+         D = (H << 16) | L;
+      }
+      public void AddL(long val)
+      {
+         L = (L + val) & 0xFFFF;
+         D = (H << 16) | L;
+      }
+      public void AddD(long val)
+      {
+         D = (D + val) & 0xFFFFFFFFL;
+         H = D >> 16 & 0xFFFF;
+         L = D & 0xFFFF;
+      } 
+    };
     /* 6800 Registers */
     public static class m6800_Regs
     {
@@ -98,14 +141,14 @@ public class m6800 extends cpu_interface {
             public int /*UINT8*/	pending_tcsr;	/* pending IRQ flag for clear IRQflag process */
             public int /*UINT8*/	irq2;			/* IRQ2 flags */
             public int /*UINT8*/	ram_ctrl;
-            public PAIR	counter;		/* free running counter */
-            public PAIR	output_compare;	/* output compare       */
+            public PAIRD	counter;		/* free running counter */
+            public PAIRD	output_compare;	/* output compare       */
             public int /*UINT16*/	input_capture;	/* input capture        */
-            public PAIR	timer_over;
+            public PAIRD	timer_over;
     }   
     public static m6800_Regs m6800 = new m6800_Regs();
     /* point of next timer event */
-    static /*UINT32*/int timer_next;
+    static /*UINT32*/long timer_next;
     
     static int cycles_6800[] =
     {
@@ -178,12 +221,13 @@ public class m6800 extends cpu_interface {
     }
     /* cleanup high-word of counters */
     public void CLEANUP_conters() 
-    {						
-/*TODO*///            OCH -= CTH;									
-/*TODO*///            TOH -= CTH;									
-/*TODO*///            CTH = 0;									
-            SET_TIMRE_EVENT();							
+    {	
+        m6800.output_compare.SetH(m6800.output_compare.H - m6800.counter.H);//OCH -= CTH;
+        m6800.timer_over.SetH(m6800.timer_over.H - m6800.counter.H);//TOH -= CTH;
+        m6800.counter.SetH(0);//CTH = 0;								
+        SET_TIMRE_EVENT();							
     }
+    
     static opcode[] m6800_insn = {
 /*illegal,nop,	illegal,illegal,illegal,illegal,tap,	tpa,
 inx,	dex,	clv,	sev,	clc,	sec,	cli,	sei,
