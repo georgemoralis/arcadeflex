@@ -101,14 +101,14 @@ import static drivers.WIP.cclimber.*;
 import static drivers.WIP.gberet.*;
 import static drivers.WIP.mitchell.*;
 import static drivers.WIP.snk.*;
-import static drivers.WIP.troangel.*;
+import static drivers.troangel.*;
 import static drivers.WIP.ddragon.*;
 import static drivers.WIP.contra.*;
-import static drivers.WIP.travrusa.*;
+import static drivers.travrusa.*;
 import static drivers.WIP.sidepckt.*;
 import static drivers.WIP.vigilant.*;
 import static drivers.WIP.dec8.*;
-import static drivers.WIP.m62.*;
+import static drivers.m62.*;
 import static drivers.WIP.combatsc.*;
 import static drivers.WIP.trackfld.*;
 import static drivers.WIP.jailbrek.*;
@@ -149,7 +149,7 @@ import static drivers.WIP.rallyx.*;
 import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
 import static drivers.WIP.congo.*;
-import static drivers.WIP.skydiver.*;
+import static drivers.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
 import static drivers.WIP.missile.*;
@@ -473,7 +473,27 @@ public class driver {
         /*306*//*stfight*/driver_empcity,
         /*307*//*stfight*/driver_empcityj,
         /*308*//*stfight*/driver_stfight,
-        /*309*//*jrpacman*/driver_jrpacman,
+        /*309*//*jrpacman*/driver_jrpacman,   
+        /*310*//*travrusa*/driver_travrusa,	
+        /*311*//*travrusa*/driver_motorace,	
+        /*312*//*troangel*/ driver_troangel,
+        /* M62 */
+        /*313*//*m62*/driver_kungfum,	
+        /*314*//*m62*/driver_kungfud,	
+        /*315*//*m62*/driver_spartanx,	
+        /*316*//*m62*/driver_kungfub,	
+        /*317*//*m62*/driver_kungfub2,
+        /*318*//*m62*/driver_ldrun,	
+        /*319*//*m62*/driver_ldruna,	
+        /*320*//*m62*/driver_ldrun2,	
+        /*321*//*m62*/driver_ldrun3,	
+        /*322*//*m62*/driver_ldrun4,	
+        /*323*//*m62*/driver_lotlot,	
+        /*324*//*m62*/driver_kidniki,	
+        /*325*//*m62*/driver_yanchamr,	
+        /*326*//*m62*/driver_spelunkr,	
+        /*327*//*m62*/driver_spelunk2,	
+        /*328*//*skydiver*/driver_skydiver,
     
         
         
@@ -500,6 +520,7 @@ public class driver {
         
         /*001*//*_1943*/driver_1943kai,/*background islands doesn't draw properly*/
         /*002*//*sidearms*/driver_dyger, //screen height is too big  
+        /*003*//*m62*/driver_battroad,//screen height is too big
         
         /*
            Sound issues
@@ -670,7 +691,7 @@ public class driver {
          * WIP section
          */
         
-        /*skydiver*/driver_skydiver,//M6800
+        
         /*bublbobl*/driver_bublbobl,//M68705  
         /*bublbobl*/driver_bublbobr,//M68705  
         /*bublbobl*/driver_bubbobr1,//M68705  
@@ -787,27 +808,6 @@ public class driver {
         driver_rallyxm, /* (c) 1980 Midway */
         driver_nrallyx, /* (c) 1981 Namco */
         
-           driver_troangel,	/* (c) 1983 */
-            driver_travrusa,	/* (c) 1983 */
-            driver_motorace,	/* (c) 1983 Williams license */
-	/* M62 */
-            driver_kungfum,	/* (c) 1984 */
-            driver_kungfud,	/* (c) 1984 + Data East license */
-            driver_spartanx,	/* (c) 1984 */
-            driver_kungfub,	/* bootleg */
-            driver_kungfub2,	/* bootleg */
-            driver_battroad,	/* (c) 1984 */
-            driver_ldrun,		/* (c) 1984 licensed from Broderbund */
-            driver_ldruna,	/* (c) 1984 licensed from Broderbund */
-            driver_ldrun2,	/* (c) 1984 licensed from Broderbund */
-            driver_ldrun3,	/* (c) 1985 licensed from Broderbund */
-            driver_ldrun4,	/* (c) 1986 licensed from Broderbund */
-            driver_lotlot,	/* (c) 1985 licensed from Tokuma Shoten */
-            driver_kidniki,	/* (c) 1986 + Data East USA license */
-            driver_yanchamr,	/* (c) 1986 (Japan) */
-            driver_spelunkr,	/* (c) 1985 licensed from Broderbund */
-            driver_spelunk2,	/* (c) 1986 licensed from Broderbund */
-
         driver_vigilant,	/* (c) 1988 (World) */
         driver_vigilntu,	/* (c) 1988 (US) */
         driver_vigilntj,	/* (c) 1988 (Japan) */
