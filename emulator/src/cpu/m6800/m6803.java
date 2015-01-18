@@ -9,8 +9,16 @@ import static mame.memory.*;
 import static cpu.m6800.m6800H.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
+import static mame.cpuintrf.*;
+
 
 public class m6803 extends m6800 {
+
+    public static final int M6803_DDR1 = 0x00;
+    public static final int M6803_DDR2 = 0x01;
+
+    public static final int M6803_PORT1 = 0x100;
+    public static final int M6803_PORT2 = 0x101;
 
     public m6803() {
         cpu_num = CPU_M6803;
@@ -888,4 +896,190 @@ public class m6803 extends m6800 {
                 /*E*/ 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5,
                 /*F*/ 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5
             };
+    public static ReadHandlerPtr m6803_internal_registers_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+	switch (offset)
+	{
+		case 0x00:
+			return m6800.port1_ddr;
+		case 0x01:
+			return m6800.port2_ddr;
+		case 0x02:
+			return (cpu_readport(M6803_PORT1) & (m6800.port1_ddr ^ 0xff))
+					| (m6800.port1_data & m6800.port1_ddr);
+		case 0x03:
+			return (cpu_readport(M6803_PORT2) & (m6800.port2_ddr ^ 0xff))
+					| (m6800.port2_data & m6800.port2_ddr);
+		case 0x04:
+		case 0x05:
+		case 0x06:
+		case 0x07:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read from unsupported internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
+			return 0;
+		case 0x08:
+			m6800.pending_tcsr = 0;
+//if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - read TCSR register\n",cpu_getactivecpu(),cpu_get_pc());
+			return m6800.tcsr;
+		case 0x09:
+			if((m6800.pending_tcsr&TCSR_TOF)==0)
+			{
+				m6800.tcsr &= ~TCSR_TOF;
+				MODIFIED_tcsr();
+			}
+			return (int)(m6800.output_compare.L >>8 & 0xFF);//m6800.output_compare.b.h;
+		case 0x0a:
+			return (int)(m6800.output_compare.L & 0xFF);//m6800.counter.b.l;
+		case 0x0b:
+			if((m6800.pending_tcsr&TCSR_OCF)==0)
+			{
+				m6800.tcsr &= ~TCSR_OCF;
+				MODIFIED_tcsr();
+			}
+			return (int)(m6800.output_compare.L >>8 & 0xFF);//m6800.output_compare.b.h;
+		case 0x0c:
+			if((m6800.pending_tcsr&TCSR_OCF)==0)
+			{
+				m6800.tcsr &= ~TCSR_OCF;
+				MODIFIED_tcsr();
+			}
+			return (int)(m6800.output_compare.L & 0xFF);//m6800.counter.b.l;
+		case 0x0d:
+			if((m6800.pending_tcsr&TCSR_ICF)==0)
+			{
+				m6800.tcsr &= ~TCSR_ICF;
+				MODIFIED_tcsr();
+			}
+			return (m6800.input_capture >> 0) & 0xff;
+		case 0x0e:
+			return (m6800.input_capture >> 8) & 0xff;
+		case 0x0f:
+		case 0x10:
+		case 0x11:
+		case 0x12:
+		case 0x13:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read from unsupported internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
+			return 0;
+		case 0x14:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: read RAM control register\n",cpu_getactivecpu(),cpu_get_pc());
+			return m6800.ram_ctrl;
+		case 0x15:
+		case 0x16:
+		case 0x17:
+		case 0x18:
+		case 0x19:
+		case 0x1a:
+		case 0x1b:
+		case 0x1c:
+		case 0x1d:
+		case 0x1e:
+		case 0x1f:
+		default:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - read from reserved internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),offset);
+			return 0;
+	}
+}};
+static int latch09;
+public static WriteHandlerPtr m6803_internal_registers_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+	
+
+	switch (offset)
+	{
+		case 0x00:
+			if (m6800.port1_ddr != data)
+			{
+				m6800.port1_ddr = data;
+				cpu_writeport(M6803_PORT1,(m6800.port1_data & m6800.port1_ddr)
+						| (0xff ^ m6800.port1_ddr));
+			}
+			break;
+		case 0x01:
+			if (m6800.port2_ddr != data)
+			{
+				m6800.port2_ddr = data;
+				cpu_writeport(M6803_PORT2,(m6800.port2_data & m6800.port2_ddr)
+						| (0xff ^ m6800.port2_ddr));
+if (errorlog!=null && (m6800.port2_ddr & 2)!=0) fprintf(errorlog,"CPU #%d PC %04x: warning - port 2 bit 1 set as output (OLVL) - not supported\n",cpu_getactivecpu(),cpu_get_pc());
+			}
+			break;
+		case 0x02:
+			m6800.port1_data = data;
+			cpu_writeport(M6803_PORT1,(m6800.port1_data & m6800.port1_ddr)
+					| (0xff ^ m6800.port1_ddr));
+			break;
+		case 0x03:
+			m6800.port2_data = data;
+			cpu_writeport(M6803_PORT2,(m6800.port2_data & m6800.port2_ddr)
+					| (0xff ^ m6800.port2_ddr));
+			break;
+		case 0x04:
+		case 0x05:
+		case 0x06:
+		case 0x07:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unsupported internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+			break;
+		case 0x08:
+			m6800.tcsr = data;
+			m6800.pending_tcsr &= m6800.tcsr;
+			MODIFIED_tcsr();
+			if( (m6800.cc & 0x10)==0 )
+				CHECK_IRQ2();
+//if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: TCSR = %02x\n",cpu_getactivecpu(),cpu_get_pc(),data);
+			break;
+		case 0x09:
+			latch09 = data & 0xff;	/* 6301 only */
+			m6800.counter.SetL(0xfff8);
+			m6800.timer_over.SetL(m6800.counter.H);
+			MODIFIED_counters();
+			break;
+		case 0x0a:	/* 6301 only */
+			m6800.counter.SetL((latch09 << 8) | (data & 0xff));
+			m6800.timer_over.SetL(m6800.counter.H);
+			MODIFIED_counters();
+			break;
+		case 0x0b:
+			if( (m6800.output_compare.L >>8 & 0xFF) != data)
+			{
+				m6800.output_compare.SetLH(data);
+				MODIFIED_counters();
+			}
+			break;
+		case 0x0c:
+			if( (m6800.output_compare.L & 0xFF) != data)
+			{
+				m6800.output_compare.SetLL(data);
+				MODIFIED_counters();
+			}
+			break;
+		case 0x0d:
+		case 0x0e:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to read only internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+			break;
+		case 0x0f:
+		case 0x10:
+		case 0x11:
+		case 0x12:
+		case 0x13:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unsupported internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+			break;
+		case 0x14:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: write %02x to RAM control register\n",cpu_getactivecpu(),cpu_get_pc(),data);
+			m6800.ram_ctrl = data;
+			break;
+		case 0x15:
+		case 0x16:
+		case 0x17:
+		case 0x18:
+		case 0x19:
+		case 0x1a:
+		case 0x1b:
+		case 0x1c:
+		case 0x1d:
+		case 0x1e:
+		case 0x1f:
+		default:
+if (errorlog!=null) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to reserved internal register %02x\n",cpu_getactivecpu(),cpu_get_pc(),data,offset);
+			break;
+	}
+}};
 }

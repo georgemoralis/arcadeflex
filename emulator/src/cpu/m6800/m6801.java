@@ -14,11 +14,12 @@ import static mame.memory.*;
 import static cpu.m6800.m6800H.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
+import static mame.cpuintrf.*;
 
-public class m6808 extends m6800 {
-
-    public m6808() {
-        cpu_num = CPU_M6808;
+public class m6801 extends m6803
+{
+    public m6801() {
+        cpu_num = CPU_M6801;
         num_irqs = 1;
         default_vector = 0;
         overclock = 1.0;
@@ -36,11 +37,10 @@ public class m6808 extends m6800 {
         icount = m6800_ICount;
         icount[0] = 50000;
     }
-
     public String cpu_info(Object context, int regnum) {
         switch (regnum) {
             case CPU_INFO_NAME:
-                return "M6808";
+                return "M6801";
             case CPU_INFO_FAMILY:
                 return "Motorola 6800";
             case CPU_INFO_VERSION:

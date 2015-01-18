@@ -92,6 +92,16 @@ public class m6800 extends cpu_interface {
             L = val;
             D = (H << 16) | L;
         }
+        public void SetLL(long val)//insure recheck
+        {
+            L = ((L << 8)&0xFF) | (val&0xFF);
+            D = (H << 16) | L;
+        }
+        public void SetLH(long val)//insure recheck
+        {
+            L = ((val << 8)&0xFF) | (L&0xFF);
+            D = (H << 16) | L;
+        }
 
         public void SetD(long val) {
             D = val;
@@ -341,11 +351,11 @@ public class m6800 extends cpu_interface {
         m6800.cc |= (((a ^ b ^ r ^ (r >> 1)) & 0x8000) >> 14);
     }
 
-    public int RM(int addr) {
+    public static int RM(int addr) {
         return (cpu_readmem16(addr) & 0xFF);
     }
 
-    public void WM(int addr, int value) {
+    public static void WM(int addr, int value) {
         cpu_writemem16(addr, value);
     }
 
@@ -357,13 +367,13 @@ public class m6800 extends cpu_interface {
         return cpu_readop_arg(addr);
     }
 
-    int RM16(int addr) {
+    static int RM16(int addr) {
         int i = RM(addr + 1 & 0xFFFF);
         i |= RM(addr) << 8;
         return i;
     }
 
-    void WM16(int addr, int reg) {
+    static void WM16(int addr, int reg) {
         WM(addr + 1 & 0xFFFF, reg & 0xFF);
         WM(addr, reg >> 8);
     }
@@ -388,27 +398,27 @@ public class m6800 extends cpu_interface {
         return reg;
     }
 
-    public void PUSHBYTE(int w)//WM(SD,b); --S
+    public static void PUSHBYTE(int w)//WM(SD,b); --S
     {
         WM(m6800.s, w);
         m6800.s = m6800.s - 1 & 0xFFFF;
 
     }
 
-    public void PUSHWORD(int w)//WM(SD,w.b.l); --S; WM(SD,w.b.h); --S
+    public static void PUSHWORD(int w)//WM(SD,w.b.l); --S; WM(SD,w.b.h); --S
     {
         WM(m6800.s, w & 0xFF);
         m6800.s = m6800.s - 1 & 0xFFFF;
         WM(m6800.s, w >> 8);
         m6800.s = m6800.s - 1 & 0xFFFF;
     }
-    public int PULLBYTE()//S++; b = RM(SD)
+    public static int PULLBYTE()//S++; b = RM(SD)
     {
         m6800.s = m6800.s +1 & 0xFFFF;
         int b = RM(m6800.s);      
         return b;
     }
-    public int PULLWORD()//S++; w.d = RM(SD)<<8; S++; w.d |= RM(SD)
+    public static int PULLWORD()//S++; w.d = RM(SD)<<8; S++; w.d |= RM(SD)
     {
         m6800.s = m6800.s +1 & 0xFFFF; 
         int w = RM(m6800.s)<<8;
@@ -418,7 +428,7 @@ public class m6800 extends cpu_interface {
         return w;
     }
 
-    public void CHANGE_PC() {
+    public static void CHANGE_PC() {
         change_pc16(m6800.pc & 0xFFFF);//ensure it's 16bit just in case
     }
     /* macros to set status flags */
@@ -463,7 +473,7 @@ public class m6800 extends cpu_interface {
         m6800.cc &= 0xdf;
     }
 
-    public void SEI() {
+    public static void SEI() {
         m6800.cc |= 0x10;
     }
 
@@ -544,12 +554,16 @@ public class m6800 extends cpu_interface {
     public static final int TCSR_OCF = 0x40;
     public static final int TCSR_ICF = 0x80;
 
-    public void MODIFIED_tcsr() {
+    public static void MODIFIED_tcsr() {
         m6800.irq2 = (m6800.tcsr & (m6800.tcsr << 3)) & (TCSR_ICF | TCSR_OCF | TCSR_TOF);
     }
 
-    public void SET_TIMRE_EVENT() {
+    public static void SET_TIMRE_EVENT() {
         timer_next = (m6800.output_compare.D < m6800.timer_over.D) ? m6800.output_compare.D : m6800.timer_over.D;
+    }
+    public static void MODIFIED_counters() {						
+	m6800.output_compare.SetH((m6800.output_compare.L >= m6800.counter.L) ? m6800.counter.H : m6800.counter.H+1);				
+	SET_TIMRE_EVENT();							
     }
     /* cleanup high-word of counters */
 
@@ -608,28 +622,28 @@ public class m6800 extends cpu_interface {
     }
     /* take interrupt */
 
-    public void TAKE_ICI() {
+    public static void TAKE_ICI() {
         ENTER_INTERRUPT("M6800#%d take ICI\n", 0xfff6);
     }
 
-    public void TAKE_OCI() {
+    public static void TAKE_OCI() {
         ENTER_INTERRUPT("M6800#%d take OCI\n", 0xfff4);
     }
 
-    public void TAKE_TOI() {
+    public static void TAKE_TOI() {
         ENTER_INTERRUPT("M6800#%d take TOI\n", 0xfff2);
     }
 
-    public void TAKE_SCI() {
+    public static void TAKE_SCI() {
         ENTER_INTERRUPT("M6800#%d take SCI\n", 0xfff0);
     }
 
-    public void TAKE_TRAP() {
+    public static void TAKE_TRAP() {
         ENTER_INTERRUPT("M6800#%d take TRAP\n", 0xffee);
     }
     /* IRQ enter */
 
-    void ENTER_INTERRUPT(String message, int irq_vector) {
+    public static void ENTER_INTERRUPT(String message, int irq_vector) {
         //LOG((errorlog, message, cpu_getactivecpu()));
         if ((m6800.wai_state & (M6800_WAI | M6800_SLP)) != 0) {
             if ((m6800.wai_state & M6800_WAI) != 0) {
@@ -676,7 +690,7 @@ public class m6800 extends cpu_interface {
     }
     /* check IRQ2 (internal irq) */
 
-    public void CHECK_IRQ2() {
+    public static void CHECK_IRQ2() {
         if ((m6800.irq2 & (TCSR_ICF | TCSR_OCF | TCSR_TOF)) != 0) {
             if ((m6800.irq2 & TCSR_ICF) != 0) {
                 TAKE_ICI();
@@ -1588,8 +1602,34 @@ public class m6800 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_line(int irqline, int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void set_irq_line(int irqline, int state) {
+	int eddge;
+
+	if (m6800.irq_state[irqline] == state) return;
+	//LOG((errorlog, "M6800#%d set_irq_line %d,%d\n", cpu_getactivecpu(), irqline, state));
+	m6800.irq_state[irqline] = state;
+
+	switch(irqline)
+	{
+	case M6800_IRQ_LINE:
+		if (state == CLEAR_LINE) return;
+		break;
+	case M6800_TIN_LINE:
+		eddge = (state == CLEAR_LINE ) ? 2 : 0;
+		if( ((m6800.tcsr&TCSR_IEDG) ^ (state==CLEAR_LINE ? TCSR_IEDG : 0))==0 )
+			return;
+		/* active eddge in */
+		m6800.tcsr |= TCSR_ICF;
+		m6800.pending_tcsr |= TCSR_ICF;
+		m6800.input_capture = (int)m6800.counter.L;
+		MODIFIED_tcsr();
+		if( (m6800.cc & 0x10)==0 )
+			CHECK_IRQ2();
+		break;
+	default:
+		return;
+	}
+	CHECK_IRQ_LINES(); /* HJB 990417 */
     }
 
     @Override
@@ -3109,13 +3149,10 @@ public opcode aba = new opcode() {
     /* $98 EORA direct -**0- */
     public opcode eora_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t;
-            /*TODO*///DIRBYTE(t);
-            /*TODO*///A ^= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(A);
-            
-            throw new UnsupportedOperationException("Unsupported");
+            int t=DIRBYTE();
+            m6800.a ^= t;
+            CLR_NZV();
+            SET_NZ8(m6800.a);
         }
     };
 
@@ -3271,12 +3308,12 @@ public opcode aba = new opcode() {
     /* $a4 ANDA indexed -**0- */
     public opcode anda_ix = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t;
-            /*TODO*///IDXBYTE(t);
-            /*TODO*///A &= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(A);
-            throw new UnsupportedOperationException("Unsupported");
+            /*UINT8*/int t;
+            t=IDXBYTE();
+            m6800.a &= t;
+            CLR_NZV();
+            SET_NZ8(m6800.a);
+            
         }
     };
 
@@ -3867,12 +3904,10 @@ public opcode aba = new opcode() {
     /* $d4 ANDB direct -**0- */
     public opcode andb_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t;
-            /*TODO*///DIRBYTE(t);
-            /*TODO*///B &= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(B);
-            throw new UnsupportedOperationException("Unsupported");
+            int t=DIRBYTE();
+            m6800.b &= t; //TODO should be unsigned?
+            CLR_NZV();
+            SET_NZ8(m6800.b);
         }
     };
 
@@ -3959,21 +3994,21 @@ public opcode aba = new opcode() {
     /* $dc LDD direct -**0- */
     public opcode ldd_di = new opcode() {
         public void handler() {
-            /*TODO*///DIRWORD(m6808.d);
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(D);
-            throw new UnsupportedOperationException("Unsupported");
+            int temp=	DIRWORD();
+            setDreg(temp);
+            CLR_NZV();
+            SET_NZ16(temp);
         }
     };
 
     /* $dd STD direct -**0- */
     public opcode std_di = new opcode() {
         public void handler() {
-            /*TODO*///DIRECT;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(D);
-            /*TODO*///WM16(EAD,  & m6808.d);
-            throw new UnsupportedOperationException("Unsupported");
+            DIRECT();
+            CLR_NZV();
+            int temp = getDreg();
+            SET_NZ16(temp);   
+            WM16(ea,temp);
         }
     };
 
