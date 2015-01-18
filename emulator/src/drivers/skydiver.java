@@ -2,7 +2,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package drivers.WIP;
+package drivers;
 
 import arcadeflex.libc.UByte;
 import static mame.driverH.*;
@@ -11,8 +11,6 @@ import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
-import static mame.sndintrf.*;
-import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static vidhrdw.skydiver.*;
 import static mame.inputportH.*;
@@ -277,7 +275,7 @@ public class skydiver {
                 0x00, 0x01, /* used only to draw the SKYDIVER LEDs */};
     public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
         public void handler(UByte[] game_palette, char[] game_colortable, UBytePtr color_prom) {
-                //memcpy(game_palette,palette,sizeof(palette));
+            //memcpy(game_palette,palette,sizeof(palette));
             //memcpy(game_colortable,colortable,sizeof(colortable));
             for (int i = 0; i < palette.length; i++) {
                 game_palette[i].set((char) palette[i]);
