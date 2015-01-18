@@ -3889,15 +3889,14 @@ public opcode aba = new opcode() {
     /* $d3 ADDD direct -**** */
     public opcode addd_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///DIRWORD(b);
-            /*TODO*///d = D;
-            /*TODO*///r = d + b.d;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS16(d, b.d, r);
-            /*TODO*///D = r;
-            throw new UnsupportedOperationException("Unsupported");
+            /*UINT32*/int r, d;
+            int b;
+            b=DIRWORD();
+            d = getDreg();
+            r = d + b;
+            CLR_NZVC();
+            SET_FLAGS16(d, b, r);
+            setDreg(r);   
         }
     };
 
