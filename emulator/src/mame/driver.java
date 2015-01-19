@@ -89,9 +89,8 @@ import static drivers.gsword.*;
 import static drivers.stfight.*;
 import static drivers.jrpacman.*;
 import static drivers.WIP.psychic5.*;
-
-
-
+import static drivers.mpatrol.*;
+import static drivers.yard.*;
 
 /*
   WIP Drivers
@@ -494,6 +493,12 @@ public class driver {
         /*326*//*m62*/driver_spelunkr,	
         /*327*//*m62*/driver_spelunk2,	
         /*328*//*skydiver*/driver_skydiver,
+        /*329*//*mpatrol*/driver_mpatrol,
+        /*330*//*mpatrol*/driver_mpatrolw,
+        /*331*//*mpatrol*/driver_mranger,      
+        /*332*//*yard*/driver_yard,
+        /*333*//*yard*/driver_vsyard,
+        /*334*//*yard*/driver_vsyard2,
     
         
         
@@ -1370,14 +1375,7 @@ public class driver {
 	/* Irem games */
 	/* trivia: IREM means "International Rental Electronics Machines" */
 /*TODO*/ //	DRIVER( skychut )	/* (c) [1980] */
-/*TODO*/ //	DRIVER( mpatrol )	/* (c) 1982 */
-/*TODO*/ //	DRIVER( mpatrolw )	/* (c) 1982 + Williams license */
-/*TODO*/ //	DRIVER( mranger )	/* bootleg */
-            
-/*TODO*/ //	DRIVER( yard )		/* (c) 1983 */
-/*TODO*/ //	DRIVER( vsyard )	/* (c) 1983/1984 */
-/*TODO*/ //	DRIVER( vsyard2 )	/* (c) 1983/1984 */
- 
+        
 	/* M72 (and derivatives) */
 /*TODO*/ //	DRIVER( rtype )		/* (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( rtypeu )	/* (c) 1987 + Nintendo USA license (US) */

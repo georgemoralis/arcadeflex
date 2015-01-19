@@ -329,6 +329,12 @@ yanchamr m62.c      Z80      [M6803 ]                                           
 spelunkr m62.c      Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       Spelunker
 spelunk2 m62.c      Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       Spelunker II
 skydiver skydiver.c M6800                                                                                                                               Sky Diver
+mpatrol  mpatrol.c  Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       Moon Patrol
+mpatrolw mpatrol.c  Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       Moon Patrol (Williams)
+mranger  mpatrol.c  Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       Moon Ranger
+yard     yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight
+vsyard   yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight (Vs. version 11/05/84)
+vsyard2  yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight (Vs. version, set 2)
 
 
 Small issues that doesn't affect playable status
