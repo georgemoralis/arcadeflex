@@ -347,6 +347,9 @@ atetrisa atetris.c  M6502                                                       
 atetrisb atetris.c  M6502                                                                   2xPokey                                                     Tetris (bootleg) -no nvram support
 atetcktl atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 1) -no nvram support , screen needs to be a bit right
 atetckt2 atetris.c  M6502                                                                   2xPokey                                                     Tetris (Cocktail set 2) -no nvram support, screen needs to be a bit right
+rallyx   rallyx.c   Z80                                                                     Namco       Samples                                         Rally X   -no samples support
+rallyxm  rallyx.c   Z80                                                                     Namco       Samples                                         Rally X (Midway)   -no samples support
+nrallyx  rallyx.c   Z80                                                                     Namco       Samples                                         New Rally X   -no samples support
 
 Probably CPU bugs
 -------------------------------

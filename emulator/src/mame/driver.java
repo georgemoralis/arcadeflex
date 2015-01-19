@@ -513,7 +513,9 @@ public class driver {
         /*006*//*atetris*/driver_atetrisb,//no nvram support
         /*007*//*atetris*/driver_atetcktl,//no nvram support ,screen needs to be a bit righter
         /*008*//*atetris*/driver_atetckt2,//no nvram support ,screen needs to be a bit righter
-        
+        /*009*//*rallyx*/driver_rallyx,//no samples support
+        /*010*//*rallyx*/driver_rallyx,//no samples support
+        /*011*//*rallyx*/driver_nrallyx,//no samples support
         /*
           Possible cpu bugs
         */
@@ -809,9 +811,7 @@ public class driver {
         driver_swimmera,/* (c) 1982 Tehkan */
         driver_guzzler,	/* (c) 1983 Tehkan */
         
-        driver_rallyx,/* (c) 1980 Namco */
-        driver_rallyxm, /* (c) 1980 Midway */
-        driver_nrallyx, /* (c) 1981 Namco */
+
         
         driver_vigilant,	/* (c) 1988 (World) */
         driver_vigilntu,	/* (c) 1988 (US) */

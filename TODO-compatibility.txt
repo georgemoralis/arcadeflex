@@ -113,9 +113,6 @@ tankbatt tankbatt.c M6502                                                       
 warpwarp warpwarp.c 8080                                                                    Custom                                                      Warp & Warp
 warpwarr warpwarp.c 8080                                                                    Custom                                                      Warp Warp (Rock-ola set 1)
 warpwar2 warpwarp.c 8080                                                                    Custom                                                      Warp Warp (Rock-ola set 2)
-rallyx   rallyx.c   Z80                                                                     Namco       Samples                                         Rally X
-rallyxm  rallyx.c   Z80                                                                     Namco       Samples                                         Rally X (Midway)
-nrallyx  rallyx.c   Z80                                                                     Namco       Samples                                         New Rally X
 bosco    bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (new version)
 boscoo   bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (old version)
 boscomd  bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (Midway, new version)
