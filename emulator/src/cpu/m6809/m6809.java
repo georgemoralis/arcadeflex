@@ -1293,7 +1293,7 @@ public class m6809 extends cpu_interface
     	case 0x98: ea=IMMBYTE(); 	ea=m6809.x+(byte)ea & 0xFFFF;	ea=RM16(ea);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0x99: IMMWORD(ea); 	EA+=X;				EAD=RM16(EAD);	m6809_ICount-=7;   break;
     /*TODO*///	case 0x9a: EA=0;																   break; /*   ILLEGAL*/
-    /*TODO*///	case 0x9b: EA=X+D;								EAD=RM16(EAD);	m6809_ICount-=7;   break;
+    	case 0x9b: ea=m6809.x+getDreg();								ea=RM16(ea);	m6809_ICount[0]-=7;   break;
     /*TODO*///	case 0x9c: IMMBYTE(EA); 	EA=PC+SIGNED(EA);	EAD=RM16(EAD);	m6809_ICount-=4;   break;
     /*TODO*///	case 0x9d: IMMWORD(ea); 	EA+=PC; 			EAD=RM16(EAD);	m6809_ICount-=8;   break;
     /*TODO*///	case 0x9e: EA=0;																   break; /*   ILLEGAL*/

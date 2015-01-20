@@ -152,6 +152,7 @@ import static drivers.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
 import static drivers.WIP.missile.*;
+import static drivers.WIP.yiear.*;
 
 
 
@@ -516,6 +517,8 @@ public class driver {
         /*009*//*rallyx*/driver_rallyx,//no samples support
         /*010*//*rallyx*/driver_rallyx,//no samples support
         /*011*//*rallyx*/driver_nrallyx,//no samples support
+        /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
+        /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*
           Possible cpu bugs
         */
@@ -2124,8 +2127,7 @@ public class driver {
 /*TODO*/ //	DRIVER( sbasketb )	/* GX405 (c) 1984 */
         
 
-/*TODO*/ //	DRIVER( yiear )		/* GX407 (c) 1985 */
-/*TODO*/ //	DRIVER( yiear2 )	/* GX407 (c) 1985 */
+
 
         
 

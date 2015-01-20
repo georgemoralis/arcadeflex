@@ -350,6 +350,8 @@ atetckt2 atetris.c  M6502                                                       
 rallyx   rallyx.c   Z80                                                                     Namco       Samples                                         Rally X   -no samples support
 rallyxm  rallyx.c   Z80                                                                     Namco       Samples                                         Rally X (Midway)   -no samples support
 nrallyx  rallyx.c   Z80                                                                     Namco       Samples                                         New Rally X   -no samples support
+yiear    yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 1) - vlm5030 has issues so it's disabled atm
+yiear2   yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 2) - vlm5030 has issues so it's disabled atm
 
 Probably CPU bugs
 -------------------------------

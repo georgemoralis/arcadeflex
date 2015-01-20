@@ -1004,8 +1004,6 @@ hpolym84 hyperspt.c M6809    [Z80   ]                                           
 sbasketb sbasketb.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Super Basketball
 roadf    hyperspt.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Road Fighter (set 1)
 roadf2   hyperspt.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Road Fighter (set 2)
-yiear    yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 1)
-yiear2   yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 2)
 gberet   gberet.c   Z80                                                                     1xSN76496                                                   Green Beret
 rushatck gberet.c   Z80                                                                     1xSN76496                                                   Rush'n Attack
 gberetb  gberet.c   Z80                                                                     1xSN76496                                                   Green Beret (bootleg)
