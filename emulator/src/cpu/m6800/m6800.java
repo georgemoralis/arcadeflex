@@ -2670,28 +2670,26 @@ public opcode aba = new opcode() {
     /* $71 AIM --**0- */ /* HD63701YO only */
     public opcode aim_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t, r;
-            /*TODO*///IMMBYTE(t);
-            /*TODO*///DIRBYTE(r);
-            /*TODO*///r &= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(r);
-            /*TODO*///WM(EAD, r);
-            throw new UnsupportedOperationException("Unsupported");
+            int t, r;
+            t=IMMBYTE();
+            r=DIRBYTE();
+            r &= t;
+            CLR_NZV();
+            SET_NZ8(r);
+            WM(ea, r);
         }
     };
 
     /* $72 OIM --**0- */ /* HD63701YO only */
     public opcode oim_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t, r;
-            /*TODO*///IMMBYTE(t);
-            /*TODO*///DIRBYTE(r);
-            /*TODO*///r |= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(r);
-            /*TODO*///WM(EAD, r);
-            throw new UnsupportedOperationException("Unsupported");
+            int t, r;
+            t=IMMBYTE();
+            r=DIRBYTE();
+            r |= t;
+            CLR_NZV();
+            SET_NZ8(r);
+            WM(ea, r);
         }
     };
 
@@ -2894,15 +2892,14 @@ public opcode aba = new opcode() {
     /* $83 SUBD immediate -**** */
     public opcode subd_im = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///IMMWORD(b);
-            /*TODO*///d = D;
-            /*TODO*///r = d - b.d;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS16(d, b.d, r);
-            /*TODO*///D = r;
-            throw new UnsupportedOperationException("Unsupported");
+            int r, d;
+            int b;
+            b=IMMWORD();
+            d = getDreg();
+            r = d - b;
+            CLR_NZVC();
+            SET_FLAGS16(d, b, r);
+            setDreg(r);
         }
     };
 
@@ -3011,14 +3008,14 @@ public opcode aba = new opcode() {
     /* $8c CPX immediate -**** (6803) */
     public opcode cpx_im = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///IMMWORD(b);
-            /*TODO*///d = X;
-            /*TODO*///r = d - b.d;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS16(d, b.d, r);
-            throw new UnsupportedOperationException("Unsupported");
+            int r, d;
+            int b;
+            b=IMMWORD();
+            d = m6800.x;
+            r = d - b;
+            CLR_NZVC();
+            SET_FLAGS16(d, b, r);
+            
         }
     };
 
@@ -3057,13 +3054,13 @@ public opcode aba = new opcode() {
     /* $90 SUBA direct ?**** */
     public opcode suba_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT16 t, r;
-            /*TODO*///DIRBYTE(t);
-            /*TODO*///r = A - t;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS8(A, t, r);
-            /*TODO*///A = r;
-            throw new UnsupportedOperationException("Unsupported");
+            /*UINT16*/int t, r;
+            t=DIRBYTE();
+            r = (m6800.a - t)&0xFFFF;
+            CLR_NZVC();
+            SET_FLAGS8(m6800.a, t, r);
+            m6800.a = r &0xFF;
+            
         }
     };
 
@@ -3212,14 +3209,13 @@ public opcode aba = new opcode() {
     /* $9c CPX direct -**** (6803) */
     public opcode cpx_di = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///DIRWORD(b);
-            /*TODO*///d = X;
-            /*TODO*///r = d - b.d;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS16(d, b.d, r);
-            throw new UnsupportedOperationException("Unsupported");
+            /*UINT32*/int r, d;
+            int b;
+            b=DIRWORD();
+            d = m6800.x;
+            r = d - b;
+            CLR_NZVC();
+            SET_FLAGS16(d, b, r);
         }
     };
 
@@ -3429,21 +3425,19 @@ public opcode aba = new opcode() {
     /* $ad JSR indexed ----- */
     public opcode jsr_ix = new opcode() {
         public void handler() {
-            /*TODO*///INDEXED;
-            /*TODO*///PUSHWORD(pPC);
-            /*TODO*///PC = EA;
-            /*TODO*///CHANGE_PC();
-            throw new UnsupportedOperationException("Unsupported");
+            INDEXED();
+            PUSHWORD(m6800.pc);
+            m6800.pc = ea;
+            CHANGE_PC();
         }
     };
 
     /* $ae LDS indexed -**0- */
     public opcode lds_ix = new opcode() {
         public void handler() {
-            /*TODO*///IDXWORD(m6808.s);
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(S);
-            throw new UnsupportedOperationException("Unsupported");
+           m6800.s= IDXWORD();
+            CLR_NZV();
+            SET_NZ16(m6800.s);
         }
     };
 
@@ -3585,26 +3579,24 @@ public opcode aba = new opcode() {
     /* $ba ORA extended -**0- */
     public opcode ora_ex = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t;
-            /*TODO*///EXTBYTE(t);
-            /*TODO*///A |= t;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ8(A);
-            throw new UnsupportedOperationException("Unsupported");
+            int t=EXTBYTE();
+            m6800.a |= t;
+            CLR_NZV();
+            SET_NZ8(m6800.a);
+            
         }
     };
 
     /* $bb ADDA extended ***** */
     public opcode adda_ex = new opcode() {
         public void handler() {
-            /*TODO*///UINT16 t, r;
-            /*TODO*///EXTBYTE(t);
-            /*TODO*///r = A + t;
-            /*TODO*///CLR_HNZVC;
-            /*TODO*///SET_FLAGS8(A, t, r);
-            /*TODO*///SET_H(A, t, r);
-            /*TODO*///A = r;
-            throw new UnsupportedOperationException("Unsupported");
+            int t, r;
+            t=EXTBYTE();
+            r = (m6800.a + t)&0xFFFF;
+            CLR_HNZVC();
+            SET_FLAGS8(m6800.a, t, r);
+            SET_H(m6800.a, t, r);
+            m6800.a = r & 0xFF;
         }
     };
 
@@ -3810,10 +3802,10 @@ public opcode aba = new opcode() {
     /* $CC LDD immediate -**0- */
     public opcode ldd_im = new opcode() {
         public void handler() {
-            /*TODO*///IMMWORD(m6808.d);
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(D);
-            throw new UnsupportedOperationException("Unsupported");
+            int tmp =IMMWORD();
+            setDreg(tmp);
+            CLR_NZV();
+            SET_NZ16(tmp);
         }
     };
 
@@ -4071,15 +4063,15 @@ public opcode aba = new opcode() {
     /* $e3 ADDD indexed -**** */
     public opcode addd_ix = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///IDXWORD(b);
-            /*TODO*///d = D;
-            /*TODO*///r = d + b.d;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS16(d, b.d, r);
-            /*TODO*///D = r;
-            throw new UnsupportedOperationException("Unsupported");
+            int r, d;
+            int b;
+            b=IDXWORD();
+            d = getDreg();
+            r = d + b;
+            CLR_NZVC();
+            SET_FLAGS16(d, b, r);
+            setDreg(r);
+            
         }
     };
 

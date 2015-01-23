@@ -26,7 +26,7 @@ import cpu.m6800.m6801;
 import cpu.m6800.m6802;
 import cpu.m6800.m6803;
 import cpu.m6800.m6808;
-
+import cpu.m6800.hd63701;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -223,7 +223,7 @@ public class cpuintrf {
 	new m6802(),/*TODO*///CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new m6803(),/*TODO*///CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new m6808(),/*TODO*///CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-	new Dummy_cpu(),/*TODO*///CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
+	new hd63701(),/*TODO*///CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
@@ -1443,9 +1443,7 @@ public class cpuintrf {
     		case CPU_M6802: 			irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6802 IRQ\n"); break;
     		case CPU_M6803: 			irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6803 IRQ\n"); break;
    		case CPU_M6808: 			irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M6808 IRQ\n"); break;
-
-    /*TODO*///#if (HAS_HD63701)
-    /*TODO*///			case CPU_HD63701:			irq_line = 0; LOG((errorlog,"HD63701 IRQ\n")); break;
+                case CPU_HD63701:			irq_line = 0; if(errorlog!=null) fprintf(errorlog,"HD63701 IRQ\n"); break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_M6805)
     /*TODO*///			case CPU_M6805: 			irq_line = 0; LOG((errorlog,"M6805 IRQ\n")); break;

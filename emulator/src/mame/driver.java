@@ -153,7 +153,7 @@ import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
 import static drivers.WIP.missile.*;
 import static drivers.WIP.yiear.*;
-
+import static drivers.WIP.pacland.*;
 
 
 public class driver {
@@ -1077,10 +1077,10 @@ public class driver {
 /*TODO*/ //	DRIVER( poleps2b )	/* bootleg */
 /*TODO*/ //	DRIVER( poleps2c )	/* bootleg */
 	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
-/*TODO*/ //	DRIVER( pacland )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( pacland2 )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( pacland3 )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( paclandm )	/* (c) 1984 Midway */
+driver_pacland,
+driver_pacland2,
+driver_pacland3,
+driver_paclandm,
 /*TODO*/ //	DRIVER( drgnbstr )	/* (c) 1984 */
 /*TODO*/ //	DRIVER( skykid )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( baraduke )	/* (c) 1985 */
