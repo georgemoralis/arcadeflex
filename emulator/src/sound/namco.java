@@ -133,7 +133,6 @@ public class namco extends snd_interface {
             {
                 int f = channel_list[voice].frequency;
                 int v = channel_list[voice].volume[0];
-                System.out.println("f=" + f + " v= "+v);
                 mix = new UShortPtr(mixer_buffer);
 
                 if (channel_list[voice].noise_sw != 0) {
