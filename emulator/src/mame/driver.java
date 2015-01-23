@@ -154,6 +154,7 @@ import static drivers.WIP.vendetta.*;
 import static drivers.WIP.missile.*;
 import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
+import static drivers.WIP.skykid.*;
 
 
 public class driver {
@@ -1081,8 +1082,8 @@ driver_pacland,
 driver_pacland2,
 driver_pacland3,
 driver_paclandm,
-/*TODO*/ //	DRIVER( drgnbstr )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( skykid )	/* (c) 1985 */
+driver_drgnbstr,
+driver_skykid,
 /*TODO*/ //	DRIVER( baraduke )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( metrocrs )	/* (c) 1985 */
 
