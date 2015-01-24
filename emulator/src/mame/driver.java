@@ -540,6 +540,10 @@ public class driver {
         /*001*//*tecmo*/driver_rygar,	//- crashes ADPCM in generate_adpcm
         /*002*//*tecmo*/driver_rygar2,	//- crashes ADPCM in generate_adpcm
         /*003*//*tecmo*/driver_rygarj,	//- crashes ADPCM in generate_adpcm
+        /*004*//*pacland*/driver_pacland, //no sound at all , namco sound doesn't work
+        /*005*//*pacland*/driver_pacland2,//no sound at all , namco sound doesn't work
+        /*006*//*pacland*/driver_pacland3,//no sound at all , namco sound doesn't work
+        /*007*//*pacland*/driver_paclandm,//no sound at all , namco sound doesn't work
         
         /* controls issues
         
@@ -1078,12 +1082,9 @@ public class driver {
 /*TODO*/ //	DRIVER( poleps2b )	/* bootleg */
 /*TODO*/ //	DRIVER( poleps2c )	/* bootleg */
 	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
-driver_pacland,
-driver_pacland2,
-driver_pacland3,
-driver_paclandm,
-driver_drgnbstr,
-driver_skykid,
+
+/*skykid*/driver_drgnbstr,
+/*skykid*/driver_skykid,
 /*TODO*/ //	DRIVER( baraduke )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( metrocrs )	/* (c) 1985 */
 

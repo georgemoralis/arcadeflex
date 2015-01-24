@@ -143,12 +143,9 @@ polepos2 polepos.c  Z80      Z8002    Z8002                                     
 poleps2a polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position II (Atari)
 poleps2b polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position II (Atari bootleg 1)
 poleps2c polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position II (Atari bootleg 2)
-pacland  pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 1)
-pacland2 pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 2)
-pacland3 pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 3)
-paclandm pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (Midway)
-drgnbstr skykid.c   M6809    HD63701                                                        Namco                                                       Dragon Buster
-skykid   skykid.c   M6809    HD63701                                                        Namco                                                       Sky Kid
+
+
+
 baraduke baraduke.c M6809    HD63701                                                        Namco                                                       Baraduke
 metrocrs baraduke.c M6809    HD63701                                                        Namco                                                       Metro-Cross
 hopmappy namcos86.c M6809    M6809    HD63701                                               1xYM-2151   Namco       Samples     Custom                  Hopping Mappy

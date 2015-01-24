@@ -356,7 +356,7 @@ yiear2   yiear.c    M6809                                                       
 Probably CPU bugs
 -------------------------------
 001)lizwiz   pacman.c   Z80                                                                     Namco                                                       Lizard Wizard   - reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
-
+002)skykid   skykid.c   M6809    HD63701                                                        Namco                                                       Sky Kid - freezes before going ingame cpu bug?
 
 GFX isssues
 ==========
@@ -370,7 +370,11 @@ Sound issues
 001)rygar    tecmo.c    Z80      [Z80   ]                                                       1xYM-3812   1xADPCM                                         Rygar (US set 1)   - crashes ADPCM in generate_adpcm
 002)rygar2   tecmo.c    Z80      [Z80   ]                                                       1xYM-3812   1xADPCM                                         Rygar (US set 2) - crashes ADPCM in generate_adpcm
 003)rygarj   tecmo.c    Z80      [Z80   ]                                                       1xYM-3812   1xADPCM                                         Argus no Senshi (Japan) - crashes ADPCM in generate_adpcm
-
+004)pacland  pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 1) //no sound at all , namco sound doesn't work
+005)pacland2 pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 2) //no sound at all , namco sound doesn't work
+006)pacland3 pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 3) //no sound at all , namco sound doesn't work
+007)paclandm pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (Midway) //no sound at all , namco sound doesn't work
+008)drgnbstr skykid.c   M6809    HD63701                                                        Namco                                                       Dragon Buster//no sound at all , namco sound doesn't work
 
 Control issues
 =============
