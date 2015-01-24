@@ -524,6 +524,7 @@ public class driver {
           Possible cpu bugs
         */
         /*001*//*pacman*/driver_lizwiz,//reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
+        /*002*//*skykid*/driver_skykid,//Freezes before going ingame cpu bug?
         
         /* GFX issues
         
@@ -544,6 +545,7 @@ public class driver {
         /*005*//*pacland*/driver_pacland2,//no sound at all , namco sound doesn't work
         /*006*//*pacland*/driver_pacland3,//no sound at all , namco sound doesn't work
         /*007*//*pacland*/driver_paclandm,//no sound at all , namco sound doesn't work
+        /*008*//*skykid*/driver_drgnbstr,//no sound at all , namco sound doesn't work
         
         /* controls issues
         
@@ -1083,8 +1085,7 @@ public class driver {
 /*TODO*/ //	DRIVER( poleps2c )	/* bootleg */
 	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
 
-/*skykid*/driver_drgnbstr,
-/*skykid*/driver_skykid,
+
 /*TODO*/ //	DRIVER( baraduke )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( metrocrs )	/* (c) 1985 */
 

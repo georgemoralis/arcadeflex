@@ -3427,7 +3427,7 @@ public opcode aba = new opcode() {
         public void handler() {
             INDEXED();
             PUSHWORD(m6800.pc);
-            m6800.pc = ea;
+            m6800.pc = ea & 0xFFFF;
             CHANGE_PC();
         }
     };
