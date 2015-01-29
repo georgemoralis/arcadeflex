@@ -155,6 +155,7 @@ import static drivers.WIP.missile.*;
 import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
+import static drivers.WIP.baraduke.*;
 
 
 public class driver {
@@ -1086,8 +1087,8 @@ public class driver {
 	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
 
 
-/*TODO*/ //	DRIVER( baraduke )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( metrocrs )	/* (c) 1985 */
+driver_baraduke,	/* (c) 1985 */
+driver_metrocrs,	/* (c) 1985 */
 
 	/* Namco System 86 games */
 /*TODO*/ //	DRIVER( hopmappy )	/* (c) 1986 */
