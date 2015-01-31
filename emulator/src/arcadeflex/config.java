@@ -429,6 +429,7 @@ public class config {
             /*TODO*///	options.color_depth = atoi(tmpstr);
             /*TODO*///	if (options.color_depth != 8 && options.color_depth != 16) options.color_depth = 0;	/* auto */
             /*TODO*///
+                        options.color_depth=8;
             /*TODO*///	skiplines   = get_int    ("config", "skiplines",    NULL, 0);
             /*TODO*///	skipcolumns = get_int    ("config", "skipcolumns",  NULL, 0);
             /*TODO*///	f_beam      = get_float  ("config", "beam",         NULL, 1.0);

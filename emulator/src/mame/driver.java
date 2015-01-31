@@ -502,6 +502,8 @@ public class driver {
         /*332*//*yard*/driver_yard,
         /*333*//*yard*/driver_vsyard,
         /*334*//*yard*/driver_vsyard2,
+        /*335*//*snk*/driver_athena,
+        /*336*//*snk*/driver_ftsoccer,
     
         
         
@@ -829,7 +831,7 @@ public class driver {
         driver_vigilntj,	/* (c) 1988 (Japan) */
         driver_kikcubic,	/* (c) 1988 (Japan) */
                 
-        driver_athena,	        /*       'UP' (c) 1986 */
+
         driver_ikari,		/* A5004 'IW' (c) 1986 */
         driver_ikarijp,         /* A5004 'IW' (c) 1986 (Japan) */
         driver_ikarijpb,	/* bootleg */
@@ -847,7 +849,7 @@ public class driver {
         driver_psychosj,	/*       'PS' (c) 1987 (Japan) */
         driver_chopper,         /* A7003 'KK' (c) 1988 */
         driver_legofair,	/* A7003 'KK' (c) 1988 */
-        driver_ftsoccer,	/*            (c) 1988 */
+        
         
         
         

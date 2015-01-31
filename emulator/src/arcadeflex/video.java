@@ -1557,46 +1557,45 @@ public class video {
     /*TODO*///		Machine->uifont->colortable[3] = makecol(0x00,0x00,0x00);
         } else {
             if (scrbitmap.depth == 8 && totalcolors >= 255) {
-                throw new UnsupportedOperationException("osd_allocatecolors");
-                /*TODO*///			int bestblack,bestwhite;
-    /*TODO*///			int bestblackscore,bestwhitescore;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			bestblack = bestwhite = 0;
-    /*TODO*///			bestblackscore = 3*255*255;
-    /*TODO*///			bestwhitescore = 0;
-    /*TODO*///			for (i = 0;i < totalcolors;i++)
-    /*TODO*///			{
-    /*TODO*///				int r,g,b,score;
-    /*TODO*///
-    /*TODO*///				r = palette[3*i+0];
-    /*TODO*///				g = palette[3*i+1];
-    /*TODO*///				b = palette[3*i+2];
-    /*TODO*///				score = r*r + g*g + b*b;
-    /*TODO*///
-    /*TODO*///				if (score < bestblackscore)
-    /*TODO*///				{
-    /*TODO*///					bestblack = i;
-    /*TODO*///					bestblackscore = score;
-    /*TODO*///				}
-    /*TODO*///				if (score > bestwhitescore)
-    /*TODO*///				{
-    /*TODO*///					bestwhite = i;
-    /*TODO*///					bestwhitescore = score;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			for (i = 0;i < totalcolors;i++)
-    /*TODO*///				pens[i] = i;
-    /*TODO*///
-    /*TODO*///			/* map black to pen 0, otherwise the screen border will not be black */
-    /*TODO*///			pens[bestblack] = 0;
-    /*TODO*///			pens[0] = bestblack;
-    /*TODO*///
-    /*TODO*///			Machine->uifont->colortable[0] = pens[bestblack];
-    /*TODO*///			Machine->uifont->colortable[1] = pens[bestwhite];
-    /*TODO*///			Machine->uifont->colortable[2] = pens[bestwhite];
-    /*TODO*///			Machine->uifont->colortable[3] = pens[bestblack];
+                int bestblack,bestwhite;
+    			int bestblackscore,bestwhitescore;
+    
+    
+    			bestblack = bestwhite = 0;
+    			bestblackscore = 3*255*255;
+    			bestwhitescore = 0;
+    			for (i = 0;i < totalcolors;i++)
+    			{
+    				int r,g,b,score;
+    
+    				r = palette[3*i+0].read();
+    				g = palette[3*i+1].read();
+    				b = palette[3*i+2].read();
+    				score = r*r + g*g + b*b;
+    
+    				if (score < bestblackscore)
+    				{
+    					bestblack = i;
+    					bestblackscore = score;
+    				}
+    				if (score > bestwhitescore)
+    				{
+    					bestwhite = i;
+    					bestwhitescore = score;
+    				}
+    			}
+    
+    			for (i = 0;i < totalcolors;i++)
+    				pens[i] = (char)i;
+    
+    			/* map black to pen 0, otherwise the screen border will not be black */
+    			pens[bestblack] = 0;
+    			pens[0] = (char)bestblack;
+    
+    			Machine.uifont.colortable.write(0,pens[bestblack]);
+    			Machine.uifont.colortable.write(1,pens[bestwhite]);
+    			Machine.uifont.colortable.write(2,pens[bestwhite]);
+    			Machine.uifont.colortable.write(3,pens[bestblack]);
             } else {
                 /* reserve color 1 for the user interface text */
                 current_palette.write(3 * 1 + 0, 0xff);

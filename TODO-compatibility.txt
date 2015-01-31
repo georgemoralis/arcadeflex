@@ -1294,7 +1294,6 @@ vangrd2  marvins.c  Z80      Z80      [Z80   ]                                  
 hal21    hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21
 hal21j   hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21 (Japan)
 aso      hal21.c    Z80      Z80      [Z80   ]                                              1xYM-3526                                                   ASO - Armored Scrum Object
-athena   snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Athena
 ikari    snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (US)
 ikarijp  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan)
 ikarijpb snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan bootleg)
@@ -1312,7 +1311,6 @@ psychos  snk.c      Z80      Z80      [Z80   ]                                  
 psychosj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (Japan)
 chopper  snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Chopper I
 legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
-ftsoccer snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   Fighting Soccer
 ikari3   snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Ikari III - The Rescue
 pow      snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         P.O.W. - Prisoners of War (US)
 powj     snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Datsugoku - Prisoners of War (Japan)

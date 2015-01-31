@@ -52,6 +52,10 @@ public class palette {
     /*TODO*////* helper macro for 16-bit mode */
     /*TODO*///#define rgbpenindex(r,g,b) ((Machine->scrbitmap->depth==16) ? ((((r)>>3)<<10)+(((g)>>3)<<5)+((b)>>3)) : ((((r)>>5)<<5)+(((g)>>5)<<2)+((b)>>6)))
     /*TODO*///
+    static int rgbpenindex(int r, int g, int b)
+        {
+            return ((Machine.scrbitmap.depth == 16) ? ((((r) >> 3) << 10) + (((g) >> 3) << 5) + ((b) >> 3)) : ((((r) >> 5) << 5) + (((g) >> 5) << 2) + ((b) >> 6)));
+        }
     /*TODO*///
     /*TODO*///unsigned short *palette_shadow_table;
     /*TODO*///unsigned short *palette_highlight_table;
@@ -327,59 +331,59 @@ public class palette {
     
     		case STATIC_16BIT:
     		{
-                    throw new UnsupportedOperationException("palette_init() STATIC_16BIT unimplemented");
-    /*TODO*///			unsigned char *p = shrinked_palette;
-    /*TODO*///			int r,g,b;
-    /*TODO*///
-    /*TODO*///			if (Machine->scrbitmap->depth == 16)
-    /*TODO*///			{
-    /*TODO*///				for (r = 0;r < 32;r++)
-    /*TODO*///				{
-    /*TODO*///					for (g = 0;g < 32;g++)
-    /*TODO*///					{
-    /*TODO*///						for (b = 0;b < 32;b++)
-    /*TODO*///						{
-    /*TODO*///							*p++ = (r << 3) | (r >> 2);
-    /*TODO*///							*p++ = (g << 3) | (g >> 2);
-    /*TODO*///							*p++ = (b << 3) | (b >> 2);
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				if (osd_allocate_colors(32768,shrinked_palette,shrinked_pens,0))
-    /*TODO*///					return 1;
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				for (r = 0;r < 8;r++)
-    /*TODO*///				{
-    /*TODO*///					for (g = 0;g < 8;g++)
-    /*TODO*///					{
-    /*TODO*///						for (b = 0;b < 4;b++)
-    /*TODO*///						{
-    /*TODO*///							*p++ = (r << 5) | (r << 2) | (r >> 1);
-    /*TODO*///							*p++ = (g << 5) | (g << 2) | (g >> 1);
-    /*TODO*///							*p++ = (b << 6) | (b << 4) | (b << 2) | b;
-    /*TODO*///						}
-    /*TODO*///					}
-    /*TODO*///				}
-    /*TODO*///
-    /*TODO*///				if (osd_allocate_colors(256,shrinked_palette,shrinked_pens,0))
-    /*TODO*///					return 1;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///			{
-    /*TODO*///				r = game_palette[3*i + 0];
-    /*TODO*///				g = game_palette[3*i + 1];
-    /*TODO*///				b = game_palette[3*i + 2];
-    /*TODO*///
-    /*TODO*///				Machine->pens[i] = shrinked_pens[rgbpenindex(r,g,b)];
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			palette_transparent_pen = shrinked_pens[0];	/* we are forced to use black for the transparent pen */
+                    UByte[] p =shrinked_palette;//unsigned char *p = shrinked_palette;
+                    int p_ptr=0;
+    			int r,g,b;
+    
+    			if (Machine.scrbitmap.depth == 16)
+    			{
+    				for (r = 0;r < 32;r++)
+    				{
+    					for (g = 0;g < 32;g++)
+    					{
+    						for (b = 0;b < 32;b++)
+    						{
+    							p[p_ptr++].set((char)((r << 3) | (r >> 2)));
+    							p[p_ptr++].set((char)((g << 3) | (g >> 2)));
+    							p[p_ptr++].set((char)((b << 3) | (b >> 2)));
+    						}
+    					}
+    				}
+    
+    				if (osd_allocate_colors(32768,shrinked_palette,shrinked_pens,0)!=0)
+    					return 1;
+    			}
+    			else
+    			{
+    				for (r = 0;r < 8;r++)
+    				{
+    					for (g = 0;g < 8;g++)
+    					{
+    						for (b = 0;b < 4;b++)
+    						{
+    							p[p_ptr++].set((char)((r << 5) | (r << 2) | (r >> 1)));
+    							p[p_ptr++].set((char)((g << 5) | (g << 2) | (g >> 1)));
+    							p[p_ptr++].set((char)((b << 6) | (b << 4) | (b << 2) | b));
+    						}
+    					}
+    				}
+    
+    				if (osd_allocate_colors(256,shrinked_palette,shrinked_pens,0)!=0)
+    					return 1;
+    			}
+    
+    			for (i = 0;i < Machine.drv.total_colors;i++)
+    			{
+    				r = game_palette[3*i + 0].read();
+    				g = game_palette[3*i + 1].read();
+    				b = game_palette[3*i + 2].read();
+    
+    				Machine.pens[i] = shrinked_pens[rgbpenindex(r,g,b)];
+    			}
+    
+    			palette_transparent_pen = shrinked_pens[0];	/* we are forced to use black for the transparent pen */
     		}
-    /*TODO*///		break;
+    		break;
     
     		case PALETTIZED_16BIT:
     		{
@@ -423,42 +427,42 @@ public class palette {
     /*TODO*///
     	return 0;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///INLINE void palette_change_color_16_static(int color,unsigned char red,unsigned char green,unsigned char blue)
-    /*TODO*///{
-    /*TODO*///	if (color == palette_transparent_color)
-    /*TODO*///	{
-    /*TODO*///		int i;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///		palette_transparent_pen = shrinked_pens[rgbpenindex(red,green,blue)];
-    /*TODO*///
-    /*TODO*///		if (color == -1) return;	/* by default, palette_transparent_color is -1 */
-    /*TODO*///
-    /*TODO*///		for (i = 0;i < Machine->drv->total_colors;i++)
-    /*TODO*///		{
-    /*TODO*///			if ((old_used_colors[i] & (PALETTE_COLOR_VISIBLE | PALETTE_COLOR_TRANSPARENT_FLAG))
-    /*TODO*///					== (PALETTE_COLOR_VISIBLE | PALETTE_COLOR_TRANSPARENT_FLAG))
-    /*TODO*///				old_used_colors[i] |= PALETTE_COLOR_NEEDS_REMAP;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (	game_palette[3*color + 0] == red &&
-    /*TODO*///			game_palette[3*color + 1] == green &&
-    /*TODO*///			game_palette[3*color + 2] == blue)
-    /*TODO*///		return;
-    /*TODO*///
-    /*TODO*///	game_palette[3*color + 0] = red;
-    /*TODO*///	game_palette[3*color + 1] = green;
-    /*TODO*///	game_palette[3*color + 2] = blue;
-    /*TODO*///
-    /*TODO*///	if (old_used_colors[color] & PALETTE_COLOR_VISIBLE)
-    /*TODO*///		/* we'll have to reassign the color in palette_recalc() */
-    /*TODO*///		old_used_colors[color] |= PALETTE_COLOR_NEEDS_REMAP;
-    /*TODO*///}
-    /*TODO*///
+    
+    
+    
+    public static void palette_change_color_16_static(int color,int red,int green,int blue)
+    {
+    	if (color == palette_transparent_color)
+    	{
+    		int i;
+    
+    
+    		palette_transparent_pen = shrinked_pens[rgbpenindex(red,green,blue)];
+    
+    		if (color == -1) return;	/* by default, palette_transparent_color is -1 */
+    
+    		for (i = 0;i < Machine.drv.total_colors;i++)
+    		{
+    			if ((old_used_colors.read(i) & (PALETTE_COLOR_VISIBLE | PALETTE_COLOR_TRANSPARENT_FLAG))
+    					== (PALETTE_COLOR_VISIBLE | PALETTE_COLOR_TRANSPARENT_FLAG))
+    				old_used_colors.write(i,old_used_colors.read(i) | PALETTE_COLOR_NEEDS_REMAP);
+    		}
+    	}
+    
+    	if (	game_palette[3*color + 0].read() == red &&
+    			game_palette[3*color + 1].read() == green &&
+    			game_palette[3*color + 2].read() == blue)
+    		return;
+    
+    	game_palette[3*color + 0].set((char)red);
+    	game_palette[3*color + 1].set((char)green);
+    	game_palette[3*color + 2].set((char)blue);
+    
+    	if ((old_used_colors.read(color) & PALETTE_COLOR_VISIBLE)!=0)
+    		/* we'll have to reassign the color in palette_recalc() */
+    		old_used_colors.write(color,old_used_colors.read(color) | PALETTE_COLOR_NEEDS_REMAP);
+    }
+    
     /*TODO*///INLINE void palette_change_color_16_palettized(int color,unsigned char red,unsigned char green,unsigned char blue)
     /*TODO*///{
     /*TODO*///	if (color == palette_transparent_color)
@@ -541,9 +545,8 @@ public class palette {
     			palette_change_color_8(color,red,green,blue);
     			break;
     		case STATIC_16BIT:
-                             throw new UnsupportedOperationException("palette change color");
-    /*TODO*///			palette_change_color_16_static(color,red,green,blue);
-    /*TODO*///			break;
+                        palette_change_color_16_static(color,red,green,blue);
+                        break;
     		case PALETTIZED_16BIT:
                             throw new UnsupportedOperationException("palette change color");
     /*TODO*///			palette_change_color_16_palettized(color,red,green,blue);
@@ -738,60 +741,61 @@ public class palette {
     	return saved;
     }
     
-    /*TODO*///
-    /*TODO*///static const unsigned char *palette_recalc_16_static(void)
-    /*TODO*///{
-    /*TODO*///	int i,color;
-    /*TODO*///	int did_remap = 0;
-    /*TODO*///	int need_refresh = 0;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	memset(just_remapped,0,Machine->drv->total_colors * sizeof(unsigned char));
-    /*TODO*///
-    /*TODO*///	for (color = 0;color < Machine->drv->total_colors;color++)
-    /*TODO*///	{
-    /*TODO*///		/* the comparison between palette_used_colors and old_used_colors also includes */
-    /*TODO*///		/* PALETTE_COLOR_NEEDS_REMAP which might have been set by palette_change_color() */
-    /*TODO*///		if ((palette_used_colors[color] & PALETTE_COLOR_VISIBLE) &&
-    /*TODO*///				palette_used_colors[color] != old_used_colors[color])
-    /*TODO*///		{
-    /*TODO*///			int r,g,b;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///			did_remap = 1;
-    /*TODO*///			if (old_used_colors[color] & palette_used_colors[color] & PALETTE_COLOR_CACHED)
-    /*TODO*///			{
-    /*TODO*///				/* the color was and still is cached, we'll have to redraw everything */
-    /*TODO*///				need_refresh = 1;
-    /*TODO*///				just_remapped[color] = 1;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (palette_used_colors[color] & PALETTE_COLOR_TRANSPARENT_FLAG)
-    /*TODO*///				Machine->pens[color] = palette_transparent_pen;
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				r = game_palette[3*color + 0];
-    /*TODO*///				g = game_palette[3*color + 1];
-    /*TODO*///				b = game_palette[3*color + 2];
-    /*TODO*///
-    /*TODO*///				Machine->pens[color] = shrinked_pens[rgbpenindex(r,g,b)];
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		old_used_colors[color] = palette_used_colors[color];
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (did_remap)
-    /*TODO*///	{
-    /*TODO*///		/* rebuild the color lookup table */
-    /*TODO*///		for (i = 0;i < Machine->drv->color_table_len;i++)
-    /*TODO*///			Machine->remapped_colortable[i] = Machine->pens[Machine->game_colortable[i]];
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	if (need_refresh) return just_remapped;
-    /*TODO*///	else return 0;
-    /*TODO*///}
+    public static UBytePtr palette_recalc_16_static()
+    {
+    	int i,color;
+    	int did_remap = 0;
+    	int need_refresh = 0;
+    
+    
+    	//memset(just_remapped,0,Machine->drv->total_colors * sizeof(unsigned char));
+        for (int mem = 0; mem < Machine.drv.total_colors; mem++) 
+                    just_remapped.write(mem,0);
+    
+    	for (color = 0;color < Machine.drv.total_colors;color++)
+    	{
+    		/* the comparison between palette_used_colors and old_used_colors also includes */
+    		/* PALETTE_COLOR_NEEDS_REMAP which might have been set by palette_change_color() */
+    		if ((palette_used_colors.read(color) & PALETTE_COLOR_VISIBLE)!=0 &&
+    				palette_used_colors.read(color) != old_used_colors.read(color))
+    		{
+    			int r,g,b;
+    
+    
+    			did_remap = 1;
+    			if ((old_used_colors.read(color) & palette_used_colors.read(color) & PALETTE_COLOR_CACHED)!=0)
+    			{
+    				/* the color was and still is cached, we'll have to redraw everything */
+    				need_refresh = 1;
+    				just_remapped.write(color,1);
+    			}
+    
+    			if ((palette_used_colors.read(color) & PALETTE_COLOR_TRANSPARENT_FLAG)!=0)
+    				Machine.pens[color] = palette_transparent_pen;
+    			else
+    			{
+    				r = game_palette[3*color + 0].read();
+    				g = game_palette[3*color + 1].read();
+    				b = game_palette[3*color + 2].read();
+    
+    				Machine.pens[color] = shrinked_pens[rgbpenindex(r,g,b)];
+    			}
+    		}
+    
+    		old_used_colors.write(color,palette_used_colors.read(color));
+    	}
+    
+    
+    	if (did_remap!=0)
+    	{
+    		/* rebuild the color lookup table */
+    		for (i = 0;i < Machine.drv.color_table_len;i++)
+    			Machine.remapped_colortable[i] = Machine.pens[Machine.game_colortable[i]];
+    	}
+    
+    	if (need_refresh!=0) return just_remapped;
+    	else return null;
+    }
     /*TODO*///
     /*TODO*///static const unsigned char *palette_recalc_16_palettized(void)
     /*TODO*///{
@@ -1199,8 +1203,7 @@ public class palette {
     		default:
     			return palette_recalc_8();
     		case STATIC_16BIT:
-                    throw new UnsupportedOperationException("palette_recalc unimplemented");
-    /*TODO*///			return palette_recalc_16_static();
+                        return palette_recalc_16_static();
     		case PALETTIZED_16BIT:
                     throw new UnsupportedOperationException("palette_recalc unimplemented");
     /*TODO*///			return palette_recalc_16_palettized();

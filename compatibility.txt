@@ -335,6 +335,8 @@ mranger  mpatrol.c  Z80      [M6803 ]                                           
 yard     yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight
 vsyard   yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight (Vs. version 11/05/84)
 vsyard2  yard.c     Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       10 Yard Fight (Vs. version, set 2)
+athena   snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Athena
+ftsoccer snk.c      Z80      Z80      [Z80   ]                                              1xYM-3526                                                   Fighting Soccer
 
 
 Small issues that doesn't affect playable status
