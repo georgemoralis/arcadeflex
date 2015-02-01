@@ -102,7 +102,11 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 else if(Machine.gamedrv.name.equals("tdfever")|| Machine.gamedrv.name.equals("tdfeverj"))
                 {
                     localGraphics2D.drawImage(this._image, this._insets.left+(int)(i*0.03), this._insets.top, i, j, null);
-                }               
+                } 
+                else if(Machine.gamedrv.source_file.equals("srumbler.java"))
+                {
+                    localGraphics2D.drawImage(this._image, this._insets.left-(int)(i*0.035), this._insets.top, i+(int)(i*0.07),j, null);
+                }
                 else 
                 {
                     localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
@@ -153,6 +157,10 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                     {
                         super.setSize(width*2+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);             
                     }
+                }
+                else if(Machine.gamedrv.source_file.equals("srumbler.java"))
+                {
+                    super.setSize(width*2+ this._insets.left + this._insets.right, height+(int)(height*0.50) + this._insets.top + this._insets.bottom); 
                 }
                 else{
                     super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             

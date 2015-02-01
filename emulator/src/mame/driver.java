@@ -505,6 +505,9 @@ public class driver {
         /*334*//*yard*/driver_vsyard2,
         /*335*//*snk*/driver_athena,
         /*336*//*snk*/driver_ftsoccer,
+        /*337*//*srumbler*/driver_srumbler,
+        /*338*//*srumbler*/driver_srumblr2,
+        /*339*//*srumbler*/driver_rushcrsh,
     
         
         
@@ -1630,12 +1633,7 @@ driver_metrocrs,	/* (c) 1985 */
 
             
 /*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
-            
-
-        
-driver_srumbler,
-driver_srumblr2,
-driver_rushcrsh,
+               
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */

@@ -613,10 +613,6 @@ joust2   williams.c M6809    [M6808 ] [M6809 ]                                  
 
 higemaru higemaru.c Z80                                                                     2xAY-8910                                                   Pirate Ship HigeMaru
 
-srumbler srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 1)
-srumblr2 srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 2)
-rushcrsh srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   Rush & Crash (Japan)
-
 bionicc  bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 1)
 bionicc2 bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 2)
 topsecrt bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Top Secret (Japan)
