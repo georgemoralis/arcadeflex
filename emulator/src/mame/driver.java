@@ -156,6 +156,7 @@ import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
+import static drivers.WIP.srumbler.*;
 
 
 public class driver {
@@ -1632,9 +1633,9 @@ driver_metrocrs,	/* (c) 1985 */
             
 
         
-/*TODO*/ //	DRIVER( srumbler )	/*  9/1986 (c) 1986 */
-/*TODO*/ //	DRIVER( srumblr2 )	/*  9/1986 (c) 1986 */
-/*TODO*/ //	DRIVER( rushcrsh )	/*  9/1986 (c) 1986 */
+driver_srumbler,
+driver_srumblr2,
+driver_rushcrsh,
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
