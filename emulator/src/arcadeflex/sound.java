@@ -4,7 +4,7 @@ import static mame.mame.*;
 import static sound.mixer.*;
 
 public class sound {
-
+    static int attenuation = 0;
     static int master_volume = 256;
 
     static int stream_playing;
@@ -47,7 +47,7 @@ public class sound {
         voice_pos = 0;
 
         audio_buffer_length = 1940;//soundInstance.GetSampleSizeInBytes(TimeSpan.FromMilliseconds(22));
-
+        osd_set_mastervolume(attenuation);	/* set the startup volume */
         return (int) samples_this_frame;
     }
 
@@ -166,5 +166,27 @@ public class sound {
             else
                 soundInstance.Stop();
     }
+    /* attenuation in dB */
+    public static void osd_set_mastervolume(int _attenuation)
+    {
+            float volume;
+
+
+            if (_attenuation > 0) _attenuation = 0;
+            if (_attenuation < -32) _attenuation = -32;
+
+            attenuation = _attenuation;
+
+            volume = (float)256.0;	/* range is 0-256 */
+            while (_attenuation++ < 0)
+                    volume /= 1.122018454;	/* = (10 ^ (1/20)) = 1dB */
+
+            master_volume = (int)volume;
+    }
+
+    public static int osd_get_mastervolume()
+    {
+            return attenuation;
+    }    
 
 }

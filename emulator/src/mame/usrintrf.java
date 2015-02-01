@@ -374,27 +374,30 @@ public class usrintrf {
     	ui_text_ex(buf, buf.length(), x, y, DT_COLOR_WHITE);
     }
     
-    /*TODO*///INLINE void drawpixel(int x, int y, unsigned short color)
-    /*TODO*///{
-    /*TODO*///	int temp;
-    /*TODO*///
-    /*TODO*///	if (Machine->ui_orientation & ORIENTATION_SWAP_XY)
-    /*TODO*///	{
-    /*TODO*///		temp = x; x = y; y = temp;
-    /*TODO*///	}
-    /*TODO*///	if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-    /*TODO*///		x = Machine->scrbitmap->width - x - 1;
-    /*TODO*///	if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-    /*TODO*///		y = Machine->scrbitmap->height - y - 1;
-    /*TODO*///
-    /*TODO*///	if (Machine->scrbitmap->depth == 16)
+    public static void drawpixel(int x, int y, char color)
+    {
+    	int temp;
+    
+    	if ((Machine.ui_orientation & ORIENTATION_SWAP_XY)!=0)
+    	{
+    		temp = x; x = y; y = temp;
+    	}
+    	if ((Machine.ui_orientation & ORIENTATION_FLIP_X)!=0)
+    		x = Machine.scrbitmap.width - x - 1;
+    	if ((Machine.ui_orientation & ORIENTATION_FLIP_Y)!=0)
+    		y = Machine.scrbitmap.height - y - 1;
+    
+    	if (Machine.scrbitmap.depth == 16)
+        {
     /*TODO*///		*(unsigned short *)&Machine->scrbitmap->line[y][x*2] = color;
-    /*TODO*///	else
-    /*TODO*///		Machine->scrbitmap->line[y][x] = color;
-    /*TODO*///
-    /*TODO*///	osd_mark_dirty(x,y,x,y,1);
-    /*TODO*///}
-    /*TODO*///
+            throw new UnsupportedOperationException("drawpixel 16BIT unimplemented");
+        }
+    	else
+    		Machine.scrbitmap.line[y].write(x,color);
+    
+    	osd_mark_dirty(x,y,x,y,1);
+    }
+    
     public static void drawhline_norotate(int x, int w, int y, char color)
     {
     	if (Machine.scrbitmap.depth == 16)
@@ -502,39 +505,37 @@ public class usrintrf {
     	for (y = topy+1;y < topy+height-1;y++)
     		drawhline(leftx+1,width-2,y,black);
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void drawbar(int leftx,int topy,int width,int height,int percentage,int default_percentage)
-    /*TODO*///{
-    /*TODO*///	int y;
-    /*TODO*///	unsigned short black,white;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (leftx < 0) leftx = 0;
-    /*TODO*///	if (topy < 0) topy = 0;
-    /*TODO*///	if (width > Machine->uiwidth) width = Machine->uiwidth;
-    /*TODO*///	if (height > Machine->uiheight) height = Machine->uiheight;
-    /*TODO*///
-    /*TODO*///	leftx += Machine->uixmin;
-    /*TODO*///	topy += Machine->uiymin;
-    /*TODO*///
-    /*TODO*///	black = Machine->uifont->colortable[0];
-    /*TODO*///	white = Machine->uifont->colortable[1];
-    /*TODO*///
-    /*TODO*///	for (y = topy;y < topy + height/8;y++)
-    /*TODO*///		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
-    /*TODO*///
-    /*TODO*///	drawhline(leftx,width,topy+height/8,white);
-    /*TODO*///
-    /*TODO*///	for (y = topy+height/8;y < topy+height-height/8;y++)
-    /*TODO*///		drawhline(leftx,1+(width-1)*percentage/100,y,white);
-    /*TODO*///
-    /*TODO*///	drawhline(leftx,width,topy+height-height/8-1,white);
-    /*TODO*///
-    /*TODO*///	for (y = topy+height-height/8;y < topy + height;y++)
-    /*TODO*///		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
-    /*TODO*///}
-    /*TODO*///
+    static void drawbar(int leftx,int topy,int width,int height,int percentage,int default_percentage)
+    {
+    	int y;
+    	/*unsigned short*/char black,white;
+    
+    
+    	if (leftx < 0) leftx = 0;
+    	if (topy < 0) topy = 0;
+    	if (width > Machine.uiwidth) width = Machine.uiwidth;
+    	if (height > Machine.uiheight) height = Machine.uiheight;
+    
+    	leftx += Machine.uixmin;
+    	topy += Machine.uiymin;
+    
+    	black = Machine.uifont.colortable.read(0);
+    	white = Machine.uifont.colortable.read(1);
+    
+    	for (y = topy;y < topy + height/8;y++)
+    		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
+    
+    	drawhline(leftx,width,topy+height/8,white);
+    
+    	for (y = topy+height/8;y < topy+height-height/8;y++)
+    		drawhline(leftx,1+(width-1)*percentage/100,y,white);
+    
+    	drawhline(leftx,width,topy+height-height/8-1,white);
+    
+    	for (y = topy+height-height/8;y < topy + height;y++)
+    		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
+    }
+    
     /*TODO*////* Extract one line from a multiline buffer */
     /*TODO*////* Return the characters number of the line, pbegin point to the start of the next line */
     /*TODO*///static unsigned multiline_extract(const char** pbegin, const char* end, unsigned max)
@@ -2157,7 +2158,7 @@ public class usrintrf {
     						sound_clock(Machine.drv.sound[i]) % 1000);
     		}
     
-    		strcat(buf,"\n");
+    		buf=strcat(buf,"\n");
     
     		i++;
     	}
@@ -2981,63 +2982,59 @@ public class usrintrf {
     	return sel + 1;
     }
     
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*********************************************************************
-    /*TODO*///
-    /*TODO*///  start of On Screen Display handling
-    /*TODO*///
-    /*TODO*///*********************************************************************/
-    /*TODO*///
-    /*TODO*///static void displayosd(const char *text,int percentage,int default_percentage)
-    /*TODO*///{
-    /*TODO*///	struct DisplayText dt[2];
-    /*TODO*///	int avail;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	avail = (Machine->uiwidth / Machine->uifontwidth) * 19 / 20;
-    /*TODO*///
-    /*TODO*///	ui_drawbox((Machine->uiwidth - Machine->uifontwidth * avail) / 2,
-    /*TODO*///			(Machine->uiheight - 7*Machine->uifontheight/2),
-    /*TODO*///			avail * Machine->uifontwidth,
-    /*TODO*///			3*Machine->uifontheight);
-    /*TODO*///
-    /*TODO*///	avail--;
-    /*TODO*///
-    /*TODO*///	drawbar((Machine->uiwidth - Machine->uifontwidth * avail) / 2,
-    /*TODO*///			(Machine->uiheight - 3*Machine->uifontheight),
-    /*TODO*///			avail * Machine->uifontwidth,
-    /*TODO*///			Machine->uifontheight,
-    /*TODO*///			percentage,default_percentage);
-    /*TODO*///
-    /*TODO*///	dt[0].text = text;
-    /*TODO*///	dt[0].color = DT_COLOR_WHITE;
-    /*TODO*///	dt[0].x = (Machine->uiwidth - Machine->uifontwidth * strlen(text)) / 2;
-    /*TODO*///	dt[0].y = (Machine->uiheight - 2*Machine->uifontheight) + 2;
-    /*TODO*///	dt[1].text = 0; /* terminate array */
-    /*TODO*///	displaytext(dt,0,0);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void onscrd_volume(int increment,int arg)
-    /*TODO*///{
-    /*TODO*///	char buf[20];
-    /*TODO*///	int attenuation;
-    /*TODO*///
-    /*TODO*///	if (increment)
-    /*TODO*///	{
-    /*TODO*///		attenuation = osd_get_mastervolume();
-    /*TODO*///		attenuation += increment;
-    /*TODO*///		if (attenuation > 0) attenuation = 0;
-    /*TODO*///		if (attenuation < -32) attenuation = -32;
-    /*TODO*///		osd_set_mastervolume(attenuation);
-    /*TODO*///	}
-    /*TODO*///	attenuation = osd_get_mastervolume();
-    /*TODO*///
-    /*TODO*///	sprintf(buf,"Volume %3ddB",attenuation);
-    /*TODO*///	displayosd(buf,100 * (attenuation + 32) / 32,100);
-    /*TODO*///}
+   
+   
+   /*********************************************************************
+   
+     start of On Screen Display handling
+   
+   *********************************************************************/
+    static void displayosd(String text,int percentage,int default_percentage)
+    {
+        DisplayText[] dt = DisplayText.create(2);
+    	int avail;
+    
+    
+    	avail = (Machine.uiwidth / Machine.uifontwidth) * 19 / 20;
+    
+    	ui_drawbox((Machine.uiwidth - Machine.uifontwidth * avail) / 2,
+    			(Machine.uiheight - 7*Machine.uifontheight/2),
+    			avail * Machine.uifontwidth,
+    			3*Machine.uifontheight);
+    
+    	avail--;
+    
+    	drawbar((Machine.uiwidth - Machine.uifontwidth * avail) / 2,
+    			(Machine.uiheight - 3*Machine.uifontheight),
+    			avail * Machine.uifontwidth,
+    			Machine.uifontheight,
+    			percentage,default_percentage);
+    
+    	dt[0].text = text;
+    	dt[0].color = DT_COLOR_WHITE;
+    	dt[0].x = (Machine.uiwidth - Machine.uifontwidth * strlen(text)) / 2;
+    	dt[0].y = (Machine.uiheight - 2*Machine.uifontheight) + 2;
+    	dt[1].text = null; /* terminate array */
+    	displaytext(dt,0,0);
+    }
+    public static onscrd_fncPtr onscrd_volume = new onscrd_fncPtr(){ public void handler(int increment,int arg)
+    {
+        String buf;
+    	int attenuation;
+    
+    	if (increment!=0)
+    	{
+    		attenuation = osd_get_mastervolume();
+    		attenuation += increment;
+    		if (attenuation > 0) attenuation = 0;
+    		if (attenuation < -32) attenuation = -32;
+    		osd_set_mastervolume(attenuation);
+    	}
+    	attenuation = osd_get_mastervolume();
+    
+        buf = sprintf("Volume %3ddB",attenuation);
+  	displayosd(buf,100 * (attenuation + 32) / 32,100);
+    }};
     /*TODO*///
     /*TODO*///static void onscrd_mixervol(int increment,int arg)
     /*TODO*///{
@@ -3217,21 +3214,22 @@ public class usrintrf {
     /*TODO*///	displayosd(buf,oc/2,100/2);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///#define MAX_OSD_ITEMS 30
-    /*TODO*///static void (*onscrd_fnc[MAX_OSD_ITEMS])(int increment,int arg);
-    /*TODO*///static int onscrd_arg[MAX_OSD_ITEMS];
-    /*TODO*///static int onscrd_total_items;
-    /*TODO*///
-    /*TODO*///static void onscrd_init(void)
-    /*TODO*///{
-    /*TODO*///	int item,ch;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	item = 0;
-    /*TODO*///
-    /*TODO*///	onscrd_fnc[item] = onscrd_volume;
-    /*TODO*///	onscrd_arg[item] = 0;
-    /*TODO*///	item++;
+    public static final int MAX_OSD_ITEMS =30;
+    public static abstract interface onscrd_fncPtr { public abstract void handler(int increment,int arg); }
+    public static onscrd_fncPtr[] onscrd_fnc=new onscrd_fncPtr[MAX_OSD_ITEMS];
+    public static int[] onscrd_arg=new int[MAX_OSD_ITEMS];
+    static int onscrd_total_items;
+    
+    static void onscrd_init()
+    {
+    	int item,ch;
+    
+    
+    	item = 0;
+    
+    	onscrd_fnc[item] = onscrd_volume;
+    	onscrd_arg[item] = 0;
+    	item++;
     /*TODO*///
     /*TODO*///	for (ch = 0;ch < MIXER_MAX_CHANNELS;ch++)
     /*TODO*///	{
@@ -3268,44 +3266,42 @@ public class usrintrf {
     /*TODO*///		item++;
     /*TODO*///	}
     /*TODO*///
-    /*TODO*///	onscrd_total_items = item;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static int on_screen_display(int selected)
-    /*TODO*///{
-    /*TODO*///	int increment,sel;
-    /*TODO*///	static int lastselected = 0;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	if (selected == -1)
-    /*TODO*///		sel = lastselected;
-    /*TODO*///	else sel = selected - 1;
-    /*TODO*///
-    /*TODO*///	increment = 0;
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_LEFT,8))
-    /*TODO*///		increment = -1;
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_RIGHT,8))
-    /*TODO*///		increment = 1;
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_DOWN,8))
-    /*TODO*///		sel = (sel + 1) % onscrd_total_items;
-    /*TODO*///	if (input_ui_pressed_repeat(IPT_UI_UP,8))
-    /*TODO*///		sel = (sel + onscrd_total_items - 1) % onscrd_total_items;
-    /*TODO*///
-    /*TODO*///	(*onscrd_fnc[sel])(increment,onscrd_arg[sel]);
-    /*TODO*///
-    /*TODO*///	lastselected = sel;
-    /*TODO*///
-    /*TODO*///	if (input_ui_pressed(IPT_UI_ON_SCREEN_DISPLAY))
-    /*TODO*///	{
-    /*TODO*///		sel = -1;
-    /*TODO*///
-    /*TODO*///		/* tell updatescreen() to clean after us */
-    /*TODO*///		need_to_clear_bitmap = 1;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return sel + 1;
-    /*TODO*///}
-    /*TODO*///
+    	onscrd_total_items = item;
+    }
+    static int on_screen_lastselected = 0;
+    static int on_screen_display(int selected)
+    {
+    	int increment,sel;
+    	
+    	if (selected == -1)
+    		sel = on_screen_lastselected;
+    	else sel = selected - 1;
+    
+    	increment = 0;
+    	if (input_ui_pressed_repeat(IPT_UI_LEFT,8)!=0)
+    		increment = -1;
+    	if (input_ui_pressed_repeat(IPT_UI_RIGHT,8)!=0)
+    		increment = 1;
+    	if (input_ui_pressed_repeat(IPT_UI_DOWN,8)!=0)
+    		sel = (sel + 1) % onscrd_total_items;
+    	if (input_ui_pressed_repeat(IPT_UI_UP,8)!=0)
+    		sel = (sel + onscrd_total_items - 1) % onscrd_total_items;
+    
+    	onscrd_fnc[sel].handler(increment,onscrd_arg[sel]);
+    
+    	on_screen_lastselected = sel;
+    
+    	if (input_ui_pressed(IPT_UI_ON_SCREEN_DISPLAY)!=0)
+    	{
+    		sel = -1;
+    
+    		/* tell updatescreen() to clean after us */
+    		need_to_clear_bitmap = 1;
+    	}
+    
+    	return sel + 1;
+    }
+    
     /*TODO*////*********************************************************************
     /*TODO*///
     /*TODO*///  end of On Screen Display handling
@@ -3398,7 +3394,7 @@ public class usrintrf {
     			need_to_clear_bitmap = 1;
     		}
     	}
-   /*TODO*///  	if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
+     	if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
     
     	/* if the user pressed F3, reset the emulation */
     	if (input_ui_pressed(IPT_UI_RESET_MACHINE)!=0)
@@ -3457,7 +3453,7 @@ public class usrintrf {
     					need_to_clear_bitmap = 1;
     				}
     			}
-    	/*TODO*///		if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
+    			if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
     
     			/* show popup message if any */
     	/*TODO*///		if (messagecounter > 0) displaymessage(messagetext);
@@ -3537,7 +3533,7 @@ public class usrintrf {
     	setup_menu_init();
     	setup_selected = 0;
     
-    /*TODO*///	onscrd_init();
+   	onscrd_init();
     	osd_selected = 0;
     /*TODO*///
     /*TODO*///	jukebox_selected = -1;

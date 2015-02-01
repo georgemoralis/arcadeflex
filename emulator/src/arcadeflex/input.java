@@ -68,8 +68,9 @@ public class input {
 	new KeyboardInfo( "F11",		KeyEvent.VK_F11,		KEYCODE_F11 ),
 	new KeyboardInfo( "F12",		KeyEvent.VK_F12,		KEYCODE_F12 ),
 	new KeyboardInfo( "ESC",		KeyEvent.VK_ESCAPE,		KEYCODE_ESC ),
+        new KeyboardInfo( "~",			KeyEvent.VK_BACK_QUOTE,		KEYCODE_TILDE ),
   /*TODO the rest codes */  
-	/*new KeyboardInfo( "~",			KEY_TILDE,			KEYCODE_TILDE ),
+	/*
 	new KeyboardInfo( "-",          KEY_MINUS,          KEYCODE_MINUS ),
 	new KeyboardInfo( "=",          KEY_EQUALS,         KEYCODE_EQUALS ),*/
 	new KeyboardInfo( "BKSPACE",	KeyEvent.VK_BACK_SPACE,		KEYCODE_BACKSPACE ),
