@@ -2306,19 +2306,19 @@ public class video {
     /*TODO*///{
     /*TODO*///	save_screen_snapshot();
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///void osd_pause(int paused)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	if (paused) brightness_paused_adjust = 0.65;
-    /*TODO*///	else brightness_paused_adjust = 1.0;
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < screen_colors;i++)
-    /*TODO*///		dirtycolor[i] = 1;
-    /*TODO*///	dirtypalette = 1;
-    /*TODO*///	dirty_bright = 1;
-    /*TODO*///}
+    
+    public static void osd_pause(int paused)
+    {
+    	int i;
+    
+    	if (paused!=0) brightness_paused_adjust = (float)0.65;
+    	else brightness_paused_adjust = (float)1.0;
+    
+    	for (i = 0;i < screen_colors;i++)
+    		dirtycolor[i] = 1;
+    	dirtypalette = 1;
+    	dirty_bright = 1;
+    }
     /*TODO*///
     /*TODO*///Register *make_scanline_mode(Register *inreg,int entries)
     /*TODO*///{

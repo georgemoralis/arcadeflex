@@ -20,6 +20,8 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.driver.*;
 import static arcadeflex.ptrlib.*;
+import static arcadeflex.sound.*;
+
 public class usrintrf {
     public static final int SEL_BITS =12;
     public static final int SEL_MASK =((1<<SEL_BITS)-1);
@@ -3402,96 +3404,89 @@ public class usrintrf {
     	if (input_ui_pressed(IPT_UI_RESET_MACHINE)!=0)
     		machine_reset();
     
-    /*TODO*///
-    /*TODO*///	if (single_step || input_ui_pressed(IPT_UI_PAUSE)) /* pause the game */
-    /*TODO*///	{
-    /*TODO*////*		osd_selected = 0;	   disable on screen display, since we are going   */
-    /*TODO*///							/* to change parameters affected by it */
-    /*TODO*///
-    /*TODO*///		if (single_step == 0)
-    /*TODO*///		{
-    /*TODO*///			osd_sound_enable(0);
-    /*TODO*///			osd_pause(1);
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		while (!input_ui_pressed(IPT_UI_PAUSE))
-    /*TODO*///		{
-    /*TODO*///			profiler_mark(PROFILER_VIDEO);
-    /*TODO*///			if (osd_skip_this_frame() == 0)
-    /*TODO*///			{
-    /*TODO*///				if (need_to_clear_bitmap || bitmap_dirty)
-    /*TODO*///				{
-    /*TODO*///					osd_clearbitmap(Machine->scrbitmap);
-    /*TODO*///					need_to_clear_bitmap = 0;
-    /*TODO*///					(*Machine->drv->vh_update)(Machine->scrbitmap,bitmap_dirty);
-    /*TODO*///					bitmap_dirty = 0;
-    /*TODO*///				}
-    /*TODO*///#ifdef MAME_DEBUG
-    /*TODO*////* keep calling vh_screenrefresh() while paused so we can stuff */
-    /*TODO*////* debug code in there */
-    /*TODO*///(*Machine->drv->vh_update)(Machine->scrbitmap,bitmap_dirty);
-    /*TODO*///#endif
-    /*TODO*///			}
-    /*TODO*///			profiler_mark(PROFILER_END);
-    /*TODO*///
+    
+    	if (single_step!=0 || input_ui_pressed(IPT_UI_PAUSE)!=0) /* pause the game */
+    	{
+    /*		osd_selected = 0;	   disable on screen display, since we are going   */
+    							/* to change parameters affected by it */
+    
+    		if (single_step == 0)
+    		{
+    			osd_sound_enable(0);
+    			osd_pause(1);
+    		}
+    
+    		while (input_ui_pressed(IPT_UI_PAUSE)==0)
+    		{
+    			if (osd_skip_this_frame() == 0)
+    			{
+    				if (need_to_clear_bitmap!=0 || bitmap_dirty!=0)
+    				{
+    					osd_clearbitmap(Machine.scrbitmap);
+    					need_to_clear_bitmap = 0;
+    					Machine.drv.vh_update.handler(Machine.scrbitmap,bitmap_dirty);//(*Machine->drv->vh_update)(Machine->scrbitmap,bitmap_dirty);
+    					bitmap_dirty = 0;
+    				}
+    			}
+    
     /*TODO*///			if (input_ui_pressed(IPT_UI_SNAPSHOT))
     /*TODO*///				osd_save_snapshot();
     /*TODO*///
-    /*TODO*///			if (setup_selected == 0 && input_ui_pressed(IPT_UI_CANCEL))
-    /*TODO*///				return 1;
-    /*TODO*///
-    /*TODO*///			if (setup_selected == 0 && input_ui_pressed(IPT_UI_CONFIGURE))
-    /*TODO*///			{
-    /*TODO*///				setup_selected = -1;
-    /*TODO*///				if (osd_selected != 0)
-    /*TODO*///				{
-    /*TODO*///					osd_selected = 0;	/* disable on screen display */
-    /*TODO*///					/* tell updatescreen() to clean after us */
-    /*TODO*///					need_to_clear_bitmap = 1;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			if (setup_selected != 0) setup_selected = setup_menu(setup_selected);
-    /*TODO*///
-    /*TODO*///			if (!mame_debug && osd_selected == 0 && input_ui_pressed(IPT_UI_ON_SCREEN_DISPLAY))
-    /*TODO*///			{
-    /*TODO*///				osd_selected = -1;
-    /*TODO*///				if (setup_selected != 0)
-    /*TODO*///				{
-    /*TODO*///					setup_selected = 0; /* disable setup menu */
-    /*TODO*///					/* tell updatescreen() to clean after us */
-    /*TODO*///					need_to_clear_bitmap = 1;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
-    /*TODO*///
-    /*TODO*///			/* show popup message if any */
-    /*TODO*///			if (messagecounter > 0) displaymessage(messagetext);
-    /*TODO*///
-    /*TODO*///			osd_update_video_and_audio();
+    			if (setup_selected == 0 && input_ui_pressed(IPT_UI_CANCEL)!=0)
+    				return 1;
+    
+    			if (setup_selected == 0 && input_ui_pressed(IPT_UI_CONFIGURE)!=0)
+    			{
+    				setup_selected = -1;
+    				if (osd_selected != 0)
+    				{
+    					osd_selected = 0;	/* disable on screen display */
+    					/* tell updatescreen() to clean after us */
+    					need_to_clear_bitmap = 1;
+    				}
+    			}
+    			if (setup_selected != 0) setup_selected = setup_menu(setup_selected);
+    
+    			if (/*!mame_debug &&*/ osd_selected == 0 && input_ui_pressed(IPT_UI_ON_SCREEN_DISPLAY)!=0)
+    			{
+    				osd_selected = -1;
+    				if (setup_selected != 0)
+    				{
+    					setup_selected = 0; /* disable setup menu */
+    					/* tell updatescreen() to clean after us */
+    					need_to_clear_bitmap = 1;
+    				}
+    			}
+    	/*TODO*///		if (osd_selected != 0) osd_selected = on_screen_display(osd_selected);
+    
+    			/* show popup message if any */
+    	/*TODO*///		if (messagecounter > 0) displaymessage(messagetext);
+    
+    			osd_update_video_and_audio();
     /*TODO*///			osd_poll_joysticks();
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		if (code_pressed(KEYCODE_LSHIFT) || code_pressed(KEYCODE_RSHIFT))
-    /*TODO*///			single_step = 1;
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			single_step = 0;
-    /*TODO*///			osd_pause(0);
-    /*TODO*///			osd_sound_enable(1);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* show popup message if any */
+    		}
+    
+    		if (code_pressed(KEYCODE_LSHIFT)!=0 || code_pressed(KEYCODE_RSHIFT)!=0)
+    			single_step = 1;
+    		else
+    		{
+    			single_step = 0;
+    			osd_pause(0);
+    			osd_sound_enable(1);
+    		}
+    	}
+    
+    
+    	/* show popup message if any */
     /*TODO*///	if (messagecounter > 0)
     /*TODO*///	{
     /*TODO*///		displaymessage(messagetext);
-    /*TODO*///
+    
     /*TODO*///		if (--messagecounter == 0)
-    /*TODO*///			/* tell updatescreen() to clean after us */
+    			/* tell updatescreen() to clean after us */
     /*TODO*///			need_to_clear_bitmap = 1;
     /*TODO*///	}
-    /*TODO*///
+    
     /*TODO*///
     /*TODO*///	if (input_ui_pressed(IPT_UI_SHOW_PROFILER))
     /*TODO*///	{

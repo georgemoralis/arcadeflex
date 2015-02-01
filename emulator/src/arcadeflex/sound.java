@@ -159,5 +159,12 @@ public class sound {
             voice_pos = 0;
         }
     }
+    public static void osd_sound_enable(int enable_it)
+    {
+         if (enable_it!=0)
+                soundInstance.Play();
+            else
+                soundInstance.Stop();
+    }
 
 }
