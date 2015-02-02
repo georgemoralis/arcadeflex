@@ -156,7 +156,7 @@ import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
-import static drivers.WIP.srumbler.*;
+import static drivers.srumbler.*;
 
 
 public class driver {
