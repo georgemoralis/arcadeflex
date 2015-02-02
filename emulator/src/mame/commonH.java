@@ -84,8 +84,8 @@ public class commonH {
     public static void ROM_RELOAD(int offset,int length){arload.add(new RomModule( "-1",offset,length,0));}
 
         /* These are for nibble-wide ROMs, can be used with code or data */
-/*TODO*/ //#define ROM_LOAD_NIB_LOW(name,offset,length,crc) { name, offset, (length) | ROMFLAG_NIBBLE, crc },
-/*TODO*/ //#define ROM_LOAD_NIB_HIGH(name,offset,length,crc) { name, offset, (length) | ROMFLAG_NIBBLE | ROMFLAG_ALTERNATE, crc },
+        public static void ROM_LOAD_NIB_LOW(String name,int offset,int length,int crc) { arload.add(new RomModule(name, offset, (length) | ROMFLAG_NIBBLE, crc)); }
+        public static void ROM_LOAD_NIB_HIGH(String name,int offset,int length,int crc) { arload.add(new RomModule(name, offset, (length) | ROMFLAG_NIBBLE | ROMFLAG_ALTERNATE, crc)); }
 /*TODO*/ //#define ROM_RELOAD_NIB_LOW(offset,length) { (char *)-1, offset, (length) | ROMFLAG_NIBBLE, 0 },
 /*TODO*/ //#define ROM_RELOAD_NIB_HIGH(offset,length) { (char *)-1, offset, (length) | ROMFLAG_NIBBLE | ROMFLAG_ALTERNATE, 0 },
 
