@@ -169,7 +169,6 @@ public class common {
                             {
                                     do
                                     {
-/*TODO*/ //                                 unsigned char *c;
                                             int i;
                                             int length = romp[romp_ptr].length & ~ROMFLAG_MASK;
 
@@ -191,44 +190,43 @@ public class common {
 
                                             if ((romp[romp_ptr].length & ROMFLAG_NIBBLE)!=0)
                                             {
-                                                throw new UnsupportedOperationException("Unsupported readrom() ROMFLAG_NIBBLE");
-/*TODO*/ //                                                     unsigned char *temp;
+                                                    UBytePtr temp;
 
 
-/*TODO*/ //                                                     temp = malloc(length);
+                                                    temp = new  UBytePtr(length);
 
-/*TODO*/ //                                                     if (!temp)
-/*TODO*/ //                                                     {
-/*TODO*/ //                                                             printf("Out of memory reading ROM %s\n",name);
-/*TODO*/ //                                                             osd_fclose(f);
-/*TODO*/ //                                                             goto getout;
-/*TODO*/ //                                                     }
+                                                    if (temp==null)
+                                                    {
+                                                            printf("Out of memory reading ROM %s\n",name);
+                                                            osd_fclose(f);
+                                                            return getout(current_rom,total_roms);
+                                                    }
 
-/*TODO*/ //                                                     if (osd_fread(f,temp,length) != length)
-/*TODO*/ //                                                     {
-/*TODO*/ //                                                             printf("Unable to read ROM %s\n",name);
-/*TODO*/ //                                                     }
+                                                    if (osd_fread(f,temp,length) != length)
+                                                    {
+                                                            printf("Unable to read ROM %s\n",name);
+                                                    }
 
-/*TODO*/ //                                                     /* ROM_LOAD_NIB_LOW and ROM_LOAD_NIB_HIGH */
-/*TODO*/ //                                                     c = Machine.memory_region[region] + romp[romp_ptr].offset;
-/*TODO*/ //                                                    if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
-/*TODO*/ //                                                    {
+                                                    /* ROM_LOAD_NIB_LOW and ROM_LOAD_NIB_HIGH */
+                                                    UBytePtr c = new UBytePtr(Machine.memory_region[region],romp[romp_ptr].offset);
+                                                   if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)
+                                                   {
                                                             /* Load into the high nibble */
-/*TODO*/ //                                                           for (i = 0;i < length;i ++)
-/*TODO*/ //                                                            {
-/*TODO*/ //                                                                    c[i] = (c[i] & 0x0f) | ((temp[i] & 0x0f) << 4);
-/*TODO*/ //                                                            }
-/*TODO*/ //                                                    }
-/*TODO*/ //                                                    else
-/*TODO*/ //                                                    {
+                                                          for (i = 0;i < length;i ++)
+                                                           {
+                                                                   c.write(i, (c.read(i) & 0x0f) | ((temp.read(i) & 0x0f) << 4));
+                                                           }
+                                                   }
+                                                   else
+                                                   {
                                                             /* Load into the low nibble */
-/*TODO*/ //                                                            for (i = 0;i < length;i ++)
-/*TODO*/ //                                                            {
-/*TODO*/ //                                                                    c[i] = (c[i] & 0xf0) | (temp[i] & 0x0f);
-/*TODO*/ //                                                            }
-/*TODO*/ //                                                    }
+                                                           for (i = 0;i < length;i ++)
+                                                           {
+                                                                   c.write(i,(c.read(i) & 0xf0) | (temp.read(i) & 0x0f));
+                                                           }
+                                                   }
 
-/*TODO*/ //                                                    free (temp);
+                                                   temp=null;
                                             }
                                             else if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE)!=0)    
                                             {

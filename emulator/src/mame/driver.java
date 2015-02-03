@@ -88,9 +88,9 @@ import static drivers.nova2001.*;
 import static drivers.gsword.*;
 import static drivers.stfight.*;
 import static drivers.jrpacman.*;
-import static drivers.WIP.psychic5.*;
 import static drivers.mpatrol.*;
 import static drivers.yard.*;
+import static drivers.srumbler.*;
 
 /*
   WIP Drivers
@@ -156,7 +156,9 @@ import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
-import static drivers.srumbler.*;
+import static drivers.WIP.psychic5.*;
+import static drivers.WIP.wardner.*;
+
 
 
 public class driver {
@@ -1563,9 +1565,9 @@ driver_metrocrs,	/* (c) 1985 */
 /*TODO*/ //	DRIVER( skyshark )	/* TP-007 (c) 1987 Taito America Corporation + Romstar license (US) */
 /*TODO*/ //	DRIVER( hishouza )	/* TP-007 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( fsharkbt )	/* bootleg */
-/*TODO*/ //	DRIVER( wardner )	/* TP-009 (c) 1987 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( pyros )		/* TP-009 (c) 1987 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( wardnerj )	/* TP-009 (c) 1987 Taito Corporation (Japan) */
+driver_wardner,	/* TP-009 (c) 1987 Taito Corporation Japan (World) */
+driver_pyros,		/* TP-009 (c) 1987 Taito America Corporation (US) */
+driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( twincobr )	/* TP-011 (c) 1987 Taito Corporation (World) */
 /*TODO*/ //	DRIVER( twincobu )	/* TP-011 (c) 1987 Taito America Corporation + Romstar license (US) */
 /*TODO*/ //	DRIVER( ktiger )	/* TP-011 (c) 1987 Taito Corporation (Japan) */
