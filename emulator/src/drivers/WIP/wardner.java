@@ -649,16 +649,14 @@ public class wardner {
 
             //LSB_FIRST
 
-            ROM_LOAD_NIB_HIGH("82s137.3d", 0x1000, 0x0400, 0x70b537b9); /* lsb */
-
-            ROM_LOAD_NIB_LOW("82s137.3e", 0x1000, 0x0400, 0x6edb2de8);
-            ROM_LOAD_NIB_HIGH("82s131.2a", 0x1400, 0x0200, 0xac843ca6);
-            ROM_LOAD_NIB_LOW("82s131.1a", 0x1400, 0x0200, 0x50452ff8);
-            ROM_LOAD_NIB_HIGH("82s137.1d", 0x1800, 0x0400, 0xcc5b3f53);/* msb */
-
-            ROM_LOAD_NIB_LOW("82s137.1e", 0x1800, 0x0400, 0x47351d55);
-            ROM_LOAD_NIB_HIGH("82s131.3b", 0x1c00, 0x0200, 0x9dfffaff);
-            ROM_LOAD_NIB_LOW("82s131.3a", 0x1c00, 0x0200, 0x712bad47);
+            ROM_LOAD_NIB_HIGH( "82s137.1d",  0x1000, 0x0400, 0xcc5b3f53 ); /* msb */
+            ROM_LOAD_NIB_LOW ( "82s137.1e",  0x1000, 0x0400, 0x47351d55 );
+            ROM_LOAD_NIB_HIGH( "82s131.3b",  0x1400, 0x0200, 0x9dfffaff );
+            ROM_LOAD_NIB_LOW ( "82s131.3a",  0x1400, 0x0200, 0x712bad47 );
+            ROM_LOAD_NIB_HIGH( "82s137.3d",  0x1800, 0x0400, 0x70b537b9 ); /* lsb */
+            ROM_LOAD_NIB_LOW ( "82s137.3e",  0x1800, 0x0400, 0x6edb2de8 );
+            ROM_LOAD_NIB_HIGH( "82s131.2a",  0x1c00, 0x0200, 0xac843ca6 );
+            ROM_LOAD_NIB_LOW ( "82s131.1a",  0x1c00, 0x0200, 0x50452ff8 );
 
             ROM_REGION(0x0c000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* chars */
 
@@ -722,16 +720,14 @@ public class wardner {
 
             //LSB_FIRST
 
-            ROM_LOAD_NIB_HIGH("82s137.3d", 0x1000, 0x0400, 0x70b537b9); /* lsb */
-
-            ROM_LOAD_NIB_LOW("82s137.3e", 0x1000, 0x0400, 0x6edb2de8);
-            ROM_LOAD_NIB_HIGH("82s131.2a", 0x1400, 0x0200, 0xac843ca6);
-            ROM_LOAD_NIB_LOW("82s131.1a", 0x1400, 0x0200, 0x50452ff8);
-            ROM_LOAD_NIB_HIGH("82s137.1d", 0x1800, 0x0400, 0xcc5b3f53);/* msb */
-
-            ROM_LOAD_NIB_LOW("82s137.1e", 0x1800, 0x0400, 0x47351d55);
-            ROM_LOAD_NIB_HIGH("82s131.3b", 0x1c00, 0x0200, 0x9dfffaff);
-            ROM_LOAD_NIB_LOW("82s131.3a", 0x1c00, 0x0200, 0x712bad47);
+            ROM_LOAD_NIB_HIGH( "82s137.1d",  0x1000, 0x0400, 0xcc5b3f53 ); /* msb */
+            ROM_LOAD_NIB_LOW ( "82s137.1e",  0x1000, 0x0400, 0x47351d55 );
+            ROM_LOAD_NIB_HIGH( "82s131.3b",  0x1400, 0x0200, 0x9dfffaff );
+            ROM_LOAD_NIB_LOW ( "82s131.3a",  0x1400, 0x0200, 0x712bad47 );
+            ROM_LOAD_NIB_HIGH( "82s137.3d",  0x1800, 0x0400, 0x70b537b9 );/* lsb */
+            ROM_LOAD_NIB_LOW ( "82s137.3e",  0x1800, 0x0400, 0x6edb2de8 );
+            ROM_LOAD_NIB_HIGH( "82s131.2a",  0x1c00, 0x0200, 0xac843ca6 );
+            ROM_LOAD_NIB_LOW ( "82s131.1a",  0x1c00, 0x0200, 0x50452ff8 );
 
             ROM_REGION(0x0c000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* chars */
 
@@ -795,16 +791,14 @@ public class wardner {
 
             //LSB_FIRST
 
-            ROM_LOAD_NIB_HIGH("82s137.3d", 0x1000, 0x0400, 0x70b537b9); /* lsb */
-
-            ROM_LOAD_NIB_LOW("82s137.3e", 0x1000, 0x0400, 0x6edb2de8);
-            ROM_LOAD_NIB_HIGH("82s131.2a", 0x1400, 0x0200, 0xac843ca6);
-            ROM_LOAD_NIB_LOW("82s131.1a", 0x1400, 0x0200, 0x50452ff8);
-            ROM_LOAD_NIB_HIGH("82s137.1d", 0x1800, 0x0400, 0xcc5b3f53);/* msb */
-
-            ROM_LOAD_NIB_LOW("82s137.1e", 0x1800, 0x0400, 0x47351d55);
-            ROM_LOAD_NIB_HIGH("82s131.3b", 0x1c00, 0x0200, 0x9dfffaff);
-            ROM_LOAD_NIB_LOW("82s131.3a", 0x1c00, 0x0200, 0x712bad47);
+            ROM_LOAD_NIB_HIGH( "82s137.1d",  0x1000, 0x0400, 0xcc5b3f53 ); /* msb */
+            ROM_LOAD_NIB_LOW ( "82s137.1e",  0x1000, 0x0400, 0x47351d55 );
+            ROM_LOAD_NIB_HIGH( "82s131.3b",  0x1400, 0x0200, 0x9dfffaff );
+            ROM_LOAD_NIB_LOW ( "82s131.3a",  0x1400, 0x0200, 0x712bad47 );
+            ROM_LOAD_NIB_HIGH( "82s137.3d",  0x1800, 0x0400, 0x70b537b9 );/* lsb */
+            ROM_LOAD_NIB_LOW ( "82s137.3e",  0x1800, 0x0400, 0x6edb2de8 );
+            ROM_LOAD_NIB_HIGH( "82s131.2a",  0x1c00, 0x0200, 0xac843ca6 );
+            ROM_LOAD_NIB_LOW ( "82s131.1a",  0x1c00, 0x0200, 0x50452ff8 );
 
             ROM_REGION(0x0c000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* chars */
 
