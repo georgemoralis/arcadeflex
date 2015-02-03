@@ -63,7 +63,10 @@ public class tms32010 extends cpu_interface{
     public static void M_WRTROM(int A,int V) { cpu_writemem16(((A<<1)+1),(V&0xff)); cpu_writemem16((A<<1),((V>>8)&0xff)); }
     public static int M_RDRAM(int A){ return ((cpu_readmem16((A<<1)|0x8000)<<8) | cpu_readmem16(((A<<1)|0x8001)))&0xFFFF; }
     public static void M_WRTRAM(int A,int V)	{ cpu_writemem16(((A<<1)|0x8001),(V&0x0ff)); cpu_writemem16(((A<<1)|0x8000),((V>>8)&0x0ff)); }
-    public static int M_RDOP(int A)		{ return ((cpu_readop((A<<1))<<8) | cpu_readop(((A<<1)+1)))&0xFFFF; }
+    public static int M_RDOP(int A)		
+    { 
+        return ((cpu_readop((A<<1))<<8) | cpu_readop(((A<<1)+1)))&0xFFFF;
+    }
     public static int M_RDOP_ARG(int A)	{ return ((cpu_readop_arg((A<<1))<<8) | cpu_readop_arg(((A<<1)+1)))&0xFFFF; }
     public static int M_IN(int Port)	{ return (cpu_readport(Port))&0xFFFF; }
     public static void M_OUT(int Port,int Value){ cpu_writeport(Port,Value);}
@@ -169,6 +172,476 @@ public class tms32010 extends cpu_interface{
             }
             M_WRTRAM(memaccess,(data&0xffff));
     }
+    static void M_ILLEGAL()
+    {
+            if (errorlog!=null) fprintf(errorlog, "TMS320C10:  PC = %04x,  Illegal opcode = %04x\n", (R.PC-1), opcode);
+    }
+    /* This following function is here to fill in the void for */
+    /* the opcode call function. This function is never called. */
+    public static opcode_fn other_7F_opcodes= new opcode_fn() {  public void handler()  { }};
+
+    public static opcode_fn illegal= new opcode_fn() {  public void handler()	{ M_ILLEGAL(); }};
+    public static opcode_fn abst= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC >= 0x80000000) {
+				R.ACC = ~R.ACC;
+				R.ACC++ ;
+				if (OVM!=0 && (R.ACC == 0x80000000)) R.ACC-- ;
+			}
+		}
+    };
+    public static opcode_fn add_sh= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(opcode_major,1);
+			R.ACC += R.ALU;
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x7fffffff;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn addh= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.ACC += (R.ALU << 16);
+			R.ACC &= 0xffff0000;
+			R.ACC += (tmpacc & 0x0000ffff);
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) {
+					R.ACC &= 0x0000ffff; R.ACC |= 0x7fff0000;
+				}
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn adds= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.ACC += R.ALU;
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x7fffffff;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn and= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			R.ACC &= R.ALU;
+			R.ACC &= 0x0000ffff;
+		}
+    };
+    public static opcode_fn apac= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			R.ACC += R.Preg;
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x7fffffff;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn br= new opcode_fn() {  public void handler()		
+    { 
+        R.PC = M_RDOP_ARG(R.PC);
+    }};
+    public static opcode_fn banz= new opcode_fn() {  public void handler()
+		{
+			if ((R.AR[ARP] & 0x01ff) == 0) R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC = M_RDOP_ARG(R.PC);
+			R.ALU = R.AR[ARP]; R.ALU-- ;
+			R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (R.ALU & 0x01ff);//unsigned? (shadow)
+		}
+    };
+    public static opcode_fn bgez= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC >= 0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn bgz= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC >  0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn bioz= new opcode_fn() {  public void handler()
+		{
+			if (R.BIO_pending_irq!=0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn blez= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC <= 0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn blz= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC <  0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn bnz= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC != 0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn bv= new opcode_fn() {  public void handler()
+		{
+			if (OV!=0) {
+				R.PC = M_RDOP_ARG(R.PC);
+				CLR(OV_FLAG);
+			}
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn bz= new opcode_fn() {  public void handler()
+		{
+			if (R.ACC == 0) R.PC = M_RDOP_ARG(R.PC);
+			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+		}
+    };
+    public static opcode_fn cala= new opcode_fn() {  public void handler()
+		{
+			R.STACK[0] = R.STACK[1];
+			R.STACK[1] = R.STACK[2];
+			R.STACK[2] = R.STACK[3];
+			R.STACK[3] = (R.PC & ADDR_MASK)&0xFFFF;
+			R.PC = (R.ACC & ADDR_MASK)&0xFFFF;
+		}
+    };
+    public static opcode_fn call= new opcode_fn() {  public void handler()
+		{
+			R.PC++ ;
+			R.STACK[0] = R.STACK[1];
+			R.STACK[1] = R.STACK[2];
+			R.STACK[2] = R.STACK[3];
+			R.STACK[3] = (R.PC & ADDR_MASK)&0xFFFF;
+			R.PC = (M_RDOP_ARG((R.PC-1)&0xFFFF) & ADDR_MASK)&0xFFFF;//TODO RECHECK (shadow)
+		}
+    };
+    public static opcode_fn dint= new opcode_fn() {  public void handler()		
+    { SET(INTM_FLAG);
+    }};
+    public static opcode_fn dmov= new opcode_fn() {  public void handler()		{ getdata(0,0); M_WRTRAM((memaccess+1),R.ALU); }};
+    public static opcode_fn eint= new opcode_fn() {  public void handler()		{ CLR(INTM_FLAG); }};
+    public static opcode_fn in_p= new opcode_fn() {  public void handler()
+		{
+			R.ALU = M_IN((opcode_major & 7));
+			putdata((R.ALU & 0x0000ffff));
+		}
+    };
+    public static opcode_fn lac_sh= new opcode_fn() {  public void handler()
+		{
+			getdata((opcode_major & 0x0f),1);
+			R.ACC = R.ALU;
+		}
+    };
+    public static opcode_fn lack= new opcode_fn() {  public void handler()		{ R.ACC = (opcode_minor & 0x000000ff); }};
+    public static opcode_fn lar_ar0= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[0] = R.ALU&0xFFFF; }};
+    public static opcode_fn lar_ar1= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[1] = R.ALU&0xFFFF; }};
+    public static opcode_fn lark_ar0= new opcode_fn() {  public void handler()	{ R.AR[0] = (opcode_minor & 0x00ff); }};
+    public static opcode_fn lark_ar1= new opcode_fn() {  public void handler()	{ R.AR[1] = (opcode_minor & 0x00ff); }};
+    public static opcode_fn larp_mar= new opcode_fn() {  public void handler()
+		{
+			if ((opcode_minor & 0x80)!=0) {
+				if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
+					int/*UINT16*/ tmpAR = R.AR[ARP];
+					if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
+					if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-11)&0xFFFF;//tmpAR--
+					R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);
+				}
+				if ((~opcode_minor & 0x08)!=0) {
+					if ((opcode_minor & 0x01)!=0) SET(ARP_REG) ;
+					else CLR(ARP_REG);
+				}
+			}
+		}
+    };
+    public static opcode_fn ldp= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			if ((R.ALU & 1)!=0) SET(DP_REG);
+			else CLR(DP_REG);
+		}
+    };
+    public static opcode_fn ldpk= new opcode_fn() {  public void handler()
+		{
+			if ((opcode_minor & 1)!=0) SET(DP_REG);
+			else CLR(DP_REG);
+		}
+    };
+    public static opcode_fn lst= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.STR;
+			opcode_minor |= 0x08; /* This dont support next arp, so make sure it dont happen */
+			getdata(0,0);
+			R.STR = R.ALU & 0xFFFF;
+			tmpacc &= INTM_FLAG;
+			R.STR |= tmpacc;
+			R.STR |= 0x1efe;
+		}
+    };
+    public static opcode_fn lt= new opcode_fn() {  public void handler()		{ getdata(0,0); R.Treg = R.ALU&0xFFFF; }};
+    public static opcode_fn lta= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.Treg = R.ALU&0xFFFF;
+			R.ACC += R.Preg;
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x7fffffff;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn ltd= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.Treg = R.ALU&0xFFFF;
+			R.ACC += R.Preg;
+			if (tmpacc > R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x7fffffff;
+			}
+			else CLR(OV_FLAG);
+			M_WRTRAM((memaccess+1),R.ALU);
+		}
+    };
+    public static opcode_fn mpy= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			if ((R.ALU == 0x00008000) && (R.Treg == 0x8000))
+				R.Preg = 0xc0000000;
+			else R.Preg = (R.ALU * R.Treg);
+		}
+    };
+    public static opcode_fn mpyk= new opcode_fn() {  public void handler()
+		{
+			if ((opcode & 0x1000)!=0)
+				R.Preg = R.Treg * ((opcode & 0x1fff) | 0xe000);
+			else R.Preg = R.Treg * (opcode & 0x1fff);
+		}
+    };
+    public static opcode_fn nop= new opcode_fn() {  public void handler()		{ }};
+    public static opcode_fn or= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			R.ALU &= 0x0000ffff;
+			R.ACC |= R.ALU;
+		}
+    };
+    public static opcode_fn out_p= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			M_OUT((opcode_major & 7), (R.ALU & 0x0000ffff));
+		}
+    };
+    public static opcode_fn pac= new opcode_fn() {  public void handler()		{ R.ACC = R.Preg; }};
+    public static opcode_fn pop= new opcode_fn() {  public void handler()
+		{
+			R.ACC = R.STACK[3] & ADDR_MASK;
+			R.STACK[3] = R.STACK[2];
+			R.STACK[2] = R.STACK[1];
+			R.STACK[1] = R.STACK[0];
+		}
+    };
+    public static opcode_fn push= new opcode_fn() {  public void handler()
+		{
+			R.STACK[0] = R.STACK[1];
+			R.STACK[1] = R.STACK[2];
+			R.STACK[2] = R.STACK[3];
+			R.STACK[3] = R.ACC & ADDR_MASK;
+		}
+    };
+    public static opcode_fn ret= new opcode_fn() {  public void handler()
+		{
+			R.PC = (R.STACK[3] & ADDR_MASK)&0xFFFF;
+			R.STACK[3] = R.STACK[2];
+			R.STACK[2] = R.STACK[1];
+			R.STACK[1] = R.STACK[0];
+		}
+    };
+    public static opcode_fn rovm= new opcode_fn() {  public void handler()		{ CLR(OVM_FLAG); }};
+    public static opcode_fn sach_sh= new opcode_fn() {  public void handler()	{ putdata(((R.ACC << (opcode_major & 7)) >> 16)); }};
+    public static opcode_fn sacl= new opcode_fn() {  public void handler()		{ putdata((R.ACC & 0x0000ffff)); }};
+    public static opcode_fn sar_ar0= new opcode_fn() {  public void handler()	{ putdata(0); }};
+    public static opcode_fn sar_ar1= new opcode_fn() {  public void handler()	{ putdata(1); }};
+    public static opcode_fn sovm= new opcode_fn() {  public void handler()		{ SET(OVM_FLAG); }};
+    public static opcode_fn spac= new opcode_fn() {  public void handler()
+		{
+			int tmpPreg = R.Preg;
+			tmpacc = R.ACC ;
+			/* if (tmpPreg & 0x8000) tmpPreg |= 0xffff0000; */
+			R.ACC -= tmpPreg ;
+			if (tmpacc < R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x80000000;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn sst= new opcode_fn() {  public void handler()		{ putdata_sst(R.STR&0xFFFF); }};
+    public static opcode_fn sub_sh= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata((opcode_major & 0x0f),1);
+			R.ACC -= R.ALU;
+			if (tmpacc < R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x80000000;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn subc= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(15,0);
+			tmpacc -= R.ALU;
+			if (tmpacc < 0) {
+				R.ACC <<= 1;
+				SET(OV_FLAG);
+			}
+			else R.ACC = ((tmpacc << 1) + 1);
+		}
+    };
+    public static opcode_fn subh= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.ACC -= (R.ALU << 16);
+			R.ACC &= 0xffff0000;
+			R.ACC += (tmpacc & 0x0000ffff);
+			if ((tmpacc & 0xffff0000) < (R.ACC & 0xffff0000)) {
+				SET(OV_FLAG);
+				if (OVM!=0) {
+					R.ACC = (tmpacc & 0x0000ffff);
+					R.ACC |= 0x80000000 ;
+				}
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn subs= new opcode_fn() {  public void handler()
+		{
+			tmpacc = R.ACC;
+			getdata(0,0);
+			R.ACC -= R.ALU;
+			if (tmpacc < R.ACC) {
+				SET(OV_FLAG);
+				if (OVM!=0) R.ACC = 0x80000000;
+			}
+			else CLR(OV_FLAG);
+		}
+    };
+    public static opcode_fn tblr= new opcode_fn() {  public void handler()
+		{
+			R.ALU = M_RDROM((R.ACC & ADDR_MASK));
+			putdata(R.ALU);
+			R.STACK[0] = R.STACK[1];
+		}
+    };
+    public static opcode_fn tblw= new opcode_fn() {  public void handler()
+		{
+			getdata(0,0);
+			M_WRTROM(((R.ACC & ADDR_MASK)),R.ALU);
+			R.STACK[0] = R.STACK[1];
+		}
+    };
+    public static opcode_fn xor= new opcode_fn() {  public void handler()
+		{
+			tmpacc = (R.ACC & 0xffff0000);
+			getdata(0,0);
+			R.ACC ^= R.ALU;
+			R.ACC &= 0x0000ffff;
+			R.ACC |= tmpacc;
+		}
+    };
+    public static opcode_fn zac= new opcode_fn() {  public void handler()		{ R.ACC = 0; }};
+    public static opcode_fn zalh= new opcode_fn() {  public void handler()		{ getdata(16,0); R.ACC = R.ALU; }};
+    public static opcode_fn zals= new opcode_fn() {  public void handler()		{ getdata(0 ,0); R.ACC = R.ALU; }};
+    
+    static int cycles_main[]=
+    {
+    /*00*/		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*10*/		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*20*/		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*30*/		1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+    /*40*/		2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    /*50*/		1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*60*/		1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*70*/		1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 3, 1, 0,
+    /*80*/		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*90*/		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    /*A0*/		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    /*B0*/		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    /*C0*/		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    /*D0*/		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    /*E0*/		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    /*F0*/		0, 0, 0, 0, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2
+    };
+
+    static int cycles_7F_other[]=
+    {
+    /*80*/		1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 1, 1,
+    /*90*/		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1,
+    };
+    static opcode_fn opcode_main[]=
+    {
+    /*00*/  add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh
+    /*08*/ ,add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh		,add_sh
+    /*10*/ ,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh
+    /*18*/ ,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh		,sub_sh
+    /*20*/ ,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh
+    /*28*/ ,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh		,lac_sh
+    /*30*/ ,sar_ar0		,sar_ar1	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*38*/ ,lar_ar0		,lar_ar1	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*40*/ ,in_p		,in_p		,in_p		,in_p		,in_p		,in_p		,in_p		,in_p
+    /*48*/ ,out_p		,out_p		,out_p		,out_p		,out_p		,out_p		,out_p		,out_p
+    /*50*/ ,sacl		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*58*/ ,sach_sh		,sach_sh	,sach_sh	,sach_sh	,sach_sh	,sach_sh	,sach_sh	,sach_sh
+    /*60*/ ,addh		,adds		,subh		,subs		,subc		,zalh		,zals		,tblr
+    /*68*/ ,larp_mar	,dmov		,lt			,ltd		,lta		,mpy		,ldpk		,ldp
+    /*70*/ ,lark_ar0	,lark_ar1	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*78*/ ,xor			,and		,or			,lst		,sst		,tblw		,lack		,other_7F_opcodes
+    /*80*/ ,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk
+    /*88*/ ,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk
+    /*90*/ ,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk
+    /*98*/ ,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk		,mpyk
+    /*A0*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*A8*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*B0*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*B8*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*C0*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*C8*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*D0*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*D8*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*E0*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*E8*/ ,illegal		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*F0*/ ,illegal		,illegal	,illegal	,illegal	,banz		,bv			,bioz		,illegal
+    /*F8*/ ,call		,br			,blz		,blez		,bgz		,bgez		,bnz		,bz
+    };
+
+    static opcode_fn opcode_7F_other[]=
+    {
+    /*80*/  nop			,dint		,eint		,illegal	,illegal	,illegal	,illegal	,illegal
+    /*88*/ ,abst		,zac		,rovm		,sovm		,cala		,ret		,pac		,apac
+    /*90*/ ,spac		,illegal	,illegal	,illegal	,illegal	,illegal	,illegal	,illegal
+    /*98*/ ,illegal		,illegal	,illegal	,illegal	,push		,pop		,illegal	,illegal
+    };
     @Override
     public void reset(Object param) {
         R.PC  = 0;
@@ -204,7 +677,43 @@ public class tms32010 extends cpu_interface{
    }
     @Override
     public int execute(int cycles) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        	tms320c10_ICount[0] = cycles;
+
+	do
+	{
+		if ((R.pending_irq & TMS320C10_PENDING)!=0)
+		{
+			int type = R.irq_callback.handler(0);
+			R.pending_irq |= type;
+		}
+
+		if (R.pending_irq!=0) {
+			/* Dont service INT if prev instruction was MPY, MPYK or EINT */
+			if ((opcode_major != 0x6d) || ((opcode_major & 0xe0) != 0x80) || (opcode != 0x7f82))
+				tms320c10_ICount[0] -= Ext_IRQ();
+		}
+
+		R.PREPC = R.PC & 0xFFFF;
+
+		opcode=M_RDOP(R.PC);
+
+		opcode_major = ((opcode & 0x0ff00) >> 8);
+		opcode_minor = (opcode & 0x0ff);
+
+		R.PC= (R.PC+1)&0xFFFF;//R.PC++;
+		if (opcode_major != 0x07f) { /* Do all opcodes except the 7Fxx ones */
+			tms320c10_ICount[0] -= cycles_main[opcode_major];
+			opcode_main[opcode_major].handler();
+		}
+		else { /* Opcode major byte 7Fxx has many opcodes in its minor byte */
+			opcode_minr = (opcode & 0x001f);
+			tms320c10_ICount[0] -= cycles_7F_other[opcode_minr];
+			opcode_7F_other[opcode_minr].handler();
+		}
+	}
+	while (tms320c10_ICount[0]>0);
+
+	return cycles - tms320c10_ICount[0];
     }
 
     @Override
