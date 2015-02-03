@@ -34,6 +34,10 @@ import static arcadeflex.ptrlib.*;
 import static arcadeflex.libc_old.*;
 import static vidhrdw.crtc6845.*;
 import static arcadeflex.video.*;
+import static mame.palette.*;
+import static mame.paletteH.*;
+import static machine.twincobr.*;
+
 
 public class twincobr {
 
@@ -490,80 +494,83 @@ public class twincobr {
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	
+    static int offs,code,tile,i,pal_base,sprite,color;
+    static int[] colmask=new int[64];
     public static VhUpdatePtr twincobr_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
-            /*TODO*///	  static int offs,code,tile,i,pal_base,sprite,color;
-/*TODO*///	  static int colmask[64];
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	  if (twincobr_display_on != 0) {
-/*TODO*///		memset(palette_used_colors,PALETTE_COLOR_UNUSED,Machine.drv.total_colors * sizeof(unsigned char));
-/*TODO*///		{
-/*TODO*///		pal_base = Machine.drv.gfxdecodeinfo[2].color_codes_start;
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 16;color++) colmask[color] = 0;
-/*TODO*///	
-/*TODO*///		for (offs = (twincobr_bgvideoram_size >> 1) - 2;offs >= 0;offs -= 2)
-/*TODO*///		{
-/*TODO*///			code  = READ_WORD(&twincobr_bgvideoram[(offs+twincobr_bg_ram_bank)]);
-/*TODO*///			tile  = (code & 0x0fff);
-/*TODO*///			color = (code & 0xf000) >> 12;
-/*TODO*///			colmask[color] |= Machine.gfx[2].pen_usage[tile];
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 16;color++)
-/*TODO*///		{
-/*TODO*///			for (i = 0;i < 16;i++)
-/*TODO*///			{
-/*TODO*///				if (colmask[color] & (1 << i))
-/*TODO*///					palette_used_colors[pal_base + 16 * color + i] = PALETTE_COLOR_USED;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		pal_base = Machine.drv.gfxdecodeinfo[1].color_codes_start;
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 16;color++) colmask[color] = 0;
-/*TODO*///	
-/*TODO*///		scroll_x = (twincobr_flip_x_base + fgscrollx) & 0x01ff;
-/*TODO*///		scroll_y = (twincobr_flip_y_base + fgscrolly) & 0x01ff;
-/*TODO*///		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
-/*TODO*///		scroll_realign_x = scroll_x >> 3;
-/*TODO*///		for (offs = (31*41)-1; offs >= 0; offs-- )
-/*TODO*///		{
-/*TODO*///			unsigned char sx,sy;
-/*TODO*///			unsigned short int vidramaddr = 0;
-/*TODO*///	
-/*TODO*///			sx = offs % 41;
-/*TODO*///			sy = offs / 41;
-/*TODO*///			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2);
-/*TODO*///	
-/*TODO*///			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
-/*TODO*///	
-/*TODO*///			code  = READ_WORD(&twincobr_fgvideoram[(vidramaddr & 0x1fff)]);
-/*TODO*///			tile  = (code & 0x0fff) | twincobr_fg_rom_bank;
-/*TODO*///			color = (code & 0xf000) >> 12;
-/*TODO*///			colmask[color] |= Machine.gfx[1].pen_usage[tile];
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 16;color++)
-/*TODO*///		{
-/*TODO*///			if (colmask[color] & (1 << 0))
-/*TODO*///				palette_used_colors[pal_base + 16 * color] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///			for (i = 1;i < 16;i++)
-/*TODO*///			{
-/*TODO*///				if (colmask[color] & (1 << i))
-/*TODO*///					palette_used_colors[pal_base + 16 * color + i] = PALETTE_COLOR_USED;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		pal_base = Machine.drv.gfxdecodeinfo[3].color_codes_start;
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 64;color++) colmask[color] = 0;
-/*TODO*///	
-/*TODO*///		if (toaplan_main_cpu == 0) /* 68k */
-/*TODO*///		{
+ 	  if (twincobr_display_on != 0) {
+                        
+		//memset(palette_used_colors,PALETTE_COLOR_UNUSED,Machine.drv.total_colors * sizeof(unsigned char));
+                for(int k=0; k<Machine.drv.total_colors; k++)
+                {
+                    palette_used_colors.write(i, PALETTE_COLOR_UNUSED);
+                }
+		{
+		pal_base = Machine.drv.gfxdecodeinfo[2].color_codes_start;
+	
+		for (color = 0;color < 16;color++) colmask[color] = 0;
+	
+		for (offs = (twincobr_bgvideoram_size[0] >> 1) - 2;offs >= 0;offs -= 2)
+		{
+			code  = twincobr_bgvideoram.READ_WORD(offs+twincobr_bg_ram_bank);//READ_WORD(&twincobr_bgvideoram[(offs+twincobr_bg_ram_bank)]);
+			tile  = (code & 0x0fff);
+			color = (code & 0xf000) >> 12;
+			colmask[color] |= Machine.gfx[2].pen_usage[tile];
+		}
+	
+		for (color = 0;color < 16;color++)
+		{
+			for (i = 0;i < 16;i++)
+			{
+				if ((colmask[color] & (1 << i))!=0)
+					palette_used_colors.write(pal_base + 16 * color + i,PALETTE_COLOR_USED);
+			}
+		}
+	
+	
+		pal_base = Machine.drv.gfxdecodeinfo[1].color_codes_start;
+	
+		for (color = 0;color < 16;color++) colmask[color] = 0;
+	
+		scroll_x = (twincobr_flip_x_base + fgscrollx) & 0x01ff;
+		scroll_y = (twincobr_flip_y_base + fgscrolly) & 0x01ff;
+		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
+		scroll_realign_x = scroll_x >> 3;
+		for (offs = (31*41)-1; offs >= 0; offs-- )
+		{
+			int sx,sy;
+			int vidramaddr = 0;
+	
+			sx = ((offs % 41)&0xFF);
+			sy = ((offs / 41)&0xFF);
+			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2)&0xFFFF;
+	
+			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
+	
+			code  = twincobr_fgvideoram.READ_WORD(vidramaddr & 0x1fff);//READ_WORD(&twincobr_fgvideoram[(vidramaddr & 0x1fff)]);
+			tile  = (code & 0x0fff) | twincobr_fg_rom_bank;
+			color = (code & 0xf000) >> 12;
+			colmask[color] |= Machine.gfx[1].pen_usage[tile];
+		}
+	
+		for (color = 0;color < 16;color++)
+		{
+			if ((colmask[color] & (1 << 0))!=0)
+				palette_used_colors.write(pal_base + 16 * color,PALETTE_COLOR_TRANSPARENT);
+			for (i = 1;i < 16;i++)
+			{
+				if ((colmask[color] & (1 << i))!=0)
+					palette_used_colors.write(pal_base + 16 * color + i,PALETTE_COLOR_USED);
+			}
+		}
+	
+	
+		pal_base = Machine.drv.gfxdecodeinfo[3].color_codes_start;
+	
+		for (color = 0;color < 64;color++) colmask[color] = 0;
+	
+		if (toaplan_main_cpu == 0) /* 68k */
+		{
 /*TODO*///			for (offs = 0;offs < spriteram_size;offs += 8)
 /*TODO*///			{
 /*TODO*///				int sy;
@@ -574,9 +581,9 @@ public class twincobr {
 /*TODO*///					colmask[color] |= Machine.gfx[3].pen_usage[sprite];
 /*TODO*///				}
 /*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else /* Z80 */
-/*TODO*///		{
+		}
+		else /* Z80 */
+		{
 /*TODO*///			for (offs = 0;offs < spriteram_size;offs += 8)
 /*TODO*///			{
 /*TODO*///				int sy;
@@ -587,136 +594,136 @@ public class twincobr {
 /*TODO*///					colmask[color] |= Machine.gfx[3].pen_usage[sprite];
 /*TODO*///				}
 /*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 64;color++)
-/*TODO*///		{
-/*TODO*///			if (colmask[color] & (1 << 0))
-/*TODO*///				palette_used_colors[pal_base + 16 * color] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///			for (i = 1;i < 16;i++)
-/*TODO*///			{
-/*TODO*///				if (colmask[color] & (1 << i))
-/*TODO*///					palette_used_colors[pal_base + 16 * color + i] = PALETTE_COLOR_USED;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		pal_base = Machine.drv.gfxdecodeinfo[0].color_codes_start;
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 32;color++) colmask[color] = 0;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		scroll_x = (twincobr_flip_x_base + txscrollx) & 0x01ff;
-/*TODO*///		scroll_y = (twincobr_flip_y_base + txscrolly) & 0x00ff;
-/*TODO*///		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
-/*TODO*///		scroll_realign_x = scroll_x>>3;
-/*TODO*///		for (offs = (31*41)-1; offs >= 0; offs-- )
-/*TODO*///		{
-/*TODO*///			unsigned char sx,sy;
-/*TODO*///			unsigned short int vidramaddr = 0;
-/*TODO*///	
-/*TODO*///			sx = offs % 41;
-/*TODO*///			sy = offs / 41;
-/*TODO*///	
-/*TODO*///			vidramaddr = (vidbaseaddr + (sy*64) + sx) * 2;
-/*TODO*///			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
-/*TODO*///			code = READ_WORD(&videoram[(vidramaddr & 0x0fff)]);
-/*TODO*///			tile  = (code & 0x07ff);
-/*TODO*///			color = (code & 0xf800) >> 11;
-/*TODO*///			colmask[color] |= Machine.gfx[0].pen_usage[tile];
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		for (color = 0;color < 32;color++)
-/*TODO*///		{
-/*TODO*///			if (colmask[color] & (1 << 0))
-/*TODO*///				palette_used_colors[pal_base + 8 * color] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///			for (i = 1;i < 8;i++)
-/*TODO*///			{
-/*TODO*///				if (colmask[color] & (1 << i))
-/*TODO*///					palette_used_colors[pal_base + 8 * color + i] = PALETTE_COLOR_USED;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		if (palette_recalc())
-/*TODO*///		{
-/*TODO*///			memset(dirtybuffer,1,twincobr_bgvideoram_size >> 1);
-/*TODO*///		}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		/* draw the background */
-/*TODO*///		for (offs = (twincobr_bgvideoram_size >> 1) - 2;offs >= 0;offs -= 2)
-/*TODO*///		{
-/*TODO*///			if (dirtybuffer[offs / 2])
-/*TODO*///			{
-/*TODO*///				int sx,sy;
-/*TODO*///	
-/*TODO*///				dirtybuffer[offs / 2] = 0;
-/*TODO*///	
-/*TODO*///				sx = (offs/2) % 64;
-/*TODO*///				sy = (offs/2) / 64;
-/*TODO*///	
-/*TODO*///				code = READ_WORD(&twincobr_bgvideoram[offs+twincobr_bg_ram_bank]);
-/*TODO*///				tile  = (code & 0x0fff);
-/*TODO*///				color = (code & 0xf000) >> 12;
-/*TODO*///				if (twincobr_flip_screen != 0) { sx=63-sx; sy=63-sy; }
-/*TODO*///				drawgfx(tmpbitmap,Machine.gfx[2],
-/*TODO*///					tile,
-/*TODO*///					color,
-/*TODO*///					twincobr_flip_screen,twincobr_flip_screen,
-/*TODO*///					8*sx,8*sy,
-/*TODO*///					0,TRANSPARENCY_NONE,0);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* copy the background graphics */
-/*TODO*///		{
-/*TODO*///			if (twincobr_flip_screen != 0) {
-/*TODO*///				scroll_x = (twincobr_flip_x_base + bgscrollx + 0x141) & 0x1ff;
-/*TODO*///				scroll_y = (twincobr_flip_y_base + bgscrolly + 0xf1) & 0x1ff;
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				scroll_x = (0x1c9 - bgscrollx) & 0x1ff;
-/*TODO*///				scroll_y = (- 0x1e - bgscrolly) & 0x1ff;
-/*TODO*///			}
-/*TODO*///			copyscrollbitmap(bitmap,tmpbitmap,1,&scroll_x,1,&scroll_y,&Machine.drv.visible_area,TRANSPARENCY_NONE,0);
-/*TODO*///		}
+		}
+	
+		for (color = 0;color < 64;color++)
+		{
+			if ((colmask[color] & (1 << 0))!=0)
+				palette_used_colors.write(pal_base + 16 * color,PALETTE_COLOR_TRANSPARENT);
+			for (i = 1;i < 16;i++)
+			{
+				if ((colmask[color] & (1 << i))!=0)
+					palette_used_colors.write(pal_base + 16 * color + i,PALETTE_COLOR_USED);
+			}
+		}
+	
+	
+		pal_base = Machine.drv.gfxdecodeinfo[0].color_codes_start;
+	
+		for (color = 0;color < 32;color++) colmask[color] = 0;
+	
+	
+		scroll_x = (twincobr_flip_x_base + txscrollx) & 0x01ff;
+		scroll_y = (twincobr_flip_y_base + txscrolly) & 0x00ff;
+		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
+		scroll_realign_x = scroll_x>>3;
+		for (offs = (31*41)-1; offs >= 0; offs-- )
+		{
+			int sx,sy;
+		        int vidramaddr = 0;
+	
+			sx = (offs % 41)&0xFF;
+			sy = (offs / 41)&0xFF;
+	
+			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2)&0xFFFF;
+			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
+			code = videoram.READ_WORD(vidramaddr & 0x0fff);//READ_WORD(&videoram[(vidramaddr & 0x0fff)]);
+			tile  = (code & 0x07ff);
+			color = (code & 0xf800) >> 11;
+			colmask[color] |= Machine.gfx[0].pen_usage[tile];
+		}
+	
+	
+		for (color = 0;color < 32;color++)
+		{
+			if ((colmask[color] & (1 << 0))!=0)
+				palette_used_colors.write(pal_base + 8 * color,PALETTE_COLOR_TRANSPARENT);
+			for (i = 1;i < 8;i++)
+			{
+				if ((colmask[color] & (1 << i))!=0)
+					palette_used_colors.write(pal_base + 8 * color + i,PALETTE_COLOR_USED);
+			}
+		}
+	
+	
+		if (palette_recalc()!=null)
+		{
+			memset(dirtybuffer,1,twincobr_bgvideoram_size[0] >> 1);
+		}
+		}
+	
+	
+		/* draw the background */
+		for (offs = (twincobr_bgvideoram_size[0] >> 1) - 2;offs >= 0;offs -= 2)
+		{
+			if (dirtybuffer[offs / 2]!=0)
+			{
+				int sx,sy;
+	
+				dirtybuffer[offs / 2] = 0;
+	
+				sx = (offs/2) % 64;
+				sy = (offs/2) / 64;
+	
+				code = twincobr_bgvideoram.READ_WORD(offs+twincobr_bg_ram_bank);//READ_WORD(&twincobr_bgvideoram[offs+twincobr_bg_ram_bank]);
+				tile  = (code & 0x0fff);
+				color = (code & 0xf000) >> 12;
+				if (twincobr_flip_screen != 0) { sx=63-sx; sy=63-sy; }
+				drawgfx(tmpbitmap,Machine.gfx[2],
+					tile,
+					color,
+					twincobr_flip_screen,twincobr_flip_screen,
+					8*sx,8*sy,
+					null,TRANSPARENCY_NONE,0);
+			}
+		}
+	
+		/* copy the background graphics */
+		{
+			if (twincobr_flip_screen != 0) {
+				scroll_x = (twincobr_flip_x_base + bgscrollx + 0x141) & 0x1ff;
+				scroll_y = (twincobr_flip_y_base + bgscrolly + 0xf1) & 0x1ff;
+			}
+			else {
+				scroll_x = (0x1c9 - bgscrollx) & 0x1ff;
+				scroll_y = (- 0x1e - bgscrolly) & 0x1ff;
+			}
+			copyscrollbitmap(bitmap,tmpbitmap,1,new int[]{scroll_x},1,new int[]{scroll_y},Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+		}
 /*TODO*///	
 /*TODO*///	
 /*TODO*///		/* draw the sprites in low priority (Twin Cobra tanks under roofs) */
 /*TODO*///		twincobr_draw_sprites (bitmap, 0x0400);
 /*TODO*///	
-/*TODO*///		/* draw the foreground */
-/*TODO*///		scroll_x = (twincobr_flip_x_base + fgscrollx) & 0x01ff;
-/*TODO*///		scroll_y = (twincobr_flip_y_base + fgscrolly) & 0x01ff;
-/*TODO*///		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
-/*TODO*///		scroll_realign_x = scroll_x >> 3;		/* realign video ram pointer */
-/*TODO*///		for (offs = (31*41)-1; offs >= 0; offs-- )
-/*TODO*///		{
-/*TODO*///			int xpos,ypos;
-/*TODO*///			unsigned char sx,sy;
-/*TODO*///			unsigned short int vidramaddr = 0;
-/*TODO*///	
-/*TODO*///			sx = offs % 41;
-/*TODO*///			sy = offs / 41;
-/*TODO*///	
-/*TODO*///			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2);
-/*TODO*///			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
-/*TODO*///	
-/*TODO*///			code  = READ_WORD(&twincobr_fgvideoram[(vidramaddr & 0x1fff)]);
-/*TODO*///			tile  = (code & 0x0fff) | twincobr_fg_rom_bank;
-/*TODO*///			color = (code & 0xf000) >> 12;
-/*TODO*///			if (twincobr_flip_screen != 0) { sx=40-sx; sy=30-sy; xpos=(sx*8) - (7-(scroll_x&7)); ypos=(sy*8) - (7-(scroll_y&7)); }
-/*TODO*///			else { xpos=(sx*8) - (scroll_x&7); ypos=(sy*8) - (scroll_y&7); }
-/*TODO*///			drawgfx(bitmap,Machine.gfx[1],
-/*TODO*///				tile,
-/*TODO*///				color,
-/*TODO*///				twincobr_flip_screen,twincobr_flip_screen,
-/*TODO*///				xpos,ypos,
-/*TODO*///				&Machine.drv.visible_area,TRANSPARENCY_PEN,0);
-/*TODO*///		}
+		/* draw the foreground */
+		scroll_x = (twincobr_flip_x_base + fgscrollx) & 0x01ff;
+		scroll_y = (twincobr_flip_y_base + fgscrolly) & 0x01ff;
+		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
+		scroll_realign_x = scroll_x >> 3;		/* realign video ram pointer */
+		for (offs = (31*41)-1; offs >= 0; offs-- )
+		{
+			int xpos,ypos;
+			int sx,sy;
+		        int vidramaddr = 0;
+	
+			sx = (offs % 41)&0xFF;
+			sy = (offs / 41)&0xFF;
+	
+			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2);
+			if ((scroll_realign_x + sx) > 63) vidramaddr -= 128;
+	
+			code  = twincobr_fgvideoram.READ_WORD(vidramaddr & 0x1fff);//READ_WORD(&twincobr_fgvideoram[(vidramaddr & 0x1fff)]);
+			tile  = (code & 0x0fff) | twincobr_fg_rom_bank;
+			color = (code & 0xf000) >> 12;
+			if (twincobr_flip_screen != 0) { sx=40-sx; sy=30-sy; xpos=(sx*8) - (7-(scroll_x&7)); ypos=(sy*8) - (7-(scroll_y&7)); }
+			else { xpos=(sx*8) - (scroll_x&7); ypos=(sy*8) - (scroll_y&7); }
+			drawgfx(bitmap,Machine.gfx[1],
+				tile,
+				color,
+				twincobr_flip_screen,twincobr_flip_screen,
+				xpos,ypos,
+				Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+		}
 /*TODO*///	
 /*TODO*///	/*********  Begin ugly sprite hack for Wardner when hero is in shop *********/
 /*TODO*///		if ((wardner_sprite_hack) && (fgscrollx != bgscrollx)) {	/* Wardner ? */
@@ -778,7 +785,7 @@ public class twincobr {
 /*TODO*///		/* draw the sprites in high priority */
 /*TODO*///		twincobr_draw_sprites (bitmap, 0x0c00);
 /*TODO*///	
-/*TODO*///	  }
+	  }
         }
     };
 
