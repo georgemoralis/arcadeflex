@@ -27,6 +27,8 @@ import cpu.m6800.m6802;
 import cpu.m6800.m6803;
 import cpu.m6800.m6808;
 import cpu.m6800.hd63701;
+import cpu.tms32010.tms32010;
+import static cpu.tms32010.tms32010H.*;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -231,57 +233,23 @@ public class cpuintrf {
 	new hd6309(),
 	new m6809(),
         new konami(),
-        new m68000()
-    /*TODO*///#if (HAS_M68000)
-    /*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M68010)
-    /*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M68EC020)
-    /*TODO*///	CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24,	  0,24,BE,2,10,24	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M68020)
-    /*TODO*///	CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_T11)
-    /*TODO*///	CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_S2650)
-    /*TODO*///	CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS34010)
-    /*TODO*///	CPU2(TMS34010, tms34010, 2,  0,1.00,TMS34010_INT_NONE, TMS34010_INT1,  -1,			   29,	  3,29,LE,2,10,29	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9900)
-    /*TODO*///	CPU0(TMS9900,  tms9900,  1,  0,1.00,TMS9900_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9940)
-    /*TODO*///	CPU0(TMS9940,  tms9940,  1,  0,1.00,TMS9940_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9980)
-    /*TODO*///	CPU0(TMS9980,  tms9980a, 1,  0,1.00,TMS9980A_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9985)
-    /*TODO*///	CPU0(TMS9985,  tms9985,  1,  0,1.00,TMS9985_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9989)
-    /*TODO*///	CPU0(TMS9989,  tms9989,  1,  0,1.00,TMS9989_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS9995)
-    /*TODO*///	CPU0(TMS9995,  tms9995,  1,  0,1.00,TMS9995_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS99105A)
-    /*TODO*///	CPU0(TMS99105A,tms99105a,1,  0,1.00,TMS99105A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS99110A)
-    /*TODO*///	CPU0(TMS99110A,tms99110a,1,  0,1.00,TMS99110A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_Z8000)
-    /*TODO*///	CPU0(Z8000,    z8000,	 2,  0,1.00,Z8000_INT_NONE,    Z8000_NVI,	   Z8000_NMI,	   16bew, 0,16,BE,2, 6,16BEW),
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_TMS320C10)
-    /*TODO*///	CPU0(TMS320C10,tms320c10,2,  0,1.00,TMS320C10_INT_NONE,-1,			   -1,			   16,	 -1,16,BE,2, 4,16	),
+        new m68000(),/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+        new Dummy_cpu(),/*TODO*///CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+        new Dummy_cpu(),/*TODO*///CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24,	  0,24,BE,2,10,24	),
+        new Dummy_cpu(),/*TODO*///CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+        new Dummy_cpu(),/*TODO*///CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
+        new Dummy_cpu(),/*TODO*///CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
+        new Dummy_cpu(),/*TODO*///CPU2(TMS34010, tms34010, 2,  0,1.00,TMS34010_INT_NONE, TMS34010_INT1,  -1,			   29,	  3,29,LE,2,10,29	),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9900,  tms9900,  1,  0,1.00,TMS9900_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9940,  tms9940,  1,  0,1.00,TMS9940_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9980,  tms9980a, 1,  0,1.00,TMS9980A_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9985,  tms9985,  1,  0,1.00,TMS9985_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9989,  tms9989,  1,  0,1.00,TMS9989_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS9995,  tms9995,  1,  0,1.00,TMS9995_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS99105A,tms99105a,1,  0,1.00,TMS99105A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+        new Dummy_cpu(),/*TODO*///CPU0(TMS99110A,tms99110a,1,  0,1.00,TMS99110A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+        new Dummy_cpu(),/*TODO*///CPU0(Z8000,    z8000,	 2,  0,1.00,Z8000_INT_NONE,    Z8000_NVI,	   Z8000_NMI,	   16bew, 0,16,BE,2, 6,16BEW),
+        new tms32010(),//CPU0(TMS320C10,tms320c10,2,  0,1.00,TMS320C10_INT_NONE,-1,			   -1,			   16,	 -1,16,BE,2, 4,16	),
     /*TODO*///#endif
     /*TODO*///#if (HAS_CCPU)
     /*TODO*///	CPU0(CCPU,	   ccpu,	 2,  0,1.00,0,				   -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
@@ -1618,15 +1586,14 @@ public class cpuintrf {
     /*TODO*///				}
     /*TODO*///				break;
     /*TODO*///#endif
-    /*TODO*///#if HAS_TMS320C10
-    /*TODO*///			case CPU_TMS320C10:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case TMS320C10_ACTIVE_INT:	irq_line = 0; LOG((errorlog,"TMS32010 INT\n")); break;
-    /*TODO*///				case TMS320C10_ACTIVE_BIO:	irq_line = 1; LOG((errorlog,"TMS32010 BIO\n")); break;
-    /*TODO*///				default:					irq_line = 0; LOG((errorlog,"TMS32010 unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				break;
+    			case CPU_TMS320C10:
+    				switch (num)
+    				{
+    				case TMS320C10_ACTIVE_INT:	irq_line = 0; if(errorlog!=null) fprintf(errorlog,"TMS32010 INT\n"); break;
+    				case TMS320C10_ACTIVE_BIO:	irq_line = 1; if(errorlog!=null) fprintf(errorlog,"TMS32010 BIO\n"); break;
+    				default:					irq_line = 0; if(errorlog!=null) fprintf(errorlog,"TMS32010 unknown\n");
+    				}
+    				break;
     /*TODO*///#endif
     /*TODO*///#if HAS_ADSP2100
     /*TODO*///			case CPU_ADSP2100:
