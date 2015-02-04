@@ -347,6 +347,10 @@ dangar2  galivan.c  Z80      [Z80   ]                                           
 dangarb  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (bootleg)
 ninjemak galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Ninja Emaki (US)
 youma    galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Youma Ninpou Chou (Japan)
+circusc  circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie
+circusc2 circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (no level select)
+circuscc circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri)
+circusce circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri, earlier)
 
 
 Small issues that doesn't affect playable status

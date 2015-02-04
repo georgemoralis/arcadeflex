@@ -47,7 +47,7 @@ import static drivers.espial.*;
 import static drivers.timeplt.*;
 import static drivers.gng.*;
 import static drivers.gundealr.*;
-import static drivers.WIP.circusc.*;
+import static drivers.circusc.*;
 import static drivers.tp84.*;
 import static drivers.ironhors.*;
 import static drivers.gunsmoke.*;
@@ -158,7 +158,7 @@ import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
 import static drivers.WIP.psychic5.*;
 import static drivers.WIP.wardner.*;
-import static drivers.WIP.galivan.*;
+import static drivers.galivan.*;
 
 
 public class driver {
@@ -517,6 +517,10 @@ public class driver {
         /*344*//*galivan*/driver_dangarb,
         /*345*//*galivan*/driver_ninjemak,
         /*346*//*galivan*/driver_youma,
+        /*347*//*circusc*/driver_circusc,
+        /*348*//*circusc*/driver_circusc2,
+        /*349*//*circusc*/driver_circuscc,
+        /*350*//*circusc*/driver_circusce,
     
         
         
@@ -940,14 +944,6 @@ public class driver {
         driver_cobracmj,	/* (c) 1988 Data East Corporation (Japan) */
         driver_oscar,	/* (c) 1988 Data East USA (US) */
         driver_oscarj,	/* (c) 1987 Data East Corporation (Japan) */
-
-        
-        driver_circusc,	/* GX380 (c) 1984 */
-        driver_circusc2,	/* GX380 (c) 1984 */
-        driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
-        driver_circusce,	/* GX380 (c) 1984 + Centuri license */  
-        
-        
 
 	/* "Galaxian hardware" games */
 /*TODO*/ //	DRIVER( galaxian )	/* (c) Namco */

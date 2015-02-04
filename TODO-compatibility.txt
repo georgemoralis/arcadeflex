@@ -980,11 +980,6 @@ trackfld trackfld.c M6809    [Z80   ]                                           
 trackflc trackfld.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Track & Field (Centuri)
 hyprolym trackfld.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Hyper Olympic
 hyprolyb trackfld.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   1xADPCM                             Hyper Olympic (bootleg)
-
-circusc  circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie
-circusc2 circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (no level select)
-circuscc circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri)
-circusce circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri, earlier)
 hyperspt hyperspt.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Hyper Sports
 hpolym84 hyperspt.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Hyper Olympics '84
 sbasketb sbasketb.c M6809    [Z80   ]                                                       1xDAC       1xSN76496   VLM5030                             Super Basketball
