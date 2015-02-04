@@ -158,7 +158,7 @@ import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
 import static drivers.WIP.psychic5.*;
 import static drivers.WIP.wardner.*;
-
+import static drivers.WIP.galivan.*;
 
 
 public class driver {
@@ -510,6 +510,13 @@ public class driver {
         /*337*//*srumbler*/driver_srumbler,
         /*338*//*srumbler*/driver_srumblr2,
         /*339*//*srumbler*/driver_rushcrsh,
+        /*340*//*galivan*/driver_galivan,
+        /*341*//*galivan*/driver_galivan2,
+        /*342*//*galivan*/driver_dangar,
+        /*343*//*galivan*/driver_dangar2,
+        /*344*//*galivan*/driver_dangarb,
+        /*345*//*galivan*/driver_ninjemak,
+        /*346*//*galivan*/driver_youma,
     
         
         
@@ -1012,13 +1019,7 @@ public class driver {
 /*TODO*/ //	DRIVER( terracre )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( terracrb )	/* (c) 1985 */
 /*TODO*/ //	DRIVER( terracra )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( galivan )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( galivan2 )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( dangar )	/* (c) 1986 */
-/*TODO*/ //	DRIVER( dangar2 )	/* (c) 1986 */
-/*TODO*/ //	DRIVER( dangarb )	/* bootleg */
-/*TODO*/ //	DRIVER( ninjemak )	/* (c) 1986 (US?) */
-/*TODO*/ //	DRIVER( youma )		/* (c) 1986 (Japan) */
+
 /*TODO*/ //	DRIVER( terraf )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( terrafu )	/* (c) 1987 Nichibutsu USA */
 /*TODO*/ //	DRIVER( kodure )	/* (c) 1987 (Japan) */

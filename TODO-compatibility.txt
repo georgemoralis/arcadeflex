@@ -76,13 +76,6 @@ cop01a   cop01.c    Z80      [Z80   ]                                           
 terracre terracre.c 68000    [Z80   ]                                                       1xYM-3526   2xDAC                                           Terra Cresta (YM3526 set 1)
 terracrb terracre.c 68000    [Z80   ]                                                       1xYM-3526   2xDAC                                           Terra Cresta (YM3526 set 2)
 terracra terracre.c 68000    [Z80   ]                                                       1xYM-2203   2xDAC                                           Terra Cresta (YM2203)
-galivan  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Galivan - Cosmo Police (12/16/1985)
-galivan2 galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Galivan - Cosmo Police (12/11/1985)
-dangar   galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (12/1/1986)
-dangar2  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (9/26/1986)
-dangarb  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (bootleg)
-ninjemak galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Ninja Emaki (US)
-youma    galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Youma Ninpou Chou (Japan)
 terraf   armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Terra Force
 terrafu  armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Terra Force (US)
 kodure   armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Kodure Ookami (Japan)

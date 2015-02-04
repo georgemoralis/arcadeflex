@@ -50,13 +50,11 @@ public class sndintrf {
         read_debug = 1;
         return latch;
     }};
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///void soundlatch_clear_w(int offset, int data)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	latch = cleared_value;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
+    public static WriteHandlerPtr soundlatch_clear_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        latch = cleared_value;
+    }};
+    
     static int latch2,read_debug2;
     
     public static timer_callback soundlatch2_callback = new timer_callback(){ public void handler(int param){

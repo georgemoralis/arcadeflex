@@ -340,6 +340,13 @@ ftsoccer snk.c      Z80      Z80      [Z80   ]                                  
 srumbler srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 1)
 srumblr2 srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   The Speed Rumbler (set 2)
 rushcrsh srumbler.c M6809    [Z80   ]                                                       2xYM-2203                                                   Rush & Crash (Japan)
+galivan  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Galivan - Cosmo Police (12/16/1985)
+galivan2 galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Galivan - Cosmo Police (12/11/1985)
+dangar   galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (12/1/1986)
+dangar2  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (9/26/1986)
+dangarb  galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Dangar - Ufo Robo (bootleg)
+ninjemak galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Ninja Emaki (US)
+youma    galivan.c  Z80      [Z80   ]                                                       1xYM-3526   2xDAC                                           Youma Ninpou Chou (Japan)
 
 
 Small issues that doesn't affect playable status
