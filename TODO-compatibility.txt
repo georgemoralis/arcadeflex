@@ -769,8 +769,7 @@ zaxxonb  zaxxon.c   Z80                                                         
 szaxxon  zaxxon.c   Z80                                                                     Samples                                                     Super Zaxxon
 futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy
 razmataz zaxxon.c   Z80                                                                                                                                 Razzmatazz
-congo    congo.c    Z80      [Z80   ]                                                       2xSN76496   Samples                                         Congo Bongo
-tiptop   congo.c    Z80      [Z80   ]                                                       2xSN76496   Samples                                         Tip Top
+
 turbo    turbo.c    Z80                                                                     Samples                                                     Turbo
 turboa   turbo.c    Z80                                                                     Samples                                                     Turbo (encrypted set 1)
 turbob   turbo.c    Z80                                                                     Samples                                                     Turbo (encrypted set 2)

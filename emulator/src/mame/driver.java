@@ -540,6 +540,8 @@ public class driver {
         /*011*//*rallyx*/driver_nrallyx,//no samples support
         /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
+        /*014*//*congo*/driver_congo,//no samples support
+        /*015*//*congo*/driver_tiptop,//no samples support
         /*
           Possible cpu bugs
         */
@@ -921,8 +923,7 @@ public class driver {
         driver_szaxxon,	/* (c) 1982 */
         driver_futspy,	/* (c) 1984 */
         driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
-        driver_congo,	/* 605-5167 (c) 1983 */
-        driver_tiptop,	/* 605-5167 (c) 1983 */
+        
         
         driver_sidepckt,	/* (c) 1986 Data East Corporation */
         driver_sidepctj,	/* (c) 1986 Data East Corporation */
