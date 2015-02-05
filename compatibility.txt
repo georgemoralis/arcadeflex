@@ -351,6 +351,9 @@ circusc  circusc.c  M6809    [Z80   ]                                           
 circusc2 circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (no level select)
 circuscc circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri)
 circusce circusc.c  M6809    [Z80   ]                                                       2xSN76496   1xDAC                                           Circus Charlie (Centuri, earlier)
+shackled dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Shackled (US)
+breywood dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Breywood (Japan revision 2)
+csilver  dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526   1xMSM5205                           Captain Silver (Japan)
 
 
 Small issues that doesn't affect playable status
@@ -393,12 +396,26 @@ Sound issues
 006)pacland3 pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (set 3) //no sound at all , namco sound doesn't work
 007)paclandm pacland.c  M6809    HD63701                                                        Namco                                                       Pac-Land (Midway) //no sound at all , namco sound doesn't work
 008)drgnbstr skykid.c   M6809    HD63701                                                        Namco                                                       Dragon Buster//no sound at all , namco sound doesn't work
+sidepckt sidepckt.c M6809    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Side Pocket (World)  //sound plays too fast
+sidepctj sidepckt.c M6809    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Side Pocket (Japan)  //sound plays too fast
+sidepctb sidepckt.c M6809    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Side Pocket (bootleg)  //sound plays too fast
+ghostb   dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3812                                       The Real Ghostbusters (US 2 Players) //sound plays too fast , small gfx issues
+ghostb3  dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3812                                       The Real Ghostbusters (US 3 Players) //sound plays too fast , small gfx issues
+meikyuh  dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Meikyuu Hunter G (Japan) //sound plays too fast
+srdarwin dec8.c     M6809    [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Super Real Darwin (Japan) //sound plays too fast
+gondo    dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Gondomania (US) //sound plays too fast
+makyosen dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Makyou Senshi (Japan) //sound plays too fast
+garyoret dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Garyo Retsuden (Japan) //sound plays too fast , small gfx issues
+cobracom dec8.c     M6809    [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Cobra-Command (World revision 5) //sound plays too fast
+cobracmj dec8.c     M6809    [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Cobra-Command (Japan) //sound plays too fast
 
 Control issues
 =============
 
 001)moonwar2 scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 1)  -analog control missing
 002)monwar2a scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 2)  -analog control missing
+lastmiss dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 6)  //controls doesn't work
+lastmss2 dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 5) //controls doesn't work
 
 Unkown issues
 -------------------------------
@@ -407,7 +424,9 @@ Unkown issues
 003)mars     scramble.c Z80      [Z80   ]                                                       2xAY-8910                                                   Mars                       -CPU #0 PC 7702: warning - op-code execute on mapped i/o
 004)devilfsh scramble.c Z80      [Z80   ]                                                       2xAY-8910                                                   Devil Fish   -doesn't start
 005)newsin7  scramble.c Z80      [Z80   ]                                                       2xAY-8910                                                   New Sinbad 7  -CPU #1 PC e8a1: warning - op-code execute on mapped i/o
-
+006)airbustr airbustr.c Z80      Z80      Z80                                                   1xYM-2203   1xOKI6295                                       Air Buster (Japan)   - boots but doesn't start
+oscar    dec8.c     HD6309   HD6309   [M6502 ]                                              1xYM-2203   1xYM-3526                                       Psycho-Nics Oscar (US)  -  doesn't boot and freezes emu
+oscarj   dec8.c     HD6309   HD6309   [M6502 ]                                              1xYM-2203   1xYM-3526                                       Psycho-Nics Oscar (Japan) -  doesn't boot and freezes emu
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------

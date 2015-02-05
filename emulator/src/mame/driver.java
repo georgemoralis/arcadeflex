@@ -520,7 +520,10 @@ public class driver {
         /*347*//*circusc*/driver_circusc,
         /*348*//*circusc*/driver_circusc2,
         /*349*//*circusc*/driver_circuscc,
-        /*350*//*circusc*/driver_circusce,
+        /*350*//*circusc*/driver_circusce,             
+        /*351*//*dec8*/driver_shackled,
+        /*352*//*dec8*/driver_breywood,
+        /*353*//*dec8*/driver_csilver,
     
         
         
@@ -568,12 +571,26 @@ public class driver {
         /*006*//*pacland*/driver_pacland3,//no sound at all , namco sound doesn't work
         /*007*//*pacland*/driver_paclandm,//no sound at all , namco sound doesn't work
         /*008*//*skykid*/driver_drgnbstr,//no sound at all , namco sound doesn't work
-        
+        /*sidepckt*/driver_sidepckt,//sound plays too fast	
+        /*sidepckt*/driver_sidepctj,//sound plays too fast	
+        /*sidepckt*/driver_sidepctb,//sound plays too fast
+        /*dec8*/driver_ghostb,//sound plays too fast , small gfx issues
+        /*dec8*/driver_ghostb3,//sound plays too fast , small gfx issues
+        /*dec8*/driver_meikyuh,//sound plays too fast
+        /*dec8*/driver_srdarwin,//sound plays too fast
+        /*dec8*/driver_gondo,//sound plays too fast
+        /*dec8*/driver_makyosen,//sound plays too fast
+        /*dec8*/driver_garyoret,//sound plays too fast , small gfx issues
+        /*dec8*/driver_cobracom,//sound plays too fast
+        /*dec8*/driver_cobracmj,//sound plays too fast
+            
         /* controls issues
         
         */
         /*001*//*scobra*/driver_moonwar2,//misses analog controls
 	/*002*//*scobra*/driver_monwar2a,//misses analog controls
+        /*dec8*/driver_lastmiss, //no controls working
+        /*dec8*/driver_lastmss2,//no controls working
         /*
            Unknown issues 
         */
@@ -582,6 +599,9 @@ public class driver {
         /*003*//*scramble*/driver_mars,//-CPU #0 PC 7702: warning - op-code execute on mapped i/o
 	/*004*//*scramble*/driver_devilfsh,//doesn't start..
 	/*005*//*scramble*/driver_newsin7, //-CPU #1 PC e8a1: warning - op-code execute on mapped i/o
+        /*006*//*airbustr*/driver_airbustr,//boots but doesn't start
+        /*dec8*/driver_oscar,//games doesn't boot and freezes emu
+        /*dec8*/driver_oscarj,//games doesn't boot and freezes emu
         /*
           GAME NOT WORKING FLAG
         */
@@ -805,7 +825,7 @@ public class driver {
         /*flkatck*/driver_mx5000,
         /*flkatck*/driver_flkatck,
 
-        /*airbustr*/driver_airbustr,	/* (c) 1990 Kaneko */
+        
         
 
         /*slapfght*/driver_tigerh,
@@ -925,26 +945,7 @@ public class driver {
         driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
         
         
-        driver_sidepckt,	/* (c) 1986 Data East Corporation */
-        driver_sidepctj,	/* (c) 1986 Data East Corporation */
-        driver_sidepctb,	/* bootleg */
-/* Data East 8-bit games */
-        driver_lastmiss,	/* (c) 1986 Data East USA (US) */
-        driver_lastmss2,	/* (c) 1986 Data East USA (US) */
-        driver_shackled,	/* (c) 1986 Data East USA (US) */
-        driver_breywood,	/* (c) 1986 Data East Corporation (Japan) */
-        driver_csilver,	/* (c) 1987 Data East Corporation (Japan) */
-        driver_ghostb,	/* (c) 1987 Data East USA (US) */
-        driver_ghostb3,	/* (c) 1987 Data East USA (US) */
-        driver_meikyuh,	/* (c) 1987 Data East Corporation (Japan) */
-        driver_srdarwin,	/* (c) 1987 Data East Corporation (Japan) */
-        driver_gondo,		/* (c) 1987 Data East USA (US) */
-        driver_makyosen,	/* (c) 1987 Data East Corporation (Japan) */
-        driver_garyoret,	/* (c) 1987 Data East Corporation (Japan) */
-        driver_cobracom,	/* (c) 1988 Data East Corporation (World) */
-        driver_cobracmj,	/* (c) 1988 Data East Corporation (Japan) */
-        driver_oscar,	/* (c) 1988 Data East USA (US) */
-        driver_oscarj,	/* (c) 1987 Data East Corporation (Japan) */
+
 
 	/* "Galaxian hardware" games */
 /*TODO*/ //	DRIVER( galaxian )	/* (c) Namco */
