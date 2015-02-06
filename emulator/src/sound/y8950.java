@@ -5,10 +5,11 @@ import mame.sndintrfH;
 import static mame.sndintrfH.*;
 import static sound._3812intfH.*;
 import static mame.driverH.*;
+import static sound.fmoplH.*;
 
 public class y8950 extends _3812intf
 {
-        public y8950()
+    public y8950()
     {
         sound_num=SOUND_Y8950;
         name="Y8950";
@@ -25,46 +26,35 @@ public class y8950 extends _3812intf
 
     @Override
     public int start(sndintrfH.MachineSound msound) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return 0;//ttemp
+        chiptype = OPL_TYPE_Y8950;
+	if( OPL_sh_start(msound)!=0 ) return 1;
+	/* !!!!! port handler set !!!!! */
+	/* !!!!! delta-t memory address set !!!!! */
+	return 0;
     }
 
-    @Override
-    public void stop() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update() {
-        //no functionality expected
-    }
-
-    @Override
-    public void reset() {
-        //no functionality expected
-    }
     public static ReadHandlerPtr Y8950_status_port_0_r = new ReadHandlerPtr() { public int handler(int offset)
     {
-        return 0;//for now
+        return YM3812_status_port_0_r.handler(offset);
     }};
     public static ReadHandlerPtr Y8950_status_port_1_r = new ReadHandlerPtr() { public int handler(int offset)
     {
-        return 0;//for now
+        return YM3812_status_port_1_r.handler(offset);
     }};
     public static WriteHandlerPtr Y8950_control_port_0_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-            
+        YM3812_control_port_0_w.handler(offset, data);    
     }};
     public static WriteHandlerPtr Y8950_write_port_0_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-            
+        YM3812_write_port_0_w.handler(offset, data);    
     }};
     public static WriteHandlerPtr Y8950_control_port_1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-            
+         YM3812_control_port_1_w.handler(offset, data);   
     }};
     public static WriteHandlerPtr Y8950_write_port_1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-            
+          YM3812_write_port_1_w.handler(offset, data);  
     }};    
 }

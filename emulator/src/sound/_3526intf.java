@@ -4,7 +4,9 @@ import mame.sndintrf;
 import mame.sndintrfH;
 import static mame.sndintrfH.*;
 import static sound._3812intfH.*;
+import static sound._3812intf.*;
 import static mame.driverH.*;
+import static sound.fmoplH.*;
 
 public class _3526intf extends _3812intf
 {
@@ -21,6 +23,11 @@ public class _3526intf extends _3812intf
     @Override
     public int chips_clock(sndintrfH.MachineSound msound) {
         return ((YM3526interface)msound.sound_interface).baseclock;
+    }
+    @Override
+    public int start(sndintrfH.MachineSound msound) {
+       	chiptype = OPL_TYPE_YM3526;
+	return OPL_sh_start(msound);
     }
 
     public static ReadHandlerPtr YM3526_status_port_0_r = new ReadHandlerPtr() { public int handler(int offset)

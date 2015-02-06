@@ -70,20 +70,17 @@ public class _3812intf extends snd_interface {
             }
             /* stream setup */
             name = sprintf("%s #%d", sound_name(msound), i);
-            /*TODO*///#if HAS_Y8950
-/*TODO*///		/* ADPCM ROM DATA */
-/*TODO*///		if(chiptype == OPL_TYPE_Y8950)
-/*TODO*///		{
-/*TODO*///			F3812[i]->deltat->memory = (unsigned char *)(memory_region(intf->rom_region[i]));
+            /* ADPCM ROM DATA */
+            if (chiptype == OPL_TYPE_Y8950) {
+                /*TODO*///			F3812[i]->deltat->memory = (unsigned char *)(memory_region(intf->rom_region[i]));
 /*TODO*///			F3812[i]->deltat->memory_size = memory_region_length(intf->rom_region[i]);
-/*TODO*///			stream[i] = stream_init(name,vol,rate,i,Y8950UpdateHandler);
+			stream[i] = stream_init(name,vol,rate,i,Y8950UpdateHandler);
 /*TODO*///			/* port and keyboard handler */
 /*TODO*///			OPLSetPortHandler(F3812[i],Y8950PortHandler_w,Y8950PortHandler_r,i);
 /*TODO*///			OPLSetKeyboardHandler(F3812[i],Y8950KeyboardHandler_w,Y8950KeyboardHandler_r,i);
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///#endif
-            stream[i] = stream_init(name, vol, rate, i, YM3812UpdateHandler);
+            } else {
+                stream[i] = stream_init(name, vol, rate, i, YM3812UpdateHandler);
+            }
             /* YM3812 setup */
             OPLSetTimerHandler(F3812[i], TimerHandler, i * 2);
             OPLSetIRQHandler(F3812[i], IRQHandler, i);
@@ -205,6 +202,11 @@ public class _3812intf extends snd_interface {
     public static StreamInitPtr YM3812UpdateHandler = new StreamInitPtr() {
         public void handler(int num, UShortPtr buffer, int length) {
             YM3812UpdateOne(F3812[num], buffer, length);
+        }
+    };
+    public static StreamInitPtr Y8950UpdateHandler = new StreamInitPtr() {
+        public void handler(int num, UShortPtr buffer, int length) {
+            Y8950UpdateOne(F3812[num], buffer, length);
         }
     };
 

@@ -999,12 +999,11 @@ public class fmopl {
         OPLCloseTable();
     }
 
-    /*TODO*///#if (BUILD_YM3812 || BUILD_YM3526)
-   /*TODO*////*******************************************************************************/
-   /*TODO*////*		YM3812 local section                                                   */
-   /*TODO*////*******************************************************************************/
-   /*TODO*///
-   /*TODO*////* ---------- update one of chip ----------- */
+   /*******************************************************************************/
+   /*		YM3812 local section                                                   */
+   /*******************************************************************************/
+   
+   /* ---------- update one of chip ----------- */
     public static void YM3812UpdateOne(FM_OPL OPL, UShortPtr buffer, int length) {
         int i;
         int data;
@@ -1056,12 +1055,7 @@ public class fmopl {
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;
     }
-    /*TODO*///#endif /* (BUILD_YM3812 || BUILD_YM3526) */
-   /*TODO*///
-   /*TODO*///#if BUILD_Y8950
-   /*TODO*///
-   /*TODO*///void Y8950UpdateOne(FM_OPL *OPL, INT16 *buffer, int length)
-   /*TODO*///{
+    public static void Y8950UpdateOne(FM_OPL OPL, UShortPtr buffer, int length) {
    /*TODO*///    int i;
    /*TODO*///	int data;
    /*TODO*///	FMSAMPLE *buf = buffer;
@@ -1117,8 +1111,7 @@ public class fmopl {
    /*TODO*///	/* deltaT START flag */
    /*TODO*///	if( !DELTAT->flag )
    /*TODO*///		OPL->status &= 0xfe;
-   /*TODO*///}
-   /*TODO*///#endif
+    }
 
     /* ---------- reset one of chip ---------- */
     public static void OPLResetChip(FM_OPL OPL) {
