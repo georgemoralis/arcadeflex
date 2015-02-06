@@ -96,7 +96,7 @@ import static drivers.srumbler.*;
   WIP Drivers
 */
 import static drivers.WIP.jackal.*;
-import static drivers.WIP.cclimber.*;
+import static drivers.cclimber.*;
 import static drivers.WIP.gberet.*;
 import static drivers.WIP.mitchell.*;
 import static drivers.WIP.snk.*;
@@ -524,6 +524,22 @@ public class driver {
         /*351*//*dec8*/driver_shackled,
         /*352*//*dec8*/driver_breywood,
         /*353*//*dec8*/driver_csilver,
+        /* "Crazy Climber hardware" games */
+        /*354*//*cclimber*/driver_cclimber, 
+        /*355*//*cclimber*/driver_cclimbrj,
+        /*356*//*cclimber*/driver_ccboot, 	
+        /*357*//*cclimber*/driver_ccboot2,	
+        /*358*//*cclimber*/driver_ckong,	
+        /*359*//*cclimber*/driver_ckonga,	
+        /*360*//*cclimber*/driver_ckongjeu,
+        /*361*//*cclimber*/driver_ckongo,	
+        /*362*//*cclimber*/driver_ckongalc,
+        /*363*//*cclimber*/driver_monkeyd,	
+        /*364*//*cclimber*/driver_rpatrolb,
+        /*365*//*cclimber*/driver_silvland,
+        /*366*//*cclimber*/driver_swimmer,
+        /*367*//*cclimber*/driver_swimmera,
+        /*368*//*cclimber*/driver_guzzler,
     
         
         
@@ -846,22 +862,7 @@ public class driver {
         /*marvins*/driver_madcrash,//screen issues (offscreen drawing)
         /*marvins*/driver_vangrd2,// screen issues (offscreen drawing)
         
-        /* "Crazy Climber hardware" games */
-        driver_cclimber, /* (c) 1980 Nichibutsu */
-        driver_cclimbrj,/* (c) 1980 Nichibutsu */
-        driver_ccboot, 	/* bootleg */
-        driver_ccboot2,	/* bootleg */
-        driver_ckong,	/* (c) 1981 Falcon */
-        driver_ckonga,	/* (c) 1981 Falcon */
-        driver_ckongjeu,/* bootleg */
-        driver_ckongo,	/* bootleg */
-        driver_ckongalc,/* bootleg */
-        driver_monkeyd,	/* bootleg */
-        driver_rpatrolb,	/* bootleg */
-        driver_silvland,	/* Falcon */
-        driver_swimmer,	/* (c) 1982 Tehkan */
-        driver_swimmera,/* (c) 1982 Tehkan */
-        driver_guzzler,	/* (c) 1983 Tehkan */
+
         
 
         

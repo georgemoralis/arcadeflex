@@ -303,21 +303,6 @@ flyboy   fastfred.c Z80      [Z80   ]                                           
 flyboyb  fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy (bootleg)
 fastfred fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fast Freddie
 jumpcoas fastfred.c Z80                                                                     1xAY-8910                                                   Jump Coaster
-cclimber cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Climber (US)
-cclimbrj cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Climber (Japan)
-ccboot   cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Climber (bootleg set 1)
-ccboot2  cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Climber (bootleg set 2)
-ckong    cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Kong (set 1)
-ckonga   cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Kong (set 2)
-ckongjeu cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Kong (Jeutel bootleg)
-ckongo   cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Kong (Orca bootleg)
-ckongalc cclimber.c Z80                                                                     1xAY-8910   Custom                                          Crazy Kong (Alca bootleg)
-monkeyd  cclimber.c Z80                                                                     1xAY-8910   Custom                                          Monkey Donkey
-rpatrolb cclimber.c Z80                                                                     1xAY-8910   Custom                                          River Patrol (bootleg)
-silvland cclimber.c Z80                                                                     1xAY-8910   Custom                                          Silver Land
-swimmer  cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Swimmer (set 1)
-swimmera cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Swimmer (set 2)
-guzzler  cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Guzzler
 friskyt  seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Frisky Tom
 radrad   seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Radical Radial
 seicross seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Seicross
