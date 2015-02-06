@@ -71,26 +71,4 @@ public class _3812intfH {
             super(num, baseclock, mixing_level);
         }
     };
-    /*TODO*///#define YM3526_status_port_0_r YM3812_status_port_0_r
-    /*TODO*///#define YM3526_control_port_0_w YM3812_control_port_0_w
-    /*TODO*///#define YM3526_write_port_0_w YM3812_write_port_0_w
-    /*TODO*///#define YM3526_status_port_1_r YM3812_status_port_1_r
-    /*TODO*///#define YM3526_control_port_1_w YM3812_control_port_1_w
-    /*TODO*///#define YM3526_write_port_1_w YM3812_write_port_1_w
-    /*TODO*///int YM3526_sh_start(const struct MachineSound *msound);
-    /*TODO*///#define YM3526_sh_stop YM3812_sh_stop
-    /*TODO*///#define YM3526_shupdate YM3812_sh_update
-    /*TODO*///
-    /*TODO*////* Y8950 */
-    /*TODO*///#define Y8950_status_port_0_r YM3812_status_port_0_r
-    /*TODO*///#define Y8950_control_port_0_w YM3812_control_port_0_w
-    /*TODO*///int Y8950_read_port_0_r(int offset);
-    /*TODO*///#define Y8950_write_port_0_w YM3812_write_port_0_w
-    /*TODO*///#define Y8950_status_port_1_r YM3812_status_port_1_r
-    /*TODO*///#define Y8950_control_port_1_w YM3812_control_port_1_w
-    /*TODO*///int Y8950_read_port_1_r(int offset);
-    /*TODO*///#define Y8950_write_port_1_w YM3812_write_port_1_w
-    /*TODO*///int Y8950_sh_start(const struct MachineSound *msound);
-    /*TODO*///#define Y8950_sh_stop YM3812_sh_stop
-    /*TODO*///#define Y8950_shupdate YM3812_sh_update    
 }

@@ -183,24 +183,6 @@ public class fmopl {
     static int amsIncr;
     static int vibIncr;
     static int[] feedback2 = new int[1];		/* connect for SLOT 2 */
-    /*TODO*///
-   /*TODO*////* log output level */
-   /*TODO*///#define LOG_ERR  3      /* ERROR       */
-   /*TODO*///#define LOG_WAR  2      /* WARNING     */
-   /*TODO*///#define LOG_INF  1      /* INFORMATION */
-   /*TODO*///
-   /*TODO*///#define LOG_LEVEL LOG_INF
-   /*TODO*///
-   /*TODO*///static void Log(int level,char *format,...)
-   /*TODO*///{
-   /*TODO*///	va_list argptr;
-   /*TODO*///
-   /*TODO*///	if( level < LOG_LEVEL ) return;
-   /*TODO*///	va_start(argptr,format);
-   /*TODO*///	/* */
-   /*TODO*///	if (errorlog) vfprintf( errorlog, format , argptr);
-   /*TODO*///}
-   /*TODO*///
    /* --------------------- subroutines  --------------------- */
 
 
@@ -1208,8 +1190,8 @@ public class fmopl {
     /* ----------  Destroy one of vietual YM3812 ----------       */
 
     public static void OPLDestroy(FM_OPL OPL) {
-        /*TODO*///	OPL_UnLockTable();
-   /*TODO*///	free(OPL);
+        OPL_UnLockTable();
+   	OPL=null;
     }
     /* ----------  Option handlers ----------       */
 
