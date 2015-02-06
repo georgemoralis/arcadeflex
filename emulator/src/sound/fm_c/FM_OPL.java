@@ -3,7 +3,7 @@ package sound.fm_c;
 import static sound.fmoplH.*;
 import static sound.fm_c.OPL_CH.*;
 import static arcadeflex.libc.*;
-
+import sound.YM_DELTAT;
 
 public class FM_OPL {
 
@@ -23,29 +23,29 @@ public class FM_OPL {
     public int /*UINT8*/ status;		/* status flag                       */
     public int /*UINT8*/ statusmask;	/* status mask                       */
     public int /*UINT32*/ mode;		/* Reg.08 : CSM , notesel,etc.       */
-    /*TODO*///	/* Timer */
+    	/* Timer */
     public int[] T;			/* timer counter       */
     public int[]/*UINT8*/ st;		/* timer enable        */
-    /*TODO*///	/* FM channel slots */
-    	public OPL_CH[] P_CH;		/* pointer of CH       */
+    /* FM channel slots */
+    public OPL_CH[] P_CH;		/* pointer of CH       */
 
     public int max_ch;			/* maximum channel     */
     	/* Rythm sention */
     public int /*UINT8*/ rythm;		/* Rythm mode , key flag */
-    /*TODO*///#if BUILD_Y8950
-    /*TODO*///	/* Delta-T ADPCM unit (Y8950) */
-    /*TODO*///	YM_DELTAT *deltat;			/* DELTA-T ADPCM       */
-    /*TODO*///#endif
-    /*TODO*///	/* Keyboard / I/O interface unit (Y8950) */
-    /*TODO*///	UINT8 portDirection;
-    /*TODO*///	UINT8 portLatch;
-    /*TODO*///	OPL_PORTHANDLER_R porthandler_r;
-    /*TODO*///	OPL_PORTHANDLER_W porthandler_w;
-    /*TODO*///	int port_param;
-    /*TODO*///	OPL_PORTHANDLER_R keyboardhandler_r;
-    /*TODO*///	OPL_PORTHANDLER_W keyboardhandler_w;
-    /*TODO*///	int keyboard_param;
-    	/* time tables */
+    
+    /* Delta-T ADPCM unit (Y8950) */
+    public YM_DELTAT deltat;			/* DELTA-T ADPCM       */
+
+    /* Keyboard / I/O interface unit (Y8950) */
+    public int /*UINT8*/ portDirection;
+    public int /*UINT8*/ portLatch;
+    public OPL_PORTHANDLER_RPtr porthandler_r;
+    public OPL_PORTHANDLER_WPtr porthandler_w;
+    public int port_param;
+    public OPL_PORTHANDLER_RPtr keyboardhandler_r;
+    public OPL_PORTHANDLER_WPtr keyboardhandler_w;
+    public int keyboard_param;
+    /* time tables */
 
     public int[] AR_TABLE;	/* atttack rate tables */
 

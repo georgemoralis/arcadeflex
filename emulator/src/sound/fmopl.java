@@ -3,9 +3,9 @@ package sound;
 import static sound.fmoplH.*;
 import static arcadeflex.ptrlib.*;
 import sound.fm_c.FM_OPL;
-import sound.fmoplH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import static sound.YM_DELTA_T.*;
 import sound.fm_c.OPL_CH;
 import sound.fm_c.OPL_SLOT;
 
@@ -195,7 +195,7 @@ public class fmopl {
 
         return val;
     }
-    /*TODO*////* status set and IRQ handling */
+    /* status set and IRQ handling */
 
     static void OPL_STATUS_SET(FM_OPL OPL, int flag) {
         /* set status flag */
@@ -762,40 +762,37 @@ public class fmopl {
                             }
                         }
                         return;
-                    /*TODO*///#if BUILD_Y8950
-   /*TODO*///		case 0x06:		/* Key Board OUT */
-   /*TODO*///			if(OPL->type&OPL_TYPE_KEYBOARD)
-   /*TODO*///			{
-   /*TODO*///				if(OPL->keyboardhandler_w)
-   /*TODO*///					OPL->keyboardhandler_w(OPL->keyboard_param,v);
-   /*TODO*///				else
-   /*TODO*///					Log(LOG_WAR,"OPL:write unmapped KEYBOARD port\n");
-   /*TODO*///			}
-   /*TODO*///			return;
-   /*TODO*///		case 0x07:	/* DELTA-T controll : START,REC,MEMDATA,REPT,SPOFF,x,x,RST */
-   /*TODO*///			if(OPL->type&OPL_TYPE_ADPCM)
-   /*TODO*///				YM_DELTAT_ADPCM_Write(OPL->deltat,r-0x07,v);
-   /*TODO*///			return;
-   /*TODO*///		case 0x08:	/* MODE,DELTA-T : CSM,NOTESEL,x,x,smpl,da/ad,64k,rom */
-   /*TODO*///			OPL->mode = v;
-   /*TODO*///			v&=0x1f;	/* for DELTA-T unit */
-   /*TODO*///		case 0x09:		/* START ADD */
-   /*TODO*///		case 0x0a:
-   /*TODO*///		case 0x0b:		/* STOP ADD  */
-   /*TODO*///		case 0x0c:
-   /*TODO*///		case 0x0d:		/* PRESCALE   */
-   /*TODO*///		case 0x0e:
-   /*TODO*///		case 0x0f:		/* ADPCM data */
-   /*TODO*///		case 0x10: 		/* DELTA-N    */
-   /*TODO*///		case 0x11: 		/* DELTA-N    */
-   /*TODO*///		case 0x12: 		/* EG-CTRL    */
-   /*TODO*///			if(OPL->type&OPL_TYPE_ADPCM)
-   /*TODO*///				YM_DELTAT_ADPCM_Write(OPL->deltat,r-0x07,v);
-   /*TODO*///			return;
-   /*TODO*///#endif
-                    // default:
-                    //     System.out.println("Unsupported case 0x00 subcase =" + (r & 0x1f) + " r=" + r + " v=" + v);
-                    //      break;
+		case 0x06:		/* Key Board OUT */
+			if((OPL.type&OPL_TYPE_KEYBOARD)!=0)
+			{
+				if(OPL.keyboardhandler_w!=null)
+					OPL.keyboardhandler_w.handler(OPL.keyboard_param,v);
+				else
+                                {
+					//Log(LOG_WAR,"OPL:write unmapped KEYBOARD port\n");
+                                }
+			}
+			return;
+		case 0x07:	/* DELTA-T controll : START,REC,MEMDATA,REPT,SPOFF,x,x,RST */
+			if((OPL.type&OPL_TYPE_ADPCM)!=0)
+				YM_DELTAT_ADPCM_Write(OPL.deltat,r-0x07,v);
+			return;
+		case 0x08:	/* MODE,DELTA-T : CSM,NOTESEL,x,x,smpl,da/ad,64k,rom */
+			OPL.mode = v;
+			v&=0x1f;	/* for DELTA-T unit */
+		case 0x09:		/* START ADD */
+		case 0x0a:
+		case 0x0b:		/* STOP ADD  */
+		case 0x0c:
+		case 0x0d:		/* PRESCALE   */
+		case 0x0e:
+		case 0x0f:		/* ADPCM data */
+		case 0x10: 		/* DELTA-N    */
+		case 0x11: 		/* DELTA-N    */
+		case 0x12: 		/* EG-CTRL    */
+			if((OPL.type&OPL_TYPE_ADPCM)!=0)
+				YM_DELTAT_ADPCM_Write(OPL.deltat,r-0x07,v);
+			return;
                 }
                 break;
             case 0x20:	/* am,vib,ksr,eg type,mul */
@@ -1038,58 +1035,61 @@ public class fmopl {
         OPL.vibCnt = (int) vibCnt;
     }
     public static void Y8950UpdateOne(FM_OPL OPL, UShortPtr buffer, int length) {
-   /*TODO*///    int i;
-   /*TODO*///	int data;
-   /*TODO*///	FMSAMPLE *buf = buffer;
-   /*TODO*///	UINT32 amsCnt  = OPL->amsCnt;
-   /*TODO*///	UINT32 vibCnt  = OPL->vibCnt;
-   /*TODO*///	UINT8 rythm = OPL->rythm&0x20;
-   /*TODO*///	OPL_CH *CH,*R_CH;
+        int i;
+        int data;
+        UShortPtr buf = buffer;
+        long amsCnt = OPL.amsCnt;
+        long vibCnt = OPL.vibCnt;
+        int rythm = ((OPL.rythm & 0x20) & 0xFF);
+        OPL_CH CH;
+        int R_CH;
    /*TODO*///	YM_DELTAT *DELTAT = OPL->deltat;
    /*TODO*///
    /*TODO*///	/* setup DELTA-T unit */
    /*TODO*///	YM_DELTAT_DECODE_PRESET(DELTAT);
    /*TODO*///
-   /*TODO*///	if( (void *)OPL != cur_chip ){
-   /*TODO*///		cur_chip = (void *)OPL;
-   /*TODO*///		/* channel pointers */
-   /*TODO*///		S_CH = OPL->P_CH;
-   /*TODO*///		E_CH = &S_CH[9];
-   /*TODO*///		/* rythm slot */
-   /*TODO*///		SLOT7_1 = &S_CH[7].SLOT[SLOT1];
-   /*TODO*///		SLOT7_2 = &S_CH[7].SLOT[SLOT2];
-   /*TODO*///		SLOT8_1 = &S_CH[8].SLOT[SLOT1];
-   /*TODO*///		SLOT8_2 = &S_CH[8].SLOT[SLOT2];
-   /*TODO*///		/* LFO state */
-   /*TODO*///		amsIncr = OPL->amsIncr;
-   /*TODO*///		vibIncr = OPL->vibIncr;
-   /*TODO*///		ams_table = OPL->ams_table;
-   /*TODO*///		vib_table = OPL->vib_table;
-   /*TODO*///	}
-   /*TODO*///	R_CH = rythm ? &S_CH[6] : E_CH;
-   /*TODO*///    for( i=0; i < length ; i++ )
-   /*TODO*///	{
-   /*TODO*///		/*            channel A         channel B         channel C      */
-   /*TODO*///		/* LFO */
-   /*TODO*///		ams = ams_table[(amsCnt+=amsIncr)>>AMS_SHIFT];
-   /*TODO*///		vib = vib_table[(vibCnt+=vibIncr)>>VIB_SHIFT];
-   /*TODO*///		outd[0] = 0;
+        if ((Object) OPL != cur_chip) {
+            cur_chip = OPL;
+            /* channel pointers */
+            S_CH = OPL.P_CH;
+            E_CH = 9;// S_CH[9];
+                /* rythm slot */
+            SLOT7_1 = S_CH[7].SLOT[SLOT1];
+            SLOT7_2 = S_CH[7].SLOT[SLOT2];
+            SLOT8_1 = S_CH[8].SLOT[SLOT1];
+            SLOT8_2 = S_CH[8].SLOT[SLOT2];
+            /* LFO state */
+            amsIncr = OPL.amsIncr;
+            vibIncr = OPL.vibIncr;
+            ams_table = OPL.ams_table;
+            vib_table = OPL.vib_table;
+    	}
+        R_CH = rythm != 0 ? 6 : E_CH;
+        for (i = 0; i < length; i++) {
+            /*            channel A         channel B         channel C      */
+            /* LFO */
+            ams = ams_table.read((int) ((amsCnt = (amsCnt + amsIncr) & 0xFFFFFFFFL) >> AMS_SHIFT));//recheck
+            vib = vib_table.read((int) ((vibCnt = (vibCnt + vibIncr) & 0xFFFFFFFFL) >> VIB_SHIFT));//recheck
+            outd[0] = 0;
    /*TODO*///		/* deltaT ADPCM */
    /*TODO*///		if( DELTAT->flag )
    /*TODO*///			YM_DELTAT_ADPCM_CALC(DELTAT);
-   /*TODO*///		/* FM part */
-   /*TODO*///		for(CH=S_CH ; CH < R_CH ; CH++)
-   /*TODO*///			OPL_CALC_CH(CH);
-   /*TODO*///		/* Rythn part */
-   /*TODO*///		if(rythm)
-   /*TODO*///			OPL_CALC_RH(S_CH);
-   /*TODO*///		/* limit check */
-   /*TODO*///		data = Limit( outd[0] , OPL_MAXOUT, OPL_MINOUT );
-   /*TODO*///		/* store to sound buffer */
-   /*TODO*///		buf[i] = data >> OPL_OUTSB;
-   /*TODO*///	}
-   /*TODO*///	OPL->amsCnt = amsCnt;
-   /*TODO*///	OPL->vibCnt = vibCnt;
+            /* FM part */
+            for (int k = 0; k != R_CH; k++) {
+                CH = S_CH[k];
+                OPL_CALC_CH(CH);
+            }
+            /* Rythn part */
+            if (rythm != 0) {
+                OPL_CALC_RH(S_CH);
+            }
+            /* limit check */
+            data = Limit(outd[0], OPL_MAXOUT, OPL_MINOUT);
+            /* store to sound buffer */
+            buf.write(i, (char) (data >> OPL_OUTSB));
+        }
+        OPL.amsCnt = (int) amsCnt;
+        OPL.vibCnt = (int) vibCnt;
    /*TODO*///	/* deltaT START flag */
    /*TODO*///	if( !DELTAT->flag )
    /*TODO*///		OPL->status &= 0xfe;
@@ -1129,43 +1129,26 @@ public class fmopl {
                 CH.SLOT[s].evs = 0;
             }
         }
-        /*TODO*///#if BUILD_Y8950
-   /*TODO*///	if(OPL->type&OPL_TYPE_ADPCM)
-   /*TODO*///	{
-   /*TODO*///		YM_DELTAT *DELTAT = OPL->deltat;
-   /*TODO*///
-   /*TODO*///		DELTAT->freqbase = OPL->freqbase;
-   /*TODO*///		DELTAT->output_pointer = outd;
-   /*TODO*///		DELTAT->portshift = 5;
-   /*TODO*///		DELTAT->output_range = DELTAT_MIXING_LEVEL<<TL_BITS;
-   /*TODO*///		YM_DELTAT_ADPCM_Reset(DELTAT,0);
-   /*TODO*///	}
-   /*TODO*///#endif
+        if ((OPL.type & OPL_TYPE_ADPCM) != 0)
+            {
+                YM_DELTAT DELTAT = OPL.deltat;
+                DELTAT.freqbase = OPL.freqbase;
+                DELTAT.output_pointer = outd;
+                DELTAT.portshift = 5;
+                DELTAT.output_range = DELTAT_MIXING_LEVEL << TL_BITS;
+                YM_DELTAT_ADPCM_Reset(DELTAT, 0);
+            }
     }
 
     /* ----------  Create one of vietual YM3812 ----------       */
     /* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
     public static FM_OPL OPLCreate(int type, int clock, int rate) {
-
-        //char *ptr;
         FM_OPL OPL;
-        //int state_size;
         int max_ch = 9; /* normaly 9 channels */
 
         if (OPL_LockTable() == -1) {
             return null;
         }
-        /* allocate OPL state space */
-        //state_size  = sizeof(FM_OPL);
-        //state_size += sizeof(OPL_CH)*max_ch;
-   /*TODO*///#if BUILD_Y8950
-   /*TODO*///	if(type&OPL_TYPE_ADPCM) state_size+= sizeof(YM_DELTAT);
-   /*TODO*///#endif
-        //	/* allocate memory block */
-        //	ptr = malloc(state_size);
-        //	if(ptr==NULL) return NULL;
-        //	/* clear */
-        //	memset(ptr,0,state_size);
 
         OPL = new FM_OPL();  //OPL        = (FM_OPL *)ptr; ptr+=sizeof(FM_OPL);
 
@@ -1173,9 +1156,10 @@ public class fmopl {
         for (int i = 0; i < max_ch; i++) {
             OPL.P_CH[i] = new OPL_CH();
         }
-        /*TODO*///#if BUILD_Y8950
-   /*TODO*///	if(type&OPL_TYPE_ADPCM) OPL->deltat = (YM_DELTAT *)ptr; ptr+=sizeof(YM_DELTAT);
-   /*TODO*///#endif
+        if ((type & OPL_TYPE_ADPCM) != 0)
+        {
+                OPL.deltat = new YM_DELTAT();
+        }
    	/* set channel state pointer */
         OPL.type = type;
         OPL.clock = clock;
@@ -1209,22 +1193,21 @@ public class fmopl {
         OPL.UpdateHandler = UpdateHandler;
         OPL.UpdateParam = param;
     }
-    /*TODO*///#if BUILD_Y8950
-   /*TODO*///void OPLSetPortHandler(FM_OPL *OPL,OPL_PORTHANDLER_W PortHandler_w,OPL_PORTHANDLER_R PortHandler_r,int param)
-   /*TODO*///{
-   /*TODO*///	OPL->porthandler_w = PortHandler_w;
-   /*TODO*///	OPL->porthandler_r = PortHandler_r;
-   /*TODO*///	OPL->port_param = param;
-   /*TODO*///}
-   /*TODO*///
-   /*TODO*///void OPLSetKeyboardHandler(FM_OPL *OPL,OPL_PORTHANDLER_W KeyboardHandler_w,OPL_PORTHANDLER_R KeyboardHandler_r,int param)
-   /*TODO*///{
-   /*TODO*///	OPL->keyboardhandler_w = KeyboardHandler_w;
-   /*TODO*///	OPL->keyboardhandler_r = KeyboardHandler_r;
-   /*TODO*///	OPL->keyboard_param = param;
-   /*TODO*///}
-   /*TODO*///#endif
-   /*TODO*////* ---------- YM3812 I/O interface ---------- */
+   
+   public static void OPLSetPortHandler(FM_OPL OPL,OPL_PORTHANDLER_WPtr PortHandler_w,OPL_PORTHANDLER_RPtr PortHandler_r,int param)
+   {
+   	OPL.porthandler_w = PortHandler_w;
+   	OPL.porthandler_r = PortHandler_r;
+   	OPL.port_param = param;
+   }
+   
+   public static void OPLSetKeyboardHandler(FM_OPL OPL,OPL_PORTHANDLER_WPtr KeyboardHandler_w,OPL_PORTHANDLER_RPtr KeyboardHandler_r,int param)
+   {
+   	OPL.keyboardhandler_w = KeyboardHandler_w;
+   	OPL.keyboardhandler_r = KeyboardHandler_r;
+   	OPL.keyboard_param = param;
+   }
+   /* ---------- YM3812 I/O interface ---------- */
 
     public static int OPLWrite(FM_OPL OPL, int a, int v) {
         if ((a & 1) == 0) {	/* address port */
@@ -1249,27 +1232,31 @@ public class fmopl {
         /* data port */
         switch (OPL.address) {
             case 0x05: /* KeyBoard IN */
-
-                throw new UnsupportedOperationException("unimplemented");
-            /*TODO*///		if(OPL->type&OPL_TYPE_KEYBOARD)
-   /*TODO*///		{
-   /*TODO*///			if(OPL->keyboardhandler_r)
-   /*TODO*///				return OPL->keyboardhandler_r(OPL->keyboard_param);
-   /*TODO*///			else
-   /*TODO*///				Log(LOG_WAR,"OPL:read unmapped KEYBOARD port\n");
-   /*TODO*///		}
-   /*TODO*///		return 0;
+        	if((OPL.type&OPL_TYPE_KEYBOARD)!=0)
+   		{
+   			if(OPL.keyboardhandler_r!=null)
+                        {
+   				return (char)OPL.keyboardhandler_r.handler(OPL.keyboard_param);
+                        }
+   			else
+                        {
+   				//Log(LOG_WAR,"OPL:read unmapped KEYBOARD port\n");
+                        }
+   		}
+   		return 0;
             case 0x19: /* I/O DATA    */
-
-                throw new UnsupportedOperationException("unimplemented");
-            /*TODO*///		if(OPL->type&OPL_TYPE_IO)
-   /*TODO*///		{
-   /*TODO*///			if(OPL->porthandler_r)
-   /*TODO*///				return OPL->porthandler_r(OPL->port_param);
-   /*TODO*///			else
-   /*TODO*///				Log(LOG_WAR,"OPL:read unmapped I/O port\n");
-   /*TODO*///		}
-   /*TODO*///		return 0;
+                if((OPL.type&OPL_TYPE_IO)!=0)
+   		{
+   			if(OPL.porthandler_r!=null)
+                        {
+   				return (char)OPL.porthandler_r.handler(OPL.port_param);
+                        }
+   			else
+                        {
+   				//Log(LOG_WAR,"OPL:read unmapped I/O port\n");
+                        }
+   		}
+   		return 0;
             case 0x1a: /* PCM-DATA    */
 
                 return 0;

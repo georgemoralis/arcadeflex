@@ -14,6 +14,7 @@ import static sound.fmopl.*;
 import static mame.cpuintrfH.*;
 import static mame.timer.*;
 import sound.fm_c.FM_OPL;
+import static mame.common.*;
 
 public class _3812intf extends snd_interface {
 
@@ -72,12 +73,12 @@ public class _3812intf extends snd_interface {
             name = sprintf("%s #%d", sound_name(msound), i);
             /* ADPCM ROM DATA */
             if (chiptype == OPL_TYPE_Y8950) {
-                /*TODO*///			F3812[i]->deltat->memory = (unsigned char *)(memory_region(intf->rom_region[i]));
-/*TODO*///			F3812[i]->deltat->memory_size = memory_region_length(intf->rom_region[i]);
-			stream[i] = stream_init(name,vol,rate,i,Y8950UpdateHandler);
-/*TODO*///			/* port and keyboard handler */
-/*TODO*///			OPLSetPortHandler(F3812[i],Y8950PortHandler_w,Y8950PortHandler_r,i);
-/*TODO*///			OPLSetKeyboardHandler(F3812[i],Y8950KeyboardHandler_w,Y8950KeyboardHandler_r,i);
+                F3812[i].deltat.memory = new UBytePtr(memory_region((((Y8950interface) (intf)).rom_region[i])));
+                F3812[i].deltat.memory_size = memory_region_length(((Y8950interface) (intf)).rom_region[i]);
+                stream[i] = stream_init(name, vol, rate, i, Y8950UpdateHandler);
+                /* port and keyboard handler */
+                OPLSetPortHandler(F3812[i],Y8950PortHandler_w,Y8950PortHandler_r,i);
+                OPLSetKeyboardHandler(F3812[i],Y8950KeyboardHandler_w,Y8950KeyboardHandler_r,i);
             } else {
                 stream[i] = stream_init(name, vol, rate, i, YM3812UpdateHandler);
             }
@@ -207,6 +208,28 @@ public class _3812intf extends snd_interface {
     public static StreamInitPtr Y8950UpdateHandler = new StreamInitPtr() {
         public void handler(int num, UShortPtr buffer, int length) {
             Y8950UpdateOne(F3812[num], buffer, length);
+        }
+    };
+    public static OPL_PORTHANDLER_RPtr Y8950PortHandler_r = new OPL_PORTHANDLER_RPtr() {
+        public /*unsigned*/ char handler(int chip) {
+            return (char) ((Y8950interface) intf).portread[chip].handler(chip);
+        }
+
+    };
+    public static OPL_PORTHANDLER_WPtr Y8950PortHandler_w = new OPL_PORTHANDLER_WPtr() {
+        public void handler(int chip,/*unsigned char*/ int data) {
+            ((Y8950interface) intf).portwrite[chip].handler(chip, data & 0xFF);
+        }
+    };
+    public static OPL_PORTHANDLER_RPtr Y8950KeyboardHandler_r = new OPL_PORTHANDLER_RPtr() {
+        public /*unsigned*/ char handler(int chip) {
+            return (char) ((Y8950interface) intf).keyboardread[chip].handler(chip);
+        }
+
+    };
+    public static OPL_PORTHANDLER_WPtr Y8950KeyboardHandler_w = new OPL_PORTHANDLER_WPtr() {
+        public void handler(int chip,/*unsigned char*/ int data) {
+            ((Y8950interface) intf).keyboardwrite[chip].handler(chip, data & 0xFF);
         }
     };
 

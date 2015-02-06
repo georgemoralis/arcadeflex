@@ -13,9 +13,9 @@ public class fmoplH {
          public static abstract interface OPL_TIMERHANDLERPtr { public abstract void handler(int channel,double interval_Sec); }
          public static abstract interface OPL_IRQHANDLERPtr { public abstract void handler(int param,int irq); }
          public static abstract interface OPL_UPDATEHANDLERPtr { public abstract void handler(int param,int min_interval_us); }
-    /*TODO*///typedef void (*OPL_PORTHANDLER_W)(int param,unsigned char data);
-    /*TODO*///typedef unsigned char (*OPL_PORTHANDLER_R)(int param);
-    /*TODO*///
+         public static abstract interface OPL_PORTHANDLER_WPtr { public abstract void handler(int param,/*unsigned char*/int data); }
+         public static abstract interface OPL_PORTHANDLER_RPtr { public abstract char handler(int param); }
+
     /* !!!!! here is private section , do not access there member direct !!!!! */
     public static final int OPL_TYPE_WAVESEL   =0x01;  /* waveform select    */
     public static final int OPL_TYPE_ADPCM     =0x02; /* DELTA-T ADPCM unit */
