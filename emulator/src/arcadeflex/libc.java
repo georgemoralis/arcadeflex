@@ -104,9 +104,17 @@ public class libc {
             this.buffer = buffer;
             this.offset = offset;
         }
+        public int read()
+        {
+            return buffer[offset];
+        }
         public int read(int index)
         {
             return buffer[index+offset];
+        }
+        public void write(int value)
+        {
+             buffer[offset]=value;
         }
         public void write(int index,int value)
         {

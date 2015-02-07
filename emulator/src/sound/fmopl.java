@@ -1043,11 +1043,11 @@ public class fmopl {
         int rythm = ((OPL.rythm & 0x20) & 0xFF);
         OPL_CH CH;
         int R_CH;
-   /*TODO*///	YM_DELTAT *DELTAT = OPL->deltat;
-   /*TODO*///
-   /*TODO*///	/* setup DELTA-T unit */
-   /*TODO*///	YM_DELTAT_DECODE_PRESET(DELTAT);
-   /*TODO*///
+	YM_DELTAT DELTAT = OPL.deltat;
+
+        /* setup DELTA-T unit */
+ 	YM_DELTAT_DECODE_PRESET(DELTAT);
+
         if ((Object) OPL != cur_chip) {
             cur_chip = OPL;
             /* channel pointers */
@@ -1071,9 +1071,9 @@ public class fmopl {
             ams = ams_table.read((int) ((amsCnt = (amsCnt + amsIncr) & 0xFFFFFFFFL) >> AMS_SHIFT));//recheck
             vib = vib_table.read((int) ((vibCnt = (vibCnt + vibIncr) & 0xFFFFFFFFL) >> VIB_SHIFT));//recheck
             outd[0] = 0;
-   /*TODO*///		/* deltaT ADPCM */
-   /*TODO*///		if( DELTAT->flag )
-   /*TODO*///			YM_DELTAT_ADPCM_CALC(DELTAT);
+   		/* deltaT ADPCM */
+   	    if( DELTAT.flag!=0 )
+   		YM_DELTAT_ADPCM_CALC(DELTAT);
             /* FM part */
             for (int k = 0; k != R_CH; k++) {
                 CH = S_CH[k];
@@ -1090,9 +1090,9 @@ public class fmopl {
         }
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;
-   /*TODO*///	/* deltaT START flag */
-   /*TODO*///	if( !DELTAT->flag )
-   /*TODO*///		OPL->status &= 0xfe;
+ 	/* deltaT START flag */
+	if( DELTAT.flag==0 )
+		OPL.status &= 0xfe;
     }
 
     /* ---------- reset one of chip ---------- */
