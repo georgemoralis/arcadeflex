@@ -369,6 +369,13 @@ silvland cclimber.c Z80                                                         
 swimmer  cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Swimmer (set 1)
 swimmera cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Swimmer (set 2)
 guzzler  cclimber.c Z80      [Z80   ]                                                       2xAY-8910                                                   Guzzler
+gwar     snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (US)
+gwarj    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guevara (Japan)
+gwarb    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (bootleg)
+psychos  snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (US)
+psychosj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (Japan)
+chopper  snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Chopper I
+legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
 
 
 Small issues that doesn't affect playable status
@@ -442,6 +449,15 @@ Unkown issues
 006)airbustr airbustr.c Z80      Z80      Z80                                                   1xYM-2203   1xOKI6295                                       Air Buster (Japan)   - boots but doesn't start
 oscar    dec8.c     HD6309   HD6309   [M6502 ]                                              1xYM-2203   1xYM-3526                                       Psycho-Nics Oscar (US)  -  doesn't boot and freezes emu
 oscarj   dec8.c     HD6309   HD6309   [M6502 ]                                              1xYM-2203   1xYM-3526                                       Psycho-Nics Oscar (Japan) -  doesn't boot and freezes emu
+ikari    snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (US)  //boots but doesn't start
+ikarijp  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan)  //boots but doesn't start
+ikarijpb snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan bootleg) //boots but doesn't start
+victroad snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Victory Road //boots but doesn't start
+dogosoke snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Dogou Souken //boots but doesn't start
+bermudat snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US) //boots but doesn't start
+bermudaj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (Japan)  //boots but doesn't start
+bermudaa snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US early version)  //boots but doesn't start
+worldwar snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     World Wars (Japan)  //boots but doesn't start
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------
@@ -465,6 +481,7 @@ NOT WORKING IN MAME 0.36 EITHER
 018)avengers lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 1)
 019)avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 020)tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
+gwara    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (Version 1)
 
 WIP
 ===

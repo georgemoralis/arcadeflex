@@ -475,23 +475,6 @@ vangrd2  marvins.c  Z80      Z80      [Z80   ]                                  
 hal21    hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21
 hal21j   hal21.c    Z80      Z80      [Z80   ]                                              2xAY-8910                                                   HAL21 (Japan)
 aso      hal21.c    Z80      Z80      [Z80   ]                                              1xYM-3526                                                   ASO - Armored Scrum Object
-ikari    snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (US)
-ikarijp  snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan)
-ikarijpb snk.c      Z80      Z80      [Z80   ]                                              2xYM-3526                                                   Ikari Warriors (Japan bootleg)
-victroad snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Victory Road
-dogosoke snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Dogou Souken
-gwar     snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (US)
-gwarj    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guevara (Japan)
-gwara    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (Version 1)
-gwarb    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (bootleg)
-bermudat snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US)
-bermudaj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (Japan)
-bermudaa snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US early version)
-worldwar snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     World Wars (Japan)
-psychos  snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (US)
-psychosj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (Japan)
-chopper  snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Chopper I
-legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
 polepos  polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position
 poleposa polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position (Atari version 2)
 polepos1 polepos.c  Z80      Z8002    Z8002                                                 Namco       Custom      Samples                             Pole Position (Atari version 1)

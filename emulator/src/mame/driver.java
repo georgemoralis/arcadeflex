@@ -540,7 +540,13 @@ public class driver {
         /*366*//*cclimber*/driver_swimmer,
         /*367*//*cclimber*/driver_swimmera,
         /*368*//*cclimber*/driver_guzzler,
-    
+        /*369*//*snk*/driver_gwar,		
+        /*370*//*snk*/driver_gwarj,		      		
+        /*371*//*snk*/driver_gwarb,
+        /*372*//*snk*/driver_psychos,         
+        /*373*//*snk*/driver_psychosj,	
+        /*374*//*snk*/driver_chopper,         
+        /*375*//*snk*/driver_legofair,
         
         
         /*
@@ -618,6 +624,16 @@ public class driver {
         /*006*//*airbustr*/driver_airbustr,//boots but doesn't start
         /*dec8*/driver_oscar,//games doesn't boot and freezes emu
         /*dec8*/driver_oscarj,//games doesn't boot and freezes emu
+        /*snk*/driver_ikari,	//boots but doesn't start	
+        /*snk*/driver_ikarijp,  //boots but doesn't start      
+        /*snk*/driver_ikarijpb,	//boots but doesn't start
+        /*snk*/driver_victroad,	//boots but doesn't start
+        /*snk*/driver_dogosoke,	//boots but doesn't start       		
+        /*snk*/driver_bermudat,	//boots but doesn't start
+        /*snk*/driver_bermudaj,	//boots but doesn't start
+        /*snk*/driver_bermudaa,	//boots but doesn't start
+        /*snk*/driver_worldwar,	//boots but doesn't start
+        
         /*
           GAME NOT WORKING FLAG
         */
@@ -641,8 +657,7 @@ public class driver {
         /*018*//*lwings*/driver_avengers,
         /*019*//*lwings*/driver_avenger2,
         /*020*//*bublbobl*/driver_tokio,
-        
-        
+        /*021*//*snk*/driver_gwara,
         
         /*
         WIP drivers
@@ -872,29 +887,6 @@ public class driver {
         driver_kikcubic,	/* (c) 1988 (Japan) */
                 
 
-        driver_ikari,		/* A5004 'IW' (c) 1986 */
-        driver_ikarijp,         /* A5004 'IW' (c) 1986 (Japan) */
-        driver_ikarijpb,	/* bootleg */
-        driver_victroad,	/*            (c) 1986 */
-        driver_dogosoke,	/*            (c) 1986 */
-        driver_gwar,		/* A7003 'GV' (c) 1987 */
-        driver_gwarj,		/* A7003 'GV' (c) 1987 (Japan) */
-        driver_gwara,		/* A7003 'GV' (c) 1987 */
-        driver_gwarb,		/* bootleg */
-        driver_bermudat,	/* A6003 'WW' (c) 1987 */
-        driver_bermudaj,	/* A6003 'WW' (c) 1987 */
-        driver_bermudaa,	/* A6003 'WW' (c) 1987 */
-        driver_worldwar,	/* A6003 'WW' (c) 1987 */
-        driver_psychos,         /*       'PS' (c) 1987 */
-        driver_psychosj,	/*       'PS' (c) 1987 (Japan) */
-        driver_chopper,         /* A7003 'KK' (c) 1988 */
-        driver_legofair,	/* A7003 'KK' (c) 1988 */
-        
-        
-        
-        
-            
-        
         driver_contra,	/* GX633 (c) 1987 */
         driver_contrab,	/* bootleg */
         driver_contraj,	/* GX633 (c) 1987 (Japan) */
