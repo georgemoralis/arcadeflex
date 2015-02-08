@@ -1,7 +1,8 @@
 package cpu.m68000;
 
 import static cpu.m68000.m68kopsH.*;
-import static cpu.m68000.m68000.*;
+import static cpu.m68000.m68kcpu.*;
+
 import java.util.Arrays;
 
 public class m68kops {

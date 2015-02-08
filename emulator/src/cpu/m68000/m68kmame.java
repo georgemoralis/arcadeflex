@@ -35,8 +35,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public void reset(Object param) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	m68k_pulse_reset(param);
+        m68k_pulse_reset(param);
     }
 
     @Override
