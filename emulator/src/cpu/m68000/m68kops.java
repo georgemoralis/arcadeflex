@@ -31,13 +31,13 @@ public class m68kops {
          */
         @Override
         public int compareTo(opcode_handler_struct b) {//compare_nof_true_bits
-            if (bits != b.bits) {
-                return (int) (bits - b.bits);
+            if (bits != ((opcode_handler_struct)b).bits) {
+                return (int) (bits - ((opcode_handler_struct)b).bits);
             }
-            if (mask != b.mask) {
-                return (int) (mask - b.mask);
+            if (mask != ((opcode_handler_struct)b).mask) {
+                return (int) (mask - ((opcode_handler_struct)b).mask);
             }
-            return (int) (match - b.match);
+            return (int) (match - ((opcode_handler_struct)b).match);
         }
     };
     /* Opcode handler table */
@@ -2005,7 +2005,7 @@ public class m68kops {
                 new opcode_handler_struct(m68020_unpk_mm_ax7, 13, 0xf1ff, 0x818f),
                 new opcode_handler_struct(m68020_unpk_mm_ay7, 13, 0xfff8, 0x8f88),
                 new opcode_handler_struct(m68020_unpk_mm_axy7, 16, 0xffff, 0x8f8f),
-                new opcode_handler_struct(m68020_unpk_mm, 10, 0xf1f8, 0x8188)
+                new opcode_handler_struct(m68020_unpk_mm, 10, 0xf1f8, 0x8188),
             };
 
 
@@ -2029,6 +2029,7 @@ public class m68kops {
         //for(ostruct = m68k_opcode_handler_table;ostruct->opcode_handler != 0;ostruct++)
         //table_length++;
         table_length = m68k_opcode_handler_table.length;
+        System.out.println(table_length);
 
         //qsort((void *)m68k_opcode_handler_table, table_length, sizeof(m68k_opcode_handler_table[0]), compare_nof_true_bits);
         Arrays.sort(m68k_opcode_handler_table);
@@ -2088,8 +2089,8 @@ public class m68kops {
         while (ostruct.mask == 0xffff) {
             m68k_instruction_jump_table[ostruct.match] = ostruct.opcode_handler;
             ostruct_idx++;
+            if(ostruct_idx>=table_length) break;  //shadow : stop when you reach last opcode
             ostruct = m68k_opcode_handler_table[ostruct_idx];
         }
-
     }
 }

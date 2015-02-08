@@ -8,6 +8,8 @@ import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m68000.m68000H.*;
 import static cpu.m68000.m68kopsH.*;
+import static cpu.m68000.m68kops.*;
+
 
 public class m68000 extends cpu_interface {
 
@@ -186,7 +188,7 @@ public class m68000 extends cpu_interface {
         if (m68k_emulation_initialized != 0) {
             return;
         } else {
-            /*TOD0*///     m68ki_build_opcode_table();
+                m68ki_build_opcode_table();
  /*TOD0*///      m68k_set_int_ack_callback(NULL);
  /*TOD0*///      m68k_set_bkpt_ack_callback(NULL);
  /*TOD0*///      m68k_set_reset_instr_callback(NULL);
