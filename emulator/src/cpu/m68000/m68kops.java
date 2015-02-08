@@ -5,9 +5,9 @@ import static cpu.m68000.m68000.*;
 import java.util.Arrays;
 
 public class m68kops {
-    /* This is used to generate the opcode handler jump table */
 
-    public static class opcode_handler_struct {
+    /* This is used to generate the opcode handler jump table */
+    public static class opcode_handler_struct implements Comparable<opcode_handler_struct> {
 
         public opcode opcode_handler; /* handler function */
 
@@ -23,6 +23,21 @@ public class m68kops {
             this.bits = bits;
             this.mask = mask;
             this.match = match;
+        }
+        /*
+         * Comparison function for qsort()
+         * For entries with an equal number of set bits in
+         * the mask compare the match values
+         */
+        @Override
+        public int compareTo(opcode_handler_struct b) {//compare_nof_true_bits
+            if (bits != b.bits) {
+                return (int) (bits - b.bits);
+            }
+            if (mask != b.mask) {
+                return (int) (mask - b.mask);
+            }
+            return (int) (match - b.match);
         }
     };
     /* Opcode handler table */
@@ -1992,11 +2007,7 @@ public class m68kops {
                 new opcode_handler_struct(m68020_unpk_mm_axy7, 16, 0xffff, 0x8f8f),
                 new opcode_handler_struct(m68020_unpk_mm, 10, 0xf1f8, 0x8188)
             };
-    /*
-     * Comparison function for qsort()
-     * For entries with an equal number of set bits in
-     * the mask compare the match values
-     */
+
 
     static int compare_nof_true_bits(opcode_handler_struct aptr, opcode_handler_struct bptr) {
         opcode_handler_struct a = aptr, b = bptr;
@@ -2015,12 +2026,12 @@ public class m68kops {
         /*uint*/
         int table_length = 0;
         int i, j;
-            //for(ostruct = m68k_opcode_handler_table;ostruct->opcode_handler != 0;ostruct++)
+        //for(ostruct = m68k_opcode_handler_table;ostruct->opcode_handler != 0;ostruct++)
         //table_length++;
         table_length = m68k_opcode_handler_table.length;
 
         //qsort((void *)m68k_opcode_handler_table, table_length, sizeof(m68k_opcode_handler_table[0]), compare_nof_true_bits);
-        //    Arrays.sort(m68k_opcode_handler_table,compare_nof_true_bits);//TODO comparable
+        Arrays.sort(m68k_opcode_handler_table);
         for (i = 0; i < 0x10000; i++) {
             /* default to illegal */
             m68k_instruction_jump_table[i] = m68000_illegal;
@@ -2079,6 +2090,6 @@ public class m68kops {
             ostruct_idx++;
             ostruct = m68k_opcode_handler_table[ostruct_idx];
         }
-       
+
     }
 }
