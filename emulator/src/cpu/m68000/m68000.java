@@ -7,11 +7,12 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m68000.m68000H.*;
+import static cpu.m68000.m68kopsH.*;
 
 public class m68000 extends cpu_interface {
 
     static int m68k_emulation_initialized = 0;                /* flag if emulation has been initialized */
-    /*TODO*///void         (*m68k_instruction_jump_table[0x10000])(void); /* opcode handler jump table */
+    public static opcode[] m68k_instruction_jump_table = new opcode[0x10000]; /* opcode handler jump table */
 
     static int[] m68k_clks_left = new int[1];                            /* Number of clocks remaining */
     /*TODO*///uint         m68k_tracing = 0;
