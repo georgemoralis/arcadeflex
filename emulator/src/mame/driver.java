@@ -159,7 +159,8 @@ import static drivers.WIP.baraduke.*;
 import static drivers.WIP.psychic5.*;
 import static drivers.WIP.wardner.*;
 import static drivers.galivan.*;
-
+import static drivers.WIP.tehkanwc.*;
+import static drivers.solomon.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -547,6 +548,8 @@ public class driver {
         /*373*//*snk*/driver_psychosj,	
         /*374*//*snk*/driver_chopper,         
         /*375*//*snk*/driver_legofair,
+        /*376*//*tehkanwc*/driver_tehkanwc,
+        /*377*//*solomon*/driver_solomon,
         
         
         /*
@@ -633,6 +636,8 @@ public class driver {
         /*snk*/driver_bermudaj,	//boots but doesn't start
         /*snk*/driver_bermudaa,	//boots but doesn't start
         /*snk*/driver_worldwar,	//boots but doesn't start
+        /*tehkanwc*/driver_gridiron,//boots but doesn't start
+        
         
         /*
           GAME NOT WORKING FLAG
@@ -658,6 +663,7 @@ public class driver {
         /*019*//*lwings*/driver_avenger2,
         /*020*//*bublbobl*/driver_tokio,
         /*021*//*snk*/driver_gwara,
+        /*tehkanwc*/driver_teedoff,
         
         /*
         WIP drivers
@@ -2093,12 +2099,7 @@ driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( megaforc )	/* (c) 1985 Tehkan + Video Ware license */
 /*TODO*/ //	DRIVER( baluba )	/* (c) 1986 Able Corp. */
         
-	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
-/*TODO*/ //	DRIVER( tehkanwc )	/* (c) 1985 Tehkan */
-/*TODO*/ //	DRIVER( gridiron )	/* (c) 1985 Tehkan */
-/*TODO*/ //	DRIVER( teedoff )	/* 6102 - (c) 1986 Tecmo */
-/*TODO*/ //	DRIVER( solomon )	/* (c) 1986 Tecmo */
-        
+    
 /*TODO*/ //	DRIVER( gaiden )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( shadoww )	/* 6215 - (c) 1988 Tecmo */
 /*TODO*/ //	DRIVER( tknight )	/* (c) 1989 Tecmo */

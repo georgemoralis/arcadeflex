@@ -376,7 +376,8 @@ psychos  snk.c      Z80      Z80      [Z80   ]                                  
 psychosj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Psycho Soldier (Japan)
 chopper  snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Chopper I
 legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
-
+tehkanwc tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tehkan World Cup
+solomon  solomon.c  Z80      [Z80   ]                                                       3xAY-8910                                                   Solomon's Key (Japan)
 
 Small issues that doesn't affect playable status
 =======================================
@@ -458,6 +459,7 @@ bermudat snk.c      Z80      Z80      [Z80   ]                                  
 bermudaj snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (Japan)  //boots but doesn't start
 bermudaa snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US early version)  //boots but doesn't start
 worldwar snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     World Wars (Japan)  //boots but doesn't start
+gridiron tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Gridiron Fight  //boots but doesn't start
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------
@@ -482,6 +484,7 @@ NOT WORKING IN MAME 0.36 EITHER
 019)avenger2 lwings.c   Z80      [Z80   ]                                                       2xYM-2203   1xADPCM                                         Avengers (set 2)
 020)tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
 gwara    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (Version 1)
+teedoff  tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tee'd Off
 
 WIP
 ===

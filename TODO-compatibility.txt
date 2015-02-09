@@ -168,10 +168,6 @@ starforc senjyo.c   Z80      [Z80   ]                                           
 starfore senjyo.c   Z80      [Z80   ]                                                       3xSN76496   Custom                                          Star Force (encrypted)
 megaforc senjyo.c   Z80      [Z80   ]                                                       3xSN76496   Custom                                          Mega Force
 baluba   senjyo.c   Z80      [Z80   ]                                                       3xSN76496   Custom                                          Baluba-louk no Densetsu
-tehkanwc tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tehkan World Cup
-gridiron tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Gridiron Fight
-teedoff  tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tee'd Off
-solomon  solomon.c  Z80      [Z80   ]                                                       3xAY-8910                                                   Solomon's Key (Japan)
 wc90b    wc90b.c    Z80      Z80      [Z80   ]                                              2xYM-2203                                                   Euro League
 gyruss   gyruss.c   Z80      [Z80   ] [I8039 ]                                              5xAY-8910   1xDAC                                           Gyruss (Konami)
 gyrussce gyruss.c   Z80      [Z80   ] [I8039 ]                                              5xAY-8910   1xDAC                                           Gyruss (Centuri)
