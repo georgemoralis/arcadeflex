@@ -161,6 +161,8 @@ import static drivers.WIP.wardner.*;
 import static drivers.galivan.*;
 import static drivers.WIP.tehkanwc.*;
 import static drivers.solomon.*;
+import static drivers.WIP.sauro.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -550,6 +552,7 @@ public class driver {
         /*375*//*snk*/driver_legofair,
         /*376*//*tehkanwc*/driver_tehkanwc,
         /*377*//*solomon*/driver_solomon,
+        /*378*//*sauro*/driver_sauro,
         
         
         /*
@@ -2696,7 +2699,7 @@ driver_suprmatk,
 /*TODO*/ //	DRIVER( exctsccb )	/* bootleg */
 /*TODO*/ //	DRIVER( exctscc2 )
             
-/*TODO*/ //	DRIVER( sauro )		/* (c) 1987 Tecfri */
+
 /*TODO*/ //	DRIVER( ambush )	/* (c) 1983 Nippon Amuse Co-Ltd */
 /*TODO*/ //	DRIVER( starcrus )	/* [1977 Ramtek] */
 /*TODO*/ //	DRIVER( shanghai )	/* (c) 1988 Sun Electronics */

@@ -462,7 +462,6 @@ exctsccr exctsccr.c Z80      Z80                                                
 exctscca exctsccr.c Z80      Z80                                                            4xAY-8910   2xDAC                                           Exciting Soccer (alternate music)
 exctsccb exctsccr.c Z80      Z80                                                            1xAY-8910   1xDAC                                           Exciting Soccer (bootleg)
 exctscc2 exctsccr.c Z80      Z80                                                            4xAY-8910   2xDAC                                           Exciting Soccer II
-sauro    sauro.c    Z80      [Z80   ]                                                       1xYM-3812                                                   Sauro
 joyfulr  munchmo.c  Z80      [Z80   ]                                                       2xAY-8910                                                   Joyful Road (US)
 mnchmobl munchmo.c  Z80      [Z80   ]                                                       2xAY-8910                                                   Munch Mobile (Japan)
 marvins  marvins.c  Z80      Z80      [Z80   ]                                              2xAY-8910   Namco                                           Marvin's Maze

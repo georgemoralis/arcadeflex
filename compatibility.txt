@@ -378,6 +378,7 @@ chopper  snk.c      Z80      Z80      [Z80   ]                                  
 legofair snk.c      Z80      Z80      [Z80   ]                                              1xYM-3812   1xY8950                                         Koukuu Kihei Monogatari - The Legend of Air Cavalry
 tehkanwc tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tehkan World Cup
 solomon  solomon.c  Z80      [Z80   ]                                                       3xAY-8910                                                   Solomon's Key (Japan)
+sauro    sauro.c    Z80      [Z80   ]                                                       1xYM-3812                                                   Sauro
 
 Small issues that doesn't affect playable status
 =======================================
