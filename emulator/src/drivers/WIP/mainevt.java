@@ -43,6 +43,7 @@ import static mame.palette.*;
 import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_K007232;
+import static mame.sndintrfH.SOUND_UPD7759;
 import static mame.sndintrfH.SOUND_YM2151;
 import static vidhrdw.mainevt.*;
 import static vidhrdw.konamiic.*;
@@ -51,6 +52,8 @@ import static sound.k007232H.*;
 import static sound._2151intf.*;
 import static sound._2151intfH.*;
 import static sound.mixerH.*;
+import static sound.upd7759.*;
+import static sound.upd7759H.*;
 
 public class mainevt
 {
@@ -120,14 +123,14 @@ public class mainevt
 	public static WriteHandlerPtr mainevt_sh_irqcontrol_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
 	 	/* I think bit 1 resets the UPD7795C sound chip */
-/*TODO*///	 	if ((data & 0x02) == 0)
-/*TODO*///	 	{
-/*TODO*///	 		UPD7759_reset_w(0,(data & 0x02) >> 1);
-/*TODO*///	 	}
-/*TODO*///		else if ((data & 0x01))
-/*TODO*///	 	{
-/*TODO*///			UPD7759_start_w(0,0);
-/*TODO*///	 	}
+	 	if ((data & 0x02) == 0)
+	 	{
+	 		UPD7759_reset_w.handler(0,(data & 0x02) >> 1);
+	 	}
+		else if ((data & 0x01)!=0)
+	 	{
+			UPD7759_start_w.handler(0,0);
+	 	}
 	
 		interrupt_enable_w.handler(0,data & 4);
 	} };
@@ -249,7 +252,7 @@ public class mainevt
 		new MemoryReadAddress( 0x8000, 0x83ff, MRA_RAM ),
 		new MemoryReadAddress( 0xa000, 0xa000, soundlatch_r ),
 		new MemoryReadAddress( 0xb000, 0xb00d, K007232_read_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xd000, 0xd000, UPD7759_busy_r ),
+		new MemoryReadAddress( 0xd000, 0xd000, UPD7759_busy_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -258,7 +261,7 @@ public class mainevt
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x83ff, MWA_RAM ),
 		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x9000, 0x9000, UPD7759_message_w ),
+		new MemoryWriteAddress( 0x9000, 0x9000, UPD7759_message_w ),
 		new MemoryWriteAddress( 0xe000, 0xe000, mainevt_sh_irqcontrol_w ),
 		new MemoryWriteAddress( 0xf000, 0xf000, mainevt_sh_bankswitch_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
@@ -632,12 +635,7 @@ public class mainevt
 	INPUT_PORTS_END(); }}; 
 	
 	/*****************************************************************************/
-	
-/*TODO*///	static void volume_callback(int v)
-/*TODO*///	{
-/*TODO*///		K007232_set_volume(0,0,(v >> 4) * 0x11,0);
-/*TODO*///		K007232_set_volume(0,1,0,(v & 0x0f) * 0x11);
-/*TODO*///	}
+
         public static portwritehandlerPtr volume_callback = new portwritehandlerPtr() { public void handler(int v)
         {
             K007232_set_volume(0,0,(v >> 4) * 0x11,0);
@@ -652,15 +650,15 @@ public class mainevt
 		new portwritehandlerPtr[]{ volume_callback }	/* external port callback */
         );
 	
-/*TODO*///	static struct UPD7759_interface upd7759_interface =
-/*TODO*///	{
-/*TODO*///		1,		/* number of chips */
-/*TODO*///		UPD7759_STANDARD_CLOCK,
-/*TODO*///		{ 50 }, /* volume */
-/*TODO*///		{ REGION_SOUND2 },		/* memory region */
-/*TODO*///		UPD7759_STANDALONE_MODE,		/* chip mode */
-/*TODO*///		{0}
-/*TODO*///	};
+	static UPD7759_interface upd7759_interface = new UPD7759_interface
+	(
+		1,		/* number of chips */
+		UPD7759_STANDARD_CLOCK,
+		new int[]{ 50 }, /* volume */
+		new int[]{ REGION_SOUND2 },		/* memory region */
+		UPD7759_STANDALONE_MODE,		/* chip mode */
+		new irqcallbackPtr[]{null}
+        );
 	
 	static YM2151interface ym2151_interface = new YM2151interface
         (
@@ -710,11 +708,11 @@ public class mainevt
 			new MachineSound(
 				SOUND_K007232,
 				k007232_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_UPD7759,
 				upd7759_interface
-			)*/
+			)
 		}
 	);
 	

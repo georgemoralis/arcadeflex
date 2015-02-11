@@ -33,7 +33,8 @@ public class upd7759 extends sndintrf.snd_interface {
     }
 
     public static final int SIGNAL_BITS = 15;	/* signal range */
-    public static final int SIGNAL_MAX= (0x7fff >> (15 - SIGNAL_BITS));
+
+    public static final int SIGNAL_MAX = (0x7fff >> (15 - SIGNAL_BITS));
     public static final int SIGNAL_MIN = -SIGNAL_MAX;
 
     public static final int STEP_MAX = 32;
@@ -82,15 +83,12 @@ public class upd7759 extends sndintrf.snd_interface {
         Object timer;			/* timer used in slave mode */
 
         int[] data = new int[DATA_MAX]; 	/* data array used in slave mode */
-        /*unsigned*/
 
-        int head;			/* head of data array used in slave mode */
-        /*unsigned*/
+        int /*unsigned*/ head;			/* head of data array used in slave mode */
 
-        int tail;			/* tail of data array used in slave mode */
-        /*unsigned*/
+        int /*unsigned*/ tail;			/* tail of data array used in slave mode */
 
-        int available;
+        int /*unsigned*/ available;
     };
     /* global pointer to the current interface */
     static UPD7759_interface upd7759_intf;
@@ -157,26 +155,25 @@ public class upd7759 extends sndintrf.snd_interface {
 
         memrom = memory_region(upd7759_intf.region[num]);
         numsam = memrom.read(0); /* get number of samples from sound rom */
-        /*TODO*///	header = &(memrom[1]);
-/*TODO*///
-/*TODO*///	if (memcmp (header, "\x5A\xA5\x69\x55",4) == 0)
-/*TODO*///	{
-/*TODO*///		LOG(1,(errorlog,"uPD7759 header verified\n"));
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		LOG(1,(errorlog,"uPD7759 header verification failed\n"));
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	LOG(1,(errorlog,"Number of samples in UPD7759 rom = %d\n",numsam));
-/*TODO*///
-/*TODO*///	/* move the header pointer to the start of the sample offsets */
-/*TODO*///	header = &(memrom[5]);
+        //header = &(memrom[1]);
+	/*if (memcmp (header, "\x5A\xA5\x69\x55",4) == 0)
+         {
+         LOG(1,(errorlog,"uPD7759 header verified\n"));
+         }
+         else
+         {
+         LOG(1,(errorlog,"uPD7759 header verification failed\n"));
+         }
 
-        header = new UBytePtr(memrom, 5);
+         LOG(1,(errorlog,"Number of samples in UPD7759 rom = %d\n",numsam));*/
+
+
+        /* move the header pointer to the start of the sample offsets */
+        header = new UBytePtr(memrom, 5);//header = &(memrom[5]);
 
         if (sample_num > numsam) {
             return 0;	/* sample out of range */
+
         }
 
         nextoff = 2 * sample_num;
@@ -212,17 +209,16 @@ public class upd7759 extends sndintrf.snd_interface {
                     - ((((/*unsigned*/int) (header.read(nextoff))) << 8) + (header.read(nextoff + 1))) * 2;
         }
 
-        /*TODO*///if (errorlog)
-/*TODO*///{
-/*TODO*///	data = &memory_region(upd7759_intf->region[num])[sample->offset];
-/*TODO*///	fprintf( errorlog,"play sample %3d, offset $%06x, length %5d, freq = %4d [data $%02x $%02x $%02x]\n",
-/*TODO*///		sample_num,
-/*TODO*///		sample->offset,
-/*TODO*///		sample->length,
-/*TODO*///		sample->freq,
-/*TODO*///		data[0],data[1],data[2]);
-/*TODO*///}
-/*TODO*///
+        /*if (errorlog)
+         {
+         data = &memory_region(upd7759_intf->region[num])[sample->offset];
+         fprintf( errorlog,"play sample %3d, offset $%06x, length %5d, freq = %4d [data $%02x $%02x $%02x]\n",
+         sample_num,
+         sample->offset,
+         sample->length,
+         sample->freq,
+         data[0],data[1],data[2]);
+         }*/
         return 1;
     }
 
@@ -288,15 +284,15 @@ public class upd7759 extends sndintrf.snd_interface {
             int i;
 
             /* see if there's actually any need to generate samples */
-	//LOG(3,(errorlog,"UPD7759_update %d (%d)\n", left, voice->available));
+            //LOG(3,(errorlog,"UPD7759_update %d (%d)\n", left, voice->available));
             if (left > 0) {
                 /* if this voice is active */
                 if (updadpcm[chip].playing != 0) {
                     updadpcm[chip].available -= left;
                     if (upd7759_intf.mode == UPD7759_SLAVE_MODE) {
                         while (left-- > 0) {
-                             buffer.write(0,(char)updadpcm[chip].data[updadpcm[chip].tail]);
-                             buffer.offset+=2;
+                            buffer.write(0, (char) updadpcm[chip].data[updadpcm[chip].tail]);
+                            buffer.offset += 2;
                             updadpcm[chip].tail = (updadpcm[chip].tail + 1) % DATA_MAX;
                         }
                     } else {
@@ -320,8 +316,8 @@ public class upd7759 extends sndintrf.snd_interface {
                             }
 
                             while (updadpcm[chip].counter > 0 && left > 0) {
-                                 buffer.write(0,(char)updadpcm[chip].signal);
-                                 buffer.offset+=2;
+                                buffer.write(0, (char) updadpcm[chip].signal);
+                                buffer.offset += 2;
                                 updadpcm[chip].counter -= updadpcm[chip].freq;
                                 left--;
                             }
@@ -331,8 +327,8 @@ public class upd7759 extends sndintrf.snd_interface {
                             /* next! */
                             if (++updadpcm[chip].sample > updadpcm[chip].count) {
                                 while (left-- > 0) {
-                                     buffer.write(0,(char)updadpcm[chip].signal);
-                                     buffer.offset+=2;
+                                    buffer.write(0, (char) updadpcm[chip].signal);
+                                    buffer.offset += 2;
                                     updadpcm[chip].signal = FALL_OFF(updadpcm[chip].signal);
                                 }
                                 updadpcm[chip].playing = 0;
@@ -343,8 +339,8 @@ public class upd7759 extends sndintrf.snd_interface {
                 } else {
                     /* voice is not playing */
                     for (i = 0; i < left; i++) {
-                         buffer.write(0,(char)updadpcm[chip].signal);
-                         buffer.offset+=2;
+                        buffer.write(0, (char) updadpcm[chip].signal);
+                        buffer.offset += 2;
                     }
                 }
             }
@@ -380,7 +376,7 @@ public class upd7759 extends sndintrf.snd_interface {
      *
      * In slave mode it seems like the ADPCM data is stuffed here from an
      * external source (eg. Z80 NMI code).
-     ************************************************************
+     * ***********************************************************
      */
     public static WriteHandlerPtr UPD7759_message_w = new WriteHandlerPtr() {
         public void handler(int num, int data) {
@@ -604,7 +600,7 @@ public class upd7759 extends sndintrf.snd_interface {
                     return;
                 }
 
-		//LOG(2,(errorlog,"UPD7759_start_w: %d\n", data));
+                //LOG(2,(errorlog,"UPD7759_start_w: %d\n", data));
 
                 /* find a match */
                 if (find_sample(num, sampnum[num], sample) != 0) {
@@ -678,7 +674,7 @@ public class upd7759 extends sndintrf.snd_interface {
      * speech decode and output operations. When !ST is received, !BUSY goes
      * low. While !BUSY is low, another !ST will not be accepted. In standby
      * mode, !BUSY becomes high impedance. This is an active low output.
-     ************************************************************
+     * ***********************************************************
      */
     public static ReadHandlerPtr UPD7759_busy_r = new ReadHandlerPtr() {
         public int handler(int num) {
@@ -715,7 +711,7 @@ public class upd7759 extends sndintrf.snd_interface {
      * must remain low at least 12 oscillator clocks. At power-up or when
      * recovering from standby mode, !RESET must remain low at least 12 more
      * clocks after clock oscillation stabilizes.
-     ************************************************************
+     * ***********************************************************
      */
     public static WriteHandlerPtr UPD7759_reset_w = new WriteHandlerPtr() {
         public void handler(int num, int data) {
