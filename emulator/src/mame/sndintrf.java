@@ -27,6 +27,7 @@ import sound.k051649;
 import sound.vlm5030;
 import sound._2151intf;
 import sound.pokey;
+import sound.upd7759;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -233,9 +234,6 @@ public class sndintrf {
 
     /*TODO*////*TODO*///#if (HAS_MSM5205)
     /*TODO*////*TODO*///int MSM5205_clock(const struct MachineSound *msound) { return ((struct MSM5205interface*)msound->sound_interface)->baseclock; }
-    /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_UPD7759)
-    /*TODO*////*TODO*///int UPD7759_clock(const struct MachineSound *msound) { return ((struct UPD7759_interface*)msound->sound_interface)->clock_rate; }
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_ASTROCADE)
     /*TODO*////*TODO*///int ASTROCADE_clock(const struct MachineSound *msound) { return ((struct astrocade_interface*)msound->sound_interface)->baseclock; }
@@ -472,19 +470,7 @@ public class sndintrf {
             new adpcm(),
             new okim6295(),
             new MSM5205(),
-             new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_UPD7759)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_UPD7759,
-    /*TODO*////*TODO*///		"uPD7759",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		UPD7759_clock,
-    /*TODO*////*TODO*///		UPD7759_sh_start,
-    /*TODO*////*TODO*///		UPD7759_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+            new upd7759(),
              new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_HC55516)
     /*TODO*////*TODO*///    {
