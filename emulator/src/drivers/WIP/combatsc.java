@@ -128,10 +128,14 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_UPD7759;
 import static mame.sndintrfH.SOUND_YM2203;
 import static vidhrdw.combatsc.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;
+import static sound.upd7759.*;
+import static sound.upd7759H.*;
+
 
 public class combatsc
 {
@@ -212,13 +216,13 @@ public class combatsc
 	
 	public static WriteHandlerPtr combasc_play_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		if (data & 0x02)
-/*TODO*///	        UPD7759_start_w(0, 0);
+		if ((data & 0x02)!=0)
+	        UPD7759_start_w.handler(0, 0);
 	} };
 	
 	public static WriteHandlerPtr combasc_voice_reset_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///	    UPD7759_reset_w(0,data & 1);
+	    UPD7759_reset_w.handler(0,data & 1);
 	} };
 	
 	public static WriteHandlerPtr combasc_portA_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -294,7 +298,7 @@ public class combatsc
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),					/* ROM */
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),					/* RAM */
-/*TODO*///		new MemoryReadAddress( 0xb000, 0xb000, UPD7759_busy_r ),				/* UPD7759 busy? */
+		new MemoryReadAddress( 0xb000, 0xb000, UPD7759_busy_r ),				/* UPD7759 busy? */
 		new MemoryReadAddress( 0xd000, 0xd000, soundlatch_r ),				/* soundlatch_r? */
 	        new MemoryReadAddress( 0xe000, 0xe000, YM2203_status_port_0_r ),		/* YM 2203 */
 		new MemoryReadAddress( -1 )
@@ -305,7 +309,7 @@ public class combatsc
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),				/* ROM */
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),				/* RAM */
 		new MemoryWriteAddress( 0x9000, 0x9000, combasc_play_w ),		/* uPD7759 play voice */
-/*TODO*///		new MemoryWriteAddress( 0xa000, 0xa000, UPD7759_message_w ),		/* uPD7759 voice select */
+		new MemoryWriteAddress( 0xa000, 0xa000, UPD7759_message_w ),		/* uPD7759 voice select */
 		new MemoryWriteAddress( 0xc000, 0xc000, combasc_voice_reset_w ),	/* uPD7759 reset? */
 	 	new MemoryWriteAddress( 0xe000, 0xe000, YM2203_control_port_0_w ),/* YM 2203 */
 		new MemoryWriteAddress( 0xe001, 0xe001, YM2203_write_port_0_w ),	/* YM 2203 */
@@ -677,15 +681,15 @@ public class combatsc
 		new WriteHandlerPtr[] { null }
 	);
 	
-/*	static struct UPD7759_interface upd7759_interface =
-	{
+	static UPD7759_interface upd7759_interface = new UPD7759_interface
+	(
 		1,							/* number of chips */
-/*		UPD7759_STANDARD_CLOCK,
-		{ 70 },						/* volume */
-/*		{ REGION_SOUND1 },			/* memory region */
-/*		UPD7759_STANDALONE_MODE,	/* chip mode */
-/*		{0}
-	};*/
+		UPD7759_STANDARD_CLOCK,
+		new int[]{ 70 },						/* volume */
+		new int[]{ REGION_SOUND1 },			/* memory region */
+		UPD7759_STANDALONE_MODE,	/* chip mode */
+		new irqcallbackPtr[]{null}
+        );
 	
 	
 	
@@ -727,11 +731,11 @@ public class combatsc
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_UPD7759,
 				upd7759_interface
-			)*/
+			)
 		}
 	);
 	
@@ -773,11 +777,11 @@ public class combatsc
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_UPD7759,
 				upd7759_interface
-			)*/
+			)
 		}
 	);
 	
