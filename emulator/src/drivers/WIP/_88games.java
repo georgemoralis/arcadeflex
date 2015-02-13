@@ -34,6 +34,11 @@ import static vidhrdw._88games.*;
 import static vidhrdw.konamiic.*;
 import static arcadeflex.fileio.*;
 import static arcadeflex.ptrlib.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_UPD7759;
+import static sound.upd7759.*;
+import static sound.upd7759H.*;
+
 
 public class _88games
 {
@@ -187,16 +192,16 @@ public class _88games
 	
 		speech_chip = ( data & 4 )!=0 ? 1 : 0;
 	
-/*TODO*///		UPD7759_reset_w( speech_chip, reset );
+		UPD7759_reset_w.handler(speech_chip, reset );
 	
-/*TODO*///		if (!invalid_code)
-/*TODO*///			UPD7759_start_w( speech_chip, start );
+		if (invalid_code==0)
+			UPD7759_start_w.handler(speech_chip, start );
 	} };
 	
 	public static WriteHandlerPtr speech_msg_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-/*TODO*///		UPD7759_message_w( speech_chip, data );
-/*TODO*///		invalid_code = (data == total_samples[speech_chip]);
+		UPD7759_message_w.handler(speech_chip, data );
+		invalid_code = (data == total_samples[speech_chip])?1:0;
 	} };
 	
 	static MemoryReadAddress readmem[] =
@@ -371,15 +376,15 @@ public class _88games
 /*TODO*///		{ 0 }
 /*TODO*///	};
 	
-/*TODO*///	static struct UPD7759_interface upd7759_interface =
-/*TODO*///	{
-/*TODO*///		2,							/* number of chips */
-/*TODO*///		UPD7759_STANDARD_CLOCK,
-/*TODO*///		{ 30, 30 },					/* volume */
-/*TODO*///		{ REGION_SOUND1, REGION_SOUND2 },	/* memory region */
-/*TODO*///		UPD7759_STANDALONE_MODE,	/* chip mode */
-/*TODO*///		{0}
-/*TODO*///	};
+	static UPD7759_interface upd7759_interface = new UPD7759_interface
+	(
+		2,							/* number of chips */
+		UPD7759_STANDARD_CLOCK,
+		new int[]{ 30, 30 },					/* volume */
+		new int[]{ REGION_SOUND1, REGION_SOUND2 },	/* memory region */
+		UPD7759_STANDALONE_MODE,	/* chip mode */
+		new irqcallbackPtr[]{null}
+        );
 	
 	
 	
@@ -417,17 +422,16 @@ public class _88games
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
-			new MachineSound(
+		new MachineSound[] {
+			/*new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
-			),
+			),*/
 			new MachineSound(
 				SOUND_UPD7759,
 				upd7759_interface
 			)
-		},*/
-                null,
+		},
 	
 		nvram_handler
 	);
