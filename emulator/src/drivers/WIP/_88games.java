@@ -34,10 +34,12 @@ import static vidhrdw._88games.*;
 import static vidhrdw.konamiic.*;
 import static arcadeflex.fileio.*;
 import static arcadeflex.ptrlib.*;
-import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_UPD7759;
+import static sound.mixerH.*;
+import static mame.sndintrfH.*;
 import static sound.upd7759.*;
 import static sound.upd7759H.*;
+import static sound._2151intfH.*;
+import static sound._2151intf.*;
 
 
 public class _88games
@@ -242,7 +244,7 @@ public class _88games
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
 		new MemoryReadAddress( 0xa000, 0xa000, soundlatch_r ),
-/*TODO*///		new MemoryReadAddress( 0xc001, 0xc001, YM2151_status_port_0_r ),
+		new MemoryReadAddress( 0xc001, 0xc001, YM2151_status_port_0_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -251,8 +253,8 @@ public class _88games
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
 		new MemoryWriteAddress( 0x9000, 0x9000, speech_msg_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc000, 0xc000, YM2151_register_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc001, 0xc001, YM2151_data_port_0_w ),
+		new MemoryWriteAddress( 0xc000, 0xc000, YM2151_register_port_0_w ),
+		new MemoryWriteAddress( 0xc001, 0xc001, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0xe000, 0xe000, speech_control_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -368,13 +370,15 @@ public class _88games
 	
 	
 	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3579545,	/* 3.579545 MHz */
-/*TODO*///		{ YM3012_VOL(75,MIXER_PAN_LEFT,75,MIXER_PAN_RIGHT) },
-/*TODO*///		{ 0 }
-/*TODO*///	};
+	static YM2151interface ym2151_interface = new YM2151interface
+	(
+		1,			/* 1 chip */
+		3579545,	/* 3.579545 MHz */
+		new int[]{ YM3012_VOL(75,MIXER_PAN_LEFT,75,MIXER_PAN_RIGHT) },
+                new WriteYmHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null }
+                
+        );
 	
 	static UPD7759_interface upd7759_interface = new UPD7759_interface
 	(
@@ -423,10 +427,10 @@ public class _88games
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_UPD7759,
 				upd7759_interface

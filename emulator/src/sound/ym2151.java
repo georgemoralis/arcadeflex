@@ -3,6 +3,7 @@ package sound;
 import static sound.streams.*;
 import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
+import static arcadeflex.libc_old.*;
 
 public class ym2151 {
     /*TODO*////*operator data*/
@@ -54,8 +55,8 @@ public class ym2151 {
     /*TODO*///} OscilRec;
     /*TODO*///
     /*TODO*///
-    /*TODO*///typedef struct
-    /*TODO*///{
+    public static class _YM2151
+    {
     /*TODO*///	OscilRec Oscils[32];	/*there are 32 operators in YM2151*/
     /*TODO*///
     /*TODO*///	unsigned int PAN[16];	/*channels output masks (0xffffffff = enable)*/
@@ -78,68 +79,67 @@ public class ym2151 {
     /*TODO*///
     /*TODO*///
     /*TODO*///	void *TimATimer,*TimBTimer;	/*ASG 980324 -- added for tracking timers*/
-    /*TODO*///	double TimerATime[1024];	/*Timer A times for MAME*/
-    /*TODO*///	double TimerBTime[256];		/*Timer B times for MAME*/
+    	double[] TimerATime=new double[1024];	/*Timer A times for MAME*/
+    	double[] TimerBTime=new double[256];		/*Timer B times for MAME*/
     /*TODO*///
     /*TODO*///	unsigned int TimAIndex;		/*Timer A index*/
     /*TODO*///	unsigned int TimBIndex;		/*Timer B index*/
     /*TODO*///
     /*TODO*///	unsigned int TimAOldIndex;	/*Timer A previous index*/
     /*TODO*///	unsigned int TimBOldIndex;	/*Timer B previous index*/
-    /*TODO*///
-    /*TODO*///	/*
-    /*TODO*///	*   Frequency-deltas to get the closest frequency possible.
-    /*TODO*///	*   There're 11 octaves because of DT2 (max 950 cents over base frequency)
-    /*TODO*///	*   and LFO phase modulation (max 700 cents below AND over base frequency)
-    /*TODO*///	*   Summary:   octave  explanation
-    /*TODO*///	*              0       note code - LFO PM
-    /*TODO*///	*              1       note code
-    /*TODO*///	*              2       note code
-    /*TODO*///	*              3       note code
-    /*TODO*///	*              4       note code
-    /*TODO*///	*              5       note code
-    /*TODO*///	*              6       note code
-    /*TODO*///	*              7       note code
-    /*TODO*///	*              8       note code
-    /*TODO*///	*              9       note code + DT2 + LFO PM
-    /*TODO*///	*              10      note code + DT2 + LFO PM
-    /*TODO*///	*/
-    /*TODO*///	unsigned int freq[11*12*64];/*11 octaves, 12 semitones, 64 'cents'*/
-    /*TODO*///
-    /*TODO*///	/*
-    /*TODO*///	*   Frequency deltas for DT1. These deltas alter operator frequency
-    /*TODO*///	*   after it has been taken from frequency-deltas table.
-    /*TODO*///	*/
-    /*TODO*///	signed   int DT1freq[8*16*32];		/*8 DT1 levels,16 MUL lelvels, 32 KC values*/
-    /*TODO*///
-    /*TODO*///	unsigned int EG_tab[32+64+32];		/*envelope deltas (32 + 64 rates + 32 RKS)*/
-    /*TODO*///
-    /*TODO*///	unsigned int LFOfreq[256];			/*frequency deltas for LFO*/
-    /*TODO*///
-    /*TODO*///	void (*irqhandler)(int irq);				/*IRQ function handler*/
-    /*TODO*///	void (*porthandler)(int offset, int data);	/*port write function handler*/
-    /*TODO*///
-    /*TODO*///	unsigned int clock;			/*chip clock in Hz (passed from 2151intf.c)*/
-    /*TODO*///	unsigned int sampfreq;		/*sampling frequency in Hz (passed from 2151intf.c)*/
-    /*TODO*///
-    /*TODO*///} YM2151;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*///**  Shifts below are subject to change when sampling frequency changes...
-    /*TODO*///*/
-    /*TODO*///#define FREQ_SH			16  /* 16.16 fixed point (frequency calculations) */
-    /*TODO*///#define ENV_SH			16  /* 16.16 fixed point (envelope calculations)  */
-    /*TODO*///#define LFO_SH			23  /*  9.23 fixed point (LFO calculations)       */
-    /*TODO*///#define TIMER_SH		16  /* 16.16 fixed point (timers calculations)    */
-    /*TODO*///
-    /*TODO*///#define FREQ_MASK		((1<<FREQ_SH)-1)
-    /*TODO*///#define ENV_MASK		((1<<ENV_SH)-1)
-    /*TODO*///
-    /*TODO*///#define ENV_BITS		10
-    /*TODO*///#define ENV_LEN			(1<<ENV_BITS)
-    /*TODO*///#define ENV_STEP		(128.0/ENV_LEN)
-    /*TODO*///#define ENV_QUIET		((int)(0x68/(ENV_STEP)))
+    
+    	/*
+    	*   Frequency-deltas to get the closest frequency possible.
+    	*   There're 11 octaves because of DT2 (max 950 cents over base frequency)
+    	*   and LFO phase modulation (max 700 cents below AND over base frequency)
+    	*   Summary:   octave  explanation
+    	*              0       note code - LFO PM
+    	*              1       note code
+    	*              2       note code
+    	*              3       note code
+    	*              4       note code
+    	*              5       note code
+    	*              6       note code
+    	*              7       note code
+    	*              8       note code
+    	*              9       note code + DT2 + LFO PM
+    	*              10      note code + DT2 + LFO PM
+    	*/
+    	/*unsigned int*/long[] freq=new long[11*12*64];/*11 octaves, 12 semitones, 64 'cents'*/
+    
+    	/*
+    	*   Frequency deltas for DT1. These deltas alter operator frequency
+    	*   after it has been taken from frequency-deltas table.
+    	*/
+    	int[] DT1freq=new int[8*16*32];		/*8 DT1 levels,16 MUL lelvels, 32 KC values*/
+    
+    	/*unsigned int*/long[] EG_tab=new long[32+64+32];		/*envelope deltas (32 + 64 rates + 32 RKS)*/
+    
+    	/*unsigned int*/long[] LFOfreq=new long[256];			/*frequency deltas for LFO*/
+    
+        WriteYmHandlerPtr irqhandler;				/*IRQ function handler*/
+        WriteHandlerPtr porthandler;	/*port write function handler*/
+
+    	/*unsigned*/ int clock;			/*chip clock in Hz (passed from 2151intf.c)*/
+    	/*unsigned*/ int sampfreq;		/*sampling frequency in Hz (passed from 2151intf.c)*/
+    
+    }
+    
+    /*
+    **  Shifts below are subject to change when sampling frequency changes...
+    */
+    public static final int FREQ_SH			=16;  /* 16.16 fixed point (frequency calculations) */
+    public static final int ENV_SH			=16;  /* 16.16 fixed point (envelope calculations)  */
+    public static final int LFO_SH			=23;  /*  9.23 fixed point (LFO calculations)       */
+    public static final int TIMER_SH		=16;  /* 16.16 fixed point (timers calculations)    */
+    
+    public static final int FREQ_MASK		=((1<<FREQ_SH)-1);
+    public static final int ENV_MASK		=((1<<ENV_SH)-1);
+    
+    public static final int ENV_BITS		=10;
+    public static final int ENV_LEN			=(1<<ENV_BITS);
+    public static final double ENV_STEP		=(128.0/ENV_LEN);
+    public static final int ENV_QUIET		=((int)(0x68/(ENV_STEP)));
     /*TODO*///
     /*TODO*///#define MAX_ATT_INDEX	((ENV_LEN<<ENV_SH)-1) /*1023.ffff*/
     /*TODO*///#define MIN_ATT_INDEX	(      (1<<ENV_SH)-1) /*   0.ffff*/
@@ -149,421 +149,413 @@ public class ym2151 {
     /*TODO*///#define EG_SUS			2
     /*TODO*///#define EG_REL			1
     /*TODO*///#define EG_OFF			0
-    /*TODO*///
-    /*TODO*///#define SIN_BITS		10
-    /*TODO*///#define SIN_LEN			(1<<SIN_BITS)
-    /*TODO*///#define SIN_MASK		(SIN_LEN-1)
-    /*TODO*///
-    /*TODO*///#define TL_RES_LEN		(256) /* 8 bits addressing (real chip) */
-    /*TODO*///
-    /*TODO*///#define LFO_BITS		9
-    /*TODO*///#define LFO_LEN			(1<<LFO_BITS)
-    /*TODO*///#define LFO_MASK		(LFO_LEN-1)
-    /*TODO*///
-    /*TODO*///#if (SAMPLE_BITS==16)
-    /*TODO*///	#define FINAL_SH	(0)
-    /*TODO*///	#define MAXOUT		(+32767)
-    /*TODO*///	#define MINOUT		(-32768)
-    /*TODO*///#else
-    /*TODO*///	#define FINAL_SH	(8)
-    /*TODO*///	#define MAXOUT		(+127)
-    /*TODO*///	#define MINOUT		(-128)
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* TL_TAB_LEN is calculated as:
-    /*TODO*/// * 13 - sinus amplitude bits  (Y axis)
-    /*TODO*/// * 2  - sinus sign bit        (Y axis)
-    /*TODO*/// * ENV_LEN - sinus resolution (X axis)
-    /*TODO*///*/
-    /*TODO*///#define TL_TAB_LEN (13*2*TL_RES_LEN)
-    /*TODO*///static signed int TL_TAB[TL_TAB_LEN];
-    /*TODO*///
-    /*TODO*////* sin waveform table in 'decibel' scale*/
-    /*TODO*///static unsigned int sin_tab[SIN_LEN];
-    /*TODO*///
-    /*TODO*////* four AM/PM LFO waveforms (8 in total)*/
-    /*TODO*///static unsigned int lfo_tab[LFO_LEN*4*2];
-    /*TODO*///
-    /*TODO*////* LFO amplitude modulation depth table (128 levels)*/
-    /*TODO*///static unsigned int lfo_md_tab[128];
-    /*TODO*///
-    /*TODO*////* translate from D1L to volume index (16 D1L levels)*/
-    /*TODO*///static unsigned int D1L_tab[16];
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// * translate from key code KC (OCT2 OCT1 OCT0 N3 N2 N1 N0) to
-    /*TODO*/// * index in frequency-deltas table. (9 octaves * 16 note codes)
-    /*TODO*///*/
-    /*TODO*///static unsigned int KC_TO_INDEX[9*16];
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *   DT2 defines offset in cents from base note
-    /*TODO*/// *
-    /*TODO*/// *   This table defines offset in frequency-deltas table.
-    /*TODO*/// *   User's Manual page 22
-    /*TODO*/// *
-    /*TODO*/// *   Values below were calculated using formula: value =  orig.val / 1.5625
-    /*TODO*/// *
-    /*TODO*/// *	DT2=0 DT2=1 DT2=2 DT2=3
-    /*TODO*/// *	0     600   781   950
-    /*TODO*///*/
-    /*TODO*///static unsigned int DT2_tab[4] = { 0, 384, 500, 608 };
-    /*TODO*///
-    /*TODO*////*
-    /*TODO*/// *   DT1 defines offset in Hertz from base note
-    /*TODO*/// *   This table is converted while initialization...
-    /*TODO*/// *   Detune table in YM2151 User's Manual is wrong (checked against the real chip)
-    /*TODO*///*/
-    /*TODO*///static unsigned char DT1_tab[4*32] = { /* 4*32 DT1 values */
-    /*TODO*////* DT1=0 */
-    /*TODO*///  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    /*TODO*///  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    /*TODO*///
-    /*TODO*////* DT1=1 */
-    /*TODO*///  0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2,
-    /*TODO*///  2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 8, 8, 8,
-    /*TODO*///
-    /*TODO*////* DT1=2 */
-    /*TODO*///  1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5,
-    /*TODO*///  5, 6, 6, 7, 8, 8, 9,10,11,12,13,14,16,16,16,16,
-    /*TODO*///
-    /*TODO*////* DT1=3 */
-    /*TODO*///  2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7,
-    /*TODO*///  8, 8, 9,10,11,12,13,14,16,17,19,20,22,22,22,22
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static YM2151 * YMPSG = NULL;	/* array of YM2151's */
-    /*TODO*///static unsigned int YMNumChips;	/* total # of YM2151's emulated */
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////*these variables stay here because of speedup purposes only */
-    /*TODO*///static YM2151 * PSG;
-    /*TODO*///static signed int chanout[8];
-    /*TODO*///static signed int c1,m2,c2; /*Phase Modulation input for operators 2,3,4*/
-    /*TODO*///
-    /*TODO*///static void init_tables(void)
-    /*TODO*///{
-    /*TODO*///	signed int i,x;
-    /*TODO*///	signed int n;
-    /*TODO*///	double o,m;
-    /*TODO*///
-    /*TODO*///	for (x=0; x<TL_RES_LEN; x++)
-    /*TODO*///	{
-    /*TODO*///		m = (1<<16) / pow(2, (x+1) * (ENV_STEP/4.0) / 8.0);
-    /*TODO*///		m = floor(m);
-    /*TODO*///
-    /*TODO*///		/* we never reach (1<<16) here due to the (x+1) */
-    /*TODO*///		/* result fits within 16 bits at maximum */
-    /*TODO*///
-    /*TODO*///		n = (int)m;		/* 16 bits here */
-    /*TODO*///		n >>= 4;		/* 12 bits here */
-    /*TODO*///		if (n&1)		/* round to closest */
-    /*TODO*///			n = (n>>1)+1;
-    /*TODO*///		else
-    /*TODO*///			n = n>>1;
-    /*TODO*///						/* 11 bits here (rounded) */
-    /*TODO*///		n <<= 2;		/* 13 bits here (as in real chip) */
-    /*TODO*///		TL_TAB[ x*2 + 0 ] = n;
-    /*TODO*///		TL_TAB[ x*2 + 1 ] = -TL_TAB[ x*2 + 0 ];
-    /*TODO*///
-    /*TODO*///		for (i=1; i<13; i++)
-    /*TODO*///		{
-    /*TODO*///			TL_TAB[ x*2+0 + i*2*TL_RES_LEN ] =  TL_TAB[ x*2+0 ]>>i;
-    /*TODO*///			TL_TAB[ x*2+1 + i*2*TL_RES_LEN ] = -TL_TAB[ x*2+0 + i*2*TL_RES_LEN ];
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	/*if (errorlog) fprintf(errorlog,"TL_TAB_LEN = %i (%i bytes)\n",TL_TAB_LEN, (int)sizeof(TL_TAB));*/
-    /*TODO*///
-    /*TODO*///	for (i=0; i<SIN_LEN; i++)
-    /*TODO*///	{
-    /*TODO*///		/* non-standard sinus */
-    /*TODO*///		m = sin( ((i*2)+1) * PI / SIN_LEN ); /* checked against the real chip */
-    /*TODO*///
-    /*TODO*///		/* we never reach zero here due to ((i*2)+1) */
-    /*TODO*///
-    /*TODO*///		if (m>0.0)
-    /*TODO*///			o = 8*log(1.0/m)/log(2);  /* convert to 'decibels' */
-    /*TODO*///		else
-    /*TODO*///			o = 8*log(-1.0/m)/log(2); /* convert to 'decibels' */
-    /*TODO*///
-    /*TODO*///		o = o / (ENV_STEP/4);
-    /*TODO*///
-    /*TODO*///		n = (int)(2.0*o);
-    /*TODO*///		if (n&1)		/* round to closest */
-    /*TODO*///			n = (n>>1)+1;
-    /*TODO*///		else
-    /*TODO*///			n = n>>1;
-    /*TODO*///
-    /*TODO*///		sin_tab[ i ] = n*2 + (m>=0.0? 0: 1 );
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"sin offs %04i= %i\n", i, sin_tab[i]);*/
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/*if (errorlog) fprintf(errorlog,"ENV_QUIET= %08x\n",ENV_QUIET );*/
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* calculate LFO AM waveforms*/
-    /*TODO*///	for (x=0; x<4; x++)
-    /*TODO*///	{
-    /*TODO*///	    for (i=0; i<LFO_LEN; i++)
-    /*TODO*///	    {
-    /*TODO*///		switch (x)
-    /*TODO*///		{
-    /*TODO*///		case 0:	/* saw (255 down to 0) */
-    /*TODO*///			m = 255 - (i/2);
-    /*TODO*///			break;
-    /*TODO*///		case 1: /* square (255,0) */
-    /*TODO*///			if (i<256)
-    /*TODO*///				m = 255;
-    /*TODO*///			else
-    /*TODO*///				m = 0;
-    /*TODO*///			break;
-    /*TODO*///		case 2: /* triangle (255 down to 0, up to 255) */
-    /*TODO*///			if (i<256)
-    /*TODO*///				m = 255 - i;
-    /*TODO*///			else
-    /*TODO*///				m = i - 256;
-    /*TODO*///			break;
-    /*TODO*///		case 3: /* random (range 0 to 255) */
-    /*TODO*///			m = ((int)rand()) & 255;
-    /*TODO*///			break;
-    /*TODO*///		}
-    /*TODO*///		/* we reach m = zero here !!!*/
-    /*TODO*///
-    /*TODO*///		if (m>0.0)
-    /*TODO*///			o = 8*log(255.0/m)/log(2);  /* convert to 'decibels' */
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			if (m<0.0)
-    /*TODO*///				o = 8*log(-255.0/m)/log(2); /* convert to 'decibels' */
-    /*TODO*///			else
-    /*TODO*///				o = 8*log(255.0/0.01)/log(2); /* small number */
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		o = o / (ENV_STEP/4);
-    /*TODO*///
-    /*TODO*///		n = (int)(2.0*o);
-    /*TODO*///		if (n&1)		/* round to closest */
-    /*TODO*///			n = (n>>1)+1;
-    /*TODO*///		else
-    /*TODO*///			n = n>>1;
-    /*TODO*///
-    /*TODO*///		lfo_tab[ x*LFO_LEN*2 + i*2 ] = n*2 + (m>=0.0? 0: 1 );
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"lfo am waveofs[%i] %04i = %i\n", x, i*2, lfo_tab[ x*LFO_LEN*2 + i*2 ] );*/
-    /*TODO*///	    }
-    /*TODO*///	}
-    /*TODO*///	for (i=0; i<128; i++)
-    /*TODO*///	{
-    /*TODO*///		m = i*2; /*m=0,2,4,6,8,10,..,252,254*/
-    /*TODO*///
-    /*TODO*///		/* we reach m = zero here !!!*/
-    /*TODO*///
-    /*TODO*///		if (m>0.0)
-    /*TODO*///			o = 8*log(8192.0/m)/log(2);  /* convert to 'decibels' */
-    /*TODO*///		else
-    /*TODO*///			o = 8*log(8192.0/0.01)/log(2); /* small number (m=0)*/
-    /*TODO*///
-    /*TODO*///		o = o / (ENV_STEP/4);
-    /*TODO*///
-    /*TODO*///		n = (int)(2.0*o);
-    /*TODO*///		if (n&1)		/* round to closest */
-    /*TODO*///			n = (n>>1)+1;
-    /*TODO*///		else
-    /*TODO*///			n = n>>1;
-    /*TODO*///
-    /*TODO*///		lfo_md_tab[ i ] = n*2;
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"lfo_md_tab[%i](%i) = ofs %i shr by %i\n", i, i*2, (lfo_md_tab[i]>>1)&255, lfo_md_tab[i]>>9 );*/
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* calculate LFO PM waveforms*/
-    /*TODO*///	for (x=0; x<4; x++)
-    /*TODO*///	{
-    /*TODO*///	    for (i=0; i<LFO_LEN; i++)
-    /*TODO*///	    {
-    /*TODO*///		switch (x)
-    /*TODO*///		{
-    /*TODO*///		case 0:	/* saw (0 to 127, -128 to -1) */
-    /*TODO*///			if (i<256)
-    /*TODO*///				m = (i/2);
-    /*TODO*///			else
-    /*TODO*///				m = (i/2)-256;
-    /*TODO*///			break;
-    /*TODO*///		case 1: /* square (127,-128) */
-    /*TODO*///			if (i<256)
-    /*TODO*///				m = 127;
-    /*TODO*///			else
-    /*TODO*///				m = -128;
-    /*TODO*///			break;
-    /*TODO*///		case 2: /* triangle (0 to 127,127 to -128,-127 to 0) */
-    /*TODO*///			if (i<128)
-    /*TODO*///				m = i; /*0 to 127*/
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				if (i<384)
-    /*TODO*///					m = 255 - i; /*127 down to -128*/
-    /*TODO*///				else
-    /*TODO*///					m = i - 511; /*-127 to 0*/
-    /*TODO*///			}
-    /*TODO*///			break;
-    /*TODO*///		case 3: /* random (range -128 to 127) */
-    /*TODO*///			m = ((int)rand()) & 255;
-    /*TODO*///			m -=128;
-    /*TODO*///			break;
-    /*TODO*///		}
-    /*TODO*///		/* we reach m = zero here !!!*/
-    /*TODO*///
-    /*TODO*///		if (m>0.0)
-    /*TODO*///			o = 8*log(127.0/m)/log(2);  /* convert to 'decibels' */
-    /*TODO*///		else
-    /*TODO*///		{
-    /*TODO*///			if (m<0.0)
-    /*TODO*///				o = 8*log(-128.0/m)/log(2); /* convert to 'decibels' */
-    /*TODO*///			else
-    /*TODO*///				o = 8*log(127.0/0.01)/log(2); /* small number */
-    /*TODO*///		}
-    /*TODO*///
-    /*TODO*///		o = o / (ENV_STEP/4);
-    /*TODO*///
-    /*TODO*///		n = (int)(2.0*o);
-    /*TODO*///		if (n&1)		/* round to closest */
-    /*TODO*///			n = (n>>1)+1;
-    /*TODO*///		else
-    /*TODO*///			n = n>>1;
-    /*TODO*///
-    /*TODO*///		lfo_tab[ x*LFO_LEN*2 + i*2 + 1 ] = n*2 + (m>=0.0? 0: 1 );
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"lfo pm waveofs[%i] %04i = %i\n", x, i*2+1, lfo_tab[ x*LFO_LEN*2 + i*2 + 1 ] );*/
-    /*TODO*///	    }
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	/* calculate D1L_tab table */
-    /*TODO*///	for (i=0; i<16; i++)
-    /*TODO*///	{
-    /*TODO*///		m = (i<15?i:i+16) * (4.0/ENV_STEP);   /*every 3 'dB' except for all bits = 1 = 45dB+48dB*/
-    /*TODO*///		D1L_tab[i] = m * (1<<ENV_SH);
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"D1L_tab[%04x]=%08x\n",i,D1L_tab[i] );*/
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* calculate KC_TO_INDEX table */
-    /*TODO*///	x=0;
-    /*TODO*///	for (i=0; i<8*16; i++)
-    /*TODO*///	{
-    /*TODO*///		KC_TO_INDEX[i]=((i>>4)*12*64) + x*64 + 12*64;
-    /*TODO*///		if ((i&0x03) != 0x03) x++;	/* change note code */
-    /*TODO*///		if ((i&0x0f) == 0x0f) x=0;	/* new octave */
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"KC_TO_INDEX[%02i] Note=%02i\n",i,KC_TO_INDEX[i]);*/
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void init_chip_tables(YM2151 *chip)
-    /*TODO*///{
-    /*TODO*///	int i,j;
-    /*TODO*///	double mult,pom,pom2,clk,phaseinc,Hz;
-    /*TODO*///
-    /*TODO*///	double scaler;	/* formula below is true for chip clock=3579545 */
-    /*TODO*///	/* so we need to scale its output accordingly to the chip clock */
-    /*TODO*///
-    /*TODO*///	scaler= (double)chip->clock / 3579545.0;
-    /*TODO*///
-    /*TODO*///	/*this loop calculates Hertz values for notes from c-0 to b-7*/
-    /*TODO*///	/*including 64 'cents' (100/64 that is 1.5625 of real cent) per note*/
-    /*TODO*///	/* i*100/64/1200 is equal to i/768 */
-    /*TODO*///
-    /*TODO*///	mult = (1<<FREQ_SH);
-    /*TODO*///	for (i=0; i<1*12*64; i++)
-    /*TODO*///	{
-    /*TODO*///		/* 3.4375 Hz is note A; C# is 4 semitones higher */
-    /*TODO*///		Hz = scaler * 3.4375 * pow (2, (i+4*64) / 768.0 );
-    /*TODO*///
-    /*TODO*///		/* calculate phase increment */
-    /*TODO*///		phaseinc = (Hz*SIN_LEN) / (double)chip->sampfreq;
-    /*TODO*///
-    /*TODO*///		chip->freq[i] = phaseinc*mult;
-    /*TODO*///		for (j=1; j<11; j++)
-    /*TODO*///		{
-    /*TODO*///			chip->freq[i+j*12*64] = chip->freq[i]*(1<<j);
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	mult = (1<<FREQ_SH);
-    /*TODO*///	for (j=0; j<4; j++)
-    /*TODO*///	{
-    /*TODO*///		for (i=0; i<32; i++)
-    /*TODO*///		{
-    /*TODO*///			int x, y, mul;
-    /*TODO*///
-    /*TODO*///			Hz = ( (double)DT1_tab[j*32+i] * ((double)chip->clock/8.0) ) / (double)(1<<24);
-    /*TODO*///			/*Important note:
-    /*TODO*///			**  The frequency calculated above is HALF of the frequency found in the Manual.
-    /*TODO*///			**  This is intentional as Manual gives the frequencies for MUL = 1, not MUL = 0.5
-    /*TODO*///			*/
-    /*TODO*///			/*calculate phase increment*/
-    /*TODO*///			phaseinc = (Hz*SIN_LEN) / (double)chip->sampfreq;
-    /*TODO*///
-    /*TODO*///			/*positive and negative values*/
-    /*TODO*///			chip->DT1freq[ (j+0)*16*32 + i ] = phaseinc * mult;
-    /*TODO*///			chip->DT1freq[ (j+4)*16*32 + i ] = -chip->DT1freq[ (j+0)*16*32 + i ];
-    /*TODO*///
-    /*TODO*///			for (mul=1; mul<16; mul++)
-    /*TODO*///			{
-    /*TODO*///				x = (j+0)*16*32 + mul*32;
-    /*TODO*///				y = (j+4)*16*32 + mul*32;
-    /*TODO*///				/*positive and negative values*/
-    /*TODO*///				chip->DT1freq[ x + i ] = phaseinc * mult * (mul*2);
-    /*TODO*///				chip->DT1freq[ y + i ] = -chip->DT1freq[ x + i ];
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	mult = (1<<LFO_SH);
-    /*TODO*///	clk  = (double)chip->clock;
-    /*TODO*///	for (i=0; i<256; i++)
-    /*TODO*///	{
-    /*TODO*///		j = i & 0x0f;
-    /*TODO*///		pom = fabs(  (clk/65536/(1<<(i/16)) ) - (clk/65536/32/(1<<(i/16)) * (j+1)) );
-    /*TODO*///
-    /*TODO*///		/*calculate phase increment*/
-    /*TODO*///		chip->LFOfreq[0xff-i] = ( (pom*LFO_LEN) / (double)chip->sampfreq ) * mult; /*fixed point*/
-    /*TODO*///		/*if (errorlog) fprintf(errorlog, "LFO[%02x] (%08x)= real %20.15f Hz  emul %20.15f Hz\n",0xff-i, chip->LFOfreq[0xff-i], pom,
-    /*TODO*///			(((double)chip->LFOfreq[0xff-i] / mult) * (double)chip->sampfreq ) / (double)LFO_LEN );*/
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	for (i=0; i<34; i++)
-    /*TODO*///		chip->EG_tab[i] = 0;		/* infinity */
-    /*TODO*///
-    /*TODO*///	for (i=2; i<64; i++)
-    /*TODO*///	{
-    /*TODO*///		pom2 = (double)chip->clock / (double)chip->sampfreq;
-    /*TODO*///		if (i<60) pom2 *= ( 1 + (i&3)*0.25 );
-    /*TODO*///		pom2 *= 1<<((i>>2));
-    /*TODO*///		pom2 /= 768.0 * 1024.0;
-    /*TODO*///		pom2 *= (double)(1<<ENV_SH);
-    /*TODO*///		chip->EG_tab[32+i] = pom2;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	for (i=0; i<32; i++)
-    /*TODO*///	{
-    /*TODO*///		chip->EG_tab[ 32+64+i ] = chip->EG_tab[32+63];
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	/* precalculate timers' deltas */
-    /*TODO*///	/* User's Manual pages 15,16  */
-    /*TODO*///	mult = (1<<TIMER_SH);
-    /*TODO*///	for (i=0; i<1024; i++)
-    /*TODO*///	{
-    /*TODO*///		/* ASG 980324: changed to compute both TimerA and TimerATime */
-    /*TODO*///		pom= ( 64.0  *  (1024.0-i) / (double)chip->clock );
-    /*TODO*///			chip->TimerATime[i] = pom;
-    /*TODO*///	}
-    /*TODO*///	for (i=0; i<256; i++)
-    /*TODO*///	{
-    /*TODO*///		/* ASG 980324: changed to compute both TimerB and TimerBTime */
-    /*TODO*///		pom= ( 1024.0 * (256.0-i)  / (double)chip->clock );
-    /*TODO*///			chip->TimerBTime[i] = pom;
-    /*TODO*///	}
-    /*TODO*///
+
+    public static final int SIN_BITS		=10;
+    public static final int SIN_LEN			=(1<<SIN_BITS);
+    public static final int SIN_MASK		=(SIN_LEN-1);
+    
+    public static final int TL_RES_LEN		=(256); /* 8 bits addressing (real chip) */
+    
+    public static final int LFO_BITS		=9;
+    public static final int LFO_LEN			=(1<<LFO_BITS);
+    public static final int LFO_MASK		=(LFO_LEN-1);
+
+    public static final int FINAL_SH	=(0);
+    public static final int MAXOUT		=(+32767);
+    public static final int MINOUT		=(-32768);
+
+    
+    /* TL_TAB_LEN is calculated as:
+     * 13 - sinus amplitude bits  (Y axis)
+     * 2  - sinus sign bit        (Y axis)
+     * ENV_LEN - sinus resolution (X axis)
+    */
+    public static final int TL_TAB_LEN =(13*2*TL_RES_LEN);
+    static int[] TL_TAB=new int[TL_TAB_LEN];
+    
+    /* sin waveform table in 'decibel' scale*/
+    static /*unsigned int*/long[] sin_tab=new long[SIN_LEN];
+    
+    /* four AM/PM LFO waveforms (8 in total)*/
+    static /*unsigned int*/long[] lfo_tab=new long[LFO_LEN*4*2];
+    
+    /* LFO amplitude modulation depth table (128 levels)*/
+    static /*unsigned int*/long[] lfo_md_tab=new long[128];
+    
+    /* translate from D1L to volume index (16 D1L levels)*/
+    static /*unsigned int*/long[] D1L_tab=new long[16];
+    
+    /*
+     * translate from key code KC (OCT2 OCT1 OCT0 N3 N2 N1 N0) to
+     * index in frequency-deltas table. (9 octaves * 16 note codes)
+    */
+    static /*unsigned int*/long[] KC_TO_INDEX=new long[9*16];
+    
+    /*
+     *   DT2 defines offset in cents from base note
+     *
+     *   This table defines offset in frequency-deltas table.
+     *   User's Manual page 22
+     *
+     *   Values below were calculated using formula: value =  orig.val / 1.5625
+     *
+     *	DT2=0 DT2=1 DT2=2 DT2=3
+     *	0     600   781   950
+    */
+    static int DT2_tab[] = { 0, 384, 500, 608 };
+    
+    /*
+     *   DT1 defines offset in Hertz from base note
+     *   This table is converted while initialization...
+     *   Detune table in YM2151 User's Manual is wrong (checked against the real chip)
+    */
+    static int DT1_tab[] = { /* 4*32 DT1 values */
+    /* DT1=0 */
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    
+    /* DT1=1 */
+      0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2,
+      2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 8, 8, 8,
+    
+    /* DT1=2 */
+      1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5,
+      5, 6, 6, 7, 8, 8, 9,10,11,12,13,14,16,16,16,16,
+    
+    /* DT1=3 */
+      2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7,
+      8, 8, 9,10,11,12,13,14,16,17,19,20,22,22,22,22
+    };
+    
+    
+    static _YM2151[] YMPSG = null;	/* array of YM2151's */
+    static int YMNumChips;	/* total # of YM2151's emulated */
+    
+    
+    /*these variables stay here because of speedup purposes only */
+    static _YM2151[] PSG;
+    static int[] chanout=new int[8];
+    static int c1,m2,c2; /*Phase Modulation input for operators 2,3,4*/
+    
+    static void init_tables()
+    {
+    	int i,x;
+    	int n;
+    	double o,m=0.0;
+    
+    	for (x=0; x<TL_RES_LEN; x++)
+    	{
+    		m = (1<<16) / Math.pow(2, (x+1) * (ENV_STEP/4.0) / 8.0);
+    		m = Math.floor(m);
+    
+    		/* we never reach (1<<16) here due to the (x+1) */
+    		/* result fits within 16 bits at maximum */
+    
+    		n = (int)m;		/* 16 bits here */
+    		n >>= 4;		/* 12 bits here */
+    		if ((n&1)!=0)		/* round to closest */
+    			n = (n>>1)+1;
+    		else
+    			n = n>>1;
+    						/* 11 bits here (rounded) */
+    		n <<= 2;		/* 13 bits here (as in real chip) */
+    		TL_TAB[ x*2 + 0 ] = n;
+    		TL_TAB[ x*2 + 1 ] = -TL_TAB[ x*2 + 0 ];
+    
+    		for (i=1; i<13; i++)
+    		{
+    			TL_TAB[ x*2+0 + i*2*TL_RES_LEN ] =  TL_TAB[ x*2+0 ]>>i;
+    			TL_TAB[ x*2+1 + i*2*TL_RES_LEN ] = -TL_TAB[ x*2+0 + i*2*TL_RES_LEN ];
+    		}
+    	}
+    	/*if (errorlog) fprintf(errorlog,"TL_TAB_LEN = %i (%i bytes)\n",TL_TAB_LEN, (int)sizeof(TL_TAB));*/
+    
+    	for (i=0; i<SIN_LEN; i++)
+    	{
+    		/* non-standard sinus */
+    		m = Math.sin( ((i*2)+1) * Math.PI / SIN_LEN ); /* checked against the real chip */
+    
+    		/* we never reach zero here due to ((i*2)+1) */
+    
+    		if (m>0.0)
+    			o = 8*Math.log(1.0/m)/Math.log(2);  /* convert to 'decibels' */
+    		else
+    			o = 8*Math.log(-1.0/m)/Math.log(2); /* convert to 'decibels' */
+    
+    		o = o / (ENV_STEP/4);
+    
+    		n = (int)(2.0*o);
+    		if ((n&1)!=0)		/* round to closest */
+    			n = (n>>1)+1;
+    		else
+    			n = n>>1;
+    
+    		sin_tab[ i ] = n*2 + (m>=0.0? 0: 1 );
+    		/*if (errorlog) fprintf(errorlog,"sin offs %04i= %i\n", i, sin_tab[i]);*/
+    	}
+    
+    	/*if (errorlog) fprintf(errorlog,"ENV_QUIET= %08x\n",ENV_QUIET );*/
+    
+    
+    	/* calculate LFO AM waveforms*/
+    	for (x=0; x<4; x++)
+    	{
+    	    for (i=0; i<LFO_LEN; i++)
+    	    {
+    		switch (x)
+    		{
+    		case 0:	/* saw (255 down to 0) */
+    			m = 255 - (i/2);
+    			break;
+    		case 1: /* square (255,0) */
+    			if (i<256)
+    				m = 255;
+    			else
+    				m = 0;
+    			break;
+    		case 2: /* triangle (255 down to 0, up to 255) */
+    			if (i<256)
+    				m = 255 - i;
+    			else
+    				m = i - 256;
+    			break;
+    		case 3: /* random (range 0 to 255) */
+    			m = ((int)rand()) & 255;
+    			break;
+    		}
+    		/* we reach m = zero here !!!*/
+    
+    		if (m>0.0)
+    			o = 8*Math.log(255.0/m)/Math.log(2);  /* convert to 'decibels' */
+    		else
+    		{
+    			if (m<0.0)
+    				o = 8*Math.log(-255.0/m)/Math.log(2); /* convert to 'decibels' */
+    			else
+    				o = 8*Math.log(255.0/0.01)/Math.log(2); /* small number */
+    		}
+    
+    		o = o / (ENV_STEP/4);
+    
+    		n = (int)(2.0*o);
+    		if ((n&1)!=0)		/* round to closest */
+    			n = (n>>1)+1;
+    		else
+    			n = n>>1;
+    
+    		lfo_tab[ x*LFO_LEN*2 + i*2 ] = n*2 + (m>=0.0? 0: 1 );
+    		/*if (errorlog) fprintf(errorlog,"lfo am waveofs[%i] %04i = %i\n", x, i*2, lfo_tab[ x*LFO_LEN*2 + i*2 ] );*/
+    	    }
+    	}
+    	for (i=0; i<128; i++)
+    	{
+    		m = i*2; /*m=0,2,4,6,8,10,..,252,254*/
+    
+    		/* we reach m = zero here !!!*/
+    
+    		if (m>0.0)
+    			o = 8*Math.log(8192.0/m)/Math.log(2);  /* convert to 'decibels' */
+    		else
+    			o = 8*Math.log(8192.0/0.01)/Math.log(2); /* small number (m=0)*/
+    
+    		o = o / (ENV_STEP/4);
+    
+    		n = (int)(2.0*o);
+    		if ((n&1)!=0)		/* round to closest */
+    			n = (n>>1)+1;
+    		else
+    			n = n>>1;
+    
+    		lfo_md_tab[ i ] = n*2;
+    		/*if (errorlog) fprintf(errorlog,"lfo_md_tab[%i](%i) = ofs %i shr by %i\n", i, i*2, (lfo_md_tab[i]>>1)&255, lfo_md_tab[i]>>9 );*/
+    	}
+    
+    	/* calculate LFO PM waveforms*/
+    	for (x=0; x<4; x++)
+    	{
+    	    for (i=0; i<LFO_LEN; i++)
+    	    {
+    		switch (x)
+    		{
+    		case 0:	/* saw (0 to 127, -128 to -1) */
+    			if (i<256)
+    				m = (i/2);
+    			else
+    				m = (i/2)-256;
+    			break;
+    		case 1: /* square (127,-128) */
+    			if (i<256)
+    				m = 127;
+    			else
+    				m = -128;
+    			break;
+    		case 2: /* triangle (0 to 127,127 to -128,-127 to 0) */
+    			if (i<128)
+    				m = i; /*0 to 127*/
+    			else
+    			{
+    				if (i<384)
+    					m = 255 - i; /*127 down to -128*/
+    				else
+    					m = i - 511; /*-127 to 0*/
+    			}
+    			break;
+    		case 3: /* random (range -128 to 127) */
+    			m = ((int)rand()) & 255;
+    			m -=128;
+    			break;
+    		}
+    		/* we reach m = zero here !!!*/
+    
+    		if (m>0.0)
+    			o = 8*Math.log(127.0/m)/Math.log(2);  /* convert to 'decibels' */
+    		else
+    		{
+    			if (m<0.0)
+    				o = 8*Math.log(-128.0/m)/Math.log(2); /* convert to 'decibels' */
+    			else
+    				o = 8*Math.log(127.0/0.01)/Math.log(2); /* small number */
+    		}
+    
+    		o = o / (ENV_STEP/4);
+    
+    		n = (int)(2.0*o);
+    		if ((n&1)!=0)		/* round to closest */
+    			n = (n>>1)+1;
+    		else
+    			n = n>>1;
+    
+    		lfo_tab[ x*LFO_LEN*2 + i*2 + 1 ] = n*2 + (m>=0.0? 0: 1 );
+    		/*if (errorlog) fprintf(errorlog,"lfo pm waveofs[%i] %04i = %i\n", x, i*2+1, lfo_tab[ x*LFO_LEN*2 + i*2 + 1 ] );*/
+    	    }
+    	}
+    
+    
+    	/* calculate D1L_tab table */
+    	for (i=0; i<16; i++)
+    	{
+    		m = (i<15?i:i+16) * (4.0/ENV_STEP);   /*every 3 'dB' except for all bits = 1 = 45dB+48dB*/
+    		D1L_tab[i] = (long)(m * (1<<ENV_SH));
+    		/*if (errorlog) fprintf(errorlog,"D1L_tab[%04x]=%08x\n",i,D1L_tab[i] );*/
+    	}
+    
+    	/* calculate KC_TO_INDEX table */
+    	x=0;
+    	for (i=0; i<8*16; i++)
+    	{
+    		KC_TO_INDEX[i]=((i>>4)*12*64) + x*64 + 12*64;
+    		if ((i&0x03) != 0x03) x++;	/* change note code */
+    		if ((i&0x0f) == 0x0f) x=0;	/* new octave */
+    		/*if (errorlog) fprintf(errorlog,"KC_TO_INDEX[%02i] Note=%02i\n",i,KC_TO_INDEX[i]);*/
+    	}
+    }
+    static void init_chip_tables(_YM2151 chip)
+    {
+    	int i,j;
+    	double mult,pom,pom2,clk,phaseinc,Hz;
+    
+    	double scaler;	/* formula below is true for chip clock=3579545 */
+    	/* so we need to scale its output accordingly to the chip clock */
+    
+    	scaler= (double)chip.clock / 3579545.0;
+    
+    	/*this loop calculates Hertz values for notes from c-0 to b-7*/
+    	/*including 64 'cents' (100/64 that is 1.5625 of real cent) per note*/
+    	/* i*100/64/1200 is equal to i/768 */
+    
+    	mult = (1<<FREQ_SH);
+    	for (i=0; i<1*12*64; i++)
+    	{
+    		/* 3.4375 Hz is note A; C# is 4 semitones higher */
+    		Hz = scaler * 3.4375 * Math.pow (2, (i+4*64) / 768.0 );
+    
+    		/* calculate phase increment */
+    		phaseinc = (Hz*SIN_LEN) / (double)chip.sampfreq;
+    
+    		chip.freq[i] = (long)(phaseinc*mult);
+    		for (j=1; j<11; j++)
+    		{
+    			chip.freq[i+j*12*64] = chip.freq[i]*(1<<j);
+    		}
+    	}
+    
+    	mult = (1<<FREQ_SH);
+    	for (j=0; j<4; j++)
+    	{
+    		for (i=0; i<32; i++)
+    		{
+    			int x, y, mul;
+    
+    			Hz = ( (double)DT1_tab[j*32+i] * ((double)chip.clock/8.0) ) / (double)(1<<24);
+    			/*Important note:
+    			**  The frequency calculated above is HALF of the frequency found in the Manual.
+    			**  This is intentional as Manual gives the frequencies for MUL = 1, not MUL = 0.5
+    			*/
+    			/*calculate phase increment*/
+    			phaseinc = (Hz*SIN_LEN) / (double)chip.sampfreq;
+    
+    			/*positive and negative values*/
+    			chip.DT1freq[ (j+0)*16*32 + i ] = (int)(phaseinc * mult);
+    			chip.DT1freq[ (j+4)*16*32 + i ] = -chip.DT1freq[ (j+0)*16*32 + i ];
+    
+    			for (mul=1; mul<16; mul++)
+    			{
+    				x = (j+0)*16*32 + mul*32;
+    				y = (j+4)*16*32 + mul*32;
+    				/*positive and negative values*/
+    				chip.DT1freq[ x + i ] =(int)(phaseinc * mult * (mul*2));
+    				chip.DT1freq[ y + i ] = -chip.DT1freq[ x + i ];
+    			}
+    		}
+    	}
+    
+    	mult = (1<<LFO_SH);
+    	clk  = (double)chip.clock;
+    	for (i=0; i<256; i++)
+    	{
+    		j = i & 0x0f;
+    		pom = Math.abs(  (clk/65536/(1<<(i/16)) ) - (clk/65536/32/(1<<(i/16)) * (j+1)) );
+    
+    		/*calculate phase increment*/
+    		chip.LFOfreq[0xff-i] = (long)(( (pom*LFO_LEN) / (double)chip.sampfreq ) * mult); /*fixed point*/
+    		/*if (errorlog) fprintf(errorlog, "LFO[%02x] (%08x)= real %20.15f Hz  emul %20.15f Hz\n",0xff-i, chip.LFOfreq[0xff-i], pom,
+    			(((double)chip.LFOfreq[0xff-i] / mult) * (double)chip.sampfreq ) / (double)LFO_LEN );*/
+    	}
+    
+    	for (i=0; i<34; i++)
+    		chip.EG_tab[i] = 0;		/* infinity */
+    
+    	for (i=2; i<64; i++)
+    	{
+    		pom2 = (double)chip.clock / (double)chip.sampfreq;
+    		if (i<60) pom2 *= ( 1 + (i&3)*0.25 );
+    		pom2 *= 1<<((i>>2));
+    		pom2 /= 768.0 * 1024.0;
+    		pom2 *= (double)(1<<ENV_SH);
+    		chip.EG_tab[32+i] = (long)pom2;
+    	}
+    
+    	for (i=0; i<32; i++)
+    	{
+    		chip.EG_tab[ 32+64+i ] = chip.EG_tab[32+63];
+    	}
+    
+    	/* precalculate timers' deltas */
+    	/* User's Manual pages 15,16  */
+    	mult = (1<<TIMER_SH);
+    	for (i=0; i<1024; i++)
+    	{
+    		/* ASG 980324: changed to compute both TimerA and TimerATime */
+    		pom= ( 64.0  *  (1024.0-i) / (double)chip.clock );
+    			chip.TimerATime[i] = pom;
+    	}
+    	for (i=0; i<256; i++)
+    	{
+    		/* ASG 980324: changed to compute both TimerB and TimerBTime */
+    		pom= ( 1024.0 * (256.0-i)  / (double)chip.clock );
+    			chip.TimerBTime[i] = pom;
+    	}
+    }
     /*TODO*///INLINE void envelope_KONKOFF(OscilRec * op, int v)
     /*TODO*///{
     /*TODO*///	if (v&0x08)
@@ -1077,29 +1069,29 @@ public class ym2151 {
     */
     public static int YM2151Init(int num, int clock, int rate)
     {
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	if (YMPSG) return (-1);	/* duplicate init. */
-    /*TODO*///
-    /*TODO*///	YMNumChips = num;
-    /*TODO*///
-    /*TODO*///	YMPSG = (YM2151 *)malloc(sizeof(YM2151) * YMNumChips);
-    /*TODO*///	if (YMPSG == NULL) return (1);
-    /*TODO*///
-    /*TODO*///	init_tables();
-    /*TODO*///	for (i=0 ; i<YMNumChips; i++)
-    /*TODO*///	{
-    /*TODO*///		YMPSG[i].clock = clock;
-    /*TODO*///		/*rate = clock/64;*/
-    /*TODO*///		YMPSG[i].sampfreq = rate ? rate : 44100;	/* avoid division by 0 in init_chip_tables() */
-    /*TODO*///		YMPSG[i].irqhandler = NULL;					/*interrupt handler */
-    /*TODO*///		YMPSG[i].porthandler = NULL;				/*port write handler*/
-    /*TODO*///		init_chip_tables(&YMPSG[i]);
-    /*TODO*///		YM2151ResetChip(i);
-    /*TODO*///		/*if (errorlog) fprintf(errorlog,"YM2151[init] clock=%i sampfreq=%i\n", YMPSG[i].clock, YMPSG[i].sampfreq);*/
-    /*TODO*///	}
-    /*TODO*///
-            return(0);
+    	int i;
+    
+    	if (YMPSG!=null) return (-1);	/* duplicate init. */
+    
+    	YMNumChips = num;
+        
+    	YMPSG = new _YM2151[YMNumChips];//(YM2151 *)malloc(sizeof(YM2151) * YMNumChips);
+    	if (YMPSG == null) return (1);
+    
+    	init_tables();
+    	for (i=0 ; i<YMNumChips; i++)
+    	{
+            YMPSG[i] = new _YM2151();
+            YMPSG[i].clock = clock;
+            /*rate = clock/64;*/
+            YMPSG[i].sampfreq = rate!=0 ? rate : 44100;	/* avoid division by 0 in init_chip_tables() */
+            YMPSG[i].irqhandler = null;					/*interrupt handler */
+    	    YMPSG[i].porthandler = null;				/*port write handler*/
+            init_chip_tables(YMPSG[i]);
+            YM2151ResetChip(i);
+        	/*if (errorlog) fprintf(errorlog,"YM2151[init] clock=%i sampfreq=%i\n", YMPSG[i].clock, YMPSG[i].sampfreq);*/
+        }
+        return(0);
     }
 
     public static void YM2151Shutdown()
@@ -1496,10 +1488,10 @@ public class ym2151 {
     }};
     public static void YM2151SetIrqHandler(int n, WriteYmHandlerPtr handler)
     {
-    /*TODO*///	YMPSG[n].irqhandler = handler;
+    	YMPSG[n].irqhandler = handler;
     }
     public static void YM2151SetPortWriteHandler(int n, WriteHandlerPtr handler)
     {
-    /*TODO*///	YMPSG[n].porthandler = handler;
+    	YMPSG[n].porthandler = handler;
     }  
 }
