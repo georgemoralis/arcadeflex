@@ -6,8 +6,8 @@ import static mame.driverH.*;
 import static arcadeflex.libc_old.*;
 
 public class ym2151 {
-    /*TODO*////*operator data*/
-    /*TODO*///typedef struct{
+    public static class OscilRec
+    {
     /*TODO*///	unsigned int phase;		/*accumulated operator phase*/
     /*TODO*///	unsigned int freq;		/*operator frequency*/
     /*TODO*///	signed   int DTfreq;	/*operator detune frequency*/
@@ -35,7 +35,7 @@ public class ym2151 {
     /*TODO*///	unsigned int state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
     /*TODO*///	unsigned int delta_AR;	/*volume delta for attack phase*/
     /*TODO*///	unsigned int TL;		/*Total attenuation Level*/
-    /*TODO*///	signed   int volume;	/*operator attenuation level*/
+    int volume;	/*operator attenuation level*/
     /*TODO*///	unsigned int delta_D1R;	/*volume delta for decay phase*/
     /*TODO*///	unsigned int D1L;		/*EG switches to D2R, when envelope reaches this level*/
     /*TODO*///	unsigned int delta_D2R;	/*volume delta for sustain phase*/
@@ -52,41 +52,39 @@ public class ym2151 {
     /*TODO*///	signed   int LFOpm;		/*phase modulation from LFO*/
     /*TODO*///	signed   int a_vol;		/*used for attack phase calculations*/
     /*TODO*///
-    /*TODO*///} OscilRec;
-    /*TODO*///
-    /*TODO*///
+    }
     public static class _YM2151
     {
-    /*TODO*///	OscilRec Oscils[32];	/*there are 32 operators in YM2151*/
+    	OscilRec[] Oscils=new OscilRec[32];	/*there are 32 operators in YM2151*/
     /*TODO*///
     /*TODO*///	unsigned int PAN[16];	/*channels output masks (0xffffffff = enable)*/
     /*TODO*///
-    /*TODO*///	unsigned int LFOphase;	/*accumulated LFO phase         */
-    /*TODO*///	unsigned int LFOfrq;	/*LFO frequency                 */
-    /*TODO*///	unsigned int LFOwave;	/*LFO waveform (0-saw, 1-square, 2-triangle, 3-random noise)*/
-    /*TODO*///	unsigned int PMD;		/*LFO Phase Modulation Depth    */
-    /*TODO*///	unsigned int AMD;		/*LFO Amplitude Modulation Depth*/
-    /*TODO*///	unsigned int LFA;		/*current AM from LFO*/
-    /*TODO*///	signed   int LFP;		/*current PM from LFO*/
-    /*TODO*///
-    /*TODO*///	unsigned int test;		/*TEST register*/
-    /*TODO*///
-    /*TODO*///	unsigned int CT;		/*output control pins (bit7 CT2, bit6 CT1)*/
-    /*TODO*///	unsigned int noise;		/*noise register (bit 7 - noise enable, bits 4-0 - noise freq*/
-    /*TODO*///
-    /*TODO*///	unsigned int IRQenable;	/*IRQ enable for timer B (bit 3) and timer A (bit 2)*/
-    /*TODO*///	unsigned int status;	/*chip status (BUSY, IRQ Flags)*/
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	void *TimATimer,*TimBTimer;	/*ASG 980324 -- added for tracking timers*/
+        /*unsigned int*/long LFOphase;	/*accumulated LFO phase         */
+        /*unsigned int*/long LFOfrq;	/*LFO frequency                 */
+        /*unsigned int*/long LFOwave;	/*LFO waveform (0-saw, 1-square, 2-triangle, 3-random noise)*/
+        /*unsigned int*/long PMD;		/*LFO Phase Modulation Depth    */
+        /*unsigned int*/long AMD;		/*LFO Amplitude Modulation Depth*/
+        /*unsigned int*/long LFA;		/*current AM from LFO*/
+        int LFP;		/*current PM from LFO*/
+
+        /*unsigned int*/long test;		/*TEST register*/
+
+        /*unsigned int*/long CT;		/*output control pins (bit7 CT2, bit6 CT1)*/
+        /*unsigned int*/long noise;		/*noise register (bit 7 - noise enable, bits 4-0 - noise freq*/
+
+        /*unsigned int*/long IRQenable;	/*IRQ enable for timer B (bit 3) and timer A (bit 2)*/
+       /*unsigned*/ int status;	/*chip status (BUSY, IRQ Flags)*/
+    
+    
+    	Object TimATimer,TimBTimer;	/*ASG 980324 -- added for tracking timers*/
     	double[] TimerATime=new double[1024];	/*Timer A times for MAME*/
     	double[] TimerBTime=new double[256];		/*Timer B times for MAME*/
-    /*TODO*///
-    /*TODO*///	unsigned int TimAIndex;		/*Timer A index*/
-    /*TODO*///	unsigned int TimBIndex;		/*Timer B index*/
-    /*TODO*///
-    /*TODO*///	unsigned int TimAOldIndex;	/*Timer A previous index*/
-    /*TODO*///	unsigned int TimBOldIndex;	/*Timer B previous index*/
+    
+    	/*unsigned int*/long TimAIndex;		/*Timer A index*/
+    	/*unsigned int*/long TimBIndex;		/*Timer B index*/
+    
+    	/*unsigned int*/long TimAOldIndex;	/*Timer A previous index*/
+    	/*unsigned int*/long TimBOldIndex;	/*Timer B previous index*/
     
     	/*
     	*   Frequency-deltas to get the closest frequency possible.
@@ -140,8 +138,8 @@ public class ym2151 {
     public static final int ENV_LEN			=(1<<ENV_BITS);
     public static final double ENV_STEP		=(128.0/ENV_LEN);
     public static final int ENV_QUIET		=((int)(0x68/(ENV_STEP)));
-    /*TODO*///
-    /*TODO*///#define MAX_ATT_INDEX	((ENV_LEN<<ENV_SH)-1) /*1023.ffff*/
+    
+    public static final int  MAX_ATT_INDEX	=((ENV_LEN<<ENV_SH)-1); /*1023.ffff*/
     /*TODO*///#define MIN_ATT_INDEX	(      (1<<ENV_SH)-1) /*   0.ffff*/
     /*TODO*///
     /*TODO*///#define EG_ATT			4
@@ -799,6 +797,7 @@ public class ym2151 {
     /* write a register on YM2151 chip number 'n' */
     public static void YM2151WriteReg(int n, int r, int v)
     {
+        System.out.println("n= "+n + " r="+r + " v="+v);
     /*TODO*///	YM2151 *chip = &(YMPSG[n]);
     /*TODO*///	OscilRec *op = &chip->Oscils[ r&0x1f ];
     /*TODO*///
@@ -1056,8 +1055,7 @@ public class ym2151 {
     }
     public static int YM2151ReadStatus( int n )
     {
-        throw new UnsupportedOperationException("Unsupported");
-    /*TODO*///	return YMPSG[n].status;
+        return YMPSG[n].status;
     }
 
     /*
@@ -1096,10 +1094,8 @@ public class ym2151 {
 
     public static void YM2151Shutdown()
     {
-    /*TODO*///	if (!YMPSG) return;
-    /*TODO*///
-    /*TODO*///	free(YMPSG);
-    /*TODO*///	YMPSG = NULL;
+    	if (YMPSG==null) return;
+    	YMPSG = null;
     }
 
 
@@ -1108,49 +1104,49 @@ public class ym2151 {
     */
     public static void YM2151ResetChip(int num)
     {
-    /*TODO*///	int i;
-    /*TODO*///	YM2151 *chip = &YMPSG[num];
-    /*TODO*///
-    /*TODO*///	/* initialize hardware registers */
-    /*TODO*///
-    /*TODO*///	for (i=0; i<32; i++)
-    /*TODO*///	{
-    /*TODO*///		memset(&chip->Oscils[i],'\0',sizeof(OscilRec));
-    /*TODO*///		chip->Oscils[i].volume = MAX_ATT_INDEX;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	chip->LFOphase = 0;
-    /*TODO*///	chip->LFOfrq   = 0;
-    /*TODO*///	chip->LFOwave  = 0;
-    /*TODO*///	chip->PMD = lfo_md_tab[ 0 ]+512;
-    /*TODO*///	chip->AMD = lfo_md_tab[ 0 ];
-    /*TODO*///	chip->LFA = 0;
-    /*TODO*///	chip->LFP = 0;
-    /*TODO*///
-    /*TODO*///	chip->test= 0;
-    /*TODO*///
-    /*TODO*///	chip->IRQenable = 0;
-    /*TODO*///
-    /*TODO*///	/* ASG 980324 -- reset the timers before writing to the registers */
-    /*TODO*///	chip->TimATimer = 0;
-    /*TODO*///	chip->TimBTimer = 0;
-    /*TODO*///	chip->TimAIndex = 0;
-    /*TODO*///	chip->TimBIndex = 0;
-    /*TODO*///	chip->TimAOldIndex = 0;
-    /*TODO*///	chip->TimBOldIndex = 0;
-    /*TODO*///
-    /*TODO*///	chip->noise     = 0;
-    /*TODO*///
-    /*TODO*///	chip->status    = 0;
-    /*TODO*///
-    /*TODO*///	YM2151WriteReg(num, 0x1b, 0); /*only because of CT1, CT2 output pins*/
-    /*TODO*///	for (i=0x20; i<0x100; i++)   /*just to set the PM operators */
-    /*TODO*///	{
-    /*TODO*///		YM2151WriteReg(num, i, 0);
-    /*TODO*///	}
-    /*TODO*///
+        int i;
+    	_YM2151 chip = YMPSG[num];
+    
+    	/* initialize hardware registers */
+    
+    	for (i=0; i<32; i++)
+    	{
+    		chip.Oscils[i]=new OscilRec();//memset(&chip->Oscils[i],'\0',sizeof(OscilRec));
+    		chip.Oscils[i].volume = MAX_ATT_INDEX;
+    	}
+    
+    	chip.LFOphase = 0;
+    	chip.LFOfrq   = 0;
+    	chip.LFOwave  = 0;
+    	chip.PMD = lfo_md_tab[ 0 ]+512;
+    	chip.AMD = lfo_md_tab[ 0 ];
+    	chip.LFA = 0;
+    	chip.LFP = 0;
+    
+    	chip.test= 0;
+    
+    	chip.IRQenable = 0;
+    
+    	/* ASG 980324 -- reset the timers before writing to the registers */
+    	chip.TimATimer = 0;
+    	chip.TimBTimer = 0;
+    	chip.TimAIndex = 0;
+    	chip.TimBIndex = 0;
+    	chip.TimAOldIndex = 0;
+    	chip.TimBOldIndex = 0;
+    
+    	chip.noise     = 0;
+    
+    	chip.status    = 0;
+        
+        YM2151WriteReg(num, 0x1b, 0); /*only because of CT1, CT2 output pins*/
+    	for (i=0x20; i<0x100; i++)   /*just to set the PM operators */
+    	{
+    		YM2151WriteReg(num, i, 0);
+    	}
+    
     }
-    /*TODO*///
+    
     /*TODO*///
     /*TODO*///INLINE void lfo_calc(void)
     /*TODO*///{
@@ -1380,40 +1376,40 @@ public class ym2151 {
     /*TODO*///    }while (i);
     /*TODO*///}
     /*TODO*///
-    /*TODO*///INLINE signed int acc_calc(signed int value)
-    /*TODO*///{
-    /*TODO*///	if (value>=0)
-    /*TODO*///	{
-    /*TODO*///		if (value < 0x0200)
-    /*TODO*///			return (value);
-    /*TODO*///		if (value < 0x0400)
-    /*TODO*///			return (value & 0xfffffffe);
-    /*TODO*///		if (value < 0x0800)
-    /*TODO*///			return (value & 0xfffffffc);
-    /*TODO*///		if (value < 0x1000)
-    /*TODO*///			return (value & 0xfffffff8);
-    /*TODO*///		if (value < 0x2000)
-    /*TODO*///			return (value & 0xfffffff0);
-    /*TODO*///		if (value < 0x4000)
-    /*TODO*///			return (value & 0xffffffe0);
-    /*TODO*///		return (value & 0xffffffc0);
-    /*TODO*///	}
-    /*TODO*///	/*else value < 0*/
-    /*TODO*///	if (value > -0x0200)
-    /*TODO*///		return (value);
-    /*TODO*///	if (value > -0x0400)
-    /*TODO*///		return (value & 0xfffffffe);
-    /*TODO*///	if (value > -0x0800)
-    /*TODO*///		return (value & 0xfffffffc);
-    /*TODO*///	if (value > -0x1000)
-    /*TODO*///		return (value & 0xfffffff8);
-    /*TODO*///	if (value > -0x2000)
-    /*TODO*///		return (value & 0xfffffff0);
-    /*TODO*///	if (value > -0x4000)
-    /*TODO*///		return (value & 0xffffffe0);
-    /*TODO*///	return (value & 0xffffffc0);
-    /*TODO*///
-    /*TODO*///}
+    public static int acc_calc(int value)
+    {
+    	if (value>=0)
+    	{
+    		if (value < 0x0200)
+    			return (value);
+    		if (value < 0x0400)
+    			return (value & 0xfffffffe);
+    		if (value < 0x0800)
+    			return (value & 0xfffffffc);
+    		if (value < 0x1000)
+    			return (value & 0xfffffff8);
+    		if (value < 0x2000)
+    			return (value & 0xfffffff0);
+    		if (value < 0x4000)
+    			return (value & 0xffffffe0);
+    		return (value & 0xffffffc0);
+    	}
+    	/*else value < 0*/
+    	if (value > -0x0200)
+    		return (value);
+    	if (value > -0x0400)
+    		return (value & 0xfffffffe);
+    	if (value > -0x0800)
+    		return (value & 0xfffffffc);
+    	if (value > -0x1000)
+    		return (value & 0xfffffff8);
+    	if (value > -0x2000)
+    		return (value & 0xfffffff0);
+    	if (value > -0x4000)
+    		return (value & 0xffffffe0);
+    	return (value & 0xffffffc0);
+    
+    }
 
     /*
     ** Generate samples for one of the YM2151's
