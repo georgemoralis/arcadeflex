@@ -554,9 +554,11 @@ public class driver {
         /*377*//*solomon*/driver_solomon,
         /*378*//*sauro*/driver_sauro,
         /* Atari "Missile Command hardware" games */
-        driver_missile,
-        driver_missile2,
-        driver_suprmatk,
+        /*missile*/driver_missile,
+        /*missile*/driver_missile2,
+        /*missile*/driver_suprmatk,
+        /*scobra*/driver_moonwar2,
+	/*scobra*/driver_monwar2a,
         
         
         /*
@@ -619,8 +621,7 @@ public class driver {
         /* controls issues
         
         */
-        /*001*//*scobra*/driver_moonwar2,//misses analog controls
-	/*002*//*scobra*/driver_monwar2a,//misses analog controls
+        
         /*dec8*/driver_lastmiss, //no controls working
         /*dec8*/driver_lastmss2,//no controls working
         /*
