@@ -554,11 +554,14 @@ public class driver {
         /*377*//*solomon*/driver_solomon,
         /*378*//*sauro*/driver_sauro,
         /* Atari "Missile Command hardware" games */
-        /*missile*/driver_missile,
-        /*missile*/driver_missile2,
-        /*missile*/driver_suprmatk,
-        /*scobra*/driver_moonwar2,
-	/*scobra*/driver_monwar2a,
+        /*379*//*missile*/driver_missile,
+        /*380*//*missile*/driver_missile2,
+        /*381*//*missile*/driver_suprmatk,
+        /*382*//*scobra*/driver_moonwar2,
+	/*383*//*scobra*/driver_monwar2a,
+        /*384*//*arkanoid*/driver_arkatayt,	
+        /*385*//*arkanoid*/driver_arkbloc2,	
+        /*386*//*arkanoid*/driver_arkangc,
         
         
         /*
@@ -794,7 +797,11 @@ public class driver {
         /**
          * WIP section
          */
-        
+        /*arkanoid*/driver_arkanoid,	
+        /*arkanoid*/driver_arknoidu,	
+        /*arkanoid*/driver_arknoidj,	
+
+
         
         /*bublbobl*/driver_bublbobl,//M68705  
         /*bublbobl*/driver_bublbobr,//M68705  
@@ -1526,15 +1533,12 @@ driver_metrocrs,	/* (c) 1985 */
 /*TODO*/ //	DRIVER( rainbow )	/* (c) 1987 Taito Corporation */
 /*TODO*/ //	DRIVER( rainbowe )	/* (c) 1988 Taito Corporation */
 /*TODO*/ //	DRIVER( jumping )	/* bootleg */
-        driver_arkanoid,	/* (c) 1986 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( arknoidu )	/* (c) 1986 Taito America Corporation + Romstar license (US) */
-/*TODO*/ //	DRIVER( arknoidj )	/* (c) 1986 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( arkbl2 )	/* bootleg */
+
+/*TODO*/ //TESTDRIVER( arkbl2 )
 /*TODO*/ //TESTDRIVER( arkbl3 )	/* bootleg */
-        driver_arkatayt,	/* bootleg */
+        
 /*TODO*/ //TESTDRIVER( arkblock )	/* bootleg */
-        driver_arkbloc2,	/* bootleg */
-/*TODO*/ //	DRIVER( arkangc )	/* bootleg */
+        
         
 /*TODO*/ //	DRIVER( superman )	/* (c) 1988 Taito Corporation */
 /*TODO*/ //TESTDRIVER( footchmp )	/* (c) 1990 Taito Corporation Japan (World) */
