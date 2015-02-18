@@ -151,7 +151,7 @@ import static drivers.WIP.congo.*;
 import static drivers.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
-import static drivers.WIP.missile.*;
+import static drivers.missile.*;
 import static drivers.WIP.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
@@ -553,6 +553,10 @@ public class driver {
         /*376*//*tehkanwc*/driver_tehkanwc,
         /*377*//*solomon*/driver_solomon,
         /*378*//*sauro*/driver_sauro,
+        /* Atari "Missile Command hardware" games */
+        driver_missile,
+        driver_missile2,
+        driver_suprmatk,
         
         
         /*
@@ -2319,10 +2323,7 @@ driver_vendettj,
 /*TODO*/ //	DRIVER( arabian )	/* (c) 1983 Sun Electronics */
 /*TODO*/ //	DRIVER( arabiana )	/* (c) 1983 Atari */
 
-	/* Atari "Missile Command hardware" games */
-driver_missile,
-driver_missile2,
-driver_suprmatk,
+
 
 	/* misc Atari games */
 /*TODO*/ //	DRIVER( foodf )		/* (c) 1982 */	/* made by Gencomp */
