@@ -11,54 +11,13 @@ import static mame.common.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.osdependH.*;
+import static mame.commonH.*;
+
 
 public class inputport {
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  inptport.c
-/*TODO*///
-/*TODO*///  Input ports handling
-/*TODO*///
-/*TODO*///TODO:	remove the 1 analog device per port limitation
-/*TODO*///		support for inputports producing interrupts
-/*TODO*///		support for extra "real" hardware (PC throttle's, spinners etc)
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///#include "driver.h"
-/*TODO*///#include <math.h>
-/*TODO*///
-/*TODO*///
-/*TODO*////* Use the MRU code for 4way joysticks */
-/*TODO*///#define MRU_JOYSTICK
-/*TODO*///
-/*TODO*////* header identifying the version of the game.cfg file */
-/*TODO*////* mame 0.36b11 */
-/*TODO*///#define MAMECFGSTRING_V5 "MAMECFG\5"
-/*TODO*///#define MAMEDEFSTRING_V5 "MAMEDEF\4"
-/*TODO*///
-/*TODO*////* mame 0.36b12 with multi key/joy extension */
-/*TODO*///#define MAMECFGSTRING_V6 "MAMECFG\6"
-/*TODO*///#define MAMEDEFSTRING_V6 "MAMEDEF\5"
-/*TODO*///
-/*TODO*////* mame 0.36b13 with and/or/not combination */
-/*TODO*///#define MAMECFGSTRING_V7 "MAMECFG\7"
-/*TODO*///#define MAMEDEFSTRING_V7 "MAMEDEF\6"
-/*TODO*///
-/*TODO*////* mame 0.36b16 with key/joy merge */
-/*TODO*///#define MAMECFGSTRING_V8 "MAMECFG\x8"
-/*TODO*///#define MAMEDEFSTRING_V8 "MAMEDEF\7"
-/*TODO*///
-/*TODO*///extern void *record;
-/*TODO*///extern void *playback;
-/*TODO*///
-/*TODO*///extern unsigned int dispensed_tickets;
-/*TODO*///extern unsigned int coins[COIN_COUNTERS];
-/*TODO*///extern unsigned int lastcoin[COIN_COUNTERS];
-/*TODO*///extern unsigned int coinlockedout[COIN_COUNTERS];
 
-    static int[] input_port_value = new int[MAX_INPUT_PORTS];
-    static int[] input_vblank = new int[MAX_INPUT_PORTS];
+    static /*unsigned short*/ char[] input_port_value = new char[MAX_INPUT_PORTS];
+    static /*unsigned short*/ char[] input_vblank = new char[MAX_INPUT_PORTS];
 
     /* Assuming a maxium of one analog input device per port BW 101297 */
     static int[] input_analog = new int[MAX_INPUT_PORTS];
@@ -66,16 +25,22 @@ public class inputport {
     static int[] input_analog_previous_value = new int[MAX_INPUT_PORTS];
     static int[] input_analog_init = new int[MAX_INPUT_PORTS];
 
-    static int[] mouse_delta_x = new int[OSD_MAX_JOY_ANALOG], mouse_delta_y = new int[OSD_MAX_JOY_ANALOG];
-    static int[] analog_current_x = new int[OSD_MAX_JOY_ANALOG], analog_current_y = new int[OSD_MAX_JOY_ANALOG];
-    static int[] analog_previous_x = new int[OSD_MAX_JOY_ANALOG], analog_previous_y = new int[OSD_MAX_JOY_ANALOG];
+    static int[] mouse_delta_x = new int[OSD_MAX_JOY_ANALOG];
+    static int[] mouse_delta_y = new int[OSD_MAX_JOY_ANALOG];
+    static int[] analog_current_x = new int[OSD_MAX_JOY_ANALOG];
+    static int[] analog_current_y = new int[OSD_MAX_JOY_ANALOG];
+    static int[] analog_previous_x = new int[OSD_MAX_JOY_ANALOG];
+    static int[] analog_previous_y = new int[OSD_MAX_JOY_ANALOG];
 
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Configuration load/save
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
+    /**
+     * *************************************************************************
+     *
+     * Configuration load/save
+     *
+     **************************************************************************
+     */
+
+    /* this must match the enum in inptport.h */
     public static HashMap<String, String> ipdn_defaultstrings = new HashMap<String, String>() {
         {
             put("Off", "Off");
@@ -129,7 +94,7 @@ public class inputport {
             put("Flip_Screen", "Flip Screen");
             put("Service_Mode", "Service Mode");
             put("Unused", "Unused");
-            put("Unknown", "Unknown");/* must be the last one, mame.c relies on that */
+            put("Unknown", "Unknown");
 
         }
     };
@@ -138,18 +103,18 @@ public class inputport {
             = {
                 //changed to support BACKSPACE IN APPLET MODE AS WELL  new ipd( IPT_UI_CONFIGURE,         "Config Menu",       SEQ_DEF_1(KEYCODE_TAB) ),
                 new ipd(IPT_UI_CONFIGURE, "Config Menu", SEQ_DEF_3(KEYCODE_TAB, CODE_OR, KEYCODE_BACKSPACE)),
-                new ipd(IPT_UI_ON_SCREEN_DISPLAY, "On Screen Display", SEQ_DEF_1(KEYCODE_TILDE) ),
-                new ipd(IPT_UI_PAUSE,             "Pause",             SEQ_DEF_1(KEYCODE_P) ),
+                new ipd(IPT_UI_ON_SCREEN_DISPLAY, "On Screen Display", SEQ_DEF_1(KEYCODE_TILDE)),
+                new ipd(IPT_UI_PAUSE, "Pause", SEQ_DEF_1(KEYCODE_P)),
                 new ipd(IPT_UI_RESET_MACHINE, "Reset Game", SEQ_DEF_1(KEYCODE_F3)),
-                /*TODO*///	{ IPT_UI_SHOW_GFX,          "Show Gfx",          SEQ_DEF_1(KEYCODE_F4) },
+                new ipd(IPT_UI_SHOW_GFX, "Show Gfx", SEQ_DEF_1(KEYCODE_F4)),
                 new ipd(IPT_UI_FRAMESKIP_DEC, "Frameskip Dec", SEQ_DEF_1(KEYCODE_F8)),
                 new ipd(IPT_UI_FRAMESKIP_INC, "Frameskip Inc", SEQ_DEF_1(KEYCODE_F9)),
                 new ipd(IPT_UI_THROTTLE, "Throttle", SEQ_DEF_1(KEYCODE_F10)),
                 new ipd(IPT_UI_SHOW_FPS, "Show FPS", SEQ_DEF_5(KEYCODE_F11, CODE_NOT, KEYCODE_LCONTROL, CODE_NOT, KEYCODE_LSHIFT)),
-                /*TODO*///	{ IPT_UI_SHOW_PROFILER,     "Show Profiler",     SEQ_DEF_2(KEYCODE_F11, KEYCODE_LSHIFT) },
-                /*TODO*///	{ IPT_UI_SHOW_COLORS,       "Show Colors",	 SEQ_DEF_2(KEYCODE_F11, KEYCODE_LCONTROL) },
-                /*TODO*///	{ IPT_UI_SNAPSHOT,          "Save Snapshot",     SEQ_DEF_1(KEYCODE_F12) },
-                /*TODO*///	{ IPT_UI_TOGGLE_CHEAT,      "Toggle Cheat",      SEQ_DEF_1(KEYCODE_F5) },
+                new ipd(IPT_UI_SHOW_PROFILER, "Show Profiler", SEQ_DEF_2(KEYCODE_F11, KEYCODE_LSHIFT)),
+                new ipd(IPT_UI_SHOW_COLORS, "Show Colors", SEQ_DEF_2(KEYCODE_F11, KEYCODE_LCONTROL)),
+                new ipd(IPT_UI_SNAPSHOT, "Save Snapshot", SEQ_DEF_1(KEYCODE_F12)),
+                new ipd(IPT_UI_TOGGLE_CHEAT, "Toggle Cheat", SEQ_DEF_1(KEYCODE_F5)),
                 new ipd(IPT_UI_UP, "UI Up", SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP)),
                 new ipd(IPT_UI_DOWN, "UI Down", SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN)),
                 new ipd(IPT_UI_LEFT, "UI Left", SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT)),
@@ -231,32 +196,30 @@ public class inputport {
                 new ipd(IPT_BUTTON2 | IPF_PLAYER4, "P4 Button 2", SEQ_DEF_1(JOYCODE_4_BUTTON2)),
                 new ipd(IPT_BUTTON3 | IPF_PLAYER4, "P4 Button 3", SEQ_DEF_1(JOYCODE_4_BUTTON3)),
                 new ipd(IPT_BUTTON4 | IPF_PLAYER4, "P4 Button 4", SEQ_DEF_1(JOYCODE_4_BUTTON4)),
-                /*TODO*///
-                /*TODO*///	{ IPT_PEDAL	                | IPF_PLAYER1, "Pedal 1",        SEQ_DEF_3(KEYCODE_LCONTROL, CODE_OR, JOYCODE_1_BUTTON1) },
-                /*TODO*///	{ (IPT_PEDAL+IPT_EXTENSION) | IPF_PLAYER1, "P1 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y) },
-                /*TODO*///	{ IPT_PEDAL                 | IPF_PLAYER2, "Pedal 2",        SEQ_DEF_3(KEYCODE_A, CODE_OR, JOYCODE_2_BUTTON1) },
-                /*TODO*///	{ (IPT_PEDAL+IPT_EXTENSION) | IPF_PLAYER2, "P2 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y) },
-                /*TODO*///	{ IPT_PEDAL                 | IPF_PLAYER3, "Pedal 3",        SEQ_DEF_3(KEYCODE_RCONTROL, CODE_OR, JOYCODE_3_BUTTON1) },
-                /*TODO*///	{ (IPT_PEDAL+IPT_EXTENSION) | IPF_PLAYER3, "P3 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y) },
-                /*TODO*///	{ IPT_PEDAL                 | IPF_PLAYER4, "Pedal 4",        SEQ_DEF_1(JOYCODE_4_BUTTON1) },
-                /*TODO*///	{ (IPT_PEDAL+IPT_EXTENSION) | IPF_PLAYER4, "P4 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y) },
-                /*TODO*///
-                /*TODO*///	{ IPT_PADDLE | IPF_PLAYER1,  "Paddle",        SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) },
-                /*TODO*///	{ (IPT_PADDLE | IPF_PLAYER1)+IPT_EXTENSION,             "Paddle",        SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT)  },
-                /*TODO*///	{ IPT_PADDLE | IPF_PLAYER2,  "Paddle 2",      SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT) },
-                /*TODO*///	{ (IPT_PADDLE | IPF_PLAYER2)+IPT_EXTENSION,             "Paddle 2",      SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT) },
-                /*TODO*///	{ IPT_PADDLE | IPF_PLAYER3,  "Paddle 3",      SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT) },
-                /*TODO*///	{ (IPT_PADDLE | IPF_PLAYER3)+IPT_EXTENSION,             "Paddle 3",      SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT) },
-                /*TODO*///	{ IPT_PADDLE | IPF_PLAYER4,  "Paddle 4",      SEQ_DEF_1(JOYCODE_4_LEFT) },
-                /*TODO*///	{ (IPT_PADDLE | IPF_PLAYER4)+IPT_EXTENSION,             "Paddle 4",      SEQ_DEF_1(JOYCODE_4_RIGHT) },
-                /*TODO*///	{ IPT_PADDLE_V | IPF_PLAYER1,  "Paddle V",          SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
-                /*TODO*///	{ (IPT_PADDLE_V | IPF_PLAYER1)+IPT_EXTENSION,             "Paddle V",          SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
-                /*TODO*///	{ IPT_PADDLE_V | IPF_PLAYER2,  "Paddle V 2",        SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP) },
-                /*TODO*///	{ (IPT_PADDLE_V | IPF_PLAYER2)+IPT_EXTENSION,             "Paddle V 2",      SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN) },
-                /*TODO*///	{ IPT_PADDLE_V | IPF_PLAYER3,  "Paddle V 3",        SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP) },
-                /*TODO*///	{ (IPT_PADDLE_V | IPF_PLAYER3)+IPT_EXTENSION,             "Paddle V 3",      SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN) },
-                /*TODO*///	{ IPT_PADDLE_V | IPF_PLAYER4,  "Paddle V 4",        SEQ_DEF_1(JOYCODE_4_UP) },
-                /*TODO*///	{ (IPT_PADDLE_V | IPF_PLAYER4)+IPT_EXTENSION,             "Paddle V 4",      SEQ_DEF_1(JOYCODE_4_DOWN) },
+                new ipd(IPT_PEDAL | IPF_PLAYER1, "Pedal 1", SEQ_DEF_3(KEYCODE_LCONTROL, CODE_OR, JOYCODE_1_BUTTON1)),
+                new ipd((IPT_PEDAL + IPT_EXTENSION) | IPF_PLAYER1, "P1 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y)),
+                new ipd(IPT_PEDAL | IPF_PLAYER2, "Pedal 2", SEQ_DEF_3(KEYCODE_A, CODE_OR, JOYCODE_2_BUTTON1)),
+                new ipd((IPT_PEDAL + IPT_EXTENSION) | IPF_PLAYER2, "P2 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y)),
+                new ipd(IPT_PEDAL | IPF_PLAYER3, "Pedal 3", SEQ_DEF_3(KEYCODE_RCONTROL, CODE_OR, JOYCODE_3_BUTTON1)),
+                new ipd((IPT_PEDAL + IPT_EXTENSION) | IPF_PLAYER3, "P3 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y)),
+                new ipd(IPT_PEDAL | IPF_PLAYER4, "Pedal 4", SEQ_DEF_1(JOYCODE_4_BUTTON1)),
+                new ipd((IPT_PEDAL + IPT_EXTENSION) | IPF_PLAYER4, "P4 Auto Release <Y/N>", SEQ_DEF_1(KEYCODE_Y)),
+                new ipd(IPT_PADDLE | IPF_PLAYER1, "Paddle", SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT)),
+                new ipd((IPT_PADDLE | IPF_PLAYER1) + IPT_EXTENSION, "Paddle", SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT)),
+                new ipd(IPT_PADDLE | IPF_PLAYER2, "Paddle 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT)),
+                new ipd((IPT_PADDLE | IPF_PLAYER2) + IPT_EXTENSION, "Paddle 2", SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT)),
+                new ipd(IPT_PADDLE | IPF_PLAYER3, "Paddle 3", SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT)),
+                new ipd((IPT_PADDLE | IPF_PLAYER3) + IPT_EXTENSION, "Paddle 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT)),
+                new ipd(IPT_PADDLE | IPF_PLAYER4, "Paddle 4", SEQ_DEF_1(JOYCODE_4_LEFT)),
+                new ipd((IPT_PADDLE | IPF_PLAYER4) + IPT_EXTENSION, "Paddle 4", SEQ_DEF_1(JOYCODE_4_RIGHT)),
+                new ipd(IPT_PADDLE_V | IPF_PLAYER1, "Paddle V", SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP)),
+                new ipd((IPT_PADDLE_V | IPF_PLAYER1) + IPT_EXTENSION, "Paddle V", SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN)),
+                new ipd(IPT_PADDLE_V | IPF_PLAYER2, "Paddle V 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP)),
+                new ipd((IPT_PADDLE_V | IPF_PLAYER2) + IPT_EXTENSION, "Paddle V 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN)),
+                new ipd(IPT_PADDLE_V | IPF_PLAYER3, "Paddle V 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP)),
+                new ipd((IPT_PADDLE_V | IPF_PLAYER3) + IPT_EXTENSION, "Paddle V 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN)),
+                new ipd(IPT_PADDLE_V | IPF_PLAYER4, "Paddle V 4", SEQ_DEF_1(JOYCODE_4_UP)),
+                new ipd((IPT_PADDLE_V | IPF_PLAYER4) + IPT_EXTENSION, "Paddle V 4", SEQ_DEF_1(JOYCODE_4_DOWN)),
                 new ipd(IPT_DIAL | IPF_PLAYER1, "Dial", SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT)),
                 new ipd((IPT_DIAL | IPF_PLAYER1) + IPT_EXTENSION, "Dial", SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT)),
                 new ipd(IPT_DIAL | IPF_PLAYER2, "Dial 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT)),
@@ -265,467 +228,470 @@ public class inputport {
                 new ipd((IPT_DIAL | IPF_PLAYER3) + IPT_EXTENSION, "Dial 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT)),
                 new ipd(IPT_DIAL | IPF_PLAYER4, "Dial 4", SEQ_DEF_1(JOYCODE_4_LEFT)),
                 new ipd((IPT_DIAL | IPF_PLAYER4) + IPT_EXTENSION, "Dial 4", SEQ_DEF_1(JOYCODE_4_RIGHT)),
-                /*TODO*///	{ IPT_DIAL_V | IPF_PLAYER1,  "Dial V",          SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
-                /*TODO*///	{ (IPT_DIAL_V | IPF_PLAYER1)+IPT_EXTENSION,             "Dial V",          SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
-                /*TODO*///	{ IPT_DIAL_V | IPF_PLAYER2,  "Dial V 2",        SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP) },
-                /*TODO*///	{ (IPT_DIAL_V | IPF_PLAYER2)+IPT_EXTENSION,             "Dial V 2",      SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN) },
-                /*TODO*///	{ IPT_DIAL_V | IPF_PLAYER3,  "Dial V 3",        SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP) },
-                /*TODO*///	{ (IPT_DIAL_V | IPF_PLAYER3)+IPT_EXTENSION,             "Dial V 3",      SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN) },
-                /*TODO*///	{ IPT_DIAL_V | IPF_PLAYER4,  "Dial V 4",        SEQ_DEF_1(JOYCODE_4_UP) },
-                /*TODO*///	{ (IPT_DIAL_V | IPF_PLAYER4)+IPT_EXTENSION,             "Dial V 4",      SEQ_DEF_1(JOYCODE_4_DOWN) },
-                /*TODO*///
-                /*TODO*///	{ IPT_TRACKBALL_X | IPF_PLAYER1, "Track X",   SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) },
-                /*TODO*///	{ (IPT_TRACKBALL_X | IPF_PLAYER1)+IPT_EXTENSION,                 "Track X",   SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) },
-                /*TODO*///	{ IPT_TRACKBALL_X | IPF_PLAYER2, "Track X 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT) },
-                /*TODO*///	{ (IPT_TRACKBALL_X | IPF_PLAYER2)+IPT_EXTENSION,                 "Track X 2", SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT) },
-                /*TODO*///	{ IPT_TRACKBALL_X | IPF_PLAYER3, "Track X 3", SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT) },
-                /*TODO*///	{ (IPT_TRACKBALL_X | IPF_PLAYER3)+IPT_EXTENSION,                 "Track X 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT) },
-                /*TODO*///	{ IPT_TRACKBALL_X | IPF_PLAYER4, "Track X 4", SEQ_DEF_1(JOYCODE_4_LEFT) },
-                /*TODO*///	{ (IPT_TRACKBALL_X | IPF_PLAYER4)+IPT_EXTENSION,                 "Track X 4", SEQ_DEF_1(JOYCODE_4_RIGHT) },
-                /*TODO*///
-                /*TODO*///	{ IPT_TRACKBALL_Y | IPF_PLAYER1, "Track Y",   SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
-                /*TODO*///	{ (IPT_TRACKBALL_Y | IPF_PLAYER1)+IPT_EXTENSION,                 "Track Y",   SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
-                /*TODO*///	{ IPT_TRACKBALL_Y | IPF_PLAYER2, "Track Y 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP) },
-                /*TODO*///	{ (IPT_TRACKBALL_Y | IPF_PLAYER2)+IPT_EXTENSION,                 "Track Y 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN) },
-                /*TODO*///	{ IPT_TRACKBALL_Y | IPF_PLAYER3, "Track Y 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP) },
-                /*TODO*///	{ (IPT_TRACKBALL_Y | IPF_PLAYER3)+IPT_EXTENSION,                 "Track Y 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN) },
-                /*TODO*///	{ IPT_TRACKBALL_Y | IPF_PLAYER4, "Track Y 4", SEQ_DEF_1(JOYCODE_4_UP) },
-                /*TODO*///	{ (IPT_TRACKBALL_Y | IPF_PLAYER4)+IPT_EXTENSION,                 "Track Y 4", SEQ_DEF_1(JOYCODE_4_DOWN) },
-                /*TODO*///
-                /*TODO*///	{ IPT_AD_STICK_X | IPF_PLAYER1, "AD Stick X",   SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT) },
-                /*TODO*///	{ (IPT_AD_STICK_X | IPF_PLAYER1)+IPT_EXTENSION,                "AD Stick X",   SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT) },
-                /*TODO*///	{ IPT_AD_STICK_X | IPF_PLAYER2, "AD Stick X 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT) },
-                /*TODO*///	{ (IPT_AD_STICK_X | IPF_PLAYER2)+IPT_EXTENSION,                "AD Stick X 2", SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT) },
-                /*TODO*///	{ IPT_AD_STICK_X | IPF_PLAYER3, "AD Stick X 3", SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT) },
-                /*TODO*///	{ (IPT_AD_STICK_X | IPF_PLAYER3)+IPT_EXTENSION,                "AD Stick X 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT) },
-                /*TODO*///	{ IPT_AD_STICK_X | IPF_PLAYER4, "AD Stick X 4", SEQ_DEF_1(JOYCODE_4_LEFT) },
-                /*TODO*///	{ (IPT_AD_STICK_X | IPF_PLAYER4)+IPT_EXTENSION,                "AD Stick X 4", SEQ_DEF_1(JOYCODE_4_RIGHT) },
-                /*TODO*///
-                /*TODO*///	{ IPT_AD_STICK_Y | IPF_PLAYER1, "AD Stick Y",   SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP) },
-                /*TODO*///	{ (IPT_AD_STICK_Y | IPF_PLAYER1)+IPT_EXTENSION,                "AD Stick Y",   SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN) },
-                /*TODO*///	{ IPT_AD_STICK_Y | IPF_PLAYER2, "AD Stick Y 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP) },
-                /*TODO*///	{ (IPT_AD_STICK_Y | IPF_PLAYER2)+IPT_EXTENSION,                "AD Stick Y 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN) },
-                /*TODO*///	{ IPT_AD_STICK_Y | IPF_PLAYER3, "AD Stick Y 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP) },
-                /*TODO*///	{ (IPT_AD_STICK_Y | IPF_PLAYER3)+IPT_EXTENSION,                "AD Stick Y 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN) },
-                /*TODO*///	{ IPT_AD_STICK_Y | IPF_PLAYER4, "AD Stick Y 4", SEQ_DEF_1(JOYCODE_4_UP) },
-                /*TODO*///	{ (IPT_AD_STICK_Y | IPF_PLAYER4)+IPT_EXTENSION,                "AD Stick Y 4", SEQ_DEF_1(JOYCODE_4_DOWN) },
-                /*TODO*///
+                new ipd(IPT_DIAL_V | IPF_PLAYER1, "Dial V", SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP)),
+                new ipd((IPT_DIAL_V | IPF_PLAYER1) + IPT_EXTENSION, "Dial V", SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN)),
+                new ipd(IPT_DIAL_V | IPF_PLAYER2, "Dial V 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP)),
+                new ipd((IPT_DIAL_V | IPF_PLAYER2) + IPT_EXTENSION, "Dial V 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN)),
+                new ipd(IPT_DIAL_V | IPF_PLAYER3, "Dial V 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP)),
+                new ipd((IPT_DIAL_V | IPF_PLAYER3) + IPT_EXTENSION, "Dial V 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN)),
+                new ipd(IPT_DIAL_V | IPF_PLAYER4, "Dial V 4", SEQ_DEF_1(JOYCODE_4_UP)),
+                new ipd((IPT_DIAL_V | IPF_PLAYER4) + IPT_EXTENSION, "Dial V 4", SEQ_DEF_1(JOYCODE_4_DOWN)),
+                new ipd(IPT_TRACKBALL_X | IPF_PLAYER1, "Track X", SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT)),
+                new ipd((IPT_TRACKBALL_X | IPF_PLAYER1) + IPT_EXTENSION, "Track X", SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT)),
+                new ipd(IPT_TRACKBALL_X | IPF_PLAYER2, "Track X 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT)),
+                new ipd((IPT_TRACKBALL_X | IPF_PLAYER2) + IPT_EXTENSION, "Track X 2", SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT)),
+                new ipd(IPT_TRACKBALL_X | IPF_PLAYER3, "Track X 3", SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT)),
+                new ipd((IPT_TRACKBALL_X | IPF_PLAYER3) + IPT_EXTENSION, "Track X 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT)),
+                new ipd(IPT_TRACKBALL_X | IPF_PLAYER4, "Track X 4", SEQ_DEF_1(JOYCODE_4_LEFT)),
+                new ipd((IPT_TRACKBALL_X | IPF_PLAYER4) + IPT_EXTENSION, "Track X 4", SEQ_DEF_1(JOYCODE_4_RIGHT)),
+                new ipd(IPT_TRACKBALL_Y | IPF_PLAYER1, "Track Y", SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP)),
+                new ipd((IPT_TRACKBALL_Y | IPF_PLAYER1) + IPT_EXTENSION, "Track Y", SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN)),
+                new ipd(IPT_TRACKBALL_Y | IPF_PLAYER2, "Track Y 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP)),
+                new ipd((IPT_TRACKBALL_Y | IPF_PLAYER2) + IPT_EXTENSION, "Track Y 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN)),
+                new ipd(IPT_TRACKBALL_Y | IPF_PLAYER3, "Track Y 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP)),
+                new ipd((IPT_TRACKBALL_Y | IPF_PLAYER3) + IPT_EXTENSION, "Track Y 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN)),
+                new ipd(IPT_TRACKBALL_Y | IPF_PLAYER4, "Track Y 4", SEQ_DEF_1(JOYCODE_4_UP)),
+                new ipd((IPT_TRACKBALL_Y | IPF_PLAYER4) + IPT_EXTENSION, "Track Y 4", SEQ_DEF_1(JOYCODE_4_DOWN)),
+                new ipd(IPT_AD_STICK_X | IPF_PLAYER1, "AD Stick X", SEQ_DEF_3(KEYCODE_LEFT, CODE_OR, JOYCODE_1_LEFT)),
+                new ipd((IPT_AD_STICK_X | IPF_PLAYER1) + IPT_EXTENSION, "AD Stick X", SEQ_DEF_3(KEYCODE_RIGHT, CODE_OR, JOYCODE_1_RIGHT)),
+                new ipd(IPT_AD_STICK_X | IPF_PLAYER2, "AD Stick X 2", SEQ_DEF_3(KEYCODE_D, CODE_OR, JOYCODE_2_LEFT)),
+                new ipd((IPT_AD_STICK_X | IPF_PLAYER2) + IPT_EXTENSION, "AD Stick X 2", SEQ_DEF_3(KEYCODE_G, CODE_OR, JOYCODE_2_RIGHT)),
+                new ipd(IPT_AD_STICK_X | IPF_PLAYER3, "AD Stick X 3", SEQ_DEF_3(KEYCODE_J, CODE_OR, JOYCODE_3_LEFT)),
+                new ipd((IPT_AD_STICK_X | IPF_PLAYER3) + IPT_EXTENSION, "AD Stick X 3", SEQ_DEF_3(KEYCODE_L, CODE_OR, JOYCODE_3_RIGHT)),
+                new ipd(IPT_AD_STICK_X | IPF_PLAYER4, "AD Stick X 4", SEQ_DEF_1(JOYCODE_4_LEFT)),
+                new ipd((IPT_AD_STICK_X | IPF_PLAYER4) + IPT_EXTENSION, "AD Stick X 4", SEQ_DEF_1(JOYCODE_4_RIGHT)),
+                new ipd(IPT_AD_STICK_Y | IPF_PLAYER1, "AD Stick Y", SEQ_DEF_3(KEYCODE_UP, CODE_OR, JOYCODE_1_UP)),
+                new ipd((IPT_AD_STICK_Y | IPF_PLAYER1) + IPT_EXTENSION, "AD Stick Y", SEQ_DEF_3(KEYCODE_DOWN, CODE_OR, JOYCODE_1_DOWN)),
+                new ipd(IPT_AD_STICK_Y | IPF_PLAYER2, "AD Stick Y 2", SEQ_DEF_3(KEYCODE_R, CODE_OR, JOYCODE_2_UP)),
+                new ipd((IPT_AD_STICK_Y | IPF_PLAYER2) + IPT_EXTENSION, "AD Stick Y 2", SEQ_DEF_3(KEYCODE_F, CODE_OR, JOYCODE_2_DOWN)),
+                new ipd(IPT_AD_STICK_Y | IPF_PLAYER3, "AD Stick Y 3", SEQ_DEF_3(KEYCODE_I, CODE_OR, JOYCODE_3_UP)),
+                new ipd((IPT_AD_STICK_Y | IPF_PLAYER3) + IPT_EXTENSION, "AD Stick Y 3", SEQ_DEF_3(KEYCODE_K, CODE_OR, JOYCODE_3_DOWN)),
+                new ipd(IPT_AD_STICK_Y | IPF_PLAYER4, "AD Stick Y 4", SEQ_DEF_1(JOYCODE_4_UP)),
+                new ipd((IPT_AD_STICK_Y | IPF_PLAYER4) + IPT_EXTENSION, "AD Stick Y 4", SEQ_DEF_1(JOYCODE_4_DOWN)),
                 new ipd(IPT_UNKNOWN, "UNKNOWN", SEQ_DEF_0()),
                 new ipd(IPT_END, null, SEQ_DEF_0()) /* returned when there is no match */};
-    /*TODO*///
-/*TODO*///struct ipd inputport_defaults_backup[sizeof(inputport_defaults)/sizeof(struct ipd)];
-/*TODO*///
-/*TODO*////***************************************************************************/
-/*TODO*////* Generic IO */
-/*TODO*///
-/*TODO*///static int readint(void *f,UINT32 *num)
-/*TODO*///{
-/*TODO*///	unsigned i;
-/*TODO*///
-/*TODO*///	*num = 0;
-/*TODO*///	for (i = 0;i < sizeof(UINT32);i++)
-/*TODO*///	{
-/*TODO*///		unsigned char c;
-/*TODO*///
-/*TODO*///
-/*TODO*///		*num <<= 8;
-/*TODO*///		if (osd_fread(f,&c,1) != 1)
-/*TODO*///			return -1;
-/*TODO*///		*num |= c;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void writeint(void *f,UINT32 num)
-/*TODO*///{
-/*TODO*///	unsigned i;
-/*TODO*///
-/*TODO*///	for (i = 0;i < sizeof(UINT32);i++)
-/*TODO*///	{
-/*TODO*///		unsigned char c;
-/*TODO*///
-/*TODO*///
-/*TODO*///		c = (num >> 8 * (sizeof(UINT32)-1)) & 0xff;
-/*TODO*///		osd_fwrite(f,&c,1);
-/*TODO*///		num <<= 8;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int readword(void *f,UINT16 *num)
-/*TODO*///{
-/*TODO*///	unsigned i;
-/*TODO*///	int res;
-/*TODO*///
-/*TODO*///	res = 0;
-/*TODO*///	for (i = 0;i < sizeof(UINT16);i++)
-/*TODO*///	{
-/*TODO*///		unsigned char c;
-/*TODO*///
-/*TODO*///
-/*TODO*///		res <<= 8;
-/*TODO*///		if (osd_fread(f,&c,1) != 1)
-/*TODO*///			return -1;
-/*TODO*///		res |= c;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	*num = res;
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void writeword(void *f,UINT16 num)
-/*TODO*///{
-/*TODO*///	unsigned i;
-/*TODO*///
-/*TODO*///	for (i = 0;i < sizeof(UINT16);i++)
-/*TODO*///	{
-/*TODO*///		unsigned char c;
-/*TODO*///
-/*TODO*///
-/*TODO*///		c = (num >> 8 * (sizeof(UINT16)-1)) & 0xff;
-/*TODO*///		osd_fwrite(f,&c,1);
-/*TODO*///		num <<= 8;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int seq_read_ver_8(void* f, InputSeq* seq)
-/*TODO*///{
-/*TODO*///	int j,len;
-/*TODO*///	UINT32 i;
-/*TODO*///	UINT16 w;
-/*TODO*///
-/*TODO*///	if (readword(f,&w) != 0)
-/*TODO*///		return -1;
-/*TODO*///
-/*TODO*///	len = w;
-/*TODO*///	seq_set_0(seq);
-/*TODO*///	for(j=0;j<len;++j)
-/*TODO*///	{
-/*TODO*///		if (readint(f,&i) != 0)
-/*TODO*/// 			return -1;
-/*TODO*///		(*seq)[j] = savecode_to_code(i);
-/*TODO*/// 	}
-/*TODO*///
-/*TODO*/// 	return 0;
-/*TODO*///  }
-/*TODO*///
-/*TODO*///static int seq_read(void* f, InputSeq* seq, int ver)
-/*TODO*///  {
-/*TODO*///		return seq_read_ver_8(f,seq);
-/*TODO*///  }
-/*TODO*///
-/*TODO*///static void seq_write(void* f, InputSeq* seq)
-/*TODO*///  {
-/*TODO*///	int j,len;
-/*TODO*///        for(len=0;len<SEQ_MAX;++len)
-/*TODO*///		if ((*seq)[len] == CODE_NONE)
-/*TODO*///			break;
-/*TODO*///	writeword(f,len);
-/*TODO*///	for(j=0;j<len;++j)
-/*TODO*///		writeint(f, code_to_savecode( (*seq)[j] ));
-/*TODO*///  }
-/*TODO*///
-/*TODO*////***************************************************************************/
-/*TODO*////* Load */
-/*TODO*///
 
+    /*TODO*///    struct ipd inputport_defaults_backup[sizeof(inputport_defaults)/sizeof(struct ipd)];
+    /**
+     * ************************************************************************
+     */
+    /* Generic IO */
+
+    /*TODO*///   static int readint(void *f,UINT32 *num)
+/*TODO*///    {
+/*TODO*///            unsigned i;
+/*TODO*///
+/*TODO*///            *num = 0;
+/*TODO*///            for (i = 0;i < sizeof(UINT32);i++)
+/*TODO*///            {
+/*TODO*///                    unsigned char c;
+/*TODO*///
+/*TODO*///
+/*TODO*///                    *num <<= 8;
+/*TODO*///                    if (osd_fread(f,&c,1) != 1)
+/*TODO*///                            return -1;
+/*TODO*///                    *num |= c;
+/*TODO*///            }
+/*TODO*///
+/*TODO*///            return 0;
+/*TODO*///    }
+
+    /*TODO*///    static void writeint(void *f,UINT32 num)
+/*TODO*///    {
+/*TODO*///            unsigned i;
+/*TODO*///
+/*TODO*///            for (i = 0;i < sizeof(UINT32);i++)
+/*TODO*///            {
+/*TODO*///                    unsigned char c;
+/*TODO*///
+/*TODO*///
+/*TODO*///                    c = (num >> 8 * (sizeof(UINT32)-1)) & 0xff;
+/*TODO*///                    osd_fwrite(f,&c,1);
+/*TODO*///                    num <<= 8;
+/*TODO*///            }
+/*TODO*///    }
+
+    /*TODO*///    static int readword(void *f,UINT16 *num)
+/*TODO*///    {
+/*TODO*///            unsigned i;
+/*TODO*///            int res;
+/*TODO*///
+/*TODO*///            res = 0;
+/*TODO*///            for (i = 0;i < sizeof(UINT16);i++)
+/*TODO*///            {
+/*TODO*///                    unsigned char c;
+/*TODO*///
+/*TODO*///
+/*TODO*///                    res <<= 8;
+/*TODO*///                    if (osd_fread(f,&c,1) != 1)
+/*TODO*///                            return -1;
+/*TODO*///                    res |= c;
+/*TODO*///            }
+
+    /*TODO*///            *num = res;
+/*TODO*///            return 0;
+/*TODO*///    }
+
+    /*TODO*///    static void writeword(void *f,UINT16 num)
+/*TODO*///    {
+/*TODO*///            unsigned i;
+/*TODO*///
+/*TODO*///            for (i = 0;i < sizeof(UINT16);i++)
+/*TODO*///            {
+/*TODO*///                    unsigned char c;
+/*TODO*///
+/*TODO*///
+/*TODO*///                    c = (num >> 8 * (sizeof(UINT16)-1)) & 0xff;
+/*TODO*///                    osd_fwrite(f,&c,1);
+/*TODO*///                    num <<= 8;
+/*TODO*///            }
+/*TODO*///    }
+
+    /*TODO*///    static int seq_read_ver_8(void* f, InputSeq* seq)
+/*TODO*///    {
+/*TODO*///            int j,len;
+/*TODO*///            UINT32 i;
+/*TODO*///            UINT16 w;
+/*TODO*///
+/*TODO*///            if (readword(f,&w) != 0)
+/*TODO*///                    return -1;
+
+    /*TODO*///            len = w;
+/*TODO*///            seq_set_0(seq);
+/*TODO*///            for(j=0;j<len;++j)
+/*TODO*///            {
+/*TODO*///                    if (readint(f,&i) != 0)
+/*TODO*///                            return -1;
+/*TODO*///                    (*seq)[j] = savecode_to_code(i);
+/*TODO*///            }
+/*TODO*///
+/*TODO*///            return 0;
+/*TODO*///      }
+
+    /*TODO*///    static int seq_read(void* f, InputSeq* seq, int ver)
+/*TODO*///      {
+/*TODO*///                    return seq_read_ver_8(f,seq);
+/*TODO*///      }
+
+    /*TODO*///    static void seq_write(void* f, InputSeq* seq)
+/*TODO*///      {
+/*TODO*///            int j,len;
+/*TODO*///            for(len=0;len<SEQ_MAX;++len)
+/*TODO*///                    if ((*seq)[len] == CODE_NONE)
+/*TODO*///                            break;
+/*TODO*///            writeword(f,len);
+/*TODO*///            for(j=0;j<len;++j)
+/*TODO*///                    writeint(f, code_to_savecode( (*seq)[j] ));
+/*TODO*///      }
+    /**
+     * ************************************************************************
+     */
+    /* Load */
     public static void load_default_keys() {
-        /*TODO*///	void *f;
+        /*TODO*///            void *f;
 /*TODO*///
 /*TODO*///
-/*TODO*///	osd_customize_inputport_defaults(inputport_defaults);
-/*TODO*///	memcpy(inputport_defaults_backup,inputport_defaults,sizeof(inputport_defaults));
+/*TODO*///            osd_customize_inputport_defaults(inputport_defaults);
+/*TODO*///            memcpy(inputport_defaults_backup,inputport_defaults,sizeof(inputport_defaults));
 /*TODO*///
-/*TODO*///	if ((f = osd_fopen("default",0,OSD_FILETYPE_CONFIG,0)) != 0)
-/*TODO*///	{
-/*TODO*///		char buf[8];
-/*TODO*///		int version;
+/*TODO*///            if ((f = osd_fopen("default",0,OSD_FILETYPE_CONFIG,0)) != 0)
+/*TODO*///            {
+/*TODO*///                    char buf[8];
+/*TODO*///                    int version;
+
+        /* read header */
+        /*TODO*///                   if (osd_fread(f,buf,8) != 8)
+/*TODO*///                            goto getout;
 /*TODO*///
-/*TODO*///		/* read header */
-/*TODO*///		if (osd_fread(f,buf,8) != 8)
-/*TODO*///			goto getout;
+/*TODO*///                    if (memcmp(buf,MAMEDEFSTRING_V5,8) == 0)
+/*TODO*///                            version = 5;
+/*TODO*///                    else if (memcmp(buf,MAMEDEFSTRING_V6,8) == 0)
+/*TODO*///                            version = 6;
+/*TODO*///                    else if (memcmp(buf,MAMEDEFSTRING_V7,8) == 0)
+/*TODO*///                            version = 7;
+/*TODO*///                    else if (memcmp(buf,MAMEDEFSTRING_V8,8) == 0)
+/*TODO*///                            version = 8;
+/*TODO*///                    else
+/*TODO*///                            goto getout;	/* header invalid */
+
+        /*TODO*///                    for (;;)
+/*TODO*///                    {
+/*TODO*///                            UINT32 type;
+/*TODO*///                            InputSeq def_seq;
+/*TODO*///                            InputSeq seq;
+/*TODO*///                            int i;
+
+        /*TODO*///                            if (readint(f,&type) != 0)
+/*TODO*///                                    goto getout;
+
+        /*TODO*///                            if (seq_read(f,&def_seq,version)!=0)
+/*TODO*///                                    goto getout;
+/*TODO*///                            if (seq_read(f,&seq,version)!=0)
+/*TODO*///                                    goto getout;
+
+        /*TODO*///                            i = 0;
+/*TODO*///                            while (inputport_defaults[i].type != IPT_END)
+/*TODO*///                            {
+/*TODO*///                                    if (inputport_defaults[i].type == type)
+/*TODO*///                                    {
+/*TODO*///                                            /* load stored settings only if the default hasn't changed */
+/*TODO*///                                            if (seq_cmp(&inputport_defaults[i].seq,&def_seq)==0)
+/*TODO*///                                                    seq_copy(&inputport_defaults[i].seq,&seq);
+/*TODO*///                                    }
 /*TODO*///
-/*TODO*///		if (memcmp(buf,MAMEDEFSTRING_V5,8) == 0)
-/*TODO*///			version = 5;
-/*TODO*///		else if (memcmp(buf,MAMEDEFSTRING_V6,8) == 0)
-/*TODO*///			version = 6;
-/*TODO*///		else if (memcmp(buf,MAMEDEFSTRING_V7,8) == 0)
-/*TODO*///			version = 7;
-/*TODO*///		else if (memcmp(buf,MAMEDEFSTRING_V8,8) == 0)
-/*TODO*///			version = 8;
-/*TODO*///		else
-/*TODO*///			goto getout;	/* header invalid */
+/*TODO*///                                    i++;
+/*TODO*///                            }
+/*TODO*///                    }
 /*TODO*///
-/*TODO*///		for (;;)
-/*TODO*///		{
-/*TODO*///			UINT32 type;
-/*TODO*///			InputSeq def_seq;
-/*TODO*///			InputSeq seq;
-/*TODO*///			int i;
-/*TODO*///
-/*TODO*///			if (readint(f,&type) != 0)
-/*TODO*///				goto getout;
-/*TODO*///
-/*TODO*///			if (seq_read(f,&def_seq,version)!=0)
-/*TODO*///				goto getout;
-/*TODO*///			if (seq_read(f,&seq,version)!=0)
-/*TODO*///				goto getout;
-/*TODO*///
-/*TODO*///			i = 0;
-/*TODO*///			while (inputport_defaults[i].type != IPT_END)
-/*TODO*///			{
-/*TODO*///				if (inputport_defaults[i].type == type)
-/*TODO*///				{
-/*TODO*///					/* load stored settings only if the default hasn't changed */
-/*TODO*///					if (seq_cmp(&inputport_defaults[i].seq,&def_seq)==0)
-/*TODO*///						seq_copy(&inputport_defaults[i].seq,&seq);
-/*TODO*///				}
-/*TODO*///
-/*TODO*///				i++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///getout:
-/*TODO*///		osd_fclose(f);
-/*TODO*///	}
+/*TODO*///    getout:
+/*TODO*///                    osd_fclose(f);
+/*TODO*////*TODO*///            }
     }
-    /*TODO*///
-/*TODO*///static void save_default_keys(void)
-/*TODO*///{
-/*TODO*///	void *f;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if ((f = osd_fopen("default",0,OSD_FILETYPE_CONFIG,1)) != 0)
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* write header */
-/*TODO*///		osd_fwrite(f,MAMEDEFSTRING_V8,8);
-/*TODO*///
-/*TODO*///		i = 0;
-/*TODO*///		while (inputport_defaults[i].type != IPT_END)
-/*TODO*///		{
-/*TODO*///			writeint(f,inputport_defaults[i].type);
-/*TODO*///
-/*TODO*///			seq_write(f,&inputport_defaults_backup[i].seq);
-/*TODO*///			seq_write(f,&inputport_defaults[i].seq);
-/*TODO*///
-/*TODO*///			i++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		osd_fclose(f);
-/*TODO*///	}
-/*TODO*///	memcpy(inputport_defaults,inputport_defaults_backup,sizeof(inputport_defaults_backup));
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int input_port_read_ver_8(void *f,struct InputPort *in)
-/*TODO*///{
-/*TODO*///	UINT32 i;
-/*TODO*///	UINT16 w;
-/*TODO*///	if (readint(f,&i) != 0)
-/*TODO*///		return -1;
-/*TODO*///	in->type = i;
-/*TODO*///
-/*TODO*///	if (readword(f,&w) != 0)
-/*TODO*///		return -1;
-/*TODO*///	in->mask = w;
-/*TODO*///
-/*TODO*///	if (readword(f,&w) != 0)
-/*TODO*///		return -1;
-/*TODO*///	in->default_value = w;
-/*TODO*///
-/*TODO*///	if (seq_read_ver_8(f,&in->seq) != 0)
-/*TODO*///		return -1;
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int input_port_read(void *f,struct InputPort *in, int ver)
-/*TODO*///{
-/*TODO*///		return input_port_read_ver_8(f,in);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void input_port_write(void *f,struct InputPort *in)
-/*TODO*///{
-/*TODO*///	writeint(f,in->type);
-/*TODO*///	writeword(f,in->mask);
-/*TODO*///	writeword(f,in->default_value);
-/*TODO*///	seq_write(f,&in->seq);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
 
+    public static void save_default_keys() {
+        /*TODO*///            void *f;
+
+
+        /*TODO*///            if ((f = osd_fopen("default",0,OSD_FILETYPE_CONFIG,1)) != 0)
+/*TODO*///            {
+/*TODO*///                    int i;
+        /* write header */
+        /*TODO*///                    osd_fwrite(f,MAMEDEFSTRING_V8,8);
+
+        /*TODO*///                    i = 0;
+/*TODO*///                    while (inputport_defaults[i].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            writeint(f,inputport_defaults[i].type);
+
+        /*TODO*///                            seq_write(f,&inputport_defaults_backup[i].seq);
+/*TODO*///                            seq_write(f,&inputport_defaults[i].seq);
+
+        /*TODO*///                            i++;
+/*TODO*///                    }
+
+        /*TODO*///                    osd_fclose(f);
+/*TODO*///            }
+/*TODO*///            memcpy(inputport_defaults,inputport_defaults_backup,sizeof(inputport_defaults_backup));
+    }
+
+    /*TODO*///    static int input_port_read_ver_8(void *f,struct InputPort *in)
+/*TODO*///    {
+/*TODO*///            UINT32 i;
+/*TODO*///            UINT16 w;
+/*TODO*///            if (readint(f,&i) != 0)
+/*TODO*///                    return -1;
+/*TODO*///            in[in_ptr].type = i;
+/*TODO*///
+/*TODO*///            if (readword(f,&w) != 0)
+/*TODO*///                    return -1;
+/*TODO*///            in[in_ptr].mask = w;
+
+    /*TODO*///            if (readword(f,&w) != 0)
+/*TODO*///                    return -1;
+/*TODO*///            in[in_ptr].default_value = w;
+
+    /*TODO*///            if (seq_read_ver_8(f,&in[in_ptr].seq) != 0)
+/*TODO*///                    return -1;
+
+    /*TODO*///            return 0;
+/*TODO*///    }
+
+    /*TODO*///    static int input_port_read(void *f,struct InputPort *in, int ver)
+/*TODO*///    {
+/*TODO*///    #ifdef NOLEGACY
+/*TODO*///            if (ver==8)
+/*TODO*///                    return input_port_read_ver_8(f,in);
+/*TODO*///    #else
+/*TODO*///            switch (ver) {
+/*TODO*///                    case 5 : return	input_port_read_ver_5(f,in);
+/*TODO*///                    case 6 : return	input_port_read_ver_6(f,in);
+/*TODO*///                    case 7 : return	input_port_read_ver_7(f,in);
+/*TODO*///                    case 8 : return	input_port_read_ver_8(f,in);
+/*TODO*///            }
+/*TODO*///    #endif
+/*TODO*///            return -1;
+/*TODO*///    }
+
+    /*TODO*///    static void input_port_write(void *f,struct InputPort *in)
+/*TODO*///    {
+/*TODO*///            writeint(f,in[in_ptr].type);
+/*TODO*///            writeword(f,in[in_ptr].mask);
+/*TODO*///            writeword(f,in[in_ptr].default_value);
+/*TODO*///            seq_write(f,&in[in_ptr].seq);
+/*TODO*///    }
     public static int load_input_port_settings() {
-        /*TODO*///	void *f;
-/*TODO*///
-/*TODO*///	load_default_keys();
-/*TODO*///
-/*TODO*///	if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_CONFIG,0)) != 0)
-/*TODO*///	{
-/*TODO*///		struct InputPort *in;
-/*TODO*///
-/*TODO*///		unsigned int total,savedtotal;
-/*TODO*///		char buf[8];
-/*TODO*///		int i;
-/*TODO*///		int version;
-/*TODO*///
-/*TODO*///		in = Machine->input_ports_default;
-/*TODO*///
-/*TODO*///		/* calculate the size of the array */
-/*TODO*///		total = 0;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			total++;
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* read header */
-/*TODO*///		if (osd_fread(f,buf,8) != 8)
-/*TODO*///			goto getout;
-/*TODO*///
-/*TODO*///		if (memcmp(buf,MAMECFGSTRING_V5,8) == 0)
-/*TODO*///			version = 5;
-/*TODO*///		else if (memcmp(buf,MAMECFGSTRING_V6,8) == 0)
-/*TODO*///			version = 6;
-/*TODO*///		else if (memcmp(buf,MAMECFGSTRING_V7,8) == 0)
-/*TODO*///			version = 7;
-/*TODO*///		else if (memcmp(buf,MAMECFGSTRING_V8,8) == 0)
-/*TODO*///			version = 8;
-/*TODO*///		else
-/*TODO*///			goto getout;	/* header invalid */
-/*TODO*///
-/*TODO*///		/* read array size */
-/*TODO*///		if (readint(f,&savedtotal) != 0)
-/*TODO*///			goto getout;
-/*TODO*///		if (total != savedtotal)
-/*TODO*///			goto getout;	/* different size */
-/*TODO*///
-/*TODO*///		/* read the original settings and compare them with the ones defined in the driver */
-/*TODO*///		in = Machine->input_ports_default;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			struct InputPort saved;
-/*TODO*///
-/*TODO*///			if (input_port_read(f,&saved,version) != 0)
-/*TODO*///				goto getout;
-/*TODO*///
-/*TODO*///			if (in->mask != saved.mask ||
-/*TODO*///				in->default_value != saved.default_value ||
-/*TODO*///				in->type != saved.type ||
-/*TODO*///				seq_cmp(&in->seq,&saved.seq) !=0 )
-/*TODO*///			goto getout;	/* the default values are different */
-/*TODO*///
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* read the current settings */
-/*TODO*///		in = Machine->input_ports;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			if (input_port_read(f,in,version) != 0)
-/*TODO*///				goto getout;
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* Clear the coin & ticket counters/flags - LBO 042898 */
-/*TODO*///		for (i = 0; i < COIN_COUNTERS; i ++)
-/*TODO*///			coins[i] = lastcoin[i] = coinlockedout[i] = 0;
-/*TODO*///		dispensed_tickets = 0;
-/*TODO*///
-/*TODO*///		/* read in the coin/ticket counters */
-/*TODO*///		for (i = 0; i < COIN_COUNTERS; i ++)
-/*TODO*///		{
-/*TODO*///			if (readint(f,&coins[i]) != 0)
-/*TODO*///				goto getout;
-/*TODO*///		}
-/*TODO*///		if (readint(f,&dispensed_tickets) != 0)
-/*TODO*///			goto getout;
-/*TODO*///
-/*TODO*///		mixer_read_config(f);
-/*TODO*///
-/*TODO*///getout:
-/*TODO*///		osd_fclose(f);
-/*TODO*///	}
+        /*TODO*///            void *f;
 
-	/* All analog ports need initialization */
-	{
-		int i;
-		for (i = 0; i < MAX_INPUT_PORTS; i++)
-			input_analog_init[i] = 1;
-	}
-            //update_input_ports();
 
-/*TODO*///	/* if we didn't find a saved config, return 0 so the main core knows that it */
-/*TODO*///	/* is the first time the game is run and it should diplay the disclaimer. */
-/*TODO*///	if (f) return 1;
-/*TODO*///	else 
+        /*TODO*///            load_default_keys();
+
+        /*TODO*///            if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_CONFIG,0)) != 0)
+/*TODO*///            {
+
+        /*TODO*///                    struct InputPort *in;
+
+        /*TODO*///                    unsigned int total,savedtotal;
+/*TODO*///                    char buf[8];
+/*TODO*///                    int i;
+/*TODO*///                    int version;
+
+        /*TODO*///                    in = Machine->input_ports_default;
+
+        /* calculate the size of the array */
+        /*TODO*///                    total = 0;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            total++;
+/*TODO*///                            in++;
+/*TODO*///                    }
+
+        /* read header */
+        /*TODO*///                    if (osd_fread(f,buf,8) != 8)
+/*TODO*///                            goto getout;
+
+        /*TODO*///                    if (memcmp(buf,MAMECFGSTRING_V5,8) == 0)
+/*TODO*///                            version = 5;
+/*TODO*///                    else if (memcmp(buf,MAMECFGSTRING_V6,8) == 0)
+/*TODO*///                            version = 6;
+/*TODO*///                    else if (memcmp(buf,MAMECFGSTRING_V7,8) == 0)
+/*TODO*///                            version = 7;
+/*TODO*///                    else if (memcmp(buf,MAMECFGSTRING_V8,8) == 0)
+/*TODO*///                            version = 8;
+/*TODO*///                    else
+/*TODO*///                            goto getout;	/* header invalid */
+
+        /* read array size */
+        /*TODO*///                    if (readint(f,&savedtotal) != 0)
+/*TODO*///                            goto getout;
+/*TODO*///                    if (total != savedtotal)
+/*TODO*///                            goto getout;	/* different size */
+
+        /* read the original settings and compare them with the ones defined in the driver */
+        /*TODO*///                    in = Machine->input_ports_default;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            struct InputPort saved;
+/*TODO*///
+/*TODO*///                            if (input_port_read(f,&saved,version) != 0)
+/*TODO*///                                    goto getout;
+
+        /*TODO*///                            if (in[in_ptr].mask != saved.mask ||
+/*TODO*///                                    in[in_ptr].default_value != saved.default_value ||
+/*TODO*///                                    in[in_ptr].type != saved.type ||
+/*TODO*///                                    seq_cmp(&in[in_ptr].seq,&saved.seq) !=0 )
+/*TODO*///                            goto getout;	/* the default values are different */
+
+        /*TODO*///                            in++;
+/*TODO*///                    }
+
+        /* read the current settings */
+        /*TODO*///                    in = Machine->input_ports;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            if (input_port_read(f,in,version) != 0)
+/*TODO*///                                    goto getout;
+/*TODO*///                            in++;
+/*TODO*///                    }
+
+        /* Clear the coin & ticket counters/flags - LBO 042898 */
+        for (int i = 0; i < COIN_COUNTERS; i++) {
+            coins[i] = lastcoin[i] = coinlockedout[i] = 0;
+        }
+        dispensed_tickets = 0;
+
+        /*TODO*///                   /* read in the coin/ticket counters */
+/*TODO*///                    for (i = 0; i < COIN_COUNTERS; i ++)
+/*TODO*///                    {
+/*TODO*///                            if (readint(f,&coins[i]) != 0)
+/*TODO*///                                    goto getout;
+/*TODO*///                    }
+/*TODO*///                    if (readint(f,&dispensed_tickets) != 0)
+/*TODO*///                            goto getout;
+/*TODO*///
+/*TODO*///                    mixer_read_config(f);
+/*TODO*///
+/*TODO*///    getout:
+/*TODO*///                    osd_fclose(f);
+/*TODO*///            }
+
+        /* All analog ports need initialization */
+        {
+            int i;
+            for (i = 0; i < MAX_INPUT_PORTS; i++) {
+                input_analog_init[i] = 1;
+            }
+        }
+
+        /*TODO*///            update_input_ports();
+
+        /* if we didn't find a saved config, return 0 so the main core knows that it */
+        /* is the first time the game is run and it should diplay the disclaimer. */
+        /*TODO*///            if (f) return 1;
+/*TODO*///            else 
         return 0;
     }
-    /*TODO*///
-/*TODO*////***************************************************************************/
-/*TODO*////* Save */
+
+    /**
+     * ************************************************************************
+     */
+    /* Save */
+    public static void save_input_port_settings() {
+        /*TODO*///            void *f;
+
+        /*TODO*///            save_default_keys();
+
+        /*TODO*///            if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_CONFIG,1)) != 0)
+/*TODO*///            {
 /*TODO*///
-/*TODO*///void save_input_port_settings(void)
-/*TODO*///{
-/*TODO*///	void *f;
-/*TODO*///
-/*TODO*///	save_default_keys();
-/*TODO*///
-/*TODO*///	if ((f = osd_fopen(Machine->gamedrv->name,0,OSD_FILETYPE_CONFIG,1)) != 0)
-/*TODO*///	{
-/*TODO*///
-/*TODO*///		struct InputPort *in;
-/*TODO*///		int total;
-/*TODO*///		int i;
-/*TODO*///
-/*TODO*///
-/*TODO*///		in = Machine->input_ports_default;
-/*TODO*///
-/*TODO*///		/* calculate the size of the array */
-/*TODO*///		total = 0;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			total++;
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* write header */
-/*TODO*///		osd_fwrite(f,MAMECFGSTRING_V8,8);
-/*TODO*///		/* write array size */
-/*TODO*///		writeint(f,total);
-/*TODO*///		/* write the original settings as defined in the driver */
-/*TODO*///		in = Machine->input_ports_default;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			input_port_write(f,in);
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///		/* write the current settings */
-/*TODO*///		in = Machine->input_ports;
-/*TODO*///		while (in->type != IPT_END)
-/*TODO*///		{
-/*TODO*///			input_port_write(f,in);
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* write out the coin/ticket counters for this machine - LBO 042898 */
-/*TODO*///		for (i = 0; i < COIN_COUNTERS; i ++)
-/*TODO*///			writeint(f,coins[i]);
-/*TODO*///		writeint(f,dispensed_tickets);
-/*TODO*///
-/*TODO*///		mixer_write_config(f);
-/*TODO*///
-/*TODO*///		osd_fclose(f);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+/*TODO*///                    struct InputPort *in;
+
+        /*TODO*///                    int total;
+/*TODO*///                    int i;
+        /*TODO*///                    in = Machine->input_ports_default;
+
+        /* calculate the size of the array */
+        /*TODO*///                    total = 0;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            total++;
+/*TODO*///                            in++;
+/*TODO*///                    }
+
+        /* write header */
+        /*TODO*///                    osd_fwrite(f,MAMECFGSTRING_V8,8);
+                    /* write array size */
+        /*TODO*///                    writeint(f,total);
+                    /* write the original settings as defined in the driver */
+        /*TODO*///                    in = Machine->input_ports_default;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            input_port_write(f,in);
+/*TODO*///                            in++;
+/*TODO*///                    }
+                    /* write the current settings */
+        /*TODO*///                    in = Machine->input_ports;
+/*TODO*///                    while (in[in_ptr].type != IPT_END)
+/*TODO*///                    {
+/*TODO*///                            input_port_write(f,in);
+/*TODO*///                            in++;
+/*TODO*///                    }
+
+        /* write out the coin/ticket counters for this machine - LBO 042898 */
+        /*TODO*///                    for (i = 0; i < COIN_COUNTERS; i ++)
+/*TODO*///                            writeint(f,coins[i]);
+/*TODO*///                    writeint(f,dispensed_tickets);
+
+        /*TODO*///                    mixer_write_config(f);
+
+        /*TODO*///                    osd_fclose(f);
+/*TODO*///            }
+    }
 
     /* Note that the following 3 routines have slightly different meanings with analog ports */
     public static String input_port_name(InputPort[] in, int in_ptr) {
         int i;
-        /*unsigned*/ int type;
+        /*unsigned*/
+        int type;
 
         if (in[in_ptr].name != IP_NAME_DEFAULT) {
             return in[in_ptr].name;
@@ -763,28 +729,29 @@ public class inputport {
     }
     public static int[] ip_none = SEQ_DEF_1(CODE_NONE);
 
-    public static int[] input_port_seq(int in_ptr) {
+    public static int[] input_port_seq(InputPort[] in, int in_ptr) {
         int i, type;
 
-        while (seq_get_1(Machine.input_ports[in_ptr].seq) == CODE_PREVIOUS) {
+        while (seq_get_1(in[in_ptr].seq) == CODE_PREVIOUS) {
             in_ptr--;
         }
 
-        if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION) {
-            type = (int) (Machine.input_ports[in_ptr - 1].type & (~IPF_MASK | IPF_PLAYERMASK));
+        if ((in[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION) {
+            type = in[in_ptr - 1].type & (~IPF_MASK | IPF_PLAYERMASK);
             /* if port is disabled, or cheat with cheats disabled, return no key */
-            if ((Machine.input_ports[in_ptr - 1].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (Machine.input_ports[in_ptr - 1].type & IPF_CHEAT) != 0)) {
+            if ((in[in_ptr - 1].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (in[in_ptr - 1].type & IPF_CHEAT) != 0)) {
                 return ip_none;
             }
         } else {
-            type = (int) (Machine.input_ports[in_ptr].type & (~IPF_MASK | IPF_PLAYERMASK));
+            type = in[in_ptr].type & (~IPF_MASK | IPF_PLAYERMASK);
             /* if port is disabled, or cheat with cheats disabled, return no key */
-            if ((Machine.input_ports[in_ptr].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (Machine.input_ports[in_ptr].type & IPF_CHEAT) != 0)) {
+            if ((in[in_ptr].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (in[in_ptr].type & IPF_CHEAT) != 0)) {
                 return ip_none;
             }
         }
-        if (seq_get_1(Machine.input_ports[in_ptr].seq) != CODE_DEFAULT) {
-            return Machine.input_ports[in_ptr].seq;
+
+        if (seq_get_1(in[in_ptr].seq) != CODE_DEFAULT) {
+            return in[in_ptr].seq;
         }
 
         i = 0;
@@ -794,47 +761,7 @@ public class inputport {
             i++;
         }
 
-        if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION) {
-            return inputport_defaults[i + 1].seq;
-        } else {
-            return inputport_defaults[i].seq;
-        }
-    }
-
-    public static int[] input_port_seq(InputPort[] input_ports, int _in)//need to do it again for other ports ;/ TODO refactor it
-    {
-        int i, type;
-
-        while (seq_get_1(input_ports[_in].seq) == CODE_PREVIOUS) {
-            _in--;
-        }
-
-        if ((input_ports[_in].type & ~IPF_MASK) == IPT_EXTENSION) {
-            type = (int) (input_ports[_in - 1].type & (~IPF_MASK | IPF_PLAYERMASK));
-            /* if port is disabled, or cheat with cheats disabled, return no key */
-            if ((input_ports[_in - 1].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (input_ports[_in - 1].type & IPF_CHEAT) != 0)) {
-                return ip_none;
-            }
-        } else {
-            type = (int) (input_ports[_in].type & (~IPF_MASK | IPF_PLAYERMASK));
-            /* if port is disabled, or cheat with cheats disabled, return no key */
-            if ((input_ports[_in].type & IPF_UNUSED) != 0 || (options.cheat == 0 && (input_ports[_in].type & IPF_CHEAT) != 0)) {
-                return ip_none;
-            }
-        }
-
-        if (seq_get_1(input_ports[_in].seq) != CODE_DEFAULT) {
-            return input_ports[_in].seq;
-        }
-
-        i = 0;
-
-        while (inputport_defaults[i].type != IPT_END
-                && inputport_defaults[i].type != type) {
-            i++;
-        }
-
-        if ((input_ports[_in].type & ~IPF_MASK) == IPT_EXTENSION) {
+        if ((in[in_ptr].type & ~IPF_MASK) == IPT_EXTENSION) {
             return inputport_defaults[i + 1].seq;
         } else {
             return inputport_defaults[i].seq;
@@ -842,25 +769,27 @@ public class inputport {
     }
 
     public static void update_analog_port(int port) {
+        //InputPort in;
         int current, delta, type, sensitivity, min, max, default_value;
-        int axis;
-        int is_stick;
-        int check_bounds;
+        int axis, is_stick, check_bounds;
         int[] incseq;
         int[] decseq;
         int keydelta;
         int player;
 
+        /* get input definition */
+            //in = input_analog[port];
+
         /* if we're not cheating and this is a cheat-only port, bail */
         if (options.cheat == 0 && (Machine.input_ports[input_analog[port]].type & IPF_CHEAT) != 0) {
             return;
         }
-        type = (int) (Machine.input_ports[input_analog[port]].type & ~IPF_MASK);
+        type = (Machine.input_ports[input_analog[port]].type & ~IPF_MASK);
 
-        decseq = input_port_seq(port);
-        incseq = input_port_seq(port + 1);
+        decseq = input_port_seq(Machine.input_ports, input_analog[port]);
+        incseq = input_port_seq(Machine.input_ports, input_analog[port] + 1);
 
-        keydelta = (int) IP_GET_DELTA(Machine.input_ports, input_analog[port]);
+        keydelta = IP_GET_DELTA(Machine.input_ports, input_analog[port]);
 
         switch (type) {
             case IPT_PADDLE:
@@ -913,16 +842,15 @@ public class inputport {
                 axis = X_AXIS;
                 is_stick = 0;
                 check_bounds = 0;
-                if (errorlog != null) {
-                    fprintf(errorlog, "Oops, polling non analog device in update_analog_port()????\n");
-                }
-        }
-        sensitivity = (int) IP_GET_SENSITIVITY(Machine.input_ports, input_analog[port]);
+                if (errorlog!=null)
+		    fprintf (errorlog,"Oops, polling non analog device in update_analog_port()????\n");
 
+        }
+
+        sensitivity = IP_GET_SENSITIVITY(Machine.input_ports, input_analog[port]);
         min = IP_GET_MIN(Machine.input_ports, input_analog[port]);
         max = IP_GET_MAX(Machine.input_ports, input_analog[port]);
         default_value = Machine.input_ports[input_analog[port]].default_value * 100 / sensitivity;
-
         /* extremes can be either signed or unsigned */
         if (min > max) {
             if (Machine.input_ports[input_analog[port]].mask > 0xff) {
@@ -959,6 +887,7 @@ public class inputport {
                 player = 0;
                 break;
         }
+
         if (axis == X_AXIS) {
             delta = mouse_delta_x[player];
         } else {
@@ -969,17 +898,18 @@ public class inputport {
             delta -= keydelta;
         }
 
-        if (type != (int) IPT_PEDAL) {
+        if (type != IPT_PEDAL) {
             if (seq_pressed(incseq)) {
                 delta += keydelta;
             }
         } else {
             /* is this cheesy or what? */
-            if (delta == 0 && seq_get_1(incseq) == (int) KEYCODE_Y) {
+            if (delta == 0 && seq_get_1(incseq) == KEYCODE_Y) {
                 delta += keydelta;
             }
             delta = -delta;
         }
+
         if ((Machine.input_ports[input_analog[port]].type & IPF_REVERSE) != 0) {
             delta = -delta;
         }
@@ -996,10 +926,10 @@ public class inputport {
                     delta = 100 / sensitivity;
                 }
             }
+
             /* An analog joystick which is not at zero position (or has just */
             /* moved there) takes precedence over all other computations */
             /* analog_x/y holds values from -128 to 128 (yes, 128, not 127) */
-
             if (axis == X_AXIS) {
                 _new = analog_current_x[player];
                 prev = analog_previous_x[player];
@@ -1019,25 +949,26 @@ public class inputport {
                 /* apply sensitivity using a logarithmic scale */
                 if (Machine.input_ports[input_analog[port]].mask > 0xff) {
                     if (_new > 0) {
-                        current = (int) ((Math.pow(_new / 32768.0, 100.0 / sensitivity) * (max - Machine.input_ports[input_analog[port]].default_value)
-                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity);
+                        current = (int) (Math.pow(_new / 32768.0, 100.0 / sensitivity) * (max - Machine.input_ports[input_analog[port]].default_value)
+                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity;
                     } else {
-                        current = (int) ((Math.pow(-_new / 32768.0, 100.0 / sensitivity) * (min - Machine.input_ports[input_analog[port]].default_value)
-                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity);
+                        current = (int) (Math.pow(-_new / 32768.0, 100.0 / sensitivity) * (min - Machine.input_ports[input_analog[port]].default_value)
+                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity;
                     }
                 } else {
                     if (_new > 0) {
-                        current = (int) ((Math.pow(_new / 128.0, 100.0 / sensitivity) * (max - Machine.input_ports[input_analog[port]].default_value)
-                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity);
+                        current = (int) (Math.pow(_new / 128.0, 100.0 / sensitivity) * (max - Machine.input_ports[input_analog[port]].default_value)
+                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity;
                     } else {
-                        current = (int) ((Math.pow(-_new / 128.0, 100.0 / sensitivity) * (min - Machine.input_ports[input_analog[port]].default_value)
-                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity);
+                        current = (int) (Math.pow(-_new / 128.0, 100.0 / sensitivity) * (min - Machine.input_ports[input_analog[port]].default_value)
+                                + Machine.input_ports[input_analog[port]].default_value) * 100 / sensitivity;
                     }
                 }
             }
         }
 
         current += delta;
+
         if (check_bounds != 0) {
             if ((current * sensitivity + 50) / 100 < min) {
                 current = (min * 100 + sensitivity / 2) / sensitivity;
@@ -1051,56 +982,36 @@ public class inputport {
     }
 
     static void scale_analog_port(int port) {
-        int in;
+        //InputPort in;
         int delta, current, sensitivity;
 
-        in = input_analog[port];
-        sensitivity = (int) IP_GET_SENSITIVITY(Machine.input_ports, in);
+        //in = input_analog[port];
+        sensitivity = IP_GET_SENSITIVITY(Machine.input_ports, input_analog[port]);
 
         delta = cpu_scalebyfcount.handler(input_analog_current_value[port] - input_analog_previous_value[port]);
 
         current = input_analog_previous_value[port] + delta;
 
-        input_port_value[port] &= (char) ~Machine.input_ports[input_analog[port]].mask;
-        input_port_value[port] |= (char) (((current * sensitivity + 50) / 100) & Machine.input_ports[input_analog[port]].mask);
+        input_port_value[port] &= ~Machine.input_ports[input_analog[port]].mask;
+        input_port_value[port] |= ((current * sensitivity + 50) / 100) & Machine.input_ports[input_analog[port]].mask;
 
-        /*TODO*///	if (playback)
-/*TODO*///		readword(playback,&input_port_value[port]);
-/*TODO*///	if (record)
-/*TODO*///		writeword(record,input_port_value[port]);
-/*TODO*///
+        /*TODO*///            if (playback)
+/*TODO*///                     readword(playback,&input_port_value[port]);
+/*TODO*///             if (record)
+/*TODO*///                     writeword(record,input_port_value[port]);
     }
-    /*TODO*///static void scale_analog_port(int port)
-/*TODO*///{
-/*TODO*///	struct InputPort *in;
-/*TODO*///	int delta,current,sensitivity;
-/*TODO*///
-/*TODO*///profiler_mark(PROFILER_INPUT);
-/*TODO*///	in = input_analog[port];
-/*TODO*///	sensitivity = IP_GET_SENSITIVITY(in);
-/*TODO*///
-/*TODO*///	delta = cpu_scalebyfcount(input_analog_current_value[port] - input_analog_previous_value[port]);
-/*TODO*///
-/*TODO*///	current = input_analog_previous_value[port] + delta;
-/*TODO*///
-/*TODO*///	input_port_value[port] &= ~in->mask;
-/*TODO*///	input_port_value[port] |= ((current * sensitivity + 50) / 100) & in->mask;
-/*TODO*///
-/*TODO*///profiler_mark(PROFILER_END);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
     public static final int MAX_INPUT_BITS = 1024;
+    static int[] impulsecount = new int[MAX_INPUT_BITS];
+    static int[] waspressed = new int[MAX_INPUT_BITS];
     public static final int MAX_JOYSTICKS = 3;
     public static final int MAX_PLAYERS = 4;
-    public static int[] impulsecount = new int[MAX_INPUT_BITS];
-    public static int[] waspressed = new int[MAX_INPUT_BITS];
-    public static int update_serial_number = 1;
-    public static int[][] joyserial = new int[MAX_JOYSTICKS * MAX_PLAYERS][4];
+    static int update_serial_number = 1;
+    static int[][] joyserial = new int[MAX_JOYSTICKS * MAX_PLAYERS][4];
 
     public static void update_input_ports() {
         int port, ib;
-        int in_ptr;//struct InputPort *in;
+        InputPort[] in;
+        int in_ptr = 0;
 
         /* clear all the values before proceeding */
         for (port = 0; port < MAX_INPUT_PORTS; port++) {
@@ -1109,80 +1020,80 @@ public class inputport {
             input_analog[port] = 0;
         }
 
-        in_ptr = 0;//in = Machine->input_ports;
-        if (Machine.input_ports[in_ptr].type == IPT_END) {
+        in = Machine.input_ports;
+
+        if (in[in_ptr].type == IPT_END) {
             return; 	/* nothing to do */
         }
 
         /* make sure the InputPort definition is correct */
-        if (Machine.input_ports[in_ptr].type != IPT_PORT) {
-            if (errorlog != null) {
-                fprintf(errorlog, "Error in InputPort definition: expecting PORT_START\n");
-            }
+        if (in[in_ptr].type != IPT_PORT) {
+            if (errorlog!=null) fprintf(errorlog,"Error in InputPort definition: expecting PORT_START\n");
             return;
         } else {
             in_ptr++;
         }
-        /*TODO*///
-/*TODO*///#ifdef MRU_JOYSTICK
-/*TODO*///	/* scan all the joystick ports */
-/*TODO*///	port = 0;
-/*TODO*///	while (in->type != IPT_END && port < MAX_INPUT_PORTS)
-/*TODO*///	{
-/*TODO*///		while (in->type != IPT_END && in->type != IPT_PORT)
-/*TODO*///		{
-/*TODO*///			if ((in->type & ~IPF_MASK) >= IPT_JOYSTICK_UP &&
-/*TODO*///				(in->type & ~IPF_MASK) <= IPT_JOYSTICKLEFT_RIGHT)
-/*TODO*///			{
-/*TODO*///				InputSeq* seq;
-/*TODO*///
-/*TODO*///				seq = input_port_seq(in);
-/*TODO*///
-/*TODO*///				if (seq_get_1(seq) != 0 && seq_get_1(seq) != CODE_NONE)
-/*TODO*///				{
-/*TODO*///					int joynum,joydir,player;
-/*TODO*///
-/*TODO*///					player = 0;
-/*TODO*///					if ((in->type & IPF_PLAYERMASK) == IPF_PLAYER2)
-/*TODO*///						player = 1;
-/*TODO*///					else if ((in->type & IPF_PLAYERMASK) == IPF_PLAYER3)
-/*TODO*///						player = 2;
-/*TODO*///					else if ((in->type & IPF_PLAYERMASK) == IPF_PLAYER4)
-/*TODO*///						player = 3;
-/*TODO*///
-/*TODO*///					joynum = player * MAX_JOYSTICKS +
-/*TODO*///							 ((in->type & ~IPF_MASK) - IPT_JOYSTICK_UP) / 4;
-/*TODO*///					joydir = ((in->type & ~IPF_MASK) - IPT_JOYSTICK_UP) % 4;
-/*TODO*///
-/*TODO*///					if (seq_pressed(seq))
-/*TODO*///					{
-/*TODO*///						if (joyserial[joynum][joydir] == 0)
-/*TODO*///							joyserial[joynum][joydir] = update_serial_number;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///						joyserial[joynum][joydir] = 0;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			in++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		port++;
-/*TODO*///		if (in->type == IPT_PORT) in++;
-/*TODO*///	}
-/*TODO*///	update_serial_number += 1;
-/*TODO*///
-/*TODO*///	in = Machine->input_ports;
-/*TODO*///
-/*TODO*///	/* already made sure the InputPort definition is correct */
-/*TODO*///	in++;
-/*TODO*///#endif
-/*TODO*///
+
+        //#ifdef MRU_JOYSTICK
+            /* scan all the joystick ports */
+        port = 0;
+        while (in[in_ptr].type != IPT_END && port < MAX_INPUT_PORTS) {
+            while (in[in_ptr].type != IPT_END && in[in_ptr].type != IPT_PORT) {
+                if ((in[in_ptr].type & ~IPF_MASK) >= IPT_JOYSTICK_UP
+                        && (in[in_ptr].type & ~IPF_MASK) <= IPT_JOYSTICKLEFT_RIGHT) {
+                    int[] seq;
+
+                    seq = input_port_seq(in, in_ptr);
+
+                    if (seq_get_1(seq) != 0 && seq_get_1(seq) != CODE_NONE) {
+                        int joynum, joydir, player;
+
+                        player = 0;
+                        if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER2) {
+                            player = 1;
+                        } else if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER3) {
+                            player = 2;
+                        } else if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER4) {
+                            player = 3;
+                        }
+
+                        joynum = player * MAX_JOYSTICKS
+                                + ((in[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) / 4;
+                        joydir = ((in[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) % 4;
+
+                        if (seq_pressed(seq)) {
+                            if (joyserial[joynum][joydir] == 0) {
+                                joyserial[joynum][joydir] = update_serial_number;
+                            }
+                        } else {
+                            joyserial[joynum][joydir] = 0;
+                        }
+                    }
+                }
+                in_ptr++;
+            }
+
+            port++;
+            if (in[in_ptr].type == IPT_PORT) {
+                in_ptr++;
+            }
+        }
+        update_serial_number += 1;
+
+        //in = Machine.input_ports;
+        in_ptr = 0;
+
+        /* already made sure the InputPort definition is correct */
+        in_ptr++;
+    //#endif
+
 
         /* scan all the input ports */
         port = 0;
         ib = 0;
-        while (Machine.input_ports[in_ptr].type != IPT_END && port < MAX_INPUT_PORTS) {
-            int start;//struct InputPort *start;
+        int save_ptr = 0;
+        while (in[in_ptr].type != IPT_END && port < MAX_INPUT_PORTS) {
+                    //InputPort start;
 
 
             /* first of all, scan the whole input port definition and build the */
@@ -1190,102 +1101,96 @@ public class inputport {
             /* multiple keys associated with the same input bit wouldn't work (the bit */
             /* would be reset to its default value by the second entry, regardless if */
             /* the key associated with the first entry was pressed) */
-            start = in_ptr;
-            while (Machine.input_ports[in_ptr].type != IPT_END && Machine.input_ports[in_ptr].type != IPT_PORT) {
-                if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING
-                        && /* skip dipswitch definitions */ (Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION) /* skip analog extension fields */ {
+            save_ptr = in_ptr;
+            while (in[in_ptr].type != IPT_END && in[in_ptr].type != IPT_PORT) {
+                if ((in[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING
+                        && /* skip dipswitch definitions */ (in[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION) /* skip analog extension fields */ {
                     input_port_value[port]
-                            = (input_port_value[port] & ~Machine.input_ports[in_ptr].mask) | (Machine.input_ports[in_ptr].default_value & Machine.input_ports[in_ptr].mask);
+                            = (char) ((input_port_value[port] & ~in[in_ptr].mask) | (in[in_ptr].default_value & in[in_ptr].mask));
                 }
 
                 in_ptr++;
             }
 
             /* now get back to the beginning of the input port and check the input bits. */
-            for (in_ptr = start;
-                    Machine.input_ports[in_ptr].type != IPT_END && Machine.input_ports[in_ptr].type != IPT_PORT;
+            for (in_ptr = save_ptr;
+                    in[in_ptr].type != IPT_END && in[in_ptr].type != IPT_PORT;
                     in_ptr++, ib++) {
-                if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING
-                        && /* skip dipswitch definitions */ (Machine.input_ports[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION) /* skip analog extension fields */ {
-                    if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) == IPT_VBLANK) {
-                        input_vblank[port] ^= Machine.input_ports[in_ptr].mask;
-                        input_port_value[port] ^= Machine.input_ports[in_ptr].mask;
-                        if (errorlog != null && Machine.drv.vblank_duration == 0) {
-                            fprintf(errorlog, "Warning: you are using IPT_VBLANK with vblank_duration = 0. You need to increase vblank_duration for IPT_VBLANK to work.\n");
-                        }
-                    } /* If it's an analog control, handle it appropriately */ else if (((Machine.input_ports[in_ptr].type & ~IPF_MASK) > IPT_ANALOG_START)
-                            && ((Machine.input_ports[in_ptr].type & ~IPF_MASK) < IPT_ANALOG_END)) /* LBO 120897 */ {
+                if ((in[in_ptr].type & ~IPF_MASK) != IPT_DIPSWITCH_SETTING
+                        && /* skip dipswitch definitions */ (in[in_ptr].type & ~IPF_MASK) != IPT_EXTENSION) /* skip analog extension fields */ {
+                    if ((in[in_ptr].type & ~IPF_MASK) == IPT_VBLANK) {
+                        input_vblank[port] ^= in[in_ptr].mask;
+                        input_port_value[port] ^= in[in_ptr].mask;
+                        if (errorlog!=null && Machine.drv.vblank_duration == 0) 
+                            fprintf(errorlog,"Warning: you are using IPT_VBLANK with vblank_duration = 0. You need to increase vblank_duration for IPT_VBLANK to work.\n");
+
+                    } /* If it's an analog control, handle it appropriately */ else if (((in[in_ptr].type & ~IPF_MASK) > IPT_ANALOG_START)
+                            && ((in[in_ptr].type & ~IPF_MASK) < IPT_ANALOG_END)) /* LBO 120897 */ {
                         input_analog[port] = in_ptr;
                         /* reset the analog port on first access */
                         if (input_analog_init[port] != 0) {
                             input_analog_init[port] = 0;
-                            input_analog_current_value[port] = input_analog_previous_value[port] = (int) (Machine.input_ports[in_ptr].default_value * 100 / IP_GET_SENSITIVITY(in_ptr));
+                            input_analog_current_value[port] = input_analog_previous_value[port]
+                                    = in[in_ptr].default_value * 100 / IP_GET_SENSITIVITY(in, in_ptr);
                         }
-                    } /* If it's an analog control, handle it appropriately */ /*TODO*///				else if (((in->type & ~IPF_MASK) > IPT_ANALOG_START)
-                    /*TODO*///					  && ((in->type & ~IPF_MASK) < IPT_ANALOG_END  )) /* LBO 120897 */
-                    /*TODO*///				{
-                    /*TODO*///					input_analog[port]=in;
-                    /*TODO*///					/* reset the analog port on first access */
-                    /*TODO*///					if (input_analog_init[port])
-                    /*TODO*///					{
-                    /*TODO*///						input_analog_init[port] = 0;
-                    /*TODO*///						input_analog_current_value[port] = input_analog_previous_value[port]
-                    /*TODO*///							= in->default_value * 100 / IP_GET_SENSITIVITY(in);
-                    /*TODO*///					}
-                    /*TODO*///				}
-                    else {
-                        int[] seq = input_port_seq(in_ptr);
+                    } else {
+                        int[] seq;
+
+                        seq = input_port_seq(in, in_ptr);
 
                         if (seq_pressed(seq)) {
                             /* skip if coin input and it's locked out */
-                            if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) >= IPT_COIN1
-                                    && (Machine.input_ports[in_ptr].type & ~IPF_MASK) <= IPT_COIN4
-                                    && coinlockedout[(Machine.input_ports[in_ptr].type & ~IPF_MASK) - IPT_COIN1] != 0) {
+                            if ((in[in_ptr].type & ~IPF_MASK) >= IPT_COIN1
+                                    && (in[in_ptr].type & ~IPF_MASK) <= IPT_COIN4
+                                    && coinlockedout[(in[in_ptr].type & ~IPF_MASK) - IPT_COIN1] != 0) {
                                 continue;
                             }
+
                             /* if IPF_RESET set, reset the first CPU */
-                            if ((Machine.input_ports[in_ptr].type & IPF_RESETCPU) != 0 && waspressed[ib] == 0) {
+                            if ((in[in_ptr].type & IPF_RESETCPU) != 0 && waspressed[ib] == 0) {
                                 cpu_set_reset_line(0, PULSE_LINE);
                             }
 
-                            if ((Machine.input_ports[in_ptr].type & IPF_IMPULSE) != 0) {
-                                if (errorlog != null && IP_GET_IMPULSE(in_ptr) == 0) {
-                                    fprintf(errorlog, "error in input port definition: IPF_IMPULSE with length = 0\n");
+                            if ((in[in_ptr].type & IPF_IMPULSE) != 0) {
+                                if (errorlog!=null && IP_GET_IMPULSE(in,in_ptr) == 0){
+                                    fprintf(errorlog,"error in input port definition: IPF_IMPULSE with length = 0\n");
                                 }
                                 if (waspressed[ib] == 0) {
-                                    impulsecount[ib] = IP_GET_IMPULSE(in_ptr);
+                                    impulsecount[ib] = IP_GET_IMPULSE(in, in_ptr);
                                 }
                                 /* the input bit will be toggled later */
-                            } else if ((Machine.input_ports[in_ptr].type & IPF_TOGGLE) != 0) {
+                            } else if ((in[in_ptr].type & IPF_TOGGLE) != 0) {
                                 if (waspressed[ib] == 0) {
-                                    Machine.input_ports[in_ptr].default_value ^= Machine.input_ports[in_ptr].mask;
-                                    input_port_value[port] ^= Machine.input_ports[in_ptr].mask;
+                                    in[in_ptr].default_value ^= in[in_ptr].mask;
+                                    input_port_value[port] ^= in[in_ptr].mask;
                                 }
-                            } else if ((Machine.input_ports[in_ptr].type & ~IPF_MASK) >= IPT_JOYSTICK_UP
-                                    && (Machine.input_ports[in_ptr].type & ~IPF_MASK) <= IPT_JOYSTICKLEFT_RIGHT) {
-
+                            } else if ((in[in_ptr].type & ~IPF_MASK) >= IPT_JOYSTICK_UP
+                                    && (in[in_ptr].type & ~IPF_MASK) <= IPT_JOYSTICKLEFT_RIGHT) {
                                 int joynum, joydir, mask, player;
+
                                 player = 0;
-                                if ((Machine.input_ports[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER2) {
+                                if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER2) {
                                     player = 1;
-                                } else if ((Machine.input_ports[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER3) {
+                                } else if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER3) {
                                     player = 2;
-                                } else if ((Machine.input_ports[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER4) {
+                                } else if ((in[in_ptr].type & IPF_PLAYERMASK) == IPF_PLAYER4) {
                                     player = 3;
                                 }
 
-                                joynum = (int) (player * MAX_JOYSTICKS + ((Machine.input_ports[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) / 4);
-                                joydir = (int) (((Machine.input_ports[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) % 4);
+                                joynum = player * MAX_JOYSTICKS
+                                        + ((in[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) / 4;
+                                joydir = ((in[in_ptr].type & ~IPF_MASK) - IPT_JOYSTICK_UP) % 4;
 
-                                mask = Machine.input_ports[in_ptr].mask;
+                                mask = in[in_ptr].mask;
 
                                 /* avoid movement in two opposite directions */
                                 if (joyserial[joynum][joydir ^ 1] != 0) {
                                     mask = 0;
-                                } else if ((Machine.input_ports[in_ptr].type & IPF_4WAY) != 0) {
+                                } else if ((in[in_ptr].type & IPF_4WAY) != 0) {
                                     int mru_dir = joydir;
                                     int mru_serial = 0;
                                     int dir;
+
 
                                     /* avoid diagonal movements, use mru button */
                                     for (dir = 0; dir < 4; dir++) {
@@ -1299,50 +1204,49 @@ public class inputport {
                                         mask = 0;
                                     }
                                 }
-                                input_port_value[port] ^= mask;
 
+                                input_port_value[port] ^= mask;
                             } else {
-                                input_port_value[port] ^= Machine.input_ports[in_ptr].mask;
+                                input_port_value[port] ^= in[in_ptr].mask;
                             }
+
                             waspressed[ib] = 1;
                         } else {
                             waspressed[ib] = 0;
                         }
-                        if ((Machine.input_ports[in_ptr].type & IPF_IMPULSE) != 0 && impulsecount[ib] > 0) {
+
+                        if (((in[in_ptr].type & IPF_IMPULSE) != 0) && impulsecount[ib] > 0) {
                             impulsecount[ib]--;
                             waspressed[ib] = 1;
-                            input_port_value[port] ^= Machine.input_ports[in_ptr].mask;
+                            input_port_value[port] ^= in[in_ptr].mask;
                         }
                     }
                 }
             }
 
             port++;
-            if (Machine.input_ports[in_ptr].type == IPT_PORT) {
+            if (in[in_ptr].type == IPT_PORT) {
                 in_ptr++;
             }
         }
-        /*TODO*///
-/*TODO*///	if (playback)
-/*TODO*///	{
-/*TODO*///		int i;
+
+        /*TODO*///            if (playback)
+/*TODO*///            {
+/*TODO*///                    int i;
 /*TODO*///
-/*TODO*///		for (i = 0; i < MAX_INPUT_PORTS; i ++)
-/*TODO*///			readword(playback,&input_port_value[i]);
-/*TODO*///	}
-/*TODO*///	if (record)
-/*TODO*///	{
-/*TODO*///		int i;
+/*TODO*///                    for (i = 0; i < MAX_INPUT_PORTS; i ++)
+/*TODO*///                            readword(playback,&input_port_value[i]);
+/*TODO*///            }
+/*TODO*///            if (record)
+/*TODO*///            {
+/*TODO*///                    int i;
 /*TODO*///
-/*TODO*///		for (i = 0; i < MAX_INPUT_PORTS; i ++)
-/*TODO*///			writeword(record,input_port_value[i]);
-/*TODO*///	}
+/*TODO*///                    for (i = 0; i < MAX_INPUT_PORTS; i ++)
+/*TODO*///                            writeword(record,input_port_value[i]);
+/*TODO*///            }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////* used the the CPU interface to notify that VBlank has ended, so we can update */
-/*TODO*////* IPT_VBLANK input ports. */
+    /* used the the CPU interface to notify that VBlank has ended, so we can update */
+    /* IPT_VBLANK input ports. */
 
     public static void inputport_vblank_end() {
         int port;
@@ -1354,50 +1258,39 @@ public class inputport {
                 input_vblank[port] = 0;
             }
         }
-        /*TODO*///
-/*TODO*///	/* poll all the analog joysticks */
-/*TODO*///	osd_poll_joysticks();
-/*TODO*///
-/*TODO*///	/* update the analog devices */
-/*TODO*///	for (i = 0;i < OSD_MAX_JOY_ANALOG;i++)
-/*TODO*///	{
-/*TODO*///		/* update the analog joystick position */
-/*TODO*///		analog_previous_x[i] = analog_current_x[i];
-/*TODO*///		analog_previous_y[i] = analog_current_y[i];
-/*TODO*///		osd_analogjoy_read (i, &(analog_current_x[i]), &(analog_current_y[i]));
-/*TODO*///
-/*TODO*///		/* update mouse/trackball position */
-/*TODO*///		osd_trak_read (i, &mouse_delta_x[i], &mouse_delta_y[i]);
-/*TODO*///	}
-/*TODO*///
+
+        /* poll all the analog joysticks */
+        /*TODO*///            osd_poll_joysticks();
+
+        /* update the analog devices */
+        for (i = 0; i < OSD_MAX_JOY_ANALOG; i++) {
+            /* update the analog joystick position */
+            analog_previous_x[i] = analog_current_x[i];
+            analog_previous_y[i] = analog_current_y[i];
+            /*TODO*///                    osd_analogjoy_read (i, &(analog_current_x[i]), &(analog_current_y[i]));
+
+            /* update mouse/trackball position */
+            /*TODO*///                    osd_trak_read (i, &mouse_delta_x[i], &mouse_delta_y[i]);
+        }
+
         for (i = 0; i < MAX_INPUT_PORTS; i++) {
             if (input_analog[i] != 0) {
                 update_analog_port(i);
             }
         }
-        /*TODO*///	for (i = 0;i < MAX_INPUT_PORTS;i++)
-/*TODO*///	{
-/*TODO*///		struct InputPort *in;
-/*TODO*///
-/*TODO*///		in=input_analog[i];
-/*TODO*///		if (in)
-/*TODO*///		{
-/*TODO*///			update_analog_port(i);
-/*TODO*///		}
-/*TODO*///	}
     }
 
     public static int readinputport(int port) {
-        InputPort in;
+        InputPort _in;
 
         /* Update analog ports on demand */
-        in = Machine.input_ports[input_analog[port]];
-        if (in != null) {
+        _in = Machine.input_ports[input_analog[port]];
+        if (_in != null) {
             scale_analog_port(port);
         }
+
         return input_port_value[port];
     }
-
     public static ReadHandlerPtr input_port_0_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return readinputport(0);
@@ -1478,13 +1371,13 @@ public class inputport {
             return readinputport(15);
         }
     };
-    /*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************/
-
+    /**
+     * ************************************************************************
+     */
     /* InputPort conversion */
+
     public static int input_port_count(InputPortTiny[] src) {
+        /*unsigned*/
         int total;
         int ptr = 0;
         total = 0;
