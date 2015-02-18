@@ -211,9 +211,6 @@ arkanoid arkanoid.c Z80      M68705                                             
 arknoidu arkanoid.c Z80      M68705                                                         1xAY-8910                                                   Arkanoid (US)
 arknoidj arkanoid.c Z80      M68705                                                         1xAY-8910                                                   Arkanoid (Japan)
 arkbl2   arkanoid.c Z80      M68705                                                         1xAY-8910                                                   Arkanoid (Japanese bootleg Set 2)
-arkatayt arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Tayto bootleg, Japanese)
-arkbloc2 arkanoid.c Z80                                                                     1xAY-8910                                                   Block (Game Corporation bootleg)
-arkangc  arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Game Corporation bootleg)
 extrmatn tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Extermination (US)
 arkanoi2 tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Arkanoid - Revenge of DOH (World)
 ark2us   tnzs.c     Z80      Z80                                                            1xYM-2203                                                   Arkanoid - Revenge of DOH (US)
@@ -708,9 +705,6 @@ centipdb centiped.c M6502                                                       
 centipb2 centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 2)
 milliped milliped.c M6502                                                                   2xPokey                                                     Millipede
 qwakprot qwakprot.c M6502                                                                   2xPokey                                                     Qwak (prototype)
-missile  missile.c  M6502                                                                   1xPokey                                                     Missile Command (set 1)
-missile2 missile.c  M6502                                                                   1xPokey                                                     Missile Command (set 2)
-suprmatk missile.c  M6502                                                                   1xPokey                                                     Super Missile Attack
 liberatr liberatr.c M6502                                                                   2xPokey                                                     Liberator (set 1)
 ccastles ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 1)
 ccastle2 ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 2)

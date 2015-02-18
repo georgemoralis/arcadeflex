@@ -379,6 +379,15 @@ legofair snk.c      Z80      Z80      [Z80   ]                                  
 tehkanwc tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tehkan World Cup
 solomon  solomon.c  Z80      [Z80   ]                                                       3xAY-8910                                                   Solomon's Key (Japan)
 sauro    sauro.c    Z80      [Z80   ]                                                       1xYM-3812                                                   Sauro
+missile  missile.c  M6502                                                                   1xPokey                                                     Missile Command (set 1)
+missile2 missile.c  M6502                                                                   1xPokey                                                     Missile Command (set 2)
+suprmatk missile.c  M6502                                                                   1xPokey                                                     Super Missile Attack
+moonwar2 scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 1)  
+monwar2a scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 2)  
+arkatayt arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Tayto bootleg, Japanese)
+arkbloc2 arkanoid.c Z80                                                                     1xAY-8910                                                   Block (Game Corporation bootleg)
+arkangc  arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Game Corporation bootleg)
+
 
 Small issues that doesn't affect playable status
 =======================================
@@ -435,9 +444,6 @@ cobracmj dec8.c     M6809    [M6502 ]                                           
 
 Control issues
 =============
-
-001)moonwar2 scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 1)  -analog control missing
-002)monwar2a scobra.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Moon War II (set 2)  -analog control missing
 lastmiss dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 6)  //controls doesn't work
 lastmss2 dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 5) //controls doesn't work
 
