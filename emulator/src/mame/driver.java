@@ -162,6 +162,7 @@ import static drivers.galivan.*;
 import static drivers.WIP.tehkanwc.*;
 import static drivers.solomon.*;
 import static drivers.WIP.sauro.*;
+import static drivers.WIP.shootout.*;
 
 
 public class driver {
@@ -2031,9 +2032,9 @@ driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */
 
-/*TODO*/ //	DRIVER( shootout )	/* (c) 1985 Data East USA (US) */
-/*TODO*/ //	DRIVER( shootouj )	/* (c) 1985 Data East USA (Japan) */
-/*TODO*/ //	DRIVER( shootoub )	/* bootleg */
+driver_shootout,	/* (c) 1985 Data East USA (US) */
+driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
+driver_shootoub,	/* bootleg */
         
 
 /*TODO*/ //	DRIVER( actfancr )	/* (c) 1989 Data East Corporation (World) */
