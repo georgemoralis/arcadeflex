@@ -165,6 +165,7 @@ import static drivers.WIP.sauro.*;
 import static drivers.WIP.shootout.*;
 import static drivers.WIP.ccastles.*;
 import static drivers.WIP.centiped.*;
+import static drivers.WIP.foodf.*;
 
 
 public class driver {
@@ -2336,7 +2337,7 @@ driver_centipb2,
 
 
 	/* misc Atari games */
-/*TODO*/ //	DRIVER( foodf )		/* (c) 1982 */	/* made by Gencomp */
+driver_foodf,
 /*TODO*/ //	DRIVER( liberatr )	/* (c) 1982 */
 /*TODO*/ //TESTDRIVER( liberat2 )
 

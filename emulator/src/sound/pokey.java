@@ -1120,11 +1120,11 @@ public class pokey extends snd_interface {
             return pokey_register_r(1, offset);
         }
     };
-    /*TODO*///int pokey3_r (int offset)
-/*TODO*///{
-/*TODO*///	return pokey_register_r(2, offset);
-/*TODO*///}
-/*TODO*///
+    public static ReadHandlerPtr pokey3_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return pokey_register_r(2, offset);
+        }
+    };
 /*TODO*///int pokey4_r (int offset)
 /*TODO*///{
 /*TODO*///	return pokey_register_r(3, offset);
@@ -1566,11 +1566,11 @@ public class pokey extends snd_interface {
             pokey_register_w(1, offset, data);
         }
     };
-
-    /*TODO*///void pokey3_w(int offset, int data) /*TODO*///{
-    /*TODO*///    pokey_register_w(2,offset,data);
-    /*TODO*///}
-    /*TODO*///
+    public static WriteHandlerPtr pokey3_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            pokey_register_w(2, offset, data);
+        }
+    };
     /*TODO*///void pokey4_w (int offset,int data)
     /*TODO*///{
     /*TODO*///    pokey_register_w(3,offset,data);
