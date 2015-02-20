@@ -14,7 +14,7 @@ import static mame.timerH.*;
 
 public class pokey extends snd_interface {
 
-    public static FILE pokeylog =null; //fopen("pokeylog.log", "wa");
+    public static FILE pokeylog = null; //fopen("pokeylog.log", "wa");
 
     public pokey() {
         this.sound_num = SOUND_POKEY;
@@ -147,8 +147,10 @@ public class pokey extends snd_interface {
 /*TODO*///#define IRQ_BREAK	0x80	/* BREAK key pressed interrupt */
 /*TODO*///#define IRQ_KEYBD	0x40	/* keyboard data ready interrupt */
 /*TODO*///#define IRQ_SERIN	0x20	/* serial input data ready interrupt */
-/*TODO*///#define IRQ_SEROR	0x10	/* serial output register ready interrupt */
-/*TODO*///#define IRQ_SEROC	0x08	/* serial output complete interrupt */
+    public static final int IRQ_SEROR = 0x10;	/* serial output register ready interrupt */
+
+    public static final int IRQ_SEROC = 0x08;	/* serial output complete interrupt */
+
     public static final int IRQ_TIMR4 = 0x04;	/* timer channel #4 interrupt */
 
     public static final int IRQ_TIMR2 = 0x02;	/* timer channel #2 interrupt */
@@ -593,111 +595,103 @@ public class pokey extends snd_interface {
 /*TODO*///
     public static StreamInitPtr pokey_update = new StreamInitPtr() {
         public void handler(int chip, UShortPtr buffer, int length) {
-           long sum = 0;
-            if (_pokey[chip].output[CHAN1] != 0)
+            long sum = 0;
+            if (_pokey[chip].output[CHAN1] != 0) {
                 sum += _pokey[chip].volume[CHAN1];
-            if (_pokey[chip].output[CHAN2] != 0)
+            }
+            if (_pokey[chip].output[CHAN2] != 0) {
                 sum += _pokey[chip].volume[CHAN2];
-            if (_pokey[chip].output[CHAN3] != 0)
+            }
+            if (_pokey[chip].output[CHAN3] != 0) {
                 sum += _pokey[chip].volume[CHAN3];
-            if (_pokey[chip].output[CHAN4] != 0)
+            }
+            if (_pokey[chip].output[CHAN4] != 0) {
                 sum += _pokey[chip].volume[CHAN4];
-            while (length > 0)
-            {
+            }
+            while (length > 0) {
                 long _event = _pokey[chip].samplepos_whole;
                 long channel = -1;
-                if (_pokey[chip].counter[CHAN1] < _event)
-                {
-                    _event = (long)_pokey[chip].counter[CHAN1];
+                if (_pokey[chip].counter[CHAN1] < _event) {
+                    _event = (long) _pokey[chip].counter[CHAN1];
                     channel = CHAN1;
                 }
-                if (_pokey[chip].counter[CHAN2] < _event)
-                {
-                    _event = (long)_pokey[chip].counter[CHAN2];
+                if (_pokey[chip].counter[CHAN2] < _event) {
+                    _event = (long) _pokey[chip].counter[CHAN2];
                     channel = CHAN2;
                 }
-                if (_pokey[chip].counter[CHAN3] < _event)
-                {
-                    _event = (long)_pokey[chip].counter[CHAN3];
+                if (_pokey[chip].counter[CHAN3] < _event) {
+                    _event = (long) _pokey[chip].counter[CHAN3];
                     channel = CHAN3;
                 }
-                if (_pokey[chip].counter[CHAN4] < _event)
-                {
-                    _event = (long)_pokey[chip].counter[CHAN4];
+                if (_pokey[chip].counter[CHAN4] < _event) {
+                    _event = (long) _pokey[chip].counter[CHAN4];
                     channel = CHAN4;
                 }
-                if (channel == -1)
-                {
-                    _pokey[chip].counter[CHAN1] -= (int)_event;
-                    _pokey[chip].counter[CHAN2] -= (int)_event;
-                    _pokey[chip].counter[CHAN3] -= (int)_event;
-                    _pokey[chip].counter[CHAN4] -= (int)_event;
+                if (channel == -1) {
+                    _pokey[chip].counter[CHAN1] -= (int) _event;
+                    _pokey[chip].counter[CHAN2] -= (int) _event;
+                    _pokey[chip].counter[CHAN3] -= (int) _event;
+                    _pokey[chip].counter[CHAN4] -= (int) _event;
                     _pokey[chip].samplepos_whole -= _event;
                     _pokey[chip].polyadjust += _event;
 
                     /* adjust the sample position */
                     _pokey[chip].samplepos_fract += _pokey[chip].samplerate_24_8;
-                    if ((_pokey[chip].samplepos_fract & 0xffffff00) != 0)
-                    {
+                    if ((_pokey[chip].samplepos_fract & 0xffffff00) != 0) {
                         _pokey[chip].samplepos_whole += _pokey[chip].samplepos_fract >> 8;
                         _pokey[chip].samplepos_fract &= 0x000000ff;
                     }
                     /* store sum of output signals into the buffer */
-                    buffer.write(0, (char)((sum > 65535) ? 0x7fff : sum - 0x8000));
+                    buffer.write(0, (char) ((sum > 65535) ? 0x7fff : sum - 0x8000));
                     buffer.offset += 2;
                     length--;
-                }
-                else
-                {
+                } else {
                     int toggle = 0;
-                    _pokey[chip].counter[CHAN1] -= (int)_event;
-                    _pokey[chip].counter[CHAN2] -= (int)_event;
-                    _pokey[chip].counter[CHAN3] -= (int)_event;
-                    _pokey[chip].counter[CHAN4] -= (int)_event;
+                    _pokey[chip].counter[CHAN1] -= (int) _event;
+                    _pokey[chip].counter[CHAN2] -= (int) _event;
+                    _pokey[chip].counter[CHAN3] -= (int) _event;
+                    _pokey[chip].counter[CHAN4] -= (int) _event;
                     _pokey[chip].samplepos_whole -= _event;
                     _pokey[chip].polyadjust += _event;
                     /* reset the channel counter */
-                    if (_pokey[chip].audible[(int)channel])
-                        _pokey[chip].counter[(int)channel] = _pokey[chip].divisor[(int)channel];
-                    else
-                        _pokey[chip].counter[(int)channel] = 0x7fffffff;
+                    if (_pokey[chip].audible[(int) channel]) {
+                        _pokey[chip].counter[(int) channel] = _pokey[chip].divisor[(int) channel];
+                    } else {
+                        _pokey[chip].counter[(int) channel] = 0x7fffffff;
+                    }
                     _pokey[chip].p4 = (_pokey[chip].p4 + _pokey[chip].polyadjust) % 0x0000f;
                     _pokey[chip].p5 = (_pokey[chip].p5 + _pokey[chip].polyadjust) % 0x0001f;
                     _pokey[chip].p9 = (_pokey[chip].p9 + _pokey[chip].polyadjust) % 0x001ff;
                     _pokey[chip].p17 = (_pokey[chip].p17 + _pokey[chip].polyadjust) % 0x1ffff;
                     _pokey[chip].polyadjust = 0;
-                    if ((_pokey[chip].AUDC[(int)channel] & NOTPOLY5) != 0 || poly5[(int)_pokey[chip].p5] != 0)
-                    {
-                        if ((_pokey[chip].AUDC[(int)channel] & PURE) != 0)
+                    if ((_pokey[chip].AUDC[(int) channel] & NOTPOLY5) != 0 || poly5[(int) _pokey[chip].p5] != 0) {
+                        if ((_pokey[chip].AUDC[(int) channel] & PURE) != 0) {
                             toggle = 1;
-                        else
-                            if ((_pokey[chip].AUDC[(int)channel] & POLY4) != 0)
-                                toggle = _pokey[chip].output[(int)channel] == (poly4[(int)_pokey[chip].p4] == 0 ? 1 : 0) ? 1 : 0;
-                            else
-                                if ((_pokey[chip].AUDCTL & POLY9) != 0)
-                                    toggle = _pokey[chip].output[(int)channel] == (poly9[(int)_pokey[chip].p9] == 0 ? 1 : 0) ? 1 : 0;
-                                else
-                                    toggle = _pokey[chip].output[(int)channel] == (poly17[(int)_pokey[chip].p17] == 0 ? 1 : 0) ? 1 : 0;
-                    }
-                    if (toggle != 0)
-                    {
-                        if (_pokey[chip].audible[(int)channel])
-                        {
-                            if (_pokey[chip].output[(int)channel] != 0)
-                                sum -= _pokey[chip].volume[(int)channel];
-                            else
-                                sum += _pokey[chip].volume[(int)channel];
+                        } else if ((_pokey[chip].AUDC[(int) channel] & POLY4) != 0) {
+                            toggle = _pokey[chip].output[(int) channel] == (poly4[(int) _pokey[chip].p4] == 0 ? 1 : 0) ? 1 : 0;
+                        } else if ((_pokey[chip].AUDCTL & POLY9) != 0) {
+                            toggle = _pokey[chip].output[(int) channel] == (poly9[(int) _pokey[chip].p9] == 0 ? 1 : 0) ? 1 : 0;
+                        } else {
+                            toggle = _pokey[chip].output[(int) channel] == (poly17[(int) _pokey[chip].p17] == 0 ? 1 : 0) ? 1 : 0;
                         }
-                        _pokey[chip].output[(int)channel] ^= 1;
+                    }
+                    if (toggle != 0) {
+                        if (_pokey[chip].audible[(int) channel]) {
+                            if (_pokey[chip].output[(int) channel] != 0) {
+                                sum -= _pokey[chip].volume[(int) channel];
+                            } else {
+                                sum += _pokey[chip].volume[(int) channel];
+                            }
+                        }
+                        _pokey[chip].output[(int) channel] ^= 1;
                     }
                     /* is this a filtering channel (3/4) and is the filter active? */
-                    if ((_pokey[chip].AUDCTL & ((CH1_FILTER | CH2_FILTER) & (0x10 >> (int)channel))) != 0)
-                    {
-                        if (_pokey[chip].output[(int)channel] != 0)
-                        {
-                            _pokey[chip].output[(int)channel - 2] = 0;
-                            if (_pokey[chip].audible[(int)channel])
-                                sum -= _pokey[chip].volume[(int)(channel - 2)];
+                    if ((_pokey[chip].AUDCTL & ((CH1_FILTER | CH2_FILTER) & (0x10 >> (int) channel))) != 0) {
+                        if (_pokey[chip].output[(int) channel] != 0) {
+                            _pokey[chip].output[(int) channel - 2] = 0;
+                            if (_pokey[chip].audible[(int) channel]) {
+                                sum -= _pokey[chip].volume[(int) (channel - 2)];
+                            }
                         }
                     }
                 }
@@ -838,28 +832,28 @@ public class pokey extends snd_interface {
             poly9 = null;
         }
     }
-    /*TODO*///static void pokey_timer_expire(int param)
-/*TODO*///{
-/*TODO*///	int chip = param >> 3;
-/*TODO*///	int timers = param & 7;
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///
-/*TODO*///	LOG_TIMER((errorlog, "POKEY #%d timer %d with IRQEN $%02x\n", chip, param, p->IRQEN));
-/*TODO*///
-/*TODO*///    /* check if some of the requested timer interrupts are enabled */
-/*TODO*///	timers &= p->IRQEN;
-/*TODO*///
-/*TODO*///    if( timers )
-/*TODO*///    {
-/*TODO*///		/* set the enabled timer irq status bits */
-/*TODO*///		p->IRQST |= timers;
-/*TODO*///        /* call back an application supplied function to handle the interrupt */
-/*TODO*///		if( p->interrupt_cb )
-/*TODO*///			(*p->interrupt_cb)(timers);
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
-/*TODO*///#if VERBOSE_SOUND
+    public static timer_callback pokey_timer_expire = new timer_callback() {
+        public void handler(int param) {
+            int chip = param >> 3;
+            int timers = param & 7;
+	//struct POKEYregisters *p = &pokey[chip];
+
+            //LOG_TIMER((errorlog, "POKEY #%d timer %d with IRQEN $%02x\n", chip, param, p->IRQEN));
+
+            /* check if some of the requested timer interrupts are enabled */
+            timers &= _pokey[chip].IRQEN;
+
+            if (timers != 0) {
+                /* set the enabled timer irq status bits */
+                _pokey[chip].IRQST |= timers;
+                /* call back an application supplied function to handle the interrupt */
+                if (_pokey[chip].interrupt_cb != null) {
+                    (_pokey[chip].interrupt_cb).handler(timers);
+                }
+            }
+        }
+    };
+    /*TODO*///#if VERBOSE_SOUND
 /*TODO*///static char *audc2str(int val)
 /*TODO*///{
 /*TODO*///	static char buff[80];
@@ -924,43 +918,42 @@ public class pokey extends snd_interface {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-/*TODO*///static void pokey_serout_ready(int chip)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    if( p->IRQEN & IRQ_SEROR )
-/*TODO*///	{
-/*TODO*///		p->IRQST |= IRQ_SEROR;
-/*TODO*///		if( p->interrupt_cb )
-/*TODO*///			(*p->interrupt_cb)(IRQ_SEROR);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void pokey_serout_complete(int chip)
-/*TODO*///{
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///    if( p->IRQEN & IRQ_SEROC )
-/*TODO*///	{
-/*TODO*///		p->IRQST |= IRQ_SEROC;
-/*TODO*///		if( p->interrupt_cb )
-/*TODO*///			(*p->interrupt_cb)(IRQ_SEROC);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-    public static timer_callback pokey_pot_trigger = new timer_callback() {
-        public void handler(int trigger) {
-            throw new UnsupportedOperationException("Unsupported");
-            /*TODO*///static void pokey_pot_trigger(int param)
-/*TODO*///{
-/*TODO*///	int chip = param >> 3;
-/*TODO*///    int pot = param & 7;
-/*TODO*///	struct POKEYregisters *p = &pokey[chip];
-/*TODO*///
-/*TODO*///	LOG((errorlog, "POKEY #%d POT%d triggers after %dus\n", chip, pot, (int)(1000000ul*timer_timeelapsed(p->ptimer[pot]))));
-/*TODO*///	p->ptimer[pot] = NULL;
-/*TODO*///	p->ALLPOT &= ~(1 << pot);	/* set the enabled timer irq status bits */
+    public static timer_callback pokey_serout_ready = new timer_callback() {
+        public void handler(int chip) {
+            //struct POKEYregisters *p = &pokey[chip];
+            if ((_pokey[chip].IRQEN & IRQ_SEROR) != 0) {
+                _pokey[chip].IRQST |= IRQ_SEROR;
+                if (_pokey[chip].interrupt_cb != null) {
+                    (_pokey[chip].interrupt_cb).handler(IRQ_SEROR);
+                }
+            }
         }
     };
-    /*TODO*///
+    public static timer_callback pokey_serout_complete = new timer_callback() {
+        public void handler(int chip) {
+
+            //struct POKEYregisters *p = &pokey[chip];
+            if ((_pokey[chip].IRQEN & IRQ_SEROC) != 0) {
+                _pokey[chip].IRQST |= IRQ_SEROC;
+                if (_pokey[chip].interrupt_cb != null) {
+                    (_pokey[chip].interrupt_cb).handler(IRQ_SEROC);
+                }
+            }
+        }
+    };
+    public static timer_callback pokey_pot_trigger = new timer_callback() {
+        public void handler(int param) {
+            int chip = param >> 3;
+            int pot = param & 7;
+            //struct POKEYregisters *p = &pokey[chip];
+
+            //LOG((errorlog, "POKEY #%d POT%d triggers after %dus\n", chip, pot, (int)(1000000ul*timer_timeelapsed(p->ptimer[pot]))));
+            _pokey[chip].ptimer[pot] = null;
+            _pokey[chip].ALLPOT &= ~(1 << pot);	/* set the enabled timer irq status bits */
+
+        }
+    };
+
     /* A/D conversion time:
      * In normal, slow mode (SKCTL bit SK_PADDLE is clear) the conversion
      * takes N scanlines, where N is the paddle value. A single scanline
@@ -1055,39 +1048,37 @@ public class pokey extends snd_interface {
 /*TODO*///		data = p->KBCODE;
 /*TODO*///		break;
 /*TODO*///
-	case RANDOM_C:
-		/****************************************************************
-		 * If the 2 least significant bits of SKCTL are 0, the random
-		 * number generator is disabled (SKRESET). Thanks to Eric Smith
-		 * for pointing out this critical bit of info! If the random
-		 * number generator is enabled, get a new random number. Take
-		 * the time gone since the last read into account and read the
-		 * new value from an appropriate offset in the rand17 table.
-		 ****************************************************************/
-		if(( _pokey[chip].SKCTL & SK_RESET )!=0)
-		{
-			long adjust = (long)(timer_timeelapsed(_pokey[chip].rtimer) * intf.baseclock);
-			_pokey[chip].r9 = (_pokey[chip].r9 + adjust) % 0x001ff;
-			_pokey[chip].r17 = (_pokey[chip].r17 + adjust) % 0x1ffff;
-			if(( _pokey[chip].AUDCTL & POLY9 )!=0)
-			{
-				_pokey[chip].RANDOM = rand9[(int)_pokey[chip].r9];
-				//if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand9[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r9, _pokey[chip].RANDOM);
-			}
-            else
-			{
-				_pokey[chip].RANDOM = rand17[(int)_pokey[chip].r17];
-				//if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand17[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r17, _pokey[chip].RANDOM);
-			}
-		}
-		else
-		{
-			if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d rand17 freezed (SKCTL): $%02x\n", chip, _pokey[chip].RANDOM);
-		}
-		timer_reset(_pokey[chip].rtimer, TIME_NEVER);
-		data = _pokey[chip].RANDOM;
-		break;
-/*TODO*///
+            case RANDOM_C:
+                /**
+                 * **************************************************************
+                 * If the 2 least significant bits of SKCTL are 0, the random
+                 * number generator is disabled (SKRESET). Thanks to Eric Smith
+                 * for pointing out this critical bit of info! If the random
+                 * number generator is enabled, get a new random number. Take
+                 * the time gone since the last read into account and read the
+                 * new value from an appropriate offset in the rand17 table.
+                 * **************************************************************
+                 */
+                if ((_pokey[chip].SKCTL & SK_RESET) != 0) {
+                    long adjust = (long) (timer_timeelapsed(_pokey[chip].rtimer) * intf.baseclock);
+                    _pokey[chip].r9 = (_pokey[chip].r9 + adjust) % 0x001ff;
+                    _pokey[chip].r17 = (_pokey[chip].r17 + adjust) % 0x1ffff;
+                    if ((_pokey[chip].AUDCTL & POLY9) != 0) {
+                        _pokey[chip].RANDOM = rand9[(int) _pokey[chip].r9];
+                        //if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand9[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r9, _pokey[chip].RANDOM);
+                    } else {
+                        _pokey[chip].RANDOM = rand17[(int) _pokey[chip].r17];
+                        //if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d adjust %u rand17[$%05x]: $%02x\n", chip, adjust, _pokey[chip].r17, _pokey[chip].RANDOM);
+                    }
+                } else {
+                    if (pokeylog != null) {
+                        fprintf(pokeylog, "POKEY #%d rand17 freezed (SKCTL): $%02x\n", chip, _pokey[chip].RANDOM);
+                    }
+                }
+                timer_reset(_pokey[chip].rtimer, TIME_NEVER);
+                data = _pokey[chip].RANDOM;
+                break;
+            /*TODO*///
 /*TODO*///	case SERIN_C:
 /*TODO*///		if( p->serin_r )
 /*TODO*///			p->SERIN = (*p->serin_r)(offs);
@@ -1102,11 +1093,13 @@ public class pokey extends snd_interface {
 /*TODO*///		LOG((errorlog, "POKEY #%d IRQST  $%02x\n", chip, data));
 /*TODO*///		break;
 /*TODO*///
-	case SKSTAT_C:
-		/* SKSTAT is also an active low input port */
-		data = _pokey[chip].SKSTAT ^ 0xff;
-                if(pokeylog!=null) fprintf(pokeylog,"POKEY #%d SKSTAT $%02x\n", chip, data);
-		break;
+            case SKSTAT_C:
+                /* SKSTAT is also an active low input port */
+                data = _pokey[chip].SKSTAT ^ 0xff;
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d SKSTAT $%02x\n", chip, data);
+                }
+                break;
 
             default:
                 System.out.println(offs & 15);
@@ -1258,95 +1251,89 @@ public class pokey extends snd_interface {
                 break;
 
             case STIMER_C:
-                throw new UnsupportedOperationException("Unsupported");
-            /*TODO*///        /* first remove any existing timers */
-/*TODO*///		LOG_TIMER((errorlog, "POKEY #%d STIMER $%02x\n", chip, data));
-/*TODO*///		if( p->timer[TIMER1] )
-/*TODO*///			timer_remove(p->timer[TIMER1]);
-/*TODO*///		if( p->timer[TIMER2] )
-/*TODO*///			timer_remove(p->timer[TIMER2]);
-/*TODO*///		if( p->timer[TIMER4] )
-/*TODO*///			timer_remove(p->timer[TIMER4]);
-/*TODO*///		p->timer[TIMER1] = NULL;
-/*TODO*///		p->timer[TIMER2] = NULL;
-/*TODO*///		p->timer[TIMER4] = NULL;
-/*TODO*///
-/*TODO*///        /* reset all counters to zero (side effect) */
-/*TODO*///		p->polyadjust = 0;
-/*TODO*///		p->counter[CHAN1] = 0;
-/*TODO*///		p->counter[CHAN2] = 0;
-/*TODO*///		p->counter[CHAN3] = 0;
-/*TODO*///		p->counter[CHAN4] = 0;
-/*TODO*///
-/*TODO*///        /* joined chan#1 and chan#2 ? */
-/*TODO*///		if( p->AUDCTL & CH12_JOINED )
-/*TODO*///        {
-/*TODO*///			if( p->divisor[CHAN2] > 4 )
-/*TODO*///			{
-/*TODO*///				LOG_TIMER((errorlog, "POKEY #%d timer1+2 after %d clocks\n", chip, p->divisor[CHAN2]));
-/*TODO*///				/* set timer #1 _and_ #2 event after timer_div clocks of joined CHAN1+CHAN2 */
-/*TODO*///				p->timer[TIMER2] =
-/*TODO*///					timer_pulse(1.0 * p->divisor[CHAN2] / intf.baseclock,
-/*TODO*///						(chip<<3)|IRQ_TIMR2|IRQ_TIMR1, pokey_timer_expire);
-/*TODO*///			}
-/*TODO*///        }
-/*TODO*///        else
-/*TODO*///        {
-/*TODO*///			if( p->divisor[CHAN1] > 4 )
-/*TODO*///			{
-/*TODO*///				LOG_TIMER((errorlog, "POKEY #%d timer1 after %d clocks\n", chip, p->divisor[CHAN1]));
-/*TODO*///				/* set timer #1 event after timer_div clocks of CHAN1 */
-/*TODO*///				p->timer[TIMER1] =
-/*TODO*///					timer_pulse(1.0 * p->divisor[CHAN1] / intf.baseclock,
-/*TODO*///						(chip<<3)|IRQ_TIMR1, pokey_timer_expire);
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if( p->divisor[CHAN2] > 4 )
-/*TODO*///			{
-/*TODO*///				LOG_TIMER((errorlog, "POKEY #%d timer2 after %d clocks\n", chip, p->divisor[CHAN2]));
-/*TODO*///				/* set timer #2 event after timer_div clocks of CHAN2 */
-/*TODO*///				p->timer[TIMER2] =
-/*TODO*///					timer_pulse(1.0 * p->divisor[CHAN2] / intf.baseclock,
-/*TODO*///						(chip<<3)|IRQ_TIMR2, pokey_timer_expire);
-/*TODO*///			}
-/*TODO*///        }
-/*TODO*///
-/*TODO*///		/* Note: p[chip] does not have a timer #3 */
-/*TODO*///
-/*TODO*///		if( p->AUDCTL & CH34_JOINED )
-/*TODO*///        {
-/*TODO*///            /* not sure about this: if audc4 == 0000xxxx don't start timer 4 ? */
-/*TODO*///			if( p->AUDC[CHAN4] & 0xf0 )
-/*TODO*///            {
-/*TODO*///				if( p->divisor[CHAN4] > 4 )
-/*TODO*///				{
-/*TODO*///					LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, p->divisor[CHAN4]));
-/*TODO*///					/* set timer #4 event after timer_div clocks of CHAN4 */
-/*TODO*///					p->timer[TIMER4] =
-/*TODO*///						timer_pulse(1.0 * p->divisor[CHAN4] / intf.baseclock,
-/*TODO*///							(chip<<3)|IRQ_TIMR4, pokey_timer_expire);
-/*TODO*///				}
-/*TODO*///            }
-/*TODO*///        }
-/*TODO*///        else
-/*TODO*///        {
-/*TODO*///			if( p->divisor[CHAN4] > 4 )
-/*TODO*///			{
-/*TODO*///				LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, p->divisor[CHAN4]));
-/*TODO*///				/* set timer #4 event after timer_div clocks of CHAN4 */
-/*TODO*///				p->timer[TIMER4] =
-/*TODO*///					timer_pulse(1.0 * p->divisor[CHAN4] / intf.baseclock,
-/*TODO*///						(chip<<3)|IRQ_TIMR4, pokey_timer_expire);
-/*TODO*///			}
-/*TODO*///        }
-/*TODO*///		if( p->timer[TIMER1] )
-/*TODO*///			timer_enable(p->timer[TIMER1], p->IRQEN & IRQ_TIMR1);
-/*TODO*///		if( p->timer[TIMER2] )
-/*TODO*///			timer_enable(p->timer[TIMER2], p->IRQEN & IRQ_TIMR2);
-/*TODO*///		if( p->timer[TIMER4] )
-/*TODO*///			timer_enable(p->timer[TIMER4], p->IRQEN & IRQ_TIMR4);
-/*TODO*///        break;
-/*TODO*///
+                /* first remove any existing timers */
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d STIMER $%02x\n", chip, data);
+                }
+                if (_pokey[chip].timer[TIMER1] != null) {
+                    timer_remove(_pokey[chip].timer[TIMER1]);
+                }
+                if (_pokey[chip].timer[TIMER2] != null) {
+                    timer_remove(_pokey[chip].timer[TIMER2]);
+                }
+                if (_pokey[chip].timer[TIMER4] != null) {
+                    timer_remove(_pokey[chip].timer[TIMER4]);
+                }
+                _pokey[chip].timer[TIMER1] = null;
+                _pokey[chip].timer[TIMER2] = null;
+                _pokey[chip].timer[TIMER4] = null;
+
+                /* reset all counters to zero (side effect) */
+                _pokey[chip].polyadjust = 0;
+                _pokey[chip].counter[CHAN1] = 0;
+                _pokey[chip].counter[CHAN2] = 0;
+                _pokey[chip].counter[CHAN3] = 0;
+                _pokey[chip].counter[CHAN4] = 0;
+
+                /* joined chan#1 and chan#2 ? */
+                if ((_pokey[chip].AUDCTL & CH12_JOINED) != 0) {
+                    if (_pokey[chip].divisor[CHAN2] > 4) {
+                        //LOG_TIMER((errorlog, "POKEY #%d timer1+2 after %d clocks\n", chip, _pokey[chip].divisor[CHAN2]));
+				/* set timer #1 _and_ #2 event after timer_div clocks of joined CHAN1+CHAN2 */
+                        _pokey[chip].timer[TIMER2]
+                                = timer_pulse(1.0 * _pokey[chip].divisor[CHAN2] / intf.baseclock,
+                                        (chip << 3) | IRQ_TIMR2 | IRQ_TIMR1, pokey_timer_expire);
+                    }
+                } else {
+                    if (_pokey[chip].divisor[CHAN1] > 4) {
+                        //LOG_TIMER((errorlog, "POKEY #%d timer1 after %d clocks\n", chip, _pokey[chip].divisor[CHAN1]));
+				/* set timer #1 event after timer_div clocks of CHAN1 */
+                        _pokey[chip].timer[TIMER1]
+                                = timer_pulse(1.0 * _pokey[chip].divisor[CHAN1] / intf.baseclock,
+                                        (chip << 3) | IRQ_TIMR1, pokey_timer_expire);
+                    }
+
+                    if (_pokey[chip].divisor[CHAN2] > 4) {
+                        //LOG_TIMER((errorlog, "POKEY #%d timer2 after %d clocks\n", chip, _pokey[chip].divisor[CHAN2]));
+				/* set timer #2 event after timer_div clocks of CHAN2 */
+                        _pokey[chip].timer[TIMER2]
+                                = timer_pulse(1.0 * _pokey[chip].divisor[CHAN2] / intf.baseclock,
+                                        (chip << 3) | IRQ_TIMR2, pokey_timer_expire);
+                    }
+                }
+
+                /* Note: p[chip] does not have a timer #3 */
+                if ((_pokey[chip].AUDCTL & CH34_JOINED) != 0) {
+                    /* not sure about this: if audc4 == 0000xxxx don't start timer 4 ? */
+                    if ((_pokey[chip].AUDC[CHAN4] & 0xf0) != 0) {
+                        if (_pokey[chip].divisor[CHAN4] > 4) {
+                            //LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, _pokey[chip].divisor[CHAN4]));
+					/* set timer #4 event after timer_div clocks of CHAN4 */
+                            _pokey[chip].timer[TIMER4]
+                                    = timer_pulse(1.0 * _pokey[chip].divisor[CHAN4] / intf.baseclock,
+                                            (chip << 3) | IRQ_TIMR4, pokey_timer_expire);
+                        }
+                    }
+                } else {
+                    if (_pokey[chip].divisor[CHAN4] > 4) {
+                        //LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, _pokey[chip].divisor[CHAN4]));
+				/* set timer #4 event after timer_div clocks of CHAN4 */
+                        _pokey[chip].timer[TIMER4]
+                                = timer_pulse(1.0 * _pokey[chip].divisor[CHAN4] / intf.baseclock,
+                                        (chip << 3) | IRQ_TIMR4, pokey_timer_expire);
+                    }
+                }
+                if (_pokey[chip].timer[TIMER1] != null) {
+                    timer_enable(_pokey[chip].timer[TIMER1], _pokey[chip].IRQEN & IRQ_TIMR1);
+                }
+                if (_pokey[chip].timer[TIMER2] != null) {
+                    timer_enable(_pokey[chip].timer[TIMER2], _pokey[chip].IRQEN & IRQ_TIMR2);
+                }
+                if (_pokey[chip].timer[TIMER4] != null) {
+                    timer_enable(_pokey[chip].timer[TIMER4], _pokey[chip].IRQEN & IRQ_TIMR4);
+                }
+                break;
+
             case SKREST_C:
                 /* reset SKSTAT */
                 if (pokeylog != null) {
@@ -1362,20 +1349,22 @@ public class pokey extends snd_interface {
                 pokey_potgo(chip);
                 break;
             case SEROUT_C:
-                throw new UnsupportedOperationException("Unsupported");
-            /*TODO*///		LOG((errorlog, "POKEY #%d SEROUT $%02x\n", chip, data));
-/*TODO*///		if (p->serout_w)
-/*TODO*///			(*p->serout_w)(offs, data);
-/*TODO*///		p->SKSTAT |= SK_SEROUT;
-/*TODO*///        /*
-/*TODO*///         * These are arbitrary values, tested with some custom boot
-/*TODO*///         * loaders from Ballblazer and Escape from Fractalus
-/*TODO*///         * The real times are unknown
-/*TODO*///         */
-/*TODO*///        timer_set(TIME_IN_USEC(200), chip, pokey_serout_ready);
-/*TODO*///        /* 10 bits (assumption 1 start, 8 data and 1 stop bit) take how long? */
-/*TODO*///        timer_set(TIME_IN_USEC(2000), chip, pokey_serout_complete);
-/*TODO*///        break;
+                if (pokeylog != null) {
+                    fprintf(pokeylog, "POKEY #%d SEROUT $%02x\n", chip, data);
+                }
+                if (_pokey[chip].serout_w != null) {
+                    (_pokey[chip].serout_w).handler(offs, data);
+                }
+                _pokey[chip].SKSTAT |= SK_SEROUT;
+                /*
+                 * These are arbitrary values, tested with some custom boot
+                 * loaders from Ballblazer and Escape from Fractalus
+                 * The real times are unknown
+                 */
+                timer_set(TIME_IN_USEC(200), chip, pokey_serout_ready);
+                /* 10 bits (assumption 1 start, 8 data and 1 stop bit) take how long? */
+                timer_set(TIME_IN_USEC(2000), chip, pokey_serout_complete);
+                break;
 
             case IRQEN_C:
                 if (pokeylog != null) {
