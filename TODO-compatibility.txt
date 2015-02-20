@@ -706,8 +706,6 @@ centipb2 centiped.c M6502                                                       
 milliped milliped.c M6502                                                                   2xPokey                                                     Millipede
 qwakprot qwakprot.c M6502                                                                   2xPokey                                                     Qwak (prototype)
 liberatr liberatr.c M6502                                                                   2xPokey                                                     Liberator (set 1)
-ccastles ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 1)
-ccastle2 ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 2)
 cloak    cloak.c    M6502    M6502                                                          2xPokey                                                     Cloak & Dagger
 cloud9   cloud9.c   M6502                                                                   2xPokey                                                     Cloud 9 (prototype)
 jedi     jedi.c     M6502    M6502                                                          4xPokey     TMS5520                                         Return of the Jedi

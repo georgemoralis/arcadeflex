@@ -163,6 +163,7 @@ import static drivers.WIP.tehkanwc.*;
 import static drivers.solomon.*;
 import static drivers.WIP.sauro.*;
 import static drivers.WIP.shootout.*;
+import static drivers.WIP.ccastles.*;
 
 
 public class driver {
@@ -583,6 +584,8 @@ public class driver {
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*014*//*congo*/driver_congo,//no samples support
         /*015*//*congo*/driver_tiptop,//no samples support
+        driver_ccastles,//no nvram support
+        driver_ccastle2,//no nvram support
         /*
           Possible cpu bugs
         */
@@ -2335,8 +2338,7 @@ driver_vendettj,
 /*TODO*/ //	DRIVER( foodf )		/* (c) 1982 */	/* made by Gencomp */
 /*TODO*/ //	DRIVER( liberatr )	/* (c) 1982 */
 /*TODO*/ //TESTDRIVER( liberat2 )
-/*TODO*/ //	DRIVER( ccastles )	/* (c) 1983 */
-/*TODO*/ //	DRIVER( ccastle2 )	/* (c) 1983 */
+
 /*TODO*/ //	DRIVER( cloak )		/* (c) 1983 */
 /*TODO*/ //	DRIVER( cloud9 )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( jedi )		/* (c) 1984 */
