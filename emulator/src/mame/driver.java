@@ -164,6 +164,7 @@ import static drivers.solomon.*;
 import static drivers.WIP.sauro.*;
 import static drivers.WIP.shootout.*;
 import static drivers.WIP.ccastles.*;
+import static drivers.WIP.centiped.*;
 
 
 public class driver {
@@ -2321,10 +2322,10 @@ driver_vendettj,
 
 	/* Atari "Centipede hardware" games */
 /*TODO*/ //	DRIVER( warlord )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( centiped )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( centipd2 )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( centipdb )	/* bootleg */
-/*TODO*/ //	DRIVER( centipb2 )	/* bootleg */
+driver_centiped,
+driver_centipd2,
+driver_centipdb,
+driver_centipb2,
 /*TODO*/ //	DRIVER( milliped )	/* (c) 1982 */
 /*TODO*/ //	DRIVER( qwakprot )	/* (c) 1982 */
 
