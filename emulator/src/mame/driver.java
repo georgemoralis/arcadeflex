@@ -565,8 +565,8 @@ public class driver {
 	/*383*//*scobra*/driver_monwar2a,
         /*384*//*arkanoid*/driver_arkatayt,	
         /*385*//*arkanoid*/driver_arkbloc2,	
-        /*386*//*arkanoid*/driver_arkangc,
-        
+        /*386*//*arkanoid*/driver_arkangc,	
+        /*387*//*zaxxon*/driver_razmataz,
         
         /*
            Small issues that doesn't affect playable status
@@ -626,6 +626,11 @@ public class driver {
         /*dec8*/driver_garyoret,//sound plays too fast , small gfx issues
         /*dec8*/driver_cobracom,//sound plays too fast
         /*dec8*/driver_cobracmj,//sound plays too fast
+        /*zaxxon*/driver_zaxxon, //no samples support
+        /*zaxxon*/driver_zaxxon2,//no samples support
+        /*zaxxon*/driver_zaxxonb,//no samples support	
+        /*zaxxon*/driver_szaxxon,//no samples support
+        /*zaxxon*/driver_futspy,//no samples support
             
         /* controls issues
         
@@ -956,13 +961,7 @@ public class driver {
         driver_blockj,	/*  9/10/1991 (c) 1991 Capcom (Japan) */
         driver_blockbl,	/* bootleg */
 
-        /* Sega "Zaxxon hardware" games */
-        driver_zaxxon,	/* (c) 1982 */
-        driver_zaxxon2,	/* (c) 1982 */
-        driver_zaxxonb,	/* bootleg */
-        driver_szaxxon,	/* (c) 1982 */
-        driver_futspy,	/* (c) 1984 */
-        driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
+
         
         
 

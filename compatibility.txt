@@ -387,6 +387,7 @@ monwar2a scobra.c   Z80      [Z80   ]                                           
 arkatayt arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Tayto bootleg, Japanese)
 arkbloc2 arkanoid.c Z80                                                                     1xAY-8910                                                   Block (Game Corporation bootleg)
 arkangc  arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Game Corporation bootleg)
+razmataz zaxxon.c   Z80                                                                                                                                 Razzmatazz
 
 
 Small issues that doesn't affect playable status
@@ -443,6 +444,11 @@ makyosen dec8.c     HD6309   [M6502 ]                                           
 garyoret dec8.c     HD6309   [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Garyo Retsuden (Japan) //sound plays too fast , small gfx issues
 cobracom dec8.c     M6809    [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Cobra-Command (World revision 5) //sound plays too fast
 cobracmj dec8.c     M6809    [M6502 ]                                                       1xYM-2203   1xYM-3812                                       Cobra-Command (Japan) //sound plays too fast
+zaxxon   zaxxon.c   Z80                                                                     Samples                                                     Zaxxon (set 1)   -no samples support
+zaxxon2  zaxxon.c   Z80                                                                     Samples                                                     Zaxxon (set 2)  -no samples support
+zaxxonb  zaxxon.c   Z80                                                                     Samples                                                     Jackson  -no samples support
+szaxxon  zaxxon.c   Z80                                                                     Samples                                                     Super Zaxxon   -no samples support
+futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy   -no samples support
 
 Control issues
 =============
