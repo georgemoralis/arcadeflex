@@ -15,12 +15,12 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-
+import static arcadeflex.ptrlib.*;
 public class aeroboto
 {
-	public static CharPtr aeroboto_videoram=new CharPtr();
-	public static CharPtr aeroboto_fgscroll=new CharPtr();
-        public static CharPtr aeroboto_bgscroll=new CharPtr();
+	public static UBytePtr aeroboto_videoram=new UBytePtr();
+	public static UBytePtr aeroboto_fgscroll=new UBytePtr();
+        public static UBytePtr aeroboto_bgscroll=new UBytePtr();
 	
 	public static int aeroboto_charbank;
 	

@@ -396,12 +396,6 @@ spaceod  segar.c    Z80                                                         
 pignewt  segar.c    Z80                                                                                                                                 Pig Newton (Revision C)
 pignewta segar.c    Z80                                                                                                                                 Pig Newton (Revision A)
 sindbadm segar.c    Z80      [Z80   ]                                                       2xSN76496                                                   Sindbad Mystery
-zaxxon   zaxxon.c   Z80                                                                     Samples                                                     Zaxxon (set 1)
-zaxxon2  zaxxon.c   Z80                                                                     Samples                                                     Zaxxon (set 2)
-zaxxonb  zaxxon.c   Z80                                                                     Samples                                                     Jackson
-szaxxon  zaxxon.c   Z80                                                                     Samples                                                     Super Zaxxon
-futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy
-razmataz zaxxon.c   Z80                                                                                                                                 Razzmatazz
 turbo    turbo.c    Z80                                                                     Samples                                                     Turbo
 turboa   turbo.c    Z80                                                                     Samples                                                     Turbo (encrypted set 1)
 turbob   turbo.c    Z80                                                                     Samples                                                     Turbo (encrypted set 2)
@@ -448,8 +442,6 @@ ddayc    dday.c     Z80                                                         
 arabian  arabian.c  Z80                                                                     1xAY-8910                                                   Arabian
 arabiana arabian.c  Z80                                                                     1xAY-8910                                                   Arabian (Atari)
 gotya    gotya.c    Z80                                                                                                                                 Got-Ya (12/24/1981, prototype?)
-goindol  goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Goindol
-homo     goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Homo
 sharkatt sharkatt.c Z80                                                                     2xAY-8910                                                   Shark Attack
 kingofb  kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           King of Boxer (English)
 ringking kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 1)
@@ -486,8 +478,6 @@ spiders2 spiders.c  M6809                                                       
 battlane battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 1)
 battlan2 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 2)
 battlan3 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 3)
-formatz  aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Formation Z
-aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
 tutankhm tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham
 tutankst tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham (Stern)
 junofrst junofrst.c M6809    [Z80   ] [I8039 ]                                              1xAY-8910   1xDAC                                           Juno First

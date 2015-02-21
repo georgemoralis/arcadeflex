@@ -20,12 +20,12 @@ import static arcadeflex.ptrlib.*;
 public class goindol
 {
 	
-	public static CharPtr goindol_bg_videoram=new CharPtr();
-	public static CharPtr goindol_fg_videoram=new CharPtr();
-	public static CharPtr goindol_spriteram1=new CharPtr();
-	public static CharPtr goindol_spriteram2=new CharPtr();
-	public static CharPtr goindol_fg_scrollx=new CharPtr();
-	public static CharPtr goindol_fg_scrolly=new CharPtr();
+	public static UBytePtr goindol_bg_videoram=new UBytePtr();
+	public static UBytePtr goindol_fg_videoram=new UBytePtr();
+	public static UBytePtr goindol_spriteram1=new UBytePtr();
+	public static UBytePtr goindol_spriteram2=new UBytePtr();
+	public static UBytePtr goindol_fg_scrollx=new UBytePtr();
+	public static UBytePtr goindol_fg_scrolly=new UBytePtr();
 	static osd_bitmap bitmap_bg;
 	static osd_bitmap bitmap_fg;
 	static char[] 	 fg_dirtybuffer;
@@ -204,7 +204,7 @@ public class goindol
 	
 	}
 	
-	static void goindol_draw_sprites(osd_bitmap bitmap, int gfxbank, CharPtr sprite_ram)
+	static void goindol_draw_sprites(osd_bitmap bitmap, int gfxbank, UBytePtr sprite_ram)
 	{
 		int offs,sx,sy,tile,palette;
 	

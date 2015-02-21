@@ -166,7 +166,8 @@ import static drivers.WIP.shootout.*;
 import static drivers.WIP.ccastles.*;
 import static drivers.WIP.centiped.*;
 import static drivers.WIP.foodf.*;
-
+import static drivers.WIP.aeroboto.*;
+import static drivers.goindol.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -567,6 +568,8 @@ public class driver {
         /*385*//*arkanoid*/driver_arkbloc2,	
         /*386*//*arkanoid*/driver_arkangc,	
         /*387*//*zaxxon*/driver_razmataz,
+        /*388*//*goindol*/driver_goindol,
+        /*389*//*goindol*/driver_homo,
         
         /*
            Small issues that doesn't affect playable status
@@ -630,7 +633,6 @@ public class driver {
         /*zaxxon*/driver_zaxxon2,//no samples support
         /*zaxxon*/driver_zaxxonb,//no samples support	
         /*zaxxon*/driver_szaxxon,//no samples support
-        /*zaxxon*/driver_futspy,//no samples support
             
         /* controls issues
         
@@ -686,6 +688,8 @@ public class driver {
         /*020*//*bublbobl*/driver_tokio,
         /*021*//*snk*/driver_gwara,
         /*tehkanwc*/driver_teedoff,
+        /*aeroboto*/driver_formatz,
+        /*aeroboto*/driver_aeroboto,
         
         /*
         WIP drivers
@@ -2599,8 +2603,7 @@ driver_foodf,
 /*TODO*/ //	DRIVER( exerion )	/* (c) 1983 Jaleco */
 /*TODO*/ //	DRIVER( exeriont )	/* (c) 1983 Jaleco + Taito America license */
 /*TODO*/ //	DRIVER( exerionb )	/* bootleg */
-/*TODO*/ //	DRIVER( formatz )	/* (c) 1984 Jaleco */
-/*TODO*/ //	DRIVER( aeroboto )	/* (c) 1984 Williams */
+
 
 /*TODO*/ //	DRIVER( pinbo )		/* (c) 1984 Jaleco */
 /*TODO*/ //	DRIVER( pinbos )	/* (c) 1985 Strike */
@@ -2713,8 +2716,7 @@ driver_foodf,
 /*TODO*/ //	DRIVER( ambush )	/* (c) 1983 Nippon Amuse Co-Ltd */
 /*TODO*/ //	DRIVER( starcrus )	/* [1977 Ramtek] */
 /*TODO*/ //	DRIVER( shanghai )	/* (c) 1988 Sun Electronics */
-/*TODO*/ //	DRIVER( goindol )	/* (c) 1987 Sun a Electronics */
-/*TODO*/ //	DRIVER( homo )		/* bootleg */
+
 /*TODO*/ //TESTDRIVER( dlair )
 /*TODO*/ //	DRIVER( meteor )	/* (c) 1981 Venture Line */
 /*TODO*/ //	DRIVER( bjtwin )	/* (c) 1993 NMK */

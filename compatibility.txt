@@ -388,6 +388,8 @@ arkatayt arkanoid.c Z80                                                         
 arkbloc2 arkanoid.c Z80                                                                     1xAY-8910                                                   Block (Game Corporation bootleg)
 arkangc  arkanoid.c Z80                                                                     1xAY-8910                                                   Arkanoid (Game Corporation bootleg)
 razmataz zaxxon.c   Z80                                                                                                                                 Razzmatazz
+goindol  goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Goindol
+homo     goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Homo
 
 
 Small issues that doesn't affect playable status
@@ -500,6 +502,8 @@ NOT WORKING IN MAME 0.36 EITHER
 020)tokio    bublbobl.c Z80      Z80      [Z80   ]                                              1xYM-2203                                                   Tokio / Scramble Formation
 gwara    snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Guerrilla War (Version 1)
 teedoff  tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tee'd Off
+formatz  aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Formation Z
+aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
 
 WIP
 ===
