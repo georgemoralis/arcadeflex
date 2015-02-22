@@ -9,15 +9,10 @@ public class m68kops {
 
     /* This is used to generate the opcode handler jump table */
     public static class opcode_handler_struct implements Comparable<opcode_handler_struct> {
-
         public opcode opcode_handler; /* handler function */
-
-        public /*uint*/ int bits;			/* number of bits set in mask */
-
-        public /*uint*/ int mask;			/* mask on opcode */
-
-        public /*uint*/ int match;			/* what to match after masking */
-
+        public int bits;			/* number of bits set in mask */
+        public int mask;			/* mask on opcode */
+        public int match;			/* what to match after masking */
 
         public opcode_handler_struct(opcode opcode_handler, int bits, int mask, int match) {
             this.opcode_handler = opcode_handler;
@@ -25,22 +20,24 @@ public class m68kops {
             this.mask = mask;
             this.match = match;
         }
+
         /*
          * Comparison function for qsort()
          * For entries with an equal number of set bits in
          * the mask compare the match values
          */
         @Override
-        public int compareTo(opcode_handler_struct b) {//compare_nof_true_bits
-            if (bits != ((opcode_handler_struct)b).bits) {
-                return (int) (bits - ((opcode_handler_struct)b).bits);
+        public int compareTo(opcode_handler_struct b) { //compare_nof_true_bits
+            if (bits != ((opcode_handler_struct) b).bits) {
+                return (int) (bits - ((opcode_handler_struct) b).bits);
             }
-            if (mask != ((opcode_handler_struct)b).mask) {
-                return (int) (mask - ((opcode_handler_struct)b).mask);
+            if (mask != ((opcode_handler_struct) b).mask) {
+                return (int) (mask - ((opcode_handler_struct) b).mask);
             }
-            return (int) (match - ((opcode_handler_struct)b).match);
+            return (int) (match - ((opcode_handler_struct) b).match);
         }
     };
+
     /* Opcode handler table */
     static opcode_handler_struct m68k_opcode_handler_table[]
             = {
@@ -2006,9 +2003,7 @@ public class m68kops {
                 new opcode_handler_struct(m68020_unpk_mm_ax7, 13, 0xf1ff, 0x818f),
                 new opcode_handler_struct(m68020_unpk_mm_ay7, 13, 0xfff8, 0x8f88),
                 new opcode_handler_struct(m68020_unpk_mm_axy7, 16, 0xffff, 0x8f8f),
-                new opcode_handler_struct(m68020_unpk_mm, 10, 0xf1f8, 0x8188),
-            };
-
+                new opcode_handler_struct(m68020_unpk_mm, 10, 0xf1f8, 0x8188),};
 
     static int compare_nof_true_bits(opcode_handler_struct aptr, opcode_handler_struct bptr) {
         opcode_handler_struct a = aptr, b = bptr;
@@ -2020,8 +2015,8 @@ public class m68kops {
         }
         return (int) (a.match - b.match);
     }
-    /* Build the opcode handler jump table */
 
+    /* Build the opcode handler jump table */
     public static void m68ki_build_opcode_table() {
         opcode_handler_struct ostruct;
         /*uint*/
@@ -2090,7 +2085,9 @@ public class m68kops {
         while (ostruct.mask == 0xffff) {
             m68k_instruction_jump_table[ostruct.match] = ostruct.opcode_handler;
             ostruct_idx++;
-            if(ostruct_idx>=table_length) break;  //shadow : stop when you reach last opcode
+            if (ostruct_idx >= table_length) {
+                break;  //shadow : stop when you reach last opcode
+            }
             ostruct = m68k_opcode_handler_table[ostruct_idx];
         }
     }

@@ -1,13 +1,8 @@
 package cpu.m68000;
 
-/* ======================================================================== */
-/* ============================ OPCODE HANDLERS =========================== */
-/* ======================================================================== */
-
 public class m68kopsH {
 
     public static abstract interface opcode {
-
         public abstract void handler();
     }
 
@@ -9821,5 +9816,4 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-
 }

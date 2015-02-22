@@ -2,11 +2,11 @@ package cpu.m68000;
 
 import mame.cpuintrfH.cpu_interface;
 import static mame.cpuintrfH.*;
-import static mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m68000.m68000H.*;
+import static cpu.m68000.m68kH.*;
 import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kops.*;
 import static cpu.m68000.m68kcpu.*;
@@ -51,7 +51,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public Object init_context() {
-        Object reg = new m68k_cpu_core();
+        Object reg = new m68k_cpu_context();
         return reg;
     }
 
@@ -210,8 +210,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public void set_irq_callback(irqcallbacksPtr callback) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	m68k_set_int_ack_callback(callback);
+        m68k_set_int_ack_callback(callback);
     }
 
     @Override
