@@ -581,8 +581,6 @@ contrab  contra.c   M6809    [M6809 ]                                           
 contraj  contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Contra (Japan)
 contrajb contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Contra (Japan bootleg)
 gryzor   contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Gryzor
-baraduke baraduke.c M6809    HD63701                                                        Namco                                                       Baraduke
-metrocrs baraduke.c M6809    HD63701                                                        Namco                                                       Metro-Cross
 hopmappy namcos86.c M6809    M6809    HD63701                                               1xYM-2151   Namco       Samples     Custom                  Hopping Mappy
 skykiddx namcos86.c M6809    M6809    HD63701                                               1xYM-2151   Namco       Samples     Custom                  Sky Kid Deluxe (set 1)
 skykiddo namcos86.c M6809    M6809    HD63701                                               1xYM-2151   Namco       Samples     Custom                  Sky Kid Deluxe (set 2)

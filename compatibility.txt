@@ -429,6 +429,9 @@ GFX isssues
 001)1943kai  1943.c     Z80      [Z80   ]                                                       2xYM-2203                                                   1943 Kai  /*background islands doesn't draw properly*/
 002)dyger    sidearms.c Z80      [Z80   ]                                                       2xYM-2203                                                   Dyger   //screen height is too big  
 battroad m62.c      Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       The Battle-Road  //screen height is too big
+bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T) // artifacts left and right of drawing screen
+bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) // artifacts left and right of drawing screen
+
 
 
 Sound issues
@@ -485,6 +488,8 @@ bermudaj snk.c      Z80      Z80      [Z80   ]                                  
 bermudaa snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     Bermuda Triangle (US early version)  //boots but doesn't start
 worldwar snk.c      Z80      Z80      [Z80   ]                                              2xY8950                                                     World Wars (Japan)  //boots but doesn't start
 gridiron tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Gridiron Fight  //boots but doesn't start
+baraduke baraduke.c M6809    HD63701                                                        Namco                                                       Baraduke  //stops on booting
+metrocrs baraduke.c M6809    HD63701                                                        Namco                                                       Metro-Cross  //goes to intro menu but not much after
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------
@@ -515,8 +520,6 @@ aeroboto aeroboto.c M6809    [M6809 ]                                           
 
 WIP
 ===
-bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T) //missing uPD7759 emulation , artifacts left and right of drawing screen,also need analog(?) work ok with digital controls
-bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) //requires analog controls,missing uPD7759 emulation , artifacts left and right of drawing screen
 xsleena  xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena   //freezes after a while ym2203 issue? (works okay if i remove sound)
 xsleenab xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena (bootleg) //freezes after a while ym2203 issue? (works okay if i remove sound)
 solarwar xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Solar Warrior //freezes after a while ym2203 issue? (works okay if i remove sound)

@@ -642,6 +642,7 @@ public class driver {
         /*zaxxon*/driver_zaxxon2,//no samples support
         /*zaxxon*/driver_zaxxonb,//no samples support	
         /*zaxxon*/driver_szaxxon,//no samples support
+        /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
             
         /* controls issues
         
@@ -670,7 +671,9 @@ public class driver {
         /*snk*/driver_bermudaa,	//boots but doesn't start
         /*snk*/driver_worldwar,	//boots but doesn't start
         /*tehkanwc*/driver_gridiron,//boots but doesn't start
-        
+        /*baraduke*/driver_baraduke,//stops on booting
+        /*baraduke*/driver_metrocrs,//goes to intro menu but not much after
+
         
         /*
           GAME NOT WORKING FLAG
@@ -801,7 +804,7 @@ public class driver {
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
-        /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
+        
         /*ddragon*/driver_ddragon,  //missing HD63701 cpu
 
         /**
@@ -975,8 +978,27 @@ public class driver {
         driver_blockbl,	/* bootleg */
 
 
+    driver_wardner,	/* TP-009 (c) 1987 Taito Corporation Japan (World) */
+driver_pyros,		/* TP-009 (c) 1987 Taito America Corporation (US) */
+driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */    
         
-        
+driver_centiped,
+driver_centipd2,
+driver_centipdb,
+driver_centipb2,
+
+driver_shootout,	/* (c) 1985 Data East USA (US) */
+driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
+driver_shootoub,	/* bootleg */
+
+driver_simpsons,	
+driver_simpsn2p,
+driver_simps2pj,
+driver_vendetta,
+driver_vendett2,
+driver_vendettj,
+
+driver_foodf,
 
 
 	/* "Galaxian hardware" games */
@@ -1126,8 +1148,6 @@ public class driver {
 	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
 
 
-driver_baraduke,	/* (c) 1985 */
-driver_metrocrs,	/* (c) 1985 */
 
 	/* Namco System 86 games */
 /*TODO*/ //	DRIVER( hopmappy )	/* (c) 1986 */
@@ -1593,9 +1613,7 @@ driver_metrocrs,	/* (c) 1985 */
 /*TODO*/ //	DRIVER( skyshark )	/* TP-007 (c) 1987 Taito America Corporation + Romstar license (US) */
 /*TODO*/ //	DRIVER( hishouza )	/* TP-007 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( fsharkbt )	/* bootleg */
-driver_wardner,	/* TP-009 (c) 1987 Taito Corporation Japan (World) */
-driver_pyros,		/* TP-009 (c) 1987 Taito America Corporation (US) */
-driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */
+
 /*TODO*/ //	DRIVER( twincobr )	/* TP-011 (c) 1987 Taito Corporation (World) */
 /*TODO*/ //	DRIVER( twincobu )	/* TP-011 (c) 1987 Taito America Corporation + Romstar license (US) */
 /*TODO*/ //	DRIVER( ktiger )	/* TP-011 (c) 1987 Taito Corporation (Japan) */
@@ -2049,9 +2067,7 @@ driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */
 
-driver_shootout,	/* (c) 1985 Data East USA (US) */
-driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
-driver_shootoub,	/* bootleg */
+
         
 
 /*TODO*/ //	DRIVER( actfancr )	/* (c) 1989 Data East Corporation (World) */
@@ -2179,12 +2195,7 @@ driver_shootoub,	/* bootleg */
 /*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */
 
 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
-driver_simpsons,	
-driver_simpsn2p,
-driver_simps2pj,
-driver_vendetta,
-driver_vendett2,
-driver_vendettj,
+
 /*TODO*/ //	DRIVER( wecleman )	/* GX602 (c) 1986 */
 /*TODO*/ //	DRIVER( hotchase )	/* GX763 (c) 1988 */
 /*TODO*/ //	DRIVER( ultraman )	/* GX910 (c) 1991 Banpresto/Bandai */
@@ -2335,10 +2346,7 @@ driver_vendettj,
 
 	/* Atari "Centipede hardware" games */
 /*TODO*/ //	DRIVER( warlord )	/* (c) 1980 */
-driver_centiped,
-driver_centipd2,
-driver_centipdb,
-driver_centipb2,
+
 /*TODO*/ //	DRIVER( milliped )	/* (c) 1982 */
 /*TODO*/ //	DRIVER( qwakprot )	/* (c) 1982 */
 
@@ -2349,7 +2357,7 @@ driver_centipb2,
 
 
 	/* misc Atari games */
-driver_foodf,
+
 /*TODO*/ //	DRIVER( liberatr )	/* (c) 1982 */
 /*TODO*/ //TESTDRIVER( liberat2 )
 
