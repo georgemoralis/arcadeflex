@@ -458,6 +458,7 @@ zaxxon2  zaxxon.c   Z80                                                         
 zaxxonb  zaxxon.c   Z80                                                                     Samples                                                     Jackson  -no samples support
 szaxxon  zaxxon.c   Z80                                                                     Samples                                                     Super Zaxxon   -no samples support
 futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy   -no samples support
+ddribble ddrible.c  M6809    M6809    M6809                                                 1xYM-2203   VLM5030                                         Double Dribble  - vlm5030 works but has glitches
 
 Control issues
 =============

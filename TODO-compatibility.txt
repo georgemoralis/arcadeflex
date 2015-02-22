@@ -576,7 +576,6 @@ jackal   jackal.c   M6809    M6809                                              
 topgunr  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (US)
 jackalj  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Tokushu Butai Jackal (Japan)
 topgunbl jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (bootleg)
-ddribble ddrible.c  M6809    M6809    M6809                                                 1xYM-2203   VLM5030                                         Double Dribble
 contra   contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Contra (US)
 contrab  contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Contra (US bootleg)
 contraj  contra.c   M6809    [M6809 ]                                                       1xYM-2151                                                   Contra (Japan)
