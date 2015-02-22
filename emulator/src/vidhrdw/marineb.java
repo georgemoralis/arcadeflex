@@ -15,12 +15,13 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 
 public class marineb
 {
 	
 	
-	public static CharPtr marineb_column_scroll=new CharPtr();
+	public static UBytePtr marineb_column_scroll=new UBytePtr();
 	public static int marineb_active_low_flipscreen;
 	public static int palbank;
 	

@@ -91,6 +91,7 @@ import static drivers.jrpacman.*;
 import static drivers.mpatrol.*;
 import static drivers.yard.*;
 import static drivers.srumbler.*;
+import static drivers.marineb.*;
 
 /*
   WIP Drivers
@@ -570,6 +571,14 @@ public class driver {
         /*387*//*zaxxon*/driver_razmataz,
         /*388*//*goindol*/driver_goindol,
         /*389*//*goindol*/driver_homo,
+        /*390*//*marineb*/driver_marineb,
+        /*391*//*marineb*/driver_changes,
+        /*392*//*marineb*/driver_looper,
+        /*393*//*marineb*/driver_springer,
+        /*394*//*marineb*/driver_hoccer,
+        /*395*//*marineb*/driver_hoccer2,
+        /*396*//*marineb*/driver_hopprobo,
+        /*397*//*marineb*/driver_wanted,
         
         /*
            Small issues that doesn't affect playable status
@@ -589,8 +598,8 @@ public class driver {
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*014*//*congo*/driver_congo,//no samples support
         /*015*//*congo*/driver_tiptop,//no samples support
-        driver_ccastles,//no nvram support
-        driver_ccastle2,//no nvram support
+        /*ccastles*/driver_ccastles,//no nvram support
+        /*ccastles*/driver_ccastle2,//no nvram support
         /*
           Possible cpu bugs
         */
@@ -2646,16 +2655,6 @@ driver_foodf,
 /*TODO*/ //	DRIVER( aerofgtb )	/* (c) 1992 */
 /*TODO*/ //	DRIVER( aerofgtc )	/* (c) 1992 */
 /*TODO*/ //TESTDRIVER( unkvsys )
-
-	/* Orca games */
-/*TODO*/ //	DRIVER( marineb )	/* (c) 1982 Orca */
-/*TODO*/ //	DRIVER( changes )	/* (c) 1982 Orca */
-/*TODO*/ //	DRIVER( looper )	/* (c) 1982 Orca */
-/*TODO*/ //	DRIVER( springer )	/* (c) 1982 Orca */
-/*TODO*/ //	DRIVER( hoccer )	/* (c) 1983 Eastern Micro Electronics, Inc. */
-/*TODO*/ //	DRIVER( hoccer2 )	/* (c) 1983 Eastern Micro Electronics, Inc. */
-/*TODO*/ //	DRIVER( hopprobo )	/* (c) 1983 Sega */
-/*TODO*/ //	DRIVER( wanted )	/* (c) 1984 Sigma Ent. Inc. */
 
 /*TODO*/ //	DRIVER( zodiack )	/* (c) 1983 Orca + Esco Trading Co license */
 /*TODO*/ //	DRIVER( dogfight )	/* (c) 1983 Thunderbolt */

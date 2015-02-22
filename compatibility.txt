@@ -390,7 +390,14 @@ arkangc  arkanoid.c Z80                                                         
 razmataz zaxxon.c   Z80                                                                                                                                 Razzmatazz
 goindol  goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Goindol
 homo     goindol.c  Z80      [Z80   ]                                                       1xYM-2203                                                   Homo
-
+marineb  marineb.c  Z80                                                                     1xAY-8910                                                   Marine Boy
+changes  marineb.c  Z80                                                                     1xAY-8910                                                   Changes
+looper   marineb.c  Z80                                                                     1xAY-8910                                                   Looper
+springer marineb.c  Z80                                                                     1xAY-8910                                                   Springer
+hoccer   marineb.c  Z80                                                                     1xAY-8910                                                   Hoccer (set 1)
+hoccer2  marineb.c  Z80                                                                     1xAY-8910                                                   Hoccer (set 2)
+hopprobo marineb.c  Z80                                                                     1xAY-8910                                                   Hopper Robo
+wanted   marineb.c  Z80                                                                     2xAY-8910                                                   Wanted
 
 Small issues that doesn't affect playable status
 =======================================

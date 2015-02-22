@@ -414,14 +414,6 @@ suprmous thepit.c   Z80      [Z80   ]                                           
 suprmou2 thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Funny Mouse (bootleg?)
 machomou thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Macho Mouse
 psychic5 psychic5.c Z80      [Z80   ]                                                       2xYM-2203                                                   Psychic 5
-marineb  marineb.c  Z80                                                                     1xAY-8910                                                   Marine Boy
-changes  marineb.c  Z80                                                                     1xAY-8910                                                   Changes
-looper   marineb.c  Z80                                                                     1xAY-8910                                                   Looper
-springer marineb.c  Z80                                                                     1xAY-8910                                                   Springer
-hoccer   marineb.c  Z80                                                                     1xAY-8910                                                   Hoccer (set 1)
-hoccer2  marineb.c  Z80                                                                     1xAY-8910                                                   Hoccer (set 2)
-hopprobo marineb.c  Z80                                                                     1xAY-8910                                                   Hopper Robo
-wanted   marineb.c  Z80                                                                     2xAY-8910                                                   Wanted
 zodiack  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Zodiack
 dogfight zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Dog Fight
 moguchan zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Moguchan
