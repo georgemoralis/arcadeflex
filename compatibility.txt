@@ -398,6 +398,8 @@ hoccer   marineb.c  Z80                                                         
 hoccer2  marineb.c  Z80                                                                     1xAY-8910                                                   Hoccer (set 2)
 hopprobo marineb.c  Z80                                                                     1xAY-8910                                                   Hopper Robo
 wanted   marineb.c  Z80                                                                     2xAY-8910                                                   Wanted
+ccastles ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 1) 
+ccastle2 ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 2) 
 
 Small issues that doesn't affect playable status
 =======================================
@@ -416,8 +418,6 @@ yiear    yiear.c    M6809                                                       
 yiear2   yiear.c    M6809                                                                   1xSN76496   VLM5030                                         Yie Ar Kung-Fu (set 2) - vlm5030 has issues so it's disabled atm
 congo    congo.c    Z80      [Z80   ]                                                       2xSN76496   Samples                                         Congo Bongo  - no samples support
 tiptop   congo.c    Z80      [Z80   ]                                                       2xSN76496   Samples                                         Tip Top - no samples support
-ccastles ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 1) -no nvram support
-ccastle2 ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 2) -no nvram support
 
 Probably CPU bugs
 -------------------------------
@@ -467,6 +467,20 @@ Control issues
 =============
 lastmiss dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 6)  //controls doesn't work
 lastmss2 dec8.c     M6809    M6809    [M6502 ]                                              1xYM-2203   1xYM-3526                                       Last Mission (US revision 5) //controls doesn't work
+lnc      btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Lock'n'Chase  //controls doesn't work
+zoar     btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Zoar  //controls doesn't work
+btime    btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Data East set 1)  //controls doesn't work
+btime2   btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Data East set 2)  //controls doesn't work
+btimem   btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Midway)  //controls doesn't work
+wtennis  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   World Tennis  //controls doesn't work
+brubber  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burnin' Rubber  //controls doesn't work
+bnj      btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Bump 'n' Jump  //controls doesn't work
+caractn  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Car Action  //controls doesn't work
+disco    btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Disco No.1  //controls doesn't work
+mmonkey  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Minky Monkey  //controls doesn't work
+cookrace btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Cook Race  //controls doesn't work
+mystston mystston.c M6502                                                                   2xAY-8910                                                   Mysterious Stones //controls doesn't work
+
 
 Unkown issues
 -------------------------------

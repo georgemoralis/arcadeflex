@@ -164,7 +164,7 @@ import static drivers.WIP.tehkanwc.*;
 import static drivers.solomon.*;
 import static drivers.WIP.sauro.*;
 import static drivers.WIP.shootout.*;
-import static drivers.WIP.ccastles.*;
+import static drivers.ccastles.*;
 import static drivers.WIP.centiped.*;
 import static drivers.WIP.foodf.*;
 import static drivers.WIP.aeroboto.*;
@@ -579,6 +579,8 @@ public class driver {
         /*395*//*marineb*/driver_hoccer2,
         /*396*//*marineb*/driver_hopprobo,
         /*397*//*marineb*/driver_wanted,
+        /*398*//*ccastles*/driver_ccastles,
+        /*399*//*ccastles*/driver_ccastle2,
         
         /*
            Small issues that doesn't affect playable status
@@ -598,8 +600,7 @@ public class driver {
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*014*//*congo*/driver_congo,//no samples support
         /*015*//*congo*/driver_tiptop,//no samples support
-        /*ccastles*/driver_ccastles,//no nvram support
-        /*ccastles*/driver_ccastle2,//no nvram support
+        
         /*
           Possible cpu bugs
         */
@@ -613,6 +614,8 @@ public class driver {
         /*001*//*_1943*/driver_1943kai,/*background islands doesn't draw properly*/
         /*002*//*sidearms*/driver_dyger, //screen height is too big  
         /*003*//*m62*/driver_battroad,//screen height is too big
+        /*bladestl*/driver_bladestl, //artifacts left and right of drawing screen
+        /*bladestl*/driver_bladstle, //artifacts left and right of drawing screen
         
         /*
            Sound issues
@@ -650,6 +653,20 @@ public class driver {
         
         /*dec8*/driver_lastmiss, //no controls working
         /*dec8*/driver_lastmss2,//no controls working
+        /*btime*/driver_lnc,//no controls working
+        /*btime*/driver_zoar,//no controls working
+        /*btime*/driver_btime,//no controls working
+        /*btime*/driver_btime2,//no controls working
+        /*btime*/driver_btimem,//no controls working
+        /*btime*/driver_wtennis,//no controls working
+        /*btime*/driver_brubber,//no controls working
+        /*btime*/driver_bnj,//no controls working
+        /*btime*/driver_caractn,//no controls working
+        /*btime*/driver_disco,//no controls working
+        /*btime*/driver_mmonkey,//no controls working
+        /*btime*/driver_cookrace,//no controls working,
+        /*mystston*/driver_mystston, //no controls working
+        
         /*
            Unknown issues 
         */
@@ -706,8 +723,7 @@ public class driver {
         /*
         WIP drivers
         */
-        /*bladestl*/driver_bladestl, //missing uPD7759 emulation , artifacts left and right of drawing screen,also need analog(?) work ok with digital controls
-        /*bladestl*/driver_bladstle, //requires analog controls,missing uPD7759 emulation , artifacts left and right of drawing screen
+
         /*xain*/driver_xsleena,  //freezes after a while ym2203 issue? (works okay if i remove sound)
         /*xain*/driver_xsleenab,  //freezes after a while ym2203 issue? (works okay if i remove sound)
         /*xain*/driver_solarwar,  //freezes after a while ym2203 issue? (works okay if i remove sound)
@@ -744,30 +760,7 @@ public class driver {
         
         /*rockrage*/driver_rockrage,
         /*rockrage*/driver_rockragj,
-               
-        
-        /**
-         *  Requires analog controls
-         */
-        
-        
-        
-        /**
-         *  No inputs working
-         */
-        /*btime*/driver_lnc,
-        /*btime*/driver_zoar,
-        /*btime*/driver_btime,
-        /*btime*/driver_btime2,
-        /*btime*/driver_btimem,
-        /*btime*/driver_wtennis,
-        /*btime*/driver_brubber,
-        /*btime*/driver_bnj,
-        /*btime*/driver_caractn,
-        /*btime*/driver_disco,
-        /*btime*/driver_mmonkey,
-        /*btime*/driver_cookrace,
-        /*mystston*/driver_mystston, //no controls
+
         
         /**
          *  Small tilemap issues
@@ -955,27 +948,24 @@ public class driver {
                          
             
 	/* Mitchell games */
-        driver_mgakuen,	/* (c) 1988 Yuga */
-        driver_mgakuen2,	/* (c) 1989 Face */
-        driver_pkladies,	/* (c) 1989 Mitchell */
-        driver_dokaben,	/*  3/1989 (c) 1989 Capcom (Japan) */
-	/*  8/1989 Dokaben 2 (baseball) */
-        driver_pang,		/* (c) 1989 Mitchell (World) */
-        driver_pangb,		/* bootleg */
-        driver_bbros,		/* (c) 1989 Capcom (US) not listed on Capcom's site */
-        driver_pompingw,	/* (c) 1989 Mitchell (Japan) */
-  /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
-        driver_cworld,	/* 11/1989 (QUIZ 1) (c) 1989 Capcom */
-        driver_hatena,/*  2/28/1990 (QUIZ 2) (c) 1990 Capcom (Japan) */
-        driver_spang,	/*  9/14/1990 (c) 1990 Mitchell (World) */
-        driver_sbbros,	/* 10/ 1/1990 (c) 1990 Mitchell + Capcom (US) not listed on Capcom's site */
-        driver_marukin,	/* 10/17/1990 (c) 1990 Yuga (Japan) */
-        driver_qtono1,	/* 12/25/1990 (QUIZ 3) (c) 1991 Capcom (Japan) */
-	/*  4/1991 Ashita Tenki ni Naare (golf) */
-        driver_qsangoku,	/*  6/ 7/1991 (QUIZ 4) (c) 1991 Capcom (Japan) */
-        driver_block, 	/*  9/10/1991 (c) 1991 Capcom (World) */
-        driver_blockj,	/*  9/10/1991 (c) 1991 Capcom (Japan) */
-        driver_blockbl,	/* bootleg */
+        /*mitchell*/driver_mgakuen,
+        /*mitchell*/driver_mgakuen2,
+        /*mitchell*/driver_pkladies,
+        /*mitchell*/driver_dokaben,
+        /*mitchell*/driver_pang,
+        /*mitchell*/driver_pangb,
+        /*mitchell*/driver_bbros,
+        /*mitchell*/driver_pompingw,
+        /*mitchell*/driver_cworld,
+        /*mitchell*/driver_hatena,
+        /*mitchell*/driver_spang,
+        /*mitchell*/driver_sbbros,
+        /*mitchell*/driver_marukin,
+        /*mitchell*/driver_qtono1,
+        /*mitchell*/driver_qsangoku,
+        /*mitchell*/driver_block,
+        /*mitchell*/driver_blockj,
+        /*mitchell*/driver_blockbl,
 
 
     driver_wardner,	/* TP-009 (c) 1987 Taito Corporation Japan (World) */
@@ -1000,7 +990,7 @@ driver_vendettj,
 
 driver_foodf,
 
-
+  /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
 /*TODO*/ //	DRIVER( galaxian )	/* (c) Namco */
 /*TODO*/ //	DRIVER( galmidw )	/* (c) Midway */

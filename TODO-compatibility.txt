@@ -644,18 +644,6 @@ megatack gameplan.c M6502    [M6502 ]                                           
 killcom  gameplan.c M6502    [M6502 ]                                                       1xAY-8910                                                   Killer Comet
 challeng gameplan.c M6502    [M6502 ]                                                       1xAY-8910                                                   Challenger
 kaos     gameplan.c M6502    [M6502 ]                                                       1xAY-8910                                                   Kaos
-lnc      btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Lock'n'Chase
-zoar     btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Zoar
-btime    btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Data East set 1)
-btime2   btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Data East set 2)
-btimem   btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burger Time (Midway)
-wtennis  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   World Tennis
-brubber  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Burnin' Rubber
-bnj      btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Bump 'n' Jump
-caractn  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Car Action
-disco    btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Disco No.1
-mmonkey  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Minky Monkey
-cookrace btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Cook Race
 astrof   astrof.c   M6502                                                                   Samples                                                     Astro Fighter (set 1)
 astrof2  astrof.c   M6502                                                                   Samples                                                     Astro Fighter (set 2)
 astrof3  astrof.c   M6502                                                                   Samples                                                     Astro Fighter (set 3)
@@ -720,7 +708,6 @@ ripcord  circus.c   M6502                                                       
 bigprowr tagteam.c  M6502    [M6502 ]                                                       2xAY-8910   1xDAC                                           The Big Pro Wrestling!
 tagteam  tagteam.c  M6502    [M6502 ]                                                       2xAY-8910   1xDAC                                           Tag Team Wrestling
 ssozumo  ssozumo.c  M6502    [M6502 ]                                                       2xAY-8910   1xDAC                                           Syusse Oozumou (Japan)
-mystston mystston.c M6502                                                                   2xAY-8910                                                   Mysterious Stones
 matmania matmania.c M6502    [M6502 ]                                                       2xAY-8910   1xDAC                                           Mat Mania
 excthour matmania.c M6502    [M6502 ]                                                       2xAY-8910   1xDAC                                           Exciting Hour
 maniach  matmania.c M6502    [M6809 ] M68705                                                1xYM-3526   1xDAC                                           Mania Challenge (set 1)
