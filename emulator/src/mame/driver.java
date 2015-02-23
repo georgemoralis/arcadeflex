@@ -165,7 +165,7 @@ import static drivers.solomon.*;
 import static drivers.WIP.sauro.*;
 import static drivers.WIP.shootout.*;
 import static drivers.ccastles.*;
-import static drivers.WIP.centiped.*;
+import static drivers.centiped.*;
 import static drivers.WIP.foodf.*;
 import static drivers.WIP.aeroboto.*;
 import static drivers.goindol.*;
@@ -581,6 +581,10 @@ public class driver {
         /*397*//*marineb*/driver_wanted,
         /*398*//*ccastles*/driver_ccastles,
         /*399*//*ccastles*/driver_ccastle2,
+        /*400*//*centiped*/driver_centiped,
+        /*401*//*centiped*/driver_centipd2,
+        /*402*//*centiped*/driver_centipdb,
+        /*403*//*centiped*/driver_centipb2,
         
         /*
            Small issues that doesn't affect playable status
@@ -972,10 +976,7 @@ public class driver {
 driver_pyros,		/* TP-009 (c) 1987 Taito America Corporation (US) */
 driver_wardnerj,	/* TP-009 (c) 1987 Taito Corporation (Japan) */    
         
-driver_centiped,
-driver_centipd2,
-driver_centipdb,
-driver_centipb2,
+
 
 driver_shootout,	/* (c) 1985 Data East USA (US) */
 driver_shootouj,	/* (c) 1985 Data East USA (Japan) */

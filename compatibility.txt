@@ -400,6 +400,11 @@ hopprobo marineb.c  Z80                                                         
 wanted   marineb.c  Z80                                                                     2xAY-8910                                                   Wanted
 ccastles ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 1) 
 ccastle2 ccastles.c M6502                                                                   2xPokey                                                     Crystal Castles (set 2) 
+centiped centiped.c M6502                                                                   1xPokey                                                     Centipede (revision 3)
+centipd2 centiped.c M6502                                                                   1xPokey                                                     Centipede (revision 2)
+centipdb centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 1)
+centipb2 centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 2)
+
 
 Small issues that doesn't affect playable status
 =======================================

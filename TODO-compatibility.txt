@@ -666,11 +666,6 @@ soccer   atarifb.c  M6502                                                       
 canyon   canyon.c   M6502                                                                                                                               Canyon Bomber
 canbprot canyon.c   M6502                                                                                                                               Canyon Bomber (prototype)
 warlord  warlord.c  M6502                                                                   1xPokey                                                     Warlords
-centiped centiped.c M6502                                                                   1xPokey                                                     Centipede (revision 3)
-centipd2 centiped.c M6502                                                                   1xPokey                                                     Centipede (revision 2)
-centipdb centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 1)
-centipb2 centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 2)
-milliped milliped.c M6502                                                                   2xPokey                                                     Millipede
 qwakprot qwakprot.c M6502                                                                   2xPokey                                                     Qwak (prototype)
 liberatr liberatr.c M6502                                                                   2xPokey                                                     Liberator (set 1)
 cloak    cloak.c    M6502    M6502                                                          2xPokey                                                     Cloak & Dagger
@@ -733,6 +728,7 @@ tempest  tempest.c  M6502                                                       
 tempest1 tempest.c  M6502                                                                   2xPokey                                                     Tempest (rev 1)
 tempest2 tempest.c  M6502                                                                   2xPokey                                                     Tempest (rev 2)
 temptube tempest.c  M6502                                                                   2xPokey                                                     Tempest Tubes
+milliped milliped.c M6502                                                                   2xPokey                                                     Millipede
 
 ==========
 68000 CPU

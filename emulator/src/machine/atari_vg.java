@@ -8,18 +8,19 @@
  */ 
 package machine;
 import static mame.driverH.*;
-import static mame.inputport.*;
+import static arcadeflex.fileio.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.ptrlib.*;
 
 public class atari_vg
 {
 	
-	public static final int EAROM_SIZE	=0x40;
+	public static int EAROM_SIZE	=0x40;
 	
 	static int earom_offset;
 	static int earom_data;
-	static /*char*/byte[] earom=new byte[EAROM_SIZE];
+	static UBytePtr earom=new UBytePtr(EAROM_SIZE);
 	
 	public static ReadHandlerPtr atari_vg_earom_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
@@ -50,10 +51,10 @@ public class atari_vg
 			0x08 = set addr latch?
 		*/
 		if ((data & 0x01) != 0)
-			earom_data = earom[earom_offset];
+			earom_data = earom.read(earom_offset);
 		if ((data & 0x0c) == 0x0c)
 		{
-			earom[earom_offset]=(byte)earom_data;
+			earom.write(earom_offset,earom_data);
 			if (errorlog != null)
 				fprintf (errorlog, "    written %02x:%02x\n", earom_offset, earom_data);
 		}
@@ -61,14 +62,14 @@ public class atari_vg
 	
 	public static nvramPtr atari_vg_earom_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
         {
-	/*	if (read_or_write != 0)
+		if (read_or_write != 0)
 			osd_fwrite(file,earom,EAROM_SIZE);
 		else
 		{
-			if (file != 0)
+			if (file != null)
 				osd_fread(file,earom,EAROM_SIZE);
 			else
 				memset(earom,0,EAROM_SIZE);
-		}*/
+		}
 	}};
 }
