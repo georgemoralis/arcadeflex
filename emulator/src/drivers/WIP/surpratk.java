@@ -35,8 +35,13 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_YM2151;
 import static vidhrdw.surpratk.*;
 import static vidhrdw.konamiic.*;
+import static sound.mixerH.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
 
 public class surpratk
 {
@@ -150,8 +155,8 @@ public class surpratk
 		new MemoryWriteAddress( 0x5fa0, 0x5faf, K053244_w ),
 		new MemoryWriteAddress( 0x5fb0, 0x5fbf, K053251_w ),
 		new MemoryWriteAddress( 0x5fc0, 0x5fc0, surpratk_5fc0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x5fd0, 0x5fd0, YM2151_register_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x5fd1, 0x5fd1, YM2151_data_port_0_w ),
+		new MemoryWriteAddress( 0x5fd0, 0x5fd0, YM2151_register_port_0_w ),
+		new MemoryWriteAddress( 0x5fd1, 0x5fd1, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0x5fc4, 0x5fc4, surpratk_videobank_w ),
 		new MemoryWriteAddress( 0x4000, 0x7fff, K052109_w ),
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),					/* ROM */
@@ -264,21 +269,17 @@ public class surpratk
 	INPUT_PORTS_END(); }}; 
 	
 	
-	
-	static void irqhandler(int linestate)
+	public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int linestate)
 	{
 		cpu_set_irq_line(0,KONAMI_FIRQ_LINE,linestate);
-	}
-	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3579545,	/* 3.579545 MHz */
-/*TODO*///		{ YM3012_VOL(50,MIXER_PAN_LEFT,50,MIXER_PAN_RIGHT) },
-/*TODO*///		{ irqhandler },
-/*TODO*///	};
-	
-	
+	}};
+	static YM2151interface ym2151_interface = new YM2151interface
+	(
+		1,			/* 1 chip */
+		3579545,	/* 3.579545 MHz */
+		new int[]{ YM3012_VOL(50,MIXER_PAN_LEFT,50,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[]{ irqhandler }
+        );
 	
 	static MachineDriver machine_driver_surpratk = new MachineDriver
 	(
@@ -309,13 +310,12 @@ public class surpratk
 	
 		/* sound hardware */
 		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
-		/*new MachineSound[] {
+                new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	/***************************************************************************
