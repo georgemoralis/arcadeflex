@@ -4,10 +4,17 @@ import static sound.streams.*;
 import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static arcadeflex.libc_old.*;
+import static mame.mame.*;
+import static mame.timer.*;
+
 
 public class ym2151 {
     public static class OscilRec
     {
+        public OscilRec()
+        {
+            
+        }
     /*TODO*///	unsigned int phase;		/*accumulated operator phase*/
     /*TODO*///	unsigned int freq;		/*operator frequency*/
     /*TODO*///	signed   int DTfreq;	/*operator detune frequency*/
@@ -55,10 +62,21 @@ public class ym2151 {
     }
     public static class _YM2151
     {
-    	OscilRec[] Oscils=new OscilRec[32];	/*there are 32 operators in YM2151*/
-    /*TODO*///
-    /*TODO*///	unsigned int PAN[16];	/*channels output masks (0xffffffff = enable)*/
-    /*TODO*///
+        public _YM2151()
+        {
+            Oscils=new OscilRec[32];
+            PAN=new long[16];
+            TimerATime=new double[1024];
+            TimerBTime=new double[256];
+            freq=new long[11*12*64];
+            DT1freq=new int[8*16*32];
+            EG_tab=new long[32+64+32];
+            LFOfreq=new long[256];
+        }
+    	OscilRec[] Oscils;	/*there are 32 operators in YM2151*/
+        
+        /*unsigned int*/long[] PAN;	/*channels output masks (0xffffffff = enable)*/
+
         /*unsigned int*/long LFOphase;	/*accumulated LFO phase         */
         /*unsigned int*/long LFOfrq;	/*LFO frequency                 */
         /*unsigned int*/long LFOwave;	/*LFO waveform (0-saw, 1-square, 2-triangle, 3-random noise)*/
@@ -77,8 +95,8 @@ public class ym2151 {
     
     
     	Object TimATimer,TimBTimer;	/*ASG 980324 -- added for tracking timers*/
-    	double[] TimerATime=new double[1024];	/*Timer A times for MAME*/
-    	double[] TimerBTime=new double[256];		/*Timer B times for MAME*/
+    	double[] TimerATime;	/*Timer A times for MAME*/
+    	double[] TimerBTime;		/*Timer B times for MAME*/
     
     	/*unsigned int*/long TimAIndex;		/*Timer A index*/
     	/*unsigned int*/long TimBIndex;		/*Timer B index*/
@@ -103,17 +121,17 @@ public class ym2151 {
     	*              9       note code + DT2 + LFO PM
     	*              10      note code + DT2 + LFO PM
     	*/
-    	/*unsigned int*/long[] freq=new long[11*12*64];/*11 octaves, 12 semitones, 64 'cents'*/
+    	/*unsigned int*/long[] freq;/*11 octaves, 12 semitones, 64 'cents'*/
     
     	/*
     	*   Frequency deltas for DT1. These deltas alter operator frequency
     	*   after it has been taken from frequency-deltas table.
     	*/
-    	int[] DT1freq=new int[8*16*32];		/*8 DT1 levels,16 MUL lelvels, 32 KC values*/
+    	int[] DT1freq;		/*8 DT1 levels,16 MUL lelvels, 32 KC values*/
     
-    	/*unsigned int*/long[] EG_tab=new long[32+64+32];		/*envelope deltas (32 + 64 rates + 32 RKS)*/
+    	/*unsigned int*/long[] EG_tab;		/*envelope deltas (32 + 64 rates + 32 RKS)*/
     
-    	/*unsigned int*/long[] LFOfreq=new long[256];			/*frequency deltas for LFO*/
+    	/*unsigned int*/long[] LFOfreq;			/*frequency deltas for LFO*/
     
         WriteYmHandlerPtr irqhandler;				/*IRQ function handler*/
         WriteHandlerPtr porthandler;	/*port write function handler*/
@@ -140,13 +158,13 @@ public class ym2151 {
     public static final int ENV_QUIET		=((int)(0x68/(ENV_STEP)));
     
     public static final int  MAX_ATT_INDEX	=((ENV_LEN<<ENV_SH)-1); /*1023.ffff*/
-    /*TODO*///#define MIN_ATT_INDEX	(      (1<<ENV_SH)-1) /*   0.ffff*/
-    /*TODO*///
-    /*TODO*///#define EG_ATT			4
-    /*TODO*///#define EG_DEC			3
-    /*TODO*///#define EG_SUS			2
-    /*TODO*///#define EG_REL			1
-    /*TODO*///#define EG_OFF			0
+    public static final int  MIN_ATT_INDEX	=(      (1<<ENV_SH)-1); /*   0.ffff*/
+    
+    public static final int  EG_ATT			=4;
+    public static final int  EG_DEC			=3;
+    public static final int  EG_SUS			=2;
+    public static final int  EG_REL			=1;
+    public static final int  EG_OFF			=0;
 
     public static final int SIN_BITS		=10;
     public static final int SIN_LEN			=(1<<SIN_BITS);
@@ -640,31 +658,30 @@ public class ym2151 {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static void timer_callback_a (int n)
-    /*TODO*///{
-    /*TODO*///	YM2151 *chip = &YMPSG[n];
-    /*TODO*///	chip->TimATimer = timer_set (chip->TimerATime[ chip->TimAIndex ], n, timer_callback_a);
-    /*TODO*///	chip->TimAOldIndex = chip->TimAIndex;
-    /*TODO*///	if (chip->IRQenable & 0x04)
-    /*TODO*///	{
-    /*TODO*///		int oldstate = chip->status & 3;
-    /*TODO*///		chip->status |= 1;
-    /*TODO*///		if ((!oldstate) && (chip->irqhandler)) (*chip->irqhandler)(1);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///static void timer_callback_b (int n)
-    /*TODO*///{
-    /*TODO*///	YM2151 *chip = &YMPSG[n];
-    /*TODO*///	chip->TimBTimer = timer_set (chip->TimerBTime[ chip->TimBIndex ], n, timer_callback_b);
-    /*TODO*///	chip->TimBOldIndex = chip->TimBIndex;
-    /*TODO*///	if (chip->IRQenable & 0x08)
-    /*TODO*///	{
-    /*TODO*///		int oldstate = chip->status & 3;
-    /*TODO*///		chip->status |= 2;
-    /*TODO*///		if ((!oldstate) && (chip->irqhandler)) (*chip->irqhandler)(1);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    public static timer_callback timer_callback_a = new timer_callback(){ public void handler(int n)
+    {
+    	_YM2151 chip = YMPSG[n];
+    	chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, timer_callback_a);
+    	chip.TimAOldIndex = chip.TimAIndex;
+    	if ((chip.IRQenable & 0x04)!=0)
+    	{
+    		int oldstate = chip.status & 3;
+    		chip.status |= 1;
+    		if ((oldstate==0) && (chip.irqhandler!=null)) (chip.irqhandler).handler(1);
+    	}
+    }};
+    public static timer_callback timer_callback_b = new timer_callback(){ public void handler(int n)
+    {
+    	_YM2151 chip = YMPSG[n];
+    	chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, timer_callback_b);
+    	chip.TimBOldIndex = chip.TimBIndex;
+    	if ((chip.IRQenable & 0x08)!=0)
+    	{
+    		int oldstate = chip.status & 3;
+    		chip.status |= 2;
+    		if ((oldstate==0) && (chip.irqhandler)!=null) (chip.irqhandler).handler(1);
+    	}
+    }};
     /*TODO*///
     /*TODO*///INLINE void set_connect( OscilRec *om1, int v, int cha)
     /*TODO*///{
@@ -797,114 +814,114 @@ public class ym2151 {
     /* write a register on YM2151 chip number 'n' */
     public static void YM2151WriteReg(int n, int r, int v)
     {
-        System.out.println("n= "+n + " r="+r + " v="+v);
-    /*TODO*///	YM2151 *chip = &(YMPSG[n]);
-    /*TODO*///	OscilRec *op = &chip->Oscils[ r&0x1f ];
-    /*TODO*///
-    /*TODO*///	/*adjust bus to 8 bits*/
-    /*TODO*///	r &= 0xff;
-    /*TODO*///	v &= 0xff;
-    /*TODO*///
-    /*TODO*///	switch(r & 0xe0){
-    /*TODO*///	case 0x00:
-    /*TODO*///		switch(r){
-    /*TODO*///		case 0x01: /*LFO reset(bit 1), Test Register (other bits)*/
-    /*TODO*///			chip->test = v;
-    /*TODO*///			if (v&2) chip->LFOphase = 0;
-    /*TODO*///			break;
+        //System.out.println("n= "+n + " r="+r + " v="+v);
+    	_YM2151 chip = YMPSG[n];
+        OscilRec op = chip.Oscils[ r&0x1f ];
+    
+    	/*adjust bus to 8 bits*/
+    	r &= 0xff;
+    	v &= 0xff;
+    
+    	switch(r & 0xe0){
+    	case 0x00:
+    		switch(r){
+    		case 0x01: /*LFO reset(bit 1), Test Register (other bits)*/
+    			chip.test = v;
+    			if ((v&2)!=0) chip.LFOphase = 0;
+    			break;
     /*TODO*///
     /*TODO*///		case 0x08:
     /*TODO*///			envelope_KONKOFF(&chip->Oscils[ v&7 ], v );
     /*TODO*///			break;
     /*TODO*///
-    /*TODO*///		case 0x0f: /*noise mode enable, noise freq*/
-    /*TODO*///			chip->noise = v;
-    /*TODO*///			/*if ((v&0x80)) printf("YM2151 noise (%02x)\n",v);*/
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x10: /*timer A hi*/
-    /*TODO*///			chip->TimAIndex = (chip->TimAIndex & 0x003) | (v<<2);
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x11: /*timer A low*/
-    /*TODO*///			chip->TimAIndex = (chip->TimAIndex & 0x3fc) | (v & 3);
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x12: /*timer B*/
-    /*TODO*///			chip->TimBIndex = v;
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x14: /*CSM, irq flag reset, irq enable, timer start/stop*/
-    /*TODO*///			/*if ((v&0x80)) printf("\nYM2151 CSM MODE ON\n");*/
-    /*TODO*///
-    /*TODO*///			chip->IRQenable = v;	/*bit 3-timer B, bit 2-timer A*/
-    /*TODO*///
-    /*TODO*///			if (v&0x20)	/*reset timer B irq flag*/
-    /*TODO*///			{
-    /*TODO*///				int oldstate = chip->status & 3;
-    /*TODO*///				chip->status &= 0xfd;
-    /*TODO*///				if ((oldstate==2) && (chip->irqhandler)) (*chip->irqhandler)(0);
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (v&0x10)	/*reset timer A irq flag*/
-    /*TODO*///			{
-    /*TODO*///				int oldstate = chip->status & 3;
-    /*TODO*///				chip->status &= 0xfe;
-    /*TODO*///				if ((oldstate==1) && (chip->irqhandler)) (*chip->irqhandler)(0);
-    /*TODO*///
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (v&0x02){	/*load and start timer B*/
-    /*TODO*///				/* ASG 980324: added a real timer */
-    /*TODO*///				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
-    /*TODO*///					if (!chip->TimBTimer)
-    /*TODO*///					{
-    /*TODO*///						chip->TimBTimer = timer_set (chip->TimerBTime[ chip->TimBIndex ], n, timer_callback_b);
-    /*TODO*///						chip->TimBOldIndex = chip->TimBIndex;
-    /*TODO*///					}
-    /*TODO*///			}else{		/*stop timer B*/
-    /*TODO*///				/* ASG 980324: added a real timer */
-    /*TODO*///					if (chip->TimBTimer) timer_remove (chip->TimBTimer);
-    /*TODO*///					chip->TimBTimer = 0;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (v&0x01){	/*load and start timer A*/
-    /*TODO*///				/* ASG 980324: added a real timer */
-    /*TODO*///				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
-    /*TODO*///					if (!chip->TimATimer)
-    /*TODO*///					{
-    /*TODO*///						chip->TimATimer = timer_set (chip->TimerATime[ chip->TimAIndex ], n, timer_callback_a);
-    /*TODO*///						chip->TimAOldIndex = chip->TimAIndex;
-    /*TODO*///					}
-    /*TODO*///			}else{		/*stop timer A*/
-    /*TODO*///				/* ASG 980324: added a real timer */
-    /*TODO*///					if (chip->TimATimer) timer_remove (chip->TimATimer);
-    /*TODO*///					chip->TimATimer = 0;
-    /*TODO*///			}
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x18: /*LFO frequency*/
-    /*TODO*///			chip->LFOfrq = chip->LFOfreq[ v ];
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x19: /*PMD (bit 7==1) or AMD (bit 7==0)*/
-    /*TODO*///			if (v&0x80)
-    /*TODO*///				chip->PMD = lfo_md_tab[ v&0x7f ] + 512;
-    /*TODO*///			else
-    /*TODO*///				chip->AMD = lfo_md_tab[ v&0x7f ];
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x1b: /*CT2, CT1, LFO waveform*/
-    /*TODO*///			chip->CT = v;
-    /*TODO*///			chip->LFOwave = (v & 3) * LFO_LEN*2;
-    /*TODO*///			if (chip->porthandler) (*chip->porthandler)(0 , (chip->CT) >> 6 );
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		default:
-    /*TODO*///			if (errorlog) fprintf(errorlog,"YM2151 Write %02x to undocumented register #%02x\n",v,r);
-    /*TODO*///			break;
-    /*TODO*///		}
-    /*TODO*///		break;
+    		case 0x0f: /*noise mode enable, noise freq*/
+    			chip.noise = v;
+    			/*if ((v&0x80)) printf("YM2151 noise (%02x)\n",v);*/
+    			break;
+    
+    		case 0x10: /*timer A hi*/
+    			chip.TimAIndex = (chip.TimAIndex & 0x003) | (v<<2);
+    			break;
+    
+    		case 0x11: /*timer A low*/
+    			chip.TimAIndex = (chip.TimAIndex & 0x3fc) | (v & 3);
+    			break;
+    
+    		case 0x12: /*timer B*/
+    			chip.TimBIndex = v;
+    			break;
+    
+    		case 0x14: /*CSM, irq flag reset, irq enable, timer start/stop*/
+    			/*if ((v&0x80)) printf("\nYM2151 CSM MODE ON\n");*/
+    
+    			chip.IRQenable = v;	/*bit 3-timer B, bit 2-timer A*/
+    
+    			if ((v&0x20)!=0)	/*reset timer B irq flag*/
+    			{
+    				int oldstate = chip.status & 3;
+    				chip.status &= 0xfd;
+    				if ((oldstate==2) && (chip.irqhandler)!=null) (chip.irqhandler).handler(0);
+    			}
+    
+    			if ((v&0x10)!=0)	/*reset timer A irq flag*/
+    			{
+    				int oldstate = chip.status & 3;
+    				chip.status &= 0xfe;
+    				if ((oldstate==1) && (chip.irqhandler)!=null) (chip.irqhandler).handler(0);
+    
+    			}
+    
+    			if ((v&0x02)!=0){	/*load and start timer B*/
+    				/* ASG 980324: added a real timer */
+    				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
+    					if (chip.TimBTimer==null)
+    					{
+    						chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, timer_callback_b);
+    						chip.TimBOldIndex = chip.TimBIndex;
+    					}
+    			}else{		/*stop timer B*/
+    				/* ASG 980324: added a real timer */
+    					if (chip.TimBTimer!=null) timer_remove (chip.TimBTimer);
+    					chip.TimBTimer = null;
+    			}
+    
+    			if ((v&0x01)!=0){	/*load and start timer A*/
+    				/* ASG 980324: added a real timer */
+    				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
+    					if (chip.TimATimer==null)
+    					{
+    						chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, timer_callback_a);
+    						chip.TimAOldIndex = chip.TimAIndex;
+    					}
+    			}else{		/*stop timer A*/
+    				/* ASG 980324: added a real timer */
+    					if (chip.TimATimer!=null) timer_remove (chip.TimATimer);
+    					chip.TimATimer = null;
+    			}
+    			break;
+    
+    		case 0x18: /*LFO frequency*/
+    			chip.LFOfrq = chip.LFOfreq[ v ];
+    			break;
+    
+    		case 0x19: /*PMD (bit 7==1) or AMD (bit 7==0)*/
+    			if ((v&0x80)!=0)
+    				chip.PMD = lfo_md_tab[ v&0x7f ] + 512;
+    			else
+    				chip.AMD = lfo_md_tab[ v&0x7f ];
+    			break;
+    
+    		case 0x1b: /*CT2, CT1, LFO waveform*/
+    			chip.CT = v;
+    			chip.LFOwave = (v & 3) * LFO_LEN*2;
+    			if (chip.porthandler!=null) (chip.porthandler).handler(0 , (int)((chip.CT) >> 6) );
+    			break;
+    
+    		default:
+    			if (errorlog!=null) fprintf(errorlog,"YM2151 Write %02x to undocumented register #%02x\n",v,r);
+    			break;
+    		}
+    		break;
     /*TODO*///
     /*TODO*///	case 0x20:
     /*TODO*///		op = &chip->Oscils[r & 7];
@@ -1051,7 +1068,7 @@ public class ym2151 {
     /*TODO*///		op->RR  = 34 + ((v&0x0f)<<2);
     /*TODO*///		op->delta_RR  = chip->EG_tab[op->RR  + (op->KC>>op->KS) ];
     /*TODO*///		break;
-    /*TODO*///	}
+    	}
     }
     public static int YM2151ReadStatus( int n )
     {
@@ -1128,8 +1145,8 @@ public class ym2151 {
     	chip.IRQenable = 0;
     
     	/* ASG 980324 -- reset the timers before writing to the registers */
-    	chip.TimATimer = 0;
-    	chip.TimBTimer = 0;
+    	chip.TimATimer = null;
+    	chip.TimBTimer = null;
     	chip.TimAIndex = 0;
     	chip.TimBIndex = 0;
     	chip.TimAOldIndex = 0;

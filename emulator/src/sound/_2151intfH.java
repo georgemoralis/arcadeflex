@@ -21,6 +21,17 @@ public class _2151intfH {
             this.portwritehandler = portwritehandler;
 
         }
+        public YM2151interface(int num, int baseclock, int[] volume, WriteYmHandlerPtr[] irqhandler) {
+            this.num = num;
+            this.baseclock = baseclock;
+            this.volume = volume;
+            this.irqhandler = irqhandler;
+            this.portwritehandler = new WriteHandlerPtr[num];
+            for(int i=0; i<num; i++)
+            {
+             this.portwritehandler[i] = null;
+            }
+        }
         int num;
         int baseclock;
         int[] volume;//[MAX_2151]; /* need for use YM3012()_VOL macro */

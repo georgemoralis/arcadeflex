@@ -45,12 +45,15 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_ADPCM;
-import static mame.sndintrfH.SOUND_OKIM6295;
+import static mame.sndintrfH.*;
 import static sound.adpcmH.*;
 import static sound.adpcm.*;
 import static sound.okim6295H.*;
 import static sound.okim6295.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
+import static sound.mixerH.*;
+
 
 public class ddragon
 {
@@ -232,7 +235,7 @@ public class ddragon
 		new MemoryReadAddress( 0x0000, 0x0fff, MRA_RAM ),
 		new MemoryReadAddress( 0x1000, 0x1000, soundlatch_r ),
 		new MemoryReadAddress( 0x1800, 0x1800, dd_adpcm_status_r ),
-/*TODO*///		new MemoryReadAddress( 0x2800, 0x2801, YM2151_status_port_0_r ),
+		new MemoryReadAddress( 0x2800, 0x2801, YM2151_status_port_0_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
@@ -240,8 +243,8 @@ public class ddragon
 	static MemoryWriteAddress sound_writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x0fff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x2800, 0x2800, YM2151_register_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2801, 0x2801, YM2151_data_port_0_w ),
+		new MemoryWriteAddress( 0x2800, 0x2800, YM2151_register_port_0_w ),
+		new MemoryWriteAddress( 0x2801, 0x2801, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0x3800, 0x3807, dd_adpcm_w ),
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_ROM ),
 		new MemoryWriteAddress( -1 )	/* end of table */
@@ -267,7 +270,7 @@ public class ddragon
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( 0x8801, 0x8801, YM2151_status_port_0_r ),
+		new MemoryReadAddress( 0x8801, 0x8801, YM2151_status_port_0_r ),
 		new MemoryReadAddress( 0x9800, 0x9800, OKIM6295_status_0_r ),
 		new MemoryReadAddress( 0xA000, 0xA000, soundlatch_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
@@ -277,8 +280,8 @@ public class ddragon
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x8800, 0x8800, YM2151_register_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x8801, 0x8801, YM2151_data_port_0_w ),
+		new MemoryWriteAddress( 0x8800, 0x8800, YM2151_register_port_0_w ),
+		new MemoryWriteAddress( 0x8801, 0x8801, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0x9800, 0x9800, OKIM6295_data_0_w ),
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -519,18 +522,18 @@ public class ddragon
 		new GfxDecodeInfo( REGION_GFX3, 0, tile_layout,       256, 8 ),	/* 16x16 background tiles */
 		new GfxDecodeInfo( -1 ) // end of array
 	};
+	public static WriteYmHandlerPtr dd_irq_handler = new WriteYmHandlerPtr() { public void handler(int irq)
+	{
+		cpu_set_irq_line( 2, ym_irq , irq!=0 ? ASSERT_LINE : CLEAR_LINE );
+	}};
 	
-/*TODO*///	static void dd_irq_handler(int irq) {
-/*TODO*///		cpu_set_irq_line( 2, ym_irq , irq ? ASSERT_LINE : CLEAR_LINE );
-/*TODO*///	}
-	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		3579545,	/* ??? */
-/*TODO*///		{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
-/*TODO*///		{ dd_irq_handler }
-/*TODO*///	};
+	static YM2151interface ym2151_interface = new YM2151interface
+	(
+		1,			/* 1 chip */
+		3579545,	/* ??? */
+		new int[]{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[]{ dd_irq_handler }
+        );
 	
 	static ADPCMinterface adpcm_interface = new ADPCMinterface
 	(
@@ -674,6 +677,11 @@ public class ddragon
 		new MachineSound[] {
                     new MachineSound
                     (
+				SOUND_YM2151,
+				ym2151_interface
+			),
+                    new MachineSound
+                    (
 				SOUND_ADPCM,
 				adpcm_interface
 			),
@@ -735,6 +743,11 @@ public class ddragon
 		}*/
                 0,0,0,0,
 		new MachineSound[] {
+                    new MachineSound
+                    (
+				SOUND_YM2151,
+				ym2151_interface
+			),
                     new MachineSound
                     (
 				SOUND_OKIM6295,
