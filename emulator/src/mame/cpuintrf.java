@@ -29,6 +29,7 @@ import cpu.m6800.m6808;
 import cpu.m6800.hd63701;
 import cpu.tms32010.tms32010;
 import static cpu.tms32010.tms32010H.*;
+import static cpu.m68000.m68000H.*;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -1007,51 +1008,49 @@ public class cpuintrf {
     	return INT_TYPE_NMI(cpunum);
     }};
 
-
-    /*TODO*///int m68_level1_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_1;
-    /*TODO*///}
-    /*TODO*///int m68_level2_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_2;
-    /*TODO*///}
-    /*TODO*///int m68_level3_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_3;
-    /*TODO*///}
-    /*TODO*///int m68_level4_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_4;
-    /*TODO*///}
-    /*TODO*///int m68_level5_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_5;
-    /*TODO*///}
-    /*TODO*///int m68_level6_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_6;
-    /*TODO*///}
-    /*TODO*///int m68_level7_irq(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
-    /*TODO*///	return MC68000_IRQ_7;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    public static InterruptPtr m68_level1_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_1;
+    }};
+    public static InterruptPtr m68_level2_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_2;
+    }};
+    public static InterruptPtr m68_level3_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_3;
+    }};
+    public static InterruptPtr m68_level4_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_4;
+    }};
+    public static InterruptPtr m68_level5_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_5;
+    }};
+    public static InterruptPtr m68_level6_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_6;
+    }};
+    public static InterruptPtr m68_level7_irq = new InterruptPtr() {
+        public int handler() {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
+    	return MC68000_IRQ_7;
+    }};
+    
     public static InterruptPtr ignore_interrupt = new InterruptPtr() { public int handler()
     {
         int cpunum = (activecpu < 0) ? 0 : activecpu;
@@ -1449,23 +1448,21 @@ public class cpuintrf {
     				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"KONAMI unknown\n");
     				}
     				break;
-    /*TODO*///#endif
-    /*TODO*///#if (HAS_M68000)
-    /*TODO*///			case CPU_M68000:
-    /*TODO*///				switch (num)
-    /*TODO*///				{
-    /*TODO*///				case MC68000_IRQ_1: 	irq_line = 1; LOG((errorlog,"M68K IRQ1\n")); break;
-    /*TODO*///				case MC68000_IRQ_2: 	irq_line = 2; LOG((errorlog,"M68K IRQ2\n")); break;
-    /*TODO*///				case MC68000_IRQ_3: 	irq_line = 3; LOG((errorlog,"M68K IRQ3\n")); break;
-    /*TODO*///				case MC68000_IRQ_4: 	irq_line = 4; LOG((errorlog,"M68K IRQ4\n")); break;
-    /*TODO*///				case MC68000_IRQ_5: 	irq_line = 5; LOG((errorlog,"M68K IRQ5\n")); break;
-    /*TODO*///				case MC68000_IRQ_6: 	irq_line = 6; LOG((errorlog,"M68K IRQ6\n")); break;
-    /*TODO*///				case MC68000_IRQ_7: 	irq_line = 7; LOG((errorlog,"M68K IRQ7\n")); break;
-    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"M68K unknown\n"));
-    /*TODO*///				}
-    /*TODO*///				/* until now only auto vector interrupts supported */
-    /*TODO*///				num = MC68000_INT_ACK_AUTOVECTOR;
-    /*TODO*///				break;
+    			case CPU_M68000:
+    				switch (num)
+    				{
+    				case MC68000_IRQ_1: 	irq_line = 1; if(errorlog!=null) fprintf(errorlog,"M68K IRQ1\n"); break;
+    				case MC68000_IRQ_2: 	irq_line = 2; if(errorlog!=null) fprintf(errorlog,"M68K IRQ2\n"); break;
+    				case MC68000_IRQ_3: 	irq_line = 3; if(errorlog!=null) fprintf(errorlog,"M68K IRQ3\n"); break;
+    				case MC68000_IRQ_4: 	irq_line = 4; if(errorlog!=null) fprintf(errorlog,"M68K IRQ4\n"); break;
+    				case MC68000_IRQ_5: 	irq_line = 5; if(errorlog!=null) fprintf(errorlog,"M68K IRQ5\n"); break;
+    				case MC68000_IRQ_6: 	irq_line = 6; if(errorlog!=null) fprintf(errorlog,"M68K IRQ6\n"); break;
+    				case MC68000_IRQ_7: 	irq_line = 7; if(errorlog!=null) fprintf(errorlog,"M68K IRQ7\n"); break;
+    				default:				irq_line = 0; if(errorlog!=null) fprintf(errorlog,"M68K unknown\n");
+    				}
+    				/* until now only auto vector interrupts supported */
+    				num = MC68000_INT_ACK_AUTOVECTOR;
+    				break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_M68010)
     /*TODO*///			case CPU_M68010:
