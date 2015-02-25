@@ -169,6 +169,8 @@ import static drivers.centiped.*;
 import static drivers.WIP.foodf.*;
 import static drivers.WIP.aeroboto.*;
 import static drivers.goindol.*;
+import static drivers.WIP.bjtwin.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -990,6 +992,7 @@ driver_vendett2,
 driver_vendettj,
 
 driver_foodf,
+driver_bjtwin,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
@@ -2717,7 +2720,7 @@ driver_foodf,
 
 /*TODO*/ //TESTDRIVER( dlair )
 /*TODO*/ //	DRIVER( meteor )	/* (c) 1981 Venture Line */
-/*TODO*/ //	DRIVER( bjtwin )	/* (c) 1993 NMK */
+
 /*TODO*/ //	DRIVER( aztarac )	/* (c) 1983 Centuri (vector game) */
 /*TODO*/ //	DRIVER( mole )		/* (c) 1982 Yachiyo Electronics, Ltd. */
 /*TODO*/ //	DRIVER( gotya )		/* (c) 1981 Game-A-Tron */
