@@ -282,10 +282,6 @@ moonal2b galaxian.c Z80                                                         
 kingball galaxian.c Z80      [Z80   ]                                                       Custom      1xDAC                                           King & Balloon (US)
 kingbalj galaxian.c Z80      [Z80   ]                                                       Custom      1xDAC                                           King & Balloon (Japan)
 scramblb galaxian.c Z80                                                                     Custom                                                      Scramble (bootleg on Galaxian hardware)
-flyboy   fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy
-flyboyb  fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy (bootleg)
-fastfred fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fast Freddie
-jumpcoas fastfred.c Z80                                                                     1xAY-8910                                                   Jump Coaster
 friskyt  seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Frisky Tom
 radrad   seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Radical Radial
 seicross seicross.c Z80      NSC8105                                                        1xAY-8910   1xDAC                                           Seicross

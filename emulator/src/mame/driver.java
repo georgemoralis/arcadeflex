@@ -172,6 +172,8 @@ import static drivers.goindol.*;
 import static drivers.WIP.bjtwin.*;
 import static drivers.WIP.docastle.*;
 import static drivers.higemaru.*;
+import static drivers.fastfred.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -588,7 +590,10 @@ public class driver {
         /*401*//*centiped*/driver_centipd2,
         /*402*//*centiped*/driver_centipdb,
         /*403*//*centiped*/driver_centipb2,
-        /*404*//*higemaru*/driver_higemaru,
+        /*404*//*higemaru*/driver_higemaru,        
+        /*405*//*fastfred*/driver_flyboyb,
+        /*406*//*fastfred*/driver_fastfred,
+        /*407*//*fastfred*/driver_jumpcoas,
         
         /*
            Small issues that doesn't affect playable status
@@ -737,6 +742,7 @@ public class driver {
         /*tehkanwc*/driver_teedoff,
         /*aeroboto*/driver_formatz,
         /*aeroboto*/driver_aeroboto,
+        /*fastfred*/driver_flyboy,
         
         /*
         WIP drivers
@@ -1058,10 +1064,7 @@ driver_bjtwin,
 
             
             
-/*TODO*/ //	DRIVER( flyboy )	/* (c) 1982 Kaneko */
-/*TODO*/ //	DRIVER( flyboyb )	/* bootleg */
-/*TODO*/ //	DRIVER( fastfred )	/* (c) 1982 Atari */
-/*TODO*/ //	DRIVER( jumpcoas )	/* (c) 1983 Kaneko */
+
 
 	
 

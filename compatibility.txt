@@ -405,6 +405,9 @@ centipd2 centiped.c M6502                                                       
 centipdb centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 1)
 centipb2 centiped.c M6502                                                                   1xAY-8910                                                   Centipede (bootleg set 2)
 higemaru higemaru.c Z80                                                                     2xAY-8910                                                   Pirate Ship HigeMaru
+flyboyb  fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy (bootleg)
+fastfred fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fast Freddie
+jumpcoas fastfred.c Z80                                                                     1xAY-8910                                                   Jump Coaster
 
 
 Small issues that doesn't affect playable status
@@ -548,6 +551,8 @@ gwara    snk.c      Z80      Z80      [Z80   ]                                  
 teedoff  tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Tee'd Off
 formatz  aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Formation Z
 aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
+flyboy   fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy
+
 
 WIP
 ===
