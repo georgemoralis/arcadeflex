@@ -171,7 +171,7 @@ import static drivers.WIP.aeroboto.*;
 import static drivers.goindol.*;
 import static drivers.WIP.bjtwin.*;
 import static drivers.WIP.docastle.*;
-
+import static drivers.higemaru.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -588,6 +588,7 @@ public class driver {
         /*401*//*centiped*/driver_centipd2,
         /*402*//*centiped*/driver_centipdb,
         /*403*//*centiped*/driver_centipb2,
+        /*404*//*higemaru*/driver_higemaru,
         
         /*
            Small issues that doesn't affect playable status
@@ -673,6 +674,16 @@ public class driver {
         /*btime*/driver_mmonkey,//no controls working
         /*btime*/driver_cookrace,//no controls working,
         /*mystston*/driver_mystston, //no controls working
+        /*docastle*/driver_docastle,//no controls working
+        /*docastle*/driver_docastl2,//no controls working
+        /*docastle*/driver_douni,//no controls working
+        /*docastle*/driver_dorunrun,//no controls working
+        /*docastle*/driver_dorunru2,//no controls working
+        /*docastle*/driver_dorunruc,//no controls working
+        /*docastle*/driver_spiero,//no controls working
+        /*docastle*/driver_dowild,//no controls working
+        /*docastle*/driver_jjack,//no controls working
+        /*docastle*/driver_kickridr,//no controls working
         
         /*
            Unknown issues 
@@ -1242,18 +1253,6 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( nomnlnd )	/* (c) [1980?] */
 /*TODO*/ //	DRIVER( nomnlndg )/	* (c) [1980?] + Gottlieb */
  
-    
-/*docastle*/driver_docastle,
-/*docastle*/driver_docastl2,
-/*docastle*/driver_douni,
-/*docastle*/driver_dorunrun,
-/*docastle*/driver_dorunru2,
-/*docastle*/driver_dorunruc,
-/*docastle*/driver_spiero,
-/*docastle*/driver_dowild,
-/*docastle*/driver_jjack,
-/*docastle*/driver_kickridr,
-
 	/* Nintendo games */
 /*TODO*/ //	DRIVER( radarscp )	/* (c) 1980 Nintendo */
 /*TODO*/ //	DRIVER( dkong )		/* (c) 1981 Nintendo of America */
@@ -1675,7 +1674,7 @@ driver_bjtwin,
 	/* their web site. The list is sorted by production date. */
 
             
-/*TODO*/ //	DRIVER( higemaru )	/*  9/1984 (c) 1984 */
+
                
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
