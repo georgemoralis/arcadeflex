@@ -100,16 +100,6 @@ devzone  cosmic.c   Z80                                                         
 nomnlnd  cosmic.c   Z80                                                                     1xDAC                                                       No Man's Land
 nomnlndg cosmic.c   Z80                                                                     1xDAC                                                       No Man's Land (Gottlieb)
 cheekyms cheekyms.c Z80                                                                     1xDAC                                                       Cheeky Mouse
-docastle docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Castle (set 1)
-docastl2 docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Castle (set 2)
-douni    docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do vs. Unicorns
-dorunrun docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (set 1)
-dorunru2 docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (set 2)
-dorunruc docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (Do's Castle hardware)
-spiero   docastle.c Z80      Z80                                                            4xSN76496                                                   Super Pierrot (Japan)
-dowild   docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Wild Ride
-jjack    docastle.c Z80      Z80                                                            4xSN76496                                                   Jumping Jack
-kickridr docastle.c Z80      Z80                                                            4xSN76496                                                   Kick Rider
 radarscp dkong.c    Z80      [I8035 ]                                                       1xDAC       Samples                                         Radar Scope
 dkong    dkong.c    Z80      [I8035 ]                                                       1xDAC       Samples                                         Donkey Kong (US)
 dkongjp  dkong.c    Z80      [I8035 ]                                                       1xDAC       Samples                                         Donkey Kong (Japan set 1)

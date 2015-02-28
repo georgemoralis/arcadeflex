@@ -170,6 +170,7 @@ import static drivers.WIP.foodf.*;
 import static drivers.WIP.aeroboto.*;
 import static drivers.goindol.*;
 import static drivers.WIP.bjtwin.*;
+import static drivers.WIP.docastle.*;
 
 
 public class driver {
@@ -1242,16 +1243,16 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( nomnlndg )/	* (c) [1980?] + Gottlieb */
  
     
-/*TODO*/ //	DRIVER( docastle )	/* (c) 1983 */
-/*TODO*/ //	DRIVER( docastl2 )	/* (c) 1983 */
-/*TODO*/ //	DRIVER( douni )		/* (c) 1983 */
-/*TODO*/ //	DRIVER( dorunrun )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( dorunru2 )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( dorunruc )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( spiero )	/* (c) 1987 */
-/*TODO*/ //	DRIVER( dowild )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( jjack )		/* (c) 1984 */
-/*TODO*/ //	DRIVER( kickridr )	/* (c) 1984 */
+/*docastle*/driver_docastle,
+/*docastle*/driver_docastl2,
+/*docastle*/driver_douni,
+/*docastle*/driver_dorunrun,
+/*docastle*/driver_dorunru2,
+/*docastle*/driver_dorunruc,
+/*docastle*/driver_spiero,
+/*docastle*/driver_dowild,
+/*docastle*/driver_jjack,
+/*docastle*/driver_kickridr,
 
 	/* Nintendo games */
 /*TODO*/ //	DRIVER( radarscp )	/* (c) 1980 Nintendo */

@@ -485,6 +485,17 @@ disco    btime.c    M6502    [M6502 ]                                           
 mmonkey  btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Minky Monkey  //controls doesn't work
 cookrace btime.c    M6502    [M6502 ]                                                       2xAY-8910                                                   Cook Race  //controls doesn't work
 mystston mystston.c M6502                                                                   2xAY-8910                                                   Mysterious Stones //controls doesn't work
+docastle docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Castle (set 1)  //controls doesn't work
+docastl2 docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Castle (set 2)  //controls doesn't work
+douni    docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do vs. Unicorns  //controls doesn't work
+dorunrun docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (set 1)  //controls doesn't work
+dorunru2 docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (set 2)  //controls doesn't work
+dorunruc docastle.c Z80      Z80                                                            4xSN76496                                                   Do! Run Run (Do's Castle hardware)   //controls doesn't work
+spiero   docastle.c Z80      Z80                                                            4xSN76496                                                   Super Pierrot (Japan)  //controls doesn't work
+dowild   docastle.c Z80      Z80                                                            4xSN76496                                                   Mr. Do's Wild Ride  //controls doesn't work
+jjack    docastle.c Z80      Z80                                                            4xSN76496                                                   Jumping Jack  //controls doesn't work
+kickridr docastle.c Z80      Z80                                                            4xSN76496                                                   Kick Rider  //controls doesn't work
+
 
 
 Unkown issues

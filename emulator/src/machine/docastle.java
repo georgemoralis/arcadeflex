@@ -62,7 +62,7 @@ public class docastle
 	if (errorlog!=null && offset == 8) fprintf(errorlog,"CPU #1 shared0w %02x %02x %02x %02x %02x %02x %02x %02x %02x clock = %d\n",
 			buffer0[0],buffer0[1],buffer0[2],buffer0[3],buffer0[4],buffer0[5],buffer0[6],buffer0[7],data,cpu_gettotalcycles());
 	
-		buffer0[offset] = (char)(data);
+		buffer0[offset] = (char)(data &0xFF);
 	
 		if (offset == 8)
 			/* awake the master CPU */
@@ -72,7 +72,7 @@ public class docastle
 	
 	public static WriteHandlerPtr docastle_shared1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-		buffer1[offset] = (char)(data);
+		buffer1[offset] = (char)(data &0xFF);
 	
 		if (offset == 8)
 		{
