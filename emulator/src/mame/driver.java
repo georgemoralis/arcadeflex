@@ -112,7 +112,7 @@ import static drivers.m62.*;
 import static drivers.WIP.combatsc.*;
 import static drivers.WIP.trackfld.*;
 import static drivers.WIP.jailbrek.*;
-import static drivers.WIP.kingobox.*;
+import static drivers.kingobox.*;
 import static drivers.WIP.atetris.*;
 import static drivers.WIP.mystston.*;
 import static drivers.WIP.btime.*;
@@ -173,7 +173,7 @@ import static drivers.WIP.bjtwin.*;
 import static drivers.WIP.docastle.*;
 import static drivers.higemaru.*;
 import static drivers.fastfred.*;
-
+import static drivers.zodiack.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -594,6 +594,13 @@ public class driver {
         /*405*//*fastfred*/driver_flyboyb,
         /*406*//*fastfred*/driver_fastfred,
         /*407*//*fastfred*/driver_jumpcoas,
+        /*408*//*zodiack*/driver_zodiack,
+        /*409*//*zodiack*/driver_dogfight,
+        /*410*//*zodiack*/driver_moguchan,
+        /*411*//*zodiack*/driver_percuss,
+        /*412*//*kingobox*/driver_kingofb,
+        /*413*//*kingobox*/driver_ringking,
+        
         
         /*
            Small issues that doesn't affect playable status
@@ -619,6 +626,7 @@ public class driver {
         */
         /*001*//*pacman*/driver_lizwiz,//reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
         /*002*//*skykid*/driver_skykid,//Freezes before going ingame cpu bug?
+
         
         /* GFX issues
         
@@ -629,6 +637,8 @@ public class driver {
         /*003*//*m62*/driver_battroad,//screen height is too big
         /*bladestl*/driver_bladestl, //artifacts left and right of drawing screen
         /*bladestl*/driver_bladstle, //artifacts left and right of drawing screen
+        /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
+        /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
         
         /*
            Sound issues
@@ -713,6 +723,9 @@ public class driver {
         /*tehkanwc*/driver_gridiron,//boots but doesn't start
         /*baraduke*/driver_baraduke,//stops on booting
         /*baraduke*/driver_metrocrs,//goes to intro menu but not much after
+        /*mnight*/driver_mnight,//boots but doesn't start,freezes emu
+        /*mnight*/driver_arkarea,///boots but doesn't start,freezes emu
+         /*kingobox*/driver_ringkin3,//warning - op-code execute on mapped i/o
 
         
         /*
@@ -743,6 +756,7 @@ public class driver {
         /*aeroboto*/driver_formatz,
         /*aeroboto*/driver_aeroboto,
         /*fastfred*/driver_flyboy,
+        /*kingobox*/driver_ringkin2,
         
         /*
         WIP drivers
@@ -752,7 +766,13 @@ public class driver {
         /*xain*/driver_xsleenab,  //freezes after a while ym2203 issue? (works okay if i remove sound)
         /*xain*/driver_solarwar,  //freezes after a while ym2203 issue? (works okay if i remove sound)
 
-        /*TO RECHECK
+        
+        
+        
+        
+        
+        /***************************************************************
+         * TO RECHECK
         */
         
         
@@ -768,10 +788,6 @@ public class driver {
         /*trackfld*/driver_trackflc,
         /*trackfld*/driver_hyprolym,
         /*trackfld*/driver_hyprolyb,
-
-        /*kingobox*/driver_kingofb,
-        /*kingobox*/driver_ringking,
-        /*kingobox*/driver_ringkin3,
     
         /*hyperspt*/driver_hyperspt,
         /*hyperspt*/driver_hpolym84,
@@ -793,8 +809,6 @@ public class driver {
         /*gberet*/driver_rushatck, //garbage remains in left and right of screen (clipping?)
         /*gberet*/driver_gberetb,  //garbage remains in left and right of screen (clipping?)	
         /*gberet*/driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
-        /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
-        /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
         /*mainevt*/driver_mainevt,//small garbage left and right of screen
         /*mainevt*/driver_mainevt2,//small garbage left and right of screen
         /*mainevt*/driver_ringohja,//small garbage left and right of screen
@@ -824,13 +838,7 @@ public class driver {
         
         /*ddragon*/driver_ddragon,  //missing HD63701 cpu
 
-        /**
-         * Games not working in mame 0.36 either
-         */
-        
-        
-        /*kingobox*/driver_ringkin2,
-        
+
 
         /**
          *  Test (Not working) drivers
@@ -913,11 +921,7 @@ public class driver {
         /*renegade*/driver_renegade,//no sprites?
         /*renegade*/driver_kuniokun,//no sprites?
         /*renegade*/driver_kuniokub,//no sprites?
-        
-
-        /*mnight*/driver_mnight,
-        /*mnight*/driver_arkarea,
-        
+                
         /*flkatck*/driver_mx5000,
         /*flkatck*/driver_flkatck,
 
@@ -2661,10 +2665,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( aerofgtc )	/* (c) 1992 */
 /*TODO*/ //TESTDRIVER( unkvsys )
 
-/*TODO*/ //	DRIVER( zodiack )	/* (c) 1983 Orca + Esco Trading Co license */
-/*TODO*/ //	DRIVER( dogfight )	/* (c) 1983 Thunderbolt */
-/*TODO*/ //	DRIVER( moguchan )	/* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */
-/*TODO*/ //	DRIVER( percuss )	/* (c) 1981 Orca */
+
 
 	/* Vastar was made by Orca, but when it was finished, Orca had already bankrupted. */
 	/* So they sold this game as "Made by Sesame Japan" because they couldn't use */

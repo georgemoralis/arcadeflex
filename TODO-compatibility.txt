@@ -126,8 +126,6 @@ ninjakd2 ninjakd2.c Z80                                                         
 ninjak2a ninjakd2.c Z80      [Z80   ]                                                       2xYM-2203   Samples     Custom                              Ninja Kid II (set 2)
 ninjak2b ninjakd2.c Z80      [Z80   ]                                                       2xYM-2203   Samples     Custom                              Ninja Kid II (set 3)
 rdaction ninjakd2.c Z80      [Z80   ]                                                       2xYM-2203   Samples     Custom                              Rad Action
-mnight   mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Mutant Night
-arkarea  mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ark Area
 crbaloon crbaloon.c Z80                                                                     1xSN76477                                                   Crazy Balloon (set 1)
 crbalon2 crbaloon.c Z80                                                                     1xSN76477                                                   Crazy Balloon (set 2)
 popeye   popeye.c   Z80                                                                     1xAY-8910                                                   Popeye (set 1)
@@ -185,8 +183,6 @@ hwrace   taitosj.c  Z80      [Z80   ]                                           
 sfposeid taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Sea Fighter Poseidon
 kikstart taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Kick Start Wheelie King
 bking2   bking2.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Birdie King 2
-lkage    lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage
-lkageb   lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage (bootleg)
 tsamurai tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 1)
 tsamura2 tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 2)
 nunchaku tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Nunchackun
@@ -399,10 +395,6 @@ suprmous thepit.c   Z80      [Z80   ]                                           
 suprmou2 thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Funny Mouse (bootleg?)
 machomou thepit.c   Z80      [Z80   ]                                                       2xAY-8910                                                   Macho Mouse
 psychic5 psychic5.c Z80      [Z80   ]                                                       2xYM-2203                                                   Psychic 5
-zodiack  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Zodiack
-dogfight zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Dog Fight
-moguchan zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Moguchan
-percuss  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   The Percussor
 vastar   vastar.c   Z80      Z80                                                            1xAY-8910                                                   Vastar (set 1)
 vastar2  vastar.c   Z80      Z80                                                            1xAY-8910                                                   Vastar (set 2)
 spacefb  spacefb.c  Z80      [I8035 ]                                                       1xDAC                                                       Space Firebird (Nintendo)
@@ -420,10 +412,6 @@ arabian  arabian.c  Z80                                                         
 arabiana arabian.c  Z80                                                                     1xAY-8910                                                   Arabian (Atari)
 gotya    gotya.c    Z80                                                                                                                                 Got-Ya (12/24/1981, prototype?)
 sharkatt sharkatt.c Z80                                                                     2xAY-8910                                                   Shark Attack
-kingofb  kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           King of Boxer (English)
-ringking kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 1)
-ringkin2 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 2)
-ringkin3 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 3)
 exctsccr exctsccr.c Z80      Z80                                                            4xAY-8910   2xDAC                                           Exciting Soccer
 exctscca exctsccr.c Z80      Z80                                                            4xAY-8910   2xDAC                                           Exciting Soccer (alternate music)
 exctsccb exctsccr.c Z80      Z80                                                            1xAY-8910   1xDAC                                           Exciting Soccer (bootleg)

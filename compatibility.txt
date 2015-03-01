@@ -408,6 +408,12 @@ higemaru higemaru.c Z80                                                         
 flyboyb  fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy (bootleg)
 fastfred fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fast Freddie
 jumpcoas fastfred.c Z80                                                                     1xAY-8910                                                   Jump Coaster
+zodiack  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Zodiack
+dogfight zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Dog Fight
+moguchan zodiack.c  Z80      Z80                                                            1xAY-8910                                                   Moguchan
+percuss  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   The Percussor
+kingofb  kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           King of Boxer (English)
+ringking kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 1)
 
 
 Small issues that doesn't affect playable status
@@ -440,7 +446,8 @@ GFX isssues
 battroad m62.c      Z80      [M6803 ]                                                       2xAY-8910   2xMSM5205                                       The Battle-Road  //screen height is too big
 bladestl bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version T) // artifacts left and right of drawing screen
 bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) // artifacts left and right of drawing screen
-
+lkage    lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage   //garbage remains in left and right of screen (clipping?)
+lkageb   lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage (bootleg)  //garbage remains in left and right of screen (clipping?)
 
 
 Sound issues
@@ -524,6 +531,9 @@ worldwar snk.c      Z80      Z80      [Z80   ]                                  
 gridiron tehkanwc.c Z80      Z80      Z80                                                   2xAY-8910   1xMSM5205                                       Gridiron Fight  //boots but doesn't start
 baraduke baraduke.c M6809    HD63701                                                        Namco                                                       Baraduke  //stops on booting
 metrocrs baraduke.c M6809    HD63701                                                        Namco                                                       Metro-Cross  //goes to intro menu but not much after
+mnight   mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Mutant Night  //boots but doesn't start,freezes emu
+arkarea  mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ark Area //boots but doesn't start,freezes emu
+ringkin3 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 3) //warning - op-code execute on mapped i/o
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------
@@ -552,6 +562,7 @@ teedoff  tehkanwc.c Z80      Z80      Z80                                       
 formatz  aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Formation Z
 aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
 flyboy   fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy
+ringkin2 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 2)
 
 
 WIP
