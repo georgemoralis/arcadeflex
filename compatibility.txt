@@ -414,6 +414,18 @@ moguchan zodiack.c  Z80      Z80                                                
 percuss  zodiack.c  Z80      Z80                                                            1xAY-8910                                                   The Percussor
 kingofb  kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           King of Boxer (English)
 ringking kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 1)
+spaceskr taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Space Seeker
+junglek  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle King (Japan)
+junglkj2 taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle King (Japan, earlier)
+jungleh  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle Hunt (US)
+alpine   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Alpine Ski (set 1)
+alpinea  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Alpine Ski (set 2)
+timetunl taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Time Tunnel
+wwestern taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Wild Western (set 1)
+wwester1 taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Wild Western (set 2)
+elevatob taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Elevator Action (bootleg)
+bioatack taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Bio Attack
+hwrace   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           High Way Race
 
 
 Small issues that doesn't affect playable status
@@ -448,7 +460,7 @@ bladestl bladestl.c HD6309   [M6809 ]                                           
 bladstle bladestl.c HD6309   [M6809 ]                                                       1xYM-2203   uPD7759                                         Blades of Steel (version E) // artifacts left and right of drawing screen
 lkage    lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage   //garbage remains in left and right of screen (clipping?)
 lkageb   lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage (bootleg)  //garbage remains in left and right of screen (clipping?)
-
+waterski taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Water Ski  //bad gfx issues
 
 Sound issues
 ===========
@@ -563,6 +575,7 @@ formatz  aeroboto.c M6809    [M6809 ]                                           
 aeroboto aeroboto.c M6809    [M6809 ]                                                       2xAY-8910                                                   Aeroboto
 flyboy   fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy
 ringkin2 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 2)
+kikstart taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Kick Start Wheelie King 
 
 
 WIP
@@ -570,4 +583,8 @@ WIP
 xsleena  xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena   //freezes after a while ym2203 issue? (works okay if i remove sound)
 xsleenab xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Xain'd Sleena (bootleg) //freezes after a while ym2203 issue? (works okay if i remove sound)
 solarwar xain.c     M6809    M6809    [M6809 ]                                              2xYM-2203                                                   Solar Warrior //freezes after a while ym2203 issue? (works okay if i remove sound)
+frontlin taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Front Line  //missing m68705
+elevator taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Elevator Action //missing m68705
+tinstar  taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           The Tin Star //missing m68705
+sfposeid taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Sea Fighter Poseidon //missing m68705
 

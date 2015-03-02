@@ -164,24 +164,6 @@ gberet   gberet.c   Z80                                                         
 rushatck gberet.c   Z80                                                                     1xSN76496                                                   Rush'n Attack
 gberetb  gberet.c   Z80                                                                     1xSN76496                                                   Green Beret (bootleg)
 mrgoemon gberet.c   Z80                                                                     1xSN76496                                                   Mr. Goemon (Japan)
-spaceskr taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Space Seeker
-junglek  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle King (Japan)
-junglkj2 taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle King (Japan, earlier)
-jungleh  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Jungle Hunt (US)
-alpine   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Alpine Ski (set 1)
-alpinea  taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Alpine Ski (set 2)
-timetunl taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Time Tunnel
-wwestern taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Wild Western (set 1)
-wwester1 taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Wild Western (set 2)
-frontlin taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Front Line
-elevator taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Elevator Action
-elevatob taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Elevator Action (bootleg)
-tinstar  taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           The Tin Star
-waterski taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Water Ski
-bioatack taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Bio Attack
-hwrace   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           High Way Race
-sfposeid taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Sea Fighter Poseidon
-kikstart taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Kick Start Wheelie King
 bking2   bking2.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Birdie King 2
 tsamurai tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 1)
 tsamura2 tsamurai.c Z80      [Z80   ] [Z80   ]                                              1xAY-8910   2xDAC                                           Samurai Nihon-ichi (set 2)

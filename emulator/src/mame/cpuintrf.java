@@ -1,4 +1,3 @@
-
 package mame;
 
 import static arcadeflex.libc_old.*;
@@ -30,6 +29,8 @@ import cpu.m6800.hd63701;
 import cpu.tms32010.tms32010;
 import static cpu.tms32010.tms32010H.*;
 import static cpu.m68000.m68000H.*;
+import cpu.m6805.m6805;
+import cpu.m6805.m68705;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -228,8 +229,8 @@ public class cpuintrf {
 	new m6808(),/*TODO*///CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
 	new hd63701(),/*TODO*///CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
-	new Dummy_cpu(),/*TODO*///CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
-	new Dummy_cpu(),/*TODO*///CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
+	new m6805(),/*TODO*///CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
+	new m68705(),/*TODO*///CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
 	new Dummy_cpu(),/*TODO*///CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
 	new hd6309(),
 	new m6809(),
@@ -1124,18 +1125,16 @@ public class cpuintrf {
     {
     	cpu_yielduntil_trigger(TRIGGER_TIMESLICE);
     }
-    /*TODO*///
-    /*TODO*////* yield our timeslice for a specific period of time */
-    /*TODO*///void cpu_yielduntil_time(double duration)
-    /*TODO*///{
-    /*TODO*///	static int timetrig = 0;
-    /*TODO*///
-    /*TODO*///	cpu_yielduntil_trigger(TRIGGER_YIELDTIME + timetrig);
-    /*TODO*///	cpu_triggertime(duration, TRIGGER_YIELDTIME + timetrig);
-    /*TODO*///	timetrig = (timetrig + 1) & 255;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    /* yield our timeslice for a specific period of time */
+    static int _timetrig = 0;
+    public static void cpu_yielduntil_time(double duration)
+    {   
+    	cpu_yielduntil_trigger(TRIGGER_YIELDTIME + _timetrig);
+    	cpu_triggertime(duration, TRIGGER_YIELDTIME + _timetrig);
+    	_timetrig = (_timetrig + 1) & 255;
+    }
+    
+    
     /*TODO*///
     /*TODO*///int cpu_getvblank(void)
     /*TODO*///{

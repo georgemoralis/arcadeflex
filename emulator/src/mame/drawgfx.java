@@ -1834,8 +1834,7 @@ public class drawgfx {
     }};
 /*TODO*///static int rp_8_fxy(struct osd_bitmap *b,int x,int y)  { return b->line[b->height-1-y][b->width-1-x]; }
          public static read_pixel_procPtr rp_8_fxy = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {
-         System.out.println("TRALALAA");
-             throw new UnsupportedOperationException("Unsupported rp_8_fy");
+             return bitmap.line[bitmap.height-1-y].read(bitmap.width-1-x);
     }};
 /*TODO*///static int rp_8_s(struct osd_bitmap *b,int x,int y)  { return b->line[x][y]; }
            public static read_pixel_procPtr rp_8_s = new read_pixel_procPtr() {	public int handler(osd_bitmap bitmap,int x,int y) {

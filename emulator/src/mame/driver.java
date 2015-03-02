@@ -174,6 +174,7 @@ import static drivers.WIP.docastle.*;
 import static drivers.higemaru.*;
 import static drivers.fastfred.*;
 import static drivers.zodiack.*;
+import static drivers.WIP.taitosj.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -600,7 +601,19 @@ public class driver {
         /*411*//*zodiack*/driver_percuss,
         /*412*//*kingobox*/driver_kingofb,
         /*413*//*kingobox*/driver_ringking,
-        
+        	/* Taito SJ System games */
+        /*414*//*taitosj*/driver_spaceskr,
+        /*415*//*taitosj*/driver_junglek,
+        /*416*//*taitosj*/driver_junglkj2,
+        /*417*//*taitosj*/driver_jungleh,
+        /*418*//*taitosj*/driver_alpine,
+        /*419*//*taitosj*/driver_alpinea,
+        /*420*//*taitosj*/driver_timetunl,
+        /*421*//*taitosj*/driver_wwestern,
+        /*422*//*taitosj*/driver_wwester1,
+        /*423*//*taitosj*/driver_elevatob,
+        /*424*//*taitosj*/driver_bioatack,
+        /*425*//*taitosj*/driver_hwrace,
         
         /*
            Small issues that doesn't affect playable status
@@ -639,7 +652,8 @@ public class driver {
         /*bladestl*/driver_bladstle, //artifacts left and right of drawing screen
         /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
         /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
-        
+        /*taitosj*/driver_waterski,//bad graphics
+    
         /*
            Sound issues
         */
@@ -757,6 +771,7 @@ public class driver {
         /*aeroboto*/driver_aeroboto,
         /*fastfred*/driver_flyboy,
         /*kingobox*/driver_ringkin2,
+        /*taitosj*/driver_kikstart,
         
         /*
         WIP drivers
@@ -765,6 +780,10 @@ public class driver {
         /*xain*/driver_xsleena,  //freezes after a while ym2203 issue? (works okay if i remove sound)
         /*xain*/driver_xsleenab,  //freezes after a while ym2203 issue? (works okay if i remove sound)
         /*xain*/driver_solarwar,  //freezes after a while ym2203 issue? (works okay if i remove sound)
+        /*taitosj*/driver_frontlin,//missing m68705
+        /*taitosj*/driver_elevator,//missing m68705
+        /*taitosj*/driver_tinstar,//missing m68705
+        /*taitosj*/driver_sfposeid,//missing m68705
 
         
         
@@ -1531,25 +1550,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( zookeep2 )	/* (c) 1982 Taito America Corporation */
 /*TODO*/ //	DRIVER( zookeep3 )	/* (c) 1982 Taito America Corporation */
 
-	/* Taito SJ System games */
-/*TODO*/ //	DRIVER( spaceskr )	/* (c) 1981 Taito Corporation */
-/*TODO*/ //	DRIVER( junglek )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( junglkj2 )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( jungleh )	/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( alpine )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( alpinea )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( timetunl )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( wwestern )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( wwester1 )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( frontlin )	/* (c) 1982 Taito Corporation */
-/*TODO*/ //	DRIVER( elevator )	/* (c) 1983 Taito Corporation */
-/*TODO*/ //	DRIVER( elevatob )	/* bootleg */
-/*TODO*/ //	DRIVER( tinstar )	/* (c) 1983 Taito Corporation */
-/*TODO*/ //	DRIVER( waterski )	/* (c) 1983 Taito Corporation */
-/*TODO*/ //	DRIVER( bioatack )	/* (c) 1983 Taito Corporation + Fox Video Games license */
-/*TODO*/ //	DRIVER( hwrace )	/* (c) 1983 Taito Corporation */
-/*TODO*/ //	DRIVER( sfposeid )	/* 1984 */
-/*TODO*/ //	DRIVER( kikstart )
+
 
 	/* other Taito games */
 /*TODO*/ //	DRIVER( bking2 )	/* (c) 1983 Taito Corporation */
