@@ -18,6 +18,15 @@ import static arcadeflex.libc.*;
 import static vidhrdw.vigilant.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_DAC;
+import static mame.sndintrfH.SOUND_YM2151;
+import static sound.dac.*;
+import static sound.dacH.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
+import static sndhrdw.m72.*;
+import static sound.mixerH.*;
 
 public class vigilant
 {
@@ -90,7 +99,7 @@ public class vigilant
 	
 	static IOWritePort vigilant_writeport[] =
 	{
-/*TODO*///		new IOWritePort( 0x00, 0x00, m72_sound_command_w ),  /* SD */
+		new IOWritePort( 0x00, 0x00, m72_sound_command_w ),  /* SD */
 		new IOWritePort( 0x01, 0x01, vigilant_out2_w ), /* OUT2 */
 		new IOWritePort( 0x04, 0x04, vigilant_bank_select_w ), /* PBANK */
 		new IOWritePort( 0x80, 0x81, vigilant_horiz_scroll_w ), /* HSPL, HSPH */
@@ -134,7 +143,7 @@ public class vigilant
 	{
 		new IOWritePort( 0x00, 0x00, kikcubic_coin_w ),	/* also flip screen, and...? */
 		new IOWritePort( 0x04, 0x04, vigilant_bank_select_w ),
-/*TODO*///		new IOWritePort( 0x06, 0x06, m72_sound_command_w ),
+		new IOWritePort( 0x06, 0x06, m72_sound_command_w ),
 	//	new IOWritePort( 0x07, 0x07, IOWP_NOP ),	/* ?? */
 		new IOWritePort( -1 )	/* end of table */
 	};
@@ -155,19 +164,19 @@ public class vigilant
 	
 	static IOReadPort sound_readport[] =
 	{
-/*TODO*///		new IOReadPort( 0x01, 0x01, YM2151_status_port_0_r ),
+		new IOReadPort( 0x01, 0x01, YM2151_status_port_0_r ),
 		new IOReadPort( 0x80, 0x80, soundlatch_r ),	/* SDRE */
-/*TODO*///		new IOReadPort( 0x84, 0x84, m72_sample_r ),	/* S ROM C */
+		new IOReadPort( 0x84, 0x84, m72_sample_r ),	/* S ROM C */
 		new IOReadPort( -1 )	/* end of table */
 	};
 	
 	static IOWritePort sound_writeport[] =
 	{
-/*TODO*///		new IOWritePort( 0x00, 0x00, YM2151_register_port_0_w ),
-/*TODO*///		new IOWritePort( 0x01, 0x01, YM2151_data_port_0_w ),
-/*TODO*///		new IOWritePort( 0x80, 0x81, vigilant_sample_addr_w ),	/* STL / STH */
-/*TODO*///		new IOWritePort( 0x82, 0x82, m72_sample_w ),			/* COUNT UP */
-/*TODO*///		new IOWritePort( 0x83, 0x83, m72_sound_irq_ack_w ),	/* IRQ clear */
+		new IOWritePort( 0x00, 0x00, YM2151_register_port_0_w ),
+		new IOWritePort( 0x01, 0x01, YM2151_data_port_0_w ),
+		new IOWritePort( 0x80, 0x81, vigilant_sample_addr_w ),	/* STL / STH */
+		new IOWritePort( 0x82, 0x82, m72_sample_w ),			/* COUNT UP */
+		new IOWritePort( 0x83, 0x83, m72_sound_irq_ack_w ),	/* IRQ clear */
 		new IOWritePort( -1 )	/* end of table */
 	};
 	
@@ -411,22 +420,20 @@ public class vigilant
 		new GfxDecodeInfo( -1 ) /* end of array */
 	};
 	
-	
-	
-	/*static struct YM2151interface ym2151_interface =
-	{
+	static YM2151interface ym2151_interface = new YM2151interface
+	(
 		1,			/* 1 chip */
-	/*	3579645,	/* 3.579645 MHz */
-	/*	{ YM3012_VOL(55,MIXER_PAN_LEFT,55,MIXER_PAN_RIGHT) },
-		{ m72_ym2151_irq_handler },
-		{ 0 }
-	};
+		3579545,	/* ??? */
+		new int[]{ YM3012_VOL(55,MIXER_PAN_LEFT,55,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[]{ m72_ym2151_irq_handler }
+        );
+
 	
-	static struct DACinterface dac_interface =
-	{
+	static DACinterface dac_interface = new DACinterface
+	(
 		1,
-		{ 100 }
-	};*/
+		new int[]{ 100 }
+        );
 	
 	
 	
@@ -450,7 +457,7 @@ public class vigilant
 		},
 		55, DEFAULT_REAL_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
 		1,	/* no need for interleaving */
-/*TODO*/		null,/*m72_init_sound,*/
+                m72_init_sound,
 	
 		/* video hardware */
 		64*8, 32*8, new rectangle( 16*8, (64-16)*8-1, 0*8, 32*8-1 ),
@@ -465,19 +472,19 @@ public class vigilant
 		vigilant_vh_screenrefresh,
 	
 		/* sound hardware */
-                
-		SOUND_SUPPORTS_STEREO,0,0,0,
-                null
-		/*{
-			{
+                0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
 				SOUND_YM2151,
-				&ym2151_interface
-			},
-			{
+				ym2151_interface
+                    ),
+                    new MachineSound
+                    (
 				SOUND_DAC,
-				&dac_interface
-			}
-		}*/
+				dac_interface
+                    )
+		}
 	);
 	
 	static MachineDriver machine_driver_kikcubic = new MachineDriver
@@ -500,7 +507,7 @@ public class vigilant
 		},
 		55, DEFAULT_REAL_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
 		1,	/* no need for interleaving */
-/*TODO*/		null,/*m72_init_sound,*/
+                m72_init_sound,
 	
 		/* video hardware */
 		64*8, 32*8, new rectangle( 8*8, (64-8)*8-1, 0*8, 32*8-1 ),
@@ -515,18 +522,20 @@ public class vigilant
 		kikcubic_vh_screenrefresh,
 	
 		/* sound hardware */
-                SOUND_SUPPORTS_STEREO,0,0,0,
-                null
-		/*{
-			{
+                0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
+		new MachineSound[] {
+                    new MachineSound
+                    (
 				SOUND_YM2151,
-				&ym2151_interface
-			},
-			{
+				ym2151_interface
+                    ),
+                    new MachineSound
+                    (
 				SOUND_DAC,
-				&dac_interface
-			}
-		}*/
+				dac_interface
+                    )
+		}
+
 	);
 	
 	
