@@ -384,9 +384,6 @@ spacefbg spacefb.c  Z80      [I8035 ]                                           
 spacefbb spacefb.c  Z80      [I8035 ]                                                       1xDAC                                                       Space Firebird (bootleg)
 spacebrd spacefb.c  Z80      [I8035 ]                                                       1xDAC                                                       Space Bird (bootleg)
 spacedem spacefb.c  Z80      [I8035 ]                                                       1xDAC                                                       Space Demon
-blueprnt blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Midway)
-blueprnj blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Jaleco)
-saturn   blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Saturn
 omegrace omegrace.c Z80      [Z80   ]                                                       2xAY-8910                                                   Omega Race
 dday     dday.c     Z80                                                                     2xAY-8910                                                   D-Day
 ddayc    dday.c     Z80                                                                     2xAY-8910                                                   D-Day (Centuri)

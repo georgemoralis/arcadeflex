@@ -175,6 +175,9 @@ import static drivers.higemaru.*;
 import static drivers.fastfred.*;
 import static drivers.zodiack.*;
 import static drivers.WIP.taitosj.*;
+import static drivers.blueprnt.*;
+
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -614,6 +617,9 @@ public class driver {
         /*423*//*taitosj*/driver_elevatob,
         /*424*//*taitosj*/driver_bioatack,
         /*425*//*taitosj*/driver_hwrace,
+        /*426*//*blueprnt*/driver_blueprnt,
+        /*427*//*blueprnt*/driver_blueprnj,
+
         
         /*
            Small issues that doesn't affect playable status
@@ -683,6 +689,7 @@ public class driver {
         /*zaxxon*/driver_zaxxonb,//no samples support	
         /*zaxxon*/driver_szaxxon,//no samples support
         /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
+        /*blueprnt*/driver_saturn,//sound partialy works
             
         /* controls issues
         
@@ -2695,9 +2702,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( spacefbb )	/* bootleg */
 /*TODO*/ //	DRIVER( spacebrd )	/* bootleg */
 /*TODO*/ //	DRIVER( spacedem )	/* (c) 1980 Nintendo / Fortrek */
-/*TODO*/ //	DRIVER( blueprnt )	/* (c) 1982 Bally Midway (Zilec in ROM 3U, and the programmer names) */
-/*TODO*/ //	DRIVER( blueprnj )	/* (c) 1982 Jaleco (Zilec in ROM 3U, and the programmer names) */
-/*TODO*/ //	DRIVER( saturn )	/* (c) 1983 Jaleco (Zilec in ROM R6, and the programmer names) */
+
 /*TODO*/ //	DRIVER( omegrace )	/* (c) 1981 Midway */
 /*TODO*/ //	DRIVER( dday )		/* (c) 1982 Olympia */
 /*TODO*/ //	DRIVER( ddayc )		/* (c) 1982 Olympia + Centuri license */

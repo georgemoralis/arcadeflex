@@ -426,6 +426,8 @@ wwester1 taitosj.c  Z80      [Z80   ]                                           
 elevatob taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Elevator Action (bootleg)
 bioatack taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Bio Attack
 hwrace   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           High Way Race
+blueprnt blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Midway)
+blueprnj blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Jaleco)
 
 
 Small issues that doesn't affect playable status
@@ -490,6 +492,7 @@ zaxxonb  zaxxon.c   Z80                                                         
 szaxxon  zaxxon.c   Z80                                                                     Samples                                                     Super Zaxxon   -no samples support
 futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy   -no samples support
 ddribble ddrible.c  M6809    M6809    M6809                                                 1xYM-2203   VLM5030                                         Double Dribble  - vlm5030 works but has glitches
+saturn   blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Saturn  //sound partialy works
 
 Control issues
 =============
