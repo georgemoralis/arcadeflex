@@ -176,6 +176,7 @@ import static drivers.fastfred.*;
 import static drivers.zodiack.*;
 import static drivers.WIP.taitosj.*;
 import static drivers.blueprnt.*;
+import static drivers.kchamp.*;
 
 
 
@@ -619,6 +620,10 @@ public class driver {
         /*425*//*taitosj*/driver_hwrace,
         /*426*//*blueprnt*/driver_blueprnt,
         /*427*//*blueprnt*/driver_blueprnj,
+        /*428*//*kchamp*/driver_kchamp,
+        /*429*//*kchamp*/driver_karatedo,
+        /*430*//*kchamp*/driver_kchampvs,
+        /*431*//*kchamp*/driver_karatevs,
 
         
         /*
@@ -2069,10 +2074,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( astrof3 )	/* (c) [1980?] */
 /*TODO*/ //	DRIVER( tomahawk )	/* (c) [1980?] */
 /*TODO*/ //	DRIVER( tomahaw5 )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( kchamp )	/* (c) 1984 Data East USA (US) */
-/*TODO*/ //	DRIVER( karatedo )	/* (c) 1984 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( kchampvs )	/* (c) 1984 Data East USA (US) */
-/*TODO*/ //	DRIVER( karatevs )	/* (c) 1984 Data East Corporation (Japan) */
+
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */
 

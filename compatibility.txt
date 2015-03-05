@@ -428,7 +428,10 @@ bioatack taitosj.c  Z80      [Z80   ]                                           
 hwrace   taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           High Way Race
 blueprnt blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Midway)
 blueprnj blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Blue Print (Jaleco)
-
+kchamp   kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Karate Champ (US)
+karatedo kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Karate Dou (Japan)
+kchampvs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Karate Champ (US VS version)
+karatevs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Taisen Karate Dou (Japan VS version)
 
 Small issues that doesn't affect playable status
 =======================================

@@ -145,10 +145,6 @@ kikcubic vigilant.c Z80      [Z80   ]                                           
 sichuan2 shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Sichuan II (hack?) (set 1)
 sichuana shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Sichuan II (hack ?) (set 2)
 shisen   shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Shisensho - Joshiryo-Hen (Japan)
-kchamp   kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Karate Champ (US)
-karatedo kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Karate Dou (Japan)
-kchampvs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Karate Champ (US VS version)
-karatevs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Taisen Karate Dou (Japan VS version)
 firetrap firetrap.c Z80      [M6502 ]                                                       1xYM-3526   1xMSM5205                                       Fire Trap
 firetpbl firetrap.c Z80      [M6502 ]                                                       1xYM-3526   1xMSM5205                                       Fire Trap (Japan bootleg)
 senjyo   senjyo.c   Z80      [Z80   ]                                                       3xSN76496   Custom                                          Senjyo
