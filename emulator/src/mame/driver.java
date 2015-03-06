@@ -177,7 +177,7 @@ import static drivers.zodiack.*;
 import static drivers.WIP.taitosj.*;
 import static drivers.blueprnt.*;
 import static drivers.kchamp.*;
-
+import static drivers.WIP.qix.*;
 
 
 public class driver {
@@ -624,6 +624,7 @@ public class driver {
         /*429*//*kchamp*/driver_karatedo,
         /*430*//*kchamp*/driver_kchampvs,
         /*431*//*kchamp*/driver_karatevs,
+        
 
         
         /*
@@ -1549,18 +1550,18 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( crbalon2 )	/* (c) 1980 Taito Corporation */
 
 	/* Taito "Qix hardware" games */
-/*TODO*/ //	DRIVER( qix )		/* (c) 1981 Taito America Corporation */
-/*TODO*/ //	DRIVER( qixa )		/* (c) 1981 Taito America Corporation */
-/*TODO*/ //	DRIVER( qixb )		/* (c) 1981 Taito America Corporation */
-/*TODO*/ //	DRIVER( qix2 )		/* (c) 1981 Taito America Corporation */
-/*TODO*/ //	DRIVER( sdungeon )	/* (c) 1981 Taito America Corporation */
-/*TODO*/ //	DRIVER( elecyoyo )	/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( elecyoy2 )	/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( kram )		/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( kram2 )		/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( zookeep )	/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( zookeep2 )	/* (c) 1982 Taito America Corporation */
-/*TODO*/ //	DRIVER( zookeep3 )	/* (c) 1982 Taito America Corporation */
+    driver_qix,
+    driver_qixa,
+    driver_qixb,
+    driver_qix2,
+    driver_sdungeon,//M68705
+    driver_elecyoyo,//M68705
+    driver_elecyoy2,//M68705
+    driver_kram,//M68705
+    driver_kram2,//M68705
+    driver_zookeep,//M68705
+    driver_zookeep2,//M68705
+    driver_zookeep3,//M68705
 
 
 
