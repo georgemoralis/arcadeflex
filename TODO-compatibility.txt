@@ -418,8 +418,6 @@ spiders2 spiders.c  M6809                                                       
 battlane battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 1)
 battlan2 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 2)
 battlan3 battlane.c M6809    M6809                                                          1xYM-3526                                                   Battle Lane Vol. 5 (set 3)
-tutankhm tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham
-tutankst tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham (Stern)
 junofrst junofrst.c M6809    [Z80   ] [I8039 ]                                              1xAY-8910   1xDAC                                           Juno First
 megazone megazone.c M6809    Z80      [I8039 ]                                              1xAY-8910   1xDAC                                           Mega Zone
 megaznik megazone.c M6809    Z80      [I8039 ]                                              1xAY-8910   1xDAC                                           Mega Zone (Kosuka)

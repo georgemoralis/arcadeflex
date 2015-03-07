@@ -134,7 +134,6 @@ public class qix
 	
 	public static WriteHandlerPtr qix_dac_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-                System.out.println(data);
 		DAC_data_w.handler(0, data);
 	} };
 	

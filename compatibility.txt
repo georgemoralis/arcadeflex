@@ -432,6 +432,9 @@ kchamp   kchamp.c   Z80      [Z80   ]                                           
 karatedo kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xDAC                                           Karate Dou (Japan)
 kchampvs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Karate Champ (US VS version)
 karatevs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Taisen Karate Dou (Japan VS version)
+tutankhm tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham
+tutankst tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham (Stern)
+
 
 Small issues that doesn't affect playable status
 =======================================

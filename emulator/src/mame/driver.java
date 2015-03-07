@@ -178,7 +178,7 @@ import static drivers.WIP.taitosj.*;
 import static drivers.blueprnt.*;
 import static drivers.kchamp.*;
 import static drivers.WIP.qix.*;
-
+import static drivers.tutankhm.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -624,6 +624,8 @@ public class driver {
         /*429*//*kchamp*/driver_karatedo,
         /*430*//*kchamp*/driver_kchampvs,
         /*431*//*kchamp*/driver_karatevs,
+        /*432*//*tutankhm*/driver_tutankhm,
+        /*433*//*tutankhm*/driver_tutankst,
         
 
         
@@ -2165,8 +2167,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( wc90b )		/* bootleg */
 
 	/* Konami bitmap games */
-/*TODO*/ //	DRIVER( tutankhm )	/* GX350 (c) 1982 Konami */
-/*TODO*/ //	DRIVER( tutankst )	/* GX350 (c) 1982 Stern */
+
 /*TODO*/ //	DRIVER( junofrst )	/* GX310 (c) 1983 Konami */
 
 	/* Konami games */
