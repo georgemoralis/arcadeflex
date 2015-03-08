@@ -179,6 +179,8 @@ import static drivers.blueprnt.*;
 import static drivers.kchamp.*;
 import static drivers.WIP.qix.*;
 import static drivers.tutankhm.*;
+import static drivers.WIP.galaga.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -647,6 +649,13 @@ public class driver {
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*014*//*congo*/driver_congo,//no samples support
         /*015*//*congo*/driver_tiptop,//no samples support
+        /*galaga*/driver_galaga,//no samples support
+        /*galaga*/driver_galagamw,//no samples support
+        /*galaga*/driver_galagads,//no samples support
+        /*galaga*/driver_gallag,//no samples support
+        /*galaga*/driver_galagab2,//no samples support
+        /*galaga*/driver_galaga84,//no samples support
+        /*galaga*/driver_nebulbee,//no samples support
         
         /*
           Possible cpu bugs
@@ -1161,13 +1170,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( boscoo )	/* (c) 1981 */
 /*TODO*/ //	DRIVER( boscomd )	/* (c) 1981 Midway */
 /*TODO*/ //	DRIVER( boscomdo )	/* (c) 1981 Midway */
-/*TODO*/ //	DRIVER( galaga )	/* (c) 1981 */
-/*TODO*/ //	DRIVER( galagamw )	/* (c) 1981 Midway */
-/*TODO*/ //	DRIVER( galagads )	/* hack */
-/*TODO*/ //	DRIVER( gallag )	/* bootleg */
-/*TODO*/ //	DRIVER( galagab2 )	/* bootleg */
-/*TODO*/ //	DRIVER( galaga84 )	/* hack */
-/*TODO*/ //	DRIVER( nebulbee )	/* hack */
+
 
 /*TODO*/ //	DRIVER( xevious )	/* (c) 1982 */
 /*TODO*/ //	DRIVER( xeviousa )	/* (c) 1982 + Atari license */

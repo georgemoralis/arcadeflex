@@ -79,13 +79,6 @@ bosco    bosco.c    Z80      Z80      Z80                                       
 boscoo   bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (old version)
 boscomd  bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (Midway, new version)
 boscomdo bosco.c    Z80      Z80      Z80                                                   Namco       Custom      Samples                             Bosconian (Midway, old version)
-galaga   galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga (Namco)
-galagamw galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga (Midway)
-galagads galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga (fast shoot)
-gallag   galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Gallag
-galagab2 galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga (bootleg)
-galaga84 galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga '84
-nebulbee galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Nebulous Bee
 xevious  xevious.c  Z80      Z80      Z80                                                   Namco       Samples                                         Xevious (Namco)
 xeviousa xevious.c  Z80      Z80      Z80                                                   Namco       Samples                                         Xevious (Atari)
 xevios   xevious.c  Z80      Z80      Z80                                                   Namco       Samples                                         Xevios
