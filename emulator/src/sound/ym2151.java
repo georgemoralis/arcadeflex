@@ -15,7 +15,7 @@ public class ym2151 {
         {
             
         }
-    /*TODO*///	unsigned int phase;		/*accumulated operator phase*/
+    	/*unsigned int*/long phase;		/*accumulated operator phase*/
     /*TODO*///	unsigned int freq;		/*operator frequency*/
     /*TODO*///	signed   int DTfreq;	/*operator detune frequency*/
     /*TODO*///
@@ -39,7 +39,7 @@ public class ym2151 {
     /*TODO*///
     /*TODO*///	unsigned int AMSmask;	/*LFO AMS enable mask*/
     /*TODO*///
-    /*TODO*///	unsigned int state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
+    	/*unsigned int*/int  state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
     /*TODO*///	unsigned int delta_AR;	/*volume delta for attack phase*/
     /*TODO*///	unsigned int TL;		/*Total attenuation Level*/
     int volume;	/*operator attenuation level*/
@@ -48,7 +48,7 @@ public class ym2151 {
     /*TODO*///	unsigned int delta_D2R;	/*volume delta for sustain phase*/
     /*TODO*///	unsigned int delta_RR;	/*volume delta for release phase*/
     /*TODO*///
-    /*TODO*///	unsigned int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
+    	/*unsigned int*/int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
     /*TODO*///
     /*TODO*///	unsigned int KS;		/*Key Scale     */
     /*TODO*///	unsigned int AR;		/*Attack rate   */
@@ -572,92 +572,92 @@ public class ym2151 {
     			chip.TimerBTime[i] = pom;
     	}
     }
-    /*TODO*///INLINE void envelope_KONKOFF(OscilRec * op, int v)
-    /*TODO*///{
-    /*TODO*///	if (v&0x08)
-    /*TODO*///	{
-    /*TODO*///		if (!op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 1;      /*KEYON'ed*/
-    /*TODO*///			op->phase = 0;      /*clear phase */
-    /*TODO*///			op->state = EG_ATT; /*KEY ON = attack*/
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 0;      /*KEYOFF'ed*/
-    /*TODO*///			if (op->state>EG_REL)
-    /*TODO*///				op->state = EG_REL; /*release*/
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	if (v&0x20)
-    /*TODO*///	{
-    /*TODO*///		if (!op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 1;
-    /*TODO*///			op->phase = 0;
-    /*TODO*///			op->state = EG_ATT;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 0;
-    /*TODO*///			if (op->state>EG_REL)
-    /*TODO*///				op->state = EG_REL;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	if (v&0x10)
-    /*TODO*///	{
-    /*TODO*///		if (!op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 1;
-    /*TODO*///			op->phase = 0;
-    /*TODO*///			op->state = EG_ATT;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 0;
-    /*TODO*///			if (op->state>EG_REL)
-    /*TODO*///				op->state = EG_REL;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	if (v&0x40)
-    /*TODO*///	{
-    /*TODO*///		if (!op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 1;
-    /*TODO*///			op->phase = 0;
-    /*TODO*///			op->state = EG_ATT;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (op->key)
-    /*TODO*///		{
-    /*TODO*///			op->key   = 0;
-    /*TODO*///			if (op->state>EG_REL)
-    /*TODO*///				op->state = EG_REL;
-    /*TODO*///		}
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    public static void envelope_KONKOFF(OscilRec[] op,int op_offset, int v)
+    {
+    	if ((v&0x08)!=0)
+    	{
+    		if (op[op_offset].key==0)
+    		{
+    			op[op_offset].key   = 1;      /*KEYON'ed*/
+    			op[op_offset].phase = 0;      /*clear phase */
+    			op[op_offset].state = EG_ATT; /*KEY ON = attack*/
+    		}
+    	}
+    	else
+    	{
+    		if (op[op_offset].key!=0)
+    		{
+    			op[op_offset].key   = 0;      /*KEYOFF'ed*/
+    			if (op[op_offset].state>EG_REL)
+    				op[op_offset].state = EG_REL; /*release*/
+    		}
+    	}
+    
+    	op_offset+=8;
+    
+    	if ((v&0x20)!=0)
+    	{
+    		if (op[op_offset].key==0)
+    		{
+    			op[op_offset].key   = 1;
+    			op[op_offset].phase = 0;
+    			op[op_offset].state = EG_ATT;
+    		}
+    	}
+    	else
+    	{
+    		if (op[op_offset].key!=0)
+    		{
+    			op[op_offset].key   = 0;
+    			if (op[op_offset].state>EG_REL)
+    				op[op_offset].state = EG_REL;
+    		}
+    	}
+    
+    	op_offset+=8;
+    
+    	if ((v&0x10)!=0)
+    	{
+    		if (op[op_offset].key==0)
+    		{
+    			op[op_offset].key   = 1;
+    			op[op_offset].phase = 0;
+    			op[op_offset].state = EG_ATT;
+    		}
+    	}
+    	else
+    	{
+    		if (op[op_offset].key!=0)
+    		{
+    			op[op_offset].key   = 0;
+    			if (op[op_offset].state>EG_REL)
+    				op[op_offset].state = EG_REL;
+    		}
+    	}
+    
+    	op_offset+=8;
+    
+    	if ((v&0x40)!=0)
+    	{
+    		if (op[op_offset].key==0)
+    		{
+    			op[op_offset].key   = 1;
+    			op[op_offset].phase = 0;
+    			op[op_offset].state = EG_ATT;
+    		}
+    	}
+    	else
+    	{
+    		if (op[op_offset].key!=0)
+    		{
+    			op[op_offset].key   = 0;
+    			if (op[op_offset].state>EG_REL)
+    				op[op_offset].state = EG_REL;
+    		}
+    	}
+    }
+    
+    
     public static timer_callback timer_callback_a = new timer_callback(){ public void handler(int n)
     {
     	_YM2151 chip = YMPSG[n];
@@ -829,11 +829,10 @@ public class ym2151 {
     			chip.test = v;
     			if ((v&2)!=0) chip.LFOphase = 0;
     			break;
-    /*TODO*///
-    /*TODO*///		case 0x08:
-    /*TODO*///			envelope_KONKOFF(&chip->Oscils[ v&7 ], v );
-    /*TODO*///			break;
-    /*TODO*///
+    
+    		case 0x08:
+    			envelope_KONKOFF(chip.Oscils, v&7 , v );
+    			break;
     		case 0x0f: /*noise mode enable, noise freq*/
     			chip.noise = v;
     			/*if ((v&0x80)) printf("YM2151 noise (%02x)\n",v);*/
