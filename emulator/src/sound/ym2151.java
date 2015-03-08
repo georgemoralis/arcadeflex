@@ -16,12 +16,12 @@ public class ym2151 {
             
         }
     	/*unsigned int*/long phase;		/*accumulated operator phase*/
-    /*TODO*///	unsigned int freq;		/*operator frequency*/
-    /*TODO*///	signed   int DTfreq;	/*operator detune frequency*/
-    /*TODO*///
-    /*TODO*///	unsigned int MUL;		/*phase multiply*/
-    /*TODO*///	unsigned int DT1;		/*DT1|MUL * 32  */
-    /*TODO*///	unsigned int DT2;		/*DT2 index     */
+        /*unsigned int*/long freq;		/*operator frequency*/
+        int DTfreq;	/*operator detune frequency*/
+
+    /*unsigned int*/long MUL;		/*phase multiply*/
+    /*unsigned int*/long DT1;		/*DT1|MUL * 32  */
+    /*unsigned int*/long DT2;		/*DT2 index     */
     /*TODO*///
     /*TODO*///	signed   int *connect;	/*operator output 'direction'*/
     /*TODO*///
@@ -30,35 +30,35 @@ public class ym2151 {
     /*TODO*///	unsigned int FeedBack;	/*feedback shift value for operators 0 in each channel*/
     /*TODO*///	signed   int FB;		/*operator self feedback value used only by operators 0*/
     /*TODO*///	signed   int FB0;		/*previous output value*/
-    /*TODO*///	unsigned int KC;		/*operator KC (copied to all operators)*/
-    /*TODO*///	unsigned int KCindex;	/*speedup*/
-    /*TODO*///	unsigned int KF;		/*operator KF (copied to all operators)*/
-    /*TODO*///	unsigned int PMS;		/*channel PMS*/
-    /*TODO*///	unsigned int AMS;		/*channel AMS*/
-    /*TODO*////*End of channel specific data*/
-    /*TODO*///
-    /*TODO*///	unsigned int AMSmask;	/*LFO AMS enable mask*/
-    /*TODO*///
-    	/*unsigned int*/int  state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
-    /*TODO*///	unsigned int delta_AR;	/*volume delta for attack phase*/
-    /*TODO*///	unsigned int TL;		/*Total attenuation Level*/
+    /*unsigned int*/long KC;		/*operator KC (copied to all operators)*/
+    /*unsigned int*/long KCindex;	/*speedup*/
+    /*unsigned int*/long KF;		/*operator KF (copied to all operators)*/
+    /*unsigned int*/long PMS;		/*channel PMS*/
+    /*unsigned int*/long AMS;		/*channel AMS*/
+    /*End of channel specific data*/
+
+    /*unsigned int*/long AMSmask;	/*LFO AMS enable mask*/
+
+    /*unsigned int*/int  state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
+    /*unsigned int*/long delta_AR;	/*volume delta for attack phase*/
+    /*unsigned int*/long TL;		/*Total attenuation Level*/
     int volume;	/*operator attenuation level*/
-    /*TODO*///	unsigned int delta_D1R;	/*volume delta for decay phase*/
-    /*TODO*///	unsigned int D1L;		/*EG switches to D2R, when envelope reaches this level*/
-    /*TODO*///	unsigned int delta_D2R;	/*volume delta for sustain phase*/
-    /*TODO*///	unsigned int delta_RR;	/*volume delta for release phase*/
-    /*TODO*///
-    	/*unsigned int*/int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
-    /*TODO*///
-    /*TODO*///	unsigned int KS;		/*Key Scale     */
-    /*TODO*///	unsigned int AR;		/*Attack rate   */
-    /*TODO*///	unsigned int D1R;		/*Decay rate    */
-    /*TODO*///	unsigned int D2R;		/*Sustain rate  */
-    /*TODO*///	unsigned int RR;		/*Release rate  */
-    /*TODO*///
-    /*TODO*///	signed   int LFOpm;		/*phase modulation from LFO*/
-    /*TODO*///	signed   int a_vol;		/*used for attack phase calculations*/
-    /*TODO*///
+    /*unsigned int*/long delta_D1R;	/*volume delta for decay phase*/
+    /*unsigned int*/long D1L;		/*EG switches to D2R, when envelope reaches this level*/
+    /*unsigned int*/long delta_D2R;	/*volume delta for sustain phase*/
+    /*unsigned int*/long delta_RR;	/*volume delta for release phase*/
+
+    /*unsigned int*/int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
+
+    /*unsigned int*/long KS;		/*Key Scale     */
+    /*unsigned int*/long AR;		/*Attack rate   */
+    /*unsigned int*/long D1R;		/*Decay rate    */
+    /*unsigned int*/long D2R;		/*Sustain rate  */
+    /*unsigned int*/long RR;		/*Release rate  */
+
+    int LFOpm;		/*phase modulation from LFO*/
+    int a_vol;		/*used for attack phase calculations*/
+
     }
     public static class _YM2151
     {
@@ -921,10 +921,10 @@ public class ym2151 {
     			break;
     		}
     		break;
-    /*TODO*///
-    /*TODO*///	case 0x20:
-    /*TODO*///		op = &chip->Oscils[r & 7];
-    /*TODO*///		switch(r & 0x18){
+   
+    	case 0x20:
+    		op = chip.Oscils[r & 7];
+    		switch(r & 0x18){
     /*TODO*///		case 0x00: /*RL enable, Feedback, Connection */
     /*TODO*///			op->FeedBack = ((v>>3)&7) ? ((v>>3)&7)+6:0;
     /*TODO*///			chip->PAN[ (r&7)*2    ] = (v & 0x40) ? 0xffffffff : 0x0;
@@ -985,88 +985,88 @@ public class ym2151 {
     /*TODO*///			}
     /*TODO*///			break;
     /*TODO*///
-    /*TODO*///		case 0x18: /*PMS,AMS*/
-    /*TODO*///			op->PMS = (v>>4) & 7;
-    /*TODO*///			op->AMS = v & 3;
-    /*TODO*///			break;
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0x40: /*DT1, MUL*/
-    /*TODO*///		{
-    /*TODO*///			unsigned int oldDT1 = op->DT1;
-    /*TODO*///			unsigned int oldMUL = op->MUL;
-    /*TODO*///			op->DT1 = (v&0x7f)<<5;
-    /*TODO*///			op->MUL = (v&0x0f) ? (v&0x0f)<<1: 1;
-    /*TODO*///			if (oldDT1 != op->DT1)
-    /*TODO*///			{
-    /*TODO*///				op->DTfreq = chip->DT1freq[ op->DT1 + (op->KC>>2) ];
-    /*TODO*///			}
-    /*TODO*///			if (oldMUL != op->MUL)
-    /*TODO*///			{
-    /*TODO*///				unsigned int kc_channel;
-    /*TODO*///
-    /*TODO*///				kc_channel = op->KCindex + op->KF;
-    /*TODO*///				op->freq = chip->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0x60: /*TL*/
-    /*TODO*///		op->TL = (v&0x7f)<<(ENV_BITS-7); /*7bit TL*/
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0x80: /*KS, AR*/
-    /*TODO*///		{
-    /*TODO*///			int oldKS = op->KS;
-    /*TODO*///			int oldAR = op->AR;
-    /*TODO*///			op->KS = 5-(v>>6);
-    /*TODO*///			op->AR = (v&0x1f) ? 32 + ((v&0x1f)<<1) : 0;
-    /*TODO*///
-    /*TODO*///			if ( (op->AR != oldAR) || (op->KS != oldKS) )
-    /*TODO*///			{
-    /*TODO*///				if ((op->AR + (op->KC>>op->KS)) < 32+62)
-    /*TODO*///					op->delta_AR  = chip->EG_tab[op->AR  + (op->KC>>op->KS) ];
-    /*TODO*///				else
-    /*TODO*///					op->delta_AR  = MAX_ATT_INDEX+1;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (op->KS != oldKS)
-    /*TODO*///			{
-    /*TODO*///				op->delta_D1R = chip->EG_tab[op->D1R + (op->KC>>op->KS) ];
-    /*TODO*///				op->delta_D2R = chip->EG_tab[op->D2R + (op->KC>>op->KS) ];
-    /*TODO*///				op->delta_RR  = chip->EG_tab[op->RR  + (op->KC>>op->KS) ];
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0xa0: /*AMS-EN, D1R*/
-    /*TODO*///		op->AMSmask = (v&0x80) ? 0xffffffff : 0;
-    /*TODO*///		op->D1R     = (v&0x1f) ? 32 + ((v&0x1f)<<1) : 0;
-    /*TODO*///		op->delta_D1R = chip->EG_tab[op->D1R + (op->KC>>op->KS) ];
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0xc0: /*DT2, D2R*/
-    /*TODO*///		{
-    /*TODO*///			unsigned int oldDT2 = op->DT2;
-    /*TODO*///			op->DT2 = DT2_tab[ v>>6 ];
-    /*TODO*///			if (op->DT2 != oldDT2)
-    /*TODO*///			{
-    /*TODO*///				unsigned int kc_channel;
-    /*TODO*///
-    /*TODO*///				kc_channel = op->KCindex + op->KF;
-    /*TODO*///				op->freq = chip->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		op->D2R = (v&0x1f) ? 32 + ((v&0x1f)<<1) : 0;
-    /*TODO*///		op->delta_D2R = chip->EG_tab[op->D2R + (op->KC>>op->KS) ];
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case 0xe0: /*D1L, RR*/
-    /*TODO*///		op->D1L = D1L_tab[ v>>4 ];
-    /*TODO*///		op->RR  = 34 + ((v&0x0f)<<2);
-    /*TODO*///		op->delta_RR  = chip->EG_tab[op->RR  + (op->KC>>op->KS) ];
-    /*TODO*///		break;
+    		case 0x18: /*PMS,AMS*/
+    			op.PMS = (v>>4) & 7;
+    			op.AMS = v & 3;
+    			break;
+    		}
+    		break;
+    
+    	case 0x40: /*DT1, MUL*/
+    		{
+    			/*unsigned int*/long oldDT1 = op.DT1;
+    			/*unsigned int*/long oldMUL = op.MUL;
+    			op.DT1 = (v&0x7f)<<5;
+    			op.MUL = (v&0x0f)!=0 ? (v&0x0f)<<1: 1;
+    			if (oldDT1 != op.DT1)
+    			{
+    				op.DTfreq = chip.DT1freq[ (int)(op.DT1 + (op.KC>>2)) ];
+    			}
+    			if (oldMUL != op.MUL)
+    			{
+    				/*unsigned int*/long kc_channel;
+    
+    				kc_channel = op.KCindex + op.KF;
+    				op.freq = (chip.freq[ (int)(kc_channel + op.DT2) ] * op.MUL)&0xFFFFFFFFL;//todo neccesary???
+    			}
+    		}
+    		break;
+    
+    	case 0x60: /*TL*/
+    		op.TL = (v&0x7f)<<(ENV_BITS-7); /*7bit TL*/
+    		break;
+    
+    	case 0x80: /*KS, AR*/
+    		{
+    			long oldKS = op.KS;
+    			long oldAR = op.AR;
+    			op.KS = 5-(v>>6);
+    			op.AR = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
+    
+    			if ( (op.AR != oldAR) || (op.KS != oldKS) )
+    			{
+    				if ((op.AR + (op.KC>>op.KS)) < 32+62)
+    					op.delta_AR  = chip.EG_tab[(int)(op.AR  + (op.KC>>op.KS)) ];
+    				else
+    					op.delta_AR  = MAX_ATT_INDEX+1;
+    			}
+    
+    			if (op.KS != oldKS)
+    			{
+    				op.delta_D1R = chip.EG_tab[(int)(op.D1R + (op.KC>>op.KS)) ];
+    				op.delta_D2R = chip.EG_tab[(int)(op.D2R + (op.KC>>op.KS)) ];
+    				op.delta_RR  = chip.EG_tab[(int)(op.RR  + (op.KC>>op.KS)) ];
+    			}
+    		}
+    		break;
+    
+    	case 0xa0: /*AMS-EN, D1R*/
+    		op.AMSmask = (v&0x80)!=0 ? 0xffffffff : 0;
+    		op.D1R     = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
+    		op.delta_D1R = chip.EG_tab[(int)(op.D1R + (op.KC>>op.KS)) ];
+    		break;
+   
+   	case 0xc0: /*DT2, D2R*/
+   		{
+   			/*unsigned int*/long oldDT2 = op.DT2;
+   			op.DT2 = DT2_tab[ v>>6 ];
+   			if (op.DT2 != oldDT2)
+   			{
+   				/*unsigned int*/long kc_channel;
+   
+   				kc_channel = op.KCindex + op.KF;
+   				op.freq = (chip.freq[ (int)(kc_channel + op.DT2) ] * op.MUL) & 0xFFFFFFFFL;//todo neccesary?
+   			}
+   		}
+   		op.D2R = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
+   		op.delta_D2R = chip.EG_tab[(int)(op.D2R + (op.KC>>op.KS)) ];
+   		break;
+   
+   	case 0xe0: /*D1L, RR*/
+   		op.D1L = D1L_tab[ v>>4 ];
+   		op.RR  = 34 + ((v&0x0f)<<2);
+   		op.delta_RR  = chip.EG_tab[(int)(op.RR  + (op.KC>>op.KS)) ];
+   		break;
     	}
     }
     public static int YM2151ReadStatus( int n )
