@@ -22,14 +22,13 @@ public class ym2151 {
     /*unsigned int*/long MUL;		/*phase multiply*/
     /*unsigned int*/long DT1;		/*DT1|MUL * 32  */
     /*unsigned int*/long DT2;		/*DT2 index     */
-    /*TODO*///
-    /*TODO*///	signed   int *connect;	/*operator output 'direction'*/
-    /*TODO*///
-    /*TODO*////*Begin of channel specific data*/
-    /*TODO*////*note: each operator number 0 contains channel specific data*/
-    /*TODO*///	unsigned int FeedBack;	/*feedback shift value for operators 0 in each channel*/
-    /*TODO*///	signed   int FB;		/*operator self feedback value used only by operators 0*/
-    /*TODO*///	signed   int FB0;		/*previous output value*/
+
+    int[] connect;	/*operator output 'direction'*/
+    /*Begin of channel specific data*/
+    /*note: each operator number 0 contains channel specific data*/
+    /*unsigned int*/long FeedBack;	/*feedback shift value for operators 0 in each channel*/
+    int FB;		/*operator self feedback value used only by operators 0*/
+    int FB0;		/*previous output value*/
     /*unsigned int*/long KC;		/*operator KC (copied to all operators)*/
     /*unsigned int*/long KCindex;	/*speedup*/
     /*unsigned int*/long KF;		/*operator KF (copied to all operators)*/
@@ -249,9 +248,11 @@ public class ym2151 {
     
     
     /*these variables stay here because of speedup purposes only */
-    static _YM2151[] PSG;
-    static int[] chanout=new int[8];
-    static int c1,m2,c2; /*Phase Modulation input for operators 2,3,4*/
+    static _YM2151 PSG=null;
+    static int[][] chanout=new int[8][1];
+    static int[] c1=new int[1];
+    static int[] m2=new int[1];
+    static int[] c2=new int[1]; /*Phase Modulation input for operators 2,3,4*/
     
     static void init_tables()
     {
@@ -682,134 +683,131 @@ public class ym2151 {
     		if ((oldstate==0) && (chip.irqhandler)!=null) (chip.irqhandler).handler(1);
     	}
     }};
-    /*TODO*///
-    /*TODO*///INLINE void set_connect( OscilRec *om1, int v, int cha)
-    /*TODO*///{
-    /*TODO*///	OscilRec *om2 = om1+8;
-    /*TODO*///	OscilRec *oc1 = om1+16;
-    /*TODO*///	/*OscilRec *oc2 = om1+24;*/
-    /*TODO*///	/*oc2->connect = &chanout[cha];*/
-    /*TODO*///
-    /*TODO*///	/* set connect algorithm */
-    /*TODO*///
-    /*TODO*///	switch( v & 7 )
-    /*TODO*///	{
-    /*TODO*///	case 0:
-    /*TODO*///		/* M1---C1---M2---C2---OUT */
-    /*TODO*///		om1->connect = &c1;
-    /*TODO*///		oc1->connect = &m2;
-    /*TODO*///		om2->connect = &c2;
-    /*TODO*///		break;
-    /*TODO*///	case 1:
-    /*TODO*///		/* M1-+-M2---C2---OUT */
-    /*TODO*///		/* C1-+               */
-    /*TODO*///		om1->connect = &m2;
-    /*TODO*///		oc1->connect = &m2;
-    /*TODO*///		om2->connect = &c2;
-    /*TODO*///		break;
-    /*TODO*///	case 2:
-    /*TODO*///		/* M1------+-C2---OUT */
-    /*TODO*///		/* C1---M2-+          */
-    /*TODO*///		om1->connect = &c2;
-    /*TODO*///		oc1->connect = &m2;
-    /*TODO*///		om2->connect = &c2;
-    /*TODO*///		break;
-    /*TODO*///	case 3:
-    /*TODO*///		/* M1---C1-+-C2---OUT */
-    /*TODO*///		/* M2------+          */
-    /*TODO*///		om1->connect = &c1;
-    /*TODO*///		oc1->connect = &c2;
-    /*TODO*///		om2->connect = &c2;
-    /*TODO*///		break;
-    /*TODO*///	case 4:
-    /*TODO*///		/* M1---C1-+--OUT */
-    /*TODO*///		/* M2---C2-+      */
-    /*TODO*///		om1->connect = &c1;
-    /*TODO*///		oc1->connect = &chanout[cha];
-    /*TODO*///		om2->connect = &c2;
-    /*TODO*///		break;
-    /*TODO*///	case 5:
-    /*TODO*///		/*    +-C1-+     */
-    /*TODO*///		/* M1-+-M2-+-OUT */
-    /*TODO*///		/*    +-C2-+     */
-    /*TODO*///		om1->connect = 0;	/* special mark */
-    /*TODO*///		oc1->connect = &chanout[cha];
-    /*TODO*///		om2->connect = &chanout[cha];
-    /*TODO*///		break;
-    /*TODO*///	case 6:
-    /*TODO*///		/* M1---C1-+     */
-    /*TODO*///		/*      M2-+-OUT */
-    /*TODO*///		/*      C2-+     */
-    /*TODO*///		om1->connect = &c1;
-    /*TODO*///		oc1->connect = &chanout[cha];
-    /*TODO*///		om2->connect = &chanout[cha];
-    /*TODO*///		break;
-    /*TODO*///	case 7:
-    /*TODO*///		/* M1-+     */
-    /*TODO*///		/* C1-+-OUT */
-    /*TODO*///		/* M2-+     */
-    /*TODO*///		/* C2-+     */
-    /*TODO*///		om1->connect = &chanout[cha];
-    /*TODO*///		oc1->connect = &chanout[cha];
-    /*TODO*///		om2->connect = &chanout[cha];
-    /*TODO*///		break;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///INLINE void refresh_EG( YM2151 *chip, OscilRec * op)
-    /*TODO*///{
-    /*TODO*///	unsigned int kc;
-    /*TODO*///	unsigned int v;
-    /*TODO*///
-    /*TODO*///	kc = op->KC;
-    /*TODO*///
-    /*TODO*///	/*v = 32 + 2*RATE + RKS (max 126)*/
-    /*TODO*///
-    /*TODO*///	v = kc >> op->KS;
-    /*TODO*///	if ((op->AR+v) < 32+62)
-    /*TODO*///		op->delta_AR  = chip->EG_tab[ op->AR + v];
-    /*TODO*///	else
-    /*TODO*///		op->delta_AR  = MAX_ATT_INDEX+1;
-    /*TODO*///	op->delta_D1R = chip->EG_tab[op->D1R + v];
-    /*TODO*///	op->delta_D2R = chip->EG_tab[op->D2R + v];
-    /*TODO*///	op->delta_RR  = chip->EG_tab[ op->RR + v];
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	v = kc >> op->KS;
-    /*TODO*///	if ((op->AR+v) < 32+62)
-    /*TODO*///		op->delta_AR  = chip->EG_tab[ op->AR + v];
-    /*TODO*///	else
-    /*TODO*///		op->delta_AR  = MAX_ATT_INDEX+1;
-    /*TODO*///	op->delta_D1R = chip->EG_tab[op->D1R + v];
-    /*TODO*///	op->delta_D2R = chip->EG_tab[op->D2R + v];
-    /*TODO*///	op->delta_RR  = chip->EG_tab[ op->RR + v];
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	v = kc >> op->KS;
-    /*TODO*///	if ((op->AR+v) < 32+62)
-    /*TODO*///		op->delta_AR  = chip->EG_tab[ op->AR + v];
-    /*TODO*///	else
-    /*TODO*///		op->delta_AR  = MAX_ATT_INDEX+1;
-    /*TODO*///	op->delta_D1R = chip->EG_tab[op->D1R + v];
-    /*TODO*///	op->delta_D2R = chip->EG_tab[op->D2R + v];
-    /*TODO*///	op->delta_RR  = chip->EG_tab[ op->RR + v];
-    /*TODO*///
-    /*TODO*///	op+=8;
-    /*TODO*///
-    /*TODO*///	v = kc >> op->KS;
-    /*TODO*///	if ((op->AR+v) < 32+62)
-    /*TODO*///		op->delta_AR  = chip->EG_tab[ op->AR + v];
-    /*TODO*///	else
-    /*TODO*///		op->delta_AR  = MAX_ATT_INDEX+1;
-    /*TODO*///	op->delta_D1R = chip->EG_tab[op->D1R + v];
-    /*TODO*///	op->delta_D2R = chip->EG_tab[op->D2R + v];
-    /*TODO*///	op->delta_RR  = chip->EG_tab[ op->RR + v];
-    /*TODO*///
-    /*TODO*///}
-    /*TODO*///
+    public static void set_connect(_YM2151 chip,int op_offset, int v, int cha)
+    {
+        OscilRec om1 = chip.Oscils[op_offset];
+    	OscilRec om2 = chip.Oscils[op_offset+8];
+    	OscilRec oc1 = chip.Oscils[op_offset+16];
+    	/*OscilRec *oc2 = om1+24;*/
+    	/*oc2->connect = &chanout[cha];*/
+    
+    	/* set connect algorithm */
+    
+    	switch( v & 7 )
+    	{
+    	case 0:
+    		/* M1---C1---M2---C2---OUT */
+    		om1.connect = c1;
+    		oc1.connect = m2;
+    		om2.connect = c2;
+    		break;
+    	case 1:
+    		/* M1-+-M2---C2---OUT */
+    		/* C1-+               */
+    		om1.connect = m2;
+    		oc1.connect = m2;
+    		om2.connect = c2;
+    		break;
+    	case 2:
+    		/* M1------+-C2---OUT */
+    		/* C1---M2-+          */
+    		om1.connect = c2;
+    		oc1.connect = m2;
+    		om2.connect = c2;
+    		break;
+    	case 3:
+    		/* M1---C1-+-C2---OUT */
+    		/* M2------+          */
+    		om1.connect = c1;
+    		oc1.connect = c2;
+    		om2.connect = c2;
+    		break;
+    	case 4:
+    		/* M1---C1-+--OUT */
+    		/* M2---C2-+      */
+    		om1.connect = c1;
+    		oc1.connect = chanout[cha];
+    		om2.connect = c2;
+    		break;
+    	case 5:
+    		/*    +-C1-+     */
+    		/* M1-+-M2-+-OUT */
+    		/*    +-C2-+     */
+    		om1.connect = null;	/* special mark */
+    		oc1.connect = chanout[cha];
+    		om2.connect = chanout[cha];
+    		break;
+    	case 6:
+    		/* M1---C1-+     */
+    		/*      M2-+-OUT */
+    		/*      C2-+     */
+    		om1.connect = c1;
+    		oc1.connect = chanout[cha];
+    		om2.connect = chanout[cha];
+    		break;
+    	case 7:
+    		/* M1-+     */
+    		/* C1-+-OUT */
+    		/* M2-+     */
+    		/* C2-+     */
+    		om1.connect = chanout[cha];
+    		oc1.connect = chanout[cha];
+    		om2.connect = chanout[cha];
+    		break;
+    	}
+    }
+    public static void refresh_EG( _YM2151 chip, OscilRec[] op,int op_offset)
+    {
+    	/*unsigned int*/long kc;
+    	/*unsigned int*/long v;
+    
+    	kc = op[op_offset].KC;
+    
+    	/*v = 32 + 2*RATE + RKS (max 126)*/
+    
+    	v = kc >> op[op_offset].KS;
+    	if ((op[op_offset].AR+v) < 32+62)
+    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    	else
+    		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
+    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
+    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
+    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    
+    	op_offset+=8;
+    
+    	v = kc >> op[op_offset].KS;
+    	if ((op[op_offset].AR+v) < 32+62)
+    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    	else
+    		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
+    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
+    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
+    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    
+    	op_offset+=8;
+    
+    	v = kc >> op[op_offset].KS;
+    	if ((op[op_offset].AR+v) < 32+62)
+    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    	else
+    		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
+    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
+    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
+    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    
+    	op_offset+=8;
+    
+    	v = kc >> op[op_offset].KS;
+    	if ((op[op_offset].AR+v) < 32+62)
+    		op[op_offset].delta_AR  = chip.EG_tab[(int)(op[op_offset].AR + v)];
+    	else
+    		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
+    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
+    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
+    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    
+    }
     
     /* write a register on YM2151 chip number 'n' */
     public static void YM2151WriteReg(int n, int r, int v)
@@ -924,67 +922,68 @@ public class ym2151 {
    
     	case 0x20:
     		op = chip.Oscils[r & 7];
+                int op_offset=r & 7;
     		switch(r & 0x18){
-    /*TODO*///		case 0x00: /*RL enable, Feedback, Connection */
-    /*TODO*///			op->FeedBack = ((v>>3)&7) ? ((v>>3)&7)+6:0;
-    /*TODO*///			chip->PAN[ (r&7)*2    ] = (v & 0x40) ? 0xffffffff : 0x0;
-    /*TODO*///			chip->PAN[ (r&7)*2 +1 ] = (v & 0x80) ? 0xffffffff : 0x0;
-    /*TODO*///			set_connect(op, v, r&7);
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x08: /*Key Code*/
-    /*TODO*///			v &= 0x7f;
-    /*TODO*///			/*v++;*/
-    /*TODO*///			if (v != op->KC)
-    /*TODO*///			{
-    /*TODO*///				unsigned int kc,kc_channel;
-    /*TODO*///
-    /*TODO*///				kc = KC_TO_INDEX[v];
-    /*TODO*///				(op+0)->KC = v;
-    /*TODO*///				(op+0)->KCindex = kc;
-    /*TODO*///				(op+8)->KC = v;
-    /*TODO*///				(op+8)->KCindex = kc;
-    /*TODO*///				(op+16)->KC = v;
-    /*TODO*///				(op+16)->KCindex = kc;
-    /*TODO*///				(op+24)->KC = v;
-    /*TODO*///				(op+24)->KCindex = kc;
-    /*TODO*///
-    /*TODO*///				kc_channel = op->KCindex + op->KF;
-    /*TODO*///				kc = v>>2;
-    /*TODO*///
-    /*TODO*///				(op+0)->freq = chip->freq[ kc_channel + (op+0)->DT2 ] * (op+0)->MUL;
-    /*TODO*///				(op+0)->DTfreq = chip->DT1freq[ (op+0)->DT1 + kc ];
-    /*TODO*///				(op+8)->freq = chip->freq[ kc_channel + (op+8)->DT2 ] * (op+8)->MUL;
-    /*TODO*///				(op+8)->DTfreq = chip->DT1freq[ (op+8)->DT1 + kc ];
-    /*TODO*///				(op+16)->freq = chip->freq[ kc_channel + (op+16)->DT2 ] * (op+16)->MUL;
-    /*TODO*///				(op+16)->DTfreq = chip->DT1freq[ (op+16)->DT1 + kc ];
-    /*TODO*///				(op+24)->freq = chip->freq[ kc_channel + (op+24)->DT2 ] * (op+24)->MUL;
-    /*TODO*///				(op+24)->DTfreq = chip->DT1freq[ (op+24)->DT1 + kc ];
-    /*TODO*///
-    /*TODO*///				refresh_EG( chip, op );
-    /*TODO*///			}
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x10: /*Key Fraction*/
-    /*TODO*///			v >>= 2;
-    /*TODO*///			if (v != op->KF)
-    /*TODO*///			{
-    /*TODO*///				unsigned int kc_channel;
-    /*TODO*///
-    /*TODO*///				(op+0)->KF = v;
-    /*TODO*///				(op+8)->KF = v;
-    /*TODO*///				(op+16)->KF = v;
-    /*TODO*///				(op+24)->KF = v;
-    /*TODO*///
-    /*TODO*///				kc_channel = op->KCindex + op->KF;
-    /*TODO*///
-    /*TODO*///				(op+0)->freq = chip->freq[ kc_channel + (op+0)->DT2 ] * (op+0)->MUL;
-    /*TODO*///				(op+8)->freq = chip->freq[ kc_channel + (op+8)->DT2 ] * (op+8)->MUL;
-    /*TODO*///				(op+16)->freq = chip->freq[ kc_channel + (op+16)->DT2 ] * (op+16)->MUL;
-    /*TODO*///				(op+24)->freq = chip->freq[ kc_channel + (op+24)->DT2 ] * (op+24)->MUL;
-    /*TODO*///			}
-    /*TODO*///			break;
-    /*TODO*///
+    		case 0x00: /*RL enable, Feedback, Connection */
+    			op.FeedBack = ((v>>3)&7)!=0 ? ((v>>3)&7)+6:0;
+    			chip.PAN[ (r&7)*2    ] = (v & 0x40)!=0 ? 0xffffffff : 0x0;
+    			chip.PAN[ (r&7)*2 +1 ] = (v & 0x80)!=0 ? 0xffffffff : 0x0;
+    			set_connect(chip,op_offset, v, r&7);
+    			break;
+ 
+    		case 0x08: /*Key Code*/
+    			v &= 0x7f;
+    			/*v++;*/
+    			if (v != op.KC)
+    			{
+    				/*unsigned int*/long kc,kc_channel;
+    
+    				kc = KC_TO_INDEX[v];
+    				chip.Oscils[op_offset+0].KC = v;
+    				chip.Oscils[op_offset+0].KCindex = kc;
+    				chip.Oscils[op_offset+8].KC = v;
+    				chip.Oscils[op_offset+8].KCindex = kc;
+    				chip.Oscils[op_offset+16].KC = v;
+    				chip.Oscils[op_offset+16].KCindex = kc;
+    				chip.Oscils[op_offset+24].KC = v;
+    				chip.Oscils[op_offset+24].KCindex = kc;
+    
+    				kc_channel = op.KCindex + op.KF;
+    				kc = v>>2;
+    
+    				chip.Oscils[op_offset+0].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+0].DT2) ] * chip.Oscils[op_offset+0].MUL;
+    				chip.Oscils[op_offset+0].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+0].DT1 + kc) ];
+    				chip.Oscils[op_offset+8].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+8].DT2) ] * chip.Oscils[op_offset+8].MUL;
+    				chip.Oscils[op_offset+8].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+8].DT1 + kc) ];
+    				chip.Oscils[op_offset+16].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+16].DT2) ] * chip.Oscils[op_offset+16].MUL;
+    				chip.Oscils[op_offset+16].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+16].DT1 + kc) ];
+    				chip.Oscils[op_offset+24].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+24].DT2) ] * chip.Oscils[op_offset+24].MUL;
+    				chip.Oscils[op_offset+24].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+24].DT1 + kc) ];
+    
+    				refresh_EG(chip ,chip.Oscils,op_offset);//refresh_EG( chip, op );
+    			}
+    			break;
+    
+    		case 0x10: /*Key Fraction*/
+    			v >>= 2;
+    			if (v != op.KF)
+    			{
+    				/*unsigned int*/long kc_channel;
+    
+    				chip.Oscils[op_offset+0].KF = v;
+    				chip.Oscils[op_offset+8].KF = v;
+    				chip.Oscils[op_offset+16].KF = v;
+    				chip.Oscils[op_offset+24].KF = v;
+    
+    				kc_channel = op.KCindex + op.KF;
+    
+    				chip.Oscils[op_offset+0].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+0].DT2) ] * chip.Oscils[op_offset+0].MUL;
+    				chip.Oscils[op_offset+8].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+8].DT2) ] * chip.Oscils[op_offset+8].MUL;
+    				chip.Oscils[op_offset+16].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+16].DT2) ] * chip.Oscils[op_offset+16].MUL;
+    				chip.Oscils[op_offset+24].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+24].DT2) ] * chip.Oscils[op_offset+24].MUL;
+    			}
+    			break;
+    
     		case 0x18: /*PMS,AMS*/
     			op.PMS = (v>>4) & 7;
     			op.AMS = v & 3;
@@ -1163,235 +1162,239 @@ public class ym2151 {
     
     }
     
-    /*TODO*///
-    /*TODO*///INLINE void lfo_calc(void)
-    /*TODO*///{
-    /*TODO*///unsigned int phase, lfx;
-    /*TODO*///
-    /*TODO*///	if (PSG->test&2)
-    /*TODO*///	{
-    /*TODO*///		PSG->LFOphase = 0;
-    /*TODO*///		phase = PSG->LFOwave;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		phase = (PSG->LFOphase>>LFO_SH) & LFO_MASK;
-    /*TODO*///		phase = phase*2 + PSG->LFOwave;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	lfx = lfo_tab[phase] + PSG->AMD;
-    /*TODO*///
-    /*TODO*///	PSG->LFA = 0;
-    /*TODO*///	if (lfx < TL_TAB_LEN)
-    /*TODO*///		PSG->LFA = TL_TAB[ lfx ];
-    /*TODO*///
-    /*TODO*///	lfx = lfo_tab[phase+1] + PSG->PMD;
-    /*TODO*///
-    /*TODO*///	PSG->LFP = 0;
-    /*TODO*///	if (lfx < TL_TAB_LEN)
-    /*TODO*///		PSG->LFP = TL_TAB[ lfx ];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///INLINE void calc_lfo_pm(OscilRec *op)
-    /*TODO*///{
-    /*TODO*///signed int mod_ind,pom;
-    /*TODO*///
-    /*TODO*///	mod_ind = PSG->LFP; /* -128..+127 (8bits signed)*/
-    /*TODO*///	if (op->PMS < 6)
-    /*TODO*///		mod_ind >>= (6 - op->PMS);
-    /*TODO*///	else
-    /*TODO*///		mod_ind <<= (op->PMS - 5);
-    /*TODO*///
-    /*TODO*///	if (mod_ind)
-    /*TODO*///	{
-    /*TODO*///		unsigned int kc_channel;
-    /*TODO*///
-    /*TODO*///		kc_channel = op->KCindex + op->KF + mod_ind;
-    /*TODO*///
-    /*TODO*///		pom = PSG->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///		op->phase += (pom - op->freq);
-    /*TODO*///
-    /*TODO*///		op+=8;
-    /*TODO*///		pom = PSG->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///		op->phase += (pom - op->freq);
-    /*TODO*///
-    /*TODO*///		op+=8;
-    /*TODO*///		pom = PSG->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///		op->phase += (pom - op->freq);
-    /*TODO*///
-    /*TODO*///		op+=8;
-    /*TODO*///		pom = PSG->freq[ kc_channel + op->DT2 ] * op->MUL;
-    /*TODO*///		op->phase += (pom - op->freq);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///INLINE signed int op_calc(OscilRec * OP, unsigned int env, signed int pm)
-    /*TODO*///{
-    /*TODO*///	unsigned int p;
-    /*TODO*///
-    /*TODO*///	p = (env<<3) + sin_tab[ ( ((signed int)((OP->phase & ~FREQ_MASK) + (pm<<15))) >> FREQ_SH ) & SIN_MASK ];
-    /*TODO*///
-    /*TODO*///	if (p >= TL_TAB_LEN)
-    /*TODO*///		return 0;
-    /*TODO*///
-    /*TODO*///	return TL_TAB[p];
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE signed int op_calc1(OscilRec * OP, unsigned int env, signed int pm)
-    /*TODO*///{
-    /*TODO*///	unsigned int p;
-    /*TODO*///	signed int i;
-    /*TODO*///
-    /*TODO*///	i = (OP->phase & ~FREQ_MASK) + pm;
-    /*TODO*///
-    /*TODO*////*if (errorlog) fprintf(errorlog,"i=%08x (i>>16)&511=%8i phase=%i [pm=%08x] ",i, (i>>16)&511, OP->phase>>FREQ_SH, pm);*/
-    /*TODO*///
-    /*TODO*///	p = (env<<3) + sin_tab[ (i>>FREQ_SH) & SIN_MASK];
-    /*TODO*///
-    /*TODO*////*if (errorlog) fprintf(errorlog," (p&255=%i p>>8=%i) out= %i\n", p&255,p>>8, TL_TAB[p&255]>>(p>>8) );*/
-    /*TODO*///
-    /*TODO*///	if (p >= TL_TAB_LEN)
-    /*TODO*///		return 0;
-    /*TODO*///
-    /*TODO*///	return TL_TAB[p];
-    /*TODO*///}
-    /*TODO*///
+    public static void lfo_calc()
+    {
+        /*unsigned int*/long phase, lfx;
+    
+    	if ((PSG.test&2)!=0)
+    	{
+    		PSG.LFOphase = 0;
+    		phase = PSG.LFOwave;
+    	}
+    	else
+    	{
+    		phase = (PSG.LFOphase>>LFO_SH) & LFO_MASK;
+    		phase = phase*2 + PSG.LFOwave;
+    	}
+    
+    	lfx = lfo_tab[(int)phase] + PSG.AMD;
+    
+    	PSG.LFA = 0;
+    	if (lfx < TL_TAB_LEN)
+    		PSG.LFA = TL_TAB[ (int)lfx ];
+    
+    	lfx = lfo_tab[(int)(phase+1)] + PSG.PMD;
+    
+    	PSG.LFP = 0;
+    	if (lfx < TL_TAB_LEN)
+    		PSG.LFP = TL_TAB[ (int)lfx ];
+    }
+    
+    
+    public static void calc_lfo_pm(OscilRec[] OP,int op_offset)
+    {
+        int mod_ind,pom;
+    
+    	mod_ind = PSG.LFP; /* -128..+127 (8bits signed)*/
+    	if (OP[op_offset].PMS < 6)
+    		mod_ind >>= (6 - OP[op_offset].PMS);
+    	else
+    		mod_ind <<= (OP[op_offset].PMS - 5);
+    
+    	if (mod_ind!=0)
+    	{
+    		/*unsigned int*/long kc_channel;
+    
+    		kc_channel = OP[op_offset].KCindex + OP[op_offset].KF + mod_ind;
+    
+    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		OP[op_offset].phase += (pom - OP[op_offset].freq);
+    
+    		op_offset+=8;
+    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		OP[op_offset].phase += (pom - OP[op_offset].freq);
+    
+    		op_offset+=8;
+    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		OP[op_offset].phase += (pom - OP[op_offset].freq);
+    
+    		op_offset+=8;
+    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		OP[op_offset].phase += (pom - OP[op_offset].freq);
+    	}
+    }
+    public static int op_calc(OscilRec[] OP,int op_offset, /*unsigned*/ int env,int pm)
+    {
+    	/*unsigned*/ long p;
+    
+    	p = (env<<3) + sin_tab[ ( ((int)((OP[op_offset].phase & ~FREQ_MASK) + (pm<<15))) >> FREQ_SH ) & SIN_MASK ];
+    
+    	if (p >= TL_TAB_LEN)
+    		return 0;
+    
+    	return TL_TAB[(int)p];
+    }
+    
+    public static int op_calc1(OscilRec[] OP,int op_offset, /*unsigned*/ int env,int pm)
+    {
+    	/*unsigned*/ long p;
+    	int i;
+    
+    	i = (int)((OP[op_offset].phase & ~FREQ_MASK) + pm);
+    
+    /*if (errorlog) fprintf(errorlog,"i=%08x (i>>16)&511=%8i phase=%i [pm=%08x] ",i, (i>>16)&511, OP->phase>>FREQ_SH, pm);*/
+    
+    	p = (env<<3) + sin_tab[ (i>>FREQ_SH) & SIN_MASK];
+    
+    /*if (errorlog) fprintf(errorlog," (p&255=%i p>>8=%i) out= %i\n", p&255,p>>8, TL_TAB[p&255]>>(p>>8) );*/
+    
+    	if (p >= TL_TAB_LEN)
+    		return 0;
+    
+    	return TL_TAB[(int)p];
+    }
+    
     /*TODO*///
     /*TODO*///#define volume_calc(OP) (OP->TL + (((unsigned int)OP->volume)>>ENV_SH) + (AM & OP->AMSmask))
-    /*TODO*///
-    /*TODO*///INLINE void chan_calc(unsigned int chan)
-    /*TODO*///{
-    /*TODO*///OscilRec *OP;
-    /*TODO*///unsigned int env;
-    /*TODO*///unsigned int AM;
-    /*TODO*///
-    /*TODO*///	chanout[chan]= c1 = m2 = c2 = 0;
-    /*TODO*///	AM = 0;
-    /*TODO*///
-    /*TODO*///	OP = &PSG->Oscils[chan]; /*M1*/
-    /*TODO*///
-    /*TODO*///	if (OP->AMS)
-    /*TODO*///		AM = PSG->LFA << (OP->AMS-1);
-    /*TODO*///
-    /*TODO*///	if (OP->PMS)
-    /*TODO*///		calc_lfo_pm(OP);
-    /*TODO*///
-    /*TODO*///	env = volume_calc(OP);
-    /*TODO*///	{
-    /*TODO*///		signed int out;
-    /*TODO*///
-    /*TODO*///		out = OP->FB0 + OP->FB;
-    /*TODO*///		OP->FB0 = OP->FB;
-    /*TODO*///
-    /*TODO*///		if (!OP->connect)
-    /*TODO*///			/* algorithm 5 */
-    /*TODO*///			c1 = m2 = c2 = OP->FB0;
-    /*TODO*///		else
-    /*TODO*///			/* other algorithms */
-    /*TODO*///			*OP->connect = OP->FB0;
-    /*TODO*///
-    /*TODO*///		OP->FB = 0;
-    /*TODO*///
-    /*TODO*///		if (env < ENV_QUIET)
-    /*TODO*///			OP->FB = op_calc1(OP, env, (out<<OP->FeedBack) );
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	OP += 16; /*C1*/
-    /*TODO*///	env = volume_calc(OP);
-    /*TODO*///	if (env < ENV_QUIET)
-    /*TODO*///		*OP->connect += op_calc(OP, env, c1);
-    /*TODO*///
-    /*TODO*///	OP -= 8;  /*M2*/
-    /*TODO*///	env = volume_calc(OP);
-    /*TODO*///	if (env < ENV_QUIET)
-    /*TODO*///		*OP->connect += op_calc(OP, env, m2);
-    /*TODO*///
-    /*TODO*///	OP += 16; /*C2*/
-    /*TODO*///	env = volume_calc(OP);
-    /*TODO*///	if (env < ENV_QUIET)
-    /*TODO*///		chanout[chan] += op_calc(OP, env, c2);
-    /*TODO*///
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE void advance(void)
-    /*TODO*///{
-    /*TODO*///OscilRec *op;
-    /*TODO*///int i;
-    /*TODO*///
-    /*TODO*///    if (!(PSG->test&2))
-    /*TODO*///        PSG->LFOphase += PSG->LFOfrq;
-    /*TODO*///
-    /*TODO*///    op = &PSG->Oscils[0]; /*CH0 M1*/
-    /*TODO*///    i = 32;
-    /*TODO*///    do
-    /*TODO*///    {
-    /*TODO*///        op->phase += op->freq;
-    /*TODO*///        op->phase += op->DTfreq;
-    /*TODO*///
-    /*TODO*///	switch(op->state)
-    /*TODO*///	{
-    /*TODO*///	case EG_ATT:	/*attack phase*/
-    /*TODO*///		{
-    /*TODO*///			signed int step;
-    /*TODO*///
-    /*TODO*///			step = op->volume;
-    /*TODO*///			op->volume -= op->delta_AR;
-    /*TODO*///			step = (step>>ENV_SH) - (((unsigned int)op->volume)>>ENV_SH); /*number of levels passed since last time*/
-    /*TODO*///			if (step > 0)
-    /*TODO*///			{
-    /*TODO*///				signed int tmp_volume;
-    /*TODO*///
-    /*TODO*///				tmp_volume = op->volume + (step<<ENV_SH); /*adjust by number of levels*/
-    /*TODO*///				do
-    /*TODO*///				{
-    /*TODO*///					tmp_volume = tmp_volume - (1<<ENV_SH) - ((tmp_volume>>4) & ~ENV_MASK);
-    /*TODO*///					if (tmp_volume <= MIN_ATT_INDEX)
-    /*TODO*///						break;
-    /*TODO*///					step--;
-    /*TODO*///				}while(step);
-    /*TODO*///				op->volume = tmp_volume;
-    /*TODO*///			}
-    /*TODO*///
-    /*TODO*///			if (op->volume <= MIN_ATT_INDEX)
-    /*TODO*///			{
-    /*TODO*///				if (op->volume < 0)
-    /*TODO*///					op->volume = 0; /*this is not quite correct (checked)*/
-    /*TODO*///				op->state = EG_DEC;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case EG_DEC:	/*decay phase*/
-    /*TODO*///		if ( (op->volume += op->delta_D1R) >= op->D1L )
-    /*TODO*///		{
-    /*TODO*///			op->volume = op->D1L; /*this is not quite correct (checked)*/
-    /*TODO*///			op->state = EG_SUS;
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case EG_SUS:	/*sustain phase*/
-    /*TODO*///		if ( (op->volume += op->delta_D2R) > MAX_ATT_INDEX )
-    /*TODO*///		{
-    /*TODO*///			op->state = EG_OFF;
-    /*TODO*///			op->volume = MAX_ATT_INDEX;
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///
-    /*TODO*///	case EG_REL:	/*release phase*/
-    /*TODO*///		if ( (op->volume += op->delta_RR) > MAX_ATT_INDEX )
-    /*TODO*///		{
-    /*TODO*///			op->state = EG_OFF;
-    /*TODO*///			op->volume = MAX_ATT_INDEX;
-    /*TODO*///		}
-    /*TODO*///		break;
-    /*TODO*///	}
-    /*TODO*///	op++;
-    /*TODO*///	i--;
-    /*TODO*///    }while (i);
-    /*TODO*///}
-    /*TODO*///
+    private static int volume_calc(OscilRec OP, int AM)
+    {
+      return (int)(OP.TL + (((int)(OP.volume) >> ENV_SH) + (AM & OP.AMSmask)));
+    }
+    public static void chan_calc(int chan)
+    {
+        OscilRec[] OP= PSG.Oscils;
+        /*unsigned int*/long env;
+        /*unsigned int*/long AM;
+    
+    	chanout[chan][0]=0;
+        c1[0]=0;
+        m2[0]=0;
+        c2[0]=0;
+    	AM = 0;
+    
+    	//OP = &PSG->Oscils[chan]; /*M1*/
+        int op_offset = chan;
+    
+    	if (PSG.Oscils[op_offset].AMS!=0)
+    		AM = PSG.LFA << (PSG.Oscils[op_offset].AMS-1);
+    
+    	if (PSG.Oscils[op_offset].PMS!=0)
+    		calc_lfo_pm(PSG.Oscils,op_offset);
+    
+    	env = volume_calc(OP[op_offset],(int)AM);
+    	{
+    		int out;
+    
+    		out = PSG.Oscils[op_offset].FB0 + PSG.Oscils[op_offset].FB;
+    		PSG.Oscils[op_offset].FB0 = PSG.Oscils[op_offset].FB;
+    
+    		if (PSG.Oscils[op_offset].connect==null)
+    			/* algorithm 5 */
+    			c1[0] = m2[0] = c2[0] = PSG.Oscils[op_offset].FB0;
+    		else
+    			/* other algorithms */
+    			PSG.Oscils[op_offset].connect[0] = PSG.Oscils[op_offset].FB0;
+    
+    		PSG.Oscils[op_offset].FB = 0;
+    
+    		if (env < ENV_QUIET)
+    			PSG.Oscils[op_offset].FB = op_calc1(PSG.Oscils,op_offset, (int)env, (out<<PSG.Oscils[op_offset].FeedBack) );
+    	}
+    
+    	op_offset += 16; /*C1*/
+    	env = volume_calc(OP[op_offset],(int)AM);
+    	if (env < ENV_QUIET)
+    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, (int)env, c1[0]);
+    
+    	op_offset -= 8;  /*M2*/
+    	env = volume_calc(OP[op_offset],(int)AM);
+    	if (env < ENV_QUIET)
+    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, (int)env, m2[0]);
+    
+    	op_offset += 16; /*C2*/
+    	env = volume_calc(OP[op_offset],(int)AM);
+    	if (env < ENV_QUIET)
+    		chanout[chan][0] += op_calc(PSG.Oscils,op_offset, (int)env, c2[0]);
+    
+    }
+    public static void advance()
+    {
+        OscilRec[] op=PSG.Oscils;
+        int i;
+        int op_offset=0;
+    
+        if ((PSG.test&2)==0)
+            PSG.LFOphase += PSG.LFOfrq;
+    
+        //op = &PSG.Oscils[0]; /*CH0 M1*/
+        i = 32;
+        do
+        {
+            op[op_offset].phase += op[op_offset].freq;
+            op[op_offset].phase += op[op_offset].DTfreq;
+    
+    	switch(op[op_offset].state)
+    	{
+    	case EG_ATT:	/*attack phase*/
+    		{
+    			int step;
+    
+    			step = op[op_offset].volume;
+    			op[op_offset].volume -= op[op_offset].delta_AR;
+    			step = (step>>ENV_SH) - (((int)op[op_offset].volume)>>ENV_SH); /*number of levels passed since last time*/
+    			if (step > 0)
+    			{
+    				int tmp_volume;
+    
+    				tmp_volume = op[op_offset].volume + (step<<ENV_SH); /*adjust by number of levels*/
+    				do
+    				{
+    					tmp_volume = tmp_volume - (1<<ENV_SH) - ((tmp_volume>>4) & ~ENV_MASK);
+    					if (tmp_volume <= MIN_ATT_INDEX)
+    						break;
+    					step--;
+    				}while(step!=0);
+    				op[op_offset].volume = tmp_volume;
+    			}
+    
+    			if (op[op_offset].volume <= MIN_ATT_INDEX)
+    			{
+    				if (op[op_offset].volume < 0)
+    					op[op_offset].volume = 0; /*this is not quite correct (checked)*/
+    				op[op_offset].state = EG_DEC;
+    			}
+    		}
+    		break;
+    
+    	case EG_DEC:	/*decay phase*/
+    		if ( (op[op_offset].volume += op[op_offset].delta_D1R) >= op[op_offset].D1L )
+    		{
+    			op[op_offset].volume = (int)(op[op_offset].D1L); /*this is not quite correct (checked)*/
+    			op[op_offset].state = EG_SUS;
+    		}
+    		break;
+    
+    	case EG_SUS:	/*sustain phase*/
+    		if ( (op[op_offset].volume += op[op_offset].delta_D2R) > MAX_ATT_INDEX )
+    		{
+    			op[op_offset].state = EG_OFF;
+    			op[op_offset].volume = MAX_ATT_INDEX;
+    		}
+    		break;
+    
+    	case EG_REL:	/*release phase*/
+    		if ( (op[op_offset].volume += op[op_offset].delta_RR) > MAX_ATT_INDEX )
+    		{
+    			op[op_offset].state = EG_OFF;
+    			op[op_offset].volume = MAX_ATT_INDEX;
+    		}
+    		break;
+    	}
+    	op_offset++;
+    	i--;
+        }while (i!=0);
+    }
+    
     public static int acc_calc(int value)
     {
     	if (value>=0)
@@ -1436,67 +1439,55 @@ public class ym2151 {
     */
     public static StreamInitMultiPtr YM2151UpdateOne = new StreamInitMultiPtr() {
             public void handler(int num, UShortPtr[] buffer, int length) {
-    /*TODO*///	int i;
-    /*TODO*///	signed int outl,outr;
-    /*TODO*///	SAMP *bufL, *bufR;
-    /*TODO*///
-    /*TODO*///	bufL = buffers[0];
-    /*TODO*///	bufR = buffers[1];
-    /*TODO*///
-    /*TODO*///	PSG = &YMPSG[num];
-    /*TODO*///	
-    /*TODO*///	for (i=0; i<length; i++)
-    /*TODO*///	{
-    /*TODO*///
-    /*TODO*///		chan_calc(0);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(0)
-    /*TODO*///		chan_calc(1);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(1)
-    /*TODO*///		chan_calc(2);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(2)
-    /*TODO*///		chan_calc(3);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(3)
-    /*TODO*///		chan_calc(4);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(4)
-    /*TODO*///		chan_calc(5);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(5)
-    /*TODO*///		chan_calc(6);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(6)
-    /*TODO*///		chan_calc(7);
-    /*TODO*///		SAVE_SINGLE_CHANNEL(7)
-    /*TODO*///
-    /*TODO*///		SAVE_ALL_CHANNELS
-    /*TODO*///
-    /*TODO*///		outl = chanout[0] & PSG->PAN[0];
-    /*TODO*///		outr = chanout[0] & PSG->PAN[1];
-    /*TODO*///		outl += (chanout[1] & PSG->PAN[2]);
-    /*TODO*///		outr += (chanout[1] & PSG->PAN[3]);
-    /*TODO*///		outl += (chanout[2] & PSG->PAN[4]);
-    /*TODO*///		outr += (chanout[2] & PSG->PAN[5]);
-    /*TODO*///		outl += (chanout[3] & PSG->PAN[6]);
-    /*TODO*///		outr += (chanout[3] & PSG->PAN[7]);
-    /*TODO*///		outl += (chanout[4] & PSG->PAN[8]);
-    /*TODO*///		outr += (chanout[4] & PSG->PAN[9]);
-    /*TODO*///		outl += (chanout[5] & PSG->PAN[10]);
-    /*TODO*///		outr += (chanout[5] & PSG->PAN[11]);
-    /*TODO*///		outl += (chanout[6] & PSG->PAN[12]);
-    /*TODO*///		outr += (chanout[6] & PSG->PAN[13]);
-    /*TODO*///		outl += (chanout[7] & PSG->PAN[14]);
-    /*TODO*///		outr += (chanout[7] & PSG->PAN[15]);
-    /*TODO*///
-    /*TODO*///		outl >>= FINAL_SH;
-    /*TODO*///		outr >>= FINAL_SH;
-    /*TODO*///		if (outl > MAXOUT) outl = MAXOUT;
-    /*TODO*///			else if (outl < MINOUT) outl = MINOUT;
-    /*TODO*///		if (outr > MAXOUT) outr = MAXOUT;
-    /*TODO*///			else if (outr < MINOUT) outr = MINOUT;
-    /*TODO*///		((SAMP*)bufL)[i] = (SAMP)outl;
-    /*TODO*///		((SAMP*)bufR)[i] = (SAMP)outr;
-    /*TODO*///
-    /*TODO*///		lfo_calc();
-    /*TODO*///		advance();
-    /*TODO*///
-    /*TODO*///	}
+    	int i;
+        int outl,outr;
+        UShortPtr bufL, bufR;
+        bufL = buffer[0];
+        bufR = buffer[1];
+        
+        PSG = YMPSG[num];//	PSG = &YMPSG[num];
+
+    	for (i=0; i<length; i++)
+    	{
+    
+    		chan_calc(0);
+    		chan_calc(1);
+    		chan_calc(2);
+    		chan_calc(3);
+    		chan_calc(4);
+    		chan_calc(5);
+    		chan_calc(6);
+    		chan_calc(7);
+    		outl = (int)(chanout[0][0] & PSG.PAN[0]);
+    		outr = (int)(chanout[0][0] & PSG.PAN[1]);
+    		outl += (int)((chanout[1][0] & PSG.PAN[2]));
+    		outr += (int)((chanout[1][0] & PSG.PAN[3]));
+    		outl += (int)((chanout[2][0] & PSG.PAN[4]));
+    		outr += (int)((chanout[2][0] & PSG.PAN[5]));
+    		outl += (int)((chanout[3][0] & PSG.PAN[6]));
+    		outr += (int)((chanout[3][0] & PSG.PAN[7]));
+    		outl += (int)((chanout[4][0] & PSG.PAN[8]));
+    		outr += (int)((chanout[4][0] & PSG.PAN[9]));
+    		outl += (int)((chanout[5][0] & PSG.PAN[10]));
+    		outr += (int)((chanout[5][0] & PSG.PAN[11]));
+    		outl += (int)((chanout[6][0] & PSG.PAN[12]));
+    		outr += (int)((chanout[6][0] & PSG.PAN[13]));
+    		outl += (int)((chanout[7][0] & PSG.PAN[14]));
+    		outr += (int)((chanout[7][0] & PSG.PAN[15]));
+    
+    		outl >>= FINAL_SH;
+    		outr >>= FINAL_SH;
+    		if (outl > MAXOUT) outl = MAXOUT;
+    			else if (outl < MINOUT) outl = MINOUT;
+    		if (outr > MAXOUT) outr = MAXOUT;
+    			else if (outr < MINOUT) outr = MINOUT;
+                bufL.write(i, (char)(outl));
+                bufR.write(i, (char)(outr));
+
+                lfo_calc();
+    		advance();
+    
+    	}
     }};
     public static void YM2151SetIrqHandler(int n, WriteYmHandlerPtr handler)
     {
