@@ -15,48 +15,48 @@ public class ym2151 {
         {
             
         }
-    	/*unsigned int*/long phase;		/*accumulated operator phase*/
-        /*unsigned int*/long freq;		/*operator frequency*/
+    	int phase;		/*accumulated operator phase*/
+        int freq;		/*operator frequency*/
         int DTfreq;	/*operator detune frequency*/
 
-    /*unsigned int*/long MUL;		/*phase multiply*/
-    /*unsigned int*/long DT1;		/*DT1|MUL * 32  */
-    /*unsigned int*/long DT2;		/*DT2 index     */
+        int MUL;		/*phase multiply*/
+        int DT1;		/*DT1|MUL * 32  */
+        int DT2;		/*DT2 index     */
 
-    int[] connect;	/*operator output 'direction'*/
-    /*Begin of channel specific data*/
-    /*note: each operator number 0 contains channel specific data*/
-    /*unsigned int*/long FeedBack;	/*feedback shift value for operators 0 in each channel*/
-    int FB;		/*operator self feedback value used only by operators 0*/
-    int FB0;		/*previous output value*/
-    /*unsigned int*/long KC;		/*operator KC (copied to all operators)*/
-    /*unsigned int*/long KCindex;	/*speedup*/
-    /*unsigned int*/long KF;		/*operator KF (copied to all operators)*/
-    /*unsigned int*/long PMS;		/*channel PMS*/
-    /*unsigned int*/long AMS;		/*channel AMS*/
-    /*End of channel specific data*/
+        int[] connect;	/*operator output 'direction'*/
+        /*Begin of channel specific data*/
+        /*note: each operator number 0 contains channel specific data*/
+        int FeedBack;	/*feedback shift value for operators 0 in each channel*/
+        int FB;		/*operator self feedback value used only by operators 0*/
+        int FB0;		/*previous output value*/
+        int KC;		/*operator KC (copied to all operators)*/
+        int KCindex;	/*speedup*/
+        int KF;		/*operator KF (copied to all operators)*/
+        int PMS;		/*channel PMS*/
+        int AMS;		/*channel AMS*/
+        /*End of channel specific data*/
 
-    /*unsigned int*/long AMSmask;	/*LFO AMS enable mask*/
+        int AMSmask;	/*LFO AMS enable mask*/
 
-    /*unsigned int*/int  state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
-    /*unsigned int*/long delta_AR;	/*volume delta for attack phase*/
-    /*unsigned int*/long TL;		/*Total attenuation Level*/
-    int volume;	/*operator attenuation level*/
-    /*unsigned int*/long delta_D1R;	/*volume delta for decay phase*/
-    /*unsigned int*/long D1L;		/*EG switches to D2R, when envelope reaches this level*/
-    /*unsigned int*/long delta_D2R;	/*volume delta for sustain phase*/
-    /*unsigned int*/long delta_RR;	/*volume delta for release phase*/
+        int  state;		/*Envelope state: 4-attack(AR) 3-decay(D1R) 2-sustain(D2R) 1-release(RR) 0-off*/
+        int delta_AR;	/*volume delta for attack phase*/
+        int TL;		/*Total attenuation Level*/
+        int volume;	/*operator attenuation level*/
+        int delta_D1R;	/*volume delta for decay phase*/
+        int D1L;		/*EG switches to D2R, when envelope reaches this level*/
+        int delta_D2R;	/*volume delta for sustain phase*/
+        int delta_RR;	/*volume delta for release phase*/
 
-    /*unsigned int*/int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
+        int key;		/*0=last key was KEY OFF, 1=last key was KEY ON*/
 
-    /*unsigned int*/long KS;		/*Key Scale     */
-    /*unsigned int*/long AR;		/*Attack rate   */
-    /*unsigned int*/long D1R;		/*Decay rate    */
-    /*unsigned int*/long D2R;		/*Sustain rate  */
-    /*unsigned int*/long RR;		/*Release rate  */
+        int KS;		/*Key Scale     */
+        int AR;		/*Attack rate   */
+        int D1R;		/*Decay rate    */
+        int D2R;		/*Sustain rate  */
+        int RR;		/*Release rate  */
 
-    int LFOpm;		/*phase modulation from LFO*/
-    int a_vol;		/*used for attack phase calculations*/
+        int LFOpm;		/*phase modulation from LFO*/
+        int a_vol;		/*used for attack phase calculations*/
 
     }
     public static class _YM2151
@@ -64,32 +64,32 @@ public class ym2151 {
         public _YM2151()
         {
             Oscils=new OscilRec[32];
-            PAN=new long[16];
+            PAN=new int[16];
             TimerATime=new double[1024];
             TimerBTime=new double[256];
-            freq=new long[11*12*64];
+            freq=new int[11*12*64];
             DT1freq=new int[8*16*32];
-            EG_tab=new long[32+64+32];
-            LFOfreq=new long[256];
+            EG_tab=new int[32+64+32];
+            LFOfreq=new int[256];
         }
     	OscilRec[] Oscils;	/*there are 32 operators in YM2151*/
         
-        /*unsigned int*/long[] PAN;	/*channels output masks (0xffffffff = enable)*/
+        int[] PAN;	/*channels output masks (0xffffffff = enable)*/
 
-        /*unsigned int*/long LFOphase;	/*accumulated LFO phase         */
-        /*unsigned int*/long LFOfrq;	/*LFO frequency                 */
-        /*unsigned int*/long LFOwave;	/*LFO waveform (0-saw, 1-square, 2-triangle, 3-random noise)*/
-        /*unsigned int*/long PMD;		/*LFO Phase Modulation Depth    */
-        /*unsigned int*/long AMD;		/*LFO Amplitude Modulation Depth*/
-        /*unsigned int*/long LFA;		/*current AM from LFO*/
+        int LFOphase;	/*accumulated LFO phase         */
+        int LFOfrq;	/*LFO frequency                 */
+        int LFOwave;	/*LFO waveform (0-saw, 1-square, 2-triangle, 3-random noise)*/
+        int PMD;		/*LFO Phase Modulation Depth    */
+        int AMD;		/*LFO Amplitude Modulation Depth*/
+        int LFA;		/*current AM from LFO*/
         int LFP;		/*current PM from LFO*/
 
-        /*unsigned int*/long test;		/*TEST register*/
+        int test;		/*TEST register*/
 
-        /*unsigned int*/long CT;		/*output control pins (bit7 CT2, bit6 CT1)*/
-        /*unsigned int*/long noise;		/*noise register (bit 7 - noise enable, bits 4-0 - noise freq*/
+        int CT;		/*output control pins (bit7 CT2, bit6 CT1)*/
+        int noise;		/*noise register (bit 7 - noise enable, bits 4-0 - noise freq*/
 
-        /*unsigned int*/long IRQenable;	/*IRQ enable for timer B (bit 3) and timer A (bit 2)*/
+        int IRQenable;	/*IRQ enable for timer B (bit 3) and timer A (bit 2)*/
        /*unsigned*/ int status;	/*chip status (BUSY, IRQ Flags)*/
     
     
@@ -97,11 +97,11 @@ public class ym2151 {
     	double[] TimerATime;	/*Timer A times for MAME*/
     	double[] TimerBTime;		/*Timer B times for MAME*/
     
-    	/*unsigned int*/long TimAIndex;		/*Timer A index*/
-    	/*unsigned int*/long TimBIndex;		/*Timer B index*/
+    	int TimAIndex;		/*Timer A index*/
+    	int TimBIndex;		/*Timer B index*/
     
-    	/*unsigned int*/long TimAOldIndex;	/*Timer A previous index*/
-    	/*unsigned int*/long TimBOldIndex;	/*Timer B previous index*/
+    	int TimAOldIndex;	/*Timer A previous index*/
+    	int TimBOldIndex;	/*Timer B previous index*/
     
     	/*
     	*   Frequency-deltas to get the closest frequency possible.
@@ -120,7 +120,7 @@ public class ym2151 {
     	*              9       note code + DT2 + LFO PM
     	*              10      note code + DT2 + LFO PM
     	*/
-    	/*unsigned int*/long[] freq;/*11 octaves, 12 semitones, 64 'cents'*/
+    	int[] freq;/*11 octaves, 12 semitones, 64 'cents'*/
     
     	/*
     	*   Frequency deltas for DT1. These deltas alter operator frequency
@@ -128,9 +128,9 @@ public class ym2151 {
     	*/
     	int[] DT1freq;		/*8 DT1 levels,16 MUL lelvels, 32 KC values*/
     
-    	/*unsigned int*/long[] EG_tab;		/*envelope deltas (32 + 64 rates + 32 RKS)*/
+    	int[] EG_tab;		/*envelope deltas (32 + 64 rates + 32 RKS)*/
     
-    	/*unsigned int*/long[] LFOfreq;			/*frequency deltas for LFO*/
+    	int[] LFOfreq;			/*frequency deltas for LFO*/
     
         WriteYmHandlerPtr irqhandler;				/*IRQ function handler*/
         WriteHandlerPtr porthandler;	/*port write function handler*/
@@ -189,22 +189,22 @@ public class ym2151 {
     static int[] TL_TAB=new int[TL_TAB_LEN];
     
     /* sin waveform table in 'decibel' scale*/
-    static /*unsigned int*/long[] sin_tab=new long[SIN_LEN];
+    static int[] sin_tab=new int[SIN_LEN];
     
     /* four AM/PM LFO waveforms (8 in total)*/
-    static /*unsigned int*/long[] lfo_tab=new long[LFO_LEN*4*2];
+    static int[] lfo_tab=new int[LFO_LEN*4*2];
     
     /* LFO amplitude modulation depth table (128 levels)*/
-    static /*unsigned int*/long[] lfo_md_tab=new long[128];
+    static int[] lfo_md_tab=new int[128];
     
     /* translate from D1L to volume index (16 D1L levels)*/
-    static /*unsigned int*/long[] D1L_tab=new long[16];
+    static int[] D1L_tab=new int[16];
     
     /*
      * translate from key code KC (OCT2 OCT1 OCT0 N3 N2 N1 N0) to
      * index in frequency-deltas table. (9 octaves * 16 note codes)
     */
-    static /*unsigned int*/long[] KC_TO_INDEX=new long[9*16];
+    static int[] KC_TO_INDEX=new int[9*16];
     
     /*
      *   DT2 defines offset in cents from base note
@@ -452,7 +452,7 @@ public class ym2151 {
     	for (i=0; i<16; i++)
     	{
     		m = (i<15?i:i+16) * (4.0/ENV_STEP);   /*every 3 'dB' except for all bits = 1 = 45dB+48dB*/
-    		D1L_tab[i] = (long)(m * (1<<ENV_SH));
+    		D1L_tab[i] = (int)(m * (1<<ENV_SH));
     		/*if (errorlog) fprintf(errorlog,"D1L_tab[%04x]=%08x\n",i,D1L_tab[i] );*/
     	}
     
@@ -489,7 +489,7 @@ public class ym2151 {
     		/* calculate phase increment */
     		phaseinc = (Hz*SIN_LEN) / (double)chip.sampfreq;
     
-    		chip.freq[i] = (long)(phaseinc*mult);
+    		chip.freq[i] = (int)(phaseinc*mult);
     		for (j=1; j<11; j++)
     		{
     			chip.freq[i+j*12*64] = chip.freq[i]*(1<<j);
@@ -534,7 +534,7 @@ public class ym2151 {
     		pom = Math.abs(  (clk/65536/(1<<(i/16)) ) - (clk/65536/32/(1<<(i/16)) * (j+1)) );
     
     		/*calculate phase increment*/
-    		chip.LFOfreq[0xff-i] = (long)(( (pom*LFO_LEN) / (double)chip.sampfreq ) * mult); /*fixed point*/
+    		chip.LFOfreq[0xff-i] = (int)(( (pom*LFO_LEN) / (double)chip.sampfreq ) * mult); /*fixed point*/
     		/*if (errorlog) fprintf(errorlog, "LFO[%02x] (%08x)= real %20.15f Hz  emul %20.15f Hz\n",0xff-i, chip.LFOfreq[0xff-i], pom,
     			(((double)chip.LFOfreq[0xff-i] / mult) * (double)chip.sampfreq ) / (double)LFO_LEN );*/
     	}
@@ -549,7 +549,7 @@ public class ym2151 {
     		pom2 *= 1<<((i>>2));
     		pom2 /= 768.0 * 1024.0;
     		pom2 *= (double)(1<<ENV_SH);
-    		chip.EG_tab[32+i] = (long)pom2;
+    		chip.EG_tab[32+i] = (int)pom2;
     	}
     
     	for (i=0; i<32; i++)
@@ -756,51 +756,58 @@ public class ym2151 {
     		break;
     	}
     }
+    private static final int unsigned(int param)
+    {
+      if (param < 0) {
+        return -param;
+      }
+      return param;
+    }
     public static void refresh_EG( _YM2151 chip, OscilRec[] op,int op_offset)
     {
-    	/*unsigned int*/long kc;
-    	/*unsigned int*/long v;
-    
-    	kc = op[op_offset].KC;
-    
+    	int kc;
+    	int v;
+        
     	/*v = 32 + 2*RATE + RKS (max 126)*/
+        
+        kc = unsigned(op[op_offset].KC);
+        v = unsigned(kc >> op[op_offset].KS);
     
-    	v = kc >> op[op_offset].KS;
     	if ((op[op_offset].AR+v) < 32+62)
-    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    		op[op_offset].delta_AR  = chip.EG_tab[op[op_offset].AR + v];
     	else
     		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
-    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
-    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
-    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    	op[op_offset].delta_D1R = chip.EG_tab[op[op_offset].D1R + v];
+    	op[op_offset].delta_D2R = chip.EG_tab[op[op_offset].D2R + v];
+    	op[op_offset].delta_RR  = chip.EG_tab[op[op_offset].RR + v];
     
     	op_offset+=8;
     
-    	v = kc >> op[op_offset].KS;
+    	v = unsigned(kc >> op[op_offset].KS);
     	if ((op[op_offset].AR+v) < 32+62)
-    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    		op[op_offset].delta_AR  = chip.EG_tab[op[op_offset].AR + v];
     	else
     		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
-    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
-    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
-    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    	op[op_offset].delta_D1R = chip.EG_tab[op[op_offset].D1R + v];
+    	op[op_offset].delta_D2R = chip.EG_tab[op[op_offset].D2R + v];
+    	op[op_offset].delta_RR  = chip.EG_tab[op[op_offset].RR + v];
     
     	op_offset+=8;
     
-    	v = kc >> op[op_offset].KS;
+    	v = unsigned(kc >> op[op_offset].KS);
     	if ((op[op_offset].AR+v) < 32+62)
-    		op[op_offset].delta_AR  = chip.EG_tab[ (int)(op[op_offset].AR + v)];
+    		op[op_offset].delta_AR  = chip.EG_tab[op[op_offset].AR + v];
     	else
     		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
-    	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
-    	op[op_offset].delta_D2R = chip.EG_tab[(int)(op[op_offset].D2R + v)];
-    	op[op_offset].delta_RR  = chip.EG_tab[(int)(op[op_offset].RR + v)];
+    	op[op_offset].delta_D1R = chip.EG_tab[op[op_offset].D1R + v];
+    	op[op_offset].delta_D2R = chip.EG_tab[op[op_offset].D2R + v];
+    	op[op_offset].delta_RR  = chip.EG_tab[op[op_offset].RR + v];
     
     	op_offset+=8;
     
-    	v = kc >> op[op_offset].KS;
+    	v = unsigned(kc >> op[op_offset].KS);
     	if ((op[op_offset].AR+v) < 32+62)
-    		op[op_offset].delta_AR  = chip.EG_tab[(int)(op[op_offset].AR + v)];
+    		op[op_offset].delta_AR  = chip.EG_tab[op[op_offset].AR + v];
     	else
     		op[op_offset].delta_AR  = MAX_ATT_INDEX+1;
     	op[op_offset].delta_D1R = chip.EG_tab[(int)(op[op_offset].D1R + v)];
@@ -936,9 +943,9 @@ public class ym2151 {
     			/*v++;*/
     			if (v != op.KC)
     			{
-    				/*unsigned int*/long kc,kc_channel;
+    				int kc,kc_channel;
     
-    				kc = KC_TO_INDEX[v];
+    				kc = unsigned(KC_TO_INDEX[v]);
     				chip.Oscils[op_offset+0].KC = v;
     				chip.Oscils[op_offset+0].KCindex = kc;
     				chip.Oscils[op_offset+8].KC = v;
@@ -948,17 +955,17 @@ public class ym2151 {
     				chip.Oscils[op_offset+24].KC = v;
     				chip.Oscils[op_offset+24].KCindex = kc;
     
-    				kc_channel = op.KCindex + op.KF;
-    				kc = v>>2;
+    				kc_channel = unsigned(op.KCindex + op.KF);
+    				kc = unsigned(v>>2);
     
-    				chip.Oscils[op_offset+0].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+0].DT2) ] * chip.Oscils[op_offset+0].MUL;
-    				chip.Oscils[op_offset+0].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+0].DT1 + kc) ];
-    				chip.Oscils[op_offset+8].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+8].DT2) ] * chip.Oscils[op_offset+8].MUL;
-    				chip.Oscils[op_offset+8].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+8].DT1 + kc) ];
-    				chip.Oscils[op_offset+16].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+16].DT2) ] * chip.Oscils[op_offset+16].MUL;
-    				chip.Oscils[op_offset+16].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+16].DT1 + kc) ];
-    				chip.Oscils[op_offset+24].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+24].DT2) ] * chip.Oscils[op_offset+24].MUL;
-    				chip.Oscils[op_offset+24].DTfreq = chip.DT1freq[ (int)(chip.Oscils[op_offset+24].DT1 + kc) ];
+    				chip.Oscils[op_offset+0].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+0].DT2 ] * chip.Oscils[op_offset+0].MUL);
+    				chip.Oscils[op_offset+0].DTfreq = chip.DT1freq[ chip.Oscils[op_offset+0].DT1 + kc ];
+    				chip.Oscils[op_offset+8].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+8].DT2 ] * chip.Oscils[op_offset+8].MUL);
+    				chip.Oscils[op_offset+8].DTfreq = chip.DT1freq[ chip.Oscils[op_offset+8].DT1 + kc ];
+    				chip.Oscils[op_offset+16].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+16].DT2 ] * chip.Oscils[op_offset+16].MUL);
+    				chip.Oscils[op_offset+16].DTfreq = chip.DT1freq[ chip.Oscils[op_offset+16].DT1 + kc ];
+    				chip.Oscils[op_offset+24].freq = unsigned(chip.freq[kc_channel + chip.Oscils[op_offset+24].DT2 ] * chip.Oscils[op_offset+24].MUL);
+    				chip.Oscils[op_offset+24].DTfreq = chip.DT1freq[chip.Oscils[op_offset+24].DT1 + kc ];
     
     				refresh_EG(chip ,chip.Oscils,op_offset);//refresh_EG( chip, op );
     			}
@@ -968,19 +975,19 @@ public class ym2151 {
     			v >>= 2;
     			if (v != op.KF)
     			{
-    				/*unsigned int*/long kc_channel;
+    				int kc_channel;
     
     				chip.Oscils[op_offset+0].KF = v;
     				chip.Oscils[op_offset+8].KF = v;
     				chip.Oscils[op_offset+16].KF = v;
     				chip.Oscils[op_offset+24].KF = v;
     
-    				kc_channel = op.KCindex + op.KF;
+    				kc_channel = unsigned(op.KCindex + op.KF);
     
-    				chip.Oscils[op_offset+0].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+0].DT2) ] * chip.Oscils[op_offset+0].MUL;
-    				chip.Oscils[op_offset+8].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+8].DT2) ] * chip.Oscils[op_offset+8].MUL;
-    				chip.Oscils[op_offset+16].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+16].DT2) ] * chip.Oscils[op_offset+16].MUL;
-    				chip.Oscils[op_offset+24].freq = chip.freq[ (int)(kc_channel + chip.Oscils[op_offset+24].DT2) ] * chip.Oscils[op_offset+24].MUL;
+    				chip.Oscils[op_offset+0].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+0].DT2 ] * chip.Oscils[op_offset+0].MUL);
+    				chip.Oscils[op_offset+8].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+8].DT2 ] * chip.Oscils[op_offset+8].MUL);
+    				chip.Oscils[op_offset+16].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+16].DT2 ] * chip.Oscils[op_offset+16].MUL);
+    				chip.Oscils[op_offset+24].freq = unsigned(chip.freq[ kc_channel + chip.Oscils[op_offset+24].DT2 ] * chip.Oscils[op_offset+24].MUL);
     			}
     			break;
     
@@ -993,8 +1000,8 @@ public class ym2151 {
     
     	case 0x40: /*DT1, MUL*/
     		{
-    			/*unsigned int*/long oldDT1 = op.DT1;
-    			/*unsigned int*/long oldMUL = op.MUL;
+    			int oldDT1 = op.DT1;
+    			int oldMUL = op.MUL;
     			op.DT1 = (v&0x7f)<<5;
     			op.MUL = (v&0x0f)!=0 ? (v&0x0f)<<1: 1;
     			if (oldDT1 != op.DT1)
@@ -1003,10 +1010,10 @@ public class ym2151 {
     			}
     			if (oldMUL != op.MUL)
     			{
-    				/*unsigned int*/long kc_channel;
+    				int kc_channel;
     
-    				kc_channel = op.KCindex + op.KF;
-    				op.freq = (chip.freq[ (int)(kc_channel + op.DT2) ] * op.MUL)&0xFFFFFFFFL;//todo neccesary???
+    				kc_channel = unsigned(op.KCindex + op.KF);
+    				op.freq = unsigned(chip.freq[ (int)(kc_channel + op.DT2) ] * op.MUL);
     			}
     		}
     		break;
@@ -1017,24 +1024,24 @@ public class ym2151 {
     
     	case 0x80: /*KS, AR*/
     		{
-    			long oldKS = op.KS;
-    			long oldAR = op.AR;
+    			int oldKS = op.KS;
+    			int oldAR = op.AR;
     			op.KS = 5-(v>>6);
     			op.AR = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
     
     			if ( (op.AR != oldAR) || (op.KS != oldKS) )
     			{
     				if ((op.AR + (op.KC>>op.KS)) < 32+62)
-    					op.delta_AR  = chip.EG_tab[(int)(op.AR  + (op.KC>>op.KS)) ];
+    					op.delta_AR  = chip.EG_tab[op.AR  + (op.KC>>op.KS) ];
     				else
     					op.delta_AR  = MAX_ATT_INDEX+1;
     			}
     
     			if (op.KS != oldKS)
     			{
-    				op.delta_D1R = chip.EG_tab[(int)(op.D1R + (op.KC>>op.KS)) ];
-    				op.delta_D2R = chip.EG_tab[(int)(op.D2R + (op.KC>>op.KS)) ];
-    				op.delta_RR  = chip.EG_tab[(int)(op.RR  + (op.KC>>op.KS)) ];
+    				op.delta_D1R = chip.EG_tab[op.D1R + (op.KC>>op.KS) ];
+    				op.delta_D2R = chip.EG_tab[op.D2R + (op.KC>>op.KS) ];
+    				op.delta_RR  = chip.EG_tab[op.RR  + (op.KC>>op.KS) ];
     			}
     		}
     		break;
@@ -1042,19 +1049,19 @@ public class ym2151 {
     	case 0xa0: /*AMS-EN, D1R*/
     		op.AMSmask = (v&0x80)!=0 ? 0xffffffff : 0;
     		op.D1R     = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
-    		op.delta_D1R = chip.EG_tab[(int)(op.D1R + (op.KC>>op.KS)) ];
+    		op.delta_D1R = chip.EG_tab[op.D1R + (op.KC>>op.KS) ];
     		break;
    
    	case 0xc0: /*DT2, D2R*/
    		{
-   			/*unsigned int*/long oldDT2 = op.DT2;
+   			int oldDT2 = op.DT2;
    			op.DT2 = DT2_tab[ v>>6 ];
    			if (op.DT2 != oldDT2)
    			{
-   				/*unsigned int*/long kc_channel;
+   				int kc_channel;
    
-   				kc_channel = op.KCindex + op.KF;
-   				op.freq = (chip.freq[ (int)(kc_channel + op.DT2) ] * op.MUL) & 0xFFFFFFFFL;//todo neccesary?
+   				kc_channel = unsigned(op.KCindex + op.KF);
+   				op.freq = unsigned(chip.freq[kc_channel + op.DT2 ] * op.MUL);
    			}
    		}
    		op.D2R = (v&0x1f)!=0 ? 32 + ((v&0x1f)<<1) : 0;
@@ -1164,30 +1171,30 @@ public class ym2151 {
     
     public static void lfo_calc()
     {
-        /*unsigned int*/long phase, lfx;
+        int phase, lfx;
     
     	if ((PSG.test&2)!=0)
     	{
     		PSG.LFOphase = 0;
-    		phase = PSG.LFOwave;
+    		phase = unsigned(PSG.LFOwave);
     	}
     	else
     	{
-    		phase = (PSG.LFOphase>>LFO_SH) & LFO_MASK;
-    		phase = phase*2 + PSG.LFOwave;
+    		phase = unsigned((PSG.LFOphase>>LFO_SH) & LFO_MASK);
+    		phase = unsigned(phase*2 + PSG.LFOwave);
     	}
     
-    	lfx = lfo_tab[(int)phase] + PSG.AMD;
+    	lfx = unsigned(lfo_tab[phase] + PSG.AMD);
     
     	PSG.LFA = 0;
     	if (lfx < TL_TAB_LEN)
-    		PSG.LFA = TL_TAB[ (int)lfx ];
+    		PSG.LFA = TL_TAB[lfx ];
     
-    	lfx = lfo_tab[(int)(phase+1)] + PSG.PMD;
+    	lfx = unsigned(lfo_tab[(int)(phase+1)] + PSG.PMD);
     
     	PSG.LFP = 0;
     	if (lfx < TL_TAB_LEN)
-    		PSG.LFP = TL_TAB[ (int)lfx ];
+    		PSG.LFP = TL_TAB[lfx ];
     }
     
     
@@ -1203,31 +1210,31 @@ public class ym2151 {
     
     	if (mod_ind!=0)
     	{
-    		/*unsigned int*/long kc_channel;
+    		int kc_channel;
     
-    		kc_channel = OP[op_offset].KCindex + OP[op_offset].KF + mod_ind;
+    		kc_channel = unsigned(OP[op_offset].KCindex + OP[op_offset].KF + mod_ind);
     
-    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		pom = (int)(PSG.freq[kc_channel + OP[op_offset].DT2] * OP[op_offset].MUL);
     		OP[op_offset].phase += (pom - OP[op_offset].freq);
     
     		op_offset+=8;
-    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		pom = (int)(PSG.freq[kc_channel + OP[op_offset].DT2] * OP[op_offset].MUL);
     		OP[op_offset].phase += (pom - OP[op_offset].freq);
     
     		op_offset+=8;
-    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		pom = (int)(PSG.freq[kc_channel + OP[op_offset].DT2] * OP[op_offset].MUL);
     		OP[op_offset].phase += (pom - OP[op_offset].freq);
     
     		op_offset+=8;
-    		pom = (int)(PSG.freq[ (int)(kc_channel + OP[op_offset].DT2)&0xFF ] * OP[op_offset].MUL);
+    		pom = (int)(PSG.freq[kc_channel + OP[op_offset].DT2] * OP[op_offset].MUL);
     		OP[op_offset].phase += (pom - OP[op_offset].freq);
     	}
     }
     public static int op_calc(OscilRec[] OP,int op_offset, /*unsigned*/ int env,int pm)
     {
-    	/*unsigned*/ long p;
+    	int p;
     
-    	p = (env<<3) + sin_tab[ ( ((int)((OP[op_offset].phase & ~FREQ_MASK) + (pm<<15))) >> FREQ_SH ) & SIN_MASK ];
+    	p = unsigned((env<<3) + sin_tab[ ( (((OP[op_offset].phase & ~FREQ_MASK) + (pm<<15))) >> FREQ_SH ) & SIN_MASK ]);
     
     	if (p >= TL_TAB_LEN)
     		return 0;
@@ -1237,14 +1244,14 @@ public class ym2151 {
     
     public static int op_calc1(OscilRec[] OP,int op_offset, /*unsigned*/ int env,int pm)
     {
-    	/*unsigned*/ long p;
+    	int p;
     	int i;
     
-    	i = (int)((OP[op_offset].phase & ~FREQ_MASK) + pm);
+    	i = ((OP[op_offset].phase & ~FREQ_MASK) + pm);
     
     /*if (errorlog) fprintf(errorlog,"i=%08x (i>>16)&511=%8i phase=%i [pm=%08x] ",i, (i>>16)&511, OP->phase>>FREQ_SH, pm);*/
     
-    	p = (env<<3) + sin_tab[ (i>>FREQ_SH) & SIN_MASK];
+    	p = unsigned((env<<3) + sin_tab[ (i>>FREQ_SH) & SIN_MASK]);
     
     /*if (errorlog) fprintf(errorlog," (p&255=%i p>>8=%i) out= %i\n", p&255,p>>8, TL_TAB[p&255]>>(p>>8) );*/
     
@@ -1254,17 +1261,15 @@ public class ym2151 {
     	return TL_TAB[(int)p];
     }
     
-    /*TODO*///
-    /*TODO*///#define volume_calc(OP) (OP->TL + (((unsigned int)OP->volume)>>ENV_SH) + (AM & OP->AMSmask))
     private static int volume_calc(OscilRec OP, int AM)
     {
-      return (int)(OP.TL + (((int)(OP.volume) >> ENV_SH) + (AM & OP.AMSmask)));
+      return (OP.TL + (unsigned(OP.volume) >> ENV_SH) + (AM & OP.AMSmask));
     }
     public static void chan_calc(int chan)
     {
         OscilRec[] OP= PSG.Oscils;
-        /*unsigned int*/long env;
-        /*unsigned int*/long AM;
+        int env;
+        int AM;
     
     	chanout[chan][0]=0;
         c1[0]=0;
@@ -1276,12 +1281,12 @@ public class ym2151 {
         int op_offset = chan;
     
     	if (PSG.Oscils[op_offset].AMS!=0)
-    		AM = PSG.LFA << (PSG.Oscils[op_offset].AMS-1);
+    		AM = unsigned(PSG.LFA << (PSG.Oscils[op_offset].AMS-1));
     
     	if (PSG.Oscils[op_offset].PMS!=0)
     		calc_lfo_pm(PSG.Oscils,op_offset);
     
-    	env = volume_calc(OP[op_offset],(int)AM);
+    	env = unsigned(volume_calc(OP[op_offset],AM));
     	{
     		int out;
     
@@ -1302,19 +1307,19 @@ public class ym2151 {
     	}
     
     	op_offset += 16; /*C1*/
-    	env = volume_calc(OP[op_offset],(int)AM);
+    	env = unsigned(volume_calc(OP[op_offset],AM));
     	if (env < ENV_QUIET)
-    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, (int)env, c1[0]);
+    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, env, c1[0]);
     
     	op_offset -= 8;  /*M2*/
-    	env = volume_calc(OP[op_offset],(int)AM);
+    	env = unsigned(volume_calc(OP[op_offset],AM));
     	if (env < ENV_QUIET)
-    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, (int)env, m2[0]);
+    		PSG.Oscils[op_offset].connect[0] += op_calc(PSG.Oscils,op_offset, env, m2[0]);
     
     	op_offset += 16; /*C2*/
-    	env = volume_calc(OP[op_offset],(int)AM);
+    	env = unsigned(volume_calc(OP[op_offset],AM));
     	if (env < ENV_QUIET)
-    		chanout[chan][0] += op_calc(PSG.Oscils,op_offset, (int)env, c2[0]);
+    		chanout[chan][0] += op_calc(PSG.Oscils,op_offset, env, c2[0]);
     
     }
     public static void advance()
@@ -1341,7 +1346,7 @@ public class ym2151 {
     
     			step = op[op_offset].volume;
     			op[op_offset].volume -= op[op_offset].delta_AR;
-    			step = (step>>ENV_SH) - (((int)op[op_offset].volume)>>ENV_SH); /*number of levels passed since last time*/
+    			step = (step>>ENV_SH) - (unsigned(op[op_offset].volume)>>ENV_SH); /*number of levels passed since last time*/
     			if (step > 0)
     			{
     				int tmp_volume;
@@ -1458,22 +1463,22 @@ public class ym2151 {
     		chan_calc(5);
     		chan_calc(6);
     		chan_calc(7);
-    		outl = (int)(chanout[0][0] & PSG.PAN[0]);
-    		outr = (int)(chanout[0][0] & PSG.PAN[1]);
-    		outl += (int)((chanout[1][0] & PSG.PAN[2]));
-    		outr += (int)((chanout[1][0] & PSG.PAN[3]));
-    		outl += (int)((chanout[2][0] & PSG.PAN[4]));
-    		outr += (int)((chanout[2][0] & PSG.PAN[5]));
-    		outl += (int)((chanout[3][0] & PSG.PAN[6]));
-    		outr += (int)((chanout[3][0] & PSG.PAN[7]));
-    		outl += (int)((chanout[4][0] & PSG.PAN[8]));
-    		outr += (int)((chanout[4][0] & PSG.PAN[9]));
-    		outl += (int)((chanout[5][0] & PSG.PAN[10]));
-    		outr += (int)((chanout[5][0] & PSG.PAN[11]));
-    		outl += (int)((chanout[6][0] & PSG.PAN[12]));
-    		outr += (int)((chanout[6][0] & PSG.PAN[13]));
-    		outl += (int)((chanout[7][0] & PSG.PAN[14]));
-    		outr += (int)((chanout[7][0] & PSG.PAN[15]));
+    		outl = (chanout[0][0] & PSG.PAN[0]);
+    		outr = (chanout[0][0] & PSG.PAN[1]);
+    		outl += ((chanout[1][0] & PSG.PAN[2]));
+    		outr += ((chanout[1][0] & PSG.PAN[3]));
+    		outl += ((chanout[2][0] & PSG.PAN[4]));
+    		outr += ((chanout[2][0] & PSG.PAN[5]));
+    		outl += ((chanout[3][0] & PSG.PAN[6]));
+    		outr += ((chanout[3][0] & PSG.PAN[7]));
+    		outl += ((chanout[4][0] & PSG.PAN[8]));
+    		outr += ((chanout[4][0] & PSG.PAN[9]));
+    		outl += ((chanout[5][0] & PSG.PAN[10]));
+    		outr += ((chanout[5][0] & PSG.PAN[11]));
+    		outl += ((chanout[6][0] & PSG.PAN[12]));
+    		outr += ((chanout[6][0] & PSG.PAN[13]));
+    		outl += ((chanout[7][0] & PSG.PAN[14]));
+    		outr += ((chanout[7][0] & PSG.PAN[15]));
     
     		outl >>= FINAL_SH;
     		outr >>= FINAL_SH;
