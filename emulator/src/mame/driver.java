@@ -656,6 +656,8 @@ public class driver {
         /*galaga*/driver_galagab2,//no samples support
         /*galaga*/driver_galaga84,//no samples support
         /*galaga*/driver_nebulbee,//no samples support
+        /*ddragon*/driver_ddragonb,//no stereo sound support
+        /*ddragon*/driver_ddragon2,//no stereo sound support
         
         /*
           Possible cpu bugs
@@ -796,6 +798,7 @@ public class driver {
         /*fastfred*/driver_flyboy,
         /*kingobox*/driver_ringkin2,
         /*taitosj*/driver_kikstart,
+        /*ddragon*/driver_ddragon,
         
         /*
         WIP drivers
@@ -835,12 +838,7 @@ public class driver {
         /*hyperspt*/driver_hyperspt,
         /*hyperspt*/driver_hpolym84,
         /*hyperspt*/driver_roadf,
-        
-        
-        /*ddragon*/driver_ddragonb,
-        /*ddragon*/driver_ddragon2,
-        
-        
+
         /*rockrage*/driver_rockrage,
         /*rockrage*/driver_rockragj,
 
@@ -879,7 +877,7 @@ public class driver {
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*hyperspt*/driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
         
-        /*ddragon*/driver_ddragon,  //missing HD63701 cpu
+        
 
 
 

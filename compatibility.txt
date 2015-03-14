@@ -460,6 +460,8 @@ gallag   galaga.c   Z80      Z80      Z80                                       
 galagab2 galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga (bootleg) - no samples support
 galaga84 galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Galaga '84 - no samples support
 nebulbee galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Nebulous Bee - no samples support
+ddragonb ddragon.c  HD6309   HD6309   [HD6309]                                              1xYM-2151   2xADPCM                                         Double Dragon (bootleg)  - No stereo sound 
+ddragon2 ddragon.c  HD6309   Z80      [Z80   ]                                              1xYM-2151   1xOKI6295                                       Double Dragon II - The Revenge - No stereo sound
 
 Probably CPU bugs
 -------------------------------
@@ -592,6 +594,7 @@ aeroboto aeroboto.c M6809    [M6809 ]                                           
 flyboy   fastfred.c Z80      [Z80   ]                                                       2xAY-8910                                                   Fly-Boy
 ringkin2 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 2)
 kikstart taitosj.c  Z80      [Z80   ] M68705                                                4xAY-8910   1xDAC                                           Kick Start Wheelie King 
+ddragon  ddragon.c  HD6309   HD63701  [HD6309]                                              1xYM-2151   2xADPCM                                         Double Dragon
 
 
 WIP

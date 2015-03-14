@@ -1100,7 +1100,12 @@ public void EXTENDED(){ ea=IMMWORD();}
         if(konamilog!=null) fprintf(konamilog,"konami#%d andb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),konami.pc,konami.ppc,konami.a,konami.b,getDreg(),konami.dp,konami.u,konami.s,konami.x,konami.y,konami.cc,ea);
     
     }};
-    opcode andb_ix= new opcode() { public void handler(){fclose(konamilog); throw new UnsupportedOperationException("unsupported opcode"); }};
+    opcode andb_ix= new opcode() { public void handler()
+    {
+        konami.b &= RM(ea);
+    	CLR_NZV();
+    	SET_NZ8(konami.b);
+    }};
     opcode andcc= new opcode() { public void handler()
     {
         /*UINT8*/int t= IMMBYTE();

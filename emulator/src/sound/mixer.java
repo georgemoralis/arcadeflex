@@ -193,39 +193,38 @@ public class mixer {
                 accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
             }
         } /* copy the stereo 32-bit data to a 16-bit buffer, clipping along the way */ else {
-            throw new UnsupportedOperationException("Unsupported");
-            /*TODO*///		mix = mix_buffer;
-    /*TODO*///		for (i = 0; i < samples_this_frame; i++)
-    /*TODO*///		{
-    /*TODO*///			/* fetch and clip the left sample */
-    /*TODO*///			sample = left_accum[accum_pos];
-    /*TODO*///#if !DISABLE_CLIPPING
-    /*TODO*///			if (sample < -32768)
-    /*TODO*///				sample = -32768;
-    /*TODO*///			else if (sample > 32767)
-    /*TODO*///				sample = 32767;
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///			/* store and zero out behind us */
-    /*TODO*///			*mix++ = sample;
-    /*TODO*///			left_accum[accum_pos] = 0;
-    /*TODO*///
-    /*TODO*///			/* fetch and clip the right sample */
-    /*TODO*///			sample = right_accum[accum_pos];
-    /*TODO*///#if !DISABLE_CLIPPING
-    /*TODO*///			if (sample < -32768)
-    /*TODO*///				sample = -32768;
-    /*TODO*///			else if (sample > 32767)
-    /*TODO*///				sample = 32767;
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///			/* store and zero out behind us */
-    /*TODO*///			*mix++ = sample;
-    /*TODO*///			right_accum[accum_pos] = 0;
-    /*TODO*///
-    /*TODO*///			/* advance to the next sample */
-    /*TODO*///			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
-    /*TODO*///		}
+            	int mix = 0;// mix_buffer;
+    		for (int i = 0; i < samples_this_frame; i++)
+    		{
+    			/* fetch and clip the left sample */
+    			sample = left_accum[accum_pos];
+    //#if !DISABLE_CLIPPING
+    			if (sample < -32768)
+    				sample = -32768;
+    			else if (sample > 32767)
+    				sample = 32767;
+    //#endif
+    
+    			/* store and zero out behind us */
+    			 mix_buffer[mix++] = (short)sample;
+    			left_accum[accum_pos] = 0;
+    
+    			/* fetch and clip the right sample */
+    			sample = right_accum[accum_pos];
+    //if !DISABLE_CLIPPING
+    			if (sample < -32768)
+    				sample = -32768;
+    			else if (sample > 32767)
+    				sample = 32767;
+    //#endif
+    
+    			/* store and zero out behind us */
+    			 mix_buffer[mix++] = (short)sample;
+    			right_accum[accum_pos] = 0;
+    
+    			/* advance to the next sample */
+    			accum_pos = (accum_pos + 1) & ACCUMULATOR_MASK;
+    		}
         }
 
         /* play the result */

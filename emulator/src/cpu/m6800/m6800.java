@@ -3642,10 +3642,10 @@ public opcode aba = new opcode() {
     /* $be LDS extended -**0- */
     public opcode lds_ex = new opcode() {
         public void handler() {
-            /*TODO*///EXTWORD(m6808.s);
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(S);
-            throw new UnsupportedOperationException("Unsupported");
+            m6800.s = EXTWORD();
+            CLR_NZV();
+            SET_NZ16(m6800.s);
+           
         }
     };
 
