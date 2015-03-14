@@ -465,6 +465,10 @@ ddragon2 ddragon.c  HD6309   Z80      [Z80   ]                                  
 jackal   jackal.c   M6809    M6809                                                          1xYM-2151                                                   Jackal (World)  - No stereo sound
 topgunr  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (US)  - No stereo sound
 jackalj  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Tokushu Butai Jackal (Japan)  - No stereo sound
+vigilant vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (World) - No stereo sound
+vigilntu vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (US) - No stereo sound
+vigilntj vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (Japan) - No stereo sound
+kikcubic vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Meikyu Jima (Japan) - No stereo sound
 
 Probably CPU bugs
 -------------------------------

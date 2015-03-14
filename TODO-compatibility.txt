@@ -130,10 +130,6 @@ armwrest punchout.c Z80      [N2A03 ]                                           
 astinvad z80bw.c    Z80                                                                     Samples                                                     Astro Invader
 kamikaze z80bw.c    Z80                                                                     Samples                                                     Kamikaze
 spaceint z80bw.c    Z80                                                                     Samples                                                     Space Intruder
-vigilant vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (World)
-vigilntu vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (US)
-vigilntj vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (Japan)
-kikcubic vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Meikyu Jima (Japan)
 sichuan2 shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Sichuan II (hack?) (set 1)
 sichuana shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Sichuan II (hack ?) (set 2)
 shisen   shisen.c   Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Shisensho - Joshiryo-Hen (Japan)

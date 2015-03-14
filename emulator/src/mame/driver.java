@@ -661,6 +661,10 @@ public class driver {
         /*jackal*/driver_jackal, //no stereo sound support
         /*jackal*/driver_topgunr,//no stereo sound support
         /*jackal*/driver_jackalj,//no stereo sound support
+        /*vigilant*/driver_vigilant,//no stereo sound support	
+        /*vigilant*/driver_vigilntu,//no stereo sound support	
+        /*vigilant*/driver_vigilntj,//no stereo sound support	
+        /*vigilant*/driver_kikcubic,//no stereo sound support	
         
         /*
           Possible cpu bugs
@@ -988,16 +992,7 @@ public class driver {
         /*marvins*/driver_marvins, //screen issues 
         /*marvins*/driver_madcrash,//screen issues (offscreen drawing)
         /*marvins*/driver_vangrd2,// screen issues (offscreen drawing)
-        
-
-        
-
-        
-        driver_vigilant,	/* (c) 1988 (World) */
-        driver_vigilntu,	/* (c) 1988 (US) */
-        driver_vigilntj,	/* (c) 1988 (Japan) */
-        driver_kikcubic,	/* (c) 1988 (Japan) */
-                
+                   
 
         driver_contra,	/* GX633 (c) 1987 */
         driver_contrab,	/* bootleg */
