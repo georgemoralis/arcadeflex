@@ -462,6 +462,9 @@ galaga84 galaga.c   Z80      Z80      Z80                                       
 nebulbee galaga.c   Z80      Z80      Z80                                                   Namco       Samples                                         Nebulous Bee - no samples support
 ddragonb ddragon.c  HD6309   HD6309   [HD6309]                                              1xYM-2151   2xADPCM                                         Double Dragon (bootleg)  - No stereo sound 
 ddragon2 ddragon.c  HD6309   Z80      [Z80   ]                                              1xYM-2151   1xOKI6295                                       Double Dragon II - The Revenge - No stereo sound
+jackal   jackal.c   M6809    M6809                                                          1xYM-2151                                                   Jackal (World)  - No stereo sound
+topgunr  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (US)  - No stereo sound
+jackalj  jackal.c   M6809    M6809                                                          1xYM-2151                                                   Tokushu Butai Jackal (Japan)  - No stereo sound
 
 Probably CPU bugs
 -------------------------------
@@ -564,6 +567,7 @@ metrocrs baraduke.c M6809    HD63701                                            
 mnight   mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Mutant Night  //boots but doesn't start,freezes emu
 arkarea  mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ark Area //boots but doesn't start,freezes emu
 ringkin3 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 3) //warning - op-code execute on mapped i/o
+topgunbl jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (bootleg) - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------

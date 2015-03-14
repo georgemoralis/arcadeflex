@@ -658,6 +658,9 @@ public class driver {
         /*galaga*/driver_nebulbee,//no samples support
         /*ddragon*/driver_ddragonb,//no stereo sound support
         /*ddragon*/driver_ddragon2,//no stereo sound support
+        /*jackal*/driver_jackal, //no stereo sound support
+        /*jackal*/driver_topgunr,//no stereo sound support
+        /*jackal*/driver_jackalj,//no stereo sound support
         
         /*
           Possible cpu bugs
@@ -766,6 +769,8 @@ public class driver {
         /*mnight*/driver_mnight,//boots but doesn't start,freezes emu
         /*mnight*/driver_arkarea,///boots but doesn't start,freezes emu
          /*kingobox*/driver_ringkin3,//warning - op-code execute on mapped i/o
+         /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
+        
 
         
         /*
@@ -868,10 +873,7 @@ public class driver {
          * Games not working (various reasons)
         */
         
-        /*jackal*/driver_jackal, //boots but doesn't start
-        /*jackal*/driver_topgunr,//boots but doesn't start
-        /*jackal*/driver_jackalj,//boots but doesn't  start
-        /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
+
         /*exprraid*/driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
         /*exprraid*/driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
