@@ -34,8 +34,17 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
+import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_K007232;
+import static mame.sndintrfH.SOUND_YM2151;
 import static vidhrdw.gbusters.*;
 import static vidhrdw.konamiic.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
+import static sound.k007232.*;
+import static sound.k007232H.*;
+import static sound.mixerH.*;
+
 
 public class gbusters
 {
@@ -169,8 +178,8 @@ public class gbusters
 		int bank_B = 0x20000*((data >> 2) & 0x01);	/* ?? */
 		int bank_A = 0x20000*((data) & 0x01);		/* ?? */
 	
-/*TODO*///		K007232_bankswitch(0,RAM + bank_A,RAM + bank_B);
-	
+                K007232_bankswitch(0,new UBytePtr(RAM,bank_A),new UBytePtr(RAM,bank_B));
+
 	/*#if 0
 		{
 			char baf[40];
@@ -217,8 +226,8 @@ public class gbusters
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),				/* ROM 878h01.rom */
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),				/* RAM */
 		new MemoryReadAddress( 0xa000, 0xa000, soundlatch_r ),			/* soundlatch_r */
-/*TODO*///		new MemoryReadAddress( 0xb000, 0xb00d, K007232_read_port_0_r ),	/* 007232 registers */
-/*TODO*///		new MemoryReadAddress( 0xc001, 0xc001, YM2151_status_port_0_r ),	/* YM 2151 */
+		new MemoryReadAddress( 0xb000, 0xb00d, K007232_read_port_0_r ),	/* 007232 registers */
+		new MemoryReadAddress( 0xc001, 0xc001, YM2151_status_port_0_r ),	/* YM 2151 */
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -226,9 +235,9 @@ public class gbusters
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),					/* ROM 878h01.rom */
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),					/* RAM */
-/*TODO*///		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_0_w ),		/* 007232 registers */
-/*TODO*///		new MemoryWriteAddress( 0xc000, 0xc000, YM2151_register_port_0_w ),	/* YM 2151 */
-/*TODO*///		new MemoryWriteAddress( 0xc001, 0xc001, YM2151_data_port_0_w ),		/* YM 2151 */
+		new MemoryWriteAddress( 0xb000, 0xb00d, K007232_write_port_0_w ),		/* 007232 registers */
+		new MemoryWriteAddress( 0xc000, 0xc000, YM2151_register_port_0_w ),	/* YM 2151 */
+		new MemoryWriteAddress( 0xc001, 0xc001, YM2151_data_port_0_w ),		/* YM 2151 */
 		new MemoryWriteAddress( 0xf000, 0xf000, gbusters_snd_bankswitch_w ),	/* 007232 bankswitch? */
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -350,30 +359,28 @@ public class gbusters
 		Machine Driver
 	
 	***************************************************************************/
+	public static portwritehandlerPtr volume_callback = new portwritehandlerPtr() { public void handler(int v)
+        {
+		K007232_set_volume(0,0,(v >> 4) * 0x11,0);
+		K007232_set_volume(0,1,0,(v & 0x0f) * 0x11);
+        }};
 	
-/*TODO*///	static void volume_callback(int v)
-/*TODO*///	{
-/*TODO*///		K007232_set_volume(0,0,(v >> 4) * 0x11,0);
-/*TODO*///		K007232_set_volume(0,1,0,(v & 0x0f) * 0x11);
-/*TODO*///	}
-	
-/*TODO*///	static struct K007232_interface k007232_interface =
-/*TODO*///	{
-/*TODO*///		1,		/* number of chips */
-/*TODO*///		{ REGION_SOUND1 },	/* memory regions */
-/*TODO*///		{ K007232_VOL(30,MIXER_PAN_CENTER,30,MIXER_PAN_CENTER) },	/* volume */
-/*TODO*///		{ volume_callback }	/* external port callback */
-/*TODO*///	};
-	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1, /* 1 chip */
-/*TODO*///		3579545, /* 3.579545 MHz */
-/*TODO*///		{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 }
-/*TODO*///	};
-	
+	static K007232_interface k007232_interface = new K007232_interface
+	(
+		1,		/* number of chips */
+		new int[]{ REGION_SOUND1 },	/* memory regions */
+		new int[]{ K007232_VOL(30,MIXER_PAN_CENTER,30,MIXER_PAN_CENTER) },	/* volume */
+		new portwritehandlerPtr[]{ volume_callback }	/* external port callback */
+        );
+        static YM2151interface ym2151_interface = new YM2151interface
+	(
+		1, /* 1 chip */
+		3579545, /* 3.579545 MHz */
+		new int[]{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[]{ null },
+		new WriteHandlerPtr[]{ null }
+        );
+		
 	static MachineDriver machine_driver_gbusters = new MachineDriver
 	(
 		/* basic machine hardware */
@@ -409,7 +416,7 @@ public class gbusters
 	
 		/* sound hardware */
 		0,0,0,0,
-		/*new MachineSound[] {
+		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
 				ym2151_interface
@@ -418,8 +425,7 @@ public class gbusters
 				SOUND_K007232,
 				k007232_interface
 			)
-		}*/
-                null
+		}
 	);
 	
 	
