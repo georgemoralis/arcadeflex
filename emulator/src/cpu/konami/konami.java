@@ -219,7 +219,7 @@ public class konami extends cpu_interface {
     }
 
     public void WM(int addr, int value) {
-        cpu_writemem16(addr, value);
+        cpu_writemem16(addr, value&0xFF);
     }
 
     public char ROP(int addr) {
