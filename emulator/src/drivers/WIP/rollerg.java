@@ -34,6 +34,7 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_K053260;
 import static mame.sndintrfH.SOUND_YM3812;
 import static mame.timer.*;
 import static mame.timerH.*;
@@ -41,6 +42,10 @@ import static vidhrdw.rollerg.*;
 import static vidhrdw.konamiic.*;
 import static sound._3812intf.*;
 import static sound._3812intfH.*;
+import static sound.k053260.*;
+import static sound.k053260H.*;
+import static sound.mixerH.*;
+
 
 public class rollerg
 {
@@ -92,8 +97,8 @@ public class rollerg
 	{
 		/* If the sound CPU is running, read the status, otherwise
 		   just make it pass the test */
-/*TODO*///		if (Machine.sample_rate != 0) 	return K053260_ReadReg(2 + offset);
-/*TODO*///		else 
+		if (Machine.sample_rate != 0) 	return K053260_ReadReg.handler(2 + offset);
+		else 
             return 0x00;
 	} };
 	
@@ -141,7 +146,7 @@ public class rollerg
 	{
 		new MemoryWriteAddress( 0x0010, 0x0010, rollerg_0010_w ),
 		new MemoryWriteAddress( 0x0020, 0x0020, watchdog_reset_w ),
-/*TODO*///		new MemoryWriteAddress( 0x0030, 0x0031, K053260_WriteReg ),
+		new MemoryWriteAddress( 0x0030, 0x0031, K053260_WriteReg ),
 		new MemoryWriteAddress( 0x0040, 0x0040, soundirq_w ),
 		new MemoryWriteAddress( 0x0200, 0x020f, K051316_ctrl_0_w ),
 		new MemoryWriteAddress( 0x0300, 0x030f, K053244_w ),
@@ -157,7 +162,7 @@ public class rollerg
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0x8000, 0x87ff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( 0xa000, 0xa02f, K053260_ReadReg ),
+		new MemoryReadAddress( 0xa000, 0xa02f, K053260_ReadReg ),
 		new MemoryReadAddress( 0xc000, 0xc000, YM3812_status_port_0_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
@@ -166,7 +171,7 @@ public class rollerg
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x8000, 0x87ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0xa000, 0xa02f, K053260_WriteReg ),
+		new MemoryWriteAddress( 0xa000, 0xa02f, K053260_WriteReg ),
 		new MemoryWriteAddress( 0xc000, 0xc000, YM3812_control_port_0_w ),
 		new MemoryWriteAddress( 0xc001, 0xc001, YM3812_write_port_0_w ),
 		new MemoryWriteAddress( 0xfc00, 0xfc00, sound_arm_nmi ),
@@ -293,13 +298,13 @@ public class rollerg
 		new WriteYmHandlerPtr[]{null }
         );
 	
-/*TODO*///	static struct K053260_interface k053260_interface =
-/*TODO*///	{
-/*TODO*///		3579545,
-/*TODO*///		REGION_SOUND1, /* memory region */
-/*TODO*///		{ MIXER(100,MIXER_PAN_LEFT), MIXER(100,MIXER_PAN_RIGHT) },
-/*TODO*///		0
-/*TODO*///	};
+	static K053260_interface k053260_interface = new K053260_interface
+	(
+		3579545,
+		REGION_SOUND1, /* memory region */
+		new int[]{ MIXER(100,MIXER_PAN_LEFT), MIXER(100,MIXER_PAN_RIGHT) },
+		null
+        );
 	
 	static MachineDriver machine_driver_rollerg = new MachineDriver
 	(
@@ -341,11 +346,11 @@ public class rollerg
 			new MachineSound(
 				SOUND_YM3812,
 				ym3812_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_K053260,
 				k053260_interface
-			)*/
+			)
 		}
 	);
 	

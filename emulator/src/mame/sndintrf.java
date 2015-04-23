@@ -28,6 +28,7 @@ import sound.vlm5030;
 import sound._2151intf;
 import sound.pokey;
 import sound.upd7759;
+import sound.k053260;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -241,9 +242,6 @@ public class sndintrf {
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_K051649)
     /*TODO*////*TODO*///int K051649_clock(const struct MachineSound *msound) { return ((struct k051649_interface*)msound->sound_interface)->master_clock; }
-    /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_K053260)
-    /*TODO*////*TODO*///int K053260_clock(const struct MachineSound *msound) { return ((struct K053260_interface*)msound->sound_interface)->clock; }
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_CEM3394)
     /*TODO*////*TODO*///int cem3394_num(const struct MachineSound *msound) { return ((struct cem3394_interface*)msound->sound_interface)->numchips; }
@@ -498,42 +496,8 @@ public class sndintrf {
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
              new k007232(),
-    /*TODO*////*TODO*///#if (HAS_K007232)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_K007232,
-    /*TODO*////*TODO*///		"007232",
-    /*TODO*////*TODO*///		K007232_num,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		K007232_sh_start,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
              new k051649(),
-    /*TODO*////*TODO*///#if (HAS_K051649)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_K051649,
-    /*TODO*////*TODO*///		"051649",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		K051649_clock,
-    /*TODO*////*TODO*///		K051649_sh_start,
-    /*TODO*////*TODO*///		K051649_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
-    /*TODO*////*TODO*///#if (HAS_K053260)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_K053260,
-    /*TODO*////*TODO*///		"053260",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		K053260_clock,
-    /*TODO*////*TODO*///		K053260_sh_start,
-    /*TODO*////*TODO*///		K053260_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
+             new k053260(),
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_SEGAPCM)
     /*TODO*////*TODO*///	{
