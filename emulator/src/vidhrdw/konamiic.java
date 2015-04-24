@@ -1428,273 +1428,255 @@ public  class konamiic
 /*TODO*////*TODO*/// * The rest of the sprite remains normal.
 /*TODO*////*TODO*/// */
 /*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053245_sprites_draw(struct osd_bitmap *bitmap,int min_priority,int max_priority)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///#define NUM_SPRITES 128
-/*TODO*////*TODO*///	int offs,pri_code;
-/*TODO*////*TODO*///	int sortedlist[NUM_SPRITES];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	for (offs = 0;offs < NUM_SPRITES;offs++)
-/*TODO*////*TODO*///		sortedlist[offs] = -1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* prebuild a sorted table */
-/*TODO*////*TODO*///	for (offs = 0;offs < 0x800;offs += 16)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		if (READ_WORD(&K053245_ram[offs]) & 0x8000)
-/*TODO*////*TODO*///			sortedlist[READ_WORD(&K053245_ram[offs]) & 0x007f] = offs;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	for (pri_code = 0;pri_code < NUM_SPRITES;pri_code++)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int ox,oy,color,code,size,w,h,x,y,flipx,flipy,mirrorx,mirrory,zoomx,zoomy,pri;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		offs = sortedlist[pri_code];
-/*TODO*////*TODO*///		if (offs == -1) continue;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* the following changes the sprite draw order from
-/*TODO*////*TODO*///			 0  1  4  5 16 17 20 21
-/*TODO*////*TODO*///			 2  3  6  7 18 19 22 23
-/*TODO*////*TODO*///			 8  9 12 13 24 25 28 29
-/*TODO*////*TODO*///			10 11 14 15 26 27 30 31
-/*TODO*////*TODO*///			32 33 36 37 48 49 52 53
-/*TODO*////*TODO*///			34 35 38 39 50 51 54 55
-/*TODO*////*TODO*///			40 41 44 45 56 57 60 61
-/*TODO*////*TODO*///			42 43 46 47 58 59 62 63
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			to
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			 0  1  2  3  4  5  6  7
-/*TODO*////*TODO*///			 8  9 10 11 12 13 14 15
-/*TODO*////*TODO*///			16 17 18 19 20 21 22 23
-/*TODO*////*TODO*///			24 25 26 27 28 29 30 31
-/*TODO*////*TODO*///			32 33 34 35 36 37 38 39
-/*TODO*////*TODO*///			40 41 42 43 44 45 46 47
-/*TODO*////*TODO*///			48 49 50 51 52 53 54 55
-/*TODO*////*TODO*///			56 57 58 59 60 61 62 63
-/*TODO*////*TODO*///		*/
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* NOTE: from the schematics, it looks like the top 2 bits should be ignored */
-/*TODO*////*TODO*///		/* (there are not output pins for them), and probably taken from the "color" */
-/*TODO*////*TODO*///		/* field to do bank switching. However this applies only to TMNT2, with its */
-/*TODO*////*TODO*///		/* protection mcu creating the sprite table, so we don't know where to fetch */
-/*TODO*////*TODO*///		/* the bits from. */
-/*TODO*////*TODO*///		code = READ_WORD(&K053245_ram[offs+0x02]);
-/*TODO*////*TODO*///		code = ((code & 0xffe1) + ((code & 0x0010) >> 2) + ((code & 0x0008) << 1)
-/*TODO*////*TODO*///				 + ((code & 0x0004) >> 1) + ((code & 0x0002) << 2));
-/*TODO*////*TODO*///		color = READ_WORD(&K053245_ram[offs+0x0c]) & 0x00ff;
-/*TODO*////*TODO*///		pri = 0;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		(*K053245_callback)(&code,&color,&pri);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if (pri < min_priority || pri > max_priority) continue;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		size = (READ_WORD(&K053245_ram[offs]) & 0x0f00) >> 8;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		w = 1 << (size & 0x03);
-/*TODO*////*TODO*///		h = 1 << ((size >> 2) & 0x03);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* zoom control:
-/*TODO*////*TODO*///		   0x40 = normal scale
-/*TODO*////*TODO*///		  <0x40 enlarge (0x20 = double size)
-/*TODO*////*TODO*///		  >0x40 reduce (0x80 = half size)
-/*TODO*////*TODO*///		*/
-/*TODO*////*TODO*///		zoomy = READ_WORD(&K053245_ram[offs+0x08]);
-/*TODO*////*TODO*///		if (zoomy > 0x2000) continue;
-/*TODO*////*TODO*///		if (zoomy) zoomy = (0x400000+zoomy/2) / zoomy;
-/*TODO*////*TODO*///		else zoomy = 2 * 0x400000;
-/*TODO*////*TODO*///		if ((READ_WORD(&K053245_ram[offs]) & 0x4000) == 0)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			zoomx = READ_WORD(&K053245_ram[offs+0x0a]);
-/*TODO*////*TODO*///			if (zoomx > 0x2000) continue;
-/*TODO*////*TODO*///			if (zoomx) zoomx = (0x400000+zoomx/2) / zoomx;
-/*TODO*////*TODO*/////			else zoomx = 2 * 0x400000;
-/*TODO*////*TODO*///else zoomx = zoomy; /* workaround for TMNT2 */
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		else zoomx = zoomy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		ox = READ_WORD(&K053245_ram[offs+0x06]) + K053245_spriteoffsX;
-/*TODO*////*TODO*///		oy = READ_WORD(&K053245_ram[offs+0x04]);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		flipx = READ_WORD(&K053245_ram[offs]) & 0x1000;
-/*TODO*////*TODO*///		flipy = READ_WORD(&K053245_ram[offs]) & 0x2000;
-/*TODO*////*TODO*///		mirrorx = READ_WORD(&K053245_ram[offs+0x0c]) & 0x0100;
-/*TODO*////*TODO*///		mirrory = READ_WORD(&K053245_ram[offs+0x0c]) & 0x0200;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if (K053245_flipscreenX)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			ox = 512 - ox;
-/*TODO*////*TODO*///			if (!mirrorx) flipx = !flipx;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		if (K053245_flipscreenY)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			oy = -oy;
-/*TODO*////*TODO*///			if (!mirrory) flipy = !flipy;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		ox = (ox + 0x5d) & 0x3ff;
-/*TODO*////*TODO*///		if (ox >= 768) ox -= 1024;
-/*TODO*////*TODO*///		oy = (-(oy + K053245_spriteoffsY + 0x07)) & 0x3ff;
-/*TODO*////*TODO*///		if (oy >= 640) oy -= 1024;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* the coordinates given are for the *center* of the sprite */
-/*TODO*////*TODO*///		ox -= (zoomx * w) >> 13;
-/*TODO*////*TODO*///		oy -= (zoomy * h) >> 13;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		for (y = 0;y < h;y++)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			int sx,sy,zw,zh;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			sy = oy + ((zoomy * y + (1<<11)) >> 12);
-/*TODO*////*TODO*///			zh = (oy + ((zoomy * (y+1) + (1<<11)) >> 12)) - sy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			for (x = 0;x < w;x++)
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				int c,fx,fy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				sx = ox + ((zoomx * x + (1<<11)) >> 12);
-/*TODO*////*TODO*///				zw = (ox + ((zoomx * (x+1) + (1<<11)) >> 12)) - sx;
-/*TODO*////*TODO*///				c = code;
-/*TODO*////*TODO*///				if (mirrorx)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if ((flipx == 0) ^ (2*x < w))
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						/* mirror left/right */
-/*TODO*////*TODO*///						c += (w-x-1);
-/*TODO*////*TODO*///						fx = 1;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						c += x;
-/*TODO*////*TODO*///						fx = 0;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if (flipx) c += w-1-x;
-/*TODO*////*TODO*///					else c += x;
-/*TODO*////*TODO*///					fx = flipx;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				if (mirrory)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if ((flipy == 0) ^ (2*y >= h))
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						/* mirror top/bottom */
-/*TODO*////*TODO*///						c += 8*(h-y-1);
-/*TODO*////*TODO*///						fy = 1;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						c += 8*y;
-/*TODO*////*TODO*///						fy = 0;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if (flipy) c += 8*(h-1-y);
-/*TODO*////*TODO*///					else c += 8*y;
-/*TODO*////*TODO*///					fy = flipy;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				/* the sprite can start at any point in the 8x8 grid, but it must stay */
-/*TODO*////*TODO*///				/* in a 64 entries window, wrapping around at the edges. The animation */
-/*TODO*////*TODO*///				/* at the end of the saloon level in SUnset Riders breaks otherwise. */
-/*TODO*////*TODO*///				c = (c & 0x3f) | (code & ~0x3f);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if (zoomx == 0x10000 && zoomy == 0x10000)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					/* hack to simulate shadow */
-/*TODO*////*TODO*///					if (READ_WORD(&K053245_ram[offs+0x0c]) & 0x0080)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						int o = K053245_gfx->colortable[16*color+15];
-/*TODO*////*TODO*///						K053245_gfx->colortable[16*color+15] = palette_transparent_pen;
-/*TODO*////*TODO*///						drawgfx(bitmap,K053245_gfx,
-/*TODO*////*TODO*///								c,
-/*TODO*////*TODO*///								color,
-/*TODO*////*TODO*///								fx,fy,
-/*TODO*////*TODO*///								sx,sy,
-/*TODO*////*TODO*///								&Machine->drv->visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1) ? 0x8001 : 0x0001);
-/*TODO*////*TODO*///						K053245_gfx->colortable[16*color+15] = o;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///						drawgfx(bitmap,K053245_gfx,
-/*TODO*////*TODO*///								c,
-/*TODO*////*TODO*///								color,
-/*TODO*////*TODO*///								fx,fy,
-/*TODO*////*TODO*///								sx,sy,
-/*TODO*////*TODO*///								&Machine->drv->visible_area,TRANSPARENCY_PEN,0);
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///					drawgfxzoom(bitmap,K053245_gfx,
-/*TODO*////*TODO*///							c,
-/*TODO*////*TODO*///							color,
-/*TODO*////*TODO*///							fx,fy,
-/*TODO*////*TODO*///							sx,sy,
-/*TODO*////*TODO*///							&Machine->drv->visible_area,TRANSPARENCY_PEN,0,
-/*TODO*////*TODO*///							(zw << 16) / 16,(zh << 16) / 16);
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///#if 0
-/*TODO*////*TODO*///if (keyboard_pressed(KEYCODE_D))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	FILE *fp;
-/*TODO*////*TODO*///	fp=fopen("SPRITE.DMP", "w+b");
-/*TODO*////*TODO*///	if (fp)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		fwrite(K053245_ram, 0x800, 1, fp);
-/*TODO*////*TODO*///		usrintf_showmessage("saved");
-/*TODO*////*TODO*///		fclose(fp);
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///#undef NUM_SPRITES
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053245_mark_sprites_colors(void)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	int offs,i;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	unsigned short palette_map[512];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	memset (palette_map, 0, sizeof (palette_map));
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* sprites */
-/*TODO*////*TODO*///	for (offs = 0x800-16;offs >= 0;offs -= 16)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		if (READ_WORD(&K053245_ram[offs]) & 0x8000)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			int code,color,pri;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			code = READ_WORD(&K053245_ram[offs+0x02]);
-/*TODO*////*TODO*///			code = ((code & 0xffe1) + ((code & 0x0010) >> 2) + ((code & 0x0008) << 1)
-/*TODO*////*TODO*///					 + ((code & 0x0004) >> 1) + ((code & 0x0002) << 2));
-/*TODO*////*TODO*///			color = READ_WORD(&K053245_ram[offs+0x0c]) & 0x00ff;
-/*TODO*////*TODO*///			pri = 0;
-/*TODO*////*TODO*///			(*K053245_callback)(&code,&color,&pri);
-/*TODO*////*TODO*///			palette_map[color] |= 0xffff;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* now build the final table */
-/*TODO*////*TODO*///	for (i = 0; i < 512; i++)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int usage = palette_map[i], j;
-/*TODO*////*TODO*///		if (usage)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			for (j = 1; j < 16; j++)
-/*TODO*////*TODO*///				if (usage & (1 << j))
-/*TODO*////*TODO*///					palette_used_colors[i * 16 + j] |= PALETTE_COLOR_VISIBLE;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
+public static void K053245_sprites_draw(osd_bitmap bitmap,int min_priority,int max_priority)
+{
+   int NUM_SPRITES= 128;
+	int offs,pri_code;
+	int[] sortedlist=new int[NUM_SPRITES];
 
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
+	for (offs = 0;offs < NUM_SPRITES;offs++)
+		sortedlist[offs] = -1;
+
+	/* prebuild a sorted table */
+	for (offs = 0;offs < 0x800;offs += 16)
+	{
+		if ((K053245_ram.READ_WORD(offs) & 0x8000)!=0)
+			sortedlist[K053245_ram.READ_WORD(offs) & 0x007f] = offs;
+	}
+
+	for (pri_code = 0;pri_code < NUM_SPRITES;pri_code++)
+	{
+		int ox,oy,size,w,h,x,y,flipx,flipy,mirrorx,mirrory,zoomx,zoomy;
+                int[] color = new int[1];
+                int[] code = new int[1];
+                int[] pri = new int[1];
+
+		offs = sortedlist[pri_code];
+		if (offs == -1) continue;
+
+		/* the following changes the sprite draw order from
+			 0  1  4  5 16 17 20 21
+			 2  3  6  7 18 19 22 23
+			 8  9 12 13 24 25 28 29
+			10 11 14 15 26 27 30 31
+			32 33 36 37 48 49 52 53
+			34 35 38 39 50 51 54 55
+			40 41 44 45 56 57 60 61
+			42 43 46 47 58 59 62 63
+
+			to
+
+			 0  1  2  3  4  5  6  7
+			 8  9 10 11 12 13 14 15
+			16 17 18 19 20 21 22 23
+			24 25 26 27 28 29 30 31
+			32 33 34 35 36 37 38 39
+			40 41 42 43 44 45 46 47
+			48 49 50 51 52 53 54 55
+			56 57 58 59 60 61 62 63
+		*/
+
+		/* NOTE: from the schematics, it looks like the top 2 bits should be ignored */
+		/* (there are not output pins for them), and probably taken from the "color" */
+		/* field to do bank switching. However this applies only to TMNT2, with its */
+		/* protection mcu creating the sprite table, so we don't know where to fetch */
+		/* the bits from. */
+		code[0] = K053245_ram.READ_WORD(offs+0x02);
+		code[0] = ((code[0] & 0xffe1) + ((code[0] & 0x0010) >> 2) + ((code[0] & 0x0008) << 1)
+				 + ((code[0] & 0x0004) >> 1) + ((code[0] & 0x0002) << 2));
+		color[0] = K053245_ram.READ_WORD(offs+0x0c) & 0x00ff;
+		pri[0] = 0;
+
+		(K053245_callback).handler(code,color,pri);
+
+		if (pri[0] < min_priority || pri[0] > max_priority) continue;
+
+		size = (K053245_ram.READ_WORD(offs) & 0x0f00) >> 8;
+
+		w = 1 << (size & 0x03);
+		h = 1 << ((size >> 2) & 0x03);
+
+		/* zoom control:
+		   0x40 = normal scale
+		  <0x40 enlarge (0x20 = double size)
+		  >0x40 reduce (0x80 = half size)
+		*/
+		zoomy = K053245_ram.READ_WORD(offs+0x08);
+		if (zoomy > 0x2000) continue;
+		if (zoomy!=0) zoomy = (0x400000+zoomy/2) / zoomy;
+		else zoomy = 2 * 0x400000;
+		if ((K053245_ram.READ_WORD(offs) & 0x4000) == 0)
+		{
+			zoomx = K053245_ram.READ_WORD(offs+0x0a);
+			if (zoomx > 0x2000) continue;
+			if (zoomx!=0) zoomx = (0x400000+zoomx/2) / zoomx;
+//			else zoomx = 2 * 0x400000;
+else zoomx = zoomy; /* workaround for TMNT2 */
+		}
+		else zoomx = zoomy;
+
+		ox = K053245_ram.READ_WORD(offs+0x06) + K053245_spriteoffsX;
+		oy = K053245_ram.READ_WORD(offs+0x04);
+
+		flipx = K053245_ram.READ_WORD(offs) & 0x1000;
+		flipy = K053245_ram.READ_WORD(offs) & 0x2000;
+		mirrorx = K053245_ram.READ_WORD(offs+0x0c) & 0x0100;
+		mirrory = K053245_ram.READ_WORD(offs+0x0c) & 0x0200;
+
+		if (K053245_flipscreenX!=0)
+		{
+			ox = 512 - ox;
+			if (mirrorx==0) flipx = NOT(flipx);
+		}
+		if (K053245_flipscreenY!=0)
+		{
+			oy = -oy;
+			if (mirrory==0) flipy = NOT(flipy);
+		}
+
+		ox = (ox + 0x5d) & 0x3ff;
+		if (ox >= 768) ox -= 1024;
+		oy = (-(oy + K053245_spriteoffsY + 0x07)) & 0x3ff;
+		if (oy >= 640) oy -= 1024;
+
+		/* the coordinates given are for the *center* of the sprite */
+		ox -= (zoomx * w) >> 13;
+		oy -= (zoomy * h) >> 13;
+
+		for (y = 0;y < h;y++)
+		{
+			int sx,sy,zw,zh;
+
+			sy = oy + ((zoomy * y + (1<<11)) >> 12);
+			zh = (oy + ((zoomy * (y+1) + (1<<11)) >> 12)) - sy;
+
+			for (x = 0;x < w;x++)
+			{
+				int c,fx,fy;
+
+				sx = ox + ((zoomx * x + (1<<11)) >> 12);
+				zw = (ox + ((zoomx * (x+1) + (1<<11)) >> 12)) - sx;
+				c = code[0];
+				if (mirrorx!=0)
+				{
+					if ((flipx == 0) ^ (2*x < w))
+					{
+						/* mirror left/right */
+						c += (w-x-1);
+						fx = 1;
+					}
+					else
+					{
+						c += x;
+						fx = 0;
+					}
+				}
+				else
+				{
+					if (flipx!=0) c += w-1-x;
+					else c += x;
+					fx = flipx;
+				}
+				if (mirrory!=0)
+				{
+					if ((flipy == 0) ^ (2*y >= h))
+					{
+						/* mirror top/bottom */
+						c += 8*(h-y-1);
+						fy = 1;
+					}
+					else
+					{
+						c += 8*y;
+						fy = 0;
+					}
+				}
+				else
+				{
+					if (flipy!=0) c += 8*(h-1-y);
+					else c += 8*y;
+					fy = flipy;
+				}
+
+				/* the sprite can start at any point in the 8x8 grid, but it must stay */
+				/* in a 64 entries window, wrapping around at the edges. The animation */
+				/* at the end of the saloon level in SUnset Riders breaks otherwise. */
+				c = (c & 0x3f) | (code[0] & ~0x3f);
+
+				if (zoomx == 0x10000 && zoomy == 0x10000)
+				{
+					/* hack to simulate shadow */
+					if ((K053245_ram.READ_WORD(offs+0x0c) & 0x0080)!=0)
+					{
+						int o = K053245_gfx.colortable.read(16*color[0]+15);
+						K053245_gfx.colortable.write(16*color[0]+15,palette_transparent_pen);
+						drawgfx(bitmap,K053245_gfx,c,color[0],
+								fx,fy,
+								sx,sy,
+								Machine.drv.visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1)!=0 ? 0x8001 : 0x0001);
+						K053245_gfx.colortable.write(16*color[0]+15,o);
+					}
+					else
+                                        {
+						drawgfx(bitmap,K053245_gfx,c,color[0],
+								fx,fy,
+								sx,sy,
+								Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+                                        }
+				}
+				else
+                                {
+					drawgfxzoom(bitmap,K053245_gfx,c,color[0],
+							fx,fy,
+							sx,sy,
+							Machine.drv.visible_area,TRANSPARENCY_PEN,0,
+							(zw << 16) / 16,(zh << 16) / 16);
+                                }
+			}
+		}
+	}
+}
+
+public static void K053245_mark_sprites_colors()
+{
+	int offs,i;
+
+    char[] palette_map=new char[512];
+
+                memset (palette_map, 0, sizeof (palette_map));
+
+	/* sprites */
+	for (offs = 0x800-16;offs >= 0;offs -= 16)
+	{
+		if ((K053245_ram.READ_WORD(offs) & 0x8000)!=0)
+		{
+			int[] code=new int[1];
+                        int[] color=new int[1];
+                        int[] pri=new int[1];
+
+			code[0] = K053245_ram.READ_WORD(offs+0x02);
+			code[0] = ((code[0] & 0xffe1) + ((code[0] & 0x0010) >> 2) + ((code[0] & 0x0008) << 1)
+					 + ((code[0] & 0x0004) >> 1) + ((code[0] & 0x0002) << 2));
+			color[0] = K053245_ram.READ_WORD(offs+0x0c) & 0x00ff;
+			pri[0] = 0;
+			(K053245_callback).handler(code,color,pri);
+			palette_map[color[0]] |= 0xffff;
+		}
+	}
+
+	/* now build the final table */
+	for (i = 0; i < 512; i++)
+	{
+		int usage = palette_map[i], j;
+		if (usage!=0)
+		{
+			for (j = 1; j < 16; j++)
+				if((usage & (1 << j))!=0)
+					palette_used_colors.write(i * 16 + j,palette_used_colors.read(i * 16 + j) | PALETTE_COLOR_VISIBLE);
+		}
+	}
+}
+
         //public static int MAX_K051316= 3;
 
         public static int[] K051316_memory_region=new int[3];

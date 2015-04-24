@@ -115,7 +115,7 @@ public class rollerg
 		K051316_tilemap_update_0();
 	
 		palette_init_used_colors();
-	/*TODO*///	K053245_mark_sprites_colors();
+		K053245_mark_sprites_colors();
 		/* set back pen for the zoom layer */
 		for (i = 0;i < 16;i++)
 			palette_used_colors.write((zoom_colorbase + i) * 16,PALETTE_COLOR_TRANSPARENT);
@@ -126,8 +126,8 @@ public class rollerg
 		tilemap_render(ALL_TILEMAPS);
 	
 		fillbitmap(bitmap,Machine.pens[16 * bg_colorbase],Machine.drv.visible_area);
-	/*TODO*///	K053245_sprites_draw(bitmap,0,0);
-	/*TODO*///	K051316_zoom_draw_0(bitmap);
-	/*TODO*///	K053245_sprites_draw(bitmap,1,1);
+		K053245_sprites_draw(bitmap,0,0);
+		K051316_zoom_draw_0(bitmap);
+		K053245_sprites_draw(bitmap,1,1);
 	} };
 }

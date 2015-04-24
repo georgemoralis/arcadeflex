@@ -51,7 +51,9 @@ import static mame.inputH.*;
 import static vidhrdw.simpsons.*;
 import static cpu.konami.konamiH.*;
 import static machine.simpsons.*;
-
+import static mame.sndintrfH.SOUND_K053260;
+import static sound.k053260.*;
+import static sound.k053260H.*;
 
 public class simpsons {
 
@@ -91,7 +93,7 @@ public class simpsons {
                 new MemoryWriteAddress(0x1fb0, 0x1fbf, K053251_w),
                 new MemoryWriteAddress(0x1fc0, 0x1fc0, simpsons_coin_counter_w),
                 new MemoryWriteAddress(0x1fc2, 0x1fc2, simpsons_eeprom_w),
-        /*TODO*///        new MemoryWriteAddress(0x1fc6, 0x1fc7, K053260_WriteReg),
+                new MemoryWriteAddress(0x1fc6, 0x1fc7, K053260_WriteReg),
                 new MemoryWriteAddress(0x2000, 0x3fff, MWA_BANK4),
                 new MemoryWriteAddress(0x0000, 0x3fff, K052109_w),
                 new MemoryWriteAddress(0x4000, 0x5fff, MWA_RAM),
@@ -136,8 +138,8 @@ public class simpsons {
                 new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
                 new MemoryReadAddress(0x8000, 0xbfff, MRA_BANK2),
                 new MemoryReadAddress(0xf000, 0xf7ff, MRA_RAM),
-         /*TODO*///        new MemoryReadAddress(0xf801, 0xf801, YM2151_status_port_0_r),
-        /*TODO*///        new MemoryReadAddress(0xfc00, 0xfc2f, K053260_ReadReg),
+                new MemoryReadAddress(0xf801, 0xf801, YM2151_status_port_0_r),
+                new MemoryReadAddress(0xfc00, 0xfc2f, K053260_ReadReg),
                 new MemoryReadAddress(-1) /* end of table */};
 
     static MemoryWriteAddress z80_writemem[]
@@ -145,10 +147,10 @@ public class simpsons {
                 new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(0x8000, 0xbfff, MWA_ROM),
                 new MemoryWriteAddress(0xf000, 0xf7ff, MWA_RAM),
-        /*TODO*///         new MemoryWriteAddress(0xf800, 0xf800, YM2151_register_port_0_w),
-        /*TODO*///         new MemoryWriteAddress(0xf801, 0xf801, YM2151_data_port_0_w),
+                new MemoryWriteAddress(0xf800, 0xf800, YM2151_register_port_0_w),
+                new MemoryWriteAddress(0xf801, 0xf801, YM2151_data_port_0_w),
                 new MemoryWriteAddress(0xfa00, 0xfa00, z80_arm_nmi),
-        /*TODO*///        new MemoryWriteAddress(0xfc00, 0xfc2f, K053260_WriteReg),
+                new MemoryWriteAddress(0xfc00, 0xfc2f, K053260_WriteReg),
                 new MemoryWriteAddress(0xfe00, 0xfe00, z80_bankswitch_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
@@ -249,7 +251,7 @@ public class simpsons {
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
             PORT_START(); 	/* IN2 - Player 3 - Used on the 4p version */
-	//	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER3 );
+            //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER3 );
             //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER3 );
             //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER3 );
             //	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER3 );
@@ -259,7 +261,7 @@ public class simpsons {
             //	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 
             PORT_START(); 	/* IN3 - Player 4 - Used on the 4p version */
-	//	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER4 );
+            //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER4 );
             //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER4 );
             //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER4 );
             //	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER4 );
@@ -294,20 +296,19 @@ public class simpsons {
      *
      **************************************************************************
      */
-    /*TODO*///static struct YM2151interface ym2151_interface =
-	/*TODO*///{
-	/*TODO*///	1,			/* 1 chip */
-	/*TODO*///	3579545,	/* 3.579545 MHz */
-	/*TODO*///	{ YM3012_VOL(70,MIXER_PAN_CENTER,0,MIXER_PAN_CENTER) },	/* only left channel is connected */
-	/*TODO*///	{ 0 }
-	/*TODO*///};
-    /*TODO*///static struct K053260_interface k053260_interface =
-	/*TODO*///{
-	/*TODO*///	3579545,
-	/*TODO*///	REGION_SOUND1, /* memory region */
-	/*TODO*///	{ MIXER(75,MIXER_PAN_LEFT), MIXER(75,MIXER_PAN_RIGHT) },
-	/*TODO*/////	nmi_callback
-	/*TODO*///};
+    static YM2151interface ym2151_interface = new YM2151interface(
+            1, /* 1 chip */
+            3579545, /* 3.579545 MHz */
+            new int[]{YM3012_VOL(70, MIXER_PAN_CENTER, 0, MIXER_PAN_CENTER)}, /* only left channel is connected */
+            new WriteYmHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null}
+    );
+    static K053260_interface k053260_interface = new K053260_interface(
+            3579545,
+            REGION_SOUND1, /* memory region */
+            new int[]{MIXER(75, MIXER_PAN_LEFT), MIXER(75, MIXER_PAN_RIGHT)},
+            null//	nmi_callback
+    );
     public static InterruptPtr simpsons_irq = new InterruptPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
@@ -355,18 +356,17 @@ public class simpsons {
             simpsons_vh_stop,
             simpsons_vh_screenrefresh,
             /* sound hardware */
-            /*SOUND_SUPPORTS_STEREO,0,0,0,
-             new MachineSound[] {
-             new MachineSound(
-             SOUND_YM2151,
-             ym2151_interface
-             ),
-             new MachineSound(
-             SOUND_K053260,
-             k053260_interface
-             )
-             },*/
-            0, 0, 0, 0, null,
+            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2151,
+                        ym2151_interface
+                ),
+                new MachineSound(
+                        SOUND_K053260,
+                        k053260_interface
+                )
+            },
             simpsons_nvram_handler
     );
 
