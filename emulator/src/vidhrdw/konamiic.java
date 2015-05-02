@@ -2001,12 +2001,12 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 	int x,sx,sy,ex,ey;
 	osd_bitmap srcbitmap = K051316_tilemap[chip].pixmap;
 
-	startx = 256 * ((char)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01]));
-	incxx  =        (char)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
-	incyx  =        (char)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
-	starty = 256 * ((char)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07]));
-	incxy  =        (char)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
-	incyy  =        (char)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
+	startx = (256 * ((short)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01])));
+	incxx  =        (short)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
+	incyx  =        (short)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
+	starty =( 256 * ((short)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07])));
+	incxy  =        (short)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
+	incyy  =        (short)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
 
 	startx += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx;
 	starty += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy;
@@ -2065,7 +2065,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 				/* optimized loop for the not zoomed case */
 
 				/* startx is unsigned */
-				startx = ((int)startx) >> 11;
+				startx = ((int)startx) >>> 11;
 
 				if (startx >= 512)
 				{
@@ -2149,7 +2149,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 					dest = new UBytePtr(bitmap.line[sy],sx);
 					while (x <= ex)
 					{
-						int c = srcbitmap.line[(cy >> 11) & 0x1ff].read((cx >> 11) & 0x1ff);
+						int c = srcbitmap.line[(cy >>> 11) & 0x1ff].read((cx >>> 11) & 0x1ff);
 
 						if (c != palette_transparent_pen)
 							dest.write(0, c);//*dest = c;
