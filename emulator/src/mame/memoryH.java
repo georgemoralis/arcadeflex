@@ -191,7 +191,7 @@ public static final int COMBINE_WORD(w,d)     (((w) & ((d) >> 16)) | ((d) & 0xff
 public static final int COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))*/
         public static void COMBINE_WORD_MEM(UBytePtr a, int offset,int d)
         {
-            a.WRITE_WORD(offset, (char)(a.READ_WORD(offset) & ((d) >> 16) | d));
+            a.WRITE_WORD(offset, (a.READ_WORD(offset) & ((d) >> 16) | d));
             
         }
         public static int COMBINE_WORD(int w, int d)
