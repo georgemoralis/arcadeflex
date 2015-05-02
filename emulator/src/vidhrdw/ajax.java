@@ -34,7 +34,7 @@ public class ajax
 {
 	
 	
-	public /*unsigned char*/static int ajax_priority;
+	public/*unsigned char*/static int ajax_priority;
 	static int[] layer_colorbase=new int[3];
         static int sprite_colorbase,zoom_colorbase;
 	
