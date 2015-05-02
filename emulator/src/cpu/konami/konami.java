@@ -4715,8 +4715,10 @@ public class konami extends cpu_interface {
     };
     opcode setline_ex = new opcode() {
         public void handler() {
-            fclose(konamilog);
-            throw new UnsupportedOperationException("unsupported opcode");
+            int t = EXTBYTE();
+            if (konami_cpu_setlines_callback != null) {
+                konami_cpu_setlines_callback.handler(t);
+            }
         }
     };
     opcode bmove = new opcode() {
@@ -4739,8 +4741,14 @@ public class konami extends cpu_interface {
     };
     opcode move = new opcode() {
         public void handler() {
-            fclose(konamilog);
-            throw new UnsupportedOperationException("unsupported opcode");
+            int t = RM(konami.y) & 0xFF;
+            WM(konami.x, t);
+            konami.y = konami.y + 1 & 0xFFFF;//Y++;
+            konami.x = konami.x + 1 & 0xFFFF;//X++;
+            konami.u = konami.u - 1 & 0xFFFF;//U--;
+            if (konamilog != null) {
+                fprintf(konamilog, "konami#%d move :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(), konami.pc, konami.ppc, A(), B(), konami.d, konami.dp, konami.u, konami.s, konami.x, konami.y, konami.cc, ea);
+            }
         }
     };
     opcode decbjnz = new opcode() {
@@ -4885,8 +4893,16 @@ public class konami extends cpu_interface {
     };
     opcode decw_di = new opcode() {
         public void handler() {
-            fclose(konamilog);
-            throw new UnsupportedOperationException("unsupported opcode");
+            int t, r;
+            t = DIRWORD();
+            r = t;
+            --r;
+            CLR_NZV();
+            SET_FLAGS16(t, t, r);
+            WM16(ea, r);
+            if (konamilog != null) {
+                fprintf(konamilog, "konami#%d decw_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(), konami.pc, konami.ppc, A(), B(), konami.d, konami.dp, konami.u, konami.s, konami.x, konami.y, konami.cc, ea);
+            }
         }
     };
     opcode decw_ix = new opcode() {

@@ -117,7 +117,7 @@ public class surpratk
 		K052109_tilemap_update();
 	
 		palette_init_used_colors();
-		//K053245_mark_sprites_colors();
+		K053245_mark_sprites_colors();
 		if (palette_recalc()!=null)
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 	
@@ -133,12 +133,12 @@ public class surpratk
 		//sortlayers(layer,pri);
 	
 		fillbitmap(bitmap,Machine.pens[16 * bg_colorbase],Machine.drv.visible_area);
-		//K053245_sprites_draw(bitmap,pri[0]+1,0x3f);
+		K053245_sprites_draw(bitmap,pri[0]+1,0x3f);
 		K052109_tilemap_draw(bitmap,layer[0],0);
-		//K053245_sprites_draw(bitmap,pri[1]+1,pri[0]);
+		K053245_sprites_draw(bitmap,pri[1]+1,pri[0]);
 		K052109_tilemap_draw(bitmap,layer[1],0);
-		//K053245_sprites_draw(bitmap,pri[2]+1,pri[1]);
+		K053245_sprites_draw(bitmap,pri[2]+1,pri[1]);
 		K052109_tilemap_draw(bitmap,layer[2],0);
-		//K053245_sprites_draw(bitmap,0,pri[2]);
+		K053245_sprites_draw(bitmap,0,pri[2]);
 	} };
 }
