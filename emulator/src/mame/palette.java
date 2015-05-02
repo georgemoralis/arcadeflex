@@ -599,22 +599,21 @@ public class palette {
     
     public static void palette_increase_usage_countx(int table_offset,int num_pens,UBytePtr pen_data,int color_flags)
     {
-        throw new UnsupportedOperationException("unsupported");
-    /*TODO*///	char flag[256];
-    /*TODO*///	memset(flag,0,256);
-    /*TODO*///
-    /*TODO*///	while (num_pens--)
-    /*TODO*///	{
-    /*TODO*///		int pen = pen_data[num_pens];
-    /*TODO*///		if (flag[pen] == 0)
-    /*TODO*///		{
-    /*TODO*///			if (color_flags & PALETTE_COLOR_VISIBLE)
-    /*TODO*///				pen_visiblecount[Machine->game_colortable[table_offset+pen]]++;
-    /*TODO*///			if (color_flags & PALETTE_COLOR_CACHED)
-    /*TODO*///				pen_cachedcount[Machine->game_colortable[table_offset+pen]]++;
-    /*TODO*///			flag[pen] = 1;
-    /*TODO*///		}
-    /*TODO*///	}
+        int[] flag=new int[256];
+    	memset(flag,0,256);
+    
+    	while ((num_pens--)!=0)
+    	{
+    		int pen = pen_data.read(num_pens);
+    		if (flag[pen] == 0)
+    		{
+    			if ((color_flags & PALETTE_COLOR_VISIBLE)!=0)
+    				pen_visiblecount.write(Machine.game_colortable[table_offset+pen],1);
+    			if ((color_flags & PALETTE_COLOR_CACHED)!=0)
+    				pen_cachedcount.write(Machine.game_colortable[table_offset+pen],1);
+    			flag[pen] = 1;
+    		}
+    	}
     }
     
     public static void palette_decrease_usage_countx(int table_offset, int num_pens, UBytePtr pen_data,int color_flags)

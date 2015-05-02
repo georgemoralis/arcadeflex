@@ -618,7 +618,7 @@ public class tilemapC {
                                                 palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
-  /*TODO*/  						palette_decrease_usage_countx( the_color.base-Machine.remapped_colortable.length, num_pens, _tilemap.pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+  /*TODO*/  						palette_decrease_usage_countx( the_color.base, num_pens, _tilemap.pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     					}
     					_tilemap.paldata[tile_index] = null;
     				}
@@ -1526,7 +1526,7 @@ public class tilemapC {
                                                                 palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                                         }
     							else {
-    		/*TODO RECHECK THIS*/				palette_decrease_usage_countx( the_color.base-Machine.remapped_colortable.length, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    		/*TODO RECHECK THIS*/				palette_decrease_usage_countx( the_color.base, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     							}
     						}
     					}
@@ -1552,7 +1552,7 @@ public class tilemapC {
                                             palette_increase_usage_count(tile_info.pal_data.base, tile_info.pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
- /*TODO RECHECK THIS*/   			palette_increase_usage_countx( tile_info.pal_data.base-Machine.remapped_colortable.length, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+ /*TODO RECHECK THIS*/   			palette_increase_usage_countx( tile_info.pal_data.base, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     					}
     
     					dirty_pixels[tile_index] = 1;

@@ -180,6 +180,7 @@ import static drivers.kchamp.*;
 import static drivers.WIP.qix.*;
 import static drivers.tutankhm.*;
 import static drivers.WIP.galaga.*;
+import static drivers.WIP.ajax.*;
 
 
 public class driver {
@@ -2197,8 +2198,8 @@ driver_bjtwin,
 
 
 
-/*TODO*/ //	DRIVER( ajax )		/* GX770 (c) 1987 */
-/*TODO*/ //	DRIVER( ajaxj )		/* GX770 (c) 1987 (Japan) */
+/*ajax*/driver_ajax,
+/*ajax*/driver_ajaxj,
 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
 
