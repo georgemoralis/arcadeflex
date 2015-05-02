@@ -1996,23 +1996,23 @@ public static void K053245_mark_sprites_colors()
 /* matter because in the Konami games the visible area is always symmetrical. */
 public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 {
-	/*UINT32*/int startx,starty,cx,cy;
+	/*UINT32*/long startx,starty,cx,cy;
 	int incxx,incxy,incyx,incyy;
 	int x,sx,sy,ex,ey;
 	osd_bitmap srcbitmap = K051316_tilemap[chip].pixmap;
 
-	startx = (256 * ((short)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01])));
+	startx = ((256 * ((short)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01]))))&0xFFFFFFFFL;
 	incxx  =        (short)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
 	incyx  =        (short)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
-	starty =( 256 * ((short)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07])));
+	starty =(( 256 * ((short)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07]))))&0xFFFFFFFFL;
 	incxy  =        (short)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
 	incyy  =        (short)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
 
-	startx += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx;
-	starty += (Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy;
+	startx = (startx + ((Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx))&0xFFFFFFFFL;
+	starty = (starty + ((Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy))&0xFFFFFFFFL;
 
-	startx += (Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx;
-	starty += (Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy;
+	startx = (startx + ((Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx))&0xFFFFFFFFL;
+	starty = (starty + ((Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy))&0xFFFFFFFFL;
 
 	sx = Machine.drv.visible_area.min_x;
 	sy = Machine.drv.visible_area.min_y;
@@ -2023,7 +2023,9 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 	{
 		int t;
 
-		t = startx; startx = starty; starty = t;
+		t = (int)startx; 
+                startx = starty; 
+                starty = t & 0xFFFFFFFFL;
 		t = sx; sx = sy; sy = t;
 		t = ex; ex = ey; ey = t;
 		t = incxx; incxx = incyy; incyy = t;
@@ -2037,8 +2039,8 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 		incxy = -incxy;
 		incyx = -incyx;
 		startx = 0xfffff - startx;
-		startx -= incxx * w;
-		starty -= incxy * w;
+		startx =(startx - (incxx * w))&0xFFFFFFFFL;
+		starty =(starty - (incxy * w))&0xFFFFFFFFL;
 	}
 
 	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
@@ -2048,8 +2050,8 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 		incxy = -incxy;
 		incyx = -incyx;
 		starty = 0xfffff - starty;
-		startx -= incyx * h;
-		starty -= incyy * h;
+		startx = (startx - (incyx * h))&0xFFFFFFFFL;
+		starty = (starty - (incyy * h))&0xFFFFFFFFL;
 	}
 
 	if (bitmap.depth == 8)
@@ -2065,7 +2067,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 				/* optimized loop for the not zoomed case */
 
 				/* startx is unsigned */
-				startx = ((int)startx) >>> 11;
+				startx = (((int)startx) >>> 11)&0xFFFFFFFFL;
 
 				if (startx >= 512)
 				{
@@ -2081,21 +2083,21 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 						{
 							x = sx;
 							cx = startx;
-							cy = starty >> 11;
+							cy = (starty >>> 11)&0xFFFFFFFFL;
 							dest = new UBytePtr(bitmap.line[sy],sx);
 							while (x <= ex && cx < 512)
 							{
-								int c = srcbitmap.line[cy].read(cx);
+								int c = srcbitmap.line[(int)cy].read((int)cx);
 
 								if (c != palette_transparent_pen)
-									dest.write(0, c);//*dest = c; ????
+									dest.write(0, c & 0xFF);//*dest = c; ????
 
-								cx++;
+								cx= (cx+1)&0xFFFFFFFFL;
 								x++;
 								dest.offset++;
 							}
 						}
-						starty += incyy;
+						starty = (starty+ incyy)&0xFFFFFFFFL;
 						sy++;
 					}
 				}
@@ -2104,7 +2106,7 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 			{
 				while ((startx & 0xfff00000) != 0 && sx <= ex)
 				{
-					startx += incxx;
+					startx = (startx + incxx)&0xFFFFFFFFL;
 					sx++;
 				}
 
@@ -2116,21 +2118,21 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 						{
 							x = sx;
 							cx = startx;
-							cy = starty >> 11;
+							cy = (starty >>> 11)&0xFFFFFFFFL;
 							dest = new UBytePtr(bitmap.line[sy],sx);
 							while (x <= ex && (cx & 0xfff00000) == 0)
 							{
-								int c = srcbitmap.line[cy].read(cx >> 11);
+								int c = srcbitmap.line[(int)cy].read((int)cx >> 11);
 
 								if (c != palette_transparent_pen)
-									dest.write(0, c);//*dest = c;
+									dest.write(0, c & 0xFF);//*dest = c;
 
-								cx += incxx;
+								cx = (cx+ incxx)&0xFFFFFFFFL;
 								x++;
 								dest.offset++;
 							}
 						}
-						starty += incyy;
+						starty = (starty+incyy)&0xFFFFFFFFL;
 						sy++;
 					}
 				}
@@ -2149,18 +2151,18 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 					dest = new UBytePtr(bitmap.line[sy],sx);
 					while (x <= ex)
 					{
-						int c = srcbitmap.line[(cy >>> 11) & 0x1ff].read((cx >>> 11) & 0x1ff);
+						int c = srcbitmap.line[((int)cy >>> 11) & 0x1ff].read(((int)cx >>> 11) & 0x1ff);
 
 						if (c != palette_transparent_pen)
-							dest.write(0, c);//*dest = c;
+							dest.write(0, c  & 0xFF);//*dest = c;
 
-						cx += incxx;
-						cy += incxy;
+						cx = (cx + incxx)&0xFFFFFFFFL;
+						cy = (cy + incxy)&0xFFFFFFFFL;
 						x++;
 						dest.offset++;
 					}
-					startx += incyx;
-					starty += incyy;
+					startx = (startx +incyx)&0xFFFFFFFFL;
+					starty = (starty +incyy)&0xFFFFFFFFL;
 					sy++;
 				}
 			}
@@ -2176,19 +2178,19 @@ public static void K051316_zoom_draw(int chip,osd_bitmap bitmap)
 					{
 						if ((cx & 0xfff00000) == 0 && (cy & 0xfff00000) == 0)
 						{
-							int c = srcbitmap.line[cy >> 11].read(cx >> 11);
+							int c = srcbitmap.line[(int)cy >> 11].read((int)cx >> 11);
 
 							if (c != palette_transparent_pen)
-								dest.write(0,c);//*dest = c;
+								dest.write(0,c & 0xFF);//*dest = c;
 						}
 
-						cx += incxx;
-						cy += incxy;
+						cx = (cx+incxx)&0xFFFFFFFFL;
+						cy = (cy+incxy)&0xFFFFFFFFL;
 						x++;
 						dest.offset++;
 					}
-					startx += incyx;
-					starty += incyy;
+					startx = (startx + incyx)&0xFFFFFFFFL;
+					starty = (starty + incyy)&0xFFFFFFFFL;
 					sy++;
 				}
 			}
