@@ -137,7 +137,25 @@ public class simpsons
 		layer[2] = 2;
 		pri[2] = K053251_get_priority(K053251_CI4);
 	
-		/*TODO*///sortlayers(layer,pri);
+		//sortlayers(layer,pri);
+                if (pri[0] < pri[1]) 
+		{ 
+			int t; 
+			t = pri[0]; pri[0] = pri[1]; pri[1] = t; 
+			t = layer[0]; layer[0] = layer[1]; layer[1] = t; 
+		}
+                if (pri[0] < pri[2]) 
+		{ 
+			int t; 
+			t = pri[0]; pri[0] = pri[2]; pri[2] = t; 
+			t = layer[0]; layer[0] = layer[2]; layer[2] = t; 
+		}
+                if (pri[1] < pri[2]) 
+		{ 
+			int t; 
+			t = pri[1]; pri[1] = pri[2]; pri[2] = t; 
+			t = layer[1]; layer[1] = layer[2]; layer[2] = t; 
+		}
 	
 		fillbitmap(bitmap,Machine.pens[16 * bg_colorbase],Machine.drv.visible_area);
 		/*TODO*///K053247_sprites_draw(bitmap,pri[0]+1,0x3f);

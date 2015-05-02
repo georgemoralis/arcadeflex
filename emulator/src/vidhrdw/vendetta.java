@@ -124,7 +124,7 @@ public class vendetta
 		K052109_tilemap_update();
 	
 		palette_init_used_colors();
-	/*TODO*///	K053247_mark_sprites_colors();
+		K053247_mark_sprites_colors();
 		if (palette_recalc()!=null)
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 	
@@ -137,7 +137,25 @@ public class vendetta
 		layer[2] = 2;
 		pri[2] = K053251_get_priority(K053251_CI4);
 	
-	/*TODO*///	sortlayers(layer,pri);
+                //sortlayers(layer,pri);
+                if (pri[0] < pri[1]) 
+		{ 
+			int t; 
+			t = pri[0]; pri[0] = pri[1]; pri[1] = t; 
+			t = layer[0]; layer[0] = layer[1]; layer[1] = t; 
+		}
+                if (pri[0] < pri[2]) 
+		{ 
+			int t; 
+			t = pri[0]; pri[0] = pri[2]; pri[2] = t; 
+			t = layer[0]; layer[0] = layer[2]; layer[2] = t; 
+		}
+                if (pri[1] < pri[2]) 
+		{ 
+			int t; 
+			t = pri[1]; pri[1] = pri[2]; pri[2] = t; 
+			t = layer[1]; layer[1] = layer[2]; layer[2] = t; 
+		}
 	
 		K052109_tilemap_draw(bitmap,layer[0],TILEMAP_IGNORE_TRANSPARENCY);
 	/*TODO*///	K053247_sprites_draw(bitmap,pri[1]+1,pri[0]);

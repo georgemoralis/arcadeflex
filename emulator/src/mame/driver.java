@@ -181,7 +181,7 @@ import static drivers.WIP.qix.*;
 import static drivers.tutankhm.*;
 import static drivers.WIP.galaga.*;
 import static drivers.WIP.ajax.*;
-
+import static drivers.WIP.parodius.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2204,7 +2204,7 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
 
 
-/*TODO*/ //	DRIVER( parodius )	/* GX955 (c) 1990 (Japan) */
+/*parodius*/driver_parodius,
 
 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
 
