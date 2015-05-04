@@ -3881,7 +3881,6 @@ public class konami extends cpu_interface {
             SET_NZ16(konami.d);
             EXTENDED();
             WM16(ea, konami.d);
-            CLR_NZV();
             if (konamilog != null) {
                 fprintf(konamilog, "konami#%d std_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(), konami.pc, konami.ppc, A(), B(), konami.d, konami.dp, konami.u, konami.s, konami.x, konami.y, konami.cc, ea);
             }
