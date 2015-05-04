@@ -34,6 +34,8 @@ import static vidhrdw.konami.K053247.*;
 import static vidhrdw.konamiic.*;
 import static cpu.konami.konami.*;
 import static mame.palette.*;
+import static sound.k053260.*;
+
 public class simpsons
 {
 
@@ -138,14 +140,14 @@ public class simpsons
 	{
 		/* If the sound CPU is running, read the status, otherwise
 		   just make it pass the test */
-/*TODO*///		if (Machine.sample_rate != 0) 	return K053260_ReadReg(2 + offset);
-/*TODO*///		else
-/*TODO*///		{
+		if (Machine.sample_rate != 0) 	return K053260_ReadReg.handler(2 + offset);
+		else
+		{
 			
 	
 			res = (res & 0xfc) | ((res + 1) & 0x03);
 			return offset!=0 ? res : 0x00;
-/*TODO*///		}
+		}
 	} };
 	
 	/***************************************************************************
