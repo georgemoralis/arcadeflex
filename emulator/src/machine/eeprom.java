@@ -12,6 +12,7 @@ import static arcadeflex.libc_old.*;
 
 public class eeprom 
 {
+    public static FILE eepromlog = fopen("eeprom.log", "wa");  //for debug purposes
     public static final int SERIAL_BUFFER_LENGTH =30;
 
     static EEPROM_interface intf;
@@ -40,24 +41,26 @@ public class eeprom
 
     public static void EEPROM_write(int bit)
     {
-    //#if VERBOSE
-    if (errorlog!=null) fprintf(errorlog,"EEPROM write bit %d\n",bit);
-    //#endif
+
+    if (eepromlog!=null) fprintf(eepromlog,"EEPROM write bit %d\n",bit);
+
 
             if (serial_count >= SERIAL_BUFFER_LENGTH-1)
             {
-                    if (errorlog!=null) fprintf(errorlog,"error: EEPROM serial buffer overflow\n");
+                    if (eepromlog!=null) fprintf(eepromlog,"error: EEPROM serial buffer overflow\n");
                     return;
             }
 
             serial_buffer[serial_count++] = (bit!=0 ? '1' : '0');
             serial_buffer[serial_count] ='\0';	/* nul terminate so we can treat it as a string */
 
-            if (intf.cmd_read!=null && serial_count == (strlen(intf.cmd_read) + intf.address_bits) &&
-                            !strncmp(serial_buffer,intf.cmd_read,strlen(intf.cmd_read)))
+            if (eepromlog!=null) fprintf(eepromlog,"EEPROM write bit, buffer = " + new String(serial_buffer)+"\n");
+            if (eepromlog!=null) fprintf(eepromlog,"EEPROM write bit, serial_count = %d\n",serial_count);
+            if ((intf.cmd_read!=null) 
+                    && (serial_count == (strlen(intf.cmd_read) + intf.address_bits))
+                    && !strncmp(serial_buffer,intf.cmd_read,strlen(intf.cmd_read)))
             {
                     int i,address;
-
                     address = 0;
                     for (i = 0;i < intf.address_bits;i++)
                     {
@@ -70,7 +73,7 @@ public class eeprom
                             eeprom_data_bits = eeprom_data[address] &0xFF;
                     sending = 1;
                     serial_count = 0;
-                    if (errorlog!=null) fprintf(errorlog,"EEPROM read %04x from address %02x\n",eeprom_data_bits,address);
+                    if (eepromlog!=null) fprintf(eepromlog,"EEPROM read %04x from address %02x\n",eeprom_data_bits,address);
             }
             else if (intf.cmd_erase!=null && serial_count == (strlen(intf.cmd_erase) + intf.address_bits) &&
                             !strncmp(serial_buffer,intf.cmd_erase,strlen(intf.cmd_erase)))
@@ -83,7 +86,7 @@ public class eeprom
                             address <<= 1;
                             if (serial_buffer[i + strlen(intf.cmd_erase)] == '1') address |= 1;
                     }
-                    if (errorlog!=null) fprintf(errorlog,"EEPROM erase address %02x\n",address);
+                    if (eepromlog!=null) fprintf(eepromlog,"EEPROM erase address %02x\n",address);
                     if (locked == 0)
                     {
                             if (intf.data_bits == 16)
@@ -96,7 +99,7 @@ public class eeprom
                     }
                     else
                     {
-                        if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
+                        if (eepromlog!=null) fprintf(eepromlog,"Error: EEPROM is locked\n");
                         serial_count = 0;
                     }
             }
@@ -117,7 +120,7 @@ public class eeprom
                             data <<= 1;
                             if (serial_buffer[i + strlen(intf.cmd_write) + intf.address_bits] == '1') data |= 1;
                     }
-                    if (errorlog!=null) fprintf(errorlog,"EEPROM write %04x to address %02x\n",data,address);
+                    if (eepromlog!=null) fprintf(eepromlog,"EEPROM write %04x to address %02x\n",data,address);
                     if (locked == 0)
                     {
                             if (intf.data_bits == 16)
@@ -130,21 +133,21 @@ public class eeprom
                     }
                     else
                     {
-                        if (errorlog!=null) fprintf(errorlog,"Error: EEPROM is locked\n");
+                        if (eepromlog!=null) fprintf(eepromlog,"Error: EEPROM is locked\n");
                         serial_count = 0;
                     }
             }
             else if (intf.cmd_lock!=null && serial_count == strlen(intf.cmd_lock) &&
                             !strncmp(serial_buffer,intf.cmd_lock,strlen(intf.cmd_lock)))
             {
-                    if (errorlog!=null) fprintf(errorlog,"EEPROM lock\n");
+                    if (eepromlog!=null) fprintf(eepromlog,"EEPROM lock\n");
                     locked = 1;
                     serial_count = 0;
             }
             else if (intf.cmd_unlock!=null && serial_count == strlen(intf.cmd_unlock) &&
                             !strncmp(serial_buffer,intf.cmd_unlock,strlen(intf.cmd_unlock)))
             {
-                    if (errorlog!=null) fprintf(errorlog,"EEPROM unlock\n");
+                    if (eepromlog!=null) fprintf(eepromlog,"EEPROM unlock\n");
                     locked = 0;
                     serial_count = 0;
             }
@@ -152,9 +155,9 @@ public class eeprom
 
     public static void EEPROM_reset()
     {
-    if (errorlog!=null && serial_count!=0)
+    if (eepromlog!=null && serial_count!=0)
     {
-            fprintf(errorlog,"EEPROM reset, buffer = %s\n",serial_buffer);
+            fprintf(eepromlog,"EEPROM reset, buffer = %s\n",serial_buffer);
     }
 
             serial_count = 0;
@@ -165,7 +168,7 @@ public class eeprom
      public static void EEPROM_write_bit(int bit)
     {
     //#if VERBOSE
-    if (errorlog!=null) fprintf(errorlog,"write bit %d\n",bit);
+    if (eepromlog!=null) fprintf(eepromlog,"write bit %d\n",bit);
     //#endif
             latch = bit;
     }
@@ -179,7 +182,7 @@ public class eeprom
             else res = 1;
 
     //#if VERBOSE
-    if (errorlog!=null) fprintf(errorlog,"read bit %d\n",res);
+    if (eepromlog!=null) fprintf(eepromlog,"read bit %d\n",res);
     //#endif
 
             return res;
@@ -188,7 +191,7 @@ public class eeprom
     public static void EEPROM_set_cs_line(int state)
     {
     //#if VERBOSE
-    if (errorlog!=null) fprintf(errorlog,"set reset line %d\n",state);
+    if (eepromlog!=null) fprintf(eepromlog,"set reset line %d\n",state);
     //#endif
             reset_line = state;
 
@@ -199,7 +202,7 @@ public class eeprom
     public static void EEPROM_set_clock_line(int state)
     {
     //#if VERBOSE
-    if (errorlog!=null) fprintf(errorlog,"set clock line %d\n",state);
+    if (eepromlog!=null) fprintf(eepromlog,"set clock line %d\n",state);
     //#endif
             if (state == PULSE_LINE || (clock_line == CLEAR_LINE && state != CLEAR_LINE))
             {
@@ -224,9 +227,5 @@ public class eeprom
     public static void EEPROM_save(Object f)
     {
             osd_fwrite(f,eeprom_data,0,(1 << intf.address_bits) * intf.data_bits / 8);
-            for(int i=0; i<eeprom_data.length; i++)
-            {
-                System.out.print(eeprom_data[i]);
-            }
     }    
 }

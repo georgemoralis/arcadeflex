@@ -207,6 +207,9 @@ public class konami extends cpu_interface {
             change_pc(konami.pc);
             konami.irq_callback.handler(KONAMI_IRQ_LINE);
         }
+        if (konamilog != null) {
+                fprintf(konamilog, "konami#%d irqlines :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(), konami.pc, konami.ppc, A(), B(), konami.d, konami.dp, konami.u, konami.s, konami.x, konami.y, konami.cc, ea);
+            }
     }
 
 
@@ -3136,7 +3139,7 @@ public class konami extends cpu_interface {
         public void handler() {
             /*UINT8*/
             int t = EXTBYTE();
-            konami.cc |= t & CC_C;
+            konami.cc |= (t & CC_C);
             t >>= 1;
             SET_Z8(t);
             WM(ea, t);
@@ -3151,7 +3154,7 @@ public class konami extends cpu_interface {
             /*UINT8*/
             int t;
             t = RM(ea);
-            konami.cc |= t & CC_C;
+            konami.cc |= (t & CC_C);
             t >>= 1;
             SET_Z8(t);
             WM(ea, t);
@@ -3578,7 +3581,7 @@ public class konami extends cpu_interface {
         public void handler()//recheck
         {
             int t = A();
-            int r = konami.cc & CC_C | t << 1;
+            int r = (konami.cc & CC_C) | t << 1;
             CLR_NZVC();
             SET_FLAGS8(t, t, r);
             A(r);
@@ -3598,7 +3601,7 @@ public class konami extends cpu_interface {
              SET_FLAGS8(t,t,r);
              B = r;*/
             int t = B();
-            int r = konami.cc & CC_C | t << 1;
+            int r = (konami.cc & CC_C) | t << 1;
             CLR_NZVC();
             SET_FLAGS8(t, t, r);
             B(r);
