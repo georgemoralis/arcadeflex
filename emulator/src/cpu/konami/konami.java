@@ -1057,8 +1057,17 @@ public class konami extends cpu_interface {
     };
     opcode adcb_ix = new opcode() {
         public void handler() {
-            fclose(konamilog);
-            throw new UnsupportedOperationException("unsupported opcode");
+           /*UINT16*/
+            int t, r;
+            t = RM(ea);
+            r = B() + t + (konami.cc & CC_C);
+            CLR_HNZVC();
+            SET_FLAGS8(B(), t, r);
+            SET_H(B(), t, r);
+            B(r);
+            if (konamilog != null) {
+                fprintf(konamilog, "konami#%d adcb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(), konami.pc, konami.ppc, A(), B(), konami.d, konami.dp, konami.u, konami.s, konami.x, konami.y, konami.cc, ea);
+            }
         }
     };
     opcode adda_di = new opcode() {

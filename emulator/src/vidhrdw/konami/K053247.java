@@ -190,329 +190,325 @@ public class K053247 {
         K053246_OBJCHA_line = state;
     }
 
-    /*TODO*////*TODO*///
-/*TODO*////*TODO*////*
-/*TODO*////*TODO*/// * Sprite Format
-/*TODO*////*TODO*/// * ------------------
-/*TODO*////*TODO*/// *
-/*TODO*////*TODO*/// * Word | Bit(s)           | Use
-/*TODO*////*TODO*/// * -----+-fedcba9876543210-+----------------
-/*TODO*////*TODO*/// *   0  | x--------------- | active (show this sprite)
-/*TODO*////*TODO*/// *   0  | -x-------------- | maintain aspect ratio (when set, zoom y acts on both axis)
-/*TODO*////*TODO*/// *   0  | --x------------- | flip y
-/*TODO*////*TODO*/// *   0  | ---x------------ | flip x
-/*TODO*////*TODO*/// *   0  | ----xxxx-------- | sprite size (see below)
-/*TODO*////*TODO*/// *   0  | ---------xxxxxxx | priority order
-/*TODO*////*TODO*/// *   1  | xxxxxxxxxxxxxxxx | sprite code
-/*TODO*////*TODO*/// *   2  | ------xxxxxxxxxx | y position
-/*TODO*////*TODO*/// *   3  | ------xxxxxxxxxx | x position
-/*TODO*////*TODO*/// *   4  | xxxxxxxxxxxxxxxx | zoom y (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
-/*TODO*////*TODO*/// *   5  | xxxxxxxxxxxxxxxx | zoom x (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
-/*TODO*////*TODO*/// *   6  | x--------------- | mirror y (top half is drawn as mirror image of the bottom)
-/*TODO*////*TODO*/// *   6  | -x-------------- | mirror x (right half is drawn as mirror image of the left)
-/*TODO*////*TODO*/// *   6  | -----x---------- | shadow
-/*TODO*////*TODO*/// *   6  | xxxxxxxxxxxxxxxx | "color", but depends on external connections
-/*TODO*////*TODO*/// *   7  | ---------------- |
-/*TODO*////*TODO*/// *
-/*TODO*////*TODO*/// * shadow enables transparent shadows. Note that it applies to pen 0x0f ONLY.
-/*TODO*////*TODO*/// * The rest of the sprite remains normal.
-/*TODO*////*TODO*/// */
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053247_sprites_draw(struct osd_bitmap *bitmap,int min_priority,int max_priority)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///#define NUM_SPRITES 256
-/*TODO*////*TODO*///	int offs,pri_code;
-/*TODO*////*TODO*///	int sortedlist[NUM_SPRITES];
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	for (offs = 0;offs < NUM_SPRITES;offs++)
-/*TODO*////*TODO*///		sortedlist[offs] = -1;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	/* prebuild a sorted table */
-/*TODO*////*TODO*///	for (offs = 0;offs < 0x1000;offs += 16)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*/////		if (READ_WORD(&K053247_ram[offs]) & 0x8000)
-/*TODO*////*TODO*///			sortedlist[READ_WORD(&K053247_ram[offs]) & 0x00ff] = offs;
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///	for (pri_code = NUM_SPRITES-1;pri_code >= 0;pri_code--)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		int ox,oy,color,code,size,w,h,x,y,xa,ya,flipx,flipy,mirrorx,mirrory,zoomx,zoomy,pri;
-/*TODO*////*TODO*///		/* sprites can be grouped up to 8x8. The draw order is
-/*TODO*////*TODO*///			 0  1  4  5 16 17 20 21
-/*TODO*////*TODO*///			 2  3  6  7 18 19 22 23
-/*TODO*////*TODO*///			 8  9 12 13 24 25 28 29
-/*TODO*////*TODO*///			10 11 14 15 26 27 30 31
-/*TODO*////*TODO*///			32 33 36 37 48 49 52 53
-/*TODO*////*TODO*///			34 35 38 39 50 51 54 55
-/*TODO*////*TODO*///			40 41 44 45 56 57 60 61
-/*TODO*////*TODO*///			42 43 46 47 58 59 62 63
-/*TODO*////*TODO*///		*/
-/*TODO*////*TODO*///		static int xoffset[8] = { 0, 1, 4, 5, 16, 17, 20, 21 };
-/*TODO*////*TODO*///		static int yoffset[8] = { 0, 2, 8, 10, 32, 34, 40, 42 };
-/*TODO*////*TODO*///		static int offsetkludge;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		offs = sortedlist[pri_code];
-/*TODO*////*TODO*///		if (offs == -1) continue;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if ((READ_WORD(&K053247_ram[offs]) & 0x8000) == 0) continue;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		code = READ_WORD(&K053247_ram[offs+0x02]);
-/*TODO*////*TODO*///		color = READ_WORD(&K053247_ram[offs+0x0c]);
-/*TODO*////*TODO*///		pri = 0;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		(*K053247_callback)(&code,&color,&pri);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if (pri < min_priority || pri > max_priority) continue;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		size = (READ_WORD(&K053247_ram[offs]) & 0x0f00) >> 8;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		w = 1 << (size & 0x03);
-/*TODO*////*TODO*///		h = 1 << ((size >> 2) & 0x03);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* the sprite can start at any point in the 8x8 grid. We have to */
-/*TODO*////*TODO*///		/* adjust the offsets to draw it correctly. Simpsons does this all the time. */
-/*TODO*////*TODO*///		xa = 0;
-/*TODO*////*TODO*///		ya = 0;
-/*TODO*////*TODO*///		if (code & 0x01) xa += 1;
-/*TODO*////*TODO*///		if (code & 0x02) ya += 1;
-/*TODO*////*TODO*///		if (code & 0x04) xa += 2;
-/*TODO*////*TODO*///		if (code & 0x08) ya += 2;
-/*TODO*////*TODO*///		if (code & 0x10) xa += 4;
-/*TODO*////*TODO*///		if (code & 0x20) ya += 4;
-/*TODO*////*TODO*///		code &= ~0x3f;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* zoom control:
-/*TODO*////*TODO*///		   0x40 = normal scale
-/*TODO*////*TODO*///		  <0x40 enlarge (0x20 = double size)
-/*TODO*////*TODO*///		  >0x40 reduce (0x80 = half size)
-/*TODO*////*TODO*///		*/
-/*TODO*////*TODO*///		zoomy = READ_WORD(&K053247_ram[offs+0x08]);
-/*TODO*////*TODO*///		if (zoomy > 0x2000) continue;
-/*TODO*////*TODO*///		if (zoomy) zoomy = (0x400000+zoomy/2) / zoomy;
-/*TODO*////*TODO*///		else zoomy = 2 * 0x400000;
-/*TODO*////*TODO*///		if ((READ_WORD(&K053247_ram[offs]) & 0x4000) == 0)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			zoomx = READ_WORD(&K053247_ram[offs+0x0a]);
-/*TODO*////*TODO*///			if (zoomx > 0x2000) continue;
-/*TODO*////*TODO*///			if (zoomx) zoomx = (0x400000+zoomx/2) / zoomx;
-/*TODO*////*TODO*///			else zoomx = 2 * 0x400000;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		else zoomx = zoomy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		ox = READ_WORD(&K053247_ram[offs+0x06]);
-/*TODO*////*TODO*///		oy = READ_WORD(&K053247_ram[offs+0x04]);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*////* TODO: it is not known how the global Y offset works */
-/*TODO*////*TODO*///switch (K053247_spriteoffsY)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	case 0x0261:	/* simpsons */
-/*TODO*////*TODO*///	case 0x0262:	/* simpsons (dreamland) */
-/*TODO*////*TODO*///	case 0x0263:	/* simpsons (dreamland) */
-/*TODO*////*TODO*///	case 0x0264:	/* simpsons (dreamland) */
-/*TODO*////*TODO*///	case 0x0265:	/* simpsons (dreamland) */
-/*TODO*////*TODO*///	case 0x006d:	/* simpsons flip (dreamland) */
-/*TODO*////*TODO*///	case 0x006e:	/* simpsons flip (dreamland) */
-/*TODO*////*TODO*///	case 0x006f:	/* simpsons flip (dreamland) */
-/*TODO*////*TODO*///	case 0x0070:	/* simpsons flip (dreamland) */
-/*TODO*////*TODO*///	case 0x0071:	/* simpsons flip */
-/*TODO*////*TODO*///		offsetkludge = 0x017;
-/*TODO*////*TODO*///		break;
-/*TODO*////*TODO*///	case 0x02f7:	/* vendetta (level 4 boss) */
-/*TODO*////*TODO*///	case 0x02f8:	/* vendetta (level 4 boss) */
-/*TODO*////*TODO*///	case 0x02f9:	/* vendetta (level 4 boss) */
-/*TODO*////*TODO*///	case 0x02fa:	/* vendetta */
-/*TODO*////*TODO*///	case 0x02fb:	/* vendetta (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x02fc:	/* vendetta (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x02fd:	/* vendetta (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x02fe:	/* vendetta (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x02ff:	/* vendetta (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x03f7:	/* vendetta flip (level 4 boss) */
-/*TODO*////*TODO*///	case 0x03f8:	/* vendetta flip (level 4 boss) */
-/*TODO*////*TODO*///	case 0x03f9:	/* vendetta flip (level 4 boss) */
-/*TODO*////*TODO*///	case 0x03fa:	/* vendetta flip */
-/*TODO*////*TODO*///	case 0x03fb:	/* vendetta flip (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x03fc:	/* vendetta flip (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x03fd:	/* vendetta flip (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x03fe:	/* vendetta flip (fat guy jumping) */
-/*TODO*////*TODO*///	case 0x03ff:	/* vendetta flip (fat guy jumping) */
-/*TODO*////*TODO*///		offsetkludge = 0x006;
-/*TODO*////*TODO*///		break;
-/*TODO*////*TODO*///	case 0x0292:	/* xmen */
-/*TODO*////*TODO*///	case 0x0072:	/* xmen flip */
-/*TODO*////*TODO*///		offsetkludge = -0x002;
-/*TODO*////*TODO*///		break;
-/*TODO*////*TODO*///	default:
-/*TODO*////*TODO*///		offsetkludge = 0;
-/*TODO*////*TODO*///			usrintf_showmessage("unknown spriteoffsY %04x",K053247_spriteoffsY);
-/*TODO*////*TODO*///		break;
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		flipx = READ_WORD(&K053247_ram[offs]) & 0x1000;
-/*TODO*////*TODO*///		flipy = READ_WORD(&K053247_ram[offs]) & 0x2000;
-/*TODO*////*TODO*///		mirrorx = READ_WORD(&K053247_ram[offs+0x0c]) & 0x4000;
-/*TODO*////*TODO*///		mirrory = READ_WORD(&K053247_ram[offs+0x0c]) & 0x8000;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		if (K053247_flipscreenX)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			ox = -ox;
-/*TODO*////*TODO*///			if (!mirrorx) flipx = !flipx;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///		if (K053247_flipscreenY)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			oy = -oy;
-/*TODO*////*TODO*///			if (!mirrory) flipy = !flipy;
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		ox = (ox + 0x35 - K053247_spriteoffsX) & 0x3ff;
-/*TODO*////*TODO*///		if (ox >= 768) ox -= 1024;
-/*TODO*////*TODO*///		oy = (-(oy + K053247_spriteoffsY + offsetkludge)) & 0x3ff;
-/*TODO*////*TODO*///		if (oy >= 640) oy -= 1024;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		/* the coordinates given are for the *center* of the sprite */
-/*TODO*////*TODO*///		ox -= (zoomx * w) >> 13;
-/*TODO*////*TODO*///		oy -= (zoomy * h) >> 13;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///		for (y = 0;y < h;y++)
-/*TODO*////*TODO*///		{
-/*TODO*////*TODO*///			int sx,sy,zw,zh;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			sy = oy + ((zoomy * y + (1<<11)) >> 12);
-/*TODO*////*TODO*///			zh = (oy + ((zoomy * (y+1) + (1<<11)) >> 12)) - sy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///			for (x = 0;x < w;x++)
-/*TODO*////*TODO*///			{
-/*TODO*////*TODO*///				int c,fx,fy;
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				sx = ox + ((zoomx * x + (1<<11)) >> 12);
-/*TODO*////*TODO*///				zw = (ox + ((zoomx * (x+1) + (1<<11)) >> 12)) - sx;
-/*TODO*////*TODO*///				c = code;
-/*TODO*////*TODO*///				if (mirrorx)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if ((flipx == 0) ^ (2*x < w))
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						/* mirror left/right */
-/*TODO*////*TODO*///						c += xoffset[(w-1-x+xa)&7];
-/*TODO*////*TODO*///						fx = 1;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						c += xoffset[(x+xa)&7];
-/*TODO*////*TODO*///						fx = 0;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if (flipx) c += xoffset[(w-1-x+xa)&7];
-/*TODO*////*TODO*///					else c += xoffset[(x+xa)&7];
-/*TODO*////*TODO*///					fx = flipx;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				if (mirrory)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if ((flipy == 0) ^ (2*y >= h))
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						/* mirror top/bottom */
-/*TODO*////*TODO*///						c += yoffset[(h-1-y+ya)&7];
-/*TODO*////*TODO*///						fy = 1;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						c += yoffset[(y+ya)&7];
-/*TODO*////*TODO*///						fy = 0;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if (flipy) c += yoffset[(h-1-y+ya)&7];
-/*TODO*////*TODO*///					else c += yoffset[(y+ya)&7];
-/*TODO*////*TODO*///					fy = flipy;
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if (zoomx == 0x10000 && zoomy == 0x10000)
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					/* hack to simulate shadow */
-/*TODO*////*TODO*///					if (READ_WORD(&K053247_ram[offs+0x0c]) & 0x0400)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						int o = K053247_gfx->colortable[16*color+15];
-/*TODO*////*TODO*///						K053247_gfx->colortable[16*color+15] = palette_transparent_pen;
-/*TODO*////*TODO*///						drawgfx(bitmap,K053247_gfx,
-/*TODO*////*TODO*///								c,
-/*TODO*////*TODO*///								color,
-/*TODO*////*TODO*///								fx,fy,
-/*TODO*////*TODO*///								sx,sy,
-/*TODO*////*TODO*///								&Machine->drv->visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1) ? 0x8001 : 0x0001);
-/*TODO*////*TODO*///						K053247_gfx->colortable[16*color+15] = o;
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///						drawgfx(bitmap,K053247_gfx,
-/*TODO*////*TODO*///								c,
-/*TODO*////*TODO*///								color,
-/*TODO*////*TODO*///								fx,fy,
-/*TODO*////*TODO*///								sx,sy,
-/*TODO*////*TODO*///								&Machine->drv->visible_area,TRANSPARENCY_PEN,0);
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///				else
-/*TODO*////*TODO*///					drawgfxzoom(bitmap,K053247_gfx,
-/*TODO*////*TODO*///							c,
-/*TODO*////*TODO*///							color,
-/*TODO*////*TODO*///							fx,fy,
-/*TODO*////*TODO*///							sx,sy,
-/*TODO*////*TODO*///							&Machine->drv->visible_area,TRANSPARENCY_PEN,0,
-/*TODO*////*TODO*///							(zw << 16) / 16,(zh << 16) / 16);
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///				if (mirrory && h == 1)  /* Simpsons shadows */
-/*TODO*////*TODO*///				{
-/*TODO*////*TODO*///					if (zoomx == 0x10000 && zoomy == 0x10000)
-/*TODO*////*TODO*///					{
-/*TODO*////*TODO*///						/* hack to simulate shadow */
-/*TODO*////*TODO*///						if (READ_WORD(&K053247_ram[offs+0x0c]) & 0x0400)
-/*TODO*////*TODO*///						{
-/*TODO*////*TODO*///							int o = K053247_gfx->colortable[16*color+15];
-/*TODO*////*TODO*///							K053247_gfx->colortable[16*color+15] = palette_transparent_pen;
-/*TODO*////*TODO*///							drawgfx(bitmap,K053247_gfx,
-/*TODO*////*TODO*///									c,
-/*TODO*////*TODO*///									color,
-/*TODO*////*TODO*///									fx,!fy,
-/*TODO*////*TODO*///									sx,sy,
-/*TODO*////*TODO*///									&Machine->drv->visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1) ? 0x8001 : 0x0001);
-/*TODO*////*TODO*///							K053247_gfx->colortable[16*color+15] = o;
-/*TODO*////*TODO*///						}
-/*TODO*////*TODO*///						else
-/*TODO*////*TODO*///							drawgfx(bitmap,K053247_gfx,
-/*TODO*////*TODO*///									c,
-/*TODO*////*TODO*///									color,
-/*TODO*////*TODO*///									fx,!fy,
-/*TODO*////*TODO*///									sx,sy,
-/*TODO*////*TODO*///									&Machine->drv->visible_area,TRANSPARENCY_PEN,0);
-/*TODO*////*TODO*///					}
-/*TODO*////*TODO*///					else
-/*TODO*////*TODO*///						drawgfxzoom(bitmap,K053247_gfx,
-/*TODO*////*TODO*///								c,
-/*TODO*////*TODO*///								color,
-/*TODO*////*TODO*///								fx,!fy,
-/*TODO*////*TODO*///								sx,sy,
-/*TODO*////*TODO*///								&Machine->drv->visible_area,TRANSPARENCY_PEN,0,
-/*TODO*////*TODO*///								(zw << 16) / 16,(zh << 16) / 16);
-/*TODO*////*TODO*///				}
-/*TODO*////*TODO*///			}
-/*TODO*////*TODO*///		}
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///#if 0
-/*TODO*////*TODO*///if (keyboard_pressed(KEYCODE_D))
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	FILE *fp;
-/*TODO*////*TODO*///	fp=fopen("SPRITE.DMP", "w+b");
-/*TODO*////*TODO*///	if (fp)
-/*TODO*////*TODO*///	{
-/*TODO*////*TODO*///		fwrite(K053247_ram, 0x1000, 1, fp);
-/*TODO*////*TODO*///		usrintf_showmessage("saved");
-/*TODO*////*TODO*///		fclose(fp);
-/*TODO*////*TODO*///	}
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///#endif
-/*TODO*////*TODO*///#undef NUM_SPRITES
-/*TODO*////*TODO*///}
+    
+/*
+ * Sprite Format
+ * ------------------
+ *
+ * Word | Bit(s)           | Use
+ * -----+-fedcba9876543210-+----------------
+ *   0  | x--------------- | active (show this sprite)
+ *   0  | -x-------------- | maintain aspect ratio (when set, zoom y acts on both axis)
+ *   0  | --x------------- | flip y
+ *   0  | ---x------------ | flip x
+ *   0  | ----xxxx-------- | sprite size (see below)
+ *   0  | ---------xxxxxxx | priority order
+ *   1  | xxxxxxxxxxxxxxxx | sprite code
+ *   2  | ------xxxxxxxxxx | y position
+ *   3  | ------xxxxxxxxxx | x position
+ *   4  | xxxxxxxxxxxxxxxx | zoom y (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
+ *   5  | xxxxxxxxxxxxxxxx | zoom x (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
+ *   6  | x--------------- | mirror y (top half is drawn as mirror image of the bottom)
+ *   6  | -x-------------- | mirror x (right half is drawn as mirror image of the left)
+ *   6  | -----x---------- | shadow
+ *   6  | xxxxxxxxxxxxxxxx | "color", but depends on external connections
+ *   7  | ---------------- |
+ *
+ * shadow enables transparent shadows. Note that it applies to pen 0x0f ONLY.
+ * The rest of the sprite remains normal.
+ */
+
+static int offsetkludge;
+public static void K053247_sprites_draw(osd_bitmap bitmap,int min_priority,int max_priority)
+{
+    int NUM_SPRITES =256;
+	int offs,pri_code;
+	int[] sortedlist=new int[NUM_SPRITES];
+
+	for (offs = 0;offs < NUM_SPRITES;offs++)
+		sortedlist[offs] = -1;
+
+	/* prebuild a sorted table */
+	for (offs = 0;offs < 0x1000;offs += 16)
+	{
+//		if (READ_WORD(&K053247_ram[offs]) & 0x8000)
+			sortedlist[K053247_ram.READ_WORD(offs) & 0x00ff] = offs;
+	}
+
+	for (pri_code = NUM_SPRITES-1;pri_code >= 0;pri_code--)
+	{
+		int ox,oy,size,w,h,x,y,xa,ya,flipx,flipy,mirrorx,mirrory,zoomx,zoomy;
+                int color[] = new int[1];
+                int code[] = new int[1];
+                int pri[] = new int[1];
+		/* sprites can be grouped up to 8x8. The draw order is
+			 0  1  4  5 16 17 20 21
+			 2  3  6  7 18 19 22 23
+			 8  9 12 13 24 25 28 29
+			10 11 14 15 26 27 30 31
+			32 33 36 37 48 49 52 53
+			34 35 38 39 50 51 54 55
+			40 41 44 45 56 57 60 61
+			42 43 46 47 58 59 62 63
+		*/
+		int xoffset[] = { 0, 1, 4, 5, 16, 17, 20, 21 };
+		int yoffset[] = { 0, 2, 8, 10, 32, 34, 40, 42 };
+
+
+		offs = sortedlist[pri_code];
+		if (offs == -1) continue;
+
+		if ((K053247_ram.READ_WORD(offs) & 0x8000) == 0) continue;
+
+		code[0] = K053247_ram.READ_WORD(offs+0x02);
+		color[0] = K053247_ram.READ_WORD(offs+0x0c);
+		pri[0] = 0;
+
+		K053247_callback.handler(code,color,pri);
+
+		if (pri[0] < min_priority || pri[0] > max_priority) continue;
+
+		size = (K053247_ram.READ_WORD(offs) & 0x0f00) >> 8;
+
+		w = 1 << (size & 0x03);
+		h = 1 << ((size >> 2) & 0x03);
+
+		/* the sprite can start at any point in the 8x8 grid. We have to */
+		/* adjust the offsets to draw it correctly. Simpsons does this all the time. */
+		xa = 0;
+		ya = 0;
+		if ((code[0] & 0x01)!=0) xa += 1;
+		if ((code[0] & 0x02)!=0) ya += 1;
+		if ((code[0] & 0x04)!=0) xa += 2;
+		if ((code[0] & 0x08)!=0) ya += 2;
+		if ((code[0] & 0x10)!=0) xa += 4;
+		if ((code[0] & 0x20)!=0) ya += 4;
+		code[0] &= ~0x3f;
+
+
+		/* zoom control:
+		   0x40 = normal scale
+		  <0x40 enlarge (0x20 = double size)
+		  >0x40 reduce (0x80 = half size)
+		*/
+		zoomy = K053247_ram.READ_WORD(offs+0x08);
+		if (zoomy > 0x2000) continue;
+		if (zoomy!=0) zoomy = (0x400000+zoomy/2) / zoomy;
+		else zoomy = 2 * 0x400000;
+		if ((K053247_ram.READ_WORD(offs) & 0x4000) == 0)
+		{
+			zoomx = K053247_ram.READ_WORD(offs+0x0a);
+			if (zoomx > 0x2000) continue;
+			if (zoomx!=0) zoomx = (0x400000+zoomx/2) / zoomx;
+			else zoomx = 2 * 0x400000;
+		}
+		else zoomx = zoomy;
+
+		ox = K053247_ram.READ_WORD(offs+0x06);
+		oy = K053247_ram.READ_WORD(offs+0x04);
+
+/* TODO: it is not known how the global Y offset works */
+switch (K053247_spriteoffsY)
+{
+	case 0x0261:	/* simpsons */
+	case 0x0262:	/* simpsons (dreamland) */
+	case 0x0263:	/* simpsons (dreamland) */
+	case 0x0264:	/* simpsons (dreamland) */
+	case 0x0265:	/* simpsons (dreamland) */
+	case 0x006d:	/* simpsons flip (dreamland) */
+	case 0x006e:	/* simpsons flip (dreamland) */
+	case 0x006f:	/* simpsons flip (dreamland) */
+	case 0x0070:	/* simpsons flip (dreamland) */
+	case 0x0071:	/* simpsons flip */
+		offsetkludge = 0x017;
+		break;
+	case 0x02f7:	/* vendetta (level 4 boss) */
+	case 0x02f8:	/* vendetta (level 4 boss) */
+	case 0x02f9:	/* vendetta (level 4 boss) */
+	case 0x02fa:	/* vendetta */
+	case 0x02fb:	/* vendetta (fat guy jumping) */
+	case 0x02fc:	/* vendetta (fat guy jumping) */
+	case 0x02fd:	/* vendetta (fat guy jumping) */
+	case 0x02fe:	/* vendetta (fat guy jumping) */
+	case 0x02ff:	/* vendetta (fat guy jumping) */
+	case 0x03f7:	/* vendetta flip (level 4 boss) */
+	case 0x03f8:	/* vendetta flip (level 4 boss) */
+	case 0x03f9:	/* vendetta flip (level 4 boss) */
+	case 0x03fa:	/* vendetta flip */
+	case 0x03fb:	/* vendetta flip (fat guy jumping) */
+	case 0x03fc:	/* vendetta flip (fat guy jumping) */
+	case 0x03fd:	/* vendetta flip (fat guy jumping) */
+	case 0x03fe:	/* vendetta flip (fat guy jumping) */
+	case 0x03ff:	/* vendetta flip (fat guy jumping) */
+		offsetkludge = 0x006;
+		break;
+	case 0x0292:	/* xmen */
+	case 0x0072:	/* xmen flip */
+		offsetkludge = -0x002;
+		break;
+	default:
+		offsetkludge = 0;
+			//usrintf_showmessage("unknown spriteoffsY %04x",K053247_spriteoffsY);
+		break;
+}
+
+		flipx = K053247_ram.READ_WORD(offs) & 0x1000;
+		flipy = K053247_ram.READ_WORD(offs) & 0x2000;
+		mirrorx = K053247_ram.READ_WORD(offs+0x0c) & 0x4000;
+		mirrory = K053247_ram.READ_WORD(offs+0x0c) & 0x8000;
+
+		if (K053247_flipscreenX!=0)
+		{
+			ox = -ox;
+			if (mirrorx==0) flipx = NOT(flipx);
+		}
+		if (K053247_flipscreenY!=0)
+		{
+			oy = -oy;
+			if (mirrory==0) flipy = NOT(flipy);
+		}
+
+		ox = (ox + 0x35 - K053247_spriteoffsX) & 0x3ff;
+		if (ox >= 768) ox -= 1024;
+		oy = (-(oy + K053247_spriteoffsY + offsetkludge)) & 0x3ff;
+		if (oy >= 640) oy -= 1024;
+
+		/* the coordinates given are for the *center* of the sprite */
+		ox -= (zoomx * w) >> 13;
+		oy -= (zoomy * h) >> 13;
+
+		for (y = 0;y < h;y++)
+		{
+			int sx,sy,zw,zh;
+
+			sy = oy + ((zoomy * y + (1<<11)) >> 12);
+			zh = (oy + ((zoomy * (y+1) + (1<<11)) >> 12)) - sy;
+
+			for (x = 0;x < w;x++)
+			{
+				int c,fx,fy;
+
+				sx = ox + ((zoomx * x + (1<<11)) >> 12);
+				zw = (ox + ((zoomx * (x+1) + (1<<11)) >> 12)) - sx;
+				c = code[0];
+				if (mirrorx!=0)
+				{
+					if ((flipx == 0) ^ (2*x < w))
+					{
+						/* mirror left/right */
+						c += xoffset[(w-1-x+xa)&7];
+						fx = 1;
+					}
+					else
+					{
+						c += xoffset[(x+xa)&7];
+						fx = 0;
+					}
+				}
+				else
+				{
+					if (flipx!=0) c += xoffset[(w-1-x+xa)&7];
+					else c += xoffset[(x+xa)&7];
+					fx = flipx;
+				}
+				if (mirrory!=0)
+				{
+					if ((flipy == 0) ^ (2*y >= h))
+					{
+						/* mirror top/bottom */
+						c += yoffset[(h-1-y+ya)&7];
+						fy = 1;
+					}
+					else
+					{
+						c += yoffset[(y+ya)&7];
+						fy = 0;
+					}
+				}
+				else
+				{
+					if (flipy!=0) c += yoffset[(h-1-y+ya)&7];
+					else c += yoffset[(y+ya)&7];
+					fy = flipy;
+				}
+
+				if (zoomx == 0x10000 && zoomy == 0x10000)
+				{
+					/* hack to simulate shadow */
+					if ((K053247_ram.READ_WORD(offs+0x0c) & 0x0400)!=0)
+					{
+						int o = K053247_gfx.colortable.read(16*color[0]+15);
+						K053247_gfx.colortable.write(16*color[0]+15,palette_transparent_pen);
+						drawgfx(bitmap,K053247_gfx,
+								c,
+								color[0],
+								fx,fy,
+								sx,sy,
+								Machine.drv.visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1)!=0 ? 0x8001 : 0x0001);
+						K053247_gfx.colortable.write(16*color[0]+15,o);
+					}
+					else
+                                        {
+						drawgfx(bitmap,K053247_gfx,
+								c,
+								color[0],
+								fx,fy,
+								sx,sy,
+								Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+                                        }
+				}
+				else
+                                {
+					drawgfxzoom(bitmap,K053247_gfx,
+							c,
+							color[0],
+							fx,fy,
+							sx,sy,
+							Machine.drv.visible_area,TRANSPARENCY_PEN,0,
+							(zw << 16) / 16,(zh << 16) / 16);
+                                }
+				if (mirrory!=0 && h == 1)  /* Simpsons shadows */
+				{
+					if (zoomx == 0x10000 && zoomy == 0x10000)
+					{
+						/* hack to simulate shadow */
+						if ((K053247_ram.READ_WORD(offs+0x0c) & 0x0400)!=0)
+						{
+							int o = K053247_gfx.colortable.read(16*color[0]+15);
+							K053247_gfx.colortable.write(16*color[0]+15,palette_transparent_pen);
+							drawgfx(bitmap,K053247_gfx,
+									c,
+									color[0],
+									fx,NOT(fy),
+									sx,sy,
+									Machine.drv.visible_area,TRANSPARENCY_PENS,(cpu_getcurrentframe() & 1)!=0 ? 0x8001 : 0x0001);
+							K053247_gfx.colortable.write(16*color[0]+15, o);
+						}
+						else
+                                                {
+							drawgfx(bitmap,K053247_gfx,
+									c,
+									color[0],
+									fx,NOT(fy),
+									sx,sy,
+									Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+                                                }
+					}
+					else
+                                        {
+						drawgfxzoom(bitmap,K053247_gfx,
+								c,
+								color[0],
+								fx,NOT(fy),
+								sx,sy,
+								Machine.drv.visible_area,TRANSPARENCY_PEN,0,
+								(zw << 16) / 16,(zh << 16) / 16);
+                                        }
+				}
+			}
+		}
+	}
+}
 
 public static void K053247_mark_sprites_colors()
 {

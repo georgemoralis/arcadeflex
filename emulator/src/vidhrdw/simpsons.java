@@ -158,13 +158,13 @@ public class simpsons
 		}
 	
 		fillbitmap(bitmap,Machine.pens[16 * bg_colorbase],Machine.drv.visible_area);
-		/*TODO*///K053247_sprites_draw(bitmap,pri[0]+1,0x3f);
+		K053247_sprites_draw(bitmap,pri[0]+1,0x3f);
 		K052109_tilemap_draw(bitmap,layer[0],0);
-		/*TODO*///K053247_sprites_draw(bitmap,pri[1]+1,pri[0]);
+		K053247_sprites_draw(bitmap,pri[1]+1,pri[0]);
 		K052109_tilemap_draw(bitmap,layer[1],0);
-		/*TODO*///K053247_sprites_draw(bitmap,pri[2]+1,pri[1]);
+		K053247_sprites_draw(bitmap,pri[2]+1,pri[1]);
 		K052109_tilemap_draw(bitmap,layer[2],0);
-		/*TODO*///K053247_sprites_draw(bitmap,0,pri[2]);
+		K053247_sprites_draw(bitmap,0,pri[2]);
 	} };
 	
 	/***************************************************************************

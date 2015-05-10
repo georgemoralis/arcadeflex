@@ -158,10 +158,10 @@ public class vendetta
 		}
 	
 		K052109_tilemap_draw(bitmap,layer[0],TILEMAP_IGNORE_TRANSPARENCY);
-	/*TODO*///	K053247_sprites_draw(bitmap,pri[1]+1,pri[0]);
+		K053247_sprites_draw(bitmap,pri[1]+1,pri[0]);
 		K052109_tilemap_draw(bitmap,layer[1],0);
-	/*TODO*///	K053247_sprites_draw(bitmap,pri[2]+1,pri[1]);
+		K053247_sprites_draw(bitmap,pri[2]+1,pri[1]);
 		K052109_tilemap_draw(bitmap,layer[2],0);
-	/*TODO*///	K053247_sprites_draw(bitmap,0,pri[2]);
+		K053247_sprites_draw(bitmap,0,pri[2]);
 	} };
 }
