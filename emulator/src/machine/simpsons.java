@@ -180,10 +180,8 @@ public class simpsons
 		}
 	
 		if ( data1 == 1 )
-                {
-                    System.out.println("fuzzy TODO");
-                    RAM.write(0x486a,RAM.read(0x486a)-1); //RAM[0x486a]--;
-		   
+                {                
+                    RAM.write(0x486a,RAM.read(0x486a)-1); //RAM[0x486a]--;  //probably correct TODO recheck?		   
                 }
 	
 		return RAM.read(0x4942);
