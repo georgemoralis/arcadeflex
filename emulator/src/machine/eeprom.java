@@ -12,7 +12,7 @@ import static arcadeflex.libc_old.*;
 
 public class eeprom 
 {
-    public static FILE eepromlog = fopen("eeprom.log", "wa");  //for debug purposes
+    public static FILE eepromlog = null;//fopen("eeprom.log", "wa");  //for debug purposes
     public static final int SERIAL_BUFFER_LENGTH =30;
 
     static EEPROM_interface intf;

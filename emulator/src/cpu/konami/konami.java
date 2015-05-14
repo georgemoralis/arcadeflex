@@ -5307,7 +5307,6 @@ public class konami extends cpu_interface {
 
                     ea = IMMBYTE();
                     ea = konami.x + (byte) ea & 0xFFFF;
-                    ;
                     konami_ICount[0] -= 2;
                     break;
                 case 0x25:				/* postword offs */
