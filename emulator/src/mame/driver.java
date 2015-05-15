@@ -99,7 +99,7 @@ import static drivers.marineb.*;
 import static drivers.WIP.jackal.*;
 import static drivers.cclimber.*;
 import static drivers.WIP.gberet.*;
-import static drivers.WIP.mitchell.*;
+import static drivers.mitchell.*;
 import static drivers.WIP.snk.*;
 import static drivers.troangel.*;
 import static drivers.WIP.ddragon.*;
@@ -629,6 +629,18 @@ public class driver {
         /*431*//*kchamp*/driver_karatevs,
         /*432*//*tutankhm*/driver_tutankhm,
         /*433*//*tutankhm*/driver_tutankst,
+        /* Mitchell games */
+        /*434*//*mitchell*/driver_mgakuen,
+        /*435*//*mitchell*/driver_mgakuen2,
+        /*436*//*mitchell*/driver_pkladies, 
+        /*437*//*mitchell*/driver_pang,
+        /*438*//*mitchell*/driver_pangb,
+        /*439*//*mitchell*/driver_bbros,
+        /*440*//*mitchell*/driver_pompingw,
+        /*441*//*mitchell*/driver_cworld,
+        /*442*//*mitchell*/driver_hatena,
+        /*443*//*mitchell*/driver_spang,
+        /*444*//*mitchell*/driver_sbbros,
         
 
         
@@ -686,6 +698,9 @@ public class driver {
         /*lkage*/driver_lkage,//garbage remains in left and right of screen (clipping?)
         /*lkage*/driver_lkageb,//garbage remains in left and right of screen (clipping?)
         /*taitosj*/driver_waterski,//bad graphics
+         /*mitchell*/driver_block,// wrong window size (height is too large)
+        /*mitchell*/driver_blockj,// wrong window size (height is too large)
+        /*mitchell*/driver_blockbl,// wrong window size (height is too large)
     
         /*
            Sound issues
@@ -775,7 +790,10 @@ public class driver {
         /*mnight*/driver_arkarea,///boots but doesn't start,freezes emu
          /*kingobox*/driver_ringkin3,//warning - op-code execute on mapped i/o
          /*jackal*/driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
-        
+        /*mitchell*/driver_dokaben,//displays an ram error message
+        /*mitchell*/driver_marukin,//displays an no nvram error message
+        /*mitchell*/driver_qtono1,//not sure if it works  (japanese)
+        /*mitchell*/driver_qsangoku,//not sure if it works (japanese)
 
         
         /*
@@ -1014,25 +1032,9 @@ public class driver {
     driver_spaceint,	/* [1980] Shoei */
                          
             
-	/* Mitchell games */
-        /*mitchell*/driver_mgakuen,
-        /*mitchell*/driver_mgakuen2,
-        /*mitchell*/driver_pkladies,
-        /*mitchell*/driver_dokaben,
-        /*mitchell*/driver_pang,
-        /*mitchell*/driver_pangb,
-        /*mitchell*/driver_bbros,
-        /*mitchell*/driver_pompingw,
-        /*mitchell*/driver_cworld,
-        /*mitchell*/driver_hatena,
-        /*mitchell*/driver_spang,
-        /*mitchell*/driver_sbbros,
-        /*mitchell*/driver_marukin,
-        /*mitchell*/driver_qtono1,
-        /*mitchell*/driver_qsangoku,
-        /*mitchell*/driver_block,
-        /*mitchell*/driver_blockj,
-        /*mitchell*/driver_blockbl,
+	
+        
+       
 
 
     driver_wardner,	/* TP-009 (c) 1987 Taito Corporation Japan (World) */

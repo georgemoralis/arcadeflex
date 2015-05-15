@@ -469,6 +469,18 @@ vigilant vigilant.c Z80      [Z80   ]                                           
 vigilntu vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (US) - No stereo sound
 vigilntj vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (Japan) - No stereo sound
 kikcubic vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Meikyu Jima (Japan) - No stereo sound
+mgakuen  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen
+mgakuen2 mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen 2 Gakuen-chou no Fukushuu
+pkladies mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Poker Ladies
+pang     mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (World)
+pangb    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (bootleg)
+bbros    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Buster Bros (US)
+pompingw mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pomping World (Japan)
+cworld   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Capcom World (Japan)
+hatena   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Adventure Quiz 2 Hatena Hatena no Dai-Bouken (Japan)
+spang    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Pang (World)
+sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
+
 
 Probably CPU bugs
 -------------------------------
@@ -485,6 +497,10 @@ bladstle bladestl.c HD6309   [M6809 ]                                           
 lkage    lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage   //garbage remains in left and right of screen (clipping?)
 lkageb   lkage.c    Z80      [Z80   ]                                                       2xYM-2203                                                   The Legend of Kage (bootleg)  //garbage remains in left and right of screen (clipping?)
 waterski taitosj.c  Z80      [Z80   ]                                                       4xAY-8910   1xDAC                                           Water Ski  //bad gfx issues
+block    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (World) // wrong window size (height is too large)
+blockj   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (Japan) // wrong window size (height is too large)
+blockbl  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (bootleg) // wrong window size (height is too large)
+
 
 Sound issues
 ===========
@@ -572,6 +588,10 @@ mnight   mnight.c   Z80      [Z80   ]                                           
 arkarea  mnight.c   Z80      [Z80   ]                                                       2xYM-2203                                                   Ark Area //boots but doesn't start,freezes emu
 ringkin3 kingobox.c Z80      Z80      Z80      [Z80   ]                                     1xAY-8910   1xDAC                                           Ring King (set 3) //warning - op-code execute on mapped i/o
 topgunbl jackal.c   M6809    M6809                                                          1xYM-2151                                                   Top Gunner (bootleg) - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
+dokaben  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Dokaben (Japan)  //displays an ram error message
+marukin  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Marukin-Ban  //displays an no nvram error message
+qtono1   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Tonosama no Yabou (Japan)  //not sure if it works  (japanese)
+qsangoku mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Sangokushi (Japan)  //not sure if it works  (japanese)
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------

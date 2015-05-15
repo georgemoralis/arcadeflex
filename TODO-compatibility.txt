@@ -288,25 +288,7 @@ maxrpm   mcr3.c     Z80      [M6809 ]                                           
 spyhunt  mcr3.c     Z80      [Z80   ] [68000 ]                                              2xAY-8910   1xDAC                                           Spy Hunter
 turbotag mcr3.c     Z80      [68000 ]                                                       1xDAC                                                       Turbo Tag (Prototype)
 crater   mcr3.c     Z80      [Z80   ]                                                       2xAY-8910                                                   Crater Raider
-mgakuen  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen
-mgakuen2 mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen 2 Gakuen-chou no Fukushuu
-pkladies mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Poker Ladies
-dokaben  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Dokaben (Japan)
-pang     mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (World)
-pangb    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (bootleg)
-bbros    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Buster Bros (US)
-pompingw mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pomping World (Japan)
 cbasebal cbasebal.c Z80                                                                     1xOKI6295   1xYM-2413                                       Capcom Baseball (Japan)
-cworld   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Capcom World (Japan)
-hatena   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Adventure Quiz 2 Hatena Hatena no Dai-Bouken (Japan)
-spang    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Pang (World)
-sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
-marukin  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Marukin-Ban
-qtono1   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Tonosama no Yabou (Japan)
-qsangoku mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Sangokushi (Japan)
-block    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (World)
-blockj   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (Japan)
-blockbl  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Block Block (bootleg)
 depthch  vicdual.c  Z80                                                                     Samples                                                     Depthcharge
 safari   vicdual.c  Z80                                                                     Samples                                                     Safari
 frogs    vicdual.c  Z80                                                                     Samples                                                     Frogs
