@@ -5010,7 +5010,7 @@ public class konami extends cpu_interface {
     opcode decw_ix = new opcode() {
         public void handler() {
             int t, r;
-            t = RM(ea);
+            t = RM16(ea);
             r = t;
             --r;
             CLR_NZV();
