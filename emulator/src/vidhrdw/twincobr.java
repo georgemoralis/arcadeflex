@@ -748,40 +748,40 @@ public class twincobr {
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///	/**********  End ugly sprite hack for Wardner when hero is in shop **********/
-/*TODO*///	
+	
 /*TODO*///		/* draw the sprites in normal priority */
 /*TODO*///		twincobr_draw_sprites (bitmap, 0x0800);
-/*TODO*///	
-/*TODO*///		/* draw the top layer */
-/*TODO*///		scroll_x = (twincobr_flip_x_base + txscrollx) & 0x01ff;
-/*TODO*///		scroll_y = (twincobr_flip_y_base + txscrolly) & 0x00ff;
-/*TODO*///		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
-/*TODO*///		scroll_realign_x = scroll_x >> 3;
-/*TODO*///		for (offs = (31*41)-1; offs >= 0; offs-- )
-/*TODO*///		{
-/*TODO*///			int xpos,ypos;
-/*TODO*///			unsigned char sx,sy;
-/*TODO*///			unsigned short int vidramaddr = 0;
-/*TODO*///	
-/*TODO*///			sx = offs % 41;
-/*TODO*///			sy = offs / 41;
-/*TODO*///	
-/*TODO*///			vidramaddr = (vidbaseaddr + (sy*64) + sx) * 2;
-/*TODO*///			if ((scroll_realign_x + sx) > 63) vidramaddr -=128;
-/*TODO*///	
-/*TODO*///			code  = READ_WORD(&videoram[(vidramaddr & 0x0fff)]);
-/*TODO*///			tile  = (code & 0x07ff);
-/*TODO*///			color = (code & 0xf800) >> 11;
-/*TODO*///			if (twincobr_flip_screen != 0) { sx=40-sx; sy=30-sy; xpos=(sx*8) - (7-(scroll_x&7)); ypos=(sy*8) - (7-(scroll_y&7)); }
-/*TODO*///			else { xpos=(sx*8) - (scroll_x&7); ypos=(sy*8) - (scroll_y&7); }
-/*TODO*///			drawgfx(bitmap,Machine.gfx[0],
-/*TODO*///				tile,
-/*TODO*///				color,
-/*TODO*///				twincobr_flip_screen,twincobr_flip_screen,
-/*TODO*///				xpos,ypos,
-/*TODO*///				&Machine.drv.visible_area,TRANSPARENCY_PEN,0);
-/*TODO*///		}
-/*TODO*///	
+	
+		/* draw the top layer */
+		scroll_x = (twincobr_flip_x_base + txscrollx) & 0x01ff;
+		scroll_y = (twincobr_flip_y_base + txscrolly) & 0x00ff;
+		vidbaseaddr = ((scroll_y>>3)*64) + (scroll_x>>3);
+		scroll_realign_x = scroll_x >> 3;
+		for (offs = (31*41)-1; offs >= 0; offs-- )
+		{
+			int xpos,ypos;
+			/*unsigned char*/int sx,sy;
+			/*unsigned short int*/int vidramaddr = 0;
+	
+			sx = (offs % 41)&0xFF;
+			sy = (offs / 41)&0xFF;
+	
+			vidramaddr = ((vidbaseaddr + (sy*64) + sx) * 2)&0xFFFF;
+			if ((scroll_realign_x + sx) > 63) vidramaddr -=128;
+	
+			code  = videoram.READ_WORD((vidramaddr & 0x0fff));//READ_WORD(&videoram[(vidramaddr & 0x0fff)]);
+			tile  = (code & 0x07ff);
+			color = (code & 0xf800) >> 11;
+			if (twincobr_flip_screen != 0) { sx=40-sx; sy=30-sy; xpos=(sx*8) - (7-(scroll_x&7)); ypos=(sy*8) - (7-(scroll_y&7)); }
+			else { xpos=(sx*8) - (scroll_x&7); ypos=(sy*8) - (scroll_y&7); }
+			drawgfx(bitmap,Machine.gfx[0],
+				tile,
+				color,
+				twincobr_flip_screen,twincobr_flip_screen,
+				xpos,ypos,
+				Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+		}
+	
 /*TODO*///		/* draw the sprites in high priority */
 /*TODO*///		twincobr_draw_sprites (bitmap, 0x0c00);
 /*TODO*///	
