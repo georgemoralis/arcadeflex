@@ -54,10 +54,7 @@ public class twincobr {
     static int dsp_execute;
     static /*unsigned*/ int dsp_addr_w, main_ram_seg;
     public static int toaplan_main_cpu;   /* Main CPU type.  0 = 68000, 1 = Z80 */
-    /*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///	static char *toaplan_cpu_type[2] = { "68K" , "Z80" };
-/*TODO*///	#endif
-/*TODO*///	
+    static String toaplan_cpu_type[] = { "68K" , "Z80" };
 
     public static int twincobr_intenable;
     public static int fsharkbt_8741;
@@ -121,6 +118,7 @@ public class twincobr {
     	
 	public static ReadHandlerPtr twincobr_dsp_in = new ReadHandlerPtr() { public int handler(int offset)
 	{
+            
 		/* DSP can read data from main CPU RAM via DSP IO port 1 */
 	
 		/*unsigned*/ int input_data = 0;
@@ -134,9 +132,7 @@ public class twincobr {
 			default:		if (errorlog != null)
 								fprintf(errorlog,"DSP PC:%04x Warning !!! IO reading from %08x (port 1)\n",cpu_getpreviouspc(),main_ram_seg + dsp_addr_w);
 		}
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///		if (errorlog != 0) fprintf(errorlog,"DSP PC:%04x IO read %04x at %08x (port 1)\n",cpu_getpreviouspc(),input_data,main_ram_seg + dsp_addr_w);
-/*TODO*///	#endif
+		if (errorlog != null) fprintf(errorlog,"DSP PC:%04x IO read %04x at %08x (port 1)\n",cpu_getpreviouspc(),input_data,main_ram_seg + dsp_addr_w);
 		return input_data;
 	} };
 /*TODO*///	
@@ -156,6 +152,7 @@ public class twincobr {
 /*TODO*///	
 	public static WriteHandlerPtr twincobr_dsp_out = new WriteHandlerPtr() { public void handler(int fnction, int data)
 	{
+            
 		if (fnction == 0) {
 			/* This sets the main CPU RAM address the DSP should */
 			/*		read/write, via the DSP IO port 0 */
@@ -173,9 +170,8 @@ public class twincobr {
 				if (main_ram_seg == 0x40000) main_ram_seg = 0x8000;
 				if (main_ram_seg == 0x50000) main_ram_seg = 0xa000;
 			}
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///			if (errorlog != 0) fprintf(errorlog,"DSP PC:%04x IO write %04x (%08x) at port 0\n",cpu_getpreviouspc(),data,main_ram_seg + dsp_addr_w);
-/*TODO*///	#endif
+                if (errorlog != null) fprintf(errorlog,"DSP PC:%04x IO write %04x (%08x) at port 0\n",cpu_getpreviouspc(),data,main_ram_seg + dsp_addr_w);
+
 		}
 		if (fnction == 1) {
 			/* Data written to main CPU RAM via DSP IO port 1*/
@@ -195,15 +191,12 @@ public class twincobr {
 				default:		if (errorlog != null)
 									fprintf(errorlog,"DSP PC:%04x Warning !!! IO writing to %08x (port 1)\n",cpu_getpreviouspc(),main_ram_seg + dsp_addr_w);
 			}
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///			if (errorlog != 0) fprintf(errorlog,"DSP PC:%04x IO write %04x at %08x (port 1)\n",cpu_getpreviouspc(),data,main_ram_seg + dsp_addr_w);
-/*TODO*///	#endif
+
+			if (errorlog != null) fprintf(errorlog,"DSP PC:%04x IO write %04x at %08x (port 1)\n",cpu_getpreviouspc(),data,main_ram_seg + dsp_addr_w);
+
 		}
 		if (fnction == 2) {
 			/* Flying Shark bootleg DSP writes data to an extra MCU (8741) at IO port 2 */
-/*TODO*///	#if 0
-/*TODO*///			if (errorlog != 0) fprintf(errorlog,"DSP PC:%04x IO write from DSP RAM:%04x to 8741 MCU (port 2)\n",cpu_getpreviouspc(),fsharkbt_8741);
-/*TODO*///	#endif
 		}
 		if (fnction == 3) {
 			/* data 0xffff	means inhibit BIO line to DSP and enable  */
@@ -211,17 +204,14 @@ public class twincobr {
 			/*				Actually only DSP data bit 15 controls this */
 			/* data 0x0000	means set DSP BIO line active and disable */
 			/*				communication to main processor*/
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///			if (errorlog != 0) fprintf(errorlog,"DSP PC:%04x IO write %04x at port 3\n",cpu_getpreviouspc(),data);
-/*TODO*///	#endif
+			if (errorlog != null) fprintf(errorlog,"DSP PC:%04x IO write %04x at port 3\n",cpu_getpreviouspc(),data);
+
 			if ((data & 0x8000) != 0) {
 				cpu_set_irq_line(2, TMS320C10_ACTIVE_BIO, CLEAR_LINE);
 			}
 			if (data == 0) {
 				if (dsp_execute != 0) {
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///					if (errorlog != 0) fprintf(errorlog,"Turning %s on\n",toaplan_cpu_type[toaplan_main_cpu]);
-/*TODO*///	#endif
+                            if (errorlog != null) fprintf(errorlog,"Turning %s on\n",toaplan_cpu_type[toaplan_main_cpu]);
 					timer_suspendcpu(0, CLEAR, SUSPEND_REASON_HALT);
 					dsp_execute = 0;
 				}
@@ -319,9 +309,7 @@ public class twincobr {
                 case 0x000c:
                     if (twincobr_display_on != 0) {
                         /* This means assert the INT line to the DSP */
-                        /*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///							if (errorlog != 0) fprintf(errorlog,"Turning DSP on and %s off\n",toaplan_cpu_type[toaplan_main_cpu]);
-/*TODO*///	#endif
+                    if (errorlog != null) fprintf(errorlog,"Turning DSP on and %s off\n",toaplan_cpu_type[toaplan_main_cpu]);
                         timer_suspendcpu(2, CLEAR, SUSPEND_REASON_HALT);
                         cpu_set_irq_line(2, TMS320C10_ACTIVE_INT, ASSERT_LINE);
                         timer_suspendcpu(0, ASSERT, SUSPEND_REASON_HALT);
@@ -330,9 +318,8 @@ public class twincobr {
                 case 0x000d:
                     if (twincobr_display_on != 0) {
                         /* This means inhibit the INT line to the DSP */
-                        /*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///							if (errorlog != 0) fprintf(errorlog,"Turning DSP off\n");
-/*TODO*///	#endif
+
+			if (errorlog != null) fprintf(errorlog,"Turning DSP off\n");
                         cpu_set_irq_line(2, TMS320C10_ACTIVE_INT, CLEAR_LINE);
                         timer_suspendcpu(2, ASSERT, SUSPEND_REASON_HALT);
                     }
@@ -369,17 +356,16 @@ public class twincobr {
 			case 0x0e: coin_lockout_w.handler(1,1); coin_lockout_w.handler(3,1); break;
 			case 0x0f: coin_lockout_w.handler(1,0); coin_lockout_w.handler(3,0); coin_count=1; break;
 			case 0x00:	/* This means assert the INT line to the DSP */
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///						if (errorlog != 0) fprintf(errorlog,"Turning DSP on and %s off\n",toaplan_cpu_type[toaplan_main_cpu]);
-/*TODO*///	#endif
+                            if (errorlog != null) fprintf(errorlog,"Turning DSP on and %s off\n",toaplan_cpu_type[toaplan_main_cpu]);
+
 						timer_suspendcpu(2, CLEAR, SUSPEND_REASON_HALT);
 						cpu_set_irq_line(2, TMS320C10_ACTIVE_INT, ASSERT_LINE);
 						timer_suspendcpu(0, ASSERT, SUSPEND_REASON_HALT);
 						break;
 			case 0x01:	/* This means inhibit the INT line to the DSP */
-/*TODO*///	#if LOG_DSP_CALLS
-/*TODO*///						if (errorlog != 0) fprintf(errorlog,"Turning DSP off\n");
-/*TODO*///	#endif
+
+				if (errorlog !=null) fprintf(errorlog,"Turning DSP off\n");
+
 						cpu_set_irq_line(2, TMS320C10_ACTIVE_INT, CLEAR_LINE);
 						timer_suspendcpu(2, ASSERT, SUSPEND_REASON_HALT);
 						break;

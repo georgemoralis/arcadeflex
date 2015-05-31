@@ -37,37 +37,37 @@ public class tms32010 extends cpu_interface{
           icount =tms320c10_ICount;
     }
     public static class tms320c10_Regs {
-        int/*UINT16*/	PREPC;		/* previous program counter */
-	int/*UINT16*/  PC;
+        char/*UINT16*/	PREPC;		/* previous program counter */
+	char/*UINT16*/  PC;
 	int  ACC, Preg;
 	int   ALU;
-	int/*UINT16*/  Treg;
-	int[]/*UINT16*/  AR=new int[2];
-        int[]/*UINT16*/STACK=new int[4];
-        int/*UINT16*/STR;
+	char/*UINT16*/  Treg;
+	char[]/*UINT16*/  AR=new char[2];
+        char[]/*UINT16*/STACK=new char[4];
+        char/*UINT16*/STR;
 	int     pending_irq, BIO_pending_irq;
 	int     irq_state;
 	public irqcallbacksPtr irq_callback;
     }
-    static /*UINT16*/int   opcode=0;
+    static /*UINT16*/char   opcode=0;
     static /*UINT8*/int opcode_major=0, opcode_minor, opcode_minr;	/* opcode split into MSB and LSB */
     static tms320c10_Regs R=new tms320c10_Regs();
     static int tmpacc;
-    static /*UINT16*/int memaccess;
+    static /*UINT16*/char memaccess;
     
     public static abstract interface opcode_fn {
 
         public abstract void handler();
     }
-    public static int M_RDROM(int A){	return ((cpu_readmem16((A<<1))<<8) | cpu_readmem16(((A<<1)+1)))&0xFFFF; }
+    public static int M_RDROM(int A){	return ((cpu_readmem16((A<<1))<<8) | cpu_readmem16(((A<<1)+1))); }
     public static void M_WRTROM(int A,int V) { cpu_writemem16(((A<<1)+1),(V&0xff)); cpu_writemem16((A<<1),((V>>8)&0xff)); }
-    public static int M_RDRAM(int A){ return ((cpu_readmem16((A<<1)|0x8000)<<8) | cpu_readmem16(((A<<1)|0x8001)))&0xFFFF; }
+    public static int M_RDRAM(int A){ return ((cpu_readmem16((A<<1)|0x8000)<<8) | cpu_readmem16(((A<<1)|0x8001))); }
     public static void M_WRTRAM(int A,int V)	{ cpu_writemem16(((A<<1)|0x8001),(V&0x0ff)); cpu_writemem16(((A<<1)|0x8000),((V>>8)&0x0ff)); }
-    public static int M_RDOP(int A)		
+    public static char M_RDOP(char A)		
     { 
-        return ((cpu_readop((A<<1))<<8) | cpu_readop(((A<<1)+1)))&0xFFFF;
+        return ((char)((cpu_readop((A<<1))<<8) | cpu_readop(((A<<1)+1))));
     }
-    public static int M_RDOP_ARG(int A)	{ return ((cpu_readop_arg((A<<1))<<8) | cpu_readop_arg(((A<<1)+1)))&0xFFFF; }
+    public static char M_RDOP_ARG(char A)	{ return (char)((cpu_readop_arg((A<<1))<<8) | cpu_readop_arg(((A<<1)+1))); }
     public static int M_IN(int Port)	{ return (cpu_readport(Port))&0xFFFF; }
     public static void M_OUT(int Port,int Value){ cpu_writeport(Port,Value);}
 
@@ -91,7 +91,7 @@ public class tms32010 extends cpu_interface{
     public static int dma		 =(DP | (opcode_minor & 0x07f));	/* address used in direct memory access operations */
     public static int dmapage1           =(0x80 | opcode_minor);			/* address used in direct memory access operations for sst instruction */
     public static int ind		 =(R.AR[ARP] & 0x00ff);			/* address used in indirect memory access operations */
-    public static void memacc()	 { memaccess = (opcode_minor & 0x80)!=0 ? ind : dma;}
+    public static void memacc()	 { memaccess = (opcode_minor & 0x80)!=0 ? (char)ind : (char)dma;}
     
     
     public static void CLR(/*UINT16*/int flag) { R.STR &= ~flag; R.STR |= 0x1efe; }
@@ -99,18 +99,18 @@ public class tms32010 extends cpu_interface{
     
     static void getdata(/*UINT8*/int shift,/*UINT8*/int signext)
     {
-            if ((opcode_minor & 0x80)!=0) memaccess = ind&0xFFFF;
-            else memaccess = dma&0xFFFF;
+            if ((opcode_minor & 0x80)!=0) memaccess = (char)ind;
+            else memaccess = (char)dma;
             R.ALU = M_RDRAM(memaccess);
             if ((signext!=0) && (R.ALU & 0x8000)!=0) R.ALU |= 0xffff0000;
             else R.ALU &= 0x0000ffff;
             R.ALU <<= shift;
             if ((opcode_minor & 0x80)!=0) {
                     if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
-                            /*UINT16*/int tmpAR = R.AR[ARP];
-                            if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
-                            if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-1)&0xFFFF;//tmpAR-- ;
-                            R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);//check if it has to unsigned???(shadow)
+                            /*UINT16*/char tmpAR = R.AR[ARP];
+                            if ((opcode_minor & 0x20)!=0) tmpAR = tmpAR++ ;
+                            if ((opcode_minor & 0x10)!=0) tmpAR = tmpAR-- ;
+                            R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff));//check if it has to unsigned???(shadow)
                     }
                     if ((~opcode_minor & 0x08)!=0) {
                             if ((opcode_minor & 1)!=0) SET(ARP_REG);
@@ -120,16 +120,16 @@ public class tms32010 extends cpu_interface{
     }
     static void getdata_lar()
     {
-            if ((opcode_minor & 0x80)!=0) memaccess = ind&0xFFFF;
-            else memaccess = dma&0xFFFF;
+            if ((opcode_minor & 0x80)!=0) memaccess = (char)ind;
+            else memaccess = (char)dma;
             R.ALU = M_RDRAM(memaccess);
             if ((opcode_minor & 0x80)!=0) {
                     if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
                             if ((opcode_major & 1) != ARP) {
-                                /*UINT16*/int tmpAR = R.AR[ARP];
-                                if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
-                                if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-1)&0xFFFF;//tmpAR-- ;
-                                 R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);//check if it has to unsigned???(shadow)
+                                /*UINT16*/char tmpAR = R.AR[ARP];
+                                if ((opcode_minor & 0x20)!=0) tmpAR = tmpAR++ ;
+                                if ((opcode_minor & 0x10)!=0) tmpAR = tmpAR-- ;
+                                 R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff));//check if it has to unsigned???(shadow)
                             }
                     }
                     if ((~opcode_minor & 0x08)!=0) {
@@ -138,16 +138,16 @@ public class tms32010 extends cpu_interface{
                     }
             }
     }
-    static void putdata(/*UINT16*/int data)
+    static void putdata(/*UINT16*/char data)
     {
-            if ((opcode_minor & 0x80)!=0) memaccess = ind&0xFFFF;
-            else memaccess = dma&0xFFFF;
+            if ((opcode_minor & 0x80)!=0) memaccess = (char)ind;
+            else memaccess = (char)dma;
             if ((opcode_minor & 0x80)!=0) {
                     if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
-                            /*UINT16*/int tmpAR = R.AR[ARP];
-                            if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
-                            if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-1)&0xFFFF;//tmpAR-- ;
-                            R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);
+                            /*UINT16*/char tmpAR = R.AR[ARP];
+                            if ((opcode_minor & 0x20)!=0) tmpAR = tmpAR++ ;
+                            if ((opcode_minor & 0x10)!=0) tmpAR = tmpAR-- ;
+                            R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff));
                     }
                     if ((~opcode_minor & 0x08)!=0) {
                             if ((opcode_minor & 1)!=0) SET(ARP_REG);
@@ -156,21 +156,21 @@ public class tms32010 extends cpu_interface{
             }
             if ((opcode_major == 0x30) || (opcode_major == 0x31)) {
                     M_WRTRAM(memaccess,(R.AR[data])); }
-            else M_WRTRAM(memaccess,(data&0xffff));
+            else M_WRTRAM(memaccess,data);
     }
-    static void putdata_sst(/*UINT16*/int data)
+    static void putdata_sst(/*UINT16*/char data)
     {
-            if ((opcode_minor & 0x80)!=0) memaccess = ind&0xFFFF;
-            else memaccess = dmapage1&0xFFFF;
+            if ((opcode_minor & 0x80)!=0) memaccess = (char)ind;
+            else memaccess = (char)dmapage1;
             if ((opcode_minor & 0x80)!=0) {
                     if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
-                            /*UINT16*/int tmpAR = R.AR[ARP];
-                            if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
-                            if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-1)&0xFFFF;//tmpAR-- ;
-                            R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);
+                            /*UINT16*/char tmpAR = R.AR[ARP];
+                            if ((opcode_minor & 0x20)!=0) tmpAR = tmpAR++ ;
+                            if ((opcode_minor & 0x10)!=0) tmpAR = tmpAR-- ;
+                            R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff));
                     }
             }
-            M_WRTRAM(memaccess,(data&0xffff));
+            M_WRTRAM(memaccess,data);
     }
     static void M_ILLEGAL()
     {
@@ -254,46 +254,46 @@ public class tms32010 extends cpu_interface{
     }};
     public static opcode_fn banz= new opcode_fn() {  public void handler()
 		{
-			if ((R.AR[ARP] & 0x01ff) == 0) R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			if ((R.AR[ARP] & 0x01ff) == 0) R.PC++ ;
 			else R.PC = M_RDOP_ARG(R.PC);
 			R.ALU = R.AR[ARP]; R.ALU-- ;
-			R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (R.ALU & 0x01ff);//unsigned? (shadow)
+			R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (R.ALU & 0x01ff));//unsigned? (shadow)
 		}
     };
     public static opcode_fn bgez= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC >= 0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn bgz= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC >  0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn bioz= new opcode_fn() {  public void handler()
 		{
 			if (R.BIO_pending_irq!=0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn blez= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC <= 0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn blz= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC <  0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn bnz= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC != 0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn bv= new opcode_fn() {  public void handler()
@@ -302,13 +302,13 @@ public class tms32010 extends cpu_interface{
 				R.PC = M_RDOP_ARG(R.PC);
 				CLR(OV_FLAG);
 			}
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn bz= new opcode_fn() {  public void handler()
 		{
 			if (R.ACC == 0) R.PC = M_RDOP_ARG(R.PC);
-			else R.PC= (R.PC+1)&0xFFFF;//R.PC++ ;
+			else R.PC++ ;
 		}
     };
     public static opcode_fn cala= new opcode_fn() {  public void handler()
@@ -316,8 +316,8 @@ public class tms32010 extends cpu_interface{
 			R.STACK[0] = R.STACK[1];
 			R.STACK[1] = R.STACK[2];
 			R.STACK[2] = R.STACK[3];
-			R.STACK[3] = (R.PC & ADDR_MASK)&0xFFFF;
-			R.PC = (R.ACC & ADDR_MASK)&0xFFFF;
+			R.STACK[3] = (char)(R.PC & ADDR_MASK);
+			R.PC = (char)(R.ACC & ADDR_MASK);
 		}
     };
     public static opcode_fn call= new opcode_fn() {  public void handler()
@@ -326,8 +326,8 @@ public class tms32010 extends cpu_interface{
 			R.STACK[0] = R.STACK[1];
 			R.STACK[1] = R.STACK[2];
 			R.STACK[2] = R.STACK[3];
-			R.STACK[3] = (R.PC & ADDR_MASK)&0xFFFF;
-			R.PC = (M_RDOP_ARG((R.PC-1)&0xFFFF) & ADDR_MASK)&0xFFFF;//TODO RECHECK (shadow)
+			R.STACK[3] = (char)(R.PC & ADDR_MASK);
+			R.PC = (char)(M_RDOP_ARG((char)(R.PC-1)) & ADDR_MASK);
 		}
     };
     public static opcode_fn dint= new opcode_fn() {  public void handler()		
@@ -338,7 +338,7 @@ public class tms32010 extends cpu_interface{
     public static opcode_fn in_p= new opcode_fn() {  public void handler()
 		{
 			R.ALU = M_IN((opcode_major & 7));
-			putdata((R.ALU & 0x0000ffff));
+			putdata((char)(R.ALU & 0x0000ffff));
 		}
     };
     public static opcode_fn lac_sh= new opcode_fn() {  public void handler()
@@ -348,18 +348,18 @@ public class tms32010 extends cpu_interface{
 		}
     };
     public static opcode_fn lack= new opcode_fn() {  public void handler()		{ R.ACC = (opcode_minor & 0x000000ff); }};
-    public static opcode_fn lar_ar0= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[0] = R.ALU&0xFFFF; }};
-    public static opcode_fn lar_ar1= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[1] = R.ALU&0xFFFF; }};
-    public static opcode_fn lark_ar0= new opcode_fn() {  public void handler()	{ R.AR[0] = (opcode_minor & 0x00ff); }};
-    public static opcode_fn lark_ar1= new opcode_fn() {  public void handler()	{ R.AR[1] = (opcode_minor & 0x00ff); }};
+    public static opcode_fn lar_ar0= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[0] = (char)R.ALU; }};
+    public static opcode_fn lar_ar1= new opcode_fn() {  public void handler()	{ getdata_lar(); R.AR[1] = (char)R.ALU; }};
+    public static opcode_fn lark_ar0= new opcode_fn() {  public void handler()	{ R.AR[0] = (char)(opcode_minor & 0x00ff); }};
+    public static opcode_fn lark_ar1= new opcode_fn() {  public void handler()	{ R.AR[1] = (char)(opcode_minor & 0x00ff); }};
     public static opcode_fn larp_mar= new opcode_fn() {  public void handler()
 		{
 			if ((opcode_minor & 0x80)!=0) {
 				if ((opcode_minor & 0x20)!=0 || (opcode_minor & 0x10)!=0) {
-					int/*UINT16*/ tmpAR = R.AR[ARP];
-					if ((opcode_minor & 0x20)!=0) tmpAR = (tmpAR+1)&0xFFFF;//tmpAR++ ;
-					if ((opcode_minor & 0x10)!=0) tmpAR = (tmpAR-11)&0xFFFF;//tmpAR--
-					R.AR[ARP] = (R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff);
+					char/*UINT16*/ tmpAR = R.AR[ARP];
+					if ((opcode_minor & 0x20)!=0) tmpAR = tmpAR++ ;
+					if ((opcode_minor & 0x10)!=0) tmpAR = tmpAR--;
+					R.AR[ARP] = (char)((R.AR[ARP] & 0xfe00) | (tmpAR & 0x01ff));
 				}
 				if ((~opcode_minor & 0x08)!=0) {
 					if ((opcode_minor & 0x01)!=0) SET(ARP_REG) ;
@@ -386,18 +386,18 @@ public class tms32010 extends cpu_interface{
 			tmpacc = R.STR;
 			opcode_minor |= 0x08; /* This dont support next arp, so make sure it dont happen */
 			getdata(0,0);
-			R.STR = R.ALU & 0xFFFF;
+			R.STR = (char)R.ALU;
 			tmpacc &= INTM_FLAG;
 			R.STR |= tmpacc;
 			R.STR |= 0x1efe;
 		}
     };
-    public static opcode_fn lt= new opcode_fn() {  public void handler()		{ getdata(0,0); R.Treg = R.ALU&0xFFFF; }};
+    public static opcode_fn lt= new opcode_fn() {  public void handler()		{ getdata(0,0); R.Treg = (char)R.ALU; }};
     public static opcode_fn lta= new opcode_fn() {  public void handler()
 		{
 			tmpacc = R.ACC;
 			getdata(0,0);
-			R.Treg = R.ALU&0xFFFF;
+			R.Treg = (char)R.ALU;
 			R.ACC += R.Preg;
 			if (tmpacc > R.ACC) {
 				SET(OV_FLAG);
@@ -410,7 +410,7 @@ public class tms32010 extends cpu_interface{
 		{
 			tmpacc = R.ACC;
 			getdata(0,0);
-			R.Treg = R.ALU&0xFFFF;
+			R.Treg = (char)R.ALU;
 			R.ACC += R.Preg;
 			if (tmpacc > R.ACC) {
 				SET(OV_FLAG);
@@ -463,22 +463,22 @@ public class tms32010 extends cpu_interface{
 			R.STACK[0] = R.STACK[1];
 			R.STACK[1] = R.STACK[2];
 			R.STACK[2] = R.STACK[3];
-			R.STACK[3] = R.ACC & ADDR_MASK;
+			R.STACK[3] =(char)(R.ACC & ADDR_MASK);
 		}
     };
     public static opcode_fn ret= new opcode_fn() {  public void handler()
 		{
-			R.PC = (R.STACK[3] & ADDR_MASK)&0xFFFF;
+			R.PC = (char)(R.STACK[3] & ADDR_MASK);
 			R.STACK[3] = R.STACK[2];
 			R.STACK[2] = R.STACK[1];
 			R.STACK[1] = R.STACK[0];
 		}
     };
     public static opcode_fn rovm= new opcode_fn() {  public void handler()		{ CLR(OVM_FLAG); }};
-    public static opcode_fn sach_sh= new opcode_fn() {  public void handler()	{ putdata(((R.ACC << (opcode_major & 7)) >> 16)); }};
-    public static opcode_fn sacl= new opcode_fn() {  public void handler()		{ putdata((R.ACC & 0x0000ffff)); }};
-    public static opcode_fn sar_ar0= new opcode_fn() {  public void handler()	{ putdata(0); }};
-    public static opcode_fn sar_ar1= new opcode_fn() {  public void handler()	{ putdata(1); }};
+    public static opcode_fn sach_sh= new opcode_fn() {  public void handler()	{ putdata((char)(((R.ACC << (opcode_major & 7)) >> 16))); }};
+    public static opcode_fn sacl= new opcode_fn() {  public void handler()		{ putdata((char)(R.ACC & 0x0000ffff)); }};
+    public static opcode_fn sar_ar0= new opcode_fn() {  public void handler()	{ putdata((char)0); }};
+    public static opcode_fn sar_ar1= new opcode_fn() {  public void handler()	{ putdata((char)1); }};
     public static opcode_fn sovm= new opcode_fn() {  public void handler()		{ SET(OVM_FLAG); }};
     public static opcode_fn spac= new opcode_fn() {  public void handler()
 		{
@@ -493,7 +493,7 @@ public class tms32010 extends cpu_interface{
 			else CLR(OV_FLAG);
 		}
     };
-    public static opcode_fn sst= new opcode_fn() {  public void handler()		{ putdata_sst(R.STR&0xFFFF); }};
+    public static opcode_fn sst= new opcode_fn() {  public void handler()		{ putdata_sst((char)R.STR); }};
     public static opcode_fn sub_sh= new opcode_fn() {  public void handler()
 		{
 			tmpacc = R.ACC;
@@ -550,7 +550,7 @@ public class tms32010 extends cpu_interface{
     public static opcode_fn tblr= new opcode_fn() {  public void handler()
 		{
 			R.ALU = M_RDROM((R.ACC & ADDR_MASK));
-			putdata(R.ALU);
+			putdata((char)R.ALU);
 			R.STACK[0] = R.STACK[1];
 		}
     };
@@ -668,7 +668,7 @@ public class tms32010 extends cpu_interface{
                    R.STACK[0] = R.STACK[1];
                    R.STACK[1] = R.STACK[2];
                    R.STACK[2] = R.STACK[3];
-                   R.STACK[3] = (R.PC & ADDR_MASK)&0xFFFF;
+                   R.STACK[3] = (char)(R.PC & ADDR_MASK);
                    R.PC = 0x0002;
                    R.pending_irq = TMS320C10_NOT_PENDING;
                    return 3;  /* 3 clock cycles used due to PUSH and DINT operation ? */
@@ -693,14 +693,14 @@ public class tms32010 extends cpu_interface{
 				tms320c10_ICount[0] -= Ext_IRQ();
 		}
 
-		R.PREPC = R.PC & 0xFFFF;
+		R.PREPC = R.PC;
 
 		opcode=M_RDOP(R.PC);
 
 		opcode_major = ((opcode & 0x0ff00) >> 8);
 		opcode_minor = (opcode & 0x0ff);
 
-		R.PC= (R.PC+1)&0xFFFF;//R.PC++;
+		R.PC++;
 		if (opcode_major != 0x07f) { /* Do all opcodes except the 7Fxx ones */
 			tms320c10_ICount[0] -= cycles_main[opcode_major];
 			opcode_main[opcode_major].handler();
