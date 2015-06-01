@@ -678,6 +678,9 @@ public class driver {
         /*vigilant*/driver_vigilntu,//no stereo sound support	
         /*vigilant*/driver_vigilntj,//no stereo sound support	
         /*vigilant*/driver_kikcubic,//no stereo sound support	
+        /*simpsons*/driver_simpsons,//no stereo sound support	
+        /*simpsons*/driver_simpsn2p,//no stereo sound support
+        /*simpsons*/driver_simps2pj,//no stereo sound support
         
         /*
           Possible cpu bugs
@@ -1047,9 +1050,7 @@ driver_shootout,	/* (c) 1985 Data East USA (US) */
 driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
 driver_shootoub,	/* bootleg */
 
-driver_simpsons,	
-driver_simpsn2p,
-driver_simps2pj,
+
 driver_vendetta,
 driver_vendett2,
 driver_vendettj,

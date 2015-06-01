@@ -45,9 +45,7 @@ surpratk surpratk.c KONAMI                                                      
 parodius parodius.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Parodius DA! (Japan)
 rollerg  rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (US)
 rollergj rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (Japan)
-simpsons simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (4 Players)
-simpsn2p simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players)
-simps2pj simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players Japan)
+
 vendetta vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 1)
 vendett2 vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 2)
 vendettj vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Crime Fighters 2 (Japan)

@@ -434,6 +434,17 @@ kchampvs kchamp.c   Z80      [Z80   ]                                           
 karatevs kchamp.c   Z80      [Z80   ]                                                       2xAY-8910   1xMSM5205                                       Taisen Karate Dou (Japan VS version)
 tutankhm tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham
 tutankst tutankhm.c M6809    [Z80   ]                                                       2xAY-8910                                                   Tutankham (Stern)
+mgakuen  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen
+mgakuen2 mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen 2 Gakuen-chou no Fukushuu
+pkladies mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Poker Ladies
+pang     mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (World)
+pangb    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (bootleg)
+bbros    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Buster Bros (US)
+pompingw mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pomping World (Japan)
+cworld   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Capcom World (Japan)
+hatena   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Adventure Quiz 2 Hatena Hatena no Dai-Bouken (Japan)
+spang    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Pang (World)
+sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
 
 
 Small issues that doesn't affect playable status
@@ -469,17 +480,10 @@ vigilant vigilant.c Z80      [Z80   ]                                           
 vigilntu vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (US) - No stereo sound
 vigilntj vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Vigilante (Japan) - No stereo sound
 kikcubic vigilant.c Z80      [Z80   ]                                                       1xYM-2151   1xDAC                                           Meikyu Jima (Japan) - No stereo sound
-mgakuen  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen
-mgakuen2 mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Mahjong Gakuen 2 Gakuen-chou no Fukushuu
-pkladies mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Poker Ladies
-pang     mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (World)
-pangb    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pang (bootleg)
-bbros    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Buster Bros (US)
-pompingw mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Pomping World (Japan)
-cworld   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Capcom World (Japan)
-hatena   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Adventure Quiz 2 Hatena Hatena no Dai-Bouken (Japan)
-spang    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Pang (World)
-sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
+simpsons simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (4 Players) - No stereo sound
+simpsn2p simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players) - No stereo sound
+simps2pj simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players Japan) - No stereo sound
+
 
 
 Probably CPU bugs
