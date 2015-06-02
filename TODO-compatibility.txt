@@ -37,18 +37,12 @@ bottom9  bottom9.c  M6809    [Z80   ]                                           
 bottom9n bottom9.c  M6809    [Z80   ]                                                       2x007232                                                    Bottom of the Ninth (version N)
 blockhl  blockhl.c  KONAMI   [Z80   ]                                                       1xYM-2151                                                   Block Hole
 quarth   blockhl.c  KONAMI   [Z80   ]                                                       1xYM-2151                                                   Quarth (Japan)
-aliens   aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (World set 1)
-aliens2  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (World set 2)
-aliensu  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (US)
-aliensj  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (Japan)
-surpratk surpratk.c KONAMI                                                                  1xYM-2151                                                   Surprise Attack (Japan)
+
 parodius parodius.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Parodius DA! (Japan)
 rollerg  rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (US)
 rollergj rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (Japan)
 
-vendetta vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 1)
-vendett2 vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 2)
-vendettj vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Crime Fighters 2 (Japan)
+
 
 
 

@@ -483,7 +483,14 @@ kikcubic vigilant.c Z80      [Z80   ]                                           
 simpsons simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (4 Players) - No stereo sound
 simpsn2p simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players) - No stereo sound
 simps2pj simpsons.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          The Simpsons (2 Players Japan) - No stereo sound
-
+aliens   aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (World set 1) - No stereo sound
+aliens2  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (World set 2)- No stereo sound
+aliensu  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (US)- No stereo sound
+aliensj  aliens.c   KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Aliens (Japan)- No stereo sound
+surpratk surpratk.c KONAMI                                                                  1xYM-2151                                                   Surprise Attack (Japan) - No stereo sound
+vendetta vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 1) - No stereo sound
+vendett2 vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 2) - No stereo sound
+vendettj vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Crime Fighters 2 (Japan) - No stereo sound
 
 
 Probably CPU bugs

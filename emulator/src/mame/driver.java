@@ -681,6 +681,14 @@ public class driver {
         /*simpsons*/driver_simpsons,//no stereo sound support	
         /*simpsons*/driver_simpsn2p,//no stereo sound support
         /*simpsons*/driver_simps2pj,//no stereo sound support
+        /*aliens*/driver_aliens,//no stereo sound support
+        /*aliens*/driver_aliens2,//no stereo sound support
+        /*aliens*/driver_aliensu,//no stereo sound support
+        /*aliens*/driver_aliensj,//no stereo sound support
+        /*surpratk*/driver_surpratk,//no stereo sound support
+        /*vendetta*/driver_vendetta,//no stereo sound support
+        /*vendetta*/driver_vendett2,//no stereo sound support
+        /*vendetta*/driver_vendettj,//no stereo sound support
         
         /*
           Possible cpu bugs
@@ -946,15 +954,12 @@ public class driver {
         /*rollerg*/driver_rollerg,
         /*rollerg*/driver_rollergj,
         
-        /*surpratk*/driver_surpratk,
+        
         
         /*blockhl*/driver_blockhl,
         /*blockhl*/driver_quarth,
         
-        /*aliens*/driver_aliens,
-        /*aliens*/driver_aliens2,
-        /*aliens*/driver_aliensu,
-        /*aliens*/driver_aliensj,
+        
         
         /*thunderx*/driver_scontra,
         /*thunderx*/driver_scontraj,
@@ -1051,9 +1056,6 @@ driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
 driver_shootoub,	/* bootleg */
 
 
-driver_vendetta,
-driver_vendett2,
-driver_vendettj,
 
 driver_foodf,
 driver_bjtwin,
