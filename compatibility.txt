@@ -445,6 +445,8 @@ cworld   mitchell.c Z80                                                         
 hatena   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Adventure Quiz 2 Hatena Hatena no Dai-Bouken (Japan)
 spang    mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Pang (World)
 sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
+rollerg  rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (US)
+rollergj rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (Japan)
 
 
 Small issues that doesn't affect playable status
@@ -491,7 +493,9 @@ surpratk surpratk.c KONAMI                                                      
 vendetta vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 1) - No stereo sound
 vendett2 vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Vendetta (Asia set 2) - No stereo sound
 vendettj vendetta.c KONAMI   [Z80   ]                                                       1xYM-2151   053260                                          Crime Fighters 2 (Japan) - No stereo sound
-
+crimfght crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (US 4 players) - No stereo sound
+crimfgt2 crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (World 2 Players) - No stereo sound
+crimfgtj crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (Japan 2 Players) - No stereo sound
 
 Probably CPU bugs
 -------------------------------

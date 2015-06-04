@@ -134,7 +134,7 @@ import static drivers.WIP.crimfght.*;
 import static drivers.WIP.gbusters.*;
 import static drivers.WIP.blockhl.*;
 import static drivers.WIP.surpratk.*;
-import static drivers.WIP.rollerg.*;
+import static drivers.rollerg.*;
 import static drivers.WIP._88games.*;
 import static drivers.WIP.bottom9.*;
 import static drivers.WIP.cheekyms.*;
@@ -641,6 +641,8 @@ public class driver {
         /*442*//*mitchell*/driver_hatena,
         /*443*//*mitchell*/driver_spang,
         /*444*//*mitchell*/driver_sbbros,
+        /*445*//*rollerg*/driver_rollerg,
+        /*446*//*rollerg*/driver_rollergj,
         
 
         
@@ -689,6 +691,9 @@ public class driver {
         /*vendetta*/driver_vendetta,//no stereo sound support
         /*vendetta*/driver_vendett2,//no stereo sound support
         /*vendetta*/driver_vendettj,//no stereo sound support
+        /*crimfght*/driver_crimfght,//no stereo sound support
+        /*crimfght*/driver_crimfgt2,//no stereo sound support
+        /*crimfght*/driver_crimfgtj,//no stereo sound support
         
         /*
           Possible cpu bugs
@@ -951,10 +956,6 @@ public class driver {
         /*88games*/driver_konami88,
         /*88games*/driver_hypsptsp,
         
-        /*rollerg*/driver_rollerg,
-        /*rollerg*/driver_rollergj,
-        
-        
         
         /*blockhl*/driver_blockhl,
         /*blockhl*/driver_quarth,
@@ -964,9 +965,6 @@ public class driver {
         /*thunderx*/driver_scontra,
         /*thunderx*/driver_scontraj,
 
-        /*crimfght*/driver_crimfght,
-        /*crimfght*/driver_crimfgt2,
-        /*crimfght*/driver_crimfgtj,
 
         /*gbusters*/driver_gbusters,
         /*gbusters*/driver_crazycop,
