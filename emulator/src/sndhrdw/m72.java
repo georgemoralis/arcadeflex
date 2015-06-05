@@ -133,7 +133,7 @@ public class m72
 	
 	static int sample_addr;
 	
-	void m72_set_sample_start(int start)
+	public static void m72_set_sample_start(int start)
 	{
 		sample_addr = start;
 	}

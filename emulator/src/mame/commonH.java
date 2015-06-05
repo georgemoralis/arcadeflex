@@ -92,9 +92,10 @@ public class commonH {
         /* The following ones are for code ONLY - don't use for graphics data!!! */
         /* load the ROM at even/odd addresses. Useful with 16 bit games */
     public static void ROM_LOAD_EVEN(String name,int offset,int length,int crc) { arload.add(new RomModule(name, (offset) & ~1, (length) | ROMFLAG_ALTERNATE, crc)); }
-/*TODO*/ //#define ROM_RELOAD_EVEN(offset,length) { (char *)-1, (offset) & ~1, (length) | ROMFLAG_ALTERNATE, 0 },
+    public static void ROM_RELOAD_EVEN(int offset,int length){arload.add(new RomModule( "-1",(offset) & ~1, (length) | ROMFLAG_ALTERNATE,0));}
     public static void ROM_LOAD_ODD(String name,int offset,int length,int crc)  { arload.add(new RomModule(name, (offset) |  1, (length) | ROMFLAG_ALTERNATE, crc)); }
-/*TODO*/ //#define ROM_RELOAD_ODD(offset,length)  { (char *)-1, (offset) |  1, (length) | ROMFLAG_ALTERNATE, 0 },
+    public static void ROM_RELOAD_ODD(int offset,int length){arload.add(new RomModule( "-1",(offset) |  1, (length) | ROMFLAG_ALTERNATE,0));}
+
         /* load the ROM at even/odd addresses. Useful with 16 bit games */
 /*TODO*/ //#define ROM_LOAD_WIDE(name,offset,length,crc) { name, offset, (length) | ROMFLAG_WIDE, crc },
 /*TODO*/ //#define ROM_RELOAD_WIDE(offset,length) { (char *)-1, offset, (length) | ROMFLAG_WIDE, 0 },
