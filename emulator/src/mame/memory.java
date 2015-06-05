@@ -2038,7 +2038,7 @@ public static UBytePtr install_mem_write_handler(int cpu, int start, int end, Wr
 /*TODO*/ //
     public static IOWritePort[] install_port_write_handler(int cpu, int start, int end, WriteHandlerPtr _handler)
     {
-            return install_port_write_handler_common(cpu, start, end,0,_handler, 1);//TODO recheck! probably wrong!!!!!
+            return install_port_write_handler_common(cpu, start, end,1,_handler, 1);//TODO recheck! probably wrong!!!!! 1 for not going to IOWP_NOP correct?
     }
 
     public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, int handler, ReadHandlerPtr _handler, int install_at_beginning) {
