@@ -205,6 +205,7 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 else{
                     super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
                 }
+                System.out.println(this.getWidth() + "x" + this.getHeight());
                 super.createBufferStrategy(2);//double buffering
                  this._strategy = super.getBufferStrategy();
         }

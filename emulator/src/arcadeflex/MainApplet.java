@@ -51,6 +51,7 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
     ImageConsumer _consumer;
     DirectColorModel _model;
     private int i = 0, j = 0;
+    private int x = 0, y = 0;
     private ScreenshotUploader suploader = null;
     //BufferStrategy _strategy;
     //public static debug d;
@@ -68,7 +69,7 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         if (param1 != null) {
             args[0] = param1;
         } else {
-            args[0] = "pkladies";
+            args[0] = "crimfght";
         }
 
         ConvertArguments("arcadeflex", args);
@@ -126,6 +127,21 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
             } else {
                 j = j + (int) (j * 0.14);
             }
+        } else if (Machine.gamedrv.source_file.equals("simpsons.java")) {
+            x = -(int) (i * 0.39);
+            i = i + (int) (i * 0.78);
+        } else if (Machine.gamedrv.source_file.equals("vendetta.java")) {
+            x = -(int) (i * 0.35);
+            i = i + (int) (i * 0.70);
+        } else if (Machine.gamedrv.source_file.equals("surpratk.java")) {
+            x = -(int) (i * 0.39);
+            i = i + (int) (i * 0.78);
+        } else if (Machine.gamedrv.source_file.equals("aliens.java")) {
+            x = -(int) (i * 0.39);
+            i = i + (int) (i * 0.78);
+        } else if (Machine.gamedrv.source_file.equals("crimfght.java")) {
+            x = -(int) (i * 0.35);
+            i = i + (int) (i * 0.70);
         }
     }
 
@@ -145,7 +161,7 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         /* Draw image to graphics context. */
         Graphics2D localGraphics2D = (Graphics2D) this.getGraphics();
         if (_thread != null) {
-            localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
+            localGraphics2D.drawImage(this._image, this._insets.left + x, this._insets.top + y, i, j, null);
             /*
              if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
              //localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i + (int) (i * 0.78), j, null);
