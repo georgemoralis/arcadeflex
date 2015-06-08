@@ -31,6 +31,7 @@ import static cpu.tms32010.tms32010H.*;
 import static cpu.m68000.m68000H.*;
 import cpu.m6805.m6805;
 import cpu.m6805.m68705;
+import cpu.nec.nec;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -216,8 +217,8 @@ public class cpuintrf {
         new Dummy_cpu(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
         new Dummy_cpu(),/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
         new Dummy_cpu(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-        new Dummy_cpu(),/*TODO*///	CPU0(V30,	   v30, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-        new Dummy_cpu(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
+        new nec(),
+        /*v33 has overclock 1.05 different than v30!*/new Dummy_cpu(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
         new Dummy_cpu(),/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
         new i8039(),
         new Dummy_cpu(),/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
@@ -1386,8 +1387,11 @@ public class cpuintrf {
     /*TODO*///#if (HAS_V20)
     /*TODO*///			case CPU_V20:				irq_line = 0; LOG((errorlog,"V20 IRQ\n")); break;
     /*TODO*///#endif
-    /*TODO*///#if (HAS_V30)
-    /*TODO*///			case CPU_V30:				irq_line = 0; LOG((errorlog,"V30 IRQ\n")); break;
+
+			case CPU_V30:				
+                            irq_line = 0; 
+                            if(errorlog!=null) fprintf(errorlog,"V30 IRQ\n"); 
+                            break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_V33)
     /*TODO*///			case CPU_V33:				irq_line = 0; LOG((errorlog,"V33 IRQ\n")); break;
