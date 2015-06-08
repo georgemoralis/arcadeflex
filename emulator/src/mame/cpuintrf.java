@@ -31,7 +31,7 @@ import static cpu.tms32010.tms32010H.*;
 import static cpu.m68000.m68000H.*;
 import cpu.m6805.m6805;
 import cpu.m6805.m68705;
-import cpu.nec.nec;
+import cpu.nec.v30;
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -217,7 +217,7 @@ public class cpuintrf {
         new Dummy_cpu(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
         new Dummy_cpu(),/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
         new Dummy_cpu(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-        new nec(),
+        new v30(),
         /*v33 has overclock 1.05 different than v30!*/new Dummy_cpu(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
         new Dummy_cpu(),/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
         new i8039(),

@@ -6,8 +6,8 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static cpu.nec.necH.*;
 
-public class nec extends cpuintrfH.cpu_interface {
-    public nec()
+public class v30 extends cpuintrfH.cpu_interface {
+    public v30()
     {
                 cpu_num = CPU_V30;
                 num_irqs = 1;
