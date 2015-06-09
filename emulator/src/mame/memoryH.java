@@ -227,6 +227,10 @@ public static void change_pc16(int pc)
 {
      change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
 }
+public static void change_pc20(int pc)		
+{
+    change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20);
+}
 
  public static void cpu_setbank(int bank, UBytePtr _base)
         {
