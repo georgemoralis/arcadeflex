@@ -1601,6 +1601,39 @@ public class memory {
             /* do not support on callback memory region */
             printf("CPU #%d PC %04x: warning - op-code execute on mapped i/o\n",        cpu_getactivecpu(),cpu_get_pc());                                                                      
     }};
+    public static setopbase cpu_setOPbase20 =new setopbase(){ public void handler(int pc, int shift)
+    {
+      UByte hw=new UByte();
+
+      pc = (int)(pc >>> shift);
+
+            /* allow overrides */
+      if (OPbasefunc != null)
+      {
+         pc = (int)OPbasefunc.handler((int)pc);
+         if (pc == -1)
+            return;
+      }
+
+      /* perform the lookup */
+      hw.set(cur_mrhard[pc >>> (ABITS2_20 + ABITS_MIN_20)]);
+      if (hw.read() >= MH_HARDMAX)
+      {   															
+         hw.set((char)(hw.read() - MH_HARDMAX));
+         hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+      }
+            ophw.set(hw.read());
+
+            /* RAM or banked memory */
+            if (hw.read() <= HT_BANKMAX)
+            {
+               SET_OP_RAMROM(new UBytePtr(cpu_bankbase[hw.read()], (-memoryreadoffset[hw.read()])));
+                return;
+            }
+
+            /* do not support on callback memory region */
+            printf("CPU #%d PC %04x: warning - op-code execute on mapped i/o\n",        cpu_getactivecpu(),cpu_get_pc());                                                                      
+    }};
 
     /***************************************************************************
 
