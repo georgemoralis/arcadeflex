@@ -4,8 +4,9 @@ package cpu.nec;
 public class necH {
     public static final int NEC_INT_NONE =0;
     public static final int NEC_NMI_INT =2;
-   /*TODO*///typedef enum { ES, CS, SS, DS } SREGS;
-    /*TODO*///typedef enum { AW, CW, DW, BW, SP, BP, IX, IY } WREGS;
+    
+    public static final int ES = 0, CS = 1, SS = 2, DS = 3;//typedef enum { ES, CS, SS, DS } SREGS;
+    public static final int AW = 0, CW = 1, DW = 2, BW = 3, SP = 4, BP = 5, IX = 6, IY = 8;//typedef enum { AW, CW, DW, BW, SP, BP, IX, IY } WREGS;
     /*TODO*///
     /*TODO*///#ifndef FALSE
     /*TODO*///#define FALSE 0

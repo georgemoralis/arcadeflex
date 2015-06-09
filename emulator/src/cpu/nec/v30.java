@@ -4,6 +4,7 @@ import mame.cpuintrfH;
 import static mame.cpuintrfH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
+import static mame.memory.*;
 import static cpu.nec.necH.*;
 
 public class v30 extends cpuintrfH.cpu_interface {
@@ -26,25 +27,6 @@ public class v30 extends cpuintrfH.cpu_interface {
                 abitsmin = ABITS_MIN_20;
                 icount = nec_ICount;
     }
-    @Override
-    public void reset(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void exit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int execute(int cycles) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object init_context() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public Object get_context() {
@@ -53,11 +35,6 @@ public class v30 extends cpuintrfH.cpu_interface {
 
     @Override
     public void set_context(Object reg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int get_pc() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -97,11 +74,6 @@ public class v30 extends cpuintrfH.cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(cpuintrfH.irqcallbacksPtr callback) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void internal_interrupt(int type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -116,10 +88,6 @@ public class v30 extends cpuintrfH.cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public String cpu_info(Object context, int regnum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public int memory_read(int offset) {
@@ -131,10 +99,6 @@ public class v30 extends cpuintrfH.cpu_interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void set_op_base(int pc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     /*TODO*///static UINT16 bytes[] = {
     /*TODO*///	1,2,4,8,16,32,64,128,256,
     /*TODO*///	512,1024,2048,4096,8192,16384,32768,65336
@@ -147,65 +111,57 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///    UINT8  b[16];   /* or as 8 bit registers */
     /*TODO*///} necbasicregs;
     /*TODO*///
-    /*TODO*///typedef struct
-    /*TODO*///{
+    public class nec_Regs
+    {
     /*TODO*///    necbasicregs regs;
-    /*TODO*///    int     ip;
+        int     ip;
     /*TODO*///	UINT16	flags;
-    /*TODO*///	UINT32	base[4];
-    /*TODO*///	UINT16	sregs[4];
-    /*TODO*///    int     (*irq_callback)(int irqline);
-    /*TODO*///    int     AuxVal, OverVal, SignVal, ZeroVal, CarryVal, ParityVal; /* 0 or non-0 valued flags */
-    /*TODO*///	UINT8	TF, IF, DF, MF; 	/* 0 or 1 valued flags */	/* OB[19.07.99] added Mode Flag V30 */
-    /*TODO*///	UINT8	int_vector;
-    /*TODO*///	UINT8	pending_irq;
-    /*TODO*///	INT8	nmi_state;
-    /*TODO*///	INT8	irq_state;
+        /*UINT32*/int[]	base=new int[4];
+        /*UINT16*/int[]	sregs=new int[4];
+        public irqcallbacksPtr irq_callback;
+        int     AuxVal, OverVal, SignVal, ZeroVal, CarryVal, ParityVal; /* 0 or non-0 valued flags */
+        int/*UINT8*/	TF, IF, DF, MF; 	/* 0 or 1 valued flags */	/* OB[19.07.99] added Mode Flag V30 */
+        int/*UINT8*/	int_vector;
+    	int/*UINT8*/	pending_irq;
+        int 	nmi_state;
+        int	irq_state;
     /*TODO*///
     /*TODO*///	unsigned prefix_base;	/* base address of the latest prefix segment */
-    /*TODO*///	char seg_prefix;		/* prefix segment indicator */
-    /*TODO*///} nec_Regs;
+       int /*char*/ seg_prefix;		/* prefix segment indicator */
+    }
     /*TODO*///
     /*TODO*////***************************************************************************/
     /*TODO*////* cpu state                                                               */
     /*TODO*////***************************************************************************/
     static int[] nec_ICount=new int[1];
-    /*TODO*///
-    /*TODO*///static nec_Regs I;
-    /*TODO*///
-    /*TODO*////* The interrupt number of a pending external interrupt pending NMI is 2.	*/
-    /*TODO*////* For INTR interrupts, the level is caught on the bus during an INTA cycle */
-    /*TODO*///
-    /*TODO*///#define INT_IRQ 0x01
-    /*TODO*///#define NMI_IRQ 0x02
-    /*TODO*///
-    /*TODO*///#include "necinstr.h"
-    /*TODO*///#include "necea.h"
-    /*TODO*///#include "necmodrm.h"
-    /*TODO*///
-    /*TODO*///static UINT8 parity_table[256];
-    /*TODO*////***************************************************************************/
-    /*TODO*///
-    /*TODO*///void nec_reset (void *param)
-    /*TODO*///{
-    /*TODO*///    unsigned int i,j,c;
+    static nec_Regs I;
+    
+    /* The interrupt number of a pending external interrupt pending NMI is 2.	*/
+    /* For INTR interrupts, the level is caught on the bus during an INTA cycle */
+    
+    public static final int INT_IRQ =0x01;
+    public static final int NMI_IRQ =0x02;
+    
+
+    static /*UINT8*/int[] parity_table=new int[256];
+    /***************************************************************************/
+    @Override
+    public void reset(Object param) {
+        /*unsigned*/ int i,j,c;
     /*TODO*///    BREGS reg_name[8]={ AL, CL, DL, BL, AH, CH, DH, BH };
     /*TODO*///
-    /*TODO*///	memset( &I, 0, sizeof(I) );
-    /*TODO*///
-    /*TODO*///     I.sregs[CS] = 0xffff;
-    /*TODO*///	I.base[CS] = I.sregs[CS] << 4;
-    /*TODO*///
-    /*TODO*///	change_pc20( (I.base[CS] + I.ip));
-    /*TODO*///
-    /*TODO*///    for (i = 0;i < 256; i++)
-    /*TODO*///    {
-    /*TODO*///		for (j = i, c = 0; j > 0; j >>= 1)
-    /*TODO*///			if (j & 1) c++;
-    /*TODO*///		parity_table[i] = !(c & 1);
-    /*TODO*///    }
-    /*TODO*///
-    /*TODO*///	I.ZeroVal = I.ParityVal = 1;
+       I = new nec_Regs();
+       I.sregs[CS] = 0xffff;
+       I.base[CS] = I.sregs[CS] << 4;
+       change_pc20( (I.base[CS] + I.ip));
+
+        for (i = 0;i < 256; i++)
+        {
+    		for (j = i, c = 0; j > 0; j >>= 1)
+    			if ((j & 1)!=0) c++;
+    		parity_table[i] = ((c & 1) == 0 ? 1 : 0);
+        }
+    	I.ZeroVal = I.ParityVal = 1;
     /*TODO*///	SetMD(1);						/* set the mode-flag = native mode */
     /*TODO*///
     /*TODO*///    for (i = 0; i < 256; i++)
@@ -219,14 +175,15 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///		Mod_RM.RM.w[i] = (WREGS)( i & 7 );
     /*TODO*///		Mod_RM.RM.b[i] = (BREGS)reg_name[i & 7];
     /*TODO*///    }
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void nec_exit (void)
-    /*TODO*///{
-    /*TODO*///	/* nothing to do ? */
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    }
+    @Override
+    public void exit() {
+        /* nothing to do ? */
+    }
+    @Override
+    public void set_op_base(int pc) {
+        cpu_setOPbase20.handler(pc, 0);
+    }
     /*TODO*///static void nec_interrupt(unsigned int_num,BOOLEAN md_flag)
     /*TODO*///{
     /*TODO*///    unsigned dest_seg, dest_off;
@@ -268,7 +225,10 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static void external_int(void)
+    public static void external_int()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     /*TODO*///{
     /*TODO*///	if( I.pending_irq & NMI_IRQ )
     /*TODO*///	{
@@ -4423,6 +4383,11 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///		fprintf(errorlog,"PC=%06x : Invalid Opcode %02x\n",cpu_get_pc(),(BYTE)cpu_readop((I.base[CS]+I.ip)));
     /*TODO*///}
     /*TODO*///
+    @Override
+    public Object init_context() {
+        Object reg = new nec_Regs();
+        return reg;
+    }
     /*TODO*////* ASG 971222 -- added these interface functions */
     /*TODO*///
     /*TODO*///unsigned nec_get_context(void *dst)
@@ -4445,11 +4410,10 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	}
     /*TODO*///}
     /*TODO*///
-    /*TODO*///unsigned nec_get_pc(void)
-    /*TODO*///{
-    /*TODO*///	return (I.base[CS] + (WORD)I.ip);
-    /*TODO*///}
-    /*TODO*///
+    @Override
+    public int get_pc() {
+       return (I.base[CS] + (I.ip&0xFFFF));//return (I.base[CS] + (WORD)I.ip);
+    }
     /*TODO*///void nec_set_pc(unsigned val)
     /*TODO*///{
     /*TODO*///	if( val - I.base[CS] < 0x10000 )
@@ -4576,29 +4540,25 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	}
     /*TODO*///}
     /*TODO*///
-    /*TODO*///void nec_set_irq_callback(int (*callback)(int))
-    /*TODO*///{
-    /*TODO*///	I.irq_callback = callback;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int nec_execute(int cycles)
-    /*TODO*///{
-    /*TODO*///	nec_ICount=cycles;	/* ASG 971222 cycles_per_run;*/
-    /*TODO*///	while(nec_ICount>0)
-    /*TODO*///    {
+    @Override
+    public void set_irq_callback(cpuintrfH.irqcallbacksPtr callback) {
+        I.irq_callback = callback;
+    }
+    @Override
+    public int execute(int cycles) {
+    	nec_ICount[0]=cycles;	/* ASG 971222 cycles_per_run;*/
+    	while(nec_ICount[0]>0)
+        {
     /*TODO*///
     /*TODO*///#ifdef VERBOSE_DEBUG
     /*TODO*///printf("[%04x:%04x]=%02x\tAW=%04x\tBW=%04x\tCW=%04x\tDW=%04x\n",sregs[CS],I.ip,GetMemB(CS,I.ip),I.regs.w[AW],I.regs.w[BW],I.regs.w[CW],I.regs.w[DW]);
     /*TODO*///#endif
     /*TODO*///
-    /*TODO*///	if ((I.pending_irq && I.IF) || (I.pending_irq & NMI_IRQ))
-    /*TODO*///		external_int(); 	 /* HJB 12/15/98 */
-    /*TODO*///
-    /*TODO*///	CALL_MAME_DEBUG;
-    /*TODO*///
-    /*TODO*///	I.seg_prefix=FALSE;
-    /*TODO*///#if defined(BIGCASE) && !defined(RS6000)
-    /*TODO*///  /* Some compilers cannot handle large case statements */
+    	if ((I.pending_irq!=0 && I.IF!=0) || (I.pending_irq & NMI_IRQ)!=0)
+    		external_int(); 	 /* HJB 12/15/98 */
+
+            I.seg_prefix=0;//FALSE
+            int fetchop = cpu_readop((I.base[CS]+I.ip++)) & 0xFF;
     /*TODO*///	switch(FETCHOP)
     /*TODO*///	{
     /*TODO*///	case 0x00:    i_add_br8(); break;
@@ -4858,15 +4818,10 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xfe:    i_fepre(); break;
     /*TODO*///	case 0xff:    i_ffpre(); break;
     /*TODO*///	};
-    /*TODO*///#else
-    /*TODO*///	nec_instruction[FETCHOP]();
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*/////if (errorlog && cpu_get_pc()>0xc0000) fprintf(errorlog,"CPU %05x\n",cpu_get_pc());
-    /*TODO*///
-    /*TODO*///    }
-    /*TODO*///	return cycles - nec_ICount;
-    /*TODO*///}
+        //if (errorlog && cpu_get_pc()>0xc0000) fprintf(errorlog,"CPU %05x\n",cpu_get_pc());
+        }
+    	return cycles - nec_ICount[0];
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///unsigned nec_dasm(char *buffer, unsigned pc)
@@ -4971,8 +4926,8 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///void v30_set_nmi_line(int state) { nec_set_nmi_line(state); }
     /*TODO*///void v30_set_irq_line(int irqline, int state) { nec_set_irq_line(irqline,state); }
     /*TODO*///void v30_set_irq_callback(int (*callback)(int irqline)) { nec_set_irq_callback(callback); }
-    /*TODO*///const char *v30_info(void *context, int regnum)
-    /*TODO*///{
+    @Override
+    public String cpu_info(Object context, int regnum) {
     /*TODO*///    static char buffer[32][63+1];
     /*TODO*///    static int which = 0;
     /*TODO*///    nec_Regs *r = context;
@@ -4982,8 +4937,8 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///    if( !context )
     /*TODO*///        r = &I;
     /*TODO*///
-    /*TODO*///    switch( regnum )
-    /*TODO*///    {
+        switch( regnum )
+       {
     /*TODO*///        case CPU_INFO_REG+NEC_IP: sprintf(buffer[which], "IP:%04X", r->ip); break;
     /*TODO*///        case CPU_INFO_REG+NEC_SP: sprintf(buffer[which], "SP:%04X", r->regs.w[SP]); break;
     /*TODO*///        case CPU_INFO_REG+NEC_FLAGS: sprintf(buffer[which], "F:%04X", r->flags); break;
@@ -5022,16 +4977,17 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///                r->flags & 0x0002 ? 'N':'.',
     /*TODO*///                r->flags & 0x0001 ? 'C':'.');
     /*TODO*///            break;
-    /*TODO*///        case CPU_INFO_NAME: return "V30";
-    /*TODO*///        case CPU_INFO_FAMILY: return "NEC V-Series";
-    /*TODO*///        case CPU_INFO_VERSION: return "1.6";
-    /*TODO*///        case CPU_INFO_FILE: return __FILE__;
-    /*TODO*///        case CPU_INFO_CREDITS: return "Real mode NEC emulator v1.3 by Oliver Bergmann\n(initial work based on Fabrice Fabian's i86 core)";
+            case CPU_INFO_NAME: return "V30";
+            case CPU_INFO_FAMILY: return "NEC V-Series";
+            case CPU_INFO_VERSION: return "1.6";
+            case CPU_INFO_FILE: return "v30.java";
+            case CPU_INFO_CREDITS: return "Real mode NEC emulator v1.3 by Oliver Bergmann\n(initial work based on Fabrice Fabian's i86 core)";
     /*TODO*///        case CPU_INFO_REG_LAYOUT: return (const char*)nec_reg_layout;
     /*TODO*///        case CPU_INFO_WIN_LAYOUT: return (const char*)nec_win_layout;
-    /*TODO*///    }
+       }
+        throw new UnsupportedOperationException("unsupported v30 cpu_info");
     /*TODO*///    return buffer[which];
-    /*TODO*///}
+    }
     /*TODO*///unsigned v30_dasm(char *buffer, unsigned pc) { return nec_dasm(buffer,pc); }
     /*TODO*///
     /*TODO*///void v33_reset(void *param) { nec_reset(param); }
