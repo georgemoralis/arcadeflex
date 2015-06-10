@@ -1,6 +1,9 @@
 
 package cpu.nec;
 
+import static cpu.nec.v30.*;
+import static mame.memoryH.*;
+
 public class necH {
     public static final int NEC_INT_NONE =0;
     public static final int NEC_NMI_INT =2;

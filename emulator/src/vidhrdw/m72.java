@@ -610,8 +610,11 @@ public class m72
 			i = start;
 			while (scrollx[i+1] == scrollx[start] && scrolly[i+1] == scrolly[start]
 					&& i < Machine.drv.visible_area.max_y - 128)
+                        {
 				i++;
-	
+                                if(i==255) break;//check the boundries of table (shadow)
+                        }
+                        //System.out.println(i);
 			clip.min_y = start + 128;
 			clip.max_y = i + 128;
 			tilemap_set_clip(tilemap,clip);

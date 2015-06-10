@@ -2,12 +2,15 @@ package cpu.nec;
 
 import mame.cpuintrfH;
 import static mame.cpuintrfH.*;
+import static mame.cpuintrf.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.nec.necH.*;
+import static arcadeflex.libc_old.*;
 
 public class v30 extends cpuintrfH.cpu_interface {
+    public static FILE neclog = fopen("neclog.log", "wa");  //for debug purposes
     public v30()
     {
                 cpu_num = CPU_V30;
@@ -27,7 +30,22 @@ public class v30 extends cpuintrfH.cpu_interface {
                 abitsmin = ABITS_MIN_20;
                 icount = nec_ICount;
     }
+    //helper functions
+    public static int getHigh(int reg) {
+        return reg >> 8;
+    }
 
+    public static int getLow(int reg) {
+        return reg & 0xFF;
+    }
+
+    public static int setHigh(int reg,int v) {
+        return (reg & 0xFF | (v & 0xFF) << 8);
+    }
+
+    public static int setLow(int reg,int v) {
+        return (reg & 0xFF00 | v & 0xFF);
+    }
     @Override
     public Object get_context() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -60,16 +78,6 @@ public class v30 extends cpuintrfH.cpu_interface {
 
     @Override
     public void set_reg(int regnum, int val) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void set_nmi_line(int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void set_irq_line(int irqline, int linestate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -113,7 +121,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///
     public class nec_Regs
     {
-    /*TODO*///    necbasicregs regs;
+        int[]   mainregs = new int[8];
         int     ip;
     /*TODO*///	UINT16	flags;
         /*UINT32*/int[]	base=new int[4];
@@ -162,7 +170,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     		parity_table[i] = ((c & 1) == 0 ? 1 : 0);
         }
     	I.ZeroVal = I.ParityVal = 1;
-    /*TODO*///	SetMD(1);						/* set the mode-flag = native mode */
+   	I.MF =1;//SetMD(1);						/* set the mode-flag = native mode */
     /*TODO*///
     /*TODO*///    for (i = 0; i < 256; i++)
     /*TODO*///    {
@@ -3003,19 +3011,26 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	nec_ICount-=4;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_mov_axd16(void)    /* Opcode 0xb8 */
-    /*TODO*///{
-    /*TODO*///	I.regs.b[AL] = FETCH;
-    /*TODO*///	I.regs.b[AH] = FETCH;
-    /*TODO*///	nec_ICount-=4;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_mov_cxd16(void)    /* Opcode 0xb9 */
-    /*TODO*///{
-    /*TODO*///	I.regs.b[CL] = FETCH;
-    /*TODO*///	I.regs.b[CH] = FETCH;
-    /*TODO*///	nec_ICount-=4;
-    /*TODO*///}
+    static void i_mov_axd16()    /* Opcode 0xb8 */
+    {
+        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	I.mainregs[AW] = setLow(I.mainregs[AW],fetch);//I.regs.b[AL] = FETCH;
+        fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	I.mainregs[AW] = setHigh(I.mainregs[AW],fetch);//I.regs.b[AH] = FETCH;
+    	nec_ICount[0]-=4;
+        if(neclog!=null) fprintf(neclog,"i_mov_axd16 :PC:%d,I.regs.b[AL]:%d,I.regs.b[AH]:%d\n", cpu_get_pc(),getLow(I.mainregs[AW]),getHigh(I.mainregs[AW]));
+   
+    }
+    
+    static void i_mov_cxd16()    /* Opcode 0xb9 */
+    {
+        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);      
+        I.mainregs[CW] = setLow(I.mainregs[CW],fetch);//(I.mainregs[CW] & 0xFF00 | fetch & 0xFF);//I.regs.b[CL] = FETCH;
+    	fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	I.mainregs[CW] = setHigh(I.mainregs[CW],fetch);//I.regs.b[CH] = FETCH;
+    	nec_ICount[0]-=4;
+        if(neclog!=null) fprintf(neclog,"i_mov_cxd16 :PC:%d,I.regs.b[CL]:%d,I.regs.b[CH]:%d\n", cpu_get_pc(),getLow(I.mainregs[CW]),getHigh(I.mainregs[CW]));
+    }
     /*TODO*///
     /*TODO*///static void i_mov_dxd16(void)    /* Opcode 0xba */
     /*TODO*///{
@@ -3659,19 +3674,25 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///   } else nec_ICount-=5;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_loop(void)    /* Opcode 0xe2 */
-    /*TODO*///{
-    /*TODO*///	int disp = (int)((INT8)FETCH);
-    /*TODO*///	unsigned tmp = I.regs.w[CW]-1;
-    /*TODO*///
-    /*TODO*///	I.regs.w[CW]=tmp;
-    /*TODO*///
-    /*TODO*///    if (tmp) {
-    /*TODO*///	nec_ICount-=13;
-    /*TODO*///	I.ip = (WORD)(I.ip+disp);
-    /*TODO*///	change_pc20((I.base[CS]+I.ip));
-    /*TODO*///	} else nec_ICount-=5;
-    /*TODO*///}
+    static void i_loop()    /* Opcode 0xe2 */
+    {
+        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	int disp = (int)((byte)fetch);
+    	/*unsigned*/ int tmp = (I.mainregs[CW]-1)&0xFFFF;
+    
+    	I.mainregs[CW]=tmp;
+    
+        if (tmp!=0) {
+            nec_ICount[0]-=13;
+            I.ip = (I.ip+disp)&0xFFFF;
+            change_pc20((I.base[CS]+I.ip));
+    	} 
+        else 
+        {
+            nec_ICount[0]-=5;
+        }
+        if(neclog!=null) fprintf(neclog,"i_loop :PC:%d,I.regs.w[CW]:%d,I.ip:%d\n", cpu_get_pc(),I.mainregs[CW],I.ip);
+    }
     /*TODO*///
     /*TODO*///static void i_jcxz(void)    /* Opcode 0xe3 */
     /*TODO*///{
@@ -3735,22 +3756,22 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	nec_ICount-=15;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_jmp_far(void)    /* Opcode 0xea */
-    /*TODO*///{
-    /*TODO*///    unsigned tmp,tmp1;
-    /*TODO*///
-    /*TODO*///	tmp = FETCH;
-    /*TODO*///	tmp += FETCH << 8;
-    /*TODO*///
-    /*TODO*///	tmp1 = FETCH;
-    /*TODO*///	tmp1 += FETCH << 8;
-    /*TODO*///
-    /*TODO*///	I.sregs[CS] = (WORD)tmp1;
-    /*TODO*///	I.base[CS] = SegBase(CS);
-    /*TODO*///	I.ip = (WORD)tmp;
-    /*TODO*///	change_pc20((I.base[CS]+I.ip));
-    /*TODO*///	nec_ICount-=27; // 27-35
-    /*TODO*///}
+    static void i_jmp_far()    /* Opcode 0xea */
+    {
+        /*unsigned*/int tmp,tmp1;
+    	tmp = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	tmp += (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF) << 8;
+    
+    	tmp1 = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
+    	tmp1 += (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF) << 8;
+    
+    	I.sregs[CS] = tmp1 & 0xFFFF;
+    	I.base[CS] = (I.sregs[CS] << 4);//SegBase(CS);
+    	I.ip = tmp & 0xFFFF;
+    	change_pc20((I.base[CS]+I.ip));
+    	nec_ICount[0]-=27; // 27-35
+        if(neclog!=null) fprintf(neclog,"i_jmp_far :PC:%d,I.sregs[CS]:%d,I.base[CS]:%d,I.ip:%d\n", cpu_get_pc(),I.sregs[CS],I.base[CS],I.ip);
+    }
     /*TODO*///
     /*TODO*///static void i_jmp_d8(void)    /* Opcode 0xeb */
     /*TODO*///{
@@ -4247,11 +4268,11 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	nec_ICount-=2;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_di(void)    /* Opcode 0xfa */
-    /*TODO*///{
-    /*TODO*///	SetIF(0);
-    /*TODO*///	nec_ICount-=2;
-    /*TODO*///}
+    static void i_di()    /* Opcode 0xfa */
+    {
+    	I.IF=0;
+    	nec_ICount[0]-=2;
+    }
     /*TODO*///
     /*TODO*///static void i_ei(void)    /* Opcode 0xfb */
     /*TODO*///{
@@ -4515,31 +4536,30 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///    }
     /*TODO*///}
     /*TODO*///
-    /*TODO*///void nec_set_nmi_line(int state)
-    /*TODO*///{
-    /*TODO*///	if( I.nmi_state == state ) return;
-    /*TODO*///    I.nmi_state = state;
-    /*TODO*///	if (state != CLEAR_LINE)
-    /*TODO*///	{
-    /*TODO*///		I.pending_irq |= NMI_IRQ;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void nec_set_irq_line(int irqline, int state)
-    /*TODO*///{
-    /*TODO*///	I.irq_state = state;
-    /*TODO*///	if (state == CLEAR_LINE)
-    /*TODO*///	{
-    /*TODO*///		if (!I.IF)
-    /*TODO*///			I.pending_irq &= ~INT_IRQ;
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		if (I.IF)
-    /*TODO*///			I.pending_irq |= INT_IRQ;
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    @Override
+    public void set_nmi_line(int state) {
+    	if( I.nmi_state == state ) return;
+        I.nmi_state = state;
+    	if (state != CLEAR_LINE)
+    	{
+    		I.pending_irq |= NMI_IRQ;
+    	}
+    }
+    @Override
+    public void set_irq_line(int irqline, int state) {
+        I.irq_state = state;
+    	if (state == CLEAR_LINE)
+    	{
+    		if (I.IF==0)
+    			I.pending_irq &= ~INT_IRQ;
+    	}
+    	else
+    	{
+    		if (I.IF!=0)
+    			I.pending_irq |= INT_IRQ;
+    	}
+    }
+    
     @Override
     public void set_irq_callback(cpuintrfH.irqcallbacksPtr callback) {
         I.irq_callback = callback;
@@ -4554,13 +4574,13 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///printf("[%04x:%04x]=%02x\tAW=%04x\tBW=%04x\tCW=%04x\tDW=%04x\n",sregs[CS],I.ip,GetMemB(CS,I.ip),I.regs.w[AW],I.regs.w[BW],I.regs.w[CW],I.regs.w[DW]);
     /*TODO*///#endif
     /*TODO*///
-    	if ((I.pending_irq!=0 && I.IF!=0) || (I.pending_irq & NMI_IRQ)!=0)
+            if ((I.pending_irq!=0 && I.IF!=0) || (I.pending_irq & NMI_IRQ)!=0)
     		external_int(); 	 /* HJB 12/15/98 */
 
             I.seg_prefix=0;//FALSE
-            int fetchop = cpu_readop((I.base[CS]+I.ip++)) & 0xFF;
-    /*TODO*///	switch(FETCHOP)
-    /*TODO*///	{
+            int FETCHOP = cpu_readop((I.base[CS]+I.ip++)) & 0xFF;
+            switch(FETCHOP)
+            {
     /*TODO*///	case 0x00:    i_add_br8(); break;
     /*TODO*///	case 0x01:    i_add_wr16(); break;
     /*TODO*///	case 0x02:    i_add_r8b(); break;
@@ -4745,8 +4765,8 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xb5:    i_mov_chd8(); break;
     /*TODO*///	case 0xb6:    i_mov_dhd8(); break;
     /*TODO*///	case 0xb7:    i_mov_bhd8(); break;
-    /*TODO*///	case 0xb8:    i_mov_axd16(); break;
-    /*TODO*///	case 0xb9:    i_mov_cxd16(); break;
+    	case 0xb8:    i_mov_axd16(); break;
+    	case 0xb9:    i_mov_cxd16(); break;
     /*TODO*///	case 0xba:    i_mov_dxd16(); break;
     /*TODO*///	case 0xbb:    i_mov_bxd16(); break;
     /*TODO*///	case 0xbc:    i_mov_spd16(); break;
@@ -4787,7 +4807,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xdf:    i_escape(); break;
     /*TODO*///	case 0xe0:    i_loopne(); break;
     /*TODO*///	case 0xe1:    i_loope(); break;
-    /*TODO*///	case 0xe2:    i_loop(); break;
+    	case 0xe2:    i_loop(); break;
     /*TODO*///	case 0xe3:    i_jcxz(); break;
     /*TODO*///	case 0xe4:    i_inal(); break;
     /*TODO*///	case 0xe5:    i_inax(); break;
@@ -4795,7 +4815,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xe7:    i_outax(); break;
     /*TODO*///	case 0xe8:    i_call_d16(); break;
     /*TODO*///	case 0xe9:    i_jmp_d16(); break;
-    /*TODO*///	case 0xea:    i_jmp_far(); break;
+    	case 0xea:    i_jmp_far(); break;
     /*TODO*///	case 0xeb:    i_jmp_d8(); break;
     /*TODO*///	case 0xec:    i_inaldx(); break;
     /*TODO*///	case 0xed:    i_inaxdx(); break;
@@ -4811,13 +4831,17 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xf7:    i_f7pre(); break;
     /*TODO*///	case 0xf8:    i_clc(); break;
     /*TODO*///	case 0xf9:    i_stc(); break;
-    /*TODO*///	case 0xfa:    i_di(); break;
+    	case 0xfa:    i_di(); break;
     /*TODO*///	case 0xfb:    i_ei(); break;
     /*TODO*///	case 0xfc:    i_cld(); break;
     /*TODO*///	case 0xfd:    i_std(); break;
     /*TODO*///	case 0xfe:    i_fepre(); break;
     /*TODO*///	case 0xff:    i_ffpre(); break;
-    /*TODO*///	};
+                default:
+                 System.out.println("Unsupported opcode 0x"+Integer.toHexString(FETCHOP));
+                 fclose(neclog);
+                    break;
+        	}
         //if (errorlog && cpu_get_pc()>0xc0000) fprintf(errorlog,"CPU %05x\n",cpu_get_pc());
         }
     	return cycles - nec_ICount[0];
