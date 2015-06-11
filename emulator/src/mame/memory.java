@@ -1081,6 +1081,33 @@ public class memory {
 
         return memoryreadhandler[hw.read()].handler(address - memoryreadoffset[hw.read()]);      																					
     }
+        public static int cpu_readmem20(int address)
+    {
+        UByte hw=new UByte();
+        
+        /* first-level lookup */
+        hw.set(cur_mrhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
+																				
+	/* for compatibility with setbankhandler, 8-bit systems must call handlers */		
+	/* for banked memory reads/writes */												
+	if (hw.read() == HT_RAM)												
+		return cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset + address];											
+																																							
+        /* second-level lookup */
+        if (hw.read() >= MH_HARDMAX)
+        {
+                hw.set((char)(hw.read() - MH_HARDMAX));
+                hw.set(readhardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+
+                /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+                /* for banked memory reads/writes */
+                if (hw.read() == HT_RAM)
+                    return cpu_bankbase[HT_RAM].read(address);
+        }
+        /* fall back to handler */
+
+        return memoryreadhandler[hw.read()].handler(address - memoryreadoffset[hw.read()]);      																					
+    }
 /*TODO*/ ///* generic byte-sized read handler */
 /*TODO*/ //#define READBYTE(name,type,abits)														\
 /*TODO*/ //int name(int address)																	\
@@ -1308,7 +1335,36 @@ public class memory {
 
             memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
    }
+   public static void cpu_writemem20(int address, int data)
+   {
+            /* first-level lookup */
+            UByte hw=new UByte();
+            hw.set(cur_mwhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
 
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+            /* for banked memory reads/writes */
+            if (hw.read() == HT_RAM)
+            {
+                cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset+address] = (char)data;
+                return;
+            }
+
+            /* second-level lookup */
+            if (hw.read() >= MH_HARDMAX)
+            {
+                hw.set((char)(hw.read() - MH_HARDMAX));
+                hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));    
+                /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+                /* for banked memory reads/writes */
+                if (hw.read() == HT_RAM)
+                {
+                    cpu_bankbase[HT_RAM].write(address, data);
+                    return;
+                }
+            }
+
+            memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
+   }
 /*TODO*/ //void name(int address, int data)														\
 /*TODO*/ //{																						\
 /*TODO*/ //	MHELE hw;																			\

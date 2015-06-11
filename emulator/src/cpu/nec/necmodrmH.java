@@ -1,6 +1,8 @@
 package cpu.nec;
 
 import static cpu.nec.v30.*;
+import static cpu.nec.neceaH.*;
+import static cpu.nec.necH.*;
 
 public class necmodrmH {
 
@@ -40,8 +42,16 @@ public class necmodrmH {
         I.regs.SetB(Mod_RM.reg.b[ModRM], val);
     }
 
- /*   public static final int GetRMWord(int ModRM) {
-        return ModRM >= 0xc0 ? I.regs.w[Mod_RM.RM.w[ModRM]] : ReadWord(GetEA[ModRM].handler()); //( (*GetEA[ModRM])(), ReadWord( EA )
+   public static final int GetRMWord(int ModRM) {
+       if(ModRM >= 0xc0)
+       {
+           return I.regs.w[Mod_RM.RM.w[ModRM]];
+       }
+       else
+       {
+           return ReadWord( GetEA[ModRM].handler());        
+       }
+        //return ModRM >= 0xc0 ? I.regs.w[Mod_RM.RM.w[ModRM]] : ReadWord(GetEA[ModRM].handler()); //( (*GetEA[ModRM])(), ReadWord( EA )
     }
 
     public static final void PutbackRMWord(int ModRM, int val) {
@@ -51,7 +61,7 @@ public class necmodrmH {
             WriteWord(EA, val);
         }
     }
-
+/*
     public static final int GetnextRMWord() {
         return ReadWord(EA + 2);
     }
@@ -74,11 +84,19 @@ public class necmodrmH {
             WriteWord(EA, i);
         }
     }
-
+*/
     public static final int GetRMByte(int ModRM) {
-        return ModRM >= 0xc0 ? I.regs.b[Mod_RM.RM.b[ModRM]] : ReadByte(GetEA[ModRM].handler());
+        if(ModRM >= 0xc0)
+        {
+            return I.regs.b[Mod_RM.RM.b[ModRM]];
+        }
+        else
+        {
+            return ReadByte(GetEA[ModRM].handler());
+        }
+        //return ModRM >= 0xc0 ? I.regs.b[Mod_RM.RM.b[ModRM]] : 
     }
-
+/*
     public static final void PutRMByte(int ModRM, int val) {
         if (ModRM >= 0xc0) {
             I.regs.SetB(Mod_RM.RM.b[ModRM], val);

@@ -11,7 +11,7 @@ public class necH {
     public static final int NEC_NMI_INT = 2;
 
     public static final int ES = 0, CS = 1, SS = 2, DS = 3;//typedef enum { ES, CS, SS, DS } SREGS;
-    public static final int AW = 0, CW = 1, DW = 2, BW = 3, SP = 4, BP = 5, IX = 6, IY = 8;//typedef enum { AW, CW, DW, BW, SP, BP, IX, IY } WREGS;
+    public static final int AW = 0, CW = 1, DW = 2, BW = 3, SP = 4, BP = 5, IX = 6, IY = 7;//typedef enum { AW, CW, DW, BW, SP, BP, IX, IY } WREGS;
 
     public static final int AL = 0, AH = 1, CL = 2, CH = 3, DL = 4, DH = 5, BL = 6, BH = 7, SPL = 8, SPH = 9, BPL = 10, BPH = 11, IXL = 12, IXH = 13, IYL = 14, IYH = 15;
 
@@ -31,15 +31,20 @@ public class necH {
     public static void SetMD(int x) {
         I.MF = x;
     }	/* OB [19.07.99] Mode Flag V30 */
-    /*TODO*///
-    /*TODO*///#define SetOFW_Add(x,y,z)	(I.OverVal = ((x) /*TODO*/// (y)) & ((x) /*TODO*/// (z)) & 0x8000)
+
+    public static void SetOFW_Add(int x,int y,int z)
+    {
+        I.OverVal = (x); /*TODO*/// (y)) & ((x) /*TODO*/// (z)) & 0x8000)
+    }
     /*TODO*///#define SetOFB_Add(x,y,z)	(I.OverVal = ((x) /*TODO*/// (y)) & ((x) /*TODO*/// (z)) & 0x80)
     /*TODO*///#define SetOFW_Sub(x,y,z)	(I.OverVal = ((z) /*TODO*/// (y)) & ((z) /*TODO*/// (x)) & 0x8000)
     /*TODO*///#define SetOFB_Sub(x,y,z)	(I.OverVal = ((z) /*TODO*/// (y)) & ((z) /*TODO*/// (x)) & 0x80)
     /*TODO*///
     /*TODO*///#define SetCFB(x)		(I.CarryVal = (x) & 0x100)
-    /*TODO*///#define SetCFW(x)		(I.CarryVal = (x) & 0x10000)
-
+    public static void SetCFW(int x)
+    {
+        I.CarryVal = (x) & 0x10000;
+    }
 
     public static void SetAF(int x, int y, int z) {
         I.AuxVal = (x); /*TODO*/// ((y) /*TODO*/// (z))) & 0x10)
@@ -110,19 +115,45 @@ public class necH {
     static final int SegBase(int Seg) {
         return I.sregs[Seg] << 4;
     }
-    /*TODO*///
-    /*TODO*///#define DefaultBase(Seg) ((I.seg_prefix && (Seg==DS || Seg==SS)) ? I.prefix_base : I.base[Seg])
-    /*TODO*///
-    /*TODO*////* ASG 971005 -- changed to cpu_readmem20/cpu_writemem20 */
-    /*TODO*///#define GetMemB(Seg,Off) (nec_ICount-=6,(BYTE)cpu_readmem20((DefaultBase(Seg)+(Off))))
+
+    static final int DefaultBase(int Seg) {
+        return ((I.seg_prefix != 0 && (Seg == DS || Seg == SS)) ? I.prefix_base : I.base[Seg]);
+    }
+    /* ASG 971005 -- changed to cpu_readmem20/cpu_writemem20 */
+    public static int GetMemB(int Seg,int Off)
+    {
+        nec_ICount[0]-=6;
+        return cpu_readmem20((DefaultBase(Seg)+(Off)))&0xFF;
+    }
     /*TODO*///#define GetMemW(Seg,Off) (nec_ICount-=10,(WORD)GetMemB(Seg,Off)+(WORD)(GetMemB(Seg,(Off)+1)<<8))
-    /*TODO*///#define PutMemB(Seg,Off,x) { nec_ICount-=7; cpu_writemem20((DefaultBase(Seg)+(Off)),(x)); }
-    /*TODO*///#define PutMemW(Seg,Off,x) { nec_ICount-=11; PutMemB(Seg,Off,(BYTE)(x)); PutMemB(Seg,(Off)+1,(BYTE)((x)>>8)); }
-    /*TODO*///
-    /*TODO*///#define ReadByte(ea) (nec_ICount-=6,(BYTE)cpu_readmem20((ea)))
-    /*TODO*///#define ReadWord(ea) (nec_ICount-=10,cpu_readmem20((ea))+(cpu_readmem20(((ea)+1))<<8))
+    public static void PutMemB(int Seg,int Off,int x) 
+    { 
+        nec_ICount[0]-=7; 
+        cpu_writemem20((DefaultBase(Seg)+(Off)),(x)); 
+    }
+    public static void PutMemW(int Seg,int Off,int x) 
+    { 
+        nec_ICount[0]-=11; 
+        PutMemB(Seg,Off,(x)&0xFF); 
+        PutMemB(Seg,(Off)+1,((x)>>8)&0xFF); 
+    }
+    public static int ReadByte(int ea)
+    {
+        nec_ICount[0]-=6;
+        return cpu_readmem20((ea))&0xFF;
+    }
+
+    public static int ReadWord(int ea) {
+        nec_ICount[0] -= 10;
+        return cpu_readmem20((ea)) + (cpu_readmem20(((ea) + 1)) << 8);
+    }
     /*TODO*///#define WriteByte(ea,val) { nec_ICount-=7; cpu_writemem20((ea),val); }
-    /*TODO*///#define WriteWord(ea,val) { nec_ICount-=11; cpu_writemem20((ea),(BYTE)(val)); cpu_writemem20(((ea)+1),(val)>>8); }
+
+    public static void WriteWord(int ea, int val) {
+        nec_ICount[0] -= 11;
+        cpu_writemem20((ea), (val & 0xFF));
+        cpu_writemem20(((ea) + 1), (val) >> 8);
+    }
 
     public static int read_port(int port) {
         return cpu_readport(port);
