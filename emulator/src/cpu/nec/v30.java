@@ -304,14 +304,27 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///    RegByte(ModRM)=dst;
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_add_r16w(void)    /* Opcode 0x03 */
-    /*TODO*///{
-    /*TODO*///    DEF_r16w(dst,src);
-    /*TODO*///	nec_ICount-=3;
-    /*TODO*///    ADDW(dst,src);
-    /*TODO*///    RegWord(ModRM)=dst;
-    /*TODO*///}
-    /*TODO*///
+    static InstructionPtr i_add_r16w = new InstructionPtr() /* Opcode 0x03 */ {
+        public void handler() {
+            //DEF_r16w(dst, src);
+            /*unsigned*/
+            int ModRM = FETCHOP();
+            /*unsigned*/
+            int dst = RegWord(ModRM);
+            /*unsigned*/
+            int src = GetRMWord(ModRM);
+            nec_ICount[0] -= 3;
+            //ADDW(dst, src);
+            /*unsigned*/
+            int res = dst + src;
+            SetCFW(res);
+            SetOFW_Add(res, src, dst);
+            SetAF(res, src, dst);
+            SetSZPF_Word(res);
+            dst = res & 0xFFFF;
+            SetRegWord(ModRM, dst);
+        }
+    };
     /*TODO*///static void i_add_ald8(void)    /* Opcode 0x04 */
     /*TODO*///{
     /*TODO*///    DEF_ald8(dst,src);
@@ -1812,59 +1825,60 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///#define IncWordReg(Reg) 					\
-    /*TODO*///{											\
-    /*TODO*///	unsigned tmp = (unsigned)I.regs.w[Reg]; \
-    /*TODO*///	unsigned tmp1 = tmp+1;					\
-    /*TODO*///	/*SetOFW_Add(tmp1,tmp,1);*/				\
-    /*TODO*///	I.OverVal = (tmp == 0x7fff); /* MISH */ \
-    /*TODO*///	SetAF(tmp1,tmp,1);						\
-    /*TODO*///	SetSZPF_Word(tmp1); 					\
-    /*TODO*///	I.regs.w[Reg]=tmp1; 					\
-    /*TODO*///	nec_ICount-=2;							\
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void i_inc_ax(void)    /* Opcode 0x40 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(AW);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_cx(void)    /* Opcode 0x41 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(CW);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_dx(void)    /* Opcode 0x42 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(DW);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_bx(void)    /* Opcode 0x43 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(BW);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_sp(void)    /* Opcode 0x44 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(SP);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_bp(void)    /* Opcode 0x45 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(BP);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_si(void)    /* Opcode 0x46 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(IX);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void i_inc_di(void)    /* Opcode 0x47 */
-    /*TODO*///{
-    /*TODO*///    IncWordReg(IY);
-    /*TODO*///}
-    /*TODO*///
+
+    static void IncWordReg(int Reg) {
+        /*unsigned*/
+        int tmp = /*(unsigned)*/ I.regs.w[Reg];
+        /*unsigned*/
+        int tmp1 = tmp + 1;
+        /*SetOFW_Add(tmp1,tmp,1);*/
+        I.OverVal = BOOL(tmp == 0x7fff); /* MISH */
+
+        SetAF(tmp1, tmp, 1);
+        SetSZPF_Word(tmp1);
+        I.regs.SetW(Reg, tmp1 & 0xFFFF);
+        nec_ICount[0] -= 2;
+    }
+    static InstructionPtr i_inc_ax = new InstructionPtr() /* Opcode 0x40 */ {
+        public void handler() {
+            IncWordReg(AW);
+        }
+    };
+    static InstructionPtr i_inc_cx = new InstructionPtr() /* Opcode 0x41 */ {
+        public void handler() {
+            IncWordReg(CW);
+        }
+    };
+    static InstructionPtr i_inc_dx = new InstructionPtr() /* Opcode 0x42 */ {
+        public void handler() {
+            IncWordReg(DW);
+        }
+    };
+    static InstructionPtr i_inc_bx = new InstructionPtr() /* Opcode 0x43 */ {
+        public void handler() {
+            IncWordReg(BW);
+        }
+    };
+    static InstructionPtr i_inc_sp = new InstructionPtr() /* Opcode 0x44 */ {
+        public void handler() {
+            IncWordReg(SP);
+        }
+    };
+    static InstructionPtr i_inc_bp = new InstructionPtr() /* Opcode 0x45 */ {
+        public void handler() {
+            IncWordReg(BP);
+        }
+    };
+    static InstructionPtr i_inc_si = new InstructionPtr() /* Opcode 0x46 */ {
+        public void handler() {
+            IncWordReg(IX);
+        }
+    };
+    static InstructionPtr i_inc_di = new InstructionPtr() /* Opcode 0x47 */ {
+        public void handler() {
+            IncWordReg(IY);
+        }
+    };
 
     public static void DecWordReg(int Reg) {
         /*unsigned*/
@@ -3954,7 +3968,7 @@ public class v30 extends cpuintrfH.cpu_interface {
         /* Handles rep- and repnz- prefixes. flagval is the value of ZF for the
          loop  to continue for CMPS and SCAS instructions. */
 
-        /*unsigned*/        int next = FETCHOP();
+        /*unsigned*/ int next = FETCHOP();
         /*unsigned*/
         int count = I.regs.w[CW];
 
@@ -4690,8 +4704,10 @@ public class v30 extends cpuintrfH.cpu_interface {
                 /*TODO*///	case 0x00:    i_add_br8(); break;
     /*TODO*///	case 0x01:    i_add_wr16(); break;
     /*TODO*///	case 0x02:    i_add_r8b(); break;
-    /*TODO*///	case 0x03:    i_add_r16w(); break;
-    /*TODO*///	case 0x04:    i_add_ald8(); break;
+                case 0x03:
+                    i_add_r16w.handler();
+                    break;
+                /*TODO*///	case 0x04:    i_add_ald8(); break;
     /*TODO*///	case 0x05:    i_add_axd16(); break;
     /*TODO*///	case 0x06:    i_push_es(); break;
     /*TODO*///	case 0x07:    i_pop_es(); break;
@@ -4757,14 +4773,30 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0x3d:    i_cmp_axd16(); break;
     /*TODO*///	case 0x3e:    i_ds(); break;
     /*TODO*///	case 0x3f:    i_aas(); break;
-    /*TODO*///	case 0x40:    i_inc_ax(); break;
-    /*TODO*///	case 0x41:    i_inc_cx(); break;
-    /*TODO*///	case 0x42:    i_inc_dx(); break;
-    /*TODO*///	case 0x43:    i_inc_bx(); break;
-    /*TODO*///	case 0x44:    i_inc_sp(); break;
-    /*TODO*///	case 0x45:    i_inc_bp(); break;
-    /*TODO*///	case 0x46:    i_inc_si(); break;
-    /*TODO*///	case 0x47:    i_inc_di(); break;
+                case 0x40:
+                    i_inc_ax.handler();
+                    break;
+                case 0x41:
+                    i_inc_cx.handler();
+                    break;
+                case 0x42:
+                    i_inc_dx.handler();
+                    break;
+                case 0x43:
+                    i_inc_bx.handler();
+                    break;
+                case 0x44:
+                    i_inc_sp.handler();
+                    break;
+                case 0x45:
+                    i_inc_bp.handler();
+                    break;
+                case 0x46:
+                    i_inc_si.handler();
+                    break;
+                case 0x47:
+                    i_inc_di.handler();
+                    break;
                 case 0x48:
                     i_dec_ax.handler();
                     break;
