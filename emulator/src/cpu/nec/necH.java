@@ -1,27 +1,18 @@
-
 package cpu.nec;
 
 import static cpu.nec.v30.*;
 import static mame.memoryH.*;
 
 public class necH {
-    public static final int NEC_INT_NONE =0;
-    public static final int NEC_NMI_INT =2;
-    
+
+    public static final int NEC_INT_NONE = 0;
+    public static final int NEC_NMI_INT = 2;
+
     public static final int ES = 0, CS = 1, SS = 2, DS = 3;//typedef enum { ES, CS, SS, DS } SREGS;
     public static final int AW = 0, CW = 1, DW = 2, BW = 3, SP = 4, BP = 5, IX = 6, IY = 8;//typedef enum { AW, CW, DW, BW, SP, BP, IX, IY } WREGS;
-    /*TODO*///
-    /*TODO*///#ifndef FALSE
-    /*TODO*///#define FALSE 0
-    /*TODO*///#define TRUE 1
-    /*TODO*///#endif
-    /*TODO*///
-    /*TODO*///#ifdef LSB_FIRST
-    /*TODO*///typedef enum { AL,AH,CL,CH,DL,DH,BL,BH,SPL,SPH,BPL,BPH,IXL,IXH,IYL,IYH } BREGS;
-    /*TODO*///#else
-    /*TODO*///typedef enum { AH,AL,CH,CL,DH,DL,BH,BL,SPH,SPL,BPH,BPL,IXH,IXL,IYH,IYL } BREGS;
-    /*TODO*///#endif
-    /*TODO*///
+
+    public static final int AL = 0, AH = 1, CL = 2, CH = 3, DL = 4, DH = 5, BL = 6, BH = 7, SPL = 8, SPH = 9, BPL = 10, BPH = 11, IXL = 12, IXH = 13, IYL = 14, IYH = 15;
+
     /*TODO*////* parameter x = result, y = source 1, z = source 2 */
     /*TODO*///
     /*TODO*///#define SetTF(x)		(I.TF = (x))
@@ -70,7 +61,9 @@ public class necH {
     /*TODO*///
     /*TODO*////* drop lines A16-A19 for a 64KB memory (yes, I know this should be done after adding the offset 8-) */
     /*TODO*////* HJB 12/13/98 instead mask address lines with a driver supplied value */
-    /*TODO*///#define SegBase(Seg) (I.sregs[Seg] << 4)
+    static final int SegBase(int Seg) {
+        return I.sregs[Seg] << 4 & 0xFFFF;
+    }
     /*TODO*///
     /*TODO*///#define DefaultBase(Seg) ((I.seg_prefix && (Seg==DS || Seg==SS)) ? I.prefix_base : I.base[Seg])
     /*TODO*///
@@ -90,7 +83,12 @@ public class necH {
     /*TODO*///
     /*TODO*////* no need to go through cpu_readmem for these ones... */
     /*TODO*////* ASG 971222 -- PUSH/POP now use the standard mechanisms; opcode reading is the same */
-    /*TODO*///#define FETCH ((BYTE)cpu_readop_arg((I.base[CS]+I.ip++)))
+
+    public static final int FETCH() {
+        int i = cpu_readop_arg((I.base[CS] + I.ip)) & 0xFF;//((BYTE)cpu_readop_arg((I.base[CS]+I.ip++)))
+        I.ip = I.ip + 1 & 0xFFFF;//neccesary???
+        return i;
+    }
     /*TODO*///#define FETCHOP ((BYTE)cpu_readop((I.base[CS]+I.ip++)))
     /*TODO*///#define FETCHWORD(var) { var=cpu_readop_arg(((I.base[CS]+I.ip)))+(cpu_readop_arg(((I.base[CS]+I.ip+1)))<<8); I.ip+=2; }
     /*TODO*///#define PUSH(val) { I.regs.w[SP]-=2; WriteWord(((I.base[SS]+I.regs.w[SP])),val); }

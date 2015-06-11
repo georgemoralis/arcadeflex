@@ -121,7 +121,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///
     public class nec_Regs
     {
-        int[]   mainregs = new int[8];
+        _regs regs = new _regs();//int[]   mainregs = new int[8];
         int     ip;
     /*TODO*///	UINT16	flags;
         /*UINT32*/int[]	base=new int[4];
@@ -136,6 +136,29 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///
     /*TODO*///	unsigned prefix_base;	/* base address of the latest prefix segment */
        int /*char*/ seg_prefix;		/* prefix segment indicator */
+       
+       class _regs
+        {
+          public int[] w = new int[8];
+          public int[] b = new int[16];
+
+          public void SetB(int index, int val)
+          {
+            this.b[index] = val; 
+            this.w[(index >> 1)] = (this.b[((index & 0xFFFFFFFE) + 1)] << 8 | this.b[(index & 0xFFFFFFFE)]); 
+          } 
+          public void AddB(int index, int val) 
+          { 
+              this.b[index] = (this.b[index] + val & 0xFF); 
+              this.w[(index >> 1)] = (this.b[((index & 0xFFFFFFFE) + 1)] << 8 | this.b[(index & 0xFFFFFFFE)]); 
+          } 
+          public void SetW(int index, int val) 
+          { 
+              this.w[index] = val; index <<= 1; 
+              this.b[index] = (val & 0xFF); 
+              this.b[(index + 1)] = (val >> 8);
+          }
+         }
     }
     /*TODO*///
     /*TODO*////***************************************************************************/
@@ -3013,23 +3036,20 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///
     static void i_mov_axd16()    /* Opcode 0xb8 */
     {
-        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	I.mainregs[AW] = setLow(I.mainregs[AW],fetch);//I.regs.b[AL] = FETCH;
-        fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	I.mainregs[AW] = setHigh(I.mainregs[AW],fetch);//I.regs.b[AH] = FETCH;
-    	nec_ICount[0]-=4;
-        if(neclog!=null) fprintf(neclog,"i_mov_axd16 :PC:%d,I.regs.b[AL]:%d,I.regs.b[AH]:%d\n", cpu_get_pc(),getLow(I.mainregs[AW]),getHigh(I.mainregs[AW]));
+        I.regs.SetB(AL, FETCH());//I.regs.b[AL] = FETCH;
+        I.regs.SetB(AH, FETCH());//I.regs.b[AH] = FETCH;
+        nec_ICount[0]-=4;
+        if(neclog!=null) fprintf(neclog,"i_mov_axd16 :PC:%d,I.regs.b[AL]:%d,I.regs.b[AH]:%d\n", cpu_get_pc(),I.regs.b[AL],I.regs.b[AH]);
    
     }
     
     static void i_mov_cxd16()    /* Opcode 0xb9 */
     {
-        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);      
-        I.mainregs[CW] = setLow(I.mainregs[CW],fetch);//(I.mainregs[CW] & 0xFF00 | fetch & 0xFF);//I.regs.b[CL] = FETCH;
-    	fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	I.mainregs[CW] = setHigh(I.mainregs[CW],fetch);//I.regs.b[CH] = FETCH;
-    	nec_ICount[0]-=4;
-        if(neclog!=null) fprintf(neclog,"i_mov_cxd16 :PC:%d,I.regs.b[CL]:%d,I.regs.b[CH]:%d\n", cpu_get_pc(),getLow(I.mainregs[CW]),getHigh(I.mainregs[CW]));
+        I.regs.SetB(CL, FETCH());//I.regs.b[CL] = FETCH;
+        I.regs.SetB(CH, FETCH());//I.regs.b[CH] = FETCH;
+        nec_ICount[0]-=4;
+
+        if(neclog!=null) fprintf(neclog,"i_mov_cxd16 :PC:%d,I.regs.b[CL]:%d,I.regs.b[CH]:%d\n", cpu_get_pc(),I.regs.b[CL],I.regs.b[CH]);
     }
     /*TODO*///
     /*TODO*///static void i_mov_dxd16(void)    /* Opcode 0xba */
@@ -3676,22 +3696,21 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///
     static void i_loop()    /* Opcode 0xe2 */
     {
-        int fetch = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	int disp = (int)((byte)fetch);
-    	/*unsigned*/ int tmp = (I.mainregs[CW]-1)&0xFFFF;
-    
-    	I.mainregs[CW]=tmp;
-    
-        if (tmp!=0) {
-            nec_ICount[0]-=13;
-            I.ip = (I.ip+disp)&0xFFFF;
-            change_pc20((I.base[CS]+I.ip));
-    	} 
-        else 
-        {
-            nec_ICount[0]-=5;
-        }
-        if(neclog!=null) fprintf(neclog,"i_loop :PC:%d,I.regs.w[CW]:%d,I.ip:%d\n", cpu_get_pc(),I.mainregs[CW],I.ip);
+        int disp = (int)((byte)FETCH());
+      /*unsigned*/ int tmp = (I.regs.w[CW] - 1)&0xFFFF;
+
+      I.regs.SetW(CW, tmp);
+
+      if (tmp != 0)
+      {
+        nec_ICount[0]-=13;
+        I.ip = (I.ip+disp)&0xFFFF;
+        change_pc20((I.base[CS]+I.ip));
+      } 
+      else {
+        nec_ICount[0]-=5;
+      }
+        if(neclog!=null) fprintf(neclog,"i_loop :PC:%d,I.regs.w[CW]:%d,I.ip:%d\n", cpu_get_pc(),I.regs.w[CW],I.ip);
     }
     /*TODO*///
     /*TODO*///static void i_jcxz(void)    /* Opcode 0xe3 */
@@ -3759,17 +3778,18 @@ public class v30 extends cpuintrfH.cpu_interface {
     static void i_jmp_far()    /* Opcode 0xea */
     {
         /*unsigned*/int tmp,tmp1;
-    	tmp = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	tmp += (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF) << 8;
-    
-    	tmp1 = (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF);
-    	tmp1 += (cpu_readop_arg((I.base[CS]+I.ip++)) & 0xFF) << 8;
-    
-    	I.sregs[CS] = tmp1 & 0xFFFF;
-    	I.base[CS] = (I.sregs[CS] << 4);//SegBase(CS);
-    	I.ip = tmp & 0xFFFF;
-    	change_pc20((I.base[CS]+I.ip));
-    	nec_ICount[0]-=27; // 27-35
+
+	tmp = FETCH();
+	tmp += FETCH() << 8;
+
+	tmp1 = FETCH();
+	tmp1 += FETCH() << 8;
+
+	I.sregs[CS] = tmp1 & 0xFFFF;
+	I.base[CS] = SegBase(CS);
+	I.ip = tmp & 0xFFFF;
+	change_pc20((I.base[CS]+I.ip));
+	nec_ICount[0]-=27; // 27-35
         if(neclog!=null) fprintf(neclog,"i_jmp_far :PC:%d,I.sregs[CS]:%d,I.base[CS]:%d,I.ip:%d\n", cpu_get_pc(),I.sregs[CS],I.base[CS],I.ip);
     }
     /*TODO*///
