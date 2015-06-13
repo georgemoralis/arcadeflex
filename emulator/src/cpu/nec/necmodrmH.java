@@ -42,15 +42,12 @@ public class necmodrmH {
         I.regs.SetB(Mod_RM.reg.b[ModRM], val);
     }
 
-   public static final int GetRMWord(int ModRM) {
-       if(ModRM >= 0xc0)
-       {
-           return I.regs.w[Mod_RM.RM.w[ModRM]];
-       }
-       else
-       {
-           return ReadWord( GetEA[ModRM].handler());        
-       }
+    public static final int GetRMWord(int ModRM) {
+        if (ModRM >= 0xc0) {
+            return I.regs.w[Mod_RM.RM.w[ModRM]];
+        } else {
+            return ReadWord(GetEA[ModRM].handler());
+        }
         //return ModRM >= 0xc0 ? I.regs.w[Mod_RM.RM.w[ModRM]] : ReadWord(GetEA[ModRM].handler()); //( (*GetEA[ModRM])(), ReadWord( EA )
     }
 
@@ -61,7 +58,7 @@ public class necmodrmH {
             WriteWord(EA, val);
         }
     }
-/*
+
     public static final int GetnextRMWord() {
         return ReadWord(EA + 2);
     }
@@ -74,43 +71,32 @@ public class necmodrmH {
             WriteWord(EA, val);
         }
     }
+    /*
+     public static final void PutImmRMWord(int ModRM) {
+     if (ModRM >= 0xc0) {
+     I.regs.SetW(Mod_RM.RM.w[ModRM], FETCHWORD());
+     } else {
+     GetEA[ModRM].handler();
+     int i = FETCHWORD();
+     WriteWord(EA, i);
+     }
+     }
+     */
 
-    public static final void PutImmRMWord(int ModRM) {
-        if (ModRM >= 0xc0) {
-            I.regs.SetW(Mod_RM.RM.w[ModRM], FETCHWORD());
-        } else {
-            GetEA[ModRM].handler();
-            int i = FETCHWORD();
-            WriteWord(EA, i);
-        }
-    }
-*/
     public static final int GetRMByte(int ModRM) {
-        if(ModRM >= 0xc0)
-        {
+        if (ModRM >= 0xc0) {
             return I.regs.b[Mod_RM.RM.b[ModRM]];
-        }
-        else
-        {
+        } else {
             return ReadByte(GetEA[ModRM].handler());
         }
         //return ModRM >= 0xc0 ? I.regs.b[Mod_RM.RM.b[ModRM]] : 
     }
-/*
+
     public static final void PutRMByte(int ModRM, int val) {
         if (ModRM >= 0xc0) {
             I.regs.SetB(Mod_RM.RM.b[ModRM], val);
         } else {
             WriteByte(GetEA[ModRM].handler(), val);
-        }
-    }
-
-    public static final void PutImmRMByte(int ModRM) {
-        if (ModRM >= 0xc0) {
-            I.regs.SetB(Mod_RM.RM.b[ModRM], FETCH());
-        } else {
-            GetEA[ModRM].handler();
-            WriteByte(EA, FETCH());
         }
     }
 
@@ -129,7 +115,7 @@ public class necmodrmH {
         } else {
             WriteByte(EA, val);
         }
-    }*/
+    }
 
 
     /*TODO*///#define DEF_br8(dst,src)				\

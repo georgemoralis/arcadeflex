@@ -6,8 +6,8 @@ import static cpu.nec.v30.*;
 /* 2do: Check the bus wait cycles given here.....*/
 public class neceaH {
 
-    static /*unsigned*/ int EA;
-    static /*unsigned*/ int EO; /* HJB 12/13/98 effective offset of the address (before segment is added) */
+    public static /*unsigned*/ int EA;
+    public static /*unsigned*/ int EO; /* HJB 12/13/98 effective offset of the address (before segment is added) */
 
 
     /*static unsigned EA_000(void) {
@@ -38,12 +38,7 @@ public class neceaH {
      return EA;
      }
 
-     static unsigned EA_005(void) {
-     nec_ICount -= 5;
-     EO = I.regs.w[IY];
-     EA = DefaultBase(DS) + EO;
-     return EA;
-     }
+     
 
      static unsigned EA_006(void) {
      nec_ICount -= 6;
@@ -212,7 +207,10 @@ public class neceaH {
     };
     static GetEAPtr EA_005 = new GetEAPtr() {
         public int handler() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            nec_ICount[0] -= 5;
+            EO = I.regs.w[IY];
+            EA = DefaultBase(DS) + EO;
+            return EA;
         }
     };
     static GetEAPtr EA_006 = new GetEAPtr() {
@@ -221,7 +219,7 @@ public class neceaH {
         }
     };
     static GetEAPtr EA_007 = new GetEAPtr() {
-        public int handler() {           
+        public int handler() {
             nec_ICount[0] -= 5;
             EO = I.regs.w[BW];
             EA = DefaultBase(DS) + EO;

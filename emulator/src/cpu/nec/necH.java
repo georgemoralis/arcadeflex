@@ -32,29 +32,49 @@ public class necH {
         I.MF = x;
     }	/* OB [19.07.99] Mode Flag V30 */
 
-    public static void SetOFW_Add(int x,int y,int z)
-    {
-        I.OverVal = (x); /*TODO*/// (y)) & ((x) /*TODO*/// (z)) & 0x8000)
+
+    public static void SetOFW_Add(int x, int y, int z) {
+        I.OverVal = ((x) ^ (y)) & ((x) ^ (z)) & 0x8000;
+
     }
-    /*TODO*///#define SetOFB_Add(x,y,z)	(I.OverVal = ((x) /*TODO*/// (y)) & ((x) /*TODO*/// (z)) & 0x80)
-    /*TODO*///#define SetOFW_Sub(x,y,z)	(I.OverVal = ((z) /*TODO*/// (y)) & ((z) /*TODO*/// (x)) & 0x8000)
-    /*TODO*///#define SetOFB_Sub(x,y,z)	(I.OverVal = ((z) /*TODO*/// (y)) & ((z) /*TODO*/// (x)) & 0x80)
-    /*TODO*///
-    /*TODO*///#define SetCFB(x)		(I.CarryVal = (x) & 0x100)
-    public static void SetCFW(int x)
-    {
+
+    public static void SetOFB_Add(int x, int y, int z) {
+        I.OverVal = ((x) ^ (y)) & ((x) ^ (z)) & 0x80;
+
+    }
+
+    public static void SetOFW_Sub(int x, int y, int z) {
+        I.OverVal = ((z) ^ (y)) & ((z) ^ (x)) & 0x8000;
+
+    }
+
+    public static void SetOFB_Sub(int x, int y, int z) {
+        I.OverVal = ((z) ^ (y)) & ((z) ^ (x)) & 0x80;
+    }
+
+    public static void SetCFB(int x) {
+        I.CarryVal = (x) & 0x100;
+    }
+
+    public static void SetCFW(int x) {
         I.CarryVal = (x) & 0x10000;
     }
 
     public static void SetAF(int x, int y, int z) {
-        I.AuxVal = (x); /*TODO*/// ((y) /*TODO*/// (z))) & 0x10)
+        I.AuxVal = ((x) ^ ((y) ^ (z))) & 0x10;
 
     }
     /*TODO*///#define SetSF(x)		(I.SignVal = (x))
     /*TODO*///#define SetZF(x)		(I.ZeroVal = (x))
     /*TODO*///#define SetPF(x)		(I.ParityVal = (x))
     /*TODO*///
-    /*TODO*///#define SetSZPF_Byte(x) (I.SignVal=I.ZeroVal=I.ParityVal=(INT8)(x))
+
+    public static void SetSZPF_Byte(int x) {
+        I.SignVal = (byte) (x);
+        I.ZeroVal = (byte) (x);
+        I.ParityVal = (byte) (x);
+
+    }
 
     public static void SetSZPF_Word(int x) {
         I.SignVal = (short) (x);
@@ -74,8 +94,8 @@ public class necH {
     /*TODO*///#define ANDB(dst,src) dst&=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Byte(dst)
     /*TODO*///#define ANDW(dst,src) dst&=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Word(dst)
     /*TODO*///
-    /*TODO*///#define XORB(dst,src) dst/*TODO*///=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Byte(dst)
-    /*TODO*///#define XORW(dst,src) dst/*TODO*///=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Word(dst)
+    /*TODO*///#define XORB(dst,src) dst^=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Byte(dst)
+    /*TODO*///#define XORW(dst,src) dst^=src; I.CarryVal=I.OverVal=I.AuxVal=0; SetSZPF_Word(dst)
     /*TODO*///
 
     static final int CF() {
@@ -120,34 +140,42 @@ public class necH {
         return ((I.seg_prefix != 0 && (Seg == DS || Seg == SS)) ? I.prefix_base : I.base[Seg]);
     }
     /* ASG 971005 -- changed to cpu_readmem20/cpu_writemem20 */
-    public static int GetMemB(int Seg,int Off)
-    {
-        nec_ICount[0]-=6;
-        return cpu_readmem20((DefaultBase(Seg)+(Off)))&0xFF;
+
+    public static int GetMemB(int Seg, int Off) {
+        nec_ICount[0] -= 6;
+        return cpu_readmem20((DefaultBase(Seg) + (Off))) & 0xFF;
     }
-    /*TODO*///#define GetMemW(Seg,Off) (nec_ICount-=10,(WORD)GetMemB(Seg,Off)+(WORD)(GetMemB(Seg,(Off)+1)<<8))
-    public static void PutMemB(int Seg,int Off,int x) 
-    { 
-        nec_ICount[0]-=7; 
-        cpu_writemem20((DefaultBase(Seg)+(Off)),(x)); 
+
+    public static int GetMemW(int Seg, int Off) {
+        nec_ICount[0] -= 10;
+        return (GetMemB(Seg, Off) & 0xFFFF) + ((GetMemB(Seg, (Off) + 1) << 8) & 0xFFFF);
     }
-    public static void PutMemW(int Seg,int Off,int x) 
-    { 
-        nec_ICount[0]-=11; 
-        PutMemB(Seg,Off,(x)&0xFF); 
-        PutMemB(Seg,(Off)+1,((x)>>8)&0xFF); 
+
+    public static void PutMemB(int Seg, int Off, int x) {
+        nec_ICount[0] -= 7;
+        cpu_writemem20((DefaultBase(Seg) + (Off)), (x));
     }
-    public static int ReadByte(int ea)
-    {
-        nec_ICount[0]-=6;
-        return cpu_readmem20((ea))&0xFF;
+
+    public static void PutMemW(int Seg, int Off, int x) {
+        nec_ICount[0] -= 11;
+        PutMemB(Seg, Off, (x) & 0xFF);
+        PutMemB(Seg, (Off) + 1, ((x) >> 8) & 0xFF);
+    }
+
+    public static int ReadByte(int ea) {
+        nec_ICount[0] -= 6;
+        return cpu_readmem20((ea)) & 0xFF;
     }
 
     public static int ReadWord(int ea) {
         nec_ICount[0] -= 10;
         return cpu_readmem20((ea)) + (cpu_readmem20(((ea) + 1)) << 8);
     }
-    /*TODO*///#define WriteByte(ea,val) { nec_ICount-=7; cpu_writemem20((ea),val); }
+
+    public static void WriteByte(int ea, int val) {
+        nec_ICount[0] -= 7;
+        cpu_writemem20((ea), val);
+    }
 
     public static void WriteWord(int ea, int val) {
         nec_ICount[0] -= 11;
