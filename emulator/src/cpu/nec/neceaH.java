@@ -10,12 +10,7 @@ public class neceaH {
     public static /*unsigned*/ int EO; /* HJB 12/13/98 effective offset of the address (before segment is added) */
 
 
-    /*static unsigned EA_000(void) {
-     nec_ICount -= 7;
-     EO = (WORD) (I.regs.w[BW] + I.regs.w[IX]);
-     EA = DefaultBase(DS) + EO;
-     return EA;
-     }
+    /*
 
      static unsigned EA_001(void) {
      nec_ICount -= 8;
@@ -179,7 +174,10 @@ public class neceaH {
      }*/
     static GetEAPtr EA_000 = new GetEAPtr() {
         public int handler() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            nec_ICount[0] -= 7;
+            EO = (I.regs.w[BW] + I.regs.w[IX]) & 0xFFFF;
+            EA = DefaultBase(DS) + EO;
+            return EA;
         }
     };
     static GetEAPtr EA_001 = new GetEAPtr() {
@@ -254,7 +252,10 @@ public class neceaH {
     };
     static GetEAPtr EA_105 = new GetEAPtr() {
         public int handler() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            nec_ICount[0] -= 9;
+            EO = (I.regs.w[IY] + (byte) FETCHOP()) & 0xFFFF;
+            EA = DefaultBase(DS) + EO;
+            return EA;
         }
     };
     static GetEAPtr EA_106 = new GetEAPtr() {

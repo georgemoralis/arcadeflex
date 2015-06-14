@@ -205,8 +205,17 @@ public class necH {
         return i;
     }
     /*TODO*///#define FETCHWORD(var) { var=cpu_readop_arg(((I.base[CS]+I.ip)))+(cpu_readop_arg(((I.base[CS]+I.ip+1)))<<8); I.ip+=2; }
-    /*TODO*///#define PUSH(val) { I.regs.w[SP]-=2; WriteWord(((I.base[SS]+I.regs.w[SP])),val); }
-    /*TODO*///#define POP(var) { var = ReadWord(((I.base[SS]+I.regs.w[SP]))); I.regs.w[SP]+=2; }
+    public static final void PUSH(int val) 
+    { 
+        I.regs.SetW(SP,(I.regs.w[SP]-2)&0xFFFF); 
+        WriteWord(((I.base[SS]+I.regs.w[SP])),val);
+    }
+    public static final int POP() 
+    { 
+        int tmp= ReadWord(((I.base[SS]+I.regs.w[SP]))); 
+        I.regs.SetW(SP,(I.regs.w[SP]+2)&0xFFFF);
+        return tmp;
+    }
     /*TODO*////************************************************************************/
     /*TODO*///#define CompressFlags() (WORD)(CF | (PF << 2) | (AF << 4) | (ZF << 6) \
     /*TODO*///				| (SF << 7) | (I.TF << 8) | (I.IF << 9) \
