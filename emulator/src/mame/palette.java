@@ -518,9 +518,9 @@ public class palette {
     	/* otherwise, just update the array */
     	else
     	{
-    		game_palette[3*color + 0].set((char)red);
-    		game_palette[3*color + 1].set((char)green);
-    		game_palette[3*color + 2].set((char)blue);
+    		game_palette[3*color + 0].set((char)(red & 0xFF));
+    		game_palette[3*color + 1].set((char)(green & 0xFF));
+    		game_palette[3*color + 2].set((char)(blue & 0xFF));
     	}
     }
     
