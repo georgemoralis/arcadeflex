@@ -124,13 +124,10 @@ static InstructionPtr i_lds_dw= new InstructionPtr(){ public void handler(){thro
 static InstructionPtr i_enter= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_leave= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_retf_d16= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
-static InstructionPtr i_retf= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_int3= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_int= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_into= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_iret= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
-static InstructionPtr i_rotshft_b= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
-static InstructionPtr i_rotshft_w= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_rotshft_bcl= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_rotshft_wcl= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_aam= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
@@ -150,7 +147,6 @@ static InstructionPtr i_repne= new InstructionPtr(){ public void handler(){throw
 static InstructionPtr i_hlt= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_cmc= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_f6pre= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
-static InstructionPtr i_ffpre= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_wait= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 
 
