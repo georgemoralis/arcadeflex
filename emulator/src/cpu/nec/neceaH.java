@@ -35,13 +35,7 @@ public class neceaH {
 
      
 
-     static unsigned EA_006(void) {
-     nec_ICount -= 6;
-     EO = FETCHOP;
-     EO += FETCHOP << 8;
-     EA = DefaultBase(DS) + EO;
-     return EA;
-     }
+    
 
      
 
@@ -164,14 +158,7 @@ public class neceaH {
      return EA;
      }
 
-     static unsigned EA_207(void) {
-     nec_ICount -= 9;
-     EO = FETCHOP;
-     EO += FETCHOP << 8;
-     EO += I.regs.w[BW];
-     EA = DefaultBase(DS) + (WORD) EO;
-     return EA;
-     }*/
+     */
     static GetEAPtr EA_000 = new GetEAPtr() {
         public int handler() {
             nec_ICount[0] -= 7;
@@ -213,7 +200,11 @@ public class neceaH {
     };
     static GetEAPtr EA_006 = new GetEAPtr() {
         public int handler() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            nec_ICount[0] -= 6;
+            EO = FETCHOP();
+            EO += FETCHOP() << 8;
+            EA = DefaultBase(DS) + EO;
+            return EA;
         }
     };
     static GetEAPtr EA_007 = new GetEAPtr() {
@@ -306,7 +297,12 @@ public class neceaH {
     };
     static GetEAPtr EA_207 = new GetEAPtr() {
         public int handler() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            nec_ICount[0] -= 9;
+            EO = FETCHOP();
+            EO += FETCHOP() << 8;
+            EO += I.regs.w[BW];
+            EA = DefaultBase(DS) + (EO & 0xFFFF);
+            return EA;
         }
     };
 

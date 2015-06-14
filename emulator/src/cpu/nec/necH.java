@@ -204,7 +204,12 @@ public class necH {
         I.ip = I.ip + 1 & 0xFFFF;//neccesary???
         return i;
     }
-    /*TODO*///#define FETCHWORD(var) { var=cpu_readop_arg(((I.base[CS]+I.ip)))+(cpu_readop_arg(((I.base[CS]+I.ip+1)))<<8); I.ip+=2; }
+    public static final int FETCHWORD() 
+    { 
+        int var=cpu_readop_arg(((I.base[CS]+I.ip)))+(cpu_readop_arg(((I.base[CS]+I.ip+1)))<<8); 
+        I.ip = I.ip + 2 & 0xFFFF; 
+        return var;
+    }
     public static final void PUSH(int val) 
     { 
         I.regs.SetW(SP,(I.regs.w[SP]-2)&0xFFFF); 

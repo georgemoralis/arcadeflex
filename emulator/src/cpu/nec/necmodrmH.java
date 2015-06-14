@@ -71,17 +71,16 @@ public class necmodrmH {
             WriteWord(EA, val);
         }
     }
-    /*
-     public static final void PutImmRMWord(int ModRM) {
-     if (ModRM >= 0xc0) {
-     I.regs.SetW(Mod_RM.RM.w[ModRM], FETCHWORD());
-     } else {
-     GetEA[ModRM].handler();
-     int i = FETCHWORD();
-     WriteWord(EA, i);
-     }
-     }
-     */
+
+    public static final void PutImmRMWord(int ModRM) {
+        if (ModRM >= 0xc0) {
+            I.regs.SetW(Mod_RM.RM.w[ModRM], FETCHWORD());
+        } else {
+            GetEA[ModRM].handler();
+            int i = FETCHWORD();
+            WriteWord(EA, i);
+        }
+    }
 
     public static final int GetRMByte(int ModRM) {
         if (ModRM >= 0xc0) {
