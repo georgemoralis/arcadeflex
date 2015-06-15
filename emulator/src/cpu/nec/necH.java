@@ -204,40 +204,45 @@ public class necH {
         I.ip = I.ip + 1 & 0xFFFF;//neccesary???
         return i;
     }
-    public static final int FETCHWORD() 
-    { 
-        int var=cpu_readop_arg(((I.base[CS]+I.ip)))+(cpu_readop_arg(((I.base[CS]+I.ip+1)))<<8); 
-        I.ip = I.ip + 2 & 0xFFFF; 
+
+    public static final int FETCHWORD() {
+        int var = cpu_readop_arg(((I.base[CS] + I.ip))) + (cpu_readop_arg(((I.base[CS] + I.ip + 1))) << 8);
+        I.ip = I.ip + 2 & 0xFFFF;
         return var;
     }
-    public static final void PUSH(int val) 
-    { 
-        I.regs.SetW(SP,(I.regs.w[SP]-2)&0xFFFF); 
-        WriteWord(((I.base[SS]+I.regs.w[SP])),val);
+
+    public static final void PUSH(int val) {
+        I.regs.SetW(SP, (I.regs.w[SP] - 2) & 0xFFFF);
+        WriteWord(((I.base[SS] + I.regs.w[SP])), val);
     }
-    public static final int POP() 
-    { 
-        int tmp= ReadWord(((I.base[SS]+I.regs.w[SP]))); 
-        I.regs.SetW(SP,(I.regs.w[SP]+2)&0xFFFF);
+
+    public static final int POP() {
+        int tmp = ReadWord(((I.base[SS] + I.regs.w[SP])));
+        I.regs.SetW(SP, (I.regs.w[SP] + 2) & 0xFFFF);
         return tmp;
     }
-    /*TODO*////************************************************************************/
-    /*TODO*///#define CompressFlags() (WORD)(CF | (PF << 2) | (AF << 4) | (ZF << 6) \
-    /*TODO*///				| (SF << 7) | (I.TF << 8) | (I.IF << 9) \
-    /*TODO*///				| (I.DF << 10) | (OF << 11)| (MD << 15))
-    /*TODO*///
-    /*TODO*///#define ExpandFlags(f) \
-    /*TODO*///{ \
-    /*TODO*///	  I.CarryVal = (f) & 1; \
-    /*TODO*///	  I.ParityVal = !((f) & 4); \
-    /*TODO*///	  I.AuxVal = (f) & 16; \
-    /*TODO*///	  I.ZeroVal = !((f) & 64); \
-    /*TODO*///	  I.SignVal = (f) & 128 ? -1 : 0; \
-    /*TODO*///	  I.TF = ((f) & 256) == 256; \
-    /*TODO*///	  I.IF = ((f) & 512) == 512; \
-    /*TODO*///	  I.DF = ((f) & 1024) == 1024; \
-    /*TODO*///	  I.OverVal = (f) & 2048; \
-    /*TODO*///	  I.MF = ((f) & 0x8000) == 0x8000; \
-    /*TODO*///}
-    /*TODO*/// 
+
+    /**
+     * *********************************************************************
+     */
+    public static int CompressFlags() {
+        return ((CF() | (PF() << 2) | (AF() << 4) | (ZF() << 6)
+                | (SF() << 7) | (I.TF << 8) | (I.IF << 9)
+                | (I.DF << 10) | (OF() << 11) | (MD() << 15)) & 0xFFFF);
+    }
+
+    public static void ExpandFlags(int f) 
+    { 
+    	  I.CarryVal = (f) & 1; 
+    	  I.ParityVal = NOT((f) & 4); 
+    	  I.AuxVal = (f) & 16; 
+    	  I.ZeroVal = NOT((f) & 64); 
+    	  I.SignVal = ((f) & 128)!=0 ? -1 : 0; 
+    	  I.TF = BOOL(((f) & 256) == 256); 
+    	  I.IF = BOOL(((f) & 512) == 512); 
+    	  I.DF = BOOL(((f) & 1024) == 1024); 
+    	  I.OverVal = (f) & 2048; 
+    	  I.MF = BOOL(((f) & 0x8000) == 0x8000); 
+    }
+     
 }
