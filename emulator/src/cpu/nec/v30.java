@@ -235,8 +235,8 @@ public class v30 extends cpuintrfH.cpu_interface {
             //		if (errorlog) fprintf(errorlog," (indirect ->%02d) ",int_num);
         }
 
-        dest_off = ReadWord(Math.abs(int_num * 4));
-        dest_seg = ReadWord(Math.abs(int_num * 4 + 2));
+        dest_off = ReadWord(int_num * 4);
+        dest_seg = ReadWord(int_num * 4 + 2);
 
         PUSH(I.sregs[CS]);
         PUSH(I.ip);
@@ -1520,15 +1520,32 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
+    static InstructionPtr i_adc_wr16 = new InstructionPtr() {
+        public void handler() {
+            //DEF_wr16(dst,src);
+            int ModRM = FETCHOP();
+            int src = RegWord(ModRM);
+            int dst = GetRMWord(ModRM);
+            src += CF();
+            //ADDW(dst,src);
+            int res = dst + src;
+            SetCFW(res);
+            SetOFW_Add(res, src, dst);
+            SetAF(res, src, dst);
+            SetSZPF_Word(res);
+            dst = res & 0xFFFF;
+            PutbackRMWord(ModRM, dst);
+            nec_ICount[0] -= (ModRM >= 0xc0) ? 2 : 24;
+            if (neclog != null) {
+                fprintf(neclog, "i_adc_wr16 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
 
     /*TODO*///
     /*TODO*///static void i_adc_wr16(void)    /* Opcode 0x11 */
     /*TODO*///{
-    /*TODO*///    DEF_wr16(dst,src);
-    /*TODO*///    src+=CF;
-    /*TODO*///    ADDW(dst,src);
-    /*TODO*///    PutbackRMWord(ModRM,dst);
-    /*TODO*///    nec_ICount-=(ModRM >=0xc0 )?2:24;
+    /*TODO*///    
     /*TODO*///}
     /*TODO*///
     static InstructionPtr i_adc_r8b = new InstructionPtr() {
@@ -1554,17 +1571,31 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
+    static InstructionPtr i_adc_r16w = new InstructionPtr() {
+        public void handler() {
+            //DEF_r16w(dst,src);
+            int ModRM = FETCHOP();
+            /*unsigned*/
+            int dst = RegWord(ModRM);
+            /*unsigned*/
+            int src = GetRMWord(ModRM);
+            nec_ICount[0] -= 3;
+            src += CF();
+            //    ADDW(dst,src);
+            int res = dst + src;
+            SetCFW(res);
+            SetOFW_Add(res, src, dst);
+            SetAF(res, src, dst);
+            SetSZPF_Word(res);
+            dst = res & 0xFFFF;
+            SetRegWord(ModRM, dst);
+            nec_ICount[0] -= (ModRM >= 0xc0) ? 2 : 15;
+            if (neclog != null) {
+                fprintf(neclog, "i_adc_r16w :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
 
-    /*TODO*///static void i_adc_r16w(void)    /* Opcode 0x13 */
-    /*TODO*///{
-    /*TODO*///    DEF_r16w(dst,src);
-    /*TODO*///	nec_ICount-=3;
-    /*TODO*///    src+=CF;
-    /*TODO*///    ADDW(dst,src);
-    /*TODO*///    RegWord(ModRM)=dst;
-    /*TODO*///    nec_ICount-=(ModRM >=0xc0 )?2:15;
-    /*TODO*///}
-    /*TODO*///
     /*TODO*///static void i_adc_ald8(void)    /* Opcode 0x14 */
     /*TODO*///{
     /*TODO*///    DEF_ald8(dst,src);
@@ -1829,15 +1860,27 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static void i_sub_br8(void)    /* Opcode 0x28 */
-    /*TODO*///{
-    /*TODO*///    DEF_br8(dst,src);
-    /*TODO*///	SUBB(dst,src);
-    /*TODO*///    PutbackRMByte(ModRM,dst);
-    /*TODO*///    nec_ICount-=(ModRM >=0xc0 )?2:15;
-    /*TODO*///
-    /*TODO*///}
-    /*TODO*///
+    static InstructionPtr i_sub_br8 = new InstructionPtr() {
+        public void handler() {
+            //DEF_br8(dst,src);
+            int ModRM = FETCHOP();
+            int src = RegByte(ModRM);
+            int dst = GetRMByte(ModRM);
+            //SUBB(dst,src);
+            int res = dst - src;
+            SetCFB(res);
+            SetOFB_Sub(res, src, dst);
+            SetAF(res, src, dst);
+            SetSZPF_Byte(res);
+            dst = res & 0xFF;
+            PutbackRMByte(ModRM, dst);
+            nec_ICount[0] -= (ModRM >= 0xc0) ? 2 : 15;
+            if (neclog != null) {
+                fprintf(neclog, "i_sub_br8 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
+
     static InstructionPtr i_sub_wr16 = new InstructionPtr() {
         public void handler() {
             //DEF_wr16(dst, src);
@@ -1881,11 +1924,6 @@ public class v30 extends cpuintrfH.cpu_interface {
         }
     };
 
-    /*TODO*///static void i_sub_r8b(void)    /* Opcode 0x2a */
-    /*TODO*///{
-    /*TODO*///    
-    /*TODO*///}
-    /*TODO*///
     static InstructionPtr i_sub_r16w = new InstructionPtr() /* Opcode 0x2b */ {
         public void handler() {
             //    DEF_r16w(dst,src);
@@ -1973,12 +2011,27 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
+    static InstructionPtr i_xor_br8 = new InstructionPtr() {
+        public void handler() {
+            //DEF_br8(dst,src);
+            int ModRM = FETCHOP();
+            int src = RegByte(ModRM);
+            int dst = GetRMByte(ModRM);
+            //XORB(dst,src);
+            dst ^= src;
+            I.CarryVal = I.OverVal = I.AuxVal = 0;
+            SetSZPF_Byte(dst);
+            PutbackRMByte(ModRM, dst & 0xFF);
+            nec_ICount[0] -= (ModRM >= 0xc0) ? 2 : 15;
+            if (neclog != null) {
+                fprintf(neclog, "i_xor_br8 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
+
     /*TODO*///static void i_xor_br8(void)    /* Opcode 0x30 */
     /*TODO*///{
-    /*TODO*///    DEF_br8(dst,src);
-    /*TODO*///    XORB(dst,src);
-    /*TODO*///    PutbackRMByte(ModRM,dst);
-    /*TODO*///    nec_ICount-=(ModRM >=0xc0 )?2:15;
+    /*TODO*///    
     /*TODO*///}
     /*TODO*///
     /*TODO*///static void i_xor_wr16(void)    /* Opcode 0x31 */
@@ -2935,17 +2988,22 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
+    static InstructionPtr i_jnbe = new InstructionPtr() {
+        public void handler() {
+            int tmp = (int) ((byte) FETCH());
+            if (!(CF() != 0 || ZF() != 0)) {
+                I.ip = (I.ip + tmp) & 0xFFFF;
+                nec_ICount[0] -= 14;
+                change_pc20((I.base[CS] + I.ip));
+            } else {
+                nec_ICount[0] -= 4;
+            }
+            if (neclog != null) {
+                fprintf(neclog, "i_jnbe :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
 
-    /*TODO*///static void i_jnbe(void)    /* Opcode 0x77 */
-    /*TODO*///{
-    /*TODO*///	int tmp = (int)((INT8)FETCH);
-    /*TODO*///    if (!(CF || ZF)) {
-    /*TODO*///		I.ip = (WORD)(I.ip+tmp);
-    /*TODO*///		nec_ICount-=14;
-    /*TODO*///		change_pc20((I.base[CS]+I.ip));
-    /*TODO*///	} else nec_ICount-=4;
-    /*TODO*///}
-    /*TODO*///
     static InstructionPtr i_js = new InstructionPtr() {
         public void handler() {
             int tmp = (int) ((byte) FETCH());
@@ -3017,15 +3075,25 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
+    static InstructionPtr i_jnl = new InstructionPtr() {
+        public void handler() {
+            int tmp = (int) ((byte) FETCH());
+            if (ZF() != 0 || (SF() == OF())) {
+                I.ip = (I.ip + tmp) & 0xFFFF;
+                nec_ICount[0] -= 14;
+                change_pc20((I.base[CS] + I.ip));
+            } else {
+                nec_ICount[0] -= 4;
+            }
+            if (neclog != null) {
+                fprintf(neclog, "i_jnl :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
 
     /*TODO*///static void i_jnl(void)    /* Opcode 0x7d */
     /*TODO*///{
-    /*TODO*///	int tmp = (int)((INT8)FETCH);
-    /*TODO*///    if (ZF||(SF==OF)) {
-    /*TODO*///		I.ip = (WORD)(I.ip+tmp);
-    /*TODO*///		nec_ICount-=14;
-    /*TODO*///		change_pc20((I.base[CS]+I.ip));
-    /*TODO*///	} else nec_ICount-=4;
+    /*TODO*///	
     /*TODO*///}
     /*TODO*///
     /*TODO*///static void i_jle(void)    /* Opcode 0x7e */
@@ -3919,13 +3987,19 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         }
     };
-    /*TODO*///static void i_lodsw(void)    /* Opcode 0xad */
-    /*TODO*///{
-    /*TODO*///	I.regs.w[AW] = GetMemW(DS,I.regs.w[IX]);
-    /*TODO*///	I.regs.w[IX] +=  -4 * I.DF + 2;
-    /*TODO*///	nec_ICount-=10;
-    /*TODO*///}
-    /*TODO*///
+    static InstructionPtr i_lodsw = new InstructionPtr() {
+        public void handler() {
+            int tmp = I.regs.w[IX];
+            I.regs.SetW(AW, GetMemW(DS, tmp));
+            tmp += -4 * I.DF + 2;
+            I.regs.SetW(IX, tmp);
+            nec_ICount[0] -= 10;
+            if (neclog != null) {
+                fprintf(neclog, "i_lodsw :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
+
     static InstructionPtr i_scasb = new InstructionPtr() {
         public void handler() {
             int tmp = I.regs.w[IY];
@@ -4436,14 +4510,18 @@ public class v30 extends cpuintrfH.cpu_interface {
                         fprintf(neclog, "nec_rotate_shift_Word_0x28 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
                     }
                     break;
-                /*TODO*///      case 0x38:  /* SAR ew,count */
-    /*TODO*///        dst = ((INT16)dst) >> (count-1);
-    /*TODO*///	I.CarryVal = dst & 0x01;
-    /*TODO*///        dst = ((INT16)((WORD)dst)) >> 1;
-    /*TODO*///        SetSZPF_Word(dst);
-    /*TODO*///	I.AuxVal = 1;
-    /*TODO*///        PutbackRMWord(ModRM,dst);
-    /*TODO*///	break;
+                case 0x38:  /* SAR ew,count */
+
+                    dst = ((short) dst) >> (count - 1);//unsigned?
+                    I.CarryVal = dst & 0x01;
+                    dst = ((short) (dst & 0xFFFF)) >> 1;//unsigned?
+                    SetSZPF_Word(dst);
+                    I.AuxVal = 1;
+                    PutbackRMWord(ModRM, dst & 0xFFFF);
+                    if (neclog != null) {
+                        fprintf(neclog, "nec_rotate_shift_Word_0x38 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+                    }
+                    break;
                 default:
                     System.out.println("nec_rotate_shift_Word 0x" + Integer.toHexString(ModRM & 0x38));
                     break;
@@ -4742,13 +4820,18 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	nec_ICount-=9;	// V30
     /*TODO*///}
     /*TODO*///
-    /*TODO*///static void i_escape(void)    /* Opcodes 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde and 0xdf */
-    /*TODO*///{
-    /*TODO*///	unsigned ModRM = FETCH;
-    /*TODO*///	nec_ICount-=2;	// dont found any info :-(, set same as hlt
-    /*TODO*///    	GetRMByte(ModRM);
-    /*TODO*///}
-    /*TODO*///
+    static InstructionPtr i_escape = new InstructionPtr() {/* Opcodes 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde and 0xdf */
+
+        public void handler() {
+            int ModRM = FETCH();
+            nec_ICount[0] -= 2;	// dont found any info :-(, set same as hlt
+            GetRMByte(ModRM);
+            if (neclog != null) {
+                fprintf(neclog, "i_escape :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+            }
+        }
+    };
+
     /*TODO*///static void i_loopne(void)    /* Opcode 0xe0 */
     /*TODO*///{
     /*TODO*///    int disp = (int)((INT8)FETCH);
@@ -5355,25 +5438,28 @@ public class v30 extends cpuintrfH.cpu_interface {
                         fprintf(neclog, "i_f7pre 0x18 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
                     }
                     break;
-                /*TODO*///    case 0x20:  /* MUL AW, Ew */
-    /*TODO*///		{
-    /*TODO*///			UINT32 result;
-    /*TODO*///			tmp2 = I.regs.w[AW];
-    /*TODO*///
-    /*TODO*///			SetSF((INT16)tmp2);
-    /*TODO*///			SetPF(tmp2);
-    /*TODO*///
-    /*TODO*///			result = (UINT32)tmp2*tmp;
-    /*TODO*///			I.regs.w[AW]=(WORD)result;
-    /*TODO*///            result >>= 16;
-    /*TODO*///			I.regs.w[DW]=result;
-    /*TODO*///
-    /*TODO*///			SetZF(I.regs.w[AW] | I.regs.w[DW]);
-    /*TODO*///			I.CarryVal = I.OverVal = (I.regs.w[DW] != 0);
-    /*TODO*///		}
-    /*TODO*///		nec_ICount-=(ModRM >=0xc0 )?30:36;
-    /*TODO*///		break;
-    /*TODO*///
+                case 0x20: /* MUL AW, Ew */ {
+                    /*UINT32*/
+                    int result;
+                    tmp2 = I.regs.w[AW];
+
+                    SetSF((short) tmp2);
+                    SetPF(tmp2);
+
+                    result = /*(UINT32)*/ tmp2 * tmp;
+                    I.regs.SetW(AW, result & 0xFFFF);
+                    result >>>= 16; //unsigned shift??
+                    I.regs.SetW(DW, result & 0xFFFF);
+
+                    SetZF(I.regs.w[AW] | I.regs.w[DW]);
+                    I.CarryVal = I.OverVal = BOOL(I.regs.w[DW] != 0);
+                }
+                nec_ICount[0] -= (ModRM >= 0xc0) ? 30 : 36;
+                if (neclog != null) {
+                    fprintf(neclog, "i_f7pre 0x20 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+                }
+                break;
+                /*TODO*///
     /*TODO*///    case 0x28:  /* IMUL AW, Ew */
     /*TODO*///		nec_ICount-=150;
     /*TODO*///		{
@@ -5855,12 +5941,16 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0x10:
                     i_adc_br8.handler();
                     break;
-                /*TODO*///	case 0x11:    i_adc_wr16(); break;
+                case 0x11:
+                    i_adc_wr16.handler();
+                    break;
                 case 0x12:
                     i_adc_r8b.handler();
                     break;
-                /*TODO*///	case 0x13:    i_adc_r16w(); break;
-    /*TODO*///	case 0x14:    i_adc_ald8(); break;
+                case 0x13:
+                    i_adc_r16w.handler();
+                    break;
+                /*TODO*///	case 0x14:    i_adc_ald8(); break;
                 case 0x15:
                     i_adc_axd16.handler();
                     break;
@@ -5902,7 +5992,9 @@ public class v30 extends cpuintrfH.cpu_interface {
                     i_es.handler();
                     break;
                 /*TODO*///	case 0x27:    i_daa(); break;
-    /*TODO*///	case 0x28:    i_sub_br8(); break;
+                case 0x28:
+                    i_sub_br8.handler();
+                    break;
                 case 0x29:
                     i_sub_wr16.handler();
                     break;
@@ -5922,8 +6014,10 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0x2f:
                     i_das.handler();
                     break;
-                /*TODO*///	case 0x30:    i_xor_br8(); break;
-    /*TODO*///	case 0x31:    i_xor_wr16(); break;
+                case 0x30:
+                    i_xor_br8.handler();
+                    break;
+                /*TODO*///	case 0x31:    i_xor_wr16(); break;
                 case 0x32:
                     i_xor_r8b.handler();
                     break;
@@ -6089,7 +6183,9 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0x76:
                     i_jbe.handler();
                     break;
-                /*TODO*///	case 0x77:    i_jnbe(); break;
+                case 0x77:
+                    i_jnbe.handler();
+                    break;
                 case 0x78:
                     i_js.handler();
                     break;
@@ -6101,8 +6197,10 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0x7c:
                     i_jl.handler();
                     break;
-                /*TODO*///	case 0x7d:    i_jnl(); break;
-    /*TODO*///	case 0x7e:    i_jle(); break;
+                case 0x7d:
+                    i_jnl.handler();
+                    break;
+                /*TODO*///	case 0x7e:    i_jle(); break;
                 case 0x7f:
                     i_jnle.handler();
                     break;
@@ -6213,7 +6311,9 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0xac:
                     i_lodsb.handler();
                     break;
-                /*TODO*///	case 0xad:    i_lodsw(); break;
+                case 0xad:
+                    i_lodsw.handler();
+                    break;
                 case 0xae:
                     i_scasb.handler();
                     break;
@@ -6314,15 +6414,31 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///	case 0xd5:    i_aad(); break;
     /*TODO*///	case 0xd6:    i_setalc(); break;
     /*TODO*///	case 0xd7:    i_xlat(); break;
-    /*TODO*///	case 0xd8:    i_escape(); break;
-    /*TODO*///	case 0xd9:    i_escape(); break;
-    /*TODO*///	case 0xda:    i_escape(); break;
-    /*TODO*///	case 0xdb:    i_escape(); break;
-    /*TODO*///	case 0xdc:    i_escape(); break;
-    /*TODO*///	case 0xdd:    i_escape(); break;
-    /*TODO*///	case 0xde:    i_escape(); break;
-    /*TODO*///	case 0xdf:    i_escape(); break;
-    /*TODO*///	case 0xe0:    i_loopne(); break;
+                case 0xd8:
+                    i_escape.handler();
+                    break;
+                case 0xd9:
+                    i_escape.handler();
+                    break;
+                case 0xda:
+                    i_escape.handler();
+                    break;
+                case 0xdb:
+                    i_escape.handler();
+                    break;
+                case 0xdc:
+                    i_escape.handler();
+                    break;
+                case 0xdd:
+                    i_escape.handler();
+                    break;
+                case 0xde:
+                    i_escape.handler();
+                    break;
+                case 0xdf:
+                    i_escape.handler();
+                    break;
+                /*TODO*///	case 0xe0:    i_loopne(); break;
                 case 0xe1:
                     i_loope.handler();
                     break;

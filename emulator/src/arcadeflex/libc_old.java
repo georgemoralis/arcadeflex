@@ -393,7 +393,7 @@ public class libc_old {
         }
     }
     public static void memcpy(UBytePtr dst, UBytePtr src, int size) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < Math.min(size,src.memory.length); i++) {
             dst.write(i, src.read(i));     
         }
     }

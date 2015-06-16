@@ -64,10 +64,18 @@ public class necH {
         I.AuxVal = ((x) ^ ((y) ^ (z))) & 0x10;
 
     }
-    /*TODO*///#define SetSF(x)		(I.SignVal = (x))
-    /*TODO*///#define SetZF(x)		(I.ZeroVal = (x))
-    /*TODO*///#define SetPF(x)		(I.ParityVal = (x))
-    /*TODO*///
+
+    public static void SetSF(int x) {
+        I.SignVal = (x);
+    }
+
+    public static void SetZF(int x) {
+        I.ZeroVal = (x);
+    }
+
+    public static void SetPF(int x) {
+        I.ParityVal = (x);
+    }
 
     public static void SetSZPF_Byte(int x) {
         I.SignVal = (byte) (x);
@@ -231,18 +239,17 @@ public class necH {
                 | (I.DF << 10) | (OF() << 11) | (MD() << 15)) & 0xFFFF);
     }
 
-    public static void ExpandFlags(int f) 
-    { 
-    	  I.CarryVal = (f) & 1; 
-    	  I.ParityVal = NOT((f) & 4); 
-    	  I.AuxVal = (f) & 16; 
-    	  I.ZeroVal = NOT((f) & 64); 
-    	  I.SignVal = ((f) & 128)!=0 ? -1 : 0; 
-    	  I.TF = BOOL(((f) & 256) == 256); 
-    	  I.IF = BOOL(((f) & 512) == 512); 
-    	  I.DF = BOOL(((f) & 1024) == 1024); 
-    	  I.OverVal = (f) & 2048; 
-    	  I.MF = BOOL(((f) & 0x8000) == 0x8000); 
+    public static void ExpandFlags(int f) {
+        I.CarryVal = (f) & 1;
+        I.ParityVal = NOT((f) & 4);
+        I.AuxVal = (f) & 16;
+        I.ZeroVal = NOT((f) & 64);
+        I.SignVal = ((f) & 128) != 0 ? -1 : 0;
+        I.TF = BOOL(((f) & 256) == 256);
+        I.IF = BOOL(((f) & 512) == 512);
+        I.DF = BOOL(((f) & 1024) == 1024);
+        I.OverVal = (f) & 2048;
+        I.MF = BOOL(((f) & 0x8000) == 0x8000);
     }
-     
+
 }
