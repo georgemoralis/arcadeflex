@@ -63,7 +63,6 @@ static InstructionPtr i_inaxdx= new InstructionPtr(){ public void handler(){thro
 static InstructionPtr i_outdxal= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_outdxax= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_hlt= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
-static InstructionPtr i_cmc= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 static InstructionPtr i_wait= new InstructionPtr(){ public void handler(){throw new UnsupportedOperationException("Not supported yet.");}};
 
 
