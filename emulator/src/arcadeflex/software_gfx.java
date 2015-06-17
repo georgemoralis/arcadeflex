@@ -127,6 +127,10 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 {
                     localGraphics2D.drawImage(this._image, this._insets.left-(int)(i*0.35), this._insets.top, i+(int)(i*0.70),j, null);
                 }
+                else if(Machine.gamedrv.source_file.equals("m72.java"))
+                {
+                    localGraphics2D.drawImage(this._image, this._insets.left-(int)(i*0.18), this._insets.top-(int)(j*0.20), i+(int)(i*0.35),j+(int)(j*0.50), null);
+                }
                 else 
                 {
                     localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
@@ -201,6 +205,10 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 else if(Machine.gamedrv.source_file.equals("crimfght.java"))
                 {
                     super.setSize(width*2+ this._insets.left + this._insets.right - (int)(width*0.78), height*2 + this._insets.top + this._insets.bottom);             
+                }
+                else if(Machine.gamedrv.source_file.equals("m72.java"))
+                {
+                    super.setSize(width*2+ this._insets.left + this._insets.right - (int)(width*0.35), height+(int)(height*0.50) + this._insets.top + this._insets.bottom);      
                 }
                 else{
                     super.setSize(width*2+ this._insets.left + this._insets.right, height*2 + this._insets.top + this._insets.bottom);             
