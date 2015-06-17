@@ -600,28 +600,31 @@ public class v30 extends cpuintrfH.cpu_interface {
                         fprintf(neclog, "i_pre_nec_0x11 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
                     }
                     break;
-                /*TODO*///
-    /*TODO*///
-    /*TODO*///		case 0x12 : // 0F 12 [mod:000:r/m] - CLR1 reg/m8,cl
-    /*TODO*///			ModRM = FETCH;
-    /*TODO*///		    /* need the long if due to correct cycles OB[19.07.99] */
-    /*TODO*///		    if (ModRM >= 0xc0) {
-    /*TODO*///		    	tmp=I.regs.b[Mod_RM.RM.b[ModRM]];
-    /*TODO*///		    	nec_ICount-=5;
-    /*TODO*///		    }
-    /*TODO*///		    else {
-    /*TODO*///		    	int old=nec_ICount;
-    /*TODO*///		    	(*GetEA[ModRM])();;
-    /*TODO*///		    	tmp=ReadByte( EA);
-    /*TODO*///   				nec_ICount=old-14;			/* my source says 14 cycles everytime and not
-    /*TODO*///   											   ModRM-dependent like GetEA[] does..hmmm */
-    /*TODO*///		    }
-    /*TODO*///			tmp2 = I.regs.b[CL] & 0x7;		/* hey its a Byte so &07 NOT &0f */
-    /*TODO*///			tmp &= ~(bytes[tmp2]);
-    /*TODO*///			PutbackRMByte(ModRM,tmp);
-    /*TODO*///			break;
-    /*TODO*///
-    /*TODO*///		case 0x13 : // 0F 13 [mod:000:r/m] - CLR1 reg/m16,cl
+
+                case 0x12: // 0F 12 [mod:000:r/m] - CLR1 reg/m8,cl
+                    ModRM = FETCH();
+                    /* need the long if due to correct cycles OB[19.07.99] */
+                    if (ModRM >= 0xc0) {
+                        tmp = I.regs.b[Mod_RM.RM.b[ModRM]];
+                        nec_ICount[0] -= 5;
+                    } else {
+                        int old = nec_ICount[0];
+                        (GetEA[ModRM]).handler();
+                        tmp = ReadByte(EA);
+                        nec_ICount[0] = old - 14;			/* my source says 14 cycles everytime and not
+                         ModRM-dependent like GetEA[] does..hmmm */
+
+                    }
+                    tmp2 = I.regs.b[CL] & 0x7;		/* hey its a Byte so &07 NOT &0f */
+
+                    tmp &= ~(bytes[tmp2]);
+                    PutbackRMByte(ModRM, tmp & 0xFF);
+                    if (neclog != null) {
+                        fprintf(neclog, "i_pre_nec_0x12 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+                    }
+                    break;
+
+                /*TODO*///		case 0x13 : // 0F 13 [mod:000:r/m] - CLR1 reg/m16,cl
     /*TODO*///			ModRM = FETCH;
     /*TODO*///		    //tmp = GetRMWord(ModRM);
     /*TODO*///			if (ModRM >= 0xc0) {
