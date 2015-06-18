@@ -1006,13 +1006,12 @@ public class tilemapC {
     		blit.priority = (char)(priority&0xf);
     
     		if( rows == 0 && cols == 0 ){ /* no scrolling */
-                    throw new UnsupportedOperationException("tilemap draw unimplemented");
-    /*TODO*///	 		blit.clip_left = left;
-    /*TODO*///	 		blit.clip_top = top;
-    /*TODO*///	 		blit.clip_right = right;
-    /*TODO*///	 		blit.clip_bottom = bottom;
-    /*TODO*///
-    /*TODO*///			draw( 0,0 );
+    	 		blit.clip_left = left;
+    	 		blit.clip_top = top;
+    	 		blit.clip_right = right;
+    	 		blit.clip_bottom = bottom;
+    
+    			draw.handler(0,0 );
     		}
     		else if( rows == 0 ){ /* scrolling columns */
                     throw new UnsupportedOperationException("tilemap draw unimplemented");
