@@ -5890,34 +5890,37 @@ public class v30 extends cpuintrfH.cpu_interface {
                     fprintf(neclog, "i_f7pre 0x30 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
                 }
                 break;
-                /*TODO*///    case 0x38:  /* IIYV AW, Ew */
-    /*TODO*///		{
-    /*TODO*///			INT32 result;
-    /*TODO*///
-    /*TODO*///			result = ((UINT32)I.regs.w[DW] << 16) + I.regs.w[AW];
-    /*TODO*///
-    /*TODO*///			if (tmp)
-    /*TODO*///			{
-    /*TODO*///				tmp2 = result % (INT32)((INT16)tmp);
-    /*TODO*///				if ((result /= (INT32)((INT16)tmp)) > 0xffff)
-    /*TODO*///				{
-    /*TODO*///					nec_interrupt(0,0);
-    /*TODO*///					break;
-    /*TODO*///				}
-    /*TODO*///				else
-    /*TODO*///				{
-    /*TODO*///					I.regs.w[AW]=result;
-    /*TODO*///					I.regs.w[DW]=tmp2;
-    /*TODO*///				}
-    /*TODO*///			}
-    /*TODO*///			else
-    /*TODO*///			{
-    /*TODO*///				nec_interrupt(0,0);
-    /*TODO*///				break;
-    /*TODO*///			}
-    /*TODO*///		}
-    /*TODO*///		nec_ICount-=(ModRM >=0xc0 )?43:53;
-    /*TODO*///		break;
+                    case 0x38:  /* IIYV AW, Ew */
+    		{
+    			int result;
+    
+    			result = (/*(UINT32)*/I.regs.w[DW] << 16) + I.regs.w[AW];
+    
+    			if (tmp!=0)
+    			{
+    				tmp2 = result % (int)((short)tmp);
+    				if ((result /= (int)((short)tmp)) > 0xffff)
+    				{
+    					nec_interrupt(0,0);
+    					break;
+    				}
+    				else
+    				{
+    					I.regs.SetW(AW,result&0xFFFF);
+    					I.regs.SetW(DW,tmp2&0xFFFF);
+    				}
+    			}
+    			else
+    			{
+    				nec_interrupt(0,0);
+    				break;
+    			}
+    		}
+    		nec_ICount[0]-=(ModRM >=0xc0 )?43:53;
+                if (neclog != null) {
+                    fprintf(neclog, "i_f7pre 0x38 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+                }
+    		break;
                 default:
                     System.out.println("i_f7pre 0x" + Integer.toHexString(ModRM & 0x38));
                     break;
@@ -7214,86 +7217,4 @@ public class v30 extends cpuintrfH.cpu_interface {
         throw new UnsupportedOperationException("unsupported v30 cpu_info");
         /*TODO*///    return buffer[which];
     }
-    /*TODO*///unsigned v30_dasm(char *buffer, unsigned pc) { return nec_dasm(buffer,pc); }
-    /*TODO*///
-    /*TODO*///void v33_reset(void *param) { nec_reset(param); }
-    /*TODO*///void v33_exit(void) { nec_exit(); }
-    /*TODO*///int v33_execute(int cycles) { return nec_execute(cycles); }
-    /*TODO*///unsigned v33_get_context(void *dst) { return nec_get_context(dst); }
-    /*TODO*///void v33_set_context(void *src) { nec_set_context(src); }
-    /*TODO*///unsigned v33_get_pc(void) { return nec_get_pc(); }
-    /*TODO*///void v33_set_pc(unsigned val) { nec_set_pc(val); }
-    /*TODO*///unsigned v33_get_sp(void) { return nec_get_sp(); }
-    /*TODO*///void v33_set_sp(unsigned val) { nec_set_sp(val); }
-    /*TODO*///unsigned v33_get_reg(int regnum) { return nec_get_reg(regnum); }
-    /*TODO*///void v33_set_reg(int regnum, unsigned val)	{ nec_set_reg(regnum,val); }
-    /*TODO*///void v33_set_nmi_line(int state) { nec_set_nmi_line(state); }
-    /*TODO*///void v33_set_irq_line(int irqline, int state) { nec_set_irq_line(irqline,state); }
-    /*TODO*///void v33_set_irq_callback(int (*callback)(int irqline)) { nec_set_irq_callback(callback); }
-    /*TODO*///const char *v33_info(void *context, int regnum)
-    /*TODO*///{
-    /*TODO*///    static char buffer[32][63+1];
-    /*TODO*///    static int which = 0;
-    /*TODO*///    nec_Regs *r = context;
-    /*TODO*///
-    /*TODO*///    which = ++which % 32;
-    /*TODO*///    buffer[which][0] = '\0';
-    /*TODO*///    if( !context )
-    /*TODO*///        r = &I;
-    /*TODO*///
-    /*TODO*///    switch( regnum )
-    /*TODO*///    {
-    /*TODO*///        case CPU_INFO_REG+NEC_IP: sprintf(buffer[which], "IP:%04X", r->ip); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_SP: sprintf(buffer[which], "SP:%04X", r->regs.w[SP]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_FLAGS: sprintf(buffer[which], "F:%04X", r->flags); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_AW: sprintf(buffer[which], "AW:%04X", r->regs.w[AW]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_CW: sprintf(buffer[which], "CW:%04X", r->regs.w[CW]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_DW: sprintf(buffer[which], "DW:%04X", r->regs.w[DW]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_BW: sprintf(buffer[which], "BW:%04X", r->regs.w[BW]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_BP: sprintf(buffer[which], "BP:%04X", r->regs.w[BP]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_IX: sprintf(buffer[which], "IX:%04X", r->regs.w[IX]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_IY: sprintf(buffer[which], "IY:%04X", r->regs.w[IY]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_ES: sprintf(buffer[which], "ES:%04X", r->sregs[ES]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_CS: sprintf(buffer[which], "CS:%04X", r->sregs[CS]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_SS: sprintf(buffer[which], "SS:%04X", r->sregs[SS]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_DS: sprintf(buffer[which], "DS:%04X", r->sregs[DS]); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_VECTOR: sprintf(buffer[which], "V:%02X", r->int_vector); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_PENDING: sprintf(buffer[which], "P:%X", r->pending_irq); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_NMI_STATE: sprintf(buffer[which], "NMI:%X", r->nmi_state); break;
-    /*TODO*///        case CPU_INFO_REG+NEC_IRQ_STATE: sprintf(buffer[which], "IRQ:%X", r->irq_state); break;
-    /*TODO*///        case CPU_INFO_FLAGS:
-    /*TODO*///            r->flags = CompressFlags();
-    /*TODO*///            sprintf(buffer[which], "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c",
-    /*TODO*///                r->flags & 0x8000 ? 'M':'.',
-    /*TODO*///                r->flags & 0x4000 ? '?':'.',
-    /*TODO*///                r->flags & 0x2000 ? '?':'.',
-    /*TODO*///                r->flags & 0x1000 ? '?':'.',
-    /*TODO*///                r->flags & 0x0800 ? 'O':'.',
-    /*TODO*///                r->flags & 0x0400 ? 'D':'.',
-    /*TODO*///                r->flags & 0x0200 ? 'I':'.',
-    /*TODO*///                r->flags & 0x0100 ? 'T':'.',
-    /*TODO*///                r->flags & 0x0080 ? 'S':'.',
-    /*TODO*///                r->flags & 0x0040 ? 'Z':'.',
-    /*TODO*///                r->flags & 0x0020 ? '?':'.',
-    /*TODO*///                r->flags & 0x0010 ? 'A':'.',
-    /*TODO*///                r->flags & 0x0008 ? '?':'.',
-    /*TODO*///                r->flags & 0x0004 ? 'P':'.',
-    /*TODO*///                r->flags & 0x0002 ? 'N':'.',
-    /*TODO*///                r->flags & 0x0001 ? 'C':'.');
-    /*TODO*///            break;
-    /*TODO*///        case CPU_INFO_NAME: return "V33";
-    /*TODO*///        case CPU_INFO_FAMILY: return "NEC V-Series";
-    /*TODO*///        case CPU_INFO_VERSION: return "1.6";
-    /*TODO*///        case CPU_INFO_FILE: return __FILE__;
-    /*TODO*///        case CPU_INFO_CREDITS: return "Real mode NEC emulator v1.3 by Oliver Bergmann\n(initial work based on Fabrice Fabian's i86 core)";
-    /*TODO*///        case CPU_INFO_REG_LAYOUT: return (const char*)nec_reg_layout;
-    /*TODO*///        case CPU_INFO_WIN_LAYOUT: return (const char*)nec_win_layout;
-    /*TODO*///    }
-    /*TODO*///    return buffer[which];
-    /*TODO*///}
-    /*TODO*///unsigned v33_dasm(char *buffer, unsigned pc) { return nec_dasm(buffer,pc); }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-
 }

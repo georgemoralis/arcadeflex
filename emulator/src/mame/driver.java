@@ -184,6 +184,7 @@ import static drivers.WIP.ajax.*;
 import static drivers.WIP.parodius.*;
 import static drivers.WIP.m72.*;
 import static drivers.WIP.raiden.*;
+import static drivers.WIP.dynduke.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2614,8 +2615,8 @@ driver_bjtwin,
 	/* Seibu Denshi / Seibu Kaihatsu games */
 
 
-/*TODO*/ //	DRIVER( dynduke )	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
-/*TODO*/ //	DRIVER( dbldyn )	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
+/*dynduke*/driver_dynduke,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
+/*dynduke*/driver_dbldyn,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
 /*raiden*/driver_raiden,	/* (c) 1990 Seibu Kaihatsu */
 /*raiden*/driver_raidena,	/* (c) 1990 Seibu Kaihatsu */
 /*raiden*/driver_raidenk,	/* (c) 1990 Seibu Kaihatsu + IBL Corporation license */
