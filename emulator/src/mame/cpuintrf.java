@@ -678,17 +678,17 @@ public class cpuintrf {
         return cpu.get(cpunum).totalcycles + cycles_currently_ran();
     }
 
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Returns the number of CPU cycles before the next interrupt handler call
-    /*TODO*///
-    /*TODO*///***************************************************************************/
-    /*TODO*///int cpu_geticount(void)
-    /*TODO*///{
-    /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-    /*TODO*///	int result = TIME_TO_CYCLES(cpunum, cpu[cpunum].vblankint_period - timer_timeelapsed(cpu[cpunum].vblankint_timer));
-    /*TODO*///	return (result < 0) ? 0 : result;
-    /*TODO*///}
+    /***************************************************************************
+    
+      Returns the number of CPU cycles before the next interrupt handler call
+    
+    ***************************************************************************/
+    public static int cpu_geticount()
+    {
+    	int cpunum = (activecpu < 0) ? 0 : activecpu;
+    	int result = TIME_TO_CYCLES(cpunum, cpu.get(cpunum).vblankint_period - timer_timeelapsed(cpu.get(cpunum).vblankint_timer));
+    	return (result < 0) ? 0 : result;
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///

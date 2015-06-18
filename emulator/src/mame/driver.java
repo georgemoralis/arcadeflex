@@ -185,6 +185,7 @@ import static drivers.WIP.parodius.*;
 import static drivers.WIP.m72.*;
 import static drivers.WIP.raiden.*;
 import static drivers.WIP.dynduke.*;
+import static drivers.WIP.m92.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1508,26 +1509,26 @@ driver_bjtwin,
 /*TODO*/ //	DRIVER( sichuana )	/* (c) 1989 Tamtex */
 /*TODO*/ //	DRIVER( shisen )	/* (c) 1989 Tamtex */
 	/* M92 */
-/*TODO*/ //	DRIVER( bmaster )	/* (c) 1991 Irem */
-/*TODO*/ //	DRIVER( gunforce )	/* (c) 1991 Irem (World) */
-/*TODO*/ //	DRIVER( gunforcu )	/* (c) 1991 Irem America (US) */
-/*TODO*/ //	DRIVER( hook )		/* (c) 1992 Irem (World) */
-/*TODO*/ //	DRIVER( hooku )		/* (c) 1992 Irem America (US) */
-/*TODO*/ //	DRIVER( mysticri )	/* (c) 1992 Irem (World) */
-/*TODO*/ //	DRIVER( gunhohki )	/* (c) 1992 Irem (Japan) */
-/*TODO*/ //	DRIVER( uccops )	/* (c) 1992 Irem (World) */
-/*TODO*/ //	DRIVER( uccopsj )	/* (c) 1992 Irem (Japan) */
-/*TODO*/ //	DRIVER( rtypeleo )	/* (c) 1992 Irem (Japan) */
-/*TODO*/ //	DRIVER( majtitl2 )	/* (c) 1992 Irem (World) */
-/*TODO*/ //	DRIVER( skingame )	/* (c) 1992 Irem America (US) */
-/*TODO*/ //	DRIVER( skingam2 )	/* (c) 1992 Irem America (US) */
-/*TODO*/ //	DRIVER( inthunt )	/* (c) 1993 Irem (World) */
-/*TODO*/ //	DRIVER( kaiteids )	/* (c) 1993 Irem (Japan) */
+driver_bmaster,	/* (c) 1991 Irem */
+driver_gunforce,	/* (c) 1991 Irem (World) */
+driver_gunforcu,	/* (c) 1991 Irem America (US) */
+driver_hook,		/* (c) 1992 Irem (World) */
+driver_hooku,		/* (c) 1992 Irem America (US) */
+driver_mysticri,	/* (c) 1992 Irem (World) */
+driver_gunhohki,	/* (c) 1992 Irem (Japan) */
+driver_uccops,	/* (c) 1992 Irem (World) */
+driver_uccopsj,	/* (c) 1992 Irem (Japan) */
+driver_rtypeleo,	/* (c) 1992 Irem (Japan) */
+driver_majtitl2,	/* (c) 1992 Irem (World) */
+driver_skingame,	/* (c) 1992 Irem America (US) */
+driver_skingam2,	/* (c) 1992 Irem America (US) */
+driver_inthunt,	/* (c) 1993 Irem (World) */
+driver_kaiteids,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //TESTDRIVER( nbbatman )	/* (c) 1993 Irem America (US) */
 /*TODO*/ //TESTDRIVER( leaguemn )	/* (c) 1993 Irem (Japan) */
-/*TODO*/ //	DRIVER( lethalth )	/* (c) 1991 Irem (World) */
-/*TODO*/ //	DRIVER( thndblst )	/* (c) 1991 Irem (Japan) */
-/*TODO*/ //	DRIVER( psoldier )	/* (c) 1993 Irem (Japan) */
+driver_lethalth,	/* (c) 1991 Irem (World) */
+driver_thndblst,	/* (c) 1991 Irem (Japan) */
+driver_psoldier,	/* (c) 1993 Irem (Japan) */
 	/* M97 */
 /*TODO*/ //TESTDRIVER( riskchal )
 /*TODO*/ //TESTDRIVER( gussun )

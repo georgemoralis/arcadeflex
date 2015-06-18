@@ -887,20 +887,19 @@ public class tilemapC {
     								_tilemap.bg_mask_data_row[row].write(col,TILE_OPAQUE);
     							}
     							else if( (pen_usage & ~bg_transmask)==0 ){ /* background transparent */
-                                                              throw new UnsupportedOperationException("tilemap rendered unimplemented");
-    /*TODO*///								draw_mask( _tilemap.fg_mask,
-    /*TODO*///									col, row, tile_width, tile_height,
-    /*TODO*///									pendata, fg_transmask, flags );
-    /*TODO*///								_tilemap.fg_mask_data_row[row][col] = TILE_MASKED;
-    /*TODO*///								_tilemap.bg_mask_data_row[row][col] = TILE_TRANSPARENT;
+                                                              		draw_mask( _tilemap.fg_mask,
+    									col, row, tile_width, tile_height,
+    									pendata, fg_transmask, flags );
+    								_tilemap.fg_mask_data_row[row].write(col,TILE_MASKED);
+    								_tilemap.bg_mask_data_row[row].write(col,TILE_TRANSPARENT);
     							}
     							else if( (pen_usage & ~fg_transmask)==0 ){ /* foreground transparent */
-                                                              throw new UnsupportedOperationException("tilemap rendered unimplemented");
-    /*TODO*///								draw_mask( _tilemap.bg_mask,
-    /*TODO*///									col, row, tile_width, tile_height,
-    /*TODO*///									pendata, bg_transmask, flags );
-    /*TODO*///								_tilemap.fg_mask_data_row[row][col] = TILE_TRANSPARENT;
-    /*TODO*///								_tilemap.bg_mask_data_row[row][col] = TILE_MASKED;
+                                                              
+    								draw_mask( _tilemap.bg_mask,
+    									col, row, tile_width, tile_height,
+    									pendata, bg_transmask, flags );
+    								_tilemap.fg_mask_data_row[row].write(col,TILE_TRANSPARENT);
+    								_tilemap.bg_mask_data_row[row].write(col,TILE_MASKED);
     							}
     							else { /* split tile - opacity in both foreground and background */
 

@@ -1,4 +1,5 @@
 package mame;
+import static mame.timer.*;
 
 public class timerH {
 
@@ -12,7 +13,7 @@ public class timerH {
     public static final double TIME_NOW = 0.0;
     public static final double TIME_NEVER = 1.0e30;
 
-/*TODO*///#define TIME_TO_CYCLES(cpu,t) ((int)((t) * sec_to_cycles[cpu]))
+public static int TIME_TO_CYCLES(int cpu,double t) {return ((int)((t) * sec_to_cycles[cpu]));}
 
     public static final int SUSPEND_REASON_HALT = 0x0001;
     public static final int SUSPEND_REASON_RESET = 0x0002;
