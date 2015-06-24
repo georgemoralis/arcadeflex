@@ -3358,11 +3358,21 @@ public class v30 extends cpuintrfH.cpu_interface {
                     }
                 }
                 break;
-                /*TODO*///    case 0x18:  /* SBB eb,b8 */
-    /*TODO*///        src+=CF;
-    /*TODO*///        SUBB(dst,src);
-    /*TODO*///        PutbackRMByte(ModRM,dst);
-    /*TODO*///	break;
+                case 0x18: /* SBB eb,b8 */ {
+                    src += CF();
+                    //SUBB(dst, src);
+                    int res = dst - src;
+                    SetCFB(res);
+                    SetOFB_Sub(res, src, dst);
+                    SetAF(res, src, dst);
+                    SetSZPF_Byte(res);
+                    dst = res & 0xFF;
+                    PutbackRMByte(ModRM, dst);
+                    if (neclog != null) {
+                        fprintf(neclog, "i_80pre_0x18 :PC:%d,I.ip:%d,AW:%d,CW:%d,DW:%d,BW:%d,SP:%d,BP:%d,IX:%d,IY:%d,b1:%d,b2:%d,b3:%d,b4:%d,s1:%d,s2:%d,s3:%d,s4:%d,A:%d,O:%d,S:%d,Z:%d,C:%d,P:%d,T:%d,I:%d,D:%d,M:%d,v:%d,irq:%d,ns:%d,is:%d,pb:%d,pre:%d,EA:%d\n", cpu_get_pc(), I.ip, I.regs.w[AW], I.regs.w[CW], I.regs.w[DW], I.regs.w[BW], I.regs.w[SP], I.regs.w[BP], I.regs.w[IX], I.regs.w[IY], I.base[0], I.base[1], I.base[2], I.base[3], I.sregs[0], I.sregs[1], I.sregs[2], I.sregs[3], I.AuxVal, I.OverVal, I.SignVal, I.ZeroVal, I.CarryVal, I.ParityVal, I.TF, I.IF, I.DF, I.MF, I.int_vector, I.pending_irq, I.nmi_state, I.irq_state, I.prefix_base, I.seg_prefix, EA);
+                    }
+                }
+                break;
                 case 0x20: /* AND eb,d8 */ {
                     //ANDB(dst,src);
                     dst &= src;
@@ -3794,7 +3804,7 @@ public class v30 extends cpuintrfH.cpu_interface {
             int src = RegByte(ModRM);
             int dst = GetRMByte(ModRM);
             SetRegByte(ModRM, dst);
-            PutbackRMByte(ModRM, src);
+            PutbackRMByte(ModRM, src&0xFF);
             // V30
             if (ModRM >= 0xc0) {
                 nec_ICount[0] -= 3;
@@ -4550,7 +4560,7 @@ public class v30 extends cpuintrfH.cpu_interface {
                 case 0x10:  /* RCL eb,1 */
 
                     dst = (src << 1) + CF();
-                    PutbackRMByte(ModRM, dst);
+                    PutbackRMByte(ModRM, dst&0xFF);
                     SetCFB(dst);
                     I.OverVal = (src ^ dst) & 0x80;
                     if (neclog != null) {
@@ -6649,8 +6659,10 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///        case 0x6d:    i_insw(); break;
     /*TODO*///        case 0x6e:    i_outsb(); break;
     /*TODO*///        case 0x6f:    i_outsw(); break;
-    	case 0x70:    i_jo.handler();break;
-    /*TODO*///	case 0x71:    i_jno(); break;
+                case 0x70:
+                    i_jo.handler();
+                    break;
+                /*TODO*///	case 0x71:    i_jno(); break;
                 case 0x72:
                     i_jb.handler();
                     break;

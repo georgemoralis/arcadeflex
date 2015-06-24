@@ -447,6 +447,8 @@ spang    mitchell.c Z80                                                         
 sbbros   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Buster Bros (US)
 rollerg  rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (US)
 rollergj rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (Japan)
+raiden   raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden
+raidenk  raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden (Korea)
 
 
 Small issues that doesn't affect playable status
@@ -546,6 +548,7 @@ szaxxon  zaxxon.c   Z80                                                         
 futspy   zaxxon.c   Z80                                                                     Samples                                                     Future Spy   -no samples support
 ddribble ddrible.c  M6809    M6809    M6809                                                 1xYM-2203   VLM5030                                         Double Dribble  - vlm5030 works but has glitches
 saturn   blueprnt.c Z80      Z80                                                            2xAY-8910                                                   Saturn  //sound partialy works
+raidena  raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden (Alternate Hardware) - no sound works (not working in mame 0.36 as well)
 
 Control issues
 =============

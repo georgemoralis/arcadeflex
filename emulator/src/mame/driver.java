@@ -647,6 +647,8 @@ public class driver {
         /*444*//*mitchell*/driver_sbbros,
         /*445*//*rollerg*/driver_rollerg,
         /*446*//*rollerg*/driver_rollergj,
+        /*447*//*raiden*/driver_raiden,	
+        /*448*//*raiden*/driver_raidenk,
         
 
         
@@ -698,13 +700,26 @@ public class driver {
         /*crimfght*/driver_crimfght,//no stereo sound support
         /*crimfght*/driver_crimfgt2,//no stereo sound support
         /*crimfght*/driver_crimfgtj,//no stereo sound support
+        /*m72*/driver_bchopper,	//no stereo sound support
+        /*m72*/driver_mrheli,	//no stereo sound support
+        /*m72*/driver_nspirit,	//no stereo sound support
+        /*m72*/driver_nspiritj,	//no stereo sound support
+        /*m72*/driver_imgfight,	//no stereo sound support
+        /*m72*/driver_rtype2,	//no stereo sound support
+        /*m72*/driver_rtype2j,//no stereo sound support
+        /*m72*/driver_gallop,//no stereo sound support
         
         /*
           Possible cpu bugs
         */
         /*001*//*pacman*/driver_lizwiz,//reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
         /*002*//*skykid*/driver_skykid,//Freezes before going ingame cpu bug?
-
+        /*m72*/driver_rtype,//rom ng error?
+        /*m72*/driver_rtypeu,	//rom error?
+        /*m72*/driver_rtypeb,	//rom error?
+        /*m72*/driver_loht,	// not working (unknown)
+        /*m72*/driver_xmultipl,	// not working (unknown)
+        /*m72*/driver_dbreed,	// not working (unknown)	
         
         /* GFX issues
         
@@ -752,6 +767,7 @@ public class driver {
         /*zaxxon*/driver_szaxxon,//no samples support
         /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
         /*blueprnt*/driver_saturn,//sound partialy works
+        /*raiden*/driver_raidena,	//no sound (not in mame 0.36 as well)
             
         /* controls issues
         
@@ -814,6 +830,11 @@ public class driver {
         /*mitchell*/driver_marukin,//displays an no nvram error message
         /*mitchell*/driver_qtono1,//not sure if it works  (japanese)
         /*mitchell*/driver_qsangoku,//not sure if it works (japanese)
+        /*m72*/driver_majtitle,	//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 786432 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:96) at mame.drawgfx.readbit(drawgfx.java:33)
+        /*m72*/driver_hharry,	//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4096 at mame.memory.cpu_readmem20(memory.java:1089)
+        /*m72*/driver_hharryu,	//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4136 at mame.memory.cpu_readmem20(memory.java:1089)
+        /*m72*/driver_dkgensan,	//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4136 at mame.memory.cpu_readmem20(memory.java:1089)
+        
 
         
         /*
@@ -1483,27 +1504,11 @@ driver_bjtwin,
 	/* trivia: IREM means "International Rental Electronics Machines" */
 /*TODO*/ //	DRIVER( skychut )	/* (c) [1980] */
         
-	/* M72 (and derivatives) */
-        /*m72*/driver_rtype,		/* (c) 1987 (Japan) */
-        /*m72*/driver_rtypeu,	/* (c) 1987 + Nintendo USA license (US) */
-        /*m72*/driver_rtypeb,	/* bootleg */
-        /*m72*/driver_bchopper,	/* (c) 1987 */
-        /*m72*/driver_mrheli,	/* (c) 1987 (Japan) */
-        /*m72*/driver_nspirit,	/* (c) 1988 */
-        /*m72*/driver_nspiritj,	/* (c) 1988 (Japan) */
-        /*m72*/driver_imgfight,	/* (c) 1988 (Japan) */
-        /*m72*/driver_loht,	/* (c) 1989 */
-        /*m72*/driver_xmultipl,	/* (c) 1989 (Japan) */
-        /*m72*/driver_dbreed,	/* (c) 1989 */
-        /*m72*/driver_rtype2,	/* (c) 1989 */
-        /*m72*/driver_rtype2j,	/* (c) 1989 (Japan) */
-        /*m72*/driver_majtitle,	/* (c) 1990 (Japan) */
-        /*m72*/driver_hharry,	/* (c) 1990 (World) */
-        /*m72*/driver_hharryu,	/* (c) 1990 Irem America (US) */
-        /*m72*/driver_dkgensan,	/* (c) 1990 (Japan) */
-        /*m72*/driver_kengo,
-        /*m72*/driver_gallop,	/* (c) 1991 (Japan) */
-        /*m72*/driver_poundfor,
+
+        /*m72*/driver_kengo,    //no rom available	
+        /*m72*/driver_poundfor, //no rom available
+        
+        
 	/* not M72, but same sound hardware */
 /*TODO*/ //	DRIVER( sichuan2 )	/* (c) 1989 Tamtex */
 /*TODO*/ //	DRIVER( sichuana )	/* (c) 1989 Tamtex */
@@ -2618,9 +2623,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 
 /*dynduke*/driver_dynduke,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
 /*dynduke*/driver_dbldyn,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
-/*raiden*/driver_raiden,	/* (c) 1990 Seibu Kaihatsu */
-/*raiden*/driver_raidena,	/* (c) 1990 Seibu Kaihatsu */
-/*raiden*/driver_raidenk,	/* (c) 1990 Seibu Kaihatsu + IBL Corporation license */
+
 /*TODO*/ //	DRIVER( dcon )		/* (c) 1992 Success */
 
 	/* Tad games (Tad games run on Seibu hardware) */

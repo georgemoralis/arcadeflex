@@ -1304,27 +1304,6 @@ V30
 =====
 dynduke  dynduke.c  V30      V30                                                            1xYM-3812   1xOKI6295                                       Dynamite Duke
 dbldyn   dynduke.c  V30      V30                                                            1xYM-3812   1xOKI6295                                       The Double Dynamites
-raiden   raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden
-raidena  raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden (Alternate Hardware)
-raidenk  raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden (Korea)
-rtype    m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (Japan)
-rtypeu   m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (US)
-rtypeb   m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (bootleg)
-bchopper m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Battle Chopper
-mrheli   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Mr. HELI no Dai-Bouken
-nspirit  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Ninja Spirit
-nspiritj m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Saigo no Nindou (Japan)
-imgfight m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Image Fight (Japan)
-loht     m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Legend of Hero Tonma
-xmultipl m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           X Multiply (Japan)
-dbreed   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Dragon Breed
-rtype2   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           R-Type II
-rtype2j  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           R-Type II (Japan)
-majtitle m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Major Title (Japan)
-hharry   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Hammerin' Harry (World)
-hharryu  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Hammerin' Harry (US)
-dkgensan m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Daiku no Gensan (Japan)
-gallop   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Gallop - Armed police Unit (Japan)
 shanghai shanghai.c V30                                                                     1xYM-2203                                                   Shanghai
 
 =====
