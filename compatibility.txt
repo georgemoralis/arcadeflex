@@ -498,11 +498,25 @@ vendettj vendetta.c KONAMI   [Z80   ]                                           
 crimfght crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (US 4 players) - No stereo sound
 crimfgt2 crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (World 2 Players) - No stereo sound
 crimfgtj crimfght.c KONAMI   [Z80   ]                                                       1xYM-2151   1x007232                                        Crime Fighters (Japan 2 Players) - No stereo sound
+bchopper m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Battle Chopper - No stereo sound
+mrheli   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Mr. HELI no Dai-Bouken - No stereo sound
+nspirit  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Ninja Spirit - No stereo sound
+nspiritj m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Saigo no Nindou (Japan) - No stereo sound
+imgfight m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Image Fight (Japan) - No stereo sound
+rtype2   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           R-Type II - No stereo sound
+rtype2j  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           R-Type II (Japan) - No stereo sound
+gallop   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Gallop - Armed police Unit (Japan) - No stereo sound
 
 Probably CPU bugs
 -------------------------------
 001)lizwiz   pacman.c   Z80                                                                     Namco                                                       Lizard Wizard   - reset after a while with CPU #0 PC fe01: warning - op-code execute on mapped i/o ,    CPU #0 PC ff37: warning - op-code execute on mapped i/o 
 002)skykid   skykid.c   M6809    HD63701                                                        Namco                                                       Sky Kid - freezes before going ingame cpu bug?
+rtype    m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (Japan)  //rom ng error?
+rtypeu   m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (US)  //rom error? 
+rtypeb   m72.c      V30      [Z80   ]                                                       1xYM-2151                                                   R-Type (bootleg) //rom error?
+loht     m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Legend of Hero Tonma // not working (unknown)
+xmultipl m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           X Multiply (Japan) // not working (unknown)
+dbreed   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Dragon Breed // not working (unknown)
 
 GFX isssues
 ==========
@@ -610,6 +624,10 @@ dokaben  mitchell.c Z80                                                         
 marukin  mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Super Marukin-Ban  //displays an no nvram error message
 qtono1   mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Tonosama no Yabou (Japan)  //not sure if it works  (japanese)
 qsangoku mitchell.c Z80                                                                     1xOKI6295   1xYM-2413                                       Quiz Sangokushi (Japan)  //not sure if it works  (japanese)
+majtitle m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Major Title (Japan)  ////Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 786432 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:96) at mame.drawgfx.readbit(drawgfx.java:33)
+hharry   m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Hammerin' Harry (World) //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4096 at mame.memory.cpu_readmem20(memory.java:1089)
+hharryu  m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Hammerin' Harry (US) //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4136 at mame.memory.cpu_readmem20(memory.java:1089)
+dkgensan m72.c      V30      [Z80   ]                                                       1xYM-2151   1xDAC                                           Daiku no Gensan (Japan) //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4136 at mame.memory.cpu_readmem20(memory.java:1089)
 
 NOT WORKING IN MAME 0.36 EITHER
 --------------------------------------------------------------
