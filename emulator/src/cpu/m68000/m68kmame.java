@@ -237,7 +237,7 @@ public class m68kmame extends cpu_interface {
             case CPU_INFO_VERSION:
                 return "2.1";
             case CPU_INFO_FILE:
-                return "m68000.cs";
+                return "m68000.java";
             case CPU_INFO_CREDITS:
                 return "Copyright 1999 Karl Stenerud. All rights reserved. (2.1 fixes HJB)";
         }
@@ -256,6 +256,6 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public void set_op_base(int pc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cpu_setOPbase24.handler(pc, 0);
     }
 }
