@@ -72,8 +72,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public int get_pc() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	return m68k_peek_pc();
+        return m68k_peek_pc();
     }
 
     @Override

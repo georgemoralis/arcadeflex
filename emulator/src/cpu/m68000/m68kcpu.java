@@ -34,21 +34,21 @@ public class m68kcpu {
     private static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
 
     /* Pointers to speed up address register indirect with index calculation */
-    private int[][] m68k_cpu_dar = {m68k_cpu.dr, m68k_cpu.ar};
+    private int[][] m68k_cpu_dar = {m68k_cpu.get_CPU_D(), m68k_cpu.get_CPU_A()};
     
     /* Pointers to speed up movem instructions */
     private int[] m68k_movem_pi_table = {
-        m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3],
-        m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7],
-        m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3],
-        m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[0],
+        m68k_cpu.get_CPU_D()[0], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[3],
+        m68k_cpu.get_CPU_D()[4], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[7],
+        m68k_cpu.get_CPU_A()[0], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[3],
+        m68k_cpu.get_CPU_A()[4], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[0],
     };
 
     private int[] m68k_movem_pd_table = {
-        m68k_cpu.ar[7], m68k_cpu.ar[6], m68k_cpu.ar[5], m68k_cpu.ar[4],
-        m68k_cpu.ar[3], m68k_cpu.ar[2], m68k_cpu.ar[1], m68k_cpu.ar[0],
-        m68k_cpu.dr[7], m68k_cpu.dr[6], m68k_cpu.dr[5], m68k_cpu.dr[4],
-        m68k_cpu.dr[3], m68k_cpu.dr[2], m68k_cpu.dr[1], m68k_cpu.dr[0],
+        m68k_cpu.get_CPU_A()[7], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[4],
+        m68k_cpu.get_CPU_A()[3], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[0],
+        m68k_cpu.get_CPU_D()[7], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[4],
+        m68k_cpu.get_CPU_D()[3], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[0],
     };
 
     /* Used when checking for pending interrupts */
@@ -175,6 +175,176 @@ public class m68kcpu {
          4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 240-255: User Defined */
     };
     
+    /* Peek at the internals of the M68K */
+    public static int m68k_peek_dr(int reg_num) {
+        return (reg_num < 8) ? m68k_cpu.get_CPU_D()[reg_num] : 0;
+    }
+
+    public static int m68k_peek_ar(int reg_num) {
+        return (reg_num < 8) ? m68k_cpu.get_CPU_A()[reg_num] : 0;
+    }
+
+    public static int m68k_peek_pc() {
+        return m68k_cpu.ADDRESS_68K(m68k_cpu.get_CPU_PC());
+    }
+
+    public static int m68k_peek_ppc() {
+        return m68k_cpu.ADDRESS_68K(m68k_cpu.get_CPU_PPC());
+    }
+
+    public static int m68k_peek_sr() {
+        return 0;
+    }
+
+    public static int m68k_peek_ir() {
+        return m68k_cpu.get_CPU_IR();
+    }
+
+    public static boolean m68k_peek_t1_flag() {
+        return m68k_cpu.get_CPU_T1() != 0;
+    }
+
+    public static boolean m68k_peek_t0_flag() {
+        return m68k_cpu.get_CPU_T0() != 0;
+    }
+
+    public static boolean m68k_peek_s_flag() {
+        return m68k_cpu.get_CPU_S() != 0;
+    }
+
+    public static boolean m68k_peek_m_flag() {
+        return m68k_cpu.get_CPU_M() != 0;
+    }
+
+    public static int m68k_peek_int_mask() {
+        return m68k_cpu.get_CPU_INT_MASK();
+    }
+
+    public static boolean m68k_peek_x_flag() {
+        return m68k_cpu.get_CPU_X() != 0;
+    }
+
+    public static boolean m68k_peek_n_flag() {
+        return m68k_cpu.get_CPU_N() != 0;
+    }
+
+    public static boolean m68k_peek_z_flag() {
+        return m68k_cpu.get_CPU_NOT_Z() == 0;
+    }
+
+    public static boolean m68k_peek_v_flag() {
+        return m68k_cpu.get_CPU_V() != 0;
+    }
+
+    public static boolean m68k_peek_c_flag() {
+        return m68k_cpu.get_CPU_C() != 0;
+    }
+
+    public static int m68k_peek_usp() {
+        return ((m68k_cpu.get_CPU_S() != 0) ? m68k_cpu.get_CPU_USP() : m68k_cpu.get_CPU_A()[7]);
+    }
+
+    public static int m68k_peek_isp() {
+        return ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() == 0) ? m68k_cpu.get_CPU_A()[7] : m68k_cpu.get_CPU_ISP());
+    }
+
+    public static int m68k_peek_msp() {
+        return ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() != 0) ? m68k_cpu.get_CPU_A()[7] : m68k_cpu.get_CPU_MSP());
+    }
+
+    /* Poke data into the M68K */
+    public static void m68k_poke_dr(int reg_num, int value) {
+        if (reg_num < 8) {
+            m68k_cpu.set_CPU_D(8, m68k_cpu.MASK_OUT_ABOVE_32(value));
+        }
+    }
+
+    public static void m68k_poke_ar(int reg_num, int value) {
+        if (reg_num < 8) {
+            m68k_cpu.set_CPU_A(8, m68k_cpu.MASK_OUT_ABOVE_32(value));
+        }
+    }
+
+    public static void m68k_poke_pc(int value) {
+        m68k_cpu.set_CPU_PC(m68k_cpu.ADDRESS_68K(value));
+    }
+
+    public static void m68k_poke_sr(int value) { /*m68ki_set_sr(MASK_OUT_ABOVE_16(value));*/ }
+
+    public static void m68k_poke_ir(int value) {
+        m68k_cpu.set_CPU_IR(m68k_cpu.MASK_OUT_ABOVE_16(value));
+    }
+
+    public static void m68k_poke_t1_flag(int value) {
+        m68k_cpu.set_CPU_T1(value);
+    }
+
+    public static void m68k_poke_t0_flag(int value) {
+        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
+            m68k_cpu.set_CPU_T0(value);
+        }
+    }
+
+    public static void m68k_poke_s_flag(int value) {
+        m68k_cpu.set_CPU_S(value);
+    }
+
+    public static void m68k_poke_m_flag(int value) {
+        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
+            m68k_cpu.set_CPU_M(value);
+        }
+    }
+
+    public static void m68k_poke_int_mask(int value) {
+        m68k_cpu.set_CPU_INT_MASK(value & 7);
+    }
+
+    public static void m68k_poke_x_flag(int value) {
+        m68k_cpu.set_CPU_X(value);
+    }
+
+    public static void m68k_poke_n_flag(int value) {
+        m68k_cpu.set_CPU_N(value);
+    }
+
+    public static void m68k_poke_z_flag(int value) {
+        m68k_cpu.set_CPU_NOT_Z(value);
+    }
+
+    public static void m68k_poke_v_flag(int value) {
+        m68k_cpu.set_CPU_V(value);
+    }
+
+    public static void m68k_poke_c_flag(int value) {
+        m68k_cpu.set_CPU_C(value);
+    }
+
+    public static void m68k_poke_usp(int value) {
+        if (m68k_cpu.get_CPU_S() != 0) {
+            m68k_cpu.set_CPU_USP(m68k_cpu.MASK_OUT_ABOVE_32(value));
+        } else {
+            m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
+        }
+    }
+
+    public static void m68k_poke_isp(int value) {
+        if ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() == 0)) {
+            m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
+        } else {
+            m68k_cpu.set_CPU_ISP(m68k_cpu.MASK_OUT_ABOVE_32(value));
+        }
+    }
+
+    public static void m68k_poke_msp(int value) {
+        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
+            if ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() != 0)) {
+                m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            } else {
+                m68k_cpu.set_CPU_MSP(m68k_cpu.MASK_OUT_ABOVE_32(value));
+            }
+        }
+    }
+    
     /* Interrupt acknowledge */
     static int default_int_ack_callback_data;
     static int default_int_ack_callback(int int_level) {
@@ -271,6 +441,100 @@ public class m68kcpu {
                 m68k_cpu.set_CPU_MODE(M68K_CPU_MODE_68000);
         }
     }
+    
+    /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
+    void m68k_assert_irq(int int_line)
+    {
+       /* OR in the bits of the interrupt */
+       int old_state = m68k_cpu.get_CPU_INT_STATE();
+       m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
+       int new_state = m68k_cpu.get_CPU_INT_STATE();
+       m68k_cpu.set_CPU_INT_STATE(new_state | (int_line & 7));
+
+       /* if it's NMI, we're edge triggered */
+       if (m68k_cpu.get_CPU_INT_STATE() == 7)
+       {
+          if (old_state != 7)
+             m68k_cpu.service_interrupt(1 << 7);
+       }
+
+       /* other interrupts just reflect the current state */
+       else
+          m68k_cpu.check_interrupts();
+    }
+
+    /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
+    void m68k_clear_irq(int int_line)
+    {
+       /* AND in the bits of the interrupt */
+       int state = m68k_cpu.get_CPU_INT_STATE();
+       m68k_cpu.set_CPU_INT_STATE(state & (~int_line & 7));
+       m68k_cpu.set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
+
+       /* check for interrupts again */
+       m68k_cpu.check_interrupts();
+    }
+    
+    /* Execute some instructions until we use up num_clks clock cycles */
+    /* ASG: removed per-instruction interrupt checks */
+    int m68k_execute(int num_clks)
+    {
+        if (M68K_HALT != 0)
+        {
+          if(m68k_cpu.get_CPU_HALTED() != 0)
+          {
+          }
+        }
+        
+        /* Make sure we're not stopped */
+        if(m68k_cpu.get_CPU_HALTED() != 0)
+        {
+          /* Set our pool of clock cycles available */
+          m68k_clks_left[0] = num_clks;
+
+          /* ASG: update cycles */
+          m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();
+          m68k_cpu.set_CPU_INT_CYCLES(0);
+
+          /* Main loop.  Keep going until we run out of clock cycles */
+          do
+          {
+             /* Set tracing accodring to T1. (T0 is done inside instruction) */
+             //m68k_cpu.set_trace(); /* auto-disable (see m68kcpu.h) */
+
+             /* Call external hook to peek at CPU */
+             //m68k_cpu.instr_hook(); /* auto-disable (see m68kcpu.h) */
+
+             /* MAME */
+             m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+             //CALL_MAME_DEBUG;
+
+             /* Read an instruction and call its handler */
+             m68k_cpu.set_CPU_IR(0/*read_instruction()*/);
+             opcode i = m68k_instruction_jump_table[m68k_cpu.get_CPU_IR()];
+             i.handler();
+
+             /* Trace m68k_exception, if necessary */
+             //exception_if_trace(); /* auto-disable (see m68kcpu.h) */
+             continue;
+          } while(m68k_clks_left[0] > 0);
+
+          /* set previous PC to current PC for the next entry into the loop */
+          m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+
+          /* ASG: update cycles */
+          m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();;
+          m68k_cpu.set_CPU_INT_CYCLES(0);
+          
+          /* return how many clocks we used */
+          return num_clks - m68k_clks_left[0];
+       }
+
+       /* We get here if the CPU is stopped */
+       m68k_clks_left[0] = 0;
+
+       return num_clks;
+    }
 
     public static void m68k_pulse_reset(Object param) {
         m68k_cpu.set_CPU_HALTED(0);
@@ -307,5 +571,11 @@ public class m68kcpu {
             */
             m68k_emulation_initialized = 1;
         }
+    }
+
+    /* Halt the CPU */
+    void m68k_pulse_halt()
+    {
+       m68k_cpu.set_CPU_HALTED(1);
     }
 }
