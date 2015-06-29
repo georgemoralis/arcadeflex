@@ -447,66 +447,48 @@ public class m68kcpu {
                 m68k_cpu.set_CPU_MODE(M68K_CPU_MODE_68000);
         }
     }
-    /*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* Execute some instructions until we use up num_clks clock cycles */
-/*TODO*////* ASG: removed per-instruction interrupt checks */
-/*TODO*///int m68k_execute(int num_clks)
-/*TODO*///{
-/*TODO*///   /* Make sure we're not stopped */
-/*TODO*///   if(!CPU_STOPPED)
-/*TODO*///   {
-/*TODO*///      /* Set our pool of clock cycles available */
-/*TODO*///      m68k_clks_left = num_clks;
-/*TODO*///
-/*TODO*///      /* ASG: update cycles */
-/*TODO*///      m68k_clks_left -= CPU_INT_CYCLES;
-/*TODO*///      CPU_INT_CYCLES = 0;
-/*TODO*///
-/*TODO*///      /* Main loop.  Keep going until we run out of clock cycles */
-/*TODO*///      do
-/*TODO*///      {
-/*TODO*///         /* Set tracing accodring to T1. (T0 is done inside instruction) */
-/*TODO*///         m68ki_set_trace(); /* auto-disable (see m68kcpu.h) */
-/*TODO*///
-/*TODO*///         /* Call external hook to peek at CPU */
-/*TODO*///         m68ki_instr_hook(); /* auto-disable (see m68kcpu.h) */
-/*TODO*///
-/*TODO*///         /* MAME */
-/*TODO*///         CPU_PPC = CPU_PC;
-/*TODO*///         /* MAME */
-/*TODO*///
-/*TODO*///         /* Read an instruction and call its handler */
+
+    /* Execute some instructions until we use up num_clks clock cycles */
+    /* ASG: removed per-instruction interrupt checks */
+    public static int m68k_execute(int num_clks) {
+        /* Make sure we're not stopped */
+        if (m68k_cpu.get_CPU_STOPPED() == 0)//if(!CPU_STOPPED)
+        {
+            /* Set our pool of clock cycles available */
+            m68k_clks_left[0] = num_clks;
+
+            /* ASG: update cycles */
+            m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();
+            m68k_cpu.set_CPU_INT_CYCLES(0);
+
+
+            /* Main loop.  Keep going until we run out of clock cycles */
+            do {
+                m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+
+                /*TODO*///         /* Read an instruction and call its handler */
 /*TODO*///         CPU_IR = m68ki_read_instruction();
 /*TODO*///         m68k_instruction_jump_table[CPU_IR]();
 /*TODO*///
-/*TODO*///         /* Trace m68k_exception, if necessary */
-/*TODO*///         m68ki_exception_if_trace(); /* auto-disable (see m68kcpu.h) */
-/*TODO*///         continue;
-/*TODO*///      } while(m68k_clks_left > 0);
-/*TODO*///
-/*TODO*///	  /* set previous PC to current PC for the next entry into the loop */
-/*TODO*///      CPU_PPC = CPU_PC;
-/*TODO*///
-/*TODO*///      /* ASG: update cycles */
-/*TODO*///      m68k_clks_left -= CPU_INT_CYCLES;
-/*TODO*///      CPU_INT_CYCLES = 0;
-/*TODO*///
-/*TODO*///	#if A68000_COREDEBUG
-/*TODO*///		Asgard68000MiniTrace(&CPU_D[0], &CPU_A[0], m68k_peek_pc(), m68k_peek_sr(), m68k_clks_left);
-/*TODO*///	#endif
-/*TODO*///
-/*TODO*///      /* return how many clocks we used */
-/*TODO*///      return num_clks - m68k_clks_left;
-/*TODO*///   }
-/*TODO*///   /* We get here if the CPU is stopped */
-/*TODO*///   m68k_clks_left = 0;
-/*TODO*///
-/*TODO*///   return num_clks;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+                continue;
+            } while (m68k_clks_left[0] > 0);
+
+            /* set previous PC to current PC for the next entry into the loop */
+            m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+
+            /* ASG: update cycles */
+            m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();;
+            m68k_cpu.set_CPU_INT_CYCLES(0);
+
+            /* return how many clocks we used */
+            return num_clks - m68k_clks_left[0];
+        }
+        /* We get here if the CPU is stopped */
+        m68k_clks_left[0] = 0;
+
+        return num_clks;
+    }
+
 
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
     public static void m68k_assert_irq(int int_line) {
@@ -540,39 +522,42 @@ public class m68kcpu {
 
     /* Reset the M68K */
     public static void m68k_pulse_reset(Object param) {
-        /*TODO*///   CPU_HALTED = 0;
-/*TODO*///   CPU_STOPPED = 0;
-/*TODO*///   CPU_INT_STATE = 0;	/* ASG: changed from CPU_INTS_PENDING */
-/*TODO*///   CPU_T1 = CPU_T0 = 0;
-/*TODO*///   m68ki_clear_trace();
-/*TODO*///   CPU_S = 1;
-/*TODO*///   CPU_M = 0;
-/*TODO*///   CPU_INT_MASK = 7;
-/*TODO*///   CPU_VBR = 0;
-/*TODO*///   CPU_A[7] = m68ki_read_32(0);
+        m68k_cpu.set_CPU_HALTED(0);
+        m68k_cpu.set_CPU_STOPPED(0);
+        m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: changed from CPU_INTS_PENDING */
+
+        m68k_cpu.set_CPU_T1(0);
+        m68k_cpu.set_CPU_T0(0);
+        m68k_cpu.set_CPU_S(1);
+        m68k_cpu.set_CPU_M(0);
+        m68k_cpu.set_CPU_INT_MASK(7);
+        m68k_cpu.set_CPU_VBR(0);
+        /*TODO*///   CPU_A[7] = m68ki_read_32(0);
 /*TODO*///   m68ki_set_pc(m68ki_read_32(4));
 /*TODO*///
 /*TODO*///   CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
 /*TODO*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
 /*TODO*///
-/*TODO*///   m68k_clks_left = 0;
-/*TODO*///
-/*TODO*///   if (CPU_MODE == 0) CPU_MODE = M68K_DEFAULT_CPU_MODE;	/* KW 990319 */
-/*TODO*///   /* The first call to this function initializes the opcode handler jump table */
-/*TODO*///   if(m68k_emulation_initialized)
-/*TODO*///      return;
-/*TODO*///   else
-/*TODO*///   {
-/*TODO*///      m68ki_build_opcode_table();
-/*TODO*///      m68k_set_int_ack_callback(NULL);
-/*TODO*///      m68k_set_bkpt_ack_callback(NULL);
-/*TODO*///      m68k_set_reset_instr_callback(NULL);
-/*TODO*///      m68k_set_pc_changed_callback(NULL);
-/*TODO*///      m68k_set_fc_callback(NULL);
-/*TODO*///      m68k_set_instr_hook_callback(NULL);
-/*TODO*///
-/*TODO*///      m68k_emulation_initialized = 1;
- /*TODO*///  }
+        m68k_clks_left[0] = 0;
+        if (m68k_cpu.get_CPU_MODE() == 0) {
+            m68k_cpu.set_CPU_MODE(MC68000_CPU_MODE_68000);	/* KW 990319 */
+
+        }
+
+        /* The first call to this function initializes the opcode handler jump table */
+        if (m68k_emulation_initialized != 0) {
+            return;
+        } else {
+            m68ki_build_opcode_table();
+            m68k_set_int_ack_callback(null);
+            m68k_set_bkpt_ack_callback(null);
+            m68k_set_reset_instr_callback(null);
+            m68k_set_pc_changed_callback(null);
+            m68k_set_fc_callback(null);
+            m68k_set_instr_hook_callback(null);
+
+            m68k_emulation_initialized = 1;
+        }
     }
 
 
