@@ -1,5 +1,6 @@
 package cpu.m68000;
 
+import cpu.m68000.m68kH.*;
 import static mame.cpuintrfH.*;
 
 public class m68kcpuH {
@@ -71,11 +72,12 @@ public class m68kcpuH {
 
         /* Callbacks to host */
         irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */
-        irqcallbacksPtr bkpt_ack_callback;     /* Breakpoint Acknowledge */
-        irqcallbacksPtr reset_instr_callback;   /* Called when a RESET instruction is encountered */
-        irqcallbacksPtr pc_changed_callback; /* Called when the PC changes by a large amount */
-        irqcallbacksPtr set_fc_callback;     /* Called when the CPU function code changes */
-        irqcallbacksPtr instr_hook_callback;       /* Called every instruction cycle prior to execution */
+        bkpt_ack_callbackPtr bkpt_ack_callback;     /* Breakpoint Acknowledge */
+        reset_instr_callbackPtr reset_instr_callback;   /* Called when a RESET instruction is encountered */
+        pc_changed_callbackPtr pc_changed_callback; /* Called when the PC changes by a large amount */
+        set_fc_callbackPtr set_fc_callback;     /* Called when the CPU function code changes */
+        instr_hook_callbackPtr instr_hook_callback;       /* Called every instruction cycle prior to execution */
+
         
         public m68k_cpu_core()
         {
@@ -116,11 +118,11 @@ public class m68kcpuH {
         public int get_CPU_PREF_DATA() { return pref_data; } 
         
         public irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() { return int_ack_callback; }
-        public irqcallbacksPtr get_CPU_BKPT_ACK_CALLBACK() { return bkpt_ack_callback; }
-        public irqcallbacksPtr get_CPU_RESET_INSTR_CALLBACK() { return reset_instr_callback; }
-        public irqcallbacksPtr get_CPU_PC_CHANGED_CALLBACK() { return pc_changed_callback; }
-        public irqcallbacksPtr get_CPU_SET_FC_CALLBACK() { return set_fc_callback; }
-        public irqcallbacksPtr get_CPU_INSTR_HOOK_CALLBACK() { return instr_hook_callback; }
+        public bkpt_ack_callbackPtr get_CPU_BKPT_ACK_CALLBACK() { return bkpt_ack_callback; }
+        public reset_instr_callbackPtr get_CPU_RESET_INSTR_CALLBACK() { return reset_instr_callback; }
+        public pc_changed_callbackPtr get_CPU_PC_CHANGED_CALLBACK() { return pc_changed_callback; }
+        public set_fc_callbackPtr get_CPU_SET_FC_CALLBACK() { return set_fc_callback; }
+        public instr_hook_callbackPtr get_CPU_INSTR_HOOK_CALLBACK() { return instr_hook_callback; }
         
         public void set_CPU_MODE(int mode) { this.mode = mode; }
         public void set_CPU_D(int reg_num, int value) { this.dr[reg_num] = value; }
@@ -155,11 +157,11 @@ public class m68kcpuH {
         public void set_CPU_PREF_DATA(int pref_data) { this.pref_data = pref_data; } 
         
         public void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {this.int_ack_callback = int_ack_callback; }
-        public void set_CPU_BKPT_ACK_CALLBACK(irqcallbacksPtr bkpt_ack_callback) { this.bkpt_ack_callback = bkpt_ack_callback; }
-        public void set_CPU_RESET_INSTR_CALLBACK(irqcallbacksPtr reset_instr_callback) { this.reset_instr_callback = reset_instr_callback; }
-        public void set_CPU_PC_CHANGED_CALLBACK(irqcallbacksPtr pc_changed_callback) { this.pc_changed_callback = pc_changed_callback; }
-        public void set_CPU_SET_FC_CALLBACK(irqcallbacksPtr set_fc_callback) { this.set_fc_callback = set_fc_callback; }
-        public void set_CPU_INSTR_HOOK_CALLBACK(irqcallbacksPtr instr_hook_callback) { this.instr_hook_callback = instr_hook_callback; }
+        public void set_CPU_BKPT_ACK_CALLBACK(bkpt_ack_callbackPtr bkpt_ack_callback) { this.bkpt_ack_callback = bkpt_ack_callback; }
+        public void set_CPU_RESET_INSTR_CALLBACK(reset_instr_callbackPtr reset_instr_callback) { this.reset_instr_callback = reset_instr_callback; }
+        public void set_CPU_PC_CHANGED_CALLBACK(pc_changed_callbackPtr pc_changed_callback) { this.pc_changed_callback = pc_changed_callback; }
+        public void set_CPU_SET_FC_CALLBACK(set_fc_callbackPtr set_fc_callback) { this.set_fc_callback = set_fc_callback; }
+        public void set_CPU_INSTR_HOOK_CALLBACK(instr_hook_callbackPtr instr_hook_callback) { this.instr_hook_callback = instr_hook_callback; }
     
         /* Bit Isolation */
         public int BIT_0(int A) { return ((A) & 0x00000001); }

@@ -1,7 +1,8 @@
 package cpu.m68000;
 
+import static mame.cpuintrfH.*;
+
 public class m68kH {
-    public static final int M68K_IRQ_NONE = 0;
     public static final int M68K_IRQ_1 = 1;
     public static final int M68K_IRQ_2 = 2;
     public static final int M68K_IRQ_3 = 3;
@@ -10,8 +11,8 @@ public class m68kH {
     public static final int M68K_IRQ_6 = 6;
     public static final int M68K_IRQ_7 = 7;
     
-    public static final int M68K_INT_ACK_AUTOVECTOR = 0xffffffff;
-    public static final int M68K_INT_ACK_SPURIOUS = 0xfffffffe;
+    public static final int M68K_INT_ACK_AUTOVECTOR = -1;
+    public static final int M68K_INT_ACK_SPURIOUS = -2;
     
     public static final int M68K_CPU_MODE_68000 = 1;
     public static final int M68K_CPU_MODE_68010 = 2;
@@ -29,7 +30,7 @@ public class m68kH {
         public int sfc;                 /* Source Function Code Register (m68010+) */
         public int dfc;                 /* Destination Function Code Register (m68010+) */
         public int cacr;                /* Cache Control Register (m68020+) */
-        public int caar;                /* Cacge Address Register (m68020+) */
+        public int caar;                /* Cache Address Register (m68020+) */
         public int ir;                  /* Instruction Register */
         public int t1_flag;             /* Trace 1 */
         public int t0_flag;             /* Trace 0 */
@@ -49,18 +50,13 @@ public class m68kH {
         public int pref_data;           /* Data in the prefetch queue */
 
         /* Callbacks to host */
-        int_ack_callbackPtr int_ack_callback;  /* Interrupt Acknowledge */
+        irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */
         bkpt_ack_callbackPtr bkpt_ack_callback;     /* Breakpoint Acknowledge */
         reset_instr_callbackPtr reset_instr_callback;   /* Called when a RESET instruction is encountered */
         pc_changed_callbackPtr pc_changed_callback; /* Called when the PC changes by a large amount */
         set_fc_callbackPtr set_fc_callback;     /* Called when the CPU function code changes */
         instr_hook_callbackPtr instr_hook_callback;       /* Called every instruction cycle prior to execution */
     }
-
-    public static abstract interface int_ack_callbackPtr {
-        public abstract int handler(int int_line);
-    }
-
     public static abstract interface bkpt_ack_callbackPtr {
         public abstract void handler(int data);
     }

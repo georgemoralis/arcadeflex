@@ -13,11 +13,15 @@ import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kops.*;
 
 public class m68kcpu {
+
     public static int m68k_emulation_initialized = 0;                /* flag if emulation has been initialized */
+
     public static opcode[] m68k_instruction_jump_table = new opcode[0x10000]; /* opcode handler jump table */
+
     public static int[] m68k_clks_left = new int[1];                          /* Number of clocks remaining */
-    public static int m68k_tracing = 0;   
-    
+
+    public static int m68k_tracing = 0;
+
     public static int m68k_sr_implemented_bits[] = {
         0x0000, /* invalid */
         0xa71f, /* 68000:   T1 -- S  -- -- I2 I1 I0 -- -- -- X  N  Z  V  C  */
@@ -27,154 +31,204 @@ public class m68kcpu {
         0x0000, /* invalid */
         0x0000, /* invalid */
         0x0000, /* invalid */
-        0xf71f, /* 68020:   T1 T0 S  M  -- I2 I1 I0 -- -- -- X  N  Z  V  C  */
-    };
+        0xf71f, /* 68020:   T1 T0 S  M  -- I2 I1 I0 -- -- -- X  N  Z  V  C  */};
 
     /* The CPU core */
     private static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
 
     /* Pointers to speed up address register indirect with index calculation */
     private int[][] m68k_cpu_dar = {m68k_cpu.get_CPU_D(), m68k_cpu.get_CPU_A()};
-    
+
     /* Pointers to speed up movem instructions */
     private int[] m68k_movem_pi_table = {
         m68k_cpu.get_CPU_D()[0], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[3],
         m68k_cpu.get_CPU_D()[4], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[7],
         m68k_cpu.get_CPU_A()[0], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[3],
-        m68k_cpu.get_CPU_A()[4], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[0],
-    };
+        m68k_cpu.get_CPU_A()[4], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[7],};
 
     private int[] m68k_movem_pd_table = {
         m68k_cpu.get_CPU_A()[7], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[4],
         m68k_cpu.get_CPU_A()[3], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[0],
         m68k_cpu.get_CPU_D()[7], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[4],
-        m68k_cpu.get_CPU_D()[3], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[0],
+        m68k_cpu.get_CPU_D()[3], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[0],};
+
+    /*TODO*////* Used when checking for pending interrupts */
+/*TODO*///uint8 m68k_int_masks[] = {0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80, 0x80};
+/*TODO*///
+/*TODO*////* Used by shift & rotate instructions */
+/*TODO*///uint8 m68k_shift_8_table[65] =
+/*TODO*///{
+/*TODO*///    0x00, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+/*TODO*///    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+/*TODO*///    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+/*TODO*///    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+/*TODO*///};
+/*TODO*///uint16 m68k_shift_16_table[65] =
+/*TODO*///{
+/*TODO*///    0x0000, 0x8000, 0xc000, 0xe000, 0xf000, 0xf800, 0xfc00, 0xfe00, 0xff00, 0xff80, 0xffc0, 0xffe0,
+/*TODO*///    0xfff0, 0xfff8, 0xfffc, 0xfffe, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
+/*TODO*///    0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
+/*TODO*///    0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
+/*TODO*///    0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
+/*TODO*///    0xffff, 0xffff, 0xffff, 0xffff, 0xffff
+/*TODO*///};
+/*TODO*///uint m68k_shift_32_table[65] =
+/*TODO*///{
+/*TODO*///    0x00000000, 0x80000000, 0xc0000000, 0xe0000000, 0xf0000000, 0xf8000000, 0xfc000000, 0xfe000000,
+/*TODO*///    0xff000000, 0xff800000, 0xffc00000, 0xffe00000, 0xfff00000, 0xfff80000, 0xfffc0000, 0xfffe0000,
+/*TODO*///    0xffff0000, 0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000, 0xfffff800, 0xfffffc00, 0xfffffe00,
+/*TODO*///    0xffffff00, 0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0, 0xfffffff8, 0xfffffffc, 0xfffffffe,
+/*TODO*///    0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+/*TODO*///    0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+/*TODO*///    0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
+/*TODO*///    0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff
+/*TODO*///};
+/*TODO*///
+
+    /* Number of clock cycles to use for exception processing.
+     * I used 4 for any vectors that are undocumented for processing times.
+     */
+    int m68k_exception_cycle_table[]
+            = {
+                40, /*  0: Reset - should never be called                                 */
+                40, /*  1: Reset - should never be called                                 */
+                50, /*  2: Bus Error                                (unused in emulation) */
+                50, /*  3: Address Error                            (unused in emulation) */
+                34, /*  4: Illegal Instruction                                            */
+                38, /*  5: Divide by Zero -- ASG: changed from 42                         */
+                40, /*  6: CHK -- ASG: chanaged from 44                                   */
+                34, /*  7: TRAPV                                                          */
+                34, /*  8: Privilege Violation                                            */
+                34, /*  9: Trace                                                          */
+                4, /* 10: 1010                                                           */
+                4, /* 11: 1111                                                           */
+                4, /* 12: RESERVED                                                       */
+                4, /* 13: Coprocessor Protocol Violation           (unused in emulation) */
+                4, /* 14: Format Error                             (unused in emulation) */
+                44, /* 15: Uninitialized Interrupt                                        */
+                4, /* 16: RESERVED                                                       */
+                4, /* 17: RESERVED                                                       */
+                4, /* 18: RESERVED                                                       */
+                4, /* 19: RESERVED                                                       */
+                4, /* 20: RESERVED                                                       */
+                4, /* 21: RESERVED                                                       */
+                4, /* 22: RESERVED                                                       */
+                4, /* 23: RESERVED                                                       */
+                44, /* 24: Spurious Interrupt                                             */
+                44, /* 25: Level 1 Interrupt Autovector                                   */
+                44, /* 26: Level 2 Interrupt Autovector                                   */
+                44, /* 27: Level 3 Interrupt Autovector                                   */
+                44, /* 28: Level 4 Interrupt Autovector                                   */
+                44, /* 29: Level 5 Interrupt Autovector                                   */
+                44, /* 30: Level 6 Interrupt Autovector                                   */
+                44, /* 31: Level 7 Interrupt Autovector                                   */
+                34, /* 32: TRAP #0 -- ASG: chanaged from 38                               */
+                34, /* 33: TRAP #1                                                        */
+                34, /* 34: TRAP #2                                                        */
+                34, /* 35: TRAP #3                                                        */
+                34, /* 36: TRAP #4                                                        */
+                34, /* 37: TRAP #5                                                        */
+                34, /* 38: TRAP #6                                                        */
+                34, /* 39: TRAP #7                                                        */
+                34, /* 40: TRAP #8                                                        */
+                34, /* 41: TRAP #9                                                        */
+                34, /* 42: TRAP #10                                                       */
+                34, /* 43: TRAP #11                                                       */
+                34, /* 44: TRAP #12                                                       */
+                34, /* 45: TRAP #13                                                       */
+                34, /* 46: TRAP #14                                                       */
+                34, /* 47: TRAP #15                                                       */
+                4, /* 48: FP Branch or Set on Unknown Condition    (unused in emulation) */
+                4, /* 49: FP Inexact Result                        (unused in emulation) */
+                4, /* 50: FP Divide by Zero                        (unused in emulation) */
+                4, /* 51: FP Underflow                             (unused in emulation) */
+                4, /* 52: FP Operand Error                         (unused in emulation) */
+                4, /* 53: FP Overflow                              (unused in emulation) */
+                4, /* 54: FP Signaling NAN                         (unused in emulation) */
+                4, /* 55: FP Unimplemented Data Type               (unused in emulation) */
+                4, /* 56: MMU Configuration Error                  (unused in emulation) */
+                4, /* 57: MMU Illegal Operation Error              (unused in emulation) */
+                4, /* 58: MMU Access Level Violation Error         (unused in emulation) */
+                4, /* 59: RESERVED                                                       */
+                4, /* 60: RESERVED                                                       */
+                4, /* 61: RESERVED                                                       */
+                4, /* 62: RESERVED                                                       */
+                4, /* 63: RESERVED                                                       */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  64- 79: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  80- 95: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  96-111: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 112-127: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 128-143: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 144-159: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 160-175: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 176-191: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 192-207: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 208-223: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 224-239: User Defined */
+                4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 240-255: User Defined */};
+
+    /* ======================================================================== */
+    /* =============================== CALLBACKS ============================== */
+    /* ======================================================================== */
+
+    /* Default callbacks used if the callback hasn't been set yet, or if the
+     * callback is set to NULL
+     */
+
+    /* Interrupt acknowledge */
+    static int default_int_ack_callback_data;
+
+    static irqcallbacksPtr default_int_ack_callback = new irqcallbacksPtr() {
+        public int handler(int int_level) {
+            default_int_ack_callback_data = int_level;
+            return M68K_INT_ACK_AUTOVECTOR;
+        }
     };
 
-    /* Used when checking for pending interrupts */
-    byte[] m68k_int_masks = {
-        (byte)0xfe, (byte)0xfc, (byte)0xf8, (byte)0xf0,
-        (byte)0xe0, (byte)0xc0, (byte)0x80, (byte)0x80
+    /* Breakpoint acknowledge */
+    static int default_bkpt_ack_callback_data;
+    static bkpt_ack_callbackPtr default_bkpt_ack_callback = new bkpt_ack_callbackPtr() {
+        public void handler(int data) {
+            default_bkpt_ack_callback_data = data;
+        }
     };
 
-    /* Used by shift & rotate instructions */
-    byte[] m68k_shift_8_table = {
-        (byte)0x00, (byte)0x80, (byte)0xc0, (byte)0xe0, (byte)0xf0, (byte)0xf8, (byte)0xfc, (byte)0xfe,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff,
-        (byte)0xff
+    /* Called when a reset instruction is executed */
+    static reset_instr_callbackPtr default_reset_instr_callback = new reset_instr_callbackPtr() {
+        public void handler() {
+
+        }
     };
-    
-    short[] m68k_shift_16_table = {
-        (short)0x0000, (short)0x8000, (short)0xc000, (short)0xe000, (short)0xf000, (short)0xf800,
-        (short)0xfc00, (short)0xfe00, (short)0xff00, (short)0xff80, (short)0xffc0, (short)0xffe0,
-        (short)0xfff0, (short)0xfff8, (short)0xfffc, (short)0xfffe, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff,
-        (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff, (short)0xffff
+
+
+    /* Called when the program counter changed by a large value */
+    static int default_pc_changed_callback_data;
+    static pc_changed_callbackPtr default_pc_changed_callback = new pc_changed_callbackPtr() {
+        public void handler(int new_pc) {
+            default_pc_changed_callback_data = new_pc;
+        }
     };
-    
-    int[] m68k_shift_32_table = {
-        0x00000000, 0x80000000, 0xc0000000, 0xe0000000, 0xf0000000, 0xf8000000, 0xfc000000, 0xfe000000,
-        0xff000000, 0xff800000, 0xffc00000, 0xffe00000, 0xfff00000, 0xfff80000, 0xfffc0000, 0xfffe0000,
-        0xffff0000, 0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000, 0xfffff800, 0xfffffc00, 0xfffffe00,
-        0xffffff00, 0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0, 0xfffffff8, 0xfffffffc, 0xfffffffe,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0xffffffff
+
+    /* Called every time there's bus activity (read/write to/from memory */
+    static int default_set_fc_callback_data;
+    static set_fc_callbackPtr default_set_fc_callback = new set_fc_callbackPtr() {
+        public void handler(int new_fc) {
+            default_set_fc_callback_data = new_fc;
+        }
     };
-    
-    byte[] m68k_exception_cycle_table = {
-        40, /*  0: Reset - should never be called                                 */
-        40, /*  1: Reset - should never be called                                 */
-        50, /*  2: Bus Error                                (unused in emulation) */
-        50, /*  3: Address Error                            (unused in emulation) */
-        34, /*  4: Illegal Instruction                                            */
-        38, /*  5: Divide by Zero -- ASG: changed from 42                         */
-        40, /*  6: CHK -- ASG: chanaged from 44                                   */
-        34, /*  7: TRAPV                                                          */
-        34, /*  8: Privilege Violation                                            */
-        34, /*  9: Trace                                                          */
-         4, /* 10: 1010                                                           */
-         4, /* 11: 1111                                                           */
-         4, /* 12: RESERVED                                                       */
-         4, /* 13: Coprocessor Protocol Violation           (unused in emulation) */
-         4, /* 14: Format Error                             (unused in emulation) */
-        44, /* 15: Uninitialized Interrupt                                        */
-         4, /* 16: RESERVED                                                       */
-         4, /* 17: RESERVED                                                       */
-         4, /* 18: RESERVED                                                       */
-         4, /* 19: RESERVED                                                       */
-         4, /* 20: RESERVED                                                       */
-         4, /* 21: RESERVED                                                       */
-         4, /* 22: RESERVED                                                       */
-         4, /* 23: RESERVED                                                       */
-        44, /* 24: Spurious Interrupt                                             */
-        44, /* 25: Level 1 Interrupt Autovector                                   */
-        44, /* 26: Level 2 Interrupt Autovector                                   */
-        44, /* 27: Level 3 Interrupt Autovector                                   */
-        44, /* 28: Level 4 Interrupt Autovector                                   */
-        44, /* 29: Level 5 Interrupt Autovector                                   */
-        44, /* 30: Level 6 Interrupt Autovector                                   */
-        44, /* 31: Level 7 Interrupt Autovector                                   */
-        34, /* 32: TRAP #0 -- ASG: chanaged from 38                               */
-        34, /* 33: TRAP #1                                                        */
-        34, /* 34: TRAP #2                                                        */
-        34, /* 35: TRAP #3                                                        */
-        34, /* 36: TRAP #4                                                        */
-        34, /* 37: TRAP #5                                                        */
-        34, /* 38: TRAP #6                                                        */
-        34, /* 39: TRAP #7                                                        */
-        34, /* 40: TRAP #8                                                        */
-        34, /* 41: TRAP #9                                                        */
-        34, /* 42: TRAP #10                                                       */
-        34, /* 43: TRAP #11                                                       */
-        34, /* 44: TRAP #12                                                       */
-        34, /* 45: TRAP #13                                                       */
-        34, /* 46: TRAP #14                                                       */
-        34, /* 47: TRAP #15                                                       */
-         4, /* 48: FP Branch or Set on Unknown Condition    (unused in emulation) */
-         4, /* 49: FP Inexact Result                        (unused in emulation) */
-         4, /* 50: FP Divide by Zero                        (unused in emulation) */
-         4, /* 51: FP Underflow                             (unused in emulation) */
-         4, /* 52: FP Operand Error                         (unused in emulation) */
-         4, /* 53: FP Overflow                              (unused in emulation) */
-         4, /* 54: FP Signaling NAN                         (unused in emulation) */
-         4, /* 55: FP Unimplemented Data Type               (unused in emulation) */
-         4, /* 56: MMU Configuration Error                  (unused in emulation) */
-         4, /* 57: MMU Illegal Operation Error              (unused in emulation) */
-         4, /* 58: MMU Access Level Violation Error         (unused in emulation) */
-         4, /* 59: RESERVED                                                       */
-         4, /* 60: RESERVED                                                       */
-         4, /* 61: RESERVED                                                       */
-         4, /* 62: RESERVED                                                       */
-         4, /* 63: RESERVED                                                       */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  64- 79: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  80- 95: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /*  96-111: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 112-127: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 128-143: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 144-159: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 160-175: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 176-191: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 192-207: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 208-223: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 224-239: User Defined */
-         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, /* 240-255: User Defined */
+
+
+    /* Called every instruction cycle prior to execution */
+    static instr_hook_callbackPtr default_instr_hook_callback = new instr_hook_callbackPtr() {
+        public void handler() {
+
+        }
     };
-    
+
+    /* ======================================================================== */
+    /* ================================= API ================================== */
+    /* ======================================================================== */
+
     /* Peek at the internals of the M68K */
     public static int m68k_peek_dr(int reg_num) {
         return (reg_num < 8) ? m68k_cpu.get_CPU_D()[reg_num] : 0;
@@ -192,10 +246,7 @@ public class m68kcpu {
         return m68k_cpu.ADDRESS_68K(m68k_cpu.get_CPU_PPC());
     }
 
-    public static int m68k_peek_sr() {
-        return 0;
-    }
-
+    /*TODO*///int m68k_peek_sr(void)          { return m68ki_get_sr(); }
     public static int m68k_peek_ir() {
         return m68k_cpu.get_CPU_IR();
     }
@@ -251,72 +302,60 @@ public class m68kcpu {
     public static int m68k_peek_msp() {
         return ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() != 0) ? m68k_cpu.get_CPU_A()[7] : m68k_cpu.get_CPU_MSP());
     }
-
     /* Poke data into the M68K */
+
     public static void m68k_poke_dr(int reg_num, int value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_D(8, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_D(reg_num, m68k_cpu.MASK_OUT_ABOVE_32(value));
         }
     }
 
     public static void m68k_poke_ar(int reg_num, int value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_A(8, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_A(reg_num, m68k_cpu.MASK_OUT_ABOVE_32(value));
         }
     }
-
-    public static void m68k_poke_pc(int value) {
-        m68k_cpu.set_CPU_PC(m68k_cpu.ADDRESS_68K(value));
-    }
-
-    public static void m68k_poke_sr(int value) { /*m68ki_set_sr(MASK_OUT_ABOVE_16(value));*/ }
+    /*TODO*///void m68k_poke_pc(unsigned int value)     { m68ki_set_pc(ADDRESS_68K(value)); }
+/*TODO*///void m68k_poke_sr(int value)              { m68ki_set_sr(MASK_OUT_ABOVE_16(value)); }
 
     public static void m68k_poke_ir(int value) {
         m68k_cpu.set_CPU_IR(m68k_cpu.MASK_OUT_ABOVE_16(value));
     }
 
     public static void m68k_poke_t1_flag(int value) {
-        m68k_cpu.set_CPU_T1(value);
+        m68k_cpu.set_CPU_T1(value != 0 ? 1 : 0); //CPU_T1 = (value != 0);
     }
 
     public static void m68k_poke_t0_flag(int value) {
         if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
-            m68k_cpu.set_CPU_T0(value);
+            m68k_cpu.set_CPU_T0(value != 0 ? 1 : 0);//CPU_T0 = (value != 0);
         }
     }
-
-    public static void m68k_poke_s_flag(int value) {
-        m68k_cpu.set_CPU_S(value);
-    }
-
-    public static void m68k_poke_m_flag(int value) {
-        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
-            m68k_cpu.set_CPU_M(value);
-        }
-    }
+    /*TODO*///void m68k_poke_s_flag(int value)          { m68ki_set_s_flag(value); }
+/*TODO*///void m68k_poke_m_flag(int value)          { if(CPU_MODE & CPU_MODE_EC020_PLUS) m68ki_set_m_flag(value); }
 
     public static void m68k_poke_int_mask(int value) {
         m68k_cpu.set_CPU_INT_MASK(value & 7);
     }
 
     public static void m68k_poke_x_flag(int value) {
-        m68k_cpu.set_CPU_X(value);
+        m68k_cpu.set_CPU_X(value != 0 ? 1 : 0);//CPU_X = (value != 0);
     }
 
     public static void m68k_poke_n_flag(int value) {
-        m68k_cpu.set_CPU_N(value);
+        m68k_cpu.set_CPU_N(value != 0 ? 1 : 0);//CPU_N = (value != 0);
     }
 
     public static void m68k_poke_z_flag(int value) {
-        m68k_cpu.set_CPU_NOT_Z(value);
+        m68k_cpu.set_CPU_NOT_Z(value == 0 ? 1 : 0);//CPU_NOT_Z = (value == 0);
     }
 
     public static void m68k_poke_v_flag(int value) {
-        m68k_cpu.set_CPU_V(value);
+        m68k_cpu.set_CPU_V(value != 0 ? 1 : 0);//CPU_V = (value != 0);
     }
 
     public static void m68k_poke_c_flag(int value) {
-        m68k_cpu.set_CPU_C(value);
+        m68k_cpu.set_CPU_C(value != 0 ? 1 : 0);//CPU_C = (value != 0);
     }
 
     public static void m68k_poke_usp(int value) {
@@ -334,248 +373,348 @@ public class m68kcpu {
             m68k_cpu.set_CPU_ISP(m68k_cpu.MASK_OUT_ABOVE_32(value));
         }
     }
+    /*TODO*///void m68k_poke_msp(int value)
+/*TODO*///{
+/*TODO*///   if(CPU_MODE & CPU_MODE_EC020_PLUS)
+/*TODO*///   {
+/*TODO*///      if(CPU_S && CPU_M)
+/*TODO*///         CPU_A[7] = MASK_OUT_ABOVE_32(value);
+/*TODO*///      else
+/*TODO*///         CPU_MSP = MASK_OUT_ABOVE_32(value);
+/*TODO*///   }
+/*TODO*///}
+/*TODO*///
+    /* Set the callbacks */
 
-    public static void m68k_poke_msp(int value) {
-        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
-            if ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() != 0)) {
-                m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
-            } else {
-                m68k_cpu.set_CPU_MSP(m68k_cpu.MASK_OUT_ABOVE_32(value));
-            }
+    public static void m68k_set_int_ack_callback(irqcallbacksPtr callback) {
+        if (callback != null) {
+            m68k_cpu.set_CPU_INT_ACK_CALLBACK(callback);
+        } else {
+            m68k_cpu.set_CPU_INT_ACK_CALLBACK(default_int_ack_callback);
         }
     }
-    
-    /* Interrupt acknowledge */
-    static int default_int_ack_callback_data;
-    static int default_int_ack_callback(int int_level) {
-        default_int_ack_callback_data = int_level;
-        return M68K_INT_ACK_AUTOVECTOR;
-    }
 
-    /* Breakpoint acknowledge */
-    static int default_bkpt_ack_callback_data;
-    static void default_bkpt_ack_callback(int data) {
-        default_bkpt_ack_callback_data = data;
-    }
-
-    /* Called when a reset instruction is executed */
-    static void default_reset_instr_callback() {   
-    }
-
-    /* Called when the program counter changed by a large value */
-    static int default_pc_changed_callback_data;
-    static void default_pc_changed_callback(int new_pc) {
-        default_pc_changed_callback_data = new_pc;
-    }
-
-    /* Called every time there's bus activity (read/write to/from memory */
-    static int default_set_fc_callback_data;
-    static void default_set_fc_callback(int new_fc) {
-        default_set_fc_callback_data = new_fc;
-    }
-
-    /* Called every instruction cycle prior to execution */
-    static void default_instr_hook_callback() {
-    }
-    
-    /* Set the callbacks */
-    public static void m68k_set_int_ack_callback(irqcallbacksPtr callback) {
-        // TODO
-        if (callback != null)
-            m68k_cpu.set_CPU_INT_ACK_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_INT_ACK_CALLBACK(null);
-    }
-    
-    public static void m68k_set_bkpt_ack_callback(irqcallbacksPtr callback) {
-        // TODO
-        if (callback != null)
+    public static void m68k_set_bkpt_ack_callback(bkpt_ack_callbackPtr callback) {
+        if (callback != null) {
             m68k_cpu.set_CPU_BKPT_ACK_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_BKPT_ACK_CALLBACK(null);
+        } else {
+            m68k_cpu.set_CPU_BKPT_ACK_CALLBACK(default_bkpt_ack_callback);
+        }
     }
-    
-    public static void m68k_set_reset_instr_callback(irqcallbacksPtr callback) {
-        // TODO
-        if (callback != null)
+
+    public static void m68k_set_reset_instr_callback(reset_instr_callbackPtr callback) {
+        if (callback != null) {
             m68k_cpu.set_CPU_RESET_INSTR_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_RESET_INSTR_CALLBACK(null);
+        } else {
+            m68k_cpu.set_CPU_RESET_INSTR_CALLBACK(default_reset_instr_callback);
+        }
     }
-    
-    public static void m68k_set_pc_changed_callback(irqcallbacksPtr callback) {
-        // TODO
-        if (callback != null)
+
+    public static void m68k_set_pc_changed_callback(pc_changed_callbackPtr callback) {
+        if (callback != null) {
             m68k_cpu.set_CPU_PC_CHANGED_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_PC_CHANGED_CALLBACK(null);
+        } else {
+            m68k_cpu.set_CPU_PC_CHANGED_CALLBACK(default_pc_changed_callback);
+        }
     }
-    
-    public static void m68k_set_fc_callback(irqcallbacksPtr callback) {
-        // TODO
-        if (callback != null)
+
+    public static void m68k_set_fc_callback(set_fc_callbackPtr callback) {
+        if (callback != null) {
             m68k_cpu.set_CPU_SET_FC_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_SET_FC_CALLBACK(null);
+        } else {
+            m68k_cpu.set_CPU_SET_FC_CALLBACK(default_set_fc_callback);
+        }
     }
-    
-    public static void m68k_set_instr_hook_callback(irqcallbacksPtr callback) {
+
+    public static void m68k_set_instr_hook_callback(instr_hook_callbackPtr callback) {
         // TODO
-        if (callback != null)
+        if (callback != null) {
             m68k_cpu.set_CPU_INSTR_HOOK_CALLBACK(callback);
-        else
-            m68k_cpu.set_CPU_INSTR_HOOK_CALLBACK(null);
+        } else {
+            m68k_cpu.set_CPU_INSTR_HOOK_CALLBACK(default_instr_hook_callback);
+        }
     }
-    
-    public static void m68k_set_cpu_mode(int cpu_mode)
-    {
-        switch(cpu_mode)
-        {
+
+    public static void m68k_set_cpu_mode(int cpu_mode) {
+        switch (cpu_mode) {
             case M68K_CPU_MODE_68000:
             case M68K_CPU_MODE_68010:
             case M68K_CPU_MODE_68EC020:
             case M68K_CPU_MODE_68020:
                 m68k_cpu.set_CPU_MODE(cpu_mode);
-            return;
+                return;
             default:
                 m68k_cpu.set_CPU_MODE(M68K_CPU_MODE_68000);
         }
     }
-    
+    /*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Execute some instructions until we use up num_clks clock cycles */
+/*TODO*////* ASG: removed per-instruction interrupt checks */
+/*TODO*///int m68k_execute(int num_clks)
+/*TODO*///{
+/*TODO*///   /* Make sure we're not stopped */
+/*TODO*///   if(!CPU_STOPPED)
+/*TODO*///   {
+/*TODO*///      /* Set our pool of clock cycles available */
+/*TODO*///      m68k_clks_left = num_clks;
+/*TODO*///
+/*TODO*///      /* ASG: update cycles */
+/*TODO*///      m68k_clks_left -= CPU_INT_CYCLES;
+/*TODO*///      CPU_INT_CYCLES = 0;
+/*TODO*///
+/*TODO*///      /* Main loop.  Keep going until we run out of clock cycles */
+/*TODO*///      do
+/*TODO*///      {
+/*TODO*///         /* Set tracing accodring to T1. (T0 is done inside instruction) */
+/*TODO*///         m68ki_set_trace(); /* auto-disable (see m68kcpu.h) */
+/*TODO*///
+/*TODO*///         /* Call external hook to peek at CPU */
+/*TODO*///         m68ki_instr_hook(); /* auto-disable (see m68kcpu.h) */
+/*TODO*///
+/*TODO*///         /* MAME */
+/*TODO*///         CPU_PPC = CPU_PC;
+/*TODO*///         /* MAME */
+/*TODO*///
+/*TODO*///         /* Read an instruction and call its handler */
+/*TODO*///         CPU_IR = m68ki_read_instruction();
+/*TODO*///         m68k_instruction_jump_table[CPU_IR]();
+/*TODO*///
+/*TODO*///         /* Trace m68k_exception, if necessary */
+/*TODO*///         m68ki_exception_if_trace(); /* auto-disable (see m68kcpu.h) */
+/*TODO*///         continue;
+/*TODO*///      } while(m68k_clks_left > 0);
+/*TODO*///
+/*TODO*///	  /* set previous PC to current PC for the next entry into the loop */
+/*TODO*///      CPU_PPC = CPU_PC;
+/*TODO*///
+/*TODO*///      /* ASG: update cycles */
+/*TODO*///      m68k_clks_left -= CPU_INT_CYCLES;
+/*TODO*///      CPU_INT_CYCLES = 0;
+/*TODO*///
+/*TODO*///	#if A68000_COREDEBUG
+/*TODO*///		Asgard68000MiniTrace(&CPU_D[0], &CPU_A[0], m68k_peek_pc(), m68k_peek_sr(), m68k_clks_left);
+/*TODO*///	#endif
+/*TODO*///
+/*TODO*///      /* return how many clocks we used */
+/*TODO*///      return num_clks - m68k_clks_left;
+/*TODO*///   }
+/*TODO*///   /* We get here if the CPU is stopped */
+/*TODO*///   m68k_clks_left = 0;
+/*TODO*///
+/*TODO*///   return num_clks;
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
-    void m68k_assert_irq(int int_line)
-    {
-       /* OR in the bits of the interrupt */
-       int old_state = m68k_cpu.get_CPU_INT_STATE();
-       m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
-       int new_state = m68k_cpu.get_CPU_INT_STATE();
-       m68k_cpu.set_CPU_INT_STATE(new_state | (int_line & 7));
+    public static void m68k_assert_irq(int int_line) {
+        /* OR in the bits of the interrupt */
+        int old_state = m68k_cpu.get_CPU_INT_STATE();
+        m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
 
-       /* if it's NMI, we're edge triggered */
-       if (m68k_cpu.get_CPU_INT_STATE() == 7)
-       {
-          if (old_state != 7)
-             m68k_cpu.service_interrupt(1 << 7);
-       }
+        int new_state = m68k_cpu.get_CPU_INT_STATE();
+        m68k_cpu.set_CPU_INT_STATE(new_state | (int_line & 7));
 
-       /* other interrupts just reflect the current state */
-       else
-          m68k_cpu.check_interrupts();
-    }
-
-    /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
-    void m68k_clear_irq(int int_line)
-    {
-       /* AND in the bits of the interrupt */
-       int state = m68k_cpu.get_CPU_INT_STATE();
-       m68k_cpu.set_CPU_INT_STATE(state & (~int_line & 7));
-       m68k_cpu.set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
-
-       /* check for interrupts again */
-       m68k_cpu.check_interrupts();
-    }
-    
-    /* Execute some instructions until we use up num_clks clock cycles */
-    /* ASG: removed per-instruction interrupt checks */
-    int m68k_execute(int num_clks)
-    {
-        if (M68K_HALT != 0)
-        {
-          if(m68k_cpu.get_CPU_HALTED() != 0)
-          {
-          }
+        /* if it's NMI, we're edge triggered */
+        if (m68k_cpu.get_CPU_INT_STATE() == 7) {
+            if (old_state != 7) {
+                m68k_cpu.service_interrupt(1 << 7);
+            }
+        } /* other interrupts just reflect the current state */ else {
+            m68k_cpu.check_interrupts();
         }
-        
-        /* Make sure we're not stopped */
-        if(m68k_cpu.get_CPU_HALTED() != 0)
-        {
-          /* Set our pool of clock cycles available */
-          m68k_clks_left[0] = num_clks;
+    }
+    /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
 
-          /* ASG: update cycles */
-          m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();
-          m68k_cpu.set_CPU_INT_CYCLES(0);
+    public static void m68k_clear_irq(int int_line) {
+        /* AND in the bits of the interrupt */
+        int state = m68k_cpu.get_CPU_INT_STATE();
+        m68k_cpu.set_CPU_INT_STATE(state & (~int_line & 7));
+        m68k_cpu.set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
 
-          /* Main loop.  Keep going until we run out of clock cycles */
-          do
-          {
-             /* Set tracing accodring to T1. (T0 is done inside instruction) */
-             //m68k_cpu.set_trace(); /* auto-disable (see m68kcpu.h) */
-
-             /* Call external hook to peek at CPU */
-             //m68k_cpu.instr_hook(); /* auto-disable (see m68kcpu.h) */
-
-             /* MAME */
-             m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
-             //CALL_MAME_DEBUG;
-
-             /* Read an instruction and call its handler */
-             m68k_cpu.set_CPU_IR(0/*read_instruction()*/);
-             opcode i = m68k_instruction_jump_table[m68k_cpu.get_CPU_IR()];
-             i.handler();
-
-             /* Trace m68k_exception, if necessary */
-             //exception_if_trace(); /* auto-disable (see m68kcpu.h) */
-             continue;
-          } while(m68k_clks_left[0] > 0);
-
-          /* set previous PC to current PC for the next entry into the loop */
-          m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
-
-          /* ASG: update cycles */
-          m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();;
-          m68k_cpu.set_CPU_INT_CYCLES(0);
-          
-          /* return how many clocks we used */
-          return num_clks - m68k_clks_left[0];
-       }
-
-       /* We get here if the CPU is stopped */
-       m68k_clks_left[0] = 0;
-
-       return num_clks;
+        /* check for interrupts again */
+        m68k_cpu.check_interrupts();
     }
 
+    /* Reset the M68K */
     public static void m68k_pulse_reset(Object param) {
-        m68k_cpu.set_CPU_HALTED(0);
-        m68k_cpu.set_CPU_STOPPED(0);
-        m68k_cpu.set_CPU_INT_STATE(0);
-        m68k_cpu.set_CPU_T1(0);
-        m68k_cpu.set_CPU_T0(0);
-        /*TOD0*///   m68ki_clear_trace();
-        m68k_cpu.set_CPU_S(1);
-        m68k_cpu.set_CPU_M(0);
-        m68k_cpu.set_CPU_INT_MASK(7);
-        m68k_cpu.set_CPU_VBR(0);
-        /*TOD0*///   CPU_A[7] = m68ki_read_32(0);
-        /*TOD0*///   m68ki_set_pc(m68ki_read_32(4));
-        /*TOD0*///#if M68K_USE_PREFETCH
-        /*TOD0*///   CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-        /*TOD0*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-        /*TOD0*///#endif /* M68K_USE_PREFETCH */
-        m68k_clks_left[0] = 0;
-
-        if (m68k_cpu.get_CPU_MODE() == 0)
-            m68k_cpu.set_CPU_MODE(MC68000_CPU_MODE_68000);	/* KW 990319 */
-        
-        /* The first call to this function initializes the opcode handler jump table */
-        if (m68k_emulation_initialized == 0) {
-            m68ki_build_opcode_table();
-            /*
-            m68k_set_int_ack_callback();
-            m68k_set_bkpt_ack_callback();
-            m68k_set_reset_instr_callback();
-            m68k_set_pc_changed_callback();
-            m68k_set_fc_callback();
-            m68k_set_instr_hook_callback();
-            */
-            m68k_emulation_initialized = 1;
-        }
+        /*TODO*///   CPU_HALTED = 0;
+/*TODO*///   CPU_STOPPED = 0;
+/*TODO*///   CPU_INT_STATE = 0;	/* ASG: changed from CPU_INTS_PENDING */
+/*TODO*///   CPU_T1 = CPU_T0 = 0;
+/*TODO*///   m68ki_clear_trace();
+/*TODO*///   CPU_S = 1;
+/*TODO*///   CPU_M = 0;
+/*TODO*///   CPU_INT_MASK = 7;
+/*TODO*///   CPU_VBR = 0;
+/*TODO*///   CPU_A[7] = m68ki_read_32(0);
+/*TODO*///   m68ki_set_pc(m68ki_read_32(4));
+/*TODO*///
+/*TODO*///   CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///
+/*TODO*///   m68k_clks_left = 0;
+/*TODO*///
+/*TODO*///   if (CPU_MODE == 0) CPU_MODE = M68K_DEFAULT_CPU_MODE;	/* KW 990319 */
+/*TODO*///   /* The first call to this function initializes the opcode handler jump table */
+/*TODO*///   if(m68k_emulation_initialized)
+/*TODO*///      return;
+/*TODO*///   else
+/*TODO*///   {
+/*TODO*///      m68ki_build_opcode_table();
+/*TODO*///      m68k_set_int_ack_callback(NULL);
+/*TODO*///      m68k_set_bkpt_ack_callback(NULL);
+/*TODO*///      m68k_set_reset_instr_callback(NULL);
+/*TODO*///      m68k_set_pc_changed_callback(NULL);
+/*TODO*///      m68k_set_fc_callback(NULL);
+/*TODO*///      m68k_set_instr_hook_callback(NULL);
+/*TODO*///
+/*TODO*///      m68k_emulation_initialized = 1;
+ /*TODO*///  }
     }
+
 
     /* Halt the CPU */
-    void m68k_pulse_halt()
-    {
-       m68k_cpu.set_CPU_HALTED(1);
+    public static void m68k_pulse_halt() {
+        m68k_cpu.set_CPU_HALTED(1);
     }
+    /*TODO*///
+/*TODO*////* Get and set the current CPU context */
+/*TODO*////* This is to allow for multiple CPUs */
+/*TODO*///unsigned m68k_get_context(void* dst)
+/*TODO*///{
+/*TODO*///	if( dst )
+/*TODO*///	{
+/*TODO*///		m68k_cpu_context *cpu = dst;
+/*TODO*///
+/*TODO*///        cpu->mode                 = CPU_MODE;
+/*TODO*///		cpu->sr 				  = m68ki_get_sr();
+/*TODO*///		cpu->pc 				  = CPU_PC;
+/*TODO*///		memcpy(cpu->d, CPU_D, sizeof(CPU_D));
+/*TODO*///		memcpy(cpu->a, CPU_A, sizeof(CPU_A));
+/*TODO*///		cpu->usp				  = CPU_USP;
+/*TODO*///		cpu->isp				  = CPU_ISP;
+/*TODO*///		cpu->msp				  = CPU_MSP;
+/*TODO*///		cpu->vbr				  = CPU_VBR;
+/*TODO*///		cpu->sfc				  = CPU_SFC;
+/*TODO*///		cpu->dfc				  = CPU_DFC;
+/*TODO*///		cpu->stopped			  = CPU_STOPPED;
+/*TODO*///		cpu->halted 			  = CPU_HALTED;
+/*TODO*///		cpu->int_state			  = CPU_INT_STATE;	/* ASG: changed from CPU_INTS_PENDING */
+/*TODO*///		cpu->int_cycles           = CPU_INT_CYCLES;	/* ASG */
+/*TODO*///		cpu->int_ack_callback	  = CPU_INT_ACK_CALLBACK;
+/*TODO*///		cpu->bkpt_ack_callback	  = CPU_BKPT_ACK_CALLBACK;
+/*TODO*///		cpu->reset_instr_callback = CPU_RESET_INSTR_CALLBACK;
+/*TODO*///		cpu->pc_changed_callback  = CPU_PC_CHANGED_CALLBACK;
+/*TODO*///		cpu->set_fc_callback	  = CPU_SET_FC_CALLBACK;
+/*TODO*///		cpu->instr_hook_callback  = CPU_INSTR_HOOK_CALLBACK;
+/*TODO*///		cpu->pref_addr			  = CPU_PREF_ADDR;
+/*TODO*///		cpu->pref_data			  = CPU_PREF_DATA;
+/*TODO*///	}
+/*TODO*///	return sizeof(m68k_cpu_context);
+/*TODO*///}
+/*TODO*///
+/*TODO*///void m68k_set_context(void* src)
+/*TODO*///{
+/*TODO*///	if( src )
+/*TODO*///	{
+/*TODO*///		m68k_cpu_context *cpu = src;
+/*TODO*///
+/*TODO*///        CPU_MODE                 = cpu->mode;
+/*TODO*///		m68ki_set_sr_no_int(cpu->sr); /* This stays on top to prevent side-effects */
+/*TODO*///		m68ki_set_pc(cpu->pc);
+/*TODO*///		memcpy(CPU_D, cpu->d, sizeof(CPU_D));
+/*TODO*///		memcpy(CPU_A, cpu->a, sizeof(CPU_D));
+/*TODO*///		CPU_USP 				 = cpu->usp;
+/*TODO*///		CPU_ISP 				 = cpu->isp;
+/*TODO*///		CPU_MSP 				 = cpu->msp;
+/*TODO*///		CPU_VBR 				 = cpu->vbr;
+/*TODO*///		CPU_SFC 				 = cpu->sfc;
+/*TODO*///		CPU_DFC 				 = cpu->dfc;
+/*TODO*///		CPU_STOPPED 			 = cpu->stopped;
+/*TODO*///		CPU_HALTED				 = cpu->halted;
+/*TODO*///		CPU_INT_STATE			 = cpu->int_state;	/* ASG: changed from CPU_INTS_PENDING */
+/*TODO*///		CPU_INT_CYCLES           = cpu->int_cycles;	/* ASG */
+/*TODO*///		CPU_INT_ACK_CALLBACK	 = cpu->int_ack_callback;
+/*TODO*///		CPU_BKPT_ACK_CALLBACK	 = cpu->bkpt_ack_callback;
+/*TODO*///		CPU_RESET_INSTR_CALLBACK = cpu->reset_instr_callback;
+/*TODO*///		CPU_PC_CHANGED_CALLBACK  = cpu->pc_changed_callback;
+/*TODO*///		CPU_SET_FC_CALLBACK 	 = cpu->set_fc_callback;
+/*TODO*///		CPU_INSTR_HOOK_CALLBACK  = cpu->instr_hook_callback;
+/*TODO*///		CPU_PREF_ADDR 			 = cpu->pref_addr;
+/*TODO*///		CPU_PREF_DATA 			 = cpu->pref_data;
+/*TODO*///
+/*TODO*///		/* ASG: check for interrupts */
+/*TODO*///		m68ki_check_interrupts();
+/*TODO*///	}
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Check if the instruction is a valid one */
+/*TODO*///int m68k_is_valid_instruction(int instruction, int cpu_mode)
+/*TODO*///{
+/*TODO*///   if(m68k_instruction_jump_table[MASK_OUT_ABOVE_16(instruction)] == m68000_illegal)
+/*TODO*///      return 0;
+/*TODO*///   if(!(cpu_mode & CPU_MODE_010_PLUS))
+/*TODO*///   {
+/*TODO*///      if((instruction & 0xfff8) == 0x4848) /* bkpt */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xffc0) == 0x42c0) /* move from ccr */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xfffe) == 0x4e7a) /* movec */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff00) == 0x0e00) /* moves */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xffff) == 0x4e74) /* rtd */
+/*TODO*///         return 0;
+/*TODO*///   }
+/*TODO*///   if(!(cpu_mode & CPU_MODE_EC020_PLUS))
+/*TODO*///   {
+/*TODO*///      if((instruction & 0xf0ff) == 0x60ff) /* bcc.l */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf8c0) == 0xe8c0) /* bfxxx */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xffc0) == 0x06c0) /* callm */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf9c0) == 0x08c0) /* cas */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf9ff) == 0x08fc) /* cas2 */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf1c0) == 0x4100) /* chk.l */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf9c0) == 0x00c0) /* chk2, cmp2 */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff3f) == 0x0c3a) /* cmpi (pcdi) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff3f) == 0x0c3b) /* cmpi (pcix) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xffc0) == 0x4c40) /* divl */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xfff8) == 0x49c0) /* extb */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xfff8) == 0x4808) /* link.l */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xffc0) == 0x4c00) /* mull */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf1f0) == 0x8140) /* pack */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xfff0) == 0x06c0) /* rtm */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf0f8) == 0x50f8) /* trapcc */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff38) == 0x4a08) /* tst (a) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff3f) == 0x4a3a) /* tst (pcdi) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff3f) == 0x4a3b) /* tst (pcix) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xff3f) == 0x4a3c) /* tst (imm) */
+/*TODO*///         return 0;
+/*TODO*///      if((instruction & 0xf1f0) == 0x8180) /* unpk */
+/*TODO*///         return 0;
+/*TODO*///   }
+/*TODO*///   return 1;
+/*TODO*///}
 }
