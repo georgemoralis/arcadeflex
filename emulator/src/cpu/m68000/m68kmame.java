@@ -72,7 +72,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public int get_pc() {
-        return m68k_peek_pc();
+        return (int)m68k_peek_pc();
     }
 
     @Override

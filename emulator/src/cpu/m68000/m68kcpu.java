@@ -34,23 +34,23 @@ public class m68kcpu {
         0xf71f, /* 68020:   T1 T0 S  M  -- I2 I1 I0 -- -- -- X  N  Z  V  C  */};
 
     /* The CPU core */
-    private static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
+    public static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
 
     /* Pointers to speed up address register indirect with index calculation */
-    private int[][] m68k_cpu_dar = {m68k_cpu.get_CPU_D(), m68k_cpu.get_CPU_A()};
+    private long[][] m68k_cpu_dar = {get_CPU_D(), get_CPU_A()};
 
     /* Pointers to speed up movem instructions */
-    private int[] m68k_movem_pi_table = {
-        m68k_cpu.get_CPU_D()[0], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[3],
-        m68k_cpu.get_CPU_D()[4], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[7],
-        m68k_cpu.get_CPU_A()[0], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[3],
-        m68k_cpu.get_CPU_A()[4], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[7],};
+    private long[] m68k_movem_pi_table = {
+        get_CPU_D()[0], get_CPU_D()[1], get_CPU_D()[2], get_CPU_D()[3],
+        get_CPU_D()[4], get_CPU_D()[5], get_CPU_D()[6], get_CPU_D()[7],
+        get_CPU_A()[0], get_CPU_A()[1], get_CPU_A()[2], get_CPU_A()[3],
+        get_CPU_A()[4], get_CPU_A()[5], get_CPU_A()[6], get_CPU_A()[7],};
 
-    private int[] m68k_movem_pd_table = {
-        m68k_cpu.get_CPU_A()[7], m68k_cpu.get_CPU_A()[6], m68k_cpu.get_CPU_A()[5], m68k_cpu.get_CPU_A()[4],
-        m68k_cpu.get_CPU_A()[3], m68k_cpu.get_CPU_A()[2], m68k_cpu.get_CPU_A()[1], m68k_cpu.get_CPU_A()[0],
-        m68k_cpu.get_CPU_D()[7], m68k_cpu.get_CPU_D()[6], m68k_cpu.get_CPU_D()[5], m68k_cpu.get_CPU_D()[4],
-        m68k_cpu.get_CPU_D()[3], m68k_cpu.get_CPU_D()[2], m68k_cpu.get_CPU_D()[1], m68k_cpu.get_CPU_D()[0],};
+    private long[] m68k_movem_pd_table = {
+        get_CPU_A()[7], get_CPU_A()[6], get_CPU_A()[5], get_CPU_A()[4],
+        get_CPU_A()[3], get_CPU_A()[2], get_CPU_A()[1], get_CPU_A()[0],
+        get_CPU_D()[7], get_CPU_D()[6], get_CPU_D()[5], get_CPU_D()[4],
+        get_CPU_D()[3], get_CPU_D()[2], get_CPU_D()[1], get_CPU_D()[0],};
 
     /*TODO*////* Used when checking for pending interrupts */
 /*TODO*///uint8 m68k_int_masks[] = {0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80, 0x80};
@@ -230,147 +230,147 @@ public class m68kcpu {
     /* ======================================================================== */
 
     /* Peek at the internals of the M68K */
-    public static int m68k_peek_dr(int reg_num) {
-        return (reg_num < 8) ? m68k_cpu.get_CPU_D()[reg_num] : 0;
+    public static long m68k_peek_dr(int reg_num) {
+        return (reg_num < 8) ? get_CPU_D()[reg_num] : 0L;
     }
 
-    public static int m68k_peek_ar(int reg_num) {
-        return (reg_num < 8) ? m68k_cpu.get_CPU_A()[reg_num] : 0;
+    public static long m68k_peek_ar(int reg_num) {
+        return (reg_num < 8) ? get_CPU_A()[reg_num] : 0L;
     }
 
-    public static int m68k_peek_pc() {
-        return ADDRESS_68K(m68k_cpu.get_CPU_PC());
+    public static long m68k_peek_pc() {
+        return ADDRESS_68K(get_CPU_PC());
     }
 
-    public static int m68k_peek_ppc() {
-        return ADDRESS_68K(m68k_cpu.get_CPU_PPC());
+    public static long m68k_peek_ppc() {
+        return ADDRESS_68K(get_CPU_PPC());
     }
 
     /*TODO*///int m68k_peek_sr(void)          { return m68ki_get_sr(); }
-    public static int m68k_peek_ir() {
-        return m68k_cpu.get_CPU_IR();
+    public static long m68k_peek_ir() {
+        return get_CPU_IR();
     }
 
     public static boolean m68k_peek_t1_flag() {
-        return m68k_cpu.get_CPU_T1() != 0;
+        return get_CPU_T1() != 0;
     }
 
     public static boolean m68k_peek_t0_flag() {
-        return m68k_cpu.get_CPU_T0() != 0;
+        return get_CPU_T0() != 0;
     }
 
     public static boolean m68k_peek_s_flag() {
-        return m68k_cpu.get_CPU_S() != 0;
+        return get_CPU_S() != 0;
     }
 
     public static boolean m68k_peek_m_flag() {
-        return m68k_cpu.get_CPU_M() != 0;
+        return get_CPU_M() != 0;
     }
 
-    public static int m68k_peek_int_mask() {
-        return m68k_cpu.get_CPU_INT_MASK();
+    public static long m68k_peek_int_mask() {
+        return get_CPU_INT_MASK();
     }
 
     public static boolean m68k_peek_x_flag() {
-        return m68k_cpu.get_CPU_X() != 0;
+        return get_CPU_X() != 0;
     }
 
     public static boolean m68k_peek_n_flag() {
-        return m68k_cpu.get_CPU_N() != 0;
+        return get_CPU_N() != 0;
     }
 
     public static boolean m68k_peek_z_flag() {
-        return m68k_cpu.get_CPU_NOT_Z() == 0;
+        return get_CPU_NOT_Z() == 0;
     }
 
     public static boolean m68k_peek_v_flag() {
-        return m68k_cpu.get_CPU_V() != 0;
+        return get_CPU_V() != 0;
     }
 
     public static boolean m68k_peek_c_flag() {
-        return m68k_cpu.get_CPU_C() != 0;
+        return get_CPU_C() != 0;
     }
 
-    public static int m68k_peek_usp() {
-        return ((m68k_cpu.get_CPU_S() != 0) ? m68k_cpu.get_CPU_USP() : m68k_cpu.get_CPU_A()[7]);
+    public static long m68k_peek_usp() {
+        return ((get_CPU_S() != 0) ? get_CPU_USP() : get_CPU_A()[7]);
     }
 
-    public static int m68k_peek_isp() {
-        return ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() == 0) ? m68k_cpu.get_CPU_A()[7] : m68k_cpu.get_CPU_ISP());
+    public static long m68k_peek_isp() {
+        return ((get_CPU_S() != 0) && (get_CPU_M() == 0) ? get_CPU_A()[7] : get_CPU_ISP());
     }
 
-    public static int m68k_peek_msp() {
-        return ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() != 0) ? m68k_cpu.get_CPU_A()[7] : m68k_cpu.get_CPU_MSP());
+    public static long m68k_peek_msp() {
+        return ((get_CPU_S() != 0) && (get_CPU_M() != 0) ? get_CPU_A()[7] : get_CPU_MSP());
     }
     /* Poke data into the M68K */
 
-    public static void m68k_poke_dr(int reg_num, int value) {
+    public static void m68k_poke_dr(int reg_num, long value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_D(reg_num, MASK_OUT_ABOVE_32(value));
+            set_CPU_D(reg_num, MASK_OUT_ABOVE_32(value));
         }
     }
 
-    public static void m68k_poke_ar(int reg_num, int value) {
+    public static void m68k_poke_ar(int reg_num, long value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_A(reg_num, MASK_OUT_ABOVE_32(value));
+            set_CPU_A(reg_num, MASK_OUT_ABOVE_32(value));
         }
     }
     /*TODO*///void m68k_poke_pc(unsigned int value)     { m68ki_set_pc(ADDRESS_68K(value)); }
 /*TODO*///void m68k_poke_sr(int value)              { m68ki_set_sr(MASK_OUT_ABOVE_16(value)); }
 
-    public static void m68k_poke_ir(int value) {
-        m68k_cpu.set_CPU_IR(MASK_OUT_ABOVE_16(value));
+    public static void m68k_poke_ir(long value) {
+        set_CPU_IR(MASK_OUT_ABOVE_16(value));
     }
 
     public static void m68k_poke_t1_flag(int value) {
-        m68k_cpu.set_CPU_T1(value != 0 ? 1 : 0); //CPU_T1 = (value != 0);
+        set_CPU_T1(value != 0 ? 1 : 0); //CPU_T1 = (value != 0);
     }
 
     public static void m68k_poke_t0_flag(int value) {
-        if ((m68k_cpu.get_CPU_MODE() & CPU_MODE_EC020_PLUS) !=0) {
-            m68k_cpu.set_CPU_T0(value != 0 ? 1 : 0);//CPU_T0 = (value != 0);
+        if ((get_CPU_MODE() & CPU_MODE_EC020_PLUS) !=0) {
+            set_CPU_T0(value != 0 ? 1 : 0);//CPU_T0 = (value != 0);
         }
     }
     /*TODO*///void m68k_poke_s_flag(int value)          { m68ki_set_s_flag(value); }
 /*TODO*///void m68k_poke_m_flag(int value)          { if(CPU_MODE & CPU_MODE_EC020_PLUS) m68ki_set_m_flag(value); }
 
     public static void m68k_poke_int_mask(int value) {
-        m68k_cpu.set_CPU_INT_MASK(value & 7);
+        set_CPU_INT_MASK(value & 7);
     }
 
     public static void m68k_poke_x_flag(int value) {
-        m68k_cpu.set_CPU_X(value != 0 ? 1 : 0);//CPU_X = (value != 0);
+        set_CPU_X(value != 0 ? 1 : 0);//CPU_X = (value != 0);
     }
 
     public static void m68k_poke_n_flag(int value) {
-        m68k_cpu.set_CPU_N(value != 0 ? 1 : 0);//CPU_N = (value != 0);
+        set_CPU_N(value != 0 ? 1 : 0);//CPU_N = (value != 0);
     }
 
     public static void m68k_poke_z_flag(int value) {
-        m68k_cpu.set_CPU_NOT_Z(value == 0 ? 1 : 0);//CPU_NOT_Z = (value == 0);
+        set_CPU_NOT_Z(value == 0 ? 1 : 0);//CPU_NOT_Z = (value == 0);
     }
 
     public static void m68k_poke_v_flag(int value) {
-        m68k_cpu.set_CPU_V(value != 0 ? 1 : 0);//CPU_V = (value != 0);
+        set_CPU_V(value != 0 ? 1 : 0);//CPU_V = (value != 0);
     }
 
     public static void m68k_poke_c_flag(int value) {
-        m68k_cpu.set_CPU_C(value != 0 ? 1 : 0);//CPU_C = (value != 0);
+        set_CPU_C(value != 0 ? 1 : 0);//CPU_C = (value != 0);
     }
 
-    public static void m68k_poke_usp(int value) {
-        if (m68k_cpu.get_CPU_S() != 0) {
-            m68k_cpu.set_CPU_USP(MASK_OUT_ABOVE_32(value));
+    public static void m68k_poke_usp(long value) {
+        if (get_CPU_S() != 0) {
+            set_CPU_USP(MASK_OUT_ABOVE_32(value));
         } else {
-            m68k_cpu.set_CPU_A(7, MASK_OUT_ABOVE_32(value));
+            set_CPU_A(7, MASK_OUT_ABOVE_32(value));
         }
     }
 
-    public static void m68k_poke_isp(int value) {
-        if ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() == 0)) {
-            m68k_cpu.set_CPU_A(7, MASK_OUT_ABOVE_32(value));
+    public static void m68k_poke_isp(long value) {
+        if ((get_CPU_S() != 0) && (get_CPU_M() == 0)) {
+            set_CPU_A(7, MASK_OUT_ABOVE_32(value));
         } else {
-            m68k_cpu.set_CPU_ISP(MASK_OUT_ABOVE_32(value));
+            set_CPU_ISP(MASK_OUT_ABOVE_32(value));
         }
     }
     /*TODO*///void m68k_poke_msp(int value)
@@ -388,50 +388,50 @@ public class m68kcpu {
 
     public static void m68k_set_int_ack_callback(irqcallbacksPtr callback) {
         if (callback != null) {
-            m68k_cpu.set_CPU_INT_ACK_CALLBACK(callback);
+            set_CPU_INT_ACK_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_INT_ACK_CALLBACK(default_int_ack_callback);
+            set_CPU_INT_ACK_CALLBACK(default_int_ack_callback);
         }
     }
 
     public static void m68k_set_bkpt_ack_callback(bkpt_ack_callbackPtr callback) {
         if (callback != null) {
-            m68k_cpu.set_CPU_BKPT_ACK_CALLBACK(callback);
+            set_CPU_BKPT_ACK_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_BKPT_ACK_CALLBACK(default_bkpt_ack_callback);
+            set_CPU_BKPT_ACK_CALLBACK(default_bkpt_ack_callback);
         }
     }
 
     public static void m68k_set_reset_instr_callback(reset_instr_callbackPtr callback) {
         if (callback != null) {
-            m68k_cpu.set_CPU_RESET_INSTR_CALLBACK(callback);
+            set_CPU_RESET_INSTR_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_RESET_INSTR_CALLBACK(default_reset_instr_callback);
+            set_CPU_RESET_INSTR_CALLBACK(default_reset_instr_callback);
         }
     }
 
     public static void m68k_set_pc_changed_callback(pc_changed_callbackPtr callback) {
         if (callback != null) {
-            m68k_cpu.set_CPU_PC_CHANGED_CALLBACK(callback);
+            set_CPU_PC_CHANGED_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_PC_CHANGED_CALLBACK(default_pc_changed_callback);
+            set_CPU_PC_CHANGED_CALLBACK(default_pc_changed_callback);
         }
     }
 
     public static void m68k_set_fc_callback(set_fc_callbackPtr callback) {
         if (callback != null) {
-            m68k_cpu.set_CPU_SET_FC_CALLBACK(callback);
+            set_CPU_SET_FC_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_SET_FC_CALLBACK(default_set_fc_callback);
+            set_CPU_SET_FC_CALLBACK(default_set_fc_callback);
         }
     }
 
     public static void m68k_set_instr_hook_callback(instr_hook_callbackPtr callback) {
         // TODO
         if (callback != null) {
-            m68k_cpu.set_CPU_INSTR_HOOK_CALLBACK(callback);
+            set_CPU_INSTR_HOOK_CALLBACK(callback);
         } else {
-            m68k_cpu.set_CPU_INSTR_HOOK_CALLBACK(default_instr_hook_callback);
+            set_CPU_INSTR_HOOK_CALLBACK(default_instr_hook_callback);
         }
     }
 
@@ -441,10 +441,10 @@ public class m68kcpu {
             case M68K_CPU_MODE_68010:
             case M68K_CPU_MODE_68EC020:
             case M68K_CPU_MODE_68020:
-                m68k_cpu.set_CPU_MODE(cpu_mode);
+                set_CPU_MODE(cpu_mode);
                 return;
             default:
-                m68k_cpu.set_CPU_MODE(M68K_CPU_MODE_68000);
+                set_CPU_MODE(M68K_CPU_MODE_68000);
         }
     }
 
@@ -452,19 +452,19 @@ public class m68kcpu {
     /* ASG: removed per-instruction interrupt checks */
     public static int m68k_execute(int num_clks) {
         /* Make sure we're not stopped */
-        if (m68k_cpu.get_CPU_STOPPED() == 0)//if(!CPU_STOPPED)
+        if (get_CPU_STOPPED() == 0)//if(!CPU_STOPPED)
         {
             /* Set our pool of clock cycles available */
             m68k_clks_left[0] = num_clks;
 
             /* ASG: update cycles */
-            m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();
-            m68k_cpu.set_CPU_INT_CYCLES(0);
+            m68k_clks_left[0] -= get_CPU_INT_CYCLES();
+            set_CPU_INT_CYCLES(0);
 
 
             /* Main loop.  Keep going until we run out of clock cycles */
             do {
-                m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+                set_CPU_PPC(get_CPU_PC());
 
                 /*TODO*///         /* Read an instruction and call its handler */
 /*TODO*///         CPU_IR = m68ki_read_instruction();
@@ -474,11 +474,11 @@ public class m68kcpu {
             } while (m68k_clks_left[0] > 0);
 
             /* set previous PC to current PC for the next entry into the loop */
-            m68k_cpu.set_CPU_PPC(m68k_cpu.get_CPU_PC());
+            set_CPU_PPC(get_CPU_PC());
 
             /* ASG: update cycles */
-            m68k_clks_left[0] -= m68k_cpu.get_CPU_INT_CYCLES();;
-            m68k_cpu.set_CPU_INT_CYCLES(0);
+            m68k_clks_left[0] -= get_CPU_INT_CYCLES();;
+            set_CPU_INT_CYCLES(0);
 
             /* return how many clocks we used */
             return num_clks - m68k_clks_left[0];
@@ -493,45 +493,45 @@ public class m68kcpu {
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
     public static void m68k_assert_irq(int int_line) {
         /* OR in the bits of the interrupt */
-        int old_state = m68k_cpu.get_CPU_INT_STATE();
-        m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
+        long old_state = get_CPU_INT_STATE();
+        set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
 
-        int new_state = m68k_cpu.get_CPU_INT_STATE();
-        m68k_cpu.set_CPU_INT_STATE(new_state | (int_line & 7));
+        long new_state = get_CPU_INT_STATE();
+        set_CPU_INT_STATE(new_state | (int_line & 7));
 
         /* if it's NMI, we're edge triggered */
-        if (m68k_cpu.get_CPU_INT_STATE() == 7) {
+        if (get_CPU_INT_STATE() == 7) {
             if (old_state != 7) {
-                m68k_cpu.m68ki_service_interrupt(1 << 7);
+                m68ki_service_interrupt(1 << 7);
             }
         } /* other interrupts just reflect the current state */ else {
-            m68k_cpu.m68ki_check_interrupts();
+            m68ki_check_interrupts();
         }
     }
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
 
     public static void m68k_clear_irq(int int_line) {
         /* AND in the bits of the interrupt */
-        int state = m68k_cpu.get_CPU_INT_STATE();
-        m68k_cpu.set_CPU_INT_STATE(state & (~int_line & 7));
-        m68k_cpu.set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
+        long state = get_CPU_INT_STATE();
+        set_CPU_INT_STATE(state & (~int_line & 7));
+        set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
 
         /* check for interrupts again */
-        m68k_cpu.m68ki_check_interrupts();
+        m68ki_check_interrupts();
     }
 
     /* Reset the M68K */
     public static void m68k_pulse_reset(Object param) {
-        m68k_cpu.set_CPU_HALTED(0);
-        m68k_cpu.set_CPU_STOPPED(0);
-        m68k_cpu.set_CPU_INT_STATE(0);	/* ASG: changed from CPU_INTS_PENDING */
+        set_CPU_HALTED(0);
+        set_CPU_STOPPED(0);
+        set_CPU_INT_STATE(0);	/* ASG: changed from CPU_INTS_PENDING */
 
-        m68k_cpu.set_CPU_T1(0);
-        m68k_cpu.set_CPU_T0(0);
-        m68k_cpu.set_CPU_S(1);
-        m68k_cpu.set_CPU_M(0);
-        m68k_cpu.set_CPU_INT_MASK(7);
-        m68k_cpu.set_CPU_VBR(0);
+        set_CPU_T1(0);
+        set_CPU_T0(0);
+        set_CPU_S(1);
+        set_CPU_M(0);
+        set_CPU_INT_MASK(7);
+        set_CPU_VBR(0);
         /*TODO*///   CPU_A[7] = m68ki_read_32(0);
 /*TODO*///   m68ki_set_pc(m68ki_read_32(4));
 /*TODO*///
@@ -539,8 +539,8 @@ public class m68kcpu {
 /*TODO*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
 /*TODO*///
         m68k_clks_left[0] = 0;
-        if (m68k_cpu.get_CPU_MODE() == 0) {
-            m68k_cpu.set_CPU_MODE(MC68000_CPU_MODE_68000);	/* KW 990319 */
+        if (get_CPU_MODE() == 0) {
+            set_CPU_MODE(MC68000_CPU_MODE_68000);	/* KW 990319 */
 
         }
 
@@ -563,7 +563,7 @@ public class m68kcpu {
 
     /* Halt the CPU */
     public static void m68k_pulse_halt() {
-        m68k_cpu.set_CPU_HALTED(1);
+        set_CPU_HALTED(1);
     }
     /*TODO*///
 /*TODO*////* Get and set the current CPU context */

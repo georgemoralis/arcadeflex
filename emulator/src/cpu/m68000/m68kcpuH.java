@@ -2,9 +2,12 @@ package cpu.m68000;
 
 import static cpu.m68000.m68kH.*;
 import static mame.cpuintrfH.*;
+import static cpu.m68000.m68kcpu.*;
 
 public class m68kcpuH {
-    /*TODO*///#if UCHAR_MAX == 0xff
+    /*TODO*////* Check if we have certain storage sizes */
+/*TODO*///
+/*TODO*///#if UCHAR_MAX == 0xff
 /*TODO*///#define M68K_HAS_8_BIT_SIZE  1
 /*TODO*///#else
 /*TODO*///#define M68K_HAS_8_BIT_SIZE  0
@@ -50,7 +53,11 @@ public class m68kcpuH {
 /*TODO*////* Allow for architectures that don't have 8-bit sizes */
 /*TODO*///#if M68K_HAS_8_BIT_SIZE
 /*TODO*///#define MAKE_INT_8(A) (int8)((A)&0xff)
-/*TODO*///#else
+
+    public static long MAKE_INT_8(long A) {
+        return (byte) ((A) & 0xffL);
+    }
+    /*TODO*///#else
 /*TODO*///#undef  int8
 /*TODO*///#define int8   int
 /*TODO*///#undef  uint8
@@ -66,7 +73,11 @@ public class m68kcpuH {
 /*TODO*////* Allow for architectures that don't have 16-bit sizes */
 /*TODO*///#if M68K_HAS_16_BIT_SIZE
 /*TODO*///#define MAKE_INT_16(A) (int16)((A)&0xffff)
-/*TODO*///#else
+
+    public static long MAKE_INT_16(long A) {
+        return (short) ((A) & 0xffffL);
+    }
+    /*TODO*///#else
 /*TODO*///#undef  int16
 /*TODO*///#define int16  int
 /*TODO*///#undef  uint16
@@ -83,7 +94,11 @@ public class m68kcpuH {
 /*TODO*///#if M68K_HAS_32_BIT_SIZE
 /*TODO*///#if M68K_OVER_32_BIT
 /*TODO*///#define MAKE_INT_32(A) (int32)((A)&0xffffffff)
-/*TODO*///#else
+
+    public static long MAKE_INT_32(long A) {
+        return (int) ((A) & 0xffffffffL);
+    }
+    /*TODO*///#else
 /*TODO*///#define MAKE_INT_32(A) (int32)(A)
 /*TODO*///#endif /* M68K_OVER_32_BIT */
 /*TODO*///#else
@@ -98,7 +113,7 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/* ======================================================================== */
+    /* ======================================================================== */
     /* ============================ GENERAL DEFINES =========================== */
     /* ======================================================================== */
     /* Exception Vectors handled by emulation */
@@ -138,8 +153,8 @@ public class m68kcpuH {
     public static int CPU_MODE_EC020_LESS = (CPU_MODE_000 | CPU_MODE_010 | CPU_MODE_EC020);
     public static int CPU_MODE_020_PLUS = CPU_MODE_020;
     public static int CPU_MODE_020_LESS = (CPU_MODE_000 | CPU_MODE_010 | CPU_MODE_EC020 | CPU_MODE_020);
-
-    /*TODO*////* ======================================================================== */
+    /*TODO*///
+/*TODO*////* ======================================================================== */
 /*TODO*////* ================================ MACROS ================================ */
 /*TODO*////* ======================================================================== */
 /*TODO*///
@@ -192,35 +207,39 @@ public class m68kcpuH {
 /*TODO*///#define MASK_OUT_ABOVE_2(A)  ((A) & 3)
 /*TODO*///#define MASK_OUT_ABOVE_8(A)  ((A) & 0xff)
 /*TODO*///#define MASK_OUT_ABOVE_16(A) ((A) & 0xffff)
-    public static int MASK_OUT_ABOVE_16(int A)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public static long MASK_OUT_ABOVE_16(long A) {
+        return ((A) & 0xffffL);
     }
-/*TODO*///#define MASK_OUT_BELOW_2(A)  ((A) & ~3)
+    /*TODO*///#define MASK_OUT_BELOW_2(A)  ((A) & ~3)
 /*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
 /*TODO*///#define MASK_OUT_BELOW_16(A) ((A) & ~0xffff)
 /*TODO*///
 /*TODO*////* No need for useless masking if we're 32-bit */
 /*TODO*///#if M68K_OVER_32_BIT
 /*TODO*///#define MASK_OUT_ABOVE_32(A) ((A) & 0xffffffff)
-/*TODO*///#define MASK_OUT_BELOW_32(A) ((A) & ~0xffffffff)
+
+    public static long MASK_OUT_ABOVE_32(long A) {
+        return ((A) & 0xffffffffL);
+    }
+    /*TODO*///#define MASK_OUT_BELOW_32(A) ((A) & ~0xffffffff)
 /*TODO*///#else
 /*TODO*///#define MASK_OUT_ABOVE_32(A) (A)
-    public static int MASK_OUT_ABOVE_32(int A)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 /*TODO*///#define MASK_OUT_BELOW_32(A) 0
 /*TODO*///#endif /* M68K_OVER_32_BIT */
 /*TODO*///
 /*TODO*///
 /*TODO*////* Simulate address lines of 68k family */
 /*TODO*///#define ADDRESS_68K(A) (CPU_MODE & CPU_MODE_020_PLUS ? A : (A)&0xffffff)
-    public static int ADDRESS_68K(int A)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public static long ADDRESS_68K(long A) {
+        if ((get_CPU_MODE() & CPU_MODE_020_PLUS) != 0) {
+            return A;
+        } else {
+            return A & 0xffffffL;
+        }
     }
-/*TODO*///
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Instruction extension word information for indexed addressing modes */
 /*TODO*///#define EXT_INDEX_LONG(A)         BIT_B(A)
@@ -271,11 +290,305 @@ public class m68kcpuH {
 /*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
 /*TODO*///#define ROR_32(A, C) MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32-(C)))
 /*TODO*///#define ROR_33(A, C)                  (LSR_32(A, C) | LSL_32(A, 33-(C)))
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////*
+
+    /* Access the CPU registers */
+    public static long get_CPU_MODE() {
+        return m68k_cpu.mode;
+    }
+
+    public static void set_CPU_MODE(long mode) {
+        m68k_cpu.mode = mode;
+    }
+
+    public static long[] get_CPU_D() {
+        return m68k_cpu.dr;
+    }
+
+    public static void set_CPU_D(int reg_num, long value) {
+        m68k_cpu.dr[reg_num] = value;
+    }
+
+    public static long[] get_CPU_A() {
+        return m68k_cpu.ar;
+    }
+
+    public static void set_CPU_A(int reg_num, long value) {
+        m68k_cpu.ar[reg_num] = value;
+    }
+
+    public static long get_CPU_PPC() {
+        return m68k_cpu.ppc;
+    }
+
+    public static void set_CPU_PPC(long ppc) {
+        m68k_cpu.ppc = ppc;
+    }
+
+    public static long get_CPU_PC() {
+        return m68k_cpu.pc;
+    }
+
+    public static void set_CPU_PC(long pc) {
+        m68k_cpu.pc = pc;
+    }
+
+    public static long[] get_CPU_SP() {
+        return m68k_cpu.sp;
+    }
+
+    public static void set_CPU_SP(long[] sp) {
+        m68k_cpu.sp = sp;
+    }
+
+    public static long get_CPU_USP() {
+        return m68k_cpu.sp[0];
+    }
+
+    public static void set_CPU_USP(long usp) {
+        m68k_cpu.sp[0] = usp;
+    }
+
+    public static long get_CPU_ISP() {
+        return m68k_cpu.sp[1];
+    }
+
+    public static void set_CPU_ISP(long isp) {
+        m68k_cpu.sp[1] = isp;
+    }
+
+    public static long get_CPU_MSP() {
+        return m68k_cpu.sp[3];
+    }
+
+    public static void set_CPU_MSP(long msp) {
+        m68k_cpu.sp[3] = msp;
+    }
+
+    public static long get_CPU_VBR() {
+        return m68k_cpu.vbr;
+    }
+
+    public static void set_CPU_VBR(long vbr) {
+        m68k_cpu.vbr = vbr;
+    }
+
+    public static long get_CPU_SFC() {
+        return m68k_cpu.sfc;
+    }
+
+    public static void set_CPU_SFC(long sfc) {
+        m68k_cpu.sfc = sfc;
+    }
+
+    public static long get_CPU_DFC() {
+        return m68k_cpu.dfc;
+    }
+
+    public static void set_CPU_DFC(long dfc) {
+        m68k_cpu.dfc = dfc;
+    }
+
+    public static long get_CPU_CACR() {
+        return m68k_cpu.cacr;
+    }
+
+    public static void set_CPU_CACR(long cacr) {
+        m68k_cpu.cacr = cacr;
+    }
+
+    public static long get_CPU_CAAR() {
+        return m68k_cpu.caar;
+    }
+
+    public static void set_CPU_CAAR(long caar) {
+        m68k_cpu.caar = caar;
+    }
+
+    public static long get_CPU_IR() {
+        return m68k_cpu.ir;
+    }
+
+    public static void set_CPU_IR(long ir) {
+        m68k_cpu.ir = ir;
+    }
+
+    public static long get_CPU_T1() {
+        return m68k_cpu.t1_flag;
+    }
+
+    public static void set_CPU_T1(long t1) {
+        m68k_cpu.t1_flag = t1;
+    }
+
+    public static long get_CPU_T0() {
+        return m68k_cpu.t0_flag;
+    }
+
+    public static void set_CPU_T0(long t0) {
+        m68k_cpu.t0_flag = t0;
+    }
+
+    public static long get_CPU_S() {
+        return m68k_cpu.s_flag;
+    }
+
+    public static void set_CPU_S(long s) {
+        m68k_cpu.s_flag = s;
+    }
+
+    public static long get_CPU_M() {
+        return m68k_cpu.m_flag;
+    }
+
+    public static void set_CPU_M(long m) {
+        m68k_cpu.m_flag = m;
+    }
+
+    public static long get_CPU_X() {
+        return m68k_cpu.x_flag;
+    }
+
+    public static void set_CPU_X(long x) {
+        m68k_cpu.x_flag = x;
+    }
+
+    public static long get_CPU_N() {
+        return m68k_cpu.n_flag;
+    }
+
+    public static void set_CPU_N(long n) {
+        m68k_cpu.n_flag = n;
+    }
+
+    public static long get_CPU_NOT_Z() {
+        return m68k_cpu.not_z_flag;
+    }
+
+    public static void set_CPU_NOT_Z(long not_z) {
+        m68k_cpu.not_z_flag = not_z;
+    }
+
+    public static long get_CPU_V() {
+        return m68k_cpu.v_flag;
+    }
+
+    public static void set_CPU_V(long v) {
+        m68k_cpu.v_flag = v;
+    }
+
+    public static long get_CPU_C() {
+        return m68k_cpu.c_flag;
+    }
+
+    public static void set_CPU_C(long c) {
+        m68k_cpu.c_flag = c;
+    }
+
+    public static long get_CPU_INT_MASK() {
+        return m68k_cpu.int_mask;
+    }
+
+    public static void set_CPU_INT_MASK(long int_mask) {
+        m68k_cpu.int_mask = int_mask;
+    }
+
+    public static long get_CPU_INT_STATE() {
+        return m68k_cpu.int_state;
+    }
+
+    public static void set_CPU_INT_STATE(long int_state) {
+        m68k_cpu.int_state = int_state;
+    }
+
+    public static long get_CPU_STOPPED() {
+        return m68k_cpu.stopped;
+    }
+
+    public static void set_CPU_STOPPED(long stopped) {
+        m68k_cpu.stopped = stopped;
+    }
+
+    public static long get_CPU_HALTED() {
+        return m68k_cpu.halted;
+    }
+
+    public static void set_CPU_HALTED(long halted) {
+        m68k_cpu.halted = halted;
+    }
+
+    public static long get_CPU_INT_CYCLES() {
+        return m68k_cpu.int_cycles;
+    }
+
+    public static void set_CPU_INT_CYCLES(long int_cycles) {
+        m68k_cpu.int_cycles = int_cycles;
+    }
+
+    public static long get_CPU_PREF_ADDR() {
+        return m68k_cpu.pref_addr;
+    }
+
+    public static void set_CPU_PREF_ADDR(long pref_addr) {
+        m68k_cpu.pref_addr = pref_addr;
+    }
+
+    public static long get_CPU_PREF_DATA() {
+        return m68k_cpu.pref_data;
+    }
+
+    public static void set_CPU_PREF_DATA(long pref_data) {
+        m68k_cpu.pref_data = pref_data;
+    }
+
+    public static irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() {
+        return m68k_cpu.int_ack_callback;
+    }
+
+    public static void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {
+        m68k_cpu.int_ack_callback = int_ack_callback;
+    }
+
+    public static bkpt_ack_callbackPtr get_CPU_BKPT_ACK_CALLBACK() {
+        return m68k_cpu.bkpt_ack_callback;
+    }
+
+    public static void set_CPU_BKPT_ACK_CALLBACK(bkpt_ack_callbackPtr bkpt_ack_callback) {
+        m68k_cpu.bkpt_ack_callback = bkpt_ack_callback;
+    }
+
+    public static reset_instr_callbackPtr get_CPU_RESET_INSTR_CALLBACK() {
+        return m68k_cpu.reset_instr_callback;
+    }
+
+    public static void set_CPU_RESET_INSTR_CALLBACK(reset_instr_callbackPtr reset_instr_callback) {
+        m68k_cpu.reset_instr_callback = reset_instr_callback;
+    }
+
+    public static pc_changed_callbackPtr get_CPU_PC_CHANGED_CALLBACK() {
+        return m68k_cpu.pc_changed_callback;
+    }
+
+    public static void set_CPU_PC_CHANGED_CALLBACK(pc_changed_callbackPtr pc_changed_callback) {
+        m68k_cpu.pc_changed_callback = pc_changed_callback;
+    }
+
+    public static set_fc_callbackPtr get_CPU_SET_FC_CALLBACK() {
+        return m68k_cpu.set_fc_callback;
+    }
+
+    public static void set_CPU_SET_FC_CALLBACK(set_fc_callbackPtr set_fc_callback) {
+        m68k_cpu.set_fc_callback = set_fc_callback;
+    }
+
+    public static instr_hook_callbackPtr get_CPU_INSTR_HOOK_CALLBACK() {
+        return m68k_cpu.instr_hook_callback;
+    }
+
+    public static void set_CPU_INSTR_HOOK_CALLBACK(instr_hook_callbackPtr instr_hook_callback) {
+        m68k_cpu.instr_hook_callback = instr_hook_callback;
+    }
+
+    /*TODO*////*
 /*TODO*/// * The general instruction format follows this pattern:
 /*TODO*/// * .... XXX. .... .YYY
 /*TODO*/// * where XXX is register X and YYY is register Y
@@ -457,89 +770,69 @@ public class m68kcpuH {
 /*TODO*///#define m68ki_exception_if_trace()
 /*TODO*///#endif /* M68K_TRACE */
 /*TODO*///
-/*TODO*///
-/*TODO*///#ifdef M68K_LOG
-/*TODO*///
-/*TODO*///extern char* m68k_disassemble_quick(uint pc);
-/*TODO*///extern uint  m68k_pc_offset;
-/*TODO*///extern char* m68k_cpu_names[];
-/*TODO*///
-/*TODO*///#define M68K_DO_LOG(A) if(M68K_LOG) fprintf A
-/*TODO*///#if M68K_LOG_EMULATED_INSTRUCTIONS
-/*TODO*///#define M68K_DO_LOG_EMU(A) if(M68K_LOG) fprintf A
-/*TODO*///#else
-/*TODO*///#define M68K_DO_LOG_EMU(A)
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///#else
-/*TODO*///#define M68K_DO_LOG(A)
-/*TODO*///#define M68K_DO_LOG_EMU(A)
-/*TODO*///
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///
-/*TODO*////* ======================================================================== */
-/*TODO*////* =============================== PROTOTYPES ============================= */
-/*TODO*////* ======================================================================== */
-/*TODO*///
-        /* M68K CPU core class */
+
+    /* ======================================================================== */
+    /* =============================== PROTOTYPES ============================= */
+    /* ======================================================================== */
+
+    /* M68K CPU core class */
     public static class m68k_cpu_core {
 
-        public int mode;                /* CPU Operation Mode: 68000, 68010, or 68020 */
+        public long mode;                /* CPU Operation Mode: 68000, 68010, or 68020 */
 
-        public int[] dr = new int[8];   /* Data Registers */
+        public long[] dr = new long[8];   /* Data Registers */
 
-        public int[] ar = new int[8];   /* Address Registers */
+        public long[] ar = new long[8];   /* Address Registers */
 
-        public int ppc;                 /* Previous program counter */
+        public long ppc;                 /* Previous program counter */
 
-        public int pc;                  /* Program Counter */
+        public long pc;                  /* Program Counter */
 
-        public int[] sp = new int[4];   /* User, Interrupt, and Master Stack Pointers */
+        public long[] sp = new long[4];   /* User, Interrupt, and Master Stack Polongers */
 
-        public int vbr;                 /* Vector Base Register (68010+) */
+        public long vbr;                 /* Vector Base Register (68010+) */
 
-        public int sfc;                 /* Source Function Code Register (m68010+) */
+        public long sfc;                 /* Source Function Code Register (m68010+) */
 
-        public int dfc;                 /* Destination Function Code Register (m68010+) */
+        public long dfc;                 /* Destination Function Code Register (m68010+) */
 
-        public int cacr;                /* Cache Control Register (m68020+) */
+        public long cacr;                /* Cache Control Register (m68020+) */
 
-        public int caar;                /* Cacge Address Register (m68020+) */
+        public long caar;                /* Cacge Address Register (m68020+) */
 
-        public int ir;                  /* Instruction Register */
+        public long ir;                  /* Instruction Register */
 
-        public int t1_flag;             /* Trace 1 */
+        public long t1_flag;             /* Trace 1 */
 
-        public int t0_flag;             /* Trace 0 */
+        public long t0_flag;             /* Trace 0 */
 
-        public int s_flag;              /* Supervisor */
+        public long s_flag;              /* Supervisor */
 
-        public int m_flag;              /* Master/Interrupt state */
+        public long m_flag;              /* Master/Interrupt state */
 
-        public int x_flag;              /* Extend */
+        public long x_flag;              /* Extend */
 
-        public int n_flag;              /* Negative */
+        public long n_flag;              /* Negative */
 
-        public int not_z_flag;          /* Zero, inverted for speedups */
+        public long not_z_flag;          /* Zero, inverted for speedups */
 
-        public int v_flag;              /* Overflow */
+        public long v_flag;              /* Overflow */
 
-        public int c_flag;              /* Carry */
+        public long c_flag;              /* Carry */
 
-        public int int_mask;            /* I0-I2 */
+        public long int_mask;            /* I0-I2 */
 
-        public int int_state;           /* Current interrupt state -- ASG: changed from ints_pending */
+        public long int_state;           /* Current longerrupt state -- ASG: changed from longs_pending */
 
-        public int stopped;             /* Stopped state */
+        public long stopped;             /* Stopped state */
 
-        public int halted;              /* Halted state */
+        public long halted;              /* Halted state */
 
-        public int int_cycles;          /* ASG: extra cycles from generated interrupts */
+        public long int_cycles;          /* ASG: extra cycles from generated interrupts */
 
-        public int pref_addr;           /* Last prefetch address */
+        public long pref_addr;           /* Last prefetch address */
 
-        public int pref_data;           /* Data in the prefetch queue */
+        public long pref_data;           /* Data in the prefetch queue */
 
         /* Callbacks to host */
         irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */
@@ -553,313 +846,6 @@ public class m68kcpuH {
         set_fc_callbackPtr set_fc_callback;     /* Called when the CPU function code changes */
 
         instr_hook_callbackPtr instr_hook_callback;       /* Called every instruction cycle prior to execution */
-
-        /* Access the CPU registers */
-
-        public int get_CPU_MODE() {
-            return mode;
-        }
-
-        public void set_CPU_MODE(int mode) {
-            this.mode = mode;
-        }
-
-        public int[] get_CPU_D() {
-            return dr;
-        }
-
-        public void set_CPU_D(int reg_num, int value) {
-            this.dr[reg_num] = value;
-        }
-
-        public int[] get_CPU_A() {
-            return ar;
-        }
-
-        public void set_CPU_A(int reg_num, int value) {
-            this.ar[reg_num] = value;
-        }
-
-        public int get_CPU_PPC() {
-            return ppc;
-        }
-
-        public void set_CPU_PPC(int ppc) {
-            this.ppc = ppc;
-        }
-
-        public int get_CPU_PC() {
-            return pc;
-        }
-
-        public void set_CPU_PC(int pc) {
-            this.pc = pc;
-        }
-
-        public int[] get_CPU_SP() {
-            return sp;
-        }
-
-        public void set_CPU_SP(int[] sp) {
-            this.sp = sp;
-        }
-
-        public int get_CPU_USP() {
-            return sp[0];
-        }
-
-        public void set_CPU_USP(int usp) {
-            this.sp[0] = usp;
-        }
-
-        public int get_CPU_ISP() {
-            return sp[1];
-        }
-
-        public void set_CPU_ISP(int isp) {
-            this.sp[1] = isp;
-        }
-
-        public int get_CPU_MSP() {
-            return sp[3];
-        }
-
-        public void set_CPU_MSP(int msp) {
-            this.sp[3] = msp;
-        }
-
-        public int get_CPU_VBR() {
-            return vbr;
-        }
-
-        public void set_CPU_VBR(int vbr) {
-            this.vbr = vbr;
-        }
-
-        public int get_CPU_SFC() {
-            return sfc;
-        }
-
-        public void set_CPU_SFC(int sfc) {
-            this.sfc = sfc;
-        }
-
-        public int get_CPU_DFC() {
-            return dfc;
-        }
-
-        public void set_CPU_DFC(int dfc) {
-            this.dfc = dfc;
-        }
-
-        public int get_CPU_CACR() {
-            return cacr;
-        }
-
-        public void set_CPU_CACR(int cacr) {
-            this.cacr = cacr;
-        }
-
-        public int get_CPU_CAAR() {
-            return caar;
-        }
-
-        public void set_CPU_CAAR(int caar) {
-            this.caar = caar;
-        }
-
-        public int get_CPU_IR() {
-            return ir;
-        }
-
-        public void set_CPU_IR(int ir) {
-            this.ir = ir;
-        }
-
-        public int get_CPU_T1() {
-            return t1_flag;
-        }
-
-        public void set_CPU_T1(int t1) {
-            this.t1_flag = t1;
-        }
-
-        public int get_CPU_T0() {
-            return t0_flag;
-        }
-
-        public void set_CPU_T0(int t0) {
-            this.t0_flag = t0;
-        }
-
-        public int get_CPU_S() {
-            return s_flag;
-        }
-
-        public void set_CPU_S(int s) {
-            this.s_flag = s;
-        }
-
-        public int get_CPU_M() {
-            return m_flag;
-        }
-
-        public void set_CPU_M(int m) {
-            this.m_flag = m;
-        }
-
-        public int get_CPU_X() {
-            return x_flag;
-        }
-
-        public void set_CPU_X(int x) {
-            this.x_flag = x;
-        }
-
-        public int get_CPU_N() {
-            return n_flag;
-        }
-
-        public void set_CPU_N(int n) {
-            this.n_flag = n;
-        }
-
-        public int get_CPU_NOT_Z() {
-            return not_z_flag;
-        }
-
-        public void set_CPU_NOT_Z(int not_z) {
-            this.not_z_flag = not_z;
-        }
-
-        public int get_CPU_V() {
-            return v_flag;
-        }
-
-        public void set_CPU_V(int v) {
-            this.v_flag = v;
-        }
-
-        public int get_CPU_C() {
-            return c_flag;
-        }
-
-        public void set_CPU_C(int c) {
-            this.c_flag = c;
-        }
-
-        public int get_CPU_INT_MASK() {
-            return int_mask;
-        }
-
-        public void set_CPU_INT_MASK(int int_mask) {
-            this.int_mask = int_mask;
-        }
-
-        public int get_CPU_INT_STATE() {
-            return int_state;
-        }
-
-        public void set_CPU_INT_STATE(int int_state) {
-            this.int_state = int_state;
-        }
-
-        public int get_CPU_STOPPED() {
-            return stopped;
-        }
-
-        public void set_CPU_STOPPED(int stopped) {
-            this.stopped = stopped;
-        }
-
-        public int get_CPU_HALTED() {
-            return halted;
-        }
-
-        public void set_CPU_HALTED(int halted) {
-            this.halted = halted;
-        }
-
-        public int get_CPU_INT_CYCLES() {
-            return int_cycles;
-        }
-
-        public void set_CPU_INT_CYCLES(int int_cycles) {
-            this.int_cycles = int_cycles;
-        }
-
-        public int get_CPU_PREF_ADDR() {
-            return pref_addr;
-        }
-
-        public void set_CPU_PREF_ADDR(int pref_addr) {
-            this.pref_addr = pref_addr;
-        }
-
-        public int get_CPU_PREF_DATA() {
-            return pref_data;
-        }
-
-        public void set_CPU_PREF_DATA(int pref_data) {
-            this.pref_data = pref_data;
-        }
-
-        public irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() {
-            return int_ack_callback;
-        }
-
-        public void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {
-            this.int_ack_callback = int_ack_callback;
-        }
-
-        public bkpt_ack_callbackPtr get_CPU_BKPT_ACK_CALLBACK() {
-            return bkpt_ack_callback;
-        }
-
-        public void set_CPU_BKPT_ACK_CALLBACK(bkpt_ack_callbackPtr bkpt_ack_callback) {
-            this.bkpt_ack_callback = bkpt_ack_callback;
-        }
-
-        public reset_instr_callbackPtr get_CPU_RESET_INSTR_CALLBACK() {
-            return reset_instr_callback;
-        }
-
-        public void set_CPU_RESET_INSTR_CALLBACK(reset_instr_callbackPtr reset_instr_callback) {
-            this.reset_instr_callback = reset_instr_callback;
-        }
-
-        public pc_changed_callbackPtr get_CPU_PC_CHANGED_CALLBACK() {
-            return pc_changed_callback;
-        }
-
-        public void set_CPU_PC_CHANGED_CALLBACK(pc_changed_callbackPtr pc_changed_callback) {
-            this.pc_changed_callback = pc_changed_callback;
-        }
-
-        public set_fc_callbackPtr get_CPU_SET_FC_CALLBACK() {
-            return set_fc_callback;
-        }
-
-        public void set_CPU_SET_FC_CALLBACK(set_fc_callbackPtr set_fc_callback) {
-            this.set_fc_callback = set_fc_callback;
-        }
-
-        public instr_hook_callbackPtr get_CPU_INSTR_HOOK_CALLBACK() {
-            return instr_hook_callback;
-        }
-
-        public void set_CPU_INSTR_HOOK_CALLBACK(instr_hook_callbackPtr instr_hook_callback) {
-            this.instr_hook_callback = instr_hook_callback;
-        }
-        
-        public void m68ki_service_interrupt(int pending_mask)	
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        public void m68ki_check_interrupts()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
 
     }
 
@@ -1321,9 +1307,9 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///
 /*TODO*////* Service an interrupt request */
-/*TODO*///INLINE void m68ki_service_interrupt(uint pending_mask)	/* ASG: added parameter here */
-/*TODO*///{
-/*TODO*///   uint int_level = 7;
+    public static void m68ki_service_interrupt(long pending_mask) /* ASG: added parameter here */ {
+        throw new UnsupportedOperationException("Not supported yet.");
+        /*TODO*///   uint int_level = 7;
 /*TODO*///   uint vector;
 /*TODO*///
 /*TODO*///   /* Start at level 7 and then go down */
@@ -1392,15 +1378,15 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///   /* Set the interrupt mask to the level of the one being serviced */
 /*TODO*///   CPU_INT_MASK = int_level;
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* ASG: Check for interrupts */
-/*TODO*///INLINE void m68ki_check_interrupts(void)
-/*TODO*///{
-/*TODO*///   uint pending_mask = 1 << CPU_INT_STATE;
+
+    public static void m68ki_check_interrupts() {
+        throw new UnsupportedOperationException("Not supported yet.");
+        /*TODO*///   uint pending_mask = 1 << CPU_INT_STATE;
 /*TODO*///   if (pending_mask & m68k_int_masks[CPU_INT_MASK])
 /*TODO*///      m68ki_service_interrupt(pending_mask);
-/*TODO*///}
-/*TODO*///
+    }
 }
