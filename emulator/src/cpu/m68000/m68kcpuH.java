@@ -1,13 +1,108 @@
 package cpu.m68000;
 
-import cpu.m68000.m68kH.*;
+import static cpu.m68000.m68kH.*;
 import static mame.cpuintrfH.*;
 
 public class m68kcpuH {
-    
+    /*TODO*///#if UCHAR_MAX == 0xff
+/*TODO*///#define M68K_HAS_8_BIT_SIZE  1
+/*TODO*///#else
+/*TODO*///#define M68K_HAS_8_BIT_SIZE  0
+/*TODO*///#endif /* UCHAR_MAX == 0xff */
+/*TODO*///
+/*TODO*///#if USHRT_MAX == 0xffff
+/*TODO*///#define M68K_HAS_16_BIT_SIZE 1
+/*TODO*///#else
+/*TODO*///#define M68K_HAS_16_BIT_SIZE 0
+/*TODO*///#endif /* USHRT_MAX == 0xffff */
+/*TODO*///
+/*TODO*///#if ULONG_MAX == 0xffffffff
+/*TODO*///#define M68K_HAS_32_BIT_SIZE 1
+/*TODO*///#else
+/*TODO*///#define M68K_HAS_32_BIT_SIZE 0
+/*TODO*///#endif /* ULONG_MAX == 0xffffffff */
+/*TODO*///
+/*TODO*///#if UINT_MAX > 0xffffffff
+/*TODO*///#define M68K_OVER_32_BIT     1
+/*TODO*///#else
+/*TODO*///#define M68K_OVER_32_BIT     0
+/*TODO*///#endif /* UINT_MAX > 0xffffffff */
+/*TODO*///
+/*TODO*////* Data types used in this emulation core */
+/*TODO*///#undef int8
+/*TODO*///#undef int16
+/*TODO*///#undef int32
+/*TODO*///#undef uint
+/*TODO*///#undef uint8
+/*TODO*///#undef uint16
+/*TODO*///#undef uint
+/*TODO*///
+/*TODO*///#define int8   signed char			/* ASG: changed from char to signed char */
+/*TODO*///#define uint8  unsigned char
+/*TODO*///#define int16  short
+/*TODO*///#define uint16 unsigned short
+/*TODO*///#define int32  long
+/*TODO*///
+/*TODO*////* int and unsigned int must be at least 32 bits wide */
+/*TODO*///#define uint   unsigned int
+/*TODO*///
+/*TODO*///
+/*TODO*////* Allow for architectures that don't have 8-bit sizes */
+/*TODO*///#if M68K_HAS_8_BIT_SIZE
+/*TODO*///#define MAKE_INT_8(A) (int8)((A)&0xff)
+/*TODO*///#else
+/*TODO*///#undef  int8
+/*TODO*///#define int8   int
+/*TODO*///#undef  uint8
+/*TODO*///#define uint8  unsigned int
+/*TODO*///INLINE int MAKE_INT_8(int value)
+/*TODO*///{
+/*TODO*///   /* Will this work for 1's complement machines? */
+/*TODO*///   return (value & 0x80) ? value | ~0xff : value & 0xff;
+/*TODO*///}
+/*TODO*///#endif /* M68K_HAS_8_BIT_SIZE */
+/*TODO*///
+/*TODO*///
+/*TODO*////* Allow for architectures that don't have 16-bit sizes */
+/*TODO*///#if M68K_HAS_16_BIT_SIZE
+/*TODO*///#define MAKE_INT_16(A) (int16)((A)&0xffff)
+/*TODO*///#else
+/*TODO*///#undef  int16
+/*TODO*///#define int16  int
+/*TODO*///#undef  uint16
+/*TODO*///#define uint16 unsigned int
+/*TODO*///INLINE int MAKE_INT_16(int value)
+/*TODO*///{
+/*TODO*///   /* Will this work for 1's complement machines? */
+/*TODO*///   return (value & 0x8000) ? value | ~0xffff : value & 0xffff;
+/*TODO*///}
+/*TODO*///#endif /* M68K_HAS_16_BIT_SIZE */
+/*TODO*///
+/*TODO*///
+/*TODO*////* Allow for architectures that don't have 32-bit sizes */
+/*TODO*///#if M68K_HAS_32_BIT_SIZE
+/*TODO*///#if M68K_OVER_32_BIT
+/*TODO*///#define MAKE_INT_32(A) (int32)((A)&0xffffffff)
+/*TODO*///#else
+/*TODO*///#define MAKE_INT_32(A) (int32)(A)
+/*TODO*///#endif /* M68K_OVER_32_BIT */
+/*TODO*///#else
+/*TODO*///#undef  int32
+/*TODO*///#define int32  int
+/*TODO*///INLINE int MAKE_INT_32(int value)
+/*TODO*///{
+/*TODO*///   /* Will this work for 1's complement machines? */
+/*TODO*///   return (value & 0x80000000) ? value | ~0xffffffff : value & 0xffffffff;
+/*TODO*///}
+/*TODO*///#endif /* M68K_HAS_32_BIT_SIZE */
+/*TODO*///
+/*TODO*///
+/*TODO*///
+/* ======================================================================== */
+    /* ============================ GENERAL DEFINES =========================== */
+    /* ======================================================================== */
     /* Exception Vectors handled by emulation */
-    public static int EXCEPTION_BUS_ERROR = 2;
-    public static int EXCEPTION_ADDRESS_ERROR = 3;
+
     public static int EXCEPTION_ILLEGAL_INSTRUCTION = 4;
     public static int EXCEPTION_ZERO_DIVIDE = 5;
     public static int EXCEPTION_CHK = 6;
@@ -29,300 +124,1283 @@ public class m68kcpuH {
     public static int FUNCTION_CODE_SUPERVISOR_PROGRAM = 6;
     public static int FUNCTION_CODE_CPU_SPACE = 7;
 
-    /* CPU types for deciding what to emulate */
-    public static int CPU_TYPE_000 = 1;
-    public static int CPU_TYPE_010 = 2;
-    public static int CPU_TYPE_EC020 = 4;
-    public static int CPU_TYPE_020 = 8;
 
-    /* Different ways to stop the CPU */
-    public static int STOP_LEVEL_STOP = 1;
-    public static int STOP_LEVEL_HALT = 2;
-    
-    /* M68K CPU core class */
+    /* CPU modes for deciding what to emulate */
+    public static int CPU_MODE_000 = M68K_CPU_MODE_68000;
+    public static int CPU_MODE_010 = M68K_CPU_MODE_68010;
+    public static int CPU_MODE_EC020 = M68K_CPU_MODE_68EC020;
+    public static int CPU_MODE_020 = M68K_CPU_MODE_68020;
+
+    public static int CPU_MODE_ALL = (CPU_MODE_000 | CPU_MODE_010 | CPU_MODE_EC020 | CPU_MODE_020);
+    public static int CPU_MODE_010_PLUS = (CPU_MODE_010 | CPU_MODE_EC020 | CPU_MODE_020);
+    public static int CPU_MODE_010_LESS = (CPU_MODE_000 | CPU_MODE_010);
+    public static int CPU_MODE_EC020_PLUS = (CPU_MODE_EC020 | CPU_MODE_020);
+    public static int CPU_MODE_EC020_LESS = (CPU_MODE_000 | CPU_MODE_010 | CPU_MODE_EC020);
+    public static int CPU_MODE_020_PLUS = CPU_MODE_020;
+    public static int CPU_MODE_020_LESS = (CPU_MODE_000 | CPU_MODE_010 | CPU_MODE_EC020 | CPU_MODE_020);
+
+    /*TODO*////* ======================================================================== */
+/*TODO*////* ================================ MACROS ================================ */
+/*TODO*////* ======================================================================== */
+/*TODO*///
+/*TODO*////* Bit Isolation Macros */
+/*TODO*///#define BIT_0(A)  ((A) & 0x00000001)
+/*TODO*///#define BIT_1(A)  ((A) & 0x00000002)
+/*TODO*///#define BIT_2(A)  ((A) & 0x00000004)
+/*TODO*///#define BIT_3(A)  ((A) & 0x00000008)
+/*TODO*///#define BIT_4(A)  ((A) & 0x00000010)
+/*TODO*///#define BIT_5(A)  ((A) & 0x00000020)
+/*TODO*///#define BIT_6(A)  ((A) & 0x00000040)
+/*TODO*///#define BIT_7(A)  ((A) & 0x00000080)
+/*TODO*///#define BIT_8(A)  ((A) & 0x00000100)
+/*TODO*///#define BIT_9(A)  ((A) & 0x00000200)
+/*TODO*///#define BIT_A(A)  ((A) & 0x00000400)
+/*TODO*///#define BIT_B(A)  ((A) & 0x00000800)
+/*TODO*///#define BIT_C(A)  ((A) & 0x00001000)
+/*TODO*///#define BIT_D(A)  ((A) & 0x00002000)
+/*TODO*///#define BIT_E(A)  ((A) & 0x00004000)
+/*TODO*///#define BIT_F(A)  ((A) & 0x00008000)
+/*TODO*///#define BIT_10(A) ((A) & 0x00010000)
+/*TODO*///#define BIT_11(A) ((A) & 0x00020000)
+/*TODO*///#define BIT_12(A) ((A) & 0x00040000)
+/*TODO*///#define BIT_13(A) ((A) & 0x00080000)
+/*TODO*///#define BIT_14(A) ((A) & 0x00100000)
+/*TODO*///#define BIT_15(A) ((A) & 0x00200000)
+/*TODO*///#define BIT_16(A) ((A) & 0x00400000)
+/*TODO*///#define BIT_17(A) ((A) & 0x00800000)
+/*TODO*///#define BIT_18(A) ((A) & 0x01000000)
+/*TODO*///#define BIT_19(A) ((A) & 0x02000000)
+/*TODO*///#define BIT_1A(A) ((A) & 0x04000000)
+/*TODO*///#define BIT_1B(A) ((A) & 0x08000000)
+/*TODO*///#define BIT_1C(A) ((A) & 0x10000000)
+/*TODO*///#define BIT_1D(A) ((A) & 0x20000000)
+/*TODO*///#define BIT_1E(A) ((A) & 0x40000000)
+/*TODO*///#define BIT_1F(A) ((A) & 0x80000000)
+/*TODO*///
+/*TODO*////* Get the most significant bit for specific sizes */
+/*TODO*///#define GET_MSB_8(A)  ((A) & 0x80)
+/*TODO*///#define GET_MSB_9(A)  ((A) & 0x100)
+/*TODO*///#define GET_MSB_16(A) ((A) & 0x8000)
+/*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
+/*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
+/*TODO*///
+/*TODO*////* Isolate nibbles */
+/*TODO*///#define LOW_NIBBLE(A) ((A) & 0x0f)
+/*TODO*///#define HIGH_NIBBLE(A) ((A) & 0xf0)
+/*TODO*///
+/*TODO*////* These are used to isolate 8, 16, and 32 bit sizes */
+/*TODO*///#define MASK_OUT_ABOVE_2(A)  ((A) & 3)
+/*TODO*///#define MASK_OUT_ABOVE_8(A)  ((A) & 0xff)
+/*TODO*///#define MASK_OUT_ABOVE_16(A) ((A) & 0xffff)
+    public static int MASK_OUT_ABOVE_16(int A)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+/*TODO*///#define MASK_OUT_BELOW_2(A)  ((A) & ~3)
+/*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
+/*TODO*///#define MASK_OUT_BELOW_16(A) ((A) & ~0xffff)
+/*TODO*///
+/*TODO*////* No need for useless masking if we're 32-bit */
+/*TODO*///#if M68K_OVER_32_BIT
+/*TODO*///#define MASK_OUT_ABOVE_32(A) ((A) & 0xffffffff)
+/*TODO*///#define MASK_OUT_BELOW_32(A) ((A) & ~0xffffffff)
+/*TODO*///#else
+/*TODO*///#define MASK_OUT_ABOVE_32(A) (A)
+    public static int MASK_OUT_ABOVE_32(int A)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+/*TODO*///#define MASK_OUT_BELOW_32(A) 0
+/*TODO*///#endif /* M68K_OVER_32_BIT */
+/*TODO*///
+/*TODO*///
+/*TODO*////* Simulate address lines of 68k family */
+/*TODO*///#define ADDRESS_68K(A) (CPU_MODE & CPU_MODE_020_PLUS ? A : (A)&0xffffff)
+    public static int ADDRESS_68K(int A)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+/*TODO*///
+/*TODO*///
+/*TODO*////* Instruction extension word information for indexed addressing modes */
+/*TODO*///#define EXT_INDEX_LONG(A)         BIT_B(A)
+/*TODO*///#define EXT_INDEX_AR(A)           BIT_F(A)
+/*TODO*///#define EXT_INDEX_REGISTER(A)     (((A)>>12)&7)
+/*TODO*///#define EXT_INDEX_SCALE(A)        (((A)>>9)&3)
+/*TODO*///#define EXT_BRIEF_FORMAT(A)       !BIT_8(A)
+/*TODO*///#define EXT_IX_SUPPRESSED(A)      BIT_6(A)
+/*TODO*///#define EXT_BR_SUPPRESSED(A)      BIT_7(A)
+/*TODO*///#define EXT_BD_PRESENT(A)         BIT_5(A)
+/*TODO*///#define EXT_BD_LONG(A)            BIT_4(A)
+/*TODO*///#define EXT_NO_MEMORY_INDIRECT(A) !((A)&7)
+/*TODO*///#define EXT_OD_PRESENT(A)         BIT_1(A)
+/*TODO*///#define EXT_OD_LONG(A)            BIT_0(A)
+/*TODO*///#define EXT_POSTINDEX(A)          BIT_2(A)
+/*TODO*///
+/*TODO*///
+/*TODO*////* Shift & Rotate Macros.
+/*TODO*/// * 32-bit shifts defined in architecture-dependant section.
+/*TODO*/// */
+/*TODO*///
+/*TODO*///#define LSL(A, C) ((A) << (C))
+/*TODO*///#define LSR(A, C) ((A) >> (C))
+/*TODO*///
+/*TODO*////* Some > 32-bit optimizations */
+/*TODO*///#if M68K_OVER_32_BIT
+/*TODO*////* Shift left and right */
+/*TODO*///#define LSR_32(A, C) ((A) >> (C))
+/*TODO*///#define LSL_32(A, C) ((A) << (C))
+/*TODO*///#else
+/*TODO*////* We have to do this because the morons at ANSI decided that shifts
+/*TODO*/// * by >= data size are undefined.
+/*TODO*/// */
+/*TODO*///#define LSR_32(A, C) ((C) < 32 ? (A) >> (C) : 0)
+/*TODO*///#define LSL_32(A, C) ((C) < 32 ? (A) << (C) : 0)
+/*TODO*///#endif /* M68K_OVER_32_BIT */
+/*TODO*///
+/*TODO*///#define ROL_8(A, C)      MASK_OUT_ABOVE_8(LSL(A, C) | LSR(A, 8-(C)))
+/*TODO*///#define ROL_9(A, C)                       LSL(A, C) | LSR(A, 9-(C))
+/*TODO*///#define ROL_16(A, C)    MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16-(C)))
+/*TODO*///#define ROL_17(A, C)                      LSL(A, C) | LSR(A, 17-(C))
+/*TODO*///#define ROL_32(A, C) MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32-(C)))
+/*TODO*///#define ROL_33(A, C)                  (LSL_32(A, C) | LSR_32(A, 33-(C)))
+/*TODO*///
+/*TODO*///#define ROR_8(A, C)      MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8-(C)))
+/*TODO*///#define ROR_9(A, C)                       LSR(A, C) | LSL(A, 9-(C))
+/*TODO*///#define ROR_16(A, C)    MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16-(C)))
+/*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
+/*TODO*///#define ROR_32(A, C) MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32-(C)))
+/*TODO*///#define ROR_33(A, C)                  (LSR_32(A, C) | LSL_32(A, 33-(C)))
+/*TODO*///
+/*TODO*///
+/*TODO*///
+/*TODO*///
+/*TODO*////*
+/*TODO*/// * The general instruction format follows this pattern:
+/*TODO*/// * .... XXX. .... .YYY
+/*TODO*/// * where XXX is register X and YYY is register Y
+/*TODO*/// */
+/*TODO*////* Data Register Isolation */
+/*TODO*///#define DX (CPU_D[(CPU_IR >> 9) & 7])
+/*TODO*///#define DY (CPU_D[CPU_IR & 7])
+/*TODO*////* Address Register Isolation */
+/*TODO*///#define AX (CPU_A[(CPU_IR >> 9) & 7])
+/*TODO*///#define AY (CPU_A[CPU_IR & 7])
+/*TODO*///
+/*TODO*///
+/*TODO*////* Effective Address Calculations */
+/*TODO*///#define EA_AI    AY                                    /* address register indirect */
+/*TODO*///#define EA_PI_8  (AY++)                                /* postincrement (size = byte) */
+/*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
+/*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
+/*TODO*///#define EA_PI_32 ((AY+=4)-4)                           /* postincrement (size = long) */
+/*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
+/*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
+/*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
+/*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
+/*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
+/*TODO*///#define EA_IX    m68ki_get_ea_ix()                     /* indirect + index */
+/*TODO*///#define EA_AW    MAKE_INT_16(m68ki_read_imm_16())      /* absolute word */
+/*TODO*///#define EA_AL    m68ki_read_imm_32()                   /* absolute long */
+/*TODO*///#define EA_PCIX  m68ki_get_ea_pcix()                   /* pc indirect + index */
+/*TODO*///
+/*TODO*///
+/*TODO*////* Add and Subtract Flag Calculation Macros */
+/*TODO*///#define VFLAG_ADD_8(S, D, R) GET_MSB_8((S & D & ~R) | (~S & ~D & R))
+/*TODO*///#define VFLAG_ADD_16(S, D, R) GET_MSB_16((S & D & ~R) | (~S & ~D & R))
+/*TODO*///#define VFLAG_ADD_32(S, D, R) GET_MSB_32((S & D & ~R) | (~S & ~D & R))
+/*TODO*///
+/*TODO*///#define CFLAG_ADD_8(S, D, R) GET_MSB_8((S & D) | (~R & D) | (S & ~R))
+/*TODO*///#define CFLAG_ADD_16(S, D, R) GET_MSB_16((S & D) | (~R & D) | (S & ~R))
+/*TODO*///#define CFLAG_ADD_32(S, D, R) GET_MSB_32((S & D) | (~R & D) | (S & ~R))
+/*TODO*///
+/*TODO*///
+/*TODO*///#define VFLAG_SUB_8(S, D, R) GET_MSB_8((~S & D & ~R) | (S & ~D & R))
+/*TODO*///#define VFLAG_SUB_16(S, D, R) GET_MSB_16((~S & D & ~R) | (S & ~D & R))
+/*TODO*///#define VFLAG_SUB_32(S, D, R) GET_MSB_32((~S & D & ~R) | (S & ~D & R))
+/*TODO*///
+/*TODO*///#define CFLAG_SUB_8(S, D, R) GET_MSB_8((S & ~D) | (R & ~D) | (S & R))
+/*TODO*///#define CFLAG_SUB_16(S, D, R) GET_MSB_16((S & ~D) | (R & ~D) | (S & R))
+/*TODO*///#define CFLAG_SUB_32(S, D, R) GET_MSB_32((S & ~D) | (R & ~D) | (S & R))
+/*TODO*///
+/*TODO*///
+/*TODO*////* Conditions */
+/*TODO*///#define CONDITION_HI     (CPU_C == 0 && CPU_NOT_Z != 0)
+/*TODO*///#define CONDITION_NOT_HI (CPU_C != 0 || CPU_NOT_Z == 0)
+/*TODO*///#define CONDITION_LS     (CPU_C != 0 || CPU_NOT_Z == 0)
+/*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
+/*TODO*///#define CONDITION_CC     (CPU_C == 0)
+/*TODO*///#define CONDITION_NOT_CC (CPU_C != 0)
+/*TODO*///#define CONDITION_CS     (CPU_C != 0)
+/*TODO*///#define CONDITION_NOT_CS (CPU_C == 0)
+/*TODO*///#define CONDITION_NE     (CPU_NOT_Z != 0)
+/*TODO*///#define CONDITION_NOT_NE (CPU_NOT_Z == 0)
+/*TODO*///#define CONDITION_EQ     (CPU_NOT_Z == 0)
+/*TODO*///#define CONDITION_NOT_EQ (CPU_NOT_Z != 0)
+/*TODO*///#define CONDITION_VC     (CPU_V == 0)
+/*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
+/*TODO*///#define CONDITION_VS     (CPU_V != 0)
+/*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
+/*TODO*///#define CONDITION_PL     (CPU_N == 0)
+/*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
+/*TODO*///#define CONDITION_MI     (CPU_N != 0)
+/*TODO*///#define CONDITION_NOT_MI (CPU_N == 0)
+/*TODO*///#define CONDITION_GE     ((CPU_N == 0) == (CPU_V == 0))
+/*TODO*///#define CONDITION_NOT_GE ((CPU_N == 0) != (CPU_V == 0))
+/*TODO*///#define CONDITION_LT     ((CPU_N == 0) != (CPU_V == 0))
+/*TODO*///#define CONDITION_NOT_LT ((CPU_N == 0) == (CPU_V == 0))
+/*TODO*///#define CONDITION_GT     (CPU_NOT_Z != 0 && (CPU_N == 0) == (CPU_V == 0))
+/*TODO*///#define CONDITION_NOT_GT (CPU_NOT_Z == 0 || (CPU_N == 0) != (CPU_V == 0))
+/*TODO*///#define CONDITION_LE     (CPU_NOT_Z == 0 || (CPU_N == 0) != (CPU_V == 0))
+/*TODO*///#define CONDITION_NOT_LE (CPU_NOT_Z != 0 && (CPU_N == 0) == (CPU_V == 0))
+/*TODO*///
+/*TODO*///
+/*TODO*////* Use up clock cycles.
+/*TODO*/// * NOTE: clock cycles used in here are 99.9% correct for a 68000, not for the
+/*TODO*/// * higher processors.
+/*TODO*/// */
+/*TODO*///#define USE_CLKS(A) m68k_clks_left -= (A)
+/*TODO*///
+/*TODO*///
+/*TODO*////* Push/pull data to/from the stack */
+/*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
+/*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
+/*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
+/*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
+/*TODO*///
+/*TODO*///
+/*TODO*////* branch byte and word are for branches, while long is for jumps.
+/*TODO*/// * So far it's been safe to not call set_pc() for branch word.
+/*TODO*/// */
+/*TODO*///#define m68ki_branch_byte(A) CPU_PC += MAKE_INT_8(A)
+/*TODO*///#define m68ki_branch_word(A) CPU_PC += MAKE_INT_16(A)
+/*TODO*///#define m68ki_branch_dword(A) CPU_PC += (A)
+/*TODO*///#define m68ki_branch_long(A) m68ki_set_pc(A)
+/*TODO*///
+/*TODO*///
+/*TODO*////* Get the condition code register */
+/*TODO*///#define m68ki_get_ccr() (((CPU_X != 0)     << 4) | \
+/*TODO*///                         ((CPU_N != 0)     << 3) | \
+/*TODO*///                         ((CPU_NOT_Z == 0) << 2) | \
+/*TODO*///                         ((CPU_V != 0)     << 1) | \
+/*TODO*///                          (CPU_C != 0))
+/*TODO*///
+/*TODO*////* Get the status register */
+/*TODO*///#define m68ki_get_sr() (((CPU_T1 != 0)    << 15) | \
+/*TODO*///                        ((CPU_T0 != 0)    << 14) | \
+/*TODO*///                        ((CPU_S != 0)     << 13) | \
+/*TODO*///                        ((CPU_M != 0)     << 12) | \
+/*TODO*///                         (CPU_INT_MASK    <<  8) | \
+/*TODO*///                        ((CPU_X != 0)     <<  4) | \
+/*TODO*///                        ((CPU_N != 0)     <<  3) | \
+/*TODO*///                        ((CPU_NOT_Z == 0) <<  2) | \
+/*TODO*///                        ((CPU_V != 0)     <<  1) | \
+/*TODO*///                         (CPU_C != 0))
+/*TODO*///
+/*TODO*///
+/*TODO*///
+/*TODO*////* ======================================================================== */
+/*TODO*////* ========================= CONFIGURATION DEFINES ======================== */
+/*TODO*////* ======================================================================== */
+/*TODO*///
+/*TODO*////* Act on values in m68kconf.h */
+/*TODO*///#if M68K_INT_ACK
+/*TODO*///#define m68ki_int_ack(A) CPU_INT_ACK_CALLBACK(A)
+/*TODO*///#else
+/*TODO*////* Default action is to used autovector mode, which is most common */
+/*TODO*///#define m68ki_int_ack(A) M68K_INT_ACK_AUTOVECTOR
+/*TODO*///#endif /* M68K_INT_ACK */
+/*TODO*///
+/*TODO*///#if M68K_BKPT_ACK
+/*TODO*///#define m68ki_bkpt_ack(A) CPU_BKPT_ACK_CALLBACK(A)
+/*TODO*///#else
+/*TODO*///#define m68ki_bkpt_ack(A)
+/*TODO*///#endif /* M68K_BKPT_ACK */
+/*TODO*///
+/*TODO*///#if M68K_OUTPUT_RESET
+/*TODO*///#define m68ki_output_reset() CPU_RESET_INSTR_CALLBACK()
+/*TODO*///#else
+/*TODO*///#define m68ki_output_reset()
+/*TODO*///#endif /* M68K_OUTPUT_RESET */
+/*TODO*///
+/*TODO*///#if M68K_PC_CHANGED
+/*TODO*///#define m68ki_pc_changed(A) CPU_PC_CHANGED_CALLBACK(A)
+/*TODO*///#else
+/*TODO*///#define m68ki_pc_changed(A)
+/*TODO*///#endif /* M68K_PC_CHANGED */
+/*TODO*///
+/*TODO*///#if M68K_SET_FC
+/*TODO*///#define m68ki_set_fc(A) CPU_SET_FC_CALLBACK(A)
+/*TODO*///#else
+/*TODO*///#define m68ki_set_fc(A)
+/*TODO*///#endif /* M68K_SET_FC */
+/*TODO*///
+/*TODO*///#if M68K_INSTR_HOOK
+/*TODO*///#define m68ki_instr_hook() CPU_INSTR_HOOK_CALLBACK()
+/*TODO*///#else
+/*TODO*///#define m68ki_instr_hook()
+/*TODO*///#endif /* M68K_INSTR_HOOK */
+/*TODO*///
+/*TODO*///#if M68K_TRACE
+/*TODO*////* Initiates trace checking before each instruction (t1) */
+/*TODO*///#define m68ki_set_trace() m68k_tracing = CPU_T1
+/*TODO*////* adds t0 to trace checking if we encounter change of flow */
+/*TODO*///#define m68ki_add_trace() m68k_tracing |= CPU_T0
+/*TODO*////* Clear all tracing */
+/*TODO*///#define m68ki_clear_trace() m68k_tracing = 0
+/*TODO*////* Cause a trace exception if we are tracing */
+/*TODO*///#define m68ki_exception_if_trace() if(m68k_tracing) m68ki_exception(EXCEPTION_TRACE)
+/*TODO*///#else
+/*TODO*///#define m68ki_set_trace()
+/*TODO*///#define m68ki_add_trace()
+/*TODO*///#define m68ki_clear_trace()
+/*TODO*///#define m68ki_exception_if_trace()
+/*TODO*///#endif /* M68K_TRACE */
+/*TODO*///
+/*TODO*///
+/*TODO*///#ifdef M68K_LOG
+/*TODO*///
+/*TODO*///extern char* m68k_disassemble_quick(uint pc);
+/*TODO*///extern uint  m68k_pc_offset;
+/*TODO*///extern char* m68k_cpu_names[];
+/*TODO*///
+/*TODO*///#define M68K_DO_LOG(A) if(M68K_LOG) fprintf A
+/*TODO*///#if M68K_LOG_EMULATED_INSTRUCTIONS
+/*TODO*///#define M68K_DO_LOG_EMU(A) if(M68K_LOG) fprintf A
+/*TODO*///#else
+/*TODO*///#define M68K_DO_LOG_EMU(A)
+/*TODO*///#endif
+/*TODO*///
+/*TODO*///#else
+/*TODO*///#define M68K_DO_LOG(A)
+/*TODO*///#define M68K_DO_LOG_EMU(A)
+/*TODO*///
+/*TODO*///#endif
+/*TODO*///
+/*TODO*///
+/*TODO*////* ======================================================================== */
+/*TODO*////* =============================== PROTOTYPES ============================= */
+/*TODO*////* ======================================================================== */
+/*TODO*///
+        /* M68K CPU core class */
     public static class m68k_cpu_core {
+
         public int mode;                /* CPU Operation Mode: 68000, 68010, or 68020 */
+
         public int[] dr = new int[8];   /* Data Registers */
+
         public int[] ar = new int[8];   /* Address Registers */
+
         public int ppc;                 /* Previous program counter */
+
         public int pc;                  /* Program Counter */
+
         public int[] sp = new int[4];   /* User, Interrupt, and Master Stack Pointers */
+
         public int vbr;                 /* Vector Base Register (68010+) */
+
         public int sfc;                 /* Source Function Code Register (m68010+) */
+
         public int dfc;                 /* Destination Function Code Register (m68010+) */
+
         public int cacr;                /* Cache Control Register (m68020+) */
+
         public int caar;                /* Cacge Address Register (m68020+) */
+
         public int ir;                  /* Instruction Register */
+
         public int t1_flag;             /* Trace 1 */
+
         public int t0_flag;             /* Trace 0 */
+
         public int s_flag;              /* Supervisor */
+
         public int m_flag;              /* Master/Interrupt state */
+
         public int x_flag;              /* Extend */
+
         public int n_flag;              /* Negative */
+
         public int not_z_flag;          /* Zero, inverted for speedups */
+
         public int v_flag;              /* Overflow */
+
         public int c_flag;              /* Carry */
+
         public int int_mask;            /* I0-I2 */
+
         public int int_state;           /* Current interrupt state -- ASG: changed from ints_pending */
+
         public int stopped;             /* Stopped state */
+
         public int halted;              /* Halted state */
+
         public int int_cycles;          /* ASG: extra cycles from generated interrupts */
+
         public int pref_addr;           /* Last prefetch address */
+
         public int pref_data;           /* Data in the prefetch queue */
 
         /* Callbacks to host */
         irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */
+
         bkpt_ack_callbackPtr bkpt_ack_callback;     /* Breakpoint Acknowledge */
+
         reset_instr_callbackPtr reset_instr_callback;   /* Called when a RESET instruction is encountered */
+
         pc_changed_callbackPtr pc_changed_callback; /* Called when the PC changes by a large amount */
+
         set_fc_callbackPtr set_fc_callback;     /* Called when the CPU function code changes */
+
         instr_hook_callbackPtr instr_hook_callback;       /* Called every instruction cycle prior to execution */
 
-        
-        public m68k_cpu_core()
-        {
-            
-        }
-        
         /* Access the CPU registers */
-        public int get_CPU_MODE() { return mode; }
-        public int[] get_CPU_D() { return dr; }
-        public int[] get_CPU_A() { return ar; }
-        public int get_CPU_PPC() { return ppc; }
-        public int get_CPU_PC() { return pc; }
-        public int[] get_CPU_SP() { return sp; }
-        public int get_CPU_USP() { return sp[0]; }
-        public int get_CPU_ISP() { return sp[1]; }
-        public int get_CPU_MSP() { return sp[3]; }
-        public int get_CPU_VBR() { return vbr; }
-        public int get_CPU_SFC() { return sfc; }
-        public int get_CPU_DFC() { return dfc; }
-        public int get_CPU_CACR() { return cacr; }
-        public int get_CPU_CAAR() { return caar; }
-        public int get_CPU_IR() { return ir; }
-        public int get_CPU_T1() { return t1_flag; }
-        public int get_CPU_T0() { return t0_flag; }
-        public int get_CPU_S() { return s_flag; }
-        public int get_CPU_M() { return m_flag; }
-        public int get_CPU_X() { return x_flag; }
-        public int get_CPU_N() { return n_flag; }
-        public int get_CPU_NOT_Z() { return not_z_flag; }
-        public int get_CPU_V() { return v_flag; }
-        public int get_CPU_C() { return c_flag; }
-        public int get_CPU_INT_MASK() { return int_mask; }
-        public int get_CPU_INT_STATE() { return int_state; }
-        public int get_CPU_STOPPED() { return stopped; }
-        public int get_CPU_HALTED() { return halted; }
-        public int get_CPU_INT_CYCLES() { return int_cycles; }
-        public int get_CPU_PREF_ADDR() { return pref_addr; }
-        public int get_CPU_PREF_DATA() { return pref_data; } 
-        
-        public irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() { return int_ack_callback; }
-        public bkpt_ack_callbackPtr get_CPU_BKPT_ACK_CALLBACK() { return bkpt_ack_callback; }
-        public reset_instr_callbackPtr get_CPU_RESET_INSTR_CALLBACK() { return reset_instr_callback; }
-        public pc_changed_callbackPtr get_CPU_PC_CHANGED_CALLBACK() { return pc_changed_callback; }
-        public set_fc_callbackPtr get_CPU_SET_FC_CALLBACK() { return set_fc_callback; }
-        public instr_hook_callbackPtr get_CPU_INSTR_HOOK_CALLBACK() { return instr_hook_callback; }
-        
-        public void set_CPU_MODE(int mode) { this.mode = mode; }
-        public void set_CPU_D(int reg_num, int value) { this.dr[reg_num] = value; }
-        public void set_CPU_A(int reg_num, int value) { this.ar[reg_num] = value; }
-        public void set_CPU_PPC(int ppc) { this.ppc = ppc; }
-        public void set_CPU_PC(int pc) { this.pc = pc; }
-        public void set_CPU_SP(int[] sp) { this.sp = sp; }
-        public void set_CPU_USP(int usp) { this.sp[0] = usp; }
-        public void set_CPU_ISP(int isp) { this.sp[1] = isp; }
-        public void set_CPU_MSP(int msp) { this.sp[3] = msp; }
-        public void set_CPU_VBR(int vbr) { this.vbr = vbr; }
-        public void set_CPU_SFC(int sfc) { this.sfc = sfc; }
-        public void set_CPU_DFC(int dfc) { this.dfc = dfc; }
-        public void set_CPU_CACR(int cacr) { this.cacr = cacr; }
-        public void set_CPU_CAAR(int caar) { this.caar = caar; }
-        public void set_CPU_IR(int ir) { this.ir = ir; }
-        public void set_CPU_T1(int t1) { this.t1_flag = t1; }
-        public void set_CPU_T0(int t0) { this.t0_flag = t0; }
-        public void set_CPU_S(int s) { this.s_flag = s; }
-        public void set_CPU_M(int m) { this.m_flag = m; }
-        public void set_CPU_X(int x) { this.x_flag = x; }
-        public void set_CPU_N(int n) { this.n_flag = n; }
-        public void set_CPU_NOT_Z(int not_z) { this.not_z_flag = not_z; }
-        public void set_CPU_V(int v) { this.v_flag = v; }
-        public void set_CPU_C(int c) { this.c_flag = c; }
-        public void set_CPU_INT_MASK(int int_mask) { this.int_mask = int_mask; }
-        public void set_CPU_INT_STATE(int int_state) { this.int_state = int_state; }
-        public void set_CPU_STOPPED(int stopped) { this.stopped = stopped; }
-        public void set_CPU_HALTED(int halted) { this.halted = halted; }
-        public void set_CPU_INT_CYCLES(int int_cycles) { this.int_cycles = int_cycles; }
-        public void set_CPU_PREF_ADDR(int pref_addr) { this.pref_addr = pref_addr; }
-        public void set_CPU_PREF_DATA(int pref_data) { this.pref_data = pref_data; } 
-        
-        public void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {this.int_ack_callback = int_ack_callback; }
-        public void set_CPU_BKPT_ACK_CALLBACK(bkpt_ack_callbackPtr bkpt_ack_callback) { this.bkpt_ack_callback = bkpt_ack_callback; }
-        public void set_CPU_RESET_INSTR_CALLBACK(reset_instr_callbackPtr reset_instr_callback) { this.reset_instr_callback = reset_instr_callback; }
-        public void set_CPU_PC_CHANGED_CALLBACK(pc_changed_callbackPtr pc_changed_callback) { this.pc_changed_callback = pc_changed_callback; }
-        public void set_CPU_SET_FC_CALLBACK(set_fc_callbackPtr set_fc_callback) { this.set_fc_callback = set_fc_callback; }
-        public void set_CPU_INSTR_HOOK_CALLBACK(instr_hook_callbackPtr instr_hook_callback) { this.instr_hook_callback = instr_hook_callback; }
-    
-        /* Bit Isolation */
-        public int BIT_0(int A) { return ((A) & 0x00000001); }
-        public int BIT_1(int A) { return ((A) & 0x00000002); }
-        public int BIT_2(int A) { return ((A) & 0x00000004); }
-        public int BIT_3(int A) { return ((A) & 0x00000008); }
-        public int BIT_4(int A) { return ((A) & 0x00000010); }
-        public int BIT_5(int A) { return ((A) & 0x00000020); }
-        public int BIT_6(int A) { return ((A) & 0x00000040); }
-        public int BIT_7(int A) { return ((A) & 0x00000080); }
-        public int BIT_8(int A) { return ((A) & 0x00000100); }
-        public int BIT_9(int A) { return ((A) & 0x00000200); }
-        public int BIT_A(int A) { return ((A) & 0x00000400); }
-        public int BIT_B(int A) { return ((A) & 0x00000800); }
-        public int BIT_C(int A) { return ((A) & 0x00001000); }
-        public int BIT_D(int A) { return ((A) & 0x00002000); }
-        public int BIT_E(int A) { return ((A) & 0x00004000); }
-        public int BIT_F(int A) { return ((A) & 0x00008000); }
-        public int BIT_10(int A) { return ((A) & 0x00010000); }
-        public int BIT_11(int A) { return ((A) & 0x00020000); }
-        public int BIT_12(int A) { return ((A) & 0x00040000); }
-        public int BIT_13(int A) { return ((A) & 0x00080000); }
-        public int BIT_14(int A) { return ((A) & 0x00100000); }
-        public int BIT_15(int A) { return ((A) & 0x00200000); }
-        public int BIT_16(int A) { return ((A) & 0x00400000); }
-        public int BIT_17(int A) { return ((A) & 0x00800000); }
-        public int BIT_18(int A) { return ((A) & 0x01000000); }
-        public int BIT_19(int A) { return ((A) & 0x02000000); }
-        public int BIT_1A(int A) { return ((A) & 0x04000000); }
-        public int BIT_1B(int A) { return ((A) & 0x08000000); }
-        public int BIT_1C(int A) { return ((A) & 0x10000000); }
-        public int BIT_1D(int A) { return ((A) & 0x20000000); }
-        public int BIT_1E(int A) { return ((A) & 0x40000000); }
-        public int BIT_1F(int A) { return ((A) & 0x80000000); }
 
-        /* Get the most significant bit for specific sizes */
-        public int GET_MSB_8(int A) { return ((A) & 0x80); }
-        public int GET_MSB_9(int A) { return ((A) & 0x100); }
-        public int GET_MSB_16(int A) { return ((A) & 0x8000); }
-        public int GET_MSB_17(int A) { return ((A) & 0x10000); }
-        public int GET_MSB_32(int A) { return ((A) & 0x80000000); }
-        public long GET_MSB_33(long A) { return ((A) & 0x100000000L); }
-
-        /* Isolate nibbles */
-        public int LOW_NIBBLE(int A) { return ((A) & 0x0f); }
-        public int HIGH_NIBBLE(int A) { return ((A) & 0xf0); }
-
-        /* These are used to isolate 8, 16, and 32 bit sizes */
-        public int MASK_OUT_ABOVE_2(int A) { return ((A) & 3); }
-        public int MASK_OUT_ABOVE_8(int A) { return ((A) & 0xff); }
-        public int MASK_OUT_ABOVE_16(int A) { return ((A) & 0xffff); }
-        public int MASK_OUT_BELOW_2(int A) { return ((A) & ~3); }
-        public int MASK_OUT_BELOW_8(int A) { return ((A) & ~0xff); }
-        public int MASK_OUT_BELOW_16(int A) { return ((A) & ~0xffff); }
-        public int MASK_OUT_ABOVE_32(int A) { return ((A) & 0xffffffff); }
-        public int MASK_OUT_BELOW_32(int A) { return ((A) & ~0xffffffff); }
-
-        /* Simulate address lines of 68k family */
-        public int ADDRESS_68K(int A) { 
-            if ((this.get_CPU_MODE() & CPU_TYPE_020) == 0) return A; else return ((A) & 0xffffff);
+        public int get_CPU_MODE() {
+            return mode;
         }
 
-        /* Shift & Rotate Macros. */
-        public int LSL(int A, int C) { return ((A) << (C)); }
-        public int LSR(int A, int C) { return ((A) >> (C)); }
+        public void set_CPU_MODE(int mode) {
+            this.mode = mode;
+        }
 
-        public int ROL_8(int A, int C) { return MASK_OUT_ABOVE_8(LSL(A, C) | LSR(A, 8-(C))); }
-        public int ROL_9(int A, int C) { return (LSL(A, C) | LSR(A, 9-(C))); }
-        public int ROL_16(int A, int C) { return MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16-(C))); }
-        public int ROL_17(int A, int C) { return (LSL(A, C) | LSR(A, 17-(C))); }
-        public int ROL_32(int A, int C) { return MASK_OUT_ABOVE_32(LSL(A, C) | LSR(A, 32-(C))); }
-        public int ROL_33(int A, int C) { return (LSL(A, C) | LSR(A, 33-(C))); }
+        public int[] get_CPU_D() {
+            return dr;
+        }
 
-        public int ROR_8(int A, int C) { return MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8-(C))); }
-        public int ROR_9(int A, int C) { return (LSR(A, C) | LSL(A, 9-(C))); }
-        public int ROR_16(int A, int C) { return MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16-(C))); }
-        public int ROR_17(int A, int C) { return (LSR(A, C) | LSL(A, 17-(C))); }
-        public int ROR_32(int A, int C) { return MASK_OUT_ABOVE_32(LSR(A, C) | LSL(A, 32-(C))); }
-        public int ROR_33(int A, int C) { return (LSR(A, C) | LSL(A, 33-(C))); }
+        public void set_CPU_D(int reg_num, int value) {
+            this.dr[reg_num] = value;
+        }
+
+        public int[] get_CPU_A() {
+            return ar;
+        }
+
+        public void set_CPU_A(int reg_num, int value) {
+            this.ar[reg_num] = value;
+        }
+
+        public int get_CPU_PPC() {
+            return ppc;
+        }
+
+        public void set_CPU_PPC(int ppc) {
+            this.ppc = ppc;
+        }
+
+        public int get_CPU_PC() {
+            return pc;
+        }
+
+        public void set_CPU_PC(int pc) {
+            this.pc = pc;
+        }
+
+        public int[] get_CPU_SP() {
+            return sp;
+        }
+
+        public void set_CPU_SP(int[] sp) {
+            this.sp = sp;
+        }
+
+        public int get_CPU_USP() {
+            return sp[0];
+        }
+
+        public void set_CPU_USP(int usp) {
+            this.sp[0] = usp;
+        }
+
+        public int get_CPU_ISP() {
+            return sp[1];
+        }
+
+        public void set_CPU_ISP(int isp) {
+            this.sp[1] = isp;
+        }
+
+        public int get_CPU_MSP() {
+            return sp[3];
+        }
+
+        public void set_CPU_MSP(int msp) {
+            this.sp[3] = msp;
+        }
+
+        public int get_CPU_VBR() {
+            return vbr;
+        }
+
+        public void set_CPU_VBR(int vbr) {
+            this.vbr = vbr;
+        }
+
+        public int get_CPU_SFC() {
+            return sfc;
+        }
+
+        public void set_CPU_SFC(int sfc) {
+            this.sfc = sfc;
+        }
+
+        public int get_CPU_DFC() {
+            return dfc;
+        }
+
+        public void set_CPU_DFC(int dfc) {
+            this.dfc = dfc;
+        }
+
+        public int get_CPU_CACR() {
+            return cacr;
+        }
+
+        public void set_CPU_CACR(int cacr) {
+            this.cacr = cacr;
+        }
+
+        public int get_CPU_CAAR() {
+            return caar;
+        }
+
+        public void set_CPU_CAAR(int caar) {
+            this.caar = caar;
+        }
+
+        public int get_CPU_IR() {
+            return ir;
+        }
+
+        public void set_CPU_IR(int ir) {
+            this.ir = ir;
+        }
+
+        public int get_CPU_T1() {
+            return t1_flag;
+        }
+
+        public void set_CPU_T1(int t1) {
+            this.t1_flag = t1;
+        }
+
+        public int get_CPU_T0() {
+            return t0_flag;
+        }
+
+        public void set_CPU_T0(int t0) {
+            this.t0_flag = t0;
+        }
+
+        public int get_CPU_S() {
+            return s_flag;
+        }
+
+        public void set_CPU_S(int s) {
+            this.s_flag = s;
+        }
+
+        public int get_CPU_M() {
+            return m_flag;
+        }
+
+        public void set_CPU_M(int m) {
+            this.m_flag = m;
+        }
+
+        public int get_CPU_X() {
+            return x_flag;
+        }
+
+        public void set_CPU_X(int x) {
+            this.x_flag = x;
+        }
+
+        public int get_CPU_N() {
+            return n_flag;
+        }
+
+        public void set_CPU_N(int n) {
+            this.n_flag = n;
+        }
+
+        public int get_CPU_NOT_Z() {
+            return not_z_flag;
+        }
+
+        public void set_CPU_NOT_Z(int not_z) {
+            this.not_z_flag = not_z;
+        }
+
+        public int get_CPU_V() {
+            return v_flag;
+        }
+
+        public void set_CPU_V(int v) {
+            this.v_flag = v;
+        }
+
+        public int get_CPU_C() {
+            return c_flag;
+        }
+
+        public void set_CPU_C(int c) {
+            this.c_flag = c;
+        }
+
+        public int get_CPU_INT_MASK() {
+            return int_mask;
+        }
+
+        public void set_CPU_INT_MASK(int int_mask) {
+            this.int_mask = int_mask;
+        }
+
+        public int get_CPU_INT_STATE() {
+            return int_state;
+        }
+
+        public void set_CPU_INT_STATE(int int_state) {
+            this.int_state = int_state;
+        }
+
+        public int get_CPU_STOPPED() {
+            return stopped;
+        }
+
+        public void set_CPU_STOPPED(int stopped) {
+            this.stopped = stopped;
+        }
+
+        public int get_CPU_HALTED() {
+            return halted;
+        }
+
+        public void set_CPU_HALTED(int halted) {
+            this.halted = halted;
+        }
+
+        public int get_CPU_INT_CYCLES() {
+            return int_cycles;
+        }
+
+        public void set_CPU_INT_CYCLES(int int_cycles) {
+            this.int_cycles = int_cycles;
+        }
+
+        public int get_CPU_PREF_ADDR() {
+            return pref_addr;
+        }
+
+        public void set_CPU_PREF_ADDR(int pref_addr) {
+            this.pref_addr = pref_addr;
+        }
+
+        public int get_CPU_PREF_DATA() {
+            return pref_data;
+        }
+
+        public void set_CPU_PREF_DATA(int pref_data) {
+            this.pref_data = pref_data;
+        }
+
+        public irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() {
+            return int_ack_callback;
+        }
+
+        public void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {
+            this.int_ack_callback = int_ack_callback;
+        }
+
+        public bkpt_ack_callbackPtr get_CPU_BKPT_ACK_CALLBACK() {
+            return bkpt_ack_callback;
+        }
+
+        public void set_CPU_BKPT_ACK_CALLBACK(bkpt_ack_callbackPtr bkpt_ack_callback) {
+            this.bkpt_ack_callback = bkpt_ack_callback;
+        }
+
+        public reset_instr_callbackPtr get_CPU_RESET_INSTR_CALLBACK() {
+            return reset_instr_callback;
+        }
+
+        public void set_CPU_RESET_INSTR_CALLBACK(reset_instr_callbackPtr reset_instr_callback) {
+            this.reset_instr_callback = reset_instr_callback;
+        }
+
+        public pc_changed_callbackPtr get_CPU_PC_CHANGED_CALLBACK() {
+            return pc_changed_callback;
+        }
+
+        public void set_CPU_PC_CHANGED_CALLBACK(pc_changed_callbackPtr pc_changed_callback) {
+            this.pc_changed_callback = pc_changed_callback;
+        }
+
+        public set_fc_callbackPtr get_CPU_SET_FC_CALLBACK() {
+            return set_fc_callback;
+        }
+
+        public void set_CPU_SET_FC_CALLBACK(set_fc_callbackPtr set_fc_callback) {
+            this.set_fc_callback = set_fc_callback;
+        }
+
+        public instr_hook_callbackPtr get_CPU_INSTR_HOOK_CALLBACK() {
+            return instr_hook_callback;
+        }
+
+        public void set_CPU_INSTR_HOOK_CALLBACK(instr_hook_callbackPtr instr_hook_callback) {
+            this.instr_hook_callback = instr_hook_callback;
+        }
         
-        /* Service an interrupt request */
-        public void service_interrupt(int pending_mask)	/* ASG: added parameter here */
+        public void m68ki_service_interrupt(int pending_mask)	
         {
-            int int_level = 7;
-            int vector = 0;
-
-            /* Start at level 7 and then go down */
-            for(;(pending_mask & (1<<int_level)) == 0;int_level--)	/* ASG: changed to use parameter instead of CPU_INTS_PENDING */
-            ;
-
-            /* Get the exception vector */
-            switch(vector /*= int_ack(int_level)*/)
-            {
-               case 0x00: case 0x01:
-               /* vectors 0 and 1 are ignored since they are for reset only */
-                  return;
-               case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
-               case 0x08: case 0x09: case 0x0a: case 0x0b: case 0x0c: case 0x0d: case 0x0e: case 0x0f:
-               case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17:
-               case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c: case 0x1d: case 0x1e: case 0x1f:
-               case 0x20: case 0x21: case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27:
-               case 0x28: case 0x29: case 0x2a: case 0x2b: case 0x2c: case 0x2d: case 0x2e: case 0x2f:
-               case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36: case 0x37:
-               case 0x38: case 0x39: case 0x3a: case 0x3b: case 0x3c: case 0x3d: case 0x3e: case 0x3f:
-               case 0x40: case 0x41: case 0x42: case 0x43: case 0x44: case 0x45: case 0x46: case 0x47:
-               case 0x48: case 0x49: case 0x4a: case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f:
-               case 0x50: case 0x51: case 0x52: case 0x53: case 0x54: case 0x55: case 0x56: case 0x57:
-               case 0x58: case 0x59: case 0x5a: case 0x5b: case 0x5c: case 0x5d: case 0x5e: case 0x5f:
-               case 0x60: case 0x61: case 0x62: case 0x63: case 0x64: case 0x65: case 0x66: case 0x67:
-               case 0x68: case 0x69: case 0x6a: case 0x6b: case 0x6c: case 0x6d: case 0x6e: case 0x6f:
-               case 0x70: case 0x71: case 0x72: case 0x73: case 0x74: case 0x75: case 0x76: case 0x77:
-               case 0x78: case 0x79: case 0x7a: case 0x7b: case 0x7c: case 0x7d: case 0x7e: case 0x7f:
-               case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x86: case 0x87:
-               case 0x88: case 0x89: case 0x8a: case 0x8b: case 0x8c: case 0x8d: case 0x8e: case 0x8f:
-               case 0x90: case 0x91: case 0x92: case 0x93: case 0x94: case 0x95: case 0x96: case 0x97:
-               case 0x98: case 0x99: case 0x9a: case 0x9b: case 0x9c: case 0x9d: case 0x9e: case 0x9f:
-               case 0xa0: case 0xa1: case 0xa2: case 0xa3: case 0xa4: case 0xa5: case 0xa6: case 0xa7:
-               case 0xa8: case 0xa9: case 0xaa: case 0xab: case 0xac: case 0xad: case 0xae: case 0xaf:
-               case 0xb0: case 0xb1: case 0xb2: case 0xb3: case 0xb4: case 0xb5: case 0xb6: case 0xb7:
-               case 0xb8: case 0xb9: case 0xba: case 0xbb: case 0xbc: case 0xbd: case 0xbe: case 0xbf:
-               case 0xc0: case 0xc1: case 0xc2: case 0xc3: case 0xc4: case 0xc5: case 0xc6: case 0xc7:
-               case 0xc8: case 0xc9: case 0xca: case 0xcb: case 0xcc: case 0xcd: case 0xce: case 0xcf:
-               case 0xd0: case 0xd1: case 0xd2: case 0xd3: case 0xd4: case 0xd5: case 0xd6: case 0xd7:
-               case 0xd8: case 0xd9: case 0xda: case 0xdb: case 0xdc: case 0xdd: case 0xde: case 0xdf:
-               case 0xe0: case 0xe1: case 0xe2: case 0xe3: case 0xe4: case 0xe5: case 0xe6: case 0xe7:
-               case 0xe8: case 0xe9: case 0xea: case 0xeb: case 0xec: case 0xed: case 0xee: case 0xef:
-               case 0xf0: case 0xf1: case 0xf2: case 0xf3: case 0xf4: case 0xf5: case 0xf6: case 0xf7:
-               case 0xf8: case 0xf9: case 0xfa: case 0xfb: case 0xfc: case 0xfd: case 0xfe: case 0xff:
-                  /* The external peripheral has provided the interrupt vector to take */
-                  break;
-               //case M68K_INT_ACK_AUTOVECTOR:
-                  /* Use the autovectors.  This is the most commonly used implementation */
-                  //vector = EXCEPTION_INTERRUPT_AUTOVECTOR+int_level;
-                 // break;
-               //case M68K_INT_ACK_SPURIOUS:
-                  /* Called if no devices respond to the interrupt acknowledge */
-                  //vector = EXCEPTION_SPURIOUS_INTERRUPT;
-                  //break;
-               default:
-                  /* Everything else is ignored */
-                  return;
-            }
-
-            /* If vector is uninitialized, call the uninitialized interrupt vector */
-            //if(read_32(vector<<2) == 0)
-              // vector = EXCEPTION_UNINITIALIZED_INTERRUPT;
-
-            /* Generate an interupt */
-            //interrupt(vector);
-
-            /* Set the interrupt mask to the level of the one being serviced */
-            this.set_CPU_INT_MASK(int_level);
+            throw new UnsupportedOperationException("Not supported yet.");
         }
-
-
-        /* ASG: Check for interrupts */
-        public void check_interrupts()
+        public void m68ki_check_interrupts()
         {
-           int pending_mask = 1 << this.get_CPU_INT_STATE();
-           //if (pending_mask & int_masks[this.get_CPU_INT_MASK()])
-              service_interrupt(pending_mask);
+            throw new UnsupportedOperationException("Not supported yet.");
         }
+
     }
+
+    /*TODO*////* ======================================================================== */
+/*TODO*////* =========================== UTILITY FUNCTIONS ========================== */
+/*TODO*////* ======================================================================== */
+/*TODO*///
+/*TODO*////* Set the function code and read memory from anywhere. */
+/*TODO*///INLINE uint m68ki_read_8(uint address)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   return m68k_read_memory_8(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_16(uint address)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   return m68k_read_memory_16(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_32(uint address)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   return m68k_read_memory_32(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the function code and write memory to anywhere. */
+/*TODO*///INLINE void m68ki_write_8(uint address, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   m68k_write_memory_8(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///INLINE void m68ki_write_16(uint address, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   m68k_write_memory_16(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///INLINE void m68ki_write_32(uint address, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+/*TODO*///   m68k_write_memory_32(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the function code and read memory immediately following the PC. */
+/*TODO*///INLINE uint m68ki_read_imm_8(void)
+/*TODO*///{
+/*TODO*///#if M68K_USE_PREFETCH
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
+/*TODO*///   {
+/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///   }
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return MASK_OUT_ABOVE_8(CPU_PREF_DATA >> ((2-((CPU_PC-2)&2))<<3));
+/*TODO*///#else
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return m68k_read_immediate_8(ADDRESS_68K(CPU_PC-1));
+/*TODO*///#endif /* M68K_USE_PREFETCH */
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_imm_16(void)
+/*TODO*///{
+/*TODO*///#if M68K_USE_PREFETCH
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
+/*TODO*///   {
+/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///   }
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return MASK_OUT_ABOVE_16(CPU_PREF_DATA >> ((2-((CPU_PC-2)&2))<<3));
+/*TODO*///#else
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return m68k_read_immediate_16(ADDRESS_68K(CPU_PC-2));
+/*TODO*///#endif /* M68K_USE_PREFETCH */
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_imm_32(void)
+/*TODO*///{
+/*TODO*///#if M68K_USE_PREFETCH
+/*TODO*///   uint temp_val;
+/*TODO*///
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
+/*TODO*///   {
+/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///   }
+/*TODO*///   temp_val = CPU_PREF_DATA;
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
+/*TODO*///   {
+/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///      temp_val = MASK_OUT_ABOVE_32((temp_val << 16) | (CPU_PREF_DATA >> 16));
+/*TODO*///   }
+/*TODO*///   CPU_PC += 2;
+/*TODO*///
+/*TODO*///   return temp_val;
+/*TODO*///#else
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   CPU_PC += 4;
+/*TODO*///   return m68k_read_immediate_32(ADDRESS_68K(CPU_PC-4));
+/*TODO*///#endif /* M68K_USE_PREFETCH */
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the function code and read an instruction immediately following the PC. */
+/*TODO*///INLINE uint m68ki_read_instruction(void)
+/*TODO*///{
+/*TODO*///#if M68K_USE_PREFETCH
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
+/*TODO*///   {
+/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
+/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+/*TODO*///   }
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return MASK_OUT_ABOVE_16(CPU_PREF_DATA >> ((2-((CPU_PC-2)&2))<<3));
+/*TODO*///#else
+/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+/*TODO*///   CPU_PC += 2;
+/*TODO*///   return m68k_read_instruction(ADDRESS_68K(CPU_PC-2));
+/*TODO*///#endif /* M68k_USE_PREFETCH */
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Read/Write data with a specific function code (used by MOVES) */
+/*TODO*///INLINE uint m68ki_read_8_fc(uint address, uint fc)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   return m68k_read_memory_8(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_16_fc(uint address, uint fc)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   return m68k_read_memory_16(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///INLINE uint m68ki_read_32_fc(uint address, uint fc)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   return m68k_read_memory_32(ADDRESS_68K(address));
+/*TODO*///}
+/*TODO*///
+/*TODO*///INLINE void m68ki_write_8_fc(uint address, uint fc, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   m68k_write_memory_8(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///INLINE void m68ki_write_16_fc(uint address, uint fc, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   m68k_write_memory_16(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///INLINE void m68ki_write_32_fc(uint address, uint fc, uint value)
+/*TODO*///{
+/*TODO*///   m68ki_set_fc(fc&7);
+/*TODO*///   m68k_write_memory_32(ADDRESS_68K(address), value);
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Decode address register indirect with index */
+/*TODO*///INLINE uint m68ki_get_ea_ix(void)
+/*TODO*///{
+/*TODO*///   uint extension = m68ki_read_imm_16();
+/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
+/*TODO*///   uint base = AY;
+/*TODO*///   uint outer = 0;
+/*TODO*///
+/*TODO*///   /* Sign-extend the index value if needed */
+/*TODO*///   if(!EXT_INDEX_LONG(extension))
+/*TODO*///      ea_index = MAKE_INT_16(ea_index);
+/*TODO*///
+/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
+/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Scale the index value */
+/*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
+/*TODO*///
+/*TODO*///   /* If we're using brief extension mode, we are done */
+/*TODO*///   if(EXT_BRIEF_FORMAT(extension))
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Decode the long extension format */
+/*TODO*///   if(EXT_IX_SUPPRESSED(extension))
+/*TODO*///      ea_index = 0;
+/*TODO*///   if(EXT_BR_SUPPRESSED(extension))
+/*TODO*///      base = 0;
+/*TODO*///   if(EXT_BD_PRESENT(extension))
+/*TODO*///      base += EXT_BD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_NO_MEMORY_INDIRECT(extension))
+/*TODO*///      return base + ea_index;
+/*TODO*///
+/*TODO*///   if(EXT_OD_PRESENT(extension))
+/*TODO*///      outer = EXT_OD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_POSTINDEX(extension))
+/*TODO*///      return m68ki_read_32(base) + ea_index + outer;
+/*TODO*///   return m68ki_read_32(base + ea_index) + outer;
+/*TODO*///}
+/*TODO*///
+/*TODO*////* Decode address register indirect with index for MOVE destination */
+/*TODO*///INLINE uint m68ki_get_ea_ix_dst(void)
+/*TODO*///{
+/*TODO*///   uint extension = m68ki_read_imm_16();
+/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
+/*TODO*///   uint base = AX; /* This is the only thing different from m68ki_get_ea_ix() */
+/*TODO*///   uint outer = 0;
+/*TODO*///
+/*TODO*///   /* Sign-extend the index value if needed */
+/*TODO*///   if(!EXT_INDEX_LONG(extension))
+/*TODO*///      ea_index = MAKE_INT_16(ea_index);
+/*TODO*///
+/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
+/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Scale the index value */
+/*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
+/*TODO*///
+/*TODO*///   /* If we're using brief extension mode, we are done */
+/*TODO*///   if(EXT_BRIEF_FORMAT(extension))
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Decode the long extension format */
+/*TODO*///   if(EXT_IX_SUPPRESSED(extension))
+/*TODO*///      ea_index = 0;
+/*TODO*///   if(EXT_BR_SUPPRESSED(extension))
+/*TODO*///      base = 0;
+/*TODO*///   if(EXT_BD_PRESENT(extension))
+/*TODO*///      base += EXT_BD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_NO_MEMORY_INDIRECT(extension))
+/*TODO*///      return base + ea_index;
+/*TODO*///
+/*TODO*///   if(EXT_OD_PRESENT(extension))
+/*TODO*///      outer = EXT_OD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_POSTINDEX(extension))
+/*TODO*///      return m68ki_read_32(base) + ea_index + outer;
+/*TODO*///   return m68ki_read_32(base + ea_index) + outer;
+/*TODO*///}
+/*TODO*///
+/*TODO*////* Decode program counter indirect with index */
+/*TODO*///INLINE uint m68ki_get_ea_pcix(void)
+/*TODO*///{
+/*TODO*///   uint base = (CPU_PC+=2) - 2;
+/*TODO*///   uint extension = m68ki_read_16(base);
+/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
+/*TODO*///   uint outer = 0;
+/*TODO*///
+/*TODO*///   /* Sign-extend the index value if needed */
+/*TODO*///   if(!EXT_INDEX_LONG(extension))
+/*TODO*///      ea_index = MAKE_INT_16(ea_index);
+/*TODO*///
+/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
+/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Scale the index value */
+/*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
+/*TODO*///
+/*TODO*///   /* If we're using brief extension mode, we are done */
+/*TODO*///   if(EXT_BRIEF_FORMAT(extension))
+/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
+/*TODO*///
+/*TODO*///   /* Decode the long extension format */
+/*TODO*///   if(EXT_IX_SUPPRESSED(extension))
+/*TODO*///      ea_index = 0;
+/*TODO*///   if(EXT_BR_SUPPRESSED(extension))
+/*TODO*///      base = 0;
+/*TODO*///   if(EXT_BD_PRESENT(extension))
+/*TODO*///      base += EXT_BD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_NO_MEMORY_INDIRECT(extension))
+/*TODO*///      return base + ea_index;
+/*TODO*///
+/*TODO*///   if(EXT_OD_PRESENT(extension))
+/*TODO*///      outer = EXT_OD_LONG(extension) ? m68ki_read_imm_32() : MAKE_INT_16(m68ki_read_imm_16());
+/*TODO*///   if(EXT_POSTINDEX(extension))
+/*TODO*///      return m68ki_read_32(base) + ea_index + outer;
+/*TODO*///   return m68ki_read_32(base + ea_index) + outer;
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the S flag and change the active stack pointer. */
+/*TODO*///INLINE void m68ki_set_s_flag(int value)
+/*TODO*///{
+/*TODO*///   /* ASG: Only do the rest if we're changing */
+/*TODO*///   value = (value != 0);
+/*TODO*///   if (CPU_S != value)
+/*TODO*///   {
+/*TODO*///      /* Backup the old stack pointer */
+/*TODO*///      CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))] = CPU_A[7];
+/*TODO*///      /* Set the S flag */
+/*TODO*///      CPU_S = value;
+/*TODO*///      /* Set the new stack pointer */
+/*TODO*///      CPU_A[7] = CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))];
+/*TODO*///   }
+/*TODO*///}
+/*TODO*///
+/*TODO*////* Set the M flag and change the active stack pointer. */
+/*TODO*///INLINE void m68ki_set_m_flag(int value)
+/*TODO*///{
+/*TODO*///   /* ASG: Only do the rest if we're changing */
+/*TODO*///   value = (value != 0 && CPU_MODE & CPU_MODE_EC020_PLUS)<<1;
+/*TODO*///   if (CPU_M != value)
+/*TODO*///   {
+/*TODO*///      /* Backup the old stack pointer */
+/*TODO*///      CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))] = CPU_A[7];
+/*TODO*///      /* Set the M flag */
+/*TODO*///      CPU_M = value;
+/*TODO*///      /* Set the new stack pointer */
+/*TODO*///      CPU_A[7] = CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))];
+/*TODO*///   }
+/*TODO*///}
+/*TODO*///
+/*TODO*////* Set the S and M flags and change the active stack pointer. */
+/*TODO*///INLINE void m68ki_set_sm_flag(int s_value, int m_value)
+/*TODO*///{
+/*TODO*///   /* ASG: Only do the rest if we're changing */
+/*TODO*///   s_value = (s_value != 0);
+/*TODO*///   m_value = (m_value != 0 && CPU_MODE & CPU_MODE_EC020_PLUS)<<1;
+/*TODO*///   if (CPU_S != s_value || CPU_M != m_value)
+/*TODO*///   {
+/*TODO*///      /* Backup the old stack pointer */
+/*TODO*///      CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))] = CPU_A[7];
+/*TODO*///      /* Set the S and M flags */
+/*TODO*///      CPU_S = s_value != 0;
+/*TODO*///      CPU_M = (m_value != 0 && CPU_MODE & CPU_MODE_EC020_PLUS)<<1;
+/*TODO*///      /* Set the new stack pointer */
+/*TODO*///      CPU_A[7] = CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))];
+/*TODO*///   }
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the condition code register */
+/*TODO*///INLINE void m68ki_set_ccr(uint value)
+/*TODO*///{
+/*TODO*///   CPU_X = BIT_4(value);
+/*TODO*///   CPU_N = BIT_3(value);
+/*TODO*///   CPU_NOT_Z = !BIT_2(value);
+/*TODO*///   CPU_V = BIT_1(value);
+/*TODO*///   CPU_C = BIT_0(value);
+/*TODO*///}
+/*TODO*///
+/*TODO*////* Set the status register */
+/*TODO*///INLINE void m68ki_set_sr(uint value)
+/*TODO*///{
+/*TODO*///   /* ASG: detect changes to the INT_MASK */
+/*TODO*///   int old_mask = CPU_INT_MASK;
+/*TODO*///
+/*TODO*///   /* Mask out the "unimplemented" bits */
+/*TODO*///   value &= m68k_sr_implemented_bits[CPU_MODE];
+/*TODO*///
+/*TODO*///   /* Now set the status register */
+/*TODO*///   CPU_T1 = BIT_F(value);
+/*TODO*///   CPU_T0 = BIT_E(value);
+/*TODO*///   CPU_INT_MASK = (value >> 8) & 7;
+/*TODO*///   CPU_X = BIT_4(value);
+/*TODO*///   CPU_N = BIT_3(value);
+/*TODO*///   CPU_NOT_Z = !BIT_2(value);
+/*TODO*///   CPU_V = BIT_1(value);
+/*TODO*///   CPU_C = BIT_0(value);
+/*TODO*///   m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
+/*TODO*///
+/*TODO*///   /* ASG: detect changes to the INT_MASK */
+/*TODO*///   if (CPU_INT_MASK != old_mask)
+/*TODO*///      m68ki_check_interrupts();
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Set the status register */
+/*TODO*///INLINE void m68ki_set_sr_no_int(uint value)
+/*TODO*///{
+/*TODO*///   /* Mask out the "unimplemented" bits */
+/*TODO*///   value &= m68k_sr_implemented_bits[CPU_MODE];
+/*TODO*///
+/*TODO*///   /* Now set the status register */
+/*TODO*///   CPU_T1 = BIT_F(value);
+/*TODO*///   CPU_T0 = BIT_E(value);
+/*TODO*///   CPU_INT_MASK = (value >> 8) & 7;
+/*TODO*///   CPU_X = BIT_4(value);
+/*TODO*///   CPU_N = BIT_3(value);
+/*TODO*///   CPU_NOT_Z = !BIT_2(value);
+/*TODO*///   CPU_V = BIT_1(value);
+/*TODO*///   CPU_C = BIT_0(value);
+/*TODO*///   m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* I set the PC this way to let host programs be nicer.
+/*TODO*/// * This is mainly for programs running from separate ram banks.
+/*TODO*/// * If the host program knows where the PC is, it can offer faster
+/*TODO*/// * ram access times for data to be retrieved immediately following
+/*TODO*/// * the PC.
+/*TODO*/// */
+/*TODO*///INLINE void m68ki_set_pc(uint address)
+/*TODO*///{
+/*TODO*///   /* Set the program counter */
+/*TODO*///   CPU_PC = address;
+/*TODO*///   /* Inform the host program */
+/*TODO*////* MAME */
+/*TODO*///   change_pc24(ADDRESS_68K(address));
+/*TODO*////*
+/*TODO*///   m68ki_pc_changed(ADDRESS_68K(address));
+/*TODO*///*/
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Process an exception */
+/*TODO*///INLINE void m68ki_exception(uint vector)
+/*TODO*///{
+/*TODO*///   /* Save the old status register */
+/*TODO*///   uint old_sr = m68ki_get_sr();
+/*TODO*///
+/*TODO*///   /* Use up some clock cycles */
+/*TODO*///   USE_CLKS(m68k_exception_cycle_table[vector]);
+/*TODO*///
+/*TODO*///   /* Turn off stopped state and trace flag, clear pending traces */
+/*TODO*///   CPU_STOPPED = 0;
+/*TODO*///   CPU_T1 = CPU_T0 = 0;
+/*TODO*///   m68ki_clear_trace();
+/*TODO*///   /* Enter supervisor mode */
+/*TODO*///   m68ki_set_s_flag(1);
+/*TODO*///   /* Push a stack frame */
+/*TODO*///   if(CPU_MODE & CPU_MODE_010_PLUS)
+/*TODO*///      m68ki_push_16(vector<<2); /* This is format 0 */
+/*TODO*///   m68ki_push_32(CPU_PPC);	/* save previous PC, ie. PC that contains an offending instruction */
+/*TODO*///   m68ki_push_16(old_sr);
+/*TODO*///   /* Generate a new program counter from the vector */
+/*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Process an interrupt (or trap) */
+/*TODO*///INLINE void m68ki_interrupt(uint vector)
+/*TODO*///{
+/*TODO*///   /* Save the old status register */
+/*TODO*///   uint old_sr = m68ki_get_sr();
+/*TODO*///
+/*TODO*///   /* Use up some clock cycles */
+/*TODO*///   /* ASG: just keep them pending */
+/*TODO*////* USE_CLKS(m68k_exception_cycle_table[vector]);*/
+/*TODO*///   CPU_INT_CYCLES += m68k_exception_cycle_table[vector];
+/*TODO*///
+/*TODO*///   /* Turn off stopped state and trace flag, clear pending traces */
+/*TODO*///   CPU_STOPPED = 0;
+/*TODO*///   CPU_T1 = CPU_T0 = 0;
+/*TODO*///   m68ki_clear_trace();
+/*TODO*///   /* Enter supervisor mode */
+/*TODO*///   m68ki_set_s_flag(1);
+/*TODO*///   /* Push a stack frame */
+/*TODO*///   if(CPU_MODE & CPU_MODE_010_PLUS)
+/*TODO*///      m68ki_push_16(vector<<2); /* This is format 0 */
+/*TODO*///   m68ki_push_32(CPU_PC);
+/*TODO*///   m68ki_push_16(old_sr);
+/*TODO*///   /* Generate a new program counter from the vector */
+/*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* Service an interrupt request */
+/*TODO*///INLINE void m68ki_service_interrupt(uint pending_mask)	/* ASG: added parameter here */
+/*TODO*///{
+/*TODO*///   uint int_level = 7;
+/*TODO*///   uint vector;
+/*TODO*///
+/*TODO*///   /* Start at level 7 and then go down */
+/*TODO*///   for(;!(pending_mask & (1<<int_level));int_level--)	/* ASG: changed to use parameter instead of CPU_INTS_PENDING */
+/*TODO*///      ;
+/*TODO*///
+/*TODO*///   /* Get the exception vector */
+/*TODO*///   switch(vector = m68ki_int_ack(int_level))
+/*TODO*///   {
+/*TODO*///      case 0x00: case 0x01:
+/*TODO*///      /* vectors 0 and 1 are ignored since they are for reset only */
+/*TODO*///         return;
+/*TODO*///      case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
+/*TODO*///      case 0x08: case 0x09: case 0x0a: case 0x0b: case 0x0c: case 0x0d: case 0x0e: case 0x0f:
+/*TODO*///      case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17:
+/*TODO*///      case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c: case 0x1d: case 0x1e: case 0x1f:
+/*TODO*///      case 0x20: case 0x21: case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27:
+/*TODO*///      case 0x28: case 0x29: case 0x2a: case 0x2b: case 0x2c: case 0x2d: case 0x2e: case 0x2f:
+/*TODO*///      case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36: case 0x37:
+/*TODO*///      case 0x38: case 0x39: case 0x3a: case 0x3b: case 0x3c: case 0x3d: case 0x3e: case 0x3f:
+/*TODO*///      case 0x40: case 0x41: case 0x42: case 0x43: case 0x44: case 0x45: case 0x46: case 0x47:
+/*TODO*///      case 0x48: case 0x49: case 0x4a: case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f:
+/*TODO*///      case 0x50: case 0x51: case 0x52: case 0x53: case 0x54: case 0x55: case 0x56: case 0x57:
+/*TODO*///      case 0x58: case 0x59: case 0x5a: case 0x5b: case 0x5c: case 0x5d: case 0x5e: case 0x5f:
+/*TODO*///      case 0x60: case 0x61: case 0x62: case 0x63: case 0x64: case 0x65: case 0x66: case 0x67:
+/*TODO*///      case 0x68: case 0x69: case 0x6a: case 0x6b: case 0x6c: case 0x6d: case 0x6e: case 0x6f:
+/*TODO*///      case 0x70: case 0x71: case 0x72: case 0x73: case 0x74: case 0x75: case 0x76: case 0x77:
+/*TODO*///      case 0x78: case 0x79: case 0x7a: case 0x7b: case 0x7c: case 0x7d: case 0x7e: case 0x7f:
+/*TODO*///      case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x86: case 0x87:
+/*TODO*///      case 0x88: case 0x89: case 0x8a: case 0x8b: case 0x8c: case 0x8d: case 0x8e: case 0x8f:
+/*TODO*///      case 0x90: case 0x91: case 0x92: case 0x93: case 0x94: case 0x95: case 0x96: case 0x97:
+/*TODO*///      case 0x98: case 0x99: case 0x9a: case 0x9b: case 0x9c: case 0x9d: case 0x9e: case 0x9f:
+/*TODO*///      case 0xa0: case 0xa1: case 0xa2: case 0xa3: case 0xa4: case 0xa5: case 0xa6: case 0xa7:
+/*TODO*///      case 0xa8: case 0xa9: case 0xaa: case 0xab: case 0xac: case 0xad: case 0xae: case 0xaf:
+/*TODO*///      case 0xb0: case 0xb1: case 0xb2: case 0xb3: case 0xb4: case 0xb5: case 0xb6: case 0xb7:
+/*TODO*///      case 0xb8: case 0xb9: case 0xba: case 0xbb: case 0xbc: case 0xbd: case 0xbe: case 0xbf:
+/*TODO*///      case 0xc0: case 0xc1: case 0xc2: case 0xc3: case 0xc4: case 0xc5: case 0xc6: case 0xc7:
+/*TODO*///      case 0xc8: case 0xc9: case 0xca: case 0xcb: case 0xcc: case 0xcd: case 0xce: case 0xcf:
+/*TODO*///      case 0xd0: case 0xd1: case 0xd2: case 0xd3: case 0xd4: case 0xd5: case 0xd6: case 0xd7:
+/*TODO*///      case 0xd8: case 0xd9: case 0xda: case 0xdb: case 0xdc: case 0xdd: case 0xde: case 0xdf:
+/*TODO*///      case 0xe0: case 0xe1: case 0xe2: case 0xe3: case 0xe4: case 0xe5: case 0xe6: case 0xe7:
+/*TODO*///      case 0xe8: case 0xe9: case 0xea: case 0xeb: case 0xec: case 0xed: case 0xee: case 0xef:
+/*TODO*///      case 0xf0: case 0xf1: case 0xf2: case 0xf3: case 0xf4: case 0xf5: case 0xf6: case 0xf7:
+/*TODO*///      case 0xf8: case 0xf9: case 0xfa: case 0xfb: case 0xfc: case 0xfd: case 0xfe: case 0xff:
+/*TODO*///         /* The external peripheral has provided the interrupt vector to take */
+/*TODO*///         break;
+/*TODO*///      case M68K_INT_ACK_AUTOVECTOR:
+/*TODO*///         /* Use the autovectors.  This is the most commonly used implementation */
+/*TODO*///         vector = EXCEPTION_INTERRUPT_AUTOVECTOR+int_level;
+/*TODO*///         break;
+/*TODO*///      case M68K_INT_ACK_SPURIOUS:
+/*TODO*///         /* Called if no devices respond to the interrupt acknowledge */
+/*TODO*///         vector = EXCEPTION_SPURIOUS_INTERRUPT;
+/*TODO*///         break;
+/*TODO*///      default:
+/*TODO*///         /* Everything else is ignored */
+/*TODO*///         return;
+/*TODO*///   }
+/*TODO*///
+/*TODO*///   /* If vector is uninitialized, call the uninitialized interrupt vector */
+/*TODO*///   if(m68ki_read_32(vector<<2) == 0)
+/*TODO*///      vector = EXCEPTION_UNINITIALIZED_INTERRUPT;
+/*TODO*///
+/*TODO*///   /* Generate an interupt */
+/*TODO*///   m68ki_interrupt(vector);
+/*TODO*///
+/*TODO*///   /* Set the interrupt mask to the level of the one being serviced */
+/*TODO*///   CPU_INT_MASK = int_level;
+/*TODO*///}
+/*TODO*///
+/*TODO*///
+/*TODO*////* ASG: Check for interrupts */
+/*TODO*///INLINE void m68ki_check_interrupts(void)
+/*TODO*///{
+/*TODO*///   uint pending_mask = 1 << CPU_INT_STATE;
+/*TODO*///   if (pending_mask & m68k_int_masks[CPU_INT_MASK])
+/*TODO*///      m68ki_service_interrupt(pending_mask);
+/*TODO*///}
+/*TODO*///
 }

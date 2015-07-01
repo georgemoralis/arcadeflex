@@ -239,11 +239,11 @@ public class m68kcpu {
     }
 
     public static int m68k_peek_pc() {
-        return m68k_cpu.ADDRESS_68K(m68k_cpu.get_CPU_PC());
+        return ADDRESS_68K(m68k_cpu.get_CPU_PC());
     }
 
     public static int m68k_peek_ppc() {
-        return m68k_cpu.ADDRESS_68K(m68k_cpu.get_CPU_PPC());
+        return ADDRESS_68K(m68k_cpu.get_CPU_PPC());
     }
 
     /*TODO*///int m68k_peek_sr(void)          { return m68ki_get_sr(); }
@@ -306,20 +306,20 @@ public class m68kcpu {
 
     public static void m68k_poke_dr(int reg_num, int value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_D(reg_num, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_D(reg_num, MASK_OUT_ABOVE_32(value));
         }
     }
 
     public static void m68k_poke_ar(int reg_num, int value) {
         if (reg_num < 8) {
-            m68k_cpu.set_CPU_A(reg_num, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_A(reg_num, MASK_OUT_ABOVE_32(value));
         }
     }
     /*TODO*///void m68k_poke_pc(unsigned int value)     { m68ki_set_pc(ADDRESS_68K(value)); }
 /*TODO*///void m68k_poke_sr(int value)              { m68ki_set_sr(MASK_OUT_ABOVE_16(value)); }
 
     public static void m68k_poke_ir(int value) {
-        m68k_cpu.set_CPU_IR(m68k_cpu.MASK_OUT_ABOVE_16(value));
+        m68k_cpu.set_CPU_IR(MASK_OUT_ABOVE_16(value));
     }
 
     public static void m68k_poke_t1_flag(int value) {
@@ -327,7 +327,7 @@ public class m68kcpu {
     }
 
     public static void m68k_poke_t0_flag(int value) {
-        if ((m68k_cpu.get_CPU_MODE() & CPU_TYPE_020) == CPU_TYPE_020) {
+        if ((m68k_cpu.get_CPU_MODE() & CPU_MODE_EC020_PLUS) !=0) {
             m68k_cpu.set_CPU_T0(value != 0 ? 1 : 0);//CPU_T0 = (value != 0);
         }
     }
@@ -360,17 +360,17 @@ public class m68kcpu {
 
     public static void m68k_poke_usp(int value) {
         if (m68k_cpu.get_CPU_S() != 0) {
-            m68k_cpu.set_CPU_USP(m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_USP(MASK_OUT_ABOVE_32(value));
         } else {
-            m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_A(7, MASK_OUT_ABOVE_32(value));
         }
     }
 
     public static void m68k_poke_isp(int value) {
         if ((m68k_cpu.get_CPU_S() != 0) && (m68k_cpu.get_CPU_M() == 0)) {
-            m68k_cpu.set_CPU_A(7, m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_A(7, MASK_OUT_ABOVE_32(value));
         } else {
-            m68k_cpu.set_CPU_ISP(m68k_cpu.MASK_OUT_ABOVE_32(value));
+            m68k_cpu.set_CPU_ISP(MASK_OUT_ABOVE_32(value));
         }
     }
     /*TODO*///void m68k_poke_msp(int value)
@@ -502,10 +502,10 @@ public class m68kcpu {
         /* if it's NMI, we're edge triggered */
         if (m68k_cpu.get_CPU_INT_STATE() == 7) {
             if (old_state != 7) {
-                m68k_cpu.service_interrupt(1 << 7);
+                m68k_cpu.m68ki_service_interrupt(1 << 7);
             }
         } /* other interrupts just reflect the current state */ else {
-            m68k_cpu.check_interrupts();
+            m68k_cpu.m68ki_check_interrupts();
         }
     }
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
@@ -517,7 +517,7 @@ public class m68kcpu {
         m68k_cpu.set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
 
         /* check for interrupts again */
-        m68k_cpu.check_interrupts();
+        m68k_cpu.m68ki_check_interrupts();
     }
 
     /* Reset the M68K */
