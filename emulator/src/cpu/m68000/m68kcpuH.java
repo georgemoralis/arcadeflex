@@ -7,7 +7,6 @@ import static cpu.m68000.m68kmameH.*;
 import static mame.memoryH.*;
 import static arcadeflex.libc_old.*;
 
-
 public class m68kcpuH {
     /*TODO*////* Check if we have certain storage sizes */
 /*TODO*///
@@ -163,23 +162,71 @@ public class m68kcpuH {
 /*TODO*////* ======================================================================== */
 /*TODO*///
 /* Bit Isolation Macros */
-      public static long BIT_0(long A) { return ((A) & 0x00000001L); }
-        public static long BIT_1(long A) { return ((A) & 0x00000002L); }
-        public static long BIT_2(long A) { return ((A) & 0x00000004L); }
-        public static long BIT_3(long A) { return ((A) & 0x00000008L); }
-        public static long BIT_4(long A) { return ((A) & 0x00000010L); }
-        public static long BIT_5(long A) { return ((A) & 0x00000020L); }
-        public static long BIT_6(long A) { return ((A) & 0x00000040L); }
-        public static long BIT_7(long A) { return ((A) & 0x00000080L); }
-        public static long BIT_8(long A) { return ((A) & 0x00000100L); }
-        public static long BIT_9(long A) { return ((A) & 0x00000200L); }
-        public static long BIT_A(long A) { return ((A) & 0x00000400L); }
-        public static long BIT_B(long A) { return ((A) & 0x00000800L); }
-    public static long BIT_C(long A) { return ((A) & 0x00001000L); }
-        public static long BIT_D(long A) { return ((A) & 0x00002000L); }
-    public static long BIT_E(long A) { return ((A) & 0x00004000L); }
-    public static long BIT_F(long A) { return ((A) & 0x00008000L); }
-/*TODO*///#define BIT_10(A) ((A) & 0x00010000)
+
+    public static long BIT_0(long A) {
+        return ((A) & 0x00000001L);
+    }
+
+    public static long BIT_1(long A) {
+        return ((A) & 0x00000002L);
+    }
+
+    public static long BIT_2(long A) {
+        return ((A) & 0x00000004L);
+    }
+
+    public static long BIT_3(long A) {
+        return ((A) & 0x00000008L);
+    }
+
+    public static long BIT_4(long A) {
+        return ((A) & 0x00000010L);
+    }
+
+    public static long BIT_5(long A) {
+        return ((A) & 0x00000020L);
+    }
+
+    public static long BIT_6(long A) {
+        return ((A) & 0x00000040L);
+    }
+
+    public static long BIT_7(long A) {
+        return ((A) & 0x00000080L);
+    }
+
+    public static long BIT_8(long A) {
+        return ((A) & 0x00000100L);
+    }
+
+    public static long BIT_9(long A) {
+        return ((A) & 0x00000200L);
+    }
+
+    public static long BIT_A(long A) {
+        return ((A) & 0x00000400L);
+    }
+
+    public static long BIT_B(long A) {
+        return ((A) & 0x00000800L);
+    }
+
+    public static long BIT_C(long A) {
+        return ((A) & 0x00001000L);
+    }
+
+    public static long BIT_D(long A) {
+        return ((A) & 0x00002000L);
+    }
+
+    public static long BIT_E(long A) {
+        return ((A) & 0x00004000L);
+    }
+
+    public static long BIT_F(long A) {
+        return ((A) & 0x00008000L);
+    }
+    /*TODO*///#define BIT_10(A) ((A) & 0x00010000)
 /*TODO*///#define BIT_11(A) ((A) & 0x00020000)
 /*TODO*///#define BIT_12(A) ((A) & 0x00040000)
 /*TODO*///#define BIT_13(A) ((A) & 0x00080000)
@@ -344,8 +391,8 @@ public class m68kcpuH {
         return m68k_cpu.sp;
     }
 
-    public static void set_CPU_SP(long[] sp) {
-        m68k_cpu.sp = sp;
+    public static void set_CPU_SP(int reg_num, long value) {
+        m68k_cpu.sp[reg_num] = value;
     }
 
     public static long get_CPU_USP() {
@@ -928,38 +975,32 @@ public class m68kcpuH {
         return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2 - ((get_CPU_PC() - 2) & 2)) << 3));
 
     }
-    /*TODO*///INLINE uint m68ki_read_imm_32(void)
-/*TODO*///{
-/*TODO*///#if M68K_USE_PREFETCH
-/*TODO*///   uint temp_val;
-/*TODO*///
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
-/*TODO*///   {
-/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-/*TODO*///   }
-/*TODO*///   temp_val = CPU_PREF_DATA;
-/*TODO*///   CPU_PC += 2;
-/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
-/*TODO*///   {
-/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-/*TODO*///      temp_val = MASK_OUT_ABOVE_32((temp_val << 16) | (CPU_PREF_DATA >> 16));
-/*TODO*///   }
-/*TODO*///   CPU_PC += 2;
-/*TODO*///
-/*TODO*///   return temp_val;
-/*TODO*///#else
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   CPU_PC += 4;
-/*TODO*///   return m68k_read_immediate_32(ADDRESS_68K(CPU_PC-4));
-/*TODO*///#endif /* M68K_USE_PREFETCH */
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/* Set the function code and read an instruction immediately following the PC. */
 
+    public static long m68ki_read_imm_32() {
+
+        long temp_val;
+
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+        if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
+            set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+            set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
+        }
+        temp_val = get_CPU_PREF_DATA() & 0xFFFFFFFFL;
+        //CPU_PC += 2;
+        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
+            set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+            set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
+            temp_val = MASK_OUT_ABOVE_32(((temp_val << 16)) | ((get_CPU_PREF_DATA() >>> 16)& 0xFFFFL));
+        }
+        //CPU_PC += 2;
+        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+
+        return temp_val;
+    }
+
+
+    /* Set the function code and read an instruction immediately following the PC. */
     public static long m68ki_read_instruction() {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
         if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
@@ -1160,23 +1201,21 @@ public class m68kcpuH {
 /*TODO*///}
 /*TODO*///
 /*TODO*////* Set the S and M flags and change the active stack pointer. */
-public static void m68ki_set_sm_flag(long s_value, long m_value)
-{
-   /* ASG: Only do the rest if we're changing */
-   s_value = (s_value != 0)? 1L : 0L;
-   m_value = (m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1;
-   if (get_CPU_S() != s_value || get_CPU_M() != m_value)
-   {
-      /* Backup the old stack pointer */
-      m68k_cpu.sp[(int)(get_CPU_S() | (get_CPU_M() & (get_CPU_S()<<1)))] = get_CPU_A()[7];
-      /* Set the S and M flags */
-      set_CPU_S(s_value != 0? 1L : 0L);
-      set_CPU_M((m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1);
-      /* Set the new stack pointer */
-      set_CPU_A(7,m68k_cpu.sp[(int)(get_CPU_S() | (get_CPU_M() & (get_CPU_S()<<1)))]);
-   }
-}
-/*TODO*///
+    public static void m68ki_set_sm_flag(long s_value, long m_value) {
+        /* ASG: Only do the rest if we're changing */
+        s_value = (s_value != 0) ? 1L : 0L;
+        m_value = (m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1;
+        if (get_CPU_S() != s_value || get_CPU_M() != m_value) {
+            /* Backup the old stack pointer */
+            m68k_cpu.sp[(int) (get_CPU_S() | (get_CPU_M() & (get_CPU_S() << 1)))] = get_CPU_A()[7];
+            /* Set the S and M flags */
+            set_CPU_S(s_value != 0 ? 1L : 0L);
+            set_CPU_M((m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1);
+            /* Set the new stack pointer */
+            set_CPU_A(7, m68k_cpu.sp[(int) (get_CPU_S() | (get_CPU_M() & (get_CPU_S() << 1)))]);
+        }
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Set the condition code register */
 /*TODO*///INLINE void m68ki_set_ccr(uint value)
@@ -1189,6 +1228,7 @@ public static void m68ki_set_sm_flag(long s_value, long m_value)
 /*TODO*///}
 /*TODO*///
 /* Set the status register */
+
     public static void m68ki_set_sr(long value) {
         /* ASG: detect changes to the INT_MASK */
         long old_mask = get_CPU_INT_MASK();
@@ -1202,7 +1242,7 @@ public static void m68ki_set_sm_flag(long s_value, long m_value)
         set_CPU_INT_MASK((value >> 8) & 7);
         set_CPU_X(BIT_4(value));
         set_CPU_N(BIT_3(value));
-        set_CPU_NOT_Z(BIT_2(value)== 0L ? 1L : 0L);
+        set_CPU_NOT_Z(BIT_2(value) == 0L ? 1L : 0L);
         set_CPU_V(BIT_1(value));
         set_CPU_C(BIT_0(value));
         m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
