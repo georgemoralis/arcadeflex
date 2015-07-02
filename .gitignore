@@ -19,3 +19,4 @@ emulator/nvram/*
 emulator/pokeylog.log
 emulator/eeprom.log
 emulator/neclog.log
+emulator/m68k.log

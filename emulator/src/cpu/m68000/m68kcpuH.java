@@ -5,6 +5,7 @@ import static mame.cpuintrfH.*;
 import static cpu.m68000.m68kcpu.*;
 import static cpu.m68000.m68kmameH.*;
 import static mame.memoryH.*;
+import static arcadeflex.libc_old.*;
 
 
 public class m68kcpuH {
@@ -161,23 +162,23 @@ public class m68kcpuH {
 /*TODO*////* ================================ MACROS ================================ */
 /*TODO*////* ======================================================================== */
 /*TODO*///
-/*TODO*////* Bit Isolation Macros */
-/*TODO*///#define BIT_0(A)  ((A) & 0x00000001)
-/*TODO*///#define BIT_1(A)  ((A) & 0x00000002)
-/*TODO*///#define BIT_2(A)  ((A) & 0x00000004)
-/*TODO*///#define BIT_3(A)  ((A) & 0x00000008)
-/*TODO*///#define BIT_4(A)  ((A) & 0x00000010)
-/*TODO*///#define BIT_5(A)  ((A) & 0x00000020)
-/*TODO*///#define BIT_6(A)  ((A) & 0x00000040)
-/*TODO*///#define BIT_7(A)  ((A) & 0x00000080)
-/*TODO*///#define BIT_8(A)  ((A) & 0x00000100)
-/*TODO*///#define BIT_9(A)  ((A) & 0x00000200)
-/*TODO*///#define BIT_A(A)  ((A) & 0x00000400)
-/*TODO*///#define BIT_B(A)  ((A) & 0x00000800)
-/*TODO*///#define BIT_C(A)  ((A) & 0x00001000)
-/*TODO*///#define BIT_D(A)  ((A) & 0x00002000)
-/*TODO*///#define BIT_E(A)  ((A) & 0x00004000)
-/*TODO*///#define BIT_F(A)  ((A) & 0x00008000)
+/* Bit Isolation Macros */
+      public static long BIT_0(long A) { return ((A) & 0x00000001L); }
+        public static long BIT_1(long A) { return ((A) & 0x00000002L); }
+        public static long BIT_2(long A) { return ((A) & 0x00000004L); }
+        public static long BIT_3(long A) { return ((A) & 0x00000008L); }
+        public static long BIT_4(long A) { return ((A) & 0x00000010L); }
+        public static long BIT_5(long A) { return ((A) & 0x00000020L); }
+        public static long BIT_6(long A) { return ((A) & 0x00000040L); }
+        public static long BIT_7(long A) { return ((A) & 0x00000080L); }
+        public static long BIT_8(long A) { return ((A) & 0x00000100L); }
+        public static long BIT_9(long A) { return ((A) & 0x00000200L); }
+        public static long BIT_A(long A) { return ((A) & 0x00000400L); }
+        public static long BIT_B(long A) { return ((A) & 0x00000800L); }
+    public static long BIT_C(long A) { return ((A) & 0x00001000L); }
+        public static long BIT_D(long A) { return ((A) & 0x00002000L); }
+    public static long BIT_E(long A) { return ((A) & 0x00004000L); }
+    public static long BIT_F(long A) { return ((A) & 0x00008000L); }
 /*TODO*///#define BIT_10(A) ((A) & 0x00010000)
 /*TODO*///#define BIT_11(A) ((A) & 0x00020000)
 /*TODO*///#define BIT_12(A) ((A) & 0x00040000)
@@ -215,11 +216,11 @@ public class m68kcpuH {
         return ((A) & 0xffffL);
     }
     /*TODO*///#define MASK_OUT_BELOW_2(A)  ((A) & ~3)
-    public static long MASK_OUT_BELOW_2(long A)
-    {
+
+    public static long MASK_OUT_BELOW_2(long A) {
         return ((A) & ~3);
     }
-/*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
+    /*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
 /*TODO*///#define MASK_OUT_BELOW_16(A) ((A) & ~0xffff)
 /*TODO*///
 /*TODO*////* No need for useless masking if we're 32-bit */
@@ -674,15 +675,17 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_LE     (CPU_NOT_Z == 0 || (CPU_N == 0) != (CPU_V == 0))
 /*TODO*///#define CONDITION_NOT_LE (CPU_NOT_Z != 0 && (CPU_N == 0) == (CPU_V == 0))
 /*TODO*///
-/*TODO*///
-/*TODO*////* Use up clock cycles.
-/*TODO*/// * NOTE: clock cycles used in here are 99.9% correct for a 68000, not for the
-/*TODO*/// * higher processors.
-/*TODO*/// */
-/*TODO*///#define USE_CLKS(A) m68k_clks_left -= (A)
-/*TODO*///
-/*TODO*///
-/*TODO*////* Push/pull data to/from the stack */
+
+    /* Use up clock cycles.
+     * NOTE: clock cycles used in here are 99.9% correct for a 68000, not for the
+     * higher processors.
+     */
+    public static void USE_CLKS(int A) {
+        m68k_clks_left[0] -= (A);
+    }
+
+
+    /*TODO*////* Push/pull data to/from the stack */
 /*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
 /*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
 /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
@@ -913,24 +916,19 @@ public class m68kcpuH {
 /*TODO*///   return m68k_read_immediate_8(ADDRESS_68K(CPU_PC-1));
 /*TODO*///#endif /* M68K_USE_PREFETCH */
 /*TODO*///}
-/*TODO*///INLINE uint m68ki_read_imm_16(void)
-/*TODO*///{
-/*TODO*///#if M68K_USE_PREFETCH
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
-/*TODO*///   {
-/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-/*TODO*///   }
-/*TODO*///   CPU_PC += 2;
-/*TODO*///   return MASK_OUT_ABOVE_16(CPU_PREF_DATA >> ((2-((CPU_PC-2)&2))<<3));
-/*TODO*///#else
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   CPU_PC += 2;
-/*TODO*///   return m68k_read_immediate_16(ADDRESS_68K(CPU_PC-2));
-/*TODO*///#endif /* M68K_USE_PREFETCH */
-/*TODO*///}
-/*TODO*///INLINE uint m68ki_read_imm_32(void)
+
+    public static long m68ki_read_imm_16() {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+        if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
+            set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+            set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
+        }
+        //CPU_PC += 2;
+        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2 - ((get_CPU_PC() - 2) & 2)) << 3));
+
+    }
+    /*TODO*///INLINE uint m68ki_read_imm_32(void)
 /*TODO*///{
 /*TODO*///#if M68K_USE_PREFETCH
 /*TODO*///   uint temp_val;
@@ -961,20 +959,19 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///
 /* Set the function code and read an instruction immediately following the PC. */
-public static long m68ki_read_instruction()
-{
-   //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-   if(MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR())
-   {
-      set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
-      set_CPU_PREF_DATA(m68k_read_immediate_32((int)ADDRESS_68K(get_CPU_PREF_ADDR())));
-   }
-   //CPU_PC += 2;
-   set_CPU_PC(get_CPU_PC()+2);//unsingned?
-   return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2-((get_CPU_PC()-2)&2))<<3));
-}
 
-/*TODO*///
+    public static long m68ki_read_instruction() {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+        if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
+            set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+            set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
+        }
+        //CPU_PC += 2;
+        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2 - ((get_CPU_PC() - 2) & 2)) << 3));
+    }
+
+    /*TODO*///
 /*TODO*////* Read/Write data with a specific function code (used by MOVES) */
 /*TODO*///INLINE uint m68ki_read_8_fc(uint address, uint fc)
 /*TODO*///{
@@ -1163,22 +1160,22 @@ public static long m68ki_read_instruction()
 /*TODO*///}
 /*TODO*///
 /*TODO*////* Set the S and M flags and change the active stack pointer. */
-/*TODO*///INLINE void m68ki_set_sm_flag(int s_value, int m_value)
-/*TODO*///{
-/*TODO*///   /* ASG: Only do the rest if we're changing */
-/*TODO*///   s_value = (s_value != 0);
-/*TODO*///   m_value = (m_value != 0 && CPU_MODE & CPU_MODE_EC020_PLUS)<<1;
-/*TODO*///   if (CPU_S != s_value || CPU_M != m_value)
-/*TODO*///   {
-/*TODO*///      /* Backup the old stack pointer */
-/*TODO*///      CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))] = CPU_A[7];
-/*TODO*///      /* Set the S and M flags */
-/*TODO*///      CPU_S = s_value != 0;
-/*TODO*///      CPU_M = (m_value != 0 && CPU_MODE & CPU_MODE_EC020_PLUS)<<1;
-/*TODO*///      /* Set the new stack pointer */
-/*TODO*///      CPU_A[7] = CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))];
-/*TODO*///   }
-/*TODO*///}
+public static void m68ki_set_sm_flag(long s_value, long m_value)
+{
+   /* ASG: Only do the rest if we're changing */
+   s_value = (s_value != 0)? 1L : 0L;
+   m_value = (m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1;
+   if (get_CPU_S() != s_value || get_CPU_M() != m_value)
+   {
+      /* Backup the old stack pointer */
+      m68k_cpu.sp[(int)(get_CPU_S() | (get_CPU_M() & (get_CPU_S()<<1)))] = get_CPU_A()[7];
+      /* Set the S and M flags */
+      set_CPU_S(s_value != 0? 1L : 0L);
+      set_CPU_M((m_value != 0 && (m68k_cpu.mode & CPU_MODE_EC020_PLUS) != 0) ? 1 : 0 << 1);
+      /* Set the new stack pointer */
+      set_CPU_A(7,m68k_cpu.sp[(int)(get_CPU_S() | (get_CPU_M() & (get_CPU_S()<<1)))]);
+   }
+}
 /*TODO*///
 /*TODO*///
 /*TODO*////* Set the condition code register */
@@ -1191,31 +1188,31 @@ public static long m68ki_read_instruction()
 /*TODO*///   CPU_C = BIT_0(value);
 /*TODO*///}
 /*TODO*///
-/*TODO*////* Set the status register */
-/*TODO*///INLINE void m68ki_set_sr(uint value)
-/*TODO*///{
-/*TODO*///   /* ASG: detect changes to the INT_MASK */
-/*TODO*///   int old_mask = CPU_INT_MASK;
-/*TODO*///
-/*TODO*///   /* Mask out the "unimplemented" bits */
-/*TODO*///   value &= m68k_sr_implemented_bits[CPU_MODE];
-/*TODO*///
-/*TODO*///   /* Now set the status register */
-/*TODO*///   CPU_T1 = BIT_F(value);
-/*TODO*///   CPU_T0 = BIT_E(value);
-/*TODO*///   CPU_INT_MASK = (value >> 8) & 7;
-/*TODO*///   CPU_X = BIT_4(value);
-/*TODO*///   CPU_N = BIT_3(value);
-/*TODO*///   CPU_NOT_Z = !BIT_2(value);
-/*TODO*///   CPU_V = BIT_1(value);
-/*TODO*///   CPU_C = BIT_0(value);
-/*TODO*///   m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
-/*TODO*///
-/*TODO*///   /* ASG: detect changes to the INT_MASK */
-/*TODO*///   if (CPU_INT_MASK != old_mask)
-/*TODO*///      m68ki_check_interrupts();
-/*TODO*///}
-/*TODO*///
+/* Set the status register */
+    public static void m68ki_set_sr(long value) {
+        /* ASG: detect changes to the INT_MASK */
+        long old_mask = get_CPU_INT_MASK();
+
+        /* Mask out the "unimplemented" bits */
+        value &= m68k_sr_implemented_bits[(int) get_CPU_MODE()];
+
+        /* Now set the status register */
+        set_CPU_T1(BIT_F(value));
+        set_CPU_T0(BIT_E(value));
+        set_CPU_INT_MASK((value >> 8) & 7);
+        set_CPU_X(BIT_4(value));
+        set_CPU_N(BIT_3(value));
+        set_CPU_NOT_Z(BIT_2(value)== 0L ? 1L : 0L);
+        set_CPU_V(BIT_1(value));
+        set_CPU_C(BIT_0(value));
+        m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
+
+        /* ASG: detect changes to the INT_MASK */
+        if (get_CPU_INT_MASK() != old_mask) {
+            m68ki_check_interrupts();
+        }
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Set the status register */
 /*TODO*///INLINE void m68ki_set_sr_no_int(uint value)
@@ -1248,17 +1245,16 @@ public static long m68ki_read_instruction()
         set_CPU_PC(address);
         /* Inform the host program */
         /* MAME */
-        change_pc24((int)ADDRESS_68K(address));
+        change_pc24((int) ADDRESS_68K(address));
         /*
          m68ki_pc_changed(ADDRESS_68K(address));
          */
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Process an exception */
-/*TODO*///INLINE void m68ki_exception(uint vector)
-/*TODO*///{
-/*TODO*///   /* Save the old status register */
+    /* Process an exception */
+
+    public static void m68ki_exception(long vector) {
+        throw new UnsupportedOperationException("Unimplemented");
+        /*TODO*///   /* Save the old status register */
 /*TODO*///   uint old_sr = m68ki_get_sr();
 /*TODO*///
 /*TODO*///   /* Use up some clock cycles */
@@ -1277,8 +1273,8 @@ public static long m68ki_read_instruction()
 /*TODO*///   m68ki_push_16(old_sr);
 /*TODO*///   /* Generate a new program counter from the vector */
 /*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Process an interrupt (or trap) */
 /*TODO*///INLINE void m68ki_interrupt(uint vector)

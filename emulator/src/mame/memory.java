@@ -1324,7 +1324,7 @@ public class memory {
 			word2 = (memoryreadhandler[hw2.read()]).handler(address2 - memoryreadoffset[hw2.read()]);		
 																						
 		/* fall back to handler */																												
-			return ((word1 << 16)&0xFFFF) | (word2 & 0xffff);	
+			return ((word1 << 16)) | (word2 & 0xffff);	
         } else {
             int data = cpu_readmem24(address) << 24;
             data |= cpu_readmem24_word(address + 1) << 8;
