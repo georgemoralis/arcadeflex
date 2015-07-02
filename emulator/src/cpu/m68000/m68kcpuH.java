@@ -3,6 +3,9 @@ package cpu.m68000;
 import static cpu.m68000.m68kH.*;
 import static mame.cpuintrfH.*;
 import static cpu.m68000.m68kcpu.*;
+import static cpu.m68000.m68kmameH.*;
+import static mame.memoryH.*;
+
 
 public class m68kcpuH {
     /*TODO*////* Check if we have certain storage sizes */
@@ -212,6 +215,10 @@ public class m68kcpuH {
         return ((A) & 0xffffL);
     }
     /*TODO*///#define MASK_OUT_BELOW_2(A)  ((A) & ~3)
+    public static long MASK_OUT_BELOW_2(long A)
+    {
+        return ((A) & ~3);
+    }
 /*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
 /*TODO*///#define MASK_OUT_BELOW_16(A) ((A) & ~0xffff)
 /*TODO*///
@@ -864,12 +871,11 @@ public class m68kcpuH {
 /*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
 /*TODO*///   return m68k_read_memory_16(ADDRESS_68K(address));
 /*TODO*///}
-/*TODO*///INLINE uint m68ki_read_32(uint address)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   return m68k_read_memory_32(ADDRESS_68K(address));
-/*TODO*///}
-/*TODO*///
+    public static long m68ki_read_32(long address) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        return m68k_read_memory_32((int) ADDRESS_68K(address));
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Set the function code and write memory to anywhere. */
 /*TODO*///INLINE void m68ki_write_8(uint address, uint value)
@@ -954,25 +960,20 @@ public class m68kcpuH {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* Set the function code and read an instruction immediately following the PC. */
-/*TODO*///INLINE uint m68ki_read_instruction(void)
-/*TODO*///{
-/*TODO*///#if M68K_USE_PREFETCH
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   if(MASK_OUT_BELOW_2(CPU_PC) != CPU_PREF_ADDR)
-/*TODO*///   {
-/*TODO*///      CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-/*TODO*///      CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-/*TODO*///   }
-/*TODO*///   CPU_PC += 2;
-/*TODO*///   return MASK_OUT_ABOVE_16(CPU_PREF_DATA >> ((2-((CPU_PC-2)&2))<<3));
-/*TODO*///#else
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
-/*TODO*///   CPU_PC += 2;
-/*TODO*///   return m68k_read_instruction(ADDRESS_68K(CPU_PC-2));
-/*TODO*///#endif /* M68k_USE_PREFETCH */
-/*TODO*///}
-/*TODO*///
+/* Set the function code and read an instruction immediately following the PC. */
+public static long m68ki_read_instruction()
+{
+   //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_PROGRAM : FUNCTION_CODE_USER_PROGRAM);
+   if(MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR())
+   {
+      set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+      set_CPU_PREF_DATA(m68k_read_immediate_32((int)ADDRESS_68K(get_CPU_PREF_ADDR())));
+   }
+   //CPU_PC += 2;
+   set_CPU_PC(get_CPU_PC()+2);//unsingned?
+   return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2-((get_CPU_PC()-2)&2))<<3));
+}
+
 /*TODO*///
 /*TODO*////* Read/Write data with a specific function code (used by MOVES) */
 /*TODO*///INLINE uint m68ki_read_8_fc(uint address, uint fc)
@@ -1241,18 +1242,18 @@ public class m68kcpuH {
 /*TODO*/// * ram access times for data to be retrieved immediately following
 /*TODO*/// * the PC.
 /*TODO*/// */
-/*TODO*///INLINE void m68ki_set_pc(uint address)
-/*TODO*///{
-/*TODO*///   /* Set the program counter */
-/*TODO*///   CPU_PC = address;
-/*TODO*///   /* Inform the host program */
-/*TODO*////* MAME */
-/*TODO*///   change_pc24(ADDRESS_68K(address));
-/*TODO*////*
-/*TODO*///   m68ki_pc_changed(ADDRESS_68K(address));
-/*TODO*///*/
-/*TODO*///}
-/*TODO*///
+
+    public static void m68ki_set_pc(long address) {
+        /* Set the program counter */
+        set_CPU_PC(address);
+        /* Inform the host program */
+        /* MAME */
+        change_pc24((int)ADDRESS_68K(address));
+        /*
+         m68ki_pc_changed(ADDRESS_68K(address));
+         */
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Process an exception */
 /*TODO*///INLINE void m68ki_exception(uint vector)
@@ -1307,6 +1308,7 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///
 /*TODO*////* Service an interrupt request */
+
     public static void m68ki_service_interrupt(long pending_mask) /* ASG: added parameter here */ {
         throw new UnsupportedOperationException("Not supported yet.");
         /*TODO*///   uint int_level = 7;

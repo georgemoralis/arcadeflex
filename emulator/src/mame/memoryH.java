@@ -205,6 +205,10 @@ public static char cpu_readop(int A)
     return OP_ROM.read(A); 
 }
 //#define cpu_readop16(A)		READ_WORD(&OP_ROM[A])
+public static int cpu_readop16(int A)
+{
+    return OP_ROM.READ_WORD(A);
+}
 public static char cpu_readop_arg(int A) 
 { 
     return OP_RAM.read(A); 
@@ -232,6 +236,10 @@ public static void change_pc20(int pc)
     change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20);
 }
 
+public static void change_pc24(int pc)		
+{
+    change_pc_generic(pc, ABITS2_24, ABITS_MIN_24, 0, cpu_setOPbase24);
+}
  public static void cpu_setbank(int bank, UBytePtr _base)
         {
             if (bank >= 1 && bank <= MAX_BANKS)

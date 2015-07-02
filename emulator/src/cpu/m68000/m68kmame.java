@@ -45,8 +45,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public int execute(int cycles) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	return m68k_execute(cycles);
+        return m68k_execute(cycles);
     }
 
     @Override

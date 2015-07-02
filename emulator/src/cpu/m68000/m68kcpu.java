@@ -12,6 +12,7 @@ import static cpu.m68000.m68kcpuH.*;
 import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kops.*;
 
+
 public class m68kcpu {
 
     public static int m68k_emulation_initialized = 0;                /* flag if emulation has been initialized */
@@ -327,7 +328,7 @@ public class m68kcpu {
     }
 
     public static void m68k_poke_t0_flag(int value) {
-        if ((get_CPU_MODE() & CPU_MODE_EC020_PLUS) !=0) {
+        if ((get_CPU_MODE() & CPU_MODE_EC020_PLUS) != 0) {
             set_CPU_T0(value != 0 ? 1 : 0);//CPU_T0 = (value != 0);
         }
     }
@@ -466,10 +467,11 @@ public class m68kcpu {
             do {
                 set_CPU_PPC(get_CPU_PC());
 
-                /*TODO*///         /* Read an instruction and call its handler */
-/*TODO*///         CPU_IR = m68ki_read_instruction();
-/*TODO*///         m68k_instruction_jump_table[CPU_IR]();
-/*TODO*///
+                /* Read an instruction and call its handler */
+                set_CPU_IR(m68ki_read_instruction());
+                opcode i = m68k_instruction_jump_table[(int) get_CPU_IR()];
+                i.handler();
+
                 continue;
             } while (m68k_clks_left[0] > 0);
 
@@ -532,12 +534,11 @@ public class m68kcpu {
         set_CPU_M(0);
         set_CPU_INT_MASK(7);
         set_CPU_VBR(0);
-        /*TODO*///   CPU_A[7] = m68ki_read_32(0);
-/*TODO*///   m68ki_set_pc(m68ki_read_32(4));
-/*TODO*///
-/*TODO*///   CPU_PREF_ADDR = MASK_OUT_BELOW_2(CPU_PC);
-/*TODO*///   CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
-/*TODO*///
+        set_CPU_A(7, m68ki_read_32(0));//CPU_A[7] = m68ki_read_32(0);
+        m68ki_set_pc(m68ki_read_32(4));
+        set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
+        set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
+
         m68k_clks_left[0] = 0;
         if (get_CPU_MODE() == 0) {
             set_CPU_MODE(MC68000_CPU_MODE_68000);	/* KW 990319 */
