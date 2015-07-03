@@ -247,7 +247,11 @@ public class m68kcpuH {
 /*TODO*///#define GET_MSB_8(A)  ((A) & 0x80)
 /*TODO*///#define GET_MSB_9(A)  ((A) & 0x100)
 /*TODO*///#define GET_MSB_16(A) ((A) & 0x8000)
-/*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
+
+    public static long GET_MSB_16(long A) {
+        return ((A) & 0x8000L);
+    }
+    /*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
 /*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
 /*TODO*///
 /*TODO*////* Isolate nibbles */
@@ -269,7 +273,11 @@ public class m68kcpuH {
     }
     /*TODO*///#define MASK_OUT_BELOW_8(A)  ((A) & ~0xff)
 /*TODO*///#define MASK_OUT_BELOW_16(A) ((A) & ~0xffff)
-/*TODO*///
+
+    public static long MASK_OUT_BELOW_16(long A) {
+        return ((A) & ~0xffffL);
+    }
+    /*TODO*///
 /*TODO*////* No need for useless masking if we're 32-bit */
 /*TODO*///#if M68K_OVER_32_BIT
 /*TODO*///#define MASK_OUT_ABOVE_32(A) ((A) & 0xffffffff)
@@ -916,11 +924,11 @@ public class m68kcpuH {
 /*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
 /*TODO*///   return m68k_read_memory_8(ADDRESS_68K(address));
 /*TODO*///}
-/*TODO*///INLINE uint m68ki_read_16(uint address)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   return m68k_read_memory_16(ADDRESS_68K(address));
-/*TODO*///}
+    public static long m68ki_read_16(long address) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        return m68k_read_memory_16((int) ADDRESS_68K(address));
+    }
+
     public static long m68ki_read_32(long address) {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
         return m68k_read_memory_32((int) ADDRESS_68K(address));
@@ -991,7 +999,7 @@ public class m68kcpuH {
         if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
             set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
             set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
-            temp_val = MASK_OUT_ABOVE_32(((temp_val << 16)) | ((get_CPU_PREF_DATA() >>> 16)& 0xFFFFL));
+            temp_val = MASK_OUT_ABOVE_32(((temp_val << 16)) | ((get_CPU_PREF_DATA() >>> 16) & 0xFFFFL));
         }
         //CPU_PC += 2;
         set_CPU_PC(get_CPU_PC() + 2);//unsingned?

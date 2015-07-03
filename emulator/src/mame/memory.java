@@ -1234,10 +1234,25 @@ public class memory {
 /*TODO*/ ///* generic word-sized read handler (16-bit aligned only!) */
 
     public static int cpu_readmem24_word(int address) {
-
+        UByte hw = new UByte();	
         /* handle aligned case first */
         if ((address & 1) == 0) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            /* first-level lookup */				
+                hw.set(cur_mrhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+		if (hw.read() <= HT_BANKMAX)															
+			return cpu_bankbase[hw.read()].READ_WORD(address - memoryreadoffset[hw.read()]);		
+																						
+		/* second-level lookup */														
+		if (hw.read() >= MH_HARDMAX)															
+		{																				
+			hw.set((char) (hw.read() - MH_HARDMAX));															
+			hw.set(readhardware.memory[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			if (hw.read() <= HT_BANKMAX)														
+				return cpu_bankbase[hw.read()].READ_WORD(address - memoryreadoffset[hw.read()]);	
+		}																				
+																						
+		/* fall back to handler */														
+		return (memoryreadhandler[hw.read()]).handler(address - memoryreadoffset[hw.read()]);	
         } /* unaligned case */ else {
             int data = cpu_readmem24(address) << 8;
             return data | (cpu_readmem24(address + 1) & 0xff);

@@ -25,7 +25,10 @@ public class m68kmameH {
     public static int M68K_DEFAULT_CPU_MODE = M68K_CPU_MODE_68000;
 
     /*TODO*///#define m68k_read_memory_8(address)          cpu_readmem24(address)
-/*TODO*///#define m68k_read_memory_16(address)         cpu_readmem24_word(address)
+    public static int m68k_read_memory_16(int address)
+    {
+        return cpu_readmem24_word(address);
+    }
     public static int m68k_read_memory_32(int address) {
         return cpu_readmem24_dword(address);
     }
