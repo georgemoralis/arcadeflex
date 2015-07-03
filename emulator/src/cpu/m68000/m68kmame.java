@@ -71,7 +71,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public int get_pc() {
-        return (int)m68k_peek_pc();
+        return (int) m68k_peek_pc();
     }
 
     @Override
@@ -190,20 +190,19 @@ public class m68kmame extends cpu_interface {
     }
 
     @Override
-    public void set_irq_line(int irqline, int linestate) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	switch(state)
-/*TODO*///	{
-/*TODO*///		case CLEAR_LINE:
-/*TODO*///			m68k_clear_irq(irqline);
-/*TODO*///			return;
-/*TODO*///		case ASSERT_LINE:
-/*TODO*///			m68k_assert_irq(irqline);
-/*TODO*///			return;
-/*TODO*///		default:
-/*TODO*///			m68k_assert_irq(irqline);
-/*TODO*///			return;
-/*TODO*///	}
+    public void set_irq_line(int irqline, int state) {
+
+        switch (state) {
+            case CLEAR_LINE:
+                m68k_clear_irq(irqline);
+                return;
+            case ASSERT_LINE:
+                m68k_assert_irq(irqline);
+                return;
+            default:
+                m68k_assert_irq(irqline);
+                return;
+        }
     }
 
     @Override

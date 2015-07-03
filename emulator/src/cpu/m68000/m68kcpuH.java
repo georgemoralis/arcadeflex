@@ -253,19 +253,21 @@ public class m68kcpuH {
     }
     /*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
 /*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
-    public static long GET_MSB_32(long A)
-    {
+
+    public static long GET_MSB_32(long A) {
         return ((A) & 0x80000000L);
     }
-/*TODO*///
+    /*TODO*///
 /*TODO*////* Isolate nibbles */
 /*TODO*///#define LOW_NIBBLE(A) ((A) & 0x0f)
 /*TODO*///#define HIGH_NIBBLE(A) ((A) & 0xf0)
 /*TODO*///
 /*TODO*////* These are used to isolate 8, 16, and 32 bit sizes */
-/*TODO*///#define MASK_OUT_ABOVE_2(A)  ((A) & 3)
-/*TODO*///#define MASK_OUT_ABOVE_8(A)  ((A) & 0xff)
-/*TODO*///#define MASK_OUT_ABOVE_16(A) ((A) & 0xffff)
+/*TODO*///#define MASK_OUT_ABOVE_2(A)  ((A) & 3)  
+
+    public static long MASK_OUT_ABOVE_8(long A) {
+        return ((A) & 0xffL);
+    }
 
     public static long MASK_OUT_ABOVE_16(long A) {
         return ((A) & 0xffffL);
@@ -758,10 +760,15 @@ public class m68kcpuH {
 /*TODO*/// * So far it's been safe to not call set_pc() for branch word.
 /*TODO*/// */
 /*TODO*///#define m68ki_branch_byte(A) CPU_PC += MAKE_INT_8(A)
-/*TODO*///#define m68ki_branch_word(A) CPU_PC += MAKE_INT_16(A)
-/*TODO*///#define m68ki_branch_dword(A) CPU_PC += (A)
-/*TODO*///#define m68ki_branch_long(A) m68ki_set_pc(A)
-/*TODO*///
+    public static void m68ki_branch_word(long A) {
+        set_CPU_PC((get_CPU_PC() + MAKE_INT_16(A)) & 0xFFFFFFFFL);
+    }
+    /*TODO*///#define m68ki_branch_dword(A) CPU_PC += (A)
+
+    public static void m68ki_branch_long(long A) {
+        m68ki_set_pc(A);
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Get the condition code register */
 /*TODO*///#define m68ki_get_ccr() (((CPU_X != 0)     << 4) | \
@@ -948,15 +955,15 @@ public class m68kcpuH {
 /*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
 /*TODO*///   m68k_write_memory_8(ADDRESS_68K(address), value);
 /*TODO*///}
-/*TODO*///INLINE void m68ki_write_16(uint address, uint value)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   m68k_write_memory_16(ADDRESS_68K(address), value);
-/*TODO*///}
+
+    public static void m68ki_write_16(long address, long value) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        m68k_write_memory_16((int) ADDRESS_68K(address), (int) value);
+    }
 
     public static void m68ki_write_32(long address, long value) {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-        m68k_write_memory_32((int)ADDRESS_68K(address), (int)value);
+        m68k_write_memory_32((int) ADDRESS_68K(address), (int) value);
     }
     /*TODO*///
 /*TODO*///
@@ -1297,7 +1304,7 @@ public class m68kcpuH {
 
     public static void m68ki_set_pc(long address) {
         /* Set the program counter */
-        set_CPU_PC(address);
+        set_CPU_PC(address&0xFFFFFFFFL);
         /* Inform the host program */
         /* MAME */
         change_pc24((int) ADDRESS_68K(address));
