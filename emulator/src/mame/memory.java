@@ -1498,6 +1498,132 @@ public class memory {
 
         memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
     }
+    public static void cpu_writemem24(int address, int data)														
+    {																						
+            UByte hw = new UByte();																			
+
+            /* first-level lookup */															
+            hw.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);
+            if (hw.read() <= HT_BANKMAX)										
+            {																																		
+                            cpu_bankbase[hw.read()].memory[BYTE_XOR_BE(address) - memorywriteoffset[hw.read()]] = (char)data;				
+                    return;																			
+            }																					
+
+            /* second-level lookup */															
+            if (hw.read() >= MH_HARDMAX)																
+            {																					
+                    hw.set((char) (hw.read() - MH_HARDMAX));	
+                    hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))));
+                    	
+
+                    if (hw.read() <= HT_BANKMAX)									
+                    {																																	
+                            cpu_bankbase[hw.read()].memory[BYTE_XOR_BE(address) - memorywriteoffset[hw.read()]] = (char)data;	
+                            return;																		
+                    }																				
+            }																					
+
+            /* fall back to handler */																																			
+                    int shift = (address & 1) << 3;													
+                    shift ^= 8;																	
+                    data = (0xff000000 >> shift) | ((data & 0xff) << shift);	//unsigned??					
+                    address &= ~1;																																					
+            (memorywritehandler[hw.read()]).handler(address - memorywriteoffset[hw.read()], data);					
+    }
+    public static void cpu_writemem24_word(int address, int data)													
+    {																						
+            UByte hw = new UByte();																			
+
+            /* handle aligned case first */														
+            if ((address & 1)==0)										
+            {																					
+                    /* first-level lookup */														
+                    hw.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+                    if (hw.read() <= HT_BANKMAX)															
+                    {																				
+                            cpu_bankbase[hw.read()].WRITE_WORD(address - memorywriteoffset[hw.read()], data);		
+                            return;																		
+                    }																				
+
+                    /* second-level lookup */														
+                    if (hw.read() >= MH_HARDMAX)															
+                    {																				
+                            hw.set((char) (hw.read() - MH_HARDMAX));															
+                            hw.set(writehardware.memory[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]); 
+                            if (hw.read() <= HT_BANKMAX)														
+                            {																			
+                                    cpu_bankbase[hw.read()].WRITE_WORD(address - memorywriteoffset[hw.read()], data);	
+                                    return;																	
+                            }																			
+                    }																				
+
+                    /* fall back to handler */														
+                    (memorywritehandler[hw.read()]).handler(address - memorywriteoffset[hw.read()], data & 0xffff);		
+            }																					
+
+            /* unaligned case */																
+            else													
+            {																					
+                    cpu_writemem24(address, data >> 8);														
+                    cpu_writemem24(address + 1, data & 0xff);													
+            }																																									
+    }
+    public static void cpu_writemem24_dword(int address, int data)												
+{																						
+	int word1, word2;																
+	UByte hw1 = new UByte();	
+        UByte hw2 = new UByte();																	
+																																											
+	/* handle aligned case first */														
+	if ((address & 1)==0)										
+	{																							
+                //int address2 = (address + 2) & ADDRESS_MASK(24);								
+                int address2 = (int)((address + 2) & ((1 << (ABITS1_24 + ABITS2_24 + ABITS_MIN_24 - 1)) | ((1 << (ABITS1_24 + ABITS2_24 + ABITS_MIN_24 - 1)) - 1)));																				
+
+																						
+		/* first-level lookup */
+                hw1.set(cur_mwhard[address >> (ABITS2_24 + ABITS_MIN_24)]);		
+		hw2.set(cur_mwhard[address2 >> (ABITS2_24 + ABITS_MIN_24)]);
+		
+																						
+		/* second-level lookup */	
+                if (hw1.read() >= MH_HARDMAX)															
+		{																				
+			hw1.set((char) (hw1.read() - MH_HARDMAX));															
+			hw1.set(writehardware.memory[(hw1.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+		}																				
+		if (hw2.read() >= MH_HARDMAX)															
+		{																				
+			hw2.set((char) (hw2.read() - MH_HARDMAX));															
+			hw2.set(writehardware.memory[(hw2.read() << MH_SBITS) + ((address2 >> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+		}																				
+		/* extract words */																
+																			
+			word1 = (data >> 16); //should be unsigned??															
+			word2 = data & 0xffff;														
+																
+																						
+		/* process each word */															
+		if (hw1.read() <= HT_BANKMAX)															
+			cpu_bankbase[hw1.read()].WRITE_WORD(address - memorywriteoffset[hw1.read()], word1);	
+		else																			
+			(memorywritehandler[hw1.read()]).handler(address - memorywriteoffset[hw1.read()], word1);		
+		if (hw2.read() <= HT_BANKMAX)															
+			cpu_bankbase[hw2.read()].WRITE_WORD(address2 - memorywriteoffset[hw2.read()], word2);	
+		else																			
+			(memorywritehandler[hw2.read()]).handler(address2 - memorywriteoffset[hw2.read()], word2);		
+	}																					
+																						
+	/* unaligned case */																
+	else													
+	{																					
+		cpu_writemem24(address, (data >> 24));														
+		cpu_writemem24_word(address + 1, (data >> 8) & 0xffff);									
+		cpu_writemem24(address + 3, data & 0xff);													
+	}																					
+																					
+}
     /*TODO*/ //void name(int address, int data)														\
 /*TODO*/ //{																						\
 /*TODO*/ //	MHELE hw;																			\

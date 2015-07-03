@@ -253,6 +253,10 @@ public class m68kcpuH {
     }
     /*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
 /*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
+    public static long GET_MSB_32(long A)
+    {
+        return ((A) & 0x80000000L);
+    }
 /*TODO*///
 /*TODO*////* Isolate nibbles */
 /*TODO*///#define LOW_NIBBLE(A) ((A) & 0x0f)
@@ -677,8 +681,11 @@ public class m68kcpuH {
 /*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
 /*TODO*///#define EA_IX    m68ki_get_ea_ix()                     /* indirect + index */
 /*TODO*///#define EA_AW    MAKE_INT_16(m68ki_read_imm_16())      /* absolute word */
-/*TODO*///#define EA_AL    m68ki_read_imm_32()                   /* absolute long */
-/*TODO*///#define EA_PCIX  m68ki_get_ea_pcix()                   /* pc indirect + index */
+    public static long EA_AL() {
+        return m68ki_read_imm_32();                   /* absolute long */
+
+    }
+    /*TODO*///#define EA_PCIX  m68ki_get_ea_pcix()                   /* pc indirect + index */
 /*TODO*///
 /*TODO*///
 /*TODO*////* Add and Subtract Flag Calculation Macros */
@@ -946,12 +953,12 @@ public class m68kcpuH {
 /*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
 /*TODO*///   m68k_write_memory_16(ADDRESS_68K(address), value);
 /*TODO*///}
-/*TODO*///INLINE void m68ki_write_32(uint address, uint value)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   m68k_write_memory_32(ADDRESS_68K(address), value);
-/*TODO*///}
-/*TODO*///
+
+    public static void m68ki_write_32(long address, long value) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        m68k_write_memory_32((int)ADDRESS_68K(address), (int)value);
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*////* Set the function code and read memory immediately following the PC. */
 /*TODO*///INLINE uint m68ki_read_imm_8(void)
@@ -979,7 +986,7 @@ public class m68kcpuH {
             set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
         }
         //CPU_PC += 2;
-        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);//unsingned?
         return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2 - ((get_CPU_PC() - 2) & 2)) << 3));
 
     }
@@ -995,14 +1002,14 @@ public class m68kcpuH {
         }
         temp_val = get_CPU_PREF_DATA() & 0xFFFFFFFFL;
         //CPU_PC += 2;
-        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);//unsingned?
         if (MASK_OUT_BELOW_2(get_CPU_PC()) != get_CPU_PREF_ADDR()) {
             set_CPU_PREF_ADDR(MASK_OUT_BELOW_2(get_CPU_PC()));
             set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
             temp_val = MASK_OUT_ABOVE_32(((temp_val << 16)) | ((get_CPU_PREF_DATA() >>> 16) & 0xFFFFL));
         }
         //CPU_PC += 2;
-        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);//unsingned?
 
         return temp_val;
     }
@@ -1016,7 +1023,7 @@ public class m68kcpuH {
             set_CPU_PREF_DATA(m68k_read_immediate_32((int) ADDRESS_68K(get_CPU_PREF_ADDR())));
         }
         //CPU_PC += 2;
-        set_CPU_PC(get_CPU_PC() + 2);//unsingned?
+        set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);//unsingned?
         return MASK_OUT_ABOVE_16(get_CPU_PREF_DATA() >>> ((2 - ((get_CPU_PC() - 2) & 2)) << 3));
     }
 
