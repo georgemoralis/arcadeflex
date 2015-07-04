@@ -13,13 +13,10 @@ import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kops.*;
 import static arcadeflex.libc_old.*;
 
-
-
 public class m68kcpu {
 
     public static FILE m68klog = fopen("m68k.log", "wa");  //for debug purposes
-    
-    
+
     public static int m68k_emulation_initialized = 0;                /* flag if emulation has been initialized */
 
     public static opcode[] m68k_instruction_jump_table = new opcode[0x10000]; /* opcode handler jump table */
@@ -58,10 +55,10 @@ public class m68kcpu {
         get_CPU_D()[7], get_CPU_D()[6], get_CPU_D()[5], get_CPU_D()[4],
         get_CPU_D()[3], get_CPU_D()[2], get_CPU_D()[1], get_CPU_D()[0],};
 
-    /*TODO*////* Used when checking for pending interrupts */
-/*TODO*///uint8 m68k_int_masks[] = {0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80, 0x80};
-/*TODO*///
-/*TODO*////* Used by shift & rotate instructions */
+    /* Used when checking for pending interrupts */
+    public static int m68k_int_masks[] = {0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80, 0x80};
+
+    /*TODO*////* Used by shift & rotate instructions */
 /*TODO*///uint8 m68k_shift_8_table[65] =
 /*TODO*///{
 /*TODO*///    0x00, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -500,18 +497,24 @@ public class m68kcpu {
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
     public static void m68k_assert_irq(int int_line) {
         /* OR in the bits of the interrupt */
+   
         long old_state = get_CPU_INT_STATE();
         set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
 
-        long new_state = get_CPU_INT_STATE();
-        set_CPU_INT_STATE(new_state | (int_line & 7));
+        set_CPU_INT_STATE(get_CPU_INT_STATE() | (int_line & 7));
 
         /* if it's NMI, we're edge triggered */
-        if (get_CPU_INT_STATE() == 7) {
-            if (old_state != 7) {
-                m68ki_service_interrupt(1 << 7);
+        if (get_CPU_INT_STATE() == 7L) {
+            if (old_state != 7L) {
+                if (m68klog != null) {
+                    fprintf(m68klog, "m68k_assert_irq1 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+                }
+                m68ki_service_interrupt(1 << 7L);
             }
         } /* other interrupts just reflect the current state */ else {
+            if (m68klog != null) {
+                fprintf(m68klog, "m68k_assert_irq2 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
             m68ki_check_interrupts();
         }
     }
@@ -523,6 +526,9 @@ public class m68kcpu {
         set_CPU_INT_STATE(state & (~int_line & 7));
         set_CPU_INT_STATE(0); /* ASG: remove me to do proper mask setting */
 
+        if (m68klog != null) {
+            fprintf(m68klog, "m68k_clear_irq :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+        }
         /* check for interrupts again */
         m68ki_check_interrupts();
     }
@@ -565,7 +571,7 @@ public class m68kcpu {
             m68k_emulation_initialized = 1;
         }
         if (m68klog != null) {
-                fprintf(m68klog, "m68k_reset :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc,m68k_cpu.ppc,m68k_cpu.mode,m68k_cpu.dr[0],m68k_cpu.dr[1],m68k_cpu.dr[2],m68k_cpu.dr[3],m68k_cpu.dr[4],m68k_cpu.dr[5],m68k_cpu.dr[6],m68k_cpu.dr[7],m68k_cpu.ar[0],m68k_cpu.ar[1],m68k_cpu.ar[2],m68k_cpu.ar[3],m68k_cpu.ar[4],m68k_cpu.ar[5],m68k_cpu.ar[6],m68k_cpu.ar[7],m68k_cpu.sp[0],m68k_cpu.sp[1],m68k_cpu.sp[2],m68k_cpu.sp[3],m68k_cpu.vbr,m68k_cpu.sfc,m68k_cpu.dfc,m68k_cpu.cacr,m68k_cpu.caar,m68k_cpu.ir,m68k_cpu.t1_flag,m68k_cpu.t0_flag,m68k_cpu.s_flag,m68k_cpu.m_flag,m68k_cpu.x_flag,m68k_cpu.n_flag,m68k_cpu.not_z_flag,m68k_cpu.v_flag,m68k_cpu.c_flag,m68k_cpu.int_mask,m68k_cpu.int_state,m68k_cpu.stopped,m68k_cpu.halted,m68k_cpu.int_cycles,m68k_cpu.pref_addr,m68k_cpu.pref_data);        
+            fprintf(m68klog, "m68k_reset :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
         }
     }
 
