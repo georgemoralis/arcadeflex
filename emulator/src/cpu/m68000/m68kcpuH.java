@@ -338,15 +338,27 @@ public class m68kcpuH {
 /*TODO*/// * 32-bit shifts defined in architecture-dependant section.
 /*TODO*/// */
 /*TODO*///
-/*TODO*///#define LSL(A, C) ((A) << (C))
-/*TODO*///#define LSR(A, C) ((A) >> (C))
-/*TODO*///
+
+    public static long LSL(long A, long C) {
+        return ((A) << (C));
+    }
+
+    public static long LSR(long A, long C) {
+        return ((A) >>> (C));
+    }
+    /*TODO*///
 /*TODO*////* Some > 32-bit optimizations */
 /*TODO*///#if M68K_OVER_32_BIT
 /*TODO*////* Shift left and right */
-/*TODO*///#define LSR_32(A, C) ((A) >> (C))
-/*TODO*///#define LSL_32(A, C) ((A) << (C))
-/*TODO*///#else
+
+    public static long LSR_32(long A, long C) {
+        return ((A) >>> (C));
+    }
+
+    public static long LSL_32(long A, long C) {
+        return ((A) << (C));
+    }
+    /*TODO*///#else
 /*TODO*////* We have to do this because the morons at ANSI decided that shifts
 /*TODO*/// * by >= data size are undefined.
 /*TODO*/// */
@@ -354,8 +366,11 @@ public class m68kcpuH {
 /*TODO*///#define LSL_32(A, C) ((C) < 32 ? (A) << (C) : 0)
 /*TODO*///#endif /* M68K_OVER_32_BIT */
 /*TODO*///
-/*TODO*///#define ROL_8(A, C)      MASK_OUT_ABOVE_8(LSL(A, C) | LSR(A, 8-(C)))
-/*TODO*///#define ROL_9(A, C)                       LSL(A, C) | LSR(A, 9-(C))
+
+    public static long ROL_8(long A, long C) {
+        return MASK_OUT_ABOVE_8(LSL(A, C) | LSR(A, 8 - (C)));
+    }
+    /*TODO*///#define ROL_9(A, C)                       LSL(A, C) | LSR(A, 9-(C))
 /*TODO*///#define ROL_16(A, C)    MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16-(C)))
 /*TODO*///#define ROL_17(A, C)                      LSL(A, C) | LSR(A, 17-(C))
 /*TODO*///#define ROL_32(A, C) MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32-(C)))
@@ -673,7 +688,7 @@ public class m68kcpuH {
 /*TODO*////* Data Register Isolation */
 /*TODO*///#define DX (CPU_D[(CPU_IR >> 9) & 7])
     public static long get_DX() {
-        return get_CPU_D()[(int) ((get_CPU_IR() >> 9) & 7)];
+        return get_CPU_D()[(int) ((get_CPU_IR() >>> 9) & 7)];
     }
     /*TODO*///#define DY (CPU_D[CPU_IR & 7])
 
@@ -681,7 +696,11 @@ public class m68kcpuH {
         return get_CPU_D()[(int) (get_CPU_IR() & 7)];
     }
     /*TODO*////* Address Register Isolation */
-/*TODO*///#define AX (CPU_A[(CPU_IR >> 9) & 7])
+
+    public static long get_AX() {
+        return get_CPU_A()[(int) ((get_CPU_IR() >>> 9) & 7)];
+    }
+    /*TODO*///#define AX (CPU_A[(CPU_IR >> 9) & 7])
 
     public static long get_AY() {
         return get_CPU_A()[(int) (get_CPU_IR() & 7)];
@@ -696,7 +715,13 @@ public class m68kcpuH {
         return get_CPU_A()[(int) (get_CPU_IR() & 7)];
     }
     /*TODO*///#define EA_PI_8  (AY++)                                /* postincrement (size = byte) */
-/*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
+
+    public static long EA_PI_8() {
+        long tmp = get_AY();
+        set_CPU_A((int) (get_CPU_IR() & 7), (get_AY() + 1) & 0xFFFFFFFFL);
+        return tmp;
+    }
+    /*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
 
     public static long EA_PI_16() {
@@ -724,16 +749,31 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///
 /*TODO*////* Add and Subtract Flag Calculation Macros */
-/*TODO*///#define VFLAG_ADD_8(S, D, R) GET_MSB_8((S & D & ~R) | (~S & ~D & R))
-/*TODO*///#define VFLAG_ADD_16(S, D, R) GET_MSB_16((S & D & ~R) | (~S & ~D & R))
-/*TODO*///#define VFLAG_ADD_32(S, D, R) GET_MSB_32((S & D & ~R) | (~S & ~D & R))
+
+    public static long VFLAG_ADD_8(long S, long D, long R) {
+        return GET_MSB_8((S & D & ~R) | (~S & ~D & R));
+    }
+
+    public static long VFLAG_ADD_16(long S, long D, long R) {
+        return GET_MSB_16((S & D & ~R) | (~S & ~D & R));
+    }
+    /*TODO*///#define VFLAG_ADD_32(S, D, R) GET_MSB_32((S & D & ~R) | (~S & ~D & R))
 /*TODO*///
-/*TODO*///#define CFLAG_ADD_8(S, D, R) GET_MSB_8((S & D) | (~R & D) | (S & ~R))
-/*TODO*///#define CFLAG_ADD_16(S, D, R) GET_MSB_16((S & D) | (~R & D) | (S & ~R))
-/*TODO*///#define CFLAG_ADD_32(S, D, R) GET_MSB_32((S & D) | (~R & D) | (S & ~R))
+
+    public static long CFLAG_ADD_8(long S, long D, long R) {
+        return GET_MSB_8((S & D) | (~R & D) | (S & ~R));
+    }
+
+    public static long CFLAG_ADD_16(long S, long D, long R) {
+        return GET_MSB_16((S & D) | (~R & D) | (S & ~R));
+    }
+    /*TODO*///#define CFLAG_ADD_32(S, D, R) GET_MSB_32((S & D) | (~R & D) | (S & ~R))
 /*TODO*///
 /*TODO*///
-/*TODO*///#define VFLAG_SUB_8(S, D, R) GET_MSB_8((~S & D & ~R) | (S & ~D & R))
+
+    public static long VFLAG_SUB_8(long S, long D, long R) {
+        return GET_MSB_8((~S & D & ~R) | (S & ~D & R));
+    }
 
     public static long VFLAG_SUB_16(long S, long D, long R) {
         return GET_MSB_16((~S & D & ~R) | (S & ~D & R));
@@ -742,8 +782,10 @@ public class m68kcpuH {
     public static long VFLAG_SUB_32(long S, long D, long R) {
         return GET_MSB_32((~S & D & ~R) | (S & ~D & R));
     }
-    /*TODO*///
-/*TODO*///#define CFLAG_SUB_8(S, D, R) GET_MSB_8((S & ~D) | (R & ~D) | (S & R))
+
+    public static long CFLAG_SUB_8(long S, long D, long R) {
+        return GET_MSB_8((S & ~D) | (R & ~D) | (S & R));
+    }
 
     public static long CFLAG_SUB_16(long S, long D, long R) {
         return GET_MSB_16((S & ~D) | (R & ~D) | (S & R));
@@ -763,8 +805,11 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_NOT_CC (CPU_C != 0)
 /*TODO*///#define CONDITION_CS     (CPU_C != 0)
 /*TODO*///#define CONDITION_NOT_CS (CPU_C == 0)
-/*TODO*///#define CONDITION_NE     (CPU_NOT_Z != 0)
-/*TODO*///#define CONDITION_NOT_NE (CPU_NOT_Z == 0)
+
+    public static boolean CONDITION_NE() {
+        return (get_CPU_NOT_Z() != 0);
+    }
+    /*TODO*///#define CONDITION_NOT_NE (CPU_NOT_Z == 0)
 
     public static boolean CONDITION_EQ() {
         return (get_CPU_NOT_Z() == 0);
@@ -778,8 +823,11 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
 /*TODO*///#define CONDITION_MI     (CPU_N != 0)
 /*TODO*///#define CONDITION_NOT_MI (CPU_N == 0)
-/*TODO*///#define CONDITION_GE     ((CPU_N == 0) == (CPU_V == 0))
-/*TODO*///#define CONDITION_NOT_GE ((CPU_N == 0) != (CPU_V == 0))
+
+    public static boolean CONDITION_GE() {
+        return ((get_CPU_N() == 0) == (get_CPU_V() == 0));
+    }
+    /*TODO*///#define CONDITION_NOT_GE ((CPU_N == 0) != (CPU_V == 0))
 /*TODO*///#define CONDITION_LT     ((CPU_N == 0) != (CPU_V == 0))
 /*TODO*///#define CONDITION_NOT_LT ((CPU_N == 0) == (CPU_V == 0))
 
@@ -803,13 +851,18 @@ public class m68kcpuH {
     /*TODO*////* Push/pull data to/from the stack */
 /*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
 /*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
-/*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
+    public static void m68ki_push_32(long A) {
+        set_CPU_A(7, (get_CPU_A()[7] - 4) & 0xFFFFFFFFL);
+        m68ki_write_32(get_CPU_A()[7], A);
+    }
+    /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
 /*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
 /*TODO*///
 /*TODO*///
 /*TODO*////* branch byte and word are for branches, while long is for jumps.
 /*TODO*/// * So far it's been safe to not call set_pc() for branch word.
 /*TODO*/// */
+
     public static void m68ki_branch_byte(long A) {
         set_CPU_PC((get_CPU_PC() + MAKE_INT_8(A)) & 0xFFFFFFFFL);
     }
@@ -982,16 +1035,15 @@ public class m68kcpuH {
 
     }
 
-    /*TODO*////* ======================================================================== */
-/*TODO*////* =========================== UTILITY FUNCTIONS ========================== */
-/*TODO*////* ======================================================================== */
-/*TODO*///
-/*TODO*////* Set the function code and read memory from anywhere. */
-/*TODO*///INLINE uint m68ki_read_8(uint address)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   return m68k_read_memory_8(ADDRESS_68K(address));
-/*TODO*///}
+    /* ======================================================================== */
+    /* =========================== UTILITY FUNCTIONS ========================== */
+    /* ======================================================================== */
+    /* Set the function code and read memory from anywhere. */
+    public static long m68ki_read_8(long address) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        return m68k_read_memory_8((int) ADDRESS_68K(address));
+    }
+
     public static long m68ki_read_16(long address) {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
         return m68k_read_memory_16((int) ADDRESS_68K(address));
@@ -1001,14 +1053,13 @@ public class m68kcpuH {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
         return m68k_read_memory_32((int) ADDRESS_68K(address));
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Set the function code and write memory to anywhere. */
-/*TODO*///INLINE void m68ki_write_8(uint address, uint value)
-/*TODO*///{
-/*TODO*///   m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
-/*TODO*///   m68k_write_memory_8(ADDRESS_68K(address), value);
-/*TODO*///}
+
+
+    /* Set the function code and write memory to anywhere. */
+    public static void m68ki_write_8(long address, long value) {
+        //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
+        m68k_write_memory_8((int) ADDRESS_68K(address), (int) value);
+    }
 
     public static void m68ki_write_16(long address, long value) {
         //m68ki_set_fc(CPU_S ? FUNCTION_CODE_SUPERVISOR_DATA : FUNCTION_CODE_USER_DATA);
