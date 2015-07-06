@@ -316,13 +316,20 @@ public class m68kcpuH {
             return A & 0xffffffL;
         }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Instruction extension word information for indexed addressing modes */
-/*TODO*///#define EXT_INDEX_LONG(A)         BIT_B(A)
-/*TODO*///#define EXT_INDEX_AR(A)           BIT_F(A)
-/*TODO*///#define EXT_INDEX_REGISTER(A)     (((A)>>12)&7)
-/*TODO*///#define EXT_INDEX_SCALE(A)        (((A)>>9)&3)
+    /* Instruction extension word information for indexed addressing modes */
+
+    public static long EXT_INDEX_LONG(long A) {
+        return BIT_B(A);
+    }
+
+    public static long EXT_INDEX_AR(long A) {
+        return BIT_F(A);
+    }
+
+    public static long EXT_INDEX_REGISTER(long A) {
+        return (((A) >>> 12) & 7);
+    }
+    /*TODO*///#define EXT_INDEX_SCALE(A)        (((A)>>9)&3)
 /*TODO*///#define EXT_BRIEF_FORMAT(A)       !BIT_8(A)
 /*TODO*///#define EXT_IX_SUPPRESSED(A)      BIT_6(A)
 /*TODO*///#define EXT_BR_SUPPRESSED(A)      BIT_7(A)
@@ -729,7 +736,12 @@ public class m68kcpuH {
         return (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 2) & 0xFFFFFFFFL;
     }
     /*TODO*///#define EA_PI_32 ((AY+=4)-4)                           /* postincrement (size = long) */
-/*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
+
+    public static long EA_PI_32() {
+        set_CPU_A((int) (get_CPU_IR() & 7), get_CPU_A()[(int) (get_CPU_IR() & 7)] + 4);
+        return (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 4) & 0xFFFFFFFFL;
+    }
+    /*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
 /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 /*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
@@ -738,8 +750,16 @@ public class m68kcpuH {
     public static long EA_DI() {
         return ((get_CPU_A()[(int) (get_CPU_IR() & 7)]) + MAKE_INT_16(m68ki_read_imm_16()));
     }
-    /*TODO*///#define EA_IX    m68ki_get_ea_ix()                     /* indirect + index */
-/*TODO*///#define EA_AW    MAKE_INT_16(m68ki_read_imm_16())      /* absolute word */
+
+    public static long EA_IX() {
+        return m68ki_get_ea_ix();                   /* indirect + index */
+
+    }
+    /*TODO*///#define EA_AW    MAKE_INT_16(m68ki_read_imm_16())      /* absolute word */
+
+    public static long EA_AW() {
+        return MAKE_INT_16(m68ki_read_imm_16());
+    }
 
     public static long EA_AL() {
         return m68ki_read_imm_32();                   /* absolute long */
@@ -850,15 +870,29 @@ public class m68kcpuH {
 
     /*TODO*////* Push/pull data to/from the stack */
 /*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
-/*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
+    public static void m68ki_push_16(long A) {
+        set_CPU_A(7, (get_CPU_A()[7] - 2) & 0xFFFFFFFFL);
+        m68ki_write_16(get_CPU_A()[7], A);
+    }
+    /*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
+
     public static void m68ki_push_32(long A) {
         set_CPU_A(7, (get_CPU_A()[7] - 4) & 0xFFFFFFFFL);
         m68ki_write_32(get_CPU_A()[7], A);
     }
     /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
-/*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
-/*TODO*///
-/*TODO*///
+    public static long m68ki_pull_16()
+    {
+        set_CPU_A(7, (get_CPU_A()[7] + 2) & 0xFFFFFFFFL);
+        return m68ki_read_16(get_CPU_A()[7] - 2);
+    }
+
+    /*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
+    public static long m68ki_pull_32() {
+        set_CPU_A(7, (get_CPU_A()[7] + 4) & 0xFFFFFFFFL);
+        return m68ki_read_32(get_CPU_A()[7] - 4);
+    }
+    /*TODO*///
 /*TODO*////* branch byte and word are for branches, while long is for jumps.
 /*TODO*/// * So far it's been safe to not call set_pc() for branch word.
 /*TODO*/// */
@@ -884,18 +918,21 @@ public class m68kcpuH {
 /*TODO*///                         ((CPU_V != 0)     << 1) | \
 /*TODO*///                          (CPU_C != 0))
 /*TODO*///
-/*TODO*////* Get the status register */
-/*TODO*///#define m68ki_get_sr() (((CPU_T1 != 0)    << 15) | \
-/*TODO*///                        ((CPU_T0 != 0)    << 14) | \
-/*TODO*///                        ((CPU_S != 0)     << 13) | \
-/*TODO*///                        ((CPU_M != 0)     << 12) | \
-/*TODO*///                         (CPU_INT_MASK    <<  8) | \
-/*TODO*///                        ((CPU_X != 0)     <<  4) | \
-/*TODO*///                        ((CPU_N != 0)     <<  3) | \
-/*TODO*///                        ((CPU_NOT_Z == 0) <<  2) | \
-/*TODO*///                        ((CPU_V != 0)     <<  1) | \
-/*TODO*///                         (CPU_C != 0))
-/*TODO*///
+/* Get the status register */
+
+    public static long m68ki_get_sr() {
+        return ((((m68k_cpu.t1_flag != 0) ? 1 : 0) << 15)
+                | (((m68k_cpu.t0_flag != 0) ? 1 : 0) << 14)
+                | (((m68k_cpu.s_flag != 0) ? 1 : 0) << 13)
+                | (((m68k_cpu.m_flag != 0) ? 1 : 0) << 12)
+                | (m68k_cpu.int_mask << 8)
+                | (((m68k_cpu.x_flag != 0) ? 1 : 0) << 4)
+                | (((m68k_cpu.n_flag != 0) ? 1 : 0) << 3)
+                | (((m68k_cpu.not_z_flag == 0) ? 1 : 0) << 2)
+                | (((m68k_cpu.v_flag != 0) ? 1 : 0) << 1)
+                | ((m68k_cpu.c_flag != 0) ? 1 : 0));
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*///
 /*TODO*////* ======================================================================== */
@@ -1167,23 +1204,25 @@ public class m68kcpuH {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* Decode address register indirect with index */
-/*TODO*///INLINE uint m68ki_get_ea_ix(void)
-/*TODO*///{
-/*TODO*///   uint extension = m68ki_read_imm_16();
-/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
-/*TODO*///   uint base = AY;
-/*TODO*///   uint outer = 0;
-/*TODO*///
-/*TODO*///   /* Sign-extend the index value if needed */
-/*TODO*///   if(!EXT_INDEX_LONG(extension))
-/*TODO*///      ea_index = MAKE_INT_16(ea_index);
-/*TODO*///
-/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
-/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
-/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
-/*TODO*///
-/*TODO*///   /* Scale the index value */
+/* Decode address register indirect with index */
+    public static long m68ki_get_ea_ix() {
+        long extension = m68ki_read_imm_16();
+        long ea_index = m68k_cpu_dar[(int) (EXT_INDEX_AR(extension) != 0 ? 1 : 0)][(int) EXT_INDEX_REGISTER(extension)];
+        long base = get_AY();
+        long outer = 0;
+
+        /* Sign-extend the index value if needed */
+        if (EXT_INDEX_LONG(extension) == 0) {
+            ea_index = MAKE_INT_16(ea_index);
+        }
+
+        /* If we're running 010 or less, there's no scale or full extension word mode */
+        if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
+            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+        }
+
+        throw new UnsupportedOperationException("Unimplemented");
+        /*TODO*///   /* Scale the index value */
 /*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
 /*TODO*///
 /*TODO*///   /* If we're using brief extension mode, we are done */
@@ -1205,25 +1244,28 @@ public class m68kcpuH {
 /*TODO*///   if(EXT_POSTINDEX(extension))
 /*TODO*///      return m68ki_read_32(base) + ea_index + outer;
 /*TODO*///   return m68ki_read_32(base + ea_index) + outer;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* Decode address register indirect with index for MOVE destination */
-/*TODO*///INLINE uint m68ki_get_ea_ix_dst(void)
-/*TODO*///{
-/*TODO*///   uint extension = m68ki_read_imm_16();
-/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
-/*TODO*///   uint base = AX; /* This is the only thing different from m68ki_get_ea_ix() */
-/*TODO*///   uint outer = 0;
-/*TODO*///
-/*TODO*///   /* Sign-extend the index value if needed */
-/*TODO*///   if(!EXT_INDEX_LONG(extension))
-/*TODO*///      ea_index = MAKE_INT_16(ea_index);
-/*TODO*///
-/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
-/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
-/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
-/*TODO*///
-/*TODO*///   /* Scale the index value */
+    }
+
+    /* Decode address register indirect with index for MOVE destination */
+    public static long m68ki_get_ea_ix_dst() {
+        long extension = m68ki_read_imm_16();
+        long ea_index = m68k_cpu_dar[(int) (EXT_INDEX_AR(extension) != 0 ? 1 : 0)][(int) EXT_INDEX_REGISTER(extension)];
+        long base = get_AX(); /* This is the only thing different from m68ki_get_ea_ix() */
+
+        long outer = 0;
+
+        /* Sign-extend the index value if needed */
+        if (EXT_INDEX_LONG(extension) == 0) {
+            ea_index = MAKE_INT_16(ea_index);
+        }
+
+        /* If we're running 010 or less, there's no scale or full extension word mode */
+        if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
+            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+        }
+
+        throw new UnsupportedOperationException("Unimplemented");
+        /*TODO*///   /* Scale the index value */
 /*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
 /*TODO*///
 /*TODO*///   /* If we're using brief extension mode, we are done */
@@ -1245,8 +1287,8 @@ public class m68kcpuH {
 /*TODO*///   if(EXT_POSTINDEX(extension))
 /*TODO*///      return m68ki_read_32(base) + ea_index + outer;
 /*TODO*///   return m68ki_read_32(base + ea_index) + outer;
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*////* Decode program counter indirect with index */
 /*TODO*///INLINE uint m68ki_get_ea_pcix(void)
 /*TODO*///{
@@ -1288,23 +1330,22 @@ public class m68kcpuH {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* Set the S flag and change the active stack pointer. */
-/*TODO*///INLINE void m68ki_set_s_flag(int value)
-/*TODO*///{
-/*TODO*///   /* ASG: Only do the rest if we're changing */
-/*TODO*///   value = (value != 0);
-/*TODO*///   if (CPU_S != value)
-/*TODO*///   {
-/*TODO*///      /* Backup the old stack pointer */
-/*TODO*///      CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))] = CPU_A[7];
-/*TODO*///      /* Set the S flag */
-/*TODO*///      CPU_S = value;
-/*TODO*///      /* Set the new stack pointer */
-/*TODO*///      CPU_A[7] = CPU_SP[CPU_S | (CPU_M & (CPU_S<<1))];
-/*TODO*///   }
-/*TODO*///}
-/*TODO*///
-/*TODO*////* Set the M flag and change the active stack pointer. */
+/* Set the S flag and change the active stack pointer. */
+
+    public static void m68ki_set_s_flag(int value) {
+        /* ASG: Only do the rest if we're changing */
+        value = (value != 0) ? 1 : 0;
+        if (get_CPU_S() != value) {
+            /* Backup the old stack pointer */
+            set_CPU_SP((int) (get_CPU_S() | (get_CPU_M() & (get_CPU_S() << 1))), get_CPU_A()[7]);
+            /* Set the S flag */
+            set_CPU_S(value);
+            /* Set the new stack pointer */
+            set_CPU_A(7, get_CPU_SP()[(int) (get_CPU_S() | (get_CPU_M() & (get_CPU_S() << 1)))]);
+        }
+    }
+
+    /*TODO*////* Set the M flag and change the active stack pointer. */
 /*TODO*///INLINE void m68ki_set_m_flag(int value)
 /*TODO*///{
 /*TODO*///   /* ASG: Only do the rest if we're changing */
@@ -1434,36 +1475,34 @@ public class m68kcpuH {
 /*TODO*///   /* Generate a new program counter from the vector */
 /*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Process an interrupt (or trap) */
-/*TODO*///INLINE void m68ki_interrupt(uint vector)
-/*TODO*///{
-/*TODO*///   /* Save the old status register */
-/*TODO*///   uint old_sr = m68ki_get_sr();
-/*TODO*///
-/*TODO*///   /* Use up some clock cycles */
-/*TODO*///   /* ASG: just keep them pending */
-/*TODO*////* USE_CLKS(m68k_exception_cycle_table[vector]);*/
-/*TODO*///   CPU_INT_CYCLES += m68k_exception_cycle_table[vector];
-/*TODO*///
-/*TODO*///   /* Turn off stopped state and trace flag, clear pending traces */
-/*TODO*///   CPU_STOPPED = 0;
-/*TODO*///   CPU_T1 = CPU_T0 = 0;
-/*TODO*///   m68ki_clear_trace();
-/*TODO*///   /* Enter supervisor mode */
-/*TODO*///   m68ki_set_s_flag(1);
-/*TODO*///   /* Push a stack frame */
-/*TODO*///   if(CPU_MODE & CPU_MODE_010_PLUS)
-/*TODO*///      m68ki_push_16(vector<<2); /* This is format 0 */
-/*TODO*///   m68ki_push_32(CPU_PC);
-/*TODO*///   m68ki_push_16(old_sr);
-/*TODO*///   /* Generate a new program counter from the vector */
-/*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* Service an interrupt request */
+    /* Process an interrupt (or trap) */
+
+    public static void m68ki_interrupt(long vector) {
+        /* Save the old status register */
+        long old_sr = m68ki_get_sr();
+
+        /* Use up some clock cycles */
+        /* ASG: just keep them pending */
+        /* USE_CLKS(m68k_exception_cycle_table[vector]);*/
+        set_CPU_INT_CYCLES(get_CPU_INT_CYCLES() + m68k_exception_cycle_table[(int) vector]);
+
+        /* Turn off stopped state and trace flag, clear pending traces */
+        set_CPU_STOPPED(0);
+        set_CPU_T1(0);
+        set_CPU_T0(0);
+
+        /* Enter supervisor mode */
+        m68ki_set_s_flag(1);
+        /* Push a stack frame */
+        if ((get_CPU_MODE() & CPU_MODE_010_PLUS) != 0) {
+            m68ki_push_16(vector << 2); /* This is format 0 */
+        }
+        m68ki_push_32(get_CPU_PC());
+        m68ki_push_16(old_sr);
+        /* Generate a new program counter from the vector */
+        m68ki_set_pc(m68ki_read_32((vector << 2) + get_CPU_VBR()));
+    }
+    /* Service an interrupt request */
 
     public static void m68ki_service_interrupt(long pending_mask) /* ASG: added parameter here */ {
         throw new UnsupportedOperationException("Not supported yet.");

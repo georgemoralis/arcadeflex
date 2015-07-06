@@ -40,16 +40,16 @@ public class m68kcpu {
     public static m68k_cpu_core m68k_cpu = new m68k_cpu_core();
 
     /* Pointers to speed up address register indirect with index calculation */
-    private long[][] m68k_cpu_dar = {get_CPU_D(), get_CPU_A()};
+    public static long[][] m68k_cpu_dar = {get_CPU_D(), get_CPU_A()};
 
     /* Pointers to speed up movem instructions */
-    private long[] m68k_movem_pi_table = {
+    public static long[] m68k_movem_pi_table = {
         get_CPU_D()[0], get_CPU_D()[1], get_CPU_D()[2], get_CPU_D()[3],
         get_CPU_D()[4], get_CPU_D()[5], get_CPU_D()[6], get_CPU_D()[7],
         get_CPU_A()[0], get_CPU_A()[1], get_CPU_A()[2], get_CPU_A()[3],
         get_CPU_A()[4], get_CPU_A()[5], get_CPU_A()[6], get_CPU_A()[7],};
 
-    private long[] m68k_movem_pd_table = {
+    public static long[] m68k_movem_pd_table = {
         get_CPU_A()[7], get_CPU_A()[6], get_CPU_A()[5], get_CPU_A()[4],
         get_CPU_A()[3], get_CPU_A()[2], get_CPU_A()[1], get_CPU_A()[0],
         get_CPU_D()[7], get_CPU_D()[6], get_CPU_D()[5], get_CPU_D()[4],
@@ -91,7 +91,7 @@ public static long m68k_shift_16_table[] =
     /* Number of clock cycles to use for exception processing.
      * I used 4 for any vectors that are undocumented for processing times.
      */
-    int m68k_exception_cycle_table[]
+    public static int m68k_exception_cycle_table[]
             = {
                 40, /*  0: Reset - should never be called                                 */
                 40, /*  1: Reset - should never be called                                 */
