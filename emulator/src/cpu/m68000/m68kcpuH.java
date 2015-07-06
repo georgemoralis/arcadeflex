@@ -821,10 +821,16 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_NOT_HI (CPU_C != 0 || CPU_NOT_Z == 0)
 /*TODO*///#define CONDITION_LS     (CPU_C != 0 || CPU_NOT_Z == 0)
 /*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
-/*TODO*///#define CONDITION_CC     (CPU_C == 0)
-/*TODO*///#define CONDITION_NOT_CC (CPU_C != 0)
-/*TODO*///#define CONDITION_CS     (CPU_C != 0)
-/*TODO*///#define CONDITION_NOT_CS (CPU_C == 0)
+
+    public static boolean CONDITION_CC() {
+        return (get_CPU_C() == 0);
+    }
+    /*TODO*///#define CONDITION_NOT_CC (CPU_C != 0)
+
+    public static boolean CONDITION_CS() {
+        return (get_CPU_C() != 0);
+    }
+    /*TODO*///#define CONDITION_NOT_CS (CPU_C == 0)
 
     public static boolean CONDITION_NE() {
         return (get_CPU_NOT_Z() != 0);
@@ -881,8 +887,8 @@ public class m68kcpuH {
         m68ki_write_32(get_CPU_A()[7], A);
     }
     /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
-    public static long m68ki_pull_16()
-    {
+
+    public static long m68ki_pull_16() {
         set_CPU_A(7, (get_CPU_A()[7] + 2) & 0xFFFFFFFFL);
         return m68ki_read_16(get_CPU_A()[7] - 2);
     }
@@ -1496,6 +1502,7 @@ public class m68kcpuH {
         /* Push a stack frame */
         if ((get_CPU_MODE() & CPU_MODE_010_PLUS) != 0) {
             m68ki_push_16(vector << 2); /* This is format 0 */
+
         }
         m68ki_push_32(get_CPU_PC());
         m68ki_push_16(old_sr);
