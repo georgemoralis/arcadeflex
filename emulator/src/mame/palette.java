@@ -11,6 +11,7 @@ import static mame.commonH.*;
 import static mame.common.*;
 import static arcadeflex.video.*;
 import static arcadeflex.ptrlib.*;
+import static mame.memoryH.*;
 
 
 public class palette {
@@ -1481,17 +1482,16 @@ public class palette {
     	paletteram.write(offset,data);
    	changecolor_xxxxRRRRGGGGBBBB(offset / 2,paletteram.read(offset & ~1) | (paletteram.read(offset | 1) << 8));
     }};
-    /*TODO*///
-    /*TODO*///void paletteram_xxxxRRRRGGGGBBBB_word_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
-    /*TODO*///	int newword = COMBINE_WORD(oldword,data);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	WRITE_WORD(&paletteram[offset],newword);
-    /*TODO*///	changecolor_xxxxRRRRGGGGBBBB(offset / 2,newword);
-    /*TODO*///}
-    /*TODO*///
+    public static WriteHandlerPtr paletteram_xxxxRRRRGGGGBBBB_word_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+    {
+        int oldword = paletteram.READ_WORD(offset);
+    	int newword = COMBINE_WORD(oldword,data);
+    
+    
+    	paletteram.WRITE_WORD(offset,newword);
+    	changecolor_xxxxRRRRGGGGBBBB(offset / 2,newword);
+    }};
+
     
     public static void changecolor_RRRRGGGGBBBBxxxx(int color,int data)
     {

@@ -186,6 +186,7 @@ import static drivers.WIP.m72.*;
 import static drivers.WIP.raiden.*;
 import static drivers.WIP.dynduke.*;
 import static drivers.WIP.m92.*;
+import static drivers.WIP.sf1.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1082,6 +1083,9 @@ driver_shootoub,	/* bootleg */
 
 driver_foodf,
 driver_bjtwin,
+/*sf1.java*/driver_sf1,
+/*sf1.java*/driver_sf1us,
+/*sf1.java*/driver_sf1jp,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
@@ -1713,9 +1717,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
-/*TODO*/ //	DRIVER( sf1 )		/*  8/1987 (c) 1987 (World) */
-/*TODO*/ //	DRIVER( sf1us )		/*  8/1987 (c) 1987 (US) */
-/*TODO*/ //	DRIVER( sf1jp )		/*  8/1987 (c) 1987 (Japan) */
+
 /*TODO*/ //	DRIVER( tigeroad )	/* 11/1987 (c) 1987 + Romstar (US) */
 /*TODO*/ //	DRIVER( toramich )	/* 11/1987 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( f1dream )	/*  4/1988 (c) 1988 + Romstar */
