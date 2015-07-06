@@ -1231,7 +1231,7 @@ public class palette {
     }};
     public static ReadHandlerPtr paletteram_word_r = new ReadHandlerPtr() { public int handler(int offset)
     {
-	return paletteram_2.READ_WORD(offset);//untested
+	return paletteram.READ_WORD(offset);
     }};
 
     /*TODO*///
@@ -1359,12 +1359,6 @@ public class palette {
         paletteram.write(offset,data);
         changecolor_xxxxBBBBGGGGRRRR(offset / 2,paletteram.read(offset & ~1) | (paletteram.read(offset | 1) << 8));
     }};
-    /*TODO*///void paletteram_xxxxBBBBGGGGRRRR_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	paletteram[offset] = data;
-    /*TODO*///	changecolor_xxxxBBBBGGGGRRRR(offset / 2,paletteram[offset & ~1] | (paletteram[offset | 1] << 8));
-    /*TODO*///}
-    /*TODO*///
     public static WriteHandlerPtr paletteram_xxxxBBBBGGGGRRRR_swap_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
     	paletteram.write(offset,data);
@@ -1609,15 +1603,11 @@ public class palette {
 
     public static WriteHandlerPtr paletteram_xBBBBBGGGGGRRRRR_word_w = new WriteHandlerPtr() { public void handler(int offset, int data)
     {
-        throw new UnsupportedOperationException("Unsupported");
-    /*TODO*///void paletteram_xBBBBBGGGGGRRRRR_word_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
-    /*TODO*///	int newword = COMBINE_WORD(oldword,data);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	WRITE_WORD(&paletteram[offset],newword);
-    /*TODO*///	changecolor_xBBBBBGGGGGRRRRR(offset / 2,newword);
+    	int oldword = paletteram.READ_WORD(offset);
+    	int newword = COMBINE_WORD(oldword,data);
+    
+    	paletteram.WRITE_WORD(offset,newword);
+    	changecolor_xBBBBBGGGGGRRRRR(offset / 2,newword);
     }};
     
     
