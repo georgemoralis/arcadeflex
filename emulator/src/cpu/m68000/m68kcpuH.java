@@ -378,17 +378,26 @@ public class m68kcpuH {
         return MASK_OUT_ABOVE_8(LSL(A, C) | LSR(A, 8 - (C)));
     }
     /*TODO*///#define ROL_9(A, C)                       LSL(A, C) | LSR(A, 9-(C))
-/*TODO*///#define ROL_16(A, C)    MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16-(C)))
-/*TODO*///#define ROL_17(A, C)                      LSL(A, C) | LSR(A, 17-(C))
-/*TODO*///#define ROL_32(A, C) MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32-(C)))
-/*TODO*///#define ROL_33(A, C)                  (LSL_32(A, C) | LSR_32(A, 33-(C)))
+
+    public static long ROL_16(long A, long C) {
+        return MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16 - (C)));
+    }
+    /*TODO*///#define ROL_17(A, C)                      LSL(A, C) | LSR(A, 17-(C))
+
+    public static long ROL_32(long A, long C) {
+        return MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32 - (C)));
+    }
+    /*TODO*///#define ROL_33(A, C)                  (LSL_32(A, C) | LSR_32(A, 33-(C)))
 /*TODO*///
 /*TODO*///#define ROR_8(A, C)      MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8-(C)))
 /*TODO*///#define ROR_9(A, C)                       LSR(A, C) | LSL(A, 9-(C))
 /*TODO*///#define ROR_16(A, C)    MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16-(C)))
 /*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
-/*TODO*///#define ROR_32(A, C) MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32-(C)))
-/*TODO*///#define ROR_33(A, C)                  (LSR_32(A, C) | LSL_32(A, 33-(C)))
+
+    public static long ROR_32(long A, long C) {
+        return MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32 - (C)));
+    }
+    /*TODO*///#define ROR_33(A, C)                  (LSR_32(A, C) | LSL_32(A, 33-(C)))
 
     /* Access the CPU registers */
     public static long get_CPU_MODE() {
@@ -765,10 +774,12 @@ public class m68kcpuH {
         return m68ki_read_imm_32();                   /* absolute long */
 
     }
-    /*TODO*///#define EA_PCIX  m68ki_get_ea_pcix()                   /* pc indirect + index */
-/*TODO*///
-/*TODO*///
-/*TODO*////* Add and Subtract Flag Calculation Macros */
+
+    public static long EA_PCIX() {
+        return m68ki_get_ea_pcix();                   /* pc indirect + index */
+
+    }
+    /* Add and Subtract Flag Calculation Macros */
 
     public static long VFLAG_ADD_8(long S, long D, long R) {
         return GET_MSB_8((S & D & ~R) | (~S & ~D & R));
@@ -854,8 +865,11 @@ public class m68kcpuH {
         return ((get_CPU_N() == 0) == (get_CPU_V() == 0));
     }
     /*TODO*///#define CONDITION_NOT_GE ((CPU_N == 0) != (CPU_V == 0))
-/*TODO*///#define CONDITION_LT     ((CPU_N == 0) != (CPU_V == 0))
-/*TODO*///#define CONDITION_NOT_LT ((CPU_N == 0) == (CPU_V == 0))
+
+    public static boolean CONDITION_LT() {
+        return ((get_CPU_N() == 0) != (get_CPU_V() == 0));
+    }
+    /*TODO*///#define CONDITION_NOT_LT ((CPU_N == 0) == (CPU_V == 0))
 
     public static boolean CONDITION_GT() {
         return (get_CPU_NOT_Z() != 0 && (get_CPU_N() == 0) == (get_CPU_V() == 0));
@@ -1294,24 +1308,28 @@ public class m68kcpuH {
 /*TODO*///      return m68ki_read_32(base) + ea_index + outer;
 /*TODO*///   return m68ki_read_32(base + ea_index) + outer;
     }
-    /*TODO*///
-/*TODO*////* Decode program counter indirect with index */
-/*TODO*///INLINE uint m68ki_get_ea_pcix(void)
-/*TODO*///{
-/*TODO*///   uint base = (CPU_PC+=2) - 2;
-/*TODO*///   uint extension = m68ki_read_16(base);
-/*TODO*///   uint ea_index = m68k_cpu_dar[EXT_INDEX_AR(extension)!=0][EXT_INDEX_REGISTER(extension)];
-/*TODO*///   uint outer = 0;
-/*TODO*///
-/*TODO*///   /* Sign-extend the index value if needed */
-/*TODO*///   if(!EXT_INDEX_LONG(extension))
-/*TODO*///      ea_index = MAKE_INT_16(ea_index);
-/*TODO*///
-/*TODO*///   /* If we're running 010 or less, there's no scale or full extension word mode */
-/*TODO*///   if(CPU_MODE & CPU_MODE_010_LESS)
-/*TODO*///      return base + ea_index + MAKE_INT_8(extension);
-/*TODO*///
-/*TODO*///   /* Scale the index value */
+
+    /* Decode program counter indirect with index */
+    public static long m68ki_get_ea_pcix() {
+
+        //uint base = (CPU_PC += 2) - 2;
+        set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
+        long base = get_CPU_PC() - 2;
+        long extension = m68ki_read_16(base);
+        long ea_index = m68k_cpu_dar[(int) (EXT_INDEX_AR(extension) != 0 ? 1 : 0)][(int) EXT_INDEX_REGISTER(extension)];
+        long outer = 0;
+
+        /* Sign-extend the index value if needed */
+        if (EXT_INDEX_LONG(extension) == 0) {
+            ea_index = MAKE_INT_16(ea_index);
+        }
+
+        /* If we're running 010 or less, there's no scale or full extension word mode */
+        if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
+            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+        }
+        throw new UnsupportedOperationException("Unimplemented");
+        /*TODO*///   /* Scale the index value */
 /*TODO*///   ea_index <<= EXT_INDEX_SCALE(extension);
 /*TODO*///
 /*TODO*///   /* If we're using brief extension mode, we are done */
@@ -1333,10 +1351,8 @@ public class m68kcpuH {
 /*TODO*///   if(EXT_POSTINDEX(extension))
 /*TODO*///      return m68ki_read_32(base) + ea_index + outer;
 /*TODO*///   return m68ki_read_32(base + ea_index) + outer;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/* Set the S flag and change the active stack pointer. */
+    }
+    /* Set the S flag and change the active stack pointer. */
 
     public static void m68ki_set_s_flag(int value) {
         /* ASG: Only do the rest if we're changing */
@@ -1512,81 +1528,302 @@ public class m68kcpuH {
     /* Service an interrupt request */
 
     public static void m68ki_service_interrupt(long pending_mask) /* ASG: added parameter here */ {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///   uint int_level = 7;
-/*TODO*///   uint vector;
-/*TODO*///
-/*TODO*///   /* Start at level 7 and then go down */
-/*TODO*///   for(;!(pending_mask & (1<<int_level));int_level--)	/* ASG: changed to use parameter instead of CPU_INTS_PENDING */
-/*TODO*///      ;
-/*TODO*///
-/*TODO*///   /* Get the exception vector */
-/*TODO*///   switch(vector = m68ki_int_ack(int_level))
-/*TODO*///   {
-/*TODO*///      case 0x00: case 0x01:
-/*TODO*///      /* vectors 0 and 1 are ignored since they are for reset only */
-/*TODO*///         return;
-/*TODO*///      case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
-/*TODO*///      case 0x08: case 0x09: case 0x0a: case 0x0b: case 0x0c: case 0x0d: case 0x0e: case 0x0f:
-/*TODO*///      case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17:
-/*TODO*///      case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c: case 0x1d: case 0x1e: case 0x1f:
-/*TODO*///      case 0x20: case 0x21: case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27:
-/*TODO*///      case 0x28: case 0x29: case 0x2a: case 0x2b: case 0x2c: case 0x2d: case 0x2e: case 0x2f:
-/*TODO*///      case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36: case 0x37:
-/*TODO*///      case 0x38: case 0x39: case 0x3a: case 0x3b: case 0x3c: case 0x3d: case 0x3e: case 0x3f:
-/*TODO*///      case 0x40: case 0x41: case 0x42: case 0x43: case 0x44: case 0x45: case 0x46: case 0x47:
-/*TODO*///      case 0x48: case 0x49: case 0x4a: case 0x4b: case 0x4c: case 0x4d: case 0x4e: case 0x4f:
-/*TODO*///      case 0x50: case 0x51: case 0x52: case 0x53: case 0x54: case 0x55: case 0x56: case 0x57:
-/*TODO*///      case 0x58: case 0x59: case 0x5a: case 0x5b: case 0x5c: case 0x5d: case 0x5e: case 0x5f:
-/*TODO*///      case 0x60: case 0x61: case 0x62: case 0x63: case 0x64: case 0x65: case 0x66: case 0x67:
-/*TODO*///      case 0x68: case 0x69: case 0x6a: case 0x6b: case 0x6c: case 0x6d: case 0x6e: case 0x6f:
-/*TODO*///      case 0x70: case 0x71: case 0x72: case 0x73: case 0x74: case 0x75: case 0x76: case 0x77:
-/*TODO*///      case 0x78: case 0x79: case 0x7a: case 0x7b: case 0x7c: case 0x7d: case 0x7e: case 0x7f:
-/*TODO*///      case 0x80: case 0x81: case 0x82: case 0x83: case 0x84: case 0x85: case 0x86: case 0x87:
-/*TODO*///      case 0x88: case 0x89: case 0x8a: case 0x8b: case 0x8c: case 0x8d: case 0x8e: case 0x8f:
-/*TODO*///      case 0x90: case 0x91: case 0x92: case 0x93: case 0x94: case 0x95: case 0x96: case 0x97:
-/*TODO*///      case 0x98: case 0x99: case 0x9a: case 0x9b: case 0x9c: case 0x9d: case 0x9e: case 0x9f:
-/*TODO*///      case 0xa0: case 0xa1: case 0xa2: case 0xa3: case 0xa4: case 0xa5: case 0xa6: case 0xa7:
-/*TODO*///      case 0xa8: case 0xa9: case 0xaa: case 0xab: case 0xac: case 0xad: case 0xae: case 0xaf:
-/*TODO*///      case 0xb0: case 0xb1: case 0xb2: case 0xb3: case 0xb4: case 0xb5: case 0xb6: case 0xb7:
-/*TODO*///      case 0xb8: case 0xb9: case 0xba: case 0xbb: case 0xbc: case 0xbd: case 0xbe: case 0xbf:
-/*TODO*///      case 0xc0: case 0xc1: case 0xc2: case 0xc3: case 0xc4: case 0xc5: case 0xc6: case 0xc7:
-/*TODO*///      case 0xc8: case 0xc9: case 0xca: case 0xcb: case 0xcc: case 0xcd: case 0xce: case 0xcf:
-/*TODO*///      case 0xd0: case 0xd1: case 0xd2: case 0xd3: case 0xd4: case 0xd5: case 0xd6: case 0xd7:
-/*TODO*///      case 0xd8: case 0xd9: case 0xda: case 0xdb: case 0xdc: case 0xdd: case 0xde: case 0xdf:
-/*TODO*///      case 0xe0: case 0xe1: case 0xe2: case 0xe3: case 0xe4: case 0xe5: case 0xe6: case 0xe7:
-/*TODO*///      case 0xe8: case 0xe9: case 0xea: case 0xeb: case 0xec: case 0xed: case 0xee: case 0xef:
-/*TODO*///      case 0xf0: case 0xf1: case 0xf2: case 0xf3: case 0xf4: case 0xf5: case 0xf6: case 0xf7:
-/*TODO*///      case 0xf8: case 0xf9: case 0xfa: case 0xfb: case 0xfc: case 0xfd: case 0xfe: case 0xff:
-/*TODO*///         /* The external peripheral has provided the interrupt vector to take */
-/*TODO*///         break;
-/*TODO*///      case M68K_INT_ACK_AUTOVECTOR:
-/*TODO*///         /* Use the autovectors.  This is the most commonly used implementation */
-/*TODO*///         vector = EXCEPTION_INTERRUPT_AUTOVECTOR+int_level;
-/*TODO*///         break;
-/*TODO*///      case M68K_INT_ACK_SPURIOUS:
-/*TODO*///         /* Called if no devices respond to the interrupt acknowledge */
-/*TODO*///         vector = EXCEPTION_SPURIOUS_INTERRUPT;
-/*TODO*///         break;
-/*TODO*///      default:
-/*TODO*///         /* Everything else is ignored */
-/*TODO*///         return;
-/*TODO*///   }
-/*TODO*///
-/*TODO*///   /* If vector is uninitialized, call the uninitialized interrupt vector */
-/*TODO*///   if(m68ki_read_32(vector<<2) == 0)
-/*TODO*///      vector = EXCEPTION_UNINITIALIZED_INTERRUPT;
-/*TODO*///
-/*TODO*///   /* Generate an interupt */
-/*TODO*///   m68ki_interrupt(vector);
-/*TODO*///
-/*TODO*///   /* Set the interrupt mask to the level of the one being serviced */
-/*TODO*///   CPU_INT_MASK = int_level;
-    }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* ASG: Check for interrupts */
+        int int_level = 7;
+        int vector;
 
+        /* Start at level 7 and then go down */
+        for (; (pending_mask & (1 << int_level)) == 0; int_level--)	/* ASG: changed to use parameter instead of CPU_INTS_PENDING */
+      ;
+
+        /* Get the exception vector */
+        switch (vector = get_CPU_INT_ACK_CALLBACK().handler(int_level)) {
+            case 0x00:
+            case 0x01:
+                /* vectors 0 and 1 are ignored since they are for reset only */
+                return;
+            case 0x02:
+            case 0x03:
+            case 0x04:
+            case 0x05:
+            case 0x06:
+            case 0x07:
+            case 0x08:
+            case 0x09:
+            case 0x0a:
+            case 0x0b:
+            case 0x0c:
+            case 0x0d:
+            case 0x0e:
+            case 0x0f:
+            case 0x10:
+            case 0x11:
+            case 0x12:
+            case 0x13:
+            case 0x14:
+            case 0x15:
+            case 0x16:
+            case 0x17:
+            case 0x18:
+            case 0x19:
+            case 0x1a:
+            case 0x1b:
+            case 0x1c:
+            case 0x1d:
+            case 0x1e:
+            case 0x1f:
+            case 0x20:
+            case 0x21:
+            case 0x22:
+            case 0x23:
+            case 0x24:
+            case 0x25:
+            case 0x26:
+            case 0x27:
+            case 0x28:
+            case 0x29:
+            case 0x2a:
+            case 0x2b:
+            case 0x2c:
+            case 0x2d:
+            case 0x2e:
+            case 0x2f:
+            case 0x30:
+            case 0x31:
+            case 0x32:
+            case 0x33:
+            case 0x34:
+            case 0x35:
+            case 0x36:
+            case 0x37:
+            case 0x38:
+            case 0x39:
+            case 0x3a:
+            case 0x3b:
+            case 0x3c:
+            case 0x3d:
+            case 0x3e:
+            case 0x3f:
+            case 0x40:
+            case 0x41:
+            case 0x42:
+            case 0x43:
+            case 0x44:
+            case 0x45:
+            case 0x46:
+            case 0x47:
+            case 0x48:
+            case 0x49:
+            case 0x4a:
+            case 0x4b:
+            case 0x4c:
+            case 0x4d:
+            case 0x4e:
+            case 0x4f:
+            case 0x50:
+            case 0x51:
+            case 0x52:
+            case 0x53:
+            case 0x54:
+            case 0x55:
+            case 0x56:
+            case 0x57:
+            case 0x58:
+            case 0x59:
+            case 0x5a:
+            case 0x5b:
+            case 0x5c:
+            case 0x5d:
+            case 0x5e:
+            case 0x5f:
+            case 0x60:
+            case 0x61:
+            case 0x62:
+            case 0x63:
+            case 0x64:
+            case 0x65:
+            case 0x66:
+            case 0x67:
+            case 0x68:
+            case 0x69:
+            case 0x6a:
+            case 0x6b:
+            case 0x6c:
+            case 0x6d:
+            case 0x6e:
+            case 0x6f:
+            case 0x70:
+            case 0x71:
+            case 0x72:
+            case 0x73:
+            case 0x74:
+            case 0x75:
+            case 0x76:
+            case 0x77:
+            case 0x78:
+            case 0x79:
+            case 0x7a:
+            case 0x7b:
+            case 0x7c:
+            case 0x7d:
+            case 0x7e:
+            case 0x7f:
+            case 0x80:
+            case 0x81:
+            case 0x82:
+            case 0x83:
+            case 0x84:
+            case 0x85:
+            case 0x86:
+            case 0x87:
+            case 0x88:
+            case 0x89:
+            case 0x8a:
+            case 0x8b:
+            case 0x8c:
+            case 0x8d:
+            case 0x8e:
+            case 0x8f:
+            case 0x90:
+            case 0x91:
+            case 0x92:
+            case 0x93:
+            case 0x94:
+            case 0x95:
+            case 0x96:
+            case 0x97:
+            case 0x98:
+            case 0x99:
+            case 0x9a:
+            case 0x9b:
+            case 0x9c:
+            case 0x9d:
+            case 0x9e:
+            case 0x9f:
+            case 0xa0:
+            case 0xa1:
+            case 0xa2:
+            case 0xa3:
+            case 0xa4:
+            case 0xa5:
+            case 0xa6:
+            case 0xa7:
+            case 0xa8:
+            case 0xa9:
+            case 0xaa:
+            case 0xab:
+            case 0xac:
+            case 0xad:
+            case 0xae:
+            case 0xaf:
+            case 0xb0:
+            case 0xb1:
+            case 0xb2:
+            case 0xb3:
+            case 0xb4:
+            case 0xb5:
+            case 0xb6:
+            case 0xb7:
+            case 0xb8:
+            case 0xb9:
+            case 0xba:
+            case 0xbb:
+            case 0xbc:
+            case 0xbd:
+            case 0xbe:
+            case 0xbf:
+            case 0xc0:
+            case 0xc1:
+            case 0xc2:
+            case 0xc3:
+            case 0xc4:
+            case 0xc5:
+            case 0xc6:
+            case 0xc7:
+            case 0xc8:
+            case 0xc9:
+            case 0xca:
+            case 0xcb:
+            case 0xcc:
+            case 0xcd:
+            case 0xce:
+            case 0xcf:
+            case 0xd0:
+            case 0xd1:
+            case 0xd2:
+            case 0xd3:
+            case 0xd4:
+            case 0xd5:
+            case 0xd6:
+            case 0xd7:
+            case 0xd8:
+            case 0xd9:
+            case 0xda:
+            case 0xdb:
+            case 0xdc:
+            case 0xdd:
+            case 0xde:
+            case 0xdf:
+            case 0xe0:
+            case 0xe1:
+            case 0xe2:
+            case 0xe3:
+            case 0xe4:
+            case 0xe5:
+            case 0xe6:
+            case 0xe7:
+            case 0xe8:
+            case 0xe9:
+            case 0xea:
+            case 0xeb:
+            case 0xec:
+            case 0xed:
+            case 0xee:
+            case 0xef:
+            case 0xf0:
+            case 0xf1:
+            case 0xf2:
+            case 0xf3:
+            case 0xf4:
+            case 0xf5:
+            case 0xf6:
+            case 0xf7:
+            case 0xf8:
+            case 0xf9:
+            case 0xfa:
+            case 0xfb:
+            case 0xfc:
+            case 0xfd:
+            case 0xfe:
+            case 0xff:
+                /* The external peripheral has provided the interrupt vector to take */
+                break;
+            case M68K_INT_ACK_AUTOVECTOR:
+                /* Use the autovectors.  This is the most commonly used implementation */
+                vector = EXCEPTION_INTERRUPT_AUTOVECTOR + int_level;
+                break;
+            case M68K_INT_ACK_SPURIOUS:
+                /* Called if no devices respond to the interrupt acknowledge */
+                vector = EXCEPTION_SPURIOUS_INTERRUPT;
+                break;
+            default:
+                /* Everything else is ignored */
+                return;
+        }
+
+        /* If vector is uninitialized, call the uninitialized interrupt vector */
+        if (m68ki_read_32(vector << 2) == 0) {
+            vector = EXCEPTION_UNINITIALIZED_INTERRUPT;
+        }
+
+        /* Generate an interupt */
+        m68ki_interrupt(vector);
+
+        /* Set the interrupt mask to the level of the one being serviced */
+        set_CPU_INT_MASK(int_level);
+    }
+
+
+    /* ASG: Check for interrupts */
     public static void m68ki_check_interrupts() {
 
         long pending_mask = 1 << get_CPU_INT_STATE();
