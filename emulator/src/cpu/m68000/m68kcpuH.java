@@ -391,8 +391,11 @@ public class m68kcpuH {
 /*TODO*///
 /*TODO*///#define ROR_8(A, C)      MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8-(C)))
 /*TODO*///#define ROR_9(A, C)                       LSR(A, C) | LSL(A, 9-(C))
-/*TODO*///#define ROR_16(A, C)    MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16-(C)))
-/*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
+
+    public static long ROR_16(long A, long C) {
+        return MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16 - (C)));
+    }
+    /*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
 
     public static long ROR_32(long A, long C) {
         return MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32 - (C)));
@@ -828,8 +831,11 @@ public class m68kcpuH {
     /*TODO*///
 /*TODO*///
 /*TODO*////* Conditions */
-/*TODO*///#define CONDITION_HI     (CPU_C == 0 && CPU_NOT_Z != 0)
-/*TODO*///#define CONDITION_NOT_HI (CPU_C != 0 || CPU_NOT_Z == 0)
+
+    public static boolean CONDITION_HI() {
+        return (get_CPU_C() == 0 && get_CPU_NOT_Z() != 0);
+    }
+    /*TODO*///#define CONDITION_NOT_HI (CPU_C != 0 || CPU_NOT_Z == 0)
 /*TODO*///#define CONDITION_LS     (CPU_C != 0 || CPU_NOT_Z == 0)
 /*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
 
@@ -858,8 +864,11 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
 /*TODO*///#define CONDITION_PL     (CPU_N == 0)
 /*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
-/*TODO*///#define CONDITION_MI     (CPU_N != 0)
-/*TODO*///#define CONDITION_NOT_MI (CPU_N == 0)
+
+    public static boolean CONDITION_MI() {
+        return (get_CPU_N() != 0);
+    }
+    /*TODO*///#define CONDITION_NOT_MI (CPU_N == 0)
 
     public static boolean CONDITION_GE() {
         return ((get_CPU_N() == 0) == (get_CPU_V() == 0));
@@ -951,6 +960,7 @@ public class m68kcpuH {
                 | (((m68k_cpu.not_z_flag == 0) ? 1 : 0) << 2)
                 | (((m68k_cpu.v_flag != 0) ? 1 : 0) << 1)
                 | ((m68k_cpu.c_flag != 0) ? 1 : 0));
+
     }
     /*TODO*///
 /*TODO*///

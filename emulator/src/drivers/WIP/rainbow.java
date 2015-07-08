@@ -298,7 +298,7 @@ public class rainbow {
             rastan_vh_stop,
             rainbow_vh_screenrefresh,
             /* sound hardware */
-            SOUND_SUPPORTS_STEREO, 0, 0, 0,
+            0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO, 0, 0, 0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,

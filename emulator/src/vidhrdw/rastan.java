@@ -35,11 +35,11 @@ import static mame.memoryH.*;
 public class rastan {
 
     public static int[] rastan_videoram_size = new int[1];
-    public static UBytePtr rastan_videoram1;
-    public static UBytePtr rastan_videoram3;
-    public static UBytePtr rastan_spriteram;
-    public static UBytePtr rastan_scrollx;
-    public static UBytePtr rastan_scrolly;
+    public static UBytePtr rastan_videoram1=new UBytePtr();
+    public static UBytePtr rastan_videoram3=new UBytePtr();
+    public static UBytePtr rastan_spriteram=new UBytePtr();
+    public static UBytePtr rastan_scrollx=new UBytePtr();
+    public static UBytePtr rastan_scrolly=new UBytePtr();
 
     static char[] rastan_dirty1;
     static char[] rastan_dirty3;
