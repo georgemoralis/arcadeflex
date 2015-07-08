@@ -187,6 +187,9 @@ import static drivers.WIP.raiden.*;
 import static drivers.WIP.dynduke.*;
 import static drivers.WIP.m92.*;
 import static drivers.WIP.sf1.*;
+import static drivers.WIP.rastan.*;
+import static drivers.WIP.rainbow.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1086,6 +1089,13 @@ driver_bjtwin,
 /*sf1.java*/driver_sf1,
 /*sf1.java*/driver_sf1us,
 /*sf1.java*/driver_sf1jp,
+/*rastan.java*/driver_rastan,
+/*rastan.java*/driver_rastanu,
+/*rastan.java*/driver_rastanu2,
+/*rastan.java*/driver_rastsaga,
+/*rainbow.java*/driver_rainbow,
+/*rainbow.java*/driver_rainbowe,
+/*rainbow.java*/driver_jumping,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
@@ -1596,13 +1606,8 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( kicknrun )	/* (c) 1986 Taito Corporation */
 /*TODO*/ //	DRIVER( mexico86 )	/* bootleg (Micro Research) */
 /*TODO*/ //	DRIVER( kikikai )	/* (c) 1986 Taito Corporation */
-/*TODO*/ //	DRIVER( rastan )	/* (c) 1987 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( rastanu )	/* (c) 1987 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( rastanu2 )	/* (c) 1987 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( rastsaga )	/* (c) 1987 Taito Corporation (Japan)*/
-/*TODO*/ //	DRIVER( rainbow )	/* (c) 1987 Taito Corporation */
-/*TODO*/ //	DRIVER( rainbowe )	/* (c) 1988 Taito Corporation */
-/*TODO*/ //	DRIVER( jumping )	/* bootleg */
+
+
 
 /*TODO*/ //TESTDRIVER( arkbl2 )
 /*TODO*/ //TESTDRIVER( arkbl3 )	/* bootleg */

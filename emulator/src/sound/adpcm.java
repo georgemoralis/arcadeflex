@@ -345,9 +345,8 @@ public class adpcm extends snd_interface {
          ADPCM_trigger -- handle a write to the ADPCM data stream
     
     ***********************************************************************************************/
-    
-    public static void ADPCM_trigger(int num, int which)
-    {
+    public static WriteHandlerPtr ADPCM_trigger = new WriteHandlerPtr() { public void handler(int num, int which)
+	{
     	ADPCMVoice voice = adpcm[num];//struct ADPCMVoice *voice = &adpcm[num];
     	//struct ADPCMsample *sample;
     
@@ -388,7 +387,7 @@ public class adpcm extends snd_interface {
         }
     
     	if (errorlog!=null) fprintf(errorlog,"warning: ADPCM_trigger() called with unknown trigger = %08x\n",which);
-    }
+    }};
     
     /**
      * ********************************************************************************************

@@ -49,7 +49,7 @@ public class lwings {
                  from the sound code. I can't find an output port that
                  does this on either the sound board or main board.
                  */
-                ADPCM_trigger(0, data & 0x07);
+                ADPCM_trigger.handler(0, data & 0x07);
             }
 
         }

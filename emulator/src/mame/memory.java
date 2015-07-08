@@ -138,7 +138,7 @@ public class memory {
     static WriteHandlerPtr[] memorywritehandler = new WriteHandlerPtr[MH_HARDMAX];//mem_write_handler memorywritehandler[MH_HARDMAX];
     static int[] memorywriteoffset = new int[MH_HARDMAX];
     /* bank ram base address; RAM is bank 0 */
-    static UBytePtr[] cpu_bankbase = new UBytePtr[HT_BANKMAX + 1];
+    public static UBytePtr[] cpu_bankbase = new UBytePtr[HT_BANKMAX + 1];
 
     static int[] bankreadoffset = new int[HT_BANKMAX + 1];
     static int[] bankwriteoffset = new int[HT_BANKMAX + 1];
