@@ -263,9 +263,15 @@ public class m68kcpuH {
     }
     /*TODO*///
 /*TODO*////* Isolate nibbles */
-/*TODO*///#define LOW_NIBBLE(A) ((A) & 0x0f)
-/*TODO*///#define HIGH_NIBBLE(A) ((A) & 0xf0)
-/*TODO*///
+
+    public static long LOW_NIBBLE(long A) {
+        return ((A) & 0x0fL);
+    }
+
+    public static long HIGH_NIBBLE(long A) {
+        return ((A) & 0xf0L);
+    }
+    /*TODO*///
 /*TODO*////* These are used to isolate 8, 16, and 32 bit sizes */
 /*TODO*///#define MASK_OUT_ABOVE_2(A)  ((A) & 3)  
 
@@ -709,15 +715,27 @@ public class m68kcpuH {
     public static long get_DX() {
         return get_CPU_D()[(int) ((get_CPU_IR() >>> 9) & 7)];
     }
+
+    public static void set_DX(long value) {
+        set_CPU_D((int) ((get_CPU_IR() >>> 9) & 7), value);
+    }
     /*TODO*///#define DY (CPU_D[CPU_IR & 7])
 
     public static long get_DY() {
         return get_CPU_D()[(int) (get_CPU_IR() & 7)];
     }
+
+    public static void set_DY(long value) {
+        set_CPU_D((int) (get_CPU_IR() & 7), value);
+    }
     /*TODO*////* Address Register Isolation */
 
     public static long get_AX() {
         return get_CPU_A()[(int) ((get_CPU_IR() >>> 9) & 7)];
+    }
+
+    public static void set_AX(long value) {
+        set_CPU_A((int) ((get_CPU_IR() >>> 9) & 7), value);
     }
     /*TODO*///#define AX (CPU_A[(CPU_IR >> 9) & 7])
 
@@ -756,11 +774,16 @@ public class m68kcpuH {
     /*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
 /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
-/*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
+
+    public static long EA_PD_16() {
+        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 2) & 0xFFFFFFFFL);
+        return get_AY();
+    }
+    /*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
 /*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
 
     public static long EA_DI() {
-        return (get_AY() + MAKE_INT_16(m68ki_read_imm_16()))& 0xFFFFFFFFL;
+        return (get_AY() + MAKE_INT_16(m68ki_read_imm_16())) & 0xFFFFFFFFL;
     }
 
     public static long EA_IX() {
@@ -791,7 +814,7 @@ public class m68kcpuH {
     public static long VFLAG_ADD_16(long S, long D, long R) {
         return GET_MSB_16((S & D & ~R) | (~S & ~D & R));
     }
-    
+
     public static long VFLAG_ADD_32(long S, long D, long R) {
         return GET_MSB_32((S & D & ~R) | (~S & ~D & R));
     }
@@ -837,8 +860,11 @@ public class m68kcpuH {
         return (get_CPU_C() == 0 && get_CPU_NOT_Z() != 0);
     }
     /*TODO*///#define CONDITION_NOT_HI (CPU_C != 0 || CPU_NOT_Z == 0)
-/*TODO*///#define CONDITION_LS     (CPU_C != 0 || CPU_NOT_Z == 0)
-/*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
+
+    public static boolean CONDITION_LS() {
+        return (get_CPU_C() != 0 || get_CPU_NOT_Z() == 0);
+    }
+    /*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
 
     public static boolean CONDITION_CC() {
         return (get_CPU_C() == 0);
@@ -863,8 +889,11 @@ public class m68kcpuH {
 /*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
 /*TODO*///#define CONDITION_VS     (CPU_V != 0)
 /*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
-/*TODO*///#define CONDITION_PL     (CPU_N == 0)
-/*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
+
+    public static boolean CONDITION_PL() {
+        return (get_CPU_N() == 0);
+    }
+    /*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
 
     public static boolean CONDITION_MI() {
         return (get_CPU_N() != 0);
@@ -885,8 +914,11 @@ public class m68kcpuH {
         return (get_CPU_NOT_Z() != 0 && (get_CPU_N() == 0) == (get_CPU_V() == 0));
     }
     /*TODO*///#define CONDITION_NOT_GT (CPU_NOT_Z == 0 || (CPU_N == 0) != (CPU_V == 0))
-/*TODO*///#define CONDITION_LE     (CPU_NOT_Z == 0 || (CPU_N == 0) != (CPU_V == 0))
-/*TODO*///#define CONDITION_NOT_LE (CPU_NOT_Z != 0 && (CPU_N == 0) == (CPU_V == 0))
+
+    public static boolean CONDITION_LE() {
+        return (get_CPU_NOT_Z() == 0 || (get_CPU_N() == 0) != (get_CPU_V() == 0));
+    }
+    /*TODO*///#define CONDITION_NOT_LE (CPU_NOT_Z != 0 && (CPU_N == 0) == (CPU_V == 0))
 /*TODO*///
 
     /* Use up clock cycles.
@@ -1409,20 +1441,18 @@ public class m68kcpuH {
             set_CPU_A(7, m68k_cpu.sp[(int) (get_CPU_S() | (get_CPU_M() & (get_CPU_S() << 1)))]);
         }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Set the condition code register */
-/*TODO*///INLINE void m68ki_set_ccr(uint value)
-/*TODO*///{
-/*TODO*///   CPU_X = BIT_4(value);
-/*TODO*///   CPU_N = BIT_3(value);
-/*TODO*///   CPU_NOT_Z = !BIT_2(value);
-/*TODO*///   CPU_V = BIT_1(value);
-/*TODO*///   CPU_C = BIT_0(value);
-/*TODO*///}
-/*TODO*///
-/* Set the status register */
 
+
+    /* Set the condition code register */
+    public static void m68ki_set_ccr(long value) {
+        set_CPU_X(BIT_4(value));
+        set_CPU_N(BIT_3(value));
+        set_CPU_NOT_Z(BIT_2(value) == 0 ? 1 : 0);
+        set_CPU_V(BIT_1(value));
+        set_CPU_C(BIT_0(value));
+    }
+
+    /* Set the status register */
     public static void m68ki_set_sr(long value) {
         /* ASG: detect changes to the INT_MASK */
         long old_mask = get_CPU_INT_MASK();
@@ -1832,8 +1862,8 @@ public class m68kcpuH {
         /* Set the interrupt mask to the level of the one being serviced */
         set_CPU_INT_MASK(int_level);
         if (m68klog != null) {
-                fprintf(m68klog, "service_interrupt :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
+            fprintf(m68klog, "service_interrupt :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+        }
     }
 
 
