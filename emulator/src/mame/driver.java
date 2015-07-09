@@ -189,7 +189,7 @@ import static drivers.WIP.m92.*;
 import static drivers.WIP.sf1.*;
 import static drivers.WIP.rastan.*;
 import static drivers.WIP.rainbow.*;
-
+import static drivers.WIP.cabal.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1096,6 +1096,10 @@ driver_bjtwin,
 /*rainbow.java*/driver_rainbow,
 /*rainbow.java*/driver_rainbowe,
 /*rainbow.java*/driver_jumping,
+
+driver_cabal,
+driver_cabal2,
+driver_cabalbl,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
@@ -2634,9 +2638,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( dcon )		/* (c) 1992 Success */
 
 	/* Tad games (Tad games run on Seibu hardware) */
-/*TODO*/ //	DRIVER( cabal )		/* (c) 1988 Tad + Fabtek license */
-/*TODO*/ //	DRIVER( cabal2 )	/* (c) 1988 Tad + Fabtek license */
-/*TODO*/ //	DRIVER( cabalbl )	/* bootleg */
+
 /*TODO*/ //	DRIVER( toki )		/* (c) 1989 Tad */
 /*TODO*/ //	DRIVER( toki2 )		/* (c) 1989 Tad */
 /*TODO*/ //	DRIVER( toki3 )		/* (c) 1989 Tad */
