@@ -43,17 +43,17 @@ public class m68kcpu {
     public static long[][] m68k_cpu_dar = {get_CPU_D(), get_CPU_A()};
 
     /* Pointers to speed up movem instructions */
-    public static long[] m68k_movem_pi_table = {
-        get_CPU_D()[0], get_CPU_D()[1], get_CPU_D()[2], get_CPU_D()[3],
-        get_CPU_D()[4], get_CPU_D()[5], get_CPU_D()[6], get_CPU_D()[7],
-        get_CPU_A()[0], get_CPU_A()[1], get_CPU_A()[2], get_CPU_A()[3],
-        get_CPU_A()[4], get_CPU_A()[5], get_CPU_A()[6], get_CPU_A()[7],};
+    /*public static long[] m68k_movem_pi_table = {
+     get_CPU_D()[0], get_CPU_D()[1], get_CPU_D()[2], get_CPU_D()[3],
+     get_CPU_D()[4], get_CPU_D()[5], get_CPU_D()[6], get_CPU_D()[7],
+     get_CPU_A()[0], get_CPU_A()[1], get_CPU_A()[2], get_CPU_A()[3],
+     get_CPU_A()[4], get_CPU_A()[5], get_CPU_A()[6], get_CPU_A()[7],};
 
-    public static long[] m68k_movem_pd_table = {
-        get_CPU_A()[7], get_CPU_A()[6], get_CPU_A()[5], get_CPU_A()[4],
-        get_CPU_A()[3], get_CPU_A()[2], get_CPU_A()[1], get_CPU_A()[0],
-        get_CPU_D()[7], get_CPU_D()[6], get_CPU_D()[5], get_CPU_D()[4],
-        get_CPU_D()[3], get_CPU_D()[2], get_CPU_D()[1], get_CPU_D()[0],};
+     public static long[] m68k_movem_pd_table = {
+     get_CPU_A()[7], get_CPU_A()[6], get_CPU_A()[5], get_CPU_A()[4],
+     get_CPU_A()[3], get_CPU_A()[2], get_CPU_A()[1], get_CPU_A()[0],
+     get_CPU_D()[7], get_CPU_D()[6], get_CPU_D()[5], get_CPU_D()[4],
+     get_CPU_D()[3], get_CPU_D()[2], get_CPU_D()[1], get_CPU_D()[0],};*/
 
     /* Used when checking for pending interrupts */
     public static int m68k_int_masks[] = {0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80, 0x80};
@@ -66,16 +66,16 @@ public class m68kcpu {
 /*TODO*///    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 /*TODO*///    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 /*TODO*///};
-public static long m68k_shift_16_table[] =
-{
-    0x0000L, 0x8000L, 0xc000L, 0xe000L, 0xf000L, 0xf800L, 0xfc00L, 0xfe00L, 0xff00L, 0xff80L, 0xffc0L, 0xffe0L,
-    0xfff0L, 0xfff8L, 0xfffcL, 0xfffeL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
-    0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
-    0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
-    0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
-    0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL
-};
-/*TODO*///uint m68k_shift_32_table[65] =
+    public static long m68k_shift_16_table[]
+            = {
+                0x0000L, 0x8000L, 0xc000L, 0xe000L, 0xf000L, 0xf800L, 0xfc00L, 0xfe00L, 0xff00L, 0xff80L, 0xffc0L, 0xffe0L,
+                0xfff0L, 0xfff8L, 0xfffcL, 0xfffeL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
+                0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
+                0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
+                0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL,
+                0xffffL, 0xffffL, 0xffffL, 0xffffL, 0xffffL
+            };
+    /*TODO*///uint m68k_shift_32_table[65] =
 /*TODO*///{
 /*TODO*///    0x00000000, 0x80000000, 0xc0000000, 0xe0000000, 0xf0000000, 0xf8000000, 0xfc000000, 0xfe000000,
 /*TODO*///    0xff000000, 0xff800000, 0xffc00000, 0xffe00000, 0xfff00000, 0xfff80000, 0xfffc0000, 0xfffe0000,
@@ -249,7 +249,10 @@ public static long m68k_shift_16_table[] =
         return ADDRESS_68K(get_CPU_PPC());
     }
 
-    /*TODO*///int m68k_peek_sr(void)          { return m68ki_get_sr(); }
+    public static long m68k_peek_sr() {
+        return m68ki_get_sr();
+    }
+
     public static long m68k_peek_ir() {
         return get_CPU_IR();
     }
@@ -497,7 +500,7 @@ public static long m68k_shift_16_table[] =
     /* ASG: rewrote so that the int_line is a mask of the IPL0/IPL1/IPL2 bits */
     public static void m68k_assert_irq(int int_line) {
         /* OR in the bits of the interrupt */
-   
+
         long old_state = get_CPU_INT_STATE();
         set_CPU_INT_STATE(0);	/* ASG: remove me to do proper mask setting */
 

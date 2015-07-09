@@ -1527,7 +1527,7 @@ public class memory {
             /* fall back to handler */																																			
                     int shift = (address & 1) << 3;													
                     shift ^= 8;																	
-                    data = (0xff000000 >> shift) | ((data & 0xff) << shift);	//unsigned??					
+                    data = (0xff000000 >>> shift) | ((data & 0xff) << shift);	//unsigned??					
                     address &= ~1;																																					
             (memorywritehandler[hw.read()]).handler(address - memorywriteoffset[hw.read()], data);					
     }
