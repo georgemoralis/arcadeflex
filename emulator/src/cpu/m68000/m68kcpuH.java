@@ -395,8 +395,11 @@ public class m68kcpuH {
     }
     /*TODO*///#define ROL_33(A, C)                  (LSL_32(A, C) | LSR_32(A, 33-(C)))
 /*TODO*///
-/*TODO*///#define ROR_8(A, C)      MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8-(C)))
-/*TODO*///#define ROR_9(A, C)                       LSR(A, C) | LSL(A, 9-(C))
+
+    public static long ROR_8(long A, long C) {
+        return MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8 - (C)));
+    }
+    /*TODO*///#define ROR_9(A, C)                       LSR(A, C) | LSL(A, 9-(C))
 
     public static long ROR_16(long A, long C) {
         return MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16 - (C)));
@@ -742,6 +745,10 @@ public class m68kcpuH {
     public static long get_AY() {
         return get_CPU_A()[(int) (get_CPU_IR() & 7)];
     }
+
+    public static void set_AY(long value) {
+        set_CPU_A((int) (get_CPU_IR() & 7), value);
+    }
     /*TODO*///#define AY (CPU_A[CPU_IR & 7])
 /*TODO*///
 /*TODO*///
@@ -772,7 +779,12 @@ public class m68kcpuH {
         return (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 4) & 0xFFFFFFFFL;
     }
     /*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
-/*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
+
+    public static long EA_PD_8() {
+        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 1) & 0xFFFFFFFFL);
+        return get_AY();
+    }
+    /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 
     public static long EA_PD_16() {
@@ -780,7 +792,12 @@ public class m68kcpuH {
         return get_AY();
     }
     /*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
-/*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
+
+    public static long EA_PD_32() {
+        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 4) & 0xFFFFFFFFL);
+        return get_AY();
+    }
+    /*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
 
     public static long EA_DI() {
         return (get_AY() + MAKE_INT_16(m68ki_read_imm_16())) & 0xFFFFFFFFL;
@@ -874,7 +891,10 @@ public class m68kcpuH {
     public static boolean CONDITION_CS() {
         return (get_CPU_C() != 0);
     }
-    /*TODO*///#define CONDITION_NOT_CS (CPU_C == 0)
+
+    public static boolean CONDITION_NOT_CS() {
+        return (get_CPU_C() == 0);
+    }
 
     public static boolean CONDITION_NE() {
         return (get_CPU_NOT_Z() != 0);
@@ -884,8 +904,11 @@ public class m68kcpuH {
     public static boolean CONDITION_EQ() {
         return (get_CPU_NOT_Z() == 0);
     }
-    /*TODO*///#define CONDITION_NOT_EQ (CPU_NOT_Z != 0)
-/*TODO*///#define CONDITION_VC     (CPU_V == 0)
+
+    public static boolean CONDITION_NOT_EQ() {
+        return (get_CPU_NOT_Z() != 0);
+    }
+    /*TODO*///#define CONDITION_VC     (CPU_V == 0)
 /*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
 /*TODO*///#define CONDITION_VS     (CPU_V != 0)
 /*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
@@ -893,7 +916,10 @@ public class m68kcpuH {
     public static boolean CONDITION_PL() {
         return (get_CPU_N() == 0);
     }
-    /*TODO*///#define CONDITION_NOT_PL (CPU_N != 0)
+
+    public static boolean CONDITION_NOT_PL() {
+        return (get_CPU_N() != 0);
+    }
 
     public static boolean CONDITION_MI() {
         return (get_CPU_N() != 0);

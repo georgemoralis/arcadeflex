@@ -487,7 +487,7 @@ public class cabal
 		cabal_vh_screenrefresh,
 	
 		/* sound hardware */
-		SOUND_SUPPORTS_STEREO,0,0,0,
+		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,//_ALT,
