@@ -1543,26 +1543,28 @@ public class m68kcpuH {
     /* Process an exception */
 
     public static void m68ki_exception(long vector) {
-        throw new UnsupportedOperationException("Unimplemented");
-        /*TODO*///   /* Save the old status register */
-/*TODO*///   uint old_sr = m68ki_get_sr();
-/*TODO*///
-/*TODO*///   /* Use up some clock cycles */
-/*TODO*///   USE_CLKS(m68k_exception_cycle_table[vector]);
-/*TODO*///
-/*TODO*///   /* Turn off stopped state and trace flag, clear pending traces */
-/*TODO*///   CPU_STOPPED = 0;
-/*TODO*///   CPU_T1 = CPU_T0 = 0;
-/*TODO*///   m68ki_clear_trace();
-/*TODO*///   /* Enter supervisor mode */
-/*TODO*///   m68ki_set_s_flag(1);
-/*TODO*///   /* Push a stack frame */
-/*TODO*///   if(CPU_MODE & CPU_MODE_010_PLUS)
-/*TODO*///      m68ki_push_16(vector<<2); /* This is format 0 */
-/*TODO*///   m68ki_push_32(CPU_PPC);	/* save previous PC, ie. PC that contains an offending instruction */
-/*TODO*///   m68ki_push_16(old_sr);
-/*TODO*///   /* Generate a new program counter from the vector */
-/*TODO*///   m68ki_set_pc(m68ki_read_32((vector<<2)+CPU_VBR));
+        /* Save the old status register */
+        long old_sr = m68ki_get_sr();
+
+        /* Use up some clock cycles */
+        USE_CLKS(m68k_exception_cycle_table[(int) vector]);
+
+        /* Turn off stopped state and trace flag, clear pending traces */
+        set_CPU_STOPPED(0);
+        set_CPU_T1(0);
+        set_CPU_T0(0);
+
+        /* Enter supervisor mode */
+        m68ki_set_s_flag(1);
+        /* Push a stack frame */
+        if ((get_CPU_MODE() & CPU_MODE_010_PLUS) != 0) {
+            m68ki_push_16(vector << 2); /* This is format 0 */
+        }
+        m68ki_push_32(get_CPU_PPC());	/* save previous PC, ie. PC that contains an offending instruction */
+
+        m68ki_push_16(old_sr);
+        /* Generate a new program counter from the vector */
+        m68ki_set_pc(m68ki_read_32((vector << 2) + get_CPU_VBR()));
     }
     /* Process an interrupt (or trap) */
 
