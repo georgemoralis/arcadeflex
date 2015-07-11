@@ -973,10 +973,7 @@ public class driver {
         
 
         /*psychic5*/driver_psychic5,
-        driver_snowbros,
-        driver_snowbroa,
-        driver_snowbrob,
-        driver_snowbroj,
+
         
         /*bottom9*/driver_bottom9,
         /*bottom9*/driver_bottom9n,
@@ -1096,6 +1093,10 @@ driver_bjtwin,
 /*rainbow.java*/driver_rainbow,
 /*rainbow.java*/driver_rainbowe,
 /*rainbow.java*/driver_jumping,
+        driver_snowbros,
+        driver_snowbroa,
+        driver_snowbrob,
+        driver_snowbroj,
 
 driver_cabal,
 driver_cabal2,

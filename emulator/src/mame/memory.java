@@ -1583,8 +1583,8 @@ public class memory {
 
 																						
 		/* first-level lookup */
-                hw1.set(cur_mwhard[address >> (ABITS2_24 + ABITS_MIN_24)]);		
-		hw2.set(cur_mwhard[address2 >> (ABITS2_24 + ABITS_MIN_24)]);
+                hw1.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+		hw2.set(cur_mwhard[address2 >>> (ABITS2_24 + ABITS_MIN_24)]);
 		
 																						
 		/* second-level lookup */	
@@ -1596,7 +1596,7 @@ public class memory {
 		if (hw2.read() >= MH_HARDMAX)															
 		{																				
 			hw2.set((char) (hw2.read() - MH_HARDMAX));															
-			hw2.set(writehardware.memory[(hw2.read() << MH_SBITS) + ((address2 >> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw2.set(writehardware.memory[(hw2.read() << MH_SBITS) + ((address2 >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 		}																				
 		/* extract words */																
 																			
