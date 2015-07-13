@@ -758,49 +758,42 @@ public class m68kcpuH {
     public static long EA_AI() {
         return get_CPU_A()[(int) (get_CPU_IR() & 7)];
     }
-    /*TODO*///#define EA_PI_8  (AY++)                                /* postincrement (size = byte) */
+    /*TODO*///#define EA_PI_8  (AY++)                               
 
-    public static long EA_PI_8() {
-        long tmp = get_AY();
-        set_CPU_A((int) (get_CPU_IR() & 7), (get_AY() + 1) & 0xFFFFFFFFL);
-        return tmp;
+    public static long EA_PI_8() {   /* postincrement (size = byte) */
+        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]++;
     }
     /*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
 
     public static long EA_PI_16() {
-        set_CPU_A((int) (get_CPU_IR() & 7), get_CPU_A()[(int) (get_CPU_IR() & 7)] + 2);
-        return (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 2) & 0xFFFFFFFFL;
+        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)]+=2)-2);
     }
     /*TODO*///#define EA_PI_32 ((AY+=4)-4)                           /* postincrement (size = long) */
 
     public static long EA_PI_32() {
-        set_CPU_A((int) (get_CPU_IR() & 7), get_CPU_A()[(int) (get_CPU_IR() & 7)] + 4);
-        return (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 4) & 0xFFFFFFFFL;
+        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)]+=4)-4);
     }
     /*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
 
     public static long EA_PD_8() {
-        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 1) & 0xFFFFFFFFL);
-        return get_AY();
+        return --m68k_cpu.ar[(int) (get_CPU_IR() & 7)];
     }
     /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 
     public static long EA_PD_16() {
-        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 2) & 0xFFFFFFFFL);
-        return get_AY();
+        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]-=2;
     }
     /*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
 
     public static long EA_PD_32() {
-        set_CPU_A((int) (get_CPU_IR() & 7), (get_CPU_A()[(int) (get_CPU_IR() & 7)] - 4) & 0xFFFFFFFFL);
-        return get_AY();
+        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]-=4;
     }
     /*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
 
     public static long EA_DI() {
-        return (get_AY() + MAKE_INT_16(m68ki_read_imm_16())) & 0xFFFFFFFFL;
+        return (get_AY() + MAKE_INT_16(m68ki_read_imm_16()));
     }
 
     public static long EA_IX() {
@@ -959,26 +952,22 @@ public class m68kcpuH {
     /*TODO*////* Push/pull data to/from the stack */
 /*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
     public static void m68ki_push_16(long A) {
-        set_CPU_A(7, (get_CPU_A()[7] - 2) & 0xFFFFFFFFL);
-        m68ki_write_16(get_CPU_A()[7], A);
+        m68ki_write_16(m68k_cpu.ar[7]-=2, A);
     }
     /*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
 
     public static void m68ki_push_32(long A) {
-        set_CPU_A(7, (get_CPU_A()[7] - 4) & 0xFFFFFFFFL);
-        m68ki_write_32(get_CPU_A()[7], A);
+        m68ki_write_32(m68k_cpu.ar[7]-=4, A);
     }
     /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
 
     public static long m68ki_pull_16() {
-        set_CPU_A(7, (get_CPU_A()[7] + 2) & 0xFFFFFFFFL);
-        return m68ki_read_16(get_CPU_A()[7] - 2);
+        return m68ki_read_16((m68k_cpu.ar[7]+=2) - 2);
     }
 
     /*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
     public static long m68ki_pull_32() {
-        set_CPU_A(7, (get_CPU_A()[7] + 4) & 0xFFFFFFFFL);
-        return m68ki_read_32(get_CPU_A()[7] - 4);
+        return m68ki_read_32((m68k_cpu.ar[7]+=4) - 4);
     }
     /*TODO*///
 /*TODO*////* branch byte and word are for branches, while long is for jumps.
@@ -1307,7 +1296,7 @@ public class m68kcpuH {
 
         /* If we're running 010 or less, there's no scale or full extension word mode */
         if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
-            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+            return (base + ea_index + MAKE_INT_8(extension));
         }
 
         throw new UnsupportedOperationException("Unimplemented");
@@ -1350,7 +1339,7 @@ public class m68kcpuH {
 
         /* If we're running 010 or less, there's no scale or full extension word mode */
         if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
-            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+            return (base + ea_index + MAKE_INT_8(extension));
         }
 
         throw new UnsupportedOperationException("Unimplemented");
@@ -1395,7 +1384,7 @@ public class m68kcpuH {
 
         /* If we're running 010 or less, there's no scale or full extension word mode */
         if ((get_CPU_MODE() & CPU_MODE_010_LESS) != 0) {
-            return (base + ea_index + MAKE_INT_8(extension)) & 0xFFFFFFFFL;
+            return (base + ea_index + MAKE_INT_8(extension));
         }
         throw new UnsupportedOperationException("Unimplemented");
         /*TODO*///   /* Scale the index value */
