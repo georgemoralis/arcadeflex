@@ -761,18 +761,19 @@ public class m68kcpuH {
     /*TODO*///#define EA_PI_8  (AY++)                               
 
     public static long EA_PI_8() {   /* postincrement (size = byte) */
+
         return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]++;
     }
     /*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
 /*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
 
     public static long EA_PI_16() {
-        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)]+=2)-2);
+        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)] += 2) - 2);
     }
     /*TODO*///#define EA_PI_32 ((AY+=4)-4)                           /* postincrement (size = long) */
 
     public static long EA_PI_32() {
-        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)]+=4)-4);
+        return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)] += 4) - 4);
     }
     /*TODO*///#define EA_PD_8  (--AY)                                /* predecrement (size = byte) */
 
@@ -783,12 +784,12 @@ public class m68kcpuH {
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 
     public static long EA_PD_16() {
-        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]-=2;
+        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)] -= 2;
     }
     /*TODO*///#define EA_PD_32 (AY-=4)                               /* predecrement (size = long) */
 
     public static long EA_PD_32() {
-        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]-=4;
+        return m68k_cpu.ar[(int) (get_CPU_IR() & 7)] -= 4;
     }
     /*TODO*///#define EA_DI    (AY+MAKE_INT_16(m68ki_read_imm_16())) /* displacement */
 
@@ -874,7 +875,10 @@ public class m68kcpuH {
     public static boolean CONDITION_LS() {
         return (get_CPU_C() != 0 || get_CPU_NOT_Z() == 0);
     }
-    /*TODO*///#define CONDITION_NOT_LS (CPU_C == 0 && CPU_NOT_Z != 0)
+
+    public static boolean CONDITION_NOT_LS() {
+        return (get_CPU_C() == 0 && get_CPU_NOT_Z() != 0);
+    }
 
     public static boolean CONDITION_CC() {
         return (get_CPU_C() == 0);
@@ -952,22 +956,22 @@ public class m68kcpuH {
     /*TODO*////* Push/pull data to/from the stack */
 /*TODO*///#define m68ki_push_16(A) m68ki_write_16(CPU_A[7]-=2, A)
     public static void m68ki_push_16(long A) {
-        m68ki_write_16(m68k_cpu.ar[7]-=2, A);
+        m68ki_write_16(m68k_cpu.ar[7] -= 2, A);
     }
     /*TODO*///#define m68ki_push_32(A) m68ki_write_32(CPU_A[7]-=4, A)
 
     public static void m68ki_push_32(long A) {
-        m68ki_write_32(m68k_cpu.ar[7]-=4, A);
+        m68ki_write_32(m68k_cpu.ar[7] -= 4, A);
     }
     /*TODO*///#define m68ki_pull_16()  m68ki_read_16((CPU_A[7]+=2) - 2)
 
     public static long m68ki_pull_16() {
-        return m68ki_read_16((m68k_cpu.ar[7]+=2) - 2);
+        return m68ki_read_16((m68k_cpu.ar[7] += 2) - 2);
     }
 
     /*TODO*///#define m68ki_pull_32()  m68ki_read_32((CPU_A[7]+=4) - 4)
     public static long m68ki_pull_32() {
-        return m68ki_read_32((m68k_cpu.ar[7]+=4) - 4);
+        return m68ki_read_32((m68k_cpu.ar[7] += 4) - 4);
     }
     /*TODO*///
 /*TODO*////* branch byte and word are for branches, while long is for jumps.
@@ -1548,6 +1552,7 @@ public class m68kcpuH {
         /* Push a stack frame */
         if ((get_CPU_MODE() & CPU_MODE_010_PLUS) != 0) {
             m68ki_push_16(vector << 2); /* This is format 0 */
+
         }
         m68ki_push_32(get_CPU_PPC());	/* save previous PC, ie. PC that contains an offending instruction */
 
