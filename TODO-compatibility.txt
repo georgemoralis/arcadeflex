@@ -633,14 +633,31 @@ milliped milliped.c M6502                                                       
 ==========
 68000 CPU
 ==========
+pspikes  aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Power Spikes (Korea)
+svolly91 aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Super Volley '91 (Japan)
+turbofrc aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Turbo Force
+aerofgt  aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters
+aerofgtb aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters (Turbo Force hardware set 1)
+aerofgtc aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters (Turbo Force hardware set 2)
+
+zerozone zerozone.c 68000    [Z80   ]                                                       1xOKI6295                                                   Zero Zone
+
+bjtwin   bjtwin.c   68000                                                                   2xOKI6295                                                   Bombjack Twin
+
+aztarac  aztarac.c  68000    [Z80   ]                                                       4xAY-8910                                                   Aztarac
+
 cchasm   cchasm.c   68000    Z80                                                            2xAY-8910   Custom                                          Cosmic Chasm (set 1)
 cchasm1  cchasm.c   68000    Z80                                                            2xAY-8910   Custom                                          Cosmic Chasm (set 2)
+
 quantum  quantum.c  68000                                                                   2xPokey                                                     Quantum (rev 2)
 quantum1 quantum.c  68000                                                                   2xPokey                                                     Quantum (rev 1)
 quantump quantum.c  68000                                                                   2xPokey                                                     Quantum (prototype)
+
 foodf    foodf.c    68000                                                                   3xPokey                                                     Food Fight
+
 ssi      ssi.c      68000    [Z80   ]                                                       1xYM-2610                                                   Super Space Invaders '91 (World)
 majest12 ssi.c      68000    [Z80   ]                                                       1xYM-2610                                                   Majestic Twelve - The Space Invaders Part IV (Japan)
+
 liquidk  taitof2.c  68000    [Z80   ]                                                       1xYM-2610                                                   Liquid Kids (World)
 liquidku taitof2.c  68000    [Z80   ]                                                       1xYM-2610                                                   Liquid Kids (US)
 mizubaku taitof2.c  68000    [Z80   ]                                                       1xYM-2610                                                   Mizubaku Daibouken (Japan)
@@ -833,6 +850,7 @@ qtono2   cps1.c     68000    [Z80   ]                                           
 pang3    cps1.c     68000    [Z80   ]                                                       1xYM-2151   1xOKI6295                                       Pang! 3 (Japan)
 megaman  cps1.c     68000    [Z80   ]                                                       1xYM-2151   1xOKI6295                                       Mega Man - The Power Battle (Asia)
 rockmanj cps1.c     68000    [Z80   ]                                                       1xYM-2151   1xOKI6295                                       Rockman - The Power Battle (Japan)
+
 alexkidd system16.c 68000    [Z80   ] [N7751 ]                                              1xYM-2151   1xDAC                                           Alex Kidd (set 1)
 aliensya system16.c 68000    [Z80   ]                                                       1xYM-2151   uPD7759                                         Alien Syndrome (set 2)
 aliensyb system16.c 68000    [Z80   ]                                                       1xYM-2151   uPD7759                                         Alien Syndrome (set 3)
@@ -910,6 +928,7 @@ tturfu   system16.c 68000    [Z80   ]                                           
 wb3      system16.c 68000    [Z80   ]                                                       1xYM-2151                                                   Wonder Boy III - Monster Lair (set 1)
 wb3bl    system16.c 68000    [Z80   ]                                                       1xYM-2151                                                   Wonder Boy III - Monster Lair (bootleg)
 wrestwar system16.c 68000    [Z80   ]                                                       1xYM-2151   uPD7759                                         Wrestle War
+
 ikari3   snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Ikari III - The Rescue
 pow      snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         P.O.W. - Prisoners of War (US)
 powj     snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Datsugoku - Prisoners of War (Japan)
@@ -918,9 +937,11 @@ sercharu snk68.c    68000    [Z80   ]                                           
 streetsm snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 2)
 streets1 snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 1)
 streetsj snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (Japan version 1)
+
 prehisle prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (World)
 prehislu prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (US)
 gensitou prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Genshi-Tou 1930's
+
 timesold alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 3)
 timesol1 alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 1)
 btlfield alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Battlefield (Japan)
@@ -930,9 +951,12 @@ skyadvnt alpha68k.c 68000    [Z80   ]                                           
 gangwars alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars
 gangwarb alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars (bootleg)
 sbasebal alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Super Champion Baseball
+
 wecleman wecleman.c 68000    68000    [Z80   ]                                              1xYM-2151   1x007232                                        WEC Le Mans 24
 hotchase wecleman.c 68000    68000    [M6809 ]                                              3x007232                                                    Hot Chase
+
 ultraman ultraman.c 68000    Z80                                                            1xYM-2151   1xOKI6295                                       Ultraman (Japan)
+
 nemesis  nemesis.c  68000    [Z80   ]                                                       2xAY-8910   005289      VLM5030                             Nemesis (hacked?)
 nemesuk  nemesis.c  68000    [Z80   ]                                                       2xAY-8910   005289      VLM5030                             Nemesis (World?)
 konamigt nemesis.c  68000    [Z80   ]                                                       2xAY-8910   005289                                          Konami GT
@@ -943,6 +967,7 @@ rf2      nemesis.c  68000    [Z80   ]                                           
 twinbee  nemesis.c  68000    Z80                                                            2xAY-8910   005289      VLM5030                             TwinBee
 gradius  nemesis.c  68000    Z80                                                            2xAY-8910   005289      VLM5030                             Gradius
 gwarrior nemesis.c  68000    Z80                                                            2xAY-8910   005289      VLM5030                             Galactic Warriors
+
 devilw   twin16.c   [Z80   ] 68000    68000                                                 1xYM-2151   1x007232    uPD7759                             Devil World
 darkadv  twin16.c   [Z80   ] 68000    68000                                                 1xYM-2151   1x007232    uPD7759                             Dark Adventure
 majuu    twin16.c   [Z80   ] 68000    68000                                                 1xYM-2151   1x007232    uPD7759                             Majuu no Ohkoku
@@ -954,8 +979,10 @@ cuebrick twin16.c   [Z80   ] 68000    68000                                     
 fround   twin16.c   [Z80   ] 68000                                                          1xYM-2151   1x007232    uPD7759                             Final Round
 hpuncher twin16.c   [Z80   ] 68000    68000                                                 1xYM-2151   1x007232    uPD7759                             Hard Puncher (Japan)
 miaj     twin16.c   [Z80   ] 68000    68000                                                 1xYM-2151   1x007232    uPD7759                             Missing in Action (Japan)
+
 gradius3 gradius3.c 68000    68000    [Z80   ]                                              1xYM-2151   1x007232                                        Gradius III (Japan)
 grdius3a gradius3.c 68000    68000    [Z80   ]                                              1xYM-2151   1x007232                                        Gradius III (Asia)
+
 mia      tmnt.c     68000    [Z80   ]                                                       1xYM-2151   1x007232                                        Missing in Action (version T)
 mia2     tmnt.c     68000    [Z80   ]                                                       1xYM-2151   1x007232                                        Missing in Action (version S)
 tmnt     tmnt.c     68000    [Z80   ]                                                       1xYM-2151   1x007232    uPD7759     Samples     Custom      Teenage Mutant Ninja Turtles (4 Players US)
@@ -980,19 +1007,27 @@ ssrdruac tmnt.c     68000    [Z80   ]                                           
 ssrdrubc tmnt.c     68000    [Z80   ]                                                       1xYM-2151   053260                                          Sunset Riders (US 2 Players ver. UBC)
 ssrdrabd tmnt.c     68000    [Z80   ]                                                       1xYM-2151   053260                                          Sunset Riders (Asia 2 Players ver. ABD)
 ssrdrjbd tmnt.c     68000    [Z80   ]                                                       1xYM-2151   053260                                          Sunset Riders (Japan 2 Players ver. JBD)
+thndrx2  tmnt.c     68000    [Z80   ]                                                       1xYM-2151   053260                                          Thunder Cross II (Japan)
+
 xmen     xmen.c     68000    [Z80   ]                                                       1xYM-2151                                                   X-Men (4 Players)
 xmen6p   xmen.c     68000    [Z80   ]                                                       1xYM-2151                                                   X-Men (6 Players)
 xmen2pj  xmen.c     68000    [Z80   ]                                                       1xYM-2151                                                   X-Men (2 Players Japan)
-thndrx2  tmnt.c     68000    [Z80   ]                                                       1xYM-2151   053260                                          Thunder Cross II (Japan)
+
+
+
 klax     klax.c     68000                                                                   1xOKI6295                                                   Klax (set 1)
 klax2    klax.c     68000                                                                   1xOKI6295                                                   Klax (set 2)
 klax3    klax.c     68000                                                                   1xOKI6295                                                   Klax (set 3)
 klaxj    klax.c     68000                                                                   1xOKI6295                                                   Klax (Japan)
+
 blstroid blstroid.c 68000    M6502                                                          1xYM-2151                                                   Blasteroids (version 4)
 blstroi2 blstroid.c 68000    M6502                                                          1xYM-2151                                                   Blasteroids (version 2)
+
 xybots   xybots.c   68000    M6502                                                          1xYM-2151                                                   Xybots
+
 eprom    eprom.c    68000    68000    M6502                                                 1xYM-2151   TMS5520                                         Escape from the Planet of the Robot Monsters (set 1)
 eprom2   eprom.c    68000    68000    M6502                                                 1xYM-2151   TMS5520                                         Escape from the Planet of the Robot Monsters (set 2)
+
 skullxbo skullxbo.c 68000    M6502                                                          1xYM-2151   1xOKI6295                                       Skull & Crossbones (set 1)
 skullxb2 skullxbo.c 68000    M6502                                                          1xYM-2151   1xOKI6295                                       Skull & Crossbones (set 2)
 badlands badlands.c 68000    M6502                                                          1xYM-2151                                                   Bad Lands
@@ -1098,15 +1133,7 @@ chimerab megasys1.c 68000    [68000 ]                                           
 cybattlr megasys1.c 68000    [68000 ]                                                       1xYM-2151   2xOKI6295                                       Cybattler
 peekaboo megasys1.c 68000                                                                   1xOKI6295                                                   Peek-a-Boo!
 soldamj  megasys1.c 68000    [68000 ]                                                       1xYM-2151   2xOKI6295                                       Soldam (Japan)
-pspikes  aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Power Spikes (Korea)
-svolly91 aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Super Volley '91 (Japan)
-turbofrc aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Turbo Force
-aerofgt  aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters
-aerofgtb aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters (Turbo Force hardware set 1)
-aerofgtc aerofgt.c  68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters (Turbo Force hardware set 2)
-zerozone zerozone.c 68000    [Z80   ]                                                       1xOKI6295                                                   Zero Zone
-bjtwin   bjtwin.c   68000                                                                   2xOKI6295                                                   Bombjack Twin
-aztarac  aztarac.c  68000    [Z80   ]                                                       4xAY-8910                                                   Aztarac
+
 nam1975  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   NAM-1975
 bstars   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Baseball Stars Professional
 tpgolf   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Top Player's Golf
