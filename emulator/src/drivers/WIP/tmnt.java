@@ -50,14 +50,14 @@ public class tmnt {
 
     public static ReadHandlerPtr K052109_word_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            offset >>= 1;
+            offset >>>= 1;
             return K052109_r.handler(offset + 0x2000) | (K052109_r.handler(offset) << 8);
         }
     };
 
     public static WriteHandlerPtr K052109_word_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            offset >>= 1;
+            offset >>>= 1;
             if ((data & 0xff000000) == 0) {
                 K052109_w.handler(offset, (data >> 8) & 0xff);
             }
@@ -91,7 +91,7 @@ public class tmnt {
             if ((offset & 0x0062) != 0) {
                 return spriteram.READ_WORD(offset);
             } else {
-                offset = ((offset & 0x001c) >> 1) | ((offset & 0x3f80) >> 3);
+                offset = ((offset & 0x001c) >>> 1) | ((offset & 0x3f80) >>> 3);
                 return K053245_word_r.handler(offset);
             }
         }
@@ -101,7 +101,7 @@ public class tmnt {
             if ((offset & 0x0062) != 0) {
                 COMBINE_WORD_MEM(spriteram, offset, data);
             } else {
-                offset = ((offset & 0x001c) >> 1) | ((offset & 0x3f80) >> 3);
+                offset = ((offset & 0x001c) >>> 1) | ((offset & 0x3f80) >>> 3);
                 //if (errorlog && (offset&0xf) == 0)
                 //	fprintf(errorlog,"%04x: write %02x to spriteram %04x\n",cpu_get_pc(),data,offset);
                 K053245_word_w.handler(offset, data);
@@ -142,7 +142,7 @@ public class tmnt {
     public static WriteHandlerPtr K053251_halfword_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if ((data & 0x00ff0000) == 0) {
-                K053251_w.handler(offset >> 1, data & 0xff);
+                K053251_w.handler(offset >>> 1, data & 0xff);
             }
         }
     };

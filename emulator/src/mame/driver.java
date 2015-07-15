@@ -192,6 +192,7 @@ import static drivers.WIP.rainbow.*;
 import static drivers.WIP.cabal.*;
 import static drivers.WIP.xmen.*;
 import static drivers.WIP.tmnt.*;
+import static drivers.WIP.toki.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2643,11 +2644,11 @@ driver_ssriders,
 
 	/* Tad games (Tad games run on Seibu hardware) */
 
-/*TODO*/ //	DRIVER( toki )		/* (c) 1989 Tad */
-/*TODO*/ //	DRIVER( toki2 )		/* (c) 1989 Tad */
-/*TODO*/ //	DRIVER( toki3 )		/* (c) 1989 Tad */
-/*TODO*/ //	DRIVER( tokiu )		/* (c) 1989 Tad + Fabtek license */
-/*TODO*/ //	DRIVER( tokib )		/* bootleg */
+driver_toki,
+driver_toki2,
+driver_toki3,
+driver_tokiu,
+driver_tokib,
 /*TODO*/ //	DRIVER( bloodbro )	/* (c) 1990 Tad */
 /*TODO*/ //	DRIVER( weststry )	/* bootleg */
 
