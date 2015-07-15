@@ -75,7 +75,7 @@ public class bjtwin
 	
 		if (oldword != newword)
 		{
-			bjtwin_txvideoram.write(offset, newword);//WRITE_WORD(&bjtwin_txvideoram[offset],newword);
+			bjtwin_txvideoram.WRITE_WORD(offset, newword);//WRITE_WORD(&bjtwin_txvideoram[offset],newword);
 			dirtybuffer[offset/2] = 1;
 		}
 	} };
