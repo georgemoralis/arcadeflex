@@ -95,15 +95,14 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public int get_reg(int regnum) {
-        
-        
-            switch( regnum )
-    {
-/*TODO*///		case M68K_PC: return m68k_peek_pc();
+
+        switch (regnum) {
+            /*TODO*///		case M68K_PC: return m68k_peek_pc();
 /*TODO*///        case M68K_ISP: return m68k_peek_isp();
 /*TODO*///        case M68K_USP: return m68k_peek_usp();
-		case /*M68K_SR*/4: return (int)m68k_peek_sr();
-/*TODO*///        case M68K_VBR: return 0; /* missing m68k_peek_vbr(); */
+            case /*M68K_SR*/ 4:
+                return (int) m68k_peek_sr();
+            /*TODO*///        case M68K_VBR: return 0; /* missing m68k_peek_vbr(); */
 /*TODO*///		case M68K_SFC: return 0; /* missing m68k_peek_sfc(); */
 /*TODO*///		case M68K_DFC: return 0; /* missing m68k_peek_dfc(); */
 /*TODO*///		case M68K_D0: return m68k_peek_dr(0);
@@ -124,16 +123,16 @@ public class m68kmame extends cpu_interface {
 /*TODO*///		case M68K_A7: return m68k_peek_ar(7);
 /*TODO*///		case REG_PREVIOUSPC: return m68k_peek_ppc();
 /*TODO*////* TODO: return contents of [SP + wordsize * (REG_SP_CONTENTS-regnum)] */
-		default:
-                    throw new UnsupportedOperationException("Not supported yet.");
-/*TODO*///			if( regnum < REG_SP_CONTENTS )
+            default:
+                throw new UnsupportedOperationException("Not supported yet.");
+            /*TODO*///			if( regnum < REG_SP_CONTENTS )
 /*TODO*///			{
 /*TODO*///				unsigned offset = m68k_peek_isp() + 4 * (REG_SP_CONTENTS - regnum);
 /*TODO*///				if( offset < 0xfffffd )
 /*TODO*///					return cpu_readmem24_dword( offset );
 /*TODO*///			}
-    }
-/*TODO*///    return 0;
+        }
+        /*TODO*///    return 0;
     }
 
     @Override
@@ -176,20 +175,18 @@ public class m68kmame extends cpu_interface {
     }
 
     @Override
-    public void set_nmi_line(int linestate) {
-        throw new UnsupportedOperationException("Not supported yet.");
-        /*TODO*///	switch(state)
-/*TODO*///	{
-/*TODO*///		case CLEAR_LINE:
-/*TODO*///			m68k_clear_irq(7);
-/*TODO*///			return;
-/*TODO*///		case ASSERT_LINE:
-/*TODO*///			m68k_assert_irq(7);
-/*TODO*///			return;
-/*TODO*///		default:
-/*TODO*///			m68k_assert_irq(7);
-/*TODO*///			return;
-/*TODO*///	}
+    public void set_nmi_line(int state) {
+        switch (state) {
+            case CLEAR_LINE:
+                m68k_clear_irq(7);
+                return;
+            case ASSERT_LINE:
+                m68k_assert_irq(7);
+                return;
+            default:
+                m68k_assert_irq(7);
+                return;
+        }
     }
 
     @Override

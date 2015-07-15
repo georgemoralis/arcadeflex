@@ -190,6 +190,7 @@ import static drivers.WIP.sf1.*;
 import static drivers.WIP.rastan.*;
 import static drivers.WIP.rainbow.*;
 import static drivers.WIP.cabal.*;
+import static drivers.WIP.xmen.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1101,6 +1102,9 @@ driver_bjtwin,
 driver_cabal,
 driver_cabal2,
 driver_cabalbl,
+driver_xmen,
+driver_xmen6p,
+driver_xmen2pj,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
@@ -2292,9 +2296,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( ssrdrubc )	/* GX064 (c) 1991 (US) */
 /*TODO*/ //	DRIVER( ssrdrabd )	/* GX064 (c) 1991 (Asia) */
 /*TODO*/ //	DRIVER( ssrdrjbd )	/* GX064 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( xmen )		/* GX065 (c) 1992 (US) */
-/*TODO*/ //	DRIVER( xmen6p )	/* GX065 (c) 1992 */
-/*TODO*/ //	DRIVER( xmen2pj )	/* GX065 (c) 1992 (Japan) */
+
 /*TODO*/ //	DRIVER( thndrx2 )	/* GX073 (c) 1991 (Japan) */
 
 	/* Exidy games */
