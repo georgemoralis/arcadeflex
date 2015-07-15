@@ -1299,17 +1299,15 @@ public  class konamiic
     {
             K053245_ram = null;
     }
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///int K053245_word_r(int offset)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	return READ_WORD(&K053245_ram[offset]);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///void K053245_word_w(int offset,int data)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	COMBINE_WORD_MEM(&K053245_ram[offset],data);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
+    public static ReadHandlerPtr K053245_word_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+            return K053245_ram.READ_WORD(offset);
+        }};
+        public static WriteHandlerPtr K053245_word_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+            COMBINE_WORD_MEM(K053245_ram,offset,data);
+        }};
+
         public static ReadHandlerPtr K053245_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
        
@@ -1395,10 +1393,11 @@ public  class konamiic
         if (errorlog!=null) fprintf(errorlog,"%04x: write %02x to unknown 053244 address %x\n",cpu_get_pc(),data,offset);
         }};
 
-/*TODO*////*TODO*///void K053244_bankselect(int bank)   /* used by TMNT2 for ROM testing */
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K053244_rombank = bank;
-/*TODO*////*TODO*///}
+        
+        public static void K053244_bankselect(int bank)   /* used by TMNT2 for ROM testing */
+        {
+                K053244_rombank = bank;
+        }
 /*TODO*////*TODO*///
 /*TODO*////*TODO*////*
 /*TODO*////*TODO*/// * Sprite Format

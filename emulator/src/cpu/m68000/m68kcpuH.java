@@ -990,17 +990,20 @@ public class m68kcpuH {
     public static void m68ki_branch_long(long A) {
         m68ki_set_pc(A);
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Get the condition code register */
-/*TODO*///#define m68ki_get_ccr() (((CPU_X != 0)     << 4) | \
-/*TODO*///                         ((CPU_N != 0)     << 3) | \
-/*TODO*///                         ((CPU_NOT_Z == 0) << 2) | \
-/*TODO*///                         ((CPU_V != 0)     << 1) | \
-/*TODO*///                          (CPU_C != 0))
-/*TODO*///
-/* Get the status register */
 
+
+    /* Get the condition code register */
+    public static long m68ki_get_ccr() {
+        return ((((m68k_cpu.x_flag != 0) ? 1 : 0) << 4)
+                | (((m68k_cpu.n_flag != 0) ? 1 : 0) << 3)
+                | (((m68k_cpu.not_z_flag == 0) ? 1 : 0) << 2)
+                | (((m68k_cpu.v_flag != 0) ? 1 : 0) << 1)
+                | ((m68k_cpu.c_flag != 0) ? 1 : 0));
+    }
+
+    ;
+
+/* Get the status register */
     public static long m68ki_get_sr() {
         return ((((m68k_cpu.t1_flag != 0) ? 1 : 0) << 15)
                 | (((m68k_cpu.t0_flag != 0) ? 1 : 0) << 14)

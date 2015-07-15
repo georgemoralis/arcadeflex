@@ -191,6 +191,7 @@ import static drivers.WIP.rastan.*;
 import static drivers.WIP.rainbow.*;
 import static drivers.WIP.cabal.*;
 import static drivers.WIP.xmen.*;
+import static drivers.WIP.tmnt.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2288,7 +2289,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( tmnt2 )		/* GX063 (c) 1991 (US) */
 /*TODO*/ //	DRIVER( tmnt22p )	/* GX063 (c) 1991 (US) */
 /*TODO*/ //	DRIVER( tmnt2a )	/* GX063 (c) 1991 (Asia) */
-/*TODO*/ //	DRIVER( ssriders )	/* GX064 (c) 1991 (World) */
+driver_ssriders,
 /*TODO*/ //	DRIVER( ssrdrebd )	/* GX064 (c) 1991 (World) */
 /*TODO*/ //	DRIVER( ssrdrebc )	/* GX064 (c) 1991 (World) */
 /*TODO*/ //	DRIVER( ssrdruda )	/* GX064 (c) 1991 (US) */
