@@ -186,7 +186,7 @@ public class K053247 {
         public void handler(int offset, int data) {
 
             if ((data & 0xff000000) == 0) {
-                K053246_w.handler(offset, (data >> 8) & 0xff);
+                K053246_w.handler(offset, (data >>> 8) & 0xff);
             }
             if ((data & 0x00ff0000) == 0) {
                 K053246_w.handler(offset + 1, data & 0xff);

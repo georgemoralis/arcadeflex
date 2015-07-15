@@ -61,19 +61,19 @@ public class xmen
 	
 	public static ReadHandlerPtr K052109_halfword_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
-		return K052109_r.handler(offset >> 1);
+		return K052109_r.handler(offset >>> 1);
 	} };
 	
 	public static WriteHandlerPtr K052109_halfword_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
 		if ((data & 0x00ff0000) == 0)
-			K052109_w.handler(offset >> 1,data & 0xff);
+			K052109_w.handler(offset >>> 1,data & 0xff);
 	} };
 	
 	public static WriteHandlerPtr K053251_halfword_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
 		if ((data & 0x00ff0000) == 0)
-			K053251_w.handler(offset >> 1,data & 0xff);
+			K053251_w.handler(offset >>> 1,data & 0xff);
 	} };
 	
 	
