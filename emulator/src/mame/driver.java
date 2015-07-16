@@ -193,6 +193,8 @@ import static drivers.WIP.cabal.*;
 import static drivers.WIP.xmen.*;
 import static drivers.WIP.tmnt.*;
 import static drivers.WIP.toki.*;
+import static drivers.WIP.snk68.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2493,14 +2495,14 @@ driver_ssriders,
 /*TODO*/ //	DRIVER( hal21j )	/*            (c) 1985 (Japan) */
 /*TODO*/ //	DRIVER( aso )		/*            (c) 1985 */
        
-/*TODO*/ //	DRIVER( ikari3 )	/* A7007 'IK3'(c) 1989 */
-/*TODO*/ //	DRIVER( pow )		/* A7008 'DG' (c) 1988 */
-/*TODO*/ //	DRIVER( powj )		/* A7008 'DG' (c) 1988 */
-/*TODO*/ //	DRIVER( searchar )	/* A8007 'BH' (c) 1989 */
-/*TODO*/ //	DRIVER( sercharu )	/* A8007 'BH' (c) 1989 */
-/*TODO*/ //	DRIVER( streetsm )	/* A8007 'S2' (c) 1989 */
-/*TODO*/ //	DRIVER( streets1 )	/* A7008 'S2' (c) 1989 */
-/*TODO*/ //	DRIVER( streetsj )	/* A8007 'S2' (c) 1989 */
+driver_ikari3,
+driver_pow,
+driver_powj,
+driver_searchar,
+driver_sercharu,
+driver_streetsm,
+driver_streets1,
+driver_streetsj,
 	/* Mechanized Attack   A8002 'MA' (c) 1989 */
 /*TODO*/ //	DRIVER( prehisle )	/* A8003 'GT' (c) 1989 */
 /*TODO*/ //	DRIVER( prehislu )	/* A8003 'GT' (c) 1989 */
