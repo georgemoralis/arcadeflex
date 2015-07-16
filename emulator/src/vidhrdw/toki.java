@@ -231,33 +231,33 @@ public class toki
 	
 		for (offs = 0;offs < toki_sprites_dataram_size[0];offs += 8)
 		{
-			/*SprRegs = &toki_sprites_dataram[offs];
+			SprRegs = new UBytePtr(toki_sprites_dataram,offs);
 	
-			if (READ_WORD (&SprRegs[SPRITE_Y])==0xf100) break;
-			if (READ_WORD (&SprRegs[SPRITE_PAL_BANK]))
+			if (SprRegs.READ_WORD(SPRITE_Y)==0xf100) break;
+			if (SprRegs.READ_WORD(SPRITE_PAL_BANK)!=0)
 			{
 	
-				SprX = READ_WORD (&SprRegs[SPRITE_X]) & 0x1ff;
+				SprX = SprRegs.READ_WORD(SPRITE_X) & 0x1ff;
 				if (SprX > 256)
 					SprX -= 512;
 	
-				SprY = READ_WORD (&SprRegs[SPRITE_Y]) & 0x1ff;
+				SprY = SprRegs.READ_WORD(SPRITE_Y) & 0x1ff;
 				if (SprY > 256)
 				  SprY = (512-SprY)+240;
 				else
 		       		  SprY = 240-SprY;
 	
-				SprFlipX   = READ_WORD (&SprRegs[SPRITE_FLIP_X]) & 0x4000;
-				SprTile    = READ_WORD (&SprRegs[SPRITE_TILE]) & 0x1fff;
-				SprPalette = READ_WORD (&SprRegs[SPRITE_PAL_BANK])>>12;
+				SprFlipX   = SprRegs.READ_WORD(SPRITE_FLIP_X) & 0x4000;
+				SprTile    = SprRegs.READ_WORD(SPRITE_TILE) & 0x1fff;
+				SprPalette = SprRegs.READ_WORD(SPRITE_PAL_BANK)>>12;
 	
 				drawgfx (bitmap,Machine.gfx[1],
 						SprTile,
 						SprPalette,
 						SprFlipX,0,
 						SprX,SprY-1,
-						&Machine.drv.visible_area,TRANSPARENCY_PEN,15);
-			}*/
+						Machine.drv.visible_area,TRANSPARENCY_PEN,15);
+			}
 		}
 	}
 	

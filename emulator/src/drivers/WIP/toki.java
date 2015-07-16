@@ -37,7 +37,6 @@ import static mame.commonH.*;
 import static mame.palette.*;
 import static vidhrdw.toki.*;
 
-
 public class toki {
 
     static UBytePtr ram = new UBytePtr();
@@ -463,7 +462,7 @@ public class toki {
             ROM_LOAD_ODD("tokijp.004", 0x00000, 0x20000, 0x54a45e12);
             ROM_LOAD_EVEN("tokijp.005", 0x40000, 0x10000, 0xd6a82808);
             ROM_LOAD_ODD("tokijp.003", 0x40000, 0x10000, 0xa01a5b10);
-	
+
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for code */
             /* is this the Z80 code? maybe its encrypted */
 
@@ -504,7 +503,7 @@ public class toki {
             ROM_LOAD_ODD("4c.10k", 0x00000, 0x20000, 0xb2c345c5);
             ROM_LOAD_EVEN("tokijp.005", 0x40000, 0x10000, 0xd6a82808);
             ROM_LOAD_ODD("tokijp.003", 0x40000, 0x10000, 0xa01a5b10);
-	
+
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for code */
             /* is this the Z80 code? maybe its encrypted */
 
@@ -545,7 +544,7 @@ public class toki {
             ROM_LOAD_ODD("k10_4e.bin", 0x00000, 0x20000, 0x531bd3ef);
             ROM_LOAD_EVEN("tokijp.005", 0x40000, 0x10000, 0xd6a82808);
             ROM_LOAD_ODD("tokijp.003", 0x40000, 0x10000, 0xa01a5b10);
-	
+
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for code */
             /* is this the Z80 code? maybe its encrypted */
 
@@ -586,7 +585,7 @@ public class toki {
             ROM_LOAD_ODD("14.10k", 0x00000, 0x20000, 0xbfdd48af);
             ROM_LOAD_EVEN("tokijp.005", 0x40000, 0x10000, 0xd6a82808);
             ROM_LOAD_ODD("tokijp.003", 0x40000, 0x10000, 0xa01a5b10);
-	
+
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for code */
             /* is this the Z80 code? maybe its encrypted */
 
@@ -627,7 +626,7 @@ public class toki {
             ROM_LOAD_ODD("toki.e5", 0x00000, 0x20000, 0x66a5a1d6);
             ROM_LOAD_EVEN("tokijp.005", 0x40000, 0x10000, 0xd6a82808);
             ROM_LOAD_ODD("tokijp.003", 0x40000, 0x10000, 0xa01a5b10);
-	
+
             ROM_REGION(0x18000, REGION_CPU2);/* 64k for code + 32k for banked data */
 
             ROM_LOAD("toki.e1", 0x00000, 0x8000, 0x2832ef75);
@@ -678,40 +677,38 @@ public class toki {
 
     public static InitDriverPtr init_tokib = new InitDriverPtr() {
         public void handler() {
-            //TODO later
-           /* UBytePtr temp = malloc(65536 * 2);
+
+            UBytePtr temp = new UBytePtr(65536 * 2);
             int i, offs;
 
             /* invert the sprite data in the ROMs */
-          /*  for (i = 0; i < memory_region_length(REGION_GFX2); i++) {
-                memory_region(REGION_GFX2)[i] ^= 0xff;
+            for (i = 0; i < memory_region_length(REGION_GFX2); i++) {
+                memory_region(REGION_GFX2).write(i, memory_region(REGION_GFX2).read(i) ^ 0xff);
             }
 
             /* merge background tile graphics together */
-         /*   if (temp) {
+            if (temp != null) {
                 for (offs = 0; offs < memory_region_length(REGION_GFX3); offs += 0x20000) {
-                    UBytePtr base =  & memory_region(REGION_GFX3)[offs];
+                    UBytePtr base = new UBytePtr(memory_region(REGION_GFX3), offs);
                     memcpy(temp, base, 65536 * 2);
                     for (i = 0; i < 16; i++) {
-                        memcpy( & base[0x00000 + i * 0x800],  & temp[0x0000 + i * 0x2000], 0x800);
-                        memcpy( & base[0x10000 + i * 0x800],  & temp[0x0800 + i * 0x2000], 0x800);
-                        memcpy( & base[0x08000 + i * 0x800],  & temp[0x1000 + i * 0x2000], 0x800);
-                        memcpy( & base[0x18000 + i * 0x800],  & temp[0x1800 + i * 0x2000], 0x800);
+                        memcpy(base, 0x00000 + i * 0x800, temp, 0x0000 + i * 0x2000, 0x800);
+                        memcpy(base, 0x10000 + i * 0x800, temp, 0x0800 + i * 0x2000, 0x800);
+                        memcpy(base, 0x08000 + i * 0x800, temp, 0x1000 + i * 0x2000, 0x800);
+                        memcpy(base, 0x18000 + i * 0x800, temp, 0x1800 + i * 0x2000, 0x800);
                     }
                 }
                 for (offs = 0; offs < memory_region_length(REGION_GFX4); offs += 0x20000) {
-                    UBytePtr base =  & memory_region(REGION_GFX4)[offs];
+                    UBytePtr base = new UBytePtr(memory_region(REGION_GFX4), offs);
                     memcpy(temp, base, 65536 * 2);
                     for (i = 0; i < 16; i++) {
-                        memcpy( & base[0x00000 + i * 0x800],  & temp[0x0000 + i * 0x2000], 0x800);
-                        memcpy( & base[0x10000 + i * 0x800],  & temp[0x0800 + i * 0x2000], 0x800);
-                        memcpy( & base[0x08000 + i * 0x800],  & temp[0x1000 + i * 0x2000], 0x800);
-                        memcpy( & base[0x18000 + i * 0x800],  & temp[0x1800 + i * 0x2000], 0x800);
+                        memcpy(base, 0x00000 + i * 0x800, temp, 0x0000 + i * 0x2000, 0x800);
+                        memcpy(base, 0x10000 + i * 0x800, temp, 0x0800 + i * 0x2000, 0x800);
+                        memcpy(base, 0x08000 + i * 0x800, temp, 0x1000 + i * 0x2000, 0x800);
+                        memcpy(base, 0x18000 + i * 0x800, temp, 0x1800 + i * 0x2000, 0x800);
                     }
                 }
-
-                free(temp);
-            }*/
+            }
         }
     };
 
