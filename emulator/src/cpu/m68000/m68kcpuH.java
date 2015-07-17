@@ -911,8 +911,11 @@ public class m68kcpuH {
     public static boolean CONDITION_NOT_EQ() {
         return (get_CPU_NOT_Z() != 0);
     }
-    /*TODO*///#define CONDITION_VC     (CPU_V == 0)
-/*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
+
+    public static boolean CONDITION_VC() {
+        return (get_CPU_V() == 0);
+    }
+    /*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
 /*TODO*///#define CONDITION_VS     (CPU_V != 0)
 /*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
 
