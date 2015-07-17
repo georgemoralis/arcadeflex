@@ -22,7 +22,8 @@ import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.common.*;
 import static mame.cpuintrfH.*;
-
+import static mame.cpuintrf.*;
+import static mame.memoryH.*;
 
 public class tmnt {
 
@@ -40,21 +41,19 @@ public class tmnt {
 /*TODO*///
 /*TODO*////* Missing in Action */
 /*TODO*///
-/*TODO*///static void mia_tile_callback(int layer,int bank,int *code,int *color)
-/*TODO*///{
-/*TODO*///	tile_info.flags = (*color & 0x04) ? TILE_FLIPX : 0;
-/*TODO*///	if (layer == 0)
-/*TODO*///	{
-/*TODO*///		*code |= ((*color & 0x01) << 8);
-/*TODO*///		*color = layer_colorbase[layer] + ((*color & 0x80) >> 5) + ((*color & 0x10) >> 1);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		*code |= ((*color & 0x01) << 8) | ((*color & 0x18) << 6) | (bank << 11);
-/*TODO*///		*color = layer_colorbase[layer] + ((*color & 0xe0) >> 5);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    public static K052109_callbackProcPtr mia_tile_callback = new K052109_callbackProcPtr() {
+        public void handler(int layer, int bank, int[] code, int[] color) {
+
+            tile_info.flags = (color[0] & 0x04) != 0 ? (char) TILE_FLIPX : (char) 0;
+            if (layer == 0) {
+                code[0] |= ((color[0] & 0x01) << 8);
+                color[0] = layer_colorbase[layer] + ((color[0] & 0x80) >> 5) + ((color[0] & 0x10) >> 1);
+            } else {
+                code[0] |= ((color[0] & 0x01) << 8) | ((color[0] & 0x18) << 6) | (bank << 11);
+                color[0] = layer_colorbase[layer] + ((color[0] & 0xe0) >> 5);
+            }
+        }
+    };
     public static K052109_callbackProcPtr tmnt_tile_callback = new K052109_callbackProcPtr() {
         public void handler(int layer, int bank, int[] code, int[] color) {
             code[0] |= ((color[0] & 0x03) << 8) | ((color[0] & 0x10) << 6) | ((color[0] & 0x0c) << 9)
@@ -81,12 +80,12 @@ public class tmnt {
 /*TODO*///
 /*TODO*///***************************************************************************/
 /*TODO*///
-/*TODO*///static void mia_sprite_callback(int *code,int *color,int *priority)
-/*TODO*///{
-/*TODO*///	*color = sprite_colorbase + (*color & 0x0f);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void tmnt_sprite_callback(int *code,int *color,int *priority)
+    public static K051960_callbackProcPtr mia_sprite_callback = new K051960_callbackProcPtr() {
+        public void handler(int[] code, int[] color, int[] priority) {
+            color[0] = sprite_colorbase + (color[0] & 0x0f);
+        }
+    };
+    /*TODO*///static void tmnt_sprite_callback(int *code,int *color,int *priority)
 /*TODO*///{
 /*TODO*///	*code |= (*color & 0x10) << 9;
 /*TODO*///	*color = sprite_colorbase + (*color & 0x0f);
@@ -138,22 +137,23 @@ public class tmnt {
 /*TODO*///
 /*TODO*///***************************************************************************/
 /*TODO*///
-/*TODO*///int mia_vh_start(void)
-/*TODO*///{
-/*TODO*///	layer_colorbase[0] = 0;
-/*TODO*///	layer_colorbase[1] = 32;
-/*TODO*///	layer_colorbase[2] = 40;
-/*TODO*///	sprite_colorbase = 16;
-/*TODO*///	if (K052109_vh_start(REGION_GFX1,NORMAL_PLANE_ORDER,mia_tile_callback))
-/*TODO*///		return 1;
-/*TODO*///	if (K051960_vh_start(REGION_GFX2,REVERSE_PLANE_ORDER,mia_sprite_callback))
-/*TODO*///	{
-/*TODO*///		K052109_vh_stop();
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+    public static VhStartPtr mia_vh_start = new VhStartPtr() {
+        public int handler() {
+            layer_colorbase[0] = 0;
+            layer_colorbase[1] = 32;
+            layer_colorbase[2] = 40;
+            sprite_colorbase = 16;
+            if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, mia_tile_callback) != 0) {
+                return 1;
+            }
+            if (K051960_vh_start(REGION_GFX2, 3, 2, 1, 0/*REVERSE_PLANE_ORDER*/, mia_sprite_callback) != 0) {
+                K052109_vh_stop();
+                return 1;
+            }
+            return 0;
+        }
+    };
+    /*TODO*///
 /*TODO*///int tmnt_vh_start(void)
 /*TODO*///{
 /*TODO*///	layer_colorbase[0] = 0;
@@ -231,12 +231,12 @@ public class tmnt {
 /*TODO*///	return 0;
 /*TODO*///}
 /*TODO*///
-/*TODO*///void punkshot_vh_stop(void)
-/*TODO*///{
-/*TODO*///	K052109_vh_stop();
-/*TODO*///	K051960_vh_stop();
-/*TODO*///}
-/*TODO*///
+    public static VhStopPtr punkshot_vh_stop = new VhStopPtr() {
+        public void handler() {
+            K052109_vh_stop();
+            K051960_vh_stop();
+        }
+    };
     public static VhStopPtr lgtnfght_vh_stop = new VhStopPtr() {
         public void handler() {
             K052109_vh_stop();
@@ -270,56 +270,56 @@ public class tmnt {
 /*TODO*///
 /*TODO*///***************************************************************************/
 /*TODO*///
-/*TODO*///void tmnt_paletteram_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
-/*TODO*///	int newword = COMBINE_WORD(oldword,data);
-/*TODO*///	WRITE_WORD(&paletteram[offset],newword);
-/*TODO*///
-/*TODO*///	offset /= 4;
-/*TODO*///	{
-/*TODO*///		int palette = ((READ_WORD(&paletteram[offset * 4]) & 0x00ff) << 8)
-/*TODO*///				+ (READ_WORD(&paletteram[offset * 4 + 2]) & 0x00ff);
-/*TODO*///		int r = palette & 31;
-/*TODO*///		int g = (palette >> 5) & 31;
-/*TODO*///		int b = (palette >> 10) & 31;
-/*TODO*///
-/*TODO*///		r = (r << 3) + (r >> 2);
-/*TODO*///		g = (g << 3) + (g >> 2);
-/*TODO*///		b = (b << 3) + (b >> 2);
-/*TODO*///
-/*TODO*///		palette_change_color (offset,r,g,b);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///void tmnt_0a0000_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	if ((data & 0x00ff0000) == 0)
-/*TODO*///	{
-/*TODO*///		static int last;
-/*TODO*///
-/*TODO*///		/* bit 0/1 = coin counters */
-/*TODO*///		coin_counter_w(0,data & 0x01);
-/*TODO*///		coin_counter_w(1,data & 0x02);	/* 2 players version */
-/*TODO*///
-/*TODO*///		/* bit 3 high then low triggers irq on sound CPU */
-/*TODO*///		if (last == 0x08 && (data & 0x08) == 0)
-/*TODO*///			cpu_cause_interrupt(1,0xff);
-/*TODO*///
-/*TODO*///		last = data & 0x08;
-/*TODO*///
-/*TODO*///		/* bit 5 = irq enable */
-/*TODO*///		interrupt_enable_w(0,data & 0x20);
-/*TODO*///
-/*TODO*///		/* bit 7 = enable char ROM reading through the video RAM */
-/*TODO*///		K052109_set_RMRD_line((data & 0x80) ? ASSERT_LINE : CLEAR_LINE);
-/*TODO*///
-/*TODO*///		/* other bits unused */
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    public static WriteHandlerPtr tmnt_paletteram_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int oldword = paletteram.READ_WORD(offset);
+            int newword = COMBINE_WORD(oldword, data);
+            paletteram.WRITE_WORD(offset, newword);
+
+            offset /= 4;
+            {
+                int palette = ((paletteram.READ_WORD(offset * 4) & 0x00ff) << 8)
+                        + (paletteram.READ_WORD(offset * 4 + 2) & 0x00ff);
+                int r = palette & 31;
+                int g = (palette >> 5) & 31;
+                int b = (palette >> 10) & 31;
+
+                r = (r << 3) + (r >> 2);
+                g = (g << 3) + (g >> 2);
+                b = (b << 3) + (b >> 2);
+
+                palette_change_color(offset, r, g, b);
+            }
+        }
+    };
+
+    static int last_tmnt;
+    public static WriteHandlerPtr tmnt_0a0000_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if ((data & 0x00ff0000) == 0) {
+
+                /* bit 0/1 = coin counters */
+                coin_counter_w.handler(0, data & 0x01);
+                coin_counter_w.handler(1, data & 0x02);	/* 2 players version */
+
+                /* bit 3 high then low triggers irq on sound CPU */
+                if (last_tmnt == 0x08 && (data & 0x08) == 0) {
+                    cpu_cause_interrupt(1, 0xff);
+                }
+
+                last_tmnt = data & 0x08;
+
+                /* bit 5 = irq enable */
+                interrupt_enable_w.handler(0, data & 0x20);
+
+                /* bit 7 = enable char ROM reading through the video RAM */
+                K052109_set_RMRD_line((data & 0x80) != 0 ? ASSERT_LINE : CLEAR_LINE);
+
+                /* other bits unused */
+            }
+        }
+    };
+    /*TODO*///
 /*TODO*///void punkshot_0a0020_w(int offset,int data)
 /*TODO*///{
 /*TODO*///	if ((data & 0x00ff0000) == 0)
@@ -400,21 +400,21 @@ public class tmnt {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-	public static WriteHandlerPtr ssriders_1c0300_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		if ((data & 0x00ff0000) == 0)
-		{
-			/* bit 0,1 = coin counter */
-			coin_counter_w.handler(0,data & 0x01);
-			coin_counter_w.handler(1,data & 0x02);
-	
-			/* bit 3 = enable char ROM reading through the video RAM */
-			K052109_set_RMRD_line((data & 0x08)!=0 ? ASSERT_LINE : CLEAR_LINE);
-	
-			/* other bits unknown (bits 4-6 used in TMNT2) */
-		}
-	} };
-/*TODO*///
+    public static WriteHandlerPtr ssriders_1c0300_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if ((data & 0x00ff0000) == 0) {
+                /* bit 0,1 = coin counter */
+                coin_counter_w.handler(0, data & 0x01);
+                coin_counter_w.handler(1, data & 0x02);
+
+                /* bit 3 = enable char ROM reading through the video RAM */
+                K052109_set_RMRD_line((data & 0x08) != 0 ? ASSERT_LINE : CLEAR_LINE);
+
+                /* other bits unknown (bits 4-6 used in TMNT2) */
+            }
+        }
+    };
+    /*TODO*///
 /*TODO*///
 /*TODO*///
 /*TODO*///void tmnt_priority_w(int offset,int data)
@@ -467,24 +467,30 @@ public class tmnt {
 /*TODO*///	SWAP(1,2)
 /*TODO*///}
 /*TODO*///
-/*TODO*///void mia_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
-/*TODO*///{
-/*TODO*///	K052109_tilemap_update();
-/*TODO*///
-/*TODO*///	palette_init_used_colors();
-/*TODO*///	K051960_mark_sprites_colors();
-/*TODO*///	if (palette_recalc())
-/*TODO*///		tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	tilemap_render(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	K052109_tilemap_draw(bitmap,2,TILEMAP_IGNORE_TRANSPARENCY);
-/*TODO*///	if ((priorityflag & 1) == 1) K051960_sprites_draw(bitmap,0,0);
-/*TODO*///	K052109_tilemap_draw(bitmap,1,0);
-/*TODO*///	if ((priorityflag & 1) == 0) K051960_sprites_draw(bitmap,0,0);
-/*TODO*///	K052109_tilemap_draw(bitmap,0,0);
-/*TODO*///}
-/*TODO*///
+    public static VhUpdatePtr mia_vh_screenrefresh = new VhUpdatePtr() {
+        public void handler(osd_bitmap bitmap, int full_refresh) {
+            K052109_tilemap_update();
+
+            palette_init_used_colors();
+            K051960_mark_sprites_colors();
+            if (palette_recalc() != null) {
+                tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
+            }
+
+            tilemap_render(ALL_TILEMAPS);
+
+            K052109_tilemap_draw(bitmap, 2, TILEMAP_IGNORE_TRANSPARENCY);
+            if ((priorityflag & 1) == 1) {
+                K051960_sprites_draw(bitmap, 0, 0);
+            }
+            K052109_tilemap_draw(bitmap, 1, 0);
+            if ((priorityflag & 1) == 0) {
+                K051960_sprites_draw(bitmap, 0, 0);
+            }
+            K052109_tilemap_draw(bitmap, 0, 0);
+        }
+    };
+    /*TODO*///
 /*TODO*///void tmnt_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
 /*TODO*///{
 /*TODO*///	K052109_tilemap_update();
@@ -658,6 +664,7 @@ public class tmnt {
             for (i = 0; i < 128; i++) {
                 if ((K053245_word_r.handler(16 * i) & 0x8000) != 0 && (K053245_word_r.handler(16 * i + 2) & 0x8000) == 0) {
                     K053245_word_w.handler(16 * i, 0xff000000 | i);	/* workaround for protection */
+
                 }
             }
 

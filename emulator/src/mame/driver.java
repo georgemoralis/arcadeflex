@@ -2275,8 +2275,8 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( grdius3a )	/* GX945 (c) 1989 (Asia) */
 
 	/* (some) Konami 68000 games */
-/*TODO*/ //	DRIVER( mia )		/* GX808 (c) 1989 */
-/*TODO*/ //	DRIVER( mia2 )		/* GX808 (c) 1989 */
+driver_mia,
+driver_mia2,
 /*TODO*/ //	DRIVER( tmnt )		/* GX963 (c) 1989 (US) */
 /*TODO*/ //	DRIVER( tmht )		/* GX963 (c) 1989 (UK) */
 /*TODO*/ //	DRIVER( tmntj )		/* GX963 (c) 1989 (Japan) */
