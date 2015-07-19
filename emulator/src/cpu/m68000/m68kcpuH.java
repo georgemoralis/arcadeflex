@@ -922,8 +922,11 @@ public class m68kcpuH {
         return (get_CPU_V() == 0);
     }
     /*TODO*///#define CONDITION_NOT_VC (CPU_V != 0)
-/*TODO*///#define CONDITION_VS     (CPU_V != 0)
-/*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
+
+    public static boolean CONDITION_VS() {
+        return (get_CPU_V() != 0);
+    }
+    /*TODO*///#define CONDITION_NOT_VS (CPU_V == 0)
 
     public static boolean CONDITION_PL() {
         return (get_CPU_N() == 0);
