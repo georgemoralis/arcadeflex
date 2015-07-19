@@ -194,6 +194,7 @@ import static drivers.WIP.xmen.*;
 import static drivers.WIP.tmnt.*;
 import static drivers.WIP.toki.*;
 import static drivers.WIP.snk68.*;
+import static drivers.WIP.ddragon3.*;
 
 
 public class driver {
@@ -2536,12 +2537,12 @@ driver_streetsj,
 /*TODO*/ //	DRIVER( battlan2 )	/* TA-???? (c) 1986 + Taito license */
 /*TODO*/ //	DRIVER( battlan3 )	/* TA-???? (c) 1986 + Taito license */
 
-/*TODO*/ //	DRIVER( ctribe )	/* TA-0028 (c) 1990 (US) */
-/*TODO*/ //	DRIVER( ctribeb )	/* bootleg */
+driver_ctribe,
+driver_ctribeb,
 /*TODO*/ //	DRIVER( blockout )	/* TA-0029 (c) 1989 + California Dreams */
 /*TODO*/ //	DRIVER( blckout2 )	/* TA-0029 (c) 1989 + California Dreams */
-/*TODO*/ //	DRIVER( ddragon3 )	/* TA-0030 (c) 1990 */
-/*TODO*/ //	DRIVER( ddrago3b )	/* bootleg */
+driver_ddragon3,
+driver_ddrago3b,
 	/* TA-0031 WWF Wrestlefest */
 
 	/* Stern "Berzerk hardware" games */
