@@ -258,8 +258,11 @@ public class m68kcpuH {
     public static long GET_MSB_16(long A) {
         return ((A) & 0x8000L);
     }
-    /*TODO*///#define GET_MSB_17(A) ((A) & 0x10000)
-/*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
+
+    public static long GET_MSB_17(long A) {
+        return ((A) & 0x10000L);
+    }
+    /*TODO*///#define GET_MSB_32(A) ((A) & 0x80000000)
 
     public static long GET_MSB_32(long A) {
         return ((A) & 0x80000000L);
@@ -391,7 +394,10 @@ public class m68kcpuH {
     public static long ROL_16(long A, long C) {
         return MASK_OUT_ABOVE_16(LSL(A, C) | LSR(A, 16 - (C)));
     }
-    /*TODO*///#define ROL_17(A, C)                      LSL(A, C) | LSR(A, 17-(C))
+
+    public static long ROL_17(long A, long C) {
+        return LSL(A, C) | LSR(A, 17 - (C));
+    }
 
     public static long ROL_32(long A, long C) {
         return MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32 - (C)));
