@@ -144,7 +144,7 @@ public class palette {
                 palette_dirty.write(mem, 0);
             }
             pen_cachedcount = new IntSubArray(pen_visiblecount, (int) Machine.drv.total_colors);
-    		//memset(pen_visiblecount,0,Machine.drv.total_colors /* * sizeof(int)*/);
+            //memset(pen_visiblecount,0,Machine.drv.total_colors /* * sizeof(int)*/);
             //memset(pen_cachedcount,0,Machine.drv.total_colors /* * sizeof(int)*/);
             for (int i = 0; i < Machine.drv.total_colors; i++) {
                 pen_visiblecount.write(i, 0);
@@ -414,6 +414,7 @@ public class palette {
 
             if (color == -1) {
                 return;	/* by default, palette_transparent_color is -1 */
+
             }
 
             for (i = 0; i < Machine.drv.total_colors; i++) {
@@ -470,6 +471,7 @@ public class palette {
 
             if (color == -1) {
                 return;	/* by default, palette_transparent_color is -1 */
+
             }
         }
 
@@ -1152,12 +1154,11 @@ public class palette {
             return paletteram.READ_WORD(offset);
         }
     };
-
-    /*TODO*///
-    /*TODO*///int paletteram_2_word_r(int offset)
-    /*TODO*///{
-    /*TODO*///	return READ_WORD(&paletteram_2[offset]);
-    /*TODO*///}
+    public static ReadHandlerPtr paletteram_2_word_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return paletteram_2.READ_WORD(offset);
+        }
+    };
     public static WriteHandlerPtr paletteram_RRRGGGBB_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
 

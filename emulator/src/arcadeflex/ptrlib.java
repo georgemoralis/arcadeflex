@@ -93,6 +93,8 @@ public class ptrlib {
         }
 
         public char read(int index) {
+            //if(offset+index>memory.length-1)
+            //    return 0;
             return (char) (memory[offset + index] & 0xFF); //return only the first 8bits
         }
 

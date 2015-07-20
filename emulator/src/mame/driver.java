@@ -197,6 +197,7 @@ import static drivers.WIP.snk68.*;
 import static drivers.WIP.ddragon3.*;
 import static drivers.WIP.galpanic.*;
 import static drivers.WIP.tumblep.*;
+import static drivers.WIP.dec0.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2131,25 +2132,25 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( chelnov )	/* (c) 1988 Data East USA (US) */
 /*TODO*/ //	DRIVER( chelnovj )	/* (c) 1988 Data East Corporation (Japan) */
 /* the following ones all run on similar hardware */
-/*TODO*/ //	DRIVER( hbarrel )	/* (c) 1987 Data East USA (US) */
-/*TODO*/ //	DRIVER( hbarrelw )	/* (c) 1987 Data East Corporation (World) */
-/*TODO*/ //	DRIVER( baddudes )	/* (c) 1988 Data East USA (US) */
-/*TODO*/ //	DRIVER( drgninja )	/* (c) 1988 Data East Corporation (Japan) */
+driver_hbarrel,
+driver_hbarrelw,
+driver_baddudes,
+driver_drgninja,
 /*TODO*/ //TESTDRIVER( birdtry )	/* (c) 1988 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( robocop )	/* (c) 1988 Data East Corporation (World) */
-/*TODO*/ //	DRIVER( robocopu )	/* (c) 1988 Data East USA (US) */
-/*TODO*/ //	DRIVER( robocpu0 )	/* (c) 1988 Data East USA (US) */
-/*TODO*/ //	DRIVER( robocopb )	/* bootleg */
-/*TODO*/ //	DRIVER( hippodrm )	/* (c) 1989 Data East USA (US) */
-/*TODO*/ //	DRIVER( ffantasy )	/* (c) 1989 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( slyspy )	/* (c) 1989 Data East USA (US) */
-/*TODO*/ //	DRIVER( slyspy2 )	/* (c) 1989 Data East USA (US) */
-/*TODO*/ //	DRIVER( secretag )	/* (c) 1989 Data East Corporation (World) */
+driver_robocop,
+driver_robocopu,
+driver_robocpu0,
+driver_robocopb,
+driver_hippodrm,
+driver_ffantasy,
+driver_slyspy,
+driver_slyspy2,
+driver_secretag,
 /*TODO*/ //TESTDRIVER( secretab )	/* bootleg */
-/*TODO*/ //	DRIVER( midres )	/* (c) 1989 Data East Corporation (World) */
-/*TODO*/ //	DRIVER( midresu )	/* (c) 1989 Data East USA (US) */
-/*TODO*/ //	DRIVER( midresj )	/* (c) 1989 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( bouldash )	/* (c) 1990 Data East Corporation */
+driver_midres,
+driver_midresu,
+driver_midresj,
+driver_bouldash,
 /* end of similar hardware */
 /*TODO*/ //	DRIVER( stadhero )	/* (c) 1988 Data East Corporation (Japan) */
 /*TODO*/ //	DRIVER( madmotor )	/* (c) [1989] Mitchell */
