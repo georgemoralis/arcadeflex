@@ -777,6 +777,10 @@ public class m68kcpuH {
         return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]++;
     }
     /*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
+    public static long EA_PI7_8()
+    {
+        return ((m68k_cpu.ar[7]+=2)-2);
+    }
 /*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
 
     public static long EA_PI_16() {
@@ -793,6 +797,10 @@ public class m68kcpuH {
         return --m68k_cpu.ar[(int) (get_CPU_IR() & 7)];
     }
     /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
+    public static long EA_PD7_8()
+    {
+        return (m68k_cpu.ar[7]-=2);
+    }
 /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 
     public static long EA_PD_16() {
