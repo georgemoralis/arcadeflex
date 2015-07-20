@@ -196,6 +196,7 @@ import static drivers.WIP.toki.*;
 import static drivers.WIP.snk68.*;
 import static drivers.WIP.ddragon3.*;
 import static drivers.WIP.galpanic.*;
+import static drivers.WIP.tumblep.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2177,10 +2178,10 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 	/* Desert Assault/Thunderzone MAJ (c) 1991 */
 	/* Rohga Armour Attack/Wolf Fang MAM (c) 1991 */
 	/* Captain America     MAN (c) 1991 */
-/*TODO*/ //	DRIVER( tumblep )	/* MAP (c) 1991 Data East Corporation (World) */
-/*TODO*/ //	DRIVER( tumblepj )	/* MAP (c) 1991 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( tumblepb )	/* bootleg */
-/*TODO*/ //	DRIVER( tumblep2 )	/* bootleg */
+driver_tumblep,
+driver_tumblepj,
+driver_tumblepb,
+driver_tumblep2,
 /*TODO*/ //TESTDRIVER( funkyjet )	/* MAT (c) 1992 Mitchell */
 
 
