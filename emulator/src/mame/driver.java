@@ -195,7 +195,7 @@ import static drivers.WIP.tmnt.*;
 import static drivers.WIP.toki.*;
 import static drivers.WIP.snk68.*;
 import static drivers.WIP.ddragon3.*;
-
+import static drivers.WIP.galpanic.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2724,7 +2724,7 @@ driver_tokib,
 /*TODO*/ //TESTDRIVER( shogwarr )
 
 	/* other Kaneko games */
-/*TODO*/ //	DRIVER( galpanic )	/* (c) 1990 Kaneko */
+driver_galpanic,
 
 
 /*TODO*/ //	DRIVER( spacefb )	/* (c) [1980?] Nintendo */
