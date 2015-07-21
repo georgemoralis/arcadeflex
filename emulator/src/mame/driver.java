@@ -198,6 +198,8 @@ import static drivers.WIP.ddragon3.*;
 import static drivers.WIP.galpanic.*;
 import static drivers.WIP.tumblep.*;
 import static drivers.WIP.dec0.*;
+import static drivers.WIP.kaneko16.*;
+import static drivers.WIP.prehisle.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2507,9 +2509,9 @@ driver_streetsm,
 driver_streets1,
 driver_streetsj,
 	/* Mechanized Attack   A8002 'MA' (c) 1989 */
-/*TODO*/ //	DRIVER( prehisle )	/* A8003 'GT' (c) 1989 */
-/*TODO*/ //	DRIVER( prehislu )	/* A8003 'GT' (c) 1989 */
-/*TODO*/ //	DRIVER( gensitou )	/* A8003 'GT' (c) 1989 */
+driver_prehisle,
+driver_prehislu,
+driver_gensitou,
 	/* Beast Busters       A9003 'BB' (c) 1989 */
 
 	/* SNK / Alpha 68K games */
@@ -2718,10 +2720,10 @@ driver_tokib,
 /*TODO*/ //	DRIVER( splash )	/* (c) 1992 Gaelco */
 
 	/* Kaneko "AX System" games */
-/*TODO*/ //	DRIVER( berlwall )	/* (c) 1991 Kaneko */
-/*TODO*/ //	DRIVER( berlwalt )	/* (c) 1991 Kaneko */
-/*TODO*/ //	DRIVER( gtmr )		/* (c) 1994 Kaneko */
-/*TODO*/ //	DRIVER( gtmre )		/* (c) 1994 Kaneko */
+driver_berlwall,
+driver_berlwalt,
+driver_gtmr,
+driver_gtmre,
 /*TODO*/ //TESTDRIVER( gtmr2 )
 /*TODO*/ //TESTDRIVER( shogwarr )
 

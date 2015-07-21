@@ -416,7 +416,10 @@ public class m68kcpuH {
     public static long ROR_16(long A, long C) {
         return MASK_OUT_ABOVE_16(LSR(A, C) | LSL(A, 16 - (C)));
     }
-    /*TODO*///#define ROR_17(A, C)                      LSR(A, C) | LSL(A, 17-(C))
+
+    public static long ROR_17(long A, long C) {
+        return LSR(A, C) | LSL(A, 17 - (C));
+    }
 
     public static long ROR_32(long A, long C) {
         return MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32 - (C)));
@@ -777,11 +780,11 @@ public class m68kcpuH {
         return m68k_cpu.ar[(int) (get_CPU_IR() & 7)]++;
     }
     /*TODO*///#define EA_PI7_8 ((CPU_A[7]+=2)-2)                     /* postincrement (size = byte & AR = 7) */
-    public static long EA_PI7_8()
-    {
-        return ((m68k_cpu.ar[7]+=2)-2);
+
+    public static long EA_PI7_8() {
+        return ((m68k_cpu.ar[7] += 2) - 2);
     }
-/*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
+    /*TODO*///#define EA_PI_16 ((AY+=2)-2)                           /* postincrement (size = word) */
 
     public static long EA_PI_16() {
         return ((m68k_cpu.ar[(int) (get_CPU_IR() & 7)] += 2) - 2);
@@ -797,11 +800,11 @@ public class m68kcpuH {
         return --m68k_cpu.ar[(int) (get_CPU_IR() & 7)];
     }
     /*TODO*///#define EA_PD7_8 (CPU_A[7]-=2)                         /* predecrement (size = byte & AR = 7) */
-    public static long EA_PD7_8()
-    {
-        return (m68k_cpu.ar[7]-=2);
+
+    public static long EA_PD7_8() {
+        return (m68k_cpu.ar[7] -= 2);
     }
-/*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
+    /*TODO*///#define EA_PD_16 (AY-=2)                               /* predecrement (size = word) */
 
     public static long EA_PD_16() {
         return m68k_cpu.ar[(int) (get_CPU_IR() & 7)] -= 2;
