@@ -3,6 +3,13 @@ package vidhrdw;
 import static arcadeflex.ptrlib.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
+import static mame.common.*;
+import static mame.commonH.*;
+import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.*;
+import static mame.mame.*;
+import static drivers.WIP.cps1.*;
+import static mame.memoryH.*;
 
 public class cps1 {
 
@@ -177,56 +184,31 @@ public class cps1 {
                 new CPS1config("rockmanj", 0x00, 0x0000, 0x00, 0x00, 0x00, 0x00, 0x66, 0x68, 0x6a, 0x6c, 0x6e, 0x70, 0x02, 0x04, 0x08, 0, 0, 0, -1, 0x0000, 0xffff, 0x0000, 0xffff, 0),
                 new CPS1config("sfzch", 0x00, 0x0000, 0x00, 0x00, 0x00, 0x00, 0x66, 0x68, 0x6a, 0x6c, 0x6e, 0x70, 0x02, 0x04, 0x08, 0, 0, 0, -1, 0x0000, 0xffff, 0x0000, 0xffff, 0),
                 null /* End of table */};
-    /*TODO*///
-/*TODO*///static void cps1_init_machine(void)
-/*TODO*///{
-/*TODO*///	const char *gamename = Machine->gamedrv->name;
-/*TODO*///	unsigned char *RAM = memory_region(REGION_CPU1);
-/*TODO*///
-/*TODO*///
-/*TODO*///	struct CPS1config *pCFG=&cps1_config_table[0];
-/*TODO*///	while(pCFG->name)
-/*TODO*///	{
-/*TODO*///		if (strcmp(pCFG->name, gamename) == 0)
-/*TODO*///		{
-/*TODO*///			break;
-/*TODO*///		}
-/*TODO*///		pCFG++;
-/*TODO*///	}
-/*TODO*///	cps1_game_config=pCFG;
-/*TODO*///
-/*TODO*///	if (strcmp(gamename, "sf2rb" )==0)
-/*TODO*///	{
-/*TODO*///		/* Patch out protection check */
-/*TODO*///		WRITE_WORD(&RAM[0xe5464],0x6012);
-/*TODO*///	}
-/*TODO*///#if 0
-/*TODO*///	else if (strcmp(gamename, "ghouls" )==0)
-/*TODO*///	{
-/*TODO*///		/* Patch out self-test... it takes forever */
-/*TODO*///		WRITE_WORD(&RAM[0x61964+0], 0x4ef9);
-/*TODO*///		WRITE_WORD(&RAM[0x61964+2], 0x0000);
-/*TODO*///		WRITE_WORD(&RAM[0x61964+4], 0x0400);
-/*TODO*///	}
-/*TODO*///#endif
-/*TODO*///  /*
-/*TODO*///	else if (strcmp(gamename, "slammast" )==0 || strcmp(gamename, "mbomberj" )==0)
-/*TODO*///	{
-/*TODO*///		WRITE_WORD(&RAM[0x0fbe], 0x4e75);
-/*TODO*///	}
-/*TODO*///	else if (strcmp(gamename, "mbombrd" )==0 || strcmp(gamename, "mbombrdj" )==0)
-/*TODO*///	{
-/*TODO*///		WRITE_WORD(&RAM[0x0f1a], 0x4e75);
-/*TODO*///	}
-/*TODO*///    */
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///INLINE int cps1_port(int offset)
-/*TODO*///{
-/*TODO*///    return READ_WORD(&cps1_output[offset]);
-/*TODO*///}
+
+    static void cps1_init_machine() {
+        String gamename = Machine.gamedrv.name;
+        UBytePtr RAM = memory_region(REGION_CPU1);
+
+        int ptr = 0;
+        while (cps1_config_table[ptr] != null) {
+            if (strcmp(cps1_config_table[ptr].name, gamename) == 0) {
+                break;
+            }
+            ptr++;
+        }
+        cps1_game_config = cps1_config_table[ptr];
+        //System.out.println("game name " + gamename);
+        //System.out.println("loaded " + cps1_game_config.name);
+        if (strcmp(gamename, "sf2rb") == 0) {
+            /* Patch out protection check */
+            RAM.WRITE_WORD(0xe5464, 0x6012);
+
+        }
+    }
+        public static ReadHandlerPtr cps1_port = new ReadHandlerPtr() { public int handler(int offset)
+	{
+	    return cps1_output.READ_WORD(offset);
+	} };
 /*TODO*///
 /*TODO*///INLINE unsigned char * cps1_base(int offset,int boundary)
 /*TODO*///{
@@ -248,77 +230,42 @@ public class cps1 {
 
     public static ReadHandlerPtr cps1_output_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            /*TODO*///int cps1_output_r(int offset)
-/*TODO*///{
-/*TODO*///#if VERBOSE
-/*TODO*///if (errorlog && offset >= 0x18) fprintf(errorlog,"PC %06x: read output port %02x\n",cpu_get_pc(),offset);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	/* Some games interrogate a couple of registers on bootup. */
-/*TODO*///	/* These are CPS1 board B self test checks. They wander from game to */
-/*TODO*///	/* game. */
-/*TODO*///	if (offset && offset == cps1_game_config->cpsb_addr)
-/*TODO*///		return cps1_game_config->cpsb_value;
-/*TODO*///
-/*TODO*///	/* some games use as a protection check the ability to do 16-bit multiplies */
-/*TODO*///	/* with a 32-bit result, by writing the factors to two ports and reading the */
-/*TODO*///	/* result from two other ports. */
-/*TODO*///	if (offset && offset == cps1_game_config->mult_result_lo)
-/*TODO*///        return (READ_WORD(&cps1_output[cps1_game_config->mult_factor1]) *
-/*TODO*///				READ_WORD(&cps1_output[cps1_game_config->mult_factor2])) & 0xffff;
-/*TODO*///	if (offset && offset == cps1_game_config->mult_result_hi)
-/*TODO*///		return (READ_WORD(&cps1_output[cps1_game_config->mult_factor1]) *
-/*TODO*///				READ_WORD(&cps1_output[cps1_game_config->mult_factor2])) >> 16;
-/*TODO*///
-/*TODO*///	/* Pang 3 EEPROM interface */
-/*TODO*///	if (cps1_game_config->kludge == 5 && offset == 0x7a)
-/*TODO*///		return cps1_eeprom_port_r(0);
-/*TODO*///
+            /* Some games interrogate a couple of registers on bootup. */
+            /* These are CPS1 board B self test checks. They wander from game to */
+            /* game. */
+            if (offset != 0 && offset == cps1_game_config.cpsb_addr) {
+                return cps1_game_config.cpsb_value;
+            }
+
+            /* some games use as a protection check the ability to do 16-bit multiplies */
+            /* with a 32-bit result, by writing the factors to two ports and reading the */
+            /* result from two other ports. */
+            if (offset != 0 && offset == cps1_game_config.mult_result_lo) {
+                return (cps1_output.READ_WORD(cps1_game_config.mult_factor1)
+                        * cps1_output.READ_WORD(cps1_game_config.mult_factor2)) & 0xffff;
+            }
+            if (offset != 0 && offset == cps1_game_config.mult_result_hi) {
+                return (cps1_output.READ_WORD(cps1_game_config.mult_factor1)
+                        * cps1_output.READ_WORD(cps1_game_config.mult_factor2)) >> 16;
+            }
+
+            /* Pang 3 EEPROM interface */
+            if (cps1_game_config.kludge == 5 && offset == 0x7a) {
+                return cps1_eeprom_port_r.handler(0);
+            }
+
             return cps1_output.READ_WORD(offset);
         }
     };
     public static WriteHandlerPtr cps1_output_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /*TODO*///#if VERBOSE
-/*TODO*///if (errorlog && offset >= 0x18 && //offset != 0x22 &&
-/*TODO*///		offset != cps1_game_config->layer_control &&
-/*TODO*///		offset != cps1_game_config->priority0 &&
-/*TODO*///		offset != cps1_game_config->priority1 &&
-/*TODO*///		offset != cps1_game_config->priority2 &&
-/*TODO*///		offset != cps1_game_config->priority3 &&
-/*TODO*///		offset != cps1_game_config->control_reg)
-/*TODO*///	fprintf(errorlog,"PC %06x: write %02x to output port %02x\n",cpu_get_pc(),data,offset);
-/*TODO*///
-/*TODO*///#ifdef MAME_DEBUG
-/*TODO*///if (offset == 0x22 && (data & ~0x8001) != 0x0e)
-/*TODO*///{
-/*TODO*///	char baf[40];
-/*TODO*///	sprintf(baf,"port 22 = %02x",data);
-/*TODO*///	usrintf_showmessage(baf);
-/*TODO*///}
-/*TODO*///if (cps1_game_config->priority0 && offset == cps1_game_config->priority0 && data != 0x00)
-/*TODO*///{
-/*TODO*///	char baf[40];
-/*TODO*///	sprintf(baf,"priority0 %04x",data);
-/*TODO*///	usrintf_showmessage(baf);
-/*TODO*///}
-/*TODO*///if (cps1_game_config->control_reg && offset == cps1_game_config->control_reg && data != 0x3f)
-/*TODO*///{
-/*TODO*///	char baf[40];
-/*TODO*///	sprintf(baf,"control_reg %02x",data);
-/*TODO*///	usrintf_showmessage(baf);
-/*TODO*///}
-/*TODO*///#endif
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	/* Pang 3 EEPROM interface */
-/*TODO*///	if (cps1_game_config->kludge == 5 && offset == 0x7a)
-/*TODO*///	{
-/*TODO*///		cps1_eeprom_port_w(0,data);
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	COMBINE_WORD_MEM(&cps1_output[offset],data);
+            /* Pang 3 EEPROM interface */
+            if (cps1_game_config.kludge == 5 && offset == 0x7a) {
+                cps1_eeprom_port_w.handler(0, data);
+                return;
+            }
+
+            COMBINE_WORD_MEM(cps1_output, offset, data);
         }
     };
     /*TODO*///
@@ -891,10 +838,10 @@ public class cps1 {
 /*TODO*///
     public static VhStartPtr cps1_vh_start = new VhStartPtr() {
         public int handler() {
-            /*TODO*///	int i;
-/*TODO*///
-/*TODO*///	cps1_init_machine();
-/*TODO*///
+            int i;
+
+            cps1_init_machine();
+            /*TODO*///
 /*TODO*///	if (cps1_gfx_start())
 /*TODO*///	{
 /*TODO*///		return -1;
