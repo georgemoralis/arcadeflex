@@ -919,7 +919,10 @@ public class m68kcpuH {
     public static boolean CONDITION_NE() {
         return (get_CPU_NOT_Z() != 0);
     }
-    /*TODO*///#define CONDITION_NOT_NE (CPU_NOT_Z == 0)
+
+    public static boolean CONDITION_NOT_NE() {
+        return (get_CPU_NOT_Z() == 0);
+    }
 
     public static boolean CONDITION_EQ() {
         return (get_CPU_NOT_Z() == 0);
@@ -950,7 +953,10 @@ public class m68kcpuH {
     public static boolean CONDITION_MI() {
         return (get_CPU_N() != 0);
     }
-    /*TODO*///#define CONDITION_NOT_MI (CPU_N == 0)
+
+    public static boolean CONDITION_NOT_MI() {
+        return (get_CPU_N() == 0);
+    }
 
     public static boolean CONDITION_GE() {
         return ((get_CPU_N() == 0) == (get_CPU_V() == 0));

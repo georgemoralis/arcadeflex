@@ -407,7 +407,7 @@ public class alpha68k {
             fillbitmap(bitmap, palette_transparent_pen, Machine.drv.visible_area);
 
             /* This appears to be correct priority */
-            if (strcmp(Machine.gamedrv.name, "skyadvnt") != 0) {
+            if (strcmp(Machine.gamedrv.name, "skyadvnt") == 0) {
                 draw_sprites_V(bitmap, 0, 0x0f80, 0x1000, 0, 0x8000, 0x7fff);
                 draw_sprites_V(bitmap, 1, 0x0000, 0x1000, 0, 0x8000, 0x7fff);
                 draw_sprites_V(bitmap, 2, 0x0000, 0x1000, 0, 0x8000, 0x7fff);

@@ -201,6 +201,7 @@ import static drivers.WIP.dec0.*;
 import static drivers.WIP.kaneko16.*;
 import static drivers.WIP.prehisle.*;
 import static drivers.WIP.cps1.*;
+import static drivers.WIP.alpha68k.*;
 
 
 public class driver {
@@ -2520,16 +2521,16 @@ driver_gensitou,
 /*TODO*/ //TESTDRIVER( kyros )
 /*TODO*/ //TESTDRIVER( sstingry )
 /*TODO*/ //TESTDRIVER( paddlema )	/* Alpha-68K96I  'PM' (c) 1988 SNK */
-/*TODO*/ //	DRIVER( timesold )	/* Alpha-68K96II 'BT' (c) 1987 SNK / Romstar */
-/*TODO*/ //	DRIVER( timesol1 )  /* Alpha-68K96II 'BT' (c) 1987 */
-/*TODO*/ //	DRIVER( btlfield )  /* Alpha-68K96II 'BT' (c) 1987 */
-/*TODO*/ //	DRIVER( skysoldr )	/* Alpha-68K96II 'SS' (c) 1988 SNK (Romstar with dip switch) */
-/*TODO*/ //	DRIVER( goldmedl )	/* Alpha-68K96II 'GM' (c) 1988 SNK */
+driver_timesold,
+driver_timesol1,
+driver_btlfield,
+driver_skysoldr,
+driver_goldmedl,
 /*TODO*/ //TESTDRIVER( goldmedb )	/* Alpha-68K96II bootleg */
-/*TODO*/ //	DRIVER( skyadvnt )	/* Alpha-68K96V  'SA' (c) 1989 SNK of America licensed from Alpha */
-/*TODO*/ //	DRIVER( gangwars )	/* Alpha-68K96V       (c) 1989 Alpha */
-/*TODO*/ //	DRIVER( gangwarb )	/* Alpha-68K96V bootleg */
-/*TODO*/ //	DRIVER( sbasebal )	/* Alpha-68K96V       (c) 1989 SNK of America licensed from Alpha */
+driver_skyadvnt,
+driver_gangwars,
+driver_gangwarb,
+driver_sbasebal,
 
 	/* Technos games */
 /*TODO*/ //	DRIVER( bigprowr )	/* TA-0007 (c) 1983 */
