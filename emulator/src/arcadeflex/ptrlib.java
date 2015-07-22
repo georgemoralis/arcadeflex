@@ -1,5 +1,7 @@
 package arcadeflex;
 
+import static arcadeflex.libc_old.*;
+
 /**
  *
  * @author shadow
@@ -146,6 +148,9 @@ public class ptrlib {
 
         public UShortPtr(UShortPtr cp, int b) {
             set(cp.memory, cp.offset + b);
+        }
+        public UShortPtr(CharPtr cp, int b) {
+            set(cp.memory, cp.base + b);
         }
 
         public UShortPtr(UShortPtr cp) {
