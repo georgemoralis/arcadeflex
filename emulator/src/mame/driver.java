@@ -200,6 +200,8 @@ import static drivers.WIP.tumblep.*;
 import static drivers.WIP.dec0.*;
 import static drivers.WIP.kaneko16.*;
 import static drivers.WIP.prehisle.*;
+import static drivers.WIP.cps1.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1753,63 +1755,63 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( ledstorm )	/*  2/1989 (c) 1989 (US) */
 
 	/* Capcom CPS1 games */
-/*TODO*/ //	DRIVER( forgottn )	/*  7/1988 (c) 1988 (US) */
-/*TODO*/ //	DRIVER( lostwrld )	/*  7/1988 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( ghouls )	/* 12/1988 (c) 1988 (World) */
-/*TODO*/ //	DRIVER( ghoulsu )	/* 12/1988 (c) 1988 (US) */
-/*TODO*/ //	DRIVER( ghoulsj )	/* 12/1988 (c) 1988 (Japan) */
-/*TODO*/ //	DRIVER( strider )	/*  3/1989 (c) 1989 */
-/*TODO*/ //	DRIVER( striderj )	/*  3/1989 (c) 1989 */
-/*TODO*/ //	DRIVER( stridrja )	/*  3/1989 (c) 1989 */
-/*TODO*/ //	DRIVER( dwj )		/*  4/1989 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( willow )	/*  6/1989 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( willowj )	/*  6/1989 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( unsquad )	/*  8/1989 (c) 1989 */
-/*TODO*/ //	DRIVER( area88 )	/*  8/1989 (c) 1989 */
-/*TODO*/ //	DRIVER( ffight )	/* 12/1989 (c) (World) */
-/*TODO*/ //	DRIVER( ffightu )	/* 12/1989 (c) (US)    */
-/*TODO*/ //	DRIVER( ffightj )	/* 12/1989 (c) (Japan) */
-/*TODO*/ //	DRIVER( 1941 )		/*  2/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( 1941j )		/*  2/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( mercs )		/*  3/ 2/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( mercsu )	/*  3/ 2/1990 (c) 1990 (US)    */
-/*TODO*/ //	DRIVER( mercsj )	/*  3/ 2/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( mtwins )	/*  6/19/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( chikij )	/*  6/19/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( msword )	/*  7/25/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( mswordu )	/*  7/25/1990 (c) 1990 (US)    */
-/*TODO*/ //	DRIVER( mswordj )	/*  6/23/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( cawing )	/* 10/12/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( cawingj )	/* 10/12/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( nemo )		/* 11/30/1990 (c) 1990 (World) */
-/*TODO*/ //	DRIVER( nemoj )		/* 11/20/1990 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( sf2 )		/*  2/14/1991 (c) 1991 (World) */
-/*TODO*/ //	DRIVER( sf2a )		/*  2/ 6/1991 (c) 1991 (US)    */
-/*TODO*/ //	DRIVER( sf2b )		/*  2/14/1991 (c) 1991 (US)    */
-/*TODO*/ //	DRIVER( sf2e )		/*  2/28/1991 (c) 1991 (US)    */
-/*TODO*/ //	DRIVER( sf2j )		/* 12/10/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( sf2jb )		/*  2/14/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( 3wonders )	/*  5/20/1991 (c) 1991 (US) */
-/*TODO*/ //	DRIVER( wonder3 )	/*  5/20/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( kod )		/*  7/11/1991 (c) 1991 (World) */
-/*TODO*/ //	DRIVER( kodj )		/*  8/ 5/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( kodb )		/* bootleg */
-/*TODO*/ //	DRIVER( captcomm )	/* 10/14/1991 (c) 1991 (World) */
-/*TODO*/ //	DRIVER( captcomu )	/*  9/28/1991 (c) 1991 (US)    */
-/*TODO*/ //	DRIVER( captcomj )	/* 12/ 2/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( knights )	/* 11/27/1991 (c) 1991 (World) */
-/*TODO*/ //	DRIVER( knightsj )	/* 11/27/1991 (c) 1991 (Japan) */
-/*TODO*/ //	DRIVER( sf2ce )		/*  3/13/1992 (c) 1992 (World) */
-/*TODO*/ //	DRIVER( sf2cea )	/*  3/13/1992 (c) 1992 (US)    */
-/*TODO*/ //	DRIVER( sf2ceb )	/*  5/13/1992 (c) 1992 (US)    */
-/*TODO*/ //	DRIVER( sf2cej )	/*  5/13/1992 (c) 1992 (Japan) */
-/*TODO*/ //	DRIVER( sf2rb )		/* hack */
-/*TODO*/ //	DRIVER( sf2red )	/* hack */
-/*TODO*/ //	DRIVER( sf2accp2 )	/* hack */
-/*TODO*/ //	DRIVER( varth )		/*  6/12/1992 (c) 1992 (World) */
-/*TODO*/ //	DRIVER( varthu )	/*  6/12/1992 (c) 1992 (US) */
-/*TODO*/ //	DRIVER( varthj )	/*  7/14/1992 (c) 1992 (Japan) */
-/*TODO*/ //	DRIVER( cworld2j )	/*  6/11/1992 (QUIZ 5) (c) 1992 (Japan) */
+driver_forgottn,
+driver_lostwrld,
+driver_ghouls,
+driver_ghoulsu,
+driver_ghoulsj,
+driver_strider,
+driver_striderj,
+driver_stridrja,
+driver_dwj,
+driver_willow,
+driver_willowj,
+driver_unsquad,
+driver_area88,
+driver_ffight,
+driver_ffightu,
+driver_ffightj,
+driver_1941,
+driver_1941j,
+driver_mercs,
+driver_mercsu,
+driver_mercsj,
+driver_mtwins,
+driver_chikij,
+driver_msword,
+driver_mswordu,
+driver_mswordj,
+driver_cawing,
+driver_cawingj,
+driver_nemo,
+driver_nemoj,
+driver_sf2,
+driver_sf2a,
+driver_sf2b,
+driver_sf2e,
+driver_sf2j,
+driver_sf2jb,
+driver_3wonders,
+driver_wonder3,
+driver_kod,
+driver_kodj,
+driver_kodb,
+driver_captcomm,
+driver_captcomu,
+driver_captcomj,
+driver_knights,
+driver_knightsj,
+driver_sf2ce,
+driver_sf2cea,
+driver_sf2ceb,
+driver_sf2cej,
+driver_sf2rb,
+driver_sf2red,
+driver_sf2accp2,
+driver_varth,
+driver_varthu,
+driver_varthj,
+driver_cworld2j,
 /*TODO*/ //	DRIVER( wof )		/* 10/ 2/1992 (c) 1992 (World) (CPS1 + QSound) */
 /*TODO*/ //	DRIVER( wofj )		/* 10/31/1992 (c) 1992 (Japan) (CPS1 + QSound) */
 /*TODO*/ //	DRIVER( sf2t )		/* 12/ 9/1992 (c) 1992 (US)    */

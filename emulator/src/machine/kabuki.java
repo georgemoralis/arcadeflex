@@ -121,20 +121,20 @@ public class kabuki {
     public static void block_decode() {
         mitchell_decode(0x02461357, 0x64207531, 0x0002, 0x01);
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void cps1_decode(int swap_key1,int swap_key2,int addr_key,int xor_key)
-    /*TODO*///{
-    /*TODO*///	unsigned char *rom = memory_region(REGION_CPU2);
-    /*TODO*///	int diff = memory_region_length(REGION_CPU2) / 2;
-    /*TODO*///
-    /*TODO*///	memory_set_opcode_base(1,rom+diff);
-    /*TODO*///	kabuki_decode(rom,rom+diff,rom,0x0000,0x8000, swap_key1,swap_key2,addr_key,xor_key);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void wof_decode(void)      { cps1_decode(0x01234567,0x54163072,0x5151,0x51); }
-    /*TODO*///void dino_decode(void)     { cps1_decode(0x76543210,0x24601357,0x4343,0x43); }
-    /*TODO*///void punisher_decode(void) { cps1_decode(0x67452103,0x75316024,0x2222,0x22); }
-    /*TODO*///void slammast_decode(void) { cps1_decode(0x54321076,0x65432107,0x3131,0x19); }
-    /*TODO*///    
+    
+    
+    static void cps1_decode(int swap_key1,int swap_key2,int addr_key,int xor_key)
+    {
+    	UBytePtr rom = memory_region(REGION_CPU2);
+    	int diff = memory_region_length(REGION_CPU2) / 2;
+    
+    	memory_set_opcode_base(1,new UBytePtr(rom,diff));
+    	kabuki_decode(rom,new UBytePtr(rom,diff),rom,0x0000,0x8000, swap_key1,swap_key2,addr_key,xor_key);
+    }
+    
+    public static void  wof_decode()      { cps1_decode(0x01234567,0x54163072,0x5151,0x51); }
+    public static void  dino_decode()     { cps1_decode(0x76543210,0x24601357,0x4343,0x43); }
+    public static void  punisher_decode() { cps1_decode(0x67452103,0x75316024,0x2222,0x22); }
+    public static void  slammast_decode() { cps1_decode(0x54321076,0x65432107,0x3131,0x19); }
+        
 }
