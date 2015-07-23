@@ -405,9 +405,10 @@ public class m68kcpuH {
     public static long ROL_32(long A, long C) {
         return MASK_OUT_ABOVE_32(LSL_32(A, C) | LSR_32(A, 32 - (C)));
     }
-    /*TODO*///#define ROL_33(A, C)                  (LSL_32(A, C) | LSR_32(A, 33-(C)))
-/*TODO*///
 
+    public static long ROL_33(long A, long C) {
+        return (LSL_32(A, C) | LSR_32(A, 33 - (C)));
+    }
     public static long ROR_8(long A, long C) {
         return MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8 - (C)));
     }
