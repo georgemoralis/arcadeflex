@@ -48,7 +48,6 @@ import static sound._2151intfH.*;
 import static sound.mixerH.*;
 import static vidhrdw.cps1.*;
 
-
 public class cps1 {
 
     public static ReadHandlerPtr cps1_input2_r = new ReadHandlerPtr() {
@@ -3210,7 +3209,7 @@ public class cps1 {
             PORT_DIPSETTING(0x04, "Normal");
             PORT_DIPSETTING(0x03, "Hard");
             PORT_DIPSETTING(0x02, "Very Hard");
-	//	PORT_DIPSETTING(    0x01, "Very Hard" );
+            //	PORT_DIPSETTING(    0x01, "Very Hard" );
             //	PORT_DIPSETTING(    0x00, "Very Hard" );
             PORT_DIPNAME(0x18, 0x18, "Wisdom");
             PORT_DIPSETTING(0x18, "Low");
@@ -3223,7 +3222,7 @@ public class cps1 {
             PORT_DIPSETTING(0xa0, "3");
             PORT_DIPSETTING(0xc0, "4");
             PORT_DIPSETTING(0xe0, "5");
-	//	PORT_DIPSETTING(    0x40, "1" );
+            //	PORT_DIPSETTING(    0x40, "1" );
             //	PORT_DIPSETTING(    0x20, "1" );
             //	PORT_DIPSETTING(    0x00, "1" );
 
@@ -3319,7 +3318,7 @@ public class cps1 {
             PORT_DIPSETTING(0x05, "2");
             PORT_DIPSETTING(0x04, "3");
             PORT_DIPSETTING(0x03, "4");
-	//	PORT_DIPSETTING(    0x02, "4" );
+            //	PORT_DIPSETTING(    0x02, "4" );
             //	PORT_DIPSETTING(    0x01, "4" );
             //	PORT_DIPSETTING(    0x00, "4" );
             PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
@@ -3332,7 +3331,7 @@ public class cps1 {
             PORT_DIPSETTING(0xa0, "1");
             PORT_DIPSETTING(0xc0, "2");
             PORT_DIPSETTING(0xe0, "3");
-	//	PORT_DIPSETTING(    0x00, "1" );
+            //	PORT_DIPSETTING(    0x00, "1" );
             //	PORT_DIPSETTING(    0x20, "1" );
             //	PORT_DIPSETTING(    0x80, "1" );
             //	PORT_DIPSETTING(    0x40, "2" );
@@ -3451,7 +3450,7 @@ public class cps1 {
             PORT_DIPSETTING(0xe0, "3");
             PORT_DIPSETTING(0xa0, "4");
             PORT_DIPSETTING(0xc0, "5");
-	//	PORT_DIPSETTING(    0x40, "?" );
+            //	PORT_DIPSETTING(    0x40, "?" );
             //	PORT_DIPSETTING(    0x20, "?" );
             //	PORT_DIPSETTING(    0x00, "?" );
 
@@ -6857,36 +6856,36 @@ public class cps1 {
             UBytePtr rom = memory_region(REGION_CPU1);
             int A, src, dst;
 
-/*TODO*///            for (A = 0x80000; A < 0x100000; A += 2) {
+            for (A = 0x80000; A < 0x100000; A += 2) {
                 /* only the low 8 bits of each word are encrypted */
-/*TODO*///                src = READ_WORD( & rom[A]);
-/*TODO*///                dst = src & 0xff00;
-/*TODO*///                if (src & 0x01) {
- /*TODO*///                   dst ^= 0x04;
- /*TODO*///               }
- /*TODO*///               if (src & 0x02) {
- /*TODO*///                   dst ^= 0x21;
- /*TODO*///               }
- /*TODO*///               if (src & 0x04) {
-/*TODO*///                    dst ^= 0x01;
-/*TODO*///                }
- /*TODO*///               if (~src & 0x08) {
- /*TODO*///                   dst ^= 0x50;
- /*TODO*///               }
- /*TODO*///               if (src & 0x10) {
- /*TODO*///                   dst ^= 0x40;
-/*TODO*///                }
-/*TODO*///                if (src & 0x20) {
-/*TODO*///                    dst ^= 0x06;
-/*TODO*///                }
-/*TODO*///                if (src & 0x40) {
-/*TODO*///                    dst ^= 0x08;
-/*TODO*///                }
- /*TODO*///               if (~src & 0x80) {
-/*TODO*///                    dst ^= 0x88;
-/*TODO*///                }
-/*TODO*///                WRITE_WORD( & rom[A], dst);
-/*TODO*///            }
+                src = rom.READ_WORD(A);
+                dst = src & 0xff00;
+                if ((src & 0x01) != 0) {
+                    dst ^= 0x04;
+                }
+                if ((src & 0x02) != 0) {
+                    dst ^= 0x21;
+                }
+                if ((src & 0x04) != 0) {
+                    dst ^= 0x01;
+                }
+                if ((~src & 0x08) != 0) {
+                    dst ^= 0x50;
+                }
+                if ((src & 0x10) != 0) {
+                    dst ^= 0x40;
+                }
+                if ((src & 0x20) != 0) {
+                    dst ^= 0x06;
+                }
+                if ((src & 0x40) != 0) {
+                    dst ^= 0x08;
+                }
+                if ((~src & 0x80) != 0) {
+                    dst ^= 0x88;
+                }
+                rom.WRITE_WORD(A, dst);
+            }
         }
     };
 

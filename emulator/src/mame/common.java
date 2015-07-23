@@ -275,16 +275,16 @@ public class common {
                                                     osd_fread(f,new CharPtr(Machine.memory_region[region],romp[romp_ptr].offset),length);
 
                                                     /* apply swappage */
-/*TODO*/ //                                                    c = Machine.memory_region[region] + romp[romp_ptr].offset;
-                                                    if (wide!=0 && swap!=0)
+                                                    CharPtr c = new CharPtr(Machine.memory_region[region],(romp[romp_ptr].offset));
+                                                   if (wide!=0 && swap!=0)
                                                     {
-                                                        throw new UnsupportedOperationException("Unsupported readrom() swappage");  
-/*TODO*/ //                                                            for (i = 0; i < length; i += 2)
-/*TODO*/ //                                                            {
-/*TODO*/ //                                                                    int temp = c[i];
-/*TODO*/ //                                                                    c[i] = c[i+1];
-/*TODO*/ //                                                                    c[i+1] = temp;
-/*TODO*/ //                                                            }
+                                                          
+                                                            for (i = 0; i < length; i += 2)
+                                                            {
+                                                                    int temp = c.read(i);
+                                                                    c.write(i, c.read(i+1));
+                                                                    c.write(i+1, temp);
+                                                            }
                                                     }
                                             }
 

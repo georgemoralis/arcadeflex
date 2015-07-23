@@ -1756,16 +1756,16 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //	DRIVER( ledstorm )	/*  2/1989 (c) 1989 (US) */
 
 	/* Capcom CPS1 games */
-driver_forgottn,
-driver_lostwrld,
-driver_ghouls,
-driver_ghoulsu,
-driver_ghoulsj,
+driver_forgottn, //coin counter work with 7 instead of 5
+driver_lostwrld, //coin counter work with 7 instead of 5
+driver_ghouls,//appears to work ok
+driver_ghoulsu,//appears to work ok
+driver_ghoulsj,//Unsupported readrom() swappage
 driver_strider,
 driver_striderj,
 driver_stridrja,
-driver_dwj,
-driver_willow,
+driver_dwj,//coin counter work with 7 instead of 5 . Life decreasement has bug (goes from 900 to 999)(68k bug)
+driver_willow,//wrong gold calculation (68k bug)
 driver_willowj,
 driver_unsquad,
 driver_area88,
@@ -1830,8 +1830,8 @@ driver_cworld2j,
 /*TODO*/ //	DRIVER( qad )		/*  7/ 1/1992 (c) 1992 (US)    */
 /*TODO*/ //	DRIVER( qadj )		/*  9/21/1994 (c) 1994 (Japan) */
 /*TODO*/ //	DRIVER( qtono2 )	/*  1/23/1995 (c) 1995 (Japan) */
-/*TODO*/ //	DRIVER( pang3 )		/*  5/11/1995 (c) 1995 Mitchell (Japan) not listed on Capcom's site */
-/*TODO*/ //	DRIVER( megaman )	/* 10/ 6/1995 (c) 1995 (Asia)  */
+driver_pang3,
+driver_megaman,
 /*TODO*/ //	DRIVER( rockmanj )	/*  9/22/1995 (c) 1995 (Japan) */
 /*TODO*/ ////	DRIVER( sfzch )		/* 10/20/1995 (c) 1995 (Japan) (CPS Changer) */
 
