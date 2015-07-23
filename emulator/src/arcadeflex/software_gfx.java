@@ -103,13 +103,13 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 localGraphics2D.drawImage(this._image, this._insets.left - (int) (i * 0.18), this._insets.top - (int) (j * 0.18), i + (int) (i * 0.35), j + (int) (j * 0.35), null);
             } else if (Machine.gamedrv.name.equals("gallop")) {
                 localGraphics2D.drawImage(this._image, this._insets.left - (int) (i * 0.17), this._insets.top - (int) (j * 0.25), i + (int) (i * 0.34), j + (int) (j * 0.50), null);
-
             } else {
                 localGraphics2D.drawImage(this._image, this._insets.left - (int) (i * 0.18), this._insets.top - (int) (j * 0.25), i + (int) (i * 0.35), j + (int) (j * 0.50), null);
             }
         } else if (Machine.gamedrv.source_file.equals("raiden.java")) {
-            localGraphics2D.drawImage(this._image, this._insets.left- (int) (i * 0.07), this._insets.top, i+ (int) (i * 0.14), j, null);
-
+            localGraphics2D.drawImage(this._image, this._insets.left - (int) (i * 0.07), this._insets.top, i + (int) (i * 0.14), j, null);
+        } else if (Machine.gamedrv.source_file.equals("cps1.java")) {
+            localGraphics2D.drawImage(this._image, this._insets.left - (int) (i * 0.0826), this._insets.top - (int) (j * 0.215), i + (int) (i * 0.167), j + (int) (j * 0.43), null);
         } else {
             localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
         }
@@ -174,7 +174,7 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
                 super.setSize(width * 2 + this._insets.left + this._insets.right - (int) (width * 0.35), height + (int) (height * 0.50) + this._insets.top + this._insets.bottom);
             }
         } else if (Machine.gamedrv.source_file.equals("raiden.java")) {
-            super.setSize(width * 2 + this._insets.left + this._insets.right- (int) (width * 0.14), height * 2 + this._insets.top + this._insets.bottom);
+            super.setSize(width * 2 + this._insets.left + this._insets.right - (int) (width * 0.14), height * 2 + this._insets.top + this._insets.bottom);
         } else {
             super.setSize(width * 2 + this._insets.left + this._insets.right, height * 2 + this._insets.top + this._insets.bottom);
         }
