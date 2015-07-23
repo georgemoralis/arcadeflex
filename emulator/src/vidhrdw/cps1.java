@@ -459,29 +459,22 @@ public class cps1 {
         return 0;
     }
 
-    /*TODO*///void cps1_gfx_stop(void)
-/*TODO*///{
-/*TODO*///	if (cps1_gfx)
-/*TODO*///	{
-/*TODO*///		free(cps1_gfx);
-/*TODO*///	}
-/*TODO*///	if (cps1_char_pen_usage)
-/*TODO*///	{
-/*TODO*///		free(cps1_char_pen_usage);
-/*TODO*///	}
-/*TODO*///	if (cps1_tile16_pen_usage)
-/*TODO*///	{
-/*TODO*///		free(cps1_tile16_pen_usage);
-/*TODO*///	}
-/*TODO*///	if (cps1_tile32_pen_usage)
-/*TODO*///	{
-/*TODO*///		free(cps1_tile32_pen_usage);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static void cps1_gfx_stop() {
+        if (cps1_gfx != null) {
+            cps1_gfx = null;
+        }
+        if (cps1_char_pen_usage != null) {
+            cps1_char_pen_usage = null;;
+        }
+        if (cps1_tile16_pen_usage != null) {
+            cps1_tile16_pen_usage = null;
+        }
+        if (cps1_tile32_pen_usage != null) {
+            cps1_tile32_pen_usage = null;
+        }
+    }
 
-    /*TODO*///
+    
 /*TODO*///void cps1_draw_gfx16(
 /*TODO*///	struct osd_bitmap *dest,const struct GfxElement *gfx,
 /*TODO*///	unsigned int code,
@@ -552,24 +545,20 @@ public class cps1 {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int flipx, int flipy, int sx, int sy, int tpens)
-{
-    if (Machine.scrbitmap.depth==16)
-    {
-        throw new UnsupportedOperationException("Unimplemented");
-/*TODO*///        cps1_draw_gfx16(dest,
+    public static void cps1_draw_scroll1(osd_bitmap dest, int code, int color, int flipx, int flipy, int sx, int sy, int tpens) {
+        if (Machine.scrbitmap.depth == 16) {
+            throw new UnsupportedOperationException("Unimplemented");
+            /*TODO*///        cps1_draw_gfx16(dest,
 /*TODO*///            Machine->gfx[0],
 /*TODO*///            code,color,flipx,flipy,sx,sy,
 /*TODO*///            tpens,cps1_char_pen_usage,8, cps1_max_char, 16, 1);
+        } else {
+            cps1_draw_gfx(dest,
+                    Machine.gfx[0],
+                    code, color, flipx, flipy, sx, sy,
+                    tpens, cps1_char_pen_usage, 8, cps1_max_char, 16, 1);
+        }
     }
-    else
-    {
-        cps1_draw_gfx(dest,
-            Machine.gfx[0],
-            code,color,flipx,flipy,sx,sy,
-            tpens,cps1_char_pen_usage,8, cps1_max_char, 16, 1);
-    }
-}
 
     public static void cps1_draw_tile16(osd_bitmap dest, GfxElement gfx, int code, int color, int flipx, int flipy, int sx, int sy, int tpens) {
         if (Machine.scrbitmap.depth == 16) {
@@ -583,7 +572,7 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
         }
     }
 
-    public static void cps1_draw_tile32(osd_bitmap dest,GfxElement gfx,int code, int color,int flipx, int flipy, int sx, int sy, int tpens) {
+    public static void cps1_draw_tile32(osd_bitmap dest, GfxElement gfx, int code, int color, int flipx, int flipy, int sx, int sy, int tpens) {
         if (Machine.scrbitmap.depth == 16) {
             throw new UnsupportedOperationException("Unimplemented");
             /*TODO*///        cps1_draw_gfx16(dest,
@@ -597,30 +586,26 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
                     tpens, cps1_tile32_pen_usage, 32, cps1_max_tile32, 16 * 2 * 4, 0);
         }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*///INLINE void cps1_draw_blank16(struct osd_bitmap *dest, int sx, int sy )
-/*TODO*///{
-/*TODO*///    int i,j;
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int temp;
-/*TODO*///		temp=sx;
-/*TODO*///		sx=sy;
-/*TODO*///        sy=dest->height-temp-16;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (cps1_flip_screen)
-/*TODO*///	{
-/*TODO*///		/* Handle flipped screen */
-/*TODO*///		sx=dest->width-sx-16;
-/*TODO*///		sy=dest->height-sy-16;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (Machine->scrbitmap->depth==16)
-/*TODO*///    {
-/*TODO*///        for (i=15; i>=0; i--)
+
+    public static void cps1_draw_blank16(osd_bitmap dest, int sx, int sy) {
+        int i, j;
+
+        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+            int temp;
+            temp = sx;
+            sx = sy;
+            sy = dest.height - temp - 16;
+        }
+
+        if (cps1_flip_screen != 0) {
+            /* Handle flipped screen */
+            sx = dest.width - sx - 16;
+            sy = dest.height - sy - 16;
+        }
+
+        if (Machine.scrbitmap.depth == 16) {
+            throw new UnsupportedOperationException("Unimplemented");
+            /*TODO*///        for (i=15; i>=0; i--)
 /*TODO*///		{
 /*TODO*///			register unsigned short *bm=(unsigned short *)dest->line[sy+i]+sx;
 /*TODO*///			for (j=15; j>=0; j--)
@@ -629,111 +614,31 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
 /*TODO*///				bm++;
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///    }
-/*TODO*///    else
-/*TODO*///    {
-/*TODO*///        for (i=15; i>=0; i--)
-/*TODO*///		{
-/*TODO*///			register unsigned char *bm=dest->line[sy+i]+sx;
-/*TODO*///			for (j=15; j>=0; j--)
-/*TODO*///			{
-/*TODO*///				*bm=palette_transparent_pen;
-/*TODO*///				bm++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///INLINE void cps1_draw_tile16_bmp(struct osd_bitmap *dest,
-/*TODO*///	const struct GfxElement *gfx,
-/*TODO*///	unsigned int code, int color,
-/*TODO*///    int flipx, int flipy,int sx, int sy)
-/*TODO*///{
-/*TODO*///    if (Machine->scrbitmap->depth==16)
-/*TODO*///    {
-/*TODO*///        cps1_draw_gfx_opaque16(dest,
+        } else {
+            for (i = 15; i >= 0; i--) {
+                UBytePtr bm = new UBytePtr(dest.line[sy + i], sx);
+                for (j = 15; j >= 0; j--) {
+                    bm.write(palette_transparent_pen);
+                    bm.inc();
+                }
+            }
+        }
+    }
+
+    public static void cps1_draw_tile16_bmp(osd_bitmap dest, GfxElement gfx, int code, int color, int flipx, int flipy, int sx, int sy) {
+        if (Machine.scrbitmap.depth == 16) {
+            /*TODO*///        cps1_draw_gfx_opaque16(dest,
 /*TODO*///            gfx,
 /*TODO*///            code,color,flipx,flipy,sx,sy,
 /*TODO*///            -1,cps1_tile16_pen_usage,16, cps1_max_tile16, 16*2,0);
-/*TODO*///    }
-/*TODO*///    else
-/*TODO*///    {
-/*TODO*///        cps1_draw_gfx_opaque(dest,
-/*TODO*///            gfx,
-/*TODO*///            code,color,flipx,flipy,sx,sy,
-/*TODO*///            -1,cps1_tile16_pen_usage,16, cps1_max_tile16, 16*2,0);
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
+            throw new UnsupportedOperationException("Unimplemented");
+        } else {
+            cps1_draw_gfx_opaque(dest, gfx, code, color, flipx, flipy, sx, sy, -1, cps1_tile16_pen_usage, 16, cps1_max_tile16, 16 * 2, 0);
+        }
+    }
+
     static int[] cps1_transparency_scroll = new int[4];
 
-    /*TODO*///
-/*TODO*///
-/*TODO*///#if CPS1_DUMP_VIDEO
-/*TODO*///void cps1_dump_video(void)
-/*TODO*///{
-/*TODO*///	FILE *fp;
-/*TODO*///	fp=fopen("SCROLL1.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_scroll1, cps1_scroll1_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///	fp=fopen("SCROLL2.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_scroll2, cps1_scroll2_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///	fp=fopen("SCROLL3.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_scroll3, cps1_scroll3_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///	fp=fopen("OBJ.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_obj, cps1_obj_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	fp=fopen("OTHER.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_other, cps1_other_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	fp=fopen("PALETTE.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_palette, cps1_palette_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	fp=fopen("OUTPUT.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_output, cps1_output_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///	fp=fopen("VIDEO.DMP", "w+b");
-/*TODO*///	if (fp)
-/*TODO*///	{
-/*TODO*///		fwrite(cps1_gfxram, cps1_gfxram_size, 1, fp);
-/*TODO*///		fclose(fp);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///}
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///
     public static void cps1_get_video_base() {
         int layercontrol;
 
@@ -855,15 +760,19 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
      */
     public static VhStopPtr cps1_vh_stop = new VhStopPtr() {
         public void handler() {
-            /*TODO*///	if (cps1_old_palette)
-/*TODO*///		free(cps1_old_palette);
-/*TODO*///	if (cps1_scroll2_bitmap)
-/*TODO*///		osd_free_bitmap(cps1_scroll2_bitmap);
-/*TODO*///	if (cps1_scroll2_old)
-/*TODO*///		free(cps1_scroll2_old);
-/*TODO*///	if (cps1_buffered_obj)
-/*TODO*///		free(cps1_buffered_obj);
-/*TODO*///	cps1_gfx_stop();
+            if (cps1_old_palette != null) {
+                cps1_old_palette = null;
+            }
+            if (cps1_scroll2_bitmap != null) {
+                osd_free_bitmap(cps1_scroll2_bitmap);
+            }
+            if (cps1_scroll2_old != null) {
+                cps1_scroll2_old = null;
+            }
+            if (cps1_buffered_obj != null) {
+                cps1_buffered_obj = null;
+            }
+            cps1_gfx_stop();
         }
     };
 
@@ -900,31 +809,31 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
         }
     }
 
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Scroll 1 (8x8)
-/*TODO*///
-/*TODO*///  Attribute word layout:
-/*TODO*///  0x0001	colour
-/*TODO*///  0x0002	colour
-/*TODO*///  0x0004	colour
-/*TODO*///  0x0008	colour
-/*TODO*///  0x0010	colour
-/*TODO*///  0x0020	X Flip
-/*TODO*///  0x0040	Y Flip
-/*TODO*///  0x0080
-/*TODO*///  0x0100
-/*TODO*///  0x0200
-/*TODO*///  0x0400
-/*TODO*///  0x0800
-/*TODO*///  0x1000
-/*TODO*///  0x2000
-/*TODO*///  0x4000
-/*TODO*///  0x8000
-/*TODO*///
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
+    /***************************************************************************
+
+  Scroll 1 (8x8)
+
+  Attribute word layout:
+  0x0001	colour
+  0x0002	colour
+  0x0004	colour
+  0x0008	colour
+  0x0010	colour
+  0x0020	X Flip
+  0x0040	Y Flip
+  0x0080
+  0x0100
+  0x0200
+  0x0400
+  0x0800
+  0x1000
+  0x2000
+  0x4000
+  0x8000
+
+
+***************************************************************************/
+
     public static void cps1_palette_scroll1(char[] base, int offset) {
         int x, y, offs, offsx;
 
@@ -951,94 +860,91 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
             }
         }
     }
-    public static void cps1_render_scroll1(osd_bitmap bitmap,int priority)
-{
-	int x,y, offs, offsx, sx, sy, ytop;
 
-	int scrlxrough=(scroll1x>>3)+4;
-	int scrlyrough=(scroll1y>>3);
-	int base=cps1_game_config.bank_scroll1*0x08000;
-	int spacechar=cps1_game_config.space_scroll1;
+    public static void cps1_render_scroll1(osd_bitmap bitmap, int priority) {
+        int x, y, offs, offsx, sx, sy, ytop;
 
+        int scrlxrough = (scroll1x >> 3) + 4;
+        int scrlyrough = (scroll1y >> 3);
+        int base = cps1_game_config.bank_scroll1 * 0x08000;
+        int spacechar = cps1_game_config.space_scroll1;
 
-	sx=-(scroll1x&0x07);
-	ytop=-(scroll1y&0x07)+32;
+        sx = -(scroll1x & 0x07);
+        ytop = -(scroll1y & 0x07) + 32;
 
-	for (x=0; x<0x35; x++)
-	{
-		 sy=ytop;
-		 offsx=(scrlxrough+x)*0x80;
-		 offsx&=0x1fff;
+        for (x = 0; x < 0x35; x++) {
+            sy = ytop;
+            offsx = (scrlxrough + x) * 0x80;
+            offsx &= 0x1fff;
 
-		 for (y=0; y<0x20; y++)
-		 {
-			int code, offsy, colour;
-			int n=scrlyrough+y;
-			offsy=( (n&0x1f)*4 | ((n&0x20)*0x100)) & 0x3fff;
-			offs=offsy+offsx;
-			offs &= 0x3fff;
+            for (y = 0; y < 0x20; y++) {
+                int code, offsy, colour;
+                int n = scrlyrough + y;
+                offsy = ((n & 0x1f) * 4 | ((n & 0x20) * 0x100)) & 0x3fff;
+                offs = offsy + offsx;
+                offs &= 0x3fff;
 
-			code  =cps1_scroll1.READ_WORD(offs);
-			colour=cps1_scroll1.READ_WORD(offs+2);
+                code = cps1_scroll1.READ_WORD(offs);
+                colour = cps1_scroll1.READ_WORD(offs + 2);
 
-			if (code != 0x20 && code != spacechar)
-			{
-				int transp;
+                if (code != 0x20 && code != spacechar) {
+                    int transp;
 
-				/* 0x0020 appears to never be drawn */
-				if (priority!=0)
-					transp=cps1_transparency_scroll[(colour & 0x0180)>>7];
-				else transp = 0x7fff;
+                    /* 0x0020 appears to never be drawn */
+                    if (priority != 0) {
+                        transp = cps1_transparency_scroll[(colour & 0x0180) >> 7];
+                    } else {
+                        transp = 0x7fff;
+                    }
 
-				cps1_draw_scroll1(bitmap,
-						 code+base,
-						 colour&0x1f,
-						 colour&0x20,
-						 colour&0x40,
-						 sx,sy,transp);
-			 }
-			 sy+=8;
-		 }
-		 sx+=8;
-	}
-}
+                    cps1_draw_scroll1(bitmap,
+                            code + base,
+                            colour & 0x1f,
+                            colour & 0x20,
+                            colour & 0x40,
+                            sx, sy, transp);
+                }
+                sy += 8;
+            }
+            sx += 8;
+        }
+    }
 
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///								Sprites
-/*TODO*///								=======
-/*TODO*///
-/*TODO*///  Sprites are represented by a number of 8 byte values
-/*TODO*///
-/*TODO*///  xx xx yy yy nn nn aa aa
-/*TODO*///
-/*TODO*///  where xxxx = x position
-/*TODO*///		yyyy = y position
-/*TODO*///		nnnn = tile number
-/*TODO*///		aaaa = attribute word
-/*TODO*///					0x0001	colour
-/*TODO*///					0x0002	colour
-/*TODO*///					0x0004	colour
-/*TODO*///					0x0008	colour
-/*TODO*///					0x0010	colour
-/*TODO*///					0x0020	X Flip
-/*TODO*///					0x0040	Y Flip
-/*TODO*///					0x0080	unknown
-/*TODO*///					0x0100	X block size (in sprites)
-/*TODO*///					0x0200	X block size
-/*TODO*///					0x0400	X block size
-/*TODO*///					0x0800	X block size
-/*TODO*///					0x1000	Y block size (in sprites)
-/*TODO*///					0x2000	Y block size
-/*TODO*///					0x4000	Y block size
-/*TODO*///					0x8000	Y block size
-/*TODO*///
-/*TODO*///  The end of the table (may) be marked by an attribute value of 0xff00.
-/*TODO*///
-/*TODO*///***************************************************************************/
+    
 
+/***************************************************************************
+
+								Sprites
+								=======
+
+  Sprites are represented by a number of 8 byte values
+
+  xx xx yy yy nn nn aa aa
+
+  where xxxx = x position
+		yyyy = y position
+		nnnn = tile number
+		aaaa = attribute word
+					0x0001	colour
+					0x0002	colour
+					0x0004	colour
+					0x0008	colour
+					0x0010	colour
+					0x0020	X Flip
+					0x0040	Y Flip
+					0x0080	unknown
+					0x0100	X block size (in sprites)
+					0x0200	X block size
+					0x0400	X block size
+					0x0800	X block size
+					0x1000	Y block size (in sprites)
+					0x2000	Y block size
+					0x4000	Y block size
+					0x8000	Y block size
+
+  The end of the table (may) be marked by an attribute value of 0xff00.
+
+***************************************************************************/
     public static void cps1_find_last_sprite() /* Find the offset of last sprite */ {
         int offset = 6;
         /* Locate the end of table marker */
@@ -1269,34 +1175,34 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
             }
         }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Scroll 2 (16x16 layer)
-/*TODO*///
-/*TODO*///  Attribute word layout:
-/*TODO*///  0x0001	colour
-/*TODO*///  0x0002	colour
-/*TODO*///  0x0004	colour
-/*TODO*///  0x0008	colour
-/*TODO*///  0x0010	colour
-/*TODO*///  0x0020	X Flip
-/*TODO*///  0x0040	Y Flip
-/*TODO*///  0x0080	??? Priority
-/*TODO*///  0x0100	??? Priority
-/*TODO*///  0x0200
-/*TODO*///  0x0400
-/*TODO*///  0x0800
-/*TODO*///  0x1000
-/*TODO*///  0x2000
-/*TODO*///  0x4000
-/*TODO*///  0x8000
-/*TODO*///
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
+    
+
+
+/***************************************************************************
+
+  Scroll 2 (16x16 layer)
+
+  Attribute word layout:
+  0x0001	colour
+  0x0002	colour
+  0x0004	colour
+  0x0008	colour
+  0x0010	colour
+  0x0020	X Flip
+  0x0040	Y Flip
+  0x0080	??? Priority
+  0x0100	??? Priority
+  0x0200
+  0x0400
+  0x0800
+  0x1000
+  0x2000
+  0x4000
+  0x8000
+
+
+***************************************************************************/
+
 
     public static void cps1_palette_scroll2(char[] base, int offset) {
         int offs, code, colour;
@@ -1310,176 +1216,184 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
             }
         }
     }
-    /*TODO*///
-/*TODO*///void cps1_render_scroll2_bitmap(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	int sx, sy;
-/*TODO*///	int ny=(scroll2y>>4);	  /* Rough Y */
-/*TODO*///    int base=cps1_game_config->bank_scroll2*0x04000;
-/*TODO*///	const int startcode=cps1_game_config->start_scroll2;
-/*TODO*///	const int endcode=cps1_game_config->end_scroll2;
-/*TODO*///	const int kludge=cps1_game_config->kludge;
-/*TODO*///
-/*TODO*///    for (sx=CPS1_SCROLL2_WIDTH-1; sx>=0; sx--)
-/*TODO*///	{
-/*TODO*///		int n=ny;
-/*TODO*///        for (sy=0x09*2-1; sy>=0; sy--)
-/*TODO*///		{
-/*TODO*///			long newvalue;
-/*TODO*///			int offsy, offsx, offs, colour, code;
-/*TODO*///
-/*TODO*///			n&=0x3f;
-/*TODO*///			offsy  = ((n&0x0f)*4 | ((n&0x30)*0x100))&0x3fff;
-/*TODO*///			offsx=(sx*0x040)&0xfff;
-/*TODO*///			offs=offsy+offsx;
-/*TODO*///
-/*TODO*///			colour=READ_WORD(&cps1_scroll2[offs+2]);
-/*TODO*///
-/*TODO*///			newvalue=*(long*)(&cps1_scroll2[offs]);
-/*TODO*///			if ( newvalue != *(long*)(&cps1_scroll2_old[offs]) )
-/*TODO*///			{
-/*TODO*///				*(long*)(&cps1_scroll2_old[offs])=newvalue;
-/*TODO*///                code=READ_WORD(&cps1_scroll2[offs]);
-/*TODO*///				if ( code >= startcode && code <= endcode
-/*TODO*///					/*
-/*TODO*///					MERCS has an gap in the scroll 2 layout
-/*TODO*///					(bad tiles at start of level 2)*/
-/*TODO*///					&&	!(kludge == 4 && (code >= 0x1e00 && code < 0x5400))
-/*TODO*///					)
-/*TODO*///				{
-/*TODO*///					code += base;
-/*TODO*///					cps1_draw_tile16_bmp(bitmap,
-/*TODO*///						Machine->gfx[2],
-/*TODO*///						code,
-/*TODO*///						colour&0x1f,
-/*TODO*///						colour&0x20,colour&0x40,
-/*TODO*///                        16*sx, 16*n);
-/*TODO*///				}
-/*TODO*///				else
-/*TODO*///				{
-/*TODO*///					cps1_draw_blank16(bitmap, 16*sx, 16*n);
-/*TODO*///				}
-/*TODO*///				//cps1_print_debug_tile_info(bitmap, 16*sx, 16*n, colour,1);
-/*TODO*///			}
-/*TODO*///			n++;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void cps1_render_scroll2_high(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///#ifdef LAYER_DEBUG
-/*TODO*///	static int s=0;
-/*TODO*///#endif
-/*TODO*///	int sx, sy;
-/*TODO*///	int nxoffset=(scroll2x&0x0f)+32;    /* Smooth X */
-/*TODO*///	int nyoffset=(scroll2y&0x0f);    /* Smooth Y */
-/*TODO*///	int nx=(scroll2x>>4);	  /* Rough X */
-/*TODO*///	int ny=(scroll2y>>4)-4;	/* Rough Y */
-/*TODO*///    int base=cps1_game_config->bank_scroll2*0x04000;
-/*TODO*///
-/*TODO*///	for (sx=0; sx<0x32/2+4; sx++)
-/*TODO*///	{
-/*TODO*///		for (sy=0; sy<0x09*2; sy++)
-/*TODO*///		{
-/*TODO*///			int offsy, offsx, offs, colour, code, transp;
-/*TODO*///			int n;
-/*TODO*///			n=ny+sy+2;
-/*TODO*///			offsy  = ((n&0x0f)*4 | ((n&0x30)*0x100))&0x3fff;
-/*TODO*///			offsx=((nx+sx)*0x040)&0xfff;
-/*TODO*///			offs=offsy+offsx;
-/*TODO*///			offs &= 0x3fff;
-/*TODO*///
-/*TODO*///			code=READ_WORD(&cps1_scroll2[offs]);
-/*TODO*///			colour=READ_WORD(&cps1_scroll2[offs+2]);
-/*TODO*///
-/*TODO*///			transp=cps1_transparency_scroll[(colour & 0x0180)>>7];
-/*TODO*///
-/*TODO*///			cps1_draw_tile16(bitmap,
-/*TODO*///						Machine->gfx[2],
-/*TODO*///						code+base,
-/*TODO*///						colour&0x1f,
-/*TODO*///						colour&0x20,colour&0x40,
-/*TODO*///						16*sx-nxoffset,
-/*TODO*///						16*sy-nyoffset,
-/*TODO*///						transp);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///void cps1_render_scroll2_low(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///      int scrly=-(scroll2y-0x20);
-/*TODO*///      int scrlx=-(scroll2x+0x40-0x20);
-/*TODO*///
-/*TODO*///      if (cps1_flip_screen)
-/*TODO*///      {
-/*TODO*///            scrly=(CPS1_SCROLL2_HEIGHT*16)-scrly;
-/*TODO*///      }
-/*TODO*///
-/*TODO*///      cps1_render_scroll2_bitmap(cps1_scroll2_bitmap);
-/*TODO*///
-/*TODO*///      copyscrollbitmap(bitmap,cps1_scroll2_bitmap,1,&scrlx,1,&scrly,&Machine->drv->visible_area,TRANSPARENCY_PEN,palette_transparent_pen);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void cps1_render_scroll2_distort(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	int scrly=-scroll2y;
-/*TODO*///	int i,scrollx[1024];
-/*TODO*///	int otheroffs;
-/*TODO*///
-/*TODO*////*
-/*TODO*///	Games known to use row scrolling:
-/*TODO*///
-/*TODO*///	SF2
-/*TODO*///	Mega Twins (underwater, cave)
-/*TODO*///	Carrier Air Wing (hazy background at beginning of mission 8)
-/*TODO*///	Magic Sword (fire on floor 3; screen distort after continue)
-/*TODO*///	Varth (title screen)
-/*TODO*///*/
-/*TODO*///
-/*TODO*///	if (cps1_flip_screen)
-/*TODO*///		scrly=(CPS1_SCROLL2_HEIGHT*16)-scrly;
-/*TODO*///
-/*TODO*///	cps1_render_scroll2_bitmap(cps1_scroll2_bitmap);
-/*TODO*///
-/*TODO*///	otheroffs = cps1_port(CPS1_ROWSCROLL_OFFS);
-/*TODO*///
-/*TODO*///	for (i = 0;i < 256;i++)
-/*TODO*///		scrollx[(i - scrly) & 0x3ff] = -(scroll2x+0x40-0x20) - READ_WORD(&cps1_other[(2*(i + otheroffs)) & 0x7ff]);
-/*TODO*///
-/*TODO*///	scrly+=0x20;
-/*TODO*///
-/*TODO*///	copyscrollbitmap(bitmap,cps1_scroll2_bitmap,1024,scrollx,1,&scrly,&Machine->drv->visible_area,TRANSPARENCY_PEN,palette_transparent_pen);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Scroll 3 (32x32 layer)
-/*TODO*///
-/*TODO*///  Attribute word layout:
-/*TODO*///  0x0001	colour
-/*TODO*///  0x0002	colour
-/*TODO*///  0x0004	colour
-/*TODO*///  0x0008	colour
-/*TODO*///  0x0010	colour
-/*TODO*///  0x0020	X Flip
-/*TODO*///  0x0040	Y Flip
-/*TODO*///  0x0080
-/*TODO*///  0x0100
-/*TODO*///  0x0200
-/*TODO*///  0x0400
-/*TODO*///  0x0800
-/*TODO*///  0x1000
-/*TODO*///  0x2000
-/*TODO*///  0x4000
-/*TODO*///  0x8000
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
+
+    public static int readint(char[] memory, int base, int offset) {
+        int myNumber = (((int) memory[base + offset]) << 0)
+                | (((int) memory[base + offset + 1]) << 8)
+                | (((int) memory[base + offset + 2]) << 16)
+                | (((int) memory[base + offset + 3]) << 24);
+        return myNumber;
+    }
+
+    public static void writeint(char[] memory, int offset, long value) {
+        memory[offset + 3] = (char) (value >> 24 & 0xFF);
+        memory[offset + 2] = (char) (value >> 16 & 0xFF);
+        memory[offset + 1] = (char) (value >> 8 & 0xFF);
+        memory[offset] = (char) (value & 0xFF);
+
+    }
+
+    public static void cps1_render_scroll2_bitmap(osd_bitmap bitmap) {//not sure...
+        int sx, sy;
+        int ny = (scroll2y >> 4);	  /* Rough Y */
+
+        int base = cps1_game_config.bank_scroll2 * 0x04000;
+        int startcode = cps1_game_config.start_scroll2;
+        int endcode = cps1_game_config.end_scroll2;
+        int kludge = cps1_game_config.kludge;
+
+        for (sx = CPS1_SCROLL2_WIDTH - 1; sx >= 0; sx--) {
+            int n = ny;
+            for (sy = 0x09 * 2 - 1; sy >= 0; sy--) {
+                long newvalue;
+                int offsy, offsx, offs, colour, code;
+
+                n &= 0x3f;
+                offsy = ((n & 0x0f) * 4 | ((n & 0x30) * 0x100)) & 0x3fff;
+                offsx = (sx * 0x040) & 0xfff;
+                offs = offsy + offsx;
+
+                colour = cps1_scroll2.READ_WORD(offs + 2);
+
+                //newvalue=*(long*)(&cps1_scroll2[offs]);
+                newvalue = readint(cps1_scroll2.memory, cps1_scroll2.offset, offs);
+                //if ( newvalue != *(long*)(&cps1_scroll2_old[offs]) )
+                if (newvalue != readint(cps1_scroll2_old, 0, offs)) {
+                    //* (long *)(&cps1_scroll2_old[offs])=newvalue;
+                    writeint(cps1_scroll2_old, offs, newvalue);
+                    code = cps1_scroll2.READ_WORD(offs);
+                    if (code >= startcode && code <= endcode
+                            /*
+                             MERCS has an gap in the scroll 2 layout
+                             (bad tiles at start of level 2)*/
+                            && !(kludge == 4 && (code >= 0x1e00 && code < 0x5400))) {
+                        code += base;
+                        cps1_draw_tile16_bmp(bitmap,
+                                Machine.gfx[2],
+                                code,
+                                colour & 0x1f,
+                                colour & 0x20, colour & 0x40,
+                                16 * sx, 16 * n);
+                    } else {
+                        cps1_draw_blank16(bitmap, 16 * sx, 16 * n);
+                    }
+                    //cps1_print_debug_tile_info(bitmap, 16*sx, 16*n, colour,1);
+                }
+                n++;
+            }
+        }
+    }
+
+    public static void cps1_render_scroll2_high(osd_bitmap bitmap) {
+
+        int sx, sy;
+        int nxoffset = (scroll2x & 0x0f) + 32;    /* Smooth X */
+
+        int nyoffset = (scroll2y & 0x0f);    /* Smooth Y */
+
+        int nx = (scroll2x >> 4);	  /* Rough X */
+
+        int ny = (scroll2y >> 4) - 4;	/* Rough Y */
+
+        int base = cps1_game_config.bank_scroll2 * 0x04000;
+
+        for (sx = 0; sx < 0x32 / 2 + 4; sx++) {
+            for (sy = 0; sy < 0x09 * 2; sy++) {
+                int offsy, offsx, offs, colour, code, transp;
+                int n;
+                n = ny + sy + 2;
+                offsy = ((n & 0x0f) * 4 | ((n & 0x30) * 0x100)) & 0x3fff;
+                offsx = ((nx + sx) * 0x040) & 0xfff;
+                offs = offsy + offsx;
+                offs &= 0x3fff;
+
+                code = cps1_scroll2.READ_WORD(offs);
+                colour = cps1_scroll2.READ_WORD(offs + 2);
+
+                transp = cps1_transparency_scroll[(colour & 0x0180) >> 7];
+
+                cps1_draw_tile16(bitmap,
+                        Machine.gfx[2],
+                        code + base,
+                        colour & 0x1f,
+                        colour & 0x20, colour & 0x40,
+                        16 * sx - nxoffset,
+                        16 * sy - nyoffset,
+                        transp);
+            }
+        }
+    }
+
+    public static void cps1_render_scroll2_low(osd_bitmap bitmap) {
+        int scrly = -(scroll2y - 0x20);
+        int scrlx = -(scroll2x + 0x40 - 0x20);
+
+        if (cps1_flip_screen != 0) {
+            scrly = (CPS1_SCROLL2_HEIGHT * 16) - scrly;
+        }
+
+        cps1_render_scroll2_bitmap(cps1_scroll2_bitmap);
+
+        copyscrollbitmap(bitmap, cps1_scroll2_bitmap, 1, new int[]{scrlx}, 1, new int[]{scrly}, Machine.drv.visible_area, TRANSPARENCY_PEN, palette_transparent_pen);
+    }
+
+    public static void cps1_render_scroll2_distort(osd_bitmap bitmap) {
+        int scrly = -scroll2y;
+        int i;
+        int[] scrollx = new int[1024];
+        int otheroffs;
+
+        /*
+         Games known to use row scrolling:
+
+         SF2
+         Mega Twins (underwater, cave)
+         Carrier Air Wing (hazy background at beginning of mission 8)
+         Magic Sword (fire on floor 3; screen distort after continue)
+         Varth (title screen)
+         */
+        if (cps1_flip_screen != 0) {
+            scrly = (CPS1_SCROLL2_HEIGHT * 16) - scrly;
+        }
+
+        cps1_render_scroll2_bitmap(cps1_scroll2_bitmap);
+
+        otheroffs = cps1_port.handler(CPS1_ROWSCROLL_OFFS);
+
+        for (i = 0; i < 256; i++) {
+            scrollx[(i - scrly) & 0x3ff] = -(scroll2x + 0x40 - 0x20) - cps1_other.READ_WORD((2 * (i + otheroffs)) & 0x7ff);
+        }
+
+        scrly += 0x20;
+
+        copyscrollbitmap(bitmap, cps1_scroll2_bitmap, 1024, scrollx, 1, new int[]{scrly}, Machine.drv.visible_area, TRANSPARENCY_PEN, palette_transparent_pen);
+    }
+    
+
+/***************************************************************************
+
+  Scroll 3 (32x32 layer)
+
+  Attribute word layout:
+  0x0001	colour
+  0x0002	colour
+  0x0004	colour
+  0x0008	colour
+  0x0010	colour
+  0x0020	X Flip
+  0x0040	Y Flip
+  0x0080
+  0x0100
+  0x0200
+  0x0400
+  0x0800
+  0x1000
+  0x2000
+  0x4000
+  0x8000
+
+***************************************************************************/
+
 
     public static void cps1_palette_scroll3(char[] base, int offset) {
         int sx, sy;
@@ -1560,15 +1474,16 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
                 case 0:
                     cps1_render_sprites(bitmap);
                     break;
-                			case 1:
-                cps1_render_scroll1(bitmap, 0);
-				break;
-/*TODO*///			case 2:
-/*TODO*///				if (distort)
-/*TODO*///                    cps1_render_scroll2_distort(bitmap);
-/*TODO*///				else
-/*TODO*///                    cps1_render_scroll2_low(bitmap);
-/*TODO*///				break;
+                case 1:
+                    cps1_render_scroll1(bitmap, 0);
+                    break;
+                case 2:
+                    if (distort != 0) {
+                        cps1_render_scroll2_distort(bitmap);
+                    } else {
+                        cps1_render_scroll2_low(bitmap);
+                    }
+                    break;
                 case 3:
                     cps1_render_scroll3(bitmap, 0);
                     break;
@@ -1578,22 +1493,20 @@ public static void cps1_draw_scroll1(osd_bitmap dest,int code, int color, int fl
 
     public static void cps1_render_high_layer(osd_bitmap bitmap, int layer) {
         if (cps1_layer_enabled[layer] != 0) {
-            //System.out.println("high layer " + layer);
-            /*TODO*///		switch (layer)
-/*TODO*///		{
-/*TODO*///			case 0:
-/*TODO*///				/* there are no high priority sprites */
-/*TODO*///				break;
-/*TODO*///			case 1:
-/*TODO*///                cps1_render_scroll1(bitmap, 1);
-/*TODO*///				break;
-/*TODO*///			case 2:
-/*TODO*///                cps1_render_scroll2_high(bitmap);
-/*TODO*///				break;
-/*TODO*///			case 3:
-/*TODO*///				cps1_render_scroll3(bitmap, 1);
-/*TODO*///				break;
-/*TODO*///		}
+            switch (layer) {
+                case 0:
+                    /* there are no high priority sprites */
+                    break;
+                case 1:
+                    cps1_render_scroll1(bitmap, 1);
+                    break;
+                case 2:
+                    cps1_render_scroll2_high(bitmap);
+                    break;
+                case 3:
+                    cps1_render_scroll3(bitmap, 1);
+                    break;
+            }
         }
     }
 
