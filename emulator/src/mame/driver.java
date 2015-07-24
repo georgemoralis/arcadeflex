@@ -1797,7 +1797,7 @@ driver_wonder3,
 driver_kod, //seems ok
 driver_kodj,
 driver_kodb,
-driver_captcomm,
+driver_captcomm,//coin counter work with 7 instead of 5 
 driver_captcomu,
 driver_captcomj,
 driver_knights,
