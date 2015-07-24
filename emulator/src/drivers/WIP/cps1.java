@@ -47,6 +47,8 @@ import static sound._2151intf.*;
 import static sound._2151intfH.*;
 import static sound.mixerH.*;
 import static vidhrdw.cps1.*;
+import static sound.qsound.*;
+import static sound.qsoundH.*;
 
 public class cps1 {
 
@@ -216,12 +218,11 @@ public class cps1 {
      *
      *******************************************************************
      */
-    /*TODO*///	static struct QSound_interface qsound_interface =
-/*TODO*///	{
-/*TODO*///		QSOUND_CLOCK,
-/*TODO*///		REGION_SOUND1,
-/*TODO*///		{ 100,100 }
-/*TODO*///	};
+    static QSound_interface qsound_interface = new QSound_interface(
+            QSOUND_CLOCK,
+            REGION_SOUND1,
+            new int[]{100, 100}
+    );
     static UBytePtr qsound_sharedram = new UBytePtr();
 
     public static InterruptPtr cps1_qsound_interrupt = new InterruptPtr() {
@@ -399,7 +400,7 @@ public class cps1 {
                 new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
                 new MemoryReadAddress(0x8000, 0xbfff, MRA_BANK1), /* banked (contains music data) */
                 new MemoryReadAddress(0xc000, 0xcfff, MRA_RAM),
-                /*TODO*///		new MemoryReadAddress( 0xd007, 0xd007, qsound_status_r ),
+                new MemoryReadAddress(0xd007, 0xd007, qsound_status_r),
                 new MemoryReadAddress(0xf000, 0xffff, MRA_RAM),
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -407,9 +408,9 @@ public class cps1 {
             = {
                 new MemoryWriteAddress(0x0000, 0xbfff, MWA_ROM),
                 new MemoryWriteAddress(0xc000, 0xcfff, MWA_RAM, qsound_sharedram),
-                /*TODO*///		new MemoryWriteAddress( 0xd000, 0xd000, qsound_data_h_w ),
-                /*TODO*///		new MemoryWriteAddress( 0xd001, 0xd001, qsound_data_l_w ),
-                /*TODO*///		new MemoryWriteAddress( 0xd002, 0xd002, qsound_cmd_w ),
+                new MemoryWriteAddress(0xd000, 0xd000, qsound_data_h_w),
+                new MemoryWriteAddress(0xd001, 0xd001, qsound_data_l_w),
+                new MemoryWriteAddress(0xd002, 0xd002, qsound_cmd_w),
                 new MemoryWriteAddress(0xd003, 0xd003, qsound_banksw_w),
                 new MemoryWriteAddress(0xf000, 0xffff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
@@ -4037,47 +4038,45 @@ public class cps1 {
             pang3_nvram_handler
     );
 
-    /*TODO*///	static MachineDriver machine_driver_qsound = new MachineDriver
-/*TODO*///	(
-/*TODO*///		new MachineCPU[] {
-/*TODO*///			new MachineCPU(
-/*TODO*///				CPU_M68000,
-/*TODO*///				10000000,	/* ??? */
-/*TODO*///				cps1_readmem,cps1_writemem,null,null,
-/*TODO*///				cps1_qsound_interrupt, 1  /* ??? interrupts per frame */
-/*TODO*///			),
-/*TODO*///			new MachineCPU(
-/*TODO*///				CPU_Z80 | CPU_AUDIO_CPU,
-/*TODO*///				6000000,  /* 6 Mhz ??? TODO: find real FRQ */
-/*TODO*///				qsound_readmem,qsound_writemem,null,null,
-/*TODO*///				interrupt,4
-/*TODO*///			)
-/*TODO*///		},
-/*TODO*///		60, 3000,
-/*TODO*///		1,
-/*TODO*///		null,
-    /* video hardware */
-    /*TODO*///		0x30*8+32*2, 0x1c*8+32*3, new rectangle( 32, 32+0x30*8-1, 32+16, 32+16+0x1c*8-1 ),
-    /*TODO*///		cps1_gfxdecodeinfo,
-/*TODO*///		32*16+32*16+32*16+32*16,   /* lotsa colours */
-/*TODO*///		32*16+32*16+32*16+32*16,   /* Colour table length */
-/*TODO*///		null,
-    /*TODO*///		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
-/*TODO*///		cps1_eof_callback,
-/*TODO*///		cps1_vh_start,
-/*TODO*///		cps1_vh_stop,
-/*TODO*///		cps1_vh_screenrefresh,
-    /* sound hardware */
-    /*TODO*///		SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_QSOUND,
-/*TODO*///				qsound_interface
-/*TODO*///			)
-/*TODO*///		},
-/*TODO*///	
-/*TODO*///		qsound_nvram_handler
-/*TODO*///	);
+    static MachineDriver machine_driver_qsound = new MachineDriver(
+            new MachineCPU[]{
+                new MachineCPU(
+                        CPU_M68000,
+                        10000000, /* ??? */
+                        cps1_readmem, cps1_writemem, null, null,
+                        cps1_qsound_interrupt, 1 /* ??? interrupts per frame */
+                ),
+                new MachineCPU(
+                        CPU_Z80 | CPU_AUDIO_CPU,
+                        6000000, /* 6 Mhz ??? TODO: find real FRQ */
+                        qsound_readmem, qsound_writemem, null, null,
+                        interrupt, 4
+                )
+            },
+            60, 3000,
+            1,
+            null,
+            /* video hardware */
+            0x30 * 8 + 32 * 2, 0x1c * 8 + 32 * 3, new rectangle(32, 32 + 0x30 * 8 - 1, 32 + 16, 32 + 16 + 0x1c * 8 - 1),
+            cps1_gfxdecodeinfo,
+            32 * 16 + 32 * 16 + 32 * 16 + 32 * 16, /* lotsa colours */
+            32 * 16 + 32 * 16 + 32 * 16 + 32 * 16, /* Colour table length */
+            null,
+            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+            cps1_eof_callback,
+            cps1_vh_start,
+            cps1_vh_stop,
+            cps1_vh_screenrefresh,
+            /* sound hardware */
+            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_QSOUND,
+                        qsound_interface
+                )
+            },
+            qsound_nvram_handler
+    );
     /**
      * *************************************************************************
      *
@@ -6956,17 +6955,17 @@ public class cps1 {
     public static GameDriver driver_rockmanj = new GameDriver("1995", "rockmanj", "cps1.java", rom_rockmanj, driver_megaman, machine_driver_cps1, input_ports_megaman, null, ROT0_16BIT, "Capcom", "Rockman - The Power Battle (Japan)");
     public static GameDriver driver_sfzch = new GameDriver("1995", "sfzch", "cps1.java", rom_sfzch, null, machine_driver_cps1, input_ports_sfzch, null, ROT0_16BIT, "Capcom", "Street Fighter ZERO (Japan CPS Changer)");
 
-    /*TODO*///	public static GameDriver driver_wof	   = new GameDriver("1992"	,"wof"	,"cps1.java"	,rom_wof,null	,machine_driver_qsound	,input_ports_wof	,init_wof	,ROT0	,	"Capcom", "Warriors of Fate (World)" );
-/*TODO*///	public static GameDriver driver_wofj	   = new GameDriver("1992"	,"wofj"	,"cps1.java"	,rom_wofj,driver_wof	,machine_driver_qsound	,input_ports_wof	,init_wof	,ROT0	,	"Capcom", "Tenchi wo Kurau II - Sekiheki no Tatakai (Japan)" );
-/*TODO*///	public static GameDriver driver_dino	   = new GameDriver("1993"	,"dino"	,"cps1.java"	,rom_dino,null	,machine_driver_qsound	,input_ports_dino	,init_dino	,ROT0	,	"Capcom", "Cadillacs and Dinosaurs (World)" );
-/*TODO*///	public static GameDriver driver_dinoj	   = new GameDriver("1993"	,"dinoj"	,"cps1.java"	,rom_dinoj,driver_dino	,machine_driver_qsound	,input_ports_dino	,init_dino	,ROT0,       "Capcom", "Cadillacs Kyouryuu-Shinseiki (Japan)" );
-/*TODO*///	public static GameDriver driver_punisher	   = new GameDriver("1993"	,"punisher"	,"cps1.java"	,rom_punisher,null	,machine_driver_qsound	,input_ports_punisher	,init_punisher	,ROT0	,	"Capcom", "The Punisher (World)" );
-/*TODO*///	public static GameDriver driver_punishru	   = new GameDriver("1993"	,"punishru"	,"cps1.java"	,rom_punishru,driver_punisher	,machine_driver_qsound	,input_ports_punisher	,init_punisher	,ROT0	,	"Capcom", "The Punisher (US)" );
-/*TODO*///	public static GameDriver driver_punishrj	   = new GameDriver("1993"	,"punishrj"	,"cps1.java"	,rom_punishrj,driver_punisher	,machine_driver_qsound	,input_ports_punisher	,init_punisher	,ROT0	,	"Capcom", "The Punisher (Japan)" );
-/*TODO*///	public static GameDriver driver_slammast	   = new GameDriver("1993"	,"slammast"	,"cps1.java"	,rom_slammast,null	,machine_driver_qsound	,input_ports_slammast	,init_slammast	,ROT0_16BIT	,	"Capcom", "Saturday Night Slam Masters (World)" );
-/*TODO*///	public static GameDriver driver_mbomberj	   = new GameDriver("1993"	,"mbomberj"	,"cps1.java"	,rom_mbomberj,driver_slammast	,machine_driver_qsound	,input_ports_slammast	,init_slammast	,ROT0_16BIT	,	"Capcom", "Muscle Bomber - The Body Explosion (Japan)" );
-/*TODO*///	public static GameDriver driver_mbombrd	   = new GameDriver("1993"	,"mbombrd"	,"cps1.java"	,rom_mbombrd,driver_slammast	,machine_driver_qsound	,input_ports_slammast	,init_slammast	,ROT0_16BIT	,	"Capcom", "Muscle Bomber Duo - Ultimate Team Battle (World)" );
-/*TODO*///	public static GameDriver driver_mbombrdj	   = new GameDriver("1993"	,"mbombrdj"	,"cps1.java"	,rom_mbombrdj,driver_slammast	,machine_driver_qsound	,input_ports_slammast	,init_slammast	,ROT0_16BIT	,	"Capcom", "Muscle Bomber Duo - Heat Up Warriors (Japan)" );
+    public static GameDriver driver_wof = new GameDriver("1992", "wof", "cps1.java", rom_wof, null, machine_driver_qsound, input_ports_wof, init_wof, ROT0, "Capcom", "Warriors of Fate (World)");
+    public static GameDriver driver_wofj = new GameDriver("1992", "wofj", "cps1.java", rom_wofj, driver_wof, machine_driver_qsound, input_ports_wof, init_wof, ROT0, "Capcom", "Tenchi wo Kurau II - Sekiheki no Tatakai (Japan)");
+    public static GameDriver driver_dino = new GameDriver("1993", "dino", "cps1.java", rom_dino, null, machine_driver_qsound, input_ports_dino, init_dino, ROT0, "Capcom", "Cadillacs and Dinosaurs (World)");
+    public static GameDriver driver_dinoj = new GameDriver("1993", "dinoj", "cps1.java", rom_dinoj, driver_dino, machine_driver_qsound, input_ports_dino, init_dino, ROT0, "Capcom", "Cadillacs Kyouryuu-Shinseiki (Japan)");
+    public static GameDriver driver_punisher = new GameDriver("1993", "punisher", "cps1.java", rom_punisher, null, machine_driver_qsound, input_ports_punisher, init_punisher, ROT0, "Capcom", "The Punisher (World)");
+    public static GameDriver driver_punishru = new GameDriver("1993", "punishru", "cps1.java", rom_punishru, driver_punisher, machine_driver_qsound, input_ports_punisher, init_punisher, ROT0, "Capcom", "The Punisher (US)");
+    public static GameDriver driver_punishrj = new GameDriver("1993", "punishrj", "cps1.java", rom_punishrj, driver_punisher, machine_driver_qsound, input_ports_punisher, init_punisher, ROT0, "Capcom", "The Punisher (Japan)");
+    public static GameDriver driver_slammast = new GameDriver("1993", "slammast", "cps1.java", rom_slammast, null, machine_driver_qsound, input_ports_slammast, init_slammast, ROT0_16BIT, "Capcom", "Saturday Night Slam Masters (World)");
+    public static GameDriver driver_mbomberj = new GameDriver("1993", "mbomberj", "cps1.java", rom_mbomberj, driver_slammast, machine_driver_qsound, input_ports_slammast, init_slammast, ROT0_16BIT, "Capcom", "Muscle Bomber - The Body Explosion (Japan)");
+    public static GameDriver driver_mbombrd = new GameDriver("1993", "mbombrd", "cps1.java", rom_mbombrd, driver_slammast, machine_driver_qsound, input_ports_slammast, init_slammast, ROT0_16BIT, "Capcom", "Muscle Bomber Duo - Ultimate Team Battle (World)");
+    public static GameDriver driver_mbombrdj = new GameDriver("1993", "mbombrdj", "cps1.java", rom_mbombrdj, driver_slammast, machine_driver_qsound, input_ports_slammast, init_slammast, ROT0_16BIT, "Capcom", "Muscle Bomber Duo - Heat Up Warriors (Japan)");
     public static GameDriver driver_pang3 = new GameDriver("1995", "pang3", "cps1.java", rom_pang3, null, machine_driver_pang3, input_ports_pang3, init_pang3, ROT0_16BIT, "Mitchell", "Pang! 3 (Japan)");
 
 }

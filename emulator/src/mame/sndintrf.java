@@ -29,6 +29,7 @@ import sound._2151intf;
 import sound.pokey;
 import sound.upd7759;
 import sound.k053260;
+import sound.qsound;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -498,6 +499,7 @@ public class sndintrf {
              new k007232(),
              new k051649(),
              new k053260(),
+             new Dummy_snd(),
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_SEGAPCM)
     /*TODO*////*TODO*///	{
@@ -511,6 +513,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_RF5C68)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_RF5C68,
@@ -523,6 +526,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_CEM3394)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_CEM3394,
@@ -535,6 +539,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_C140)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_C140,
@@ -547,6 +552,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
+             new qsound(),
     /*TODO*////*TODO*///#if (HAS_QSOUND)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_QSOUND,

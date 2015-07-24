@@ -1794,7 +1794,7 @@ driver_sf2j,
 driver_sf2jb,
 driver_3wonders,
 driver_wonder3,
-driver_kod,
+driver_kod, //seems ok
 driver_kodj,
 driver_kodb,
 driver_captcomm,
@@ -1813,27 +1813,27 @@ driver_varth,
 driver_varthu,
 driver_varthj,
 driver_cworld2j,
-/*TODO*/ //	DRIVER( wof )		/* 10/ 2/1992 (c) 1992 (World) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( wofj )		/* 10/31/1992 (c) 1992 (Japan) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( sf2t )		/* 12/ 9/1992 (c) 1992 (US)    */
-/*TODO*/ //	DRIVER( sf2tj )		/* 12/ 9/1992 (c) 1992 (Japan) */
-/*TODO*/ //	DRIVER( dino )		/*  2/ 1/1993 (c) 1993 (World) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( dinoj )		/*  2/ 1/1993 (c) 1993 (Japan) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( punisher )	/*  4/22/1993 (c) 1993 (World) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( punishru )	/*  4/22/1993 (c) 1993 (US)    (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( punishrj )	/*  4/22/1993 (c) 1993 (Japan) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( slammast )	/*  7/13/1993 (c) 1993 (World) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( mbomberj )	/*  7/13/1993 (c) 1993 (Japan) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( mbombrd )	/* 12/ 6/1993 (c) 1993 (World) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( mbombrdj )	/* 12/ 6/1993 (c) 1993 (Japan) (CPS1 + QSound) */
-/*TODO*/ //	DRIVER( pnickj )	/*  6/ 8/1994 (c) 1994 + Compile license (Japan) not listed on Capcom's site */
-/*TODO*/ //	DRIVER( qad )		/*  7/ 1/1992 (c) 1992 (US)    */
-/*TODO*/ //	DRIVER( qadj )		/*  9/21/1994 (c) 1994 (Japan) */
-/*TODO*/ //	DRIVER( qtono2 )	/*  1/23/1995 (c) 1995 (Japan) */
+driver_wof,
+driver_wofj,
+driver_sf2t,
+driver_sf2tj,
+driver_dino,
+driver_dinoj,
+driver_punisher,
+driver_punishru,
+driver_punishrj,
+driver_slammast,
+driver_mbomberj,
+driver_mbombrd,
+driver_mbombrdj,
+driver_pnickj,
+driver_qad,
+driver_qadj,
+driver_qtono2,
 driver_pang3,
-driver_megaman,
-/*TODO*/ //	DRIVER( rockmanj )	/*  9/22/1995 (c) 1995 (Japan) */
-/*TODO*/ ////	DRIVER( sfzch )		/* 10/20/1995 (c) 1995 (Japan) (CPS Changer) */
+driver_megaman, //seems ok
+driver_rockmanj,//seems ok
+driver_sfzch,	//no roms?
 
 	/* Capcom CPS2 games */
 	/* list completed by CPS2Shock */
