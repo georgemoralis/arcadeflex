@@ -142,6 +142,31 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         } else if (Machine.gamedrv.source_file.equals("crimfght.java")) {
             x = -(int) (i * 0.35);
             i = i + (int) (i * 0.70);
+        } else if (Machine.gamedrv.source_file.equals("m72.java")) {
+            if (Machine.gamedrv.name.equals("imgfight")) {
+                x = -(int) (i * 0.18);
+                y = -(int) (j * 0.18);
+                i = i + (int) (i * 0.35);
+                j = j + (int) (j * 0.35);
+            } else if (Machine.gamedrv.name.equals("gallop")) {
+                x = -(int) (i * 0.17);
+                y = -(int) (j * 0.25);
+                i = i + (int) (i * 0.34);
+                j = j + (int) (j * 0.50);
+            } else {
+                x = -(int) (i * 0.18);
+                y = -(int) (j * 0.25);
+                i = i + (int) (i * 0.35);
+                j = j + (int) (j * 0.50);
+            }
+        } else if (Machine.gamedrv.source_file.equals("raiden.java")) {
+            x = -(int) (i * 0.07);
+            i = i + (int) (i * 0.14);
+        } else if (Machine.gamedrv.source_file.equals("cps1.java")) {
+            x = -(int) (i * 0.085);
+            y = -(int) (j * 0.215);
+            i = i + (int) (i * 0.167);
+            j = j + (int) (j * 0.43);
         }
     }
 
