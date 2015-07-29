@@ -195,7 +195,7 @@ import static drivers.WIP.tmnt.*;
 import static drivers.WIP.toki.*;
 import static drivers.WIP.snk68.*;
 import static drivers.WIP.ddragon3.*;
-import static drivers.WIP.galpanic.*;
+import static drivers.galpanic.*;
 import static drivers.WIP.tumblep.*;
 import static drivers.WIP.dec0.*;
 import static drivers.WIP.kaneko16.*;
@@ -670,7 +670,7 @@ public class driver {
         /*450*//*snowbros*/driver_snowbroa,
         /*451*//*snowbros*/driver_snowbrob,
         /*452*//*snowbros*/driver_snowbroj,
-        
+        /*453*//*galpanic*/driver_galpanic,
 
         
         /*
@@ -2732,7 +2732,6 @@ driver_gtmre,
 /*TODO*/ //TESTDRIVER( shogwarr )
 
 	/* other Kaneko games */
-driver_galpanic,
 
 
 /*TODO*/ //	DRIVER( spacefb )	/* (c) [1980?] Nintendo */

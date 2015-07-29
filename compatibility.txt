@@ -449,7 +449,11 @@ rollerg  rollerg.c  KONAMI   [Z80   ]                                           
 rollergj rollerg.c  KONAMI   [Z80   ]                                                       1xYM-3812   053260                                          Rollergames (Japan)
 raiden   raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden
 raidenk  raiden.c   V30      V30      [Z80   ]                                              1xYM-3812   1xOKI6295                                       Raiden (Korea)
-
+snowbros snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 1)
+snowbroa snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 2)
+snowbrob snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 3)
+snowbroj snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (Japan)
+galpanic galpanic.c 68000                                                                   1xOKI6295                                                   Gals Panic
 
 Small issues that doesn't affect playable status
 =======================================

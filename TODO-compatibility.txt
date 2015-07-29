@@ -720,10 +720,7 @@ outzonep toaplan1.c 68000    Z80                                                
 vimana   toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 1)
 vimana2  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 2)
 vimanan  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (Nova Apparate GMBH & Co)
-snowbros snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 1)
-snowbroa snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 2)
-snowbrob snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 3)
-snowbroj snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (Japan)
+
 tekipaki toaplan2.c 68000                                                                   1xYM-3812                                                   Teki Paki
 ghox     toaplan2.c 68000                                                                   1xYM-2151                                                   Ghox
 dogyuun  toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Dogyuun
@@ -748,7 +745,6 @@ berlwall kaneko16.c 68000                                                       
 berlwalt kaneko16.c 68000                                                                   2xAY-8910   1xOKI6295                                       The Berlin Wall (set 2)
 gtmr     kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally
 gtmre    kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally (Evolution Model)
-galpanic galpanic.c 68000                                                                   1xOKI6295                                                   Gals Panic
 zwackery mcr68.c    68000    [68000 ]                                                       1xDAC                                                       Zwackery
 xenophob mcr68.c    68000    [68000 ]                                                       1xDAC                                                       Xenophobe
 spyhunt2 mcr68.c    68000    [M6809 ] [68000 ]                                              2xDAC                                                       Spy Hunter 2
