@@ -141,7 +141,7 @@ import static drivers.WIP.cheekyms.*;
 import static drivers.WIP.slapfght.*;
 import static drivers.WIP.marvins.*;
 import static drivers.WIP.gladiatr.*;
-import static drivers.WIP.snowbros.*;
+import static drivers.snowbros.*;
 import static drivers.WIP.mnight.*;
 import static drivers.WIP.bublbobl.*;
 import static drivers.WIP.zaxxon.*;
@@ -666,6 +666,10 @@ public class driver {
         /*446*//*rollerg*/driver_rollergj,
         /*447*//*raiden*/driver_raiden,	
         /*448*//*raiden*/driver_raidenk,
+        /*449*//*snowbros*/driver_snowbros,
+        /*450*//*snowbros*/driver_snowbroa,
+        /*451*//*snowbros*/driver_snowbrob,
+        /*452*//*snowbros*/driver_snowbroj,
         
 
         
@@ -1106,10 +1110,7 @@ driver_bjtwin,
 /*rainbow.java*/driver_rainbow,
 /*rainbow.java*/driver_rainbowe,
 /*rainbow.java*/driver_jumping,
-        driver_snowbros,
-        driver_snowbroa,
-        driver_snowbrob,
-        driver_snowbroj,
+
 
 driver_cabal,
 driver_cabal2,

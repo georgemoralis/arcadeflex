@@ -12,7 +12,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package drivers.WIP;
+package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
