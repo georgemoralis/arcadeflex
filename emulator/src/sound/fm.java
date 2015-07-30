@@ -14,6 +14,7 @@ import sound.fm_c.YM2203;
 import sound.streams.StreamInitPtr;
 import static arcadeflex.libc_old.*;
 import static sound._2151intf.YM2151UpdateRequest;
+import static arcadeflex.ptrlib.*;
 
 public class fm {
     /*TODO*///#define YM2610B_WARNING
@@ -2251,7 +2252,9 @@ public class fm {
 /*TODO*///static int YM2610NumChips;	/* total chip */
 /*TODO*///
 /*TODO*////* ---------- update one of chip (YM2610B FM6: ADPCM-A6: ADPCM-B:1) ----------- */
-/*TODO*///void YM2610UpdateOne(int num, INT16 **buffer, int length)
+    public static streams.StreamInitMultiPtr YM2610UpdateOne = new streams.StreamInitMultiPtr() {
+        public void handler(int num, UShortPtr[] buffer, int length) {
+            /*TODO*///void YM2610UpdateOne(int num, INT16 **buffer, int length)
 /*TODO*///{
 /*TODO*///	YM2610 *F2610 = &(FM2610[num]);
 /*TODO*///	FM_OPN *OPN   = &(FM2610[num].OPN);
@@ -2344,8 +2347,9 @@ public class fm {
 /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///	OPN->LFOCnt = LFOCnt;
 /*TODO*///#endif
-/*TODO*///}
-/*TODO*///#endif /* BUILD_OPNB */
+        }
+    };
+    /*TODO*///#endif /* BUILD_OPNB */
 /*TODO*///
 /*TODO*///#if BUILD_YM2610B
 /*TODO*////* ---------- update one of chip (YM2610B FM6: ADPCM-A6: ADPCM-B:1) ----------- */
@@ -2439,12 +2443,11 @@ public class fm {
 /*TODO*///#endif /* BUILD_YM2610B */
 /*TODO*///
 /*TODO*///#if BUILD_OPNB
-/*TODO*///int YM2610Init(int num, int clock, int rate,
-/*TODO*///               void **pcmroma,int *pcmsizea,void **pcmromb,int *pcmsizeb,
-/*TODO*///               FM_TIMERHANDLER TimerHandler,FM_IRQHANDLER IRQHandler)
-/*TODO*///
-/*TODO*///{
-/*TODO*///	int i;
+
+    public static int YM2610Init(int num, int clock, int rate,
+            UBytePtr[] pcmroma, int[] pcmsizea, UBytePtr[] pcmromb, int[] pcmsizeb,
+            FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
+        /*TODO*///	int i;
 /*TODO*///
 /*TODO*///    if (FM2610) return (-1);	/* duplicate init. */
 /*TODO*///    cur_chip = NULL;	/* hiro-shi!! */
@@ -2486,23 +2489,21 @@ public class fm {
 /*TODO*///		YM2610ResetChip(i);
 /*TODO*///	}
 /*TODO*///	InitOPNB_ADPCMATable();
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- shut down emurator ----------- */
-/*TODO*///void YM2610Shutdown()
-/*TODO*///{
-/*TODO*///    if (!FM2610) return;
+        return 0;
+    }
+
+    /*TODO*////* ---------- shut down emurator ----------- */
+    public static void YM2610Shutdown() {
+        /*TODO*///    if (!FM2610) return;
 /*TODO*///
 /*TODO*///	FMCloseTable();
 /*TODO*///	free(FM2610);
 /*TODO*///	FM2610 = NULL;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- reset one of chip ---------- */
-/*TODO*///void YM2610ResetChip(int num)
-/*TODO*///{
-/*TODO*///	int i;
+    }
+    /* ---------- reset one of chip ---------- */
+
+    public static void YM2610ResetChip(int num) {
+        /*TODO*///	int i;
 /*TODO*///	YM2610 *F2610 = &(FM2610[num]);
 /*TODO*///	FM_OPN *OPN   = &(FM2610[num].OPN);
 /*TODO*///	YM_DELTAT *DELTAT = &(FM2610[num].deltaT);
@@ -2554,8 +2555,8 @@ public class fm {
 /*TODO*///	DELTAT->portshift = 8;		/* allways 8bits shift */
 /*TODO*///	DELTAT->output_range = DELTAT_MIXING_LEVEL<<TL_BITS;
 /*TODO*///	YM_DELTAT_ADPCM_Reset(DELTAT,OUTD_CENTER);
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*////* YM2610 write */
 /*TODO*////* n = number  */
 /*TODO*////* a = address */
@@ -2658,9 +2659,9 @@ public class fm {
 /*TODO*///	return ret;
 /*TODO*///}
 /*TODO*///
-/*TODO*///int YM2610TimerOver(int n,int c)
-/*TODO*///{
-/*TODO*///	YM2610 *F2610 = &(FM2610[n]);
+
+    public static int YM2610TimerOver(int n, int c) {
+        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
 /*TODO*///
 /*TODO*///	if( c )
 /*TODO*///	{	/* Timer B */
@@ -2678,8 +2679,9 @@ public class fm {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	return F2610->OPN.ST.irq;
-/*TODO*///}
-/*TODO*///
+        throw new UnsupportedOperationException("Unimplemented");
+    }
+    /*TODO*///
 /*TODO*///#endif /* BUILD_OPNB */
 /*TODO*///
 /*TODO*///
@@ -3065,7 +3067,7 @@ public class fm {
         if (NoiseIncr != 0) {
             NoiseCnt += NoiseIncr;
             if (eg_out4 < EG_CUT_OFF) {
-                CH.connect4.write(0, CH.connect4.read(0) + OP_OUTN((int)NoiseCnt, (int) eg_out4));//*CH->connect4 += OP_OUTN(NoiseCnt,eg_out4);
+                CH.connect4.write(0, CH.connect4.read(0) + OP_OUTN((int) NoiseCnt, (int) eg_out4));//*CH->connect4 += OP_OUTN(NoiseCnt,eg_out4);
             }
         } else {
             if (eg_out4 < EG_CUT_OFF) {
@@ -3112,7 +3114,7 @@ public class fm {
         for (i = 0; i < SIN_ENT; i++) {
             int sign = (rand() & 1) != 0 ? TL_MAX : 0;
             int lev = rand() & 0x1ff;
-		//pom = lev ? 20*log10(0x200/lev) : 0;   /* decibel */
+            //pom = lev ? 20*log10(0x200/lev) : 0;   /* decibel */
             //NOISE_TABLE[i] = &TL_TABLE[sign + (int)(pom / EG_STEP)]; /* TL_TABLE steps */
             NOISE_TABLE[i] = new IntSubArray(TL_TABLE, sign + lev * EG_ENT / 0x200); //&TL_TABLE[sign + lev * EG_ENT/0x200]; /* TL_TABLE steps */
         }
@@ -3221,6 +3223,7 @@ public class fm {
                         OPM.ct = v >> 6;
                         if (OPM.PortWrite != null) {
                             OPM.PortWrite.handler(0, OPM.ct); /* bit0 = CT0,bit1 = CT1 */
+
                         }
                     }
                     /*TODO*///#if FM_LFO_SUPPORT
@@ -3364,6 +3367,7 @@ public class fm {
     public static int OPMInit(int num, int clock, int rate, FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
         if (FMOPM != null) {
             return (-1);	/* duplicate init. */
+
         }
         cur_chip = null;	/* hiro-shi!! */
 
@@ -3492,19 +3496,19 @@ public class fm {
 
                 OPM_CALC_CH7(cch[7]);
                 /* buffering */
-		//FM_BUFFERING_STEREO;
+                //FM_BUFFERING_STEREO;
                 /* stereo separate */
-                    {
-                        /* get left & right output with clipping */
-                        out_ch[OUTD_LEFT] += out_ch[OUTD_CENTER];
-                        //Limit(ref  out_ch[OUTD_LEFT], FM_MAXOUT, FM_MINOUT);
-                        out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
-                        //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
+                {
+                    /* get left & right output with clipping */
+                    out_ch[OUTD_LEFT] += out_ch[OUTD_CENTER];
+                    //Limit(ref  out_ch[OUTD_LEFT], FM_MAXOUT, FM_MINOUT);
+                    out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
+                    //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
                         /* buffering */
-                        bufL.write(i, (char)(out_ch[OUTD_LEFT] >> FM_OUTSB));
-                        bufR.write(i, (char)(out_ch[OUTD_RIGHT] >> FM_OUTSB));
-                    }
-		/* timer A controll */
+                    bufL.write(i, (char) (out_ch[OUTD_LEFT] >> FM_OUTSB));
+                    bufR.write(i, (char) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
+                }
+                /* timer A controll */
                 INTERNAL_TIMER_A(State, cch[7]);
             }
             INTERNAL_TIMER_B(State, length);
