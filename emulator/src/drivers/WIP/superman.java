@@ -135,9 +135,9 @@ public class superman {
                 new MemoryReadAddress(0x0000, 0x3fff, MRA_ROM),
                 new MemoryReadAddress(0x4000, 0x7fff, MRA_BANK2),
                 new MemoryReadAddress(0xc000, 0xdfff, MRA_RAM),
-                /*TODO*///               new MemoryReadAddress(0xe000, 0xe000, YM2610_status_port_0_A_r),
-                /*TODO*///               new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
-                /*TODO*///               new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
+                new MemoryReadAddress(0xe000, 0xe000, YM2610_status_port_0_A_r),
+                new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
+                new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
                 new MemoryReadAddress(0xe200, 0xe200, MRA_NOP),
                 new MemoryReadAddress(0xe201, 0xe201, r_rd_a001),
                 new MemoryReadAddress(0xea00, 0xea00, MRA_NOP),
@@ -147,10 +147,10 @@ public class superman {
             = {
                 new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(0xc000, 0xdfff, MWA_RAM),
-                /*TODO*///               new MemoryWriteAddress(0xe000, 0xe000, YM2610_control_port_0_A_w),
-                /*TODO*///               new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
-                /*TODO*///               new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
-                /*TODO*///               new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
+                new MemoryWriteAddress(0xe000, 0xe000, YM2610_control_port_0_A_w),
+                new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
+                new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
+                new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
                 new MemoryWriteAddress(0xe200, 0xe200, r_wr_a000),
                 new MemoryWriteAddress(0xe201, 0xe201, r_wr_a001),
                 new MemoryWriteAddress(0xe400, 0xe403, MWA_NOP), /* pan */
@@ -335,12 +335,12 @@ public class superman {
             superman_vh_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
-    		new MachineSound[] {
-    			new MachineSound(
-    				SOUND_YM2610,
-    				ym2610_interface
-    			)
-    		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2610,
+                        ym2610_interface
+                )
+            }
     );
 
     /**

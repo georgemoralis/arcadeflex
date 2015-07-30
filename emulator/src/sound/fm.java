@@ -11,10 +11,12 @@ import sound.fm_c.FM_OPN;
 import sound.fm_c.FM_SLOT;
 import sound.fm_c.YM2151;
 import sound.fm_c.YM2203;
+import sound.fm_c.YM2610;
 import sound.streams.StreamInitPtr;
 import static arcadeflex.libc_old.*;
 import static sound._2151intf.YM2151UpdateRequest;
 import static arcadeflex.ptrlib.*;
+import static sound.streams.*;
 
 public class fm {
     /*TODO*///#define YM2610B_WARNING
@@ -241,8 +243,8 @@ public class fm {
 
     public static final int TYPE_YM2203 = (TYPE_SSG);
     /*TODO*///#define TYPE_YM2608 (TYPE_SSG |TYPE_LFOPAN |TYPE_6CH |TYPE_ADPCM)
-/*TODO*///#define TYPE_YM2610 (TYPE_SSG |TYPE_LFOPAN |TYPE_6CH |TYPE_ADPCM)
-/*TODO*///#define TYPE_YM2612 (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC)
+    public static final int TYPE_YM2610 = (TYPE_SSG | TYPE_LFOPAN | TYPE_6CH | TYPE_ADPCM);
+    /*TODO*///#define TYPE_YM2612 (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC)
 /*TODO*///
 /*TODO*////* current chip state */
     static Object cur_chip = null;		/* pointer of current chip struct */
@@ -1180,11 +1182,11 @@ public class fm {
 
                 set_dr(SLOT, v, OPN.ST.DR_TABLE);
 //#if FM_LFO_SUPPORT
-                if ((OPN.type & TYPE_LFOPAN) != 0) {
-                    throw new UnsupportedOperationException("Unsupported");
+ /*TODO*///               if ((OPN.type & TYPE_LFOPAN) != 0) {
+ /*TODO*///                    throw new UnsupportedOperationException("Unsupported");
                     /*TODO*///			SLOT->amon = v>>7;
 /*TODO*///			SLOT->ams = CH->ams * SLOT->amon;
-                }
+  /*TODO*///               }
 //#endif
                 break;
             case 0x70:	/*     SR */
@@ -1250,7 +1252,6 @@ public class fm {
                     case 1:		/* 0xb4-0xb6 : L , R , AMS , PMS (YM2612/YM2608) */
 
                         if ((OPN.type & TYPE_LFOPAN) != 0) {
-                            throw new UnsupportedOperationException("Unsupported");
                             /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///				/* b0-2 PMS */
 /*TODO*///				/* 0,3.4,6.7,10,14,20,40,80(cent) */
@@ -1265,9 +1266,9 @@ public class fm {
 /*TODO*///				CH->SLOT[SLOT3].ams = CH->ams * CH->SLOT[SLOT3].amon;
 /*TODO*///				CH->SLOT[SLOT4].ams = CH->ams * CH->SLOT[SLOT4].amon;
 /*TODO*///#endif
-/*TODO*///				/* PAN */
-/*TODO*///				CH->PAN = (v>>6)&0x03; /* PAN : b6 = R , b7 = L */
-/*TODO*///				setup_connection( CH );
+				/* PAN */
+				CH.PAN = (v>>6)&0x03; /* PAN : b6 = R , b7 = L */
+				setup_connection( CH );
 /*TODO*///				/* Log(LOG_INF,"OPN %d,%d : PAN %d\n",n,c,CH->PAN);*/
                         }
                         break;
@@ -1540,21 +1541,8 @@ public class fm {
 /*TODO*///}ADPCM_CH;
 /*TODO*///
 /*TODO*////* here's the virtual YM2610 */
-/*TODO*///typedef struct ym2610_f {
-/*TODO*///	FM_OPN OPN;				/* OPN state    */
-/*TODO*///	FM_CH CH[6];			/* channel state */
-/*TODO*///	int address1;			/* address register1 */
-/*TODO*///	/* ADPCM-A unit */
-/*TODO*///	UINT8 *pcmbuf;			/* pcm rom buffer */
-/*TODO*///	UINT32 pcm_size;			/* size of pcm rom */
-/*TODO*///	INT32 *adpcmTL;					/* adpcmA total level */
-/*TODO*///	ADPCM_CH adpcm[6];				/* adpcm channels */
-/*TODO*///	UINT32 adpcmreg[0x30];	/* registers */
-/*TODO*///	UINT8 adpcm_arrivedEndAddress;
-/*TODO*///	/* Delta-T ADPCM unit */
-/*TODO*///	YM_DELTAT deltaT;
-/*TODO*///} YM2610;
-/*TODO*///
+
+    /*TODO*///
 /*TODO*////* here's the virtual YM2608 */
 /*TODO*///typedef YM2610 YM2608;
 /*TODO*///#endif /* (BUILD_YM2608||BUILD_OPNB) */
@@ -2247,13 +2235,14 @@ public class fm {
 /*TODO*///#endif /* BUILD_YM2608 */
 /*TODO*///
 /*TODO*///#if BUILD_OPNB
-/*TODO*////* -------------------------- YM2610(OPNB) ---------------------------------- */
-/*TODO*///static YM2610 *FM2610=NULL;	/* array of YM2610's */
-/*TODO*///static int YM2610NumChips;	/* total chip */
-/*TODO*///
-/*TODO*////* ---------- update one of chip (YM2610B FM6: ADPCM-A6: ADPCM-B:1) ----------- */
-    public static streams.StreamInitMultiPtr YM2610UpdateOne = new streams.StreamInitMultiPtr() {
-        public void handler(int num, UShortPtr[] buffer, int length) {
+/* -------------------------- YM2610(OPNB) ---------------------------------- */
+    static YM2610[] FM2610 = null;	/* array of YM2610's */
+
+    static int YM2610NumChips;	/* total chip */
+
+    /* ---------- update one of chip (YM2610B FM6: ADPCM-A6: ADPCM-B:1) ----------- */
+    public static StreamInitMultiPtr YM2610UpdateOne = new StreamInitMultiPtr() {
+        public void handler(int chip, UShortPtr[] buffer, int length) {
             /*TODO*///void YM2610UpdateOne(int num, INT16 **buffer, int length)
 /*TODO*///{
 /*TODO*///	YM2610 *F2610 = &(FM2610[num]);
@@ -2447,48 +2436,48 @@ public class fm {
     public static int YM2610Init(int num, int clock, int rate,
             UBytePtr[] pcmroma, int[] pcmsizea, UBytePtr[] pcmromb, int[] pcmsizeb,
             FM_TIMERHANDLERtr TimerHandler, FM_IRQHANDLEPtr IRQHandler) {
-        /*TODO*///	int i;
-/*TODO*///
-/*TODO*///    if (FM2610) return (-1);	/* duplicate init. */
-/*TODO*///    cur_chip = NULL;	/* hiro-shi!! */
-/*TODO*///
-/*TODO*///	YM2610NumChips = num;
-/*TODO*///
-/*TODO*///	/* allocate extend state space */
-/*TODO*///	if( (FM2610 = (YM2610 *)malloc(sizeof(YM2610) * YM2610NumChips))==NULL)
-/*TODO*///		return (-1);
-/*TODO*///	/* clear */
-/*TODO*///	memset(FM2610,0,sizeof(YM2610) * YM2610NumChips);
-/*TODO*///	/* allocate total level table (128kb space) */
-/*TODO*///	if( !FMInitTable() )
-/*TODO*///	{
-/*TODO*///		free( FM2610 );
-/*TODO*///		return (-1);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	for ( i = 0 ; i < YM2610NumChips; i++ ) {
-/*TODO*///		/* FM */
-/*TODO*///		FM2610[i].OPN.ST.index = i;
-/*TODO*///		FM2610[i].OPN.type = TYPE_YM2610;
-/*TODO*///		FM2610[i].OPN.P_CH = FM2610[i].CH;
-/*TODO*///		FM2610[i].OPN.ST.clock = clock;
-/*TODO*///		FM2610[i].OPN.ST.rate = rate;
-/*TODO*///		/* FM2610[i].OPN.ST.irq = 0; */
-/*TODO*///		/* FM2610[i].OPN.ST.status = 0; */
-/*TODO*///		FM2610[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
-/*TODO*///		/* Extend handler */
-/*TODO*///		FM2610[i].OPN.ST.Timer_Handler = TimerHandler;
-/*TODO*///		FM2610[i].OPN.ST.IRQ_Handler   = IRQHandler;
-/*TODO*///		/* ADPCM */
+        int i;
+
+        if (FM2610 != null) {
+            return (-1);	/* duplicate init. */
+
+        }
+        cur_chip = null;	/* hiro-shi!! */
+
+        YM2610NumChips = num;
+
+        FM2610 = new YM2610[YM2610NumChips];
+        for (i = 0; i < YM2610NumChips; i++) {
+            FM2610[i] = new YM2610();
+        }
+        if (FMInitTable() == 0) {
+            FM2610 = null;
+            return (-1);
+        }
+
+        for (i = 0; i < YM2610NumChips; i++) {
+            /* FM */
+            FM2610[i].OPN.ST.index = i;
+            FM2610[i].OPN.type = TYPE_YM2610;
+            FM2610[i].OPN.P_CH = FM2610[i].CH;
+            FM2610[i].OPN.ST.clock = clock;
+            FM2610[i].OPN.ST.rate = rate;
+            /* FM2610[i].OPN.ST.irq = 0; */
+            /* FM2610[i].OPN.ST.status = 0; */
+            FM2610[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
+            /* Extend handler */
+            FM2610[i].OPN.ST.Timer_Handler = TimerHandler;
+            FM2610[i].OPN.ST.IRQ_Handler = IRQHandler;
+            /*TODO*///		/* ADPCM */
 /*TODO*///		FM2610[i].pcmbuf   = (UINT8 *)(pcmroma[i]);
 /*TODO*///		FM2610[i].pcm_size = pcmsizea[i];
 /*TODO*///		/* DELTA-T */
 /*TODO*///		FM2610[i].deltaT.memory = (UINT8 *)(pcmromb[i]);
 /*TODO*///		FM2610[i].deltaT.memory_size = pcmsizeb[i];
 /*TODO*///		/* */
-/*TODO*///		YM2610ResetChip(i);
-/*TODO*///	}
-/*TODO*///	InitOPNB_ADPCMATable();
+            YM2610ResetChip(i);
+        }
+        /*TODO*///	InitOPNB_ADPCMATable();
         return 0;
     }
 
@@ -2503,32 +2492,32 @@ public class fm {
     /* ---------- reset one of chip ---------- */
 
     public static void YM2610ResetChip(int num) {
-        /*TODO*///	int i;
-/*TODO*///	YM2610 *F2610 = &(FM2610[num]);
-/*TODO*///	FM_OPN *OPN   = &(FM2610[num].OPN);
+        	int i;
+	YM2610 F2610 = FM2610[num];
+	FM_OPN OPN   = FM2610[num].OPN;
 /*TODO*///	YM_DELTAT *DELTAT = &(FM2610[num].deltaT);
 /*TODO*///
-/*TODO*///	/* Reset Priscaler */
-/*TODO*///	OPNSetPris( OPN, 6*24, 6*24, 4*2); /* OPN 1/6 , SSG 1/4 */
-/*TODO*///	/* reset SSG section */
-/*TODO*///	SSGReset(OPN->ST.index);
-/*TODO*///	/* status clear */
-/*TODO*///	FM_IRQMASK_SET(&OPN->ST,0x03);
-/*TODO*///	OPNWriteMode(OPN,0x27,0x30); /* mode 0 , timer reset */
-/*TODO*///
-/*TODO*///	reset_channel( &OPN->ST , F2610->CH , 6 );
-/*TODO*///	/* reset OPerator paramater */
-/*TODO*///	for(i = 0xb6 ; i >= 0xb4 ; i-- )
-/*TODO*///	{
-/*TODO*///		OPNWriteReg(OPN,i      ,0xc0);
-/*TODO*///		OPNWriteReg(OPN,i|0x100,0xc0);
-/*TODO*///	}
-/*TODO*///	for(i = 0xb2 ; i >= 0x30 ; i-- )
-/*TODO*///	{
-/*TODO*///		OPNWriteReg(OPN,i      ,0);
-/*TODO*///		OPNWriteReg(OPN,i|0x100,0);
-/*TODO*///	}
-/*TODO*///	for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
+	/* Reset Priscaler */
+	OPNSetPris( OPN, 6*24, 6*24, 4*2); /* OPN 1/6 , SSG 1/4 */
+	/* reset SSG section */
+	SSGReset(OPN.ST.index);
+	/* status clear */
+	FM_IRQMASK_SET(OPN.ST,0x03);
+	OPNWriteMode(OPN,0x27,0x30); /* mode 0 , timer reset */
+
+	reset_channel( OPN.ST , F2610.CH , 6 );
+	/* reset OPerator paramater */
+	for(i = 0xb6 ; i >= 0xb4 ; i-- )
+	{
+		OPNWriteReg(OPN,i      ,0xc0);
+		OPNWriteReg(OPN,i|0x100,0xc0);
+	}
+	for(i = 0xb2 ; i >= 0x30 ; i-- )
+	{
+		OPNWriteReg(OPN,i      ,0);
+		OPNWriteReg(OPN,i|0x100,0);
+	}
+	for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
 /*TODO*///	/**** ADPCM work initial ****/
 /*TODO*///	for( i = 0; i < 6+1; i++ ){
 /*TODO*///		F2610->adpcm[i].now_addr  = 0;
@@ -2561,9 +2550,9 @@ public class fm {
 /*TODO*////* n = number  */
 /*TODO*////* a = address */
 /*TODO*////* v = value   */
-/*TODO*///int YM2610Write(int n, int a,UINT8 v)
-/*TODO*///{
-/*TODO*///	YM2610 *F2610 = &(FM2610[n]);
+
+    public static int YM2610Write(int n, int a,/*UINT8*/ int v) {
+        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
 /*TODO*///	FM_OPN *OPN   = &(FM2610[n].OPN);
 /*TODO*///	int addr;
 /*TODO*///	int ch;
@@ -2626,10 +2615,11 @@ public class fm {
 /*TODO*///			OPNWriteReg(OPN,addr|0x100,v);
 /*TODO*///	}
 /*TODO*///	return OPN->ST.irq;
-/*TODO*///}
-/*TODO*///UINT8 YM2610Read(int n,int a)
-/*TODO*///{
-/*TODO*///	YM2610 *F2610 = &(FM2610[n]);
+        throw new UnsupportedOperationException("Unimplemented");
+    }
+
+    public static /*UINT8*/ int YM2610Read(int n, int a) {
+        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
 /*TODO*///	int addr = F2610->OPN.ST.address;
 /*TODO*///	UINT8 ret = 0;
 /*TODO*///
@@ -2657,8 +2647,8 @@ public class fm {
 /*TODO*///		break;
 /*TODO*///	}
 /*TODO*///	return ret;
-/*TODO*///}
-/*TODO*///
+        throw new UnsupportedOperationException("Unimplemented");
+    }
 
     public static int YM2610TimerOver(int n, int c) {
         /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
