@@ -1553,16 +1553,15 @@ public class palette {
             changecolor_xRRRRRGGGGGBBBBB(offset / 2, paletteram.read(offset & ~1) | (paletteram.read(offset | 1) << 8));
         }
     };
-    /*TODO*///
-    /*TODO*///void paletteram_xRRRRRGGGGGBBBBB_word_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
-    /*TODO*///	int newword = COMBINE_WORD(oldword,data);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	WRITE_WORD(&paletteram[offset],newword);
-    /*TODO*///	changecolor_xRRRRRGGGGGBBBBB(offset / 2,newword);
-    /*TODO*///}
+    public static WriteHandlerPtr paletteram_xRRRRRGGGGGBBBBB_word_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int oldword = paletteram.READ_WORD(offset);
+            int newword = COMBINE_WORD(oldword, data);
+
+            paletteram.WRITE_WORD(offset, newword);
+            changecolor_xRRRRRGGGGGBBBBB(offset / 2, newword);
+        }
+    };
     /*TODO*///
     /*TODO*///
     /*TODO*///INLINE void changecolor_IIIIRRRRGGGGBBBB(int color,int data)

@@ -202,6 +202,7 @@ import static drivers.WIP.kaneko16.*;
 import static drivers.WIP.prehisle.*;
 import static drivers.WIP.cps1.*;
 import static drivers.WIP.alpha68k.*;
+import static drivers.WIP.superman.*;
 
 
 public class driver {
@@ -1637,7 +1638,7 @@ driver_psoldier,	/* (c) 1993 Irem (Japan) */
 /*TODO*/ //TESTDRIVER( arkblock )	/* bootleg */
         
         
-/*TODO*/ //	DRIVER( superman )	/* (c) 1988 Taito Corporation */
+driver_superman,
 /*TODO*/ //TESTDRIVER( footchmp )	/* (c) 1990 Taito Corporation Japan (World) */
 
 	/* Taito L-System games */

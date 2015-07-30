@@ -409,6 +409,7 @@ public class m68kcpuH {
     public static long ROL_33(long A, long C) {
         return (LSL_32(A, C) | LSR_32(A, 33 - (C)));
     }
+
     public static long ROR_8(long A, long C) {
         return MASK_OUT_ABOVE_8(LSR(A, C) | LSL(A, 8 - (C)));
     }
@@ -970,7 +971,10 @@ public class m68kcpuH {
     public static boolean CONDITION_LT() {
         return ((get_CPU_N() == 0) != (get_CPU_V() == 0));
     }
-    /*TODO*///#define CONDITION_NOT_LT ((CPU_N == 0) == (CPU_V == 0))
+
+    public static boolean CONDITION_NOT_LT() {
+        return ((get_CPU_N() == 0) == (get_CPU_V() == 0));
+    }
 
     public static boolean CONDITION_GT() {
         return (get_CPU_NOT_Z() != 0 && (get_CPU_N() == 0) == (get_CPU_V() == 0));
