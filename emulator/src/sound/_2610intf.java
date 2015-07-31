@@ -102,7 +102,7 @@ public class _2610intf extends snd_interface {
 
     @Override
     public int start(MachineSound msound) {
-        int i, j;
+        int a, j;
         int rate = Machine.sample_rate;
         //char buf[YM2610_NUMBUF][40];
         String[] name = new String[YM2610_NUMBUF];
@@ -130,22 +130,22 @@ public class _2610intf extends snd_interface {
         FMTimerInit();
 
         /* stream system initialize */
-        for (i = 0; i < intf.num; i++) {
+        for (a = 0; a < intf.num; a++) {
             /* stream setup */
-            mixed_vol = intf.volumeFM[i];
+            mixed_vol = intf.volumeFM[a];
             /* stream setup */
             for (j = 0; j < YM2610_NUMBUF; j++) {
                 //name[j]=buf[j];
                 vol[j] = mixed_vol & 0xffff;
                 mixed_vol >>= 16;
-                name[j] = sprintf("%s #%d Ch%d", sound_name(msound), i, j + 1);
+                name[j] = sprintf("%s #%d Ch%d", sound_name(msound), a, j + 1);
             }
-            stream[i] = stream_init_multi(YM2610_NUMBUF, name, vol, rate, i, YM2610UpdateOne);
+            stream[a] = stream_init_multi(YM2610_NUMBUF, name, vol, rate, a, YM2610UpdateOne);
             /* setup adpcm buffers */
-            pcmbufa[i] = memory_region(intf.pcmroma[i]);
-            pcmsizea[i] = memory_region_length(intf.pcmroma[i]);
-            pcmbufb[i] = memory_region(intf.pcmromb[i]);
-            pcmsizeb[i] = memory_region_length(intf.pcmromb[i]);
+            pcmbufa[a] = memory_region(intf.pcmroma[a]);
+            pcmsizea[a] = memory_region_length(intf.pcmroma[a]);
+            pcmbufb[a] = memory_region(intf.pcmromb[a]);
+            pcmsizeb[a] = memory_region_length(intf.pcmromb[a]);
         }
 
         /**
