@@ -17,6 +17,7 @@ import static arcadeflex.libc_old.*;
 import static sound._2151intf.YM2151UpdateRequest;
 import static arcadeflex.ptrlib.*;
 import static sound.streams.*;
+import static sound._2610intf.*;
 
 public class fm {
     /*TODO*///#define YM2610B_WARNING
@@ -1083,11 +1084,11 @@ public class fm {
 //#if FM_LFO_SUPPORT
             case 0x22:	/* LFO FREQ (YM2608/YM2612) */
 
-                if ((OPN.type & TYPE_LFOPAN) != 0) {
-                    throw new UnsupportedOperationException("Unsupported");
+                /*TODO*///                if ((OPN.type & TYPE_LFOPAN) != 0) {
+/*TODO*///                    throw new UnsupportedOperationException("Unsupported");
                     /*TODO*///			OPN->LFOIncr = (v&0x08) ? OPN->LFO_FREQ[v&7] : 0;
 /*TODO*///			cur_chip = NULL;
-                }
+ /*TODO*///               }
                 break;
 //#endif
             case 0x24:	/* timer A High 8*/
@@ -1267,9 +1268,10 @@ public class fm {
 /*TODO*///				CH->SLOT[SLOT4].ams = CH->ams * CH->SLOT[SLOT4].amon;
 /*TODO*///#endif
 				/* PAN */
-				CH.PAN = (v>>6)&0x03; /* PAN : b6 = R , b7 = L */
-				setup_connection( CH );
-/*TODO*///				/* Log(LOG_INF,"OPN %d,%d : PAN %d\n",n,c,CH->PAN);*/
+                            CH.PAN = (v >> 6) & 0x03; /* PAN : b6 = R , b7 = L */
+
+                            setup_connection(CH);
+                            /*TODO*///				/* Log(LOG_INF,"OPN %d,%d : PAN %d\n",n,c,CH->PAN);*/
                         }
                         break;
                 }
@@ -2492,33 +2494,34 @@ public class fm {
     /* ---------- reset one of chip ---------- */
 
     public static void YM2610ResetChip(int num) {
-        	int i;
-	YM2610 F2610 = FM2610[num];
-	FM_OPN OPN   = FM2610[num].OPN;
-/*TODO*///	YM_DELTAT *DELTAT = &(FM2610[num].deltaT);
+        int i;
+        YM2610 F2610 = FM2610[num];
+        FM_OPN OPN = FM2610[num].OPN;
+        /*TODO*///	YM_DELTAT *DELTAT = &(FM2610[num].deltaT);
 /*TODO*///
 	/* Reset Priscaler */
-	OPNSetPris( OPN, 6*24, 6*24, 4*2); /* OPN 1/6 , SSG 1/4 */
-	/* reset SSG section */
-	SSGReset(OPN.ST.index);
-	/* status clear */
-	FM_IRQMASK_SET(OPN.ST,0x03);
-	OPNWriteMode(OPN,0x27,0x30); /* mode 0 , timer reset */
+        OPNSetPris(OPN, 6 * 24, 6 * 24, 4 * 2); /* OPN 1/6 , SSG 1/4 */
+        /* reset SSG section */
 
-	reset_channel( OPN.ST , F2610.CH , 6 );
-	/* reset OPerator paramater */
-	for(i = 0xb6 ; i >= 0xb4 ; i-- )
-	{
-		OPNWriteReg(OPN,i      ,0xc0);
-		OPNWriteReg(OPN,i|0x100,0xc0);
-	}
-	for(i = 0xb2 ; i >= 0x30 ; i-- )
-	{
-		OPNWriteReg(OPN,i      ,0);
-		OPNWriteReg(OPN,i|0x100,0);
-	}
-	for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
-/*TODO*///	/**** ADPCM work initial ****/
+        SSGReset(OPN.ST.index);
+        /* status clear */
+        FM_IRQMASK_SET(OPN.ST, 0x03);
+        OPNWriteMode(OPN, 0x27, 0x30); /* mode 0 , timer reset */
+
+        reset_channel(OPN.ST, F2610.CH, 6);
+        /* reset OPerator paramater */
+        for (i = 0xb6; i >= 0xb4; i--) {
+            OPNWriteReg(OPN, i, 0xc0);
+            OPNWriteReg(OPN, i | 0x100, 0xc0);
+        }
+        for (i = 0xb2; i >= 0x30; i--) {
+            OPNWriteReg(OPN, i, 0);
+            OPNWriteReg(OPN, i | 0x100, 0);
+        }
+        for (i = 0x26; i >= 0x20; i--) {
+            OPNWriteReg(OPN, i, 0);
+        }
+        /*TODO*///	/**** ADPCM work initial ****/
 /*TODO*///	for( i = 0; i < 6+1; i++ ){
 /*TODO*///		F2610->adpcm[i].now_addr  = 0;
 /*TODO*///		F2610->adpcm[i].now_step  = 0;
@@ -2552,26 +2555,30 @@ public class fm {
 /*TODO*////* v = value   */
 
     public static int YM2610Write(int n, int a,/*UINT8*/ int v) {
-        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
-/*TODO*///	FM_OPN *OPN   = &(FM2610[n].OPN);
-/*TODO*///	int addr;
-/*TODO*///	int ch;
-/*TODO*///
-/*TODO*///	switch( a&3 ){
-/*TODO*///	case 0:	/* address port 0 */
-/*TODO*///		OPN->ST.address = v & 0xff;
-/*TODO*///		/* Write register to SSG emurator */
-/*TODO*///		if( v < 16 ) SSGWrite(n,0,v);
-/*TODO*///		break;
-/*TODO*///	case 1:	/* data port 0    */
-/*TODO*///		addr = OPN->ST.address;
-/*TODO*///		switch(addr & 0xf0)
-/*TODO*///		{
-/*TODO*///		case 0x00:	/* SSG section */
-/*TODO*///			/* Write data to SSG emurator */
-/*TODO*///			SSGWrite(n,a,v);
-/*TODO*///			break;
-/*TODO*///		case 0x10: /* DeltaT ADPCM */
+        YM2610 F2610 = FM2610[n];
+        FM_OPN OPN = FM2610[n].OPN;
+        int addr;
+        int ch;
+
+        switch (a & 3) {
+            case 0:	/* address port 0 */
+
+                OPN.ST.address = v & 0xff;
+                /* Write register to SSG emurator */
+                if (v < 16) {
+                    SSGWrite(n, 0, v);
+                }
+                break;
+            case 1:	/* data port 0    */
+
+                addr = OPN.ST.address;
+                switch (addr & 0xf0) {
+                    case 0x00:	/* SSG section */
+                        /* Write data to SSG emurator */
+
+                        SSGWrite(n, a, v);
+                        break;
+                    /*TODO*///		case 0x10: /* DeltaT ADPCM */
 /*TODO*///			YM2610UpdateReq(n);
 /*TODO*///			switch(addr)
 /*TODO*///			{
@@ -2592,84 +2599,88 @@ public class fm {
 /*TODO*///				YM_DELTAT_ADPCM_Write(&F2610->deltaT,addr-0x10,v);
 /*TODO*///			}
 /*TODO*///			break;
-/*TODO*///		case 0x20:	/* Mode Register */
-/*TODO*///			YM2610UpdateReq(n);
-/*TODO*///			OPNWriteMode(OPN,addr,v);
-/*TODO*///			break;
-/*TODO*///		default:	/* OPN section */
-/*TODO*///			YM2610UpdateReq(n);
-/*TODO*///			/* write register */
-/*TODO*///			 OPNWriteReg(OPN,addr,v);
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///	case 2:	/* address port 1 */
-/*TODO*///		F2610->address1 = v & 0xff;
-/*TODO*///		break;
-/*TODO*///	case 3:	/* data port 1    */
-/*TODO*///		YM2610UpdateReq(n);
-/*TODO*///		addr = F2610->address1;
-/*TODO*///		if( addr < 0x30 )
-/*TODO*///			/* 100-12f : ADPCM A section */
+                    case 0x20:	/* Mode Register */
+
+                        YM2610UpdateRequest(n);
+                        OPNWriteMode(OPN, addr, v);
+                        break;
+                    default:	/* OPN section */
+
+                        YM2610UpdateRequest(n);
+                        /* write register */
+                        OPNWriteReg(OPN, addr, v);
+                }
+                break;
+            case 2:	/* address port 1 */
+
+                F2610.address1 = v & 0xff;
+                break;
+            case 3:	/* data port 1    */
+
+                YM2610UpdateRequest(n);
+                addr = F2610.address1;
+                if (addr < 0x30) {
+                    /*TODO*///			/* 100-12f : ADPCM A section */
 /*TODO*///			FM_ADPCMAWrite(F2610,addr,v);
-/*TODO*///		else
-/*TODO*///			OPNWriteReg(OPN,addr|0x100,v);
-/*TODO*///	}
-/*TODO*///	return OPN->ST.irq;
-        throw new UnsupportedOperationException("Unimplemented");
+                } else {
+                    OPNWriteReg(OPN, addr | 0x100, v);
+                }
+        }
+        return OPN.ST.irq;
     }
 
     public static /*UINT8*/ int YM2610Read(int n, int a) {
-        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
-/*TODO*///	int addr = F2610->OPN.ST.address;
-/*TODO*///	UINT8 ret = 0;
-/*TODO*///
-/*TODO*///	switch( a&3){
-/*TODO*///	case 0:	/* status 0 : YM2203 compatible */
-/*TODO*///		ret = F2610->OPN.ST.status & 0x83;
-/*TODO*///		break;
-/*TODO*///	case 1:	/* data 0 */
-/*TODO*///		if( addr < 16 ) ret = SSGRead(n);
-/*TODO*///		if( addr == 0xff ) ret = 0x01;
-/*TODO*///		break;
-/*TODO*///	case 2:	/* status 1 : + ADPCM status */
+        YM2610 F2610 = FM2610[n];
+        int addr = F2610.OPN.ST.address;
+        int/*UINT8*/ ret = 0;
+
+        switch (a & 3) {
+            case 0:	/* status 0 : YM2203 compatible */
+
+                ret = F2610.OPN.ST.status & 0x83;
+                break;
+            case 1:	/* data 0 */
+
+                if (addr < 16) {
+                    ret = SSGRead(n);
+                }
+                if (addr == 0xff) {
+                    ret = 0x01;
+                }
+                break;
+            /*TODO*///	case 2:	/* status 1 : + ADPCM status */
 /*TODO*///		/* ADPCM STATUS (arrived End Address) */
 /*TODO*///		/* B,--,A5,A4,A3,A2,A1,A0 */
 /*TODO*///		/* B     = ADPCM-B(DELTA-T) arrived end address */
 /*TODO*///		/* A0-A5 = ADPCM-A          arrived end address */
 /*TODO*///		ret = F2610->adpcm_arrivedEndAddress | F2610->deltaT.arrivedFlag;
-/*TODO*///#ifdef __RAINE__
-/*TODO*///	  //PrintDebug( "YM2610Status2 %02x\n", ret );
-/*TODO*///	  //PrintIngame(120,"YM2610Status2 %02x", ret );
-/*TODO*///#endif
-/*TODO*///		break;
-/*TODO*///	case 3:
-/*TODO*///		ret = 0;
-/*TODO*///		break;
-/*TODO*///	}
-/*TODO*///	return ret;
-        throw new UnsupportedOperationException("Unimplemented");
+
+            /*TODO*///		break;
+            case 3:
+                ret = 0;
+                break;
+        }
+        return ret & 0xFF;
     }
 
     public static int YM2610TimerOver(int n, int c) {
-        /*TODO*///	YM2610 *F2610 = &(FM2610[n]);
-/*TODO*///
-/*TODO*///	if( c )
-/*TODO*///	{	/* Timer B */
-/*TODO*///		TimerBOver( &(F2610->OPN.ST) );
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* Timer A */
-/*TODO*///		YM2610UpdateReq(n);
-/*TODO*///		/* timer update */
-/*TODO*///		TimerAOver( &(F2610->OPN.ST) );
-/*TODO*///		/* CSM mode key,TL controll */
-/*TODO*///		if( F2610->OPN.ST.mode & 0x80 )
-/*TODO*///		{	/* CSM mode total level latch and auto key on */
-/*TODO*///			CSMKeyControll( &(F2610->CH[2]) );
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	return F2610->OPN.ST.irq;
-        throw new UnsupportedOperationException("Unimplemented");
+        YM2610 F2610 = FM2610[n];
+
+        if (c != 0) {	/* Timer B */
+
+            TimerBOver(F2610.OPN.ST);
+        } else {	/* Timer A */
+
+            YM2610UpdateRequest(n);
+            /* timer update */
+            TimerAOver(F2610.OPN.ST);
+            /* CSM mode key,TL controll */
+            if ((F2610.OPN.ST.mode & 0x80) != 0) {	/* CSM mode total level latch and auto key on */
+
+                CSMKeyControll(F2610.CH[2]);
+            }
+        }
+        return F2610.OPN.ST.irq;
     }
     /*TODO*///
 /*TODO*///#endif /* BUILD_OPNB */
