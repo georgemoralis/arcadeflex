@@ -203,6 +203,7 @@ import static drivers.WIP.prehisle.*;
 import static drivers.WIP.cps1.*;
 import static drivers.WIP.alpha68k.*;
 import static drivers.WIP.superman.*;
+import static drivers.WIP.aerofgt.*;
 
 
 public class driver {
@@ -2704,12 +2705,12 @@ driver_tokib,
 /*TODO*/ //	DRIVER( soldamj )	/* (c) 1992 (Japan) */
 
 	/* Video System Co. games */
-/*TODO*/ //	DRIVER( pspikes )	/* (c) 1991 */
-/*TODO*/ //	DRIVER( svolly91 )	/* (c) 1991 */
-/*TODO*/ //	DRIVER( turbofrc )	/* (c) 1991 */
-/*TODO*/ //	DRIVER( aerofgt )	/* (c) 1992 */
-/*TODO*/ //	DRIVER( aerofgtb )	/* (c) 1992 */
-/*TODO*/ //	DRIVER( aerofgtc )	/* (c) 1992 */
+driver_pspikes,	/* (c) 1991 */
+driver_svolly91,	/* (c) 1991 */
+driver_turbofrc,	/* (c) 1991 */
+driver_aerofgt,	/* (c) 1992 */
+driver_aerofgtb,	/* (c) 1992 */
+driver_aerofgtc,	/* (c) 1992 */
 /*TODO*/ //TESTDRIVER( unkvsys )
 
 
