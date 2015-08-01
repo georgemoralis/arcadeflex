@@ -16,6 +16,7 @@ import sound.streams.StreamInitPtr;
 import static arcadeflex.libc_old.*;
 import static sound._2151intf.YM2151UpdateRequest;
 import static arcadeflex.ptrlib.*;
+import static sound.YM_DELTA_T.*;
 import static sound.streams.*;
 import static sound._2610intf.*;
 
@@ -37,8 +38,9 @@ public class fm {
 /*TODO*///#if BUILD_FM_ADPCMB
 /*TODO*////* include external DELTA-T ADPCM unit */
 /*TODO*///  #include "ymdeltat.h"		/* DELTA-T ADPCM UNIT */
-/*TODO*///  #define DELTAT_MIXING_LEVEL (4) /* DELTA-T ADPCM MIXING LEVEL */
-/*TODO*///#endif
+
+    public static final int DELTAT_MIXING_LEVEL = (4); /* DELTA-T ADPCM MIXING LEVEL */
+    /*TODO*///#endif
 /*TODO*///
 /*TODO*////* ------------------------------------------------------------------ */
 /*TODO*///#ifdef __RAINE__
@@ -2246,29 +2248,29 @@ public class fm {
     public static StreamInitMultiPtr YM2610UpdateOne = new StreamInitMultiPtr() {
         public void handler(int num, UShortPtr[] buffer, int length) {
 
-	YM2610 F2610 = FM2610[num];
-	FM_OPN OPN   = FM2610[num].OPN;
-/*TODO*///	YM_DELTAT *DELTAT = &(F2610[num].deltaT);
-	int i,j;
-	int ch;
-	UShortPtr bufL;
-        UShortPtr bufR;
-/*TODO*///
-/*TODO*///	/* setup DELTA-T unit */
-/*TODO*///	YM_DELTAT_DECODE_PRESET(DELTAT);
-/*TODO*///
-	/* buffer setup */
-	bufL = buffer[0];
-	bufR = buffer[1];
+            YM2610 F2610 = FM2610[num];
+            FM_OPN OPN = FM2610[num].OPN;
+            YM_DELTAT DELTAT = FM2610[num].deltaT;
+            int i, j;
+            int ch;
+            UShortPtr bufL;
+            UShortPtr bufR;
 
-	if(F2610 != cur_chip ){
-		cur_chip = F2610;
-		State = OPN.ST;
-		cch[0] = F2610.CH[1];
-		cch[1] = F2610.CH[2];
-		cch[2] = F2610.CH[4];
-		cch[3] = F2610.CH[5];
-/*TODO*///		/* setup adpcm rom address */
+            /* setup DELTA-T unit */
+            YM_DELTAT_DECODE_PRESET(DELTAT);
+
+            /* buffer setup */
+            bufL = buffer[0];
+            bufR = buffer[1];
+
+            if (F2610 != cur_chip) {
+                cur_chip = F2610;
+                State = OPN.ST;
+                cch[0] = F2610.CH[1];
+                cch[1] = F2610.CH[2];
+                cch[2] = F2610.CH[4];
+                cch[3] = F2610.CH[5];
+                /*TODO*///		/* setup adpcm rom address */
 /*TODO*///		pcmbufA  = F2610->pcmbuf;
 /*TODO*///		pcmsizeA = F2610->pcm_size;
 /*TODO*///#if FM_LFO_SUPPORT
@@ -2277,26 +2279,27 @@ public class fm {
 /*TODO*///		if( !LFOIncr ) lfo_amd = lfo_pmd = 0;
 /*TODO*///		LFO_wave = OPN->LFO_wave;
 /*TODO*///#endif
-	}
-	/* update frequency counter */
-	CALC_FCOUNT( cch[0] );
-	if( (State.mode & 0xc0)!=0 ){
-		/* 3SLOT MODE */
-		if( cch[1].SLOT[SLOT1].Incr==-1){
-			/* 3 slot mode */
-			CALC_FCSLOT(cch[1].SLOT[SLOT1] , (int)OPN.SL3.fc[1] , OPN.SL3.kcode[1] );
-			CALC_FCSLOT(cch[1].SLOT[SLOT2] , (int)OPN.SL3.fc[2] , OPN.SL3.kcode[2] );
-			CALC_FCSLOT(cch[1].SLOT[SLOT3] , (int)OPN.SL3.fc[0] , OPN.SL3.kcode[0] );
-			CALC_FCSLOT(cch[1].SLOT[SLOT4] , (int)cch[1].fc , cch[1].kcode );
-		}
-	}else CALC_FCOUNT( cch[1] );
-	CALC_FCOUNT( cch[2] );
-	CALC_FCOUNT( cch[3] );
+            }
+            /* update frequency counter */
+            CALC_FCOUNT(cch[0]);
+            if ((State.mode & 0xc0) != 0) {
+                /* 3SLOT MODE */
+                if (cch[1].SLOT[SLOT1].Incr == -1) {
+                    /* 3 slot mode */
+                    CALC_FCSLOT(cch[1].SLOT[SLOT1], (int) OPN.SL3.fc[1], OPN.SL3.kcode[1]);
+                    CALC_FCSLOT(cch[1].SLOT[SLOT2], (int) OPN.SL3.fc[2], OPN.SL3.kcode[2]);
+                    CALC_FCSLOT(cch[1].SLOT[SLOT3], (int) OPN.SL3.fc[0], OPN.SL3.kcode[0]);
+                    CALC_FCSLOT(cch[1].SLOT[SLOT4], (int) cch[1].fc, cch[1].kcode);
+                }
+            } else {
+                CALC_FCOUNT(cch[1]);
+            }
+            CALC_FCOUNT(cch[2]);
+            CALC_FCOUNT(cch[3]);
 
-	/* buffering */
-    for( i=0; i < length ; i++ )
-	{
-/*TODO*///#if FM_LFO_SUPPORT
+            /* buffering */
+            for (i = 0; i < length; i++) {
+                /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///		/* LFO */
 /*TODO*///		if( LFOIncr )
 /*TODO*///		{
@@ -2305,21 +2308,25 @@ public class fm {
 /*TODO*///		}
 /*TODO*///#endif
 		/* clear output acc. */
-		out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT]= out_ch[OUTD_CENTER] = 0;
-/*TODO*///		/**** deltaT ADPCM ****/
-/*TODO*///		if( DELTAT->flag )
-/*TODO*///			YM_DELTAT_ADPCM_CALC(DELTAT);
-		/* FM */
-		for(ch = 0 ; ch < 4 ; ch++)
-			FM_CALC_CH( cch[ch] );
-/*TODO*///		for( j = 0; j < 6; j++ )
+                out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT] = out_ch[OUTD_CENTER] = 0;
+                /**
+                 * ** deltaT ADPCM ***
+                 */
+                if (DELTAT.flag != 0) {
+                    YM_DELTAT_ADPCM_CALC(DELTAT);
+                }
+                /* FM */
+                for (ch = 0; ch < 4; ch++) {
+                    FM_CALC_CH(cch[ch]);
+                }
+                /*TODO*///		for( j = 0; j < 6; j++ )
 /*TODO*///		{
 /*TODO*///			/**** ADPCM ****/
 /*TODO*///			if( F2610->adpcm[j].flag )
 /*TODO*///				OPNB_ADPCM_CALC_CHA( F2610, &F2610->adpcm[j]);
 /*TODO*///		}
 		/* buffering */
-		//FM_BUFFERING_STEREO;
+                //FM_BUFFERING_STEREO;
                 {
                     /* get left & right output with clipping */
                     out_ch[OUTD_LEFT] += out_ch[OUTD_CENTER];
@@ -2330,11 +2337,11 @@ public class fm {
                     bufL.write(i, (char) (out_ch[OUTD_LEFT] >> FM_OUTSB));
                     bufR.write(i, (char) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
                 }
-		/* timer A controll */
-		INTERNAL_TIMER_A( State , cch[1] );
-	}
-	INTERNAL_TIMER_B(State,length);
-/*TODO*///#if FM_LFO_SUPPORT
+                /* timer A controll */
+                INTERNAL_TIMER_A(State, cch[1]);
+            }
+            INTERNAL_TIMER_B(State, length);
+            /*TODO*///#if FM_LFO_SUPPORT
 /*TODO*///	OPN->LFOCnt = LFOCnt;
 /*TODO*///#endif
         }
@@ -2469,13 +2476,14 @@ public class fm {
             /* Extend handler */
             FM2610[i].OPN.ST.Timer_Handler = TimerHandler;
             FM2610[i].OPN.ST.IRQ_Handler = IRQHandler;
-            /*TODO*///		/* ADPCM */
-/*TODO*///		FM2610[i].pcmbuf   = (UINT8 *)(pcmroma[i]);
-/*TODO*///		FM2610[i].pcm_size = pcmsizea[i];
-/*TODO*///		/* DELTA-T */
-/*TODO*///		FM2610[i].deltaT.memory = (UINT8 *)(pcmromb[i]);
-/*TODO*///		FM2610[i].deltaT.memory_size = pcmsizeb[i];
-/*TODO*///		/* */
+            /* ADPCM */
+            FM2610[i].pcmbuf = pcmroma[i];
+            FM2610[i].pcm_size = pcmsizea[i];
+            /* DELTA-T */
+            FM2610[i].deltaT = new YM_DELTAT();
+            FM2610[i].deltaT.memory = pcmromb[i];
+            FM2610[i].deltaT.memory_size = pcmsizeb[i];
+            /* */
             YM2610ResetChip(i);
         }
         /*TODO*///	InitOPNB_ADPCMATable();
@@ -2496,9 +2504,9 @@ public class fm {
         int i;
         YM2610 F2610 = FM2610[num];
         FM_OPN OPN = FM2610[num].OPN;
-        /*TODO*///	YM_DELTAT *DELTAT = &(FM2610[num].deltaT);
-/*TODO*///
-	/* Reset Priscaler */
+        YM_DELTAT DELTAT = FM2610[num].deltaT;
+
+        /* Reset Priscaler */
         OPNSetPris(OPN, 6 * 24, 6 * 24, 4 * 2); /* OPN 1/6 , SSG 1/4 */
         /* reset SSG section */
 
@@ -2539,20 +2547,20 @@ public class fm {
 /*TODO*///	F2610->adpcmTL = &(TL_TABLE[0x3f*(int)(0.75/EG_STEP)]);
 /*TODO*///	/* F2610->port1state = -1; */
 /*TODO*///	F2610->adpcm_arrivedEndAddress = 0;
-/*TODO*///
-/*TODO*///	/* DELTA-T unit */
-/*TODO*///	DELTAT->freqbase = OPN->ST.freqbase;
-/*TODO*///	DELTAT->output_pointer = out_ch;
-/*TODO*///	DELTAT->portshift = 8;		/* allways 8bits shift */
-/*TODO*///	DELTAT->output_range = DELTAT_MIXING_LEVEL<<TL_BITS;
-/*TODO*///	YM_DELTAT_ADPCM_Reset(DELTAT,OUTD_CENTER);
-    }
-    /*TODO*///
-/*TODO*////* YM2610 write */
-/*TODO*////* n = number  */
-/*TODO*////* a = address */
-/*TODO*////* v = value   */
 
+        /* DELTA-T unit */
+        DELTAT.freqbase = OPN.ST.freqbase;
+        DELTAT.output_pointer = out_ch;
+        DELTAT.portshift = 8;		/* allways 8bits shift */
+
+        DELTAT.output_range = DELTAT_MIXING_LEVEL << TL_BITS;
+        YM_DELTAT_ADPCM_Reset(DELTAT, OUTD_CENTER);
+    }
+
+    /* YM2610 write */
+    /* n = number  */
+    /* a = address */
+    /* v = value   */
     public static int YM2610Write(int n, int a,/*UINT8*/ int v) {
         YM2610 F2610 = FM2610[n];
         FM_OPN OPN = FM2610[n].OPN;
@@ -2577,27 +2585,27 @@ public class fm {
 
                         SSGWrite(n, a, v);
                         break;
-                    /*TODO*///		case 0x10: /* DeltaT ADPCM */
-/*TODO*///			YM2610UpdateReq(n);
-/*TODO*///			switch(addr)
-/*TODO*///			{
-/*TODO*///			case 0x1c: /*  FLAG CONTROL : Extend Status Clear/Mask */
-/*TODO*///			{
-/*TODO*///				UINT8 statusmask = ~v;
-/*TODO*///				/* set arrived flag mask */
-/*TODO*///				for(ch=0;ch<6;ch++)
-/*TODO*///					F2610->adpcm[ch].flagMask = statusmask&(1<<ch);
-/*TODO*///				F2610->deltaT.flagMask = statusmask&0x80;
-/*TODO*///				/* clear arrived flag */
-/*TODO*///				F2610->adpcm_arrivedEndAddress &= statusmask&0x3f;
-/*TODO*///				F2610->deltaT.arrivedFlag      &= F2610->deltaT.flagMask;
-/*TODO*///			}
-/*TODO*///				break;
-/*TODO*///			default:
-/*TODO*///				/* 0x10-0x1b */
-/*TODO*///				YM_DELTAT_ADPCM_Write(&F2610->deltaT,addr-0x10,v);
-/*TODO*///			}
-/*TODO*///			break;
+                    case 0x10: /* DeltaT ADPCM */
+
+                        YM2610UpdateRequest(n);
+                        switch (addr) {
+                            case 0x1c: /*  FLAG CONTROL : Extend Status Clear/Mask */ {
+                                int/*UINT8*/ statusmask = (~v) & 0xFF;
+                                /* set arrived flag mask */
+                                for (ch = 0; ch < 6; ch++) {
+                                    /*TODO*///                                    F2610.adpcm[ch].flagMask = statusmask & (1 << ch);
+                                }
+                                F2610.deltaT.flagMask = statusmask & 0x80;
+                                /* clear arrived flag */
+                                F2610.adpcm_arrivedEndAddress &= statusmask & 0x3f;
+                                F2610.deltaT.arrivedFlag &= F2610.deltaT.flagMask;
+                            }
+                            break;
+                            default:
+                                /* 0x10-0x1b */
+                                YM_DELTAT_ADPCM_Write(F2610.deltaT, addr - 0x10, v);
+                        }
+                        break;
                     case 0x20:	/* Mode Register */
 
                         YM2610UpdateRequest(n);
@@ -2647,14 +2655,15 @@ public class fm {
                     ret = 0x01;
                 }
                 break;
-            /*TODO*///	case 2:	/* status 1 : + ADPCM status */
-/*TODO*///		/* ADPCM STATUS (arrived End Address) */
-/*TODO*///		/* B,--,A5,A4,A3,A2,A1,A0 */
-/*TODO*///		/* B     = ADPCM-B(DELTA-T) arrived end address */
-/*TODO*///		/* A0-A5 = ADPCM-A          arrived end address */
-/*TODO*///		ret = F2610->adpcm_arrivedEndAddress | F2610->deltaT.arrivedFlag;
+            case 2:	/* status 1 : + ADPCM status */
+                /* ADPCM STATUS (arrived End Address) */
+                /* B,--,A5,A4,A3,A2,A1,A0 */
+                /* B     = ADPCM-B(DELTA-T) arrived end address */
+                /* A0-A5 = ADPCM-A          arrived end address */
 
-            /*TODO*///		break;
+                ret = F2610.adpcm_arrivedEndAddress | F2610.deltaT.arrivedFlag;
+
+                break;
             case 3:
                 ret = 0;
                 break;

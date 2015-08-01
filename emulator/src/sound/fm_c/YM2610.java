@@ -1,4 +1,6 @@
 package sound.fm_c;
+import sound.YM_DELTAT;
+import static arcadeflex.ptrlib.*;
 
 public class YM2610 {
 
@@ -12,18 +14,14 @@ public class YM2610 {
             CH[i] = new FM_CH();
         }
     }
-    /*TODO*///typedef struct ym2610_f {
-/*TODO*///	FM_OPN OPN;				
-/*TODO*///	FM_CH CH[6];			
-
-/*TODO*///	/* ADPCM-A unit */
-/*TODO*///	UINT8 *pcmbuf;			/* pcm rom buffer */
-/*TODO*///	UINT32 pcm_size;			/* size of pcm rom */
+	/* ADPCM-A unit */
+	public UBytePtr pcmbuf;			/* pcm rom buffer */
+	public int pcm_size;			/* size of pcm rom */
 /*TODO*///	INT32 *adpcmTL;					/* adpcmA total level */
 /*TODO*///	ADPCM_CH adpcm[6];				/* adpcm channels */
 /*TODO*///	UINT32 adpcmreg[0x30];	/* registers */
-/*TODO*///	UINT8 adpcm_arrivedEndAddress;
-/*TODO*///	/* Delta-T ADPCM unit */
-/*TODO*///	YM_DELTAT deltaT;
-/*TODO*///} YM2610;
+	public int adpcm_arrivedEndAddress;
+	/* Delta-T ADPCM unit */
+    public YM_DELTAT deltaT;
+
 }
