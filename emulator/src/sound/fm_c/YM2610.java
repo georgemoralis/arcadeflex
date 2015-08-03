@@ -1,27 +1,44 @@
 package sound.fm_c;
+
+import arcadeflex.libc;
+import static arcadeflex.libc.*;
 import sound.YM_DELTAT;
 import static arcadeflex.ptrlib.*;
 
 public class YM2610 {
 
     public FM_OPN OPN;/* OPN state    */
+
     public FM_CH[] CH; /* channel state */
+
     public int address1;/* address register1 */
+
+    public ADPCM_CH[] adpcm;				/* adpcm channels */
+
+
     public YM2610() {
         OPN = new FM_OPN();
         CH = new FM_CH[6];
+        adpcm = new ADPCM_CH[7];
         for (int i = 0; i < 6; i++) {
             CH[i] = new FM_CH();
         }
+        for (int i = 0; i < 7; i++) {
+            adpcm[i] = new ADPCM_CH();
+        }
+        adpcmreg = new int[0x30];
+
     }
-	/* ADPCM-A unit */
-	public UBytePtr pcmbuf;			/* pcm rom buffer */
-	public int pcm_size;			/* size of pcm rom */
-/*TODO*///	INT32 *adpcmTL;					/* adpcmA total level */
-/*TODO*///	ADPCM_CH adpcm[6];				/* adpcm channels */
-/*TODO*///	UINT32 adpcmreg[0x30];	/* registers */
-	public int adpcm_arrivedEndAddress;
-	/* Delta-T ADPCM unit */
+    /* ADPCM-A unit */
+    public UBytePtr pcmbuf;			/* pcm rom buffer */
+
+    public int pcm_size;			/* size of pcm rom */
+
+    public IntSubArray adpcmTL;					/* adpcmA total level */
+
+    public int[] adpcmreg;//	/* registers */
+    public int adpcm_arrivedEndAddress;
+    /* Delta-T ADPCM unit */
     public YM_DELTAT deltaT;
 
 }
