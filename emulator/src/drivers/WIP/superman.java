@@ -68,6 +68,9 @@ import static mame.inputH.*;
 import static sndhrdw.rastan.*;
 import static mame.palette.*;
 import static machine.cchip.*;
+import static mame.sndintrfH.SOUND_YM2610;
+import static sound._2610intf.*;
+import static sound._2610intfH.*;
 
 public class superman {
 
@@ -132,9 +135,9 @@ public class superman {
                 new MemoryReadAddress(0x0000, 0x3fff, MRA_ROM),
                 new MemoryReadAddress(0x4000, 0x7fff, MRA_BANK2),
                 new MemoryReadAddress(0xc000, 0xdfff, MRA_RAM),
- /*TODO*///               new MemoryReadAddress(0xe000, 0xe000, YM2610_status_port_0_A_r),
- /*TODO*///               new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
- /*TODO*///               new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
+                new MemoryReadAddress(0xe000, 0xe000, YM2610_status_port_0_A_r),
+                new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
+                new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
                 new MemoryReadAddress(0xe200, 0xe200, MRA_NOP),
                 new MemoryReadAddress(0xe201, 0xe201, r_rd_a001),
                 new MemoryReadAddress(0xea00, 0xea00, MRA_NOP),
@@ -144,10 +147,10 @@ public class superman {
             = {
                 new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(0xc000, 0xdfff, MWA_RAM),
- /*TODO*///               new MemoryWriteAddress(0xe000, 0xe000, YM2610_control_port_0_A_w),
- /*TODO*///               new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
- /*TODO*///               new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
- /*TODO*///               new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
+                new MemoryWriteAddress(0xe000, 0xe000, YM2610_control_port_0_A_w),
+                new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
+                new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
+                new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
                 new MemoryWriteAddress(0xe200, 0xe200, r_wr_a000),
                 new MemoryWriteAddress(0xe201, 0xe201, r_wr_a001),
                 new MemoryWriteAddress(0xe400, 0xe403, MWA_NOP), /* pan */
@@ -284,24 +287,23 @@ public class superman {
     /* handler called by the YM2610 emulator when the internal timers cause an IRQ */
     public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() {
         public void handler(int irq) {
-            cpu_set_irq_line(1, 0, irq!=0 ? ASSERT_LINE : CLEAR_LINE);
+            cpu_set_irq_line(1, 0, irq != 0 ? ASSERT_LINE : CLEAR_LINE);
         }
     };
 
-    /*TODO*///	static struct YM2610interface ym2610_interface =
-/*TODO*///	{
-/*TODO*///		1,	/* 1 chip */
-/*TODO*///	8000000,	/* 8 MHz ?????? */
-/*TODO*///		{ 30 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ 0 },
-/*TODO*///		{ irqhandler },
-/*TODO*///		{ REGION_SOUND1 },
-/*TODO*///		{ REGION_SOUND1 },
-/*TODO*///		{ YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) }
-/*TODO*///	};
+    static YM2610interface ym2610_interface = new YM2610interface(
+            1, /* 1 chip */
+            8000000, /* 8 MHz ?????? */
+            new int[]{30},
+            new ReadHandlerPtr[]{null},
+            new ReadHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null},
+            new WriteHandlerPtr[]{null},
+            new WriteYmHandlerPtr[]{irqhandler},
+            new int[]{REGION_SOUND1},
+            new int[]{REGION_SOUND1},
+            new int[]{YM3012_VOL(60, MIXER_PAN_LEFT, 60, MIXER_PAN_RIGHT)}
+    );
     static MachineDriver machine_driver_superman = new MachineDriver(
             /* basic machine hardware */
             new MachineCPU[]{
@@ -332,14 +334,13 @@ public class superman {
             superman_vh_stop,
             superman_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0, null
-    /*TODO*///		SOUND_SUPPORTS_STEREO,0,0,0,
-    /*TODO*///		new MachineSound[] {
-    /*TODO*///			new MachineSound(
-    /*TODO*///				SOUND_YM2610,
-    /*TODO*///				ym2610_interface
-    /*TODO*///			)
-    /*TODO*///		}
+            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2610,
+                        ym2610_interface
+                )
+            }
     );
 
     /**

@@ -1,11 +1,10 @@
-
 package sound;
 
 import sound.fm_c.FM_SLOT;
 import static sound.ay8910.*;
 
 public class fmH {
-/*TODO*////* --- select emulation chips --- */
+    /*TODO*////* --- select emulation chips --- */
 /*TODO*///#define BUILD_YM2203  (HAS_YM2203)		/* build YM2203(OPN)   emulator */
 /*TODO*///#define BUILD_YM2608  (HAS_YM2608)		/* build YM2608(OPNA)  emulator */
 /*TODO*///#define BUILD_YM2610  (HAS_YM2610)		/* build YM2610(OPNB)  emulator */
@@ -17,8 +16,9 @@ public class fmH {
 /*TODO*////* select stereo output buffer : mixing / separate */
 /*TODO*/////#define FM_STEREO_MIX
 /*TODO*////* select output size : 8bit or 16bit */
-public static final int FM_OUTPUT_BIT =16;
-/*TODO*///
+
+    public static final int FM_OUTPUT_BIT = 16;
+    /*TODO*///
 /*TODO*////* --- speed optimize --- */
 /*TODO*///#define FM_LFO_SUPPORT 1 	/* support LFO unit */
 /*TODO*///#define FM_SEG_SUPPORT 0	/* OPN SSG type envelope support   */
@@ -54,7 +54,7 @@ public static final int FM_OUTPUT_BIT =16;
     public static void SSGReset(int chip) {
         AY8910_reset(chip);
     }
-/*TODO*////* --- external callback funstions for realtime update --- */
+    /*TODO*////* --- external callback funstions for realtime update --- */
 /*TODO*///#if BUILD_YM2203
 /*TODO*///  /* in 2203intf.c */
 /*TODO*///  #define YM2203UpdateReq(chip) YM2203UpdateRequest(chip)
@@ -93,12 +93,12 @@ public static final int FM_OUTPUT_BIT =16;
 /*TODO*///  #define YM2151_NUMBUF 1
 /*TODO*///  #define YM2608_NUMBUF 1
 /*TODO*///  #define YM2612_NUMBUF 1
-/*TODO*///  #define YM2610_NUMBUF 1
-/*TODO*///#else
+
+    /*TODO*///#else
 /*TODO*///  #define YM2151_NUMBUF 2    /* FM L+R */
 /*TODO*///  #define YM2608_NUMBUF 2    /* FM L+R+ADPCM+RYTHM */
-/*TODO*///  #define YM2610_NUMBUF 2    /* FM L+R+ADPCMA+ADPCMB */
-/*TODO*///  #define YM2612_NUMBUF 2    /* FM L+R */
+    public static final int YM2610_NUMBUF = 2;    /* FM L+R+ADPCMA+ADPCMB */
+    /*TODO*///  #define YM2612_NUMBUF 2    /* FM L+R */
 /*TODO*///#endif
 /*TODO*///
 /*TODO*///#if (FM_OUTPUT_BIT==16)
@@ -110,6 +110,8 @@ public static final int FM_OUTPUT_BIT =16;
 /*TODO*///typedef unsigned short FMSAMPLE_MIX;
 /*TODO*///#endif
 /*TODO*///
+
+
     public static abstract interface FM_TIMERHANDLERtr {
 
         public abstract void handler(int n, int c, double count, double stepTime);
@@ -134,8 +136,7 @@ public static final int FM_OUTPUT_BIT =16;
     /* FM_IRQHHANDLER : IRQ level changing sense     */
     /* int n       = chip number                     */
     /* int irq     = IRQ level 0=OFF,1=ON            */
-    
-/*TODO*///#if BUILD_YM2203
+    /*TODO*///#if BUILD_YM2203
 /*TODO*////* -------------------- YM2203(OPN) Interface -------------------- */
 /*TODO*///
 /*TODO*////*

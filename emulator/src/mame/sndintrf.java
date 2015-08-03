@@ -30,7 +30,7 @@ import sound.pokey;
 import sound.upd7759;
 import sound.k053260;
 import sound.qsound;
-
+import sound._2610intf;
 public class sndintrf {
     static int cleared_value = 0x00;
     
@@ -303,19 +303,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2608_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-      /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_YM2610)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_YM2610,
-    /*TODO*////*TODO*///		"YM-2610",
-    /*TODO*////*TODO*///		YM2610_num,
-    /*TODO*////*TODO*///		YM2610_clock,
-    /*TODO*////*TODO*///		YM2610_sh_start,
-    /*TODO*////*TODO*///		YM2610_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		YM2610_sh_reset
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+                       new _2610intf(),
        /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2610B)
     /*TODO*////*TODO*///    {

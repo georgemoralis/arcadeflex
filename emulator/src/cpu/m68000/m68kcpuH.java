@@ -57,7 +57,7 @@ public class m68kcpuH {
 /*TODO*///#if M68K_HAS_8_BIT_SIZE
 /*TODO*///#define MAKE_INT_8(A) (int8)((A)&0xff)
 
-    public static long MAKE_INT_8(long A) {
+    public static byte MAKE_INT_8(long A) {
         return (byte) ((A) & 0xffL);
     }
     /*TODO*///#else
@@ -77,7 +77,7 @@ public class m68kcpuH {
 /*TODO*///#if M68K_HAS_16_BIT_SIZE
 /*TODO*///#define MAKE_INT_16(A) (int16)((A)&0xffff)
 
-    public static long MAKE_INT_16(long A) {
+    public static short MAKE_INT_16(long A) {
         return (short) ((A) & 0xffffL);
     }
     /*TODO*///#else
@@ -98,7 +98,7 @@ public class m68kcpuH {
 /*TODO*///#if M68K_OVER_32_BIT
 /*TODO*///#define MAKE_INT_32(A) (int32)((A)&0xffffffff)
 
-    public static long MAKE_INT_32(long A) {
+    public static int MAKE_INT_32(long A) {
         return (int) ((A) & 0xffffffffL);
     }
     /*TODO*///#else
