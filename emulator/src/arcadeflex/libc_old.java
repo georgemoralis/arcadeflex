@@ -415,6 +415,11 @@ public class libc_old {
             dst[i] = src.read(i);
         }
     }
+    public static void memcpy(char[] dst, UBytePtr src, int size) {
+        for (int i = 0; i < size; i++) {
+            dst[i] = src.read(i);
+        }
+    }
 
     /*
      *

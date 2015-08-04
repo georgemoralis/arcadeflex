@@ -16,11 +16,11 @@ public class _2610intfH {
             this.pcmroma = pcmroma;
             this.volumeFM = volumeFM;
         }
-        int[] pcmromb;		/* Delta-T rom region */
+        public int[] pcmromb;		/* Delta-T rom region */
 
-        int[] pcmroma;		/* ADPCM   rom region */
+        public int[] pcmroma;		/* ADPCM   rom region */
 
-        int[] volumeFM;		/* use YM3012_VOL macro */
+        public int[] volumeFM;		/* use YM3012_VOL macro */
 
     }
 
