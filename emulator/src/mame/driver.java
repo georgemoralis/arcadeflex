@@ -204,7 +204,7 @@ import static drivers.WIP.cps1.*;
 import static drivers.WIP.alpha68k.*;
 import static drivers.WIP.superman.*;
 import static drivers.WIP.aerofgt.*;
-
+import static drivers.WIP.neogeo.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2834,8 +2834,8 @@ driver_gtmre,
 /*TODO*/ //	DRIVER( ssideki )	/* 0052 (c) 1992 SNK */
 /*TODO*/ //	DRIVER( wh1 )		/* 0053 (c) 1992 Alpha Denshi Co */
 	/* 0054 Crossed Swords 2 (CD only) */
-/*TODO*/ //	DRIVER( kof94 )		/* 0055 (c) 1994 SNK */
-/*TODO*/ //	DRIVER( aof2 )		/* 0056 (c) 1994 SNK */
+driver_kof94,		/* 0055 (c) 1994 SNK */
+driver_aof2,		/* 0056 (c) 1994 SNK */
 /*TODO*/ //	DRIVER( wh2 )		/* 0057 (c) 1993 ADK */
 /*TODO*/ //	DRIVER( fatfursp )	/* 0058 (c) 1993 SNK */
 /*TODO*/ //	DRIVER( savagere )	/* 0059 (c) 1995 SNK */
@@ -2880,7 +2880,7 @@ driver_gtmre,
 	/* 0098 Idol Mahjong - final romance 2 (CD only? not confirmed, MVS might exist) */
 	/* 0099 */
 /*TODO*/ //	DRIVER( turfmast )	/* 0200 (c) 1996 Nazca */
-/*TODO*/ //	DRIVER( mslug )		/* 0201 (c) 1996 Nazca */
+driver_mslug,		/* 0201 (c) 1996 Nazca */
 /*TODO*/ //	DRIVER( puzzledp )	/* 0202 (c) 1995 Taito (Visco license) */
 /*TODO*/ //	DRIVER( mosyougi )	/* 0203 (c) 1995 ADK / SNK */
 	/* 0204 ADK World (CD only) */
