@@ -1591,30 +1591,26 @@ public class palette {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///INLINE void changecolor_RRRRGGGGBBBBIIII(int color,int data)
-    /*TODO*///{
-    /*TODO*///	int i,r,g,b;
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	static const int ztable[16] =
-    /*TODO*///		{ 0x0, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11 };
-    /*TODO*///
-    /*TODO*///	i = ztable[(data >> 0) & 15];
-    /*TODO*///	r = ((data >> 12) & 15) * i;
-    /*TODO*///	g = ((data >>  8) & 15) * i;
-    /*TODO*///	b = ((data >>  4) & 15) * i;
-    /*TODO*///
-    /*TODO*///	palette_change_color(color,r,g,b);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///void paletteram_RRRRGGGGBBBBIIII_word_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	int oldword = READ_WORD(&paletteram[offset]);
-    /*TODO*///	int newword = COMBINE_WORD(oldword,data);
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///	WRITE_WORD(&paletteram[offset],newword);
-    /*TODO*///	changecolor_RRRRGGGGBBBBIIII(offset / 2,newword);
-    /*TODO*///}
-    /*TODO*///    
+    static int ztable[]
+            = {0x0, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
+
+    static void changecolor_RRRRGGGGBBBBIIII(int color, int data) {
+        int i, r, g, b;
+
+        i = ztable[(data >> 0) & 15];
+        r = ((data >> 12) & 15) * i;
+        g = ((data >> 8) & 15) * i;
+        b = ((data >> 4) & 15) * i;
+
+        palette_change_color(color, r, g, b);
+    }
+    public static WriteHandlerPtr paletteram_RRRRGGGGBBBBIIII_word_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int oldword = paletteram.READ_WORD(offset);
+            int newword = COMBINE_WORD(oldword, data);
+
+            paletteram.WRITE_WORD(offset, newword);
+            changecolor_RRRRGGGGBBBBIIII(offset / 2, newword);
+        }
+    };
 }

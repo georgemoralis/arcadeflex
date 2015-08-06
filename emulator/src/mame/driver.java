@@ -205,6 +205,7 @@ import static drivers.WIP.alpha68k.*;
 import static drivers.WIP.superman.*;
 import static drivers.WIP.aerofgt.*;
 import static drivers.WIP.neogeo.*;
+import static drivers.WIP.lastduel.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1751,12 +1752,12 @@ driver_superman,
 /*TODO*/ //	DRIVER( toramich )	/* 11/1987 (c) 1987 (Japan) */
 /*TODO*/ //	DRIVER( f1dream )	/*  4/1988 (c) 1988 + Romstar */
 /*TODO*/ //	DRIVER( f1dreamb )	/* bootleg */
-/*TODO*/ //	DRIVER( lastduel )	/*  7/1988 (c) 1988 (US) */
-/*TODO*/ //	DRIVER( lstduela )	/*  7/1988 (c) 1988 (US) */
-/*TODO*/ //	DRIVER( lstduelb )	/* bootleg */
-/*TODO*/ //	DRIVER( madgear )	/*  2/1989 (c) 1989 (US) */
-/*TODO*/ //	DRIVER( madgearj )	/*  2/1989 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( ledstorm )	/*  2/1989 (c) 1989 (US) */
+driver_lastduel,	/*  7/1988 (c) 1988 (US) */
+driver_lstduela,	/*  7/1988 (c) 1988 (US) */
+driver_lstduelb,	/* bootleg */
+driver_madgear,	/*  2/1989 (c) 1989 (US) */
+driver_madgearj,	/*  2/1989 (c) 1989 (Japan) */
+driver_ledstorm,	/*  2/1989 (c) 1989 (US) */
 
 	/* Capcom CPS1 games */
 driver_forgottn, //coin counter work with 7 instead of 5
