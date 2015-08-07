@@ -736,7 +736,7 @@ public class m68kcpuH {
 /*TODO*////* Data Register Isolation */
 /*TODO*///#define DX (CPU_D[(CPU_IR >> 9) & 7])
     public static long get_DX() {
-        return get_CPU_D()[(int) ((get_CPU_IR() >>> 9) & 7)];
+        return get_CPU_D()[(int) ((get_CPU_IR() >>> 9) & 7)] & 0xFFFFFFFFL;
     }
 
     public static void set_DX(long value) {
@@ -745,7 +745,7 @@ public class m68kcpuH {
     /*TODO*///#define DY (CPU_D[CPU_IR & 7])
 
     public static long get_DY() {
-        return get_CPU_D()[(int) (get_CPU_IR() & 7)];
+        return get_CPU_D()[(int) (get_CPU_IR() & 7)] & 0xFFFFFFFFL;
     }
 
     public static void set_DY(long value) {
@@ -754,7 +754,7 @@ public class m68kcpuH {
     /*TODO*////* Address Register Isolation */
 
     public static long get_AX() {
-        return get_CPU_A()[(int) ((get_CPU_IR() >>> 9) & 7)];
+        return get_CPU_A()[(int) ((get_CPU_IR() >>> 9) & 7)] & 0xFFFFFFFFL;
     }
 
     public static void set_AX(long value) {
@@ -763,7 +763,7 @@ public class m68kcpuH {
     /*TODO*///#define AX (CPU_A[(CPU_IR >> 9) & 7])
 
     public static long get_AY() {
-        return get_CPU_A()[(int) (get_CPU_IR() & 7)];
+        return get_CPU_A()[(int) (get_CPU_IR() & 7)] & 0xFFFFFFFFL;
     }
 
     public static void set_AY(long value) {
