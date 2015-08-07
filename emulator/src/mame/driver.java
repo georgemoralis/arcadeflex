@@ -2289,11 +2289,11 @@ driver_tumblep2,
 	/* (some) Konami 68000 games */
 driver_mia,
 driver_mia2,
-/*TODO*/ //	DRIVER( tmnt )		/* GX963 (c) 1989 (US) */
-/*TODO*/ //	DRIVER( tmht )		/* GX963 (c) 1989 (UK) */
-/*TODO*/ //	DRIVER( tmntj )		/* GX963 (c) 1989 (Japan) */
-/*TODO*/ //	DRIVER( tmht2p )	/* GX963 (c) 1989 (UK) */
-/*TODO*/ //	DRIVER( tmnt2pj )	/* GX963 (c) 1990 (Japan) */
+driver_tmnt,		/* GX963 (c) 1989 (US) */
+driver_tmht,		/* GX963 (c) 1989 (UK) */
+driver_tmntj,		/* GX963 (c) 1989 (Japan) */
+driver_tmht2p,	/* GX963 (c) 1989 (UK) */
+driver_tmnt2pj,	/* GX963 (c) 1990 (Japan) */
 /*TODO*/ //	DRIVER( punkshot )	/* GX907 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( punksht2 )	/* GX907 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( lgtnfght )	/* GX939 (c) 1990 (US) */

@@ -85,12 +85,13 @@ public class tmnt {
             color[0] = sprite_colorbase + (color[0] & 0x0f);
         }
     };
-    /*TODO*///static void tmnt_sprite_callback(int *code,int *color,int *priority)
-/*TODO*///{
-/*TODO*///	*code |= (*color & 0x10) << 9;
-/*TODO*///	*color = sprite_colorbase + (*color & 0x0f);
-/*TODO*///}
-/*TODO*///
+    public static K051960_callbackProcPtr tmnt_sprite_callback = new K051960_callbackProcPtr() {
+        public void handler(int[] code, int[] color, int[] priority) {
+            code[0] |= (color[0] & 0x10) << 9;
+            color[0] = sprite_colorbase + (color[0] & 0x0f);
+        }
+    };
+    /*TODO*///
 /*TODO*///static void punkshot_sprite_callback(int *code,int *color,int *priority)
 /*TODO*///{
 /*TODO*///	*code |= (*color & 0x10) << 9;
@@ -147,6 +148,22 @@ public class tmnt {
                 return 1;
             }
             if (K051960_vh_start(REGION_GFX2, 3, 2, 1, 0/*REVERSE_PLANE_ORDER*/, mia_sprite_callback) != 0) {
+                K052109_vh_stop();
+                return 1;
+            }
+            return 0;
+        }
+    };
+    public static VhStartPtr tmnt_vh_start = new VhStartPtr() {
+        public int handler() {
+            layer_colorbase[0] = 0;
+            layer_colorbase[1] = 32;
+            layer_colorbase[2] = 40;
+            sprite_colorbase = 16;
+            if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
+                return 1;
+            }
+            if (K051960_vh_start(REGION_GFX2, 3, 2, 1, 0/*REVERSE_PLANE_ORDER*/, tmnt_sprite_callback) != 0) {
                 K052109_vh_stop();
                 return 1;
             }
@@ -417,32 +434,32 @@ public class tmnt {
     /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///void tmnt_priority_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	if ((data & 0x00ff0000) == 0)
-/*TODO*///	{
-/*TODO*///		/* bit 2/3 = priority; other bits unused */
-/*TODO*///		/* bit2 = PRI bit3 = PRI2
-/*TODO*///			  sprite/playfield priority is controlled by these two bits, by bit 3
-/*TODO*///			  of the background tile color code, and by the SHADOW sprite
-/*TODO*///			  attribute bit.
-/*TODO*///			  Priorities are encoded in a PROM (G19 for TMNT). However, in TMNT,
-/*TODO*///			  the PROM only takes into account the PRI and SHADOW bits.
-/*TODO*///			  PRI  Priority
-/*TODO*///			   0   bg fg spr text
-/*TODO*///			   1   bg spr fg text
-/*TODO*///			  The SHADOW bit, when set, torns a sprite into a shadow which makes
-/*TODO*///			  color below it darker (this is done by turning off three resistors
-/*TODO*///			  in parallel with the RGB output).
-/*TODO*///
-/*TODO*///			  Note: the background color (color used when all of the four layers
-/*TODO*///			  are 0) is taken from the *foreground* palette, not the background
-/*TODO*///			  one as would be more intuitive.
-/*TODO*///		*/
-/*TODO*///		priorityflag = (data & 0x0c) >> 2;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    public static WriteHandlerPtr tmnt_priority_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if ((data & 0x00ff0000) == 0) {
+                /* bit 2/3 = priority; other bits unused */
+                /* bit2 = PRI bit3 = PRI2
+                 sprite/playfield priority is controlled by these two bits, by bit 3
+                 of the background tile color code, and by the SHADOW sprite
+                 attribute bit.
+                 Priorities are encoded in a PROM (G19 for TMNT). However, in TMNT,
+                 the PROM only takes into account the PRI and SHADOW bits.
+                 PRI  Priority
+                 0   bg fg spr text
+                 1   bg spr fg text
+                 The SHADOW bit, when set, torns a sprite into a shadow which makes
+                 color below it darker (this is done by turning off three resistors
+                 in parallel with the RGB output).
+	
+                 Note: the background color (color used when all of the four layers
+                 are 0) is taken from the *foreground* palette, not the background
+                 one as would be more intuitive.
+                 */
+                priorityflag = (data & 0x0c) >> 2;
+            }
+        }
+    };
+    /*TODO*///
 /*TODO*///
 /*TODO*///
 /*TODO*////***************************************************************************
@@ -490,26 +507,30 @@ public class tmnt {
             K052109_tilemap_draw(bitmap, 0, 0);
         }
     };
+    public static VhUpdatePtr tmnt_vh_screenrefresh = new VhUpdatePtr() {
+        public void handler(osd_bitmap bitmap, int full_refresh) {
+            K052109_tilemap_update();
+
+            palette_init_used_colors();
+            K051960_mark_sprites_colors();
+            if (palette_recalc() != null) {
+                tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
+            }
+
+            tilemap_render(ALL_TILEMAPS);
+
+            K052109_tilemap_draw(bitmap, 2, TILEMAP_IGNORE_TRANSPARENCY);
+            if ((priorityflag & 1) == 1) {
+                K051960_sprites_draw(bitmap, 0, 0);
+            }
+            K052109_tilemap_draw(bitmap, 1, 0);
+            if ((priorityflag & 1) == 0) {
+                K051960_sprites_draw(bitmap, 0, 0);
+            }
+            K052109_tilemap_draw(bitmap, 0, 0);
+        }
+    };
     /*TODO*///
-/*TODO*///void tmnt_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
-/*TODO*///{
-/*TODO*///	K052109_tilemap_update();
-/*TODO*///
-/*TODO*///	palette_init_used_colors();
-/*TODO*///	K051960_mark_sprites_colors();
-/*TODO*///	if (palette_recalc())
-/*TODO*///		tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	tilemap_render(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	K052109_tilemap_draw(bitmap,2,TILEMAP_IGNORE_TRANSPARENCY);
-/*TODO*///	if ((priorityflag & 1) == 1) K051960_sprites_draw(bitmap,0,0);
-/*TODO*///	K052109_tilemap_draw(bitmap,1,0);
-/*TODO*///	if ((priorityflag & 1) == 0) K051960_sprites_draw(bitmap,0,0);
-/*TODO*///	K052109_tilemap_draw(bitmap,0,0);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
 /*TODO*///void punkshot_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
 /*TODO*///{
 /*TODO*///	int pri[3],layer[3];

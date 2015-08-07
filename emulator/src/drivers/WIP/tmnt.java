@@ -36,17 +36,17 @@ import static mame.timerH.*;
 import static mame.inputH.*;
 import static vidhrdw.tmnt.*;
 import static cpu.konami.konamiH.*;
-import static mame.sndintrfH.SOUND_K053260;
+import static mame.sndintrfH.*;
 import static sound.k053260.*;
 import static sound.k053260H.*;
 import static machine.eeprom.*;
 import static machine.eepromH.*;
+import static sound.upd7759.*;
+import static sound.upd7759H.*;
 
 public class tmnt {
-    /*TODO*///
-/*TODO*///static int tmnt_soundlatch;
-/*TODO*///
-/*TODO*///
+
+    static int tmnt_soundlatch;
 
     public static ReadHandlerPtr K052109_word_r = new ReadHandlerPtr() {
         public int handler(int offset) {
@@ -238,28 +238,29 @@ public class tmnt {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///int tmnt_sres_r(int offset)
-/*TODO*///{
-/*TODO*///	return tmnt_soundlatch;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void tmnt_sres_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	/* bit 1 resets the UPD7795C sound chip */
-/*TODO*///	if ((data & 0x02) == 0)
-/*TODO*///	{
-/*TODO*///		UPD7759_reset_w(0,(data & 0x02) >> 1);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* bit 2 plays the title music */
-/*TODO*///	if (data & 0x04)
-/*TODO*///	{
-/*TODO*///		if (!sample_playing(0))	sample_start(0,0,0);
-/*TODO*///	}
-/*TODO*///	else sample_stop(0);
-/*TODO*///	tmnt_soundlatch = data;
-/*TODO*///}
-/*TODO*///
+    public static ReadHandlerPtr tmnt_sres_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return tmnt_soundlatch;
+        }
+    };
+
+    public static WriteHandlerPtr tmnt_sres_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /* bit 1 resets the UPD7795C sound chip */
+            if ((data & 0x02) == 0) {
+                UPD7759_reset_w.handler(0, (data & 0x02) >> 1);
+            }
+
+            /* bit 2 plays the title music */
+            /*TODO*///		if (data & 0x04)
+/*TODO*///		{
+/*TODO*///			if (!sample_playing(0))	sample_start(0,0,0);
+/*TODO*///		}
+/*TODO*///		else sample_stop(0);
+            tmnt_soundlatch = data;
+        }
+    };
+    /*TODO*///
 /*TODO*///
 /*TODO*///static int tmnt_decode_sample(const struct MachineSound *msound)
 /*TODO*///{
@@ -577,42 +578,39 @@ public class tmnt {
                 //	new MemoryWriteAddress( 0x0c0000, 0x0c0001, tmnt_priority_w ),
                 ///#endif
                 new MemoryWriteAddress(-1) /* end of table */};
+    static MemoryReadAddress tmnt_readmem[]
+            = {
+                new MemoryReadAddress(0x000000, 0x05ffff, MRA_ROM),
+                new MemoryReadAddress(0x060000, 0x063fff, MRA_BANK1), /* main RAM */
+                new MemoryReadAddress(0x080000, 0x080fff, paletteram_word_r),
+                new MemoryReadAddress(0x0a0000, 0x0a0001, input_port_0_r),
+                new MemoryReadAddress(0x0a0002, 0x0a0003, input_port_1_r),
+                new MemoryReadAddress(0x0a0004, 0x0a0005, input_port_2_r),
+                new MemoryReadAddress(0x0a0006, 0x0a0007, input_port_3_r),
+                new MemoryReadAddress(0x0a0010, 0x0a0011, input_port_4_r),
+                new MemoryReadAddress(0x0a0012, 0x0a0013, input_port_5_r),
+                new MemoryReadAddress(0x0a0014, 0x0a0015, input_port_6_r),
+                new MemoryReadAddress(0x0a0018, 0x0a0019, input_port_7_r),
+                new MemoryReadAddress(0x100000, 0x107fff, K052109_word_noA12_r),
+                new MemoryReadAddress(0x140000, 0x140007, K051937_word_r),
+                new MemoryReadAddress(0x140400, 0x1407ff, K051960_word_r),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress tmnt_writemem[]
+            = {
+                new MemoryWriteAddress(0x000000, 0x05ffff, MWA_ROM),
+                new MemoryWriteAddress(0x060000, 0x063fff, MWA_BANK1), /* main RAM */
+                new MemoryWriteAddress(0x080000, 0x080fff, tmnt_paletteram_w, paletteram),
+                new MemoryWriteAddress(0x0a0000, 0x0a0001, tmnt_0a0000_w),
+                new MemoryWriteAddress(0x0a0008, 0x0a0009, tmnt_sound_command_w),
+                new MemoryWriteAddress(0x0a0010, 0x0a0011, watchdog_reset_w),
+                new MemoryWriteAddress(0x0c0000, 0x0c0001, tmnt_priority_w),
+                new MemoryWriteAddress(0x100000, 0x107fff, K052109_word_noA12_w),
+                //	new MemoryWriteAddress( 0x10e800, 0x10e801, MWA_NOP ), ???
+                new MemoryWriteAddress(0x140000, 0x140007, K051937_word_w),
+                new MemoryWriteAddress(0x140400, 0x1407ff, K051960_word_w),
+                new MemoryWriteAddress(-1) /* end of table */};
     /*TODO*///
-/*TODO*///static struct MemoryReadAddress tmnt_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x05ffff, MRA_ROM },
-/*TODO*///	{ 0x060000, 0x063fff, MRA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x080000, 0x080fff, paletteram_word_r },
-/*TODO*///	{ 0x0a0000, 0x0a0001, input_port_0_r },
-/*TODO*///	{ 0x0a0002, 0x0a0003, input_port_1_r },
-/*TODO*///	{ 0x0a0004, 0x0a0005, input_port_2_r },
-/*TODO*///	{ 0x0a0006, 0x0a0007, input_port_3_r },
-/*TODO*///	{ 0x0a0010, 0x0a0011, input_port_4_r },
-/*TODO*///	{ 0x0a0012, 0x0a0013, input_port_5_r },
-/*TODO*///	{ 0x0a0014, 0x0a0015, input_port_6_r },
-/*TODO*///	{ 0x0a0018, 0x0a0019, input_port_7_r },
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_r },
-/*TODO*///	{ 0x140000, 0x140007, K051937_word_r },
-/*TODO*///	{ 0x140400, 0x1407ff, K051960_word_r },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress tmnt_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x05ffff, MWA_ROM },
-/*TODO*///	{ 0x060000, 0x063fff, MWA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x080000, 0x080fff, tmnt_paletteram_w, &paletteram },
-/*TODO*///	{ 0x0a0000, 0x0a0001, tmnt_0a0000_w },
-/*TODO*///	{ 0x0a0008, 0x0a0009, tmnt_sound_command_w },
-/*TODO*///	{ 0x0a0010, 0x0a0011, watchdog_reset_w },
-/*TODO*///	{ 0x0c0000, 0x0c0001, tmnt_priority_w },
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_w },
-/*TODO*/////	{ 0x10e800, 0x10e801, MWA_NOP }, ???
-/*TODO*///	{ 0x140000, 0x140007, K051937_word_w },
-/*TODO*///	{ 0x140400, 0x1407ff, K051960_word_w },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct MemoryReadAddress punkshot_readmem[] =
 /*TODO*///{
 /*TODO*///	{ 0x000000, 0x03ffff, MRA_ROM },
@@ -981,32 +979,30 @@ public class tmnt {
                 new MemoryWriteAddress(0xc000, 0xc000, YM2151_register_port_0_w),
                 new MemoryWriteAddress(0xc001, 0xc001, YM2151_data_port_0_w),
                 new MemoryWriteAddress(-1) /* end of table */};
+
+    static MemoryReadAddress tmnt_s_readmem[]
+            = {
+                new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
+                new MemoryReadAddress(0x8000, 0x87ff, MRA_RAM),
+                new MemoryReadAddress(0x9000, 0x9000, tmnt_sres_r), /* title music  UPD7759C reset */
+                new MemoryReadAddress(0xa000, 0xa000, soundlatch_r),
+                new MemoryReadAddress(0xb000, 0xb00d, K007232_read_port_0_r),
+                new MemoryReadAddress(0xc001, 0xc001, YM2151_status_port_0_r),
+                new MemoryReadAddress(0xf000, 0xf000, UPD7759_busy_r),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress tmnt_s_writemem[]
+            = {
+                new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
+                new MemoryWriteAddress(0x8000, 0x87ff, MWA_RAM),
+                new MemoryWriteAddress(0x9000, 0x9000, tmnt_sres_w), /* title music  UPD7759C reset */
+                new MemoryWriteAddress(0xb000, 0xb00d, K007232_write_port_0_w),
+                new MemoryWriteAddress(0xc000, 0xc000, YM2151_register_port_0_w),
+                new MemoryWriteAddress(0xc001, 0xc001, YM2151_data_port_0_w),
+                new MemoryWriteAddress(0xd000, 0xd000, UPD7759_message_w),
+                new MemoryWriteAddress(0xe000, 0xe000, UPD7759_start_w),
+                new MemoryWriteAddress(-1) /* end of table */};
     /*TODO*///
-/*TODO*///static struct MemoryReadAddress tmnt_s_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
-/*TODO*///	{ 0x8000, 0x87ff, MRA_RAM },
-/*TODO*///	{ 0x9000, 0x9000, tmnt_sres_r },	/* title music & UPD7759C reset */
-/*TODO*///	{ 0xa000, 0xa000, soundlatch_r },
-/*TODO*///	{ 0xb000, 0xb00d, K007232_read_port_0_r },
-/*TODO*///	{ 0xc001, 0xc001, YM2151_status_port_0_r },
-/*TODO*///	{ 0xf000, 0xf000, UPD7759_busy_r },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress tmnt_s_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MWA_ROM },
-/*TODO*///	{ 0x8000, 0x87ff, MWA_RAM },
-/*TODO*///	{ 0x9000, 0x9000, tmnt_sres_w },	/* title music & UPD7759C reset */
-/*TODO*///	{ 0xb000, 0xb00d, K007232_write_port_0_w  },
-/*TODO*///	{ 0xc000, 0xc000, YM2151_register_port_0_w },
-/*TODO*///	{ 0xc001, 0xc001, YM2151_data_port_0_w },
-/*TODO*///	{ 0xd000, 0xd000, UPD7759_message_w },
-/*TODO*///	{ 0xe000, 0xe000, UPD7759_start_w },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct MemoryReadAddress punkshot_s_readmem[] =
 /*TODO*///{
 /*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
@@ -1216,241 +1212,266 @@ public class tmnt {
             INPUT_PORTS_END();
         }
     };
-    /*TODO*///
-/*TODO*///INPUT_PORTS_START( tmnt )
-/*TODO*///	PORT_START      /* COINS */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_COIN3 )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_COIN4 )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_SERVICE1 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_SERVICE2 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_SERVICE3 )
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_SERVICE4 )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 1 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 2 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START2 )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 3 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW1 */
-/*TODO*///	PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( Coinage ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( 5C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 4C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x05, DEF_STR( 3C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( 2C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( 3C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 4C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0f, DEF_STR( 1C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 3C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0x07, DEF_STR( 2C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0e, DEF_STR( 1C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x06, DEF_STR( 2C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0d, DEF_STR( 1C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0c, DEF_STR( 1C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0b, DEF_STR( 1C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0a, DEF_STR( 1C_6C ) )
-/*TODO*///	PORT_DIPSETTING(    0x09, DEF_STR( 1C_7C ) )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW2 */
-/*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Lives ) )
-/*TODO*///	PORT_DIPSETTING(    0x03, "1" )
-/*TODO*///	PORT_DIPSETTING(    0x02, "2" )
-/*TODO*///	PORT_DIPSETTING(    0x01, "3" )
-/*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-/*TODO*///	PORT_DIPNAME( 0x04, 0x04, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x60, 0x40, DEF_STR( Difficulty ) )
-/*TODO*///	PORT_DIPSETTING(    0x60, "Easy" )
-/*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-/*TODO*///	PORT_DIPSETTING(    0x20, "Difficult" )
-/*TODO*///	PORT_DIPSETTING(    0x00, "Very Difficult" )
-/*TODO*///	PORT_DIPNAME( 0x80, 0x00, DEF_STR( Demo_Sounds ) )
-/*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 4 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START4 )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW3 */
-/*TODO*///	PORT_DIPNAME( 0x01, 0x01, DEF_STR( Flip_Screen ) )
-/*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_SERVICE( 0x04, IP_ACTIVE_LOW )
-/*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNUSED )
-/*TODO*///INPUT_PORTS_END
-/*TODO*///
-/*TODO*///INPUT_PORTS_START( tmnt2p )
-/*TODO*///	PORT_START      /* COINS */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_COIN3 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_COIN4 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 1 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER1 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 2 */
-/*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER2 | IPF_8WAY )
-/*TODO*///	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*///	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START2 )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 3 */
-/*TODO*/////	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER3 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 )
-/*TODO*/////	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3 )
-/*TODO*/////	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*/////	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW1 */
-/*TODO*///	PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( Coin_A ) )
-/*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( 4C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x05, DEF_STR( 3C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( 2C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( 3C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( 4C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0f, DEF_STR( 1C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x03, DEF_STR( 3C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0x07, DEF_STR( 2C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0e, DEF_STR( 1C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x06, DEF_STR( 2C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0d, DEF_STR( 1C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0c, DEF_STR( 1C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0b, DEF_STR( 1C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0x0a, DEF_STR( 1C_6C ) )
-/*TODO*///	PORT_DIPSETTING(    0x09, DEF_STR( 1C_7C ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( Free_Play ) )
-/*TODO*///	PORT_DIPNAME( 0xf0, 0xf0, DEF_STR( Coin_B ) )
-/*TODO*///	PORT_DIPSETTING(    0x20, DEF_STR( 4C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x50, DEF_STR( 3C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( 2C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x40, DEF_STR( 3C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( 4C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0xf0, DEF_STR( 1C_1C ) )
-/*TODO*///	PORT_DIPSETTING(    0x30, DEF_STR( 3C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0x70, DEF_STR( 2C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0xe0, DEF_STR( 1C_2C ) )
-/*TODO*///	PORT_DIPSETTING(    0x60, DEF_STR( 2C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0xd0, DEF_STR( 1C_3C ) )
-/*TODO*///	PORT_DIPSETTING(    0xc0, DEF_STR( 1C_4C ) )
-/*TODO*///	PORT_DIPSETTING(    0xb0, DEF_STR( 1C_5C ) )
-/*TODO*///	PORT_DIPSETTING(    0xa0, DEF_STR( 1C_6C ) )
-/*TODO*///	PORT_DIPSETTING(    0x90, DEF_STR( 1C_7C ) )
-/*TODO*/////	PORT_DIPSETTING(    0x00, "Invalid" )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW2 */
-/*TODO*///	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Lives ) )
-/*TODO*///	PORT_DIPSETTING(    0x03, "1" )
-/*TODO*///	PORT_DIPSETTING(    0x02, "2" )
-/*TODO*///	PORT_DIPSETTING(    0x01, "3" )
-/*TODO*///	PORT_DIPSETTING(    0x00, "5" )
-/*TODO*///	PORT_DIPNAME( 0x04, 0x04, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x04, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x10, 0x10, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x10, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x60, 0x40, DEF_STR( Difficulty ) )
-/*TODO*///	PORT_DIPSETTING(    0x60, "Easy" )
-/*TODO*///	PORT_DIPSETTING(    0x40, "Normal" )
-/*TODO*///	PORT_DIPSETTING(    0x20, "Difficult" )
-/*TODO*///	PORT_DIPSETTING(    0x00, "Very Difficult" )
-/*TODO*///	PORT_DIPNAME( 0x80, 0x00, DEF_STR( Demo_Sounds ) )
-/*TODO*///	PORT_DIPSETTING(    0x80, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START      /* PLAYER 4 */
-/*TODO*/////	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER4 | IPF_8WAY )
-/*TODO*/////	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4 )
-/*TODO*/////	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4 )
-/*TODO*/////	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN )	/* button 3 - unused */
-/*TODO*/////	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START4 )
-/*TODO*///
-/*TODO*///	PORT_START	/* DSW3 */
-/*TODO*///	PORT_DIPNAME( 0x01, 0x01, DEF_STR( Flip_Screen ) )
-/*TODO*///	PORT_DIPSETTING(    0x01, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x02, 0x02, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x02, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_SERVICE( 0x04, IP_ACTIVE_LOW )
-/*TODO*///	PORT_DIPNAME( 0x08, 0x08, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(    0x08, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
-/*TODO*///	PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNUSED )
-/*TODO*///INPUT_PORTS_END
-/*TODO*///
-/*TODO*///INPUT_PORTS_START( punkshot )
+    static InputPortPtr input_ports_tmnt = new InputPortPtr() {
+        public void handler() {
+            PORT_START();       /* COINS */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN4);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE2);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_SERVICE3);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_SERVICE4);
+
+            PORT_START();       /* PLAYER 1 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
+
+            PORT_START();       /* PLAYER 2 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
+
+            PORT_START();       /* PLAYER 3 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER3 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER3 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER3 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER3 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START3);
+
+            PORT_START(); 	/* DSW1 */
+
+            PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coinage"));
+            PORT_DIPSETTING(0x00, DEF_STR("5C_1C"));
+            PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x05, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x08, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x04, DEF_STR("3C_2C"));
+            PORT_DIPSETTING(0x01, DEF_STR("4C_3C"));
+            PORT_DIPSETTING(0x0f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x03, DEF_STR("3C_4C"));
+            PORT_DIPSETTING(0x07, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x0e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x06, DEF_STR("2C_5C"));
+            PORT_DIPSETTING(0x0d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x0c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x0b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x0a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x09, DEF_STR("1C_7C"));
+
+            PORT_START(); 	/* DSW2 */
+
+            PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
+            PORT_DIPSETTING(0x03, "1");
+            PORT_DIPSETTING(0x02, "2");
+            PORT_DIPSETTING(0x01, "3");
+            PORT_DIPSETTING(0x00, "5");
+            PORT_DIPNAME(0x04, 0x04, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x04, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x08, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x10, 0x10, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x10, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x60, 0x40, DEF_STR("Difficulty"));
+            PORT_DIPSETTING(0x60, "Easy");
+            PORT_DIPSETTING(0x40, "Normal");
+            PORT_DIPSETTING(0x20, "Difficult");
+            PORT_DIPSETTING(0x00, "Very Difficult");
+            PORT_DIPNAME(0x80, 0x00, DEF_STR("Demo_Sounds"));
+            PORT_DIPSETTING(0x80, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+
+            PORT_START();       /* PLAYER 4 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER4 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER4 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER4 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER4 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START4);
+
+            PORT_START(); 	/* DSW3 */
+
+            PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
+            PORT_DIPSETTING(0x01, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x02, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_SERVICE(0x04, IP_ACTIVE_LOW);
+            PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x08, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
+            INPUT_PORTS_END();
+        }
+    };
+
+    static InputPortPtr input_ports_tmnt2p = new InputPortPtr() {
+        public void handler() {
+            PORT_START();       /* COINS */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN4);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+
+            PORT_START();       /* PLAYER 1 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER1 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
+
+            PORT_START();       /* PLAYER 2 */
+
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER2 | IPF_8WAY);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* button 3 - unused */
+
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
+
+            PORT_START();       /* PLAYER 3 */
+            //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER3 | IPF_8WAY );
+            //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER3 | IPF_8WAY );
+            //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER3 | IPF_8WAY );
+            //	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER3 | IPF_8WAY );
+            //	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 );
+            //	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3 );
+            //	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );/* button 3 - unused */
+            //	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
+
+            PORT_START(); 	/* DSW1 */
+
+            PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
+            PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x05, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x08, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x04, DEF_STR("3C_2C"));
+            PORT_DIPSETTING(0x01, DEF_STR("4C_3C"));
+            PORT_DIPSETTING(0x0f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x03, DEF_STR("3C_4C"));
+            PORT_DIPSETTING(0x07, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x0e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x06, DEF_STR("2C_5C"));
+            PORT_DIPSETTING(0x0d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x0c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x0b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x0a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x09, DEF_STR("1C_7C"));
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coin_B"));
+            PORT_DIPSETTING(0x20, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x50, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x80, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x40, DEF_STR("3C_2C"));
+            PORT_DIPSETTING(0x10, DEF_STR("4C_3C"));
+            PORT_DIPSETTING(0xf0, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x30, DEF_STR("3C_4C"));
+            PORT_DIPSETTING(0x70, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0xe0, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x60, DEF_STR("2C_5C"));
+            PORT_DIPSETTING(0xd0, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0xc0, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
+            //	PORT_DIPSETTING(    0x00, "Invalid" );
+
+            PORT_START(); 	/* DSW2 */
+
+            PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
+            PORT_DIPSETTING(0x03, "1");
+            PORT_DIPSETTING(0x02, "2");
+            PORT_DIPSETTING(0x01, "3");
+            PORT_DIPSETTING(0x00, "5");
+            PORT_DIPNAME(0x04, 0x04, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x04, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x08, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x10, 0x10, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x10, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x60, 0x40, DEF_STR("Difficulty"));
+            PORT_DIPSETTING(0x60, "Easy");
+            PORT_DIPSETTING(0x40, "Normal");
+            PORT_DIPSETTING(0x20, "Difficult");
+            PORT_DIPSETTING(0x00, "Very Difficult");
+            PORT_DIPNAME(0x80, 0x00, DEF_STR("Demo_Sounds"));
+            PORT_DIPSETTING(0x80, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+
+            PORT_START();       /* PLAYER 4 */
+            //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER4 | IPF_8WAY );
+            //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER4 | IPF_8WAY );
+            //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER4 | IPF_8WAY );
+            //	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER4 | IPF_8WAY );
+            //	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4 );
+            //	PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4 );
+            //	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );/* button 3 - unused */
+            //	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START4 );
+
+            PORT_START(); 	/* DSW3 */
+
+            PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
+            PORT_DIPSETTING(0x01, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x02, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_SERVICE(0x04, IP_ACTIVE_LOW);
+            PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x08, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
+            INPUT_PORTS_END();
+        }
+    };
+
+    /*TODO*///INPUT_PORTS_START( punkshot )
 /*TODO*///	PORT_START	/* DSW1/DSW2 */
 /*TODO*///	PORT_DIPNAME( 0x000f, 0x000f, DEF_STR( Coinage ) )
 /*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( 5C_1C ) )
@@ -1923,7 +1944,6 @@ public class tmnt {
 /*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
 /*TODO*///INPUT_PORTS_END
 /*TODO*///
-
     static InputPortPtr input_ports_ssridr4p = new InputPortPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
@@ -2254,16 +2274,15 @@ public class tmnt {
             new portwritehandlerPtr[]{volume_callback} /* external port callback */
     );
 
-    /*TODO*///static struct UPD7759_interface upd7759_interface =
-/*TODO*///{
-/*TODO*///	1,		/* number of chips */
-/*TODO*///	UPD7759_STANDARD_CLOCK,
-/*TODO*///	{ 60 }, /* volume */
-/*TODO*///	{ REGION_SOUND2 },		/* memory region */
-/*TODO*///	UPD7759_STANDALONE_MODE,		/* chip mode */
-/*TODO*///	{0}
-/*TODO*///};
-/*TODO*///
+    static UPD7759_interface upd7759_interface = new UPD7759_interface(
+            1, /* number of chips */
+            UPD7759_STANDARD_CLOCK,
+            new int[]{60}, /* volume */
+            new int[]{REGION_SOUND2}, /* memory region */
+            UPD7759_STANDALONE_MODE, /* chip mode */
+            new irqcallbackPtr[]{null}
+    );
+    /*TODO*///
 /*TODO*///static struct Samplesinterface samples_interface =
 /*TODO*///{
 /*TODO*///	1,	/* 1 channel for the title music */
@@ -2341,6 +2360,60 @@ public class tmnt {
                         SOUND_K007232,
                         k007232_interface
                 )
+            }
+    );
+    static MachineDriver machine_driver_tmnt = new MachineDriver(
+            /* basic machine hardware */
+            new MachineCPU[]{
+                new MachineCPU(
+                        CPU_M68000,
+                        8000000, /* 8 MHz */
+                        tmnt_readmem, tmnt_writemem, null, null,
+                        m68_level5_irq, 1
+                ),
+                new MachineCPU(
+                        CPU_Z80 | CPU_AUDIO_CPU,
+                        3579545, /* 3.579545 MHz */
+                        tmnt_s_readmem, tmnt_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are triggered by the main CPU */
+                )
+            },
+            60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
+            1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
+            null,
+            /* video hardware */
+            64 * 8, 32 * 8, new rectangle(14 * 8, (64 - 14) * 8 - 1, 2 * 8, 30 * 8 - 1),
+            null, /* gfx decoded by konamiic.c */
+            1024, 1024,
+            null,
+            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+            null,
+            tmnt_vh_start,
+            punkshot_vh_stop,
+            tmnt_vh_screenrefresh,
+            /* sound hardware */
+            0, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2151,
+                        ym2151_interface
+                ),
+                new MachineSound(
+                        SOUND_K007232,
+                        k007232_interface
+                ),
+                new MachineSound(
+                        SOUND_UPD7759,
+                        upd7759_interface
+                )
+            /*TODO*///		new MachineSound(
+         /*TODO*///				SOUND_SAMPLES,
+	 /*TODO*///			samples_interface
+	 /*TODO*///		),
+		 /*TODO*///	new MachineSound(
+		 /*TODO*///		SOUND_CUSTOM,	/* actually initializes the samples */
+		 /*TODO*///		custom_interface
+		 /*TODO*///	)
             }
     );
     /*TODO*///
@@ -2821,177 +2894,251 @@ public class tmnt {
             ROM_END();
         }
     };
+    static RomLoadPtr rom_tmnt = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
+
+            ROM_LOAD_EVEN("963-r23", 0x00000, 0x20000, 0xa7f61195);
+            ROM_LOAD_ODD("963-r24", 0x00000, 0x20000, 0x661e056a);
+            ROM_LOAD_EVEN("963-r21", 0x40000, 0x10000, 0xde047bb6);
+            ROM_LOAD_ODD("963-r22", 0x40000, 0x10000, 0xd86a0888);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("963-e20", 0x00000, 0x08000, 0x1692a6d6);
+
+            ROM_REGION(0x100000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a28", 0x000000, 0x80000, 0xdb4769a8);       /* 8x8 tiles */
+
+            ROM_LOAD("963-a29", 0x080000, 0x80000, 0x8069cd2e);       /* 8x8 tiles */
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a17", 0x000000, 0x80000, 0xb5239a44);       /* sprites */
+
+            ROM_LOAD("963-a18", 0x080000, 0x80000, 0xdd51adef);       /* sprites */
+
+            ROM_LOAD("963-a15", 0x100000, 0x80000, 0x1f324eed);       /* sprites */
+
+            ROM_LOAD("963-a16", 0x180000, 0x80000, 0xd4bd9984);       /* sprites */
+
+            ROM_REGION(0x0200, REGION_PROMS);
+            ROM_LOAD("tmnt.g7", 0x0000, 0x0100, 0xabd82680);/* sprite address decoder */
+
+            ROM_LOAD("tmnt.g19", 0x0100, 0x0100, 0xf8004a1c);/* priority encoder (not used) */
+
+            ROM_REGION(0x20000, REGION_SOUND1);/* 128k for the samples */
+
+            ROM_LOAD("963-a26", 0x00000, 0x20000, 0xe2ac3063);/* samples for 007232 */
+
+            ROM_REGION(0x20000, REGION_SOUND2);/* 128k for the samples */
+
+            ROM_LOAD("963-a27", 0x00000, 0x20000, 0x2dfd674b);/* samples for UPD7759C */
+
+            ROM_REGION(0x80000, REGION_SOUND3);/* 512k for the title music sample */
+
+            ROM_LOAD("963-a25", 0x00000, 0x80000, 0xfca078c7);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_tmht = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
+
+            ROM_LOAD_EVEN("963f23.j17", 0x00000, 0x20000, 0x9cb5e461);
+            ROM_LOAD_ODD("963f24.k17", 0x00000, 0x20000, 0x2d902fab);
+            ROM_LOAD_EVEN("963f21.j15", 0x40000, 0x10000, 0x9fa25378);
+            ROM_LOAD_ODD("963f22.k15", 0x40000, 0x10000, 0x2127ee53);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("963-e20", 0x00000, 0x08000, 0x1692a6d6);
+
+            ROM_REGION(0x100000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a28", 0x000000, 0x80000, 0xdb4769a8);       /* 8x8 tiles */
+
+            ROM_LOAD("963-a29", 0x080000, 0x80000, 0x8069cd2e);       /* 8x8 tiles */
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a17", 0x000000, 0x80000, 0xb5239a44);       /* sprites */
+
+            ROM_LOAD("963-a18", 0x080000, 0x80000, 0xdd51adef);       /* sprites */
+
+            ROM_LOAD("963-a15", 0x100000, 0x80000, 0x1f324eed);       /* sprites */
+
+            ROM_LOAD("963-a16", 0x180000, 0x80000, 0xd4bd9984);       /* sprites */
+
+            ROM_REGION(0x0200, REGION_PROMS);
+            ROM_LOAD("tmnt.g7", 0x0000, 0x0100, 0xabd82680);/* sprite address decoder */
+
+            ROM_LOAD("tmnt.g19", 0x0100, 0x0100, 0xf8004a1c);/* priority encoder (not used) */
+
+            ROM_REGION(0x20000, REGION_SOUND1);/* 128k for the samples */
+
+            ROM_LOAD("963-a26", 0x00000, 0x20000, 0xe2ac3063);/* samples for 007232 */
+
+            ROM_REGION(0x20000, REGION_SOUND2);/* 128k for the samples */
+
+            ROM_LOAD("963-a27", 0x00000, 0x20000, 0x2dfd674b);/* samples for UPD7759C */
+
+            ROM_REGION(0x80000, REGION_SOUND3);/* 512k for the title music sample */
+
+            ROM_LOAD("963-a25", 0x00000, 0x80000, 0xfca078c7);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_tmntj = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
+
+            ROM_LOAD_EVEN("963-x23", 0x00000, 0x20000, 0xa9549004);
+            ROM_LOAD_ODD("963-x24", 0x00000, 0x20000, 0xe5cc9067);
+            ROM_LOAD_EVEN("963-x21", 0x40000, 0x10000, 0x5789cf92);
+            ROM_LOAD_ODD("963-x22", 0x40000, 0x10000, 0x0a74e277);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("963-e20", 0x00000, 0x08000, 0x1692a6d6);
+
+            ROM_REGION(0x100000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a28", 0x000000, 0x80000, 0xdb4769a8);       /* 8x8 tiles */
+
+            ROM_LOAD("963-a29", 0x080000, 0x80000, 0x8069cd2e);       /* 8x8 tiles */
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a17", 0x000000, 0x80000, 0xb5239a44);       /* sprites */
+
+            ROM_LOAD("963-a18", 0x080000, 0x80000, 0xdd51adef);       /* sprites */
+
+            ROM_LOAD("963-a15", 0x100000, 0x80000, 0x1f324eed);       /* sprites */
+
+            ROM_LOAD("963-a16", 0x180000, 0x80000, 0xd4bd9984);       /* sprites */
+
+            ROM_REGION(0x0200, REGION_PROMS);
+            ROM_LOAD("tmnt.g7", 0x0000, 0x0100, 0xabd82680);/* sprite address decoder */
+
+            ROM_LOAD("tmnt.g19", 0x0100, 0x0100, 0xf8004a1c);/* priority encoder (not used) */
+
+            ROM_REGION(0x20000, REGION_SOUND1);/* 128k for the samples */
+
+            ROM_LOAD("963-a26", 0x00000, 0x20000, 0xe2ac3063);/* samples for 007232 */
+
+            ROM_REGION(0x20000, REGION_SOUND2);/* 128k for the samples */
+
+            ROM_LOAD("963-a27", 0x00000, 0x20000, 0x2dfd674b);/* samples for UPD7759C */
+
+            ROM_REGION(0x80000, REGION_SOUND3);/* 512k for the title music sample */
+
+            ROM_LOAD("963-a25", 0x00000, 0x80000, 0xfca078c7);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_tmht2p = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
+
+            ROM_LOAD_EVEN("963-u23", 0x00000, 0x20000, 0x58bec748);
+            ROM_LOAD_ODD("963-u24", 0x00000, 0x20000, 0xdce87c8d);
+            ROM_LOAD_EVEN("963-u21", 0x40000, 0x10000, 0xabce5ead);
+            ROM_LOAD_ODD("963-u22", 0x40000, 0x10000, 0x4ecc8d6b);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("963-e20", 0x00000, 0x08000, 0x1692a6d6);
+
+            ROM_REGION(0x100000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a28", 0x000000, 0x80000, 0xdb4769a8);       /* 8x8 tiles */
+
+            ROM_LOAD("963-a29", 0x080000, 0x80000, 0x8069cd2e);       /* 8x8 tiles */
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a17", 0x000000, 0x80000, 0xb5239a44);       /* sprites */
+
+            ROM_LOAD("963-a18", 0x080000, 0x80000, 0xdd51adef);       /* sprites */
+
+            ROM_LOAD("963-a15", 0x100000, 0x80000, 0x1f324eed);       /* sprites */
+
+            ROM_LOAD("963-a16", 0x180000, 0x80000, 0xd4bd9984);       /* sprites */
+
+            ROM_REGION(0x0200, REGION_PROMS);
+            ROM_LOAD("tmnt.g7", 0x0000, 0x0100, 0xabd82680);/* sprite address decoder */
+
+            ROM_LOAD("tmnt.g19", 0x0100, 0x0100, 0xf8004a1c);/* priority encoder (not used) */
+
+            ROM_REGION(0x20000, REGION_SOUND1);/* 128k for the samples */
+
+            ROM_LOAD("963-a26", 0x00000, 0x20000, 0xe2ac3063);/* samples for 007232 */
+
+            ROM_REGION(0x20000, REGION_SOUND2);/* 128k for the samples */
+
+            ROM_LOAD("963-a27", 0x00000, 0x20000, 0x2dfd674b);/* samples for UPD7759C */
+
+            ROM_REGION(0x80000, REGION_SOUND3);/* 512k for the title music sample */
+
+            ROM_LOAD("963-a25", 0x00000, 0x80000, 0xfca078c7);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_tmnt2pj = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
+
+            ROM_LOAD_EVEN("963-123", 0x00000, 0x20000, 0x6a3527c9);
+            ROM_LOAD_ODD("963-124", 0x00000, 0x20000, 0x2c4bfa15);
+            ROM_LOAD_EVEN("963-121", 0x40000, 0x10000, 0x4181b733);
+            ROM_LOAD_ODD("963-122", 0x40000, 0x10000, 0xc64eb5ff);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("963-e20", 0x00000, 0x08000, 0x1692a6d6);
+
+            ROM_REGION(0x100000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a28", 0x000000, 0x80000, 0xdb4769a8);       /* 8x8 tiles */
+
+            ROM_LOAD("963-a29", 0x080000, 0x80000, 0x8069cd2e);       /* 8x8 tiles */
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("963-a17", 0x000000, 0x80000, 0xb5239a44);       /* sprites */
+
+            ROM_LOAD("963-a18", 0x080000, 0x80000, 0xdd51adef);       /* sprites */
+
+            ROM_LOAD("963-a15", 0x100000, 0x80000, 0x1f324eed);       /* sprites */
+
+            ROM_LOAD("963-a16", 0x180000, 0x80000, 0xd4bd9984);       /* sprites */
+
+            ROM_REGION(0x0200, REGION_PROMS);
+            ROM_LOAD("tmnt.g7", 0x0000, 0x0100, 0xabd82680);/* sprite address decoder */
+
+            ROM_LOAD("tmnt.g19", 0x0100, 0x0100, 0xf8004a1c);/* priority encoder (not used) */
+
+            ROM_REGION(0x20000, REGION_SOUND1);/* 128k for the samples */
+
+            ROM_LOAD("963-a26", 0x00000, 0x20000, 0xe2ac3063);/* samples for 007232 */
+
+            ROM_REGION(0x20000, REGION_SOUND2);/* 128k for the samples */
+
+            ROM_LOAD("963-a27", 0x00000, 0x20000, 0x2dfd674b);/* samples for UPD7759C */
+
+            ROM_REGION(0x80000, REGION_SOUND3);/* 512k for the title music sample */
+
+            ROM_LOAD("963-a25", 0x00000, 0x80000, 0xfca078c7);
+            ROM_END();
+        }
+    };
     /*TODO*///
-/*TODO*///ROM_START( tmnt )
-/*TODO*///	ROM_REGION( 0x60000, REGION_CPU1 )	/* 2*128k and 2*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "963-r23",      0x00000, 0x20000, 0xa7f61195 )
-/*TODO*///	ROM_LOAD_ODD ( "963-r24",      0x00000, 0x20000, 0x661e056a )
-/*TODO*///	ROM_LOAD_EVEN( "963-r21",      0x40000, 0x10000, 0xde047bb6 )
-/*TODO*///	ROM_LOAD_ODD ( "963-r22",      0x40000, 0x10000, 0xd86a0888 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "963-e20",      0x00000, 0x08000, 0x1692a6d6 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x100000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a28",      0x000000, 0x80000, 0xdb4769a8 )        /* 8x8 tiles */
-/*TODO*///	ROM_LOAD( "963-a29",      0x080000, 0x80000, 0x8069cd2e )        /* 8x8 tiles */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a17",      0x000000, 0x80000, 0xb5239a44 )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a18",      0x080000, 0x80000, 0xdd51adef )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a15",      0x100000, 0x80000, 0x1f324eed )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a16",      0x180000, 0x80000, 0xd4bd9984 )        /* sprites */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x0200, REGION_PROMS )
-/*TODO*///	ROM_LOAD( "tmnt.g7",      0x0000, 0x0100, 0xabd82680 )	/* sprite address decoder */
-/*TODO*///	ROM_LOAD( "tmnt.g19",     0x0100, 0x0100, 0xf8004a1c )	/* priority encoder (not used) */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND1 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a26",      0x00000, 0x20000, 0xe2ac3063 ) /* samples for 007232 */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND2 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a27",      0x00000, 0x20000, 0x2dfd674b ) /* samples for UPD7759C */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND3 )	/* 512k for the title music sample */
-/*TODO*///	ROM_LOAD( "963-a25",      0x00000, 0x80000, 0xfca078c7 )
-/*TODO*///ROM_END
-/*TODO*///
-/*TODO*///ROM_START( tmht )
-/*TODO*///	ROM_REGION( 0x60000, REGION_CPU1 )	/* 2*128k and 2*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "963f23.j17",   0x00000, 0x20000, 0x9cb5e461 )
-/*TODO*///	ROM_LOAD_ODD ( "963f24.k17",   0x00000, 0x20000, 0x2d902fab )
-/*TODO*///	ROM_LOAD_EVEN( "963f21.j15",   0x40000, 0x10000, 0x9fa25378 )
-/*TODO*///	ROM_LOAD_ODD ( "963f22.k15",   0x40000, 0x10000, 0x2127ee53 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "963-e20",      0x00000, 0x08000, 0x1692a6d6 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x100000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a28",      0x000000, 0x80000, 0xdb4769a8 )        /* 8x8 tiles */
-/*TODO*///	ROM_LOAD( "963-a29",      0x080000, 0x80000, 0x8069cd2e )        /* 8x8 tiles */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a17",      0x000000, 0x80000, 0xb5239a44 )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a18",      0x080000, 0x80000, 0xdd51adef )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a15",      0x100000, 0x80000, 0x1f324eed )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a16",      0x180000, 0x80000, 0xd4bd9984 )        /* sprites */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x0200, REGION_PROMS )
-/*TODO*///	ROM_LOAD( "tmnt.g7",      0x0000, 0x0100, 0xabd82680 )	/* sprite address decoder */
-/*TODO*///	ROM_LOAD( "tmnt.g19",     0x0100, 0x0100, 0xf8004a1c )	/* priority encoder (not used) */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND1 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a26",      0x00000, 0x20000, 0xe2ac3063 ) /* samples for 007232 */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND2 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a27",      0x00000, 0x20000, 0x2dfd674b ) /* samples for UPD7759C */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND3 )	/* 512k for the title music sample */
-/*TODO*///	ROM_LOAD( "963-a25",      0x00000, 0x80000, 0xfca078c7 )
-/*TODO*///ROM_END
-/*TODO*///
-/*TODO*///ROM_START( tmntj )
-/*TODO*///	ROM_REGION( 0x60000, REGION_CPU1 )	/* 2*128k and 2*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "963-x23",      0x00000, 0x20000, 0xa9549004 )
-/*TODO*///	ROM_LOAD_ODD ( "963-x24",      0x00000, 0x20000, 0xe5cc9067 )
-/*TODO*///	ROM_LOAD_EVEN( "963-x21",      0x40000, 0x10000, 0x5789cf92 )
-/*TODO*///	ROM_LOAD_ODD ( "963-x22",      0x40000, 0x10000, 0x0a74e277 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "963-e20",      0x00000, 0x08000, 0x1692a6d6 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x100000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a28",      0x000000, 0x80000, 0xdb4769a8 )        /* 8x8 tiles */
-/*TODO*///	ROM_LOAD( "963-a29",      0x080000, 0x80000, 0x8069cd2e )        /* 8x8 tiles */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a17",      0x000000, 0x80000, 0xb5239a44 )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a18",      0x080000, 0x80000, 0xdd51adef )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a15",      0x100000, 0x80000, 0x1f324eed )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a16",      0x180000, 0x80000, 0xd4bd9984 )        /* sprites */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x0200, REGION_PROMS )
-/*TODO*///	ROM_LOAD( "tmnt.g7",      0x0000, 0x0100, 0xabd82680 )	/* sprite address decoder */
-/*TODO*///	ROM_LOAD( "tmnt.g19",     0x0100, 0x0100, 0xf8004a1c )	/* priority encoder (not used) */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND1 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a26",      0x00000, 0x20000, 0xe2ac3063 ) /* samples for 007232 */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND2 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a27",      0x00000, 0x20000, 0x2dfd674b ) /* samples for UPD7759C */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND3 )	/* 512k for the title music sample */
-/*TODO*///	ROM_LOAD( "963-a25",      0x00000, 0x80000, 0xfca078c7 )
-/*TODO*///ROM_END
-/*TODO*///
-/*TODO*///ROM_START( tmht2p )
-/*TODO*///	ROM_REGION( 0x60000, REGION_CPU1 )	/* 2*128k and 2*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "963-u23",      0x00000, 0x20000, 0x58bec748 )
-/*TODO*///	ROM_LOAD_ODD ( "963-u24",      0x00000, 0x20000, 0xdce87c8d )
-/*TODO*///	ROM_LOAD_EVEN( "963-u21",      0x40000, 0x10000, 0xabce5ead )
-/*TODO*///	ROM_LOAD_ODD ( "963-u22",      0x40000, 0x10000, 0x4ecc8d6b )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "963-e20",      0x00000, 0x08000, 0x1692a6d6 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x100000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a28",      0x000000, 0x80000, 0xdb4769a8 )        /* 8x8 tiles */
-/*TODO*///	ROM_LOAD( "963-a29",      0x080000, 0x80000, 0x8069cd2e )        /* 8x8 tiles */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a17",      0x000000, 0x80000, 0xb5239a44 )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a18",      0x080000, 0x80000, 0xdd51adef )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a15",      0x100000, 0x80000, 0x1f324eed )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a16",      0x180000, 0x80000, 0xd4bd9984 )        /* sprites */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x0200, REGION_PROMS )
-/*TODO*///	ROM_LOAD( "tmnt.g7",      0x0000, 0x0100, 0xabd82680 )	/* sprite address decoder */
-/*TODO*///	ROM_LOAD( "tmnt.g19",     0x0100, 0x0100, 0xf8004a1c )	/* priority encoder (not used) */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND1 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a26",      0x00000, 0x20000, 0xe2ac3063 ) /* samples for 007232 */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND2 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a27",      0x00000, 0x20000, 0x2dfd674b ) /* samples for UPD7759C */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND3 )	/* 512k for the title music sample */
-/*TODO*///	ROM_LOAD( "963-a25",      0x00000, 0x80000, 0xfca078c7 )
-/*TODO*///ROM_END
-/*TODO*///
-/*TODO*///ROM_START( tmnt2pj )
-/*TODO*///	ROM_REGION( 0x60000, REGION_CPU1 )	/* 2*128k and 2*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "963-123",      0x00000, 0x20000, 0x6a3527c9 )
-/*TODO*///	ROM_LOAD_ODD ( "963-124",      0x00000, 0x20000, 0x2c4bfa15 )
-/*TODO*///	ROM_LOAD_EVEN( "963-121",      0x40000, 0x10000, 0x4181b733 )
-/*TODO*///	ROM_LOAD_ODD ( "963-122",      0x40000, 0x10000, 0xc64eb5ff )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "963-e20",      0x00000, 0x08000, 0x1692a6d6 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x100000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a28",      0x000000, 0x80000, 0xdb4769a8 )        /* 8x8 tiles */
-/*TODO*///	ROM_LOAD( "963-a29",      0x080000, 0x80000, 0x8069cd2e )        /* 8x8 tiles */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "963-a17",      0x000000, 0x80000, 0xb5239a44 )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a18",      0x080000, 0x80000, 0xdd51adef )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a15",      0x100000, 0x80000, 0x1f324eed )        /* sprites */
-/*TODO*///	ROM_LOAD( "963-a16",      0x180000, 0x80000, 0xd4bd9984 )        /* sprites */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x0200, REGION_PROMS )
-/*TODO*///	ROM_LOAD( "tmnt.g7",      0x0000, 0x0100, 0xabd82680 )	/* sprite address decoder */
-/*TODO*///	ROM_LOAD( "tmnt.g19",     0x0100, 0x0100, 0xf8004a1c )	/* priority encoder (not used) */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND1 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a26",      0x00000, 0x20000, 0xe2ac3063 ) /* samples for 007232 */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x20000, REGION_SOUND2 )	/* 128k for the samples */
-/*TODO*///	ROM_LOAD( "963-a27",      0x00000, 0x20000, 0x2dfd674b ) /* samples for UPD7759C */
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND3 )	/* 512k for the title music sample */
-/*TODO*///	ROM_LOAD( "963-a25",      0x00000, 0x80000, 0xfca078c7 )
-/*TODO*///ROM_END
-/*TODO*///
 /*TODO*///ROM_START( punkshot )
 /*TODO*///	ROM_REGION( 0x40000, REGION_CPU1 )	/* 4*64k for 68000 code */
 /*TODO*///	ROM_LOAD_EVEN( "907-j02.i7",   0x00000, 0x20000, 0xdbb3a23b )
@@ -3527,9 +3674,9 @@ public class tmnt {
                 }
 
                 for (j = 0; j < 4; j++) {
-                    gfxdata.write(i + j,0);
+                    gfxdata.write(i + j, 0);
                     for (k = 0; k < 8; k++) {
-                     gfxdata.write(i + j,   gfxdata.read(i + j) | bits[j + 4 * k] << k);
+                        gfxdata.write(i + j, gfxdata.read(i + j) | bits[j + 4 * k] << k);
                     }
                 }
             }
@@ -3549,7 +3696,7 @@ public class tmnt {
                 }
 
                 for (j = 0; j < 4; j++) {
-                    gfxdata.write(i + j,0);
+                    gfxdata.write(i + j, 0);
                     for (k = 0; k < 8; k++) {
                         gfxdata.write(i + j, gfxdata.read(i + j) | bits[j + 4 * k] << k);
                     }
@@ -3557,8 +3704,9 @@ public class tmnt {
             }
 
             temp = new UBytePtr(len);
-            if (temp==null) {
+            if (temp == null) {
                 return;	/* bad thing! */
+
             }
             memcpy(temp, gfxdata, len);
             for (A = 0; A < len / 4; A++) {
@@ -3589,124 +3737,124 @@ public class tmnt {
                     B |= bits[6] << 7;
                 }
 
-                gfxdata.write(4 * A + 0,temp.read(4 * B + 0));
-                gfxdata.write(4 * A + 1,temp.read(4 * B + 1));
-                gfxdata.write(4 * A + 2,temp.read(4 * B + 2));
-                gfxdata.write(4 * A + 3,temp.read(4 * B + 3));
+                gfxdata.write(4 * A + 0, temp.read(4 * B + 0));
+                gfxdata.write(4 * A + 1, temp.read(4 * B + 1));
+                gfxdata.write(4 * A + 2, temp.read(4 * B + 2));
+                gfxdata.write(4 * A + 3, temp.read(4 * B + 3));
             }
             temp = null;
         }
     };
-    /*TODO*///static void init_tmnt(void)
-/*TODO*///{
-/*TODO*///	unsigned char *gfxdata;
-/*TODO*///	int len;
-/*TODO*///	int i,j,k,A,B,entry;
-/*TODO*///	int bits[32];
-/*TODO*///	unsigned char *temp;
-/*TODO*///
-/*TODO*///
-/*TODO*///	init_gfx();
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///		along with the normal byte reordering, TMNT also needs the bits to
-/*TODO*///		be shuffled around because the ROMs are connected differently to the
-/*TODO*///		051962 custom IC.
-/*TODO*///	*/
-/*TODO*///	gfxdata = memory_region(REGION_GFX1);
-/*TODO*///	len = memory_region_length(REGION_GFX1);
-/*TODO*///	for (i = 0;i < len;i += 4)
-/*TODO*///	{
-/*TODO*///		for (j = 0;j < 4;j++)
-/*TODO*///			for (k = 0;k < 8;k++)
-/*TODO*///				bits[8*j + k] = (gfxdata[i + j] >> k) & 1;
-/*TODO*///
-/*TODO*///		for (j = 0;j < 4;j++)
-/*TODO*///		{
-/*TODO*///			gfxdata[i + j] = 0;
-/*TODO*///			for (k = 0;k < 8;k++)
-/*TODO*///				gfxdata[i + j] |= bits[j + 4*k] << k;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///		along with the normal byte reordering, TMNT also needs the bits to
-/*TODO*///		be shuffled around because the ROMs are connected differently to the
-/*TODO*///		051937 custom IC.
-/*TODO*///	*/
-/*TODO*///	gfxdata = memory_region(REGION_GFX2);
-/*TODO*///	len = memory_region_length(REGION_GFX2);
-/*TODO*///	for (i = 0;i < len;i += 4)
-/*TODO*///	{
-/*TODO*///		for (j = 0;j < 4;j++)
-/*TODO*///			for (k = 0;k < 8;k++)
-/*TODO*///				bits[8*j + k] = (gfxdata[i + j] >> k) & 1;
-/*TODO*///
-/*TODO*///		for (j = 0;j < 4;j++)
-/*TODO*///		{
-/*TODO*///			gfxdata[i + j] = 0;
-/*TODO*///			for (k = 0;k < 8;k++)
-/*TODO*///				gfxdata[i + j] |= bits[j + 4*k] << k;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	temp = malloc(len);
-/*TODO*///	if (!temp) return;	/* bad thing! */
-/*TODO*///	memcpy(temp,gfxdata,len);
-/*TODO*///	for (A = 0;A < len/4;A++)
-/*TODO*///	{
-/*TODO*///		unsigned char *code_conv_table = &memory_region(REGION_PROMS)[0x0000];
-/*TODO*///#define CA0 0
-/*TODO*///#define CA1 1
-/*TODO*///#define CA2 2
-/*TODO*///#define CA3 3
-/*TODO*///#define CA4 4
-/*TODO*///#define CA5 5
-/*TODO*///#define CA6 6
-/*TODO*///#define CA7 7
-/*TODO*///#define CA8 8
-/*TODO*///#define CA9 9
-/*TODO*///
-/*TODO*///		/* following table derived from the schematics. It indicates, for each of the */
-/*TODO*///		/* 9 low bits of the sprite line address, which bit to pick it from. */
-/*TODO*///		/* For example, when the PROM contains 4, which applies to 4x2 sprites, */
-/*TODO*///		/* bit OA1 comes from CA5, OA2 from CA0, and so on. */
-/*TODO*///		static unsigned char bit_pick_table[10][8] =
-/*TODO*///		{
-/*TODO*///			/*0(1x1) 1(2x1) 2(1x2) 3(2x2) 4(4x2) 5(2x4) 6(4x4) 7(8x8) */
-/*TODO*///			{ CA3,   CA3,   CA3,   CA3,   CA3,   CA3,   CA3,   CA3 },	/* CA3 */
-/*TODO*///			{ CA0,   CA0,   CA5,   CA5,   CA5,   CA5,   CA5,   CA5 },	/* OA1 */
-/*TODO*///			{ CA1,   CA1,   CA0,   CA0,   CA0,   CA7,   CA7,   CA7 },	/* OA2 */
-/*TODO*///			{ CA2,   CA2,   CA1,   CA1,   CA1,   CA0,   CA0,   CA9 },	/* OA3 */
-/*TODO*///			{ CA4,   CA4,   CA2,   CA2,   CA2,   CA1,   CA1,   CA0 },	/* OA4 */
-/*TODO*///			{ CA5,   CA6,   CA4,   CA4,   CA4,   CA2,   CA2,   CA1 },	/* OA5 */
-/*TODO*///			{ CA6,   CA5,   CA6,   CA6,   CA6,   CA4,   CA4,   CA2 },	/* OA6 */
-/*TODO*///			{ CA7,   CA7,   CA7,   CA7,   CA8,   CA6,   CA6,   CA4 },	/* OA7 */
-/*TODO*///			{ CA8,   CA8,   CA8,   CA8,   CA7,   CA8,   CA8,   CA6 },	/* OA8 */
-/*TODO*///			{ CA9,   CA9,   CA9,   CA9,   CA9,   CA9,   CA9,   CA8 }	/* OA9 */
-/*TODO*///		};
-/*TODO*///
-/*TODO*///		/* pick the correct entry in the PROM (top 8 bits of the address) */
-/*TODO*///		entry = code_conv_table[(A & 0x7f800) >> 11] & 7;
-/*TODO*///
-/*TODO*///		/* the bits to scramble are the low 10 ones */
-/*TODO*///		for (i = 0;i < 10;i++)
-/*TODO*///			bits[i] = (A >> i) & 0x01;
-/*TODO*///
-/*TODO*///		B = A & 0x7fc00;
-/*TODO*///
-/*TODO*///		for (i = 0;i < 10;i++)
-/*TODO*///			B |= bits[bit_pick_table[i][entry]] << i;
-/*TODO*///
-/*TODO*///		gfxdata[4*A+0] = temp[4*B+0];
-/*TODO*///		gfxdata[4*A+1] = temp[4*B+1];
-/*TODO*///		gfxdata[4*A+2] = temp[4*B+2];
-/*TODO*///		gfxdata[4*A+3] = temp[4*B+3];
-/*TODO*///	}
-/*TODO*///	free(temp);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void shuffle(UINT8 *buf,int len)
+    public static InitDriverPtr init_tmnt = new InitDriverPtr() {
+        public void handler() {
+            UBytePtr gfxdata;
+            int len;
+            int i, j, k, A, B, entry;
+            int[] bits = new int[32];
+            UBytePtr temp;
+
+            init_gfx.handler();
+
+            /*
+             along with the normal byte reordering, TMNT also needs the bits to
+             be shuffled around because the ROMs are connected differently to the
+             051962 custom IC.
+             */
+            gfxdata = memory_region(REGION_GFX1);
+            len = memory_region_length(REGION_GFX1);
+            for (i = 0; i < len; i += 4) {
+                for (j = 0; j < 4; j++) {
+                    for (k = 0; k < 8; k++) {
+                        bits[8 * j + k] = (gfxdata.read(i + j) >> k) & 1;
+                    }
+                }
+
+                for (j = 0; j < 4; j++) {
+                    gfxdata.write(i + j, 0);
+                    for (k = 0; k < 8; k++) {
+                        gfxdata.write(i + j, gfxdata.read(i + j) | bits[j + 4 * k] << k);
+                    }
+                }
+            }
+
+            /*
+             along with the normal byte reordering, TMNT also needs the bits to
+             be shuffled around because the ROMs are connected differently to the
+             051937 custom IC.
+             */
+            gfxdata = memory_region(REGION_GFX2);
+            len = memory_region_length(REGION_GFX2);
+            for (i = 0; i < len; i += 4) {
+                for (j = 0; j < 4; j++) {
+                    for (k = 0; k < 8; k++) {
+                        bits[8 * j + k] = (gfxdata.read(i + j) >> k) & 1;
+                    }
+                }
+
+                for (j = 0; j < 4; j++) {
+                    gfxdata.write(i + j, 0);
+                    for (k = 0; k < 8; k++) {
+                        gfxdata.write(i + j, gfxdata.read(i + j) | bits[j + 4 * k] << k);
+                    }
+                }
+            }
+
+            temp = new UBytePtr(len);
+            memcpy(temp, gfxdata, len);
+            for (A = 0; A < len / 4; A++) {
+                UBytePtr code_conv_table = new UBytePtr(memory_region(REGION_PROMS), 0x0000);
+                int CA0 = 0;
+                int CA1 = 1;
+                int CA2 = 2;
+                int CA3 = 3;
+                int CA4 = 4;
+                int CA5 = 5;
+                int CA6 = 6;
+                int CA7 = 7;
+                int CA8 = 8;
+                int CA9 = 9;
+
+                /* following table derived from the schematics. It indicates, for each of the */
+                /* 9 low bits of the sprite line address, which bit to pick it from. */
+                /* For example, when the PROM contains 4, which applies to 4x2 sprites, */
+                /* bit OA1 comes from CA5, OA2 from CA0, and so on. */
+                int bit_pick_table[][]
+                        = {
+                            /*0(1x1) 1(2x1) 2(1x2) 3(2x2) 4(4x2) 5(2x4) 6(4x4) 7(8x8) */
+                            {CA3, CA3, CA3, CA3, CA3, CA3, CA3, CA3}, /* CA3 */
+                            {CA0, CA0, CA5, CA5, CA5, CA5, CA5, CA5}, /* OA1 */
+                            {CA1, CA1, CA0, CA0, CA0, CA7, CA7, CA7}, /* OA2 */
+                            {CA2, CA2, CA1, CA1, CA1, CA0, CA0, CA9}, /* OA3 */
+                            {CA4, CA4, CA2, CA2, CA2, CA1, CA1, CA0}, /* OA4 */
+                            {CA5, CA6, CA4, CA4, CA4, CA2, CA2, CA1}, /* OA5 */
+                            {CA6, CA5, CA6, CA6, CA6, CA4, CA4, CA2}, /* OA6 */
+                            {CA7, CA7, CA7, CA7, CA8, CA6, CA6, CA4}, /* OA7 */
+                            {CA8, CA8, CA8, CA8, CA7, CA8, CA8, CA6}, /* OA8 */
+                            {CA9, CA9, CA9, CA9, CA9, CA9, CA9, CA8} /* OA9 */};
+
+                /* pick the correct entry in the PROM (top 8 bits of the address) */
+                entry = code_conv_table.read((A & 0x7f800) >> 11) & 7;
+
+                /* the bits to scramble are the low 10 ones */
+                for (i = 0; i < 10; i++) {
+                    bits[i] = (A >> i) & 0x01;
+                }
+
+                B = A & 0x7fc00;
+
+                for (i = 0; i < 10; i++) {
+                    B |= bits[bit_pick_table[i][entry]] << i;
+                }
+
+                gfxdata.write(4 * A + 0, temp.read(4 * B + 0));
+                gfxdata.write(4 * A + 1, temp.read(4 * B + 1));
+                gfxdata.write(4 * A + 2, temp.read(4 * B + 2));
+                gfxdata.write(4 * A + 3, temp.read(4 * B + 3));
+            }
+            temp = null;
+        }
+    };
+    /*TODO*///static void shuffle(UINT8 *buf,int len)
 /*TODO*///{
 /*TODO*///	int i;
 /*TODO*///	UINT8 t;
@@ -3740,13 +3888,13 @@ public class tmnt {
     public static GameDriver driver_mia = new GameDriver("1989", "mia", "tmnt.java", rom_mia, null, machine_driver_mia, input_ports_mia, init_mia, ROT0, "Konami", "Missing in Action (version T)");
     public static GameDriver driver_mia2 = new GameDriver("1989", "mia2", "tmnt.java", rom_mia2, driver_mia, machine_driver_mia, input_ports_mia, init_mia, ROT0, "Konami", "Missing in Action (version S)");
 
-    /*TODO*///GAME( 1989, tmnt,     0,        tmnt,     tmnt,     tmnt,     ROT0,  "Konami", "Teenage Mutant Ninja Turtles (4 Players US)" )
-/*TODO*///GAME( 1989, tmht,     tmnt,     tmnt,     tmnt,     tmnt,     ROT0,  "Konami", "Teenage Mutant Hero Turtles (4 Players UK)" )
-/*TODO*///GAME( 1989, tmntj,    tmnt,     tmnt,     tmnt,     tmnt,     ROT0,  "Konami", "Teenage Mutant Ninja Turtles (4 Players Japan)" )
-/*TODO*///GAME( 1989, tmht2p,   tmnt,     tmnt,     tmnt2p,   tmnt,     ROT0,  "Konami", "Teenage Mutant Hero Turtles (2 Players UK)" )
-/*TODO*///GAME( 1990, tmnt2pj,  tmnt,     tmnt,     tmnt2p,   tmnt,     ROT0,  "Konami", "Teenage Mutant Ninja Turtles (2 Players Japan)" )
-/*TODO*///
-/*TODO*///GAME( 1990, punkshot, 0,        punkshot, punkshot, gfx,      ROT0,  "Konami", "Punk Shot (4 Players)" )
+    public static GameDriver driver_tmnt = new GameDriver("1989", "tmnt", "tmnt.java", rom_tmnt, null, machine_driver_tmnt, input_ports_tmnt, init_tmnt, ROT0, "Konami", "Teenage Mutant Ninja Turtles (4 Players US)");
+    public static GameDriver driver_tmht = new GameDriver("1989", "tmht", "tmnt.java", rom_tmht, driver_tmnt, machine_driver_tmnt, input_ports_tmnt, init_tmnt, ROT0, "Konami", "Teenage Mutant Hero Turtles (4 Players UK)");
+    public static GameDriver driver_tmntj = new GameDriver("1989", "tmntj", "tmnt.java", rom_tmntj, driver_tmnt, machine_driver_tmnt, input_ports_tmnt, init_tmnt, ROT0, "Konami", "Teenage Mutant Ninja Turtles (4 Players Japan)");
+    public static GameDriver driver_tmht2p = new GameDriver("1989", "tmht2p", "tmnt.java", rom_tmht2p, driver_tmnt, machine_driver_tmnt, input_ports_tmnt2p, init_tmnt, ROT0, "Konami", "Teenage Mutant Hero Turtles (2 Players UK)");
+    public static GameDriver driver_tmnt2pj = new GameDriver("1990", "tmnt2pj", "tmnt.java", rom_tmnt2pj, driver_tmnt, machine_driver_tmnt, input_ports_tmnt2p, init_tmnt, ROT0, "Konami", "Teenage Mutant Ninja Turtles (2 Players Japan)");
+
+    /*TODO*///GAME( 1990, punkshot, 0,        punkshot, punkshot, gfx,      ROT0,  "Konami", "Punk Shot (4 Players)" )
 /*TODO*///GAME( 1990, punksht2, punkshot, punkshot, punksht2, gfx,      ROT0,  "Konami", "Punk Shot (2 Players)" )
 /*TODO*///
 /*TODO*///GAME( 1990, lgtnfght, 0,        lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Lightning Fighters (US)" )
