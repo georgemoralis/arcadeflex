@@ -91,14 +91,14 @@ public class tmnt {
             color[0] = sprite_colorbase + (color[0] & 0x0f);
         }
     };
+    public static K051960_callbackProcPtr punkshot_sprite_callback = new K051960_callbackProcPtr() {
+        public void handler(int[] code, int[] color, int[] priority) {
+            code[0] |= (color[0] & 0x10) << 9;
+            priority[0] = 0x20 | ((color[0] & 0x60) >> 2);
+            color[0] = sprite_colorbase + (color[0] & 0x0f);
+        }
+    };
     /*TODO*///
-/*TODO*///static void punkshot_sprite_callback(int *code,int *color,int *priority)
-/*TODO*///{
-/*TODO*///	*code |= (*color & 0x10) << 9;
-/*TODO*///	*priority = 0x20 | ((*color & 0x60) >> 2);
-/*TODO*///	*color = sprite_colorbase + (*color & 0x0f);
-/*TODO*///}
-/*TODO*///
 /*TODO*///static void thndrx2_sprite_callback(int *code,int *color,int *priority)
 /*TODO*///{
 /*TODO*///	*priority = 0x20 | ((*color & 0x60) >> 2);
@@ -170,35 +170,18 @@ public class tmnt {
             return 0;
         }
     };
-    /*TODO*///
-/*TODO*///int tmnt_vh_start(void)
-/*TODO*///{
-/*TODO*///	layer_colorbase[0] = 0;
-/*TODO*///	layer_colorbase[1] = 32;
-/*TODO*///	layer_colorbase[2] = 40;
-/*TODO*///	sprite_colorbase = 16;
-/*TODO*///	if (K052109_vh_start(REGION_GFX1,NORMAL_PLANE_ORDER,tmnt_tile_callback))
-/*TODO*///		return 1;
-/*TODO*///	if (K051960_vh_start(REGION_GFX2,REVERSE_PLANE_ORDER,tmnt_sprite_callback))
-/*TODO*///	{
-/*TODO*///		K052109_vh_stop();
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int punkshot_vh_start(void)
-/*TODO*///{
-/*TODO*///	if (K052109_vh_start(REGION_GFX1,NORMAL_PLANE_ORDER,tmnt_tile_callback))
-/*TODO*///		return 1;
-/*TODO*///	if (K051960_vh_start(REGION_GFX2,NORMAL_PLANE_ORDER,punkshot_sprite_callback))
-/*TODO*///	{
-/*TODO*///		K052109_vh_stop();
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+    public static VhStartPtr punkshot_vh_start = new VhStartPtr() {
+        public int handler() {
+            if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
+                return 1;
+            }
+            if (K051960_vh_start(REGION_GFX2, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, punkshot_sprite_callback) != 0) {
+                K052109_vh_stop();
+                return 1;
+            }
+            return 0;
+        }
+    };
     public static VhStartPtr lgtnfght_vh_start = new VhStartPtr() {
         public int handler() /* also tmnt2, ssriders */ {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
@@ -336,28 +319,26 @@ public class tmnt {
             }
         }
     };
+    static int last_p;
+    public static WriteHandlerPtr punkshot_0a0020_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if ((data & 0x00ff0000) == 0) {
+                /* bit 0 = coin counter */
+                coin_counter_w.handler(0, data & 0x01);
+
+                /* bit 2 = trigger irq on sound CPU */
+                if (last_p == 0x04 && (data & 0x04) == 0) {
+                    cpu_cause_interrupt(1, 0xff);
+                }
+
+                last_p = data & 0x04;
+
+                /* bit 3 = enable char ROM reading through the video RAM */
+                K052109_set_RMRD_line((data & 0x08) != 0 ? ASSERT_LINE : CLEAR_LINE);
+            }
+        }
+    };
     /*TODO*///
-/*TODO*///void punkshot_0a0020_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	if ((data & 0x00ff0000) == 0)
-/*TODO*///	{
-/*TODO*///		static int last;
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* bit 0 = coin counter */
-/*TODO*///		coin_counter_w(0,data & 0x01);
-/*TODO*///
-/*TODO*///		/* bit 2 = trigger irq on sound CPU */
-/*TODO*///		if (last == 0x04 && (data & 0x04) == 0)
-/*TODO*///			cpu_cause_interrupt(1,0xff);
-/*TODO*///
-/*TODO*///		last = data & 0x04;
-/*TODO*///
-/*TODO*///		/* bit 3 = enable char ROM reading through the video RAM */
-/*TODO*///		K052109_set_RMRD_line((data & 0x08) ? ASSERT_LINE : CLEAR_LINE);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
 /*TODO*///void lgtnfght_0a0018_w(int offset,int data)
 /*TODO*///{
 /*TODO*///	if ((data & 0x00ff0000) == 0)
@@ -530,45 +511,70 @@ public class tmnt {
             K052109_tilemap_draw(bitmap, 0, 0);
         }
     };
-    /*TODO*///
-/*TODO*///void punkshot_vh_screenrefresh(struct osd_bitmap *bitmap,int full_refresh)
-/*TODO*///{
-/*TODO*///	int pri[3],layer[3];
-/*TODO*///
-/*TODO*///
-/*TODO*///	bg_colorbase       = K053251_get_palette_index(K053251_CI0);
-/*TODO*///	sprite_colorbase   = K053251_get_palette_index(K053251_CI1);
-/*TODO*///	layer_colorbase[0] = K053251_get_palette_index(K053251_CI2);
-/*TODO*///	layer_colorbase[1] = K053251_get_palette_index(K053251_CI4);
-/*TODO*///	layer_colorbase[2] = K053251_get_palette_index(K053251_CI3);
-/*TODO*///
-/*TODO*///	K052109_tilemap_update();
-/*TODO*///
-/*TODO*///	palette_init_used_colors();
-/*TODO*///	K051960_mark_sprites_colors();
-/*TODO*///	if (palette_recalc())
-/*TODO*///		tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	tilemap_render(ALL_TILEMAPS);
-/*TODO*///
-/*TODO*///	layer[0] = 0;
-/*TODO*///	pri[0] = K053251_get_priority(K053251_CI2);
-/*TODO*///	layer[1] = 1;
-/*TODO*///	pri[1] = K053251_get_priority(K053251_CI4);
-/*TODO*///	layer[2] = 2;
-/*TODO*///	pri[2] = K053251_get_priority(K053251_CI3);
-/*TODO*///
-/*TODO*///	sortlayers(layer,pri);
-/*TODO*///
-/*TODO*///	K052109_tilemap_draw(bitmap,layer[0],TILEMAP_IGNORE_TRANSPARENCY);
-/*TODO*///	K051960_sprites_draw(bitmap,pri[1]+1,pri[0]);
-/*TODO*///	K052109_tilemap_draw(bitmap,layer[1],0);
-/*TODO*///	K051960_sprites_draw(bitmap,pri[2]+1,pri[1]);
-/*TODO*///	K052109_tilemap_draw(bitmap,layer[2],0);
-/*TODO*///	K051960_sprites_draw(bitmap,0,pri[2]);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static VhUpdatePtr punkshot_vh_screenrefresh = new VhUpdatePtr() {
+        public void handler(osd_bitmap bitmap, int full_refresh) {
+            int[] pri = new int[3];
+            int[] layer = new int[3];
+
+            bg_colorbase = K053251_get_palette_index(K053251_CI0);
+            sprite_colorbase = K053251_get_palette_index(K053251_CI1);
+            layer_colorbase[0] = K053251_get_palette_index(K053251_CI2);
+            layer_colorbase[1] = K053251_get_palette_index(K053251_CI4);
+            layer_colorbase[2] = K053251_get_palette_index(K053251_CI3);
+
+            K052109_tilemap_update();
+
+            palette_init_used_colors();
+            K051960_mark_sprites_colors();
+            if (palette_recalc() != null) {
+                tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
+            }
+
+            tilemap_render(ALL_TILEMAPS);
+
+            layer[0] = 0;
+            pri[0] = K053251_get_priority(K053251_CI2);
+            layer[1] = 1;
+            pri[1] = K053251_get_priority(K053251_CI4);
+            layer[2] = 2;
+            pri[2] = K053251_get_priority(K053251_CI3);
+
+            if (pri[0] < pri[1]) {
+                int t;
+                t = pri[0];
+                pri[0] = pri[1];
+                pri[1] = t;
+                t = layer[0];
+                layer[0] = layer[1];
+                layer[1] = t;
+            }
+            if (pri[0] < pri[2]) {
+                int t;
+                t = pri[0];
+                pri[0] = pri[2];
+                pri[2] = t;
+                t = layer[0];
+                layer[0] = layer[2];
+                layer[2] = t;
+            }
+            if (pri[1] < pri[2]) {
+                int t;
+                t = pri[1];
+                pri[1] = pri[2];
+                pri[2] = t;
+                t = layer[1];
+                layer[1] = layer[2];
+                layer[2] = t;
+            }
+
+            K052109_tilemap_draw(bitmap, layer[0], TILEMAP_IGNORE_TRANSPARENCY);
+            K051960_sprites_draw(bitmap, pri[1] + 1, pri[0]);
+            K052109_tilemap_draw(bitmap, layer[1], 0);
+            K051960_sprites_draw(bitmap, pri[2] + 1, pri[1]);
+            K052109_tilemap_draw(bitmap, layer[2], 0);
+            K051960_sprites_draw(bitmap, 0, pri[2]);
+        }
+    };
     public static VhUpdatePtr lgtnfght_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];

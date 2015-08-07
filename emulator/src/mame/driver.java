@@ -2294,8 +2294,8 @@ driver_tmht,		/* GX963 (c) 1989 (UK) */
 driver_tmntj,		/* GX963 (c) 1989 (Japan) */
 driver_tmht2p,	/* GX963 (c) 1989 (UK) */
 driver_tmnt2pj,	/* GX963 (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( punkshot )	/* GX907 (c) 1990 (US) */
-/*TODO*/ //	DRIVER( punksht2 )	/* GX907 (c) 1990 (US) */
+driver_punkshot,	/* GX907 (c) 1990 (US) */
+driver_punksht2,	/* GX907 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( lgtnfght )	/* GX939 (c) 1990 (US) */
 /*TODO*/ //	DRIVER( trigon )	/* GX939 (c) 1990 (Japan) */
 /*TODO*/ //	DRIVER( blswhstl )	/* GX060 (c) 1991 */

@@ -333,20 +333,15 @@ public class tmnt {
 
         }
     };
-    /*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///static int punkshot_kludge(int offset)
-/*TODO*///{
-/*TODO*///	/* I don't know what's going on here; at one point, the code reads location */
-/*TODO*///	/* 0xffffff, and returning 0 causes the game to mess up - locking up in a */
-/*TODO*///	/* loop where the ball is continuously bouncing from the basket. Returning */
-/*TODO*///	/* a random number seems to prevent that. */
-/*TODO*///	return rand();
-/*TODO*///}
-/*TODO*///
+    public static ReadHandlerPtr punkshot_kludge = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            /* I don't know what's going on here; at one point, the code reads location */
+            /* 0xffffff, and returning 0 causes the game to mess up - locking up in a */
+            /* loop where the ball is continuously bouncing from the basket. Returning */
+            /* a random number seems to prevent that. */
+            return rand();
+        }
+    };
     public static ReadHandlerPtr ssriders_kludge = new ReadHandlerPtr() {
         public int handler(int offset) {
             int data = cpu_readmem24_word(0x105a0a);
@@ -610,39 +605,36 @@ public class tmnt {
                 new MemoryWriteAddress(0x140000, 0x140007, K051937_word_w),
                 new MemoryWriteAddress(0x140400, 0x1407ff, K051960_word_w),
                 new MemoryWriteAddress(-1) /* end of table */};
+    static MemoryReadAddress punkshot_readmem[]
+            = {
+                new MemoryReadAddress(0x000000, 0x03ffff, MRA_ROM),
+                new MemoryReadAddress(0x080000, 0x083fff, MRA_BANK1), /* main RAM */
+                new MemoryReadAddress(0x090000, 0x090fff, paletteram_word_r),
+                new MemoryReadAddress(0x0a0000, 0x0a0001, input_port_0_r),
+                new MemoryReadAddress(0x0a0002, 0x0a0003, input_port_1_r),
+                new MemoryReadAddress(0x0a0004, 0x0a0005, input_port_3_r),
+                new MemoryReadAddress(0x0a0006, 0x0a0007, input_port_2_r),
+                new MemoryReadAddress(0x0a0040, 0x0a0043, punkshot_sound_r), /* K053260 */
+                new MemoryReadAddress(0x100000, 0x107fff, K052109_word_noA12_r),
+                new MemoryReadAddress(0x110000, 0x110007, K051937_word_r),
+                new MemoryReadAddress(0x110400, 0x1107ff, K051960_word_r),
+                new MemoryReadAddress(0xfffffc, 0xffffff, punkshot_kludge),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress punkshot_writemem[]
+            = {
+                new MemoryWriteAddress(0x000000, 0x03ffff, MWA_ROM),
+                new MemoryWriteAddress(0x080000, 0x083fff, MWA_BANK1), /* main RAM */
+                new MemoryWriteAddress(0x090000, 0x090fff, paletteram_xBBBBBGGGGGRRRRR_word_w, paletteram),
+                new MemoryWriteAddress(0x0a0020, 0x0a0021, punkshot_0a0020_w),
+                new MemoryWriteAddress(0x0a0040, 0x0a0041, K053260_WriteReg),
+                new MemoryWriteAddress(0x0a0060, 0x0a007f, K053251_halfword_w),
+                new MemoryWriteAddress(0x0a0080, 0x0a0081, watchdog_reset_w),
+                new MemoryWriteAddress(0x100000, 0x107fff, K052109_word_noA12_w),
+                new MemoryWriteAddress(0x110000, 0x110007, K051937_word_w),
+                new MemoryWriteAddress(0x110400, 0x1107ff, K051960_word_w),
+                new MemoryWriteAddress(-1) /* end of table */};
     /*TODO*///
-/*TODO*///static struct MemoryReadAddress punkshot_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x03ffff, MRA_ROM },
-/*TODO*///	{ 0x080000, 0x083fff, MRA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x090000, 0x090fff, paletteram_word_r },
-/*TODO*///	{ 0x0a0000, 0x0a0001, input_port_0_r },
-/*TODO*///	{ 0x0a0002, 0x0a0003, input_port_1_r },
-/*TODO*///	{ 0x0a0004, 0x0a0005, input_port_3_r },
-/*TODO*///	{ 0x0a0006, 0x0a0007, input_port_2_r },
-/*TODO*///	{ 0x0a0040, 0x0a0043, punkshot_sound_r },	/* K053260 */
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_r },
-/*TODO*///	{ 0x110000, 0x110007, K051937_word_r },
-/*TODO*///	{ 0x110400, 0x1107ff, K051960_word_r },
-/*TODO*///	{ 0xfffffc, 0xffffff, punkshot_kludge },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress punkshot_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x03ffff, MWA_ROM },
-/*TODO*///	{ 0x080000, 0x083fff, MWA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x090000, 0x090fff, paletteram_xBBBBBGGGGGRRRRR_word_w, &paletteram },
-/*TODO*///	{ 0x0a0020, 0x0a0021, punkshot_0a0020_w },
-/*TODO*///	{ 0x0a0040, 0x0a0041, K053260_WriteReg },
-/*TODO*///	{ 0x0a0060, 0x0a007f, K053251_halfword_w },
-/*TODO*///	{ 0x0a0080, 0x0a0081, watchdog_reset_w },
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_w },
-/*TODO*///	{ 0x110000, 0x110007, K051937_word_w },
-/*TODO*///	{ 0x110400, 0x1107ff, K051960_word_w },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct MemoryReadAddress lgtnfght_readmem[] =
 /*TODO*///{
 /*TODO*///	{ 0x000000, 0x03ffff, MRA_ROM },
@@ -1002,27 +994,24 @@ public class tmnt {
                 new MemoryWriteAddress(0xd000, 0xd000, UPD7759_message_w),
                 new MemoryWriteAddress(0xe000, 0xe000, UPD7759_start_w),
                 new MemoryWriteAddress(-1) /* end of table */};
+    static MemoryReadAddress punkshot_s_readmem[]
+            = {
+                new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
+                new MemoryReadAddress(0xf000, 0xf7ff, MRA_RAM),
+                new MemoryReadAddress(0xf801, 0xf801, YM2151_status_port_0_r),
+                new MemoryReadAddress(0xfc00, 0xfc2f, K053260_ReadReg),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress punkshot_s_writemem[]
+            = {
+                new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
+                new MemoryWriteAddress(0xf000, 0xf7ff, MWA_RAM),
+                new MemoryWriteAddress(0xf800, 0xf800, YM2151_register_port_0_w),
+                new MemoryWriteAddress(0xf801, 0xf801, YM2151_data_port_0_w),
+                new MemoryWriteAddress(0xfa00, 0xfa00, sound_arm_nmi),
+                new MemoryWriteAddress(0xfc00, 0xfc2f, K053260_WriteReg),
+                new MemoryWriteAddress(-1) /* end of table */};
     /*TODO*///
-/*TODO*///static struct MemoryReadAddress punkshot_s_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
-/*TODO*///	{ 0xf000, 0xf7ff, MRA_RAM },
-/*TODO*///	{ 0xf801, 0xf801, YM2151_status_port_0_r },
-/*TODO*///	{ 0xfc00, 0xfc2f, K053260_ReadReg },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress punkshot_s_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MWA_ROM },
-/*TODO*///	{ 0xf000, 0xf7ff, MWA_RAM },
-/*TODO*///	{ 0xf800, 0xf800, YM2151_register_port_0_w },
-/*TODO*///	{ 0xf801, 0xf801, YM2151_data_port_0_w },
-/*TODO*///	{ 0xfa00, 0xfa00, sound_arm_nmi },
-/*TODO*///	{ 0xfc00, 0xfc2f, K053260_WriteReg },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct MemoryReadAddress lgtnfght_s_readmem[] =
 /*TODO*///{
 /*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
@@ -1471,216 +1460,229 @@ public class tmnt {
         }
     };
 
-    /*TODO*///INPUT_PORTS_START( punkshot )
-/*TODO*///	PORT_START	/* DSW1/DSW2 */
-/*TODO*///	PORT_DIPNAME( 0x000f, 0x000f, DEF_STR( Coinage ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( 5C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0002, DEF_STR( 4C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0005, DEF_STR( 3C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0008, DEF_STR( 2C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0004, DEF_STR( 3C_2C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0001, DEF_STR( 4C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000f, DEF_STR( 1C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0003, DEF_STR( 3C_4C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0007, DEF_STR( 2C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000e, DEF_STR( 1C_2C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0006, DEF_STR( 2C_5C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000d, DEF_STR( 1C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000c, DEF_STR( 1C_4C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000b, DEF_STR( 1C_5C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000a, DEF_STR( 1C_6C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0009, DEF_STR( 1C_7C ) )
-/*TODO*///	PORT_DIPNAME( 0x0010, 0x0010, "Continue" )
-/*TODO*///	PORT_DIPSETTING(      0x0010, "Normal" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "1 Coin" )
-/*TODO*///	PORT_DIPNAME( 0x0020, 0x0020, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0020, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0040, 0x0040, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0040, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0080, 0x0080, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0080, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0300, 0x0300, "Energy" )
-/*TODO*///	PORT_DIPSETTING(      0x0300, "30" )
-/*TODO*///	PORT_DIPSETTING(      0x0200, "40" )
-/*TODO*///	PORT_DIPSETTING(      0x0100, "50" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "60" )
-/*TODO*///	PORT_DIPNAME( 0x0c00, 0x0c00, "Period Length" )
-/*TODO*///	PORT_DIPSETTING(      0x0c00, "2 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0800, "3 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0400, "4 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "5 Minutes" )
-/*TODO*///	PORT_DIPNAME( 0x1000, 0x1000, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x1000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x6000, 0x6000, DEF_STR( Difficulty ) )
-/*TODO*///	PORT_DIPSETTING(      0x6000, "Easy" )
-/*TODO*///	PORT_DIPSETTING(      0x4000, "Medium" )
-/*TODO*///	PORT_DIPSETTING(      0x2000, "Hard" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "Hardest" )
-/*TODO*///	PORT_DIPNAME( 0x8000, 0x0000, DEF_STR( Demo_Sounds ) )
-/*TODO*///	PORT_DIPSETTING(      0x8000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START	/* COIN/DSW3 */
-/*TODO*///	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 )
-/*TODO*///	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 )
-/*TODO*///	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_COIN3 )
-/*TODO*///	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_COIN4 )
-/*TODO*///	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_SERVICE1 )
-/*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_SERVICE2 )
-/*TODO*///	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_SERVICE3 )
-/*TODO*///	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_SERVICE4 )
-/*TODO*///	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_DIPNAME( 0x1000, 0x1000, DEF_STR( Flip_Screen ) )
-/*TODO*///	PORT_DIPSETTING(      0x1000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x2000, 0x2000, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x2000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_SERVICE( 0x4000, IP_ACTIVE_LOW )
-/*TODO*///	PORT_DIPNAME( 0x8000, 0x8000, "Freeze" )
-/*TODO*///	PORT_DIPSETTING(      0x8000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START	/* IN0/IN1 */
-/*TODO*///	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///
-/*TODO*///	PORT_START	/* IN2/IN3 */
-/*TODO*///	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 )
-/*TODO*///	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4 )
-/*TODO*///	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///INPUT_PORTS_END
-/*TODO*///
-/*TODO*///INPUT_PORTS_START( punksht2 )
-/*TODO*///	PORT_START	/* DSW1/DSW2 */
-/*TODO*///	PORT_DIPNAME( 0x000f, 0x000f, DEF_STR( Coinage ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( 5C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0002, DEF_STR( 4C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0005, DEF_STR( 3C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0008, DEF_STR( 2C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0004, DEF_STR( 3C_2C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0001, DEF_STR( 4C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000f, DEF_STR( 1C_1C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0003, DEF_STR( 3C_4C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0007, DEF_STR( 2C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000e, DEF_STR( 1C_2C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0006, DEF_STR( 2C_5C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000d, DEF_STR( 1C_3C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000c, DEF_STR( 1C_4C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000b, DEF_STR( 1C_5C ) )
-/*TODO*///	PORT_DIPSETTING(      0x000a, DEF_STR( 1C_6C ) )
-/*TODO*///	PORT_DIPSETTING(      0x0009, DEF_STR( 1C_7C ) )
-/*TODO*///	PORT_DIPNAME( 0x0010, 0x0010, "Continue" )
-/*TODO*///	PORT_DIPSETTING(      0x0010, "Normal" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "1 Coin" )
-/*TODO*///	PORT_DIPNAME( 0x0020, 0x0020, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0020, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0040, 0x0040, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0040, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0080, 0x0080, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x0080, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x0300, 0x0300, "Energy" )
-/*TODO*///	PORT_DIPSETTING(      0x0300, "40" )
-/*TODO*///	PORT_DIPSETTING(      0x0200, "50" )
-/*TODO*///	PORT_DIPSETTING(      0x0100, "60" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "70" )
-/*TODO*///	PORT_DIPNAME( 0x0c00, 0x0c00, "Period Length" )
-/*TODO*///	PORT_DIPSETTING(      0x0c00, "3 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0800, "4 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0400, "5 Minutes" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "6 Minutes" )
-/*TODO*///	PORT_DIPNAME( 0x1000, 0x1000, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x1000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x6000, 0x6000, DEF_STR( Difficulty ) )
-/*TODO*///	PORT_DIPSETTING(      0x6000, "Easy" )
-/*TODO*///	PORT_DIPSETTING(      0x4000, "Medium" )
-/*TODO*///	PORT_DIPSETTING(      0x2000, "Hard" )
-/*TODO*///	PORT_DIPSETTING(      0x0000, "Hardest" )
-/*TODO*///	PORT_DIPNAME( 0x8000, 0x0000, DEF_STR( Demo_Sounds ) )
-/*TODO*///	PORT_DIPSETTING(      0x8000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START	/* COIN/DSW3 */
-/*TODO*///	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 )
-/*TODO*///	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 )
-/*TODO*///	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_COIN3 )
-/*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 )
-/*TODO*///	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_START2 )
-/*TODO*///	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_DIPNAME( 0x1000, 0x1000, DEF_STR( Flip_Screen ) )
-/*TODO*///	PORT_DIPSETTING(      0x1000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_DIPNAME( 0x2000, 0x2000, DEF_STR( Unknown ) )
-/*TODO*///	PORT_DIPSETTING(      0x2000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///	PORT_SERVICE( 0x4000, IP_ACTIVE_LOW )
-/*TODO*///	PORT_DIPNAME( 0x8000, 0x8000, "Freeze" )
-/*TODO*///	PORT_DIPSETTING(      0x8000, DEF_STR( Off ) )
-/*TODO*///	PORT_DIPSETTING(      0x0000, DEF_STR( On ) )
-/*TODO*///
-/*TODO*///	PORT_START	/* IN0/IN1 */
-/*TODO*///	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 )
-/*TODO*///	PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 )
-/*TODO*///	PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///	PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN )
-/*TODO*///INPUT_PORTS_END
-/*TODO*///
+    static InputPortPtr input_ports_punkshot = new InputPortPtr() {
+        public void handler() {
+            PORT_START(); 	/* DSW1/DSW2 */
+
+            PORT_DIPNAME(0x000f, 0x000f, DEF_STR("Coinage"));
+            PORT_DIPSETTING(0x0000, DEF_STR("5C_1C"));
+            PORT_DIPSETTING(0x0002, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x0005, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x0008, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x0004, DEF_STR("3C_2C"));
+            PORT_DIPSETTING(0x0001, DEF_STR("4C_3C"));
+            PORT_DIPSETTING(0x000f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x0003, DEF_STR("3C_4C"));
+            PORT_DIPSETTING(0x0007, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x000e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x0006, DEF_STR("2C_5C"));
+            PORT_DIPSETTING(0x000d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x000c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x000b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x000a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x0009, DEF_STR("1C_7C"));
+            PORT_DIPNAME(0x0010, 0x0010, "Continue");
+            PORT_DIPSETTING(0x0010, "Normal");
+            PORT_DIPSETTING(0x0000, "1 Coin");
+            PORT_DIPNAME(0x0020, 0x0020, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0020, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0040, 0x0040, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0040, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0080, 0x0080, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0080, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0300, 0x0300, "Energy");
+            PORT_DIPSETTING(0x0300, "30");
+            PORT_DIPSETTING(0x0200, "40");
+            PORT_DIPSETTING(0x0100, "50");
+            PORT_DIPSETTING(0x0000, "60");
+            PORT_DIPNAME(0x0c00, 0x0c00, "Period Length");
+            PORT_DIPSETTING(0x0c00, "2 Minutes");
+            PORT_DIPSETTING(0x0800, "3 Minutes");
+            PORT_DIPSETTING(0x0400, "4 Minutes");
+            PORT_DIPSETTING(0x0000, "5 Minutes");
+            PORT_DIPNAME(0x1000, 0x1000, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x1000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x6000, 0x6000, DEF_STR("Difficulty"));
+            PORT_DIPSETTING(0x6000, "Easy");
+            PORT_DIPSETTING(0x4000, "Medium");
+            PORT_DIPSETTING(0x2000, "Hard");
+            PORT_DIPSETTING(0x0000, "Hardest");
+            PORT_DIPNAME(0x8000, 0x0000, DEF_STR("Demo_Sounds"));
+            PORT_DIPSETTING(0x8000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+
+            PORT_START(); 	/* COIN/DSW3 */
+
+            PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BIT(0x0004, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x0008, IP_ACTIVE_LOW, IPT_COIN4);
+            PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_SERVICE2);
+            PORT_BIT(0x0040, IP_ACTIVE_LOW, IPT_SERVICE3);
+            PORT_BIT(0x0080, IP_ACTIVE_LOW, IPT_SERVICE4);
+            PORT_BIT(0x0100, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0200, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0400, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0800, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_DIPNAME(0x1000, 0x1000, DEF_STR("Flip_Screen"));
+            PORT_DIPSETTING(0x1000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x2000, 0x2000, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x2000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_SERVICE(0x4000, IP_ACTIVE_LOW);
+            PORT_DIPNAME(0x8000, 0x8000, "Freeze");
+            PORT_DIPSETTING(0x8000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+
+            PORT_START(); 	/* IN0/IN1 */
+
+            PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1);
+            PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1);
+            PORT_BIT(0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
+            PORT_BIT(0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
+            PORT_BIT(0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+
+            PORT_START(); 	/* IN2/IN3 */
+
+            PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER3);
+            PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER3);
+            PORT_BIT(0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER3);
+            PORT_BIT(0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER3);
+            PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER3);
+            PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3);
+            PORT_BIT(0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER4);
+            PORT_BIT(0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER4);
+            PORT_BIT(0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER4);
+            PORT_BIT(0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER4);
+            PORT_BIT(0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER4);
+            PORT_BIT(0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER4);
+            PORT_BIT(0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            INPUT_PORTS_END();
+        }
+    };
+
+    static InputPortPtr input_ports_punksht2 = new InputPortPtr() {
+        public void handler() {
+            PORT_START(); 	/* DSW1/DSW2 */
+
+            PORT_DIPNAME(0x000f, 0x000f, DEF_STR("Coinage"));
+            PORT_DIPSETTING(0x0000, DEF_STR("5C_1C"));
+            PORT_DIPSETTING(0x0002, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x0005, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x0008, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x0004, DEF_STR("3C_2C"));
+            PORT_DIPSETTING(0x0001, DEF_STR("4C_3C"));
+            PORT_DIPSETTING(0x000f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x0003, DEF_STR("3C_4C"));
+            PORT_DIPSETTING(0x0007, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x000e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x0006, DEF_STR("2C_5C"));
+            PORT_DIPSETTING(0x000d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x000c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x000b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x000a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x0009, DEF_STR("1C_7C"));
+            PORT_DIPNAME(0x0010, 0x0010, "Continue");
+            PORT_DIPSETTING(0x0010, "Normal");
+            PORT_DIPSETTING(0x0000, "1 Coin");
+            PORT_DIPNAME(0x0020, 0x0020, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0020, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0040, 0x0040, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0040, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0080, 0x0080, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x0080, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x0300, 0x0300, "Energy");
+            PORT_DIPSETTING(0x0300, "40");
+            PORT_DIPSETTING(0x0200, "50");
+            PORT_DIPSETTING(0x0100, "60");
+            PORT_DIPSETTING(0x0000, "70");
+            PORT_DIPNAME(0x0c00, 0x0c00, "Period Length");
+            PORT_DIPSETTING(0x0c00, "3 Minutes");
+            PORT_DIPSETTING(0x0800, "4 Minutes");
+            PORT_DIPSETTING(0x0400, "5 Minutes");
+            PORT_DIPSETTING(0x0000, "6 Minutes");
+            PORT_DIPNAME(0x1000, 0x1000, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x1000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x6000, 0x6000, DEF_STR("Difficulty"));
+            PORT_DIPSETTING(0x6000, "Easy");
+            PORT_DIPSETTING(0x4000, "Medium");
+            PORT_DIPSETTING(0x2000, "Hard");
+            PORT_DIPSETTING(0x0000, "Hardest");
+            PORT_DIPNAME(0x8000, 0x0000, DEF_STR("Demo_Sounds"));
+            PORT_DIPSETTING(0x8000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+
+            PORT_START(); 	/* COIN/DSW3 */
+
+            PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BIT(0x0004, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0008, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0100, IP_ACTIVE_LOW, IPT_START1);
+            PORT_BIT(0x0200, IP_ACTIVE_LOW, IPT_START2);
+            PORT_BIT(0x0400, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0800, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_DIPNAME(0x1000, 0x1000, DEF_STR("Flip_Screen"));
+            PORT_DIPSETTING(0x1000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_DIPNAME(0x2000, 0x2000, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x2000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+            PORT_SERVICE(0x4000, IP_ACTIVE_LOW);
+            PORT_DIPNAME(0x8000, 0x8000, "Freeze");
+            PORT_DIPSETTING(0x8000, DEF_STR("Off"));
+            PORT_DIPSETTING(0x0000, DEF_STR("On"));
+
+            PORT_START(); 	/* IN0/IN1 */
+
+            PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0004, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0008, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER1);
+            PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1);
+            PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1);
+            PORT_BIT(0x0040, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0080, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0200, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0400, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x0800, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
+            PORT_BIT(0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
+            PORT_BIT(0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
+            PORT_BIT(0x4000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            INPUT_PORTS_END();
+        }
+    };
+    /*TODO*///
 /*TODO*///INPUT_PORTS_START( lgtnfght )
 /*TODO*///	PORT_START
 /*TODO*///	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 )
@@ -2300,7 +2302,7 @@ public class tmnt {
             3579545,
             REGION_SOUND1, /* memory region */
             new int[]{MIXER(70, MIXER_PAN_LEFT), MIXER(70, MIXER_PAN_RIGHT)},
-            sound_nmi_callback
+            null//sound_nmi_callback
     );
     /*TODO*///
 /*TODO*///static struct K053260_interface k053260_interface =
@@ -2416,116 +2418,51 @@ public class tmnt {
 		 /*TODO*///	)
             }
     );
-    /*TODO*///
-/*TODO*///static struct MachineDriver machine_driver_tmnt =
-/*TODO*///{
-/*TODO*///	/* basic machine hardware */
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			CPU_M68000,
-/*TODO*///			8000000,	/* 8 MHz */
-/*TODO*///			tmnt_readmem,tmnt_writemem,0,0,
-/*TODO*///			m68_level5_irq,1
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-/*TODO*///			3579545,	/* 3.579545 MHz */
-/*TODO*///			tmnt_s_readmem,tmnt_s_writemem,0,0,
-/*TODO*///			ignore_interrupt,0	/* IRQs are triggered by the main CPU */
-/*TODO*///		}
-/*TODO*///	},
-/*TODO*///	60, DEFAULT_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
-/*TODO*///	1,	/* 1 CPU slice per frame - interleaving is forced when a sound command is written */
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	/* video hardware */
-/*TODO*///	64*8, 32*8, { 14*8, (64-14)*8-1, 2*8, 30*8-1 },
-/*TODO*///	0,	/* gfx decoded by konamiic.c */
-/*TODO*///	1024, 1024,
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
-/*TODO*///	0,
-/*TODO*///	tmnt_vh_start,
-/*TODO*///	punkshot_vh_stop,
-/*TODO*///	tmnt_vh_screenrefresh,
-/*TODO*///
-/*TODO*///	/* sound hardware */
-/*TODO*///	0,0,0,0,
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			SOUND_YM2151,
-/*TODO*///			&ym2151_interface
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_K007232,
-/*TODO*///			&k007232_interface,
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_UPD7759,
-/*TODO*///			&upd7759_interface
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_SAMPLES,
-/*TODO*///			&samples_interface
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_CUSTOM,	/* actually initializes the samples */
-/*TODO*///			&custom_interface
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MachineDriver machine_driver_punkshot =
-/*TODO*///{
-/*TODO*///	/* basic machine hardware */
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			CPU_M68000,
-/*TODO*///			12000000,	/* CPU is 68000/12, but this doesn't necessarily mean it's */
-/*TODO*///						/* running at 12MHz. TMNT uses 8MHz */
-/*TODO*///			punkshot_readmem,punkshot_writemem,0,0,
-/*TODO*///			punkshot_interrupt,1
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-/*TODO*///			3579545,	/* 3.579545 MHz */
-/*TODO*///			punkshot_s_readmem,punkshot_s_writemem,0,0,
-/*TODO*///			ignore_interrupt,0	/* IRQs are triggered by the main CPU */
-/*TODO*///								/* NMIs are generated by the 053260 */
-/*TODO*///		}
-/*TODO*///	},
-/*TODO*///	60, DEFAULT_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
-/*TODO*///	1,	/* 1 CPU slice per frame - interleaving is forced when a sound command is written */
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	/* video hardware */
-/*TODO*///	64*8, 32*8, { 14*8, (64-14)*8-1, 2*8, 30*8-1 },
-/*TODO*///	0,	/* gfx decoded by konamiic.c */
-/*TODO*///	2048, 2048,
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
-/*TODO*///	0,
-/*TODO*///	punkshot_vh_start,
-/*TODO*///	punkshot_vh_stop,
-/*TODO*///	punkshot_vh_screenrefresh,
-/*TODO*///
-/*TODO*///	/* sound hardware */
-/*TODO*///	0,0,0,0,
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			SOUND_YM2151,
-/*TODO*///			&ym2151_interface
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_K053260,
-/*TODO*///			&k053260_interface_nmi
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MachineDriver machine_driver_lgtnfght =
+    static MachineDriver machine_driver_punkshot = new MachineDriver(
+            /* basic machine hardware */
+            new MachineCPU[]{
+                new MachineCPU(
+                        CPU_M68000,
+                        12000000, /* CPU is 68000/12, but this doesn't necessarily mean it's */
+                        /* running at 12MHz. TMNT uses 8MHz */
+                        punkshot_readmem, punkshot_writemem, null, null,
+                        punkshot_interrupt, 1
+                ),
+                new MachineCPU(
+                        CPU_Z80 | CPU_AUDIO_CPU,
+                        3579545, /* 3.579545 MHz */
+                        punkshot_s_readmem, punkshot_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are triggered by the main CPU */
+                /* NMIs are generated by the 053260 */
+                )
+            },
+            60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
+            1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
+            null,
+            /* video hardware */
+            64 * 8, 32 * 8, new rectangle(14 * 8, (64 - 14) * 8 - 1, 2 * 8, 30 * 8 - 1),
+            null, /* gfx decoded by konamiic.c */
+            2048, 2048,
+            null,
+            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+            null,
+            punkshot_vh_start,
+            punkshot_vh_stop,
+            punkshot_vh_screenrefresh,
+            /* sound hardware */
+            0, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2151,
+                        ym2151_interface
+                ),
+                new MachineSound(
+                        SOUND_K053260,
+                        k053260_interface_nmi
+                )
+            }
+    );
+    /*TODO*///static struct MachineDriver machine_driver_lgtnfght =
 /*TODO*///{
 /*TODO*///	/* basic machine hardware */
 /*TODO*///	{
@@ -3138,51 +3075,66 @@ public class tmnt {
             ROM_END();
         }
     };
+    static RomLoadPtr rom_punkshot = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
+
+            ROM_LOAD_EVEN("907-j02.i7", 0x00000, 0x20000, 0xdbb3a23b);
+            ROM_LOAD_ODD("907-j03.i10", 0x00000, 0x20000, 0x2151d1ab);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("907f01.e8", 0x0000, 0x8000, 0xf040c484);
+
+            ROM_REGION(0x80000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("907d06.e23", 0x000000, 0x40000, 0xf5cc38f4);
+            ROM_LOAD("907d05.e22", 0x040000, 0x40000, 0xe25774c1);
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("907d07l.k2", 0x000000, 0x80000, 0xfeeb345a);
+            ROM_LOAD("907d07h.k2", 0x080000, 0x80000, 0x0bff4383);
+            ROM_LOAD("907d08l.k7", 0x100000, 0x80000, 0x05f3d196);
+            ROM_LOAD("907d08h.k7", 0x180000, 0x80000, 0xeaf18c22);
+
+            ROM_REGION(0x80000, REGION_SOUND1);/* samples for 053260 */
+
+            ROM_LOAD("907d04.d3", 0x0000, 0x80000, 0x090feb5e);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_punksht2 = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
+
+            ROM_LOAD_EVEN("907m02.i7", 0x00000, 0x20000, 0x59e14575);
+            ROM_LOAD_ODD("907m03.i10", 0x00000, 0x20000, 0xadb14b1e);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+
+            ROM_LOAD("907f01.e8", 0x0000, 0x8000, 0xf040c484);
+
+            ROM_REGION(0x80000, REGION_GFX1);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("907d06.e23", 0x000000, 0x40000, 0xf5cc38f4);
+            ROM_LOAD("907d05.e22", 0x040000, 0x40000, 0xe25774c1);
+
+            ROM_REGION(0x200000, REGION_GFX2);/* graphics (addressable by the main CPU) */
+
+            ROM_LOAD("907d07l.k2", 0x000000, 0x80000, 0xfeeb345a);
+            ROM_LOAD("907d07h.k2", 0x080000, 0x80000, 0x0bff4383);
+            ROM_LOAD("907d08l.k7", 0x100000, 0x80000, 0x05f3d196);
+            ROM_LOAD("907d08h.k7", 0x180000, 0x80000, 0xeaf18c22);
+
+            ROM_REGION(0x80000, REGION_SOUND1);/* samples for the 053260 */
+
+            ROM_LOAD("907d04.d3", 0x0000, 0x80000, 0x090feb5e);
+            ROM_END();
+        }
+    };
     /*TODO*///
-/*TODO*///ROM_START( punkshot )
-/*TODO*///	ROM_REGION( 0x40000, REGION_CPU1 )	/* 4*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "907-j02.i7",   0x00000, 0x20000, 0xdbb3a23b )
-/*TODO*///	ROM_LOAD_ODD ( "907-j03.i10",  0x00000, 0x20000, 0x2151d1ab )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "907f01.e8",    0x0000, 0x8000, 0xf040c484 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "907d06.e23",   0x000000, 0x40000, 0xf5cc38f4 )
-/*TODO*///	ROM_LOAD( "907d05.e22",   0x040000, 0x40000, 0xe25774c1 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "907d07l.k2",   0x000000, 0x80000, 0xfeeb345a )
-/*TODO*///	ROM_LOAD( "907d07h.k2",   0x080000, 0x80000, 0x0bff4383 )
-/*TODO*///	ROM_LOAD( "907d08l.k7",   0x100000, 0x80000, 0x05f3d196 )
-/*TODO*///	ROM_LOAD( "907d08h.k7",   0x180000, 0x80000, 0xeaf18c22 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND1 )	/* samples for 053260 */
-/*TODO*///	ROM_LOAD( "907d04.d3",    0x0000, 0x80000, 0x090feb5e )
-/*TODO*///ROM_END
-/*TODO*///
-/*TODO*///ROM_START( punksht2 )
-/*TODO*///	ROM_REGION( 0x40000, REGION_CPU1 )	/* 4*64k for 68000 code */
-/*TODO*///	ROM_LOAD_EVEN( "907m02.i7",    0x00000, 0x20000, 0x59e14575 )
-/*TODO*///	ROM_LOAD_ODD ( "907m03.i10",   0x00000, 0x20000, 0xadb14b1e )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x10000, REGION_CPU2 )	/* 64k for the audio CPU */
-/*TODO*///	ROM_LOAD( "907f01.e8",    0x0000, 0x8000, 0xf040c484 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_GFX1 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "907d06.e23",   0x000000, 0x40000, 0xf5cc38f4 )
-/*TODO*///	ROM_LOAD( "907d05.e22",   0x040000, 0x40000, 0xe25774c1 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x200000, REGION_GFX2 )	/* graphics (addressable by the main CPU) */
-/*TODO*///	ROM_LOAD( "907d07l.k2",   0x000000, 0x80000, 0xfeeb345a )
-/*TODO*///	ROM_LOAD( "907d07h.k2",   0x080000, 0x80000, 0x0bff4383 )
-/*TODO*///	ROM_LOAD( "907d08l.k7",   0x100000, 0x80000, 0x05f3d196 )
-/*TODO*///	ROM_LOAD( "907d08h.k7",   0x180000, 0x80000, 0xeaf18c22 )
-/*TODO*///
-/*TODO*///	ROM_REGION( 0x80000, REGION_SOUND1 )	/* samples for the 053260 */
-/*TODO*///	ROM_LOAD( "907d04.d3",    0x0000, 0x80000, 0x090feb5e )
-/*TODO*///ROM_END
-/*TODO*///
 /*TODO*///ROM_START( lgtnfght )
 /*TODO*///	ROM_REGION( 0x40000, REGION_CPU1 )	/* 4*64k for 68000 code */
 /*TODO*///	ROM_LOAD_EVEN( "939m02.e11",   0x00000, 0x20000, 0x61a12184 )
@@ -3894,21 +3846,21 @@ public class tmnt {
     public static GameDriver driver_tmht2p = new GameDriver("1989", "tmht2p", "tmnt.java", rom_tmht2p, driver_tmnt, machine_driver_tmnt, input_ports_tmnt2p, init_tmnt, ROT0, "Konami", "Teenage Mutant Hero Turtles (2 Players UK)");
     public static GameDriver driver_tmnt2pj = new GameDriver("1990", "tmnt2pj", "tmnt.java", rom_tmnt2pj, driver_tmnt, machine_driver_tmnt, input_ports_tmnt2p, init_tmnt, ROT0, "Konami", "Teenage Mutant Ninja Turtles (2 Players Japan)");
 
-    /*TODO*///GAME( 1990, punkshot, 0,        punkshot, punkshot, gfx,      ROT0,  "Konami", "Punk Shot (4 Players)" )
-/*TODO*///GAME( 1990, punksht2, punkshot, punkshot, punksht2, gfx,      ROT0,  "Konami", "Punk Shot (2 Players)" )
-/*TODO*///
-/*TODO*///GAME( 1990, lgtnfght, 0,        lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Lightning Fighters (US)" )
-/*TODO*///GAME( 1990, trigon,   lgtnfght, lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Trigon (Japan)" )
-/*TODO*///
-/*TODO*///GAME( 1991, blswhstl, 0,        detatwin, detatwin, gfx,      ROT90, "Konami", "Bells & Whistles" )
-/*TODO*///GAME( 1991, detatwin, blswhstl, detatwin, detatwin, gfx,      ROT90, "Konami", "Detana!! Twin Bee (Japan)" )
-/*TODO*///
-/*TODO*///GAMEX(1991, glfgreat, 0,        glfgreat, glfgreat, glfgreat, ROT0,  "Konami", "Golfing Greats", GAME_NOT_WORKING )
-/*TODO*///
-/*TODO*///GAMEX(1991, tmnt2,    0,        tmnt2,    ssridr4p, gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (4 Players US)", GAME_IMPERFECT_COLORS )
-/*TODO*///GAMEX(1991, tmnt22p,  tmnt2,    tmnt2,    ssriders, gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (2 Players US)", GAME_IMPERFECT_COLORS )
-/*TODO*///GAMEX(1991, tmnt2a,   tmnt2,    tmnt2,    tmnt2a,   gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (4 Players Asia)", GAME_IMPERFECT_COLORS )
-/*TODO*///
+    public static GameDriver driver_punkshot = new GameDriver("1990", "punkshot", "tmnt.java", rom_punkshot, null, machine_driver_punkshot, input_ports_punkshot, init_gfx, ROT0, "Konami", "Punk Shot (4 Players)");
+    public static GameDriver driver_punksht2 = new GameDriver("1990", "punksht2", "tmnt.java", rom_punksht2, driver_punkshot, machine_driver_punkshot, input_ports_punksht2, init_gfx, ROT0, "Konami", "Punk Shot (2 Players)");
+
+    /*TODO*///GAME( 1990, lgtnfght, 0,        lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Lightning Fighters (US)" )
+            /*TODO*///GAME( 1990, trigon,   lgtnfght, lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Trigon (Japan)" )
+            /*TODO*///
+            /*TODO*///GAME( 1991, blswhstl, 0,        detatwin, detatwin, gfx,      ROT90, "Konami", "Bells & Whistles" )
+            /*TODO*///GAME( 1991, detatwin, blswhstl, detatwin, detatwin, gfx,      ROT90, "Konami", "Detana!! Twin Bee (Japan)" )
+            /*TODO*///
+            /*TODO*///GAMEX(1991, glfgreat, 0,        glfgreat, glfgreat, glfgreat, ROT0,  "Konami", "Golfing Greats", GAME_NOT_WORKING )
+            /*TODO*///
+            /*TODO*///GAMEX(1991, tmnt2,    0,        tmnt2,    ssridr4p, gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (4 Players US)", GAME_IMPERFECT_COLORS )
+            /*TODO*///GAMEX(1991, tmnt22p,  tmnt2,    tmnt2,    ssriders, gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (2 Players US)", GAME_IMPERFECT_COLORS )
+            /*TODO*///GAMEX(1991, tmnt2a,   tmnt2,    tmnt2,    tmnt2a,   gfx,      ROT0,  "Konami", "Teenage Mutant Ninja Turtles - Turtles in Time (4 Players Asia)", GAME_IMPERFECT_COLORS )
+            /*TODO*///
     public static GameDriver driver_ssriders = new GameDriver("1991", "ssriders", "tmnt.java", rom_ssriders, null, machine_driver_ssriders, input_ports_ssridr4p, init_gfx, ROT0, "Konami", "Sunset Riders (World 4 Players ver. EAC)");
     public static GameDriver driver_ssrdrebd = new GameDriver("1991", "ssrdrebd", "tmnt.java", rom_ssrdrebd, driver_ssriders, machine_driver_ssriders, input_ports_ssriders, init_gfx, ROT0, "Konami", "Sunset Riders (World 2 Players ver. EBD)");
     public static GameDriver driver_ssrdrebc = new GameDriver("1991", "ssrdrebc", "tmnt.java", rom_ssrdrebc, driver_ssriders, machine_driver_ssriders, input_ports_ssriders, init_gfx, ROT0, "Konami", "Sunset Riders (World 2 Players ver. EBC)");
