@@ -2,6 +2,9 @@ package cpu.m68000;
 
 import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kcpu.*;
+import static cpu.m68000.M68KOPAC.*;
+import static cpu.m68000.M68KOPDM.*;
+import static cpu.m68000.M68KOPNZ.*;
 
 import java.util.Arrays;
 
