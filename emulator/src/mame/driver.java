@@ -2313,7 +2313,7 @@ driver_ssriders,
 /*TODO*/ //	DRIVER( ssrdrabd )	/* GX064 (c) 1991 (Asia) */
 /*TODO*/ //	DRIVER( ssrdrjbd )	/* GX064 (c) 1991 (Japan) */
 
-/*TODO*/ //	DRIVER( thndrx2 )	/* GX073 (c) 1991 (Japan) */
+driver_thndrx2,	/* GX073 (c) 1991 (Japan) */
 
 	/* Exidy games */
 /*TODO*/ //	DRIVER( sidetrac )	/* (c) 1979 */
