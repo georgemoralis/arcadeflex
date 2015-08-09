@@ -133,7 +133,7 @@ public class tmnt {
             offset &= ~2;	/* handle mirror address */
 
             if ((data & 0xff000000) == 0) {
-                K053244_w.handler(offset / 2, (data >> 8) & 0xff);
+                K053244_w.handler(offset / 2, (data >>> 8) & 0xff);
             }
             if ((data & 0x00ff0000) == 0) {
                 K053244_w.handler(offset / 2 + 1, data & 0xff);
@@ -178,16 +178,13 @@ public class tmnt {
 
         }
     };
-    /*TODO*///
-/*TODO*///static int lgtnfght_interrupt(void)
-/*TODO*///{
-/*TODO*///	if (K052109_is_IRQ_enabled()) return m68_level5_irq();
-/*TODO*///	else return ignore_interrupt();
-/*TODO*///
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
+	
+	public static InterruptPtr lgtnfght_interrupt = new InterruptPtr() { public int handler() 
+	{
+		if (K052109_is_IRQ_enabled()!=0) return m68_level5_irq.handler();
+		else return ignore_interrupt.handler();
+	
+	} };
     public static WriteHandlerPtr tmnt_sound_command_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             soundlatch_w.handler(0, data & 0xff);
@@ -626,41 +623,36 @@ public class tmnt {
                 new MemoryWriteAddress(0x110000, 0x110007, K051937_word_w),
                 new MemoryWriteAddress(0x110400, 0x1107ff, K051960_word_w),
                 new MemoryWriteAddress(-1) /* end of table */};
-    /*TODO*///
-/*TODO*///static struct MemoryReadAddress lgtnfght_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x03ffff, MRA_ROM },
-/*TODO*///	{ 0x080000, 0x080fff, paletteram_word_r },
-/*TODO*///	{ 0x090000, 0x093fff, MRA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x0a0000, 0x0a0001, input_port_0_r },
-/*TODO*///	{ 0x0a0002, 0x0a0003, input_port_1_r },
-/*TODO*///	{ 0x0a0004, 0x0a0005, input_port_2_r },
-/*TODO*///	{ 0x0a0006, 0x0a0007, input_port_3_r },
-/*TODO*///	{ 0x0a0008, 0x0a0009, input_port_4_r },
-/*TODO*///	{ 0x0a0010, 0x0a0011, input_port_5_r },
-/*TODO*///	{ 0x0a0020, 0x0a0023, punkshot_sound_r },	/* K053260 */
-/*TODO*///	{ 0x0b0000, 0x0b3fff, K053245_scattered_word_r },
-/*TODO*///	{ 0x0c0000, 0x0c001f, K053244_word_noA1_r },
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_r },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress lgtnfght_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x000000, 0x03ffff, MWA_ROM },
-/*TODO*///	{ 0x080000, 0x080fff, paletteram_xBBBBBGGGGGRRRRR_word_w, &paletteram },
-/*TODO*///	{ 0x090000, 0x093fff, MWA_BANK1 },	/* main RAM */
-/*TODO*///	{ 0x0a0018, 0x0a0019, lgtnfght_0a0018_w },
-/*TODO*///	{ 0x0a0020, 0x0a0021, K053260_WriteReg },
-/*TODO*///	{ 0x0a0028, 0x0a0029, watchdog_reset_w },
-/*TODO*///	{ 0x0b0000, 0x0b3fff, K053245_scattered_word_w, &spriteram },
-/*TODO*///	{ 0x0c0000, 0x0c001f, K053244_word_noA1_w },
-/*TODO*///	{ 0x0e0000, 0x0e001f, K053251_halfword_w },
-/*TODO*///	{ 0x100000, 0x107fff, K052109_word_noA12_w },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///
+    static MemoryReadAddress lgtnfght_readmem[]
+            = {
+                new MemoryReadAddress(0x000000, 0x03ffff, MRA_ROM),
+                new MemoryReadAddress(0x080000, 0x080fff, paletteram_word_r),
+                new MemoryReadAddress(0x090000, 0x093fff, MRA_BANK1), /* main RAM */
+                new MemoryReadAddress(0x0a0000, 0x0a0001, input_port_0_r),
+                new MemoryReadAddress(0x0a0002, 0x0a0003, input_port_1_r),
+                new MemoryReadAddress(0x0a0004, 0x0a0005, input_port_2_r),
+                new MemoryReadAddress(0x0a0006, 0x0a0007, input_port_3_r),
+                new MemoryReadAddress(0x0a0008, 0x0a0009, input_port_4_r),
+                new MemoryReadAddress(0x0a0010, 0x0a0011, input_port_5_r),
+                new MemoryReadAddress(0x0a0020, 0x0a0023, punkshot_sound_r), /* K053260 */
+                new MemoryReadAddress(0x0b0000, 0x0b3fff, K053245_scattered_word_r),
+                new MemoryReadAddress(0x0c0000, 0x0c001f, K053244_word_noA1_r),
+                new MemoryReadAddress(0x100000, 0x107fff, K052109_word_noA12_r),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress lgtnfght_writemem[]
+            = {
+                new MemoryWriteAddress(0x000000, 0x03ffff, MWA_ROM),
+                new MemoryWriteAddress(0x080000, 0x080fff, paletteram_xBBBBBGGGGGRRRRR_word_w, paletteram),
+                new MemoryWriteAddress(0x090000, 0x093fff, MWA_BANK1), /* main RAM */
+                new MemoryWriteAddress(0x0a0018, 0x0a0019, lgtnfght_0a0018_w),
+                new MemoryWriteAddress(0x0a0020, 0x0a0021, K053260_WriteReg),
+                new MemoryWriteAddress(0x0a0028, 0x0a0029, watchdog_reset_w),
+                new MemoryWriteAddress(0x0b0000, 0x0b3fff, K053245_scattered_word_w, spriteram),
+                new MemoryWriteAddress(0x0c0000, 0x0c001f, K053244_word_noA1_w),
+                new MemoryWriteAddress(0x0e0000, 0x0e001f, K053251_halfword_w),
+                new MemoryWriteAddress(0x100000, 0x107fff, K052109_word_noA12_w),
+                new MemoryWriteAddress(-1) /* end of table */};
     public static WriteHandlerPtr ssriders_soundkludge_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* I think this is more than just a trigger */
@@ -996,26 +988,23 @@ public class tmnt {
                 new MemoryWriteAddress(0xfa00, 0xfa00, sound_arm_nmi),
                 new MemoryWriteAddress(0xfc00, 0xfc2f, K053260_WriteReg),
                 new MemoryWriteAddress(-1) /* end of table */};
+    static MemoryReadAddress lgtnfght_s_readmem[]
+            = {
+                new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
+                new MemoryReadAddress(0x8000, 0x87ff, MRA_RAM),
+                new MemoryReadAddress(0xa001, 0xa001, YM2151_status_port_0_r),
+                new MemoryReadAddress(0xc000, 0xc02f, K053260_ReadReg),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress lgtnfght_s_writemem[]
+            = {
+                new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
+                new MemoryWriteAddress(0x8000, 0x87ff, MWA_RAM),
+                new MemoryWriteAddress(0xa000, 0xa000, YM2151_register_port_0_w),
+                new MemoryWriteAddress(0xa001, 0xa001, YM2151_data_port_0_w),
+                new MemoryWriteAddress(0xc000, 0xc02f, K053260_WriteReg),
+                new MemoryWriteAddress(-1) /* end of table */};
     /*TODO*///
-/*TODO*///static struct MemoryReadAddress lgtnfght_s_readmem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
-/*TODO*///	{ 0x8000, 0x87ff, MRA_RAM },
-/*TODO*///	{ 0xa001, 0xa001, YM2151_status_port_0_r },
-/*TODO*///	{ 0xc000, 0xc02f, K053260_ReadReg },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct MemoryWriteAddress lgtnfght_s_writemem[] =
-/*TODO*///{
-/*TODO*///	{ 0x0000, 0x7fff, MWA_ROM },
-/*TODO*///	{ 0x8000, 0x87ff, MWA_RAM },
-/*TODO*///	{ 0xa000, 0xa000, YM2151_register_port_0_w },
-/*TODO*///	{ 0xa001, 0xa001, YM2151_data_port_0_w },
-/*TODO*///	{ 0xc000, 0xc02f, K053260_WriteReg },
-/*TODO*///	{ -1 }	/* end of table */
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct MemoryReadAddress glfgreat_s_readmem[] =
 /*TODO*///{
 /*TODO*///	{ 0x0000, 0x7fff, MRA_ROM },
@@ -2248,15 +2237,13 @@ public class tmnt {
             new int[]{MIXER(70, MIXER_PAN_LEFT), MIXER(70, MIXER_PAN_RIGHT)},
             null//sound_nmi_callback
     );
+    static K053260_interface k053260_interface = new K053260_interface(
+            3579545,
+            REGION_SOUND1, /* memory region */
+            new int[]{MIXER(70, MIXER_PAN_LEFT), MIXER(70, MIXER_PAN_RIGHT)},
+            null
+    );
     /*TODO*///
-/*TODO*///static struct K053260_interface k053260_interface =
-/*TODO*///{
-/*TODO*///	3579545,
-/*TODO*///	REGION_SOUND1, /* memory region */
-/*TODO*///	{ MIXER(70,MIXER_PAN_LEFT), MIXER(70,MIXER_PAN_RIGHT) },
-/*TODO*///	0
-/*TODO*///};
-/*TODO*///
 /*TODO*///static struct K053260_interface glfgreat_k053260_interface =
 /*TODO*///{
 /*TODO*///	3579545,
@@ -2406,53 +2393,49 @@ public class tmnt {
                 )
             }
     );
-    /*TODO*///static struct MachineDriver machine_driver_lgtnfght =
-/*TODO*///{
-/*TODO*///	/* basic machine hardware */
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			CPU_M68000,
-/*TODO*///			12000000,	/* 12 MHz */
-/*TODO*///			lgtnfght_readmem,lgtnfght_writemem,0,0,
-/*TODO*///			lgtnfght_interrupt,1
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			CPU_Z80 | CPU_AUDIO_CPU,
-/*TODO*///			3579545,	/* 3.579545 MHz */
-/*TODO*///			lgtnfght_s_readmem,lgtnfght_s_writemem,0,0,
-/*TODO*///			ignore_interrupt,0	/* IRQs are triggered by the main CPU */
-/*TODO*///		}
-/*TODO*///	},
-/*TODO*///	60, DEFAULT_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
-/*TODO*///	1,	/* 1 CPU slice per frame - interleaving is forced when a sound command is written */
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	/* video hardware */
-/*TODO*///	64*8, 32*8, { 14*8, (64-14)*8-1, 2*8, 30*8-1 },
-/*TODO*///	0,	/* gfx decoded by konamiic.c */
-/*TODO*///	2048, 2048,
-/*TODO*///	0,
-/*TODO*///
-/*TODO*///	VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
-/*TODO*///	0,
-/*TODO*///	lgtnfght_vh_start,
-/*TODO*///	lgtnfght_vh_stop,
-/*TODO*///	lgtnfght_vh_screenrefresh,
-/*TODO*///
-/*TODO*///	/* sound hardware */
-/*TODO*///	SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///	{
-/*TODO*///		{
-/*TODO*///			SOUND_YM2151,
-/*TODO*///			&ym2151_interface
-/*TODO*///		},
-/*TODO*///		{
-/*TODO*///			SOUND_K053260,
-/*TODO*///			&k053260_interface
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///};
-/*TODO*///
+    static MachineDriver machine_driver_lgtnfght = new MachineDriver(
+            /* basic machine hardware */
+            new MachineCPU[]{
+                new MachineCPU(
+                        CPU_M68000,
+                        12000000, /* 12 MHz */
+                        lgtnfght_readmem, lgtnfght_writemem, null, null,
+                        lgtnfght_interrupt, 1
+                ),
+                new MachineCPU(
+                        CPU_Z80 | CPU_AUDIO_CPU,
+                        3579545, /* 3.579545 MHz */
+                        lgtnfght_s_readmem, lgtnfght_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are triggered by the main CPU */
+                )
+            },
+            60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
+            1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
+            null,
+            /* video hardware */
+            64 * 8, 32 * 8, new rectangle(14 * 8, (64 - 14) * 8 - 1, 2 * 8, 30 * 8 - 1),
+            null, /* gfx decoded by konamiic.c */
+            2048, 2048,
+            null,
+            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+            null,
+            lgtnfght_vh_start,
+            lgtnfght_vh_stop,
+            lgtnfght_vh_screenrefresh,
+            /* sound hardware */
+            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2151,
+                        ym2151_interface
+                ),
+                new MachineSound(
+                        SOUND_K053260,
+                        k053260_interface
+                )
+            }
+    );
+    /*TODO*///
 /*TODO*///static struct MachineDriver machine_driver_detatwin =
 /*TODO*///{
 /*TODO*///	/* basic machine hardware */
@@ -3819,37 +3802,35 @@ public class tmnt {
             temp = null;
         }
     };
-    /*TODO*///static void shuffle(UINT8 *buf,int len)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///	UINT8 t;
-/*TODO*///
-/*TODO*///	if (len == 2) return;
-/*TODO*///
-/*TODO*///	if (len % 4) exit(1);	/* must not happen */
-/*TODO*///
-/*TODO*///	len /= 2;
-/*TODO*///
-/*TODO*///	for (i = 0;i < len/2;i++)
-/*TODO*///	{
-/*TODO*///		t = buf[len/2 + i];
-/*TODO*///		buf[len/2 + i] = buf[len + i];
-/*TODO*///		buf[len + i] = t;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	shuffle(buf,len);
-/*TODO*///	shuffle(buf + len,len);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void init_glfgreat(void)
-/*TODO*///{
-/*TODO*///	/* ROMs are interleaved at byte level */
-/*TODO*///	shuffle(memory_region(REGION_GFX1),memory_region_length(REGION_GFX1));
-/*TODO*///	shuffle(memory_region(REGION_GFX2),memory_region_length(REGION_GFX2));
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
+
+    static void shuffle(UBytePtr buf, int len) {
+        int i;
+        int t;
+
+        if (len == 2) {
+            return;
+        }
+
+        //if (len % 4) exit(1);	/* must not happen */
+        len /= 2;
+
+        for (i = 0; i < len / 2; i++) {
+            t = buf.read(len / 2 + i);
+            buf.write(len / 2 + i, buf.read(len + i));
+            buf.write(len + i, t);
+        }
+
+        shuffle(buf, len);
+        shuffle(new UBytePtr(buf, len), len);
+    }
+
+    public static InitDriverPtr init_glfgreat = new InitDriverPtr() {
+        public void handler() {
+            /* ROMs are interleaved at byte level */
+            shuffle(memory_region(REGION_GFX1), memory_region_length(REGION_GFX1));
+            shuffle(memory_region(REGION_GFX2), memory_region_length(REGION_GFX2));
+        }
+    };
     public static GameDriver driver_mia = new GameDriver("1989", "mia", "tmnt.java", rom_mia, null, machine_driver_mia, input_ports_mia, init_mia, ROT0, "Konami", "Missing in Action (version T)");
     public static GameDriver driver_mia2 = new GameDriver("1989", "mia2", "tmnt.java", rom_mia2, driver_mia, machine_driver_mia, input_ports_mia, init_mia, ROT0, "Konami", "Missing in Action (version S)");
 
@@ -3862,10 +3843,10 @@ public class tmnt {
     public static GameDriver driver_punkshot = new GameDriver("1990", "punkshot", "tmnt.java", rom_punkshot, null, machine_driver_punkshot, input_ports_punkshot, init_gfx, ROT0, "Konami", "Punk Shot (4 Players)");
     public static GameDriver driver_punksht2 = new GameDriver("1990", "punksht2", "tmnt.java", rom_punksht2, driver_punkshot, machine_driver_punkshot, input_ports_punksht2, init_gfx, ROT0, "Konami", "Punk Shot (2 Players)");
 
-    /*TODO*///GAME( 1990, lgtnfght, 0,        lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Lightning Fighters (US)" )
-            /*TODO*///GAME( 1990, trigon,   lgtnfght, lgtnfght, lgtnfght, gfx,      ROT90, "Konami", "Trigon (Japan)" )
-            /*TODO*///
-            /*TODO*///GAME( 1991, blswhstl, 0,        detatwin, detatwin, gfx,      ROT90, "Konami", "Bells & Whistles" )
+    public static GameDriver driver_lgtnfght = new GameDriver("1990", "lgtnfght", "tmnt.java", rom_lgtnfght, null, machine_driver_lgtnfght, input_ports_lgtnfght, init_gfx, ROT90, "Konami", "Lightning Fighters (US)");
+    public static GameDriver driver_trigon = new GameDriver("1990", "trigon", "tmnt.java", rom_trigon, driver_lgtnfght, machine_driver_lgtnfght, input_ports_lgtnfght, init_gfx, ROT90, "Konami", "Trigon (Japan)");
+
+    /*TODO*///GAME( 1991, blswhstl, 0,        detatwin, detatwin, gfx,      ROT90, "Konami", "Bells & Whistles" )
             /*TODO*///GAME( 1991, detatwin, blswhstl, detatwin, detatwin, gfx,      ROT90, "Konami", "Detana!! Twin Bee (Japan)" )
             /*TODO*///
             /*TODO*///GAMEX(1991, glfgreat, 0,        glfgreat, glfgreat, glfgreat, ROT0,  "Konami", "Golfing Greats", GAME_NOT_WORKING )
