@@ -206,6 +206,7 @@ import static drivers.WIP.superman.*;
 import static drivers.WIP.aerofgt.*;
 import static drivers.WIP.neogeo.*;
 import static drivers.WIP.lastduel.*;
+import static drivers.WIP.bloodbro.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2663,8 +2664,8 @@ driver_toki2,
 driver_toki3,
 driver_tokiu,
 driver_tokib,
-/*TODO*/ //	DRIVER( bloodbro )	/* (c) 1990 Tad */
-/*TODO*/ //	DRIVER( weststry )	/* bootleg */
+driver_bloodbro,
+driver_weststry,
 
 	/* Jaleco games */
 /*TODO*/ //	DRIVER( exerion )	/* (c) 1983 Jaleco */

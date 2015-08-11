@@ -776,7 +776,7 @@ public class m68kcpuH {
 /*TODO*///#define EA_AI    AY                                    /* address register indirect */
 
     public static long EA_AI() {
-        return get_CPU_A()[(int) (get_CPU_IR() & 7)];
+        return get_AY();
     }
     /*TODO*///#define EA_PI_8  (AY++)                               
 
