@@ -13,29 +13,20 @@ import static arcadeflex.ptrlib.*;
 import static mame.memoryH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
+import static mame.spriteC.*;
+import static mame.spriteH.*;
 
 public class bloodbro {
 
-    /**
-     * *************************************************************************
-     * /*TODO
-     *///
-/*TODO*///	Video Hardware for Blood Brothers
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///#include "vidhrdw/generic.h"
-/*TODO*///
-/*TODO*///#define NUM_SPRITES 128
-/*TODO*///
+    public static final int NUM_SPRITES = 128;
+
     public static UBytePtr textlayoutram = new UBytePtr();
     static char[] dirtybuffer2;
     static osd_bitmap tmpbitmap2;
     public static UBytePtr bloodbro_videoram2 = new UBytePtr();
     public static UBytePtr bloodbro_scroll = new UBytePtr();
-    /*TODO*///static struct sprite_list *sprite_list;
-/*TODO*///
-/*TODO*///
+    static sprite_list sprite_list;
+
     public static ReadHandlerPtr bloodbro_background_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return videoram.READ_WORD(offset);
@@ -69,8 +60,10 @@ public class bloodbro {
             }
         }
     };
-    /*TODO*///
-/*TODO*////**************************************************************************/
+
+    /**
+     * ***********************************************************************
+     */
     public static VhStopPtr bloodbro_vh_stop = new VhStopPtr() {
         public void handler() {
             if (tmpbitmap != null) {
@@ -89,14 +82,14 @@ public class bloodbro {
             dirtybuffer = new char[32 * 16];
             tmpbitmap2 = osd_new_bitmap(512, 256, Machine.scrbitmap.depth);
             dirtybuffer2 = new char[32 * 16];
-            /*TODO*///	sprite_list = sprite_list_create( NUM_SPRITES, SPRITE_LIST_FRONT_TO_BACK );
-/*TODO*///
+            sprite_list = sprite_list_create(NUM_SPRITES, SPRITE_LIST_FRONT_TO_BACK);
+
             if (tmpbitmap != null && tmpbitmap2 != null && dirtybuffer != null && dirtybuffer2 != null) {
                 memset(dirtybuffer, 1, 32 * 16);
                 memset(dirtybuffer2, 1, 32 * 16);
-                /*TODO*///		sprite_list.transparent_pen = 0xf;
-/*TODO*///		sprite_list.max_priority = 1;
-/*TODO*///		sprite_list.sprite_type = SPRITE_TYPE_STACK;
+                sprite_list.transparent_pen = 0xf;
+                sprite_list.max_priority = 1;
+                sprite_list.sprite_type = SPRITE_TYPE_STACK;
                 return 0;
             }
             bloodbro_vh_stop.handler();
@@ -201,61 +194,61 @@ public class bloodbro {
         }
     }
 
-    /*TODO*////* SPRITE INFO (8 bytes)
-/*TODO*///
-/*TODO*///   --F???SS SSSSCCCC
-/*TODO*///   ---TTTTT TTTTTTTT
-/*TODO*///   -------X XXXXXXXX
-/*TODO*///   -------- YYYYYYYY */
-/*TODO*///static void get_sprite_info( void ){
-/*TODO*///	const struct GfxElement *gfx = Machine.gfx[3];
-/*TODO*///	const unsigned short *source = (const UINT16 *)spriteram;
-/*TODO*///	struct sprite *sprite = sprite_list.sprite;
-/*TODO*///	int count = NUM_SPRITES;
-/*TODO*///
-/*TODO*///	int attributes, flags, number, color, vertical_size, horizontal_size, i;
-/*TODO*///	while( count-- ){
-/*TODO*///		attributes = source[0];
-/*TODO*///		flags = 0;
-/*TODO*///		if( (attributes&0x8000)==0 ){
-/*TODO*///			flags |= SPRITE_VISIBLE;
-/*TODO*///			horizontal_size = 1 + ((attributes>>7)&7);
-/*TODO*///			vertical_size = 1 + ((attributes>>4)&7);
-/*TODO*///			sprite.priority = (attributes>>11)&1;
-/*TODO*///			number = source[1]&0x1fff;
-/*TODO*///			sprite.x = source[2]&0x1ff;
-/*TODO*///			sprite.y = source[3]&0x1ff;
-/*TODO*///
-/*TODO*///			/* wraparound - could be handled by Sprite Manager?*/
-/*TODO*///			if( sprite.x >= 256) sprite.x -= 512;
-/*TODO*///			if( sprite.y >= 256) sprite.y -= 512;
-/*TODO*///
-/*TODO*///			sprite.total_width = 16*horizontal_size;
-/*TODO*///			sprite.total_height = 16*vertical_size;
-/*TODO*///
-/*TODO*///			sprite.tile_width = 16;
-/*TODO*///			sprite.tile_height = 16;
-/*TODO*///			sprite.line_offset = 16;
-/*TODO*///
-/*TODO*///			if( attributes&0x2000 ) flags |= SPRITE_FLIPX;
-/*TODO*///			if( attributes&0x4000 ) flags |= SPRITE_FLIPY; /* ? */
-/*TODO*///			color = attributes&0xf;
-/*TODO*///
-/*TODO*///			sprite.pen_data = gfx.gfxdata + number * gfx.char_modulo;
-/*TODO*///			sprite.pal_data = &gfx.colortable[gfx.color_granularity * color];
-/*TODO*///
-/*TODO*///			sprite.pen_usage = 0;
-/*TODO*///			for( i=0; i<vertical_size*horizontal_size; i++ ){
-/*TODO*///				sprite.pen_usage |= gfx.pen_usage[number++];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		sprite.flags = flags;
-/*TODO*///
-/*TODO*///		sprite++;
-/*TODO*///		source+=4;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    /* SPRITE INFO (8 bytes)
+
+   --F???SS SSSSCCCC
+   ---TTTTT TTTTTTTT
+   -------X XXXXXXXX
+   -------- YYYYYYYY */
+static void get_sprite_info(  ){
+	GfxElement gfx = Machine.gfx[3];
+	UShortPtr source = new UShortPtr(spriteram);
+	sprite[] sprite = sprite_list.sprite;
+	int count = NUM_SPRITES;
+        int sprite_ptr=0;
+	int attributes, flags, number, color, vertical_size, horizontal_size, i;
+	while(( count-- )!=0){
+		attributes = source.read(0);
+		flags = 0;
+		if( (attributes&0x8000)==0 ){
+			flags |= SPRITE_VISIBLE;
+			horizontal_size = 1 + ((attributes>>7)&7);
+			vertical_size = 1 + ((attributes>>4)&7);
+			sprite[sprite_ptr].priority = (attributes>>11)&1;
+			number = source.read(1)&0x1fff;
+			sprite[sprite_ptr].x = source.read(2)&0x1ff;
+			sprite[sprite_ptr].y = source.read(3)&0x1ff;
+
+			/* wraparound - could be handled by Sprite Manager?*/
+			if( sprite[sprite_ptr].x >= 256) sprite[sprite_ptr].x -= 512;
+			if( sprite[sprite_ptr].y >= 256) sprite[sprite_ptr].y -= 512;
+
+			sprite[sprite_ptr].total_width = 16*horizontal_size;
+			sprite[sprite_ptr].total_height = 16*vertical_size;
+
+			sprite[sprite_ptr].tile_width = 16;
+			sprite[sprite_ptr].tile_height = 16;
+			sprite[sprite_ptr].line_offset = 16;
+
+			if(( attributes&0x2000 )!=0) flags |= SPRITE_FLIPX;
+			if(( attributes&0x4000 )!=0) flags |= SPRITE_FLIPY; /* ? */
+			color = attributes&0xf;
+
+			sprite[sprite_ptr].pen_data = new UBytePtr(gfx.gfxdata,number * gfx.char_modulo);
+			sprite[sprite_ptr].pal_data = new CharPtr(gfx.colortable,gfx.color_granularity * color);
+
+			sprite[sprite_ptr].pen_usage = 0;
+			for( i=0; i<vertical_size*horizontal_size; i++ ){
+				sprite[sprite_ptr].pen_usage |= gfx.pen_usage[number++];
+			}
+		}
+		sprite[sprite_ptr].flags = flags;
+
+		sprite_ptr++;
+		source.offset+=4;
+	}
+}
+
     static void bloodbro_mark_used_colors() {
         int offs, i;
         int code, color;
@@ -317,19 +310,19 @@ public class bloodbro {
 
     public static VhUpdatePtr bloodbro_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
-            /*TODO*///	get_sprite_info();
+            get_sprite_info();
 
             bloodbro_mark_used_colors();
-            /*TODO*///	sprite_update();
+            sprite_update();
 
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, 32 * 16);
                 memset(dirtybuffer2, 1, 32 * 16);
             }
             draw_background(bitmap);
-            /*TODO*///	sprite_draw( sprite_list, 1 );
+            sprite_draw( sprite_list, 1 );
             draw_foreground(bitmap);
-            /*TODO*///	sprite_draw( sprite_list, 0 );
+            sprite_draw( sprite_list, 0 );
             draw_text(bitmap);
         }
     };

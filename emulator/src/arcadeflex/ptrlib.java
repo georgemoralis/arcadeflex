@@ -126,6 +126,9 @@ public class ptrlib {
         public void writeinc(int value) {
             this.memory[(this.offset++)] = (char) (value & 0xFF);//store 8 bits only
         }
+        public void writedec(int value) {
+            this.memory[(this.offset--)] = (char) (value & 0xFF);//store 8 bits only
+        }
     }
     /*
      *     Unsigned Short Ptr emulation
