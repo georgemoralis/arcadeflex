@@ -443,7 +443,7 @@ public class vlm5030 extends snd_interface {
                 table_h = 0;
             }
         } else {
-            if (pin == 0) {	/* L -> H : reset chip */
+            if (pin != 0) {	/* L -> H : reset chip */
 
                 pin_RST = 1;
                 if (pin_BSY != 0) {
