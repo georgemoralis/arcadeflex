@@ -263,33 +263,8 @@ public class vlm5030 extends snd_interface {
 
                                 phase = PH_STOP;
                                 /* stop phase */
-                                switch (phase) {
-                                    case PH_SETUP:
-                                        sample_count -= length;
-                                        if (sample_count <= 0) {
-                                            if (errorlog != null) {
-                                                fprintf(errorlog, "VLM5030 BSY=H\n");
-                                            }
-                                            /* pin_BSY = 1; */
-                                            phase = PH_WAIT;
-                                        }
-                                        break;
-                                    case PH_STOP:
-                                        sample_count -= length;
-                                        if (sample_count <= 0) {
-                                            if (errorlog != null) {
-                                                fprintf(errorlog, "VLM5030 BSY=L\n");
-                                            }
-                                            pin_BSY = 0;
-                                            phase = PH_IDLE;
-                                        }
-                                }
-                                /* silent buffering */
-                                while (length > 0) {
-                                    buffer.write(buf_count++, (char) 0x00);
-                                    length--;
-                                }
-                                break;//break while loop
+                                phase_stop(buffer, length, buf_count);//goto phase_stop; /* continue to stop phase */
+                                break;
                             }
                             /* Set old target as new start of frame */
                             current_energy = old_energy & 0xFFFF;
@@ -394,10 +369,37 @@ public class vlm5030 extends snd_interface {
                 }
                 /*		return;*/
             }
-
+             phase_stop(buffer, length, buf_count);
         }
     };
-
+    public static void phase_stop(UShortPtr buffer, int length, int buf_count) {
+        switch (phase) {
+            case PH_SETUP:
+                sample_count -= length;
+                if (sample_count <= 0) {
+                    if (errorlog != null) {
+                                                fprintf(errorlog, "VLM5030 BSY=H\n");
+                                            }
+			/* pin_BSY = 1; */
+                    phase = PH_WAIT;
+                }
+                break;
+            case PH_STOP:
+                sample_count -= length;
+                if (sample_count <= 0) {
+                    if (errorlog != null) {
+                                                fprintf(errorlog, "VLM5030 BSY=H\n");
+                                            }
+                    pin_BSY = 0;
+                    phase = PH_IDLE;
+                }
+        }
+	/* silent buffering */
+        while (length > 0) {
+            buffer.write(buf_count++, (char) 0x00);
+            length--;
+        }
+    }
 
     /* realtime update */
     public static void VLM5030_update() {

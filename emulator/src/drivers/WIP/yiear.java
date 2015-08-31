@@ -23,6 +23,8 @@ import static sound.vlm5030.*;
 import static sound.vlm5030H.*;
 import static sound.sn76496.*;
 import static sound.sn76496H.*;
+import static sound.vlm5030.*;
+import static sound.vlm5030H.*;
 
 
 public class yiear
@@ -65,8 +67,8 @@ public class yiear
 		new MemoryWriteAddress( 0x4000, 0x4000, yiear_control_w ),
 		new MemoryWriteAddress( 0x4800, 0x4800, konami_SN76496_latch_w ),
 		new MemoryWriteAddress( 0x4900, 0x4900, konami_SN76496_0_w ),
-	/*TODO*///	new MemoryWriteAddress( 0x4a00, 0x4a00, VLM5030_data_w ),
-	/*TODO*///	new MemoryWriteAddress( 0x4b00, 0x4b00, yiear_speech_st ),
+		new MemoryWriteAddress( 0x4a00, 0x4a00, VLM5030_data_w ),
+		new MemoryWriteAddress( 0x4b00, 0x4b00, yiear_speech_st ),
 		new MemoryWriteAddress( 0x4f00, 0x4f00, watchdog_reset_w ),
 		new MemoryWriteAddress( 0x5000, 0x502f, MWA_RAM, spriteram, spriteram_size ),
 		new MemoryWriteAddress( 0x5030, 0x53ff, MWA_RAM ),
@@ -283,11 +285,11 @@ public class yiear
 			new MachineSound(
 				SOUND_SN76496,
 				sn76496_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_VLM5030,
 				vlm5030_interface
-			)*/
+			)
 		}
 	);
 	
