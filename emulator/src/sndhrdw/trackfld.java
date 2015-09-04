@@ -15,7 +15,7 @@ import static sound.adpcmH.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.ptrlib.*;
-
+import static sound.dacH.*;
 
 
 public class trackfld
@@ -41,11 +41,10 @@ public class trackfld
 	    new int[]{ 0x2064 }
         );
 	
-/*TODO*///	struct DACinterface konami_dac_interface =
-/*TODO*///	{
-/*TODO*///	    1,
-/*TODO*///	    { 80 }
-/*TODO*///	};
+        public static DACinterface konami_dac_interface = new DACinterface(
+	    1,
+	    new int[]{ 80 }
+	);
 	
 	public static ADPCMinterface hyprolyb_adpcm_interface = new ADPCMinterface
 	(
