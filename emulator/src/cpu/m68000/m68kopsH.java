@@ -32,14 +32,14 @@ public class m68kopsH {
             long d_dst = get_DX();
             long src = get_DY();
             long dst = d_dst;
-            long res = LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0L) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res += 6;
+            if (res > 9L) {
+                res = (res + 6)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(src) + HIGH_NIBBLE(dst);
+            res =(res + HIGH_NIBBLE(src) + HIGH_NIBBLE(dst))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res -= 0xa0;
+                res = (res - 0xa0)&0xFFFFFFFFL;
             }
 
             set_DX(MASK_OUT_BELOW_8(d_dst) | MASK_OUT_ABOVE_8(res));
@@ -60,14 +60,14 @@ public class m68kopsH {
             long src = m68ki_read_8(--m68k_cpu.ar[(int) (get_CPU_IR() & 7)]);
             long ea = m68k_cpu.ar[7] -= 2;
             long dst = m68ki_read_8(ea);
-            long res = LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res += 6;
+            if (res > 9L) {
+                res = (res + 6)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(src) + HIGH_NIBBLE(dst);
+            res =(res + HIGH_NIBBLE(src) + HIGH_NIBBLE(dst))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res -= 0xa0;
+                res = (res - 0xa0)&0xFFFFFFFFL;
             }
             m68ki_write_8(ea, res);
 
@@ -87,14 +87,14 @@ public class m68kopsH {
             long src = m68ki_read_8(m68k_cpu.ar[7] -= 2);
             long ea = --m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)];
             long dst = m68ki_read_8(ea);
-            long res = LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res += 6;
+            if (res > 9L) {
+                res =(res + 6L)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(src) + HIGH_NIBBLE(dst);
+            res =(res+ HIGH_NIBBLE(src) + HIGH_NIBBLE(dst))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res -= 0xa0;
+                res =(res - 0xa0)&0xFFFFFFFFL;
             }
             m68ki_write_8(ea, res);
 
@@ -114,21 +114,21 @@ public class m68kopsH {
             long src = m68ki_read_8(m68k_cpu.ar[7] -= 2);
             long ea = m68k_cpu.ar[7] -= 2;
             long dst = m68ki_read_8(ea);
-            long res = LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res += 6;
+            if (res > 9L) {
+                res =(res + 6)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(src) + HIGH_NIBBLE(dst);
+            res = (res + HIGH_NIBBLE(src) + HIGH_NIBBLE(dst))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res -= 0xa0;
+                res = (res - 0xa0)&0xFFFFFFFFL;
             }
             m68ki_write_8(ea, res);
 
             m68k_cpu.n_flag = GET_MSB_8(res); /* officially undefined */
 
-            if (MASK_OUT_ABOVE_8(res) != 0) {
-                m68k_cpu.not_z_flag = 1;
+            if (MASK_OUT_ABOVE_8(res) != 0L) {
+                m68k_cpu.not_z_flag = 1L;
             }
             USE_CLKS(18);
             if (m68klog != null) {
@@ -142,14 +142,14 @@ public class m68kopsH {
             long src = m68ki_read_8(--m68k_cpu.ar[(int) (get_CPU_IR() & 7)]);
             long ea = --m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)];
             long dst = m68ki_read_8(ea);
-            long res = LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res += 6;
+            if (res > 9L) {
+                res = (res + 6)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(src) + HIGH_NIBBLE(dst);
+            res = (res + HIGH_NIBBLE(src) + HIGH_NIBBLE(dst))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res -= 0xa0;
+                res =(res - 0xa0)&0xFFFFFFFFL;
             }
 
             m68k_cpu.n_flag = GET_MSB_8(res); /* officially undefined */
@@ -22346,22 +22346,22 @@ public class m68kopsH {
             long src = m68ki_read_8(--m68k_cpu.ar[(int) (get_CPU_IR() & 7)]);
             long ea = --m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)];
             long dst = m68ki_read_8(ea);
-            long res = LOW_NIBBLE(dst) - LOW_NIBBLE(src) - ((m68k_cpu.x_flag != 0) ? 1L : 0L);
+            long res = (LOW_NIBBLE(dst) - LOW_NIBBLE(src) - ((m68k_cpu.x_flag != 0L) ? 1L : 0L))&0xFFFFFFFFL;
 
-            if (res > 9) {
-                res -= 6;
+            if (res > 9L) {
+                res = (res -6L)&0xFFFFFFFFL;
             }
-            res += HIGH_NIBBLE(dst) - HIGH_NIBBLE(src);
+            res = (res+ HIGH_NIBBLE(dst) - HIGH_NIBBLE(src))&0xFFFFFFFFL;
             if ((m68k_cpu.x_flag = m68k_cpu.c_flag = (res > 0x99) ? 1L : 0L) != 0L) {
-                res += 0xa0;
+                res = (res+ 0xa0)&0xFFFFFFFFL;
             }
 
             m68k_cpu.n_flag = GET_MSB_8(res); /* officially undefined */
 
             m68ki_write_8(ea, res);
 
-            if (MASK_OUT_ABOVE_8(res) != 0) {
-                m68k_cpu.not_z_flag = 1;
+            if (MASK_OUT_ABOVE_8(res) != 0L) {
+                m68k_cpu.not_z_flag = 1L;
             }
             USE_CLKS(18);
             if (m68klog != null) {
