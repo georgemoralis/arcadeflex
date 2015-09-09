@@ -311,6 +311,9 @@ public class libc_old {
     public static void memset(UBytePtr buf, int value, int size) {
         memset(buf.memory, value, size);
     }
+    public static void memset(UShortPtr buf, int value, int size) {
+        memset(buf.memory, value, size);
+    }
 
     public static void memset(UBytePtr buf, int offset, int value, int size) {
         memset(buf.memory, offset, value, size);

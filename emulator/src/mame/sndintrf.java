@@ -31,6 +31,8 @@ import sound.upd7759;
 import sound.k053260;
 import sound.qsound;
 import sound._2610intf;
+import sound.k005289;
+
 public class sndintrf {
     static int cleared_value = 0x00;
     
@@ -471,19 +473,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-             new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_K005289)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_K005289,
-    /*TODO*////*TODO*///		"005289",
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		K005289_sh_start,
-    /*TODO*////*TODO*///		K005289_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+             new k005289(),
              new k007232(),
              new k051649(),
              new k053260(),
