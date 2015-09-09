@@ -207,6 +207,9 @@ import static drivers.WIP.aerofgt.*;
 import static drivers.WIP.neogeo.*;
 import static drivers.WIP.lastduel.*;
 import static drivers.WIP.bloodbro.*;
+import static drivers.WIP.nemesis.*;
+import static drivers.WIP.sbasketb.*;
+import static drivers.WIP.terracre.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1188,9 +1191,9 @@ driver_xmen2pj,
 /*TODO*/ //	DRIVER( rugrats )	/* (c) 1983 */
 /*TODO*/ //	DRIVER( cop01 )		/* (c) 1985 */
 /*TODO*/ //	DRIVER( cop01a )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( terracre )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( terracrb )	/* (c) 1985 */
-/*TODO*/ //	DRIVER( terracra )	/* (c) 1985 */
+driver_terracre,	/* (c) 1985 */
+driver_terracrb,	/* (c) 1985 */
+driver_terracra,	/* (c) 1985 */
 
 /*TODO*/ //	DRIVER( terraf )	/* (c) 1987 */
 /*TODO*/ //	DRIVER( terrafu )	/* (c) 1987 Nichibutsu USA */
@@ -1770,7 +1773,7 @@ driver_strider,
 driver_striderj,
 driver_stridrja,
 driver_dwj,//coin counter work with 7 instead of 5 . Life decreasement has bug (goes from 900 to 999)(68k bug)
-driver_willow,//wrong gold calculation (68k bug)
+driver_willow,//seems to work ok
 driver_willowj,
 driver_unsquad,
 driver_area88,
@@ -2227,7 +2230,7 @@ driver_tumblep2,
 
 
      
-/*TODO*/ //	DRIVER( sbasketb )	/* GX405 (c) 1984 */
+driver_sbasketb,	/* GX405 (c) 1984 */
         
 
 
@@ -2258,17 +2261,17 @@ driver_tumblep2,
 /*TODO*/ //	DRIVER( ultraman )	/* GX910 (c) 1991 Banpresto/Bandai */
 
 	/* Konami "Nemesis hardware" games */
-/*TODO*/ //	DRIVER( nemesis )	/* GX456 (c) 1985 */
-/*TODO*/ //	DRIVER( nemesuk )	/* GX456 (c) 1985 */
-/*TODO*/ //	DRIVER( konamigt )	/* GX561 (c) 1985 */
-/*TODO*/ //	DRIVER( salamand )	/* GX587 (c) 1986 */
-/*TODO*/ //	DRIVER( lifefrce )	/* GX587 (c) 1986 */
-/*TODO*/ //	DRIVER( lifefrcj )	/* GX587 (c) 1986 */
+driver_nemesis,	/* GX456 (c) 1985 */
+driver_nemesuk,	/* GX456 (c) 1985 */
+driver_konamigt,	/* GX561 (c) 1985 */
+driver_salamand,	/* GX587 (c) 1986 */
+driver_lifefrce,	/* GX587 (c) 1986 */
+driver_lifefrcj,	/* GX587 (c) 1986 */
 	/* GX400 BIOS based games */
-/*TODO*/ //	DRIVER( rf2 )		/* GX561 (c) 1985 */
-/*TODO*/ //	DRIVER( twinbee )	/* GX412 (c) 1985 */
-/*TODO*/ //	DRIVER( gradius )	/* GX456 (c) 1985 */
-/*TODO*/ //	DRIVER( gwarrior )	/* GX578 (c) 1985 */
+driver_rf2,		/* GX561 (c) 1985 */
+driver_twinbee,	/* GX412 (c) 1985 */
+driver_gradius,	/* GX456 (c) 1985 */
+driver_gwarrior,	/* GX578 (c) 1985 */
 
 	/* Konami "Twin 16" games */
 /*TODO*/ //	DRIVER( devilw )	/* GX687 (c) 1987 */
