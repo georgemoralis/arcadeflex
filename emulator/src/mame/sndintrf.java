@@ -32,6 +32,7 @@ import sound.k053260;
 import sound.qsound;
 import sound._2610intf;
 import sound.k005289;
+import sound.nes_apu;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -402,19 +403,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-                  /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_NES)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_NES,
-    /*TODO*////*TODO*///		"Nintendo",
-    /*TODO*////*TODO*///		NES_num,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		NESPSG_sh_start,
-    /*TODO*////*TODO*///		NESPSG_sh_stop,
-    /*TODO*////*TODO*///		NESPSG_sh_update,
-    /*TODO*////*TODO*///		0
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+                     new nes_apu(),
                    /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_ASTROCADE)
     /*TODO*////*TODO*///    {

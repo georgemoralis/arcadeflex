@@ -148,6 +148,9 @@ public class ptrlib {
             memory = new char[size];
             offset = 0;
         }
+        public UShortPtr(char[] m) {
+            set(m, 0);
+        }
 
         public UShortPtr(UShortPtr cp, int b) {
             set(cp.memory, cp.offset + b);

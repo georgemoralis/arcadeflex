@@ -19,6 +19,7 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.video.*;
 import static arcadeflex.ptrlib.*;
+
 public class punchout
 {
 	
@@ -31,16 +32,16 @@ public class punchout
 	public static final int ARMWREST_BIGSPRITE_WIDTH =256;
 	public static final int ARMWREST_BIGSPRITE_HEIGHT =128;
 	
-	public static CharPtr punchout_videoram2=new CharPtr();
+	public static UBytePtr punchout_videoram2=new UBytePtr();
 	public static int[] punchout_videoram2_size=new int[1];
-	public static CharPtr punchout_bigsprite1ram=new CharPtr();
+	public static UBytePtr punchout_bigsprite1ram=new UBytePtr();
 	public static int[] punchout_bigsprite1ram_size=new int[1];
-	public static CharPtr punchout_bigsprite2ram=new CharPtr();
+	public static UBytePtr punchout_bigsprite2ram=new UBytePtr();
 	public static int[] punchout_bigsprite2ram_size=new int[1];
-	public static CharPtr punchout_scroll=new CharPtr();
-	public static CharPtr punchout_bigsprite1=new CharPtr();
-	public static CharPtr punchout_bigsprite2=new CharPtr();
-	public static CharPtr punchout_palettebank=new CharPtr();
+	public static UBytePtr punchout_scroll=new UBytePtr();
+	public static UBytePtr punchout_bigsprite1=new UBytePtr();
+	public static UBytePtr punchout_bigsprite2=new UBytePtr();
+	public static UBytePtr punchout_palettebank=new UBytePtr();
 	static char[] dirtybuffer2;
         static char[] bs1dirtybuffer;
         static char[] bs2dirtybuffer;

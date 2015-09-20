@@ -210,6 +210,7 @@ import static drivers.WIP.bloodbro.*;
 import static drivers.WIP.nemesis.*;
 import static drivers.WIP.sbasketb.*;
 import static drivers.WIP.terracre.*;
+import static drivers.WIP.punchout.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1384,10 +1385,10 @@ driver_terracra,	/* (c) 1985 */
 /*TODO*/ //	DRIVER( popeye )
 /*TODO*/ //	DRIVER( popeye2 )
 /*TODO*/ //	DRIVER( popeyebl )	/* bootleg */
-/*TODO*/ //	DRIVER( punchout )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( spnchout )	/* (c) 1984 */
-/*TODO*/ //	DRIVER( spnchotj )	/* (c) 1984 (Japan) */
-/*TODO*/ //	DRIVER( armwrest )	/* (c) 1985 */
+driver_punchout,	/* (c) 1984 */
+driver_spnchout,	/* (c) 1984 */
+driver_spnchotj,	/* (c) 1984 (Japan) */
+driver_armwrest,	/* (c) 1985 */
 
 	/* Midway 8080 b/w games */
 /*TODO*/ //	DRIVER( seawolf )	/* 596 [1976] */

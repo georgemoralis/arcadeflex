@@ -17,7 +17,7 @@ import static mame.mame.*;
 
 public class m6502 extends cpu_interface {
     public static FILE m6502log=null;//fopen("m6502.log", "wa");  //for debug purposes
-    int[] m6502_ICount = new int[1];
+    public static int[] m6502_ICount = new int[1];
 
     public m6502() {
         cpu_num = CPU_M6502;
@@ -136,34 +136,34 @@ public class m6502 extends cpu_interface {
       //L = low 8 bits
       //H = high 8 bits
       //D = whole 16 bits
-      public int H,L,D;
-      public void SetH(int val) 
+      public static int H,L,D;
+      public static void SetH(int val) 
       {
         H = val;
         D = (H << 8) | L;
       }
-      public void SetL(int val) 
+      public static void SetL(int val) 
       {
         L = val;
         D = (H << 8) | L;
       }
-      public void SetD(int val)
+      public static void SetD(int val)
       {
         D = val;
         H = D >> 8 & 0xFF;
         L = D & 0xFF;
       }
-      public void AddH(int val) 
+      public static void AddH(int val) 
       {
          H = (H + val) & 0xFF;
          D = (H << 8) | L;
       }
-      public void AddL(int val)
+      public static void AddL(int val)
       {
          L = (L + val) & 0xFF;
          D = (H << 8) | L;
       }
-      public void AddD(int val)
+      public static void AddD(int val)
       {
          D = (D + val) & 0xFFFF;
          H = D >> 8 & 0xFF;
@@ -191,7 +191,7 @@ public class m6502 extends cpu_interface {
         public irqcallbacksPtr irq_callback;	/* IRQ callback */
     }
 
-    private static m6502_Regs m6502=new m6502_Regs();
+    public static m6502_Regs m6502=new m6502_Regs();
     
    /* 6502 flags */
     public static final int F_C =0x01;
@@ -275,7 +275,7 @@ public class m6502 extends cpu_interface {
 /*TODO*///#define RDMEM(addr) cpu_readmem16(addr)
 /*TODO*///#endif
 /*TODO*///
-    public int RDMEM(int addr)
+    public static int RDMEM(int addr)
     {
         return cpu_readmem16(addr);
     }
@@ -292,7 +292,7 @@ public class m6502 extends cpu_interface {
 /*TODO*///#define WRMEM(addr,data) cpu_writemem16(addr,data)
 /*TODO*///#endif
 /*TODO*///
-    public void WRMEM(int addr,int data)
+    public static void WRMEM(int addr,int data)
     {
         if(m6502log!=null) fprintf(m6502log,"M6502 WRITEMEM addr=%d data=%d\n",addr,data);
         cpu_writemem16(addr,data);
@@ -624,7 +624,7 @@ public class m6502 extends cpu_interface {
 /*TODO*/// ***************************************************************/
 /*TODO*///#define PUSH(Rg) WRMEM(SPD, Rg); S--
 /*TODO*///
-    public void PUSH(int Rg)
+    public static void PUSH(int Rg)
     {
         WRMEM(m6502.sp.D,Rg);
         m6502.sp.AddL(-1);
@@ -641,6 +641,19 @@ public class m6502 extends cpu_interface {
     /* 6502 ********************************************************
      *	ADC Add with carry
      ***************************************************************/
+    public void ADC_NES(int tmp)
+    {
+        int c = (m6502.p & F_C);											
+        int sum = m6502.a + tmp + c;										
+        m6502.p &= ~(F_V | F_C);										
+        if ((~(m6502.a^tmp) & (m6502.a^sum) & F_N)!=0)							
+            m6502.p |= F_V;											
+        if ((sum & 0xff00)!=0)										
+            m6502.p |= F_C;											
+        m6502.a =  sum & 0xFF;
+                    																								
+	SET_NZ(m6502.a);
+    }
     public void ADC(int tmp)
     {        
             if ((m6502.p & F_D)	!=0)											
@@ -1240,6 +1253,19 @@ public class m6502 extends cpu_interface {
     /* 6502 ********************************************************
      *	SBC Subtract with carry
      ***************************************************************/
+        public void SBC_NES(int tmp)
+    {            															
+            int c = (m6502.p & F_C) ^ F_C;									
+            int sum = m6502.a - tmp - c;										
+                    m6502.p = (m6502.p & ~(F_V | F_C))&0xFF;										
+                    if (((m6502.a^tmp) & (m6502.a^sum) & F_N)!=0)						
+                            m6502.p |= F_V;											
+                    if ((sum & 0xff00) == 0)								
+                            m6502.p |= F_C;											
+                    m6502.a = sum & 0xFF;										
+            															
+            SET_NZ(m6502.a);
+        }
     public void SBC(int tmp)
     {            
             if ((m6502.p & F_D)	!=0)											
@@ -2715,7 +2741,7 @@ public class m6502 extends cpu_interface {
 /*TODO*///	}
 /*TODO*///}
 /*TODO*///
-    public void take_irq()
+    public static void take_irq()
     {
         if(m6502log!=null) fprintf(m6502log,"M6502#%d before_takeirq :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
     
