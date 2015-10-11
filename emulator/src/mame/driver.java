@@ -211,6 +211,7 @@ import static drivers.WIP.nemesis.*;
 import static drivers.WIP.sbasketb.*;
 import static drivers.WIP.terracre.*;
 import static drivers.WIP.punchout.*;
+import static drivers.WIP.astrof.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2120,11 +2121,11 @@ driver_sfzch,	//no roms?
 
 
 	/* other Data East games */
-/*TODO*/ //	DRIVER( astrof )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( astrof2 )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( astrof3 )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( tomahawk )	/* (c) [1980?] */
-/*TODO*/ //	DRIVER( tomahaw5 )	/* (c) [1980?] */
+driver_astrof,	/* (c) [1980?] */
+driver_astrof2,	/* (c) [1980?] */
+driver_astrof3,	/* (c) [1980?] */
+driver_tomahawk,	/* (c) [1980?] */
+driver_tomahaw5,	/* (c) [1980?] */
 
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */

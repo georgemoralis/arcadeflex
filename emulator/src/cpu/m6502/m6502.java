@@ -136,34 +136,34 @@ public class m6502 extends cpu_interface {
       //L = low 8 bits
       //H = high 8 bits
       //D = whole 16 bits
-      public static int H,L,D;
-      public static void SetH(int val) 
+      public  int H,L,D;
+      public  void SetH(int val) 
       {
         H = val;
         D = (H << 8) | L;
       }
-      public static void SetL(int val) 
+      public  void SetL(int val) 
       {
         L = val;
         D = (H << 8) | L;
       }
-      public static void SetD(int val)
+      public  void SetD(int val)
       {
         D = val;
         H = D >> 8 & 0xFF;
         L = D & 0xFF;
       }
-      public static void AddH(int val) 
+      public  void AddH(int val) 
       {
          H = (H + val) & 0xFF;
          D = (H << 8) | L;
       }
-      public static void AddL(int val)
+      public  void AddL(int val)
       {
          L = (L + val) & 0xFF;
          D = (H << 8) | L;
       }
-      public static void AddD(int val)
+      public  void AddD(int val)
       {
          D = (D + val) & 0xFFFF;
          H = D >> 8 & 0xFF;
@@ -294,7 +294,7 @@ public class m6502 extends cpu_interface {
 /*TODO*///
     public static void WRMEM(int addr,int data)
     {
-        if(m6502log!=null) fprintf(m6502log,"M6502 WRITEMEM addr=%d data=%d\n",addr,data);
+        //if(m6502log!=null) fprintf(m6502log,"M6502 WRITEMEM addr=%d data=%d\n",addr,data);
         cpu_writemem16(addr,data);
     }
 /*TODO*////***************************************************************
@@ -863,7 +863,7 @@ public class m6502 extends cpu_interface {
     {
         if ((m6502.irq_state != CLEAR_LINE) && (m6502.p & F_I)!=0) 
         {
-            if(errorlog!=null) fprintf(errorlog, "M6502#%d CLI sets after_cli\n",cpu_getactivecpu());
+            if(m6502log!=null) fprintf(m6502log, "M6502#%d CLI sets after_cli\n",cpu_getactivecpu());
             m6502.after_cli = 1;
         }
         m6502.p = (m6502.p & ~F_I)&0xFF;
@@ -982,9 +982,9 @@ public class m6502 extends cpu_interface {
     ***************************************************************/
     public void ILL()
     {
-        if (errorlog!=null)												
-		fprintf(errorlog, "M6502 illegal opcode %04x: %02x\n",  
-			(m6502.pc.D-1)&0xffff, cpu_readop((m6502.pc.D-1)&0xffff));
+        if (m6502log!=null)												
+		if(m6502log!=null) fprintf(m6502log, "M6502 illegal opcode %04x: %02x\n",  
+			(m6502.pc.D-1)&0xffff, (int)cpu_readop((m6502.pc.D-1)&0xffff));
     }
 
 /*TODO*////* 6502 ********************************************************
@@ -1170,7 +1170,7 @@ public class m6502 extends cpu_interface {
         {											
 		m6502.p=PULL();												
 		if ((m6502.irq_state != CLEAR_LINE) && (m6502.p & F_I)==0) {	
-			if(errorlog!=null) fprintf(errorlog, "M6502#%d PLP sets after_cli\n",cpu_getactivecpu()); 
+			if(m6502log!=null) fprintf(m6502log, "M6502#%d PLP sets after_cli\n",cpu_getactivecpu()); 
 			m6502.after_cli = 1;								
 		}														
 	} else {													
@@ -1226,7 +1226,7 @@ public class m6502 extends cpu_interface {
             m6502.p |= F_T;													
             if( (m6502.irq_state != CLEAR_LINE) && (m6502.p & F_I)==0 ) 		
             {															
-                    if(errorlog!=null) fprintf(errorlog, "M6502#%d RTI sets after_clin",cpu_getactivecpu()); 
+                    if(m6502log!=null) fprintf(m6502log, "M6502#%d RTI sets after_clin",cpu_getactivecpu()); 
                     m6502.after_cli = 1;									
             }															
             change_pc16(m6502.pc.D);
@@ -2589,6 +2589,8 @@ public class m6502 extends cpu_interface {
 	m6502.irq_callback = null;
 
 	change_pc16(m6502.pc.D);
+        if(m6502log!=null) fprintf(m6502log,"M6502#%d reset :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
+    
     }
 /*TODO*///
 /*TODO*///void m6502_exit(void)
@@ -2755,7 +2757,7 @@ public class m6502 extends cpu_interface {
 		m6502.p = ((m6502.p & ~F_D) | F_I)&0xFF;		/* knock out D and set I flag */
 		m6502.pc.SetL(RDMEM(m6502.ea.D));
 		m6502.pc.SetH(RDMEM(m6502.ea.D+1));
-		if(errorlog!=null) fprintf(errorlog,"M6502#%d takes IRQ ($%04x)\n", cpu_getactivecpu(), m6502.pc.D);
+		if(m6502log!=null) fprintf(m6502log,"M6502#%d takes IRQ ($%04x)\n", cpu_getactivecpu(), m6502.pc.D);
 		/* call back the cpuintrf to let it clear the line */
 		if (m6502.irq_callback!=null) m6502.irq_callback.handler(0);
 		change_pc16(m6502.pc.D);
@@ -2783,22 +2785,21 @@ public class m6502 extends cpu_interface {
     		/* if an irq is pending, take it now */
     		if( m6502.pending_irq!=0 && op == 0x78 )
     			take_irq();
-    
     		m6502.insn[op].handler();
     
     		/* check if the I flag was just reset (interrupts enabled) */
     		if( m6502.after_cli!=0 )
     		{
-    			if(errorlog!=null) fprintf(errorlog,"M6502#%d after_cli was >0", cpu_getactivecpu());
+    			if(m6502log!=null) fprintf(m6502log,"M6502#%d after_cli was >0", cpu_getactivecpu());
     			m6502.after_cli = 0;
     			if (m6502.irq_state != CLEAR_LINE)
     			{
-    				if(errorlog!=null) fprintf(errorlog,": irq line is asserted: set pending IRQ\n");
+    				if(m6502log!=null) fprintf(m6502log,": irq line is asserted: set pending IRQ\n");
     				m6502.pending_irq = 1;
     			}
     			else
     			{
-    				if(errorlog!=null) fprintf(errorlog,": irq line is clear\n");
+    				if(m6502log!=null) fprintf(m6502log,": irq line is clear\n");
     			}
     		}
     		else
@@ -2816,7 +2817,7 @@ public class m6502 extends cpu_interface {
 	m6502.nmi_state = linestate;
 	if( linestate != CLEAR_LINE )
 	{
-		if(errorlog!=null) fprintf(errorlog, "M6502#%d set_nmi_line(ASSERT)\n", cpu_getactivecpu());
+		if(m6502log!=null) fprintf(m6502log,"M6502#%d set_nmi_line(ASSERT)\n", cpu_getactivecpu());
 		m6502.ea.SetD(M6502_NMI_VEC);
 		m6502_ICount[0] -= 7;
 		PUSH(m6502.pc.H);
@@ -2825,7 +2826,7 @@ public class m6502 extends cpu_interface {
 		m6502.p = ((m6502.p & ~F_D) | F_I)&0xFF;		/* knock out D and set I flag */
 		m6502.pc.SetL(RDMEM(m6502.ea.D));
 		m6502.pc.SetH(RDMEM(m6502.ea.D+1));
-		if(errorlog!=null) fprintf(errorlog,"M6502#%d takes NMI ($%04x)\n", cpu_getactivecpu(), m6502.pc.D);
+		if(m6502log!=null) fprintf(m6502log,"M6502#%d takes NMI ($%04x)\n", cpu_getactivecpu(), m6502.pc.D);
 		change_pc16(m6502.pc.D);
 	}
     }
@@ -2839,7 +2840,7 @@ public class m6502 extends cpu_interface {
 	{
 		if( m6502.so_state!=0 && linestate==0 )
 		{
-			if(errorlog!=null) fprintf(errorlog,"M6502#%d set overflow\n", cpu_getactivecpu());
+			if(m6502log!=null) fprintf(m6502log,"M6502#%d set overflow\n", cpu_getactivecpu());
 			m6502.p = (m6502.p | F_V)&0xFF; //P|=F_V;
 		}
 		m6502.so_state=linestate;
@@ -2850,7 +2851,7 @@ public class m6502 extends cpu_interface {
 	m6502.irq_state = linestate;
 	if( linestate != CLEAR_LINE )
 	{
-		if(errorlog!=null) fprintf(errorlog, "M6502#%d set_irq_line(ASSERT)\n", cpu_getactivecpu());
+		if(m6502log!=null) fprintf(m6502log, "M6502#%d set_irq_line(ASSERT)\n", cpu_getactivecpu());
 		m6502.pending_irq = 1;
 	}
         if(m6502log!=null) fprintf(m6502log,"M6502#%d after_irqline :PC:%d,PPC:%d,SP:%d,ZP:%d,EA:%d,A:%d,X:%d,Y:%d,P:%d,p_irq:%d,a_c:%d,nmi:%d,irq:%d,so:%d\n", cpu_getactivecpu(),m6502.pc.D,m6502.ppc.D,m6502.sp.D,m6502.zp.D,m6502.ea.D,m6502.a,m6502.x,m6502.y,m6502.p,m6502.pending_irq,m6502.after_cli,m6502.nmi_state,m6502.irq_state,m6502.so_state);          
