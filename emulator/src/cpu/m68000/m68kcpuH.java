@@ -911,7 +911,10 @@ public class m68kcpuH {
     public static boolean CONDITION_CC() {
         return (get_CPU_C() == 0);
     }
-    /*TODO*///#define CONDITION_NOT_CC (CPU_C != 0)
+
+    public static boolean CONDITION_NOT_CC() {
+        return (get_CPU_C() != 0);
+    }
 
     public static boolean CONDITION_CS() {
         return (get_CPU_C() != 0);

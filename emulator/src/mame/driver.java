@@ -212,6 +212,8 @@ import static drivers.WIP.sbasketb.*;
 import static drivers.WIP.terracre.*;
 import static drivers.WIP.punchout.*;
 import static drivers.WIP.astrof.*;
+import static drivers.WIP.karnov.*;
+
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2141,11 +2143,11 @@ driver_tomahaw5,	/* (c) [1980?] */
 	
 
 	/* Data East 16-bit games */
-/*TODO*/ //	DRIVER( karnov )	/* (c) 1987 Data East USA (US) */
-/*TODO*/ //	DRIVER( karnovj )	/* (c) 1987 Data East Corporation (Japan) */
+driver_karnov,	/* (c) 1987 Data East USA (US) */
+driver_karnovj,	/* (c) 1987 Data East Corporation (Japan) */
 /*TODO*/ //TESTDRIVER( wndrplnt )	/* (c) 1987 Data East Corporation (Japan) */
-/*TODO*/ //	DRIVER( chelnov )	/* (c) 1988 Data East USA (US) */
-/*TODO*/ //	DRIVER( chelnovj )	/* (c) 1988 Data East Corporation (Japan) */
+driver_chelnov,	/* (c) 1988 Data East USA (US) */
+driver_chelnovj,	/* (c) 1988 Data East Corporation (Japan) */
 /* the following ones all run on similar hardware */
 driver_hbarrel,
 driver_hbarrelw,

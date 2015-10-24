@@ -1448,7 +1448,9 @@ public class cpuintrf {
     /*TODO*///			case CPU_M6510: 			irq_line = 0; LOG((errorlog,"M6510 IRQ\n")); break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_N2A03)
-    /*TODO*///			case CPU_N2A03: 			irq_line = 0; LOG((errorlog,"N2A03 IRQ\n")); break;
+    			case CPU_N2A03: 			
+                            irq_line = 0; 
+                            if(errorlog!=null) fprintf(errorlog,"N2A03 IRQ\n"); break;
     /*TODO*///#endif
     /*TODO*///#if (HAS_H6280)
     /*TODO*///			case CPU_H6280:
