@@ -37,12 +37,12 @@ public class drawgfx {
     public static void decodechar(GfxElement gfx, int num, UBytePtr src, GfxLayout gl) 
     {
 	int plane,x,y;
-	CharPtr dp;
+	UBytePtr dp;
 	int offs;
 
 	offs = num * gl.charincrement;
         
-        dp = new CharPtr(gfx.gfxdata, (num * gfx.char_modulo));
+        dp = new UBytePtr(gfx.gfxdata, (num * gfx.char_modulo));
 	for (y = 0;y < gfx.height;y++)
 	{
 		int yoffs;
@@ -83,7 +83,7 @@ public class drawgfx {
 		/* fill the pen_usage array with info on the used pens */
 		gfx.pen_usage[num] = 0;
 
-                dp = new CharPtr(gfx.gfxdata, (num * gfx.char_modulo));
+                dp = new UBytePtr(gfx.gfxdata, (num * gfx.char_modulo));
 		for (y = 0;y < gfx.height;y++)
 		{
 			for (x = 0;x < gfx.width;x++)

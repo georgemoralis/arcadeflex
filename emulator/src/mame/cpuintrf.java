@@ -799,22 +799,22 @@ public class cpuintrf {
     /*TODO*///	return TIME_TO_CYCLES(cpunum, timer_timeelapsed(refresh_timer));
     /*TODO*///}
     /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Returns the current horizontal beam position in pixels
-    /*TODO*///
-    /*TODO*/// ***************************************************************************/
-    /*TODO*///int cpu_gethorzbeampos(void)
-    /*TODO*///{
-    /*TODO*///	double elapsed_time = timer_timeelapsed(refresh_timer);
-    /*TODO*///	int scanline = (int)(elapsed_time * scanline_period_inv);
-    /*TODO*///	double time_since_scanline = elapsed_time -
-    /*TODO*///						 (double)scanline * scanline_period;
-    /*TODO*///	return (int)(time_since_scanline * scanline_period_inv *
-    /*TODO*///						 (double)Machine->drv->screen_width);
-    /*TODO*///}
-    /*TODO*///
+    
+    /***************************************************************************
+    
+      Returns the current horizontal beam position in pixels
+    
+     ***************************************************************************/
+    public static int cpu_gethorzbeampos()
+    {
+    	double elapsed_time = timer_timeelapsed(refresh_timer);
+    	int scanline = (int)(elapsed_time * scanline_period_inv);
+    	double time_since_scanline = elapsed_time -
+    						 (double)scanline * scanline_period;
+    	return (int)(time_since_scanline * scanline_period_inv *
+    						 (double)Machine.drv.screen_width);
+    }
+    
     /**
      * *************************************************************************
      *
@@ -1446,7 +1446,7 @@ public class cpuintrf {
     /*TODO*///#endif
     /*TODO*///#if (HAS_M6510)
     /*TODO*///			case CPU_M6510: 			irq_line = 0; LOG((errorlog,"M6510 IRQ\n")); break;
-    /*TODO*///#endif
+    /*TODO*///#endif 
     /*TODO*///#if (HAS_N2A03)
     			case CPU_N2A03: 			
                             irq_line = 0; 
