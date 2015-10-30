@@ -37,6 +37,8 @@
 package vidhrdw;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.libc_old.memset;
+import static arcadeflex.libc_old.sizeof;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -150,7 +152,7 @@ public class shuuz {
             /* update the data if different */
             if (oldword != newword) {
                 atarigen_playfieldram.WRITE_WORD(offset, newword);
-/*TODO*///                atarigen_pf_dirty[(offset & 0x1fff) / 2] = 1;
+                atarigen_pf_dirty[(offset & 0x1fff) / 2] = 1;
             }
 
             /* handle the latch, but only write the upper byte */
@@ -189,9 +191,9 @@ public class shuuz {
     public static VhUpdatePtr shuuz_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* remap if necessary */
-    /*TODO*///        if (update_palette()) {
-/*TODO*///                memset(atarigen_pf_dirty, 1, atarigen_playfieldram_size / 4);
-/*TODO*///            }
+            if (update_palette()!=null) {
+                memset(atarigen_pf_dirty, 1, atarigen_playfieldram_size[0] / 4);
+            }
 
             /* update playfield */
 /*TODO*///            atarigen_pf_process(pf_render_callback, bitmap,  & Machine.drv.visible_area);
@@ -211,14 +213,15 @@ public class shuuz {
      *
      ************************************
      */
-/*TODO*///    static const UINT8*update_palette(void) {
-/*TODO*///        UINT16 mo_map[16], pf_map[16];
-/*TODO*///        int i, j;
+    static UBytePtr update_palette() {
+        char[] mo_map=new char[16];
+        char[] pf_map=new char[16];
+        int i, j;
 
         /* reset color tracking */
-/*TODO*///        memset(mo_map, 0, sizeof(mo_map));
-/*TODO*///        memset(pf_map, 0, sizeof(pf_map));
-/*TODO*///        palette_init_used_colors();
+        memset(mo_map, 0, sizeof(mo_map));
+        memset(pf_map, 0, sizeof(pf_map));
+        palette_init_used_colors();
 
         /* update color usage for the playfield */
 /*TODO*///        atarigen_pf_process(pf_color_callback, pf_map,  & Machine.drv.visible_area);
@@ -227,35 +230,35 @@ public class shuuz {
 /*TODO*///        atarigen_mo_process(mo_color_callback, mo_map);
 
         /* rebuild the playfield palette */
-/*TODO*///        for (i = 0; i < 16; i++) {
-/*TODO*///            UINT16 used = pf_map[i];
-/*TODO*///            if (used != 0) {
-/*TODO*///                for (j = 0; j < 16; j++) {
-/*TODO*///                    if (used & (1 << j)) {
-/*TODO*///                        palette_used_colors[0x100 + i * 16 + j] = PALETTE_COLOR_USED;
-/*TODO*///                    }
-/*TODO*///                }
-/*TODO*///            }
-/*TODO*///        }
+        for (i = 0; i < 16; i++) {
+            char used = pf_map[i];
+            if (used != 0) {
+                for (j = 0; j < 16; j++) {
+                    if ((used & (1 << j))!=0) {
+                        palette_used_colors.write(0x100 + i * 16 + j, PALETTE_COLOR_USED);
+                    }
+                }
+            }
+        }
 
         /* rebuild the motion object palette */
-/*TODO*///        for (i = 0; i < 16; i++) {
-/*TODO*///            UINT16 used = mo_map[i];
-/*TODO*///            if (used != 0) {
-/*TODO*///                palette_used_colors[0x000 + i * 16 + 0] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///                for (j = 1; j < 16; j++) {
-/*TODO*///                    if (used & (1 << j)) {
-/*TODO*///                        palette_used_colors[0x000 + i * 16 + j] = PALETTE_COLOR_USED;
-/*TODO*///                    }
-/*TODO*///                }
-/*TODO*///            }
-/*TODO*///        }
+        for (i = 0; i < 16; i++) {
+            char used = mo_map[i];
+            if (used != 0) {
+                palette_used_colors.write(0x000 + i * 16 + 0, PALETTE_COLOR_TRANSPARENT);
+                for (j = 1; j < 16; j++) {
+                    if ((used & (1 << j))!=0) {
+                        palette_used_colors.write(0x000 + i * 16 + j, PALETTE_COLOR_USED);
+                    }
+                }
+            }
+        }
 
         /* special case color 15 of motion object palette 15 */
-/*TODO*///        palette_used_colors[0x000 + 15 * 16 + 15] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///
-/*TODO*///        return palette_recalc();
-/*TODO*///    }
+        palette_used_colors.write(0x000 + 15 * 16 + 15, PALETTE_COLOR_TRANSPARENT);
+
+        return palette_recalc();
+    }
 
     /**
      * ***********************************

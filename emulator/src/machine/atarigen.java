@@ -26,10 +26,11 @@ import static mame.timerH.*;
 import static mame.timer.*;
 import static arcadeflex.fileio.*;
 import static arcadeflex.video.osd_new_bitmap;
+import mame.drawgfxH.rectangle;
 import static mame.memoryH.*;
+import mame.osdependH.osd_bitmap;
 import static mame.palette.*;
 import static mame.paletteH.*;
-
 
 public class atarigen {
 
@@ -95,51 +96,45 @@ public class atarigen {
 /*TODO*///	}
 /*TODO*///	
 /*TODO*///	
-	
-	/*
-	 *	Scanline interrupt initialization
-	 *
-	 *	Sets the scanline when the next scanline interrupt should be generated.
-	 *
-	 */
-	
-	public static void atarigen_scanline_int_set(int scanline)
-	{
-		if (scanline_interrupt_timer != null)
-			timer_remove(scanline_interrupt_timer);
-		scanline_interrupt_timer = timer_set(cpu_getscanlinetime(scanline), 0, scanline_interrupt_callback);
-	}
-	
-	
-	/*
-	 *	Scanline interrupt generator
-	 *
-	 *	Standard interrupt routine which sets the scanline interrupt state.
-	 *
-	 */
-	
-	public static int atarigen_scanline_int_gen()
-	{
-		atarigen_scanline_int_state = 1;
-		update_int_callback.handler();
-		return 0;
-	}
-	
-	
-	/*
-	 *	Scanline interrupt acknowledge write handler
-	 *
-	 *	Resets the state of the scanline interrupt.
-	 *
-	 */
-	
-	public static WriteHandlerPtr atarigen_scanline_int_ack_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		atarigen_scanline_int_state = 0;
-		update_int_callback.handler();
-	} };
-	
-/*TODO*///	
+    /*
+     *	Scanline interrupt initialization
+     *
+     *	Sets the scanline when the next scanline interrupt should be generated.
+     *
+     */
+    public static void atarigen_scanline_int_set(int scanline) {
+        if (scanline_interrupt_timer != null) {
+            timer_remove(scanline_interrupt_timer);
+        }
+        scanline_interrupt_timer = timer_set(cpu_getscanlinetime(scanline), 0, scanline_interrupt_callback);
+    }
+
+    /*
+     *	Scanline interrupt generator
+     *
+     *	Standard interrupt routine which sets the scanline interrupt state.
+     *
+     */
+    public static int atarigen_scanline_int_gen() {
+        atarigen_scanline_int_state = 1;
+        update_int_callback.handler();
+        return 0;
+    }
+
+    /*
+     *	Scanline interrupt acknowledge write handler
+     *
+     *	Resets the state of the scanline interrupt.
+     *
+     */
+    public static WriteHandlerPtr atarigen_scanline_int_ack_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            atarigen_scanline_int_state = 0;
+            update_int_callback.handler();
+        }
+    };
+
+    /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Sound interrupt generator
 /*TODO*///	 *
@@ -205,15 +200,16 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-        public static timer_callback scanline_interrupt_callback = new timer_callback() {
+    public static timer_callback scanline_interrupt_callback = new timer_callback() {
         public void handler(int param) {
-		/* generate the interrupt */
-		atarigen_scanline_int_gen();
-	
-		/* set a new timer to go off at the same scan line next frame */
-		scanline_interrupt_timer = timer_set(TIME_IN_HZ(Machine.drv.frames_per_second), 0, scanline_interrupt_callback);
-	}};
-/*TODO*///	
+            /* generate the interrupt */
+            atarigen_scanline_int_gen();
+
+            /* set a new timer to go off at the same scan line next frame */
+            scanline_interrupt_timer = timer_set(TIME_IN_HZ(Machine.drv.frames_per_second), 0, scanline_interrupt_callback);
+        }
+    };
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*--------------------------------------------------------------------------
@@ -236,13 +232,13 @@ public class atarigen {
 /*TODO*///	
 /*TODO*///	/* globals */
     public static UShortPtr atarigen_eeprom_default;
-    public static UBytePtr atarigen_eeprom=new UBytePtr();
-    public static int[] atarigen_eeprom_size=new int[1];
-	
-	/* statics */
+    public static UBytePtr atarigen_eeprom = new UBytePtr();
+    public static int[] atarigen_eeprom_size = new int[1];
+
+    /* statics */
     static /*UINT8*/ int unlocked;
-	
-	/*
+
+    /*
      *	EEPROM reset
      *
      *	Makes sure that the unlocked state is cleared when we reset.
@@ -252,54 +248,52 @@ public class atarigen {
         unlocked = 0;
     }
 
-    	
-	/*
-	 *	EEPROM enable write handler
-	 *
-	 *	Any write to this handler will allow one byte to be written to the
-	 *	EEPROM data area the next time.
-	 *
-	 */
-	
-	public static WriteHandlerPtr atarigen_eeprom_enable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		unlocked = 1;
-	} };
-	
-	
-	/*
-	 *	EEPROM write handler (low byte of word)
-	 *
-	 *	Writes a "word" to the EEPROM, which is almost always accessed via
-	 *	the low byte of the word only. If the EEPROM hasn't been unlocked,
-	 *	the write attempt is ignored.
-	 *
-	 */
-	
-	public static WriteHandlerPtr atarigen_eeprom_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		if (unlocked==0)
-			return;
-	
-		COMBINE_WORD_MEM(atarigen_eeprom,offset, data);
-		unlocked = 0;
-	} };
-	
-	
-	/*
-	 *	EEPROM read handler (low byte of word)
-	 *
-	 *	Reads a "word" from the EEPROM, which is almost always accessed via
-	 *	the low byte of the word only.
-	 *
-	 */
-	
-	public static ReadHandlerPtr atarigen_eeprom_r = new ReadHandlerPtr() { public int handler(int offset)
-	{
-		return atarigen_eeprom.READ_WORD(offset) | 0xff00;
-	} };
-	
-/*TODO*///	public static ReadHandlerPtr atarigen_eeprom_upper_r = new ReadHandlerPtr() { public int handler(int offset)
+    /*
+     *	EEPROM enable write handler
+     *
+     *	Any write to this handler will allow one byte to be written to the
+     *	EEPROM data area the next time.
+     *
+     */
+    public static WriteHandlerPtr atarigen_eeprom_enable_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            unlocked = 1;
+        }
+    };
+
+    /*
+     *	EEPROM write handler (low byte of word)
+     *
+     *	Writes a "word" to the EEPROM, which is almost always accessed via
+     *	the low byte of the word only. If the EEPROM hasn't been unlocked,
+     *	the write attempt is ignored.
+     *
+     */
+    public static WriteHandlerPtr atarigen_eeprom_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (unlocked == 0) {
+                return;
+            }
+
+            COMBINE_WORD_MEM(atarigen_eeprom, offset, data);
+            unlocked = 0;
+        }
+    };
+
+    /*
+     *	EEPROM read handler (low byte of word)
+     *
+     *	Reads a "word" from the EEPROM, which is almost always accessed via
+     *	the low byte of the word only.
+     *
+     */
+    public static ReadHandlerPtr atarigen_eeprom_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return atarigen_eeprom.READ_WORD(offset) | 0xff00;
+        }
+    };
+
+    /*TODO*///	public static ReadHandlerPtr atarigen_eeprom_upper_r = new ReadHandlerPtr() { public int handler(int offset)
 /*TODO*///	{
 /*TODO*///		return READ_WORD(&atarigen_eeprom[offset]) | 0x00ff;
 /*TODO*///	} };
@@ -312,33 +306,31 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-    public static nvramPtr atarigen_nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
-        {	
-		if (read_or_write != 0)
-			osd_fwrite(file, atarigen_eeprom, atarigen_eeprom_size[0]);
-		else
-		{
-			if (file != null)
-				osd_fread(file, atarigen_eeprom, atarigen_eeprom_size[0]);
-			else
-			{
-				/* all 0xff's work for most games */
-				memset(atarigen_eeprom, 0xff, atarigen_eeprom_size[0]);
-	
-				/* anything else must be decompressed */
-				if (atarigen_eeprom_default != null)
-				{
-                                    throw new UnsupportedOperationException("Unimplemented");
-                                    
-/*TODO*///					if (atarigen_eeprom_default[0] == 0)
+    public static nvramPtr atarigen_nvram_handler = new nvramPtr() {
+        public void handler(Object file, int read_or_write) {
+            if (read_or_write != 0) {
+                osd_fwrite(file, atarigen_eeprom, atarigen_eeprom_size[0]);
+            } else {
+                if (file != null) {
+                    osd_fread(file, atarigen_eeprom, atarigen_eeprom_size[0]);
+                } else {
+                    /* all 0xff's work for most games */
+                    memset(atarigen_eeprom, 0xff, atarigen_eeprom_size[0]);
+
+                    /* anything else must be decompressed */
+                    if (atarigen_eeprom_default != null) {
+                        throw new UnsupportedOperationException("Unimplemented");
+
+                        /*TODO*///					if (atarigen_eeprom_default[0] == 0)
 /*TODO*///						decompress_eeprom_byte(atarigen_eeprom_default + 1);
 /*TODO*///					else
 /*TODO*///						decompress_eeprom_word(atarigen_eeprom_default + 1);
-				}
-			}
-		}
-	}};
-/*TODO*///	
+                    }
+                }
+            }
+        }
+    };
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*
@@ -990,20 +982,20 @@ public class atarigen {
 /*TODO*///	
 /*TODO*///	
 	/* general video globals */
-    public static UBytePtr atarigen_playfieldram=new UBytePtr();
-    public static UBytePtr atarigen_playfield2ram=new UBytePtr();
-    public static UBytePtr atarigen_playfieldram_color=new UBytePtr();
-    public static UBytePtr atarigen_playfield2ram_color=new UBytePtr();
-    public static UBytePtr atarigen_spriteram=new UBytePtr();
-    public static UBytePtr atarigen_alpharam=new UBytePtr();
-    public static UBytePtr atarigen_vscroll=new UBytePtr();
-    public static UBytePtr atarigen_hscroll=new UBytePtr();
+    public static UBytePtr atarigen_playfieldram = new UBytePtr();
+    public static UBytePtr atarigen_playfield2ram = new UBytePtr();
+    public static UBytePtr atarigen_playfieldram_color = new UBytePtr();
+    public static UBytePtr atarigen_playfield2ram_color = new UBytePtr();
+    public static UBytePtr atarigen_spriteram = new UBytePtr();
+    public static UBytePtr atarigen_alpharam = new UBytePtr();
+    public static UBytePtr atarigen_vscroll = new UBytePtr();
+    public static UBytePtr atarigen_hscroll = new UBytePtr();
 
-    public static int[] atarigen_playfieldram_size=new int[1];
-    public static int[] atarigen_playfield2ram_size=new int[1];
-    public static int[] atarigen_spriteram_size=new int[1];
-    public static int[] atarigen_alpharam_size=new int[1];
-/*TODO*///	
+    public static int[] atarigen_playfieldram_size = new int[1];
+    public static int[] atarigen_playfield2ram_size = new int[1];
+    public static int[] atarigen_spriteram_size = new int[1];
+    public static int[] atarigen_alpharam_size = new int[1];
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*--------------------------------------------------------------------------
@@ -1101,7 +1093,7 @@ public class atarigen {
 /*TODO*///	
 /*TODO*///	--------------------------------------------------------------------------*/
     /* globals */
-    public static UBytePtr atarigen_video_control_data=new UBytePtr();
+    public static UBytePtr atarigen_video_control_data = new UBytePtr();
     public static atarigen_video_control_state_desc atarigen_video_control_state = new atarigen_video_control_state_desc();
 
     /* statics */
@@ -1117,166 +1109,178 @@ public class atarigen {
     public static void atarigen_video_control_reset() {
         /* clear the RAM we use */
         memset(atarigen_video_control_data, 0, 0x40);
-		//memset(&atarigen_video_control_state, 0, sizeof(atarigen_video_control_state));
+        //memset(&atarigen_video_control_state, 0, sizeof(atarigen_video_control_state));
 
         /* reset the latches */
         atarigen_video_control_state.latch1 = atarigen_video_control_state.latch2 = -1;
         actual_video_control_latch1 = actual_video_control_latch2 = -1;
     }
-    	
-	
-	/*
-	 *	Video controller update
-	 *
-	 *	Copies the data from the specified location once/frame into the video controller registers
-	 *
-	 */
-	
-	public static void atarigen_video_control_update(UBytePtr data)
-	{
-		int i;
-	
-		/* echo all the commands to the video controller */
-		for (i = 0; i < 0x38; i += 2)
-			if (data.READ_WORD(i)!=0)
-				atarigen_video_control_w.handler(i, data.READ_WORD(i));
-	
-	}	
-	
-	/*
-	 *	Video controller write
-	 *
-	 *	Handles an I/O write to the video controller.
-	 *
-	 */
-	
-	public static WriteHandlerPtr atarigen_video_control_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		int oldword = atarigen_video_control_data.READ_WORD(offset);
-		int newword = COMBINE_WORD(oldword, data);
-		atarigen_video_control_data.WRITE_WORD(offset, newword);
-	
-		/* switch off the offset */
-		switch (offset)
-		{
-			/* set the scanline interrupt here */
-			case 0x06:
-				if (oldword != newword)
-					atarigen_scanline_int_set(newword & 0x1ff);
-				break;
-	
-			/* latch enable */
-			case 0x14:
-	
-				/* reset the latches when disabled */
-				if ((newword & 0x0080)==0)
-					atarigen_video_control_state.latch1 = atarigen_video_control_state.latch2 = -1;
-				else
-					atarigen_video_control_state.latch1 = actual_video_control_latch1;
-					atarigen_video_control_state.latch2 = actual_video_control_latch2;
-	
-				/* check for rowscroll enable */
-				atarigen_video_control_state.rowscroll_enable = (newword & 0x2000) >> 13;
-	
-				/* check for palette banking */
-				atarigen_video_control_state.palette_bank = ((newword & 0x0400) >> 10) ^ 1;
-				break;
-	
-			/* indexed parameters */
-			case 0x20: case 0x22: case 0x24: case 0x26:
-			case 0x28: case 0x2a: case 0x2c: case 0x2e:
-			case 0x30: case 0x32: case 0x34: case 0x36:
-				switch (newword & 15)
-				{
-					case 9:
-						atarigen_video_control_state.sprite_xscroll = (newword >> 7) & 0x1ff;
-						break;
-	
-					case 10:
-						atarigen_video_control_state.pf2_xscroll = (newword >> 7) & 0x1ff;
-						break;
-	
-					case 11:
-						atarigen_video_control_state.pf1_xscroll = (newword >> 7) & 0x1ff;
-						break;
-	
-					case 13:
-						atarigen_video_control_state.sprite_yscroll = (newword >> 7) & 0x1ff;
-						break;
-	
-					case 14:
-						atarigen_video_control_state.pf2_yscroll = (newword >> 7) & 0x1ff;
-						break;
-	
-					case 15:
-						atarigen_video_control_state.pf1_yscroll = (newword >> 7) & 0x1ff;
-						break;
-				}
-				break;
-	
-			/* latch 1 value */
-			case 0x38:
-				actual_video_control_latch1 = newword;
-				actual_video_control_latch2 = -1;
-				if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80)!=0)
-					atarigen_video_control_state.latch1 = actual_video_control_latch1;
-				break;
-	
-			/* latch 2 value */
-			case 0x3a:
-				actual_video_control_latch1 = -1;
-				actual_video_control_latch2 = newword;
-				if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80)!=0)
-					atarigen_video_control_state.latch2 = actual_video_control_latch2;
-				break;
-	
-			/* scanline IRQ ack here */
-			case 0x3c:
-				atarigen_scanline_int_ack_w.handler(0, 0);
-				break;
-	
-			/* log anything else */
-			case 0x00:
-			default:
-				if (oldword != newword)
-					if (errorlog != null)
-						fprintf(errorlog, "video_control_w(%02X, %04X) ** [prev=%04X]\n", offset, newword, oldword);
-				break;
-		}
-	} };
-	
-	
-	/*
-	 *	Video controller read
-	 *
-	 *	Handles an I/O read from the video controller.
-	 *
-	 */
-	
-	public static ReadHandlerPtr atarigen_video_control_r = new ReadHandlerPtr() { public int handler(int offset)
-	{
-		if (errorlog != null) fprintf(errorlog, "video_control_r(%02X)\n", offset);
-	
-		/* a read from offset 0 returns the current scanline */
-		/* also sets bit 0x4000 if we're in VBLANK */
-		if (offset == 0)
-		{
-			int result = cpu_getscanline();
-	
-			if (result > 255)
-				result = 255;
-			if (result > Machine.drv.visible_area.max_y)
-				result |= 0x4000;
-	
-			return result;
-		}
-		else
-			return atarigen_video_control_data.READ_WORD(offset);
-	} };
-	
-	
-	
-/*TODO*///	/*--------------------------------------------------------------------------
+
+    /*
+     *	Video controller update
+     *
+     *	Copies the data from the specified location once/frame into the video controller registers
+     *
+     */
+    public static void atarigen_video_control_update(UBytePtr data) {
+        int i;
+
+        /* echo all the commands to the video controller */
+        for (i = 0; i < 0x38; i += 2) {
+            if (data.READ_WORD(i) != 0) {
+                atarigen_video_control_w.handler(i, data.READ_WORD(i));
+            }
+        }
+
+    }
+
+    /*
+     *	Video controller write
+     *
+     *	Handles an I/O write to the video controller.
+     *
+     */
+    public static WriteHandlerPtr atarigen_video_control_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int oldword = atarigen_video_control_data.READ_WORD(offset);
+            int newword = COMBINE_WORD(oldword, data);
+            atarigen_video_control_data.WRITE_WORD(offset, newword);
+
+            /* switch off the offset */
+            switch (offset) {
+                /* set the scanline interrupt here */
+                case 0x06:
+                    if (oldword != newword) {
+                        atarigen_scanline_int_set(newword & 0x1ff);
+                    }
+                    break;
+
+                /* latch enable */
+                case 0x14:
+
+                    /* reset the latches when disabled */
+                    if ((newword & 0x0080) == 0) {
+                        atarigen_video_control_state.latch1 = atarigen_video_control_state.latch2 = -1;
+                    } else {
+                        atarigen_video_control_state.latch1 = actual_video_control_latch1;
+                    }
+                    atarigen_video_control_state.latch2 = actual_video_control_latch2;
+
+                    /* check for rowscroll enable */
+                    atarigen_video_control_state.rowscroll_enable = (newword & 0x2000) >> 13;
+
+                    /* check for palette banking */
+                    atarigen_video_control_state.palette_bank = ((newword & 0x0400) >> 10) ^ 1;
+                    break;
+
+                /* indexed parameters */
+                case 0x20:
+                case 0x22:
+                case 0x24:
+                case 0x26:
+                case 0x28:
+                case 0x2a:
+                case 0x2c:
+                case 0x2e:
+                case 0x30:
+                case 0x32:
+                case 0x34:
+                case 0x36:
+                    switch (newword & 15) {
+                        case 9:
+                            atarigen_video_control_state.sprite_xscroll = (newword >> 7) & 0x1ff;
+                            break;
+
+                        case 10:
+                            atarigen_video_control_state.pf2_xscroll = (newword >> 7) & 0x1ff;
+                            break;
+
+                        case 11:
+                            atarigen_video_control_state.pf1_xscroll = (newword >> 7) & 0x1ff;
+                            break;
+
+                        case 13:
+                            atarigen_video_control_state.sprite_yscroll = (newword >> 7) & 0x1ff;
+                            break;
+
+                        case 14:
+                            atarigen_video_control_state.pf2_yscroll = (newword >> 7) & 0x1ff;
+                            break;
+
+                        case 15:
+                            atarigen_video_control_state.pf1_yscroll = (newword >> 7) & 0x1ff;
+                            break;
+                    }
+                    break;
+
+                /* latch 1 value */
+                case 0x38:
+                    actual_video_control_latch1 = newword;
+                    actual_video_control_latch2 = -1;
+                    if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80) != 0) {
+                        atarigen_video_control_state.latch1 = actual_video_control_latch1;
+                    }
+                    break;
+
+                /* latch 2 value */
+                case 0x3a:
+                    actual_video_control_latch1 = -1;
+                    actual_video_control_latch2 = newword;
+                    if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80) != 0) {
+                        atarigen_video_control_state.latch2 = actual_video_control_latch2;
+                    }
+                    break;
+
+                /* scanline IRQ ack here */
+                case 0x3c:
+                    atarigen_scanline_int_ack_w.handler(0, 0);
+                    break;
+
+                /* log anything else */
+                case 0x00:
+                default:
+                    if (oldword != newword) {
+                        if (errorlog != null) {
+                            fprintf(errorlog, "video_control_w(%02X, %04X) ** [prev=%04X]\n", offset, newword, oldword);
+                        }
+                    }
+                    break;
+            }
+        }
+    };
+
+    /*
+     *	Video controller read
+     *
+     *	Handles an I/O read from the video controller.
+     *
+     */
+    public static ReadHandlerPtr atarigen_video_control_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            if (errorlog != null) {
+                fprintf(errorlog, "video_control_r(%02X)\n", offset);
+            }
+
+            /* a read from offset 0 returns the current scanline */
+            /* also sets bit 0x4000 if we're in VBLANK */
+            if (offset == 0) {
+                int result = cpu_getscanline();
+
+                if (result > 255) {
+                    result = 255;
+                }
+                if (result > Machine.drv.visible_area.max_y) {
+                    result |= 0x4000;
+                }
+
+                return result;
+            } else {
+                return atarigen_video_control_data.READ_WORD(offset);
+            }
+        }
+    };
+
+    /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		Motion object rendering
 /*TODO*///	
@@ -1308,42 +1312,36 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-	public static int atarigen_mo_init(atarigen_mo_desc source_desc)
-	{
-/*TODO*///		modesc = *source_desc;
+    public static int atarigen_mo_init(atarigen_mo_desc source_desc) {
+        /*TODO*///		modesc = *source_desc;
 /*TODO*///		if (modesc.entrywords == 0) modesc.entrywords = 4;
 /*TODO*///		modesc.entrywords++;
-	
-		/* make sure everything is free */
-/*TODO*///		atarigen_mo_free();
-	
-		/* allocate memory for the cached list */
-/*TODO*///		molist = malloc(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
+
+        /* make sure everything is free */
+        /*TODO*///		atarigen_mo_free();
+        /* allocate memory for the cached list */
+        /*TODO*///		molist = malloc(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
 /*TODO*///		if (!molist)
 /*TODO*///			return 1;
 /*TODO*///		molist_upper_bound = molist + (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8));
-	
-		/* initialize the end/last pointers */
-		atarigen_mo_reset();
-	
-		return 0;
-	}
-	
-	
-	/*
-	 *	Motion object render free
-	 *
-	 *	Frees all data allocated for the motion objects.
-	 *
-	 */
-	
-	public static void atarigen_mo_free()
-	{
-/*TODO*///		if (molist != 0)
+        /* initialize the end/last pointers */
+        atarigen_mo_reset();
+
+        return 0;
+    }
+
+    /*
+     *	Motion object render free
+     *
+     *	Frees all data allocated for the motion objects.
+     *
+     */
+    public static void atarigen_mo_free() {
+        /*TODO*///		if (molist != 0)
 /*TODO*///			free(molist);
 /*TODO*///		molist = NULL;
-	}
-/*TODO*///	
+    }
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Motion object render reset
@@ -1352,13 +1350,12 @@ public class atarigen {
 /*TODO*///	 *	if you're using the scanline timing system.
 /*TODO*///	 *
 /*TODO*///	 */
-	
-	public static void atarigen_mo_reset()
-	{
-/*TODO*///		molist_end = molist;
+
+    public static void atarigen_mo_reset() {
+        /*TODO*///		molist_end = molist;
 /*TODO*///		molist_last = NULL;
-	}
-/*TODO*///	
+    }
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Motion object updater
@@ -1449,9 +1446,9 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-	public static void atarigen_mo_update_slip_512(UBytePtr base, int scroll, int scanline, UBytePtr slips)
-	{
-/*TODO*///		/* catch a fractional character off the top of the screen */
+
+    public static void atarigen_mo_update_slip_512(UBytePtr base, int scroll, int scanline, UBytePtr slips) {
+        /*TODO*///		/* catch a fractional character off the top of the screen */
 /*TODO*///		if (scanline == 0 && (scroll & 7) != 0)
 /*TODO*///		{
 /*TODO*///			int pfscanline = scroll & 0x1f8;
@@ -1466,8 +1463,8 @@ public class atarigen {
 /*TODO*///			int link = (READ_WORD(&slips[2 * (pfscanline / 8)]) >> modesc.linkshift) & modesc.linkmask;
 /*TODO*///			atarigen_mo_update(base, link, (pfscanline - scroll) & 0x1ff);
 /*TODO*///		}
-	}
-/*TODO*///	
+    }
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Motion object processor
@@ -2621,145 +2618,129 @@ public class atarigen {
 /*TODO*///			atarigen_pf2_process - same as above but for a second playfield
 /*TODO*///	
 /*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* types */
-/*TODO*///	struct playfield_data
-/*TODO*///	{
-/*TODO*///		struct osd_bitmap *bitmap;
-/*TODO*///		UINT8 *dirty;
-/*TODO*///		UINT8 *visit;
-/*TODO*///	
-/*TODO*///		int tilewidth;
-/*TODO*///		int tileheight;
-/*TODO*///		int tilewidth_shift;
-/*TODO*///		int tileheight_shift;
-/*TODO*///		int xtiles_mask;
-/*TODO*///		int ytiles_mask;
-/*TODO*///	
-/*TODO*///		int entries;
-/*TODO*///		int *scanline;
+
+    /* types */
+    public static class playfield_data {
+
+        osd_bitmap bitmap;
+        char[] dirty;
+        char[] visit;
+
+        int tilewidth;
+        int tileheight;
+        int tilewidth_shift;
+        int tileheight_shift;
+        int xtiles_mask;
+        int ytiles_mask;
+
+        int entries;
+        /*TODO*///		int *scanline;
 /*TODO*///		struct atarigen_pf_state *state;
 /*TODO*///		struct atarigen_pf_state *last_state;
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	/* globals */
-/*TODO*///	struct osd_bitmap *atarigen_pf_bitmap;
-	public static char[] atarigen_pf_dirty;
-/*TODO*///	UINT8 *atarigen_pf_visit;
-/*TODO*///	
+    };
+
+    /* globals */
+    public static osd_bitmap atarigen_pf_bitmap;
+    public static char[] atarigen_pf_dirty;
+    public static char[] atarigen_pf_visit;
+    /*TODO*///	
 /*TODO*///	struct osd_bitmap *atarigen_pf2_bitmap;
 /*TODO*///	UINT8 *atarigen_pf2_dirty;
 /*TODO*///	UINT8 *atarigen_pf2_visit;
 /*TODO*///	
-/*TODO*///	struct osd_bitmap *atarigen_pf_overrender_bitmap;
-/*TODO*///	UINT16 atarigen_overrender_colortable[32];
+    static osd_bitmap atarigen_pf_overrender_bitmap;
+    /*TODO*///	UINT16 atarigen_overrender_colortable[32];
 /*TODO*///	
 /*TODO*///	/* statics */
-/*TODO*///	static struct playfield_data playfield;
-/*TODO*///	static struct playfield_data playfield2;
+    static playfield_data playfield = new playfield_data();
+    /*TODO*///	static struct playfield_data playfield2;
 /*TODO*///	
-/*TODO*///	/* prototypes */
-/*TODO*///	static int internal_pf_init(struct playfield_data *pf, const struct atarigen_pf_desc *source_desc);
-/*TODO*///	static void internal_pf_free(struct playfield_data *pf);
-/*TODO*///	static void internal_pf_reset(struct playfield_data *pf);
-/*TODO*///	static void internal_pf_update(struct playfield_data *pf, const struct atarigen_pf_state *state, int scanline);
-/*TODO*///	static void internal_pf_process(struct playfield_data *pf, atarigen_pf_callback callback, void *param, const struct rectangle *clip);
-/*TODO*///	static public static ReadHandlerPtr compute_shift = new ReadHandlerPtr() { public int handler(int size);
-/*TODO*///	static public static ReadHandlerPtr compute_mask = new ReadHandlerPtr() { public int handler(int count);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Playfield render initialization
-/*TODO*///	 *
-/*TODO*///	 *	Allocates memory for the playfield and initializes all structures.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static int internal_pf_init(struct playfield_data *pf, const struct atarigen_pf_desc *source_desc)
-/*TODO*///	{
-/*TODO*///		/* allocate the bitmap */
-/*TODO*///		if (!source_desc.noscroll)
-/*TODO*///			pf.bitmap = osd_new_bitmap(source_desc.tilewidth * source_desc.xtiles,
-/*TODO*///										source_desc.tileheight * source_desc.ytiles,
-/*TODO*///										Machine.scrbitmap.depth);
-/*TODO*///		else
-/*TODO*///			pf.bitmap = osd_new_bitmap(Machine.drv.screen_width,
-/*TODO*///										Machine.drv.screen_height,
-/*TODO*///										Machine.scrbitmap.depth);
-/*TODO*///		if (!pf.bitmap)
-/*TODO*///			return 1;
-/*TODO*///	
-/*TODO*///		/* allocate the dirty tile map */
-/*TODO*///		pf.dirty = malloc(source_desc.xtiles * source_desc.ytiles);
-/*TODO*///		if (!pf.dirty)
-/*TODO*///		{
-/*TODO*///			internal_pf_free(pf);
-/*TODO*///			return 1;
-/*TODO*///		}
-/*TODO*///		memset(pf.dirty, 0xff, source_desc.xtiles * source_desc.ytiles);
-/*TODO*///	
-/*TODO*///		/* allocate the visitation map */
-/*TODO*///		pf.visit = malloc(source_desc.xtiles * source_desc.ytiles);
-/*TODO*///		if (!pf.visit)
-/*TODO*///		{
-/*TODO*///			internal_pf_free(pf);
-/*TODO*///			return 1;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* allocate the list of scanlines */
-/*TODO*///		pf.scanline = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(int));
+
+    /*
+     *	Playfield render initialization
+     *
+     *	Allocates memory for the playfield and initializes all structures.
+     *
+     */
+    static int internal_pf_init(playfield_data pf, atarigen_pf_desc source_desc) {
+        /* allocate the bitmap */
+        if (source_desc.noscroll == 0) {
+            pf.bitmap = osd_new_bitmap(source_desc.tilewidth * source_desc.xtiles,
+                    source_desc.tileheight * source_desc.ytiles,
+                    Machine.scrbitmap.depth);
+        } else {
+            pf.bitmap = osd_new_bitmap(Machine.drv.screen_width,
+                    Machine.drv.screen_height,
+                    Machine.scrbitmap.depth);
+        }
+        if (pf.bitmap == null) {
+            return 1;
+        }
+
+        /* allocate the dirty tile map */
+        pf.dirty = new char[source_desc.xtiles * source_desc.ytiles];
+        if (pf.dirty == null) {
+            internal_pf_free(pf);
+            return 1;
+        }
+        memset(pf.dirty, 0xff, source_desc.xtiles * source_desc.ytiles);
+
+        /* allocate the visitation map */
+        pf.visit = new char[source_desc.xtiles * source_desc.ytiles];
+        if (pf.visit == null) {
+            internal_pf_free(pf);
+            return 1;
+        }
+        /* allocate the list of scanlines */
+        /*TODO*///		pf.scanline = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(int));
 /*TODO*///		if (!pf.scanline)
 /*TODO*///		{
 /*TODO*///			internal_pf_free(pf);
 /*TODO*///			return 1;
 /*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* allocate the list of parameters */
-/*TODO*///		pf.state = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(struct atarigen_pf_state));
+        /* allocate the list of parameters */
+        /*TODO*///		pf.state = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(struct atarigen_pf_state));
 /*TODO*///		if (!pf.state)
 /*TODO*///		{
 /*TODO*///			internal_pf_free(pf);
 /*TODO*///			return 1;
 /*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* copy the basic data */
-/*TODO*///		pf.tilewidth = source_desc.tilewidth;
-/*TODO*///		pf.tileheight = source_desc.tileheight;
-/*TODO*///		pf.tilewidth_shift = compute_shift(source_desc.tilewidth);
+        /* copy the basic data */
+        pf.tilewidth = source_desc.tilewidth;
+        pf.tileheight = source_desc.tileheight;
+        /*TODO*///		pf.tilewidth_shift = compute_shift(source_desc.tilewidth);
 /*TODO*///		pf.tileheight_shift = compute_shift(source_desc.tileheight);
 /*TODO*///		pf.xtiles_mask = compute_mask(source_desc.xtiles);
 /*TODO*///		pf.ytiles_mask = compute_mask(source_desc.ytiles);
-/*TODO*///	
-/*TODO*///		/* initialize the last state to all zero */
-/*TODO*///		pf.last_state = pf.state;
+
+        /* initialize the last state to all zero */
+        /*TODO*///		pf.last_state = pf.state;
 /*TODO*///		memset(pf.last_state, 0, sizeof(*pf.last_state));
-/*TODO*///	
-/*TODO*///		/* reset */
-/*TODO*///		internal_pf_reset(pf);
-/*TODO*///	
-/*TODO*///		return 0;
-/*TODO*///	} };
-/*TODO*///	
-	public static int atarigen_pf_init(atarigen_pf_desc source_desc)
-	{
-		/*TEMP*/int result = 0;//internal_pf_init(&playfield, source_desc);
-/*TODO*///		if (result==0)
-/*TODO*///		{
-/*TODO*///			/* allocate the overrender bitmap */
-/*TODO*///			atarigen_pf_overrender_bitmap = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth);
-/*TODO*///			if (atarigen_pf_overrender_bitmap==null)
-/*TODO*///			{
-/*TODO*///				internal_pf_free(&playfield);
-/*TODO*///				return 1;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			atarigen_pf_bitmap = playfield.bitmap;
-/*TODO*///			atarigen_pf_dirty = playfield.dirty;
-/*TODO*///			atarigen_pf_visit = playfield.visit;
-/*TODO*///		}
-		return result;
-	}
-/*TODO*///	
+        /* reset */
+        internal_pf_reset(pf);
+
+        return 0;
+    }
+
+    ;
+	
+	public static int atarigen_pf_init(atarigen_pf_desc source_desc) {
+        int result = internal_pf_init(playfield, source_desc);
+        if (result == 0) {
+            /* allocate the overrender bitmap */
+            atarigen_pf_overrender_bitmap = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth);
+            if (atarigen_pf_overrender_bitmap == null) {
+                internal_pf_free(playfield);
+                return 1;
+            }
+
+            atarigen_pf_bitmap = playfield.bitmap;
+            atarigen_pf_dirty = playfield.dirty;
+            atarigen_pf_visit = playfield.visit;
+        }
+        return result;
+    }
+    /*TODO*///	
 /*TODO*///	int atarigen_pf2_init(const struct atarigen_pf_desc *source_desc)
 /*TODO*///	{
 /*TODO*///		int result = internal_pf_init(&playfield2, source_desc);
@@ -2773,16 +2754,15 @@ public class atarigen {
 /*TODO*///	}
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Playfield render free
-/*TODO*///	 *
-/*TODO*///	 *	Frees all memory allocated by the playfield system.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void internal_pf_free(struct playfield_data *pf)
-/*TODO*///	{
-/*TODO*///		if (pf.bitmap)
+	/*
+     *	Playfield render free
+     *
+     *	Frees all memory allocated by the playfield system.
+     *
+     */
+
+    public static void internal_pf_free(playfield_data pf) {
+        /*TODO*///		if (pf.bitmap)
 /*TODO*///			osd_free_bitmap(pf.bitmap);
 /*TODO*///		pf.bitmap = NULL;
 /*TODO*///	
@@ -2801,52 +2781,48 @@ public class atarigen {
 /*TODO*///		if (pf.state)
 /*TODO*///			free(pf.state);
 /*TODO*///		pf.state = NULL;
-/*TODO*///	}
-/*TODO*///	
-	public static void atarigen_pf_free()
-	{
-/*TODO*///		internal_pf_free(&playfield);
+    }
+
+    public static void atarigen_pf_free() {
+        /*TODO*///		internal_pf_free(&playfield);
 /*TODO*///	
 /*TODO*///		/* free the overrender bitmap */
 /*TODO*///		if (atarigen_pf_overrender_bitmap != 0)
 /*TODO*///			osd_free_bitmap(atarigen_pf_overrender_bitmap);
 /*TODO*///		atarigen_pf_overrender_bitmap = NULL;
-	}
-/*TODO*///	
+    }
+    /*TODO*///	
 /*TODO*///	void atarigen_pf2_free(void)
 /*TODO*///	{
 /*TODO*///		internal_pf_free(&playfield2);
 /*TODO*///	}
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Playfield render reset
-/*TODO*///	 *
-/*TODO*///	 *	Resets the playfield system for a new frame. Note that this is automatically called
-/*TODO*///	 *	if you're using the interrupt system.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void internal_pf_reset(struct playfield_data *pf)
-/*TODO*///	{
-/*TODO*///		/* verify memory has been allocated -- we're called even if we're not used */
+	/*
+     *	Playfield render reset
+     *
+     *	Resets the playfield system for a new frame. Note that this is automatically called
+     *	if you're using the interrupt system.
+     *
+     */
+
+    public static void internal_pf_reset(playfield_data pf) {
+        /*TODO*///		/* verify memory has been allocated -- we're called even if we're not used */
 /*TODO*///		if (pf.scanline && pf.state)
 /*TODO*///		{
 /*TODO*///			pf.entries = 0;
 /*TODO*///			internal_pf_update(pf, pf.last_state, 0);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-	public static void atarigen_pf_reset()
-	{
-/*TODO*///		internal_pf_reset(&playfield);
-	}
-	
-	public static void atarigen_pf2_reset()
-	{
-/*TODO*///		internal_pf_reset(&playfield2);
-	}
-/*TODO*///	
+    }
+
+    public static void atarigen_pf_reset() {
+        /*TODO*///		internal_pf_reset(&playfield);
+    }
+
+    public static void atarigen_pf2_reset() {
+        /*TODO*///		internal_pf_reset(&playfield2);
+    }
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Playfield render update
@@ -2892,16 +2868,16 @@ public class atarigen {
 /*TODO*///		internal_pf_update(&playfield2, state, scanline);
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Playfield render process
-/*TODO*///	 *
-/*TODO*///	 *	Processes the playfield in chunks.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void internal_pf_process(struct playfield_data *pf, atarigen_pf_callback callback, void *param, const struct rectangle *clip)
-/*TODO*///	{
+	
+	/*
+	 *	Playfield render process
+	 *
+	 *	Processes the playfield in chunks.
+	 *
+	 */
+	
+	public static void internal_pf_process(playfield_data pf, atarigen_pf_callbackPtr callback, Object param, rectangle clip)
+	{
 /*TODO*///		struct rectangle curclip;
 /*TODO*///		struct rectangle tiles;
 /*TODO*///		int y;
@@ -2938,7 +2914,7 @@ public class atarigen {
 /*TODO*///			/* call the callback */
 /*TODO*///			(*callback)(&curclip, &tiles, current, param);
 /*TODO*///		}
-/*TODO*///	}
+	}
 /*TODO*///	
 /*TODO*///	void atarigen_pf_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip)
 /*TODO*///	{
@@ -3054,29 +3030,30 @@ public class atarigen {
 /*TODO*///	 *	What it says.
 /*TODO*///	 *
 /*TODO*///	 */
-	
-	public static WriteHandlerPtr atarigen_666_paletteram_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-		int oldword = paletteram.READ_WORD(offset);
-		int newword = COMBINE_WORD(oldword,data);
-		paletteram.WRITE_WORD(offset,newword);
-	
-		{
-			int r, g, b;
-	
-			r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
-			g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);
-			b = ((newword << 1) & 0x3e) | ((newword >> 15) & 1);
-	
-			r = (r << 2) | (r >> 4);
-			g = (g << 2) | (g >> 4);
-			b = (b << 2) | (b >> 4);
-	
-			palette_change_color(offset / 2, r, g, b);
-		}
-	} };
-	
-/*TODO*///	
+
+    public static WriteHandlerPtr atarigen_666_paletteram_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int oldword = paletteram.READ_WORD(offset);
+            int newword = COMBINE_WORD(oldword, data);
+            paletteram.WRITE_WORD(offset, newword);
+
+            {
+                int r, g, b;
+
+                r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
+                g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);
+                b = ((newword << 1) & 0x3e) | ((newword >> 15) & 1);
+
+                r = (r << 2) | (r >> 4);
+                g = (g << 2) | (g >> 4);
+                b = (b << 2) | (b >> 4);
+
+                palette_change_color(offset / 2, r, g, b);
+            }
+        }
+    };
+
+    /*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	6-6-6 RGB expanded palette RAM handler
 /*TODO*///	 *

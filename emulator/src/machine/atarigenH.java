@@ -1,5 +1,7 @@
 package machine;
 
+import mame.drawgfxH.rectangle;
+
 public class atarigenH {
 
     public static final int ATARI_CLOCK_14MHz = 14318180;
@@ -437,29 +439,20 @@ public class atarigenH {
 
     };
 
-    /*TODO*///struct atarigen_pf_state
-/*TODO*///{
-/*TODO*///	int hscroll;							/* current horizontal starting offset */
-/*TODO*///	int vscroll;							/* current vertical starting offset */
-/*TODO*///	int param[2];							/* up to 2 other parameters that will cause a boundary break */
-/*TODO*///};
-/*TODO*///
-/*TODO*///typedef void (*atarigen_pf_callback)(const struct rectangle *tiles, const struct rectangle *clip, const struct atarigen_pf_state *state, void *param);
-/*TODO*///
-/*TODO*///int atarigen_pf_init(const struct atarigen_pf_desc *source_desc);
-/*TODO*///void atarigen_pf_free(void);
-/*TODO*///void atarigen_pf_reset(void);
-/*TODO*///void atarigen_pf_update(const struct atarigen_pf_state *state, int scanline);
-/*TODO*///void atarigen_pf_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip);
-/*TODO*///
-/*TODO*///int atarigen_pf2_init(const struct atarigen_pf_desc *source_desc);
-/*TODO*///void atarigen_pf2_free(void);
-/*TODO*///void atarigen_pf2_reset(void);
-/*TODO*///void atarigen_pf2_update(const struct atarigen_pf_state *state, int scanline);
-/*TODO*///void atarigen_pf2_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip);
-/*TODO*///
-/*TODO*///
-/*TODO*///
+    public static class atarigen_pf_state {
+
+        int hscroll;							/* current horizontal starting offset */
+
+        int vscroll;							/* current vertical starting offset */
+
+        int[] param = new int[2];							/* up to 2 other parameters that will cause a boundary break */
+
+    };
+    public static abstract interface atarigen_pf_callbackPtr {
+
+        public abstract void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param);
+    }
+
 /*TODO*////*--------------------------------------------------------------------------
 /*TODO*///
 /*TODO*///	Misc Video stuff
