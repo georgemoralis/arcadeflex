@@ -191,15 +191,12 @@ public class atarigen {
 /*TODO*///		atarigen_video_int_state = 0;
 /*TODO*///		(*update_int_callback)();
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Scanline interrupt generator
-/*TODO*///	 *
-/*TODO*///	 *	Signals an interrupt.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
+    /*
+     *	Scanline interrupt generator
+     *
+     *	Signals an interrupt.
+     *
+     */
     public static timer_callback scanline_interrupt_callback = new timer_callback() {
         public void handler(int param) {
             /* generate the interrupt */
@@ -209,28 +206,25 @@ public class atarigen {
             scanline_interrupt_timer = timer_set(TIME_IN_HZ(Machine.drv.frames_per_second), 0, scanline_interrupt_callback);
         }
     };
-    /*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		EEPROM I/O (optional)
-/*TODO*///	
-/*TODO*///			atarigen_eeprom_default - pointer to compressed default data
-/*TODO*///			atarigen_eeprom - pointer to base of EEPROM memory
-/*TODO*///			atarigen_eeprom_size - size of EEPROM memory
-/*TODO*///	
-/*TODO*///			atarigen_eeprom_reset - resets the EEPROM system
-/*TODO*///	
-/*TODO*///			atarigen_eeprom_enable_w - write handler to enable EEPROM access
-/*TODO*///			atarigen_eeprom_w - write handler for EEPROM data (low byte)
-/*TODO*///			atarigen_eeprom_r - read handler for EEPROM data (low byte)
-/*TODO*///	
-/*TODO*///			atarigen_nvram_handler - load/save EEPROM data
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* globals */
+
+    /*--------------------------------------------------------------------------
+	
+     EEPROM I/O (optional)
+	
+     atarigen_eeprom_default - pointer to compressed default data
+     atarigen_eeprom - pointer to base of EEPROM memory
+     atarigen_eeprom_size - size of EEPROM memory
+	
+     atarigen_eeprom_reset - resets the EEPROM system
+	
+     atarigen_eeprom_enable_w - write handler to enable EEPROM access
+     atarigen_eeprom_w - write handler for EEPROM data (low byte)
+     atarigen_eeprom_r - read handler for EEPROM data (low byte)
+	
+     atarigen_nvram_handler - load/save EEPROM data
+	
+     --------------------------------------------------------------------------*/
+    /* globals */
     public static UShortPtr atarigen_eeprom_default;
     public static UBytePtr atarigen_eeprom = new UBytePtr();
     public static int[] atarigen_eeprom_size = new int[1];
@@ -299,13 +293,12 @@ public class atarigen {
 /*TODO*///	} };
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Standard high score load
-/*TODO*///	 *
-/*TODO*///	 *	Loads the EEPROM data as a "high score".
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
+	/*
+     *	Standard high score load
+     *
+     *	Loads the EEPROM data as a "high score".
+     *
+     */
     public static nvramPtr atarigen_nvram_handler = new nvramPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
@@ -330,9 +323,8 @@ public class atarigen {
             }
         }
     };
+
     /*TODO*///	
-/*TODO*///	
-/*TODO*///	
 /*TODO*///	/*
 /*TODO*///	 *	Decompress word-based EEPROM data
 /*TODO*///	 *
@@ -995,16 +987,14 @@ public class atarigen {
     public static int[] atarigen_playfield2ram_size = new int[1];
     public static int[] atarigen_spriteram_size = new int[1];
     public static int[] atarigen_alpharam_size = new int[1];
-    /*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		Video scanline timing
-/*TODO*///	
-/*TODO*///			atarigen_scanline_timer_reset - call to reset the system
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------------------------
+	
+     Video scanline timing
+	
+     atarigen_scanline_timer_reset - call to reset the system
+	
+     --------------------------------------------------------------------------*/
     /* statics */
     static atarigen_scanline_callbackPtr scanline_callback;
     static int scanlines_per_callback;
@@ -1076,22 +1066,20 @@ public class atarigen {
         }
     };
 
-    /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		Video Controller I/O: used in Shuuz, Thunderjaws, Relief Pitcher, Off the Wall
-/*TODO*///	
-/*TODO*///			atarigen_video_control_data - pointer to base of control memory
-/*TODO*///			atarigen_video_control_latch1 - latch #1 value (-1 means disabled)
-/*TODO*///			atarigen_video_control_latch2 - latch #2 value (-1 means disabled)
-/*TODO*///	
-/*TODO*///			atarigen_video_control_reset - initializes the video controller
-/*TODO*///	
-/*TODO*///			atarigen_video_control_w - write handler for the video controller
-/*TODO*///			atarigen_video_control_r - read handler for the video controller
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------
+	
+     Video Controller I/O: used in Shuuz, Thunderjaws, Relief Pitcher, Off the Wall
+	
+     atarigen_video_control_data - pointer to base of control memory
+     atarigen_video_control_latch1 - latch #1 value (-1 means disabled)
+     atarigen_video_control_latch2 - latch #2 value (-1 means disabled)
+	
+     atarigen_video_control_reset - initializes the video controller
+	
+     atarigen_video_control_w - write handler for the video controller
+     atarigen_video_control_r - read handler for the video controller
+	
+     --------------------------------------------------------------------------*/
     /* globals */
     public static UBytePtr atarigen_video_control_data = new UBytePtr();
     public static atarigen_video_control_state_desc atarigen_video_control_state = new atarigen_video_control_state_desc();
@@ -1280,22 +1268,22 @@ public class atarigen {
         }
     };
 
-    /*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		Motion object rendering
-/*TODO*///	
-/*TODO*///			atarigen_mo_desc - description of the M.O. layout
-/*TODO*///	
-/*TODO*///			atarigen_mo_callback - called back for each M.O. during processing
-/*TODO*///	
-/*TODO*///			atarigen_mo_init - initializes and configures the M.O. list walker
-/*TODO*///			atarigen_mo_free - frees all memory allocated by atarigen_mo_init
-/*TODO*///			atarigen_mo_reset - reset for a new frame (use only if not using interrupt system)
-/*TODO*///			atarigen_mo_update - updates the M.O. list for the given scanline
-/*TODO*///			atarigen_mo_process - processes the current list
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
+    /*--------------------------------------------------------------------------
+	
+     Motion object rendering
+	
+     atarigen_mo_desc - description of the M.O. layout
+	
+     atarigen_mo_callback - called back for each M.O. during processing
+	
+     atarigen_mo_init - initializes and configures the M.O. list walker
+     atarigen_mo_free - frees all memory allocated by atarigen_mo_init
+     atarigen_mo_reset - reset for a new frame (use only if not using interrupt system)
+     atarigen_mo_update - updates the M.O. list for the given scanline
+     atarigen_mo_process - processes the current list
+	
+     --------------------------------------------------------------------------*/
+    /*TODO*///	
 /*TODO*///	/* statics */
 /*TODO*///	static struct atarigen_mo_desc modesc;
 /*TODO*///	
@@ -2596,28 +2584,28 @@ public class atarigen {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		Playfield rendering
-/*TODO*///	
-/*TODO*///			atarigen_pf_state - data block describing the playfield
-/*TODO*///	
-/*TODO*///			atarigen_pf_callback - called back for each chunk during processing
-/*TODO*///	
-/*TODO*///			atarigen_pf_init - initializes and configures the playfield state
-/*TODO*///			atarigen_pf_free - frees all memory allocated by atarigen_pf_init
-/*TODO*///			atarigen_pf_reset - reset for a new frame (use only if not using interrupt system)
-/*TODO*///			atarigen_pf_update - updates the playfield state for the given scanline
-/*TODO*///			atarigen_pf_process - processes the current list of parameters
-/*TODO*///	
-/*TODO*///			atarigen_pf2_init - same as above but for a second playfield
-/*TODO*///			atarigen_pf2_free - same as above but for a second playfield
-/*TODO*///			atarigen_pf2_reset - same as above but for a second playfield
-/*TODO*///			atarigen_pf2_update - same as above but for a second playfield
-/*TODO*///			atarigen_pf2_process - same as above but for a second playfield
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------------------------
+	
+     Playfield rendering
+	
+     atarigen_pf_state - data block describing the playfield
+	
+     atarigen_pf_callback - called back for each chunk during processing
+	
+     atarigen_pf_init - initializes and configures the playfield state
+     atarigen_pf_free - frees all memory allocated by atarigen_pf_init
+     atarigen_pf_reset - reset for a new frame (use only if not using interrupt system)
+     atarigen_pf_update - updates the playfield state for the given scanline
+     atarigen_pf_process - processes the current list of parameters
+	
+     atarigen_pf2_init - same as above but for a second playfield
+     atarigen_pf2_free - same as above but for a second playfield
+     atarigen_pf2_reset - same as above but for a second playfield
+     atarigen_pf2_update - same as above but for a second playfield
+     atarigen_pf2_process - same as above but for a second playfield
+	
+     --------------------------------------------------------------------------*/
 
     /* types */
     public static class playfield_data {
@@ -2634,9 +2622,9 @@ public class atarigen {
         int ytiles_mask;
 
         int entries;
-        /*TODO*///		int *scanline;
-/*TODO*///		struct atarigen_pf_state *state;
-/*TODO*///		struct atarigen_pf_state *last_state;
+        int[] scanline;
+        atarigen_pf_state[] state;
+        atarigen_pf_state[] last_state;
     };
 
     /* globals */
@@ -2692,30 +2680,31 @@ public class atarigen {
             return 1;
         }
         /* allocate the list of scanlines */
-        /*TODO*///		pf.scanline = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(int));
-/*TODO*///		if (!pf.scanline)
-/*TODO*///		{
-/*TODO*///			internal_pf_free(pf);
-/*TODO*///			return 1;
-/*TODO*///		}
+        pf.scanline = new int[source_desc.ytiles * source_desc.tileheight * 4];
+        if (pf.scanline == null) {
+            internal_pf_free(pf);
+            return 1;
+        }
         /* allocate the list of parameters */
-        /*TODO*///		pf.state = malloc(source_desc.ytiles * source_desc.tileheight * sizeof(struct atarigen_pf_state));
-/*TODO*///		if (!pf.state)
-/*TODO*///		{
-/*TODO*///			internal_pf_free(pf);
-/*TODO*///			return 1;
-/*TODO*///		}
+        pf.state = new atarigen_pf_state[source_desc.ytiles * source_desc.tileheight];//new atarigen_pf_state();//malloc(source_desc.ytiles * source_desc.tileheight * sizeof(struct atarigen_pf_state));
+        for (int i = 0; i < source_desc.ytiles * source_desc.tileheight; i++) {
+            pf.state[i] = new atarigen_pf_state();
+        }
+        if (pf.state == null) {
+            internal_pf_free(pf);
+            return 1;
+        }
         /* copy the basic data */
         pf.tilewidth = source_desc.tilewidth;
         pf.tileheight = source_desc.tileheight;
-        /*TODO*///		pf.tilewidth_shift = compute_shift(source_desc.tilewidth);
-/*TODO*///		pf.tileheight_shift = compute_shift(source_desc.tileheight);
-/*TODO*///		pf.xtiles_mask = compute_mask(source_desc.xtiles);
-/*TODO*///		pf.ytiles_mask = compute_mask(source_desc.ytiles);
+        pf.tilewidth_shift = compute_shift.handler(source_desc.tilewidth);
+        pf.tileheight_shift = compute_shift.handler(source_desc.tileheight);
+        pf.xtiles_mask = compute_mask.handler(source_desc.xtiles);
+        pf.ytiles_mask = compute_mask.handler(source_desc.ytiles);
 
         /* initialize the last state to all zero */
-        /*TODO*///		pf.last_state = pf.state;
-/*TODO*///		memset(pf.last_state, 0, sizeof(*pf.last_state));
+        pf.last_state = pf.state;
+        //memset(pf.last_state, 0, sizeof(*pf.last_state));
         /* reset */
         internal_pf_reset(pf);
 
@@ -2740,8 +2729,8 @@ public class atarigen {
         }
         return result;
     }
-    /*TODO*///	
-/*TODO*///	int atarigen_pf2_init(const struct atarigen_pf_desc *source_desc)
+
+    /*TODO*///	int atarigen_pf2_init(const struct atarigen_pf_desc *source_desc)
 /*TODO*///	{
 /*TODO*///		int result = internal_pf_init(&playfield2, source_desc);
 /*TODO*///		if (!result)
@@ -2760,7 +2749,6 @@ public class atarigen {
      *	Frees all memory allocated by the playfield system.
      *
      */
-
     public static void internal_pf_free(playfield_data pf) {
         /*TODO*///		if (pf.bitmap)
 /*TODO*///			osd_free_bitmap(pf.bitmap);
@@ -2774,13 +2762,13 @@ public class atarigen {
 /*TODO*///			free(pf.visit);
 /*TODO*///		pf.visit = NULL;
 /*TODO*///	
-/*TODO*///		if (pf.scanline)
-/*TODO*///			free(pf.scanline);
-/*TODO*///		pf.scanline = NULL;
-/*TODO*///	
-/*TODO*///		if (pf.state)
-/*TODO*///			free(pf.state);
-/*TODO*///		pf.state = NULL;
+        if (pf.scanline != null) {
+            pf.scanline = null;
+        }
+
+        if (pf.state != null) {
+            pf.state = null;
+        }
     }
 
     public static void atarigen_pf_free() {
@@ -2868,109 +2856,105 @@ public class atarigen {
 /*TODO*///		internal_pf_update(&playfield2, state, scanline);
 /*TODO*///	}
 /*TODO*///	
-	
-	/*
-	 *	Playfield render process
-	 *
-	 *	Processes the playfield in chunks.
-	 *
-	 */
-	
-	public static void internal_pf_process(playfield_data pf, atarigen_pf_callbackPtr callback, Object param, rectangle clip)
+
+    /*
+     *	Playfield render process
+     *
+     *	Processes the playfield in chunks.
+     *
+     */
+    public static void internal_pf_process(playfield_data pf, atarigen_pf_callbackPtr callback, Object param, rectangle clip) {
+        rectangle curclip = new rectangle();
+        rectangle tiles = new rectangle();
+        int y;
+
+        /* preinitialization */
+        curclip.min_x = clip.min_x;
+        curclip.max_x = clip.max_x;
+
+        /* loop over all entries */
+        for (y = 0; y < pf.entries; y++) {
+            atarigen_pf_state current = pf.state[y];
+
+            /* determine the clip rect */
+            curclip.min_y = pf.scanline[y];
+            curclip.max_y = pf.scanline[y + 1] - 1;
+
+            /* skip if we're clipped out */
+            if (curclip.min_y > clip.max_y || curclip.max_y < clip.min_y) {
+                continue;
+            }
+
+            /* clip the clipper */
+            if (curclip.min_y < clip.min_y) {
+                curclip.min_y = clip.min_y;
+            }
+            if (curclip.max_y > clip.max_y) {
+                curclip.max_y = clip.max_y;
+            }
+
+            /* determine the tile rect */
+            tiles.min_x = ((current.hscroll + curclip.min_x) >> pf.tilewidth_shift) & pf.xtiles_mask;
+            tiles.max_x = ((current.hscroll + curclip.max_x + pf.tilewidth) >> pf.tilewidth_shift) & pf.xtiles_mask;
+            tiles.min_y = ((current.vscroll + curclip.min_y) >> pf.tileheight_shift) & pf.ytiles_mask;
+            tiles.max_y = ((current.vscroll + curclip.max_y + pf.tileheight) >> pf.tileheight_shift) & pf.ytiles_mask;
+
+            /* call the callback */
+            (callback).handler(curclip, tiles, current, param);
+        }
+    }
+    	
+	public static void atarigen_pf_process(atarigen_pf_callbackPtr callback, Object param, rectangle clip)
 	{
-/*TODO*///		struct rectangle curclip;
-/*TODO*///		struct rectangle tiles;
-/*TODO*///		int y;
-/*TODO*///	
-/*TODO*///		/* preinitialization */
-/*TODO*///		curclip.min_x = clip.min_x;
-/*TODO*///		curclip.max_x = clip.max_x;
-/*TODO*///	
-/*TODO*///		/* loop over all entries */
-/*TODO*///		for (y = 0; y < pf.entries; y++)
-/*TODO*///		{
-/*TODO*///			struct atarigen_pf_state *current = &pf.state[y];
-/*TODO*///	
-/*TODO*///			/* determine the clip rect */
-/*TODO*///			curclip.min_y = pf.scanline[y];
-/*TODO*///			curclip.max_y = pf.scanline[y + 1] - 1;
-/*TODO*///	
-/*TODO*///			/* skip if we're clipped out */
-/*TODO*///			if (curclip.min_y > clip.max_y || curclip.max_y < clip.min_y)
-/*TODO*///				continue;
-/*TODO*///	
-/*TODO*///			/* clip the clipper */
-/*TODO*///			if (curclip.min_y < clip.min_y)
-/*TODO*///				curclip.min_y = clip.min_y;
-/*TODO*///			if (curclip.max_y > clip.max_y)
-/*TODO*///				curclip.max_y = clip.max_y;
-/*TODO*///	
-/*TODO*///			/* determine the tile rect */
-/*TODO*///			tiles.min_x = ((current.hscroll + curclip.min_x) >> pf.tilewidth_shift) & pf.xtiles_mask;
-/*TODO*///			tiles.max_x = ((current.hscroll + curclip.max_x + pf.tilewidth) >> pf.tilewidth_shift) & pf.xtiles_mask;
-/*TODO*///			tiles.min_y = ((current.vscroll + curclip.min_y) >> pf.tileheight_shift) & pf.ytiles_mask;
-/*TODO*///			tiles.max_y = ((current.vscroll + curclip.max_y + pf.tileheight) >> pf.tileheight_shift) & pf.ytiles_mask;
-/*TODO*///	
-/*TODO*///			/* call the callback */
-/*TODO*///			(*callback)(&curclip, &tiles, current, param);
-/*TODO*///		}
+		internal_pf_process(playfield, callback, param, clip);
 	}
-/*TODO*///	
-/*TODO*///	void atarigen_pf_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		internal_pf_process(&playfield, callback, param, clip);
-/*TODO*///	}
-/*TODO*///	
+	
 /*TODO*///	void atarigen_pf2_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip)
 /*TODO*///	{
 /*TODO*///		internal_pf_process(&playfield2, callback, param, clip);
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Shift value computer
-/*TODO*///	 *
-/*TODO*///	 *	Determines the log2(value).
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static public static ReadHandlerPtr compute_shift = new ReadHandlerPtr() { public int handler(int size)
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		/* loop until we shift to zero */
-/*TODO*///		for (i = 0; i < 32; i++)
-/*TODO*///			if (!(size >>= 1))
-/*TODO*///				break;
-/*TODO*///		return i;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Mask computer
-/*TODO*///	 *
-/*TODO*///	 *	Determines the best mask to use for the given value.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static public static ReadHandlerPtr compute_mask = new ReadHandlerPtr() { public int handler(int count)
-/*TODO*///	{
-/*TODO*///		int shift = compute_shift(count);
-/*TODO*///	
-/*TODO*///		/* simple case - count is an even power of 2 */
-/*TODO*///		if (count == (1 << shift))
-/*TODO*///			return count - 1;
-/*TODO*///	
-/*TODO*///		/* slightly less simple case - round up to the next power of 2 */
-/*TODO*///		else
-/*TODO*///			return (1 << (shift + 1)) - 1;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
+
+    /*
+     *	Shift value computer
+     *
+     *	Determines the log2(value).
+     *
+     */
+    public static ReadHandlerPtr compute_shift = new ReadHandlerPtr() {
+        public int handler(int size) {
+            int i;
+
+            /* loop until we shift to zero */
+            for (i = 0; i < 32; i++) {
+                if ((size >>= 1) == 0) {
+                    break;
+                }
+            }
+            return i;
+        }
+    };
+
+    /*
+     *	Mask computer
+     *
+     *	Determines the best mask to use for the given value.
+     *
+     */
+    public static ReadHandlerPtr compute_mask = new ReadHandlerPtr() {
+        public int handler(int count) {
+            int shift = compute_shift.handler(count);
+
+            /* simple case - count is an even power of 2 */
+            if (count == (1 << shift)) {
+                return count - 1;
+            } /* slightly less simple case - round up to the next power of 2 */ else {
+                return (1 << (shift + 1)) - 1;
+            }
+        }
+    };
+
+    /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		Misc Video stuff
 /*TODO*///	
@@ -2993,7 +2977,6 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-
     public static boolean atarigen_get_hblank() {
         return (cpu_gethorzbeampos() > (Machine.drv.screen_width * 9 / 10));
     }
