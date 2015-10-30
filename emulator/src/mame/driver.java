@@ -213,6 +213,7 @@ import static drivers.WIP.terracre.*;
 import static drivers.WIP.punchout.*;
 import static drivers.WIP.astrof.*;
 import static drivers.WIP.karnov.*;
+import static drivers.WIP.shuuz.*;
 
 
 public class driver {
@@ -2477,8 +2478,8 @@ driver_thndrx2,	/* GX073 (c) 1991 (Japan) */
 /*TODO*/ //	DRIVER( rampart )	/* (c) 1990 */
 /*TODO*/ //	DRIVER( ramprt2p )	/* (c) 1990 */
 /*TODO*/ //	DRIVER( rampartj )	/* (c) 1990 (Japan) */
-/*TODO*/ //	DRIVER( shuuz )		/* (c) 1990 */
-/*TODO*/ //	DRIVER( shuuz2 )	/* (c) 1990 */
+driver_shuuz,		/* (c) 1990 */
+driver_shuuz2,/* (c) 1990 */
 /*TODO*/ //	DRIVER( hydra )		/* (c) 1990 */
 /*TODO*/ //	DRIVER( hydrap )	/* (c) 1990 */
 /*TODO*/ //	DRIVER( pitfight )	/* (c) 1990 */

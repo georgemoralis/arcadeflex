@@ -753,28 +753,28 @@ public class cpuintrf {
     	return (int)(timer_timeelapsed(refresh_timer) * scanline_period_inv);
     }
     
-    /*TODO*///
-    /*TODO*///double cpu_getscanlinetime(int scanline)
-    /*TODO*///{
-    /*TODO*///	double ret;
-    /*TODO*///	double scantime = timer_starttime(refresh_timer) + (double)scanline * scanline_period;
-    /*TODO*///	double abstime = timer_get_time();
-    /*TODO*///	if (abstime >= scantime) scantime += TIME_IN_HZ(Machine->drv->frames_per_second);
-    /*TODO*///	ret = scantime - abstime;
-    /*TODO*///	if (ret < TIME_IN_NSEC(1))
-    /*TODO*///	{
-    /*TODO*///		ret = TIME_IN_HZ(Machine->drv->frames_per_second);
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	return ret;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///double cpu_getscanlineperiod(void)
-    /*TODO*///{
-    /*TODO*///	return scanline_period;
-    /*TODO*///}
-    /*TODO*///
+    
+    public static double cpu_getscanlinetime(int scanline)
+    {
+    	double ret;
+    	double scantime = timer_starttime(refresh_timer) + (double)scanline * scanline_period;
+    	double abstime = timer_get_time();
+    	if (abstime >= scantime) scantime += TIME_IN_HZ(Machine.drv.frames_per_second);
+    	ret = scantime - abstime;
+    	if (ret < TIME_IN_NSEC(1))
+    	{
+    		ret = TIME_IN_HZ(Machine.drv.frames_per_second);
+    	}
+    
+    	return ret;
+    }
+    
+    
+    public static double cpu_getscanlineperiod()
+    {
+    	return scanline_period;
+    }
+    
     /*TODO*///
     /*TODO*////***************************************************************************
     /*TODO*///
