@@ -17,6 +17,8 @@ import static mame.mameH.*;
 import static mame.cpuintrfH.*;
 import static mame.memoryH.*;
 import static arcadeflex.ptrlib.*;
+import static arcadeflex.libc_v2.*;
+
 
 public class konamiic {
 
@@ -65,7 +67,7 @@ public class konamiic {
      (it could be easily converted into an iterative one).
      It's called shuffle because it mimics the shuffling of a deck of cards.
      */
-    static void shuffle(ShortPtr buf, int len) {
+    static void shuffle(UShortPtr buf, int len) {
         int i;
         char t;
 
@@ -86,13 +88,13 @@ public class konamiic {
         }
 
         shuffle(buf, len);
-        shuffle(new ShortPtr(buf, len * 2), len);//len*2 ??
+        shuffle(new UShortPtr(buf, len * 2), len);//len*2 ??
     }
 
 
     /* helper function to join two 16-bit ROMs and form a 32-bit data stream */
     public static void konami_rom_deinterleave_2(int mem_region) {
-        shuffle(new ShortPtr(memory_region(mem_region).memory, memory_region(mem_region).offset), memory_region_length(mem_region) / 2);
+        shuffle(new UShortPtr(memory_region(mem_region).memory, memory_region(mem_region).offset), memory_region_length(mem_region) / 2);
     }
 
     /* helper function to join four 16-bit ROMs and form a 64-bit data stream */

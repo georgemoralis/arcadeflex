@@ -10,7 +10,7 @@ import static mame.driverH.*;
 import static mame.sndintrf.*;
 import static mame.timer.*;
 import static mame.timerH.*;
-
+import static arcadeflex.libc_v2.*;
 public class MSM5205 extends snd_interface {
 
     /*
@@ -189,7 +189,7 @@ public class MSM5205 extends snd_interface {
         }
     }
     public static StreamInitPtr MSM5205_update = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int length) {
+        public void handler(int chip, ShortPtr buffer, int length) {
             MSM5205Voice voice = msm5205[chip];
 
             /* if this voice is active */
@@ -197,7 +197,7 @@ public class MSM5205 extends snd_interface {
                 short val = (short) (voice.signal * 16);
                 int i = 0;
                 while (length != 0) {
-                    buffer.write(i++, (char) val);
+                    buffer.write(i++, (short) val);
                     length--;
                 }
             } else {

@@ -14,7 +14,7 @@ import static sound.fmopl.*;
 import static mame.cpuintrfH.*;
 import static mame.timer.*;
 import sound.fm_c.FM_OPL;
-
+import static arcadeflex.libc_v2.*;
 public class _3812intf extends snd_interface {
 
     static YM3812interface intf = null;
@@ -190,7 +190,7 @@ public class _3812intf extends snd_interface {
         }
     };
     public static StreamInitPtr YM3812UpdateHandler = new StreamInitPtr() {
-        public void handler(int num, UShortPtr buffer, int length) {
+        public void handler(int num, ShortPtr buffer, int length) {
             YM3812UpdateOne(F3812[num], buffer, length);
         }
     };

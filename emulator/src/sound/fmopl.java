@@ -8,7 +8,7 @@ import static arcadeflex.libc_old.*;
 import static sound.YM_DELTA_T.*;
 import sound.fm_c.OPL_CH;
 import sound.fm_c.OPL_SLOT;
-
+import static arcadeflex.libc_v2.*;
 public class fmopl {
 
     /* -------------------- preliminary define section --------------------- */
@@ -983,10 +983,10 @@ public class fmopl {
    /*******************************************************************************/
    
    /* ---------- update one of chip ----------- */
-    public static void YM3812UpdateOne(FM_OPL OPL, UShortPtr buffer, int length) {
+    public static void YM3812UpdateOne(FM_OPL OPL, ShortPtr buffer, int length) {
         int i;
         int data;
-        UShortPtr buf = buffer;
+        ShortPtr buf = buffer;
         long amsCnt = OPL.amsCnt;
         long vibCnt = OPL.vibCnt;
         int rythm = ((OPL.rythm & 0x20) & 0xFF);
@@ -1029,15 +1029,15 @@ public class fmopl {
             /* limit check */
             data = Limit(outd[0], OPL_MAXOUT, OPL_MINOUT);
             /* store to sound buffer */
-            buf.write(i, (char) (data >> OPL_OUTSB));
+            buf.write(i, (short) (data >> OPL_OUTSB));
         }
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;
     }
-    public static void Y8950UpdateOne(FM_OPL OPL, UShortPtr buffer, int length) {
+    public static void Y8950UpdateOne(FM_OPL OPL, ShortPtr buffer, int length) {
         int i;
         int data;
-        UShortPtr buf = buffer;
+        ShortPtr buf = buffer;
         long amsCnt = OPL.amsCnt;
         long vibCnt = OPL.vibCnt;
         int rythm = ((OPL.rythm & 0x20) & 0xFF);
@@ -1086,7 +1086,7 @@ public class fmopl {
             /* limit check */
             data = Limit(outd[0], OPL_MAXOUT, OPL_MINOUT);
             /* store to sound buffer */
-            buf.write(i, (char) (data >> OPL_OUTSB));
+            buf.write(i, (short) (data >> OPL_OUTSB));
         }
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;

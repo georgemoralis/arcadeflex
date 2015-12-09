@@ -14,7 +14,7 @@ import static mame.driverH.*;
 import static mame.common.*;
 import static mame.sndintrf.*;
 import static sound.okim6295H.*;
-
+import static arcadeflex.libc_v2.*;
 public class okim6295 extends snd_interface {
 
     public static final int MAX_SAMPLE_CHUNK = 10000;
@@ -399,7 +399,7 @@ public class okim6295 extends snd_interface {
         }
     }
 
-    static void generate_adpcm(ADPCMVoice voice, UShortPtr buffer, int samples) {
+    static void generate_adpcm(ADPCMVoice voice, ShortPtr buffer, int samples) {
         /* if this voice is active */
         if (voice.playing != 0) {
             UBytePtr _base = voice._base;
@@ -429,7 +429,7 @@ public class okim6295 extends snd_interface {
                     step = 0;
                 }
                 /* output to the buffer, scaling by the volume */
-                buffer.write(0, (char) (signal * voice.volume / 16));
+                buffer.write(0, (short) (signal * voice.volume / 16));
                 buffer.offset += 2;
                 samples--;
 
@@ -447,14 +447,14 @@ public class okim6295 extends snd_interface {
 
         /* fill the rest with silence */
         while (samples-- != 0) {
-            buffer.write(0, (char) 0);
+            buffer.write(0, (short) 0);
             buffer.offset += 2;
         }
     }
     public static StreamInitPtr adpcm_update = new StreamInitPtr() {
-        public void handler(int num, UShortPtr buffer, int length) {
+        public void handler(int num, ShortPtr buffer, int length) {
             ADPCMVoice voice = adpcm[num];
-            UShortPtr sample_data = new UShortPtr(MAX_SAMPLE_CHUNK * 2), curr_data = new UShortPtr(sample_data);
+            ShortPtr sample_data = new ShortPtr(MAX_SAMPLE_CHUNK * 2), curr_data = new ShortPtr(sample_data);
             short prev = voice.last_sample, curr = voice.curr_sample;
             int/*UINT32*/ final_pos;
             int/*UINT32*/ new_samples;
@@ -462,7 +462,7 @@ public class okim6295 extends snd_interface {
             if (voice.source_pos > 0) {
                 /* interpolate */
                 while (length > 0 && voice.source_pos < FRAC_ONE) {
-                    buffer.write(0, (char) ((((int) prev * (FRAC_ONE - voice.source_pos)) + ((int) curr * voice.source_pos)) >> FRAC_BITS));
+                    buffer.write(0, (short) ((((int) prev * (FRAC_ONE - voice.source_pos)) + ((int) curr * voice.source_pos)) >> FRAC_BITS));
                     buffer.offset += 2;
                     voice.source_pos += voice.source_step;
                     length--;
@@ -492,7 +492,7 @@ public class okim6295 extends snd_interface {
             while (length > 0) {
                 /* interpolate */
                 while (length > 0 && voice.source_pos < FRAC_ONE) {
-                    buffer.write(0, (char) ((((int) prev * (FRAC_ONE - voice.source_pos)) + ((int) curr * voice.source_pos)) >> FRAC_BITS));
+                    buffer.write(0, (short) ((((int) prev * (FRAC_ONE - voice.source_pos)) + ((int) curr * voice.source_pos)) >> FRAC_BITS));
                     buffer.offset += 2;
                     voice.source_pos += voice.source_step;
                     length--;

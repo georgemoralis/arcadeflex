@@ -1,10 +1,3 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
- */
 package sndhrdw;
 
 import static mame.driverH.*;
@@ -14,9 +7,9 @@ import static sound.mixer.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.ptrlib.*;
+import static arcadeflex.libc_v2.*;
 
 public class cclimber {
-
     /* macro to convert 4-bit unsigned samples to 8-bit signed samples */
     public static int SAMPLE_CONV4(int a) {
         return (0x11 * ((a & 0x0f)) - 0x80);
@@ -25,7 +18,7 @@ public class cclimber {
     public static final int SND_CLOCK = 3072000;	/* 3.072 Mhz */
 
 
-    static char[] samplebuf;	/* buffer to decode samples at run time */
+    static byte[] samplebuf;	/* buffer to decode samples at run time */
 
     static int channel;
 
@@ -36,7 +29,7 @@ public class cclimber {
 
             samplebuf = null;
             if (memory_region(REGION_SOUND1) != null) {
-                samplebuf = new char[2 * memory_region_length(REGION_SOUND1)];
+                samplebuf = new byte[2 * memory_region_length(REGION_SOUND1)];
                 if (samplebuf == null) {
                     return 1;
                 }
@@ -45,7 +38,6 @@ public class cclimber {
             return 0;
         }
     };
-
     public static ShStopPtr cclimber_sh_stop = new ShStopPtr() {
         public void handler() {
             if (samplebuf != null) {
@@ -68,15 +60,15 @@ public class cclimber {
             int sample;
 
             sample = (rom.read(start + len) & 0xf0) >> 4;
-            samplebuf[2 * len] = (char) ((SAMPLE_CONV4(sample) * volume / 31) & 0xFF);
+            samplebuf[2 * len] = (byte) (SAMPLE_CONV4(sample) * volume / 31);
 
             sample = rom.read(start + len) & 0x0f;
-            samplebuf[2 * len + 1] = (char) ((SAMPLE_CONV4(sample) * volume / 31) & 0xFF);
+            samplebuf[2 * len + 1] = (byte) (SAMPLE_CONV4(sample) * volume / 31);
 
             len++;
         }
 
-        mixer_play_sample(channel, samplebuf, 2 * len, freq, false);
+        mixer_play_sample(channel, new BytePtr(samplebuf), 2 * len, freq, false);
     }
 
     static int sample_num, sample_freq, sample_volume;
@@ -86,7 +78,6 @@ public class cclimber {
             sample_num = data;
         }
     };
-
     public static WriteHandlerPtr cclimber_sample_rate_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* calculate the sampling frequency */

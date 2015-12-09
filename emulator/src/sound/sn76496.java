@@ -8,6 +8,7 @@ import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static sound.streams.*;
 import static arcadeflex.ptrlib.*;
+import static arcadeflex.libc_v2.*;
 
 public class sn76496 extends sndintrf.snd_interface {
 
@@ -196,7 +197,7 @@ public class sn76496 extends sndintrf.snd_interface {
     };
 
     public static StreamInitPtr SN76496Update = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int length) {
+        public void handler(int chip, ShortPtr buffer, int length) {
             int i;
             _SN76496 R = sn[chip];
 
@@ -290,7 +291,7 @@ public class sn76496 extends sndintrf.snd_interface {
                     out = MAX_OUTPUT * STEP;
                 }
 
-                buffer.write(0, (char) (out / STEP));
+                buffer.write(0, (short) (out / STEP));
                 buffer.offset += 2;
                 length--;
             }

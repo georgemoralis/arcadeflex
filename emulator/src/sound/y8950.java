@@ -15,7 +15,7 @@ import static mame.cpuintrfH.*;
 import static mame.timer.*;
 import sound.fm_c.FM_OPL;
 import static mame.common.*;
-
+import static arcadeflex.libc_v2.*;
 public class y8950 extends snd_interface {
 
     static Y8950interface intf = null; 
@@ -196,7 +196,7 @@ public class y8950 extends snd_interface {
         }
     };
     public static StreamInitPtr Y8950UpdateHandler = new StreamInitPtr() {
-        public void handler(int num, UShortPtr buffer, int length) {
+        public void handler(int num, ShortPtr buffer, int length) {
             Y8950UpdateOne(F3812[num], buffer, length);
         }
     };

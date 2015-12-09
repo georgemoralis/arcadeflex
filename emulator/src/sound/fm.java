@@ -20,7 +20,7 @@ import static sound.YM_DELTA_T.*;
 import static sound.streams.*;
 import static sound._2610intf.*;
 import sound.fm_c.ADPCM_CH;
-
+import static arcadeflex.libc_v2.*;
 public class fm {
     /*TODO*///#define YM2610B_WARNING
 /*TODO*///
@@ -1294,12 +1294,12 @@ public class fm {
 
     /* ---------- update one of chip ----------- */
     public static StreamInitPtr YM2203UpdateOne = new StreamInitPtr() {
-        public void handler(int num, UShortPtr buffer, int length) {
+        public void handler(int num, ShortPtr buffer, int length) {
             YM2203 F2203 = (FM2203[num]);
             FM_OPN OPN = (FM2203[num].OPN);
             int i;
             FM_CH ch;
-            UShortPtr buf = new UShortPtr(buffer);
+            ShortPtr buf = new ShortPtr(buffer);
 
             cur_chip = F2203;
             State = F2203.OPN.ST;
@@ -1346,7 +1346,7 @@ public class fm {
                 }
                 /* store to sound buffer */
 
-                buf.write(i, (char) (out_ch[OUTD_CENTER] >> FM_OUTSB));
+                buf.write(i, (short) (out_ch[OUTD_CENTER] >> FM_OUTSB));
                 /* timer controll */
                 INTERNAL_TIMER_A(State, cch[2]);
             }
@@ -2196,15 +2196,15 @@ static void FM_ADPCMAWrite(YM2610 F2610,int r,int v)
 
     /* ---------- update one of chip (YM2610B FM6: ADPCM-A6: ADPCM-B:1) ----------- */
     public static StreamInitMultiPtr YM2610UpdateOne = new StreamInitMultiPtr() {
-        public void handler(int num, UShortPtr[] buffer, int length) {
+        public void handler(int num, ShortPtr[] buffer, int length) {
 
             YM2610 F2610 = FM2610[num];
             FM_OPN OPN = FM2610[num].OPN;
             YM_DELTAT DELTAT = FM2610[num].deltaT;
             int i, j;
             int ch;
-            UShortPtr bufL;
-            UShortPtr bufR;
+            ShortPtr bufL;
+            ShortPtr bufR;
 
             /* setup DELTA-T unit */
             YM_DELTAT_DECODE_PRESET(DELTAT);
@@ -2284,8 +2284,8 @@ static void FM_ADPCMAWrite(YM2610 F2610,int r,int v)
                     out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
                     //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
                         /* buffering */
-                    bufL.write(i, (char) (out_ch[OUTD_LEFT] >> FM_OUTSB));
-                    bufR.write(i, (char) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
+                    bufL.write(i, (short) (out_ch[OUTD_LEFT] >> FM_OUTSB));
+                    bufR.write(i, (short) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
                 }
                 /* timer A controll */
                 INTERNAL_TIMER_A(State, cch[1]);
@@ -3382,12 +3382,12 @@ static void FM_ADPCMAWrite(YM2610 F2610,int r,int v)
     }
     /* ---------- make digital sound data ---------- */
     public static streams.StreamInitMultiPtr OPMUpdateOne = new streams.StreamInitMultiPtr() {
-        public void handler(int num, UShortPtr[] buffer, int length) {
+        public void handler(int num, ShortPtr[] buffer, int length) {
             YM2151 OPM = (FMOPM[num]);
             int i;
             int amd, pmd;
             FM_CH ch;
-            UShortPtr bufL, bufR;
+            ShortPtr bufL, bufR;
 
             /* set bufer */
             bufL = buffer[0];
@@ -3464,8 +3464,8 @@ static void FM_ADPCMAWrite(YM2610 F2610,int r,int v)
                     out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
                     //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
                         /* buffering */
-                    bufL.write(i, (char) (out_ch[OUTD_LEFT] >> FM_OUTSB));
-                    bufR.write(i, (char) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
+                    bufL.write(i, (short) (out_ch[OUTD_LEFT] >> FM_OUTSB));
+                    bufR.write(i, (short) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
                 }
                 /* timer A controll */
                 INTERNAL_TIMER_A(State, cch[7]);

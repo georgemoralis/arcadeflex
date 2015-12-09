@@ -23,7 +23,7 @@ import static mame.cpuintrf.*;
 import static sound.streams.*;
 import static sound.mixer.*;
 import static arcadeflex.ptrlib.*;
-
+import static arcadeflex.libc_v2.*;
 public class ay8910 extends snd_interface {
 
     public ay8910() {
@@ -428,9 +428,9 @@ public class ay8910 extends snd_interface {
         }
     };
     public static StreamInitMultiPtr AY8910Update = new StreamInitMultiPtr() {
-        public void handler(int chip, UShortPtr[] buffer, int length) {
+        public void handler(int chip, ShortPtr[] buffer, int length) {
             AY8910 PSG = AYPSG[chip];
-            UShortPtr buf1, buf2, buf3;
+            ShortPtr buf1, buf2, buf3;
             int outn;
 
             buf1 = buffer[0];
@@ -677,9 +677,9 @@ public class ay8910 extends snd_interface {
                         }
                     }
                 }
-                buf1.write(0, (char) ((vola * PSG.VolA) / STEP));
-                buf2.write(0, (char) ((volb * PSG.VolB) / STEP));
-                buf3.write(0, (char) ((volc * PSG.VolC) / STEP));
+                buf1.write(0, (short) ((vola * PSG.VolA) / STEP));
+                buf2.write(0, (short) ((volb * PSG.VolB) / STEP));
+                buf3.write(0, (short) ((volc * PSG.VolC) / STEP));
 
                 buf1.offset += 2;
                 buf2.offset += 2;

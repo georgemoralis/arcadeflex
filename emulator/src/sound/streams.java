@@ -1,25 +1,23 @@
 package sound;
-
-import static arcadeflex.ptrlib.*;
-import static sound.mixerH.*;
-import static sound.mixer.*;
-import static mame.mame.*;
-import static mame.sndintrf.*;
-
 /**
- *
- * @author shadow
+ *  ported to 0.37b11
  */
+import static arcadeflex.libc_v2.ShortPtr;
+import static mame.mame.Machine;
+import static mame.sndintrf.sound_scalebufferpos;
+import static sound.mixer.*;
+import static sound.mixerH.MIXER_MAX_CHANNELS;
+
 public class streams {
 
     public static abstract interface StreamInitPtr {
 
-        public abstract void handler(int param, UShortPtr buffer, int length);
+        public abstract void handler(int param, ShortPtr buffer, int length);
     }
 
     public static abstract interface StreamInitMultiPtr {
 
-        public abstract void handler(int param, UShortPtr[] buffer, int length);
+        public abstract void handler(int param, ShortPtr[] buffer, int length);
     }
 
     public static final int BUFFER_LEN = 16384;
@@ -27,8 +25,9 @@ public class streams {
     public static int SAMPLES_THIS_FRAME(int channel) {
         return mixer_need_samples_this_frame((channel), stream_sample_rate[(channel)]);
     }
+
     static int[] stream_joined_channels = new int[MIXER_MAX_CHANNELS];
-    static UShortPtr[] stream_buffer = new UShortPtr[MIXER_MAX_CHANNELS];//static INT16 *stream_buffer[MIXER_MAX_CHANNELS];
+    static ShortPtr[] stream_buffer = new ShortPtr[MIXER_MAX_CHANNELS];//static INT16 *stream_buffer[MIXER_MAX_CHANNELS];
 
     static int[] stream_sample_rate = new int[MIXER_MAX_CHANNELS];
     static int[] stream_buffer_pos = new int[MIXER_MAX_CHANNELS];
@@ -60,7 +59,7 @@ public class streams {
         c[channel] = C;
     }
 
-    public static void apply_RC_filter(int channel, UShortPtr buf, int len, int sample_rate) {
+    public static void apply_RC_filter(int channel, ShortPtr buf, int len, int sample_rate) {
         if (c[channel] == 0) {
             return;	/* filter disabled */
 
@@ -77,10 +76,10 @@ public class streams {
 
         int K = (int) (0x10000 * Math.exp(-1 / (Req * C) / sample_rate));
 
-        buf.write(0, (char) (buf.read(0) + (memory[channel] - buf.read(0)) * K / 0x10000));
+        buf.write(0, (short) (buf.read(0) + (memory[channel] - buf.read(0)) * K / 0x10000));
 
         for (int i = 1; i < len; i++) {
-            buf.write(i, (char) (buf.read(i) + (buf.read(i - 1) - buf.read(i)) * K / 0x10000));
+            buf.write(i, (short) (buf.read(i) + (buf.read(i - 1) - buf.read(i)) * K / 0x10000));
         }
 
         memory[channel] = buf.read(len - 1);
@@ -124,12 +123,11 @@ public class streams {
 
                 if (stream_joined_channels[channel] > 1) {
 
-                    UShortPtr[] buf = new UShortPtr[MIXER_MAX_CHANNELS];
+                    ShortPtr[] buf = new ShortPtr[MIXER_MAX_CHANNELS];
 
                     if (buflen > 0) {
                         for (i = 0; i < stream_joined_channels[channel]; i++) {
-                            /*RECHECK*/
-                            buf[i] = new UShortPtr(stream_buffer[channel + i], stream_buffer_pos[channel + i] * 2);
+                            buf[i] = new ShortPtr(stream_buffer[channel + i], stream_buffer_pos[channel + i] * 2);
                         }
 
                         stream_callback_multi[channel].handler(stream_param[channel], buf, buflen);
@@ -145,7 +143,7 @@ public class streams {
 
                 } else {
                     if (buflen > 0) {
-                        /*RECHECK*/ UShortPtr buf = new UShortPtr(stream_buffer[channel], stream_buffer_pos[channel] * 2);//INT16 *buf= stream_buffer[channel] + stream_buffer_pos[channel];
+                        ShortPtr buf = new ShortPtr(stream_buffer[channel], stream_buffer_pos[channel] * 2);//INT16 *buf= stream_buffer[channel] + stream_buffer_pos[channel];
                         stream_callback[channel].handler(stream_param[channel], buf, buflen);
 
                     }
@@ -169,8 +167,8 @@ public class streams {
     }
 
     public static int stream_init(String name, int default_mixing_level,
-            int sample_rate,
-            int param, StreamInitPtr callback) {
+                                  int sample_rate,
+                                  int param, StreamInitPtr callback) {
         int channel;
 
         channel = mixer_allocate_channel(default_mixing_level);
@@ -179,7 +177,7 @@ public class streams {
 
         mixer_set_name(channel, name);
 
-        stream_buffer[channel] = new UShortPtr(2 * BUFFER_LEN);//if ((stream_buffer[channel] = malloc(sizeof(INT16)*BUFFER_LEN)) == 0) return -1;
+        stream_buffer[channel] = new ShortPtr(2 * BUFFER_LEN);//if ((stream_buffer[channel] = malloc(sizeof(INT16)*BUFFER_LEN)) == 0) return -1;
 
         stream_sample_rate[channel] = sample_rate;
         stream_buffer_pos[channel] = 0;
@@ -196,8 +194,8 @@ public class streams {
     }
 
     public static int stream_init_multi(int channels, String[] names, int[] default_mixing_levels,
-            int sample_rate,
-            int param, StreamInitMultiPtr callback) {
+                                        int sample_rate,
+                                        int param, StreamInitMultiPtr callback) {
         int channel, i;
 
         channel = mixer_allocate_channels(channels, default_mixing_levels);
@@ -207,7 +205,7 @@ public class streams {
         for (i = 0; i < channels; i++) {
             mixer_set_name(channel + i, names[i]);
 
-            stream_buffer[channel + i] = new UShortPtr(2 * BUFFER_LEN);// if ((stream_buffer[channel + i] = malloc(sizeof(INT16) * BUFFER_LEN)) == 0)
+            stream_buffer[channel + i] = new ShortPtr(2 * BUFFER_LEN);// if ((stream_buffer[channel + i] = malloc(sizeof(INT16) * BUFFER_LEN)) == 0)
 
             stream_sample_rate[channel + i] = sample_rate;
             stream_buffer_pos[channel + i] = 0;
@@ -242,17 +240,17 @@ public class streams {
 
         if (buflen * stream_sample_length[channel] > min_interval) {
             if (stream_joined_channels[channel] > 1) {
-                 UShortPtr[] buf = new UShortPtr[MIXER_MAX_CHANNELS];
+                ShortPtr[] buf = new ShortPtr[MIXER_MAX_CHANNELS];
 
-                    for (int i = 0; i < stream_joined_channels[channel]; i++)
-                        buf[i] = new UShortPtr(stream_buffer[channel + i], stream_buffer_pos[channel + i] * 2);
+                for (int i = 0; i < stream_joined_channels[channel]; i++)
+                    buf[i] = new ShortPtr(stream_buffer[channel + i], stream_buffer_pos[channel + i] * 2);
 
-                    stream_callback_multi[channel].handler(stream_param[channel], buf, buflen);
+                stream_callback_multi[channel].handler(stream_param[channel], buf, buflen);
 
-                    for (int i = 0; i < stream_joined_channels[channel]; i++)
-                        stream_buffer_pos[channel + i] += buflen;
+                for (int i = 0; i < stream_joined_channels[channel]; i++)
+                    stream_buffer_pos[channel + i] += buflen;
             } else {
-                /*RECHECK*/ UShortPtr buf = new UShortPtr(stream_buffer[channel], stream_buffer_pos[channel] * 2);//INT16 *buf = stream_buffer[channel] + stream_buffer_pos[channel];
+                ShortPtr buf = new ShortPtr(stream_buffer[channel], stream_buffer_pos[channel] * 2);//INT16 *buf = stream_buffer[channel] + stream_buffer_pos[channel];
 
                 stream_callback[channel].handler(stream_param[channel], buf, buflen);
 

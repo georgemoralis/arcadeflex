@@ -22,6 +22,7 @@ import static mame.common.*;
 import static sound.streams.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
+import static arcadeflex.libc_v2.*;
 
 public class namco extends snd_interface {
 
@@ -76,8 +77,8 @@ public class namco extends snd_interface {
     /*TODO*////* mixer tables and internal buffers */
     /*TODO*///static INT16 *mixer_table;
     static short[] mixer_lookup;
-    static UShortPtr mixer_buffer;
-    static UShortPtr mixer_buffer_2;
+    static ShortPtr mixer_buffer;
+    static ShortPtr mixer_buffer_2;
 
     /* build a table to divide by the number of voices */
     static int mixer_lookup_middle;
@@ -110,8 +111,8 @@ public class namco extends snd_interface {
 
     /* generate sound to the mix buffer in mono */
     public static StreamInitPtr namco_update_mono = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int length) {
-            UShortPtr mix;
+        public void handler(int chip, ShortPtr buffer, int length) {
+            ShortPtr mix;
                                 
             /* if no sound, we're done */
             if (sound_enable == 0) {
@@ -133,7 +134,7 @@ public class namco extends snd_interface {
             {
                 int f = channel_list[voice].frequency;
                 int v = channel_list[voice].volume[0];
-                mix = new UShortPtr(mixer_buffer);
+                mix = new ShortPtr(mixer_buffer);
 
                 if (channel_list[voice].noise_sw != 0) {
                     /* only update if we have non-zero volume and frequency */
@@ -152,7 +153,7 @@ public class namco extends snd_interface {
                             } else {
                                 noise_data = -0x07;
                             }
-                            mix.write(0, (char) ((short) mix.read(0) + noise_data * (v >> 1)));
+                            mix.write(0, (short) ( mix.read(0) + noise_data * (v >> 1)));
                             mix.offset += 2;
                             c += delta;
                             cnt = (c >> 12);
@@ -180,14 +181,14 @@ public class namco extends snd_interface {
                             int offs = (c >> 15) & 0x1f;
                             //ushort currentmix = mix.read16(0);
                             if (samples_per_byte == 1) /* use only low 4 bits */ {
-                                mix.write(0, (char) ((short) mix.read(0) + ((channel_list[voice].wave.read(offs) & 0x0f) - 8) * v));
+                                mix.write(0,  (short)( mix.read(0) + ((channel_list[voice].wave.read(offs) & 0x0f) - 8) * v));
                                 mix.offset += 2;
                             } else /* use full byte, first the high 4 bits, then the low 4 bits */ {
                                 if ((offs & 1) != 0) {
-                                    mix.write(0, (char) ((short) mix.read(0) + ((channel_list[voice].wave.read(offs >> 1) & 0x0f) - 8) * v));
+                                    mix.write(0,  (short)( mix.read(0) + ((channel_list[voice].wave.read(offs >> 1) & 0x0f) - 8) * v));
                                     mix.offset += 2;
                                 } else {
-                                    mix.write(0, (char) ((short) mix.read(0) + (((channel_list[voice].wave.read(offs >> 1) >> 4) & 0x0f) - 8) * v));
+                                    mix.write(0,  (short)( mix.read(0) + (((channel_list[voice].wave.read(offs >> 1) >> 4) & 0x0f) - 8) * v));
                                     mix.offset += 2;
                                 }
                             }
@@ -200,9 +201,9 @@ public class namco extends snd_interface {
 
             }
             /* mix it down */
-            mix = new UShortPtr(mixer_buffer);
+            mix = new ShortPtr(mixer_buffer);
             for (int i = 0; i < length; i++) {
-                buffer.write(0, (char) mixer_lookup[mixer_lookup_middle + (short) mix.read(0)]);
+                buffer.write(0,  mixer_lookup[mixer_lookup_middle + (short) mix.read(0)]);
                 buffer.offset += 2;
                 mix.offset += 2;
             }
@@ -352,8 +353,8 @@ public class namco extends snd_interface {
             stream = stream_init(mono_name, intf.volume, intf.samplerate, 0, namco_update_mono);
         }
         /* allocate a pair of buffers to mix into - 1 second's worth should be more than enough */
-        mixer_buffer = new UShortPtr(2 * intf.samplerate * 2);
-        mixer_buffer_2 = new UShortPtr(mixer_buffer, intf.samplerate * 2);
+        mixer_buffer = new ShortPtr(2 * intf.samplerate * 2);
+        mixer_buffer_2 = new ShortPtr(mixer_buffer, intf.samplerate * 2);
 
         /* build the mixer table */
         make_mixer_table(intf.voices);

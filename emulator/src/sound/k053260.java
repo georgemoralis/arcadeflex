@@ -13,7 +13,7 @@ import static mame.sndintrf.*;
 import static arcadeflex.libc_old.*;
 import static sound.streams.*;
 import static mame.driverH.*;
-
+import static arcadeflex.libc_v2.*;
 public class k053260 extends sndintrf.snd_interface {
 
     public k053260() {
@@ -119,7 +119,7 @@ public class k053260 extends sndintrf.snd_interface {
     public static final int MAXOUT = 0x7fff;
     public static final int MINOUT = -0x8000;
     public static StreamInitMultiPtr K053260_update = new StreamInitMultiPtr() {
-        public void handler(int chip, UShortPtr[] buffer, int length) {
+        public void handler(int chip, ShortPtr[] buffer, int length) {
             int i, j;
             int[] lvol = new int[4];
             int[] rvol = new int[4];
@@ -216,8 +216,8 @@ public class k053260 extends sndintrf.snd_interface {
                     dataR = MINOUT;
                 }
 
-                buffer[1].write(j, (char) dataL);
-                buffer[0].write(j, (char) dataR);
+                buffer[1].write(j, (short) dataL);
+                buffer[0].write(j, (short) dataR);
 
             }
 

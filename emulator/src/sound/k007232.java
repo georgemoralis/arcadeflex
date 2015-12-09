@@ -9,7 +9,7 @@ import static mame.mame.*;
 import static sound.streams.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
-
+import static arcadeflex.libc_v2.*;
 public class k007232 extends snd_interface {
 
     public static final int KDAC_A_PCM_MAX = (2);		/* Channels per chip */
@@ -104,14 +104,14 @@ public class k007232 extends snd_interface {
         }
     }
     public static StreamInitMultiPtr KDAC_A_update = new StreamInitMultiPtr() {
-        public void handler(int chip, UShortPtr[] buffer, int buffer_len) {
+        public void handler(int chip, ShortPtr[] buffer, int buffer_len) {
             int i;
 
             ///memset(buffer[0],0,buffer_len * sizeof(INT16));
             //memset(buffer[1],0,buffer_len * sizeof(INT16));
             for (i = 0; i < buffer_len; i++) {
-                buffer[0].write(i, (char) 0);
-                buffer[1].write(i, (char) 0);
+                buffer[0].write(i, (short) 0);
+                buffer[1].write(i, (short) 0);
             }
 
             for (i = 0; i < KDAC_A_PCM_MAX; i++) {
@@ -159,8 +159,8 @@ public class k007232 extends snd_interface {
                          buffer[1][j] += out * volB;*/
                         out = (kpcm[chip].pcmbuf[i].read((int) addr) & 0x7f) - 0x40;
 
-                        buffer[0].write(j, (char) (buffer[0].read(j) + out * volA));
-                        buffer[1].write(j, (char) (buffer[1].read(j) + out * volB));
+                        buffer[0].write(j, (short) (buffer[0].read(j) + out * volA));
+                        buffer[1].write(j, (short) (buffer[1].read(j) + out * volB));
                     }
                 }
             }

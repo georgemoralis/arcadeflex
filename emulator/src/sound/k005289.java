@@ -9,7 +9,7 @@ import static mame.mame.*;
 import static sound.streams.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
-
+import static arcadeflex.libc_v2.*;
 public class k005289 extends snd_interface {
 
     public k005289() {
@@ -42,7 +42,7 @@ public class k005289 extends snd_interface {
     /* mixer tables and internal buffers */
     static /*INT16 */ UShortPtr mixer_table;
     static /*INT16 */ UShortPtr mixer_lookup;
-    static /*short */ UShortPtr mixer_buffer;
+    static /*short */ ShortPtr mixer_buffer;
 
     static int k005289_A_frequency, k005289_B_frequency;
     static int k005289_A_volume, k005289_B_volume;
@@ -77,13 +77,16 @@ public class k005289 extends snd_interface {
         return 0;
     }
     public static StreamInitPtr K005289_update = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int length) {
+        public void handler(int chip, ShortPtr buffer, int length) {
             //k005289_sound_channel *voice=channel_list;
-            UShortPtr mix;
+            ShortPtr mix;
             int i, v, f;
 
             /* zap the contents of the mixer buffer */
-            memset(mixer_buffer, 0, length * 2/*sizeof(INT16)*/);
+           // memset(mixer_buffer, 0, length * 2/*sizeof(INT16)*/);
+            for (int k = 0; k < length * 2; k++) {
+                buffer.memory[buffer.offset + k] = 0;
+            }
 
             v = channel_list[0].volume;
             f = channel_list[0].frequency;
@@ -91,7 +94,7 @@ public class k005289 extends snd_interface {
                 UBytePtr w = channel_list[0].wave;
                 int c = channel_list[0].counter;
 
-                mix = new UShortPtr(mixer_buffer);
+                mix = new ShortPtr(mixer_buffer);
 
                 /* add our contribution */
                 for (i = 0; i < length; i++) {
@@ -100,8 +103,8 @@ public class k005289 extends snd_interface {
                     c += (long) ((((float) mclock / (float) (f * 16)) * (float) (1 << FREQBASEBITS)) / (float) (rate / 32));
                     offs = (c >> 16) & 0x1f;
                     //*mix++ += ((w[offs] & 0x0f) - 8) * v;
-                    char _w = mix.read(0);
-                    mix.write(0, (char) (_w + (short) (((w.read(offs) & 0x0f) - 8) * v)));
+                    short _w = mix.read(0);
+                    mix.write(0, (short) (_w + (short) (((w.read(offs) & 0x0f) - 8) * v)));
                     mix.offset += 2;
                 }
 
@@ -115,7 +118,7 @@ public class k005289 extends snd_interface {
                 UBytePtr w = channel_list[1].wave;
                 int c = channel_list[1].counter;
 
-                mix = new UShortPtr(mixer_buffer);
+                mix = new ShortPtr(mixer_buffer);
 
                 /* add our contribution */
                 for (i = 0; i < length; i++) {
@@ -124,8 +127,8 @@ public class k005289 extends snd_interface {
                     c += (long) ((((float) mclock / (float) (f * 16)) * (float) (1 << FREQBASEBITS)) / (float) (rate / 32));
                     offs = (c >> 16) & 0x1f;
                     //*mix++ += ((w[offs] & 0x0f) - 8) * v;
-                    char _w = mix.read(0);
-                    mix.write(0, (char) (_w + (short) (((w.read(offs) & 0x0f) - 8) * v)));
+                    short _w = mix.read(0);
+                    mix.write(0, (short) (_w + (short) (((w.read(offs) & 0x0f) - 8) * v)));
                     mix.offset += 2;
                 }
 
@@ -134,10 +137,10 @@ public class k005289 extends snd_interface {
             }
 
             /* mix it down */
-            mix = new UShortPtr(mixer_buffer);
+            mix = new ShortPtr(mixer_buffer);
             for (i = 0; i < length; i++) {
                 //*buffer++ = mixer_lookup[*mix++];
-                buffer.write(0, (char) mixer_lookup.read((short) mix.read(0)));
+                buffer.write(0, (short) mixer_lookup.read((short) mix.read(0)));
                 buffer.offset += 2;
                 mix.offset += 2;
             }
@@ -156,7 +159,7 @@ public class k005289 extends snd_interface {
         rate = Machine.sample_rate;
 
         /* allocate a pair of buffers to mix into - 1 second's worth should be more than enough */
-        mixer_buffer = new UShortPtr(2 * /*sizeof(short)*/ 2 * Machine.sample_rate);
+        mixer_buffer = new ShortPtr(2 * /*sizeof(short)*/ 2 * Machine.sample_rate);
 
         /* build the mixer table */
         if (make_mixer_table(2) != 0) {

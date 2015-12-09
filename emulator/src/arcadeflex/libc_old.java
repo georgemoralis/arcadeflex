@@ -15,7 +15,7 @@
  along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package arcadeflex;
-
+import static arcadeflex.libc_v2.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -143,6 +143,9 @@ public class libc_old {
      */
 
     public static int sizeof(char[] array) {
+        return array.length;
+    }
+    public static int sizeof(int[] array) {
         return array.length;
     }
 
@@ -829,7 +832,7 @@ public class libc_old {
      * 
      *  short pointer Emulation
      */
-    public static class ShortPtr
+    /*public static class ShortPtr
     {
         public ShortPtr(char[] memory,int base)
         {
@@ -852,7 +855,7 @@ public class libc_old {
         }
         public int base;
         char[] memory;
-    }
+    }*/
     /**
      * ***********************************
      *

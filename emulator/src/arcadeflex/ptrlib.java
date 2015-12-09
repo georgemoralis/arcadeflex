@@ -151,7 +151,9 @@ public class ptrlib {
         public UShortPtr(char[] m) {
             set(m, 0);
         }
-
+        public UShortPtr(char[] m, int b) {
+            set(m, b);
+        }
         public UShortPtr(UShortPtr cp, int b) {
             set(cp.memory, cp.offset + b);
         }

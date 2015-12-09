@@ -9,7 +9,7 @@ import static arcadeflex.libc_old.*;
 import static sound.streams.*;
 import static mame.driverH.*;
 import static mame.common.*;
-
+import static arcadeflex.libc_v2.*;
 /**
  *
  * @author shadow
@@ -279,7 +279,7 @@ public class upd7759 extends sndintrf.snd_interface {
      *   Update emulation of an uPD7759 output stream
      */
     public static StreamInitPtr UPD7759_update = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int left) {
+        public void handler(int chip, ShortPtr buffer, int left) {
             //struct UPD7759voice *voice = &updadpcm[chip];
             int i;
 
@@ -291,7 +291,7 @@ public class upd7759 extends sndintrf.snd_interface {
                     updadpcm[chip].available -= left;
                     if (upd7759_intf.mode == UPD7759_SLAVE_MODE) {
                         while (left-- > 0) {
-                            buffer.write(0, (char) updadpcm[chip].data[updadpcm[chip].tail]);
+                            buffer.write(0, (short) updadpcm[chip].data[updadpcm[chip].tail]);
                             buffer.offset += 2;
                             updadpcm[chip].tail = (updadpcm[chip].tail + 1) % DATA_MAX;
                         }
@@ -316,7 +316,7 @@ public class upd7759 extends sndintrf.snd_interface {
                             }
 
                             while (updadpcm[chip].counter > 0 && left > 0) {
-                                buffer.write(0, (char) updadpcm[chip].signal);
+                                buffer.write(0, (short) updadpcm[chip].signal);
                                 buffer.offset += 2;
                                 updadpcm[chip].counter -= updadpcm[chip].freq;
                                 left--;
@@ -327,7 +327,7 @@ public class upd7759 extends sndintrf.snd_interface {
                             /* next! */
                             if (++updadpcm[chip].sample > updadpcm[chip].count) {
                                 while (left-- > 0) {
-                                    buffer.write(0, (char) updadpcm[chip].signal);
+                                    buffer.write(0, (short) updadpcm[chip].signal);
                                     buffer.offset += 2;
                                     updadpcm[chip].signal = FALL_OFF(updadpcm[chip].signal);
                                 }
@@ -339,7 +339,7 @@ public class upd7759 extends sndintrf.snd_interface {
                 } else {
                     /* voice is not playing */
                     for (i = 0; i < left; i++) {
-                        buffer.write(0, (char) updadpcm[chip].signal);
+                        buffer.write(0, (short) updadpcm[chip].signal);
                         buffer.offset += 2;
                     }
                 }

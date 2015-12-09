@@ -6,7 +6,7 @@ import static mame.driverH.*;
 import static arcadeflex.libc_old.*;
 import static mame.mame.*;
 import static mame.timer.*;
-
+import static arcadeflex.libc_v2.*;
 
 public class ym2151 {
     public static class OscilRec
@@ -1443,10 +1443,10 @@ public class ym2151 {
     ** 'length' is the number of samples that should be generated
     */
     public static StreamInitMultiPtr YM2151UpdateOne = new StreamInitMultiPtr() {
-            public void handler(int num, UShortPtr[] buffer, int length) {
+            public void handler(int num, ShortPtr[] buffer, int length) {
     	int i;
         int outl,outr;
-        UShortPtr bufL, bufR;
+        ShortPtr bufL, bufR;
         bufL = buffer[0];
         bufR = buffer[1];
         
@@ -1486,8 +1486,8 @@ public class ym2151 {
     			else if (outl < MINOUT) outl = MINOUT;
     		if (outr > MAXOUT) outr = MAXOUT;
     			else if (outr < MINOUT) outr = MINOUT;
-                bufL.write(i, (char)(outl));
-                bufR.write(i, (char)(outr));
+                bufL.write(i, (short)(outl));
+                bufR.write(i, (short)(outr));
 
                 lfo_calc();
     		advance();

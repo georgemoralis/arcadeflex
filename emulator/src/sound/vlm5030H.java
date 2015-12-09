@@ -1,7 +1,10 @@
 package sound;
 
-public class vlm5030H {
+/**
+ * ported to 0.37b11
+ */
 
+public class vlm5030H {
     public static class VLM5030interface {
 
         public VLM5030interface(int baseclock, int volume, int memory_region, int memory_size, int vcu, String[] samplenames) {
@@ -21,6 +24,7 @@ public class vlm5030H {
             this.vcu = vcu;
             this.samplenames = null;
         }
+
         int baseclock;      /* master clock (normaly 3.58MHz) */
 
         int volume;         /* volume                         */

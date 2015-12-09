@@ -11,7 +11,7 @@ import static sound.dacH.*;
 import static mame.mame.*;
 import static sound.streams.*;
 import static mame.driverH.*;
-
+import static arcadeflex.libc_v2.*;
 public class dac extends snd_interface {
 
     static int[] channel = new int[MAX_DAC];
@@ -50,11 +50,11 @@ public class dac extends snd_interface {
     }
 
     public static StreamInitPtr DAC_update = new StreamInitPtr() {
-        public void handler(int num, UShortPtr buffer, int length) {
+        public void handler(int num, ShortPtr buffer, int length) {
             int out = output[num];
             int bi = 0;
             while (length-- != 0) {
-                buffer.write(bi++, (char) out);
+                buffer.write(bi++, (short) out);//while (length--) *(buffer++) = out;
             }
         }
     };

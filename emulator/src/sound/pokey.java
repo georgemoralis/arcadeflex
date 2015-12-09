@@ -11,7 +11,7 @@ import static mame.common.*;
 import static mame.sndintrf.*;
 import static mame.timer.*;
 import static mame.timerH.*;
-
+import static arcadeflex.libc_v2.*;
 public class pokey extends snd_interface {
 
     public static FILE pokeylog = null; //fopen("pokeylog.log", "wa");
@@ -594,7 +594,7 @@ public class pokey extends snd_interface {
 /*TODO*///	{ pokey_update,pokey_update,pokey_update,pokey_update };
 /*TODO*///
     public static StreamInitPtr pokey_update = new StreamInitPtr() {
-        public void handler(int chip, UShortPtr buffer, int length) {
+        public void handler(int chip, ShortPtr buffer, int length) {
             long sum = 0;
             if (_pokey[chip].output[CHAN1] != 0) {
                 sum += _pokey[chip].volume[CHAN1];
@@ -642,7 +642,7 @@ public class pokey extends snd_interface {
                         _pokey[chip].samplepos_fract &= 0x000000ff;
                     }
                     /* store sum of output signals into the buffer */
-                    buffer.write(0, (char) ((sum > 65535) ? 0x7fff : sum - 0x8000));
+                    buffer.write(0, (short) ((sum > 65535) ? 0x7fff : sum - 0x8000));
                     buffer.offset += 2;
                     length--;
                 } else {

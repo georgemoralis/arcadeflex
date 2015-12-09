@@ -1,20 +1,24 @@
 package sound;
 
-import mame.sndintrf.*;
-import static mame.sndintrfH.*;
-import static sound.nes_apuH.*;
-import static mame.driverH.*;
-import static arcadeflex.ptrlib.*;
-import static mame.common.*;
-import static sound.streams.*;
-import static mame.mame.*;
+import mame.sndintrf.snd_interface;
+
+
+import static arcadeflex.libc_v2.ShortPtr;
 import static arcadeflex.libc_old.*;
-import static cpu.m6502.n2a03.*;
+import static arcadeflex.ptrlib.UBytePtr;
+import static cpu.m6502.n2a03.N2A03_DEFAULTCLOCK;
+import static cpu.m6502.n2a03.n2a03_irq;
+import static mame.common.memory_region;
 import static mame.sndintrf.sound_name;
 import static mame.sndintrf.sound_scalebufferpos;
-import static sound.mixer.mixer_allocate_channels;
-import static sound.mixer.mixer_play_streamed_sample_16;
-import static sound.mixer.mixer_set_name;
+import static mame.sndintrfH.MachineSound;
+import static mame.sndintrfH.SOUND_NES;
+import static mame.mame.Machine;
+import static sound.mixer.*;
+import static sound.nes_apuH.MAX_NESPSG;
+import static sound.nes_apuH.NESinterface;
+import static mame.driverH.*;
+import static mame.mame.*;
 
 public class nes_apu extends snd_interface {
 
@@ -32,6 +36,7 @@ public class nes_apu extends snd_interface {
     public int chips_clock(MachineSound msound) {
         return 0;
     }
+
     /* GLOBAL CONSTANTS */
     public static final int SYNCS_MAX1 = 0x20;
     public static final int SYNCS_MAX2 = 0x80;
@@ -64,33 +69,33 @@ public class nes_apu extends snd_interface {
     /* vblank length table used for squares, triangle, noise */
     static int vbl_length[]
             = {
-                5, 127, 10, 1, 19, 2, 40, 3, 80, 4, 30, 5, 7, 6, 13, 7,
-                6, 8, 12, 9, 24, 10, 48, 11, 96, 12, 36, 13, 8, 14, 16, 15
-            };
+            5, 127, 10, 1, 19, 2, 40, 3, 80, 4, 30, 5, 7, 6, 13, 7,
+            6, 8, 12, 9, 24, 10, 48, 11, 96, 12, 36, 13, 8, 14, 16, 15
+    };
 
     /* frequency limit of square channels */
     static int freq_limit[]
             = {
-                0x3FF, 0x555, 0x666, 0x71C, 0x787, 0x7C1, 0x7E0, 0x7F0,};
+            0x3FF, 0x555, 0x666, 0x71C, 0x787, 0x7C1, 0x7E0, 0x7F0,};
 
     /* table of noise frequencies */
     static int noise_freq[]
             = {
-                4, 8, 16, 32, 64, 96, 128, 160, 202, 254, 380, 508, 762, 1016, 2034, 2046
-            };
+            4, 8, 16, 32, 64, 96, 128, 160, 202, 254, 380, 508, 762, 1016, 2034, 2046
+    };
 
     /* dpcm transfer freqs */
     static int dpcm_clocks[]
             = {
-                428, 380, 340, 320, 286, 254, 226, 214, 190, 160, 142, 128, 106, 85, 72, 54
-            };
+            428, 380, 340, 320, 286, 254, 226, 214, 190, 160, 142, 128, 106, 85, 72, 54
+    };
 
     /* ratios of pos/neg pulse for square waves */
     /* 2/16 = 12.5%, 4/16 = 25%, 8/16 = 50%, 12/16 = 75% */
     static int duty_lut[]
             = {
-                2, 4, 8, 12
-            };
+            2, 4, 8, 12
+    };
 
     /* Square Wave */
     class square_t {
@@ -173,10 +178,11 @@ public class nes_apu extends snd_interface {
         public int[] regs = new int[22];//unsigned 8 bit
 
         /* Sound pointers */
-        public char[] buffer; //unsigned 8 bit
+        public byte[] buffer; //unsigned 8 bit
 
         int buf_pos;
     }
+
     /* GLOBAL VARIABLES */
     static apu_t[] APU = new apu_t[MAX_NESPSG];/* Actual APUs */
 
@@ -231,6 +237,7 @@ public class nes_apu extends snd_interface {
             val += sps;
         }
     }
+
     /* INITIALIZE NOISE LOOKUP TABLE */
     static int m = 0x0011;
 
@@ -557,7 +564,7 @@ public class nes_apu extends snd_interface {
              while (--i >= 0) free(APU[i].buffer);
              return 1;
              }*/
-            APU[i].buffer = new char[buffer_size];
+            APU[i].buffer = new byte[buffer_size];
             (APU[i].dpcm).cpu_mem = memory_region(intf.region[i]);
         }
 
@@ -763,11 +770,7 @@ public class nes_apu extends snd_interface {
 
                 break;
             default:
-
-                if (errorlog != null) {
-                    fprintf(errorlog, "invalid apu write: $%02X at $%04X\n", value, address);
-                }
-
+                if(errorlog!=null) fprintf(errorlog,"invalid apu write: $%02X at $%04X\n", value, address);
                 break;
         }
     }
@@ -783,8 +786,9 @@ public class nes_apu extends snd_interface {
         apu_update(chip);
         apu_regwrite(chip, address, value & 0xFF);
     }
+
     /* UPDATE SOUND BUFFER USING CURRENT DATA */
-    static /*INT16 *buffer16*/ UShortPtr buffer16 = null;
+    static /*INT16 *buffer16*/ ShortPtr buffer16 = null;
 
     public static void apu_update(int chip) {
 
@@ -793,11 +797,11 @@ public class nes_apu extends snd_interface {
         int elapsed;
 
         cur = APU[chip];
-        buffer16 = new UShortPtr(cur.buffer);
+        buffer16 = new ShortPtr(cur.buffer);
 
         /* Recall last position updated and restore pointers */
         elapsed = cur.buf_pos;
-        buffer16.offset += elapsed * 2;
+        buffer16.offset += (elapsed * 2);
 
         while (elapsed < endp) {
             elapsed++;
@@ -816,7 +820,7 @@ public class nes_apu extends snd_interface {
             }
 
             //* (buffer16++) = accum << 8;
-            buffer16.write(0, (char) (accum << 8));
+            buffer16.write(0, (short) (accum << 8));
             buffer16.offset += 2;
         }
         cur.buf_pos = endp;
@@ -833,7 +837,7 @@ public class nes_apu extends snd_interface {
         for (i = 0; i < chip_max; i++) {
             apu_update(i);
             APU[i].buf_pos = 0;
-            mixer_play_streamed_sample_16(channel + i, new UShortPtr(APU[i].buffer), buffer_size, real_rate);
+            mixer_play_streamed_sample_16(channel + i, new ShortPtr(APU[i].buffer), buffer_size, real_rate);
         }
     }
 
@@ -841,6 +845,7 @@ public class nes_apu extends snd_interface {
     public void reset() {
 
     }
+
     public static ReadHandlerPtr NESPSG_0_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return apu_read(0, offset);
