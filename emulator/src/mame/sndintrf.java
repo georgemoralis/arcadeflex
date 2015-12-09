@@ -33,6 +33,7 @@ import sound.qsound;
 import sound._2610intf;
 import sound.k005289;
 import sound.nes_apu;
+import static mame.common.*;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -621,7 +622,7 @@ public class sndintrf {
     	}
     
     	/* free audio samples */
- //*TODO*///   	freesamples(Machine.samples);
+    	freesamples(Machine.samples);
     	Machine.samples = null;
     }
     

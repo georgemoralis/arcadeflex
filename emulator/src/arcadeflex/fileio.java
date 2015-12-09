@@ -466,6 +466,29 @@ public class fileio {
 
         return 0;
     }
+    public static int osd_fread_lsbfirst(Object file, char[] buffer, int length) {
+        return osd_fread(file, buffer, 0, length);
+    }
+
+    public static int osd_fread_lsbfirst(Object file, byte[] buffer, int length) {
+        char[] buf = new char[length];
+        int r = osd_fread(file, buf, 0, length);
+        for (int i = 0; i < buf.length; i++) {
+            buffer[i] = (byte) buf[i];
+        }
+        return r;
+    }
+    public static int osd_fread(Object file, char[] buffer, int length) {
+        return osd_fread(file, buffer, 0, length);
+    }
+    public static int osd_fread(Object file, byte[] buffer, int length) {
+        char[] buf = new char[length];
+        int r = osd_fread(file, buf, 0, length);
+        for (int i = 0; i < buf.length; i++) {
+            buffer[i] = (byte) buf[i];
+        }
+        return r;
+    }
 
     public static int osd_fread(Object file, CharPtr buffer, int length) {
         osd_fread(file, buffer.memory, buffer.base, length);
@@ -560,12 +583,15 @@ public class fileio {
         switch (f.type) {
             case kPlainFile:
                 if (whence == SEEK_SET) {
-                    fseek(f.file, offset);
+                    fseek(f.file, offset, SEEK_SET);
+                    return 0;
+                } else if (whence == SEEK_CUR) {
+                    fseek(f.file, offset, SEEK_CUR);
                     return 0;
                 } else {
                     throw new UnsupportedOperationException("FSEEK other than SEEK_SET NOT SUPPORTED.");
                 }
-            //break;
+                //break;
             case kZippedFile:
             case kRAMFile:
                 /* seeking within the RAM image of a file */

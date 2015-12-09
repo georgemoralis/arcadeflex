@@ -34,6 +34,8 @@ import cpu.m6805.m68705;
 import cpu.nec.v30;
 import cpu.nec.v33;
 import cpu.m6502.n2a03;
+import static mame.sndintrf.*;
+
 
 public class cpuintrf {
     /* these are triggers sent to the timer system for various interrupt events */
@@ -411,7 +413,7 @@ public class cpuintrf {
             watchdog_counter = -1;
 
             /*TODO*///	/* reset sound chips */
-    /*TODO*///	sound_reset();
+    	sound_reset();
             /* enable all CPUs (except for audio CPUs if the sound is off) */
             for (int i = 0; i < totalcpu; i++) {
                 if (CPU_AUDIO(i) == 0 || Machine.sample_rate != 0) {

@@ -448,12 +448,12 @@ public class libc_old {
      */
     public static class FILE {
 
-        public ByteArrayInputStream bais;
+        public SeekableByteArrayInputStream bais;
         public byte[] bytes;
 
         public void setBytes(byte[] bytes) {
             this.bytes = bytes;
-            bais = new ByteArrayInputStream(bytes);
+            bais = new SeekableByteArrayInputStream(bytes);
         }
 
         public FILE() {
@@ -629,15 +629,18 @@ public class libc_old {
         return fread(buf, 0, size, count, file);
     }
 
-    public static void fseek(FILE file, int pos) {
+    public static void fseek(FILE file, int pos, int whence) {
         if (file.bais != null) {
-            //try {
-            file.bais.reset();
-            file.bais.skip(pos);
-            //} catch (IOException ex) {
-            //    file = null;
-            //}
-
+            if (whence == SEEK_SET) {
+                file.bais.seek(pos);
+            }
+            else if(whence == SEEK_CUR)
+            {
+               file.bais.seek((int)(file.bais.tell()+pos));
+            }
+            else {
+                throw new UnsupportedOperationException("FSEEK other than SEEK_SET,SEEK_CUR NOT SUPPORTED.");
+            }
         }
     }
 
