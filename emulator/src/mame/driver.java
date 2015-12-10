@@ -798,6 +798,7 @@ public class driver {
         /*zaxxon*/driver_zaxxon2,//no samples support
         /*zaxxon*/driver_zaxxonb,//no samples support	
         /*zaxxon*/driver_szaxxon,//no samples support
+        /*zaxxon*/driver_futspy,
         /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
         /*blueprnt*/driver_saturn,//sound partialy works
         /*raiden*/driver_raidena,	//no sound (not in mame 0.36 as well)

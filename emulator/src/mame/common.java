@@ -601,7 +601,7 @@ public class common {
             if (samplenames[i + skipfirst].charAt(0) != '\0') {
                 if ((f = osd_fopen(basename, samplenames[i + skipfirst], OSD_FILETYPE_SAMPLE, 0)) == null)
                     if (skipfirst != 0)
-                        f = osd_fopen(samplenames[0] + 1, samplenames[i + skipfirst], OSD_FILETYPE_SAMPLE, 0);
+                        f = osd_fopen(samplenames[0].substring(1, samplenames[0].length())/*samplenames[0] + 1*/, samplenames[i + skipfirst], OSD_FILETYPE_SAMPLE, 0);
                 if (f != null) {
                     samples.sample[i] = read_wav_sample(f);
                     osd_fclose(f);

@@ -102,6 +102,9 @@ public class fileio {
                     /*TODO*///                        LOG((errorlog, "osd_fopen: using samplepath\n"));
  /*TODO*///                        pathc = samplepathc;
   /*TODO*///                       pathv = samplepathv;
+                    pathc = 1;
+                    pathv = new String[1];
+                    pathv[0] = "samples";
                 } else {
                     /*TODO*///                       LOG((errorlog, "osd_fopen: using rompath\n"));
   /*TODO*///                       pathc = rompathc;
@@ -225,7 +228,7 @@ public class fileio {
 
                             } else {
                                 System.out.println(filename + " does not seem to exist in the zip file online");
-                                System.out.println("possibly it is in parent rom: "+Machine.gamedrv.clone_of.name);
+                                //System.out.println("possibly it is in parent rom: "+Machine.gamedrv.clone_of.name);
                             }
                         } else if (URLexists("http://www.arcadeflex.com/roms/" + gamename + "/" + filename)) {
                             System.out.println("(loading file online)");

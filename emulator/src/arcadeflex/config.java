@@ -409,7 +409,7 @@ public class config {
   /*temphack!!!! */              stretch =1;
             /*TODO*///	stretch     = get_bool   ("config", "stretch",		NULL,  1);
             /*TODO*///	options.use_artwork = get_bool   ("config", "artwork",	NULL,  1);
-            /*TODO*///	options.use_samples = get_bool   ("config", "samples",	NULL,  1);
+            	options.use_samples = 1;//get_bool   ("config", "samples",	NULL,  1);
             /*TODO*///	video_sync  = get_bool   ("config", "vsync",        NULL,  0);
   /*temphack!!!! */            video_sync = 0;
             /*TODO*///	wait_vsync  = get_bool   ("config", "waitvsync",    NULL,  0);
