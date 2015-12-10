@@ -179,7 +179,7 @@ import static drivers.blueprnt.*;
 import static drivers.kchamp.*;
 import static drivers.WIP.qix.*;
 import static drivers.tutankhm.*;
-import static drivers.WIP.galaga.*;
+import static drivers.galaga.*;
 import static drivers.WIP.ajax.*;
 import static drivers.WIP.parodius.*;
 import static drivers.WIP.m72.*;
@@ -690,6 +690,13 @@ public class driver {
         /*458*//*zaxxon*/driver_futspy,
         /*459*//*congo*/driver_congo,
         /*460*//*congo*/driver_tiptop,
+        /*461*//*galaga*/driver_galaga,
+        /*462*//*galaga*/driver_galagamw,
+        /*463*//*galaga*/driver_galagads,
+        /*464*//*galaga*/driver_gallag,
+        /*465*//*galaga*/driver_galagab2,
+        /*466*//*galaga*/driver_galaga84,
+        /*467*//*galaga*/driver_nebulbee,
         
         /*
            Small issues that doesn't affect playable status
@@ -707,14 +714,6 @@ public class driver {
         /*011*//*rallyx*/driver_nrallyx,//no samples support
         /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
-
-        /*galaga*/driver_galaga,//no samples support
-        /*galaga*/driver_galagamw,//no samples support
-        /*galaga*/driver_galagads,//no samples support
-        /*galaga*/driver_gallag,//no samples support
-        /*galaga*/driver_galagab2,//no samples support
-        /*galaga*/driver_galaga84,//no samples support
-        /*galaga*/driver_nebulbee,//no samples support
         /*ddragon*/driver_ddragonb,//no stereo sound support
         /*ddragon*/driver_ddragon2,//no stereo sound support
         /*jackal*/driver_jackal, //no stereo sound support
