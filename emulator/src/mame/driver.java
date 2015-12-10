@@ -144,11 +144,11 @@ import static drivers.WIP.gladiatr.*;
 import static drivers.snowbros.*;
 import static drivers.WIP.mnight.*;
 import static drivers.WIP.bublbobl.*;
-import static drivers.WIP.zaxxon.*;
+import static drivers.zaxxon.*;
 import static drivers.WIP.rallyx.*;
 import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
-import static drivers.WIP.congo.*;
+import static drivers.congo.*;
 import static drivers.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
@@ -683,7 +683,13 @@ public class driver {
         /*451*//*snowbros*/driver_snowbrob,
         /*452*//*snowbros*/driver_snowbroj,
         /*453*//*galpanic*/driver_galpanic,
-
+        /*454*//*zaxxon*/driver_zaxxon, 
+        /*455*//*zaxxon*/driver_zaxxon2,
+        /*456*//*zaxxon*/driver_zaxxonb,	
+        /*457*//*zaxxon*/driver_szaxxon,
+        /*458*//*zaxxon*/driver_futspy,
+        /*459*//*congo*/driver_congo,
+        /*460*//*congo*/driver_tiptop,
         
         /*
            Small issues that doesn't affect playable status
@@ -701,8 +707,7 @@ public class driver {
         /*011*//*rallyx*/driver_nrallyx,//no samples support
         /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
-        /*014*//*congo*/driver_congo,//no samples support
-        /*015*//*congo*/driver_tiptop,//no samples support
+
         /*galaga*/driver_galaga,//no samples support
         /*galaga*/driver_galagamw,//no samples support
         /*galaga*/driver_galagads,//no samples support
@@ -794,11 +799,7 @@ public class driver {
         /*dec8*/driver_garyoret,//sound plays too fast , small gfx issues
         /*dec8*/driver_cobracom,//sound plays too fast
         /*dec8*/driver_cobracmj,//sound plays too fast
-        /*zaxxon*/driver_zaxxon, //no samples support
-        /*zaxxon*/driver_zaxxon2,//no samples support
-        /*zaxxon*/driver_zaxxonb,//no samples support	
-        /*zaxxon*/driver_szaxxon,//no samples support
-        /*zaxxon*/driver_futspy,
+        
         /*ddrible*/driver_ddribble, //vlm5030 works but have glitches
         /*blueprnt*/driver_saturn,//sound partialy works
         /*raiden*/driver_raidena,	//no sound (not in mame 0.36 as well)

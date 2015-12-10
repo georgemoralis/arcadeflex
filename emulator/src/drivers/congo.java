@@ -2,7 +2,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + manual fixes
  */ 
-package drivers.WIP;
+package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
@@ -26,7 +26,7 @@ import static machine.segacrpt.*;
 import static sndhrdw.congo.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
-import static drivers.WIP.zaxxon.*;
+import static drivers.zaxxon.*;
 import static mame.sndintrf.*;
 
 public class congo
