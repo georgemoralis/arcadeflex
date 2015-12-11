@@ -13,6 +13,7 @@ import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.libc.*;
+import arcadeflex.libc_v2.ShortPtr;
 import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import static cpu.m6809.m6809H.*;
@@ -44,6 +45,8 @@ import static machine.eepromH.*;
 import static sound.upd7759.*;
 import static sound.upd7759H.*;
 import static vidhrdw.konami.K054000.*;
+import static sound.samples.*;
+import static sound.samplesH.*;
 
 public class tmnt {
 
@@ -243,71 +246,66 @@ public class tmnt {
 
     public static WriteHandlerPtr tmnt_sres_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            /* bit 1 resets the UPD7795C sound chip */
+            /* bit 1 resets the UPD7795C sound_old chip */
             if ((data & 0x02) == 0) {
                 UPD7759_reset_w.handler(0, (data & 0x02) >> 1);
             }
 
             /* bit 2 plays the title music */
-            /*TODO*///		if (data & 0x04)
-/*TODO*///		{
-/*TODO*///			if (!sample_playing(0))	sample_start(0,0,0);
-/*TODO*///		}
-/*TODO*///		else sample_stop(0);
+            		if ((data & 0x04)!=0)
+		{
+			if (sample_playing(0)==0)	sample_start(0,0,0);
+		}
+		else sample_stop(0);
             tmnt_soundlatch = data;
         }
     };
-    /*TODO*///
-/*TODO*///
-/*TODO*///static int tmnt_decode_sample(const struct MachineSound *msound)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///	signed short *dest;
-/*TODO*///	unsigned char *source = memory_region(REGION_SOUND3);
-/*TODO*///	struct GameSamples *samples;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if ((Machine->samples = malloc(sizeof(struct GameSamples))) == NULL)
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	samples = Machine->samples;
-/*TODO*///
-/*TODO*///	if ((samples->sample[0] = malloc(sizeof(struct GameSample) + (0x40000)*sizeof(short))) == NULL)
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	samples->sample[0]->length = 0x40000*2;
-/*TODO*///	samples->sample[0]->smpfreq = 20000;	/* 20 kHz */
-/*TODO*///	samples->sample[0]->resolution = 16;
-/*TODO*///	dest = (signed short *)samples->sample[0]->data;
-/*TODO*///	samples->total = 1;
-/*TODO*///
-/*TODO*///	/*	Sound sample for TMNT.D05 is stored in the following mode:
-/*TODO*///	 *
-/*TODO*///	 *	Bit 15-13:	Exponent (2 ^ x)
-/*TODO*///	 *	Bit 12-4 :	Sound data (9 bit)
-/*TODO*///	 *
-/*TODO*///	 *	(Sound info courtesy of Dave <dayvee@rocketmail.com>)
-/*TODO*///	 */
-/*TODO*///
-/*TODO*///	for (i = 0;i < 0x40000;i++)
-/*TODO*///	{
-/*TODO*///		int val = source[2*i] + source[2*i+1] * 256;
-/*TODO*///		int exp = val >> 13;
-/*TODO*///
-/*TODO*///	  	val = (val >> 4) & (0x1ff);	/* 9 bit, Max Amplitude 0x200 */
-/*TODO*///		val -= 0x100;					/* Centralize value	*/
-/*TODO*///
-/*TODO*///		val <<= exp;
-/*TODO*///
-/*TODO*///		dest[i] = val;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/*	The sample is now ready to be used.  It's a 16 bit, 22khz sample.
-/*TODO*///	 */
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+    public static ShStartPtr tmnt_decode_sample = new ShStartPtr() {
+        public int handler(MachineSound msound) {
+	int i;
+	ShortPtr dest;
+	UBytePtr source = memory_region(REGION_SOUND3);
+	GameSamples samples;
+
+
+	Machine.samples = new GameSamples();
+
+
+	//samples = Machine.samples;
+    Machine.samples.sample[0]=new GameSample(0x40000*2);
+
+    Machine.samples.sample[0].length = 0x40000*2;
+    Machine.samples.sample[0].smpfreq = 20000;	/* 20 kHz */
+    Machine.samples.sample[0].resolution = 16;
+	dest = new ShortPtr(Machine.samples.sample[0].data);
+	Machine.samples.total = 1;
+
+	/*	Sound sample for TMNT.D05 is stored in the following mode:
+	 *
+	 *	Bit 15-13:	Exponent (2 ^ x)
+	 *	Bit 12-4 :	Sound data (9 bit)
+	 *
+	 *	(Sound info courtesy of Dave <dayvee@rocketmail.com>)
+	 */
+
+	for (i = 0;i < 0x40000;i++)
+	{
+		int val = source.read(2*i) + source.read(2*i+1) * 256;
+		int exp = val >> 13;
+
+	  	val = (val >> 4) & (0x1ff);	/* 9 bit, Max Amplitude 0x200 */
+		val -= 0x100;					/* Centralize value	*/
+
+		val <<= exp;
+
+		dest.write(i, (short)val);
+	}
+
+	/*	The sample is now ready to be used.  It's a 16 bit, 22khz sample.
+	 */
+
+	return 0;
+}};
     static int sound_nmi_enabled;
 
     public static timer_callback sound_nmi_callback = new timer_callback() {
@@ -2217,20 +2215,17 @@ public class tmnt {
             UPD7759_STANDALONE_MODE, /* chip mode */
             new irqcallbackPtr[]{null}
     );
-    /*TODO*///
-/*TODO*///static struct Samplesinterface samples_interface =
-/*TODO*///{
-/*TODO*///	1,	/* 1 channel for the title music */
-/*TODO*///	25	/* volume */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct CustomSound_interface custom_interface =
-/*TODO*///{
-/*TODO*///	tmnt_decode_sample,
-/*TODO*///	0,
-/*TODO*///	0
-/*TODO*///};
-/*TODO*///
+static Samplesinterface samples_interface = new Samplesinterface(
+	1,	/* 1 channel for the title music */
+	25,	/* volume */
+        null
+);
+
+    static CustomSound_interface custom_interface = new CustomSound_interface(
+	tmnt_decode_sample,
+	null,
+	null
+    );
     static K053260_interface k053260_interface_nmi = new K053260_interface(
             3579545,
             REGION_SOUND1, /* memory region */
@@ -2338,15 +2333,15 @@ public class tmnt {
                 new MachineSound(
                         SOUND_UPD7759,
                         upd7759_interface
-                )
-            /*TODO*///		new MachineSound(
-         /*TODO*///				SOUND_SAMPLES,
-	 /*TODO*///			samples_interface
-	 /*TODO*///		),
-		 /*TODO*///	new MachineSound(
-		 /*TODO*///		SOUND_CUSTOM,	/* actually initializes the samples */
-		 /*TODO*///		custom_interface
-		 /*TODO*///	)
+                ),
+                new MachineSound(
+         				SOUND_SAMPLES,
+	 			samples_interface
+	 		),
+		 	new MachineSound(
+		 		SOUND_CUSTOM,	/* actually initializes the samples */
+		 		custom_interface
+		 	)
             }
     );
     static MachineDriver machine_driver_punkshot = new MachineDriver(
