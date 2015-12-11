@@ -145,7 +145,7 @@ import static drivers.snowbros.*;
 import static drivers.WIP.mnight.*;
 import static drivers.WIP.bublbobl.*;
 import static drivers.zaxxon.*;
-import static drivers.WIP.rallyx.*;
+import static drivers.rallyx.*;
 import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
 import static drivers.congo.*;
@@ -697,6 +697,9 @@ public class driver {
         /*465*//*galaga*/driver_galagab2,
         /*466*//*galaga*/driver_galaga84,
         /*467*//*galaga*/driver_nebulbee,
+        /*468*//*rallyx*/driver_rallyx,
+        /*469*//*rallyx*/driver_rallyx,
+        /*470*//*rallyx*/driver_nrallyx,
         
         /*
            Small issues that doesn't affect playable status
@@ -709,9 +712,6 @@ public class driver {
         /*006*//*atetris*/driver_atetrisb,//no nvram support
         /*007*//*atetris*/driver_atetcktl,//no nvram support ,screen needs to be a bit righter
         /*008*//*atetris*/driver_atetckt2,//no nvram support ,screen needs to be a bit righter
-        /*009*//*rallyx*/driver_rallyx,//no samples support
-        /*010*//*rallyx*/driver_rallyx,//no samples support
-        /*011*//*rallyx*/driver_nrallyx,//no samples support
         /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
         /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*ddragon*/driver_ddragonb,//no stereo sound support
