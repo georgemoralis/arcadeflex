@@ -208,7 +208,7 @@ import static drivers.WIP.neogeo.*;
 import static drivers.WIP.lastduel.*;
 import static drivers.WIP.bloodbro.*;
 import static drivers.WIP.nemesis.*;
-import static drivers.WIP.sbasketb.*;
+import static drivers.sbasketb.*;
 import static drivers.WIP.terracre.*;
 import static drivers.WIP.punchout.*;
 import static drivers.WIP.astrof.*;
@@ -700,7 +700,7 @@ public class driver {
         /*468*//*rallyx*/driver_rallyx,
         /*469*//*rallyx*/driver_rallyx,
         /*470*//*rallyx*/driver_nrallyx,
-        
+        /*471*//*sbasketb*/driver_sbasketb,
         /*
            Small issues that doesn't affect playable status
         */
@@ -2234,14 +2234,6 @@ driver_tumblep2,
 /*TODO*/ //	DRIVER( venus )		/* bootleg */
 
 
-
-     
-driver_sbasketb,	/* GX405 (c) 1984 */
-        
-
-
-
-        
 
 /*TODO*/ //	DRIVER( finalizr )	/* GX523 (c) 1985 */
 /*TODO*/ //	DRIVER( finalizb )	/* bootleg */

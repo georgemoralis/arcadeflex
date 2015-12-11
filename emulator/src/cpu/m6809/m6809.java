@@ -1101,7 +1101,7 @@ public class m6809 extends cpu_interface
     			case 0xf6: ldb_ex();   m6809_ICount[0]-= 5; break;
     			case 0xf7: stb_ex();   m6809_ICount[0]-= 5; break;
     			case 0xf8: eorb_ex();  m6809_ICount[0]-= 5; break;
-    /*TODO*///			case 0xf9: adcb_ex();  m6809_ICount[0]-= 5; break;
+    			case 0xf9: adcb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xfa: orb_ex();   m6809_ICount[0]-= 5; break;
     			case 0xfb: addb_ex();  m6809_ICount[0]-= 5; break;
     			case 0xfc: ldd_ex();   m6809_ICount[0]-= 6; break;
@@ -4379,8 +4379,7 @@ public class m6809 extends cpu_interface
     	WM(ea,m6809.b);
         //if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
     }
-    /*TODO*///
-    /*TODO*////* $f8 EORB extended -**0- */
+    /* $f8 EORB extended -**0- */
     public void eorb_ex()
     {
         int t=EXTBYTE();
@@ -4388,17 +4387,16 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
     	SET_NZ8(m6809.b);
     }
-    /*TODO*///
-    /*TODO*////* $f9 ADCB extended ***** */
+    /* $f9 ADCB extended ***** */
     public void adcb_ex()
     {
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	EXTBYTE(t);
-    /*TODO*///	r = B + t + (CC & CC_C);
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	SET_H(B,t,r);
-    /*TODO*///	B = r;
+        int  t,r;
+    	t=EXTBYTE();
+    	r = (m6809.b + t + (m6809.cc & CC_C)) & 0xFFFF;
+    	CLR_HNZVC();
+    	SET_FLAGS8(m6809.b,t,r);
+    	SET_H(m6809.b,t,r);
+    	m6809.b = r & 0xFF;
     }
     /* $fA ORB extended -**0- */
     public void orb_ex()
