@@ -26,6 +26,11 @@ import static sndhrdw.trackfld.*;
 import static arcadeflex.libc_old.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
+import static sound.vlm5030.*;
+import static sound.vlm5030H.*;
+import static sound.dac.*;
+import static sound.dacH.*;
+
 public class hyperspt
 {
 	
@@ -184,9 +189,9 @@ public class hyperspt
 	{
 		new MemoryWriteAddress( 0x0000, 0x3fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x4000, 0x4fff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0xa000, 0xa000, VLM5030_data_w ), /* speech data */
+		new MemoryWriteAddress( 0xa000, 0xa000, VLM5030_data_w ), /* speech data */
 		new MemoryWriteAddress( 0xc000, 0xdfff, hyperspt_sound_w ),     /* speech and output controll */
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
+		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
 		new MemoryWriteAddress( 0xe001, 0xe001, konami_SN76496_latch_w ),  /* Loads the snd command into the snd latch */
 		new MemoryWriteAddress( 0xe002, 0xe002, konami_SN76496_0_w ),      /* This address triggers the SN chip to read the data port. */
 		new MemoryWriteAddress( -1 )	/* end of table */
@@ -475,15 +480,15 @@ public class hyperspt
 		null
 	};
 	
-/*TODO*///	struct VLM5030interface hyperspt_vlm5030_interface =
-/*TODO*///	{
-/*TODO*///		3580000,    /* master clock  */
-/*TODO*///		255,        /* volume        */
-/*TODO*///		REGION_SOUND1,	/* memory region  */
-/*TODO*///		0,         /* memory size    */
-/*TODO*///		0,         /* VCU            */
-/*TODO*///		hyperspt_sample_names
-/*TODO*///	};
+	static VLM5030interface hyperspt_vlm5030_interface = new VLM5030interface
+	(
+		3580000,    /* master clock  */
+		255,        /* volume        */
+		REGION_SOUND1,	/* memory region  */
+		0,         /* memory size    */
+		0,         /* VCU            */
+		hyperspt_sample_names
+        );
 	
 	
 	static MachineDriver machine_driver_hyperspt = new MachineDriver
@@ -522,18 +527,18 @@ public class hyperspt
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_DAC,
 				konami_dac_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_SN76496,
 				konami_sn76496_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_VLM5030,
 				hyperspt_vlm5030_interface
-			)*/
+			)
 		},
 	
 		nvram_handler
@@ -575,18 +580,18 @@ public class hyperspt
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_DAC,
 				konami_dac_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_SN76496,
 				konami_sn76496_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_VLM5030,
 				konami_vlm5030_interface
-			)*/
+			)
 		}
 	);
 	
