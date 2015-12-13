@@ -211,7 +211,7 @@ import static drivers.WIP.nemesis.*;
 import static drivers.sbasketb.*;
 import static drivers.WIP.terracre.*;
 import static drivers.WIP.punchout.*;
-import static drivers.WIP.astrof.*;
+import static drivers.astrof.*;
 import static drivers.WIP.karnov.*;
 import static drivers.WIP.shuuz.*;
 
@@ -711,6 +711,11 @@ public class driver {
         /*479*//*rockrage*/driver_rockragj,
         /*480*//*yiear*/driver_yiear,
         /*481*//*yiear*/driver_yiear2,
+        /*482*//*astrof*/driver_astrof,	
+        /*483*//*astrof*/driver_astrof2,	
+        /*484*//*astrof*/driver_astrof3,	
+        /*485*//*astrof*/driver_tomahawk,	
+        /*486*//*astrof*/driver_tomahaw5,	
         
         /*
            Small issues that doesn't affect playable status
@@ -2125,11 +2130,7 @@ driver_sfzch,	//no roms?
 
 
 	/* other Data East games */
-driver_astrof,	/* (c) [1980?] */
-driver_astrof2,	/* (c) [1980?] */
-driver_astrof3,	/* (c) [1980?] */
-driver_tomahawk,	/* (c) [1980?] */
-driver_tomahaw5,	/* (c) [1980?] */
+
 
 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */
 /*TODO*/ //	DRIVER( firetpbl )	/* bootleg */

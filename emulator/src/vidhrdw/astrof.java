@@ -33,7 +33,7 @@ public class astrof
 	
 	
 	public static UBytePtr astrof_color=new UBytePtr();
-	public static UBytePtr tomahawk_protection;
+	public static UBytePtr tomahawk_protection=new UBytePtr();
 	
 	static int flipscreen = 0;
 	static int force_refresh = 0;
