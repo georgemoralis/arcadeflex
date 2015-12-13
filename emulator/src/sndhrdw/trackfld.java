@@ -16,7 +16,8 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static arcadeflex.ptrlib.*;
 import static sound.dacH.*;
-
+import static sound.vlm5030.*;
+import static sound.vlm5030H.*;
 
 public class trackfld
 {
@@ -25,14 +26,14 @@ public class trackfld
 	public static final int TIMER_RATE= (4096/4);
 	
 	
-/*TODO*///	struct VLM5030interface konami_vlm5030_interface =
-/*TODO*///	{
-/*TODO*///	    3580000,    /* master clock  */
-/*TODO*///	    255,        /* volume        */
-/*TODO*///	    4,         /* memory region  */
-/*TODO*///	    0,         /* memory size    */
-/*TODO*///	    0,         /* VCU            */
-/*TODO*///	};
+	public static VLM5030interface konami_vlm5030_interface = new VLM5030interface
+			(
+	    3580000,    /* master clock  */
+	    255,        /* volume        */
+	    4,         /* memory region  */
+	    0,         /* memory size    */
+	    0         /* VCU            */
+			);
 	
 	public static SN76496interface konami_sn76496_interface = new SN76496interface
 	(
@@ -78,8 +79,8 @@ public class trackfld
 	
 	public static ReadHandlerPtr trackfld_speech_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
-/*TODO*///	    return VLM5030_BSY() ? 0x10 : 0;
-            return 0;//hack
+	    return VLM5030_BSY()!=0 ? 0x10 : 0;
+            
 	} };
 	
 	static int last_addr = 0;
@@ -93,12 +94,12 @@ public class trackfld
 	        /* A8 = STA pin (1.0 data data  , 0.1 start speech   */
 	        /* A9 = RST pin 1=reset                                */
 	
-	        /* A8 VLM5030 ST pin */
-/*TODO*///	        if ((changes & 0x100) != 0)
-/*TODO*///	            VLM5030_ST( offset&0x100 );
+/* A8 VLM5030 ST pin */
+	        if ((changes & 0x100) != 0)
+	            VLM5030_ST( offset&0x100 );
 	        /* A9 VLM5030 RST pin */
-/*TODO*///	        if ((changes & 0x200) != 0)
-/*TODO*///	            VLM5030_RST( offset&0x200 );
+	        if ((changes & 0x200) != 0)
+	            VLM5030_RST( offset&0x200 );
 	    }
 	    last_addr = offset;
 	} };
@@ -107,8 +108,7 @@ public class trackfld
 	{
 	    int clock = cpu_gettotalcycles() / TIMER_RATE;
 	
-/*TODO*///	    return (clock & 0x3) | (VLM5030_BSY()? 0x04 : 0);
-            return (clock & 0x3) | 0 ; //hack
+	    return (clock & 0x3) | (VLM5030_BSY()!=0 ? 0x04 : 0);
 	} };
 	
 	public static WriteHandlerPtr hyperspt_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
@@ -122,11 +122,11 @@ public class trackfld
 	    /* A8 = SN76489    output disable (don't care ) */
 	
 	    /* A4 VLM5030 ST pin */
-/*TODO*///	    if ((changes & 0x10) != 0)
-/*TODO*///	        VLM5030_ST( offset&0x10 );
+            if ((changes & 0x10) != 0)
+	        VLM5030_ST( offset&0x10 );
 	    /* A5 VLM5030 RST pin */
-/*TODO*///	    if ((changes & 0x20) != 0)
-/*TODO*///	        VLM5030_RST( offset&0x20 );
+	    if ((changes & 0x20) != 0)
+	        VLM5030_RST( offset&0x20 );
 	
 	    last_addr = offset;
 	} };

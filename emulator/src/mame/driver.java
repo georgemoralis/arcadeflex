@@ -701,6 +701,9 @@ public class driver {
         /*469*//*rallyx*/driver_rallyx,
         /*470*//*rallyx*/driver_nrallyx,
         /*471*//*sbasketb*/driver_sbasketb,
+        /*472*//*trackfld*/driver_trackfld,
+        /*473*//*trackfld*/driver_trackflc,
+        /*474*//*trackfld*/driver_hyprolym,
         /*
            Small issues that doesn't affect playable status
         */
@@ -933,10 +936,8 @@ public class driver {
          */
            
         
-        /*trackfld*/driver_trackfld,
-        /*trackfld*/driver_trackflc,
-        /*trackfld*/driver_hyprolym,
-        /*trackfld*/driver_hyprolyb,
+
+        /*trackfld*/driver_hyprolyb,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 36704 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:100) at sound.adpcm.generate_adpcm(adpcm.java:150)
     
         /*hyperspt*/driver_hyperspt,
         /*hyperspt*/driver_hpolym84,

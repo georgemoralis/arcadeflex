@@ -37,6 +37,10 @@ import static machine.konami.*;
 import static mame.inputportH.*;
 import static sndhrdw.trackfld.*;
 import static arcadeflex.ptrlib.*;
+import static sound.vlm5030.*;
+import static sound.vlm5030H.*;
+import static sound.dac.*;
+import static sound.dacH.*;
 
 public class trackfld
 {
@@ -190,14 +194,14 @@ public class trackfld
 		new MemoryWriteAddress( 0x4000, 0x43ff, MWA_RAM ),
 		new MemoryWriteAddress( 0xa000, 0xa000, SN76496_0_w ),	/* Loads the snd command into the snd latch */
 		new MemoryWriteAddress( 0xc000, 0xc000, MWA_NOP ),		/* This address triggers the SN chip to read the data port. */
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
+		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
 	/* There are lots more addresses which are used for setting a two bit volume
 		controls for speech and music
 	
 		Currently these are un-supported by Mame
 	*/
 		new MemoryWriteAddress( 0xe001, 0xe001, MWA_NOP ), /* watch dog ? */
-/*TODO*///		new MemoryWriteAddress( 0xe004, 0xe004, VLM5030_data_w ),
+		new MemoryWriteAddress( 0xe004, 0xe004, VLM5030_data_w ),
 		new MemoryWriteAddress( 0xe000, 0xefff, trackfld_sound_w ), /* e003 speech control */
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
@@ -218,7 +222,7 @@ public class trackfld
 		new MemoryWriteAddress( 0x4000, 0x43ff, MWA_RAM ),
 		new MemoryWriteAddress( 0xa000, 0xa000, SN76496_0_w ),	/* Loads the snd command into the snd latch */
 		new MemoryWriteAddress( 0xc000, 0xc000, MWA_NOP ),		/* This address triggers the SN chip to read the data port. */
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
+		new MemoryWriteAddress( 0xe000, 0xe000, DAC_data_w ),
 	/* There are lots more addresses which are used for setting a two bit volume
 		controls for speech and music
 	
@@ -379,15 +383,15 @@ public class trackfld
 		null
 	};
 	
-/*	struct VLM5030interface trackfld_vlm5030_interface =
-	{
+	static VLM5030interface trackfld_vlm5030_interface = new VLM5030interface
+	(
 		3580000,    /* master clock  */
-/*		255,        /* volume        */
-/*		REGION_SOUND1,	/* memory region  */
-/*		0,         /* memory size    */
-/*		0,         /* VCU            */
-/*		trackfld_sample_names
-	};*/
+		255,        /* volume        */
+		REGION_SOUND1,	/* memory region  */
+		0,         /* memory size    */
+		0,         /* VCU            */
+		trackfld_sample_names
+        );
 	
 	
 	
@@ -427,18 +431,18 @@ public class trackfld
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_DAC,
 				konami_dac_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_SN76496,
 				konami_sn76496_interface
-			)/*,
+			),
 			new MachineSound(
 				SOUND_VLM5030,
 				trackfld_vlm5030_interface
-			)*/
+			)
 		},
 	
 		nvram_handler
@@ -482,10 +486,10 @@ public class trackfld
 		/* sound hardware */
 		0,0,0,0,
 		new MachineSound[] {
-			/*new MachineSound(
+			new MachineSound(
 				SOUND_DAC,
 				konami_dac_interface
-			),*/
+			),
 			new MachineSound(
 				SOUND_SN76496,
 				konami_sn76496_interface
