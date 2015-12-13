@@ -153,7 +153,7 @@ import static drivers.skydiver.*;
 import static drivers.WIP.simpsons.*;
 import static drivers.WIP.vendetta.*;
 import static drivers.missile.*;
-import static drivers.WIP.yiear.*;
+import static drivers.yiear.*;
 import static drivers.WIP.pacland.*;
 import static drivers.WIP.skykid.*;
 import static drivers.WIP.baraduke.*;
@@ -709,6 +709,9 @@ public class driver {
         /*477*//*hyperspt*/driver_roadf,
         /*478*//*rockrage*/driver_rockrage,
         /*479*//*rockrage*/driver_rockragj,
+        /*480*//*yiear*/driver_yiear,
+        /*481*//*yiear*/driver_yiear2,
+        
         /*
            Small issues that doesn't affect playable status
         */
@@ -720,8 +723,6 @@ public class driver {
         /*006*//*atetris*/driver_atetrisb,//no nvram support
         /*007*//*atetris*/driver_atetcktl,//no nvram support ,screen needs to be a bit righter
         /*008*//*atetris*/driver_atetckt2,//no nvram support ,screen needs to be a bit righter
-        /*012*//*yiear*/driver_yiear,//vlm5030 has issues so it's disabled atm
-        /*013*//*yiear*/driver_yiear2,//vlm5030 has issues so it's disabled atm
         /*ddragon*/driver_ddragonb,//no stereo sound support
         /*ddragon*/driver_ddragon2,//no stereo sound support
         /*jackal*/driver_jackal, //no stereo sound support
