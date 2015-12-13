@@ -127,7 +127,7 @@ import static drivers.WIP.ddrible.*;
 import static drivers.WIP.lkage.*;
 import static drivers.WIP.mainevt.*;
 import static drivers.WIP.bladestl.*;
-import static drivers.WIP.rockrage.*;
+import static drivers.rockrage.*;
 import static drivers.WIP.thunderx.*;
 import static drivers.WIP.aliens.*;
 import static drivers.WIP.crimfght.*;
@@ -707,6 +707,8 @@ public class driver {
         /*475*//*hyperspt*/driver_hyperspt,
         /*476*//*hyperspt*/driver_hpolym84,
         /*477*//*hyperspt*/driver_roadf,
+        /*478*//*rockrage*/driver_rockrage,
+        /*479*//*rockrage*/driver_rockragj,
         /*
            Small issues that doesn't affect playable status
         */
@@ -941,11 +943,6 @@ public class driver {
         
 
         /*trackfld*/driver_hyprolyb,//Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 36704 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:100) at sound.adpcm.generate_adpcm(adpcm.java:150)
-    
-
-
-        /*rockrage*/driver_rockrage,
-        /*rockrage*/driver_rockragj,
 
         
         /**
