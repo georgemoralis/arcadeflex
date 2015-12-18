@@ -598,7 +598,7 @@ public class common {
         for (i = 0; i < samples.total; i++) {
             Object f;
 
-            if (samplenames[i + skipfirst].charAt(0) != '\0') {
+            if (samplenames[i + skipfirst].length()>0 && samplenames[i + skipfirst].charAt(0) != '\0') {
                 if ((f = osd_fopen(basename, samplenames[i + skipfirst], OSD_FILETYPE_SAMPLE, 0)) == null)
                     if (skipfirst != 0)
                         f = osd_fopen(samplenames[0].substring(1, samplenames[0].length())/*samplenames[0] + 1*/, samplenames[i + skipfirst], OSD_FILETYPE_SAMPLE, 0);

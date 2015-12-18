@@ -23,13 +23,13 @@ import static mame.common.*;
 public class berzerk
 {
 	
-	static int irq_enabled;
-	static int nmi_enabled;
-	static int berzerk_irq_end_of_screen;
+	public static int irq_enabled;
+	public static int nmi_enabled;
+	public static int berzerk_irq_end_of_screen;
 	
-	static int berzerkplayvoice;
+	public static int berzerkplayvoice;
 	
-	static int int_count;
+	public static int int_count;
 	
 	
 	

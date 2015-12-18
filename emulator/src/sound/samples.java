@@ -46,23 +46,31 @@ public class samples extends snd_interface {
             return;
         }
         if (channel >= numchannels) {
-            if(errorlog!=null) fprintf(errorlog,"error: sample_start() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_start() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            }
             return;
         }
         if (samplenum >= Machine.samples.total) {
-            if(errorlog!=null) fprintf(errorlog,"error: sample_start() called with samplenum = %d, but only %d samples available\n", samplenum, Machine.samples.total);
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_start() called with samplenum = %d, but only %d samples available\n", samplenum, Machine.samples.total);
+            }
             return;
         }
 
         if (Machine.samples.sample[samplenum].resolution == 8) {
-            if(errorlog!=null) fprintf(errorlog,"play 8 bit sample %d, channel %d\n", samplenum, channel);
+            if (errorlog != null) {
+                fprintf(errorlog, "play 8 bit sample %d, channel %d\n", samplenum, channel);
+            }
             mixer_play_sample(firstchannel + channel,
                     new BytePtr(Machine.samples.sample[samplenum].data),
                     Machine.samples.sample[samplenum].length,
                     Machine.samples.sample[samplenum].smpfreq,
                     loop != 0);
         } else {
-            if(errorlog!=null) fprintf(errorlog,"play 16 bit sample %d, channel %d\n", samplenum, channel);
+            if (errorlog != null) {
+                fprintf(errorlog, "play 16 bit sample %d, channel %d\n", samplenum, channel);
+            }
             mixer_play_sample_16(firstchannel + channel,
                     new ShortPtr(Machine.samples.sample[samplenum].data),
                     Machine.samples.sample[samplenum].length,
@@ -71,19 +79,23 @@ public class samples extends snd_interface {
         }
     }
 
-    /*TODO*///
-/*TODO*///void sample_set_freq(int channel,int freq)
-/*TODO*///{
-/*TODO*///	if (Machine->sample_rate == 0) return;
-/*TODO*///	if (Machine->samples == 0) return;
-/*TODO*///	if (channel >= numchannels)
-/*TODO*///	{
-/*TODO*///		if(errorlog!=null) fprintf(errorlog,"error: sample_adjust() called with channel = %d, but only %d channels allocated\n",channel,numchannels);
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	mixer_set_sample_frequency(channel + firstchannel,freq);
-/*TODO*///}
+    public static void sample_set_freq(int channel, int freq) {
+        if (Machine.sample_rate == 0) {
+            return;
+        }
+        if (Machine.samples == null) {
+            return;
+        }
+        if (channel >= numchannels) {
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_adjust() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            }
+            return;
+        }
+
+        mixer_set_sample_frequency(channel + firstchannel, freq);
+    }
+
     public static void sample_set_volume(int channel, int volume) {
         if (Machine.sample_rate == 0) {
             return;
@@ -92,7 +104,9 @@ public class samples extends snd_interface {
             return;
         }
         if (channel >= numchannels) {
-            if(errorlog!=null) fprintf(errorlog,"error: sample_adjust() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_adjust() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            }
             return;
         }
 
@@ -104,7 +118,9 @@ public class samples extends snd_interface {
             return;
         }
         if (channel >= numchannels) {
-            if(errorlog!=null) fprintf(errorlog,"error: sample_stop() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_stop() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            }
             return;
         }
 
@@ -116,7 +132,9 @@ public class samples extends snd_interface {
             return 0;
         }
         if (channel >= numchannels) {
-            if(errorlog!=null) fprintf(errorlog,"error: sample_playing() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            if (errorlog != null) {
+                fprintf(errorlog, "error: sample_playing() called with channel = %d, but only %d channels allocated\n", channel, numchannels);
+            }
             return 0;
         }
 

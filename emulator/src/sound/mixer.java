@@ -585,27 +585,27 @@ public class mixer {
         mixer_update_channel(mixer_channel[ch], sound_scalebufferpos((int) samples_this_frame));
         return mixer_channel[ch].is_playing;
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///	mixer_set_sample_frequency
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///void mixer_set_sample_frequency(int ch, int freq)
-    /*TODO*///{
-    /*TODO*///	struct mixer_channel_data *channel = &mixer_channel[ch];
-    /*TODO*///
-    /*TODO*///	mixer_update_channel(channel, sound_scalebufferpos(samples_this_frame));
-    /*TODO*///
-    /*TODO*///	/* compute the step size for sample rate conversion */
-    /*TODO*///	if (freq != channel->frequency)
-    /*TODO*///	{
-    /*TODO*///		channel->frequency = freq;
-    /*TODO*///		channel->step_size = (UINT32)((double)freq * (double)(1 << FRACTION_BITS) / (double)Machine->sample_rate);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    
+    /***************************************************************************
+    	mixer_set_sample_frequency
+    ***************************************************************************/
+    
+    public static void mixer_set_sample_frequency(int ch, int freq)
+    {
+    	//struct mixer_channel_data *channel = &mixer_channel[ch];
+    
+    	mixer_update_channel(mixer_channel[ch], sound_scalebufferpos(samples_this_frame));
+    
+    	/* compute the step size for sample rate conversion */
+    	if (freq != mixer_channel[ch].frequency)
+    	{
+    		mixer_channel[ch].frequency = freq;
+    		mixer_channel[ch].step_size = (int)((double)freq * (double)(1 << FRACTION_BITS) / (double)Machine.sample_rate);
+    	}
+    }
+    
+    
     /*TODO*////***************************************************************************
     /*TODO*///	mixer_sound_enable_global_w
     /*TODO*///***************************************************************************/

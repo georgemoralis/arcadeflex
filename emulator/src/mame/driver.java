@@ -214,6 +214,8 @@ import static drivers.WIP.punchout.*;
 import static drivers.astrof.*;
 import static drivers.WIP.karnov.*;
 import static drivers.WIP.shuuz.*;
+import static drivers.WIP.berzerk.*;
+
 
 
 public class driver {
@@ -2560,9 +2562,9 @@ driver_ddrago3b,
 	/* TA-0031 WWF Wrestlefest */
 
 	/* Stern "Berzerk hardware" games */
-/*TODO*/ //	DRIVER( berzerk )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( berzerk1 )	/* (c) 1980 */
-/*TODO*/ //	DRIVER( frenzy )	/* (c) 1982 */
+driver_berzerk,
+driver_berzerk1,
+driver_frenzy,
 
 	/* GamePlan games */
 /*TODO*/ //	DRIVER( megatack )	/* (c) 1980 Centuri */
