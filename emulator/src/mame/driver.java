@@ -215,7 +215,8 @@ import static drivers.astrof.*;
 import static drivers.WIP.karnov.*;
 import static drivers.WIP.shuuz.*;
 import static drivers.WIP.berzerk.*;
-
+import static drivers.WIP.ssi.*;
+import static drivers.WIP.taitof2.*;
 
 
 public class driver {
@@ -1673,17 +1674,17 @@ driver_superman,
 /*TODO*/ //	DRIVER( cachat )	/* (c) 1993 Taito Corporation (Japan) */
 
 	/* Taito F2 games */
-/*TODO*/ //	DRIVER( ssi )		/* (c) 1990 Taito Corporation Japan (World) */
+driver_ssi,		/* (c) 1990 Taito Corporation Japan (World) */
 	/* Majestic 12 (c) 1990 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( majest12 )	/* (c) 1990 Taito Corporation (Japan) */
+driver_majest12,	/* (c) 1990 Taito Corporation (Japan) */
 /*TODO*/ //TESTDRIVER( finalb )
 /*TODO*/ //TESTDRIVER( megab )
-/*TODO*/ //	DRIVER( liquidk )	/* (c) 1990 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( liquidku )	/* (c) 1990 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( mizubaku )	/* (c) 1990 Taito Corporation (Japan) */
-/*TODO*/ //	DRIVER( growl )		/* (c) 1990 Taito Corporation Japan (World) */
-/*TODO*/ //	DRIVER( growlu )	/* (c) 1990 Taito America Corporation (US) */
-/*TODO*/ //	DRIVER( runark )	/* (c) 1990 Taito Corporation (Japan) */
+driver_liquidk,	/* (c) 1990 Taito Corporation Japan (World) */
+driver_liquidku,	/* (c) 1990 Taito America Corporation (US) */
+driver_mizubaku,	/* (c) 1990 Taito Corporation (Japan) */
+driver_growl,	/* (c) 1990 Taito Corporation Japan (World) */
+driver_growlu,	/* (c) 1990 Taito America Corporation (US) */
+driver_runark,	/* (c) 1990 Taito Corporation (Japan) */
 
 	/* Toaplan games */
 
