@@ -192,7 +192,7 @@ import static drivers.WIP.rainbow.*;
 import static drivers.WIP.cabal.*;
 import static drivers.WIP.xmen.*;
 import static drivers.WIP.tmnt.*;
-import static drivers.WIP.toki.*;
+import static drivers.toki.*;
 import static drivers.WIP.snk68.*;
 import static drivers.WIP.ddragon3.*;
 import static drivers.galpanic.*;
@@ -719,6 +719,7 @@ public class driver {
         /*484*//*astrof*/driver_astrof3,	
         /*485*//*astrof*/driver_tomahawk,	
         /*486*//*astrof*/driver_tomahaw5,	
+        /*487*//*toki*/driver_tokib,
         
         /*
            Small issues that doesn't affect playable status
@@ -919,6 +920,11 @@ public class driver {
         /*kingobox*/driver_ringkin2,
         /*taitosj*/driver_kikstart,
         /*ddragon*/driver_ddragon,
+        /*toki*/driver_toki,
+        /*toki*/driver_toki2,
+        /*toki*/driver_toki3,
+        /*toki*/driver_tokiu,
+
         
         /*
         WIP drivers
@@ -2664,11 +2670,7 @@ driver_frenzy,
 
 	/* Tad games (Tad games run on Seibu hardware) */
 
-driver_toki,
-driver_toki2,
-driver_toki3,
-driver_tokiu,
-driver_tokib,
+
 driver_bloodbro,
 driver_weststry,
 
