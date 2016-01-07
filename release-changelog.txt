@@ -1,13 +1,116 @@
-0.36.8
+0.36.12 (30 July 2015)
 =======================================
+
+0.36.11 (8 June 2015)
+=======================================
+
+
+0.36.10 (21 March 2015)
+=======================================
+Generic
+=======
+Analog controls works now
+
+CPU
+===
+m68000 (not working WIP)
+
+Drivers
+=======
+missile
+ccastles
+marineb
+centiped
+higemaru
+fastfred
+zodiack
+taitosj( Missing games with m68705)
+blueprnt
+kchamp
+tutankhm
+
+machine
+=======
+motorola 6812 (WIP)
+
+sound
+=====
+ym2151 (no stereo sound support)
+
+
+
+0.36.9 (12 February 2015)
+=======================================
+
+Generic
+=======
+Added static 16bit palette mode
+Added Pause to arcadeflex . Works if you press P to pause and the P to unpause
+osd volume display using ~ 
+implemented mixer_play_sample and mix_sample_8 in mixer
+
+
+
+
+CPU
+===
+tms320c10 (not working)
+m68000 (intial not working)
+
+Drivers
+=======
+srumbler
+galivan
+cirucsc
+cclimber
+solomon
+tehkanwc
+
+
+sound
+=====
+y8950
+upd7759
+
+
+
+0.36.8 (24 January 2015)
+=======================================
+Generic
+=======
+cpu_setbankhandler_r , cpu_setbankhandler_w in memory.java
+
+CPU
+===
+m6800
+
 Drivers
 ======
 gsword
 gladiatr
+shaolins
+stfight
+jrpacman
+atetris
+skydiver
+travrusa
+troangel
+m62
+mpatrol
+yard
+
 
 Machine
 =======
 Taito 8741 emulation
+
+Sound
+=====
+VLM5030 (WIP)
+ym2151 (intial)
+pokey
+IREM sound
+
 
 =======================================
 0.36.7 (03- January 2015)
