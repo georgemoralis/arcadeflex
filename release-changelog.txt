@@ -1,8 +1,69 @@
+0.36.13 (....... )
+=======================================
+
+Driver
+=====
+sbasketb
+astrof
+congo
+zaxxon
+galaga
+rallyx
+rockrage
+yiear
+toki
+
+
+sound
+=====
+ym2610
+vlm5030 (working)
+k005289
+samples
+
+
+
 0.36.12 (30 July 2015)
 =======================================
 
+
+Driver
+======
+m72 (partial some games work)
+raiden 
+snowbros
+galpanic
+
+CPU
+===
+v30
+m68000 (working)
+
+
 0.36.11 (8 June 2015)
 =======================================
+
+Drivers
+=======
+mitchell
+simpsons (no stereo sound)
+aliens (no stereo sound)
+surpratk (no stereo sound)
+vendetta (no stereo sound)
+rollerg
+crimfght (no stereo sound)
+
+CPU
+===
+konami cpu (rewrote)
+
+Machine
+=======
+eeprom support (fixed)
+
+Sound
+=====
+K053260
 
 
 0.36.10 (21 March 2015)
