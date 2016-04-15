@@ -217,7 +217,7 @@ import static drivers.WIP.shuuz.*;
 import static drivers.WIP.berzerk.*;
 import static drivers.WIP.ssi.*;
 import static drivers.WIP.taitof2.*;
-
+import static drivers.galaxian.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -1148,48 +1148,48 @@ driver_xmen2pj,
 
   /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
 	/* "Galaxian hardware" games */
-/*TODO*/ //	DRIVER( galaxian )	/* (c) Namco */
-/*TODO*/ //	DRIVER( galmidw )	/* (c) Midway */
-/*TODO*/ //	DRIVER( superg )	/* hack */
-/*TODO*/ //	DRIVER( galaxb )	/* bootleg */
-/*TODO*/ //	DRIVER( galapx )	/* hack */
-/*TODO*/ //	DRIVER( galap1 )	/* hack */
-/*TODO*/ //	DRIVER( galap4 )	/* hack */
-/*TODO*/ //	DRIVER( galturbo )	/* hack */
-/*TODO*/ //	DRIVER( swarm )		/* hack */
-/*TODO*/ //	DRIVER( pisces )	/* ? */
-/*TODO*/ //	DRIVER( uniwars )	/* (c) Irem */
-/*TODO*/ //	DRIVER( gteikoku )	/* (c) Irem */
-/*TODO*/ //	DRIVER( spacbatt )	/* bootleg */
-/*TODO*/ //	DRIVER( warofbug )	/* (c) 1981 Armenia */
-/*TODO*/ //	DRIVER( redufo )	/* ? */
-/*TODO*/ //	DRIVER( pacmanbl )	/* bootleg */
-/*TODO*/ //	DRIVER( devilfsg )	/* (c) 1984 Vision / Artic (bootleg?) */
-/*TODO*/ //	DRIVER( zigzag )	/* (c) 1982 LAX */
-/*TODO*/ //	DRIVER( zigzag2 )	/* (c) 1982 LAX */
-/*TODO*/ //	DRIVER( jumpbug )	/* (c) 1981 Rock-ola */
-/*TODO*/ //	DRIVER( jumpbugb )	/* (c) 1981 Sega */
-/*TODO*/ //	DRIVER( levers )	/* (c) 1983 Rock-ola */
-/*TODO*/ //	DRIVER( azurian )	/* (c) 1982 Rait Electronics Ltd */
-/*TODO*/ //	DRIVER( orbitron )	/* Signatron USA */
-/*TODO*/ //	DRIVER( mooncrgx )	/* bootleg */
-/*TODO*/ //	DRIVER( mooncrst )	/* (c) 1980 Nichibutsu */
-/*TODO*/ //	DRIVER( mooncrsg )	/* (c) 1980 Gremlin */
-/*TODO*/ //	DRIVER( smooncrs )	/* Gremlin */
-/*TODO*/ //	DRIVER( mooncrsb )	/* bootleg */
-/*TODO*/ //	DRIVER( mooncrs2 )	/* bootleg */
-/*TODO*/ //	DRIVER( fantazia )	/* bootleg */
-/*TODO*/ //	DRIVER( eagle )		/* (c) Centuri */
-/*TODO*/ //	DRIVER( eagle2 )	/* (c) Centuri */
-/*TODO*/ //	DRIVER( moonqsr )	/* (c) 1980 Nichibutsu */
-/*TODO*/ //	DRIVER( checkman )	/* (c) 1982 Zilec-Zenitone */
-/*TODO*/ //	DRIVER( checkmaj )	/* (c) 1982 Jaleco (Zenitone/Zilec in ROM CM4, and the programmer names) */
-/*TODO*/ //	DRIVER( streakng )	/* [1980] Shoei */
-/*TODO*/ //	DRIVER( blkhole )	/* TDS (Tokyo Denshi Sekkei) */
-/*TODO*/ //	DRIVER( moonal2 )	/* Nichibutsu */
-/*TODO*/ //	DRIVER( moonal2b )	/* Nichibutsu */
-/*TODO*/ //	DRIVER( kingball )	/* (c) 1980 Namco */
-/*TODO*/ //	DRIVER( kingbalj )	/* (c) 1980 Namco */
+driver_galaxian,	/* (c) Namco */
+driver_galmidw,	/* (c) Midway */
+driver_superg,	/* hack */
+driver_galaxb,	/* bootleg */
+driver_galapx,	/* hack */
+driver_galap1,	/* hack */
+driver_galap4,	/* hack */
+driver_galturbo,	/* hack */
+driver_swarm,	/* hack */
+driver_pisces,	/* ? */
+driver_uniwars,	/* (c) Irem */
+driver_gteikoku,	/* (c) Irem */
+driver_spacbatt,	/* bootleg */
+driver_warofbug,	/* (c) 1981 Armenia */
+driver_redufo,	/* ? */
+driver_pacmanbl,	/* bootleg */
+driver_devilfsg,	/* (c) 1984 Vision / Artic (bootleg?) */
+driver_zigzag,	/* (c) 1982 LAX */
+driver_zigzag2,	/* (c) 1982 LAX */
+driver_jumpbug,	/* (c) 1981 Rock-ola */
+driver_jumpbugb,	/* (c) 1981 Sega */
+driver_levers,	/* (c) 1983 Rock-ola */
+driver_azurian,	/* (c) 1982 Rait Electronics Ltd */
+driver_orbitron,	/* Signatron USA */
+driver_mooncrgx,	/* bootleg */
+driver_mooncrst,	/* (c) 1980 Nichibutsu */
+driver_mooncrsg,	/* (c) 1980 Gremlin */
+driver_smooncrs,	/* Gremlin */
+driver_mooncrsb,	/* bootleg */
+driver_mooncrs2,	/* bootleg */
+driver_fantazia,	/* bootleg */
+driver_eagle ,	/* (c) Centuri */
+driver_eagle2,	/* (c) Centuri */
+driver_moonqsr,	/* (c) 1980 Nichibutsu */
+driver_checkman,	/* (c) 1982 Zilec-Zenitone */
+driver_checkmaj,	/* (c) 1982 Jaleco (Zenitone/Zilec in ROM CM4, and the programmer names) */
+driver_streakng,	/* [1980] Shoei */
+driver_blkhole,	/* TDS (Tokyo Denshi Sekkei) */
+driver_moonal2,	/* Nichibutsu */
+driver_moonal2b,	/* Nichibutsu */
+driver_kingball,	/* (c) 1980 Namco */
+//driver_sakingbalj,	/* (c) 1980 Namco */
 
 	/* "Scramble hardware" (and variations) games */
 	

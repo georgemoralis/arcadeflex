@@ -12,6 +12,7 @@ import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static drivers.scramble.*;
 import static arcadeflex.ptrlib.*;
+import static mame.memory.*;
 
 public class galaxian {
 
@@ -35,9 +36,10 @@ public class galaxian {
 
     public static int[] galaxian_bulletsram_size = new int[1];
     static int stars_on, stars_blink;
-    static int stars_type;        /* 0 = Galaxian stars 1 = Scramble stars */
-    /*  2 = Rescue stars (same as Scramble, but only half screen) */
-    /*  3 = Mariner stars (same as Galaxian, but some parts are blanked */
+    static int stars_type;
+    /* 0 = Galaxian stars 1 = Scramble stars */
+ /*  2 = Rescue stars (same as Scramble, but only half screen) */
+ /*  3 = Mariner stars (same as Galaxian, but some parts are blanked */
 
     static int stars_scroll;
     static int color_mask;
@@ -71,68 +73,47 @@ public class galaxian {
     public static modify_spritecodePtr modify_spritecode;
     public static modify_charcodePtr modify_charcode;
 
-    /*TODO*///static int mooncrst_gfxextend;
+    static int mooncrst_gfxextend;
     static int pisces_gfxbank;
-    /*TODO*///static int jumpbug_gfxbank[5];
+    static int[] jumpbug_gfxbank = new int[5];
     static int[] flipscreen = new int[2];
 
     static int background_on;
     static char[] backcolor = new char[256];
-    /*TODO*///
-    /*TODO*///static void mooncrgx_gfxextend_w      (int offset,int data);
-    /*TODO*///
-    /*TODO*///static void mooncrst_modify_charcode  (int *charcode,int offs);
-    /*TODO*///static void  moonqsr_modify_charcode  (int *charcode,int offs);
-    /*TODO*///static void   pisces_modify_charcode  (int *charcode,int offs);
-    /*TODO*///static void  mariner_modify_charcode  (int *charcode,int offs);
-    /*TODO*///static void  jumpbug_modify_charcode  (int *charcode,int offs);
-    /*TODO*///
-    /*TODO*///static void mooncrst_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///static void  moonqsr_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///static void   ckongs_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///static void  calipso_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///static void   pisces_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///static void  jumpbug_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs);
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Convert the color PROMs into a more useable format.
-    /*TODO*///
-    /*TODO*///  Moon Cresta has one 32 bytes palette PROM, connected to the RGB output
-    /*TODO*///  this way:
-    /*TODO*///
-    /*TODO*///  bit 7 -- 220 ohm resistor  -- BLUE
-    /*TODO*///        -- 470 ohm resistor  -- BLUE
-    /*TODO*///        -- 220 ohm resistor  -- GREEN
-    /*TODO*///        -- 470 ohm resistor  -- GREEN
-    /*TODO*///        -- 1  kohm resistor  -- GREEN
-    /*TODO*///        -- 220 ohm resistor  -- RED
-    /*TODO*///        -- 470 ohm resistor  -- RED
-    /*TODO*///  bit 0 -- 1  kohm resistor  -- RED
-    /*TODO*///
-    /*TODO*///  The output of the background star generator is connected this way:
-    /*TODO*///
-    /*TODO*///  bit 5 -- 100 ohm resistor  -- BLUE
-    /*TODO*///        -- 150 ohm resistor  -- BLUE
-    /*TODO*///        -- 100 ohm resistor  -- GREEN
-    /*TODO*///        -- 150 ohm resistor  -- GREEN
-    /*TODO*///        -- 100 ohm resistor  -- RED
-    /*TODO*///  bit 0 -- 150 ohm resistor  -- RED
-    /*TODO*///
-    /*TODO*///  The blue background in Scramble and other games goes through a 390 ohm
-    /*TODO*///  resistor.
-    /*TODO*///
-    /*TODO*///  The RGB outputs have a 470 ohm pull-down each.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
 
+    /**
+     * *************************************************************************
+     *
+     * Convert the color PROMs into a more useable format.
+     *
+     * Moon Cresta has one 32 bytes palette PROM, connected to the RGB output
+     * this way:
+     *
+     * bit 7 -- 220 ohm resistor -- BLUE -- 470 ohm resistor -- BLUE -- 220 ohm
+     * resistor -- GREEN -- 470 ohm resistor -- GREEN -- 1 kohm resistor --
+     * GREEN -- 220 ohm resistor -- RED -- 470 ohm resistor -- RED bit 0 -- 1
+     * kohm resistor -- RED
+     *
+     * The output of the background star generator is connected this way:
+     *
+     * bit 5 -- 100 ohm resistor -- BLUE -- 150 ohm resistor -- BLUE -- 100 ohm
+     * resistor -- GREEN -- 150 ohm resistor -- GREEN -- 100 ohm resistor -- RED
+     * bit 0 -- 150 ohm resistor -- RED
+     *
+     * The blue background in Scramble and other games goes through a 390 ohm
+     * resistor.
+     *
+     * The RGB outputs have a 470 ohm pull-down each.
+     *
+     **************************************************************************
+     */
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr galaxian_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
+            //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
 
             color_mask = (Machine.gfx[0].color_granularity == 4) ? 7 : 3;
@@ -183,12 +164,14 @@ public class galaxian {
 
             /* bullets can be either white or yellow */
             colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 0] = 0;
-            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 1] = 0x0f + STARS_COLOR_BASE;	/* yellow */
+            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 1] = 0x0f + STARS_COLOR_BASE;
+            /* yellow */
 
             colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 2] = 0;
-            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 3] = 0x3f + STARS_COLOR_BASE;	/* white */
+            colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + 3] = 0x3f + STARS_COLOR_BASE;
+            /* white */
 
-            /* default blue background */
+ /* default blue background */
             palette[p_inc++].set((char) (0));
             palette[p_inc++].set((char) (0));
             palette[p_inc++].set((char) (0x55));
@@ -205,7 +188,7 @@ public class galaxian {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
-            /* Graduated Blue */
+ /* Graduated Blue */
             for (i = 0; i < 64; i++) {
                 palette[96 * 3 + i * 3 + 0].set((char) (0));
                 palette[96 * 3 + i * 3 + 1].set((char) (i * 2));
@@ -228,7 +211,7 @@ public class galaxian {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
-            /* Graduated Blue */
+ /* Graduated Blue */
             for (i = 0; i < 64; i++) {
                 palette[96 * 3 + i * 3 + 0].set((char) 0);
                 palette[96 * 3 + i * 3 + 1].set((char) (i * 2));
@@ -242,7 +225,7 @@ public class galaxian {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
-            /* blue and dark brown */
+ /* blue and dark brown */
             palette[96 * 3 + 0].set((char) 0);
             palette[96 * 3 + 1].set((char) 0);
             palette[96 * 3 + 2].set((char) 0x55);
@@ -259,7 +242,7 @@ public class galaxian {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
-            /* nine shades of blue */
+ /* nine shades of blue */
             palette[96 * 3 + 0].set((char) 0);
             palette[96 * 3 + 1].set((char) 0);
             palette[96 * 3 + 2].set((char) 0);
@@ -295,14 +278,14 @@ public class galaxian {
      **************************************************************************
      */
     static int common_vh_start() {
-        /*TODO*///	extern struct GameDriver driver_newsin7;
+        //extern struct GameDriver driver_newsin7;
         int generator;
         int x, y;
 
         modify_charcode = null;
         modify_spritecode = null;
-        /*TODO*///
-    /*TODO*///	mooncrst_gfxextend = 0;
+
+        mooncrst_gfxextend = 0;
         stars_on = 0;
         flipscreen[0] = 0;
         flipscreen[1] = 0;
@@ -368,34 +351,31 @@ public class galaxian {
             return common_vh_start();
         }
     };
-    /*TODO*///int mooncrst_vh_start(void)
-    /*TODO*///{
-    /*TODO*///	int ret = galaxian_vh_start();
-    /*TODO*///
-    /*TODO*///	modify_charcode   = mooncrst_modify_charcode;
-    /*TODO*///	modify_spritecode = mooncrst_modify_spritecode;
-    /*TODO*///	return ret;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int mooncrgx_vh_start(void)
-    /*TODO*///{
-    /*TODO*///	install_mem_write_handler(0, 0x6000, 0x6002, mooncrgx_gfxextend_w);
-    /*TODO*///	return mooncrst_vh_start();
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int moonqsr_vh_start(void)
-    /*TODO*///{
-    /*TODO*///	int ret = galaxian_vh_start();
-    /*TODO*///
-    /*TODO*///	modify_charcode   = moonqsr_modify_charcode;
-    /*TODO*///	modify_spritecode = moonqsr_modify_spritecode;
-    /*TODO*///	return ret;
-    /*TODO*///}
-    /*TODO*///
+    public static VhStartPtr mooncrst_vh_start = new VhStartPtr() {
+        public int handler() {
+            int ret = galaxian_vh_start.handler();
+            modify_charcode = mooncrst_modify_charcode;
+            modify_spritecode = mooncrst_modify_spritecode;
+            return ret;
+        }
+    };
+    public static VhStartPtr mooncrgx_vh_start = new VhStartPtr() {
+        public int handler() {
+            install_mem_write_handler(0, 0x6000, 0x6002, mooncrgx_gfxextend_w);
+            return mooncrst_vh_start.handler();
+        }
+    };
+    public static VhStartPtr moonqsr_vh_start = new VhStartPtr() {
+        public int handler() {
+            int ret = galaxian_vh_start.handler();
+            modify_charcode = moonqsr_modify_charcode;
+            modify_spritecode = moonqsr_modify_spritecode;
+            return ret;
+        }
+    };
     public static VhStartPtr pisces_vh_start = new VhStartPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
-
             modify_charcode = pisces_modify_charcode;
             modify_spritecode = pisces_modify_spritecode;
             return ret;
@@ -558,27 +538,25 @@ public class galaxian {
             return ret;
         }
     };
-    /*TODO*///
-    /*TODO*///int jumpbug_vh_start(void)
-    /*TODO*///{
-    /*TODO*///	int ret = galaxian_vh_start();
-    /*TODO*///
-    /*TODO*///	modify_charcode   = jumpbug_modify_charcode;
-    /*TODO*///	modify_spritecode = jumpbug_modify_spritecode;
-    /*TODO*///	return ret;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int zigzag_vh_start(void)
-    /*TODO*///{
-    /*TODO*///	int ret = galaxian_vh_start();
-    /*TODO*///
-    /*TODO*///	/* no bullets RAM */
-    /*TODO*///	galaxian_bulletsram_size = 0;
-    /*TODO*///	return ret;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
+    public static VhStartPtr jumpbug_vh_start = new VhStartPtr() {
+        public int handler() {
+            int ret = galaxian_vh_start.handler();
+
+            modify_charcode = jumpbug_modify_charcode;
+            modify_spritecode = jumpbug_modify_spritecode;
+            return ret;
+        }
+    };
+    public static VhStartPtr zigzag_vh_start = new VhStartPtr() {
+        public int handler() {
+            int ret = galaxian_vh_start.handler();
+
+            /* no bullets RAM */
+            galaxian_bulletsram_size[0] = 0;
+            return ret;
+        }
+    };
+
     public static WriteHandlerPtr galaxian_flipx_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (flipscreen[0] != (data & 1)) {
@@ -631,25 +609,28 @@ public class galaxian {
             stars_scroll = 0;
         }
     };
-
-    /*TODO*///void mooncrst_gfxextend_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	if (data) mooncrst_gfxextend |= (1 << offset);
-    /*TODO*///	else mooncrst_gfxextend &= ~(1 << offset);
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///static void mooncrgx_gfxextend_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///  /* for the Moon Cresta bootleg on Galaxian H/W the gfx_extend is
-    /*TODO*///     located at 0x6000-0x6002.  Also, 0x6000 and 0x6001 are reversed. */
-    /*TODO*///     if(offset == 1)
-    /*TODO*///       offset = 0;
-    /*TODO*///     else if(offset == 0)
-    /*TODO*///       offset = 1;    /* switch 0x6000 and 0x6001 */
-    /*TODO*///	mooncrst_gfxextend_w(offset, data);
-    /*TODO*///}
-    /*TODO*///
+    public static WriteHandlerPtr mooncrst_gfxextend_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (data != 0) {
+                mooncrst_gfxextend |= (1 << offset);
+            } else {
+                mooncrst_gfxextend &= ~(1 << offset);
+            }
+        }
+    };
+    public static WriteHandlerPtr mooncrgx_gfxextend_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /* for the Moon Cresta bootleg on Galaxian H/W the gfx_extend is
+         located at 0x6000-0x6002.  Also, 0x6000 and 0x6001 are reversed. */
+            if (offset == 1) {
+                offset = 0;
+            } else if (offset == 0) {
+                offset = 1;
+                /* switch 0x6000 and 0x6001 */
+            }
+            mooncrst_gfxextend_w.handler(offset, data);
+        }
+    };
     public static WriteHandlerPtr pisces_gfxbank_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (pisces_gfxbank != (data & 1)) {
@@ -658,16 +639,14 @@ public class galaxian {
             }
         }
     };
-    /*TODO*///void jumpbug_gfxbank_w(int offset,int data)
-    /*TODO*///{
-    /*TODO*///	if (jumpbug_gfxbank[offset] != data)
-    /*TODO*///	{
-    /*TODO*///		jumpbug_gfxbank[offset] = data;
-    /*TODO*///		memset(dirtybuffer,1,videoram_size);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    public static WriteHandlerPtr jumpbug_gfxbank_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (jumpbug_gfxbank[offset] != data) {
+                jumpbug_gfxbank[offset] = data;
+                memset(dirtybuffer, 1, videoram_size[0]);
+            }
+        }
+    };
 
     public static void plot_star(osd_bitmap bitmap, int x, int y, int code) {
         int backcol, pixel;
@@ -688,27 +667,24 @@ public class galaxian {
             plot_pixel.handler(bitmap, x, y, Machine.pens[STARS_COLOR_BASE + code]);
         }
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* Character banking routines */
-    /*TODO*///static void mooncrst_modify_charcode(int *charcode,int offs)
-    /*TODO*///{
-    /*TODO*///	if ((mooncrst_gfxextend & 4) && (*charcode & 0xc0) == 0x80)
-    /*TODO*///	{
-    /*TODO*///		*charcode = (*charcode & 0x3f) | (mooncrst_gfxextend << 6);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void moonqsr_modify_charcode(int *charcode,int offs)
-    /*TODO*///{
-    /*TODO*///	if (galaxian_attributesram[2 * (offs % 32) + 1] & 0x20)
-    /*TODO*///	{
-    /*TODO*///		*charcode += 256;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///    mooncrst_modify_charcode(charcode,offs);
-    /*TODO*///}
-    /*TODO*///
+
+    /* Character banking routines */
+    public static modify_charcodePtr mooncrst_modify_charcode = new modify_charcodePtr() {
+        public void handler(int[] charcode, int offs) {
+            if ((mooncrst_gfxextend & 4) != 0 && (charcode[0] & 0xc0) == 0x80) {
+                charcode[0] = (charcode[0] & 0x3f) | (mooncrst_gfxextend << 6);
+            }
+        }
+    };
+    public static modify_charcodePtr moonqsr_modify_charcode = new modify_charcodePtr() {
+        public void handler(int[] charcode, int offs) {
+            if ((galaxian_attributesram.read(2 * (offs % 32) + 1) & 0x20) != 0) {
+                charcode[0] += 256;
+            }
+
+            mooncrst_modify_charcode.handler(charcode, offs);
+        }
+    };
     public static modify_charcodePtr pisces_modify_charcode = new modify_charcodePtr() {
         public void handler(int[] charcode, int offs) {
             if (pisces_gfxbank != 0) {
@@ -726,38 +702,35 @@ public class galaxian {
             }
         }
     };
-    /*TODO*///
-    /*TODO*///static void jumpbug_modify_charcode(int *charcode,int offs)
-    /*TODO*///{
-    /*TODO*///	if (((*charcode & 0xc0) == 0x80) &&
-    /*TODO*///		 (jumpbug_gfxbank[2] & 1) != 0)
-    /*TODO*///	{
-    /*TODO*///		*charcode += 128 + (( jumpbug_gfxbank[0] & 1) << 6) +
-    /*TODO*///				           (( jumpbug_gfxbank[1] & 1) << 7) +
-    /*TODO*///						   ((~jumpbug_gfxbank[4] & 1) << 8);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////* Sprite banking routines */
-    /*TODO*///static void mooncrst_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs)
-    /*TODO*///{
-    /*TODO*///	if ((mooncrst_gfxextend & 4) && (*spritecode & 0x30) == 0x20)
-    /*TODO*///	{
-    /*TODO*///		*spritecode = (*spritecode & 0x0f) | (mooncrst_gfxextend << 4);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///static void moonqsr_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs)
-    /*TODO*///{
-    /*TODO*///	if (spriteram[offs + 2] & 0x20)
-    /*TODO*///	{
-    /*TODO*///		*spritecode += 64;
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///    mooncrst_modify_spritecode(spritecode, flipx, flipy, offs);
-    /*TODO*///}
-    /*TODO*///
+    public static modify_charcodePtr jumpbug_modify_charcode = new modify_charcodePtr() {
+        public void handler(int[] charcode, int offs) {
+            if (((charcode[0] & 0xc0) == 0x80)
+                    && (jumpbug_gfxbank[2] & 1) != 0) {
+                charcode[0] += 128 + ((jumpbug_gfxbank[0] & 1) << 6)
+                        + ((jumpbug_gfxbank[1] & 1) << 7)
+                        + ((~jumpbug_gfxbank[4] & 1) << 8);
+            }
+        }
+    };
+
+    /* Sprite banking routines */
+    public static modify_spritecodePtr mooncrst_modify_spritecode = new modify_spritecodePtr() {
+        public void handler(int[] spritecode, int[] flipx, int[] flipy, int offs) {
+            if ((mooncrst_gfxextend & 4) != 0 && (spritecode[0] & 0x30) == 0x20) {
+                spritecode[0] = (spritecode[0] & 0x0f) | (mooncrst_gfxextend << 4);
+            }
+        }
+    };
+    public static modify_spritecodePtr moonqsr_modify_spritecode = new modify_spritecodePtr() {
+        public void handler(int[] spritecode, int[] flipx, int[] flipy, int offs) {
+            if ((spriteram.read(offs + 2) & 0x20) != 0) {
+                spritecode[0] += 64;
+            }
+
+            mooncrst_modify_spritecode.handler(spritecode, flipx, flipy, offs);
+        }
+    };
+
     public static modify_spritecodePtr ckongs_modify_spritecode = new modify_spritecodePtr() {
         public void handler(int[] spritecode, int[] flipx, int[] flipy, int offs) {
             if ((spriteram.read(offs + 2) & 0x10) != 0) {
@@ -782,32 +755,31 @@ public class galaxian {
 
         }
     };
+    public static modify_spritecodePtr jumpbug_modify_spritecode = new modify_spritecodePtr() {
+        public void handler(int[] spritecode, int[] flipx, int[] flipy, int offs) {
+            if (((spritecode[0] & 0x30) == 0x20)
+                    && (jumpbug_gfxbank[2] & 1) != 0) {
+                spritecode[0] += 32 + ((jumpbug_gfxbank[0] & 1) << 4)
+                        + ((jumpbug_gfxbank[1] & 1) << 5)
+                        + ((~jumpbug_gfxbank[4] & 1) << 6);
+            }
+        }
+    };
 
-    /*TODO*///static void jumpbug_modify_spritecode(int *spritecode,int *flipx,int *flipy,int offs)
-    /*TODO*///{
-    /*TODO*///	if (((*spritecode & 0x30) == 0x20) &&
-    /*TODO*///		 (jumpbug_gfxbank[2] & 1) != 0)
-    /*TODO*///	{
-    /*TODO*///		*spritecode += 32 + (( jumpbug_gfxbank[0] & 1) << 4) +
-    /*TODO*///		                    (( jumpbug_gfxbank[1] & 1) << 5) +
-    /*TODO*///		                    ((~jumpbug_gfxbank[4] & 1) << 6);
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*////***************************************************************************
-    /*TODO*///
-    /*TODO*///  Draw the game screen in the given osd_bitmap.
-    /*TODO*///  Do NOT call osd_update_display() from this function, it will be called by
-    /*TODO*///  the main emulation engine.
-    /*TODO*///
-    /*TODO*///***************************************************************************/
+    /***************************************************************************
+    
+      Draw the game screen in the given osd_bitmap.
+      Do NOT call osd_update_display() from this function, it will be called by
+      the main emulation engine.
+    
+    ***************************************************************************/
     public static VhUpdatePtr galaxian_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             int i, offs;
 
             /* for every character in the Video RAM, check if it has been modified */
-            /* since last time and update it accordingly. */
+ /* since last time and update it accordingly. */
             for (offs = videoram_size[0] - 1; offs >= 0; offs--) {
                 if (dirtybuffer[offs] != 0) {
                     int sx, sy, background_charcode;
@@ -882,9 +854,11 @@ public class galaxian {
                 int color;
 
                 if (offs == 7 * 4) {
-                    color = 0;	/* yellow */
+                    color = 0;
+                    /* yellow */
                 } else {
-                    color = 1;	/* white */
+                    color = 1;
+                    /* white */
                 }
 
                 x = 255 - galaxian_bulletsram.read(offs + 3) - Machine.drv.gfxdecodeinfo[2].gfxlayout.width;
@@ -908,7 +882,8 @@ public class galaxian {
                 int[] flipy = new int[1];
                 int[] spritecode = new int[1];
 
-                sx = (spriteram.read(offs + 3) + 1) & 0xff; /* This is definately correct in Mariner. Look at
+                sx = (spriteram.read(offs + 3) + 1) & 0xff;
+                /* This is definately correct in Mariner. Look at
                  the 'gate' moving up/down. It stops at the
                  right spots */
 
@@ -924,7 +899,8 @@ public class galaxian {
                 }
 
                 if (flipscreen[0] != 0) {
-                    sx = 240 - sx;	/* I checked a bunch of games including Scramble
+                    sx = 240 - sx;
+                    /* I checked a bunch of games including Scramble
                      (# of pixels the ship is from the top of the mountain),
                      Mariner and Checkman. This is correct for them */
 
@@ -936,14 +912,14 @@ public class galaxian {
                 }
 
                 /* In Amidar, */
-                /* Sprites #0, #1 and #2 need to be offset one pixel to be correctly */
-                /* centered on the ladders in Turtles (we move them down, but since this */
-                /* is a rotated game, we actually move them left). */
-                /* Note that the adjustment must be done AFTER handling flipscreen, thus */
-                /* proving that this is a hardware related "feature" */
-                /* This is not Amidar, it is Galaxian/Scramble/hundreds of clones, and I'm */
-                /* not sure it should be the same. A good game to test alignment is Armored Car */
-                /*		if (offs <= 2*4) sy++;*/
+ /* Sprites #0, #1 and #2 need to be offset one pixel to be correctly */
+ /* centered on the ladders in Turtles (we move them down, but since this */
+ /* is a rotated game, we actually move them left). */
+ /* Note that the adjustment must be done AFTER handling flipscreen, thus */
+ /* proving that this is a hardware related "feature" */
+ /* This is not Amidar, it is Galaxian/Scramble/hundreds of clones, and I'm */
+ /* not sure it should be the same. A good game to test alignment is Armored Car */
+ /*		if (offs <= 2*4) sy++;*/
                 drawgfx(bitmap, Machine.gfx[1],
                         spritecode[0],
                         spriteram.read(offs + 2) & color_mask,
@@ -956,13 +932,16 @@ public class galaxian {
             if (stars_on != 0) {
 
                 switch (stars_type) {
-                    case -1: /* no stars */
+                    case -1:
+                        /* no stars */
 
                         break;
 
-                    case 0:	/* Galaxian stars */
+                    case 0:
+                    /* Galaxian stars */
 
-                    case 3:	/* Mariner stars */
+                    case 3:
+                        /* Mariner stars */
 
                         for (offs = 0; offs < total_stars; offs++) {
                             int x, y;
@@ -988,9 +967,11 @@ public class galaxian {
                         }
                         break;
 
-                    case 1:	/* Scramble stars */
+                    case 1:
+                    /* Scramble stars */
 
-                    case 2:	/* Rescue stars */
+                    case 2:
+                        /* Rescue stars */
 
                         for (offs = 0; offs < total_stars; offs++) {
                             int x, y;
