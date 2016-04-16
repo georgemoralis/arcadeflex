@@ -218,6 +218,7 @@ import static drivers.WIP.berzerk.*;
 import static drivers.WIP.ssi.*;
 import static drivers.WIP.taitof2.*;
 import static drivers.galaxian.*;
+import static drivers.rockola.*;
 
 public class driver {
     public static GameDriver drivers[] =
@@ -2497,16 +2498,16 @@ driver_shuuz2,/* (c) 1990 */
 /*TODO*/ //	DRIVER( sparkz )	/* (c) 1992 */
 
 	/* SNK / Rock-ola games */
-/*TODO*/ //	DRIVER( sasuke )	/* [1980] Shin Nihon Kikaku (SNK) */
-/*TODO*/ //	DRIVER( satansat )	/* (c) 1981 SNK */
-/*TODO*/ //	DRIVER( zarzon )	/* (c) 1981 Taito, gameplay says SNK */
-/*TODO*/ //	DRIVER( vanguard )	/* (c) 1981 SNK */
-/*TODO*/ //	DRIVER( vangrdce )	/* (c) 1981 SNK + Centuri */
-/*TODO*/ //	DRIVER( fantasy )	/* (c) 1981 Rock-ola */
-/*TODO*/ //	DRIVER( fantasyj )	/* (c) 1981 SNK */
-/*TODO*/ //	DRIVER( pballoon )	/* (c) 1982 SNK */
-/*TODO*/ //	DRIVER( nibbler )	/* (c) 1982 Rock-ola */
-/*TODO*/ //	DRIVER( nibblera )	/* (c) 1982 Rock-ola */
+driver_sasuke,	/* [1980] Shin Nihon Kikaku (SNK) */
+driver_satansat,	/* (c) 1981 SNK */
+driver_zarzon,	/* (c) 1981 Taito, gameplay says SNK */
+driver_vanguard,	/* (c) 1981 SNK */
+driver_vangrdce,	/* (c) 1981 SNK + Centuri */
+driver_fantasy,	/* (c) 1981 Rock-ola */
+driver_fantasyj,	/* (c) 1981 SNK */
+driver_pballoon,	/* (c) 1982 SNK */
+driver_nibbler,	/* (c) 1982 Rock-ola */
+driver_nibblera,	/* (c) 1982 Rock-ola */
 
 	/* later SNK games, each game can be identified by PCB code and ROM
 	code, the ROM code is the same between versions, and usually based

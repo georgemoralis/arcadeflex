@@ -454,6 +454,16 @@ snowbroa snowbros.c 68000    [Z80   ]                                           
 snowbrob snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (set 3)
 snowbroj snowbros.c 68000    [Z80   ]                                                       1xYM-3812                                                   Snow Bros. - Nick & Tom (Japan)
 galpanic galpanic.c 68000                                                                   1xOKI6295                                                   Gals Panic
+sasuke   rockola.c  M6502                                                                                                                               Sasuke vs. Commander
+satansat rockola.c  M6502                                                                   Custom                                                      Satan of Saturn
+zarzon   rockola.c  M6502                                                                   Custom                                                      Zarzon
+vanguard rockola.c  M6502                                                                   Custom                                                      Vanguard (SNK)
+vangrdce rockola.c  M6502                                                                   Custom                                                      Vanguard (Centuri)
+fantasy  rockola.c  M6502                                                                   Custom                                                      Fantasy (US)
+fantasyj rockola.c  M6502                                                                   Custom                                                      Fantasy (Japan)
+pballoon rockola.c  M6502                                                                   Custom                                                      Pioneer Balloon
+nibbler  rockola.c  M6502                                                                   Custom                                                      Nibbler (set 1)
+nibblera rockola.c  M6502                                                                   Custom                                                      Nibbler (set 2)
 
 Small issues that doesn't affect playable status
 =======================================

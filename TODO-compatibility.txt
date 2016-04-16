@@ -571,16 +571,6 @@ liberatr liberatr.c M6502                                                       
 cloak    cloak.c    M6502    M6502                                                          2xPokey                                                     Cloak & Dagger
 cloud9   cloud9.c   M6502                                                                   2xPokey                                                     Cloud 9 (prototype)
 jedi     jedi.c     M6502    M6502                                                          4xPokey     TMS5520                                         Return of the Jedi
-sasuke   rockola.c  M6502                                                                                                                               Sasuke vs. Commander
-satansat rockola.c  M6502                                                                   Custom                                                      Satan of Saturn
-zarzon   rockola.c  M6502                                                                   Custom                                                      Zarzon
-vanguard rockola.c  M6502                                                                   Custom                                                      Vanguard (SNK)
-vangrdce rockola.c  M6502                                                                   Custom                                                      Vanguard (Centuri)
-fantasy  rockola.c  M6502                                                                   Custom                                                      Fantasy (US)
-fantasyj rockola.c  M6502                                                                   Custom                                                      Fantasy (Japan)
-pballoon rockola.c  M6502                                                                   Custom                                                      Pioneer Balloon
-nibbler  rockola.c  M6502                                                                   Custom                                                      Nibbler (set 1)
-nibblera rockola.c  M6502                                                                   Custom                                                      Nibbler (set 2)
 lasso    lasso.c    M6502    M6502    [M6502 ]                                              1xAY-8910                                                   Lasso
 mole     mole.c     M6502                                                                   1xAY-8910                                                   Mole Attack
 sidetrac exidy.c    M6502                                                                   Custom      Samples     1xDAC                               Side Track
