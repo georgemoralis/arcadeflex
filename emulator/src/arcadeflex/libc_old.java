@@ -312,14 +312,20 @@ public class libc_old {
     }
 
     public static void memset(UBytePtr buf, int value, int size) {
-        memset(buf.memory, value, size);
+        //memset(buf.memory, value, size);
+        for (int i = 0; i < size; i++) {
+            buf.write(i, value);
+        }
     }
     public static void memset(UShortPtr buf, int value, int size) {
         memset(buf.memory, value, size);
     }
 
     public static void memset(UBytePtr buf, int offset, int value, int size) {
-        memset(buf.memory, offset, value, size);
+        //memset(buf.memory, offset, value, size);
+        for (int i = 0; i < size; i++) {
+            buf.write(i+offset, value);
+        }
     }
 
     public static void memset(IntPtr buf, int value, int size) {
