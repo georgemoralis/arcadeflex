@@ -2734,15 +2734,14 @@ public opcode aba = new opcode() {
     /* $76 ROR extended -**-* */
     public opcode ror_ex = new opcode() {
         public void handler() {
-            /*TODO*///UINT8 t, r;
-            /*TODO*///EXTBYTE(t);
-            /*TODO*///r = (CC & 0x01) << 7;
-            /*TODO*///CLR_NZC;
-            /*TODO*///CC |= (t & 0x01);
-            /*TODO*///r |= t >> 1;
-            /*TODO*///SET_NZ8(r);
-            /*TODO*///WM(EAD, r);
-            throw new UnsupportedOperationException("Unsupported");
+            /*UINT8*/int t, r;
+            t=EXTBYTE();
+            r = (m6800.cc & 0x01) << 7;
+            CLR_NZC();
+            m6800.cc |= (t & 0x01);
+            r |= t >>> 1;
+            SET_NZ8(r);
+            WM(ea, r);
             
         }
     };

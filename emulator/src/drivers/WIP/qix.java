@@ -25,7 +25,8 @@ import static mame.palette.*;
 import static mame.inputH.*;
 import static machine.qix.*;
 import static machine._6821pia.*;
-
+import static arcadeflex.fileio.*;
+import static arcadeflex.libc_old.*;
 
 public class qix {
 
@@ -34,15 +35,13 @@ public class qix {
 
     public static nvramPtr nvram_handler = new nvramPtr() {
         public void handler(Object file, int read_or_write) {
-            /*if (read_or_write)
-             osd_fwrite(file,nvram,nvram_size);
-             else
-             {
-             if (file)
-             osd_fread(file,nvram,nvram_size);
-             else
-             memset(nvram,0,nvram_size);
-             }*/
+            if (read_or_write!=0) {
+                osd_fwrite(file, nvram, nvram_size[0]);
+            } else if (file!=null) {
+                osd_fread(file, nvram, nvram_size[0]);
+            } else {
+                memset(nvram, 0, nvram_size[0]);
+            }
         }
     };
 
@@ -199,7 +198,8 @@ public class qix {
 
     static InputPortPtr input_ports_qix = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* PIA 0 Port A (PLAYER 1) */
+            PORT_START();
+            /* PIA 0 Port A (PLAYER 1) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -210,7 +210,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* PIA 0 Port B (COIN) */
+            PORT_START();
+            /* PIA 0 Port B (COIN) */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, "Test Advance", KEYCODE_F1, IP_JOY_DEFAULT);
             PORT_BITX(0x02, IP_ACTIVE_LOW, IPT_SERVICE, "Test Next line", KEYCODE_F2, IP_JOY_DEFAULT);
@@ -221,7 +222,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* PIA 1 Port A (SPARE) */
+            PORT_START();
+            /* PIA 1 Port A (SPARE) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -232,7 +234,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* PIA 1 Port B (PLAYER 1/2) */
+            PORT_START();
+            /* PIA 1 Port B (PLAYER 1/2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -243,7 +246,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 2 Port A (PLAYER 2) */
+            PORT_START();
+            /* PIA 2 Port A (PLAYER 2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -259,7 +263,8 @@ public class qix {
 
     static InputPortPtr input_ports_sdungeon = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* PIA 0 Port A (PLAYER 1) */
+            PORT_START();
+            /* PIA 0 Port A (PLAYER 1) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_8WAY);
@@ -270,7 +275,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_DOWN | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY);
 
-            PORT_START(); 	/* PIA 0 Port B (COIN) */
+            PORT_START();
+            /* PIA 0 Port B (COIN) */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, "Test Advance", KEYCODE_F1, IP_JOY_DEFAULT);
             PORT_BITX(0x02, IP_ACTIVE_LOW, IPT_SERVICE, "Test Next line", KEYCODE_F2, IP_JOY_DEFAULT);
@@ -281,7 +287,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* PIA 1 Port A (SPARE) */
+            PORT_START();
+            /* PIA 1 Port A (SPARE) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -292,7 +299,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* PIA 1 Port B (PLAYER 1/2) */
+            PORT_START();
+            /* PIA 1 Port B (PLAYER 1/2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -303,7 +311,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 2 Port A (PLAYER 2) */
+            PORT_START();
+            /* PIA 2 Port A (PLAYER 2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -319,7 +328,8 @@ public class qix {
 
     static InputPortPtr input_ports_elecyoyo = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* PIA 0 Port A (PLAYER 1) */
+            PORT_START();
+            /* PIA 0 Port A (PLAYER 1) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -330,7 +340,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 0 Port B (COIN) */
+            PORT_START();
+            /* PIA 0 Port B (COIN) */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, "Test Advance", KEYCODE_F1, IP_JOY_DEFAULT);
             PORT_BITX(0x02, IP_ACTIVE_LOW, IPT_SERVICE, "Test Next line", KEYCODE_F2, IP_JOY_DEFAULT);
@@ -341,7 +352,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* PIA 1 Port A (SPARE) */
+            PORT_START();
+            /* PIA 1 Port A (SPARE) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -352,7 +364,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* PIA 1 Port B (PLAYER 1/2) */
+            PORT_START();
+            /* PIA 1 Port B (PLAYER 1/2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -363,7 +376,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 2 Port A (PLAYER 2) */
+            PORT_START();
+            /* PIA 2 Port A (PLAYER 2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -379,7 +393,8 @@ public class qix {
 
     static InputPortPtr input_ports_kram = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* PIA 0 Port A (PLAYER 1) */
+            PORT_START();
+            /* PIA 0 Port A (PLAYER 1) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -390,7 +405,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* PIA 0 Port B (COIN) */
+            PORT_START();
+            /* PIA 0 Port B (COIN) */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, "Test Advance", KEYCODE_F1, IP_JOY_DEFAULT);
             PORT_BITX(0x02, IP_ACTIVE_LOW, IPT_SERVICE, "Test Next line", KEYCODE_F2, IP_JOY_DEFAULT);
@@ -401,7 +417,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* PIA 1 Port A (SPARE) */
+            PORT_START();
+            /* PIA 1 Port A (SPARE) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -412,7 +429,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* PIA 1 Port B (PLAYER 1/2) */
+            PORT_START();
+            /* PIA 1 Port B (PLAYER 1/2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -423,7 +441,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 2 Port A (PLAYER 2) */
+            PORT_START();
+            /* PIA 2 Port A (PLAYER 2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -439,7 +458,8 @@ public class qix {
 
     static InputPortPtr input_ports_zookeep = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* PIA 0 Port A (PLAYER 1) */
+            PORT_START();
+            /* PIA 0 Port A (PLAYER 1) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -450,7 +470,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 0 Port B (COIN) */
+            PORT_START();
+            /* PIA 0 Port B (COIN) */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, "Test Advance", KEYCODE_F1, IP_JOY_DEFAULT);
             PORT_BITX(0x02, IP_ACTIVE_LOW, IPT_SERVICE, "Test Next line", KEYCODE_F2, IP_JOY_DEFAULT);
@@ -461,7 +482,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* PIA 1 Port A (SPARE) */
+            PORT_START();
+            /* PIA 1 Port A (SPARE) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -472,7 +494,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* PIA 1 Port B (PLAYER 1/2) */
+            PORT_START();
+            /* PIA 1 Port B (PLAYER 1/2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -483,7 +506,8 @@ public class qix {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* PIA 2 Port A (PLAYER 2) */
+            PORT_START();
+            /* PIA 2 Port A (PLAYER 2) */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -691,7 +715,8 @@ public class qix {
             ROM_LOAD("u9", 0xF000, 0x0800, 0x26cbcd55);
             ROM_LOAD("u10", 0xF800, 0x0800, 0x568be942);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("u27", 0xF800, 0x0800, 0xf3782bd0);
             ROM_END();
@@ -722,7 +747,8 @@ public class qix {
             ROM_LOAD("qu9", 0xF000, 0x0800, 0xc99bf94d);
             ROM_LOAD("qu10", 0xF800, 0x0800, 0x88b45037);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("u27", 0xF800, 0x0800, 0xf3782bd0);
             ROM_END();
@@ -745,7 +771,8 @@ public class qix {
             ROM_LOAD("lk12.bin", 0xE000, 0x1000, 0xbe9b9f7d);
             ROM_LOAD("lk13.bin", 0xF000, 0x1000, 0x51c9853b);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("u27", 0xF800, 0x0800, 0xf3782bd0);
             ROM_END();
@@ -776,7 +803,8 @@ public class qix {
             ROM_LOAD("u9.rmb", 0xF000, 0x0800, 0xe80e9b1d);
             ROM_LOAD("u10.rmb", 0xF800, 0x0800, 0x9a55d360);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("u27", 0xF800, 0x0800, 0xf3782bd0);
             ROM_END();
@@ -794,7 +822,8 @@ public class qix {
             ROM_LOAD("sd18.u18", 0xE000, 0x1000, 0x7ef1ffc0);
             ROM_LOAD("sd19.u19", 0xF000, 0x1000, 0x7b20b7ac);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("sd05.u5", 0x0A000, 0x1000, 0x0b2bf48e);
             ROM_LOAD("sd06.u6", 0x0B000, 0x1000, 0xf86db512);
@@ -803,7 +832,8 @@ public class qix {
             ROM_LOAD("sd09.u9", 0x0E000, 0x1000, 0x89bc51ea);
             ROM_LOAD("sd10.u10", 0x0F000, 0x1000, 0x754de734);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("sd26.u26", 0xF000, 0x0800, 0x3df8630d);
             ROM_LOAD("sd27.u27", 0xF800, 0x0800, 0x0386f351);
@@ -826,7 +856,8 @@ public class qix {
             ROM_LOAD("yy18", 0xE000, 0x1000, 0x0b6661c0);
             ROM_LOAD("yy19-1", 0xF000, 0x1000, 0x95b8b244);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("yy5", 0x0A000, 0x1000, 0x3793fec5);
             ROM_LOAD("yy6", 0x0B000, 0x1000, 0x2e8b1265);
@@ -835,7 +866,8 @@ public class qix {
             ROM_LOAD("yy9", 0x0E000, 0x1000, 0x2f999480);
             ROM_LOAD("yy10", 0x0F000, 0x1000, 0xb31d20e2);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("yy27", 0xF800, 0x0800, 0x5a2aa0f3);
 
@@ -857,7 +889,8 @@ public class qix {
             ROM_LOAD("yy18", 0xE000, 0x1000, 0x0b6661c0);
             ROM_LOAD("yy19", 0xF000, 0x1000, 0xd0215d2e);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("yy5", 0x0A000, 0x1000, 0x3793fec5);
             ROM_LOAD("yy6", 0x0B000, 0x1000, 0x2e8b1265);
@@ -866,7 +899,8 @@ public class qix {
             ROM_LOAD("yy9", 0x0E000, 0x1000, 0x2f999480);
             ROM_LOAD("yy10", 0x0F000, 0x1000, 0xb31d20e2);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("yy27", 0xF800, 0x0800, 0x5a2aa0f3);
 
@@ -888,7 +922,8 @@ public class qix {
             ROM_LOAD("ks18", 0xE000, 0x1000, 0x79158b03);
             ROM_LOAD("ks19-1", 0xF000, 0x1000, 0x759ea6ce);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("ks5", 0x0A000, 0x1000, 0x1c472080);
             ROM_LOAD("ks6", 0x0B000, 0x1000, 0xb8926622);
@@ -897,7 +932,8 @@ public class qix {
             ROM_LOAD("ks9", 0x0E000, 0x1000, 0xd3bc8b5e);
             ROM_LOAD("ks10", 0x0F000, 0x1000, 0xe0426444);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("ks27", 0xf800, 0x0800, 0xc46530c8);
 
@@ -919,7 +955,8 @@ public class qix {
             ROM_LOAD("ks18", 0xE000, 0x1000, 0x79158b03);
             ROM_LOAD("ks19", 0xF000, 0x1000, 0x053c5e09);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("ks5", 0x0A000, 0x1000, 0x1c472080);
             ROM_LOAD("ks6", 0x0B000, 0x1000, 0xb8926622);
@@ -928,7 +965,8 @@ public class qix {
             ROM_LOAD("ks9", 0x0E000, 0x1000, 0xd3bc8b5e);
             ROM_LOAD("ks10", 0x0F000, 0x1000, 0xe0426444);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("ks27", 0xf800, 0x0800, 0xc46530c8);
 
@@ -952,7 +990,8 @@ public class qix {
             ROM_LOAD("za18", 0xE000, 0x1000, 0x37886afe);
             ROM_LOAD("za19", 0xF000, 0x1000, 0xbbfb30d9);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("za5", 0x0A000, 0x1000, 0xdc0c3cbd);
             ROM_LOAD("za3", 0x10000, 0x1000, 0xcc4d0aee);
@@ -964,7 +1003,8 @@ public class qix {
             ROM_LOAD("za9", 0x0E000, 0x1000, 0xa4f7d9e0);
             ROM_LOAD("za10", 0x0F000, 0x1000, 0x05df1a5a);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("za25", 0xD000, 0x1000, 0x779b8558);
             ROM_LOAD("za26", 0xE000, 0x1000, 0x60a810ce);
@@ -990,7 +1030,8 @@ public class qix {
             ROM_LOAD("za18", 0xE000, 0x1000, 0x37886afe);
             ROM_LOAD("za19.red", 0xF000, 0x1000, 0xec01760e);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("za5", 0x0A000, 0x1000, 0xdc0c3cbd);
             ROM_LOAD("za3", 0x10000, 0x1000, 0xcc4d0aee);
@@ -1002,7 +1043,8 @@ public class qix {
             ROM_LOAD("za9", 0x0E000, 0x1000, 0xa4f7d9e0);
             ROM_LOAD("za10", 0x0F000, 0x1000, 0x05df1a5a);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("za25", 0xD000, 0x1000, 0x779b8558);
             ROM_LOAD("za26", 0xE000, 0x1000, 0x60a810ce);
@@ -1028,7 +1070,8 @@ public class qix {
             ROM_LOAD("za18", 0xE000, 0x1000, 0x37886afe);
             ROM_LOAD("za19", 0xF000, 0x1000, 0xbbfb30d9);
 
-            ROM_REGION(0x12000, REGION_CPU2);    /* 64k for code + 2 ROM banks for the second CPU (Video) */
+            ROM_REGION(0x12000, REGION_CPU2);
+            /* 64k for code + 2 ROM banks for the second CPU (Video) */
 
             ROM_LOAD("za5", 0x0A000, 0x1000, 0xdc0c3cbd);
             ROM_LOAD("za3", 0x10000, 0x1000, 0xcc4d0aee);
@@ -1040,7 +1083,8 @@ public class qix {
             ROM_LOAD("zv35.9", 0x0E000, 0x1000, 0xd14123b7);
             ROM_LOAD("zv36.10", 0x0F000, 0x1000, 0x23705777);
 
-            ROM_REGION(0x10000, REGION_CPU3);	/* 64k for code for the third CPU (sound) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for code for the third CPU (sound) */
 
             ROM_LOAD("za25", 0xD000, 0x1000, 0x779b8558);
             ROM_LOAD("za26", 0xE000, 0x1000, 0x60a810ce);
