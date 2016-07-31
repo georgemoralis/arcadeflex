@@ -52,6 +52,7 @@ public class _6812piaH {
             this.in_cb1_func = in_cb1_func;
             this.in_ca2_func = in_ca2_func;
             this.in_cb2_func = in_cb2_func;
+            this.out_a_func=out_a_func;
             this.out_b_func = out_b_func;
             this.out_ca2_func = out_ca2_func;
             this.out_cb2_func = out_cb2_func;
