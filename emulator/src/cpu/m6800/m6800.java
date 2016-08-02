@@ -2657,13 +2657,12 @@ public opcode aba = new opcode() {
     /* $70 NEG extended ?**** */
     public opcode neg_ex = new opcode() {
         public void handler() {
-            /*TODO*///UINT16 r, t;
-            /*TODO*///EXTBYTE(t);
-            /*TODO*///r = -t;
-            /*TODO*///CLR_NZVC;
-            /*TODO*///SET_FLAGS8(0, t, r);
-            /*TODO*///WM(EAD, r);
-            throw new UnsupportedOperationException("Unsupported");
+            int/*UINT16*/ r, t;
+            t=EXTBYTE();
+            r = -t &0xFFFF;
+            CLR_NZVC();
+            SET_FLAGS8(0, t, r);
+            WM(ea, r);
         }
     };
 
@@ -3602,15 +3601,15 @@ public opcode aba = new opcode() {
     /* $bc CMPX extended -***- */
     public opcode cmpx_ex = new opcode() {
         public void handler() {
-            /*TODO*///UINT32 r, d;
-            /*TODO*///PAIR b;
-            /*TODO*///EXTWORD(b);
-            /*TODO*///d = X;
-            /*TODO*///r = d - b.d;
-            /*TODO*///CLR_NZV;
-            /*TODO*///SET_NZ16(r);
-            /*TODO*///SET_V16(d, b.d, r);
-            throw new UnsupportedOperationException("Unsupported");
+            int/*UINT32*/ r, d;
+            int b;
+            b=EXTWORD();
+            d = m6800.x;
+            r = d - b;
+            CLR_NZV();
+            SET_NZ16(r);
+            SET_V16(d, b, r);
+            
         }
     };
 

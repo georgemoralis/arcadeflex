@@ -2,7 +2,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package drivers.WIP;
+package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
@@ -14,14 +14,12 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc.*;
 import static vidhrdw.vigilant.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
 import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_DAC;
 import static mame.sndintrfH.SOUND_YM2151;
-import static sound.dac.*;
 import static sound.dacH.*;
 import static sound._2151intf.*;
 import static sound._2151intfH.*;
@@ -450,7 +448,7 @@ public class vigilant {
             vigilant_vh_stop,
             vigilant_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO,0,0,0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,
@@ -494,7 +492,7 @@ public class vigilant {
             vigilant_vh_stop,
             kikcubic_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO,0,0,0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,

@@ -356,7 +356,7 @@ public class jackal {
             jackal_vh_stop,
             jackal_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO,0,0,0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,
@@ -396,7 +396,7 @@ public class jackal {
             jackal_vh_stop,
             jackal_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO,0,0,0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,

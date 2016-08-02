@@ -5,11 +5,7 @@
  */
 package arcadeflex;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.*;
 
 /**
  *
@@ -23,20 +19,21 @@ public class SoundPlayer {
     int/*uint*/ stream_buffer_size;
     SourceDataLine m_line;
 
-    public SoundPlayer(int sampleRate, boolean stereo, int framesPerSecond) {
+    public SoundPlayer(int sampleRate, int stereo, int framesPerSecond) {
+        System.out.println(stereo);
         //soundInstance = new DynamicSoundEffectInstance(sampleRate, stereo ? AudioChannels.Stereo : AudioChannels.Mono);
         AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
                 22050,
                 16,
-                1,
-                2,
+                (stereo!=0 ? 2:1),
+                (stereo!=0 ? 4:2),
                 22050,
                 false);
 
         
         stream_buffer_size = (int) (((long) MAX_BUFFER_SIZE * (long) sampleRate) / 22050);
         int wBitsPerSample = 16;
-        int nChannels = stereo ? 2 : 1;
+        int nChannels = stereo!=0 ? 2 : 1;
         int nBlockAlign = wBitsPerSample * nChannels / 8;
         stream_buffer_size = (int) (stream_buffer_size * nBlockAlign) / 4;
         stream_buffer_size = (int) ((stream_buffer_size * 30) / framesPerSecond);
@@ -90,6 +87,7 @@ public class SoundPlayer {
     }
 
     public void SubmitBuffer(int offset, int length) {
+        if(waveBuffer!=null)
         m_line.write(waveBuffer, offset, length);
     }
 

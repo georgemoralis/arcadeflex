@@ -15,7 +15,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package drivers.WIP;
+package drivers;
 
 import static mame.driverH.*;
 import static mame.memoryH.*;
@@ -23,27 +23,17 @@ import static mame.commonH.*;
 import static mame.inputport.*;
 import static arcadeflex.ptrlib.*;
 import static mame.drawgfxH.*;
-import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
-import static mame.sndintrf.soundlatch_r;
-import static mame.sndintrf.soundlatch_w;
-import static cpu.m6809.m6809H.*;
-import static cpu.z80.z80H.*;
 import static mame.common.*;
-import static mame.commonH.*;
 import static mame.palette.*;
 import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
-import static mame.sndintrfH.SOUND_K007232;
 import static mame.sndintrfH.SOUND_YM2151;
 import static vidhrdw.konamiic.*;
-import static sound.k007232.*;
-import static sound.k007232H.*;
 import static sound._2151intf.*;
 import static sound._2151intfH.*;
 import static sound.mixerH.*;
@@ -53,7 +43,6 @@ import static mame.timerH.*;
 import static mame.inputH.*;
 import static vidhrdw.vendetta.*;
 import static cpu.konami.konamiH.*;
-import static machine.simpsons.*;
 import static machine.eeprom.*;
 import static machine.eepromH.*;
 import static cpu.konami.konami.*;
@@ -135,7 +124,8 @@ public class vendetta {
 
             res |= 0x02;//konami_eeprom_ack() << 5; /* add the ack */
 
-            res |= readinputport(3) & 0x0c; /* test switch */
+            res |= readinputport(3) & 0x0c;
+            /* test switch */
 
             if (init_eeprom_count != 0) {
                 init_eeprom_count--;
@@ -150,13 +140,13 @@ public class vendetta {
     public static WriteHandlerPtr vendetta_eeprom_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* bit 0 - VOC0 - Video banking related */
-            /* bit 1 - VOC1 - Video banking related */
-            /* bit 2 - MSCHNG - Mono Sound select (Amp) */
-            /* bit 3 - EEPCS - Eeprom CS */
-            /* bit 4 - EEPCLK - Eeprom CLK */
-            /* bit 5 - EEPDI - Eeprom data */
-            /* bit 6 - IRQ enable */
-            /* bit 7 - Unused */
+ /* bit 1 - VOC1 - Video banking related */
+ /* bit 2 - MSCHNG - Mono Sound select (Amp) */
+ /* bit 3 - EEPCS - Eeprom CS */
+ /* bit 4 - EEPCLK - Eeprom CLK */
+ /* bit 5 - EEPDI - Eeprom data */
+ /* bit 6 - IRQ enable */
+ /* bit 7 - Unused */
 
             if (data == 0xff) /* this is a bug in the eeprom write code */ {
                 return;
@@ -212,11 +202,11 @@ public class vendetta {
             coin_counter_w.handler(1, data & 0x02);
 
             /* bit 2 = BRAMBK ?? */
-            /* bit 3 = enable char ROM reading through the video RAM */
+ /* bit 3 = enable char ROM reading through the video RAM */
             K052109_set_RMRD_line((data & 0x08) != 0 ? ASSERT_LINE : CLEAR_LINE);
 
             /* bit 4 = INIT ?? */
-            /* bit 5 = enable sprite ROM reading */
+ /* bit 5 = enable sprite ROM reading */
             K053246_set_OBJCHA_line((data & 0x20) != 0 ? ASSERT_LINE : CLEAR_LINE);
         }
     };
@@ -449,7 +439,7 @@ public class vendetta {
             vendetta_vh_stop,
             vendetta_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,//SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO,0,0,0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,

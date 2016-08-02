@@ -60,13 +60,11 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static arcadeflex.ptrlib.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
 import static vidhrdw.m72.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
 import static mame.sndintrfH.*;
-import static sound.dac.*;
 import static sound.dacH.*;
 import static sound._2151intf.*;
 import static sound._2151intfH.*;
@@ -75,7 +73,6 @@ import static sound.mixerH.*;
 import static mame.memory.*;
 import static mame.mame.*;
 import static mame.cpuintrfH.*;
-import static mame.cpuintrf.*;
 
 public class m72
 {
@@ -2065,7 +2062,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2109,7 +2106,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2157,7 +2154,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2205,7 +2202,7 @@ public class m72
 		dbreed_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2253,7 +2250,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2301,7 +2298,7 @@ public class m72
 		majtitle_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2349,7 +2346,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2397,7 +2394,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,
@@ -2445,7 +2442,7 @@ public class m72
 		m72_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,

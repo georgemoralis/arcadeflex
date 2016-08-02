@@ -106,7 +106,7 @@ import static drivers.WIP.ddragon.*;
 import static drivers.WIP.contra.*;
 import static drivers.travrusa.*;
 import static drivers.WIP.sidepckt.*;
-import static drivers.WIP.vigilant.*;
+import static drivers.vigilant.*;
 import static drivers.WIP.dec8.*;
 import static drivers.m62.*;
 import static drivers.WIP.combatsc.*;
@@ -129,11 +129,11 @@ import static drivers.WIP.mainevt.*;
 import static drivers.WIP.bladestl.*;
 import static drivers.rockrage.*;
 import static drivers.WIP.thunderx.*;
-import static drivers.WIP.aliens.*;
-import static drivers.WIP.crimfght.*;
+import static drivers.aliens.*;
+import static drivers.crimfght.*;
 import static drivers.WIP.gbusters.*;
 import static drivers.WIP.blockhl.*;
-import static drivers.WIP.surpratk.*;
+import static drivers.surpratk.*;
 import static drivers.rollerg.*;
 import static drivers.WIP._88games.*;
 import static drivers.WIP.bottom9.*;
@@ -150,8 +150,8 @@ import static drivers.WIP.z80bw.*;
 import static drivers.WIP.arkanoid.*;
 import static drivers.congo.*;
 import static drivers.skydiver.*;
-import static drivers.WIP.simpsons.*;
-import static drivers.WIP.vendetta.*;
+import static drivers.simpsons.*;
+import static drivers.vendetta.*;
 import static drivers.missile.*;
 import static drivers.yiear.*;
 import static drivers.WIP.pacland.*;
@@ -733,6 +733,34 @@ public class driver {
                 /*495*//*rockola*/ driver_pballoon, /* (c) 1982 SNK */
                 /*496*//*rockola*/ driver_nibbler, /* (c) 1982 Rock-ola */
                 /*497*//*rockola*/ driver_nibblera, /* (c) 1982 Rock-ola */
+                /*498*//*qix*/driver_qix,
+                /*499*//*qix*/driver_qixa,
+                /*500*//*qix*/driver_qixb,
+                /*501*//*qix*/driver_qix2,
+                /*502*//*ddragon*/ driver_ddragonb,
+                /*503*//*ddragon*/ driver_ddragon2,
+                /*504*//*vigilant*/ driver_vigilant,	
+                /*505*//*vigilant*/ driver_vigilntu,	
+                /*506*//*vigilant*/ driver_vigilntj,	
+                /*507*//*vigilant*/ driver_kikcubic,
+                /*508*//*jackal*/ driver_jackal, 
+                /*509*//*jackal*/ driver_topgunr,
+                /*510*//*jackal*/ driver_jackalj,
+                /*511*//*aliens*/ driver_aliens,
+                /*512*//*aliens*/ driver_aliens2,
+                /*513*//*aliens*/ driver_aliensu,
+                /*514*//*aliens*/ driver_aliensj,
+                /*515*//*simpsons*/ driver_simpsons,	
+                /*516*//*simpsons*/ driver_simpsn2p,
+                /*517*//*simpsons*/ driver_simps2pj,
+                /*518*//*surpratk*/ driver_surpratk,
+                /*519*//*vendetta*/ driver_vendetta,
+                /*520*//*vendetta*/ driver_vendett2,
+                /*521*//*vendetta*/ driver_vendettj,
+                /*522*//*crimfght*/ driver_crimfght,
+                /*523*//*crimfght*/ driver_crimfgt2,
+                /*524*//*crimfght*/ driver_crimfgtj,
+                
                 /*
            Small issues that doesn't affect playable status
                  */
@@ -744,37 +772,18 @@ public class driver {
                 /*006*//*atetris*/ driver_atetrisb,//no nvram support
                 /*007*//*atetris*/ driver_atetcktl,//no nvram support ,screen needs to be a bit righter
                 /*008*//*atetris*/ driver_atetckt2,//no nvram support ,screen needs to be a bit righter
-                /*ddragon*/ driver_ddragonb,//no stereo sound support
-                /*ddragon*/ driver_ddragon2,//no stereo sound support
-                /*jackal*/ driver_jackal, //no stereo sound support
-                /*jackal*/ driver_topgunr,//no stereo sound support
-                /*jackal*/ driver_jackalj,//no stereo sound support
-                /*vigilant*/ driver_vigilant,//no stereo sound support	
-                /*vigilant*/ driver_vigilntu,//no stereo sound support	
-                /*vigilant*/ driver_vigilntj,//no stereo sound support	
-                /*vigilant*/ driver_kikcubic,//no stereo sound support	
-                /*simpsons*/ driver_simpsons,//no stereo sound support	
-                /*simpsons*/ driver_simpsn2p,//no stereo sound support
-                /*simpsons*/ driver_simps2pj,//no stereo sound support
-                /*aliens*/ driver_aliens,//no stereo sound support
-                /*aliens*/ driver_aliens2,//no stereo sound support
-                /*aliens*/ driver_aliensu,//no stereo sound support
-                /*aliens*/ driver_aliensj,//no stereo sound support
-                /*surpratk*/ driver_surpratk,//no stereo sound support
-                /*vendetta*/ driver_vendetta,//no stereo sound support
-                /*vendetta*/ driver_vendett2,//no stereo sound support
-                /*vendetta*/ driver_vendettj,//no stereo sound support
-                /*crimfght*/ driver_crimfght,//no stereo sound support
-                /*crimfght*/ driver_crimfgt2,//no stereo sound support
-                /*crimfght*/ driver_crimfgtj,//no stereo sound support
-                /*m72*/ driver_bchopper, //no stereo sound support
-                /*m72*/ driver_mrheli, //no stereo sound support
-                /*m72*/ driver_nspirit, //no stereo sound support
-                /*m72*/ driver_nspiritj, //no stereo sound support
-                /*m72*/ driver_imgfight, //no stereo sound support
-                /*m72*/ driver_rtype2, //no stereo sound support
-                /*m72*/ driver_rtype2j,//no stereo sound support
-                /*m72*/ driver_gallop,//no stereo sound support
+                
+                
+                
+                
+                /*m72*/ driver_bchopper, 
+                /*m72*/ driver_mrheli, 
+                /*m72*/ driver_nspirit, 
+                /*m72*/ driver_nspiritj, 
+                /*m72*/ driver_imgfight, 
+                /*m72*/ driver_rtype2, 
+                /*m72*/ driver_rtype2j,
+                /*m72*/ driver_gallop,
 
                 /*
           Possible cpu bugs
@@ -1542,10 +1551,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( crbalon2 )	/* (c) 1980 Taito Corporation */
 
                 /* Taito "Qix hardware" games */
-                driver_qix,
-                driver_qixa,
-                driver_qixb,
-                driver_qix2,
+
                 driver_sdungeon,//M68705
                 driver_elecyoyo,//M68705
                 driver_elecyoy2,//M68705

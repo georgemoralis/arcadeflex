@@ -12,29 +12,22 @@ driver by Nicola Salmoria
  * ported to v0.36
  * using automatic conversion tool v0.10
  */ 
-package drivers.WIP;
+package drivers;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
-import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static arcadeflex.ptrlib.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
 import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
-import static mame.sndintrf.soundlatch_r;
-import static mame.sndintrf.soundlatch_w;
 import static cpu.konami.konamiH.*;
 import static cpu.konami.konami.*;
-import static cpu.z80.z80H.*;
 import static mame.common.*;
-import static mame.commonH.*;
 import static mame.palette.*;
-import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_YM2151;
 import static vidhrdw.surpratk.*;
@@ -309,7 +302,7 @@ public class surpratk
 		surpratk_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
                 new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2151,

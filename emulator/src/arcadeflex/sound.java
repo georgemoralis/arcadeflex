@@ -1,7 +1,7 @@
 package arcadeflex;
 
-import static mame.mame.*;
-import static sound.mixer.*;
+import static mame.mame.Machine;
+import static sound.mixer.samples_this_frame;
 
 public class sound {
     static int attenuation = 0;
@@ -10,7 +10,7 @@ public class sound {
     static int stream_playing;
     static short[] stream_cache_data;
     static int stream_cache_len;
-    static boolean stream_cache_stereo;
+    static int stream_cache_stereo;
 
     static final int NUM_BUFFERS = 3;	/* raising this number should improve performance with frameskip, */
     /* but also increases the latency. */
@@ -27,11 +27,11 @@ public class sound {
     static int stream_buffer_in, stream_buffer_size;
     static int nBlockAlign;
 
-    public static int osd_start_audio_stream(boolean stereo) {
+    public static int osd_start_audio_stream(int stereo) {
         stream_cache_stereo = stereo;
         soundInstance = new SoundPlayer(Machine.sample_rate, stereo, (int) Machine.drv.frames_per_second);
         stream_buffer_size = soundInstance.GetStreamBufferSize();
-        nBlockAlign = 16 * (stereo ? 2 : 1) / 8;
+        nBlockAlign = 16 * (stereo!=0 ? 2 : 1) / 8;
         /* determine the number of samples per frame */
         samples_per_frame = (double) Machine.sample_rate / (double) Machine.drv.frames_per_second;
 
@@ -46,7 +46,7 @@ public class sound {
         stream_playing = 1;
         voice_pos = 0;
 
-        audio_buffer_length = 1940;//soundInstance.GetSampleSizeInBytes(TimeSpan.FromMilliseconds(22));
+        audio_buffer_length = (stereo!=0 ? 1940*2 : 1940);//soundInstance.GetSampleSizeInBytes(TimeSpan.FromMilliseconds(22));
         osd_set_mastervolume(attenuation);	/* set the startup volume */
         return (int) samples_this_frame;
     }
@@ -109,7 +109,7 @@ public class sound {
     static void updateaudiostream() {
         bytesCopiedToStream = 0;
         short[] data = stream_cache_data;
-        boolean stereo = stream_cache_stereo;
+        int stereo = stream_cache_stereo;
         int len = stream_cache_len;
         int buflen;
         int start, end;
@@ -125,9 +125,7 @@ public class sound {
             end -= buflen; // IS this intended to wrap-around ?
         }
 
-        if (stereo) {
-            return;//xxx no steresound for now
-
+        if (stereo!=0) {
             /*int p = start;
             int bi = 0;
             int di = 0;
@@ -135,11 +133,23 @@ public class sound {
                 if (p >= buflen) {
                     p -= buflen;
                 }
-                soundInstance.WriteSample(2 * p, (short) ((data[di++] * master_volume / 256)));
-                soundInstance.WriteSample(2 * p + 1, (short) ((data[di++] * master_volume / 256)));
-                p += 2;
+                soundInstance.WriteSample(2 * bi, (short) ((data[p++] * master_volume / 256)));
+                bi += 2;
+                soundInstance.WriteSample(2 * bi + 1, (short) ((data[p++] * master_volume / 256)));
+                bi += 2;
                 bytesCopiedToStream += 4;
             }*/
+            int p = start;
+            int d=0;
+            while (p != end)
+            {
+                if (p >= buflen) p -= buflen;
+                soundInstance.WriteSample(2*d, (short)(data[p] * master_volume / 256));
+                soundInstance.WriteSample(2*d+1, (short)(data[p+1] * master_volume / 256));
+                p++;// ???
+                d+=2;
+                bytesCopiedToStream += 4;
+            }
 
         } else {
             int p = start;

@@ -105,7 +105,7 @@ public class mixer {
             left_accum[i] = 0;
             right_accum[i] = 0;
         }
-        samples_this_frame = osd_start_audio_stream(is_stereo);
+        samples_this_frame = osd_start_audio_stream(is_stereo?1:0);
 
         mixer_sound_enabled = 1;
 
