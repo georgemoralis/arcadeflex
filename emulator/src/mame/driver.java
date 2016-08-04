@@ -221,6 +221,7 @@ import static drivers.galaxian.*;
 import static drivers.rockola.*;
 import static drivers.toaplan1.*;
 import static drivers.toaplan2.*;
+import static drivers.tigeroad.*;
 
 public class driver {
 
@@ -1680,10 +1681,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
                 /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
 
-                /*TODO*/ //	DRIVER( tigeroad )	/* 11/1987 (c) 1987 + Romstar (US) */
-                /*TODO*/ //	DRIVER( toramich )	/* 11/1987 (c) 1987 (Japan) */
-                /*TODO*/ //	DRIVER( f1dream )	/*  4/1988 (c) 1988 + Romstar */
-                /*TODO*/ //	DRIVER( f1dreamb )	/* bootleg */
+                driver_tigeroad,	/* 11/1987 (c) 1987 + Romstar (US) */
+                driver_toramich,	/* 11/1987 (c) 1987 (Japan) */
+                driver_f1dream,	/*  4/1988 (c) 1988 + Romstar */
+                driver_f1dreamb,	/* bootleg */
                 driver_lastduel, /*  7/1988 (c) 1988 (US) */
                 driver_lstduela, /*  7/1988 (c) 1988 (US) */
                 driver_lstduelb, /* bootleg */

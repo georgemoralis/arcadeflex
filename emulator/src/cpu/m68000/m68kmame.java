@@ -121,7 +121,7 @@ public class m68kmame extends cpu_interface {
 /*TODO*///		case M68K_A5: return m68k_peek_ar(5);
 /*TODO*///		case M68K_A6: return m68k_peek_ar(6);
 /*TODO*///		case M68K_A7: return m68k_peek_ar(7);
-/*TODO*///		case REG_PREVIOUSPC: return m68k_peek_ppc();
+		case REG_PREVIOUSPC: return (int)m68k_peek_ppc();
 /*TODO*////* TODO: return contents of [SP + wordsize * (REG_SP_CONTENTS-regnum)] */
             default:
                 throw new UnsupportedOperationException("Not supported yet.");
