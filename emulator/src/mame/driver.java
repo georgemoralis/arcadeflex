@@ -220,6 +220,7 @@ import static drivers.WIP.taitof2.*;
 import static drivers.galaxian.*;
 import static drivers.rockola.*;
 import static drivers.toaplan1.*;
+import static drivers.toaplan2.*;
 
 public class driver {
 
@@ -1629,18 +1630,18 @@ public class driver {
                 driver_vimana,/* TP-019 (c) 1991 Toaplan (+ Tecmo license when set to Japan) */
                 driver_vimana2, /* TP-019 (c) 1991 Toaplan (+ Tecmo license when set to Japan)  */
                 driver_vimanan, /* TP-019 (c) 1991 Toaplan (+ Nova Apparate GMBH & Co license) */
-                /*TODO*/ //	DRIVER( tekipaki )	/* TP-020 (c) 1991 Toaplan */
-                /*TODO*/ //	DRIVER( ghox )		/* TP-021 (c) 1991 Toaplan */
-                /*TODO*/ //	DRIVER( dogyuun )	/* TP-022 (c) 1992 Toaplan */
-                /*TODO*/ //	DRIVER( kbash )		/* TP-023 (c) 1993 Toaplan */
+                driver_tekipaki,	/* TP-020 (c) 1991 Toaplan */
+                driver_ghox,		/* TP-021 (c) 1991 Toaplan */
+                driver_dogyuun,	/* TP-022 (c) 1992 Toaplan */
+                driver_kbash,	/* TP-023 (c) 1993 Toaplan */
                 /*TODO*/ //TESTDRIVER( tatsujn2 )	/* TP-024 */
-                /*TODO*/ //	DRIVER( pipibibs )	/* TP-025 */
+                driver_pipibibs,	/* TP-025 */
                 /*TODO*/ //TESTDRIVER( pipibibi )	/* bootleg */
-                /*TODO*/ //	DRIVER( whoopee )	/* TP-025 */
+                driver_whoopee,	/* TP-025 */
                 /*TODO*/ //TESTDRIVER( fixeight )	/* TP-026 (c) 1992 + Taito license */
-                /*TODO*/ //	DRIVER( vfive )		/* TP-027 (c) 1993 Toaplan */
-                /*TODO*/ //	DRIVER( batsugun )	/* TP-030 (c) 1993 Toaplan */
-                /*TODO*/ //	DRIVER( snowbro2 )	/* TP-??? (c) 1994 Hanafram */
+                driver_vfive,		/* TP-027 (c) 1993 Toaplan */
+                driver_batsugun,	/* TP-030 (c) 1993 Toaplan */
+                driver_snowbro2,	/* TP-??? (c) 1994 Hanafram */
 
                 /* Williams games */
                 /*TODO*/ //	DRIVER( defender )	/* (c) 1980 */

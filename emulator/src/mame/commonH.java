@@ -114,7 +114,7 @@ public static void ROM_LOAD_WIDE_SWAP(String name,int offset,int length,int crc)
 
     public static void ROM_LOAD_GFX_EVEN(String name,int offset,int length,int crc){    ROM_LOAD_ODD(name,offset,length,crc); }
     public static void ROM_LOAD_GFX_ODD(String name,int offset,int length,int crc){     ROM_LOAD_EVEN(name,offset,length,crc); }
-/*TODO*/ //    #define ROM_LOAD_GFX_SWAP    ROM_LOAD_WIDE
+    public static void ROM_LOAD_GFX_SWAP(String name,int offset,int length,int crc){    ROM_LOAD_WIDE(name,offset,length,crc); }
     
     /* end of table */
     public static void ROM_END()

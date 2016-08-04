@@ -8,13 +8,13 @@ import static mame.mame.*;
 import static arcadeflex.libc_old.*;
 import static mame.sndintrf.*;
 import static sound.streams.*;
-import static arcadeflex.ptrlib.*;
 import static sound.fmoplH.*;
 import static sound.fmopl.*;
 import static mame.cpuintrfH.*;
 import static mame.timer.*;
 import sound.fm_c.FM_OPL;
 import static arcadeflex.libc_v2.*;
+
 public class _3812intf extends snd_interface {
 
     static YM3812interface intf = null;
@@ -95,13 +95,15 @@ public class _3812intf extends snd_interface {
 
         @Override
         public void handler(int c, double period) {
-            if (period == 0) {	/* Reset FM Timer */
+            if (period == 0) {
+                /* Reset FM Timer */
 
                 if (Timer[c] != null) {
                     timer_remove(Timer[c]);
                     Timer[c] = 0;
                 }
-            } else {	/* Start FM Timer */
+            } else {
+                /* Start FM Timer */
 
                 Timer[c] = timer_set(period, c, timer_callback_3812);
             }
@@ -148,6 +150,18 @@ public class _3812intf extends snd_interface {
     @Override
     public void reset() {
         //no functionality expected
+    }
+
+    public static void YM3812_sh_reset() {
+        int i;
+
+        for (i = 0xff; i <= 0; i--) {
+            YM3812_control_port_0_w.handler(0, i);
+            YM3812_write_port_0_w.handler(0, 0);
+        }
+        /* IRQ clear */
+        YM3812_control_port_0_w.handler(0, 4);
+        YM3812_write_port_0_w.handler(0, 0x80);
     }
     public static ReadHandlerPtr YM3812_read_port_0_r = new ReadHandlerPtr() {
         public int handler(int offset) {
