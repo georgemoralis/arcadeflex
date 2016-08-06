@@ -222,6 +222,7 @@ import static drivers.rockola.*;
 import static drivers.toaplan1.*;
 import static drivers.toaplan2.*;
 import static drivers.tigeroad.*;
+import static drivers.WIP.cninja.*;
 
 public class driver {
 
@@ -2094,7 +2095,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( cninja0 )	/* MAG (c) 1991 Data East Corporation (World) */
                 /*TODO*/ //	DRIVER( cninjau )	/* MAG (c) 1991 Data East Corporation (US) */
                 /*TODO*/ //	DRIVER( joemac )	/* MAG (c) 1991 Data East Corporation (Japan) */
-                /*TODO*/ //	DRIVER( stoneage )	/* bootleg */
+                driver_stoneage,	/* bootleg */
                 /* Robocop 2           MAH (c) 1991 */
                 /* Desert Assault/Thunderzone MAJ (c) 1991 */
                 /* Rohga Armour Attack/Wolf Fang MAM (c) 1991 */
