@@ -145,7 +145,224 @@ tigeroad tigeroad.c 68000    [Z80   ]                                           
 toramich tigeroad.c 68000    [Z80   ] [Z80   ]                                              2xYM-2203   1xMSM5205                                       Tora eno Michi (Japan)
 f1dream  tigeroad.c 68000    [Z80   ]                                                       2xYM-2203                                                   F-1 Dream
 f1dreamb tigeroad.c 68000    [Z80   ]                                                       2xYM-2203                                                   F-1 Dream (bootleg)
+rallybik toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Rally Bike / Dash Yarou
+truxton  toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Truxton / Tatsujin
+hellfire toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Hellfire
+zerowing toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Zero Wing
+demonwld toaplan1.c 68000    Z80      320C10                                                1xYM-3812                                                   Demon's World / Horror Story
+fireshrk toaplan1.c 68000                                                                   1xYM-3812                                                   Fire Shark
+samesame toaplan1.c 68000                                                                   1xYM-3812                                                   Same! Same! Same!
+outzone  toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Out Zone
+outzonep toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Out Zone (bootleg)
+vimana   toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 1)
+vimana2  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 2)
+vimanan  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (Nova Apparate GMBH & Co)
 
+tekipaki toaplan2.c 68000                                                                   1xYM-3812                                                   Teki Paki
+ghox     toaplan2.c 68000                                                                   1xYM-2151                                                   Ghox
+dogyuun  toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Dogyuun
+kbash    toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Knuckle Bash
+pipibibs toaplan2.c 68000    Z80                                                            1xYM-3812                                                   Pipi & Bibis / Whoopee (Japan)
+whoopee  toaplan2.c 68000    Z80                                                            1xYM-3812                                                   Whoopee (Japan) / Pipi & Bibis (World)
+vfive    toaplan2.c 68000                                                                   1xYM-2151                                                   V-Five
+batsugun toaplan2.c 68000                                                                   1xYM-2151                                                   Batsugun
+snowbro2 toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Snow Bros. 2 - With New Elves
+karnov   karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Karnov (US)
+karnovj  karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Karnov (Japan)
+chelnov  karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Chelnov - Atomic Runner (US)
+chelnovj karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Chelnov - Atomic Runner (Japan)
+hbarrel  dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Heavy Barrel (US)
+hbarrelw dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Heavy Barrel (World)
+baddudes dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Bad Dudes vs. Dragonninja (US)
+drgninja dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Dragonninja (Japan)
+robocop  dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (World revision 3)
+robocopu dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (US revision 1)
+robocpu0 dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (US revision 0)
+robocopb dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (World bootleg)
+hippodrm dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Hippodrome (US)
+ffantasy dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Fighting Fantasy (Japan)
+slyspy   dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Sly Spy (US revision 3)
+slyspy2  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Sly Spy (US revision 2)
+secretag dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Secret Agent (World)
+midres   dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (World)
+midresu  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (US)
+midresj  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (Japan)
+bouldash dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Boulder Dash / Boulder Dash Part 2 (World)
+prehisle prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (World)
+prehislu prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (US)
+gensitou prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Genshi-Tou 1930's
+
+timesold alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 3)
+timesol1 alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 1)
+btlfield alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Battlefield (Japan)
+skysoldr alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Sky Soldiers
+goldmedl alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gold Medalist
+skyadvnt alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Sky Adventure
+gangwars alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars
+gangwarb alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars (bootleg)
+sbasebal alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Super Champion Baseball
+ikari3   snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Ikari III - The Rescue
+pow      snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         P.O.W. - Prisoners of War (US)
+powj     snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Datsugoku - Prisoners of War (Japan)
+searchar snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         SAR - Search And Rescue (World)
+sercharu snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         SAR - Search And Rescue (US)
+streetsm snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 2)
+streets1 snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 1)
+streetsj snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (Japan version 1)
+cninja   cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (World revision 3)
+cninja0  cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (World revision 0)
+cninjau  cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (US)
+joemac   cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Joe & Mac (Japan)
+stoneage cninja.c   68000    [Z80   ]                                                       1xYM-2151   2xOKI6295                                       Stoneage
+tumblep  tumblep.c  68000    [HuC6280]                                                       1xYM-2151   1xOKI6295                                       Tumble Pop (World)
+tumblepj tumblep.c  68000    [HuC6280]                                                       1xYM-2151   1xOKI6295                                       Tumble Pop (Japan)
+tumblepb tumblep.c  68000                                                                   1xOKI6295                                                   Tumble Pop (bootleg set 1)
+tumblep2 tumblep.c  68000                                                                   1xOKI6295                                                   Tumble Pop (bootleg set 2)
+
+nam1975  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   NAM-1975
+bstars   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Baseball Stars Professional
+tpgolf   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Top Player's Golf
+mahretsu neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Mahjong Kyoretsuden
+maglord  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magician Lord (set 1)
+maglordh neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magician Lord (set 2)
+ridhero  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Riding Hero
+alpham2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Alpha Mission II / ASO II - Last Guardian
+ncombat  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Combat
+cyberlip neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Cyber-Lip
+superspy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Super Spy
+mutnat   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Mutation Nation
+kotm     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   King of the Monsters
+sengoku  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku / Sengoku Denshou (set 1)
+sengokh  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku / Sengoku Denshou (set 2)
+burningf neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Burning Fight (set 1)
+burningh neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Burning Fight (set 2)
+lbowling neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   League Bowling
+gpilots  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ghost Pilots
+joyjoy   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzled / Joy Joy Kid
+bjourney neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Blue's Journey / Raguy
+quizdais neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz Daisousa Sen - The Last Count Down
+lresort  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Last Resort
+eightman neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Eight Man
+minasan  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Minnasanno Okagesamadesu
+legendos neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Legend of Success Joe / Ashitano Joe Densetsu
+2020bb   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   2020 Super Baseball (set 1)
+2020bbh  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   2020 Super Baseball (set 2)
+socbrawl neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Soccer Brawl
+roboarmy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Robo Army
+fatfury1 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai
+fbfrenzy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Football Frenzy
+bakatono neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Bakatonosama Mahjong Manyuki
+crsword  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Crossed Swords
+trally   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Thrash Rally
+kotm2    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   King of the Monsters 2 - The Next Thing
+sengoku2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku 2 / Sengoku Denshou 2
+bstars2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Baseball Stars 2
+quizdai2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz Meintantei Neo Geo - Quiz Daisousa Sen Part 2
+3countb  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   3 Count Bout / Fire Suplex
+aof      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting / Ryuuko no Ken
+samsho   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown / Samurai Spirits
+tophuntr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Top Hunter - Roddy & Cathy
+fatfury2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai
+janshin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Jyanshin Densetsu - Quest of Jongmaster
+androdun neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Andro Dunos
+ncommand neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Commando
+viewpoin neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Viewpoint
+ssideki  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks / Tokuten Ou
+wh1      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes
+kof94    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '94
+aof2     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting 2 / Ryuuko no Ken 2
+wh2      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes 2
+fatfursp neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury Special / Garou Densetsu Special
+savagere neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Savage Reign / Fu'un Mokushiroku - kakutou sousei
+fightfev neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fight Fever / Crystal Legacy
+ssideki2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football
+spinmast neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Spinmaster / Miracle Adventure
+samsho2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen
+wh2j     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes 2 Jet
+wjammers neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Windjammers / Flying Power Disc
+karnovr  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Karnov's Revenge / Fighter's History Dynamite
+gururin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Gururin
+pspikes2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Power Spikes II
+fatfury3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai
+panicbom neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Panic Bomber
+aodk     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku
+sonicwi2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters 2 / Sonic Wings 2
+zedblade neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Zed Blade / Operation Ragnarok
+galaxyfg neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Galaxy Fight - Universal Warriors
+strhoop  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Street Hoop / Street Slam / Dunk Dream
+quizkof  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz King of Fighters
+ssideki3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi
+doubledr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Double Dragon (Neo Geo)
+pbobble  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle Bobble / Bust-A-Move
+kof95    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '95
+tws96    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Tecmo World Soccer '96
+samsho3  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown III / Samurai Spirits - Zankurou Musouken
+stakwin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Stakes Winner / Stakes Winner - GI kinzen seihae no michi
+pulstar  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pulstar
+whp      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes Perfect
+kabukikl neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Kabuki Klash - Far East of Eden / Tengai Makyou Shinden - Far East of Eden
+neobombe neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Bomberman
+gowcaizr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer
+rbff1    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury / Real Bout Garou Densetsu
+aof3     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden
+sonicwi3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters 3 / Sonic Wings 3
+turfmast neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Turf Masters / Big Tournament Golf
+mslug    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Metal Slug - Super Vehicle-001
+puzzledp neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle De Pon
+mosyougi neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Syougi No Tatsujin - Master of Syougi
+marukodq neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Chibi Marukochan Deluxe Quiz
+neomrdo  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Mr. Do!
+sdodgeb  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu
+goalx3   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Goal! Goal! Goal!
+overtop  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Over Top
+neodrift neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Drift Out - New Technology
+kof96    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '96
+ssideki4 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Ultimate 11 / Tokuten Ou - Honoo no Libero
+kizuna   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle
+ninjamas neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Master's - haoh-ninpo-cho
+ragnagrd neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Operation Ragnagard / Shin-Oh-Ken
+pgoal    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pleasure Goal / Futsal - 5 on 5 Mini Soccer
+magdrop2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magical Drop II
+samsho4  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin
+rbffspec neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special
+twinspri neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Twinkle Star Sprites
+wakuwak7 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Waku Waku 7
+stakwin2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Stakes Winner 2
+breakers neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Breakers
+miexchng neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Money Puzzle Exchanger / Money Idol Exchanger
+kof97    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '97
+magdrop3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magical Drop III
+lastblad neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Last Blade / Bakumatsu Roman - Gekkano Kenshi
+puzzldpr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle De Pon R
+irrmaze  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Irritating Maze / Ultra Denryu Iraira Bou
+popbounc neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pop 'n Bounce / Gapporin
+shocktro neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Shock Troopers
+blazstar neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Blazing Star
+rbff2    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers
+mslug2   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Metal Slug 2 - Super Vehicle-001/II
+kof98    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends
+lastbld2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekkano Kenshi
+neocup98 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo-Geo Cup '98 - The Road to the Victory
+breakrev neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Breakers Revenge
+shocktr2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Shock Troopers - 2nd Squad
+flipshot neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Battle Flip Shot
+lastduel lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 1)
+lstduela lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 2)
+lstduelb lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (bootleg)
+madgear  lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Mad Gear (US)
+madgearj lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Mad Gear (Japan)
+ledstorm lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Led Storm (US)
+rastan   rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (World)
+rastanu  rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (US set 1)
+rastanu2 rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (US set 2)
+rastsaga rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan Saga (Japan)
+rainbow  rainbow.c  68000    Z80                                                            1xYM-2151                                                   Rainbow Islands
+rainbowe rainbow.c  68000    Z80                                                            1xYM-2151                                                   Rainbow Islands (Extra)
+jumping  rainbow.c  68000                                                                                                                               Jumping
+berlwall kaneko16.c 68000                                                                   2xAY-8910   1xOKI6295                                       The Berlin Wall (set 1)
+berlwalt kaneko16.c 68000                                                                   2xAY-8910   1xOKI6295                                       The Berlin Wall (set 2)
+gtmr     kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally
+gtmre    kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally (Evolution Model)
 
 
 
@@ -764,13 +981,6 @@ terrafu  armedf.c   68000    [Z80   ]                                           
 kodure   armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Kodure Ookami (Japan)
 armedf   armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Armed Formation
 cclimbr2 armedf.c   68000    [Z80   ]                                                       1xYM-3812   2xDAC                                           Crazy Climber 2 (Japan)
-rastan   rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (World)
-rastanu  rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (US set 1)
-rastanu2 rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan (US set 2)
-rastsaga rastan.c   68000    Z80                                                            1xYM-2151   1xADPCM                                         Rastan Saga (Japan)
-rainbow  rainbow.c  68000    Z80                                                            1xYM-2151                                                   Rainbow Islands
-rainbowe rainbow.c  68000    Z80                                                            1xYM-2151                                                   Rainbow Islands (Extra)
-jumping  rainbow.c  68000                                                                                                                               Jumping
 assault  namcos2.c  68000    68000    M6809    HD63705                                      C140        1xYM-2151                                       Assault
 assaultj namcos2.c  68000    68000    M6809    HD63705                                      C140        1xYM-2151                                       Assault (Japan)
 assaultp namcos2.c  68000    68000    M6809    HD63705                                      C140        1xYM-2151                                       Assault Plus (Japan)
@@ -799,28 +1009,6 @@ fsharkbt twincobr.c 68000    Z80      320C10                                    
 twincobr twincobr.c 68000    Z80      320C10                                                1xYM-3812                                                   Twin Cobra (World)
 twincobu twincobr.c 68000    Z80      320C10                                                1xYM-3812                                                   Twin Cobra (US)
 ktiger   twincobr.c 68000    Z80      320C10                                                1xYM-3812                                                   Kyukyoku Tiger (Japan)
-rallybik toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Rally Bike / Dash Yarou
-truxton  toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Truxton / Tatsujin
-hellfire toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Hellfire
-zerowing toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Zero Wing
-demonwld toaplan1.c 68000    Z80      320C10                                                1xYM-3812                                                   Demon's World / Horror Story
-fireshrk toaplan1.c 68000                                                                   1xYM-3812                                                   Fire Shark
-samesame toaplan1.c 68000                                                                   1xYM-3812                                                   Same! Same! Same!
-outzone  toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Out Zone
-outzonep toaplan1.c 68000    Z80                                                            1xYM-3812                                                   Out Zone (bootleg)
-vimana   toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 1)
-vimana2  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (set 2)
-vimanan  toaplan1.c 68000                                                                   1xYM-3812                                                   Vimana (Nova Apparate GMBH & Co)
-
-tekipaki toaplan2.c 68000                                                                   1xYM-3812                                                   Teki Paki
-ghox     toaplan2.c 68000                                                                   1xYM-2151                                                   Ghox
-dogyuun  toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Dogyuun
-kbash    toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Knuckle Bash
-pipibibs toaplan2.c 68000    Z80                                                            1xYM-3812                                                   Pipi & Bibis / Whoopee (Japan)
-whoopee  toaplan2.c 68000    Z80                                                            1xYM-3812                                                   Whoopee (Japan) / Pipi & Bibis (World)
-vfive    toaplan2.c 68000                                                                   1xYM-2151                                                   V-Five
-batsugun toaplan2.c 68000                                                                   1xYM-2151                                                   Batsugun
-snowbro2 toaplan2.c 68000                                                                   1xYM-2151   1xOKI6295                                       Snow Bros. 2 - With New Elves
 gaiden   gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Ninja Gaiden
 shadoww  gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Shadow Warriors
 tknight  gaiden.c   68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Tecmo Knight
@@ -832,10 +1020,6 @@ blckout2 blockout.c 68000    [Z80   ]                                           
 ddragon3 ddragon3.c 68000    [Z80   ]                                                       1xYM-2151   1xOKI6295                                       Double Dragon 3 - The Rosetta Stone
 ddrago3b ddragon3.c 68000    [Z80   ]                                                       1xYM-2151   1xOKI6295                                       Double Dragon 3 - The Rosetta Stone (bootleg)
 splash   gaelco.c   68000    Z80                                                            1xYM-3812                                                   Splash
-berlwall kaneko16.c 68000                                                                   2xAY-8910   1xOKI6295                                       The Berlin Wall (set 1)
-berlwalt kaneko16.c 68000                                                                   2xAY-8910   1xOKI6295                                       The Berlin Wall (set 2)
-gtmr     kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally
-gtmre    kaneko16.c 68000                                                                   2xOKI6295                                                   Great 1000 Miles Rally (Evolution Model)
 zwackery mcr68.c    68000    [68000 ]                                                       1xDAC                                                       Zwackery
 xenophob mcr68.c    68000    [68000 ]                                                       1xDAC                                                       Xenophobe
 spyhunt2 mcr68.c    68000    [M6809 ] [68000 ]                                              2xDAC                                                       Spy Hunter 2
@@ -848,12 +1032,6 @@ bionicc  bionicc.c  68000    [Z80   ]                                           
 bionicc2 bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Bionic Commando (US set 2)
 topsecrt bionicc.c  68000    [Z80   ]                                                       1xYM-2151                                                   Top Secret (Japan)
 
-lastduel lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 1)
-lstduela lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (US set 2)
-lstduelb lastduel.c 68000    [Z80   ]                                                       2xYM-2203                                                   Last Duel (bootleg)
-madgear  lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Mad Gear (US)
-madgearj lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Mad Gear (Japan)
-ledstorm lastduel.c 68000    [Z80   ]                                                       2xYM-2203   1xOKI6295                                       Led Storm (US)
 
 alexkidd system16.c 68000    [Z80   ] [N7751 ]                                              1xYM-2151   1xDAC                                           Alex Kidd (set 1)
 aliensya system16.c 68000    [Z80   ]                                                       1xYM-2151   uPD7759                                         Alien Syndrome (set 2)
@@ -933,28 +1111,7 @@ wb3      system16.c 68000    [Z80   ]                                           
 wb3bl    system16.c 68000    [Z80   ]                                                       1xYM-2151                                                   Wonder Boy III - Monster Lair (bootleg)
 wrestwar system16.c 68000    [Z80   ]                                                       1xYM-2151   uPD7759                                         Wrestle War
 
-ikari3   snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Ikari III - The Rescue
-pow      snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         P.O.W. - Prisoners of War (US)
-powj     snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Datsugoku - Prisoners of War (Japan)
-searchar snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         SAR - Search And Rescue (World)
-sercharu snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         SAR - Search And Rescue (US)
-streetsm snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 2)
-streets1 snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (US version 1)
-streetsj snk68.c    68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Street Smart (Japan version 1)
 
-prehisle prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (World)
-prehislu prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Prehistoric Isle in 1930 (US)
-gensitou prehisle.c 68000    [Z80   ]                                                       1xYM-3812   uPD7759                                         Genshi-Tou 1930's
-
-timesold alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 3)
-timesol1 alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Time Soldiers (Rev 1)
-btlfield alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Battlefield (Japan)
-skysoldr alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Sky Soldiers
-goldmedl alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gold Medalist
-skyadvnt alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Sky Adventure
-gangwars alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars
-gangwarb alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Gang Wars (bootleg)
-sbasebal alpha68k.c 68000    [Z80   ]                                                       1xYM-2203   1xYM-2413   1xDAC                               Super Champion Baseball
 
 wecleman wecleman.c 68000    68000    [Z80   ]                                              1xYM-2151   1x007232                                        WEC Le Mans 24
 hotchase wecleman.c 68000    68000    [M6809 ]                                              3x007232                                                    Hot Chase
@@ -1048,27 +1205,6 @@ dcon     dcon.c     68000    [Z80   ]                                           
 
 bloodbro bloodbro.c 68000    [Z80   ]                                                       1xYM-3812   1xOKI6295                                       Blood Bros.
 weststry bloodbro.c 68000    [Z80   ]                                                       1xYM-3812   1xOKI6295                                       West Story
-karnov   karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Karnov (US)
-karnovj  karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Karnov (Japan)
-chelnov  karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Chelnov - Atomic Runner (US)
-chelnovj karnov.c   68000    [M6502 ]                                                       1xYM-2203   1xYM-3526                                       Chelnov - Atomic Runner (Japan)
-hbarrel  dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Heavy Barrel (US)
-hbarrelw dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Heavy Barrel (World)
-baddudes dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Bad Dudes vs. Dragonninja (US)
-drgninja dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Dragonninja (Japan)
-robocop  dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (World revision 3)
-robocopu dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (US revision 1)
-robocpu0 dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (US revision 0)
-robocopb dec0.c     68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Robocop (World bootleg)
-hippodrm dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Hippodrome (US)
-ffantasy dec0.c     68000    [M6502 ] HuC6280                                               1xYM-2203   1xYM-3812   1xOKI6295                           Fighting Fantasy (Japan)
-slyspy   dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Sly Spy (US revision 3)
-slyspy2  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Sly Spy (US revision 2)
-secretag dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Secret Agent (World)
-midres   dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (World)
-midresu  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (US)
-midresj  dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Midnight Resistance (Japan)
-bouldash dec0.c     68000    [HuC6280]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Boulder Dash / Boulder Dash Part 2 (World)
 stadhero stadhero.c 68000    [M6502 ]                                                       1xYM-2203   1xYM-3812   1xOKI6295                           Stadium Hero (Japan)
 madmotor madmotor.c 68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Mad Motor
 vaportra vaportra.c 68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Vapor Trail - Hyper Offence Formation (US)
@@ -1083,15 +1219,6 @@ darkseaj darkseal.c 68000    [HuC6280]                                          
 gatedoom darkseal.c 68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Gate of Doom (US revision 4)
 gatedom1 darkseal.c 68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Gate of Doom (US revision 1)
 supbtime supbtime.c 68000    [HuC6280]                                                       1xYM-2151   1xOKI6295                                       Super Burger Time (Japan)
-cninja   cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (World revision 3)
-cninja0  cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (World revision 0)
-cninjau  cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Caveman Ninja (US)
-joemac   cninja.c   68000    [HuC6280]                                                       1xYM-2203   1xYM-2151   2xOKI6295                           Joe & Mac (Japan)
-stoneage cninja.c   68000    [Z80   ]                                                       1xYM-2151   2xOKI6295                                       Stoneage
-tumblep  tumblep.c  68000    [HuC6280]                                                       1xYM-2151   1xOKI6295                                       Tumble Pop (World)
-tumblepj tumblep.c  68000    [HuC6280]                                                       1xYM-2151   1xOKI6295                                       Tumble Pop (Japan)
-tumblepb tumblep.c  68000                                                                   1xOKI6295                                                   Tumble Pop (bootleg set 1)
-tumblep2 tumblep.c  68000                                                                   1xOKI6295                                                   Tumble Pop (bootleg set 2)
 ginganin ginganin.c 68000    [M6809 ]                                                       1xAY-8910   1xY8950                                         Ginga NinkyouDen
 cischeat cischeat.c 68000    68000    68000    [68000 ]                                     1xYM-2151   2xOKI6295                                       Cisco Heat
 f1gpstar cischeat.c 68000    68000    68000    [68000 ]                                     1xYM-2151   2xOKI6295                                       F1 Grand Prix Star
@@ -1120,133 +1247,6 @@ cybattlr megasys1.c 68000    [68000 ]                                           
 peekaboo megasys1.c 68000                                                                   1xOKI6295                                                   Peek-a-Boo!
 soldamj  megasys1.c 68000    [68000 ]                                                       1xYM-2151   2xOKI6295                                       Soldam (Japan)
 
-nam1975  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   NAM-1975
-bstars   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Baseball Stars Professional
-tpgolf   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Top Player's Golf
-mahretsu neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Mahjong Kyoretsuden
-maglord  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magician Lord (set 1)
-maglordh neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magician Lord (set 2)
-ridhero  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Riding Hero
-alpham2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Alpha Mission II / ASO II - Last Guardian
-ncombat  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Combat
-cyberlip neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Cyber-Lip
-superspy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Super Spy
-mutnat   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Mutation Nation
-kotm     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   King of the Monsters
-sengoku  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku / Sengoku Denshou (set 1)
-sengokh  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku / Sengoku Denshou (set 2)
-burningf neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Burning Fight (set 1)
-burningh neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Burning Fight (set 2)
-lbowling neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   League Bowling
-gpilots  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ghost Pilots
-joyjoy   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzled / Joy Joy Kid
-bjourney neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Blue's Journey / Raguy
-quizdais neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz Daisousa Sen - The Last Count Down
-lresort  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Last Resort
-eightman neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Eight Man
-minasan  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Minnasanno Okagesamadesu
-legendos neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Legend of Success Joe / Ashitano Joe Densetsu
-2020bb   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   2020 Super Baseball (set 1)
-2020bbh  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   2020 Super Baseball (set 2)
-socbrawl neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Soccer Brawl
-roboarmy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Robo Army
-fatfury1 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai
-fbfrenzy neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Football Frenzy
-bakatono neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Bakatonosama Mahjong Manyuki
-crsword  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Crossed Swords
-trally   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Thrash Rally
-kotm2    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   King of the Monsters 2 - The Next Thing
-sengoku2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Sengoku 2 / Sengoku Denshou 2
-bstars2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Baseball Stars 2
-quizdai2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz Meintantei Neo Geo - Quiz Daisousa Sen Part 2
-3countb  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   3 Count Bout / Fire Suplex
-aof      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting / Ryuuko no Ken
-samsho   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown / Samurai Spirits
-tophuntr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Top Hunter - Roddy & Cathy
-fatfury2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai
-janshin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Jyanshin Densetsu - Quest of Jongmaster
-androdun neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Andro Dunos
-ncommand neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Commando
-viewpoin neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Viewpoint
-ssideki  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks / Tokuten Ou
-wh1      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes
-kof94    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '94
-aof2     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting 2 / Ryuuko no Ken 2
-wh2      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes 2
-fatfursp neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury Special / Garou Densetsu Special
-savagere neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Savage Reign / Fu'un Mokushiroku - kakutou sousei
-fightfev neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fight Fever / Crystal Legacy
-ssideki2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football
-spinmast neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Spinmaster / Miracle Adventure
-samsho2  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen
-wh2j     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes 2 Jet
-wjammers neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Windjammers / Flying Power Disc
-karnovr  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Karnov's Revenge / Fighter's History Dynamite
-gururin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Gururin
-pspikes2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Power Spikes II
-fatfury3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai
-panicbom neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Panic Bomber
-aodk     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku
-sonicwi2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters 2 / Sonic Wings 2
-zedblade neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Zed Blade / Operation Ragnarok
-galaxyfg neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Galaxy Fight - Universal Warriors
-strhoop  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Street Hoop / Street Slam / Dunk Dream
-quizkof  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Quiz King of Fighters
-ssideki3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi
-doubledr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Double Dragon (Neo Geo)
-pbobble  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle Bobble / Bust-A-Move
-kof95    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '95
-tws96    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Tecmo World Soccer '96
-samsho3  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown III / Samurai Spirits - Zankurou Musouken
-stakwin  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Stakes Winner / Stakes Winner - GI kinzen seihae no michi
-pulstar  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pulstar
-whp      neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   World Heroes Perfect
-kabukikl neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Kabuki Klash - Far East of Eden / Tengai Makyou Shinden - Far East of Eden
-neobombe neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Bomberman
-gowcaizr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer
-rbff1    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury / Real Bout Garou Densetsu
-aof3     neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden
-sonicwi3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Aero Fighters 3 / Sonic Wings 3
-turfmast neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Turf Masters / Big Tournament Golf
-mslug    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Metal Slug - Super Vehicle-001
-puzzledp neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle De Pon
-mosyougi neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Syougi No Tatsujin - Master of Syougi
-marukodq neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Chibi Marukochan Deluxe Quiz
-neomrdo  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Mr. Do!
-sdodgeb  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu
-goalx3   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Goal! Goal! Goal!
-overtop  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Over Top
-neodrift neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo Drift Out - New Technology
-kof96    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '96
-ssideki4 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Ultimate 11 / Tokuten Ou - Honoo no Libero
-kizuna   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle
-ninjamas neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Ninja Master's - haoh-ninpo-cho
-ragnagrd neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Operation Ragnagard / Shin-Oh-Ken
-pgoal    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pleasure Goal / Futsal - 5 on 5 Mini Soccer
-magdrop2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magical Drop II
-samsho4  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin
-rbffspec neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special
-twinspri neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Twinkle Star Sprites
-wakuwak7 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Waku Waku 7
-stakwin2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Stakes Winner 2
-breakers neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Breakers
-miexchng neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Money Puzzle Exchanger / Money Idol Exchanger
-kof97    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '97
-magdrop3 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Magical Drop III
-lastblad neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Last Blade / Bakumatsu Roman - Gekkano Kenshi
-puzzldpr neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Puzzle De Pon R
-irrmaze  neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Irritating Maze / Ultra Denryu Iraira Bou
-popbounc neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Pop 'n Bounce / Gapporin
-shocktro neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Shock Troopers
-blazstar neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Blazing Star
-rbff2    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers
-mslug2   neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Metal Slug 2 - Super Vehicle-001/II
-kof98    neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends
-lastbld2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   The Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekkano Kenshi
-neocup98 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Neo-Geo Cup '98 - The Road to the Victory
-breakrev neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Breakers Revenge
-shocktr2 neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Shock Troopers - 2nd Squad
-flipshot neogeo.c   68000    [Z80   ]                                                       1xYM-2610                                                   Battle Flip Shot
 
 =========
 68010

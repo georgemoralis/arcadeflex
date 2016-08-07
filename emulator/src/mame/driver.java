@@ -223,6 +223,7 @@ import static drivers.toaplan1.*;
 import static drivers.toaplan2.*;
 import static drivers.tigeroad.*;
 import static drivers.WIP.cninja.*;
+import static drivers.gaelco.*;
 
 public class driver {
 
@@ -2573,7 +2574,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( vastar2 )	/* (c) 1983 Sesame Japan */
 
                 /* Gaelco games */
-                /*TODO*/ //	DRIVER( splash )	/* (c) 1992 Gaelco */
+                driver_splash,	/* (c) 1992 Gaelco */
 
                 /* Kaneko "AX System" games */
                 driver_berlwall,
