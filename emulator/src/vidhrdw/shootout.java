@@ -20,6 +20,8 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.ptrlib.*;
+import static mame.spriteC.*;
+import static mame.spriteH.*;
 
 public class shootout
 {
@@ -27,44 +29,44 @@ public class shootout
 	public static final int NUM_SPRITES =128;
 	
 	public static UBytePtr shootout_textram=new UBytePtr();
-/*TODO*///	static struct sprite_list *sprite_list;
+        static sprite_list sprite_list;
 	
 	
 	public static VhStartPtr shootout_vh_start = new VhStartPtr() { public int handler() {
 		if( generic_vh_start.handler()==0 ){
-/*TODO*///			sprite_list = sprite_list_create( NUM_SPRITES, SPRITE_LIST_BACK_TO_FRONT );
-/*TODO*///			if (sprite_list != 0){
-/*TODO*///				int i;
-/*TODO*///				sprite_list.sprite_type = SPRITE_TYPE_STACK;
-/*TODO*///	
-/*TODO*///				for( i=0; i<NUM_SPRITES; i++ ){
-/*TODO*///					struct sprite *sprite = &sprite_list.sprite[i];
-/*TODO*///					sprite.pal_data = Machine.gfx[1].colortable;
-/*TODO*///					sprite.tile_width = 16;
-/*TODO*///					sprite.tile_height = 16;
-/*TODO*///					sprite.total_width = 16;
-/*TODO*///					sprite.line_offset = 16;
-/*TODO*///				}
-/*TODO*///				sprite_list.max_priority = 1;
-/*TODO*///	
+			sprite_list = sprite_list_create( NUM_SPRITES, SPRITE_LIST_BACK_TO_FRONT );
+			if (sprite_list != null){
+				int i;
+				sprite_list.sprite_type = SPRITE_TYPE_STACK;
+				for( i=0; i<NUM_SPRITES; i++ ){
+					sprite sprite = sprite_list.sprite[i];
+					sprite.pal_data = Machine.gfx[1].colortable;
+					sprite.tile_width = 16;
+					sprite.tile_height = 16;
+					sprite.total_width = 16;
+					sprite.line_offset = 16;
+				}
+				sprite_list.max_priority = 1;
+	
 				return 0;
-/*TODO*///			}
-/*TODO*///			generic_vh_stop.handler();
+			}
+			generic_vh_stop.handler();
 		}
 		return 1; /* error */
 	} };
 	
-/*TODO*///	static void get_sprite_info( void ){
-/*TODO*///		const struct GfxElement *gfx = Machine.gfx[1];
-/*TODO*///		const UINT8 *source = spriteram;
-/*TODO*///		struct sprite *sprite = sprite_list.sprite;
-/*TODO*///		int count = NUM_SPRITES;
+	static void get_sprite_info(  ){
+		GfxElement gfx = Machine.gfx[1];
+		UBytePtr source = new UBytePtr(spriteram);
+		sprite[] sprite = sprite_list.sprite;
+                int sprite_ptr=0;
+		int count = NUM_SPRITES;
 	
-/*TODO*///		int attributes, flags, number;
+		int attributes, flags, number;
 	
-/*TODO*///		while( count-- ){
-/*TODO*///			flags = 0;
-/*TODO*///			attributes = source[1];
+		while( count--!=0 ){
+			flags = 0;
+			attributes = source.read(1);
 			/*
 			    76543210
 				xxx			bank
@@ -74,68 +76,68 @@ public class shootout
 				      x		flicker
 				       x	enable
 			*/
-/*TODO*///			if ((attributes & 0x01) != 0){ /* enabled */
-/*TODO*///				flags |= SPRITE_VISIBLE;
-/*TODO*///				sprite.priority = (attributes&0x08)?1:0;
-/*TODO*///				sprite.x = (240 - source[2])&0xff;
-/*TODO*///				sprite.y = (240 - source[0])&0xff;
+			if ((attributes & 0x01) != 0){ /* enabled */
+				flags |= SPRITE_VISIBLE;
+				sprite[sprite_ptr].priority = (attributes&0x08)!=0?1:0;
+				sprite[sprite_ptr].x = (240 - source.read(2))&0xff;
+				sprite[sprite_ptr].y = (240 - source.read(0))&0xff;
 	
-/*TODO*///				number = source[3] + ((attributes&0xe0)<<3);
-/*TODO*///				if ((attributes & 0x04) != 0) flags |= SPRITE_FLIPX;
-/*TODO*///				if ((attributes & 0x02) != 0) flags |= SPRITE_FLICKER; /* ? */
-/*TODO*///	
-/*TODO*///				if ((attributes & 0x10) != 0){ /* double height */
-/*TODO*///					number = number&(~1);
-/*TODO*///					sprite.y -= 16;
-/*TODO*///					sprite.total_height = 32;
-/*TODO*///				}
-/*TODO*///				else {
-/*TODO*///					sprite.total_height = 16;
-/*TODO*///				}
-/*TODO*///				sprite.pen_data = gfx.gfxdata + number * gfx.char_modulo;
-/*TODO*///			}
-/*TODO*///			sprite.flags = flags;
-/*TODO*///			sprite++;
-/*TODO*///			source += 4;
-/*TODO*///		}
-/*TODO*///	}
+				number = source.read(3) + ((attributes&0xe0)<<3);
+				if ((attributes & 0x04) != 0) flags |= SPRITE_FLIPX;
+				if ((attributes & 0x02) != 0) flags |= SPRITE_FLICKER; /* ? */
 	
-/*TODO*///	static void get_sprite_info2( void ){
-/*TODO*///		const struct GfxElement *gfx = Machine.gfx[1];
-/*TODO*///		const UINT8 *source = spriteram;
-/*TODO*///		struct sprite *sprite = sprite_list.sprite;
-/*TODO*///		int count = NUM_SPRITES;
-/*TODO*///	
-/*TODO*///		int attributes, flags, number;
-/*TODO*///	
-/*TODO*///		while( count-- ){
-/*TODO*///			flags = 0;
-/*TODO*///			attributes = source[1];
-/*TODO*///			if ((attributes & 0x01) != 0){ /* enabled */
-/*TODO*///				flags |= SPRITE_VISIBLE;
-/*TODO*///				sprite.priority = (attributes&0x08)?1:0;
-/*TODO*///				sprite.x = (240 - source[2])&0xff;
-/*TODO*///				sprite.y = (240 - source[0])&0xff;
-/*TODO*///	
-/*TODO*///				number = source[3] + ((attributes&0xc0)<<2);
-/*TODO*///				if ((attributes & 0x04) != 0) flags |= SPRITE_FLIPX;
-/*TODO*///				if ((attributes & 0x02) != 0) flags |= SPRITE_FLICKER; /* ? */
-/*TODO*///	
-/*TODO*///				if ((attributes & 0x10) != 0){ /* double height */
-/*TODO*///					number = number&(~1);
-/*TODO*///					sprite.y -= 16;
-/*TODO*///					sprite.total_height = 32;
-/*TODO*///				}
-/*TODO*///				else {
-/*TODO*///					sprite.total_height = 16;
-/*TODO*///				}
-/*TODO*///				sprite.pen_data = gfx.gfxdata + number * gfx.char_modulo;
-/*TODO*///			}
-/*TODO*///			sprite.flags = flags;
-/*TODO*///			sprite++;
-/*TODO*///			source += 4;
-/*TODO*///		}
-/*TODO*///	}
+				if ((attributes & 0x10) != 0){ /* double height */
+					number = number&(~1);
+					sprite[sprite_ptr].y -= 16;
+					sprite[sprite_ptr].total_height = 32;
+				}
+				else {
+					sprite[sprite_ptr].total_height = 16;
+				}
+				sprite[sprite_ptr].pen_data = new UBytePtr(gfx.gfxdata , number * gfx.char_modulo);
+			}
+			sprite[sprite_ptr].flags = flags;
+			sprite_ptr++;
+			source.offset+= 4;
+		}
+	}
+	
+	static void get_sprite_info2(  ){
+		GfxElement gfx = Machine.gfx[1];
+		UBytePtr source = new UBytePtr(spriteram);
+		sprite[] sprite = sprite_list.sprite;
+		int count = NUM_SPRITES;
+                int sprite_ptr=0;
+		int attributes, flags, number;
+	
+		while( count-- !=0){
+			flags = 0;
+			attributes = source.read(1);
+			if ((attributes & 0x01) != 0){ /* enabled */
+				flags |= SPRITE_VISIBLE;
+				sprite[sprite_ptr].priority = (attributes&0x08)!=0?1:0;
+				sprite[sprite_ptr].x = (240 - source.read(2))&0xff;
+				sprite[sprite_ptr].y = (240 - source.read(0))&0xff;
+	
+				number = source.read(3) + ((attributes&0xc0)<<2);
+				if ((attributes & 0x04) != 0) flags |= SPRITE_FLIPX;
+				if ((attributes & 0x02) != 0) flags |= SPRITE_FLICKER; /* ? */
+	
+				if ((attributes & 0x10) != 0){ /* double height */
+					number = number&(~1);
+					sprite[sprite_ptr].y -= 16;
+					sprite[sprite_ptr].total_height = 32;
+				}
+				else {
+					sprite[sprite_ptr].total_height = 16;
+				}
+				sprite[sprite_ptr].pen_data = new UBytePtr(gfx.gfxdata,number * gfx.char_modulo);
+			}
+			sprite[sprite_ptr].flags = flags;
+			sprite_ptr++;
+			source.offset += 4;
+		}
+	}
 	
 	static void draw_background(osd_bitmap bitmap ){
 		rectangle clip = Machine.drv.visible_area;
@@ -184,20 +186,20 @@ public class shootout
 	}
 	
 	public static VhUpdatePtr shootout_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
-/*TODO*///		get_sprite_info();
-/*TODO*///		sprite_update();
+		get_sprite_info();
+		sprite_update();
 		draw_background( bitmap );
-/*TODO*///		sprite_draw( sprite_list, 1);
+		sprite_draw( sprite_list, 1);
 		draw_foreground( bitmap );
-/*TODO*///		sprite_draw( sprite_list, 0);
+		sprite_draw( sprite_list, 0);
 	} };
 	
 	public static VhUpdatePtr shootouj_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
-/*TODO*///		get_sprite_info2();
-/*TODO*///		sprite_update();
+		get_sprite_info2();
+		sprite_update();
 		draw_background( bitmap );
-/*TODO*///		sprite_draw( sprite_list, 1);
+		sprite_draw( sprite_list, 1);
 		draw_foreground( bitmap );
-/*TODO*///		sprite_draw( sprite_list, 0);
+		sprite_draw( sprite_list, 0);
 	} };
 }
