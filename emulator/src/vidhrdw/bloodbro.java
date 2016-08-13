@@ -245,7 +245,7 @@ static void get_sprite_info(  ){
 		sprite[sprite_ptr].flags = flags;
 
 		sprite_ptr++;
-		source.offset+=4;
+		source.offset+=4*2;
 	}
 }
 

@@ -16,17 +16,18 @@ import static mame.paletteH.*;
 import static mame.spriteH.*;
 
 public class spriteC {
+
     /*TODO*///
 /*TODO*///#define SWAP(X,Y) { int temp = X; X = Y; Y = temp; }
 /*TODO*///
 /*TODO*///
-
     static int orientation, screen_width, screen_height;
     static int screen_clip_left, screen_clip_top, screen_clip_right, screen_clip_bottom;
     public static UBytePtr screen_baseaddr;
     static int screen_line_offset;
 
-    static sprite_list first_sprite_list = null; /* used for resource tracking */
+    static sprite_list first_sprite_list = null;
+    /* used for resource tracking */
 
     static int FlickeringInvisible;
 
@@ -60,19 +61,20 @@ public class spriteC {
 /*TODO*///
 /*TODO*///*********************************************************************/
     static UBytePtr mask_buffer = null;
-    static int mask_buffer_size = 0; /* actual size of allocated buffer */
+    static int mask_buffer_size = 0;
+    /* actual size of allocated buffer */
 
     static int mask_buffer_used = 0;
 
     static void mask_buffer_reset() {
         mask_buffer_used = 0;
     }
+
     /*TODO*///static void mask_buffer_dispose( void ){
 /*TODO*///	free( mask_buffer );
 /*TODO*///	mask_buffer = NULL;
 /*TODO*///	mask_buffer_size = 0;
 /*TODO*///}
-
     static int mask_buffer_alloc(int size) {
         int result = mask_buffer_used;
         int req_size = mask_buffer_used + size;
@@ -87,10 +89,12 @@ public class spriteC {
             }
         }
         mask_buffer_used = (int) req_size;
-        memset(mask_buffer, result, 0x00, size); /* clear it */
+        memset(mask_buffer, result, 0x00, size);
+        /* clear it */
 
         return result;
     }
+
     /*TODO*///
 /*TODO*///#define BLIT \
 /*TODO*///if( sprite->flags&SPRITE_FLIPX ){ \
@@ -114,7 +118,6 @@ public class spriteC {
 /*TODO*///		NEXTLINE \
 /*TODO*///	} \
 /*TODO*///}
-
     public static class blit {
 
         public static int transparent_pen;
@@ -268,36 +271,91 @@ public class spriteC {
                         }
 
                         if (blit.write_to_mask != 0) {
-                            System.out.println("write_to_mask");
-                            /*TODO*///					#define OPAQUE(X) (source[X]!=transparent_pen)
-/*TODO*///					#define COLOR(X) 0xff
-/*TODO*///					#define NEXTLINE
-/*TODO*///					BLIT
-/*TODO*///					#undef OPAQUE
-/*TODO*///					#undef COLOR
-/*TODO*///					#undef NEXTLINE
-                        } else if (sprite[sprite_ptr].mask_offset >= 0) { /* draw a masked sprite */
+                            if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                                source.inc((screenx + flipx_adjust));
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (source.read(-x) != transparent_pen) {
+                                            dest.write(x, 0xff);
+                                        }
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
 
-                            System.out.println("mask_offset");
-                            /*TODO*///					const unsigned char *mask = &mask_buffer[sprite->mask_offset] +
-/*TODO*///						(y1-sprite->y)*sprite->total_width-sprite->x;
-/*TODO*///					#define OPAQUE(X) (mask[x]==0 && source[X]!=transparent_pen)
-/*TODO*///					#define COLOR(X) (pal_data[source[X]])
-/*TODO*///					#define NEXTLINE mask+=sprite->total_width;
-/*TODO*///					BLIT
-/*TODO*///					#undef OPAQUE
-/*TODO*///					#undef COLOR
-/*TODO*///					#undef NEXTLINE
+                                }
+                            } else {
+                                source.dec(screenx);
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (source.read(x) != transparent_pen) {
+                                            dest.write(x, 0xff);
+                                        }
+
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
+
+                                }
+                            }
+                        } else if (sprite[sprite_ptr].mask_offset >= 0) {
+                            /* draw a masked sprite */
+                            UBytePtr mask = new UBytePtr(mask_buffer, sprite[sprite_ptr].mask_offset
+                                    + (y1 - sprite[sprite_ptr].y) * sprite[sprite_ptr].total_width - sprite[sprite_ptr].x);
+                            if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                                source.inc((screenx + flipx_adjust));
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (mask.read(x) == 0 && source.read(-x) != transparent_pen) {
+                                            dest.write(x, pal_data.read(source.read(-x)));
+                                        }
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
+                                    mask.offset += sprite[sprite_ptr].total_width;
+
+                                }
+                            } else {
+                                source.dec(screenx);
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (mask.read(x) == 0 && source.read(x) != transparent_pen) {
+                                            dest.write(x, pal_data.read(source.read(x)));
+                                        }
+
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
+                                    mask.offset += sprite[sprite_ptr].total_width;
+
+                                }
+                            }
                         } else if ((sprite[sprite_ptr].flags & SPRITE_TRANSPARENCY_THROUGH) != 0) {
-                            System.out.println("transparen");
-                            /*TODO*///					int color = Machine->pens[palette_transparent_color];
-/*TODO*///					#define OPAQUE(X) (dest[x]==color && source[X]!=transparent_pen)
-/*TODO*///					#define COLOR(X) (pal_data[source[X]])
-/*TODO*///					#define NEXTLINE
-/*TODO*///					BLIT
-/*TODO*///					#undef OPAQUE
-/*TODO*///					#undef COLOR
-/*TODO*///					#undef NEXTLINE
+                            int color = Machine.pens[palette_transparent_color];
+                            if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                                source.inc((screenx + flipx_adjust));
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (dest.read(x) == color && source.read(-x) != transparent_pen) {
+                                            dest.write(x, pal_data.read(source.read(-x)));
+                                        }
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
+
+                                }
+                            } else {
+                                source.dec(screenx);
+                                for (y = y1; y < y2; y++) {
+                                    for (x = x1; x < x2; x++) {
+                                        if (dest.read(x) == color && source.read(x) != transparent_pen) {
+                                            dest.write(x, pal_data.read(source.read(x)));
+                                        }
+
+                                    }
+                                    source.inc(source_dy);
+                                    dest.inc(blit.line_offset);
+                                }
+                            }
                         } else if (pal_data != null) {
                             if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
                                 source.inc((screenx + flipx_adjust));
@@ -325,20 +383,16 @@ public class spriteC {
 
                                 }
                             }
-                            /*TODO*///					#define OPAQUE(X) (source[X]!=transparent_pen)
-/*TODO*///					#define COLOR(X) (pal_data[source[X]])
-/*TODO*///					#define NEXTLINE
-/*TODO*///					BLIT
-/*TODO*///					#undef OPAQUE
-/*TODO*///					#undef COLOR
-/*TODO*///					#undef NEXTLINE
                         }
-                    } /* not totally clipped */
+                    }
+                    /* not totally clipped */
 
                     baseaddr.inc(sprite[sprite_ptr].tile_height * sprite[sprite_ptr].line_offset);
-                } /* next yoffset */
+                }
+                /* next yoffset */
 
-            } /* next xoffset */
+            }
+            /* next xoffset */
 
         }
     };
@@ -346,7 +400,7 @@ public class spriteC {
         public void handler(sprite[] sprite, int sprite_ptr) {
             throw new UnsupportedOperationException("Unimplemented");
             /*	assumes SPRITE_LIST_RAW_DATA flag is set */
-            /*TODO*///
+ /*TODO*///
 /*TODO*///	int x1,x2, y1,y2, dx,dy;
 /*TODO*///	int xcount0 = 0, ycount0 = 0;
 /*TODO*///
@@ -593,6 +647,7 @@ public class spriteC {
 /*TODO*///
         }
     };
+
     /*TODO*///static void do_blit_zoom16( const struct sprite *sprite ){
 /*TODO*///	/*	assumes SPRITE_LIST_RAW_DATA flag is set */
 /*TODO*///
@@ -841,7 +896,6 @@ public class spriteC {
 /*TODO*///	}
 /*TODO*///
 /*TODO*///}
-
     /**
      * ******************************************************************
      */
@@ -854,7 +908,7 @@ public class spriteC {
 
         osd_bitmap bitmap = Machine.scrbitmap;
         screen_baseaddr = bitmap.line[0];
-        screen_line_offset = bitmap.line[1].read() - bitmap.line[0].read();
+        screen_line_offset = bitmap.line[1].offset - bitmap.line[0].offset;
 
         orientation = Machine.orientation;
         screen_width = Machine.scrbitmap.width;
@@ -892,6 +946,7 @@ public class spriteC {
         screen_clip_top = top;
         screen_clip_bottom = bottom;
     }
+
     /*TODO*///void sprite_close( void ){
 /*TODO*///	struct sprite_list *sprite_list = first_sprite_list;
 /*TODO*///	mask_buffer_dispose();
@@ -905,7 +960,6 @@ public class spriteC {
 /*TODO*///	first_sprite_list = NULL;
 /*TODO*///}
 /*TODO*///
-
     public static sprite_list sprite_list_create(int num_sprites, int flags) {
         sprite[] sprite = new sprite[num_sprites];
         for (int i = 0; i < sprite.length; i++) {
@@ -922,7 +976,8 @@ public class spriteC {
         sprite_list.next = first_sprite_list;
         first_sprite_list = sprite_list;
 
-        return sprite_list; /* warning: no error checking! */
+        return sprite_list;
+        /* warning: no error checking! */
 
     }
 
@@ -997,7 +1052,8 @@ public class spriteC {
 /*TODO*///			sprite++;
 /*TODO*///		}
         }
-        { /* visibility check */
+        {
+            /* visibility check */
 
             sprite[] sprite = sprite_table;
             int sprite_ptr = 0;
@@ -1037,7 +1093,8 @@ public class spriteC {
 
             sprite_order_setup(sprite_list, i, last, dir);
 
-            for (;;) { /* process each sprite */
+            for (;;) {
+                /* process each sprite */
 
                 sprite[] sprite = sprite_table;
                 int sprite_ptr = i[0];
@@ -1088,7 +1145,8 @@ public class spriteC {
                                     /* uncomment the following line to see which sprites are corrected */
                                     //sprite[sprite_ptr].pal_data = new CharPtr(Machine.remapped_colortable,(rand()&0xff));
 
-                                    if (sprite[sprite_ptr].mask_offset < 0) { /* first masking? */
+                                    if (sprite[sprite_ptr].mask_offset < 0) {
+                                        /* first masking? */
 
                                         sprite[sprite_ptr].mask_offset = mask_buffer_alloc(sprite[sprite_ptr].total_width * sprite[sprite_ptr].total_height);
                                         blit.line_offset = sprite[sprite_ptr].total_width;
@@ -1101,17 +1159,21 @@ public class spriteC {
                                 break;
                             }
                             j += dir[0];
-                        } /* next j */
+                        }
+                        /* next j */
 
-                    } /* priority<SPRITE_MAX_PRIORITY */
+                    }
+                    /* priority<SPRITE_MAX_PRIORITY */
 
-                } /* visible */
+                }
+                /* visible */
 
                 if (i[0] == last[0]) {
                     break;
                 }
                 i[0] += dir[0];
-            } /* next i */
+            }
+            /* next i */
 
         }
     }
@@ -1129,7 +1191,8 @@ public class spriteC {
     public static void sprite_draw(sprite_list sprite_list, int priority) {
         sprite[] sprite_table = sprite_list.sprite;
 
-        { /* set constants */
+        {
+            /* set constants */
 
             blit.origin_x = 0;
             blit.origin_y = 0;
