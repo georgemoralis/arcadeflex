@@ -224,6 +224,7 @@ import static drivers.toaplan2.*;
 import static drivers.tigeroad.*;
 import static drivers.WIP.cninja.*;
 import static drivers.gaelco.*;
+import static drivers.gaiden.*;
 
 public class driver {
 
@@ -2114,10 +2115,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( megaforc )	/* (c) 1985 Tehkan + Video Ware license */
                 /*TODO*/ //	DRIVER( baluba )	/* (c) 1986 Able Corp. */
 
-                /*TODO*/ //	DRIVER( gaiden )	/* 6215 - (c) 1988 Tecmo */
-                /*TODO*/ //	DRIVER( shadoww )	/* 6215 - (c) 1988 Tecmo */
-                /*TODO*/ //	DRIVER( tknight )	/* (c) 1989 Tecmo */
-                /*TODO*/ //	DRIVER( wildfang )	/* (c) 1989 Tecmo */
+                driver_gaiden,	/* 6215 - (c) 1988 Tecmo */
+                driver_shadoww,	/* 6215 - (c) 1988 Tecmo */
+                driver_tknight,	/* (c) 1989 Tecmo */
+                driver_wildfang,	/* (c) 1989 Tecmo */
                 /*TODO*/ //	DRIVER( wc90b )		/* bootleg */
 
                 /* Konami bitmap games */

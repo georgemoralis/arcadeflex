@@ -130,81 +130,162 @@ public class spriteC {
 
     public static do_blitPtr do_blit_unpack = new do_blitPtr() {
         public void handler(sprite[] sprite, int sprite_ptr) {
-            throw new UnsupportedOperationException("Unimplemented");
-            /*TODO*///	const unsigned short *pal_data = sprite->pal_data;
-/*TODO*///	int transparent_pen = blit.transparent_pen;
-/*TODO*///
-/*TODO*///	int screenx = sprite->x - blit.origin_x;
-/*TODO*///	int screeny = sprite->y - blit.origin_y;
-/*TODO*///	int x1 = screenx;
-/*TODO*///	int y1 = screeny;
-/*TODO*///	int x2 = x1 + sprite->total_width;
-/*TODO*///	int y2 = y1 + sprite->total_height;
-/*TODO*///	int flipx_adjust = sprite->total_width-1;
-/*TODO*///
-/*TODO*///	int source_dy;
-/*TODO*///	const unsigned char *baseaddr = sprite->pen_data;
-/*TODO*///	const unsigned char *source;
-/*TODO*///	unsigned char *dest;
-/*TODO*///	int x,y;
-/*TODO*///
-/*TODO*///	source = baseaddr + sprite->line_offset*sprite->y_offset + sprite->x_offset;
-/*TODO*///
-/*TODO*///	if( x1<blit.clip_left )		x1 = blit.clip_left;
-/*TODO*///	if( y1<blit.clip_top )		y1 = blit.clip_top;
-/*TODO*///	if( x2>blit.clip_right )	x2 = blit.clip_right;
-/*TODO*///	if( y2>blit.clip_bottom )	y2 = blit.clip_bottom;
-/*TODO*///
-/*TODO*///	if( x1<x2 && y1<y2 ){
-/*TODO*///		dest = blit.baseaddr + y1*blit.line_offset;
-/*TODO*///		if( sprite->flags&SPRITE_FLIPY ){
-/*TODO*///			source_dy = -sprite->line_offset;
-/*TODO*///			source += (y2-1-screeny)*sprite->line_offset;
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			source_dy = sprite->line_offset;
-/*TODO*///			source += (y1-screeny)*sprite->line_offset;
-/*TODO*///		}
-/*TODO*///		if( blit.write_to_mask ){
-/*TODO*///			#define OPAQUE(X) (source[X]!=transparent_pen)
-/*TODO*///			#define COLOR(X) 0xff
-/*TODO*///			#define NEXTLINE
-/*TODO*///			BLIT
-/*TODO*///			#undef OPAQUE
-/*TODO*///			#undef COLOR
-/*TODO*///			#undef NEXTLINE
-/*TODO*///		}
-/*TODO*///		else if( sprite->mask_offset>=0 ){ /* draw a masked sprite */
-/*TODO*///			const unsigned char *mask = &mask_buffer[sprite->mask_offset] +
-/*TODO*///				(y1-sprite->y)*sprite->total_width-sprite->x;
-/*TODO*///			#define OPAQUE(X) (mask[x]==0 && source[X]!=transparent_pen)
-/*TODO*///			#define COLOR(X) (pal_data[source[X]])
-/*TODO*///			#define NEXTLINE mask+=sprite->total_width;
-/*TODO*///			BLIT
-/*TODO*///			#undef OPAQUE
-/*TODO*///			#undef COLOR
-/*TODO*///			#undef NEXTLINE
-/*TODO*///		}
-/*TODO*///		else if( sprite->flags&SPRITE_TRANSPARENCY_THROUGH ){
-/*TODO*///			int color = Machine->pens[palette_transparent_color];
-/*TODO*///			#define OPAQUE(X) (dest[x]==color && source[X]!=transparent_pen)
-/*TODO*///			#define COLOR(X) (pal_data[source[X]])
-/*TODO*///			#define NEXTLINE
-/*TODO*///			BLIT
-/*TODO*///			#undef OPAQUE
-/*TODO*///			#undef COLOR
-/*TODO*///			#undef NEXTLINE
-/*TODO*///		}
-/*TODO*///		else if( pal_data ){
-/*TODO*///			#define OPAQUE(X) (source[X]!=transparent_pen)
-/*TODO*///			#define COLOR(X) (pal_data[source[X]])
-/*TODO*///			#define NEXTLINE
-/*TODO*///			BLIT
-/*TODO*///			#undef OPAQUE
-/*TODO*///			#undef COLOR
-/*TODO*///			#undef NEXTLINE
-/*TODO*///		}
-/*TODO*///	}
+            CharPtr pal_data = sprite[sprite_ptr].pal_data;
+            int transparent_pen = blit.transparent_pen;
+
+            int screenx = sprite[sprite_ptr].x - blit.origin_x;
+            int screeny = sprite[sprite_ptr].y - blit.origin_y;
+            int x1 = screenx;
+            int y1 = screeny;
+            int x2 = x1 + sprite[sprite_ptr].total_width;
+            int y2 = y1 + sprite[sprite_ptr].total_height;
+            int flipx_adjust = sprite[sprite_ptr].total_width - 1;
+
+            int source_dy;
+            UBytePtr baseaddr = new UBytePtr(sprite[sprite_ptr].pen_data);
+            UBytePtr source;
+            UBytePtr dest;
+            int x, y;
+
+            source = new UBytePtr(baseaddr, sprite[sprite_ptr].line_offset * sprite[sprite_ptr].y_offset + sprite[sprite_ptr].x_offset);
+
+            if (x1 < blit.clip_left) {
+                x1 = blit.clip_left;
+            }
+            if (y1 < blit.clip_top) {
+                y1 = blit.clip_top;
+            }
+            if (x2 > blit.clip_right) {
+                x2 = blit.clip_right;
+            }
+            if (y2 > blit.clip_bottom) {
+                y2 = blit.clip_bottom;
+            }
+
+            if (x1 < x2 && y1 < y2) {
+                dest = new UBytePtr(blit.baseaddr, y1 * blit.line_offset);
+                if ((sprite[sprite_ptr].flags & SPRITE_FLIPY) != 0) {
+                    source_dy = -sprite[sprite_ptr].line_offset;
+                    source.offset += (y2 - 1 - screeny) * sprite[sprite_ptr].line_offset;
+                } else {
+                    source_dy = sprite[sprite_ptr].line_offset;
+                    source.offset += (y1 - screeny) * sprite[sprite_ptr].line_offset;
+                }
+                if (blit.write_to_mask != 0) {
+                    if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                        source.inc((screenx + flipx_adjust));
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (source.read(-x) != transparent_pen) {
+                                    dest.write(x, 0xff);
+                                }
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+
+                        }
+                    } else {
+                        source.dec(screenx);
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (source.read(x) != transparent_pen) {
+                                    dest.write(x, 0xff);
+                                }
+
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+
+                        }
+                    }
+                } else if (sprite[sprite_ptr].mask_offset >= 0) {
+                    /* draw a masked sprite */
+                    UBytePtr mask = new UBytePtr(mask_buffer, sprite[sprite_ptr].mask_offset
+                            + (y1 - sprite[sprite_ptr].y) * sprite[sprite_ptr].total_width - sprite[sprite_ptr].x);
+                    if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                        source.inc((screenx + flipx_adjust));
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (mask.read(x) == 0 && source.read(-x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(-x)));
+                                }
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+                            mask.offset += sprite[sprite_ptr].total_width;
+
+                        }
+                    } else {
+                        source.dec(screenx);
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (mask.read(x) == 0 && source.read(x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(x)));
+                                }
+
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+                            mask.offset += sprite[sprite_ptr].total_width;
+
+                        }
+                    }
+                } else if ((sprite[sprite_ptr].flags & SPRITE_TRANSPARENCY_THROUGH) != 0) {
+                    int color = Machine.pens[palette_transparent_color];
+                    if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                        source.inc((screenx + flipx_adjust));
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (dest.read(x) == color && source.read(-x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(-x)));
+                                }
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+
+                        }
+                    } else {
+                        source.dec(screenx);
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (dest.read(x) == color && source.read(x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(x)));
+                                }
+
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+                        }
+                    }
+                } else if (pal_data != null) {
+                    if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                        source.inc((screenx + flipx_adjust));
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (source.read(-x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(-x)));
+                                }
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+
+                        }
+                    } else {
+                        source.dec(screenx);
+                        for (y = y1; y < y2; y++) {
+                            for (x = x1; x < x2; x++) {
+                                if (source.read(x) != transparent_pen) {
+                                    dest.write(x, pal_data.read(source.read(x)));
+                                }
+
+                            }
+                            source.inc(source_dy);
+                            dest.inc(blit.line_offset);
+
+                        }
+                    }
+                }
+            }
         }
     };
     public static do_blitPtr do_blit_stack = new do_blitPtr() {
