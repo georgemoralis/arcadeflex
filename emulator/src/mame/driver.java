@@ -225,6 +225,7 @@ import static drivers.tigeroad.*;
 import static drivers.WIP.cninja.*;
 import static drivers.gaelco.*;
 import static drivers.gaiden.*;
+import static drivers.system16.*;
 
 public class driver {
 
@@ -1993,7 +1994,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( altbeas2 )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( altbeast )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( astormbl )	/* bootleg */
-                /*TODO*/ //	DRIVER( atomicp )	/* (c) 1990 Philko */
+                driver_atomicp,	/* (c) 1990 Philko */
                 /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
                 /*TODO*/ //	DRIVER( bayroute )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( bodyslam )	/* (c) 1986 */
