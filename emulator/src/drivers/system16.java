@@ -6835,177 +6835,273 @@ public class system16 {
 /*TODO*///	MACHINE_DRIVER_18( machine_driver_shdancrj, \
 /*TODO*///		shdancer_readmem,shdancer_writemem,shdancrj_init_machine, gfx4 )
 /*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_shinobi = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "shinobi.a4", 0x000000, 0x10000, 0xb930399d )
-/*TODO*///		ROM_LOAD_ODD ( "shinobi.a1", 0x000000, 0x10000, 0x343f4c46 )
-/*TODO*///		ROM_LOAD_EVEN( "epr11283",   0x020000, 0x10000, 0x9d46e707 )
-/*TODO*///		ROM_LOAD_ODD ( "epr11281",   0x020000, 0x10000, 0x7961d07e )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "shinobi.b9",  0x00000, 0x10000, 0x5f62e163 );
-/*TODO*///		ROM_LOAD( "shinobi.b10", 0x10000, 0x10000, 0x75f8fbc9 );
-/*TODO*///		ROM_LOAD( "shinobi.b11", 0x20000, 0x10000, 0x06508bb9 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "epr11290.10", 0x00000, 0x10000, 0x611f413a );
-/*TODO*///		ROM_LOAD( "epr11294.11", 0x10000, 0x10000, 0x5eb00fc1 );
-/*TODO*///		ROM_LOAD( "epr11291.17", 0x20000, 0x10000, 0x3c0797c0 );
-/*TODO*///		ROM_LOAD( "epr11295.18", 0x30000, 0x10000, 0x25307ef8 );
-/*TODO*///		ROM_LOAD( "epr11292.23", 0x40000, 0x10000, 0xc29ac34e );
-/*TODO*///		ROM_LOAD( "epr11296.24", 0x50000, 0x10000, 0x04a437f8 );
-/*TODO*///		ROM_LOAD( "epr11293.29", 0x60000, 0x10000, 0x41f41063 );
-/*TODO*///		ROM_LOAD( "epr11297.30", 0x70000, 0x10000, 0xb6e1fd72 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "shinobi.a7", 0x0000, 0x8000, 0x2457a7cf );
-/*TODO*///		ROM_LOAD( "shinobi.a8", 0x10000, 0x8000, 0xc8df8460 );
-/*TODO*///		ROM_LOAD( "shinobi.a9", 0x18000, 0x8000, 0xe5a4cf30 );
-/*TODO*///	
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_shinobib = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
-/*TODO*///	// Custom cpu 317-0049
-/*TODO*///		ROM_LOAD_EVEN( "epr11282", 0x000000, 0x10000, 0x5f2e5524 )
-/*TODO*///		ROM_LOAD_ODD ( "epr11280", 0x000000, 0x10000, 0xbdfe5c38 )
-/*TODO*///		ROM_LOAD_EVEN( "epr11283", 0x020000, 0x10000, 0x9d46e707 )
-/*TODO*///		ROM_LOAD_ODD ( "epr11281", 0x020000, 0x10000, 0x7961d07e )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "shinobi.b9",  0x00000, 0x10000, 0x5f62e163 );
-/*TODO*///		ROM_LOAD( "shinobi.b10", 0x10000, 0x10000, 0x75f8fbc9 );
-/*TODO*///		ROM_LOAD( "shinobi.b11", 0x20000, 0x10000, 0x06508bb9 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "epr11290.10", 0x00000, 0x10000, 0x611f413a );
-/*TODO*///		ROM_LOAD( "epr11294.11", 0x10000, 0x10000, 0x5eb00fc1 );
-/*TODO*///		ROM_LOAD( "epr11291.17", 0x20000, 0x10000, 0x3c0797c0 );
-/*TODO*///		ROM_LOAD( "epr11295.18", 0x30000, 0x10000, 0x25307ef8 );
-/*TODO*///		ROM_LOAD( "epr11292.23", 0x40000, 0x10000, 0xc29ac34e );
-/*TODO*///		ROM_LOAD( "epr11296.24", 0x50000, 0x10000, 0x04a437f8 );
-/*TODO*///		ROM_LOAD( "epr11293.29", 0x60000, 0x10000, 0x41f41063 );
-/*TODO*///		ROM_LOAD( "epr11297.30", 0x70000, 0x10000, 0xb6e1fd72 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "shinobi.a7", 0x0000, 0x8000, 0x2457a7cf );
-/*TODO*///		ROM_LOAD( "shinobi.a8", 0x10000, 0x8000, 0xc8df8460 );
-/*TODO*///		ROM_LOAD( "shinobi.a9", 0x18000, 0x8000, 0xe5a4cf30 );
-/*TODO*///	
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr shinobi_skip = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		if (cpu_get_pc()==0x32e0) {cpu_spinuntil_int(); return 1<<8;}
-/*TODO*///	
-/*TODO*///		return READ_WORD(&sys16_workingram[0x301c]);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress shinobi_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xc43000, 0xc43001, MRA_NOP ),
-/*TODO*///		new MemoryReadAddress( 0xfff01c, 0xfff01d, shinobi_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress shinobi_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void shinobi_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr shinobi_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = { 0,0,0,0,0,0,0,6,0,0,0,4,0,2,0,0 };
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///		sys16_dactype = 1;
-/*TODO*///		sys16_update_proc = shinobi_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_shinobi = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 4,0x20000 );
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_shinobi = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 
-/*TODO*///		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Cocktail") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
-/*TODO*///		PORT_DIPSETTING(    0x08, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "5" );
-/*TODO*///		PORT_BITX( 0,       0x00, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "240", IP_KEY_NONE, IP_JOY_NONE );
-/*TODO*///		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0x20, "Easy" );
-/*TODO*///		PORT_DIPSETTING(    0x30, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "Hard" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hardest" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, "Enemy's Bullet Speed" );
-/*TODO*///		PORT_DIPSETTING(    0x40, "Slow" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Fast" );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, "Language" );
-/*TODO*///		PORT_DIPSETTING(    0x80, "Japanese" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "English" );
-/*TODO*///	
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	MACHINE_DRIVER_7759( machine_driver_shinobi, \
-/*TODO*///		shinobi_readmem,shinobi_writemem,shinobi_init_machine, gfx1,upd7759_interface )
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	// sys16A
+	/***************************************************************************/
+	// sys16B
+	static RomLoadPtr rom_shinobi = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "shinobi.a4", 0x000000, 0x10000, 0xb930399d );
+		ROM_LOAD_ODD ( "shinobi.a1", 0x000000, 0x10000, 0x343f4c46 );
+		ROM_LOAD_EVEN( "epr11283",   0x020000, 0x10000, 0x9d46e707 );
+		ROM_LOAD_ODD ( "epr11281",   0x020000, 0x10000, 0x7961d07e );
+	
+		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "shinobi.b9",  0x00000, 0x10000, 0x5f62e163 );
+		ROM_LOAD( "shinobi.b10", 0x10000, 0x10000, 0x75f8fbc9 );
+		ROM_LOAD( "shinobi.b11", 0x20000, 0x10000, 0x06508bb9 );
+	
+		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "epr11290.10", 0x00000, 0x10000, 0x611f413a );
+		ROM_LOAD( "epr11294.11", 0x10000, 0x10000, 0x5eb00fc1 );
+		ROM_LOAD( "epr11291.17", 0x20000, 0x10000, 0x3c0797c0 );
+		ROM_LOAD( "epr11295.18", 0x30000, 0x10000, 0x25307ef8 );
+		ROM_LOAD( "epr11292.23", 0x40000, 0x10000, 0xc29ac34e );
+		ROM_LOAD( "epr11296.24", 0x50000, 0x10000, 0x04a437f8 );
+		ROM_LOAD( "epr11293.29", 0x60000, 0x10000, 0x41f41063 );
+		ROM_LOAD( "epr11297.30", 0x70000, 0x10000, 0xb6e1fd72 );
+	
+		ROM_REGION( 0x20000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "shinobi.a7", 0x0000, 0x8000, 0x2457a7cf );
+		ROM_LOAD( "shinobi.a8", 0x10000, 0x8000, 0xc8df8460 );
+		ROM_LOAD( "shinobi.a9", 0x18000, 0x8000, 0xe5a4cf30 );
+	
+	ROM_END(); }}; 
+	
+	static RomLoadPtr rom_shinobib = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
+	// Custom cpu 317-0049
+		ROM_LOAD_EVEN( "epr11282", 0x000000, 0x10000, 0x5f2e5524 );
+		ROM_LOAD_ODD ( "epr11280", 0x000000, 0x10000, 0xbdfe5c38 );
+		ROM_LOAD_EVEN( "epr11283", 0x020000, 0x10000, 0x9d46e707 );
+		ROM_LOAD_ODD ( "epr11281", 0x020000, 0x10000, 0x7961d07e );
+	
+		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "shinobi.b9",  0x00000, 0x10000, 0x5f62e163 );
+		ROM_LOAD( "shinobi.b10", 0x10000, 0x10000, 0x75f8fbc9 );
+		ROM_LOAD( "shinobi.b11", 0x20000, 0x10000, 0x06508bb9 );
+	
+		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "epr11290.10", 0x00000, 0x10000, 0x611f413a );
+		ROM_LOAD( "epr11294.11", 0x10000, 0x10000, 0x5eb00fc1 );
+		ROM_LOAD( "epr11291.17", 0x20000, 0x10000, 0x3c0797c0 );
+		ROM_LOAD( "epr11295.18", 0x30000, 0x10000, 0x25307ef8 );
+		ROM_LOAD( "epr11292.23", 0x40000, 0x10000, 0xc29ac34e );
+		ROM_LOAD( "epr11296.24", 0x50000, 0x10000, 0x04a437f8 );
+		ROM_LOAD( "epr11293.29", 0x60000, 0x10000, 0x41f41063 );
+		ROM_LOAD( "epr11297.30", 0x70000, 0x10000, 0xb6e1fd72 );
+	
+		ROM_REGION( 0x20000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "shinobi.a7", 0x0000, 0x8000, 0x2457a7cf );
+		ROM_LOAD( "shinobi.a8", 0x10000, 0x8000, 0xc8df8460 );
+		ROM_LOAD( "shinobi.a9", 0x18000, 0x8000, 0xe5a4cf30 );
+	
+	ROM_END(); }}; 
+	
+	/***************************************************************************/
+	
+	public static ReadHandlerPtr shinobi_skip = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		if (cpu_get_pc()==0x32e0) {cpu_spinuntil_int(); return 1<<8;}
+	
+		return sys16_workingram.READ_WORD(0x301c);
+	} };
+	
+	static MemoryReadAddress shinobi_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
+		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
+		new MemoryReadAddress( 0xc41006, 0xc41007, input_port_1_r ),
+		new MemoryReadAddress( 0xc41000, 0xc41001, input_port_2_r ),
+		new MemoryReadAddress( 0xc42002, 0xc42003, input_port_3_r ),
+		new MemoryReadAddress( 0xc42000, 0xc42001, input_port_4_r ),
+		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_BANK4 ),
+		new MemoryReadAddress( 0xc43000, 0xc43001, MRA_NOP ),
+		new MemoryReadAddress( 0xfff01c, 0xfff01d, shinobi_skip ),
+		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
+		new MemoryReadAddress(-1)
+	};
+	
+	static MemoryWriteAddress shinobi_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_BANK4,sys16_extraram2 ),
+		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
+		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
+		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
+		new MemoryWriteAddress(-1)
+	};
+	
+	/***************************************************************************/
+	public static sys16_update_procPtr shinobi_update_proc = new sys16_update_procPtr() {
+            public void handler() {
+		sys16_fg_scrollx = sys16_textram.READ_WORD(0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD(0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD(0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD(0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD(0x0e80 ) );
+		set_bg_page( sys16_textram.READ_WORD(0x0e82 ) );
+	
+		set_refresh( sys16_extraram2.READ_WORD(0));
+	}};
+	
+	public static InitMachinePtr shinobi_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = { 0,0,0,0,0,0,0,6,0,0,0,4,0,2,0,0 };
+		sys16_obj_bank = bank;
+		sys16_dactype = 1;
+		sys16_update_proc = shinobi_update_proc;
+	} };
+	
+	public static InitDriverPtr init_shinobi = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode( 4,0x20000 );
+	} };
+	
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_shinobi = new InputPortPtr(){ public void handler() { 
+		 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON3 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+	
+                 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
+	
+                 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BITX(0x04, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR( "Service_Mode") , KEYCODE_F2, IP_JOY_NONE );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_COIN3 );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+                PORT_START();  
+		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coin_A") ); 
+		PORT_DIPSETTING(    0x07, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x08, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x09, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x05, "2 Coins/1 Credit 5/3 6/4");
+		PORT_DIPSETTING(    0x04, "2 Coins/1 Credit 4/3");
+		PORT_DIPSETTING(    0x0f, DEF_STR( "1C_1C") ); 
+		PORT_DIPSETTING(    0x01, "1 Coin/1 Credit 2/3");
+		PORT_DIPSETTING(    0x02, "1 Coin/1 Credit 4/5");
+		PORT_DIPSETTING(    0x03, "1 Coin/1 Credit 5/6");
+		PORT_DIPSETTING(    0x06, DEF_STR( "2C_3C") ); 
+		PORT_DIPSETTING(    0x0e, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0x0d, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0x0c, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0x0b, DEF_STR( "1C_5C") ); 
+		PORT_DIPSETTING(    0x0a, DEF_STR( "1C_6C") ); 
+		PORT_DIPSETTING(    0x00, "Free Play (if Coin B too) or 1/1");
+		PORT_DIPNAME( 0xf0, 0xf0, DEF_STR( "Coin_B") ); 
+		PORT_DIPSETTING(    0x70, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x80, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x90, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x50, "2 Coins/1 Credit 5/3 6/4");
+		PORT_DIPSETTING(    0x40, "2 Coins/1 Credit 4/3");
+		PORT_DIPSETTING(    0xf0, DEF_STR( "1C_1C") ); 
+		PORT_DIPSETTING(    0x10, "1 Coin/1 Credit 2/3");
+		PORT_DIPSETTING(    0x20, "1 Coin/1 Credit 4/5");
+		PORT_DIPSETTING(    0x30, "1 Coin/1 Credit 5/6");
+		PORT_DIPSETTING(    0x60, DEF_STR( "2C_3C") ); 
+		PORT_DIPSETTING(    0xe0, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0xd0, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0xb0, DEF_STR( "1C_5C") ); 
+		PORT_DIPSETTING(    0xa0, DEF_STR( "1C_6C") ); 
+		PORT_DIPSETTING(    0x00, "Free Play (if Coin A too) or 1/1");
+	
+	PORT_START(); 
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x08, "2" );
+		PORT_DIPSETTING(    0x0c, "3" );
+		PORT_DIPSETTING(    0x04, "5" );
+		PORT_BITX( 0,       0x00, IPT_DIPSWITCH_SETTING | IPF_CHEAT, "240", IP_KEY_NONE, IP_JOY_NONE );
+		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x20, "Easy" );
+		PORT_DIPSETTING(    0x30, "Normal" );
+		PORT_DIPSETTING(    0x10, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x40, 0x40, "Enemy's Bullet Speed" );
+		PORT_DIPSETTING(    0x40, "Slow" );
+		PORT_DIPSETTING(    0x00, "Fast" );
+		PORT_DIPNAME( 0x80, 0x80, "Language" );
+		PORT_DIPSETTING(    0x80, "Japanese" );
+		PORT_DIPSETTING(    0x00, "English" );
+	
+	INPUT_PORTS_END(); }}; 
+	
+	/***************************************************************************/
+		static MachineDriver machine_driver_shinobi = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				shinobi_readmem,shinobi_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		shinobi_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx1, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
+	/***************************************************************************/
+	// sys16A
 /*TODO*///	static RomLoadPtr rom_shinobia = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0050
@@ -11821,7 +11917,7 @@ public class system16 {
 /*TODO*///	public static GameDriver driver_shdancer	   = new GameDriver("1989"	,"shdancer"	,"system16.java"	,rom_shdancer,null	,machine_driver_shdancer	,input_ports_shdancer	,init_shdancer	,ROT0	,	"Sega",    "Shadow Dancer (US)")
 /*TODO*///	GAMEX(1989, shdancbl, shdancer, shdancbl, shdancer, shdancbl, ROT0,         "bootleg", "Shadow Dancer (bootleg)", GAME_NOT_WORKING)
 /*TODO*///	public static GameDriver driver_shdancrj	   = new GameDriver("1989"	,"shdancrj"	,"system16.java"	,rom_shdancrj,driver_shdancer	,machine_driver_shdancrj	,input_ports_shdancer	,init_shdancrj	,ROT0	,	"Sega",    "Shadow Dancer (Japan)")
-/*TODO*///	public static GameDriver driver_shinobi	   = new GameDriver("1987"	,"shinobi"	,"system16.java"	,rom_shinobi,null	,machine_driver_shinobi	,input_ports_shinobi	,init_shinobi	,ROT0	,	"Sega",    "Shinobi (set 1)")
+	public static GameDriver driver_shinobi	   = new GameDriver("1987"	,"shinobi"	,"system16.java"	,rom_shinobi,null	,machine_driver_shinobi	,input_ports_shinobi	,init_shinobi	,ROT0	,	"Sega",    "Shinobi (set 1)");
 /*TODO*///	GAMEX(1987, shinobib, shinobi,  shinobi,  shinobi,  shinobi,  ROT0,         "Sega",    "Shinobi (set 3)", GAME_NOT_WORKING)
 /*TODO*///	GAMEX(1987, shinobia, shinobi,  shinobl,  shinobi,  shinobi,  ROT0,         "Sega",    "Shinobi (set 2)", GAME_NOT_WORKING)
 /*TODO*///	public static GameDriver driver_shinobl	   = new GameDriver("1987"	,"shinobl"	,"system16.java"	,rom_shinobl,driver_shinobi	,machine_driver_shinobl	,input_ports_shinobi	,init_shinobi	,ROT0	,	"bootleg", "Shinobi (bootleg)")

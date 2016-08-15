@@ -59,6 +59,8 @@ public class tilemapC {
     	int bi = 0, di = 0, si = 0;
             for (; ; )
             {
+                if(dest.offset<0) break;//hacked for system16 games not to crash
+                if(source.offset<0) break;
                 int  data = bitmask.read(bi++) & 0xFF;
                 if ((data & 0x80) != 0) dest.write(di + 0,source.read(si + 0));
                 if ((data & 0x40) != 0) dest.write(di + 1,source.read(si + 1));

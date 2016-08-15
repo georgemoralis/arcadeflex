@@ -621,7 +621,7 @@ public class upd7759 extends sndintrf.snd_interface {
                         /* remove an old timer */
                         if (updadpcm[num].timer != null) {
                             timer_remove(updadpcm[num].timer);
-                            updadpcm[num].timer = 0;
+                            updadpcm[num].timer = null;
                         }
                         /* stop playing this sample */
                         updadpcm[num].playing = 0;
@@ -654,7 +654,7 @@ public class upd7759 extends sndintrf.snd_interface {
                     /* remove an old timer */
                     if (updadpcm[num].timer != null) {
                         timer_remove(updadpcm[num].timer);
-                        updadpcm[num].timer = 0;
+                        updadpcm[num].timer = null;
                     }
                     /* bring the chip in sync with the CPU */
                     stream_update(channel[num], 0);
