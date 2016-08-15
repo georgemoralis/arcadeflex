@@ -10,17 +10,20 @@ import static sound.streams.*;
 import static mame.driverH.*;
 import static mame.common.*;
 import static arcadeflex.libc_v2.*;
+import static mame.timer.*;
+import static mame.timerH.*;
+
 /**
  *
  * @author shadow
  */
 public class upd7759 extends sndintrf.snd_interface {
-    /* number of samples stuffed into the rom */
 
+    /* number of samples stuffed into the rom */
     static /*unsigned char*/ int numsam;
 
     /* playback rate for the streams interface */
-    /* BASE_CLOCK or a multiple (if oversampling is active) */
+ /* BASE_CLOCK or a multiple (if oversampling is active) */
     static int emulation_rate;
 
     static int base_rate;
@@ -32,7 +35,8 @@ public class upd7759 extends sndintrf.snd_interface {
         return ((n) - (((n) + 7) / 8));
     }
 
-    public static final int SIGNAL_BITS = 15;	/* signal range */
+    public static final int SIGNAL_BITS = 15;
+    /* signal range */
 
     public static final int SIGNAL_MAX = (0x7fff >> (15 - SIGNAL_BITS));
     public static final int SIGNAL_MIN = -SIGNAL_MAX;
@@ -53,40 +57,56 @@ public class upd7759 extends sndintrf.snd_interface {
             this.length = length;
             this.freq = freq;
         }
-        /*unsigned*/ int offset;	/* offset in that region */
-        /*unsigned*/ int length;    /* length of the sample */
-        /*unsigned*/ int freq;		/* play back freq of sample */
+        /*unsigned*/ int offset;
+        /* offset in that region */
+ /*unsigned*/ int length;
+        /* length of the sample */
+ /*unsigned*/ int freq;
+        /* play back freq of sample */
 
     };
-    /* struct describing a single playing ADPCM voice */
 
+    /* struct describing a single playing ADPCM voice */
     public static class UPD7759voice {
 
-        int playing;            /* 1 if we are actively playing */
+        int playing;
+        /* 1 if we are actively playing */
 
-        UBytePtr base;    /* pointer to the base memory location */
+        UBytePtr base;
+        /* pointer to the base memory location */
 
-        int mask;               /* mask to keep us within the buffer */
+        int mask;
+        /* mask to keep us within the buffer */
 
-        int sample; 			/* current sample number (sample data in slave mode) */
+        int sample;
+        /* current sample number (sample data in slave mode) */
 
-        int freq;				/* current sample playback freq */
+        int freq;
+        /* current sample playback freq */
 
-        int count;              /* total samples to play */
+        int count;
+        /* total samples to play */
 
-        int signal;             /* current ADPCM signal */
+        int signal;
+        /* current ADPCM signal */
 
-        int step;               /* current ADPCM step */
+        int step;
+        /* current ADPCM step */
 
-        int counter;			/* sample counter */
+        int counter;
+        /* sample counter */
 
-        Object timer;			/* timer used in slave mode */
+        Object timer;
+        /* timer used in slave mode */
 
-        int[] data = new int[DATA_MAX]; 	/* data array used in slave mode */
+        int[] data = new int[DATA_MAX];
+        /* data array used in slave mode */
 
-        int /*unsigned*/ head;			/* head of data array used in slave mode */
+        int /*unsigned*/ head;
+        /* head of data array used in slave mode */
 
-        int /*unsigned*/ tail;			/* tail of data array used in slave mode */
+        int /*unsigned*/ tail;
+        /* tail of data array used in slave mode */
 
         int /*unsigned*/ available;
     };
@@ -132,7 +152,7 @@ public class upd7759 extends sndintrf.snd_interface {
             /* compute the step value */
             int stepval = 6 * (step + 1) * (step + 1);
             //LOG(1,(errorlog, "step %2d:", step));
-                    /* loop over all nibbles and compute the difference */
+            /* loop over all nibbles and compute the difference */
             for (nib = 0; nib < 16; nib++) {
                 diff_lookup[step * 16 + nib] = nbl2bit[nib][0]
                         * (stepval * nbl2bit[nib][1]
@@ -149,14 +169,16 @@ public class upd7759 extends sndintrf.snd_interface {
         int j;
         int nextoff = 0;
         UBytePtr memrom;
-        UBytePtr header;   /* upd7759 has a 4 byte what we assume is an identifier (bytes 1-4)*/
+        UBytePtr header;
+        /* upd7759 has a 4 byte what we assume is an identifier (bytes 1-4)*/
 
         UBytePtr data;
 
         memrom = memory_region(upd7759_intf.region[num]);
-        numsam = memrom.read(0); /* get number of samples from sound rom */
+        numsam = memrom.read(0);
+        /* get number of samples from sound rom */
         //header = &(memrom[1]);
-	/*if (memcmp (header, "\x5A\xA5\x69\x55",4) == 0)
+        /*if (memcmp (header, "\x5A\xA5\x69\x55",4) == 0)
          {
          LOG(1,(errorlog,"uPD7759 header verified\n"));
          }
@@ -168,11 +190,12 @@ public class upd7759 extends sndintrf.snd_interface {
          LOG(1,(errorlog,"Number of samples in UPD7759 rom = %d\n",numsam));*/
 
 
-        /* move the header pointer to the start of the sample offsets */
+ /* move the header pointer to the start of the sample offsets */
         header = new UBytePtr(memrom, 5);//header = &(memrom[5]);
 
         if (sample_num > numsam) {
-            return 0;	/* sample out of range */
+            return 0;
+            /* sample out of range */
 
         }
 
@@ -239,10 +262,10 @@ public class upd7759 extends sndintrf.snd_interface {
     public int chips_clock(MachineSound msound) {
         return ((UPD7759_interface) msound.sound_interface).clock_rate;
     }
+
     /*
      *   Start emulation of several ADPCM output streams
      */
-
     @Override
     public int start(MachineSound msound) {
         int i;
@@ -395,68 +418,123 @@ public class upd7759 extends sndintrf.snd_interface {
             }
 
             if (upd7759_intf.mode == UPD7759_SLAVE_MODE) {
-                throw new UnsupportedOperationException("Unsupported");
-                /*TODO*///		int offset = -1;
-    /*TODO*///
-    /*TODO*///		//LOG(1,(errorlog,"upd7759_message_w $%02x\n", data));
-    /*TODO*///		if (errorlog) fprintf(errorlog,"upd7759_message_w $%2x\n",data);
-    /*TODO*///
-    /*TODO*///        switch (data) {
-    /*TODO*///
-    /*TODO*///			case 0x00: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x38: offset = 0x10000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x01: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x39: offset = 0x14000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x02: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x34: offset = 0x18000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x03: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x35: offset = 0x1c000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x04:							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x2c: offset = 0x20000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x05: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x2d: offset = 0x24000; break; /* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x06:							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x1c: offset = 0x28000; break;	/* roms 0x8000 in size in size */
-    /*TODO*///
-    /*TODO*///			case 0x07: 							/* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x1d: offset = 0x2c000; break;	/* roms 0x8000 in size */
-    /*TODO*///
-    /*TODO*///			case 0x08: offset = 0x30000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x09: offset = 0x34000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0a: offset = 0x38000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0b: offset = 0x3c000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0c: offset = 0x40000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0d: offset = 0x44000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0e: offset = 0x48000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///			case 0x0f: offset = 0x4c000; break; /* roms 0x10000 & 0x20000 in size */
-    /*TODO*///
-    /*TODO*///			default:
-    /*TODO*///
-    /*TODO*///				//LOG(1,(errorlog, "upd7759_message_w unhandled $%02x\n", data));
-    /*TODO*///				if (errorlog) fprintf (errorlog, "upd7759_message_w unhandled $%02x\n", data);
-    /*TODO*///				if ((data & 0xc0) == 0xc0)
-    /*TODO*///				{
-    /*TODO*///					if (voice->timer)
-    /*TODO*///					{
-    /*TODO*///						timer_remove(voice->timer);
-    /*TODO*///						voice->timer = 0;
-    /*TODO*///					}
-    /*TODO*///					voice->playing = 0;
-    /*TODO*///				}
-    /*TODO*///        }
-    /*TODO*///		if (offset > 0)
-    /*TODO*///		{
-    /*TODO*///			voice->base = &memory_region(upd7759_intf->region[num])[offset];
-    /*TODO*///			//LOG(1,(errorlog, "upd7759_message_w set base $%08x\n", offset));
-    /*TODO*///			if (errorlog)
-    /*TODO*///				fprintf(errorlog, "upd7759_message_w set base $%08x\n", offset);
-    /*TODO*///        }
+                int offset = -1;
+
+                //LOG(1,(errorlog,"upd7759_message_w $%02x\n", data));
+                if (errorlog != null) {
+                    fprintf(errorlog, "upd7759_message_w $%2x\n", data);
+                }
+
+                switch (data) {
+
+                    case 0x00:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x38:
+                        offset = 0x10000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x01:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x39:
+                        offset = 0x14000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x02:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x34:
+                        offset = 0x18000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x03:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x35:
+                        offset = 0x1c000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x04:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x2c:
+                        offset = 0x20000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x05:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x2d:
+                        offset = 0x24000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x06:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x1c:
+                        offset = 0x28000;
+                        break;
+                    /* roms 0x8000 in size in size */
+
+                    case 0x07:
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x1d:
+                        offset = 0x2c000;
+                        break;
+                    /* roms 0x8000 in size */
+
+                    case 0x08:
+                        offset = 0x30000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x09:
+                        offset = 0x34000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0a:
+                        offset = 0x38000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0b:
+                        offset = 0x3c000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0c:
+                        offset = 0x40000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0d:
+                        offset = 0x44000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0e:
+                        offset = 0x48000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+                    case 0x0f:
+                        offset = 0x4c000;
+                        break;
+                    /* roms 0x10000 & 0x20000 in size */
+
+                    default:
+
+                        //LOG(1,(errorlog, "upd7759_message_w unhandled $%02x\n", data));
+                        //if (errorlog) fprintf (errorlog, "upd7759_message_w unhandled $%02x\n", data);
+                        if ((data & 0xc0) == 0xc0) {
+                            if (updadpcm[num].timer != null) {
+                                timer_remove(updadpcm[num].timer);
+                                updadpcm[num].timer = null;
+                            }
+                            updadpcm[num].playing = 0;
+                        }
+                }
+                if (offset > 0) {
+                    updadpcm[num].base = new UBytePtr(memory_region(upd7759_intf.region[num]), offset);
+                    //LOG(1,(errorlog, "upd7759_message_w set base $%08x\n", offset));
+                    if (errorlog != null) {
+                        fprintf(errorlog, "upd7759_message_w set base $%08x\n", offset);
+                    }
+                }
             } else {
 
                 //LOG(1,(errorlog,"uPD7759 calling sample : %d\n", data));
@@ -465,8 +543,8 @@ public class upd7759 extends sndintrf.snd_interface {
             }
         }
     };
-    /*TODO*///
-/*TODO*////************************************************************
+
+    /*TODO*////************************************************************
 /*TODO*/// UPD7759_dac
 /*TODO*///
 /*TODO*/// Called by the timer interrupt at twice the sample rate.
@@ -474,34 +552,37 @@ public class upd7759 extends sndintrf.snd_interface {
 /*TODO*/// second time the ADPCM msb is converted and the resulting
 /*TODO*/// signal is sent to the DAC.
 /*TODO*/// ************************************************************/
-/*TODO*///static void UPD7759_dac(int num)
-/*TODO*///{
-/*TODO*///	static int dac_msb = 0;
-/*TODO*///	struct UPD7759voice *voice = updadpcm + num;
-/*TODO*///
-/*TODO*///	dac_msb ^= 1;
-/*TODO*///	if( dac_msb )
-/*TODO*///	{
-/*TODO*///		LOG(3,(errorlog,"UPD7759_dac:    $%x ", voice->sample & 15));
-/*TODO*///        /* convert lower nibble */
-/*TODO*///		voice->step = FALL_OFF(voice->step) + index_shift[voice->sample & (INDEX_SHIFT_MAX-1)];
-/*TODO*///        if (voice->step > STEP_MAX) voice->step = STEP_MAX;
-/*TODO*///        else if (voice->step < STEP_MIN) voice->step = STEP_MIN;
-/*TODO*///		voice->signal = FALL_OFF(voice->signal) + diff_lookup[voice->step * 16 + (voice->sample & 15)];
-/*TODO*///		if (voice->signal > SIGNAL_MAX) voice->signal = SIGNAL_MAX;
-/*TODO*///		else if (voice->signal < SIGNAL_MIN) voice->signal = SIGNAL_MIN;
-/*TODO*///		LOG(3,(errorlog,"step: %3d signal: %+5d\n", voice->step, voice->signal));
-/*TODO*///		voice->head = (voice->head + 1) % DATA_MAX;
-/*TODO*///		voice->data[voice->head] = voice->signal;
-/*TODO*///		voice->available++;
-/*TODO*///    }
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		if( upd7759_intf->irqcallback[num] )
-/*TODO*///			(*upd7759_intf->irqcallback[num])(num);
-/*TODO*///    }
-/*TODO*///}
-/*TODO*///
+    static int dac_msb = 0;
+    public static timer_callback UPD7759_dac = new timer_callback() {
+        public void handler(int num) {
+
+            //struct UPD7759voice *voice = updadpcm + num;
+            dac_msb ^= 1;
+            if (dac_msb != 0) {
+                //LOG(3,(errorlog,"UPD7759_dac:    $%x ", voice->sample & 15));
+                /* convert lower nibble */
+                updadpcm[num].step = FALL_OFF(updadpcm[num].step) + index_shift[updadpcm[num].sample & (INDEX_SHIFT_MAX - 1)];
+                if (updadpcm[num].step > STEP_MAX) {
+                    updadpcm[num].step = STEP_MAX;
+                } else if (updadpcm[num].step < STEP_MIN) {
+                    updadpcm[num].step = STEP_MIN;
+                }
+                updadpcm[num].signal = FALL_OFF(updadpcm[num].signal) + diff_lookup[updadpcm[num].step * 16 + (updadpcm[num].sample & 15)];
+                if (updadpcm[num].signal > SIGNAL_MAX) {
+                    updadpcm[num].signal = SIGNAL_MAX;
+                } else if (updadpcm[num].signal < SIGNAL_MIN) {
+                    updadpcm[num].signal = SIGNAL_MIN;
+                }
+                //LOG(3,(errorlog,"step: %3d signal: %+5d\n", updadpcm[num].step, updadpcm[num].signal));
+                updadpcm[num].head = (updadpcm[num].head + 1) % DATA_MAX;
+                updadpcm[num].data[updadpcm[num].head] = updadpcm[num].signal;
+                updadpcm[num].available++;
+            } else if (upd7759_intf.irqcallback[num] != null) {
+                (upd7759_intf.irqcallback[num]).handler(num);
+            }
+        }
+    };
+    /*TODO*///
 /*TODO*////************************************************************
 /*TODO*/// UPD7759_start_w
 /*TODO*///
@@ -515,7 +596,7 @@ public class upd7759 extends sndintrf.snd_interface {
     public static WriteHandlerPtr UPD7759_start_w = new WriteHandlerPtr() {
         public void handler(int num, int data) {
             //struct UPD7759voice *voice = updadpcm + num;
-	/* bail if we're not playing anything */
+            /* bail if we're not playing anything */
             if (Machine.sample_rate == 0) {
                 return;
             }
@@ -528,65 +609,68 @@ public class upd7759 extends sndintrf.snd_interface {
 
             /* handle the slave mode */
             if (upd7759_intf.mode == UPD7759_SLAVE_MODE) {
-                throw new UnsupportedOperationException("Unsupported");
-                /*TODO*///		if (voice->playing)
-/*TODO*///		{
-/*TODO*///            /* if the chip is busy this should be the ADPCM data */
-/*TODO*///			data &= 0xff;	/* be sure to use 8 bits value only */
-/*TODO*///			LOG(3,(errorlog,"UPD7759_data_w: $%x ", (data >> 4) & 15));
-/*TODO*///
-/*TODO*///            /* detect end of a sample by inspection of the last 5 bytes */
-/*TODO*///			/* FF 00 00 00 00 is the start of the next sample */
-/*TODO*///			if( voice->count > 5 && voice->sample == 0xff && data == 0x00 )
-/*TODO*///			{
-/*TODO*///                /* remove an old timer */
-/*TODO*///                if (voice->timer)
-/*TODO*///                {
-/*TODO*///                    timer_remove(voice->timer);
-/*TODO*///                    voice->timer = 0;
-/*TODO*///				}
-/*TODO*///                /* stop playing this sample */
-/*TODO*///				voice->playing = 0;
-/*TODO*///				return;
-/*TODO*///            }
-/*TODO*///
-/*TODO*///			/* save the data written in voice->sample */
-/*TODO*///			voice->sample = data;
-/*TODO*///			voice->count++;
-/*TODO*///
-/*TODO*///            /* conversion of the ADPCM data to a new signal value */
-/*TODO*///			voice->step = FALL_OFF(voice->step) + index_shift[(voice->sample >> 4) & (INDEX_SHIFT_MAX-1)];
-/*TODO*///            if (voice->step > STEP_MAX) voice->step = STEP_MAX;
-/*TODO*///            else if (voice->step < STEP_MIN) voice->step = STEP_MIN;
-/*TODO*///			voice->signal = FALL_OFF(voice->signal) + diff_lookup[voice->step * 16 + ((voice->sample >> 4) & 15)];
-/*TODO*///            if (voice->signal > SIGNAL_MAX) voice->signal = SIGNAL_MAX;
-/*TODO*///            else if (voice->signal < SIGNAL_MIN) voice->signal = SIGNAL_MIN;
-/*TODO*///			LOG(3,(errorlog,"step: %3d signal: %+5d\n", voice->step, voice->signal));
-/*TODO*///			voice->head = (voice->head + 1) % DATA_MAX;
-/*TODO*///			voice->data[voice->head] = voice->signal;
-/*TODO*///			voice->available++;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			LOG(2,(errorlog,"UPD7759_start_w: $%02x\n", data));
-/*TODO*///            /* remove an old timer */
-/*TODO*///			if (voice->timer)
-/*TODO*///			{
-/*TODO*///                timer_remove(voice->timer);
-/*TODO*///                voice->timer = 0;
-/*TODO*///            }
-/*TODO*///			/* bring the chip in sync with the CPU */
-/*TODO*///			stream_update(channel[num], 0);
-/*TODO*///            /* start a new timer */
-/*TODO*///			voice->timer = timer_pulse( TIME_IN_HZ(base_rate), num, UPD7759_dac );
-/*TODO*///			voice->signal = 0;
-/*TODO*///			voice->step = 0;	/* reset the step width */
-/*TODO*///			voice->count = 0;	/* reset count for the detection of an sample ending */
-/*TODO*///			voice->playing = 1; /* this voice is now playing */
-/*TODO*///            voice->tail = 0;
-/*TODO*///			voice->head = 0;
-/*TODO*///			voice->available = 0;
-/*TODO*///        }
+                if (updadpcm[num].playing != 0) {
+                    /* if the chip is busy this should be the ADPCM data */
+                    data &= 0xff;
+                    /* be sure to use 8 bits value only */
+                    //LOG(3,(errorlog,"UPD7759_data_w: $%x ", (data >> 4) & 15));
+
+                    /* detect end of a sample by inspection of the last 5 bytes */
+ /* FF 00 00 00 00 is the start of the next sample */
+                    if (updadpcm[num].count > 5 && updadpcm[num].sample == 0xff && data == 0x00) {
+                        /* remove an old timer */
+                        if (updadpcm[num].timer != null) {
+                            timer_remove(updadpcm[num].timer);
+                            updadpcm[num].timer = 0;
+                        }
+                        /* stop playing this sample */
+                        updadpcm[num].playing = 0;
+                        return;
+                    }
+
+                    /* save the data written in updadpcm[num].sample */
+                    updadpcm[num].sample = data;
+                    updadpcm[num].count++;
+
+                    /* conversion of the ADPCM data to a new signal value */
+                    updadpcm[num].step = FALL_OFF(updadpcm[num].step) + index_shift[(updadpcm[num].sample >> 4) & (INDEX_SHIFT_MAX - 1)];
+                    if (updadpcm[num].step > STEP_MAX) {
+                        updadpcm[num].step = STEP_MAX;
+                    } else if (updadpcm[num].step < STEP_MIN) {
+                        updadpcm[num].step = STEP_MIN;
+                    }
+                    updadpcm[num].signal = FALL_OFF(updadpcm[num].signal) + diff_lookup[updadpcm[num].step * 16 + ((updadpcm[num].sample >> 4) & 15)];
+                    if (updadpcm[num].signal > SIGNAL_MAX) {
+                        updadpcm[num].signal = SIGNAL_MAX;
+                    } else if (updadpcm[num].signal < SIGNAL_MIN) {
+                        updadpcm[num].signal = SIGNAL_MIN;
+                    }
+                    //LOG(3,(errorlog,"step: %3d signal: %+5d\n", updadpcm[num].step, updadpcm[num].signal));
+                    updadpcm[num].head = (updadpcm[num].head + 1) % DATA_MAX;
+                    updadpcm[num].data[updadpcm[num].head] = updadpcm[num].signal;
+                    updadpcm[num].available++;
+                } else {
+                    //LOG(2,(errorlog,"UPD7759_start_w: $%02x\n", data));
+                    /* remove an old timer */
+                    if (updadpcm[num].timer != null) {
+                        timer_remove(updadpcm[num].timer);
+                        updadpcm[num].timer = 0;
+                    }
+                    /* bring the chip in sync with the CPU */
+                    stream_update(channel[num], 0);
+                    /* start a new timer */
+                    updadpcm[num].timer = timer_pulse(TIME_IN_HZ(base_rate), num, UPD7759_dac);
+                    updadpcm[num].signal = 0;
+                    updadpcm[num].step = 0;
+                    /* reset the step width */
+                    updadpcm[num].count = 0;
+                    /* reset count for the detection of an sample ending */
+                    updadpcm[num].playing = 1;
+                    /* this voice is now playing */
+                    updadpcm[num].tail = 0;
+                    updadpcm[num].head = 0;
+                    updadpcm[num].available = 0;
+                }
             } else {
                 UPD7759sample sample = new UPD7759sample();
 
@@ -625,46 +709,50 @@ public class upd7759 extends sndintrf.snd_interface {
             }
         }
     };
-    /*TODO*///
-/*TODO*////************************************************************
-/*TODO*/// UPD7759_data_r
-/*TODO*///
-/*TODO*/// External read data from the UPD7759 memory region based
-/*TODO*/// on voice->base. Used in slave mode to retrieve data to
-/*TODO*/// stuff into UPD7759_message_w.
-/*TODO*/// *************************************************************/
-/*TODO*///
-/*TODO*///int UPD7759_data_r(int num, int offs)
-/*TODO*///{
-/*TODO*///	struct UPD7759voice *voice = updadpcm + num;
-/*TODO*///
-/*TODO*///    /* If there's no sample rate, do nothing */
-/*TODO*///    if (Machine->sample_rate == 0)
-/*TODO*///		return 0x00;
-/*TODO*///
-/*TODO*///    /* range check the numbers */
-/*TODO*///	if( num >= upd7759_intf->num )
-/*TODO*///	{
-/*TODO*///		LOG(1,(errorlog,"error: UPD7759_data_r() called with channel = %d, but only %d channels allocated\n", num, upd7759_intf->num));
-/*TODO*///		return 0x00;
-/*TODO*///    }
-/*TODO*///
-/*TODO*///	if ( voice->base == NULL )
-/*TODO*///	{
-/*TODO*///		LOG(1,(errorlog,"error: UPD7759_data_r() called with channel = %d, but updadpcm[%d].base == NULL\n", num, num));
-/*TODO*///		return 0x00;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#if VERBOSE
-/*TODO*///    if (!(offs&0xff)) LOG(1, (errorlog,"UPD7759#%d sample offset = $%04x\n", num, offs));
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	return voice->base[offs];
-/*TODO*///}
-/*TODO*///
-/*TODO*////* helper functions to be used as memory read handler function pointers */
-/*TODO*///int UPD7759_0_data_r(int offs) { return UPD7759_data_r(0, offs); }
-/*TODO*///int UPD7759_1_data_r(int offs) { return UPD7759_data_r(1, offs); }
+
+    /**
+     * **********************************************************
+     * UPD7759_data_r
+     *
+     * External read data from the UPD7759 memory region based on voice->base.
+     * Used in slave mode to retrieve data to stuff into UPD7759_message_w.
+     * ***********************************************************
+     */
+    public static int UPD7759_data_r(int num, int offs) {
+        //struct UPD7759voice *voice = updadpcm + num;
+
+        /* If there's no sample rate, do nothing */
+        if (Machine.sample_rate == 0) {
+            return 0x00;
+        }
+
+        /* range check the numbers */
+        if (num >= upd7759_intf.num) {
+            //LOG(1,(errorlog,"error: UPD7759_data_r() called with channel = %d, but only %d channels allocated\n", num, upd7759_intf->num));
+            return 0x00;
+        }
+
+        if (updadpcm[num].base == null) {
+            //LOG(1,(errorlog,"error: UPD7759_data_r() called with channel = %d, but updadpcm[%d].base == NULL\n", num, num));
+            return 0x00;
+        }
+
+        /*#if VERBOSE
+    if (!(offs&0xff)) LOG(1, (errorlog,"UPD7759#%d sample offset = $%04x\n", num, offs));
+#endif*/
+        return updadpcm[num].base.read(offs);
+    }
+    /* helper functions to be used as memory read handler function pointers */
+    public static ReadHandlerPtr UPD7759_0_data_r = new ReadHandlerPtr() {
+        public int handler(int offs) {
+            return UPD7759_data_r(0, offs);
+        }
+    };
+    public static ReadHandlerPtr UPD7759_1_data_r = new ReadHandlerPtr() {
+        public int handler(int offs) {
+            return UPD7759_data_r(1, offs);
+        }
+    };
 
     /**
      * **********************************************************
@@ -679,7 +767,7 @@ public class upd7759 extends sndintrf.snd_interface {
     public static ReadHandlerPtr UPD7759_busy_r = new ReadHandlerPtr() {
         public int handler(int num) {
             //struct UPD7759voice *voice = updadpcm + num;
-                /* If there's no sample rate, return not busy */
+            /* If there's no sample rate, return not busy */
             if (Machine.sample_rate == 0) {
                 return 1;
             }
@@ -734,7 +822,7 @@ public class upd7759 extends sndintrf.snd_interface {
             }
 
             /* mark the uPD7759 as NOT PLAYING */
-            /* (Note: do we need to do anything else?) */
+ /* (Note: do we need to do anything else?) */
             updadpcm[num].playing = 0;
         }
     };

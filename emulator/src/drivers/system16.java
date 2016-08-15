@@ -40,6 +40,8 @@ import static sound._2151intf.*;
 import static sound._2151intfH.*;
 import static sound.mixerH.MIXER_PAN_LEFT;
 import static sound.mixerH.MIXER_PAN_RIGHT;
+import static sound.upd7759.*;
+import static sound.upd7759H.*;
 
 public class system16 {
 
@@ -307,14 +309,17 @@ public class system16 {
             /* Interrupt vector 4, used by VBlank */
         }
     };
-    /*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void sound_cause_nmi(int chip)
-/*TODO*///	{
-/*TODO*///		cpu_set_nmi_line(1, PULSE_LINE);
-/*TODO*///	}
-/*TODO*///	
+    
+    /***************************************************************************/
+
+    public static irqcallbackPtr sound_cause_nmi = new irqcallbackPtr(){
+
+        public void handler(int chip)
+        {
+            cpu_set_nmi_line(1, PULSE_LINE);
+        }
+    };
+    
     static MemoryReadAddress sound_readmem[]
             = {
                 new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
@@ -412,44 +417,44 @@ public class system16 {
 /*TODO*///	// 7759
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static MemoryReadAddress sound_readmem_7759[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x8000, 0xdfff, UPD7759_0_data_r ),
-/*TODO*///		new MemoryReadAddress( 0xe800, 0xe800, soundlatch_r ),
-/*TODO*///		new MemoryReadAddress( 0xf800, 0xffff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( -1 )  /* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	// some games (aurail, riotcity, eswat), seem to send different format data to the 7759
-/*TODO*///	// this function changes that data to what the 7759 expects, but it sounds quite poor.
-/*TODO*///	public static WriteHandlerPtr UPD7759_process_message_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if((data & 0xc0) == 0x40) data=0xc0;
-/*TODO*///		else data&=0x3f;
-/*TODO*///	
-/*TODO*///		UPD7759_message_w(offset,data);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static IOWritePort sound_writeport_7759[] =
-/*TODO*///	{
-/*TODO*///		new IOWritePort( 0x00, 0x00, YM2151_register_port_0_w ),
-/*TODO*///		new IOWritePort( 0x01, 0x01, YM2151_data_port_0_w ),
-/*TODO*///		new IOWritePort( 0x40, 0x40, UPD7759_process_message_w ),
-/*TODO*///		new IOWritePort( 0x80, 0x80, UPD7759_start_w ),
-/*TODO*///		new IOWritePort( -1 )
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static struct UPD7759_interface upd7759_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		UPD7759_STANDARD_CLOCK,
-/*TODO*///		{ 60 }, 	/* volumes */
-/*TODO*///		{ REGION_CPU2 },			/* memory region 3 contains the sample data */
-/*TODO*///	    UPD7759_SLAVE_MODE,
-/*TODO*///		{ sound_cause_nmi },
-/*TODO*///	};
-/*TODO*///	
+	static MemoryReadAddress sound_readmem_7759[] =
+	{
+		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
+		new MemoryReadAddress( 0x8000, 0xdfff, UPD7759_0_data_r ),
+		new MemoryReadAddress( 0xe800, 0xe800, soundlatch_r ),
+		new MemoryReadAddress( 0xf800, 0xffff, MRA_RAM ),
+		new MemoryReadAddress( -1 )  /* end of table */
+	};
+	
+	// some games (aurail, riotcity, eswat), seem to send different format data to the 7759
+	// this function changes that data to what the 7759 expects, but it sounds quite poor.
+	public static WriteHandlerPtr UPD7759_process_message_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		if((data & 0xc0) == 0x40) data=0xc0;
+		else data&=0x3f;
+	
+		UPD7759_message_w.handler(offset,data);
+	} };
+	
+	static IOWritePort sound_writeport_7759[] =
+	{
+		new IOWritePort( 0x00, 0x00, YM2151_register_port_0_w ),
+		new IOWritePort( 0x01, 0x01, YM2151_data_port_0_w ),
+		new IOWritePort( 0x40, 0x40, UPD7759_process_message_w ),
+		new IOWritePort( 0x80, 0x80, UPD7759_start_w ),
+		new IOWritePort( -1 )
+	};
+	
+	static UPD7759_interface upd7759_interface = new UPD7759_interface
+	(
+		1,			/* 1 chip */
+		UPD7759_STANDARD_CLOCK,
+		new int[]{ 60 }, 	/* volumes */
+		new int[]{ REGION_CPU2 },			/* memory region 3 contains the sample data */
+                UPD7759_SLAVE_MODE,
+		new irqcallbackPtr[]{ sound_cause_nmi }
+        );
+	
 /*TODO*///	// SYS18 Sound
 /*TODO*///	
 /*TODO*///	unsigned char *sys18_SoundMemBank;
@@ -716,16 +721,16 @@ public class system16 {
 /*TODO*///		sys16_refreshenable = data&0x10;
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	static void set_tile_bank( int data ){
-/*TODO*///		sys16_tile_bank1 = data&0xf;
-/*TODO*///		sys16_tile_bank0 = (data>>4)&0xf;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	static void set_tile_bank18( int data ){
-/*TODO*///		sys16_tile_bank0 = data&0xf;
-/*TODO*///		sys16_tile_bank1 = (data>>4)&0xf;
-/*TODO*///	}
+	
+	static void set_tile_bank( int data ){
+		sys16_tile_bank1 = data&0xf;
+		sys16_tile_bank0 = (data>>4)&0xf;
+	}
+	
+	static void set_tile_bank18( int data ){
+		sys16_tile_bank0 = data&0xf;
+		sys16_tile_bank1 = (data>>4)&0xf;
+	}
     static void set_fg_page(int data) {
         sys16_fg_page[0] = data >> 12;
         sys16_fg_page[1] = (data >> 8) & 0xf;
@@ -3952,32 +3957,32 @@ public class system16 {
 /*TODO*///		fpoint_readmem,fpoint_writemem,fpoint_init_machine, gfx1)
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_goldnaxe = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "epr12523.a7", 0x00000, 0x20000, 0x8e6128d7 )
-/*TODO*///		ROM_LOAD_ODD ( "epr12522.a5", 0x00000, 0x20000, 0xb6c35160 )
-/*TODO*///		/* emtpy 0x40000 - 0x80000 */
-/*TODO*///		ROM_LOAD_EVEN( "epr12521.a8", 0x80000, 0x20000, 0x5001d713 )
-/*TODO*///		ROM_LOAD_ODD ( "epr12519.a6", 0x80000, 0x20000, 0x4438ca8e )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "epr12385", 0x00000, 0x20000, 0xb8a4e7e0 );
-/*TODO*///		ROM_LOAD( "epr12386", 0x20000, 0x20000, 0x25d7d779 );
-/*TODO*///		ROM_LOAD( "epr12387", 0x40000, 0x20000, 0xc7fcadf3 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x180000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "mpr12378.b1", 0x000000, 0x40000, 0x119e5a82 );
-/*TODO*///		ROM_LOAD( "mpr12379.b4", 0x040000, 0x40000, 0x1a0e8c57 );
-/*TODO*///		ROM_LOAD( "mpr12380.b2", 0x080000, 0x40000, 0xbb2c0853 );
-/*TODO*///		ROM_LOAD( "mpr12381.b5", 0x0c0000, 0x40000, 0x81ba6ecc );
-/*TODO*///		ROM_LOAD( "mpr12382.b3", 0x100000, 0x40000, 0x81601c6f );
-/*TODO*///		ROM_LOAD( "mpr12383.b6", 0x140000, 0x40000, 0x5dbacf7a );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "epr12390",     0x00000, 0x08000, 0x399fc5f5 );
-/*TODO*///		ROM_LOAD( "mpr12384.a11", 0x10000, 0x20000, 0x6218d8e7 );
-/*TODO*///	ROM_END(); }}; 
+	// sys16B
+	static RomLoadPtr rom_goldnaxe = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "epr12523.a7", 0x00000, 0x20000, 0x8e6128d7 );
+		ROM_LOAD_ODD ( "epr12522.a5", 0x00000, 0x20000, 0xb6c35160 );
+		/* emtpy 0x40000 - 0x80000 */
+		ROM_LOAD_EVEN( "epr12521.a8", 0x80000, 0x20000, 0x5001d713 );
+		ROM_LOAD_ODD ( "epr12519.a6", 0x80000, 0x20000, 0x4438ca8e );
+	
+		ROM_REGION( 0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "epr12385", 0x00000, 0x20000, 0xb8a4e7e0 );
+		ROM_LOAD( "epr12386", 0x20000, 0x20000, 0x25d7d779 );
+		ROM_LOAD( "epr12387", 0x40000, 0x20000, 0xc7fcadf3 );
+	
+		ROM_REGION( 0x180000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "mpr12378.b1", 0x000000, 0x40000, 0x119e5a82 );
+		ROM_LOAD( "mpr12379.b4", 0x040000, 0x40000, 0x1a0e8c57 );
+		ROM_LOAD( "mpr12380.b2", 0x080000, 0x40000, 0xbb2c0853 );
+		ROM_LOAD( "mpr12381.b5", 0x0c0000, 0x40000, 0x81ba6ecc );
+		ROM_LOAD( "mpr12382.b3", 0x100000, 0x40000, 0x81601c6f );
+		ROM_LOAD( "mpr12383.b6", 0x140000, 0x40000, 0x5dbacf7a );
+	
+		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "epr12390",     0x00000, 0x08000, 0x399fc5f5 );
+		ROM_LOAD( "mpr12384.a11", 0x10000, 0x20000, 0x6218d8e7 );
+	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	static RomLoadPtr rom_goldnaxj = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
@@ -4046,95 +4051,95 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr goldnaxe_skip = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		if (cpu_get_pc()==0x3cb0) {cpu_spinuntil_int(); return 0xffff;}
-/*TODO*///	
-/*TODO*///		return READ_WORD(&sys16_workingram[0x2c1c]);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr ga_io_players_r = new ReadHandlerPtr() { public int handler(int offset){return (input_port_0_r(offset) << 8) | io_player2_r(offset);} };
-/*TODO*///	public static ReadHandlerPtr ga_io_service_r = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		return (io_service_r(offset) << 8) | (READ_WORD(&sys16_workingram[0x2c96]) & 0x00ff);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress goldnaxe_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
-/*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, paletteram_word_r ),
-/*TODO*///		new MemoryReadAddress( 0x1f0000, 0x1f0003, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xffecd0, 0xffecd1, ga_io_players_r ),
-/*TODO*///		new MemoryReadAddress( 0xffec96, 0xffec97, ga_io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xffec1c, 0xffec1d, goldnaxe_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr ga_sound_command_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if( (data&0xff000000)==0 )
-/*TODO*///			sound_command_w(offset,data>>8);
-/*TODO*///		COMBINE_WORD_MEM(&sys16_workingram[0x2cfc],data);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress goldnaxe_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0x1f0000, 0x1f0003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffecfc, 0xffecfd, ga_sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void goldnaxe_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///		set_tile_bank( READ_WORD( &sys16_workingram[0x2c94] ) );
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr goldnaxe_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = { 0,2,8,10,16,18,0,0,4,6,12,14,20,22,0,0 };
-/*TODO*///	
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///	
-/*TODO*///		patch_code( 0x3CB2, 0x60 );
-/*TODO*///		patch_code( 0x3CB3, 0x1e );
-/*TODO*///	
-/*TODO*///		sys16_sprxoffset = -0xb8;
-/*TODO*///		sys16_update_proc = goldnaxe_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_goldnaxe = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 3,0x80000 );
-/*TODO*///	} };
+	/***************************************************************************/
+	
+	public static ReadHandlerPtr goldnaxe_skip = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		if (cpu_get_pc()==0x3cb0) {cpu_spinuntil_int(); return 0xffff;}
+	
+		return sys16_workingram.READ_WORD(0x2c1c);
+	} };
+	
+	public static ReadHandlerPtr ga_io_players_r = new ReadHandlerPtr() { public int handler(int offset){return (input_port_0_r.handler(offset) << 8) | input_port_1_r.handler(offset);} };
+	public static ReadHandlerPtr ga_io_service_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return (input_port_2_r.handler(offset) << 8) | (sys16_workingram.READ_WORD(0x2c96) & 0x00ff);
+	} };
+	
+	static MemoryReadAddress goldnaxe_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
+	
+		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
+		new MemoryReadAddress( 0x140000, 0x140fff, paletteram_word_r ),
+		new MemoryReadAddress( 0x1f0000, 0x1f0003, MRA_BANK3 ),
+		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
+		new MemoryReadAddress( 0xc41006, 0xc41007, input_port_1_r ),
+		new MemoryReadAddress( 0xc41000, 0xc41001, input_port_2_r ),
+		new MemoryReadAddress( 0xc42002, 0xc42003, input_port_3_r ),
+		new MemoryReadAddress( 0xc42000, 0xc42001, input_port_4_r ),
+		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_BANK4 ),
+		new MemoryReadAddress( 0xffecd0, 0xffecd1, ga_io_players_r ),
+		new MemoryReadAddress( 0xffec96, 0xffec97, ga_io_service_r ),
+		new MemoryReadAddress( 0xffec1c, 0xffec1d, goldnaxe_skip ),
+		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
+		new MemoryReadAddress(-1)
+	};
+	
+	public static WriteHandlerPtr ga_sound_command_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		if( (data&0xff000000)==0 )
+			sound_command_w.handler(offset,data>>8);
+		COMBINE_WORD_MEM(sys16_workingram,0x2cfc,data);
+	} };
+	
+	static MemoryWriteAddress goldnaxe_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0x140000, 0x140fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0x1f0000, 0x1f0003, MWA_BANK3,sys16_extraram ),
+		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_BANK4,sys16_extraram2 ),
+		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
+		new MemoryWriteAddress( 0xffecfc, 0xffecfd, ga_sound_command_w ),
+		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
+		new MemoryWriteAddress(-1)
+	};
+	/***************************************************************************/
+        public static sys16_update_procPtr goldnaxe_update_proc = new sys16_update_procPtr() {
+            public void handler() {	
+		sys16_fg_scrollx = sys16_textram.READ_WORD(0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD(0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD(0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD(0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD(0x0e80)  );
+		set_bg_page( sys16_textram.READ_WORD(0x0e82)  );
+		set_tile_bank( sys16_workingram.READ_WORD(0x2c94)  );
+		set_refresh( sys16_extraram2.READ_WORD(0) );
+	}};
+	
+	public static InitMachinePtr goldnaxe_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = { 0,2,8,10,16,18,0,0,4,6,12,14,20,22,0,0 };
+	
+		sys16_obj_bank = bank;
+	
+		patch_code.handler(0x3CB2, 0x60 );
+		patch_code.handler(0x3CB3, 0x1e );
+	
+		sys16_sprxoffset = -0xb8;
+		sys16_update_proc = goldnaxe_update_proc;
+	} };
+	
+	public static InitDriverPtr init_goldnaxe = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode( 3,0x80000 );
+	} };
 /*TODO*///	
 /*TODO*///	public static InitDriverPtr init_goldnabl = new InitDriverPtr() { public void handler() 
 /*TODO*///	{
@@ -4147,46 +4152,142 @@ public class system16 {
 /*TODO*///			memory_region(REGION_GFX1)[i] ^= 0xff;
 /*TODO*///		sys16_sprite_decode( 3,0x80000 );
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_goldnaxe = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x01, "Credits needed" );
-/*TODO*///		PORT_DIPSETTING(    0x01, "1 to start, 1 to continue");
-/*TODO*///		PORT_DIPSETTING(    0x00, "2 to start, 1 to continue");
-/*TODO*///		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
-/*TODO*///		PORT_DIPSETTING(    0x08, "1" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "5" );
-/*TODO*///		PORT_DIPNAME( 0x30, 0x30, "Energy Meter" );
-/*TODO*///		PORT_DIPSETTING(    0x20, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x30, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "4" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "5" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	MACHINE_DRIVER_7759( machine_driver_goldnaxe, \
-/*TODO*///		goldnaxe_readmem,goldnaxe_writemem,goldnaxe_init_machine, gfx2,upd7759_interface )
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
+	
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_goldnaxe = new InputPortPtr(){ public void handler() { 
+		 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON3 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON1 );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON2 );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
+	
+                 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
+		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
+	
+                 PORT_START();  
+		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BITX(0x04, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR( "Service_Mode") , KEYCODE_F2, IP_JOY_NONE );
+		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_COIN3 );
+		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNKNOWN );
+		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
+	
+                PORT_START();  
+		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coin_A") ); 
+		PORT_DIPSETTING(    0x07, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x08, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x09, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x05, "2 Coins/1 Credit 5/3 6/4");
+		PORT_DIPSETTING(    0x04, "2 Coins/1 Credit 4/3");
+		PORT_DIPSETTING(    0x0f, DEF_STR( "1C_1C") ); 
+		PORT_DIPSETTING(    0x01, "1 Coin/1 Credit 2/3");
+		PORT_DIPSETTING(    0x02, "1 Coin/1 Credit 4/5");
+		PORT_DIPSETTING(    0x03, "1 Coin/1 Credit 5/6");
+		PORT_DIPSETTING(    0x06, DEF_STR( "2C_3C") ); 
+		PORT_DIPSETTING(    0x0e, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0x0d, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0x0c, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0x0b, DEF_STR( "1C_5C") ); 
+		PORT_DIPSETTING(    0x0a, DEF_STR( "1C_6C") ); 
+		PORT_DIPSETTING(    0x00, "Free Play (if Coin B too) or 1/1");
+		PORT_DIPNAME( 0xf0, 0xf0, DEF_STR( "Coin_B") ); 
+		PORT_DIPSETTING(    0x70, DEF_STR( "4C_1C") ); 
+		PORT_DIPSETTING(    0x80, DEF_STR( "3C_1C") ); 
+		PORT_DIPSETTING(    0x90, DEF_STR( "2C_1C") ); 
+		PORT_DIPSETTING(    0x50, "2 Coins/1 Credit 5/3 6/4");
+		PORT_DIPSETTING(    0x40, "2 Coins/1 Credit 4/3");
+		PORT_DIPSETTING(    0xf0, DEF_STR( "1C_1C") ); 
+		PORT_DIPSETTING(    0x10, "1 Coin/1 Credit 2/3");
+		PORT_DIPSETTING(    0x20, "1 Coin/1 Credit 4/5");
+		PORT_DIPSETTING(    0x30, "1 Coin/1 Credit 5/6");
+		PORT_DIPSETTING(    0x60, DEF_STR( "2C_3C") ); 
+		PORT_DIPSETTING(    0xe0, DEF_STR( "1C_2C") ); 
+		PORT_DIPSETTING(    0xd0, DEF_STR( "1C_3C") ); 
+		PORT_DIPSETTING(    0xc0, DEF_STR( "1C_4C") ); 
+		PORT_DIPSETTING(    0xb0, DEF_STR( "1C_5C") ); 
+		PORT_DIPSETTING(    0xa0, DEF_STR( "1C_6C") ); 
+		PORT_DIPSETTING(    0x00, "Free Play (if Coin A too) or 1/1");
+	
+	PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x01, "Credits needed" );
+		PORT_DIPSETTING(    0x01, "1 to start, 1 to continue");
+		PORT_DIPSETTING(    0x00, "2 to start, 1 to continue");
+		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x08, "1" );
+		PORT_DIPSETTING(    0x0c, "2" );
+		PORT_DIPSETTING(    0x04, "3" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x30, 0x30, "Energy Meter" );
+		PORT_DIPSETTING(    0x20, "2" );
+		PORT_DIPSETTING(    0x30, "3" );
+		PORT_DIPSETTING(    0x10, "4" );
+		PORT_DIPSETTING(    0x00, "5" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+	
+	/***************************************************************************/
+	static MachineDriver machine_driver_goldnaxe = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				goldnaxe_readmem,goldnaxe_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		goldnaxe_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx2, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
+	/***************************************************************************/
 /*TODO*///	// sys16B
 /*TODO*///	static RomLoadPtr rom_goldnaxa = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
@@ -11697,7 +11798,7 @@ public class system16 {
 /*TODO*///	public static GameDriver driver_fantzono	   = new GameDriver("1986"	,"fantzono"	,"system16.java"	,rom_fantzono,driver_fantzone	,machine_driver_fantzono	,input_ports_fantzone	,init_fantzone	,ROT0	,	"Sega",    "Fantasy Zone (Old Ver.)")
 /*TODO*///	GAMEX(1989, fpoint,   null,        fpoint,   fpoint,   fpoint,   ROT0,         "Sega",    "Flash Point", GAME_NOT_WORKING)
 /*TODO*///	public static GameDriver driver_fpointbl	   = new GameDriver("1989"	,"fpointbl"	,"system16.java"	,rom_fpointbl,driver_fpoint	,machine_driver_fpoint	,input_ports_fpoint	,init_fpointbl	,ROT0	,	"bootleg", "Flash Point (bootleg)")
-/*TODO*///	public static GameDriver driver_goldnaxe	   = new GameDriver("1989"	,"goldnaxe"	,"system16.java"	,rom_goldnaxe,null	,machine_driver_goldnaxe	,input_ports_goldnaxe	,init_goldnaxe	,ROT0	,	"Sega",    "Golden Axe (Version 1)")
+	public static GameDriver driver_goldnaxe	   = new GameDriver("1989"	,"goldnaxe"	,"system16.java"	,rom_goldnaxe,null	,machine_driver_goldnaxe	,input_ports_goldnaxe	,init_goldnaxe	,ROT0	,	"Sega",    "Golden Axe (Version 1)");
 /*TODO*///	GAMEX(1989, goldnaxj, goldnaxe, goldnaxe, goldnaxe, goldnaxe, ROT0,         "Sega",    "Golden Axe (Version 1, Japan)", GAME_NOT_WORKING)
 /*TODO*///	GAMEX(1989, goldnabl, goldnaxe, goldnaxe, goldnaxe, goldnabl, ROT0,         "bootleg", "Golden Axe (bootleg)", GAME_NOT_WORKING)
 /*TODO*///	public static GameDriver driver_goldnaxa	   = new GameDriver("1989"	,"goldnaxa"	,"system16.java"	,rom_goldnaxa,driver_goldnaxe	,machine_driver_goldnaxa	,input_ports_goldnaxe	,init_goldnaxe	,ROT0	,	"Sega",    "Golden Axe (Version 2)")

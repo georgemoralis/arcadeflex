@@ -2008,7 +2008,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( fpointbl )	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( goldnabl )	/* (c) 1989 (bootleg) */
                 /*TODO*/ //	DRIVER( goldnaxa )	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( goldnaxe )	/* (c) 1989 */
+                driver_goldnaxe,	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( hangon )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( hwchamp )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
