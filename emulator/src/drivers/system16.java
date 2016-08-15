@@ -23,6 +23,7 @@ import static cpu.konami.konami.*;
 import static cpu.z80.z80H.*;
 import static mame.common.*;
 import static mame.commonH.*;
+import static mame.inputH.KEYCODE_F2;
 import static mame.palette.*;
 import static mame.memory.*;
 import mame.sndintrfH.MachineSound;
@@ -35,6 +36,10 @@ import static sound.okim6295H.*;
 import static sound.ym2413.*;
 import static sound._2413intfH.*;
 import static vidhrdw.system16.*;
+import static sound._2151intf.*;
+import static sound._2151intfH.*;
+import static sound.mixerH.MIXER_PAN_LEFT;
+import static sound.mixerH.MIXER_PAN_RIGHT;
 
 public class system16 {
 
@@ -271,31 +276,38 @@ public class system16 {
         public abstract void handler();
     }
     static sys16_custom_irqPtr sys16_custom_irq;
-	
-	public static InitMachinePtr sys16_onetime_init_machine = new InitMachinePtr() { public void handler() 
-	{
-		sys16_bg1_trans=0;
-		sys16_rowscroll_scroll=0;
-		sys18_splittab_bg_x=null;
-		sys18_splittab_bg_y=null;
-		sys18_splittab_fg_x=null;
-		sys18_splittab_fg_y=null;
-	
-		sys16_quartet_title_kludge=0;
-	
-		sys16_custom_irq=null;
-	
-		sys16_MaxShadowColors=NumOfShadowColors;
-	
-	} };
-	
-/*TODO*///	/***************************************************************************/
+
+    public static InitMachinePtr sys16_onetime_init_machine = new InitMachinePtr() {
+        public void handler() {
+            sys16_bg1_trans = 0;
+            sys16_rowscroll_scroll = 0;
+            sys18_splittab_bg_x = null;
+            sys18_splittab_bg_y = null;
+            sys18_splittab_fg_x = null;
+            sys18_splittab_fg_y = null;
+
+            sys16_quartet_title_kludge = 0;
+
+            sys16_custom_irq = null;
+
+            sys16_MaxShadowColors = NumOfShadowColors;
+
+        }
+    };
+
+    /*TODO*///	/***************************************************************************/
 /*TODO*///	
-/*TODO*///	int sys16_interrupt( void ){
-/*TODO*///		if(sys16_custom_irq) sys16_custom_irq();
-/*TODO*///		return 4; /* Interrupt vector 4, used by VBlank */
-/*TODO*///	}
-/*TODO*///	
+    public static InterruptPtr sys16_interrupt = new InterruptPtr() {
+        public int handler() {
+            if (sys16_custom_irq != null) {
+                /*TODO*///                    sys16_custom_irq();
+                throw new UnsupportedOperationException("Unimplemented");
+            }
+            return 4;
+            /* Interrupt vector 4, used by VBlank */
+        }
+    };
+    /*TODO*///	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	static void sound_cause_nmi(int chip)
@@ -303,36 +315,33 @@ public class system16 {
 /*TODO*///		cpu_set_nmi_line(1, PULSE_LINE);
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	static MemoryReadAddress sound_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0xe800, 0xe800, soundlatch_r ),
-/*TODO*///		new MemoryReadAddress( 0xf800, 0xffff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( -1 )  /* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress sound_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0xf800, 0xffff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( -1 )  /* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static IOReadPort sound_readport[] =
-/*TODO*///	{
-/*TODO*///		new IOReadPort( 0x01, 0x01, YM2151_status_port_0_r ),
-/*TODO*///		new IOReadPort( 0xc0, 0xc0, soundlatch_r ),
-/*TODO*///		new IOReadPort( -1 )	/* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static IOWritePort sound_writeport[] =
-/*TODO*///	{
-/*TODO*///		new IOWritePort( 0x00, 0x00, YM2151_register_port_0_w ),
-/*TODO*///		new IOWritePort( 0x01, 0x01, YM2151_data_port_0_w ),
-/*TODO*///		new IOWritePort( -1 )
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+    static MemoryReadAddress sound_readmem[]
+            = {
+                new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
+                new MemoryReadAddress(0xe800, 0xe800, soundlatch_r),
+                new MemoryReadAddress(0xf800, 0xffff, MRA_RAM),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress sound_writemem[]
+            = {
+                new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
+                new MemoryWriteAddress(0xf800, 0xffff, MWA_RAM),
+                new MemoryWriteAddress(-1) /* end of table */};
+
+    static IOReadPort sound_readport[]
+            = {
+                new IOReadPort(0x01, 0x01, YM2151_status_port_0_r),
+                new IOReadPort(0xc0, 0xc0, soundlatch_r),
+                new IOReadPort(-1) /* end of table */};
+
+    static IOWritePort sound_writeport[]
+            = {
+                new IOWritePort(0x00, 0x00, YM2151_register_port_0_w),
+                new IOWritePort(0x01, 0x01, YM2151_data_port_0_w),
+                new IOWritePort(-1)
+            };
+
+    /*TODO*///	
 /*TODO*///	
 /*TODO*///	// 7751 Sound
 /*TODO*///	
@@ -605,64 +614,61 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	public static ReadHandlerPtr sound2_shared_ram_r = new ReadHandlerPtr() { public int handler(int offset){ return sound_shared_ram[offset]; } };
 /*TODO*///	public static WriteHandlerPtr sound2_shared_ram_w = new WriteHandlerPtr() { public void handler(int offset, int data){ sound_shared_ram[offset] = data; } };
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr sound_command_w = new WriteHandlerPtr() { public void handler(int offset, int data){
-/*TODO*///		if( errorlog ) fprintf( errorlog, "SOUND COMMAND %04x <- %02x\n", offset, data&0xff );
-/*TODO*///		soundlatch_w.handler( 0,data&0xff );
-/*TODO*///		cpu_cause_interrupt( 1, 0 );
-/*TODO*///	} };
-/*TODO*///	
+    public static WriteHandlerPtr sound_command_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (errorlog != null) {
+                fprintf(errorlog, "SOUND COMMAND %04x <- %02x\n", offset, data & 0xff);
+            }
+            soundlatch_w.handler(0, data & 0xff);
+            cpu_cause_interrupt(1, 0);
+        }
+    };
+    /*TODO*///	
 /*TODO*///	public static WriteHandlerPtr sound_command_nmi_w = new WriteHandlerPtr() { public void handler(int offset, int data){
 /*TODO*///		if( errorlog ) fprintf( errorlog, "SOUND COMMAND %04x <- %02x\n", offset, data&0xff );
 /*TODO*///		soundlatch_w.handler( 0,data&0xff );
 /*TODO*///		cpu_set_nmi_line(1, PULSE_LINE);
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	static struct YM2151interface ym2151_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		4096000,	/* 3.58 MHZ ? */
-/*TODO*///		{ YM3012_VOL(40,MIXER_PAN_LEFT,40,MIXER_PAN_RIGHT) },
-/*TODO*///		{ 0 }
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static GfxLayout charlayout1 = new GfxLayout
-/*TODO*///	(
-/*TODO*///		8,8,	/* 8*8 chars */
-/*TODO*///		8192,	/* 8192 chars */
-/*TODO*///		3,	/* 3 bits per pixel */
-/*TODO*///		new int[] { 0x20000*8, 0x10000*8, 0 },
-/*TODO*///			new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-/*TODO*///		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
-/*TODO*///		8*8	/* every sprite takes 8 consecutive bytes */
-/*TODO*///	);
-/*TODO*///	
-/*TODO*///	static GfxLayout charlayout2 = new GfxLayout
-/*TODO*///	(
-/*TODO*///		8,8,	/* 8*8 chars */
-/*TODO*///		16384,	/* 16384 chars */
-/*TODO*///		3,	/* 3 bits per pixel */
-/*TODO*///		new int[] { 0x40000*8, 0x20000*8, 0 },
-/*TODO*///			new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-/*TODO*///		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
-/*TODO*///		8*8	/* every sprite takes 8 consecutive bytes */
-/*TODO*///	);
-/*TODO*///	
-/*TODO*///	static GfxLayout charlayout4 = new GfxLayout
-/*TODO*///	(
-/*TODO*///		8,8,	/* 8*8 chars */
-/*TODO*///		32768,	/* 32768 chars */
-/*TODO*///		3,	/* 3 bits per pixel */
-/*TODO*///		new int[] { 0x80000*8, 0x40000*8, 0 },
-/*TODO*///			new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-/*TODO*///		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
-/*TODO*///		8*8	/* every sprite takes 8 consecutive bytes */
-/*TODO*///	);
+    static YM2151interface ym2151_interface = new YM2151interface(
+            1, /* 1 chip */
+            4096000, /* 3.58 MHZ ? */
+            new int[]{YM3012_VOL(40, MIXER_PAN_LEFT, 40, MIXER_PAN_RIGHT)},
+            new WriteYmHandlerPtr[]{null}
+    );
+
+    /**
+     * ************************************************************************
+     */
+    static GfxLayout charlayout1 = new GfxLayout(
+            8, 8, /* 8*8 chars */
+            8192, /* 8192 chars */
+            3, /* 3 bits per pixel */
+            new int[]{0x20000 * 8, 0x10000 * 8, 0},
+            new int[]{0, 1, 2, 3, 4, 5, 6, 7},
+            new int[]{0 * 8, 1 * 8, 2 * 8, 3 * 8, 4 * 8, 5 * 8, 6 * 8, 7 * 8},
+            8 * 8 /* every sprite takes 8 consecutive bytes */
+    );
+
+    static GfxLayout charlayout2 = new GfxLayout(
+            8, 8, /* 8*8 chars */
+            16384, /* 16384 chars */
+            3, /* 3 bits per pixel */
+            new int[]{0x40000 * 8, 0x20000 * 8, 0},
+            new int[]{0, 1, 2, 3, 4, 5, 6, 7},
+            new int[]{0 * 8, 1 * 8, 2 * 8, 3 * 8, 4 * 8, 5 * 8, 6 * 8, 7 * 8},
+            8 * 8 /* every sprite takes 8 consecutive bytes */
+    );
+
+    static GfxLayout charlayout4 = new GfxLayout(
+            8, 8, /* 8*8 chars */
+            32768, /* 32768 chars */
+            3, /* 3 bits per pixel */
+            new int[]{0x80000 * 8, 0x40000 * 8, 0},
+            new int[]{0, 1, 2, 3, 4, 5, 6, 7},
+            new int[]{0 * 8, 1 * 8, 2 * 8, 3 * 8, 4 * 8, 5 * 8, 6 * 8, 7 * 8},
+            8 * 8 /* every sprite takes 8 consecutive bytes */
+    );
     static GfxLayout charlayout8 = new GfxLayout(
             8, 8, /* 8*8 chars */
             4096, /* 4096 chars */
@@ -672,38 +678,36 @@ public class system16 {
             new int[]{0 * 8, 1 * 8, 2 * 8, 3 * 8, 4 * 8, 5 * 8, 6 * 8, 7 * 8},
             8 * 8 /* every sprite takes 8 consecutive bytes */
     );
-    /*TODO*///	
-/*TODO*///	static GfxDecodeInfo gfx1[] =
-/*TODO*///	{
-/*TODO*///		new GfxDecodeInfo( REGION_GFX1, 0x00000, charlayout1,	0, 256 ),
-/*TODO*///		new GfxDecodeInfo( -1 ) /* end of array */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static GfxDecodeInfo gfx2[] =
-/*TODO*///	{
-/*TODO*///		new GfxDecodeInfo( REGION_GFX1, 0x00000, charlayout2,	0, 256 ),
-/*TODO*///		new GfxDecodeInfo( -1 ) /* end of array */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static GfxDecodeInfo gfx4[] =
-/*TODO*///	{
-/*TODO*///		new GfxDecodeInfo( REGION_GFX1, 0x00000, charlayout4,	0, 256 ),
-/*TODO*///		new GfxDecodeInfo( -1 ) /* end of array */
-/*TODO*///	};
-/*TODO*///	
+
+    static GfxDecodeInfo gfx1[]
+            = {
+                new GfxDecodeInfo(REGION_GFX1, 0x00000, charlayout1, 0, 256),
+                new GfxDecodeInfo(-1) /* end of array */};
+
+    static GfxDecodeInfo gfx2[]
+            = {
+                new GfxDecodeInfo(REGION_GFX1, 0x00000, charlayout2, 0, 256),
+                new GfxDecodeInfo(-1) /* end of array */};
+
+    static GfxDecodeInfo gfx4[]
+            = {
+                new GfxDecodeInfo(REGION_GFX1, 0x00000, charlayout4, 0, 256),
+                new GfxDecodeInfo(-1) /* end of array */};
+
     static GfxDecodeInfo gfx8[]
             = {
                 new GfxDecodeInfo(REGION_GFX1, 0x00000, charlayout8, 0, 256),
                 new GfxDecodeInfo(-1) /* end of array */};
 
-    /*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void set_refresh( int data ){
-/*TODO*///		sys16_refreshenable = data&0x20;
-/*TODO*///		sys16_clear_screen  = data&1;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	static void set_refresh_18( int data ){
+    /**
+     * ************************************************************************
+     */
+    static void set_refresh(int data) {
+        sys16_refreshenable = data & 0x20;
+        sys16_clear_screen = data & 1;
+    }
+
+    /*TODO*///	static void set_refresh_18( int data ){
 /*TODO*///		sys16_refreshenable = data&0x2;
 /*TODO*///	//	sys16_clear_screen  = data&4;
 /*TODO*///	}
@@ -722,22 +726,21 @@ public class system16 {
 /*TODO*///		sys16_tile_bank0 = data&0xf;
 /*TODO*///		sys16_tile_bank1 = (data>>4)&0xf;
 /*TODO*///	}
-	
-	static void set_fg_page( int data ){
-		sys16_fg_page[0] = data>>12;
-		sys16_fg_page[1] = (data>>8)&0xf;
-		sys16_fg_page[2] = (data>>4)&0xf;
-		sys16_fg_page[3] = data&0xf;
-	}
-	
-	static void set_bg_page( int data ){
-		sys16_bg_page[0] = data>>12;
-		sys16_bg_page[1] = (data>>8)&0xf;
-		sys16_bg_page[2] = (data>>4)&0xf;
-		sys16_bg_page[3] = data&0xf;
-	}
-	
-/*TODO*///	static void set_fg_page1( int data ){
+    static void set_fg_page(int data) {
+        sys16_fg_page[0] = data >> 12;
+        sys16_fg_page[1] = (data >> 8) & 0xf;
+        sys16_fg_page[2] = (data >> 4) & 0xf;
+        sys16_fg_page[3] = data & 0xf;
+    }
+
+    static void set_bg_page(int data) {
+        sys16_bg_page[0] = data >> 12;
+        sys16_bg_page[1] = (data >> 8) & 0xf;
+        sys16_bg_page[2] = (data >> 4) & 0xf;
+        sys16_bg_page[3] = data & 0xf;
+    }
+
+    /*TODO*///	static void set_fg_page1( int data ){
 /*TODO*///		sys16_fg_page[1] = data>>12;
 /*TODO*///		sys16_fg_page[0] = (data>>8)&0xf;
 /*TODO*///		sys16_fg_page[3] = (data>>4)&0xf;
@@ -765,81 +768,79 @@ public class system16 {
 /*TODO*///		sys16_bg2_page[3] = data&0xf;
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	/*	Important: you must leave extra space when listing sprite ROMs
-/*TODO*///		in a ROM module definition.  This routine unpacks each sprite nibble
-/*TODO*///		into a byte, doubling the memory consumption. */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr sys16_sprite_decode = new WriteHandlerPtr() { public void handler(int num_banks, int bank_size){
-/*TODO*///		UBytePtr base = memory_region(REGION_GFX2);
-/*TODO*///		UBytePtr temp = malloc( bank_size );
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		if( !temp ) return;
-/*TODO*///	
-/*TODO*///		for( i = num_banks; i >0; i-- ){
-/*TODO*///			UBytePtr finish	= base + 2*bank_size*i;
-/*TODO*///			UBytePtr dest = finish - 2*bank_size;
-/*TODO*///	
-/*TODO*///			UBytePtr p1 = temp;
-/*TODO*///			UBytePtr p2 = temp+bank_size/2;
-/*TODO*///	
-/*TODO*///			unsigned char data;
-/*TODO*///	
-/*TODO*///			memcpy (temp, base+bank_size*(i-1), bank_size);
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///		note: both pen#0 and pen#15 are transparent.
-/*TODO*///		we replace references to pen#15 with pen#0, to simplify the sprite rendering
-/*TODO*///	*/
-/*TODO*///			do {
-/*TODO*///				data = *p2++;
-/*TODO*///				if( (data&0x0f) == 0x0f )
-/*TODO*///				{
-/*TODO*///					if((data&0xf0) !=0xf0 && (data&0xf0) !=0)
-/*TODO*///						*dest++ = data >> 4;
-/*TODO*///					else
-/*TODO*///						*dest++ = 0xff;
-/*TODO*///					*dest++ = 0xff;
-/*TODO*///				}
-/*TODO*///				else if( (data&0xf0) == 0xf0 )
-/*TODO*///				{
-/*TODO*///					*dest++ = 0x00;
-/*TODO*///					if( (data&0x0f) == 0x0f ) data &= 0xf0;
-/*TODO*///					*dest++ = data &0xf;
-/*TODO*///				}
-/*TODO*///				else
-/*TODO*///				{
-/*TODO*///					*dest++ = data >> 4;
-/*TODO*///					*dest++ = data & 0xF;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				data = *p1++;
-/*TODO*///				if( (data&0x0f) == 0x0f )
-/*TODO*///				{
-/*TODO*///					if((data&0xf0) !=0xf0 && (data&0xf0) !=0)
-/*TODO*///						*dest++ = data >> 4;
-/*TODO*///					else
-/*TODO*///						*dest++ = 0xff;
-/*TODO*///					*dest++ = 0xff;
-/*TODO*///				}
-/*TODO*///				else if( (data&0xf0) == 0xf0 )
-/*TODO*///				{
-/*TODO*///					*dest++ = 0x00;
-/*TODO*///					if( (data&0x0f) == 0x0f ) data &= 0xf0;
-/*TODO*///					*dest++ = data &0xf;
-/*TODO*///				}
-/*TODO*///				else
-/*TODO*///				{
-/*TODO*///					*dest++ = data >> 4;
-/*TODO*///					*dest++ = data & 0xF;
-/*TODO*///				}
-/*TODO*///			} while( dest<finish );
-/*TODO*///		}
-/*TODO*///		free( temp );
-/*TODO*///	} };
-/*TODO*///	
+    /**
+     * ************************************************************************
+     */
+    /*	Important: you must leave extra space when listing sprite ROMs
+		in a ROM module definition.  This routine unpacks each sprite nibble
+		into a byte, doubling the memory consumption. */
+    static void sys16_sprite_decode(int num_banks, int bank_size) {
+        UBytePtr base = memory_region(REGION_GFX2);
+        UBytePtr temp = new UBytePtr(bank_size);
+        int i;
+
+        if (temp == null) {
+            return;
+        }
+
+        for (i = num_banks; i > 0; i--) {
+            UBytePtr finish = new UBytePtr(base, 2 * bank_size * i);
+            UBytePtr dest = new UBytePtr(finish, - 2 * bank_size);
+
+            UBytePtr p1 = new UBytePtr(temp);
+            UBytePtr p2 = new UBytePtr(temp, bank_size / 2);
+
+            /*unsigned*/ char data;
+
+           memcpy(temp, new UBytePtr(base, bank_size * (i - 1)), bank_size);
+            /*
+	note: both pen#0 and pen#15 are transparent.
+	we replace references to pen#15 with pen#0, to simplify the sprite rendering
+             */
+            do {
+                data = (char)(p2.readinc()&0xFF);
+                if ((data & 0x0f) == 0x0f) {
+                    if ((data & 0xf0) != 0xf0 && (data & 0xf0) != 0) {
+                        dest.writeinc((data >> 4)&0xFF);
+                    } else {
+                        dest.writeinc(0xff);
+                    }
+                    dest.writeinc(0xff);
+                } else if ((data & 0xf0) == 0xf0) {
+                    dest.writeinc(0x00);
+                    if ((data & 0x0f) == 0x0f) {
+                        data &= 0xf0;
+                    }
+                    dest.writeinc(data & 0xf);
+                } else {
+                    dest.writeinc((data >> 4)&0xFF);
+                    dest.writeinc(data & 0xF);
+                }
+
+                data = (char)(p1.readinc()&0xFF);
+                if ((data & 0x0f) == 0x0f) {
+                    if ((data & 0xf0) != 0xf0 && (data & 0xf0) != 0) {
+                        dest.writeinc((data >> 4)&0xFF);
+                    } else {
+                        dest.writeinc(0xff);
+                    }
+                    dest.writeinc(0xff);
+                } else if ((data & 0xf0) == 0xf0) {
+                    dest.writeinc(0x00);
+                    if ((data & 0x0f) == 0x0f) {
+                        data &= 0xf0;
+                    }
+                    dest.writeinc(data & 0xf);
+                } else {
+                    dest.writeinc((data >> 4)&0xFF);
+                    dest.writeinc(data & 0xF);
+                }
+            } while (dest.offset < finish.offset);
+        }
+        temp = null;
+    }
+
+    /*TODO*///	
 /*TODO*///	static void sys16_sprite_decode2( int num_banks, int bank_size, int side_markers ){
 /*TODO*///		unsigned char *base = memory_region(REGION_GFX2);
 /*TODO*///		unsigned char *temp = malloc( bank_size );
@@ -1093,29 +1094,38 @@ public class system16 {
 /*TODO*///	#define io_dip3_r input_port_5_r
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static void patch_codeX( int offset, int data, int cpu ){
-/*TODO*///		int aligned_offset = offset&0xfffffe;
-/*TODO*///		unsigned char *RAM = memory_region(REGION_CPU1+cpu);
-/*TODO*///		int old_word = READ_WORD( &RAM[aligned_offset] );
-/*TODO*///	
-/*TODO*///		if( offset&1 )
-/*TODO*///			data = (old_word&0xff00)|data;
-/*TODO*///		else
-/*TODO*///			data = (old_word&0x00ff)|(data<<8);
-/*TODO*///	
-/*TODO*///		WRITE_WORD (&RAM[aligned_offset], data);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr patch_code = new WriteHandlerPtr() { public void handler(int offset, int data){patch_codeX(offset,data,0);} };
-/*TODO*///	public static WriteHandlerPtr patch_code2 = new WriteHandlerPtr() { public void handler(int offset, int data){patch_codeX(offset,data,2);} };
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr patch_z80code = new WriteHandlerPtr() { public void handler(int offset, int data){
-/*TODO*///		UBytePtr RAM = memory_region(REGION_CPU2);
-/*TODO*///		RAM[offset] = data;
-/*TODO*///	} };
-/*TODO*///	
+    static void patch_codeX(int offset, int data, int cpu) {
+        int aligned_offset = offset & 0xfffffe;
+        UBytePtr RAM = memory_region(REGION_CPU1 + cpu);
+        int old_word = RAM.READ_WORD(aligned_offset);
+
+        if ((offset & 1) != 0) {
+            data = (old_word & 0xff00) | data;
+        } else {
+            data = (old_word & 0x00ff) | (data << 8);
+        }
+
+        RAM.WRITE_WORD(aligned_offset, data);
+    }
+
+    public static WriteHandlerPtr patch_code = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            patch_codeX(offset, data, 0);
+        }
+    };
+    public static WriteHandlerPtr patch_code2 = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            patch_codeX(offset, data, 2);
+        }
+    };
+
+    public static WriteHandlerPtr patch_z80code = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            UBytePtr RAM = memory_region(REGION_CPU2);
+            RAM.write(offset, data);
+        }
+    };
+    /*TODO*///	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	#define SYS16_JOY1 PORT_START();  \
@@ -1300,32 +1310,32 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress alexkidd_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40002, 0xc40005, MRA_NOP ),		//??
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc60000, 0xc60001, MRA_NOP ),
 /*TODO*///		new MemoryReadAddress( 0xfff108, 0xfff109, alexkidd_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress alexkidd_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40002, 0xc40005, MWA_NOP ),		//??
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -1532,30 +1542,30 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress aliensyn_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress aliensyn_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc00006, 0xc00007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -1768,11 +1778,11 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress altbeast_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, altbeast_io_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
@@ -1780,20 +1790,20 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xfff01c, 0xfff01d, altbeast_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress altbeast_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -1965,13 +1975,13 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress astorm_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_SPRITERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
 /*TODO*///		new MemoryReadAddress( 0xa00000, 0xa00001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xa00002, 0xa00003, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xa01002, 0xa01003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xa01002, 0xa01003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xa01004, 0xa01005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xa01006, 0xa01007, io_player3_r ),
 /*TODO*///		new MemoryReadAddress( 0xa01000, 0xa01001, io_service_r ),
@@ -1979,23 +1989,23 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc00000, 0xc0ffff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM3 ),
 /*TODO*///		new MemoryReadAddress( 0xffec2c, 0xffec2d, astorm_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress astorm_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_SPRITERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
 /*TODO*///		new MemoryWriteAddress( 0xa00006, 0xa00007, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa0ffff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa0ffff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc00000, 0xc0ffff, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM3 ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0020, 0xfe003f, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -2543,11 +2553,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
@@ -2555,7 +2565,7 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xfc0000, 0xfc0fff, MRA_EXTRAM3 ),
 /*TODO*///		new MemoryReadAddress( 0xffe74e, 0xffe74f, aurail_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -2563,14 +2573,14 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xfc0000, 0xfc0fff, MWA_EXTRAM3 ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -2785,11 +2795,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x500000, 0x503fff, MRA_EXTRAM3 ),
-/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x700000, 0x70ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x710000, 0x710fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x800000, 0x800fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0x901002, 0x901003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x700000, 0x70ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x710000, 0x710fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x800000, 0x800fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0x901002, 0x901003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0x901006, 0x901007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0x901000, 0x901001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x902002, 0x902003, io_dip1_r ),
@@ -2803,11 +2813,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x500000, 0x503fff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x700000, 0x70ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x710000, 0x710fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x800000, 0x800fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x900000, 0x900fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x700000, 0x70ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x710000, 0x710fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x800000, 0x800fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0x900000, 0x900fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xff0006, 0xff0007, sound_command_w ),
 /*TODO*///	
 /*TODO*///		new MemoryWriteAddress(-1)
@@ -2988,30 +2998,30 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress bodyslam_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc400ff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress bodyslam_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc400ff, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc400ff, MWA_BANK4,sys16_extraram2 ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -3188,30 +3198,30 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress dduxbl_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xfff6e0, 0xfff6e1, dduxbl_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress dduxbl_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40006, 0xc40007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_BANK4,sys16_extraram2 ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -3391,17 +3401,17 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress eswat_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x418fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x418fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xffc454, 0xffc455, eswatbl_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -3416,14 +3426,14 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x3e2000, 0x3e2001, eswat_tilebank0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x418fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x418fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc42006, 0xc42007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc80000, 0xc80001, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -3566,64 +3576,64 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress fantzono_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40003, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xffc22a, 0xffc22b, fantzone_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress fantzono_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40003, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40003, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc60000, 0xc60003, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryReadAddress fantzone_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40003, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xffc22a, 0xffc22b, fantzone_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress fantzone_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40003, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40003, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc60000, 0xc60003, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -3761,27 +3771,31 @@ public class system16 {
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );/* sound CPU */
 /*TODO*///		ROM_LOAD( "12592.bin", 0x0000, 0x8000, 0x9a8c11bb );
 /*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_fpointbl = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "flpoint.003", 0x000000, 0x10000, 0x4d6df514 )
-/*TODO*///		ROM_LOAD_ODD ( "flpoint.002", 0x000000, 0x10000, 0x4dff2ee8 )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "flpoint.006", 0x00000, 0x10000, 0xc539727d );
-/*TODO*///		ROM_LOAD( "flpoint.005", 0x10000, 0x10000, 0x82c0b8b0 );
-/*TODO*///		ROM_LOAD( "flpoint.004", 0x20000, 0x10000, 0x522426ae );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x020000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "12596.bin", 0x000000, 0x010000, 0x4a4041f3 );
-/*TODO*///		ROM_LOAD( "12597.bin", 0x010000, 0x010000, 0x6961e676 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "12592.bin",   0x0000, 0x8000, 0x9a8c11bb );// wrong sound rom? (this ones from the original)
-/*TODO*///	//	ROM_LOAD( "flpoint.001", 0x0000, 0x8000, 0xc5b8e0fe );// bootleg rom doesn't work!
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
+    static RomLoadPtr rom_fpointbl = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
+            ROM_LOAD_EVEN("flpoint.003", 0x000000, 0x10000, 0x4d6df514);
+            ROM_LOAD_ODD("flpoint.002", 0x000000, 0x10000, 0x4dff2ee8);
+
+            ROM_REGION(0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("flpoint.006", 0x00000, 0x10000, 0xc539727d);
+            ROM_LOAD("flpoint.005", 0x10000, 0x10000, 0x82c0b8b0);
+            ROM_LOAD("flpoint.004", 0x20000, 0x10000, 0x522426ae);
+
+            ROM_REGION(0x020000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("12596.bin", 0x000000, 0x010000, 0x4a4041f3);
+            ROM_LOAD("12597.bin", 0x010000, 0x010000, 0x6961e676);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("12592.bin", 0x0000, 0x8000, 0x9a8c11bb);// wrong sound rom? (this ones from the original)
+            //	ROM_LOAD( "flpoint.001", 0x0000, 0x8000, 0xc5b8e0fe );// bootleg rom doesn't work!
+            ROM_END();
+        }
+    };
+    /**
+     * ************************************************************************
+     */
+    /*TODO*///	
 /*TODO*///	public static ReadHandlerPtr fp_io_service_dummy_r = new ReadHandlerPtr() { public int handler(int offset){
 /*TODO*///		int data = input_port_2_r( 0 ) & 0xff;
 /*TODO*///		return (data << 8) + data;
@@ -3791,18 +3805,18 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x01ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x02002e, 0x020049, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0x601002, 0x601003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x601002, 0x601003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0x601004, 0x601005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0x601000, 0x601001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x600000, 0x600001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0x600002, 0x600003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
 /*TODO*///		new MemoryReadAddress( 0x44302a, 0x44304d, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xfe003e, 0xfe003f, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -3810,11 +3824,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x01ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -4041,7 +4055,7 @@ public class system16 {
 /*TODO*///		return READ_WORD(&sys16_workingram[0x2c1c]);
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static ReadHandlerPtr ga_io_players_r = new ReadHandlerPtr() { public int handler(int offset){return (io_player1_r(offset) << 8) | io_player2_r(offset);} };
+/*TODO*///	public static ReadHandlerPtr ga_io_players_r = new ReadHandlerPtr() { public int handler(int offset){return (input_port_0_r(offset) << 8) | io_player2_r(offset);} };
 /*TODO*///	public static ReadHandlerPtr ga_io_service_r = new ReadHandlerPtr() { public int handler(int offset)
 /*TODO*///	{
 /*TODO*///		return (io_service_r(offset) << 8) | (READ_WORD(&sys16_workingram[0x2c96]) & 0x00ff);
@@ -4051,12 +4065,12 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0x1f0000, 0x1f0003, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
@@ -4065,7 +4079,7 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xffecd0, 0xffecd1, ga_io_players_r ),
 /*TODO*///		new MemoryReadAddress( 0xffec96, 0xffec97, ga_io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xffec1c, 0xffec1d, goldnaxe_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -4079,15 +4093,15 @@ public class system16 {
 /*TODO*///	static MemoryWriteAddress goldnaxe_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0x1f0000, 0x1f0003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xffecfc, 0xffecfd, ga_sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -4297,15 +4311,15 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x140000, 0x140fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0x1e0008, 0x1e0009, ga_hardware_collision_r ),
 /*TODO*///		new MemoryReadAddress( 0x1f0000, 0x1f0007, ga_hardware_multiplier_r ),
 /*TODO*///		new MemoryReadAddress( 0x1f1008, 0x1f1009, ga_hardware_collision_r ),
 /*TODO*///		new MemoryReadAddress( 0x1f2000, 0x1f2003, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
@@ -4314,24 +4328,24 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xffecd0, 0xffecd1, ga_io_players_r ),
 /*TODO*///		new MemoryReadAddress( 0xffec96, 0xffec97, ga_io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xffec1c, 0xffec1d, goldnaxa_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress goldnaxa_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x140000, 0x140fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0x1e0000, 0x1e0009, ga_hardware_collision_w ),
 /*TODO*///		new MemoryWriteAddress( 0x1f0000, 0x1f0003, ga_hardware_multiplier_w ),
 /*TODO*///		new MemoryWriteAddress( 0x1f1000, 0x1f1009, ga_hardware_collision_w ),
 /*TODO*///		new MemoryWriteAddress( 0x1f2000, 0x1f2003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xffecfc, 0xffecfd, ga_sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -4466,16 +4480,16 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc43020, 0xc43025, hwc_io_handles_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc43fff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -4483,14 +4497,14 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc43020, 0xc43025, hwc_io_handles_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc43fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc43fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -4702,10 +4716,10 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress mjleague_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0xc40002, 0xc40007, MRA_EXTRAM2),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, mjl_io_service_r ),
@@ -4716,20 +4730,20 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc60000, 0xc60001, MRA_NOP ), /* What is this? Watchdog? */
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress mjleague_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40002, 0xc40007, MWA_EXTRAM2),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xc40002, 0xc40007, MWA_BANK4,sys16_extraram2),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -4944,14 +4958,14 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc00000, 0xc0ffff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40002, 0xc40003, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player3_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
@@ -4959,23 +4973,23 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xe40000, 0xe4ffff, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xfe0000, 0xfeffff, MRA_EXTRAM4 ),
 /*TODO*///		new MemoryReadAddress( 0xffe02c, 0xffe02d, moonwlkb_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress moonwalk_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc00000, 0xc0ffff, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xc40006, 0xc40007, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4ffff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4ffff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0000, 0xfeffff, MWA_EXTRAM4 ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -5229,30 +5243,30 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress passsht_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x01ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress passsht_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x01ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc42006, 0xc42007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -5264,20 +5278,20 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		int val=io_service_r(offset);
 /*TODO*///	
-/*TODO*///		if(!(io_player1_r(offset) & 0x40)) val&=0xef;
+/*TODO*///		if(!(input_port_0_r(offset) & 0x40)) val&=0xef;
 /*TODO*///		if(!(io_player2_r(offset) & 0x40)) val&=0xdf;
 /*TODO*///		if(!(io_player3_r(offset) & 0x40)) val&=0xbf;
 /*TODO*///		if(!(io_player4_r(offset) & 0x40)) val&=0x7f;
 /*TODO*///	
-/*TODO*///		passht4b_io3_val=(io_player1_r(offset)<<4) | (io_player3_r(offset)&0xf);
+/*TODO*///		passht4b_io3_val=(input_port_0_r(offset)<<4) | (io_player3_r(offset)&0xf);
 /*TODO*///		passht4b_io2_val=(io_player2_r(offset)<<4) | (io_player4_r(offset)&0xf);
 /*TODO*///	
 /*TODO*///		passht4b_io1_val=0xff;
 /*TODO*///	
 /*TODO*///		// player 1 buttons
-/*TODO*///		if(!(io_player1_r(offset) & 0x10)) passht4b_io1_val &=0xfe;
-/*TODO*///		if(!(io_player1_r(offset) & 0x20)) passht4b_io1_val &=0xfd;
-/*TODO*///		if(!(io_player1_r(offset) & 0x80)) passht4b_io1_val &=0xfc;
+/*TODO*///		if(!(input_port_0_r(offset) & 0x10)) passht4b_io1_val &=0xfe;
+/*TODO*///		if(!(input_port_0_r(offset) & 0x20)) passht4b_io1_val &=0xfd;
+/*TODO*///		if(!(input_port_0_r(offset) & 0x80)) passht4b_io1_val &=0xfc;
 /*TODO*///	
 /*TODO*///		// player 2 buttons
 /*TODO*///		if(!(io_player2_r(offset) & 0x10)) passht4b_io1_val &=0xfb;
@@ -5304,10 +5318,10 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress passht4b_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x01ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, passht4b_service_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, passht4b_io1_r ),
@@ -5316,25 +5330,25 @@ public class system16 {
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc43000, 0xc43001, io_player1_r ),		// test mode only
+/*TODO*///		new MemoryReadAddress( 0xc43000, 0xc43001, input_port_0_r ),		// test mode only
 /*TODO*///		new MemoryReadAddress( 0xc43002, 0xc43003, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc43004, 0xc43005, io_player3_r ),
 /*TODO*///		new MemoryReadAddress( 0xc43006, 0xc43007, io_player4_r ),
 /*TODO*///		new MemoryReadAddress( 0xc4600a, 0xc4600b, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress passht4b_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x01ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc42006, 0xc42007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc4600a, 0xc4600b, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -5645,10 +5659,10 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress quartet_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_quartet_p1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_quartet_p2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_quartet_p3_r ),
@@ -5657,20 +5671,20 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_quartet_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xffc800, 0xffc801, quartet_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress quartet_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -5839,31 +5853,31 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress quartet2_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xffc800, 0xffc801, quartet2_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress quartet2_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -5989,18 +6003,18 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xf20000, 0xf20fff, MRA_EXTRAM3 ),
-/*TODO*///		new MemoryReadAddress( 0xf40000, 0xf40fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0xf60000, 0xf60fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xf81002, 0xf81003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xf40000, 0xf40fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0xf60000, 0xf60fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xf81002, 0xf81003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xf81006, 0xf81007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xf81000, 0xf81001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xf82002, 0xf82003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xf82000, 0xf82001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xf80000, 0xf8ffff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xfa0000, 0xfaffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0xfb0000, 0xfb0fff, MRA_TEXTRAM ),
+/*TODO*///		new MemoryReadAddress( 0xfa0000, 0xfaffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0xfb0000, 0xfb0fff, sys16_textram_r ),
 /*TODO*///		new MemoryReadAddress( 0xffecde, 0xffecdf, riotcity_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -6010,12 +6024,12 @@ public class system16 {
 /*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xf00006, 0xf00007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xf20000, 0xf20fff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xf40000, 0xf40fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xf60000, 0xf60fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xf80000, 0xf8ffff, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0xfa0000, 0xfaffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xfb0000, 0xfb0fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xf40000, 0xf40fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0xf60000, 0xf60fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xf80000, 0xf8ffff, MWA_BANK4,sys16_extraram2 ),
+/*TODO*///		new MemoryWriteAddress( 0xfa0000, 0xfaffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0xfb0000, 0xfb0fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -6166,12 +6180,12 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress sdi_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
@@ -6184,7 +6198,7 @@ public class system16 {
 /*TODO*///	//	new MemoryReadAddress( 0xc42000, 0xc42001, MRA_NOP ), /* What is this? */
 /*TODO*///		new MemoryReadAddress( 0xc60000, 0xc60001, MRA_NOP ), /* What is this? */
 /*TODO*///		new MemoryReadAddress( 0xffc400, 0xffc401, sdi_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -6192,12 +6206,12 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x123406, 0x123407, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -6348,34 +6362,34 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc00000, 0xc00007, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xe4000a, 0xe4000b, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xe4000c, 0xe4000d, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xe40000, 0xe40001, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xe40000, 0xe40001, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xe40002, 0xe40003, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xe40008, 0xe40009, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xe40000, 0xe4001f, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xe43034, 0xe43035, MRA_NOP ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress shdancer_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc00000, 0xc00007, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4001f, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4001f, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xe43034, 0xe43035, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -6560,38 +6574,38 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x07ffff, MRA_ROM ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc00000, 0xc00007, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40002, 0xc40003, io_dip2_r ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///	//	new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM3 ),
 /*TODO*///		new MemoryReadAddress( 0xe40000, 0xe4001f, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xe43034, 0xe43035, MRA_NOP ),
 /*TODO*///	//	new MemoryReadAddress( 0xffc000, 0xffc001, shdancer_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress shdancbl_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x07ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc00000, 0xc00007, MWA_EXTRAM ),
 /*TODO*///	//	new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4001f, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe4001f, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xe43034, 0xe43035, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -6793,11 +6807,11 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress shinobi_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
@@ -6805,21 +6819,21 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xc43000, 0xc43001, MRA_NOP ),
 /*TODO*///		new MemoryReadAddress( 0xfff01c, 0xfff01d, shinobi_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress shinobi_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc43000, 0xc43001, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -6970,30 +6984,30 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress shinobl_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40fff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress shinobl_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, sound_command_nmi_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40fff, MWA_BANK4,sys16_extraram2 ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -7097,35 +7111,35 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress tetris_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x01ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
 /*TODO*///		new MemoryReadAddress( 0x418000, 0x41803f, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc80000, 0xc80001, MRA_NOP ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress tetris_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x01ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x418000, 0x41803f, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x418000, 0x41803f, MWA_BANK4,sys16_extraram2 ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xc42006, 0xc42007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc43034, 0xc43035, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xc80000, 0xc80001, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -7247,31 +7261,31 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress timscanr_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x02ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_dip3_r ),
 /*TODO*///		new MemoryReadAddress( 0xffc00c, 0xffc00d, timscanr_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress timscanr_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x02ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -7407,21 +7421,21 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x3e2000, 0x3e2003, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0xe40000, 0xe40001, MRA_EXTRAM2 ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xe41002, 0xe41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xe41002, 0xe41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xe41004, 0xe41005, MRA_NOP ),
 /*TODO*///		new MemoryReadAddress( 0xe41006, 0xe41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xe41000, 0xe41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xe42002, 0xe42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xe42000, 0xe42001, io_dip2_r ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -7429,13 +7443,13 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x3e2000, 0x3e2003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe40001, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe40001, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -7581,10 +7595,10 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x2001e8, 0x2001e9, tt_io_player1_r ),
 /*TODO*///		new MemoryReadAddress( 0x2001ea, 0x2001eb, tt_io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0x200000, 0x203fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x500000, 0x500fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x500000, 0x500fff, paletteram_word_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0x602002, 0x602003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0x602000, 0x602001, io_dip2_r ),
@@ -7595,11 +7609,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x200000, 0x203fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x500000, 0x500fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600005, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x500000, 0x500fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600005, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///	//	new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -7716,13 +7730,13 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x2001e8, 0x2001e9, tt_io_player1_r ),
 /*TODO*///		new MemoryReadAddress( 0x2001ea, 0x2001eb, tt_io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0x200000, 0x203fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x500000, 0x500fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x500000, 0x500fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0x600002, 0x600003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0x600000, 0x600001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0x601002, 0x601003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x601002, 0x601003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0x601004, 0x601005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0x601000, 0x601001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x602002, 0x602003, io_dip1_r ),
@@ -7735,11 +7749,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x200000, 0x203fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x500000, 0x500fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600005, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x500000, 0x500fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600005, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
 /*TODO*///		new MemoryWriteAddress( 0xc44000, 0xc44001, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xc46000, 0xc4601f, MWA_EXTRAM3 ),
@@ -7803,162 +7817,273 @@ public class system16 {
 /*TODO*///		tturfbl_readmem,tturfbl_writemem,tturfbl_init_machine, gfx1,upd7759_interface )
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_wb3 = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "epr12259.a7", 0x000000, 0x20000, 0x54927c7e )
-/*TODO*///		ROM_LOAD_ODD ( "epr12258.a5", 0x000000, 0x20000, 0x01f5898c )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "epr12124.a14", 0x00000, 0x10000, 0xdacefb6f );
-/*TODO*///		ROM_LOAD( "epr12125.a15", 0x10000, 0x10000, 0x9fc36df7 );
-/*TODO*///		ROM_LOAD( "epr12126.a16", 0x20000, 0x10000, 0xa693fd94 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "epr12093.b4", 0x000000, 0x010000, 0x4891e7bb );
-/*TODO*///		ROM_LOAD( "epr12097.b8", 0x010000, 0x010000, 0xe645902c );
-/*TODO*///		ROM_LOAD( "epr12091.b2", 0x020000, 0x010000, 0x8409a243 );
-/*TODO*///		ROM_LOAD( "epr12095.b6", 0x030000, 0x010000, 0xe774ec2c );
-/*TODO*///		ROM_LOAD( "epr12090.b1", 0x040000, 0x010000, 0xaeeecfca );
-/*TODO*///		ROM_LOAD( "epr12094.b5", 0x050000, 0x010000, 0x615e4927 );
-/*TODO*///		ROM_LOAD( "epr12092.b3", 0x060000, 0x010000, 0x5c2f0d90 );
-/*TODO*///		ROM_LOAD( "epr12096.b7", 0x070000, 0x010000, 0x0cd59d6e );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "epr12127.a10", 0x0000, 0x8000, 0x0bb901bb );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_wb3a = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
-/*TODO*///	// Custom CPU 317-0089
-/*TODO*///		ROM_LOAD_EVEN( "epr12137.a7", 0x000000, 0x20000, 0x6f81238e )
-/*TODO*///		ROM_LOAD_ODD ( "epr12136.a5", 0x000000, 0x20000, 0x4cf05003 )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "epr12124.a14", 0x00000, 0x10000, 0xdacefb6f );
-/*TODO*///		ROM_LOAD( "epr12125.a15", 0x10000, 0x10000, 0x9fc36df7 );
-/*TODO*///		ROM_LOAD( "epr12126.a16", 0x20000, 0x10000, 0xa693fd94 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x080000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "epr12093.b4", 0x000000, 0x010000, 0x4891e7bb );
-/*TODO*///		ROM_LOAD( "epr12097.b8", 0x010000, 0x010000, 0xe645902c );
-/*TODO*///		ROM_LOAD( "epr12091.b2", 0x020000, 0x010000, 0x8409a243 );
-/*TODO*///		ROM_LOAD( "epr12095.b6", 0x030000, 0x010000, 0xe774ec2c );
-/*TODO*///		ROM_LOAD( "epr12090.b1", 0x040000, 0x010000, 0xaeeecfca );
-/*TODO*///		ROM_LOAD( "epr12094.b5", 0x050000, 0x010000, 0x615e4927 );
-/*TODO*///		ROM_LOAD( "epr12092.b3", 0x060000, 0x010000, 0x5c2f0d90 );
-/*TODO*///		ROM_LOAD( "epr12096.b7", 0x070000, 0x010000, 0x0cd59d6e );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "epr12127.a10", 0x0000, 0x8000, 0x0bb901bb );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress wb3_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr wb3_sound_command_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if( (data&0xff000000)==0 )
-/*TODO*///			sound_command_w(offset,data>>8);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress wb3_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3f0003, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM2 ),
-/*TODO*///		new MemoryWriteAddress( 0xffc008, 0xffc009, wb3_sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void wb3_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr wb3_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {4,0,2,0,6,0,0,0x06,0,0,0,0x04,0,0x02,0,0};
-/*TODO*///	
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = wb3_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_wb3 = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 4,0x20000 );
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_wb3 = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
-/*TODO*///		PORT_DIPSETTING(    0x00, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x08, "4" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "5" );
-/*TODO*///		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Bonus_Life") );		//??
-/*TODO*///		PORT_DIPSETTING(    0x10, "5000/10000/18000/30000" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "5000/15000/30000" );
-/*TODO*///		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x20, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, "Allow Round Select" );
-/*TODO*///		PORT_DIPSETTING(    0x40, DEF_STR( "No") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "Yes") );			// no collision though
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///	
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	MACHINE_DRIVER( machine_driver_wb3, \
-/*TODO*///		wb3_readmem,wb3_writemem,wb3_init_machine, gfx1 )
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
+    // sys16B
+    static RomLoadPtr rom_wb3 = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
+            ROM_LOAD_EVEN("epr12259.a7", 0x000000, 0x20000, 0x54927c7e);
+            ROM_LOAD_ODD("epr12258.a5", 0x000000, 0x20000, 0x01f5898c);
+
+            ROM_REGION(0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("epr12124.a14", 0x00000, 0x10000, 0xdacefb6f);
+            ROM_LOAD("epr12125.a15", 0x10000, 0x10000, 0x9fc36df7);
+            ROM_LOAD("epr12126.a16", 0x20000, 0x10000, 0xa693fd94);
+
+            ROM_REGION(0x080000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("epr12093.b4", 0x000000, 0x010000, 0x4891e7bb);
+            ROM_LOAD("epr12097.b8", 0x010000, 0x010000, 0xe645902c);
+            ROM_LOAD("epr12091.b2", 0x020000, 0x010000, 0x8409a243);
+            ROM_LOAD("epr12095.b6", 0x030000, 0x010000, 0xe774ec2c);
+            ROM_LOAD("epr12090.b1", 0x040000, 0x010000, 0xaeeecfca);
+            ROM_LOAD("epr12094.b5", 0x050000, 0x010000, 0x615e4927);
+            ROM_LOAD("epr12092.b3", 0x060000, 0x010000, 0x5c2f0d90);
+            ROM_LOAD("epr12096.b7", 0x070000, 0x010000, 0x0cd59d6e);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("epr12127.a10", 0x0000, 0x8000, 0x0bb901bb);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_wb3a = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
+            // Custom CPU 317-0089
+            ROM_LOAD_EVEN("epr12137.a7", 0x000000, 0x20000, 0x6f81238e);
+            ROM_LOAD_ODD("epr12136.a5", 0x000000, 0x20000, 0x4cf05003);
+
+            ROM_REGION(0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("epr12124.a14", 0x00000, 0x10000, 0xdacefb6f);
+            ROM_LOAD("epr12125.a15", 0x10000, 0x10000, 0x9fc36df7);
+            ROM_LOAD("epr12126.a16", 0x20000, 0x10000, 0xa693fd94);
+
+            ROM_REGION(0x080000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("epr12093.b4", 0x000000, 0x010000, 0x4891e7bb);
+            ROM_LOAD("epr12097.b8", 0x010000, 0x010000, 0xe645902c);
+            ROM_LOAD("epr12091.b2", 0x020000, 0x010000, 0x8409a243);
+            ROM_LOAD("epr12095.b6", 0x030000, 0x010000, 0xe774ec2c);
+            ROM_LOAD("epr12090.b1", 0x040000, 0x010000, 0xaeeecfca);
+            ROM_LOAD("epr12094.b5", 0x050000, 0x010000, 0x615e4927);
+            ROM_LOAD("epr12092.b3", 0x060000, 0x010000, 0x5c2f0d90);
+            ROM_LOAD("epr12096.b7", 0x070000, 0x010000, 0x0cd59d6e);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("epr12127.a10", 0x0000, 0x8000, 0x0bb901bb);
+            ROM_END();
+        }
+    };
+
+    /**
+     * ************************************************************************
+     */
+    static MemoryReadAddress wb3_readmem[]
+            = {
+                new MemoryReadAddress(0x000000, 0x03ffff, MRA_ROM),
+                new MemoryReadAddress(0x400000, 0x40ffff, sys16_tileram_r),
+                new MemoryReadAddress(0x410000, 0x410fff, sys16_textram_r),
+                new MemoryReadAddress(0x440000, 0x440fff, MRA_BANK2),
+                new MemoryReadAddress(0x840000, 0x840fff, paletteram_word_r),
+                new MemoryReadAddress(0xc41002, 0xc41003, input_port_0_r),
+                new MemoryReadAddress(0xc41006, 0xc41007, input_port_1_r),
+                new MemoryReadAddress(0xc41000, 0xc41001, input_port_2_r),
+                new MemoryReadAddress(0xc42002, 0xc42003, input_port_3_r),
+                new MemoryReadAddress(0xc42000, 0xc42001, input_port_4_r),
+                new MemoryReadAddress(0xffc000, 0xffffff, MRA_BANK1),
+                new MemoryReadAddress(-1)
+            };
+
+    public static WriteHandlerPtr wb3_sound_command_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if ((data & 0xff000000) == 0) {
+                sound_command_w.handler(offset, data >> 8);
+            }
+        }
+    };
+
+    static MemoryWriteAddress wb3_writemem[]
+            = {
+                new MemoryWriteAddress(0x000000, 0x03ffff, MWA_ROM),
+                new MemoryWriteAddress(0x3f0000, 0x3f0003, MWA_NOP),
+                new MemoryWriteAddress(0x400000, 0x40ffff, sys16_tileram_w, sys16_tileram),
+                new MemoryWriteAddress(0x410000, 0x410fff, sys16_textram_w, sys16_textram),
+                new MemoryWriteAddress(0x440000, 0x440fff, MWA_BANK2, sys16_spriteram),
+                new MemoryWriteAddress(0x840000, 0x840fff, sys16_paletteram_w, paletteram),
+                new MemoryWriteAddress(0xc40000, 0xc40001, MWA_BANK4, sys16_extraram2),
+                new MemoryWriteAddress(0xffc008, 0xffc009, wb3_sound_command_w),
+                new MemoryWriteAddress(0xffc000, 0xffffff, MWA_BANK1, sys16_workingram),
+                new MemoryWriteAddress(-1)
+            };
+    /**
+     * ************************************************************************
+     */
+    public static sys16_update_procPtr wb3_update_proc = new sys16_update_procPtr() {
+        public void handler() {
+            sys16_fg_scrollx = sys16_textram.READ_WORD(0x0e98);
+            sys16_bg_scrollx = sys16_textram.READ_WORD(0x0e9a);
+            sys16_fg_scrolly = sys16_textram.READ_WORD(0x0e90);
+            sys16_bg_scrolly = sys16_textram.READ_WORD(0x0e92);
+
+            set_fg_page(sys16_textram.READ_WORD(0x0e80));
+            set_bg_page(sys16_textram.READ_WORD(0x0e82));
+            set_refresh(sys16_extraram2.READ_WORD(0));
+        }
+    };
+
+    public static InitMachinePtr wb3_init_machine = new InitMachinePtr() {
+        public void handler() {
+            int bank[] = {4, 0, 2, 0, 6, 0, 0, 0x06, 0, 0, 0, 0x04, 0, 0x02, 0, 0};
+
+            sys16_obj_bank = bank;
+
+            sys16_update_proc = wb3_update_proc;
+        }
+    };
+
+    public static InitDriverPtr init_wb3 = new InitDriverPtr() {
+        public void handler() {
+            sys16_onetime_init_machine.handler();
+            sys16_sprite_decode(4, 0x20000);
+        }
+    };
+
+    /**
+     * ************************************************************************
+     */
+    static InputPortPtr input_ports_wb3 = new InputPortPtr() {
+        public void handler() {
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON2);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
+
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BITX(0x04, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR("Service_Mode"), KEYCODE_F2, IP_JOY_NONE);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_START2);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+
+            PORT_START();
+            PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
+            PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x08, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x09, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x05, "2 Coins/1 Credit 5/3 6/4");
+            PORT_DIPSETTING(0x04, "2 Coins/1 Credit 4/3");
+            PORT_DIPSETTING(0x0f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x01, "1 Coin/1 Credit 2/3");
+            PORT_DIPSETTING(0x02, "1 Coin/1 Credit 4/5");
+            PORT_DIPSETTING(0x03, "1 Coin/1 Credit 5/6");
+            PORT_DIPSETTING(0x06, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x0e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x0d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x0c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x0b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x0a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x00, "Free Play (if Coin B too) or 1/1");
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coin_B"));
+            PORT_DIPSETTING(0x70, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x80, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x90, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x50, "2 Coins/1 Credit 5/3 6/4");
+            PORT_DIPSETTING(0x40, "2 Coins/1 Credit 4/3");
+            PORT_DIPSETTING(0xf0, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x10, "1 Coin/1 Credit 2/3");
+            PORT_DIPSETTING(0x20, "1 Coin/1 Credit 4/5");
+            PORT_DIPSETTING(0x30, "1 Coin/1 Credit 5/6");
+            PORT_DIPSETTING(0x60, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0xe0, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0xd0, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0xc0, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x00, "Free Play (if Coin A too) or 1/1");
+
+            PORT_START();
+            /* DSW1 */
+            PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x01, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x02, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x0c, 0x0c, DEF_STR("Lives"));
+            PORT_DIPSETTING(0x00, "2");
+            PORT_DIPSETTING(0x0c, "3");
+            PORT_DIPSETTING(0x08, "4");
+            PORT_DIPSETTING(0x04, "5");
+            PORT_DIPNAME(0x10, 0x10, DEF_STR("Bonus_Life"));		//??
+            PORT_DIPSETTING(0x10, "5000/10000/18000/30000");
+            PORT_DIPSETTING(0x00, "5000/15000/30000");
+            PORT_DIPNAME(0x20, 0x20, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x20, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x40, 0x40, "Allow Round Select");
+            PORT_DIPSETTING(0x40, DEF_STR("No"));
+            PORT_DIPSETTING(0x00, DEF_STR("Yes"));			// no collision though
+            PORT_DIPNAME(0x80, 0x80, DEF_STR("Unused"));
+            PORT_DIPSETTING(0x80, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+
+            INPUT_PORTS_END();
+        }
+    };
+
+    /**
+     * ************************************************************************
+     */
+    static MachineDriver machine_driver_wb3 = new MachineDriver(
+            new MachineCPU[]{
+                new MachineCPU(
+                        CPU_M68000,
+                        10000000,
+                        wb3_readmem, wb3_writemem, null, null,
+                        sys16_interrupt, 1
+                ),
+                new MachineCPU(
+                        CPU_Z80 | CPU_AUDIO_CPU,
+                        4096000,
+                        sound_readmem, sound_writemem, sound_readport, sound_writeport,
+                        ignore_interrupt, 1
+                ),},
+            60, DEFAULT_60HZ_VBLANK_DURATION,
+            1,
+            wb3_init_machine,
+            40 * 8, 28 * 8, new rectangle(0 * 8, 40 * 8 - 1, 0 * 8, 28 * 8 - 1),
+            gfx1,
+            2048 * ShadowColorsMultiplier, 2048 * ShadowColorsMultiplier,
+            null,
+            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
+            null,
+            sys16_vh_start,
+            sys16_vh_stop,
+            sys16_vh_screenrefresh,
+            SOUND_SUPPORTS_STEREO, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2151,
+                        ym2151_interface
+                )
+            }
+    );
+    /*TODO*///	/***************************************************************************/
 /*TODO*///	// sys16B
 /*TODO*///	static RomLoadPtr rom_wb3bl = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
@@ -7991,17 +8116,17 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress wb3bl_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, MRA_PALETTERAM ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41004, 0xc41005, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc46000, 0xc4601f, MRA_EXTRAM3 ),
-/*TODO*///		new MemoryReadAddress( 0xff0000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xff0000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -8009,15 +8134,15 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3f0003, MWA_NOP ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc42006, 0xc42007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc44000, 0xc44001, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xc46000, 0xc4601f, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xff0000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xff0000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	
@@ -8128,33 +8253,33 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x200000, 0x200fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0x400000, 0x400003, MRA_EXTRAM ),
 /*TODO*///		new MemoryReadAddress( 0xc40000, 0xc40001, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, io_player1_r ),
+/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
 /*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
 /*TODO*///		new MemoryReadAddress( 0xffe082, 0xffe083, ww_io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress wrestwar_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x200000, 0x200fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0x400000, 0x400003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc40001, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc43034, 0xc43035, MWA_NOP ),
 /*TODO*///		new MemoryWriteAddress( 0xffe08e, 0xffe08f, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
 /*TODO*///	/***************************************************************************/
@@ -8335,10 +8460,10 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x20c400, 0x20c401, hangon1_skip_r ),
 /*TODO*///		new MemoryReadAddress( 0x20c000, 0x20ffff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0xa00000, 0xa00fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0xa00000, 0xa00fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc68000, 0xc68fff, MRA_EXTRAM2 ),
 /*TODO*///		new MemoryReadAddress( 0xc7e000, 0xc7ffff, MRA_EXTRAM3 ),
 /*TODO*///		new MemoryReadAddress( 0xe01000, 0xe01001, io_service_r ),
@@ -8355,11 +8480,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x20c000, 0x20ffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa00fff, MWA_PALETTERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa00fff, sys16_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc7e000, 0xc7ffff, MWA_EXTRAM3 ),
 /*TODO*///		new MemoryWriteAddress( 0xe00000, 0xe00001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0xe00000, 0xe03fff, MWA_EXTRAM4 ),
@@ -8386,7 +8511,7 @@ public class system16 {
 /*TODO*///	static MemoryWriteAddress hangon_writemem2[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc7e000, 0xc7ffff, MWA_EXTRAM3 ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -8685,11 +8810,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x040000, 0x043fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x107fff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x108000, 0x108fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x107fff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x108000, 0x108fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0x124000, 0x127fff, shared_ram_r ),
-/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_SPRITERAM ),
+/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_BANK2 ),
 /*TODO*///		new MemoryReadAddress( 0x140010, 0x140011, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x140014, 0x140015, io_dip1_r ),
 /*TODO*///		new MemoryReadAddress( 0x140016, 0x140017, io_dip2_r ),
@@ -8704,14 +8829,14 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x040000, 0x043fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x107fff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x108000, 0x108fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x107fff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x108000, 0x108fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0x124000, 0x127fff, shared_ram_w, shared_ram ),
-/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_SPRITERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_BANK2,sys16_spriteram ),
 /*TODO*///		new MemoryWriteAddress( 0x140000, 0x140001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0x140000, 0x140027, MWA_EXTRAM3 ),		//io
-/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///	
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -8727,7 +8852,7 @@ public class system16 {
 /*TODO*///	static MemoryWriteAddress harrier_writemem2[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc7c000, 0xc7ffff, shared_ram_w, shared_ram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -9077,10 +9202,10 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x20c640, 0x20c647, sound_shared_ram_r ),
 /*TODO*///		new MemoryReadAddress( 0x20c000, 0x20ffff, MRA_EXTRAM5 ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0xa00000, 0xa00fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x600000, 0x600fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0xa00000, 0xa00fff, paletteram_word_r ),
 /*TODO*///		new MemoryReadAddress( 0xc68000, 0xc68fff, shared_ram_r ),
 /*TODO*///		new MemoryReadAddress( 0xc7c000, 0xc7ffff, shared_ram2_r ),
 /*TODO*///		new MemoryReadAddress( 0xe01000, 0xe01001, io_service_r ),
@@ -9097,10 +9222,10 @@ public class system16 {
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x20c640, 0x20c647, sound_shared_ram_w ),
 /*TODO*///		new MemoryWriteAddress( 0x20c000, 0x20ffff, MWA_EXTRAM5 ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa00fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0xa00000, 0xa00fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, shared_ram_w, shared_ram ),
 /*TODO*///		new MemoryWriteAddress( 0xc7c000, 0xc7ffff, shared_ram2_w, shared_ram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xe00000, 0xe03fff, MWA_EXTRAM4 ),	// io
@@ -9584,11 +9709,11 @@ public class system16 {
 /*TODO*///		new MemoryReadAddress( 0x060900, 0x060907, sound_shared_ram_r ),		//???
 /*TODO*///		new MemoryReadAddress( 0x060000, 0x067fff, MRA_EXTRAM5 ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_TEXTRAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x10ffff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, sys16_textram_r ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_SPRITERAM ),
-/*TODO*///		new MemoryReadAddress( 0x120000, 0x121fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_BANK2 ),
+/*TODO*///		new MemoryReadAddress( 0x120000, 0x121fff, paletteram_word_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0x140010, 0x140011, or_io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x140014, 0x140015, io_dip1_r ),
@@ -9613,11 +9738,11 @@ public class system16 {
 /*TODO*///		new MemoryWriteAddress( 0x060900, 0x060907, sound_shared_ram_w ),		//???
 /*TODO*///		new MemoryWriteAddress( 0x060000, 0x067fff, MWA_EXTRAM5 ),
 /*TODO*///	
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_TEXTRAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x10ffff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_textram_w,sys16_textram ),
 /*TODO*///	
-/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_SPRITERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x120000, 0x121fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_BANK2,sys16_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x120000, 0x121fff, sys16_paletteram_w, paletteram ),
 /*TODO*///	
 /*TODO*///		new MemoryWriteAddress( 0x140000, 0x140071, MWA_EXTRAM3 ),		//io
 /*TODO*///		new MemoryWriteAddress( 0x200000, 0x23ffff, MWA_BANK8 ),
@@ -10282,13 +10407,13 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
 /*TODO*///		new MemoryReadAddress( 0x040000, 0x043fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x100000, 0x107fff, MRA_TILERAM ),
-/*TODO*///		new MemoryReadAddress( 0x108000, 0x108fff, MRA_TEXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, MRA_PALETTERAM ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x107fff, sys16_tileram_r ),
+/*TODO*///		new MemoryReadAddress( 0x108000, 0x108fff, sys16_textram_r ),
+/*TODO*///		new MemoryReadAddress( 0x110000, 0x110fff, paletteram_word_r ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0x124000, 0x127fff, shared_ram_r ),
 /*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_SPRITERAM ),
+/*TODO*///		new MemoryReadAddress( 0x130000, 0x130fff, MRA_BANK2 ),
 /*TODO*///	
 /*TODO*///		new MemoryReadAddress( 0x140010, 0x140011, io_service_r ),
 /*TODO*///		new MemoryReadAddress( 0x140014, 0x140015, io_dip1_r ),
@@ -10305,11 +10430,11 @@ public class system16 {
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( 0x040000, 0x043fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x100000, 0x107fff, MWA_TILERAM ),
-/*TODO*///		new MemoryWriteAddress( 0x108000, 0x108fff, MWA_TEXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, MWA_PALETTERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x107fff, sys16_tileram_w,sys16_tileram ),
+/*TODO*///		new MemoryWriteAddress( 0x108000, 0x108fff, sys16_textram_w,sys16_textram ),
+/*TODO*///		new MemoryWriteAddress( 0x110000, 0x110fff, sys16_paletteram_w, paletteram ),
 /*TODO*///		new MemoryWriteAddress( 0x124000, 0x127fff, shared_ram_w, shared_ram ),
-/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_SPRITERAM ),
+/*TODO*///		new MemoryWriteAddress( 0x130000, 0x130fff, MWA_BANK2,sys16_spriteram ),
 /*TODO*///		new MemoryWriteAddress( 0x140000, 0x140001, sound_command_nmi_w ),
 /*TODO*///		new MemoryWriteAddress( 0x140000, 0x1400ff, MWA_EXTRAM3 ),		//io
 /*TODO*///		new MemoryWriteAddress(-1)
@@ -10335,7 +10460,7 @@ public class system16 {
 /*TODO*///	static MemoryWriteAddress enduror_writemem2[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_EXTRAM2 ),
+/*TODO*///		new MemoryWriteAddress( 0xc68000, 0xc68fff, MWA_BANK4,sys16_extraram2 ),
 /*TODO*///		new MemoryWriteAddress( 0xc7c000, 0xc7ffff, shared_ram_w, shared_ram ),
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -10722,14 +10847,14 @@ public class system16 {
 /*TODO*///	static MemoryReadAddress sys16_dummy_readmem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryReadAddress( 0x000000, 0x0fffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0xff0000, 0xffffff, MRA_WORKINGRAM ),
+/*TODO*///		new MemoryReadAddress( 0xff0000, 0xffffff, MRA_BANK1 ),
 /*TODO*///		new MemoryReadAddress(-1)
 /*TODO*///	};
 /*TODO*///	
 /*TODO*///	static MemoryWriteAddress sys16_dummy_writemem[] =
 /*TODO*///	{
 /*TODO*///		new MemoryWriteAddress( 0x000000, 0x0fffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0xff0000, 0xffffff, MWA_WORKINGRAM ),
+/*TODO*///		new MemoryWriteAddress( 0xff0000, 0xffffff, MWA_BANK1,sys16_workingram ),
 /*TODO*///	
 /*TODO*///		new MemoryWriteAddress(-1)
 /*TODO*///	};
@@ -11607,8 +11732,8 @@ public class system16 {
 /*TODO*///	GAMEX(1989, tturf,    null,        tturf,    tturf,    tturf,    ROT0_16BIT,   "Sega / Sunsoft", "Tough Turf (Japan)", GAME_NO_SOUND)
 /*TODO*///	GAMEX(1989, tturfu,   tturf,    tturfu,   tturf,    tturf,    ROT0_16BIT,   "Sega / Sunsoft", "Tough Turf (US)", GAME_NO_SOUND)
 /*TODO*///	GAMEX(1989, tturfbl,  tturf,    tturfbl,  tturf,    tturfbl,  ROT0_16BIT,   "bootleg", "Tough Turf (bootleg)", GAME_IMPERFECT_SOUND)
-/*TODO*///	public static GameDriver driver_wb3	   = new GameDriver("1988"	,"wb3"	,"system16.java"	,rom_wb3,null	,machine_driver_wb3	,input_ports_wb3	,init_wb3	,ROT0	,	"Sega / Westone", "Wonder Boy III - Monster Lair (set 1)")
-/*TODO*///	GAMEX(1988, wb3a,     wb3,      wb3,      wb3,      wb3,      ROT0,         "Sega / Westone", "Wonder Boy III - Monster Lair (set 2)", GAME_NOT_WORKING)
+    public static GameDriver driver_wb3 = new GameDriver("1988", "wb3", "system16.java", rom_wb3, null, machine_driver_wb3, input_ports_wb3, init_wb3, ROT0, "Sega / Westone", "Wonder Boy III - Monster Lair (set 1)");
+    /*TODO*///	GAMEX(1988, wb3a,     wb3,      wb3,      wb3,      wb3,      ROT0,         "Sega / Westone", "Wonder Boy III - Monster Lair (set 2)", GAME_NOT_WORKING)
 /*TODO*///	public static GameDriver driver_wb3bl	   = new GameDriver("1988"	,"wb3bl"	,"system16.java"	,rom_wb3bl,driver_wb3	,machine_driver_wb3bl	,input_ports_wb3	,init_wb3bl	,ROT0	,	"bootleg", "Wonder Boy III - Monster Lair (bootleg)")
 /*TODO*///	public static GameDriver driver_wrestwar	   = new GameDriver("1989"	,"wrestwar"	,"system16.java"	,rom_wrestwar,null	,machine_driver_wrestwar	,input_ports_wrestwar	,init_wrestwar	,ROT270_16BIT	,	"Sega",    "Wrestle War")
 /*TODO*///	

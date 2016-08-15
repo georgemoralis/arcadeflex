@@ -2036,8 +2036,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( tturf )		/* (c) 1989 Sega / Sunsoft */
                 /*TODO*/ //	DRIVER( tturfbl )	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( tturfu )	/* (c) 1989 Sega / Sunsoft */
-                /*TODO*/ //	DRIVER( wb3 )		/* (c) 1988 Sega / Westone */
-                /*TODO*/ //	DRIVER( wb3bl )		/* (c) 1988 Sega / Westone (but bootleg) */
+                driver_wb3,		/* (c) 1988 Sega / Westone */
+                /*TODO*////driver_wb3bl,	/* (c) 1988 Sega / Westone (but bootleg) */
                 /*TODO*/ //	DRIVER( wrestwar )	/* (c) 1989 */
 
                 /* other Data East games */

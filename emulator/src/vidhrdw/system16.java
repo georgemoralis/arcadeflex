@@ -8,6 +8,8 @@
 package vidhrdw;
 
 import static arcadeflex.libc.*;
+import arcadeflex.libc_old.CharPtr;
+import static arcadeflex.libc_old.memset;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -15,7 +17,10 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static arcadeflex.ptrlib.*;
+import static arcadeflex.video.osd_get_pen;
 import static drivers.system16.*;
+import static mame.common.memory_region;
+import static mame.commonH.REGION_GFX2;
 import static mame.palette.*;
 import static mame.paletteH.*;
 import static mame.tilemapC.*;
@@ -28,7 +33,7 @@ public class system16
 	public static final int MAXCOLOURS =8192;
 	
 	public static final int ShadowColorsShift =8;
-	char[] shade_table=new char[MAXCOLOURS];
+	public static char[] shade_table=new char[MAXCOLOURS];
 	public static int sys16_sh_shadowpal;
 	public static int sys16_MaxShadowColors;
 	public static int sys16_MaxShadowColors_Shift;
@@ -102,10 +107,6 @@ public class system16
         static int old_tile_bank1, old_tile_bank0;
 	static int[] old_bg2_page=new int[4];
         static int[] old_fg2_page=new int[4];
-/*TODO*///	
-/*TODO*///	static void draw_quartet_title_screen( struct osd_bitmap *bitmap,int playfield );
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
 	
 	public static WriteHandlerPtr sys16_paletteram_w = new WriteHandlerPtr() { public void handler(int offset, int data){
 		char oldword = (char)paletteram.READ_WORD(offset);
@@ -584,8 +585,8 @@ public class system16
 	
 		sprite_list = sprite_list_create( NUM_SPRITES, SPRITE_LIST_BACK_TO_FRONT | SPRITE_LIST_RAW_DATA );
 	
-/*TODO*///		sprite_set_shade_table(shade_table);
-/*TODO*///	
+		sprite_set_shade_table(shade_table);
+	
 		if( background!=null && foreground!=null && text_layer!=null && sprite_list!=null ){
 			/* initialize all entries to black - needed for Golden Axe*/
 			int i;
@@ -620,8 +621,8 @@ public class system16
 			}
 			sys16_freezepalette=0;
 	
-/*TODO*///			sprite_list.max_priority = 3;
-/*TODO*///			sprite_list.sprite_type = SPRITE_TYPE_ZOOM;
+			sprite_list.max_priority = 3;
+			sprite_list.sprite_type = SPRITE_TYPE_ZOOM;
 	
 			if (sys16_bg1_trans != 0) background.transparent_pen = 0;
 			foreground.transparent_pen = 0;
@@ -751,101 +752,102 @@ public class system16
 /*TODO*///	} };
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void get_sprite_info( void ){
-/*TODO*///	//	const struct rectangle *clip = &Machine.drv.visible_area;
-/*TODO*///		const unsigned short *base_pal = Machine.gfx[0].colortable + 1024;
-/*TODO*///		const unsigned char *base_gfx = memory_region(REGION_GFX2);
-/*TODO*///	
-/*TODO*///		UINT16 *source = (UINT16 *)sys16_spriteram;
-/*TODO*///		struct sprite *sprite = sprite_list.sprite;
-/*TODO*///		const struct sprite *finish = sprite + NUM_SPRITES;
-/*TODO*///	
-/*TODO*///		int passshot_y=0;
-/*TODO*///		int passshot_width=0;
-/*TODO*///
-/*TODO*///		switch( sys16_spritesystem  ){
-/*TODO*///			case 1: /* standard sprite hardware (Shinobi, Altered Beast, Golden Axe, ...) */
-/*TODO*///	/*
-/*TODO*///		0	bottom--	top-----	(screen coordinates)
-/*TODO*///		1	???????X	XXXXXXXX	(screen coordinate)
-/*TODO*///		2	???????F	FWWWWWWW	(flipx, flipy, logical width)
-/*TODO*///		3	TTTTTTTT	TTTTTTTT	(pen data)
-/*TODO*///		4	????BBBB	PPCCCCCC	(attributes: bank, priority, color)
-/*TODO*///		5	??????ZZ	ZZZZZZZZ	zoomx
-/*TODO*///		6	??????ZZ	ZZZZZZZZ	zoomy (defaults to zoomx)
-/*TODO*///		7	?						"sprite offset"
-/*TODO*///	*/
-/*TODO*///			while( sprite<finish ){
-/*TODO*///				UINT16 ypos = source[0];
-/*TODO*///				UINT16 width = source[2];
-/*TODO*///				int top = ypos&0xff;
-/*TODO*///				int bottom = ypos>>8;
-/*TODO*///	
-/*TODO*///				if( bottom == 0xff || width ==sys16_spritelist_end){ /* end of spritelist marker */
-/*TODO*///					do {
-/*TODO*///						sprite.flags = 0;
-/*TODO*///						sprite++;
-/*TODO*///					} while( sprite<finish );
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if(bottom !=0 && bottom > top)
-/*TODO*///				{
-/*TODO*///					UINT16 attributes = source[4];
-/*TODO*///					UINT16 zoomx = source[5]&0x3ff;
-/*TODO*///					UINT16 zoomy = (source[6]&0x3ff);
-/*TODO*///					int gfx = source[3]*4;
-/*TODO*///	
-/*TODO*///					if( zoomy==0 || source[6]==0xffff ) zoomy = zoomx; /* if zoomy is 0, use zoomx instead */
-/*TODO*///	
-/*TODO*///					sprite.x = source[1] + sys16_sprxoffset;
-/*TODO*///					sprite.y = top;
-/*TODO*///					sprite.priority = 3-((attributes>>6)&0x3);
-/*TODO*///					sprite.pal_data = base_pal + ((attributes&0x3f)<<4);
-/*TODO*///	
-/*TODO*///					sprite.total_height = bottom-top;
-/*TODO*///					sprite.tile_height = sprite.total_height*(0x400+zoomy)/0x400;
-/*TODO*///	
-/*TODO*///					sprite.line_offset = (width&0x7f)*4;
-/*TODO*///	
-/*TODO*///					sprite.flags = SPRITE_VISIBLE;
-/*TODO*///					if ((width & 0x100) != 0) sprite.flags |= SPRITE_FLIPX;
-/*TODO*///					if ((width & 0x080) != 0) sprite.flags |= SPRITE_FLIPY;
-/*TODO*///	
-/*TODO*///					if ((attributes&0x3f)==0x3f)	// shadow sprite
-/*TODO*///						sprite.flags|= SPRITE_SHADOW;
-/*TODO*///						
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						sprite.line_offset = 512-sprite.line_offset;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4 - sprite.line_offset*(sprite.tile_height+1);
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx -= sprite.line_offset*sprite.tile_height;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					else {
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx += sprite.line_offset;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.tile_width = sprite.line_offset;
-/*TODO*///					sprite.total_width = sprite.tile_width*(0x800-zoomx)/0x800;
-/*TODO*///					sprite.pen_data = base_gfx + (gfx &0x3ffff) + (sys16_obj_bank[(attributes>>8)&0xf] << 17);
-/*TODO*///	
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				sprite++;
-/*TODO*///				source += 8;
-/*TODO*///			}
-/*TODO*///			break;
+	/***************************************************************************/
+	
+	static void get_sprite_info(  ){
+	//	const struct rectangle *clip = &Machine.drv.visible_area;
+		CharPtr base_pal = new CharPtr(Machine.gfx[0].colortable, 1024);
+		UBytePtr base_gfx = memory_region(REGION_GFX2);
+	
+		UShortPtr source = new UShortPtr(sys16_spriteram);
+		sprite sprite[] = sprite_list.sprite;
+                int sprite_ptr=0;
+		int finish = sprite_ptr + NUM_SPRITES;//const struct sprite *finish = sprite + NUM_SPRITES;
+	
+		int passshot_y=0;
+		int passshot_width=0;
+
+		switch( sys16_spritesystem  ){
+			case 1: /* standard sprite hardware (Shinobi, Altered Beast, Golden Axe, ...) */
+	/*
+		0	bottom--	top-----	(screen coordinates)
+		1	???????X	XXXXXXXX	(screen coordinate)
+		2	???????F	FWWWWWWW	(flipx, flipy, logical width)
+		3	TTTTTTTT	TTTTTTTT	(pen data)
+		4	????BBBB	PPCCCCCC	(attributes: bank, priority, color)
+		5	??????ZZ	ZZZZZZZZ	zoomx
+		6	??????ZZ	ZZZZZZZZ	zoomy (defaults to zoomx)
+		7	?						"sprite offset"
+	*/
+			while( sprite_ptr<finish ){
+				char ypos = source.read(0);
+				char width = source.read(2);
+				int top = ypos&0xff;
+				int bottom = ypos>>8;
+	
+				if( bottom == 0xff || width ==sys16_spritelist_end){ /* end of spritelist marker */
+					do {
+						sprite[sprite_ptr].flags = 0;
+						sprite_ptr++;
+					} while( sprite_ptr<finish );
+					break;
+				}
+				sprite[sprite_ptr].flags = 0;
+	
+				if(bottom !=0 && bottom > top)
+				{
+					char attributes = source.read(4);
+					char zoomx = (char)(source.read(5)&0x3ff);
+					char zoomy = (char)((source.read(6)&0x3ff));
+					int gfx = source.read(3)*4;
+	
+					if( zoomy==0 || source.read(6)==0xffff ) zoomy = zoomx; /* if zoomy is 0, use zoomx instead */
+	
+					sprite[sprite_ptr].x = source.read(1) + sys16_sprxoffset;
+					sprite[sprite_ptr].y = top;
+					sprite[sprite_ptr].priority = 3-((attributes>>6)&0x3);
+					sprite[sprite_ptr].pal_data = new CharPtr(base_pal, ((attributes&0x3f)<<4));
+	
+					sprite[sprite_ptr].total_height = bottom-top;
+					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height*(0x400+zoomy)/0x400;
+	
+					sprite[sprite_ptr].line_offset = (width&0x7f)*4;
+	
+					sprite[sprite_ptr].flags = SPRITE_VISIBLE;
+					if ((width & 0x100) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+					if ((width & 0x080) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPY;
+	
+					if ((attributes&0x3f)==0x3f)	// shadow sprite
+						sprite[sprite_ptr].flags|= SPRITE_SHADOW;
+						
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0){
+						sprite[sprite_ptr].line_offset = 512-sprite[sprite_ptr].line_offset;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+							gfx += 4 - sprite[sprite_ptr].line_offset*(sprite[sprite_ptr].tile_height+1);
+						}
+						else {
+							gfx -= sprite[sprite_ptr].line_offset*sprite[sprite_ptr].tile_height;
+						}
+					}
+					else {
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+							gfx += 4;
+						}
+						else {
+							gfx += sprite[sprite_ptr].line_offset;
+						}
+					}
+	
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset;
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width*(0x800-zoomx)/0x800;
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx , (gfx &0x3ffff) + (sys16_obj_bank[(attributes>>8)&0xf] << 17));
+	
+				}
+	
+				sprite_ptr++;
+				source.offset += 8*2;
+			}
+			break;
 /*TODO*///	
 /*TODO*///			case 8: /* Passing shot 4p */
 /*TODO*///				passshot_y=-0x23;
@@ -1531,27 +1533,27 @@ public class system16
 /*TODO*///				sprite++;
 /*TODO*///			}
 /*TODO*///			break;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void mark_sprite_colors( void ){
-/*TODO*///		unsigned short *source = (unsigned short *)sys16_spriteram;
-/*TODO*///		unsigned short *finish = source+NUM_SPRITES*8;
-/*TODO*///		int pal_start=1024,pal_size=64;
-/*TODO*///	
-/*TODO*///		char used[128];
-/*TODO*///		memset( used, 0, 128 );
-/*TODO*///	
-/*TODO*///		switch( sys16_spritesystem ){
-/*TODO*///			case 1: /* standard sprite hardware */
-/*TODO*///				do{
-/*TODO*///					if( source[0]>>8 == 0xff || source[2] == sys16_spritelist_end) break;
-/*TODO*///					used[source[4]&0x3f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				break;
+		}
+	}
+	
+	/***************************************************************************/
+	
+	static void mark_sprite_colors(){
+		UShortPtr source = new UShortPtr(sys16_spriteram);
+		UShortPtr finish = new UShortPtr(source,NUM_SPRITES*8);
+		int pal_start=1024,pal_size=64;
+	
+		char[] used=new char[128];
+		memset( used, 0, 128 );
+	
+		switch( sys16_spritesystem ){
+			case 1: /* standard sprite hardware */
+				do{
+					if( source.read(0)>>8 == 0xff || source.read(2) == sys16_spritelist_end) break;
+					used[source.read(4)&0x3f] = 1;
+					source.offset+=8*2;
+				}while( source.offset<finish.offset );
+				break;
 /*TODO*///			case 4: /* Aurail */
 /*TODO*///				do{
 /*TODO*///					if( (source[2]) == sys16_spritelist_end) break;
@@ -1592,55 +1594,58 @@ public class system16
 /*TODO*///					source+=8;
 /*TODO*///				}while( source<finish );
 /*TODO*///				break;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		{
-/*TODO*///			unsigned char *pal = &palette_used_colors[pal_start];
-/*TODO*///			int i;
-/*TODO*///			for (i = 0; i < pal_size; i++){
-/*TODO*///				if ( used[i] ){
-/*TODO*///					pal[0] = PALETTE_COLOR_UNUSED;
-/*TODO*///					memset( &pal[1],PALETTE_COLOR_USED,14 );
-/*TODO*///					pal[15] = PALETTE_COLOR_UNUSED;
-/*TODO*///				}
-/*TODO*///				else {
-/*TODO*///					memset( pal, PALETTE_COLOR_UNUSED, 16 );
-/*TODO*///				}
-/*TODO*///				pal += 16;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		if (Machine.scrbitmap.depth == 8) /* 8 bit shadows */
-/*TODO*///		{
-/*TODO*///			memset(&palette_used_colors[Machine.drv.total_colors/2], PALETTE_COLOR_USED, sys16_MaxShadowColors);
-/*TODO*///		}
+		}
+	
+		{
+			UBytePtr pal = new UBytePtr(palette_used_colors,pal_start);
+			int i;
+			for (i = 0; i < pal_size; i++){
+				if ( used[i]!=0 ){
+					pal.write(0,  PALETTE_COLOR_UNUSED);
+					memset( pal,1,PALETTE_COLOR_USED,14 );
+					pal.write(15, PALETTE_COLOR_UNUSED);
+				}
+				else {
+					memset( pal, PALETTE_COLOR_UNUSED, 16 );
+				}
+				pal.offset += 16;
+			}
+		}
+		if (Machine.scrbitmap.depth == 8) /* 8 bit shadows */
+		{
+			memset(palette_used_colors,Machine.drv.total_colors/2, PALETTE_COLOR_USED, sys16_MaxShadowColors);
+		}
 /*TODO*///		else if(sys16_MaxShadowColors != 0) /* 16 bit shadows */
 /*TODO*///		{
 /*TODO*///			/* Mark the shadowed versions of the used pens */
 /*TODO*///			memcpy(&palette_used_colors[Machine.drv.total_colors/2], &palette_used_colors[0], Machine.drv.total_colors/2);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	static void build_shadow_table(void)
-/*TODO*///	{
-/*TODO*///		int i,size;
-/*TODO*///		int color_start=Machine.drv.total_colors/2;
-/*TODO*///		/* build the shading lookup table */
-/*TODO*///		if (Machine.scrbitmap.depth == 8) /* 8 bit shadows */
-/*TODO*///		{
-/*TODO*///			if(sys16_MaxShadowColors == 0) return;
-/*TODO*///			for (i = 0; i < 256; i++)
-/*TODO*///			{
-/*TODO*///				unsigned char r, g, b;
-/*TODO*///				int y;
-/*TODO*///				osd_get_pen(i, &r, &g, &b);
-/*TODO*///				y = (r * 10 + g * 18 + b * 4) >> sys16_MaxShadowColors_Shift;
-/*TODO*///				shade_table[i] = Machine.pens[color_start + y];
-/*TODO*///			}
-/*TODO*///			for(i=0;i<sys16_MaxShadowColors;i++)
-/*TODO*///			{
-/*TODO*///				shade_table[Machine.pens[color_start + i]]=Machine.pens[color_start + i];
-/*TODO*///			}
-/*TODO*///		}
+	}
+	
+	static void build_shadow_table()
+	{
+		int i,size;
+		int color_start=Machine.drv.total_colors/2;
+		/* build the shading lookup table */
+		if (Machine.scrbitmap.depth == 8) /* 8 bit shadows */
+		{
+			if(sys16_MaxShadowColors == 0) return;
+			for (i = 0; i < 256; i++)
+			{
+				//unsigned char r, g, b;
+                                char[] r= new char[1];
+                                char[] g= new char[1];
+                                char[] b= new char[1];
+				int y;
+				osd_get_pen(i, r, g, b);
+				y = (r[0] * 10 + g[0] * 18 + b[0] * 4) >> sys16_MaxShadowColors_Shift;
+				shade_table[i] = Machine.pens[color_start + y];
+			}
+			for(i=0;i<sys16_MaxShadowColors;i++)
+			{
+				shade_table[Machine.pens[color_start + i]]=Machine.pens[color_start + i];
+			}
+		}
 /*TODO*///		else
 /*TODO*///		{
 /*TODO*///			if(sys16_MaxShadowColors != 0)
@@ -1661,8 +1666,8 @@ public class system16
 /*TODO*///				}
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///
+	}
+
         static int freeze_counter_sys16=0;
 	public static VhUpdatePtr sys16_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		if (sys16_update_proc != null) sys16_update_proc.handler();
@@ -1838,15 +1843,14 @@ public class system16
 			else
 				tilemap_update(  ALL_TILEMAPS  );
 	
-/*TODO*///	
-/*TODO*///			get_sprite_info();
-/*TODO*///	
+			get_sprite_info();
+	
 			palette_init_used_colors();
-/*TODO*///			mark_sprite_colors(); // custom; normally this would be handled by the sprite manager
-/*TODO*///			sprite_update();
-/*TODO*///	
+			mark_sprite_colors(); // custom; normally this would be handled by the sprite manager
+			sprite_update();
+	
 			if( palette_recalc()!=null ) tilemap_mark_all_pixels_dirty( ALL_TILEMAPS );
-/*TODO*///			build_shadow_table();
+			build_shadow_table();
 			tilemap_render(  ALL_TILEMAPS  );
 	
 			if(sys16_quartet_title_kludge==0)
@@ -1857,11 +1861,11 @@ public class system16
 /*TODO*///			else
 /*TODO*///				draw_quartet_title_screen( bitmap, 0 );
 /*TODO*///	
-/*TODO*///			sprite_draw(sprite_list,3); // needed for Aurail
+			sprite_draw(sprite_list,3); // needed for Aurail
 			if(sys16_bg_priority_mode==2) tilemap_draw( bitmap, background, 1 );		// body slam (& wrestwar??)
-/*TODO*///			sprite_draw(sprite_list,2);
+			sprite_draw(sprite_list,2);
 			if(sys16_bg_priority_mode==1) tilemap_draw( bitmap, background, 1 );		// alien syndrome / aurail
-/*TODO*///	
+	
 			if(sys16_quartet_title_kludge==0)
 			{
 				tilemap_draw( bitmap, foreground, 0 );
@@ -1875,7 +1879,7 @@ public class system16
 /*TODO*///			}
 	
 			if(sys16_textlayer_lo_max!=0) tilemap_draw( bitmap, text_layer, 1 ); // needed for Body Slam
-/*TODO*///			sprite_draw(sprite_list,0);
+			sprite_draw(sprite_list,0);
 			tilemap_draw( bitmap, text_layer, 0 );
 		}
 	} };

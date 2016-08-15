@@ -1707,25 +1707,26 @@ public class video {
             dirtypalette = 1;
         }
     }
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///void osd_get_pen(int pen,unsigned char *red, unsigned char *green, unsigned char *blue)
-    /*TODO*///{
-    /*TODO*///	if (scrbitmap->depth != 8 && modifiable_palette == 0)
-    /*TODO*///	{
+    
+    
+    
+    public static void osd_get_pen(int pen,char[] red, char[] green, char[] blue)
+    {
+    	if (scrbitmap.depth != 8 && modifiable_palette == 0)
+    	{
+             throw new UnsupportedOperationException("Unimplemented");
     /*TODO*///		*red =   getr(pen);
     /*TODO*///		*green = getg(pen);
     /*TODO*///		*blue =  getb(pen);
-    /*TODO*///	}
-    /*TODO*///	else
-    /*TODO*///	{
-    /*TODO*///		*red =   current_palette[3*pen+0];
-    /*TODO*///		*green = current_palette[3*pen+1];
-    /*TODO*///		*blue =  current_palette[3*pen+2];
-    /*TODO*///	}
-    /*TODO*///}
-    /*TODO*///
+    	}
+    	else
+    	{
+    		red[0] =   (char)(current_palette.read(3*pen+0)&0xFF);
+    		green[0] = (char)(current_palette.read(3*pen+1)&0xFF);
+    		blue[0] =  (char)(current_palette.read(3*pen+2)&0xFF);
+    	}
+    }
+    
     /*TODO*///
     /*TODO*///
     /*TODO*///void update_screen_dummy(void)

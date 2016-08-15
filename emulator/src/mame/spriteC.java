@@ -36,8 +36,8 @@ public class spriteC {
         public abstract void handler(sprite[] sprite, int sprite_ptr);
     }
 
-    /*TODO*///
-/*TODO*///static UINT16 *shade_table;
+    static char[] shade_table;
+
     static void sprite_order_setup(sprite_list sprite_list, int[] first, int[] last, int[] delta) {
         if ((sprite_list.flags & SPRITE_LIST_FRONT_TO_BACK) != 0) {
             delta[0] = -1;
@@ -50,16 +50,18 @@ public class spriteC {
         }
     }
 
-    /*TODO*////*********************************************************************
-/*TODO*///
-/*TODO*///	The mask buffer is a dynamically allocated resource
-/*TODO*///	it is recycled each frame.  Using this technique reduced the runttime
-/*TODO*///	memory requirements of the Gaiden from 512k (worst case) to approx 6K.
-/*TODO*///
-/*TODO*///	Sprites use offsets instead of pointers directly to the mask data, since it
-/*TODO*///	is potentially reallocated.
-/*TODO*///
-/*TODO*///*********************************************************************/
+    /**
+     * *******************************************************************
+     *
+     * The mask buffer is a dynamically allocated resource it is recycled each
+     * frame. Using this technique reduced the runttime memory requirements of
+     * the Gaiden from 512k (worst case) to approx 6K.
+     *
+     * Sprites use offsets instead of pointers directly to the mask data, since
+     * it is potentially reallocated.
+     *
+     ********************************************************************
+     */
     static UBytePtr mask_buffer = null;
     static int mask_buffer_size = 0;
     /* actual size of allocated buffer */
@@ -479,63 +481,164 @@ public class spriteC {
     };
     public static do_blitPtr do_blit_zoom = new do_blitPtr() {
         public void handler(sprite[] sprite, int sprite_ptr) {
-            throw new UnsupportedOperationException("Unimplemented");
             /*	assumes SPRITE_LIST_RAW_DATA flag is set */
- /*TODO*///
-/*TODO*///	int x1,x2, y1,y2, dx,dy;
-/*TODO*///	int xcount0 = 0, ycount0 = 0;
-/*TODO*///
-/*TODO*///	if( sprite->flags & SPRITE_FLIPX ){
-/*TODO*///		x2 = sprite->x;
-/*TODO*///		x1 = x2+sprite->total_width;
-/*TODO*///		dx = -1;
-/*TODO*///		if( x2<blit.clip_left ) x2 = blit.clip_left;
-/*TODO*///		if( x1>blit.clip_right ){
-/*TODO*///			xcount0 = (x1-blit.clip_right)*sprite->tile_width;
-/*TODO*///			x1 = blit.clip_right;
-/*TODO*///		}
-/*TODO*///		if( x2>=x1 ) return;
-/*TODO*///		x1--; x2--;
-/*TODO*///	}
-/*TODO*///	else {
-/*TODO*///		x1 = sprite->x;
-/*TODO*///		x2 = x1+sprite->total_width;
-/*TODO*///		dx = 1;
-/*TODO*///		if( x1<blit.clip_left ){
-/*TODO*///			xcount0 = (blit.clip_left-x1)*sprite->tile_width;
-/*TODO*///			x1 = blit.clip_left;
-/*TODO*///		}
-/*TODO*///		if( x2>blit.clip_right ) x2 = blit.clip_right;
-/*TODO*///		if( x1>=x2 ) return;
-/*TODO*///	}
-/*TODO*///	if( sprite->flags & SPRITE_FLIPY ){
-/*TODO*///		y2 = sprite->y;
-/*TODO*///		y1 = y2+sprite->total_height;
-/*TODO*///		dy = -1;
-/*TODO*///		if( y2<blit.clip_top ) y2 = blit.clip_top;
-/*TODO*///		if( y1>blit.clip_bottom ){
-/*TODO*///			ycount0 = (y1-blit.clip_bottom)*sprite->tile_height;
-/*TODO*///			y1 = blit.clip_bottom;
-/*TODO*///		}
-/*TODO*///		if( y2>=y1 ) return;
-/*TODO*///		y1--; y2--;
-/*TODO*///	}
-/*TODO*///	else {
-/*TODO*///		y1 = sprite->y;
-/*TODO*///		y2 = y1+sprite->total_height;
-/*TODO*///		dy = 1;
-/*TODO*///		if( y1<blit.clip_top ){
-/*TODO*///			ycount0 = (blit.clip_top-y1)*sprite->tile_height;
-/*TODO*///			y1 = blit.clip_top;
-/*TODO*///		}
-/*TODO*///		if( y2>blit.clip_bottom ) y2 = blit.clip_bottom;
-/*TODO*///		if( y1>=y2 ) return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if(!(sprite->flags & (SPRITE_SHADOW | SPRITE_PARTIAL_SHADOW)))
-/*TODO*///	{
-/*TODO*///		const unsigned char *pen_data = sprite->pen_data;
-/*TODO*///		const unsigned short *pal_data = sprite->pal_data;
+
+            int x1, x2, y1, y2, dx, dy;
+            int xcount0 = 0, ycount0 = 0;
+
+            if ((sprite[sprite_ptr].flags & SPRITE_FLIPX) != 0) {
+                x2 = sprite[sprite_ptr].x;
+                x1 = x2 + sprite[sprite_ptr].total_width;
+                dx = -1;
+                if (x2 < blit.clip_left) {
+                    x2 = blit.clip_left;
+                }
+                if (x1 > blit.clip_right) {
+                    xcount0 = (x1 - blit.clip_right) * sprite[sprite_ptr].tile_width;
+                    x1 = blit.clip_right;
+                }
+                if (x2 >= x1) {
+                    return;
+                }
+                x1--;
+                x2--;
+            } else {
+                x1 = sprite[sprite_ptr].x;
+                x2 = x1 + sprite[sprite_ptr].total_width;
+                dx = 1;
+                if (x1 < blit.clip_left) {
+                    xcount0 = (blit.clip_left - x1) * sprite[sprite_ptr].tile_width;
+                    x1 = blit.clip_left;
+                }
+                if (x2 > blit.clip_right) {
+                    x2 = blit.clip_right;
+                }
+                if (x1 >= x2) {
+                    return;
+                }
+            }
+            if ((sprite[sprite_ptr].flags & SPRITE_FLIPY) != 0) {
+                y2 = sprite[sprite_ptr].y;
+                y1 = y2 + sprite[sprite_ptr].total_height;
+                dy = -1;
+                if (y2 < blit.clip_top) {
+                    y2 = blit.clip_top;
+                }
+                if (y1 > blit.clip_bottom) {
+                    ycount0 = (y1 - blit.clip_bottom) * sprite[sprite_ptr].tile_height;
+                    y1 = blit.clip_bottom;
+                }
+                if (y2 >= y1) {
+                    return;
+                }
+                y1--;
+                y2--;
+            } else {
+                y1 = sprite[sprite_ptr].y;
+                y2 = y1 + sprite[sprite_ptr].total_height;
+                dy = 1;
+                if (y1 < blit.clip_top) {
+                    ycount0 = (blit.clip_top - y1) * sprite[sprite_ptr].tile_height;
+                    y1 = blit.clip_top;
+                }
+                if (y2 > blit.clip_bottom) {
+                    y2 = blit.clip_bottom;
+                }
+                if (y1 >= y2) {
+                    return;
+                }
+            }
+
+            if ((sprite[sprite_ptr].flags & (SPRITE_SHADOW | SPRITE_PARTIAL_SHADOW)) == 0) {
+                UBytePtr pen_data = new UBytePtr(sprite[sprite_ptr].pen_data);
+                CharPtr pal_data = sprite[sprite_ptr].pal_data;
+                int x, y;
+                /*unsigned*/ char pen;
+                int pitch = blit.line_offset * dy;
+                UBytePtr dest = new UBytePtr(blit.baseaddr, blit.line_offset * y1);
+                int ycount = ycount0;
+
+                if ((orientation & ORIENTATION_SWAP_XY) != 0) {
+                    /* manually rotate the sprite graphics */
+                    int xcount = xcount0;
+                    for (x = x1; x != x2; x += dx) {
+                        UBytePtr source;
+                        UBytePtr dest1;
+
+                        ycount = ycount0;
+                        while (xcount >= sprite[sprite_ptr].total_width) {
+                            xcount -= sprite[sprite_ptr].total_width;
+                            pen_data.inc(sprite[sprite_ptr].line_offset);
+                        }
+                        source = new UBytePtr(pen_data);
+                        dest1 = new UBytePtr(dest, x);
+                        boolean isskip = false;
+                        for (y = y1; y != y2; y += dy) {
+                            while (ycount >= sprite[sprite_ptr].total_height) {
+                                ycount -= sprite[sprite_ptr].total_height;
+                                source.offset++;
+                            }
+                            pen = (char)(source.read()&0xFF);
+                            if (pen == 0xff) {
+                                xcount += sprite[sprite_ptr].tile_width;
+                                isskip = true;
+                                break;
+                                //goto skip1;/* marker for right side of sprite; needed for AltBeast, ESwat */
+                            }
+                            /*					if( pen==10 ) *dest1 = shade_table[*dest1];
+					else */
+                            if (pen != 0) {
+                                dest1.write(pal_data.read(pen));
+                            }
+                            ycount += sprite[sprite_ptr].tile_height;
+                            dest1.offset += pitch;
+                        }
+//skip1:                
+                        if (!isskip) {
+                            xcount += sprite[sprite_ptr].tile_width;
+                        }
+                    }
+                } else {
+                    for (y = y1; y != y2; y += dy) {
+                        int xcount = xcount0;
+                        UBytePtr source;
+                        while (ycount >= sprite[sprite_ptr].total_height) {
+                            ycount -= sprite[sprite_ptr].total_height;
+                            pen_data.inc(sprite[sprite_ptr].line_offset);
+                        }
+                        source = new UBytePtr(pen_data);
+                        boolean isskip = false;
+                        for (x = x1; x != x2; x += dx) {
+                            while (xcount >= sprite[sprite_ptr].total_width) {
+                                xcount -= sprite[sprite_ptr].total_width;
+                                source.offset++;
+                            }
+                            pen = (char) (source.read() & 0xFF);
+                            if (pen == 0xff) {
+                                //continue skip;/* marker for right side of sprite; needed for AltBeast, ESwat */
+                                ycount += sprite[sprite_ptr].tile_height;
+                                dest.offset += pitch;
+                                isskip = true;
+                                break;
+                            }
+                            /*					if( pen==10 ) dest[x] = shade_table[dest[x]];
+					else */
+                            if (pen != 0) {
+                                dest.write(x, pal_data.read(pen));
+                            }
+                            xcount += sprite[sprite_ptr].tile_width;
+                        }
+//skip:
+                        if (!isskip) {
+                            ycount += sprite[sprite_ptr].tile_height;
+                            dest.offset += pitch;
+                        }
+                    }
+                }
+            } else if ((sprite[sprite_ptr].flags & SPRITE_PARTIAL_SHADOW) != 0) {
+                System.out.println("2st case");
+                /*TODO*///		const unsigned char *pen_data = sprite[sprite_ptr].pen_data;
+/*TODO*///		const unsigned short *pal_data = sprite[sprite_ptr].pal_data;
 /*TODO*///		int x,y;
 /*TODO*///		unsigned char pen;
 /*TODO*///		int pitch = blit.line_offset*dy;
@@ -549,123 +652,57 @@ public class spriteC {
 /*TODO*///				unsigned char *dest1;
 /*TODO*///
 /*TODO*///				ycount = ycount0;
-/*TODO*///				while( xcount>=sprite->total_width ){
-/*TODO*///					xcount -= sprite->total_width;
-/*TODO*///					pen_data+=sprite->line_offset;
+/*TODO*///				while( xcount>=sprite[sprite_ptr].total_width ){
+/*TODO*///					xcount -= sprite[sprite_ptr].total_width;
+/*TODO*///					pen_data+=sprite[sprite_ptr].line_offset;
 /*TODO*///				}
 /*TODO*///				source = pen_data;
 /*TODO*///				dest1 = &dest[x];
 /*TODO*///				for( y=y1; y!=y2; y+=dy ){
-/*TODO*///					while( ycount>=sprite->total_height ){
-/*TODO*///						ycount -= sprite->total_height;
-/*TODO*///						source ++;
-/*TODO*///					}
-/*TODO*///					pen = *source;
-/*TODO*///					if( pen==0xff ) goto skip1; /* marker for right side of sprite; needed for AltBeast, ESwat */
-/*TODO*////*					if( pen==10 ) *dest1 = shade_table[*dest1];
-/*TODO*///					else */if( pen ) *dest1 = pal_data[pen];
-/*TODO*///					ycount+= sprite->tile_height;
-/*TODO*///					dest1 += pitch;
-/*TODO*///				}
-/*TODO*///skip1:
-/*TODO*///				xcount += sprite->tile_width;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			for( y=y1; y!=y2; y+=dy ){
-/*TODO*///				int xcount = xcount0;
-/*TODO*///				const unsigned char *source;
-/*TODO*///				while( ycount>=sprite->total_height ){
-/*TODO*///					ycount -= sprite->total_height;
-/*TODO*///					pen_data += sprite->line_offset;
-/*TODO*///				}
-/*TODO*///				source = pen_data;
-/*TODO*///				for( x=x1; x!=x2; x+=dx ){
-/*TODO*///					while( xcount>=sprite->total_width ){
-/*TODO*///						xcount -= sprite->total_width;
-/*TODO*///						source++;
-/*TODO*///					}
-/*TODO*///					pen = *source;
-/*TODO*///					if( pen==0xff ) goto skip; /* marker for right side of sprite; needed for AltBeast, ESwat */
-/*TODO*////*					if( pen==10 ) dest[x] = shade_table[dest[x]];
-/*TODO*///					else */if( pen ) dest[x] = pal_data[pen];
-/*TODO*///					xcount += sprite->tile_width;
-/*TODO*///				}
-/*TODO*///skip:
-/*TODO*///				ycount += sprite->tile_height;
-/*TODO*///				dest += pitch;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else if(sprite->flags & SPRITE_PARTIAL_SHADOW)
-/*TODO*///	{
-/*TODO*///		const unsigned char *pen_data = sprite->pen_data;
-/*TODO*///		const unsigned short *pal_data = sprite->pal_data;
-/*TODO*///		int x,y;
-/*TODO*///		unsigned char pen;
-/*TODO*///		int pitch = blit.line_offset*dy;
-/*TODO*///		unsigned char *dest = blit.baseaddr + blit.line_offset*y1;
-/*TODO*///		int ycount = ycount0;
-/*TODO*///
-/*TODO*///		if( orientation & ORIENTATION_SWAP_XY ){ /* manually rotate the sprite graphics */
-/*TODO*///			int xcount = xcount0;
-/*TODO*///			for( x=x1; x!=x2; x+=dx ){
-/*TODO*///				const unsigned char *source;
-/*TODO*///				unsigned char *dest1;
-/*TODO*///
-/*TODO*///				ycount = ycount0;
-/*TODO*///				while( xcount>=sprite->total_width ){
-/*TODO*///					xcount -= sprite->total_width;
-/*TODO*///					pen_data+=sprite->line_offset;
-/*TODO*///				}
-/*TODO*///				source = pen_data;
-/*TODO*///				dest1 = &dest[x];
-/*TODO*///				for( y=y1; y!=y2; y+=dy ){
-/*TODO*///					while( ycount>=sprite->total_height ){
-/*TODO*///						ycount -= sprite->total_height;
+/*TODO*///					while( ycount>=sprite[sprite_ptr].total_height ){
+/*TODO*///						ycount -= sprite[sprite_ptr].total_height;
 /*TODO*///						source ++;
 /*TODO*///					}
 /*TODO*///					pen = *source;
 /*TODO*///					if( pen==0xff ) goto skip6; /* marker for right side of sprite; needed for AltBeast, ESwat */
-/*TODO*///					if( pen==sprite->shadow_pen ) *dest1 = shade_table[*dest1];
+/*TODO*///					if( pen==sprite[sprite_ptr].shadow_pen ) *dest1 = shade_table[*dest1];
 /*TODO*///					else if( pen ) *dest1 = pal_data[pen];
-/*TODO*///					ycount+= sprite->tile_height;
+/*TODO*///					ycount+= sprite[sprite_ptr].tile_height;
 /*TODO*///					dest1 += pitch;
 /*TODO*///				}
 /*TODO*///skip6:
-/*TODO*///				xcount += sprite->tile_width;
+/*TODO*///				xcount += sprite[sprite_ptr].tile_width;
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///		else {
 /*TODO*///			for( y=y1; y!=y2; y+=dy ){
 /*TODO*///				int xcount = xcount0;
 /*TODO*///				const unsigned char *source;
-/*TODO*///				while( ycount>=sprite->total_height ){
-/*TODO*///					ycount -= sprite->total_height;
-/*TODO*///					pen_data += sprite->line_offset;
+/*TODO*///				while( ycount>=sprite[sprite_ptr].total_height ){
+/*TODO*///					ycount -= sprite[sprite_ptr].total_height;
+/*TODO*///					pen_data += sprite[sprite_ptr].line_offset;
 /*TODO*///				}
 /*TODO*///				source = pen_data;
 /*TODO*///				for( x=x1; x!=x2; x+=dx ){
-/*TODO*///					while( xcount>=sprite->total_width ){
-/*TODO*///						xcount -= sprite->total_width;
+/*TODO*///					while( xcount>=sprite[sprite_ptr].total_width ){
+/*TODO*///						xcount -= sprite[sprite_ptr].total_width;
 /*TODO*///						source++;
 /*TODO*///					}
 /*TODO*///					pen = *source;
 /*TODO*///					if( pen==0xff ) goto skip5; /* marker for right side of sprite; needed for AltBeast, ESwat */
-/*TODO*///					if( pen==sprite->shadow_pen ) dest[x] = shade_table[dest[x]];
+/*TODO*///					if( pen==sprite[sprite_ptr].shadow_pen ) dest[x] = shade_table[dest[x]];
 /*TODO*///					else if( pen ) dest[x] = pal_data[pen];
-/*TODO*///					xcount += sprite->tile_width;
+/*TODO*///					xcount += sprite[sprite_ptr].tile_width;
 /*TODO*///				}
 /*TODO*///skip5:
-/*TODO*///				ycount += sprite->tile_height;
+/*TODO*///				ycount += sprite[sprite_ptr].tile_height;
 /*TODO*///				dest += pitch;
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	// Shadow Sprite
-/*TODO*///		const unsigned char *pen_data = sprite->pen_data;
-/*TODO*/////		const unsigned short *pal_data = sprite->pal_data;
+            } else {	// Shadow Sprite
+                System.out.println("3st case");
+                /*TODO*///		const unsigned char *pen_data = sprite[sprite_ptr].pen_data;
+/*TODO*/////		const unsigned short *pal_data = sprite[sprite_ptr].pal_data;
 /*TODO*///		int x,y;
 /*TODO*///		unsigned char pen;
 /*TODO*///		int pitch = blit.line_offset*dy;
@@ -679,53 +716,53 @@ public class spriteC {
 /*TODO*///				unsigned char *dest1;
 /*TODO*///
 /*TODO*///				ycount = ycount0;
-/*TODO*///				while( xcount>=sprite->total_width ){
-/*TODO*///					xcount -= sprite->total_width;
-/*TODO*///					pen_data+=sprite->line_offset;
+/*TODO*///				while( xcount>=sprite[sprite_ptr].total_width ){
+/*TODO*///					xcount -= sprite[sprite_ptr].total_width;
+/*TODO*///					pen_data+=sprite[sprite_ptr].line_offset;
 /*TODO*///				}
 /*TODO*///				source = pen_data;
 /*TODO*///				dest1 = &dest[x];
 /*TODO*///				for( y=y1; y!=y2; y+=dy ){
-/*TODO*///					while( ycount>=sprite->total_height ){
-/*TODO*///						ycount -= sprite->total_height;
+/*TODO*///					while( ycount>=sprite[sprite_ptr].total_height ){
+/*TODO*///						ycount -= sprite[sprite_ptr].total_height;
 /*TODO*///						source ++;
 /*TODO*///					}
 /*TODO*///					pen = *source;
 /*TODO*///					if( pen==0xff ) goto skip4; /* marker for right side of sprite; needed for AltBeast, ESwat */
 /*TODO*///					if( pen ) *dest1 = shade_table[*dest1];
-/*TODO*///					ycount+= sprite->tile_height;
+/*TODO*///					ycount+= sprite[sprite_ptr].tile_height;
 /*TODO*///					dest1 += pitch;
 /*TODO*///				}
 /*TODO*///skip4:
-/*TODO*///				xcount += sprite->tile_width;
+/*TODO*///				xcount += sprite[sprite_ptr].tile_width;
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///		else {
 /*TODO*///			for( y=y1; y!=y2; y+=dy ){
 /*TODO*///				int xcount = xcount0;
 /*TODO*///				const unsigned char *source;
-/*TODO*///				while( ycount>=sprite->total_height ){
-/*TODO*///					ycount -= sprite->total_height;
-/*TODO*///					pen_data += sprite->line_offset;
+/*TODO*///				while( ycount>=sprite[sprite_ptr].total_height ){
+/*TODO*///					ycount -= sprite[sprite_ptr].total_height;
+/*TODO*///					pen_data += sprite[sprite_ptr].line_offset;
 /*TODO*///				}
 /*TODO*///				source = pen_data;
 /*TODO*///				for( x=x1; x!=x2; x+=dx ){
-/*TODO*///					while( xcount>=sprite->total_width ){
-/*TODO*///						xcount -= sprite->total_width;
+/*TODO*///					while( xcount>=sprite[sprite_ptr].total_width ){
+/*TODO*///						xcount -= sprite[sprite_ptr].total_width;
 /*TODO*///						source++;
 /*TODO*///					}
 /*TODO*///					pen = *source;
 /*TODO*///					if( pen==0xff ) goto skip3; /* marker for right side of sprite; needed for AltBeast, ESwat */
 /*TODO*///					if( pen ) dest[x] = shade_table[dest[x]];
-/*TODO*///					xcount += sprite->tile_width;
+/*TODO*///					xcount += sprite[sprite_ptr].tile_width;
 /*TODO*///				}
 /*TODO*///skip3:
-/*TODO*///				ycount += sprite->tile_height;
+/*TODO*///				ycount += sprite[sprite_ptr].tile_height;
 /*TODO*///				dest += pitch;
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///
+            }
+
         }
     };
 
@@ -1331,9 +1368,9 @@ public class spriteC {
             }
         }
     }
-    /*TODO*///void sprite_set_shade_table(UINT16 *table)
-/*TODO*///{
-/*TODO*///	shade_table=table;
-/*TODO*///}
-/*TODO*///    
+
+    public static void sprite_set_shade_table(char[] table) {
+        shade_table = table;
+    }
+
 }
