@@ -1992,7 +1992,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( alexkida )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( aliensyn )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( altbeas2 )	/* (c) 1988 */
-                /*TODO*/ //	DRIVER( altbeast )	/* (c) 1988 */
+                driver_altbeast,	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( astormbl )	/* bootleg */
                 driver_atomicp,	/* (c) 1990 Philko */
                 /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
