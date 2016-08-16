@@ -24065,10 +24065,16 @@ public class m68kopsH {
     };
     public static opcode m68000_stop = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
+            long new_sr = m68ki_read_imm_16();
+
+            if (get_CPU_S() != 0) {
+                //m68ki_add_trace();			   /* auto-disable (see m68kcpu.h) */
+                m68k_cpu.stopped = 1;
+                m68ki_set_sr(new_sr);
+                m68k_clks_left[0] = 0;
+                return;
             }
-            throw new UnsupportedOperationException("Unimplemented");
+            m68ki_exception(EXCEPTION_PRIVILEGE_VIOLATION);
         }
     };
     public static opcode m68000_sub_er_d_8 = new opcode() {

@@ -2030,7 +2030,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( shdancrj )	/* (c) 1989 */
                 driver_shinobi,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( shinobl )	/* (c) 1987 (but bootleg) */
-                /*TODO*/ //	DRIVER( tetrisbl )	/* (c) 1988 (but bootleg) */
+                driver_tetrisbl,	/* (c) 1988 (but bootleg) */
                 /*TODO*/ //	DRIVER( timscanr )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( toryumon )	/* (c) 1995 */
                 /*TODO*/ //	DRIVER( tturf )		/* (c) 1989 Sega / Sunsoft */
