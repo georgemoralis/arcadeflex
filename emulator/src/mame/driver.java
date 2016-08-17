@@ -2022,7 +2022,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( quartet2 )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartetj )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( riotcity )	/* (c) 1991 Sega / Westone */
-                /*TODO*/ //	DRIVER( sdi )		/* (c) 1987 */
+                driver_sdi,		/* (c) 1987 */
                 /*TODO*/ //	DRIVER( shangonb )	/* (c) 1992 (but bootleg) */
                 /*TODO*/ //	DRIVER( sharrier )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( shdancbl )	/* (c) 1989 (but bootleg) */
