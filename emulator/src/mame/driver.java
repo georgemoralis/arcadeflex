@@ -2005,7 +2005,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( eswatbl )	/* (c) 1989 (but bootleg) */
                 /*TODO*/ //	DRIVER( fantzone )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( fantzono )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( fpointbl )	/* (c) 1989 (Datsu bootleg) */
+                driver_fpointbl,	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( goldnabl )	/* (c) 1989 (bootleg) */
                 /*TODO*/ //	DRIVER( goldnaxa )	/* (c) 1989 */
                 driver_goldnaxe,	/* (c) 1989 */

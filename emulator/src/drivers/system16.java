@@ -1659,118 +1659,126 @@ public class system16 {
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_aliensyn, \
 /*TODO*///		aliensyn_readmem,aliensyn_writemem,aliensyn_init_machine, gfx1, aliensyn_upd7759_interface )
 /*TODO*///	
-	/***************************************************************************/
-	// sys16B
-	static RomLoadPtr rom_altbeast = new RomLoadPtr(){ public void handler(){ 
-		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
-		ROM_LOAD_EVEN( "11705", 0x000000, 0x20000, 0x57dc5c7a );
-		ROM_LOAD_ODD ( "11704", 0x000000, 0x20000, 0x33bbcf07 );
-	
-		ROM_REGION( 0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-		ROM_LOAD( "11674", 0x00000, 0x20000, 0xa57a66d5 );
-		ROM_LOAD( "11675", 0x20000, 0x20000, 0x2ef2f144 );
-		ROM_LOAD( "11676", 0x40000, 0x20000, 0x0c04acac );
-	
-		ROM_REGION( 0x100000*2, REGION_GFX2 );/* sprites */
-		ROM_LOAD( "epr11677.b1", 0x00000, 0x10000, 0xa01425cd );
-		ROM_CONTINUE(            0x20000, 0x10000 );
-		ROM_LOAD( "epr11681.b5", 0x10000, 0x10000, 0xd9e03363 );
-		ROM_CONTINUE(            0x30000, 0x10000 );
-		ROM_LOAD( "epr11678.b2", 0x40000, 0x10000, 0x17a9fc53 );
-		ROM_CONTINUE(            0x60000, 0x10000 );
-		ROM_LOAD( "epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e );
-		ROM_CONTINUE(            0x70000, 0x10000 );
-		ROM_LOAD( "epr11679.b3", 0x80000, 0x10000, 0x14dcc245 );
-		ROM_CONTINUE(            0xa0000, 0x10000 );
-		ROM_LOAD( "epr11683.b7", 0x90000, 0x10000, 0xf9a60f06 );
-		ROM_CONTINUE(            0xb0000, 0x10000 );
-		ROM_LOAD( "epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec );
-		ROM_CONTINUE(            0xe0000, 0x10000 );
-		ROM_LOAD( "epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb );
-		ROM_CONTINUE(            0xf0000, 0x10000 );
-	
-		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-		ROM_LOAD( "11671",		 0x00000, 0x08000, 0x2b71343b );
-		ROM_LOAD( "opr11672",    0x10000, 0x20000, 0xbbd7f460 );
-		ROM_LOAD( "opr11673",    0x30000, 0x20000, 0x400c4a36 );
-	ROM_END(); }}; 
-	
-	static RomLoadPtr rom_jyuohki = new RomLoadPtr(){ public void handler(){ 
-		ROM_REGION( 0x040000, REGION_CPU1 );/* Custom 68000 code. */
-	// custom cpu 317-0065
-		ROM_LOAD_EVEN( "epr11670.a7", 0x000000, 0x20000, 0xb748eb07 );
-		ROM_LOAD_ODD ( "epr11669.a5", 0x000000, 0x20000, 0x005ecd11 );
-	
-		ROM_REGION( 0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-		ROM_LOAD( "11674", 0x00000, 0x20000, 0xa57a66d5 );
-		ROM_LOAD( "11675", 0x20000, 0x20000, 0x2ef2f144 );
-		ROM_LOAD( "11676", 0x40000, 0x20000, 0x0c04acac );
-	
-		ROM_REGION( 0x100000*2, REGION_GFX2 );/* sprites */
-		ROM_LOAD( "epr11677.b1", 0x00000, 0x10000, 0xa01425cd );
-		ROM_CONTINUE(            0x20000, 0x10000 );
-		ROM_LOAD( "epr11681.b5", 0x10000, 0x10000, 0xd9e03363 );
-		ROM_CONTINUE(            0x30000, 0x10000 );
-		ROM_LOAD( "epr11678.b2", 0x40000, 0x10000, 0x17a9fc53 );
-		ROM_CONTINUE(            0x60000, 0x10000 );
-		ROM_LOAD( "epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e );
-		ROM_CONTINUE(            0x70000, 0x10000 );
-		ROM_LOAD( "epr11679.b3", 0x80000, 0x10000, 0x14dcc245 );
-		ROM_CONTINUE(            0xa0000, 0x10000 );
-		ROM_LOAD( "epr11683.b7", 0x90000, 0x10000, 0xf9a60f06 );
-		ROM_CONTINUE(            0xb0000, 0x10000 );
-		ROM_LOAD( "epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec );
-		ROM_CONTINUE(            0xe0000, 0x10000 );
-		ROM_LOAD( "epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb );
-		ROM_CONTINUE(            0xf0000, 0x10000 );
-	
-		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-		ROM_LOAD( "11671",		 0x00000, 0x08000, 0x2b71343b );
-		ROM_LOAD( "opr11672",    0x10000, 0x20000, 0xbbd7f460 );
-		ROM_LOAD( "opr11673",    0x30000, 0x20000, 0x400c4a36 );
-	ROM_END(); }}; 
-	
-	// sys16B
-	static RomLoadPtr rom_altbeas2 = new RomLoadPtr(){ public void handler(){ 
-		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
-		ROM_LOAD_EVEN( "epr11740", 0x000000, 0x20000, 0xce227542 );
-		ROM_LOAD_ODD ( "epr11739", 0x000000, 0x20000, 0xe466eb65 );
-	
-		ROM_REGION( 0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-		ROM_LOAD( "11674", 0x00000, 0x20000, 0xa57a66d5 );
-		ROM_LOAD( "11675", 0x20000, 0x20000, 0x2ef2f144 );
-		ROM_LOAD( "11676", 0x40000, 0x20000, 0x0c04acac );
-	
-		ROM_REGION( 0x100000*2, REGION_GFX2 );/* sprites */
-		ROM_LOAD( "epr11677.b1", 0x00000, 0x10000, 0xa01425cd );
-		ROM_CONTINUE(            0x20000, 0x10000 );
-		ROM_LOAD( "epr11681.b5", 0x10000, 0x10000, 0xd9e03363 );
-		ROM_CONTINUE(            0x30000, 0x10000 );
-		ROM_LOAD( "epr11678.b2", 0x40000, 0x10000, 0x17a9fc53 );
-		ROM_CONTINUE(            0x60000, 0x10000 );
-		ROM_LOAD( "epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e );
-		ROM_CONTINUE(            0x70000, 0x10000 );
-		ROM_LOAD( "epr11679.b3", 0x80000, 0x10000, 0x14dcc245 );
-		ROM_CONTINUE(            0xa0000, 0x10000 );
-		ROM_LOAD( "epr11683.b7", 0x90000, 0x10000, 0xf9a60f06 );
-		ROM_CONTINUE(            0xb0000, 0x10000 );
-		ROM_LOAD( "epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec );
-		ROM_CONTINUE(            0xe0000, 0x10000 );
-		ROM_LOAD( "epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb );
-		ROM_CONTINUE(            0xf0000, 0x10000 );
-	
-		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-		ROM_LOAD( "opr11686",	 0x00000, 0x08000, 0x828a45b3 );// ???
-		ROM_LOAD( "opr11672",    0x10000, 0x20000, 0xbbd7f460 );
-		ROM_LOAD( "opr11673",    0x30000, 0x20000, 0x400c4a36 );
-	ROM_END(); }}; 
-	
-	
-	
     /**
      * ************************************************************************
      */
+    // sys16B
+    static RomLoadPtr rom_altbeast = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
+            ROM_LOAD_EVEN("11705", 0x000000, 0x20000, 0x57dc5c7a);
+            ROM_LOAD_ODD("11704", 0x000000, 0x20000, 0x33bbcf07);
 
+            ROM_REGION(0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("11674", 0x00000, 0x20000, 0xa57a66d5);
+            ROM_LOAD("11675", 0x20000, 0x20000, 0x2ef2f144);
+            ROM_LOAD("11676", 0x40000, 0x20000, 0x0c04acac);
+
+            ROM_REGION(0x100000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("epr11677.b1", 0x00000, 0x10000, 0xa01425cd);
+            ROM_CONTINUE(0x20000, 0x10000);
+            ROM_LOAD("epr11681.b5", 0x10000, 0x10000, 0xd9e03363);
+            ROM_CONTINUE(0x30000, 0x10000);
+            ROM_LOAD("epr11678.b2", 0x40000, 0x10000, 0x17a9fc53);
+            ROM_CONTINUE(0x60000, 0x10000);
+            ROM_LOAD("epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e);
+            ROM_CONTINUE(0x70000, 0x10000);
+            ROM_LOAD("epr11679.b3", 0x80000, 0x10000, 0x14dcc245);
+            ROM_CONTINUE(0xa0000, 0x10000);
+            ROM_LOAD("epr11683.b7", 0x90000, 0x10000, 0xf9a60f06);
+            ROM_CONTINUE(0xb0000, 0x10000);
+            ROM_LOAD("epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec);
+            ROM_CONTINUE(0xe0000, 0x10000);
+            ROM_LOAD("epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb);
+            ROM_CONTINUE(0xf0000, 0x10000);
+
+            ROM_REGION(0x50000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("11671", 0x00000, 0x08000, 0x2b71343b);
+            ROM_LOAD("opr11672", 0x10000, 0x20000, 0xbbd7f460);
+            ROM_LOAD("opr11673", 0x30000, 0x20000, 0x400c4a36);
+            ROM_END();
+        }
+    };
+
+    static RomLoadPtr rom_jyuohki = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x040000, REGION_CPU1);/* Custom 68000 code. */
+            // custom cpu 317-0065
+            ROM_LOAD_EVEN("epr11670.a7", 0x000000, 0x20000, 0xb748eb07);
+            ROM_LOAD_ODD("epr11669.a5", 0x000000, 0x20000, 0x005ecd11);
+
+            ROM_REGION(0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("11674", 0x00000, 0x20000, 0xa57a66d5);
+            ROM_LOAD("11675", 0x20000, 0x20000, 0x2ef2f144);
+            ROM_LOAD("11676", 0x40000, 0x20000, 0x0c04acac);
+
+            ROM_REGION(0x100000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("epr11677.b1", 0x00000, 0x10000, 0xa01425cd);
+            ROM_CONTINUE(0x20000, 0x10000);
+            ROM_LOAD("epr11681.b5", 0x10000, 0x10000, 0xd9e03363);
+            ROM_CONTINUE(0x30000, 0x10000);
+            ROM_LOAD("epr11678.b2", 0x40000, 0x10000, 0x17a9fc53);
+            ROM_CONTINUE(0x60000, 0x10000);
+            ROM_LOAD("epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e);
+            ROM_CONTINUE(0x70000, 0x10000);
+            ROM_LOAD("epr11679.b3", 0x80000, 0x10000, 0x14dcc245);
+            ROM_CONTINUE(0xa0000, 0x10000);
+            ROM_LOAD("epr11683.b7", 0x90000, 0x10000, 0xf9a60f06);
+            ROM_CONTINUE(0xb0000, 0x10000);
+            ROM_LOAD("epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec);
+            ROM_CONTINUE(0xe0000, 0x10000);
+            ROM_LOAD("epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb);
+            ROM_CONTINUE(0xf0000, 0x10000);
+
+            ROM_REGION(0x50000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("11671", 0x00000, 0x08000, 0x2b71343b);
+            ROM_LOAD("opr11672", 0x10000, 0x20000, 0xbbd7f460);
+            ROM_LOAD("opr11673", 0x30000, 0x20000, 0x400c4a36);
+            ROM_END();
+        }
+    };
+
+    // sys16B
+    static RomLoadPtr rom_altbeas2 = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
+            ROM_LOAD_EVEN("epr11740", 0x000000, 0x20000, 0xce227542);
+            ROM_LOAD_ODD("epr11739", 0x000000, 0x20000, 0xe466eb65);
+
+            ROM_REGION(0x60000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("11674", 0x00000, 0x20000, 0xa57a66d5);
+            ROM_LOAD("11675", 0x20000, 0x20000, 0x2ef2f144);
+            ROM_LOAD("11676", 0x40000, 0x20000, 0x0c04acac);
+
+            ROM_REGION(0x100000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("epr11677.b1", 0x00000, 0x10000, 0xa01425cd);
+            ROM_CONTINUE(0x20000, 0x10000);
+            ROM_LOAD("epr11681.b5", 0x10000, 0x10000, 0xd9e03363);
+            ROM_CONTINUE(0x30000, 0x10000);
+            ROM_LOAD("epr11678.b2", 0x40000, 0x10000, 0x17a9fc53);
+            ROM_CONTINUE(0x60000, 0x10000);
+            ROM_LOAD("epr11682.b6", 0x50000, 0x10000, 0xe3f77c5e);
+            ROM_CONTINUE(0x70000, 0x10000);
+            ROM_LOAD("epr11679.b3", 0x80000, 0x10000, 0x14dcc245);
+            ROM_CONTINUE(0xa0000, 0x10000);
+            ROM_LOAD("epr11683.b7", 0x90000, 0x10000, 0xf9a60f06);
+            ROM_CONTINUE(0xb0000, 0x10000);
+            ROM_LOAD("epr11680.b4", 0xc0000, 0x10000, 0xf43dcdec);
+            ROM_CONTINUE(0xe0000, 0x10000);
+            ROM_LOAD("epr11684.b8", 0xd0000, 0x10000, 0xb20c0edb);
+            ROM_CONTINUE(0xf0000, 0x10000);
+
+            ROM_REGION(0x50000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("opr11686", 0x00000, 0x08000, 0x828a45b3);// ???
+            ROM_LOAD("opr11672", 0x10000, 0x20000, 0xbbd7f460);
+            ROM_LOAD("opr11673", 0x30000, 0x20000, 0x400c4a36);
+            ROM_END();
+        }
+    };
+
+    /**
+     * ************************************************************************
+     */
     public static ReadHandlerPtr altbeast_skip = new ReadHandlerPtr() {
         public int handler(int offset) {
             if (cpu_get_pc() == 0x3994) {
@@ -2037,8 +2045,10 @@ public class system16 {
                 )
             }
     );
-    	/***************************************************************************/
-/*TODO*///	// sys18
+    /**
+     * ************************************************************************
+     */
+    /*TODO*///	// sys18
 /*TODO*///	static RomLoadPtr rom_astorm = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr13085.bin", 0x000000, 0x40000, 0x15f74e2d )
@@ -3909,25 +3919,30 @@ public class system16 {
 /*TODO*///	MACHINE_DRIVER( machine_driver_fantzone, \
 /*TODO*///		fantzone_readmem,fantzone_writemem,fantzone_init_machine, gfx8 )
 /*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_fpoint = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "12591b.bin", 0x000000, 0x10000, 0x248b3e1b )
-/*TODO*///		ROM_LOAD_ODD ( "12590b.bin", 0x000000, 0x10000, 0x75256e3d )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "12595.bin", 0x00000, 0x10000, 0x5b18d60b );
-/*TODO*///		ROM_LOAD( "12594.bin", 0x10000, 0x10000, 0x8bfc4815 );
-/*TODO*///		ROM_LOAD( "12593.bin", 0x20000, 0x10000, 0xcc0582d8 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x020000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "12596.bin", 0x000000, 0x010000, 0x4a4041f3 );
-/*TODO*///		ROM_LOAD( "12597.bin", 0x010000, 0x010000, 0x6961e676 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "12592.bin", 0x0000, 0x8000, 0x9a8c11bb );
-/*TODO*///	ROM_END(); }}; 
+    /**
+     * ************************************************************************
+     */
+    // sys16B
+    static RomLoadPtr rom_fpoint = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
+            ROM_LOAD_EVEN("12591b.bin", 0x000000, 0x10000, 0x248b3e1b);
+            ROM_LOAD_ODD("12590b.bin", 0x000000, 0x10000, 0x75256e3d);
+
+            ROM_REGION(0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE);/* tiles */
+            ROM_LOAD("12595.bin", 0x00000, 0x10000, 0x5b18d60b);
+            ROM_LOAD("12594.bin", 0x10000, 0x10000, 0x8bfc4815);
+            ROM_LOAD("12593.bin", 0x20000, 0x10000, 0xcc0582d8);
+
+            ROM_REGION(0x020000 * 2, REGION_GFX2);/* sprites */
+            ROM_LOAD("12596.bin", 0x000000, 0x010000, 0x4a4041f3);
+            ROM_LOAD("12597.bin", 0x010000, 0x010000, 0x6961e676);
+
+            ROM_REGION(0x10000, REGION_CPU2);/* sound CPU */
+            ROM_LOAD("12592.bin", 0x0000, 0x8000, 0x9a8c11bb);
+            ROM_END();
+        }
+    };
     static RomLoadPtr rom_fpointbl = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
@@ -3952,163 +3967,258 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    /*TODO*///	
-/*TODO*///	public static ReadHandlerPtr fp_io_service_dummy_r = new ReadHandlerPtr() { public int handler(int offset){
-/*TODO*///		int data = input_port_2_r( 0 ) & 0xff;
-/*TODO*///		return (data << 8) + data;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress fpoint_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x01ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x02002e, 0x020049, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0x601002, 0x601003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x601004, 0x601005, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0x601000, 0x601001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0x600000, 0x600001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0x600002, 0x600003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x44302a, 0x44304d, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
-/*TODO*///		new MemoryReadAddress( 0xfe003e, 0xfe003f, fp_io_service_dummy_r ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress fpoint_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x01ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void fpoint_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr fpoint_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00};
-/*TODO*///	
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///	
-/*TODO*///		patch_code( 0x454, 0x33 );
-/*TODO*///		patch_code( 0x455, 0xf8 );
-/*TODO*///		patch_code( 0x456, 0xe0 );
-/*TODO*///		patch_code( 0x457, 0xe2 );
-/*TODO*///		patch_code( 0x8ce8, 0x16 );
-/*TODO*///		patch_code( 0x8ce9, 0x66 );
-/*TODO*///		patch_code( 0x17687, 0x00 );
-/*TODO*///		patch_code( 0x7bed, 0x04 );
-/*TODO*///	
-/*TODO*///		patch_code( 0x7ea8, 0x61 );
-/*TODO*///		patch_code( 0x7ea9, 0x00 );
-/*TODO*///		patch_code( 0x7eaa, 0x84 );
-/*TODO*///		patch_code( 0x7eab, 0x16 );
-/*TODO*///		patch_code( 0x2c0, 0xe7 );
-/*TODO*///		patch_code( 0x2c1, 0x48 );
-/*TODO*///		patch_code( 0x2c2, 0xe7 );
-/*TODO*///		patch_code( 0x2c3, 0x49 );
-/*TODO*///		patch_code( 0x2c4, 0x04 );
-/*TODO*///		patch_code( 0x2c5, 0x40 );
-/*TODO*///		patch_code( 0x2c6, 0x00 );
-/*TODO*///		patch_code( 0x2c7, 0x10 );
-/*TODO*///		patch_code( 0x2c8, 0x4e );
-/*TODO*///		patch_code( 0x2c9, 0x75 );
-/*TODO*///	
-/*TODO*///		sys16_update_proc = fpoint_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_fpoint = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 1,0x020000 );
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_fpointbl = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///	
-/*TODO*///		/* invert the graphics bits on the tiles */
-/*TODO*///		for (i = 0; i < 0x30000; i++)
-/*TODO*///			memory_region(REGION_GFX1)[i] ^= 0xff;
-/*TODO*///	
-/*TODO*///		sys16_sprite_decode( 1,0x020000 );
-/*TODO*///	} };
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_fpoint = new InputPortPtr(){ public void handler() { 
-/*TODO*///	PORT_START(); 
-/*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON2 );
-/*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON3 );
-/*TODO*///		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON1 );
-/*TODO*///		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
-/*TODO*///		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
-/*TODO*///		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
-/*TODO*///		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
-/*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
-/*TODO*///	
-/*TODO*///	PORT_START(); 
-/*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_UNKNOWN );
-/*TODO*///		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
-/*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
-/*TODO*///	
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x04, 0x04, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x30, 0x30, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0x20, "Easy" );
-/*TODO*///		PORT_DIPSETTING(    0x30, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "Hard" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hardest" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, "Clear round allowed" );/* Use button 3 */
-/*TODO*///		PORT_DIPSETTING(    0x00, "1" );
-/*TODO*///		PORT_DIPSETTING(    0x40, "2" );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unknown") );
-/*TODO*///		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///	
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	MACHINE_DRIVER( machine_driver_fpoint, \
-/*TODO*///		fpoint_readmem,fpoint_writemem,fpoint_init_machine, gfx1)
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
+
+    public static ReadHandlerPtr fp_io_service_dummy_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            int data = input_port_2_r.handler(0) & 0xff;
+            return (data << 8) + data;
+        }
+    };
+
+    static MemoryReadAddress fpoint_readmem[]
+            = {
+                new MemoryReadAddress(0x000000, 0x01ffff, MRA_ROM),
+                new MemoryReadAddress(0x02002e, 0x020049, fp_io_service_dummy_r),
+                new MemoryReadAddress(0x601002, 0x601003, input_port_0_r),
+                new MemoryReadAddress(0x601004, 0x601005, input_port_1_r),
+                new MemoryReadAddress(0x601000, 0x601001, input_port_2_r),
+                new MemoryReadAddress(0x600000, 0x600001, input_port_3_r),
+                new MemoryReadAddress(0x600002, 0x600003, input_port_4_r),
+                new MemoryReadAddress(0x400000, 0x40ffff, sys16_tileram_r),
+                new MemoryReadAddress(0x410000, 0x410fff, sys16_textram_r),
+                new MemoryReadAddress(0x440000, 0x440fff, MRA_BANK2),
+                new MemoryReadAddress(0x44302a, 0x44304d, fp_io_service_dummy_r),
+                new MemoryReadAddress(0x840000, 0x840fff, paletteram_word_r),
+                new MemoryReadAddress(0xfe003e, 0xfe003f, fp_io_service_dummy_r),
+                new MemoryReadAddress(0xffc000, 0xffffff, MRA_BANK1),
+                new MemoryReadAddress(-1)
+            };
+
+    static MemoryWriteAddress fpoint_writemem[]
+            = {
+                new MemoryWriteAddress(0x000000, 0x01ffff, MWA_ROM),
+                new MemoryWriteAddress(0x600006, 0x600007, sound_command_w),
+                new MemoryWriteAddress(0x410000, 0x410fff, sys16_textram_w, sys16_textram),
+                new MemoryWriteAddress(0x400000, 0x40ffff, sys16_tileram_w, sys16_tileram),
+                new MemoryWriteAddress(0x440000, 0x440fff, MWA_BANK2, sys16_spriteram),
+                new MemoryWriteAddress(0x840000, 0x840fff, sys16_paletteram_w, paletteram),
+                new MemoryWriteAddress(0xffc000, 0xffffff, MWA_BANK1, sys16_workingram),
+                new MemoryWriteAddress(-1)
+            };
+    /**
+     * ************************************************************************
+     */
+    public static sys16_update_procPtr fpoint_update_proc = new sys16_update_procPtr() {
+        public void handler() {
+            sys16_fg_scrollx = sys16_textram.READ_WORD(0x0e98);
+            sys16_bg_scrollx = sys16_textram.READ_WORD(0x0e9a);
+            sys16_fg_scrolly = sys16_textram.READ_WORD(0x0e90);
+            sys16_bg_scrolly = sys16_textram.READ_WORD(0x0e92);
+
+            set_fg_page(sys16_textram.READ_WORD(0x0e80));
+            set_bg_page(sys16_textram.READ_WORD(0x0e82));
+        }
+    };
+
+    public static InitMachinePtr fpoint_init_machine = new InitMachinePtr() {
+        public void handler() {
+            int[] bank = {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00};
+
+            sys16_obj_bank = bank;
+
+            patch_code.handler(0x454, 0x33);
+            patch_code.handler(0x455, 0xf8);
+            patch_code.handler(0x456, 0xe0);
+            patch_code.handler(0x457, 0xe2);
+            patch_code.handler(0x8ce8, 0x16);
+            patch_code.handler(0x8ce9, 0x66);
+            patch_code.handler(0x17687, 0x00);
+            patch_code.handler(0x7bed, 0x04);
+
+            patch_code.handler(0x7ea8, 0x61);
+            patch_code.handler(0x7ea9, 0x00);
+            patch_code.handler(0x7eaa, 0x84);
+            patch_code.handler(0x7eab, 0x16);
+            patch_code.handler(0x2c0, 0xe7);
+            patch_code.handler(0x2c1, 0x48);
+            patch_code.handler(0x2c2, 0xe7);
+            patch_code.handler(0x2c3, 0x49);
+            patch_code.handler(0x2c4, 0x04);
+            patch_code.handler(0x2c5, 0x40);
+            patch_code.handler(0x2c6, 0x00);
+            patch_code.handler(0x2c7, 0x10);
+            patch_code.handler(0x2c8, 0x4e);
+            patch_code.handler(0x2c9, 0x75);
+
+            sys16_update_proc = fpoint_update_proc;
+        }
+    };
+
+    public static InitDriverPtr init_fpoint = new InitDriverPtr() {
+        public void handler() {
+            sys16_onetime_init_machine.handler();
+            sys16_sprite_decode(1, 0x020000);
+        }
+    };
+
+    public static InitDriverPtr init_fpointbl = new InitDriverPtr() {
+        public void handler() {
+            int i;
+
+            sys16_onetime_init_machine.handler();
+
+            /* invert the graphics bits on the tiles */
+            for (i = 0; i < 0x30000; i++) {
+                memory_region(REGION_GFX1).write(i, memory_region(REGION_GFX1).read(i) ^ 0xff);
+            }
+
+            sys16_sprite_decode(1, 0x020000);
+        }
+    };
+    /**
+     * ************************************************************************
+     */
+
+    static InputPortPtr input_ports_fpoint = new InputPortPtr() {
+        public void handler() {
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON2);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON3);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON1);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
+
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
+
+            PORT_START();
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
+            PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
+            PORT_BITX(0x04, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR("Service_Mode"), KEYCODE_F2, IP_JOY_NONE);
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_START2);
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+
+            PORT_START();
+            PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
+            PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x08, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x09, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x05, "2 Coins/1 Credit 5/3 6/4");
+            PORT_DIPSETTING(0x04, "2 Coins/1 Credit 4/3");
+            PORT_DIPSETTING(0x0f, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x01, "1 Coin/1 Credit 2/3");
+            PORT_DIPSETTING(0x02, "1 Coin/1 Credit 4/5");
+            PORT_DIPSETTING(0x03, "1 Coin/1 Credit 5/6");
+            PORT_DIPSETTING(0x06, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0x0e, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0x0d, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0x0c, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0x0b, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0x0a, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x00, "Free Play (if Coin B too) or 1/1");
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coin_B"));
+            PORT_DIPSETTING(0x70, DEF_STR("4C_1C"));
+            PORT_DIPSETTING(0x80, DEF_STR("3C_1C"));
+            PORT_DIPSETTING(0x90, DEF_STR("2C_1C"));
+            PORT_DIPSETTING(0x50, "2 Coins/1 Credit 5/3 6/4");
+            PORT_DIPSETTING(0x40, "2 Coins/1 Credit 4/3");
+            PORT_DIPSETTING(0xf0, DEF_STR("1C_1C"));
+            PORT_DIPSETTING(0x10, "1 Coin/1 Credit 2/3");
+            PORT_DIPSETTING(0x20, "1 Coin/1 Credit 4/5");
+            PORT_DIPSETTING(0x30, "1 Coin/1 Credit 5/6");
+            PORT_DIPSETTING(0x60, DEF_STR("2C_3C"));
+            PORT_DIPSETTING(0xe0, DEF_STR("1C_2C"));
+            PORT_DIPSETTING(0xd0, DEF_STR("1C_3C"));
+            PORT_DIPSETTING(0xc0, DEF_STR("1C_4C"));
+            PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
+            PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
+            PORT_DIPSETTING(0x00, "Free Play (if Coin A too) or 1/1");
+
+            PORT_START();
+            /* DSW1 */
+            PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x01, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x02, 0x00, DEF_STR("Demo_Sounds"));
+            PORT_DIPSETTING(0x02, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x04, 0x04, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x04, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x08, 0x08, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x08, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x30, 0x30, DEF_STR("Difficulty"));
+            PORT_DIPSETTING(0x20, "Easy");
+            PORT_DIPSETTING(0x30, "Normal");
+            PORT_DIPSETTING(0x10, "Hard");
+            PORT_DIPSETTING(0x00, "Hardest");
+            PORT_DIPNAME(0x40, 0x40, "Clear round allowed");/* Use button 3 */
+            PORT_DIPSETTING(0x00, "1");
+            PORT_DIPSETTING(0x40, "2");
+            PORT_DIPNAME(0x80, 0x80, DEF_STR("Unknown"));
+            PORT_DIPSETTING(0x80, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+
+            INPUT_PORTS_END();
+        }
+    };
+
+    /**
+     * ************************************************************************
+     */
+    	static MachineDriver machine_driver_fpoint = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				fpoint_readmem,fpoint_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem,sound_writemem,sound_readport,sound_writeport, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		fpoint_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx1, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			) 
+		} 
+	);
+    /**
+     * ************************************************************************
+     */
     // sys16B
     static RomLoadPtr rom_goldnaxe = new RomLoadPtr() {
         public void handler() {
@@ -12216,8 +12326,8 @@ public class system16 {
 /*TODO*///	public static GameDriver driver_eswatbl	   = new GameDriver("1989"	,"eswatbl"	,"system16.java"	,rom_eswatbl,driver_eswat	,machine_driver_eswat	,input_ports_eswat	,init_eswat	,ROT0	,	"bootleg", "E-Swat (bootleg)")
 /*TODO*///	public static GameDriver driver_fantzone	   = new GameDriver("1986"	,"fantzone"	,"system16.java"	,rom_fantzone,null	,machine_driver_fantzone	,input_ports_fantzone	,init_fantzone	,ROT0	,	"Sega",    "Fantasy Zone (Japan New Ver.)")
 /*TODO*///	public static GameDriver driver_fantzono	   = new GameDriver("1986"	,"fantzono"	,"system16.java"	,rom_fantzono,driver_fantzone	,machine_driver_fantzono	,input_ports_fantzone	,init_fantzone	,ROT0	,	"Sega",    "Fantasy Zone (Old Ver.)")
-/*TODO*///	GAMEX(1989, fpoint,   null,        fpoint,   fpoint,   fpoint,   ROT0,         "Sega",    "Flash Point", GAME_NOT_WORKING)
-/*TODO*///	public static GameDriver driver_fpointbl	   = new GameDriver("1989"	,"fpointbl"	,"system16.java"	,rom_fpointbl,driver_fpoint	,machine_driver_fpoint	,input_ports_fpoint	,init_fpointbl	,ROT0	,	"bootleg", "Flash Point (bootleg)")
+    public static GameDriver driver_fpoint = new GameDriver("1989", "fpoint", "system16.java", rom_fpoint, null, machine_driver_fpoint, input_ports_fpoint, init_fpoint, ROT0, "Sega", "Flash Point", GAME_NOT_WORKING);
+    public static GameDriver driver_fpointbl = new GameDriver("1989", "fpointbl", "system16.java", rom_fpointbl, driver_fpoint, machine_driver_fpoint, input_ports_fpoint, init_fpointbl, ROT0, "bootleg", "Flash Point (bootleg)");
     public static GameDriver driver_goldnaxe = new GameDriver("1989", "goldnaxe", "system16.java", rom_goldnaxe, null, machine_driver_goldnaxe, input_ports_goldnaxe, init_goldnaxe, ROT0, "Sega", "Golden Axe (Version 1)");
     /*TODO*///	GAMEX(1989, goldnaxj, goldnaxe, goldnaxe, goldnaxe, goldnaxe, ROT0,         "Sega",    "Golden Axe (Version 1, Japan)", GAME_NOT_WORKING)
 /*TODO*///	GAMEX(1989, goldnabl, goldnaxe, goldnaxe, goldnaxe, goldnabl, ROT0,         "bootleg", "Golden Axe (bootleg)", GAME_NOT_WORKING)
