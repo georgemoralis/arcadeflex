@@ -1998,7 +1998,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
                 /*TODO*/ //	DRIVER( bayroute )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( bodyslam )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( dduxbl )	/* (c) 1989 (Datsu bootleg) */
+                driver_dduxbl,	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( dumpmtmt )	/* (c) 1986 (Japan) */
                 /*TODO*/ //	DRIVER( endurob2 )	/* (c) 1985 (Beta bootleg) */
                 /*TODO*/ //	DRIVER( endurobl )	/* (c) 1985 (Herb bootleg) */
