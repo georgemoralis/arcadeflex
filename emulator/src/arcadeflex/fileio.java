@@ -34,7 +34,7 @@ public class fileio {
 /*TODO*/ //    int samplepathc = 0;
 
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
- /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
+    /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
     /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
     /*TODO*/ //     char *alternate_name;				   /* for "-romdir" */
     public static final int kPlainFile = 1;
@@ -55,16 +55,16 @@ public class fileio {
         public int type;
         public int crc;
     }
-    /*TODO*/ //     typedef struct
- /*TODO*/ //     {
- /*TODO*/ //             FILE *file;
-  /*TODO*/ //            unsigned char *data;
-  /*TODO*/ //            unsigned int offset;
-  /*TODO*/ //            unsigned int length;
-  /*TODO*/ //            eFileType type;
-  /*TODO*/ //            unsigned int crc;
-  /*TODO*/ //    }	FakeFileHandle;
 
+    /*TODO*/ //     typedef struct
+    /*TODO*/ //     {
+    /*TODO*/ //             FILE *file;
+    /*TODO*/ //            unsigned char *data;
+    /*TODO*/ //            unsigned int offset;
+    /*TODO*/ //            unsigned int length;
+    /*TODO*/ //            eFileType type;
+    /*TODO*/ //            unsigned int crc;
+    /*TODO*/ //    }	FakeFileHandle;
     public static Object osd_fopen(String game, String filename, int filetype, int _write) {
         //System.out.println("entering osd_fopen for "+game+" "+filename);
         String name = "";
@@ -83,10 +83,10 @@ public class fileio {
         gamename = game;
 
         /* Support "-romdir" yuck. */
-        /*TODO*///	if( alternate_name )
+ /*TODO*///	if( alternate_name )
 /*TODO*///	{
 /*TODO*///		LOG((errorlog, "osd_fopen: -romdir overrides '%s' by '%s'\n", gamename, alternate_name));
- /*TODO*///       gamename = alternate_name;
+        /*TODO*///       gamename = alternate_name;
 /*TODO*///	}
         switch (filetype) {
             case OSD_FILETYPE_ROM:
@@ -100,16 +100,16 @@ public class fileio {
 
                 if (filetype == OSD_FILETYPE_SAMPLE) {
                     /*TODO*///                        LOG((errorlog, "osd_fopen: using samplepath\n"));
- /*TODO*///                        pathc = samplepathc;
-  /*TODO*///                       pathv = samplepathv;
+                    /*TODO*///                        pathc = samplepathc;
+                    /*TODO*///                       pathv = samplepathv;
                     pathc = 1;
                     pathv = new String[1];
                     pathv[0] = "samples";
                 } else {
                     /*TODO*///                       LOG((errorlog, "osd_fopen: using rompath\n"));
-  /*TODO*///                       pathc = rompathc;
-  /*TODO*///                       pathv = rompathv;
-  /*TEMPHACK*/ //just added manually roms directory since else we need to implement conf class (in future)                      
+                    /*TODO*///                       pathc = rompathc;
+                    /*TODO*///                       pathv = rompathv;
+                    /*TEMPHACK*/ //just added manually roms directory since else we need to implement conf class (in future)                      
                     pathc = 1;
                     pathv = new String[1];
                     pathv[0] = "roms";
@@ -122,7 +122,9 @@ public class fileio {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
                         //java code to emulate stat command (shadow)
-                        osdepend.dlprogress.setFileName("loading file: "+name);
+                        if (MainStream.inst == null) {
+                            osdepend.dlprogress.setFileName("loading file: " + name);
+                        }
                         //case where file exists in rom folder
                         if (new File(name).isDirectory() && new File(name).exists()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                         {
@@ -265,14 +267,16 @@ public class fileio {
                                 //}
                             } else {
                                 System.out.println(filename + " does not seem to exist in the zip file");
-                                osdepend.dlprogress.setFileName(filename + " does not seem to exist in the zip file");
+                                if (MainStream.inst == null) {
+                                    osdepend.dlprogress.setFileName(filename + " does not seem to exist in the zip file");
+                                }
                             }
                         }
                     }
 
                     /*TODO*///                           if( !found )
 /*TODO*///                            {
- /*TODO*///                                   /* try with a .zip extension */
+                    /*TODO*///                                   /* try with a .zip extension */
 /*TODO*///                                    sprintf (name, "%s/%s.zip", dir_name, gamename);
 /*TODO*///                                    LOG((errorlog, "Trying %s file\n", name));
 /*TODO*///                    if( cache_stat (name, &stat_buffer) == 0 )
@@ -301,24 +305,24 @@ public class fileio {
                 break;
 
             /*TODO*///           case OSD_FILETYPE_HIGHSCORE:
- /*TODO*///                   if( mame_highscore_enabled () )
- /*TODO*///                   {
- /*TODO*///                           if( !found )
- /*TODO*///                           {
- /*TODO*///                                   sprintf (name, "%s/%s.hi", hidir, gamename);
- /*TODO*///                                   f->type = kPlainFile;
- /*TODO*///                                   f->file = fopen (name, _write ? "wb" : "rb");
- /*TODO*///                                   found = f->file != 0;
- /*TODO*///                           }                      
- /*TODO*///                   }
- /*TODO*///                   break;
+            /*TODO*///                   if( mame_highscore_enabled () )
+            /*TODO*///                   {
+            /*TODO*///                           if( !found )
+            /*TODO*///                           {
+            /*TODO*///                                   sprintf (name, "%s/%s.hi", hidir, gamename);
+            /*TODO*///                                   f->type = kPlainFile;
+            /*TODO*///                                   f->file = fopen (name, _write ? "wb" : "rb");
+            /*TODO*///                                   found = f->file != 0;
+            /*TODO*///                           }                      
+            /*TODO*///                   }
+            /*TODO*///                   break;
 
             /*TODO*///       case OSD_FILETYPE_CONFIG:
- /*TODO*///                   sprintf (name, "%s/%s.cfg", cfgdir, gamename);
- /*TODO*///                   f->type = kPlainFile;
- /*TODO*///                   f->file = fopen (name, _write ? "wb" : "rb");
- /*TODO*///                   found = f->file != 0;
- /*TODO*///                   break;
+            /*TODO*///                   sprintf (name, "%s/%s.cfg", cfgdir, gamename);
+            /*TODO*///                   f->type = kPlainFile;
+            /*TODO*///                   f->file = fopen (name, _write ? "wb" : "rb");
+            /*TODO*///                   found = f->file != 0;
+            /*TODO*///                   break;
 
             /*TODO*///            case OSD_FILETYPE_INPUTLOG:
 /*TODO*///                    sprintf (name, "%s/%s.inp", inpdir, gamename);
@@ -366,8 +370,8 @@ public class fileio {
 /*TODO*///                    break;
 
             /*TODO*///            case OSD_FILETYPE_ARTWORK:
-                    /* only for reading */
-            /*TODO*///                    if( _write )
+            /* only for reading */
+ /*TODO*///                    if( _write )
 /*TODO*///                    {
 /*TODO*///                            LOG((errorlog, "osd_fopen: OSD_FILETYPE_ARTWORK write not supported\n"));
 /*TODO*///                break;
@@ -376,11 +380,11 @@ public class fileio {
 /*TODO*///                    f->type = kPlainFile;
 /*TODO*///                    f->file = fopen (name, _write ? "wb" : "rb");
 /*TODO*///                    found = f->file != 0;
- /*TODO*///                   if( !found )
+            /*TODO*///                   if( !found )
 /*TODO*///                    {
 /*TODO*///                            char file[256], *extension;
- /*TODO*///                           sprintf(file, "%s", filename);
- /*TODO*///               sprintf(name, "%s/%s", artworkdir, filename);
+            /*TODO*///                           sprintf(file, "%s", filename);
+            /*TODO*///               sprintf(name, "%s/%s", artworkdir, filename);
 /*TODO*///                extension = strrchr(name, '.');
 /*TODO*///                            if( extension )
 /*TODO*///                                    strcpy (extension, ".zip");
@@ -392,11 +396,11 @@ public class fileio {
 /*TODO*///                                    if( load_zipped_file (name, file, &f->data, &f->length) == 0 )
 /*TODO*///                                    {
 /*TODO*///                                            LOG((errorlog, "Using (osd_fopen) zip file %s\n", name));
- /*TODO*///                                           f->type = kZippedFile;
- /*TODO*///                                           f->offset = 0;
+            /*TODO*///                                           f->type = kZippedFile;
+            /*TODO*///                                           f->offset = 0;
 /*TODO*///                                            found = 1;
 /*TODO*///                                    }
- /*TODO*///                           }
+            /*TODO*///                           }
 /*TODO*///                            if( !found )
 /*TODO*///                            {
 /*TODO*///                                    sprintf(name, "%s/%s.zip", artworkdir, game);
@@ -423,8 +427,8 @@ public class fileio {
 /*TODO*///                    break;
 
             /*TODO*///            case OSD_FILETYPE_SCREENSHOT:
-                    /* only for writing */
-            /*TODO*///                    if( !_write )
+            /* only for writing */
+ /*TODO*///                    if( !_write )
 /*TODO*///                    {
 /*TODO*///                            LOG((errorlog, "osd_fopen: OSD_FILETYPE_SCREENSHOT read not supported\n"));
 /*TODO*///                            break;
@@ -469,6 +473,7 @@ public class fileio {
 
         return 0;
     }
+
     public static int osd_fread_lsbfirst(Object file, char[] buffer, int length) {
         return osd_fread(file, buffer, 0, length);
     }
@@ -481,9 +486,11 @@ public class fileio {
         }
         return r;
     }
+
     public static int osd_fread(Object file, char[] buffer, int length) {
         return osd_fread(file, buffer, 0, length);
     }
+
     public static int osd_fread(Object file, byte[] buffer, int length) {
         char[] buf = new char[length];
         int r = osd_fread(file, buf, 0, length);
@@ -497,77 +504,81 @@ public class fileio {
         osd_fread(file, buffer.memory, buffer.base, length);
         return 0;
     }
+
     public static int osd_fread(Object file, UBytePtr buffer, int length) {
         osd_fread(file, buffer.memory, buffer.offset, length);
         return 0;
     }
-    public static int osd_fread(Object file, UBytePtr buffer,int offset, int length) {
-        osd_fread(file, buffer.memory, buffer.offset+offset, length);
+
+    public static int osd_fread(Object file, UBytePtr buffer, int offset, int length) {
+        osd_fread(file, buffer.memory, buffer.offset + offset, length);
         return 0;
     }
-    public static int osd_fread_scatter(Object file,CharPtr buffer,int length, int increment)
-    {
+
+    public static int osd_fread_scatter(Object file, CharPtr buffer, int length, int increment) {
         //unsigned char *buf = buffer;
-	FakeFileHandle f = (FakeFileHandle) file;
-	char[] tempbuf=new char[4096];
-	int totread, r, i;
-        int buf=0;
-	switch( f.type )
-	{
-	case kPlainFile:
-		totread = 0;
-		while (length!=0)
-		{
-			r = length;
-			if( r > 4096 )
-				r = 4096;
-			r = fread (tempbuf,buffer.base,1, r, f.file);
-			if( r == 0 )
-				return totread;		   /* error */
-			for( i = 0; i < r; i++ )
-			{
-				buffer.write(buf,tempbuf[i]);
-				buf += increment;
-			}
-			totread += r;
-			length -= r;
-		}
-		return totread;
-		//break;
-	case kZippedFile:
-	case kRAMFile:
-		/* reading from the RAM image of a file */
-		if( f.data!=null )
-		{
-			if( length + f.offset > f.length )
-				length = f.length - f.offset;
-			for( i = 0; i < length; i++ )
-			{
-				buffer.write(buf,f.data[f.offset + i]);
-				buf += increment;
-			}
-			f.offset += length;
-			return length;
-		}
-		break;
-	}
+        FakeFileHandle f = (FakeFileHandle) file;
+        char[] tempbuf = new char[4096];
+        int totread, r, i;
+        int buf = 0;
+        switch (f.type) {
+            case kPlainFile:
+                totread = 0;
+                while (length != 0) {
+                    r = length;
+                    if (r > 4096) {
+                        r = 4096;
+                    }
+                    r = fread(tempbuf, buffer.base, 1, r, f.file);
+                    if (r == 0) {
+                        return totread;
+                        /* error */
+                    }
+                    for (i = 0; i < r; i++) {
+                        buffer.write(buf, tempbuf[i]);
+                        buf += increment;
+                    }
+                    totread += r;
+                    length -= r;
+                }
+                return totread;
+            //break;
+            case kZippedFile:
+            case kRAMFile:
+                /* reading from the RAM image of a file */
+                if (f.data != null) {
+                    if (length + f.offset > f.length) {
+                        length = f.length - f.offset;
+                    }
+                    for (i = 0; i < length; i++) {
+                        buffer.write(buf, f.data[f.offset + i]);
+                        buf += increment;
+                    }
+                    f.offset += length;
+                    return length;
+                }
+                break;
+        }
 
-	return 0;
+        return 0;
     }
-    /* JB 980920 update */
 
+    /* JB 980920 update */
     public static int osd_fwrite(Object file, CharPtr buffer, int length) {
         osd_fwrite(file, buffer.memory, buffer.base, length);
         return 0;
     }
+
     public static int osd_fwrite(Object file, UBytePtr buffer, int length) {
         osd_fwrite(file, buffer.memory, buffer.offset, length);
         return 0;
     }
-    public static int osd_fwrite(Object file, UBytePtr buffer,int offset, int length) {
-        osd_fwrite(file, buffer.memory, buffer.offset+offset, length);
+
+    public static int osd_fwrite(Object file, UBytePtr buffer, int offset, int length) {
+        osd_fwrite(file, buffer.memory, buffer.offset + offset, length);
         return 0;
     }
+
     public static void osd_fwrite(Object file, char[] buffer, int offset, int length) {
         FakeFileHandle f = (FakeFileHandle) file;
 
@@ -594,7 +605,7 @@ public class fileio {
                 } else {
                     throw new UnsupportedOperationException("FSEEK other than SEEK_SET NOT SUPPORTED.");
                 }
-                //break;
+            //break;
             case kZippedFile:
             case kRAMFile:
                 /* seeking within the RAM image of a file */
@@ -690,7 +701,7 @@ public class fileio {
          return -1;
 
          /* determine length of file */
-        /*     if( fseek (f, 0L, SEEK_END) != 0 )
+ /*     if( fseek (f, 0L, SEEK_END) != 0 )
          {
          fclose (f);
          return -1;
@@ -704,7 +715,7 @@ public class fileio {
          }
 
          /* allocate space for entire file */
-        /*    data = (unsigned char *) malloc (length);
+ /*    data = (unsigned char *) malloc (length);
          if( !data )
          {
          fclose (f);
@@ -712,7 +723,7 @@ public class fileio {
          }
 
          /* read entire file into memory */
-        /*     if( fseek (f, 0L, SEEK_SET) != 0 )
+ /*     if( fseek (f, 0L, SEEK_SET) != 0 )
          {
          free (data);
          fclose (f);
@@ -795,7 +806,7 @@ public class fileio {
          return -1;
 
          /* determine length of file */
-        /*     if( fseek (f, 0L, SEEK_END) != 0 )
+ /*     if( fseek (f, 0L, SEEK_END) != 0 )
          {
          fclose (f);
          return -1;
@@ -809,7 +820,7 @@ public class fileio {
          }
 
          /* allocate space for entire file */
-        /*    data = (unsigned char *) malloc (length);
+ /*    data = (unsigned char *) malloc (length);
          if( !data )
          {
          fclose (f);
@@ -817,7 +828,7 @@ public class fileio {
          }
 
          /* read entire file into memory */
-        /*     if( fseek (f, 0L, SEEK_SET) != 0 )
+ /*     if( fseek (f, 0L, SEEK_SET) != 0 )
          {
          free (data);
          fclose (f);
@@ -900,7 +911,7 @@ public class fileio {
          return -1;
 
          /* determine length of file */
-        /*     if( fseek (f, 0L, SEEK_END) != 0 )
+ /*     if( fseek (f, 0L, SEEK_END) != 0 )
          {
          fclose (f);
          return -1;
@@ -914,7 +925,7 @@ public class fileio {
          }
 
          /* allocate space for entire file */
-        /*    data = (unsigned char *) malloc (length);
+ /*    data = (unsigned char *) malloc (length);
          if( !data )
          {
          fclose (f);
@@ -922,7 +933,7 @@ public class fileio {
          }
 
          /* read entire file into memory */
-        /*     if( fseek (f, 0L, SEEK_SET) != 0 )
+ /*     if( fseek (f, 0L, SEEK_SET) != 0 )
          {
          free (data);
          fclose (f);
@@ -974,10 +985,10 @@ public class fileio {
 
         return f.crc;
     }
-    /* called while loading ROMs. It is called a last time with name == 0 to signal */
-    /* that the ROM loading process is finished. */
-    /* return non-zero to abort loading */
 
+    /* called while loading ROMs. It is called a last time with name == 0 to signal */
+ /* that the ROM loading process is finished. */
+ /* return non-zero to abort loading */
     public static int osd_display_loading_rom_message(String name, int current, int total) {
         if (name != null) {
             System.out.print("loading " + name + "\r");
@@ -994,8 +1005,8 @@ public class fileio {
     public static void unZipIt(String zipFile, String outputFolder, String filename) {
         if (!new File(zipFile).exists()) {
             System.out.println("unzip failed");
-        } else {
-            //System.out.println("entered unzip");
+        } else //System.out.println("entered unzip");
+        {
             if (new File(outputFolder + File.separator + filename).exists()) {
                 //System.out.println("(file already there)");
             } else {
@@ -1050,7 +1061,6 @@ public class fileio {
                     ex.printStackTrace();
                 }
             }
-
         }
 
     }
@@ -1080,7 +1090,7 @@ public class fileio {
                     if (fileName.equalsIgnoreCase(filename)) {
                         //System.out.println("extracting!!!!!!!");
                         out = new File(System.getProperty("java.io.tmpdir") + "tmp");
-                            //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                        //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
                         //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
 
                         //create all non exists folders
@@ -1132,7 +1142,7 @@ public class fileio {
                     String fileName = ze.getName();
                     //System.out.println("[zip] fileName: "+fileName+" while filename:"+filename+" and output folder is: "+outputFolder);
                     if (fileName.equalsIgnoreCase(filename)) {
-                            //System.out.println("extracting!!!!!!!");
+                        //System.out.println("extracting!!!!!!!");
                         //out = new File(System.getProperty("java.io.tmpdir")+"tmp");
                         //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
                         //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
@@ -1170,26 +1180,23 @@ public class fileio {
         byte[] out = null;
         //fetching if not already fetched
         byte[] zipbytes = null;
-        if(zipOnlineCacheName1.equals(zipFileURL)){
+        if (zipOnlineCacheName1.equals(zipFileURL)) {
             zipbytes = zipOnlineCacheData1;
-        } else  if(zipOnlineCacheName2.equals(zipFileURL)){
+        } else if (zipOnlineCacheName2.equals(zipFileURL)) {
             zipbytes = zipOnlineCacheData2;
+        } else if (zipOnlineCacheName1.isEmpty()) {
+            zipbytes = FetchOnlineFile(zipFileURL);
+            zipOnlineCacheData1 = zipbytes;
+            zipOnlineCacheName1 = zipFileURL;
+        } else if (zipOnlineCacheName2.isEmpty()) {
+            zipbytes = FetchOnlineFile(zipFileURL);
+            zipOnlineCacheData2 = zipbytes;
+            zipOnlineCacheName2 = zipFileURL;
         } else {
-            if(zipOnlineCacheName1.isEmpty()){
-                zipbytes = FetchOnlineFile(zipFileURL);
-                zipOnlineCacheData1 = zipbytes;
-                zipOnlineCacheName1 = zipFileURL;
-            }else if(zipOnlineCacheName2.isEmpty()){
-                zipbytes = FetchOnlineFile(zipFileURL);
-                zipOnlineCacheData2 = zipbytes;
-                zipOnlineCacheName2 = zipFileURL;
-            }else{
-                System.out.println("Both caches missed! weird!");
-                zipbytes = FetchOnlineFile(zipFileURL);
-            }
+            System.out.println("Both caches missed! weird!");
+            zipbytes = FetchOnlineFile(zipFileURL);
         }
-        
-        
+
         //System.out.println("entered unzipit2 for "+filename);
         byte[] buffer = new byte[1024];
         try {
@@ -1287,7 +1294,7 @@ public class fileio {
                     if (fileName.equalsIgnoreCase(filename)) {
                         //System.out.println("extracting!!!!!!!");
                         outb = new ByteArrayOutputStream();
-                            //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
+                        //System.out.println(System.getProperty("java.io.tmpdir")+"tmp");
                         //System.out.println("file unzip : " + newFile.getAbsoluteFile() + " ");
 
                         //create all non exists folders

@@ -7,7 +7,6 @@ package arcadeflex;
 import static arcadeflex.libc_old.ConvertArguments;
 import static arcadeflex.libc_old.argc;
 import static arcadeflex.libc_old.argv;
-import java.applet.Applet;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
@@ -28,13 +27,15 @@ import static mame.mame.Machine;
  *
  * @author nickblame
  */
-public class MainApplet extends Applet implements Runnable, ImageProducer, KeyListener, MouseListener, MouseMotionListener {
+public class MainStream implements ImageProducer, KeyListener, MouseListener, MouseMotionListener {
 
+    public static boolean debug = false;
     /**
      * Initialization method that will be called after the applet is loaded into
      * the browser.
      */
-    public static MainApplet inst;
+    public static MainStream inst;
+    private Thread arcadeflexMasterThread;
     /* Data. */
     boolean _scanlines;
     int _width;
@@ -47,23 +48,29 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
     public boolean[] key = new boolean[1024];
     public int readkey = 0;
     Image _image;
-    public Thread _thread;
     ImageConsumer _consumer;
     DirectColorModel _model;
     private int i = 0, j = 0;
     private int x = 0, y = 0;
     private ScreenshotUploader suploader = null;
+
+    public static void setDebug(boolean debug) {
+        MainStream.debug = debug;
+    }
+
     //BufferStrategy _strategy;
     //public static debug d;
 
-    public void init() {
+    public void startEmulation(String param1) {
+        System.out.println("starting arcadeflex emulation");
+        
+
         //d = new debug(this);
         //d.setVisible(true);
         //d.log("test");
         inst = this;
-
-        String param1 = getParameter("PARAM1");
-
+        //setSize(false, 320, 240);
+        //String param1 = getParameter("PARAM1");
         // TODO start asynchronous download of heavy resources
         String[] args = new String[1];
         if (param1 != null) {
@@ -75,33 +82,36 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         ConvertArguments("arcadeflex", args);
         args = null;
         Runnable r = new Runnable() {
+            @Override
             public void run() {
-                System.exit(osdepend.main(argc, argv));
+                //System.exit(osdepend.main(argc, argv));
+                osdepend.main(argc, argv);
+
             }
         };
 
-        new Thread(r).start();
+        arcadeflexMasterThread = new Thread(r);
+        arcadeflexMasterThread.start();
 
+        /* Setup color model. */
+        this._model = new DirectColorModel(32, 0x00FF0000, 0x000FF00, 0x000000FF, 0);
+        /* Create image using default toolkit. */
+        this._image = Toolkit.getDefaultToolkit().createImage(this);
     }
 
-    @Override
-    public void start() {
-        /* Check if thread exists. */
-        if (_thread != null) {
-            return;
+    public void stopEmulation() {
+        System.out.println("kill arcadeflex!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        if (debug) {
+            if (video.screen != null) {
+                video.screen.dispose();
+            }
         }
-
-        /* Create and start thread. */
-        _thread = new Thread(this);
-        _thread.start();
+        osdepend.osd_exit();
+        arcadeflexMasterThread.stop();
     }
 
-    public void getFocus() {
-        requestFocus();
-        requestFocusInWindow();
-    }
-
-    public BufferedImage screenshot() {
+    public synchronized BufferedImage screenshot() {
         BufferedImage image = new BufferedImage(
                 getWidth() - this._insets.left - this._insets.right,
                 getHeight() - this._insets.top - this._insets.bottom,
@@ -184,37 +194,15 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         //int j = getHeight() - this._insets.top - this._insets.bottom;
         updateOffsets();
         /* Draw image to graphics context. */
-        Graphics2D localGraphics2D = (Graphics2D) this.getGraphics();
-        if (_thread != null) {
-            localGraphics2D.drawImage(this._image, this._insets.left + x, this._insets.top + y, i, j, null);
-            /*
-             if (Machine.gamedrv.name.equals("airwolf") || Machine.gamedrv.name.equals("flashgal") || Machine.gamedrv.name.equals("skywolf") || Machine.gamedrv.name.equals("skywolf2")) {//temp hack for airwolf and flashgal
-             //localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i + (int) (i * 0.78), j, null);
-             } else if (Machine.gamedrv.source_file.equals("system1.java")) {//.name.equals("wboy")
-             if(Machine.gamedrv.name.equals("starjack")|| Machine.gamedrv.name.equals("starjacs") || Machine.gamedrv.name.equals("regulus") || Machine.gamedrv.name.equals("regulusu") || Machine.gamedrv.name.equals("upndown") || Machine.gamedrv.name.equals("mrviking")|| Machine.gamedrv.name.equals("mrvikinj")|| Machine.gamedrv.name.equals("swat"))
-             {
-             localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i+ (int) (i * 0.15), j, null);
-             }
-             else
-             {
-             localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j + (int) (j * 0.14), null);
-             }       
-             } else {
-             localGraphics2D.drawImage(this._image, this._insets.left, this._insets.top, i, j, null);
-             }
-             */
-        }
-        //this._strategy.show();
-        Toolkit.getDefaultToolkit().sync();
-    }
+        BufferedImage image = new BufferedImage(
+                getWidth() - this._insets.left - this._insets.right,
+                getHeight() - this._insets.top - this._insets.bottom,
+                BufferedImage.TYPE_INT_RGB
+        );
 
-    // TODO overwrite start(), stop() and destroy() methods
-    public void stretch() {
-        setSize(getWidth(), getHeight());
-        //d.log("widht="+getWidth()+"height="+getHeight());
-        //int x=getWidth();
-        //int y=getHeight();
-        //setSize(x+10,y+100);
+        Graphics2D localGraphics2D = (Graphics2D) image.getGraphics();
+        localGraphics2D.drawImage(this._image, this._insets.left + x, this._insets.top + y, i, j, null);
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public synchronized void setSize(boolean scanlines, int width, int height) {
@@ -231,58 +219,13 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
         _height = height;
         _pixels = new int[width * height];
         /* Setup frame dimensions. */
-        _insets = getInsets();
-        // super.setSize(width+ this._insets.left + this._insets.right, height + this._insets.top + this._insets.bottom);
-        //hacked width height x2
-        //super.setSize(width * 2 + this._insets.left + this._insets.right, height * 2 + this._insets.top + this._insets.bottom);
-        //hacked stretch to html size for applet mode
-        stretch();
-
-        //image.createBufferStrategy(2);//double buffering
-        //this._strategy = super.getBufferStrategy();
-    }
-
-    public void stop() {
-        /* Destroy thread. */
-        _thread = null;
+        _insets = new Insets(0, 0, 0, 0);
     }
 
     public synchronized void reinit() {
         /* Recreate image using default toolkit. */
         _image = Toolkit.getDefaultToolkit().createImage(this);
         _consumer = null;
-    }
-
-    public void resizeVideo() {
-        int i = getWidth() - this._insets.left - this._insets.right;
-        int j = getHeight() - this._insets.top - this._insets.bottom;
-
-        if ((j < this._height) || (i < this._width)) {
-            i = this._width;
-            j = this._height;
-        }
-        if ((j != this.oldHeight) || (i != this.oldWidth)) {
-            //keep aspect ratio
-            if (Math.abs(this.oldHeight - j) >= Math.abs(this.oldWidth - i)) {
-                this.oldHeight = j;
-                this.oldWidth = (int) (this.ratio * j);
-            } else {
-                this.oldWidth = i;
-                this.oldHeight = (int) (i / this.ratio);
-            }
-        }
-        setSize(this.oldWidth + this._insets.left + this._insets.right, this.oldHeight + this._insets.top + this._insets.bottom);
-    }
-
-    @Override
-    public void run() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        //repaint();
-
-        /* Setup color model. */
-        this._model = new DirectColorModel(32, 0x00FF0000, 0x000FF00, 0x000000FF, 0);
-        /* Create image using default toolkit. */
-        this._image = Toolkit.getDefaultToolkit().createImage(this);
     }
 
     @Override
@@ -378,5 +321,13 @@ public class MainApplet extends Applet implements Runnable, ImageProducer, KeyLi
     @Override
     public void mouseMoved(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private int getWidth() {
+        return _width;
+    }
+
+    private int getHeight() {
+        return _height;
     }
 }

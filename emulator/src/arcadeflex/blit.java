@@ -1,49 +1,37 @@
-
 package arcadeflex;
+
 import static arcadeflex.video.*;
 
 public class blit {
 
     public static int[] palette = new int[256];
     public static char[] back_buffer;
-    public static void set_color(int index,RGB entry)
-    {
-        int rgb =  entry.r<<16 | entry.g<<8 | entry.b;
-        palette[index]=rgb;
+
+    public static void set_color(int index, RGB entry) {
+        int rgb = entry.r << 16 | entry.g << 8 | entry.b;
+        palette[index] = rgb;
     }
-    
-        static void blitscreen_dirty1_vga()
-        {
-            int w, h;
-           
-           /* while (true)
+
+    static void blitscreen_dirty1_vga() {
+        int w, h;
+
+        /* while (true)
             {*/
-                for (int i = 0; i < scrbitmap.height; i++)
-                {
-                    System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].offset, back_buffer, i * scrbitmap.width, scrbitmap.width);
-                }
+        for (int i = 0; i < scrbitmap.height; i++) {
+            System.arraycopy(scrbitmap.line[i].memory, scrbitmap.line[i].offset, back_buffer, i * scrbitmap.width, scrbitmap.width);
+        }
 
-                {
-                    int sbi = scrbitmap.line[skiplines].offset + skipcolumns;
-                    sbi = 0;
-                    //w = drv.screen_width;// gfx_display_columns;
-                    //h = drv.screen_height;// gfx_display_lines;
-                    //w =  gfx_display_columns;
-                    //h =  gfx_display_lines;
+        {
+            int sbi = scrbitmap.line[skiplines].offset + skipcolumns;
+            sbi = 0;
+            //w = drv.screen_width;// gfx_display_columns;
+            //h = drv.screen_height;// gfx_display_lines;
+            //w =  gfx_display_columns;
+            //h =  gfx_display_lines;
 
-                    w = scrbitmap.width;
-                    h = scrbitmap.height;
-            if (MainApplet.inst == null) {
-                for (int y = 0; y < h; y++) {
-
-                        for (int x = 0; x < w; x++)
-                        {
-                            //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
-                            screen._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
-                        }
-                    }
-                    screen.blit();
-            }else{
+            w = scrbitmap.width;
+            h = scrbitmap.height;
+            if (MainApplet.inst != null) {
                 for (int y = 0; y < h; y++) {
 
                     for (int x = 0; x < w; x++) {
@@ -51,12 +39,32 @@ public class blit {
                         MainApplet.inst._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
                     }
                 }
-                MainApplet.inst.blit();                
+                MainApplet.inst.blit();
+
+            } else if (MainStream.inst != null) {
+                for (int y = 0; y < h; y++) {
+
+                    for (int x = 0; x < w; x++) {
+                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
+                        MainStream.inst._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
+                    }
+                }
+                MainStream.inst.blit();
+
+            } else {
+                for (int y = 0; y < h; y++) {
+
+                    for (int x = 0; x < w; x++) {
+                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
+                        screen._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
+                    }
+                }
+                screen.blit();
             }
 
-                //}
-            }
+            //}
         }
+    }
 
     /*TODO*////* from video.c (required for 15.75KHz Arcade Monitor Modes) */
     /*TODO*///extern int half_yres;
@@ -81,7 +89,7 @@ public class blit {
     /*TODO*///unsigned int doublepixel[256];
     /*TODO*///unsigned int quadpixel[256]; /* for quadring pixels */
     /*TODO*///
-    public static /*UINT32* */ char[] palette_16bit_lookup; 
+    public static /*UINT32* */ char[] palette_16bit_lookup;
     /*TODO*///
     /*TODO*///
     /*TODO*////* current 'page' for unchained modes */
