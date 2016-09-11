@@ -30,6 +30,7 @@ import static mame.mame.Machine;
 public class MainStream implements ImageProducer, KeyListener, MouseListener, MouseMotionListener {
 
     public static boolean debug = false;
+    public static boolean paused = false;
     /**
      * Initialization method that will be called after the applet is loaded into
      * the browser.
@@ -60,10 +61,12 @@ public class MainStream implements ImageProducer, KeyListener, MouseListener, Mo
 
     //BufferStrategy _strategy;
     //public static debug d;
+    public void setEmulationPaused(boolean what) {
+        paused = what;
+    }
 
     public void startEmulation(String param1) {
         System.out.println("starting arcadeflex emulation");
-        
 
         //d = new debug(this);
         //d.setVisible(true);
