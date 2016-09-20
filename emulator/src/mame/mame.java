@@ -20,6 +20,7 @@ package mame;
  *
  * @author george
  */
+import arcadeflex.MainStream;
 import static arcadeflex.ptrlib.*;
 import static mame.mameH.*;
 import static mame.driverH.*;
@@ -405,7 +406,10 @@ public class mame {
 
     public static int updatescreen() {
         /* update sound */
-        sound_update();
+        if(MainStream.inst==null){ //disable sound in MainStream case for now..
+            sound_update();
+        }
+        
 
          if (osd_skip_this_frame() == 0)
          {

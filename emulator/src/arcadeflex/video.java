@@ -1417,9 +1417,6 @@ public class video {
         /*TODO*///
         warming_up = 1;
 
-        /*part of the old arcadeflex emulator probably need refactoring */
-        Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
-
         //kill loading window
         if (MainApplet.inst != null) {
             //kill loading window
@@ -1446,7 +1443,8 @@ public class video {
                 //screen.setSize((scanlines==1),width,height);//this???
                 screen.setSize((scanlines == 0), width, height);
                 screen.setBackground(Color.black);
-
+                /*part of the old arcadeflex emulator probably need refactoring */
+                Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
                 screen.setLocation((int) ((localDimension.getWidth() - screen.getWidth()) / 2.0D), (int) ((localDimension.getHeight() - screen.getHeight()) / 2.0D));
                 screen.setVisible(true);
 
@@ -1466,6 +1464,8 @@ public class video {
                 screen.setFocusTraversalKeysEnabled(false);
             }
         } else {
+            /*part of the old arcadeflex emulator probably need refactoring */
+            Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
             //kill loading window
             osdepend.dlprogress.setVisible(false);
 

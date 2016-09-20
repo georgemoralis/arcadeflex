@@ -3409,7 +3409,8 @@ public class usrintrf {
  
     		if (single_step == 0)
     		{
-    			osd_sound_enable(0);
+                        //disable sound in MainStream case for now..
+    			//osd_sound_enable(0);
     			osd_pause(1);
     		}
                     while (arcadeflex.MainStream.paused)
@@ -3469,7 +3470,8 @@ public class usrintrf {
     		{
     			single_step = 0;
     			osd_pause(0);
-    			osd_sound_enable(1);
+                        //disable sound in MainStream case for now..
+    			//osd_sound_enable(1);
     		}
     	}
         if (single_step!=0 || input_ui_pressed(IPT_UI_PAUSE)!=0) /* pause the game */

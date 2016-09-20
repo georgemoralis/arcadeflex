@@ -1,5 +1,6 @@
 package sound;
 
+import arcadeflex.MainStream;
 import static arcadeflex.libc_old.fprintf;
 import static arcadeflex.libc_old.sprintf;
 import arcadeflex.libc_v2.*;
@@ -107,7 +108,12 @@ public class mixer {
         }
         samples_this_frame = osd_start_audio_stream(is_stereo?1:0);
 
-        mixer_sound_enabled = 1;
+        int sound_enabled = 1;
+        //disable sound in MainStream case for now..
+        if(MainStream.inst != null){
+            sound_enabled = 0;
+        }
+        mixer_sound_enabled = sound_enabled;
 
         return 0;
     }
