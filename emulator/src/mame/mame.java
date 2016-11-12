@@ -479,7 +479,10 @@ public class mame {
     				{
     					/* if there is no saved config, it must be first time we run this game, */
     					/* so show the disclaimer. */
-    					if (showcopyright()!=0) return userquit_goto();
+    					if(MainStream.inst == null){
+                                            if (showcopyright()!=0) return userquit_goto();
+                                        }
+                                        
     				}
     
     				if (showgamewarnings() == 0)  /* show info about incorrect behaviour (wrong colors etc.) */

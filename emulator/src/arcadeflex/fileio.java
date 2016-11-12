@@ -11,12 +11,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
-import java.util.zip.Checksum;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import static mame.osdependH.*;
@@ -32,7 +30,8 @@ public class fileio {
     /*TODO*/ //    char *samples = NULL;
 /*TODO*/ //    char **samplepathv = NULL;
 /*TODO*/ //    int samplepathc = 0;
-
+    //public static final String romUrl = "http://www.arcadeflex.com/roms/";
+    public static final String romUrl = "http://www.jnodes.net/roms/";
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
     /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
     /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
@@ -197,9 +196,9 @@ public class fileio {
                                 System.out.println(filename + " does not seem to exist in the zip file");
                             }
 
-                        } else if (URLexistsWithCache("http://www.arcadeflex.com/roms/" + gamename + ".zip")) {// url loading here, the last resort of finding the rom. *todo.
+                        } else if (URLexistsWithCache(romUrl + gamename + ".zip")) {// url loading here, the last resort of finding the rom. *todo.
                             System.out.println("loading " + filename + " from zip online");
-                            byte[] bytes = unZipItOnlineWithCache("http://www.arcadeflex.com/roms/" + gamename + ".zip", filename);
+                            byte[] bytes = unZipItOnlineWithCache(romUrl + gamename + ".zip", filename);
                             if (bytes != null) {
                                 name = sprintf("%s/%s/%s", dir_name, gamename, filename);
                                 //System.out.println(name);
@@ -232,9 +231,9 @@ public class fileio {
                                 System.out.println(filename + " does not seem to exist in the zip file online");
                                 //System.out.println("possibly it is in parent rom: "+Machine.gamedrv.clone_of.name);
                             }
-                        } else if (URLexists("http://www.arcadeflex.com/roms/" + gamename + "/" + filename)) {
+                        } else if (URLexists(romUrl + gamename + "/" + filename)) {
                             System.out.println("(loading file online)");
-                            byte[] bytes = FetchOnlineFile("http://www.arcadeflex.com/roms/" + gamename + "/" + filename);
+                            byte[] bytes = FetchOnlineFile(romUrl + gamename + "/" + filename);
                             if (bytes != null) {
                                 name = sprintf("%s/%s/%s", dir_name, gamename, filename);
                                 //System.out.println(name);
