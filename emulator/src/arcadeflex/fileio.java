@@ -1259,7 +1259,9 @@ public class fileio {
                 try {
                     is.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(fileio.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(fileio.class.getName()).log(Level.SEVERE, null, ex);
+                    //System.err.println("" + ex);
+                    ex.printStackTrace();
                 }
             }
         }

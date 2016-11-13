@@ -31,6 +31,12 @@ public class Main
      */
     public static void main(String[] args) 
     {
+        MediaFactory.INSTANCE = new MediaFactory() {
+            @Override
+            public IUrlDownloadProgress createUrlDownloadProgress() {
+                return new UrlDownloadProgress();
+            }
+        };
           ConvertArguments("arcadeflex", args);
           args = null;
           System.exit(osdepend.main(argc, argv));

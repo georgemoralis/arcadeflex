@@ -21,7 +21,7 @@ package arcadeflex;
  *
  * @author nickblame
  */
-public class UrlDownloadProgress extends javax.swing.JFrame {
+public class UrlDownloadProgress extends javax.swing.JFrame implements MediaFactory.IUrlDownloadProgress {
 
     /** Creates new form UrlDownloadProgress */
     public UrlDownloadProgress() {
@@ -85,7 +85,7 @@ public class UrlDownloadProgress extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new UrlDownloadProgress().setVisible(true);
+                MediaFactory.INSTANCE.createUrlDownloadProgress().setVisible(true);
             }
         });
     }

@@ -86,7 +86,7 @@ public class MainGUI extends javax.swing.JFrame {
         sorter = new TableRowSorter<TableModel>(romlist);
         romTable.setRowSorter(sorter);
         //populate rom list:
-        File folder = new File("roms/");
+        File folder = new File("roms/").getAbsoluteFile();
         if (folder.exists()) {
             File[] listOfFiles = folder.listFiles();
             for (int i = 0; i < listOfFiles.length; i++) {
