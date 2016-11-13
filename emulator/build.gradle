@@ -1,0 +1,15 @@
+apply plugin: "java"
+apply plugin: "application"
+
+mainClassName = "arcadeflex.Main"
+
+sourceSets {
+    main.java.srcDirs = ['src']
+    test.java.srcDirs = ['test']
+    main.resources.srcDirs = ['resources', 'testresources', 'src']
+    test.resources.srcDirs = ['testresources']
+}
+
+dependencies {
+    testCompile "junit:junit:4.12"
+}
