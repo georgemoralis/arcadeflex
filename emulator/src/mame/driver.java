@@ -2010,7 +2010,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( goldnaxa )	/* (c) 1989 */
                 driver_goldnaxe,	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( hangon )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( hwchamp )	/* (c) 1987 */
+                driver_hwchamp,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( moonwlkb )	/* bootleg */
                 /*TODO*/ //	DRIVER( outrun )	/* (c) 1986 (bootleg)*/
