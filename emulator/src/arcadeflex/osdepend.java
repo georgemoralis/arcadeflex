@@ -15,7 +15,7 @@ import static arcadeflex.ticker.*;
 public class osdepend {
 
     public static int ignorecfg;
-    public static MediaFactory.IUrlDownloadProgress dlprogress;
+    public static UrlDownloadProgress dlprogress;
 
     /* put here anything you need to do when the program is started. Return 0 if */
  /* initialization was successful, nonzero otherwise. */
@@ -72,7 +72,7 @@ public class osdepend {
     /*TODO*///
     public static int main(int argc, String[] argv) {
         if (MainStream.inst == null) {
-            dlprogress = MediaFactory.INSTANCE.createUrlDownloadProgress();
+            dlprogress = new UrlDownloadProgress();
             dlprogress.setVersion("arcadeflex version: " + settings.version);
             dlprogress.setVisible(true);
         }

@@ -691,8 +691,7 @@ public class libc_old {
         try {
             return file.bytes.length;
         } catch (Exception e) {
-            e.printStackTrace();
-            //Logger.getLogger(libc_old.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(libc_old.class.getName()).log(Level.SEVERE, null, e);
         }
         return 0;
     }

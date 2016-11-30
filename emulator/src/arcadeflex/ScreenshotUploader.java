@@ -160,8 +160,7 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                ex.printStackTrace();
-                //Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -177,15 +176,13 @@ public class ScreenshotUploader extends javax.swing.JFrame {
         try {
             user = URLEncoder.encode(jTextField1.getText(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
         }
         String pass = null;
         try {
             pass = URLEncoder.encode(jTextField2.getText(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
         }
         String uploadPath = Machine.gamedrv.name + "/" + filename;
 
@@ -226,8 +223,7 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                //Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
+                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -246,8 +242,7 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                //Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
+                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -272,17 +267,13 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            //java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            //java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            //java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            //java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

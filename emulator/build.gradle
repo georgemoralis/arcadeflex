@@ -1,21 +1,5 @@
 apply plugin: "java"
 apply plugin: "application"
-apply plugin: "jtransc"
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.jtransc:jtransc-gradle-plugin:$jtranscVersion"
-    }
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
 
 mainClassName = "arcadeflex.Main"
 
@@ -28,8 +12,4 @@ sourceSets {
 
 dependencies {
     testCompile "junit:junit:4.12"
-}
-
-jtransc {
-    mainClassName = "arcadeflex.MainJTransc"
 }

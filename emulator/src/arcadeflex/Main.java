@@ -19,23 +19,22 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package arcadeflex;
 
 import static arcadeflex.libc_old.*;
-
 /**
+ *
  * @author shadow
  */
-public class Main {
+public class Main
+{
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        MediaFactory.INSTANCE = new MediaFactory() {
-            @Override
-            public IUrlDownloadProgress createUrlDownloadProgress() {
-                return new UrlDownloadProgress();
-            }
-        };
-        ConvertArguments("arcadeflex", args);
-        args = null;
-        System.exit(osdepend.main(argc, argv));
+    public static void main(String[] args) 
+    {
+          ConvertArguments("arcadeflex", args);
+          args = null;
+          System.exit(osdepend.main(argc, argv));
+        
     }
+
 }
