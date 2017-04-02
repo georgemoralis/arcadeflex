@@ -1199,7 +1199,7 @@ public class system16
 					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx , (gfx &0x3ffff) + (sys16_obj_bank[bank] << 17));
 				}
 	
-				source.offset+=8;
+				source.offset+=8*2;
 				sprite_ptr++;
 			}
 			break;
