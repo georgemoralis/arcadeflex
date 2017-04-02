@@ -1939,7 +1939,7 @@ public class driver {
 
                 /* Sega System 16 games */
                 // Not working
-                /*TODO*/ //	DRIVER( alexkidd )	/* (c) 1986 (protected) */
+                driver_alexkidd,	/* (c) 1986 (protected) */
                 /*TODO*/ //	DRIVER( aliensya )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( aliensyb )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( aliensyj )	/* (c) 1987 (protected. Japan) */
@@ -1989,7 +1989,7 @@ public class driver {
                 /*TODO*/ //TESTDRIVER( toutruna )	/* (protected) */
 
                 // Working
-                /*TODO*/ //	DRIVER( alexkida )	/* (c) 1986 */
+                driver_alexkida,	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( aliensyn )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( altbeas2 )	/* (c) 1988 */
                 driver_altbeast,	/* (c) 1988 */

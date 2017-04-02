@@ -1867,7 +1867,7 @@ public class m6809 extends cpu_interface
     /*TODO*////* $1021 LBRN relative ----- */
     public void lbrn()
     {
-    /*TODO*///	IMMWORD(ea);
+    	ea=IMMWORD();
     }
     /* $22 BHI relative ----- */
     public void bhi()
@@ -4481,7 +4481,7 @@ public class m6809 extends cpu_interface
         m6809.pc = m6809.pc + 1 & 0xFFFF;
     	switch( ireg2 )
     	{
-    /*TODO*///		case 0x21: lbrn();		m6809_ICount[0]-=5;	break;
+    		case 0x21: lbrn();		m6809_ICount[0]-=5;	break;
     		case 0x22: lbhi();		m6809_ICount[0]-=5;	break;
     		case 0x23: lbls();		m6809_ICount[0]-=5;	break;
     		case 0x24: lbcc();		m6809_ICount[0]-=5;	break;

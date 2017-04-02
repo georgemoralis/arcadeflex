@@ -1113,96 +1113,96 @@ public class system16
 /*TODO*///					}
 /*TODO*///				}
 /*TODO*///				break;
-/*TODO*///			case 2: // Quartet2 /Alexkidd + others
-/*TODO*///			while( sprite<finish ){
-/*TODO*///				UINT16 ypos = source[0];
-/*TODO*///				int top = ypos&0xff;
-/*TODO*///				int bottom = ypos>>8;
-/*TODO*///	
-/*TODO*///				if( bottom == 0xff ){ /* end of spritelist marker */
-/*TODO*///					do {
-/*TODO*///						sprite.flags = 0;
-/*TODO*///						sprite++;
-/*TODO*///					} while( sprite<finish );
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if(bottom !=0 && bottom > top)
-/*TODO*///				{
-/*TODO*///					UINT16 spr_pri=(source[4])&0xf;
-/*TODO*///					UINT16 bank=(source[4]>>4) &0xf;
-/*TODO*///					UINT16 pal=(source[4]>>8)&0x3f;
-/*TODO*///					UINT16 tsource[4];
-/*TODO*///					UINT16 width;
-/*TODO*///					int gfx;
-/*TODO*///	
-/*TODO*///					tsource[2]=source[2];
-/*TODO*///					tsource[3]=source[3];
-/*TODO*///	
-/*TODO*///					if((tsource[3] & 0x7f80) == 0x7f80)
-/*TODO*///					{
-/*TODO*///						bank=(bank-1)&0xf;
-/*TODO*///						tsource[3]^=0x8000;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					tsource[2] &= 0x00ff;
-/*TODO*///					if (tsource[3]&0x8000)
-/*TODO*///					{ // reverse
-/*TODO*///						tsource[2] |= 0x0100;
-/*TODO*///						tsource[3] &= 0x7fff;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					gfx = tsource[3]*4;
-/*TODO*///					width = tsource[2];
-/*TODO*///					top++;
-/*TODO*///					bottom++;
-/*TODO*///	
-/*TODO*///					sprite.x = source[1] + sys16_sprxoffset;
-/*TODO*///					if(sprite.x > 0x140) sprite.x-=0x200;
-/*TODO*///					sprite.y = top;
-/*TODO*///					sprite.priority = 3 - spr_pri;
-/*TODO*///					sprite.pal_data = base_pal + (pal<<4);
-/*TODO*///	
-/*TODO*///					sprite.total_height = bottom-top;
-/*TODO*///					sprite.tile_height = sprite.total_height;
-/*TODO*///	
-/*TODO*///					sprite.line_offset = (width&0x7f)*4;
-/*TODO*///	
-/*TODO*///					sprite.flags = SPRITE_VISIBLE;
-/*TODO*///					if ((width & 0x100) != 0) sprite.flags |= SPRITE_FLIPX;
-/*TODO*///					if ((width & 0x080) != 0) sprite.flags |= SPRITE_FLIPY;
-/*TODO*///
-/*TODO*///					if (pal==0x3f)	// shadow sprite
-/*TODO*///						sprite.flags|= SPRITE_SHADOW;
-/*TODO*///
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						sprite.line_offset = 512-sprite.line_offset;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4 - sprite.line_offset*(sprite.tile_height+1);
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx -= sprite.line_offset*sprite.tile_height;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					else {
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx += sprite.line_offset;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.tile_width = sprite.line_offset;
-/*TODO*///					sprite.total_width = sprite.tile_width;
-/*TODO*///					sprite.pen_data = base_gfx + (gfx &0x3ffff) + (sys16_obj_bank[bank] << 17);
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				source+=8;
-/*TODO*///				sprite++;
-/*TODO*///			}
-/*TODO*///			break;
+			case 2: // Quartet2 /Alexkidd + others
+			while( sprite_ptr<finish ){
+				char ypos = source.read(0);
+				int top = ypos&0xff;
+				int bottom = ypos>>8;
+	
+				if( bottom == 0xff ){ /* end of spritelist marker */
+					do {
+						sprite[sprite_ptr].flags = 0;
+						sprite_ptr++;
+					} while( sprite_ptr<finish );
+					break;
+				}
+				sprite[sprite_ptr].flags = 0;
+	
+				if(bottom !=0 && bottom > top)
+				{
+					char spr_pri=(char)((source.read(4))&0xf);
+					char bank=(char)((source.read(4)>>4) &0xf);
+					char pal=(char)((source.read(4)>>8)&0x3f);
+					char[] tsource=new char[4];
+					char width;
+					int gfx;
+	
+					tsource[2]=source.read(2);
+					tsource[3]=source.read(3);
+	
+					if((tsource[3] & 0x7f80) == 0x7f80)
+					{
+						bank=(char)((bank-1)&0xf);
+						tsource[3]^=0x8000;
+					}
+	
+					tsource[2] &= 0x00ff;
+					if ((tsource[3]&0x8000)!=0)
+					{ // reverse
+						tsource[2] |= 0x0100;
+						tsource[3] &= 0x7fff;
+					}
+	
+					gfx = tsource[3]*4;
+					width = tsource[2];
+					top++;
+					bottom++;
+	
+					sprite[sprite_ptr].x = source.read(1) + sys16_sprxoffset;
+					if(sprite[sprite_ptr].x > 0x140) sprite[sprite_ptr].x-=0x200;
+					sprite[sprite_ptr].y = top;
+					sprite[sprite_ptr].priority = 3 - spr_pri;
+					sprite[sprite_ptr].pal_data = new CharPtr(base_pal , (pal<<4));
+	
+					sprite[sprite_ptr].total_height = bottom-top;
+					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height;
+	
+					sprite[sprite_ptr].line_offset = (width&0x7f)*4;
+	
+					sprite[sprite_ptr].flags = SPRITE_VISIBLE;
+					if ((width & 0x100) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+					if ((width & 0x080) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPY;
+
+					if (pal==0x3f)	// shadow sprite
+						sprite[sprite_ptr].flags|= SPRITE_SHADOW;
+
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0){
+						sprite[sprite_ptr].line_offset = 512-sprite[sprite_ptr].line_offset;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+							gfx += 4 - sprite[sprite_ptr].line_offset*(sprite[sprite_ptr].tile_height+1);
+						}
+						else {
+							gfx -= sprite[sprite_ptr].line_offset*sprite[sprite_ptr].tile_height;
+						}
+					}
+					else {
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+							gfx += 4;
+						}
+						else {
+							gfx += sprite[sprite_ptr].line_offset;
+						}
+					}
+	
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset;
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width;
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx , (gfx &0x3ffff) + (sys16_obj_bank[bank] << 17));
+				}
+	
+				source.offset+=8;
+				sprite_ptr++;
+			}
+			break;
 /*TODO*///			case 5: // Hang-On
 /*TODO*///			while( sprite<finish ){
 /*TODO*///				UINT16 ypos = source[0];
