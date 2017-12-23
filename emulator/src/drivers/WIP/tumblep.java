@@ -26,6 +26,7 @@ import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
+import static cpu.h6280.h6280.*;
 import static mame.common.*;
 import static mame.inputportH.*;
 import static arcadeflex.ptrlib.*;
@@ -38,6 +39,7 @@ import static machine.eeprom.*;
 import static mame.cpuintrfH.*;
 import static arcadeflex.libc_old.*;
 import static arcadeflex.fileio.*;
+import static cpu.h6280.h6280H.H6280_INT_IRQ1;
 import static sound.okim6295.*;
 import static sound.okim6295H.*;
 import static sound._2151intf.*;
@@ -71,7 +73,7 @@ public class tumblep {
     public static WriteHandlerPtr tumblep_sound_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             soundlatch_w.handler(0, data & 0xff);
-            /*TODO*///		cpu_cause_interrupt(1,H6280_INT_IRQ1);
+            		cpu_cause_interrupt(1,H6280_INT_IRQ1);
             if ((data & 0xff) == 1) {
                 cpu_spin(); /* Helper */
 
@@ -214,8 +216,8 @@ public class tumblep {
                 new MemoryWriteAddress(0x120000, 0x120001, OKIM6295_data_0_w),
                 new MemoryWriteAddress(0x130000, 0x130001, MWA_NOP),
                 new MemoryWriteAddress(0x1f0000, 0x1f1fff, MWA_BANK8),
-                /*TODO*///		new MemoryWriteAddress( 0x1fec00, 0x1fec01, H6280_timer_w ),
-                /*TODO*///		new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
+                new MemoryWriteAddress( 0x1fec00, 0x1fec01, H6280_timer_w ),
+                new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /**

@@ -11,6 +11,8 @@ import cpu.i8039.n7751;
 import cpu.m6809.m6809;
 import static cpu.m6809.m6809H.*;
 import cpu.m6502.m6502;
+import cpu.h6280.h6280;
+import static cpu.h6280.h6280H.*;
 import java.util.ArrayList;
 import static mame.cpuintrfH.*;
 import mame.cpuintrfH.*;
@@ -287,7 +289,7 @@ public class cpuintrf {
                 new Dummy_cpu(),/*TODO*///	CPU0(M6509,    m6509,	 1,  0,1.00,M6509_INT_NONE,    M6509_INT_IRQ,  M6509_INT_NMI,  20,	  0,20,LE,1, 3,20	),
                 new Dummy_cpu(),/*TODO*///	CPU0(M6510,    m6510,	 1,  0,1.00,M6510_INT_NONE,    M6510_INT_IRQ,  M6510_INT_NMI,  16,	  0,16,LE,1, 3,16	),
                 new n2a03(),
-                new Dummy_cpu(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
+                new h6280(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
                 new Dummy_cpu(),/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
                 new Dummy_cpu(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
                 new v30(),
@@ -1470,18 +1472,21 @@ public class cpuintrf {
                             fprintf(errorlog, "N2A03 IRQ\n");
                         }
                         break;
-                    /*TODO*///#endif
-                    /*TODO*///#if (HAS_H6280)
-                    /*TODO*///			case CPU_H6280:
-                    /*TODO*///				switch (num)
-                    /*TODO*///				{
-                    /*TODO*///				case H6280_INT_IRQ1:	irq_line = 0; LOG((errorlog,"H6280 INT 1\n")); break;
-                    /*TODO*///				case H6280_INT_IRQ2:	irq_line = 1; LOG((errorlog,"H6280 INT 2\n")); break;
-                    /*TODO*///				case H6280_INT_TIMER:	irq_line = 2; LOG((errorlog,"H6280 TIMER INT\n")); break;
-                    /*TODO*///				default:				irq_line = 0; LOG((errorlog,"H6280 unknown\n"));
-                    /*TODO*///				}
-                    /*TODO*///				break;
-                    /*TODO*///#endif
+                    case CPU_H6280:
+                        switch (num) {
+                            case H6280_INT_IRQ1:
+                                irq_line = 0;
+                                break;
+                            case H6280_INT_IRQ2:
+                                irq_line = 1;
+                                break;
+                            case H6280_INT_TIMER:
+                                irq_line = 2;
+                                break;
+                            default:
+                                irq_line = 0;
+                        }
+                        break;
                     /*TODO*///#if (HAS_I86)
                     /*TODO*///			case CPU_I86:				irq_line = 0; LOG((errorlog,"I86 IRQ\n")); break;
                     /*TODO*///#endif

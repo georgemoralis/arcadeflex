@@ -1150,6 +1150,33 @@ public class memory {
 
         return memoryreadhandler[hw.read()].handler(address - memoryreadoffset[hw.read()]);
     }
+    public static int cpu_readmem21(int address) {
+        UByte hw = new UByte();
+
+        /* first-level lookup */
+        hw.set(cur_mrhard[address >>> (ABITS2_21 + ABITS_MIN_21)]);
+
+        /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+        /* for banked memory reads/writes */
+        if (hw.read() == HT_RAM) {
+            return cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset + address];
+        }
+
+        /* second-level lookup */
+        if (hw.read() >= MH_HARDMAX) {
+            hw.set((char) (hw.read() - MH_HARDMAX));
+            hw.set(readhardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_21) & MHMASK(ABITS2_21))));
+
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+            /* for banked memory reads/writes */
+            if (hw.read() == HT_RAM) {
+                return cpu_bankbase[HT_RAM].read(address);
+            }
+        }
+        /* fall back to handler */
+
+        return memoryreadhandler[hw.read()].handler(address - memoryreadoffset[hw.read()]);
+    }
     public static int cpu_readmem24(int address)																	
 {																						
 	UByte hw = new UByte();																			
@@ -1488,6 +1515,32 @@ public class memory {
         if (hw.read() >= MH_HARDMAX) {
             hw.set((char) (hw.read() - MH_HARDMAX));
             hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+            /* for banked memory reads/writes */
+            if (hw.read() == HT_RAM) {
+                cpu_bankbase[HT_RAM].write(address, data);
+                return;
+            }
+        }
+
+        memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
+    }
+    public static void cpu_writemem21(int address, int data) {
+        /* first-level lookup */
+        UByte hw = new UByte();
+        hw.set(cur_mwhard[address >>> (ABITS2_21 + ABITS_MIN_21)]);
+
+        /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+        /* for banked memory reads/writes */
+        if (hw.read() == HT_RAM) {
+            cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset + address] = (char) data;
+            return;
+        }
+
+        /* second-level lookup */
+        if (hw.read() >= MH_HARDMAX) {
+            hw.set((char) (hw.read() - MH_HARDMAX));
+            hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_21) & MHMASK(ABITS2_21))));
             /* for compatibility with setbankhandler, 8-bit systems must call handlers */
             /* for banked memory reads/writes */
             if (hw.read() == HT_RAM) {
@@ -1934,6 +1987,38 @@ public class memory {
             if (hw.read() >= MH_HARDMAX) {
                 hw.set((char) (hw.read() - MH_HARDMAX));
                 hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+            }
+            ophw.set(hw.read());
+
+            /* RAM or banked memory */
+            if (hw.read() <= HT_BANKMAX) {
+                SET_OP_RAMROM(new UBytePtr(cpu_bankbase[hw.read()], (-memoryreadoffset[hw.read()])));
+                return;
+            }
+
+            /* do not support on callback memory region */
+            printf("CPU #%d PC %04x: warning - op-code execute on mapped i/o\n", cpu_getactivecpu(), cpu_get_pc());
+        }
+    };
+    public static setopbase cpu_setOPbase21 = new setopbase() {
+        public void handler(int pc, int shift) {
+            UByte hw = new UByte();
+
+            pc = (int) (pc >>> shift);
+
+            /* allow overrides */
+            if (OPbasefunc != null) {
+                pc = (int) OPbasefunc.handler((int) pc);
+                if (pc == -1) {
+                    return;
+                }
+            }
+
+            /* perform the lookup */
+            hw.set(cur_mrhard[pc >>> (ABITS2_21 + ABITS_MIN_21)]);
+            if (hw.read() >= MH_HARDMAX) {
+                hw.set((char) (hw.read() - MH_HARDMAX));
+                hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_21) & MHMASK(ABITS2_21))));
             }
             ophw.set(hw.read());
 

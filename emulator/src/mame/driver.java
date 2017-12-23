@@ -2094,7 +2094,7 @@ public class driver {
                 /*TODO*/ //TESTDRIVER( edrandyj )	/* MAD (c) 1990 Data East Corporation (Japan) */
                 /*TODO*/ //	DRIVER( supbtime )	/* MAE (c) 1990 Data East Corporation (Japan) */
                 /* Mutant Fighter/Death Brade MAF (c) 1991 */
-                /*TODO*/ //	DRIVER( cninja )	/* MAG (c) 1991 Data East Corporation (World) */
+                driver_cninja,	/* MAG (c) 1991 Data East Corporation (World) */
                 /*TODO*/ //	DRIVER( cninja0 )	/* MAG (c) 1991 Data East Corporation (World) */
                 /*TODO*/ //	DRIVER( cninjau )	/* MAG (c) 1991 Data East Corporation (US) */
                 /*TODO*/ //	DRIVER( joemac )	/* MAG (c) 1991 Data East Corporation (Japan) */
