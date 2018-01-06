@@ -7,6 +7,7 @@ import static cpu.h6280.h6280H.H6280_INT_NMI;
 import static cpu.h6280.h6280H.H6280_INT_NONE;
 import static cpu.h6280.h6280H.H6280_IRQ1_VEC;
 import static cpu.h6280.h6280H.H6280_IRQ2_VEC;
+import static cpu.h6280.h6280H.H6280_NMI_VEC;
 import static cpu.h6280.h6280H.H6280_RESET_VEC;
 import static cpu.h6280.h6280H.H6280_TIMER_VEC;
 import static mame.memory.cpu_readmem21;
@@ -16,7 +17,11 @@ import static mame.driverH.CPU_H6280;
 import static mame.memoryH.*;
 //import static arcadeflex.osdepend.logerror;
 import static mame.cpuintrf.cpu_get_pc;
-import mame.driverH.WriteHandlerPtr;
+import static mame.driverH.*;
+import static mame.memory.cpu_readmem21;
+import static mame.memory.cpu_setOPbase21;
+import static mame.memory.cpu_writemem21;
+import static mame.memory.cpu_writeport;
 
 public class h6280 extends cpu_interface {
 
@@ -76,19 +81,19 @@ public class h6280 extends cpu_interface {
         }
 
         public void SetD(int val) {
-            D = val;
+            D = val & 0xFFFF;
             H = D >> 8 & 0xFF;
             L = D & 0xFF;
         }
 
         public void AddH(int val) {
             H = (H + val) & 0xFF;
-            D = (H << 8) | L;
+            D = ((H << 8) | L)&0xFFFF;
         }
 
         public void AddL(int val) {
             L = (L + val) & 0xFF;
-            D = (H << 8) | L;
+            D = ((H << 8) | L)&0xFFFF;
         }
 
         public void AddD(int val) {
@@ -234,23 +239,81 @@ public class h6280 extends cpu_interface {
 
     @Override
     public Object get_context() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        h6280_Regs regs = new h6280_Regs();
+        regs.ppc.SetD(h6280.ppc.D);
+        regs.pc.SetD(h6280.pc.D);
+        regs.sp.SetD(h6280.sp.D);
+        regs.zp.SetD(h6280.zp.D);
+        regs.ea.SetD(h6280.ea.D);
+        regs.u8_a = h6280.u8_a;
+        regs.u8_x = h6280.u8_x;
+        regs.u8_y = h6280.u8_y;
+        regs.u8_p = h6280.u8_p;
+        regs.u8_mmr[0] = h6280.u8_mmr[0];
+        regs.u8_mmr[1] = h6280.u8_mmr[1];
+        regs.u8_mmr[2] = h6280.u8_mmr[2];
+        regs.u8_mmr[3] = h6280.u8_mmr[3];
+        regs.u8_mmr[4] = h6280.u8_mmr[4];
+        regs.u8_mmr[5] = h6280.u8_mmr[5];
+        regs.u8_mmr[6] = h6280.u8_mmr[6];
+        regs.u8_mmr[7] = h6280.u8_mmr[7];
+        regs.u8_irq_mask = h6280.u8_irq_mask;
+        regs.u8_timer_status = h6280.u8_timer_status;
+        regs.u8_timer_ack = h6280.u8_timer_ack;
+        regs.timer_value = h6280.timer_value;
+        regs.timer_load = h6280.timer_load;
+        regs.extra_cycles = h6280.extra_cycles;
+        regs.nmi_state = h6280.nmi_state;
+        regs.irq_state[0] = h6280.irq_state[0];
+        regs.irq_state[1] = h6280.irq_state[1];
+        regs.irq_state[2] = h6280.irq_state[2];
+        regs.irq_callback = h6280.irq_callback;
+        return regs;
     }
 
     @Override
     public void set_context(Object reg) {
+        h6280_Regs regs = (h6280_Regs) reg;
+        h6280.ppc.SetD(regs.ppc.D);
+        h6280.pc.SetD(regs.pc.D);
+        h6280.sp.SetD(regs.sp.D);
+        h6280.zp.SetD(regs.zp.D);
+        h6280.ea.SetD(regs.ea.D);
+        h6280.u8_a = regs.u8_a;
+        h6280.u8_x = regs.u8_x;
+        h6280.u8_y = regs.u8_y;
+        h6280.u8_p = regs.u8_p;
+        h6280.u8_mmr[0] = regs.u8_mmr[0];
+        h6280.u8_mmr[1] = regs.u8_mmr[1];
+        h6280.u8_mmr[2] = regs.u8_mmr[2];
+        h6280.u8_mmr[3] = regs.u8_mmr[3];
+        h6280.u8_mmr[4] = regs.u8_mmr[4];
+        h6280.u8_mmr[5] = regs.u8_mmr[5];
+        h6280.u8_mmr[6] = regs.u8_mmr[6];
+        h6280.u8_mmr[7] = regs.u8_mmr[7];
+        h6280.u8_irq_mask = regs.u8_irq_mask;
+        h6280.u8_timer_status = regs.u8_timer_status;
+        h6280.u8_timer_ack = regs.u8_timer_ack;
+        h6280.timer_value = regs.timer_value;
+        h6280.timer_load = regs.timer_load;
+        h6280.extra_cycles = regs.extra_cycles;
+        h6280.nmi_state = regs.nmi_state;
+        h6280.irq_state[0] = regs.irq_state[0];
+        h6280.irq_state[1] = regs.irq_state[1];
+        h6280.irq_state[2] = regs.irq_state[2];
+        h6280.irq_callback = regs.irq_callback;
+    }
+
+/*    @Override
+    public int[] get_cycle_table(int which) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /*TODO*///    @Override
-/*TODO*///     public int[] get_cycle_table(int which) {
-/*TODO*///         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-/*TODO*///     }
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
 
-    /*TODO*///     @Override
-/*TODO*///     public void set_cycle_table(int which, int[] new_table) {
-/*TODO*///         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-/*TODO*///     }
     @Override
     public int get_pc() {
         return h6280.pc.D & 0xFFFF;
@@ -282,8 +345,14 @@ public class h6280 extends cpu_interface {
     }
 
     @Override
-    public void set_nmi_line(int linestate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void set_nmi_line(int state) {
+        if (h6280.nmi_state == state) {
+            return;
+        }
+        h6280.nmi_state = state;
+        if (state != CLEAR_LINE) {
+            DO_INTERRUPT(H6280_NMI_VEC);
+        }
     }
 
     @Override
@@ -394,8 +463,7 @@ public class h6280 extends cpu_interface {
 
     @Override
     public void set_op_base(int pc) {
-        /*TODO*///         cpu_setOPbase21.handler(pc);
-        cpu_setOPbase21.handler(pc, 0); //old 0.36 one
+        cpu_setOPbase21.handler(pc,0);
     }
 
     /*TODO*///unsigned h6280_get_context (void *dst)
@@ -442,16 +510,6 @@ public class h6280 extends cpu_interface {
 /*TODO*///		case H6280_IRQ1_STATE: return h6280.irq_state[0];
 /*TODO*///		case H6280_IRQ2_STATE: return h6280.irq_state[1];
 /*TODO*///		case H6280_IRQT_STATE: return h6280.irq_state[2];
-/*TODO*///#ifdef MAME_DEBUG
-/*TODO*///		case H6280_M1: return h6280.mmr[0];
-/*TODO*///		case H6280_M2: return h6280.mmr[1];
-/*TODO*///		case H6280_M3: return h6280.mmr[2];
-/*TODO*///		case H6280_M4: return h6280.mmr[3];
-/*TODO*///		case H6280_M5: return h6280.mmr[4];
-/*TODO*///		case H6280_M6: return h6280.mmr[5];
-/*TODO*///		case H6280_M7: return h6280.mmr[6];
-/*TODO*///		case H6280_M8: return h6280.mmr[7];
-/*TODO*///#endif
 /*TODO*///		case REG_PREVIOUSPC: return h6280.ppc.d;
 /*TODO*///		default:
 /*TODO*///			if( regnum <= REG_SP_CONTENTS )
@@ -480,16 +538,6 @@ public class h6280 extends cpu_interface {
 /*TODO*///		case H6280_IRQ1_STATE: h6280_set_irq_line( 0, val ); break;
 /*TODO*///		case H6280_IRQ2_STATE: h6280_set_irq_line( 1, val ); break;
 /*TODO*///		case H6280_IRQT_STATE: h6280_set_irq_line( 2, val ); break;
-/*TODO*///#ifdef MAME_DEBUG
-/*TODO*///		case H6280_M1: h6280.mmr[0] = val; break;
-/*TODO*///		case H6280_M2: h6280.mmr[1] = val; break;
-/*TODO*///		case H6280_M3: h6280.mmr[2] = val; break;
-/*TODO*///		case H6280_M4: h6280.mmr[3] = val; break;
-/*TODO*///		case H6280_M5: h6280.mmr[4] = val; break;
-/*TODO*///		case H6280_M6: h6280.mmr[5] = val; break;
-/*TODO*///		case H6280_M7: h6280.mmr[6] = val; break;
-/*TODO*///		case H6280_M8: h6280.mmr[7] = val; break;
-/*TODO*///#endif
 /*TODO*///		default:
 /*TODO*///			if( regnum <= REG_SP_CONTENTS )
 /*TODO*///			{
@@ -502,41 +550,39 @@ public class h6280 extends cpu_interface {
 /*TODO*///			}
 /*TODO*///    }
 /*TODO*///}
-/*TODO*///
-/*TODO*////*****************************************************************************/
-/*TODO*///
-/*TODO*///void h6280_set_nmi_line(int state)
-/*TODO*///{
-/*TODO*///	if (h6280.nmi_state == state) return;
-/*TODO*///	h6280.nmi_state = state;
-/*TODO*///	if (state != CLEAR_LINE)
-/*TODO*///    {
-/*TODO*///		DO_INTERRUPT(H6280_NMI_VEC);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////*****************************************************************************/
-/*TODO*///
-/*TODO*///READ_HANDLER( H6280_irq_status_r )
-/*TODO*///{
-/*TODO*///	int status;
-/*TODO*///
-/*TODO*///	switch (offset)
-/*TODO*///	{
-/*TODO*///		case 0: /* Read irq mask */
-/*TODO*///			return h6280.irq_mask;
-/*TODO*///
-/*TODO*///		case 1: /* Read irq status */
-/*TODO*///			status=0;
-/*TODO*///			if(h6280.irq_state[1]!=CLEAR_LINE) status|=1; /* IRQ 2 */
-/*TODO*///			if(h6280.irq_state[0]!=CLEAR_LINE) status|=2; /* IRQ 1 */
-/*TODO*///			if(h6280.irq_state[2]!=CLEAR_LINE) status|=4; /* TIMER */
-/*TODO*///			return status;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+    /**
+     * **************************************************************************
+     */
+    public static ReadHandlerPtr H6280_irq_status_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            int status;
+
+            switch (offset) {
+                case 0:
+                    /* Read irq mask */
+                    return h6280.u8_irq_mask;
+
+                case 1:
+                    /* Read irq status */
+                    status = 0;
+                    if (h6280.irq_state[1] != CLEAR_LINE) {
+                        status |= 1;
+                        /* IRQ 2 */
+                    }
+                    if (h6280.irq_state[0] != CLEAR_LINE) {
+                        status |= 2;
+                        /* IRQ 1 */
+                    }
+                    if (h6280.irq_state[2] != CLEAR_LINE) {
+                        status |= 4;
+                        /* TIMER */
+                    }
+                    return status;
+            }
+
+            return 0;
+        }
+    };
     public static WriteHandlerPtr H6280_irq_status_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             switch (offset) {
@@ -555,21 +601,21 @@ public class h6280 extends cpu_interface {
             }
         }
     };
+    public static ReadHandlerPtr H6280_timer_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            switch (offset) {
+                case 0:
+                    /* Counter value */
+                    return (h6280.timer_value / 1024) & 127;
 
-    /*TODO*///
-/*TODO*///READ_HANDLER( H6280_timer_r )
-/*TODO*///{
-/*TODO*///	switch (offset) {
-/*TODO*///		case 0: /* Counter value */
-/*TODO*///			return (h6280.timer_value/1024)&127;
-/*TODO*///
-/*TODO*///		case 1: /* Read counter status */
-/*TODO*///			return h6280.timer_status;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+                case 1:
+                    /* Read counter status */
+                    return h6280.u8_timer_status;
+            }
+
+            return 0;
+        }
+    };
     public static WriteHandlerPtr H6280_timer_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             switch (offset) {
@@ -606,36 +652,12 @@ public class h6280 extends cpu_interface {
     public static final int _fV = 0x40;
     public static final int _fN = 0x80;
 
-    /*TODO*///
-/*TODO*////* some shortcuts for improved readability */
-/*TODO*///#define A	h6280.a
-/*TODO*///#define X	h6280.x
-/*TODO*///#define Y	h6280.y
-/*TODO*///#define P	h6280.p
-/*TODO*///#define S	h6280.sp.b.l
-/*TODO*///
-/*TODO*///
     public static void SET_NZ(int n) {
         h6280.u8_p = ((h6280.u8_p & ~(_fN | _fT | _fZ))
                 | (n & _fN)
                 | ((n == 0) ? _fZ : 0)) & 0xFF;
     }
 
-    /*TODO*///
-/*TODO*///#define EAL h6280.ea.b.l
-/*TODO*///#define EAH h6280.ea.b.h
-/*TODO*///#define EAW h6280.ea.w.l
-/*TODO*///#define EAD h6280.ea.d
-/*TODO*///
-/*TODO*///#define ZPL h6280.zp.b.l
-/*TODO*///#define ZPH h6280.zp.b.h
-/*TODO*///#define ZPW h6280.zp.w.l
-/*TODO*///#define ZPD h6280.zp.d
-/*TODO*///
-/*TODO*///#define PCL h6280.pc.b.l
-/*TODO*///#define PCH h6280.pc.b.h
-/*TODO*///#define PCW h6280.pc.w.l
-/*TODO*///#define PCD h6280.pc.d
     public static void DO_INTERRUPT(int vector) {
         h6280.extra_cycles += 7;
         /* 7 cycles for an int */
@@ -682,7 +704,7 @@ public class h6280 extends cpu_interface {
      * *************************************************************
      */
     public static void WRMEM(int addr, int data) {
-        cpu_writemem21((h6280.u8_mmr[(addr) >>> 13] << 13) | ((addr) & 0x1fff), data);
+        cpu_writemem21((h6280.u8_mmr[(addr) >>> 13] << 13) | ((addr) & 0x1fff), data & 0xFF);
     }
 
     /**
@@ -739,11 +761,6 @@ public class h6280 extends cpu_interface {
         h6280.sp.AddL(-1);//S--
     }
 
-    /*TODO*////***************************************************************
-/*TODO*/// * pull a register from the stack
-/*TODO*/// ***************************************************************/
-/*TODO*///#define PULL(Rg) S++; Rg = cpu_readmem21( (h6280.mmr[1] << 13) | h6280.sp.d)
-/*TODO*///
     /**
      * *************************************************************
      * RDOP read an opcode
@@ -781,13 +798,6 @@ public class h6280 extends cpu_interface {
         }
     }
 
-    /*TODO*///
-/*TODO*////***************************************************************
-/*TODO*/// *
-/*TODO*/// * Helper macros to build the effective address
-/*TODO*/// *
-/*TODO*/// ***************************************************************/
-/*TODO*///
     /**
      * *************************************************************
      * EA = zero page address
@@ -864,14 +874,17 @@ public class h6280 extends cpu_interface {
         h6280.ea.SetD(RDZPWORD(h6280.zp.D));
     }
 
-    /*TODO*////***************************************************************
-/*TODO*/// *  EA = zero page + X indirect (pre indexed)
-/*TODO*/// ***************************************************************/
-/*TODO*///#define EA_IDX													
-/*TODO*///	ZPL = RDOPARG() + X;										
-/*TODO*///	h6280.pc.AddD(1);														
-/*TODO*///	h6280.ea.SetD(RDZPWORD(h6280.zp.D));
-/*TODO*///
+    /**
+     * *************************************************************
+     * EA = zero page + X indirect (pre indexed)
+     * *************************************************************
+     */
+    public static void EA_IDX() {
+        h6280.zp.SetL(RDOPARG() + h6280.u8_x);
+        h6280.pc.AddD(1);
+        h6280.ea.SetD(RDZPWORD(h6280.zp.D));
+    }
+
     /**
      * *************************************************************
      * EA = zero page indirect + Y (post indexed)
@@ -897,22 +910,21 @@ public class h6280 extends cpu_interface {
         h6280.ea.SetL(tmp);
     }
 
-    /*TODO*////***************************************************************
-/*TODO*/// *	EA = indirect plus x (only used by JMP)
-/*TODO*/// ***************************************************************/
-/*TODO*///#define EA_IAX                                                  
-/*TODO*///	EA_ABS();														
-/*TODO*///	EAD+=X;														
-/*TODO*///	tmp = RDMEM(h6280.ea.D);											
-/*TODO*///	EAD++; 	 													
-/*TODO*///	EAH = RDMEM(h6280.ea.D);											
-/*TODO*///	EAL = tmp
-/*TODO*///
-/*TODO*////* read a value into tmp */
-/*TODO*///#define RD_IDX	EA_IDX; tmp = RDMEM(h6280.ea.D)
-/*TODO*///#define RD_IDY	EA_IDY(); tmp = RDMEM(h6280.ea.D)
-/*TODO*///
-/*TODO*////* write a value from tmp */
+    /**
+     * *************************************************************
+     * EA = indirect plus x (only used by JMP)
+     * *************************************************************
+     */
+    public static void EA_IAX() {
+        EA_ABS();
+        h6280.ea.SetD(h6280.ea.D + h6280.u8_x);//EAD += X;
+        int tmp = RDMEM(h6280.ea.D);
+        h6280.ea.AddD(1);//EAD++;
+        h6280.ea.SetH(RDMEM(h6280.ea.D));
+        h6280.ea.SetL(tmp);
+    }
+
+    /* write a value from tmp */
     public static void WR_ZPG(int tmp) {
         EA_ZPG();
         WRMEMZ(h6280.ea.D, tmp);
@@ -943,8 +955,16 @@ public class h6280 extends cpu_interface {
         WRMEM(h6280.ea.D, tmp);
     }
 
-    /*TODO*///#define WR_ZPI	EA_ZPI; WRMEM(h6280.ea.D, tmp)
-/*TODO*///#define WR_IDX	EA_IDX; WRMEM(h6280.ea.D, tmp)
+    public static void WR_ZPI(int tmp) {
+        EA_ZPI();
+        WRMEM(h6280.ea.D, tmp);
+    }
+
+    public static void WR_IDX(int tmp) {
+        EA_IDX();
+        WRMEM(h6280.ea.D, tmp);
+    }
+
     public static void WR_IDY(int tmp) {
         EA_IDY();
         WRMEM(h6280.ea.D, tmp);
@@ -1025,11 +1045,12 @@ public class h6280 extends cpu_interface {
         BRA((tmp & (1 << bit)) == 0, tmp);
     }
 
-    /*TODO*////* 6280 ********************************************************
-/*TODO*/// *  BBS Branch if bit is set
-/*TODO*/// ***************************************************************/
-/*TODO*///#define BBS(bit)                                                
-/*TODO*///    BRA(tmp & (1<<bit))
+    /* 6280 ********************************************************
+    *  BBS Branch if bit is set
+    ***************************************************************/
+    public static void BBS(int tmp, int bit) {
+        BRA((tmp & (1 << bit)) != 0, tmp);
+    }
 
     /* 6280 ********************************************************
     *	BCC Branch if carry clear
@@ -1052,16 +1073,16 @@ public class h6280 extends cpu_interface {
         BRA((h6280.u8_p & _fZ) != 0, tmp);
     }
 
-    /*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *	BIT Bit test
-/*TODO*/// ***************************************************************/
-/*TODO*///#define BIT														
-/*TODO*///	P = (P & ~(_fN|_fV|_fT|_fZ))								
-/*TODO*///		| ((tmp&0x80) ? _fN:0)									
-/*TODO*///		| ((tmp&0x40) ? _fV:0)									
-/*TODO*///		| ((tmp&A)  ? 0:_fZ)
-/*TODO*///
+    /* 6280 ********************************************************
+     *	BIT Bit test
+     ***************************************************************/
+    public static void BIT(int tmp) {
+        h6280.u8_p = ((h6280.u8_p & ~(_fN | _fV | _fT | _fZ))
+                | ((tmp & 0x80) != 0 ? _fN : 0)
+                | ((tmp & 0x40) != 0 ? _fV : 0)
+                | ((tmp & h6280.u8_a) != 0 ? 0 : _fZ)) & 0xff;
+    }
+
     /* 6280 ********************************************************
      *	BMI Branch if minus
      ***************************************************************/
@@ -1249,7 +1270,7 @@ public class h6280 extends cpu_interface {
     public static void ILL() {
         h6280_ICount[0] -= 2;
         /* (assumed) */
- /*TODO*///        logerror("%04x: WARNING - h6280 illegal opcode\n", cpu_get_pc());
+//        logerror("%04x: WARNING - h6280 illegal opcode\n", cpu_get_pc());
     }
 
     /* 6280 ********************************************************
@@ -1297,8 +1318,8 @@ public class h6280 extends cpu_interface {
     }
 
     /* 6280 ********************************************************
- *	LDA Load accumulator
- ***************************************************************/
+    *	LDA Load accumulator
+    ***************************************************************/
     public static void LDA(int tmp) {
         h6280.u8_a = tmp & 0xFF;
         SET_NZ(h6280.u8_a);
@@ -1400,23 +1421,6 @@ public class h6280 extends cpu_interface {
         h6280.u8_y = cpu_readmem21((h6280.u8_mmr[1] << 13) | h6280.sp.D) & 0xFF;
     }
 
-    /*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *  RMB Reset memory bit
-/*TODO*/// ***************************************************************/
-/*TODO*///#define RMB(bit)                                                
-/*TODO*///    tmp &= ~(1<<bit)
-/*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *	ROR Rotate right
-/*TODO*/// *	C -> [7][6][5][4][3][2][1][0] -> new C
-/*TODO*/// ***************************************************************/
-/*TODO*///#define ROR 													
-/*TODO*///	tmp |= (P & _fC) << 8;										
-/*TODO*///	P = (P & ~_fC) | (tmp & _fC);								
-/*TODO*///	tmp = (UINT8)(tmp >> 1);									
-/*TODO*///	SET_NZ(tmp)
-/*TODO*///
     /* 6280 ********************************************************
      *	RTI Return from interrupt
      *	pull flags, pull PC lo, pull PC hi and increment PC
@@ -1533,39 +1537,30 @@ public class h6280 extends cpu_interface {
     ***************************************************************/
     public static void SET() {
         h6280.u8_p = (h6280.u8_p | _fT) & 0xFF;
-        /*TODO*///        logerror("%04x: WARNING H6280 SET\n", cpu_get_pc());
+//        logerror("%04x: WARNING H6280 SET\n", cpu_get_pc());
     }
 
-    /*TODO*////* 6280 ********************************************************
-/*TODO*/// *  SMB Set memory bit
-/*TODO*/// ***************************************************************/
-/*TODO*///#define SMB(bit)                                                \
-/*TODO*///    tmp |= (1<<bit)
-/*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *  ST0 Store at hardware address 0
-/*TODO*/// ***************************************************************/
-/*TODO*///#define ST0                                                     \
-/*TODO*///    cpu_writeport(0x0000,tmp)
-/*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *  ST1 Store at hardware address 2
-/*TODO*/// ***************************************************************/
-/*TODO*///#define ST1                                                     \
-/*TODO*///    cpu_writeport(0x0002,tmp)
-/*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *  ST2 Store at hardware address 3
-/*TODO*/// ***************************************************************/
-/*TODO*///#define ST2                                                     \
-/*TODO*///    cpu_writeport(0x0003,tmp)
-/*TODO*///
-/*TODO*////* 6280 ********************************************************
-/*TODO*/// *	STA Store accumulator
-/*TODO*/// ***************************************************************/
-/*TODO*///#define STA 													\
-/*TODO*///	tmp = A
-/*TODO*///
+    /* 6280 ********************************************************
+    *  ST0 Store at hardware address 0
+    ***************************************************************/
+    public static void ST0(int tmp) {
+        cpu_writeport(0x0000, tmp);
+    }
+
+    /* 6280 ********************************************************
+    *  ST1 Store at hardware address 2
+    ***************************************************************/
+    public static void ST1(int tmp) {
+        cpu_writeport(0x0002, tmp);
+    }
+
+    /* 6280 ********************************************************
+    *  ST2 Store at hardware address 3
+    ***************************************************************/
+    public static void ST2(int tmp) {
+        cpu_writeport(0x0003, tmp);
+    }
+
     /* H6280 *******************************************************
      *  SXY Swap index X and index Y
      ***************************************************************/
@@ -1935,29 +1930,37 @@ public class h6280 extends cpu_interface {
     static opcode h6280_001 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;ORA(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            ORA(tmp);
         }
     }; // 7 ORA  IDX
     static opcode h6280_021 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;AND(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            AND(tmp);
         }
     }; // 7 AND  IDX
     static opcode h6280_041 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///           h6280_ICount[0] -= 7;RD_IDX;EOR(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            EOR(tmp);
         }
     }; // 7 EOR  IDX
     static opcode h6280_061 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;ADC(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            ADC(tmp);
         }
     }; // 7 ADC  IDX
     static opcode h6280_081 = new opcode() {
@@ -1965,29 +1968,34 @@ public class h6280 extends cpu_interface {
             int tmp;
             h6280_ICount[0] -= 7;
             tmp = h6280.u8_a;
-            /*TODO*///WR_IDX;
-            throw new UnsupportedOperationException("Not supported yet.");
+            WR_IDX(tmp);
         }
     }; // 7 STA  IDX
     static opcode h6280_0a1 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;LDA(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            LDA(tmp);
         }
     }; // 7 LDA  IDX
     static opcode h6280_0c1 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;CMP;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            CMP(tmp);
         }
     }; // 7 CMP  IDX
     static opcode h6280_0e1 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;RD_IDX;SBC;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_IDX();
+            tmp = RDMEM(h6280.ea.D);
+            SBC(tmp);
         }
     }; // 7 SBC  IDX
 
@@ -2121,36 +2129,45 @@ public class h6280 extends cpu_interface {
     static opcode h6280_012 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPI; tmp = RDMEM(h6280.ea.D);ORA(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPI();
+            tmp = RDMEM(h6280.ea.D);
+            ORA(tmp);
         }
     }; // 7 ORA  ZPI
     static opcode h6280_032 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPI; tmp = RDMEM(h6280.ea.D);AND(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPI();
+            tmp = RDMEM(h6280.ea.D);
+            AND(tmp);
         }
     }; // 7 AND  ZPI
     static opcode h6280_052 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPI; tmp = RDMEM(h6280.ea.D);EOR(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPI();
+            tmp = RDMEM(h6280.ea.D);
+            EOR(tmp);
         }
     }; // 7 EOR  ZPI
     static opcode h6280_072 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPI; tmp = RDMEM(h6280.ea.D);ADC;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPI();
+            tmp = RDMEM(h6280.ea.D);
+            ADC(tmp);
         }
     }; // 7 ADC  ZPI
     static opcode h6280_092 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;tmp = h6280.u8_a;WR_ZPI;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            tmp = h6280.u8_a;
+            WR_ZPI(tmp);
         }
     }; // 7 STA  ZPI
     static opcode h6280_0b2 = new opcode() {
@@ -2184,15 +2201,19 @@ public class h6280 extends cpu_interface {
     static opcode h6280_003 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;tmp = RDOPARG(); h6280.pc.AddD(1);ST0;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            tmp = RDOPARG();
+            h6280.pc.AddD(1);
+            ST0(tmp);
         }
     }; // 4 ST0  IMM
     static opcode h6280_023 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;tmp = RDOPARG(); h6280.pc.AddD(1);ST2;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            tmp = RDOPARG();
+            h6280.pc.AddD(1);
+            ST2(tmp);
         }
     }; // 4 ST2  IMM
     static opcode h6280_043 = new opcode() {
@@ -2212,15 +2233,23 @@ public class h6280 extends cpu_interface {
     static opcode h6280_083 = new opcode() {
         public void handler() {
             int tmp, tmp2;
-            /*TODO*///           h6280_ICount[0] -= 7;tmp2 = RDOPARG(); h6280.pc.AddD(1);;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);TST;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            tmp2 = RDOPARG();
+            h6280.pc.AddD(1);;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            TST(tmp, tmp2);
         }
     }; // 7 TST  IMM,ZPG
     static opcode h6280_0a3 = new opcode() {
         public void handler() {
             int tmp, tmp2;
-            /*TODO*///           h6280_ICount[0] -= 7;tmp2 = RDOPARG(); h6280.pc.AddD(1);;EA_ZPX(); tmp = RDMEMZ(h6280.ea.D);TST;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            tmp2 = RDOPARG();
+            h6280.pc.AddD(1);;
+            EA_ZPX();
+            tmp = RDMEMZ(h6280.ea.D);
+            TST(tmp, tmp2);
         }
     }; // 7 TST  IMM,ZPX
     static opcode h6280_0c3 = new opcode() {
@@ -2239,8 +2268,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_013 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;tmp = RDOPARG(); h6280.pc.AddD(1);ST1;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            tmp = RDOPARG();
+            h6280.pc.AddD(1);
+            ST1(tmp);
         }
     }; // 4 ST1
     static opcode h6280_033 = new opcode() {
@@ -2269,8 +2300,12 @@ public class h6280 extends cpu_interface {
     static opcode h6280_093 = new opcode() {
         public void handler() {
             int tmp, tmp2;
-            /*TODO*///            h6280_ICount[0] -= 8;tmp2 = RDOPARG(); h6280.pc.AddD(1);;EA_ABS(); tmp = RDMEM(h6280.ea.D);TST;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 8;
+            tmp2 = RDOPARG();
+            h6280.pc.AddD(1);
+            EA_ABS();
+            tmp = RDMEM(h6280.ea.D);
+            TST(tmp, tmp2);
         }
     }; // 8 TST  IMM,ABS
     static opcode h6280_0b3 = new opcode() {
@@ -2312,8 +2347,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_024 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);BIT;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BIT(tmp);
         }
     }; // 4 BIT  ZPG
     static opcode h6280_044 = new opcode() {
@@ -2379,8 +2416,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_034 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///           h6280_ICount[0] -= 4;EA_ZPX(); tmp = RDMEMZ(h6280.ea.D);BIT;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPX();
+            tmp = RDMEMZ(h6280.ea.D);
+            BIT(tmp);
         }
     }; // 4 BIT  ZPX
     static opcode h6280_054 = new opcode() {
@@ -2734,8 +2773,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_0b6 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPY(); tmp = RDMEMZ(h6280.ea.D);LDX(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPY();
+            tmp = RDMEMZ(h6280.ea.D);
+            LDX(tmp);
         }
     }; // 4 LDX  ZPY
     static opcode h6280_0d6 = new opcode() {
@@ -2764,130 +2805,180 @@ public class h6280 extends cpu_interface {
     static opcode h6280_007 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(0);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(0);
+            tmp &= ~(1 << 0);
+            WB_EAZ(tmp);
+
         }
     }; // 7 RMB0 ZPG
     static opcode h6280_027 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(2);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(2);
+            tmp &= ~(1 << 2);
+            WB_EAZ(tmp);
+
         }
     }; // 7 RMB2 ZPG
     static opcode h6280_047 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(4);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(4);
+            tmp &= ~(1 << 4);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB4 ZPG
     static opcode h6280_067 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(6);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(6);
+            tmp &= ~(1 << 6);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB6 ZPG
     static opcode h6280_087 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(0);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(0);
+            tmp |= (1 << 0);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB0 ZPG
     static opcode h6280_0a7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(2);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(2);
+            tmp |= (1 << 2);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB2 ZPG
     static opcode h6280_0c7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(4);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(4);
+            tmp |= (1 << 4);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB4 ZPG
     static opcode h6280_0e7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(6);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(6);
+            tmp |= (1 << 6);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB6 ZPG
 
     static opcode h6280_017 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(1);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(1);
+            tmp &= ~(1 << 1);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB1 ZPG
     static opcode h6280_037 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(3);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(3);
+            tmp &= ~(1 << 3);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB3 ZPG
     static opcode h6280_057 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(5);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(5);
+            tmp &= ~(1 << 5);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB5 ZPG
     static opcode h6280_077 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            RMB(7);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //RMB(7);
+            tmp &= ~(1 << 7);
+            WB_EAZ(tmp);
         }
     }; // 7 RMB7 ZPG
     static opcode h6280_097 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(1);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(1);
+            tmp |= (1 << 1);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB1 ZPG
     static opcode h6280_0b7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(3);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(3);
+            tmp |= (1 << 3);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB3 ZPG
     static opcode h6280_0d7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(5);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(5);
+            tmp |= (1 << 5);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB5 ZPG
     static opcode h6280_0f7 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            SMB(7);WB_EAZ(tmp);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 7;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            //SMB(7);
+            tmp |= (1 << 7);
+            WB_EAZ(tmp);
         }
     }; // 7 SMB7 ZPG
 
@@ -3037,8 +3128,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_089 = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 2;tmp = RDOPARG(); h6280.pc.AddD(1);BIT;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 2;
+            tmp = RDOPARG();
+            h6280.pc.AddD(1);
+            BIT(tmp);
         }
     }; // 2 BIT  IMM
     static opcode h6280_0a9 = new opcode() {
@@ -3363,8 +3456,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_02c = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 5;EA_ABS(); tmp = RDMEM(h6280.ea.D);BIT;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 5;
+            EA_ABS();
+            tmp = RDMEM(h6280.ea.D);
+            BIT(tmp);
         }
     }; // 5 BIT  ABS
     static opcode h6280_04c = new opcode() {
@@ -3428,8 +3523,10 @@ public class h6280 extends cpu_interface {
     static opcode h6280_03c = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 5;EA_ABX(); tmp = RDMEM(h6280.ea.D);BIT;
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 5;
+            EA_ABX();
+            tmp = RDMEM(h6280.ea.D);
+            BIT(tmp);
         }
     }; // 5 BIT  ABX
     static opcode h6280_05c = new opcode() {
@@ -3439,9 +3536,10 @@ public class h6280 extends cpu_interface {
     }; // 2 ???
     static opcode h6280_07c = new opcode() {
         public void handler() {
-            int tmp;
-            /*TODO*///            h6280_ICount[0] -= 7;EA_IAX;JMP();
-            throw new UnsupportedOperationException("Not supported yet.");
+            int tmp = 0;
+            h6280_ICount[0] -= 7;
+            EA_IAX();
+            JMP();
         }
     }; // 7 JMP  IAX
     static opcode h6280_09c = new opcode() {
@@ -3846,33 +3944,37 @@ public class h6280 extends cpu_interface {
     static opcode h6280_08f = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(0);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(0, tmp);
         }
     }; // 6/8 BBS0 ZPG,REL
     static opcode h6280_0af = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(2);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(2, tmp);
         }
     }; // 6/8 BBS2 ZPG,REL
     static opcode h6280_0cf = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(4);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(4, tmp);
         }
     }; // 6/8 BBS4 ZPG,REL
     static opcode h6280_0ef = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(6);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(6, tmp);
         }
     }; // 6/8 BBS6 ZPG,REL
 
@@ -3915,33 +4017,37 @@ public class h6280 extends cpu_interface {
     static opcode h6280_09f = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(1);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(1, tmp);
         }
     }; // 6/8 BBS1 ZPG,REL
     static opcode h6280_0bf = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(3);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(3, tmp);
         }
     }; // 6/8 BBS3 ZPG,REL
     static opcode h6280_0df = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///           BBS(5);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(5, tmp);
         }
     }; // 6/8 BBS5 ZPG,REL
     static opcode h6280_0ff = new opcode() {
         public void handler() {
             int tmp;
-            /*TODO*///            h6280_ICount[0] -= 4;EA_ZPG(); tmp = RDMEMZ(h6280.ea.D);
-/*TODO*///            BBS(7);
-            throw new UnsupportedOperationException("Not supported yet.");
+            h6280_ICount[0] -= 4;
+            EA_ZPG();
+            tmp = RDMEMZ(h6280.ea.D);
+            BBS(7, tmp);
         }
     }; // 6/8 BBS7 ZPG,REL
 

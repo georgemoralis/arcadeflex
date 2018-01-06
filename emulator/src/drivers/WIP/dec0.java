@@ -47,6 +47,8 @@ import static mame.inputportH.*;
 import static mame.inputH.*;
 import static arcadeflex.libc.*;
 import static arcadeflex.libc_old.*;
+import static cpu.h6280.h6280.H6280_irq_status_w;
+import static cpu.h6280.h6280H.H6280_INT_NMI;
 import static mame.mame.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
@@ -127,7 +129,7 @@ public class dec0 {
             switch (offset) {
                 case 0:
                     soundlatch_w.handler(0, data & 0xff);
-                    /*TODO*///				cpu_cause_interrupt(1,H6280_INT_NMI);
+                    cpu_cause_interrupt(1,H6280_INT_NMI);
                     break;
                 case 2:
                     dec0_priority_w.handler(0, data);
@@ -139,7 +141,7 @@ public class dec0 {
     public static WriteHandlerPtr midres_sound_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             soundlatch_w.handler(0, data & 0xff);
-            /*TODO*///		cpu_cause_interrupt(1,H6280_INT_NMI);
+	cpu_cause_interrupt(1,H6280_INT_NMI);
         }
     };
 
@@ -218,7 +220,7 @@ public class dec0 {
                 new MemoryWriteAddress(0x1a1000, 0x1a17ff, dec0_pf3_data_8bit_w),
                 new MemoryWriteAddress(0x1d0000, 0x1d00ff, hippodrm_prot_w),
                 new MemoryWriteAddress(0x1f0000, 0x1f1fff, MWA_BANK8), /* Main ram */
-                /*TODO*///		new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
+                new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     static MemoryReadAddress slyspy_readmem[]
@@ -363,7 +365,7 @@ public class dec0 {
                 new MemoryWriteAddress(0x0b0000, 0x0b0001, YM2203_w),
                 new MemoryWriteAddress(0x0e0000, 0x0e0001, OKIM6295_data_0_w),
                 new MemoryWriteAddress(0x1f0000, 0x1f1fff, MWA_BANK8), /* Main ram */
-                /*TODO*///               new MemoryWriteAddress(0x1ff402, 0x1ff403, H6280_irq_status_w),
+                new MemoryWriteAddress(0x1ff402, 0x1ff403, H6280_irq_status_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     static MemoryReadAddress midres_s_readmem[]
@@ -381,7 +383,7 @@ public class dec0 {
                 new MemoryWriteAddress(0x118000, 0x118001, YM2203_w),
                 new MemoryWriteAddress(0x130000, 0x130001, OKIM6295_data_0_w),
                 new MemoryWriteAddress(0x1f0000, 0x1f1fff, MWA_BANK8), /* Main ram */
-                /*TODO*///		new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
+                new MemoryWriteAddress( 0x1ff402, 0x1ff403, H6280_irq_status_w ),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /**
