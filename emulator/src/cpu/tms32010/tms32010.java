@@ -841,7 +841,7 @@ public class tms32010 extends cpu_interface{
 
     @Override
     public void set_op_base(int pc) {
-        cpu_setOPbase16.handler(pc, 0);
+        cpu_setOPbase16.handler(pc);
     }
     
 }

@@ -254,7 +254,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public void set_op_base(int pc) {
-        cpu_setOPbase24.handler(pc, 0);
+        cpu_setOPbase24.handler(pc);
     }
 
     @Override

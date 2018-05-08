@@ -1937,10 +1937,8 @@ public class memory {
 /*TODO*/ //
 
     public static setopbase cpu_setOPbase16 = new setopbase() {
-        public void handler(int pc, int shift) {
+        public void handler(int pc) {
             UByte hw = new UByte();
-
-            pc = (int) (pc >>> shift);
 
             /* allow overrides */
             if (OPbasefunc != null) {
@@ -1969,10 +1967,9 @@ public class memory {
         }
     };
     public static setopbase cpu_setOPbase20 = new setopbase() {
-        public void handler(int pc, int shift) {
+        public void handler(int pc) {
             UByte hw = new UByte();
 
-            pc = (int) (pc >>> shift);
 
             /* allow overrides */
             if (OPbasefunc != null) {
@@ -2001,10 +1998,8 @@ public class memory {
         }
     };
     public static setopbase cpu_setOPbase21 = new setopbase() {
-        public void handler(int pc, int shift) {
+        public void handler(int pc) {
             UByte hw = new UByte();
-
-            pc = (int) (pc >>> shift);
 
             /* allow overrides */
             if (OPbasefunc != null) {
@@ -2033,10 +2028,8 @@ public class memory {
         }
     };
     public static setopbase cpu_setOPbase24 = new setopbase() {
-        public void handler(int pc, int shift) {
+        public void handler(int pc) {
             UByte hw = new UByte();
-
-            pc = (int) (pc >>> shift);
 
             /* allow overrides */
             if (OPbasefunc != null) {

@@ -221,7 +221,7 @@ public static char cpu_readop_arg(int A)
 public static void change_pc_generic(int pc, int abits2, int abitsmin, int shift, setopbase setop)
 {
     if (cur_mrhard[pc >> (abits2 + abitsmin + shift)] != ophw.read())
-        setop.handler((int)pc, shift);
+        setop.handler((int)pc);
 }
 public static void change_pc(int pc)
 {
@@ -248,11 +248,11 @@ public static void change_pc24(int pc)
                 if (ophw.read() == bank)
                 {
                     ophw.set((char)0xff);
-                    cpu_setOPbase16.handler(cpu_get_pc(), 0);
+                    cpu_setOPbase16.handler(cpu_get_pc());
                 }
             }
         }
 
 public static abstract interface opbase_handlerPtr { public abstract int handler(int address); }
-public static abstract interface setopbase { public abstract void handler(int pc,int shift);}
+public static abstract interface setopbase { public abstract void handler(int pc);}
 }

@@ -100,14 +100,41 @@ public class cpuintrfH {
   /*TODO*///   #define cpu_geturnpc() cpu_get_reg(REG_SP_CONTENTS)
 
 
+    public static abstract interface Interrupt_entryPtr {
+
+        public abstract int handler(int i);
+    }
+
+    public static abstract interface ResetPtr {
+
+        public abstract void handler(int i);
+    }
+
+    public static abstract interface Interrupt_retiPtr {
+
+        public abstract void handler(int i);
+    }
+
     /* daisy-chain link */
-  public static class Z80_DaisyChain
-  {
-  /*TODO*///       void (*reset)(int);             /* reset callback     */
-  /*TODO*///       int  (*interrupt_entry)(int);   /* entry callback     */
-  /*TODO*///       void (*interrupt_reti)(int);    /* reti callback      */
-         int irq_param;                  /* callback paramater */
-  }	
+    public static class Z80_DaisyChain {
+
+        public ResetPtr reset;
+        /* reset callback     */
+        public Interrupt_entryPtr interrupt_entry;
+        /* entry callback     */
+        public Interrupt_retiPtr interrupt_reti;
+        /* reti callback      */
+        public int irq_param;
+        /* callback paramater */
+        
+        public Z80_DaisyChain(ResetPtr reset,Interrupt_entryPtr interrupt_entry,Interrupt_retiPtr interrupt_reti,int irq_param)
+        {
+            this.reset=reset;
+            this.interrupt_entry=interrupt_entry;
+            this.interrupt_reti=interrupt_reti;
+            this.irq_param=irq_param;
+        }
+    }	
  
     public static final int Z80_MAXDAISY	= 4;		/* maximum of daisy chan device */
 

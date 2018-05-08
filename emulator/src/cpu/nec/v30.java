@@ -216,7 +216,7 @@ public class v30 extends cpuintrfH.cpu_interface {
 
     @Override
     public void set_op_base(int pc) {
-        cpu_setOPbase20.handler(pc, 0);
+        cpu_setOPbase20.handler(pc);
     }
 
     static void nec_interrupt(int int_num, int md_flag) {

@@ -473,7 +473,7 @@ public class h6280 extends cpu_interface {
 
     @Override
     public void set_op_base(int pc) {
-        cpu_setOPbase21.handler(pc,0);
+        cpu_setOPbase21.handler(pc);
     }
 
     /*TODO*///unsigned h6280_get_context (void *dst)

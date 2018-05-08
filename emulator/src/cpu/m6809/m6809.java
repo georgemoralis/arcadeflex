@@ -1517,7 +1517,7 @@ public class m6809 extends cpu_interface
 
     @Override
     public void set_op_base(int pc) {
-        cpu_setOPbase16.handler(pc, 0);
+        cpu_setOPbase16.handler(pc);
     }
     public static void illegal()
     {
