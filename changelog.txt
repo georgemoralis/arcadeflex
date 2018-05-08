@@ -1,0 +1,6 @@
+08/05/2018
+==========
+-Added get_cycle_table , set_cycle_table to cpus (not usable just needed for future use)
+-Change cpu_setOPbase handlers (no need shifting)
+-Added Z80 from arcadeflex0.37b7 accurate project . As side effect R-type now works!
+-Some more fixes to nec v30 . Seems that all v30 games are now playable
