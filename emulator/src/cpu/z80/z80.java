@@ -41,6 +41,16 @@ public class z80 extends cpu_interface {
         //setup opcode tables
         SetupTables();
     }
+
+    @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     /*TODO*////* execute main opcodes inside a big switch statement */
     /*TODO*///#ifndef BIG_SWITCH
     /*TODO*///#define BIG_SWITCH          1

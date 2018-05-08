@@ -256,4 +256,14 @@ public class m68kmame extends cpu_interface {
     public void set_op_base(int pc) {
         cpu_setOPbase24.handler(pc, 0);
     }
+
+    @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

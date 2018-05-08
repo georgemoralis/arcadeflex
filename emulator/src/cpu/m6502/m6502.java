@@ -128,6 +128,16 @@ public class m6502 extends cpu_interface {
         insn6502[0xf8] = m6502_f8; insn6502[0xf9] = m6502_f9; insn6502[0xfa] = m6502_fa; insn6502[0xfb] = m6502_fb; 
         insn6502[0xfc] = m6502_fc; insn6502[0xfd] = m6502_fd; insn6502[0xfe] = m6502_fe; insn6502[0xff] = m6502_ff;
     }
+
+    @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     /****************************************************************************
     / * The 6502 registers.
     / ****************************************************************************/

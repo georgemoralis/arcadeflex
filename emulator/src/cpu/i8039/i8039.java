@@ -97,6 +97,16 @@ public class i8039 extends cpu_interface {
     public static final int F_FLAG = 0x20;
     public static final int B_FLAG = 0x10;
 
+    @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public static class PAIR {
         //L = low 8 bits
         //H = high 8 bits

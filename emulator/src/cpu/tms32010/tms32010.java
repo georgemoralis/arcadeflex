@@ -36,6 +36,16 @@ public class tms32010 extends cpu_interface{
           abitsmin = ABITS_MIN_16; 
           icount =tms320c10_ICount;
     }
+
+    @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public static class tms320c10_Regs {
         char/*UINT16*/	PREPC;		/* previous program counter */
 	char/*UINT16*/  PC;

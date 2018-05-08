@@ -66,6 +66,8 @@ public class cpuintrfH {
         public abstract void set_sp(int val);
         public abstract int  get_reg(int regnum);
         public abstract void set_reg(int regnum, int val);
+        public abstract int[] get_cycle_table(int which);
+        public abstract void set_cycle_table(int which, int[] new_table);
         public abstract void set_nmi_line(int linestate);
         public abstract void set_irq_line(int irqline, int linestate);
         public abstract void set_irq_callback(irqcallbacksPtr callback);
