@@ -265,7 +265,7 @@ public class contra
 		private_spriteram_2=new UBytePtr(0x800);
 	
 		if( bg_tilemap!=null && fg_tilemap!=null && text_tilemap!=null ){
-			rectangle clip = Machine.drv.visible_area;
+			rectangle clip = new rectangle(Machine.drv.visible_area);
 			clip.min_x += 40;
 			tilemap_set_clip( bg_tilemap, clip );
 			tilemap_set_clip( fg_tilemap, clip );
