@@ -625,11 +625,11 @@ public class combatsc
 		{
 			rectangle clip;
 	
-			clip = Machine.drv.visible_area;
+			clip = new rectangle(Machine.drv.visible_area);
 			clip.max_x = clip.min_x + 7;
 			fillbitmap(bitmap,Machine.pens[0],clip);
 	
-			clip = Machine.drv.visible_area;
+			clip = new rectangle(Machine.drv.visible_area);
 			clip.min_x = clip.max_x - 7;
 			fillbitmap(bitmap,Machine.pens[0],clip);
 		}

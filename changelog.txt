@@ -4,6 +4,7 @@
 -Fixes to rectangle on marvins driver. Seems better
 -Fixed to rectangle on flkatck driver. Sprites now works
 -Fixes to rectangle on contra driver . Sprites now works
+-Fixes to rectangle on combatsc driver. Sprites now works
 
 08/05/2018
 ==========
