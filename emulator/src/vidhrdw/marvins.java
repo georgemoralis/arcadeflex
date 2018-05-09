@@ -227,7 +227,7 @@ public class marvins {
                     32, 32 /* number of columns, number of rows */
             );
             if (fg_tilemap != null && bg_tilemap != null && text_tilemap != null) {
-                rectangle clip = Machine.drv.visible_area;
+                rectangle clip = new rectangle(Machine.drv.visible_area);
                 clip.max_x -= 16;
                 clip.min_x += 16;
                 tilemap_set_clip(fg_tilemap, clip);
@@ -267,7 +267,7 @@ public class marvins {
      */
     static void draw_status(osd_bitmap bitmap) {
         UBytePtr base = new UBytePtr(videoram, 0x2400);
-        rectangle clip = Machine.drv.visible_area;
+        rectangle clip = new rectangle(Machine.drv.visible_area);
         GfxElement gfx = Machine.gfx[0];
         int row;
         for (row = 0; row < 4; row++) {
@@ -295,7 +295,7 @@ public class marvins {
             int priority, int sprite_partition) {
 
         GfxElement gfx = Machine.gfx[3];
-        rectangle clip = Machine.drv.visible_area;
+        rectangle clip = new rectangle(Machine.drv.visible_area);
         UBytePtr source;
         int finish;
 

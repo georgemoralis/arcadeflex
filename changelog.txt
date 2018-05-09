@@ -1,6 +1,7 @@
 09/05/2018
 ==========
 -Fixed rectangle issue in snk driver . Ikari warriors works!
+-Fixes to rectangle on marvins driver. Seems better
 
 08/05/2018
 ==========
