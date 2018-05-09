@@ -1,3 +1,7 @@
+09/05/2018
+==========
+-Fixed rectangle issue in snk driver . Ikari warriors works!
+
 08/05/2018
 ==========
 -Added get_cycle_table , set_cycle_table to cpus (not usable just needed for future use)

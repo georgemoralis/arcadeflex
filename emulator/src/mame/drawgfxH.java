@@ -63,6 +63,13 @@ public class drawgfxH {
     {
         public rectangle() {};
 	public rectangle(int minx, int maxx, int miny, int maxy) { min_x = minx; max_x = maxx; min_y = miny; max_y = maxy; };
+        public rectangle(rectangle rec)
+        {
+            min_x = rec.min_x;
+            max_x = rec.max_x;
+            min_y = rec.min_y;
+            max_y = rec.max_y;
+        }
 	public int min_x,max_x;
 	public int min_y,max_y;
     };

@@ -127,7 +127,7 @@ public class snk
 	
 	static void tnk3_draw_background(osd_bitmap bitmap, int scrollx, int scrolly )
         {
-		rectangle clip = Machine.drv.visible_area;
+		rectangle clip = new rectangle(Machine.drv.visible_area);
 		GfxElement gfx = Machine.gfx[GFX_TILES];
 		int offs;
 		for( offs=0; offs<64*64*2; offs+=2 ){
@@ -178,7 +178,7 @@ public class snk
 	}
 	
 	static void tnk3_draw_status(osd_bitmap bitmap, int bank, UBytePtr source ){
-		rectangle clip = Machine.drv.visible_area;
+		rectangle clip = new rectangle(Machine.drv.visible_area);
 		GfxElement gfx = Machine.gfx[GFX_CHARS];
 		int offs;
 	
@@ -212,7 +212,7 @@ public class snk
 		int n = 50;
 		UBytePtr source = new UBytePtr(spriteram,0);
 		UBytePtr finish = new UBytePtr(source,n*4);
-		rectangle clip = Machine.drv.visible_area;
+		rectangle clip = new rectangle(Machine.drv.visible_area);
 
 	
 		while( source.offset<finish.offset){
@@ -305,7 +305,7 @@ public class snk
             }
 
             {
-                    rectangle clip = Machine.drv.visible_area;
+                    rectangle clip = new rectangle(Machine.drv.visible_area);
                     clip.min_x += 16;
                     clip.max_x -= 16;
                     copyscrollbitmap(bitmap,tmpbitmap,
@@ -316,7 +316,7 @@ public class snk
     }
 
     static void ikari_draw_text(osd_bitmap bitmap ){
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
            GfxElement gfx = Machine.gfx[GFX_CHARS];
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xf800);
 
@@ -338,7 +338,7 @@ public class snk
     static void ikari_draw_status(osd_bitmap bitmap ){
             /*	this is drawn above and below the main display */
 
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
             GfxElement gfx = Machine.gfx[GFX_CHARS];
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xfc00);
 
@@ -375,7 +375,7 @@ public class snk
             int which;
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe800);
 
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
             clip.min_x += 16;
             clip.max_x -= 16;
 
@@ -403,7 +403,7 @@ public class snk
             int which;
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe000);
 
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
             clip.min_x += 16;
             clip.max_x -= 16;
 
@@ -490,7 +490,7 @@ public class snk
             }
 
             {
-                    rectangle clip = Machine.drv.visible_area;
+                    rectangle clip = new rectangle(Machine.drv.visible_area);
                     copyscrollbitmap(bitmap,tmpbitmap,
                             1,new int[]{xscroll},1,new int[] {yscroll},
                             clip,
@@ -507,7 +507,7 @@ public class snk
 
             int which;
 
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
 
             for( which = 0; which < 32*4; which+=4 ){
                     int attributes = source.read(which+3);
@@ -534,7 +534,7 @@ public class snk
             int bank = attributes>>4;
             int color = attributes&0xf;
 
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
             GfxElement gfx = Machine.gfx[GFX_CHARS];
 
             //const unsigned char *source = &memory_region(REGION_CPU1)[base];
@@ -612,7 +612,7 @@ public class snk
             //const unsigned char *source = &memory_region(REGION_CPU1)[0xe800];
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe800);
             
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
 
             int which;
             for( which=0; which<(64)*4; which+=4 )
@@ -645,7 +645,7 @@ public class snk
             //const unsigned char *source = &memory_region(REGION_CPU1)[0xe000];
             UBytePtr source = new UBytePtr(memory_region(REGION_CPU1),0xe000);
             
-            rectangle clip = Machine.drv.visible_area;
+            rectangle clip = new rectangle(Machine.drv.visible_area);
 
             int which;
             for( which=0; which<(32)*4; which+=4 )
