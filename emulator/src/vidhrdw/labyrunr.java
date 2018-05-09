@@ -115,7 +115,7 @@ public class labyrunr
 	
 		if (layer0!=null && layer1!=null)
 		{
-			rectangle clip = Machine.drv.visible_area;
+			rectangle clip = new rectangle(Machine.drv.visible_area);
 			clip.min_x += 40;
 			tilemap_set_clip(layer0,clip);
 	

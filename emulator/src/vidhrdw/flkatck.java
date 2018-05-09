@@ -144,7 +144,7 @@ public class flkatck
 	
 		if (k007121_tilemap[0]!=null && k007121_tilemap[1]!=null)
 		{
-			rectangle clip = Machine.drv.visible_area;
+			rectangle clip = new rectangle(Machine.drv.visible_area);
 			clip.min_x += 40;
 			tilemap_set_clip(k007121_tilemap[0],clip);
 	
