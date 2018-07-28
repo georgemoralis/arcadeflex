@@ -766,6 +766,11 @@ public class driver {
                 /*522*//*crimfght*/ driver_crimfght,
                 /*523*//*crimfght*/ driver_crimfgt2,
                 /*524*//*crimfght*/ driver_crimfgtj,
+                /*snk*/ driver_ikari, 
+                /*snk*/ driver_ikarijp,      
+                /*snk*/ driver_ikarijpb, 
+                /*snk*/ driver_victroad, 
+                /*snk*/ driver_dogosoke, 
                 
                 /*
            Small issues that doesn't affect playable status
@@ -885,12 +890,7 @@ public class driver {
                 /*005*//*scramble*/ driver_newsin7, //-CPU #1 PC e8a1: warning - op-code execute on mapped i/o
                 /*006*//*airbustr*/ driver_airbustr,//boots but doesn't start
                 /*dec8*/ driver_oscar,//games doesn't boot and freezes emu
-                /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu
-                /*snk*/ driver_ikari, //boots but doesn't start	
-                /*snk*/ driver_ikarijp, //boots but doesn't start      
-                /*snk*/ driver_ikarijpb, //boots but doesn't start
-                /*snk*/ driver_victroad, //boots but doesn't start
-                /*snk*/ driver_dogosoke, //boots but doesn't start       		
+                /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      		
                 /*snk*/ driver_bermudat, //boots but doesn't start
                 /*snk*/ driver_bermudaj, //boots but doesn't start
                 /*snk*/ driver_bermudaa, //boots but doesn't start

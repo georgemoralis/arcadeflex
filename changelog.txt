@@ -1,3 +1,8 @@
+28/07/2018
+==========
+-Move Ikari warriors to playable status
+-Fixed a bug in m6800 core (tsx instruction)
+
 28/05/2018
 ==========
 -Fixed gfxlayout initiaze bug. Now dec0 games seems to boot

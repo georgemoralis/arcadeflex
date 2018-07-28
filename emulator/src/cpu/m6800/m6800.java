@@ -2078,7 +2078,7 @@ public opcode aba = new opcode() {
     /* $30 TSX inherent ----- */
     public opcode tsx = new opcode() {
         public void handler() {
-            m6800.x = (m6800.s + 1) & 0xFF;
+            m6800.x = (m6800.s + 1) & 0xFFFF;
         }
     };
 
