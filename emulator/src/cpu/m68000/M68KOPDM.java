@@ -6,6 +6,7 @@ import static cpu.m68000.m68kcpuH.*;
 import static cpu.m68000.m68kopsH.*;
 
 public class M68KOPDM {
+
     /*TODO*///void m68000_dbt(void)
 /*TODO*///{
 /*TODO*///	CPU_PC += 2;
@@ -34,7 +35,7 @@ public class M68KOPDM {
              }*/
         }
     };
-/*TODO*///void m68000_dbhi(void)
+    /*TODO*///void m68000_dbhi(void)
 /*TODO*///{
 /*TODO*///	if (CONDITION_NOT_HI)
 /*TODO*///	{
@@ -4706,8 +4707,9 @@ public class M68KOPDM {
             if (m68klog != null) {
                 fprintf(m68klog, "m68000_move_pd7_al_8 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
             }
-    }};
-/*TODO*///
+        }
+    };
+    /*TODO*///
 /*TODO*///
 /*TODO*///void m68000_move_pd7_pcdi_8(void)
 /*TODO*///{
@@ -10364,20 +10366,23 @@ public class M68KOPDM {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_muls_ix_16(void)
-/*TODO*///{
-/*TODO*///	uint *d_dst = &DX;
-/*TODO*///	uint res = MAKE_INT_16(m68ki_read_16(EA_IX)) * MAKE_INT_16(MASK_OUT_ABOVE_16(*d_dst));
-/*TODO*///
-/*TODO*///	*d_dst = res;
-/*TODO*///
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_N = GET_MSB_32(res);
-/*TODO*///	CPU_V = CPU_C = 0;
-/*TODO*///	USE_CLKS(54+10);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static opcode m68000_muls_ix_16 = new opcode() {
+        public void handler() {
+            long d_dst = get_DX();
+            long res = MAKE_INT_16(m68ki_read_16(EA_IX())) * MAKE_INT_16(MASK_OUT_ABOVE_16(d_dst));
+
+            set_DX(res);
+
+            m68k_cpu.not_z_flag = res;
+            m68k_cpu.n_flag = GET_MSB_32(res);
+            m68k_cpu.v_flag = m68k_cpu.c_flag = 0;
+            USE_CLKS(54 + 10);
+            if (m68klog != null) {
+                fprintf(m68klog, "m68000_muls_ix_16 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
+        }
+    };
+    /*TODO*///
 /*TODO*///void m68000_muls_aw_16(void)
 /*TODO*///{
 /*TODO*///	uint *d_dst = &DX;
