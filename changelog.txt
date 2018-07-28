@@ -3,6 +3,7 @@
 -Move Ikari warriors to playable status
 -Fixed a bug in m6800 core (tsx instruction)
 -Moved marvins driver to playable status
+-Added m68000_move_pd7_al_8 opcodes in 68000 cpu needed from robocopb
 
 28/05/2018
 ==========

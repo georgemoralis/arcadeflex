@@ -12549,14 +12549,7 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-    public static opcode m68000_move_pd7_al_8 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+
     public static opcode m68000_move_pd7_pcdi_8 = new opcode() {
         public void handler() {
             if (m68klog != null) {
