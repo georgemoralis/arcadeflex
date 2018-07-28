@@ -2,6 +2,7 @@
 ==========
 -Move Ikari warriors to playable status
 -Fixed a bug in m6800 core (tsx instruction)
+-Moved marvins driver to playable status
 
 28/05/2018
 ==========

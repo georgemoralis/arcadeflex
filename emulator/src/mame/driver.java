@@ -771,6 +771,9 @@ public class driver {
                 /*snk*/ driver_ikarijpb, 
                 /*snk*/ driver_victroad, 
                 /*snk*/ driver_dogosoke, 
+                /*marvins*/ driver_marvins, 
+                /*marvins*/ driver_madcrash,
+                /*marvins*/ driver_vangrd2,
                 
                 /*
            Small issues that doesn't affect playable status
@@ -1055,9 +1058,7 @@ public class driver {
                 /*slapfght*/ driver_slapbtjp,
                 /*slapfght*/ driver_slapbtuk,
                 /*slapfght*/ driver_getstarb,
-                /*marvins*/ driver_marvins, //screen issues 
-                /*marvins*/ driver_madcrash,//screen issues (offscreen drawing)
-                /*marvins*/ driver_vangrd2,// screen issues (offscreen drawing)
+                
 
                 driver_contra, /* GX633 (c) 1987 */
                 driver_contrab, /* bootleg */
