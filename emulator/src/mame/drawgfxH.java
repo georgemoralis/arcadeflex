@@ -2,6 +2,7 @@
 package mame;
 
 import static arcadeflex.libc_old.*;
+import java.util.Arrays;
 import static mame.osdependH.*;
 
 public class drawgfxH {
@@ -18,7 +19,18 @@ public class drawgfxH {
     {
         public GfxLayout(){}
 	public GfxLayout(int w, int h, int t, int p, int po[], int x[], int y[], int ci) { width = w; height = h; total = t; planes = p; planeoffset = po; xoffset = x; yoffset = y; charincrement = ci; };
-	/*UNINT16*/public int width,height;	/* width and height of chars/sprites */
+	public GfxLayout(GfxLayout c)
+        {
+            width = c.width;
+            height = c.height;
+            total = c.total;
+            planes = c.planes;
+            planeoffset = Arrays.copyOf(c.planeoffset,c.planeoffset.length);
+            xoffset =  Arrays.copyOf(c.xoffset,c.xoffset.length);
+            yoffset = Arrays.copyOf(c.yoffset,c.yoffset.length);
+            charincrement = c.charincrement;
+        }
+        /*UNINT16*/public int width,height;	/* width and height of chars/sprites */
 	/*UNINT32*/public int total;	/* total numer of chars/sprites in the rom */
 	/*UNINT16*/public int planes;	/* number of bitplanes */
 	/*UNINT32*/public int planeoffset[];	/* start of every bitplane */
@@ -48,7 +60,13 @@ public class drawgfxH {
     };
     public static class GfxDecodeInfo
     {
-	public GfxDecodeInfo(int mr, int s, GfxLayout g, int ccs, int tcc) { memory_region = mr; start = s; gfxlayout = g; color_codes_start = ccs; total_color_codes = tcc; };
+	public GfxDecodeInfo(int mr, int s, GfxLayout g, int ccs, int tcc) { memory_region = mr; start = s; if(g!=null){
+            gfxlayout = new GfxLayout(g);
+            }
+            else
+            {
+                gfxlayout=null;
+            } color_codes_start = ccs; total_color_codes = tcc; };
 	public GfxDecodeInfo(int s, GfxLayout g, int ccs, int tcc) { start = s; gfxlayout = g; color_codes_start = ccs; total_color_codes = tcc; };
 	public GfxDecodeInfo(int s) { this(s, s, null, 0, 0); }
 

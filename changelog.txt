@@ -1,3 +1,7 @@
+28/05/2018
+==========
+-Fixed gfxlayout initiaze bug. Now dec0 games seems to boot
+
 09/05/2018
 ==========
 -Fixed rectangle issue in snk driver . Ikari warriors works!
