@@ -20815,14 +20815,7 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-    public static opcode m68000_or_er_al_32 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+
     public static opcode m68000_or_er_pcdi_32 = new opcode() {
         public void handler() {
             if (m68klog != null) {
