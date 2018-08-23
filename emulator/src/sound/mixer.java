@@ -110,9 +110,9 @@ public class mixer {
 
         int sound_enabled = 1;
         //disable sound in MainStream case for now..
-        if(MainStream.inst != null){
-            sound_enabled = 0;
-        }
+        //if(MainStream.inst != null){
+        //    sound_enabled = 0;
+        //}
         mixer_sound_enabled = sound_enabled;
 
         return 0;

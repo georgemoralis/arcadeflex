@@ -406,9 +406,9 @@ public class mame {
 
     public static int updatescreen() {
         /* update sound */
-        if(MainStream.inst==null){ //disable sound in MainStream case for now..
+        //if(MainStream.inst==null){ //disable sound in MainStream case for now..
             sound_update();
-        }
+        //}
         
 
          if (osd_skip_this_frame() == 0)

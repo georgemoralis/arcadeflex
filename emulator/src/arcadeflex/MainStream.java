@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DirectColorModel;
 import java.awt.image.ImageConsumer;
 import java.awt.image.ImageProducer;
+import javafx.util.Callback;
 import static mame.mame.Machine;
 
 /**
@@ -54,6 +55,11 @@ public class MainStream implements ImageProducer, KeyListener, MouseListener, Mo
     private int i = 0, j = 0;
     private int x = 0, y = 0;
     private ScreenshotUploader suploader = null;
+    public myCallback callback;
+
+    public MainStream(myCallback callback) {
+        this.callback = callback;
+    }
 
     public static void setDebug(boolean debug) {
         MainStream.debug = debug;
