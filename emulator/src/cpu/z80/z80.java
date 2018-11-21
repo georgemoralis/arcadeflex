@@ -1639,6 +1639,45 @@ public class z80 extends cpu_interface {
         }
 
         //memset(&Z80, 0, sizeof(Z80));
+                Z80.PREPC=0;
+        Z80.PC=0;
+        Z80.SP=0;
+        Z80.A=0;
+        Z80.F=0;
+        Z80.B=0;
+        Z80.C=0;
+        Z80.D=0;
+        Z80.E=0;
+        Z80.H=0;
+        Z80.L=0;
+        Z80.IX=0;
+        Z80.IY=0;
+        Z80.A2=0;
+        Z80.F2=0;
+        Z80.B2=0;
+        Z80.C2=0;
+        Z80.D2=0;
+        Z80.E2=0;
+        Z80.H2=0;
+        Z80.L2=0;
+        Z80.WZ=0;
+        Z80.R=0;
+        Z80.R2=0;
+        Z80.IFF1=0;
+        Z80.IFF2=0;
+        Z80.HALT=0;
+        Z80.IM=0;
+        Z80.I=0;
+        Z80.irq_max=0;
+        Z80.request_irq=0;
+        Z80.service_irq=0;
+        Z80.nmi_state=0;
+        Z80.irq_state=0;
+        Z80.int_state = new int[Z80_MAXDAISY];
+        Z80.irq = new Z80_DaisyChain[Z80_MAXDAISY];
+        Z80.irq_callback=null;
+        Z80.extra_cycles=0;
+
         Z80.IX = Z80.IY = 0xffff;
         /* IX and IY are FFFF after a reset! */
         Z80.F = ZF;
