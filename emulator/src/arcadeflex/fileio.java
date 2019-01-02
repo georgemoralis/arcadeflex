@@ -31,7 +31,7 @@ public class fileio {
 /*TODO*/ //    char **samplepathv = NULL;
 /*TODO*/ //    int samplepathc = 0;
     //public static final String romUrl = "http://www.arcadeflex.com/roms/";
-    public static final String romUrl = "http://www.jnodes.net/roms/";
+    //public static String romUrl = "http://www.jnodes.net/roms/";
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
     /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
     /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
@@ -196,9 +196,9 @@ public class fileio {
                                 System.out.println(filename + " does not seem to exist in the zip file");
                             }
 
-                        } else if (URLexistsWithCache(romUrl + gamename + ".zip")) {// url loading here, the last resort of finding the rom. *todo.
+                        } else if (URLexistsWithCache(settings.romUrl + gamename + ".zip")) {// url loading here, the last resort of finding the rom. *todo.
                             System.out.println("loading " + filename + " from zip online");
-                            byte[] bytes = unZipItOnlineWithCache(romUrl + gamename + ".zip", filename);
+                            byte[] bytes = unZipItOnlineWithCache(settings.romUrl + gamename + ".zip", filename);
                             if (bytes != null) {
                                 name = sprintf("%s/%s/%s", dir_name, gamename, filename);
                                 //System.out.println(name);
@@ -231,9 +231,9 @@ public class fileio {
                                 System.out.println(filename + " does not seem to exist in the zip file online");
                                 //System.out.println("possibly it is in parent rom: "+Machine.gamedrv.clone_of.name);
                             }
-                        } else if (URLexists(romUrl + gamename + "/" + filename)) {
+                        } else if (URLexists(settings.romUrl + gamename + "/" + filename)) {
                             System.out.println("(loading file online)");
-                            byte[] bytes = FetchOnlineFile(romUrl + gamename + "/" + filename);
+                            byte[] bytes = FetchOnlineFile(settings.romUrl + gamename + "/" + filename);
                             if (bytes != null) {
                                 name = sprintf("%s/%s/%s", dir_name, gamename, filename);
                                 //System.out.println(name);

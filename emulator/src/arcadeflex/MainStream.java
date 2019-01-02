@@ -69,9 +69,15 @@ public class MainStream implements ImageProducer, KeyListener, MouseListener, Mo
     //public static debug d;
     public void setEmulationPaused(boolean what) {
         paused = what;
+        if(what==true){
+            arcadeflexMasterThread.suspend();
+        } else {
+            arcadeflexMasterThread.resume();
+        }
     }
 
-    public void startEmulation(String param1) {
+    public void startEmulation(String param1, String roms_url) {
+        settings.romUrl = roms_url;
         System.out.println("starting arcadeflex emulation");
 
         //d = new debug(this);
