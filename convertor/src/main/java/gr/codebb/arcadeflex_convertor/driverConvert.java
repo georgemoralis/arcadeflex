@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package convertor;
+package gr.codebb.arcadeflex_convertor;
 
 /**
  *

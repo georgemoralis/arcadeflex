@@ -8,7 +8,7 @@
  *
  * Created on 24 Αυγ 2011, 12:33:21 μμ
  */
-package convertor;
+package gr.codebb.arcadeflex_convertor;
 
 import java.io.IOException;
 import java.io.OutputStream;

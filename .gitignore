@@ -22,3 +22,4 @@ emulator/neclog.log
 emulator/m68k.log
 emulator/samples/*
 /emulator/h6280.log
+/convertor/target/

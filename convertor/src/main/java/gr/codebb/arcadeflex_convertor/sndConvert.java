@@ -14,20 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package convertor;
+package gr.codebb.arcadeflex_convertor;
 
 /**
  *
  * @author george
  */
-public class machineConvert {
-    static final int machine_mem_read=20;
-    static final int machine_mem_write=21;
-    static final int machine_init=22;
-    static final int machine_interrupt=25;
+public class sndConvert {
+
+    static final int snd_mem_read=15;
+    static final int snd_mem_write=16;
+    static final int snd_update=20;
+    static final int snd_start=21;
+    static final int snd_stop=22;
+    static final int snd_interrupt=23;
     
-    
-    public static void ConvertMachine()
+    public static void ConvertSound()
     {
         Convertor.inpos = 0;//position of pointer inside the buffers
         Convertor.outpos = 0;
@@ -38,9 +40,7 @@ public class machineConvert {
         int l=0;
         
         int k=0;
-        
-        
-label0: 
+  label0:       
         do
         {
             if(Convertor.inpos >= Convertor.inbuf.length)//an to megethos einai megalitero spase to loop
@@ -76,7 +76,7 @@ label0:
                     sUtil.putString(" *\r\n");
                     sUtil.putString(" *\r\n");
                     sUtil.putString(" */ \r\n");
-                    sUtil.putString("package machine;\r\n");
+                    sUtil.putString("package sndhrdw;\r\n");
                     sUtil.putString("\r\n");
                     sUtil.putString((new StringBuilder()).append("public class ").append(Convertor.className).append("\r\n").toString());
                     sUtil.putString("{\r\n");
@@ -88,16 +88,84 @@ label0:
                 Convertor.outbuf[Convertor.outpos++] = Convertor.inbuf[Convertor.inpos++];
                 line_change_flag = true;
                 continue;
-             case 45: // '-'
-                char c3 = sUtil.getNextChar();
-                if(c3 != '>')
-                {
-                    break;
-                }
-                Convertor.outbuf[Convertor.outpos++] = '.';
-                Convertor.inpos += 2;
-                continue;  
-            case 105: // 'i'
+                  
+              case 118: // 'v'
+                    int j = Convertor.inpos;
+                    if(!sUtil.getToken("void"))
+                    {
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    Convertor.token[0] = sUtil.parseToken();
+                    sUtil.skipSpace();
+                    if(sUtil.parseChar() != '(')
+                    {
+                        Convertor.inpos = j;
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    if(sUtil.getToken("void"))//an to soma tis function einai (void)
+                    {
+                        if(sUtil.parseChar() != ')')
+                        {
+                            Convertor.inpos = j;
+                            break;
+                        }
+                        if(Convertor.token[0].contains("sh_update"))
+                        {
+                            sUtil.putString((new StringBuilder()).append("public static ShUpdatePtr ").append(Convertor.token[0]).append(" = new ShUpdatePtr() { public void handler() ").toString());
+                            type = snd_update;
+                            l = -1;
+                            continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
+                        }
+                        if(Convertor.token[0].contains("sh_stop"))
+                        {
+                            sUtil.putString((new StringBuilder()).append("public static ShStopPtr ").append(Convertor.token[0]).append(" = new ShStopPtr() { public void handler() ").toString());
+                            type = snd_stop;
+                            l = -1;
+                            continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
+                        }
+                        
+                    }                
+                    if(!sUtil.getToken("int"))
+                    {
+                        Convertor.inpos = j;
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    Convertor.token[1] = sUtil.parseToken();
+                    sUtil.skipSpace();
+                    if(sUtil.parseChar() != ',')
+                    {
+                        Convertor.inpos = j;
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    if(!sUtil.getToken("int"))
+                    {
+                        Convertor.inpos = j;
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    Convertor.token[2] = sUtil.parseToken();
+                    sUtil.skipSpace();
+                    if(sUtil.parseChar() != ')')
+                    {
+                        Convertor.inpos = j;
+                        break;
+                    }
+                    sUtil.skipSpace();
+                    if(Convertor.token[0].length()>0 && Convertor.token[1].length()>0 && Convertor.token[2].length()>0)
+                    {
+                        sUtil.putString((new StringBuilder()).append("public static WriteHandlerPtr ").append(Convertor.token[0]).append(" = new WriteHandlerPtr() { public void handler(int ").append(Convertor.token[1]).append(", int ").append(Convertor.token[2]).append(")").toString());
+                        type = snd_mem_write;
+                        l = -1;
+                        continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
+                    }
+
+                    Convertor.inpos = j;           
+                   break; 
+               case 105: // 'i'
                 int i = Convertor.inpos;
                 if(sUtil.getToken("if"))
                 {
@@ -146,10 +214,17 @@ label0:
                             Convertor.inpos = i;
                             break;
                         }
-                        if(Convertor.token[0].contains("_interrupt"))
+                        if(Convertor.token[0].contains("sh_start"))
+                        {
+                            sUtil.putString((new StringBuilder()).append("public static ShStartPtr ").append(Convertor.token[0]).append(" = new ShStartPtr() { public int handler() ").toString());
+                            type = snd_start;
+                            l = -1;
+                            continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
+                        }
+                        if(Convertor.token[0].contains("sh_interrupt"))
                         {
                             sUtil.putString((new StringBuilder()).append("public static InterruptPtr ").append(Convertor.token[0]).append(" = new InterruptPtr() { public int handler() ").toString());
-                            type = machine_interrupt;
+                            type = snd_interrupt;
                             l = -1;
                             continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
                         }    
@@ -169,7 +244,7 @@ label0:
                     if(Convertor.token[0].length()>0 && Convertor.token[1].length()>0)
                     {
                             sUtil.putString((new StringBuilder()).append("public static ReadHandlerPtr ").append(Convertor.token[0]).append(" = new ReadHandlerPtr() { public int handler(int ").append(Convertor.token[1]).append(")").toString());
-                            type = machine_mem_read;
+                            type = snd_mem_read;
                             l = -1;
                             continue label0;
                     }
@@ -177,89 +252,30 @@ label0:
                 }
                 Convertor.inpos = i;
                 break;
-             case 118: // 'v'
-                    int j = Convertor.inpos;
-                    if(!sUtil.getToken("void"))
-                    {
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    Convertor.token[0] = sUtil.parseToken();
-                    sUtil.skipSpace();
-                    if(sUtil.parseChar() != '(')
-                    {
-                        Convertor.inpos = j;
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    if(sUtil.getToken("void"))//an to soma tis function einai (void)
-                    {
-                        if(sUtil.parseChar() != ')')
-                        {
-                            Convertor.inpos = j;
-                            break;
-                        }
-                        if(Convertor.token[0].contains("init_machine"))
-                        {
-                            sUtil.putString((new StringBuilder()).append("public static InitMachinePtr ").append(Convertor.token[0]).append(" = new InitMachinePtr() { public void handler() ").toString());
-                            type = machine_init;
-                            l = -1;
-                            continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
-                        }                    
-                    }                
-                    if(!sUtil.getToken("int"))
-                    {
-                        Convertor.inpos = j;
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    Convertor.token[1] = sUtil.parseToken();
-                    sUtil.skipSpace();
-                    if(sUtil.parseChar() != ',')
-                    {
-                        Convertor.inpos = j;
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    if(!sUtil.getToken("int"))
-                    {
-                        Convertor.inpos = j;
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    Convertor.token[2] = sUtil.parseToken();
-                    sUtil.skipSpace();
-                    if(sUtil.parseChar() != ')')
-                    {
-                        Convertor.inpos = j;
-                        break;
-                    }
-                    sUtil.skipSpace();
-                    if(Convertor.token[0].length()>0 && Convertor.token[1].length()>0 && Convertor.token[2].length()>0)
-                    {
-                        sUtil.putString((new StringBuilder()).append("public static WriteHandlerPtr ").append(Convertor.token[0]).append(" = new WriteHandlerPtr() { public void handler(int ").append(Convertor.token[1]).append(", int ").append(Convertor.token[2]).append(")").toString());
-                        type = machine_mem_write;
-                        l = -1;
-                        continue label0; //ξαναργυρνα στην αρχη για να μην γραψεις και την παλια συνάρτηση
-                    }
-
-                    Convertor.inpos = j;           
+              case 45: // '-'
+                char c3 = sUtil.getNextChar();
+                if(c3 != '>')
+                {
                     break;
-             case 123: // '{'
+                }
+                Convertor.outbuf[Convertor.outpos++] = '.';
+                Convertor.inpos += 2;
+                continue;                 
+                    
+              case 123: // '{'
                     l++;
                 break;
              case 125: // '}'
                 l--;
-                if(type != machine_mem_read && type != machine_mem_write  && type!=machine_init && type!=machine_interrupt || l != -1)
+                if(type != snd_mem_read && type != snd_mem_write  && type!=snd_update && type!=snd_start && type!=snd_stop && type!=snd_interrupt || l != -1)
                 {
                     break;
                 }
                 sUtil.putString("} };");
                 Convertor.inpos++;
                 type = -1;
-                continue; 
+                continue;  
             }
-  
             
             Convertor.outbuf[Convertor.outpos++] = Convertor.inbuf[Convertor.inpos++];//grapse to inputbuffer sto output
         }while(true);
@@ -267,6 +283,5 @@ label0:
         {
             sUtil.putString("}\r\n");
         }
-       
-    }   
+    }
 }
