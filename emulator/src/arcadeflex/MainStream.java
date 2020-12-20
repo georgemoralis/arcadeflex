@@ -21,7 +21,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DirectColorModel;
 import java.awt.image.ImageConsumer;
 import java.awt.image.ImageProducer;
-import javafx.util.Callback;
 import static mame.mame.Machine;
 
 /**
