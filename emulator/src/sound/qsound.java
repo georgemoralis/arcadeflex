@@ -1,7 +1,7 @@
 package sound;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.qsoundH.*;
 import static mame.mame.*;

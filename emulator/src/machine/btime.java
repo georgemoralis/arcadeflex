@@ -16,14 +16,14 @@ import static vidhrdw.generic.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.memory.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 public class btime
 {
 	

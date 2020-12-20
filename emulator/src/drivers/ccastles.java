@@ -15,12 +15,12 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
 import static vidhrdw.ccastles.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.pokeyH.*;
 import static sound.pokey.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 
 public class ccastles {
 

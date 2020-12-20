@@ -19,7 +19,7 @@ package machine;
 
 import static machine.tait8741H.*;
 import static mame.driverH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.timer.*;
 import static mame.timerH.*;
 

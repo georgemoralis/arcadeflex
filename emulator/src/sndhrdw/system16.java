@@ -7,7 +7,7 @@
  *
  */ 
 package sndhrdw;
-import arcadeflex.ptrlib.UBytePtr;
+import platform.ptrlib.UBytePtr;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.cpuintrf.*;

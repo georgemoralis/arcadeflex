@@ -5,7 +5,7 @@ import static mame.cpuintrfH.*;
 import static cpu.m68000.m68kcpu.*;
 import static cpu.m68000.m68kmameH.*;
 import static mame.memoryH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class m68kcpuH {
     /*TODO*////* Check if we have certain storage sizes */

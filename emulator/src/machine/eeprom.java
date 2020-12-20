@@ -6,9 +6,9 @@ package machine;
 
 import static machine.eepromH.*;
 import static mame.cpuintrfH.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class eeprom 
 {

@@ -5,17 +5,17 @@ import static mame.sndintrfH.*;
 import static sound._3812intfH.*;
 import static mame.driverH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.sndintrf.*;
 import static sound.streams.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound.fmoplH.*;
 import static sound.fmopl.*;
 import static mame.cpuintrfH.*;
 import static mame.timer.*;
 import sound.fm_c.FM_OPL;
 import static mame.common.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class y8950 extends snd_interface {
 
     static Y8950interface intf = null; 

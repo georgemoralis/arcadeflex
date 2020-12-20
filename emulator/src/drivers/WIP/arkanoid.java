@@ -11,11 +11,11 @@ import static machine.arkanoid.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static sound.ay8910H.*;
 import static sound.ay8910.*;
 

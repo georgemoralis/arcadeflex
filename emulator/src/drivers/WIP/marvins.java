@@ -16,7 +16,7 @@ import static sound.namcoH.*;
 import static sound.namco.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static sound.ay8910H.*;
 import static sound.ay8910.*;
 import static mame.mame.*;

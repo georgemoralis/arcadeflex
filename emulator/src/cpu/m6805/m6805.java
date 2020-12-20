@@ -5,7 +5,7 @@ import static mame.memoryH.*;
 import static mame.driverH.CPU_M6805;
 import static cpu.m6805.m6805H.*;
 import static mame.memory.cpu_setOPbase16;
-import static arcadeflex.osdepend.*;
+import static platform.osdepend.*;
 
 public class m6805 extends cpu_interface {
 

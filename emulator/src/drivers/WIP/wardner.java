@@ -13,7 +13,7 @@ import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound._3812intfH.*;
 import static sound._3812intf.*;
 import static mame.palette.*;

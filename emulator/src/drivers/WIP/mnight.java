@@ -22,7 +22,7 @@ import static sound.adpcm.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;
 import static mame.common.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class mnight {
 

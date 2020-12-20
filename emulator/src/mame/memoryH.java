@@ -1,13 +1,13 @@
 
 package mame;
 
-import arcadeflex.libc_old.CharPtr;
+import platform.libc_old.CharPtr;
 import mame.driverH.ReadHandlerPtr;
 import mame.driverH.WriteHandlerPtr;
-import arcadeflex.libc.*;
+import platform.libc.*;
 import static mame.memory.*;
 import static mame.cpuintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 /**
  *

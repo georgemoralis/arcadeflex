@@ -1,7 +1,7 @@
 package mame;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 
 public class spriteH {
 

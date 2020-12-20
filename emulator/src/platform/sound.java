@@ -1,4 +1,4 @@
-package arcadeflex;
+package platform;
 
 import static mame.mame.Machine;
 import static sound.mixer.samples_this_frame;

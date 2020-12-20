@@ -4,12 +4,12 @@ import static mame.sndintrfH.*;
 import static sound.k007232H.*;
 import static mame.driverH.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static sound.streams.*;
 import static mame.common.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 public class k007232 extends snd_interface {
 
     public static final int KDAC_A_PCM_MAX = (2);		/* Channels per chip */

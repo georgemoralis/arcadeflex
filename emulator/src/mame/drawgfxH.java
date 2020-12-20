@@ -1,7 +1,7 @@
 
 package mame;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import java.util.Arrays;
 import static mame.osdependH.*;
 

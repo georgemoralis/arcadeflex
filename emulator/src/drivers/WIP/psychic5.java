@@ -21,7 +21,7 @@ import static sound._2203intf.*;
 import static sound._2203intfH.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrfH.*;
 
 

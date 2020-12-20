@@ -4,8 +4,8 @@ package sound;
  *
  * @author shadow
  */
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.adpcmH.*;
 import static mame.mame.*;
@@ -14,7 +14,7 @@ import static mame.driverH.*;
 import static mame.common.*;
 import static mame.sndintrf.*;
 import static sound.okim6295H.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class okim6295 extends snd_interface {
 
     public static final int MAX_SAMPLE_CHUNK = 10000;

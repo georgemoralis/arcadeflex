@@ -1,12 +1,12 @@
 package sound;
 
 import static sound.streams.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static mame.timer.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 
 public class ym2151 {
     public static class OscilRec

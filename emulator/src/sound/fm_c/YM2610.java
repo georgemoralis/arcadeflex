@@ -1,9 +1,9 @@
 package sound.fm_c;
 
-import arcadeflex.libc;
-import static arcadeflex.libc.*;
+import platform.libc;
+import static platform.libc.*;
 import sound.YM_DELTAT;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class YM2610 {
 

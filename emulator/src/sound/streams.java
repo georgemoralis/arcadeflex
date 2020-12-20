@@ -2,7 +2,7 @@ package sound;
 /**
  *  ported to 0.37b11
  */
-import static arcadeflex.libc_v2.ShortPtr;
+import static platform.libc_v2.ShortPtr;
 import static mame.mame.Machine;
 import static mame.sndintrf.sound_scalebufferpos;
 import static sound.mixer.*;

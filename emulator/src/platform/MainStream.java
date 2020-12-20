@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package arcadeflex;
+package platform;
 
-import static arcadeflex.libc_old.ConvertArguments;
-import static arcadeflex.libc_old.argc;
-import static arcadeflex.libc_old.argv;
+import static platform.libc_old.ConvertArguments;
+import static platform.libc_old.argc;
+import static platform.libc_old.argv;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;

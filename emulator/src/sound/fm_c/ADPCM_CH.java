@@ -1,7 +1,7 @@
 
 package sound.fm_c;
 
-import arcadeflex.libc.IntSubArray;
+import platform.libc.IntSubArray;
 
 
 public class ADPCM_CH {

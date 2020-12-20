@@ -10,7 +10,7 @@ import static mame.driverH.*;
 import static mame.cpuintrf.*;
 import static mame.mame.*;
 import static cpu.z80.z80H.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrfH.*;
 
 public class rastan

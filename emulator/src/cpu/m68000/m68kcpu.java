@@ -11,7 +11,7 @@ import static cpu.m68000.m68kmame.*;
 import static cpu.m68000.m68kcpuH.*;
 import static cpu.m68000.m68kopsH.*;
 import static cpu.m68000.m68kops.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class m68kcpu {
 

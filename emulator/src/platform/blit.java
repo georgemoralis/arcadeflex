@@ -1,6 +1,6 @@
-package arcadeflex;
+package platform;
 
-import static arcadeflex.video.*;
+import static platform.video.*;
 
 public class blit {
 

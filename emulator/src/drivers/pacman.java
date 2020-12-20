@@ -12,11 +12,11 @@ import static sound.namcoH.*;
 import static sound.namco.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static machine.pacman.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
 import static sound.ay8910H.*;
@@ -25,7 +25,7 @@ import static machine.pacplus.*;
 import static mame.cpuintrfH.*;
 import static mame.memory.*;
 import static machine.theglob.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class pacman {
 

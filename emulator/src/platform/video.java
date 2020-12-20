@@ -1,9 +1,9 @@
-package arcadeflex;
+package platform;
 
 import static mame.osdependH.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.ticker.*;
+import static platform.libc_old.*;
+import static platform.libc.*;
+import static platform.ticker.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -17,11 +17,11 @@ import static mame.driverH.*;
 import static mame.version.*;
 import static mame.drawgfxH.*;
 import static mame.usrintrf.*;
-import static arcadeflex.blit.*;
+import static platform.blit.*;
 import static mame.inputportH.*;
 import static mame.input.*;
-import static arcadeflex.sound.*;
-import static arcadeflex.ptrlib.*;
+import static platform.sound.*;
+import static platform.ptrlib.*;
 
 public class video {
 

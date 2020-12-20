@@ -28,13 +28,13 @@ import static sound.namcoH.*;
 import static sound.namco.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrfH.*;
 import static mame.memory.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static cpu.m6800.hd63701.*;
 
 public class baraduke

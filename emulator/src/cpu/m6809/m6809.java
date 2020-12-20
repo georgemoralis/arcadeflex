@@ -2,7 +2,7 @@ package cpu.m6809;
 
 import mame.cpuintrfH;
 import mame.cpuintrfH.cpu_interface;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.driverH.*;

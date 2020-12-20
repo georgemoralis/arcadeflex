@@ -1,11 +1,11 @@
-package arcadeflex;
+package platform;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.driver.*;
-import static arcadeflex.fronthlp.*;
+import static platform.fronthlp.*;
 import static mame.mame.*;
-import static arcadeflex.config.*;
-import static arcadeflex.ticker.*;
+import static platform.config.*;
+import static platform.ticker.*;
 
 /**
  * This file is relative to msdos.c in mame

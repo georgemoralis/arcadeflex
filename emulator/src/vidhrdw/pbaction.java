@@ -13,11 +13,11 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-import static arcadeflex.video.*;
-import static arcadeflex.ptrlib.*;
+import static platform.video.*;
+import static platform.ptrlib.*;
 
 public class pbaction {
 

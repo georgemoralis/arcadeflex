@@ -4,7 +4,7 @@
  */
 package drivers;
 
-import arcadeflex.libc.UByte;
+import platform.libc.UByte;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
@@ -14,7 +14,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static vidhrdw.skydiver.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.inputH.*;
 
 public class skydiver {

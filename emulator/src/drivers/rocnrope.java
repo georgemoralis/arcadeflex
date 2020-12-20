@@ -15,7 +15,7 @@ import static mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.inputportH.*;
 import static sndhrdw.timeplt.*;
 import static vidhrdw.rocnrope.*;

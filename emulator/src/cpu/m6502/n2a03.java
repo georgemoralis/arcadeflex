@@ -8,7 +8,7 @@ import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m6502.m6502H.*;
 import static cpu.m6502.m6502.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 
 public class n2a03 extends m6502 {

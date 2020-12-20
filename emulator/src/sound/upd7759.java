@@ -1,15 +1,15 @@
 package sound;
 
 import mame.sndintrf;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.upd7759H.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static sound.streams.*;
 import static mame.driverH.*;
 import static mame.common.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 import static mame.timer.*;
 import static mame.timerH.*;
 

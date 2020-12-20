@@ -4,8 +4,8 @@ package sound;
  *
  * @author shadow
  */
-import static arcadeflex.libc.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc.*;
+import static platform.ptrlib.*;
 
 public class YM_DELTA_T {
 

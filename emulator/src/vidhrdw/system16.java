@@ -7,17 +7,17 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
-import arcadeflex.libc_old.CharPtr;
-import static arcadeflex.libc_old.memset;
+import static platform.libc.*;
+import platform.libc_old.CharPtr;
+import static platform.libc_old.memset;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.video.osd_get_pen;
+import static platform.ptrlib.*;
+import static platform.video.osd_get_pen;
 import static drivers.system16.*;
 import static mame.common.memory_region;
 import static mame.commonH.REGION_GFX2;

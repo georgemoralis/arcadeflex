@@ -5,16 +5,16 @@
  */
 package mame;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.commonH.*;
 import static mame.mame.*;
 import static mame.mameH.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 public class common {
     
     /* These globals are only kept on a machine basis - LBO 042898 */

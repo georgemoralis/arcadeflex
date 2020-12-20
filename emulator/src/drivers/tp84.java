@@ -16,7 +16,7 @@ import static sound.sn76496H.*;
 import static sound.sn76496.*;
 import static mame.sndintrf.*;
 import static mame.sndintrfH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static vidhrdw.tp84.*;
 import static sound.streams.*;
 import static machine.tp84.*;

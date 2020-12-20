@@ -15,7 +15,7 @@ package machine;
 
 import static mame.cpuintrfH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.driverH.*;
 import static mame.cpuintrf.*;
 import static mame.timer.*;

@@ -6,8 +6,8 @@ import static mame.mame.*;
 import static sound.mixer.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 
 public class cclimber {
     /* macro to convert 4-bit unsigned samples to 8-bit signed samples */

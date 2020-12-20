@@ -13,7 +13,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.sndintrf.*;
 import static cpu.z80.z80H.*;
 import static mame.sndintrfH.*;

@@ -3,8 +3,8 @@ package vidhrdw.konami;
 /*
  used in battlnts driver. Seems to be fully functional
  */
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.tilemapC.*;

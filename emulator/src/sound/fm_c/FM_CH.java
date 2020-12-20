@@ -1,6 +1,6 @@
 package sound.fm_c;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 
 public class FM_CH {
 

@@ -14,10 +14,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package arcadeflex;
+package platform;
 
-import static arcadeflex.libc_old.*;
-import arcadeflex.settings;
+import static platform.libc_old.*;
+import platform.settings;
 import static mame.version.*;
 import static mame.driver.*;
 import static mame.driverH.*;

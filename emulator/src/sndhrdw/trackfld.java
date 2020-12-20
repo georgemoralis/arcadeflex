@@ -14,7 +14,7 @@ import static sound.adpcm.*;
 import static sound.adpcmH.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound.dacH.*;
 import static sound.vlm5030.*;
 import static sound.vlm5030H.*;

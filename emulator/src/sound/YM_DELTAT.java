@@ -1,7 +1,7 @@
 package sound;
 
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc.*;
+import static platform.ptrlib.*;
+import static platform.libc.*;
 
 
 /**

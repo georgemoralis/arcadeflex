@@ -7,7 +7,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.nec.necH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static cpu.nec.necmodrmH.*;
 import static cpu.nec.necinstrH.*;
 import static cpu.nec.neceaH.*;

@@ -10,7 +10,7 @@ package machine;
 
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class pacplus {
 

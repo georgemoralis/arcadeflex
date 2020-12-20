@@ -47,7 +47,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.memory.*;
 
 public class seibu {

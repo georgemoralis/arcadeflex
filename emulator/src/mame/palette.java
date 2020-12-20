@@ -3,13 +3,13 @@ package mame;
 import static mame.mame.*;
 import static mame.driverH.*;
 import static mame.paletteH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.mameH.*;
 import static mame.commonH.*;
 import static mame.common.*;
-import static arcadeflex.video.*;
-import static arcadeflex.ptrlib.*;
+import static platform.video.*;
+import static platform.ptrlib.*;
 import static mame.memoryH.*;
 
 public class palette {

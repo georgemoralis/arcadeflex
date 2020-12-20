@@ -12,7 +12,7 @@ import static mame.osdependH.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
 import static mame.palette.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class gundealr {
 

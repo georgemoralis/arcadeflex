@@ -1,10 +1,10 @@
 
 package mame;
 
-import static arcadeflex.libc.*;
-import static arcadeflex.video.*;
+import static platform.libc.*;
+import static platform.video.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class osdependH {
         /******************************************************************************

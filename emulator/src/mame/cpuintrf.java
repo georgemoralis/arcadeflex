@@ -1,6 +1,6 @@
 package mame;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import cpu.Dummy_cpu;
 import cpu.hd6309.hd6309;
 import cpu.z80.z80;

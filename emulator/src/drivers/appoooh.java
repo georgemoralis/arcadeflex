@@ -17,7 +17,7 @@ import static vidhrdw.appoooh.*;
 import static mame.sndintrfH.*;
 import static sound.MSM5205H.*;
 import static sound.MSM5205.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.common.*;
 import static mame.commonH.*;
 

@@ -2,8 +2,8 @@
  * 
  * 
  */
-package arcadeflex;
-import static arcadeflex.osdepend.*;
+package platform;
+import static platform.osdepend.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static mame.mame.*;
 
 public class config {

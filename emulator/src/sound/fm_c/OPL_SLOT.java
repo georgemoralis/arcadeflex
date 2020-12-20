@@ -1,6 +1,6 @@
 package sound.fm_c;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 
 public class OPL_SLOT {
     public int TL;		/* total level     :TL << 8            */

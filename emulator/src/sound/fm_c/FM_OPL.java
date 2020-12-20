@@ -2,7 +2,7 @@ package sound.fm_c;
 
 import static sound.fmoplH.*;
 import static sound.fm_c.OPL_CH.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import sound.YM_DELTAT;
 
 public class FM_OPL {

@@ -1,7 +1,7 @@
 package sound;
 
 import static sound.k007232.*;
-import arcadeflex.ptrlib.*;
+import platform.ptrlib.*;
 
 public class kdacApcm {
 

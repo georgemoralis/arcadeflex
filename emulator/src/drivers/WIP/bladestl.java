@@ -25,7 +25,7 @@
  */
 package drivers.WIP;
 
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
@@ -36,8 +36,8 @@ import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
+import static platform.libc_old.*;
+import static platform.libc.*;
 import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import static cpu.m6809.m6809H.*;

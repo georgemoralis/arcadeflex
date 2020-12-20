@@ -9,7 +9,7 @@ import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static vidhrdw.generic.*;
 import static mame.common.*;
 import static mame.inputportH.*;

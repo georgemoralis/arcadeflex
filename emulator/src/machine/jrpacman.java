@@ -12,7 +12,7 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.inputport.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class jrpacman {
 

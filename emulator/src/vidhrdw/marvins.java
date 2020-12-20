@@ -16,11 +16,11 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.tilemapC.*;
 import static mame.tilemapH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.palette.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class marvins {
 

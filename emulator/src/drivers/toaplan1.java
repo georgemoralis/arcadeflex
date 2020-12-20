@@ -52,7 +52,7 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound._3812intfH.*;
 import static sound._3526intf.*;

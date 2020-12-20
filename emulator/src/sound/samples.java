@@ -1,15 +1,15 @@
 package sound;
 
-import static arcadeflex.libc_old.fprintf;
-import static arcadeflex.libc_old.sprintf;
+import static platform.libc_old.fprintf;
+import static platform.libc_old.sprintf;
 import static mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static mame.mame.*;
-import static arcadeflex.osdepend.*;
+import static platform.osdepend.*;
 import static sound.samplesH.*;
 import static sound.mixerH.*;
 import static sound.mixer.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 import static mame.common.*;
 
 public class samples extends snd_interface {

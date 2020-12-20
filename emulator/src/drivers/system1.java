@@ -25,7 +25,7 @@ import static mame.timerH.*;
 import static vidhrdw.system1H.*;
 import static vidhrdw.system1.*;
 import static mame.palette.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class system1 {
 

@@ -13,7 +13,7 @@ import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound._2203intfH.*;
 import static sound._2203intf.*;
 import static cpu.m6502.m6502H.*;
@@ -21,7 +21,7 @@ import static vidhrdw.shootout.*;
 import static vidhrdw.btime.*;
 import static mame.sndintrf.*;
 import static vidhrdw.generic.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.memory.*;
 
 

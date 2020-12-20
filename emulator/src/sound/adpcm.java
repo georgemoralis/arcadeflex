@@ -1,7 +1,7 @@
 package sound;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static sound.adpcmH.*;
@@ -10,7 +10,7 @@ import static sound.streams.*;
 import static mame.driverH.*;
 import static mame.common.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class adpcm extends snd_interface {
 
     public static final int MAX_SAMPLE_CHUNK = 10000;

@@ -21,7 +21,7 @@ import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputport.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.memory.*;
 import static mame.memoryH.*;
 import static mame.timer.*;

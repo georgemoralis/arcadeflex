@@ -18,7 +18,7 @@ import static mame.cpuintrf.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
-import static arcadeflex.osdepend.*;
+import static platform.osdepend.*;
 
 public class z80 extends cpu_interface {
 

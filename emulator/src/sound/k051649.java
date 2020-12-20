@@ -6,8 +6,8 @@ import static mame.driverH.*;
 import static mame.sndintrf.*;
 import static mame.mame.*;
 import static sound.streams.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 public class k051649 extends snd_interface {
     public static class k051649_sound_channel {
     	/*unsigned*/ long counter;

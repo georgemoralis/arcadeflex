@@ -5,10 +5,10 @@ import static mame.sndintrfH.*;
 import static sound.sn76496H.*;
 import static mame.driverH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static sound.streams.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 
 public class sn76496 extends sndintrf.snd_interface {
 

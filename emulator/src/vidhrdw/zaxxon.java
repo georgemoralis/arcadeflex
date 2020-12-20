@@ -7,7 +7,7 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -16,9 +16,9 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.commonH.*;
 import static mame.common.*;
-import static arcadeflex.video.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.video.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 public class zaxxon
 {
 	

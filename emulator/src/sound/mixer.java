@@ -1,10 +1,10 @@
 package sound;
 
-import arcadeflex.MainStream;
-import static arcadeflex.libc_old.fprintf;
-import static arcadeflex.libc_old.sprintf;
-import arcadeflex.libc_v2.*;
-import static arcadeflex.sound.*;
+import platform.MainStream;
+import static platform.libc_old.fprintf;
+import static platform.libc_old.sprintf;
+import platform.libc_v2.*;
+import static platform.sound.*;
 import static sound.mixerH.*;
 import static mame.mame.*;
 import static mame.driverH.*;

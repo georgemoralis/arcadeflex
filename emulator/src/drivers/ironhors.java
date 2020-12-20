@@ -15,7 +15,7 @@ import static mame.inputportH.*;
 import static mame.sndintrf.*;
 import static cpu.m6809.m6809H.*;
 import static vidhrdw.ironhors.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;

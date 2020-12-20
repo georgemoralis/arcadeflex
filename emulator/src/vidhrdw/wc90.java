@@ -13,13 +13,13 @@ import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.video.*;
+import static platform.libc_old.*;
+import static platform.video.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static mame.palette.*;
 import static mame.paletteH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class wc90 {
 

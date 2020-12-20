@@ -4,7 +4,7 @@ import static mame.sndintrfH.*;
 import static sound._2151intfH.*;
 import static mame.driverH.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static sound.streams.*;
 import static sound.ym2151.*;

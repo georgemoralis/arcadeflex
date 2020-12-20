@@ -16,16 +16,16 @@
  */
 package machine;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrf.*;
 import static mame.mame.*;
 import static mame.driverH.*;
 import static machine.atarigenH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.timerH.*;
 import static mame.timer.*;
-import static arcadeflex.fileio.*;
-import static arcadeflex.video.osd_new_bitmap;
+import static platform.fileio.*;
+import static platform.video.osd_new_bitmap;
 import mame.drawgfxH.rectangle;
 import static mame.memoryH.*;
 import mame.osdependH.osd_bitmap;

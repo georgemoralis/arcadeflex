@@ -12,10 +12,10 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static vidhrdw.copsnrob.*;
 import static machine.copsnrob.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class copsnrob {
 

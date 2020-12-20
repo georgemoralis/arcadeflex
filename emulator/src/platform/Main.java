@@ -16,9 +16,9 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
-package arcadeflex;
+package platform;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 /**
  *
  * @author shadow

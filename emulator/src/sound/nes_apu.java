@@ -3,9 +3,9 @@ package sound;
 import mame.sndintrf.snd_interface;
 
 
-import static arcadeflex.libc_v2.ShortPtr;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.UBytePtr;
+import static platform.libc_v2.ShortPtr;
+import static platform.libc_old.*;
+import static platform.ptrlib.UBytePtr;
 import static cpu.m6502.n2a03.N2A03_DEFAULTCLOCK;
 import static cpu.m6502.n2a03.n2a03_irq;
 import static mame.common.memory_region;

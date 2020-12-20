@@ -20,17 +20,17 @@ package mame;
  *
  * @author george
  */
-import arcadeflex.MainStream;
-import static arcadeflex.ptrlib.*;
+import platform.MainStream;
+import static platform.ptrlib.*;
 import static mame.mameH.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.fileio.*;
-import static arcadeflex.libc.*;
+import static platform.libc_old.*;
+import static platform.fileio.*;
+import static platform.libc.*;
 import static mame.driver.*;
-import static arcadeflex.osdepend.*;
+import static platform.osdepend.*;
 import static mame.common.*;
 import static mame.drawgfx.*;
 import static mame.cpuintrf.*;
@@ -38,8 +38,8 @@ import static mame.drawgfxH.*;
 import static mame.palette.*;
 import static mame.usrintrf.*;
 import static mame.usrintrfH.*;
-import static arcadeflex.video.*;
-import static arcadeflex.blit.*;
+import static platform.video.*;
+import static platform.blit.*;
 import static mame.input.*;
 import static vidhrdw.generic.*;
 import static mame.commonH.*;

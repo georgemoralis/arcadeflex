@@ -18,12 +18,12 @@ import static mame.sndintrfH.*;
 import static sound.ay8910H.*;
 import static mame.driverH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrf.*;
 import static sound.streams.*;
 import static sound.mixer.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 public class ay8910 extends snd_interface {
 
     public ay8910() {

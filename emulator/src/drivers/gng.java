@@ -14,7 +14,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static vidhrdw.gng.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;

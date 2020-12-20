@@ -4,12 +4,12 @@ import static mame.sndintrfH.*;
 import static sound.k005289H.*;
 import static mame.driverH.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static sound.streams.*;
 import static mame.common.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 public class k005289 extends snd_interface {
 
     public k005289() {

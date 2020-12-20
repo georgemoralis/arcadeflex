@@ -11,7 +11,7 @@ import static mame.sndintrfH.*;
 import static mame.mame.*;
 import static sound.mixer.*;
 import static mame.common.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 import static mame.timer.*;
 import static mame.timerH.*;
 import static sound.streams.*;

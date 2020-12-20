@@ -1,6 +1,6 @@
 package mame;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import java.util.HashMap;
 import static mame.driverH.*;
 import static mame.inputportH.*;

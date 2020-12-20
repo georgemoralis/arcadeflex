@@ -5,9 +5,9 @@ package vidhrdw.konami;
  */
 
 import static mame.drawgfxH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static vidhrdw.konami.K007342.*;

@@ -7,18 +7,18 @@
  */
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.memoryH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class _1943 {
 

@@ -1,8 +1,8 @@
 package cpu.h6280;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.cpuintrfH.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 import static cpu.h6280.h6280H.H6280_INT_NMI;
 import static cpu.h6280.h6280H.H6280_INT_NONE;
 import static cpu.h6280.h6280H.H6280_IRQ1_VEC;

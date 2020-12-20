@@ -19,7 +19,7 @@ import static vidhrdw._1942.*;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;
 import static mame.sndintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class _1942 {
 

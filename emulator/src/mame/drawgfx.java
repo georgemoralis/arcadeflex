@@ -1,13 +1,13 @@
 
 package mame;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.osdependH.*;
 import static mame.drawgfxH.*;
 import static mame.mame.*;
 import static mame.driverH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.video.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc.*;
+import static platform.video.*;
+import static platform.ptrlib.*;
 public class drawgfx {
 
 /*TODO*///#define BL0 0

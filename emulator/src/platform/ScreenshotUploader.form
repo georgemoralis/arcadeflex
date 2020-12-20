@@ -142,7 +142,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="arcadeflex.com"/>
+        <Property name="text" type="java.lang.String" value="platform.com"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField4">

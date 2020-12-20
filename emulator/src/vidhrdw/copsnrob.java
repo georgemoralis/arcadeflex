@@ -13,7 +13,7 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.drawgfx.*;
 import static mame.drawgfxH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class copsnrob {
 

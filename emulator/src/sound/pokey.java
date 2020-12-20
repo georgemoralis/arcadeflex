@@ -1,7 +1,7 @@
 package sound;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.pokeyH.*;
 import static mame.mame.*;
@@ -11,7 +11,7 @@ import static mame.common.*;
 import static mame.sndintrf.*;
 import static mame.timer.*;
 import static mame.timerH.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class pokey extends snd_interface {
 
     public static FILE pokeylog = null; //fopen("pokeylog.log", "wa");

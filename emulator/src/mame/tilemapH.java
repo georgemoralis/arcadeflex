@@ -2,12 +2,12 @@ package mame;
 
 import static mame.driverH.*;
 import static mame.osdependH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.drawgfxH.*;
 import static mame.mame.*;
 import static mame.tilemapC.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class tilemapH {
     public static final tilemap ALL_TILEMAPS	=null;

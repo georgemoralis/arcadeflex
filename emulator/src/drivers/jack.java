@@ -13,7 +13,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static vidhrdw.jack.*;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;

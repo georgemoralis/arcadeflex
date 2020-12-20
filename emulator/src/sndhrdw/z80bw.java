@@ -12,7 +12,7 @@ import static sound.samples.*;
 import static mame.driverH.*;
 import static mame.mame.*;
 import static vidhrdw._8080bw.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class z80bw
 {

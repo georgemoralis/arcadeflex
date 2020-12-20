@@ -1,7 +1,7 @@
 package sound;
 
-import arcadeflex.libc.IntSubArray;
-import arcadeflex.ptrlib.UShortPtr;
+import platform.libc.IntSubArray;
+import platform.ptrlib.UShortPtr;
 import mame.driverH.WriteHandlerPtr;
 import static sound._2203intf.YM2203UpdateRequest;
 import sound.fm_c.FM_ST;
@@ -13,14 +13,14 @@ import sound.fm_c.YM2151;
 import sound.fm_c.YM2203;
 import sound.fm_c.YM2610;
 import sound.streams.StreamInitPtr;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static sound._2151intf.YM2151UpdateRequest;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound.YM_DELTA_T.*;
 import static sound.streams.*;
 import static sound._2610intf.*;
 import sound.fm_c.ADPCM_CH;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class fm {
     /*TODO*///#define YM2610B_WARNING
 /*TODO*///

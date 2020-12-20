@@ -108,10 +108,10 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.inputportH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static vidhrdw.m92.*;
 import static mame.sndintrf.*;
 import static mame.palette.*;
@@ -127,7 +127,7 @@ import static mame.memory.*;
 import static mame.mame.*;
 import static mame.cpuintrfH.*;
 import static mame.cpuintrf.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 
 public class m92
 {

@@ -1,7 +1,7 @@
 package vidhrdw;
 
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static mame.driverH.*;
@@ -16,8 +16,8 @@ import static mame.paletteH.*;
 import static mame.mameH.*;
 import static mame.cpuintrfH.*;
 import static mame.memoryH.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_v2.*;
+import static platform.ptrlib.*;
+import static platform.libc_v2.*;
 
 
 public class konamiic {

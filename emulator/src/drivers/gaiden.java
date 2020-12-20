@@ -3,7 +3,7 @@
  * using automatic conversion tool v0.10
  */ 
 package drivers;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
@@ -14,8 +14,8 @@ import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
+import static platform.libc_old.*;
+import static platform.libc.*;
 import static mame.sndintrf.*;
 import static cpu.konami.konamiH.*;
 import static cpu.konami.konami.*;

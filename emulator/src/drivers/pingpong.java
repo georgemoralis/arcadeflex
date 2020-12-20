@@ -17,7 +17,7 @@ import static mame.sndintrfH.*;
 import static sound.sn76496H.*;
 import static sound.sn76496.*;
 import static mame.sndintrfH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class pingpong {
 

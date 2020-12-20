@@ -1,10 +1,10 @@
-package arcadeflex;
+package platform;
 
 import java.awt.event.KeyEvent;
 import static mame.driverH.*;
 import static mame.inputH.*;
-import static arcadeflex.software_gfx.*;
-import static arcadeflex.video.*;
+import static platform.software_gfx.*;
+import static platform.video.*;
 
 public class input {
 

@@ -25,7 +25,7 @@ import static vidhrdw.higemaru.*;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;
 import static mame.sndintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class higemaru
 {	

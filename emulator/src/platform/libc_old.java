@@ -14,8 +14,8 @@
  You should have received a copy of the GNU General Public License
  along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package arcadeflex;
-import static arcadeflex.libc_v2.*;
+package platform;
+import static platform.libc_v2.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -26,12 +26,12 @@ import java.net.URL;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import arcadeflex.libc.*;
+import platform.libc.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.nio.file.Files;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 /**
  *
  * @author shadow

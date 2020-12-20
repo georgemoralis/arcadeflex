@@ -24,7 +24,7 @@ import static mame.memoryH.*;
 import static mame.driverH.CPU_I8039;
 import static cpu.i8039.i8039H.*;
 import static mame.memory.cpu_setOPbase16;
-import static arcadeflex.libc_old.memset;
+import static platform.libc_old.memset;
 
 public class i8039 extends cpu_interface {
 

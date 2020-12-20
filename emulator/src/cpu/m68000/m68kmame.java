@@ -1,6 +1,6 @@
 package cpu.m68000;
 
-import static arcadeflex.libc_old.fclose;
+import static platform.libc_old.fclose;
 import mame.cpuintrfH.cpu_interface;
 import static mame.cpuintrfH.*;
 import static mame.driverH.*;

@@ -4,13 +4,13 @@ import static mame.sndintrfH.*;
 import static sound._2610intfH.*;
 import static mame.driverH.*;
 import static mame.sndintrf.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static sound.fm.*;
 import static sound.fmH.*;
 import static sound.streams.*;
 import static mame.timer.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.common.*;
 
 public class _2610intf extends snd_interface {

@@ -15,7 +15,7 @@ import static vidhrdw.pengo.*;
 import static mame.sndintrfH.*;
 import static sound.namcoH.*;
 import static sound.namco.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;

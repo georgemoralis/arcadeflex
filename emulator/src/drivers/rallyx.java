@@ -15,7 +15,7 @@ import static sound.namcoH.*;
 import static sound.namco.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static mame.inputportH.*;
 import static sound.samplesH.*;
 import static sound.samples.*;

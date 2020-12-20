@@ -3,7 +3,7 @@ package cpu.nec;
 import static cpu.nec.v30.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class necH {
 

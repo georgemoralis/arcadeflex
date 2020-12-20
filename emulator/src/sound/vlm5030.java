@@ -2,8 +2,8 @@ package sound;
 
 import mame.sndintrf.snd_interface;
 
-import static arcadeflex.libc_v2.*;
-import static arcadeflex.ptrlib.UBytePtr;
+import static platform.libc_v2.*;
+import static platform.ptrlib.UBytePtr;
 import static mame.common.readsamples;
 import static mame.mame.errorlog;
 import static mame.sndintrfH.MachineSound;
@@ -14,7 +14,7 @@ import static sound.mixer.*;
 import static sound.streams.*;
 import static sound.vlm5030H.VLM5030interface;
 import static mame.driverH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class vlm5030 extends snd_interface {
     public vlm5030() {

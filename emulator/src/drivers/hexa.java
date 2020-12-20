@@ -11,7 +11,7 @@ import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;

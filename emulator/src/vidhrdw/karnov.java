@@ -13,8 +13,8 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc.*;
+import static platform.ptrlib.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -22,8 +22,8 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.memoryH.*;
-import static arcadeflex.video.*;
-import static arcadeflex.libc_old.*;
+import static platform.video.*;
+import static platform.libc_old.*;
 
 public class karnov
 {

@@ -2,10 +2,10 @@
 package mame;
 
 import static mame.inputH.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import java.util.Arrays;
 import static mame.inputportH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.inputport.*;
 import static mame.mame.*;
 

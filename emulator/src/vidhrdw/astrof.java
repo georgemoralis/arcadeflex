@@ -17,8 +17,8 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
-import arcadeflex.ptrlib.UBytePtr;
+import static platform.libc.*;
+import platform.ptrlib.UBytePtr;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;

@@ -27,7 +27,7 @@ import static mame.sndintrfH.*;
 import static vidhrdw.aeroboto.*;
 import static mame.sndintrf.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class aeroboto
 {

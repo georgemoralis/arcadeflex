@@ -8,10 +8,10 @@
  */ 
 package machine;
 import static mame.driverH.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 
 public class atari_vg
 {

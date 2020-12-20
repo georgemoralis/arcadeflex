@@ -1,7 +1,7 @@
 package vidhrdw.konami;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;

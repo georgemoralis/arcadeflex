@@ -7,7 +7,7 @@
  */
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -15,10 +15,10 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.memoryH.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 
 public class ssi {
 

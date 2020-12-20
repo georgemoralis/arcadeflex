@@ -13,10 +13,10 @@ import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static mame.cpuintrfH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class slapfght
 {

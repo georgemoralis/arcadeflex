@@ -15,15 +15,15 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.libc_old.*;
+import static platform.ptrlib.*;
+import static platform.libc_old.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static cpu.m6809.m6809H.*;

@@ -1,5 +1,5 @@
 
-package arcadeflex;
+package platform;
 
 import java.io.*;
 

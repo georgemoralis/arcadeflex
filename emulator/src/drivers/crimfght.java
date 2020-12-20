@@ -18,7 +18,7 @@ import static mame.commonH.*;
 import static mame.inputport.*;
 import static mame.drawgfxH.*;
 import static mame.cpuintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrfH.*;
 import static mame.inputportH.*;
 import static mame.sndintrf.soundlatch_r;

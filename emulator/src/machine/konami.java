@@ -10,7 +10,7 @@ package machine;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.memory.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class konami {
 

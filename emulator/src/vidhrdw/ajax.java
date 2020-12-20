@@ -15,7 +15,7 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;

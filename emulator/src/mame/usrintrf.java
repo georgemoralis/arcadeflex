@@ -5,9 +5,9 @@ import static mame.driverH.*;
 import static mame.mame.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.video.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
+import static platform.video.*;
 import static mame.usrintrfH.*;
 import static mame.inputH.*;
 import static mame.inputportH.*;
@@ -19,8 +19,8 @@ import static mame.inputport.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.driver.*;
-import static arcadeflex.ptrlib.*;
-import static arcadeflex.sound.*;
+import static platform.ptrlib.*;
+import static platform.sound.*;
 
 public class usrintrf {
     public static final int SEL_BITS =12;
@@ -3402,7 +3402,7 @@ public class usrintrf {
     
     
     	//pause version when the emulator is started through MainStream.java
-        if ( arcadeflex.MainStream.paused ) /* pause the game */
+        if ( platform.MainStream.paused ) /* pause the game */
     	{
     /*		osd_selected = 0;	   disable on screen display, since we are going   */
     							/* to change parameters affected by it */
@@ -3412,7 +3412,7 @@ public class usrintrf {
     			osd_sound_enable(0);
     			osd_pause(1);
     		}
-                    while (arcadeflex.MainStream.paused)
+                    while (platform.MainStream.paused)
     		{
     			if (osd_skip_this_frame() == 0)
     			{

@@ -10,7 +10,7 @@ package vidhrdw;
 import static mame.driverH.*;
 import static mame.mame.*;
 import static mame.cpuintrf.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class crtc6845 {
 

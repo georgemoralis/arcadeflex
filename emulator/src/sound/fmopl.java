@@ -1,14 +1,14 @@
 package sound;
 
 import static sound.fmoplH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import sound.fm_c.FM_OPL;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static sound.YM_DELTA_T.*;
 import sound.fm_c.OPL_CH;
 import sound.fm_c.OPL_SLOT;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class fmopl {
 
     /* -------------------- preliminary define section --------------------- */

@@ -7,14 +7,14 @@
  */
 package vidhrdw;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc_old.fprintf;
+import static platform.libc_old.*;
+import static platform.libc_old.fprintf;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static drivers.toaplan2.*;
 import static mame.cpuintrf.cpu_set_reset_line;
 import static mame.cpuintrfH.PULSE_LINE;

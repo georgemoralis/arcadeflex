@@ -34,7 +34,7 @@ import static sound.samples.*;
 import static mame.mame.*;
 import static machine.berzerk.*;
 import static vidhrdw.berzerk.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class berzerk
 {

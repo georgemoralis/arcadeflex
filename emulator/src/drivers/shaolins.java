@@ -12,7 +12,7 @@ import static mame.drawgfxH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.shaolins.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrf.*;
 import static mame.sndintrfH.*;
 import static sound.sn76496H.*;

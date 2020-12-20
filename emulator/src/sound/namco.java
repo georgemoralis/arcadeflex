@@ -17,12 +17,12 @@ import mame.sndintrf.*;
 import static mame.sndintrfH.*;
 import static sound.namcoH.*;
 import static mame.driverH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.common.*;
 import static sound.streams.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_old.*;
+import static platform.libc_v2.*;
 
 public class namco extends snd_interface {
 

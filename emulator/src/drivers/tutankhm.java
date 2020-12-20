@@ -17,7 +17,7 @@ import static sndhrdw.timeplt.*;
 import static vidhrdw.tutankhm.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.palette.*;
 
 public class tutankhm

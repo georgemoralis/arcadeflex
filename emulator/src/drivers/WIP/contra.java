@@ -14,16 +14,16 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import static cpu.m6809.m6809H.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.palette.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static vidhrdw.contra.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class contra
 {

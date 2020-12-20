@@ -7,7 +7,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static mame.memory.*;
 import static cpu.m6800.m6800H.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 
 public class m6802 extends m6800 {

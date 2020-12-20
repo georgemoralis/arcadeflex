@@ -11,20 +11,20 @@ import static mame.sndintrfH.*;
 import static mame.sndintrf.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static machine.pacman.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static cpu.z80.z80H.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static drivers.WIP.hal21.*;
 import static sound._3812intfH.*;
 import static sound._3526intf.*;
 import static sound.y8950.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class snk {
 

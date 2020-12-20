@@ -7,7 +7,7 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -18,7 +18,7 @@ import static mame.inputport.*;
 import static mame.commonH.*;
 import static mame.common.*;
 import static mame.palette.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 public class _8080bw
 {
 	

@@ -12,7 +12,7 @@ import static mame.memoryH.*;
 import static cpu.konami.konamiH.*;
 import static mame.memory.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class konami extends cpu_interface {
 

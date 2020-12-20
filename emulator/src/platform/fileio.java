@@ -1,6 +1,6 @@
-package arcadeflex;
+package platform;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,7 +19,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import static mame.osdependH.*;
 import static mame.mame.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class fileio {
 

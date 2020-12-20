@@ -2,7 +2,7 @@
 
 package vidhrdw;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.driverH.*;
 import static vidhrdw.generic.*;
 import static mame.osdependH.*;

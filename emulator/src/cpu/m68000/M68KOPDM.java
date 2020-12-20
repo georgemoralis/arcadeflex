@@ -1,7 +1,7 @@
 package cpu.m68000;
 
 import static cpu.m68000.m68kcpu.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static cpu.m68000.m68kcpuH.*;
 import static cpu.m68000.m68kopsH.*;
 

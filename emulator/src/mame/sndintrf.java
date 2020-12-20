@@ -10,7 +10,7 @@ import static mame.driverH.*;
 import static mame.timer.*;
 import static mame.timerH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import sound.CustomSound;
 import sound._3526intf;
 import sound._3812intf;

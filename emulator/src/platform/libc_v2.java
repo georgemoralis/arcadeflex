@@ -1,6 +1,6 @@
-package arcadeflex;
+package platform;
 
-import arcadeflex.ptrlib.UBytePtr;
+import platform.ptrlib.UBytePtr;
 
 /**
  *

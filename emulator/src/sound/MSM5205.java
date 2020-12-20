@@ -1,7 +1,7 @@
 package sound;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.sndintrfH.*;
 import static sound.MSM5205H.*;
 import static mame.mame.*;
@@ -10,7 +10,7 @@ import static mame.driverH.*;
 import static mame.sndintrf.*;
 import static mame.timer.*;
 import static mame.timerH.*;
-import static arcadeflex.libc_v2.*;
+import static platform.libc_v2.*;
 public class MSM5205 extends snd_interface {
 
     /*

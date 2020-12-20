@@ -16,7 +16,7 @@ import static mame.cpuintrfH.*;
 import static mame.common.*;
 import static mame.inputportH.*;
 import static mame.memory.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.sndintrf.*;
 import static vidhrdw.qix.*;
 import static sound.dacH.*;
@@ -25,8 +25,8 @@ import static mame.palette.*;
 import static mame.inputH.*;
 import static machine.qix.*;
 import static machine._6821pia.*;
-import static arcadeflex.fileio.*;
-import static arcadeflex.libc_old.*;
+import static platform.fileio.*;
+import static platform.libc_old.*;
 
 public class qix {
 

@@ -1,7 +1,7 @@
 package sound.fm_c;
 
 import static sound.fmH.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 
 public class FM_ST {
 

@@ -13,7 +13,7 @@ import static mame.timerH.*;
 import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class timer {
     public static final int MAX_TIMERS =256;

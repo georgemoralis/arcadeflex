@@ -18,7 +18,7 @@ import static vidhrdw.blueprnt.*;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;
 import static mame.sndintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static cpu.z80.z80H.*;
 
 public class blueprnt

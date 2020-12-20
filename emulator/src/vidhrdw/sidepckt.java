@@ -7,7 +7,7 @@
  */ 
 package vidhrdw;
 
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -20,7 +20,7 @@ import static mame.palette.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.paletteH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 public class sidepckt
 {
 	

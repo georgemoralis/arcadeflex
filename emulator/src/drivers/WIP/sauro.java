@@ -13,14 +13,14 @@ import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound._3812intfH.*;
 import static sound._3812intf.*;
 import static cpu.z80.z80H.*;
 import static vidhrdw.sauro.*;
 import static mame.sndintrf.*;
 import static vidhrdw.generic.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class sauro
 {

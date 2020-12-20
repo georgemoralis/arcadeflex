@@ -23,10 +23,10 @@ import static vidhrdw.generic.*;
 import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
-import static arcadeflex.input.*;
+import static platform.input.*;
 import static mame.inputportH.*;
 import static mame.inputH.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 public class atarifb
 {
 	

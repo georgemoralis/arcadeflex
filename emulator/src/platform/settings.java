@@ -1,4 +1,4 @@
-package arcadeflex;
+package platform;
 
 /**
  *

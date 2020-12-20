@@ -30,14 +30,14 @@ import static vidhrdw.gladiatr.*;
 import static sound._2203intf.*;
 import static sound._2203intfH.*;
 import static mame.sndintrf.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static machine.tait8741H.*;
 import static machine.tait8741.*;
 import static mame.cpuintrfH.*;
 import static sound.MSM5205.*;
 import static sound.MSM5205H.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.fileio.*;
+import static platform.libc_old.*;
+import static platform.fileio.*;
 import static mame.palette.*;
 
 public class gladiatr {

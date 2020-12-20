@@ -1,16 +1,16 @@
 package vidhrdw;
 
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 import static drivers.WIP.neogeo.*;
 import static mame.memoryH.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
 import static mame.drawgfx.*;

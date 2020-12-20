@@ -15,7 +15,7 @@ import static mame.sndintrfH.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static vidhrdw.frogger.*;
 import static sound.ay8910.*;
 import static sound.ay8910H.*;

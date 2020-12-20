@@ -6,7 +6,7 @@ import static mame.driverH.*;
 import static mame.memoryH.*;
 import static cpu.tms32010.tms32010H.*;
 import static mame.memory.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.mame.*;
 
 /**

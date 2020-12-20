@@ -1,16 +1,16 @@
 package mame;
 
 import static mame.driverH.*;
-import static arcadeflex.osdepend.*;
-import static arcadeflex.libc.*;
-import static arcadeflex.libc_old.*;
+import static platform.osdepend.*;
+import static platform.libc.*;
+import static platform.libc_old.*;
 import java.util.Arrays;
 import static mame.memoryH.*;
 import static mame.mame.*;
 import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.commonH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class memory {
     static int BYTE_XOR_BE(int a) { return a ^ 1; }

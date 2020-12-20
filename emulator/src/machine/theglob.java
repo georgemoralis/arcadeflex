@@ -12,9 +12,9 @@ import static mame.common.*;
 import static mame.commonH.*;
 import static machine.pacman.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.memoryH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class theglob {
 

@@ -1,15 +1,15 @@
 //copied with TODOS from original src
 package vidhrdw;
 
-import static arcadeflex.libc_old.*;
-import static arcadeflex.osdepend.*;
+import static platform.libc_old.*;
+import static platform.osdepend.*;
 import static mame.osdependH.*;
 import static mame.driverH.*;
 import static mame.mame.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static mame.drawgfx.*;
 import static mame.drawgfxH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class generic {
 

@@ -22,7 +22,7 @@ import static mame.driverH.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.inputport.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.memoryH.*;
 import static cpu.z80.z80H.*;
 import static mame.timer.*;
@@ -31,7 +31,7 @@ import static mame.cpuintrf.*;
 import static mame.cpuintrfH.*;
 import static mame.sndintrf.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 
 public class bublbobl {
 

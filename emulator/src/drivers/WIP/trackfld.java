@@ -36,7 +36,7 @@ import static vidhrdw.trackfld.*;
 import static machine.konami.*;
 import static mame.inputportH.*;
 import static sndhrdw.trackfld.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static sound.vlm5030.*;
 import static sound.vlm5030H.*;
 import static sound.dac.*;

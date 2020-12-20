@@ -8,15 +8,15 @@
 package machine;
 
 import static mame.cpuintrfH.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.ptrlib.*;
+import static platform.libc_old.*;
+import static platform.ptrlib.*;
 import static mame.driverH.*;
 import static mame.cpuintrf.*;
 import static mame.timer.*;
 import static mame.timerH.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static vidhrdw.twincobr.*;
 import static mame.common.*;
 import static mame.palette.*;

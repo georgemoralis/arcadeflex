@@ -1,18 +1,18 @@
 package mame;
 
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
-import static arcadeflex.libc.*;
+import static platform.libc_old.*;
+import static platform.libc.*;
 import static mame.driverH.*;
 import static mame.drawgfxH.*;
 import mame.tilemapH.tilemap;
 import static mame.tilemapH.*;
-import static arcadeflex.video.*;
+import static platform.video.*;
 import static mame.cpuintrf.cpu_getactivecpu;
 import static mame.osdependH.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class tilemapC {
     public static FILE tilemapslog=null;//fopen("tilemaps.log", "wa");  //for debug purposes

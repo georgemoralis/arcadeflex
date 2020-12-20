@@ -17,7 +17,7 @@
  */
 package vidhrdw;
 
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;
@@ -25,7 +25,7 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.palette.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import static mame.cpuintrf.*;
 
 public class centiped {

@@ -23,7 +23,7 @@ import static vidhrdw.generic.*;
 import static mame.cpuintrf.*;
 import static mame.inputportH.*;
 import static mame.mame.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.sndintrf.soundlatch_r;
 import static mame.sndintrf.soundlatch_w;
 import mame.sndintrfH.MachineSound;

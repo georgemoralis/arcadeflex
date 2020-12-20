@@ -1,14 +1,14 @@
 package mame;
 
-import static arcadeflex.libc_old.CopyArray;
+import static platform.libc_old.CopyArray;
 import static mame.osdependH.*;
 import static mame.memoryH.*;
 import static mame.commonH.*;
 import static mame.drawgfxH.*;
 import static mame.sndintrfH.*;
-import static arcadeflex.libc.*;
+import static platform.libc.*;
 import static mame.inputportH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 
 public class driverH 
 {

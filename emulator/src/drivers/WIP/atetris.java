@@ -44,15 +44,15 @@ import static mame.cpuintrf.*;
 import static mame.common.*;
 import static mame.inputportH.*;
 import static vidhrdw.atetris.*;
-import static arcadeflex.libc_old.*;
+import static platform.libc_old.*;
 import static mame.palette.*;
 import static mame.inputH.*;
-import static arcadeflex.ptrlib.*;
+import static platform.ptrlib.*;
 import mame.sndintrfH.MachineSound;
 import static mame.sndintrfH.SOUND_POKEY;
 import static sound.pokeyH.*;
 import static sound.pokey.*;
-import static arcadeflex.fileio.*;
+import static platform.fileio.*;
 
 public class atetris
 {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arcadeflex;
+package platform;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -87,7 +87,7 @@ public class ScreenshotUploader extends javax.swing.JFrame {
 
         jLabel4.setText("rom name:");
 
-        jTextField3.setText("arcadeflex.com");
+        jTextField3.setText("platform.com");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
