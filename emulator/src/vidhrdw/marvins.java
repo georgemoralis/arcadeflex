@@ -7,7 +7,7 @@
  */
 package vidhrdw;
 
-import static drivers.WIP.marvins.*;
+import static drivers.marvins.*;
 import static mame.drawgfxH.*;
 import static mame.drawgfx.*;
 import static vidhrdw.generic.*;

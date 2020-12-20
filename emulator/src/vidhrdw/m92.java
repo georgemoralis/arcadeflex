@@ -62,7 +62,7 @@ import static mame.tilemapH.*;
 import static mame.cpuintrf.*;
 import static mame.palette.*;
 import static mame.paletteH.*;
-import static drivers.WIP.m92.*;
+import static drivers.m92.*;
 
 public class m92
 {

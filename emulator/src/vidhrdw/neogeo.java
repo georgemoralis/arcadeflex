@@ -8,7 +8,7 @@ import static mame.commonH.*;
 import static platform.libc.*;
 import static platform.libc_old.*;
 import static mame.mame.*;
-import static drivers.WIP.neogeo.*;
+import static drivers.neogeo.*;
 import static mame.memoryH.*;
 import static platform.video.*;
 import static mame.palette.*;

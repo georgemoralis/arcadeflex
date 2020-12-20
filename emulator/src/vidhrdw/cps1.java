@@ -8,7 +8,7 @@ import static mame.commonH.*;
 import static platform.libc.*;
 import static platform.libc_old.*;
 import static mame.mame.*;
-import static drivers.WIP.cps1.*;
+import static drivers.cps1.*;
 import static mame.memoryH.*;
 import static platform.video.*;
 import static mame.palette.*;

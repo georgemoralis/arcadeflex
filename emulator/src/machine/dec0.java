@@ -32,7 +32,7 @@ import static platform.libc_old.*;
 import static mame.memory.*;
 import static mame.mame.*;
 import static vidhrdw.dec0.*;
-import static drivers.WIP.dec0.*;
+import static drivers.dec0.*;
 
 
 public class dec0

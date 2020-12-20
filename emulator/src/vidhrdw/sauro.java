@@ -23,7 +23,7 @@ import static mame.driverH.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static platform.ptrlib.*;
-import static drivers.WIP.sauro.*;
+import static drivers.sauro.*;
 import static platform.libc_old.*;
 
 public class sauro

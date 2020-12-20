@@ -31,7 +31,7 @@ import static cpu.m6809.m6809H.*;
 import static cpu.konami.konamiH.*;
 import static machine.pd4990a.*;
 import static mame.cpuintrfH.*;
-import static drivers.WIP.neogeo.*;
+import static drivers.neogeo.*;
 import sound._2610intfH.YM2610interface;
 
 public class neogeo {
