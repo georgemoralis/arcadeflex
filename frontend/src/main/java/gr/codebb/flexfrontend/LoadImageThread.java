@@ -14,13 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package flexfrontend;
+package gr.codebb.flexfrontend;
 
 import java.awt.MediaTracker;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -52,7 +50,6 @@ public class LoadImageThread extends Thread {
                 //test flyer load
                 u = new URL("http://arcadeflex.com/" + filename);
             } catch (MalformedURLException ex) {
-                Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
                 label.setText("failed");
             }
             ImageIcon icon = new ImageIcon(u);

@@ -14,15 +14,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package flexfrontend;
+package gr.codebb.flexfrontend;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextArea;
 
 /**
@@ -51,7 +49,6 @@ public class RunArcadeflexThread extends Thread {
         try {
             proc = Runtime.getRuntime().exec(cmd);
         } catch (IOException ex) {
-            Logger.getLogger(RunArcadeflexThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Get command's output stream and
@@ -66,7 +63,6 @@ public class RunArcadeflexThread extends Thread {
                 ta.append("{"+game+" output:} "+str+"\n");
             }
         } catch (IOException ex) {
-            Logger.getLogger(RunArcadeflexThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Wait for command to terminate
@@ -84,7 +80,6 @@ public class RunArcadeflexThread extends Thread {
             // Close stream
             br.close();
         } catch (IOException ex) {
-            Logger.getLogger(RunArcadeflexThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Return list of strings to caller

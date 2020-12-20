@@ -14,10 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-package flexfrontend;
+package gr.codebb.flexfrontend;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.RowFilter;
@@ -56,7 +54,7 @@ public class MainGUI extends javax.swing.JFrame {
     public MainGUI() {
         initComponents();
         getListFull();
-        Icon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("search.png")));
+        Icon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(MainGUI.class.getResource("/search.png")));
         jLabel6.setIcon(icon);
         filter.setBackground(Color.yellow);
         setTitle("flexFrontend " + Settings.version);
@@ -398,7 +396,6 @@ public class MainGUI extends javax.swing.JFrame {
               
                 runarcadeflex(a[0],Options);
             } catch (IOException ex) {
-                Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
