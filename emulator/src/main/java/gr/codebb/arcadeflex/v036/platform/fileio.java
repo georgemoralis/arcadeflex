@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
@@ -1259,7 +1257,6 @@ public class fileio {
                 try {
                     is.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(fileio.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

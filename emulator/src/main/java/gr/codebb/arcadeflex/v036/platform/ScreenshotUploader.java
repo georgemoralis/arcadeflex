@@ -13,8 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 
@@ -160,7 +158,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -176,13 +173,11 @@ public class ScreenshotUploader extends javax.swing.JFrame {
         try {
             user = URLEncoder.encode(jTextField1.getText(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
         }
         String pass = null;
         try {
             pass = URLEncoder.encode(jTextField2.getText(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ScreenshotUploader.class.getName()).log(Level.SEVERE, null, ex);
         }
         String uploadPath = Machine.gamedrv.name + "/" + filename;
 
@@ -223,7 +218,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -242,7 +236,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 bytes = baos.toByteArray();
                 baos.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainApplet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (bytes != null) {
@@ -267,14 +260,10 @@ public class ScreenshotUploader extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ScreenshotUploader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+         }
         //</editor-fold>
 
         /* Create and display the form */

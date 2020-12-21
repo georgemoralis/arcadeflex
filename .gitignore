@@ -24,3 +24,4 @@ emulator/samples/*
 /emulator/h6280.log
 /convertor/target/
 /frontend/target/
+/emulator/target/
