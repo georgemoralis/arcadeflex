@@ -27,3 +27,4 @@ emulator/samples/*
 /emulator/target/
 /emulator/temp.txt
 /frontend/temp.txt
+/emulator/nbactions.xml
