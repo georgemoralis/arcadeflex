@@ -25,3 +25,4 @@ emulator/samples/*
 /convertor/target/
 /frontend/target/
 /emulator/target/
+/emulator/temp.txt
