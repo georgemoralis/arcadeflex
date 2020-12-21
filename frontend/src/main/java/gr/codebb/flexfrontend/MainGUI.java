@@ -467,8 +467,8 @@ public class MainGUI extends javax.swing.JFrame {
      String outlist[];
     public void runarcadeflex(String game,String options) throws IOException {
       debugArea.setText("");
-      String cmd = "java -jar arcadeflex.jar " + game + "" + options;
-     // System.out.println(cmd);
+      String cmd = "Arcadeflex.exe " + game + "" + options;
+      System.out.println(cmd);
       new RunArcadeflexThread(game,cmd,debugArea).start();
       /*
       try {
@@ -529,7 +529,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     try {
       // Run command 'xmame -listfull'
-      outlist = runCommand("java -jar arcadeflex.jar " + " -listfull");
+      outlist = runCommand("Arcadeflex.exe " + " -listfull");
 
       for (int i = 1; i < outlist.length; i++) { //skip line 1 it contains titles
         String line = outlist[i];

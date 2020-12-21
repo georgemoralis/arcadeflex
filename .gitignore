@@ -26,3 +26,4 @@ emulator/samples/*
 /frontend/target/
 /emulator/target/
 /emulator/temp.txt
+/frontend/temp.txt
