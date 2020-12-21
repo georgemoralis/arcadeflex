@@ -18,8 +18,8 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.timerH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import gr.codebb.arcadeflex.v036.cpu.konami.konami;
@@ -275,7 +275,7 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*////* warning the ordering must match the one of the enum in driver.h! */
-    static cpu_interface cpuintf[]
+    public static cpu_interface cpuintf[]
             = {
                 new Dummy_cpu(),
                 new z80(),

@@ -10,7 +10,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.fm.*;
 import static gr.codebb.arcadeflex.v036.sound.fmH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 
 public class _2203intf extends snd_interface {
 

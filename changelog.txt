@@ -1,3 +1,8 @@
+21/12/2020
+==========
+-Convert project to maven,JPMS,jpackage, jdk15
+-Timer rewrote for 0.37b7 . Controls in docastle now works
+
 29/07/2018
 ==========
 -More opcodes for Midnight Resistance (US)

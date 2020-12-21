@@ -12,8 +12,8 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.timerH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 
 public class galaxian

@@ -27,8 +27,8 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.timerH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 
 public class digdug {
 

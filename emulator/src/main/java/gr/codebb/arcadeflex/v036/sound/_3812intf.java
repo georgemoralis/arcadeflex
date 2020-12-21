@@ -11,7 +11,7 @@ import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
 import static gr.codebb.arcadeflex.v036.sound.fmopl.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import gr.codebb.arcadeflex.v036.sound.fm_c.FM_OPL;
 import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
 

@@ -39,8 +39,8 @@
  */
 package gr.codebb.arcadeflex.v036.sndhrdw;
 
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.timerH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

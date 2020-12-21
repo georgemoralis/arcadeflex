@@ -1,6 +1,9 @@
-package gr.codebb.arcadeflex.v036.mame;
+/**
+ * ported to 0.37b7
+ */
+package gr.codebb.arcadeflex.v037b7.mame;
 
-import static gr.codebb.arcadeflex.v036.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 
 public class timerH {
 
