@@ -47,11 +47,11 @@ public class memory {
         return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].align_unit);
     }
 
-    static int BYTE_XOR_BE(int a) {
+    public static int BYTE_XOR_BE(int a) {
         return a ^ 1;
     }
 
-    static int BYTE_XOR_LE(int a) {
+    public static int BYTE_XOR_LE(int a) {
         return a;
     }
 
@@ -59,11 +59,11 @@ public class memory {
     public static UBytePtr OP_ROM = new UBytePtr();
 
     /* change bases preserving opcode/data shift for encrypted games */
-    static void SET_OP_RAMROM(UBytePtr _base) {
+    public static void SET_OP_RAMROM(UBytePtr _base) {
         OP_ROM = new UBytePtr(_base, (OP_ROM.offset - OP_RAM.offset));
         OP_RAM = new UBytePtr(_base);
     }
-    static char u8_ophw;
+    public static char u8_ophw;
     /* op-code hardware number */
 
     public static ExtMemory[] ext_memory = new ExtMemory[MAX_EXT_MEMORY];
@@ -91,12 +91,12 @@ public class memory {
     public static char[][] u8_cur_mw_element = new char[MAX_CPU][];
     /* sub memory/port hardware element map */
  /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-    static char[] u8_readhardware = new char[MH_ELEMAX << MH_SBITS];
-    static char[] u8_writehardware = new char[MH_ELEMAX << MH_SBITS];
+    public static char[] u8_readhardware = new char[MH_ELEMAX << MH_SBITS];
+    public static char[] u8_writehardware = new char[MH_ELEMAX << MH_SBITS];
 
     /* memory hardware element map */
  /* value:					   */
-    static final int HT_RAM = 0;
+    public static final int HT_RAM = 0;
     /* RAM direct		 */
     static final int HT_BANK1 = 1;
     /* bank memory #1	 */
@@ -144,28 +144,28 @@ public class memory {
  /* [MH_HARDMAX]-0xff	  link to sub memory element  */
  /*						  (value-MH_HARDMAX)<<MH_SBITS -> element bank */
 
-    static final int HT_BANKMAX = (HT_BANK1 + MAX_BANKS - 1);
+    public static final int HT_BANKMAX = (HT_BANK1 + MAX_BANKS - 1);
 
     /* memory hardware handler */
  /* HJB 990210: removed 'static' for access by assembly CPU core memory handlers */
-    static ReadHandlerPtr[] memoryreadhandler = new ReadHandlerPtr[MH_HARDMAX];
-    static int[] memoryreadoffset = new int[MH_HARDMAX];
-    static WriteHandlerPtr[] memorywritehandler = new WriteHandlerPtr[MH_HARDMAX];
-    static int[] memorywriteoffset = new int[MH_HARDMAX];
+    public static ReadHandlerPtr[] memoryreadhandler = new ReadHandlerPtr[MH_HARDMAX];
+    public static int[] memoryreadoffset = new int[MH_HARDMAX];
+    public static WriteHandlerPtr[] memorywritehandler = new WriteHandlerPtr[MH_HARDMAX];
+    public static int[] memorywriteoffset = new int[MH_HARDMAX];
 
     /* bank ram base address; RAM is bank 0 */
     public static UBytePtr[] cpu_bankbase = new UBytePtr[HT_BANKMAX + 1];
 
-    static int[] bankreadoffset = new int[HT_BANKMAX + 1];
-    static int[] bankwriteoffset = new int[HT_BANKMAX + 1];
+    public static int[] bankreadoffset = new int[HT_BANKMAX + 1];
+    public static int[] bankwriteoffset = new int[HT_BANKMAX + 1];
 
     ///* override OP base handler */
     public static opbase_handlerPtr[] setOPbasefunc = new opbase_handlerPtr[MAX_CPU];
     public static opbase_handlerPtr OPbasefunc;
 
     /* current cpu current hardware element map point */
-    static char[] u8_cur_mrhard;
-    static char[] u8_cur_mwhard;
+    public static char[] u8_cur_mrhard;
+    public static char[] u8_cur_mwhard;
 
     /* empty port handler structures */
     public static IOReadPort[] empty_readport = {new IOReadPort(-1)};
@@ -264,7 +264,7 @@ public class memory {
         }
     };
 
-    static ReadHandlerPtr bank_read_handler[]
+    public static ReadHandlerPtr bank_read_handler[]
             = {
                 mrh_ram, mrh_bank1, mrh_bank2, mrh_bank3, mrh_bank4, mrh_bank5, mrh_bank6, mrh_bank7,
                 mrh_bank8, mrh_bank9, mrh_bank10, mrh_bank11, mrh_bank12, mrh_bank13, mrh_bank14, mrh_bank15,
@@ -391,7 +391,7 @@ public class memory {
         }
     };
 
-    static WriteHandlerPtr bank_write_handler[]
+    public static WriteHandlerPtr bank_write_handler[]
             = {
                 mwh_ram, mwh_bank1, mwh_bank2, mwh_bank3, mwh_bank4, mwh_bank5, mwh_bank6, mwh_bank7,
                 mwh_bank8, mwh_bank9, mwh_bank10, mwh_bank11, mwh_bank12, mwh_bank13, mwh_bank14, mwh_bank15,

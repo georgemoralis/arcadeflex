@@ -18,13 +18,13 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.scramble.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.frogger.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class scobra {
 

@@ -5,10 +5,10 @@ package gr.codebb.arcadeflex.v037b7.mame;
 
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase20;
+import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase24;
 import gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-
-
 
 public class memoryH {
 
@@ -348,20 +348,23 @@ public class memoryH {
 /*TODO*///#define ABITS2_16BEW	3
 /*TODO*///#define ABITS_MIN_16BEW 1			/* minimum memory block is 2 bytes */
 /*TODO*////* 20 bits address */
-/*TODO*///#define ABITS1_20		12
-/*TODO*///#define ABITS2_20		8
-/*TODO*///#define ABITS_MIN_20	0			/* minimum memory block is 1 byte */
-/* 21 bits address */
+    public static final int ABITS1_20 = 12;
+    public static final int ABITS2_20 = 8;
+    public static final int ABITS_MIN_20 = 0;
+    /* minimum memory block is 1 byte */
+ /* 21 bits address */
     public static final int ABITS1_21 = 13;
     public static final int ABITS2_21 = 8;
     public static final int ABITS_MIN_21 = 0;
 
     /* minimum memory block is 1 byte */
  /*TODO*////* 24 bits address (word access - byte granularity) */
-/*TODO*///#define ABITS1_24		16
-/*TODO*///#define ABITS2_24		8
-/*TODO*///#define ABITS_MIN_24	0			/* minimum memory block is 1 byte */
-/*TODO*////* 24 bits address (big endian - word access) */
+    public static final int ABITS1_24 = 16;
+    public static final int ABITS2_24 = 8;
+    public static final int ABITS_MIN_24 = 0;
+
+    /* minimum memory block is 1 byte */
+ /*TODO*////* 24 bits address (big endian - word access) */
 /*TODO*///#define ABITS1_24BEW	15
 /*TODO*///#define ABITS2_24BEW	8
 /*TODO*///#define ABITS_MIN_24BEW 1			/* minimum memory block is 2 bytes */
@@ -448,10 +451,16 @@ public class memoryH {
 
     /*TODO*///#define change_pc16bew(pc)	 change_pc_generic(pc, ABITS2_16BEW, ABITS_MIN_16BEW, 0, cpu_setOPbase16bew)
 /*TODO*///#define change_pc16lew(pc)	 change_pc_generic(pc, ABITS2_16LEW, ABITS_MIN_16LEW, 0, cpu_setOPbase16lew)
-/*TODO*///#define change_pc20(pc) 	 change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20)
-/*TODO*///#define change_pc21(pc) 	 change_pc_generic(pc, ABITS2_21, ABITS_MIN_21, 0, cpu_setOPbase21)
-/*TODO*///#define change_pc24(pc) 	 change_pc_generic(pc, ABITS2_24, ABITS_MIN_24, 0, cpu_setOPbase24)
-/*TODO*///#define change_pc24bew(pc)	 change_pc_generic(pc, ABITS2_24BEW, ABITS_MIN_24BEW, 0, cpu_setOPbase24bew)
+    public static void change_pc20(int pc) {
+        change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20);
+    }
+
+    /*TODO*///#define change_pc21(pc) 	 change_pc_generic(pc, ABITS2_21, ABITS_MIN_21, 0, cpu_setOPbase21)
+    public static void change_pc24(int pc) {
+        change_pc_generic(pc, ABITS2_24, ABITS_MIN_24, 0, cpu_setOPbase24);
+    }
+
+    /*TODO*///#define change_pc24bew(pc)	 change_pc_generic(pc, ABITS2_24BEW, ABITS_MIN_24BEW, 0, cpu_setOPbase24bew)
 /*TODO*///#define change_pc26lew(pc)	 change_pc_generic(pc, ABITS2_26LEW, ABITS_MIN_26LEW, 0, cpu_setOPbase26lew)
 /*TODO*///#define change_pc29(pc)      change_pc_generic(pc, ABITS2_29, ABITS_MIN_29, 3, cpu_setOPbase29)
 /*TODO*///#define change_pc32(pc) 	 change_pc_generic(pc, ABITS2_32, ABITS_MIN_32, 0, cpu_setOPbase32)

@@ -11,7 +11,6 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.mitchell.*;
 import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
@@ -24,6 +23,7 @@ import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v036.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.ym2413.*;
 import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class mitchell {
 

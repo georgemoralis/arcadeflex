@@ -51,7 +51,6 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.M6502_INT_NMI;
@@ -67,6 +66,7 @@ import static gr.codebb.arcadeflex.v036.sound._3526intf.YM3526_write_port_0_w;
 import gr.codebb.arcadeflex.v036.sound._3812intfH.YM3526interface;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.karnov.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class karnov
 {

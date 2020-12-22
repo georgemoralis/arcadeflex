@@ -5,8 +5,8 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import java.util.Arrays;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -15,6 +15,11 @@ import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 
 public class memory {
 
+    public static ReadHandlerPtr mrh_rom = new ReadHandlerPtr() {//fake??
+        public int handler(int offset) {
+            return cpu_bankbase[0].read(offset);
+        }
+    };
 
 /*TODO*/ ///***************************************************************************
 /*TODO*/ //
@@ -42,7 +47,7 @@ public class memory {
         UByte hw = new UByte();
 
         /* first-level lookup */
-        hw.set(cur_mrhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
+        hw.set(u8_cur_mrhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
 
         /* for compatibility with setbankhandler, 8-bit systems must call handlers */
         /* for banked memory reads/writes */
@@ -53,7 +58,7 @@ public class memory {
         /* second-level lookup */
         if (hw.read() >= MH_HARDMAX) {
             hw.set((char) (hw.read() - MH_HARDMAX));
-            hw.set(readhardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+            hw.set(u8_readhardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))]);
 
             /* for compatibility with setbankhandler, 8-bit systems must call handlers */
             /* for banked memory reads/writes */
@@ -71,7 +76,7 @@ public class memory {
 	UByte hw = new UByte();																			
 																						
 	/* first-level lookup */															
-	hw.set(cur_mrhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);			
+	hw.set(u8_cur_mrhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);			
 																																
 	if (hw.read() <= HT_BANKMAX)										
 	{																																		
@@ -82,7 +87,7 @@ public class memory {
 	if (hw.read() >= MH_HARDMAX)																
 	{																					
 		hw.set((char) (hw.read() - MH_HARDMAX));																
-		hw.set(readhardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))));	
+		hw.set(u8_readhardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 																																
 		if (hw.read() <= HT_BANKMAX)									
 		{																																
@@ -100,7 +105,7 @@ public class memory {
 /*TODO*/ //	MHELE hw;																			\
 /*TODO*/ //																						\
 /*TODO*/ //	/* first-level lookup */															\
-/*TODO*/ //	hw = cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];			\
+/*TODO*/ //	hw = u8_cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];			\
 /*TODO*/ //																						\
 /*TODO*/ //	/* for compatibility with setbankhandler, 8-bit systems must call handlers */		\
 /*TODO*/ //	/* for banked memory reads/writes */												\
@@ -118,7 +123,7 @@ public class memory {
 /*TODO*/ //	if (hw >= MH_HARDMAX)																\
 /*TODO*/ //	{																					\
 /*TODO*/ //		hw -= MH_HARDMAX;																\
-/*TODO*/ //		hw = readhardware[(hw << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
+/*TODO*/ //		hw = u8_readhardware[(hw << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
 /*TODO*/ //																						\
 /*TODO*/ //		/* for compatibility with setbankhandler, 8-bit systems must call handlers */	\
 /*TODO*/ //		/* for banked memory reads/writes */											\
@@ -154,7 +159,7 @@ public class memory {
         /* handle aligned case first */
         if ((address & 1) == 0) {
             /* first-level lookup */				
-                hw.set(cur_mrhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+                hw.set(u8_cur_mrhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
 		if (hw.read() <= HT_BANKMAX)															
 			return cpu_bankbase[hw.read()].READ_WORD(address - memoryreadoffset[hw.read()]);		
 																						
@@ -162,7 +167,7 @@ public class memory {
 		if (hw.read() >= MH_HARDMAX)															
 		{																				
 			hw.set((char) (hw.read() - MH_HARDMAX));															
-			hw.set(readhardware.memory[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw.set(u8_readhardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 			if (hw.read() <= HT_BANKMAX)														
 				return cpu_bankbase[hw.read()].READ_WORD(address - memoryreadoffset[hw.read()]);	
 		}																				
@@ -188,7 +193,7 @@ public class memory {
 /*TODO*/ //	if (align == ALWAYS_ALIGNED || !(address & 1))										\
 /*TODO*/ //	{																					\
 /*TODO*/ //		/* first-level lookup */														\
-/*TODO*/ //		hw = cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
+/*TODO*/ //		hw = u8_cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
 /*TODO*/ //		if (hw <= HT_BANKMAX)															\
 /*TODO*/ //			return READ_WORD(&cpu_bankbase[hw][address - memoryreadoffset[hw]]);		\
 /*TODO*/ //																						\
@@ -196,7 +201,7 @@ public class memory {
 /*TODO*/ //		if (hw >= MH_HARDMAX)															\
 /*TODO*/ //		{																				\
 /*TODO*/ //			hw -= MH_HARDMAX;															\
-/*TODO*/ //			hw = readhardware[(hw << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
+/*TODO*/ //			hw = u8_readhardware[(hw << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
 /*TODO*/ //			if (hw <= HT_BANKMAX)														\
 /*TODO*/ //				return READ_WORD(&cpu_bankbase[hw][address - memoryreadoffset[hw]]);	\
 /*TODO*/ //		}																				\
@@ -229,19 +234,19 @@ public class memory {
             //int address2 = (address + 2) & ADDRESS_MASK(24);								
 	int address2 = (int)((address + 2) & ((1 << (ABITS1_24 + ABITS2_24 + ABITS_MIN_24 - 1)) | ((1 << (ABITS1_24 + ABITS2_24 + ABITS_MIN_24 - 1)) - 1)));																				
 		/* first-level lookup */														
-		hw1.set(cur_mrhard[address >> (ABITS2_24 + ABITS_MIN_24)]);		
-		hw2.set(cur_mrhard[address2 >> (ABITS2_24 + ABITS_MIN_24)]);		
+		hw1.set(u8_cur_mrhard[address >> (ABITS2_24 + ABITS_MIN_24)]);		
+		hw2.set(u8_cur_mrhard[address2 >> (ABITS2_24 + ABITS_MIN_24)]);		
 																						
 		/* second-level lookup */														
 		if (hw1.read() >= MH_HARDMAX)															
 		{																				
 			hw1.set((char) (hw1.read() - MH_HARDMAX));															
-			hw1.set(readhardware.memory[(hw1.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw1.set(u8_readhardware[(hw1.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 		}																				
 		if (hw2.read() >= MH_HARDMAX)															
 		{																				
 			hw2.set((char) (hw2.read() - MH_HARDMAX));															
-			hw2.set(readhardware.memory[(hw2.read() << MH_SBITS) + ((address2 >> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw2.set(u8_readhardware[(hw2.read() << MH_SBITS) + ((address2 >> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 		}																				
 																						
 		/* process each word */															
@@ -278,19 +283,19 @@ public class memory {
 /*TODO*/ //		int address2 = (address + 2) & ADDRESS_MASK(abits);								\
 /*TODO*/ //																						\
 /*TODO*/ //		/* first-level lookup */														\
-/*TODO*/ //		hw1 = cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
-/*TODO*/ //		hw2 = cur_mrhard[(UINT32)address2 >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
+/*TODO*/ //		hw1 = u8_cur_mrhard[(UINT32)address >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
+/*TODO*/ //		hw2 = u8_cur_mrhard[(UINT32)address2 >> (ABITS2_##abits + ABITS_MIN_##abits)];		\
 /*TODO*/ //																						\
 /*TODO*/ //		/* second-level lookup */														\
 /*TODO*/ //		if (hw1 >= MH_HARDMAX)															\
 /*TODO*/ //		{																				\
 /*TODO*/ //			hw1 -= MH_HARDMAX;															\
-/*TODO*/ //			hw1 = readhardware[(hw1 << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
+/*TODO*/ //			hw1 = u8_readhardware[(hw1 << MH_SBITS) + (((UINT32)address >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
 /*TODO*/ //		}																				\
 /*TODO*/ //		if (hw2 >= MH_HARDMAX)															\
 /*TODO*/ //		{																				\
 /*TODO*/ //			hw2 -= MH_HARDMAX;															\
-/*TODO*/ //			hw2 = readhardware[(hw2 << MH_SBITS) + (((UINT32)address2 >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
+/*TODO*/ //			hw2 = u8_readhardware[(hw2 << MH_SBITS) + (((UINT32)address2 >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
 /*TODO*/ //		}																				\
 /*TODO*/ //																						\
 /*TODO*/ //		/* process each word */															\
@@ -360,38 +365,11 @@ public class memory {
 /*TODO*/ //#define WRITEBYTE(name,type,abits)		
  /*TODO*/
 
-    //TODO CHECK IF IT IS Valid (added it only for testing) (shadow)
-    public static void cpu_writemem16(int address, int data) {
-        /* first-level lookup */
-        UByte hw = new UByte();
-        hw.set(cur_mwhard[address >>> (ABITS2_16 + ABITS_MIN_16)]);
-
-        /* for compatibility with setbankhandler, 8-bit systems must call handlers */
-        /* for banked memory reads/writes */
-        if (hw.read() == HT_RAM) {
-            cpu_bankbase[HT_RAM].memory[cpu_bankbase[HT_RAM].offset + address] = (char) data;
-            return;
-        }
-
-        /* second-level lookup */
-        if (hw.read() >= MH_HARDMAX) {
-            hw.set((char) (hw.read() - MH_HARDMAX));
-            hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_16) & MHMASK(ABITS2_16))));
-            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
-            /* for banked memory reads/writes */
-            if (hw.read() == HT_RAM) {
-                cpu_bankbase[HT_RAM].write(address, data);
-                return;
-            }
-        }
-
-        memorywritehandler[hw.read()].handler(address - memorywriteoffset[hw.read()], data);
-    }
 
     public static void cpu_writemem20(int address, int data) {
         /* first-level lookup */
         UByte hw = new UByte();
-        hw.set(cur_mwhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
+        hw.set(u8_cur_mwhard[address >>> (ABITS2_20 + ABITS_MIN_20)]);
 
         /* for compatibility with setbankhandler, 8-bit systems must call handlers */
         /* for banked memory reads/writes */
@@ -403,7 +381,7 @@ public class memory {
         /* second-level lookup */
         if (hw.read() >= MH_HARDMAX) {
             hw.set((char) (hw.read() - MH_HARDMAX));
-            hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+            hw.set(u8_writehardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_20) & MHMASK(ABITS2_20))]);
             /* for compatibility with setbankhandler, 8-bit systems must call handlers */
             /* for banked memory reads/writes */
             if (hw.read() == HT_RAM) {
@@ -420,7 +398,7 @@ public class memory {
             UByte hw = new UByte();																			
 
             /* first-level lookup */															
-            hw.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);
+            hw.set(u8_cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);
             if (hw.read() <= HT_BANKMAX)										
             {																																		
                             cpu_bankbase[hw.read()].memory[BYTE_XOR_BE(address) - memorywriteoffset[hw.read()]] = (char)data;				
@@ -431,7 +409,7 @@ public class memory {
             if (hw.read() >= MH_HARDMAX)																
             {																					
                     hw.set((char) (hw.read() - MH_HARDMAX));	
-                    hw.set(writehardware.read((hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))));
+                    hw.set(u8_writehardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);
                     	
 
                     if (hw.read() <= HT_BANKMAX)									
@@ -456,7 +434,7 @@ public class memory {
             if ((address & 1)==0)										
             {																					
                     /* first-level lookup */														
-                    hw.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+                    hw.set(u8_cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
                     if (hw.read() <= HT_BANKMAX)															
                     {																				
                             cpu_bankbase[hw.read()].WRITE_WORD(address - memorywriteoffset[hw.read()], data);		
@@ -467,7 +445,7 @@ public class memory {
                     if (hw.read() >= MH_HARDMAX)															
                     {																				
                             hw.set((char) (hw.read() - MH_HARDMAX));															
-                            hw.set(writehardware.memory[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]); 
+                            hw.set(u8_writehardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]); 
                             if (hw.read() <= HT_BANKMAX)														
                             {																			
                                     cpu_bankbase[hw.read()].WRITE_WORD(address - memorywriteoffset[hw.read()], data);	
@@ -500,20 +478,20 @@ public class memory {
 
 																						
 		/* first-level lookup */
-                hw1.set(cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
-		hw2.set(cur_mwhard[address2 >>> (ABITS2_24 + ABITS_MIN_24)]);
+                hw1.set(u8_cur_mwhard[address >>> (ABITS2_24 + ABITS_MIN_24)]);		
+		hw2.set(u8_cur_mwhard[address2 >>> (ABITS2_24 + ABITS_MIN_24)]);
 		
 																						
 		/* second-level lookup */	
                 if (hw1.read() >= MH_HARDMAX)															
 		{																				
 			hw1.set((char) (hw1.read() - MH_HARDMAX));															
-			hw1.set(writehardware.memory[(hw1.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw1.set(u8_writehardware[(hw1.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 		}																				
 		if (hw2.read() >= MH_HARDMAX)															
 		{																				
 			hw2.set((char) (hw2.read() - MH_HARDMAX));															
-			hw2.set(writehardware.memory[(hw2.read() << MH_SBITS) + ((address2 >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
+			hw2.set(u8_writehardware[(hw2.read() << MH_SBITS) + ((address2 >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);	
 		}																				
 		/* extract words */																
 																			
@@ -767,11 +745,11 @@ public class memory {
 /*TODO*/ //	}																					\
 /*TODO*/ //																						\
 /*TODO*/ //	/* perform the lookup */															\
-/*TODO*/ //	hw = cur_mrhard[(UINT32)pc >> (ABITS2_##abits + ABITS_MIN_##abits)];				\
+/*TODO*/ //	hw = u8_cur_mrhard[(UINT32)pc >> (ABITS2_##abits + ABITS_MIN_##abits)];				\
 /*TODO*/ //	if (hw >= MH_HARDMAX)																\
 /*TODO*/ //	{																					\
 /*TODO*/ //		hw -= MH_HARDMAX;																\
-/*TODO*/ //		hw = readhardware[(hw << MH_SBITS) + (((UINT32)pc >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
+/*TODO*/ //		hw = u8_readhardware[(hw << MH_SBITS) + (((UINT32)pc >> ABITS_MIN_##abits) & MHMASK(ABITS2_##abits))];	\
 /*TODO*/ //	}																					\
 /*TODO*/ //	ophw = hw;																			\
 /*TODO*/ //																						\
@@ -814,12 +792,12 @@ public class memory {
             }
 
             /* perform the lookup */
-            hw.set(cur_mrhard[pc >>> (ABITS2_20 + ABITS_MIN_20)]);
+            hw.set(u8_cur_mrhard[pc >>> (ABITS2_20 + ABITS_MIN_20)]);
             if (hw.read() >= MH_HARDMAX) {
                 hw.set((char) (hw.read() - MH_HARDMAX));
-                hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_20) & MHMASK(ABITS2_20))));
+                hw.set(u8_readhardware[(hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_20) & MHMASK(ABITS2_20))]);
             }
-            ophw.set(hw.read());
+            u8_ophw = (char) (hw.read() & 0xFF);
 
             /* RAM or banked memory */
             if (hw.read() <= HT_BANKMAX) {
@@ -845,12 +823,12 @@ public class memory {
             }
 
             /* perform the lookup */
-            hw.set(cur_mrhard[pc >>> (ABITS2_24 + ABITS_MIN_24)]);
+            hw.set(u8_cur_mrhard[pc >>> (ABITS2_24 + ABITS_MIN_24)]);
             if (hw.read() >= MH_HARDMAX) {
                 hw.set((char) (hw.read() - MH_HARDMAX));
-                hw.set(readhardware.read((hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_24) & MHMASK(ABITS2_24))));
+                hw.set(u8_readhardware[(hw.read() << MH_SBITS) + ((pc >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]);
             }
-            ophw.set(hw.read());
+            u8_ophw = (char) (hw.read() & 0xFF);
 
             /* RAM or banked memory */
             if (hw.read() <= HT_BANKMAX) {
