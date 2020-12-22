@@ -7,7 +7,6 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
@@ -19,9 +18,10 @@ import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_getcurrentframe;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 
 public class cninja
 {

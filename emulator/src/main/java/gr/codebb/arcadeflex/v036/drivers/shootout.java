@@ -5,7 +5,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -21,8 +21,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.shootout.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.btime.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 
 public class shootout

@@ -1,10 +1,10 @@
 package gr.codebb.arcadeflex.v036.cpu.m6805;
 
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_M6805;
 import static gr.codebb.arcadeflex.v036.cpu.m6805.m6805H.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase16;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 
 public class m6805 extends cpu_interface {

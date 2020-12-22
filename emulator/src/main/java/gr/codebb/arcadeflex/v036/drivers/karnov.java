@@ -42,7 +42,7 @@ Chelnov - level number at 0x60189 - enter a value at cartoon intro
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -51,10 +51,10 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.M6502_INT_NMI;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.sound._2203intf.YM2203_control_port_0_w;
@@ -66,6 +66,7 @@ import static gr.codebb.arcadeflex.v036.sound._3526intf.YM3526_write_port_0_w;
 import gr.codebb.arcadeflex.v036.sound._3812intfH.YM3526interface;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.karnov.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class karnov
 {

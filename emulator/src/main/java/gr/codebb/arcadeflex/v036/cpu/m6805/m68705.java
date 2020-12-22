@@ -2,9 +2,9 @@ package gr.codebb.arcadeflex.v036.cpu.m6805;
 
 import static gr.codebb.arcadeflex.v036.cpu.m6805.m6805.m6805_ICount;
 import static gr.codebb.arcadeflex.v036.cpu.m6805.m6805H.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.ABITS1_16;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.ABITS2_16;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.ABITS_MIN_16;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS1_16;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS2_16;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS_MIN_16;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_INFO_NAME;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_INFO_VERSION;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_IS_BE;

@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -23,9 +23,10 @@ import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.machine.pacplus.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.machine.theglob.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class pacman {
 

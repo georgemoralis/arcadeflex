@@ -107,26 +107,17 @@ e000-e001	YM2203
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import gr.codebb.arcadeflex.v036.platform.ptrlib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_UPD7759;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2203;
@@ -135,6 +126,7 @@ import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 
 public class combatsc

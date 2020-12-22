@@ -15,12 +15,10 @@ import gr.codebb.arcadeflex.v036.cpu.h6280.h6280;
 import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.*;
 import java.util.ArrayList;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import gr.codebb.arcadeflex.v036.cpu.konami.konami;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
@@ -40,6 +38,7 @@ import gr.codebb.arcadeflex.v036.cpu.nec.v30;
 import gr.codebb.arcadeflex.v036.cpu.nec.v33;
 import gr.codebb.arcadeflex.v036.cpu.m6502.n2a03;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 
 public class cpuintrf {
 
@@ -682,6 +681,10 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
+    public static void cpu_set_op_base(int/*unsigned*/ val) { //0.37b7 stuff
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        SET_OP_BASE(cpunum, val);
+    }
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Returns the number of CPU cycles since the last reset of the CPU

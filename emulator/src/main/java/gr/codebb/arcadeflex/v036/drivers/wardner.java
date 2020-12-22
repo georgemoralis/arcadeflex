@@ -5,7 +5,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -18,10 +18,13 @@ import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.machine.twincobr.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.twincobr.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.crtc6845.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.mrh_bank1;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.mrh_bank2;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.mrh_bank3;
 
 public class wardner {
 

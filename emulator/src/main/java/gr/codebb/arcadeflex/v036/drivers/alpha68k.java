@@ -50,7 +50,7 @@ General notes:
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -60,19 +60,10 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.mitchell.*;
-import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
-import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v036.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.ym2413.*;
-import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.alpha68k.*;
 import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
@@ -81,6 +72,7 @@ import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 
 public class alpha68k

@@ -5,7 +5,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -19,9 +19,9 @@ import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class jack {
 

@@ -23,14 +23,9 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class alpha68k {

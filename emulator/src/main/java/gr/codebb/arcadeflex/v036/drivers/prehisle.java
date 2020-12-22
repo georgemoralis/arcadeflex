@@ -14,37 +14,25 @@
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.prehisle.*;
-import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class prehisle
 {

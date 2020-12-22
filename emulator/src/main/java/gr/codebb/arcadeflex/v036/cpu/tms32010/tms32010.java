@@ -3,11 +3,15 @@ package gr.codebb.arcadeflex.v036.cpu.tms32010;
 import gr.codebb.arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.tms32010.tms32010H.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readport;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem16;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writeport;
 
 /**
  *

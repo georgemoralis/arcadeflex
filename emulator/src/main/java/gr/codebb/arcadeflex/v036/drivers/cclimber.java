@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -12,12 +12,12 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.cclimber.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class cclimber {
 
