@@ -1,4 +1,4 @@
-package gr.codebb.arcadeflex.v036.platform.util;
+package gr.codebb.arcadeflex.common;
 
 public class CRC {
 
