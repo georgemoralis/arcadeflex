@@ -682,6 +682,10 @@ public class cpuintrf {
     /*TODO*///
     /*TODO*///
     /*TODO*///
+    public static void cpu_set_op_base(int/*unsigned*/ val) { //0.37b7 stuff
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        SET_OP_BASE(cpunum, val);
+    }
     /*TODO*////***************************************************************************
     /*TODO*///
     /*TODO*///  Returns the number of CPU cycles since the last reset of the CPU

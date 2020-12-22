@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 
 public class galaxian {
 

@@ -7,12 +7,10 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import gr.codebb.arcadeflex.v036.platform.libc_old.CharPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.memset;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
@@ -21,11 +19,11 @@ import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX2;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.spriteC.*;
 import static gr.codebb.arcadeflex.v036.mame.spriteH.*;
 public class system16

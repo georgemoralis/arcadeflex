@@ -24,7 +24,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.cpu.tms32010.tms32010H.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan1.*;
 
 public class toaplan1 {

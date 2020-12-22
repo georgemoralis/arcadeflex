@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.cpu.nec;
 
 import static gr.codebb.arcadeflex.v036.cpu.nec.v30.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 

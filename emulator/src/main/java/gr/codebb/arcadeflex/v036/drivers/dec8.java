@@ -6,7 +6,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -33,7 +33,7 @@ import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v036.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 
 public class dec8 {

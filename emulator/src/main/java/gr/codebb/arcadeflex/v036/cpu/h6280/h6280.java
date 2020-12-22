@@ -2,26 +2,14 @@ package gr.codebb.arcadeflex.v036.cpu.h6280;
 
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_INT_NMI;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_INT_NONE;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_IRQ1_VEC;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_IRQ2_VEC;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_NMI_VEC;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_RESET_VEC;
-import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_TIMER_VEC;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_readmem21;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase21;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_writemem21;
+import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_H6280;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
-//import static arcadeflex.osdepend.logerror;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_readmem21;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase21;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_writemem21;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_writeport;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem21;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase21;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem21;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writeport;
 
 public class h6280 extends cpu_interface {
 
