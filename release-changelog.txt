@@ -1,4 +1,13 @@
-0.36.13 (....... )
+0.36.14
+=======================================
+
+Core
+====
+Timer class rewrite to 0.37b7
+Memory class partially rewrite to 0.37b7
+
+
+0.36.13 (21/12/2020)
 =======================================
 
 Driver
@@ -14,6 +23,7 @@ yiear
 toki
 rockola
 
++more that i didn't record ...
 
 sound
 =====

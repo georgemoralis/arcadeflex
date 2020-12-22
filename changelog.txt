@@ -1,3 +1,8 @@
+22/12/2020
+==========
+-Partially rewrote memory class to 0.37b7
+-Added proper CRC check in fileio class
+
 21/12/2020
 ==========
 -Convert project to maven,JPMS,jpackage, jdk15

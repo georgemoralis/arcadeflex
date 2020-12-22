@@ -18,6 +18,7 @@ import java.util.zip.ZipInputStream;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import gr.codebb.arcadeflex.v036.platform.util.CRC;
 
 public class fileio {
 
@@ -174,7 +175,7 @@ public class fileio {
                                     // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
                                     int tlen[] = new int[1];
                                     int tcrc[] = new int[1];
-                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
+                                    if (checksum_file_zipped(bytes, filename, f.data, tlen, tcrc) == 0) {
                                         f.type = kRAMFile;
                                         f.offset = 0;
                                         found = 1;
@@ -211,7 +212,7 @@ public class fileio {
                                     // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
                                     int tlen[] = new int[1];
                                     int tcrc[] = new int[1];
-                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
+                                    if (checksum_file_zipped(bytes, filename, f.data, tlen, tcrc) == 0) {
                                         f.type = kRAMFile;
                                         f.offset = 0;
                                         found = 1;
@@ -246,7 +247,7 @@ public class fileio {
                                     // http://www.java-tips.org/java-se-tips/java.lang/pass-an-integer-by-reference.html
                                     int tlen[] = new int[1];
                                     int tcrc[] = new int[1];
-                                    if (checksum_file3(bytes, filename, f.data, tlen, tcrc) == 0) {
+                                    if (checksum_file_zipped(bytes, filename, f.data, tlen, tcrc) == 0) {
                                         f.type = kRAMFile;
                                         f.offset = 0;
                                         found = 1;
@@ -650,208 +651,16 @@ public class fileio {
 
         long length = ftell(f);
 
-        if (fread(p, 0, 1, (int) length, f) != length) {
+        if (fread(p, 1, (int) length, f) != length) {
             fclose(f);
             return -1;
         }
         size[0] = (int) length;
-        /*Checksum crcal = new CRC32();
-         String temp = new String(p);//make string to be able to get the bytes
-         crcal.update(temp.getBytes(), 0, size[0]);
-         long result =crcal.getValue();*/
-        try {
-
-            CheckedInputStream cis = null;
-            long fileSize = 0;
-            try {
-                // Computer CRC32 checksum
-                cis = new CheckedInputStream(
-                        new FileInputStream(file), new CRC32());
-
-                fileSize = new File(file).length();
-
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found.");
-                System.exit(1);
-            }
-
-            byte[] buf = new byte[(int) fileSize];
-            while (cis.read(buf) >= 0) {
-            }
-
-            long checksum = cis.getChecksum().getValue();
-            crc[0] = (int) checksum;
-            //System.out.println(checksum + " " + fileSize + " " + file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        fclose(f);
-        /*     int length;
-         unsigned char *data;
-         FILE *f;
-
-         f = fopen (file, "rb");
-         if( !f )
-         return -1;
-
-         /* determine length of file */
- /*     if( fseek (f, 0L, SEEK_END) != 0 )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         length = ftell (f);
-         if( length == -1L )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* allocate space for entire file */
- /*    data = (unsigned char *) malloc (length);
-         if( !data )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* read entire file into memory */
- /*     if( fseek (f, 0L, SEEK_SET) != 0 )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         if( fread (data, sizeof (unsigned char), length, f) != length )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         *size = length;
-         *crc = crc32 (0L, data, length);
-         if( p )
-         *p = data;
-         else
-         free (data);
-
-         fclose (f);*/
+        crc[0] = (int) CRC.crc(p, size[0]);
 
         return 0;
     }
-
-    public static int checksum_file2(File fl, char[] p, int[] size, int[] crc) {
-        FILE f;
-        f = fopen(fl, "rb");
-        if (f == null) {
-            return -1;
-        }
-
-        long length = ftell(f);
-
-        if (fread(p, 0, 1, (int) length, f) != length) {
-            fclose(f);
-            return -1;
-        }
-        size[0] = (int) length;
-        /*Checksum crcal = new CRC32();
-         String temp = new String(p);//make string to be able to get the bytes
-         crcal.update(temp.getBytes(), 0, size[0]);
-         long result =crcal.getValue();*/
-        try {
-
-            CheckedInputStream cis = null;
-            long fileSize = 0;
-            try {
-                // Computer CRC32 checksum
-                cis = new CheckedInputStream(
-                        new FileInputStream(fl), new CRC32());
-
-                fileSize = fl.length();
-
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found.");
-                System.exit(1);
-            }
-
-            byte[] buf = new byte[(int) fileSize];
-            while (cis.read(buf) >= 0) {
-            }
-
-            long checksum = cis.getChecksum().getValue();
-            crc[0] = (int) checksum;
-            //System.out.println(checksum + " " + fileSize + " " + file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        fclose(f);
-        /*     int length;
-         unsigned char *data;
-         FILE *f;
-
-         f = fopen (file, "rb");
-         if( !f )
-         return -1;
-
-         /* determine length of file */
- /*     if( fseek (f, 0L, SEEK_END) != 0 )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         length = ftell (f);
-         if( length == -1L )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* allocate space for entire file */
- /*    data = (unsigned char *) malloc (length);
-         if( !data )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* read entire file into memory */
- /*     if( fseek (f, 0L, SEEK_SET) != 0 )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         if( fread (data, sizeof (unsigned char), length, f) != length )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         *size = length;
-         *crc = crc32 (0L, data, length);
-         if( p )
-         *p = data;
-         else
-         free (data);
-
-         fclose (f);*/
-
-        return 0;
-    }
-
-    public static int checksum_file3(byte[] bytes, String filename, char[] p, int[] size, int[] crc) {
+        public static int checksum_file_zipped(byte[] bytes, String filename, char[] p, int[] size, int[] crc) {
         FILE f;
         f = fopen(bytes, filename, "rb");
         if (f == null) {
@@ -865,94 +674,7 @@ public class fileio {
             return -1;
         }
         size[0] = (int) length;
-        /*Checksum crcal = new CRC32();
-         String temp = new String(p);//make string to be able to get the bytes
-         crcal.update(temp.getBytes(), 0, size[0]);
-         long result =crcal.getValue();*/
-        try {
-
-            CheckedInputStream cis = null;
-            long fileSize = 0;
-            try {
-                // Computer CRC32 checksum
-                cis = new CheckedInputStream(
-                        new ByteArrayInputStream(bytes), new CRC32());
-
-                fileSize = bytes.length;
-
-            } catch (Exception e) {
-                System.err.println("File not found.");
-                System.exit(1);
-            }
-
-            byte[] buf = new byte[(int) fileSize];
-            while (cis.read(buf) >= 0) {
-            }
-
-            long checksum = cis.getChecksum().getValue();
-            crc[0] = (int) checksum;
-            //System.out.println(checksum + " " + fileSize + " " + file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        fclose(f);
-        /*     int length;
-         unsigned char *data;
-         FILE *f;
-
-         f = fopen (file, "rb");
-         if( !f )
-         return -1;
-
-         /* determine length of file */
- /*     if( fseek (f, 0L, SEEK_END) != 0 )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         length = ftell (f);
-         if( length == -1L )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* allocate space for entire file */
- /*    data = (unsigned char *) malloc (length);
-         if( !data )
-         {
-         fclose (f);
-         return -1;
-         }
-
-         /* read entire file into memory */
- /*     if( fseek (f, 0L, SEEK_SET) != 0 )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         if( fread (data, sizeof (unsigned char), length, f) != length )
-         {
-         free (data);
-         fclose (f);
-         return -1;
-         }
-
-         *size = length;
-         *crc = crc32 (0L, data, length);
-         if( p )
-         *p = data;
-         else
-         free (data);
-
-         fclose (f);*/
-
+        crc[0] = (int) CRC.crc(p, size[0]);
         return 0;
     }
 
