@@ -2,6 +2,7 @@
 ==========
 -Partially rewrote memory class to 0.37b7
 -Added proper CRC check in fileio class
+-Fixed memory region in hyprolyb adpcm. Now it's working
 
 21/12/2020
 ==========

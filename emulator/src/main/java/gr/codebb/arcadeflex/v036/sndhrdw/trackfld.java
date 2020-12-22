@@ -51,7 +51,7 @@ public class trackfld
 	(
 	    1,          /* 1 channel */
 	    4000,       /* 4000Hz playback */
-	    4,          /* memory region 4 */
+	    REGION_CPU3,          /* memory region*/
 	    null,          /* init function */
 	    new int[]{ 100 }
         );
