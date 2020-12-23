@@ -2,6 +2,7 @@
 ==========
 -Updated vlm5030 to 0.58 version (fixes all vlm5030 relate games)
 -Updated ym2413 to 0.37b7
+-Added SubArray common class. Refactoring
 
 22/12/2020
 ==========

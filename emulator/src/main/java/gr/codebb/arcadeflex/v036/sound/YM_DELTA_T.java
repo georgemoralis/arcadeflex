@@ -4,7 +4,7 @@ package gr.codebb.arcadeflex.v036.sound;
  *
  * @author shadow
  */
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 
 public class YM_DELTA_T {

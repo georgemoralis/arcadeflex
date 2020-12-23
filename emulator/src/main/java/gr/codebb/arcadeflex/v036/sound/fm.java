@@ -1,7 +1,6 @@
 package gr.codebb.arcadeflex.v036.sound;
 
-import gr.codebb.arcadeflex.v036.platform.libc.IntSubArray;
-import gr.codebb.arcadeflex.v036.platform.ptrlib.UShortPtr;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.sound._2203intf.YM2203UpdateRequest;
 import gr.codebb.arcadeflex.v036.sound.fm_c.FM_ST;

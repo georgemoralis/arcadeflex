@@ -23,9 +23,9 @@ public class _3812intfH {
             this.mixing_level=mixing_level;
             this.handler=null;
         }
-        int num;
-        int baseclock;
-        int[] mixing_level;//[MAX_3812];
+        public int num;
+        public int baseclock;
+        public int[] mixing_level;//[MAX_3812];
         public WriteYmHandlerPtr handler[];//void (*handler[MAX_3812])(int linestate);
     };
     

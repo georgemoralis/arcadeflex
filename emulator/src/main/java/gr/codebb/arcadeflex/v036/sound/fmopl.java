@@ -1,9 +1,8 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import gr.codebb.arcadeflex.v036.sound.fm_c.FM_OPL;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sound.YM_DELTA_T.*;
 import gr.codebb.arcadeflex.v036.sound.fm_c.OPL_CH;

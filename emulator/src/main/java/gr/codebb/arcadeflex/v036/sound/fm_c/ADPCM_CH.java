@@ -1,7 +1,7 @@
 
 package gr.codebb.arcadeflex.v036.sound.fm_c;
 
-import gr.codebb.arcadeflex.v036.platform.libc.IntSubArray;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 
 
 public class ADPCM_CH {

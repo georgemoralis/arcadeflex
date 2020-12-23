@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.v036.sound.fm_c;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 
 public class FM_CH {
 

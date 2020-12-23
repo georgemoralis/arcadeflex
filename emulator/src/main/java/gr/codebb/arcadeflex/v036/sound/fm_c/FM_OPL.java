@@ -1,8 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound.fm_c;
 
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
-import static gr.codebb.arcadeflex.v036.sound.fm_c.OPL_CH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import gr.codebb.arcadeflex.v036.sound.YM_DELTAT;
 
 public class FM_OPL {
