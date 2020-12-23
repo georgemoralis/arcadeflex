@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
@@ -48,7 +49,7 @@ public class mameH {
                                                             /* pens[6] instead of just 6. */
                 public char[] game_colortable;// public unsigned short *game_colortable;	/* lookup table used to map gfx pen numbers */
                                                                                         /* to color numbers */
-                public char[] remapped_colortable; //public unsigned short *remapped_colortable;	/* the above, already remapped through */
+                public UShortArray remapped_colortable; //public unsigned short *remapped_colortable;	/* the above, already remapped through */
                                                                                                 /* Machine->pens */
                 public GameDriver gamedrv;	/* contains the definition of the game machine */
                 public MachineDriver drv;	/* same as gamedrv->drv */

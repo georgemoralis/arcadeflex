@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
@@ -277,7 +278,7 @@ public class tilemapC {
     
     	_tilemap.pendata = new UBytePtr[num_tiles];//malloc( sizeof( UINT8 *)*num_tiles );
     	_tilemap.maskdata = new UBytePtr[num_tiles];//malloc( sizeof( UINT8 *)*num_tiles ); /* needed only for TILEMAP_BITMASK */
-    	_tilemap.paldata = new CharPtr[num_tiles];//malloc( sizeof( unsigned short *)*num_tiles );
+    	_tilemap.paldata = new UShortArray[num_tiles];//malloc( sizeof( unsigned short *)*num_tiles );
     	_tilemap.pen_usage = new int[num_tiles];//malloc( sizeof( unsigned int )*num_tiles );
     	_tilemap.priority = new char[num_tiles];
     	_tilemap.visible = new char[num_tiles];
@@ -612,15 +613,15 @@ public class tilemapC {
     		int num_pens = _tilemap.tile_width*_tilemap.tile_height; /* precalc - needed for >4bpp pen management handling */
     		for( tile_index=0; tile_index<_tilemap.num_tiles; tile_index++ ){
     			if( _tilemap.visible[tile_index]==0 ){
-    				CharPtr the_color = _tilemap.paldata[tile_index];
+    				UShortArray the_color = _tilemap.paldata[tile_index];
     				if( the_color!=null ){
     					/*unsigned */int old_pen_usage = _tilemap.pen_usage[tile_index];
     					if( old_pen_usage!=0 ){
    /*TODO*/ 						//palette_decrease_usage_count( the_color.offset- Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-                                                palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
+                                                palette_decrease_usage_count(the_color.offset, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
-  /*TODO*/  						palette_decrease_usage_countx( the_color.base, num_pens, _tilemap.pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+  /*TODO*/  						palette_decrease_usage_countx( the_color.offset, num_pens, _tilemap.pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     					}
     					_tilemap.paldata[tile_index] = null;
     				}
@@ -636,7 +637,7 @@ public class tilemapC {
     public static void draw_tile(
     		osd_bitmap pixmap,
     		int col, int row, int tile_width, int tile_height,
-    		UBytePtr pendata, CharPtr paldata,
+    		UBytePtr pendata, UShortArray paldata,
     		char flags )
     {
     	int x, sx = tile_width*col;
@@ -1481,7 +1482,7 @@ public class tilemapC {
     
     			UBytePtr[] pendata = _tilemap.pendata;
     			UBytePtr[] maskdata = _tilemap.maskdata;
-    			CharPtr[] paldata = _tilemap.paldata;
+    			UShortArray[] paldata = _tilemap.paldata;
     			int []pen_usage = _tilemap.pen_usage;
     
     			int tile_flip = 0;
@@ -1518,15 +1519,15 @@ public class tilemapC {
                                         }
     
     					{
-    						CharPtr the_color = paldata[tile_index];
+    						UShortArray the_color = paldata[tile_index];
     						if( the_color!=null ){
     							/*unsigned*/ int old_pen_usage = pen_usage[tile_index];
     							if( old_pen_usage!=0 ){
     		/*TODO RECHECK THIS*/				//palette_decrease_usage_count( the_color.offset-Machine.remapped_colortable.length, old_pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-                                                                palette_decrease_usage_count(the_color.base, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
+                                                                palette_decrease_usage_count(the_color.offset, old_pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                                         }
     							else {
-    		/*TODO RECHECK THIS*/				palette_decrease_usage_countx( the_color.base, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+    		/*TODO RECHECK THIS*/				palette_decrease_usage_countx( the_color.offset, num_pens, pendata[tile_index], PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     							}
     						}
     					}
@@ -1549,10 +1550,10 @@ public class tilemapC {
     
     					if( tile_info.pen_usage!=0 ){
   /*TODO RECHECK THIS*/  			//palette_increase_usage_count( tile_info.pal_data.offset-Machine.remapped_colortable.length, tile_info.pen_usage, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
-                                            palette_increase_usage_count(tile_info.pal_data.base, tile_info.pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
+                                            palette_increase_usage_count(tile_info.pal_data.offset, tile_info.pen_usage, PALETTE_COLOR_VISIBLE | PALETTE_COLOR_CACHED);
                                         }
     					else {
- /*TODO RECHECK THIS*/   			palette_increase_usage_countx( tile_info.pal_data.base, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
+ /*TODO RECHECK THIS*/   			palette_increase_usage_countx( tile_info.pal_data.offset, num_pens, tile_info.pen_data, PALETTE_COLOR_VISIBLE|PALETTE_COLOR_CACHED );
     					}
     
     					dirty_pixels[tile_index] = 1;

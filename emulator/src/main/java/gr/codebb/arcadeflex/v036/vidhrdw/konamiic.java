@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -471,7 +472,7 @@ public class konamiic {
         }
 
         /* set the color information */
-        Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
         Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / 16;
 
         K052109_memory_region = gfx_memory_region;
@@ -828,7 +829,7 @@ public class konamiic {
         }
 
         /* set the color information */
-        Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
         Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / 16;
 
         K051960_memory_region = gfx_memory_region;
@@ -1293,7 +1294,7 @@ public class konamiic {
         }
 
         /* set the color information */
-        Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
         Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / 16;
 
         K053245_memory_region = gfx_memory_region;
@@ -1808,7 +1809,7 @@ public class konamiic {
         }
 
         /* set the color information */
-        Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
         Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / (1 << bpp);
 
         K051316_memory_region[chip] = gfx_memory_region;

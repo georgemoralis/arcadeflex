@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.v036.mame;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
@@ -77,9 +78,10 @@ public class palette {
 
         if (Machine.drv.color_table_len != 0) {
             Machine.game_colortable = new char[Machine.drv.color_table_len];//malloc(Machine->drv->color_table_len * sizeof(unsigned short));
-            Machine.remapped_colortable = new char[Machine.drv.color_table_len];//malloc(Machine->drv->color_table_len * sizeof(unsigned short));
+            Machine.remapped_colortable = new UShortArray(Machine.drv.color_table_len * 2);//malloc(Machine->drv->color_table_len * sizeof(unsigned short));
         } else {
-            Machine.game_colortable = Machine.remapped_colortable = null;
+            Machine.game_colortable = null;
+            Machine.remapped_colortable = null;
         }
         if (Machine.color_depth == 16 || ((Machine.gamedrv.flags & GAME_REQUIRES_16BIT) != 0)) {
             if (Machine.color_depth == 8 || Machine.drv.total_colors > 65532) {
@@ -396,7 +398,7 @@ public class palette {
 
             /* check for invalid colors set by Machine->drv->vh_init_palette */
             if (color < Machine.drv.total_colors) {
-                Machine.remapped_colortable[i] = Machine.pens[color];
+                Machine.remapped_colortable.write(i, Machine.pens[color]);
             }
             /*TODO*///		else
     /*TODO*///			usrintf_showmessage("colortable[%d] (=%d) out of range (total_colors = %d)",
@@ -750,7 +752,7 @@ public class palette {
         if (did_remap != 0) {
             /* rebuild the color lookup table */
             for (i = 0; i < Machine.drv.color_table_len; i++) {
-                Machine.remapped_colortable[i] = Machine.pens[Machine.game_colortable[i]];
+                Machine.remapped_colortable.write(i,Machine.pens[Machine.game_colortable[i]]);
             }
         }
 
@@ -1088,7 +1090,7 @@ public class palette {
         if (did_remap != 0) {
             /* rebuild the color lookup table */
             for (i = 0; i < Machine.drv.color_table_len; i++) {
-                Machine.remapped_colortable[i] = Machine.pens[Machine.game_colortable[i]];
+                Machine.remapped_colortable.write(i, Machine.pens[Machine.game_colortable[i]]);
             }
         }
 

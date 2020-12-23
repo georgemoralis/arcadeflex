@@ -13,6 +13,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -119,7 +120,7 @@ public class gaiden
 				if ((attributes & 1) != 0) flags |= SPRITE_FLIPX;
 				if ((attributes & 2) != 0) flags |= SPRITE_FLIPY;
 	
-				sprite[sprite_ptr].pal_data = new CharPtr(gfx.colortable,gfx.color_granularity * color);
+				sprite[sprite_ptr].pal_data = new UShortArray(gfx.colortable,gfx.color_granularity * color);
 				sprite[sprite_ptr].pen_usage = gfx.pen_usage[number/64];
 	
 				sprite[sprite_ptr].pen_data = new UBytePtr(gfx.gfxdata , (number/64) * gfx.char_modulo);

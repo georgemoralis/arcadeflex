@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
@@ -39,7 +40,7 @@ public class tilemapH {
     /*TODO*///
     public static class _tile_info {
     	public UBytePtr pen_data; /* pointer to gfx data */
-    	public CharPtr pal_data; /* pointer to palette */
+    	public UShortArray pal_data; /* pointer to palette */
     	public UBytePtr mask_data; /* pointer to mask data (for TILEMAP_BITMASK) */
     	public /*unsigned*/ int pen_usage;	/* used pens mask */
     	/*
@@ -56,7 +57,7 @@ public class tilemapH {
             GfxElement gfx = Machine.gfx[(GFX)];
             int _code = (int)((CODE) % gfx.total_elements);
             tile_info.pen_data = new UBytePtr(gfx.gfxdata, _code * gfx.char_modulo);
-            tile_info.pal_data = new CharPtr(gfx.colortable, gfx.color_granularity * (COLOR));
+            tile_info.pal_data = new UShortArray(gfx.colortable, gfx.color_granularity * (COLOR));
             tile_info.pen_usage = gfx.pen_usage != null ? gfx.pen_usage[_code] : 0;
     }   
 
@@ -107,7 +108,7 @@ public class tilemapH {
     
     	public UBytePtr[] pendata;//unsigned char **pendata;
     	public UBytePtr[] maskdata;//unsigned char **maskdata;
-        public CharPtr[] paldata; //unsigned short **paldata;
+        public UShortArray[] paldata; //unsigned short **paldata;
     	public int[] pen_usage;//unsigned int *pen_usage;
     
         public char[] priority;//char *priority,	/* priority for each tile */

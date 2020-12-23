@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.vidhrdw.konami;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -73,7 +74,7 @@ public class K053247 {
         }
 
         /* set the color information */
-        Machine.gfx[gfx_index].colortable = new CharPtr(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
         Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / 16;
 
         K053247_memory_region = gfx_memory_region;

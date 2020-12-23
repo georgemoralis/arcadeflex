@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -132,7 +133,7 @@ public class spriteC {
 
     public static do_blitPtr do_blit_unpack = new do_blitPtr() {
         public void handler(sprite[] sprite, int sprite_ptr) {
-            CharPtr pal_data = sprite[sprite_ptr].pal_data;
+            UShortArray pal_data = sprite[sprite_ptr].pal_data;
             int transparent_pen = blit.transparent_pen;
 
             int screenx = sprite[sprite_ptr].x - blit.origin_x;
@@ -292,7 +293,7 @@ public class spriteC {
     };
     public static do_blitPtr do_blit_stack = new do_blitPtr() {
         public void handler(sprite[] sprite, int sprite_ptr) {
-            CharPtr pal_data = sprite[sprite_ptr].pal_data;
+            UShortArray pal_data = sprite[sprite_ptr].pal_data;
             int transparent_pen = blit.transparent_pen;
             int flipx_adjust = sprite[sprite_ptr].tile_width - 1;
 
@@ -551,7 +552,7 @@ public class spriteC {
 
             if ((sprite[sprite_ptr].flags & (SPRITE_SHADOW | SPRITE_PARTIAL_SHADOW)) == 0) {
                 UBytePtr pen_data = new UBytePtr(sprite[sprite_ptr].pen_data);
-                CharPtr pal_data = sprite[sprite_ptr].pal_data;
+                UShortArray pal_data = sprite[sprite_ptr].pal_data;
                 int x, y;
                 /*unsigned*/ char pen;
                 int pitch = blit.line_offset * dy;
@@ -1223,7 +1224,7 @@ public class spriteC {
 
                     if (palette_used_colors != null) {
                         int pen_usage = sprite[sprite_ptr].pen_usage;
-                        int indx = sprite[sprite_ptr].pal_data.base;//memory.length - Machine.remapped_colortable.length;
+                        int indx = sprite[sprite_ptr].pal_data.offset;//memory.length - Machine.remapped_colortable.length;
                         while (pen_usage != 0) {
                             if ((pen_usage & 1) != 0) {
                                 palette_used_colors.write(indx, PALETTE_COLOR_USED);

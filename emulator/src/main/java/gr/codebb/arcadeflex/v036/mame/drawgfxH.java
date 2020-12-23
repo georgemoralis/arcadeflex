@@ -1,6 +1,7 @@
 
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import java.util.Arrays;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
@@ -47,7 +48,7 @@ public class drawgfxH {
 	public /*unsigned */int total_elements;	/* total number of characters/sprites */
         public int color_granularity;	/* number of colors for each color code */
 				/* (for example, 4 for 2 bitplanes gfx) */
-        public CharPtr colortable;	/* map color codes to screen pens */								/* if this is 0, the function does a verbatim copy */
+        public UShortArray colortable;	/* map color codes to screen pens */								/* if this is 0, the function does a verbatim copy */
 	public int total_colors;
 	public int[] pen_usage;//unsigned int *pen_usage;	/* an array of total_elements ints. */
 								/* It is a table of the pens each character uses */

@@ -1,5 +1,6 @@
 
 package gr.codebb.arcadeflex.v036.mame;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -1450,7 +1451,7 @@ public class drawgfx {
 	{
 		if( gfx!=null && gfx.colortable!=null )
 		{
-			CharPtr pal = new CharPtr(gfx.colortable,gfx.color_granularity * (color % gfx.total_colors)); /* ASG 980209 */
+                    UShortArray pal = new UShortArray(gfx.colortable, gfx.color_granularity * (color % gfx.total_colors));
 			int source_base = (code % gfx.total_elements) * gfx.height;
 
 			int sprite_screen_height = (scaley*gfx.height+0x8000)>>16;
@@ -2006,7 +2007,7 @@ public class drawgfx {
 /*TODO*///})
 /*TODO*///
 /*TODO*///
-        public static void blockmove_transpen8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transpen)
+        public static void blockmove_transpen8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transpen)
         {
             
             int end;
@@ -2122,7 +2123,7 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
-    public static void blockmove_transpen_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transpen)
+    public static void blockmove_transpen_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transpen)
     {
     
             int end;
@@ -2247,7 +2248,7 @@ public class drawgfx {
 /*TODO*///
 /*TODO*///#define PEN_IS_OPAQUE ((1<<col)&transmask) == 0
 /*TODO*///
-    static void blockmove_transmask8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transmask)
+    static void blockmove_transmask8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transmask)
     {
         int end;
 	IntPtr sd4;//UINT32 *sd4;
@@ -2358,7 +2359,7 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
-    static void blockmove_transmask_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transmask)
+    static void blockmove_transmask_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transmask)
     {
         int end;
 	IntPtr sd4;//UINT32 *sd4;
@@ -2476,12 +2477,12 @@ public class drawgfx {
 /*TODO*///
     
 //mostly unchecked TODO recheck it sometime (shadow)    
-    public static void blockmove_transcolor8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    public static void blockmove_transcolor8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transcolor)
     {
             int end;
             //const unsigned short *lookupdata = Machine->game_colortable + (paldata - Machine->remapped_colortable);
-            //CharPtr lookupdata = new CharPtr(Machine.game_colortable,(paldata.read()-Machine.remapped_colortable.length));
-            CharPtr lookupdata = new CharPtr(Machine.game_colortable,paldata.base);
+            //UShortArray lookupdata = new UShortArray(Machine.game_colortable,(paldata.read()-Machine.remapped_colortable.length));
+            UShortArray lookupdata = new UShortArray(Machine.game_colortable,paldata.offset);
             srcmodulo -= srcwidth;
             dstmodulo -= srcwidth;
           
@@ -2491,7 +2492,7 @@ public class drawgfx {
 		while (dstdata.offset < end)
 		{
 			//if (lookupdata[*srcdata] != transcolor) *dstdata = paldata[*srcdata];
-                    if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.offset]] != transcolor)
+                    if (lookupdata.memory[lookupdata.offset+srcdata.memory[srcdata.offset]] != transcolor)
                             dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
 
 			srcdata.inc();
@@ -2530,13 +2531,13 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
-        public static void blockmove_transcolor_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+        public static void blockmove_transcolor_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transcolor)
         {
             int end;
 
-            int offset = paldata.base;
+            int offset = paldata.offset;
             int length = Machine.game_colortable.length - offset;
-             CharPtr lookupdata = new CharPtr(Machine.game_colortable,paldata.base);
+             UShortArray lookupdata = new UShortArray(Machine.game_colortable,paldata.offset);
 
             srcmodulo += srcwidth;
             dstmodulo -= srcwidth; //srcdata += srcwidth-1;
@@ -2545,7 +2546,7 @@ public class drawgfx {
                 end = (int)(dstdata.offset + srcwidth);
                 while (dstdata.offset < end)
                 {
-                   if (lookupdata.memory[lookupdata.base+srcdata.memory[srcdata.offset]] != transcolor)
+                   if (lookupdata.memory[lookupdata.offset+srcdata.memory[srcdata.offset]] != transcolor)
                             dstdata.memory[dstdata.offset] = paldata.read(srcdata.memory[srcdata.offset]);
                     srcdata.offset--;
                     dstdata.offset++;
@@ -2585,7 +2586,7 @@ public class drawgfx {
 /*TODO*///})
 /*TODO*///
 /*TODO*///
-    public static void blockmove_transthrough8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    public static void blockmove_transthrough8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transcolor)
     {
             int end;
             srcmodulo -= srcwidth;
@@ -2632,7 +2633,7 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
-    public static void blockmove_transthrough_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata, int transcolor)
+    public static void blockmove_transthrough_flipx8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata, int transcolor)
     {
             int end;
             srcmodulo += srcwidth;
@@ -2867,7 +2868,7 @@ public class drawgfx {
 /*TODO*///	}
 /*TODO*///})
 /*TODO*///
-       public static void blockmove_opaque8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata)
+       public static void blockmove_opaque8(UBytePtr srcdata,int srcwidth,int srcheight,int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata)
        {
            int end;
 
@@ -2900,7 +2901,7 @@ public class drawgfx {
                     srcheight--;
             }
        }
-        static void blockmove_opaque_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, CharPtr paldata)
+        static void blockmove_opaque_flipx8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, UShortArray paldata)
         {
            
             int end;
@@ -2969,7 +2970,7 @@ public class drawgfx {
 		int sm = gfx.line_modulo;								/* source modulo */
 		UBytePtr dd = new UBytePtr(dest.line[sy],sx);		/* dest data */
 		int dm = (int)((dest.line[1].offset)-(dest.line[0].offset));	/* dest modulo */
-                CharPtr paldata = new CharPtr(gfx.colortable,gfx.color_granularity*color);
+                UShortArray paldata = new UShortArray(gfx.colortable,gfx.color_granularity*color);
 
 		if (flipx!=0)
 		{

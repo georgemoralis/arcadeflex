@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
@@ -234,7 +235,7 @@ static void get_sprite_info(  ){
 			color = attributes&0xf;
 
 			sprite[sprite_ptr].pen_data = new UBytePtr(gfx.gfxdata,number * gfx.char_modulo);
-			sprite[sprite_ptr].pal_data = new CharPtr(gfx.colortable,gfx.color_granularity * color);
+			sprite[sprite_ptr].pal_data = new UShortArray(gfx.colortable,gfx.color_granularity * color);
 
 			sprite[sprite_ptr].pen_usage = 0;
 			for( i=0; i<vertical_size*horizontal_size; i++ ){

@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 
@@ -28,7 +29,7 @@ public class spriteH {
 
         public int line_offset;
 
-        public CharPtr pal_data;
+        public UShortArray pal_data;
         public int/*UINT32*/ pen_usage;
 
         public int x_offset, y_offset;

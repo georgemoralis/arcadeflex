@@ -13,6 +13,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -347,7 +348,7 @@ public class nemesis
 		int real_x;
 		int ysize;
 		int xsize;
-		CharPtr paldata;	/* ASG 980209 */
+		UShortArray paldata;	/* ASG 980209 */
 		int transmask;
 	
 		if (gfx==null) return;
@@ -449,7 +450,7 @@ public class nemesis
 	
 	
 	
-		paldata = new CharPtr(gfx.colortable,gfx.color_granularity * color);
+		paldata = new UShortArray(gfx.colortable,gfx.color_granularity * color);
 	
 		if (flipx != 0)	/* X flip */
 		{
@@ -592,7 +593,7 @@ public class nemesis
 		int ysize;
 		int xsize;
 		int transmask;
-		CharPtr paldata;	/* ASG 980209 */
+		UShortArray paldata;	/* ASG 980209 */
 	
 		if (gfx==null) return;
 	
@@ -692,7 +693,7 @@ public class nemesis
 	
 	
 	
-		paldata = new CharPtr(gfx.colortable,gfx.color_granularity * color);
+		paldata = new UShortArray(gfx.colortable,gfx.color_granularity * color);
 	
 		if (flipx != 0)	/* X flip */
 		{

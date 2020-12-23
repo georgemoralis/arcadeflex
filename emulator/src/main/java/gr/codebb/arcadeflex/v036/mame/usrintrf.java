@@ -1,6 +1,7 @@
 
 package gr.codebb.arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -245,7 +246,7 @@ public class usrintrf {
     	{
     		/* colortable will be set at run time */
     		//memset(colortable,0,sizeof(colortable));
-                font.colortable = new CharPtr(colortable);
+                font.colortable = new UShortArray(colortable);
     		font.total_colors = 2;
     	}
     

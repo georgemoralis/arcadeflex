@@ -7,6 +7,7 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -281,7 +282,7 @@ public class system1 {
         int SprX, SprY, Col, Row, Height, src;
         int bank;
         UBytePtr SprReg = new UBytePtr();//unsigned char *SprReg;
-        UBytePtr SprPalette = new UBytePtr();//unsigned short *SprPalette;
+        UShortArray SprPalette;//unsigned short *SprPalette;
         short skip;	/* bytes to skip before drawing each row (can be negative) */
 
 
@@ -294,7 +295,7 @@ public class system1 {
         skip = (short) (SprReg.read(SPR_SKIP_LO) + (SprReg.read(SPR_SKIP_HI) << 8));
 
         Height = SprReg.read(SPR_Y_BOTTOM) - SprReg.read(SPR_Y_TOP);
-        SprPalette.set(Machine.remapped_colortable, 0x10 * spr_number);//SprPalette	= Machine.remapped_colortable + 0x10 * spr_number;
+        SprPalette= new UShortArray(Machine.remapped_colortable, 0x10 * spr_number);//SprPalette	= Machine.remapped_colortable + 0x10 * spr_number;
         SprX = SprReg.read(SPR_X_LO) + ((SprReg.read(SPR_X_HI) & 0x01) << 8);
         SprX /= 2;	/* the hardware has sub-pixel placement, it seems */
 

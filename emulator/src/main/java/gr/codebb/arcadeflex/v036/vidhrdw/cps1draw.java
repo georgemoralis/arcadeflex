@@ -5,6 +5,7 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
@@ -29,7 +30,7 @@ public class cps1draw {
 	int dwval;
 	int[] src;
         int src_ptr;
-	CharPtr paldata;
+	UShortArray paldata;
 	int n;
 	UBytePtr bm;
 
@@ -65,7 +66,7 @@ public class cps1draw {
 		return;
 	}
 
-	paldata=new CharPtr(gfx.colortable,gfx.color_granularity * color);
+	paldata=new UShortArray(gfx.colortable,gfx.color_granularity * color);
 	//src = cps1_gfx+code*delta;
         src_ptr=code*delta;
 
@@ -191,7 +192,7 @@ public class cps1draw {
 	int dwval;
 	int[] src;
         int src_ptr;
-	CharPtr paldata;
+	UShortArray paldata;
 	int n;
 	UBytePtr bm;
 
@@ -227,7 +228,7 @@ public class cps1draw {
 		return;
 	}
 
-	paldata=new CharPtr(gfx.colortable,gfx.color_granularity * color);
+	paldata=new UShortArray(gfx.colortable,gfx.color_granularity * color);
 	//src = cps1_gfx+code*delta;
         src_ptr=code*delta;
 

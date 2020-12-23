@@ -7,6 +7,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import gr.codebb.arcadeflex.v036.platform.libc_old.CharPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.memset;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
@@ -754,7 +755,7 @@ public class system16
 	
 	static void get_sprite_info(  ){
 	//	const struct rectangle *clip = &Machine.drv.visible_area;
-		CharPtr base_pal = new CharPtr(Machine.gfx[0].colortable, 1024);
+		UShortArray base_pal = new UShortArray(Machine.gfx[0].colortable, 1024);
 		UBytePtr base_gfx = memory_region(REGION_GFX2);
 	
 		UShortPtr source = new UShortPtr(sys16_spriteram);
@@ -804,7 +805,7 @@ public class system16
 					sprite[sprite_ptr].x = source.read(1) + sys16_sprxoffset;
 					sprite[sprite_ptr].y = top;
 					sprite[sprite_ptr].priority = 3-((attributes>>6)&0x3);
-					sprite[sprite_ptr].pal_data = new CharPtr(base_pal, ((attributes&0x3f)<<4));
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal, ((attributes&0x3f)<<4));
 	
 					sprite[sprite_ptr].total_height = bottom-top;
 					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height*(0x400+zoomy)/0x400;
@@ -1160,7 +1161,7 @@ public class system16
 					if(sprite[sprite_ptr].x > 0x140) sprite[sprite_ptr].x-=0x200;
 					sprite[sprite_ptr].y = top;
 					sprite[sprite_ptr].priority = 3 - spr_pri;
-					sprite[sprite_ptr].pal_data = new CharPtr(base_pal , (pal<<4));
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal , (pal<<4));
 	
 					sprite[sprite_ptr].total_height = bottom-top;
 					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height;
