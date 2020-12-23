@@ -1,19 +1,38 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ *  Ported to 0.37b7
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
 
 public class ym2413 extends snd_interface {
 
-    public static final int ym2413_channels = 9;           /* 9 channels per chip */
+    public static final int ym2413_channels = 9;
+    /* 9 channels per chip */
 
-    public static final int ym2413_parameter_count = 12;   /* Number of values per row in instrument table */
+    public static final int ym2413_parameter_count = 12;
+    /* Number of values per row in instrument table */
 
+    public static final int ym2413_clock = 3600000;
+
+    /* 3.6 MHz */
+    public class YM2413_state {
+
+        public YM2413_state() {
+            user_instrument = new int[ym2413_parameter_count];
+            fnumberlow = new int[ym2413_channels];
+        }
+        public int fsam;
+        public int rhythm_mode;
+        public int pending_register;
+        public int[] user_instrument;
+        public int[] fnumberlow;
+    }
 
     static YM2413_state[] ym2413_state = new YM2413_state[MAX_2413];
 
@@ -79,6 +98,7 @@ public class ym2413 extends snd_interface {
             for (j = 0; j < ym2413_parameter_count; j++) {
                 ym2413_state[i].user_instrument[j] = ym2413_instruments[0][j];
             }
+            ym2413_state[i].fsam = ym2413_clock / 72;
         }
         return YM3812_sh_start(msound);
     }
@@ -142,8 +162,8 @@ public class ym2413 extends snd_interface {
         }
 
         /* I dont know wich connection type the YM2413 has */
-        /* So we leave feedback to the default for now */
-        /*    OPL_WRITE(0xc0+channel, ( (*pn) << 1 )); */
+ /* So we leave feedback to the default for now */
+ /*    OPL_WRITE(0xc0+channel, ( (*pn) << 1 )); */
     }
     public static ReadHandlerPtr YM2413_status_port_0_r = new ReadHandlerPtr() {
         public int handler(int offset) {
@@ -151,17 +171,20 @@ public class ym2413 extends snd_interface {
         }
     };
     public static WriteHandlerPtr YM2413_register_port_0_w = new WriteHandlerPtr() {
-        public void handler(int chip, int data) {
+        public void handler(int offset, int data) {
+            int chip = offset;
             ym2413_state[chip].pending_register = data;
         }
     };
     public static WriteHandlerPtr YM2413_data_port_0_w = new WriteHandlerPtr() {
-        public void handler(int chip, int data) {
-            int value, channel, instrument, i, block, volume;
+        public void handler(int offset, int data) {
+            int chip = offset;
+            int value, channel, instrument, i, block, volume, frq, fnumber, octave;
             int pending = ym2413_state[chip].pending_register;
 
             switch (pending) {
-                case 0x00: /* YM2413 ADSR registers */
+                case 0x00:
+                /* YM2413 ADSR registers */
 
                 case 0x01:
                 case 0x02:
@@ -173,7 +196,8 @@ public class ym2413 extends snd_interface {
                     ym2413_state[chip].user_instrument[pending] = data;
                     break;
 
-                case 0x0e: /* Rhythm control */
+                case 0x0e:
+                    /* Rhythm control */
 
                     ym2413_state[chip].rhythm_mode = data & 0x20;
                     if ((data & 0x20) != 0) {
@@ -182,18 +206,22 @@ public class ym2413 extends snd_interface {
                             /* Turn off key select */
                             OPL_WRITE(0xb0 + i, 0);
                         }
-                        ym2413_setinstrument(chip, 6, 16);  /* Rhythmn 1 */
+                        ym2413_setinstrument(chip, 6, 16);
+                        /* Rhythmn 1 */
 
-                        ym2413_setinstrument(chip, 7, 17);  /* Rhythmn 2 */
+                        ym2413_setinstrument(chip, 7, 17);
+                        /* Rhythmn 2 */
 
-                        ym2413_setinstrument(chip, 8, 18);  /* Rhythmn 3 */
+                        ym2413_setinstrument(chip, 8, 18);
+                        /* Rhythmn 3 */
 
                     }
 
                     OPL_WRITE(0xbd, data & 0x3f);
                     break;
 
-                case 0x10: /* F-Number 8 bits */
+                case 0x10:
+                /* F-Number 8 bits */
 
                 case 0x11:
                 case 0x12:
@@ -204,11 +232,11 @@ public class ym2413 extends snd_interface {
                 case 0x17:
                 case 0x18:
                     channel = pending - 0x10;
-                    OPL_WRITE(0xa0 + channel, data);  /* Frequency LSB */
-
+                    ym2413_state[chip].fnumberlow[channel] = data;
                     break;
 
-                case 0x20:  /* FNumber / note on / off */
+                case 0x20:
+                /* FNumber / note on / off */
 
                 case 0x21:
                 case 0x22:
@@ -219,19 +247,39 @@ public class ym2413 extends snd_interface {
                 case 0x27:
                 case 0x28:
                     channel = pending - 0x20;
+                    fnumber = ym2413_state[chip].fnumberlow[channel] | (data & 0x01) << 8;
                     block = (data >> 1) & 0x07;
-                    value = (data & 0x10) << 1;  /* Translate key on-off */
-                    /* Sustain does not exist */
 
-                    value |= data & 0x01;           /* Add freq MSB */
+                    /* Calculate frequency */
+                    frq = fnumber * (2 << (block - 1))
+                            * ym2413_state[chip].fsam / (2 << 18);
 
-                    value |= (block << 2);          /* Add in octave */
+                    /* Convert into frequency & octave (+raise octaves) */
+                    octave = ((frq >> 10) & 0x0f) + 3;
+                    frq &= 0x3ff;
 
-                    OPL_WRITE(0xb0 + channel, value); /* Frequency MSB + Key on/off */
+                    /* Build register */
+                    value = (data & 0x10) << 1;
+                    /* Translate key on-off */
+ /* Sustain does not exist */
+
+                    value |= (frq >> 8) & 0x03;
+                    /* Add frequency high to control */
+
+                    value |= octave << 2;
+                    /* Add in the octave */
+
+ /* Write the OPL registers */
+                    OPL_WRITE(0xa0 + channel, frq & 0xff);
+                    /* Frequency LSB */
+
+                    OPL_WRITE(0xb0 + channel, value);
+                    /* Frequency MSB + Key on/off */
 
                     break;
 
-                case 0x30: /* INSTRUMENT / VOLUME */
+                case 0x30:
+                /* INSTRUMENT / VOLUME */
 
                 case 0x31:
                 case 0x32:
@@ -248,13 +296,12 @@ public class ym2413 extends snd_interface {
                          Running in rhythm mode. 6, 7 and 8 contain the volumes
                          of the rhythm voices encoded in the hi/low nibbles
                          of the control byte.
-
                          0x06 = <NONE>              | BASS DRUM LEVEL   0-15
                          0x07 = HIHAT LEVEL   0-15  | SNARE DRUM LEVEL  0-15
                          0x08 = TOM-TOM LEVEL 0-15  | TOP-CYMBAL LEVEL  0-15
                          */
 
-                        /*
+ /*
                          TODO: I don't know how to alter the volume of the individual
                          rhythm voices since they share channels on the OPL.
                          */
@@ -273,9 +320,7 @@ public class ym2413 extends snd_interface {
                     break;
 
                 default:
-                    if (errorlog != null) {
-                        fprintf(errorlog, "YM2413: Write to register %02x\n", pending);
-                    }
+                    logerror("YM2413: Write to register %02x\n", pending);
                     break;
             }
         }

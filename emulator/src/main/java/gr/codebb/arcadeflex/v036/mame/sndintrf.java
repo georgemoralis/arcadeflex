@@ -22,7 +22,7 @@ import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import gr.codebb.arcadeflex.v036.sound.MSM5205;
 import gr.codebb.arcadeflex.v036.sound._2203intf;
 import gr.codebb.arcadeflex.v036.sound.k007232;
-import gr.codebb.arcadeflex.v036.sound.ym2413;
+import gr.codebb.arcadeflex.v037b7.sound.ym2413;
 import gr.codebb.arcadeflex.v036.sound.k051649;
 import gr.codebb.arcadeflex.v058.sound.vlm5030;
 import gr.codebb.arcadeflex.v036.sound._2151intf;
