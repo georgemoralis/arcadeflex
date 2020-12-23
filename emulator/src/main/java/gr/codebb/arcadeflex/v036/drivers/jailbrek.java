@@ -31,8 +31,8 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.machine.konami.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 
 public class jailbrek {
 
@@ -256,8 +256,7 @@ public class jailbrek {
             3580000, /* master clock */
             100, /* volume       */
             REGION_SOUND1, /* memory region of speech rom */
-            0, /* memory size of speech rom */
-            0 /* VCU pin level (default)     */
+            0 /* memory size of speech rom */
     );
 
     static MachineDriver machine_driver_jailbrek = new MachineDriver(

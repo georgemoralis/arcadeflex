@@ -26,8 +26,8 @@ import static gr.codebb.arcadeflex.v036.sndhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 
@@ -486,7 +486,6 @@ public class hyperspt
 		255,        /* volume        */
 		REGION_SOUND1,	/* memory region  */
 		0,         /* memory size    */
-		0,         /* VCU            */
 		hyperspt_sample_names
         );
 	

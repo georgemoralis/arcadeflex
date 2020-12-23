@@ -19,12 +19,10 @@ import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496H.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 
 
 public class yiear
@@ -245,8 +243,7 @@ public class yiear
 		3580000,    /* master clock  */
 		100,        /* volume        */
 		REGION_SOUND1,	/* memory region  */
-		0,          /* memory size of speech rom */
-		0			/* VCU            */
+		0          /* memory size of speech rom */
         );
 	
 	

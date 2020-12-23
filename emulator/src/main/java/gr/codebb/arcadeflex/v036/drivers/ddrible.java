@@ -29,8 +29,8 @@ import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 
 public class ddrible {
@@ -329,8 +329,7 @@ public class ddrible {
             3580000, /* 3.58 MHz */
             25, /* volume */
             REGION_SOUND1, /* memory region of speech rom */
-            0x10000, /* memory size 64Kbyte * 2 bank */
-            0 /* VCU pin level (default) */
+            0x10000 /* memory size 64Kbyte * 2 bank */
     );
 
     static MachineDriver machine_driver_ddribble = new MachineDriver(

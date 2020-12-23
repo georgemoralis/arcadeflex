@@ -23,9 +23,8 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_NES;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_VLM5030;
 import static gr.codebb.arcadeflex.v036.sound.nes_apu.*;
 import static gr.codebb.arcadeflex.v036.sound.nes_apuH.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.punchout.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem16;
 
@@ -48,7 +47,36 @@ public class punchout
 				memset(nvram,null,nvram_size);
 		)*/
 	}};
-	
+	public static ReadHandlerPtr punchout_input_3_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            int data = input_port_3_r.handler(offset);
+            /* bit 4 is busy pin level */
+            if (VLM5030_BSY() != 0) {
+                data &= ~0x10;
+            } else {
+                data |= 0x10;
+            }
+            return data;
+        }
+    };
+
+    public static WriteHandlerPtr punchout_speech_reset_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            VLM5030_RST(data & 0x01);
+        }
+    };
+
+    public static WriteHandlerPtr punchout_speech_st_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            VLM5030_ST(data & 0x01);
+        }
+    };
+
+    public static WriteHandlerPtr punchout_speech_vcu_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            VLM5030_VCU(data & 0x01);
+        }
+    };
 	
 	public static WriteHandlerPtr punchout_2a03_reset_w = new WriteHandlerPtr() { public void handler(int offset, int data)
         {
@@ -345,9 +373,9 @@ public class punchout
 		new IOWritePort( 0x09, 0x09, IOWP_NOP ),	/* watchdog reset, seldom used because 08 clears the watchdog as well */
 		new IOWritePort( 0x0a, 0x0a, IOWP_NOP ),	/* ?? */
 		new IOWritePort( 0x0b, 0x0b, punchout_2a03_reset_w ),
-		new IOWritePort( 0x0c, 0x0c, punchout_speech_reset ),	/* VLM5030 */
-		new IOWritePort( 0x0d, 0x0d, punchout_speech_st    ),	/* VLM5030 */
-		new IOWritePort( 0x0e, 0x0e, punchout_speech_vcu   ),	/* VLM5030 */
+		new IOWritePort( 0x0c, 0x0c, punchout_speech_reset_w ),	/* VLM5030 */
+		new IOWritePort( 0x0d, 0x0d, punchout_speech_st_w    ),	/* VLM5030 */
+		new IOWritePort( 0x0e, 0x0e, punchout_speech_vcu_w   ),	/* VLM5030 */
 		new IOWritePort( 0x0f, 0x0f, IOWP_NOP ),	/* enable NVRAM ? */
 	
 		new IOWritePort( 0x06, 0x06, IOWP_NOP),
@@ -692,7 +720,6 @@ public class punchout
 		50,        /* volume       */
 		REGION_SOUND1,	/* memory region of speech rom */
 		0,          /* memory size of speech rom */
-		0,           /* VCU pin level (default)     */
 		punchout_sample_names
         );
 	

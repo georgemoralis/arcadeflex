@@ -45,8 +45,8 @@ import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
@@ -1696,8 +1696,7 @@ public class nemesis
 	    3579545,       /* master clock  */
 	    70,            /* volume        */
 	    REGION_SOUND1, /* memory region  */
-	    0,             /* memory length */
-	    0             /* VCU            */
+	    0             /* memory length */
         );
 	
 	static VLM5030interface gx400_vlm5030_interface = new VLM5030interface
@@ -1705,8 +1704,7 @@ public class nemesis
 	    3579545,       /* master clock  */
 	    100,           /* volume        */
 	    0,             /* memory region (RAM based) */
-	    0x0800,        /* memory length (not sure if correct) */
-	    0             /* VCU            */
+	    0x0800        /* memory length (not sure if correct) */
         );
 	public static portwritehandlerPtr volume_callback = new portwritehandlerPtr() { public void handler(int v)
         {

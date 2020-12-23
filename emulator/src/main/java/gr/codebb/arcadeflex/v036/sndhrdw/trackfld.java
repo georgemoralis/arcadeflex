@@ -16,8 +16,8 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v036.sound.vlm5030H.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
+import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 
 public class trackfld
 {
@@ -31,8 +31,7 @@ public class trackfld
 	    3580000,    /* master clock  */
 	    255,        /* volume        */
 	    4,         /* memory region  */
-	    0,         /* memory size    */
-	    0         /* VCU            */
+	    0         /* memory size    */
 			);
 	
 	public static SN76496interface konami_sn76496_interface = new SN76496interface

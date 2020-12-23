@@ -1,3 +1,7 @@
+23/12/2020
+==========
+-Updated vlm5030 to 0.58 version (fixes all vlm5030 relate games)
+
 22/12/2020
 ==========
 -Partially rewrote memory class to 0.37b7
