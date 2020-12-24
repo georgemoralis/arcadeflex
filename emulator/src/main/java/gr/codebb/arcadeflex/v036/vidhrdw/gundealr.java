@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class gundealr {
 

@@ -32,7 +32,7 @@ import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class travrusa
 {

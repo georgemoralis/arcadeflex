@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.fopen;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.memset;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.printf;
-import gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import java.util.Arrays;

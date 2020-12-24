@@ -22,7 +22,7 @@ package gr.codebb.arcadeflex.v036.mame;
  */
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import gr.codebb.arcadeflex.v036.platform.MainStream;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;

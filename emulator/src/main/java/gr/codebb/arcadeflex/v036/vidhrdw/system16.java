@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;

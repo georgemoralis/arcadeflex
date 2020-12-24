@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 
 /**

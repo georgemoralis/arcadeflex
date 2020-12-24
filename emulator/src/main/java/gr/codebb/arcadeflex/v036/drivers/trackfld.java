@@ -36,7 +36,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.v036.machine.konami.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.trackfld.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;

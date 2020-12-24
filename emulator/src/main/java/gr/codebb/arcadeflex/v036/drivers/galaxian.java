@@ -24,7 +24,7 @@ import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.galaxian.*;

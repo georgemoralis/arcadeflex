@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.v036.mame.sndintrf;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;

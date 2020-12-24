@@ -2,7 +2,7 @@ package gr.codebb.arcadeflex.v036.sound.fm_c;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.v036.sound.YM_DELTAT;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class YM2610 {
 

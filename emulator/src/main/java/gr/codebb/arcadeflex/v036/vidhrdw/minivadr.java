@@ -10,7 +10,7 @@ package gr.codebb.arcadeflex.v036.vidhrdw;
  *
  * @author shadow
  */
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;

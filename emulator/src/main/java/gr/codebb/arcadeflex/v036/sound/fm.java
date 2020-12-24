@@ -14,7 +14,7 @@ import gr.codebb.arcadeflex.v036.sound.fm_c.YM2610;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.YM2151UpdateRequest;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.YM_DELTA_T.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.sound._2610intf.*;

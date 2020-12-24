@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan2.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_set_reset_line;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;

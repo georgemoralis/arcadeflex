@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound;
 
 import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class kdacApcm {
 

@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.util.Random;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 /**
  *
  * @author shadow

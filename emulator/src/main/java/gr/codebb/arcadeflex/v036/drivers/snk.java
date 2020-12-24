@@ -19,12 +19,12 @@ import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.drivers.hal21.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v036.sound.y8950.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class snk {
 

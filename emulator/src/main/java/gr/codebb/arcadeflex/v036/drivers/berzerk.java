@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.machine.berzerk.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import gr.codebb.arcadeflex.v036.platform.libc.UByte;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;

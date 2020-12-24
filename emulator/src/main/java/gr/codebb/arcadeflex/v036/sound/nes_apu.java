@@ -5,7 +5,7 @@ import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 
 import static gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.UBytePtr;
+import static gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.n2a03.N2A03_DEFAULTCLOCK;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.n2a03.n2a03_irq;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;

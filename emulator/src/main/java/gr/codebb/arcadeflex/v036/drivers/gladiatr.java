@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.gladiatr.*;
 import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741H.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;

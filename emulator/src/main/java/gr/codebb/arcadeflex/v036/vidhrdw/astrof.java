@@ -18,7 +18,7 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import gr.codebb.arcadeflex.v036.platform.ptrlib.UBytePtr;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;

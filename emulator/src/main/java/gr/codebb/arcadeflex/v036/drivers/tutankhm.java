@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v036.sndhrdw.timeplt.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.tutankhm.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.palette.*;
 
 public class tutankhm

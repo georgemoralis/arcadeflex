@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.common.libc;
 
-import gr.codebb.arcadeflex.v036.platform.ptrlib.*;
+import gr.codebb.arcadeflex.common.PtrLib.*;
 
 /**
  *

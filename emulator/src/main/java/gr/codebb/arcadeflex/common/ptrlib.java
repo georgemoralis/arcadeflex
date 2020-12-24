@@ -1,17 +1,18 @@
-package gr.codebb.arcadeflex.v036.platform;
+package gr.codebb.arcadeflex.common;
 
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  *
  * @author shadow
  */
-public class ptrlib {
+public class PtrLib {
 
     /**
      * ***********************************
      *
-     * Unsigned Byte Pointer Emulation ***********************************
+     * Unsigned Byte Pointer Emulation 
      */
     public static class UBytePtr {
 
@@ -24,6 +25,16 @@ public class ptrlib {
 
         public UBytePtr(int size) {
             memory = new char[size];
+            offset = 0;
+        }
+
+        public UBytePtr(short[] m) {
+            byte[] bytes = new byte[m.length * 2];
+            ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(m);
+            memory= new char[bytes.length];
+            for (int i = 0; i < bytes.length; i++) {
+                memory[i] = (char) ((bytes[i] + 256) & 0xFF);
+            }
             offset = 0;
         }
 
@@ -61,6 +72,10 @@ public class ptrlib {
             offset += bsize;
         }
 
+        public void dec() {
+            offset -= bsize;
+        }
+
         public void inc(int count) {
             offset += count * bsize;
         }
@@ -74,19 +89,11 @@ public class ptrlib {
         }
 
         public int READ_WORD(int index) {
-            //return (char)(((memory[offset + 1 + index] << 8)& 0xFF) | (memory[offset + index]& 0xFF));
-            /*return (char)((( memory[offset+index]&0xFF) << 0)
-             | (( memory[offset+index + 1]&0xFF) << 8));*/
-            return memory[offset + index + 1] << 8 | memory[offset + index];
-
+            return (memory[offset + index + 1] << 8 | memory[offset + index])&0xFFFF;
         }
 
         public int READ_DWORD(int index)//unchecked!
         {
-            /*return( ((memory[offset + 3 + index] << 24)& 0xFF)
-             | ((memory[offset + 2 + index] << 16)& 0xFF)
-             | ((memory[offset + 1 + index] << 8)& 0xFF) 
-             | ((memory[offset + index]& 0xFF)));*/
             int myNumber = ((memory[offset + index] & 0xFF) << 0)
                     | ((memory[offset + index + 1] & 0xFF) << 8)
                     | ((memory[offset + index + 2] & 0xFF) << 16)
@@ -95,9 +102,7 @@ public class ptrlib {
         }
 
         public char read(int index) {
-            //if(offset+index>memory.length-1)
-            //    return 0;
-            return (char) (memory[offset + index] & 0xFF); //return only the first 8bits
+            return (char) (memory[offset + index] & 0xFF);
         }
 
         public char readinc() {
@@ -109,27 +114,58 @@ public class ptrlib {
         }
 
         public void WRITE_WORD(int index, int value) {
-            memory[offset + index + 1] = (char) (value >> 8 & 0xFF);
+            memory[offset + index + 1] = (char) ((value >> 8) & 0xFF);
             memory[offset + index] = (char) (value & 0xFF);
-            //memory[offset + index] = (char)(value & 0xFF);
-            //memory[offset + index+ 1] = (char)((value >> 8)&0xFF);
         }
 
         public void write(int index, int value) {
-            memory[offset + index] = (char) (value & 0xFF);//store 8 bits only
+            memory[offset + index] = (char) (value & 0xFF);
         }
 
         public void write(int value) {
-            memory[offset] = (char) (value & 0xFF);//store 8 bits only
+            memory[offset] = (char) (value & 0xFF);
         }
 
         public void writeinc(int value) {
-            this.memory[(this.offset++)] = (char) (value & 0xFF);//store 8 bits only
+            this.memory[(this.offset++)] = (char) (value & 0xFF);
         }
+
         public void writedec(int value) {
-            this.memory[(this.offset--)] = (char) (value & 0xFF);//store 8 bits only
+            this.memory[(this.offset--)] = (char) (value & 0xFF);
+        }
+
+        public void and(int value) {
+            int tempbase = this.offset;
+            char[] tempmemory = this.memory;
+            tempmemory[tempbase] = (char) ((tempmemory[tempbase] & (char) value) & 0xFF);
+        }
+
+        public void or(int value) {
+            int tempbase = this.offset;
+            char[] tempmemory = this.memory;
+            tempmemory[tempbase] = (char) ((tempmemory[tempbase] | (char) value) & 0xFF);
+        }
+
+        public void or(int index, int value) {
+            int tempbase = this.offset + index;
+            char[] tempmemory = this.memory;
+            tempmemory[tempbase] = (char) ((tempmemory[tempbase] | (char) value) & 0xFF);
+        }
+
+        public void xor(int value) {
+            int tempbase = this.offset;
+            char[] tempmemory = this.memory;
+            tempmemory[tempbase] = (char) ((tempmemory[tempbase] ^ (char) value) & 0xFF);
+        }
+
+        public void xor(int index, int value) {
+            int tempbase = this.offset + index;
+            char[] tempmemory = this.memory;
+            tempmemory[tempbase] = (char) ((tempmemory[tempbase] ^ (char) value) & 0xFF);
         }
     }
+    
+
     /*
      *     Unsigned Short Ptr emulation
      *
@@ -148,29 +184,29 @@ public class ptrlib {
             memory = new char[size];
             offset = 0;
         }
+
         public UShortPtr(char[] m) {
             set(m, 0);
         }
+
         public UShortPtr(char[] m, int b) {
             set(m, b);
         }
+
         public UShortPtr(UShortPtr cp, int b) {
             set(cp.memory, cp.offset + b);
-        }
-        public UShortPtr(CharPtr cp, int b) {
-            set(cp.memory, cp.base + b);
         }
 
         public UShortPtr(UShortPtr cp) {
             set(cp.memory, cp.offset);
         }
-        public UShortPtr(UBytePtr cp)
-        {
-            set(cp.memory,cp.offset);
+
+        public UShortPtr(UBytePtr cp) {
+            set(cp.memory, cp.offset);
         }
-        public UShortPtr(UBytePtr cp,int b)
-        {
-            set(cp.memory,cp.offset+b);
+
+        public UShortPtr(UBytePtr cp, int b) {
+            set(cp.memory, cp.offset + b);
         }
 
         public void set(char[] m, int b) {

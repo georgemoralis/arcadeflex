@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.common;
 
-import gr.codebb.arcadeflex.v036.platform.ptrlib.UBytePtr;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 
 /**
