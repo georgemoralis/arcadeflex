@@ -3,6 +3,7 @@
 -Refactoring pallete to use char instead of UByte
 -Ptrlib refactoring
 -Pallete refactoring and rewrite for 0.37b7
+-Refactored fm ,fmopl sound chips and added ym2608
 
 23/12/2020
 ==========

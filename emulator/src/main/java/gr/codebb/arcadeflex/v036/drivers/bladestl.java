@@ -53,8 +53,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.bladestl.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
 

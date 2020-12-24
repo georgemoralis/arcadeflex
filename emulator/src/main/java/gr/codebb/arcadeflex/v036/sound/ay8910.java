@@ -345,7 +345,7 @@ public class ay8910 extends snd_interface {
         }
     }
 
-    static int AY8910Read(int chip) {
+    public static int AY8910Read(int chip) {
         AY8910 PSG = AYPSG[chip];
 
         return AYReadReg(chip, PSG.register_latch);

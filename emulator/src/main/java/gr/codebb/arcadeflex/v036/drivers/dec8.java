@@ -23,12 +23,12 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
-import static gr.codebb.arcadeflex.v036.sound._3526intf.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 

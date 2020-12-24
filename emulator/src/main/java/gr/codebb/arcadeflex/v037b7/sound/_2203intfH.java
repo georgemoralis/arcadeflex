@@ -1,7 +1,12 @@
-package gr.codebb.arcadeflex.v036.sound;
+/**
+ * ported to v0.37b7
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
+import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import gr.codebb.arcadeflex.v036.sound.ay8910H.AY8910interface;
+
 
 public class _2203intfH {
 

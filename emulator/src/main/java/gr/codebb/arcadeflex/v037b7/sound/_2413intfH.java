@@ -1,7 +1,12 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.37b7
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
+import gr.codebb.arcadeflex.v037b7.sound._3812intfH.YM3812interface;
 
 public class _2413intfH {
 

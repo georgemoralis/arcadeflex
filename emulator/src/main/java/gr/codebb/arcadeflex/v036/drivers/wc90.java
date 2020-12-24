@@ -20,8 +20,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.wc90.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class wc90 {
 

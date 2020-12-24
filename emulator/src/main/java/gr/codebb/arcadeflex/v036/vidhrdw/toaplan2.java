@@ -20,9 +20,9 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_set_reset_line;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 
 public class toaplan2 {
 
@@ -715,7 +715,7 @@ public class toaplan2 {
                  * ***** Initialise video controller register ? ******
                  */
                 if ((toaplan2_sub_cpu == CPU_2_Z80) && (data == 3)) {
-                    /* HACK! When tilted, sound CPU needs to be reset. */
+                    /* HACK! When tilted, souAWQ2nd CPU needs to be reset. */
                     cpu_set_reset_line(1, PULSE_LINE);
                     YM3812_sh_reset();
                 }

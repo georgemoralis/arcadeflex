@@ -1,56 +1,81 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.37b7
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import gr.codebb.arcadeflex.v036.mame.sndintrfH;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
-import static gr.codebb.arcadeflex.v036.sound.fmopl.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import gr.codebb.arcadeflex.v036.sound.fm_c.FM_OPL;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
-public class y8950 extends snd_interface {
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
+import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
+import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
+import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
+import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;
+import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_Y8950;
+import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
+import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
+import static gr.codebb.arcadeflex.v036.sound.streams.stream_init;
+import static gr.codebb.arcadeflex.v036.sound.streams.stream_update;
+import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_remove;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_set;
+import gr.codebb.arcadeflex.v037b7.sound._3812intfH.Y8950interface;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLCreate;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLDestroy;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLRead;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetIRQHandler;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetKeyboardHandler;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetPortHandler;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetTimerHandler;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetUpdateHandler;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLTimerOver;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLWrite;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.Y8950UpdateOne;
+import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
 
-    static Y8950interface intf = null; 
+
+
+public class y8950intf extends snd_interface {
+
+    static Y8950interface intf = null;
     static int chiptype;
     static int[] stream = new int[MAX_3812];
     static Object[] Timer = new Object[MAX_3812 * 2];
     static FM_OPL[] F3812 = new FM_OPL[MAX_3812];
 
-    public y8950() {
+    public y8950intf() {
         sound_num = SOUND_Y8950;
         name = "Y8950";
     }
 
     @Override
-    public int chips_num(sndintrfH.MachineSound msound) {
+    public int chips_num(MachineSound msound) {
         return ((Y8950interface) msound.sound_interface).num;
     }
 
     @Override
-    public int chips_clock(sndintrfH.MachineSound msound) {
+    public int chips_clock(MachineSound msound) {
         return ((Y8950interface) msound.sound_interface).baseclock;
     }
 
     @Override
-    public int start(sndintrfH.MachineSound msound) {
+    public int start(MachineSound msound) {
         chiptype = OPL_TYPE_Y8950;
         if (OPL_sh_start(msound) != 0) {
             return 1;
         }
         /* !!!!! port handler set !!!!! */
-        /* !!!!! delta-t memory address set !!!!! */
+ /* !!!!! delta-t memory address set !!!!! */
         return 0;
     }
 
-    public static int OPL_sh_start(sndintrfH.MachineSound msound) {
+    public static int OPL_sh_start(MachineSound msound) {
 
         int i;
         int rate = Machine.sample_rate;
@@ -101,13 +126,15 @@ public class y8950 extends snd_interface {
 
         @Override
         public void handler(int c, double period) {
-            if (period == 0) {	/* Reset FM Timer */
+            if (period == 0) {
+                /* Reset FM Timer */
 
                 if (Timer[c] != null) {
                     timer_remove(Timer[c]);
                     Timer[c] = 0;
                 }
-            } else {	/* Start FM Timer */
+            } else {
+                /* Start FM Timer */
 
                 Timer[c] = timer_set(period, c, timer_callback_3812);
             }
@@ -201,8 +228,8 @@ public class y8950 extends snd_interface {
         }
     };
     public static OPL_PORTHANDLER_RPtr Y8950PortHandler_r = new OPL_PORTHANDLER_RPtr() {
-        public /*unsigned*/ char handler(int chip) {
-            return (char) ((Y8950interface) intf).portread[chip].handler(chip);
+        public /*unsigned char*/ int handler(int chip) {
+            return (char) ((Y8950interface) intf).portread[chip].handler(chip) & 0xFF;
         }
 
     };
@@ -212,8 +239,8 @@ public class y8950 extends snd_interface {
         }
     };
     public static OPL_PORTHANDLER_RPtr Y8950KeyboardHandler_r = new OPL_PORTHANDLER_RPtr() {
-        public /*unsigned*/ char handler(int chip) {
-            return (char) ((Y8950interface) intf).keyboardread[chip].handler(chip);
+        public /*unsigned char*/ int handler(int chip) {
+            return ((Y8950interface) intf).keyboardread[chip].handler(chip) & 0xFF;
         }
 
     };

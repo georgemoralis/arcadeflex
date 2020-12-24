@@ -18,8 +18,8 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw._1943.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class _1943 {
 

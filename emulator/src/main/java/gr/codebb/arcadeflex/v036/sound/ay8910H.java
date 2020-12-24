@@ -34,8 +34,8 @@ public class ay8910H {
         }
         
         
-        int num;	/* total number of 8910 in the machine */
-        int baseclock;
+        public int num;	/* total number of 8910 in the machine */
+        public int baseclock;
         public int[] mixing_level;              // int mixing_level[MAX_8910];
         public ReadHandlerPtr portAread[];      // int (*portAread[MAX_8910])(int offset);
         public ReadHandlerPtr portBread[];      // int (*portBread[MAX_8910])(int offset);

@@ -30,8 +30,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.gaelco.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
 public class gaelco
 {

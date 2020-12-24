@@ -1,21 +1,26 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.37b7
+ * 
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2610intfH.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.sound.fm.*;
-import static gr.codebb.arcadeflex.v036.sound.fmH.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2610intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fm.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
+
 
 public class _2610intf extends snd_interface {
-    /* use FM.C with stream system */
 
+    /* use FM.C with stream system */
     static int[] stream = new int[MAX_2610];
 
     /* Global Interface holder */
@@ -43,7 +48,7 @@ public class _2610intf extends snd_interface {
 
 
     /* IRQ Handler */
-    public static FM_IRQHANDLEPtr IRQHandler = new FM_IRQHANDLEPtr() {
+    public static FM_IRQHANDLER_Ptr IRQHandler = new FM_IRQHANDLER_Ptr() {
 
         @Override
         public void handler(int n, int irq) {
@@ -67,18 +72,20 @@ public class _2610intf extends snd_interface {
         }
     };
     /* TimerHandler from fm.c */
-    public static FM_TIMERHANDLERtr TimerHandler = new FM_TIMERHANDLERtr() {
+    public static FM_TIMERHANDLER_Ptr TimerHandler = new FM_TIMERHANDLER_Ptr() {
 
         @Override
         public void handler(int n, int c, double count, double stepTime) {
-            if (count == 0) {	/* Reset FM Timer */
+            if (count == 0) {
+                /* Reset FM Timer */
 
                 if (Timer[n][c] != null) {
 //			if(errorlog) fprintf(errorlog,"2610 TimerReset %d\n",c);
                     timer_remove(Timer[n][c]);
                     Timer[n][c] = null;
                 }
-            } else {	/* Start FM Timer */
+            } else {
+                /* Start FM Timer */
 
                 double timeSec = (double) count * stepTime;
 
@@ -94,8 +101,8 @@ public class _2610intf extends snd_interface {
             Timer[i][0] = Timer[i][1] = null;
         }
     }
-    /* update request from fm.c */
 
+    /* update request from fm.c */
     public static void YM2610UpdateRequest(int chip) {
         stream_update(stream[chip], 100);
     }
@@ -160,6 +167,55 @@ public class _2610intf extends snd_interface {
         /* error */
         return 1;
     }
+
+    /*TODO*///int YM2610B_sh_start(const struct MachineSound *msound)
+/*TODO*///{
+/*TODO*///	int i,j;
+/*TODO*///	int rate = Machine->sample_rate;
+/*TODO*///	char buf[YM2610_NUMBUF][40];
+/*TODO*///	const char *name[YM2610_NUMBUF];
+/*TODO*///	int mixed_vol,vol[YM2610_NUMBUF];
+/*TODO*///	void *pcmbufa[YM2610_NUMBUF],*pcmbufb[YM2610_NUMBUF];
+/*TODO*///	int  pcmsizea[YM2610_NUMBUF],pcmsizeb[YM2610_NUMBUF];
+/*TODO*///
+/*TODO*///	intf = msound->sound_interface;
+/*TODO*///	if( intf->num > MAX_2610 ) return 1;
+/*TODO*///
+/*TODO*///	if (AY8910_sh_start(msound)) return 1;
+/*TODO*///
+/*TODO*///	/* Timer Handler set */
+/*TODO*///	FMTimerInit();
+/*TODO*///
+/*TODO*///	/* stream system initialize */
+/*TODO*///	for (i = 0;i < intf->num;i++)
+/*TODO*///	{
+/*TODO*///		/* stream setup */
+/*TODO*///		mixed_vol = intf->volumeFM[i];
+/*TODO*///		/* stream setup */
+/*TODO*///		for (j = 0 ; j < YM2610_NUMBUF ; j++)
+/*TODO*///		{
+/*TODO*///			name[j]=buf[j];
+/*TODO*///			vol[j] = mixed_vol & 0xffff;
+/*TODO*///			mixed_vol>>=16;
+/*TODO*///			sprintf(buf[j],"%s #%d Ch%d",sound_name(msound),i,j+1);
+/*TODO*///		}
+/*TODO*///		stream[i] = stream_init_multi(YM2610_NUMBUF,name,vol,rate,i,YM2610BUpdateOne);
+/*TODO*///		/* setup adpcm buffers */
+/*TODO*///		pcmbufa[i]  = (void *)(memory_region(intf->pcmroma[i]));
+/*TODO*///		pcmsizea[i] = memory_region_length(intf->pcmroma[i]);
+/*TODO*///		pcmbufb[i]  = (void *)(memory_region(intf->pcmromb[i]));
+/*TODO*///		pcmsizeb[i] = memory_region_length(intf->pcmromb[i]);
+/*TODO*///	}
+/*TODO*///
+/*TODO*///	/**** initialize YM2610 ****/
+/*TODO*///	if (YM2610Init(intf->num,intf->baseclock,rate,
+/*TODO*///		           pcmbufa,pcmsizea,pcmbufb,pcmsizeb,
+/*TODO*///		           TimerHandler,IRQHandler) == 0)
+/*TODO*///		return 0;
+/*TODO*///
+/*TODO*///	/* error */
+/*TODO*///	return 1;
+/*TODO*///}
 
     @Override
     public void stop() {
@@ -248,7 +304,7 @@ public class _2610intf extends snd_interface {
      * *********************************************
      */
     /* Control Write for YM2610 - Chip 0			*/
-    /* Consists of 2 addresses						*/
+ /* Consists of 2 addresses						*/
     /**
      * *********************************************
      */
@@ -270,7 +326,7 @@ public class _2610intf extends snd_interface {
      * *********************************************
      */
     /* Control Write for YM2610 - Chip 1			*/
-    /* Consists of 2 addresses						*/
+ /* Consists of 2 addresses						*/
     /**
      * *********************************************
      */
@@ -290,7 +346,7 @@ public class _2610intf extends snd_interface {
      * *********************************************
      */
     /* Data Write for YM2610 - Chip 0				*/
-    /* Consists of 2 addresses						*/
+ /* Consists of 2 addresses						*/
     /**
      * *********************************************
      */
@@ -312,7 +368,7 @@ public class _2610intf extends snd_interface {
      * *********************************************
      */
     /* Data Write for YM2610 - Chip 1				*/
-    /* Consists of 2 addresses						*/
+ /* Consists of 2 addresses						*/
     /**
      * *********************************************
      */

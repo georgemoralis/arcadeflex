@@ -53,8 +53,8 @@ import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.aerofgt.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2610;
-import static gr.codebb.arcadeflex.v036.sound._2610intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2610intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2610intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2610intfH.*;
 
 public class aerofgt {
 

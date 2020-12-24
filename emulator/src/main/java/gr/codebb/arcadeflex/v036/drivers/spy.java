@@ -35,8 +35,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.spy.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
 public class spy {
 

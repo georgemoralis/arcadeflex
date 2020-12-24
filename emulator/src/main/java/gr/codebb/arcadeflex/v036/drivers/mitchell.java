@@ -20,7 +20,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
-import static gr.codebb.arcadeflex.v036.sound._2413intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ym2413.*;
 import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;

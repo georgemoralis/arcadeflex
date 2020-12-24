@@ -1,16 +1,19 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*|*
+ * ported to v0.37b7
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.sound.fm.*;
-import static gr.codebb.arcadeflex.v036.sound.fmH.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fm.*;
 
 public class _2203intf extends snd_interface {
 
@@ -42,14 +45,16 @@ public class _2203intf extends snd_interface {
     }
 
     /* IRQ Handler */
-    public static FM_IRQHANDLEPtr IRQHandler = new FM_IRQHANDLEPtr() {
+    public static FM_IRQHANDLER_Ptr IRQHandler = new FM_IRQHANDLER_Ptr() {
 
         @Override
         public void handler(int n, int irq) {
             if (intf.YM2203_handler == null) {
                 return;
             }
-            if (intf.YM2203_handler[n]!=null) intf.YM2203_handler[n].handler(irq);
+            if (intf.YM2203_handler[n] != null) {
+                intf.YM2203_handler[n].handler(irq);
+            }
         }
     };
     /* Timer overflow callback from timer.c */
@@ -67,25 +72,23 @@ public class _2203intf extends snd_interface {
     public static void YM2203UpdateRequest(int chip) {
         stream_update(stream[chip], 0);
     }
+
     /* TimerHandler from fm.c */
-    public static FM_TIMERHANDLERtr TimerHandler = new FM_TIMERHANDLERtr() {
+    public static FM_TIMERHANDLER_Ptr TimerHandler = new FM_TIMERHANDLER_Ptr() {
 
         @Override
         public void handler(int n, int c, double count, double stepTime) {
-            if (count == 0)
-            {	/* Reset FM Timer */
-                if (Timer[n][c]!=null)
-                {
+            if (count == 0) {
+                /* Reset FM Timer */
+                if (Timer[n][c] != null) {
                     timer_remove(Timer[n][c]);
                     Timer[n][c] = null;
                 }
-            }
-            else
-            {	/* Start FM Timer */
-                double timeSec = (double)count * stepTime;
+            } else {
+                /* Start FM Timer */
+                double timeSec = (double) count * stepTime;
 
-                if (Timer[n][c] == null)
-                {
+                if (Timer[n][c] == null) {
                     Timer[n][c] = timer_set(timeSec, (c << 7) | n, timer_callback_2203);
                 }
             }
@@ -113,7 +116,8 @@ public class _2203intf extends snd_interface {
         for (i = 0; i < intf.num; i++) {
             int volume;
             String name = sprintf("%s #%d FM", sound_name(msound), i);
-            volume = intf.mixing_level[i] >> 16; /* high 16 bit */
+            volume = intf.mixing_level[i] >> 16;
+            /* high 16 bit */
 
             stream[i] = stream_init(name, volume, Machine.sample_rate, i, YM2203UpdateOne);
         }
@@ -123,7 +127,7 @@ public class _2203intf extends snd_interface {
             return 0;
         }
         /* error */
-        /* stream close */
+ /* stream close */
         return 1;
 
     }
@@ -142,6 +146,7 @@ public class _2203intf extends snd_interface {
         }
 
     }
+
     public static ReadHandlerPtr YM2203_status_port_0_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return YM2203Read(0, 0);
@@ -219,6 +224,7 @@ public class _2203intf extends snd_interface {
             YM2203Write(4, 0, data);
         }
     };
+
     public static WriteHandlerPtr YM2203_write_port_0_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             YM2203Write(0, 1, data);

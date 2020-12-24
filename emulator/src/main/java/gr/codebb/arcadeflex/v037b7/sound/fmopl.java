@@ -1,59 +1,64 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ *  Ported to 0.37b7
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
-import gr.codebb.arcadeflex.v036.sound.fm_c.FM_OPL;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.sound.YM_DELTA_T.*;
-import gr.codebb.arcadeflex.v036.sound.fm_c.OPL_CH;
-import gr.codebb.arcadeflex.v036.sound.fm_c.OPL_SLOT;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ymdeltat.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.rand;
+import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+
 public class fmopl {
 
     /* -------------------- preliminary define section --------------------- */
-    /* attack/decay rate time rate */
-    public static final int OPL_ARRATE = 141280;  /* RATE 4 =  2826.24ms @ 3.6MHz */
+ /* attack/decay rate time rate */
+    public static final int OPL_ARRATE = 141280;/* RATE 4 =  2826.24ms @ 3.6MHz */
 
-    public static final int OPL_DRRATE = 1956000;  /* RATE 4 = 39280.64ms @ 3.6MHz */
+    public static final int OPL_DRRATE = 1956000;/* RATE 4 = 39280.64ms @ 3.6MHz */
 
-    public static final int DELTAT_MIXING_LEVEL = (1); /* DELTA-T ADPCM MIXING LEVEL */
+    public static final int DELTAT_MIXING_LEVEL = (1);/* DELTA-T ADPCM MIXING LEVEL */
 
-    public static final int FREQ_BITS = 24;			/* frequency turn          */
+    public static final int FREQ_BITS = 24;/* frequency turn          */
 
-    /* counter bits = 20 , octerve 7 */
+ /* counter bits = 20 , octerve 7 */
     public static final int FREQ_RATE = (1 << (FREQ_BITS - 20));
     public static final int TL_BITS = (FREQ_BITS + 2);
 
-    public static final int OPL_OUTSB = (TL_BITS + 3 - 16);	/* OPL output final shift 16bit */
+    public static final int OPL_OUTSB = (TL_BITS + 3 - 16);
+    /* OPL output final shift 16bit */
 
     public static final int OPL_MAXOUT = (0x7fff << OPL_OUTSB);
     public static final int OPL_MINOUT = (-0x8000 << OPL_OUTSB);
 
     /* -------------------- quality selection --------------------- */
 
-    /* sinwave entries */
-    /* used static memory = SIN_ENT * 4 (byte) */
+ /* sinwave entries */
+ /* used static memory = SIN_ENT * 4 (byte) */
     public static final int SIN_ENT = 2048;
 
     /* output level entries (envelope,sinwave) */
-    /* envelope counter lower bits */
+ /* envelope counter lower bits */
     public static final int ENV_BITS = 16;
     /* envelope output entries */
     public static final int EG_ENT = 4096;
     /* used dynamic memory = EG_ENT*4*4(byte)or EG_ENT*6*4(byte) */
-    /* used static  memory = EG_ENT*4 (byte)                     */
+ /* used static  memory = EG_ENT*4 (byte)                     */
 
-    public static final int EG_OFF = ((2 * EG_ENT) << ENV_BITS);  /* OFF          */
+    public static final int EG_OFF = ((2 * EG_ENT) << ENV_BITS);
+    /* OFF          */
 
     public static final int EG_DED = EG_OFF;
-    public static final int EG_DST = (EG_ENT << ENV_BITS);      /* DECAY  START */
-
+    public static final int EG_DST = (EG_ENT << ENV_BITS);
+    /* DECAY  START */
     public static final int EG_AED = EG_DST;
-    public static final int EG_AST = 0;                       /* ATTACK START */
+    public static final int EG_AST = 0;
+    /* ATTACK START */
 
     public static final double EG_STEP = (96.0 / EG_ENT);/* OPL is 0.1875 dB step  */
 
-    /* LFO table entries */
+ /* LFO table entries */
     public static final int VIB_ENT = 512;
     public static final int VIB_SHIFT = (32 - 9);
     public static final int AMS_ENT = 512;
@@ -62,7 +67,7 @@ public class fmopl {
     public static final int VIB_RATE = 256;
 
     /* -------------------- local defines , macros --------------------- */
-    /* register number to channel number , slot offset */
+ /* register number to channel number , slot offset */
     public static final int SLOT1 = 0;
     public static final int SLOT2 = 1;
 
@@ -125,19 +130,21 @@ public class fmopl {
             };
 
     /* sustain lebel table (3db per step) */
-    /* 0 - 15: 0, 3, 6, 9,12,15,18,21,24,27,30,33,36,39,42,93 (dB)*/
+ /* 0 - 15: 0, 3, 6, 9,12,15,18,21,24,27,30,33,36,39,42,93 (dB)*/
     static int SC(int db) {
         return (int) (db * ((3 / EG_STEP) * (1 << ENV_BITS))) + EG_DST;
     }
+
     static int[] SL_TABLE = {
         SC(0), SC(1), SC(2), SC(3), SC(4), SC(5), SC(6), SC(7),
         SC(8), SC(9), SC(10), SC(11), SC(12), SC(13), SC(14), SC(31)
     };
 
-    public static final int TL_MAX = (EG_ENT * 2); /* limit(tl + ksr + envelope) + sinwave */
-    /* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
-    /* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
-    /* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
+    public static final int TL_MAX = (EG_ENT * 2);
+    /* limit(tl + ksr + envelope) + sinwave */
+ /* TotalLevel : 48 24 12  6  3 1.5 0.75 (dB) */
+ /* TL_TABLE[ 0      to TL_MAX          ] : plus  section */
+ /* TL_TABLE[ TL_MAX to TL_MAX+TL_MAX-1 ] : minus section */
 
     static IntSubArray TL_TABLE;
     /* pointers to TL_TABLE with sinwave output offset */
@@ -148,7 +155,7 @@ public class fmopl {
     static IntSubArray VIB_TABLE;
 
     /* envelope output curve table */
-    /* attack + decay + OFF */
+ /* attack + decay + OFF */
     static int[] ENV_CURVE = new int[2 * EG_ENT + 1];
 
     /* multiple table */
@@ -162,16 +169,16 @@ public class fmopl {
     static int[] RATE_0 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     /* -------------------- static state --------------------- */
 
-    /* lock level of common table */
+ /* lock level of common table */
     static int num_lock = 0;
 
     /* work table */
-    static Object cur_chip = null;	/* current chip point */
-    /* currenct chip state */
+    static Object cur_chip = null;
+    /* current chip point */
+ /* currenct chip state */
 
     static OPL_CH[] S_CH;
     static int E_CH;//static OPL_CH E_CH;
-
     static OPL_SLOT SLOT7_1, SLOT7_2, SLOT8_1, SLOT8_2;
 
     static int[] outd = new int[1];
@@ -181,10 +188,9 @@ public class fmopl {
     static IntSubArray vib_table;
     static int amsIncr;
     static int vibIncr;
-    static int[] feedback2 = new int[1];		/* connect for SLOT 2 */
-   /* --------------------- subroutines  --------------------- */
+    static int[] feedback2 = new int[1];/* connect for SLOT 2 */
 
-
+ /* --------------------- subroutines  --------------------- */
     static int Limit(int val, int max, int min) {
         if (val > max) {
             val = max;
@@ -194,13 +200,15 @@ public class fmopl {
 
         return val;
     }
-    /* status set and IRQ handling */
 
+    /* status set and IRQ handling */
     static void OPL_STATUS_SET(FM_OPL OPL, int flag) {
         /* set status flag */
-        /*RECHECK*/ OPL.status |= flag;
+ /*RECHECK*/
+        OPL.status |= flag;
         if ((OPL.status & 0x80) == 0) {
-            if ((OPL.status & OPL.statusmask) != 0) {	/* IRQ on */
+            if ((OPL.status & OPL.statusmask) != 0) {
+                /* IRQ on */
 
                 OPL.status |= 0x80;
                 /* callback user interrupt handler (IRQ is OFF to ON) */
@@ -210,11 +218,12 @@ public class fmopl {
             }
         }
     }
-    /* status reset and IRQ handling */
 
+    /* status reset and IRQ handling */
     static void OPL_STATUS_RESET(FM_OPL OPL, int flag) {
         /* reset status flag */
-        /*RECHECK*/ OPL.status &= ~flag;
+ /*RECHECK*/
+        OPL.status &= ~flag;
         if ((OPL.status & 0x80) != 0) {
             if ((OPL.status & OPL.statusmask) == 0) {
                 OPL.status &= 0x7f;
@@ -225,8 +234,8 @@ public class fmopl {
             }
         }
     }
-    /* IRQ mask set */
 
+    /* IRQ mask set */
     static void OPL_STATUSMASK_SET(FM_OPL OPL, int flag) {
         OPL.statusmask = flag;
         /* IRQ handling check */
@@ -257,22 +266,24 @@ public class fmopl {
             SLOT.evs = SLOT.evsr;
         }
     }
-    /* ---------- calcrate Envelope Generator & Phase Generator ---------- */
-    /* return : envelope output */
 
+    /* ---------- calcrate Envelope Generator & Phase Generator ---------- */
+ /* return : envelope output */
     static long OPL_CALC_SLOT(OPL_SLOT SLOT) {
         /* calcrate envelope generator */
         if ((SLOT.evc += SLOT.evs) >= SLOT.eve) {
             switch (SLOT.evm) {
-                case ENV_MOD_AR: /* ATTACK . DECAY1 */
-                    /* next DR */
+                case ENV_MOD_AR:
+                    /* ATTACK . DECAY1 */
+ /* next DR */
 
                     SLOT.evm = ENV_MOD_DR;
                     SLOT.evc = EG_DST;
                     SLOT.eve = SLOT.SL;
                     SLOT.evs = SLOT.evsd;
                     break;
-                case ENV_MOD_DR: /* DECAY . SL or RR */
+                case ENV_MOD_DR:
+                    /* DECAY . SL or RR */
 
                     SLOT.evc = SLOT.SL;
                     SLOT.eve = EG_DED;
@@ -283,7 +294,8 @@ public class fmopl {
                         SLOT.evs = SLOT.evsr;
                     }
                     break;
-                case ENV_MOD_RR: /* RR . OFF */
+                case ENV_MOD_RR:
+                    /* RR . OFF */
 
                     SLOT.evc = EG_OFF;
                     SLOT.eve = EG_OFF + 1;
@@ -307,10 +319,11 @@ public class fmopl {
         int ksr;
 
         /* frequency step counter */
-        /*RECHECK*/ SLOT.Incr = ((CH.fc * SLOT.mul) & 0xFFFFFFFFL);
+ /*RECHECK*/
+        SLOT.Incr = ((CH.fc * SLOT.mul) & 0xFFFFFFFFL);
         ksr = CH.kcode >> SLOT.KSR;
 
-        if (SLOT.ksr != (ksr &0xFF)) {
+        if (SLOT.ksr != (ksr & 0xFF)) {
             /*RECHECK*/
             SLOT.ksr = ksr & 0xFF;
             /* attack , decay rate recalcration */
@@ -333,24 +346,27 @@ public class fmopl {
         SLOT.ams = ((v & 0x80) & 0xFF);
         CALC_FCSLOT(CH, SLOT);
     }
-    /* set ksl & tl */
 
+    /* set ksl & tl */
     static void set_ksl_tl(FM_OPL OPL, int slot, int v) {
         OPL_CH CH = OPL.P_CH[slot / 2];
         OPL_SLOT SLOT = CH.SLOT[slot & 1];
-        int ksl = v >> 6; /* 0 / 1.5 / 3 / 6 db/OCT */
+        int ksl = v >> 6;
+        /* 0 / 1.5 / 3 / 6 db/OCT */
 
-        /*RECHECK*/
+ /*RECHECK*/
         SLOT.ksl = (ksl != 0 ? 3 - ksl : 31);
-        SLOT.TL = (int) ((v & 0x3f) * (0.75 / EG_STEP)); /* 0.75db step */
+        SLOT.TL = (int) ((v & 0x3f) * (0.75 / EG_STEP));
+        /* 0.75db step */
 
-        if ((OPL.mode & 0x80) == 0) {	/* not CSM latch total level */
+        if ((OPL.mode & 0x80) == 0) {
+            /* not CSM latch total level */
 
             SLOT.TLL = (int) (SLOT.TL + (CH.ksl_base >> SLOT.ksl));
         }
     }
-    /* set attack rate & decay rate  */
 
+    /* set attack rate & decay rate  */
     static void set_ar_dr(FM_OPL OPL, int slot, int v) {
         OPL_CH CH = OPL.P_CH[slot / 2];
         OPL_SLOT SLOT = CH.SLOT[slot & 1];
@@ -389,15 +405,13 @@ public class fmopl {
         }
     }
 
-    //* operator output calcrator */
-    //#define OP_OUT(slot,env,con)   slot->wavetable[((slot->Cnt+con)/(0x1000000/SIN_ENT))&(SIN_ENT-1)][env]
-
+    /* operator output calcrator */
     static int OP_OUT(OPL_SLOT slot, int env, int con) {
 
-        return slot.wavetable[(int) (((slot.Cnt + con) / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1))+slot.wt_offset].read(env);
+        return slot.wavetable[(int) (((slot.Cnt + con) / (0x1000000 / SIN_ENT)) & (SIN_ENT - 1)) + slot.wt_offset].read(env);
     }
-    /* ---------- calcrate one of channel ---------- */
 
+    /* ---------- calcrate one of channel ---------- */
     static void OPL_CALC_CH(OPL_CH CH) {
         long env_out;
         OPL_SLOT SLOT;
@@ -439,6 +453,7 @@ public class fmopl {
             outd[0] += OP_OUT(SLOT, (int) env_out, feedback2[0]);
         }
     }
+
     /* ---------- calcrate rythm block ---------- */
     public static final double WHITE_NOISE_db = 6.0;
 
@@ -487,7 +502,7 @@ public class fmopl {
             /* connectoion */
             outd[0] += OP_OUT(SLOT, env_out, feedback2[0]) * 2;
         }
-// SD  (17) = mul14[fnum7] + white noise
+        // SD  (17) = mul14[fnum7] + white noise
         // TAM (15) = mul15[fnum8]
         // TOP (18) = fnum6(mul18[fnum8]+whitenoise)
         // HH  (14) = fnum7(mul18[fnum8]+whitenoise) + white noise
@@ -538,7 +553,6 @@ public class fmopl {
         }
     }
 
-
     /* ----------- initialize time tabls ----------- */
     static void init_timetables(FM_OPL OPL, int ARRATE, int DRRATE) {
         int i;
@@ -549,13 +563,16 @@ public class fmopl {
             OPL.AR_TABLE[i] = OPL.DR_TABLE[i] = 0;
         }
         for (i = 4; i <= 60; i++) {
-            rate = OPL.freqbase;						/* frequency rate */
+            rate = OPL.freqbase;
+            /* frequency rate */
 
             if (i < 60) {
-                rate *= 1.0 + (i & 3) * 0.25;		/* b0-1 : x1 , x1.25 , x1.5 , x1.75 */
+                rate *= 1.0 + (i & 3) * 0.25;
+                /* b0-1 : x1 , x1.25 , x1.5 , x1.75 */
 
             }
-            rate *= 1 << ((i >> 2) - 1);						/* b2-5 : shift bit */
+            rate *= 1 << ((i >> 2) - 1);
+            /* b2-5 : shift bit */
 
             rate *= (double) (EG_ENT << ENV_BITS);
             OPL.AR_TABLE[i] = (int) (rate / ARRATE);
@@ -581,7 +598,8 @@ public class fmopl {
         VIB_TABLE = new IntSubArray(VIB_ENT * 2);
         /* make total level table */
         for (t = 0; t < EG_ENT - 1; t++) {
-            rate = ((1 << TL_BITS) - 1) / Math.pow(10, EG_STEP * t / 20);	/* dB . voltage */
+            rate = ((1 << TL_BITS) - 1) / Math.pow(10, EG_STEP * t / 20);
+            /* dB . voltage */
 
             TL_TABLE.write(t, (int) rate);
             TL_TABLE.write(TL_MAX + t, -TL_TABLE.read(t));
@@ -595,16 +613,19 @@ public class fmopl {
         }
 
         /* make sinwave table (total level offet) */
-        /* degree 0 = degree 180                   = off */
+ /* degree 0 = degree 180                   = off */
         SIN_TABLE[0] = SIN_TABLE[SIN_ENT / 2] = new IntSubArray(TL_TABLE, EG_ENT - 1);
         for (s = 1; s <= SIN_ENT / 4; s++) {
-            pom = Math.sin(2 * Math.PI * s / SIN_ENT); /* sin     */
+            pom = Math.sin(2 * Math.PI * s / SIN_ENT);
+            /* sin     */
 
-            pom = 20 * Math.log10(1 / pom);	   /* decibel */
+            pom = 20 * Math.log10(1 / pom);
+            /* decibel */
 
-            j = (int) (pom / EG_STEP);         /* TL_TABLE steps */
+            j = (int) (pom / EG_STEP);
+            /* TL_TABLE steps */
 
-            /* degree 0   -  90    , degree 180 -  90 : plus section */
+ /* degree 0   -  90    , degree 180 -  90 : plus section */
             SIN_TABLE[s] = SIN_TABLE[SIN_ENT / 2 - s] = new IntSubArray(TL_TABLE, j);
             /* degree 180 - 270    , degree 360 - 270 : minus section */
             SIN_TABLE[SIN_ENT / 2 + s] = SIN_TABLE[SIN_ENT - s] = new IntSubArray(TL_TABLE, TL_MAX + j);
@@ -628,22 +649,28 @@ public class fmopl {
         ENV_CURVE[EG_OFF >> ENV_BITS] = EG_ENT - 1;
         /* make LFO ams table */
         for (i = 0; i < AMS_ENT; i++) {
-            pom = (1.0 + Math.sin(2 * Math.PI * i / AMS_ENT)) / 2; /* sin */
+            pom = (1.0 + Math.sin(2 * Math.PI * i / AMS_ENT)) / 2;
+            /* sin */
 
-            AMS_TABLE.write(i, (int) ((1.0 / EG_STEP) * pom)); /* 1dB   */
+            AMS_TABLE.write(i, (int) ((1.0 / EG_STEP) * pom));
+            /* 1dB   */
 
-            AMS_TABLE.write(AMS_ENT + i, (int) ((4.8 / EG_STEP) * pom)); /* 4.8dB */
+            AMS_TABLE.write(AMS_ENT + i, (int) ((4.8 / EG_STEP) * pom));
+            /* 4.8dB */
 
         }
         /* make LFO vibrate table */
         for (i = 0; i < VIB_ENT; i++) {
             /* 100cent = 1seminote = 6% ?? */
-            pom = (double) VIB_RATE * 0.06 * Math.sin(2 * Math.PI * i / VIB_ENT); /* +-100sect step */
+            pom = (double) VIB_RATE * 0.06 * Math.sin(2 * Math.PI * i / VIB_ENT);
+            /* +-100sect step */
 
-            VIB_TABLE.write(i, (int) (VIB_RATE + (pom * 0.07))); /* +- 7cent */
+            VIB_TABLE.write(i, (int) (VIB_RATE + (pom * 0.07)));
+            /* +- 7cent */
 
-            VIB_TABLE.write(VIB_ENT + i, (int) (VIB_RATE + (pom * 0.14))); /* +-14cent */
-            /* Log(LOG_INF,"vib %d=%d\n",i,VIB_TABLE[VIB_ENT+i]); */
+            VIB_TABLE.write(VIB_ENT + i, (int) (VIB_RATE + (pom * 0.14)));
+            /* +-14cent */
+ /* Log(LOG_INF,"vib %d=%d\n",i,VIB_TABLE[VIB_ENT+i]); */
 
         }
         return 1;
@@ -671,8 +698,8 @@ public class fmopl {
         OPL_KEYON(slot1);
         OPL_KEYON(slot2);
     }
-    /* ---------- opl initialize ---------- */
 
+    /* ---------- opl initialize ---------- */
     public static void OPL_initalize(FM_OPL OPL) {
         int fn;
 
@@ -685,7 +712,8 @@ public class fmopl {
         init_timetables(OPL, OPL_ARRATE, OPL_DRRATE);
         /* make fnumber -> increment counter table */
         for (fn = 0; fn < 1024; fn++) {
-            /*RECHECK*/ OPL.FN_TABLE[fn] = (long) (OPL.freqbase * fn * FREQ_RATE * (1 << 7) / 2) & 0xffffffffL;//converting to unsigned
+            /*RECHECK*/
+            OPL.FN_TABLE[fn] = (long) (OPL.freqbase * fn * FREQ_RATE * (1 << 7) / 2) & 0xffffffffL;//converting to unsigned
         }
         /* LFO freq.table */
         OPL.amsIncr = (int) (OPL.rate != 0 ? (double) AMS_ENT * (1 << AMS_SHIFT) / OPL.rate * 3.7 * ((double) OPL.clock / 3600000) : 0);
@@ -700,7 +728,8 @@ public class fmopl {
         int slot;
         int block_fnum;
         switch (r & 0xe0) {
-            case 0x00: /* 00-1f:controll */
+            case 0x00:
+                /* 00-1f:controll */
 
                 switch (r & 0x1f) {
 
@@ -720,21 +749,26 @@ public class fmopl {
                             }
                         }
                         return;
-                    case 0x02:	/* Timer 1 */
+                    case 0x02:
+                        /* Timer 1 */
 
                         OPL.T[0] = (256 - v) * 4;
                         break;
-                    case 0x03:	/* Timer 2 */
+                    case 0x03:
+                        /* Timer 2 */
 
                         OPL.T[1] = (256 - v) * 16;
                         return;
-                    case 0x04:	/* IRQ clear / mask and Timer enable */
+                    case 0x04:
+                        /* IRQ clear / mask and Timer enable */
 
-                        if ((v & 0x80) != 0) {	/* IRQ flag clear */
+                        if ((v & 0x80) != 0) {
+                            /* IRQ flag clear */
 
                             OPL_STATUS_RESET(OPL, 0x7f);
-                        } else {	/* set IRQ mask ,timer enable*/
-                            /*RECHECK*/
+                        } else {
+                            /* set IRQ mask ,timer enable*/
+ /*RECHECK*/
 
                             int/*UINT8*/ st1 = ((v & 1) & 0xFF);
                             /*RECHECK*/
@@ -761,40 +795,52 @@ public class fmopl {
                             }
                         }
                         return;
-		case 0x06:		/* Key Board OUT */
-			if((OPL.type&OPL_TYPE_KEYBOARD)!=0)
-			{
-				if(OPL.keyboardhandler_w!=null)
-					OPL.keyboardhandler_w.handler(OPL.keyboard_param,v);
-				else
-                                {
-					//Log(LOG_WAR,"OPL:write unmapped KEYBOARD port\n");
-                                }
-			}
-			return;
-		case 0x07:	/* DELTA-T controll : START,REC,MEMDATA,REPT,SPOFF,x,x,RST */
-			if((OPL.type&OPL_TYPE_ADPCM)!=0)
-				YM_DELTAT_ADPCM_Write(OPL.deltat,r-0x07,v);
-			return;
-		case 0x08:	/* MODE,DELTA-T : CSM,NOTESEL,x,x,smpl,da/ad,64k,rom */
-			OPL.mode = v;
-			v&=0x1f;	/* for DELTA-T unit */
-		case 0x09:		/* START ADD */
-		case 0x0a:
-		case 0x0b:		/* STOP ADD  */
-		case 0x0c:
-		case 0x0d:		/* PRESCALE   */
-		case 0x0e:
-		case 0x0f:		/* ADPCM data */
-		case 0x10: 		/* DELTA-N    */
-		case 0x11: 		/* DELTA-N    */
-		case 0x12: 		/* EG-CTRL    */
-			if((OPL.type&OPL_TYPE_ADPCM)!=0)
-				YM_DELTAT_ADPCM_Write(OPL.deltat,r-0x07,v);
-			return;
+                    case 0x06:
+                        /* Key Board OUT */
+                        if ((OPL.type & OPL_TYPE_KEYBOARD) != 0) {
+                            if (OPL.keyboardhandler_w != null) {
+                                OPL.keyboardhandler_w.handler(OPL.keyboard_param, v);
+                            } else {
+                                //Log(LOG_WAR,"OPL:write unmapped KEYBOARD port\n");
+                            }
+                        }
+                        return;
+                    case 0x07:
+                        /* DELTA-T controll : START,REC,MEMDATA,REPT,SPOFF,x,x,RST */
+                        if ((OPL.type & OPL_TYPE_ADPCM) != 0) {
+                            YM_DELTAT_ADPCM_Write(OPL.deltat, r - 0x07, v);
+                        }
+                        return;
+                    case 0x08:
+                        /* MODE,DELTA-T : CSM,NOTESEL,x,x,smpl,da/ad,64k,rom */
+                        OPL.mode = v;
+                        v &= 0x1f;
+                    /* for DELTA-T unit */
+                    case 0x09:
+                    /* START ADD */
+                    case 0x0a:
+                    case 0x0b:
+                    /* STOP ADD  */
+                    case 0x0c:
+                    case 0x0d:
+                    /* PRESCALE   */
+                    case 0x0e:
+                    case 0x0f:
+                    /* ADPCM data */
+                    case 0x10:
+                    /* DELTA-N    */
+                    case 0x11:
+                    /* DELTA-N    */
+                    case 0x12:
+                        /* EG-CTRL    */
+                        if ((OPL.type & OPL_TYPE_ADPCM) != 0) {
+                            YM_DELTAT_ADPCM_Write(OPL.deltat, r - 0x07, v);
+                        }
+                        return;
                 }
                 break;
-            case 0x20:	/* am,vib,ksr,eg type,mul */
+            case 0x20:
+                /* am,vib,ksr,eg type,mul */
 
                 slot = slot_array[r & 0x1f];
                 if (slot == -1) {
@@ -884,10 +930,12 @@ public class fmopl {
                     return;
                 }
                 CH = OPL.P_CH[r & 0x0f];
-                if ((r & 0x10) == 0) {	/* a0-a8 */
+                if ((r & 0x10) == 0) {
+                    /* a0-a8 */
 
                     block_fnum = (int) (CH.block_fnum & 0x1f00) | v;
-                } else {	/* b0-b8 */
+                } else {
+                    /* b0-b8 */
 
                     int keyon = (v >> 5) & 1;
                     block_fnum = (int) (((v & 0x1f) << 8) | (CH.block_fnum & 0xff));
@@ -931,7 +979,8 @@ public class fmopl {
                     set_algorythm(CH);
                 }
                 return;
-            case 0xe0: /* wave type */
+            case 0xe0:
+                /* wave type */
 
                 slot = slot_array[r & 0x1f];
                 if (slot == -1) {
@@ -940,7 +989,7 @@ public class fmopl {
                 CH = OPL.P_CH[slot / 2];
                 if (OPL.wavesel != 0) {
                     /* Log(LOG_INF,"OPL SLOT %d wave select %d\n",slot,v&3); */
-                    CH.SLOT[slot & 1].wt_offset=(v & 0x03) * SIN_ENT;//CH.SLOT[slot & 1].wavetable = new IntSubArray(SIN_TABLE[(v & 0x03) * SIN_ENT]);
+                    CH.SLOT[slot & 1].wt_offset = (v & 0x03) * SIN_ENT;//CH.SLOT[slot & 1].wavetable = new IntSubArray(SIN_TABLE[(v & 0x03) * SIN_ENT]);
                 }
                 return;
             default:
@@ -977,11 +1026,15 @@ public class fmopl {
         OPLCloseTable();
     }
 
-   /*******************************************************************************/
-   /*		YM3812 local section                                                   */
-   /*******************************************************************************/
-   
-   /* ---------- update one of chip ----------- */
+    /**
+     * ****************************************************************************
+     */
+    /*		YM3812 local section                                                   */
+    /**
+     * ****************************************************************************
+     */
+
+    /* ---------- update one of chip ----------- */
     public static void YM3812UpdateOne(FM_OPL OPL, ShortPtr buffer, int length) {
         int i;
         int data;
@@ -991,13 +1044,12 @@ public class fmopl {
         int rythm = ((OPL.rythm & 0x20) & 0xFF);
         OPL_CH CH;
         int R_CH;
-
         if ((Object) OPL != cur_chip) {
             cur_chip = OPL;
             /* channel pointers */
             S_CH = OPL.P_CH;
             E_CH = 9;// S_CH[9];
-                /* rythm slot */
+            /* rythm slot */
             SLOT7_1 = S_CH[7].SLOT[SLOT1];
             SLOT7_2 = S_CH[7].SLOT[SLOT2];
             SLOT8_1 = S_CH[8].SLOT[SLOT1];
@@ -1011,7 +1063,7 @@ public class fmopl {
         R_CH = rythm != 0 ? 6 : E_CH;
         for (i = 0; i < length; i++) {
             /*            channel A         channel B         channel C      */
-            /* LFO */
+ /* LFO */
             ams = ams_table.read((int) ((amsCnt = (amsCnt + amsIncr) & 0xFFFFFFFFL) >> AMS_SHIFT));//recheck
             vib = vib_table.read((int) ((vibCnt = (vibCnt + vibIncr) & 0xFFFFFFFFL) >> VIB_SHIFT));//recheck
             outd[0] = 0;
@@ -1026,13 +1078,21 @@ public class fmopl {
                 OPL_CALC_RH(S_CH);
             }
             /* limit check */
-            data = Limit(outd[0], OPL_MAXOUT, OPL_MINOUT);
-            /* store to sound buffer */
+            if (outd[0] > OPL_MAXOUT) {
+                data = OPL_MAXOUT;
+            } else if (outd[0] < OPL_MINOUT) {
+                data = OPL_MINOUT;
+            } else {
+                data = outd[0];
+            }
+            //data = Limit(outd[0], OPL_MAXOUT, OPL_MINOUT);
+            /* store to sound_old buffer */
             buf.write(i, (short) (data >> OPL_OUTSB));
         }
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;
     }
+
     public static void Y8950UpdateOne(FM_OPL OPL, ShortPtr buffer, int length) {
         int i;
         int data;
@@ -1042,17 +1102,17 @@ public class fmopl {
         int rythm = ((OPL.rythm & 0x20) & 0xFF);
         OPL_CH CH;
         int R_CH;
-	YM_DELTAT DELTAT = OPL.deltat;
+        YM_DELTAT DELTAT = OPL.deltat;
 
         /* setup DELTA-T unit */
- 	YM_DELTAT_DECODE_PRESET(DELTAT);
+        YM_DELTAT_DECODE_PRESET(DELTAT);
 
         if ((Object) OPL != cur_chip) {
             cur_chip = OPL;
             /* channel pointers */
             S_CH = OPL.P_CH;
             E_CH = 9;// S_CH[9];
-                /* rythm slot */
+            /* rythm slot */
             SLOT7_1 = S_CH[7].SLOT[SLOT1];
             SLOT7_2 = S_CH[7].SLOT[SLOT2];
             SLOT8_1 = S_CH[8].SLOT[SLOT1];
@@ -1062,17 +1122,18 @@ public class fmopl {
             vibIncr = OPL.vibIncr;
             ams_table = OPL.ams_table;
             vib_table = OPL.vib_table;
-    	}
+        }
         R_CH = rythm != 0 ? 6 : E_CH;
         for (i = 0; i < length; i++) {
             /*            channel A         channel B         channel C      */
-            /* LFO */
+ /* LFO */
             ams = ams_table.read((int) ((amsCnt = (amsCnt + amsIncr) & 0xFFFFFFFFL) >> AMS_SHIFT));//recheck
             vib = vib_table.read((int) ((vibCnt = (vibCnt + vibIncr) & 0xFFFFFFFFL) >> VIB_SHIFT));//recheck
             outd[0] = 0;
-   		/* deltaT ADPCM */
-   	    if( DELTAT.flag!=0 )
-   		YM_DELTAT_ADPCM_CALC(DELTAT);
+            /* deltaT ADPCM */
+            if (DELTAT.flag != 0) {
+                YM_DELTAT_ADPCM_CALC(DELTAT);
+            }
             /* FM part */
             for (int k = 0; k != R_CH; k++) {
                 CH = S_CH[k];
@@ -1089,9 +1150,10 @@ public class fmopl {
         }
         OPL.amsCnt = (int) amsCnt;
         OPL.vibCnt = (int) vibCnt;
- 	/* deltaT START flag */
-	if( DELTAT.flag==0 )
-		OPL.status &= 0xfe;
+        /* deltaT START flag */
+        if (DELTAT.flag == 0) {
+            OPL.status &= 0xfe;
+        }
     }
 
     /* ---------- reset one of chip ---------- */
@@ -1099,17 +1161,22 @@ public class fmopl {
         int c, s;
         int i;
         /* reset chip */
-        OPL.mode = 0;	/* normal mode */
+        OPL.mode = 0;
+        /* normal mode */
 
         OPL_STATUS_RESET(OPL, 0x7f);
         /* reset with register write */
-        OPLWriteReg(OPL, 0x01, 0); /* wabesel disable */
+        OPLWriteReg(OPL, 0x01, 0);
+        /* wabesel disable */
 
-        OPLWriteReg(OPL, 0x02, 0); /* Timer1 */
+        OPLWriteReg(OPL, 0x02, 0);
+        /* Timer1 */
 
-        OPLWriteReg(OPL, 0x03, 0); /* Timer2 */
+        OPLWriteReg(OPL, 0x03, 0);
+        /* Timer2 */
 
-        OPLWriteReg(OPL, 0x04, 0); /* IRQ mask clear */
+        OPLWriteReg(OPL, 0x04, 0);
+        /* IRQ mask clear */
 
         for (i = 0xff; i >= 0x20; i--) {
             OPLWriteReg(OPL, i, 0);
@@ -1122,28 +1189,28 @@ public class fmopl {
                 /* wave table */
                 CH.SLOT[s].wt_offset = 0;
                 CH.SLOT[s].wavetable = SIN_TABLE;//CH->SLOT[s].wavetable = &SIN_TABLE[0];
-                    /* CH.SLOT[s].evm = ENV_MOD_RR; */
+                /* CH.SLOT[s].evm = ENV_MOD_RR; */
                 CH.SLOT[s].evc = EG_OFF;
                 CH.SLOT[s].eve = EG_OFF + 1;
                 CH.SLOT[s].evs = 0;
             }
         }
-        if ((OPL.type & OPL_TYPE_ADPCM) != 0)
-            {
-                YM_DELTAT DELTAT = OPL.deltat;
-                DELTAT.freqbase = OPL.freqbase;
-                DELTAT.output_pointer = outd;
-                DELTAT.portshift = 5;
-                DELTAT.output_range = DELTAT_MIXING_LEVEL << TL_BITS;
-                YM_DELTAT_ADPCM_Reset(DELTAT, 0);
-            }
+        if ((OPL.type & OPL_TYPE_ADPCM) != 0) {
+            YM_DELTAT DELTAT = OPL.deltat;
+            DELTAT.freqbase = OPL.freqbase;
+            DELTAT.output_pointer = outd;
+            DELTAT.portshift = 5;
+            DELTAT.output_range = DELTAT_MIXING_LEVEL << TL_BITS;
+            YM_DELTAT_ADPCM_Reset(DELTAT, 0);
+        }
     }
 
     /* ----------  Create one of vietual YM3812 ----------       */
-    /* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
+ /* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
     public static FM_OPL OPLCreate(int type, int clock, int rate) {
         FM_OPL OPL;
-        int max_ch = 9; /* normaly 9 channels */
+        int max_ch = 9;
+        /* normaly 9 channels */
 
         if (OPL_LockTable() == -1) {
             return null;
@@ -1155,11 +1222,11 @@ public class fmopl {
         for (int i = 0; i < max_ch; i++) {
             OPL.P_CH[i] = new OPL_CH();
         }
-        if ((type & OPL_TYPE_ADPCM) != 0)
-        {
-                OPL.deltat = new YM_DELTAT();
+        if ((type & OPL_TYPE_ADPCM) != 0) {
+            OPL.deltat = new YM_DELTAT();
         }
-   	/* set channel state pointer */
+
+        /* set channel state pointer */
         OPL.type = type;
         OPL.clock = clock;
         OPL.rate = rate;
@@ -1170,14 +1237,14 @@ public class fmopl {
         OPLResetChip(OPL);
         return OPL;
     }
-    /* ----------  Destroy one of vietual YM3812 ----------       */
 
+    /* ----------  Destroy one of vietual YM3812 ----------       */
     public static void OPLDestroy(FM_OPL OPL) {
         OPL_UnLockTable();
-   	OPL=null;
+        OPL = null;
     }
-    /* ----------  Option handlers ----------       */
 
+    /* ----------  Option handlers ----------       */
     public static void OPLSetTimerHandler(FM_OPL OPL, OPL_TIMERHANDLERPtr TimerHandler, int channelOffset) {
         OPL.TimerHandler = TimerHandler;
         OPL.TimerParam = channelOffset;
@@ -1192,27 +1259,27 @@ public class fmopl {
         OPL.UpdateHandler = UpdateHandler;
         OPL.UpdateParam = param;
     }
-   
-   public static void OPLSetPortHandler(FM_OPL OPL,OPL_PORTHANDLER_WPtr PortHandler_w,OPL_PORTHANDLER_RPtr PortHandler_r,int param)
-   {
-   	OPL.porthandler_w = PortHandler_w;
-   	OPL.porthandler_r = PortHandler_r;
-   	OPL.port_param = param;
-   }
-   
-   public static void OPLSetKeyboardHandler(FM_OPL OPL,OPL_PORTHANDLER_WPtr KeyboardHandler_w,OPL_PORTHANDLER_RPtr KeyboardHandler_r,int param)
-   {
-   	OPL.keyboardhandler_w = KeyboardHandler_w;
-   	OPL.keyboardhandler_r = KeyboardHandler_r;
-   	OPL.keyboard_param = param;
-   }
-   /* ---------- YM3812 I/O interface ---------- */
 
+    public static void OPLSetPortHandler(FM_OPL OPL, OPL_PORTHANDLER_WPtr PortHandler_w, OPL_PORTHANDLER_RPtr PortHandler_r, int param) {
+        OPL.porthandler_w = PortHandler_w;
+        OPL.porthandler_r = PortHandler_r;
+        OPL.port_param = param;
+    }
+
+    public static void OPLSetKeyboardHandler(FM_OPL OPL, OPL_PORTHANDLER_WPtr KeyboardHandler_w, OPL_PORTHANDLER_RPtr KeyboardHandler_r, int param) {
+        OPL.keyboardhandler_w = KeyboardHandler_w;
+        OPL.keyboardhandler_r = KeyboardHandler_r;
+        OPL.keyboard_param = param;
+    }
+
+    /* ---------- YM3812 I/O interface ---------- */
     public static int OPLWrite(FM_OPL OPL, int a, int v) {
-        if ((a & 1) == 0) {	/* address port */
+        if ((a & 1) == 0) {
+            /* address port */
 
             OPL.address = v & 0xff;
-        } else {	/* data port */
+        } else {
+            /* data port */
 
             if (OPL.UpdateHandler != null) {
                 OPL.UpdateHandler.handler(OPL.UpdateParam, 0);
@@ -1224,39 +1291,35 @@ public class fmopl {
     }
 
     public static /*unsigned*/ char OPLRead(FM_OPL OPL, int a) {
-        if ((a & 1) == 0) {	/* status port */
+        if ((a & 1) == 0) {
+            /* status port */
 
             return (char) ((OPL.status & (OPL.statusmask | 0x80)) & 0xFF);
         }
         /* data port */
         switch (OPL.address) {
-            case 0x05: /* KeyBoard IN */
-        	if((OPL.type&OPL_TYPE_KEYBOARD)!=0)
-   		{
-   			if(OPL.keyboardhandler_r!=null)
-                        {
-   				return (char)OPL.keyboardhandler_r.handler(OPL.keyboard_param);
-                        }
-   			else
-                        {
-   				//Log(LOG_WAR,"OPL:read unmapped KEYBOARD port\n");
-                        }
-   		}
-   		return 0;
-            case 0x19: /* I/O DATA    */
-                if((OPL.type&OPL_TYPE_IO)!=0)
-   		{
-   			if(OPL.porthandler_r!=null)
-                        {
-   				return (char)OPL.porthandler_r.handler(OPL.port_param);
-                        }
-   			else
-                        {
-   				//Log(LOG_WAR,"OPL:read unmapped I/O port\n");
-                        }
-   		}
-   		return 0;
-            case 0x1a: /* PCM-DATA    */
+            case 0x05:
+                /* KeyBoard IN */
+                if ((OPL.type & OPL_TYPE_KEYBOARD) != 0) {
+                    if (OPL.keyboardhandler_r != null) {
+                        return (char) OPL.keyboardhandler_r.handler(OPL.keyboard_param);
+                    } else {
+                        //Log(LOG_WAR,"OPL:read unmapped KEYBOARD port\n");
+                    }
+                }
+                return 0;
+            case 0x19:
+                /* I/O DATA    */
+                if ((OPL.type & OPL_TYPE_IO) != 0) {
+                    if (OPL.porthandler_r != null) {
+                        return (char) OPL.porthandler_r.handler(OPL.port_param);
+                    } else {
+                        //Log(LOG_WAR,"OPL:read unmapped I/O port\n");
+                    }
+                }
+                return 0;
+            case 0x1a:
+                /* PCM-DATA    */
 
                 return 0;
         }
@@ -1264,14 +1327,16 @@ public class fmopl {
     }
 
     public static int OPLTimerOver(FM_OPL OPL, int c) {
-        if (c != 0) {	/* Timer B */
+        if (c != 0) {
+            /* Timer B */
 
             OPL_STATUS_SET(OPL, 0x20);
-        } else {	/* Timer A */
+        } else {
+            /* Timer A */
 
             OPL_STATUS_SET(OPL, 0x40);
             /* CSM mode key,TL controll */
-            if ((OPL.mode & 0x80) != 0) {	/* CSM mode total level latch and auto key on */
+            if ((OPL.mode & 0x80) != 0) {/* CSM mode total level latch and auto key on */
 
                 int ch;
                 if (OPL.UpdateHandler != null) {
@@ -1288,4 +1353,5 @@ public class fmopl {
         }
         return (OPL.status >> 7) & 0xFF; //status is uint8
     }
+
 }

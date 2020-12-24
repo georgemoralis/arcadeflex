@@ -1,8 +1,11 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.37b7
+ * 
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import gr.codebb.arcadeflex.v036.sound.ay8910H.AY8910interface;
 
 public class _2610intfH {
 
@@ -16,11 +19,9 @@ public class _2610intfH {
             this.pcmroma = pcmroma;
             this.volumeFM = volumeFM;
         }
-        public int[] pcmromb;		/* Delta-T rom region */
-
-        public int[] pcmroma;		/* ADPCM   rom region */
-
-        public int[] volumeFM;		/* use YM3012_VOL macro */
+        public int[] pcmromb;/* Delta-T rom region */
+        public int[] pcmroma;/* ADPCM   rom region */
+        public int[] volumeFM;/* use YM3012_VOL macro */
 
     }
 

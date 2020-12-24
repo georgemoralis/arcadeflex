@@ -1,19 +1,21 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.37b7
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import gr.codebb.arcadeflex.v036.mame.sndintrfH;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.sound.fmoplH.*;
-import static gr.codebb.arcadeflex.v036.sound.fmopl.*;
+import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import gr.codebb.arcadeflex.v036.sound.fm_c.FM_OPL;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
+import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
 
 public class _3812intf extends snd_interface {
 
@@ -29,22 +31,22 @@ public class _3812intf extends snd_interface {
     }
 
     @Override
-    public int chips_num(sndintrfH.MachineSound msound) {
+    public int chips_num(MachineSound msound) {
         return ((YM3812interface) msound.sound_interface).num;
     }
 
     @Override
-    public int chips_clock(sndintrfH.MachineSound msound) {
+    public int chips_clock(MachineSound msound) {
         return ((YM3812interface) msound.sound_interface).baseclock;
     }
 
     @Override
-    public int start(sndintrfH.MachineSound msound) {
+    public int start(MachineSound msound) {
         chiptype = OPL_TYPE_YM3812;
         return OPL_sh_start(msound);
     }
 
-    public static int OPL_sh_start(sndintrfH.MachineSound msound) {
+    public static int OPL_sh_start(MachineSound msound) {
 
         int i;
         int rate = Machine.sample_rate;
@@ -83,6 +85,7 @@ public class _3812intf extends snd_interface {
         chiptype = OPL_TYPE_YM3812;
         return OPL_sh_start(msound);
     }
+
     public static timer_callback timer_callback_3812 = new timer_callback() {
         public void handler(int param) {
             int n = param >> 1;

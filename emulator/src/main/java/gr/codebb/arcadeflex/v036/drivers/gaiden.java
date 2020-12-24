@@ -27,13 +27,13 @@ import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sndhrdw.seibu.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
-import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.gaiden.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 public class gaiden
 {
 

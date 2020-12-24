@@ -12,15 +12,15 @@ import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import gr.codebb.arcadeflex.v036.sound.CustomSound;
-import gr.codebb.arcadeflex.v036.sound._3526intf;
-import gr.codebb.arcadeflex.v036.sound._3812intf;
-import gr.codebb.arcadeflex.v036.sound.y8950;
+import gr.codebb.arcadeflex.v037b7.sound._3526intf;
+import gr.codebb.arcadeflex.v037b7.sound._3812intf;
+import gr.codebb.arcadeflex.v037b7.sound.y8950intf;
 import gr.codebb.arcadeflex.v036.sound.adpcm;
 import gr.codebb.arcadeflex.v036.sound.okim6295;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import gr.codebb.arcadeflex.v036.sound.MSM5205;
-import gr.codebb.arcadeflex.v036.sound._2203intf;
+import gr.codebb.arcadeflex.v037b7.sound._2203intf;
 import gr.codebb.arcadeflex.v036.sound.k007232;
 import gr.codebb.arcadeflex.v037b7.sound.ym2413;
 import gr.codebb.arcadeflex.v036.sound.k051649;
@@ -30,9 +30,10 @@ import gr.codebb.arcadeflex.v036.sound.pokey;
 import gr.codebb.arcadeflex.v036.sound.upd7759;
 import gr.codebb.arcadeflex.v036.sound.k053260;
 import gr.codebb.arcadeflex.v036.sound.qsound;
-import gr.codebb.arcadeflex.v036.sound._2610intf;
+import gr.codebb.arcadeflex.v037b7.sound._2610intf;
 import gr.codebb.arcadeflex.v036.sound.k005289;
 import gr.codebb.arcadeflex.v036.sound.nes_apu;
+import gr.codebb.arcadeflex.v037b7.sound._2608intf;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class sndintrf {
@@ -294,19 +295,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-     /*TEMPHACK*/   new Dummy_snd(),
-    /*TODO*////*TODO*///#if (HAS_YM2608)
-    /*TODO*////*TODO*///    {
-    /*TODO*////*TODO*///		SOUND_YM2608,
-    /*TODO*////*TODO*///		"YM-2608",
-    /*TODO*////*TODO*///		YM2608_num,
-    /*TODO*////*TODO*///		YM2608_clock,
-    /*TODO*////*TODO*///		YM2608_sh_start,
-    /*TODO*////*TODO*///		YM2608_sh_stop,
-    /*TODO*////*TODO*///		0,
-    /*TODO*////*TODO*///		YM2608_sh_reset
-    /*TODO*////*TODO*///	},
-    /*TODO*////*TODO*///#endif
+                       new _2608intf(),
                        new _2610intf(),
        /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_YM2610B)
@@ -362,7 +351,7 @@ public class sndintrf {
     /*TODO*////*TODO*///#endif
               new _3812intf(),
               new _3526intf(),
-              new y8950(),
+              new y8950intf(),
 
               /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_SN76477)
