@@ -53,7 +53,7 @@ public class cclimber {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr cclimber_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + (offs)])
@@ -66,17 +66,17 @@ public class cclimber {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read() >> 6) & 0x01;
                 bit2 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
@@ -141,7 +141,7 @@ public class cclimber {
     public static final int SIDEPEN = (256 + 32 + 1);
 
     public static VhConvertColorPromPtr swimmer_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + (offs)])
@@ -154,17 +154,17 @@ public class cclimber {
                 bit0 = (color_prom.read(i) >> 0) & 0x01;
                 bit1 = (color_prom.read(i) >> 1) & 0x01;
                 bit2 = (color_prom.read(i) >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
                 /* green component */
                 bit0 = (color_prom.read(i) >> 3) & 0x01;
                 bit1 = (color_prom.read(i + 256) >> 0) & 0x01;
                 bit2 = (color_prom.read(i + 256) >> 1) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read(i + 256) >> 2) & 0x01;
                 bit2 = (color_prom.read(i + 256) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
 
                 /* side panel */
                 if ((i % 8) != 0) {
@@ -187,17 +187,17 @@ public class cclimber {
                 bit0 = (color_prom.read(i) >> 0) & 0x01;
                 bit1 = (color_prom.read(i) >> 1) & 0x01;
                 bit2 = (color_prom.read(i) >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
                 /* green component */
                 bit0 = (color_prom.read(i) >> 3) & 0x01;
                 bit1 = (color_prom.read(i) >> 4) & 0x01;
                 bit2 = (color_prom.read(i) >> 5) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read(i) >> 6) & 0x01;
                 bit2 = (color_prom.read(i) >> 7) & 0x01;
-                palette[p_inc++].set((char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2));
+                palette[p_inc++]=(char) (0x20 * bit0 + 0x40 * bit1 + 0x80 * bit2);
 
                 if (i % 8 == 0) {
                     colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i] = (char) BGPEN;//COLOR(2,i) = BGPEN;  /* enforce transparency */
@@ -207,13 +207,13 @@ public class cclimber {
             }
 
             /* background */
-            palette[p_inc++].set((char) (0));
-            palette[p_inc++].set((char) (0));
-            palette[p_inc++].set((char) (0));
+            palette[p_inc++]=(char) (0);
+            palette[p_inc++]=(char) (0);
+            palette[p_inc++]=(char) (0);
             /* side panel background color */
-            palette[p_inc++].set((char) (0x24));
-            palette[p_inc++].set((char) (0x5d));
-            palette[p_inc++].set((char) (0x4e));
+            palette[p_inc++]=(char) (0x24);
+            palette[p_inc++]=(char) (0x5d);
+            palette[p_inc++]=(char) (0x4e);
 
             palette_transparent_color = BGPEN; /* background color */
 

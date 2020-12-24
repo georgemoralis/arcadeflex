@@ -49,7 +49,7 @@ public class blueprnt
 	static int TOTAL_COLORS(int gfxn) {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr blueprnt_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr blueprnt_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -58,9 +58,9 @@ public class blueprnt
                 int p_inc = 0;
 		for (i = 0;i < 16;i++)
 		{
-			palette[p_inc++].set((char) (((i >> 0) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff)));
-			palette[p_inc++].set((char) (((i >> 2) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff)));
-			palette[p_inc++].set((char) (((i >> 1) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff)));
+			palette[p_inc++]=(char) (((i >> 0) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff));
+			palette[p_inc++]=(char) (((i >> 2) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff));
+			palette[p_inc++]=(char) (((i >> 1) & 1) * ((i & 0x08)!=0 ? 0xbf : 0xff));
 		}
 	
 	

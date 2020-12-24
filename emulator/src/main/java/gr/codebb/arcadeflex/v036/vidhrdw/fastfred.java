@@ -91,7 +91,7 @@ public class fastfred
         static int TOTAL_COLORS(int gfxn) {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }	
-	public static VhConvertColorPromPtr fastfred_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr fastfred_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 	        int i;
 	        //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -109,9 +109,9 @@ public class fastfred
 	
 					convert_color(i, r, g, b);
 	
-					palette[p_inc++].set((char) (r[0]));
-					palette[p_inc++].set((char) (g[0]));
-					palette[p_inc++].set((char) (b[0]));
+					palette[p_inc++]=(char) (r[0]);
+					palette[p_inc++]=(char) (g[0]);
+					palette[p_inc++]=(char) (b[0]);
 	        }
 	
 	

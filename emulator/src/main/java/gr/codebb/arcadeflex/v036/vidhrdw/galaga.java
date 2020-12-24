@@ -72,7 +72,7 @@ public class galaga {
         static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-	public static VhConvertColorPromPtr galaga_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr galaga_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		for (i = 0;i < 32;i++)
@@ -83,15 +83,15 @@ public class galaga {
 			bit0 = (color_prom.read(31-i) >> 0) & 0x01;
 			bit1 = (color_prom.read(31-i) >> 1) & 0x01;
 			bit2 = (color_prom.read(31-i) >> 2) & 0x01;
-			palette[3*i].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[3*i]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = (color_prom.read(31-i) >> 3) & 0x01;
 			bit1 = (color_prom.read(31-i) >> 4) & 0x01;
 			bit2 = (color_prom.read(31-i) >> 5) & 0x01;
-			palette[3*i + 1].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[3*i + 1]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = 0;
 			bit1 = (color_prom.read(31-i) >> 6) & 0x01;
 			bit2 = (color_prom.read(31-i) >> 7) & 0x01;
-			palette[3*i + 2].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[3*i + 2]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 		}
 	
 		color_prom.inc(32);
@@ -123,11 +123,11 @@ public class galaga {
 			int map[] = { 0x00, 0x88, 0xcc, 0xff };
 	
 			bits = ((i-32) >> 0) & 0x03;
-			palette[3*i].set((char) (map[bits]));
+			palette[3*i]=(char) (map[bits]);
 			bits = ((i-32) >> 2) & 0x03;
-			palette[3*i + 1].set((char) (map[bits]));
+			palette[3*i + 1]=(char) (map[bits]);
 			bits = ((i-32) >> 4) & 0x03;
-			palette[3*i + 2].set((char) (map[bits]));
+			palette[3*i + 2]=(char) (map[bits]);
 		}
 	} };
 

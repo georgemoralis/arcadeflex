@@ -62,7 +62,7 @@ public class combatsc
 	static UBytePtr combasc_scrollram=new UBytePtr();
 	
 
-	public static VhConvertColorPromPtr combasc_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr combasc_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal,clut = 0;
                 int ptr=0;
@@ -110,7 +110,7 @@ public class combatsc
 			}
 		}
 	}};
-	public static VhConvertColorPromPtr combascb_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr combascb_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal;
                 int ptr=0;

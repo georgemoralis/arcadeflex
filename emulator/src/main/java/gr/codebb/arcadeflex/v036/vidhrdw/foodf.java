@@ -66,7 +66,7 @@ public class foodf
         static int TOTAL_COLORS(int gfxn) {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr foodf_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr foodf_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -74,9 +74,9 @@ public class foodf
                 int p_inc = 0;
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
-			palette[p_inc++].set((char) (((i & 1) >> 0) * 0xff));
-			palette[p_inc++].set((char) (((i & 2) >> 1) * 0xff));
-			palette[p_inc++].set((char) (((i & 4) >> 2) * 0xff));
+			palette[p_inc++]=(char) (((i & 1) >> 0) * 0xff);
+			palette[p_inc++]=(char) (((i & 2) >> 1) * 0xff);
+			palette[p_inc++]=(char) (((i & 4) >> 2) * 0xff);
 		}
 	
 		/* characters and sprites use the same palette */

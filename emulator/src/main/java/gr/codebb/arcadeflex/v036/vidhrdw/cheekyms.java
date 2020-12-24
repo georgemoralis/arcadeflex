@@ -39,7 +39,7 @@ public class cheekyms
 	static int char_palette = 0;
 	
 	
-	public static VhConvertColorPromPtr cheekyms_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr cheekyms_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,j,bit;
 	
@@ -55,13 +55,13 @@ public class cheekyms
 			{
 				/* red component */
 				bit = (color_prom.read(0) >> 0) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 				/* green component */
 				bit = (color_prom.read(0) >> 1) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 				/* blue component */
 				bit = (color_prom.read(0) >> 2) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 	
 				color_prom.inc();
 			}
@@ -73,13 +73,13 @@ public class cheekyms
 			{
 				/* red component */
 				bit = (color_prom.read(0) >> 4) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 				/* green component */
 				bit = (color_prom.read(0) >> 5) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 				/* blue component */
 				bit = (color_prom.read(0) >> 6) & 0x01;
-				palette[p_inc++].set((char)(0xff * bit));
+				palette[p_inc++]=(char)(0xff * bit);
 	
 				color_prom.inc();
 			}

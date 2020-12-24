@@ -55,7 +55,7 @@ public class contra
 	**
 	***************************************************************************/
 	
-	public static VhConvertColorPromPtr contra_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr contra_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,chip,pal,clut;
                 int c_ptr=0;

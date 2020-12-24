@@ -28,7 +28,7 @@ public class labyrunr
 	static tilemap layer0, layer1;
 	
 	
-	public static VhConvertColorPromPtr labyrunr_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr labyrunr_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal;
                 int ptr=0;

@@ -55,7 +55,7 @@ public class mappy
 	  bit 0 -- 1  kohm resistor  -- RED
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr mappy_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr mappy_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int p_inc = 0;
@@ -66,15 +66,15 @@ public class mappy
 			bit0 = (color_prom.read() >> 0) & 0x01;
 			bit1 = (color_prom.read() >> 1) & 0x01;
 			bit2 = (color_prom.read() >> 2) & 0x01;
-			palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = (color_prom.read() >> 3) & 0x01;
 			bit1 = (color_prom.read() >> 4) & 0x01;
 			bit2 = (color_prom.read() >> 5) & 0x01;
-			palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = 0;
 			bit1 = (color_prom.read() >> 6) & 0x01;
 			bit2 = (color_prom.read() >> 7) & 0x01;
-			palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 	
 			color_prom.inc();
 		}

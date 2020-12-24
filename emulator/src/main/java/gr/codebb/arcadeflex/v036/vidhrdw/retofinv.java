@@ -47,7 +47,7 @@ public class retofinv {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr retofinv_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
@@ -60,19 +60,19 @@ public class retofinv {
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 bit0 = (color_prom.read(1 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(1 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(1 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(1 * Machine.drv.total_colors) >> 3) & 0x01;
 
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 bit0 = (color_prom.read(0 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(0 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(0 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(0 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
             }

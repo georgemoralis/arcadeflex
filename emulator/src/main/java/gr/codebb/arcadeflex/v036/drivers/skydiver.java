@@ -274,11 +274,11 @@ public class skydiver {
                 0x00, 0x00, /* used only to draw the SKYDIVER LEDs */
                 0x00, 0x01, /* used only to draw the SKYDIVER LEDs */};
     public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
-        public void handler(UByte[] game_palette, char[] game_colortable, UBytePtr color_prom) {
+        public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             //memcpy(game_palette,palette,sizeof(palette));
             //memcpy(game_colortable,colortable,sizeof(colortable));
             for (int i = 0; i < palette.length; i++) {
-                game_palette[i].set((char) palette[i]);
+                game_palette[i]=(char) palette[i];
             }
             for (int i = 0; i < colortable.length; i++) {
                 game_colortable[i] = colortable[i];

@@ -172,10 +172,10 @@ public class copsnrob {
                 0x00, 0x03
             };
     public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
-        public void handler(UByte[] game_palette, char[] game_colortable, UBytePtr color_prom) {
+        public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             //memcpy(game_palette,palette,sizeof(palette));
             for (int i = 0; i < palette.length; i++) {
-                game_palette[i].set(palette[i]);
+                game_palette[i]=palette[i];
             }
             //memcpy(game_colortable,colortable,sizeof(colortable));
             for (int i = 0; i < colortable.length; i++) {

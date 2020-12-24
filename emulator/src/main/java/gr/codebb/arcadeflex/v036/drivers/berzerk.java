@@ -396,11 +396,11 @@ public class berzerk
 		0xff, 0xff, 0xff
 	};
         public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
-        public void handler(UByte[] game_palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] game_palette, char[] colortable, UBytePtr color_prom) {
 		//memcpy(game_palette,palette,palette.length);
                 for(int i=0; i<palette.length; i++)
                 {
-                    game_palette[i].set(palette[i]);
+                    game_palette[i]=palette[i];
                 }
 	}};
 	

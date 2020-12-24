@@ -52,7 +52,7 @@ public class kingobox
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr kingobox_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr kingobox_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{       
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -69,19 +69,19 @@ public class kingobox
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 			/* green component */
 			bit0 = (color_prom.read(256) >> 0) & 0x01;
 			bit1 = (color_prom.read(256) >> 1) & 0x01;
 			bit2 = (color_prom.read(256) >> 2) & 0x01;
 			bit3 = (color_prom.read(256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(2*256) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*256) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*256) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 	
 			color_prom.inc();
 		}
@@ -91,11 +91,11 @@ public class kingobox
 		for (i = 0;i < 8;i++)
 		{
 			/* red component */
-			palette[p_inc++].set((char)(0xff * ((i >> 2) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 2) & 0x01));
 			/* green component */
-			palette[p_inc++].set((char)(0xff * ((i >> 1) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 1) & 0x01));
 			/* blue component */
-			palette[p_inc++].set((char)(0xff * ((i >> 0) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 0) & 0x01));
 		}
 	
 		for (i = 0;i < TOTAL_COLORS(0)/2;i++)
@@ -107,7 +107,7 @@ public class kingobox
 	
 	
 	/* Ring King has one 256x8 PROM instead of two 256x4 */
-        public static VhConvertColorPromPtr ringking_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+        public static VhConvertColorPromPtr ringking_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{ 
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -124,19 +124,19 @@ public class kingobox
 			bit1 = (color_prom.read(0) >> 5) & 0x01;
 			bit2 = (color_prom.read(0) >> 6) & 0x01;
 			bit3 = (color_prom.read(0) >> 7) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 			/* green component */
 			bit0 = (color_prom.read(0) >> 0) & 0x01;
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(256) >> 0) & 0x01;
 			bit1 = (color_prom.read(256) >> 1) & 0x01;
 			bit2 = (color_prom.read(256) >> 2) & 0x01;
 			bit3 = (color_prom.read(256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3));
+			palette[p_inc++]=(char)(0x10 * bit0 + 0x21 * bit1 + 0x45 * bit2 + 0x89 * bit3);
 	
 			color_prom.inc();
 		}
@@ -146,11 +146,11 @@ public class kingobox
 		for (i = 0;i < 8;i++)
 		{
 			/* red component */
-			palette[p_inc++].set((char)(0xff * ((i >> 2) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 2) & 0x01));
 			/* green component */
-			palette[p_inc++].set((char)(0xff * ((i >> 1) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 1) & 0x01));
 			/* blue component */
-			palette[p_inc++].set((char)(0xff * ((i >> 0) & 0x01)));
+			palette[p_inc++]=(char)(0xff * ((i >> 0) & 0x01));
 		}
 	
 		for (i = 0;i < TOTAL_COLORS(0)/2;i++)

@@ -32,14 +32,14 @@ public class kangaroo {
     public static osd_bitmap tmpbitmap2;
 
     public static VhConvertColorPromPtr kangaroo_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
-                palette[p_inc++].set((char) (((i & 4) >> 2) * 0xff));
-                palette[p_inc++].set((char) (((i & 2) >> 1) * 0xff));
-                palette[p_inc++].set((char) (((i & 1) >> 0) * 0xff));
+                palette[p_inc++]=(char) (((i & 4) >> 2) * 0xff);
+                palette[p_inc++]=(char) (((i & 2) >> 1) * 0xff);
+                palette[p_inc++]=(char) (((i & 1) >> 0) * 0xff);
             }
         }
     };

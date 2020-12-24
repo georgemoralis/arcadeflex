@@ -42,7 +42,7 @@ public class baraduke
 	
 	***************************************************************************/
 	
-	public static VhConvertColorPromPtr baraduke_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr baraduke_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		int bit0,bit1,bit2,bit3;
@@ -53,21 +53,21 @@ public class baraduke
 			bit1 = (color_prom.read(2048) >> 1) & 0x01;
 			bit2 = (color_prom.read(2048) >> 2) & 0x01;
 			bit3 = (color_prom.read(2048) >> 3) & 0x01;
-			palette[p_inc++].set((char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3));
+			palette[p_inc++]=(char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3);
 	
 			/* green component */
 			bit0 = (color_prom.read(0) >> 0) & 0x01;
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3));
+			palette[p_inc++]=(char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3);
 	
 			/* blue component */
 			bit0 = (color_prom.read(0) >> 4) & 0x01;
 			bit1 = (color_prom.read(0) >> 5) & 0x01;
 			bit2 = (color_prom.read(0) >> 6) & 0x01;
 			bit3 = (color_prom.read(0) >> 7) & 0x01;
-			palette[p_inc++].set((char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3));
+			palette[p_inc++]=(char) (0x0e*bit0 + 0x1f*bit1 + 0x43*bit2 + 0x8f*bit3);
 	
 			color_prom.inc();
 		}

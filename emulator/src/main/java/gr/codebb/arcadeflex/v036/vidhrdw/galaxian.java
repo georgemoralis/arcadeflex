@@ -111,7 +111,7 @@ public class galaxian {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr galaxian_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
@@ -127,16 +127,16 @@ public class galaxian {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = (color_prom.read() >> 6) & 0x01;
                 bit1 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++].set((char) (0x4f * bit0 + 0xa8 * bit1));
+                palette[p_inc++]=(char) (0x4f * bit0 + 0xa8 * bit1);
 
                 color_prom.inc();
             }
@@ -147,11 +147,11 @@ public class galaxian {
                 int map[] = {0x00, 0x88, 0xcc, 0xff};
 
                 bits = (i >> 0) & 0x03;
-                palette[p_inc++].set((char) (map[bits]));
+                palette[p_inc++]=(char) (map[bits]);
                 bits = (i >> 2) & 0x03;
-                palette[p_inc++].set((char) (map[bits]));
+                palette[p_inc++]=(char) (map[bits]);
                 bits = (i >> 4) & 0x03;
-                palette[p_inc++].set((char) (map[bits]));
+                palette[p_inc++]=(char) (map[bits]);
             }
 
             /* characters and sprites use the same palette */
@@ -172,9 +172,9 @@ public class galaxian {
             /* white */
 
  /* default blue background */
-            palette[p_inc++].set((char) (0));
-            palette[p_inc++].set((char) (0));
-            palette[p_inc++].set((char) (0x55));
+            palette[p_inc++]=(char) (0);
+            palette[p_inc++]=(char) (0);
+            palette[p_inc++]=(char) (0x55);
 
             for (i = 0; i < TOTAL_COLORS(3); i++) {
                 colortable[Machine.drv.gfxdecodeinfo[3].color_codes_start + i] = (char) (96 + (i % (Machine.drv.total_colors - 96)));
@@ -182,7 +182,7 @@ public class galaxian {
         }
     };
     public static VhConvertColorPromPtr minefld_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
@@ -190,22 +190,22 @@ public class galaxian {
             /* set up background colors */
  /* Graduated Blue */
             for (i = 0; i < 64; i++) {
-                palette[96 * 3 + i * 3 + 0].set((char) (0));
-                palette[96 * 3 + i * 3 + 1].set((char) (i * 2));
-                palette[96 * 3 + i * 3 + 2].set((char) (i * 4));
+                palette[96 * 3 + i * 3 + 0]=(char) (0);
+                palette[96 * 3 + i * 3 + 1]=(char) (i * 2);
+                palette[96 * 3 + i * 3 + 2]=(char) (i * 4);
             }
 
             /* Graduated Brown */
             for (i = 0; i < 64; i++) {
-                palette[160 * 3 + i * 3 + 0].set((char) (i * 3));
-                palette[160 * 3 + i * 3 + 1].set((char) (i * 1.5));
-                palette[160 * 3 + i * 3 + 2].set((char) (i));
+                palette[160 * 3 + i * 3 + 0]=(char) (i * 3);
+                palette[160 * 3 + i * 3 + 1]=(char) (i * 1.5);
+                palette[160 * 3 + i * 3 + 2]=(char) (i);
             }
         }
     };
 
     public static VhConvertColorPromPtr rescue_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
@@ -213,44 +213,44 @@ public class galaxian {
             /* set up background colors */
  /* Graduated Blue */
             for (i = 0; i < 64; i++) {
-                palette[96 * 3 + i * 3 + 0].set((char) 0);
-                palette[96 * 3 + i * 3 + 1].set((char) (i * 2));
-                palette[96 * 3 + i * 3 + 2].set((char) (i * 4));
+                palette[96 * 3 + i * 3 + 0]=(char) 0;
+                palette[96 * 3 + i * 3 + 1]=(char) (i * 2);
+                palette[96 * 3 + i * 3 + 2]=(char) (i * 4);
             }
         }
     };
 
     public static VhConvertColorPromPtr stratgyx_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
  /* blue and dark brown */
-            palette[96 * 3 + 0].set((char) 0);
-            palette[96 * 3 + 1].set((char) 0);
-            palette[96 * 3 + 2].set((char) 0x55);
+            palette[96 * 3 + 0]=(char) 0;
+            palette[96 * 3 + 1]=(char) 0;
+            palette[96 * 3 + 2]=(char) 0x55;
 
-            palette[97 * 3 + 0].set((char) 0x40);
-            palette[97 * 3 + 1].set((char) 0x20);
-            palette[97 * 3 + 2].set((char) 0x0);
+            palette[97 * 3 + 0]=(char) 0x40;
+            palette[97 * 3 + 1]=(char) 0x20;
+            palette[97 * 3 + 2]=(char) 0x0;
         }
     };
     public static VhConvertColorPromPtr mariner_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
             /* set up background colors */
  /* nine shades of blue */
-            palette[96 * 3 + 0].set((char) 0);
-            palette[96 * 3 + 1].set((char) 0);
-            palette[96 * 3 + 2].set((char) 0);
+            palette[96 * 3 + 0]=(char) 0;
+            palette[96 * 3 + 1]=(char) 0;
+            palette[96 * 3 + 2]=(char) 0;
 
             for (i = 1; i < 10; i++) {
-                palette[96 * 3 + i * 3 + 0].set((char) 0);
-                palette[96 * 3 + i * 3 + 1].set((char) 0);
-                palette[96 * 3 + i * 3 + 2].set((char) (0xea - 0x15 * (i - 1)));
+                palette[96 * 3 + i * 3 + 0]=(char) 0;
+                palette[96 * 3 + i * 3 + 1]=(char) 0;
+                palette[96 * 3 + i * 3 + 2]=(char) (0xea - 0x15 * (i - 1));
             }
         }
     };

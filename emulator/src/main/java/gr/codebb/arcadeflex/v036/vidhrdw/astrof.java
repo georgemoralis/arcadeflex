@@ -43,7 +43,7 @@ public class astrof
 	
 	
 	/* Just save the colorprom pointer */
-	public static VhConvertColorPromPtr astrof_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr astrof_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		prom = new UBytePtr(color_prom);
 	} };

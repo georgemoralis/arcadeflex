@@ -28,7 +28,7 @@ public class nova2001 {
     static int flipscreen;
 
     public static VhConvertColorPromPtr nova2001_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, j;
 
             int p_inc = 0;
@@ -37,11 +37,11 @@ public class nova2001 {
 
                 intensity = (color_prom.read() >> 0) & 0x03;
                 /* red component */
-                palette[p_inc++].set((char) ((((color_prom.read() >> 0) & 0x0c) | intensity) * 0x11));
+                palette[p_inc++]=(char) ((((color_prom.read() >> 0) & 0x0c) | intensity) * 0x11);
                 /* green component */
-                palette[p_inc++].set((char) ((((color_prom.read() >> 2) & 0x0c) | intensity) * 0x11));
+                palette[p_inc++]=(char) ((((color_prom.read() >> 2) & 0x0c) | intensity) * 0x11);
                 /* blue component */
-                palette[p_inc++].set((char) ((((color_prom.read() >> 4) & 0x0c) | intensity) * 0x11));
+                palette[p_inc++]=(char) ((((color_prom.read() >> 4) & 0x0c) | intensity) * 0x11);
 
                 color_prom.inc();
             }

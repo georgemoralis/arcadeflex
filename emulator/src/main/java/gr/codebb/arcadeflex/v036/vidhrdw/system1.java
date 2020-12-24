@@ -53,7 +53,7 @@ public class system1 {
     static char[] palette_lookup = new char[256 * 3];
 
     public static VhConvertColorPromPtr system1_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             //palette = palette_lookup; // todo at the bottom
@@ -66,17 +66,17 @@ public class system1 {
                     bit1 = (color_prom.read(0 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(0 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(0 * 256) >> 3) & 0x01;
-                    palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     bit0 = (color_prom.read(1 * 256) >> 0) & 0x01;
                     bit1 = (color_prom.read(1 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(1 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(1 * 256) >> 3) & 0x01;
-                    palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     bit0 = (color_prom.read(2 * 256) >> 0) & 0x01;
                     bit1 = (color_prom.read(2 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(2 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(2 * 256) >> 3) & 0x01;
-                    palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     color_prom.inc();
                 }
             } else {
@@ -85,21 +85,21 @@ public class system1 {
 
                     /* red component */
                     val = (i >> 0) & 0x07;
-                    palette[p_inc++].set((char) ((val << 5) | (val << 2) | (val >> 1)));
+                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
                     /* green component */
                     val = (i >> 3) & 0x07;
-                    palette[p_inc++].set((char) ((val << 5) | (val << 2) | (val >> 1)));
+                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
                     /* blue component */
                     val = (i >> 5) & 0x06;
                     if (val != 0) {
                         val++;
                     }
-                    palette[p_inc++].set((char) ((val << 5) | (val << 2) | (val >> 1)));
+                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
                 }
             }
             //(shadow) copy palette to palette_lookup table
             for (int k = 0; k < palette_lookup.length; k++) {
-                palette_lookup[k] = palette[k].read();
+                palette_lookup[k] = palette[k];
             }
         }
     };

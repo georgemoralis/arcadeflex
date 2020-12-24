@@ -47,7 +47,7 @@ public class jrpacman {
      **************************************************************************
      */
     public static VhConvertColorPromPtr jrpacman_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             for (i = 0; i < 32; i++) {
@@ -56,15 +56,15 @@ public class jrpacman {
                 bit0 = (color_prom.read(i) >> 0) & 0x01;
                 bit1 = (color_prom.read(i) >> 1) & 0x01;
                 bit2 = (color_prom.read(i) >> 2) & 0x01;
-                palette[3 * i].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = (color_prom.read(i) >> 3) & 0x01;
                 bit1 = (color_prom.read(i + 32) >> 0) & 0x01;
                 bit2 = (color_prom.read(i + 32) >> 1) & 0x01;
-                palette[3 * i + 1].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i + 1]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = 0;
                 bit1 = (color_prom.read(i + 32) >> 2) & 0x01;
                 bit2 = (color_prom.read(i + 32) >> 3) & 0x01;
-                palette[3 * i + 2].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i + 2]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
             }
 
             for (i = 0; i < 64 * 4; i++) {

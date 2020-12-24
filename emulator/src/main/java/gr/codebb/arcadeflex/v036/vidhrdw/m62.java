@@ -68,7 +68,7 @@ public class m62
 	  bit 0 -- 2.2kohm resistor  -- RED/GREEN/BLUE
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr irem_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr irem_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -82,19 +82,19 @@ public class m62
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* green component */
 			bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
 			bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
 			bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
 			bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(2*Machine.drv.total_colors) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*Machine.drv.total_colors) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*Machine.drv.total_colors) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*Machine.drv.total_colors) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			color_prom.inc();
 		}
@@ -105,7 +105,7 @@ public class m62
 		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
-	public static VhConvertColorPromPtr battroad_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr battroad_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -119,19 +119,19 @@ public class m62
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* green component */
 			bit0 = (color_prom.read(512) >> 0) & 0x01;
 			bit1 = (color_prom.read(512) >> 1) & 0x01;
 			bit2 = (color_prom.read(512) >> 2) & 0x01;
 			bit3 = (color_prom.read(512) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(2*512) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*512) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*512) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*512) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			color_prom.inc();
 		}
@@ -147,15 +147,15 @@ public class m62
 			bit0 = (color_prom.read(i) >> 0) & 0x01;
 			bit1 = (color_prom.read(i) >> 1) & 0x01;
 			bit2 = (color_prom.read(i) >> 2) & 0x01;
-			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = (color_prom.read(i) >> 3) & 0x01;
 			bit1 = (color_prom.read(i) >> 4) & 0x01;
 			bit2 = (color_prom.read(i) >> 5) & 0x01;
-			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 			bit0 = 0;
 			bit1 = (color_prom.read(i) >> 6) & 0x01;
 			bit2 = (color_prom.read(i) >> 7) & 0x01;
-			palette[p_inc++].set((char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+			palette[p_inc++]=(char)(0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 	
 		}
 	
@@ -165,7 +165,7 @@ public class m62
 		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
-	public static VhConvertColorPromPtr spelunk2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr spelunk2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -180,19 +180,19 @@ public class m62
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* green component */
 			bit0 = (color_prom.read(0) >> 4) & 0x01;
 			bit1 = (color_prom.read(0) >> 5) & 0x01;
 			bit2 = (color_prom.read(0) >> 6) & 0x01;
 			bit3 = (color_prom.read(0) >> 7) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(2*256) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*256) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*256) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			color_prom.inc();
 		}
@@ -209,19 +209,19 @@ public class m62
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* green component */
 			bit0 = (color_prom.read(256) >> 0) & 0x01;
 			bit1 = (color_prom.read(256) >> 1) & 0x01;
 			bit2 = (color_prom.read(256) >> 2) & 0x01;
 			bit3 = (color_prom.read(256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 			/* blue component */
 			bit0 = (color_prom.read(2*256) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*256) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*256) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*256) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			color_prom.inc();
 		}

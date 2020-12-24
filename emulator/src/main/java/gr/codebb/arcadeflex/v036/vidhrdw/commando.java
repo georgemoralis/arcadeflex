@@ -44,7 +44,7 @@ public class commando {
      **************************************************************************
      */
     public static VhConvertColorPromPtr commando_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             for (i = 0; i < Machine.drv.total_colors; i++) {
@@ -54,17 +54,17 @@ public class commando {
                 bit1 = (color_prom.read(i) >> 1) & 0x01;
                 bit2 = (color_prom.read(i) >> 2) & 0x01;
                 bit3 = (color_prom.read(i) >> 3) & 0x01;
-                palette[3 * i].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[3 * i]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 bit0 = (color_prom.read(i + Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(i + Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(i + Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(i + Machine.drv.total_colors) >> 3) & 0x01;
-                palette[3 * i + 1].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[3 * i + 1]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 bit0 = (color_prom.read(i + 2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(i + 2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(i + 2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(i + 2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[3 * i + 2].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[3 * i + 2]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
             }
         }
     };

@@ -45,7 +45,7 @@ public class digdug {
      **************************************************************************
      */
     public static VhConvertColorPromPtr digdug_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             for (i = 0; i < 32; i++) {
@@ -54,15 +54,15 @@ public class digdug {
                 bit0 = (color_prom.read(31 - i) >> 0) & 0x01;
                 bit1 = (color_prom.read(31 - i) >> 1) & 0x01;
                 bit2 = (color_prom.read(31 - i) >> 2) & 0x01;
-                palette[3 * i].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = (color_prom.read(31 - i) >> 3) & 0x01;
                 bit1 = (color_prom.read(31 - i) >> 4) & 0x01;
                 bit2 = (color_prom.read(31 - i) >> 5) & 0x01;
-                palette[3 * i + 1].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i + 1]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = 0;
                 bit1 = (color_prom.read(31 - i) >> 6) & 0x01;
                 bit2 = (color_prom.read(31 - i) >> 7) & 0x01;
-                palette[3 * i + 2].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[3 * i + 2]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
             }
 
             /* characters */

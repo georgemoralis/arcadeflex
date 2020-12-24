@@ -52,7 +52,7 @@ public class snk
 	public static final int GFX_SPRITES			=2;
 	public static final int GFX_BIGSPRITES			=3;
 	
-	public static VhConvertColorPromPtr snk_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) {
+	public static VhConvertColorPromPtr snk_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) {
 		int i;
 		int num_colors = 1024;
                 int p_inc=0;
@@ -65,24 +65,24 @@ public class snk
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			bit0 = (color_prom.read(num_colors) >> 0) & 0x01;
 			bit1 = (color_prom.read(num_colors) >> 1) & 0x01;
 			bit2 = (color_prom.read(num_colors) >> 2) & 0x01;
 			bit3 = (color_prom.read(num_colors) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			bit0 = (color_prom.read(2*num_colors) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*num_colors) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*num_colors) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*num_colors) >> 3) & 0x01;
-			palette[p_inc++].set((char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+			palette[p_inc++]=(char)(0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 	
 			color_prom.inc();
 		}
 	} };
-	public static VhConvertColorPromPtr ikari_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) {
+	public static VhConvertColorPromPtr ikari_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) {
 
             int i;
             snk_vh_convert_color_prom.handler(palette, colortable, color_prom);
@@ -95,9 +95,9 @@ public class snk
                     we'll just make it dark grey for now
             */
             for( i=0; i<256; i+=8 ){
-                    palette[p_inc+i*3+0].set((char)(14)); 
-                    palette[p_inc+i*3+1].set((char)(14)); 
-                    palette[p_inc+i*3+2].set((char)(14));
+                    palette[p_inc+i*3+0]=(char)(14); 
+                    palette[p_inc+i*3+1]=(char)(14); 
+                    palette[p_inc+i*3+2]=(char)(14);
             }
         }};
 	

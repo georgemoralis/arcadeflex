@@ -32,7 +32,7 @@ public class bublbobl {
     public static int[] bublbobl_objectram_size = new int[1];
 
     public static VhConvertColorPromPtr bublbobl_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             /* no color PROMs here, only RAM, but the gfx data is inverted so we */

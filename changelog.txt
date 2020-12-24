@@ -1,8 +1,13 @@
+24/12/2020
+==========
+-Refactoring pallete to use char instead of UByte
+
 23/12/2020
 ==========
 -Updated vlm5030 to 0.58 version (fixes all vlm5030 relate games)
 -Updated ym2413 to 0.37b7
 -Added SubArray common class. Refactoring
+-remapped_colortable is now UShortArray
 
 22/12/2020
 ==========

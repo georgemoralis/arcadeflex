@@ -82,7 +82,7 @@ public class punchout
 	  bit 0 -- 2  kohm resistor -- inverter  -- RED/GREEN/BLUE
 	
 	***************************************************************************/
-	static void convert_palette(UByte []palette,UBytePtr color_prom)
+	static void convert_palette(char []palette,UBytePtr color_prom)
 	{
 		int i;
 	
@@ -96,26 +96,26 @@ public class punchout
 			bit1 = (color_prom.read(0) >> 1) & 0x01;
 			bit2 = (color_prom.read(0) >> 2) & 0x01;
 			bit3 = (color_prom.read(0) >> 3) & 0x01;
-			palette[p_inc++].set((char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3)));
+			palette[p_inc++]=(char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3));
 			bit0 = (color_prom.read(1024) >> 0) & 0x01;
 			bit1 = (color_prom.read(1024) >> 1) & 0x01;
 			bit2 = (color_prom.read(1024) >> 2) & 0x01;
 			bit3 = (color_prom.read(1024) >> 3) & 0x01;
-			palette[p_inc++].set((char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3)));
+			palette[p_inc++]=(char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3));
 			bit0 = (color_prom.read(2*1024) >> 0) & 0x01;
 			bit1 = (color_prom.read(2*1024) >> 1) & 0x01;
 			bit2 = (color_prom.read(2*1024) >> 2) & 0x01;
 			bit3 = (color_prom.read(2*1024) >> 3) & 0x01;
-			palette[p_inc++].set((char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3)));
+			palette[p_inc++]=(char)(255 - (0x10 * bit0 + 0x21 * bit1 + 0x46 * bit2 + 0x88 * bit3));
 	
 			color_prom.inc();
 		}
 	
 		/* reserve the last color for the transparent pen (none of the game colors has */
 		/* these RGB components) */
-		palette[p_inc++].set((char)(240));
-		palette[p_inc++].set((char)(240));
-		palette[p_inc++].set((char)(240));
+		palette[p_inc++]=(char)(240);
+		palette[p_inc++]=(char)(240);
+		palette[p_inc++]=(char)(240);
 	}
 	
 	
@@ -125,7 +125,7 @@ public class punchout
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-        public static VhConvertColorPromPtr punchout_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+        public static VhConvertColorPromPtr punchout_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -173,7 +173,7 @@ public class punchout
                         }
 		}
 	}};
-	public static VhConvertColorPromPtr armwrest_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr armwrest_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)

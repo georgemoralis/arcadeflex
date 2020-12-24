@@ -52,16 +52,16 @@ public class tnzs
 	  form 512 xRRRRRGGGGGBBBBB color values.
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr arkanoi2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr arkanoi2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,col;
                 int p_inc=0;
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
 			col = (color_prom.read(i)<<8)+color_prom.read(i+512);
-			palette[p_inc++].set((char)((col & 0x7c00)>>7));	/* Red */
-			palette[p_inc++].set((char)((col & 0x03e0)>>2));	/* Green */
-			palette[p_inc++].set((char)((col & 0x001f)<<3));	/* Blue */
+			palette[p_inc++]=(char)((col & 0x7c00)>>7);	/* Red */
+			palette[p_inc++]=(char)((col & 0x03e0)>>2);	/* Green */
+			palette[p_inc++]=(char)((col & 0x001f)<<3);	/* Blue */
 		}
 	} };
 	

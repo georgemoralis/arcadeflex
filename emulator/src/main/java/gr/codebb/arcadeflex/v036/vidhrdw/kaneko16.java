@@ -341,7 +341,7 @@ public class kaneko16
 	
 	
 	/* Berlwall has an additional hi-color background */
-	public static VhConvertColorPromPtr berlwall_init_palette = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr berlwall_init_palette = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int palette_ptr=0;
@@ -356,9 +356,9 @@ public class kaneko16
 			g = (i >> 10) & 0x1f;
 			b = (i >>  0) & 0x1f;
 	
-                        palette[palette_ptr++].set((char)((r << 3) | (r >> 2)));
-			palette[palette_ptr++].set((char)((g << 3) | (g >> 2)));
-			palette[palette_ptr++].set((char)((b << 3) | (b >> 2)));
+                        palette[palette_ptr++]=(char)((r << 3) | (r >> 2));
+			palette[palette_ptr++]=(char)((g << 3) | (g >> 2));
+			palette[palette_ptr++]=(char)((b << 3) | (b >> 2));
                         
 		}
 	}};

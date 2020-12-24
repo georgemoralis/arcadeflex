@@ -26,7 +26,7 @@ public class hexa {
     static int flipx, flipy;
 
     public static VhConvertColorPromPtr hexa_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             int p_inc = 0;
@@ -37,17 +37,17 @@ public class hexa {
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 bit0 = (color_prom.read(2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++].set((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
+                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
             }

@@ -38,7 +38,7 @@ public class gsword {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr gsword_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             /* sprite lookup table is not original but it is almost 98% correct */
 
             int sprite_lookup_table[] = {0x00, 0x02, 0x05, 0x8C, 0x49, 0xDD, 0xB7, 0x06,
@@ -55,17 +55,17 @@ public class gsword {
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 1;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 1;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 1;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 3) & 1;
                 bit1 = (color_prom.read(0) >> 0) & 1;
                 bit2 = (color_prom.read(0) >> 1) & 1;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read(0) >> 2) & 1;
                 bit2 = (color_prom.read(0) >> 3) & 1;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }

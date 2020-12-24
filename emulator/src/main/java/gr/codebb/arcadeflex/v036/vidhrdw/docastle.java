@@ -45,7 +45,7 @@ public class docastle
 	
 	***************************************************************************/
 
-        static void convert_color_prom(UByte []palette, char []colortable, UBytePtr color_prom,
+        static void convert_color_prom(char []palette, char []colortable, UBytePtr color_prom,
 			int priority)
 	{
 		int i,j;
@@ -62,30 +62,30 @@ public class docastle
 			bit0 = (color_prom.read() >> 5) & 0x01;
 			bit1 = (color_prom.read() >> 6) & 0x01;
 			bit2 = (color_prom.read() >> 7) & 0x01;
-			palette[p_inc++].set((char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2));
+			palette[p_inc++]=(char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2);
 			/* green component */
 			bit0 = (color_prom.read() >> 2) & 0x01;
 			bit1 = (color_prom.read() >> 3) & 0x01;
 			bit2 = (color_prom.read() >> 4) & 0x01;
-			palette[p_inc++].set((char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2));
+			palette[p_inc++]=(char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2);
 			/* blue component */
 			bit0 = 0;
 			bit1 = (color_prom.read() >> 0) & 0x01;
 			bit2 = (color_prom.read() >> 1) & 0x01;
-			palette[p_inc++].set((char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2));
+			palette[p_inc++]=(char)(0x23 * bit0 + 0x4b * bit1 + 0x91 * bit2);
 	
 			color_prom.inc();
 		}
 	
 		/* reserve one color for the transparent pen (none of the game colors can have */
 		/* these RGB components) */
-		palette[p_inc++].set((char)(1));
-		palette[p_inc++].set((char)(1));
-		palette[p_inc++].set((char)(1));
+		palette[p_inc++]=(char)(1);
+		palette[p_inc++]=(char)(1);
+		palette[p_inc++]=(char)(1);
 		/* and the last color for the sprite covering pen */
-		palette[p_inc++].set((char)(2));
-		palette[p_inc++].set((char)(2));
-		palette[p_inc++].set((char)(2));
+		palette[p_inc++]=(char)(2);
+		palette[p_inc++]=(char)(2);
+		palette[p_inc++]=(char)(2);
 	
 	
 		/* characters */
@@ -166,11 +166,11 @@ public class docastle
 	}
 	
 	
-	public static VhConvertColorPromPtr docastle_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr docastle_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		convert_color_prom(palette,colortable,color_prom,0);
 	}};
-	public static VhConvertColorPromPtr dorunrun_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr dorunrun_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		convert_color_prom(palette,colortable,color_prom,1);
 	}};

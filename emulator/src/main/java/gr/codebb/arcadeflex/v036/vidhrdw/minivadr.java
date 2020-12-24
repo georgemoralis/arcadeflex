@@ -33,11 +33,11 @@ public class minivadr {
                 0xff, 0xff, 0xff /* white */};
 
     public static VhConvertColorPromPtr minivadr_init_palette = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
 
             //memcpy(game_palette, minivadr_palette, sizeof(minivadr_palette));
             for (int i = 0; i < minivadr_palette.length; i++) {
-                palette[i].set(minivadr_palette[i]);
+                palette[i]=minivadr_palette[i];
             }
         }
     };

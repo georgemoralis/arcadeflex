@@ -65,15 +65,15 @@ public class stfight {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr stfight_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
 
             /* unique color for transparency */
-            palette[256 * 3 + 0].set((char) 0x04);
-            palette[256 * 3 + 1].set((char) 0x04);
-            palette[256 * 3 + 2].set((char) 0x04);
+            palette[256 * 3 + 0]=(char) 0x04;
+            palette[256 * 3 + 1]=(char) 0x04;
+            palette[256 * 3 + 2]=(char) 0x04;
 
             /* text uses colors 192-207 */
             for (i = 0; i < TOTAL_COLORS(0); i++) {

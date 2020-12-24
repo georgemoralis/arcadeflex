@@ -452,7 +452,7 @@ public class _8080bw
 	} };
 	
 	
-	public static VhConvertColorPromPtr invadpt2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(UByte []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromPtr invadpt2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -461,9 +461,9 @@ public class _8080bw
 		{
 			/* this bit arrangment is a little unusual but are confirmed by screen shots */
 	
-                        palette[p_inc++].set((char)(0xff * ((i >> 0) & 1)));
-			palette[p_inc++].set((char)(0xff * ((i >> 2) & 1)));
-			palette[p_inc++].set((char)(0xff * ((i >> 1) & 1)));
+                        palette[p_inc++]=(char)(0xff * ((i >> 0) & 1));
+			palette[p_inc++]=(char)(0xff * ((i >> 2) & 1));
+			palette[p_inc++]=(char)(0xff * ((i >> 1) & 1));
 		}
 	} };
 	

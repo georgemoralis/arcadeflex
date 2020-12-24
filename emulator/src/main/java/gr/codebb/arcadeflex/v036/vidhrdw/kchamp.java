@@ -64,7 +64,7 @@ public class kchamp {
      * *************************************************************************
      */
     public static VhConvertColorPromPtr kchamp_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, red, green, blue;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
@@ -76,9 +76,9 @@ public class kchamp {
                 green = color_prom.read(Machine.drv.total_colors + i);
                 blue = color_prom.read(2 * Machine.drv.total_colors + i);
 
-                palette[p_inc++].set((char) (red * 0x11));
-                palette[p_inc++].set((char) (green * 0x11));
-                palette[p_inc++].set((char) (blue * 0x11));
+                palette[p_inc++]=(char) (red * 0x11);
+                palette[p_inc++]=(char) (green * 0x11);
+                palette[p_inc++]=(char) (blue * 0x11);
 
                 colortable[c_inc++] = (char) i;
             }

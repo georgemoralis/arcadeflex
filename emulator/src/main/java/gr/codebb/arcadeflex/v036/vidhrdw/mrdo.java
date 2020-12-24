@@ -47,7 +47,7 @@ public class mrdo {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr mrdo_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
@@ -64,17 +64,17 @@ public class mrdo {
                 bit1 = (color_prom.read(a1) >> 0) & 0x01;
                 bit2 = (color_prom.read(a2) >> 1) & 0x01;
                 bit3 = (color_prom.read(a2) >> 0) & 0x01;
-                palette[p_inc++].set((char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3));
+                palette[p_inc++]=(char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3);
                 bit0 = (color_prom.read(a1) >> 3) & 0x01;
                 bit1 = (color_prom.read(a1) >> 2) & 0x01;
                 bit2 = (color_prom.read(a2) >> 3) & 0x01;
                 bit3 = (color_prom.read(a2) >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3));
+                palette[p_inc++]=(char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3);
                 bit0 = (color_prom.read(a1) >> 5) & 0x01;
                 bit1 = (color_prom.read(a1) >> 4) & 0x01;
                 bit2 = (color_prom.read(a2) >> 5) & 0x01;
                 bit3 = (color_prom.read(a2) >> 4) & 0x01;
-                palette[p_inc++].set((char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3));
+                palette[p_inc++]=(char) (0x2c * bit0 + 0x37 * bit1 + 0x43 * bit2 + 0x59 * bit3);
             }
 
             color_prom.inc(64);

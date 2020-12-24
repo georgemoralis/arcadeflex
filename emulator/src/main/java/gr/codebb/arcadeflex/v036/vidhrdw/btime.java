@@ -57,7 +57,7 @@ public class btime {
      **************************************************************************
      */
     public static VhConvertColorPromPtr btime_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             /* Burger Time doesn't have a color PROM, but Hamburge has. */
@@ -73,17 +73,17 @@ public class btime {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read() >> 6) & 0x01;
                 bit2 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
@@ -105,7 +105,7 @@ public class btime {
      **************************************************************************
      */
     public static VhConvertColorPromPtr lnc_vh_convert_color_prom = new VhConvertColorPromPtr() {
-        public void handler(UByte[] palette, char[] colortable, UBytePtr color_prom) {
+        public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
             int p_inc = 0;
@@ -116,17 +116,17 @@ public class btime {
                 bit0 = (color_prom.read() >> 7) & 0x01;
                 bit1 = (color_prom.read() >> 6) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 4) & 0x01;
                 bit1 = (color_prom.read() >> 3) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 0) & 0x01;
-                palette[p_inc++].set((char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2));
+                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }

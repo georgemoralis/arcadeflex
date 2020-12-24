@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 
 public class palette {
 
-    public static UByte[] game_palette;	/* RGB palette as set by the driver. */
+    public static char[] game_palette;	/* RGB palette as set by the driver. */
 
     public static UBytePtr new_palette;	/* changes to the palette are stored here before */
     /* being moved to game_palette by palette_recalc() */
@@ -70,10 +70,8 @@ public class palette {
         /*TODO*///	int i,num;
     /*TODO*///
     /*TODO*///
-        game_palette = new UByte[3 * Machine.drv.total_colors];//malloc(3 * Machine->drv->total_colors * sizeof(unsigned char));
-        for (int i = 0; i < game_palette.length; i++) {
-            game_palette[i] = new UByte();
-        }
+        game_palette = new char[3 * Machine.drv.total_colors];//malloc(3 * Machine->drv->total_colors * sizeof(unsigned char));
+
         palette_map = new char[Machine.drv.total_colors];//malloc(Machine->drv->total_colors * sizeof(unsigned short));
 
         if (Machine.drv.color_table_len != 0) {
@@ -210,9 +208,9 @@ public class palette {
         /* drivers which dynamically change the palette don't need a vh_init_palette() */
         /* function (provided the default color table fits their needs). */
         for (i = 0; i < Machine.drv.total_colors; i++) {
-            game_palette[3 * i + 0].set((char) (((i & 1) >> 0) * 0xff));
-            game_palette[3 * i + 1].set((char) (((i & 2) >> 1) * 0xff));
-            game_palette[3 * i + 2].set((char) (((i & 4) >> 2) * 0xff));
+            game_palette[3 * i + 0]=(char) (((i & 1) >> 0) * 0xff);
+            game_palette[3 * i + 1]=(char) (((i & 2) >> 1) * 0xff);
+            game_palette[3 * i + 2]=(char) (((i & 4) >> 2) * 0xff);
         }
 
         /* Preload the colortable with a default setting, following the same */
@@ -275,9 +273,9 @@ public class palette {
 
                     for (i = 0; i < Machine.drv.total_colors; i++) {
                         for (j = 0; j < used; j++) {
-                            if (shrinked_palette[3 * j + 0].read() == game_palette[3 * i + 0].read()
-                                    && shrinked_palette[3 * j + 1].read() == game_palette[3 * i + 1].read()
-                                    && shrinked_palette[3 * j + 2].read() == game_palette[3 * i + 2].read()) {
+                            if (shrinked_palette[3 * j + 0].read() == game_palette[3 * i + 0]
+                                    && shrinked_palette[3 * j + 1].read() == game_palette[3 * i + 1]
+                                    && shrinked_palette[3 * j + 2].read() == game_palette[3 * i + 2]) {
                                 break;
                             }
                         }
@@ -293,9 +291,9 @@ public class palette {
     /*TODO*///							usrintf_showmessage("cannot shrink static palette");
     /*TODO*///                                          if (errorlog) fprintf(errorlog,"error: ran out of free pens to shrink the palette.\n");
                             } else {
-                                shrinked_palette[3 * j + 0].set((char) game_palette[3 * i + 0].read());
-                                shrinked_palette[3 * j + 1].set((char) game_palette[3 * i + 1].read());
-                                shrinked_palette[3 * j + 2].set((char) game_palette[3 * i + 2].read());
+                                shrinked_palette[3 * j + 0].set((char) game_palette[3 * i + 0]);
+                                shrinked_palette[3 * j + 1].set((char) game_palette[3 * i + 1]);
+                                shrinked_palette[3 * j + 2].set((char) game_palette[3 * i + 2]);
                             }
                         }
                     }
@@ -354,9 +352,9 @@ public class palette {
                 }
 
                 for (i = 0; i < Machine.drv.total_colors; i++) {
-                    r = game_palette[3 * i + 0].read();
-                    g = game_palette[3 * i + 1].read();
-                    b = game_palette[3 * i + 2].read();
+                    r = game_palette[3 * i + 0];
+                    g = game_palette[3 * i + 1];
+                    b = game_palette[3 * i + 2];
 
                     Machine.pens[i] = shrinked_pens[rgbpenindex(r, g, b)];
                 }
@@ -427,15 +425,15 @@ public class palette {
             }
         }
 
-        if (game_palette[3 * color + 0].read() == red
-                && game_palette[3 * color + 1].read() == green
-                && game_palette[3 * color + 2].read() == blue) {
+        if (game_palette[3 * color + 0] == red
+                && game_palette[3 * color + 1] == green
+                && game_palette[3 * color + 2] == blue) {
             return;
         }
 
-        game_palette[3 * color + 0].set((char) red);
-        game_palette[3 * color + 1].set((char) green);
-        game_palette[3 * color + 2].set((char) blue);
+        game_palette[3 * color + 0]=(char) red;
+        game_palette[3 * color + 1]=(char) green;
+        game_palette[3 * color + 2]=(char) blue;
 
         if ((old_used_colors.read(color) & PALETTE_COLOR_VISIBLE) != 0) /* we'll have to reassign the color in palette_recalc() */ {
             old_used_colors.write(color, old_used_colors.read(color) | PALETTE_COLOR_NEEDS_REMAP);
@@ -477,9 +475,9 @@ public class palette {
             }
         }
 
-        if (game_palette[3 * color + 0].read() == red
-                && game_palette[3 * color + 1].read() == green
-                && game_palette[3 * color + 2].read() == blue) {
+        if (game_palette[3 * color + 0] == red
+                && game_palette[3 * color + 1] == green
+                && game_palette[3 * color + 2] == blue) {
             palette_dirty.write(color, 0);
             return;
         }
@@ -493,9 +491,9 @@ public class palette {
             new_palette.write(3 * color + 2, blue);
             palette_dirty.write(color, 1);
         } /* otherwise, just update the array */ else {
-            game_palette[3 * color + 0].set((char) (red & 0xFF));
-            game_palette[3 * color + 1].set((char) (green & 0xFF));
-            game_palette[3 * color + 2].set((char) (blue & 0xFF));
+            game_palette[3 * color + 0]=(char) (red & 0xFF);
+            game_palette[3 * color + 1]=(char) (green & 0xFF);
+            game_palette[3 * color + 2]=(char) (blue & 0xFF);
         }
     }
 
@@ -688,9 +686,9 @@ public class palette {
             /* merge pens of the same color */
             if (((old_used_colors.read(i) & PALETTE_COLOR_VISIBLE) != 0)
                     && ((old_used_colors.read(i) & (PALETTE_COLOR_NEEDS_REMAP | PALETTE_COLOR_TRANSPARENT_FLAG)) == 0)) {
-                r = game_palette[3 * i + 0].read() >> 2;
-                g = game_palette[3 * i + 1].read() >> 2;
-                b = game_palette[3 * i + 2].read() >> 2;
+                r = game_palette[3 * i + 0] >> 2;
+                g = game_palette[3 * i + 1] >> 2;
+                b = game_palette[3 * i + 2] >> 2;
 
                 j = rgb6_to_pen[r][g][b];
 
@@ -738,9 +736,9 @@ public class palette {
                 if ((palette_used_colors.read(color) & PALETTE_COLOR_TRANSPARENT_FLAG) != 0) {
                     Machine.pens[color] = palette_transparent_pen;
                 } else {
-                    r = game_palette[3 * color + 0].read();
-                    g = game_palette[3 * color + 1].read();
-                    b = game_palette[3 * color + 2].read();
+                    r = game_palette[3 * color + 0];
+                    g = game_palette[3 * color + 1];
+                    b = game_palette[3 * color + 2];
 
                     Machine.pens[color] = shrinked_pens[rgbpenindex(r, g, b)];
                 }
@@ -835,9 +833,9 @@ public class palette {
                 /* if the color maps to an exclusive pen, just change it */
                 if (pen_usage_count[pen] == 1) {
                     palette_dirty.write(color, 0);
-                    game_palette[3 * color + 0].set((char) r);
-                    game_palette[3 * color + 1].set((char) g);
-                    game_palette[3 * color + 2].set((char) b);
+                    game_palette[3 * color + 0]=(char) r;
+                    game_palette[3 * color + 1]=(char) g;
+                    game_palette[3 * color + 2]=(char) b;
 
                     shrinked_palette[3 * pen + 0].set((char) r);
                     shrinked_palette[3 * pen + 1].set((char) g);
@@ -851,9 +849,9 @@ public class palette {
                         for (i = color; i < Machine.drv.total_colors; i++) {
                             if (palette_dirty.read(i) != 0 && palette_map[i] == pen) {
                                 palette_dirty.write(i, 0);
-                                game_palette[3 * i + 0].set(new_palette.read(3 * i + 0));
-                                game_palette[3 * i + 1].set(new_palette.read(3 * i + 1));
-                                game_palette[3 * i + 2].set(new_palette.read(3 * i + 2));
+                                game_palette[3 * i + 0]=new_palette.read(3 * i + 0);
+                                game_palette[3 * i + 1]=new_palette.read(3 * i + 1);
+                                game_palette[3 * i + 2]=new_palette.read(3 * i + 2);
                                 old_used_colors.write(i, old_used_colors.read(i) | PALETTE_COLOR_NEEDS_REMAP);
                             }
                         }
@@ -885,9 +883,9 @@ public class palette {
                             for (i = color; i < Machine.drv.total_colors; i++) {
                                 if (palette_dirty.read(i) != 0 && palette_map[i] == pen) {
                                     palette_dirty.write(i, 0);
-                                    game_palette[3 * i + 0].set((char) r);
-                                    game_palette[3 * i + 1].set((char) g);
-                                    game_palette[3 * i + 2].set((char) b);
+                                    game_palette[3 * i + 0]=(char) r;
+                                    game_palette[3 * i + 1]=(char) g;
+                                    game_palette[3 * i + 2]=(char) b;
                                 }
                             }
                         } else {
@@ -896,9 +894,9 @@ public class palette {
                             for (i = color; i < Machine.drv.total_colors; i++) {
                                 if (palette_dirty.read(i) != 0 && palette_map[i] == pen) {
                                     palette_dirty.write(i, 0);
-                                    game_palette[3 * i + 0].set(new_palette.read(3 * i + 0));
-                                    game_palette[3 * i + 1].set(new_palette.read(3 * i + 1));
-                                    game_palette[3 * i + 2].set(new_palette.read(3 * i + 2));
+                                    game_palette[3 * i + 0]=new_palette.read(3 * i + 0);
+                                    game_palette[3 * i + 1]=new_palette.read(3 * i + 1);
+                                    game_palette[3 * i + 2]=new_palette.read(3 * i + 2);
                                     old_used_colors.write(i, old_used_colors.read(i) | PALETTE_COLOR_NEEDS_REMAP);
                                 }
                             }
@@ -947,9 +945,9 @@ public class palette {
                     old_used_colors.write(color, old_used_colors.read(color) & ~PALETTE_COLOR_VISIBLE);
                 }
 
-                r = game_palette[3 * color + 0].read();
-                g = game_palette[3 * color + 1].read();
-                b = game_palette[3 * color + 2].read();
+                r = game_palette[3 * color + 0];
+                g = game_palette[3 * color + 1];
+                b = game_palette[3 * color + 2];
 
                 if ((palette_used_colors.read(color) & PALETTE_COLOR_TRANSPARENT_FLAG) != 0) {
                     if (palette_map[color] != TRANSPARENT_PEN) {
