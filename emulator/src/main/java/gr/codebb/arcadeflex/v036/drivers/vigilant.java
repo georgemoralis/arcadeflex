@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vigilant.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;

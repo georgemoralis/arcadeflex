@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.sound._3812intf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.snowbros.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

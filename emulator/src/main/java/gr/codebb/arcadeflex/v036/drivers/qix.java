@@ -21,7 +21,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.qix.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.machine.qix.*;
 import static gr.codebb.arcadeflex.v036.machine._6821pia.*;

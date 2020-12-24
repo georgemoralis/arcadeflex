@@ -17,8 +17,8 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class wc90 {

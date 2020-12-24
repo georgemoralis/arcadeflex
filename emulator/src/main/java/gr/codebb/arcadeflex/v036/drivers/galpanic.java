@@ -36,7 +36,7 @@ import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.vidhrdw.galpanic.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 
 public class galpanic

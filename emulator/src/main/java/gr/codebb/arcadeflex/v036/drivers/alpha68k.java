@@ -71,7 +71,7 @@ import static gr.codebb.arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 

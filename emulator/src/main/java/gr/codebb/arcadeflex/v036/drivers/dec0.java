@@ -51,7 +51,7 @@ import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280.H6280_irq_status_w;
 import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.H6280_INT_NMI;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;

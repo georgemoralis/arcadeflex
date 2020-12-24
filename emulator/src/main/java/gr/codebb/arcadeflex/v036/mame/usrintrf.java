@@ -3338,17 +3338,13 @@ public class usrintrf {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    /*TODO*///static char messagetext[80];
-    /*TODO*///static int messagecounter;
-    /*TODO*///
-    /*TODO*///void CLIB_DECL usrintf_showmessage(const char *text,...)
-    /*TODO*///{
-    /*TODO*///	va_list arg;
-    /*TODO*///	va_start(arg,text);
-    /*TODO*///	vsprintf(messagetext,text,arg);
-    /*TODO*///	va_end(arg);
-    /*TODO*///	messagecounter = 2 * Machine->drv->frames_per_second;
-    /*TODO*///}
+    public static String messagetext;
+    public static int messagecounter;
+    
+       public static void usrintf_showmessage(String text, Object... arg) {
+        messagetext = sprintf(text, arg);
+        messagecounter = (int) (2 * Machine.drv.frames_per_second);
+    }
     /*TODO*///
     /*TODO*///
     /*TODO*///

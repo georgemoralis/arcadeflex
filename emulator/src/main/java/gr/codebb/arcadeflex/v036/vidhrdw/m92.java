@@ -60,8 +60,8 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.drivers.m92.*;
 
 public class m92

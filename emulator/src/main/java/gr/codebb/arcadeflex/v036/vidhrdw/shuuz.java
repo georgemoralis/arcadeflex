@@ -45,8 +45,8 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class shuuz {

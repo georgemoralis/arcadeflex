@@ -41,7 +41,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.*;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.ddragon3.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;

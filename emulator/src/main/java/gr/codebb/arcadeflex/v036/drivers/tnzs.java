@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.tnzs.*;
 import static gr.codebb.arcadeflex.v036.machine.tnzs.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;

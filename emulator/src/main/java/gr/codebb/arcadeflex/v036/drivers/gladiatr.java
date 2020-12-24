@@ -38,7 +38,7 @@ import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static gr.codebb.arcadeflex.v036.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class gladiatr {
 

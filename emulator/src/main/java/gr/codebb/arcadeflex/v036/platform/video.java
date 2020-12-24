@@ -1554,7 +1554,7 @@ public class video {
         /*TODO*///	}
     }
 
-    public static int osd_allocate_colors(int totalcolors, UByte[] palette, char[] pens, int modifiable) {
+    public static int osd_allocate_colors(int totalcolors, char[] palette, char[] pens, int modifiable) {
         int i;
 
         modifiable_palette = modifiable;
@@ -1610,9 +1610,9 @@ public class video {
                 for (i = 0; i < totalcolors; i++) {
                     int r, g, b, score;
 
-                    r = palette[3 * i + 0].read();
-                    g = palette[3 * i + 1].read();
-                    b = palette[3 * i + 2].read();
+                    r = palette[3 * i + 0];
+                    g = palette[3 * i + 1];
+                    b = palette[3 * i + 2];
                     score = r * r + g * g + b * b;
 
                     if (score < bestblackscore) {
@@ -1655,9 +1655,9 @@ public class video {
             }
 
             for (i = 0; i < totalcolors; i++) {
-                current_palette.write(3 * pens[i] + 0, palette[3 * i].read());
-                current_palette.write(3 * pens[i] + 1, palette[3 * i + 1].read());
-                current_palette.write(3 * pens[i] + 2, palette[3 * i + 2].read());
+                current_palette.write(3 * pens[i] + 0, palette[3 * i]);
+                current_palette.write(3 * pens[i] + 1, palette[3 * i + 1]);
+                current_palette.write(3 * pens[i] + 2, palette[3 * i + 2]);
             }
         }
 
