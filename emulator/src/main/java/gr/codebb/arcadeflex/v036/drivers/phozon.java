@@ -29,8 +29,8 @@ public class phozon {
                 new MemoryReadAddress(0x0400, 0x07ff, colorram_r), /* color RAM */
                 new MemoryReadAddress(0x0800, 0x1fff, phozon_spriteram_r), /* shared RAM with CPU #2/sprite RAM*/
                 new MemoryReadAddress(0x4040, 0x43ff, phozon_snd_sharedram_r), /* shared RAM with CPU #3 */
-                new MemoryReadAddress(0x4800, 0x480f, phozon_customio_r_1), /* custom I/O chip #1 interface */
-                new MemoryReadAddress(0x4810, 0x481f, phozon_customio_r_2), /* custom I/O chip #2 interface */
+                new MemoryReadAddress(0x4800, 0x480f, phozon_customio_1_r), /* custom I/O chip #1 interface */
+                new MemoryReadAddress(0x4810, 0x481f, phozon_customio_2_r), /* custom I/O chip #2 interface */
                 new MemoryReadAddress(0x8000, 0xffff, MRA_ROM), /* ROM */
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -42,8 +42,8 @@ public class phozon {
                 new MemoryWriteAddress(0x0800, 0x1fff, phozon_spriteram_w, phozon_spriteram), /* shared RAM with CPU #2/sprite RAM*/
                 new MemoryWriteAddress(0x4000, 0x403f, MWA_RAM), /* initialized but probably unused */
                 new MemoryWriteAddress(0x4040, 0x43ff, phozon_snd_sharedram_w, phozon_snd_sharedram), /* shared RAM with CPU #3 */
-                new MemoryWriteAddress(0x4800, 0x480f, phozon_customio_w_1, phozon_customio_1), /* custom I/O chip #1 interface */
-                new MemoryWriteAddress(0x4810, 0x481f, phozon_customio_w_2, phozon_customio_2), /* custom I/O chip #2 interface */
+                new MemoryWriteAddress(0x4800, 0x480f, phozon_customio_1_w, phozon_customio_1), /* custom I/O chip #1 interface */
+                new MemoryWriteAddress(0x4810, 0x481f, phozon_customio_2_w, phozon_customio_2), /* custom I/O chip #2 interface */
                 new MemoryWriteAddress(0x4820, 0x483f, MWA_RAM), /* initialized but probably unused */
                 new MemoryWriteAddress(0x5000, 0x5007, MWA_NOP), /* ??? */
                 new MemoryWriteAddress(0x5008, 0x5008, phozon_cpu3_reset_w), /* reset SOUND CPU? */

@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.machine.phozon.*;
+import static gr.codebb.arcadeflex.v037b7.machine.phozon.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class phozon {
