@@ -31,7 +31,7 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
-
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 public class atarigen {
 
     /*--------------------------------------------------------------------------

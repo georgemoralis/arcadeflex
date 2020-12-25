@@ -26,6 +26,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 
 public class btime
 {

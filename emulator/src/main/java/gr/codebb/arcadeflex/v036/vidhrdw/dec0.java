@@ -121,6 +121,7 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 
 public class dec0 {
 

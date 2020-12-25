@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 public class atari_vg
 {
 	

@@ -12,7 +12,7 @@ import gr.codebb.arcadeflex.v036.platform.libc_old.FILE;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fclose;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fopen;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.memset;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.printf;
 import gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;

@@ -1,3 +1,7 @@
+25/12/2020
+==========
+-Refactoring cstring functions
+
 24/12/2020
 ==========
 -Refactoring pallete to use char instead of UByte

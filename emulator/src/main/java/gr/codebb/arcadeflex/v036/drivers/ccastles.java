@@ -21,7 +21,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 public class ccastles {
 
     static UBytePtr nvram = new UBytePtr();

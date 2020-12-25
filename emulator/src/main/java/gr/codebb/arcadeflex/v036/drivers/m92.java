@@ -117,6 +117,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 
 public class m92
 {

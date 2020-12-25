@@ -16,7 +16,7 @@
  *
  */
 package gr.codebb.arcadeflex.v036.machine;
-
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741H.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;

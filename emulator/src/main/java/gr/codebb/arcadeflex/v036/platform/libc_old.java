@@ -290,39 +290,7 @@ public class libc_old {
      *   Memory c relative functions
      */
 
-    public static void memset(char[] buf, int value, int size) {
-        for (int mem = 0; mem < size; mem++) {
-            buf[mem] = (char) value;
 
-        }
-    }
-    public static void memset(int[] buf, int value, int size) {
-        for (int mem = 0; mem < size; mem++) {
-            buf[mem] = value;
-
-        }
-    }
-
-    public static void memset(UBytePtr buf, int value, int size) {
-        //memset(buf.memory, value, size);
-        for (int i = 0; i < size; i++) {
-            buf.write(i, value);
-        }
-    }
-    public static void memset(UShortPtr buf, int value, int size) {
-        memset(buf.memory, value, size);
-    }
-
-    public static void memset(UBytePtr buf, int offset, int value, int size) {
-        //memset(buf.memory, offset, value, size);
-        for (int i = 0; i < size; i++) {
-            buf.write(i+offset, value);
-        }
-    }
-
-    public static void memset(IntPtr buf, int value, int size) {
-        memset(buf.memory, value, size);
-    }
 
     public static void memset(char[] buf, int ofs, int value, int size) {
         for (int mem = 0; mem < size; mem++) {
@@ -396,22 +364,11 @@ public class libc_old {
             dst.write(i, src.read(i));     
         }
     }
-    public static void memcpy(UBytePtr dst, UBytePtr src, int size) {
-        for (int i = 0; i < Math.min(size,src.memory.length); i++) {
-            dst.write(i, src.read(i));     
-        }
-    }
+
     public static void memcpy(CharPtr dst,int dstoffs, CharPtr src,int srcoffs, int size) 
     {
         memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
     
-    }
-    public static void memcpy(UBytePtr dst,int dstoffs, UBytePtr src,int srcoffs, int size) 
-    {
-        //memcpy(dst.memory,dstoffs,src.memory,srcoffs,size);
-        for (int i = 0; i < size; i++) {
-            dst.write(i+dstoffs, src.read(i+srcoffs));     
-        }
     }
 
     public static void memcpy(char[] dst, CharPtr src, int size) {

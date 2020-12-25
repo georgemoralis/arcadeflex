@@ -7,8 +7,8 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.common.libc.expressions.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
@@ -17,6 +17,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 public class docastle
 {
 	
@@ -141,14 +142,14 @@ public class docastle
 		{
 			GfxElement gfx;
 			int x,y;
-			CharPtr dp;
+			UBytePtr dp;
 	
 			gfx = Machine.gfx[1];
 			for (i=0;i<gfx.total_elements;i++)
 			{
 				sprite_transparency[i] = 0;
 	
-				dp = new CharPtr(gfx.gfxdata,i * gfx.char_modulo);
+				dp = new UBytePtr(gfx.gfxdata,i * gfx.char_modulo);
 				for (y=0;y<gfx.height;y++)
 				{
 					for (x=0;x<gfx.width;x++)

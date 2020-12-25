@@ -2,6 +2,7 @@
 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;

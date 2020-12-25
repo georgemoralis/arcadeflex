@@ -1,5 +1,5 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
-
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
