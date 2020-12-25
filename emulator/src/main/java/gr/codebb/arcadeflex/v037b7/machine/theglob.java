@@ -1,20 +1,16 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
+/**
+ * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v036.machine;
+package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.machine.pacman.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.v036.machine.pacman.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 
 public class theglob {
 
@@ -179,9 +175,7 @@ public class theglob {
                     cpu_setbank(1, new UBytePtr(RAM, 0x1C000));
                     break;
                 default:
-                    if (errorlog != null) {
-                        fprintf(errorlog, "Invalid counter = %02X\n", counter);
-                    }
+                    logerror("Invalid counter = %02X\n", counter);
                     break;
             }
 

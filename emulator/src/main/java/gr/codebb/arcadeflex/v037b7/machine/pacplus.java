@@ -1,16 +1,12 @@
-
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
+/**
+ * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v036.machine;
+package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class pacplus {
 

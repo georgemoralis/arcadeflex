@@ -7,15 +7,10 @@ import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.arkanoid.*;
-import static gr.codebb.arcadeflex.v036.machine.arkanoid.*;
+import static gr.codebb.arcadeflex.v037b7.machine.arkanoid.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 

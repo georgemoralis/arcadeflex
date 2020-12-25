@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.jackal.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.machine.jackal.*;
+import static gr.codebb.arcadeflex.v037b7.machine.jackal.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;

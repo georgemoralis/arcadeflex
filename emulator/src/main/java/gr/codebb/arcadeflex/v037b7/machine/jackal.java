@@ -1,47 +1,24 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
- */ 
-package gr.codebb.arcadeflex.v036.machine;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+/**
+ * ported to 0.37b7
+ * ported to 0.36
+ */
+package gr.codebb.arcadeflex.v037b7.machine;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.input.*;
-import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 public class jackal
 {
-	
-	//extern unsigned char jackal_interrupt_enable;
-	
 	static UBytePtr jackal_rambank = null;
 	static UBytePtr jackal_spritebank = null;
 	
 	
 	public static InitMachinePtr jackal_init_machine = new InitMachinePtr() { public void handler() 
 	{
-		//cpu_setbank(1,&((memory_region(REGION_CPU1))[0x4000]));
                 cpu_setbank(1,new UBytePtr(memory_region(REGION_CPU1),0x4000));
-	 	//jackal_rambank = &((memory_region(REGION_CPU1))[0]);
                 jackal_rambank = new UBytePtr(memory_region(REGION_CPU1),0);
-		//jackal_spritebank = &((memory_region(REGION_CPU1))[0]);
                 jackal_spritebank = new UBytePtr(memory_region(REGION_CPU1),0);
 	} };
 	
@@ -79,11 +56,8 @@ public class jackal
 	
 	public static WriteHandlerPtr jackal_rambank_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
-		//jackal_rambank = &((memory_region(REGION_CPU1))[((data & 0x10) << 12)]);
                 jackal_rambank = new UBytePtr(memory_region(REGION_CPU1),((data & 0x10) << 12));
-		//jackal_spritebank = &((memory_region(REGION_CPU1))[((data & 0x08) << 13)]);
                 jackal_spritebank = new UBytePtr(memory_region(REGION_CPU1),((data & 0x08) << 13));
-		//cpu_setbank(1,&((memory_region(REGION_CPU1))[((data & 0x20) << 11) + 0x4000]));
                 cpu_setbank(1,new UBytePtr(memory_region(REGION_CPU1),((data & 0x20) << 11) + 0x4000));
             
 	} };

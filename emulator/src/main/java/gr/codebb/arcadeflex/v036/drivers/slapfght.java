@@ -12,14 +12,11 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.slapfght.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.machine.slapfght.*;
+import static gr.codebb.arcadeflex.v037b7.machine.slapfght.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 
 public class slapfght {

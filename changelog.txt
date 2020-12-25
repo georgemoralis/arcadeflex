@@ -1,3 +1,7 @@
+26/12/2020
+==========
+-Ported some machine drivers to 0.37b7
+
 25/12/2020
 ==========
 -Refactoring cstring functions

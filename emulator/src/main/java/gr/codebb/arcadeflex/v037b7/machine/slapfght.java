@@ -1,27 +1,20 @@
-
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
- */ 
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * ported to 0.37b7
+ * ported to 0.36
+ */
+package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 
 public class slapfght
-{
-	
-	
+{	
 	public static UBytePtr slapfight_dpram=new UBytePtr();
 	public static int[] slapfight_dpram_size=new int[1];
 	
@@ -54,7 +47,7 @@ public class slapfght
 	{
 	    slapfight_dpram.write(offset,data);
 	
-	//	if (errorlog != 0) fprintf(errorlog,"SLAPFIGHT MAIN  CPU : Write to   $c8%02x = %02x\n",offset,slapfight_dpram[offset]);
+	//	logerror("SLAPFIGHT MAIN  CPU : Write to   $c8%02x = %02x\n",offset,slapfight_dpram[offset]);
 	
 	
 	/*
@@ -162,7 +155,7 @@ public class slapfght
 	public static WriteHandlerPtr getstar_sh_intenable_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 	{
 		getstar_sh_intenabled = 1;
-		if (errorlog != null) fprintf(errorlog,"cpu #1 PC=%d: %d written to a0e0\n",cpu_get_pc(),data);
+		logerror("cpu #1 PC=%d: %d written to a0e0\n",cpu_get_pc(),data);
 	} };
 	
 	

@@ -1,26 +1,12 @@
 /**
- * *************************************************************************
- *
- * machine.c
- *
- * Functions to emulate general aspects of the machine (RAM, ROM, interrupts,
- * I/O ports)
- *
- **************************************************************************
+ * ported to 0.37b7
+ * ported to 0.36
  */
-
-/*
- * ported to v0.36
- * using automatic conversion tool v0.10
- *
- *
- *
- */
-package gr.codebb.arcadeflex.v036.machine;
+package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 
@@ -88,15 +74,15 @@ public class phozon {
      * **********************************************************************************
      *																					*
      * Phozon custom I/O chips (preliminary)	* *
-	***********************************************************************************
+     * **********************************************************************************
      */
-    public static WriteHandlerPtr phozon_customio_w_1 = new WriteHandlerPtr() {
+    public static WriteHandlerPtr phozon_customio_1_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             phozon_customio_1.write(offset, data);
         }
     };
 
-    public static WriteHandlerPtr phozon_customio_w_2 = new WriteHandlerPtr() {
+    public static WriteHandlerPtr phozon_customio_2_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             phozon_customio_2.write(offset, data);
         }
@@ -106,7 +92,7 @@ public class phozon {
     static int monedcred[] = {1, 2, 3, 6, 7, 1, 3, 1};
     static int lastval_1;
     static int lastval_2;
-    public static ReadHandlerPtr phozon_customio_r_1 = new ReadHandlerPtr() {
+    public static ReadHandlerPtr phozon_customio_1_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             int mode, val, temp1, temp2;
 
@@ -154,7 +140,8 @@ public class phozon {
                             if (credits > 0) {
                                 credits--;
                             } else {
-                                val &= ~1;   /* otherwise you can start with no credits! */
+                                val &= ~1;
+                                /* otherwise you can start with no credits! */
                             }
                         }
                         /* bit 1 is a trigger for the 2 player start */
@@ -162,29 +149,34 @@ public class phozon {
                             if (credits >= 2) {
                                 credits -= 2;
                             } else {
-                                val &= ~2;   /* otherwise you can start with no credits! */
+                                val &= ~2;
+                                /* otherwise you can start with no credits! */
                             }
                         }
                         return lastval_2 = val;
                     }
                     //break;
                     case 2:
-                        return (credits / 10);      /* high BCD of credits */
+                        return (credits / 10);
+                    /* high BCD of credits */
 
                     //break;
 
                     case 3:
-                        return (credits % 10);      /* low BCD of credits */
+                        return (credits % 10);
+                    /* low BCD of credits */
 
                     //break;
 
                     case 4:
-                        return (readinputport(3) & 0x0f);   /* 1P controls */
+                        return (readinputport(3) & 0x0f);
+                    /* 1P controls */
 
                     //break;
 
                     case 5:
-                        return (readinputport(4) & 0x03);   /* 1P button 1 */
+                        return (readinputport(4) & 0x03);
+                    /* 1P button 1 */
 
                     //break;
 
@@ -223,17 +215,20 @@ public class phozon {
             } else if (mode == 1) /* test mode controls */ {
                 switch (offset) {
                     case 4:
-                        return (readinputport(2) & 0x03);	/* start 1 & 2 */
+                        return (readinputport(2) & 0x03);
+                    /* start 1 & 2 */
 
                     //break;
 
                     case 5:
-                        return (readinputport(3) & 0x0f);	/* 1P controls */
+                        return (readinputport(3) & 0x0f);
+                    /* 1P controls */
 
                     //break;
 
                     case 7:
-                        return (readinputport(4) & 0x03);	/* 1P button 1 */
+                        return (readinputport(4) & 0x03);
+                    /* 1P button 1 */
 
                     //break;
 
@@ -247,7 +242,7 @@ public class phozon {
         }
     };
 
-    public static ReadHandlerPtr phozon_customio_r_2 = new ReadHandlerPtr() {
+    public static ReadHandlerPtr phozon_customio_2_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             int mode, val;
 
@@ -266,33 +261,43 @@ public class phozon {
             } else if (mode == 9) {
                 switch (offset) /* TODO: coinage B & check bonus life bits */ {
                     case 0:
-                        val = (readinputport(0) & 0x08) >> 3;		/* lives (bit 0) */
+                        val = (readinputport(0) & 0x08) >> 3;
+                        /* lives (bit 0) */
 
-                        val |= (readinputport(0) & 0x01) << 2;	/* coinage A (bit 0) */
+                        val |= (readinputport(0) & 0x01) << 2;
+                        /* coinage A (bit 0) */
 
-                        val |= (readinputport(0) & 0x04) << 1;	/* coinage A (bit 2) */
+                        val |= (readinputport(0) & 0x04) << 1;
+                        /* coinage A (bit 2) */
 
                         break;
                     case 1:
-                        val = (readinputport(0) & 0x10) >> 4;		/* lives (bit 1) */
+                        val = (readinputport(0) & 0x10) >> 4;
+                        /* lives (bit 1) */
 
-                        val |= (readinputport(1) & 0xc0) >> 5;	/* bonus life (bits 1 & 0) */
+                        val |= (readinputport(1) & 0xc0) >> 5;
+                        /* bonus life (bits 1 & 0) */
 
-                        val |= (readinputport(0) & 0x02) << 2;	/* coinage A (bit 1) */
+                        val |= (readinputport(0) & 0x02) << 2;
+                        /* coinage A (bit 1) */
 
                         break;
                     case 2:
-                        val = (readinputport(1) & 0x07) << 1;		/* rank */
+                        val = (readinputport(1) & 0x07) << 1;
+                        /* rank */
 
                         break;
-                    case 4:	/* some bits of coinage B (not implemented yet) */
+                    case 4:
+                        /* some bits of coinage B (not implemented yet) */
 
                         val = 0;
                         break;
                     case 6:
-                        val = readinputport(1) & 0x08;			/* test mode */
+                        val = readinputport(1) & 0x08;
+                        /* test mode */
 
-                        val |= (readinputport(2) & 0x80) >> 5;	/* cabinet */
+                        val |= (readinputport(2) & 0x80) >> 5;
+                        /* cabinet */
 
                         break;
                     default:

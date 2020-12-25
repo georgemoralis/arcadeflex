@@ -1,16 +1,13 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
- *
+/**
+ * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v036.machine;
+package gr.codebb.arcadeflex.v037b7.machine;
 
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 
 public class konami {
 

@@ -20,17 +20,13 @@ import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496H.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.jailbrek.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.machine.konami.*;
+import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 

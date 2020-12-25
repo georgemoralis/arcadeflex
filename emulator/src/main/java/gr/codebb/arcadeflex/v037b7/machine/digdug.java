@@ -1,32 +1,17 @@
 /**
- * *************************************************************************
- *
- * machine.c
- *
- * Functions to emulate general aspects of the machine (RAM, ROM, interrupts,
- * I/O ports)
- *
- **************************************************************************
+ * ported to 0.37b7
+ * ported to 0.36
  */
-
-/*
- * ported to v0.36
- * using automatic conversion tool v0.10
- *
- *
- *
- */
-package gr.codebb.arcadeflex.v036.machine;
+package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
+import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
+import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 
@@ -86,10 +71,7 @@ public class digdug {
     public static WriteHandlerPtr digdug_customio_data_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             customio[offset] = (char) data;
-
-            if (errorlog != null) {
-                fprintf(errorlog, "%04x: custom IO offset %02x data %02x\n", cpu_get_pc(), offset, data);
-            }
+            logerror("%04x: custom IO offset %02x data %02x\n", cpu_get_pc(), offset, data);
 
             switch (customio_command) {
                 case 0xc1:
@@ -160,11 +142,11 @@ public class digdug {
 
                         if (mode == 0) {
                             /* check directions, according to the following 8-position rule */
-                            /*         0          */
-                            /*        7 1         */
-                            /*       6 8 2        */
-                            /*        5 3         */
-                            /*         4          */
+ /*         0          */
+ /*        7 1         */
+ /*       6 8 2        */
+ /*        5 3         */
+ /*         4          */
                             if ((p2 & 0x01) == 0) /* up */ {
                                 p2 = (p2 & ~0x0f) | 0x00;
                             } else if ((p2 & 0x02) == 0) /* right */ {
@@ -184,11 +166,11 @@ public class digdug {
 
                         if (mode == 0) {
                             /* check directions, according to the following 8-position rule */
-                            /*         0          */
-                            /*        7 1         */
-                            /*       6 8 2        */
-                            /*        5 3         */
-                            /*         4          */
+ /*         0          */
+ /*        7 1         */
+ /*       6 8 2        */
+ /*        5 3         */
+ /*         4          */
                             if ((p2 & 0x01) == 0) /* up */ {
                                 p2 = (p2 & ~0x0f) | 0x00;
                             } else if ((p2 & 0x02) == 0) /* right */ {
@@ -202,19 +184,22 @@ public class digdug {
                             }
                         }
 
-                        return p2; /*p2 jochen*/
+                        return p2;
+                        /*p2 jochen*/
 
                     }
                     break;
 
-                case 0xb1:	/* status? */
+                case 0xb1:
+                    /* status? */
 
                     if (offset <= 2) {
                         return 0;
                     }
                     break;
 
-                case 0xd2:	/* checking the dipswitches */
+                case 0xd2:
+                    /* checking the dipswitches */
 
                     if (offset == 0) {
                         return readinputport(0);
@@ -241,8 +226,8 @@ public class digdug {
 
     public static WriteHandlerPtr digdug_customio_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            if (errorlog != null && data != 0x10 && data != 0x71) {
-                fprintf(errorlog, "%04x: custom IO command %02x\n", cpu_get_pc(), data);
+            if (data != 0x10 && data != 0x71) {
+                logerror("%04x: custom IO command %02x\n", cpu_get_pc(), data);
             }
 
             customio_command = data;
@@ -255,20 +240,24 @@ public class digdug {
                     nmi_timer = null;
                     return;
 
-                case 0xa1:	/* go into switch mode */
+                case 0xa1:
+                    /* go into switch mode */
 
                     mode = 1;
                     break;
 
                 case 0xc1:
-                case 0xe1:	/* go into credit mode */
+                case 0xe1:
+                    /* go into credit mode */
 
                     mode = 0;
                     break;
 
-                case 0xb1:	/* status? */
+                case 0xb1:
+                    /* status? */
 
-                    credits = 0;	/* this is a good time to reset the credits counter */
+                    credits = 0;
+                    /* this is a good time to reset the credits counter */
 
                     break;
             }
