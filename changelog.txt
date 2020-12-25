@@ -1,6 +1,8 @@
 25/12/2020
 ==========
 -Refactoring cstring functions
+-Okim6295 ported to v0.37b7 (but didn't fix ctribe issue)
+-Ported some sndhrdw drivers to 0.37b7
 
 24/12/2020
 ==========

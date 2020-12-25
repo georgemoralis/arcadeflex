@@ -16,7 +16,7 @@ import gr.codebb.arcadeflex.v037b7.sound._3526intf;
 import gr.codebb.arcadeflex.v037b7.sound._3812intf;
 import gr.codebb.arcadeflex.v037b7.sound.y8950intf;
 import gr.codebb.arcadeflex.v036.sound.adpcm;
-import gr.codebb.arcadeflex.v036.sound.okim6295;
+import gr.codebb.arcadeflex.v037b7.sound.okim6295;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import gr.codebb.arcadeflex.v036.sound.MSM5205;

@@ -33,35 +33,18 @@ import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.snk68.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.superman.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.rastan.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2203;
 import static gr.codebb.arcadeflex.v036.vidhrdw.lastduel.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
 public class lastduel
 {

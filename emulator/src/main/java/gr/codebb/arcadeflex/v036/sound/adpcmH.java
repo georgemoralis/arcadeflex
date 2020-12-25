@@ -48,6 +48,14 @@ public class adpcmH {
             this.init = init;
             this.mixing_level=mixing_level;
         }
+        public ADPCMinterface(int num ,int frequency,int region ,int[] mixing_level)
+        {
+            this.num=num;
+            this.frequency=frequency;
+            this.region=region;
+            this.init = null;
+            this.mixing_level=mixing_level;
+        }
         int num;			       /* total number of ADPCM decoders in the machine */
     	int frequency;             /* playback frequency */
     	int region;                /* memory region where the samples come from */

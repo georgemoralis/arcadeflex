@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gr.codebb.arcadeflex.v036.sound;
-
 /**
+ * ported to v0.37b7
+ * ported to v0.36
  *
- * @author shadow
  */
+package gr.codebb.arcadeflex.v037b7.sound;
+
 public class okim6295H {
 
     /* an interface for the OKIM6295 and similar chips */
@@ -24,13 +20,10 @@ public class okim6295H {
             this.region = region;
             this.mixing_level = mixing_level;
         }
-        int num;                /* total number of chips */
-
-        int[] frequency;	/* playback frequency */
-
-        int[] region;		/* memory region where the sample ROM lives */
-
-        int[] mixing_level;	/* master volume */
+        public int num;/* total number of chips */
+        public int[] frequency;/* playback frequency */
+        public int[] region;/* memory region where the sample ROM lives */
+        public int[] mixing_level;/* master volume */
 
     };
 

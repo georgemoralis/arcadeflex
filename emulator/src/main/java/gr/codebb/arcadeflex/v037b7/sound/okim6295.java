@@ -1,20 +1,28 @@
-package gr.codebb.arcadeflex.v036.sound;
-
 /**
+ * ported to v0.37b7
+ * ported to v0.36
  *
- * @author shadow
  */
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+package gr.codebb.arcadeflex.v037b7.sound;
+
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
+import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;
+import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
+import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.v036.sound.adpcmH.MAX_ADPCM;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
+
+
+
 public class okim6295 extends snd_interface {
 
     public static final int MAX_SAMPLE_CHUNK = 10000;
@@ -26,38 +34,49 @@ public class okim6295 extends snd_interface {
     /* struct describing a single playing ADPCM voice */
     public static class ADPCMVoice {
 
-        int stream;				/* which stream are we playing on? */
+        int stream;
+        /* which stream are we playing on? */
 
-        byte playing;			/* 1 if we are actively playing */
+        byte playing;
+        /* 1 if we are actively playing */
 
-        UBytePtr region_base;		/* pointer to the base of the region */
+        UBytePtr region_base;
+        /* pointer to the base of the region */
 
-        UBytePtr _base;			/* pointer to the base memory location */
+        UBytePtr _base;
+        /* pointer to the base memory location */
 
-        int/*UINT32*/ sample;			/* current sample number */
+        int/*UINT32*/ sample;
+        /* current sample number */
 
-        int/*UINT32*/ count;			/* total samples to play */
+        int/*UINT32*/ count;
+        /* total samples to play */
 
-        int/*UINT32*/ signal;			/* current ADPCM signal */
+        int/*UINT32*/ signal;
+        /* current ADPCM signal */
 
-        int/*UINT32*/ step;			/* current ADPCM step */
+        int/*UINT32*/ step;
+        /* current ADPCM step */
 
-        int/*UINT32*/ volume;			/* output volume */
+        int/*UINT32*/ volume;
+        /* output volume */
 
-        short last_sample;		/* last sample output */
+        short last_sample;
+        /* last sample output */
 
-        short curr_sample;		/* current sample target */
+        short curr_sample;
+        /* current sample target */
 
-        int/*UINT32*/ source_step;		/* step value for frequency conversion */
+        int/*UINT32*/ source_step;
+        /* step value for frequency conversion */
 
-        int/*UINT32*/ source_pos;		/* current fractional position */
+        int/*UINT32*/ source_pos;
+        /* current fractional position */
 
     };
     /* array of ADPCM voices */
     static int/*UINT8*/ num_voices;
     static ADPCMVoice[] adpcm = new ADPCMVoice[MAX_ADPCM];
-    /* global pointer to the current array of samples */
-    static ADPCMsample[] sample_list;
     /* step size index shift table */
     static int[] index_shift = {-1, -1, -1, -1, 2, 4, 6, 8};
     /* lookup table for the precomputed difference */
@@ -110,7 +129,6 @@ public class okim6295 extends snd_interface {
         /* reset the ADPCM system */
         num_voices = (intf.num * MAX_OKIM6295_VOICES);
         compute_tables();
-        sample_list = null;
 
         /* initialize the voices */
         //memset(adpcm, 0, sizeof(adpcm));
@@ -228,9 +246,7 @@ public class okim6295 extends snd_interface {
 
         /* range check the numbers */
         if (num >= num_voices / MAX_OKIM6295_VOICES) {
-            if (errorlog != null) {
-                fprintf(errorlog, "error: OKIM6295_status_r() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
-            }
+            logerror("error: OKIM6295_status_r() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
             return 0x0f;
         }
 
@@ -261,9 +277,7 @@ public class okim6295 extends snd_interface {
     static void OKIM6295_data_w(int num, int data) {
         /* range check the numbers */
         if (num >= num_voices / MAX_OKIM6295_VOICES) {
-            if (errorlog != null) {
-                fprintf(errorlog, "error: OKIM6295_data_w() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
-            }
+            logerror("error: OKIM6295_data_w() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
             return;
         }
 
@@ -295,9 +309,7 @@ public class okim6295 extends snd_interface {
                         voice.step = 0;
                         voice.volume = volume_table[data & 0x0f];
                     } /* invalid samples go here */ else {
-                        if (errorlog != null) {
-                            fprintf(errorlog, "OKIM6295: requested to play invalid sample %02x\n", okim6295_command[num]);
-                        }
+                        logerror("OKIM6295: requested to play invalid sample %02x\n", okim6295_command[num]);
                         voice.playing = 0;
                     }
                 }
@@ -385,15 +397,15 @@ public class okim6295 extends snd_interface {
                         + stepval / 8);
             }
         }
-        /* generate the volume table (currently just a guess) */
+        /* generate the OKI6295 volume table */
         for (int step = 0; step < 16; step++) {
             double out = 256.0;
             int vol = step;
 
-            /* assume 2dB per step (most likely wrong!) */
+            /* 3dB per step */
             while (vol-- > 0) {
-                out /= 1.258925412;	/* = 10 ^ (2/20) = 2dB */
-
+                out /= 1.412537545;
+                /* = 10 ^ (3/20) = 3dB */
             }
             volume_table[step] = (/*UINT32*/int) out;
         }

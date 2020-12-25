@@ -131,7 +131,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2610;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intfH.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.rastan.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.machine.cchip.*;
@@ -403,7 +403,7 @@ public class taitof2 {
                 new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
                 new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
                 new MemoryReadAddress(0xe200, 0xe200, MRA_NOP),
-                new MemoryReadAddress(0xe201, 0xe201, r_rd_a001),
+                new MemoryReadAddress(0xe201, 0xe201, rastan_a001_r),
                 new MemoryReadAddress(0xea00, 0xea00, MRA_NOP),
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -415,8 +415,8 @@ public class taitof2 {
                 new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
                 new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
                 new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
-                new MemoryWriteAddress(0xe200, 0xe200, r_wr_a000),
-                new MemoryWriteAddress(0xe201, 0xe201, r_wr_a001),
+                new MemoryWriteAddress(0xe200, 0xe200, rastan_a000_w),
+                new MemoryWriteAddress(0xe201, 0xe201, rastan_a001_w),
                 new MemoryWriteAddress(0xe400, 0xe403, MWA_NOP), /* pan */
                 new MemoryWriteAddress(0xee00, 0xee00, MWA_NOP), /* ? */
                 new MemoryWriteAddress(0xf000, 0xf000, MWA_NOP), /* ? */

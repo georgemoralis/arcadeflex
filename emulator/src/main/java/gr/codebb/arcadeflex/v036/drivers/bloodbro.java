@@ -52,8 +52,8 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM3812;
 import static gr.codebb.arcadeflex.v036.sndhrdw.seibu.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.bloodbro.*;
 
 

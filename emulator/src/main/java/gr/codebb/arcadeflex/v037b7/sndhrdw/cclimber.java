@@ -1,24 +1,29 @@
-package gr.codebb.arcadeflex.v036.sndhrdw;
+/**
+ * ported to 0.37b7
+ * ported to 0.36
+ */
+package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.sound.mixer.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import gr.codebb.arcadeflex.v036.platform.libc_v2.BytePtr;
+import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 
 public class cclimber {
+
     /* macro to convert 4-bit unsigned samples to 8-bit signed samples */
     public static int SAMPLE_CONV4(int a) {
         return (0x11 * ((a & 0x0f)) - 0x80);
     }
 
-    public static final int SND_CLOCK = 3072000;	/* 3.072 Mhz */
+    public static final int SND_CLOCK = 3072000;/* 3.072 MHZ */
 
 
-    static byte[] samplebuf;	/* buffer to decode samples at run time */
+    static byte[] samplebuf;/* buffer to decode samples at run time */
 
     static int channel;
 
@@ -87,7 +92,7 @@ public class cclimber {
 
     public static WriteHandlerPtr cclimber_sample_volume_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            sample_volume = data & 0x1f;	/* range 0-31 */
+            sample_volume = data & 0x1f;/* range 0-31 */
 
         }
     };

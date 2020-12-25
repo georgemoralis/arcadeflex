@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.cclimber.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;

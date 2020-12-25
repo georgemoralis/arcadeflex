@@ -37,36 +37,18 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.snk68.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.superman.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.rastan.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.machine.cchip.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2610;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.*;
@@ -139,7 +121,7 @@ public class superman {
                 new MemoryReadAddress(0xe001, 0xe001, YM2610_read_port_0_r),
                 new MemoryReadAddress(0xe002, 0xe002, YM2610_status_port_0_B_r),
                 new MemoryReadAddress(0xe200, 0xe200, MRA_NOP),
-                new MemoryReadAddress(0xe201, 0xe201, r_rd_a001),
+                new MemoryReadAddress(0xe201, 0xe201, rastan_a001_r),
                 new MemoryReadAddress(0xea00, 0xea00, MRA_NOP),
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -151,8 +133,8 @@ public class superman {
                 new MemoryWriteAddress(0xe001, 0xe001, YM2610_data_port_0_A_w),
                 new MemoryWriteAddress(0xe002, 0xe002, YM2610_control_port_0_B_w),
                 new MemoryWriteAddress(0xe003, 0xe003, YM2610_data_port_0_B_w),
-                new MemoryWriteAddress(0xe200, 0xe200, r_wr_a000),
-                new MemoryWriteAddress(0xe201, 0xe201, r_wr_a001),
+                new MemoryWriteAddress(0xe200, 0xe200, rastan_a000_w),
+                new MemoryWriteAddress(0xe201, 0xe201, rastan_a001_w),
                 new MemoryWriteAddress(0xe400, 0xe403, MWA_NOP), /* pan */
                 new MemoryWriteAddress(0xee00, 0xee00, MWA_NOP), /* ? */
                 new MemoryWriteAddress(0xf000, 0xf000, MWA_NOP), /* ? */

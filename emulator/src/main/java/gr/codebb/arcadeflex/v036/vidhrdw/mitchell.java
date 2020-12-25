@@ -20,8 +20,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 
 public class mitchell {
 

@@ -33,7 +33,7 @@ import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.rastan.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
@@ -52,7 +52,7 @@ public class rainbow {
                 new MemoryReadAddress(0x8000, 0x8fff, MRA_RAM),
                 new MemoryReadAddress(0x9001, 0x9001, YM2151_status_port_0_r),
                 new MemoryReadAddress(0x9002, 0x9100, MRA_RAM),
-                new MemoryReadAddress(0xa001, 0xa001, r_rd_a001),
+                new MemoryReadAddress(0xa001, 0xa001, rastan_a001_r),
                 new MemoryReadAddress(-1) /* end of table */};
 
     static MemoryWriteAddress rastan_s_writemem[]
@@ -61,8 +61,8 @@ public class rainbow {
                 new MemoryWriteAddress(0x8000, 0x8fff, MWA_RAM),
                 new MemoryWriteAddress(0x9000, 0x9000, YM2151_register_port_0_w),
                 new MemoryWriteAddress(0x9001, 0x9001, YM2151_data_port_0_w),
-                new MemoryWriteAddress(0xa000, 0xa000, r_wr_a000),
-                new MemoryWriteAddress(0xa001, 0xa001, r_wr_a001),
+                new MemoryWriteAddress(0xa000, 0xa000, rastan_a000_w),
+                new MemoryWriteAddress(0xa001, 0xa001, rastan_a001_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     public static WriteHandlerPtr rastan_bankswitch_w = new WriteHandlerPtr() {

@@ -62,8 +62,8 @@ import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.machine.dec0.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.dec0.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v036.sound.okim6295H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
+import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
 public class dec0 {
 
