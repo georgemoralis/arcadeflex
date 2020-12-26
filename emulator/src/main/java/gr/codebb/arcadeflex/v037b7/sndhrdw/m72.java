@@ -6,8 +6,8 @@ package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_irq_line_vector_w;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_set_irq_line;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_irq_line_vector_w;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_set_irq_line;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.ASSERT_LINE;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CLEAR_LINE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

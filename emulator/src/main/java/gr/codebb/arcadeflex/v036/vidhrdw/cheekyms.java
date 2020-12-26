@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class cheekyms
 {

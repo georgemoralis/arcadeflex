@@ -9,7 +9,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import gr.codebb.arcadeflex.v036.mame.tilemapH.tilemap;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_getactivecpu;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_getactivecpu;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;

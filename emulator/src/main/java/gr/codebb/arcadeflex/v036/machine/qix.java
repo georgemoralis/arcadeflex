@@ -18,7 +18,7 @@ package gr.codebb.arcadeflex.v036.machine;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
@@ -85,7 +85,7 @@ public class qix
 	public static ReadHandlerPtr qix_scanline_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		/* The +80&0xff thing is a hack to avoid flicker in Electric Yo-Yo */
-		return (cpu_scalebyfcount.handler(256) + 80) & 0xff;
+		return (cpu_scalebyfcount(256) + 80) & 0xff;
 	} };
 	
 	public static InitMachinePtr withmcu_init_machine = new InitMachinePtr() { public void handler() 

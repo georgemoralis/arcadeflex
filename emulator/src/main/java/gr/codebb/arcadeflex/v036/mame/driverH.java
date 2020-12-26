@@ -140,12 +140,12 @@ public class driverH
 		public IOReadPort []port_read;
 		public IOWritePort []port_write;
                 public InterruptPtr vblank_interrupt;
-                int vblank_interrupts_per_frame;    /* usually 1 */
+                public int vblank_interrupts_per_frame;    /* usually 1 */
                 /* use this for interrupts which are not tied to vblank 	*/
                 /* usually frequency in Hz, but if you need 				*/
                 /* greater precision you can give the period in nanoseconds */
                 public InterruptPtr timed_interrupt;
-                int timed_interrupts_per_second;
+                public int timed_interrupts_per_second;
                 /* pointer to a parameter to pass to the CPU cores reset function */
                 public Object reset_param;
                 

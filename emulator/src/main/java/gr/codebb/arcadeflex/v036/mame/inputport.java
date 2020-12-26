@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.input.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -988,7 +988,7 @@ public class inputport {
         //in = input_analog[port];
         sensitivity = IP_GET_SENSITIVITY(Machine.input_ports, input_analog[port]);
 
-        delta = cpu_scalebyfcount.handler(input_analog_current_value[port] - input_analog_previous_value[port]);
+        delta = cpu_scalebyfcount(input_analog_current_value[port] - input_analog_previous_value[port]);
 
         current = input_analog_previous_value[port] + delta;
 
