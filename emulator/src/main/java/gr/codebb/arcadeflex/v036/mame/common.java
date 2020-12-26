@@ -15,6 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 public class common {
     
     /* These globals are only kept on a machine basis - LBO 042898 */
@@ -788,5 +789,14 @@ public class common {
 /*TODO*/ //                    osd_fclose(fp);
 /*TODO*/ //            }
 /*TODO*/ //    }
-
+    /**
+     * WIP 0.37b7 stuff
+     */
+    public static void bitmap_free(osd_bitmap bitmap) {
+        osd_free_bitmap(bitmap);
+    }
+ 
+    public static osd_bitmap bitmap_alloc(int width, int height) {
+        return osd_create_bitmap(width, height);
+    }
 }

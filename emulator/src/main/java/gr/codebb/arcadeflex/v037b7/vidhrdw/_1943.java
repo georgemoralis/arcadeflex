@@ -1,24 +1,19 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.08
- *
- *
+/**
+ * ported to v0.37b7
  *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
+import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 
 public class _1943 {
 
@@ -30,52 +25,47 @@ public class _1943 {
 
     static osd_bitmap sc2bitmap;
     static osd_bitmap sc1bitmap;
-    static char[][][] sc2map = new char[9][8][2];
-    static char[][][] sc1map = new char[9][9][2];
+    static /*unsigned char*/ char[][][] sc2map = new char[9][8][2];
+    static /*unsigned char*/ char[][][] sc1map = new char[9][9][2];
 
     /**
      * *************************************************************************
-     *
      * Convert the color PROMs into a more useable format.
-     *
+     * <p>
      * 1943 has three 256x4 palette PROMs (one per gun) and a lot ;-) of 256x4
      * lookup table PROMs. The palette PROMs are connected to the RGB output
      * this way:
-     *
+     * <p>
      * bit 3 -- 220 ohm resistor -- RED/GREEN/BLUE -- 470 ohm resistor --
      * RED/GREEN/BLUE -- 1 kohm resistor -- RED/GREEN/BLUE bit 0 -- 2.2kohm
      * resistor -- RED/GREEN/BLUE
-     *
-     **************************************************************************
+     * *************************************************************************
      */
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
+
     public static VhConvertColorPromPtr c1943_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
-            int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
-            for (i = 0; i < Machine.drv.total_colors; i++) {
+            for (int i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2, bit3;
 
                 bit0 = (color_prom.read(0) >> 0) & 0x01;
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = ((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = ((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
                 bit0 = (color_prom.read(2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = ((char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3));
 
                 color_prom.inc();
             }
@@ -83,15 +73,16 @@ public class _1943 {
             color_prom.inc(2 * Machine.drv.total_colors);
             /* color_prom now points to the beginning of the lookup table */
 
-            /* characters use colors 64-79 */
-            for (i = 0; i < TOTAL_COLORS(0); i++) {
+ /* characters use colors 64-79 */
+            for (int i = 0; i < TOTAL_COLORS(0); i++) {
                 colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) (color_prom.readinc() + 64);
             }
 
-            color_prom.inc(128);	/* skip the bottom half of the PROM - not used */
+            color_prom.inc(128);
+            /* skip the bottom half of the PROM - not used */
 
-            /* foreground tiles use colors 0-63 */
-            for (i = 0; i < TOTAL_COLORS(1); i++) {
+ /* foreground tiles use colors 0-63 */
+            for (int i = 0; i < TOTAL_COLORS(1); i++) {
                 /* color 0 MUST map to pen 0 in order for transparency to work */
                 if (i % Machine.gfx[1].color_granularity == 0) {
                     colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = 0;
@@ -104,7 +95,7 @@ public class _1943 {
             color_prom.inc(TOTAL_COLORS(1));
 
             /* background tiles use colors 0-63 */
-            for (i = 0; i < TOTAL_COLORS(2); i++) {
+            for (int i = 0; i < TOTAL_COLORS(2); i++) {
                 //COLOR(2,i) = color_prom[0] + 16 * (color_prom[256] & 0x03);
                 colortable[Machine.drv.gfxdecodeinfo[2].color_codes_start + i] = (char) (color_prom.read(0) + 16 * (color_prom.read(256) & 0x03));
                 color_prom.inc();
@@ -112,10 +103,10 @@ public class _1943 {
             color_prom.inc(TOTAL_COLORS(2));
 
             /* sprites use colors 128-255 */
-            /* bit 3 of BMPROM.07 selects priority over the background, but we handle */
-            /* it differently for speed reasons */
-            for (i = 0; i < TOTAL_COLORS(3); i++) {
-                //COLOR(3,i) = color_prom[0] + 16 * (color_prom[256] & 0x07) + 128;		
+ /* bit 3 of BMPROM.07 selects priority over the background, but we handle */
+ /* it differently for speed reasons */
+            for (int i = 0; i < TOTAL_COLORS(3); i++) {
+                //COLOR(3,i) = color_prom[0] + 16 * (color_prom[256] & 0x07) + 128;
                 colortable[Machine.drv.gfxdecodeinfo[3].color_codes_start + i] = (char) (color_prom.read(0) + 16 * (color_prom.read(256) & 0x07) + 128);
                 color_prom.inc();
             }
@@ -125,23 +116,22 @@ public class _1943 {
 
     public static VhStartPtr c1943_vh_start = new VhStartPtr() {
         public int handler() {
-            if ((sc2bitmap = osd_create_bitmap(8 * 32, 9 * 32)) == null) {
+            if ((sc2bitmap = bitmap_alloc(9 * 32, 8 * 32)) == null) {
                 return 1;
             }
 
-            if ((sc1bitmap = osd_create_bitmap(9 * 32, 9 * 32)) == null) {
-                osd_free_bitmap(sc2bitmap);
-                sc2bitmap = null;
+            if ((sc1bitmap = bitmap_alloc(9 * 32, 9 * 32)) == null) {
+                bitmap_free(sc2bitmap);
                 return 1;
             }
 
             if (generic_vh_start.handler() == 1) {
-                osd_free_bitmap(sc2bitmap);
-                osd_free_bitmap(sc1bitmap);
+                bitmap_free(sc2bitmap);
+                bitmap_free(sc1bitmap);
                 return 1;
             }
 
-		//memset (sc2map, 0xff, sizeof (sc2map));
+            //memset (sc2map, 0xff, sizeof (sc2map));
             //memset (sc1map, 0xff, sizeof (sc1map));
             for (int i = 0; i < sc2map.length; i++) {
                 for (int k = 0; k < sc2map[i].length; k++) {
@@ -157,16 +147,15 @@ public class _1943 {
                     }
                 }
             }
+
             return 0;
         }
     };
 
     public static VhStopPtr c1943_vh_stop = new VhStopPtr() {
         public void handler() {
-            osd_free_bitmap(sc2bitmap);
-            osd_free_bitmap(sc1bitmap);
-            sc2bitmap = null;
-            sc1bitmap = null;
+            bitmap_free(sc2bitmap);
+            bitmap_free(sc1bitmap);
         }
     };
 
@@ -184,7 +173,7 @@ public class _1943 {
             cpu_setbank(1, new UBytePtr(RAM, bankaddress));
 
             /* bit 5 resets the sound CPU - we ignore it */
-            /* bit 6 flips screen */
+ /* bit 6 flips screen */
             if (flipscreen != (data & 0x40)) {
                 flipscreen = data & 0x40;
                 //		memset(dirtybuffer,1,c1942_backgroundram_size);
@@ -210,23 +199,21 @@ public class _1943 {
 
     /**
      * *************************************************************************
-     *
      * Draw the game screen in the given osd_bitmap. Do NOT call
      * osd_update_display() from this function, it will be called by the main
      * emulation engine.
-     *
-     **************************************************************************
+     * *************************************************************************
      */
     public static VhUpdatePtr c1943_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy;
             int bg_scrolly, bg_scrollx;
-            UBytePtr p = new UBytePtr();
+            UBytePtr p;
             int top, left, xscroll, yscroll;
 
             /* TODO: support flipscreen */
             if (sc2on != 0) {
-                p.set(memory_region(REGION_GFX5).memory, 0x8000);
+                p = new UBytePtr(memory_region(REGION_GFX5), 0x8000);
                 bg_scrolly = c1943_bgscrolly.read(0) + 256 * c1943_bgscrolly.read(1);
                 offs = 16 * ((bg_scrolly >> 5) + 8);
 
@@ -236,9 +223,9 @@ public class _1943 {
 
                 for (sy = 0; sy < 9; sy++) {
                     int ty = (sy + top) % 9;
-                    //unsigned char *map = &sc2map[ty][0][0];
-                    UBytePtr map = new UBytePtr(sc2map[ty][0], 0);
-                    offs &= 0x7fff; /* Enforce limits (for top of scroll) */
+                    UBytePtr map = new UBytePtr(sc2map[ty][0], 0);//unsigned char *map = &sc2map[ty][0][0];
+                    offs &= 0x7fff;
+                    /* Enforce limits (for top of scroll) */
 
                     for (sx = 0; sx < 8; sx++) {
                         int tile, attr, offset;
@@ -246,6 +233,7 @@ public class _1943 {
 
                         tile = p.read(offset);
                         attr = p.read(offset + 1);
+
                         if (tile != map.read(0) || attr != map.read(1)) {
                             map.write(0, tile);
                             map.write(1, attr);
@@ -257,7 +245,7 @@ public class _1943 {
                                     null,
                                     TRANSPARENCY_NONE, 0);
                         }
-                        //map += 2;//NOT NEEEDED??
+                        //map.offset += 2;
                     }
                     offs -= 0x10;
                 }
@@ -267,11 +255,10 @@ public class _1943 {
                 copyscrollbitmap(bitmap, sc2bitmap,
                         1, new int[]{xscroll},
                         1, new int[]{yscroll},
-                        Machine.drv.visible_area,
+                        Machine.visible_area,
                         TRANSPARENCY_NONE, 0);
-
             } else {
-                fillbitmap(bitmap, Machine.pens[0], Machine.drv.visible_area);
+                fillbitmap(bitmap, Machine.pens[0], Machine.visible_area);
             }
 
             if (objon != 0) {
@@ -293,7 +280,7 @@ public class _1943 {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -317,17 +304,18 @@ public class _1943 {
 
                 for (sy = 0; sy < 9; sy++) {
                     int ty = (sy + top) % 9;
-                    offs &= 0x7fff; /* Enforce limits (for top of scroll) */
+                    offs &= 0x7fff;
+                    /* Enforce limits (for top of scroll) */
 
                     for (sx = 0; sx < 9; sx++) {
                         int tile, attr, offset;
                         int tx = (sx + left) % 9;
-                        //unsigned char *map = &sc1map[ty][tx][0];
-                        UBytePtr map = new UBytePtr(sc1map[ty][tx], 0);
+                        UBytePtr map = new UBytePtr(sc1map[ty][tx], 0);//unsigned char *map = &sc1map[ty][tx][0];
                         offset = offs + (sx * 2);
 
                         tile = p.read(offset);
                         attr = p.read(offset + 1);
+
                         if (tile != map.read(0) || attr != map.read(1)) {
                             map.write(0, tile);
                             map.write(1, attr);
@@ -349,7 +337,7 @@ public class _1943 {
                 copyscrollbitmap(bitmap, sc1bitmap,
                         1, new int[]{xscroll},
                         1, new int[]{yscroll},
-                        Machine.drv.visible_area,
+                        Machine.visible_area,
                         TRANSPARENCY_COLOR, 0);
             }
 
@@ -372,7 +360,7 @@ public class _1943 {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -392,7 +380,7 @@ public class _1943 {
                             colorram.read(offs) & 0x1f,
                             flipscreen, flipscreen,
                             8 * sx, 8 * sy,
-                            Machine.drv.visible_area, TRANSPARENCY_COLOR, 79);
+                            Machine.visible_area, TRANSPARENCY_COLOR, 79);
                 }
             }
         }

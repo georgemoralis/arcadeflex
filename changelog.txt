@@ -8,6 +8,7 @@
 -Added missing cpus in driverH
 -Ported ay8910 to 0.37b7
 -Ported dac to 0.37b7
+-Rewrote 1943 vidhrdw . 1943kai now works
 
 25/12/2020
 ==========
