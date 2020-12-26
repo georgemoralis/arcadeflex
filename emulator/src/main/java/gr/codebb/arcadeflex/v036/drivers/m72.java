@@ -72,7 +72,7 @@ import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.m72.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_write_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_port_write_handler;

@@ -39,7 +39,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.lkage.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 
 
 public class lkage

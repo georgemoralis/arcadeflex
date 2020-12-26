@@ -4,8 +4,8 @@
  */
 package gr.codebb.arcadeflex.v036.cpu.konami;
 
-import gr.codebb.arcadeflex.v036.mame.cpuintrfH.cpu_interface;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.cpu_interface;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -25,6 +25,16 @@ public class konami extends cpu_interface {
 
     @Override
     public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int internal_read(int offset) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void internal_write(int offset, int data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

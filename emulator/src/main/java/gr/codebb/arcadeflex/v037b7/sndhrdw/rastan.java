@@ -5,15 +5,15 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.Z80_NMI_INT;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_NMI_INT;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_cause_interrupt;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_set_reset_line;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.cpu_spin;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.ASSERT_LINE;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CLEAR_LINE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.sound.adpcm.ADPCM_play;

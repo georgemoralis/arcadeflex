@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.v036.cpu.m68000;
 
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 
 public class m68kH {
     public static final int M68K_IRQ_1 = 1;

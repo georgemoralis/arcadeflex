@@ -18,7 +18,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_SOUND1;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.PULSE_LINE;
 import static gr.codebb.arcadeflex.v036.sound.dac.DAC_data_w;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;

@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.simpsons.*;
 import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
 import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K053247.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;

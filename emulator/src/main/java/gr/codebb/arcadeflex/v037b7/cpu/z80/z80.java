@@ -10,10 +10,10 @@
  * Fixed CF and HF of INI/IND/OUTI/OUTD/INIR/INDR/OTIR/OTDR
  * Implemented MEMPTR (WZ) internal z80 register and fixed BIT_HL instructions
  */
-package gr.codebb.arcadeflex.v036.cpu.z80;
+package gr.codebb.arcadeflex.v037b7.cpu.z80;
 
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -4288,5 +4288,14 @@ public class z80 extends cpu_interface {
     @Override
     public void internal_interrupt(int type) {
         //doesn't exist in z80 cpu
+    }
+    @Override
+    public int internal_read(int offset) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void internal_write(int offset, int data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

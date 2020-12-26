@@ -5,9 +5,9 @@ import static gr.codebb.arcadeflex.v036.cpu.m6805.m6805H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS1_16;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS2_16;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.ABITS_MIN_16;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_INFO_NAME;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_INFO_VERSION;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.CPU_IS_BE;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CPU_INFO_NAME;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CPU_INFO_VERSION;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CPU_IS_BE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_M68705;
 
 public class m68705 extends m6805 {

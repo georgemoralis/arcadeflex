@@ -21,14 +21,14 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741H.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 
 public class gsword {
 

@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.cpu.nec;
 
-import gr.codebb.arcadeflex.v036.mame.cpuintrfH;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -7319,5 +7319,14 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         throw new UnsupportedOperationException("unsupported v30 cpu_info");
         /*TODO*///    return buffer[which];
+    }
+    @Override
+    public int internal_read(int offset) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void internal_write(int offset, int data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

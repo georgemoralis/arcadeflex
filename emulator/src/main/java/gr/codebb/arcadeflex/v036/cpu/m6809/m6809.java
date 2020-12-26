@@ -1,9 +1,9 @@
 package gr.codebb.arcadeflex.v036.cpu.m6809;
 
-import gr.codebb.arcadeflex.v036.mame.cpuintrfH.cpu_interface;
+import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.cpu_interface;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
@@ -4573,6 +4573,14 @@ public class m6809 extends cpu_interface
                 System.out.println("6809 prefix11 opcode 0x"+Integer.toHexString(ireg2));
     	}
     }
+    @Override
+    public int internal_read(int offset) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public void internal_write(int offset, int data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 

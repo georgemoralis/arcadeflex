@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.taitosj.*;
 import static gr.codebb.arcadeflex.v036.machine.taitosj.*;
 import static gr.codebb.arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.sound.dac.*;
-import static gr.codebb.arcadeflex.v036.cpu.z80.z80H.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
