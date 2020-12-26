@@ -5,6 +5,7 @@
 -Ported drawgfxH to 0.37b7
 -Ported cpuintfH to 0.37b7
 -Ported cpuintf to 0.37b7
+-Added missing cpus in driverH
 
 25/12/2020
 ==========
