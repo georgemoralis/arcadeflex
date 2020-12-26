@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v036.machine.atari_vg.*;
 

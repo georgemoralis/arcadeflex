@@ -48,7 +48,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.k005289.*;

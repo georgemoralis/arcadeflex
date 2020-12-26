@@ -5,7 +5,7 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
-import gr.codebb.arcadeflex.v036.sound.ay8910H.AY8910interface;
+import gr.codebb.arcadeflex.v037b7.sound.ay8910H.AY8910interface;
 
 public class _2610intfH {
 

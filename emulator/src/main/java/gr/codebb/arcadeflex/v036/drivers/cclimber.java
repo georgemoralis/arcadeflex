@@ -13,7 +13,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v036.sound.ay8910H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

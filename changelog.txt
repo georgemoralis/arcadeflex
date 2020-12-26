@@ -6,6 +6,7 @@
 -Ported cpuintfH to 0.37b7
 -Ported cpuintf to 0.37b7
 -Added missing cpus in driverH
+-Ported ay8910 to 0.37b7
 
 25/12/2020
 ==========
