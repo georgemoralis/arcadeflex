@@ -22,7 +22,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v036.machine.scramble.*;
 import static gr.codebb.arcadeflex.v036.drivers.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.drivers.frogger.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.frogger.*;
 import static gr.codebb.arcadeflex.v036.drivers.amidar.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
