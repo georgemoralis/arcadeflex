@@ -1,17 +1,18 @@
 /*
- *  this file should be fully compatible for 0.36
+ * ported to 0.37b7
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v036.sound;
+package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.common.libc.cstdio.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.dacH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
+import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+
 public class dac extends snd_interface {
 
     static int[] channel = new int[MAX_DAC];
@@ -85,7 +86,8 @@ public class dac extends snd_interface {
 
     public static WriteHandlerPtr DAC_data_16_w = new WriteHandlerPtr() {
         public void handler(int num, int data) {
-            int out = data >> 1;		/* range      0..32767 */
+            int out = data >> 1;
+            /* range      0..32767 */
 
             if (output[num] != out) {
                 /* update the output buffer before changing the registers */
@@ -97,7 +99,8 @@ public class dac extends snd_interface {
 
     public static WriteHandlerPtr DAC_signed_data_16_w = new WriteHandlerPtr() {
         public void handler(int num, int data) {
-            int out = data - 0x8000;	/* range -32768..32767 */
+            int out = data - 0x8000;
+            /* range -32768..32767 */
 
             if (output[num] != out) {
                 /* update the output buffer before changing the registers */
@@ -112,9 +115,11 @@ public class dac extends snd_interface {
 
         /* build volume table (linear) */
         for (i = 0; i < 256; i++) {
-            UnsignedVolTable[i] = i * 0x101 / 2;	/* range      0..32767 */
+            UnsignedVolTable[i] = i * 0x101 / 2;
+            /* range      0..32767 */
 
-            SignedVolTable[i] = i * 0x101 - 0x8000;	/* range -32768..32767 */
+            SignedVolTable[i] = i * 0x101 - 0x8000;
+            /* range -32768..32767 */
 
         }
     }
@@ -142,5 +147,28 @@ public class dac extends snd_interface {
 
         return 0;
     }
+    public static WriteHandlerPtr DAC_0_data_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            DAC_data_w.handler(0, data);
+        }
+    };
+
+    public static WriteHandlerPtr DAC_1_data_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            DAC_data_w.handler(1, data);
+        }
+    };
+
+    public static WriteHandlerPtr DAC_0_signed_data_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            DAC_signed_data_w.handler(0, data);
+        }
+    };
+
+    public static WriteHandlerPtr DAC_1_signed_data_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            DAC_signed_data_w.handler(1, data);
+        }
+    };
 
 }

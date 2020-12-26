@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.ASSERT_LINE;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CLEAR_LINE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.sound.dac.DAC_signed_data_w;
+import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_signed_data_w;
 import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_set;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.TIME_NOW;

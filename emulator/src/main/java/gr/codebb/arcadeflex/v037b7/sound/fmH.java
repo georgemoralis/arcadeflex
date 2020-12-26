@@ -4,7 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.v036.sound.ay8910.*;
+import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 
 public class fmH {
 

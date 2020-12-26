@@ -1,11 +1,11 @@
 package gr.codebb.arcadeflex.v036.mame;
 import gr.codebb.arcadeflex.v036.sound.Dummy_snd;
-import gr.codebb.arcadeflex.v036.sound.dac;
+import gr.codebb.arcadeflex.v037b7.sound.dac;
 import gr.codebb.arcadeflex.v036.sound.samples;
 import gr.codebb.arcadeflex.v036.sound.namco;
 import gr.codebb.arcadeflex.v036.sound.sn76496;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import gr.codebb.arcadeflex.v036.sound.ay8910;
+import gr.codebb.arcadeflex.v037b7.sound.ay8910;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;

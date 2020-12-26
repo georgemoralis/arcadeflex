@@ -31,7 +31,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_LEFT;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_RIGHT;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
-import static gr.codebb.arcadeflex.v036.sound.dacH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.sndhrdw.system16.*;
