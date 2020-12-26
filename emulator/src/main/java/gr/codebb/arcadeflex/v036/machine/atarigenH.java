@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.v036.machine;
 
-import gr.codebb.arcadeflex.v036.mame.drawgfxH.rectangle;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 
 public class atarigenH {
 

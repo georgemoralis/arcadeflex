@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
-import gr.codebb.arcadeflex.v036.mame.drawgfxH.rectangle;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

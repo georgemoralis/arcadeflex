@@ -47,7 +47,7 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import gr.codebb.arcadeflex.v036.mame.drawgfxH.rectangle;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_SAMPLES;

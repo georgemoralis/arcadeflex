@@ -35,7 +35,7 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfxH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.usrintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.usrintrfH.*;
