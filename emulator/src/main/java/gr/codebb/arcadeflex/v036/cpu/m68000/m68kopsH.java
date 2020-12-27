@@ -11267,14 +11267,6 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-    public static opcode m68000_lsr_ea_al = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
     public static opcode m68000_lsl_s_8 = new opcode() {
         public void handler() {
             long d_dst = get_DY();
