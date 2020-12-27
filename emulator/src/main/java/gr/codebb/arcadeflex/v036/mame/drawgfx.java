@@ -1679,14 +1679,14 @@ public class drawgfx {
 /*TODO*///		}
 	}
     }
-/*TODO*///
-/*TODO*///
-/*TODO*///void plot_pixel2(struct osd_bitmap *bitmap1,struct osd_bitmap *bitmap2,int x,int y,int pen)
-/*TODO*///{
-/*TODO*///	plot_pixel(bitmap1, x, y, pen);
-/*TODO*///	plot_pixel(bitmap2, x, y, pen);
-/*TODO*///}
-/*TODO*///
+
+
+    public static void plot_pixel2(osd_bitmap bitmap1,osd_bitmap bitmap2,int x,int y,int pen)
+    {
+            plot_pixel.handler(bitmap1, x, y, pen);
+            plot_pixel.handler(bitmap2, x, y, pen);
+    }
+
 /*TODO*///static void pp_8_nd(struct osd_bitmap *b,int x,int y,int p)  { b->line[y][x] = p; }
     public static plot_pixel_procPtr pp_8_nd = new plot_pixel_procPtr() { public void handler(osd_bitmap bitmap,int x,int y,int pen) {
         bitmap.line[y].write(x,pen);

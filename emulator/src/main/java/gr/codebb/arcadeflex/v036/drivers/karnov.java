@@ -63,7 +63,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.karnov.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.karnov.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class karnov

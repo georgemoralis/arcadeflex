@@ -33,7 +33,7 @@ import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.dec8.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.pcktgal.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.pcktgal.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;

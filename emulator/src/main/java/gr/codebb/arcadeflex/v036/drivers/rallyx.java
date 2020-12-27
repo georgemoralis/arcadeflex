@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.rallyx.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.rallyx.*;
 
 public class rallyx {
 

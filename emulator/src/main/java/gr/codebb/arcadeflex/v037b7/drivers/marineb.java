@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.marineb.*;
 import static gr.codebb.arcadeflex.v036.machine.espial.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.espial.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.espial.*;
 
 public class marineb {
 

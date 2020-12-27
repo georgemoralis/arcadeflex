@@ -33,7 +33,7 @@ public class generic {
     public static UBytePtr flip_screen_y = new UBytePtr();	/* ... */
 
     public static char dirtybuffer[];
-    static osd_bitmap tmpbitmap;
+    public static osd_bitmap tmpbitmap;
     /**
      * *************************************************************************
      *
