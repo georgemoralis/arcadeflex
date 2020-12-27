@@ -1,10 +1,13 @@
-package gr.codebb.arcadeflex.v036.cpu.m6805;
+/**
+ * ported to v0.37b7
+ */
+package gr.codebb.arcadeflex.v037b7.cpu.m6805;
 
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_M6805;
-import static gr.codebb.arcadeflex.v036.cpu.m6805.m6805H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.m6805.m6805H.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 
 public class m6805 extends cpu_interface {
@@ -32,16 +35,6 @@ public class m6805 extends cpu_interface {
         abitsmin = ABITS_MIN_16;
         icount = m6805_ICount;
         icount[0] = 50000;
-    }
-
-    @Override
-    public int[] get_cycle_table(int which) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void set_cycle_table(int which, int[] new_table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public static class PAIR {
@@ -1382,6 +1375,16 @@ public class m6805 extends cpu_interface {
     }
 
     @Override
+    public int[] get_cycle_table(int which) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public int get_pc() {
         return m6805.pc.D & m6805.amask;
     }
@@ -1568,8 +1571,17 @@ public class m6805 extends cpu_interface {
         cpu_setOPbase16.handler(pc);
     }
 
+    @Override
+    public int internal_read(int offset) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void internal_write(int offset, int data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     static void illegal() {
-        //logerror("M6805: illegal opcode\n");
+        logerror("M6805: illegal opcode\n");
     }
 
 
@@ -3213,13 +3225,5 @@ public class m6805 extends cpu_interface {
         INDEXED();
         WM(ea.D, m6805.u8_x);
     }
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

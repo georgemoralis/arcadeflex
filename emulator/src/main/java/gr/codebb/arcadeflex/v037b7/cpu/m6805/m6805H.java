@@ -1,8 +1,10 @@
-package gr.codebb.arcadeflex.v036.cpu.m6805;
+/**
+ * ported to v0.37b7
+ */
+package gr.codebb.arcadeflex.v037b7.cpu.m6805;
 
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.cpu_readop;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.cpu_readop_arg;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 
 public class m6805H {
 
