@@ -17,7 +17,7 @@ import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_Y8950;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v036.sound.streams.stream_init;
@@ -26,17 +26,7 @@ import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_remove;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_set;
 import gr.codebb.arcadeflex.v037b7.sound._3812intfH.Y8950interface;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLCreate;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLDestroy;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLRead;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetIRQHandler;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetKeyboardHandler;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetPortHandler;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetTimerHandler;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLSetUpdateHandler;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLTimerOver;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.OPLWrite;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.Y8950UpdateOne;
+import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
 
 

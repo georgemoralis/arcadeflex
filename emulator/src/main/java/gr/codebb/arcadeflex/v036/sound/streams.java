@@ -2,7 +2,7 @@ package gr.codebb.arcadeflex.v036.sound;
 /**
  *  ported to 0.37b11
  */
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_scalebufferpos;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;

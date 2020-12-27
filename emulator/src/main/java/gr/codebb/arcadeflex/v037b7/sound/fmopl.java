@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ymdeltat.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.rand;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class fmopl {
 

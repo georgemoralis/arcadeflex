@@ -10,7 +10,7 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.BytePtr;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 
 public class cclimber {

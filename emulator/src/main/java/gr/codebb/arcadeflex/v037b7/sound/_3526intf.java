@@ -4,17 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
-import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
 
 public class _3526intf extends _3812intf {

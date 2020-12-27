@@ -16,7 +16,6 @@ import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_VLM5030;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.rand;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channel;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;

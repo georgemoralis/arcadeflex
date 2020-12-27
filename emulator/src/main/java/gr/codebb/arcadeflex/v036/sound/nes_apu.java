@@ -1,9 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
-
-
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6502.n2a03.N2A03_DEFAULTCLOCK;

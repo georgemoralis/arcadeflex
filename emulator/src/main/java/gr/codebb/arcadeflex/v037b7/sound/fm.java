@@ -6,7 +6,6 @@ package gr.codebb.arcadeflex.v037b7.sound;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.ShortPtr;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitMultiPtr;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203UpdateRequest;

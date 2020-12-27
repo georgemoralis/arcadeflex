@@ -1,6 +1,7 @@
 27/12/2020
 ==========
 -Ported m6805 cpu to v0.37b7
+-Cleanup Ptr library
 
 26/12/2020
 ==========

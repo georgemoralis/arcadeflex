@@ -1,9 +1,9 @@
 package gr.codebb.arcadeflex.v036.sound;
 
-import gr.codebb.arcadeflex.v036.platform.MainStream;
+import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
+import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
-import gr.codebb.arcadeflex.v036.platform.libc_v2.*;
 import static gr.codebb.arcadeflex.v036.platform.sound.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;

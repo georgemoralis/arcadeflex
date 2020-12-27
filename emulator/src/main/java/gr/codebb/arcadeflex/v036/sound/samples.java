@@ -1,15 +1,15 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
+import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class samples extends snd_interface {

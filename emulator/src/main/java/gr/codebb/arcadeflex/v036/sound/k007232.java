@@ -9,7 +9,6 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_v2.*;
 public class k007232 extends snd_interface {
 
     public static final int KDAC_A_PCM_MAX = (2);		/* Channels per chip */
