@@ -3,6 +3,7 @@
 -Added lsr_ea_al in 68000 cpu.
 -More drivers to 0.37b7
 -Ported aliens driver to 0.37b7
+-Download roms from Internet Archive
 
 27/12/2020
 ==========
