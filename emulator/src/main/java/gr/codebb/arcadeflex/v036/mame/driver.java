@@ -125,7 +125,7 @@ import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v036.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.rockrage.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
-import static gr.codebb.arcadeflex.v036.drivers.aliens.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.aliens.*;
 import static gr.codebb.arcadeflex.v036.drivers.crimfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
