@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 
 public class astrof
 {

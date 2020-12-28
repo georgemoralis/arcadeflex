@@ -6,8 +6,8 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
-import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;

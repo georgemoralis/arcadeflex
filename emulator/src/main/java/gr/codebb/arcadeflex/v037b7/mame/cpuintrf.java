@@ -23,7 +23,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import gr.codebb.arcadeflex.v036.cpu.konami.konami;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
 import gr.codebb.arcadeflex.v036.cpu.m68000.m68kmame;

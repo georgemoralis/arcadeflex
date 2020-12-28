@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 

@@ -1,3 +1,7 @@
+29/12/2020
+==========
+-Ported inptports to v0.37b7
+
 28/12/2020
 ==========
 -Added lsr_ea_al in 68000 cpu.

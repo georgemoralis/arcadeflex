@@ -4,9 +4,9 @@ package gr.codebb.arcadeflex.v036.mame;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.platform.input.*;
 import java.util.Arrays;
-import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.inputport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class input {

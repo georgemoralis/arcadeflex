@@ -13,7 +13,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.mappy.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.machine.mappy.*;
 
