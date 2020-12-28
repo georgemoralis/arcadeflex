@@ -9,20 +9,10 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v036.machine.ddrible.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.ddrible.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
@@ -32,6 +22,7 @@ import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
 
 public class ddrible {
 

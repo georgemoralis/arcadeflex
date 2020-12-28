@@ -25,6 +25,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.pacplus.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.machine.theglob.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 

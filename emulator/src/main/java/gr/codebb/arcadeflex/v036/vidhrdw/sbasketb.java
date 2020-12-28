@@ -16,7 +16,6 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
@@ -24,7 +23,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 
 public class sbasketb
 {

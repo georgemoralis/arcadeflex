@@ -21,6 +21,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 
 public class citycon {
 
