@@ -24,16 +24,12 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.sndhrdw;
+import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.machine.berzerk.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.berzerk.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class berzerk

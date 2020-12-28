@@ -64,7 +64,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ym2413.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.alpha68k.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;

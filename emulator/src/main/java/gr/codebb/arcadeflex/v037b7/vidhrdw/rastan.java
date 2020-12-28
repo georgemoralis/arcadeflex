@@ -6,6 +6,7 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+import static gr.codebb.arcadeflex.common.libc.expressions.*;
 import static gr.codebb.arcadeflex.v036.mame.common.bitmap_alloc;
 import static gr.codebb.arcadeflex.v036.mame.common.bitmap_free;
 import static gr.codebb.arcadeflex.v036.mame.common.coin_counter_w;
@@ -17,7 +18,6 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.NOT;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_init_used_colors;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_transparent_pen;

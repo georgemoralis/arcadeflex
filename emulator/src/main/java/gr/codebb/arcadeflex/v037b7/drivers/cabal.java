@@ -2,56 +2,17 @@
 Cabal Bootleg
 (c)1998 Red Corp
 
-driver by Carlos A. Lozano Baides
-
-68000 + Z80
-
-The original uses 2xYM3931 for sound
-The bootleg uses YM2151 + 2xZ80 used as ADPCM players
-
-MEMORY MAP
-0x000000 - 0x03ffff   ROM
-0x040000 - 0x0437ff   RAM
-0x043800 - 0x0437ff   VRAM (Sprites)
-0x060000 - 0x0607ff   VRAM (Tiles)
-0x080000 - 0x0803ff   VRAM (Background)
-0x0A0000 - 0xA0000f   Input Ports
-0x0C0040 - 0x0c0040   Watchdog??
-0x0C0080 - 0x0C0080   Watchdog??
-0x0E0000 - 0x0E07ff   COLORRAM (----BBBBGGGGRRRR)
-0x0E8000 - 0x0E800f   Output Ports/Input Ports
-
-VRAM(Background)
-0x80000 - 32 bytes (16 tiles)
-0x80040 - 32 bytes (16 tiles)
-0x80080 - 32 bytes (16 tiles)
-0x800c0 - 32 bytes (16 tiles)
-0x80100 - 32 bytes (16 tiles)
-...
-0x803c0 - 32 bytes (16 tiles)
-
-VRAM(Tiles)
-0x60000-0x607ff (1024 tiles 8x8 tiles, 2 bytes every tile)
-
-VRAM(Sprites)
-0x43800-0x43bff (128 sprites, 8 bytes every sprite)
-
-COLORRAM(Colors)
-0xe0000-0xe07ff (1024 colors, ----BBBBGGGGRRRR)
-
-******************************************************************/
-
 /*
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
  */ 
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
@@ -153,7 +114,7 @@ public class cabal
 		}
 	} };
 	
-	public static WriteHandlerPtr cabal_snd_w = new WriteHandlerPtr() { public void handler(int offset, int data){
+	public static WriteHandlerPtr cabal_sndcmd_w  = new WriteHandlerPtr() { public void handler(int offset, int data){
 		switch (offset) {
 			case 0x0:
 				cabal_sound_command1 = data;
@@ -177,7 +138,7 @@ public class cabal
 		new MemoryReadAddress( 0x60000, 0x607ff, MRA_BANK1 ),  /* text layer */
 		new MemoryReadAddress( 0x80000, 0x801ff, cabal_background_r ), /* background layer */
 		new MemoryReadAddress( 0x80200, 0x803ff, MRA_BANK2 ),
-		new MemoryReadAddress( 0xa0000, 0xa0012, cabal_io_r ),
+		new MemoryReadAddress( 0xa0000, 0xa0013, cabal_io_r ),
 		new MemoryReadAddress( 0xe0000, 0xe07ff, paletteram_word_r ),
 		new MemoryReadAddress( 0xe8000, 0xe800f, cabal_coin_r ),
 		new MemoryReadAddress( -1 )
@@ -193,13 +154,13 @@ public class cabal
 		new MemoryWriteAddress( 0xc0040, 0xc0041, MWA_NOP ), /* ??? */
 		new MemoryWriteAddress( 0xc0080, 0xc0081, MWA_NOP ), /* ??? */
 		new MemoryWriteAddress( 0xe0000, 0xe07ff, paletteram_xxxxBBBBGGGGRRRR_word_w, paletteram),
-		new MemoryWriteAddress( 0xe8000, 0xe800f, cabal_snd_w ),
+		new MemoryWriteAddress( 0xe8000, 0xe800f, cabal_sndcmd_w  ),
 		new MemoryWriteAddress( -1 )
 	};
 	
 	/*********************************************************************/
 	
-	public static ReadHandlerPtr cabal_snd_read = new ReadHandlerPtr() { public int handler(int offset){
+	public static ReadHandlerPtr cabal_snd_r  = new ReadHandlerPtr() { public int handler(int offset){
 		switch(offset){
 			case 0x08: return cabal_sound_command2;
 			case 0x0a: return cabal_sound_command1;
@@ -207,7 +168,7 @@ public class cabal
 		}
 	} };
 	
-	public static WriteHandlerPtr cabal_snd_write = new WriteHandlerPtr() { public void handler(int offset, int data){
+	public static WriteHandlerPtr cabal_snd_w  = new WriteHandlerPtr() { public void handler(int offset, int data){
 		switch( offset ){
 			case 0x00: cabal_play_adpcm.handler(0, data ); break;
 			case 0x02: cabal_play_adpcm.handler(1, data ); break;
@@ -218,7 +179,7 @@ public class cabal
 	{
 		new MemoryReadAddress( 0x0000, 0x1fff, MRA_ROM ),
 		new MemoryReadAddress( 0x2000, 0x2fff, MRA_RAM ),
-		new MemoryReadAddress( 0x4000, 0x400d, cabal_snd_read ),
+		new MemoryReadAddress( 0x4000, 0x400d, cabal_snd_r  ),
 		new MemoryReadAddress( 0x400f, 0x400f, YM2151_status_port_0_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )
@@ -228,7 +189,7 @@ public class cabal
 	{
 		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x2000, 0x2fff, MWA_RAM ),
-		new MemoryWriteAddress( 0x4000, 0x400d, cabal_snd_write ),
+		new MemoryWriteAddress( 0x4000, 0x400d, cabal_snd_w ),
 		new MemoryWriteAddress( 0x400e, 0x400e, YM2151_register_port_0_w ),
 		new MemoryWriteAddress( 0x400f, 0x400f, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0x6000, 0x6000, MWA_NOP ),  /*???*/
@@ -240,7 +201,7 @@ public class cabal
 	{
 		new MemoryReadAddress( 0x0000, 0x1fff, MRA_ROM ),
 		new MemoryReadAddress( 0x2000, 0x2fff, MRA_RAM ),
-		new MemoryReadAddress( 0x4000, 0x400d, cabal_snd_read ),
+		new MemoryReadAddress( 0x4000, 0x400d, cabal_snd_r ),
 		new MemoryReadAddress( 0x400f, 0x400f, YM2151_status_port_0_r ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_ROM ),
 		new MemoryReadAddress( -1 )
@@ -250,7 +211,7 @@ public class cabal
 	{
 		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_ROM ),
 		new MemoryWriteAddress( 0x2000, 0x2fff, MWA_RAM ),
-		new MemoryWriteAddress( 0x4000, 0x400d, cabal_snd_write ),
+		new MemoryWriteAddress( 0x4000, 0x400d, cabal_snd_w ),
 		new MemoryWriteAddress( 0x400e, 0x400e, YM2151_register_port_0_w ),
 		new MemoryWriteAddress( 0x400f, 0x400f, YM2151_data_port_0_w ),
 		new MemoryWriteAddress( 0x6000, 0x6000, MWA_NOP ),  /*???*/

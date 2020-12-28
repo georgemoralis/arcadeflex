@@ -36,7 +36,6 @@ public class libc_old {
 
     public static int argc;
     public static String[] argv;
-    private static Random rand = new Random();
     public static final int UCLOCKS_PER_SEC = 1000000000;
 
     /*
@@ -61,24 +60,7 @@ public class libc_old {
         return arrayChar;
     }
 
-    /*
-     *  function equals to c bool
-     */
-    public static int BOOL(int value) {
-        return value != 0 ? 1 : 0;
-    }
 
-    public static int BOOL(boolean value) {
-        return value ? 1 : 0;
-    }
-
-    public static int NOT(int value) {
-        return value == 0 ? 1 : 0;
-    }
-
-    public static int NOT(boolean value) {
-        return !value ? 1 : 0;
-    }
 
     /*
      *  function equals to c printf syntax
@@ -106,13 +88,7 @@ public class libc_old {
     public static int atoi(String str) {
         return Integer.parseInt(str);
     }
-    /*
-     *   return next random number
-     */
 
-    public static int rand() {
-        return rand.nextInt();
-    }
     /*
      *   return system's timer
      */

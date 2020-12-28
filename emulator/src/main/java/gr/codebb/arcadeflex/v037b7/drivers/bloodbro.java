@@ -1,29 +1,9 @@
-/**
- * ************************************************************************
- * Blood Bros, West Story. TAD Corporation 1990/Datsu 1991 68000 + Z80 + YM3931
- * + YM3812
- *
- * driver by Carlos A. Lozano Baides
- *
- * TODO:
- *
- * (*) Global - Sprites priorities/clip. - Fix timing?? Foreground layer
- * flickers during the game!!!! - hiscore.
- *
- * (*) Blood Bros
- *
- * (*) West Story - Sprites problems. (decode problems?)
- *
- * 27.10.99: Added sound - Bryan McPhail.
- *
- *************************************************************************
- */
-
 /*
+ * ported to 0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
+ * 
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -31,7 +11,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
@@ -62,9 +42,9 @@ public class bloodbro {
     /**
      * ************************************************************************
      */
-    public static ReadHandlerPtr bloodbro_r_read = new ReadHandlerPtr() {
+    public static ReadHandlerPtr bloodbro_ports_r  = new ReadHandlerPtr() {
         public int handler(int offset) {
-            //if( errorlog ) fprintf( errorlog, "INPUT e000[%x] \n", offset);
+            //logerror("INPUT e000[%x] \n", offset);
             switch (offset) {
                 case 0x0: /* DIPSW 1&2 */
 
@@ -118,7 +98,7 @@ public class bloodbro {
         new MemoryReadAddress(0x8f800, 0x8ffff, MRA_RAM),
         new MemoryReadAddress(0xa0000, 0xa001f, bloodbro_sound_r),
         new MemoryReadAddress(0xc0000, 0xc007f, MRA_BANK3),
-        new MemoryReadAddress(0xe0000, 0xe000f, bloodbro_r_read),
+        new MemoryReadAddress(0xe0000, 0xe000f, bloodbro_ports_r ),
         new MemoryReadAddress(-1)
     };
 
@@ -155,7 +135,7 @@ public class bloodbro {
         new MemoryReadAddress(0x08d400, 0x08dfff, MRA_RAM),
         new MemoryReadAddress(0x08d800, 0x08dfff, MRA_RAM),
         new MemoryReadAddress(0x08e000, 0x08ffff, MRA_RAM),
-        new MemoryReadAddress(0x0c1000, 0x0c100f, bloodbro_r_read),
+        new MemoryReadAddress(0x0c1000, 0x0c100f, bloodbro_ports_r ),
         new MemoryReadAddress(0x0c1010, 0x0c17ff, MRA_BANK3),
         new MemoryReadAddress(0x128000, 0x1287ff, paletteram_word_r),
         new MemoryReadAddress(0x120000, 0x128fff, MRA_BANK2),
