@@ -4,6 +4,7 @@
 -More drivers to 0.37b7
 -Ported aliens driver to 0.37b7
 -Download roms from Internet Archive
+-WIP TMS36XX and TMS5110 sound cores
 
 27/12/2020
 ==========
