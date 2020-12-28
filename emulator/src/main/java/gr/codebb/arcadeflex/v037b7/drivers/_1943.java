@@ -1,8 +1,8 @@
-/*
- * ported to v0.36
- * using automatic conversion tool v0.09
+/**
+ * ported to v0.37b7
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -12,25 +12,23 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw._1943.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class _1943 {
 
+
     /* this is a protection check. The game crashes (thru a jump to 0x8000) */
-    /* if a read from this address doesn't return the value it expects. */
+ /* if a read from this address doesn't return the value it expects. */
     public static ReadHandlerPtr c1943_protection_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             int data = cpu_get_reg(Z80_BC) >> 8;
-            if (errorlog != null) {
-                fprintf(errorlog, "protection read, PC: %04x Result:%02x\n", cpu_get_pc(), data);
-            }
+            logerror("protection read, PC: %04x Result:%02x\n", cpu_get_pc(), data);
             return data;
         }
     };
@@ -85,22 +83,19 @@ public class _1943 {
 
     static InputPortPtr input_ports_1943 = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);/* actually, this is VBLANK */
-
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
-
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
-
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -108,11 +103,10 @@ public class _1943 {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* Button 3, probably unused */
-
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN2 */
-
+            PORT_START();
+            /* IN2 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
@@ -120,11 +114,10 @@ public class _1943 {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);/* Button 3, probably unused */
-
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW0 */
-
+            PORT_START();
+            /* DSW0 */
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x0f, "1 (Easiest)");
             PORT_DIPSETTING(0x0e, "2");
@@ -153,8 +146,8 @@ public class _1943 {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START();       /* DSW1 */
-
+            PORT_START();
+            /* DSW1 */
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
             PORT_DIPSETTING(0x01, DEF_STR("3C_1C"));
@@ -293,21 +286,17 @@ public class _1943 {
 
     /**
      * *************************************************************************
-     *
      * Game driver(s)
-     *
-     **************************************************************************
+     * *************************************************************************
      */
     static RomLoadPtr rom_1943 = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
-
             ROM_LOAD("1943.01", 0x00000, 0x08000, 0xc686cc5c);
             ROM_LOAD("1943.02", 0x10000, 0x10000, 0xd8880a41);
             ROM_LOAD("1943.03", 0x20000, 0x10000, 0x3f0ee26c);
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
-
             ROM_LOAD("1943.05", 0x00000, 0x8000, 0xee2bd2d7);
 
             ROM_REGION(0x8000, REGION_GFX1 | REGIONFLAG_DISPOSE);
@@ -315,7 +304,6 @@ public class _1943 {
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.15", 0x00000, 0x8000, 0x6b1a0443);/* bg tiles */
-
             ROM_LOAD("1943.16", 0x08000, 0x8000, 0x23c908c2);
             ROM_LOAD("1943.17", 0x10000, 0x8000, 0x46bcdd07);
             ROM_LOAD("1943.18", 0x18000, 0x8000, 0xe6ae7ba0);
@@ -326,12 +314,10 @@ public class _1943 {
 
             ROM_REGION(0x10000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.24", 0x00000, 0x8000, 0x11134036);/* fg tiles */
-
             ROM_LOAD("1943.25", 0x08000, 0x8000, 0x092cf9c1);
 
             ROM_REGION(0x40000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.06", 0x00000, 0x8000, 0x97acc8af);/* sprites */
-
             ROM_LOAD("1943.07", 0x08000, 0x8000, 0xd78f7197);
             ROM_LOAD("1943.08", 0x10000, 0x8000, 0x1a626608);
             ROM_LOAD("1943.09", 0x18000, 0x8000, 0x92408400);
@@ -341,36 +327,22 @@ public class _1943 {
             ROM_LOAD("1943.13", 0x38000, 0x8000, 0x1143829a);
 
             ROM_REGION(0x10000, REGION_GFX5);/* tilemaps */
-
             ROM_LOAD("1943.14", 0x0000, 0x8000, 0x4d3c6401);/* front background */
-
             ROM_LOAD("1943.23", 0x8000, 0x8000, 0xa52aecbd);/* back background */
 
             ROM_REGION(0x0c00, REGION_PROMS);
             ROM_LOAD("bmprom.01", 0x0000, 0x0100, 0x74421f18);/* red component */
-
             ROM_LOAD("bmprom.02", 0x0100, 0x0100, 0xac27541f);/* green component */
-
             ROM_LOAD("bmprom.03", 0x0200, 0x0100, 0x251fb6ff);/* blue component */
-
             ROM_LOAD("bmprom.05", 0x0300, 0x0100, 0x206713d0);/* char lookup table */
-
             ROM_LOAD("bmprom.10", 0x0400, 0x0100, 0x33c2491c);/* foreground lookup table */
-
             ROM_LOAD("bmprom.09", 0x0500, 0x0100, 0xaeea4af7);/* foreground palette bank */
-
             ROM_LOAD("bmprom.12", 0x0600, 0x0100, 0xc18aa136);/* background lookup table */
-
             ROM_LOAD("bmprom.11", 0x0700, 0x0100, 0x405aae37);/* background palette bank */
-
             ROM_LOAD("bmprom.08", 0x0800, 0x0100, 0xc2010a9e);/* sprite lookup table */
-
             ROM_LOAD("bmprom.07", 0x0900, 0x0100, 0xb56f30c3);/* sprite palette bank */
-
             ROM_LOAD("bmprom.04", 0x0a00, 0x0100, 0x91a8a2e1);/* priority encoder / palette selector (not used) */
-
             ROM_LOAD("bmprom.06", 0x0b00, 0x0100, 0x0eaf5158);/* video timing (not used) */
-
             ROM_END();
         }
     };
@@ -378,13 +350,11 @@ public class _1943 {
     static RomLoadPtr rom_1943j = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
-
             ROM_LOAD("1943jap.001", 0x00000, 0x08000, 0xf6935937);
             ROM_LOAD("1943jap.002", 0x10000, 0x10000, 0xaf971575);
             ROM_LOAD("1943jap.003", 0x20000, 0x10000, 0x300ec713);
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
-
             ROM_LOAD("1943.05", 0x00000, 0x8000, 0xee2bd2d7);
 
             ROM_REGION(0x8000, REGION_GFX1 | REGIONFLAG_DISPOSE);
@@ -392,7 +362,6 @@ public class _1943 {
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.15", 0x00000, 0x8000, 0x6b1a0443);/* bg tiles */
-
             ROM_LOAD("1943.16", 0x08000, 0x8000, 0x23c908c2);
             ROM_LOAD("1943.17", 0x10000, 0x8000, 0x46bcdd07);
             ROM_LOAD("1943.18", 0x18000, 0x8000, 0xe6ae7ba0);
@@ -403,12 +372,10 @@ public class _1943 {
 
             ROM_REGION(0x10000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.24", 0x00000, 0x8000, 0x11134036);/* fg tiles */
-
             ROM_LOAD("1943.25", 0x08000, 0x8000, 0x092cf9c1);
 
             ROM_REGION(0x40000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943.06", 0x00000, 0x8000, 0x97acc8af);/* sprites */
-
             ROM_LOAD("1943.07", 0x08000, 0x8000, 0xd78f7197);
             ROM_LOAD("1943.08", 0x10000, 0x8000, 0x1a626608);
             ROM_LOAD("1943.09", 0x18000, 0x8000, 0x92408400);
@@ -418,36 +385,22 @@ public class _1943 {
             ROM_LOAD("1943.13", 0x38000, 0x8000, 0x1143829a);
 
             ROM_REGION(0x10000, REGION_GFX5);/* tilemaps */
-
             ROM_LOAD("1943.14", 0x0000, 0x8000, 0x4d3c6401);/* front background */
-
             ROM_LOAD("1943.23", 0x8000, 0x8000, 0xa52aecbd);/* back background */
 
             ROM_REGION(0x0c00, REGION_PROMS);
             ROM_LOAD("bmprom.01", 0x0000, 0x0100, 0x74421f18);/* red component */
-
             ROM_LOAD("bmprom.02", 0x0100, 0x0100, 0xac27541f);/* green component */
-
             ROM_LOAD("bmprom.03", 0x0200, 0x0100, 0x251fb6ff);/* blue component */
-
             ROM_LOAD("bmprom.05", 0x0300, 0x0100, 0x206713d0);/* char lookup table */
-
             ROM_LOAD("bmprom.10", 0x0400, 0x0100, 0x33c2491c);/* foreground lookup table */
-
             ROM_LOAD("bmprom.09", 0x0500, 0x0100, 0xaeea4af7);/* foreground palette bank */
-
             ROM_LOAD("bmprom.12", 0x0600, 0x0100, 0xc18aa136);/* background lookup table */
-
             ROM_LOAD("bmprom.11", 0x0700, 0x0100, 0x405aae37);/* background palette bank */
-
             ROM_LOAD("bmprom.08", 0x0800, 0x0100, 0xc2010a9e);/* sprite lookup table */
-
             ROM_LOAD("bmprom.07", 0x0900, 0x0100, 0xb56f30c3);/* sprite palette bank */
-
             ROM_LOAD("bmprom.04", 0x0a00, 0x0100, 0x91a8a2e1);/* priority encoder / palette selector (not used) */
-
             ROM_LOAD("bmprom.06", 0x0b00, 0x0100, 0x0eaf5158);/* video timing (not used) */
-
             ROM_END();
         }
     };
@@ -455,13 +408,11 @@ public class _1943 {
     static RomLoadPtr rom_1943kai = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
-
             ROM_LOAD("1943kai.01", 0x00000, 0x08000, 0x7d2211db);
             ROM_LOAD("1943kai.02", 0x10000, 0x10000, 0x2ebbc8c5);
             ROM_LOAD("1943kai.03", 0x20000, 0x10000, 0x475a6ac5);
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
-
             ROM_LOAD("1943kai.05", 0x00000, 0x8000, 0x25f37957);
 
             ROM_REGION(0x8000, REGION_GFX1 | REGIONFLAG_DISPOSE);
@@ -469,7 +420,6 @@ public class _1943 {
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943kai.15", 0x00000, 0x8000, 0x6b1a0443);/* bg tiles */
-
             ROM_LOAD("1943kai.16", 0x08000, 0x8000, 0x9416fe0d);
             ROM_LOAD("1943kai.17", 0x10000, 0x8000, 0x3d5acab9);
             ROM_LOAD("1943kai.18", 0x18000, 0x8000, 0x7b62da1d);
@@ -480,12 +430,10 @@ public class _1943 {
 
             ROM_REGION(0x10000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943kai.24", 0x00000, 0x8000, 0xbf186ef2);/* fg tiles */
-
             ROM_LOAD("1943kai.25", 0x08000, 0x8000, 0xa755faf1);
 
             ROM_REGION(0x40000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("1943kai.06", 0x00000, 0x8000, 0x5f7e38b3);/* sprites */
-
             ROM_LOAD("1943kai.07", 0x08000, 0x8000, 0xff3751fd);
             ROM_LOAD("1943kai.08", 0x10000, 0x8000, 0x159d51bd);
             ROM_LOAD("1943kai.09", 0x18000, 0x8000, 0x8683e3d2);
@@ -495,36 +443,22 @@ public class _1943 {
             ROM_LOAD("1943kai.13", 0x38000, 0x8000, 0xfd1acf8e);
 
             ROM_REGION(0x10000, REGION_GFX5);/* tilemaps */
-
             ROM_LOAD("1943kai.14", 0x0000, 0x8000, 0xcf0f5a53);/* front background */
-
             ROM_LOAD("1943kai.23", 0x8000, 0x8000, 0x17f77ef9);/* back background */
 
             ROM_REGION(0x0c00, REGION_PROMS);
             ROM_LOAD("bmk01.bin", 0x0000, 0x0100, 0xe001ea33);/* red component */
-
             ROM_LOAD("bmk02.bin", 0x0100, 0x0100, 0xaf34d91a);/* green component */
-
             ROM_LOAD("bmk03.bin", 0x0200, 0x0100, 0x43e9f6ef);/* blue component */
-
             ROM_LOAD("bmk05.bin", 0x0300, 0x0100, 0x41878934);/* char lookup table */
-
             ROM_LOAD("bmk10.bin", 0x0400, 0x0100, 0xde44b748);/* foreground lookup table */
-
             ROM_LOAD("bmk09.bin", 0x0500, 0x0100, 0x59ea57c0);/* foreground palette bank */
-
             ROM_LOAD("bmk12.bin", 0x0600, 0x0100, 0x8765f8b0);/* background lookup table */
-
             ROM_LOAD("bmk11.bin", 0x0700, 0x0100, 0x87a8854e);/* background palette bank */
-
             ROM_LOAD("bmk08.bin", 0x0800, 0x0100, 0xdad17e2d);/* sprite lookup table */
-
             ROM_LOAD("bmk07.bin", 0x0900, 0x0100, 0x76307f8d);/* sprite palette bank */
-
             ROM_LOAD("bmprom.04", 0x0a00, 0x0100, 0x91a8a2e1);/* priority encoder / palette selector (not used) */
-
             ROM_LOAD("bmprom.06", 0x0b00, 0x0100, 0x0eaf5158);/* video timing (not used) */
-
             ROM_END();
         }
     };

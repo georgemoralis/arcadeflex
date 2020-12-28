@@ -1,17 +1,8 @@
 /**
- * *************************************************************************
- * Rainbow Islands (and Jumping)
- *
- * driver by Mike Coates
- *
- **************************************************************************
- */
-
-/*
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -29,7 +20,16 @@ import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
 import static gr.codebb.arcadeflex.v037b7.machine.rainbow.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_control_port_0_w;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_control_port_1_w;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_status_port_0_r;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_status_port_1_r;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_write_port_0_w;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_write_port_1_w;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.YM2203_VOL;
+import gr.codebb.arcadeflex.v037b7.sound._2203intfH.YM2203interface;
 
 public class rainbow {
 
@@ -72,16 +72,12 @@ public class rainbow {
     /**
      * *************************************************************************
      * Rainbow Islands Specific
-	**************************************************************************
+     * *************************************************************************
      */
-    /* Almost the same as Rastan, it just writes a '1' to the sound port */
-    /* before sending the second byte of any 2 byte commands - ignored!  */
     public static WriteHandlerPtr rainbow_sound_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (offset == 0) {
-                if ((data & 0xff) != 1) {
-                    rastan_sound_port_w.handler(0, data & 0xff);
-                }
+                rastan_sound_port_w.handler(0, data & 0xff);
             } else if (offset == 2) {
                 rastan_sound_comm_w.handler(0, data & 0xff);
             }
@@ -116,6 +112,7 @@ public class rainbow {
                 new MemoryWriteAddress(0xc0c000, 0xc0ffff, MWA_BANK3),
                 new MemoryWriteAddress(0xc20000, 0xc20003, rastan_scrollY_w, rastan_scrolly), /* scroll Y  1st.w plane1  2nd.w plane2 */
                 new MemoryWriteAddress(0xc40000, 0xc40003, rastan_scrollX_w, rastan_scrollx), /* scroll X  1st.w plane1  2nd.w plane2 */
+                new MemoryWriteAddress(0xc50000, 0xc50003, rastan_flipscreen_w), /* bit 0  flipscreen */
                 new MemoryWriteAddress(0xd00000, 0xd0ffff, MWA_BANK4, rastan_spriteram),
                 new MemoryWriteAddress(0x3e0000, 0x3e0003, rainbow_sound_w),
                 new MemoryWriteAddress(0x3a0000, 0x3a0003, MWA_NOP),
@@ -124,8 +121,8 @@ public class rainbow {
 
     static InputPortPtr input_ports_rainbow = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* DIP SWITCH A */
-
+            PORT_START();
+            /* DIP SWITCH A */
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x01, DEF_STR("Cocktail"));
@@ -147,23 +144,23 @@ public class rainbow {
             PORT_DIPSETTING(0x40, DEF_STR("1C_4C"));
             PORT_DIPSETTING(0x00, DEF_STR("1C_6C"));
 
-            PORT_START(); 	/* DIP SWITCH B */
-
+            PORT_START();
+            /* DIP SWITCH B */
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
             PORT_DIPSETTING(0x03, "Medium");
             PORT_DIPSETTING(0x01, "Hard");
             PORT_DIPSETTING(0x00, "Hardest");
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Bonus_Life"));
-            PORT_DIPSETTING(0x00, "100k,1000k");
-            PORT_DIPSETTING(0x04, "None");
-            PORT_DIPNAME(0x08, 0x00, "Complete Bonus");
-            PORT_DIPSETTING(0x00, "1 Up");
-            PORT_DIPSETTING(0x08, "None");
+            PORT_DIPNAME(0x04, 0x04, DEF_STR("Bonus_Life"));
+            PORT_DIPSETTING(0x00, "None");
+            PORT_DIPSETTING(0x04, "100k,1000k");
+            PORT_DIPNAME(0x08, 0x08, "Complete Bonus");
+            PORT_DIPSETTING(0x00, "100K Points");
+            PORT_DIPSETTING(0x08, "1 Up");
             PORT_DIPNAME(0x30, 0x30, DEF_STR("Lives"));
             PORT_DIPSETTING(0x10, "1");
-            PORT_DIPSETTING(0x30, "2");
-            PORT_DIPSETTING(0x00, "3");
+            PORT_DIPSETTING(0x00, "2");
+            PORT_DIPSETTING(0x30, "3");
             PORT_DIPSETTING(0x20, "4");
             PORT_DIPNAME(0x40, 0x00, "Language");
             PORT_DIPSETTING(0x00, "English");
@@ -172,19 +169,19 @@ public class rainbow {
             PORT_DIPSETTING(0x00, "Type 1");
             PORT_DIPSETTING(0x80, "Type 2");
 
-            PORT_START(); 	/* 800007 */
-
+            PORT_START();
+            /* 800007 */
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_SERVICE);
 
-            PORT_START();  /* 800009 */
-
+            PORT_START();
+            /* 800009 */
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN2);
 
-            PORT_START(); 	/* 80000B */
-
+            PORT_START();
+            /* 80000B */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_TILT);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -193,8 +190,8 @@ public class rainbow {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON2);
 
-            PORT_START(); 	/* 80000d */
-
+            PORT_START();
+            /* 80000d */
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_PLAYER2);
@@ -202,9 +199,9 @@ public class rainbow {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
 
-            PORT_START(); 	/* IN2 */
-
-            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);
+            PORT_START();
+            /* IN2 */
+            PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_SERVICE1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_TILT);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -286,7 +283,7 @@ public class rainbow {
             rastan_vh_stop,
             rainbow_vh_screenrefresh,
             /* sound hardware */
-            0,0,0,0,/*TODO*///SOUND_SUPPORTS_STEREO, 0, 0, 0,
+            0, 0, 0, 0,/*TODO*///SOUND_SUPPORTS_STEREO, 0, 0, 0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,
@@ -297,8 +294,28 @@ public class rainbow {
     /**
      * *************************************************************************
      * Jumping Specific
-	**************************************************************************
+     * *************************************************************************
      */
+    static int jumping_latch = 0;
+
+    public static WriteHandlerPtr jumping_sound_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (offset == 0) {
+                jumping_latch = data & 0xff;
+                /*M68000 writes .b to $400007*/
+ /*logerror("jumping M68k write latch=%02x\n",jumping_latch);*/
+                cpu_cause_interrupt(1, Z80_IRQ_INT);
+            }
+        }
+    };
+
+    public static ReadHandlerPtr jumping_latch_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            /*logerror("jumping Z80 reads latch=%02x\n",jumping_latch);*/
+            return jumping_latch;
+        }
+    };
+
     static MemoryReadAddress jumping_readmem[]
             = {
                 new MemoryReadAddress(0x000000, 0x08ffff, MRA_ROM),
@@ -306,7 +323,6 @@ public class rainbow {
                 new MemoryReadAddress(0x200000, 0x20ffff, paletteram_word_r),
                 new MemoryReadAddress(0x400000, 0x400001, input_port_0_r),
                 new MemoryReadAddress(0x400002, 0x400003, input_port_1_r),
-                //	new MemoryReadAddress( 0x400006, 0x400007, rastan_sound_r ),			/* What Chip ? */
                 new MemoryReadAddress(0x401000, 0x401001, input_port_2_r),
                 new MemoryReadAddress(0x401002, 0x401003, input_port_3_r),
                 new MemoryReadAddress(0xc00000, 0xc03fff, rastan_videoram1_r),
@@ -314,7 +330,7 @@ public class rainbow {
                 new MemoryReadAddress(0xc08000, 0xc0bfff, rastan_videoram3_r),
                 new MemoryReadAddress(0xc0c000, 0xc0ffff, MRA_BANK3),
                 new MemoryReadAddress(0x440000, 0x4407ff, MRA_BANK4),
-                new MemoryReadAddress(0xd00800, 0xd00fff, MRA_BANK5), /* Needed for Attract Mode */
+                new MemoryReadAddress(0xd00000, 0xd01fff, MRA_BANK5), /* Needed for Attract Mode */
                 new MemoryReadAddress(0x420000, 0x420001, MRA_NOP), /* Read, but result not used */
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -328,19 +344,53 @@ public class rainbow {
                 new MemoryWriteAddress(0xc08000, 0xc0bfff, rastan_videoram3_w, rastan_videoram3),
                 new MemoryWriteAddress(0xc0c000, 0xc0ffff, MWA_BANK3),
                 new MemoryWriteAddress(0x430000, 0x430003, rastan_scrollY_w, rastan_scrolly), /* scroll Y  1st.w plane1  2nd.w plane2 */
+                new MemoryWriteAddress(0xc20000, 0xc20003, MWA_NOP), /*seems it is a leftover from rainbow, games writes scroll y here, too */
                 new MemoryWriteAddress(0xc40000, 0xc40003, rastan_scrollX_w, rastan_scrollx), /* scroll X  1st.w plane1  2nd.w plane2 */
                 new MemoryWriteAddress(0x440000, 0x4407ff, MWA_BANK4, rastan_spriteram),
-                //	new MemoryWriteAddress( 0x3e0000, 0x3e0003, rainbow_sound_w ),
-                new MemoryWriteAddress(0xd00800, 0xd00fff, MWA_BANK5), /* Needed for Attract Mode */
+                new MemoryWriteAddress(0x400006, 0x400007, jumping_sound_w),
+                new MemoryWriteAddress(0xd00000, 0xd01fff, MWA_BANK5), /* Needed for Attract Mode */
                 new MemoryWriteAddress(0x3c0000, 0x3c0001, MWA_NOP), /* Watchdog ? */
                 new MemoryWriteAddress(0x800000, 0x80ffff, MWA_NOP), /* Original C-Chip location (not used) */
+                new MemoryWriteAddress(-1) /* end of table */};
+
+    /*#if 0
+	public static WriteHandlerPtr jumping_bankswitch_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		UBytePtr RAM = memory_region(REGION_CPU2);
+		int banknum = (data & 1);
+		/*if (!(data & 8)) logerror("bankswitch not ORed with 8 !!!\n");*/
+ /*if (banknum != 1) logerror("bank selected =%02x\n", banknum);*/
+ /*	cpu_setbank( 6, &RAM[ 0x10000 + ( banknum * 0x2000 ) ] );
+	} };
+	#endif*/
+    static MemoryReadAddress jumping_sound_readmem[]
+            = {
+                new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
+                /*new MemoryReadAddress( ????, ????, MRA_BANK6 ),*/
+                new MemoryReadAddress(0x8000, 0x8fff, MRA_RAM),
+                new MemoryReadAddress(0xb000, 0xb000, YM2203_status_port_0_r),
+                new MemoryReadAddress(0xb400, 0xb400, YM2203_status_port_1_r),
+                new MemoryReadAddress(0xb800, 0xb800, jumping_latch_r),
+                new MemoryReadAddress(0xc000, 0xffff, MRA_ROM),
+                new MemoryReadAddress(-1) /* end of table */};
+
+    static MemoryWriteAddress jumping_sound_writemem[]
+            = {
+                new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
+                new MemoryWriteAddress(0x8000, 0x8fff, MWA_RAM),
+                new MemoryWriteAddress(0xb000, 0xb000, YM2203_control_port_0_w),
+                new MemoryWriteAddress(0xb001, 0xb001, YM2203_write_port_0_w),
+                new MemoryWriteAddress(0xb400, 0xb400, YM2203_control_port_1_w),
+                new MemoryWriteAddress(0xb401, 0xb401, YM2203_write_port_1_w),
+                new MemoryWriteAddress(0xbc00, 0xbc00, MWA_NOP),
+                /*new MemoryWriteAddress( 0xbc00, 0xbc00, jumping_bankswitch_w ),*/ /*looks like a bankswitch, but sound works with or without it*/
                 new MemoryWriteAddress(-1) /* end of table */};
 
     static InputPortPtr input_ports_jumping = new InputPortPtr() {
         public void handler() {
 
-            PORT_START(); 	/* DIP SWITCH A */
-
+            PORT_START();
+            /* DIP SWITCH A */
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
@@ -364,8 +414,8 @@ public class rainbow {
             PORT_DIPSETTING(0x40, DEF_STR("1C_4C"));
             PORT_DIPSETTING(0x00, DEF_STR("1C_6C"));
 
-            PORT_START(); 	/* DIP SWITCH B */
-
+            PORT_START();
+            /* DIP SWITCH B */
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
             PORT_DIPSETTING(0x03, "Medium");
@@ -389,15 +439,15 @@ public class rainbow {
             PORT_DIPSETTING(0x00, "Type 1");
             PORT_DIPSETTING(0x80, "Type 2");
 
-            PORT_START();   /* 401001 - Coins Etc. */
-
+            PORT_START();
+            /* 401001 - Coins Etc. */
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x0002, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x0010, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x0020, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* 401003 - Player Controls */
-
+            PORT_START();
+            /* 401003 - Player Controls */
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -432,18 +482,35 @@ public class rainbow {
                 new GfxDecodeInfo(REGION_GFX2, 0, jumping_spritelayout, 0, 0x80), /* sprites 16x16 */
                 new GfxDecodeInfo(-1) /* end of array */};
 
+    static YM2203interface ym2203_interface = new YM2203interface(
+            2, /* 2 chips */
+            3579545, /* ?? MHz */
+            new int[]{YM2203_VOL(30, 30), YM2203_VOL(30, 30)},
+            new ReadHandlerPtr[]{null, null},
+            new ReadHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null},
+            new WriteYmHandlerPtr[]{null, null}
+    );
+
     static MachineDriver machine_driver_jumping = new MachineDriver(
             /* basic machine hardware */
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_M68000,
-                        8000000, /* 8 Mhz */
+                        8000000, /* 8 MHz */
                         jumping_readmem, jumping_writemem, null, null,
                         rainbow_interrupt, 1
+                ),
+                new MachineCPU(
+                        CPU_Z80,
+                        4000000, /* 4 MHz */
+                        jumping_sound_readmem, jumping_sound_writemem, null, null,
+                        ignore_interrupt, 1
                 )
             },
             60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
-            1, /* 1 CPU slices per frame - no sound CPU yet! */
+            10, /* 10 CPU slices per frame - enough ? */
             null,
             /* video hardware */
             40 * 8, 32 * 8, new rectangle(0 * 8, 40 * 8 - 1, 1 * 8, 31 * 8 - 1),
@@ -456,17 +523,19 @@ public class rainbow {
             rastan_vh_stop,
             jumping_vh_screenrefresh,
             /* sound hardware */
-            0,
-            0,
-            0,
-            0,
-            null
+            0, 0, 0, 0,
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                )
+            }
     );
 
     static RomLoadPtr rom_rainbow = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x80000, REGION_CPU1);		 /* 8*64k for 68000 code */
-
+            ROM_REGION(0x80000, REGION_CPU1);
+            /* 8*64k for 68000 code */
             ROM_LOAD_EVEN("b22-10", 0x00000, 0x10000, 0x3b013495);
             ROM_LOAD_ODD("b22-11", 0x00000, 0x10000, 0x80041a3d);
             ROM_LOAD_EVEN("b22-08", 0x20000, 0x10000, 0x962fb845);
@@ -474,22 +543,23 @@ public class rainbow {
             ROM_LOAD_EVEN("ri_m03.rom", 0x40000, 0x20000, 0x3ebb0fb8);
             ROM_LOAD_ODD("ri_m04.rom", 0x40000, 0x20000, 0x91625e7f);
 
-            ROM_REGION(0x1c000, REGION_CPU2);		 /* 64k for the audio CPU */
-
+            ROM_REGION(0x1c000, REGION_CPU2);
+            /* 64k for the audio CPU */
             ROM_LOAD("b22-14", 0x00000, 0x4000, 0x113c1a5b);
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ri_m01.rom", 0x000000, 0x80000, 0xb76c9168); /* 8x8 gfx */
+            ROM_LOAD("ri_m01.rom", 0x000000, 0x80000, 0xb76c9168);
+            /* 8x8 gfx */
 
             ROM_REGION(0x0a0000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ri_m02.rom", 0x000000, 0x80000, 0x1b87ecf0); /* sprites */
-
+            ROM_LOAD("ri_m02.rom", 0x000000, 0x80000, 0x1b87ecf0);
+            /* sprites */
             ROM_LOAD("b22-13", 0x080000, 0x10000, 0x2fda099f);
             ROM_LOAD("b22-12", 0x090000, 0x10000, 0x67a76dc6);
 
-            ROM_REGION(0x10000, REGION_USER1);		 /* Dump of C-Chip */
-
+            ROM_REGION(0x10000, REGION_USER1);
+            /* Dump of C-Chip */
             ROM_LOAD("jb1_f89", 0x0000, 0x10000, 0x0810d327);
             ROM_END();
         }
@@ -497,8 +567,8 @@ public class rainbow {
 
     static RomLoadPtr rom_rainbowe = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x80000, REGION_CPU1);		   /* 8*64k for 68000 code */
-
+            ROM_REGION(0x80000, REGION_CPU1);
+            /* 8*64k for 68000 code */
             ROM_LOAD_EVEN("ri_01.rom", 0x00000, 0x10000, 0x50690880);
             ROM_LOAD_ODD("ri_02.rom", 0x00000, 0x10000, 0x4dead71f);
             ROM_LOAD_EVEN("ri_03.rom", 0x20000, 0x10000, 0x4a4cb785);
@@ -506,17 +576,18 @@ public class rainbow {
             ROM_LOAD_EVEN("ri_m03.rom", 0x40000, 0x20000, 0x3ebb0fb8);
             ROM_LOAD_ODD("ri_m04.rom", 0x40000, 0x20000, 0x91625e7f);
 
-            ROM_REGION(0x1c000, REGION_CPU2);			/* 64k for the audio CPU */
-
+            ROM_REGION(0x1c000, REGION_CPU2);
+            /* 64k for the audio CPU */
             ROM_LOAD("b22-14", 0x00000, 0x4000, 0x113c1a5b);
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ri_m01.rom", 0x000000, 0x80000, 0xb76c9168);       /* 8x8 gfx */
+            ROM_LOAD("ri_m01.rom", 0x000000, 0x80000, 0xb76c9168);
+            /* 8x8 gfx */
 
             ROM_REGION(0x0a0000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ri_m02.rom", 0x000000, 0x80000, 0x1b87ecf0);       /* sprites */
-
+            ROM_LOAD("ri_m02.rom", 0x000000, 0x80000, 0x1b87ecf0);
+            /* sprites */
             ROM_LOAD("b22-13", 0x080000, 0x10000, 0x2fda099f);
             ROM_LOAD("b22-12", 0x090000, 0x10000, 0x67a76dc6);
 
@@ -527,23 +598,26 @@ public class rainbow {
 
     static RomLoadPtr rom_jumping = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0xA0000, REGION_CPU1);	/* 8*64k for code, 64k*2 for protection chip */
-
+            ROM_REGION(0xA0000, REGION_CPU1);
+            /* 8*64k for code, 64k*2 for protection chip */
             ROM_LOAD_EVEN("jb1_h4", 0x00000, 0x10000, 0x3fab6b31);
             ROM_LOAD_ODD("jb1_h8", 0x00000, 0x10000, 0x8c878827);
             ROM_LOAD_EVEN("jb1_i4", 0x20000, 0x10000, 0x443492cf);
             ROM_LOAD_ODD("jb1_i8", 0x20000, 0x10000, 0xed33bae1);
             ROM_LOAD_EVEN("ri_m03.rom", 0x40000, 0x20000, 0x3ebb0fb8);
             ROM_LOAD_ODD("ri_m04.rom", 0x40000, 0x20000, 0x91625e7f);
-            ROM_LOAD_ODD("jb1_f89", 0x80000, 0x10000, 0x0810d327);	/* Dump of C-Chip? */
+            ROM_LOAD_ODD("jb1_f89", 0x80000, 0x10000, 0x0810d327);
+            /* Dump of C-Chip? */
 
-            ROM_REGION(0x10000, REGION_CPU2);	/* 64k for the audio CPU */
-
-            ROM_LOAD("jb1_cd67", 0x0000, 0x10000, 0x8527c00e);
+            ROM_REGION(0x14000, REGION_CPU2);
+            /* 64k for the audio CPU */
+            ROM_LOAD("jb1_cd67", 0x00000, 0x8000, 0x8527c00e);
+            ROM_CONTINUE(0x10000, 0x4000);
+            ROM_CONTINUE(0x0c000, 0x4000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("jb2_ic8", 0x00000, 0x10000, 0x65b76309);		/* 8x8 characters */
-
+            ROM_LOAD("jb2_ic8", 0x00000, 0x10000, 0x65b76309);
+            /* 8x8 characters */
             ROM_LOAD("jb2_ic7", 0x10000, 0x10000, 0x43a94283);
             ROM_LOAD("jb2_ic10", 0x20000, 0x10000, 0xe61933fb);
             ROM_LOAD("jb2_ic9", 0x30000, 0x10000, 0xed031eb2);
@@ -553,8 +627,8 @@ public class rainbow {
             ROM_LOAD("jb2_ic13", 0x70000, 0x10000, 0x06226492);
 
             ROM_REGION(0x0a0000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("jb2_ic62", 0x00000, 0x10000, 0x8548db6c);		/* 16x16 sprites */
-
+            ROM_LOAD("jb2_ic62", 0x00000, 0x10000, 0x8548db6c);
+            /* 16x16 sprites */
             ROM_LOAD("jb2_ic61", 0x10000, 0x10000, 0x37c5923b);
             ROM_LOAD("jb2_ic60", 0x20000, 0x08000, 0x662a2f1e);
             ROM_LOAD("jb2_ic78", 0x28000, 0x10000, 0x925865e1);
@@ -571,7 +645,7 @@ public class rainbow {
     };
 
     /* sprite roms need all bits reversing, as colours are    */
-    /* mapped back to front from the pattern used by Rainbow! */
+ /* mapped back to front from the pattern used by Rainbow! */
     public static InitDriverPtr init_jumping = new InitDriverPtr() {
         public void handler() {
             /* Sprite colour map is reversed - switch to normal */
@@ -583,7 +657,7 @@ public class rainbow {
         }
     };
 
-    public static GameDriver driver_rainbow = new GameDriver("1987", "rainbow", "rainbow.java", rom_rainbow, null, machine_driver_rainbow, input_ports_rainbow, null, ROT0, "Taito Corporation", "Rainbow Islands", GAME_NO_COCKTAIL);
-    public static GameDriver driver_rainbowe = new GameDriver("1988", "rainbowe", "rainbow.java", rom_rainbowe, driver_rainbow, machine_driver_rainbow, input_ports_rainbow, null, ROT0, "Taito Corporation", "Rainbow Islands (Extra)", GAME_NOT_WORKING | GAME_NO_COCKTAIL);
-    public static GameDriver driver_jumping = new GameDriver("1989", "jumping", "rainbow.java", rom_jumping, driver_rainbow, machine_driver_jumping, input_ports_jumping, init_jumping, ROT0, "bootleg", "Jumping", GAME_NO_SOUND | GAME_NO_COCKTAIL);
+    public static GameDriver driver_rainbow = new GameDriver("1987", "rainbow", "rainbow.java", rom_rainbow, null, machine_driver_rainbow, input_ports_rainbow, null, ROT0, "Taito Corporation", "Rainbow Islands");
+    public static GameDriver driver_rainbowe = new GameDriver("1988", "rainbowe", "rainbow.java", rom_rainbowe, driver_rainbow, machine_driver_rainbow, input_ports_rainbow, null, ROT0, "Taito Corporation", "Rainbow Islands (Extra)", GAME_NOT_WORKING);
+    public static GameDriver driver_jumping = new GameDriver("1989", "jumping", "rainbow.java", rom_jumping, driver_rainbow, machine_driver_jumping, input_ports_jumping, init_jumping, ROT0, "bootleg", "Jumping");
 }

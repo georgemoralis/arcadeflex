@@ -1,10 +1,9 @@
 /*
- * ported to v0.36
- * using automatic conversion tool v0.08
+ * ported to v0.37b7
+ * using automatic conversion tool v0.01
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
-import static gr.codebb.arcadeflex.v036.machine.espial.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
@@ -18,8 +17,36 @@ import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.espial.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
 
 public class espial {
+
+    public static InitMachinePtr espial_init_machine = new InitMachinePtr() {
+        public void handler() {
+            /* we must start with NMI interrupts disabled */
+            //interrupt_enable = 0;
+            interrupt_enable_w.handler(0, 0);
+        }
+    };
+
+    public static WriteHandlerPtr zodiac_master_interrupt_enable_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            interrupt_enable_w.handler(offset, data ^ 1);
+        }
+    };
+
+    public static InterruptPtr zodiac_master_interrupt = new InterruptPtr() {
+        public int handler() {
+            return (cpu_getiloops() == 0) ? nmi_interrupt.handler() : interrupt.handler();
+        }
+    };
+
+    public static WriteHandlerPtr zodiac_master_soundlatch_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            soundlatch_w.handler(offset, data);
+            cpu_cause_interrupt(1, Z80_IRQ_INT);
+        }
+    };
 
     static MemoryReadAddress readmem[]
             = {
@@ -78,13 +105,12 @@ public class espial {
 
     static InputPortPtr input_ports_espial = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_DIPNAME(0x01, 0x00, "Fire Buttons");
             PORT_DIPSETTING(0x01, "1");
             PORT_DIPSETTING(0x00, "2");
             PORT_DIPNAME(0x02, 0x02, "CounterAttack");/* you can shoot bullets */
-
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x02, DEF_STR("On"));
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -94,8 +120,8 @@ public class espial {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
             PORT_DIPSETTING(0x01, "4");
@@ -117,12 +143,11 @@ public class espial {
             PORT_DIPSETTING(0x40, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
             PORT_DIPNAME(0x80, 0x00, "Test Mode");/* ??? */
-
             PORT_DIPSETTING(0x00, "Normal");
             PORT_DIPSETTING(0x80, "Test");
 
-            PORT_START(); 	/* IN2 */
-
+            PORT_START();
+            /* IN2 */
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
@@ -132,8 +157,8 @@ public class espial {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_PLAYER2);
 
-            PORT_START(); 	/* IN3 */
-
+            PORT_START();
+            /* IN3 */
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -176,7 +201,7 @@ public class espial {
 
     static AY8910interface ay8910_interface = new AY8910interface(
             1, /* 1 chip */
-            1500000, /* 1.5 MHZ?????? */
+            1500000, /* 1.5 MHz?????? */
             new int[]{50},
             new ReadHandlerPtr[]{null},
             new ReadHandlerPtr[]{null},
@@ -189,13 +214,13 @@ public class espial {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3072000, /* 3.072 Mhz */
+                        3072000, /* 3.072 MHz */
                         readmem, writemem, null, null,
                         zodiac_master_interrupt, 2
                 ),
                 new MachineCPU(
                         CPU_Z80,
-                        3072000, /* 2 Mhz?????? */
+                        3072000, /* 2 MHz?????? */
                         sound_readmem, sound_writemem, null, sound_writeport,
                         nmi_interrupt, 4
                 )
@@ -233,14 +258,12 @@ public class espial {
     static RomLoadPtr rom_espial = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
-
             ROM_LOAD("espial.3", 0x0000, 0x2000, 0x10f1da30);
             ROM_LOAD("espial.4", 0x2000, 0x2000, 0xd2adbe39);
             ROM_LOAD("espial.6", 0x4000, 0x1000, 0xbaa60bc1);
             ROM_LOAD("espial.5", 0xc000, 0x1000, 0x6d7bbfc1);
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
-
             ROM_LOAD("espial.1", 0x0000, 0x1000, 0x1e5ec20b);
             ROM_LOAD("espial.2", 0x1000, 0x1000, 0x3431bb97);
 
@@ -254,9 +277,7 @@ public class espial {
 
             ROM_REGION(0x0200, REGION_PROMS);
             ROM_LOAD("espial.1f", 0x0000, 0x0100, 0xd12de557);/* palette low 4 bits */
-
             ROM_LOAD("espial.1h", 0x0100, 0x0100, 0x4c84fe70);/* palette high 4 bits */
-
             ROM_END();
         }
     };
@@ -264,14 +285,12 @@ public class espial {
     static RomLoadPtr rom_espiale = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
-
             ROM_LOAD("2764.3", 0x0000, 0x2000, 0x0973c8a4);
             ROM_LOAD("2764.4", 0x2000, 0x2000, 0x6034d7e5);
             ROM_LOAD("2732.6", 0x4000, 0x1000, 0x357025b4);
             ROM_LOAD("2732.5", 0xc000, 0x1000, 0xd03a2fc4);
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
-
             ROM_LOAD("2732.1", 0x0000, 0x1000, 0xfc7729e9);
             ROM_LOAD("2732.2", 0x1000, 0x1000, 0xe4e256da);
 
@@ -285,9 +304,7 @@ public class espial {
 
             ROM_REGION(0x0200, REGION_PROMS);
             ROM_LOAD("espial.1f", 0x0000, 0x0100, 0xd12de557);/* palette low 4 bits */
-
             ROM_LOAD("espial.1h", 0x0100, 0x0100, 0x4c84fe70);/* palette high 4 bits */
-
             ROM_END();
         }
     };

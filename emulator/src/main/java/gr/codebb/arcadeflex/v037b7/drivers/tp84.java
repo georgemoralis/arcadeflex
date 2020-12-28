@@ -1,8 +1,10 @@
-/*
+/**
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.09
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
+
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -19,7 +21,6 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.tp84.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.machine.tp84.*;
 
 public class tp84 {
 
@@ -36,13 +37,46 @@ public class tp84 {
             sharedram.write(offset, data);
         }
     };
+    /* JB 970829 - just give it what it wants
+		F104: LDX   $6400
+		F107: LDU   $6402
+		F10A: LDA   $640B
+		F10D: BEQ   $F13B
+		F13B: LDX   $6404
+		F13E: LDU   $6406
+		F141: LDA   $640C
+		F144: BEQ   $F171
+		F171: LDA   $2000	; read beam
+		F174: ADDA  #$20
+		F176: BCC   $F104
+     */
+    public static ReadHandlerPtr tp84_beam_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            //	return cpu_getscanline();
+            return 255;
+            /* always return beam position 255 */ /* JB 970829 */
+        }
+    };
+
+    /* JB 970829 - catch a busy loop for CPU 1
+		E0ED: LDA   #$01
+		E0EF: STA   $4000
+		E0F2: BRA   $E0ED
+     */
+    public static WriteHandlerPtr tp84_catchloop_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            if (cpu_get_pc() == 0xe0f2) {
+                cpu_spinuntil_int();
+            }
+        }
+    };
 
     public static ReadHandlerPtr tp84_sh_timer_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             /* main xtal 14.318MHz, divided by 4 to get the CPU clock, further */
-            /* divided by 2048 to get this timer */
-            /* (divide by (2048/2), and not 1024, because the CPU cycle counter is */
-            /* incremented every other state change of the clock) */
+ /* divided by 2048 to get this timer */
+ /* (divide by (2048/2), and not 1024, because the CPU cycle counter is */
+ /* incremented every other state change of the clock) */
             return (cpu_gettotalcycles() / (2048 / 2)) & 0x0f;
         }
     };
@@ -54,34 +88,40 @@ public class tp84 {
             /* 76489 #0 */
             C = 0;
             if ((offset & 0x008) != 0) {
-                C += 47000;	/*  47000pF = 0.047uF */
+                C += 47000;
+                /*  47000pF = 0.047uF */
             }
             if ((offset & 0x010) != 0) {
-                C += 470000;	/* 470000pF = 0.47uF */
+                C += 470000;
+                /* 470000pF = 0.47uF */
             }
             set_RC_filter(0, 1000, 2200, 1000, C);
 
             /* 76489 #1 (optional) */
             C = 0;
             if ((offset & 0x020) != 0) {
-                C += 47000;	/*  47000pF = 0.047uF */
+                C += 47000;
+                /*  47000pF = 0.047uF */
             }
             if ((offset & 0x040) != 0) {
-                C += 470000;	/* 470000pF = 0.47uF */
+                C += 470000;
+                /* 470000pF = 0.47uF */
             }
-	//	set_RC_filter(1,1000,2200,1000,C);
+            //	set_RC_filter(1,1000,2200,1000,C);
 
             /* 76489 #2 */
             C = 0;
             if ((offset & 0x080) != 0) {
-                C += 470000;	/* 470000pF = 0.47uF */
+                C += 470000;
+                /* 470000pF = 0.47uF */
             }
             set_RC_filter(1, 1000, 2200, 1000, C);
 
             /* 76489 #3 */
             C = 0;
             if ((offset & 0x100) != 0) {
-                C += 470000;	/* 470000pF = 0.47uF */
+                C += 470000;
+                /* 470000pF = 0.47uF */
             }
             set_RC_filter(2, 1000, 2200, 1000, C);
         }
@@ -167,7 +207,8 @@ public class tp84 {
 
     static InputPortPtr input_ports_tp84 = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -178,7 +219,8 @@ public class tp84 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -189,7 +231,8 @@ public class tp84 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -200,7 +243,8 @@ public class tp84 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -237,7 +281,8 @@ public class tp84 {
             PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x00, "Invalid");
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x02, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "2");

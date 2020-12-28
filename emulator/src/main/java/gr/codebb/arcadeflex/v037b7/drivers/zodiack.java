@@ -1,8 +1,9 @@
-/*
+/**
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -12,16 +13,11 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.zodiack.*;
 import static gr.codebb.arcadeflex.v036.machine.espial.*;
 
@@ -100,12 +96,14 @@ public class zodiack {
 
     static InputPortPtr input_ports_zodiac = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */  /* never read in this game */
+            PORT_START();
+            /* DSW0 */ /* never read in this game */
 
 
             PORT_BIT(0xff, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -131,7 +129,8 @@ public class zodiack {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
@@ -142,7 +141,8 @@ public class zodiack {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN1);
@@ -158,7 +158,8 @@ public class zodiack {
 
     static InputPortPtr input_ports_dogfight = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x05, DEF_STR("2C_1C"));
@@ -178,27 +179,32 @@ public class zodiack {
             PORT_DIPSETTING(0x18, DEF_STR("3C_4C"));
             PORT_DIPSETTING(0x08, DEF_STR("1C_2C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_3C"));
-            PORT_DIPNAME(0x40, 0x00, DEF_STR("Unknown"));  /* most likely unused */
+            PORT_DIPNAME(0x40, 0x00, DEF_STR("Unknown"));
+            /* most likely unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x40, DEF_STR("On"));
-            PORT_DIPNAME(0x80, 0x00, DEF_STR("Unknown"));  /* most likely unused */
+            PORT_DIPNAME(0x80, 0x00, DEF_STR("Unknown"));
+            /* most likely unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
             PORT_DIPSETTING(0x01, "4");
             PORT_DIPSETTING(0x02, "5");
             PORT_DIPSETTING(0x03, "6");
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));  /* most likely unused */
+            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            /* most likely unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x04, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));  /* most likely unused */
+            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            /* most likely unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x08, DEF_STR("On"));
@@ -215,7 +221,8 @@ public class zodiack {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
@@ -226,7 +233,8 @@ public class zodiack {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN1);
@@ -242,11 +250,13 @@ public class zodiack {
 
     static InputPortPtr input_ports_moguchan = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_BIT(0xff, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -272,7 +282,8 @@ public class zodiack {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
@@ -283,16 +294,19 @@ public class zodiack {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
-            PORT_BIT(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);    /* these are read, but are they */
+            PORT_BIT(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
+            /* these are read, but are they */
 
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_BUTTON1);				/* ever used? */
+            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_BUTTON1);
+            /* ever used? */
 
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             INPUT_PORTS_END();
@@ -301,7 +315,8 @@ public class zodiack {
 
     static InputPortPtr input_ports_percuss = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -325,7 +340,8 @@ public class zodiack {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "4");
@@ -350,7 +366,8 @@ public class zodiack {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
@@ -361,7 +378,8 @@ public class zodiack {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x20, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN1);
@@ -522,7 +540,8 @@ public class zodiack {
      */
     static RomLoadPtr rom_zodiack = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);      /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("ovg30c.2", 0x0000, 0x2000, 0xa2125e99);
             ROM_LOAD("ovg30c.3", 0x2000, 0x2000, 0xaee2b77f);
@@ -546,7 +565,8 @@ public class zodiack {
 
     static RomLoadPtr rom_dogfight = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);      /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("df-2", 0x0000, 0x2000, 0xad24b28b);
             ROM_LOAD("df-3", 0x2000, 0x2000, 0xcd172707);
@@ -571,7 +591,8 @@ public class zodiack {
 
     static RomLoadPtr rom_moguchan = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);      /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("2.5r", 0x0000, 0x1000, 0x85d0cb7e);
             ROM_LOAD("4.5m", 0x1000, 0x1000, 0x359ef951);
@@ -595,7 +616,8 @@ public class zodiack {
 
     static RomLoadPtr rom_percuss = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);      /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("percuss.1", 0x0000, 0x1000, 0xff0364f7);
             ROM_LOAD("percuss.3", 0x1000, 0x1000, 0x7f646c59);
@@ -620,10 +642,37 @@ public class zodiack {
         }
     };
 
-    public static GameDriver driver_zodiack = new GameDriver("1983", "zodiack", "zodiack.java", rom_zodiack, null, machine_driver_zodiack, input_ports_zodiac, null, ROT270, "Orca (Esco Trading Co, Inc)", "Zodiack", GAME_IMPERFECT_COLORS);	/* bullet color needs to be verified */
+    static RomLoadPtr rom_bounty = new RomLoadPtr() {
+        public void handler() {
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
+ /* first 256 bytes are missing due to protection - they are replaced */
+ /* with stub code that draws the Orca logo on screen */
+            ROM_LOAD("1.4f", 0x0000, 0x1000, BADCRC(0xb3776ecb));
+            ROM_LOAD("3.4k", 0x1000, 0x1000, 0xfa3086c3);
+            ROM_LOAD("2.4h", 0x2000, 0x1000, 0x52ab5314);
+            ROM_LOAD("4.4m", 0x3000, 0x1000, 0x5c9d3f07);
 
-    public static GameDriver driver_dogfight = new GameDriver("1983", "dogfight", "zodiack.java", rom_dogfight, null, machine_driver_zodiack, input_ports_dogfight, null, ROT270, "[Orca] Thunderbolt", "Dog Fight", GAME_IMPERFECT_COLORS);	/* bullet color needs to be verified */
+            ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
+            ROM_LOAD("7.4n", 0x0000, 0x1000, 0x45e369b8);
+            ROM_LOAD("8.4r", 0x1000, 0x1000, 0x4f52c87d);
 
+            ROM_REGION(0x2800, REGION_GFX1 | REGIONFLAG_DISPOSE);
+            ROM_LOAD("9.4r", 0x0000, 0x0800, 0x4b4acde5);
+            ROM_LOAD("5.7m", 0x0800, 0x1000, 0xa5ce2a24);
+            ROM_LOAD("6.7p", 0x1800, 0x1000, 0x43183301);
+
+            ROM_REGION(0x0040, REGION_PROMS);
+            ROM_LOAD("mb7051.2a", 0x0000, 0x0020, 0x0de11a46);
+            ROM_LOAD("mb7051.2b", 0x0020, 0x0020, 0x465e31d4);
+            ROM_END();
+        }
+    };
+
+    public static GameDriver driver_zodiack = new GameDriver("1983", "zodiack", "zodiack.java", rom_zodiack, null, machine_driver_zodiack, input_ports_zodiac, null, ROT270, "Orca (Esco Trading Co, Inc)", "Zodiack", GAME_IMPERFECT_COLORS);/* bullet color needs to be verified */
+    public static GameDriver driver_dogfight = new GameDriver("1983", "dogfight", "zodiack.java", rom_dogfight, null, machine_driver_zodiack, input_ports_dogfight, null, ROT270, "[Orca] Thunderbolt", "Dog Fight", GAME_IMPERFECT_COLORS);/* bullet color needs to be verified */
     public static GameDriver driver_moguchan = new GameDriver("1982", "moguchan", "zodiack.java", rom_moguchan, null, machine_driver_zodiack, input_ports_moguchan, null, ROT270, "Orca (Eastern Commerce Inc. license) (bootleg?)", /* this is in the ROM at $0b5c */ "Moguchan", GAME_WRONG_COLORS);
     public static GameDriver driver_percuss = new GameDriver("1981", "percuss", "zodiack.java", rom_percuss, null, machine_driver_percuss, input_ports_percuss, null, ROT270, "Orca", "The Percussor");
+    public static GameDriver driver_bounty = new GameDriver("1982", "bounty", "zodiack.java", rom_bounty, null, machine_driver_zodiack, input_ports_percuss, null, ROT0, "Orca", "The Bounty", GAME_NOT_WORKING);
+
 }

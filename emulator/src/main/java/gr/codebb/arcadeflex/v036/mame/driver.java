@@ -35,38 +35,38 @@ import static gr.codebb.arcadeflex.v037b7.drivers.superqix.*;
 import static gr.codebb.arcadeflex.v036.drivers.mrdo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pingpong.*;
 import static gr.codebb.arcadeflex.v036.drivers.tecmo.*;
-import static gr.codebb.arcadeflex.v036.drivers.rocnrope.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.rocnrope.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mikie.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.hexa.*;
 import static gr.codebb.arcadeflex.v036.drivers.sonson.*;
 import static gr.codebb.arcadeflex.v036.drivers.amidar.*;
 import static gr.codebb.arcadeflex.v036.drivers.bagman.*;
-import static gr.codebb.arcadeflex.v036.drivers.pbaction.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.pbaction.*;
 import static gr.codebb.arcadeflex.v036.drivers.kangaroo.*;
-import static gr.codebb.arcadeflex.v036.drivers.espial.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.espial.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.timeplt.*;
 import static gr.codebb.arcadeflex.v036.drivers.gng.*;
 import static gr.codebb.arcadeflex.v036.drivers.gundealr.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.circusc.*;
-import static gr.codebb.arcadeflex.v036.drivers.tp84.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.tp84.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ironhors.*;
 import static gr.codebb.arcadeflex.v036.drivers.gunsmoke.*;
 import static gr.codebb.arcadeflex.v036.drivers.lwings.*;
 import static gr.codebb.arcadeflex.v036.drivers.commando.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.citycon.*;
-import static gr.codebb.arcadeflex.v036.drivers._1943.*;
+import static gr.codebb.arcadeflex.v037b7.drivers._1943.*;
 import static gr.codebb.arcadeflex.v036.drivers.blktiger.*;
-import static gr.codebb.arcadeflex.v036.drivers.brkthru.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.brkthru.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidearms.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.retofinv.*;
 import static gr.codebb.arcadeflex.v036.drivers.kyugo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.wc90.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jack.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
-import static gr.codebb.arcadeflex.v036.drivers.pcktgal.*;
-import static gr.codebb.arcadeflex.v036.drivers.bogeyman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
-import static gr.codebb.arcadeflex.v036.drivers.funkybee.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.funkybee.*;
 import static gr.codebb.arcadeflex.v036.drivers.xain.*;
 import static gr.codebb.arcadeflex.v036.drivers.vulgus.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.wiz.*;
@@ -76,9 +76,9 @@ import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v036.drivers.superpac.*;
 import static gr.codebb.arcadeflex.v036.drivers.mappy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.digdug.*;
-import static gr.codebb.arcadeflex.v036.drivers.phozon.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.phozon.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.speedbal.*;
-import static gr.codebb.arcadeflex.v036.drivers.appoooh.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.appoooh.*;
 import static gr.codebb.arcadeflex.v036.drivers.scobra.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.hcastle.*;
@@ -87,19 +87,15 @@ import static gr.codebb.arcadeflex.v037b7.drivers.pkunwar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.nova2001.*;
 import static gr.codebb.arcadeflex.v036.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.stfight.*;
-import static gr.codebb.arcadeflex.v036.drivers.jrpacman.*;
-import static gr.codebb.arcadeflex.v036.drivers.mpatrol.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.mpatrol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.yard.*;
 import static gr.codebb.arcadeflex.v036.drivers.srumbler.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.marineb.*;
-
-/*
-  WIP Drivers
- */
 import static gr.codebb.arcadeflex.v036.drivers.jackal.*;
 import static gr.codebb.arcadeflex.v036.drivers.cclimber.*;
 import static gr.codebb.arcadeflex.v036.drivers.gberet.*;
-import static gr.codebb.arcadeflex.v036.drivers.mitchell.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
 import static gr.codebb.arcadeflex.v036.drivers.snk.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.troangel.*;
 import static gr.codebb.arcadeflex.v036.drivers.ddragon.*;
@@ -111,8 +107,8 @@ import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.m62.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v036.drivers.trackfld.*;
-import static gr.codebb.arcadeflex.v036.drivers.jailbrek.*;
-import static gr.codebb.arcadeflex.v036.drivers.kingobox.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.jailbrek.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
 import static gr.codebb.arcadeflex.v036.drivers.atetris.*;
 import static gr.codebb.arcadeflex.v036.drivers.mystston.*;
 import static gr.codebb.arcadeflex.v036.drivers.btime.*;
@@ -145,7 +141,7 @@ import static gr.codebb.arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v036.drivers.mnight.*;
 import static gr.codebb.arcadeflex.v036.drivers.bublbobl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zaxxon.*;
-import static gr.codebb.arcadeflex.v036.drivers.rallyx.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.rallyx.*;
 import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
 import static gr.codebb.arcadeflex.v036.drivers.arkanoid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.congo.*;
@@ -153,7 +149,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v036.drivers.simpsons.*;
 import static gr.codebb.arcadeflex.v036.drivers.vendetta.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
-import static gr.codebb.arcadeflex.v036.drivers.yiear.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.yiear.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
 import static gr.codebb.arcadeflex.v036.drivers.baraduke.*;
@@ -168,15 +164,15 @@ import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
 import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v036.drivers.foodf.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
-import static gr.codebb.arcadeflex.v036.drivers.goindol.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v036.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.docastle.*;
-import static gr.codebb.arcadeflex.v036.drivers.higemaru.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.higemaru.*;
 import static gr.codebb.arcadeflex.v036.drivers.fastfred.*;
-import static gr.codebb.arcadeflex.v036.drivers.zodiack.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitosj.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blueprnt.*;
-import static gr.codebb.arcadeflex.v036.drivers.kchamp.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.kchamp.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.tutankhm.*;
 import static gr.codebb.arcadeflex.v036.drivers.galaga.*;
@@ -187,22 +183,22 @@ import static gr.codebb.arcadeflex.v036.drivers.raiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.dynduke.*;
 import static gr.codebb.arcadeflex.v036.drivers.m92.*;
 import static gr.codebb.arcadeflex.v036.drivers.sf1.*;
-import static gr.codebb.arcadeflex.v036.drivers.rastan.*;
-import static gr.codebb.arcadeflex.v036.drivers.rainbow.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.rastan.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.rainbow.*;
 import static gr.codebb.arcadeflex.v036.drivers.cabal.*;
 import static gr.codebb.arcadeflex.v036.drivers.xmen.*;
 import static gr.codebb.arcadeflex.v036.drivers.tmnt.*;
 import static gr.codebb.arcadeflex.v036.drivers.toki.*;
 import static gr.codebb.arcadeflex.v036.drivers.snk68.*;
 import static gr.codebb.arcadeflex.v036.drivers.ddragon3.*;
-import static gr.codebb.arcadeflex.v036.drivers.galpanic.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.galpanic.*;
 import static gr.codebb.arcadeflex.v036.drivers.tumblep.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec0.*;
 import static gr.codebb.arcadeflex.v036.drivers.kaneko16.*;
 import static gr.codebb.arcadeflex.v036.drivers.prehisle.*;
 import static gr.codebb.arcadeflex.v036.drivers.cps1.*;
 import static gr.codebb.arcadeflex.v036.drivers.alpha68k.*;
-import static gr.codebb.arcadeflex.v036.drivers.superman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.superman.*;
 import static gr.codebb.arcadeflex.v036.drivers.aerofgt.*;
 import static gr.codebb.arcadeflex.v036.drivers.neogeo.*;
 import static gr.codebb.arcadeflex.v036.drivers.lastduel.*;
@@ -226,6 +222,10 @@ import static gr.codebb.arcadeflex.v036.drivers.cninja.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaelco.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
+
+import static gr.codebb.arcadeflex.v037b7.drivers.cop01.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
 
 public class driver {
 
@@ -544,7 +544,7 @@ public class driver {
                 /*306*//*stfight*/ driver_empcity,
                 /*307*//*stfight*/ driver_empcityj,
                 /*308*//*stfight*/ driver_stfight,
-                /*309*//*jrpacman*/ driver_jrpacman,
+                /*309*/
                 /*310*//*travrusa*/ driver_travrusa,
                 /*311*//*travrusa*/ driver_motorace,
                 /*312*//*troangel*/ driver_troangel,
@@ -2783,5 +2783,21 @@ public class driver {
                 /*TODO*/ //TESTDRIVER( mslugx )	/* 0250 (c) 1999 SNK */
                 /*TODO*/ //TESTDRIVER( kof99 )		/* 0251 (c) 1999 SNK */
                 /*TODO*/ //TESTDRIVER( garou )		/* 0253 (c) 1999 SNK */
+                
+                /****
+                 * 0.37b7 games
+                 * 
+                 */
+                
+                /*jrpacman*/driver_jrpacman,
+                /*macross */driver_macross,
+                /*cop01   */driver_cop01,
+                /*cop01   */driver_cop01a,
+                /*zodiack */ driver_bounty,
+                /*galpanic */driver_fantasia,
+                /*galpanic */driver_newfant,
+                /*galpanic */driver_missw96,
+                /*galspnbl */driver_hotpinbl,
+                /*galspnbl */driver_galspnbl,
                 null /* end of array */};
 }

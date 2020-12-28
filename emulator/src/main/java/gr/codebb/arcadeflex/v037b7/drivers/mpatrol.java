@@ -1,8 +1,9 @@
-/*
+/**
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -20,10 +21,10 @@ import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 public class mpatrol {
 
     /* this looks like some kind of protection. The game does strange things */
-    /* if a read from this address doesn't return the value it expects. */
+ /* if a read from this address doesn't return the value it expects. */
     public static ReadHandlerPtr mpatrol_protection_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            //if (errorlog) fprintf(errorlog,"%04x: read protection\n",cpu_get_pc());
+            //logerror("%04x: read protection\n",cpu_get_pc());
             return cpu_get_reg(Z80_DE) & 0xff;
         }
     };
@@ -65,7 +66,8 @@ public class mpatrol {
 
     static InputPortPtr input_ports_mpatrol = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -77,7 +79,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
@@ -88,7 +91,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
@@ -99,7 +103,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x02, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "1");
@@ -111,9 +116,11 @@ public class mpatrol {
             PORT_DIPSETTING(0x08, "20000 40000 60000");
             PORT_DIPSETTING(0x04, "10000");
             PORT_DIPSETTING(0x00, "None");
-            PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED); /* Gets filled in based on the coin mode */
+            PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
+            /* Gets filled in based on the coin mode */
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -141,7 +148,8 @@ public class mpatrol {
 
             /* Fake port to support the two different coin modes */
             PORT_START();
-            PORT_DIPNAME(0x0f, 0x0f, "Coinage Mode 1");  /* mapped on coin mode 1 */
+            PORT_DIPNAME(0x0f, 0x0f, "Coinage Mode 1");
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x09, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0x0a, DEF_STR("6C_1C"));
@@ -158,7 +166,8 @@ public class mpatrol {
             PORT_DIPSETTING(0x02, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x01, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
-            PORT_DIPNAME(0x30, 0x30, "Coin A  Mode 2");  /* mapped on coin mode 2 */
+            PORT_DIPNAME(0x30, 0x30, "Coin A  Mode 2");
+            /* mapped on coin mode 2 */
 
             PORT_DIPSETTING(0x10, DEF_STR("3C_1C"));
             PORT_DIPSETTING(0x20, DEF_STR("2C_1C"));
@@ -176,7 +185,8 @@ public class mpatrol {
     /* Identical to mpatrol, the only difference is the number of lives */
     static InputPortPtr input_ports_mpatrolw = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -188,7 +198,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
@@ -199,7 +210,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
@@ -210,7 +222,8 @@ public class mpatrol {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "2");
@@ -222,9 +235,11 @@ public class mpatrol {
             PORT_DIPSETTING(0x08, "20000 40000 60000");
             PORT_DIPSETTING(0x04, "10000");
             PORT_DIPSETTING(0x00, "None");
-            PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED); /* Gets filled in based on the coin mode */
+            PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
+            /* Gets filled in based on the coin mode */
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -252,7 +267,8 @@ public class mpatrol {
 
             /* Fake port to support the two different coin modes */
             PORT_START();
-            PORT_DIPNAME(0x0f, 0x0f, "Coinage Mode 1");  /* mapped on coin mode 1 */
+            PORT_DIPNAME(0x0f, 0x0f, "Coinage Mode 1");
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x09, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0x0a, DEF_STR("6C_1C"));
@@ -269,7 +285,8 @@ public class mpatrol {
             PORT_DIPSETTING(0x02, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x01, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
-            PORT_DIPNAME(0x30, 0x30, "Coin A  Mode 2");  /* mapped on coin mode 2 */
+            PORT_DIPNAME(0x30, 0x30, "Coin A  Mode 2");
+            /* mapped on coin mode 2 */
 
             PORT_DIPSETTING(0x10, DEF_STR("3C_1C"));
             PORT_DIPSETTING(0x20, DEF_STR("2C_1C"));
@@ -381,29 +398,34 @@ public class mpatrol {
      */
     static RomLoadPtr rom_mpatrol = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("mp-a.3m", 0x0000, 0x1000, 0x5873a860);
             ROM_LOAD("mp-a.3l", 0x1000, 0x1000, 0xf4b85974);
             ROM_LOAD("mp-a.3k", 0x2000, 0x1000, 0x2e1a598c);
             ROM_LOAD("mp-a.3j", 0x3000, 0x1000, 0xdd05b587);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for code */
 
             ROM_LOAD("mp-snd.1a", 0xf000, 0x1000, 0x561d3108);
 
             ROM_REGION(0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-e.3e", 0x0000, 0x1000, 0xe3ee7f75);      /* chars */
+            ROM_LOAD("mp-e.3e", 0x0000, 0x1000, 0xe3ee7f75);
+            /* chars */
 
             ROM_LOAD("mp-e.3f", 0x1000, 0x1000, 0xcca6d023);
 
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);      /* sprites */
+            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);
+            /* sprites */
 
             ROM_LOAD("mp-b.3n", 0x1000, 0x1000, 0x9b72133a);
 
             ROM_REGION(0x1000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);      /* background graphics */
+            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);
+            /* background graphics */
 
             ROM_REGION(0x1000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("mp-e.3k", 0x0000, 0x1000, 0xc7aa1fb0);
@@ -426,29 +448,34 @@ public class mpatrol {
 
     static RomLoadPtr rom_mpatrolw = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("mpw-a.3m", 0x0000, 0x1000, 0xbaa1a1d4);
             ROM_LOAD("mpw-a.3l", 0x1000, 0x1000, 0x52459e51);
             ROM_LOAD("mpw-a.3k", 0x2000, 0x1000, 0x9b249fe5);
             ROM_LOAD("mpw-a.3j", 0x3000, 0x1000, 0xfee76972);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for code */
 
             ROM_LOAD("mp-snd.1a", 0xf000, 0x1000, 0x561d3108);
 
             ROM_REGION(0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mpw-e.3e", 0x0000, 0x1000, 0xf56e01fe);      /* chars */
+            ROM_LOAD("mpw-e.3e", 0x0000, 0x1000, 0xf56e01fe);
+            /* chars */
 
             ROM_LOAD("mpw-e.3f", 0x1000, 0x1000, 0xcaaba2d9);
 
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);      /* sprites */
+            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);
+            /* sprites */
 
             ROM_LOAD("mp-b.3n", 0x1000, 0x1000, 0x9b72133a);
 
             ROM_REGION(0x1000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);      /* background graphics */
+            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);
+            /* background graphics */
 
             ROM_REGION(0x1000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("mp-e.3k", 0x0000, 0x1000, 0xc7aa1fb0);
@@ -457,7 +484,8 @@ public class mpatrol {
             ROM_LOAD("mp-e.3h", 0x0000, 0x1000, 0xa0919392);
 
             ROM_REGION(0x0240, REGION_PROMS);
-            ROM_LOAD("2a", 0x0000, 0x0100, 0x0f193a50);/* character palette */
+            /* the palette PROM is wrong: the Williams logo is painted in all black */
+            ROM_LOAD("2a", 0x0000, 0x0100, BADCRC(0x0f193a50));/* character palette */
 
             ROM_LOAD("1m", 0x0100, 0x0020, 0x6a57eff2);/* background palette */
 
@@ -471,29 +499,34 @@ public class mpatrol {
 
     static RomLoadPtr rom_mranger = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("mp-a.3m", 0x0000, 0x1000, 0x5873a860);
             ROM_LOAD("mr-a.3l", 0x1000, 0x1000, 0x217dd431);
             ROM_LOAD("mr-a.3k", 0x2000, 0x1000, 0x9f0af7b2);
             ROM_LOAD("mr-a.3j", 0x3000, 0x1000, 0x7fe8e2cd);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for code */
 
             ROM_LOAD("mp-snd.1a", 0xf000, 0x1000, 0x561d3108);
 
             ROM_REGION(0x2000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-e.3e", 0x0000, 0x1000, 0xe3ee7f75);      /* chars */
+            ROM_LOAD("mp-e.3e", 0x0000, 0x1000, 0xe3ee7f75);
+            /* chars */
 
             ROM_LOAD("mp-e.3f", 0x1000, 0x1000, 0xcca6d023);
 
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);      /* sprites */
+            ROM_LOAD("mp-b.3m", 0x0000, 0x1000, 0x707ace5e);
+            /* sprites */
 
             ROM_LOAD("mp-b.3n", 0x1000, 0x1000, 0x9b72133a);
 
             ROM_REGION(0x1000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);      /* background graphics */
+            ROM_LOAD("mp-e.3l", 0x0000, 0x1000, 0xc46a7f72);
+            /* background graphics */
 
             ROM_REGION(0x1000, REGION_GFX4 | REGIONFLAG_DISPOSE);
             ROM_LOAD("mp-e.3k", 0x0000, 0x1000, 0xc7aa1fb0);

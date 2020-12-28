@@ -1,35 +1,8 @@
 /**
- * *************************************************************************
- *
- * Superman memory map
- *
- * driver by Richard Bush, Howie Cohen
- *
- * CPU 1 : 68000, uses irq 6
- *
- * 0x000000 - 0x07ffff : ROM 0x300000 ?? 0x400000 ?? 0x500000 - 0x50000f :
- * Dipswitches a b, 4 bits to each word 0x600000 ?? null, 10, 0x4001, 0x4006
- * 0x700000 ?? 0x800000 - 0x800003 : sound chip 0x900000 - 0x900fff : c-chip
- * shared RAM space 0xb00000 - 0xb00fff : palette RAM, words in the format
- * xRRRRRGGGGGBBBBB 0xc00000 ?? 0xd00000 - 0xd007ff : video attribute RAM 0000 -
- * 03ff : sprite y coordinate 0400 - 07ff : tile x y scroll 0xe00000 - 0xe00fff
- * : object RAM 0000 - 03ff : sprite number (bit mask 0x3fff) sprite y flip (bit
- * mask 0x4000) sprite x flip (bit mask 0x8000) 0400 - 07ff : sprite x
- * coordinate (bit mask 0x1ff) sprite color (bit mask 0xf800) 0800 - 0bff : tile
- * number (bit mask 0x3fff) tile y flip (bit mask 0x4000) tile x flip (bit mask
- * 0x8000) 0c00 - 0fff : tile color (bit mask 0xf800) 0xe01000 - 0xe03fff :
- * unused(?) portion of object RAM
- *
- * TODO: Optimize rendering Does high score save work consistently?
- *
- **************************************************************************
- */
-
-/*
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -40,8 +13,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
@@ -51,13 +22,13 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.superman.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.machine.cchip.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2610;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intfH.*;
 
 public class superman {
 
-    public static UBytePtr ram = new UBytePtr(); /* for high score save */
-
+    public static UBytePtr ram = new UBytePtr();/* for high score save */
 
     public static ReadHandlerPtr superman_input_r = new ReadHandlerPtr() {
         public int handler(int offset) {
@@ -71,9 +42,7 @@ public class superman {
                 case 0x06:
                     return readinputport(3);
                 default:
-                    if (errorlog != null) {
-                        fprintf(errorlog, "superman_input_r offset: %04x\n", offset);
-                    }
+                    logerror("superman_input_r offset: %04x\n", offset);
                     return 0xff;
             }
         }
@@ -143,7 +112,8 @@ public class superman {
 
     static InputPortPtr input_ports_superman = new InputPortPtr() {
         public void handler() {
-            PORT_START();  /* DSW A */
+            PORT_START();
+            /* DSW A */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unused"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -160,7 +130,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* DSW B */
+            PORT_START();
+            /* DSW B */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
@@ -177,7 +148,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* DSW c */
+            PORT_START();
+            /* DSW c */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -194,7 +166,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* DSW D */
+            PORT_START();
+            /* DSW D */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x02, "2");
@@ -212,7 +185,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER1);
@@ -223,7 +197,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
@@ -234,7 +209,8 @@ public class superman {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -334,14 +310,16 @@ public class superman {
      */
     static RomLoadPtr rom_superman = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x80000, REGION_CPU1);    /* 512k for 68000 code */
+            ROM_REGION(0x80000, REGION_CPU1);
+            /* 512k for 68000 code */
 
             ROM_LOAD_EVEN("a10_09.bin", 0x00000, 0x20000, 0x640f1d58);
             ROM_LOAD_ODD("a05_07.bin", 0x00000, 0x20000, 0xfddb9953);
             ROM_LOAD_EVEN("a08_08.bin", 0x40000, 0x20000, 0x79fc028e);
             ROM_LOAD_ODD("a03_13.bin", 0x40000, 0x20000, 0x9f446a44);
 
-            ROM_REGION(0x1c000, REGION_CPU2);    /* 64k for Z80 code */
+            ROM_REGION(0x1c000, REGION_CPU2);
+            /* 64k for Z80 code */
 
             ROM_LOAD("d18_10.bin", 0x00000, 0x4000, 0x6efe79e8);
             ROM_CONTINUE(0x10000, 0xc000);/* banked stuff */

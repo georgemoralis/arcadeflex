@@ -1,8 +1,9 @@
-/*
+/**
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -95,7 +96,8 @@ public class appoooh {
 
     static InputPortPtr input_ports_appoooh = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -106,7 +108,8 @@ public class appoooh {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_BUTTON2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -117,14 +120,16 @@ public class appoooh {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON3);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_COIN3);
             PORT_BIT(0xf8, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x03, DEF_STR("4C_1C"));
@@ -269,11 +274,14 @@ public class appoooh {
             ROM_LOAD("epr-5900.bin", 0x08000, 0x4000, 0xa8ed13f3);
 
             ROM_REGION(0x0220, REGION_PROMS);
-            ROM_LOAD("pr5921.prm", 0x0000, 0x020, 0xf2437229);	/* palette */
+            ROM_LOAD("pr5921.prm", 0x0000, 0x020, 0xf2437229);
+            /* palette */
 
-            ROM_LOAD("pr5922.prm", 0x0020, 0x100, 0x85c542bf);	/* charset #1 lookup table */
+            ROM_LOAD("pr5922.prm", 0x0020, 0x100, 0x85c542bf);
+            /* charset #1 lookup table */
 
-            ROM_LOAD("pr5923.prm", 0x0120, 0x100, 0x16acbd53);	/* charset #2 lookup table */
+            ROM_LOAD("pr5923.prm", 0x0120, 0x100, 0x16acbd53);
+            /* charset #2 lookup table */
 
             ROM_REGION(0xa000, REGION_SOUND1);/* adpcm voice data */
 

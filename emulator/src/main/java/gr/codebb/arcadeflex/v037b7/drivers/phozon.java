@@ -1,8 +1,10 @@
-/*
+/**
+ *
+ * ported to 0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -20,9 +22,9 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 public class phozon {
 
     /* memory functions */
-    /* custom IO chips  CPU functions */
-    /* video functions */
-    /* CPU 1 (MAIN CPU) read addresses */
+ /* custom IO chips  CPU functions */
+ /* video functions */
+ /* CPU 1 (MAIN CPU) read addresses */
     static MemoryReadAddress readmem_cpu1[]
             = {
                 new MemoryReadAddress(0x0000, 0x03ff, videoram_r), /* video RAM */
@@ -94,7 +96,8 @@ public class phozon {
     /* The dipswitches and player inputs are not memory mapped, they are handled by an I/O chip. */
     static InputPortPtr input_ports_phozon = new InputPortPtr() {
         public void handler() {
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("3C_1C"));
@@ -116,7 +119,8 @@ public class phozon {
             PORT_DIPSETTING(0x60, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_2C"));
 
-            PORT_START();   /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x00, "0");
@@ -135,7 +139,8 @@ public class phozon {
             PORT_DIPSETTING(0x80, "30k 120k and every 120k");
             PORT_DIPSETTING(0x00, "30k 100k");
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_START1, 1);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_HIGH, IPT_START2, 1);
@@ -146,7 +151,8 @@ public class phozon {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -157,7 +163,8 @@ public class phozon {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_BUTTON1, 1);
             PORT_BITX(0x02, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
@@ -261,18 +268,21 @@ public class phozon {
 
     static RomLoadPtr rom_phozon = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the MAIN CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the MAIN CPU  */
 
             ROM_LOAD("6e.rom", 0x8000, 0x2000, 0xa6686af1);
             ROM_LOAD("6h.rom", 0xa000, 0x2000, 0x72a65ba0);
             ROM_LOAD("6c.rom", 0xc000, 0x2000, 0xf1fda22e);
             ROM_LOAD("6d.rom", 0xe000, 0x2000, 0xf40e6df0);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the SUB CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the SUB CPU */
 
             ROM_LOAD("9r.rom", 0xe000, 0x2000, 0x5d9f0a28);
 
-            ROM_REGION(0x10000, REGION_CPU3);    /* 64k for the SOUND CPU */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for the SOUND CPU */
 
             ROM_LOAD("3b.rom", 0xe000, 0x2000, 0x5a4b3a79);
 

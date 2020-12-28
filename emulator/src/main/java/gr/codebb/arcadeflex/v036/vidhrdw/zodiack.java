@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.drivers.zodiack.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
 
 
 

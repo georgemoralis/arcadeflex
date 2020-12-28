@@ -1,8 +1,9 @@
-/*
+/**
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.09
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -12,13 +13,12 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.brkthru.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
@@ -26,7 +26,8 @@ import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class brkthru {
 
-    public static UBytePtr brkthru_nmi_enable = new UBytePtr(); /* needs to be tracked down */
+    public static UBytePtr brkthru_nmi_enable = new UBytePtr();
+    /* needs to be tracked down */
 
     static int nmi_enable;
 
@@ -41,10 +42,8 @@ public class brkthru {
     public static WriteHandlerPtr darwin_0803_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* bit 0 = NMI enable */
-            /*nmi_enable = ~data & 1;*/
-            if (errorlog != null) {
-                fprintf(errorlog, "0803 %02X\n", data);
-            }
+ /*nmi_enable = ~data & 1;*/
+            logerror("0803 %02X\n", data);
             nmi_enable = data;
             /* bit 1 = ? maybe IRQ acknowledge */
         }
@@ -149,8 +148,8 @@ public class brkthru {
 
     static InputPortPtr input_ports_brkthru = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -160,8 +159,8 @@ public class brkthru {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -171,8 +170,8 @@ public class brkthru {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);/* used only by the self test */
 
-            PORT_START(); 	/* IN2 */
-
+            PORT_START();
+            /* IN2 */
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x02, "2");
             PORT_DIPSETTING(0x03, "3");
@@ -189,10 +188,10 @@ public class brkthru {
             PORT_DIPSETTING(0x10, DEF_STR("Yes"));
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_LOW, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 2);
-            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN3, 2);
+            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_SERVICE1, 2);
 
-            PORT_START();       /* DSW0 */
-
+            PORT_START();
+            /* DSW0 */
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
             PORT_DIPSETTING(0x03, DEF_STR("1C_1C"));
@@ -221,8 +220,8 @@ public class brkthru {
 
     static InputPortPtr input_ports_darwin = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -232,8 +231,8 @@ public class brkthru {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -243,14 +242,14 @@ public class brkthru {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START(); 	/* IN2 modified by Shingo Suzuki 1999/11/02 */
-
+            PORT_START();
+            /* IN2 modified by Shingo Suzuki 1999/11/02 */
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
             PORT_DIPSETTING(0x00, "5");
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Bonus_Life"));
-            PORT_DIPSETTING(0x02, "20k and every 50k");
-            PORT_DIPSETTING(0x00, "30k and every 80k");
+            PORT_DIPSETTING(0x02, "20k 50k and every 50k");
+            PORT_DIPSETTING(0x00, "30k 80k and every 80k");
             PORT_DIPNAME(0x0c, 0x0c, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x0c, "Easy");
             PORT_DIPSETTING(0x08, "Medium");
@@ -261,10 +260,10 @@ public class brkthru {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_LOW, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 2);
-            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN3, 2);
+            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_SERVICE1, 2);
 
-            PORT_START();       /* DSW0 */
-
+            PORT_START();
+            /* DSW0 */
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
             PORT_DIPSETTING(0x03, DEF_STR("1C_1C"));
@@ -471,7 +470,8 @@ public class brkthru {
      */
     static RomLoadPtr rom_brkthru = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for main CPU + 64k for banked ROMs */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for main CPU + 64k for banked ROMs */
 
             ROM_LOAD("brkthru.1", 0x04000, 0x4000, 0xcfb4265f);
             ROM_LOAD("brkthru.2", 0x08000, 0x8000, 0xfa8246d9);
@@ -483,26 +483,31 @@ public class brkthru {
 
             ROM_REGION(0x20000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             /* background */
-            /* we do a lot of scatter loading here, to place the data in a format */
-            /* which can be decoded by MAME's standard functions */
+ /* we do a lot of scatter loading here, to place the data in a format */
+ /* which can be decoded by MAME's standard functions */
             ROM_LOAD("brkthru.7", 0x00000, 0x4000, 0x920cc56a);/* bitplanes 1,2 for bank 1,2 */
 
-            ROM_CONTINUE(0x08000, 0x4000);			/* bitplanes 1,2 for bank 3,4 */
+            ROM_CONTINUE(0x08000, 0x4000);
+            /* bitplanes 1,2 for bank 3,4 */
 
             ROM_LOAD("brkthru.6", 0x10000, 0x4000, 0xfd3cee40);/* bitplanes 1,2 for bank 5,6 */
 
-            ROM_CONTINUE(0x18000, 0x4000);			/* bitplanes 1,2 for bank 7,8 */
+            ROM_CONTINUE(0x18000, 0x4000);
+            /* bitplanes 1,2 for bank 7,8 */
 
             ROM_LOAD("brkthru.8", 0x04000, 0x1000, 0xf67ee64e);/* bitplane 3 for bank 1,2 */
 
             ROM_CONTINUE(0x06000, 0x1000);
-            ROM_CONTINUE(0x0c000, 0x1000);			/* bitplane 3 for bank 3,4 */
+            ROM_CONTINUE(0x0c000, 0x1000);
+            /* bitplane 3 for bank 3,4 */
 
             ROM_CONTINUE(0x0e000, 0x1000);
-            ROM_CONTINUE(0x14000, 0x1000);			/* bitplane 3 for bank 5,6 */
+            ROM_CONTINUE(0x14000, 0x1000);
+            /* bitplane 3 for bank 5,6 */
 
             ROM_CONTINUE(0x16000, 0x1000);
-            ROM_CONTINUE(0x1c000, 0x1000);			/* bitplane 3 for bank 7,8 */
+            ROM_CONTINUE(0x1c000, 0x1000);
+            /* bitplane 3 for bank 7,8 */
 
             ROM_CONTINUE(0x1e000, 0x1000);
 
@@ -526,7 +531,8 @@ public class brkthru {
 
     static RomLoadPtr rom_brkthruj = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for main CPU + 64k for banked ROMs */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for main CPU + 64k for banked ROMs */
 
             ROM_LOAD("1", 0x04000, 0x4000, 0x09bd60ee);
             ROM_LOAD("2", 0x08000, 0x8000, 0xf2b2cd1c);
@@ -538,26 +544,31 @@ public class brkthru {
 
             ROM_REGION(0x20000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             /* background */
-            /* we do a lot of scatter loading here, to place the data in a format */
-            /* which can be decoded by MAME's standard functions */
+ /* we do a lot of scatter loading here, to place the data in a format */
+ /* which can be decoded by MAME's standard functions */
             ROM_LOAD("brkthru.7", 0x00000, 0x4000, 0x920cc56a);/* bitplanes 1,2 for bank 1,2 */
 
-            ROM_CONTINUE(0x08000, 0x4000);			/* bitplanes 1,2 for bank 3,4 */
+            ROM_CONTINUE(0x08000, 0x4000);
+            /* bitplanes 1,2 for bank 3,4 */
 
             ROM_LOAD("6", 0x10000, 0x4000, 0xcb47b395);/* bitplanes 1,2 for bank 5,6 */
 
-            ROM_CONTINUE(0x18000, 0x4000);			/* bitplanes 1,2 for bank 7,8 */
+            ROM_CONTINUE(0x18000, 0x4000);
+            /* bitplanes 1,2 for bank 7,8 */
 
             ROM_LOAD("8", 0x04000, 0x1000, 0x5e5a2cd7);/* bitplane 3 for bank 1,2 */
 
             ROM_CONTINUE(0x06000, 0x1000);
-            ROM_CONTINUE(0x0c000, 0x1000);			/* bitplane 3 for bank 3,4 */
+            ROM_CONTINUE(0x0c000, 0x1000);
+            /* bitplane 3 for bank 3,4 */
 
             ROM_CONTINUE(0x0e000, 0x1000);
-            ROM_CONTINUE(0x14000, 0x1000);			/* bitplane 3 for bank 5,6 */
+            ROM_CONTINUE(0x14000, 0x1000);
+            /* bitplane 3 for bank 5,6 */
 
             ROM_CONTINUE(0x16000, 0x1000);
-            ROM_CONTINUE(0x1c000, 0x1000);			/* bitplane 3 for bank 7,8 */
+            ROM_CONTINUE(0x1c000, 0x1000);
+            /* bitplane 3 for bank 7,8 */
 
             ROM_CONTINUE(0x1e000, 0x1000);
 
@@ -581,7 +592,8 @@ public class brkthru {
 
     static RomLoadPtr rom_darwin = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for main CPU + 64k for banked ROMs */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for main CPU + 64k for banked ROMs */
 
             ROM_LOAD("darw_04.rom", 0x04000, 0x4000, 0x0eabf21c);
             ROM_LOAD("darw_05.rom", 0x08000, 0x8000, 0xe771f864);
@@ -589,30 +601,36 @@ public class brkthru {
             ROM_LOAD("darw_06.rom", 0x18000, 0x8000, 0x2a9fb208);
 
             ROM_REGION(0x02000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("darw_09.rom", 0x00000, 0x2000, 0x067b4cf5);  /* characters */
+            ROM_LOAD("darw_09.rom", 0x00000, 0x2000, 0x067b4cf5);
+            /* characters */
 
             ROM_REGION(0x20000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             /* background */
-            /* we do a lot of scatter loading here, to place the data in a format */
-            /* which can be decoded by MAME's standard functions */
+ /* we do a lot of scatter loading here, to place the data in a format */
+ /* which can be decoded by MAME's standard functions */
             ROM_LOAD("darw_03.rom", 0x00000, 0x4000, 0x57d0350d);/* bitplanes 1,2 for bank 1,2 */
 
-            ROM_CONTINUE(0x08000, 0x4000);			/* bitplanes 1,2 for bank 3,4 */
+            ROM_CONTINUE(0x08000, 0x4000);
+            /* bitplanes 1,2 for bank 3,4 */
 
             ROM_LOAD("darw_02.rom", 0x10000, 0x4000, 0x559a71ab);/* bitplanes 1,2 for bank 5,6 */
 
-            ROM_CONTINUE(0x18000, 0x4000);			/* bitplanes 1,2 for bank 7,8 */
+            ROM_CONTINUE(0x18000, 0x4000);
+            /* bitplanes 1,2 for bank 7,8 */
 
             ROM_LOAD("darw_01.rom", 0x04000, 0x1000, 0x15a16973);/* bitplane 3 for bank 1,2 */
 
             ROM_CONTINUE(0x06000, 0x1000);
-            ROM_CONTINUE(0x0c000, 0x1000);			/* bitplane 3 for bank 3,4 */
+            ROM_CONTINUE(0x0c000, 0x1000);
+            /* bitplane 3 for bank 3,4 */
 
             ROM_CONTINUE(0x0e000, 0x1000);
-            ROM_CONTINUE(0x14000, 0x1000);			/* bitplane 3 for bank 5,6 */
+            ROM_CONTINUE(0x14000, 0x1000);
+            /* bitplane 3 for bank 5,6 */
 
             ROM_CONTINUE(0x16000, 0x1000);
-            ROM_CONTINUE(0x1c000, 0x1000);			/* bitplane 3 for bank 7,8 */
+            ROM_CONTINUE(0x1c000, 0x1000);
+            /* bitplane 3 for bank 7,8 */
 
             ROM_CONTINUE(0x1e000, 0x1000);
 

@@ -1,4 +1,9 @@
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * ported to v0.37b7
+ * ported to v0.36
+ *
+ */
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -16,13 +21,13 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.mitchell.*;
 import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
 import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ym2413.*;
 import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class mitchell {
@@ -245,9 +250,7 @@ public class mitchell {
             switch (input_type) {
                 case 0:
                 default:
-                    if (errorlog != null) {
-                        fprintf(errorlog, "PC %04x: write %02x to port 01\n", cpu_get_pc(), data);
-                    }
+                    logerror("PC %04x: write %02x to port 01\n", cpu_get_pc(), data);
                     break;
                 case 1:
                     mahjong_input_select_w(offset, data);

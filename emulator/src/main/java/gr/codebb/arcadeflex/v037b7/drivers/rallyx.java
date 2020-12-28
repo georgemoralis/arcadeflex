@@ -1,8 +1,8 @@
 /*
- * ported to v0.36
- * using automatic conversion tool v0.05 + manual fixes
+ * ported to v0.37b7
+ * using automatic conversion tool v0.01
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -15,7 +15,6 @@ import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static gr.codebb.arcadeflex.v036.mame.inputportH.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
@@ -29,15 +28,19 @@ public class rallyx {
         }
     };
 
-    static int last_sample;
-
+    public static WriteHandlerPtr rallyx_leds_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            //set_led_status(offset, data & 1);
+        }
+    };
+    static int last;
     public static WriteHandlerPtr rallyx_play_sound_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            if (data == 0 && last_sample != 0) {
+            if (data == 0 && last != 0) {
                 sample_start(0, 0, 0);
             }
 
-            last_sample = data;
+            last = data;
         }
     };
 
@@ -68,7 +71,7 @@ public class rallyx {
                 new MemoryWriteAddress(0xa180, 0xa180, rallyx_play_sound_w),
                 new MemoryWriteAddress(0xa181, 0xa181, interrupt_enable_w),
                 new MemoryWriteAddress(0xa183, 0xa183, rallyx_flipscreen_w),
-                new MemoryWriteAddress(0xa184, 0xa185, osd_led_w),
+                new MemoryWriteAddress(0xa184, 0xa185, rallyx_leds_w),
                 new MemoryWriteAddress(0xa186, 0xa186, rallyx_coin_lockout_w),
                 new MemoryWriteAddress(0xa187, 0xa187, coin_counter_w),
                 new MemoryWriteAddress(0x8014, 0x801f, MWA_RAM, spriteram, spriteram_size), /* these are here just to initialize */
@@ -84,8 +87,8 @@ public class rallyx {
 
     static InputPortPtr input_ports_rallyx = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
@@ -95,8 +98,8 @@ public class rallyx {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x01, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
@@ -108,8 +111,8 @@ public class rallyx {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* DSW0 */
-
+            PORT_START();
+            /* DSW0 */
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             /* TODO: the bonus score depends on the number of lives */
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Bonus_Life"));
@@ -137,8 +140,8 @@ public class rallyx {
 
     static InputPortPtr input_ports_nrallyx = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
-
+            PORT_START();
+            /* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
@@ -148,8 +151,8 @@ public class rallyx {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
-
+            PORT_START();
+            /* IN1 */
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x01, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
@@ -161,8 +164,8 @@ public class rallyx {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* DSW0 */
-
+            PORT_START();
+            /* DSW0 */
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             /* TODO: the bonus score depends on the number of lives */
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Bonus_Life"));
@@ -250,7 +253,7 @@ public class rallyx {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3072000, /* 3.072 Mhz ? */
+                        3072000, /* 3.072 MHz ? */
                         readmem, writemem, null, writeport,
                         interrupt, 1
                 )
@@ -281,6 +284,7 @@ public class rallyx {
                 )
             }
     );
+
     /**
      * *************************************************************************
      *
@@ -288,11 +292,9 @@ public class rallyx {
      *
      **************************************************************************
      */
-
     static RomLoadPtr rom_rallyx = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
-
             ROM_LOAD("1b", 0x0000, 0x1000, 0x5882700d);
             ROM_LOAD("rallyxn.1e", 0x1000, 0x1000, 0xed1eba2b);
             ROM_LOAD("rallyxn.1h", 0x2000, 0x1000, 0x4f98dd1c);
@@ -309,10 +311,8 @@ public class rallyx {
             ROM_LOAD("im5623.8p", 0x0020, 0x0100, 0x834d4fda);
 
             ROM_REGION(0x0200, REGION_SOUND1);/* sound proms */
-
             ROM_LOAD("im5623.3p", 0x0000, 0x0100, 0x4bad7017);
             ROM_LOAD("im5623.2m", 0x0100, 0x0100, 0x77245b66);/* timing - not used */
-
             ROM_END();
         }
     };
@@ -320,7 +320,6 @@ public class rallyx {
     static RomLoadPtr rom_rallyxm = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
-
             ROM_LOAD("1b", 0x0000, 0x1000, 0x5882700d);
             ROM_LOAD("1e", 0x1000, 0x1000, 0x786585ec);
             ROM_LOAD("1h", 0x2000, 0x1000, 0x110d7dcd);
@@ -337,10 +336,8 @@ public class rallyx {
             ROM_LOAD("im5623.8p", 0x0020, 0x0100, 0x834d4fda);
 
             ROM_REGION(0x0200, REGION_SOUND1);/* sound proms */
-
             ROM_LOAD("im5623.3p", 0x0000, 0x0100, 0x4bad7017);
             ROM_LOAD("im5623.2m", 0x0100, 0x0100, 0x77245b66);/* timing - not used */
-
             ROM_END();
         }
     };
@@ -348,7 +345,6 @@ public class rallyx {
     static RomLoadPtr rom_nrallyx = new RomLoadPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
-
             ROM_LOAD("nrallyx.1b", 0x0000, 0x1000, 0x9404c8d6);
             ROM_LOAD("nrallyx.1e", 0x1000, 0x1000, 0xac01bf3f);
             ROM_LOAD("nrallyx.1h", 0x2000, 0x1000, 0xaeba29b5);
@@ -358,17 +354,16 @@ public class rallyx {
             ROM_LOAD("nrallyx.8e", 0x0000, 0x1000, 0xca7a174a);
 
             ROM_REGION(0x0100, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("im5623.8m", 0x0000, 0x0100, BADCRC(0x3c16f62c));	/* dots */
+            ROM_LOAD("im5623.8m", 0x0000, 0x0100, BADCRC(0x3c16f62c));
+            /* dots */
 
             ROM_REGION(0x0120, REGION_PROMS);
             ROM_LOAD("nrallyx.pr1", 0x0000, 0x0020, 0xa0a49017);
             ROM_LOAD("nrallyx.pr2", 0x0020, 0x0100, 0xb2b7ca15);
 
             ROM_REGION(0x0200, REGION_SOUND1);/* sound proms */
-
             ROM_LOAD("nrallyx.spr", 0x0000, 0x0100, 0xb75c4e87);
             ROM_LOAD("im5623.2m", 0x0100, 0x0100, 0x77245b66);/* timing - not used */
-
             ROM_END();
         }
     };

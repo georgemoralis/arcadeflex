@@ -1,17 +1,9 @@
-/**
- * *************************************************************************
- *
- * Jailbreak - (c) 1986 Konami
- *
- * Ernesto Corvi ernesto@imagina.com
- *
- **************************************************************************
- */
 /*
- * ported to v0.36
- * using automatic conversion tool v0.10
+ * modifications based on 0.58 for vlm5030
+ * ported to v0.37b7
+ *
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -41,15 +33,14 @@ public class jailbrek {
     };
 
     public static ReadHandlerPtr jailbrek_speech_r = new ReadHandlerPtr() {
-        public int handler(int offs) {
+        public int handler(int offset) {
             return (VLM5030_BSY() != 0 ? 1 : 0);
-
         }
     };
 
     public static WriteHandlerPtr jailbrek_speech_w = new WriteHandlerPtr() {
-        public void handler(int offs, int data) {
-            VLM5030_VCU(data & 1);
+        public void handler(int offset, int data) {
+            /* bit 0 could be latch direction like in yiear */
             VLM5030_ST((data >> 1) & 1);
             VLM5030_RST((data >> 2) & 1);
         }
@@ -95,8 +86,8 @@ public class jailbrek {
 
     static InputPortPtr input_ports_jailbrek = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW0  - $3303 */
-
+            PORT_START();
+            /* DSW0  - $3303 */
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
             PORT_DIPSETTING(0x05, DEF_STR("3C_1C"));
@@ -132,8 +123,8 @@ public class jailbrek {
             PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x00, "Invalid?");
 
-            PORT_START(); 	/* DSW1  - $3100 */
-
+            PORT_START();
+            /* DSW1  - $3100 */
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "1");
             PORT_DIPSETTING(0x02, "2");
@@ -158,8 +149,8 @@ public class jailbrek {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* IN0 - $3300 */
-
+            PORT_START();
+            /* IN0 - $3300 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_COIN3);
@@ -169,8 +160,8 @@ public class jailbrek {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 - $3301 */
-
+            PORT_START();
+            /* IN1 - $3301 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP);
@@ -180,8 +171,8 @@ public class jailbrek {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 - $3302 */
-
+            PORT_START();
+            /* IN2 - $3302 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER2);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER2);
@@ -295,41 +286,33 @@ public class jailbrek {
 
     /**
      * *************************************************************************
-     *
      * Game driver(s)
-     *
-     **************************************************************************
+     * *************************************************************************
      */
     static RomLoadPtr rom_jailbrek = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(2 * 0x10000, REGION_CPU1);    /* 64k for code + 64k for decrypted opcodes */
-
+            ROM_REGION(2 * 0x10000, REGION_CPU1);
+            /* 64k for code + 64k for decrypted opcodes */
             ROM_LOAD("jailb11d.bin", 0x8000, 0x4000, 0xa0b88dfd);
             ROM_LOAD("jailb9d.bin", 0xc000, 0x4000, 0x444b7d8e);
 
             ROM_REGION(0x08000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("jailb4f.bin", 0x00000, 0x4000, 0xe3b7a226);/* characters */
-
             ROM_LOAD("jailb5f.bin", 0x04000, 0x4000, 0x504f0912);
 
             ROM_REGION(0x10000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("jailb3e.bin", 0x00000, 0x4000, 0x0d269524);/* sprites */
-
             ROM_LOAD("jailb4e.bin", 0x04000, 0x4000, 0x27d4f6f4);
             ROM_LOAD("jailb5e.bin", 0x08000, 0x4000, 0x717485cb);
             ROM_LOAD("jailb3f.bin", 0x0c000, 0x4000, 0xe933086f);
 
             ROM_REGION(0x0240, REGION_PROMS);
             ROM_LOAD("jailbbl.cl2", 0x0000, 0x0020, 0xf1909605);/* red & green */
-
             ROM_LOAD("jailbbl.cl1", 0x0020, 0x0020, 0xf70bb122);/* blue */
-
             ROM_LOAD("jailbbl.bp2", 0x0040, 0x0100, 0xd4fe5c97);/* char lookup */
-
             ROM_LOAD("jailbbl.bp1", 0x0140, 0x0100, 0x0266c7db);/* sprites lookup */
 
             ROM_REGION(0x4000, REGION_SOUND1);/* speech rom */
-
             ROM_LOAD("jailb8c.bin", 0x0000, 0x2000, 0xd91d15e3);
             ROM_END();
         }

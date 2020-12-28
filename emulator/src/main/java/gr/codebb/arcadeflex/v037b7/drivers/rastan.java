@@ -1,18 +1,8 @@
 /**
- * *************************************************************************
- *
- * Rastan
- *
- * driver by Jarek Burczynski
- *
- **************************************************************************
- */
-
-/*
+ * ported to v0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -31,7 +21,6 @@ import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.*;
 
 public class rastan {
 
@@ -39,7 +28,8 @@ public class rastan {
 
     public static InterruptPtr rastan_interrupt = new InterruptPtr() {
         public int handler() {
-            return 5;  /*Interrupt vector 5*/
+            return 5;
+            /*Interrupt vector 5*/
 
         }
     };
@@ -70,16 +60,6 @@ public class rastan {
             }
 
             return rastan_ram.READ_WORD(0x1c10);
-        }
-    };
-
-    public static ReadHandlerPtr rastan_sound_spin = new ReadHandlerPtr() {
-        public int handler(int offset) {
-            if ((cpu_get_pc() == 0x1c5) && (memory_region(REGION_CPU2).read(0x8f27) & 0x01) == 0) {
-                cpu_spin();
-            }
-
-            return memory_region(REGION_CPU2).read(0x8f27);
         }
     };
 
@@ -115,7 +95,7 @@ public class rastan {
                 new MemoryWriteAddress(0xc0c000, 0xc0ffff, MWA_BANK3),
                 new MemoryWriteAddress(0xc20000, 0xc20003, rastan_scrollY_w, rastan_scrolly), /* scroll Y  1st.w plane1  2nd.w plane2 */
                 new MemoryWriteAddress(0xc40000, 0xc40003, rastan_scrollX_w, rastan_scrollx), /* scroll X  1st.w plane1  2nd.w plane2 */
-                //	new MemoryWriteAddress( 0xc50000, 0xc50003, MWA_NOP ),     /* 0 only (rarely)*/
+                new MemoryWriteAddress(0xc50000, 0xc50003, rastan_flipscreen_w), /* bit 0  flipscreen*/
                 new MemoryWriteAddress(0xd00000, 0xd0ffff, MWA_BANK4, rastan_spriteram),
                 new MemoryWriteAddress(-1) /* end of table */};
 
@@ -133,7 +113,6 @@ public class rastan {
             = {
                 new MemoryReadAddress(0x0000, 0x3fff, MRA_ROM),
                 new MemoryReadAddress(0x4000, 0x7fff, MRA_BANK5),
-                new MemoryReadAddress(0x8f27, 0x8f27, rastan_sound_spin),
                 new MemoryReadAddress(0x8000, 0x8fff, MRA_RAM),
                 new MemoryReadAddress(0x9001, 0x9001, YM2151_status_port_0_r),
                 new MemoryReadAddress(0x9002, 0x9100, MRA_RAM),
@@ -155,7 +134,8 @@ public class rastan {
 
     static InputPortPtr input_ports_rastan = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -166,7 +146,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -177,7 +158,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -188,7 +170,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -211,7 +194,8 @@ public class rastan {
             PORT_DIPSETTING(0x40, DEF_STR("1C_4C"));
             PORT_DIPSETTING(0x00, DEF_STR("1C_6C"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -241,7 +225,8 @@ public class rastan {
     /* same as rastan, coinage is different */
     static InputPortPtr input_ports_rastsaga = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -252,7 +237,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -263,7 +249,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -274,7 +261,8 @@ public class rastan {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -297,7 +285,8 @@ public class rastan {
             PORT_DIPSETTING(0x00, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -364,30 +353,11 @@ public class rastan {
             new WriteHandlerPtr[]{rastan_bankswitch_w}
     );
 
-    static ADPCMsample rastan_samples[]
-            = {
-                new ADPCMsample(0x00, 0x0000, 0x0200 * 2),
-                new ADPCMsample(0x02, 0x0200, 0x0500 * 2),
-                new ADPCMsample(0x07, 0x0700, 0x2100 * 2),
-                new ADPCMsample(0x28, 0x2800, 0x3b00 * 2),
-                new ADPCMsample(0x63, 0x6300, 0x4e00 * 2),
-                new ADPCMsample(0xb1, 0xb100, 0x1600 * 2)
-            };
-
-    public static ADPCM_initPtr adpcm_init = new ADPCM_initPtr() {
-        public void handler(ADPCMinterface i, ADPCMsample[] s, int max) {
-
-            //memcpy(sample_list,rastan_samples,sizeof(rastan_samples));
-            System.arraycopy(rastan_samples, 0, s, 0, rastan_samples.length);
-        }
-    };
-
     static ADPCMinterface adpcm_interface = new ADPCMinterface(
-            1, /* 1 chip */
+            1, /* 1 channel */
             8000, /* 8000Hz playback */
             REGION_SOUND1, /* memory region */
-            adpcm_init, /* init function */
-            new int[]{60}
+            new int[]{60} /* volume */
     );
 
     static MachineDriver machine_driver_rastan = new MachineDriver(
@@ -457,22 +427,30 @@ public class rastan {
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);       /* 8x8 0 */
+            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);       /* 8x8 0 */
+            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);       /* 8x8 1 */
+            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);
+            /* 8x8 1 */
 
-            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);       /* 8x8 1 */
+            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);
+            /* 8x8 1 */
 
             ROM_REGION(0x080000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);       /* sprites 1a */
+            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);
+            /* sprites 1a */
 
-            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);       /* sprites 3a */
+            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);
+            /* sprites 3a */
 
-            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);       /* sprites 1b */
+            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);
+            /* sprites 1b */
 
-            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);       /* sprites 3b */
+            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);
+            /* sprites 3b */
 
             ROM_REGION(0x10000, REGION_SOUND1);/* 64k for the samples */
 
@@ -499,22 +477,30 @@ public class rastan {
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);       /* 8x8 0 */
+            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);       /* 8x8 0 */
+            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);       /* 8x8 1 */
+            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);
+            /* 8x8 1 */
 
-            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);       /* 8x8 1 */
+            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);
+            /* 8x8 1 */
 
             ROM_REGION(0x080000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);       /* sprites 1a */
+            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);
+            /* sprites 1a */
 
-            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);       /* sprites 3a */
+            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);
+            /* sprites 3a */
 
-            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);       /* sprites 1b */
+            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);
+            /* sprites 1b */
 
-            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);       /* sprites 3b */
+            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);
+            /* sprites 3b */
 
             ROM_REGION(0x10000, REGION_SOUND1);/* 64k for the samples */
 
@@ -541,22 +527,30 @@ public class rastan {
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);       /* 8x8 0 */
+            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);       /* 8x8 0 */
+            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);       /* 8x8 1 */
+            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);
+            /* 8x8 1 */
 
-            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);       /* 8x8 1 */
+            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);
+            /* 8x8 1 */
 
             ROM_REGION(0x080000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);       /* sprites 1a */
+            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);
+            /* sprites 1a */
 
-            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);       /* sprites 3a */
+            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);
+            /* sprites 3a */
 
-            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);       /* sprites 1b */
+            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);
+            /* sprites 1b */
 
-            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);       /* sprites 3b */
+            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);
+            /* sprites 3b */
 
             ROM_REGION(0x10000, REGION_SOUND1);/* 64k for the samples */
 
@@ -583,22 +577,30 @@ public class rastan {
             ROM_CONTINUE(0x10000, 0xc000);
 
             ROM_REGION(0x080000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);       /* 8x8 0 */
+            ROM_LOAD("ic40_01.bin", 0x00000, 0x20000, 0xcd30de19);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);       /* 8x8 0 */
+            ROM_LOAD("ic39_03.bin", 0x20000, 0x20000, 0xab67e064);
+            /* 8x8 0 */
 
-            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);       /* 8x8 1 */
+            ROM_LOAD("ic67_02.bin", 0x40000, 0x20000, 0x54040fec);
+            /* 8x8 1 */
 
-            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);       /* 8x8 1 */
+            ROM_LOAD("ic66_04.bin", 0x60000, 0x20000, 0x94737e93);
+            /* 8x8 1 */
 
             ROM_REGION(0x080000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);       /* sprites 1a */
+            ROM_LOAD("ic15_05.bin", 0x00000, 0x20000, 0xc22d94ac);
+            /* sprites 1a */
 
-            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);       /* sprites 3a */
+            ROM_LOAD("ic14_07.bin", 0x20000, 0x20000, 0xb5632a51);
+            /* sprites 3a */
 
-            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);       /* sprites 1b */
+            ROM_LOAD("ic28_06.bin", 0x40000, 0x20000, 0x002ccf39);
+            /* sprites 1b */
 
-            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);       /* sprites 3b */
+            ROM_LOAD("ic27_08.bin", 0x60000, 0x20000, 0xfeafca05);
+            /* sprites 3b */
 
             ROM_REGION(0x10000, REGION_SOUND1);/* 64k for the samples */
 
@@ -608,9 +610,9 @@ public class rastan {
         }
     };
 
-    public static GameDriver driver_rastan = new GameDriver("1987", "rastan", "rastan.java", rom_rastan, null, machine_driver_rastan, input_ports_rastan, null, ROT0, "Taito Corporation Japan", "Rastan (World)", GAME_NO_COCKTAIL);
-    /* IDENTICAL to rastan, only differennce is copyright notice and Coin B coinage */
-    public static GameDriver driver_rastanu = new GameDriver("1987", "rastanu", "rastan.java", rom_rastanu, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito America Corporation", "Rastan (US set 1)", GAME_NO_COCKTAIL);
-    public static GameDriver driver_rastanu2 = new GameDriver("1987", "rastanu2", "rastan.java", rom_rastanu2, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito America Corporation", "Rastan (US set 2)", GAME_NO_COCKTAIL);
-    public static GameDriver driver_rastsaga = new GameDriver("1987", "rastsaga", "rastan.java", rom_rastsaga, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito Corporation", "Rastan Saga (Japan)", GAME_NO_COCKTAIL);
+    public static GameDriver driver_rastan = new GameDriver("1987", "rastan", "rastan.java", rom_rastan, null, machine_driver_rastan, input_ports_rastan, null, ROT0, "Taito Corporation Japan", "Rastan (World)");
+    /* IDENTICAL to rastan, only difference is copyright notice and Coin B coinage */
+    public static GameDriver driver_rastanu = new GameDriver("1987", "rastanu", "rastan.java", rom_rastanu, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito America Corporation", "Rastan (US set 1)");
+    public static GameDriver driver_rastanu2 = new GameDriver("1987", "rastanu2", "rastan.java", rom_rastanu2, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito America Corporation", "Rastan (US set 2)");
+    public static GameDriver driver_rastsaga = new GameDriver("1987", "rastsaga", "rastan.java", rom_rastsaga, driver_rastan, machine_driver_rastan, input_ports_rastsaga, null, ROT0, "Taito Corporation", "Rastan Saga (Japan)");
 }

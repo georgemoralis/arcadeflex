@@ -1,23 +1,8 @@
 /**
- * *************************************************************************
- *
- * Pocket Gal	(c) 1987 Data East Corporation Pocket Gal (Bootleg)	(c) 1989 Yada
- * East Corporation(!!!) Super Pool III	(c) 1989 Data East Corporation Pocket
- * Gal 2	(c) 1989 Data East Corporation Super Pool III (I-Vics Inc)	(c) 1990
- * Data East Corporation
- *
- * Pocket Gal (Bootleg) is often called 'Sexy Billiards'
- *
- * Emulation by Bryan McPhail, mish@tendril.co.uk
- *
- **************************************************************************
+ * ported to 0.37b7
+ * ported to 0.36
  */
-
-/*
- * ported to v0.36
- * using automatic conversion tool v0.10
- */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -131,7 +116,7 @@ public class pcktgal {
                 new MemoryWriteAddress(0x0000, 0x07ff, MWA_RAM),
                 new MemoryWriteAddress(0x0800, 0x0fff, videoram_w, videoram, videoram_size),
                 new MemoryWriteAddress(0x1000, 0x11ff, MWA_RAM, spriteram, spriteram_size),
-                new MemoryWriteAddress(0x1801, 0x1801, MWA_NOP), /* bit 7 = flip screen, other bits unknown */
+                new MemoryWriteAddress(0x1801, 0x1801, pcktgal_flipscreen_w),
                 /* 1800 - 0x181f are unused BAC-06 registers, see vidhrdw/dec0.c */
                 new MemoryWriteAddress(0x1a00, 0x1a00, pcktgal_sound_w),
                 new MemoryWriteAddress(0x1c00, 0x1c00, pcktgal_bank_w),
@@ -187,7 +172,8 @@ public class pcktgal {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
 
-            PORT_START(); 	/* Dip switch */
+            PORT_START();
+            /* Dip switch */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
@@ -276,7 +262,7 @@ public class pcktgal {
      */
     static YM2203interface ym2203_interface = new YM2203interface(
             1, /* 1 chip */
-            4000000, /* 4.0 MHz ??? */
+            1500000, /* 1.5 MHz */
             new int[]{YM2203_VOL(60, 60)},
             new ReadHandlerPtr[]{null},
             new ReadHandlerPtr[]{null},
@@ -286,7 +272,7 @@ public class pcktgal {
 
     static YM3812interface ym3812_interface = new YM3812interface(
             1, /* 1 chip (no more supported) */
-            3000000, /* 3 MHz? (hand tuned) */
+            3000000, /* 3 MHz*/
             new int[]{50}
     );
 
@@ -312,7 +298,7 @@ public class pcktgal {
                 ),
                 new MachineCPU(
                         CPU_M6502 | CPU_AUDIO_CPU,
-                        2000000,
+                        1500000,
                         sound_readmem, sound_writemem, null, null,
                         ignore_interrupt, 0
                 /* IRQs are caused by the ADPCM chip */
@@ -327,7 +313,7 @@ public class pcktgal {
             gfxdecodeinfo,
             512, 512,
             ghostb_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_RASTER,
             null,
             generic_vh_start,
             generic_vh_stop,
@@ -361,7 +347,7 @@ public class pcktgal {
                 ),
                 new MachineCPU(
                         CPU_M6502 | CPU_AUDIO_CPU,
-                        2000000,
+                        1500000,
                         sound_readmem, sound_writemem, null, null,
                         ignore_interrupt, 0
                 /* IRQs are caused by the ADPCM chip */
@@ -376,7 +362,7 @@ public class pcktgal {
             bootleg_gfxdecodeinfo,
             512, 512,
             ghostb_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_RASTER,
             null,
             generic_vh_start,
             generic_vh_stop,
@@ -404,14 +390,16 @@ public class pcktgal {
      */
     static RomLoadPtr rom_pcktgal = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x14000, REGION_CPU1); /* 64k for code + 16k for banks */
+            ROM_REGION(0x14000, REGION_CPU1);
+            /* 64k for code + 16k for banks */
 
             ROM_LOAD("eb04.rom", 0x10000, 0x4000, 0x8215d60d);
             ROM_CONTINUE(0x04000, 0xc000);
             /* 4000-7fff is banked but code falls through from 7fff to 8000, so */
-            /* I have to load the bank directly at 4000. */
+ /* I have to load the bank directly at 4000. */
 
-            ROM_REGION(2 * 0x18000, REGION_CPU2); /* 96k for code + 96k for decrypted opcodes */
+            ROM_REGION(2 * 0x18000, REGION_CPU2);
+            /* 96k for code + 96k for decrypted opcodes */
 
             ROM_LOAD("eb03.rom", 0x10000, 0x8000, 0xcb029b02);
             ROM_CONTINUE(0x08000, 0x8000);
@@ -434,14 +422,16 @@ public class pcktgal {
 
     static RomLoadPtr rom_pcktgalb = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x14000, REGION_CPU1); /* 64k for code + 16k for banks */
+            ROM_REGION(0x14000, REGION_CPU1);
+            /* 64k for code + 16k for banks */
 
             ROM_LOAD("sexybill.001", 0x10000, 0x4000, 0x4acb3e84);
             ROM_CONTINUE(0x04000, 0xc000);
             /* 4000-7fff is banked but code falls through from 7fff to 8000, so */
-            /* I have to load the bank directly at 4000. */
+ /* I have to load the bank directly at 4000. */
 
-            ROM_REGION(2 * 0x18000, REGION_CPU2); /* 96k for code + 96k for decrypted opcodes */
+            ROM_REGION(2 * 0x18000, REGION_CPU2);
+            /* 96k for code + 96k for decrypted opcodes */
 
             ROM_LOAD("eb03.rom", 0x10000, 0x8000, 0xcb029b02);
             ROM_CONTINUE(0x08000, 0x8000);
@@ -465,14 +455,16 @@ public class pcktgal {
 
     static RomLoadPtr rom_pcktgal2 = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x14000, REGION_CPU1); /* 64k for code + 16k for banks */
+            ROM_REGION(0x14000, REGION_CPU1);
+            /* 64k for code + 16k for banks */
 
             ROM_LOAD("eb04-2.rom", 0x10000, 0x4000, 0x0c7f2905);
             ROM_CONTINUE(0x04000, 0xc000);
             /* 4000-7fff is banked but code falls through from 7fff to 8000, so */
-            /* I have to load the bank directly at 4000. */
+ /* I have to load the bank directly at 4000. */
 
-            ROM_REGION(0x18000, REGION_CPU2); /* audio cpu */
+            ROM_REGION(0x18000, REGION_CPU2);
+            /* audio cpu */
 
             ROM_LOAD("eb03-2.rom", 0x10000, 0x8000, 0x9408ffb4);
             ROM_CONTINUE(0x08000, 0x8000);
@@ -495,14 +487,16 @@ public class pcktgal {
 
     static RomLoadPtr rom_spool3 = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x14000, REGION_CPU1); /* 64k for code + 16k for banks */
+            ROM_REGION(0x14000, REGION_CPU1);
+            /* 64k for code + 16k for banks */
 
             ROM_LOAD("eb04-2.rom", 0x10000, 0x4000, 0x0c7f2905);
             ROM_CONTINUE(0x04000, 0xc000);
             /* 4000-7fff is banked but code falls through from 7fff to 8000, so */
-            /* I have to load the bank directly at 4000. */
+ /* I have to load the bank directly at 4000. */
 
-            ROM_REGION(0x18000, REGION_CPU2); /* audio cpu */
+            ROM_REGION(0x18000, REGION_CPU2);
+            /* audio cpu */
 
             ROM_LOAD("eb03-2.rom", 0x10000, 0x8000, 0x9408ffb4);
             ROM_CONTINUE(0x08000, 0x8000);
@@ -525,14 +519,16 @@ public class pcktgal {
 
     static RomLoadPtr rom_spool3i = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x14000, REGION_CPU1); /* 64k for code + 16k for banks */
+            ROM_REGION(0x14000, REGION_CPU1);
+            /* 64k for code + 16k for banks */
 
             ROM_LOAD("de1.bin", 0x10000, 0x4000, 0xa59980fe);
             ROM_CONTINUE(0x04000, 0xc000);
             /* 4000-7fff is banked but code falls through from 7fff to 8000, so */
-            /* I have to load the bank directly at 4000. */
+ /* I have to load the bank directly at 4000. */
 
-            ROM_REGION(0x18000, REGION_CPU2); /* audio cpu */
+            ROM_REGION(0x18000, REGION_CPU2);
+            /* audio cpu */
 
             ROM_LOAD("eb03-2.rom", 0x10000, 0x8000, 0x9408ffb4);
             ROM_CONTINUE(0x08000, 0x8000);

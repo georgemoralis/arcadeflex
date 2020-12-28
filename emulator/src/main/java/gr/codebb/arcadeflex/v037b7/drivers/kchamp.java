@@ -1,8 +1,8 @@
 /*
+ * ported to 0.37b7
  * ported to v0.36
- * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -26,6 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
+
 
 public class kchamp {
 
@@ -78,7 +79,7 @@ public class kchamp {
 
     public static WriteHandlerPtr sound_reset_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            if ((data & 1)==0) {
+            if ((data & 1) == 0) {
                 cpu_set_reset_line(1, PULSE_LINE);
             }
         }
@@ -86,7 +87,7 @@ public class kchamp {
 
     public static WriteHandlerPtr sound_control_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            MSM5205_reset_w.handler(0, (data & 1)==0?1:0);
+            MSM5205_reset_w.handler(0, (data & 1) == 0 ? 1 : 0);
             sound_nmi_enable = ((data >> 1) & 1);
         }
     };
@@ -141,8 +142,7 @@ public class kchamp {
 
     /**
      * ******************
-     * 1 Player Version *
-	*******************
+     * 1 Player Version * ******************
      */
     static MemoryReadAddress kc_readmem[]
             = {
@@ -192,7 +192,7 @@ public class kchamp {
             if (offset == 0) {
                 sound_nmi_enable = ((data >> 7) & 1);
             }
-	//	else
+            //	else
             //		DAC_set_volume(0,( data == 1 ) ? 255 : 0,0);
         }
     };
@@ -224,13 +224,14 @@ public class kchamp {
                 new IOWritePort(0x01, 0x01, AY8910_control_port_0_w),
                 new IOWritePort(0x02, 0x02, AY8910_write_port_1_w),
                 new IOWritePort(0x03, 0x03, AY8910_control_port_1_w),
-                new IOWritePort(0x04, 0x04, DAC_data_w),
+                new IOWritePort(0x04, 0x04, DAC_0_data_w),
                 new IOWritePort(0x05, 0x05, kc_sound_control_w),
                 new IOWritePort(-1) /* end of table */};
 
     static InputPortPtr input_ports_kchampvs = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_LEFT | IPF_4WAY);
@@ -241,7 +242,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_UP | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_DOWN | IPF_4WAY);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_LEFT | IPF_PLAYER2 | IPF_4WAY);
@@ -252,7 +254,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_UP | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_DOWN | IPF_PLAYER2 | IPF_4WAY);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -263,7 +266,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x00, DEF_STR("3C_1C"));
@@ -292,12 +296,12 @@ public class kchamp {
 
     /**
      * ******************
-     * 1 Player Version *
-	*******************
+     * 1 Player Version * ******************
      */
     static InputPortPtr input_ports_kchamp = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_LEFT | IPF_4WAY);
@@ -308,7 +312,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_UP | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_DOWN | IPF_4WAY);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_RIGHT | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_LEFT | IPF_PLAYER2 | IPF_4WAY);
@@ -319,7 +324,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_UP | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_DOWN | IPF_PLAYER2 | IPF_4WAY);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -330,7 +336,8 @@ public class kchamp {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x00, DEF_STR("3C_1C"));
@@ -393,7 +400,7 @@ public class kchamp {
     public static InterruptPtr kc_interrupt = new InterruptPtr() {
         public int handler() {
 
-            if (nmi_enable!=0) {
+            if (nmi_enable != 0) {
                 return Z80_NMI_INT;
             }
 
@@ -412,8 +419,8 @@ public class kchamp {
 
             msm_play_lo_nibble = msm_play_lo_nibble ^ 1;
 
-            if ((counter ^= 1)==0) {
-                if (sound_nmi_enable!=0) {
+            if ((counter ^= 1) == 0) {
+                if (sound_nmi_enable != 0) {
                     cpu_cause_interrupt(1, Z80_NMI_INT);
                 }
             }
@@ -424,10 +431,10 @@ public class kchamp {
             2, /* 2 chips */
             1500000, /* 12 Mhz / 8 = 1.5 Mhz */
             new int[]{30, 30}, // Modified by T.Nogi 1999/11/08
-            new ReadHandlerPtr[]{null,null},
-            new ReadHandlerPtr[]{null,null},
-            new WriteHandlerPtr[]{null,null},
-            new WriteHandlerPtr[]{null,null}
+            new ReadHandlerPtr[]{null, null},
+            new ReadHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null},
+            new WriteHandlerPtr[]{null, null}
     );
 
     static MSM5205interface msm_interface = new MSM5205interface(
@@ -440,17 +447,17 @@ public class kchamp {
 
     /**
      * ******************
-     * 1 Player Version *
-	*******************
+     * 1 Player Version * ******************
      */
     public static InterruptPtr sound_int = new InterruptPtr() {
         public int handler() {
-        if (sound_nmi_enable!=0) {
-            return Z80_NMI_INT;
-        }
+            if (sound_nmi_enable != 0) {
+                return Z80_NMI_INT;
+            }
 
-        return Z80_IGNORE_INT;
-    }};
+            return Z80_IGNORE_INT;
+        }
+    };
 
     static DACinterface dac_interface = new DACinterface(
             1,
@@ -484,7 +491,7 @@ public class kchamp {
             256, /* number of colors */
             256, /* color table length */
             kchamp_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_RASTER,
             null,
             kchampvs_vh_start,
             generic_vh_stop,
@@ -505,8 +512,7 @@ public class kchamp {
 
     /**
      * ******************
-     * 1 Player Version *
-	*******************
+     * 1 Player Version * ******************
      */
     static MachineDriver machine_driver_kchamp = new MachineDriver(
             /* basic machine hardware */
@@ -536,7 +542,7 @@ public class kchamp {
             256, /* number of colors */
             256, /* color table length */
             kchamp_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_RASTER,
             null,
             kchamp1p_vh_start,
             generic_vh_stop,
@@ -587,47 +593,61 @@ public class kchamp {
             ROM_LOAD("b020.bin", 0xc000, 0x2000, 0xada4f2cd);
 
             ROM_REGION(0x08000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b000.bin", 0x00000, 0x2000, 0xa4fa98a1); /* plane0 */ /* tiles */
+            ROM_LOAD("b000.bin", 0x00000, 0x2000, 0xa4fa98a1);
+            /* plane0 */ /* tiles */
 
 
-            ROM_LOAD("b001.bin", 0x04000, 0x2000, 0xfea09f7c); /* plane1 */ /* tiles */
+            ROM_LOAD("b001.bin", 0x04000, 0x2000, 0xfea09f7c);
+            /* plane1 */ /* tiles */
 
 
             ROM_REGION(0x18000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b013.bin", 0x00000, 0x2000, 0xeaad4168); /* top, plane0 */ /* sprites */
+            ROM_LOAD("b013.bin", 0x00000, 0x2000, 0xeaad4168);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b004.bin", 0x02000, 0x2000, 0x10a47e2d); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("b004.bin", 0x02000, 0x2000, 0x10a47e2d);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9); /* top, plane0 */ /* sprites */
+            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3); /* top, plane0 */ /* sprites */
+            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b007.bin", 0x0c000, 0x2000, 0xcb91d16b); /* top, plane1 */ /* sprites */
+            ROM_LOAD("b007.bin", 0x0c000, 0x2000, 0xcb91d16b);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b010.bin", 0x0e000, 0x2000, 0x489c9c04); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("b010.bin", 0x0e000, 0x2000, 0x489c9c04);
+            /* bot, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a); /* top, plane1 */ /* sprites */
+            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc);
+            /* bot, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102); /* top, plane1 */ /* sprites */
+            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e);
+            /* bot, plane1 */ /* sprites */
 
 
             ROM_REGION(0x0300, REGION_PROMS);
@@ -666,47 +686,61 @@ public class kchamp {
             ROM_LOAD("be20", 0xc000, 0x2000, 0xcbe8a533);
 
             ROM_REGION(0x08000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("be00", 0x00000, 0x2000, 0xcec020f2); /* plane0 */ /* tiles */
+            ROM_LOAD("be00", 0x00000, 0x2000, 0xcec020f2);
+            /* plane0 */ /* tiles */
 
 
-            ROM_LOAD("be01", 0x04000, 0x2000, 0xcd96271c); /* plane1 */ /* tiles */
+            ROM_LOAD("be01", 0x04000, 0x2000, 0xcd96271c);
+            /* plane1 */ /* tiles */
 
 
             ROM_REGION(0x18000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("be13", 0x00000, 0x2000, 0xfb358707); /* top, plane0 */ /* sprites */
+            ROM_LOAD("be13", 0x00000, 0x2000, 0xfb358707);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("be04", 0x02000, 0x2000, 0x48372bf8); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("be04", 0x02000, 0x2000, 0x48372bf8);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9); /* top, plane0 */ /* sprites */
+            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3); /* top, plane0 */ /* sprites */
+            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3);
+            /* top, plane0 */ /* sprites */
 
 
-            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6); /* bot, plane0 */ /* sprites */
+            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6);
+            /* bot, plane0 */ /* sprites */
 
 
-            ROM_LOAD("be07", 0x0c000, 0x2000, 0x40f2b6fb); /* top, plane1 */ /* sprites */
+            ROM_LOAD("be07", 0x0c000, 0x2000, 0x40f2b6fb);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("be10", 0x0e000, 0x2000, 0x325c0a97); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("be10", 0x0e000, 0x2000, 0x325c0a97);
+            /* bot, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a); /* top, plane1 */ /* sprites */
+            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc);
+            /* bot, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102); /* top, plane1 */ /* sprites */
+            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102);
+            /* top, plane1 */ /* sprites */
 
 
-            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e); /* bot, plane1 */ /* sprites */
+            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e);
+            /* bot, plane1 */ /* sprites */
 
 
             ROM_REGION(0x0300, REGION_PROMS);
@@ -749,23 +783,31 @@ public class kchamp {
             ROM_REGION(0x18000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("bs00", 0x00000, 0x2000, 0x51eda56c);
             ROM_LOAD("bs06", 0x02000, 0x2000, 0x593264cf);
-            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9); /* bs01 */
+            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9);
+            /* bs01 */
 
-            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5); /* bs07 */
+            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5);
+            /* bs07 */
 
-            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3); /* bs02 */
+            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3);
+            /* bs02 */
 
-            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6); /* bs08 */
+            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6);
+            /* bs08 */
 
             ROM_LOAD("bs03", 0x0c000, 0x2000, 0x8dcd271a);
             ROM_LOAD("bs09", 0x0e000, 0x2000, 0x4ee1dba7);
-            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a); /* bs04 */
+            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a);
+            /* bs04 */
 
-            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc); /* bs10 */
+            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc);
+            /* bs10 */
 
-            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102); /* bs05 */
+            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102);
+            /* bs05 */
 
-            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e); /* bs11 */
+            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e);
+            /* bs11 */
 
             ROM_REGION(0x0300, REGION_PROMS);
             ROM_LOAD("br27", 0x0000, 0x0100, 0xf683c54a);/* red */
@@ -807,23 +849,31 @@ public class kchamp {
             ROM_REGION(0x18000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("br00", 0x00000, 0x2000, 0xc46a8b88);
             ROM_LOAD("br06", 0x02000, 0x2000, 0xcf8982ff);
-            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9); /* bs01 */
+            ROM_LOAD("b012.bin", 0x04000, 0x2000, 0xb4842ea9);
+            /* bs01 */
 
-            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5); /* bs07 */
+            ROM_LOAD("b003.bin", 0x06000, 0x2000, 0x8cd166a5);
+            /* bs07 */
 
-            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3); /* bs02 */
+            ROM_LOAD("b011.bin", 0x08000, 0x2000, 0x4cbd3aa3);
+            /* bs02 */
 
-            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6); /* bs08 */
+            ROM_LOAD("b002.bin", 0x0a000, 0x2000, 0x6be342a6);
+            /* bs08 */
 
             ROM_LOAD("br03", 0x0c000, 0x2000, 0xbde8a52b);
             ROM_LOAD("br09", 0x0e000, 0x2000, 0xe9a5f945);
-            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a); /* bs04 */
+            ROM_LOAD("b006.bin", 0x10000, 0x2000, 0x7346db8a);
+            /* bs04 */
 
-            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc); /* bs10 */
+            ROM_LOAD("b009.bin", 0x12000, 0x2000, 0xb78714fc);
+            /* bs10 */
 
-            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102); /* bs05 */
+            ROM_LOAD("b005.bin", 0x14000, 0x2000, 0xb2557102);
+            /* bs05 */
 
-            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e); /* bs11 */
+            ROM_LOAD("b008.bin", 0x16000, 0x2000, 0xc85aba0e);
+            /* bs11 */
 
             ROM_REGION(0x0300, REGION_PROMS);
             ROM_LOAD("br27", 0x0000, 0x0100, 0xf683c54a);/* red */
@@ -842,10 +892,10 @@ public class kchamp {
             int diff = memory_region_length(REGION_CPU1) / 2;
             int A;
 
-            memory_set_opcode_base(0, new UBytePtr(rom,diff));
+            memory_set_opcode_base(0, new UBytePtr(rom, diff));
 
             for (A = 0; A < 0x10000; A++) {
-                rom.write(A + diff,(rom.read(A) & 0x55) | ((rom.read(A) & 0x88) >> 2) | ((rom.read(A) & 0x22) << 2));
+                rom.write(A + diff, (rom.read(A) & 0x55) | ((rom.read(A) & 0x88) >> 2) | ((rom.read(A) & 0x22) << 2));
             }
 
             /*
@@ -857,19 +907,24 @@ public class kchamp {
              turns the encryption on, but this doesn't explain the
              encrypted address for the jump.
              */
-            rom.write(0 + diff,rom.read(0));	/* this is a jump */
+            rom.write(0 + diff, rom.read(0));
+            /* this is a jump */
 
             A = rom.read(1) + 256 * rom.read(2);
-            rom.write(A + diff,rom.read(A));	/* fix opcode on first jump address (again, a jump) */
+            rom.write(A + diff, rom.read(A));
+            /* fix opcode on first jump address (again, a jump) */
 
-            rom.write(A + 1,rom.read(A + 1) ^ 0xee);		/* fix address of the second jump */
+            rom.write(A + 1, rom.read(A + 1) ^ 0xee);
+            /* fix address of the second jump */
 
             A = rom.read(A + 1) + 256 * rom.read(A + 2);
-            rom.write(A + diff, rom.read(A));	/* fix third opcode (ld a,$xx) */
+            rom.write(A + diff, rom.read(A));
+            /* fix third opcode (ld a,$xx) */
 
             A += 2;
-            rom.write(A + diff,rom.read(A));	/* fix fourth opcode (ld ($xxxx),a */
-            /* and from here on, opcodes are encrypted */
+            rom.write(A + diff, rom.read(A));
+            /* fix fourth opcode (ld ($xxxx),a */
+ /* and from here on, opcodes are encrypted */
 
         }
     };
