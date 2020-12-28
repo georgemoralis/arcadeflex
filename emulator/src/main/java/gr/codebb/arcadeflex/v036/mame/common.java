@@ -36,6 +36,8 @@ public class common {
 		+ "images is a violation of copyright law and should be promptly reported to the\n"
 		+ "authors so that appropriate legal action can be taken.\n\n");
     }
+
+	
     /***************************************************************************
 
       Read ROMs into memory.
