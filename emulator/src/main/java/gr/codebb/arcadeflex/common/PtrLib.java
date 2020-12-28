@@ -12,7 +12,7 @@ public class PtrLib {
     /**
      * ***********************************
      *
-     * Unsigned Byte Pointer Emulation 
+     * Unsigned Byte Pointer Emulation
      */
     public static class UBytePtr {
 
@@ -31,7 +31,7 @@ public class PtrLib {
         public UBytePtr(short[] m) {
             byte[] bytes = new byte[m.length * 2];
             ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(m);
-            memory= new char[bytes.length];
+            memory = new char[bytes.length];
             for (int i = 0; i < bytes.length; i++) {
                 memory[i] = (char) ((bytes[i] + 256) & 0xFF);
             }
@@ -89,7 +89,7 @@ public class PtrLib {
         }
 
         public int READ_WORD(int index) {
-            return (memory[offset + index + 1] << 8 | memory[offset + index])&0xFFFF;
+            return (memory[offset + index + 1] << 8 | memory[offset + index]) & 0xFFFF;
         }
 
         public int READ_DWORD(int index)//unchecked!
@@ -164,7 +164,8 @@ public class PtrLib {
             tempmemory[tempbase] = (char) ((tempmemory[tempbase] ^ (char) value) & 0xFF);
         }
     }
-        /**
+
+    /**
      * Byte Pointer emulation
      */
     public static class BytePtr {
@@ -183,6 +184,10 @@ public class PtrLib {
 
         public BytePtr(byte[] m) {
             set(m, 0);
+        }
+
+        public BytePtr(byte[] m, int b) {
+            set(m, b);
         }
 
         public BytePtr(BytePtr cp, int b) {
@@ -220,7 +225,6 @@ public class PtrLib {
      *     Unsigned Short Ptr emulation
      *
      */
-
     public static class UShortPtr {
 
         public int bsize = 2;
@@ -279,7 +283,8 @@ public class PtrLib {
         }
 
     }
-        /**
+
+    /**
      * ShortPtr emulation
      */
     public static class ShortPtr {
