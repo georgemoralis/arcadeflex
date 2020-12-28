@@ -3,6 +3,7 @@ package gr.codebb.arcadeflex.v036.platform;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -63,6 +64,24 @@ public class fileio {
     /*TODO*/ //            eFileType type;
     /*TODO*/ //            unsigned int crc;
     /*TODO*/ //    }	FakeFileHandle;
+    
+    public static void downloadFile(String _rom, String _dstDir) {
+        String _url_ROM = settings.romUrl+_rom+".zip";
+        System.out.println("Downloading "+_url_ROM);
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(_url_ROM).openStream());
+            FileOutputStream fileOS = new FileOutputStream(_dstDir+"/"+_rom+".zip")) {
+              byte data[] = new byte[1024];
+              int byteContent;
+              while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                  fileOS.write(data, 0, byteContent);
+              }
+              fileOS.close();
+              
+        } catch (IOException e) {
+              e.printStackTrace(System.out);
+        }
+    }
+    
     public static Object osd_fopen(String game, String filename, int filetype, int _write) {
         //System.out.println("entering osd_fopen for "+game+" "+filename);
         String name = "";
@@ -112,10 +131,20 @@ public class fileio {
                     pathv = new String[1];
                     pathv[0] = "roms";
                 }
+                
+                //System.out.println(gamename);
+                //System.out.println(filename);
 
                 for (indx = 0; indx < pathc && found == 0; ++indx) {
                     String dir_name = pathv[indx];
                     //unZipIt(dir_name + File.separator + gamename + ".zip", dir_name + File.separator + gamename, filename);
+                    if (!(new File(dir_name + File.separator + gamename + ".zip").exists())){
+                        //found=1;
+                        System.out.println(gamename+" not FOUND! Trying to download it");
+                        downloadFile(gamename, dir_name);
+                        
+                        
+                    }
                     if (found == 0) {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
