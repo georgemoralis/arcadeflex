@@ -196,7 +196,7 @@ import static gr.codebb.arcadeflex.v036.drivers.tumblep.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec0.*;
 import static gr.codebb.arcadeflex.v036.drivers.kaneko16.*;
 import static gr.codebb.arcadeflex.v036.drivers.prehisle.*;
-import static gr.codebb.arcadeflex.v036.drivers.cps1.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.cps1.*;
 import static gr.codebb.arcadeflex.v036.drivers.alpha68k.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.superman.*;
 import static gr.codebb.arcadeflex.v036.drivers.aerofgt.*;
