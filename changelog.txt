@@ -1,6 +1,7 @@
 29/12/2020
 ==========
 -Ported inptports to v0.37b7
+-Ported snk driver . All games appears playable now
 
 28/12/2020
 ==========
