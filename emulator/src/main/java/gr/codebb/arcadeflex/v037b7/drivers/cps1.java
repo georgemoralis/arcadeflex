@@ -43,6 +43,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
+import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
 
 public class cps1
 {
@@ -272,34 +273,33 @@ public class cps1
 	
 	public static nvramPtr qsound_nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
 	{
-/*TODO*///		if (read_or_write != 0)
-/*TODO*///			EEPROM_save(file);
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			EEPROM_init(qsound_eeprom_interface);
-/*TODO*///	
-/*TODO*///			if (file != 0)
-/*TODO*///				EEPROM_load(file);
-/*TODO*///		}
+		if (read_or_write != 0)
+			EEPROM_save(file);
+		else
+		{
+			EEPROM_init(qsound_eeprom_interface);
+	
+			if (file != null)
+				EEPROM_load(file);
+		}
 	} };
 	
 	public static nvramPtr pang3_nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
 	{
-/*TODO*///		if (read_or_write != 0)
-/*TODO*///			EEPROM_save(file);
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			EEPROM_init(&pang3_eeprom_interface);
-/*TODO*///	
-/*TODO*///			if (file != 0)
-/*TODO*///				EEPROM_load(file);
-/*TODO*///		}
+		if (read_or_write != 0)
+			EEPROM_save(file);
+		else
+		{
+			EEPROM_init(pang3_eeprom_interface);
+	
+			if (file != null)
+				EEPROM_load(file);
+		}
 	} };
 	
 	public static ReadHandlerPtr cps1_eeprom_port_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
-/*TODO*///		return EEPROM_read_bit();
-            return 0;
+		return EEPROM_read_bit();
 	} };
 	
 	public static WriteHandlerPtr cps1_eeprom_port_w = new WriteHandlerPtr() {public void handler(int offset, int data)
@@ -309,9 +309,9 @@ public class cps1
 		bit 6 = clock
 		bit 7 = cs
 		*/
-/*TODO*///		EEPROM_write_bit(data & 0x01);
-/*TODO*///		EEPROM_set_cs_line((data & 0x80) ? CLEAR_LINE : ASSERT_LINE);
-/*TODO*///		EEPROM_set_clock_line((data & 0x40) ? ASSERT_LINE : CLEAR_LINE);
+		EEPROM_write_bit(data & 0x01);
+		EEPROM_set_cs_line((data & 0x80) != 0 ? CLEAR_LINE : ASSERT_LINE);
+		EEPROM_set_clock_line((data & 0x40) != 0 ? ASSERT_LINE : CLEAR_LINE);
 	} };
 	
 	
@@ -3472,75 +3472,73 @@ public class cps1
 	
 	public static int DECODE_GFX = 0;
 	
-	static GfxLayout tilelayout8 = new GfxLayout
-	(
-		8,8,
-/*TODO*///	#if DECODE_GFX
-		RGN_FRAC(1,2),
-/*TODO*///	#else
-/*TODO*///		0,
-/*TODO*///	#endif
-		4,
-		new int[] { RGN_FRAC(1,2)+8, RGN_FRAC(1,2)+0, 8, 0 },
-		new int[] { 0, 1, 2, 3, 4, 5, 6, 7 },
-		new int[] { 0*16, 1*16, 2*16, 3*16, 4*16, 5*16, 6*16, 7*16 },
-		16*8
-	);
-	
-	static GfxLayout tilelayout16 = new GfxLayout
-	(
-		16,16,
-/*TODO*///	#if DECODE_GFX
-		RGN_FRAC(1,4),
-/*TODO*///	#else
-/*TODO*///		0,
-/*TODO*///	#endif
-		4,
-		new int[] { RGN_FRAC(1,2)+8, RGN_FRAC(1,2)+0, 8, 0 },
-		new int[] { RGN_FRAC(1,4)+0, RGN_FRAC(1,4)+1, RGN_FRAC(1,4)+2, RGN_FRAC(1,4)+3,
-		  RGN_FRAC(1,4)+4, RGN_FRAC(1,4)+5, RGN_FRAC(1,4)+6, RGN_FRAC(1,4)+7,
-		  0, 1, 2, 3, 4, 5, 6, 7 },
-		new int[] { 0*16, 1*16, 2*16, 3*16, 4*16, 5*16, 6*16, 7*16,
-				8*16, 9*16, 10*16, 11*16, 12*16, 13*16, 14*16, 15*16 },
-		16*16
-	);
-	
-	static GfxLayout tilelayout32 = new GfxLayout
-	(
-		32,32,
-/*TODO*///	#if DECODE_GFX
-		RGN_FRAC(1,4),
-/*TODO*///	#else
-/*TODO*///		0,
-/*TODO*///	#endif
-		4,
-		new int[] { RGN_FRAC(1,2)+8, RGN_FRAC(1,2)+0, 8, 0 },
-		new int[] {
-			RGN_FRAC(1,4)+0, RGN_FRAC(1,4)+1, RGN_FRAC(1,4)+2, RGN_FRAC(1,4)+3,
-			RGN_FRAC(1,4)+4, RGN_FRAC(1,4)+5, RGN_FRAC(1,4)+6, RGN_FRAC(1,4)+7,
-			0, 1, 2, 3, 4, 5, 6, 7,
-			16+RGN_FRAC(1,4)+0, 16+RGN_FRAC(1,4)+1, 16+RGN_FRAC(1,4)+2, 16+RGN_FRAC(1,4)+3,
-			16+RGN_FRAC(1,4)+4, 16+RGN_FRAC(1,4)+5, 16+RGN_FRAC(1,4)+6, 16+RGN_FRAC(1,4)+7,
-			16+0, 16+1, 16+2, 16+3, 16+4, 16+5, 16+6, 16+7
-		},
-		new int[] {
-			 0*32,  1*32,  2*32,  3*32,  4*32,  5*32,  6*32,  7*32,
-			 8*32,  9*32, 10*32, 11*32, 12*32, 13*32, 14*32, 15*32,
-			16*32, 17*32, 18*32, 19*32, 20*32, 21*32, 22*32, 23*32,
-			24*32, 25*32, 26*32, 27*32, 28*32, 29*32, 30*32, 31*32
-		},
-		32*32
-	);
-	
-	static GfxDecodeInfo cps1_gfxdecodeinfo[] =
-	{
-		new GfxDecodeInfo( REGION_GFX1, 0, tilelayout16, 0x000, 32 ),	/* sprites */
-		new GfxDecodeInfo( REGION_GFX1, 0, tilelayout8,  0x200, 32 ),	/* tiles 8x8 */
-		new GfxDecodeInfo( REGION_GFX1, 0, tilelayout16, 0x400, 32 ),	/* tiles 16x16 */
-		new GfxDecodeInfo( REGION_GFX1, 0, tilelayout32, 0x600, 32 ),	/* tiles 32x32 */
-		/* stars use colors 0x800-087ff and 0xa00-0a7ff */
-		new GfxDecodeInfo( -1 ) /* end of array */
-	};
+	public static final int CPS1_ROM_SIZE = 0x00000;
+    public static final int CPS1_CHARS = (CPS1_ROM_SIZE / 32);
+
+    static GfxLayout cps1_charlayout = new GfxLayout(
+            8, 8, /* 8*8 chars */
+            CPS1_CHARS, /* ???? chars */
+            4, /* 4 bits per pixel */
+            new int[]{(CPS1_ROM_SIZE / 4 * 16) + 8, (CPS1_ROM_SIZE / 4 * 16), 8, 0},
+            new int[]{0, 1, 2, 3, 4, 5, 6, 7,},
+            new int[]{0 * 8, 2 * 8, 4 * 8, 6 * 8, 8 * 8, 10 * 8, 12 * 8, 14 * 8,},
+            16 * 8 /* every sprite takes 32*8*2 consecutive bytes */
+    );
+    static GfxLayout cps1_spritelayout = new GfxLayout(
+            16, 16, /* 16*16 sprites */
+            (CPS1_CHARS / 4), /* ???? sprites */
+            4, /* 4 bits per pixel */
+            new int[]{(CPS1_ROM_SIZE / 4 * 16) + 8, (CPS1_ROM_SIZE / 4 * 16), 8, 0},
+            new int[]{(CPS1_ROM_SIZE / 4 * 8) + 0, (CPS1_ROM_SIZE / 4 * 8) + 1, (CPS1_ROM_SIZE / 4 * 8) + 2, (CPS1_ROM_SIZE / 4 * 8) + 3,
+                (CPS1_ROM_SIZE / 4 * 8) + 4, (CPS1_ROM_SIZE / 4 * 8) + 5, (CPS1_ROM_SIZE / 4 * 8) + 6, (CPS1_ROM_SIZE / 4 * 8) + 7,
+                0, 1, 2, 3, 4, 5, 6, 7,},
+            new int[]{0 * 8, 2 * 8, 4 * 8, 6 * 8, 8 * 8, 10 * 8, 12 * 8, 14 * 8,
+                16 * 8, 18 * 8, 20 * 8, 22 * 8, 24 * 8, 26 * 8, 28 * 8, 30 * 8,},
+            32 * 8 /* every sprite takes 32*8*2 consecutive bytes */
+    );
+
+    static GfxLayout cps1_tilelayout = new GfxLayout(
+            16, 16, /* 16*16 sprites */
+            (CPS1_CHARS / 4), /* ???? sprites */
+            4, /* 4 bits per pixel */
+            new int[]{(CPS1_ROM_SIZE / 4 * 16) + 8, (CPS1_ROM_SIZE / 4 * 16), 8, 0},
+            new int[]{(CPS1_ROM_SIZE / 4 * 8) + 0, (CPS1_ROM_SIZE / 4 * 8) + 1, (CPS1_ROM_SIZE / 4 * 8) + 2, (CPS1_ROM_SIZE / 4 * 8) + 3,
+                (CPS1_ROM_SIZE / 4 * 8) + 4, (CPS1_ROM_SIZE / 4 * 8) + 5, (CPS1_ROM_SIZE / 4 * 8) + 6, (CPS1_ROM_SIZE / 4 * 8) + 7,
+                0, 1, 2, 3, 4, 5, 6, 7,},
+            new int[]{0 * 8, 2 * 8, 4 * 8, 6 * 8, 8 * 8, 10 * 8, 12 * 8, 14 * 8,
+                16 * 8, 18 * 8, 20 * 8, 22 * 8, 24 * 8, 26 * 8, 28 * 8, 30 * 8,},
+            32 * 8 /* every sprite takes 32*8*2 consecutive bytes */
+    );
+    static GfxLayout cps1_tilelayout32 = new GfxLayout(
+            32, 32, /* 32*32 tiles */
+            (CPS1_CHARS / 16), /* ????  tiles */
+            4, /* 4 bits per pixel */
+            new int[]{(CPS1_ROM_SIZE / 4 * 16) + 8, (CPS1_ROM_SIZE / 4 * 16), 8, 0},
+            new int[]{
+                (CPS1_ROM_SIZE / 4 * 8) + 0, (CPS1_ROM_SIZE / 4 * 8) + 1, (CPS1_ROM_SIZE / 4 * 8) + 2, (CPS1_ROM_SIZE / 4 * 8) + 3, (CPS1_ROM_SIZE / 4 * 8) + 4, (CPS1_ROM_SIZE / 4 * 8) + 5, (CPS1_ROM_SIZE / 4 * 8) + 6, (CPS1_ROM_SIZE / 4 * 8) + 7,
+                0, 1, 2, 3, 4, 5, 6, 7,
+                16 + (CPS1_ROM_SIZE / 4 * 8) + 0, 16 + (CPS1_ROM_SIZE / 4 * 8) + 1, 16 + (CPS1_ROM_SIZE / 4 * 8) + 2,
+                16 + (CPS1_ROM_SIZE / 4 * 8) + 3, 16 + (CPS1_ROM_SIZE / 4 * 8) + 4, 16 + (CPS1_ROM_SIZE / 4 * 8) + 5,
+                16 + (CPS1_ROM_SIZE / 4 * 8) + 6, 16 + (CPS1_ROM_SIZE / 4 * 8) + 7,
+                16 + 0, 16 + 1, 16 + 2, 16 + 3, 16 + 4, 16 + 5, 16 + 6, 16 + 7
+            },
+            new int[]{
+                0 * 32, 1 * 32, 2 * 32, 3 * 32, 4 * 32, 5 * 32, 6 * 32, 7 * 32,
+                8 * 32, 9 * 32, 10 * 32, 11 * 32, 12 * 32, 13 * 32, 14 * 32, 15 * 32,
+                16 * 32, 17 * 32, 18 * 32, 19 * 32, 20 * 32, 21 * 32, 22 * 32, 23 * 32,
+                24 * 32, 25 * 32, 26 * 32, 27 * 32, 28 * 32, 29 * 32, 30 * 32, 31 * 32
+            },
+            4 * 32 * 8 /* every sprite takes 32*8*4 consecutive bytes */
+    );
+
+    static GfxDecodeInfo cps1_gfxdecodeinfo[]
+            = {
+                new GfxDecodeInfo(REGION_GFX1, 0, cps1_charlayout, 32 * 16, 32),
+                new GfxDecodeInfo(REGION_GFX1, 0, cps1_spritelayout, 0, 32),
+                new GfxDecodeInfo(REGION_GFX1, 0, cps1_tilelayout, 32 * 16 + 32 * 16, 32),
+                new GfxDecodeInfo(REGION_GFX1, 0, cps1_tilelayout32, 32 * 16 + 32 * 16 + 32 * 16, 32),
+                new GfxDecodeInfo(-1) /* end of array */};
+
 	
 	public static WriteYmHandlerPtr cps1_irq_handler_mus = new WriteYmHandlerPtr() {
             public void handler(int irq) {
@@ -3583,43 +3581,47 @@ public class cps1
 	*
 	********************************************************************/
 	
-	static MachineDriver machine_driver_forgottn = new MachineDriver(
-            /* basic machine hardware */
-            new MachineCPU[]{
-                new MachineCPU(
-                        CPU_M68000,
-                        10000000,
-                        cps1_readmem, cps1_writemem, null, null,
-                        cps1_interrupt, 1
-                ),
-                new MachineCPU(
-                        CPU_Z80 | CPU_AUDIO_CPU,
-                        4000000, /* 4 Mhz ??? TODO: find real FRQ */
-                        sound_readmem, sound_writemem, null, null,
-                        ignore_interrupt, 0
-                )
-            },
-            60, 3000,
-            1,
-            null,
-            /* video hardware */
-            0x30 * 8 + 32 * 2, 0x1c * 8 + 32 * 3, new rectangle(32, 32 + 0x30 * 8 - 1, 32 + 16, 32 + 16 + 0x1c * 8 - 1),
-            cps1_gfxdecodeinfo,
-            32 * 16 + 32 * 16 + 32 * 16 + 32 * 16, /* lotsa colours */
-            32 * 16 + 32 * 16 + 32 * 16 + 32 * 16, /* Colour table length */
-            null,
-            VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
-            cps1_eof_callback,
-            cps1_vh_start,
-            cps1_vh_stop,
-            cps1_vh_screenrefresh,
-            /* sound hardware */
-            0, 0, 0, 0,
-            new MachineSound[]{new MachineSound(SOUND_YM2151, ym2151_interface),
-                new MachineSound(SOUND_OKIM6295, okim6295_interface_6061)
-            },
-            null
-        );
+	static MachineDriver machine_driver_forgottn = new MachineDriver
+	(																			
+		/* basic machine hardware */											
+		new MachineCPU[] {																		
+			new MachineCPU(																	
+				CPU_M68000,															
+				10000000,														
+				cps1_readmem,cps1_writemem,null,null,									
+				cps1_interrupt, 1												
+			),																	
+			new MachineCPU(																	
+				CPU_Z80 | CPU_AUDIO_CPU,										
+				4000000,  /* 4 MHz ??? TODO: find real FRQ */					
+				sound_readmem,sound_writemem,null,null,								
+				ignore_interrupt,0												
+			)																	
+		},																		
+		60, DEFAULT_60HZ_VBLANK_DURATION,										
+		1,																		
+		null,																		
+																				
+		/* video hardware */													
+		0x30*8+32*2, 0x1c*8+32*3, new rectangle( 32, 32+0x30*8-1, 32+16, 32+16+0x1c*8-1 ),	
+																				
+		cps1_gfxdecodeinfo,														
+		4096, 4096,																
+		null,																		
+																				
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,								
+		cps1_eof_callback,														
+		cps1_vh_start,															
+		cps1_vh_stop,															
+		cps1_vh_screenrefresh,													
+																				
+		/* sound hardware */													
+		0,0,0,0,																
+		new MachineSound[] { new MachineSound( SOUND_YM2151,  ym2151_interface ),									
+		  new MachineSound( SOUND_OKIM6295,  okim6295_interface_6061 )					
+		},																		
+		null																	
+	);
         static MachineDriver machine_driver_cps1 = new MachineDriver(
                 /* basic machine hardware */
                 new MachineCPU[]{
