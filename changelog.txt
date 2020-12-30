@@ -1,6 +1,7 @@
 30/12/2020
 ==========
 -Ported cps1 driver to v0.37b7 (correct colors)
+-Ported ddragon driver to v0.37b7
 
 29/12/2020
 ==========

@@ -98,7 +98,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.snk.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.troangel.*;
-import static gr.codebb.arcadeflex.v036.drivers.ddragon.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.contra.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.travrusa.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidepckt.*;

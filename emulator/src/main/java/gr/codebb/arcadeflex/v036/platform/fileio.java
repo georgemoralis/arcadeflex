@@ -130,6 +130,13 @@ public class fileio {
                     pathc = 1;
                     pathv = new String[1];
                     pathv[0] = "roms";
+                    
+                    if (!(new File(pathv[0] + File.separator + gamename + ".zip").exists())){
+                        //found=1;
+                        System.out.println(gamename+" not FOUND! Trying to download it");
+                        downloadFile(gamename, pathv[0]);
+                    }
+                    
                 }
                 
                 //System.out.println(gamename);
@@ -138,13 +145,7 @@ public class fileio {
                 for (indx = 0; indx < pathc && found == 0; ++indx) {
                     String dir_name = pathv[indx];
                     //unZipIt(dir_name + File.separator + gamename + ".zip", dir_name + File.separator + gamename, filename);
-                    if (!(new File(dir_name + File.separator + gamename + ".zip").exists())){
-                        //found=1;
-                        System.out.println(gamename+" not FOUND! Trying to download it");
-                        downloadFile(gamename, dir_name);
-                        
-                        
-                    }
+                    
                     if (found == 0) {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
