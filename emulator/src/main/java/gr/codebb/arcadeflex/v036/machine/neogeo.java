@@ -17,10 +17,13 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.drivers.neogeo.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.neogeo.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_write_handler;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import java.time.LocalDateTime;
+import static gr.codebb.arcadeflex.v036.machine.pd4990a.*;
+
 
 public class neogeo {
 
@@ -74,6 +77,8 @@ public class neogeo {
                 memory_region(REGION_USER1).WRITE_WORD(0x11b1a, 0x1b6a);
             }
 
+           // LocalDateTime dateTime = LocalDateTime.now();
+           // minutes = dateTime.getMinute();
             /*TODO*///		time(&ltime);
 /*TODO*///		today = localtime(&ltime);
             /*TODO*///		seconds = ((today.tm_sec/10)<<4) + (today.tm_sec%10);
@@ -83,6 +88,13 @@ public class neogeo {
 /*TODO*///		month = (today.tm_mon + 1);
 /*TODO*///		year = ((today.tm_year/10)<<4) + (today.tm_year%10);
 /*TODO*///		weekday = today.tm_wday;
+        seconds=0x00;		/* BCD */
+	minutes=0x00;		/* BCD */
+	hours=0x00;		/* BCD */
+	days=0x09;		/* BCD */
+	month=9;		/* Hexadecimal form */
+	year=0x73;		/* BCD */
+	weekday=1;		/* BCD */
         }
     };
 
