@@ -1,3 +1,7 @@
+01/01/2021
+==========
+-Some fixes to timer class
+
 31/12/2020
 =========
 -Some work on neogeo driver . WIP (nothing new)
