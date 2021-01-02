@@ -582,4 +582,31 @@ public class mame {
  /*TODO*/ //            if (he_did_cheat != 0) return 0;
         return 1;
     }
+    
+    /* Scale the vector games to a given resolution */
+    public static void scale_vectorgames(int gfx_width,int gfx_height,int width,int height)
+    {
+            double x_scale, y_scale, scale;
+
+            if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0)
+            {
+                    x_scale=(double)gfx_width/(double)(height);
+                    y_scale=(double)gfx_height/(double)(width);
+            }
+            else
+            {
+                    x_scale=(double)gfx_width/(double)(width);
+                    y_scale=(double)gfx_height/(double)(height);
+            }
+            if (x_scale<y_scale)
+                    scale=x_scale;
+            else
+                    scale=y_scale;
+            width=(int)((double)width*scale);
+            height=(int)((double)height*scale);
+
+            /* Padding to an dword value */
+            width-=width % 4;
+            height-=height % 4;
+    }
 }

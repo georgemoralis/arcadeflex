@@ -66,13 +66,17 @@ public class video {
     /*TODO*///
     public static final int BACKGROUND = 0;
     /*TODO*///
-    /*TODO*///
-    /*TODO*///dirtygrid grid1;
-    /*TODO*///dirtygrid grid2;
+    public static final int MAX_GFX_WIDTH = 1600;
+    public static final int MAX_GFX_HEIGHT = 1600;
+    public static final int DIRTY_H = 256; 			/* 160 would be enough, but * 256 is faster */
+    public static final int DIRTY_V = (MAX_GFX_HEIGHT/16);
+    //public static char[] dirtygrid=new char[DIRTY_V * DIRTY_H];
+    static char[] grid1=new char[DIRTY_V * DIRTY_H];
+    static char[] grid2=new char[DIRTY_V * DIRTY_H];
     /*TODO*///char *dirty_old=grid1;
-    /*TODO*///char *dirty_new=grid2;
+    public static char[] dirty_new=grid2;
     /*TODO*///
-    /*TODO*///void scale_vectorgames(int gfx_width,int gfx_height,int *width,int *height);
+    /*TODO*///static void scale_vectorgames(int gfx_width,int gfx_height,int *width,int *height);
     /*TODO*///
     /*TODO*///void center_mode(Register *pReg);
     /*TODO*///
@@ -999,8 +1003,8 @@ public class video {
         select_display_mode(depth);
 
         if (vector_game != 0) {
-            throw new UnsupportedOperationException("Unsupported scale_vectorgames");
-            /*TODO*///		scale_vectorgames(gfx_width,gfx_height,&width, &height);
+            //throw new UnsupportedOperationException("Unsupported scale_vectorgames");
+            scale_vectorgames(gfx_width,gfx_height,width, height);
         }
 
         game_width = width;
@@ -1758,8 +1762,11 @@ public class video {
             /*TODO*///		*blue =  getb(pen);
         } else {
             red[0] = (char) (current_palette.read(3 * pen + 0) & 0xFF);
+            //System.out.println("Red: "+red[0]);
             green[0] = (char) (current_palette.read(3 * pen + 1) & 0xFF);
+            //System.out.println("Green: "+green[0]);
             blue[0] = (char) (current_palette.read(3 * pen + 2) & 0xFF);
+            //System.out.println("Blue: "+blue[0]);
         }
     }
 
