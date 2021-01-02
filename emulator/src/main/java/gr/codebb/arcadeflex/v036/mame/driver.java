@@ -226,6 +226,7 @@ import static gr.codebb.arcadeflex.v036.drivers.system16.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.cop01.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 
 public class driver {
 
@@ -2240,11 +2241,11 @@ public class driver {
                 /*TODO*/ //	DRIVER( showdown )	/* (c) 1988 */
 
                 /* Atari vector games */
-                /*TODO*/ //	DRIVER( asteroid )	/* (c) 1979 */
-                /*TODO*/ //	DRIVER( asteroi1 )	/* no copyright notice */
-                /*TODO*/ //	DRIVER( asteroib )	/* bootleg */
-                /*TODO*/ //	DRIVER( astdelux )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( astdelu1 )	/* (c) 1980 */
+                driver_asteroid,	/* (c) 1979 */
+                driver_asteroi1,	/* no copyright notice */
+                driver_asteroib,	/* bootleg */
+                driver_astdelux,	/* (c) 1980 */
+                driver_astdelu1,	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( bwidow )	/* (c) 1982 */
                 /*TODO*/ //	DRIVER( bzone )		/* (c) 1980 */
                 /*TODO*/ //	DRIVER( bzone2 )	/* (c) 1980 */
