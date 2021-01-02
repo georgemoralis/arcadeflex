@@ -200,7 +200,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.cps1.*;
 import static gr.codebb.arcadeflex.v036.drivers.alpha68k.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.superman.*;
 import static gr.codebb.arcadeflex.v036.drivers.aerofgt.*;
-import static gr.codebb.arcadeflex.v036.drivers.neogeo.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.neogeo.*;
 import static gr.codebb.arcadeflex.v036.drivers.lastduel.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bloodbro.*;
 import static gr.codebb.arcadeflex.v036.drivers.nemesis.*;
@@ -2627,7 +2627,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( bstars )	/* 0002 (c) 1990 SNK */
                 /*TODO*/ //	DRIVER( tpgolf )	/* 0003 (c) 1990 SNK */
                 /*TODO*/ //	DRIVER( mahretsu )	/* 0004 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( maglord )	/* 0005 (c) 1990 Alpha Denshi Co */
+                driver_maglord,	/* 0005 (c) 1990 Alpha Denshi Co */
                 /*TODO*/ //	DRIVER( maglordh )	/* 0005 (c) 1990 Alpha Denshi Co */
                 /*TODO*/ //	DRIVER( ridhero )	/* 0006 (c) 1990 SNK */
                 /*TODO*/ //	DRIVER( alpham2 )	/* 0007 (c) 1991 SNK */

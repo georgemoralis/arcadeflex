@@ -7,7 +7,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.drivers.neogeo.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.neogeo.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -188,7 +188,7 @@ public class neogeo {
         palette_swap_pending = 0;
     }
 
-    public static WriteHandlerPtr neogeo_setpalbank0 = new WriteHandlerPtr() {
+    public static WriteHandlerPtr neogeo_setpalbank0_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (palno != 0) {
                 palno = 0;
@@ -197,7 +197,7 @@ public class neogeo {
             }
         }
     };
-    public static WriteHandlerPtr neogeo_setpalbank1 = new WriteHandlerPtr() {
+    public static WriteHandlerPtr neogeo_setpalbank1_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (palno != 1) {
                 palno = 1;
@@ -493,13 +493,13 @@ public class neogeo {
         }
     };
 
-    public static WriteHandlerPtr neo_board_fix = new WriteHandlerPtr() {
+    public static WriteHandlerPtr neo_board_fix_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             fix_bank = 1;
         }
     };
 
-    public static WriteHandlerPtr neo_game_fix = new WriteHandlerPtr() {
+    public static WriteHandlerPtr neo_game_fix_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             fix_bank = 0;
         }

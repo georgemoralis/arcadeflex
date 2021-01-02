@@ -1,96 +1,9 @@
-/***************************************************************************
-	M.A.M.E. Neo Geo driver presented to you by the Shin Emu Keikaku team.
-
-	The following people have all spent probably far too much time on this:
-
-    AVDB
-    Bryan McPhail
-    Fuzz
-    Ernesto Corvi
-    Andrew Prime
-
-
-	TODO :
-            - What does 0x3c0006-7 *REALLY* do?
-
-=============================================================================
-
-Points to note, known and proven information deleted from this map:
-
-	0x3000001		Dipswitches
-				bit null : Selftest
-				bit 1 : Unknown (Unused ?) \ something to do with
-				bit 2 : Unknown (Unused ?) / auto repeating keys ?
-				bit 3 : \
-				bit 4 :  | communication setting ?
-				bit 5 : /
-				bit 6 : free play
-				bit 7 : stop mode ?
-
-	0x320001		bit null : COIN 1
-				bit 1 : COIN 2
-				bit 2 : SERVICE
-				bit 3 : UNKNOWN
-				bit 4 : UNKNOWN
-				bit 5 : UNKNOWN
-				bit 6 : 4990 test pulse bit.
-				bit 7 : 4990 data bit.
-
-	0x380051		4990 control write register
-				bit null: C0
-				bit 1: C1
-				bit 2: C2
-				bit 3-7: unused.
-
-				0x02 = shift.
-				0x00 = register hold.
-				0x04 = ????.
-				0x03 = time read (reset register).
-
-	0x3c000c		IRQ acknowledge
-
-	0x380011		Backup bank select
-
-	0x3a0001		Enable display.
-	0x3a0011		Disable display
-
-	0x3a0003		Swap in Bios (0x80 bytes vector table of BIOS)
-	0x3a0013		Swap in Rom  (0x80 bytes vector table of ROM bank)
-
-	0x3a000d		lock backup ram
-	0x3a001d		unlock backup ram
-
-	0x3a000b		set game vector table (?)  mirror ?
-	0x3a001b		set bios vector table (?)  mirror ?
-
-	0x3a000c		Unknown	(ghost pilots)
-	0x31001c		Unknown (ghost pilots)
-
-	IO word read
-
-	0x3c0002		return vidram word (pointed to by 0x3c0000)
-	0x3c0006		?????.
-	0x3c0008		shadow adress for 0x3c0000 (not confirmed).
-	0x3c000a		shadow adress for 0x3c0002 (confirmed, see
-							   Puzzle de Pon).
-	IO word write
-
-	0x3c0006		Unknown, set vblank counter (?)
-
-	0x3c0008		shadow address for 0x3c0000	(not confirmed)
-	0x3c000a		shadow address for 0x3c0002	(not confirmed)
-
-	The Neo Geo contains an NEC 4990 Serial I/O calendar  clock.
-	accesed through 0x320001, 0x380050, 0x280050 (shadow adress).
-	A schematic for this device can be found on the NEC webpages.
-
-******************************************************************************/
-
 /*
- * ported to v0.36
- * using automatic conversion tool v0.10
+ * ported to v0.37b7
+ * using automatic conversion tool v0.01
  */ 
-package gr.codebb.arcadeflex.v036.drivers;
+package gr.codebb.arcadeflex.v037b7.drivers;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -118,26 +31,27 @@ import static gr.codebb.arcadeflex.v036.machine.neogeo.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v036.machine.pd4990a.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.neogeo.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
+
 
 public class neogeo
 {
-	
 	
 	public static final int RASTER_LINES =261;	/* guess! */
 	public static final int FIRST_VISIBLE_LINE =16;
 	public static final int LAST_VISIBLE_LINE =239;
 	public static final int RASTER_VBLANK_END =(RASTER_LINES-(LAST_VISIBLE_LINE-FIRST_VISIBLE_LINE+1));
+        	
 	
-
 	/******************************************************************************/
 	
 	public static /*unsigned*/ int neogeo_frame_counter;
-	static/*unsigned*/ int neogeo_frame_counter_speed=4;
+	public static /*unsigned*/ int neogeo_frame_counter_speed=4;
 	
 	/******************************************************************************/
 	
 	static int irq2_enable;
-	static int fc_intr=0;
+	static int fc_1=0;
 	public static InterruptPtr neogeo_interrupt = new InterruptPtr() { public int handler() 
 	{
 		
@@ -147,30 +61,31 @@ public class neogeo
 		addretrace();
 	
 		/* Animation counter, 1 once per frame is too fast, every 4 seems good */
-	        if  (fc_intr>=neogeo_frame_counter_speed) {
-	                fc_intr=0;
+	        if  (fc_1>=neogeo_frame_counter_speed) {
+	                fc=0;
 	                neogeo_frame_counter++;
 	        }
-	        fc_intr++;
-
-		if (irq2_enable!=0) cpu_cause_interrupt(0,2);
-
+	        fc_1++;
+	
+		if (irq2_enable != 0) cpu_cause_interrupt(0,2);
+	
 		/* return a standard vblank interrupt */
 		return 1;      /* vertical blank */
 	} };
 	
 	static int irq2enable,irq2start,irq2repeat=1000,irq2control;
 	static int lastirq2line = 1000;
-	static int fc_r=0;
+	
+        static int fc=0;
         static int raster_enable=1;
 	public static InterruptPtr neogeo_raster_interrupt = new InterruptPtr() { public int handler() 
 	{
 		
 		int line = RASTER_LINES - cpu_getiloops();
-
+		
 		if (line == RASTER_LINES)	/* vblank */
 		{
-			if (keyboard_pressed_memory(KEYCODE_F1)!=0) raster_enable ^= 1;
+			if ((keyboard_pressed_memory(KEYCODE_F1))!=0) raster_enable ^= 1;
 	
 			lastirq2line = 1000;
 	
@@ -178,26 +93,26 @@ public class neogeo
 			addretrace();
 	
 			/* Animation counter, 1 once per frame is too fast, every 4 seems good */
-			if  (fc_r >= neogeo_frame_counter_speed)
+			if  (fc >= neogeo_frame_counter_speed)
 			{
-				fc_r=0;
+				fc=0;
 				neogeo_frame_counter++;
 			}
-			fc_r++;
+			fc++;
 	
 			if (osd_skip_this_frame()==0)
 				neogeo_vh_raster_partial_refresh(Machine.scrbitmap,line-RASTER_VBLANK_END+FIRST_VISIBLE_LINE-1);
 	
 			/* return a standard vblank interrupt */
-	//if (errorlog) fprintf(errorlog,"trigger IRQ1\n");
+	//logerror("trigger IRQ1\n");
 			return 1;      /* vertical blank */
 		}
 	
-		if (irq2enable!=0)
+		if (irq2enable != 0)
 		{
 			if (line == irq2start || line == lastirq2line + irq2repeat)
 			{
-	//			if (errorlog) fprintf(errorlog,"trigger IRQ2 at raster line %d (screen line %d)\n",line,line-RASTER_VBLANK_END+FIRST_VISIBLE_LINE);
+	//			logerror("trigger IRQ2 at raster line %d (screen line %d)\n",line,line-RASTER_VBLANK_END+FIRST_VISIBLE_LINE);
 				if (raster_enable!=0 && osd_skip_this_frame()==0)
 					neogeo_vh_raster_partial_refresh(Machine.scrbitmap,line-RASTER_VBLANK_END+FIRST_VISIBLE_LINE-1);
 	
@@ -215,7 +130,7 @@ public class neogeo
 	static int result_code;
 	
 	/* Calendar, coins + Z80 communication */
-	public static ReadHandlerPtr timer_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr timer_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		int res;
 	
@@ -223,14 +138,14 @@ public class neogeo
 		int coinflip = read_4990_testbit();
 		int databit = read_4990_databit();
 	
-	//	if (errorlog) fprintf(errorlog,"CPU %04x - Read timer\n",cpu_get_pc());
+	//	logerror("CPU %04x - Read timer\n",cpu_get_pc());
 	
 		res = readinputport(4) ^ (coinflip << 6) ^ (databit << 7);
 	
 		if (Machine.sample_rate!=0)
 		{
 			res |= result_code << 8;
-			if (pending_command!=0) res &= 0x7fff;
+			if (pending_command != 0) res &= 0x7fff;
 		}
 		else
 			res |= 0x0100;
@@ -238,7 +153,7 @@ public class neogeo
 		return res;
 	} };
 	
-	public static WriteHandlerPtr neo_z80_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr neo_z80_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		soundlatch_w.handler(0,(data>>8)&0xff);
 		pending_command = 1;
@@ -252,16 +167,16 @@ public class neogeo
 	public static int neogeo_has_trackball;
 	static int ts;
 	
-	public static WriteHandlerPtr trackball_select_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr trackball_select_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		ts = data & 1;
 	} };
 	
-	public static ReadHandlerPtr controller1_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr controller1_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		int res;
 	
-		if (neogeo_has_trackball!=0)
+		if (neogeo_has_trackball != 0)
 			res = (readinputport(ts!=0?7:0) << 8) + readinputport(3);
 		else
 		{
@@ -275,7 +190,7 @@ public class neogeo
 	
 		return res;
 	} };
-	public static ReadHandlerPtr controller2_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr controller2_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		int res;
 	
@@ -291,16 +206,16 @@ public class neogeo
 	
 		return res;
 	} };
-	public static ReadHandlerPtr controller3_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr controller3_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		if (memcard_status==0)
 			return (readinputport(2) << 8);
 		else
 			return ((readinputport(2) << 8)&0x8FFF);
 	} };
-	public static ReadHandlerPtr controller4_r = new ReadHandlerPtr() { public int handler(int offset){ return readinputport(6); } };
+	public static ReadHandlerPtr controller4_r  = new ReadHandlerPtr() { public int handler(int offset) { return readinputport(6); } };
 	
-	public static WriteHandlerPtr neo_bankswitch_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr neo_bankswitch_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 		int bankaddress;
@@ -308,7 +223,7 @@ public class neogeo
 	
 		if (memory_region_length(REGION_CPU1) <= 0x100000)
 		{
-	if (errorlog!=null) fprintf(errorlog,"warning: bankswitch to %02x but no banks available\n",data);
+	logerror("warning: bankswitch to %02x but no banks available\n",data);
 			return;
 		}
 	
@@ -316,7 +231,7 @@ public class neogeo
 		bankaddress = (data+1)*0x100000;
 		if (bankaddress >= memory_region_length(REGION_CPU1))
 		{
-	if (errorlog!=null) fprintf(errorlog,"PC %06x: warning: bankswitch to empty bank %02x\n",cpu_get_pc(),data);
+	logerror("PC %06x: warning: bankswitch to empty bank %02x\n",cpu_get_pc(),data);
 			bankaddress = 0x100000;
 		}
 	
@@ -326,7 +241,7 @@ public class neogeo
 	
 	
 	/* TODO: Figure out how this really works! */
-	public static ReadHandlerPtr neo_control_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr neo_control_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
 		int line,irq_bit;
 	
@@ -355,24 +270,23 @@ public class neogeo
 			D is unknown (counter of some kind, used in a couple of places).
 			  in blazstar, this controls the background speed in level 2.
 		*/
-	//if (errorlog) fprintf(errorlog,"PC %06x: neo_control_r\n",cpu_get_pc());
+	//logerror("PC %06x: neo_control_r\n",cpu_get_pc());
 	
 		line = RASTER_LINES - cpu_getiloops();
-		irq_bit = ((irq2enable!=0 && (line == irq2start || line == lastirq2line + irq2repeat)) ||
+                irq_bit = ((irq2enable!=0 && (line == irq2start || line == lastirq2line + irq2repeat)) ||
 			(line == RASTER_LINES))?1:0;
 	
 		return  ((cpu_getscanline() * 0x80) & 0x7f80)	/* scanline */
 				| (irq_bit << 15)						/* vblank or irq2 */
 				| (neogeo_frame_counter & 0x0007);		/* frame counter */
-	
 	} };
 	
 	
 	public static int neogeo_irq2type;
-	static int irq2repeat_limit;
+	public static int irq2repeat_limit;
 	
 	/* this does much more than this, but I'm not sure exactly what */
-	public static WriteHandlerPtr neo_control_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr neo_control_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 	    /* Games which definitely need IRQ2:
 	    neocup98
@@ -392,10 +306,10 @@ public class neogeo
 	    if((data & 0xf0ff) == 0)
 	    {
 			int speed = (data >> 8) & 0x0f;
-	        if (speed!=0) neogeo_frame_counter_speed=speed;
+	        if (speed != 0) neogeo_frame_counter_speed=speed;
 	    }
 	
-	    if ((data & 0x10)!=0)
+	    if ((data & 0x10) != 0)
 			irq2enable = 1;
 	    else
 	    {
@@ -404,7 +318,7 @@ public class neogeo
 			return;
 	    }
 	
-	    if ((data & 0x40)!=0)
+	    if ((data & 0x40) != 0)
 			lastirq2line = 1000;
 	
 	    irq2control = data & 0xff;
@@ -412,29 +326,29 @@ public class neogeo
 		/* ssideki2, zedblade and turfmast seem to be the only games to not set these
 		  bits, and also the only ones to have an irq2repeat > 8. Coincidence?
 		  */
-		if ((data & 0xc0)!=0)
+		if ((data & 0xc0) != 0)
 			irq2repeat_limit = 16;
 		else
 			irq2repeat_limit = 29;
 	} };
-	static int value_irq2pos;
-	public static WriteHandlerPtr neo_irq2pos_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	static int value;
+	public static WriteHandlerPtr neo_irq2pos_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		
 		int line;
 	
-		if (offset!=0)
+		if (offset != 0)
 		{
-			value_irq2pos = (value_irq2pos & 0xffff0000) | data;
-			if (neogeo_irq2type!=0) return;
+			value = (value & 0xffff0000) | data;
+			if (neogeo_irq2type != 0) return;
 		}
 		else
 		{
-			value_irq2pos = (value_irq2pos & 0x0000ffff) | (data << 16);
+			value = (value & 0x0000ffff) | (data << 16);
 			if (neogeo_irq2type==0) return;
 		}
 	
-		line = value_irq2pos / 0x180 + 1;
+		line = value / 0x180 + 1;
 		if (line <= irq2repeat_limit) irq2repeat = line;
 		/* ugly kludge to align irq2start in all games */
 		else irq2start = line + (neogeo_irq2type);
@@ -478,14 +392,14 @@ public class neogeo
 	/* both games write to 0000fe before writing to 200000. The two things could be related. */
 	/* sidkicks reads and writes to several addresses in this range, using this for copy */
 	/* protection. Custom parts instead of the banked ROMs? */
-	//	{ 0x280050, 0x280051, write_4990_control },
+	//	{ 0x280050, 0x280051, write_4990_control_w },
 		new MemoryWriteAddress( 0x2ffff0, 0x2fffff, neo_bankswitch_w ),      /* NOTE THIS CHANGE TO END AT FF !!! */
 		new MemoryWriteAddress( 0x300000, 0x300001, watchdog_reset_w ),
 		new MemoryWriteAddress( 0x320000, 0x320001, neo_z80_w ),	/* Sound CPU */
 		new MemoryWriteAddress( 0x380000, 0x380001, trackball_select_w ),	/* Used by bios, unknown */
 		new MemoryWriteAddress( 0x380030, 0x380031, MWA_NOP ),    /* Used by bios, unknown */
 		new MemoryWriteAddress( 0x380040, 0x380041, MWA_NOP ),	/* Output leds */
-		new MemoryWriteAddress( 0x380050, 0x380051, write_4990_control ),
+		new MemoryWriteAddress( 0x380050, 0x380051, write_4990_control_w ),
 		new MemoryWriteAddress( 0x380060, 0x380063, MWA_NOP ),	/* Used by bios, unknown */
 		new MemoryWriteAddress( 0x3800e0, 0x3800e3, MWA_NOP ),	/* Used by bios, unknown */
 	
@@ -493,12 +407,12 @@ public class neogeo
 		new MemoryWriteAddress( 0x3a0010, 0x3a0011, MWA_NOP ),
 		new MemoryWriteAddress( 0x3a0002, 0x3a0003, MWA_NOP ),
 		new MemoryWriteAddress( 0x3a0012, 0x3a0013, MWA_NOP ),
-		new MemoryWriteAddress( 0x3a000a, 0x3a000b, neo_board_fix ), /* Select board FIX char rom */
-		new MemoryWriteAddress( 0x3a001a, 0x3a001b, neo_game_fix ),  /* Select game FIX char rom */
+		new MemoryWriteAddress( 0x3a000a, 0x3a000b, neo_board_fix_w ), /* Select board FIX char rom */
+		new MemoryWriteAddress( 0x3a001a, 0x3a001b, neo_game_fix_w ),  /* Select game FIX char rom */
 		new MemoryWriteAddress( 0x3a000c, 0x3a000d, neogeo_sram_lock_w ),
 		new MemoryWriteAddress( 0x3a001c, 0x3a001d, neogeo_sram_unlock_w ),
-		new MemoryWriteAddress( 0x3a000e, 0x3a000f, neogeo_setpalbank1 ),
-		new MemoryWriteAddress( 0x3a001e, 0x3a001f, neogeo_setpalbank0 ),    /* Palette banking */
+		new MemoryWriteAddress( 0x3a000e, 0x3a000f, neogeo_setpalbank1_w ),
+		new MemoryWriteAddress( 0x3a001e, 0x3a001f, neogeo_setpalbank0_w ),    /* Palette banking */
 	
 		new MemoryWriteAddress( 0x3c0000, 0x3c0001, vidram_offset_w ),
 		new MemoryWriteAddress( 0x3c0002, 0x3c0003, vidram_data_w ),
@@ -511,7 +425,7 @@ public class neogeo
 											/* 4 = IRQ 1 */
 											/* 2 = IRQ 2 */
 											/* 1 = IRQ 3 (does any game use this?) */
-	//	new MemoryWriteAddress( 0x3c000e, 0x3c000f, ), /* Unknown, see control_r */
+	//	{ 0x3c000e, 0x3c000f, ), /* Unknown, see control_r */
 	
 		new MemoryWriteAddress( 0x400000, 0x401fff, neogeo_paletteram_w ),
 		new MemoryWriteAddress( 0x600000, 0x61ffff, mish_vid_w ),	/* Debug only, not part of real NeoGeo */
@@ -519,7 +433,8 @@ public class neogeo
 		new MemoryWriteAddress( 0xd00000, 0xd0ffff, neogeo_sram_w, neogeo_sram ), /* 64k battery backed SRAM */
 		new MemoryWriteAddress( -1 )  /* end of table */
         };
-        /******************************************************************************/
+	
+	/******************************************************************************/
 	
 	static MemoryReadAddress sound_readmem[] =
 	{
@@ -539,14 +454,16 @@ public class neogeo
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
-	static int[] z80_bank=new int[4];
-	public static ReadHandlerPtr z80_port_r = new ReadHandlerPtr() { public int handler(int offset)
+	static int[] bank=new int[4];
+	public static ReadHandlerPtr z80_port_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
+			
 		switch (offset & 0xff)
 		{
 			case 0x00:
 				pending_command = 0;
-				return soundlatch_r.handler(0);				
+				return soundlatch_r.handler(0);
+	
 			case 0x04:
 				return YM2610_status_port_0_A_r.handler(0);
 	
@@ -554,51 +471,47 @@ public class neogeo
 				return YM2610_read_port_0_r.handler(0);
 	
 			case 0x06:
-				return YM2610_status_port_0_B_r.handler(0);	
+				return YM2610_status_port_0_B_r.handler(0);
+	
 			case 0x08:
 				{
 					UBytePtr RAM = memory_region(REGION_CPU2);
-					z80_bank[3] = 0x0800 * ((offset >> 8) & 0x7f);
-					cpu_setbank(8,new UBytePtr(RAM,z80_bank[3]));
+					bank[3] = 0x0800 * ((offset >> 8) & 0x7f);
+					cpu_setbank(8,new UBytePtr(RAM,bank[3]));
 					return 0;
-					
 				}
 	
 			case 0x09:
 				{
 					UBytePtr RAM = memory_region(REGION_CPU2);
-					z80_bank[2] = 0x1000 * ((offset >> 8) & 0x3f);
-					cpu_setbank(7,new UBytePtr(RAM,z80_bank[2]));
+					bank[2] = 0x1000 * ((offset >> 8) & 0x3f);
+					cpu_setbank(7,new UBytePtr(RAM,bank[2]));
 					return 0;
-					
 				}
 	
 			case 0x0a:
 				{
 					UBytePtr RAM = memory_region(REGION_CPU2);
-					z80_bank[1] = 0x2000 * ((offset >> 8) & 0x1f);
-					cpu_setbank(6,new UBytePtr(RAM,z80_bank[1]));
+					bank[1] = 0x2000 * ((offset >> 8) & 0x1f);
+					cpu_setbank(6,new UBytePtr(RAM,bank[1]));
 					return 0;
-					
 				}
 	
 			case 0x0b:
 				{
 					UBytePtr RAM = memory_region(REGION_CPU2);
-					z80_bank[0] = 0x4000 * ((offset >> 8) & 0x0f);
-					cpu_setbank(5,new UBytePtr(RAM,z80_bank[0]));
+					bank[0] = 0x4000 * ((offset >> 8) & 0x0f);
+					cpu_setbank(5,new UBytePtr(RAM,bank[0]));
 					return 0;
-					
 				}
 	
 			default:
-	if (errorlog!=null) fprintf(errorlog,"CPU #1 PC %04x: read unmapped port %02x\n",cpu_get_pc(),offset&0xff);
+	logerror("CPU #1 PC %04x: read unmapped port %02x\n",cpu_get_pc(),offset&0xff);
 				return 0;
-				
 		}
 	} };
 	
-	public static WriteHandlerPtr z80_port_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr z80_port_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		switch (offset & 0xff)
 		{
@@ -631,7 +544,7 @@ public class neogeo
 				break;
 	
 			default:
-	if (errorlog!=null) fprintf(errorlog,"CPU #1 PC %04x: write %02x to unmapped port %02x\n",cpu_get_pc(),data,offset&0xff);
+	logerror("CPU #1 PC %04x: write %02x to unmapped port %02x\n",cpu_get_pc(),data,offset&0xff);
 				break;
 		}
 	} };
@@ -769,7 +682,7 @@ public class neogeo
 		PORT_DIPNAME( 0x02, 0x02, "Coin Chutes?" );
 		PORT_DIPSETTING(    0x00, "1?" );
 		PORT_DIPSETTING(    0x02, "2?" );
-		PORT_DIPNAME( 0x04, 0x04, "Autofire (in some games)");
+		PORT_DIPNAME( 0x04, 0x04, "Autofire (in some games)" );
 		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 		PORT_DIPNAME( 0x38, 0x38, "COMM Setting" );
@@ -855,23 +768,23 @@ public class neogeo
 	public static WriteYmHandlerPtr neogeo_sound_irq = new WriteYmHandlerPtr() {
         public void handler(int irq) {
             cpu_set_irq_line(1,0,irq!=0 ? ASSERT_LINE : CLEAR_LINE);
-        }
-    };
-
-	public static YM2610interface neogeo_ym2610_interface = new YM2610interface(
+        }};
+        
 	
+	public static YM2610interface neogeo_ym2610_interface = new YM2610interface
+	(
 		1,
 		8000000,
-		new int[]{ MIXERG(30,MIXER_GAIN_4x,MIXER_PAN_CENTER) },
-		new ReadHandlerPtr[]{null},
-            new ReadHandlerPtr[]{null},
-            new WriteHandlerPtr[]{null},
-            new WriteHandlerPtr[]{null},
-            new WriteYmHandlerPtr[]{ neogeo_sound_irq },
-		new int[]{ REGION_SOUND2 },
-		new int[]{ REGION_SOUND1 },
-		new int[]{ YM3012_VOL(50,MIXER_PAN_LEFT,50,MIXER_PAN_RIGHT) }
-                );
+		new int[] { MIXERG(15,MIXER_GAIN_4x,MIXER_PAN_CENTER) },
+		new ReadHandlerPtr[] { null },
+		new ReadHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteYmHandlerPtr[] { neogeo_sound_irq },
+		new int[] { REGION_SOUND2 },
+		new int[] { REGION_SOUND1 },
+		new int[] { YM3012_VOL(75,MIXER_PAN_LEFT,75,MIXER_PAN_RIGHT) }
+	);
 	
 	/******************************************************************************/
 	
@@ -909,7 +822,7 @@ public class neogeo
 		neogeo_vh_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2610,
@@ -951,7 +864,7 @@ public class neogeo
 		neogeo_vh_raster_screenrefresh,
 	
 		/* sound hardware */
-		0,0,0,0,//SOUND_SUPPORTS_STEREO,0,0,0,
+		SOUND_SUPPORTS_STEREO,0,0,0,
 		new MachineSound[] {
 			new MachineSound(
 				SOUND_YM2610,
@@ -963,7 +876,9 @@ public class neogeo
 	);
 	
 	/******************************************************************************/
+	
 
+	
 	/******************************************************************************/
 	
 	static RomLoadPtr rom_nam1975 = new RomLoadPtr(){ public void handler(){ 
@@ -4729,6 +4644,48 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
+        static RomLoadPtr rom_shocktrj = new RomLoadPtr(){ public void handler(){ 
+	ROM_REGION( 0x500000, REGION_CPU1 );
+	ROM_LOAD_WIDE_SWAP( "238-pg1.p1",   0x000000, 0x100000, 0xefedf8dc );
+	ROM_LOAD_WIDE_SWAP( "shock_p2.rom", 0x300000, 0x200000, 0x646f6c76 );
+	ROM_CONTINUE(                       0x100000, 0x200000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
+
+        ROM_REGION( 0x40000, REGION_GFX1 );
+		ROM_LOAD( "shock_s1.rom",           0x000000, 0x20000, 0x1f95cedb );
+		ROM_LOAD( "ng-sfix.rom",  0x020000, 0x20000, 0x354029fc );
+                
+        
+        ROM_REGION( 0x20000, REGION_USER1 );
+		ROM_LOAD_WIDE_SWAP( "neo-geo.rom", 0x00000, 0x020000, 0x9036d879 );
+		ROM_REGION( 0x40000, REGION_CPU2 );
+		ROM_LOAD( "ng-sm1.rom", 0x00000, 0x20000, 0x97cf998b );/* we don't use the BIOS anyway... */ 
+		ROM_LOAD( "shock_m1.rom",         0x00000, 0x20000, 0x075b9518 );/* so overwrite it with the real thing */
+
+	ROM_REGION( 0x600000, REGION_SOUND1 | REGIONFLAG_SOUNDONLY );
+	ROM_LOAD( "shock_v1.rom", 0x000000, 0x400000, 0x260c0bef );
+	ROM_LOAD( "shock_v2.rom", 0x400000, 0x200000, 0x4ad7d59e );
+
+	//NO_DELTAT_REGION
+
+	ROM_REGION( 0x2000000, REGION_GFX2 );
+	ROM_LOAD_GFX_EVEN( "shock_c1.rom", 0x0400000, 0x200000, 0xaad087fc ); /* Plane 0,1 */
+	ROM_LOAD_GFX_EVEN( null,              0x0000000, 0x200000, 0 );
+	ROM_LOAD_GFX_ODD ( "shock_c2.rom", 0x0400000, 0x200000, 0x7e39df1f ); /* Plane 2,3 */
+	ROM_LOAD_GFX_ODD ( null,              0x0000000, 0x200000, 0 );
+	ROM_LOAD_GFX_EVEN( "shock_c3.rom", 0x0c00000, 0x200000, 0x6682a458 ); /* Plane 0,1 */
+	ROM_LOAD_GFX_EVEN( null,              0x0800000, 0x200000, 0 );
+	ROM_LOAD_GFX_ODD ( "shock_c4.rom", 0x0c00000, 0x200000, 0xcbef1f17 ); /* Plane 2,3 */
+	ROM_LOAD_GFX_ODD ( null,              0x0800000, 0x200000, 0 );
+	ROM_LOAD_GFX_EVEN( "shock_c5.rom", 0x1400000, 0x200000, 0xe17762b1 ); /* Plane 0,1 */
+	ROM_LOAD_GFX_EVEN( null,              0x1000000, 0x200000, 0 );
+	ROM_LOAD_GFX_ODD ( "shock_c6.rom", 0x1400000, 0x200000, 0x28beab71 ); /* Plane 2,3 */
+	ROM_LOAD_GFX_ODD ( null,              0x1000000, 0x200000, 0 );
+	ROM_LOAD_GFX_EVEN( "shock_c7.rom", 0x1c00000, 0x200000, 0xa47e62d2 ); /* Plane 0,1 */
+	ROM_LOAD_GFX_EVEN( null,              0x1800000, 0x200000, 0 );
+	ROM_LOAD_GFX_ODD ( "shock_c8.rom", 0x1c00000, 0x200000, 0xe8e890fb ); /* Plane 2,3 */
+	ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
+ROM_END(); }};
+        
 	static RomLoadPtr rom_blazstar = new RomLoadPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "bstar_p1.rom", 0x000000, 0x100000, 0x183682f8 );
@@ -5189,41 +5146,41 @@ public class neogeo
 	/******************************************************************************/
 	
 	/* For MGD-2 dumps */
-	static void shuffle(UBytePtr buf,int len)
+	/*static void shuffle(UBytePtr buf,int len)
 	{
 		int i;
-		/*unsigned*/ char t;
+		unsigned char t;
 	
 		if (len == 2) return;
 	
 		if (len == 6)
 		{
-			/*unsigned*/ char[] swp=new char[6];
+			unsigned char swp[6];
 	
 			memcpy(swp,buf,6);
-			buf.write(0, swp[0]);
-			buf.write(1, swp[3]);
-			buf.write(2, swp[1]);
-			buf.write(3, swp[4]);
-			buf.write(4, swp[2]);
-			buf.write(5, swp[5]);
+			buf[0] = swp[0];
+			buf[1] = swp[3];
+			buf[2] = swp[1];
+			buf[3] = swp[4];
+			buf[4] = swp[2];
+			buf[5] = swp[5];
 			return;
 		}
 	
-		//if (len % 4) exit(1);	/* must not happen */
+		if (len % 4) exit(1);	/* must not happen */
 	
-		len /= 2;
+	/*	len /= 2;
 	
 		for (i = 0;i < len/2;i++)
 		{
-			t = buf.read(len/2 + i);
-			buf.write(len/2 + i, buf.read(len + i));
-			buf.write(len + i, t);
+			t = buf[len/2 + i];
+			buf[len/2 + i] = buf[len + i];
+			buf[len + i] = t;
 		}
 	
 		shuffle(buf,len);
-		shuffle(new UBytePtr(buf,len),len);
-	}
+		shuffle(buf + len,len);
+	}*/
 	
 	public static InitDriverPtr init_mgd2 = new InitDriverPtr() { public void handler() 
 	{
@@ -5233,6 +5190,7 @@ public class neogeo
 	
 		init_neogeo.handler();
 	
+                throw new UnsupportedOperationException("unsupported");
 		/*
 			data is now in the order 0 4 8 12... 1 5 9 13... 2 6 10 14... 3 7 11 15...
 			we must convert it to the MVS order 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15...
@@ -5240,9 +5198,9 @@ public class neogeo
 			(it could be easily converted into an iterative one).
 			It's called shuffle because it mimics the shuffling of a deck of cards.
 		*/
-		shuffle(gfxdata,len);
+	/*TODO*///	shuffle(gfxdata,len);
 		/* data is now in the order 0 2 4 8 10 12 14... 1 3 5 7 9 11 13 15... */
-		shuffle(gfxdata,len);
+	/*TODO*///	shuffle(gfxdata,len);
 		/* data is now in the order 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15... */
 	} };
 	
@@ -5293,7 +5251,7 @@ public class neogeo
 	public static GameDriver driver_3countb	   = new GameDriver("1993"	,"3countb"	,"neogeo.java"	,rom_3countb,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "3 Count Bout / Fire Suplex" );
 	public static GameDriver driver_aof	   = new GameDriver("1992"	,"aof"	,"neogeo.java"	,rom_aof,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "Art of Fighting / Ryuuko no Ken" );
 	public static GameDriver driver_samsho	   = new GameDriver("1993"	,"samsho"	,"neogeo.java"	,rom_samsho,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "Samurai Shodown / Samurai Spirits" );
-	public static GameDriver driver_tophuntr	   = new GameDriver("1994"	,"tophuntr"	,"neogeo.java"	,rom_tophuntr,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "Top Hunter - Roddy  Cathy" );
+	public static GameDriver driver_tophuntr	   = new GameDriver("1994"	,"tophuntr"	,"neogeo.java"	,rom_tophuntr,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "Top Hunter - Roddy & Cathy" );
 	public static GameDriver driver_fatfury2	   = new GameDriver("1992"	,"fatfury2"	,"neogeo.java"	,rom_fatfury2,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"SNK", "Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai" );
 	public static GameDriver driver_ssideki	   = new GameDriver("1992"	,"ssideki"	,"neogeo.java"	,rom_ssideki,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"SNK", "Super Sidekicks / Tokuten Ou" );
 	public static GameDriver driver_kof94	   = new GameDriver("1994"	,"kof94"	,"neogeo.java"	,rom_kof94,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "The King of Fighters '94" );
@@ -5325,23 +5283,23 @@ public class neogeo
 	public static GameDriver driver_kof99	   = new GameDriver("1999"	,"kof99"	,"neogeo.java"	,rom_kof99,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "The King of Fighters '99 - Millennium Battle" );
 	public static GameDriver driver_garou	   = new GameDriver("1999"	,"garou"	,"neogeo.java"	,rom_garou,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"SNK", "Garou - Mark of the Wolves" );
 	
-	/* Alpha Denshi Co / ADK (changed name in 1993) */
-	public static GameDriver driver_maglord	   = new GameDriver("1990"	,"maglord"	,"neogeo.java"	,rom_maglord,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Magician Lord (set 1)" );
-	public static GameDriver driver_maglordh	   = new GameDriver("1990"	,"maglordh"	,"neogeo.java"	,rom_maglordh,driver_maglord	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Magician Lord (set 2)" );
-	public static GameDriver driver_ncombat	   = new GameDriver("1990"	,"ncombat"	,"neogeo.java"	,rom_ncombat,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Ninja Combat" );
-	public static GameDriver driver_bjourney	   = new GameDriver("1990"	,"bjourney"	,"neogeo.java"	,rom_bjourney,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Blue's Journey / Raguy" );
-	public static GameDriver driver_crsword	   = new GameDriver("1991"	,"crsword"	,"neogeo.java"	,rom_crsword,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Crossed Swords" );
-	public static GameDriver driver_trally	   = new GameDriver("1991"	,"trally"	,"neogeo.java"	,rom_trally,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "Thrash Rally" );
-	public static GameDriver driver_ncommand	   = new GameDriver("1992"	,"ncommand"	,"neogeo.java"	,rom_ncommand,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_mgd2	,ROT0	,	"Alpha Denshi Co", "Ninja Commando" );
-	public static GameDriver driver_wh1	   = new GameDriver("1992"	,"wh1"	,"neogeo.java"	,rom_wh1,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co", "World Heroes" );
-	public static GameDriver driver_wh2	   = new GameDriver("1993"	,"wh2"	,"neogeo.java"	,rom_wh2,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK",             "World Heroes 2" );
-	public static GameDriver driver_wh2j	   = new GameDriver("1994"	,"wh2j"	,"neogeo.java"	,rom_wh2j,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",       "World Heroes 2 Jet" );
-	public static GameDriver driver_aodk	   = new GameDriver("1994"	,"aodk"	,"neogeo.java"	,rom_aodk,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",       "Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku" );
-	public static GameDriver driver_whp	   = new GameDriver("1995"	,"whp"	,"neogeo.java"	,rom_whp,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK / SNK",       "World Heroes Perfect" );
-	public static GameDriver driver_mosyougi	   = new GameDriver("1995"	,"mosyougi"	,"neogeo.java"	,rom_mosyougi,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK / SNK",       "Syougi No Tatsujin - Master of Syougi" );
-	public static GameDriver driver_overtop	   = new GameDriver("1996"	,"overtop"	,"neogeo.java"	,rom_overtop,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK",             "Over Top" );
-	public static GameDriver driver_ninjamas	   = new GameDriver("1996"	,"ninjamas"	,"neogeo.java"	,rom_ninjamas,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",       "Ninja Master's - haoh-ninpo-cho" );
-	public static GameDriver driver_twinspri	   = new GameDriver("1996"	,"twinspri"	,"neogeo.java"	,rom_twinspri,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK",             "Twinkle Star Sprites" );
+	/* Alpha Denshi Co. / ADK (changed name in 1993) */
+	public static GameDriver driver_maglord	   = new GameDriver("1990"	,"maglord"	,"neogeo.java"	,rom_maglord,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Magician Lord (set 1)" );
+	public static GameDriver driver_maglordh	   = new GameDriver("1990"	,"maglordh"	,"neogeo.java"	,rom_maglordh,driver_maglord	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Magician Lord (set 2)" );
+	public static GameDriver driver_ncombat	   = new GameDriver("1990"	,"ncombat"	,"neogeo.java"	,rom_ncombat,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Ninja Combat" );
+	public static GameDriver driver_bjourney	   = new GameDriver("1990"	,"bjourney"	,"neogeo.java"	,rom_bjourney,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Blue's Journey / Raguy" );
+	public static GameDriver driver_crsword	   = new GameDriver("1991"	,"crsword"	,"neogeo.java"	,rom_crsword,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Crossed Swords" );
+	public static GameDriver driver_trally	   = new GameDriver("1991"	,"trally"	,"neogeo.java"	,rom_trally,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "Thrash Rally" );
+	public static GameDriver driver_ncommand	   = new GameDriver("1992"	,"ncommand"	,"neogeo.java"	,rom_ncommand,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_mgd2	,ROT0	,	"Alpha Denshi Co.", "Ninja Commando" );
+	public static GameDriver driver_wh1	   = new GameDriver("1992"	,"wh1"	,"neogeo.java"	,rom_wh1,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Alpha Denshi Co.", "World Heroes" );
+	public static GameDriver driver_wh2	   = new GameDriver("1993"	,"wh2"	,"neogeo.java"	,rom_wh2,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK",              "World Heroes 2" );
+	public static GameDriver driver_wh2j	   = new GameDriver("1994"	,"wh2j"	,"neogeo.java"	,rom_wh2j,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",        "World Heroes 2 Jet" );
+	public static GameDriver driver_aodk	   = new GameDriver("1994"	,"aodk"	,"neogeo.java"	,rom_aodk,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",        "Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku" );
+	public static GameDriver driver_whp	   = new GameDriver("1995"	,"whp"	,"neogeo.java"	,rom_whp,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK / SNK",        "World Heroes Perfect" );
+	public static GameDriver driver_mosyougi	   = new GameDriver("1995"	,"mosyougi"	,"neogeo.java"	,rom_mosyougi,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK / SNK",        "Syougi No Tatsujin - Master of Syougi" );
+	public static GameDriver driver_overtop	   = new GameDriver("1996"	,"overtop"	,"neogeo.java"	,rom_overtop,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK",              "Over Top" );
+	public static GameDriver driver_ninjamas	   = new GameDriver("1996"	,"ninjamas"	,"neogeo.java"	,rom_ninjamas,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"ADK / SNK",        "Ninja Master's - haoh-ninpo-cho" );
+	public static GameDriver driver_twinspri	   = new GameDriver("1996"	,"twinspri"	,"neogeo.java"	,rom_twinspri,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"ADK",              "Twinkle Star Sprites" );
 	
 	/* Aicom */
 	public static GameDriver driver_janshin	   = new GameDriver("1994"	,"janshin"	,"neogeo.java"	,rom_janshin,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Aicom", "Jyanshin Densetsu - Quest of Jongmaster" );
@@ -5385,6 +5343,7 @@ public class neogeo
 	public static GameDriver driver_pgoal	   = new GameDriver("1996"	,"pgoal"	,"neogeo.java"	,rom_pgoal,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Saurus", "Pleasure Goal / Futsal - 5 on 5 Mini Soccer" );
 	public static GameDriver driver_stakwin2	   = new GameDriver("1996"	,"stakwin2"	,"neogeo.java"	,rom_stakwin2,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Saurus", "Stakes Winner 2" );
 	public static GameDriver driver_shocktro	   = new GameDriver("1997"	,"shocktro"	,"neogeo.java"	,rom_shocktro,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Saurus", "Shock Troopers" );
+	public static GameDriver driver_shocktrj	   = new GameDriver("1997"	,"shocktrj"	,"neogeo.java"	,rom_shocktrj,driver_shocktro	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Saurus", "Shock Troopers (Japan)" );
 	public static GameDriver driver_shocktr2	   = new GameDriver("1998"	,"shocktr2"	,"neogeo.java"	,rom_shocktr2,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Saurus", "Shock Troopers - 2nd Squad" );
 	
 	/* Sunsoft */
@@ -5392,14 +5351,14 @@ public class neogeo
 	public static GameDriver driver_wakuwak7	   = new GameDriver("1996"	,"wakuwak7"	,"neogeo.java"	,rom_wakuwak7,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Sunsoft", "Waku Waku 7" );
 	
 	/* Taito */
-	public static GameDriver driver_pbobble	   = new GameDriver("1994"	,"pbobble"	,"neogeo.java"	,rom_pbobble,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Taito", "Puzzle Bobble / Bust-A-Move" );
-	public static GameDriver driver_pbobbl2n	   = new GameDriver("1999"	,"pbobbl2n"	,"neogeo.java"	,rom_pbobbl2n,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Taito (SNK license)", "Puzzle Bobble 2 / Bust-A-Move Again" );
+	public static GameDriver driver_pbobble	   = new GameDriver("1994"	,"pbobble"	,"neogeo.java"	,rom_pbobble,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Taito", "Puzzle Bobble / Bust-A-Move (Neo-Geo)" );
+	public static GameDriver driver_pbobbl2n	   = new GameDriver("1999"	,"pbobbl2n"	,"neogeo.java"	,rom_pbobbl2n,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Taito (SNK license)", "Puzzle Bobble 2 / Bust-A-Move Again (Neo-Geo)" );
 	
 	/* Takara */
 	public static GameDriver driver_marukodq	   = new GameDriver("1995"	,"marukodq"	,"neogeo.java"	,rom_marukodq,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Takara", "Chibi Marukochan Deluxe Quiz" );
 	
 	/* Technos */
-	public static GameDriver driver_doubledr	   = new GameDriver("1995"	,"doubledr"	,"neogeo.java"	,rom_doubledr,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Technos", "Double Dragon (Neo Geo)" );
+	public static GameDriver driver_doubledr	   = new GameDriver("1995"	,"doubledr"	,"neogeo.java"	,rom_doubledr,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0	,	"Technos", "Double Dragon (Neo-Geo)" );
 	public static GameDriver driver_gowcaizr	   = new GameDriver("1995"	,"gowcaizr"	,"neogeo.java"	,rom_gowcaizr,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Technos", "Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer");
 	public static GameDriver driver_sdodgeb	   = new GameDriver("1996"	,"sdodgeb"	,"neogeo.java"	,rom_sdodgeb,driver_neogeo	,machine_driver_neogeo	,input_ports_neogeo	,init_neogeo	,ROT0_16BIT	,	"Technos", "Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu" );
 	

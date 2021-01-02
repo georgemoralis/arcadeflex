@@ -153,7 +153,7 @@ public class pd4990a
 		return (outputbit);
 	}
 	
-	public static WriteHandlerPtr write_4990_control = new WriteHandlerPtr() { public void handler(int offset, int data){
+	public static WriteHandlerPtr write_4990_control_w = new WriteHandlerPtr() { public void handler(int offset, int data){
 	
 		data &= 0xff;
 	
