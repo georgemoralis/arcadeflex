@@ -1037,6 +1037,11 @@ public class video {
 
     }
 
+    static void init_dirty(char dirty)
+    {
+            memset(dirty_new, dirty, MAX_GFX_WIDTH/16 * MAX_GFX_HEIGHT/16);
+    }
+    
     /*TODO*///
     /*TODO*////* set the actual display screen but don't allocate the screen bitmap */
     public static int osd_set_display(int width, int height, int attributes) {
@@ -1060,22 +1065,22 @@ public class video {
         }
         /* Mark the dirty buffers as dirty */
 
- /*TODO*///	if (use_dirty)
-        /*TODO*///	{
-        /*TODO*///		if (vector_game)
-        /*TODO*///			/* vector games only use one dirty buffer */
-        /*TODO*///			init_dirty (0);
-        /*TODO*///		else
-        /*TODO*///			init_dirty(1);
-        /*TODO*///		swap_dirty();
-        /*TODO*///		init_dirty(1);
-        /*TODO*///	}
-        /*TODO*///	if (dirtycolor)
-        /*TODO*///	{
-        /*TODO*///		for (i = 0;i < screen_colors;i++)
-        /*TODO*///			dirtycolor[i] = 1;
-        /*TODO*///		dirtypalette = 1;
-        /*TODO*///	}
+ 	if (use_dirty != 0)
+        {
+                if (vector_game != 0)
+                        /* vector games only use one dirty buffer */
+                        init_dirty ((char)0);
+/*TODO*///                else
+/*TODO*///                        init_dirty((char)1);
+/*TODO*///                swap_dirty();
+/*TODO*///                init_dirty((char)1);
+        }
+        if (dirtycolor != null)
+        {
+                for (i = 0;i < screen_colors;i++)
+                        dirtycolor[i] = 1;
+                dirtypalette = 1;
+        }
         /*TODO*///	/* handle special 15.75KHz modes, these now include SVGA modes */
         /*TODO*///	found = 0;
         /*TODO*///	/*move video freq set to here, as we need to set it explicitly for the 15.75KHz modes */
@@ -2555,4 +2560,5 @@ public class video {
     /*TODO*////* set the vblank end */
     /*TODO*///	pReg[V_BLANKING_END_INDEX].value = (vblnk_end & 0xff);
     /*TODO*///}
+    
 }

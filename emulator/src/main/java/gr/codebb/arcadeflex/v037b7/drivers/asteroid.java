@@ -161,8 +161,8 @@ import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v037b7.machine.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.avgdvg.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.vector.*;
+import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
+import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 
 public class asteroid
 {

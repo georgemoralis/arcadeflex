@@ -2710,10 +2710,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( quizkof )	/* 0080 (c) 1995 Saurus */
                 /*TODO*/ //	DRIVER( ssideki3 )	/* 0081 (c) 1995 SNK */
                 /*TODO*/ //	DRIVER( doubledr )	/* 0082 (c) 1995 Technos */
-                /*TODO*/ //	DRIVER( pbobble )	/* 0083 (c) 1994 Taito */
+                driver_pbobble,	/* 0083 (c) 1994 Taito */
                 /*TODO*/ //	DRIVER( kof95 )		/* 0084 (c) 1995 SNK */
                 /* 0085 Shinsetsu Samurai Spirits Bushidoretsuden / Samurai Shodown RPG (CD only) */
-                /*TODO*/ //	DRIVER( tws96 )		/* 0086 (c) 1996 Tecmo */
+                driver_tws96,		/* 0086 (c) 1996 Tecmo */
                 /*TODO*/ //	DRIVER( samsho3 )	/* 0087 (c) 1995 SNK */
                 /*TODO*/ //	DRIVER( stakwin )	/* 0088 (c) 1995 Saurus */
                 /*TODO*/ //	DRIVER( pulstar )	/* 0089 (c) 1995 Aicom */

@@ -431,6 +431,14 @@ public class atarigenH {
             this.ytiles = ytiles;
             this.noscroll = noscroll;
         }
+        
+        public atarigen_pf_desc(int tilewidth, int tileheight, int xtiles, int ytiles) {
+            this.tilewidth = tilewidth;
+            this.tileheight = tileheight;
+            this.xtiles = xtiles;
+            this.ytiles = ytiles;            
+        }
+        
         public int tilewidth, tileheight;              /* width/height of each tile */
 
         public int xtiles, ytiles;						/* number of tiles in each direction */
@@ -445,11 +453,11 @@ public class atarigenH {
         {
             param=new int[2];
         }
-        int hscroll;							/* current horizontal starting offset */
+        public int hscroll;							/* current horizontal starting offset */
 
-        int vscroll;							/* current vertical starting offset */
+        public int vscroll;							/* current vertical starting offset */
 
-        int[] param;							/* up to 2 other parameters that will cause a boundary break */
+        public int[] param;							/* up to 2 other parameters that will cause a boundary break */
 
     };
     public static abstract interface atarigen_pf_callbackPtr {
