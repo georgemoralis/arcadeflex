@@ -1,4 +1,7 @@
 package gr.codebb.arcadeflex.v036.cpu.m68000;
+import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpu.*;
+import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpuH.*;
+import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kopsH.*;
 
 public class M68KOPAC
 {
@@ -3229,19 +3232,21 @@ public class M68KOPAC
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_andi_ix_8(void)
-/*TODO*///{
-/*TODO*///	uint tmp = m68ki_read_imm_8();
-/*TODO*///	uint ea = EA_IX;
-/*TODO*///	uint res = tmp & m68ki_read_8(ea);
-/*TODO*///
-/*TODO*///	m68ki_write_8(ea, res);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_C = CPU_V = 0;
-/*TODO*///	USE_CLKS(12+10);
-/*TODO*///}
+    public static opcode m68000_andi_ix_8 = new opcode() {
+        public void handler() {
+            long tmp = m68ki_read_imm_8();
+            long ea = EA_IX();
+            long res = tmp & m68ki_read_8(ea);
+
+            m68ki_write_8(ea, res);
+
+            m68k_cpu.n_flag = GET_MSB_8(res);
+            m68k_cpu.not_z_flag = res;
+            m68k_cpu.c_flag = 0;
+            m68k_cpu.v_flag = 0;
+            USE_CLKS(12 + 10);
+        }
+    };
 /*TODO*///
 /*TODO*///
 /*TODO*///void m68000_andi_aw_8(void)

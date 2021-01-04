@@ -2,6 +2,7 @@
 ==========
 -asteroid now works with sound
 -starwars starts working now!
+-Added 68000 opcodes needed for neogeo (still WIP)
 
 02/01/2021
 ==========

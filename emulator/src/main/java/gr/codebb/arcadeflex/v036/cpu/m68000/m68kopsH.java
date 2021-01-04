@@ -3649,14 +3649,7 @@ public class m68kopsH {
             }
         }
     };
-    public static opcode m68000_andi_ix_8 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+    
     public static opcode m68000_andi_aw_8 = new opcode() {
         public void handler() {
             long tmp = m68ki_read_imm_8();
@@ -12801,14 +12794,7 @@ public class m68kopsH {
             }
         }
     };
-    public static opcode m68000_move_ix_ai_8 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+    
     public static opcode m68000_move_ix_pi_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_PI_8());

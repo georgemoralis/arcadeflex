@@ -5127,19 +5127,18 @@ public class M68KOPDM {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_move_ix_ai_8(void)
-/*TODO*///{
-/*TODO*///	uint res = m68ki_read_8(EA_AI);
-/*TODO*///
-/*TODO*///	m68ki_write_8(m68ki_get_ea_ix_dst(), res);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_V = CPU_C = 0;
-/*TODO*///	USE_CLKS(14+4);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static opcode m68000_move_ix_ai_8 = new opcode() {
+        public void handler() {
+            long res = m68ki_read_8(EA_AI());
+            m68ki_write_8(m68ki_get_ea_ix_dst(), res);
+
+            m68k_cpu.n_flag = GET_MSB_8(res);
+            m68k_cpu.not_z_flag = res;
+            m68k_cpu.v_flag = 0;
+            m68k_cpu.c_flag = 0;
+            USE_CLKS(14+4);
+        }
+    };
 /*TODO*///void m68000_move_ix_pi_8(void)
 /*TODO*///{
 /*TODO*///	uint res = m68ki_read_8(EA_PI_8);
