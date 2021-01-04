@@ -600,40 +600,40 @@ public class m6809 extends cpu_interface
     /*TODO*///{
     /*TODO*///	S = val;
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///
-    /*TODO*////****************************************************************************/
-    /*TODO*////* Return a specific register                                               */
-    /*TODO*////****************************************************************************/
-    /*TODO*///unsigned m6809_get_reg(int regnum)
-    /*TODO*///{
-    /*TODO*///	switch( regnum )
-    /*TODO*///	{
-    /*TODO*///		case M6809_PC: return PC;
-    /*TODO*///		case M6809_S: return S;
-    /*TODO*///		case M6809_CC: return CC;
-    /*TODO*///		case M6809_U: return U;
-    /*TODO*///		case M6809_A: return A;
-    /*TODO*///		case M6809_B: return B;
-    /*TODO*///		case M6809_X: return X;
-    /*TODO*///		case M6809_Y: return Y;
-    /*TODO*///		case M6809_DP: return DP;
-    /*TODO*///		case M6809_NMI_STATE: return m6809.nmi_state;
-    /*TODO*///		case M6809_IRQ_STATE: return m6809.irq_state[M6809_IRQ_LINE];
-    /*TODO*///		case M6809_FIRQ_STATE: return m6809.irq_state[M6809_FIRQ_LINE];
-    /*TODO*///		case REG_PREVIOUSPC: return PPC;
-    /*TODO*///		default:
-    /*TODO*///			if( regnum <= REG_SP_CONTENTS )
-    /*TODO*///			{
-    /*TODO*///				unsigned offset = S + 2 * (REG_SP_CONTENTS - regnum);
-    /*TODO*///				if( offset < 0xffff )
-    /*TODO*///					return ( RM( offset ) << 8 ) | RM( offset + 1 );
-    /*TODO*///			}
-    /*TODO*///	}
-    /*TODO*///	return 0;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///
+    
+    
+    /****************************************************************************/
+    /* Return a specific register                                               */
+    /****************************************************************************/
+    public int m6809_get_reg(int regnum)
+    {
+    	switch( regnum )
+    	{
+    		case M6809_PC: return m6809.pc;
+    		case M6809_S: return m6809.s;
+    		case M6809_CC: return m6809.cc;
+    		case M6809_U: return m6809.u;
+    		case M6809_A: return m6809.a;
+    		case M6809_B: return m6809.b;
+    		case M6809_X: return m6809.x;
+    		case M6809_Y: return m6809.y;
+    		case M6809_DP: return m6809.dp;
+    		case M6809_NMI_STATE: return m6809.nmi_state;
+    		case M6809_IRQ_STATE: return m6809.irq_state[M6809_IRQ_LINE];
+    		case M6809_FIRQ_STATE: return m6809.irq_state[M6809_FIRQ_LINE];
+    		case REG_PREVIOUSPC: return m6809.ppc;
+    		default:
+    			if( regnum <= REG_SP_CONTENTS )
+    			{
+    				int offset = m6809.s + 2 * (REG_SP_CONTENTS - regnum);
+    				if( offset < 0xffff )
+    					return ( RM( offset ) << 8 ) | RM( offset + 1 );
+    			}
+    	}
+    	return 0;
+    }
+    
+    
     /*TODO*////****************************************************************************/
     /*TODO*////* Set a specific register                                                  */
     /*TODO*////****************************************************************************/
@@ -1476,7 +1476,7 @@ public class m6809 extends cpu_interface
 
     @Override
     public int get_reg(int regnum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return m6809_get_reg(regnum);
     }
 
     @Override

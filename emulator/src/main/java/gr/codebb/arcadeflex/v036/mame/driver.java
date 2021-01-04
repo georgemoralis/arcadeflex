@@ -227,6 +227,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.cop01.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 
 public class driver {
 
@@ -2259,9 +2260,9 @@ public class driver {
                 /*TODO*/ //	DRIVER( tempest1 )	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( tempest2 )	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( temptube )	/* hack */
-                /*TODO*/ //	DRIVER( starwars )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( starwar1 )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( esb )		/* (c) 1985 */
+                driver_starwars,	/* (c) 1983 */
+                driver_starwar1,	/* (c) 1983 */
+                driver_esb,		/* (c) 1985 */
                 /*TODO*/ //	DRIVER( mhavoc )	/* (c) 1983 */
                 /*TODO*/ //	DRIVER( mhavoc2 )	/* (c) 1983 */
                 /*TODO*/ //	DRIVER( mhavocp )	/* (c) 1983 */

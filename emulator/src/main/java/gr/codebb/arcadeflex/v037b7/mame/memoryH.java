@@ -465,10 +465,10 @@ public class memoryH {
 /*TODO*///#define change_pc29(pc)      change_pc_generic(pc, ABITS2_29, ABITS_MIN_29, 3, cpu_setOPbase29)
 /*TODO*///#define change_pc32(pc) 	 change_pc_generic(pc, ABITS2_32, ABITS_MIN_32, 0, cpu_setOPbase32)
 /*TODO*///#define change_pc32lew(pc)	 change_pc_generic(pc, ABITS2_32LEW, ABITS_MIN_32LEW, 0, cpu_setOPbase32lew)
-/*TODO*///
-/*TODO*////* ----- for use OPbaseOverride driver, request override callback to next cpu_setOPbase ----- */
-/*TODO*///#define catch_nextBranch()	(ophw = 0xff)
-/*TODO*///
+
+    /* ----- for use OPbaseOverride driver, request override callback to next cpu_setOPbase ----- */
+    public static void catch_nextBranch(){ u8_ophw = 0xff; }
+
     /* -----  bank switching macro ----- */
     public static void cpu_setbank(int bank, UBytePtr _base) {
         if (bank >= 1 && bank <= MAX_BANKS) {

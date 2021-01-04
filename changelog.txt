@@ -1,3 +1,12 @@
+04/01/2021
+==========
+-asteroid now works with sound
+-starwars starts working now!
+
+02/01/2021
+==========
+-asteroid now works (sound WIP)
+
 02/01/2021
 ==========
 -Fixed an issue in cpuintrf that was existing years now. Some drivers come to life now . tnzs,btime and haven't tested them all

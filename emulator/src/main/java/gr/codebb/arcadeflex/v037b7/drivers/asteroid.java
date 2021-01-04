@@ -163,6 +163,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.asteroid.*;
 
 public class asteroid
 {
@@ -215,9 +216,9 @@ public class asteroid
 		new MemoryWriteAddress( 0x3000, 0x3000, avgdvg_go_w ),
 		new MemoryWriteAddress( 0x3200, 0x3200, asteroid_bank_switch_w ),
 		new MemoryWriteAddress( 0x3400, 0x3400, watchdog_reset_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3600, 0x3600, asteroid_explode_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3a00, 0x3a00, asteroid_thump_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3c00, 0x3c05, asteroid_sounds_w ),
+		new MemoryWriteAddress( 0x3600, 0x3600, asteroid_explode_w ),
+		new MemoryWriteAddress( 0x3a00, 0x3a00, asteroid_thump_w ),
+		new MemoryWriteAddress( 0x3c00, 0x3c05, asteroid_sounds_w ),
 		new MemoryWriteAddress( 0x4000, 0x47ff, MWA_RAM, vectorram, vectorram_size ),
 		new MemoryWriteAddress( 0x5000, 0x57ff, MWA_ROM ), /* vector rom */
 		new MemoryWriteAddress( 0x6800, 0x7fff, MWA_ROM ),
@@ -242,12 +243,12 @@ public class asteroid
 	static MemoryWriteAddress astdelux_writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x03ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x2405, 0x2405, astdelux_sounds_w ), /* thrust sound */
+		new MemoryWriteAddress( 0x2405, 0x2405, astdelux_sounds_w ), /* thrust sound */
 		new MemoryWriteAddress( 0x2c00, 0x2c0f, pokey1_w ),
 		new MemoryWriteAddress( 0x3000, 0x3000, avgdvg_go_w ),
 		new MemoryWriteAddress( 0x3200, 0x323f, atari_vg_earom_w ),
 		new MemoryWriteAddress( 0x3400, 0x3400, watchdog_reset_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3600, 0x3600, asteroid_explode_w ),
+		new MemoryWriteAddress( 0x3600, 0x3600, asteroid_explode_w ),
 		new MemoryWriteAddress( 0x3a00, 0x3a00, atari_vg_earom_ctrl_w ),
 	/*	new MemoryWriteAddress( 0x3c00, 0x3c03, astdelux_led_w ),*/ /* P1 LED, P2 LED, unknown, thrust? */
 		new MemoryWriteAddress( 0x3c00, 0x3c03, MWA_NOP ), /* P1 LED, P2 LED, unknown, thrust? */
@@ -583,11 +584,11 @@ public class asteroid
 	 *		osd_fwrite(f,&RAM[0x0023],3*10+3*11);
 	 */
 	
-/*TODO*///	static CustomSound_interface asteroid_custom_interface = new CustomSound_interface(
-/*TODO*///		asteroid_sh_start,
-/*TODO*///		asteroid_sh_stop,
-/*TODO*///		asteroid_sh_update
-/*TODO*///	);
+	static CustomSound_interface asteroid_custom_interface = new CustomSound_interface(
+		asteroid_sh_start,
+		asteroid_sh_stop,
+		asteroid_sh_update
+	);
 	
 	static MachineDriver machine_driver_asteroid = new MachineDriver
 	(
@@ -618,13 +619,13 @@ public class asteroid
 	
 		/* sound hardware */
 		0,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_CUSTOM,
-/*TODO*///				asteroid_custom_interface
-/*TODO*///			)
-/*TODO*///		}
-                null
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_CUSTOM,
+				asteroid_custom_interface
+			)
+		}
+                
 	);
 	
 	static MachineDriver machine_driver_asteroib = new MachineDriver
@@ -656,13 +657,13 @@ public class asteroid
 	
 		/* sound hardware */
 		0,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_CUSTOM,
-/*TODO*///				asteroid_custom_interface
-/*TODO*///			)
-/*TODO*///		}
-                null
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_CUSTOM,
+				asteroid_custom_interface
+			)
+		}
+                
 	);
 	
 	
@@ -685,11 +686,11 @@ public class asteroid
 		new ReadHandlerPtr[] { input_port_3_r }
 	);
 	
-/*TODO*///	static CustomSound_interface astdelux_custom_interface = new CustomSound_interface(
-/*TODO*///		astdelux_sh_start,
-/*TODO*///		astdelux_sh_stop,
-/*TODO*///		astdelux_sh_update
-/*TODO*///	);
+	static CustomSound_interface astdelux_custom_interface = new CustomSound_interface(
+		astdelux_sh_start,
+		astdelux_sh_stop,
+		astdelux_sh_update
+	);
 	
 	static MachineDriver machine_driver_astdelux = new MachineDriver
 	(
@@ -720,18 +721,17 @@ public class asteroid
 	
 		/* sound hardware */
 		0,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_POKEY,
-/*TODO*///				pokey_interface
-/*TODO*///			),
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_CUSTOM,
-/*TODO*///				astdelux_custom_interface
-/*TODO*///			)
-/*TODO*///		},
-                null,
-	
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_POKEY,
+				pokey_interface
+			),
+			new MachineSound(
+				SOUND_CUSTOM,
+				astdelux_custom_interface
+			)
+		},
+                	
 		atari_vg_earom_handler
 	);
 	

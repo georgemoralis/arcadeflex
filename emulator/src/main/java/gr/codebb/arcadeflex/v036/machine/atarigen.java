@@ -408,7 +408,7 @@ public class atarigen {
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-/*TODO*///	void atarigen_slapstic_init(int cpunum, int base, int chipnum)
+/*TODO*///	public sttaic void atarigen_slapstic_init(int cpunum, int base, int chipnum)
 /*TODO*///	{
 /*TODO*///		atarigen_slapstic_num = chipnum;
 /*TODO*///		atarigen_slapstic = NULL;

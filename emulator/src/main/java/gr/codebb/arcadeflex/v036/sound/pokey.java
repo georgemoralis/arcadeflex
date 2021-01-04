@@ -1573,16 +1573,17 @@ public class pokey extends snd_interface {
     /*TODO*///{
     /*TODO*///    pokey_register_w(3,offset,data);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///void quad_pokey_w (int offset,int data)
-    /*TODO*///{
-    /*TODO*///    int pokey_num = (offset >> 3) & ~0x04;
-    /*TODO*///    int control = (offset & 0x20) >> 2;
-    /*TODO*///    int pokey_reg = (offset % 8) | control;
-    /*TODO*///
-    /*TODO*///    pokey_register_w(pokey_num, pokey_reg, data);
-    /*TODO*///}
-    /*TODO*///
+    
+    public static WriteHandlerPtr quad_pokey_w= new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int pokey_num = (offset >> 3) & ~0x04;
+            int control = (offset & 0x20) >> 2;
+            int pokey_reg = (offset % 8) | control;
+
+            pokey_register_w(pokey_num, pokey_reg, data);
+        }
+    };
+    
     /*TODO*///void pokey1_serin_ready(int after)
     /*TODO*///{
     /*TODO*///	timer_set(1.0 * after / intf.baseclock, 0, pokey_serin_ready);

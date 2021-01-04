@@ -1769,15 +1769,15 @@ public class memory {
 /*TODO*///	memorywriteoffset[bank] = offset;
 /*TODO*///	memorywritehandler[bank] = handler;
 /*TODO*///}
-/*TODO*///
-/*TODO*////* cpu change op-code memory base */
-/*TODO*///void cpu_setOPbaseoverride (int cpu,opbase_handler function)
-/*TODO*///{
-/*TODO*///	setOPbasefunc[cpu] = function;
-/*TODO*///	if (cpu == cpu_getactivecpu())
-/*TODO*///		OPbasefunc = function;
-/*TODO*///}
-/*TODO*///
+
+    /* cpu change op-code memory base */
+    public static void cpu_setOPbaseoverride (int cpu,opbase_handlerPtr function)
+    {
+            setOPbasefunc[cpu] = function;
+            if (cpu == cpu_getactivecpu())
+                    OPbasefunc = function;
+    }
+
     public static UBytePtr install_mem_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler) {
         return install_mem_read_handler(cpu, start, end, _handler, -15000);
     }
