@@ -3,6 +3,7 @@
 -asteroid now works with sound
 -starwars starts working now!
 -Added 68000 opcodes needed for neogeo (still WIP)
+-Added working berzerk driver
 
 02/01/2021
 ==========

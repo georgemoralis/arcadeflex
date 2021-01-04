@@ -210,7 +210,7 @@ import static gr.codebb.arcadeflex.v036.drivers.punchout.*;
 import static gr.codebb.arcadeflex.v036.drivers.astrof.*;
 import static gr.codebb.arcadeflex.v036.drivers.karnov.*;
 import static gr.codebb.arcadeflex.v036.drivers.shuuz.*;
-import static gr.codebb.arcadeflex.v036.drivers.berzerk.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.berzerk.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
 import static gr.codebb.arcadeflex.v036.drivers.galaxian.*;
