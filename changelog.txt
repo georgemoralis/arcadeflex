@@ -4,6 +4,7 @@
 -starwars starts working now!
 -Added 68000 opcodes needed for neogeo (still WIP)
 -Added working berzerk driver
+-Improved cpu_writemem24_dword (makes kof94 works better)
 
 02/01/2021
 ==========
