@@ -86,7 +86,7 @@ public class swmathbx
 		int MA;
 		int IP15_8, IP7, IP6_0; /* Instruction PROM values */
 	
-		UBytePtr RAM = memory_region(REGION_CPU1);
+		UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU1));
 	
                 logerror("Running Mathbox...\n");
 	

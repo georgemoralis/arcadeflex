@@ -24,6 +24,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.PULSE_LINE;
+import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
 
 public class starwars
 {
@@ -77,8 +78,8 @@ public class starwars
 	
 				/* Note: bit 4 is always set to avoid sound self test */
 	
-/*TODO*///				return port_A|0x10|(!tms5220_ready_r()<<2);
-                            return 0;
+				return port_A|0x10|((tms5220_ready_r()<<2)!=0?0:1);
+
 	
 			case 1: /* 0x81 - Read Port A DDR */
 				return port_A_ddr;
@@ -113,8 +114,8 @@ public class starwars
 				if((port_A&0x01)==1)
 				{
 					port_A = (port_A&(~port_A_ddr))|(data&port_A_ddr);
-/*TODO*///					if ((port_A&0x01)==0)
-/*TODO*///						tms5220_data_w(0,port_B);
+					if ((port_A&0x01)==0)
+						tms5220_data_w.handler(0,port_B);
 				}
 				else
 					port_A = (port_A&(~port_A_ddr))|(data&port_A_ddr);

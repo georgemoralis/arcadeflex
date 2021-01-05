@@ -35,6 +35,7 @@ import gr.codebb.arcadeflex.v036.sound.k005289;
 import gr.codebb.arcadeflex.v036.sound.nes_apu;
 import gr.codebb.arcadeflex.v037b7.sound._2608intf;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
+import gr.codebb.arcadeflex.v037b7.sound._5220intf;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -421,7 +422,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-            /*TEMPHACK*/   new Dummy_snd(),
+            new _5220intf(),
     /*TODO*////*TODO*///#if (HAS_TMS5220)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TMS5220,

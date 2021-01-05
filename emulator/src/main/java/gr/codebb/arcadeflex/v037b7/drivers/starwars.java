@@ -53,6 +53,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.starwarsH.*;
 import static gr.codebb.arcadeflex.v037b7.machine.swmathbx.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.starwars.*;
+import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 
 public class starwars
 {
@@ -519,12 +520,12 @@ public class starwars
 		new ReadHandlerPtr[] { null, null, null, null }
 	);
 	
-/*TODO*///	static TMS5220interface tms5220_interface = new TMS5220interface
-/*TODO*///	(
-/*TODO*///		640000,     /* clock speed (80*samplerate) */
-/*TODO*///		50,         /* volume */
-/*TODO*///		0           /* IRQ handler */
-/*TODO*///	);
+	static TMS5220interface tms5220_interface = new TMS5220interface
+	(
+		640000,     /* clock speed (80*samplerate) */
+		50,         /* volume */
+		null           /* IRQ handler */
+	);
 	
 	
 	
@@ -571,10 +572,10 @@ public class starwars
 			new MachineSound(
 				SOUND_POKEY,
 				pokey_interface
-/*TODO*///			),
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_TMS5220,
-/*TODO*///				tms5220_interface
+			),
+			new MachineSound(
+				SOUND_TMS5220,
+				tms5220_interface
 			)
 		},
                 
@@ -625,10 +626,10 @@ public class starwars
 			new MachineSound(
 				SOUND_POKEY,
 				pokey_interface
-/*TODO*///			),
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_TMS5220,
-/*TODO*///				tms5220_interface
+			),
+			new MachineSound(
+				SOUND_TMS5220,
+				tms5220_interface
 			)
 		}
                 

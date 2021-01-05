@@ -164,6 +164,8 @@ import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.asteroid.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.llander.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.llander.*;
 
 public class asteroid
 {
@@ -278,10 +280,10 @@ public class asteroid
 	{
 		new MemoryWriteAddress( 0x0000, 0x01ff, llander_zeropage_w, llander_zeropage ),
 		new MemoryWriteAddress( 0x3000, 0x3000, avgdvg_go_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3200, 0x3200, llander_led_w ),
+		new MemoryWriteAddress( 0x3200, 0x3200, llander_led_w ),
 		new MemoryWriteAddress( 0x3400, 0x3400, watchdog_reset_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3c00, 0x3c00, llander_sounds_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3e00, 0x3e00, llander_snd_reset_w ),
+		new MemoryWriteAddress( 0x3c00, 0x3c00, llander_sounds_w ),
+		new MemoryWriteAddress( 0x3e00, 0x3e00, llander_snd_reset_w ),
 		new MemoryWriteAddress( 0x4000, 0x47ff, MWA_RAM, vectorram, vectorram_size ),
 		new MemoryWriteAddress( 0x4800, 0x5fff, MWA_ROM ), /* vector rom */
 		new MemoryWriteAddress( 0x6000, 0x7fff, MWA_ROM ),
@@ -736,50 +738,50 @@ public class asteroid
 	);
 	
 	
-/*TODO*///	static CustomSound_interface llander_custom_interface = new CustomSound_interface
-/*TODO*///	(
-/*TODO*///		llander_sh_start,
-/*TODO*///		llander_sh_stop,
-/*TODO*///		llander_sh_update
-/*TODO*///	);
+	static CustomSound_interface llander_custom_interface = new CustomSound_interface
+	(
+		llander_sh_start,
+		llander_sh_stop,
+		llander_sh_update
+	);
 	
 	
-/*TODO*///	static MachineDriver machine_driver_llander = new MachineDriver
-/*TODO*///	(
-/*TODO*///		/* basic machine hardware */
-/*TODO*///		new MachineCPU[] {
-/*TODO*///			new MachineCPU(
-/*TODO*///				CPU_M6502,
-/*TODO*///				1500000,			/* 1.5 MHz */
-/*TODO*///				llander_readmem, llander_writemem,null,null,
-/*TODO*///				llander_interrupt,6	/* 250 Hz */
-/*TODO*///			)
-/*TODO*///		},
-/*TODO*///		40, 0,	/* frames per second, vblank duration (vector game, so no vblank) */
-/*TODO*///		1,
-/*TODO*///		null,
-/*TODO*///	
-/*TODO*///		/* video hardware */
-/*TODO*///		400, 300, new rectangle( 0, 1050, 0, 900 ),
-/*TODO*///		null,
-/*TODO*///		256+32768, null,
-/*TODO*///		llander_init_colors,
-/*TODO*///	
-/*TODO*///		VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
-/*TODO*///		null,
-/*TODO*///		llander_start,
-/*TODO*///		llander_stop,
-/*TODO*///		llander_screenrefresh,
-/*TODO*///	
-/*TODO*///		/* sound hardware */
-/*TODO*///		0,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_CUSTOM,
-/*TODO*///				llander_custom_interface
-/*TODO*///			)
-/*TODO*///		}
-/*TODO*///	);
+	static MachineDriver machine_driver_llander = new MachineDriver
+	(
+		/* basic machine hardware */
+		new MachineCPU[] {
+			new MachineCPU(
+				CPU_M6502,
+				1500000,			/* 1.5 MHz */
+				llander_readmem, llander_writemem,null,null,
+				llander_interrupt,6	/* 250 Hz */
+			)
+		},
+		40, 0,	/* frames per second, vblank duration (vector game, so no vblank) */
+		1,
+		null,
+	
+		/* video hardware */
+		400, 300, new rectangle( 0, 1050, 0, 900 ),
+		null,
+		256+32768, 0,
+		llander_init_colors,
+	
+		VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+		null,
+		llander_start,
+		llander_stop,
+		llander_screenrefresh,
+	
+		/* sound hardware */
+		0,0,0,0,
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_CUSTOM,
+				llander_custom_interface
+			)
+		}
+	);
 	
 	/***************************************************************************
 	
@@ -878,6 +880,6 @@ public class asteroid
 	public static GameDriver driver_asteroib	   = new GameDriver("1979"	,"asteroib"	,"asteroid.java"	,rom_asteroib,driver_asteroid	,machine_driver_asteroib	,input_ports_asteroib	,null	,ROT0	,	"bootleg", "Asteroids (bootleg on Lunar Lander hardware)" );
 	public static GameDriver driver_astdelux	   = new GameDriver("1980"	,"astdelux"	,"asteroid.java"	,rom_astdelux,null	,machine_driver_astdelux	,input_ports_astdelux	,null	,ROT0	,	"Atari", "Asteroids Deluxe (rev 2)" );
 	public static GameDriver driver_astdelu1	   = new GameDriver("1980"	,"astdelu1"	,"asteroid.java"	,rom_astdelu1,driver_astdelux	,machine_driver_astdelux	,input_ports_astdelux	,null	,ROT0	,	"Atari", "Asteroids Deluxe (rev 1)" );
-/*TODO*///	public static GameDriver driver_llander	   = new GameDriver("1979"	,"llander"	,"asteroid.java"	,rom_llander,null	,machine_driver_llander	,input_ports_llander	,null	,ROT0	,	"Atari", "Lunar Lander (rev 2)" );
-/*TODO*///	public static GameDriver driver_llander1	   = new GameDriver("1979"	,"llander1"	,"asteroid.java"	,rom_llander1,driver_llander	,machine_driver_llander	,input_ports_llander1	,null	,ROT0	,	"Atari", "Lunar Lander (rev 1)" );
+	public static GameDriver driver_llander	   = new GameDriver("1979"	,"llander"	,"asteroid.java"	,rom_llander,null	,machine_driver_llander	,input_ports_llander	,null	,ROT0	,	"Atari", "Lunar Lander (rev 2)" );
+	public static GameDriver driver_llander1	   = new GameDriver("1979"	,"llander1"	,"asteroid.java"	,rom_llander1,driver_llander	,machine_driver_llander	,input_ports_llander1	,null	,ROT0	,	"Atari", "Lunar Lander (rev 1)" );
 }

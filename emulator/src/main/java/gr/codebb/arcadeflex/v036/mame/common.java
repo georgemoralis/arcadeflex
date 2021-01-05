@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.Util.*;
-import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.*;
 public class common {
     
     /* These globals are only kept on a machine basis - LBO 042898 */
@@ -569,6 +569,18 @@ public class common {
         }
 
         return result;
+    }
+    
+    public static osd_bitmap bitmap_alloc_depth(int width, int height, int depth) {
+        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+            int temp;
+
+            temp = width;
+            width = height;
+            height = temp;
+        }
+
+        return osd_new_bitmap(width, height, depth);
     }
 
     public static GameSamples readsamples(String[] samplenames, String basename)

@@ -1,6 +1,7 @@
 05/01/2021
 ==========
 -Added 68000 opcode needed for ssriders (still WIP)
+-Added TMS5220 snd
 
 04/01/2021
 ==========

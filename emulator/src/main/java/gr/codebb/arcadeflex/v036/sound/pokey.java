@@ -1123,11 +1123,12 @@ public class pokey extends snd_interface {
             return pokey_register_r(2, offset);
         }
     };
-/*TODO*///int pokey4_r (int offset)
-/*TODO*///{
-/*TODO*///	return pokey_register_r(3, offset);
-/*TODO*///}
-/*TODO*///
+    public static ReadHandlerPtr pokey4_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return pokey_register_r(3, offset);
+        }
+    };
+
 /*TODO*///int quad_pokey_r (int offset)
 /*TODO*///{
 /*TODO*///	int pokey_num = (offset >> 3) & ~0x04;
@@ -1569,10 +1570,11 @@ public class pokey extends snd_interface {
             pokey_register_w(2, offset, data);
         }
     };
-    /*TODO*///void pokey4_w (int offset,int data)
-    /*TODO*///{
-    /*TODO*///    pokey_register_w(3,offset,data);
-    /*TODO*///}
+    public static WriteHandlerPtr pokey4_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            pokey_register_w(3,offset,data);
+        }
+    };
     
     public static WriteHandlerPtr quad_pokey_w= new WriteHandlerPtr() {
         public void handler(int offset, int data) {

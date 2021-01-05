@@ -228,6 +228,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 
 public class driver {
 
@@ -2252,8 +2253,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( bzone2 )	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( gravitar )	/* (c) 1982 */
                 /*TODO*/ //	DRIVER( gravitr2 )	/* (c) 1982 */
-                /*TODO*/ //	DRIVER( llander )	/* no copyright notice */
-                /*TODO*/ //	DRIVER( llander1 )	/* no copyright notice */
+                driver_llander,         /* no copyright notice */
+                driver_llander1,	/* no copyright notice */
                 /*TODO*/ //	DRIVER( redbaron )	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( spacduel )	/* (c) 1980 */
                 /*TODO*/ //	DRIVER( tempest )	/* (c) 1980 */
@@ -2304,7 +2305,7 @@ public class driver {
 
                 /*TODO*/ //	DRIVER( cloak )		/* (c) 1983 */
                 /*TODO*/ //	DRIVER( cloud9 )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( jedi )		/* (c) 1984 */
+                driver_jedi,		/* (c) 1984 */
 
                 /* Atari System 1 games */
                 /*TODO*/ //	DRIVER( marble )	/* (c) 1984 */
