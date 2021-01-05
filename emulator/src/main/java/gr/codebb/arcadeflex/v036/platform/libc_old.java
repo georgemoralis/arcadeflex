@@ -337,7 +337,7 @@ public class libc_old {
 
     public static void memcpy(char[] dst, IntPtr src, int size) {
         for (int i = 0; i < size; i++) {
-            dst[i] = (char) (src.read(i) & 0xFF);
+            dst[i] = (char) (src.read(i) & 0xFF);//not sure about this
         }
     }
 

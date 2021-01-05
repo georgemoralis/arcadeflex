@@ -6,6 +6,7 @@
 -Fixed an issue in cpuintrf
 -Updates to common library
 -Initial work on neogeo graphics (not yet working correctly)
+-Neogeo graphics appears to work
 
 04/01/2021
 ==========

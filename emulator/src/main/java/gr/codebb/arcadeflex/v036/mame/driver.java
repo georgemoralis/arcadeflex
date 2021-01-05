@@ -2637,7 +2637,7 @@ public class driver {
                 /* 0008 */
                 /*TODO*/ //	DRIVER( ncombat )	/* 0009 (c) 1990 Alpha Denshi Co */
                 /*TODO*/ //	DRIVER( cyberlip )	/* 0010 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( superspy )	/* 0011 (c) 1990 SNK */
+                driver_superspy,	/* 0011 (c) 1990 SNK */
                 /* 0012 */
                 /* 0013 */
                 /*TODO*/ //	DRIVER( mutnat )	/* 0014 (c) 1992 SNK */
@@ -2726,7 +2726,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( gowcaizr )	/* 0094 (c) 1995 Technos */
                 /*TODO*/ //	DRIVER( rbff1 )		/* 0095 (c) 1995 SNK */
                 /*TODO*/ //	DRIVER( aof3 )		/* 0096 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( sonicwi3 )	/* 0097 (c) 1995 Video System Co. */
+                driver_sonicwi3,	/* 0097 (c) 1995 Video System Co. */
                 /* 0098 Idol Mahjong - final romance 2 (CD only? not confirmed, MVS might exist) */
                 /* 0099 */
                 /*TODO*/ //	DRIVER( turfmast )	/* 0200 (c) 1996 Nazca */
@@ -2770,7 +2770,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( shocktro )	/* 0238 (c) 1997 Saurus */
                 /*TODO*/ //	DRIVER( blazstar )	/* 0239 (c) 1998 Yumekobo */
                 /*TODO*/ //	DRIVER( rbff2 )		/* 0240 (c) 1998 SNK */
-                /*TODO*/ //	DRIVER( mslug2 )	/* 0241 (c) 1998 SNK */
+                driver_mslug2,	/* 0241 (c) 1998 SNK */
                 /*TODO*/ //	DRIVER( kof98 )		/* 0242 (c) 1998 SNK */
                 /*TODO*/ //	DRIVER( lastbld2 )	/* 0243 (c) 1998 SNK */
                 /*TODO*/ //	DRIVER( neocup98 )	/* 0244 (c) 1998 SNK */

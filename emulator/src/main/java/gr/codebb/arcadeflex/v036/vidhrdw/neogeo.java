@@ -591,7 +591,7 @@ public class neogeo {
 
 					fspr.inc(l_y_skip[l]*dy);
 
-					mydword = fspr.read(4);
+					mydword = fspr.read(4);//fspr.read(1);
 					col = (mydword>> 0)&0xf; if (col!=0) bm.write( 0, paldata.read(col));
 					col = (mydword>> 4)&0xf; if (col!=0) bm.write( 1, paldata.read(col));
 					col = (mydword>> 8)&0xf; if (col!=0) bm.write( 2, paldata.read(col));
@@ -621,7 +621,7 @@ public class neogeo {
 					bm  = new UBytePtr(line[y],sx);
 					fspr.inc(l_y_skip[l]*dy);
 
-					mydword = fspr.read(4);
+					mydword = fspr.read(4);//fspr.read(1);
 					if (dda_x_skip[ 0]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 					if (dda_x_skip[ 1]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 					if (dda_x_skip[ 2]!=0) { col = (mydword>> 8)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
@@ -665,7 +665,7 @@ public class neogeo {
 					col = (mydword>> 4)&0xf; if (col!=0) bm.write( 6, paldata.read(col));
 					col = (mydword>> 0)&0xf; if (col!=0) bm.write( 7, paldata.read(col));
 
-					mydword = fspr.read(4);
+					mydword = fspr.read(4);//fspr.read(1);
 					col = (mydword>>28)&0xf; if (col!=0) bm.write( 8, paldata.read(col));
 					col = (mydword>>24)&0xf; if (col!=0) bm.write( 9, paldata.read(col));
 					col = (mydword>>20)&0xf; if (col!=0) bm.write(10, paldata.read(col));
@@ -695,7 +695,7 @@ public class neogeo {
 					if (dda_x_skip[ 6]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 					if (dda_x_skip[ 7]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 
-					mydword = fspr.read(4);
+					mydword = fspr.read(4);//fspr.read(1);
 					if (dda_x_skip[ 8]!=0) { col = (mydword>>28)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 					if (dda_x_skip[ 9]!=0) { col = (mydword>>24)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
 					if (dda_x_skip[10]!=0) { col = (mydword>>20)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
