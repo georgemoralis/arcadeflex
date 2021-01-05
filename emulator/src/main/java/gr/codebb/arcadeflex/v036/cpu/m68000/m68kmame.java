@@ -111,8 +111,8 @@ public class m68kmame extends cpu_interface {
 /*TODO*///		case M68K_D3: return m68k_peek_dr(3);
 /*TODO*///		case M68K_D4: return m68k_peek_dr(4);
 /*TODO*///		case M68K_D5: return m68k_peek_dr(5);
-/*TODO*///		case M68K_D6: return m68k_peek_dr(6);
-/*TODO*///		case M68K_D7: return m68k_peek_dr(7);
+		case M68K_D6: return (int)m68k_peek_dr(6);
+		case M68K_D7: return (int)m68k_peek_dr(7);
 /*TODO*///		case M68K_A0: return m68k_peek_ar(0);
 /*TODO*///		case M68K_A1: return m68k_peek_ar(1);
 /*TODO*///		case M68K_A2: return m68k_peek_ar(2);

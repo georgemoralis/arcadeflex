@@ -42,6 +42,7 @@ import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K054000.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
+import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.*;
 
 public class tmnt {
 
@@ -342,11 +343,11 @@ public class tmnt {
             }
 
             if (cpu_readmem24_word(cpu_get_pc()) == 0x45f9) {
-                /*TODO*///               /*data = -((cpu_get_reg(M68K_D7) & 0xff) + 32);
-  /*TODO*///              data = ((data / 8) & 0x1f) * 0x40;
-  /*TODO*///              data += (((cpu_get_reg(M68K_D6) & 0xffff) + (K052109_r(0x1a01) * 256)
-  /*TODO*///                      + K052109_r(0x1a00) + 96) / 8) & 0x3f;*/
-                System.out.println("TODO");
+                          data = -((cpu_get_reg(M68K_D7) & 0xff) + 32);
+               data = ((data / 8) & 0x1f) * 0x40;
+                data += (((cpu_get_reg(M68K_D6) & 0xffff) + (K052109_r.handler(0x1a01) * 256)
+                        + K052109_r.handler(0x1a00) + 96) / 8) & 0x3f;
+
             }
 
             return data;
