@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -19,11 +20,14 @@ import static gr.codebb.arcadeflex.common.libc.cstring.*;
 public class neogeo {
 
     static UBytePtr vidram;
-    static UBytePtr neogeo_paletteram;	   /* pointer to 1 of the 2 palette banks */
+    static UBytePtr neogeo_paletteram;
+    /* pointer to 1 of the 2 palette banks */
 
-    static UBytePtr pal_bank1;		/* 0x100*16 2 byte palette entries */
+    static UBytePtr pal_bank1;
+    /* 0x100*16 2 byte palette entries */
 
-    static UBytePtr pal_bank2;		/* 0x100*16 2 byte palette entries */
+    static UBytePtr pal_bank2;
+    /* 0x100*16 2 byte palette entries */
 
     static int palno, modulo, where, high_tile, vhigh_tile, vvhigh_tile;
     static int no_of_tiles;
@@ -37,10 +41,10 @@ public class neogeo {
 /*TODO*///		unsigned int code,unsigned int color,int flipx,int flipy,int sx,int sy,
 /*TODO*///		int zx,int zy,const struct rectangle *clip);
 /*TODO*///
-/*TODO*///static char dda_x_skip[16];
-/*TODO*///static char dda_y_skip[17];
-/*TODO*///static char full_y_skip[16]={0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-/*TODO*///
+    static char[] dda_x_skip = new char[16];
+    static char[] dda_y_skip = new char[17];
+    static char full_y_skip[] = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    /*TODO*///
 /*TODO*///
 /*TODO*////******************************************************************************/
 /*TODO*///
@@ -72,7 +76,8 @@ public class neogeo {
                 return 1;
             }
 
-            vidram = new UBytePtr(0x20000); /* 0x20000 bytes even though only 0x10c00 is used */
+            vidram = new UBytePtr(0x20000);
+            /* 0x20000 bytes even though only 0x10c00 is used */
 
             if (vidram == null) {
                 neogeo_vh_stop.handler();
@@ -92,44 +97,44 @@ public class neogeo {
     };
 
     static void decodetile(int tileno) {
-        /*TODO*///	unsigned char swap[128];
-/*TODO*///	UINT32 *gfxdata;
-/*TODO*///	int x,y;
-/*TODO*///	unsigned int pen;
-/*TODO*///
-/*TODO*///
-/*TODO*///	gfxdata = (UINT32 *)&memory_region(REGION_GFX2)[128 * tileno];
-/*TODO*///
-/*TODO*///	memcpy(swap,gfxdata,128);
-/*TODO*///
-/*TODO*///	for (y = 0;y < 16;y++)
-/*TODO*///	{
-/*TODO*///		UINT32 dw;
-/*TODO*///
-/*TODO*///		dw = 0;
-/*TODO*///		for (x = 0;x < 8;x++)
-/*TODO*///		{
-/*TODO*///			pen  = ((swap[64 + 4*y + 3] >> x) & 1) << 3;
-/*TODO*///			pen |= ((swap[64 + 4*y + 1] >> x) & 1) << 2;
-/*TODO*///			pen |= ((swap[64 + 4*y + 2] >> x) & 1) << 1;
-/*TODO*///			pen |=  (swap[64 + 4*y    ] >> x) & 1;
-/*TODO*///			dw |= pen << 4*(7-x);
-/*TODO*///			Machine->gfx[2]->pen_usage[tileno] |= (1 << pen);
-/*TODO*///		}
-/*TODO*///		*(gfxdata++) = dw;
-/*TODO*///
-/*TODO*///		dw = 0;
-/*TODO*///		for (x = 0;x < 8;x++)
-/*TODO*///		{
-/*TODO*///			pen  = ((swap[4*y + 3] >> x) & 1) << 3;
-/*TODO*///			pen |= ((swap[4*y + 1] >> x) & 1) << 2;
-/*TODO*///			pen |= ((swap[4*y + 2] >> x) & 1) << 1;
-/*TODO*///			pen |=  (swap[4*y    ] >> x) & 1;
-/*TODO*///			dw |= pen << 4*(7-x);
-/*TODO*///			Machine->gfx[2]->pen_usage[tileno] |= (1 << pen);
-/*TODO*///		}
-/*TODO*///		*(gfxdata++) = dw;
-/*TODO*///	}
+        /*unsigned*/ char[] swap = new char[128];
+        IntPtr gfxdata;
+        int x, y;
+        /*unsigned*/ int pen;
+
+        gfxdata = new IntPtr(memory_region(REGION_GFX2), 128 * tileno);
+
+        memcpy(swap, gfxdata, 128);
+
+        for (y = 0; y < 16; y++) {
+            int/*UINT32*/ dw;
+
+            dw = 0;
+            for (x = 0; x < 8; x++) {
+                pen = ((swap[64 + 4 * y + 3] >> x) & 1) << 3;
+                pen |= ((swap[64 + 4 * y + 1] >> x) & 1) << 2;
+                pen |= ((swap[64 + 4 * y + 2] >> x) & 1) << 1;
+                pen |= (swap[64 + 4 * y] >> x) & 1;
+                dw |= pen << 4 * (7 - x);
+                Machine.gfx[2].pen_usage[tileno] |= (1 << pen);
+            }
+            //*(gfxdata++) = dw;
+            gfxdata.write(dw);
+            gfxdata.inc();
+
+            dw = 0;
+            for (x = 0; x < 8; x++) {
+                pen = ((swap[4 * y + 3] >> x) & 1) << 3;
+                pen |= ((swap[4 * y + 1] >> x) & 1) << 2;
+                pen |= ((swap[4 * y + 2] >> x) & 1) << 1;
+                pen |= (swap[4 * y] >> x) & 1;
+                dw |= pen << 4 * (7 - x);
+                Machine.gfx[2].pen_usage[tileno] |= (1 << pen);
+            }
+            //*(gfxdata++) = dw;
+            gfxdata.write(dw);
+            gfxdata.inc();
+        }
     }
     public static VhStartPtr neogeo_mvs_vh_start = new VhStartPtr() {
         public int handler() {
@@ -157,8 +162,8 @@ public class neogeo {
             memset(Machine.gfx[2].pen_usage, 0, no_of_tiles * 4);
 
             /* tiles are not decoded yet. They will be decoded later as they are used. */
-            /* pen_usage is used as a marker of decoded tiles: if it is 0, then the tile */
-            /* hasn't been decoded yet. */
+ /* pen_usage is used as a marker of decoded tiles: if it is 0, then the tile */
+ /* hasn't been decoded yet. */
             return common_vh_start.handler();
         }
     };
@@ -238,7 +243,8 @@ public class neogeo {
     static UBytePtr neogeo_palette(rectangle clip) {
         int color, code, pal_base, y, my = 0, count, offs, i;
         int[] colmask = new int[256];
-        int[] pen_usage; /* Save some struct derefs */
+        int[] pen_usage;
+        /* Save some struct derefs */
 
         int sx = 0, sy = 0, oy = 0, zx = 1, rzy = 1;
         int tileno, tileatr, t1, t2, t3;
@@ -291,8 +297,9 @@ public class neogeo {
                 /* Get new zoom for this column */
                 zx = (t3 >> 8) & 0x0f;
                 sy = oy;
-            } else {	/* nope it is a new block */
-                /* Sprite scaling */
+            } else {
+                /* nope it is a new block */
+ /* Sprite scaling */
 
                 zx = (t3 >> 8) & 0x0f;
                 rzy = t3 & 0xff;
@@ -307,7 +314,8 @@ public class neogeo {
                 if (my == 0x20) {
                     fullmode = 1;
                 } else if (my >= 0x21) {
-                    fullmode = 2;	/* most games use 0x21, but */
+                    fullmode = 2;
+                    /* most games use 0x21, but */
                 } /* Alpha Mission II uses 0x3f */ else {
                     fullmode = 0;
                 }
@@ -336,7 +344,8 @@ public class neogeo {
                     my = 0x20;
                 }
 
-                ddax = 0;	/* =16; NS990110 neodrift fix */		/* setup x zoom */
+                ddax = 0;
+                /* =16; NS990110 neodrift fix */ /* setup x zoom */
 
 
             }
@@ -368,7 +377,8 @@ public class neogeo {
             if (rzy == 255) {
                 yskip = 16;
             } else {
-                dday = 0;	/* =256; NS990105 mslug fix */
+                dday = 0;
+                /* =256; NS990105 mslug fix */
             }
 
             offs = count << 6;
@@ -405,7 +415,8 @@ public class neogeo {
                         sy -= 2 * (rzy + 1);
                     }
                 } else if (sy > 0x110) {
-                    sy -= 0x200;	/* NS990105 mslug2 fix */
+                    sy -= 0x200;
+                    /* NS990105 mslug2 fix */
                 }
 
                 if (rzy != 255) {
@@ -430,9 +441,11 @@ public class neogeo {
 
                 sy += yskip;
 
-            }  /* for y */
+            }
+            /* for y */
 
-        }  /* for count */
+        }
+        /* for count */
 
         for (color = 0; color < 256; color++) {
             for (i = 1; i < 16; i++) {
@@ -468,7 +481,7 @@ public class neogeo {
     };
 
     /* Modulo can become negative , Puzzle Bobble Super Sidekicks and a lot */
-    /* of other games use this */
+ /* of other games use this */
     public static WriteHandlerPtr vidram_modulo_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             modulo = data;
@@ -504,194 +517,201 @@ public class neogeo {
             fix_bank = 0;
         }
     };
-    /*TODO*////******************************************************************************/
+
+    /**
+     * ***************************************************************************
+     */
+
+    public static void NeoMVSDrawGfx(UBytePtr[] line, GfxElement gfx, /* AJP */
+            /*unsigned*/ int code,/*unsigned*/ int color, int flipx, int flipy, int sx, int sy,
+            int zx, int zy, rectangle clip) {
+        int /*ox,*/ oy, ey, y, dy;
+        UBytePtr bm;
+        int col;
+        int l;
+        /* Line skipping counter */
+
+        int mydword;
+
+        IntPtr fspr = new IntPtr(memory_region(REGION_GFX2));//UINT32 *fspr = (UINT32 *)memory_region(REGION_GFX2);
+
+        char[] l_y_skip;
+        /*TODO*///
 /*TODO*///
-/*TODO*///
-/*TODO*///void NeoMVSDrawGfx(unsigned char **line,const struct GfxElement *gfx, /* AJP */
-/*TODO*///		unsigned int code,unsigned int color,int flipx,int flipy,int sx,int sy,
-/*TODO*///		int zx,int zy,const struct rectangle *clip)
-/*TODO*///{
-/*TODO*///	int /*ox,*/oy,ey,y,dy;
-/*TODO*///	unsigned char *bm;
-/*TODO*///	int col;
-/*TODO*///	int l; /* Line skipping counter */
-/*TODO*///
-/*TODO*///	int mydword;
-/*TODO*///
-/*TODO*///	UINT32 *fspr = (UINT32 *)memory_region(REGION_GFX2);
-/*TODO*///
-/*TODO*///	char *l_y_skip;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* Mish/AJP - Most clipping is done in main loop */
-/*TODO*///	oy = sy;
-/*TODO*///  	ey = sy + zy -1; 	/* Clip for size of zoomed object */
-/*TODO*///
-/*TODO*///	if (sy < clip->min_y) sy = clip->min_y;
-/*TODO*///	if (ey >= clip->max_y) ey = clip->max_y;
-/*TODO*///	if (sx <= -16) return;
-/*TODO*///
-/*TODO*///	/* Safety feature */
-/*TODO*///	code=code%no_of_tiles;
-/*TODO*///
-/*TODO*///	if (gfx->pen_usage[code] == 0)	/* decode tile if it hasn't been yet */
-/*TODO*///		decodetile(code);
-/*TODO*///
-/*TODO*///	/* Check for total transparency, no need to draw */
-/*TODO*///	if ((gfx->pen_usage[code] & ~1) == 0)
-/*TODO*///		return;
-/*TODO*///
-/*TODO*///   	if(zy==16)
-/*TODO*///		 l_y_skip=full_y_skip;
-/*TODO*///	else
-/*TODO*///		 l_y_skip=dda_y_skip;
-/*TODO*///
-/*TODO*///	if (flipy)	/* Y flip */
-/*TODO*///	{
-/*TODO*///		dy = -2;
-/*TODO*///		fspr+=(code+1)*32 - 2 - (sy-oy)*2;
-/*TODO*///	}
-/*TODO*///	else		/* normal */
-/*TODO*///	{
-/*TODO*///		dy = 2;
-/*TODO*///		fspr+=code*32 + (sy-oy)*2;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		const unsigned short *paldata;	/* ASG 980209 */
-/*TODO*///		paldata = &gfx->colortable[gfx->color_granularity * color];
-/*TODO*///		if (flipx)	/* X flip */
-/*TODO*///		{
-/*TODO*///			l=0;
-/*TODO*///			if(zx==16)
-/*TODO*///			{
-/*TODO*///				for (y = sy;y <= ey;y++)
-/*TODO*///				{
-/*TODO*///					bm  = line[y]+sx;
-/*TODO*///
-/*TODO*///					fspr+=l_y_skip[l]*dy;
-/*TODO*///
-/*TODO*///					mydword = fspr[1];
-/*TODO*///					col = (mydword>> 0)&0xf; if (col) bm[ 0] = paldata[col];
-/*TODO*///					col = (mydword>> 4)&0xf; if (col) bm[ 1] = paldata[col];
-/*TODO*///					col = (mydword>> 8)&0xf; if (col) bm[ 2] = paldata[col];
-/*TODO*///					col = (mydword>>12)&0xf; if (col) bm[ 3] = paldata[col];
-/*TODO*///					col = (mydword>>16)&0xf; if (col) bm[ 4] = paldata[col];
-/*TODO*///					col = (mydword>>20)&0xf; if (col) bm[ 5] = paldata[col];
-/*TODO*///					col = (mydword>>24)&0xf; if (col) bm[ 6] = paldata[col];
-/*TODO*///					col = (mydword>>28)&0xf; if (col) bm[ 7] = paldata[col];
-/*TODO*///
-/*TODO*///					mydword = fspr[0];
-/*TODO*///					col = (mydword>> 0)&0xf; if (col) bm[ 8] = paldata[col];
-/*TODO*///					col = (mydword>> 4)&0xf; if (col) bm[ 9] = paldata[col];
-/*TODO*///					col = (mydword>> 8)&0xf; if (col) bm[10] = paldata[col];
-/*TODO*///					col = (mydword>>12)&0xf; if (col) bm[11] = paldata[col];
-/*TODO*///					col = (mydword>>16)&0xf; if (col) bm[12] = paldata[col];
-/*TODO*///					col = (mydword>>20)&0xf; if (col) bm[13] = paldata[col];
-/*TODO*///					col = (mydword>>24)&0xf; if (col) bm[14] = paldata[col];
-/*TODO*///					col = (mydword>>28)&0xf; if (col) bm[15] = paldata[col];
-/*TODO*///
-/*TODO*///					l++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				for (y = sy;y <= ey;y++)
-/*TODO*///				{
-/*TODO*///					bm  = line[y]+sx;
-/*TODO*///					fspr+=l_y_skip[l]*dy;
-/*TODO*///
-/*TODO*///					mydword = fspr[1];
-/*TODO*///					if (dda_x_skip[ 0]) { col = (mydword>> 0)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 1]) { col = (mydword>> 4)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 2]) { col = (mydword>> 8)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 3]) { col = (mydword>>12)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 4]) { col = (mydword>>16)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 5]) { col = (mydword>>20)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 6]) { col = (mydword>>24)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 7]) { col = (mydword>>28)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///
-/*TODO*///					mydword = fspr[0];
-/*TODO*///					if (dda_x_skip[ 8]) { col = (mydword>> 0)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 9]) { col = (mydword>> 4)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[10]) { col = (mydword>> 8)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[11]) { col = (mydword>>12)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[12]) { col = (mydword>>16)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[13]) { col = (mydword>>20)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[14]) { col = (mydword>>24)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[15]) { col = (mydword>>28)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///
-/*TODO*///					l++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else		/* normal */
-/*TODO*///		{
-/*TODO*///	  		l=0;
-/*TODO*///			if(zx==16)
-/*TODO*///			{
-/*TODO*///				for (y = sy ;y <= ey;y++)
-/*TODO*///				{
-/*TODO*///					bm  = line[y] + sx;
-/*TODO*///					fspr+=l_y_skip[l]*dy;
-/*TODO*///
-/*TODO*///					mydword = fspr[0];
-/*TODO*///					col = (mydword>>28)&0xf; if (col) bm[ 0] = paldata[col];
-/*TODO*///					col = (mydword>>24)&0xf; if (col) bm[ 1] = paldata[col];
-/*TODO*///					col = (mydword>>20)&0xf; if (col) bm[ 2] = paldata[col];
-/*TODO*///					col = (mydword>>16)&0xf; if (col) bm[ 3] = paldata[col];
-/*TODO*///					col = (mydword>>12)&0xf; if (col) bm[ 4] = paldata[col];
-/*TODO*///					col = (mydword>> 8)&0xf; if (col) bm[ 5] = paldata[col];
-/*TODO*///					col = (mydword>> 4)&0xf; if (col) bm[ 6] = paldata[col];
-/*TODO*///					col = (mydword>> 0)&0xf; if (col) bm[ 7] = paldata[col];
-/*TODO*///
-/*TODO*///					mydword = fspr[1];
-/*TODO*///					col = (mydword>>28)&0xf; if (col) bm[ 8] = paldata[col];
-/*TODO*///					col = (mydword>>24)&0xf; if (col) bm[ 9] = paldata[col];
-/*TODO*///					col = (mydword>>20)&0xf; if (col) bm[10] = paldata[col];
-/*TODO*///					col = (mydword>>16)&0xf; if (col) bm[11] = paldata[col];
-/*TODO*///					col = (mydword>>12)&0xf; if (col) bm[12] = paldata[col];
-/*TODO*///					col = (mydword>> 8)&0xf; if (col) bm[13] = paldata[col];
-/*TODO*///					col = (mydword>> 4)&0xf; if (col) bm[14] = paldata[col];
-/*TODO*///					col = (mydword>> 0)&0xf; if (col) bm[15] = paldata[col];
-/*TODO*///
-/*TODO*///					l++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				for (y = sy ;y <= ey;y++)
-/*TODO*///				{
-/*TODO*///					bm  = line[y] + sx;
-/*TODO*///					fspr+=l_y_skip[l]*dy;
-/*TODO*///
-/*TODO*///					mydword = fspr[0];
-/*TODO*///					if (dda_x_skip[ 0]) { col = (mydword>>28)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 1]) { col = (mydword>>24)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 2]) { col = (mydword>>20)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 3]) { col = (mydword>>16)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 4]) { col = (mydword>>12)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 5]) { col = (mydword>> 8)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 6]) { col = (mydword>> 4)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 7]) { col = (mydword>> 0)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///
-/*TODO*///					mydword = fspr[1];
-/*TODO*///					if (dda_x_skip[ 8]) { col = (mydword>>28)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[ 9]) { col = (mydword>>24)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[10]) { col = (mydword>>20)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[11]) { col = (mydword>>16)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[12]) { col = (mydword>>12)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[13]) { col = (mydword>> 8)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[14]) { col = (mydword>> 4)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///					if (dda_x_skip[15]) { col = (mydword>> 0)&0xf; if (col) *bm = paldata[col]; bm++; }
-/*TODO*///
-/*TODO*///					l++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
+        /* Mish/AJP - Most clipping is done in main loop */
+        oy = sy;
+        ey = sy + zy - 1;
+        /* Clip for size of zoomed object */
+
+        if (sy < clip.min_y) {
+            sy = clip.min_y;
+        }
+        if (ey >= clip.max_y) {
+            ey = clip.max_y;
+        }
+        if (sx <= -16) {
+            return;
+        }
+
+        /* Safety feature */
+        code = code % no_of_tiles;
+
+        if (gfx.pen_usage[code] == 0) /* decode tile if it hasn't been yet */ {
+            decodetile(code);
+        }
+
+        /* Check for total transparency, no need to draw */
+        if ((gfx.pen_usage[code] & ~1) == 0) {
+            return;
+        }
+
+        if (zy == 16) {
+            l_y_skip = full_y_skip;
+        } else {
+            l_y_skip = dda_y_skip;
+        }
+
+        if (flipy!=0) /* Y flip */ {
+            dy = -2;
+            fspr.inc((code + 1) * 32 - 2 - (sy - oy) * 2);
+        } else /* normal */ {
+            dy = 2;
+            fspr.inc(code * 32 + (sy - oy) * 2);
+        }
+        UShortArray paldata;/* ASG 980209 */
+        paldata = new UShortArray(gfx.colortable, gfx.color_granularity * color);
+        		if (flipx!=0)	/* X flip */
+		{
+			l=0;
+			if(zx==16)
+			{
+				for (y = sy;y <= ey;y++)
+				{
+					bm  = new UBytePtr(line[y],sx);
+
+					fspr.inc(l_y_skip[l]*dy);
+
+					mydword = fspr.read(1);
+					col = (mydword>> 0)&0xf; if (col!=0) bm.write( 0, paldata.read(col));
+					col = (mydword>> 4)&0xf; if (col!=0) bm.write( 1, paldata.read(col));
+					col = (mydword>> 8)&0xf; if (col!=0) bm.write( 2, paldata.read(col));
+					col = (mydword>>12)&0xf; if (col!=0) bm.write( 3, paldata.read(col));
+					col = (mydword>>16)&0xf; if (col!=0) bm.write( 4, paldata.read(col));
+					col = (mydword>>20)&0xf; if (col!=0) bm.write( 5, paldata.read(col));
+					col = (mydword>>24)&0xf; if (col!=0) bm.write( 6, paldata.read(col));
+					col = (mydword>>28)&0xf; if (col!=0) bm.write( 7, paldata.read(col));
+
+					mydword = fspr.read(0);
+					col = (mydword>> 0)&0xf; if (col!=0) bm.write( 8, paldata.read(col));
+					col = (mydword>> 4)&0xf; if (col!=0) bm.write( 9, paldata.read(col));
+					col = (mydword>> 8)&0xf; if (col!=0) bm.write(10, paldata.read(col));
+					col = (mydword>>12)&0xf; if (col!=0) bm.write(11, paldata.read(col));
+					col = (mydword>>16)&0xf; if (col!=0) bm.write(12, paldata.read(col));
+					col = (mydword>>20)&0xf; if (col!=0) bm.write(13, paldata.read(col));
+					col = (mydword>>24)&0xf; if (col!=0) bm.write(14, paldata.read(col));
+					col = (mydword>>28)&0xf; if (col!=0) bm.write(15, paldata.read(col));
+
+					l++;
+				}
+			}
+			else
+			{
+				for (y = sy;y <= ey;y++)
+				{
+					bm  = new UBytePtr(line[y],sx);
+					fspr.inc(l_y_skip[l]*dy);
+
+					mydword = fspr.read(1);
+					if (dda_x_skip[ 0]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 1]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 2]!=0) { col = (mydword>> 8)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 3]!=0) { col = (mydword>>12)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 4]!=0) { col = (mydword>>16)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 5]!=0) { col = (mydword>>20)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 6]!=0) { col = (mydword>>24)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 7]!=0) { col = (mydword>>28)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+
+					mydword = fspr.read(0);
+					if (dda_x_skip[ 8]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 9]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[10]!=0) { col = (mydword>> 8)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[11]!=0) { col = (mydword>>12)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[12]!=0) { col = (mydword>>16)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[13]!=0) { col = (mydword>>20)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[14]!=0) { col = (mydword>>24)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[15]!=0) { col = (mydword>>28)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+
+					l++;
+				}
+			}
+		}
+		else		/* normal */
+		{
+	  		l=0;
+			if(zx==16)
+			{
+				for (y = sy ;y <= ey;y++)
+				{
+					bm  = new UBytePtr(line[y] , sx);
+					fspr.inc(l_y_skip[l]*dy);
+
+					mydword = fspr.read(0);
+					col = (mydword>>28)&0xf; if (col!=0) bm.write( 0, paldata.read(col));
+					col = (mydword>>24)&0xf; if (col!=0) bm.write( 1, paldata.read(col));
+					col = (mydword>>20)&0xf; if (col!=0) bm.write( 2, paldata.read(col));
+					col = (mydword>>16)&0xf; if (col!=0) bm.write( 3, paldata.read(col));
+					col = (mydword>>12)&0xf; if (col!=0) bm.write( 4, paldata.read(col));
+					col = (mydword>> 8)&0xf; if (col!=0) bm.write( 5, paldata.read(col));
+					col = (mydword>> 4)&0xf; if (col!=0) bm.write( 6, paldata.read(col));
+					col = (mydword>> 0)&0xf; if (col!=0) bm.write( 7, paldata.read(col));
+
+					mydword = fspr.read(1);
+					col = (mydword>>28)&0xf; if (col!=0) bm.write( 8, paldata.read(col));
+					col = (mydword>>24)&0xf; if (col!=0) bm.write( 9, paldata.read(col));
+					col = (mydword>>20)&0xf; if (col!=0) bm.write(10, paldata.read(col));
+					col = (mydword>>16)&0xf; if (col!=0) bm.write(11, paldata.read(col));
+					col = (mydword>>12)&0xf; if (col!=0) bm.write(12, paldata.read(col));
+					col = (mydword>> 8)&0xf; if (col!=0) bm.write(13, paldata.read(col));
+					col = (mydword>> 4)&0xf; if (col!=0) bm.write(14, paldata.read(col));
+					col = (mydword>> 0)&0xf; if (col!=0) bm.write(15, paldata.read(col));
+
+					l++;
+				}
+			}
+			else
+			{
+				for (y = sy ;y <= ey;y++)
+				{
+					bm  = new UBytePtr(line[y] , sx);
+					fspr.inc(l_y_skip[l]*dy);
+
+					mydword = fspr.read(0);
+					if (dda_x_skip[ 0]!=0) { col = (mydword>>28)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 1]!=0) { col = (mydword>>24)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 2]!=0) { col = (mydword>>20)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 3]!=0) { col = (mydword>>16)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 4]!=0) { col = (mydword>>12)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 5]!=0) { col = (mydword>> 8)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 6]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 7]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+
+					mydword = fspr.read(1);
+					if (dda_x_skip[ 8]!=0) { col = (mydword>>28)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[ 9]!=0) { col = (mydword>>24)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[10]!=0) { col = (mydword>>20)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[11]!=0) { col = (mydword>>16)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[12]!=0) { col = (mydword>>12)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[13]!=0) { col = (mydword>> 8)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[14]!=0) { col = (mydword>> 4)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+					if (dda_x_skip[15]!=0) { col = (mydword>> 0)&0xf; if (col!=0) bm.write(paldata.read(col)); bm.inc(); }
+
+					l++;
+				}
+			}
+		}
+    }
+
+    /*TODO*///
 /*TODO*///void NeoMVSDrawGfx16(unsigned char **line,const struct GfxElement *gfx, /* AJP */
 /*TODO*///		unsigned int code,unsigned int color,int flipx,int flipy,int sx,int sy,
 /*TODO*///		int zx,int zy,const struct rectangle *clip)
@@ -890,7 +910,8 @@ public class neogeo {
         int ddax = 0, dday = 0, rzx = 15, yskip = 0;
         UBytePtr[] line = bitmap.line;
         int[] pen_usage;
-        GfxElement gfx = Machine.gfx[2]; /* Save constant struct dereference */
+        GfxElement gfx = Machine.gfx[2];
+        /* Save constant struct dereference */
 
 
         if (clip.max_y - clip.min_y > 8
@@ -907,132 +928,160 @@ public class neogeo {
         fillbitmap(bitmap, Machine.pens[4095], clip);
 
         /* Draw sprites */
-        /*TODO*///	for (count=0;count<0x300;count+=2) {
-/*TODO*///		t3 = READ_WORD( &vidram[0x10000 + count] );
-/*TODO*///		t1 = READ_WORD( &vidram[0x10400 + count] );
-/*TODO*///		t2 = READ_WORD( &vidram[0x10800 + count] );
-/*TODO*///
-/*TODO*///		/* If this bit is set this new column is placed next to last one */
-/*TODO*///		if (t1 & 0x40) {
-/*TODO*///			sx += rzx;
-/*TODO*///			if ( sx >= 0x1F0 )
-/*TODO*///				sx -= 0x200;
-/*TODO*///
-/*TODO*///			/* Get new zoom for this column */
-/*TODO*///			zx = (t3 >> 8) & 0x0f;
-/*TODO*///			sy = oy;
-/*TODO*///		} else {	/* nope it is a new block */
-/*TODO*///			/* Sprite scaling */
-/*TODO*///			zx = (t3 >> 8) & 0x0f;
-/*TODO*///			rzy = t3 & 0xff;
-/*TODO*///
-/*TODO*///			sx = (t2 >> 7);
-/*TODO*///			if ( sx >= 0x1F0 )
-/*TODO*///				sx -= 0x200;
-/*TODO*///
-/*TODO*///			/* Number of tiles in this strip */
-/*TODO*///			my = t1 & 0x3f;
-/*TODO*///			if (my == 0x20) fullmode = 1;
-/*TODO*///			else if (my >= 0x21) fullmode = 2;	/* most games use 0x21, but */
-/*TODO*///												/* Alpha Mission II uses 0x3f */
-/*TODO*///			else fullmode = 0;
-/*TODO*///
-/*TODO*///			sy = 0x200 - (t1 >> 7);
-/*TODO*///			if (clip->max_y - clip->min_y > 8 ||	/* kludge to improve the ssideki games */
-/*TODO*///					clip->min_y == Machine->drv->visible_area.min_y)
-/*TODO*///			{
-/*TODO*///				if (sy > 0x110) sy -= 0x200;
-/*TODO*///				if (fullmode == 2 || (fullmode == 1 && rzy == 0xff))
-/*TODO*///				{
-/*TODO*///					while (sy < 0) sy += 2 * (rzy + 1);
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			oy = sy;
-/*TODO*///
-/*TODO*///			if (rzy < 0xff && my < 0x10 && my)
-/*TODO*///			{
-/*TODO*///				my = (my*256)/(rzy+1);
-/*TODO*///				if (my > 0x10) my = 0x10;
-/*TODO*///			}
-/*TODO*///			if (my > 0x20) my=0x20;
-/*TODO*///
-/*TODO*///			ddax=0;	/* =16; NS990110 neodrift fix */		/* setup x zoom */
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* No point doing anything if tile strip is 0 */
-/*TODO*///		if (my==0) continue;
-/*TODO*///
-/*TODO*///		/* Process x zoom */
-/*TODO*///		if(zx!=15) {
-/*TODO*///			rzx=0;
-/*TODO*///			for(i=0;i<16;i++) {
-/*TODO*///				ddax-=zx+1;
-/*TODO*///				if(ddax<=0) {
-/*TODO*///					ddax+=15+1;
-/*TODO*///					dda_x_skip[i]=1;
-/*TODO*///					rzx++;
-/*TODO*///				}
-/*TODO*///				else dda_x_skip[i]=0;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else rzx=16;
-/*TODO*///
-/*TODO*///		if(sx>=320) continue;
-/*TODO*///
-/*TODO*///		/* Setup y zoom */
-/*TODO*///		if(rzy==255)
-/*TODO*///			yskip=16;
-/*TODO*///		else
-/*TODO*///			dday=0;	/* =256; NS990105 mslug fix */
-/*TODO*///
-/*TODO*///		offs = count<<6;
-/*TODO*///
-/*TODO*///		/* my holds the number of tiles in each vertical multisprite block */
-/*TODO*///		for (y=0; y < my ;y++) {
-/*TODO*///			tileno  = READ_WORD(&vidram[offs]);
-/*TODO*///			offs+=2;
-/*TODO*///			tileatr = READ_WORD(&vidram[offs]);
-/*TODO*///			offs+=2;
-/*TODO*///
-/*TODO*///			if (high_tile && tileatr&0x10) tileno+=0x10000;
-/*TODO*///			if (vhigh_tile && tileatr&0x20) tileno+=0x20000;
-/*TODO*///			if (vvhigh_tile && tileatr&0x40) tileno+=0x40000;
-/*TODO*///
-/*TODO*///			if (tileatr&0x8) tileno=(tileno&~7)+((tileno+neogeo_frame_counter)&7);
-/*TODO*///			else if (tileatr&0x4) tileno=(tileno&~3)+((tileno+neogeo_frame_counter)&3);
-/*TODO*///
-/*TODO*///			if (fullmode == 2 || (fullmode == 1 && rzy == 0xff))
-/*TODO*///			{
-/*TODO*///				if (sy >= 248) sy -= 2 * (rzy + 1);
-/*TODO*///			}
-/*TODO*///			else if (fullmode == 1)
-/*TODO*///			{
-/*TODO*///				if (y == 0x10) sy -= 2 * (rzy + 1);
-/*TODO*///			}
-/*TODO*///			else if (sy > 0x110) sy -= 0x200;	/* NS990105 mslug2 fix */
-/*TODO*///
-/*TODO*///			if(rzy!=255)
-/*TODO*///			{
-/*TODO*///				yskip=0;
-/*TODO*///				dda_y_skip[0]=0;
-/*TODO*///				for(i=0;i<16;i++)
-/*TODO*///				{
-/*TODO*///					dda_y_skip[i+1]=0;
-/*TODO*///					dday-=rzy+1;
-/*TODO*///					if(dday<=0)
-/*TODO*///					{
-/*TODO*///						dday+=256;
-/*TODO*///						yskip++;
-/*TODO*///						dda_y_skip[yskip]++;
-/*TODO*///					}
-/*TODO*///					else dda_y_skip[yskip]++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if (sy+15 >= clip->min_y && sy <= clip->max_y)
-/*TODO*///			{
-/*TODO*///				if (Machine->scrbitmap->depth == 16)
-/*TODO*///					NeoMVSDrawGfx16(line,
+        for (count = 0; count < 0x300; count += 2) {
+            t3 = vidram.READ_WORD(0x10000 + count);
+            t1 = vidram.READ_WORD(0x10400 + count);
+            t2 = vidram.READ_WORD(0x10800 + count);
+
+            /* If this bit is set this new column is placed next to last one */
+            if ((t1 & 0x40) != 0) {
+                sx += rzx;
+                if (sx >= 0x1F0) {
+                    sx -= 0x200;
+                }
+
+                /* Get new zoom for this column */
+                zx = (t3 >> 8) & 0x0f;
+                sy = oy;
+            } else {
+                /* nope it is a new block */
+ /* Sprite scaling */
+                zx = (t3 >> 8) & 0x0f;
+                rzy = t3 & 0xff;
+
+                sx = (t2 >> 7);
+                if (sx >= 0x1F0) {
+                    sx -= 0x200;
+                }
+
+                /* Number of tiles in this strip */
+                my = t1 & 0x3f;
+                if (my == 0x20) {
+                    fullmode = 1;
+                } else if (my >= 0x21) {
+                    fullmode = 2;	/* most games use 0x21, but */
+                } /* Alpha Mission II uses 0x3f */ else {
+                    fullmode = 0;
+                }
+
+                sy = 0x200 - (t1 >> 7);
+                if (clip.max_y - clip.min_y > 8
+                        || /* kludge to improve the ssideki games */ clip.min_y == Machine.drv.visible_area.min_y) {
+                    if (sy > 0x110) {
+                        sy -= 0x200;
+                    }
+                    if (fullmode == 2 || (fullmode == 1 && rzy == 0xff)) {
+                        while (sy < 0) {
+                            sy += 2 * (rzy + 1);
+                        }
+                    }
+                }
+                oy = sy;
+
+                if (rzy < 0xff && my < 0x10 && my != 0) {
+                    my = (my * 256) / (rzy + 1);
+                    if (my > 0x10) {
+                        my = 0x10;
+                    }
+                }
+                if (my > 0x20) {
+                    my = 0x20;
+                }
+
+                ddax = 0;
+                /* =16; NS990110 neodrift fix */ /* setup x zoom */
+            }
+
+            /* No point doing anything if tile strip is 0 */
+            if (my == 0) {
+                continue;
+            }
+
+            /* Process x zoom */
+            if (zx != 15) {
+                rzx = 0;
+                for (i = 0; i < 16; i++) {
+                    ddax -= zx + 1;
+                    if (ddax <= 0) {
+                        ddax += 15 + 1;
+                        dda_x_skip[i] = 1;
+                        rzx++;
+                    } else {
+                        dda_x_skip[i] = 0;
+                    }
+                }
+            } else {
+                rzx = 16;
+            }
+
+            if (sx >= 320) {
+                continue;
+            }
+
+            /* Setup y zoom */
+            if (rzy == 255) {
+                yskip = 16;
+            } else {
+                dday = 0;	/* =256; NS990105 mslug fix */
+            }
+
+            offs = count << 6;
+
+            /* my holds the number of tiles in each vertical multisprite block */
+            for (y = 0; y < my; y++) {
+                tileno = vidram.READ_WORD(offs);
+                offs += 2;
+                tileatr = vidram.READ_WORD(offs);
+                offs += 2;
+
+                if (high_tile != 0 && (tileatr & 0x10) != 0) {
+                    tileno += 0x10000;
+                }
+                if (vhigh_tile != 0 && (tileatr & 0x20) != 0) {
+                    tileno += 0x20000;
+                }
+                if (vvhigh_tile != 0 && (tileatr & 0x40) != 0) {
+                    tileno += 0x40000;
+                }
+
+                if ((tileatr & 0x8) != 0) {
+                    tileno = (tileno & ~7) + ((tileno + neogeo_frame_counter) & 7);
+                } else if ((tileatr & 0x4) != 0) {
+                    tileno = (tileno & ~3) + ((tileno + neogeo_frame_counter) & 3);
+                }
+
+                if (fullmode == 2 || (fullmode == 1 && rzy == 0xff)) {
+                    if (sy >= 248) {
+                        sy -= 2 * (rzy + 1);
+                    }
+                } else if (fullmode == 1) {
+                    if (y == 0x10) {
+                        sy -= 2 * (rzy + 1);
+                    }
+                } else if (sy > 0x110) {
+                    sy -= 0x200;	/* NS990105 mslug2 fix */
+                }
+
+                if (rzy != 255) {
+                    yskip = 0;
+                    dda_y_skip[0] = 0;
+                    for (i = 0; i < 16; i++) {
+                        dda_y_skip[i + 1] = 0;
+                        dday -= rzy + 1;
+                        if (dday <= 0) {
+                            dday += 256;
+                            yskip++;
+                            dda_y_skip[yskip]++;
+                        } else {
+                            dda_y_skip[yskip]++;
+                        }
+                    }
+                }
+
+                if (sy + 15 >= clip.min_y && sy <= clip.max_y) {
+                    if (Machine.scrbitmap.depth == 16) {
+                        throw new UnsupportedOperationException("Unsupported");
+                        /*TODO*///					NeoMVSDrawGfx16(line,
 /*TODO*///						gfx,
 /*TODO*///						tileno,
 /*TODO*///						tileatr >> 8,
@@ -1040,24 +1089,27 @@ public class neogeo {
 /*TODO*///						sx,sy,rzx,yskip,
 /*TODO*///						clip
 /*TODO*///					);
-/*TODO*///				else
-/*TODO*///					NeoMVSDrawGfx(line,
-/*TODO*///						gfx,
-/*TODO*///						tileno,
-/*TODO*///						tileatr >> 8,
-/*TODO*///						tileatr & 0x01,tileatr & 0x02,
-/*TODO*///						sx,sy,rzx,yskip,
-/*TODO*///						clip
-/*TODO*///					);
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			sy +=yskip;
-/*TODO*///		}  /* for y */
-/*TODO*///	}  /* for count */
-/*TODO*///
-/*TODO*///
-/*TODO*///
-	/* Save some struct de-refs */
+                    } else {
+                        NeoMVSDrawGfx(line,
+                                gfx,
+                                tileno,
+                                tileatr >> 8,
+                                tileatr & 0x01, tileatr & 0x02,
+                                sx, sy, rzx, yskip,
+                                clip
+                        );
+                    }
+                }
+
+                sy += yskip;
+            }
+            /* for y */
+        }
+        /* for count */
+
+
+
+ /* Save some struct de-refs */
         gfx = Machine.gfx[fix_bank];
         pen_usage = gfx.pen_usage;
 

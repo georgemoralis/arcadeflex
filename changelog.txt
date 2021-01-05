@@ -5,6 +5,7 @@
 -Added protection for ssriders (still WIP)
 -Fixed an issue in cpuintrf
 -Updates to common library
+-Initial work on neogeo graphics (not yet working correctly)
 
 04/01/2021
 ==========
