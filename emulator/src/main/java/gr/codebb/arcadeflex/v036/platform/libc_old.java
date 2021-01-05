@@ -844,9 +844,9 @@ public class libc_old {
         public void write(int value) {
 
             memory[base] = (char) (value & 0xFF);
-            memory[base + 1] = (char) ((value >> 8));
-            memory[base + 2] = (char) ((value >> 16));
-            memory[base + 3] = (char) ((value >> 24));
+            memory[base + 1] = (char) ((value >> 8) & 0xFF);
+            memory[base + 2] = (char) ((value >> 16) & 0xFF);
+            memory[base + 3] = (char) ((value >> 24) & 0xFF);
         }
 
         public void or(int value) {
