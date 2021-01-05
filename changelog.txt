@@ -3,6 +3,7 @@
 -Added 68000 opcode needed for ssriders (still WIP)
 -Added TMS5220 snd
 -Added protection for ssriders (still WIP)
+-Fixed an issue in cpuintrf
 
 04/01/2021
 ==========
