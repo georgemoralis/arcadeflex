@@ -14,7 +14,6 @@ public class M68KOPDM {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-
     public static opcode m68000_dbf = new opcode() {
         public void handler() {
             long d_reg = get_DY();
@@ -3552,7 +3551,7 @@ public class M68KOPDM {
             }
         }
     };
-/*TODO*///
+    /*TODO*///
 /*TODO*///
 /*TODO*///void m68000_lsl_s_8(void)
 /*TODO*///{
@@ -5136,10 +5135,10 @@ public class M68KOPDM {
             m68k_cpu.not_z_flag = res;
             m68k_cpu.v_flag = 0;
             m68k_cpu.c_flag = 0;
-            USE_CLKS(14+4);
+            USE_CLKS(14 + 4);
         }
     };
-/*TODO*///void m68000_move_ix_pi_8(void)
+    /*TODO*///void m68000_move_ix_pi_8(void)
 /*TODO*///{
 /*TODO*///	uint res = m68ki_read_8(EA_PI_8);
 /*TODO*///
@@ -8630,12 +8629,13 @@ public class M68KOPDM {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_move_to_ccr_pi(void)
-/*TODO*///{
-/*TODO*///	m68ki_set_ccr(m68ki_read_16(EA_PI_16));
-/*TODO*///	USE_CLKS(12+4);
-/*TODO*///}
-/*TODO*///
+    public static opcode m68000_move_to_ccr_pi = new opcode() {
+        public void handler() {
+            m68ki_set_ccr(m68ki_read_16(EA_PI_16()));
+            USE_CLKS(12 + 4);
+        }
+    };
+    /*TODO*///
 /*TODO*///
 /*TODO*///void m68000_move_to_ccr_pd(void)
 /*TODO*///{

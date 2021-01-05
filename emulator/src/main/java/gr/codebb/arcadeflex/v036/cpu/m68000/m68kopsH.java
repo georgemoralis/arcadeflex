@@ -16847,14 +16847,7 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-    public static opcode m68000_move_to_ccr_pi = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+    
     public static opcode m68000_move_to_ccr_pd = new opcode() {
         public void handler() {
             if (m68klog != null) {
