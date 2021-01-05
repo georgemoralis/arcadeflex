@@ -227,10 +227,6 @@ public class libc_old {
         return str1 + str2;
     }
 
-    public static int strcmp(String str1, String str2) {
-        return str1.compareTo(str2);
-    }
-
     public static boolean strncmp(char[] s1, String s2, int n) {
         if (n > s2.length()) {
             n = s2.length();
@@ -247,9 +243,6 @@ public class libc_old {
     /*
      *   measure a String
      */
-    public static int strlen(String str) {
-        return str.length();
-    }
 
     public static int strlen(char[] ch) {
         int size = 0;
@@ -315,12 +308,6 @@ public class libc_old {
         return 0;
     }
 
-    public static void memcpy(char[] dst, char[] src, int size) {
-        for (int i = 0; i < Math.min(size, src.length); i++) {
-            dst[i] = src[i];
-
-        }
-    }
     public static void memcpy(int[] dst, int[] src, int size) {
         for (int i = 0; i < Math.min(size, src.length); i++) {
             dst[i] = src[i];

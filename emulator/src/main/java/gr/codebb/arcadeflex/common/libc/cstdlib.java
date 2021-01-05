@@ -2,18 +2,15 @@ package gr.codebb.arcadeflex.common.libc;
 
 import java.util.Random;
 
-/**
- *
- * @author shadow
- */
+/** @author shadow */
 public class cstdlib {
 
-    private static Random rand = new Random();
+  private static Random rand = new Random();
 
-    /*
-     *   return next random number
-     */
-    public static int rand() {
-        return rand.nextInt();
-    }
+  /*
+   *   return next random number
+   */
+  public static int rand() {
+    return rand.nextInt();
+  }
 }
