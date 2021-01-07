@@ -8644,13 +8644,12 @@ public class M68KOPDM {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_move_to_ccr_di(void)
-/*TODO*///{
-/*TODO*///	m68ki_set_ccr(m68ki_read_16(EA_DI));
-/*TODO*///	USE_CLKS(12+8);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static opcode m68000_move_to_ccr_di = new opcode() {
+        public void handler() {
+            m68ki_set_ccr(m68ki_read_16(EA_DI()));
+   	    USE_CLKS(12+8);
+        }
+    };
 /*TODO*///void m68000_move_to_ccr_ix(void)
 /*TODO*///{
 /*TODO*///	m68ki_set_ccr(m68ki_read_16(EA_IX));

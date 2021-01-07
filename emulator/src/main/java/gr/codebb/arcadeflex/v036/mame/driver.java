@@ -2626,157 +2626,157 @@ public class driver {
 
                 /* Neo Geo games */
                 /* the four digits number is the game ID stored at address 0x0108 of the program ROM */
-                /*TODO*/ //	DRIVER( nam1975 )	/* 0001 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( bstars )	/* 0002 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( tpgolf )	/* 0003 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( mahretsu )	/* 0004 (c) 1990 SNK */
+                driver_nam1975,	/* 0001 (c) 1990 SNK */
+                driver_bstars,	/* 0002 (c) 1990 SNK */
+                driver_tpgolf,	/* 0003 (c) 1990 SNK */
+                driver_mahretsu,	/* 0004 (c) 1990 SNK */
                 driver_maglord,	/* 0005 (c) 1990 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( maglordh )	/* 0005 (c) 1990 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( ridhero )	/* 0006 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( alpham2 )	/* 0007 (c) 1991 SNK */
+                driver_maglordh,	/* 0005 (c) 1990 Alpha Denshi Co */
+                driver_ridhero,	/* 0006 (c) 1990 SNK */
+                driver_alpham2,	/* 0007 (c) 1991 SNK */
                 /* 0008 */
-                /*TODO*/ //	DRIVER( ncombat )	/* 0009 (c) 1990 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( cyberlip )	/* 0010 (c) 1990 SNK */
+                driver_ncombat,	/* 0009 (c) 1990 Alpha Denshi Co */
+                driver_cyberlip,	/* 0010 (c) 1990 SNK */
                 driver_superspy,	/* 0011 (c) 1990 SNK */
                 /* 0012 */
                 /* 0013 */
-                /*TODO*/ //	DRIVER( mutnat )	/* 0014 (c) 1992 SNK */
-                /* 0015 */
-                /*TODO*/ //	DRIVER( kotm )		/* 0016 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( sengoku )	/* 0017 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( sengokh )	/* 0017 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( burningf )	/* 0018 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( burningh )	/* 0018 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( lbowling )	/* 0019 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( gpilots )	/* 0020 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( joyjoy )	/* 0021 (c) 1990 SNK */
-                /*TODO*/ //	DRIVER( bjourney )	/* 0022 (c) 1990 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( quizdais )	/* 0023 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( lresort )	/* 0024 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( eightman )	/* 0025 (c) 1991 SNK / Pallas */
+                driver_mutnat,	/* 0014 (c) 1992 SNK */
+                /* 0015 */ 
+                	driver_kotm,		/* 0016 (c) 1991 SNK */
+                	driver_sengoku,	/* 0017 (c) 1991 SNK */
+                	driver_sengokh,	/* 0017 (c) 1991 SNK */
+                	driver_burningf,	/* 0018 (c) 1991 SNK */
+                	driver_burningh,	/* 0018 (c) 1991 SNK */
+                	driver_lbowling,	/* 0019 (c) 1990 SNK */
+                	driver_gpilots,	/* 0020 (c) 1991 SNK */
+                	driver_joyjoy,	/* 0021 (c) 1990 SNK */
+                	driver_bjourney,	/* 0022 (c) 1990 Alpha Denshi Co */
+                	driver_quizdais,	/* 0023 (c) 1991 SNK */
+                	driver_lresort,	/* 0024 (c) 1992 SNK */
+                	driver_eightman,	/* 0025 (c) 1991 SNK / Pallas */
                 /* 0026 Fun Fun Brothers - prototype? */
-                /*TODO*/ //	DRIVER( minasan )	/* 0027 (c) 1990 Monolith Corp. */
+                	driver_minasan,	/* 0027 (c) 1990 Monolith Corp. */
                 /* 0028 */
-                /*TODO*/ //	DRIVER( legendos )	/* 0029 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( 2020bb )	/* 0030 (c) 1991 SNK / Pallas */
-                /*TODO*/ //	DRIVER( 2020bbh )	/* 0030 (c) 1991 SNK / Pallas */
-                /*TODO*/ //	DRIVER( socbrawl )	/* 0031 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( roboarmy )	/* 0032 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( fatfury1 )	/* 0033 (c) 1991 SNK */
-                /*TODO*/ //	DRIVER( fbfrenzy )	/* 0034 (c) 1992 SNK */
+                	driver_legendos,	/* 0029 (c) 1991 SNK */
+                	driver_2020bb,	/* 0030 (c) 1991 SNK / Pallas */
+                	driver_2020bbh,	/* 0030 (c) 1991 SNK / Pallas */
+                	driver_socbrawl,	/* 0031 (c) 1991 SNK */
+                	driver_roboarmy,	/* 0032 (c) 1991 SNK */
+                	driver_fatfury1,	/* 0033 (c) 1991 SNK */
+                	driver_fbfrenzy,	/* 0034 (c) 1992 SNK */
                 /* 0035 */
-                /*TODO*/ //	DRIVER( bakatono )	/* 0036 (c) 1991 Monolith Corp. */
-                /*TODO*/ //	DRIVER( crsword )	/* 0037 (c) 1991 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( trally )	/* 0038 (c) 1991 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( kotm2 )		/* 0039 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( sengoku2 )	/* 0040 (c) 1993 SNK */
-                /*TODO*/ //	DRIVER( bstars2 )	/* 0041 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( quizdai2 )	/* 0042 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( 3countb )	/* 0043 (c) 1993 SNK */
-                /*TODO*/ //	DRIVER( aof )		/* 0044 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( samsho )	/* 0045 (c) 1993 SNK */
-                /*TODO*/ //	DRIVER( tophuntr )	/* 0046 (c) 1994 SNK */
-                /*TODO*/ //	DRIVER( fatfury2 )	/* 0047 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( janshin )	/* 0048 (c) 1994 Aicom */
-                /*TODO*/ //	DRIVER( androdun )	/* 0049 (c) 1992 Visco */
-                /*TODO*/ //	DRIVER( ncommand )	/* 0050 (c) 1992 Alpha Denshi Co */
-                /*TODO*/ //	DRIVER( viewpoin )	/* 0051 (c) 1992 Sammy */
-                /*TODO*/ //	DRIVER( ssideki )	/* 0052 (c) 1992 SNK */
-                /*TODO*/ //	DRIVER( wh1 )		/* 0053 (c) 1992 Alpha Denshi Co */
+                	driver_bakatono,	/* 0036 (c) 1991 Monolith Corp. */
+                	driver_crsword,	/* 0037 (c) 1991 Alpha Denshi Co */
+                	driver_trally,	/* 0038 (c) 1991 Alpha Denshi Co */
+                	driver_kotm2,		/* 0039 (c) 1992 SNK */
+                	driver_sengoku2,	/* 0040 (c) 1993 SNK */
+                	driver_bstars2,	/* 0041 (c) 1992 SNK */
+                	driver_quizdai2,	/* 0042 (c) 1992 SNK */
+                	driver_3countb,	/* 0043 (c) 1993 SNK */
+                	driver_aof,		/* 0044 (c) 1992 SNK */
+                	driver_samsho,	/* 0045 (c) 1993 SNK */
+                	driver_tophuntr,	/* 0046 (c) 1994 SNK */
+                	driver_fatfury2,	/* 0047 (c) 1992 SNK */
+                	driver_janshin,	/* 0048 (c) 1994 Aicom */
+                	driver_androdun,	/* 0049 (c) 1992 Visco */
+                	driver_ncommand,	/* 0050 (c) 1992 Alpha Denshi Co */
+                	driver_viewpoin,	/* 0051 (c) 1992 Sammy */
+                	driver_ssideki,	/* 0052 (c) 1992 SNK */
+                	driver_wh1,		/* 0053 (c) 1992 Alpha Denshi Co */
                 /* 0054 Crossed Swords 2 (CD only) */
                 driver_kof94, /* 0055 (c) 1994 SNK */
                 driver_aof2, /* 0056 (c) 1994 SNK */
-                /*TODO*/ //	DRIVER( wh2 )		/* 0057 (c) 1993 ADK */
-                /*TODO*/ //	DRIVER( fatfursp )	/* 0058 (c) 1993 SNK */
-                /*TODO*/ //	DRIVER( savagere )	/* 0059 (c) 1995 SNK */
-                /*TODO*/ //	DRIVER( fightfev )	/* 0060 (c) 1994 Viccom */
-                /*TODO*/ //	DRIVER( ssideki2 )	/* 0061 (c) 1994 SNK */
-                /*TODO*/ //	DRIVER( spinmast )	/* 0062 (c) 1993 Data East Corporation */
-                /*TODO*/ //	DRIVER( samsho2 )	/* 0063 (c) 1994 SNK */
-                /*TODO*/ //	DRIVER( wh2j )		/* 0064 (c) 1994 ADK / SNK */
-                /*TODO*/ //	DRIVER( wjammers )	/* 0065 (c) 1994 Data East Corporation */
-                /*TODO*/ //	DRIVER( karnovr )	/* 0066 (c) 1994 Data East Corporation */
-                /*TODO*/ //	DRIVER( gururin )	/* 0067 (c) 1994 Face */
-                /*TODO*/ //	DRIVER( pspikes2 )	/* 0068 (c) 1994 Video System Co. */
-                /*TODO*/ //	DRIVER( fatfury3 )	/* 0069 (c) 1995 SNK */
+                	driver_wh2,		/* 0057 (c) 1993 ADK */
+                	driver_fatfursp,	/* 0058 (c) 1993 SNK */
+                	driver_savagere,	/* 0059 (c) 1995 SNK */
+                	driver_fightfev,	/* 0060 (c) 1994 Viccom */
+                	driver_ssideki2,	/* 0061 (c) 1994 SNK */
+                	driver_spinmast,	/* 0062 (c) 1993 Data East Corporation */
+                	driver_samsho2,	/* 0063 (c) 1994 SNK */
+                	driver_wh2j,		/* 0064 (c) 1994 ADK / SNK */
+                	driver_wjammers,	/* 0065 (c) 1994 Data East Corporation */
+                	driver_karnovr,	/* 0066 (c) 1994 Data East Corporation */
+                	driver_gururin,	/* 0067 (c) 1994 Face */
+                	driver_pspikes2,	/* 0068 (c) 1994 Video System Co. */
+                	driver_fatfury3,	/* 0069 (c) 1995 SNK */
                 /* 0070 */
                 /* 0071 */
                 /* 0072 */
-                /*TODO*/ //	DRIVER( panicbom )	/* 0073 (c) 1994 Eighting / Hudson */
-                /*TODO*/ //	DRIVER( aodk )		/* 0074 (c) 1994 ADK / SNK */
-                /*TODO*/ //	DRIVER( sonicwi2 )	/* 0075 (c) 1994 Video System Co. */
-                /*TODO*/ //	DRIVER( zedblade )	/* 0076 (c) 1994 NMK */
+                	driver_panicbom,	/* 0073 (c) 1994 Eighting / Hudson */
+                	driver_aodk,		/* 0074 (c) 1994 ADK / SNK */
+                	driver_sonicwi2,	/* 0075 (c) 1994 Video System Co. */
+                	driver_zedblade,	/* 0076 (c) 1994 NMK */
                 /* 0077 */
-                /*TODO*/ //	DRIVER( galaxyfg )	/* 0078 (c) 1995 Sunsoft */
-                /*TODO*/ //	DRIVER( strhoop )	/* 0079 (c) 1994 Data East Corporation */
-                /*TODO*/ //	DRIVER( quizkof )	/* 0080 (c) 1995 Saurus */
-                /*TODO*/ //	DRIVER( ssideki3 )	/* 0081 (c) 1995 SNK */
-                /*TODO*/ //	DRIVER( doubledr )	/* 0082 (c) 1995 Technos */
+                	driver_galaxyfg,	/* 0078 (c) 1995 Sunsoft */
+                	driver_strhoop,	/* 0079 (c) 1994 Data East Corporation */
+                	driver_quizkof,	/* 0080 (c) 1995 Saurus */
+                	driver_ssideki3,	/* 0081 (c) 1995 SNK */
+                	driver_doubledr,	/* 0082 (c) 1995 Technos */
                 driver_pbobble,	/* 0083 (c) 1994 Taito */
-                /*TODO*/ //	DRIVER( kof95 )		/* 0084 (c) 1995 SNK */
+                	driver_kof95,		/* 0084 (c) 1995 SNK */
                 /* 0085 Shinsetsu Samurai Spirits Bushidoretsuden / Samurai Shodown RPG (CD only) */
                 driver_tws96,		/* 0086 (c) 1996 Tecmo */
-                /*TODO*/ //	DRIVER( samsho3 )	/* 0087 (c) 1995 SNK */
-                /*TODO*/ //	DRIVER( stakwin )	/* 0088 (c) 1995 Saurus */
-                /*TODO*/ //	DRIVER( pulstar )	/* 0089 (c) 1995 Aicom */
-                /*TODO*/ //	DRIVER( whp )		/* 0090 (c) 1995 ADK / SNK */
+                	driver_samsho3,	/* 0087 (c) 1995 SNK */
+                	driver_stakwin,	/* 0088 (c) 1995 Saurus */
+                	driver_pulstar,	/* 0089 (c) 1995 Aicom */
+                	driver_whp,		/* 0090 (c) 1995 ADK / SNK */
                 /* 0091 */
-                /*TODO*/ //	DRIVER( kabukikl )	/* 0092 (c) 1995 Hudson */
-                /*TODO*/ //	DRIVER( neobombe )	/* 0093 (c) 1997 Hudson */
-                /*TODO*/ //	DRIVER( gowcaizr )	/* 0094 (c) 1995 Technos */
-                /*TODO*/ //	DRIVER( rbff1 )		/* 0095 (c) 1995 SNK */
-                /*TODO*/ //	DRIVER( aof3 )		/* 0096 (c) 1996 SNK */
+                	driver_kabukikl,	/* 0092 (c) 1995 Hudson */
+                	driver_neobombe,	/* 0093 (c) 1997 Hudson */
+                	driver_gowcaizr,	/* 0094 (c) 1995 Technos */
+                	driver_rbff1,		/* 0095 (c) 1995 SNK */
+                	driver_aof3,		/* 0096 (c) 1996 SNK */
                 driver_sonicwi3,	/* 0097 (c) 1995 Video System Co. */
                 /* 0098 Idol Mahjong - final romance 2 (CD only? not confirmed, MVS might exist) */
                 /* 0099 */
-                /*TODO*/ //	DRIVER( turfmast )	/* 0200 (c) 1996 Nazca */
+                	driver_turfmast,	/* 0200 (c) 1996 Nazca */
                 driver_mslug, /* 0201 (c) 1996 Nazca */
-                /*TODO*/ //	DRIVER( puzzledp )	/* 0202 (c) 1995 Taito (Visco license) */
-                /*TODO*/ //	DRIVER( mosyougi )	/* 0203 (c) 1995 ADK / SNK */
+                	driver_puzzledp,	/* 0202 (c) 1995 Taito (Visco license) */
+                	driver_mosyougi,	/* 0203 (c) 1995 ADK / SNK */
                 /* 0204 ADK World (CD only) */
                 /* 0205 Neo-Geo CD Special (CD only) */
-                /*TODO*/ //	DRIVER( marukodq )	/* 0206 (c) 1995 Takara */
-                /*TODO*/ //	DRIVER( neomrdo )	/* 0207 (c) 1996 Visco */
-                /*TODO*/ //	DRIVER( sdodgeb )	/* 0208 (c) 1996 Technos */
-                /*TODO*/ //	DRIVER( goalx3 )	/* 0209 (c) 1995 Visco */
+                	driver_marukodq,	/* 0206 (c) 1995 Takara */
+                	driver_neomrdo,	/* 0207 (c) 1996 Visco */
+                	driver_sdodgeb,	/* 0208 (c) 1996 Technos */
+                	driver_goalx3,	/* 0209 (c) 1995 Visco */
                 /* 0210 */
                 /* 0211 Oshidashi Zintrick (CD only? not confirmed, MVS might exist) */
-                /*TODO*/ //	DRIVER( overtop )	/* 0212 (c) 1996 ADK */
-                /*TODO*/ //	DRIVER( neodrift )	/* 0213 (c) 1996 Visco */
-                /*TODO*/ //	DRIVER( kof96 )		/* 0214 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( ssideki4 )	/* 0215 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( kizuna )	/* 0216 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( ninjamas )	/* 0217 (c) 1996 ADK / SNK */
-                /*TODO*/ //	DRIVER( ragnagrd )	/* 0218 (c) 1996 Saurus */
-                /*TODO*/ //	DRIVER( pgoal )		/* 0219 (c) 1996 Saurus */
+                	driver_overtop,	/* 0212 (c) 1996 ADK */
+                	driver_neodrift,	/* 0213 (c) 1996 Visco */
+                	driver_kof96,		/* 0214 (c) 1996 SNK */
+                	driver_ssideki4,	/* 0215 (c) 1996 SNK */
+                	driver_kizuna,	/* 0216 (c) 1996 SNK */
+                	driver_ninjamas,	/* 0217 (c) 1996 ADK / SNK */
+                	driver_ragnagrd,	/* 0218 (c) 1996 Saurus */
+                	driver_pgoal,		/* 0219 (c) 1996 Saurus */
                 /* 0220 Choutetsu Brikin'ger - iron clad (CD only? not confirmed, MVS might exist) */
-                /*TODO*/ //	DRIVER( magdrop2 )	/* 0221 (c) 1996 Data East Corporation */
-                /*TODO*/ //	DRIVER( samsho4 )	/* 0222 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( rbffspec )	/* 0223 (c) 1996 SNK */
-                /*TODO*/ //	DRIVER( twinspri )	/* 0224 (c) 1996 ADK */
-                /*TODO*/ //	DRIVER( wakuwak7 )	/* 0225 (c) 1996 Sunsoft */
+                	driver_magdrop2,	/* 0221 (c) 1996 Data East Corporation */
+                	driver_samsho4,	/* 0222 (c) 1996 SNK */
+                	driver_rbffspec,	/* 0223 (c) 1996 SNK */
+                	driver_twinspri,	/* 0224 (c) 1996 ADK */
+                	driver_wakuwak7,	/* 0225 (c) 1996 Sunsoft */
                 /* 0226 */
-                /*TODO*/ //	DRIVER( stakwin2 )	/* 0227 (c) 1996 Saurus */
+                	driver_stakwin2,	/* 0227 (c) 1996 Saurus */
                 /* 0228 */
                 /* 0229 King of Fighters '96 CD Collection (CD only) */
-                /*TODO*/ //	DRIVER( breakers )	/* 0230 (c) 1996 Visco */
-                /*TODO*/ //	DRIVER( miexchng )	/* 0231 (c) 1997 Face */
-                /*TODO*/ //	DRIVER( kof97 )		/* 0232 (c) 1997 SNK */
-                /*TODO*/ //	DRIVER( magdrop3 )	/* 0233 (c) 1997 Data East Corporation */
-                /*TODO*/ //	DRIVER( lastblad )	/* 0234 (c) 1997 SNK */
-                /*TODO*/ //	DRIVER( puzzldpr )	/* 0235 (c) 1997 Taito (Visco license) */
-                /*TODO*/ //	DRIVER( irrmaze )	/* 0236 (c) 1997 SNK / Saurus */
-                /*TODO*/ //	DRIVER( popbounc )	/* 0237 (c) 1997 Video System Co. */
-                /*TODO*/ //	DRIVER( shocktro )	/* 0238 (c) 1997 Saurus */
-                /*TODO*/ //	DRIVER( blazstar )	/* 0239 (c) 1998 Yumekobo */
-                /*TODO*/ //	DRIVER( rbff2 )		/* 0240 (c) 1998 SNK */
+                	driver_breakers,	/* 0230 (c) 1996 Visco */
+                	driver_miexchng,	/* 0231 (c) 1997 Face */
+                	driver_kof97,		/* 0232 (c) 1997 SNK */
+                	driver_magdrop3,	/* 0233 (c) 1997 Data East Corporation */
+                	driver_lastblad,	/* 0234 (c) 1997 SNK */
+                	driver_puzzldpr,	/* 0235 (c) 1997 Taito (Visco license) */
+                	driver_irrmaze,	/* 0236 (c) 1997 SNK / Saurus */
+                	driver_popbounc,	/* 0237 (c) 1997 Video System Co. */
+                	driver_shocktro,	/* 0238 (c) 1997 Saurus */
+                	driver_blazstar,	/* 0239 (c) 1998 Yumekobo */
+                	driver_rbff2,		/* 0240 (c) 1998 SNK */
                 driver_mslug2,	/* 0241 (c) 1998 SNK */
-                /*TODO*/ //	DRIVER( kof98 )		/* 0242 (c) 1998 SNK */
-                /*TODO*/ //	DRIVER( lastbld2 )	/* 0243 (c) 1998 SNK */
-                /*TODO*/ //	DRIVER( neocup98 )	/* 0244 (c) 1998 SNK */
-                /*TODO*/ //	DRIVER( breakrev )	/* 0245 (c) 1998 Visco */
-                /*TODO*/ //	DRIVER( shocktr2 )	/* 0246 (c) 1998 Saurus */
-                /*TODO*/ //	DRIVER( flipshot )	/* 0247 (c) 1998 Visco */
+                	driver_kof98,		/* 0242 (c) 1998 SNK */
+                	driver_lastbld2,	/* 0243 (c) 1998 SNK */
+                	driver_neocup98,	/* 0244 (c) 1998 SNK */
+                	driver_breakrev,	/* 0245 (c) 1998 Visco */
+                	driver_shocktr2,	/* 0246 (c) 1998 Saurus */
+                	driver_flipshot,	/* 0247 (c) 1998 Visco */
                 /*TODO*/ //TESTDRIVER( pbobbl2n )	/* 0248 (c) 1999 Taito (SNK license) */
                 /*TODO*/ //TESTDRIVER( ctomaday )	/* 0249 (c) 1999 Visco */
                 /*TODO*/ //TESTDRIVER( mslugx )	/* 0250 (c) 1999 SNK */
