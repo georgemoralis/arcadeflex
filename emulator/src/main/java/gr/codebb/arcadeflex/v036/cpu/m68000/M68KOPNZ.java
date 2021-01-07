@@ -2069,6 +2069,7 @@ public class M68KOPNZ {
             }
         }
     };
+
     /*TODO*///
 /*TODO*///
 /*TODO*///void m68000_or_re_al_16(void)
@@ -5153,7 +5154,20 @@ public class M68KOPNZ {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_sub_er_d_8(void)
+    static void m68000_sub_er_generic(long r) {
+        long d_dst = get_DX();
+        long src = m68ki_read_8(r);
+        long dst = d_dst;
+        long res = MASK_OUT_ABOVE_8(dst - src);
+
+        set_DX(MASK_OUT_BELOW_8(d_dst) | res);
+
+        m68k_cpu.n_flag = GET_MSB_8(res);
+        m68k_cpu.not_z_flag = res;
+        m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_8(src, dst, res);
+        m68k_cpu.v_flag = VFLAG_SUB_8(src, dst, res);
+    }
+    /*TODO*///void m68000_sub_er_d_8(void)
 /*TODO*///{
 /*TODO*///	uint *d_dst = &DX;
 /*TODO*///	uint src = DY;
@@ -5221,41 +5235,22 @@ public class M68KOPNZ {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_sub_er_pd_8(void)
-/*TODO*///{
-/*TODO*///	uint *d_dst = &DX;
-/*TODO*///	uint src = m68ki_read_8(EA_PD_8);
-/*TODO*///	uint dst = *d_dst;
-/*TODO*///	uint res = MASK_OUT_ABOVE_8(dst - src);
-/*TODO*///
-/*TODO*///	*d_dst = MASK_OUT_BELOW_8(*d_dst) | res;
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_X = CPU_C = CFLAG_SUB_8(src, dst, res);
-/*TODO*///	CPU_V = VFLAG_SUB_8(src, dst, res);
-/*TODO*///	USE_CLKS(4+6);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void m68000_sub_er_pd7_8(void)
-/*TODO*///{
-/*TODO*///	uint *d_dst = &DX;
-/*TODO*///	uint src = m68ki_read_8(EA_PD7_8);
-/*TODO*///	uint dst = *d_dst;
-/*TODO*///	uint res = MASK_OUT_ABOVE_8(dst - src);
-/*TODO*///
-/*TODO*///	*d_dst = MASK_OUT_BELOW_8(*d_dst) | res;
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_X = CPU_C = CFLAG_SUB_8(src, dst, res);
-/*TODO*///	CPU_V = VFLAG_SUB_8(src, dst, res);
-/*TODO*///	USE_CLKS(4+6);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void m68000_sub_er_di_8(void)
+
+    public static opcode m68000_sub_er_pd_8 = new opcode() {
+        public void handler() {
+            m68000_sub_er_generic(EA_PD_8());
+            USE_CLKS(4 + 6);
+        }
+    };
+
+    public static opcode m68000_sub_er_pd7_8 = new opcode() {
+        public void handler() {
+            m68000_sub_er_generic(EA_PD7_8());
+            USE_CLKS(4 + 6);
+        }
+    };
+
+    /*TODO*///void m68000_sub_er_di_8(void)
 /*TODO*///{
 /*TODO*///	uint *d_dst = &DX;
 /*TODO*///	uint src = m68ki_read_8(EA_DI);
@@ -5581,8 +5576,20 @@ public class M68KOPNZ {
 /*TODO*///	USE_CLKS(4+4);
 /*TODO*///}
 /*TODO*///
-/*TODO*///
-/*TODO*///void m68000_sub_er_d_32(void)
+    static void m68000_sub_er_generic2(long r) {
+        long d_dst = get_DX();
+        long src = m68ki_read_32(r);
+        long dst = d_dst;
+        set_DX(MASK_OUT_ABOVE_32(dst - src));
+        long res = get_DX();
+
+        m68k_cpu.n_flag = GET_MSB_32(res);
+        m68k_cpu.not_z_flag = res;
+        m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
+        m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
+    }
+
+    /*TODO*///void m68000_sub_er_d_32(void)
 /*TODO*///{
 /*TODO*///	uint *d_dst = &DX;
 /*TODO*///	uint src = DY;
@@ -5597,22 +5604,14 @@ public class M68KOPNZ {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_sub_er_a_32(void)
-/*TODO*///{
-/*TODO*///	uint *d_dst = &DX;
-/*TODO*///	uint src = AY;
-/*TODO*///	uint dst = *d_dst;
-/*TODO*///	uint res = *d_dst = MASK_OUT_ABOVE_32(dst - src);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_32(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_X = CPU_C = CFLAG_SUB_32(src, dst, res);
-/*TODO*///	CPU_V = VFLAG_SUB_32(src, dst, res);
-/*TODO*///	USE_CLKS(8);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void m68000_sub_er_ai_32(void)
+    public static opcode m68000_sub_er_a_32 = new opcode() {
+        public void handler() {
+            m68000_sub_er_generic2(get_AY());
+            USE_CLKS(8);
+        }
+    };
+
+    /*TODO*///void m68000_sub_er_ai_32(void)
 /*TODO*///{
 /*TODO*///	uint *d_dst = &DX;
 /*TODO*///	uint src = m68ki_read_32(EA_AI);

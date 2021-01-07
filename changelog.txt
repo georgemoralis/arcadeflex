@@ -1,6 +1,7 @@
 07/01/2021
 ==========
 -Added 6502 CPU version 0.37b7
+-More 68000 opcodes for neogeo
 
 05/01/2021
 ==========
