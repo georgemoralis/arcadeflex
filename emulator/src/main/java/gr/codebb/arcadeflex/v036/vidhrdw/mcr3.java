@@ -154,10 +154,10 @@ public class mcr3
 	
 				if (mcr_cocktail_flip==0)
 					drawgfx(bitmap, Machine.gfx[0], code, color, attr & 0x04, attr & 0x08,
-							16 * mx, 16 * my, Machine.visible_area, TRANSPARENCY_NONE, 0);
+							16 * mx, 16 * my, new rectangle(Machine.visible_area), TRANSPARENCY_NONE, 0);
 				else
 					drawgfx(bitmap, Machine.gfx[0], code, color, (attr & 0x04)!=0?0:1, (attr & 0x08)!=0?0:1,
-							16 * (31 - mx), 16 * (29 - my), Machine.visible_area, TRANSPARENCY_NONE, 0);
+							16 * (31 - mx), 16 * (29 - my), new rectangle(Machine.visible_area), TRANSPARENCY_NONE, 0);
 	
 				dirtybuffer[offs] = 0;
 			}
@@ -202,10 +202,10 @@ public class mcr3
 			/* draw the sprite */
 			if (mcr_cocktail_flip==0)
 				drawgfx(bitmap, Machine.gfx[1], code, color, flipx, flipy, sx, sy,
-						Machine.visible_area, TRANSPARENCY_PEN, 0);
+						new rectangle(Machine.visible_area), TRANSPARENCY_PEN, 0);
 			else
 				drawgfx(bitmap, Machine.gfx[1], code, color, flipx!=0?0:1, flipy!=0?0:1, 480 - sx, 452 - sy,
-						Machine.visible_area, TRANSPARENCY_PEN, 0);
+						new rectangle(Machine.visible_area), TRANSPARENCY_PEN, 0);
 	
 			/* sprites use color 0 for background pen and 8 for the 'under tile' pen.
 				The color 8 is used to cover over other sprites. */
@@ -242,7 +242,7 @@ public class mcr3
 		mcr3_update_background(tmpbitmap, 0);
 	
 		/* copy it to the destination */
-		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, new rectangle(Machine.visible_area), TRANSPARENCY_NONE, 0);
 	
 		/* draw the sprites */
 		mcr3_update_sprites(bitmap, 0x03, 0, 0, 0);
@@ -265,7 +265,7 @@ public class mcr3
 		mcr3_update_background(tmpbitmap, 3);
 	
 		/* copy it to the destination */
-		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, new rectangle(Machine.visible_area), TRANSPARENCY_NONE, 0);
 	
 		/* draw the sprites */
 		mcr3_update_sprites(bitmap, 0x03, 0, 0, 0);
@@ -419,7 +419,7 @@ public class mcr3
 /*TODO*///					spyhunt_lamp[4]!=0 ? "GUNS" : "    ");
 /*TODO*///			for (offs = 0; offs < 30; offs++)
 /*TODO*///				drawgfx(bitmap, Machine.gfx[2], buffer[offs], 0, 0, 0,
-/*TODO*///						30 * 16, (29 - offs) * 16, Machine.visible_area, TRANSPARENCY_NONE, 0);
+/*TODO*///						30 * 16, (29 - offs) * 16, new rectangle(Machine.visible_area), TRANSPARENCY_NONE, 0);
 		}
 	} };
 	

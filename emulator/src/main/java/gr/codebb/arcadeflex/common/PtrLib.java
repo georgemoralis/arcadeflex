@@ -277,7 +277,7 @@ public class PtrLib {
     }
 
     public void inc(int offs) {
-        offset += offs;
+        offset += offs*bsize;
     }
     
   }
