@@ -73,7 +73,7 @@ public class video {
     //public static char[] dirtygrid=new char[DIRTY_V * DIRTY_H];
     static char[] grid1=new char[DIRTY_V * DIRTY_H];
     static char[] grid2=new char[DIRTY_V * DIRTY_H];
-    /*TODO*///char *dirty_old=grid1;
+    static char[] dirty_old=grid1;
     public static char[] dirty_new=grid2;
     /*TODO*///
     /*TODO*///static void scale_vectorgames(int gfx_width,int gfx_height,int *width,int *height);
@@ -627,16 +627,16 @@ public class video {
     /*TODO*///{
     /*TODO*///	memset(dirty_new, dirty, MAX_GFX_WIDTH/16 * MAX_GFX_HEIGHT/16);
     /*TODO*///}
-    /*TODO*///
-    /*TODO*///INLINE void swap_dirty(void)
-    /*TODO*///{
-    /*TODO*///    char *tmp;
-    /*TODO*///
-    /*TODO*///	tmp = dirty_old;
-    /*TODO*///	dirty_old = dirty_new;
-    /*TODO*///	dirty_new = tmp;
-    /*TODO*///}
-    /*TODO*///
+    
+    public static void swap_dirty()
+    {
+        char[] tmp;
+    
+    	tmp = dirty_old;
+    	dirty_old = dirty_new;
+    	dirty_new = tmp;
+    }
+    
     /*TODO*////*
     /*TODO*/// * This function tries to find the best display mode.
     /*TODO*/// */
@@ -2082,9 +2082,9 @@ public class video {
             }
 
             if (use_dirty != 0) {
-                /*TODO*///                   if (!vector_game)
-                /*TODO*///                       swap_dirty();
-                /*TODO*///                   init_dirty(0);
+                                   if (vector_game==0)
+                                       swap_dirty();
+                                   init_dirty((char)0);
             }
 
             if (need_to_clear_bitmap != 0) {
