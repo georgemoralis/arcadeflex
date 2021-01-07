@@ -977,7 +977,8 @@ public class konami extends cpu_interface {
 
     public burnPtr burn_function = new burnPtr() {
         public void handler(int cycles) {
-            throw new UnsupportedOperationException("Not supported yet.");
+/*TODO*///            throw new UnsupportedOperationException("Not supported yet.");
+            konami_ICount[0] -= cycles;
         }
     };
 

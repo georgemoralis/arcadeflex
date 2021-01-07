@@ -1,3 +1,7 @@
+07/01/2021
+==========
+-Added 6502 CPU version 0.37b7
+
 05/01/2021
 ==========
 -Added 68000 opcode needed for ssriders (still WIP)

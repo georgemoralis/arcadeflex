@@ -6,7 +6,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
@@ -34,7 +34,7 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
+//import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
 
 import static gr.codebb.arcadeflex.v037b7.machine.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.jedi.*;

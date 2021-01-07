@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class dec8 {

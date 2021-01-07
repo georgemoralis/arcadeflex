@@ -25,6 +25,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class jedi
 {
@@ -88,7 +89,7 @@ public class jedi
             }
             memset(dirtybuffer, 1, videoram_size[0]);
 
-            if ((tmpbitmap = bitmap_alloc_depth(Machine.drv.screen_width, Machine.drv.screen_height, 8)) == null) {
+            if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, 8)) == null) {
                 dirtybuffer = null;
                 return 1;
             }

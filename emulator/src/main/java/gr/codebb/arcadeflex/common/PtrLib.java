@@ -269,11 +269,17 @@ public class PtrLib {
     public char read(int index) {
       return (char) (memory[offset + 1 + index * 2] << 8 | memory[offset + index * 2]);
     }
-
+    
+    
     public void write(int index, char value) {
       memory[offset + index * 2] = (char) (value & 0xFF);
       memory[offset + index * 2 + 1] = (char) ((value >> 8) & 0xFF);
     }
+
+    public void inc(int offs) {
+        offset += offs;
+    }
+    
   }
 
   /** ShortPtr emulation */

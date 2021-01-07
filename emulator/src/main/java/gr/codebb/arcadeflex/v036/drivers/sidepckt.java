@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6502.m6502H.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.*;
 
 public class sidepckt {
 

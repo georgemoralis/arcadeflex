@@ -229,6 +229,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 
 public class driver {
 
@@ -1445,21 +1446,21 @@ public class driver {
                 /* MCR2 + MCR3 sprites */
                 /*TODO*/ //	DRIVER( journey )	/* (c) 1983 */
                 /* MCR3 */
-                /*TODO*/ //	DRIVER( tapper )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( tappera )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( sutapper )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( rbtapper )	/* (c) 1984 */
-                /*TODO*/ //	DRIVER( timber )	/* (c) 1984 */
-                /*TODO*/ //	DRIVER( dotron )	/* (c) 1983 */
+                driver_tapper,	/* (c) 1983 */
+                driver_tappera,	/* (c) 1983 */
+                driver_sutapper,	/* (c) 1983 */
+                driver_rbtapper,	/* (c) 1984 */
+                driver_timber,	/* (c) 1984 */
+                driver_dotron,	/* (c) 1983 */
                 /*TODO*/ //	DRIVER( dotrone )	/* (c) 1983 */
                 /*TODO*/ //	DRIVER( destderb )	/* (c) 1984 */
                 /*TODO*/ //	DRIVER( destderm )	/* (c) 1984 */
-                /*TODO*/ //	DRIVER( sarge )		/* (c) 1985 */
-                /*TODO*/ //	DRIVER( rampage )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( rampage2 )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( powerdrv )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( maxrpm )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( spyhunt )	/* (c) 1983 */
+/*TODO*///                driver_sarge,		/* (c) 1985 */
+                driver_rampage,	/* (c) 1986 */
+                driver_rampage2,	/* (c) 1986 */
+                driver_powerdrv,	/* (c) 1986 */
+                driver_maxrpm,	/* (c) 1986 */
+                driver_spyhunt,	/* (c) 1983 */
                 /*TODO*/ //	DRIVER( turbotag )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( crater )	/* (c) 1984 */
                 /* MCR 68000 */
@@ -2009,7 +2010,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( goldnabl )	/* (c) 1989 (bootleg) */
                 /*TODO*/ //	DRIVER( goldnaxa )	/* (c) 1989 */
                 driver_goldnaxe,	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( hangon )	/* (c) 1985 */
+                driver_hangon,	/* (c) 1985 */
                 driver_hwchamp,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( moonwlkb )	/* bootleg */
@@ -2729,7 +2730,7 @@ public class driver {
                 driver_sonicwi3,	/* 0097 (c) 1995 Video System Co. */
                 /* 0098 Idol Mahjong - final romance 2 (CD only? not confirmed, MVS might exist) */
                 /* 0099 */
-                /*TODO*/ //	DRIVER( turfmast )	/* 0200 (c) 1996 Nazca */
+                driver_turfmast,	/* 0200 (c) 1996 Nazca */
                 driver_mslug, /* 0201 (c) 1996 Nazca */
                 /*TODO*/ //	DRIVER( puzzledp )	/* 0202 (c) 1995 Taito (Visco license) */
                 /*TODO*/ //	DRIVER( mosyougi )	/* 0203 (c) 1995 ADK / SNK */

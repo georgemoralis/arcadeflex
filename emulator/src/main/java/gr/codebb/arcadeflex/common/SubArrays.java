@@ -48,6 +48,10 @@ public class SubArrays {
       memory = m;
       offset = b;
     }
+    
+    public void inc(int offs){
+        offset += offs;
+    }
 
     public char[] memory;
     public int offset;
