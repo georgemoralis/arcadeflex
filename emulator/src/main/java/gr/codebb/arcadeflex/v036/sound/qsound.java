@@ -38,6 +38,7 @@ public class qsound extends snd_interface {
     static StreamInitMultiPtr qsound_update=new StreamInitMultiPtr() {
         @Override
         public void handler(int offset, ShortPtr[] buffer, int length) {
+            //System.out.println(offset);
                 //int i,j;
 		//int rvol, lvol, count;
                 //int pC_index=0;
@@ -49,15 +50,17 @@ public class qsound extends snd_interface {
 	
 		int i, j;
             int rvol, lvol, count;
+            //buffer[0].offset=0;
+            //buffer[1].offset=0;
             for (i = 0; i < length; i++)
             {
                 buffer[0].write(offset + i, (short) 0);
                 buffer[1].write(offset + i, (short) 0);
             }
+            //buffer[0].offset=0;
+            //buffer[1].offset=0;
             for (i = 0; i < 16; i++)
             {
-                if (qsound_channel[i]==null)
-                    qsound_channel[i] = new QSOUND_CHANNEL();
                 
                 if (qsound_channel[i].key != 0)
                 {
@@ -84,9 +87,11 @@ public class qsound extends snd_interface {
                             qsound_channel[i].lastdt = (new UBytePtr(qsound_sample_rom, qsound_channel[i].bank)).read(qsound_channel[i].address);
 
                         }
-                        buffer[0].write(offset + j, (short) (buffer[0].read(offset + j) + ((qsound_channel[i].lastdt * lvol) >> 6)));
-                        buffer[1].write(offset + j, (short) (buffer[1].read(offset + j) + ((qsound_channel[i].lastdt * rvol) >> 6)));
+                        buffer[0].write(offset , (short) (buffer[0].read(offset ) + ((qsound_channel[i].lastdt * lvol) >> 6)));
+                        buffer[1].write(offset , (short) (buffer[1].read(offset ) + ((qsound_channel[i].lastdt * rvol) >> 6)));
                         //buffer[1][offset + j] += ((qsound_channel[i].lastdt * rvol) >> 6);
+                        buffer[0].inc();
+                        buffer[1].inc();
                         qsound_channel[i].offset += qsound_channel[i].pitch;
                     }
                 }
@@ -108,6 +113,9 @@ public class qsound extends snd_interface {
 		intf = (QSound_interface) msound.sound_interface;
 	
 		qsound_sample_rom = new UBytePtr(memory_region(intf.region));
+                
+                for (int _i=0 ; _i<16 ; _i++)
+                    qsound_channel[_i] = new QSOUND_CHANNEL();
 	
 /*TODO*///		memset(qsound_channel, 0, sizeof(qsound_channel));
 	
@@ -281,7 +289,7 @@ public class qsound extends snd_interface {
 		{
 			case 0: /* Bank */
 				ch=(ch+1)&0x0f;	/* strange ... */
-				qsound_channel[ch].bank /= LENGTH_DIV;
+				qsound_channel[ch].bank = (value & 0x7f) << 16;
 /*TODO*///	#ifdef MAME_DEBUG
 /*TODO*///				if (!value & 0x8000)
 /*TODO*///				{
