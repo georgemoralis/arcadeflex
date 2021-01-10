@@ -230,6 +230,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.victory.*;
 
 public class driver {
 
@@ -2803,5 +2804,7 @@ public class driver {
                 /*galpanic */driver_missw96,
                 /*galspnbl */driver_hotpinbl,
                 /*galspnbl */driver_galspnbl,
+                driver_victory,
+                driver_victorba,
                 null /* end of array */};
 }

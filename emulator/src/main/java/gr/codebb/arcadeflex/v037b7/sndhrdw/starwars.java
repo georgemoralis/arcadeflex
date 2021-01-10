@@ -78,7 +78,7 @@ public class starwars
 	
 				/* Note: bit 4 is always set to avoid sound self test */
 	
-				return port_A|0x10|((tms5220_ready_r()<<2)!=0?0:1);
+				return port_A|0x10|(((tms5220_ready_r()!=0?0:1)<<2));
 
 	
 			case 1: /* 0x81 - Read Port A DDR */
