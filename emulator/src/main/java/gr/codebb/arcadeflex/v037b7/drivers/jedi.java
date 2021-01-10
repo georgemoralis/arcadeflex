@@ -155,45 +155,49 @@ public class jedi {
         }
     };
 
-    static GfxLayout charlayout = new GfxLayout(
-            8, 8, /* 8*8 characters */
-            512, /* 512 characters */
-            2, /* 2 bits per pixel */
-            new int[]{0, 1}, /* the bitplanes are packed in one nibble */
-            new int[]{0, 2, 4, 6, 8, 10, 12, 14},
-            new int[]{0 * 16, 1 * 16, 2 * 16, 3 * 16, 4 * 16, 5 * 16, 6 * 16, 7 * 16},
-            16 * 8 /* every char takes 16 consecutive bytes */
-    );
-
-    static GfxLayout pflayout = new GfxLayout(
-            8, 8, /* 8*8 characters */
-            2048, /* 2048 characters */
-            4, /* 4 bits per pixel */
-            new int[]{0, 4, 2048 * 16 * 8, 2048 * 16 * 8 + 4},
-            new int[]{0, 1, 2, 3, 8 + 0, 8 + 1, 8 + 2, 8 + 3},
-            new int[]{0 * 16, 1 * 16, 2 * 16, 3 * 16, 4 * 16, 5 * 16, 6 * 16, 7 * 16,
-                8 * 16, 9 * 16, 10 * 16, 11 * 16, 12 * 16, 13 * 16, 14 * 16, 15 * 16},
-            16 * 8 /* every char takes 16 consecutive bytes */
-    );
-
-    static GfxLayout spritelayout = new GfxLayout(
-            8, 16, /* 8*16 sprites */
-            2048, /* 2048 sprites */
-            4, /* 4 bits per pixel */
-            new int[]{0, 4, 2048 * 32 * 8, 2048 * 32 * 8 + 4},
-            new int[]{0, 1, 2, 3, 8 + 0, 8 + 1, 8 + 2, 8 + 3},
-            new int[]{0 * 16, 1 * 16, 2 * 16, 3 * 16, 4 * 16, 5 * 16, 6 * 16, 7 * 16,
-                8 * 16, 9 * 16, 10 * 16, 11 * 16, 12 * 16, 13 * 16, 14 * 16, 15 * 16},
-            32 * 8 /* every sprite takes 32 consecutive bytes */
-    );
-
-    static GfxDecodeInfo gfxdecodeinfo[]
-            = {
-                new GfxDecodeInfo(REGION_GFX1, 0, charlayout, 0, 1),
-                new GfxDecodeInfo(REGION_GFX2, 0, pflayout, 0, 1),
-                new GfxDecodeInfo(REGION_GFX3, 0, spritelayout, 0, 1),
-                new GfxDecodeInfo(-1)
-            };
+    static GfxLayout charlayout = new GfxLayout
+	(
+		8,8,    /* 8*8 characters */
+	    512,    /* 512 characters */
+	    2,      /* 2 bits per pixel */
+		new int[] { 0, 1 }, /* the bitplanes are packed in one nibble */
+		new int[] { 0, 2, 4, 6, 8, 10, 12, 14 },
+		new int[] { 0*16, 1*16, 2*16, 3*16, 4*16, 5*16, 6*16, 7*16 },
+		16*8   /* every char takes 16 consecutive bytes */
+	);
+	
+	static GfxLayout pflayout = new GfxLayout
+	(
+		8,8,	/* 8*8 characters */
+		2048,	/* 2048 characters */
+		4,	/* 4 bits per pixel */
+		new int[] { 0, 4, 2048*16*8, 2048*16*8+4 },
+		new int[] { 0, 1, 2, 3, 8+0, 8+1, 8+2, 8+3 },
+		new int[] { 0*16, 1*16, 2*16, 3*16, 4*16, 5*16, 6*16, 7*16,
+				8*16, 9*16, 10*16, 11*16, 12*16, 13*16, 14*16, 15*16 },
+		16*8	/* every char takes 16 consecutive bytes */
+	);
+	
+	static GfxLayout spritelayout = new GfxLayout
+	(
+		8,16,	/* 8*16 sprites */
+		2048,	/* 2048 sprites */
+		4,	/* 4 bits per pixel */
+		new int[] { 0, 4, 2048*32*8, 2048*32*8+4 },
+		new int[] { 0, 1, 2, 3, 8+0, 8+1, 8+2, 8+3},
+		new int[] { 0*16, 1*16, 2*16, 3*16, 4*16, 5*16, 6*16, 7*16,
+				8*16, 9*16, 10*16, 11*16, 12*16, 13*16, 14*16, 15*16 },
+		32*8	/* every sprite takes 32 consecutive bytes */
+	);
+	
+	
+	static GfxDecodeInfo gfxdecodeinfo[] =
+	{
+		new GfxDecodeInfo( REGION_GFX1, 0, charlayout,    0, 1 ),
+		new GfxDecodeInfo( REGION_GFX2, 0, pflayout,      0, 1 ),
+		new GfxDecodeInfo( REGION_GFX3, 0, spritelayout,  0, 1 ),
+		new GfxDecodeInfo( -1 )
+	};
 
     static POKEYinterface pokey_interface = new POKEYinterface(
             4, /* 4 chips */

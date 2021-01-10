@@ -104,9 +104,9 @@ public class mcr {
      */
     public static GfxLayout mcr_bg_layout = new GfxLayout(
             16, 16,
-            RGN_FRAC(1, 2),
+            0,
             4,
-            new int[]{RGN_FRAC(1, 2) + 0, RGN_FRAC(1, 2) + 1, 0, 1},
+            new int[]{(0) + 0, (0) + 1, 0, 1},
             new int[]{0, 0, 2, 2, 4, 4, 6, 6,
                 8, 8, 10, 10, 12, 12, 14, 14},
             new int[]{0 * 8, 0 * 8, 2 * 8, 2 * 8,

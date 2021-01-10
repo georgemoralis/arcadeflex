@@ -910,6 +910,10 @@ public class m6809 extends cpu_interface
     			case 0x2d: blt();	   m6809_ICount[0]-= 3; break;
     			case 0x2e: bgt();	   m6809_ICount[0]-= 3; break;
     			case 0x2f: ble();	   m6809_ICount[0]-= 3; break;
+                        case 0x29:
+                        bvs();
+                        m6809_ICount[0] -= 3;
+                        break;
     			case 0x30: leax();	   m6809_ICount[0]-= 4; break;
     			case 0x31: leay();	   m6809_ICount[0]-= 4; break;
     			case 0x32: leas();	   m6809_ICount[0]-= 4; break;

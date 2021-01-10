@@ -1097,9 +1097,9 @@ public class mcr3
 	static GfxLayout spyhunt_charlayout = new GfxLayout
 	(
 		64,32,
-		RGN_FRAC(1,2),
+		2048,//RGN_FRAC(1,2),
 		4,
-		new int[] { RGN_FRAC(1,2), RGN_FRAC(1,2)+1, 0, 1 },
+		new int[] { 0x20000 * 8, 0x20000 * 8+1, 0, 1 },
 		new int[] {  0,  0,  2,  2,  4,  4,  6,  6,  8,  8, 10, 10, 12, 12, 14, 14,
 		  16, 16, 18, 18, 20, 20, 22, 22, 24, 24, 26, 26, 28, 28, 30, 30,
 		  32, 32, 34, 34, 36, 36, 38, 38, 40, 40, 42, 42, 44, 44, 46, 46,
@@ -1115,7 +1115,7 @@ public class mcr3
 	static GfxLayout spyhunt_alphalayout = new GfxLayout
 	(
 		16,16,
-		RGN_FRAC(1,1),
+		1024,
 		2,
 		new int[] { 0, 1 },
 		new int[] { 0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14 },
