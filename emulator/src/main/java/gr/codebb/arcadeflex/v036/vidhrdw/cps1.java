@@ -308,7 +308,7 @@ public class cps1 {
     static UBytePtr cps1_scroll3;
     static UBytePtr cps1_obj;
     static UBytePtr cps1_buffered_obj;
-    static UBytePtr cps1_palette;
+    public static UBytePtr cps1_palette;
     static UBytePtr cps1_other;
     static UBytePtr cps1_old_palette;
     /* Working variables */
@@ -356,19 +356,19 @@ public class cps1 {
      CPS1 VIDEO RENDERER
 
      */
-    static /*UINT32*/ int[] cps1_gfx;		 /* Converted GFX memory */
+    public static /*UINT32*/ int[] cps1_gfx;		 /* Converted GFX memory */
 
-    static int[] cps1_char_pen_usage;	/* pen usage array */
+    public static int[] cps1_char_pen_usage;	/* pen usage array */
 
-    static int[] cps1_tile16_pen_usage;      /* pen usage array */
+    public static int[] cps1_tile16_pen_usage;      /* pen usage array */
 
-    static int[] cps1_tile32_pen_usage;      /* pen usage array */
+    public static int[] cps1_tile32_pen_usage;      /* pen usage array */
 
-    static int cps1_max_char;	       /* Maximum number of 8x8 chars */
+    public static int cps1_max_char;	       /* Maximum number of 8x8 chars */
 
-    static int cps1_max_tile16;	     /* Maximum number of 16x16 tiles */
+    public static int cps1_max_tile16;	     /* Maximum number of 16x16 tiles */
 
-    static int cps1_max_tile32;	     /* Maximum number of 32x32 tiles */
+    public static int cps1_max_tile32;	     /* Maximum number of 32x32 tiles */
 
 
     static int cps1_gfx_start() {

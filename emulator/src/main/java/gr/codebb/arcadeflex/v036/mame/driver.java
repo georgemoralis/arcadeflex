@@ -197,6 +197,7 @@ import static gr.codebb.arcadeflex.v036.drivers.dec0.*;
 import static gr.codebb.arcadeflex.v036.drivers.kaneko16.*;
 import static gr.codebb.arcadeflex.v036.drivers.prehisle.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.cps1.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.cps2.*;
 import static gr.codebb.arcadeflex.v036.drivers.alpha68k.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.superman.*;
 import static gr.codebb.arcadeflex.v036.drivers.aerofgt.*;
@@ -231,6 +232,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.victory.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 
 public class driver {
 
@@ -1789,7 +1791,7 @@ public class driver {
                 /*TODO*/ //TESTDRIVER( ddtodr1 )	/* Dungeons & Dragons: Tower of Doom (USA 940125) */
                 /*TODO*/ //TESTDRIVER( ssf2t )		/* Super Street Fighter 2 Turbo (USA 940223) */
                 /*TODO*/ //TESTDRIVER( ssf2xj )	/* Super Street Fighter 2 X: Grand Master Challenge (Japan 940223) */
-                /*TODO*/ //TESTDRIVER( avsp )		/* Aliens Vs. Predator (USA 940520) */
+                driver_avsp,		/* Aliens Vs. Predator (USA 940520) */
                 /*TODO*/ //TESTDRIVER( vampj )		/* Vampire: The Night Warriors (Japan 940705) */
                 /*TODO*/ //TESTDRIVER( vampa )		/* Vampire: The Night Warriors (Asia 940705) */
                 /*TODO*/ //TESTDRIVER( dstlk )		/* DarkStalkers: The Night Warriors (USA 940818) */
@@ -2806,5 +2808,6 @@ public class driver {
                 /*galspnbl */driver_galspnbl,
                 driver_victory,
                 driver_victorba,
+                driver_magmax,
                 null /* end of array */};
 }

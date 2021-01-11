@@ -305,6 +305,15 @@ public class PtrLib {
       memory = cp.memory;
       offset = cp.offset + b;
     }
+    
+    public ShortPtr(UBytePtr m, int b) {
+      memory = new byte[m.memory.length * 2];
+      for (int i = 0; i < m.memory.length; i++) {
+        memory[i * 2] = (byte) (m.memory[i] & 0xff);
+        memory[i * 2 + 1] = (byte) ((m.memory[i] >>> 8) & 0xff);
+      }
+      offset = b;
+    }
 
     public ShortPtr(byte[] m) {
       memory = m;

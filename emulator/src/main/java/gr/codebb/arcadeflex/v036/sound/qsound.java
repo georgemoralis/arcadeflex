@@ -39,63 +39,77 @@ public class qsound extends snd_interface {
         @Override
         public void handler(int offset, ShortPtr[] buffer, int length) {
             //System.out.println(offset);
-                //int i,j;
-		//int rvol, lvol, count;
-                //int pC_index=0;
-		
-		//UBytePtr pST;
-		//ShortPtr[]  datap=new ShortPtr[2];
+            int i,j;
+		int rvol, lvol, count;
+		QSOUND_CHANNEL pC=qsound_channel[0];
+                int _index_pC=0;
+		UBytePtr pST;
+		ShortPtr[] datap=new ShortPtr[2];
 	
 		if (Machine.sample_rate == 0) return;
 	
-		int i, j;
-            int rvol, lvol, count;
-            //buffer[0].offset=0;
-            //buffer[1].offset=0;
-            for (i = 0; i < length; i++)
-            {
-                buffer[0].write(offset + i, (short) 0);
-                buffer[1].write(offset + i, (short) 0);
-            }
-            //buffer[0].offset=0;
-            //buffer[1].offset=0;
-            for (i = 0; i < 16; i++)
-            {
+		datap[0] = new ShortPtr(buffer[0]);
+		datap[1] = new ShortPtr(buffer[1]);
                 
-                if (qsound_channel[i].key != 0)
-                {
-                    rvol = (qsound_channel[i].rvol * qsound_channel[i].vol) >> 8;
-                    lvol = (qsound_channel[i].lvol * qsound_channel[i].vol) >> 8;
-                    for (j = 0; j < length; j++)
-                    {
-                        count = (qsound_channel[i].offset) >> 16;
-                        qsound_channel[i].offset &= 0xffff;
-                        if (count != 0)
-                        {
-                            qsound_channel[i].address += count;
-                            if (qsound_channel[i].address >= qsound_channel[i].end)
-                            {
-                                if (qsound_channel[i].loop == 0)
-                                {
-                                    /* Reached the end of a non-looped sample */
-                                    qsound_channel[i].key = 0;
-                                    break;
-                                }
-                                /* Reached the end, restart the loop */
-                                qsound_channel[i].address = (qsound_channel[i].end - qsound_channel[i].loop) & 0xffff;
-                            }
-                            qsound_channel[i].lastdt = (new UBytePtr(qsound_sample_rom, qsound_channel[i].bank)).read(qsound_channel[i].address);
-
-                        }
-                        buffer[0].write(offset , (short) (buffer[0].read(offset ) + ((qsound_channel[i].lastdt * lvol) >> 6)));
-                        buffer[1].write(offset , (short) (buffer[1].read(offset ) + ((qsound_channel[i].lastdt * rvol) >> 6)));
-                        //buffer[1][offset + j] += ((qsound_channel[i].lastdt * rvol) >> 6);
-                        buffer[0].inc();
-                        buffer[1].inc();
-                        qsound_channel[i].offset += qsound_channel[i].pitch;
-                    }
+                for (int _i=0 ; _i<length ; _i++){
+                    datap[0].write(_i, (short)0x00);
+                    datap[1].write(_i, (short)0x00);
                 }
-            }
+                
+                datap[0].offset=0;
+                datap[1].offset=0;
+	
+		for (i=0; i<QSOUND_CHANNELS; i++)
+		{
+                        pC=qsound_channel[_index_pC];
+                        
+			if (pC.key != 0)
+			{
+                            //datap[0] = new ShortPtr(buffer[0]);
+                            //datap[1] = new ShortPtr(buffer[1]);
+
+                            
+				ShortPtr pOutL=new ShortPtr(datap[0]);
+				ShortPtr pOutR=new ShortPtr(datap[1]);
+                                /*for (int _i=0 ; _i<length ; _i++){
+                                    pOutL.write(_i, (short)0x00);
+                                    pOutR.write(_i, (short)0x00);
+                                }*/
+				pST=new UBytePtr(qsound_sample_rom, pC.bank);
+				rvol=(pC.rvol*pC.vol)>>(8*LENGTH_DIV);
+				lvol=(pC.lvol*pC.vol)>>(8*LENGTH_DIV);
+	
+				for (j=length-1; j>=0; j--)
+				{
+					count=(pC.offset)>>16;
+					pC.offset &= 0xffff;
+					if (count != 0)
+					{
+						pC.address += count;
+						if (pC.address >= pC.end)
+						{
+							if (pC.loop==0)
+							{
+								/* Reached the end of a non-looped sample */
+								pC.key=0;
+								break;
+							}
+							/* Reached the end, restart the loop */
+							pC.address = (pC.end - pC.loop) & 0xffff;
+						}
+						pC.lastdt=pST.read(pC.address);
+					}
+	
+					pOutL.write(pOutL.read(0), (short) (pOutL.read(0) + ((pC.lastdt * lvol) >> 6)));
+					pOutR.write(pOutR.read(0), (short) (pOutR.read(0) + ((pC.lastdt * rvol) >> 6)));
+					pOutL.inc();
+					pOutR.inc();
+					pC.offset += pC.pitch;
+				}
+			}
+                        qsound_channel[_index_pC] = pC;
+			_index_pC++;
+		}
 	
 /*TODO*///	#if LOG_WAVE
 /*TODO*///		fwrite(datap[0], length*sizeof(QSOUND_SAMPLE), 1, fpRawDataL);
