@@ -165,9 +165,9 @@ public class magmax
                                         
                                         rom18B_addr = rom18B_addr & 0x1fff;
 	
-                                        rom18B.offset=0;
+                                        //rom18B.offset=0;
                                                 
-					if ((map_h & 0x1) != 0)
+					if ((rom18B.memory.length>(rom18B_addr + 0x2000)&&((map_h & 0x1) != 0)))
 						LS273 = rom18B.read( (rom18B_addr + 0x2000) );		//pixel 1,3,5,7 from rom 20B
 					else
 						LS273 = rom18B.read( rom18B_addr );				//pixel 0,2,4,6 from rom 18B

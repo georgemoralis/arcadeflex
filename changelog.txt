@@ -1,3 +1,8 @@
+12/01/2021
+==========
+-Added magmax driver
+-Added armedf driver (kodure and armedf work fine but terraf and cclimbr2 games need 68000 opcodes)
+
 07/01/2021
 ==========
 -Added 6502 CPU version 0.37b7

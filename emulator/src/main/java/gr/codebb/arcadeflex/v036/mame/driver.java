@@ -233,6 +233,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.victory.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 
 public class driver {
 
@@ -2809,5 +2810,11 @@ public class driver {
                 driver_victory,
                 driver_victorba,
                 driver_magmax,
+                driver_terraf,          /* (c) 1987 */
+		driver_terrafu,         /* (c) 1987 Nichibutsu USA */
+		driver_kodure,          /* (c) 1987 (Japan) */
+		driver_armedf,          /* (c) 1988 */
+		driver_cclimbr2,	/* (c) 1988 (Japan) */
                 null /* end of array */};
+    
 }

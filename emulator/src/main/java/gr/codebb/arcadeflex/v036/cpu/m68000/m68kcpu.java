@@ -475,7 +475,11 @@ public class m68kcpu {
                 /* Read an instruction and call its handler */
                 set_CPU_IR(m68ki_read_instruction());
                 opcode i = m68k_instruction_jump_table[(int) get_CPU_IR()];
+                //try {
                 i.handler();
+                //} catch (Exception e){
+                //    System.out.println("CODE="+get_CPU_IR());
+                //}
 
                 continue;
             } while (m68k_clks_left[0] > 0);

@@ -329,6 +329,15 @@ public class PtrLib {
       offset = 0;
     }
 
+    public ShortPtr(UBytePtr m) {
+        memory = new byte[m.memory.length * 2];
+      for (int i = 0; i < m.memory.length; i++) {
+        memory[i * 2] = (byte) (m.memory[i] & 0xff);
+        memory[i * 2 + 1] = (byte) ((m.memory[i] >>> 8) & 0xff);
+      }
+      offset = 0;
+    }
+
     public short read() {
       return (short) ((memory[offset + 1] & 0xFF) << 8 | (memory[offset] & 0xFF));
     }

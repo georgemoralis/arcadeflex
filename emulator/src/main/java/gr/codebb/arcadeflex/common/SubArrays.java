@@ -23,6 +23,10 @@ public class SubArrays {
     public UShortArray(UBytePtr cp, int b) {
       set(cp.memory, cp.offset + b);
     }
+    
+    public UShortArray(UBytePtr cp) {
+      set(cp.memory, 0);
+    }
 
     public UShortArray(UShortArray cp, int b) {
       set(cp.memory, cp.offset + b);
