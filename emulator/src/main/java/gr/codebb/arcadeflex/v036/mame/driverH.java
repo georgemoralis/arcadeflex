@@ -234,7 +234,7 @@ public class driverH
     public static final int MAX_CPU= 8;	/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
 					/* can run at the same time. Currently, 8 is enough. */
 
-    public static final int MAX_SOUND= 6;	/* MAX_SOUND is the maximum number of sound subsystems */
+    public static final int MAX_SOUND= 5;	/* MAX_SOUND is the maximum number of sound subsystems */
 					/* which can run at the same time. Currently, 5 is enough. */  
 
     public static class MachineDriver

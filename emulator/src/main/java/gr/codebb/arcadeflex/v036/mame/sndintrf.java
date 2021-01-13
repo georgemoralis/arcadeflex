@@ -580,11 +580,10 @@ public class sndintrf {
     	if (streams_sh_start() != 0)
     		return 1;
 
-    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0)
     	{
     		if ((sndintf[Machine.drv.sound[totalsound].sound_type].start(Machine.drv.sound[totalsound])) != 0)
     			return 1;//goto getout;
-    
     		totalsound++;
     	}
     	return 0;
@@ -594,7 +593,7 @@ public class sndintrf {
     	int totalsound = 0;
     
     
-    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0)
     	{
     		//if (sndintf[Machine.drv.sound[totalsound].sound_type].stop()!=null)
     			sndintf[Machine.drv.sound[totalsound].sound_type].stop();
@@ -623,7 +622,7 @@ public class sndintrf {
     	int totalsound = 0;
     
     
-    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0)
     	{
     		//if (sndintf[Machine->drv->sound[totalsound].sound_type].update)
     			sndintf[Machine.drv.sound[totalsound].sound_type].update();
@@ -643,7 +642,7 @@ public class sndintrf {
     	int totalsound = 0;
     
     
-    	while (Machine.drv.sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
+    	while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0)
     	{
     		//if (sndintf[Machine->drv->sound[totalsound].sound_type].reset)
                     sndintf[Machine.drv.sound[totalsound].sound_type].reset();
