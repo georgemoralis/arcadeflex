@@ -35,6 +35,10 @@ public class SubArrays {
     public UShortArray(UShortArray cp) {
       set(cp.memory, cp.offset);
     }
+    
+    public UShortArray(int[] cp) {
+      set(cp, 0);
+    }
 
     public char read(int offs) {
       return memory[offs + offset];
@@ -50,6 +54,14 @@ public class SubArrays {
 
     public void set(char[] m, int b) {
       memory = m;
+      offset = b;
+    }
+    
+    public void set(int[] m, int b) {
+      memory = new char[m.length];
+      int _long = m.length;
+      for (int _i=0 ; _i<_long ; _i++)
+          memory[_i] = (char) m[_i];
       offset = b;
     }
     

@@ -234,6 +234,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.victory.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
 
 public class driver {
 
@@ -1239,7 +1241,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( wndrmomo )	/* (c) 1987 */
 
                 /* Namco System 1 games */
-                /*TODO*/ //	DRIVER( shadowld )	/* (c) 1987 */
+                driver_shadowld,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( youkaidk )	/* (c) 1987 (Japan new version) */
                 /*TODO*/ //	DRIVER( yokaidko )	/* (c) 1987 (Japan old version) */
                 /*TODO*/ //	DRIVER( dspirit )	/* (c) 1987 new version */
@@ -2369,7 +2371,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( pitfight )	/* (c) 1990 */
                 /*TODO*/ //	DRIVER( pitfigh3 )	/* (c) 1990 */
                 /*TODO*/ //	DRIVER( thunderj )	/* (c) 1990 */
-                /*TODO*/ //	DRIVER( batman )	/* (c) 1991 */
+                driver_batman,	/* (c) 1991 */
                 /*TODO*/ //	DRIVER( relief )	/* (c) 1992 */
                 /*TODO*/ //	DRIVER( relief2 )	/* (c) 1992 */
                 /*TODO*/ //	DRIVER( offtwall )	/* (c) 1991 */

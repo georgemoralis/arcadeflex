@@ -40,7 +40,7 @@ public class shuuz
 	 *	Interrupt handling
 	 *
 	 *************************************/
-	public static atarigen_int_callbackPtr update_interrupts = new atarigen_int_callbackPtr() {
+	public static atarigen_void_callbackPtr update_interrupts = new atarigen_void_callbackPtr() {
         public void handler() {
 		int newstate = 0;
 	

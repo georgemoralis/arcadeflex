@@ -148,7 +148,7 @@ public class shuuz {
             /* update the data if different */
             if (oldword != newword) {
                 atarigen_playfieldram.WRITE_WORD(offset, newword);
-                atarigen_pf_dirty[(offset & 0x1fff) / 2] = 1;
+                atarigen_pf_dirty.write((offset & 0x1fff) / 2, 1);
             }
 
             /* handle the latch, but only write the upper byte */

@@ -27,13 +27,25 @@ import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.CLEAR_LINE;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.PULSE_LINE;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static gr.codebb.arcadeflex.v036.mame.inputH.*;
+import static gr.codebb.arcadeflex.v036.mame.usrintrf.ui_text;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.sound.mixer.*;
+import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_IRQ;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+
 public class atarigen {
 
     /*--------------------------------------------------------------------------
@@ -66,7 +78,7 @@ public class atarigen {
     public static int atarigen_video_int_state;
 
     /* statics */
-    static atarigen_int_callbackPtr update_int_callback;
+    static atarigen_void_callbackPtr update_int_callback;
     static Object scanline_interrupt_timer;
 
     /*
@@ -75,7 +87,7 @@ public class atarigen {
      *	Resets the various interrupt states.
      *
      */
-    public static void atarigen_interrupt_reset(atarigen_int_callbackPtr update_int) {
+    public static void atarigen_interrupt_reset(atarigen_void_callbackPtr update_int) {
         /* set the callback */
         update_int_callback = update_int;
 
@@ -136,20 +148,20 @@ public class atarigen {
         }
     };
 
-    /*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound interrupt generator
-/*TODO*///	 *
-/*TODO*///	 *	Standard interrupt routine which sets the sound interrupt state.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	int atarigen_sound_int_gen(void)
-/*TODO*///	{
-/*TODO*///		atarigen_sound_int_state = 1;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///		return 0;
-/*TODO*///	}
+    	
+	/*
+	 *	Sound interrupt generator
+	 *
+	 *	Standard interrupt routine which sets the sound interrupt state.
+	 *
+	 */
+	
+	static int atarigen_sound_int_gen()
+	{
+		atarigen_sound_int_state = 1;
+		(update_int_callback).handler();
+		return 0;
+	}
 	
 	
 	/*
@@ -227,7 +239,7 @@ public class atarigen {
 	
      --------------------------------------------------------------------------*/
     /* globals */
-    public static UShortPtr atarigen_eeprom_default;
+    public static char[] atarigen_eeprom_default;
     public static UBytePtr atarigen_eeprom = new UBytePtr();
     public static int[] atarigen_eeprom_size = new int[1];
 
@@ -314,45 +326,47 @@ public class atarigen {
 
                     /* anything else must be decompressed */
                     if (atarigen_eeprom_default != null) {
-                        throw new UnsupportedOperationException("Unimplemented");
+                        //throw new UnsupportedOperationException("Unimplemented");
 
-                        /*TODO*///					if (atarigen_eeprom_default[0] == 0)
-/*TODO*///						decompress_eeprom_byte(atarigen_eeprom_default + 1);
-/*TODO*///					else
-/*TODO*///						decompress_eeprom_word(atarigen_eeprom_default + 1);
+                        if (atarigen_eeprom_default[0] == 0){
+                            System.out.println("NOT IMPLEMENTED decompress_eeprom_byte");
+/*TODO*///                            decompress_eeprom_byte(atarigen_eeprom_default + 1);
+                        } else {
+                            decompress_eeprom_word(new UBytePtr(atarigen_eeprom_default, 1));
+                        }
                     }
                 }
             }
         }
     };
 
-    /*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Decompress word-based EEPROM data
-/*TODO*///	 *
-/*TODO*///	 *	Used for decompressing EEPROM data that has every other byte invalid.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void decompress_eeprom_word(const UINT16 *data)
-/*TODO*///	{
-/*TODO*///		UINT16 *dest = (UINT16 *)atarigen_eeprom;
-/*TODO*///		UINT16 value;
-/*TODO*///	
-/*TODO*///		while ((value = *data++) != 0)
-/*TODO*///		{
-/*TODO*///			int count = (value >> 8);
-/*TODO*///			value = (value << 8) | (value & 0xff);
-/*TODO*///	
-/*TODO*///			while (count--)
-/*TODO*///			{
-/*TODO*///				WRITE_WORD(dest, value);
-/*TODO*///				dest++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+    	
+	/*
+	 *	Decompress word-based EEPROM data
+	 *
+	 *	Used for decompressing EEPROM data that has every other byte invalid.
+	 *
+	 */
+	
+	static void decompress_eeprom_word(UBytePtr data)
+	{
+		UBytePtr dest = atarigen_eeprom;
+		int value;
+	
+		while ((value = data.readinc()) != 0)
+		{
+			int count = (value >> 8);
+			value = (value << 8) | (value & 0xff);
+	
+			while (count-- != 0)
+			{
+				dest.WRITE_WORD(0, value);
+				dest.inc();
+			}
+		}
+	}
+	
+	
 /*TODO*///	/*
 /*TODO*///	 *	Decompress byte-based EEPROM data
 /*TODO*///	 *
@@ -462,135 +476,139 @@ public class atarigen {
 /*TODO*///		int bank = slapstic_tweak(offset / 2) * 0x2000;
 /*TODO*///		return READ_WORD(&atarigen_slapstic[bank + (offset & 0x1fff)]);
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/***********************************************************************************************/
-/*TODO*///	/***********************************************************************************************/
-/*TODO*///	/***********************************************************************************************/
-/*TODO*///	/***********************************************************************************************/
-/*TODO*///	/***********************************************************************************************/
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		Sound I/O
-/*TODO*///	
-/*TODO*///			atarigen_sound_io_reset - reset the sound I/O system
-/*TODO*///	
-/*TODO*///			atarigen_6502_irq_gen - standard 6502 IRQ interrupt generator
-/*TODO*///			atarigen_6502_irq_ack_r - standard 6502 IRQ interrupt acknowledgement
-/*TODO*///			atarigen_6502_irq_ack_w - standard 6502 IRQ interrupt acknowledgement
-/*TODO*///	
-/*TODO*///			atarigen_ym2151_irq_gen - YM2151 sound IRQ generator
-/*TODO*///	
-/*TODO*///			atarigen_sound_w - Main CPU . sound CPU data write (low byte)
-/*TODO*///			atarigen_sound_r - Sound CPU . main CPU data read (low byte)
-/*TODO*///			atarigen_sound_upper_w - Main CPU . sound CPU data write (high byte)
-/*TODO*///			atarigen_sound_upper_r - Sound CPU . main CPU data read (high byte)
-/*TODO*///	
-/*TODO*///			atarigen_sound_reset_w - 6502 CPU reset
-/*TODO*///			atarigen_6502_sound_w - Sound CPU . main CPU data write
-/*TODO*///			atarigen_6502_sound_r - Main CPU . sound CPU data read
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* constants */
-/*TODO*///	#define SOUND_INTERLEAVE_RATE		TIME_IN_USEC(50)
-/*TODO*///	#define SOUND_INTERLEAVE_REPEAT		20
-/*TODO*///	
-/*TODO*///	/* globals */
-/*TODO*///	int atarigen_cpu_to_sound_ready;
-	static int atarigen_sound_to_cpu_ready;
+	
+	
+	
+	
+	/***********************************************************************************************/
+	/***********************************************************************************************/
+	/***********************************************************************************************/
+	/***********************************************************************************************/
+	/***********************************************************************************************/
+	
+	
+	
+	/*--------------------------------------------------------------------------
+	
+		Sound I/O
+	
+			atarigen_sound_io_reset - reset the sound I/O system
+	
+			atarigen_6502_irq_gen - standard 6502 IRQ interrupt generator
+			atarigen_6502_irq_ack_r - standard 6502 IRQ interrupt acknowledgement
+			atarigen_6502_irq_ack_w - standard 6502 IRQ interrupt acknowledgement
+	
+			atarigen_ym2151_irq_gen - YM2151 sound IRQ generator
+	
+			atarigen_sound_w - Main CPU . sound CPU data write (low byte)
+			atarigen_sound_r - Sound CPU . main CPU data read (low byte)
+			atarigen_sound_upper_w - Main CPU . sound CPU data write (high byte)
+			atarigen_sound_upper_r - Sound CPU . main CPU data read (high byte)
+	
+			atarigen_sound_reset_w - 6502 CPU reset
+			atarigen_6502_sound_w - Sound CPU . main CPU data write
+			atarigen_6502_sound_r - Main CPU . sound CPU data read
+	
+	--------------------------------------------------------------------------*/
+	
+	/* constants */
+	public static int SOUND_INTERLEAVE_RATE		= (int) TIME_IN_USEC(50);
+	public static int SOUND_INTERLEAVE_REPEAT	= 20;
+	
+	/* globals */
+	public static int atarigen_cpu_to_sound_ready;
+	public static int atarigen_sound_to_cpu_ready;
 	
 	/* statics */
 	static int sound_cpu_num;
 	static int atarigen_cpu_to_sound;
 	static int atarigen_sound_to_cpu;
-/*TODO*///	static UINT8 timed_int;
-/*TODO*///	static UINT8 ym2151_int;
-/*TODO*///	
+	static int timed_int;
+	static int ym2151_int;
+
 /*TODO*///	/* prototypes */
 /*TODO*///	static void update_6502_irq(void);
 /*TODO*///	static void sound_comm_timer(int reps_left);
 /*TODO*///	static void delayed_sound_reset(int param);
 /*TODO*///	static void delayed_sound_w(int param);
 /*TODO*///	static void delayed_6502_sound_w(int param);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound I/O reset
-/*TODO*///	 *
-/*TODO*///	 *	Resets the state of the sound I/O.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_sound_io_reset(int cpu_num)
-/*TODO*///	{
-/*TODO*///		/* remember which CPU is the sound CPU */
-/*TODO*///		sound_cpu_num = cpu_num;
-/*TODO*///	
-/*TODO*///		/* reset the internal interrupts states */
-/*TODO*///		timed_int = ym2151_int = 0;
-/*TODO*///	
-/*TODO*///		/* reset the sound I/O states */
-/*TODO*///		atarigen_cpu_to_sound = atarigen_sound_to_cpu = 0;
-/*TODO*///		atarigen_cpu_to_sound_ready = atarigen_sound_to_cpu_ready = 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	6502 IRQ generator
-/*TODO*///	 *
-/*TODO*///	 *	Generates an IRQ signal to the 6502 sound processor.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	int atarigen_6502_irq_gen(void)
-/*TODO*///	{
-/*TODO*///		timed_int = 1;
-/*TODO*///		update_6502_irq();
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	6502 IRQ acknowledgement
-/*TODO*///	 *
-/*TODO*///	 *	Resets the IRQ signal to the 6502 sound processor. Both reads and writes can be used.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_6502_irq_ack_r = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		timed_int = 0;
-/*TODO*///		update_6502_irq();
-/*TODO*///		return 0;
-/*TODO*///	} };
-/*TODO*///	
+	
+	
+	/*
+	 *	Sound I/O reset
+	 *
+	 *	Resets the state of the sound I/O.
+	 *
+	 */
+	
+	public static void atarigen_sound_io_reset(int cpu_num)
+	{
+		/* remember which CPU is the sound CPU */
+		sound_cpu_num = cpu_num;
+	
+		/* reset the internal interrupts states */
+		timed_int = ym2151_int = 0;
+	
+		/* reset the sound I/O states */
+		atarigen_cpu_to_sound = atarigen_sound_to_cpu = 0;
+		atarigen_cpu_to_sound_ready = atarigen_sound_to_cpu_ready = 0;
+	}
+	
+	
+	/*
+	 *	6502 IRQ generator
+	 *
+	 *	Generates an IRQ signal to the 6502 sound processor.
+	 *
+	 */
+	
+	public static InterruptPtr atarigen_6502_irq_gen = new InterruptPtr() {
+            @Override
+            public int handler() {
+                timed_int = 1;
+		update_6502_irq();
+		return 0;
+            }
+        };
+	
+	
+	/*
+	 *	6502 IRQ acknowledgement
+	 *
+	 *	Resets the IRQ signal to the 6502 sound processor. Both reads and writes can be used.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_6502_irq_ack_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		timed_int = 0;
+		update_6502_irq();
+		return 0;
+	} };
+	
 /*TODO*///	public static WriteHandlerPtr atarigen_6502_irq_ack_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 /*TODO*///	{
 /*TODO*///		timed_int = 0;
 /*TODO*///		update_6502_irq();
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	YM2151 IRQ generation
-/*TODO*///	 *
-/*TODO*///	 *	Sets the state of the YM2151's IRQ line.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_ym2151_irq_gen(int irq)
-/*TODO*///	{
-/*TODO*///		ym2151_int = irq;
-/*TODO*///		update_6502_irq();
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*
+	 *	YM2151 IRQ generation
+	 *
+	 *	Sets the state of the YM2151's IRQ line.
+	 *
+	 */
+	
+	public static WriteYmHandlerPtr atarigen_ym2151_irq_gen = new WriteYmHandlerPtr() {
+            @Override
+            public void handler(int irq) {
+                ym2151_int = irq;
+		update_6502_irq();
+            }
+        };
+        
+	
 /*TODO*///	/*
 /*TODO*///	 *	Sound CPU write handler
 /*TODO*///	 *
@@ -617,113 +635,115 @@ public class atarigen {
 	}
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	Main . sound CPU data write handlers
-/*TODO*///	 *
-/*TODO*///	 *	Handles communication from the main CPU to the sound CPU. Two versions are provided,
-/*TODO*///	 *	one with the data byte in the low 8 bits, and one with the data byte in the upper 8
-/*TODO*///	 *	bits.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if (!(data & 0x00ff0000))
-/*TODO*///			timer_set(TIME_NOW, data & 0xff, delayed_sound_w);
-/*TODO*///	} };
-/*TODO*///	
+	/*
+	 *	Main . sound CPU data write handlers
+	 *
+	 *	Handles communication from the main CPU to the sound CPU. Two versions are provided,
+	 *	one with the data byte in the low 8 bits, and one with the data byte in the upper 8
+	 *	bits.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		if ((data & 0x00ff0000)==0)
+			timer_set(TIME_NOW, data & 0xff, delayed_sound_w);
+	} };
+	
 /*TODO*///	public static WriteHandlerPtr atarigen_sound_upper_w = new WriteHandlerPtr() { public void handler(int offset, int data)
 /*TODO*///	{
 /*TODO*///		if (!(data & 0xff000000))
 /*TODO*///			timer_set(TIME_NOW, (data >> 8) & 0xff, delayed_sound_w);
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound . main CPU data read handlers
-/*TODO*///	 *
-/*TODO*///	 *	Handles reading data communicated from the sound CPU to the main CPU. Two versions
-/*TODO*///	 *	are provided, one with the data byte in the low 8 bits, and one with the data byte
-/*TODO*///	 *	in the upper 8 bits.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_sound_r = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		atarigen_sound_to_cpu_ready = 0;
-/*TODO*///		atarigen_sound_int_ack_w(0, 0);
-/*TODO*///		return atarigen_sound_to_cpu | 0xff00;
-/*TODO*///	} };
-/*TODO*///	
+	
+	
+	/*
+	 *	Sound . main CPU data read handlers
+	 *
+	 *	Handles reading data communicated from the sound CPU to the main CPU. Two versions
+	 *	are provided, one with the data byte in the low 8 bits, and one with the data byte
+	 *	in the upper 8 bits.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_sound_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		atarigen_sound_to_cpu_ready = 0;
+		atarigen_sound_int_ack_w.handler(0, 0);
+		return atarigen_sound_to_cpu | 0xff00;
+	} };
+	
 /*TODO*///	public static ReadHandlerPtr atarigen_sound_upper_r = new ReadHandlerPtr() { public int handler(int offset)
 /*TODO*///	{
 /*TODO*///		atarigen_sound_to_cpu_ready = 0;
 /*TODO*///		atarigen_sound_int_ack_w(0, 0);
 /*TODO*///		return (atarigen_sound_to_cpu << 8) | 0x00ff;
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound . main CPU data write handler
-/*TODO*///	 *
-/*TODO*///	 *	Handles communication from the sound CPU to the main CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_6502_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		timer_set(TIME_NOW, data, delayed_6502_sound_w);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Main . sound CPU data read handler
-/*TODO*///	 *
-/*TODO*///	 *	Handles reading data communicated from the main CPU to the sound CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_6502_sound_r = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		atarigen_cpu_to_sound_ready = 0;
-/*TODO*///		cpu_set_nmi_line(sound_cpu_num, CLEAR_LINE);
-/*TODO*///		return atarigen_cpu_to_sound;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	6502 IRQ state updater
-/*TODO*///	 *
-/*TODO*///	 *	Called whenever the IRQ state changes. An interrupt is generated if
-/*TODO*///	 *	either atarigen_6502_irq_gen() was called, or if the YM2151 generated
-/*TODO*///	 *	an interrupt via the atarigen_ym2151_irq_gen() callback.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void update_6502_irq(void)
-/*TODO*///	{
-/*TODO*///		if (timed_int || ym2151_int)
-/*TODO*///			cpu_set_irq_line(sound_cpu_num, M6502_INT_IRQ, ASSERT_LINE);
-/*TODO*///		else
-/*TODO*///			cpu_set_irq_line(sound_cpu_num, M6502_INT_IRQ, CLEAR_LINE);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound communications timer
-/*TODO*///	 *
-/*TODO*///	 *	Set whenever a command is written from the main CPU to the sound CPU, in order to
-/*TODO*///	 *	temporarily bump up the interleave rate. This helps ensure that communications
-/*TODO*///	 *	between the two CPUs works properly.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void sound_comm_timer(int reps_left)
-/*TODO*///	{
-/*TODO*///		if (--reps_left)
-/*TODO*///			timer_set(SOUND_INTERLEAVE_RATE, reps_left, sound_comm_timer);
-/*TODO*///	}
 	
+	
+	/*
+	 *	Sound . main CPU data write handler
+	 *
+	 *	Handles communication from the sound CPU to the main CPU.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_6502_sound_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	{
+		timer_set(TIME_NOW, data, delayed_6502_sound_w);
+	} };
+	
+	
+	/*
+	 *	Main . sound CPU data read handler
+	 *
+	 *	Handles reading data communicated from the main CPU to the sound CPU.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_6502_sound_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		atarigen_cpu_to_sound_ready = 0;
+		cpu_set_nmi_line(sound_cpu_num, CLEAR_LINE);
+		return atarigen_cpu_to_sound;
+	} };
+	
+	
+	/*
+	 *	6502 IRQ state updater
+	 *
+	 *	Called whenever the IRQ state changes. An interrupt is generated if
+	 *	either atarigen_6502_irq_gen() was called, or if the YM2151 generated
+	 *	an interrupt via the atarigen_ym2151_irq_gen() callback.
+	 *
+	 */
+	
+	public static void update_6502_irq()
+	{
+		if (timed_int!=0 || ym2151_int!=0)
+			cpu_set_irq_line(sound_cpu_num, M6502_INT_IRQ, ASSERT_LINE);
+		else
+			cpu_set_irq_line(sound_cpu_num, M6502_INT_IRQ, CLEAR_LINE);
+	}
+	
+	
+	/*
+	 *	Sound communications timer
+	 *
+	 *	Set whenever a command is written from the main CPU to the sound CPU, in order to
+	 *	temporarily bump up the interleave rate. This helps ensure that communications
+	 *	between the two CPUs works properly.
+	 *
+	 */
+	
+	static timer_callback sound_comm_timer = new timer_callback() {
+            @Override
+            public void handler(int reps_left) {
+                if ((--reps_left) != 0)
+			timer_set(SOUND_INTERLEAVE_RATE, reps_left, sound_comm_timer);
+            }
+        };
+        
 	
 	/*
 	 *	Sound CPU reset timer
@@ -749,51 +769,54 @@ public class atarigen {
         };
         
 	
-/*TODO*///	/*
-/*TODO*///	 *	Main . sound data write timer
-/*TODO*///	 *
-/*TODO*///	 *	Synchronizes a data write from the main CPU to the sound CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void delayed_sound_w(int param)
-/*TODO*///	{
-/*TODO*///		/* warn if we missed something */
-/*TODO*///		if (atarigen_cpu_to_sound_ready != 0)
-/*TODO*///			if (errorlog != 0) fprintf(errorlog, "Missed command from 68010\n");
-/*TODO*///	
-/*TODO*///		/* set up the states and signal an NMI to the sound CPU */
-/*TODO*///		atarigen_cpu_to_sound = param;
-/*TODO*///		atarigen_cpu_to_sound_ready = 1;
-/*TODO*///		cpu_set_nmi_line(sound_cpu_num, ASSERT_LINE);
-/*TODO*///	
-/*TODO*///		/* allocate a high frequency timer until a response is generated */
-/*TODO*///		/* the main CPU is *very* sensistive to the timing of the response */
-/*TODO*///		timer_set(SOUND_INTERLEAVE_RATE, SOUND_INTERLEAVE_REPEAT, sound_comm_timer);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound . main data write timer
-/*TODO*///	 *
-/*TODO*///	 *	Synchronizes a data write from the sound CPU to the main CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void delayed_6502_sound_w(int param)
-/*TODO*///	{
-/*TODO*///		/* warn if we missed something */
-/*TODO*///		if (atarigen_sound_to_cpu_ready != 0)
-/*TODO*///			if (errorlog != 0) fprintf(errorlog, "Missed result from 6502\n");
-/*TODO*///	
-/*TODO*///		/* set up the states and signal the sound interrupt to the main CPU */
-/*TODO*///		atarigen_sound_to_cpu = param;
-/*TODO*///		atarigen_sound_to_cpu_ready = 1;
-/*TODO*///		atarigen_sound_int_gen();
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	/*
+	 *	Main . sound data write timer
+	 *
+	 *	Synchronizes a data write from the main CPU to the sound CPU.
+	 *
+	 */
+	
+	static timer_callback delayed_sound_w = new timer_callback() {
+            @Override
+            public void handler(int param) {
+                /* warn if we missed something */
+		if (atarigen_cpu_to_sound_ready != 0)
+			if (errorlog != null) fprintf(errorlog, "Missed command from 68010\n");
+	
+		/* set up the states and signal an NMI to the sound CPU */
+		atarigen_cpu_to_sound = param;
+		atarigen_cpu_to_sound_ready = 1;
+		cpu_set_nmi_line(sound_cpu_num, ASSERT_LINE);
+	
+		/* allocate a high frequency timer until a response is generated */
+		/* the main CPU is *very* sensistive to the timing of the response */
+		timer_set(SOUND_INTERLEAVE_RATE, SOUND_INTERLEAVE_REPEAT, sound_comm_timer);
+            }
+        };
+        
+	
+	/*
+	 *	Sound . main data write timer
+	 *
+	 *	Synchronizes a data write from the sound CPU to the main CPU.
+	 *
+	 */
+	
+	static timer_callback delayed_6502_sound_w = new timer_callback() {
+            @Override
+            public void handler(int param) {
+                /* warn if we missed something */
+		if (atarigen_sound_to_cpu_ready != 0)
+			if (errorlog != null) fprintf(errorlog, "Missed result from 6502\n");
+	
+		/* set up the states and signal the sound interrupt to the main CPU */
+		atarigen_sound_to_cpu = param;
+		atarigen_sound_to_cpu_ready = 1;
+		atarigen_sound_int_gen();
+            }
+        };
+        	
+	
 /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		Misc sound helpers
@@ -806,69 +829,69 @@ public class atarigen {
 /*TODO*///			atarigen_set_oki6295_vol - set the volume of the OKI6295
 /*TODO*///	
 /*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* statics */
-/*TODO*///	static UINT8 *speed_a, *speed_b;
-/*TODO*///	static UINT32 speed_pc;
-/*TODO*///	
+	
+	/* statics */
+	static UBytePtr speed_a=new UBytePtr(), speed_b=new UBytePtr();
+	static int speed_pc;
+
 /*TODO*///	/* prototypes */
 /*TODO*///	static public static ReadHandlerPtr m6502_speedup_r = new ReadHandlerPtr() { public int handler(int offset);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	6502 CPU speedup cheat installer
-/*TODO*///	 *
-/*TODO*///	 *	Installs a special read handler to catch the main spin loop in the
-/*TODO*///	 *	6502 sound code. The addresses accessed seem to be the same across
-/*TODO*///	 *	a large number of games, though the PC shifts.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_init_6502_speedup(int cpunum, int compare_pc1, int compare_pc2)
-/*TODO*///	{
-/*TODO*///		UINT8 *memory = memory_region(REGION_CPU1+cpunum);
-/*TODO*///		int address_low, address_high;
-/*TODO*///	
-/*TODO*///		/* determine the pointer to the first speed check location */
-/*TODO*///		address_low = memory[compare_pc1 + 1] | (memory[compare_pc1 + 2] << 8);
-/*TODO*///		address_high = memory[compare_pc1 + 4] | (memory[compare_pc1 + 5] << 8);
-/*TODO*///		if (address_low != address_high - 1)
-/*TODO*///			if (errorlog != 0) fprintf(errorlog, "Error: address %04X does not point to a speedup location!", compare_pc1);
-/*TODO*///		speed_a = &memory[address_low];
-/*TODO*///	
-/*TODO*///		/* determine the pointer to the second speed check location */
-/*TODO*///		address_low = memory[compare_pc2 + 1] | (memory[compare_pc2 + 2] << 8);
-/*TODO*///		address_high = memory[compare_pc2 + 4] | (memory[compare_pc2 + 5] << 8);
-/*TODO*///		if (address_low != address_high - 1)
-/*TODO*///			if (errorlog != 0) fprintf(errorlog, "Error: address %04X does not point to a speedup location!", compare_pc2);
-/*TODO*///		speed_b = &memory[address_low];
-/*TODO*///	
-/*TODO*///		/* install a handler on the second address */
-/*TODO*///		speed_pc = compare_pc2;
-/*TODO*///		install_mem_read_handler(cpunum, address_low, address_low, m6502_speedup_r);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the YM2151 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_ym2151_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
-/*TODO*///			if (name && strstr(name, "2151"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*
+	 *	6502 CPU speedup cheat installer
+	 *
+	 *	Installs a special read handler to catch the main spin loop in the
+	 *	6502 sound code. The addresses accessed seem to be the same across
+	 *	a large number of games, though the PC shifts.
+	 *
+	 */
+	
+	public static void atarigen_init_6502_speedup(int cpunum, int compare_pc1, int compare_pc2)
+	{
+		UBytePtr memory = new UBytePtr(memory_region(REGION_CPU1+cpunum));
+		int address_low, address_high;
+	
+		/* determine the pointer to the first speed check location */
+		address_low = memory.read(compare_pc1 + 1) | (memory.read(compare_pc1 + 2) << 8);
+		address_high = memory.read(compare_pc1 + 4) | (memory.read(compare_pc1 + 5) << 8);
+		if (address_low != address_high - 1)
+			if (errorlog != null) fprintf(errorlog, "Error: address %04X does not point to a speedup location!", compare_pc1);
+		speed_a = new UBytePtr(memory, address_low);
+	
+		/* determine the pointer to the second speed check location */
+		address_low = memory.read(compare_pc2 + 1) | (memory.read(compare_pc2 + 2) << 8);
+		address_high = memory.read(compare_pc2 + 4) | (memory.read(compare_pc2 + 5) << 8);
+		if (address_low != address_high - 1)
+			if (errorlog != null) fprintf(errorlog, "Error: address %04X does not point to a speedup location!", compare_pc2);
+		speed_b = new UBytePtr(memory, address_low);
+	
+		/* install a handler on the second address */
+		speed_pc = compare_pc2;
+		install_mem_read_handler(cpunum, address_low, address_low, m6502_speedup_r);
+	};
+	
+	
+	/*
+	 *	Set the YM2151 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_ym2151_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
+			if (name!=null && name.equals("2151"))
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
 /*TODO*///	/*
 /*TODO*///	 *	Set the YM2413 volume
 /*TODO*///	 *
@@ -887,88 +910,88 @@ public class atarigen {
 /*TODO*///				mixer_set_volume(ch, volume);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the POKEY volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_pokey_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
-/*TODO*///			if (name && strstr(name, "POKEY"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the TMS5220 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_tms5220_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
-/*TODO*///			if (name && strstr(name, "5220"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the OKI6295 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_oki6295_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
-/*TODO*///			if (name && strstr(name, "6295"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Generic 6502 CPU speedup handler
-/*TODO*///	 *
-/*TODO*///	 *	Special shading renderer that runs any pixels under pen 1 through a lookup table.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static public static ReadHandlerPtr m6502_speedup_r = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		int result = speed_b[0];
-/*TODO*///	
-/*TODO*///		if (cpu_getpreviouspc() == speed_pc && speed_a[0] == speed_a[1] && result == speed_b[1])
-/*TODO*///			cpu_spinuntil_int();
-/*TODO*///	
-/*TODO*///		return result;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*
+	 *	Set the POKEY volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_pokey_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
+			if (name!=null && name.equals("POKEY"))
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Set the TMS5220 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_tms5220_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
+			if (name!=null && name.equals("5220"))
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Set the OKI6295 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_oki6295_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
+			if (name!=null && name.equals("6295"))
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Generic 6502 CPU speedup handler
+	 *
+	 *	Special shading renderer that runs any pixels under pen 1 through a lookup table.
+	 *
+	 */
+	
+	public static ReadHandlerPtr m6502_speedup_r = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		int result = speed_b.read(0);
+	
+		if (cpu_getpreviouspc() == speed_pc && speed_a.read(0) == speed_a.read(1) && result == speed_b.read(1))
+			cpu_spinuntil_int();
+	
+		return result;
+	} };
+	
+	
+	
+	
 /*TODO*///	/***********************************************************************************************/
 /*TODO*///	/***********************************************************************************************/
 /*TODO*///	/***********************************************************************************************/
@@ -1287,35 +1310,35 @@ public class atarigen {
      atarigen_mo_process - processes the current list
 	
      --------------------------------------------------------------------------*/
-    /*TODO*///	
-/*TODO*///	/* statics */
-/*TODO*///	static struct atarigen_mo_desc modesc;
-/*TODO*///	
-/*TODO*///	static UINT16 *molist;
-/*TODO*///	static UINT16 *molist_end;
-/*TODO*///	static UINT16 *molist_last;
-/*TODO*///	static UINT16 *molist_upper_bound;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Motion object render initialization
-/*TODO*///	 *
-/*TODO*///	 *	Allocates memory for the motion object display cache.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
+    	
+	/* statics */
+	static atarigen_mo_desc modesc=new atarigen_mo_desc();
+
+	static UShortPtr molist=null;
+	static UShortPtr molist_end=null;
+	static UShortPtr molist_last=null;
+	static UShortPtr molist_upper_bound=null;
+
+
+	/*
+	 *	Motion object render initialization
+	 *
+	 *	Allocates memory for the motion object display cache.
+	 *
+	 */
+	
     public static int atarigen_mo_init(atarigen_mo_desc source_desc) {
-        /*TODO*///		modesc = *source_desc;
-/*TODO*///		if (modesc.entrywords == 0) modesc.entrywords = 4;
-/*TODO*///		modesc.entrywords++;
+        modesc = source_desc;
+	if (modesc.entrywords == 0) modesc.entrywords = 4;
+	modesc.entrywords++;
 
         /* make sure everything is free */
-        /*TODO*///		atarigen_mo_free();
+        atarigen_mo_free();
         /* allocate memory for the cached list */
-        /*TODO*///		molist = malloc(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
-/*TODO*///		if (!molist)
-/*TODO*///			return 1;
-/*TODO*///		molist_upper_bound = molist + (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8));
+        molist = new UShortPtr(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
+	if (molist==null)
+            return 1;
+	molist_upper_bound = new UShortPtr(molist, (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8)));
         /* initialize the end/last pointers */
         atarigen_mo_reset();
 
@@ -1344,183 +1367,192 @@ public class atarigen {
 /*TODO*///	 */
 
     public static void atarigen_mo_reset() {
-        /*TODO*///		molist_end = molist;
-/*TODO*///		molist_last = NULL;
+       		molist_end = molist;
+		molist_last = null;
     }
-    /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Motion object updater
-/*TODO*///	 *
-/*TODO*///	 *	Parses the current motion object list, caching all entries.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_mo_update(const UINT8 *base, int link, int scanline)
-/*TODO*///	{
-/*TODO*///		int entryskip = modesc.entryskip, wordskip = modesc.wordskip, wordcount = modesc.entrywords - 1;
-/*TODO*///		UINT8 spritevisit[ATARIGEN_MAX_MAXCOUNT];
-/*TODO*///		UINT16 *data, *data_start, *prev_data;
-/*TODO*///		int match = 0;
-/*TODO*///	
-/*TODO*///		/* set up local pointers */
-/*TODO*///		data_start = data = molist_end;
-/*TODO*///		prev_data = molist_last;
-/*TODO*///	
-/*TODO*///		/* if the last list entries were on the same scanline, overwrite them */
-/*TODO*///		if (prev_data != 0)
-/*TODO*///		{
-/*TODO*///			if (*prev_data == scanline)
-/*TODO*///				data_start = data = prev_data;
-/*TODO*///			else
-/*TODO*///				match = 1;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* visit all the sprites and copy their data into the display list */
-/*TODO*///		memset(spritevisit, 0, modesc.linkmask + 1);
-/*TODO*///		while (!spritevisit[link])
-/*TODO*///		{
-/*TODO*///			const UINT8 *modata = &base[link * entryskip];
-/*TODO*///			UINT16 tempdata[16];
-/*TODO*///			int temp, i;
-/*TODO*///	
-/*TODO*///			/* bounds checking */
-/*TODO*///			if (data >= molist_upper_bound)
-/*TODO*///			{
-/*TODO*///				if (errorlog != 0) fprintf(errorlog, "Motion object list exceeded maximum\n");
-/*TODO*///				break;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* start with the scanline */
-/*TODO*///			*data++ = scanline;
-/*TODO*///	
-/*TODO*///			/* add the data words */
-/*TODO*///			for (i = temp = 0; i < wordcount; i++, temp += wordskip)
-/*TODO*///				tempdata[i] = *data++ = READ_WORD(&modata[temp]);
-/*TODO*///	
-/*TODO*///			/* is this one to ignore? (note that ignore is predecremented by 4) */
-/*TODO*///			if (tempdata[modesc.ignoreword] == 0xffff)
-/*TODO*///				data -= wordcount + 1;
-/*TODO*///	
-/*TODO*///			/* update our match status */
-/*TODO*///			else if (match != 0)
-/*TODO*///			{
-/*TODO*///				prev_data++;
-/*TODO*///				for (i = 0; i < wordcount; i++)
-/*TODO*///					if (*prev_data++ != tempdata[i])
-/*TODO*///					{
-/*TODO*///						match = 0;
-/*TODO*///						break;
-/*TODO*///					}
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* link to the next object */
-/*TODO*///			spritevisit[link] = 1;
-/*TODO*///			if (modesc.linkword >= 0)
-/*TODO*///				link = (tempdata[modesc.linkword] >> modesc.linkshift) & modesc.linkmask;
-/*TODO*///			else
-/*TODO*///				link = (link + 1) & modesc.linkmask;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* if we didn't match the last set of entries, update the counters */
-/*TODO*///		if (!match)
-/*TODO*///		{
-/*TODO*///			molist_end = data;
-/*TODO*///			molist_last = data_start;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Motion object updater using SLIPs
-/*TODO*///	 *
-/*TODO*///	 *	Updates motion objects using a SLIP read from a table, assuming a 512-pixel high playfield.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
+    	
+	
+	/*
+	 *	Motion object updater
+	 *
+	 *	Parses the current motion object list, caching all entries.
+	 *
+	 */
+	
+	public static void atarigen_mo_update(UBytePtr base, int link, int scanline)
+	{
+		int entryskip = modesc.entryskip, wordskip = modesc.wordskip, wordcount = modesc.entrywords - 1;
+		int[] spritevisit=new int[ATARIGEN_MAX_MAXCOUNT];
+		UShortPtr data, data_start, prev_data;
+		int match = 0;
+	
+		/* set up local pointers */
+		data_start = data = molist_end;
+                
+		prev_data = molist_last;
+                
+                /* if the last list entries were on the same scanline, overwrite them */
+		if (prev_data != null)
+		{
+                    prev_data.offset=0;
+			if (prev_data.read(0) == scanline)
+				data_start = data = prev_data;
+			else
+				match = 1;
+		}
+	
+		/* visit all the sprites and copy their data into the display list */
+		memset(spritevisit, 0, modesc.linkmask + 1);
+		while (spritevisit[link]==0)
+		{
+			UBytePtr modata = new UBytePtr(base, link * entryskip);
+			int[] tempdata=new int[16];
+			int temp, i;
+	
+			/* bounds checking */
+			if (data.offset >= molist_upper_bound.offset)
+			{
+				if (errorlog != null) fprintf(errorlog, "Motion object list exceeded maximum\n");
+				break;
+			}
+	
+			/* start with the scanline */
+			data.write(0, (char) scanline);
+                        data.inc(1);
+	
+			/* add the data words */
+			for (i = temp = 0; i < wordcount; i++, temp += wordskip){
+				tempdata[i] = modata.READ_WORD(temp);
+                                data.write(0, (char) modata.READ_WORD(temp));
+                                data.inc(1);
+                        }
+	
+			/* is this one to ignore? (note that ignore is predecremented by 4) */
+			if (tempdata[modesc.ignoreword] == 0xffff){
+				data.offset -= wordcount + 1;
+                        }
+	
+			/* update our match status */
+			else if (match != 0)
+			{
+				prev_data.inc(1);
+				for (i = 0; i < wordcount; i++)
+					if (prev_data.read(prev_data.offset++) != tempdata[i])
+					{                                                
+						match = 0;
+						break;
+					}
+			}
+	
+			/* link to the next object */
+			spritevisit[link] = 1;
+			if (modesc.linkword >= 0)
+				link = (tempdata[modesc.linkword] >> modesc.linkshift) & modesc.linkmask;
+			else
+				link = (link + 1) & modesc.linkmask;
+		}
+	
+		/* if we didn't match the last set of entries, update the counters */
+		if (match==0)
+		{
+			molist_end = data;
+			molist_last = data_start;
+		}
+	}
+	
+	
+	/*
+	 *	Motion object updater using SLIPs
+	 *
+	 *	Updates motion objects using a SLIP read from a table, assuming a 512-pixel high playfield.
+	 *
+	 */
+	
 
-    public static void atarigen_mo_update_slip_512(UBytePtr base, int scroll, int scanline, UBytePtr slips) {
-        /*TODO*///		/* catch a fractional character off the top of the screen */
-/*TODO*///		if (scanline == 0 && (scroll & 7) != 0)
-/*TODO*///		{
-/*TODO*///			int pfscanline = scroll & 0x1f8;
-/*TODO*///			int link = (READ_WORD(&slips[2 * (pfscanline / 8)]) >> modesc.linkshift) & modesc.linkmask;
-/*TODO*///			atarigen_mo_update(base, link, 0);
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* if we're within screen bounds, grab the next batch of MO's and process */
-/*TODO*///		if (scanline < Machine.drv.screen_height)
-/*TODO*///		{
-/*TODO*///			int pfscanline = (scanline + scroll + 7) & 0x1f8;
-/*TODO*///			int link = (READ_WORD(&slips[2 * (pfscanline / 8)]) >> modesc.linkshift) & modesc.linkmask;
-/*TODO*///			atarigen_mo_update(base, link, (pfscanline - scroll) & 0x1ff);
-/*TODO*///		}
-    }
-    /*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Motion object processor
-/*TODO*///	 *
-/*TODO*///	 *	Processes the cached motion object entries.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_mo_process(atarigen_mo_callback callback, void *param)
-/*TODO*///	{
-/*TODO*///		UINT16 *base = molist;
-/*TODO*///		int last_start_scan = -1;
-/*TODO*///		struct rectangle clip;
-/*TODO*///	
-/*TODO*///		/* create a clipping rectangle so that only partial sections are updated at a time */
-/*TODO*///		clip.min_x = 0;
-/*TODO*///		clip.max_x = Machine.drv.screen_width - 1;
-/*TODO*///	
-/*TODO*///		/* loop over the list until the end */
-/*TODO*///		while (base < molist_end)
-/*TODO*///		{
-/*TODO*///			UINT16 *data, *first, *last;
-/*TODO*///			int start_scan = base[0], step;
-/*TODO*///	
-/*TODO*///			last_start_scan = start_scan;
-/*TODO*///			clip.min_y = start_scan;
-/*TODO*///	
-/*TODO*///			/* look for an entry whose scanline start is different from ours; that's our bottom */
-/*TODO*///			for (data = base; data < molist_end; data += modesc.entrywords)
-/*TODO*///				if (*data != start_scan)
-/*TODO*///				{
-/*TODO*///					clip.max_y = *data;
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///			/* if we didn't find any additional regions, go until the bottom of the screen */
-/*TODO*///			if (data == molist_end)
-/*TODO*///				clip.max_y = Machine.drv.screen_height - 1;
-/*TODO*///	
-/*TODO*///			/* set the start and end points */
-/*TODO*///			if (modesc.reverse)
-/*TODO*///			{
-/*TODO*///				first = data - modesc.entrywords;
-/*TODO*///				last = base - modesc.entrywords;
-/*TODO*///				step = -modesc.entrywords;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				first = base;
-/*TODO*///				last = data;
-/*TODO*///				step = modesc.entrywords;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* update the base */
-/*TODO*///			base = data;
-/*TODO*///	
-/*TODO*///			/* render the mos */
-/*TODO*///			for (data = first; data != last; data += step)
-/*TODO*///				(*callback)(&data[1], &clip, param);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+        public static void atarigen_mo_update_slip_512(UBytePtr base, int scroll, int scanline, UBytePtr slips) 
+        {
+                    /* catch a fractional character off the top of the screen */
+                    if (scanline == 0 && (scroll & 7) != 0)
+                    {
+                            int pfscanline = scroll & 0x1f8;
+                            int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;
+                            atarigen_mo_update(base, link, 0);
+                    }
+
+                    /* if we're within screen bounds, grab the next batch of MO's and process */
+                    if (scanline < Machine.drv.screen_height)
+                    {
+                            int pfscanline = (scanline + scroll + 7) & 0x1f8;
+                            int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;
+                            atarigen_mo_update(base, link, (pfscanline - scroll) & 0x1ff);
+                    }
+        }
+    	
+	
+	/*
+	 *	Motion object processor
+	 *
+	 *	Processes the cached motion object entries.
+	 *
+	 */
+	
+	public static void atarigen_mo_process(atarigen_mo_callback callback, Object param)
+	{
+		UShortPtr base = new UShortPtr(molist);
+		int last_start_scan = -1;
+		rectangle clip=new rectangle();
+	
+		/* create a clipping rectangle so that only partial sections are updated at a time */
+		clip.min_x = 0;
+		clip.max_x = Machine.drv.screen_width - 1;
+	
+		/* loop over the list until the end */
+		while (base.offset < molist_end.offset)
+		{
+			UShortPtr data=new UShortPtr (), first=new UShortPtr (), last=new UShortPtr ();
+			int start_scan = base.read(0);
+                        int step;
+	
+			last_start_scan = start_scan;
+			clip.min_y = start_scan;
+	
+			/* look for an entry whose scanline start is different from ours; that's our bottom */
+			for (data = base; data.offset < molist_end.offset; data.inc( modesc.entrywords ))
+				if (data.read(0) != start_scan)
+				{
+					clip.max_y = data.read(0);
+					break;
+				}
+	
+			/* if we didn't find any additional regions, go until the bottom of the screen */
+			if (data == molist_end)
+				clip.max_y = Machine.drv.screen_height - 1;
+	
+			/* set the start and end points */
+			if (modesc.reverse != 0)
+			{
+				first = new UShortPtr(data, data.offset - modesc.entrywords);
+				last = new UShortPtr(base, base.offset - modesc.entrywords);
+				step = -modesc.entrywords;
+			}
+			else
+			{
+				first = base;
+				last = data;
+				step = modesc.entrywords;
+			}
+	
+			/* update the base */
+			base = data;
+	
+			/* render the mos */
+			for (data = first; data != last; data.inc(step))
+				(callback).handler(new UShortPtr(data, 1), clip, param);
+		}
+	}
+	
+	
+	
 /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		RLE Motion object rendering/decoding
@@ -2612,11 +2644,11 @@ public class atarigen {
      --------------------------------------------------------------------------*/
 
     /* types */
-    public static class playfield_data {
+    static class playfield_data {
 
         public osd_bitmap bitmap;
-        public char[] dirty;
-        public char[] visit;
+        public UBytePtr dirty=new UBytePtr();
+        public UBytePtr visit=new UBytePtr();
 
         public int tilewidth;
         public int tileheight;
@@ -2633,20 +2665,20 @@ public class atarigen {
 
     /* globals */
     public static osd_bitmap atarigen_pf_bitmap;
-    public static char[] atarigen_pf_dirty;
-    public static char[] atarigen_pf_visit;
-    /*TODO*///	
-/*TODO*///	struct osd_bitmap *atarigen_pf2_bitmap;
-/*TODO*///	UINT8 *atarigen_pf2_dirty;
-/*TODO*///	UINT8 *atarigen_pf2_visit;
-/*TODO*///	
-    static osd_bitmap atarigen_pf_overrender_bitmap;
-    /*TODO*///	UINT16 atarigen_overrender_colortable[32];
-/*TODO*///	
-/*TODO*///	/* statics */
+    public static UBytePtr atarigen_pf_dirty = new UBytePtr();
+    public static UBytePtr atarigen_pf_visit = new UBytePtr();
+    
+    public static osd_bitmap atarigen_pf2_bitmap;
+    public static UBytePtr atarigen_pf2_dirty = new UBytePtr();
+    public static UBytePtr atarigen_pf2_visit = new UBytePtr();
+
+    public static osd_bitmap atarigen_pf_overrender_bitmap;
+    public static int[] atarigen_overrender_colortable=new int[32];
+
+	/* statics */
     static playfield_data playfield = new playfield_data();
-    /*TODO*///	static struct playfield_data playfield2;
-/*TODO*///	
+    static playfield_data playfield2 = new playfield_data();
+
 
     /*
      *	Playfield render initialization
@@ -2670,7 +2702,7 @@ public class atarigen {
         }
 
         /* allocate the dirty tile map */
-        pf.dirty = new char[source_desc.xtiles * source_desc.ytiles];
+        pf.dirty = new UBytePtr(source_desc.xtiles * source_desc.ytiles);
         if (pf.dirty == null) {
             internal_pf_free(pf);
             return 1;
@@ -2678,7 +2710,7 @@ public class atarigen {
         memset(pf.dirty, 0xff, source_desc.xtiles * source_desc.ytiles);
 
         /* allocate the visitation map */
-        pf.visit = new char[source_desc.xtiles * source_desc.ytiles];
+        pf.visit = new UBytePtr(source_desc.xtiles * source_desc.ytiles);
         if (pf.visit == null) {
             internal_pf_free(pf);
             return 1;
@@ -2734,19 +2766,19 @@ public class atarigen {
         return result;
     }
 
-    /*TODO*///	int atarigen_pf2_init(const struct atarigen_pf_desc *source_desc)
-/*TODO*///	{
-/*TODO*///		int result = internal_pf_init(&playfield2, source_desc);
-/*TODO*///		if (!result)
-/*TODO*///		{
-/*TODO*///			atarigen_pf2_bitmap = playfield2.bitmap;
-/*TODO*///			atarigen_pf2_dirty = playfield2.dirty;
-/*TODO*///			atarigen_pf2_visit = playfield2.visit;
-/*TODO*///		}
-/*TODO*///		return result;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+    	public static int atarigen_pf2_init(atarigen_pf_desc source_desc)
+	{
+		int result = internal_pf_init(playfield2, source_desc);
+		if (result==0)
+		{
+			atarigen_pf2_bitmap = playfield2.bitmap;
+			atarigen_pf2_dirty = playfield2.dirty;
+			atarigen_pf2_visit = playfield2.visit;
+		}
+		return result;
+	}
+	
+	
 	/*
      *	Playfield render free
      *
@@ -2776,20 +2808,20 @@ public class atarigen {
     }
 
     public static void atarigen_pf_free() {
-        /*TODO*///		internal_pf_free(&playfield);
-/*TODO*///	
-/*TODO*///		/* free the overrender bitmap */
-/*TODO*///		if (atarigen_pf_overrender_bitmap != 0)
-/*TODO*///			osd_free_bitmap(atarigen_pf_overrender_bitmap);
-/*TODO*///		atarigen_pf_overrender_bitmap = NULL;
+        	internal_pf_free(playfield);
+	
+		/* free the overrender bitmap */
+		if (atarigen_pf_overrender_bitmap != null)
+			osd_free_bitmap(atarigen_pf_overrender_bitmap);
+		atarigen_pf_overrender_bitmap = null;
     }
-    /*TODO*///	
-/*TODO*///	void atarigen_pf2_free(void)
-/*TODO*///	{
-/*TODO*///		internal_pf_free(&playfield2);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+    	
+    public static void atarigen_pf2_free()
+    {
+            internal_pf_free(playfield2);
+    }
+	
+	
 	/*
      *	Playfield render reset
      *
@@ -2855,11 +2887,11 @@ public class atarigen {
 		internal_pf_update(playfield, state, scanline);
 	}
 	
-/*TODO*///	void atarigen_pf2_update(const struct atarigen_pf_state *state, int scanline)
-/*TODO*///	{
-/*TODO*///		internal_pf_update(&playfield2, state, scanline);
-/*TODO*///	}
-/*TODO*///	
+	public static void atarigen_pf2_update(atarigen_pf_state state, int scanline)
+	{
+		internal_pf_update(playfield2, state, scanline);
+	}
+	
 
     /*
      *	Playfield render process
@@ -2913,11 +2945,11 @@ public class atarigen {
 		internal_pf_process(playfield, callback, param, clip);
 	}
 	
-/*TODO*///	void atarigen_pf2_process(atarigen_pf_callback callback, void *param, const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		internal_pf_process(&playfield2, callback, param, clip);
-/*TODO*///	}
-/*TODO*///	
+	public static void atarigen_pf2_process(atarigen_pf_callbackPtr callback, Object param, rectangle clip)
+	{
+		internal_pf_process(playfield2, callback, param, clip);
+	}
+	
 
     /*
      *	Shift value computer
@@ -3024,7 +3056,7 @@ public class atarigen {
             int newword = COMBINE_WORD(oldword, data);
             paletteram.WRITE_WORD(offset, newword);
 
-            {
+            
                 int r, g, b;
 
                 r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
@@ -3036,7 +3068,7 @@ public class atarigen {
                 b = (b << 2) | (b >> 4);
 
                 palette_change_color(offset / 2, r, g, b);
-            }
+            
         }
     };
 
@@ -3095,11 +3127,11 @@ public class atarigen {
 /*TODO*///			atarigen_update_messages - update messages
 /*TODO*///	
 /*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* statics */
-/*TODO*///	static char *message_text[10];
-/*TODO*///	static int message_countdown;
-/*TODO*///	
+
+	/* statics */
+	static String[] message_text = new String[10];
+	static int message_countdown;
+
 /*TODO*///	/*
 /*TODO*///	 *	Display a warning message about slapstic protection
 /*TODO*///	 *
@@ -3116,89 +3148,89 @@ public class atarigen {
 /*TODO*///		message_text[4] = NULL;
 /*TODO*///		message_countdown = 15 * Machine.drv.frames_per_second;
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Display a warning message about sound being disabled
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_show_sound_message(void)
-/*TODO*///	{
-/*TODO*///		if (Machine.sample_rate == 0)
-/*TODO*///		{
-/*TODO*///			message_text[0] = "This game may have trouble accepting";
-/*TODO*///			message_text[1] = "coins, or may even behave strangely,";
-/*TODO*///			message_text[2] = "because you have disabled sound.";
-/*TODO*///			message_text[3] = NULL;
-/*TODO*///			message_countdown = 15 * Machine.drv.frames_per_second;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Update on-screen messages
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_update_messages(void)
-/*TODO*///	{
-/*TODO*///		if (message_countdown && message_text[0])
-/*TODO*///		{
-/*TODO*///			int maxwidth = 0;
-/*TODO*///			int lines, x, y, i, j;
-/*TODO*///	
-/*TODO*///			/* first count lines and determine the maximum width */
-/*TODO*///			for (lines = 0; lines < 10; lines++)
-/*TODO*///			{
-/*TODO*///				if (!message_text[lines]) break;
-/*TODO*///				x = strlen(message_text[lines]);
-/*TODO*///				if (x > maxwidth) maxwidth = x;
-/*TODO*///			}
-/*TODO*///			maxwidth += 2;
-/*TODO*///	
-/*TODO*///			/* determine y offset */
-/*TODO*///			x = (Machine.uiwidth - Machine.uifontwidth * maxwidth) / 2;
-/*TODO*///			y = (Machine.uiheight - Machine.uifontheight * (lines + 2)) / 2;
-/*TODO*///	
-/*TODO*///			/* draw a row of spaces at the top and bottom */
-/*TODO*///			for (i = 0; i < maxwidth; i++)
-/*TODO*///			{
-/*TODO*///				ui_text(" ", x + i * Machine.uifontwidth, y);
-/*TODO*///				ui_text(" ", x + i * Machine.uifontwidth, y + (lines + 1) * Machine.uifontheight);
-/*TODO*///			}
-/*TODO*///			y += Machine.uifontheight;
-/*TODO*///	
-/*TODO*///			/* draw the message */
-/*TODO*///			for (i = 0; i < lines; i++)
-/*TODO*///			{
-/*TODO*///				int width = strlen(message_text[i]) * Machine.uifontwidth;
-/*TODO*///				int dx = (Machine.uifontwidth * maxwidth - width) / 2;
-/*TODO*///	
-/*TODO*///				for (j = 0; j < dx; j += Machine.uifontwidth)
-/*TODO*///				{
-/*TODO*///					ui_text(" ", x + j, y);
-/*TODO*///					ui_text(" ", x + (maxwidth - 1) * Machine.uifontwidth - j, y);
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				ui_text(message_text[i], x + dx, y);
-/*TODO*///				y += Machine.uifontheight;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* decrement the counter */
-/*TODO*///			message_countdown--;
-/*TODO*///	
-/*TODO*///			/* if a coin is inserted, make the message go away */
-/*TODO*///			if (keyboard_pressed(KEYCODE_3) || keyboard_pressed(KEYCODE_4))
-/*TODO*///				message_countdown = 0;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///			message_text[0] = NULL;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*
+	 *	Display a warning message about sound being disabled
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_show_sound_message()
+	{
+		if (Machine.sample_rate == 0)
+		{
+			message_text[0] = "This game may have trouble accepting";
+			message_text[1] = "coins, or may even behave strangely,";
+			message_text[2] = "because you have disabled sound.";
+			message_text[3] = null;
+			message_countdown = 15 * Machine.drv.frames_per_second;
+		}
+	}
+	
+	
+	/*
+	 *	Update on-screen messages
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_update_messages()
+	{
+		if (message_countdown!=0 && message_text[0]!=null)
+		{
+			int maxwidth = 0;
+			int lines, x, y, i, j;
+	
+			/* first count lines and determine the maximum width */
+			for (lines = 0; lines < 10; lines++)
+			{
+				if (message_text[lines]==null) break;
+				x = strlen(message_text[lines]);
+				if (x > maxwidth) maxwidth = x;
+			}
+			maxwidth += 2;
+	
+			/* determine y offset */
+			x = (Machine.uiwidth - Machine.uifontwidth * maxwidth) / 2;
+			y = (Machine.uiheight - Machine.uifontheight * (lines + 2)) / 2;
+	
+			/* draw a row of spaces at the top and bottom */
+			for (i = 0; i < maxwidth; i++)
+			{
+				ui_text(" ", x + i * Machine.uifontwidth, y);
+				ui_text(" ", x + i * Machine.uifontwidth, y + (lines + 1) * Machine.uifontheight);
+			}
+			y += Machine.uifontheight;
+	
+			/* draw the message */
+			for (i = 0; i < lines; i++)
+			{
+				int width = strlen(message_text[i]) * Machine.uifontwidth;
+				int dx = (Machine.uifontwidth * maxwidth - width) / 2;
+	
+				for (j = 0; j < dx; j += Machine.uifontwidth)
+				{
+					ui_text(" ", x + j, y);
+					ui_text(" ", x + (maxwidth - 1) * Machine.uifontwidth - j, y);
+				}
+	
+				ui_text(message_text[i], x + dx, y);
+				y += Machine.uifontheight;
+			}
+	
+			/* decrement the counter */
+			message_countdown--;
+	
+			/* if a coin is inserted, make the message go away */
+			if (keyboard_pressed_memory(KEYCODE_3)!=0 || keyboard_pressed_memory(KEYCODE_4)!=0)
+				message_countdown = 0;
+		}
+		else
+			message_text[0] = null;
+	}
+	
+	
 }

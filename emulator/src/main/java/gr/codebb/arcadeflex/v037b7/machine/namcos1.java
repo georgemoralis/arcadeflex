@@ -1063,7 +1063,9 @@ public class namcos1
 		int i;
 		for(i=start;i<=end;i++)
 		{
-			namcos1_bank_element[i].bank_handler_r = hr;
+			namcos1_bank_element[i] = new bankhandler();
+                        
+                        namcos1_bank_element[i].bank_handler_r = hr;
 			namcos1_bank_element[i].bank_handler_w = hw;
 			namcos1_bank_element[i].bank_offset    = offset;
 			namcos1_bank_element[i].bank_pointer   = pointer;
