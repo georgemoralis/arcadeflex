@@ -20,7 +20,7 @@ public class drawgfx {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///UINT8 gfx_drawmode_table[256];
+    public static int[] gfx_drawmode_table=new int[256];
     public static plot_pixel_procPtr plot_pixel;
     public static read_pixel_procPtr read_pixel;
 /*TODO*///

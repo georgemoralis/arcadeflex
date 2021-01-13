@@ -35,9 +35,9 @@ public class tilemapH {
     	tile_priority value to specify the part to draw.
     */
     
-    /*TODO*///#define TILEMAP_BITMASK_TRANSPARENT (0)
-    /*TODO*///#define TILEMAP_BITMAK_OPAQUE       ((unsigned char *)-1)
-    /*TODO*///
+    public static int TILEMAP_BITMASK_TRANSPARENT = (0);
+    public static int TILEMAP_BITMASK_OPAQUE = (-1);
+    
     public static class _tile_info {
     	public UBytePtr pen_data; /* pointer to gfx data */
     	public UShortArray pal_data; /* pointer to palette */
