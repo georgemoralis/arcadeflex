@@ -1,3 +1,7 @@
+13/01/2021
+==========
+-Qsound appears to work
+
 12/01/2021
 ==========
 -Added magmax driver

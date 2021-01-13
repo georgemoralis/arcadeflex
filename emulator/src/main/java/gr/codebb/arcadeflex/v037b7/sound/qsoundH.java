@@ -1,9 +1,8 @@
-package gr.codebb.arcadeflex.v036.sound;
+package gr.codebb.arcadeflex.v037b7.sound;
 
 public class qsoundH {
 
     public static final int QSOUND_CLOCK = 4000000;   /* default 4MHz clock */
-
 
     public static class QSound_interface {
 
@@ -12,12 +11,8 @@ public class qsoundH {
             this.region = region;
             this.mixing_level = mixing_level;
         }
-        int clock;					/* clock */
-
-        int region;					/* memory region of sample ROM(s) */
-
+        int clock;/* clock */
+        int region;/* memory region of sample ROM(s) */
         int[] mixing_level;		/* volume */
-
-    };
-
+    }
 }

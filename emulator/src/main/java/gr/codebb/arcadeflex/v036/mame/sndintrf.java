@@ -29,7 +29,7 @@ import gr.codebb.arcadeflex.v036.sound._2151intf;
 import gr.codebb.arcadeflex.v036.sound.pokey;
 import gr.codebb.arcadeflex.v036.sound.upd7759;
 import gr.codebb.arcadeflex.v036.sound.k053260;
-import gr.codebb.arcadeflex.v036.sound.qsound;
+import gr.codebb.arcadeflex.v037b7.sound.qsound;
 import gr.codebb.arcadeflex.v037b7.sound._2610intf;
 import gr.codebb.arcadeflex.v036.sound.k005289;
 import gr.codebb.arcadeflex.v036.sound.nes_apu;
