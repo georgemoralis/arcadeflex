@@ -2,6 +2,7 @@
 ==========
 -Ported bwidow, tempest, foodf, mhavoc, bzone and quantum to 0.37b7
 -Added some 68000 opcodes for batman and shuuz
+-Added sega and segar drivers
 
 13/01/2021
 ==========

@@ -241,6 +241,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bwidow.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.quantum.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.foodf.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.sega.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.segar.*;
 
 public class driver {
 
@@ -1918,24 +1920,24 @@ public class driver {
                 /*TODO*/ //	DRIVER( heiankyo )	/* (c) [1979?] Denki Onkyo */
 
                 /* Sega G-80 vector games */
-                /*TODO*/ //	DRIVER( spacfury )	/* (c) 1981 */
-                /*TODO*/ //	DRIVER( spacfura )	/* no copyright notice */
-                /*TODO*/ //	DRIVER( zektor )	/* (c) 1982 */
-                /*TODO*/ //	DRIVER( tacscan )	/* (c) */
-                /*TODO*/ //	DRIVER( elim2 )		/* (c) 1981 Gremlin */
-                /*TODO*/ //	DRIVER( elim2a )	/* (c) 1981 Gremlin */
-                /*TODO*/ //	DRIVER( elim4 )		/* (c) 1981 Gremlin */
-                /*TODO*/ //	DRIVER( startrek )	/* (c) 1982 */
+                driver_spacfury,	/* (c) 1981 */
+                driver_spacfura,	/* no copyright notice */
+                driver_zektor,          /* (c) 1982 */
+                driver_tacscan,         /* (c) */
+                driver_elim2,		/* (c) 1981 Gremlin */
+                driver_elim2a,          /* (c) 1981 Gremlin */
+                driver_elim4,		/* (c) 1981 Gremlin */
+                driver_startrek,	/* (c) 1982 */
 
                 /* Sega G-80 raster games */
-                /*TODO*/ //	DRIVER( astrob )	/* (c) 1981 */
-                /*TODO*/ //	DRIVER( astrob1 )	/* (c) 1981 */
-                /*TODO*/ //	DRIVER( 005 )		/* (c) 1981 */
-                /*TODO*/ //	DRIVER( monsterb )	/* (c) 1982 */
-                /*TODO*/ //	DRIVER( spaceod )	/* (c) 1981 */
-                /*TODO*/ //	DRIVER( pignewt )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( pignewta )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( sindbadm )	/* 834-5244 (c) 1983 Sega */
+                driver_astrob,	/* (c) 1981 */
+                driver_astrob1,	/* (c) 1981 */
+                driver_005,		/* (c) 1981 */
+                driver_monsterb,	/* (c) 1982 */
+                driver_spaceod,	/* (c) 1981 */
+                driver_pignewt,	/* (c) 1983 */
+                driver_pignewta,	/* (c) 1983 */
+                driver_sindbadm,	/* 834-5244 (c) 1983 Sega */
 
                 /* other Sega 8-bit games */
                 /*TODO*/ //	DRIVER( turbo )		/* (c) 1981 Sega */

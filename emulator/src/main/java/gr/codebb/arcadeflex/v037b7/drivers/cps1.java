@@ -70,7 +70,7 @@ public class cps1
 	
 	public static WriteHandlerPtr cps1_snd_bankswitch_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
-		UBytePtr RAM = memory_region(REGION_CPU2);
+		UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU2));
 		int length = memory_region_length(REGION_CPU2) - 0x10000;
 		int bankaddr;
 	
@@ -196,7 +196,7 @@ public class cps1
 	
 	public static ReadHandlerPtr qsound_rom_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
-		UBytePtr rom = memory_region(REGION_USER1);
+		UBytePtr rom = new UBytePtr(memory_region(REGION_USER1));
 	
 		if (rom != null) return rom.read(offset / 2) | 0xff00;
 		else
@@ -232,7 +232,7 @@ public class cps1
 		Z80 bank register for music note data. It's odd that it isn't encrypted
 		though.
 		*/
-		UBytePtr RAM = memory_region(REGION_CPU2);
+		UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU2));
 		int bankaddress=0x10000+((data&0x0f)*0x4000);
 		if (bankaddress >= memory_region_length(REGION_CPU2))
 		{
@@ -6241,7 +6241,7 @@ public class cps1
 	
 	public static InitDriverPtr init_pang3 = new InitDriverPtr() { public void handler() 
 	{
-		UBytePtr rom = memory_region(REGION_CPU1);
+		UBytePtr rom = new UBytePtr(memory_region(REGION_CPU1));
 		int A,src,dst;
 	
 		for (A = 0x80000;A < 0x100000;A += 2)
