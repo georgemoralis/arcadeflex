@@ -23,7 +23,7 @@ import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v036.machine.atari_vg.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
 
 public class centiped
 {
@@ -112,7 +112,7 @@ public class centiped
 		new MemoryWriteAddress( 0x1000, 0x100f, pokey1_w ),
 		new MemoryWriteAddress( 0x1400, 0x140f, centiped_paletteram_w, paletteram ),
 		new MemoryWriteAddress( 0x1600, 0x163f, atari_vg_earom_w ),
-		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl ),
+		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl_w ),
 		new MemoryWriteAddress( 0x1800, 0x1800, MWA_NOP ),	/* IRQ acknowldege */
 		new MemoryWriteAddress( 0x1c00, 0x1c02, coin_counter_w ),
 		new MemoryWriteAddress( 0x1c03, 0x1c04, centiped_led_w ),
@@ -131,7 +131,7 @@ public class centiped
 		new MemoryWriteAddress( 0x1000, 0x100f, centipdb_AY8910_w ),
 		new MemoryWriteAddress( 0x1400, 0x140f, centiped_paletteram_w, paletteram ),
 		new MemoryWriteAddress( 0x1600, 0x163f, atari_vg_earom_w ),
-		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl ),
+		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl_w ),
 		new MemoryWriteAddress( 0x1800, 0x1800, MWA_NOP ),	/* IRQ acknowldege */
 		new MemoryWriteAddress( 0x1c00, 0x1c02, coin_counter_w ),
 		new MemoryWriteAddress( 0x1c03, 0x1c04, centiped_led_w ),
@@ -150,7 +150,7 @@ public class centiped
 		new MemoryWriteAddress( 0x1001, 0x1001, AY8910_control_port_0_w ),
 		new MemoryWriteAddress( 0x1400, 0x140f, centiped_paletteram_w, paletteram ),
 		new MemoryWriteAddress( 0x1600, 0x163f, atari_vg_earom_w ),
-		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl ),
+		new MemoryWriteAddress( 0x1680, 0x1680, atari_vg_earom_ctrl_w ),
 		new MemoryWriteAddress( 0x1800, 0x1800, MWA_NOP ),	/* IRQ acknowldege */
 		new MemoryWriteAddress( 0x1c00, 0x1c02, coin_counter_w ),
 		new MemoryWriteAddress( 0x1c03, 0x1c04, centiped_led_w ),

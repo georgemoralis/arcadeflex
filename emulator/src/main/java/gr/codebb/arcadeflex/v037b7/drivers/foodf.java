@@ -1,60 +1,93 @@
+/***************************************************************************
+
+Food Fight Memory Map
+-----------------------------------
+
+driver by Aaron Giles
+
+Function                           Address        R/W  DATA
+-------------------------------------------------------------
+Program ROM                        000000-00FFFF  R    D0-D15
+Program RAM                        014000-01BFFF  R/W  D0-D15
+Motion Object RAM                  01C000-01CFFF  R/W  D0-D15
+
+Motion Objects:
+  Vertical Position                xxxx00              D0-D7
+  Horizontal Position              xxxx00              D8-D15
+  Picture                          xxxx10              D0-D7
+  Color                            xxxx10              D8-D13
+  VFlip                            xxxx10              D14
+  HFlip                            xxxx10              D15
+
+Playfield                          800000-8007FF  R/W  D0-D15
+  Picture                          xxxxx0              D0-D7+D15
+  Color                            xxxxx0              D8-D13
+
+NVRAM                              900000-9001FF  R/W  D0-D3
+Analog In                          940000-940007  R    D0-D7
+Analog Out                         944000-944007  W
+
+Coin 1 (Digital In)                948000         R    D0
+Coin 2                                            R    D1
+Start 1                                           R    D2
+Start 2                                           R    D3
+Coin Aux                                          R    D4
+Throw 1                                           R    D5
+Throw 2                                           R    D6
+Test                                              R    D7
+
+PFFlip                             948000         W    D0
+Update                                            W    D1
+INT3RST                                           W    D2
+INT4RST                                           W    D3
+LED 1                                             W    D4
+LED 2                                             W    D5
+COUNTERL                                          W    D6
+COUNTERR                                          W    D7
+
+Color RAM                          950000-9503FF  W    D0-D7
+Recall                             954000         W
+Watchdog                           958000         W
+Audio 1                            A40000-A4001F  R/W  D0-D7
+Audio 0                            A80000-A8001F  R/W  D0-D7
+Audio 2                            AC0000-AC001F  R/W  D0-D7
+
+***************************************************************************/
+
 /*
- * ported to v0.36
- * using automatic conversion tool v0.10
+ * ported to v0.37b7
+ * using automatic conversion tool v0.01
  */ 
-package gr.codebb.arcadeflex.v036.drivers;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+package gr.codebb.arcadeflex.v037b7.drivers;
+
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.machine.foodf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.input.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
-import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.foodf.*;
+import static gr.codebb.arcadeflex.v037b7.machine.foodf.*;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.foodf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 
 public class foodf
 {
-        public static ReadHandlerPtr foodf_pokey1_r = new ReadHandlerPtr() { public int handler(int offset)
-	{
-            return pokey1_r.handler(offset/2);
-        }};
-        public static ReadHandlerPtr foodf_pokey2_r = new ReadHandlerPtr() { public int handler(int offset)
-	{
-            return pokey2_r.handler(offset/2);
-        }};
-        public static ReadHandlerPtr foodf_pokey3_r = new ReadHandlerPtr() { public int handler(int offset)
-	{
-            return pokey3_r.handler(offset/2);
-        }};
-        public static WriteHandlerPtr foodf_pokey1_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-            pokey1_w.handler(offset/2, data & 0xff);
-        }};
-	public static WriteHandlerPtr foodf_pokey2_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-             pokey2_w.handler(offset/2, data & 0xff);
-        }};
-	public static WriteHandlerPtr foodf_pokey3_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-	{
-            pokey3_w.handler(offset/2, data & 0xff);
-        }};
-        
+	
+	public static ReadHandlerPtr foodf_pokey1_r  = new ReadHandlerPtr() { public int handler(int offset) { return pokey1_r.handler(offset/2); } };
+	public static ReadHandlerPtr foodf_pokey2_r  = new ReadHandlerPtr() { public int handler(int offset) { return pokey2_r.handler(offset/2); } };
+	public static ReadHandlerPtr foodf_pokey3_r  = new ReadHandlerPtr() { public int handler(int offset) { return pokey3_r.handler(offset/2); } };
+	
+	public static WriteHandlerPtr foodf_pokey1_w = new WriteHandlerPtr() {public void handler(int offset, int data) { pokey1_w.handler(offset/2, data & 0xff); } };
+	public static WriteHandlerPtr foodf_pokey2_w = new WriteHandlerPtr() {public void handler(int offset, int data) { pokey2_w.handler(offset/2, data & 0xff); } };
+	public static WriteHandlerPtr foodf_pokey3_w = new WriteHandlerPtr() {public void handler(int offset, int data) { pokey3_w.handler(offset/2, data & 0xff); } };
+	
+	
+	
 	static MemoryReadAddress foodf_readmem[] =
 	{
 		new MemoryReadAddress( 0x000000, 0x00ffff, MRA_ROM ),
@@ -153,20 +186,20 @@ public class foodf
 	static POKEYinterface pokey_interface = new POKEYinterface
 	(
 		3,	/* 3 chips */
-		600000,	/* .6 Mhz */
-		new int[]{ 33, 33, 33 },
+		600000,	/* .6 MHz */
+		new int[] { 33, 33, 33 },
 		/* The 8 pot handlers */
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
-		new ReadHandlerPtr[]{ null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
 		/* The allpot handler */
-		new ReadHandlerPtr[]{ null, null, null }
-        );
+		new ReadHandlerPtr[] { null, null, null }
+	);
 	
 	
 	
@@ -176,7 +209,7 @@ public class foodf
 		new MachineCPU[] {
 			new MachineCPU(
 				CPU_M68000,
-				6000000,	/* 6 Mhz */
+				6000000,	/* 6 MHz */
 				foodf_readmem,foodf_writemem,null,null,
 				foodf_interrupt,4
 			),
@@ -191,7 +224,7 @@ public class foodf
 		256, 256,
 		foodf_vh_convert_color_prom,
 	
-		VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY | VIDEO_MODIFIES_PALETTE,
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,
 		null,
 		foodf_vh_start,
 		foodf_vh_stop,

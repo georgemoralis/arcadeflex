@@ -162,7 +162,6 @@ import static gr.codebb.arcadeflex.v036.drivers.sauro.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
 import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
 import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
-import static gr.codebb.arcadeflex.v036.drivers.foodf.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
@@ -236,6 +235,12 @@ import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.mhavoc.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.bzone.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.bwidow.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.quantum.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.foodf.*;
 
 public class driver {
 
@@ -2255,29 +2260,29 @@ public class driver {
                 driver_asteroib,	/* bootleg */
                 driver_astdelux,	/* (c) 1980 */
                 driver_astdelu1,	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( bwidow )	/* (c) 1982 */
-                /*TODO*/ //	DRIVER( bzone )		/* (c) 1980 */
-                /*TODO*/ //	DRIVER( bzone2 )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( gravitar )	/* (c) 1982 */
-                /*TODO*/ //	DRIVER( gravitr2 )	/* (c) 1982 */
+                driver_bwidow,          /* (c) 1982 */
+                driver_bzone,		/* (c) 1980 */
+                driver_bzone2,          /* (c) 1980 */
+                driver_gravitar,	/* (c) 1982 */
+                driver_gravitr2,	/* (c) 1982 */
                 driver_llander,         /* no copyright notice */
                 driver_llander1,	/* no copyright notice */
-                /*TODO*/ //	DRIVER( redbaron )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( spacduel )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( tempest )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( tempest1 )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( tempest2 )	/* (c) 1980 */
-                /*TODO*/ //	DRIVER( temptube )	/* hack */
+                driver_redbaron,	/* (c) 1980 */
+                driver_spacduel,	/* (c) 1980 */
+                driver_tempest,         /* (c) 1980 */
+                driver_tempest1,	/* (c) 1980 */
+                driver_tempest2,	/* (c) 1980 */
+                driver_temptube,	/* hack */
                 driver_starwars,	/* (c) 1983 */
                 driver_starwar1,	/* (c) 1983 */
                 driver_esb,		/* (c) 1985 */
-                /*TODO*/ //	DRIVER( mhavoc )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( mhavoc2 )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( mhavocp )	/* (c) 1983 */
-                /*TODO*/ //	DRIVER( mhavocrv )	/* hack */
-                /*TODO*/ //	DRIVER( quantum )	/* (c) 1982 */	/* made by Gencomp */
-                /*TODO*/ //	DRIVER( quantum1 )	/* (c) 1982 */	/* made by Gencomp */
-                /*TODO*/ //	DRIVER( quantump )	/* (c) 1982 */	/* made by Gencomp */
+                driver_mhavoc,          /* (c) 1983 */
+                driver_mhavoc2,         /* (c) 1983 */
+                driver_mhavocp,         /* (c) 1983 */
+                driver_mhavocrv,	/* hack */
+                driver_quantum,	/* (c) 1982 */	/* made by Gencomp */
+                driver_quantum1,	/* (c) 1982 */	/* made by Gencomp */
+                driver_quantump,	/* (c) 1982 */	/* made by Gencomp */
 
                 /* Atari b/w games */
                 /*TODO*/ //	DRIVER( sprint1 )	/* no copyright notice */

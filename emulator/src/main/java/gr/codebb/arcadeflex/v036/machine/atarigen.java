@@ -1381,7 +1381,10 @@ public class atarigen {
 	
 	public static void atarigen_mo_update(UBytePtr base, int link, int scanline)
 	{
-		int entryskip = modesc.entryskip, wordskip = modesc.wordskip, wordcount = modesc.entrywords - 1;
+		int entryskip = modesc.entryskip;
+                int wordskip = modesc.wordskip;
+                int wordcount = modesc.entrywords - 1;
+                
 		int[] spritevisit=new int[ATARIGEN_MAX_MAXCOUNT];
 		UShortPtr data, data_start, prev_data;
 		int match = 0;
@@ -1394,7 +1397,7 @@ public class atarigen {
                 /* if the last list entries were on the same scanline, overwrite them */
 		if (prev_data != null)
 		{
-                    prev_data.offset=0;
+                    //prev_data.offset=0;
 			if (prev_data.read(0) == scanline)
 				data_start = data = prev_data;
 			else
@@ -1422,8 +1425,8 @@ public class atarigen {
 	
 			/* add the data words */
 			for (i = temp = 0; i < wordcount; i++, temp += wordskip){
-				tempdata[i] = modata.READ_WORD(temp);
-                                data.write(0, (char) modata.READ_WORD(temp));
+				tempdata[i] = modata.READ_WORD(temp & 0x3ff);
+                                data.write(0, (char) modata.READ_WORD(temp & 0x3ff));
                                 data.inc(1);
                         }
 	
@@ -1437,11 +1440,12 @@ public class atarigen {
 			{
 				prev_data.inc(1);
 				for (i = 0; i < wordcount; i++)
-					if (prev_data.read(prev_data.offset++) != tempdata[i])
+					if (prev_data.read(0) != tempdata[i])
 					{                                                
 						match = 0;
 						break;
 					}
+                                        prev_data.inc(1);
 			}
 	
 			/* link to the next object */

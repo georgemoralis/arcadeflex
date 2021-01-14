@@ -7,25 +7,21 @@
 ***************************************************************************/
 
 /*
- * ported to v0.36
- * using automatic conversion tool v0.10
- *
- *
- *
+ * ported to v0.37b7
+ * using automatic conversion tool v0.01
  */ 
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-
 
 public class foodf
 {
@@ -47,9 +43,15 @@ public class foodf
 	 *		Statics
 	 */
 	
-	static char[] playfielddirty;
+	static UBytePtr playfielddirty=null;
 	
 	static osd_bitmap playfieldbitmap;
+	
+	
+	/*
+	 *		Prototypes from other modules
+	 */
+	
 	
 	
 	/***************************************************************************
@@ -62,25 +64,24 @@ public class foodf
 	  Graphics use 2 bitplanes.
 	
 	***************************************************************************/
-        static int TOTAL_COLORS(int gfxn) {
-            return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
-        }
+        public static int TOTAL_COLORS(int gfxn){ return (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity); }
+	public static void COLOR(char []colortable, int gfxn, int offs, int value){ colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs]=(char) value; }
+        
 	public static VhConvertColorPromPtr foodf_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-		//#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-                int p_inc = 0;
+		int _palette=0;
+	
 		for (i = 0;i < Machine.drv.total_colors;i++)
 		{
-			palette[p_inc++]=(char) (((i & 1) >> 0) * 0xff);
-			palette[p_inc++]=(char) (((i & 2) >> 1) * 0xff);
-			palette[p_inc++]=(char) (((i & 4) >> 2) * 0xff);
+			palette[_palette++] = (char) (((i & 1) >> 0) * 0xff);
+			palette[_palette++] = (char) (((i & 2) >> 1) * 0xff);
+			palette[_palette++] = (char) (((i & 4) >> 2) * 0xff);
 		}
 	
 		/* characters and sprites use the same palette */
 		for (i = 0;i < TOTAL_COLORS(0);i++)
-			colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char)i;
+			COLOR(colortable,0,i, i);
 	} };
 	
 	
@@ -91,7 +92,7 @@ public class foodf
 	public static VhStartPtr foodf_vh_start = new VhStartPtr() { public int handler() 
 	{
 		/* allocate dirty buffers */
-		if (playfielddirty==null) playfielddirty = new char[foodf_playfieldram_size[0] / 2];
+		if (playfielddirty==null) playfielddirty = new UBytePtr (foodf_playfieldram_size[0] / 2);
 		if (playfielddirty==null)
 		{
 			foodf_vh_stop.handler();
@@ -100,7 +101,7 @@ public class foodf
 		memset (playfielddirty, 1, foodf_playfieldram_size[0] / 2);
 	
 		/* allocate bitmaps */
-		if (playfieldbitmap==null) playfieldbitmap = osd_create_bitmap (32*8, 32*8);
+		if (playfieldbitmap==null) playfieldbitmap = bitmap_alloc (32*8, 32*8);
 		if (playfieldbitmap==null)
 		{
 			foodf_vh_stop.handler();
@@ -118,7 +119,7 @@ public class foodf
 	public static VhStopPtr foodf_vh_stop = new VhStopPtr() { public void handler() 
 	{
 		/* free bitmaps */
-		if (playfieldbitmap != null) osd_free_bitmap (playfieldbitmap); playfieldbitmap = null;
+		if (playfieldbitmap != null) bitmap_free (playfieldbitmap); playfieldbitmap = null;
 	
 		/* free dirty buffers */
 		if (playfielddirty != null) playfielddirty = null;
@@ -129,20 +130,20 @@ public class foodf
 	 *   playfield RAM read/write handlers
 	 */
 	
-	public static ReadHandlerPtr foodf_playfieldram_r = new ReadHandlerPtr() { public int handler(int offset)
+	public static ReadHandlerPtr foodf_playfieldram_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
-		return foodf_playfieldram.READ_WORD(offset);//READ_WORD (&foodf_playfieldram[offset]);
+		return foodf_playfieldram.READ_WORD (offset);
 	} };
 	
-	public static WriteHandlerPtr foodf_playfieldram_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr foodf_playfieldram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
-		int oldword = foodf_playfieldram.READ_WORD(offset);//READ_WORD (&foodf_playfieldram[offset]);
+		int oldword = foodf_playfieldram.READ_WORD (offset);
 		int newword = COMBINE_WORD (oldword, data);
 	
 		if (oldword != newword)
 		{
-			foodf_playfieldram.WRITE_WORD(offset, newword);//WRITE_WORD (&foodf_playfieldram[offset], newword);
-			playfielddirty[offset / 2] = 1;
+			foodf_playfieldram.WRITE_WORD (offset, newword);
+			playfielddirty.write(offset / 2, 1);
 		}
 	} };
 	
@@ -151,15 +152,15 @@ public class foodf
 	 *   palette RAM read/write handlers
 	 */
 	
-	public static WriteHandlerPtr foodf_paletteram_w = new WriteHandlerPtr() { public void handler(int offset, int data)
+	public static WriteHandlerPtr foodf_paletteram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
-		int oldword = paletteram.READ_WORD(offset);//READ_WORD(&paletteram[offset]);
+		int oldword = paletteram.READ_WORD(offset);
 		int newword = COMBINE_WORD(oldword,data);
 		int bit0,bit1,bit2;
 		int r,g,b;
 	
 	
-		paletteram.WRITE_WORD(offset, newword);//WRITE_WORD(&paletteram[offset],newword);
+		paletteram.WRITE_WORD(offset,newword);
 	
 		/* only the bottom 8 bits are used */
 		/* red component */
@@ -195,7 +196,7 @@ public class foodf
 		int offs;
 	
 		/* recalc the palette if necessary */
-		if (palette_recalc ()!=null)
+		if (palette_recalc () != null)
 			memset (playfielddirty,1,foodf_playfieldram_size[0] / 2);
 	
 	
@@ -203,15 +204,15 @@ public class foodf
 		/* since last time and update it accordingly. */
 		for (offs = foodf_playfieldram_size[0] - 2; offs >= 0; offs -= 2)
 		{
-			int data = foodf_playfieldram.READ_WORD(offs);//READ_WORD (&foodf_playfieldram[offs]);
+			int data = foodf_playfieldram.READ_WORD (offs);
 			int color = (data >> 8) & 0x3f;
 	
-			if (playfielddirty[offs / 2]!=0)
+			if (playfielddirty.read(offs / 2) != 0)
 			{
 				int pict = (data & 0xff) | ((data >> 7) & 0x100);
 				int sx,sy;
 	
-				playfielddirty[offs / 2] = 0;
+				playfielddirty.write(offs / 2, 0);
 	
 				sx = ((offs/2) / 32 + 1) % 32;
 				sy = (offs/2) % 32;
@@ -224,13 +225,13 @@ public class foodf
 						TRANSPARENCY_NONE, 0);
 			}
 		}
-		copybitmap (bitmap, playfieldbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
+		copybitmap (bitmap, playfieldbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
 	
 		/* walk the motion object list. */
 		for (offs = 0; offs < foodf_spriteram_size[0]; offs += 4)
 		{
-			int data1 = foodf_spriteram.READ_WORD(offs);//READ_WORD (&foodf_spriteram[offs]);
-			int data2 = foodf_spriteram.READ_WORD(offs+2);//READ_WORD (&foodf_spriteram[offs + 2]);
+			int data1 = foodf_spriteram.READ_WORD (offs);
+			int data2 = foodf_spriteram.READ_WORD (offs + 2);
 	
 			int pict = data1 & 0xff;
 			int color = (data1 >> 8) & 0x1f;
@@ -244,7 +245,7 @@ public class foodf
 					color,
 					hflip,vflip,
 					xpos,ypos,
-					Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+					Machine.visible_area,TRANSPARENCY_PEN,0);
 	
 			/* draw again with wraparound (needed to get the end of level animation right) */
 			drawgfx(bitmap,Machine.gfx[1],
@@ -252,7 +253,7 @@ public class foodf
 					color,
 					hflip,vflip,
 					xpos-256,ypos,
-					Machine.drv.visible_area,TRANSPARENCY_PEN,0);
+					Machine.visible_area,TRANSPARENCY_PEN,0);
 		}
 	} };
 }

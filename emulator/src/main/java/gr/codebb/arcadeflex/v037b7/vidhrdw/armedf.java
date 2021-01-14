@@ -83,16 +83,20 @@ public class armedf
 	
 	public static ReadHandlerPtr terraf_text_videoram_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
+            System.out.println("A");
 		return videoram.READ_WORD(offset);
 	} };
 	
 	public static WriteHandlerPtr terraf_text_videoram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
                 // hack by Chuso
-		if (videoram.offset + offset >=(videoram.memory.length-1))
+		if (videoram.offset + offset >=(videoram.memory.length-1)){
+                    System.out.println("offset="+offset);
+                    System.out.println("video ram offset="+videoram.offset);
                     return;
+                }
                 
-                int oldword = videoram.READ_WORD(offset&0x1fff);
+                int oldword = videoram.READ_WORD(offset);
                 int newword = COMBINE_WORD(oldword,data);
                 if( oldword != newword ){
                         int row,col;
@@ -163,6 +167,7 @@ public class armedf
 	
 	public static ReadHandlerPtr armedf_fg_videoram_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
+            System.out.println("B");
 		return armedf_fg_videoram.READ_WORD (offset);
 	} };
 	
@@ -187,6 +192,7 @@ public class armedf
 	
 	public static ReadHandlerPtr armedf_bg_videoram_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
+            System.out.println("C");
 		return armedf_bg_videoram.READ_WORD( offset );
 	} };
 	

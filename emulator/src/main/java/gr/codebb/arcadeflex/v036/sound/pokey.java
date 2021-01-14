@@ -8,6 +8,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_pc;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 public class pokey extends snd_interface {
@@ -1002,31 +1003,31 @@ public class pokey extends snd_interface {
         int data = 0, pot;
 
         switch (offs & 15) {
-            /*TODO*///	case POT0_C: case POT1_C: case POT2_C: case POT3_C:
-/*TODO*///	case POT4_C: case POT5_C: case POT6_C: case POT7_C:
-/*TODO*///		pot = offs & 7;
-/*TODO*///		if( p->pot_r[pot] )
-/*TODO*///		{
-/*TODO*///			/*
-/*TODO*///			 * If the conversion is not yet finished (ptimer running),
-/*TODO*///			 * get the current value by the linear interpolation of
-/*TODO*///			 * the final value using the elapsed time.
-/*TODO*///			 */
-/*TODO*///			if( p->ALLPOT & (1 << pot) )
-/*TODO*///			{
-/*TODO*///				data = (UINT8)(timer_timeelapsed(p->ptimer[pot]) / AD_TIME);
+            	case POT0_C: case POT1_C: case POT2_C: case POT3_C:
+                case POT4_C: case POT5_C: case POT6_C: case POT7_C:
+		pot = offs & 7;
+		if( _pokey[chip].pot_r[pot] != null )
+		{
+			/*
+			 * If the conversion is not yet finished (ptimer running),
+			 * get the current value by the linear interpolation of
+			 * the final value using the elapsed time.
+			 */
+			if(( _pokey[chip].ALLPOT & (1 << pot) ) != 0)
+			{
+				data = (int) (timer_timeelapsed(_pokey[chip].ptimer[pot]) / AD_TIME(chip));
 /*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (interpolated) $%02x\n", chip, pot, data));
-/*TODO*///            }
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				data = p->POTx[pot];
+            }
+			else
+			{
+				data = _pokey[chip].POTx[pot];
 /*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (final value)  $%02x\n", chip, pot, data));
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		if (errorlog)
-/*TODO*///			fprintf(errorlog,"PC %04x: warning - read p[chip] #%d POT%d\n", cpu_get_pc(), chip, pot);
-/*TODO*///		break;
+			}
+		}
+		else
+		if (errorlog!=null)
+			fprintf(errorlog,"PC %04x: warning - read p[chip] #%d POT%d\n", cpu_get_pc(), chip, pot);
+		break;
 
             case ALLPOT_C:
                 if (_pokey[chip].allpot_r != null) {
@@ -1129,16 +1130,15 @@ public class pokey extends snd_interface {
         }
     };
 
-/*TODO*///int quad_pokey_r (int offset)
-/*TODO*///{
-/*TODO*///	int pokey_num = (offset >> 3) & ~0x04;
-/*TODO*///	int control = (offset & 0x20) >> 2;
-/*TODO*///	int pokey_reg = (offset % 8) | control;
-/*TODO*///
-/*TODO*///	return pokey_register_r(pokey_num, pokey_reg);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static ReadHandlerPtr quad_pokey_r  = new ReadHandlerPtr() { public int handler(int offset)
+    {
+            int pokey_num = (offset >> 3) & ~0x04;
+            int control = (offset & 0x20) >> 2;
+            int pokey_reg = (offset % 8) | control;
+
+            return pokey_register_r(pokey_num, pokey_reg);
+        }
+    };
 
     public static void pokey_register_w(int chip, int offs, int data) {
         //struct POKEYregisters *p = &pokey[chip];
@@ -1405,7 +1405,9 @@ public class pokey extends snd_interface {
                 }
                 break;
             default:
-                System.out.println("unsupported");
+                System.out.println("unsupported pokey ");
+                System.out.println(offs & 15);
+                //throw new UnsupportedOperationException("Unsupported");
                 break;
         }
 

@@ -612,24 +612,23 @@ public class mixer {
     }
     
     
-    /*TODO*////***************************************************************************
-    /*TODO*///	mixer_sound_enable_global_w
-    /*TODO*///***************************************************************************/
-    /*TODO*///
-    /*TODO*///void mixer_sound_enable_global_w(int enable)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///	struct mixer_channel_data *channel;
-    /*TODO*///
-    /*TODO*///	/* update all channels (for streams this is a no-op) */
-    /*TODO*///	for (i = 0, channel = mixer_channel; i < first_free_channel; i++, channel++)
-    /*TODO*///	{
-    /*TODO*///		mixer_update_channel(channel, sound_scalebufferpos(samples_this_frame));
-    /*TODO*///	}
-    /*TODO*///
-    /*TODO*///	mixer_sound_enabled = enable;
-    /*TODO*///}
-    /*TODO*///
+    /***************************************************************************
+    	mixer_sound_enable_global_w
+    ***************************************************************************/
+    
+    public static void mixer_sound_enable_global_w(int enable)
+    {
+    	int i;
+        //struct mixer_channel_data *channel;
+
+        /* update all channels (for streams this is a no-op) */
+        for (i = 0; i < first_free_channel; i++) {
+            mixer_update_channel(mixer_channel[i], sound_scalebufferpos(samples_this_frame));
+        }
+
+        mixer_sound_enabled = enable;
+    }
+    
 
     /**
      * *************************************************************************
