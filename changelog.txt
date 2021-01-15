@@ -1,3 +1,7 @@
+15/01/2021
+==========
+-Updated common, sndintrf and cpuintrf for supporting segar games
+
 14/01/2021
 ==========
 -Ported bwidow, tempest, foodf, mhavoc, bzone and quantum to 0.37b7

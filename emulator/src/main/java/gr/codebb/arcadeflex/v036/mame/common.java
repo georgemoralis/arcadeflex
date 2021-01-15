@@ -15,6 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.Util.*;
+import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 public class common {
     
@@ -332,23 +333,23 @@ public class common {
                                             if (fatalerror == 0)
                                             {
                                                     int i;
-                                                throw new UnsupportedOperationException("Unsupported readrom() case fatalerror");  
+                                                //throw new UnsupportedOperationException("Unsupported readrom() case fatalerror");  
                                                     /* fill space with random data */
-/*TODO*/ //                                                     if (romp[romp_ptr].length & ROMFLAG_ALTERNATE)
-/*TODO*/ //                                                     {
-/*TODO*/ //                                                             unsigned char *c;
+                                                     if ((romp[romp_ptr].length & ROMFLAG_ALTERNATE) != 0)
+                                                     {
+                                                             UBytePtr c;
 
                                                             /* ROM_LOAD_EVEN and ROM_LOAD_ODD */
-/*TODO*/ //                                                             c = Machine.memory_region[region] + (romp[romp_ptr].offset ^ 1);
+                                                             c = new UBytePtr(Machine.memory_region[region], (romp[romp_ptr].offset ^ 1));
                                                   
- /*TODO*/ //                                                            for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
- /*TODO*/ //                                                                    c[2*i] = rand();
-/*TODO*/ //                                                     }
-/*TODO*/ //                                                     else
-/*TODO*/ //                                                     {
-/*TODO*/ //                                                             for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
-/*TODO*/ //                                                                     Machine.memory_region[region][romp[romp_ptr].offset + i] = rand();
-/*TODO*/ //                                                     }
+                                                             for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
+                                                                     c.write(2*i, rand());
+                                                     }
+                                                     else
+                                                     {
+                                                             for (i = 0;i < (romp[romp_ptr].length & ~ROMFLAG_MASK);i++)
+                                                                     Machine.memory_region[region][romp[romp_ptr].offset + i] = (char) rand();
+                                                     }
                                             }
                                             romp_ptr++;
                                     } while (romp[romp_ptr].length!=0 && (romp[romp_ptr].name == null || romp[romp_ptr].name.compareTo("-1") == 0));

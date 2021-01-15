@@ -36,6 +36,7 @@ import gr.codebb.arcadeflex.v036.sound.nes_apu;
 import gr.codebb.arcadeflex.v037b7.sound._2608intf;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import gr.codebb.arcadeflex.v037b7.sound._5220intf;
+import gr.codebb.arcadeflex.v037b7.sound.tms36xx;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -409,7 +410,7 @@ public class sndintrf {
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
            new namco(),    
-            /*TEMPHACK*/   new Dummy_snd(),
+           new tms36xx(),
     /*TODO*////*TODO*///#if (HAS_TMS36XX)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_TMS36XX,
