@@ -17,7 +17,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;
  */
 public class m6809 extends cpu_interface
 {
-    public static FILE m6809log=null;//=fopen("m6809.log", "wa");  //for debug purposes
+    static FILE errorlog=null;
+    public static FILE m6809log=null;//fopen("m6809.log", "wa");  //for debug purposes
     public int[] m6809_ICount={50000};
     public m6809()
     {
@@ -42,28 +43,28 @@ public class m6809 extends cpu_interface
     }
 
     @Override
-    public int[] get_cycle_table(int which) {
+    public int internal_read(int offset) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void set_cycle_table(int which, int[] new_table) {
+    public void internal_write(int offset, int data) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /* 6809 Registers */
     public static class m6809_Regs
     {
-        public /*PAIR*/ int pc; 		/* Program counter */
-        public /*PAIR*/ int ppc;		/* Previous program counter */
-        public int a;
-        public int b;   //PAIR	d;		/* Accumulator a and b */
-        public /*PAIR*/ int dp; 		/* Direct Page register (page in MSB) */
-        public int u;
-        public int s;//PAIR	u, s;		/* Stack pointers */
-        public int x;
-        public int y;//PAIR	x, y;		/* Index registers */
-        public int /*UINT8*/   cc;
+        public /*PAIR*/ char pc; 		/* Program counter */
+        public /*PAIR*/ char ppc;		/* Previous program counter */
+        public char a;
+        public char b;   //PAIR	d;		/* Accumulator a and b */
+        public /*PAIR*/ char dp; 		/* Direct Page register (page in MSB) */
+        public char u;
+        public char s;//PAIR	u, s;		/* Stack pointers */
+        public char x;
+        public char y;//PAIR	x, y;		/* Index registers */
+        public char /*UINT8*/   cc;
         public int /*UINT8*/   ireg;		/* First opcode */
         public int[] /*UINT8*/   irq_state=new int[2];
         public    int     extra_cycles; /* cycles used up by interrupts */
@@ -77,8 +78,8 @@ public class m6809 extends cpu_interface
     }
     void setDreg(int reg) //write to dreg
     { 
-        m6809.a = reg >> 8 & 0xFF; 
-        m6809.b = reg & 0xFF; 
+        m6809.a = (char)(reg >>> 8 & 0xFF);
+        m6809.b = (char)(reg & 0xFF);
     }
     /* flag bits in the cc register */
     public static final int CC_C  =  0x01;        /* Carry */
@@ -159,7 +160,7 @@ public class m6809 extends cpu_interface
     			m6809.extra_cycles += 10;	/* subtract +10 cycles */		
     		}																
     		m6809.cc |= CC_IF | CC_II;			/* inhibit FIRQ and IRQ */		
-    		m6809.pc=RM16(0xfff6);												
+    		m6809.pc=(char)RM16(0xfff6);
     		CHANGE_PC();														
     		m6809.irq_callback.handler(M6809_FIRQ_LINE);					
     	}																	
@@ -186,22 +187,22 @@ public class m6809 extends cpu_interface
     			m6809.extra_cycles += 19;	 /* subtract +19 cycles */		
     		}																
     		m6809.cc |= CC_II;					/* inhibit IRQ */				
-    		m6809.pc=RM16(0xfff8);												
+    		m6809.pc=(char)RM16(0xfff8);
     		CHANGE_PC();														
     		m6809.irq_callback.handler(M6809_IRQ_LINE);					
     	}
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d irq_lines :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d irq_lines :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     
     
-    public int RM(int addr)
+    public char RM(int addr)
     {
-        return (cpu_readmem16(addr) & 0xFF);
+        return (char)((cpu_readmem16(addr) & 0xFF));
     }
     public void WM(int addr,int value)
     {
-        cpu_writemem16(addr,value);
+        cpu_writemem16(addr&0xFFFF,value&0xFF);
     }
     public char ROP(int addr)
     {
@@ -213,79 +214,79 @@ public class m6809 extends cpu_interface
     }
     /*TODO*////* macros to access memory */
     /*TODO*///#define IMMBYTE(b)	b = ROP_ARG(PCD); PC++
-    public int IMMBYTE()
+    public char IMMBYTE()
     {
         int reg = ROP_ARG(m6809.pc); 
-        m6809.pc = m6809.pc + 1 & 0xFFFF;
-        return reg & 0xFF;//insure it returns a 8bit value
+        m6809.pc = (char)(m6809.pc + 1);
+        return (char)(reg & 0xFF);//insure it returns a 8bit value
     }
     /*TODO*///#define IMMWORD(w)	w.d = (ROP_ARG(PCD)<<8) | ROP_ARG((PCD+1)&0xffff); PC+=2
-    public int IMMWORD()
+    public char IMMWORD()
     {
         int reg = (ROP_ARG(m6809.pc)<<8) | ROP_ARG((m6809.pc+1)&0xffff);
-        m6809.pc = m6809.pc + 2 & 0xFFFF;
-        return reg;
+        m6809.pc = (char)(m6809.pc + 2);
+        return (char)reg;
     }
     /*TODO*///
     /*TODO*///#define PUSHBYTE(b) --S; WM(SD,b)
     public void PUSHBYTE(int w)
     {
-        m6809.s = m6809.s -1 & 0xFFFF; 
+        m6809.s = (char)(m6809.s -1);
         WM(m6809.s,w);
     }
     /*TODO*///#define PUSHWORD(w) --S; WM(SD,w.b.l); --S; WM(SD,w.b.h)
     public void PUSHWORD(int w)
     {
-        m6809.s = m6809.s -1 & 0xFFFF; 
+        m6809.s = (char)(m6809.s -1);
         WM(m6809.s,w & 0xFF); 
-        m6809.s = m6809.s -1 & 0xFFFF;
-        WM(m6809.s,w >>8);
+        m6809.s = (char)(m6809.s -1);
+        WM(m6809.s,w >>>8);
     }
     /*TODO*///#define PULLBYTE(b) b = RM(SD); S++
     public int PULLBYTE()
     {
         int b = RM(m6809.s);
-        m6809.s = m6809.s +1 & 0xFFFF;
+        m6809.s = (char)(m6809.s +1);
         return b;
     }
     /*TODO*///#define PULLWORD(w) w = RM(SD)<<8; S++; w |= RM(SD); S++
     public int PULLWORD()//TODO recheck
     {
         int w = RM(m6809.s)<<8;
-        m6809.s = m6809.s +1 & 0xFFFF; 
+        m6809.s = (char)(m6809.s +1);
         w |= RM(m6809.s);
-        m6809.s = m6809.s +1 & 0xFFFF; 
+        m6809.s = (char)(m6809.s +1);
         return w;
     }
     
     /*TODO*///#define PSHUBYTE(b) --U; WM(UD,b);
     public void PSHUBYTE(int w)
     {
-        m6809.u = m6809.u -1 & 0xFFFF; 
+        m6809.u = (char)(m6809.u -1);
         WM(m6809.u,w);
     }
     public void PSHUWORD(int w)
     {
-        m6809.u = m6809.u -1 & 0xFFFF; 
+        m6809.u = (char)(m6809.u -1);
         WM(m6809.u,w & 0xFF); 
-        m6809.u = m6809.u -1 & 0xFFFF;
-        WM(m6809.u,w >>8);
+        m6809.u = (char)(m6809.u -1);
+        WM(m6809.u,w >>>8);
     }
     /*TODO*///#define PSHUWORD(w) --U; WM(UD,w.b.l); --U; WM(UD,w.b.h)
     /*TODO*///#define PULUBYTE(b) b = RM(UD); U++
     public int PULUBYTE()
     {
         int b = RM(m6809.u);
-        m6809.u = m6809.u +1 & 0xFFFF;
+        m6809.u = (char)(m6809.u +1);
         return b;
     }
     /*TODO*///#define PULUWORD(w) w = RM(UD)<<8; U++; w |= RM(UD); U++
     public int PULUWORD()//TODO recheck
     {
         int w = RM(m6809.u)<<8;
-        m6809.u = m6809.u +1 & 0xFFFF; 
+        m6809.u = (char)(m6809.u +1);
         w |= RM(m6809.u);
-        m6809.u = m6809.u +1 & 0xFFFF; 
+        m6809.u = (char)(m6809.u +1);
         return w;
     }
     
@@ -384,25 +385,25 @@ public class m6809 extends cpu_interface
     /*TODO*///
     /*TODO*////* macros for convenience */
     /*TODO*///#define DIRBYTE(b) {DIRECT;b=RM(EAD);}
-    public int DIRBYTE()
+    public char DIRBYTE()
     {
         DIRECT();
         return RM(ea);
     }
     /*TODO*///#define DIRWORD(w) {DIRECT;w.d=RM16(EAD);}
-    public int DIRWORD()
+    public char DIRWORD()
     {
         DIRECT();
         return RM16(ea);
     }
     /*TODO*///#define EXTBYTE(b) {EXTENDED;b=RM(EAD);}
-    public int EXTBYTE()
+    public char EXTBYTE()
     {
         EXTENDED();
         return RM(ea);
     }
     /*TODO*///#define EXTWORD(w) {EXTENDED;w.d=RM16(EAD);}
-    public int EXTWORD()
+    public char EXTWORD()
     {
         EXTENDED();
         return RM16(ea);
@@ -423,7 +424,7 @@ public class m6809 extends cpu_interface
         int t= IMMBYTE();
         if(f)
         {
-            m6809.pc=m6809.pc+(byte)t & 0xFFFF;//TODO check if it has to be better...
+            m6809.pc=(char)(m6809.pc+(byte)t);//TODO check if it has to be better...
             CHANGE_PC();
         }
     }
@@ -445,7 +446,7 @@ public class m6809 extends cpu_interface
         if(f)
         {
             m6809_ICount[0] -= 1;
-            m6809.pc = m6809.pc + t & 0xFFFF;
+            m6809.pc = (char)(m6809.pc + t);
             CHANGE_PC();
         }
     }
@@ -482,11 +483,14 @@ public class m6809 extends cpu_interface
     /*TODO*///	UINT32 result = RM(Addr) << 8;
     /*TODO*///	return result | RM((Addr+1)&0xffff);
     /*TODO*///}
-    int RM16(int addr)
+    char RM16(int addr)
     {
-        int i = RM(addr + 1 & 0xFFFF);
+        /*int i = RM(addr + 1 & 0xFFFF);
         i |= RM(addr) << 8;
-        return i;
+        return i;*/
+        int temp = RM(addr & 0xffff) << 8;
+        temp = temp | RM((addr & 0xffff) + 1);
+        return (char)temp;
     }
     /*TODO*///
     /*TODO*///INLINE void WM16( UINT32 Addr, PAIR *p )
@@ -497,8 +501,10 @@ public class m6809 extends cpu_interface
     /*TODO*///
     void WM16(int addr,int reg)
     {
-        WM(addr + 1 & 0xFFFF, reg & 0xFF);
-        WM(addr, reg >> 8);
+        /*WM(addr + 1 & 0xFFFF, reg & 0xFF);
+        WM(addr, reg >> 8);*/
+        WM((addr + 1)&0xffff , reg & 0xff);
+        WM(addr & 0xffff, (reg >>> 8) & 0xff);
     }
     @Override
     public Object init_context() {
@@ -555,6 +561,16 @@ public class m6809 extends cpu_interface
         CHANGE_PC();
        CHECK_IRQ_LINES();
     }
+
+    @Override
+    public int[] get_cycle_table(int which) {
+        return null;
+    }
+
+    @Override
+    public void set_cycle_table(int which, int[] new_table) {
+
+    }
     
     /*TODO*///void m6809_set_context(void *src)
     /*TODO*///{
@@ -600,13 +616,13 @@ public class m6809 extends cpu_interface
     /*TODO*///{
     /*TODO*///	S = val;
     /*TODO*///}
-    
-    
-    /****************************************************************************/
-    /* Return a specific register                                               */
-    /****************************************************************************/
-    public int m6809_get_reg(int regnum)
-    {
+    /*TODO*///
+    /*TODO*///
+    /*TODO*////****************************************************************************/
+    /*TODO*////* Return a specific register                                               */
+    /*TODO*////****************************************************************************/
+    @Override
+    public int get_reg(int regnum) {
     	switch( regnum )
     	{
     		case M6809_PC: return m6809.pc;
@@ -618,29 +634,30 @@ public class m6809 extends cpu_interface
     		case M6809_X: return m6809.x;
     		case M6809_Y: return m6809.y;
     		case M6809_DP: return m6809.dp;
-    		case M6809_NMI_STATE: return m6809.nmi_state;
-    		case M6809_IRQ_STATE: return m6809.irq_state[M6809_IRQ_LINE];
-    		case M6809_FIRQ_STATE: return m6809.irq_state[M6809_FIRQ_LINE];
+    /*TODO*///		case M6809_NMI_STATE: return m6809.nmi_state;
+    /*TODO*///		case M6809_IRQ_STATE: return m6809.irq_state[M6809_IRQ_LINE];
+    /*TODO*///		case M6809_FIRQ_STATE: return m6809.irq_state[M6809_FIRQ_LINE];
     		case REG_PREVIOUSPC: return m6809.ppc;
     		default:
-    			if( regnum <= REG_SP_CONTENTS )
-    			{
-    				int offset = m6809.s + 2 * (REG_SP_CONTENTS - regnum);
-    				if( offset < 0xffff )
-    					return ( RM( offset ) << 8 ) | RM( offset + 1 );
-    			}
+                throw new UnsupportedOperationException("Not supported");
+    /*TODO*///			if( regnum <= REG_SP_CONTENTS )
+    /*TODO*///			{
+    /*TODO*///				unsigned offset = S + 2 * (REG_SP_CONTENTS - regnum);
+    /*TODO*///				if( offset < 0xffff )
+    /*TODO*///					return ( RM( offset ) << 8 ) | RM( offset + 1 );
+    /*TODO*///			}
     	}
-    	return 0;
+    /*TODO*///	return 0;
     }
-    
-    
-    /*TODO*////****************************************************************************/
-    /*TODO*////* Set a specific register                                                  */
-    /*TODO*////****************************************************************************/
-    /*TODO*///void m6809_set_reg(int regnum, unsigned val)
-    /*TODO*///{
-    /*TODO*///	switch( regnum )
-    /*TODO*///	{
+
+
+    /****************************************************************************/
+    /* Set a specific register                                                  */
+    /****************************************************************************/
+    @Override
+    public void set_reg(int regnum, int val) {
+            	switch( regnum )
+    	{
     /*TODO*///		case M6809_PC: PC = val; CHANGE_PC; break;
     /*TODO*///		case M6809_S: S = val; break;
     /*TODO*///		case M6809_CC: CC = val; CHECK_IRQ_LINES; break;
@@ -648,12 +665,13 @@ public class m6809 extends cpu_interface
     /*TODO*///		case M6809_A: A = val; break;
     /*TODO*///		case M6809_B: B = val; break;
     /*TODO*///		case M6809_X: X = val; break;
-    /*TODO*///		case M6809_Y: Y = val; break;
+    		case M6809_Y: m6809.y = (char)((val&0xFFFF)); break;
     /*TODO*///		case M6809_DP: DP = val; break;
     /*TODO*///		case M6809_NMI_STATE: m6809.nmi_state = val; break;
     /*TODO*///		case M6809_IRQ_STATE: m6809.irq_state[M6809_IRQ_LINE] = val; break;
     /*TODO*///		case M6809_FIRQ_STATE: m6809.irq_state[M6809_FIRQ_LINE] = val; break;
-    /*TODO*///		default:
+    		default:
+                throw new UnsupportedOperationException("Not supported");
     /*TODO*///			if( regnum <= REG_SP_CONTENTS )
     /*TODO*///			{
     /*TODO*///				unsigned offset = S + 2 * (REG_SP_CONTENTS - regnum);
@@ -663,10 +681,9 @@ public class m6809 extends cpu_interface
     /*TODO*///					WM( offset+1, val & 0xff );
     /*TODO*///				}
     /*TODO*///			}
-    /*TODO*///    }
-    /*TODO*///}
-    /*TODO*///
-    
+        }
+    }
+
     /****************************************************************************/
     /* Reset registers to their initial values									*/
     /****************************************************************************/
@@ -682,7 +699,7 @@ public class m6809 extends cpu_interface
         m6809.cc |= CC_II;        /* IRQ disabled */
         m6809.cc |= CC_IF;        /* FIRQ disabled */
     
-        m6809.pc = RM16(0xfffe);
+        m6809.pc = (char)(RM16(0xfffe));
     	CHANGE_PC();
     }
     /*TODO*///
@@ -725,9 +742,9 @@ public class m6809 extends cpu_interface
     		m6809.extra_cycles += 19;	/* subtract +19 cycles next time */
     	}
     	m6809.cc |= CC_IF | CC_II;			/* inhibit FIRQ and IRQ */
-    	m6809.pc = RM16(0xfffc);
+    	m6809.pc = (char)(RM16(0xfffc));
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d nmi_line :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d nmi_line :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /****************************************************************************
@@ -753,18 +770,18 @@ public class m6809 extends cpu_interface
     /*TODO*/// ****************************************************************************/
     /*TODO*///static void state_save(void *file, const char *module)
     /*TODO*///{
-    /*TODO*///	int cpu = cpu_getactivecpu();
-    /*TODO*///	state_save_UINT16(file, module, cpu, "PC", &PC, 1);
-    /*TODO*///	state_save_UINT16(file, module, cpu, "U", &U, 1);
-    /*TODO*///	state_save_UINT16(file, module, cpu, "S", &S, 1);
-    /*TODO*///	state_save_UINT16(file, module, cpu, "X", &X, 1);
-    /*TODO*///	state_save_UINT16(file, module, cpu, "Y", &Y, 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "DP", &DP, 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "CC", &CC, 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "INT", &m6809.int_state, 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "NMI", &m6809.nmi_state, 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "IRQ", &m6809.irq_state[0], 1);
-    /*TODO*///	state_save_UINT8(file, module, cpu, "FIRQ", &m6809.irq_state[1], 1);
+    /*TODO*///	int cpu_old = cpu_getactivecpu();
+    /*TODO*///	state_save_UINT16(file, module, cpu_old, "PC", &PC, 1);
+    /*TODO*///	state_save_UINT16(file, module, cpu_old, "U", &U, 1);
+    /*TODO*///	state_save_UINT16(file, module, cpu_old, "S", &S, 1);
+    /*TODO*///	state_save_UINT16(file, module, cpu_old, "X", &X, 1);
+    /*TODO*///	state_save_UINT16(file, module, cpu_old, "Y", &Y, 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "DP", &DP, 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "CC", &CC, 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "INT", &m6809.int_state, 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "NMI", &m6809.nmi_state, 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "IRQ", &m6809.irq_state[0], 1);
+    /*TODO*///	state_save_UINT8(file, module, cpu_old, "FIRQ", &m6809.irq_state[1], 1);
     /*TODO*///}
     /*TODO*///
     /*TODO*////****************************************************************************
@@ -772,18 +789,18 @@ public class m6809 extends cpu_interface
     /*TODO*/// ****************************************************************************/
     /*TODO*///static void state_load(void *file, const char *module)
     /*TODO*///{
-    /*TODO*///	int cpu = cpu_getactivecpu();
-    /*TODO*///	state_load_UINT16(file, module, cpu, "PC", &PC, 1);
-    /*TODO*///	state_load_UINT16(file, module, cpu, "U", &U, 1);
-    /*TODO*///	state_load_UINT16(file, module, cpu, "S", &S, 1);
-    /*TODO*///	state_load_UINT16(file, module, cpu, "X", &X, 1);
-    /*TODO*///	state_load_UINT16(file, module, cpu, "Y", &Y, 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "DP", &DP, 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "CC", &CC, 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "INT", &m6809.int_state, 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "NMI", &m6809.nmi_state, 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "IRQ", &m6809.irq_state[0], 1);
-    /*TODO*///	state_load_UINT8(file, module, cpu, "FIRQ", &m6809.irq_state[1], 1);
+    /*TODO*///	int cpu_old = cpu_getactivecpu();
+    /*TODO*///	state_load_UINT16(file, module, cpu_old, "PC", &PC, 1);
+    /*TODO*///	state_load_UINT16(file, module, cpu_old, "U", &U, 1);
+    /*TODO*///	state_load_UINT16(file, module, cpu_old, "S", &S, 1);
+    /*TODO*///	state_load_UINT16(file, module, cpu_old, "X", &X, 1);
+    /*TODO*///	state_load_UINT16(file, module, cpu_old, "Y", &Y, 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "DP", &DP, 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "CC", &CC, 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "INT", &m6809.int_state, 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "NMI", &m6809.nmi_state, 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "IRQ", &m6809.irq_state[0], 1);
+    /*TODO*///	state_load_UINT8(file, module, cpu_old, "FIRQ", &m6809.irq_state[1], 1);
     /*TODO*///}
     /*TODO*///
     /*TODO*///void m6809_state_save(void *file) { state_save(file, "m6809"); }
@@ -859,7 +876,7 @@ public class m6809 extends cpu_interface
     			m6809.ppc = m6809.pc;
     
     			m6809.ireg = ROP(m6809.pc);
-    			m6809.pc = m6809.pc + 1 & 0xFFFF;
+    			m6809.pc = (char)(m6809.pc + 1);
                 switch( m6809.ireg )
     		{
     			case 0x00: neg_di();   m6809_ICount[0]-= 6; break;
@@ -876,7 +893,7 @@ public class m6809 extends cpu_interface
     			case 0x0b: illegal();  m6809_ICount[0]-= 2; break;
     			case 0x0c: inc_di();   m6809_ICount[0]-= 6; break;
     			case 0x0d: tst_di();   m6809_ICount[0]-= 6; break;
-    /*TODO*///			case 0x0e: jmp_di();   m6809_ICount[0]-= 3; break;
+    			case 0x0e: jmp_di();   m6809_ICount[0]-= 3; break;
     			case 0x0f: clr_di();   m6809_ICount[0]-= 6; break;
     			case 0x10: pref10();					 break;
     			case 0x11: pref11();					 break;
@@ -903,17 +920,13 @@ public class m6809 extends cpu_interface
     			case 0x26: bne();	   m6809_ICount[0]-= 3; break;
     			case 0x27: beq();	   m6809_ICount[0]-= 3; break;
     			case 0x28: bvc();	   m6809_ICount[0]-= 3; break;
-    /*TODO*///			case 0x29: bvs();	   m6809_ICount[0]-= 3; break;
+    			case 0x29: bvs();	   m6809_ICount[0]-= 3; break;
     			case 0x2a: bpl();	   m6809_ICount[0]-= 3; break;
     			case 0x2b: bmi();	   m6809_ICount[0]-= 3; break;
     			case 0x2c: bge();	   m6809_ICount[0]-= 3; break;
     			case 0x2d: blt();	   m6809_ICount[0]-= 3; break;
     			case 0x2e: bgt();	   m6809_ICount[0]-= 3; break;
     			case 0x2f: ble();	   m6809_ICount[0]-= 3; break;
-                        case 0x29:
-                        bvs();
-                        m6809_ICount[0] -= 3;
-                        break;
     			case 0x30: leax();	   m6809_ICount[0]-= 4; break;
     			case 0x31: leay();	   m6809_ICount[0]-= 4; break;
     			case 0x32: leas();	   m6809_ICount[0]-= 4; break;
@@ -929,7 +942,7 @@ public class m6809 extends cpu_interface
     			case 0x3c: cwai();	   m6809_ICount[0]-=20; break;
     			case 0x3d: mul();	   m6809_ICount[0]-=11; break;
     			case 0x3e: illegal();  m6809_ICount[0]-= 2; break;
-    /*TODO*///			case 0x3f: swi();	   m6809_ICount[0]-=19; break;
+    			case 0x3f: swi();	   m6809_ICount[0]-=19; break;
     			case 0x40: nega();	   m6809_ICount[0]-= 2; break;
     			case 0x41: illegal();  m6809_ICount[0]-= 2; break;
     			case 0x42: illegal();  m6809_ICount[0]-= 2; break;
@@ -1016,14 +1029,14 @@ public class m6809 extends cpu_interface
     			case 0x93: subd_di();  m6809_ICount[0]-= 6; break;
     			case 0x94: anda_di();  m6809_ICount[0]-= 4; break;
     			case 0x95: bita_di();  m6809_ICount[0]-= 4; break;
-   			case 0x96: lda_di();   m6809_ICount[0]-= 4; break;
+   			    case 0x96: lda_di();   m6809_ICount[0]-= 4; break;
     			case 0x97: sta_di();   m6809_ICount[0]-= 4; break;
     			case 0x98: eora_di();  m6809_ICount[0]-= 4; break;
     			case 0x99: adca_di();  m6809_ICount[0]-= 4; break;
     			case 0x9a: ora_di();   m6809_ICount[0]-= 4; break;
     			case 0x9b: adda_di();  m6809_ICount[0]-= 4; break;
     			case 0x9c: cmpx_di();  m6809_ICount[0]-= 6; break;
-    /*TODO*///			case 0x9d: jsr_di();   m6809_ICount[0]-= 7; break;
+    			case 0x9d: jsr_di();   m6809_ICount[0]-= 7; break;
     			case 0x9e: ldx_di();   m6809_ICount[0]-= 5; break;
     			case 0x9f: stx_di();   m6809_ICount[0]-= 5; break;
     			case 0xa0: suba_ix();  m6809_ICount[0]-= 4; break;
@@ -1060,7 +1073,7 @@ public class m6809 extends cpu_interface
     			case 0xbf: stx_ex();   m6809_ICount[0]-= 6; break;
     			case 0xc0: subb_im();  m6809_ICount[0]-= 2; break;
     			case 0xc1: cmpb_im();  m6809_ICount[0]-= 2; break;
-    /*TODO*///			case 0xc2: sbcb_im();  m6809_ICount[0]-= 2; break;
+    			case 0xc2: sbcb_im();  m6809_ICount[0]-= 2; break;
     			case 0xc3: addd_im();  m6809_ICount[0]-= 4; break;
     			case 0xc4: andb_im();  m6809_ICount[0]-= 2; break;
     			case 0xc5: bitb_im();  m6809_ICount[0]-= 2; break;
@@ -1076,14 +1089,14 @@ public class m6809 extends cpu_interface
     /*TODO*///			case 0xcf: stu_im();   m6809_ICount[0]-= 3; break;
     			case 0xd0: subb_di();  m6809_ICount[0]-= 4; break;
     			case 0xd1: cmpb_di();  m6809_ICount[0]-= 4; break;
-    /*TODO*///			case 0xd2: sbcb_di();  m6809_ICount[0]-= 4; break;
+    			case 0xd2: sbcb_di();  m6809_ICount[0]-= 4; break;
     			case 0xd3: addd_di();  m6809_ICount[0]-= 6; break;
     			case 0xd4: andb_di();  m6809_ICount[0]-= 4; break;
     			case 0xd5: bitb_di();  m6809_ICount[0]-= 4; break;
     			case 0xd6: ldb_di();   m6809_ICount[0]-= 4; break;
     			case 0xd7: stb_di();   m6809_ICount[0]-= 4; break;
     			case 0xd8: eorb_di();  m6809_ICount[0]-= 4; break;
-    /*TODO*///			case 0xd9: adcb_di();  m6809_ICount[0]-= 4; break;
+    			case 0xd9: adcb_di();  m6809_ICount[0]-= 4; break;
     			case 0xda: orb_di();   m6809_ICount[0]-= 4; break;
     			case 0xdb: addb_di();  m6809_ICount[0]-= 4; break;
     			case 0xdc: ldd_di();   m6809_ICount[0]-= 5; break;
@@ -1099,7 +1112,7 @@ public class m6809 extends cpu_interface
     			case 0xe6: ldb_ix();   m6809_ICount[0]-= 4; break;
     			case 0xe7: stb_ix();   m6809_ICount[0]-= 4; break;
     			case 0xe8: eorb_ix();  m6809_ICount[0]-= 4; break;
-   			case 0xe9: adcb_ix();  m6809_ICount[0]-= 4; break;
+   			    case 0xe9: adcb_ix();  m6809_ICount[0]-= 4; break;
     			case 0xea: orb_ix();   m6809_ICount[0]-= 4; break;
     			case 0xeb: addb_ix();  m6809_ICount[0]-= 4; break;
     			case 0xec: ldd_ix();   m6809_ICount[0]-= 5; break;
@@ -1141,11 +1154,11 @@ public class m6809 extends cpu_interface
     public void fetch_effective_address()
     {
        int postbyte = ROP_ARG(m6809.pc) & 0xFF;
-       m6809.pc = m6809.pc +1 & 0xFFFF;
+       m6809.pc = (char)(m6809.pc +1);
     
     	switch(postbyte)
     	{
-    	case 0x00: ea=m6809.x;												m6809_ICount[0]-=1;   break;
+    	case 0x00: ea=m6809.x & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x01: ea=m6809.x+1 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x02: ea=m6809.x+2 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x03: ea=m6809.x+3 &0xFFFF;												m6809_ICount[0]-=1;   break;
@@ -1178,7 +1191,7 @@ public class m6809 extends cpu_interface
     	case 0x1d: ea=m6809.x-3 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x1e: ea=m6809.x-2 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x1f: ea=m6809.x-1 & 0xFFFF;												m6809_ICount[0]-=1;   break;
-    	case 0x20: ea=m6809.y;												m6809_ICount[0]-=1;   break;
+    	case 0x20: ea=m6809.y & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x21: ea=m6809.y+1 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x22: ea=m6809.y+2 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x23: ea=m6809.y+3 & 0xFFFF;												m6809_ICount[0]-=1;   break;
@@ -1211,7 +1224,7 @@ public class m6809 extends cpu_interface
     	case 0x3d: ea=m6809.y-3 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x3e: ea=m6809.y-2&0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x3f: ea=m6809.y-1&0xFFFF;												m6809_ICount[0]-=1;   break;
-    	case 0x40: ea=m6809.u;												m6809_ICount[0]-=1;   break;
+    	case 0x40: ea=m6809.u & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x41: ea=m6809.u+1 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x42: ea=m6809.u+2 & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x43: ea=m6809.u+3 & 0xFFFF;												m6809_ICount[0]-=1;   break;
@@ -1245,7 +1258,7 @@ public class m6809 extends cpu_interface
     	case 0x5e: ea=m6809.u-2 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x5f: ea=m6809.u-1 &0xFFFF;												m6809_ICount[0]-=1;   break;
 
-    	case 0x60: ea=m6809.s;												m6809_ICount[0]-=1;   break;
+    	case 0x60: ea=m6809.s & 0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x61: ea=m6809.s+1&0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x62: ea=m6809.s+2&0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x63: ea=m6809.s+3&0xFFFF;												m6809_ICount[0]-=1;   break;
@@ -1279,13 +1292,13 @@ public class m6809 extends cpu_interface
     	case 0x7e: ea=m6809.s-2 &0xFFFF;												m6809_ICount[0]-=1;   break;
     	case 0x7f: ea=m6809.s-1 &0xFFFF;												m6809_ICount[0]-=1;   break;
     
-    	case 0x80: ea=m6809.x;	m6809.x=m6809.x+1&0xFFFF;										m6809_ICount[0]-=2;   break;
-    	case 0x81: ea=m6809.x;	m6809.x=m6809.x+2&0xFFFF;										m6809_ICount[0]-=3;   break;
-    	case 0x82: m6809.x=m6809.x-1&0xFFFF; 	ea=m6809.x;										m6809_ICount[0]-=2;   break;
-    	case 0x83: m6809.x=m6809.x-2&0xFFFF; 	ea=m6809.x;										m6809_ICount[0]-=3;   break;
-    	case 0x84: ea=m6809.x;																   break;
-    	case 0x85: ea = m6809.x + (byte)m6809.b & 0xFFFF;/*EA=X+SIGNED(B);*/										m6809_ICount[0]-=1;   break;
-    	case 0x86: ea = m6809.x + (byte)m6809.a & 0xFFFF;/*EA=X+SIGNED(A);*/										m6809_ICount[0]-=1;   break;
+    	case 0x80: ea=m6809.x&0xFFFF;	m6809.x=(char)(m6809.x+1);										m6809_ICount[0]-=2;   break;
+    	case 0x81: ea=m6809.x&0xFFFF;	m6809.x=(char)(m6809.x+2);										m6809_ICount[0]-=3;   break;
+    	case 0x82: m6809.x=(char)(m6809.x-1); 	ea=m6809.x&0xFFFF;										m6809_ICount[0]-=2;   break;
+    	case 0x83: m6809.x=(char)(m6809.x-2); 	ea=m6809.x&0xFFFF;										m6809_ICount[0]-=3;   break;
+    	case 0x84: ea=m6809.x&0xFFFF;																   break;
+    	case 0x85: ea = (m6809.x + (byte)m6809.b) & 0xFFFF;/*EA=X+SIGNED(B);*/										m6809_ICount[0]-=1;   break;
+    	case 0x86: ea = (m6809.x + (byte)m6809.a) & 0xFFFF;/*EA=X+SIGNED(A);*/										m6809_ICount[0]-=1;   break;
     /*TODO*///	case 0x87: EA=0;																   break; /*   ILLEGAL*/
     	case 0x88: ea=IMMBYTE(); 	ea=m6809.x+(byte)ea& 0xFFFF;					m6809_ICount[0]-=1;   break; /* this is a hack to make Vectrex work. It should be m6809_ICount[0]-=1. Dunno where the cycle was lost :( */
     	case 0x89: ea=IMMWORD(); 	ea = ea + m6809.x & 0xFFFF;								m6809_ICount[0]-=4;   break;
@@ -1296,10 +1309,10 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0x8e: EA=0;																   break; /*   ILLEGAL*/
     /*TODO*///	case 0x8f: IMMWORD(ea); 										m6809_ICount[0]-=5;   break;
     /*TODO*///
-    	case 0x90: ea=m6809.x;	m6809.x=m6809.x+1 &0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=5;   break; /* Indirect ,R+ not in my specs */
-    	case 0x91: ea=m6809.x;	m6809.x=m6809.x+2 &0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
-    	case 0x92: m6809.x=m6809.x-1 &0xFFFF; 	ea=m6809.x;						ea=RM16(ea);	m6809_ICount[0]-=5;   break;
-    	case 0x93: m6809.x=m6809.x-2 &0xFFFF;	ea=m6809.x;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
+    	case 0x90: ea=m6809.x&0xFFFF;	m6809.x=(char)(m6809.x+1);						ea=RM16(ea);	m6809_ICount[0]-=5;   break; /* Indirect ,R+ not in my specs */
+    	case 0x91: ea=m6809.x&0xFFFF;	m6809.x=(char)(m6809.x+2);						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
+    	case 0x92: m6809.x=(char)(m6809.x-1); 	ea=m6809.x;						ea=RM16(ea);	m6809_ICount[0]-=5;   break;
+    	case 0x93: m6809.x=(char)(m6809.x-2);	ea=m6809.x;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
     	case 0x94: ea=m6809.x;								ea=RM16(ea);	m6809_ICount[0]-=3;   break;
     	case 0x95: ea = m6809.x + (byte)m6809.b & 0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=4;   break;
     	case 0x96: ea = m6809.x + (byte)m6809.a & 0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=4;   break;
@@ -1309,15 +1322,15 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0x9a: EA=0;																   break; /*   ILLEGAL*/
     	case 0x9b: ea=m6809.x+getDreg();								ea=RM16(ea);	m6809_ICount[0]-=7;   break;
     /*TODO*///	case 0x9c: IMMBYTE(EA); 	EA=PC+SIGNED(EA);	EAD=RM16(EAD);	m6809_ICount[0]-=4;   break;
-    /*TODO*///	case 0x9d: IMMWORD(ea); 	EA+=PC; 			EAD=RM16(EAD);	m6809_ICount[0]-=8;   break;
+    	case 0x9d: ea=IMMWORD(); 	ea = ea + m6809.pc & 0xFFFF; 			ea=RM16(ea);	m6809_ICount[0]-=8;   break;
     /*TODO*///	case 0x9e: EA=0;																   break; /*   ILLEGAL*/
     	case 0x9f: ea=IMMWORD(); 						ea=RM16(ea);	m6809_ICount[0]-=8;   break;
     
-    	case 0xa0: ea=m6809.y;	m6809.y=m6809.y+1 &0xFFFF;										m6809_ICount[0]-=2;   break;
-    	case 0xa1: ea=m6809.y;	m6809.y=m6809.y+2 &0xFFFF;										m6809_ICount[0]-=3;   break;
-    	case 0xa2: m6809.y=m6809.y-1&0xFFFF; 	ea=m6809.y;										m6809_ICount[0]-=2;   break;
-    	case 0xa3: m6809.y=m6809.y-2&0xFFFF; 	ea=m6809.y;										m6809_ICount[0]-=3;   break;
-    	case 0xa4: ea=m6809.y;																   break;
+    	case 0xa0: ea=m6809.y&0xFFFF;	m6809.y=(char)(m6809.y+1);										m6809_ICount[0]-=2;   break;
+    	case 0xa1: ea=m6809.y&0xFFFF;	m6809.y=(char)(m6809.y+2);										m6809_ICount[0]-=3;   break;
+    	case 0xa2: m6809.y=(char)(m6809.y-1); 	ea=m6809.y&0xFFFF;										m6809_ICount[0]-=2;   break;
+    	case 0xa3: m6809.y=(char)(m6809.y-2); 	ea=m6809.y&0xFFFF;										m6809_ICount[0]-=3;   break;
+    	case 0xa4: ea=m6809.y&0xFFFF;																   break;
     	case 0xa5: ea=m6809.y + (byte)m6809.b & 0xFFFF;										m6809_ICount[0]-=1;   break;
     	case 0xa6: ea=m6809.y + (byte)m6809.a & 0xFFFF;/*EA=Y+SIGNED(A);*/									m6809_ICount[0]-=1;   break;
     /*TODO*///	case 0xa7: EA=0;																   break; /*   ILLEGAL*/
@@ -1331,7 +1344,7 @@ public class m6809 extends cpu_interface
     	case 0xaf: ea=IMMWORD(); 										m6809_ICount[0]-=5;   break;
     /*TODO*///
     /*TODO*///	case 0xb0: EA=Y;	Y++;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
-    	case 0xb1: ea=m6809.y;	m6809.y=m6809.y+2 &0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
+    	case 0xb1: ea=m6809.y&0xFFFF;	m6809.y=(char)(m6809.y+2);						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
     /*TODO*///	case 0xb2: Y--; 	EA=Y;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
     /*TODO*///	case 0xb3: Y-=2;	EA=Y;						EAD=RM16(EAD);	m6809_ICount[0]-=6;   break;
     	case 0xb4: ea=m6809.y;								ea=RM16(ea);	m6809_ICount[0]-=3;   break;
@@ -1347,11 +1360,11 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xbe: EA=0;																   break; /*   ILLEGAL*/
     /*TODO*///	case 0xbf: IMMWORD(ea); 						EAD=RM16(EAD);	m6809_ICount[0]-=8;   break;
     /*TODO*///
-    	case 0xc0: ea=m6809.u;			m6809.u=m6809.u+1&0xFFFF;								m6809_ICount[0]-=2;   break;
-    	case 0xc1: ea=m6809.u;			m6809.u=m6809.u+2&0xFFFF;								m6809_ICount[0]-=3;   break;
-    	case 0xc2: m6809.u=m6809.u-1 &0xFFFF; 			ea=m6809.u;								m6809_ICount[0]-=2;   break;
-    	case 0xc3: m6809.u=m6809.u-2 &0xFFFF; 			ea=m6809.u;								m6809_ICount[0]-=3;   break;
-    	case 0xc4: ea=m6809.u;																   break;
+    	case 0xc0: ea=m6809.u&0xFFFF;			m6809.u=(char)(m6809.u+1);								m6809_ICount[0]-=2;   break;
+    	case 0xc1: ea=m6809.u&0xFFFF;			m6809.u=(char)(m6809.u+2);								m6809_ICount[0]-=3;   break;
+    	case 0xc2: m6809.u=(char)(m6809.u-1); 			ea=m6809.u&0xFFFF;								m6809_ICount[0]-=2;   break;
+    	case 0xc3: m6809.u=(char)(m6809.u-2); 			ea=m6809.u&0xFFFF;								m6809_ICount[0]-=3;   break;
+    	case 0xc4: ea=m6809.u&0xFFFF;																   break;
     	case 0xc5: ea=m6809.u+(byte)m6809.b & 0xFFFF;										m6809_ICount[0]-=1;   break;
     	case 0xc6: ea=m6809.u+(byte)m6809.a & 0xFFFF;										m6809_ICount[0]-=1;   break;
     /*TODO*///	case 0xc7: EA=0;																   break; /*ILLEGAL*/
@@ -1365,7 +1378,7 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xcf: IMMWORD(ea); 										m6809_ICount[0]-=5;   break;
     /*TODO*///
     /*TODO*///	case 0xd0: EA=U;	U++;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
-        case 0xd1: ea=m6809.u;	m6809.u=m6809.u+2&0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
+        case 0xd1: ea=m6809.u;	m6809.u=(char)(m6809.u+2);						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
     /*TODO*///	case 0xd2: U--; 	EA=U;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
     /*TODO*///	case 0xd3: U-=2;	EA=U;						EAD=RM16(EAD);	m6809_ICount[0]-=6;   break;
     	case 0xd4: ea=m6809.u;								ea=RM16(ea);	m6809_ICount[0]-=3;   break;
@@ -1373,7 +1386,7 @@ public class m6809 extends cpu_interface
     	case 0xd6: ea=m6809.u+(byte)m6809.a & 0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xd7: EA=0;																   break; /*ILLEGAL*/
     	case 0xd8: ea=IMMBYTE(); 	ea=m6809.u+(byte)ea&0xFFFF;	ea=RM16(ea);	m6809_ICount[0]-=4;   break;
-    /*TODO*///	case 0xd9: IMMWORD(ea); 	EA+=U;				EAD=RM16(EAD);	m6809_ICount[0]-=7;   break;
+    	case 0xd9: ea=IMMWORD(); 	ea=(ea+m6809.u)&0xFFFF;				ea=RM16(ea);	m6809_ICount[0]-=7;   break;
     /*TODO*///	case 0xda: EA=0;																   break; /*ILLEGAL*/
     	case 0xdb: ea=m6809.u+getDreg() & 0xFFFF;								ea=RM16(ea);	m6809_ICount[0]-=7;   break;
     /*TODO*///	case 0xdc: IMMBYTE(EA); 	EA=PC+SIGNED(EA);	EAD=RM16(EAD);	m6809_ICount[0]-=4;   break;
@@ -1381,16 +1394,16 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xde: EA=0;																   break; /*ILLEGAL*/
     /*TODO*///	case 0xdf: IMMWORD(ea); 						EAD=RM16(EAD);	m6809_ICount[0]-=8;   break;
     /*TODO*///
-    	case 0xe0: ea=m6809.s;	m6809.s=m6809.s+1&0xFFFF;										m6809_ICount[0]-=2;   break;
-    	case 0xe1: ea=m6809.s;	m6809.s=m6809.s+2&0xFFFF;										m6809_ICount[0]-=3;   break;
-    	case 0xe2: m6809.s=m6809.s-1&0xFFFF; 	ea=m6809.s;										m6809_ICount[0]-=2;   break;
-    	case 0xe3: m6809.s=m6809.s-2&0xFFFF; 	ea=m6809.s;										m6809_ICount[0]-=3;   break;
+    	case 0xe0: ea=m6809.s;	m6809.s=(char)(m6809.s+1);										m6809_ICount[0]-=2;   break;
+    	case 0xe1: ea=m6809.s;	m6809.s=(char)(m6809.s+2);										m6809_ICount[0]-=3;   break;
+    	case 0xe2: m6809.s=(char)(m6809.s-1); 	ea=m6809.s;										m6809_ICount[0]-=2;   break;
+    	case 0xe3: m6809.s=(char)(m6809.s-2); 	ea=m6809.s;										m6809_ICount[0]-=3;   break;
     	case 0xe4: ea=m6809.s;																   break;
     	case 0xe5: ea=m6809.s+(byte)m6809.b&0xFFFF;										m6809_ICount[0]-=1;   break;
     	case 0xe6: ea=m6809.s+(byte)m6809.a&0xFFFF;										m6809_ICount[0]-=1;   break;
     /*TODO*///	case 0xe7: EA=0;																   break; /*ILLEGAL*/
     	case 0xe8: ea=IMMBYTE(); 	ea=m6809.s+(byte)ea & 0xFFFF;					m6809_ICount[0]-=1;   break;
-    /*TODO*///	case 0xe9: IMMWORD(ea); 	EA+=S;								m6809_ICount[0]-=4;   break;
+    	case 0xe9: ea=IMMWORD(); 	ea=(ea+m6809.s)&0xFFFF;								m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xea: EA=0;																   break; /*ILLEGAL*/
     /*TODO*///	case 0xeb: EA=S+D;												m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xec: IMMBYTE(EA); 	EA=PC+SIGNED(EA);					m6809_ICount[0]-=1;   break;
@@ -1399,10 +1412,10 @@ public class m6809 extends cpu_interface
     /*TODO*///	case 0xef: IMMWORD(ea); 										m6809_ICount[0]-=5;   break;
     /*TODO*///
     /*TODO*///	case 0xf0: EA=S;	S++;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
-    	case 0xf1: ea=m6809.s;	m6809.s = m6809.s+2 & 0xFFFF;						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
+    	case 0xf1: ea=m6809.s&0xFFFF;	m6809.s = (char)(m6809.s+2);						ea=RM16(ea);	m6809_ICount[0]-=6;   break;
     /*TODO*///	case 0xf2: S--; 	EA=S;						EAD=RM16(EAD);	m6809_ICount[0]-=5;   break;
     /*TODO*///	case 0xf3: S-=2;	EA=S;						EAD=RM16(EAD);	m6809_ICount[0]-=6;   break;
-    /*TODO*///	case 0xf4: EA=S;								EAD=RM16(EAD);	m6809_ICount[0]-=3;   break;
+    	case 0xf4: ea=m6809.s&0xFFFF;								ea=RM16(ea);	m6809_ICount[0]-=3;   break;
     /*TODO*///	case 0xf5: EA=S+SIGNED(B);						EAD=RM16(EAD);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xf6: EA=S+SIGNED(A);						EAD=RM16(EAD);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xf7: EA=0;																   break; /*ILLEGAL*/
@@ -1479,20 +1492,6 @@ public class m6809 extends cpu_interface
     }
 
     @Override
-    public int get_reg(int regnum) {
-        return m6809_get_reg(regnum);
-    }
-
-    @Override
-    public void set_reg(int regnum, int val) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-
-
-
-    @Override
     public void internal_interrupt(int type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -1533,23 +1532,23 @@ public class m6809 extends cpu_interface
     {
     	int r,t;
     	t=DIRBYTE();
-    	r = -t & 0xFFFF;
+    	r = -t & 0xFF;
     	CLR_NZVC();
     	SET_FLAGS8(0,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d neg_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d neg_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $03 COM direct -**01 */
     public void com_di()
     {
         int t=	DIRBYTE();
-    	t = (t^ 0xFFFFFFFF) & 0xFF;
+    	t = ~t & 0xFF;
     	CLR_NZV();
     	SET_NZ8(t);
     	SEC();
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d com_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d com_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $04 LSR direct -0*-* */
@@ -1558,10 +1557,10 @@ public class m6809 extends cpu_interface
         int t=DIRBYTE();
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	t =t>> 1 & 0xFF;
+    	t =t>>> 1 & 0xFF;
    	SET_Z8(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $06 ROR direct -**-* */
@@ -1572,10 +1571,10 @@ public class m6809 extends cpu_interface
     	r= ((m6809.cc & CC_C) << 7) & 0xFF;
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	r = (r | t>>1)&0xFF;
+    	r = (r | t>>>1)&0xFF;
     	SET_NZ8(r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $07 ASR direct ?**-* */
@@ -1584,10 +1583,10 @@ public class m6809 extends cpu_interface
         int t=DIRBYTE();
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	t = ((t & 0x80) | (t >> 1))&0xFF;
+    	t = ((t & 0x80) | (t >>> 1))&0xFF;
     	SET_NZ8(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $08 ASL direct ?**** */
@@ -1599,7 +1598,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $09 ROL direct -**** */
@@ -1611,7 +1610,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
    	SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $0A DEC direct -***- */
@@ -1622,7 +1621,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
     	SET_FLAGS8D(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $OC INC direct -***- */
@@ -1633,7 +1632,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
     	SET_FLAGS8I(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $OD TST direct -**0- */
@@ -1642,16 +1641,17 @@ public class m6809 extends cpu_interface
         int t=DIRBYTE();
     	CLR_NZV();
     	SET_NZ8(t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d tst_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d tst_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $0E JMP direct ----- */
+    /* $0E JMP direct ----- */
     public void jmp_di()
     {
-    /*TODO*///	DIRECT;
-    /*TODO*///	PCD = EAD;
-    /*TODO*///	CHANGE_PC;
+    	DIRECT();
+        m6809.pc = (char)(ea&0xFFFF);
+        CHANGE_PC();
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d jmp_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $0F CLR direct -0100 */
     public void clr_di()
@@ -1660,7 +1660,7 @@ public class m6809 extends cpu_interface
     	WM(ea,0);
     	CLR_NZVC();
     	SEZ();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d clr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d clr_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $12 NOP inherent ----- */
@@ -1680,20 +1680,20 @@ public class m6809 extends cpu_interface
     	 * stop execution until the interrupt lines change. */
     	if(( m6809.int_state & M6809_SYNC )!=0)
     		if (m6809_ICount[0] > 0) m6809_ICount[0] = 0;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sync :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sync :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
    /* $16 LBRA relative ----- */
     public void lbra()
     {
        ea=IMMWORD();
-       m6809.pc = m6809.pc + ea & 0xFFFF;
+       m6809.pc = (char)((m6809.pc + ea) & 0xFFFF);
        CHANGE_PC();
     
     	if ( ea == 0xfffd )  /* EHC 980508 speed up busy loop */
     		if ( m6809_ICount[0] > 0)
    			m6809_ICount[0] = 0;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $17 LBSR relative ----- */
@@ -1701,9 +1701,9 @@ public class m6809 extends cpu_interface
     {
     	ea=IMMWORD();
     	PUSHWORD(m6809.pc);
-    	m6809.pc=m6809.pc + ea &0xFFFF;
+    	m6809.pc=(char)((m6809.pc + ea) &0xFFFF);
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbsr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbsr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $19 DAA inherent (A) -**0* */
@@ -1720,8 +1720,8 @@ public class m6809 extends cpu_interface
     	CLR_NZV(); /* keep carry from previous operation */
     	SET_NZ8(/*(UINT8)*/t & 0xFF); 
         SET_C8(t);
-    	m6809.a = t & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d daa :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(t & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d daa :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $1A ORCC immediate ##### */
     public void orcc()
@@ -1729,6 +1729,8 @@ public class m6809 extends cpu_interface
     	int t=	IMMBYTE();
     	m6809.cc |= t;
     	CHECK_IRQ_LINES();	/* HJB 990116 */
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d orcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $1C ANDCC immediate ##### */
     public void andcc()
@@ -1736,8 +1738,8 @@ public class m6809 extends cpu_interface
         int t= IMMBYTE();
     	m6809.cc &= t;
     	CHECK_IRQ_LINES();	/* HJB 990116 */
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d andcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
- 
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d andcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $1D SEX inherent -**0- */
     public void sex()
@@ -1746,7 +1748,7 @@ public class m6809 extends cpu_interface
         setDreg(t);
     	CLR_NZV();
     	SET_NZ16(t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1E EXG inherent ----- */
@@ -1756,14 +1758,14 @@ public class m6809 extends cpu_interface
     	/*UINT8*/int tb;
     
     	tb=IMMBYTE();
-    	if(( (tb^(tb>>4)) & 0x08 )!=0)	/* HJB 990225: mixed 8/16 bit case? */
+    	if(( (tb^(tb>>>4)) & 0x08 )!=0)	/* HJB 990225: mixed 8/16 bit case? */
     	{
     		/* transfer $ff to both registers */
     		t1 = t2 = 0xff;
     	}
     	else
     	{
-    		switch(tb>>4) {
+    		switch(tb>>>4) {
     			case  0: t1 = getDreg();  break;
     			case  1: t1 = m6809.x;  break;
     			case  2: t1 = m6809.y;  break;
@@ -1790,31 +1792,31 @@ public class m6809 extends cpu_interface
     			default: t2 = 0xff;
             }
     	}
-    	switch(tb>>4) {
+    	switch(tb>>>4) {
     		case  0: setDreg(t2);  break;
-    		case  1: m6809.x = t2;  break;
-    		case  2: m6809.y = t2;  break;
-    		case  3: m6809.u = t2;  break;
-    		case  4: m6809.s = t2;  break;
-    		case  5: m6809.pc = t2; CHANGE_PC(); break;
-    		case  8: m6809.a = t2;  break;
-    		case  9: m6809.b = t2;  break;
-    		case 10: m6809.cc= t2; break;
-    		case 11: m6809.dp = t2; break;
+    		case  1: m6809.x = (char)(t2);  break;
+    		case  2: m6809.y = (char)(t2);  break;
+    		case  3: m6809.u = (char)(t2);  break;
+    		case  4: m6809.s = (char)(t2);  break;
+    		case  5: m6809.pc = (char)(t2); CHANGE_PC(); break;
+    		case  8: m6809.a = (char)(t2);  break;
+    		case  9: m6809.b = (char)(t2);  break;
+    		case 10: m6809.cc= (char)(t2); break;
+    		case 11: m6809.dp = (char)(t2); break;
     	}
     	switch(tb&15) {
     		case  0: setDreg(t1);  break;
-    		case  1: m6809.x = t1;  break;
-    		case  2: m6809.y = t1;  break;
-    		case  3: m6809.u = t1;  break;
-    		case  4: m6809.s = t1;  break;
-    		case  5: m6809.pc = t1; CHANGE_PC(); break;
-    		case  8: m6809.a = t1;  break;
-    		case  9: m6809.b = t1;  break;
-    		case 10: m6809.cc = t1; break;
-    		case 11: m6809.dp = t1; break;
+    		case  1: m6809.x = (char)(t1);  break;
+    		case  2: m6809.y = (char)(t1);  break;
+    		case  3: m6809.u = (char)(t1);  break;
+    		case  4: m6809.s = (char)(t1);  break;
+    		case  5: m6809.pc = (char)(t1); CHANGE_PC(); break;
+    		case  8: m6809.a = (char)(t1&0xFF);  break;
+    		case  9: m6809.b = (char)(t1&0xFF);  break;
+    		case 10: m6809.cc = (char)(t1&0xFF); break;
+    		case 11: m6809.dp = (char)(t1&0xFF); break;
     	}
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d exg :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d exg :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1F TFR inherent ----- */
@@ -1824,14 +1826,14 @@ public class m6809 extends cpu_interface
     	/*UINT16*/ int t;
     
     	tb=IMMBYTE();
-    	if(( (tb^(tb>>4)) & 0x08 )!=0)	/* HJB 990225: mixed 8/16 bit case? */
+    	if(( (tb^(tb>>>4)) & 0x08 )!=0)	/* HJB 990225: mixed 8/16 bit case? */
     	{
     		/* transfer $ff to register */
     		t = 0xff;
         }
     	else
     	{
-    		switch(tb>>4) {
+    		switch(tb>>>4) {
     			case  0: t = getDreg();  break;
     			case  1: t = m6809.x;  break;
     			case  2: t = m6809.y;  break;
@@ -1847,17 +1849,17 @@ public class m6809 extends cpu_interface
     	}
     	switch(tb&15) {
     		case  0: setDreg(t);   break;
-    		case  1: m6809.x = t;  break;
-    		case  2: m6809.y = t;  break;
-    		case  3: m6809.u = t;  break;
-    		case  4: m6809.s = t;  break;
-    		case  5: m6809.pc = t; CHANGE_PC(); break;
-    		case  8: m6809.a = t;  break;
-    		case  9: m6809.b = t;  break;
-    		case 10: m6809.cc = t; break;
-    		case 11: m6809.dp = t; break;
+    		case  1: m6809.x = (char)(t);  break;
+    		case  2: m6809.y = (char)(t);  break;
+    		case  3: m6809.u = (char)(t);  break;
+    		case  4: m6809.s = (char)(t);  break;
+    		case  5: m6809.pc = (char)(t); CHANGE_PC(); break;
+    		case  8: m6809.a = (char)(t&0xFF);  break;
+    		case  9: m6809.b = (char)(t&0xFF);  break;
+    		case 10: m6809.cc = (char)(t&0xFF); break;
+    		case 11: m6809.dp = (char)(t&0xFF); break;
         }
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d tfr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d tfr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $20 BRA relative ----- */
@@ -1865,198 +1867,200 @@ public class m6809 extends cpu_interface
     {
         int t;
         t=IMMBYTE();
-        m6809.pc=m6809.pc+(byte)t & 0xFFFF;//TODO check if it has to be better...
+        m6809.pc=(char)(m6809.pc+(byte)t);//TODO check if it has to be better...
         CHANGE_PC();
     	/* JB 970823 - speed up busy loops */
     	if( t == 0xfe )
     		if( m6809_ICount[0] > 0 ) m6809_ICount[0] = 0;
-         //if(m6809log!=null) fprintf(m6809log,"M6809#%d bra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+         //if(m6809log!=null) fprintf(m6809log,"M6809#%d bra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $21 BRN relative ----- */
     public void brn()
     {
         int t=	IMMBYTE();
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d brn :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
-    /*TODO*///
-    /*TODO*////* $1021 LBRN relative ----- */
+
+    /* $1021 LBRN relative ----- */
     public void lbrn()
     {
-    	ea=IMMWORD();
+       ea=IMMWORD();
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbrn :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $22 BHI relative ----- */
     public void bhi()
     {
     	BRANCH( (m6809.cc & (CC_Z|CC_C))==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bhi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bhi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $1022 LBHI relative ----- */
     public void lbhi()
     {
     	LBRANCH( (m6809.cc & (CC_Z|CC_C))==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbhi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbhi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $23 BLS relative ----- */
     public void bls()
     {
     	BRANCH( (m6809.cc & (CC_Z|CC_C))!=0 );
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d bls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $1023 LBLS relative ----- */
     public void lbls()
     {
     	LBRANCH( (m6809.cc & (CC_Z|CC_C))!=0 );
-       if(m6809log!=null) fprintf(m6809log,"M6809#%d lbls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d lbls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $24 BCC relative ----- */
     public void bcc()
     {
     	BRANCH( (m6809.cc&CC_C)==0 );
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d bcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $1024 LBCC relative ----- */
     public void lbcc()
     {
     	LBRANCH( (m6809.cc&CC_C) ==0);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbcc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $25 BCS relative ----- */
     public void bcs()
     {
     	BRANCH( (m6809.cc&CC_C)!=0 );
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d bcs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bcs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $1025 LBCS relative ----- */
     public void lbcs()
     {
     	LBRANCH( (m6809.cc&CC_C)!=0 );
-       if(m6809log!=null) fprintf(m6809log,"M6809#%d lbcs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d lbcs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $26 BNE relative ----- */
     public void bne()
     {
     	BRANCH( (m6809.cc&CC_Z)==0 );
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d bne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d bne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1026 LBNE relative ----- */
     public void lbne()
     {
     	LBRANCH( (m6809.cc&CC_Z)==0 );
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d lbne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbne :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $27 BEQ relative ----- */
     public void beq()
     {
     	BRANCH( (m6809.cc&CC_Z)!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d beq :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d beq :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1027 LBEQ relative ----- */
     public void lbeq()
     {
     	LBRANCH( (m6809.cc&CC_Z)!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbeq :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbeq :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $28 BVC relative ----- */
     public void bvc()
     {
     	BRANCH( (m6809.cc&CC_V)==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bvc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bvc :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1028 LBVC relative ----- */
     public void lbvc()
     {
-    /*TODO*///	LBRANCH( !(CC&CC_V) );
+    	LBRANCH( (m6809.cc&CC_V)==0 );
     }
-    /*TODO*///
-    /*TODO*////* $29 BVS relative ----- */
+    /* $29 BVS relative ----- */
     public void bvs()
     {
-    /*TODO*///	BRANCH( (CC&CC_V) );
+    	BRANCH( (m6809.cc&CC_V)!=0 );
     }
-    /*TODO*///
-    /*TODO*////* $1029 LBVS relative ----- */
+    /* $1029 LBVS relative ----- */
     public void lbvs()
     {
-    /*TODO*///	LBRANCH( (CC&CC_V) );
+    	LBRANCH( (m6809.cc&CC_V)!=0 );
     }
     /* $2A BPL relative ----- */
     public void bpl()
     {
     	BRANCH( (m6809.cc&CC_N)==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bpl :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bpl :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $102A LBPL relative ----- */
     public void lbpl()
     {
     	LBRANCH( (m6809.cc&CC_N)==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbpl :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbpl :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $2B BMI relative ----- */
     public void bmi()
     {
     	BRANCH( (m6809.cc&CC_N)!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bmi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bmi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $102B LBMI relative ----- */
     public void lbmi()
     {
     	LBRANCH( (m6809.cc&CC_N)!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbmi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbmi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $2C BGE relative ----- */
     public void bge()
     {
     	BRANCH( NXORV()==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bge :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bge :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     //* $102C LBGE relative ----- */
     public void lbge()
     {
     	LBRANCH( NXORV()==0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbge :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbge :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $2D BLT relative ----- */
     public void blt()
     {
     	BRANCH( NXORV()!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d blt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d blt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $102D LBLT relative ----- */
     public void lblt()
     {
     	LBRANCH( NXORV()!=0 );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lblt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lblt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $2E BGT relative ----- */
     public void bgt()
     {
     	BRANCH( !((NXORV()!=0) || ((m6809.cc&CC_Z)!=0)) );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bgt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bgt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $102E LBGT relative ----- */
     public void lbgt()
     {
     	LBRANCH( !((NXORV()!=0) || ((m6809.cc&CC_Z)!=0)) );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbgt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lbgt :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $2F BLE relative ----- */
     public void ble()
     {
     	BRANCH( (NXORV()!=0 || (m6809.cc&CC_Z)!=0) );
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ble :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ble :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $102F LBLE relative ----- */
@@ -2068,36 +2072,36 @@ public class m6809 extends cpu_interface
     public void leax()
     {
     	fetch_effective_address();
-        m6809.x = ea;
+        m6809.x = (char)(ea);
     	CLR_Z();
     	SET_Z(m6809.x);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d leax :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d leax :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $31 LEAY indexed --*-- */
     public void leay()
     {
     	fetch_effective_address();
-        m6809.y = ea;
+        m6809.y = (char)(ea);
     	CLR_Z();
     	SET_Z(m6809.y);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d leay :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d leay :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     /* $32 LEAS indexed ----- */
     public void leas()
     {
     	fetch_effective_address();
-        m6809.s = ea;
+        m6809.s = (char)(ea);
     	m6809.int_state |= M6809_LDS;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d leas :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d leas :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $33 LEAU indexed ----- */
     public void leau()
     {
     	fetch_effective_address();
-        m6809.u = ea;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d leau :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        m6809.u = (char)(ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d leau :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $34 PSHS inherent ----- */
@@ -2112,7 +2116,7 @@ public class m6809 extends cpu_interface
     	if((  t&0x04 )!=0) { PUSHBYTE(m6809.b);   m6809_ICount[0]-= 1; }
     	if((  t&0x02 )!=0) { PUSHBYTE(m6809.a);   m6809_ICount[0]-= 1; }
     	if((  t&0x01 )!=0) { PUSHBYTE(m6809.cc);  m6809_ICount[0]-= 1; }
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d pshs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d pshs :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
         
     }
@@ -2121,18 +2125,18 @@ public class m6809 extends cpu_interface
     public void puls()
     {
         int t=IMMBYTE();
-    	if(( t&0x01 )!=0) { m6809.cc=PULLBYTE(); m6809_ICount[0] -= 1; }
-    	if(( t&0x02 )!=0) { m6809.a=PULLBYTE();  m6809_ICount[0] -= 1; }
-    	if(( t&0x04 )!=0) { m6809.b=PULLBYTE();  m6809_ICount[0] -= 1; }
-    	if(( t&0x08 )!=0) { m6809.dp=PULLBYTE(); m6809_ICount[0] -= 1; }
-    	if(( t&0x10 )!=0) { m6809.x=PULLWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x20 )!=0) { m6809.y=PULLWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x40 )!=0) { m6809.u=PULLWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x80 )!=0) { m6809.pc=PULLWORD(); CHANGE_PC(); m6809_ICount[0] -= 2; }
+    	if(( t&0x01 )!=0) { m6809.cc=(char)(PULLBYTE()); m6809_ICount[0] -= 1; }
+    	if(( t&0x02 )!=0) { m6809.a=(char)(PULLBYTE());  m6809_ICount[0] -= 1; }
+    	if(( t&0x04 )!=0) { m6809.b=(char)(PULLBYTE());  m6809_ICount[0] -= 1; }
+    	if(( t&0x08 )!=0) { m6809.dp=(char)(PULLBYTE()); m6809_ICount[0] -= 1; }
+    	if(( t&0x10 )!=0) { m6809.x=(char)(PULLWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x20 )!=0) { m6809.y=(char)(PULLWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x40 )!=0) { m6809.u=(char)(PULLWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x80 )!=0) { m6809.pc=(char)(PULLWORD()); CHANGE_PC(); m6809_ICount[0] -= 2; }
     
     	/* HJB 990225: moved check after all PULLs */
     	if(( t&0x01 )!=0) { CHECK_IRQ_LINES(); }
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d puls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d puls :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $36 PSHU inherent ----- */
@@ -2148,7 +2152,7 @@ public class m6809 extends cpu_interface
     	if(( t&0x02 )!=0) { PSHUBYTE(m6809.a);   m6809_ICount[0] -= 1; }
     	if(( t&0x01 )!=0) { PSHUBYTE(m6809.cc);  m6809_ICount[0] -= 1; }
         
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d pshu :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d pshu :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     
@@ -2156,55 +2160,55 @@ public class m6809 extends cpu_interface
     public void pulu()
     {
     	int t=IMMBYTE();
-    	if(( t&0x01 )!=0) { m6809.cc=PULUBYTE(); m6809_ICount[0] -= 1; }
-    	if(( t&0x02 )!=0) { m6809.a=PULUBYTE();  m6809_ICount[0] -= 1; }
-    	if(( t&0x04 )!=0) { m6809.b=PULUBYTE();  m6809_ICount[0] -= 1; }
-    	if(( t&0x08 )!=0) { m6809.dp=PULUBYTE(); m6809_ICount[0] -= 1; }
-    	if(( t&0x10 )!=0) { m6809.x=PULUWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x20 )!=0) { m6809.y=PULUWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x40 )!=0) { m6809.s=PULUWORD(); m6809_ICount[0] -= 2; }
-    	if(( t&0x80 )!=0) { m6809.pc=PULUWORD(); CHANGE_PC(); m6809_ICount[0] -= 2; }
+    	if(( t&0x01 )!=0) { m6809.cc=(char)(PULUBYTE()); m6809_ICount[0] -= 1; }
+    	if(( t&0x02 )!=0) { m6809.a=(char)(PULUBYTE());  m6809_ICount[0] -= 1; }
+    	if(( t&0x04 )!=0) { m6809.b=(char)(PULUBYTE());  m6809_ICount[0] -= 1; }
+    	if(( t&0x08 )!=0) { m6809.dp=(char)(PULUBYTE()); m6809_ICount[0] -= 1; }
+    	if(( t&0x10 )!=0) { m6809.x=(char)(PULUWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x20 )!=0) { m6809.y=(char)(PULUWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x40 )!=0) { m6809.s=(char)(PULUWORD()); m6809_ICount[0] -= 2; }
+    	if(( t&0x80 )!=0) { m6809.pc=(char)(PULUWORD()); CHANGE_PC(); m6809_ICount[0] -= 2; }
     
     	/* HJB 990225: moved check after all PULLs */
     	if(( t&0x01 )!=0) { CHECK_IRQ_LINES(); }
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d pulu :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d pulu :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $39 RTS inherent ----- */
     public void rts()
     {
-    	m6809.pc=PULLWORD();
+    	m6809.pc=(char)(PULLWORD());
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rts :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rts :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $3A ABX inherent ----- */
     public void abx()
     {
-        m6809.x=m6809.x+m6809.b & 0xFFFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d abx :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        m6809.x=(char)(m6809.x+m6809.b);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d abx :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $3B RTI inherent ##### */
     public void rti()
     {
     	int t;
-    	m6809.cc=PULLBYTE();
+    	m6809.cc=(char)(PULLBYTE());
     	t = m6809.cc & CC_E;		/* HJB 990225: entire state saved? */
     	if(t!=0)
     	{
             m6809_ICount[0] -= 9;
-    		m6809.a=PULLBYTE();
-    		m6809.b=PULLBYTE();
-    		m6809.dp=PULLBYTE();
-    		m6809.x=PULLWORD();
-    		m6809.y=PULLWORD();
-    		m6809.u=PULLWORD();
+    		m6809.a=(char)(PULLBYTE());
+    		m6809.b=(char)(PULLBYTE());
+    		m6809.dp=(char)(PULLBYTE());
+    		m6809.x=(char)(PULLWORD());
+    		m6809.y=(char)(PULLWORD());
+    		m6809.u=(char)(PULLWORD());
     	}
-    	m6809.pc=PULLWORD();
+    	m6809.pc=(char)(PULLWORD());
     	CHANGE_PC();
     	CHECK_IRQ_LINES();	/* HJB 990116 */
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d rti :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rti :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -2215,7 +2219,7 @@ public class m6809 extends cpu_interface
     	int t =IMMBYTE();
     	m6809.cc &= t;
     	/*
-         * CWAI stacks the entire machine state on the hardware stack,
+         * CWAI stacks the entire machine_old state on the hardware stack,
          * then waits for an interrupt; when the interrupt is taken
          * later, the state is *not* saved again after CWAI.
          */
@@ -2233,7 +2237,7 @@ public class m6809 extends cpu_interface
     	if(( m6809.int_state & M6809_CWAI )!=0)
     		if( m6809_ICount[0] > 0 )
     			m6809_ICount[0] = 0;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cwai :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cwai :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -2241,48 +2245,50 @@ public class m6809 extends cpu_interface
     public void mul()
     {
         int t;
-    	t = m6809.a * m6809.b & 0xFFFF;
+    	t = ((m6809.a&0xff) * (m6809.b&0xff)) & 0xFFFF;
     	CLR_ZC(); 
         SET_Z16(t); 
         if((t&0x80)!=0) SEC();
     	setDreg(t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d mul :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d mul :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
        
     }
-    /*TODO*///
-    /*TODO*////* $3E ILLEGAL */
-    /*TODO*///
-    /*TODO*////* $3F SWI (SWI2 SWI3) absolute indirect ----- */
+
+    /* $3F SWI (SWI2 SWI3) absolute indirect ----- */
     public void swi()
     {
-    /*TODO*///	CC |= CC_E; 			/* HJB 980225: save entire state */
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PUSHWORD(pU);
-    /*TODO*///	PUSHWORD(pY);
-    /*TODO*///	PUSHWORD(pX);
-    /*TODO*///	PUSHBYTE(DP);
-    /*TODO*///	PUSHBYTE(B);
-    /*TODO*///	PUSHBYTE(A);
-    /*TODO*///	PUSHBYTE(CC);
-    /*TODO*///	CC |= CC_IF | CC_II;	/* inhibit FIRQ and IRQ */
-    /*TODO*///	PCD=RM16(0xfffa);
-    /*TODO*///	CHANGE_PC;
+        m6809.cc |= CC_E; 			/* HJB 980225: save entire state */
+    	PUSHWORD(m6809.ppc);
+    	PUSHWORD(m6809.u);
+    	PUSHWORD(m6809.y);
+    	PUSHWORD(m6809.x);
+    	PUSHBYTE(m6809.dp);
+    	PUSHBYTE(m6809.b);
+    	PUSHBYTE(m6809.a);
+    	PUSHBYTE(m6809.cc);
+        m6809.cc |= CC_IF | CC_II;	/* inhibit FIRQ and IRQ */
+        m6809.pc=RM16(0xfffa);
+    	CHANGE_PC();
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d swi :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
-    /*TODO*///
-    /*TODO*////* $103F SWI2 absolute indirect ----- */
+
+    /* $103F SWI2 absolute indirect ----- */
     public void swi2()
     {
-    /*TODO*///	CC |= CC_E; 			/* HJB 980225: save entire state */
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PUSHWORD(pU);
-    /*TODO*///	PUSHWORD(pY);
-    /*TODO*///	PUSHWORD(pX);
-    /*TODO*///	PUSHBYTE(DP);
-    /*TODO*///	PUSHBYTE(B);
-    /*TODO*///	PUSHBYTE(A);
-    /*TODO*///    PUSHBYTE(CC);
-    /*TODO*///	PCD = RM16(0xfff4);
-    /*TODO*///	CHANGE_PC;
+        m6809.cc |= CC_E; 			/* HJB 980225: save entire state */
+    	PUSHWORD(m6809.ppc);
+    	PUSHWORD(m6809.u);
+    	PUSHWORD(m6809.y);
+    	PUSHWORD(m6809.x);
+    	PUSHBYTE(m6809.dp);
+    	PUSHBYTE(m6809.b);
+    	PUSHBYTE(m6809.a);
+        PUSHBYTE(m6809.cc);
+    	m6809.pc = RM16(0xfff4);
+    	CHANGE_PC();
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d swi2 :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /*TODO*///
     /*TODO*////* $113F SWI3 absolute indirect ----- */
@@ -2304,21 +2310,21 @@ public class m6809 extends cpu_interface
     public void nega()
     {
         int r;
-    	r = -m6809.a & 0xFFFF;
+    	r = -m6809.a & 0xFF;
     	CLR_NZVC();
     	SET_FLAGS8(0,m6809.a,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d nega :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d nega :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $43 COMA inherent -**01 */
     public void coma()
     {
-    	m6809.a = (m6809.a ^ 0xFFFFFFFF) & 0xFF;
+    	m6809.a =(char)( ~m6809.a & 0xFF);
     	CLR_NZV();
     	SET_NZ8(m6809.a);
     	SEC();
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d coma :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d coma :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $44 LSRA inherent -0*-* */
@@ -2326,9 +2332,9 @@ public class m6809 extends cpu_interface
     {
         CLR_NZC();
     	m6809.cc |= (m6809.a & CC_C);
-    	m6809.a = m6809.a >> 1 & 0xFF;
+    	m6809.a = (char)(m6809.a >>> 1 & 0xFF);
     	SET_Z8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $46 RORA inherent -**-* */
@@ -2338,10 +2344,10 @@ public class m6809 extends cpu_interface
     	r = ((m6809.cc & CC_C) << 7)&0xFF;
     	CLR_NZC();
     	m6809.cc |= (m6809.a & CC_C);
-    	r = (r | m6809.a >> 1)&0xFF;
+    	r = (r | m6809.a >>> 1)&0xFF;
     	SET_NZ8(r);
-    	m6809.a = r&0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rora :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r&0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rora :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $47 ASRA inherent ?**-* */
@@ -2349,9 +2355,9 @@ public class m6809 extends cpu_interface
     {
     	CLR_NZC();
     	m6809.cc |= (m6809.a & CC_C);
-    	m6809.a = ((m6809.a & 0x80) | (m6809.a >> 1)) &0xFF;
+    	m6809.a = (char)(((m6809.a & 0x80) | (m6809.a >>> 1)) &0xFF);
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $48 ASLA inherent ?**** */
     public void asla()
@@ -2359,13 +2365,13 @@ public class m6809 extends cpu_interface
         int r = (m6809.a << 1) & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,m6809.a,r);
-    	m6809.a = r & 0xFF;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d asla :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asla :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $49 ROLA inherent -**** */
     public void rola()//very suspicious to recheck
     {
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rola(before):PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rola(before):PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
  //BUGGY have to figure it out!
         int t,r;
@@ -2373,25 +2379,25 @@ public class m6809 extends cpu_interface
    	r = ((m6809.cc & CC_C) | ((t<<1))) &0xFFFF;//is that correct???
     	CLR_NZVC(); 
         SET_FLAGS8(t,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rola:PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rola:PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $4A DECA inherent -***- */
     public void deca()
     {
-        m6809.a = m6809.a -1 & 0xFF;
+        m6809.a = (char)(m6809.a -1 & 0xFF);
     	CLR_NZV();
     	SET_FLAGS8D(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d deca :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);    
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d deca :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);    
     }
     /* $4C INCA inherent -***- */
     public void inca()
     {
-        m6809.a = m6809.a +1 & 0xFF;
+        m6809.a = (char)(m6809.a +1 & 0xFF);
     	CLR_NZV();
     	SET_FLAGS8I(m6809.a);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d inca :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);    
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d inca :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $4D TSTA inherent -**0- */
     public void tsta()
@@ -2405,7 +2411,7 @@ public class m6809 extends cpu_interface
         m6809.a = 0;
     	CLR_NZVC(); 
         SEZ();
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d clra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d clra :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $50 NEGB inherent ?**** */
@@ -2415,17 +2421,17 @@ public class m6809 extends cpu_interface
     	r = -m6809.b & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(0,m6809.b,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d negb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d negb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $53 COMB inherent -**01 */
     public void comb()
     {
-        m6809.b = (m6809.b ^ 0xFFFFFFFF) & 0xFF;
+        m6809.b = (char)((~m6809.b) & 0xFF);
     	CLR_NZV();
     	SET_NZ8(m6809.b);
     	SEC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d comb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d comb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }   
     /* $54 LSRB inherent -0*-* */
@@ -2433,9 +2439,9 @@ public class m6809 extends cpu_interface
     {
         CLR_NZC();
     	m6809.cc |= (m6809.b & CC_C);
-    	m6809.b = m6809.b >> 1 &0xFF;
+    	m6809.b = (char)(m6809.b >>> 1 &0xFF);
     	SET_Z8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);    
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);    
     }
     /* $56 RORB inherent -**-* */
     public void rorb()
@@ -2444,19 +2450,19 @@ public class m6809 extends cpu_interface
     	r = ((m6809.cc & CC_C) << 7)&0xFF;
     	CLR_NZC();
     	m6809.cc |= (m6809.b & CC_C);
-    	r = (r | m6809.b >> 1)&0xFF;
+    	r = (r | m6809.b >>> 1)&0xFF;
     	SET_NZ8(r);
-    	m6809.b = r&0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rorb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);    
+    	m6809.b = (char)(r&0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rorb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);    
     }
     /* $57 ASRB inherent ?**-* */
     public void asrb()//suspicious recheck
     {
         CLR_NZC();
     	m6809.cc |= (m6809.b & CC_C);
-    	m6809.b = ((m6809.b & 0x80) | (m6809.b >> 1)) &0xFF;
+    	m6809.b = (char)(((m6809.b & 0x80) | (m6809.b >>> 1)) &0xFF);
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $58 ASLB inherent ?**** */
     public void aslb()
@@ -2464,8 +2470,8 @@ public class m6809 extends cpu_interface
         int r = (m6809.b << 1) & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,m6809.b,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d aslb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d aslb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $59 ROLB inherent -**** */
     public void rolb()
@@ -2476,24 +2482,24 @@ public class m6809 extends cpu_interface
     	r = (r | t << 1) &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(t,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rolb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rolb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $5A DECB inherent -***- */
     public void decb()
     {
-       m6809.b = m6809.b-1&0xFF;	
+       m6809.b = (char)(m6809.b-1&0xFF);
        CLR_NZV();
        SET_FLAGS8D(m6809.b);
-       //if(m6809log!=null) fprintf(m6809log,"M6809#%d decb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d decb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $5C INCB inherent -***- */
     public void incb()
     {
-        m6809.b = m6809.b +1 & 0xFF;
+        m6809.b = (char)(m6809.b +1 & 0xFF);
     	CLR_NZV();
     	SET_FLAGS8I(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d incb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d incb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $5D TSTB inherent -**0- */
     public void tstb()
@@ -2506,7 +2512,7 @@ public class m6809 extends cpu_interface
     {
     	m6809.b = 0;
     	CLR_NZVC(); SEZ();
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d clrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d clrb :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $60 NEG indexed ?**** */
     public void neg_ix()
@@ -2514,23 +2520,23 @@ public class m6809 extends cpu_interface
         int r,t;
     	fetch_effective_address();
     	t = RM(ea);
-    	r=-t & 0xFFFF;
+    	r=-t & 0xFF;
     	CLR_NZVC();
     	SET_FLAGS8(0,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d neg_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d neg_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $63 COM indexed -**01 */
     public void com_ix()
     {
         int t;
     	fetch_effective_address();
-    	t = (RM(ea)^ 0xFFFFFFFF) & 0xFF;
+    	t = ~RM(ea) & 0xFF;
     	CLR_NZV();
     	SET_NZ8(t);
     	SEC();
     	WM(ea,t);
-       if(m6809log!=null) fprintf(m6809log,"M6809#%d com_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d com_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $64 LSR indexed -0*-* */
     public void lsr_ix()
@@ -2540,10 +2546,10 @@ public class m6809 extends cpu_interface
     	t=RM(ea);
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	t= t >>1 & 0xFF; 
+    	t= t >>>1 & 0xFF;
         SET_Z8(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $66 ROR indexed -**-* */
@@ -2555,10 +2561,10 @@ public class m6809 extends cpu_interface
     	r = (m6809.cc & CC_C) << 7 &0xFF;
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	r = r | t>>1 &0xFF;//correct???//r |= t>>1; 
+    	r = r | t>>>1 &0xFF;//correct???//r |= t>>1;
         SET_NZ8(r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $67 ASR indexed ?**-* */
@@ -2569,10 +2575,10 @@ public class m6809 extends cpu_interface
     	t=RM(ea);
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	t=((t&0x80)|(t>>1))&0xFF;
+    	t=((t&0x80)|(t>>>1))&0xFF;
     	SET_NZ8(t);
    	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $68 ASL indexed ?**** */
@@ -2585,7 +2591,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $69 ROL indexed -**** */
     public void rol_ix()//suspicious recheck
@@ -2598,7 +2604,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $6A DEC indexed -***- */
     public void dec_ix()
@@ -2609,7 +2615,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
         SET_FLAGS8D(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     
     /*TODO*////* $6C INC indexed -***- */
@@ -2621,7 +2627,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV(); 
         SET_FLAGS8I(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $6D TST indexed -**0- */
     public void tst_ix()
@@ -2631,15 +2637,15 @@ public class m6809 extends cpu_interface
     	t = RM(ea);
     	CLR_NZV();
     	SET_NZ8(t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d tst_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d tst_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $6E JMP indexed ----- */
     public void jmp_ix()
     {
     	fetch_effective_address();
-    	m6809.pc = ea;
+    	m6809.pc = (char)(ea);
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d jmp_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d jmp_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $6F CLR indexed -0100 */
     public void clr_ix()
@@ -2648,14 +2654,14 @@ public class m6809 extends cpu_interface
         WM(ea,0);
     	CLR_NZVC(); 
         SEZ();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d clr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d clr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $70 NEG extended ?**** */
     public void neg_ex()
     {
         int r,t;
     	t=EXTBYTE();
-    	r=-t & 0xFFFF;
+    	r=-t & 0xFF;
     	CLR_NZVC();
     	SET_FLAGS8(0,t,r);
     	WM(ea,r);
@@ -2664,12 +2670,12 @@ public class m6809 extends cpu_interface
     public void com_ex()
     {
         int t= EXTBYTE(); 
-        t = (t^ 0xFFFFFFFF) & 0xFF;
+        t = ~t & 0xFF;
     	CLR_NZV(); 
         SET_NZ8(t); 
         SEC();
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d com_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d com_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $74 LSR extended -0*-* */
@@ -2678,24 +2684,24 @@ public class m6809 extends cpu_interface
         int t=EXTBYTE(); 
         CLR_NZC(); 
         m6809.cc |= (t & CC_C);
-    	t=t>>1 &0XFF; 
+    	t=t>>>1 &0XFF;
         SET_Z8(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lsr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $76 ROR extended -**-* */
     public void ror_ex()
     {
         int t,r;
-    	t=EXTBYTE(); 
+    	t=EXTBYTE();
         r=((m6809.cc & CC_C) << 7)&0xFF;
-    	CLR_NZC(); 
+    	CLR_NZC();
         m6809.cc |= (t & CC_C);
-    	r = (r| t>>1)&0xFF; 
+    	r = (r| t>>>1)&0xFF;
         SET_NZ8(r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ror_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -2705,9 +2711,11 @@ public class m6809 extends cpu_interface
         int t=EXTBYTE();
     	CLR_NZC();
     	m6809.cc |= (t & CC_C);
-    	t = ((t & 0x80) | (t >> 1))&0xFF;
+    	t = ((t & 0x80) | (t >>> 1))&0xFF;
     	SET_NZ8(t);
     	WM(ea,t);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $78 ASL extended ?**** */
     public void asl_ex()
@@ -2718,7 +2726,7 @@ public class m6809 extends cpu_interface
         CLR_NZVC(); 
         SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d asl_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -2731,7 +2739,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC(); 
         SET_FLAGS8(t,t,r);
     	WM(ea,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d rol_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $7A DEC extended -***- */
@@ -2742,7 +2750,7 @@ public class m6809 extends cpu_interface
        CLR_NZV(); 
        SET_FLAGS8D(t);
        WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d dec_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $7C INC extended -***- */
@@ -2753,7 +2761,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV(); 
         SET_FLAGS8I(t);
     	WM(ea,t);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d inc_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $7D TST extended -**0- */
@@ -2767,9 +2775,9 @@ public class m6809 extends cpu_interface
     public void jmp_ex()
     {
     	EXTENDED();
-    	m6809.pc = ea;
+    	m6809.pc = (char)(ea);
     	CHANGE_PC();
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d jmp_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d jmp_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $7F CLR extended -0100 */
@@ -2788,8 +2796,8 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+    	m6809.a = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);  
     }
     /* $81 CMPA immediate ?**** */
     public void cmpa_im()
@@ -2799,7 +2807,7 @@ public class m6809 extends cpu_interface
        r = (m6809.a - t) & 0xFFFF;
        CLR_NZVC();
        SET_FLAGS8(m6809.a,t,r);
-       //if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $82 SBCA immediate ?**** */
     public void sbca_im()
@@ -2809,8 +2817,8 @@ public class m6809 extends cpu_interface
     	r = (m6809.a - t - (m6809.cc & CC_C))& 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r& 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+    	m6809.a = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);  
     
     }
     /* $83 SUBD (CMPD CMPU) immediate -**** */
@@ -2823,7 +2831,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);  
     }
     /* $1083 CMPD immediate -**** */
     public void cmpd_im()
@@ -2834,7 +2842,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $1183 CMPU immediate -**** */
@@ -2846,7 +2854,7 @@ public class m6809 extends cpu_interface
     	r = (d - b); //& 0xFFFF;//should be unsigned?
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $84 ANDA immediate -**0- */
@@ -2856,7 +2864,7 @@ public class m6809 extends cpu_interface
     	m6809.a &= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $85 BITA immediate -**0- */
@@ -2867,7 +2875,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a & t;
        	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $86 LDA immediate -**0- */
@@ -2876,7 +2884,7 @@ public class m6809 extends cpu_interface
     	m6809.a=IMMBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /*TODO*///
     /*TODO*////* is this a legal instruction? */
@@ -2895,7 +2903,7 @@ public class m6809 extends cpu_interface
     	m6809.a ^= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $89 ADCA immediate ***** */
     public void adca_im()
@@ -2906,8 +2914,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);      
+    	m6809.a = (char)(r & 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $8A ORA immediate -**0- */
     public void ora_im()
@@ -2916,7 +2924,7 @@ public class m6809 extends cpu_interface
     	m6809.a |= t; //TODO should unsigned it??
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
        
     }
     /* $8B ADDA immediate ***** */
@@ -2928,8 +2936,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);     
+    	m6809.a = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $8C CMPX (CMPY CMPS) immediate -**** */
     public void cmpx_im()//suspicious recheck it
@@ -2940,7 +2948,7 @@ public class m6809 extends cpu_interface
     	r = (d - b); //&0xFFFF;//should be unsigned?
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
        
     }
     /* $108C CMPY immediate -**** */
@@ -2952,7 +2960,7 @@ public class m6809 extends cpu_interface
     	r = (d - b); //&0xFFFF;//should be unsigned?
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $118C CMPS immediate -**** */
@@ -2964,31 +2972,33 @@ public class m6809 extends cpu_interface
     	r = (d - b); //&0xFFFF;//should be unsigned?
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmps_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $8D BSR ----- */
     public void bsr()
     {
     	int t=IMMBYTE();
     	PUSHWORD(m6809.pc);
-    	m6809.pc = m6809.pc + (byte)t & 0xFFFF; 
+    	m6809.pc = (char)(m6809.pc + (byte)t);
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bsr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bsr :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $8E LDX (LDY) immediate -**0- */
     public void ldx_im()
     {
-    	m6809.x=IMMWORD();
+    	m6809.x=(char)(IMMWORD());
     	CLR_NZV();
     	SET_NZ16(m6809.x);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $108E LDY immediate -**0- */
     public void ldy_im()
     {
-        m6809.y=IMMWORD();
+        m6809.y=(char)(IMMWORD());
     	CLR_NZV();
     	SET_NZ16(m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea); 
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea); 
     }
     /*TODO*///
     /*TODO*////* is this a legal instruction? */
@@ -3018,8 +3028,8 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $91 CMPA direct ?**** */
@@ -3030,7 +3040,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $92 SBCA direct ?**** */
@@ -3041,8 +3051,8 @@ public class m6809 extends cpu_interface
     	r = (m6809.a - t - (m6809.cc & CC_C)) &0xFFFF;//should be unsigned??
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $93 SUBD (CMPD CMPU) direct -**** */
@@ -3055,7 +3065,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
    	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     //* $1093 CMPD direct -**** */
@@ -3068,7 +3078,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $1193 CMPU direct -**** */
@@ -3080,7 +3090,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $94 ANDA direct -**0- */
     public void anda_di()
@@ -3089,7 +3099,7 @@ public class m6809 extends cpu_interface
     	m6809.a &= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $95 BITA direct -**0- */
@@ -3100,7 +3110,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a & t;
     	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $96 LDA direct -**0- */
@@ -3109,7 +3119,7 @@ public class m6809 extends cpu_interface
     	m6809.a=DIRBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $97 STA direct -**0- */
@@ -3119,7 +3129,7 @@ public class m6809 extends cpu_interface
     	SET_NZ8(m6809.a);
     	DIRECT();
     	WM(ea,m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $98 EORA direct -**0- */
@@ -3129,7 +3139,7 @@ public class m6809 extends cpu_interface
     	m6809.a ^= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $99 ADCA direct ***** */
@@ -3141,8 +3151,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a= r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a= (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /*TODO*///
@@ -3153,7 +3163,7 @@ public class m6809 extends cpu_interface
     	m6809.a |= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $9B ADDA direct ***** */
@@ -3165,8 +3175,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $9C CMPX (CMPY CMPS) direct -**** */
@@ -3178,7 +3188,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $109C CMPY direct -**** */
@@ -3190,46 +3200,45 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $119C CMPS direct -**** */
+    /* $119C CMPS direct -**** */
     public void cmps_di()
     {
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	DIRWORD(b);
-    /*TODO*///	d = S;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
+        int r,d;
+        int b=DIRWORD();
+        d = m6809.s;
+        r = d - b;
+        CLR_NZVC();
+        SET_FLAGS16(d,b,r);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmps_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
-    /*TODO*///
-    /*TODO*////* $9D JSR direct ----- */
+    /* $9D JSR direct ----- */
     public void jsr_di()
     {
-    /*TODO*///	DIRECT;
-    /*TODO*///	PUSHWORD(pPC);
-    /*TODO*///	PCD = EAD;
-    /*TODO*///	CHANGE_PC;
+        DIRECT();
+        PUSHWORD(m6809.pc);
+        m6809.pc = (char)(ea);
+        CHANGE_PC();
     }
     /* $9E LDX (LDY) direct -**0- */
     public void ldx_di()
     {
-    	m6809.x=DIRWORD();
+    	m6809.x=(char)(DIRWORD());
     	CLR_NZV();
     	SET_NZ16(m6809.x);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $109E LDY direct -**0- */
     public void ldy_di()
     {
-        m6809.y=DIRWORD();
+        m6809.y=(char)(DIRWORD());
     	CLR_NZV();
     	SET_NZ16(m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $9F STX (STY) direct -**0- */
     public void stx_di()
@@ -3238,7 +3247,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(m6809.x);
     	DIRECT();
     	WM16(ea,m6809.x);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $109F STY direct -**0- */
@@ -3248,7 +3257,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(m6809.y);
     	DIRECT();
     	WM16(ea,m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $a0 SUBA indexed ?**** */
     public void suba_ix()
@@ -3259,8 +3268,8 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $a1 CMPA indexed ?**** */
     public void cmpa_ix()
@@ -3271,7 +3280,7 @@ public class m6809 extends cpu_interface
     	r = (m6809.a - t) &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $a2 SBCA indexed ?**** */
@@ -3283,8 +3292,8 @@ public class m6809 extends cpu_interface
     	r = (m6809.a - t - (m6809.cc & CC_C))&0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $a3 SUBD (CMPD CMPU) indexed -**** */
@@ -3299,7 +3308,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $10a3 CMPD indexed -**** */
@@ -3314,7 +3323,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
 
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $11a3 CMPU indexed -**** */
@@ -3327,7 +3336,7 @@ public class m6809 extends cpu_interface
     	r = m6809.u - b;
     	CLR_NZVC();
     	SET_FLAGS16(m6809.u,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $a4 ANDA indexed -**0- */
@@ -3337,7 +3346,7 @@ public class m6809 extends cpu_interface
     	m6809.a &= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $a5 BITA indexed -**0- */
     public void bita_ix()
@@ -3347,7 +3356,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a & RM(ea);
     	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $a6 LDA indexed -**0- */
     public void lda_ix()
@@ -3356,7 +3365,7 @@ public class m6809 extends cpu_interface
     	m6809.a = RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $a7 STA indexed -**0- */
     public void sta_ix()
@@ -3365,7 +3374,7 @@ public class m6809 extends cpu_interface
         CLR_NZV();
     	SET_NZ8(m6809.a);
     	WM(ea,m6809.a);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $a8 EORA indexed -**0- */
@@ -3375,7 +3384,7 @@ public class m6809 extends cpu_interface
     	m6809.a ^= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $a9 ADCA indexed ***** */
@@ -3388,8 +3397,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adca_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $aA ORA indexed -**0- */
     public void ora_ix()
@@ -3398,7 +3407,7 @@ public class m6809 extends cpu_interface
     	m6809.a |= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $aB ADDA indexed ***** */
     public void adda_ix()
@@ -3411,8 +3420,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r &0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     /* $aC CMPX (CMPY CMPS) indexed -**** */
@@ -3426,7 +3435,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     /* $10aC CMPY indexed -**** */
@@ -3440,49 +3449,50 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);  
     }
-    /*TODO*///
-    /*TODO*////* $11aC CMPS indexed -**** */
+    /* $11aC CMPS indexed -**** */
     public void cmps_ix()
     {
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	fetch_effective_address();
-    /*TODO*///    b.d=RM16(EAD);
-    /*TODO*///	d = S;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
+        int r,d;
+        int b;
+        fetch_effective_address();
+        b=RM16(ea);
+        d = m6809.s;
+        r = d - b;
+        CLR_NZVC();
+        SET_FLAGS16(d,b,r);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmps_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $aD JSR indexed ----- */
     public void jsr_ix()
     {
     	fetch_effective_address();
         PUSHWORD(m6809.pc);
-    	m6809.pc = ea;
+    	m6809.pc = (char)(ea);
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d jsr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d jsr_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $aE LDX (LDY) indexed -**0- */
     public void ldx_ix()
     {
     	fetch_effective_address();
-        m6809.x=RM16(ea);
+        m6809.x=(char)(RM16(ea));
     	CLR_NZV();
     	SET_NZ16(m6809.x);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $10aE LDY indexed -**0- */
     public void ldy_ix()
     {
     	fetch_effective_address();
-        m6809.y=RM16(ea);
+        m6809.y=(char)(RM16(ea));
     	CLR_NZV();
     	SET_NZ16(m6809.y);
-         //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+         //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $aF STX (STY) indexed -**0- */
     public void stx_ix()
@@ -3491,7 +3501,7 @@ public class m6809 extends cpu_interface
         CLR_NZV();
     	SET_NZ16(m6809.x);
     	WM16(ea,m6809.x);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $10aF STY indexed -**0- */
@@ -3501,7 +3511,7 @@ public class m6809 extends cpu_interface
         CLR_NZV();
     	SET_NZ16(m6809.y);
     	WM16(ea,m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $b0 SUBA extended ?**** */
@@ -3512,8 +3522,8 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d suba_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $b1 CMPA extended ?**** */
@@ -3524,7 +3534,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a - t;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.a,t,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpa_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $b2 SBCA extended ?**** */
@@ -3535,8 +3545,8 @@ public class m6809 extends cpu_interface
         r = (m6809.a - t - (m6809.cc & CC_C))&0xFFFF;
         CLR_NZVC();
         SET_FLAGS8(m6809.a,t,r);
-        m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbca_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $b3 SUBD (CMPD CMPU) extended -**** */
     public void subd_ex()
@@ -3548,7 +3558,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $10b3 CMPD extended -**** */
@@ -3560,7 +3570,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $11b3 CMPU extended -**** */
@@ -3572,7 +3582,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpu_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }  
     /* $b4 ANDA extended -**0- */
@@ -3582,7 +3592,7 @@ public class m6809 extends cpu_interface
     	m6809.a &= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d anda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $b5 BITA extended -**0- */
@@ -3593,7 +3603,7 @@ public class m6809 extends cpu_interface
     	r = m6809.a & t;
     	CLR_NZV(); 
         SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bita_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $b6 LDA extended -**0- */
@@ -3602,7 +3612,7 @@ public class m6809 extends cpu_interface
     	m6809.a=EXTBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d lda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
 
@@ -3613,7 +3623,7 @@ public class m6809 extends cpu_interface
     	SET_NZ8(m6809.a);
     	EXTENDED();
     	WM(ea,m6809.a);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d sta_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $b8 EORA extended -**0- */
@@ -3623,7 +3633,7 @@ public class m6809 extends cpu_interface
     	m6809.a ^= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eora_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $b9 ADCA extended ***** */
@@ -3635,7 +3645,7 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
+    	m6809.a = (char)(r& 0xFF);;
     }
     /* $bA ORA extended -**0- */
     public void ora_ex()
@@ -3644,7 +3654,7 @@ public class m6809 extends cpu_interface
     	m6809.a |= t;
     	CLR_NZV();
     	SET_NZ8(m6809.a);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ora_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $bB ADDA extended ***** */
@@ -3656,8 +3666,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.a,t,r);
     	SET_H(m6809.a,t,r);
-    	m6809.a = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.a = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adda_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $bC CMPX (CMPY CMPS) extended -**** */
@@ -3669,7 +3679,7 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $10bC CMPY extended -**** */
     public void cmpy_ex()
@@ -3680,29 +3690,29 @@ public class m6809 extends cpu_interface
     	r = d - b;
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpy_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $11bC CMPS extended -**** */
+    /* $11bC CMPS extended -**** */
     public void cmps_ex()
     {
-    /*TODO*///	UINT32 r,d;
-    /*TODO*///	PAIR b;
-    /*TODO*///	EXTWORD(b);
-    /*TODO*///	d = S;
-    /*TODO*///	r = d - b.d;
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS16(d,b.d,r);
+        int r,d;
+        int b=EXTWORD();
+        d = m6809.s;
+        r = d - b;
+        CLR_NZVC();
+        SET_FLAGS16(d,b,r);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmps_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $bD JSR extended ----- */
     public void jsr_ex()
     {
     	EXTENDED();
     	PUSHWORD(m6809.pc);
-    	m6809.pc = ea;
+    	m6809.pc = (char)(ea);
     	CHANGE_PC();
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d jsr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d jsr_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -3712,7 +3722,7 @@ public class m6809 extends cpu_interface
         m6809.x=EXTWORD();
     	CLR_NZV();
     	SET_NZ16(m6809.x);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
      
     }
     /* $10bE LDY extended -**0- */
@@ -3721,7 +3731,7 @@ public class m6809 extends cpu_interface
     	m6809.y=EXTWORD();
     	CLR_NZV();
     	SET_NZ16(m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldy_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
      
     }
     /* $bF STX (STY) extended -**0- */
@@ -3731,7 +3741,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(m6809.x);
     	EXTENDED();
     	WM16(ea,m6809.x);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d stx_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
      
     }
     /* $10bF STY extended -**0- */
@@ -3741,7 +3751,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(m6809.y);
     	EXTENDED();
     	WM16(ea,m6809.y);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sty_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $c0 SUBB immediate ?**** */
@@ -3752,8 +3762,8 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-         if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+         if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $c1 CMPB immediate ?**** */
@@ -3764,20 +3774,21 @@ public class m6809 extends cpu_interface
        r = (m6809.b - t) & 0xFFFF;
        CLR_NZVC();
        SET_FLAGS8(m6809.b,t,r);
-       if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
-    /*TODO*///
-    /*TODO*////* $c2 SBCB immediate ?**** */
+    /* $c2 SBCB immediate ?**** */
     public void sbcb_im()
     {
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	IMMBYTE(t);
-    /*TODO*///	r = B - t - (CC & CC_C);
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	B = r;
+        int t,r;
+        t=IMMBYTE();
+        r = (m6809.b - t - (m6809.cc & CC_C))& 0xFFFF;
+        CLR_NZVC();
+        SET_FLAGS8(m6809.b,t,r);
+        m6809.b = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbcb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $c3 ADDD immediate -**** */
     public void addd_im()
@@ -3789,7 +3800,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $c4 ANDB immediate -**0- */
     public void andb_im()
@@ -3798,7 +3809,7 @@ public class m6809 extends cpu_interface
     	m6809.b &= t;//should be unsigned?
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $c5 BITB immediate -**0- */
     public void bitb_im()
@@ -3808,7 +3819,7 @@ public class m6809 extends cpu_interface
     	r = m6809.b & t;
        	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $c6 LDB immediate -**0- */
     public void ldb_im()
@@ -3816,7 +3827,7 @@ public class m6809 extends cpu_interface
         m6809.b=IMMBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /*TODO*///
     /*TODO*////* is this a legal instruction? */
@@ -3828,15 +3839,15 @@ public class m6809 extends cpu_interface
     /*TODO*///	IMM8;
     /*TODO*///	WM(EAD,B);
     }
-    /*TODO*///
-    /*TODO*////* $c8 EORB immediate -**0- */
+
+    /* $c8 EORB immediate -**0- */
     public void eorb_im()
     {
         int t=IMMBYTE();
     	m6809.b ^= t;
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $c9 ADCB immediate ***** */
     public void adcb_im()
@@ -3847,8 +3858,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adcb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adcb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $cA ORB immediate -**0- */
     public void orb_im()
@@ -3857,7 +3868,7 @@ public class m6809 extends cpu_interface
     	m6809.b |= t; //TODO should unsigned it??
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $cB ADDB immediate ***** */
@@ -3869,8 +3880,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-       if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+       if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $cC LDD immediate -**0- */
     public void ldd_im()
@@ -3879,7 +3890,7 @@ public class m6809 extends cpu_interface
         setDreg(temp);
     	CLR_NZV();
     	SET_NZ16(temp);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /*TODO*///
     /*TODO*////* is this a legal instruction? */
@@ -3897,7 +3908,7 @@ public class m6809 extends cpu_interface
     	m6809.u=IMMWORD();
     	CLR_NZV();
     	SET_NZ16(m6809.u);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);  
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);  
     }
     /* $10cE LDS immediate -**0- */
     public void lds_im()
@@ -3906,7 +3917,7 @@ public class m6809 extends cpu_interface
     	CLR_NZV();
     	SET_NZ16(m6809.s);
     	m6809.int_state |= M6809_LDS;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d lds_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d lds_im :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /*TODO*///
     /*TODO*////* is this a legal instruction? */
@@ -3936,8 +3947,8 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     /* $d1 CMPB direct ?**** */
@@ -3948,19 +3959,20 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
-    /*TODO*///
-    /*TODO*////* $d2 SBCB direct ?**** */
+    /* $d2 SBCB direct ?**** */
     public void sbcb_di()
     {
-    /*TODO*///	UINT16	  t,r;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	r = B - t - (CC & CC_C);
-    /*TODO*///	CLR_NZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	B = r;
+        int t,r;
+        t=DIRBYTE();
+        r = (m6809.b - t - (m6809.cc & CC_C)) &0xFFFF;//should be unsigned??
+        CLR_NZVC();
+        SET_FLAGS8(m6809.b,t,r);
+        m6809.b = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbcb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $d3 ADDD direct -**** */
     public void addd_di()
@@ -3972,7 +3984,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $d4 ANDB direct -**0- */
@@ -3982,7 +3994,7 @@ public class m6809 extends cpu_interface
     	m6809.b &= t; //TODO should be unsigned?
         CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $d5 BITB direct -**0- */
@@ -3993,7 +4005,7 @@ public class m6809 extends cpu_interface
     	r = m6809.b & t;
     	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $d6 LDB direct -**0- */
     public void ldb_di()
@@ -4001,7 +4013,7 @@ public class m6809 extends cpu_interface
     	m6809.b=DIRBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $d7 STB direct -**0- */
@@ -4011,7 +4023,7 @@ public class m6809 extends cpu_interface
     	SET_NZ8(m6809.b);
     	DIRECT();
     	WM(ea,m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $d8 EORB direct -**0- */
@@ -4021,20 +4033,21 @@ public class m6809 extends cpu_interface
     	m6809.b ^= t;
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
-    /*TODO*///
-    /*TODO*////* $d9 ADCB direct ***** */
+    /* $d9 ADCB direct ***** */
     public void adcb_di()
     {
-    /*TODO*///	UINT16 t,r;
-    /*TODO*///	DIRBYTE(t);
-    /*TODO*///	r = B + t + (CC & CC_C);
-    /*TODO*///	CLR_HNZVC;
-    /*TODO*///	SET_FLAGS8(B,t,r);
-    /*TODO*///	SET_H(B,t,r);
-    /*TODO*///	B = r;
+        int t,r;
+        t=DIRBYTE();
+        r = (m6809.b + t + (m6809.cc & CC_C)) & 0xFFFF;
+        CLR_HNZVC();
+        SET_FLAGS8(m6809.b,t,r);
+        SET_H(m6809.b,t,r);
+        m6809.b= (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adcb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $dA ORB direct -**0- */
     public void orb_di()
@@ -4043,7 +4056,7 @@ public class m6809 extends cpu_interface
     	m6809.b |= t;  //todo check if it should be unsigned
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $dB ADDB direct ***** */
@@ -4055,8 +4068,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $dC LDD direct -**0- */
@@ -4066,7 +4079,7 @@ public class m6809 extends cpu_interface
       setDreg(temp);
       CLR_NZV();
       SET_NZ16(temp);
-      if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+      if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $dD STD direct -**0- */
@@ -4077,7 +4090,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(temp);
         DIRECT();
     	WM16(ea,temp);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d std_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d std_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $dE LDU (LDS) direct -**0- */
@@ -4086,7 +4099,7 @@ public class m6809 extends cpu_interface
         m6809.u=DIRWORD();
     	CLR_NZV();
     	SET_NZ16(m6809.u);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
    
     }
     /* $10dE LDS direct -**0- */
@@ -4104,7 +4117,7 @@ public class m6809 extends cpu_interface
    	SET_NZ16(m6809.u);
     	DIRECT();
     	WM16(ea,m6809.u);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d stu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d stu_di :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $10dF STS direct -**0- */
@@ -4124,8 +4137,8 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t & 0xFFFF;
     	CLR_NZVC();
    	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $e1 CMPB indexed ?**** */
@@ -4137,8 +4150,8 @@ public class m6809 extends cpu_interface
     	r = (m6809.b - t) &0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
-  
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $e2 SBCB indexed ?**** */
     public void sbcb_ix()
@@ -4149,9 +4162,9 @@ public class m6809 extends cpu_interface
     	r = (m6809.b - t - (m6809.cc & CC_C))&0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbcb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
-  
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbcb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $e3 ADDD indexed -**** */
     public void addd_ix()
@@ -4165,7 +4178,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea); 
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $e4 ANDB indexed -**0- */
     public void andb_ix()
@@ -4174,7 +4187,7 @@ public class m6809 extends cpu_interface
     	m6809.b &= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea); 
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d andb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea); 
     }
     /* $e5 BITB indexed -**0- */
     public void bitb_ix()
@@ -4184,7 +4197,7 @@ public class m6809 extends cpu_interface
     	r = m6809.b & RM(ea);
     	CLR_NZV();
     	SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea); 
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea); 
     }
     /* $e6 LDB indexed -**0- */
     public void ldb_ix()
@@ -4193,7 +4206,7 @@ public class m6809 extends cpu_interface
     	m6809.b = RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $e7 STB indexed -**0- */
@@ -4203,7 +4216,7 @@ public class m6809 extends cpu_interface
         CLR_NZV();
     	SET_NZ8(m6809.b);
     	WM(ea,m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
 
     }
@@ -4214,7 +4227,7 @@ public class m6809 extends cpu_interface
     	m6809.b ^= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d eorb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $e9 ADCB indexed ***** */
@@ -4227,8 +4240,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d adcb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);      
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d adcb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);      
     }
     /* $eA ORB indexed -**0- */
     public void orb_ix()
@@ -4237,7 +4250,7 @@ public class m6809 extends cpu_interface
     	m6809.b |= RM(ea);
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $eB ADDB indexed ***** */
@@ -4250,8 +4263,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);    
+    	m6809.b = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $eC LDD indexed -**0- */
     public void ldd_ix()
@@ -4261,7 +4274,7 @@ public class m6809 extends cpu_interface
         setDreg(temp);
     	CLR_NZV(); 
         SET_NZ16(temp);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $eD STD indexed -**0- */
@@ -4272,7 +4285,7 @@ public class m6809 extends cpu_interface
         int temp=getDreg();
     	SET_NZ16(temp);
     	WM16(ea,temp);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d std_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d std_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $eE LDU (LDS) indexed -**0- */
     public void ldu_ix()
@@ -4281,7 +4294,7 @@ public class m6809 extends cpu_interface
         m6809.u=RM16(ea);
     	CLR_NZV();
     	SET_NZ16(m6809.u);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $10eE LDS indexed -**0- */
     public void lds_ix()
@@ -4299,7 +4312,7 @@ public class m6809 extends cpu_interface
         CLR_NZV();
     	SET_NZ16(m6809.u);
     	WM16(ea,m6809.u);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stu_ix :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     
@@ -4319,8 +4332,8 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t & 0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);;
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d subb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     
     }
     /* $f1 CMPB extended ?**** */
@@ -4331,7 +4344,7 @@ public class m6809 extends cpu_interface
     	r = m6809.b - t;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d cmpb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
   
     }
     /* $f2 SBCB extended ?**** */
@@ -4342,7 +4355,9 @@ public class m6809 extends cpu_interface
     	r = (m6809.b - t - (m6809.cc & CC_C))&0xFFFF;
     	CLR_NZVC();
     	SET_FLAGS8(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
+    	m6809.b = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d sbcb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
+
     }
     /* $f3 ADDD extended -**** */
     public void addd_ex()
@@ -4354,7 +4369,7 @@ public class m6809 extends cpu_interface
     	CLR_NZVC();
     	SET_FLAGS16(d,b,r);
     	setDreg(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $f4 ANDB extended -**0- */
@@ -4373,7 +4388,7 @@ public class m6809 extends cpu_interface
     	r = m6809.b & t;
     	CLR_NZV(); 
         SET_NZ8(r);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d bitb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
         
     }
     /* $f6 LDB extended -**0- */
@@ -4382,7 +4397,7 @@ public class m6809 extends cpu_interface
         m6809.b=EXTBYTE();
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $f7 STB extended -**0- */
     public void stb_ex()
@@ -4391,7 +4406,7 @@ public class m6809 extends cpu_interface
     	SET_NZ8(m6809.b);
     	EXTENDED();
     	WM(ea,m6809.b);
-        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        //if(m6809log!=null) fprintf(m6809log,"M6809#%d stb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
     }
     /* $f8 EORB extended -**0- */
     public void eorb_ex()
@@ -4410,7 +4425,7 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
+    	m6809.b = (char)(r& 0xFF);;
     }
     /* $fA ORB extended -**0- */
     public void orb_ex()
@@ -4419,7 +4434,7 @@ public class m6809 extends cpu_interface
     	m6809.b |= t;
     	CLR_NZV();
     	SET_NZ8(m6809.b);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d orb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
 
     }
     /* $fB ADDB extended ***** */
@@ -4431,8 +4446,8 @@ public class m6809 extends cpu_interface
     	CLR_HNZVC();
     	SET_FLAGS8(m6809.b,t,r);
     	SET_H(m6809.b,t,r);
-    	m6809.b = r & 0xFF;
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+    	m6809.b = (char)(r& 0xFF);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d addb_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $fC LDD extended -**0- */
@@ -4442,7 +4457,7 @@ public class m6809 extends cpu_interface
         setDreg(temp);
     	CLR_NZV();
     	SET_NZ16(temp);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d ldd_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $fD STD extended -**0- */
@@ -4453,7 +4468,7 @@ public class m6809 extends cpu_interface
     	SET_NZ16(temp);
         EXTENDED();
     	WM16(ea,temp);
-        if(m6809log!=null) fprintf(m6809log,"M6809#%d std_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),m6809.pc,m6809.ppc,m6809.a,m6809.b,getDreg(),m6809.dp,m6809.u,m6809.s,m6809.x,m6809.y,m6809.cc,ea);
+        if(m6809log!=null) fprintf(m6809log,"M6809#%d std_ex :PC:%d,PPC:%d,A:%d,B:%d,D:%d,DP:%d,U:%d,S:%d,X:%d,Y:%d,CC:%d,EA:%d\n", cpu_getactivecpu(),(int)m6809.pc,(int)m6809.ppc,(int)m6809.a,(int)m6809.b,getDreg(),(int)m6809.dp,(int)m6809.u,(int)m6809.s,(int)m6809.x,(int)m6809.y,(int)m6809.cc,ea);
  
     }
     /* $fE LDU (LDS) extended -**0- */
@@ -4487,12 +4502,11 @@ public class m6809 extends cpu_interface
     	EXTENDED();
     	WM16(ea,m6809.s);
     }
-    /*TODO*///
-    /*TODO*////* $10xx opcodes */
+    /* $10xx opcodes */
     public void pref10()
     {
     	int ireg2 = ROP(m6809.pc) &0xFF;
-        m6809.pc = m6809.pc + 1 & 0xFFFF;
+        m6809.pc = (char)(m6809.pc + 1);
     	switch( ireg2 )
     	{
     		case 0x21: lbrn();		m6809_ICount[0]-=5;	break;
@@ -4502,17 +4516,17 @@ public class m6809 extends cpu_interface
     		case 0x25: lbcs();		m6809_ICount[0]-=5;	break;
     		case 0x26: lbne();		m6809_ICount[0]-=5;	break;
     		case 0x27: lbeq();		m6809_ICount[0]-=5;	break;
-    /*TODO*///		case 0x28: lbvc();		m6809_ICount[0]-=5;	break;
-    /*TODO*///		case 0x29: lbvs();		m6809_ICount[0]-=5;	break;
+    		case 0x28: lbvc();		m6809_ICount[0]-=5;	break;
+    		case 0x29: lbvs();		m6809_ICount[0]-=5;	break;
     		case 0x2a: lbpl();		m6809_ICount[0]-=5;	break;
     		case 0x2b: lbmi();		m6809_ICount[0]-=5;	break;
     		case 0x2c: lbge();		m6809_ICount[0]-=5;	break;
     		case 0x2d: lblt();		m6809_ICount[0]-=5;	break;
     		case 0x2e: lbgt();		m6809_ICount[0]-=5;	break;
     		case 0x2f: lble();		m6809_ICount[0]-=5;	break;
-    /*TODO*///
-    /*TODO*///		case 0x3f: swi2();		m6809_ICount[0]-=20;	break;
-    /*TODO*///
+
+    		case 0x3f: swi2();		m6809_ICount[0]-=20;	break;
+
     		case 0x83: cmpd_im();	m6809_ICount[0]-=5;	break;
     		case 0x8c: cmpy_im();	m6809_ICount[0]-=5;	break;
     		case 0x8e: ldy_im();	m6809_ICount[0]-=4;	break;
@@ -4549,43 +4563,34 @@ public class m6809 extends cpu_interface
     /*TODO*///		default:   illegal();						break;
             default:
                 System.out.println("6809 prefix10 opcode 0x"+Integer.toHexString(ireg2));
-                m6809_ICount[0]-=7;
         }
     }
     /* $11xx opcodes */
     public void pref11()
     {
         int ireg2 = ROP(m6809.pc) &0xFF;
-        m6809.pc = m6809.pc + 1 & 0xFFFF;
+        m6809.pc = (char)(m6809.pc + 1);
     	switch( ireg2 )
     	{
     /*TODO*///		case 0x3f: swi3();		m6809_ICount[0]-=20;	break;
-    /*TODO*///
+
     		case 0x83: cmpu_im();	m6809_ICount[0]-=5;	break;
     		case 0x8c: cmps_im();	m6809_ICount[0]-=5;	break;
-    /*TODO*///
+
     		case 0x93: cmpu_di();	m6809_ICount[0]-=7;	break;
-    /*TODO*///		case 0x9c: cmps_di();	m6809_ICount[0]-=7;	break;
-    /*TODO*///
+    		case 0x9c: cmps_di();	m6809_ICount[0]-=7;	break;
+
     		case 0xa3: cmpu_ix();	m6809_ICount[0]-=7;	break;
-    /*TODO*///		case 0xac: cmps_ix();	m6809_ICount[0]-=7;	break;
-    /*TODO*///
+    		case 0xac: cmps_ix();	m6809_ICount[0]-=7;	break;
+
     		case 0xb3: cmpu_ex();	m6809_ICount[0]-=8;	break;
-    /*TODO*///		case 0xbc: cmps_ex();	m6809_ICount[0]-=8;	break;
-    /*TODO*///
+    		case 0xbc: cmps_ex();	m6809_ICount[0]-=8;	break;
+
     /*TODO*///		default:   illegal();						break;
              default:
                 System.out.println("6809 prefix11 opcode 0x"+Integer.toHexString(ireg2));
     	}
     }
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
 

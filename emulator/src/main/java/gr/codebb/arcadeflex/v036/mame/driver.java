@@ -244,6 +244,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.foodf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.sega.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.segar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
 
 public class driver {
 
@@ -2616,7 +2617,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( potogold )	/* (c) 1982 Tong Electronic */
 
                 /*TODO*/ //	DRIVER( redalert )	/* (c) 1981 Irem (GDI game) */
-                /*TODO*/ //	DRIVER( irobot )	/* (c) 1983 Atari */
+                driver_irobot,	/* (c) 1983 Atari */
                 /*TODO*/ //	DRIVER( spiders )	/* (c) 1981 Sigma Ent. Inc. */
                 /*TODO*/ //	DRIVER( spiders2 )	/* (c) 1981 Sigma Ent. Inc. */
                 /*TODO*/ //	DRIVER( stactics )	/* [1981 Sega] */

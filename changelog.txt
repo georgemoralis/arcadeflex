@@ -2,6 +2,9 @@
 ==========
 -Added i8080 and i8085 CPUs
 -Added _8080bw driver
+-Replaced m6809 (now starwars is fully playable)
+-Added irobot full working driver
+-namcos1 doesn't generate missed opcodes
 
 15/01/2021
 ==========
