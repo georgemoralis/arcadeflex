@@ -154,7 +154,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.namcos1.*;
+import static gr.codebb.arcadeflex.v037b16.vidhrdw.namcos1.*;
 
 public class namcos1
 {
@@ -860,7 +860,8 @@ public class namcos1
 		gfxdecodeinfo,
 		128*16+6*256+6*256+1,	/* sprites, tiles, shadowed tiles, background */
 			128*16+6*256+1,
-		namcos1_vh_convert_color_prom,
+/*TODO*///		namcos1_vh_convert_color_prom,
+                null,
 	
 		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE | VIDEO_UPDATE_BEFORE_VBLANK,
 		null,
@@ -1385,43 +1386,43 @@ public class namcos1
 /*TODO*///		ROM_LOAD( "qs1_o0.bin", 		0x00000, 0x10000, 0xe24f0bf1 );
 /*TODO*///		ROM_LOAD( "qs1_o1.bin", 		0x20000, 0x10000, 0xe4aab0ca );
 /*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/* Pac-Mania */
-/*TODO*///	static RomLoadPtr rom_pacmania = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
-/*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );	/* 64k for the sub cpu */
-/*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x2c000, REGION_CPU3 );	/* 176k for the sound cpu */
-/*TODO*///		ROM_LOAD( "pm_snd0.bin",		0x0c000, 0x10000, 0xc10370fa );
-/*TODO*///		ROM_LOAD( "pm_snd1.bin",		0x1c000, 0x10000, 0xf761ed5a );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_USER1 );/* 1M for ROMs */
-/*TODO*///		ROM_LOAD_HS( "pm_prg7.bin", 	0x00000, 0x10000, 0x462fa4fd )
-/*TODO*///		ROM_LOAD( "pm_prg6.bin",		0x20000, 0x20000, 0xfe94900c );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x14000, REGION_USER2 );	/* 80k for RAM */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_CPU4 );	/* the MCU & voice */
-/*TODO*///		ROM_LOAD( "ns1-mcu.bin",		0x0f000, 0x01000, 0xffb5c0bd );
-/*TODO*///		ROM_LOAD_HS( "pm_voice.bin",	0x10000, 0x10000, 0x1ad5788f )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE ); /* character mask */
-/*TODO*///		ROM_LOAD( "pm_chr8.bin",		0x00000, 0x10000, 0xf3afd65d );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_GFX2 | REGIONFLAG_DISPOSE );/* characters */
-/*TODO*///		ROM_LOAD( "pm_chr0.bin",		0x00000, 0x20000, 0x7c57644c );
-/*TODO*///		ROM_LOAD( "pm_chr1.bin",		0x20000, 0x20000, 0x7eaa67ed );
-/*TODO*///		ROM_LOAD( "pm_chr2.bin",		0x40000, 0x20000, 0x27e739ac );
-/*TODO*///		ROM_LOAD( "pm_chr3.bin",		0x60000, 0x20000, 0x1dfda293 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_GFX3 | REGIONFLAG_DISPOSE );/* sprites */
-/*TODO*///		ROM_LOAD( "pm_obj0.bin",		0x00000, 0x20000, 0xfda57e8b );
-/*TODO*///		ROM_LOAD( "pm_obj1.bin",		0x20000, 0x20000, 0x4c08affe );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
+	
+	/* Pac-Mania */
+	static RomLoadPtr rom_pacmania = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
+		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
+	
+		ROM_REGION( 0x10000, REGION_CPU2 );	/* 64k for the sub cpu */
+		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
+	
+		ROM_REGION( 0x2c000, REGION_CPU3 );	/* 176k for the sound cpu */
+		ROM_LOAD( "pm_snd0.bin",		0x0c000, 0x10000, 0xc10370fa );
+		ROM_LOAD( "pm_snd1.bin",		0x1c000, 0x10000, 0xf761ed5a );
+	
+		ROM_REGION( 0x100000, REGION_USER1 );/* 1M for ROMs */
+		ROM_LOAD_HS( "pm_prg7.bin", 	0x00000, 0x10000, 0x462fa4fd );
+		ROM_LOAD( "pm_prg6.bin",		0x20000, 0x20000, 0xfe94900c );
+	
+		ROM_REGION( 0x14000, REGION_USER2 );	/* 80k for RAM */
+	
+		ROM_REGION( 0x30000, REGION_CPU4 );	/* the MCU & voice */
+		ROM_LOAD( "ns1-mcu.bin",		0x0f000, 0x01000, 0xffb5c0bd );
+		ROM_LOAD_HS( "pm_voice.bin",	0x10000, 0x10000, 0x1ad5788f );
+	
+		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE ); /* character mask */
+		ROM_LOAD( "pm_chr8.bin",		0x00000, 0x10000, 0xf3afd65d );
+	
+		ROM_REGION( 0x100000, REGION_GFX2 | REGIONFLAG_DISPOSE );/* characters */
+		ROM_LOAD( "pm_chr0.bin",		0x00000, 0x20000, 0x7c57644c );
+		ROM_LOAD( "pm_chr1.bin",		0x20000, 0x20000, 0x7eaa67ed );
+		ROM_LOAD( "pm_chr2.bin",		0x40000, 0x20000, 0x27e739ac );
+		ROM_LOAD( "pm_chr3.bin",		0x60000, 0x20000, 0x1dfda293 );
+	
+		ROM_REGION( 0x100000, REGION_GFX3 | REGIONFLAG_DISPOSE );/* sprites */
+		ROM_LOAD( "pm_obj0.bin",		0x00000, 0x20000, 0xfda57e8b );
+		ROM_LOAD( "pm_obj1.bin",		0x20000, 0x20000, 0x4c08affe );
+	ROM_END(); }}; 
+	
 /*TODO*///	/* Pac-Mania (Japan) diff o1,s0,s1,p7,v0 */
 /*TODO*///	static RomLoadPtr rom_pacmanij = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
@@ -1457,55 +1458,55 @@ public class namcos1
 /*TODO*///		ROM_LOAD( "pm_obj0.bin",		0x00000, 0x20000, 0xfda57e8b );
 /*TODO*///		ROM_LOAD( "pm-01.b9",			0x20000, 0x20000, 0x27bdf440 );
 /*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/* Galaga '88 */
-/*TODO*///	static RomLoadPtr rom_galaga88 = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
-/*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_CPU2 );	/* 64k for the sub cpu */
-/*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x2c000, REGION_CPU3 );	/* 176k for the sound cpu */
-/*TODO*///		ROM_LOAD( "g88_snd0.rom",		0x0c000, 0x10000, 0x164a3fdc );
-/*TODO*///		ROM_LOAD( "g88_snd1.rom",		0x1c000, 0x10000, 0x16a4b784 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_USER1 );/* 1M for ROMs */
-/*TODO*///		ROM_LOAD_HS( "g88_prg7.rom",	0x00000, 0x10000, 0xdf75b7fc )
-/*TODO*///		ROM_LOAD_HS( "g88_prg6.rom",	0x20000, 0x10000, 0x7e3471d3 )
-/*TODO*///		ROM_LOAD_HS( "g88_prg5.rom",	0x40000, 0x10000, 0x4fbd3f6c )
-/*TODO*///		ROM_LOAD_HS( "g88_prg1.rom",	0xc0000, 0x10000, 0xe68cb351 )
-/*TODO*///		ROM_LOAD_HS( "g88_prg0.rom",	0xe0000, 0x10000, 0x0f0778ca )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x14000, REGION_USER2 );	/* 80k for RAM */
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0xd0000, REGION_CPU4 );	/* the MCU & voice */
-/*TODO*///		ROM_LOAD( "ns1-mcu.bin",		0x0f000, 0x01000, 0xffb5c0bd );
-/*TODO*///		ROM_LOAD_HS( "g88_vce0.rom",	0x10000, 0x10000, 0x86921dd4 )
-/*TODO*///		ROM_LOAD_HS( "g88_vce1.rom",	0x30000, 0x10000, 0x9c300e16 )
-/*TODO*///		ROM_LOAD_HS( "g88_vce2.rom",	0x50000, 0x10000, 0x5316b4b0 )
-/*TODO*///		ROM_LOAD_HS( "g88_vce3.rom",	0x70000, 0x10000, 0xdc077af4 )
-/*TODO*///		ROM_LOAD_HS( "g88_vce4.rom",	0x90000, 0x10000, 0xac0279a7 )
-/*TODO*///		ROM_LOAD_HS( "g88_vce5.rom",	0xb0000, 0x10000, 0x014ddba1 )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE ); /* character mask */
-/*TODO*///		ROM_LOAD( "g88_chr8.rom",		0x00000, 0x20000, 0x3862ed0a );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_GFX2 | REGIONFLAG_DISPOSE );/* characters */
-/*TODO*///		ROM_LOAD( "g88_chr0.rom",		0x00000, 0x20000, 0x68559c78 );
-/*TODO*///		ROM_LOAD( "g88_chr1.rom",		0x20000, 0x20000, 0x3dc0f93f );
-/*TODO*///		ROM_LOAD( "g88_chr2.rom",		0x40000, 0x20000, 0xdbf26f1f );
-/*TODO*///		ROM_LOAD( "g88_chr3.rom",		0x60000, 0x20000, 0xf5d6cac5 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000, REGION_GFX3 | REGIONFLAG_DISPOSE );/* sprites */
-/*TODO*///		ROM_LOAD( "g88_obj0.rom",		0x00000, 0x20000, 0xd7112e3f );
-/*TODO*///		ROM_LOAD( "g88_obj1.rom",		0x20000, 0x20000, 0x680db8e7 );
-/*TODO*///		ROM_LOAD( "g88_obj2.rom",		0x40000, 0x20000, 0x13c97512 );
-/*TODO*///		ROM_LOAD( "g88_obj3.rom",		0x60000, 0x20000, 0x3ed3941b );
-/*TODO*///		ROM_LOAD( "g88_obj4.rom",		0x80000, 0x20000, 0x370ff4ad );
-/*TODO*///		ROM_LOAD( "g88_obj5.rom",		0xa0000, 0x20000, 0xb0645169 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
+	
+	/* Galaga '88 */
+	static RomLoadPtr rom_galaga88 = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
+		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
+	
+		ROM_REGION( 0x10000, REGION_CPU2 );	/* 64k for the sub cpu */
+		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
+	
+		ROM_REGION( 0x2c000, REGION_CPU3 );	/* 176k for the sound cpu */
+		ROM_LOAD( "g88_snd0.rom",		0x0c000, 0x10000, 0x164a3fdc );
+		ROM_LOAD( "g88_snd1.rom",		0x1c000, 0x10000, 0x16a4b784 );
+	
+		ROM_REGION( 0x100000, REGION_USER1 );/* 1M for ROMs */
+		ROM_LOAD_HS( "g88_prg7.rom",	0x00000, 0x10000, 0xdf75b7fc );
+		ROM_LOAD_HS( "g88_prg6.rom",	0x20000, 0x10000, 0x7e3471d3 );
+		ROM_LOAD_HS( "g88_prg5.rom",	0x40000, 0x10000, 0x4fbd3f6c );
+		ROM_LOAD_HS( "g88_prg1.rom",	0xc0000, 0x10000, 0xe68cb351 );
+		ROM_LOAD_HS( "g88_prg0.rom",	0xe0000, 0x10000, 0x0f0778ca );
+	
+		ROM_REGION( 0x14000, REGION_USER2 );	/* 80k for RAM */
+	
+		ROM_REGION( 0xd0000, REGION_CPU4 );	/* the MCU & voice */
+		ROM_LOAD( "ns1-mcu.bin",		0x0f000, 0x01000, 0xffb5c0bd );
+		ROM_LOAD_HS( "g88_vce0.rom",	0x10000, 0x10000, 0x86921dd4 );
+		ROM_LOAD_HS( "g88_vce1.rom",	0x30000, 0x10000, 0x9c300e16 );
+		ROM_LOAD_HS( "g88_vce2.rom",	0x50000, 0x10000, 0x5316b4b0 );
+		ROM_LOAD_HS( "g88_vce3.rom",	0x70000, 0x10000, 0xdc077af4 );
+		ROM_LOAD_HS( "g88_vce4.rom",	0x90000, 0x10000, 0xac0279a7 );
+		ROM_LOAD_HS( "g88_vce5.rom",	0xb0000, 0x10000, 0x014ddba1 );
+	
+		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE ); /* character mask */
+		ROM_LOAD( "g88_chr8.rom",		0x00000, 0x20000, 0x3862ed0a );
+	
+		ROM_REGION( 0x100000, REGION_GFX2 | REGIONFLAG_DISPOSE );/* characters */
+		ROM_LOAD( "g88_chr0.rom",		0x00000, 0x20000, 0x68559c78 );
+		ROM_LOAD( "g88_chr1.rom",		0x20000, 0x20000, 0x3dc0f93f );
+		ROM_LOAD( "g88_chr2.rom",		0x40000, 0x20000, 0xdbf26f1f );
+		ROM_LOAD( "g88_chr3.rom",		0x60000, 0x20000, 0xf5d6cac5 );
+	
+		ROM_REGION( 0x100000, REGION_GFX3 | REGIONFLAG_DISPOSE );/* sprites */
+		ROM_LOAD( "g88_obj0.rom",		0x00000, 0x20000, 0xd7112e3f );
+		ROM_LOAD( "g88_obj1.rom",		0x20000, 0x20000, 0x680db8e7 );
+		ROM_LOAD( "g88_obj2.rom",		0x40000, 0x20000, 0x13c97512 );
+		ROM_LOAD( "g88_obj3.rom",		0x60000, 0x20000, 0x3ed3941b );
+		ROM_LOAD( "g88_obj4.rom",		0x80000, 0x20000, 0x370ff4ad );
+		ROM_LOAD( "g88_obj5.rom",		0xa0000, 0x20000, 0xb0645169 );
+	ROM_END(); }}; 
+	
 /*TODO*///	static RomLoadPtr rom_galag88b = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
@@ -2386,9 +2387,9 @@ public class namcos1
 /*TODO*///	public static GameDriver driver_dspirito	   = new GameDriver("1987"	,"dspirito"	,"namcos1.java"	,rom_dspirito,driver_dspirit	,machine_driver_ns1	,input_ports_dspirit	,init_dspirit	,ROT270	,	"Namco", "Dragon Spirit (old version)" )
 /*TODO*///	public static GameDriver driver_blazer	   = new GameDriver("1987"	,"blazer"	,"namcos1.java"	,rom_blazer,null	,machine_driver_ns1	,input_ports_ns1	,init_blazer	,ROT270	,	"Namco", "Blazer (Japan)" )
 /*TODO*///	public static GameDriver driver_quester	   = new GameDriver("1987"	,"quester"	,"namcos1.java"	,rom_quester,null	,machine_driver_quester	,input_ports_quester	,init_quester	,ROT270	,	"Namco", "Quester (Japan)" )
-/*TODO*///	public static GameDriver driver_pacmania	   = new GameDriver("1987"	,"pacmania"	,"namcos1.java"	,rom_pacmania,null	,machine_driver_ns1	,input_ports_ns1	,init_pacmania	,ROT90_16BIT	,	"Namco", "Pac-Mania" )
+	public static GameDriver driver_pacmania	   = new GameDriver("1987"	,"pacmania"	,"namcos1.java"	,rom_pacmania,null	,machine_driver_ns1	,input_ports_ns1	,init_pacmania	,ROT90_16BIT	,	"Namco", "Pac-Mania" );
 /*TODO*///	public static GameDriver driver_pacmanij	   = new GameDriver("1987"	,"pacmanij"	,"namcos1.java"	,rom_pacmanij,driver_pacmania	,machine_driver_ns1	,input_ports_ns1	,init_pacmania	,ROT270_16BIT	,	"Namco", "Pac-Mania (Japan)" )
-/*TODO*///	public static GameDriver driver_galaga88	   = new GameDriver("1987"	,"galaga88"	,"namcos1.java"	,rom_galaga88,null	,machine_driver_ns1	,input_ports_ns1	,init_galaga88	,ROT90_16BIT	,	"Namco", "Galaga '88 (set 1)" )
+	public static GameDriver driver_galaga88	   = new GameDriver("1987"	,"galaga88"	,"namcos1.java"	,rom_galaga88,null	,machine_driver_ns1	,input_ports_ns1	,init_galaga88	,ROT90_16BIT	,	"Namco", "Galaga '88 (set 1)" );
 /*TODO*///	public static GameDriver driver_galag88b	   = new GameDriver("1987"	,"galag88b"	,"namcos1.java"	,rom_galag88b,driver_galaga88	,machine_driver_ns1	,input_ports_ns1	,init_galaga88	,ROT90_16BIT	,	"Namco", "Galaga '88 (set 2)" )
 /*TODO*///	public static GameDriver driver_galag88j	   = new GameDriver("1987"	,"galag88j"	,"namcos1.java"	,rom_galag88j,driver_galaga88	,machine_driver_ns1	,input_ports_ns1	,init_galaga88	,ROT270_16BIT	,	"Namco", "Galaga '88 (Japan)" )
 /*TODO*///	public static GameDriver driver_ws	   = new GameDriver("1988"	,"ws"	,"namcos1.java"	,rom_ws,null	,machine_driver_ns1	,input_ports_ns1	,init_ws	,ROT0	,	"Namco", "World Stadium (Japan)" )

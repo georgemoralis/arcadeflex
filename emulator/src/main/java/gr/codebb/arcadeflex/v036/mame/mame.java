@@ -317,7 +317,7 @@ public class mame {
         if (drv.gfxdecodeinfo != null) {
             for (i = 0; i < drv.gfxdecodeinfo.length && i < MAX_GFX_ELEMENTS && drv.gfxdecodeinfo[i].memory_region != -1; i++) {
                 int reglen = 8 * memory_region_length(drv.gfxdecodeinfo[i].memory_region);
-                GfxLayout glcopy = new GfxLayout();
+                GfxLayout glcopy;
                 int j;
 
                 glcopy = drv.gfxdecodeinfo[i].gfxlayout;//memcpy(&glcopy,drv.gfxdecodeinfo[i].gfxlayout,sizeof(glcopy));

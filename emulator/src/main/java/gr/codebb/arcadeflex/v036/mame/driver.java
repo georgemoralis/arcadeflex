@@ -1255,9 +1255,9 @@ public class driver {
                 /*TODO*/ //	DRIVER( dspirito )	/* (c) 1987 old version */
                 /*TODO*/ //	DRIVER( blazer )	/* (c) 1987 (Japan) */
                 /*TODO*/ //	DRIVER( quester )	/* (c) 1987 (Japan) */
-                /*TODO*/ //	DRIVER( pacmania )	/* (c) 1987 */
+                driver_pacmania,                        /* (c) 1987 */
                 /*TODO*/ //	DRIVER( pacmanij )	/* (c) 1987 (Japan) */
-                /*TODO*/ //	DRIVER( galaga88 )	/* (c) 1987 */
+                driver_galaga88,                        /* (c) 1987 */
                 /*TODO*/ //	DRIVER( galag88b )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( galag88j )	/* (c) 1987 (Japan) */
                 /*TODO*/ //	DRIVER( ws )		/* (c) 1988 (Japan) */

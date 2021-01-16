@@ -22,6 +22,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class namco extends snd_interface {
 
@@ -342,12 +343,13 @@ public class namco extends snd_interface {
         sample_rate = Machine.sample_rate;
         /* get stream channels */
         if (intf.stereo != 0) {
-            throw new UnsupportedOperationException("Namco stereo unsupported ");
-            /*TODO*///		int vol[2];
-    /*TODO*///
-    /*TODO*///		vol[0] = MIXER(intf->volume,MIXER_PAN_LEFT);
-    /*TODO*///		vol[1] = MIXER(intf->volume,MIXER_PAN_RIGHT);
-    /*TODO*///		stream = stream_init_multi(2, stereo_names, vol, intf->samplerate, 0, namco_update_stereo);
+            //throw new UnsupportedOperationException("Namco stereo unsupported ");
+                System.out.println("Namco stereo unsupported ");
+            	int[] vol=new int[2];
+    
+    		vol[0] = MIXER(intf.volume,MIXER_PAN_LEFT);
+    		vol[1] = MIXER(intf.volume,MIXER_PAN_RIGHT);
+/*TODO*///    		stream = stream_init_multi(2, stereo_names, vol, intf.samplerate, 0, namco_update_stereo);
         } else {
             stream = stream_init(mono_name, intf.volume, intf.samplerate, 0, namco_update_mono);
         }

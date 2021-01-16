@@ -89,7 +89,7 @@ public class jedi
             }
             memset(dirtybuffer, 1, videoram_size[0]);
 
-            if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, 8)) == null) {
+            if ((tmpbitmap = bitmap_alloc_depth(Machine.drv.screen_width, Machine.drv.screen_height, 8)) == null) {
                 dirtybuffer = null;
                 return 1;
             }

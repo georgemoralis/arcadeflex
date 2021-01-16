@@ -2482,7 +2482,8 @@ public class drawgfx {
             int end;
             //const unsigned short *lookupdata = Machine->game_colortable + (paldata - Machine->remapped_colortable);
             //UShortArray lookupdata = new UShortArray(Machine.game_colortable,(paldata.read()-Machine.remapped_colortable.length));
-            UShortArray lookupdata = new UShortArray(Machine.game_colortable,paldata.offset);
+            //UShortArray lookupdata = new UShortArray(Machine.game_colortable,paldata.offset);
+            UShortArray lookupdata = new UShortArray(Machine.game_colortable, (paldata.offset - Machine.remapped_colortable.offset));
             srcmodulo -= srcwidth;
             dstmodulo -= srcwidth;
           

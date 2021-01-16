@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.namcos1.*;
+import static gr.codebb.arcadeflex.v037b16.vidhrdw.namcos1.*;
 
 public class namcos1
 {
@@ -599,7 +599,7 @@ public class namcos1
 		public ReadHandlerPtr bank_handler_r;
 		public WriteHandlerPtr bank_handler_w;
 		public int bank_offset;
-		public UBytePtr bank_pointer;
+		public UBytePtr bank_pointer=new UBytePtr(1024 * 128);
 	};
 	
 	static bankhandler[] namcos1_bank_element = new bankhandler[NAMCOS1_MAX_BANK];
@@ -622,7 +622,7 @@ public class namcos1
 			namcos1_banks[cpu][bank].bank_handler_r = namcos1_bank_element[chip].bank_handler_r;
 			namcos1_banks[cpu][bank].bank_handler_w = namcos1_bank_element[chip].bank_handler_w;
 			namcos1_banks[cpu][bank].bank_offset	= namcos1_bank_element[chip].bank_offset;
-			namcos1_banks[cpu][bank].bank_pointer	= namcos1_bank_element[chip].bank_pointer;
+			namcos1_banks[cpu][bank].bank_pointer	= new UBytePtr(namcos1_bank_element[chip].bank_pointer);
 			//memcpy( &namcos1_banks[cpu][bank] , &namcos1_bank_element[chip] , sizeof(bankhandler));
 	
 			/* unmapped bank warning */
@@ -1134,10 +1134,15 @@ public class namcos1
 	
 		/* Point all of our bankhandlers to the error handlers */
 		for ( i = 0; i < 8; i++ ) {
-			namcos1_banks[0][i].bank_handler_r = unknown_r;
+                        namcos1_banks[0][i] = new bankhandler();
+			
+                        namcos1_banks[0][i].bank_handler_r = unknown_r;
 			namcos1_banks[0][i].bank_handler_w = unknown_w;
 			namcos1_banks[0][i].bank_offset = 0;
-			namcos1_banks[1][i].bank_handler_r = unknown_r;
+                        
+                        namcos1_banks[1][i] = new bankhandler();
+			
+                        namcos1_banks[1][i].bank_handler_r = unknown_r;
 			namcos1_banks[1][i].bank_handler_w = unknown_w;
 			namcos1_banks[1][i].bank_offset = 0;
 		}
@@ -1224,7 +1229,7 @@ public class namcos1
 		key_id		 = specific.key_id;
 	
 		/* tilemap use optimize option */
-		namcos1_set_optimize( specific.tilemap_use );
+/*TODO*///		namcos1_set_optimize( specific.tilemap_use );
 	
 		/* build bank elements */
 		namcos1_build_banks(specific.key_r,specific.key_w);
@@ -1345,37 +1350,37 @@ public class namcos1
 /*TODO*///		};
 /*TODO*///		namcos1_driver_init(&blazer_specific);
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/*******************************************************************************
-/*TODO*///	*	Pac-Mania / Pac-Mania (Japan) specific									   *
-/*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_pacmania = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		const struct namcos1_specific pacmania_specific=
-/*TODO*///		{
-/*TODO*///			0x4b,0x12,				/* key query , key id */
-/*TODO*///			rev1_key_r,rev1_key_w,	/* key handler */
-/*TODO*///			normal_slice,			/* CPU slice normal */
-/*TODO*///			1						/* use tilemap flag : speedup optimize */
-/*TODO*///		};
-/*TODO*///		namcos1_driver_init(&pacmania_specific);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/*******************************************************************************
-/*TODO*///	*	Galaga '88 / Galaga '88 (Japan) specific								   *
-/*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_galaga88 = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		const struct namcos1_specific galaga88_specific=
-/*TODO*///		{
-/*TODO*///			0x2d,0x31,				/* key query , key id */
-/*TODO*///			rev1_key_r,rev1_key_w,	/* key handler */
-/*TODO*///			normal_slice,			/* CPU slice normal */
-/*TODO*///			1						/* use tilemap flag : speedup optimize */
-/*TODO*///		};
-/*TODO*///		namcos1_driver_init(&galaga88_specific);
-/*TODO*///	} };
-/*TODO*///	
+	
+	/*******************************************************************************
+	*	Pac-Mania / Pac-Mania (Japan) specific									   *
+	*******************************************************************************/
+	public static InitDriverPtr init_pacmania = new InitDriverPtr() { public void handler() 
+	{
+		namcos1_specific pacmania_specific=new namcos1_specific
+		(
+			0x4b,0x12,				/* key query , key id */
+			rev1_key_r,rev1_key_w,	/* key handler */
+			normal_slice,			/* CPU slice normal */
+			1						/* use tilemap flag : speedup optimize */
+		);
+		namcos1_driver_init(pacmania_specific);
+	} };
+	
+	/*******************************************************************************
+	*	Galaga '88 / Galaga '88 (Japan) specific								   *
+	*******************************************************************************/
+	public static InitDriverPtr init_galaga88 = new InitDriverPtr() { public void handler() 
+	{
+		namcos1_specific galaga88_specific=new namcos1_specific
+		(
+			0x2d,0x31,				/* key query , key id */
+			rev1_key_r,rev1_key_w,	/* key handler */
+			normal_slice,			/* CPU slice normal */
+			1						/* use tilemap flag : speedup optimize */
+		);
+		namcos1_driver_init(galaga88_specific);
+	} };
+	
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	World Stadium specific													   *
 /*TODO*///	*******************************************************************************/

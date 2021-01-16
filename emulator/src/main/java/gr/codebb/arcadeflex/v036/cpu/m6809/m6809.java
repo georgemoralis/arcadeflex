@@ -4549,6 +4549,7 @@ public class m6809 extends cpu_interface
     /*TODO*///		default:   illegal();						break;
             default:
                 System.out.println("6809 prefix10 opcode 0x"+Integer.toHexString(ireg2));
+                m6809_ICount[0]-=2;
         }
     }
     /* $11xx opcodes */

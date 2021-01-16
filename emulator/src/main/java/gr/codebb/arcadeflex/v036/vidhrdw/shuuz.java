@@ -36,8 +36,10 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import gr.codebb.arcadeflex.common.PtrLib;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
@@ -48,6 +50,10 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.v036.machine.atarigenH;
+import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
+
 
 public class shuuz {
 
@@ -74,13 +80,12 @@ public class shuuz {
      *
      ************************************
      */
-    /*TODO*///    struct pf_overrender_data
-/*TODO*///
-/*TODO*///    {
-/*TODO*///        struct osd_bitmap *bitmap;
-/*TODO*///        int type, color;
-/*TODO*///    }
-/*TODO*///    ;
+    public static class pf_overrender_data
+    {
+        osd_bitmap bitmap;
+        int type, color;
+    };
+    
     /**
      * ***********************************
      *
@@ -192,13 +197,13 @@ public class shuuz {
             }
 
             /* update playfield */
-            /*TODO*///            atarigen_pf_process(pf_render_callback, bitmap,  & Machine.drv.visible_area);
+            atarigen_pf_process(pf_render_callback, bitmap,  Machine.drv.visible_area);
 
             /* render the motion objects */
-            /*TODO*///            atarigen_mo_process(mo_render_callback, bitmap);
+            atarigen_mo_process(mo_render_callback, bitmap);
 
             /* update onscreen messages */
-            /*TODO*///            atarigen_update_messages();
+            atarigen_update_messages();
         }
     };
 
@@ -223,7 +228,7 @@ public class shuuz {
         atarigen_pf_process(pf_color_callback, pf_map, Machine.drv.visible_area);
 
         /* update color usage for the mo's */
-        /*TODO*///        atarigen_mo_process(mo_color_callback, mo_map);
+        atarigen_mo_process(mo_color_callback, mo_map);
 
         /* rebuild the playfield palette */
         for (i = 0; i < 16; i++) {
@@ -266,6 +271,7 @@ public class shuuz {
     public static atarigen_pf_callbackPtr pf_color_callback = new atarigen_pf_callbackPtr() {
 
         public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+            System.out.println("pf_color_callback");
             int[] usage = Machine.gfx[0].pen_usage;
             char[] colormap = (char[]) param;
             int x, y;
@@ -293,40 +299,41 @@ public class shuuz {
      *
      ************************************
      */
-    /*TODO*///    static void pf_render_callback(
-/*TODO*///            
-/*TODO*///    const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param
-/*TODO*///
-/*TODO*///    )
-/*TODO*///	{
-/*TODO*///		const
-/*TODO*///        struct GfxElement *gfx = Machine.gfx[0];
-/*TODO*///        struct osd_bitmap *bitmap = param;
-/*TODO*///        int x, y;
-/*TODO*///
-/*TODO*///        /* standard loop over tiles */
-/*TODO*///        for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
-/*TODO*///            for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
-/*TODO*///                int offs = x * 64 + y;
+    static atarigen_pf_callbackPtr pf_render_callback = new atarigen_pf_callbackPtr() {
+        @Override
+        public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+            System.out.println("pf_render_callback");
+            GfxElement gfx = Machine.gfx[0];
+            osd_bitmap bitmap = (osd_bitmap) param;
+            int x, y;
 
-    /* update only if dirty */
-    /*TODO*///                if (atarigen_pf_dirty[offs]) {
-/*TODO*///                    int data1 = READ_WORD( & atarigen_playfieldram[offs * 2]);
-/*TODO*///                    int data2 = READ_WORD( & atarigen_playfieldram[offs * 2 + 0x2000]);
-/*TODO*///                    int color = (data2 >> 8) & 15;
-/*TODO*///                    int hflip = data1 & 0x8000;
-/*TODO*///                    int code = data1 & 0x3fff;
-/*TODO*///
-/*TODO*///                    drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///                    atarigen_pf_dirty[offs] = 0;
+            /* standard loop over tiles */
+            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
+                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
+                    int offs = x * 64 + y;
 
-    /*TODO*///                }
-/*TODO*///            }
-/*TODO*///        }
+                    /* update only if dirty */
+                    if (atarigen_pf_dirty.read(offs) != 0) {
+                        int data1 = atarigen_playfieldram.READ_WORD( offs * 2 );
+                        int data2 = atarigen_playfieldram.READ_WORD( offs * 2 + 0x2000 );
+                        int color = (data2 >> 8) & 15;
+                        int hflip = data1 & 0x8000;
+                        int code = data1 & 0x3fff;
 
-    /* then blast the result */
-    /*TODO*///        copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
-/*TODO*///    }
+                        drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
+                        
+                        atarigen_pf_dirty.write(offs, 0);
+
+                    }
+                }
+            }
+
+            /* then blast the result */
+            copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
+            param = bitmap;
+        }
+    };
+        
     /**
      * ***********************************
      *
@@ -334,37 +341,41 @@ public class shuuz {
      *
      ************************************
      */
-    /*TODO*///    static void pf_overrender_callback(
-    /*TODO*///    const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param
-/*TODO*///
-/*TODO*///    )
-/*TODO*///	{
-/*TODO*///		const
-/*TODO*///        struct pf_overrender_data *overrender_data = param;
-/*TODO*///        const
-/*TODO*///        struct GfxElement *gfx = Machine.gfx[0];
-/*TODO*///        struct osd_bitmap *bitmap = overrender_data.bitmap;
-/*TODO*///        int x, y;
-/*TODO*///
-        /* standard loop over tiles */
-    /*TODO*///        for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
-/*TODO*///            for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
-/*TODO*///                int offs = x * 64 + y;
-/*TODO*///                int data2 = READ_WORD( & atarigen_playfieldram[offs * 2 + 0x2000]);
-/*TODO*///                int color = (data2 >> 8) & 15;
-/*TODO*///
-                /* overdraw if the color is 15 */
-    /*TODO*///                if (((color & 8) && color >= overrender_data.color) || overrender_data.type == OVERRENDER_PRIORITY) {
-/*TODO*///                    int data1 = READ_WORD( & atarigen_playfieldram[offs * 2]);
-/*TODO*///                    int hflip = data1 & 0x8000;
-/*TODO*///                    int code = data1 & 0x3fff;
-/*TODO*///
-/*TODO*///                    drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+    static atarigen_pf_callbackPtr pf_overrender_callback = new atarigen_pf_callbackPtr() {
+        @Override
+        public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+/*TODO*///    const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param
 
-    /*TODO*///                }
-/*TODO*///            }
-/*TODO*///        }
-/*TODO*///    }
+            pf_overrender_data overrender_data = (pf_overrender_data) param;
+        
+            GfxElement gfx = Machine.gfx[0];
+            osd_bitmap bitmap = overrender_data.bitmap;
+            int x, y;
+
+            /* standard loop over tiles */
+            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
+                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
+                    int offs = x * 64 + y;
+                    int data2 = atarigen_playfieldram.READ_WORD( offs * 2 + 0x2000 );
+                    int color = (data2 >> 8) & 15;
+
+                    /* overdraw if the color is 15 */
+                    if (((color & 8)!=0 && color >= overrender_data.color) || overrender_data.type == OVERRENDER_PRIORITY) {
+                        int data1 = atarigen_playfieldram.READ_WORD( offs * 2 );
+                        int hflip = data1 & 0x8000;
+                        int code = data1 & 0x3fff;
+
+                        drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+
+                    }
+                }
+            }
+            
+            param = overrender_data;
+        }
+    };
+    
+
     /**
      * ***********************************
      *
@@ -372,27 +383,28 @@ public class shuuz {
      *
      ************************************
      */
-    /*TODO*///    static void mo_color_callback(
-/*TODO*///            
-/*TODO*///    const UINT16 *data, const struct rectangle *clip, void *param
-/*TODO*///
-/*TODO*///    )
-/*TODO*///	{
-/*TODO*///		constunsigned int *usage = Machine.gfx[1].pen_usage;
-/*TODO*///        UINT16 * colormap = param;
-/*TODO*///        int code = data[1] & 0x7fff;
-/*TODO*///        int color = data[2] & 0x000f;
-/*TODO*///        int hsize = ((data[3] >> 4) & 7) + 1;
-/*TODO*///        int vsize = (data[3] & 7) + 1;
-/*TODO*///        int tiles = hsize * vsize;
-/*TODO*///        UINT16 temp = 0;
-/*TODO*///        int i;
+    static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
+        @Override
+        public void handler(UShortPtr data, rectangle clip, Object param) {
+            int[] usage = Machine.gfx[1].pen_usage;
+            UShortPtr colormap = (UShortPtr) param;
+            int code = data.read(1) & 0x7fff;
+            int color = data.read(2) & 0x000f;
+            int hsize = ((data.read(3) >> 4) & 7) + 1;
+            int vsize = (data.read(3) & 7) + 1;
+            int tiles = hsize * vsize;
+            int temp = 0;
+            int i;
 
-    /*TODO*///        for (i = 0; i < tiles; i++) {
-/*TODO*///            temp |= usage[code++];
-/*TODO*///        }
-/*TODO*///        colormap[color] |= temp;
-/*TODO*///    }
+            for (i = 0; i < tiles; i++) {
+                temp |= usage[code++];
+            }
+            colormap.write(color, (char) (colormap.read(color) | temp));
+            
+            param = colormap;
+        }
+    };
+
     /**
      * ***********************************
      *
@@ -400,61 +412,64 @@ public class shuuz {
      *
      ************************************
      */
-    /*TODO*///    static void mo_render_callback(
-    /*TODO*///    const UINT16 *data, const struct rectangle *clip, void *param
-/*TODO*///
-/*TODO*///    )
-/*TODO*///	{
-/*TODO*///		const
-/*TODO*///        struct GfxElement *gfx = Machine.gfx[1];
-/*TODO*///        struct pf_overrender_data overrender_data;
-/*TODO*///        struct osd_bitmap *bitmap = param;
-/*TODO*///        struct rectangle pf_clip;
+    static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
+        @Override
+        public void handler(UShortPtr data, rectangle clip, Object param) {
+            System.out.println("mo_render_callback");
+            GfxElement gfx = Machine.gfx[1];
+            pf_overrender_data overrender_data = new pf_overrender_data();
+            osd_bitmap bitmap = (osd_bitmap) param;
+            rectangle pf_clip = new rectangle();
 
-    /* extract data from the various words */
-    /*TODO*///        int hflip = data[1] & 0x8000;
-/*TODO*///        int code = data[1] & 0x7fff;
-/*TODO*///        int xpos = (data[2] >> 7) - atarigen_video_control_state.sprite_xscroll;
-/*TODO*///        int color = data[2] & 0x000f;
-/*TODO*///        int ypos = -(data[3] >> 7) - atarigen_video_control_state.sprite_yscroll;
-/*TODO*///        int hsize = ((data[3] >> 4) & 7) + 1;
-/*TODO*///        int vsize = (data[3] & 7) + 1;
+            /* extract data from the various words */
+            int hflip = data.read(1) & 0x8000;
+            int code = data.read(1) & 0x7fff;
+            int xpos = (data.read(2) >> 7) - atarigen_video_control_state.sprite_xscroll;
+            int color = data.read(2) & 0x000f;
+            int ypos = -(data.read(3) >> 7) - atarigen_video_control_state.sprite_yscroll;
+            int hsize = ((data.read(3) >> 4) & 7) + 1;
+            int vsize = (data.read(3) & 7) + 1;
 
-    /* adjust for height */
-    /*TODO*///        ypos -= vsize * 8;
+            /* adjust for height */
+            ypos -= vsize * 8;
 
-    /* adjust the final coordinates */
-    /*TODO*///        xpos &= 0x1ff;
-/*TODO*///        ypos &= 0x1ff;
-/*TODO*///        if (xpos >= XDIM) {
-/*TODO*///            xpos -= 0x200;
-/*TODO*///        }
-/*TODO*///        if (ypos >= YDIM) {
-/*TODO*///            ypos -= 0x200;
-/*TODO*///        }
+            /* adjust the final coordinates */
+            xpos &= 0x1ff;
+            ypos &= 0x1ff;
+            if (xpos >= XDIM) {
+                xpos -= 0x200;
+            }
+            if (ypos >= YDIM) {
+                ypos -= 0x200;
+            }
 
-    /* determine the bounding box */
-    /*TODO*///        atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+            /* determine the bounding box */
+            atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
 
-    /* draw the motion object */
-    /*TODO*///        atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+            /* draw the motion object */
+            atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
 
-    /* standard priority case? */
-    /*TODO*///        if (color != 15) {
-            /* overrender the playfield */
-    /*TODO*///            overrender_data.bitmap = bitmap;
-/*TODO*///            overrender_data.type = OVERRENDER_STANDARD;
-/*TODO*///            overrender_data.color = color;
-/*TODO*///            atarigen_pf_process(pf_overrender_callback,  & overrender_data,  & pf_clip);
-/*TODO*///        } /* high priority case? */ else {
-            /* overrender the playfield */
-    /*TODO*///            overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-/*TODO*///            overrender_data.type = OVERRENDER_PRIORITY;
-/*TODO*///            overrender_data.color = color;
-/*TODO*///            atarigen_pf_process(pf_overrender_callback,  & overrender_data,  & pf_clip);
-/*TODO*///
-            /* finally, copy this chunk to the real bitmap */
-    /*TODO*///            copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  & pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-/*TODO*///        }
-/*TODO*///    }
+            /* standard priority case? */
+            if (color != 15) {
+                /* overrender the playfield */
+                overrender_data.bitmap = bitmap;
+                overrender_data.type = OVERRENDER_STANDARD;
+                overrender_data.color = color;
+                atarigen_pf_process(pf_overrender_callback,  overrender_data,  pf_clip);
+            } /* high priority case? */ else {
+                /* overrender the playfield */
+                overrender_data.bitmap = atarigen_pf_overrender_bitmap;
+                overrender_data.type = OVERRENDER_PRIORITY;
+                overrender_data.color = color;
+                atarigen_pf_process(pf_overrender_callback,  overrender_data,  pf_clip);
+
+                /* finally, copy this chunk to the real bitmap */
+                copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
+            }
+            
+            param = bitmap;
+        }
+    };
+    
+
 }

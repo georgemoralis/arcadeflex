@@ -1109,7 +1109,7 @@ public class atarigen {
      --------------------------------------------------------------------------*/
     /* globals */
     public static UBytePtr atarigen_video_control_data = new UBytePtr();
-    public static atarigen_video_control_state_desc atarigen_video_control_state = new atarigen_video_control_state_desc();
+    public static atarigen_video_control_state_desc atarigen_video_control_state;
 
     /* statics */
     static int actual_video_control_latch1;
@@ -1122,9 +1122,10 @@ public class atarigen {
      *
      */
     public static void atarigen_video_control_reset() {
+        System.out.println("atarigen_video_control_reset");
         /* clear the RAM we use */
         memset(atarigen_video_control_data, 0, 0x40);
-        //memset(&atarigen_video_control_state, 0, sizeof(atarigen_video_control_state));
+        atarigen_video_control_state = new atarigen_video_control_state_desc();
 
         /* reset the latches */
         atarigen_video_control_state.latch1 = atarigen_video_control_state.latch2 = -1;
@@ -1138,6 +1139,7 @@ public class atarigen {
      *
      */
     public static void atarigen_video_control_update(UBytePtr data) {
+        //System.out.println("atarigen_video_control_update");
         int i;
 
         /* echo all the commands to the video controller */
@@ -1230,6 +1232,7 @@ public class atarigen {
 
                 /* latch 1 value */
                 case 0x38:
+                    System.out.println("latch 1 = "+newword);
                     actual_video_control_latch1 = newword;
                     actual_video_control_latch2 = -1;
                     if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80) != 0) {
@@ -1239,6 +1242,7 @@ public class atarigen {
 
                 /* latch 2 value */
                 case 0x3a:
+                    System.out.println("latch 2 = "+newword);
                     actual_video_control_latch1 = -1;
                     actual_video_control_latch2 = newword;
                     if ((atarigen_video_control_data.READ_WORD(0x14) & 0x80) != 0) {
@@ -2907,6 +2911,8 @@ public class atarigen {
         rectangle curclip = new rectangle();
         rectangle tiles = new rectangle();
         int y;
+        
+        System.out.println("internal_pf_process");
 
         /* preinitialization */
         curclip.min_x = clip.min_x;
@@ -2924,6 +2930,8 @@ public class atarigen {
             if (curclip.min_y > clip.max_y || curclip.max_y < clip.min_y) {
                 continue;
             }
+            
+            System.out.println("internal_pf_process 2");
 
             /* clip the clipper */
             if (curclip.min_y < clip.min_y) {
@@ -2939,6 +2947,8 @@ public class atarigen {
             tiles.min_y = ((current.vscroll + curclip.min_y) >> pf.tileheight_shift) & pf.ytiles_mask;
             tiles.max_y = ((current.vscroll + curclip.max_y + pf.tileheight) >> pf.tileheight_shift) & pf.ytiles_mask;
 
+            System.out.println("internal_pf_process 3");
+            
             /* call the callback */
             (callback).handler(curclip, tiles, current, param);
         }
