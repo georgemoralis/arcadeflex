@@ -45,7 +45,8 @@ import gr.codebb.arcadeflex.v037b7.cpu.m6805.HD63705;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
-
+import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8080;
+import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085;
 
 public class cpuintrf {
 
@@ -294,8 +295,8 @@ public class cpuintrf {
                 new Dummy_cpu(),
                 new z80(),
                 new Dummy_cpu(),/*TODO*///	CPU0(Z80GB,    z80gb,	 5,255,1.00,Z80GB_IGNORE_INT,  0,			   1,			   16,	  0,16,LE,1, 4,16	),
-                new Dummy_cpu(),/*TODO*///	CPU0(8080,	   i8080,	 4,255,1.00,I8080_NONE, 	   I8080_INTR,	   I8080_TRAP,	   16,	  0,16,LE,1, 3,16	),
-                new Dummy_cpu(),/*TODO*///	CPU0(8085A,    i8085,	 4,255,1.00,I8085_NONE, 	   I8085_INTR,	   I8085_TRAP,	   16,	  0,16,LE,1, 3,16	),
+                new i8080(),/*TODO*///	CPU0(8080,	   i8080,	 4,255,1.00,I8080_NONE, 	   I8080_INTR,	   I8080_TRAP,	   16,	  0,16,LE,1, 3,16	),
+                new i8085(),/*TODO*///	CPU0(8085A,    i8085,	 4,255,1.00,I8085_NONE, 	   I8085_INTR,	   I8085_TRAP,	   16,	  0,16,LE,1, 3,16	),
                 new m6502(),/*TODO*///	CPU0(M6502,    m6502,	 1,  0,1.00,M6502_INT_NONE,    M6502_INT_IRQ,  M6502_INT_NMI,  16,	  0,16,LE,1, 3,16	),
                 new Dummy_cpu(),/*TODO*///	CPU0(M65C02,   m65c02,	 1,  0,1.00,M65C02_INT_NONE,   M65C02_INT_IRQ, M65C02_INT_NMI, 16,	  0,16,LE,1, 3,16	),
                 new Dummy_cpu(),/*TODO*///	CPU0(M65SC02,  m65sc02,  1,  0,1.00,M65SC02_INT_NONE,  M65SC02_INT_IRQ,M65SC02_INT_NMI,16,	  0,16,LE,1, 3,16	),

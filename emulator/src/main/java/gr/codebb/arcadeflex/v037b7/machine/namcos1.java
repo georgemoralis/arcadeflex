@@ -622,7 +622,7 @@ public class namcos1
 			namcos1_banks[cpu][bank].bank_handler_r = namcos1_bank_element[chip].bank_handler_r;
 			namcos1_banks[cpu][bank].bank_handler_w = namcos1_bank_element[chip].bank_handler_w;
 			namcos1_banks[cpu][bank].bank_offset	= namcos1_bank_element[chip].bank_offset;
-			namcos1_banks[cpu][bank].bank_pointer	= new UBytePtr(namcos1_bank_element[chip].bank_pointer);
+			namcos1_banks[cpu][bank].bank_pointer	= namcos1_bank_element[chip].bank_pointer;
 			//memcpy( &namcos1_banks[cpu][bank] , &namcos1_bank_element[chip] , sizeof(bankhandler));
 	
 			/* unmapped bank warning */

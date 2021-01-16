@@ -1,3 +1,8 @@
+16/01/2021
+==========
+-Added i8080 and i8085 CPUs
+-Added _8080bw driver
+
 15/01/2021
 ==========
 -Updated common, sndintrf and cpuintrf for supporting segar games
