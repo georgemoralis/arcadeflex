@@ -1426,7 +1426,7 @@ public class m6809 extends cpu_interface
     	case 0xfc: ea=IMMBYTE(); 	ea=m6809.pc+(byte)ea & 0xFFFF;	ea=RM16(ea);	m6809_ICount[0]-=4;   break;
     /*TODO*///	case 0xfd: IMMWORD(ea); 	EA+=PC; 			EAD=RM16(EAD);	m6809_ICount[0]-=8;   break;
     /*TODO*///	case 0xfe: EA=0;																   break; /*ILLEGAL*/
-    /*TODO*///	case 0xff: IMMWORD(ea); 						EAD=RM16(EAD);	m6809_ICount[0]-=8;   break;
+    	case 0xff: ea=IMMWORD(); 						ea=RM16(ea);	m6809_ICount[0]-=8;   break;
                 default:
                 System.out.println("6809 effective address : 0x"+Integer.toHexString(postbyte));
         }
