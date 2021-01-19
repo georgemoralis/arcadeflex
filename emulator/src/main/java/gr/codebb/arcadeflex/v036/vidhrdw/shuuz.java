@@ -385,7 +385,7 @@ public class shuuz {
      */
     static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
         @Override
-        public void handler(UShortPtr data, rectangle clip, Object param) {
+        public void handler(ShortPtr data, rectangle clip, Object param) {
             int[] usage = Machine.gfx[1].pen_usage;
             UShortPtr colormap = (UShortPtr) param;
             int code = data.read(1) & 0x7fff;
@@ -414,7 +414,7 @@ public class shuuz {
      */
     static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
         @Override
-        public void handler(UShortPtr data, rectangle clip, Object param) {
+        public void handler(ShortPtr data, rectangle clip, Object param) {
             System.out.println("mo_render_callback");
             GfxElement gfx = Machine.gfx[1];
             pf_overrender_data overrender_data = new pf_overrender_data();

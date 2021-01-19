@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.machine;
 
+import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UShortPtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.machine.atarigen.atarigen_overrender_colortable;
@@ -364,7 +365,7 @@ public class atarigenH {
     /*TODO*///typedef void (*atarigen_mo_callback)(const UINT16 *data, const struct rectangle *clip, void *param);
     public static abstract interface atarigen_mo_callback {
 
-        public abstract void handler(UShortPtr data, rectangle clip, Object param);
+        public abstract void handler(ShortPtr data, rectangle clip, Object param);
     }
 /*TODO*///
 /*TODO*///int atarigen_mo_init(const struct atarigen_mo_desc *source_desc);

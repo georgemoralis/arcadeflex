@@ -245,6 +245,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.sega.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.segar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
 
 public class driver {
 
@@ -1182,14 +1183,14 @@ public class driver {
                 /*TODO*/ //	DRIVER( cclimbr2 )	/* (c) 1988 (Japan) */
 
                 /* "Phoenix hardware" (and variations) games */
-                /*TODO*/ //	DRIVER( phoenix )	/* (c) 1980 Amstar */
-                /*TODO*/ //	DRIVER( phoenixa )	/* (c) 1980 Amstar + Centuri license */
-                /*TODO*/ //	DRIVER( phoenixt )	/* (c) 1980 Taito */
-                /*TODO*/ //	DRIVER( phoenix3 )	/* bootleg */
-                /*TODO*/ //	DRIVER( phoenixc )	/* bootleg */
-                /*TODO*/ //	DRIVER( pleiads )	/* (c) 1981 Tehkan */
-                /*TODO*/ //	DRIVER( pleiadbl )	/* bootleg */
-                /*TODO*/ //	DRIVER( pleiadce )	/* (c) 1981 Centuri + Tehkan */
+                driver_phoenix,         /* (c) 1980 Amstar */
+                driver_phoenixa,	/* (c) 1980 Amstar + Centuri license */
+                driver_phoenixt,	/* (c) 1980 Taito */
+                driver_phoenix3,	/* bootleg */
+                driver_phoenixc,	/* bootleg */
+                driver_pleiads,         /* (c) 1981 Tehkan */
+                driver_pleiadbl,	/* bootleg */
+                driver_pleiadce,	/* (c) 1981 Centuri + Tehkan */
                 /*TODO*/ //	DRIVER( naughtyb )	/* (c) 1982 Jaleco */
                 /*TODO*/ //	DRIVER( naughtya )	/* bootleg */
                 /*TODO*/ //	DRIVER( naughtyc )	/* (c) 1982 Jaleco + Cinematronics */

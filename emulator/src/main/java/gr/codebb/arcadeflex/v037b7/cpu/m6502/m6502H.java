@@ -37,4 +37,3 @@ public class m6502H {
     public static int N2A03_INT_IRQ = M6502_INT_IRQ;
     public static int N2A03_INT_NMI = M6502_INT_NMI;
 }
-

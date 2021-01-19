@@ -1318,10 +1318,10 @@ public class atarigen {
 	/* statics */
 	static atarigen_mo_desc modesc=new atarigen_mo_desc();
 
-	static UShortPtr molist=null;
-	static UShortPtr molist_end=null;
-	static UShortPtr molist_last=null;
-	static UShortPtr molist_upper_bound=null;
+	static ShortPtr molist=null;
+	static ShortPtr molist_end=null;
+	static ShortPtr molist_last=null;
+	static ShortPtr molist_upper_bound=null;
 
 
 	/*
@@ -1339,10 +1339,10 @@ public class atarigen {
         /* make sure everything is free */
         atarigen_mo_free();
         /* allocate memory for the cached list */
-        molist = new UShortPtr(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
+        molist = new ShortPtr(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
 	if (molist==null)
             return 1;
-	molist_upper_bound = new UShortPtr(molist, (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8)));
+	molist_upper_bound = new ShortPtr(molist, (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8)));
         /* initialize the end/last pointers */
         atarigen_mo_reset();
 
@@ -1371,7 +1371,7 @@ public class atarigen {
 /*TODO*///	 */
 
     public static void atarigen_mo_reset() {
-       		molist_end = molist;
+       		molist_end = new ShortPtr(molist);
 		molist_last = null;
     }
     	
@@ -1390,7 +1390,7 @@ public class atarigen {
                 int wordcount = modesc.entrywords - 1;
                 
 		int[] spritevisit=new int[ATARIGEN_MAX_MAXCOUNT];
-		UShortPtr data, data_start, prev_data;
+		ShortPtr data, data_start, prev_data;
 		int match = 0;
 	
 		/* set up local pointers */
@@ -1424,13 +1424,13 @@ public class atarigen {
 			}
 	
 			/* start with the scanline */
-			data.write(0, (char) scanline);
+			data.write(0, (short) scanline);
                         data.inc(1);
 	
 			/* add the data words */
 			for (i = temp = 0; i < wordcount; i++, temp += wordskip){
 				tempdata[i] = modata.READ_WORD(temp & 0x3ff);
-                                data.write(0, (char) modata.READ_WORD(temp & 0x3ff));
+                                data.write(0, (short) modata.READ_WORD(temp & 0x3ff));
                                 data.inc(1);
                         }
 	
@@ -1506,7 +1506,9 @@ public class atarigen {
 	
 	public static void atarigen_mo_process(atarigen_mo_callback callback, Object param)
 	{
-		UShortPtr base = new UShortPtr(molist);
+            
+		ShortPtr base = molist;
+                System.out.println("atarigen_mo_process "+base.offset+"-"+molist_end.offset);
 		int last_start_scan = -1;
 		rectangle clip=new rectangle();
 	
@@ -1517,7 +1519,7 @@ public class atarigen {
 		/* loop over the list until the end */
 		while (base.offset < molist_end.offset)
 		{
-			UShortPtr data=new UShortPtr (), first=new UShortPtr (), last=new UShortPtr ();
+			ShortPtr data, first, last;
 			int start_scan = base.read(0);
                         int step;
 	
@@ -1539,8 +1541,8 @@ public class atarigen {
 			/* set the start and end points */
 			if (modesc.reverse != 0)
 			{
-				first = new UShortPtr(data, data.offset - modesc.entrywords);
-				last = new UShortPtr(base, base.offset - modesc.entrywords);
+				first = new ShortPtr(data, data.offset - modesc.entrywords);
+				last = new ShortPtr(base, base.offset - modesc.entrywords);
 				step = -modesc.entrywords;
 			}
 			else
@@ -1555,7 +1557,7 @@ public class atarigen {
 	
 			/* render the mos */
 			for (data = first; data != last; data.inc(step))
-				(callback).handler(new UShortPtr(data, 1), clip, param);
+				(callback).handler(new ShortPtr(data, 1), clip, param);
 		}
 	}
 	
@@ -2839,7 +2841,7 @@ public class atarigen {
      */
 
     public static void internal_pf_reset(playfield_data pf) {
-        /*TODO*///		/* verify memory has been allocated -- we're called even if we're not used */
+        		/* verify memory has been allocated -- we're called even if we're not used */
 /*TODO*///		if (pf.scanline && pf.state)
 /*TODO*///		{
 /*TODO*///			pf.entries = 0;
@@ -2912,7 +2914,7 @@ public class atarigen {
         rectangle tiles = new rectangle();
         int y;
         
-        System.out.println("internal_pf_process");
+        System.out.println("internal_pf_process "+pf.entries);
 
         /* preinitialization */
         curclip.min_x = clip.min_x;
@@ -2928,7 +2930,7 @@ public class atarigen {
 
             /* skip if we're clipped out */
             if (curclip.min_y > clip.max_y || curclip.max_y < clip.min_y) {
-                continue;
+                //continue;
             }
             
             System.out.println("internal_pf_process 2");
