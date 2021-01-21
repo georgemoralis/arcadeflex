@@ -25165,10 +25165,9 @@ public class m68kopsH {
     };
     public static opcode m68000_suba_di_32 = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
+             long a_dst = get_AX();
+            set_AX(MASK_OUT_ABOVE_32(a_dst - m68ki_read_32(EA_DI())));
+            USE_CLKS(6+12);
         }
     };
     public static opcode m68000_suba_ix_32 = new opcode() {
@@ -26059,10 +26058,19 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_ai_32 = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)&0xFFFFFFFFL;
+            long ea = EA_AI();
+            long dst = m68ki_read_32(ea);
+            long res = MASK_OUT_ABOVE_32(dst - src);
+
+            m68ki_write_32(ea, res);
+
+            m68k_cpu.n_flag = GET_MSB_32(res);
+            m68k_cpu.not_z_flag = res;
+            m68k_cpu.x_flag = CFLAG_SUB_32(src, dst, res);
+            m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
+            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
+            USE_CLKS(12+8);
         }
     };
     public static opcode m68000_subq_pi_32 = new opcode() {
@@ -26083,7 +26091,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_di_32 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)&0xFFFFFFFFL;;
             long ea = EA_DI();
             long dst = m68ki_read_32(ea);
             long res = MASK_OUT_ABOVE_32(dst - src);
@@ -26119,7 +26127,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_al_32 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)&0xFFFFFFFFL;
             long ea = EA_AL();
             long dst = m68ki_read_32(ea);
             long res = MASK_OUT_ABOVE_32(dst - src);
