@@ -306,8 +306,8 @@ public class taito_b
 	
 	public static WriteHandlerPtr get_tx_tile_info = new WriteHandlerPtr() { public void handler(int col, int row) 
 	{
-		int tile_index = 64*row+col;
-                int tile  = b_textram.READ_WORD(2 * tile_index);
+		int tile_index = 128*row+col;
+                int tile  = b_textram.READ_WORD(tile_index);
 	
 		SET_TILE_INFO(
 				0,
@@ -395,6 +395,7 @@ public class taito_b
 	public static ReadHandlerPtr taitob_text_r = new ReadHandlerPtr() {
             @Override
             public int handler(int offset) {
+                //System.out.println("Leo "+b_textram.READ_WORD(offset));
                 return b_textram.READ_WORD(offset);
             }
         };
@@ -406,9 +407,10 @@ public class taito_b
 	
 		if (oldword != newword)
 		{
-			b_textram.WRITE_WORD(offset,newword);
-/*TODO*///			tilemap_mark_tile_dirty(tx_tilemap, offset, data);
+			b_textram.WRITE_WORD (offset,newword);
+/*TODO*///			tilemap_mark_tile_dirty(tx_tilemap,offset, data);
 		}
+               
 	} };
 	
 	public static ReadHandlerPtr taitob_background_r = new ReadHandlerPtr() {
