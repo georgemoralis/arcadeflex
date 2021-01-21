@@ -563,15 +563,15 @@ public class ataripf
 /*TODO*///			pf_process(pf, pf_overrender_callback, data.bitmap, &data.clip);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_mark_palette: Mark palette entries used in the
-/*TODO*///		current playfield.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_mark_palette(int map)
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_mark_palette: Mark palette entries used in the
+		current playfield.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_mark_palette(int map)
+	{
 /*TODO*///		struct ataripf_data *pf = &ataripf[map];
 /*TODO*///	
 /*TODO*///		if (pf.initialized)
@@ -611,9 +611,9 @@ public class ataripf
 /*TODO*///			/* reset the visitation map now that we're done */
 /*TODO*///			memset(pf.visitmap, 0, sizeof(pf.visitmap[0]) * pf.vramsize);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		ataripf_set_bankbits: Set the extra banking bits for a
 /*TODO*///		playfield.

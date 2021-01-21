@@ -175,7 +175,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.kchamp.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.tutankhm.*;
 import static gr.codebb.arcadeflex.v036.drivers.galaga.*;
-import static gr.codebb.arcadeflex.v036.drivers.ajax.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
 import static gr.codebb.arcadeflex.v036.drivers.m72.*;
 import static gr.codebb.arcadeflex.v036.drivers.raiden.*;
@@ -246,6 +245,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.segar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.ajax.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
 
 public class driver {
 
@@ -2030,7 +2031,7 @@ public class driver {
                 driver_hwchamp,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( moonwlkb )	/* bootleg */
-                /*TODO*/ //	DRIVER( outrun )	/* (c) 1986 (bootleg)*/
+                driver_outrun,	/* (c) 1986 (bootleg)*/
                 /*TODO*/ //	DRIVER( outruna )	/* (c) 1986 (bootleg) */
                 /*TODO*/ //	DRIVER( outrunb )	/* (c) 1986 (protected beta bootleg) */
                 /*TODO*/ //	DRIVER( passht4b )	/* bootleg */
@@ -2827,6 +2828,27 @@ public class driver {
 		driver_kodure,          /* (c) 1987 (Japan) */
 		driver_armedf,          /* (c) 1988 */
 		driver_cclimbr2,	/* (c) 1988 (Japan) */
+                
+                /* Taito B-System games */
+                driver_masterw,         /* B72 (c) 1989 Taito Corporation Japan (World) */
+                driver_nastar,          /* B81 (c) 1988 Taito Corporation Japan (World) */
+                driver_nastarw,         /* B81 (c) 1988 Taito America Corporation (US) */
+                driver_rastsag2,        /* B81 (c) 1988 Taito Corporation (Japan) */
+                driver_rambo3,          /* B93 (c) 1989 Taito Europe Corporation (Europe) */
+                driver_rambo3a,         /* B93 (c) 1989 Taito America Corporation (US) */
+                driver_crimec,          /* B99 (c) 1989 Taito Corporation Japan (World) */
+                driver_crimecu,         /* B99 (c) 1989 Taito America Corporation (US) */
+                driver_crimecj,         /* B99 (c) 1989 Taito Corporation (Japan) */
+                driver_tetrist,         /* C12 (c) 1989 Sega Enterprises,Ltd. (Japan) */
+                driver_viofight,        /* C16 (c) 1989 Taito Corporation Japan (World) */
+                driver_ashura,          /* C43 (c) 1990 Taito Corporation (Japan) */
+                driver_ashurau,         /* C43 (c) 1990 Taito America Corporation (US) */
+                driver_hitice,          /* C59 (c) 1990 Williams (US) */
+                driver_puzbobb,         /* ??? (c) 1994 Taito Corporation (Japan) */
+                driver_qzshowby,        /* D72 (c) 1993 Taito Corporation (Japan) */
+                driver_spacedx,         /* D89 (c) 1994 Taito Corporation (Japan) */
+                driver_silentd,         /* ??? (c) 1992 Taito Corporation Japan (World) */
+                
                 null /* end of array */};
     
 }

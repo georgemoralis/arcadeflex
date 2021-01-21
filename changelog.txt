@@ -2,6 +2,7 @@
 ==========
 -Added phoenix full working driver
 -Porting atarigen and shuuz v0.36b16 (WIP)
+-Ported ajax driver v0.37b7
 
 16/01/2021
 ==========

@@ -2,6 +2,7 @@ package gr.codebb.arcadeflex.v037b16.vidhrdw;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripf.*;
 
 /***************************************************************************
 
@@ -164,7 +165,7 @@ public class shuuz
 	{
 		/* mark the used colors */
 		palette_init_used_colors();
-/*TODO*///		ataripf_mark_palette(0);
+		ataripf_mark_palette(0);
 /*TODO*///		atarimo_mark_palette(0);
 /*TODO*///	
 /*TODO*///		/* update the palette, and mark things dirty if we need to */

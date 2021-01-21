@@ -35,7 +35,8 @@ import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.sndhrdw.system16.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_status_port_0_r;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
+import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class system16 {
 
@@ -528,35 +529,35 @@ public class system16 {
 /*TODO*///		{ 40,40 },
 /*TODO*///		{ 0 },	{ 0 },	{ 0 },	{ 0 }
 /*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	// Sega 3D Sound
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static YM2203interface ym2203_interface = new YM2203interface
-/*TODO*///	(
-/*TODO*///		1,	/* 1 chips */
-/*TODO*///		4096000,	/* 3.58 MHZ ? */
-/*TODO*///		new int[] { YM2203_VOL(50,50) },
-/*TODO*///		new ReadHandlerPtr[] { 0 },
-/*TODO*///		new ReadHandlerPtr[] { 0 },
-/*TODO*///		new WriteHandlerPtr[] { 0 },
-/*TODO*///		new WriteHandlerPtr[] { 0 },
-/*TODO*///		new WriteYmHandlerPtr[] { 0 }
-/*TODO*///	);
-/*TODO*///	
-/*TODO*///	static YM2203interface ym2203_interface2 = new YM2203interface
-/*TODO*///	(
-/*TODO*///		3,	/* 1 chips */
-/*TODO*///		4096000,	/* 3.58 MHZ ? */
-/*TODO*///		new int[] { YM2203_VOL(50,50),YM2203_VOL(50,50),YM2203_VOL(50,50) },
-/*TODO*///		new ReadHandlerPtr[] { 0 },
-/*TODO*///		new ReadHandlerPtr[] { 0 },
-/*TODO*///		new WriteHandlerPtr[] { 0 },
-/*TODO*///		new WriteHandlerPtr[] { 0 },
-/*TODO*///		new WriteYmHandlerPtr[] { 0 }
-/*TODO*///	);
-/*TODO*///	
+	
+	
+	// Sega 3D Sound
+	
+	
+	static YM2203interface ym2203_interface = new YM2203interface
+	(
+		1,	/* 1 chips */
+		4096000,	/* 3.58 MHZ ? */
+		new int[] { YM2203_VOL(50,50) },
+		new ReadHandlerPtr[] { null },
+		new ReadHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteYmHandlerPtr[] { null }
+	);
+	
+	static YM2203interface ym2203_interface2 = new YM2203interface
+	(
+		3,	/* 1 chips */
+		4096000,	/* 3.58 MHZ ? */
+		new int[] { YM2203_VOL(50,50),YM2203_VOL(50,50),YM2203_VOL(50,50) },
+		new ReadHandlerPtr[] { null },
+		new ReadHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteHandlerPtr[] { null },
+		new WriteYmHandlerPtr[] { null }
+	);
+	
 /*TODO*///	static struct SEGAPCMinterface segapcm_interface_15k = {
 /*TODO*///		SEGAPCM_SAMPLE15K,
 /*TODO*///		BANK_256,
@@ -1051,7 +1052,10 @@ public class system16 {
 	
 			if (grr!=null)
 			{ // need mirrored RHS
-				UBytePtr _gr=new UBytePtr(gr, gr.offset-1);
+				//UBytePtr _gr=new UBytePtr(gr, gr.offset-1);
+                                UBytePtr _gr=gr;
+                                _gr.offset--;
+                                
 				_gr.dec(skip);
 				for (j=0; j<w-skip; j++)
 				{
@@ -9616,8 +9620,8 @@ public class system16 {
 	{
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0xc000, 0xc7ff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0xd000, 0xd000, YM2203_control_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xd001, 0xd001, YM2203_write_port_0_w ),
+		new MemoryWriteAddress( 0xd000, 0xd000, YM2203_control_port_0_w ),
+		new MemoryWriteAddress( 0xd001, 0xd001, YM2203_write_port_0_w ),
 /*TODO*///		new MemoryWriteAddress( 0xe000, 0xe7ff, SEGAPCMWriteReg ),
 		new MemoryWriteAddress( 0xf800, 0xffff, MWA_RAM ),
 		new MemoryWriteAddress( -1 )  /* end of table */
@@ -9795,17 +9799,17 @@ public class system16 {
 		sys16_vh_stop,
 		sys16_ho_vh_screenrefresh,
 		SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_YM2203,
-/*TODO*///				ym2203_interface
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_YM2203,
+				ym2203_interface
 /*TODO*///			),
 /*TODO*///			new MachineSound(			// wrong sound chip??
 /*TODO*///				SOUND_SEGAPCM,
 /*TODO*///				segapcm_interface_32k,
-/*TODO*///			)
-/*TODO*///		}
-                null
+			)
+		}
+             
 	);
 	
 	
