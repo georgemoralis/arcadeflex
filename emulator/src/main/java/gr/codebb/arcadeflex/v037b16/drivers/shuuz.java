@@ -214,10 +214,10 @@ public class shuuz
 		new MemoryWriteAddress( 0x3effc0, 0x3effff, atarivc_w, atarivc_data ),
 		new MemoryWriteAddress( 0x3f4000, 0x3f5eff, ataripf_0_latched_w, ataripf_0_base ),
 		new MemoryWriteAddress( 0x3f5f00, 0x3f5f7f, MWA_RAM, atarivc_eof_data ),
-/*TODO*///		new MemoryWriteAddress( 0x3f5f80, 0x3f5fff, atarimo_0_slipram_w, atarimo_0_slipram ),
-/*TODO*///		new MemoryWriteAddress( 0x3f6000, 0x3f7fff, ataripf_0_upper_msb_w, ataripf_0_upper ),
+		new MemoryWriteAddress( 0x3f5f80, 0x3f5fff, atarimo_0_slipram_w, atarimo_0_slipram ),
+		new MemoryWriteAddress( 0x3f6000, 0x3f7fff, ataripf_0_upper_msb_w, ataripf_0_upper ),
 		new MemoryWriteAddress( 0x3f8000, 0x3fcfff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x3fd000, 0x3fd3ff, atarimo_0_spriteram_w, atarimo_0_spriteram ),
+		new MemoryWriteAddress( 0x3fd000, 0x3fd3ff, atarimo_0_spriteram_w, atarimo_0_spriteram ),
 		new MemoryWriteAddress( 0x3fd400, 0x3fffff, MWA_RAM ),
                 new MemoryWriteAddress( -1 )  /* end of table */
 	};

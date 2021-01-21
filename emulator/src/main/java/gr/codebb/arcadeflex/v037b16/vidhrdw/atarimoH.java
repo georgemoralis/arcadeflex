@@ -15,15 +15,15 @@ package gr.codebb.arcadeflex.v037b16.vidhrdw;
 
 public class atarimoH
 {
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		CONSTANTS
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	/* maximum number of motion object processors */
-/*TODO*///	#define ATARIMO_MAX			2
-/*TODO*///	
+	
+	
+	/*##########################################################################
+		CONSTANTS
+	##########################################################################*/
+	
+	/* maximum number of motion object processors */
+	public static final int ATARIMO_MAX			= 2;
+
 /*TODO*///	/* maximum objects per bank */
 /*TODO*///	#define ATARIMO_MAXPERBANK	1024
 /*TODO*///	
@@ -35,13 +35,13 @@ public class atarimoH
 /*TODO*///	
 /*TODO*///	/* callback for special processing */
 /*TODO*///	typedef void (*atarimo_special_cb)(struct osd_bitmap *bitmap, struct rectangle *clip, int code, int color, int xpos, int ypos);
-/*TODO*///	
-/*TODO*///	/* description for a four-word mask */
-/*TODO*///	struct atarimo_entry
-/*TODO*///	{
-/*TODO*///		data16_t			data[4];
-/*TODO*///	};
-/*TODO*///	
+	
+	/* description for a four-word mask */
+	public static class atarimo_entry
+	{
+		int[]			data=new int[4];
+	};
+	
 /*TODO*///	/* description of the motion objects */
 /*TODO*///	struct atarimo_desc
 /*TODO*///	{

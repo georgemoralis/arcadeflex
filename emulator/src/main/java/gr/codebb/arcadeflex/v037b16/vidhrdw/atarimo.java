@@ -1,5 +1,18 @@
 package gr.codebb.arcadeflex.v037b16.vidhrdw;
 
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
+import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v037b16.vidhrdw.atarimoH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
+import gr.codebb.arcadeflex.v037b16.vidhrdw.atarimoH;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+
 /*##########################################################################
 
 	atarimo.c
@@ -18,35 +31,90 @@ public class atarimo
 {
 	
 	
-/*TODO*///	/*##########################################################################
-/*TODO*///		TYPES & STRUCTURES
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	/* internal structure containing a word index, shift and mask */
-/*TODO*///	struct atarimo_mask
-/*TODO*///	{
-/*TODO*///		int					word;				/* word index */
-/*TODO*///		int					shift;				/* shift amount */
-/*TODO*///		int					mask;				/* final mask */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	/* internal cache entry */
-/*TODO*///	struct atarimo_cache
-/*TODO*///	{
-/*TODO*///		UINT16				scanline;			/* effective scanline */
-/*TODO*///		struct atarimo_entry entry;				/* entry data */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	/* internal structure containing the state of the motion objects */
-/*TODO*///	struct atarimo_data
-/*TODO*///	{
+	/*##########################################################################
+		TYPES & STRUCTURES
+	##########################################################################*/
+	
+	/* internal structure containing a word index, shift and mask */
+	public static class atarimo_mask
+	{
+		int					word;				/* word index */
+		int					shift;				/* shift amount */
+		int					mask;				/* final mask */
+	};
+        
+        public static class atarimo_cache_block
+	{
+		int				scanline;			/* effective scanline */
+		atarimo_entry entry=new atarimo_entry();
+        }
+	
+	/* internal cache entry */
+	public static class atarimo_cache
+	{		                
+                int offset=0;
+                atarimo_cache_block[] memory;
+                
+                public atarimo_cache(int size) {
+                    memory = new atarimo_cache_block[size];
+                    offset = 0;
+                    
+                    for (int _i=0 ; _i<size ; _i++)
+                        memory[_i] = new atarimo_cache_block();
+                }
+                
+                public atarimo_cache(atarimo_cache ac) {
+                    set(ac.memory, ac.offset);
+                }
+                
+                public atarimo_cache(atarimo_cache cp, int b) {
+                    set(cp.memory, cp.offset + b);
+                }
+                
+                public atarimo_cache() {
+                    memory = new atarimo_cache_block[1024 * 1024];
+                    offset = 0;
+                    
+                    for (int _i=0 ; _i<1024 * 1024 ; _i++)
+                        memory[_i] = new atarimo_cache_block();
+                }
+                
+                public void inc(int _inc) {
+                    offset += _inc;
+                }
+                
+                public void inc() {
+                    offset += 1;
+                }
+                
+                public atarimo_cache_block read(int offs) {
+                    return memory[offs + offset];
+                }
+
+                public atarimo_cache_block read() {
+                    return memory[offset];
+                }
+
+                public void write(int offs, atarimo_cache_block value) {
+                    memory[offset + offs] =  value;
+                }
+                
+                public void set(atarimo_cache_block[] m, int b) {
+                    memory = m;
+                    offset = b;
+                }
+	};
+	
+	/* internal structure containing the state of the motion objects */
+	public static class atarimo_data
+	{
 /*TODO*///		int					timerallocated;		/* true if we've allocated the timer */
-/*TODO*///		int					gfxchanged;			/* true if the gfx info has changed */
-/*TODO*///		struct GfxElement	gfxelement[MAX_GFX_ELEMENTS]; /* local copy of graphics elements */
-/*TODO*///	
+		int					gfxchanged;			/* true if the gfx info has changed */
+		GfxElement[]	gfxelement=new GfxElement[MAX_GFX_ELEMENTS]; /* local copy of graphics elements */
+
 /*TODO*///		int					linked;				/* are the entries linked? */
 /*TODO*///		int					split;				/* are entries split or together? */
-/*TODO*///		int					reverse;			/* render in reverse order? */
+		int					reverse;			/* render in reverse order? */
 /*TODO*///		int					swapxy;				/* render in swapped X/Y order? */
 /*TODO*///		UINT8				nextneighbor;		/* does the neighbor bit affect the next object? */
 /*TODO*///		int					slipshift;			/* log2(pixels_per_SLIP) */
@@ -67,17 +135,17 @@ public class atarimo
 /*TODO*///		int					spriteramsize;		/* total size of sprite RAM, in entries */
 /*TODO*///		int					sliprammask;		/* combined mask when accessing SLIP RAM with raw addresses */
 /*TODO*///		int					slipramsize;		/* total size of SLIP RAM, in entries */
-/*TODO*///	
-/*TODO*///		int					palettebase;		/* base palette entry */
-/*TODO*///		int					maxcolors;			/* maximum number of colors */
-/*TODO*///		int					transpen;			/* transparent pen index */
-/*TODO*///	
+
+		int					palettebase;		/* base palette entry */
+		int					maxcolors;			/* maximum number of colors */
+		int					transpen;			/* transparent pen index */
+	
 /*TODO*///		int					bank;				/* current bank number */
 /*TODO*///		int					xscroll;			/* current x scroll offset */
 /*TODO*///		int					yscroll;			/* current y scroll offset */
-/*TODO*///	
+
 /*TODO*///		struct atarimo_mask	linkmask;			/* mask for the link */
-/*TODO*///		struct atarimo_mask gfxmask;			/* mask for the graphics bank */
+		atarimo_mask gfxmask;			/* mask for the graphics bank */
 /*TODO*///		struct atarimo_mask	codemask;			/* mask for the code index */
 /*TODO*///		struct atarimo_mask codehighmask;		/* mask for the upper code index */
 /*TODO*///		struct atarimo_mask	colormask;			/* mask for the color */
@@ -100,27 +168,27 @@ public class atarimo
 /*TODO*///		data16_t **			slipram;			/* pointer to the SLIP RAM pointer */
 /*TODO*///		UINT16 *			codelookup;			/* lookup table for codes */
 /*TODO*///		UINT8 *				colorlookup;		/* lookup table for colors */
-/*TODO*///		UINT8 *				gfxlookup;			/* lookup table for graphics */
-/*TODO*///	
-/*TODO*///		struct atarimo_cache *cache;			/* pointer to the cache data */
+		UBytePtr				gfxlookup;			/* lookup table for graphics */
+
+		atarimo_cache cache = new atarimo_cache();			/* pointer to the cache data */
 /*TODO*///		struct atarimo_cache *endcache;			/* end of the cache */
-/*TODO*///		struct atarimo_cache *curcache;			/* current cache entry */
+		atarimo_cache curcache = new atarimo_cache();		/* current cache entry */
 /*TODO*///		struct atarimo_cache *prevcache;		/* previous cache entry */
-/*TODO*///	
+
 /*TODO*///		ataripf_overrender_cb overrender0;		/* overrender callback for PF 0 */
 /*TODO*///		ataripf_overrender_cb overrender1;		/* overrender callback for PF 1 */
-/*TODO*///		struct rectangle	process_clip;		/* (during processing) the clip rectangle */
-/*TODO*///		void *				process_param;		/* (during processing) the callback parameter */
+		rectangle	process_clip;		/* (during processing) the clip rectangle */
+		Object		process_param;		/* (during processing) the callback parameter */
 /*TODO*///		int					last_xpos;			/* (during processing) the previous X position */
-/*TODO*///		int					next_xpos;			/* (during processing) the next X position */
-/*TODO*///		int					process_xscroll;	/* (during processing) the X scroll position */
-/*TODO*///		int					process_yscroll;	/* (during processing) the Y scroll position */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+		int					next_xpos;			/* (during processing) the next X position */
+		int					process_xscroll;	/* (during processing) the X scroll position */
+		int					process_yscroll;	/* (during processing) the Y scroll position */
+	};
+	
+	
 /*TODO*///	/* callback function for the internal playfield processing mechanism */
 /*TODO*///	typedef void (*mo_callback)(struct atarimo_data *pf, const struct atarimo_entry *entry);
-/*TODO*///	
+        public static abstract interface mo_callback { public abstract void handler(atarimo_data pf, atarimo_entry entry); }
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*##########################################################################
@@ -136,29 +204,29 @@ public class atarimo
 /*TODO*///	
 /*TODO*///	/* data extraction */
 /*TODO*///	#define EXTRACT_DATA(_input, _mask) (((_input).data[(_mask).word] >> (_mask).shift) & (_mask).mask)
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		GLOBAL VARIABLES
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	data16_t *atarimo_0_spriteram;
-/*TODO*///	data16_t *atarimo_0_slipram;
-/*TODO*///	
+	
+	
+	
+	/*##########################################################################
+		GLOBAL VARIABLES
+	##########################################################################*/
+	
+	public static /*data16_t*/ UBytePtr atarimo_0_slipram;
+        public static /*data16_t*/ UBytePtr atarimo_0_spriteram;
+
 /*TODO*///	data16_t *atarimo_1_spriteram;
 /*TODO*///	data16_t *atarimo_1_slipram;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		STATIC VARIABLES
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	static struct atarimo_data atarimo[ATARIMO_MAX];
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	
+	
+	
+	/*##########################################################################
+		STATIC VARIABLES
+	##########################################################################*/
+	
+	static atarimo_data[] atarimo = new atarimo_data[ATARIMO_MAX];
+	
+	
+	
 /*TODO*///	/*##########################################################################
 /*TODO*///		STATIC FUNCTION DECLARATIONS
 /*TODO*///	##########################################################################*/
@@ -192,26 +260,26 @@ public class atarimo
 /*TODO*///			return -1;
 /*TODO*///		return log;
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		round_to_powerof2: Rounds a number up to the nearest
-/*TODO*///		power of 2. Even powers of 2 are rounded up to the
-/*TODO*///		next greatest power (e.g., 4 returns 8).
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	INLINE int round_to_powerof2(int value)
-/*TODO*///	{
-/*TODO*///		int log = 0;
-/*TODO*///	
-/*TODO*///		if (value == 0)
-/*TODO*///			return 1;
-/*TODO*///		while ((value >>= 1) != 0)
-/*TODO*///			log++;
-/*TODO*///		return 1 << (log + 1);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*---------------------------------------------------------------
+		round_to_powerof2: Rounds a number up to the nearest
+		power of 2. Even powers of 2 are rounded up to the
+		next greatest power (e.g., 4 returns 8).
+	---------------------------------------------------------------*/
+	
+	static int round_to_powerof2(int value)
+	{
+		int log = 0;
+	
+		if (value == 0)
+			return 1;
+		while ((value >>= 1) != 0)
+			log++;
+		return 1 << (log + 1);
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		convert_mask: Converts a 4-word mask into a word index,
 /*TODO*///		shift, and adjusted mask. Returns 0 if invalid.
@@ -506,46 +574,46 @@ public class atarimo
 /*TODO*///			mo.timerallocated = 1;
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarimo_mark_palette: Mark palette entries used in the
-/*TODO*///		current set of motion objects.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void atarimo_mark_palette(int map)
-/*TODO*///	{
-/*TODO*///		struct atarimo_data *mo = &atarimo[map];
-/*TODO*///		UINT8 *used_colors = &palette_used_colors[mo.palettebase];
-/*TODO*///		UINT32 marked_colors[256];
-/*TODO*///		int i, j;
-/*TODO*///	
-/*TODO*///		/* reset the marked colors */
-/*TODO*///		memset(marked_colors, 0, mo.maxcolors * sizeof(UINT32));
-/*TODO*///	
-/*TODO*///		/* mark the colors used */
-/*TODO*///		mo_process(mo, mo_usage_callback, marked_colors, NULL);
-/*TODO*///	
-/*TODO*///		/* loop over colors */
-/*TODO*///		for (i = 0; i < mo.maxcolors; i++)
-/*TODO*///		{
-/*TODO*///			int usage = marked_colors[i];
-/*TODO*///	
-/*TODO*///			/* if this entry was marked, loop over bits */
-/*TODO*///			if (usage != 0)
-/*TODO*///			{
-/*TODO*///				for (j = 0; j < 32; j++, usage >>= 1)
-/*TODO*///					if ((usage & 1) != 0)
-/*TODO*///						used_colors[j] = PALETTE_COLOR_USED;
-/*TODO*///				used_colors[mo.transpen] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* advance by the color granularity of the gfx */
-/*TODO*///			used_colors += mo.gfxelement[mo.gfxlookup[0]].color_granularity;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*---------------------------------------------------------------
+		atarimo_mark_palette: Mark palette entries used in the
+		current set of motion objects.
+	---------------------------------------------------------------*/
+	
+	public static void atarimo_mark_palette(int map)
+	{
+		atarimo_data mo = atarimo[map];
+		UBytePtr used_colors = new UBytePtr(palette_used_colors, mo.palettebase);
+		int[] marked_colors = new int[256];
+		int i, j;
+	
+		/* reset the marked colors */
+		memset(marked_colors, 0, mo.maxcolors);
+	
+		/* mark the colors used */
+		mo_process(mo, mo_usage_callback, marked_colors, null);
+	
+		/* loop over colors */
+		for (i = 0; i < mo.maxcolors; i++)
+		{
+			int usage = marked_colors[i];
+	
+			/* if this entry was marked, loop over bits */
+			if (usage != 0)
+			{
+				for (j = 0; j < 32; j++, usage >>= 1)
+					if ((usage & 1) != 0)
+						used_colors.write(j, PALETTE_COLOR_USED);
+				used_colors.write(mo.transpen, PALETTE_COLOR_TRANSPARENT);
+			}
+	
+			/* advance by the color granularity of the gfx */
+			used_colors.inc( mo.gfxelement[mo.gfxlookup.read(0)].color_granularity );
+		}
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		atarimo_force_update: Force an update for the given
 /*TODO*///		scanline.
@@ -666,14 +734,15 @@ public class atarimo
 /*TODO*///	{
 /*TODO*///		return atarimo[map].yscroll;
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarimo_0_spriteram_w: Write handler for the spriteram.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	WRITE16_HANDLER( atarimo_0_spriteram_w )
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		atarimo_0_spriteram_w: Write handler for the spriteram.
+	---------------------------------------------------------------*/
+	// WRITE16_HANDLER
+	public static WriteHandlerPtr atarimo_0_spriteram_w = new WriteHandlerPtr() {
+            @Override
+            public void handler(int offset, int data) {
 /*TODO*///		int entry, idx, bank;
 /*TODO*///	
 /*TODO*///		COMBINE_DATA(&atarimo_0_spriteram[offset]);
@@ -689,7 +758,9 @@ public class atarimo
 /*TODO*///		}
 /*TODO*///		bank = offset >> (2 + atarimo[0].entrybits);
 /*TODO*///		COMBINE_DATA(&atarimo[0].spriteram.read((bank << atarimo[0).entrybits) + entry].data[idx]);
-/*TODO*///	}
+            }
+        };
+
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------
@@ -743,16 +814,18 @@ public class atarimo
 /*TODO*///			COMBINE_DATA(&atarimo[0].spriteram.read((bank << atarimo[0).entrybits) + entry].data[idx]);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarimo_0_slipram_w: Write handler for the slipram.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	WRITE16_HANDLER( atarimo_0_slipram_w )
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		atarimo_0_slipram_w: Write handler for the slipram.
+	---------------------------------------------------------------*/
+	//WRITE16_HANDLER
+	public static WriteHandlerPtr atarimo_0_slipram_w = new WriteHandlerPtr() {
+            @Override
+            public void handler(int offset, int data) {
 /*TODO*///		COMBINE_DATA(&atarimo_0_slipram[offset]);
-/*TODO*///	}
+            }
+        };
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------
@@ -763,97 +836,97 @@ public class atarimo
 /*TODO*///	{
 /*TODO*///		COMBINE_DATA(&atarimo_1_slipram[offset]);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		mo_process: Internal routine that loops over chunks of
-/*TODO*///		the playfield with common parameters and processes them
-/*TODO*///		via a callback.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void mo_process(struct atarimo_data *mo, mo_callback callback, void *param, const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		struct rectangle finalclip;
-/*TODO*///		struct atarimo_cache *base = mo.cache;
-/*TODO*///	
-/*TODO*///		if (clip != 0)
-/*TODO*///			finalclip = *clip;
-/*TODO*///		else
-/*TODO*///			finalclip = Machine.visible_area;
-/*TODO*///	
-/*TODO*///		/* if the graphics info has changed, recompute */
-/*TODO*///		if (mo.gfxchanged)
-/*TODO*///		{
-/*TODO*///			int i;
-/*TODO*///	
-/*TODO*///			mo.gfxchanged = 0;
-/*TODO*///			for (i = 0; i < round_to_powerof2(mo.gfxmask.mask); i++)
-/*TODO*///			{
-/*TODO*///				int idx = mo.gfxlookup[i];
-/*TODO*///				mo.gfxelement[idx] = *Machine.gfx[idx];
-/*TODO*///				mo.gfxelement[idx].colortable = &Machine.remapped_colortable[mo.palettebase];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* create a clipping rectangle so that only partial sections are updated at a time */
-/*TODO*///		mo.process_clip.min_x = finalclip.min_x;
-/*TODO*///		mo.process_clip.max_x = finalclip.max_x;
-/*TODO*///		mo.process_param = param;
-/*TODO*///		mo.next_xpos = 123456;
-/*TODO*///	
-/*TODO*///		/* loop over the list until the end */
-/*TODO*///		while (base < mo.curcache)
-/*TODO*///		{
-/*TODO*///			struct atarimo_cache *current, *first, *last;
-/*TODO*///			int step;
-/*TODO*///	
-/*TODO*///			/* set the upper clip bound and a maximum lower bound */
-/*TODO*///			mo.process_clip.min_y = base.scanline;
-/*TODO*///			mo.process_clip.max_y = 100000;
-/*TODO*///	
-/*TODO*///			/* import the X and Y scroll values */
-/*TODO*///			mo.process_xscroll = base.entry.data[0];
-/*TODO*///			mo.process_yscroll = base.entry.data[1];
-/*TODO*///			base++;
-/*TODO*///	
-/*TODO*///			/* look for an entry whose scanline start is different from ours; that's our bottom */
-/*TODO*///			for (current = base; current < mo.curcache; current++)
-/*TODO*///				if (current.scanline != mo.process_clip.min_y)
-/*TODO*///				{
-/*TODO*///					mo.process_clip.max_y = current.scanline;
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///			/* clip the clipper */
-/*TODO*///			if (mo.process_clip.min_y < finalclip.min_y)
-/*TODO*///				mo.process_clip.min_y = finalclip.min_y;
-/*TODO*///			if (mo.process_clip.max_y > finalclip.max_y)
-/*TODO*///				mo.process_clip.max_y = finalclip.max_y;
-/*TODO*///	
-/*TODO*///			/* set the start and end points */
-/*TODO*///			if (mo.reverse)
-/*TODO*///			{
-/*TODO*///				first = current - 1;
-/*TODO*///				last = base - 1;
-/*TODO*///				step = -1;
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				first = base;
-/*TODO*///				last = current;
-/*TODO*///				step = 1;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* update the base */
-/*TODO*///			base = current;
-/*TODO*///	
-/*TODO*///			/* render the mos */
-/*TODO*///			for (current = first; current != last; current += step)
-/*TODO*///				(*callback)(mo, &current.entry);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*---------------------------------------------------------------
+		mo_process: Internal routine that loops over chunks of
+		the playfield with common parameters and processes them
+		via a callback.
+	---------------------------------------------------------------*/
+	
+	static void mo_process(atarimo_data mo, mo_callback callback, Object param, rectangle clip)
+	{
+		rectangle finalclip=new rectangle();
+		atarimo_cache base = mo.cache;
+	
+		if (clip != null)
+			finalclip = new rectangle(clip);
+		else
+			finalclip = Machine.visible_area;
+	
+		/* if the graphics info has changed, recompute */
+		if (mo.gfxchanged != 0)
+		{
+			int i;
+	
+			mo.gfxchanged = 0;
+			for (i = 0; i < round_to_powerof2(mo.gfxmask.mask); i++)
+			{
+				int idx = mo.gfxlookup.read(i);
+				mo.gfxelement[idx] = Machine.gfx[idx];
+				mo.gfxelement[idx].colortable = new UShortArray(Machine.remapped_colortable, mo.palettebase);
+			}
+		}
+	
+		/* create a clipping rectangle so that only partial sections are updated at a time */
+		mo.process_clip.min_x = finalclip.min_x;
+		mo.process_clip.max_x = finalclip.max_x;
+		mo.process_param = param;
+		mo.next_xpos = 123456;
+	
+		/* loop over the list until the end */
+		while (base.offset < mo.curcache.offset)
+		{
+			atarimo_cache current=new atarimo_cache(), first, last;
+			int step;
+	
+			/* set the upper clip bound and a maximum lower bound */
+			mo.process_clip.min_y = base.read().scanline;
+			mo.process_clip.max_y = 100000;
+	
+			/* import the X and Y scroll values */
+			mo.process_xscroll = base.read().entry.data[0];
+			mo.process_yscroll = base.read().entry.data[1];
+			base.inc();
+	
+			/* look for an entry whose scanline start is different from ours; that's our bottom */
+			for (current.offset = base.offset; current.offset < mo.curcache.offset; current.inc())
+				if (current.read().scanline != mo.process_clip.min_y)
+				{
+					mo.process_clip.max_y = current.read().scanline;
+					break;
+				}
+	
+			/* clip the clipper */
+			if (mo.process_clip.min_y < finalclip.min_y)
+				mo.process_clip.min_y = finalclip.min_y;
+			if (mo.process_clip.max_y > finalclip.max_y)
+				mo.process_clip.max_y = finalclip.max_y;
+	
+			/* set the start and end points */
+			if (mo.reverse != 0)
+			{
+				first = new atarimo_cache(current, - 1);
+				last = new atarimo_cache(base, - 1);
+				step = -1;
+			}
+			else
+			{
+				first = base;
+				last = current;
+				step = 1;
+			}
+	
+			/* update the base */
+			base = current;
+	
+			/* render the mos */
+			for (current = first; current != last; current.inc(step) )
+				(callback).handler(mo, current.read().entry);
+		}
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		mo_update: Parses the current motion object list, caching
 /*TODO*///		all entries.
@@ -950,15 +1023,16 @@ public class atarimo
 /*TODO*///			mo.curcache = current;
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		mo_usage_callback: Internal processing callback that
-/*TODO*///		marks pens used.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void mo_usage_callback(struct atarimo_data *mo, const struct atarimo_entry *entry)
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		mo_usage_callback: Internal processing callback that
+		marks pens used.
+	---------------------------------------------------------------*/
+	
+	static mo_callback mo_usage_callback = new mo_callback() {
+            @Override
+            public void handler(atarimo_data pf, atarimo_entry entry) {
 /*TODO*///		int gfxindex = mo.gfxlookup[EXTRACT_DATA(entry, mo.gfxmask)];
 /*TODO*///		const unsigned int *usage = mo.gfxelement[gfxindex].pen_usage;
 /*TODO*///		UINT32 *colormap = mo.process_param;
@@ -977,7 +1051,9 @@ public class atarimo
 /*TODO*///		for (i = 0; i < tiles; i++)
 /*TODO*///			temp |= usage[code++];
 /*TODO*///		colormap[color] |= temp;
-/*TODO*///	}
+            }
+        };
+        
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------

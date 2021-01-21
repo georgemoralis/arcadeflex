@@ -1,24 +1,24 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 public class ataripfH {
-/*TODO*////*##########################################################################
-/*TODO*///
-/*TODO*///	ataripf.h
-/*TODO*///
-/*TODO*///	Common playfield management functions for Atari raster games.
-/*TODO*///
-/*TODO*///##########################################################################*/
-/*TODO*///
+    /*##########################################################################
+
+            ataripf.h
+
+            Common playfield management functions for Atari raster games.
+
+    ##########################################################################*/
+
 /*TODO*///#ifndef __ATARIPF__
 /*TODO*///#define __ATARIPF__
-/*TODO*///
-/*TODO*////*##########################################################################
-/*TODO*///	CONSTANTS
-/*TODO*///##########################################################################*/
-/*TODO*///
-/*TODO*////* maximum number of playfields */
-/*TODO*///#define ATARIPF_MAX			2
-/*TODO*///
+
+    /*##########################################################################
+            CONSTANTS
+    ##########################################################################*/
+
+    /* maximum number of playfields */
+    public static final int ATARIPF_MAX			= 2;
+
 /*TODO*////* overrendering constants */
 /*TODO*///#define OVERRENDER_BEGIN	0
 /*TODO*///#define OVERRENDER_QUERY	1
@@ -37,13 +37,13 @@ public class ataripfH {
 /*TODO*///#define LATCHMASK_NONE		0x0000
 /*TODO*///#define LATCHMASK_MSB		0xff00
 /*TODO*///#define LATCHMASK_LSB		0x00ff
-/*TODO*///
-/*TODO*////* base granularity for all playfield gfx */
-/*TODO*///#define ATARIPF_BASE_GRANULARITY_SHIFT	3
-/*TODO*///#define ATARIPF_BASE_GRANULARITY		(1 << ATARIPF_BASE_GRANULARITY_SHIFT)
-/*TODO*///
-/*TODO*///
-/*TODO*///
+
+    /* base granularity for all playfield gfx */
+    public static final int ATARIPF_BASE_GRANULARITY_SHIFT	= 3;
+    public static final int ATARIPF_BASE_GRANULARITY		= (1 << ATARIPF_BASE_GRANULARITY_SHIFT);
+
+
+
 /*TODO*////*##########################################################################
 /*TODO*///	TYPES & STRUCTURES
 /*TODO*///##########################################################################*/
@@ -67,16 +67,16 @@ public class ataripfH {
 /*TODO*///	UINT32				vflipmask;			/* tile data hflip mask */
 /*TODO*///	UINT32				prioritymask;		/* tile data priority mask */
 /*TODO*///};
-/*TODO*///
-/*TODO*///
-/*TODO*////* description of pen usage for up to 256 pens */
-/*TODO*///#define ATARIPF_USAGE_WORDS		8			/* 8*32 bits = 256 bits total */
-/*TODO*///struct ataripf_usage
-/*TODO*///{
-/*TODO*///	UINT32				bits[ATARIPF_USAGE_WORDS];
-/*TODO*///};
-/*TODO*///
-/*TODO*///
+
+
+    /* description of pen usage for up to 256 pens */
+    public static final int ATARIPF_USAGE_WORDS		= 8;			/* 8*32 bits = 256 bits total */
+    public static class ataripf_usage
+    {
+            int[] bits = new int[ATARIPF_USAGE_WORDS];
+    };
+
+
 /*TODO*////* data used for overrendering */
 /*TODO*///struct ataripf_overrender_data
 /*TODO*///{

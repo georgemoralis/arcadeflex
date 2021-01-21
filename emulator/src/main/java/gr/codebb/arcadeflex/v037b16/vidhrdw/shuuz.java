@@ -17,6 +17,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripf.*;
 
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v037b16.vidhrdw.atarimo.*;
 
 public class shuuz
 {
@@ -166,12 +167,12 @@ public class shuuz
 		/* mark the used colors */
 		palette_init_used_colors();
 		ataripf_mark_palette(0);
-/*TODO*///		atarimo_mark_palette(0);
-/*TODO*///	
-/*TODO*///		/* update the palette, and mark things dirty if we need to */
-/*TODO*///		if (palette_recalc())
-/*TODO*///			ataripf_invalidate(0);
-/*TODO*///	
+		atarimo_mark_palette(0);
+	
+		/* update the palette, and mark things dirty if we need to */
+		if (palette_recalc() != null)
+			ataripf_invalidate(0);
+	
 /*TODO*///		/* draw the layers */
 /*TODO*///		ataripf_render(0, bitmap);
 /*TODO*///		atarimo_render(0, bitmap, overrender_callback, NULL);

@@ -14,26 +14,32 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripfH.*;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 
 public class ataripf
 {
 	
 	
 	
-/*TODO*///	/*##########################################################################
-/*TODO*///		TYPES & STRUCTURES
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	/* internal state structure containing values that can change scanline-by-scanline */
-/*TODO*///	struct ataripf_state
-/*TODO*///	{
-/*TODO*///		int					scanline;			/* scanline where we are valid */
-/*TODO*///		int					xscroll;			/* xscroll value */
-/*TODO*///		int					yscroll;			/* yscroll value */
-/*TODO*///		int					bankbits;			/* bank bits */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+	/*##########################################################################
+		TYPES & STRUCTURES
+	##########################################################################*/
+	
+	/* internal state structure containing values that can change scanline-by-scanline */
+	public static class ataripf_state
+	{
+		int					scanline;			/* scanline where we are valid */
+		int					xscroll;			/* xscroll value */
+		int					yscroll;			/* yscroll value */
+		int					bankbits;			/* bank bits */
+	};
+	
+
 /*TODO*///	/* internal variant of the gfxelement that contains extra data */
 /*TODO*///	struct ataripf_gfxelement
 /*TODO*///	{
@@ -43,12 +49,12 @@ public class ataripf
 /*TODO*///		int						usage_words;
 /*TODO*///		int						colorshift;
 /*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/* internal structure containing the state of a playfield */
-/*TODO*///	struct ataripf_data
-/*TODO*///	{
-/*TODO*///		int					initialized;		/* true if we're initialized */
+	
+	
+	/* internal structure containing the state of a playfield */
+	public static class ataripf_data
+	{
+		int					initialized;		/* true if we're initialized */
 /*TODO*///		int					timerallocated;		/* true if we've allocated the timer */
 /*TODO*///		int					gfxchanged;			/* true if the gfx info has changed */
 /*TODO*///	
@@ -57,8 +63,8 @@ public class ataripf
 /*TODO*///		int					colmask;			/* mask to use when wrapping X coordinate in VRAM */
 /*TODO*///		int 				rowmask;			/* mask to use when wrapping Y coordinate in VRAM */
 /*TODO*///		int					vrammask;			/* combined mask when accessing VRAM with raw addresses */
-/*TODO*///		int					vramsize;			/* total size of VRAM, in entries */
-/*TODO*///	
+		int					vramsize;			/* total size of VRAM, in entries */
+
 /*TODO*///		int					tilexshift;			/* bits to shift X coordinate when drawing */
 /*TODO*///		int					tileyshift;			/* bits to shift Y coordinate when drawing */
 /*TODO*///		int					tilewidth;			/* width of a single tile */
@@ -67,13 +73,13 @@ public class ataripf
 /*TODO*///		int					bitmapheight;		/* height of the full playfield bitmap */
 /*TODO*///		int					bitmapxmask;		/* x coordinate mask for the playfield bitmap */
 /*TODO*///		int					bitmapymask;		/* y coordinate mask for the playfield bitmap */
-/*TODO*///	
-/*TODO*///		int					palettebase;		/* base palette entry */
-/*TODO*///		int					maxcolors;			/* maximum number of colors */
+
+		int					palettebase;		/* base palette entry */
+		int					maxcolors;			/* maximum number of colors */
 /*TODO*///		int					shadowxor;			/* color XOR for shadow effect (if any) */
-/*TODO*///		UINT32				transpens;			/* transparent pen */
+		int				transpens;			/* transparent pen */
 /*TODO*///		int					transpen;			/* transparent pen */
-/*TODO*///	
+
 /*TODO*///		int					lookupmask;			/* mask for the lookup table */
 /*TODO*///	
 /*TODO*///		int					latchval;			/* value for latching */
@@ -82,8 +88,8 @@ public class ataripf
 /*TODO*///	
 /*TODO*///		struct osd_bitmap *	bitmap;				/* backing bitmap */
 /*TODO*///		UINT32 *			vram;				/* pointer to VRAM */
-/*TODO*///		UINT32 *			dirtymap;			/* dirty bitmap */
-/*TODO*///		UINT8 *				visitmap;			/* visiting bitmap */
+		char[]                                  dirtymap;			/* dirty bitmap */
+		UBytePtr				visitmap;			/* visiting bitmap */
 /*TODO*///		UINT32 *			lookup;				/* pointer to lookup table */
 /*TODO*///	
 /*TODO*///		struct ataripf_state curstate;			/* current state */
@@ -95,12 +101,13 @@ public class ataripf
 /*TODO*///		void *				process_param;		/* (during processing) the callback parameter */
 /*TODO*///	
 /*TODO*///		struct ataripf_gfxelement gfxelement[MAX_GFX_ELEMENTS]; /* graphics element copies */
-/*TODO*///		int 				max_usage_words;	/* maximum words of usage */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+		int 				max_usage_words;	/* maximum words of usage */
+	};
+	
+	
 /*TODO*///	/* callback function for the internal playfield processing mechanism */
 /*TODO*///	typedef void (*pf_callback)(struct ataripf_data *pf, const struct ataripf_state *state);
+            public static abstract interface pf_callback { public abstract void handler(ataripf_data pf, ataripf_state state); }
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	
@@ -130,20 +137,20 @@ public class ataripf
 		GLOBAL VARIABLES
 	##########################################################################*/
 	
-	public static UBytePtr ataripf_0_base;
-/*TODO*///	data16_t *ataripf_0_upper;
-/*TODO*///	
+	public static /*data16_t*/ UBytePtr ataripf_0_base;
+        public static /*data16_t*/ UBytePtr ataripf_0_upper;
+
 /*TODO*///	data16_t *ataripf_1_base;
 /*TODO*///	
 /*TODO*///	data32_t *ataripf_0_base32;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		STATIC VARIABLES
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	static struct ataripf_data ataripf[ATARIPF_MAX];
+	
+	
+	
+	/*##########################################################################
+		STATIC VARIABLES
+	##########################################################################*/
+	
+	static ataripf_data[] ataripf = new ataripf_data[ATARIPF_MAX];
 /*TODO*///	
 /*TODO*///	static ataripf_overrender_cb overrender_callback;
 /*TODO*///	static struct ataripf_overrender_data overrender_data;
@@ -505,21 +512,21 @@ public class ataripf
 /*TODO*///			*size = round_to_powerof2(ataripf[map].lookupmask);
 /*TODO*///		return ataripf[map].lookup;
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_invalidate: Marks all tiles in the playfield
-/*TODO*///		dirty. This must be called when the palette changes.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_invalidate(int map)
-/*TODO*///	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///		if (pf.initialized)
-/*TODO*///			memset(pf.dirtymap, -1, sizeof(pf.dirtymap[0]) * pf.vramsize);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_invalidate: Marks all tiles in the playfield
+		dirty. This must be called when the palette changes.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_invalidate(int map)
+	{
+		ataripf_data pf = ataripf[map];
+		if (pf.initialized != 0)
+			memset(pf.dirtymap, -1, pf.vramsize);
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		ataripf_render: Render the playfield, updating any dirty
 /*TODO*///		blocks, and copy it to the destination bitmap.
@@ -572,45 +579,47 @@ public class ataripf
 	
 	public static void ataripf_mark_palette(int map)
 	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///	
-/*TODO*///		if (pf.initialized)
-/*TODO*///		{
-/*TODO*///			UINT8 *used_colors = &palette_used_colors[pf.palettebase];
-/*TODO*///			struct ataripf_usage marked_colors[256];
-/*TODO*///			int i, j, k;
-/*TODO*///	
-/*TODO*///			/* reset the marked colors */
-/*TODO*///			memset(marked_colors, 0, pf.maxcolors * sizeof(marked_colors[0]));
-/*TODO*///	
-/*TODO*///			/* mark the colors used */
-/*TODO*///			if (pf.max_usage_words <= 1)
-/*TODO*///				pf_process(pf, pf_usage_callback_1, marked_colors, NULL);
-/*TODO*///			else if (pf.max_usage_words == 2)
-/*TODO*///				pf_process(pf, pf_usage_callback_2, marked_colors, NULL);
-/*TODO*///			else
-/*TODO*///				logerror("ataripf_mark_palette: unsupported max_usage_words = %d\n", pf.max_usage_words);
-/*TODO*///	
-/*TODO*///			/* loop over colors */
-/*TODO*///			for (i = 0; i < pf.maxcolors; i++)
-/*TODO*///			{
-/*TODO*///				for (j = 0; j < pf.max_usage_words; j++)
-/*TODO*///				{
-/*TODO*///					UINT32 usage = marked_colors[i].bits[j];
-/*TODO*///	
-/*TODO*///					/* if this entry was marked, loop over bits */
-/*TODO*///					for (k = 0; usage; k++, usage >>= 1)
-/*TODO*///						if ((usage & 1) != 0)
-/*TODO*///							used_colors[j * 32 + k] = (pf.transpens & (1 << k)) ? PALETTE_COLOR_TRANSPARENT : PALETTE_COLOR_USED;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				/* advance by the color granularity of the gfx */
-/*TODO*///				used_colors += ATARIPF_BASE_GRANULARITY;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* reset the visitation map now that we're done */
-/*TODO*///			memset(pf.visitmap, 0, sizeof(pf.visitmap[0]) * pf.vramsize);
-/*TODO*///		}
+		ataripf_data pf = ataripf[map];
+	
+		if (pf.initialized != 0)
+		{
+			UBytePtr used_colors = new UBytePtr(palette_used_colors, pf.palettebase);
+			ataripf_usage[] marked_colors = new ataripf_usage[256];
+			int i, j, k;
+	
+			/* reset the marked colors */
+			//memset(marked_colors, 0, pf.maxcolors);
+                        for (int _i=0 ; _i<pf.maxcolors ; _i++)
+                            marked_colors[_i] = new ataripf_usage();
+	
+			/* mark the colors used */
+			if (pf.max_usage_words <= 1)
+				pf_process(pf, pf_usage_callback_1, marked_colors, null);
+			else if (pf.max_usage_words == 2)
+				pf_process(pf, pf_usage_callback_2, marked_colors, null);
+			else
+				logerror("ataripf_mark_palette: unsupported max_usage_words = %d\n", pf.max_usage_words);
+	
+			/* loop over colors */
+			for (i = 0; i < pf.maxcolors; i++)
+			{
+				for (j = 0; j < pf.max_usage_words; j++)
+				{
+					int usage = marked_colors[i].bits[j];
+	
+					/* if this entry was marked, loop over bits */
+					for (k = 0; usage!=0; k++, usage >>= 1)
+						if ((usage & 1) != 0)
+							used_colors.write(j * 32 + k, (pf.transpens & (1 << k))!=0 ? PALETTE_COLOR_TRANSPARENT : PALETTE_COLOR_USED);
+				}
+	
+				/* advance by the color granularity of the gfx */
+				used_colors.inc( ATARIPF_BASE_GRANULARITY );
+			}
+	
+			/* reset the visitation map now that we're done */
+			memset(pf.visitmap, 0, pf.vramsize);
+		}
 	}
 	
 	
@@ -859,16 +868,17 @@ public class ataripf
 /*TODO*///		}
 /*TODO*///		COMBINE_DATA(&ataripf_1_base[offset]);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_0_upper_msb_w: Simple write handler for the upper
-/*TODO*///		word of split two-word playfields, where the MSB contains
-/*TODO*///		the significant data.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	WRITE16_HANDLER( ataripf_0_upper_msb_w )
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_0_upper_msb_w: Simple write handler for the upper
+		word of split two-word playfields, where the MSB contains
+		the significant data.
+	---------------------------------------------------------------*/
+	//WRITE16_HANDLER
+        public static WriteHandlerPtr ataripf_0_upper_msb_w = new WriteHandlerPtr() {
+            @Override
+            public void handler(int offset, int data) {
 /*TODO*///		if (ACCESSING_MSB != 0)
 /*TODO*///		{
 /*TODO*///			int oldword = UPPER_HALF(ataripf[0].vram[offset]);
@@ -884,7 +894,9 @@ public class ataripf
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///		COMBINE_DATA(&ataripf_0_upper[offset]);
-/*TODO*///	}
+            }
+        };
+
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------
@@ -1054,16 +1066,16 @@ public class ataripf
 /*TODO*///	
 /*TODO*///		COMBINE_DATA(&ataripf_0_base32[offset]);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_process: Internal routine that loops over chunks of
-/*TODO*///		the playfield with common parameters and processes them
-/*TODO*///		via a callback.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_process(struct ataripf_data *pf, pf_callback callback, void *param, const struct rectangle *clip)
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		pf_process: Internal routine that loops over chunks of
+		the playfield with common parameters and processes them
+		via a callback.
+	---------------------------------------------------------------*/
+	
+	static void pf_process(ataripf_data pf, pf_callback callback, Object param, rectangle clip)
+	{
 /*TODO*///		struct ataripf_state *state = pf.statelist;
 /*TODO*///		struct rectangle finalclip;
 /*TODO*///		int i;
@@ -1126,16 +1138,17 @@ public class ataripf
 /*TODO*///			/* call the callback */
 /*TODO*///			(*callback)(pf, state);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_usage_callback_1: Internal processing callback that
-/*TODO*///		marks pens used if the maximum word count is 1.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_usage_callback_1(struct ataripf_data *pf, const struct ataripf_state *state)
-/*TODO*///	{
+	}
+	
+	
+	/*---------------------------------------------------------------
+		pf_usage_callback_1: Internal processing callback that
+		marks pens used if the maximum word count is 1.
+	---------------------------------------------------------------*/
+	
+	static pf_callback pf_usage_callback_1 = new pf_callback() {
+            @Override
+            public void handler(ataripf_data pf, ataripf_state state) {
 /*TODO*///		struct ataripf_usage *colormap = pf.process_param;
 /*TODO*///		int x, y, bankbits = state.bankbits;
 /*TODO*///	
@@ -1160,16 +1173,19 @@ public class ataripf
 /*TODO*///				if (!pf.visitmap[offs])
 /*TODO*///					pf.dirtymap[offs] = -1;
 /*TODO*///			}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_usage_callback_2: Internal processing callback that
-/*TODO*///		marks pens used if the maximum word count is 2.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_usage_callback_2(struct ataripf_data *pf, const struct ataripf_state *state)
-/*TODO*///	{
+            }
+        };
+        
+
+	
+	/*---------------------------------------------------------------
+		pf_usage_callback_2: Internal processing callback that
+		marks pens used if the maximum word count is 2.
+	---------------------------------------------------------------*/
+	
+	static pf_callback pf_usage_callback_2 = new pf_callback() {
+            @Override
+            public void handler(ataripf_data pf, ataripf_state state) {
 /*TODO*///		struct ataripf_usage *colormap = pf.process_param;
 /*TODO*///		int x, y, bankbits = state.bankbits;
 /*TODO*///	
@@ -1196,7 +1212,8 @@ public class ataripf
 /*TODO*///				if (!pf.visitmap[offs])
 /*TODO*///					pf.dirtymap[offs] = -1;
 /*TODO*///			}
-/*TODO*///	}
+            }
+        };
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------
