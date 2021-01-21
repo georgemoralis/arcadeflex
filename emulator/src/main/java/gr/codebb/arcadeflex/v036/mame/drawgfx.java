@@ -1342,6 +1342,7 @@ public class drawgfx {
     {
 	rectangle myclip=new rectangle();
 
+        if (scalex==0 || scaley==0) return;
 
 	/* only support TRANSPARENCY_PEN and TRANSPARENCY_COLOR */
 	if (transparency != TRANSPARENCY_PEN && transparency != TRANSPARENCY_COLOR)
