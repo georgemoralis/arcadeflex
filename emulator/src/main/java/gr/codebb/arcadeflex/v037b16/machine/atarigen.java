@@ -27,6 +27,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v037b16.vidhrdw.atarimo.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripf.*;
 
 public class atarigen
 {
@@ -51,15 +53,15 @@ public class atarigen
 	public static int 			atarigen_video_int_state;
 
 	public static UShortPtr                 atarigen_eeprom_default;
-	public static UBytePtr			atarigen_eeprom;
+	public static UBytePtr			atarigen_eeprom=new UBytePtr();
 	public static int[] 			atarigen_eeprom_size=new int[1];
 
 /*TODO*///	int 				atarigen_cpu_to_sound_ready;
 /*TODO*///	int 				atarigen_sound_to_cpu_ready;
 
-	public static UBytePtr			atarivc_data;
-	public static UBytePtr			atarivc_eof_data;
-/*TODO*///	struct atarivc_state_desc atarivc_state;
+	public static UBytePtr			atarivc_data=new UBytePtr();
+	public static UBytePtr			atarivc_eof_data=new UBytePtr();
+	public static atarivc_state_desc atarivc_state;
 	
 	
 	
@@ -88,11 +90,11 @@ public class atarigen
 /*TODO*///	static int 			scanlines_per_callback;
 /*TODO*///	static double 		scanline_callback_period;
 /*TODO*///	static int 			last_scanline;
-/*TODO*///	
-/*TODO*///	static int 			actual_vc_latch0;
-/*TODO*///	static int 			actual_vc_latch1;
-/*TODO*///	
-/*TODO*///	
+	
+	static int 			actual_vc_latch0;
+	static int 			actual_vc_latch1;
+	
+	
 /*TODO*///	
 /*TODO*///	/*##########################################################################
 /*TODO*///		STATIC FUNCTION DECLARATIONS
@@ -141,45 +143,48 @@ public class atarigen
 /*TODO*///	{
 /*TODO*///		(*update_int_callback)();
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarigen_scanline_int_set: Sets the scanline when the next
-/*TODO*///		scanline interrupt should be generated.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void atarigen_scanline_int_set(int scanline)
-/*TODO*///	{
-/*TODO*///		if (scanline_interrupt_timer != 0)
-/*TODO*///			timer_remove(scanline_interrupt_timer);
-/*TODO*///		scanline_interrupt_timer = timer_set(cpu_getscanlinetime(scanline), 0, scanline_interrupt_callback);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarigen_scanline_int_gen: Standard interrupt routine
-/*TODO*///		which sets the scanline interrupt state.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	int atarigen_scanline_int_gen(void)
-/*TODO*///	{
-/*TODO*///		atarigen_scanline_int_state = 1;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarigen_scanline_int_ack_w: Resets the state of the
-/*TODO*///		scanline interrupt.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	WRITE16_HANDLER( atarigen_scanline_int_ack_w )
-/*TODO*///	{
-/*TODO*///		atarigen_scanline_int_state = 0;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///	}
+	
+	
+	
+	/*---------------------------------------------------------------
+		atarigen_scanline_int_set: Sets the scanline when the next
+		scanline interrupt should be generated.
+	---------------------------------------------------------------*/
+	
+	static void atarigen_scanline_int_set(int scanline)
+	{
+		if (scanline_interrupt_timer != null)
+			timer_remove(scanline_interrupt_timer);
+		scanline_interrupt_timer = timer_set(cpu_getscanlinetime(scanline), 0, scanline_interrupt_callback);
+	}
+	
+	
+	/*---------------------------------------------------------------
+		atarigen_scanline_int_gen: Standard interrupt routine
+		which sets the scanline interrupt state.
+	---------------------------------------------------------------*/
+	
+	static int atarigen_scanline_int_gen()
+	{
+		atarigen_scanline_int_state = 1;
+		(update_int_callback).handler();
+		return 0;
+	}
+	
+	
+	/*---------------------------------------------------------------
+		atarigen_scanline_int_ack_w: Resets the state of the
+		scanline interrupt.
+	---------------------------------------------------------------*/
+	
+	public static WriteHandlerPtr atarigen_scanline_int_ack_w = new WriteHandlerPtr() {
+            @Override
+            public void handler(int offset, int data) {
+                atarigen_scanline_int_state = 0;
+		(update_int_callback).handler();
+            }
+        };
+	
 /*TODO*///	
 /*TODO*///	WRITE32_HANDLER( atarigen_scanline_int_ack32_w )
 /*TODO*///	{
@@ -248,20 +253,20 @@ public class atarigen
 /*TODO*///		atarigen_video_int_state = 0;
 /*TODO*///		(*update_int_callback)();
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		scanline_interrupt_callback: Signals an interrupt.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	public static timer_callback scanline_interrupt_callback = new timer_callback() { public void handler(int param) 
-/*TODO*///	{
-/*TODO*///		/* generate the interrupt */
-/*TODO*///		atarigen_scanline_int_gen();
-/*TODO*///	
-/*TODO*///		/* set a new timer to go off at the same scan line next frame */
-/*TODO*///		scanline_interrupt_timer = timer_set(TIME_IN_HZ(Machine.drv.frames_per_second), 0, scanline_interrupt_callback);
-/*TODO*///	} };
+	
+	
+	/*---------------------------------------------------------------
+		scanline_interrupt_callback: Signals an interrupt.
+	---------------------------------------------------------------*/
+	
+	public static timer_callback scanline_interrupt_callback = new timer_callback() { public void handler(int param) 
+	{
+		/* generate the interrupt */
+		atarigen_scanline_int_gen();
+	
+		/* set a new timer to go off at the same scan line next frame */
+		scanline_interrupt_timer = timer_set(TIME_IN_HZ(Machine.drv.frames_per_second), 0, scanline_interrupt_callback);
+	} };
 	
 	
 	
@@ -901,23 +906,25 @@ public class atarigen
 /*TODO*///				timer_set(scanline_callback_period, scanline, scanline_timer);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		VIDEO CONTROLLER
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarivc_eof_update: Callback that slurps up data and feeds
-/*TODO*///		it into the video controller registers every refresh.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void atarivc_eof_update(int param)
-/*TODO*///	{
-/*TODO*///		atarivc_update(atarivc_eof_data);
-/*TODO*///		timer_set(cpu_getscanlinetime(0), 0, atarivc_eof_update);
-/*TODO*///	}
+	
+	
+	
+	/*##########################################################################
+		VIDEO CONTROLLER
+	##########################################################################*/
+	
+	/*---------------------------------------------------------------
+		atarivc_eof_update: Callback that slurps up data and feeds
+		it into the video controller registers every refresh.
+	---------------------------------------------------------------*/
+	
+	static timer_callback atarivc_eof_update = new timer_callback() {
+            @Override
+            public void handler(int param) {
+                atarivc_update(atarivc_eof_data);
+		timer_set(cpu_getscanlinetime(0), 0, atarivc_eof_update);
+            }
+        };
 	
 	
 	/*---------------------------------------------------------------
@@ -926,46 +933,46 @@ public class atarigen
 	
 	public static void atarivc_reset(UBytePtr eof_data)
 	{
-/*TODO*///		/* this allows us to manually reset eof_data to NULL if it's not used */
-/*TODO*///		atarivc_eof_data = eof_data;
-/*TODO*///	
-/*TODO*///		/* clear the RAM we use */
-/*TODO*///		memset(atarivc_data, 0, 0x40);
-/*TODO*///		memset(&atarivc_state, 0, sizeof(atarivc_state));
-/*TODO*///	
-/*TODO*///		/* reset the latches */
-/*TODO*///		atarivc_state.latch1 = atarivc_state.latch2 = -1;
-/*TODO*///		actual_vc_latch0 = actual_vc_latch1 = -1;
-/*TODO*///	
-/*TODO*///		/* start a timer to go off a little before scanline 0 */
-/*TODO*///		if (atarivc_eof_data != 0)
-/*TODO*///			timer_set(cpu_getscanlinetime(0), 0, atarivc_eof_update);
+		/* this allows us to manually reset eof_data to NULL if it's not used */
+		atarivc_eof_data = eof_data;
+	
+		/* clear the RAM we use */
+		memset(atarivc_data, 0, 0x40);
+		atarivc_state = new atarivc_state_desc();
+	
+		/* reset the latches */
+		atarivc_state.latch1 = atarivc_state.latch2 = -1;
+		actual_vc_latch0 = actual_vc_latch1 = -1;
+	
+		/* start a timer to go off a little before scanline 0 */
+		if (atarivc_eof_data != null)
+			timer_set(cpu_getscanlinetime(0), 0, atarivc_eof_update);
 	}
 	
 	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarivc_update: Copies the data from the specified location
-/*TODO*///		once/frame into the video controller registers.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void atarivc_update(const data16_t *data)
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		/* echo all the commands to the video controller */
-/*TODO*///		for (i = 0; i < 0x1c; i++)
-/*TODO*///			if (data[i])
-/*TODO*///				atarivc_common_w(i, data[i]);
-/*TODO*///	
-/*TODO*///		/* update the scroll positions */
-/*TODO*///		atarimo_set_xscroll(0, atarivc_state.mo_xscroll, 0);
-/*TODO*///		ataripf_set_xscroll(0, atarivc_state.pf0_xscroll, 0);
-/*TODO*///		ataripf_set_xscroll(1, atarivc_state.pf1_xscroll, 0);
-/*TODO*///		atarimo_set_yscroll(0, atarivc_state.mo_yscroll, 0);
-/*TODO*///		ataripf_set_yscroll(0, atarivc_state.pf0_yscroll, 0);
-/*TODO*///		ataripf_set_yscroll(1, atarivc_state.pf1_yscroll, 0);
-/*TODO*///	
-/*TODO*///		/* use this for debugging the video controller values */
+	/*---------------------------------------------------------------
+		atarivc_update: Copies the data from the specified location
+		once/frame into the video controller registers.
+	---------------------------------------------------------------*/
+	
+	public static void atarivc_update(UBytePtr data)
+	{
+		int i;
+	
+		/* echo all the commands to the video controller */
+		for (i = 0; i < 0x1c; i++)
+			if (data.read(i) != 0)
+				atarivc_common_w.handler(i, data.read(i));
+	
+		/* update the scroll positions */
+		atarimo_set_xscroll(0, atarivc_state.mo_xscroll, 0);
+		ataripf_set_xscroll(0, atarivc_state.pf0_xscroll, 0);
+		ataripf_set_xscroll(1, atarivc_state.pf1_xscroll, 0);
+		atarimo_set_yscroll(0, atarivc_state.mo_yscroll, 0);
+		ataripf_set_yscroll(0, atarivc_state.pf0_yscroll, 0);
+		ataripf_set_yscroll(1, atarivc_state.pf1_yscroll, 0);
+	
+		/* use this for debugging the video controller values */
 /*TODO*///	#if 0
 /*TODO*///		if (keyboard_pressed(KEYCODE_8))
 /*TODO*///		{
@@ -979,7 +986,7 @@ public class atarigen
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///	#endif
-/*TODO*///	}
+	}
 	
 	
 	/*---------------------------------------------------------------
@@ -1007,104 +1014,105 @@ public class atarigen
 		write.
 	---------------------------------------------------------------*/
 	
-	static WriteHandlerPtr atarivc_common_w = new WriteHandlerPtr() {
+	public static WriteHandlerPtr atarivc_common_w = new WriteHandlerPtr() {
             @Override
             public void handler(int offset, int newword) {
-/*TODO*///		int oldword = atarivc_data[offset];
-/*TODO*///		atarivc_data[offset] = newword;
-/*TODO*///	
-/*TODO*///		/* switch off the offset */
-/*TODO*///		switch (offset)
-/*TODO*///		{
-/*TODO*///			/*
-/*TODO*///				additional registers:
-/*TODO*///	
-/*TODO*///					01 = vertical start (for centering)
-/*TODO*///					04 = horizontal start (for centering)
-/*TODO*///			*/
-/*TODO*///	
-/*TODO*///			/* set the scanline interrupt here */
-/*TODO*///			case 0x03:
-/*TODO*///				if (oldword != newword)
-/*TODO*///					atarigen_scanline_int_set(newword & 0x1ff);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* latch enable */
-/*TODO*///			case 0x0a:
-/*TODO*///	
-/*TODO*///				/* reset the latches when disabled */
-/*TODO*///				ataripf_set_latch_lo((newword & 0x0080) ? actual_vc_latch0 : -1);
-/*TODO*///				ataripf_set_latch_hi((newword & 0x0080) ? actual_vc_latch1 : -1);
-/*TODO*///	
-/*TODO*///				/* check for rowscroll enable */
-/*TODO*///				atarivc_state.rowscroll_enable = (newword & 0x2000) >> 13;
-/*TODO*///	
-/*TODO*///				/* check for palette banking */
-/*TODO*///				atarivc_state.palette_bank = ((newword & 0x0400) >> 10) ^ 1;
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* indexed parameters */
-/*TODO*///			case 0x10: case 0x11: case 0x12: case 0x13:
-/*TODO*///			case 0x14: case 0x15: case 0x16: case 0x17:
-/*TODO*///			case 0x18: case 0x19: case 0x1a: case 0x1b:
-/*TODO*///				switch (newword & 15)
-/*TODO*///				{
-/*TODO*///					case 9:
-/*TODO*///						atarivc_state.mo_xscroll = (newword >> 7) & 0x1ff;
-/*TODO*///						break;
-/*TODO*///	
-/*TODO*///					case 10:
-/*TODO*///						atarivc_state.pf1_xscroll_raw = (newword >> 7) & 0x1ff;
-/*TODO*///						atarivc_update_pf_xscrolls();
-/*TODO*///						break;
-/*TODO*///	
-/*TODO*///					case 11:
-/*TODO*///						atarivc_state.pf0_xscroll_raw = (newword >> 7) & 0x1ff;
-/*TODO*///						atarivc_update_pf_xscrolls();
-/*TODO*///						break;
-/*TODO*///	
-/*TODO*///					case 13:
-/*TODO*///						atarivc_state.mo_yscroll = (newword >> 7) & 0x1ff;
-/*TODO*///						break;
-/*TODO*///	
-/*TODO*///					case 14:
-/*TODO*///						atarivc_state.pf1_yscroll = (newword >> 7) & 0x1ff;
-/*TODO*///						break;
-/*TODO*///	
-/*TODO*///					case 15:
-/*TODO*///						atarivc_state.pf0_yscroll = (newword >> 7) & 0x1ff;
-/*TODO*///						break;
-/*TODO*///				}
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* latch 1 value */
-/*TODO*///			case 0x1c:
-/*TODO*///				actual_vc_latch0 = -1;
-/*TODO*///				actual_vc_latch1 = newword;
-/*TODO*///				ataripf_set_latch_lo((atarivc_data[0x0a] & 0x80) ? actual_vc_latch0 : -1);
-/*TODO*///				ataripf_set_latch_hi((atarivc_data[0x0a] & 0x80) ? actual_vc_latch1 : -1);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* latch 2 value */
-/*TODO*///			case 0x1d:
-/*TODO*///				actual_vc_latch0 = newword;
-/*TODO*///				actual_vc_latch1 = -1;
-/*TODO*///				ataripf_set_latch_lo((atarivc_data[0x0a] & 0x80) ? actual_vc_latch0 : -1);
-/*TODO*///				ataripf_set_latch_hi((atarivc_data[0x0a] & 0x80) ? actual_vc_latch1 : -1);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* scanline IRQ ack here */
-/*TODO*///			case 0x1e:
-/*TODO*///				atarigen_scanline_int_ack_w(0, 0, 0);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* log anything else */
-/*TODO*///			case 0x00:
-/*TODO*///			default:
-/*TODO*///				if (oldword != newword)
-/*TODO*///					logerror("vc_w(%02X, %04X) ** [prev=%04X]\n", offset, newword, oldword);
-/*TODO*///				break;
-/*TODO*///		}
+                System.out.println("Word???? "+offset+"/"+atarivc_data.offset+"="+newword);
+		int oldword = atarivc_data.READ_WORD(offset);
+		atarivc_data.WRITE_WORD(offset, newword);
+	
+		/* switch off the offset */
+		switch (offset)
+		{
+			/*
+				additional registers:
+	
+					01 = vertical start (for centering)
+					04 = horizontal start (for centering)
+			*/
+	
+			/* set the scanline interrupt here */
+			case 0x03:
+				if (oldword != newword)
+					atarigen_scanline_int_set(newword & 0x1ff);
+				break;
+	
+			/* latch enable */
+			case 0x0a:
+	
+				/* reset the latches when disabled */
+				ataripf_set_latch_lo((newword & 0x0080)!=0 ? actual_vc_latch0 : -1);
+				ataripf_set_latch_hi((newword & 0x0080)!=0 ? actual_vc_latch1 : -1);
+	
+				/* check for rowscroll enable */
+				atarivc_state.rowscroll_enable = (newword & 0x2000) >> 13;
+	
+				/* check for palette banking */
+				atarivc_state.palette_bank = ((newword & 0x0400) >> 10) ^ 1;
+				break;
+	
+			/* indexed parameters */
+			case 0x10: case 0x11: case 0x12: case 0x13:
+			case 0x14: case 0x15: case 0x16: case 0x17:
+			case 0x18: case 0x19: case 0x1a: case 0x1b:
+				switch (newword & 15)
+				{
+					case 9:
+						atarivc_state.mo_xscroll = (newword >> 7) & 0x1ff;
+						break;
+	
+					case 10:
+						atarivc_state.pf1_xscroll_raw = (newword >> 7) & 0x1ff;
+						atarivc_update_pf_xscrolls();
+						break;
+	
+					case 11:
+						atarivc_state.pf0_xscroll_raw = (newword >> 7) & 0x1ff;
+						atarivc_update_pf_xscrolls();
+						break;
+	
+					case 13:
+						atarivc_state.mo_yscroll = (newword >> 7) & 0x1ff;
+						break;
+	
+					case 14:
+						atarivc_state.pf1_yscroll = (newword >> 7) & 0x1ff;
+						break;
+	
+					case 15:
+						atarivc_state.pf0_yscroll = (newword >> 7) & 0x1ff;
+						break;
+				}
+				break;
+	
+			/* latch 1 value */
+			case 0x1c:
+				actual_vc_latch0 = -1;
+				actual_vc_latch1 = newword;
+				ataripf_set_latch_lo((atarivc_data.read(0x0a) & 0x80)!=0 ? actual_vc_latch0 : -1);
+				ataripf_set_latch_hi((atarivc_data.read(0x0a) & 0x80)!=0 ? actual_vc_latch1 : -1);
+				break;
+	
+			/* latch 2 value */
+			case 0x1d:
+				actual_vc_latch0 = newword;
+				actual_vc_latch1 = -1;
+				ataripf_set_latch_lo((atarivc_data.read(0x0a) & 0x80)!=0 ? actual_vc_latch0 : -1);
+				ataripf_set_latch_hi((atarivc_data.read(0x0a) & 0x80)!=0 ? actual_vc_latch1 : -1);
+				break;
+	
+			/* scanline IRQ ack here */
+			case 0x1e:
+				atarigen_scanline_int_ack_w.handler(0, 0/*, 0*/);
+				break;
+	
+			/* log anything else */
+			case 0x00:
+			default:
+				if (oldword != newword)
+					logerror("vc_w(%02X, %04X) ** [prev=%04X]\n", offset, newword, oldword);
+				break;
+		}
             }
         };
         
@@ -1188,10 +1196,11 @@ public class atarigen
 		//COMBINE_DATA(&paletteram16[offset]);
                 int oldword = paletteram.READ_WORD(offset);
                 newword = COMBINE_WORD(oldword, data);
+                //System.out.println("Write palette");
                 paletteram.WRITE_WORD(offset, newword);
                 //
 		//newword = paletteram16[offset];
-                newword = paletteram.read(offset);
+                newword = paletteram.READ_WORD(offset);
 	
 		r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
 		g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);

@@ -173,16 +173,16 @@ public class batman
 			return 1;
 		
 		/* initialize the second playfield */
-		if (atarigen_pf2_init(pf_desc) != 0)
-		{
-			atarigen_pf_free();
-			return 1;
-		}
+/*TODO*///		if (atarigen_pf2_init(pf_desc) != 0)
+/*TODO*///		{
+/*TODO*///			atarigen_pf_free();
+/*TODO*///			return 1;
+/*TODO*///		}
 		
 		/* initialize the motion objects */
 		if (atarigen_mo_init(mo_desc) != 0)
 		{
-			atarigen_pf2_free();
+/*TODO*///			atarigen_pf2_free();
 			atarigen_pf_free();
 			return 1;
 		}
@@ -200,7 +200,7 @@ public class batman
 	
 	public static VhStopPtr batman_vh_stop = new VhStopPtr() { public void handler() 
 	{
-		atarigen_pf2_free();
+/*TODO*///		atarigen_pf2_free();
 		atarigen_pf_free();
 		atarigen_mo_free();
 	} };
@@ -240,11 +240,11 @@ public class batman
 			
 			/* low byte affects pf1 */
 			if ((oldword & 0x00ff) != 0)
-				atarigen_pf_dirty.write((offset / 2) & 0xfff, 1);
+				atarigen_pf_dirty[(offset / 2) & 0xfff] = 1;
 	
 			/* upper byte affects pf2 */
-			if ((oldword & 0xff00) != 0)
-				atarigen_pf2_dirty.write((offset / 2) & 0xfff, 1);
+/*TODO*///			if ((oldword & 0xff00) != 0)
+/*TODO*///				atarigen_pf2_dirty[(offset / 2) & 0xfff] = 1;
 		}
 	} };
 	
@@ -258,7 +258,7 @@ public class batman
 		if (oldword != newword)
 		{
 			atarigen_playfieldram.WRITE_WORD(offset, newword);
-			atarigen_pf_dirty.write((offset / 2) & 0xfff, 1);
+			atarigen_pf_dirty[(offset / 2) & 0xfff] = 1;
 		}
 		
 		/* handle the latch, but only write the lower byte */
@@ -276,7 +276,7 @@ public class batman
 		if (oldword != newword)
 		{
 			atarigen_playfield2ram.WRITE_WORD(offset, newword);
-			atarigen_pf2_dirty.write((offset / 2) & 0xfff, 1);
+/*TODO*///			atarigen_pf2_dirty.write((offset / 2) & 0xfff, 1);
 		}
 		
 		/* handle the latch, but only write the upper byte */
@@ -302,7 +302,7 @@ public class batman
 		
 		/* update the two playfields */
 		atarigen_pf_update(pf_state, scanline);
-		atarigen_pf2_update(pf2_state, scanline);
+/*TODO*///		atarigen_pf2_update(pf2_state, scanline);
 	}
 	
 	
@@ -362,7 +362,7 @@ public class batman
 		if (update_palette() != null)
 		{
 			memset(atarigen_pf_dirty, 1, atarigen_playfieldram_size[0] / 2);
-			memset(atarigen_pf2_dirty, 1, atarigen_playfield2ram_size[0] / 2);
+/*TODO*///			memset(atarigen_pf2_dirty, 1, atarigen_playfield2ram_size[0] / 2);
 		}
 	
 		/* set up the all-transparent overrender palette */
@@ -379,14 +379,14 @@ public class batman
 		atarigen_pf_process(pf_render_callback, bitmap, Machine.visible_area);
 	
 		/* render the playfield */
-		memset(atarigen_pf2_visit, 0, 64*64);
+/*TODO*///		memset(atarigen_pf2_visit, 0, 64*64);
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///		if (show_colors != 1)
 /*TODO*///	#endif
-		atarigen_pf2_process(pf2_render_callback, bitmap, Machine.visible_area);
+/*TODO*///		atarigen_pf2_process(pf2_render_callback, bitmap, Machine.visible_area);
 	
 		/* render the motion objects */
-		atarigen_mo_process(mo_render_callback, bitmap);
+/*TODO*///		atarigen_mo_process(mo_render_callback, bitmap);
 	
 		/* redraw the alpha layer completely */
 		{
@@ -411,7 +411,7 @@ public class batman
 		}
 	
 		/* update onscreen messages */
-		atarigen_update_messages();
+/*TODO*///		atarigen_update_messages();
 	} };
 	
 	
@@ -435,10 +435,10 @@ public class batman
 		
 		/* update color usage for the playfields */
 		atarigen_pf_process(pf_color_callback, pf_map, Machine.visible_area);
-		atarigen_pf2_process(pf2_color_callback, pf_map, Machine.visible_area);
+/*TODO*///		atarigen_pf2_process(pf2_color_callback, pf_map, Machine.visible_area);
 	
 		/* update color usage for the mo's */
-		atarigen_mo_process(mo_color_callback, mo_map);
+/*TODO*///		atarigen_mo_process(mo_color_callback, mo_map);
 	
 		/* update color usage for the alphanumerics */
 		{
@@ -515,8 +515,8 @@ public class batman
 		int x, y;
 		
 		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
+			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
 			{
 				int offs = x * 64 + y;
 				int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
@@ -528,7 +528,7 @@ public class batman
 				colormap[color] |= usage[code];
 				
 				/* also mark unvisited tiles dirty */
-				if (atarigen_pf_visit.read(offs) == 0) atarigen_pf_dirty.write(offs, 1);
+				if (atarigen_pf_visit[offs] == 0) atarigen_pf_dirty[offs] = 1;
 			}
             }
         };
@@ -542,8 +542,8 @@ public class batman
 		int x, y;
 		
 		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
+			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
 			{
 				int offs = x * 64 + y;
 				int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
@@ -555,7 +555,7 @@ public class batman
 				colormap[color] |= usage[code];
 				
 				/* also mark unvisited tiles dirty */
-				if (atarigen_pf2_visit.read(offs)==0) atarigen_pf2_dirty.write(offs, 1);
+/*TODO*///				if (atarigen_pf2_visit.read(offs)==0) atarigen_pf2_dirty.write(offs, 1);
 			}
             }
         };
@@ -575,13 +575,13 @@ public class batman
 		int x, y;
 	
 		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
+			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
 			{
 				int offs = x * 64 + y;
 				
 				/* update only if dirty */
-				if (atarigen_pf_dirty.read(offs) != 0)
+				if (atarigen_pf_dirty[offs] != 0)
 				{
 					int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
 					int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
@@ -590,7 +590,7 @@ public class batman
 					int hflip = data1 & 0x8000;
 					
 					drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
-					atarigen_pf_dirty.write(offs, 0);
+					atarigen_pf_dirty[offs] = 0;
 	
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///					if (show_colors == 1 || show_colors == -1)
@@ -608,7 +608,7 @@ public class batman
 				}
 				
 				/* track the tiles we've visited */
-				atarigen_pf_visit.write(offs, 1);
+				atarigen_pf_visit[offs] = 1;
 			}
 	
 		/* then blast the result */
@@ -619,56 +619,56 @@ public class batman
         };
         
 	
-	static atarigen_pf_callbackPtr pf2_render_callback = new atarigen_pf_callbackPtr() {
-            @Override
-            public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
-                GfxElement gfx = Machine.gfx[0];
-		osd_bitmap bitmap = (osd_bitmap) param;
-		int x, y;
-	
-		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
-			{
-				int offs = x * 64 + y;
-				
-				/* update only if dirty */
-				if (atarigen_pf2_dirty.read(offs) != 0)
-				{
-					int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
-					int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
-					int color = (data2 >> 8) & 0x0f;
-					int code = data1 & 0x7fff;
-					int hflip = data1 & 0x8000;
-					
-					drawgfx(atarigen_pf2_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
-					atarigen_pf2_dirty.write(offs, 0);
-	
-/*TODO*///	#if DEBUG_VIDEO
-/*TODO*///					if (show_colors == 2 || show_colors == -2)
-/*TODO*///					{
-/*TODO*///						char c;
-/*TODO*///						if (show_colors == 2)
-/*TODO*///							c = "0123456789ABCDEF"[(data2 >> 12) & 0x0f];
-/*TODO*///						else
-/*TODO*///							c = "0123456789ABCDEF"[(data2 >> 8) & 0x0f];
-/*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 1, 0, 0, 8 * x + 0, 8 * y, 0, TRANSPARENCY_PEN, 0);
-/*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 1, 0, 0, 8 * x + 2, 8 * y, 0, TRANSPARENCY_PEN, 0);
-/*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 0, 0, 0, 8 * x + 1, 8 * y, 0, TRANSPARENCY_PEN, 0);
-/*TODO*///					}
-/*TODO*///	#endif
-				}
-				
-				/* track the tiles we've visited */
-				atarigen_pf2_visit.write(offs, 1);
-			}
-	
-		/* then blast the result */
-		x = -state.hscroll;
-		y = -state.vscroll;
-		copyscrollbitmap(bitmap, atarigen_pf2_bitmap, 1, new int[]{x}, 1, new int[]{y}, clip, TRANSPARENCY_PEN, palette_transparent_pen);
-            }
-        };
+/*TODO*///	static atarigen_pf_callbackPtr pf2_render_callback = new atarigen_pf_callbackPtr() {
+/*TODO*///            @Override
+/*TODO*///            public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+/*TODO*///                GfxElement gfx = Machine.gfx[0];
+/*TODO*///		osd_bitmap bitmap = (osd_bitmap) param;
+/*TODO*///		int x, y;
+/*TODO*///	
+/*TODO*///		/* standard loop over tiles */
+/*TODO*///		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
+/*TODO*///			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
+/*TODO*///			{
+/*TODO*///				int offs = x * 64 + y;
+/*TODO*///				
+/*TODO*///				/* update only if dirty */
+/*TODO*///				if (atarigen_pf2_dirty[offs] != 0)
+/*TODO*///				{
+/*TODO*///					int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
+/*TODO*///					int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
+/*TODO*///					int color = (data2 >> 8) & 0x0f;
+/*TODO*///					int code = data1 & 0x7fff;
+/*TODO*///					int hflip = data1 & 0x8000;
+/*TODO*///					
+/*TODO*///					drawgfx(atarigen_pf2_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
+/*TODO*///					atarigen_pf2_dirty.write(offs, 0);
+/*TODO*///	
+/*TODO*////*TODO*///	#if DEBUG_VIDEO
+/*TODO*////*TODO*///					if (show_colors == 2 || show_colors == -2)
+/*TODO*////*TODO*///					{
+/*TODO*////*TODO*///						char c;
+/*TODO*////*TODO*///						if (show_colors == 2)
+/*TODO*////*TODO*///							c = "0123456789ABCDEF"[(data2 >> 12) & 0x0f];
+/*TODO*////*TODO*///						else
+/*TODO*////*TODO*///							c = "0123456789ABCDEF"[(data2 >> 8) & 0x0f];
+/*TODO*////*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 1, 0, 0, 8 * x + 0, 8 * y, 0, TRANSPARENCY_PEN, 0);
+/*TODO*////*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 1, 0, 0, 8 * x + 2, 8 * y, 0, TRANSPARENCY_PEN, 0);
+/*TODO*////*TODO*///						drawgfx(atarigen_pf2_bitmap, Machine.uifont, c, 0, 0, 0, 8 * x + 1, 8 * y, 0, TRANSPARENCY_PEN, 0);
+/*TODO*////*TODO*///					}
+/*TODO*////*TODO*///	#endif
+/*TODO*///				}
+/*TODO*///				
+/*TODO*///				/* track the tiles we've visited */
+/*TODO*///				atarigen_pf2_visit.write(offs, 1);
+/*TODO*///			}
+/*TODO*///	
+/*TODO*///		/* then blast the result */
+/*TODO*///		x = -state.hscroll;
+/*TODO*///		y = -state.vscroll;
+/*TODO*///		copyscrollbitmap(bitmap, atarigen_pf2_bitmap, 1, new int[]{x}, 1, new int[]{y}, clip, TRANSPARENCY_PEN, palette_transparent_pen);
+/*TODO*///            }
+/*TODO*///        };
 	
 	
 	/*************************************
@@ -690,12 +690,12 @@ public class batman
 		int x, y;
 	
 		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
 		{
 			int sx = (8 * x - state.hscroll) & 0x1ff;
 			if (sx >= XDIM) sx -= 0x200;
 	
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
 			{
 				int offs = x * 64 + y;
 				int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
@@ -726,51 +726,51 @@ public class batman
         };
         
 	
-	static atarigen_pf_callbackPtr pf2_overrender_callback = new atarigen_pf_callbackPtr() {
-            @Override
-            public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
-                pf_overrender_data overrender_data = (pf_overrender_data) param;
-	
-		osd_bitmap bitmap = overrender_data.bitmap;
-		GfxElement gfx = Machine.gfx[0];
-		int mo_priority = overrender_data.mo_priority;
-		int x, y;
-	
-		/* standard loop over tiles */
-		for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-		{
-			int sx = (8 * x - state.hscroll) & 0x1ff;
-			if (sx >= XDIM) sx -= 0x200;
-	
-			for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
-			{
-				int offs = x * 64 + y;
-				int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
-				int priority = (data2 >> 12) & 3;
-				
-				if (priority > mo_priority)
-				{
-					int color = (data2 >> 8) & 0x0f;
-					int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
-					int code = data1 & 0x7fff;
-					int hflip = data1 & 0x8000;
-	
-					int sy = (8 * y - state.vscroll) & 0x1ff;
-					if (sy >= YDIM) sy -= 0x200;
-				
-					if (mo_priority == -1)
-						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-/*TODO*///	#if DEBUG_VIDEO
-/*TODO*///					else if (special_pen != -1)
-/*TODO*///						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, ~(1 << special_pen));
-/*TODO*///	#endif
-					else
-						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, transparency_mask[priority]);
-				}
-			}
-		}
-            }
-        };
+/*TODO*///	static atarigen_pf_callbackPtr pf2_overrender_callback = new atarigen_pf_callbackPtr() {
+/*TODO*///            @Override
+/*TODO*///            public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+/*TODO*///                pf_overrender_data overrender_data = (pf_overrender_data) param;
+/*TODO*///	
+/*TODO*///		osd_bitmap bitmap = overrender_data.bitmap;
+/*TODO*///		GfxElement gfx = Machine.gfx[0];
+/*TODO*///		int mo_priority = overrender_data.mo_priority;
+/*TODO*///		int x, y;
+/*TODO*///	
+/*TODO*///		/* standard loop over tiles */
+/*TODO*///		for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63)
+/*TODO*///		{
+/*TODO*///			int sx = (8 * x - state.hscroll) & 0x1ff;
+/*TODO*///			if (sx >= XDIM) sx -= 0x200;
+/*TODO*///	
+/*TODO*///			for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63)
+/*TODO*///			{
+/*TODO*///				int offs = x * 64 + y;
+/*TODO*///				int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
+/*TODO*///				int priority = (data2 >> 12) & 3;
+/*TODO*///				
+/*TODO*///				if (priority > mo_priority)
+/*TODO*///				{
+/*TODO*///					int color = (data2 >> 8) & 0x0f;
+/*TODO*///					int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
+/*TODO*///					int code = data1 & 0x7fff;
+/*TODO*///					int hflip = data1 & 0x8000;
+/*TODO*///	
+/*TODO*///					int sy = (8 * y - state.vscroll) & 0x1ff;
+/*TODO*///					if (sy >= YDIM) sy -= 0x200;
+/*TODO*///				
+/*TODO*///					if (mo_priority == -1)
+/*TODO*///						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
+/*TODO*////*TODO*///	#if DEBUG_VIDEO
+/*TODO*////*TODO*///					else if (special_pen != -1)
+/*TODO*////*TODO*///						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, ~(1 << special_pen));
+/*TODO*////*TODO*///	#endif
+/*TODO*///					else
+/*TODO*///						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, transparency_mask[priority]);
+/*TODO*///				}
+/*TODO*///			}
+/*TODO*///		}
+/*TODO*///            }
+/*TODO*///        };
         
 	
 	/*************************************
@@ -779,24 +779,24 @@ public class batman
 	 *
 	 *************************************/
 	 
-	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
-            @Override
-            public void handler(ShortPtr data, rectangle clip, Object param) {
-                int[] usage = Machine.gfx[1].pen_usage;
-		int[] colormap = (int[]) param;
-		int code = data.read(1) & 0x7fff;
-		int color = data.read(2) & 0x000f;
-		int hsize = ((data.read(3) >> 4) & 7) + 1;
-		int vsize = (data.read(3) & 7) + 1;
-		int tiles = hsize * vsize;
-		int temp = 0;
-		int i;
-	
-		for (i = 0; i < tiles; i++)
-			temp |= usage[code++];
-		colormap[color] |= temp;
-            }
-        };
+/*TODO*///	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
+/*TODO*///            @Override
+/*TODO*///            public void handler(ShortPtr data, rectangle clip, Object param) {
+/*TODO*///                int[] usage = Machine.gfx[1].pen_usage;
+/*TODO*///		int[] colormap = (int[]) param;
+/*TODO*///		int code = data.read(1) & 0x7fff;
+/*TODO*///		int color = data.read(2) & 0x000f;
+/*TODO*///		int hsize = ((data.read(3) >> 4) & 7) + 1;
+/*TODO*///		int vsize = (data.read(3) & 7) + 1;
+/*TODO*///		int tiles = hsize * vsize;
+/*TODO*///		int temp = 0;
+/*TODO*///		int i;
+/*TODO*///	
+/*TODO*///		for (i = 0; i < tiles; i++)
+/*TODO*///			temp |= usage[code++];
+/*TODO*///		colormap[color] |= temp;
+/*TODO*///            }
+/*TODO*///        };
         
 	
 	/*************************************
@@ -805,86 +805,86 @@ public class batman
 	 *
 	 *************************************/
 	
-	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
-            @Override
-            public void handler(ShortPtr data, rectangle clip, Object param) {
-                GfxElement gfx = Machine.gfx[1];
-		pf_overrender_data overrender_data=new pf_overrender_data();
-		osd_bitmap bitmap = (osd_bitmap) param;
-		rectangle pf_clip=new rectangle();
-	
-		/* extract data from the various words */
-		int hflip = data.read(1) & 0x8000;
-		int code = data.read(1) & 0x7fff;
-		int xpos = (data.read(2) >> 7) - atarigen_video_control_state.sprite_xscroll;
-		int priority = (data.read(2) >> 4) & 7;
-		int color = data.read(2) & 0x000f;
-		int ypos = -(data.read(3) >> 7) - atarigen_video_control_state.sprite_yscroll;
-		int hsize = ((data.read(3) >> 4) & 7) + 1;
-		int vsize = (data.read(3) & 7) + 1;
-	
-		/* adjust for height */
-		ypos -= vsize * 8;
-	
-		/* adjust the final coordinates */
-		xpos &= 0x1ff;
-		ypos &= 0x1ff;
-		if (xpos >= XDIM) xpos -= 0x200;
-		if (ypos >= YDIM) ypos -= 0x200;
-	
-		/* determine the bounding box */
-		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
-	
-		/* simple case? */
-		if (priority == 3)
-		{
-			/* just draw -- we have dominion over all */
-			atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
-		}
-	
-/*TODO*///	#if DEBUG_VIDEO
-/*TODO*///		else if (show_colors != 0)
+/*TODO*///	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
+/*TODO*///            @Override
+/*TODO*///            public void handler(ShortPtr data, rectangle clip, Object param) {
+/*TODO*///                GfxElement gfx = Machine.gfx[1];
+/*TODO*///		pf_overrender_data overrender_data=new pf_overrender_data();
+/*TODO*///		osd_bitmap bitmap = (osd_bitmap) param;
+/*TODO*///		rectangle pf_clip=new rectangle();
+/*TODO*///	
+/*TODO*///		/* extract data from the various words */
+/*TODO*///		int hflip = data.read(1) & 0x8000;
+/*TODO*///		int code = data.read(1) & 0x7fff;
+/*TODO*///		int xpos = (data.read(2) >> 7) - atarigen_video_control_state.sprite_xscroll;
+/*TODO*///		int priority = (data.read(2) >> 4) & 7;
+/*TODO*///		int color = data.read(2) & 0x000f;
+/*TODO*///		int ypos = -(data.read(3) >> 7) - atarigen_video_control_state.sprite_yscroll;
+/*TODO*///		int hsize = ((data.read(3) >> 4) & 7) + 1;
+/*TODO*///		int vsize = (data.read(3) & 7) + 1;
+/*TODO*///	
+/*TODO*///		/* adjust for height */
+/*TODO*///		ypos -= vsize * 8;
+/*TODO*///	
+/*TODO*///		/* adjust the final coordinates */
+/*TODO*///		xpos &= 0x1ff;
+/*TODO*///		ypos &= 0x1ff;
+/*TODO*///		if (xpos >= XDIM) xpos -= 0x200;
+/*TODO*///		if (ypos >= YDIM) ypos -= 0x200;
+/*TODO*///	
+/*TODO*///		/* determine the bounding box */
+/*TODO*///		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+/*TODO*///	
+/*TODO*///		/* simple case? */
+/*TODO*///		if (priority == 3)
 /*TODO*///		{
+/*TODO*///			/* just draw -- we have dominion over all */
 /*TODO*///			atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
 /*TODO*///		}
-/*TODO*///	#endif
-	
-		/* otherwise, it gets a smidge trickier */
-		else
-		{
-			/* draw an instance of the object in all transparent pens */
-			atarigen_mo_draw_transparent_8x8(bitmap, gfx, code, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
-	
-			/* start by recopying the background to the temp bitmap */
-			atarigen_pf_process(pf_overrender_callback, atarigen_pf_overrender_bitmap, pf_clip);
-	
-			/* and then draw the M.O. normally on top of it */
-			atarigen_mo_draw_8x8(atarigen_pf_overrender_bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
-	
-			/* overrender the playfields on top of that */
-			overrender_data.mo_priority = priority;
-			overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-			atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
-			atarigen_pf2_process(pf2_overrender_callback, overrender_data, pf_clip);
-	
-			/* finally, copy this chunk to the real bitmap */
-			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-		}
-	
-/*TODO*///	#if DEBUG_VIDEO
-/*TODO*///		if (show_colors != 0)
+/*TODO*///	
+/*TODO*////*TODO*///	#if DEBUG_VIDEO
+/*TODO*////*TODO*///		else if (show_colors != 0)
+/*TODO*////*TODO*///		{
+/*TODO*////*TODO*///			atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+/*TODO*////*TODO*///		}
+/*TODO*////*TODO*///	#endif
+/*TODO*///	
+/*TODO*///		/* otherwise, it gets a smidge trickier */
+/*TODO*///		else
 /*TODO*///		{
-/*TODO*///			int tx = (pf_clip.min_x + pf_clip.max_x) / 2 - 3;
-/*TODO*///			int ty = (pf_clip.min_y + pf_clip.max_y) / 2 - 4;
-/*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx - 2, ty - 2, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx + 2, ty - 2, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx - 2, ty + 2, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx + 2, ty + 2, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///			drawgfx(bitmap, Machine.uifont, "0123456789ABCDEF"[priority], 0, 0, 0, tx, ty, 0, TRANSPARENCY_NONE, 0);
+/*TODO*///			/* draw an instance of the object in all transparent pens */
+/*TODO*///			atarigen_mo_draw_transparent_8x8(bitmap, gfx, code, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+/*TODO*///	
+/*TODO*///			/* start by recopying the background to the temp bitmap */
+/*TODO*///			atarigen_pf_process(pf_overrender_callback, atarigen_pf_overrender_bitmap, pf_clip);
+/*TODO*///	
+/*TODO*///			/* and then draw the M.O. normally on top of it */
+/*TODO*///			atarigen_mo_draw_8x8(atarigen_pf_overrender_bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+/*TODO*///	
+/*TODO*///			/* overrender the playfields on top of that */
+/*TODO*///			overrender_data.mo_priority = priority;
+/*TODO*///			overrender_data.bitmap = atarigen_pf_overrender_bitmap;
+/*TODO*///			atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
+/*TODO*///			atarigen_pf2_process(pf2_overrender_callback, overrender_data, pf_clip);
+/*TODO*///	
+/*TODO*///			/* finally, copy this chunk to the real bitmap */
+/*TODO*///			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
 /*TODO*///		}
-/*TODO*///	#endif
-            }
-        };
+/*TODO*///	
+/*TODO*////*TODO*///	#if DEBUG_VIDEO
+/*TODO*////*TODO*///		if (show_colors != 0)
+/*TODO*////*TODO*///		{
+/*TODO*////*TODO*///			int tx = (pf_clip.min_x + pf_clip.max_x) / 2 - 3;
+/*TODO*////*TODO*///			int ty = (pf_clip.min_y + pf_clip.max_y) / 2 - 4;
+/*TODO*////*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx - 2, ty - 2, 0, TRANSPARENCY_NONE, 0);
+/*TODO*////*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx + 2, ty - 2, 0, TRANSPARENCY_NONE, 0);
+/*TODO*////*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx - 2, ty + 2, 0, TRANSPARENCY_NONE, 0);
+/*TODO*////*TODO*///			drawgfx(bitmap, Machine.uifont, ' ', 0, 0, 0, tx + 2, ty + 2, 0, TRANSPARENCY_NONE, 0);
+/*TODO*////*TODO*///			drawgfx(bitmap, Machine.uifont, "0123456789ABCDEF"[priority], 0, 0, 0, tx, ty, 0, TRANSPARENCY_NONE, 0);
+/*TODO*////*TODO*///		}
+/*TODO*////*TODO*///	#endif
+/*TODO*///            }
+/*TODO*///        };
         
 	
 	

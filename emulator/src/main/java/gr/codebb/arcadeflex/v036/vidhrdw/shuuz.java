@@ -153,7 +153,7 @@ public class shuuz {
             /* update the data if different */
             if (oldword != newword) {
                 atarigen_playfieldram.WRITE_WORD(offset, newword);
-                atarigen_pf_dirty.write((offset & 0x1fff) / 2, 1);
+                atarigen_pf_dirty[(offset & 0x1fff) / 2] = 1;
             }
 
             /* handle the latch, but only write the upper byte */
@@ -200,10 +200,10 @@ public class shuuz {
             atarigen_pf_process(pf_render_callback, bitmap,  Machine.drv.visible_area);
 
             /* render the motion objects */
-            atarigen_mo_process(mo_render_callback, bitmap);
+/*TODO*///            atarigen_mo_process(mo_render_callback, bitmap);
 
             /* update onscreen messages */
-            atarigen_update_messages();
+/*TODO*///            atarigen_update_messages();
         }
     };
 
@@ -228,7 +228,7 @@ public class shuuz {
         atarigen_pf_process(pf_color_callback, pf_map, Machine.drv.visible_area);
 
         /* update color usage for the mo's */
-        atarigen_mo_process(mo_color_callback, mo_map);
+/*TODO*///        atarigen_mo_process(mo_color_callback, mo_map);
 
         /* rebuild the playfield palette */
         for (i = 0; i < 16; i++) {
@@ -273,12 +273,18 @@ public class shuuz {
         public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
             System.out.println("pf_color_callback");
             int[] usage = Machine.gfx[0].pen_usage;
+            System.out.println("pf_color_callback2");
             char[] colormap = (char[]) param;
+            System.out.println("pf_color_callback3");
             int x, y;
+            System.out.println(tiles.min_y&63);
+            System.out.println(tiles.max_y&63);
 
             /* standard loop over tiles */
-            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
-                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
+            for (x = (tiles.min_x)&63; x != ((tiles.max_x)&63); x = (x + 1) & 63) {
+                System.out.println("pf_color_callback4");
+                for (y = (tiles.min_y)&63; y != ((tiles.max_y)&63); y = (y + 1) & 63) {
+                    //System.out.println("pf_color_callback5");
                     int offs = x * 64 + y;
                     int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
                     int data2 = atarigen_playfieldram.READ_WORD(offs * 2 + 0x2000);
@@ -288,8 +294,11 @@ public class shuuz {
                     /* mark the colors used by this tile */
                     colormap[color] |= usage[code];
                 }
+                System.out.println("pf_color_callback6");
             }
+            System.out.println("pf_color_callback7");
         }
+        
     };
 
     /**
@@ -306,14 +315,17 @@ public class shuuz {
             GfxElement gfx = Machine.gfx[0];
             osd_bitmap bitmap = (osd_bitmap) param;
             int x, y;
+            
+            System.out.println("MIN Y="+tiles.min_y);
+            System.out.println("MAX Y="+tiles.max_y);
 
             /* standard loop over tiles */
-            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
-                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
+            for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63) {
+                for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63) {
                     int offs = x * 64 + y;
 
                     /* update only if dirty */
-                    if (atarigen_pf_dirty.read(offs) != 0) {
+                    if (atarigen_pf_dirty[offs] != 0) {
                         int data1 = atarigen_playfieldram.READ_WORD( offs * 2 );
                         int data2 = atarigen_playfieldram.READ_WORD( offs * 2 + 0x2000 );
                         int color = (data2 >> 8) & 15;
@@ -322,11 +334,13 @@ public class shuuz {
 
                         drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
                         
-                        atarigen_pf_dirty.write(offs, 0);
+                        atarigen_pf_dirty[offs] = 0;
 
                     }
                 }
             }
+            
+            System.out.println("END pf_render_callback");
 
             /* then blast the result */
             copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
@@ -383,27 +397,27 @@ public class shuuz {
      *
      ************************************
      */
-    static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
-        @Override
-        public void handler(ShortPtr data, rectangle clip, Object param) {
-            int[] usage = Machine.gfx[1].pen_usage;
-            UShortPtr colormap = (UShortPtr) param;
-            int code = data.read(1) & 0x7fff;
-            int color = data.read(2) & 0x000f;
-            int hsize = ((data.read(3) >> 4) & 7) + 1;
-            int vsize = (data.read(3) & 7) + 1;
-            int tiles = hsize * vsize;
-            int temp = 0;
-            int i;
-
-            for (i = 0; i < tiles; i++) {
-                temp |= usage[code++];
-            }
-            colormap.write(color, (char) (colormap.read(color) | temp));
-            
-            param = colormap;
-        }
-    };
+/*TODO*///    static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
+/*TODO*///        @Override
+/*TODO*///        public void handler(ShortPtr data, rectangle clip, Object param) {
+/*TODO*///            int[] usage = Machine.gfx[1].pen_usage;
+/*TODO*///            UShortPtr colormap = (UShortPtr) param;
+/*TODO*///            int code = data.read(1) & 0x7fff;
+/*TODO*///            int color = data.read(2) & 0x000f;
+/*TODO*///            int hsize = ((data.read(3) >> 4) & 7) + 1;
+/*TODO*///            int vsize = (data.read(3) & 7) + 1;
+/*TODO*///            int tiles = hsize * vsize;
+/*TODO*///            int temp = 0;
+/*TODO*///            int i;
+/*TODO*///
+/*TODO*///            for (i = 0; i < tiles; i++) {
+/*TODO*///                temp |= usage[code++];
+/*TODO*///            }
+/*TODO*///            colormap.write(color, (char) (colormap.read(color) | temp));
+/*TODO*///            
+/*TODO*///            param = colormap;
+/*TODO*///        }
+/*TODO*///    };
 
     /**
      * ***********************************
@@ -444,10 +458,10 @@ public class shuuz {
             }
 
             /* determine the bounding box */
-            atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+/*TODO*///            atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
 
-            /* draw the motion object */
-            atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+/*TODO*///            /* draw the motion object */
+/*TODO*///            atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
 
             /* standard priority case? */
             if (color != 15) {

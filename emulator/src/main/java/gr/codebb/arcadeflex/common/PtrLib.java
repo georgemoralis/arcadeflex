@@ -90,7 +90,7 @@ public class PtrLib {
         }
 
         public int READ_WORD(int index) {
-            return (memory[offset + index + 1] << 8 | memory[offset + index]) & 0xFFFF;
+            return (memory[((offset + index)) + 1] << 8 | memory[((offset + index))]) & 0xFFFF;
         }
 
         public int READ_DWORD(int index) // unchecked!
@@ -116,8 +116,8 @@ public class PtrLib {
         }
 
         public void WRITE_WORD(int index, int value) {
-            memory[offset + index + 1] = (char) ((value >> 8) & 0xFF);
-            memory[offset + index] = (char) (value & 0xFF);
+            memory[((offset + index)) + 1] = (char) ((value >> 8) & 0xFF);
+            memory[((offset + index))] = (char) (value & 0xFF);
         }
 
         public void write(int index, int value) {
@@ -261,11 +261,11 @@ public class PtrLib {
         }
 
         public UShortPtr(UShortPtr cp) {
-            set(cp.memory, cp.offset);
+            set(cp.memory, 0);
         }
 
         public UShortPtr(UBytePtr cp) {
-            set(cp.memory, cp.offset);
+            set(cp.memory, 0);
         }
 
         public UShortPtr(UBytePtr cp, int b) {
@@ -285,6 +285,12 @@ public class PtrLib {
         public char read(int index) {
             return (char) (memory[offset + 1 + index * 2] << 8 | memory[offset + index * 2]);
         }
+        
+        public char readinc() {
+            char _retValue = (char) (memory[offset + 1 + 1 * 2] << 8 | memory[offset + 1 * 2]);
+            offset += 2;
+            return _retValue;
+        }
 
         public void write(int index, char value) {
             memory[offset + index * 2] = (char) (value & 0xFF);
@@ -295,6 +301,10 @@ public class PtrLib {
             offset += offs * bsize;
         }
 
+        public void WRITE_WORD(int index, int value) {
+            memory[offset + index*2 + 1] = (char) ((value >> 8) & 0xFF);
+            memory[offset + index*2] = (char) (value & 0xFF);
+        }
     }
 
     /**

@@ -360,11 +360,11 @@ public class batman
 			0x01D0,0x02C8,0x0000
 		};
 	
-		atarigen_eeprom_default = default_eeprom;
+		atarigen_eeprom_default = new UBytePtr(default_eeprom);
 		atarijsa_init(1, 3, 2, 0x0040);
 	
 		/* speed up the 6502 */
-		atarigen_init_6502_speedup(1, 0x4163, 0x417b);
+/*TODO*///		atarigen_init_6502_speedup(1, 0x4163, 0x417b);
 	
 		/* display messages */
 		atarigen_show_sound_message();

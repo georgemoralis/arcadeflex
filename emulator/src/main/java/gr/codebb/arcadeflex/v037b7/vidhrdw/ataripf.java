@@ -13,13 +13,23 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
+import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import gr.codebb.arcadeflex.v037b7.mame.timer;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 
 public class ataripf
 {
@@ -31,76 +41,79 @@ public class ataripf
 	##########################################################################*/
 	
 	/* internal state structure containing values that can change scanline-by-scanline */
+              
 	public static class ataripf_state
 	{
 		int					scanline;			/* scanline where we are valid */
 		int					xscroll;			/* xscroll value */
 		int					yscroll;			/* yscroll value */
 		int					bankbits;			/* bank bits */
+
 	};
 	
 
-/*TODO*///	/* internal variant of the gfxelement that contains extra data */
-/*TODO*///	struct ataripf_gfxelement
-/*TODO*///	{
-/*TODO*///		struct GfxElement		element;
-/*TODO*///		int						initialized;
-/*TODO*///		struct ataripf_usage *	usage;
-/*TODO*///		int						usage_words;
-/*TODO*///		int						colorshift;
-/*TODO*///	};
+	/* internal variant of the gfxelement that contains extra data */
+	public static class ataripf_gfxelement
+	{
+		GfxElement		element;
+		int						initialized;
+		ataripf_usage	usage;
+		int						usage_words;
+		int						colorshift;
+	};
 	
 	
 	/* internal structure containing the state of a playfield */
 	public static class ataripf_data
 	{
 		int					initialized;		/* true if we're initialized */
-/*TODO*///		int					timerallocated;		/* true if we've allocated the timer */
-/*TODO*///		int					gfxchanged;			/* true if the gfx info has changed */
-/*TODO*///	
-/*TODO*///		int					colshift;			/* bits to shift X coordinate when looking up in VRAM */
-/*TODO*///		int 				rowshift;			/* bits to shift Y coordinate when looking up in VRAM */
-/*TODO*///		int					colmask;			/* mask to use when wrapping X coordinate in VRAM */
-/*TODO*///		int 				rowmask;			/* mask to use when wrapping Y coordinate in VRAM */
-/*TODO*///		int					vrammask;			/* combined mask when accessing VRAM with raw addresses */
+		int					timerallocated;		/* true if we've allocated the timer */
+		int					gfxchanged;			/* true if the gfx info has changed */
+
+		int					colshift;			/* bits to shift X coordinate when looking up in VRAM */
+		int                                     rowshift;			/* bits to shift Y coordinate when looking up in VRAM */
+		int					colmask;			/* mask to use when wrapping X coordinate in VRAM */
+		int 				rowmask;			/* mask to use when wrapping Y coordinate in VRAM */
+		int					vrammask;			/* combined mask when accessing VRAM with raw addresses */
 		int					vramsize;			/* total size of VRAM, in entries */
 
-/*TODO*///		int					tilexshift;			/* bits to shift X coordinate when drawing */
-/*TODO*///		int					tileyshift;			/* bits to shift Y coordinate when drawing */
-/*TODO*///		int					tilewidth;			/* width of a single tile */
-/*TODO*///		int					tileheight;			/* height of a single tile */
-/*TODO*///		int					bitmapwidth;		/* width of the full playfield bitmap */
-/*TODO*///		int					bitmapheight;		/* height of the full playfield bitmap */
-/*TODO*///		int					bitmapxmask;		/* x coordinate mask for the playfield bitmap */
-/*TODO*///		int					bitmapymask;		/* y coordinate mask for the playfield bitmap */
+		int					tilexshift;			/* bits to shift X coordinate when drawing */
+		int					tileyshift;			/* bits to shift Y coordinate when drawing */
+		int					tilewidth;			/* width of a single tile */
+		int					tileheight;			/* height of a single tile */
+		int					bitmapwidth;		/* width of the full playfield bitmap */
+		int					bitmapheight;		/* height of the full playfield bitmap */
+		int					bitmapxmask;		/* x coordinate mask for the playfield bitmap */
+		int					bitmapymask;		/* y coordinate mask for the playfield bitmap */
 
 		int					palettebase;		/* base palette entry */
 		int					maxcolors;			/* maximum number of colors */
-/*TODO*///		int					shadowxor;			/* color XOR for shadow effect (if any) */
+		int					shadowxor;			/* color XOR for shadow effect (if any) */
 		int				transpens;			/* transparent pen */
-/*TODO*///		int					transpen;			/* transparent pen */
+		int					transpen;			/* transparent pen */
 
-/*TODO*///		int					lookupmask;			/* mask for the lookup table */
+		int					lookupmask;			/* mask for the lookup table */
+	
+		int					latchval;			/* value for latching */
+		int					latchdata;			/* shifted value for latching */
+		int					latchmask;			/* mask for latching */
+	
+		osd_bitmap              bitmap;				/* backing bitmap */
+		char[]			vram;				/* pointer to VRAM */
+		char[]                                  dirtymap;	/* dirty bitmap */
+		UBytePtr				visitmap;	/* visiting bitmap */
+		int[]			lookup;				/* pointer to lookup table */
+
+		ataripf_state curstate;			/* current state */
+		ataripf_state[]   statelist;		/* list of changed states */
+                int _ataripf_state=0;
+		int		stateindex;		/* index of the next state */
+
+		rectangle	process_clip=new rectangle();		/* (during processing) the clip rectangle */
+		rectangle	process_tiles=new rectangle();		/* (during processing) the tiles rectangle */
+		Object		process_param;		/* (during processing) the callback parameter */
 /*TODO*///	
-/*TODO*///		int					latchval;			/* value for latching */
-/*TODO*///		int					latchdata;			/* shifted value for latching */
-/*TODO*///		int					latchmask;			/* mask for latching */
-/*TODO*///	
-/*TODO*///		struct osd_bitmap *	bitmap;				/* backing bitmap */
-/*TODO*///		UINT32 *			vram;				/* pointer to VRAM */
-		char[]                                  dirtymap;			/* dirty bitmap */
-		UBytePtr				visitmap;			/* visiting bitmap */
-/*TODO*///		UINT32 *			lookup;				/* pointer to lookup table */
-/*TODO*///	
-/*TODO*///		struct ataripf_state curstate;			/* current state */
-/*TODO*///		struct ataripf_state *statelist;		/* list of changed states */
-/*TODO*///		int					stateindex;			/* index of the next state */
-/*TODO*///	
-/*TODO*///		struct rectangle	process_clip;		/* (during processing) the clip rectangle */
-/*TODO*///		struct rectangle	process_tiles;		/* (during processing) the tiles rectangle */
-/*TODO*///		void *				process_param;		/* (during processing) the callback parameter */
-/*TODO*///	
-/*TODO*///		struct ataripf_gfxelement gfxelement[MAX_GFX_ELEMENTS]; /* graphics element copies */
+		ataripf_gfxelement[] gfxelement=new ataripf_gfxelement[MAX_GFX_ELEMENTS]; /* graphics element copies */
 		int 				max_usage_words;	/* maximum words of usage */
 	};
 	
@@ -167,114 +180,120 @@ public class ataripf
 /*TODO*///	static void pf_render_callback(struct ataripf_data *pf, const struct ataripf_state *state);
 /*TODO*///	static void pf_overrender_callback(struct ataripf_data *pf, const struct ataripf_state *state);
 /*TODO*///	static void pf_init_gfx(struct ataripf_data *pf, int gfxindex);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*##########################################################################
-/*TODO*///		INLINE FUNCTIONS
-/*TODO*///	##########################################################################*/
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		compute_log: Computes the number of bits necessary to
-/*TODO*///		hold a given value. The input must be an even power of
-/*TODO*///		two.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	INLINE int compute_log(int value)
-/*TODO*///	{
-/*TODO*///		int log = 0;
-/*TODO*///	
-/*TODO*///		if (value == 0)
-/*TODO*///			return -1;
-/*TODO*///		while (!(value & 1))
-/*TODO*///			log++, value >>= 1;
-/*TODO*///		if (value != 1)
-/*TODO*///			return -1;
-/*TODO*///		return log;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		round_to_powerof2: Rounds a number up to the nearest
-/*TODO*///		power of 2. Even powers of 2 are rounded up to the
-/*TODO*///		next greatest power (e.g., 4 returns 8).
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	INLINE int round_to_powerof2(int value)
-/*TODO*///	{
-/*TODO*///		int log = 0;
-/*TODO*///	
-/*TODO*///		if (value == 0)
-/*TODO*///			return 1;
-/*TODO*///		while ((value >>= 1) != 0)
-/*TODO*///			log++;
-/*TODO*///		return 1 << (log + 1);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		collapse_bits: Moving right-to-left, for each 1 bit in
-/*TODO*///		the mask, copy the corresponding bit from the input
-/*TODO*///		value into the result, packing the bits along the way.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	INLINE int collapse_bits(int value, int mask)
-/*TODO*///	{
-/*TODO*///		int testmask, ormask;
-/*TODO*///		int result = 0;
-/*TODO*///	
-/*TODO*///		for (testmask = ormask = 1; testmask != 0; testmask <<= 1)
-/*TODO*///			if ((mask & testmask) != 0)
-/*TODO*///			{
-/*TODO*///				if ((value & testmask) != 0)
-/*TODO*///					result |= ormask;
-/*TODO*///				ormask <<= 1;
-/*TODO*///			}
-/*TODO*///		return result;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_update_state: Internal routine that updates the
-/*TODO*///		state list of the playfield with the current parameters.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	INLINE void pf_update_state(struct ataripf_data *pf, int scanline)
-/*TODO*///	{
-/*TODO*///		struct ataripf_state *state = &pf.statelist[pf.stateindex];
-/*TODO*///	
-/*TODO*///		/* ignore anything after the bottom of the visible screen */
-/*TODO*///		if (scanline > Machine.visible_area.max_y)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* ignore anything earlier than the last scanline we entered */
-/*TODO*///		if (state[-1].scanline > scanline)
-/*TODO*///		{
-/*TODO*///			logerror("pf_update_state: Attempted state update on prior scanline (%d vs. %d)\n", scanline, state[-1]);
-/*TODO*///			return;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* if this is the same scanline as last time, overwrite it */
-/*TODO*///		else if (state[-1].scanline == scanline)
-/*TODO*///		{
-/*TODO*///			logerror("pf_update_state: scanlines equal, overwriting\n");
-/*TODO*///			state--;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* otherwise, move forward one entry */
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			logerror("pf_update_state: new entry\n");
-/*TODO*///			pf.stateindex++;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* fill in the data */
-/*TODO*///		*state = pf.curstate;
-/*TODO*///		state.scanline = scanline;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	
+	
+	
+	/*##########################################################################
+		INLINE FUNCTIONS
+	##########################################################################*/
+	
+	/*---------------------------------------------------------------
+		compute_log: Computes the number of bits necessary to
+		hold a given value. The input must be an even power of
+		two.
+	---------------------------------------------------------------*/
+	
+	static int compute_log(int value)
+	{
+		int log = 0;
+	
+		if (value == 0)
+			return -1;
+		while ((value & 1)==0){
+			log++;
+                        value >>= 1;
+                }
+		if (value != 1)
+			return -1;
+		return log;
+	}
+	
+	
+	/*---------------------------------------------------------------
+		round_to_powerof2: Rounds a number up to the nearest
+		power of 2. Even powers of 2 are rounded up to the
+		next greatest power (e.g., 4 returns 8).
+	---------------------------------------------------------------*/
+	
+	static int round_to_powerof2(int value)
+	{
+		int log = 0;
+	
+		if (value == 0)
+			return 1;
+		while ((value >>= 1) != 0)
+			log++;
+		return 1 << (log + 1);
+	}
+	
+	
+	/*---------------------------------------------------------------
+		collapse_bits: Moving right-to-left, for each 1 bit in
+		the mask, copy the corresponding bit from the input
+		value into the result, packing the bits along the way.
+	---------------------------------------------------------------*/
+	
+	static int collapse_bits(int value, int mask)
+	{
+		int testmask, ormask;
+		int result = 0;
+	
+		for (testmask = ormask = 1; testmask != 0; testmask <<= 1)
+			if ((mask & testmask) != 0)
+			{
+				if ((value & testmask) != 0)
+					result |= ormask;
+				ormask <<= 1;
+			}
+		return result;
+	}
+	
+	
+	/*---------------------------------------------------------------
+		pf_update_state: Internal routine that updates the
+		state list of the playfield with the current parameters.
+	---------------------------------------------------------------*/
+	
+	public static void pf_update_state(ataripf_data pf, int scanline)
+	{
+		//ataripf_state state = pf.statelist[pf.stateindex];
+                int _idx = pf.stateindex;
+	
+		/* ignore anything after the bottom of the visible screen */
+		if (scanline > Machine.visible_area.max_y)
+			return;
+	
+		/* ignore anything earlier than the last scanline we entered */
+		if (pf.statelist[_idx-1].scanline > scanline)
+		{
+			logerror("pf_update_state: Attempted state update on prior scanline (%d vs. %d)\n", scanline, pf.statelist[_idx-1]);
+			return;
+		}
+	
+		/* if this is the same scanline as last time, overwrite it */
+		else if (pf.statelist[_idx-1].scanline == scanline)
+		{
+			logerror("pf_update_state: scanlines equal, overwriting\n");
+			//state--;
+                        _idx--;
+		}
+	
+		/* otherwise, move forward one entry */
+		else
+		{
+			logerror("pf_update_state: new entry\n");
+			pf.stateindex++;
+		}
+	
+		/* fill in the data */
+		//*state = pf.curstate;
+                pf.statelist[_idx] = pf.curstate;
+		//state.scanline = scanline;
+                pf.statelist[_idx].scanline = scanline;
+	}
+	
+	
+	
 /*TODO*///	/*##########################################################################
 /*TODO*///		GLOBAL FUNCTIONS
 /*TODO*///	##########################################################################*/
@@ -318,22 +337,30 @@ public class ataripf
 /*TODO*///		freegfx(gx1);
 /*TODO*///		Machine.gfx[gfx1] = NULL;
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_init: Configures the playfield using the input
-/*TODO*///		description. Allocates all memory necessary and generates
-/*TODO*///		the attribute lookup table. If custom_lookup is provided,
-/*TODO*///		it is used in place of the generated attribute table.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	int ataripf_init(int map, const struct ataripf_desc *desc)
-/*TODO*///	{
-/*TODO*///		int lookupcount = round_to_powerof2(desc.tilemask | desc.colormask | desc.hflipmask | desc.vflipmask | desc.prioritymask) >> ATARIPF_LOOKUP_DATABITS;
-/*TODO*///		struct GfxElement *gfx = Machine.gfx[desc.gfxindex];
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///		int i;
-/*TODO*///	
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_init: Configures the playfield using the input
+		description. Allocates all memory necessary and generates
+		the attribute lookup table. If custom_lookup is provided,
+		it is used in place of the generated attribute table.
+	---------------------------------------------------------------*/
+	
+	public static int ataripf_init(int map, ataripf_desc desc)
+	{
+		int lookupcount = round_to_powerof2(desc.tilemask | desc.colormask | desc.hflipmask | desc.vflipmask | desc.prioritymask) >> ATARIPF_LOOKUP_DATABITS;
+		GfxElement gfx = Machine.gfx[desc.gfxindex];
+		//ataripf_data pf = ataripf[map];
+                
+                if (ataripf[map]==null) {
+                    ataripf[map] = new ataripf_data();
+                    
+                    for (int _i=0 ; _i<MAX_GFX_ELEMENTS ; _i++)
+                        ataripf[map].gfxelement[_i]=new ataripf_gfxelement();
+                }
+                
+		int i;
+	
 /*TODO*///		/* sanity checks */
 /*TODO*///		VERIFYRETFREE(map >= 0 && map < ATARIPF_MAX, "ataripf_init: map out of range", 0)
 /*TODO*///		VERIFYRETFREE(compute_log(desc.cols) != -1, "ataripf_init: cols must be power of 2", 0)
@@ -341,108 +368,110 @@ public class ataripf
 /*TODO*///		VERIFYRETFREE(compute_log(desc.xmult) != -1, "ataripf_init: xmult must be power of 2", 0)
 /*TODO*///		VERIFYRETFREE(compute_log(desc.ymult) != -1, "ataripf_init: ymult must be power of 2", 0)
 /*TODO*///		VERIFYRETFREE((desc.tilemask & ATARIPF_LOOKUP_DATAMASK) == ATARIPF_LOOKUP_DATAMASK, "ataripf_init: low bits of tilemask must be 0xff", 0)
-/*TODO*///	
-/*TODO*///		/* copy in the basic data */
-/*TODO*///		pf.initialized  = 0;
-/*TODO*///		pf.timerallocated = 0;
-/*TODO*///		pf.gfxchanged   = 0;
-/*TODO*///	
-/*TODO*///		pf.colshift     = compute_log(desc.xmult);
-/*TODO*///		pf.rowshift     = compute_log(desc.ymult);
-/*TODO*///		pf.colmask      = desc.cols - 1;
-/*TODO*///		pf.rowmask      = desc.rows - 1;
-/*TODO*///		pf.vrammask     = (pf.colmask << pf.colshift) | (pf.rowmask << pf.rowshift);
-/*TODO*///		pf.vramsize     = round_to_powerof2(pf.vrammask);
-/*TODO*///	
-/*TODO*///		pf.tilexshift   = compute_log(gfx.width);
-/*TODO*///		pf.tileyshift   = compute_log(gfx.height);
-/*TODO*///		pf.tilewidth    = gfx.width;
-/*TODO*///		pf.tileheight   = gfx.height;
-/*TODO*///		pf.bitmapwidth  = desc.cols * gfx.width;
-/*TODO*///		pf.bitmapheight = desc.rows * gfx.height;
-/*TODO*///		pf.bitmapxmask  = pf.bitmapwidth - 1;
-/*TODO*///		pf.bitmapymask  = pf.bitmapheight - 1;
-/*TODO*///	
-/*TODO*///		pf.palettebase  = desc.palettebase;
-/*TODO*///		pf.maxcolors    = desc.maxcolors / ATARIPF_BASE_GRANULARITY;
-/*TODO*///		pf.shadowxor    = desc.shadowxor;
-/*TODO*///		pf.transpens    = desc.transpens;
-/*TODO*///		pf.transpen     = desc.transpens ? compute_log(desc.transpens) : -1;
-/*TODO*///	
-/*TODO*///		pf.lookupmask   = lookupcount - 1;
-/*TODO*///	
-/*TODO*///		pf.latchval     = 0;
-/*TODO*///		pf.latchdata    = -1;
-/*TODO*///		pf.latchmask    = desc.latchmask;
-/*TODO*///	
-/*TODO*///		/* allocate the backing bitmap */
-/*TODO*///		pf.bitmap = bitmap_alloc(pf.bitmapwidth, pf.bitmapheight);
+	
+		/* copy in the basic data */
+		ataripf[map].initialized  = 0;
+		ataripf[map].timerallocated = 0;
+		ataripf[map].gfxchanged   = 0;
+	
+		ataripf[map].colshift     = compute_log(desc.xmult);
+		ataripf[map].rowshift     = compute_log(desc.ymult);
+		ataripf[map].colmask      = desc.cols - 1;
+		ataripf[map].rowmask      = desc.rows - 1;
+		ataripf[map].vrammask     = (ataripf[map].colmask << ataripf[map].colshift) | (ataripf[map].rowmask << ataripf[map].rowshift);
+		ataripf[map].vramsize     = round_to_powerof2(ataripf[map].vrammask);
+	
+		ataripf[map].tilexshift   = compute_log(gfx.width);
+		ataripf[map].tileyshift   = compute_log(gfx.height);
+		ataripf[map].tilewidth    = gfx.width;
+		ataripf[map].tileheight   = gfx.height;
+		ataripf[map].bitmapwidth  = desc.cols * gfx.width;
+		ataripf[map].bitmapheight = desc.rows * gfx.height;
+		ataripf[map].bitmapxmask  = ataripf[map].bitmapwidth - 1;
+		ataripf[map].bitmapymask  = ataripf[map].bitmapheight - 1;
+	
+		ataripf[map].palettebase  = desc.palettebase;
+		ataripf[map].maxcolors    = desc.maxcolors / ATARIPF_BASE_GRANULARITY;
+		ataripf[map].shadowxor    = desc.shadowxor;
+		ataripf[map].transpens    = desc.transpens;
+		ataripf[map].transpen     = desc.transpens!=0 ? compute_log(desc.transpens) : -1;
+	
+		ataripf[map].lookupmask   = lookupcount - 1;
+	
+		ataripf[map].latchval     = 0;
+		ataripf[map].latchdata    = -1;
+		ataripf[map].latchmask    = desc.latchmask;
+	
+		/* allocate the backing bitmap */
+		ataripf[map].bitmap = bitmap_alloc(ataripf[map].bitmapwidth, ataripf[map].bitmapheight);
 /*TODO*///		VERIFYRETFREE(pf.bitmap, "ataripf_init: out of memory for bitmap", 0)
-/*TODO*///	
-/*TODO*///		/* allocate the vram */
-/*TODO*///		pf.vram = malloc(sizeof(pf.vram[0]) * pf.vramsize);
+	
+		/* allocate the vram */
+		ataripf[map].vram = new char[ataripf[map].vramsize];
 /*TODO*///		VERIFYRETFREE(pf.vram, "ataripf_init: out of memory for vram", 0)
-/*TODO*///	
-/*TODO*///		/* clear it to zero */
-/*TODO*///		memset(pf.vram, 0, sizeof(pf.vram[0]) * pf.vramsize);
-/*TODO*///	
-/*TODO*///		/* allocate the dirty map */
-/*TODO*///		pf.dirtymap = malloc(sizeof(pf.dirtymap[0]) * pf.vramsize);
+	
+		/* clear it to zero */
+		memset(ataripf[map].vram, 0, ataripf[map].vramsize);
+	
+		/* allocate the dirty map */
+		ataripf[map].dirtymap = new char[ataripf[map].vramsize];
 /*TODO*///		VERIFYRETFREE(pf.dirtymap, "ataripf_init: out of memory for dirtymap", 0)
-/*TODO*///	
-/*TODO*///		/* mark everything dirty */
-/*TODO*///		memset(pf.dirtymap, -1, sizeof(pf.dirtymap[0]) * pf.vramsize);
-/*TODO*///	
-/*TODO*///		/* allocate the visitation map */
-/*TODO*///		pf.visitmap = malloc(sizeof(pf.visitmap[0]) * pf.vramsize);
+	
+		/* mark everything dirty */
+		memset(ataripf[map].dirtymap, -1, ataripf[map].vramsize);
+	
+		/* allocate the visitation map */
+		ataripf[map].visitmap = new UBytePtr(ataripf[map].vramsize);
 /*TODO*///		VERIFYRETFREE(pf.visitmap, "ataripf_init: out of memory for visitmap", 0)
-/*TODO*///	
-/*TODO*///		/* mark everything non-visited */
-/*TODO*///		memset(pf.visitmap, 0, sizeof(pf.visitmap[0]) * pf.vramsize);
-/*TODO*///	
-/*TODO*///		/* allocate the attribute lookup */
-/*TODO*///		pf.lookup = malloc(lookupcount * sizeof(pf.lookup[0]));
+	
+		/* mark everything non-visited */
+		memset(ataripf[map].visitmap, 0, ataripf[map].vramsize);
+	
+		/* allocate the attribute lookup */
+		ataripf[map].lookup = new int[lookupcount];
 /*TODO*///		VERIFYRETFREE(pf.lookup, "ataripf_init: out of memory for lookup", 0)
-/*TODO*///	
-/*TODO*///		/* fill in the attribute lookup */
-/*TODO*///		for (i = 0; i < lookupcount; i++)
-/*TODO*///		{
-/*TODO*///			int value    = (i << ATARIPF_LOOKUP_DATABITS);
-/*TODO*///			int tile     = collapse_bits(value, desc.tilemask);
-/*TODO*///			int color    = collapse_bits(value, desc.colormask);
-/*TODO*///			int hflip    = collapse_bits(value, desc.hflipmask);
-/*TODO*///			int vflip    = collapse_bits(value, desc.vflipmask);
-/*TODO*///			int priority = collapse_bits(value, desc.prioritymask);
-/*TODO*///	
-/*TODO*///			pf.lookup[i] = ATARIPF_LOOKUP_ENTRY(desc.gfxindex, tile, color, hflip, vflip, priority);
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* compute the extended usage map */
-/*TODO*///		pf_init_gfx(pf, desc.gfxindex);
+	
+		/* fill in the attribute lookup */
+		for (i = 0; i < lookupcount; i++)
+		{
+			int value    = (i << ATARIPF_LOOKUP_DATABITS);
+			int tile     = collapse_bits(value, desc.tilemask);
+			int color    = collapse_bits(value, desc.colormask);
+			int hflip    = collapse_bits(value, desc.hflipmask);
+			int vflip    = collapse_bits(value, desc.vflipmask);
+			int priority = collapse_bits(value, desc.prioritymask);
+	
+			ataripf[map].lookup[i] = ATARIPF_LOOKUP_ENTRY(desc.gfxindex, tile, color, hflip, vflip, priority);
+		}
+	
+		/* compute the extended usage map */
+		pf_init_gfx(ataripf[map], desc.gfxindex);
 /*TODO*///		VERIFYRETFREE(pf.gfxelement[desc.gfxindex].initialized, "ataripf_init: out of memory for extra usage map", 0)
-/*TODO*///	
-/*TODO*///		/* allocate the state list */
-/*TODO*///		pf.statelist = malloc(pf.bitmapheight * sizeof(pf.statelist[0]));
+	
+		/* allocate the state list */
+		ataripf[map].statelist = new ataripf_state[ataripf[map].bitmapheight];
 /*TODO*///		VERIFYRETFREE(pf.statelist, "ataripf_init: out of memory for extra state list", 0)
-/*TODO*///	
-/*TODO*///		/* reset the state list */
+	
+		/* reset the state list */
 /*TODO*///		memset(&pf.curstate, 0, sizeof(pf.curstate));
-/*TODO*///		pf.statelist[0] = pf.curstate;
-/*TODO*///		pf.stateindex = 1;
-/*TODO*///	
-/*TODO*///		pf.initialized = 1;
-/*TODO*///	
-/*TODO*///		logerror("ataripf_init:\n");
-/*TODO*///		logerror("  width=%d (shift=%d),  height=%d (shift=%d)\n", gfx.width, pf.tilexshift, gfx.height, pf.tileyshift);
-/*TODO*///		logerror("  cols=%d  (mask=%X),   rows=%d   (mask=%X)\n", desc.cols, pf.colmask, desc.rows, pf.rowmask);
-/*TODO*///		logerror("  xmult=%d (shift=%d),  ymult=%d  (shift=%d)\n", desc.xmult, pf.colshift, desc.ymult, pf.rowshift);
-/*TODO*///		logerror("  VRAM mask=%X,  dirtymap size=%d\n", pf.vrammask, pf.vramsize);
-/*TODO*///		logerror("  bitmap size=%dx%d\n", pf.bitmapwidth, pf.bitmapheight);
-/*TODO*///	
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+                ataripf[map].curstate = new ataripf_state();
+                
+		ataripf[map].statelist[0] = ataripf[map].curstate;
+		ataripf[map].stateindex = 1;
+	
+		ataripf[map].initialized = 1;
+	
+		logerror("ataripf_init:\n");
+		logerror("  width=%d (shift=%d),  height=%d (shift=%d)\n", gfx.width, ataripf[map].tilexshift, gfx.height, ataripf[map].tileyshift);
+		logerror("  cols=%d  (mask=%X),   rows=%d   (mask=%X)\n", desc.cols, ataripf[map].colmask, desc.rows, ataripf[map].rowmask);
+		logerror("  xmult=%d (shift=%d),  ymult=%d  (shift=%d)\n", desc.xmult, ataripf[map].colshift, desc.ymult, ataripf[map].rowshift);
+		logerror("  VRAM mask=%X,  dirtymap size=%d\n", ataripf[map].vrammask, ataripf[map].vramsize);
+		logerror("  bitmap size=%dx%d\n", ataripf[map].bitmapwidth, ataripf[map].bitmapheight);
+	
+		return 1;
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		ataripf_free: Frees any memory allocated for any playfield.
 /*TODO*///	---------------------------------------------------------------*/
@@ -527,30 +556,30 @@ public class ataripf
 	}
 	
 	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_render: Render the playfield, updating any dirty
-/*TODO*///		blocks, and copy it to the destination bitmap.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_render(int map, struct osd_bitmap *bitmap)
-/*TODO*///	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///	
-/*TODO*///		if (pf.initialized)
-/*TODO*///		{
-/*TODO*///			/* render via the standard render callback */
-/*TODO*///			pf_process(pf, pf_render_callback, bitmap, NULL);
-/*TODO*///	
-/*TODO*///			/* set a timer to call the eof function just before scanline 0 */
-/*TODO*///			if (!pf.timerallocated)
-/*TODO*///			{
-/*TODO*///				timer_set(cpu_getscanlinetime(0), map, pf_eof_callback);
-/*TODO*///				pf.timerallocated = 1;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	/*---------------------------------------------------------------
+		ataripf_render: Render the playfield, updating any dirty
+		blocks, and copy it to the destination bitmap.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_render(int map, osd_bitmap bitmap)
+	{
+		ataripf_data pf = ataripf[map];
+	
+		if (pf.initialized != 0)
+		{
+			/* render via the standard render callback */
+			pf_process(pf, pf_render_callback, bitmap, null);
+	
+			/* set a timer to call the eof function just before scanline 0 */
+			if (pf.timerallocated==0)
+			{
+				timer_set(cpu_getscanlinetime(0), map, pf_eof_callback);
+				pf.timerallocated = 1;
+			}
+		}
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		ataripf_overrender: Overrender the playfield, calling
 /*TODO*///		the callback for each tile before proceeding.
@@ -605,7 +634,7 @@ public class ataripf
 			{
 				for (j = 0; j < pf.max_usage_words; j++)
 				{
-					int usage = marked_colors[i].bits[j];
+					int usage = marked_colors[i].read().bits[j];
 	
 					/* if this entry was marked, loop over bits */
 					for (k = 0; usage!=0; k++, usage >>= 1)
@@ -638,98 +667,102 @@ public class ataripf
 /*TODO*///			pf_update_state(pf, scanline);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_set_xscroll: Set the horizontal scroll value for
-/*TODO*///		a playfield.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_set_xscroll(int map, int xscroll, int scanline)
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_set_xscroll: Set the horizontal scroll value for
+		a playfield.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_set_xscroll(int map, int xscroll, int scanline)
+	{
+		//struct ataripf_data pf = ataripf[map];
+		if (ataripf[map].initialized!=0 && ataripf[map].curstate.xscroll != xscroll)
+		{
+			ataripf[map].curstate.xscroll = xscroll;
+			pf_update_state(ataripf[map], scanline);
+		}
+	}
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_set_yscroll: Set the vertical scroll value for
+		a playfield.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_set_yscroll(int map, int yscroll, int scanline)
+	{
+		//struct ataripf_data *pf = &ataripf[map];
+		if (ataripf[map].initialized!=0 && ataripf[map].curstate.yscroll != yscroll)
+		{
+			ataripf[map].curstate.yscroll = yscroll;
+			pf_update_state(ataripf[map], scanline);
+		}
+	}
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_set_latch: Set the upper word latch value and mask
+		a playfield.
+	---------------------------------------------------------------*/
+	
+	static void ataripf_set_latch(int map, int latch)
+	{
 /*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///		if (pf.initialized && pf.curstate.xscroll != xscroll)
-/*TODO*///		{
-/*TODO*///			pf.curstate.xscroll = xscroll;
-/*TODO*///			pf_update_state(pf, scanline);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_set_yscroll: Set the vertical scroll value for
-/*TODO*///		a playfield.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_set_yscroll(int map, int yscroll, int scanline)
-/*TODO*///	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///		if (pf.initialized && pf.curstate.yscroll != yscroll)
-/*TODO*///		{
-/*TODO*///			pf.curstate.yscroll = yscroll;
-/*TODO*///			pf_update_state(pf, scanline);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_set_latch: Set the upper word latch value and mask
-/*TODO*///		a playfield.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_set_latch(int map, int latch)
-/*TODO*///	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///		int mask;
-/*TODO*///	
-/*TODO*///		if (pf.initialized)
-/*TODO*///		{
-/*TODO*///			/* -1 means disable the latching */
-/*TODO*///			if (latch == -1)
-/*TODO*///				pf.latchdata = -1;
-/*TODO*///			else
-/*TODO*///				pf.latchdata = latch & pf.latchmask;
-/*TODO*///	
-/*TODO*///			/* compute the shifted value */
-/*TODO*///			pf.latchval = latch & pf.latchmask;
-/*TODO*///			mask = pf.latchmask;
-/*TODO*///			if (mask != 0)
-/*TODO*///				for ( ; !(mask & 1); mask >>= 1)
-/*TODO*///					pf.latchval >>= 1;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_set_latch_lo: Set the latch for any playfield with
-/*TODO*///		a latchmask in the low byte.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_set_latch_lo(int latch)
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		for (i = 0; i < ATARIPF_MAX; i++)
-/*TODO*///			if (ataripf[i].latchmask & 0x00ff)
-/*TODO*///				ataripf_set_latch(i, latch);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		ataripf_set_latch_hi: Set the latch for any playfield with
-/*TODO*///		a latchmask in the high byte.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void ataripf_set_latch_hi(int latch)
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		for (i = 0; i < ATARIPF_MAX; i++)
-/*TODO*///			if (ataripf[i].latchmask & 0xff00)
-/*TODO*///				ataripf_set_latch(i, latch);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+		int mask;
+	
+		if (ataripf[map].initialized != 0)
+		{
+			/* -1 means disable the latching */
+			if (latch == -1)
+				ataripf[map].latchdata = -1;
+			else
+				ataripf[map].latchdata = latch & ataripf[map].latchmask;
+	
+			/* compute the shifted value */
+			ataripf[map].latchval = latch & ataripf[map].latchmask;
+			mask = ataripf[map].latchmask;
+			if (mask != 0)
+				for ( ; (mask & 1)==0; mask >>= 1)
+					ataripf[map].latchval >>= 1;
+		}
+	}
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_set_latch_lo: Set the latch for any playfield with
+		a latchmask in the low byte.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_set_latch_lo(int latch)
+	{
+		int i;
+	
+		for (i = 0; i < ATARIPF_MAX; i++){
+                        if (ataripf[i] == null)
+                            ataripf[i] = new ataripf_data();
+                        
+			if ((ataripf[i].latchmask & 0x00ff) != 0)
+				ataripf_set_latch(i, latch);
+                }
+	}
+	
+	
+	/*---------------------------------------------------------------
+		ataripf_set_latch_hi: Set the latch for any playfield with
+		a latchmask in the high byte.
+	---------------------------------------------------------------*/
+	
+	public static void ataripf_set_latch_hi(int latch)
+	{
+		int i;
+	
+		for (i = 0; i < ATARIPF_MAX; i++)
+			if ((ataripf[i].latchmask & 0xff00) != 0)
+				ataripf_set_latch(i, latch);
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		ataripf_get_bankbits: Returns the extra banking bits for a
 /*TODO*///		playfield.
@@ -1076,68 +1109,73 @@ public class ataripf
 	
 	static void pf_process(ataripf_data pf, pf_callback callback, Object param, rectangle clip)
 	{
-/*TODO*///		struct ataripf_state *state = pf.statelist;
-/*TODO*///		struct rectangle finalclip;
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		if (clip != 0)
-/*TODO*///			finalclip = *clip;
-/*TODO*///		else
-/*TODO*///			finalclip = Machine.visible_area;
-/*TODO*///	
-/*TODO*///		/* if the gfx has changed, make sure we have extended usage maps for everyone */
-/*TODO*///		if (pf.gfxchanged)
-/*TODO*///		{
-/*TODO*///			pf.gfxchanged = 0;
-/*TODO*///			for (i = 0; i < pf.lookupmask + 1; i++)
-/*TODO*///			{
-/*TODO*///				int gfxindex = ATARIPF_LOOKUP_GFX(pf.lookup[i]);
-/*TODO*///				if (!pf.gfxelement[gfxindex].initialized)
-/*TODO*///				{
-/*TODO*///					pf_init_gfx(pf, gfxindex);
-/*TODO*///					if (!pf.gfxelement[gfxindex].initialized)
-/*TODO*///					{
-/*TODO*///						logerror("ataripf_init: out of memory for extra usage map\n");
-/*TODO*///						exit(1);
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* preinitialization */
-/*TODO*///		pf.process_clip.min_x = finalclip.min_x;
-/*TODO*///		pf.process_clip.max_x = finalclip.max_x;
-/*TODO*///	
-/*TODO*///		/* mark the n+1'th entry with a large scanline */
-/*TODO*///		pf.statelist[pf.stateindex].scanline = 100000;
-/*TODO*///		pf.process_param = param;
-/*TODO*///	
-/*TODO*///		/* loop over all entries */
-/*TODO*///		for (i = 0; i < pf.stateindex; i++, state++)
-/*TODO*///		{
-/*TODO*///			/* determine the clip rect */
-/*TODO*///			pf.process_clip.min_y = state[0].scanline;
-/*TODO*///			pf.process_clip.max_y = state[1].scanline - 1;
-/*TODO*///	
-/*TODO*///			/* skip if we're clipped out */
-/*TODO*///			if (pf.process_clip.min_y > finalclip.max_y || pf.process_clip.max_y < finalclip.min_y)
-/*TODO*///				continue;
-/*TODO*///	
-/*TODO*///			/* clip the clipper */
-/*TODO*///			if (pf.process_clip.min_y < finalclip.min_y)
-/*TODO*///				pf.process_clip.min_y = finalclip.min_y;
-/*TODO*///			if (pf.process_clip.max_y > finalclip.max_y)
-/*TODO*///				pf.process_clip.max_y = finalclip.max_y;
-/*TODO*///	
-/*TODO*///			/* determine the tile rect */
-/*TODO*///			pf.process_tiles.min_x = ((state.xscroll + pf.process_clip.min_x) >> pf.tilexshift) & pf.colmask;
-/*TODO*///			pf.process_tiles.max_x = ((state.xscroll + pf.process_clip.max_x + pf.tilewidth) >> pf.tilexshift) & pf.colmask;
-/*TODO*///			pf.process_tiles.min_y = ((state.yscroll + pf.process_clip.min_y) >> pf.tileyshift) & pf.rowmask;
-/*TODO*///			pf.process_tiles.max_y = ((state.yscroll + pf.process_clip.max_y + pf.tileheight) >> pf.tileyshift) & pf.rowmask;
-/*TODO*///	
-/*TODO*///			/* call the callback */
-/*TODO*///			(*callback)(pf, state);
-/*TODO*///		}
+		ataripf_state[] state = pf.statelist;
+		rectangle finalclip;
+		int i;
+	
+		if (clip != null)
+			finalclip = new rectangle(clip);
+		else
+			finalclip = new rectangle(Machine.visible_area);
+	
+		/* if the gfx has changed, make sure we have extended usage maps for everyone */
+		if (pf.gfxchanged != 0)
+		{
+			pf.gfxchanged = 0;
+			for (i = 0; i < pf.lookupmask + 1; i++)
+			{
+				int gfxindex = ATARIPF_LOOKUP_GFX(pf.lookup[i]);
+				if (pf.gfxelement[gfxindex].initialized == 0)
+				{
+					pf_init_gfx(pf, gfxindex);
+					if (pf.gfxelement[gfxindex].initialized==0)
+					{
+						logerror("ataripf_init: out of memory for extra usage map\n");
+						System.exit(1);
+					}
+				}
+			}
+		}
+	
+		/* preinitialization */
+		pf.process_clip.min_x = finalclip.min_x;
+		pf.process_clip.max_x = finalclip.max_x;
+	
+		/* mark the n+1'th entry with a large scanline */
+                if (pf.statelist[pf.stateindex] == null)
+                    pf.statelist[pf.stateindex] = new ataripf_state();
+                
+		pf.statelist[pf.stateindex].scanline = 100000;
+		pf.process_param = param;
+                
+                int _state=0;
+	
+		/* loop over all entries */
+		for (i = 0; i < pf.stateindex; i++, _state++)
+		{
+			/* determine the clip rect */
+			pf.process_clip.min_y = state[0].scanline;
+			pf.process_clip.max_y = state[1].scanline - 1;
+	
+			/* skip if we're clipped out */
+			if (pf.process_clip.min_y > finalclip.max_y || pf.process_clip.max_y < finalclip.min_y)
+				continue;
+	
+			/* clip the clipper */
+			if (pf.process_clip.min_y < finalclip.min_y)
+				pf.process_clip.min_y = finalclip.min_y;
+			if (pf.process_clip.max_y > finalclip.max_y)
+				pf.process_clip.max_y = finalclip.max_y;
+	
+			/* determine the tile rect */
+			pf.process_tiles.min_x = ((state[_state].xscroll + pf.process_clip.min_x) >> pf.tilexshift) & pf.colmask;
+			pf.process_tiles.max_x = ((state[_state].xscroll + pf.process_clip.max_x + pf.tilewidth) >> pf.tilexshift) & pf.colmask;
+			pf.process_tiles.min_y = ((state[_state].yscroll + pf.process_clip.min_y) >> pf.tileyshift) & pf.rowmask;
+			pf.process_tiles.max_y = ((state[_state].yscroll + pf.process_clip.max_y + pf.tileheight) >> pf.tileyshift) & pf.rowmask;
+	
+			/* call the callback */
+			(callback).handler(pf, state[_state]);
+		}
 	}
 	
 	
@@ -1214,55 +1252,58 @@ public class ataripf
 /*TODO*///			}
             }
         };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_render_callback: Internal processing callback that
-/*TODO*///		renders to the backing bitmap and then copies the result
-/*TODO*///		to the destination.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_render_callback(struct ataripf_data *pf, const struct ataripf_state *state)
-/*TODO*///	{
-/*TODO*///		struct osd_bitmap *bitmap = pf.process_param;
-/*TODO*///		int x, y, bankbits = state.bankbits;
-/*TODO*///	
-/*TODO*///		/* standard loop over tiles */
-/*TODO*///		for (y = pf.process_tiles.min_y; y != pf.process_tiles.max_y; y = (y + 1) & pf.rowmask)
-/*TODO*///			for (x = pf.process_tiles.min_x; x != pf.process_tiles.max_x; x = (x + 1) & pf.colmask)
-/*TODO*///			{
-/*TODO*///				int offs = (y << pf.rowshift) + (x << pf.colshift);
-/*TODO*///				UINT32 data = pf.vram[offs] | bankbits;
-/*TODO*///	
-/*TODO*///				/* update only if dirty */
-/*TODO*///				if (pf.dirtymap[offs] != data)
-/*TODO*///				{
-/*TODO*///					int lookup = pf.lookup[(data >> ATARIPF_LOOKUP_DATABITS) & pf.lookupmask];
-/*TODO*///					const struct ataripf_gfxelement *gfx = &pf.gfxelement[ATARIPF_LOOKUP_GFX(lookup)];
-/*TODO*///					int code = ATARIPF_LOOKUP_CODE(lookup, data);
-/*TODO*///					int color = ATARIPF_LOOKUP_COLOR(lookup);
-/*TODO*///					int hflip = ATARIPF_LOOKUP_HFLIP(lookup);
-/*TODO*///					int vflip = ATARIPF_LOOKUP_VFLIP(lookup);
-/*TODO*///	
-/*TODO*///					/* draw and reset the dirty value */
-/*TODO*///					drawgfx(pf.bitmap, &gfx.element, code, color << gfx.colorshift, hflip, vflip,
-/*TODO*///							x << pf.tilexshift, y << pf.tileyshift,
-/*TODO*///							0, TRANSPARENCY_NONE, 0);
-/*TODO*///					pf.dirtymap[offs] = data;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				/* track the tiles we've visited */
-/*TODO*///				pf.visitmap[offs] = 1;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///		/* then blast the result */
-/*TODO*///		x = -state.xscroll;
-/*TODO*///		y = -state.yscroll;
-/*TODO*///		if (!pf.transpens)
-/*TODO*///			copyscrollbitmap(bitmap, pf.bitmap, 1, &x, 1, &y, &pf.process_clip, TRANSPARENCY_NONE, 0);
-/*TODO*///		else
-/*TODO*///			copyscrollbitmap(bitmap, pf.bitmap, 1, &x, 1, &y, &pf.process_clip, TRANSPARENCY_PEN, palette_transparent_pen);
-/*TODO*///	}
+	
+	
+	/*---------------------------------------------------------------
+		pf_render_callback: Internal processing callback that
+		renders to the backing bitmap and then copies the result
+		to the destination.
+	---------------------------------------------------------------*/
+	
+	static pf_callback pf_render_callback = new pf_callback() {
+            @Override
+            public void handler(ataripf_data pf, ataripf_state state) {
+                osd_bitmap bitmap = (osd_bitmap) pf.process_param;
+		int x, y, bankbits = state.bankbits;
+	
+		/* standard loop over tiles */
+		for (y = pf.process_tiles.min_y; y != pf.process_tiles.max_y; y = (y + 1) & pf.rowmask)
+			for (x = pf.process_tiles.min_x; x != pf.process_tiles.max_x; x = (x + 1) & pf.colmask)
+			{
+				int offs = (y << pf.rowshift) + (x << pf.colshift);
+				int data = pf.vram[offs] | bankbits;
+	
+				/* update only if dirty */
+				if (pf.dirtymap[offs] != data)
+				{
+					int lookup = pf.lookup[(data >> ATARIPF_LOOKUP_DATABITS) & pf.lookupmask];
+					ataripf_gfxelement gfx = pf.gfxelement[ATARIPF_LOOKUP_GFX(lookup)];
+					int code = ATARIPF_LOOKUP_CODE(lookup, data);
+					int color = ATARIPF_LOOKUP_COLOR(lookup);
+					int hflip = ATARIPF_LOOKUP_HFLIP(lookup);
+					int vflip = ATARIPF_LOOKUP_VFLIP(lookup);
+	
+					/* draw and reset the dirty value */
+					drawgfx(pf.bitmap, gfx.element, code, color << gfx.colorshift, hflip, vflip,
+							x << pf.tilexshift, y << pf.tileyshift,
+							null, TRANSPARENCY_NONE, 0);
+					pf.dirtymap[offs] = (char) data;
+				}
+	
+				/* track the tiles we've visited */
+				pf.visitmap.write(offs, 1);
+			}
+	
+		/* then blast the result */
+		x = -state.xscroll;
+		y = -state.yscroll;
+		if (pf.transpens==0)
+			copyscrollbitmap(bitmap, pf.bitmap, 1, new int[]{x}, 1, new int[]{y}, pf.process_clip, TRANSPARENCY_NONE, 0);
+		else
+			copyscrollbitmap(bitmap, pf.bitmap, 1, new int[]{x}, 1, new int[]{y}, pf.process_clip, TRANSPARENCY_PEN, palette_transparent_pen);
+            }
+        };
+        
 /*TODO*///	
 /*TODO*///	
 /*TODO*///	/*---------------------------------------------------------------
@@ -1323,67 +1364,69 @@ public class ataripf
 /*TODO*///		/* make the final call */
 /*TODO*///		(*overrender_callback)(&overrender_data, OVERRENDER_FINISH);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_eof_callback: This callback is called on scanline 0 to
-/*TODO*///		reset the playfields.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_eof_callback(int map)
-/*TODO*///	{
-/*TODO*///		struct ataripf_data *pf = &ataripf[map];
-/*TODO*///	
-/*TODO*///		/* copy the current state to entry 0 and reset the index */
-/*TODO*///		pf.statelist[0] = pf.curstate;
-/*TODO*///		pf.statelist[0].scanline = 0;
-/*TODO*///		pf.stateindex = 1;
-/*TODO*///	
-/*TODO*///		/* go off again same time next frame */
-/*TODO*///		timer_set(cpu_getscanlinetime(0), map, pf_eof_callback);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		pf_init_gfx: Initializes our own internal graphics
-/*TODO*///		representation.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	static void pf_init_gfx(struct ataripf_data *pf, int gfxindex)
-/*TODO*///	{
-/*TODO*///		struct ataripf_gfxelement *gfx = &pf.gfxelement[gfxindex];
-/*TODO*///		struct ataripf_usage *usage;
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		/* make a copy of the original GfxElement structure */
-/*TODO*///		gfx.element = *Machine.gfx[gfxindex];
-/*TODO*///	
-/*TODO*///		/* adjust the granularity */
-/*TODO*///		gfx.colorshift = compute_log(gfx.element.color_granularity / ATARIPF_BASE_GRANULARITY);
-/*TODO*///		gfx.element.color_granularity = ATARIPF_BASE_GRANULARITY;
-/*TODO*///		gfx.element.total_colors = pf.maxcolors;
-/*TODO*///		gfx.element.colortable = &Machine.remapped_colortable[pf.palettebase];
-/*TODO*///	
-/*TODO*///		/* allocate the extended usage map */
-/*TODO*///		usage = malloc(gfx.element.total_elements * sizeof(usage[0]));
-/*TODO*///		if (!usage)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* set the pointer and clear the word count */
-/*TODO*///		gfx.usage = usage;
-/*TODO*///		gfx.usage_words = 0;
-/*TODO*///	
-/*TODO*///		/* fill in the extended usage map */
-/*TODO*///		memset(usage, 0, gfx.element.total_elements * sizeof(usage[0]));
-/*TODO*///		for (i = 0; i < gfx.element.total_elements; i++, usage++)
-/*TODO*///		{
-/*TODO*///			UINT8 *src = gfx.element.gfxdata + gfx.element.char_modulo * i;
-/*TODO*///			int x, y, words;
-/*TODO*///	
-/*TODO*///			/* loop over all pixels, marking pens */
-/*TODO*///			for (y = 0; y < gfx.element.height; y++)
-/*TODO*///			{
-/*TODO*///				/* if the graphics are 4bpp packed, do it one way */
+	
+	
+	/*---------------------------------------------------------------
+		pf_eof_callback: This callback is called on scanline 0 to
+		reset the playfields.
+	---------------------------------------------------------------*/
+	
+	static timer_callback pf_eof_callback = new timer.timer_callback() {
+            @Override
+            public void handler(int map) {
+                ataripf_data pf = ataripf[map];
+	
+		/* copy the current state to entry 0 and reset the index */
+		pf.statelist[0] = pf.curstate;
+		pf.statelist[0].scanline = 0;
+		pf.stateindex = 1;
+	
+		/* go off again same time next frame */
+		timer_set(cpu_getscanlinetime(0), map, pf_eof_callback);
+            }
+        };
+	
+	
+	/*---------------------------------------------------------------
+		pf_init_gfx: Initializes our own internal graphics
+		representation.
+	---------------------------------------------------------------*/
+	
+	static void pf_init_gfx(ataripf_data pf, int gfxindex)
+	{
+		ataripf_gfxelement gfx = pf.gfxelement[gfxindex];
+		ataripf_usage usage;
+		int i;
+	
+		/* make a copy of the original GfxElement structure */
+		gfx.element = Machine.gfx[gfxindex];
+	
+		/* adjust the granularity */
+		gfx.colorshift = compute_log(gfx.element.color_granularity / ATARIPF_BASE_GRANULARITY);
+		gfx.element.color_granularity = ATARIPF_BASE_GRANULARITY;
+		gfx.element.total_colors = pf.maxcolors;
+		gfx.element.colortable = new UShortArray(Machine.remapped_colortable, pf.palettebase);
+	
+		/* allocate the extended usage map */
+		usage = new ataripf_usage(gfx.element.total_elements);
+		if (usage==null)
+			return;
+	
+		/* set the pointer and clear the word count */
+		gfx.usage = usage;
+		gfx.usage_words = 0;
+	
+		/* fill in the extended usage map */
+/*TODO*///		memset(usage, 0, gfx.element.total_elements);
+		for (i = 0; i < gfx.element.total_elements; i++, usage.inc())
+		{
+			UBytePtr src = new UBytePtr(gfx.element.gfxdata, gfx.element.char_modulo * i);
+			int x, y, words;
+	
+			/* loop over all pixels, marking pens */
+			for (y = 0; y < gfx.element.height; y++)
+			{
+				/* if the graphics are 4bpp packed, do it one way */
 /*TODO*///				if (gfx.element.flags & GFX_PACKED)
 /*TODO*///					for (x = 0; x < gfx.element.width / 2; x++)
 /*TODO*///					{
@@ -1393,27 +1436,30 @@ public class ataripf
 /*TODO*///	
 /*TODO*///				/* otherwise, do it the original way */
 /*TODO*///				else
-/*TODO*///					for (x = 0; x < gfx.element.width; x++)
-/*TODO*///						usage.bits[src[x] >> 5] |= 1 << (src[x] & 31);
-/*TODO*///	
-/*TODO*///				src += gfx.element.line_modulo;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* count how many words maximum we needed to combine */
-/*TODO*///			for (words = ATARIPF_USAGE_WORDS; words > 0; words--)
-/*TODO*///				if (usage.bits[words - 1] != 0)
-/*TODO*///					break;
-/*TODO*///			if (words > gfx.usage_words)
-/*TODO*///				gfx.usage_words = words;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* if we're the biggest so far, track it */
-/*TODO*///		if (gfx.usage_words > pf.max_usage_words)
-/*TODO*///			pf.max_usage_words = gfx.usage_words;
-/*TODO*///		gfx.initialized = 1;
-/*TODO*///	
-/*TODO*///		logerror("Finished build external usage map for gfx[%d]: words = %d\n", gfxindex, gfx.usage_words);
-/*TODO*///		logerror("Color shift = %d (granularity=%d)\n", gfx.colorshift, gfx.element.color_granularity);
-/*TODO*///		logerror("Current maximum = %d\n", pf.max_usage_words);
-/*TODO*///	}
+					for (x = 0; x < gfx.element.width; x++){
+						ataripf_usage_block _temp = usage.read();
+                                                _temp.bits[src.read(x) >> 5] |= 1 << (src.read(x) & 31);
+                                                usage.write(_temp);
+                                        }
+	
+				src.inc( gfx.element.line_modulo );
+			}
+	
+			/* count how many words maximum we needed to combine */
+			for (words = ATARIPF_USAGE_WORDS; words > 0; words--)
+				if (usage.read().bits[words - 1] != 0)
+					break;
+			if (words > gfx.usage_words)
+				gfx.usage_words = words;
+		}
+	
+		/* if we're the biggest so far, track it */
+		if (gfx.usage_words > pf.max_usage_words)
+			pf.max_usage_words = gfx.usage_words;
+		gfx.initialized = 1;
+	
+		logerror("Finished build external usage map for gfx[%d]: words = %d\n", gfxindex, gfx.usage_words);
+		logerror("Color shift = %d (granularity=%d)\n", gfx.colorshift, gfx.element.color_granularity);
+		logerror("Current maximum = %d\n", pf.max_usage_words);
+	}
 }

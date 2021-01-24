@@ -442,8 +442,8 @@ public class memory {
                             hw.set((char) (hw.read() - MH_HARDMAX));															
                             hw.set(u8_writehardware[(hw.read() << MH_SBITS) + ((address >>> ABITS_MIN_24) & MHMASK(ABITS2_24))]); 
                             if (hw.read() <= HT_BANKMAX)														
-                            {																			
-                                    cpu_bankbase[hw.read()].WRITE_WORD(address - memorywriteoffset[hw.read()], data);	
+                            {		
+                                    cpu_bankbase[hw.read()].WRITE_WORD((address - memorywriteoffset[hw.read()]), data);	
                                     return;																	
                             }																			
                     }																				

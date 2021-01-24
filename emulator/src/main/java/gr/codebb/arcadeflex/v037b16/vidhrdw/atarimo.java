@@ -177,7 +177,7 @@ public class atarimo
 
 /*TODO*///		ataripf_overrender_cb overrender0;		/* overrender callback for PF 0 */
 /*TODO*///		ataripf_overrender_cb overrender1;		/* overrender callback for PF 1 */
-		rectangle	process_clip;		/* (during processing) the clip rectangle */
+		rectangle	process_clip=new rectangle();		/* (during processing) the clip rectangle */
 		Object		process_param;		/* (during processing) the callback parameter */
 /*TODO*///		int					last_xpos;			/* (during processing) the previous X position */
 		int					next_xpos;			/* (during processing) the next X position */
@@ -583,6 +583,9 @@ public class atarimo
 	
 	public static void atarimo_mark_palette(int map)
 	{
+                if (atarimo[map]==null)
+                    atarimo[map] = new atarimo_data();
+                
 		atarimo_data mo = atarimo[map];
 		UBytePtr used_colors = new UBytePtr(palette_used_colors, mo.palettebase);
 		int[] marked_colors = new int[256];
@@ -656,15 +659,15 @@ public class atarimo
 /*TODO*///		for (i = 0; i < MAX_GFX_ELEMENTS; i++)
 /*TODO*///			mo.gfxelement[i].colortable = &Machine.remapped_colortable[base];
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarimo_set_xscroll: Set the horizontal scroll value for
-/*TODO*///		the motion objects.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void atarimo_set_xscroll(int map, int xscroll, int scanline)
-/*TODO*///	{
+	
+	
+	/*---------------------------------------------------------------
+		atarimo_set_xscroll: Set the horizontal scroll value for
+		the motion objects.
+	---------------------------------------------------------------*/
+	
+	public static void atarimo_set_xscroll(int map, int xscroll, int scanline)
+	{
 /*TODO*///		struct atarimo_data *mo = &atarimo[map];
 /*TODO*///	
 /*TODO*///		if (mo.xscroll != xscroll)
@@ -672,16 +675,16 @@ public class atarimo
 /*TODO*///			mo.xscroll = xscroll;
 /*TODO*///			mo_update(mo, scanline);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*---------------------------------------------------------------
-/*TODO*///		atarimo_set_yscroll: Set the vertical scroll value for
-/*TODO*///		the motion objects.
-/*TODO*///	---------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	void atarimo_set_yscroll(int map, int yscroll, int scanline)
-/*TODO*///	{
+	}
+	
+	
+	/*---------------------------------------------------------------
+		atarimo_set_yscroll: Set the vertical scroll value for
+		the motion objects.
+	---------------------------------------------------------------*/
+	
+	public static void atarimo_set_yscroll(int map, int yscroll, int scanline)
+	{
 /*TODO*///		struct atarimo_data *mo = &atarimo[map];
 /*TODO*///	
 /*TODO*///		if (mo.yscroll != yscroll)
@@ -689,9 +692,9 @@ public class atarimo
 /*TODO*///			mo.yscroll = yscroll;
 /*TODO*///			mo_update(mo, scanline);
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+	}
+	
+	
 /*TODO*///	/*---------------------------------------------------------------
 /*TODO*///		atarimo_get_bank: Returns the banking value
 /*TODO*///		for the motion objects.

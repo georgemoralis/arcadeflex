@@ -18,6 +18,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v037b16.vidhrdw.atarimo.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.ataripfH.*;
 
 public class shuuz
 {
@@ -32,25 +33,25 @@ public class shuuz
 	
 	public static VhStartPtr shuuz_vh_start = new VhStartPtr() { public int handler() 
 	{
-/*TODO*///		static const struct ataripf_desc pfdesc =
-/*TODO*///		{
-/*TODO*///			0,			/* index to which gfx system */
-/*TODO*///			64,64,		/* size of the playfield in tiles (x,y) */
-/*TODO*///			64,1,		/* tile_index = x * xmult + y * ymult (xmult,ymult) */
-/*TODO*///	
-/*TODO*///			0x100,		/* index of palette base */
-/*TODO*///			0x100,		/* maximum number of colors */
-/*TODO*///			0,			/* color XOR for shadow effect (if any) */
-/*TODO*///			0xff00,		/* latch mask */
-/*TODO*///			0,			/* transparent pen mask */
-/*TODO*///	
-/*TODO*///			0x03fff,	/* tile data index mask */
-/*TODO*///			0xf0000,	/* tile data color mask */
-/*TODO*///			0x08000,	/* tile data hflip mask */
-/*TODO*///			0,			/* tile data vflip mask */
-/*TODO*///			0			/* tile data priority mask */
-/*TODO*///		};
-/*TODO*///	
+		ataripf_desc pfdesc = new ataripf_desc
+		(
+			0,			/* index to which gfx system */
+			64,64,		/* size of the playfield in tiles (x,y) */
+			64,1,		/* tile_index = x * xmult + y * ymult (xmult,ymult) */
+	
+			0x100,		/* index of palette base */
+			0x100,		/* maximum number of colors */
+			0,			/* color XOR for shadow effect (if any) */
+			0xff00,		/* latch mask */
+			0,			/* transparent pen mask */
+	
+			0x03fff,	/* tile data index mask */
+			0xf0000,	/* tile data color mask */
+			0x08000,	/* tile data hflip mask */
+			0,			/* tile data vflip mask */
+			0			/* tile data priority mask */
+		);
+	
 /*TODO*///		static const struct atarimo_desc modesc =
 /*TODO*///		{
 /*TODO*///			1,					/* index to which gfx system */
@@ -86,20 +87,20 @@ public class shuuz
 /*TODO*///			0,					/* resulting value to indicate "ignore" */
 /*TODO*///			0					/* callback routine for ignored entries */
 /*TODO*///		};
-/*TODO*///	
-/*TODO*///		/* initialize the playfield */
-/*TODO*///		if (!ataripf_init(0, &pfdesc))
-/*TODO*///			goto cant_create_pf;
+	
+		/* initialize the playfield */
+		if (ataripf_init(0, pfdesc) == 0)
+			return 1;
 /*TODO*///	
 /*TODO*///		/* initialize the motion objects */
 /*TODO*///		if (!atarimo_init(0, &modesc))
 /*TODO*///			goto cant_create_mo;
-/*TODO*///		return 0;
+		return 0;
 /*TODO*///	
 /*TODO*///	cant_create_mo:
 /*TODO*///		ataripf_free();
 /*TODO*///	cant_create_pf:
-		return 1;
+/*TODO*///		return 1;
 	} };
 	
 	
@@ -173,8 +174,8 @@ public class shuuz
 		if (palette_recalc() != null)
 			ataripf_invalidate(0);
 	
-/*TODO*///		/* draw the layers */
-/*TODO*///		ataripf_render(0, bitmap);
+		/* draw the layers */
+		ataripf_render(0, bitmap);
 /*TODO*///		atarimo_render(0, bitmap, overrender_callback, NULL);
 	} };
 }

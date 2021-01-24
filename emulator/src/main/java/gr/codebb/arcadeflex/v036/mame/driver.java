@@ -208,7 +208,8 @@ import static gr.codebb.arcadeflex.v036.drivers.terracre.*;
 import static gr.codebb.arcadeflex.v036.drivers.punchout.*;
 import static gr.codebb.arcadeflex.v036.drivers.astrof.*;
 import static gr.codebb.arcadeflex.v036.drivers.karnov.*;
-import static gr.codebb.arcadeflex.v037b16.drivers.shuuz.*;
+import static gr.codebb.arcadeflex.v036.drivers.shuuz.*;
+//import static gr.codebb.arcadeflex.v037b16.drivers.shuuz.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.berzerk.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
@@ -247,6 +248,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ajax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
 
 public class driver {
 
@@ -1522,9 +1524,9 @@ public class driver {
                 /*m72*/ driver_poundfor, //no rom available
 
                 /* not M72, but same sound hardware */
-                /*TODO*/ //	DRIVER( sichuan2 )	/* (c) 1989 Tamtex */
-                /*TODO*/ //	DRIVER( sichuana )	/* (c) 1989 Tamtex */
-                /*TODO*/ //	DRIVER( shisen )	/* (c) 1989 Tamtex */
+                driver_sichuan2,	/* (c) 1989 Tamtex */
+                driver_sichuana,	/* (c) 1989 Tamtex */
+                driver_shisen,	/* (c) 1989 Tamtex */
                 /* M92 */
                 driver_bmaster, /* (c) 1991 Irem */
                 driver_gunforce, /* (c) 1991 Irem (World) */

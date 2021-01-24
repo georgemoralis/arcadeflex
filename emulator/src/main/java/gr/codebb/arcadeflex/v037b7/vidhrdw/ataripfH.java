@@ -1,5 +1,7 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+
 public class ataripfH {
     /*##########################################################################
 
@@ -44,37 +46,113 @@ public class ataripfH {
 
 
 
-/*TODO*////*##########################################################################
-/*TODO*///	TYPES & STRUCTURES
-/*TODO*///##########################################################################*/
-/*TODO*///
-/*TODO*////* description of the playfield */
-/*TODO*///struct ataripf_desc
-/*TODO*///{
-/*TODO*///	UINT8				gfxindex;			/* index to which gfx system */
-/*TODO*///	UINT8				cols, rows;			/* size of the playfield in tiles (x,y) */
-/*TODO*///	UINT8				xmult, ymult;		/* tile_index = y * ymult + x * xmult (xmult,ymult) */
-/*TODO*///
-/*TODO*///	UINT16				palettebase;		/* index of palette base */
-/*TODO*///	UINT16				maxcolors;			/* maximum number of colors */
-/*TODO*///	UINT8				shadowxor;			/* color XOR for shadow effect (if any) */
-/*TODO*///	UINT16				latchmask;			/* latch mask */
-/*TODO*///	UINT32				transpens;			/* transparent pen mask */
-/*TODO*///
-/*TODO*///	UINT32				tilemask;			/* tile data index mask */
-/*TODO*///	UINT32				colormask;			/* tile data color mask */
-/*TODO*///	UINT32				hflipmask;			/* tile data hflip mask */
-/*TODO*///	UINT32				vflipmask;			/* tile data hflip mask */
-/*TODO*///	UINT32				prioritymask;		/* tile data priority mask */
-/*TODO*///};
+    /*##########################################################################
+            TYPES & STRUCTURES
+    ##########################################################################*/
+
+    /* description of the playfield */
+    public static class ataripf_desc
+    {
+            int				gfxindex;			/* index to which gfx system */
+            int				cols, rows;			/* size of the playfield in tiles (x,y) */
+            int				xmult, ymult;		/* tile_index = y * ymult + x * xmult (xmult,ymult) */
+
+            int				palettebase;		/* index of palette base */
+            int				maxcolors;			/* maximum number of colors */
+            int				shadowxor;			/* color XOR for shadow effect (if any) */
+            int				latchmask;			/* latch mask */
+            int				transpens;			/* transparent pen mask */
+
+            int				tilemask;			/* tile data index mask */
+            int				colormask;			/* tile data color mask */
+            int				hflipmask;			/* tile data hflip mask */
+            int				vflipmask;			/* tile data hflip mask */
+            int				prioritymask;                   /* tile data priority mask */
+            
+            public ataripf_desc (int gfxindex, int cols, int rows, int xmult, int ymult, int palettebase, int maxcolors, int shadowxor, int latchmask, int transpens, int tilemask, int colormask, int hflipmask, int vflipmask, int prioritymask) {
+                this.gfxindex = gfxindex;
+                this.cols = cols;
+                this.rows = rows;
+                this.xmult = xmult;
+                this.ymult = ymult;
+                this.palettebase = palettebase;
+                this.maxcolors = maxcolors;
+                this.shadowxor = shadowxor;
+                this.latchmask = latchmask;
+                this.transpens = transpens;
+                this.tilemask = tilemask;
+                this.colormask = colormask;
+                this.hflipmask = hflipmask;
+                this.vflipmask = vflipmask;
+                this.prioritymask = prioritymask;
+            }
+    };
 
 
     /* description of pen usage for up to 256 pens */
     public static final int ATARIPF_USAGE_WORDS		= 8;			/* 8*32 bits = 256 bits total */
-    public static class ataripf_usage
+    public static class ataripf_usage_block
     {
             int[] bits = new int[ATARIPF_USAGE_WORDS];
     };
+    
+    public static class ataripf_usage {
+                int offset=0;
+                ataripf_usage_block[] memory;
+                
+                public ataripf_usage(int size) {
+                    memory = new ataripf_usage_block[size];
+                    offset = 0;
+                    
+                    for (int _i=0 ; _i<size ; _i++)
+                        memory[_i] = new ataripf_usage_block();
+                }
+                
+                public ataripf_usage(ataripf_usage ac) {
+                    set(ac.memory, ac.offset);
+                }
+                
+                public ataripf_usage(ataripf_usage cp, int b) {
+                    set(cp.memory, cp.offset + b);
+                }
+                
+                public ataripf_usage() {
+                    memory = new ataripf_usage_block[1024 * 128];
+                    offset = 0;
+                    
+                    for (int _i=0 ; _i<1024 * 128 ; _i++)
+                        memory[_i] = new ataripf_usage_block();
+                }
+                
+                public void inc(int _inc) {
+                    offset += _inc;
+                }
+                
+                public void inc() {
+                    offset += 1;
+                }
+                
+                public ataripf_usage_block read(int offs) {
+                    return memory[offs + offset];
+                }
+
+                public ataripf_usage_block read() {
+                    return memory[offset];
+                }
+                
+                public void write(ataripf_usage_block value) {
+                    memory[offset] =  value;
+                }
+
+                public void write(int offs, ataripf_usage_block value) {
+                    memory[offset + offs] =  value;
+                }
+                
+                public void set(ataripf_usage_block[] m, int b) {
+                    memory = m;
+                    offset = b;
+                }
+    }
 
 
 /*TODO*////* data used for overrendering */
@@ -109,25 +187,28 @@ public class ataripfH {
 /*TODO*///##########################################################################*/
 /*TODO*///
 /*TODO*////* accessors for the lookup table */
-/*TODO*///#define ATARIPF_LOOKUP_DATABITS				8
-/*TODO*///#define ATARIPF_LOOKUP_DATAMASK				((1 << ATARIPF_LOOKUP_DATABITS) - 1)
-/*TODO*///#define ATARIPF_LOOKUP_CODEMASK				(0xffff ^ ATARIPF_LOOKUP_DATAMASK)
-/*TODO*///
-/*TODO*///#define ATARIPF_LOOKUP_CODE(lookup,data)	(((lookup) & ATARIPF_LOOKUP_CODEMASK) | ((data) & ATARIPF_LOOKUP_DATAMASK))
-/*TODO*///#define ATARIPF_LOOKUP_COLOR(lookup)		(((lookup) >> 16) & 0xff)
-/*TODO*///#define ATARIPF_LOOKUP_HFLIP(lookup)		(((lookup) >> 24) & 1)
-/*TODO*///#define ATARIPF_LOOKUP_VFLIP(lookup)		(((lookup) >> 25) & 1)
-/*TODO*///#define ATARIPF_LOOKUP_PRIORITY(lookup)		(((lookup) >> 26) & 7)
-/*TODO*///#define ATARIPF_LOOKUP_GFX(lookup)			(((lookup) >> 29) & 7)
-/*TODO*///
-/*TODO*///#define ATARIPF_LOOKUP_ENTRY(gfxindex, code, color, hflip, vflip, priority)	\
-/*TODO*///			(((gfxindex) & 7) << 29) |										\
-/*TODO*///			(((priority) & 7) << 26) |										\
-/*TODO*///			(((vflip) & 1) << 25) |											\
-/*TODO*///			(((hflip) & 1) << 24) |											\
-/*TODO*///			(((color) & 0xff) << 16) |										\
-/*TODO*///			(((code) % Machine.gfx[gfxindex].total_elements) & ATARIPF_LOOKUP_CODEMASK)
-/*TODO*///
+    public static final int ATARIPF_LOOKUP_DATABITS = 8;
+    public static int ATARIPF_LOOKUP_DATAMASK       = ((1 << ATARIPF_LOOKUP_DATABITS) - 1);
+    public static int ATARIPF_LOOKUP_CODEMASK       = 0xffff ^ ATARIPF_LOOKUP_DATAMASK;
+
+    public static int ATARIPF_LOOKUP_CODE(int lookup, int data) { return (((lookup) & ATARIPF_LOOKUP_CODEMASK) | ((data) & ATARIPF_LOOKUP_DATAMASK)); }
+    public static int ATARIPF_LOOKUP_COLOR(int lookup) { return (((lookup) >> 16) & 0xff); }
+    public static int ATARIPF_LOOKUP_HFLIP(int lookup) { return (((lookup) >> 24) & 1); }
+    public static int ATARIPF_LOOKUP_VFLIP(int lookup) { return (((lookup) >> 25) & 1); }
+    public static int ATARIPF_LOOKUP_PRIORITY(int lookup) { return (((lookup) >> 26) & 7); }
+    public static int ATARIPF_LOOKUP_GFX(int lookup) { return (((lookup) >> 29) & 7); }
+
+    public static int ATARIPF_LOOKUP_ENTRY(int gfxindex, int code, int color, int hflip, int vflip, int priority)
+    {
+        return
+			(((gfxindex) & 7) << 29) |										
+			(((priority) & 7) << 26) |										
+			(((vflip) & 1) << 25) |											
+			(((hflip) & 1) << 24) |											
+			(((color) & 0xff) << 16) |										
+			(((code) % Machine.gfx[gfxindex].total_elements) & ATARIPF_LOOKUP_CODEMASK);
+    }
+
 /*TODO*///#define ATARIPF_LOOKUP_SET_CODE(data,code)		((data) = ((data) & ~ATARIPF_LOOKUP_CODEMASK) | ((code) & ATARIPF_LOOKUP_CODEMASK))
 /*TODO*///#define ATARIPF_LOOKUP_SET_COLOR(data,color)	((data) = ((data) & ~0x00ff0000) | (((color) << 16) & 0x00ff0000))
 /*TODO*///#define ATARIPF_LOOKUP_SET_HFLIP(data,hflip)	((data) = ((data) & ~0x01000000) | (((hflip) << 24) & 0x01000000))
