@@ -12,6 +12,7 @@
  * using automatic conversion tool v0.10
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -368,9 +369,9 @@ public class shuuz
 		int i;
 	
 		for (i = 0; i < memory_region_length(REGION_GFX1); i++)
-			memory_region(REGION_GFX1).write(i,memory_region(REGION_GFX1).read() ^ 0xff);
+			new UBytePtr(memory_region(REGION_GFX1)).write(i,new UBytePtr(memory_region(REGION_GFX1)).read() ^ 0xff);
 		for (i = 0; i < memory_region_length(REGION_GFX2); i++)
-			memory_region(REGION_GFX2).write(i,memory_region(REGION_GFX2).read() ^ 0xff);
+			new UBytePtr(memory_region(REGION_GFX2)).write(i,new UBytePtr(memory_region(REGION_GFX2)).read() ^ 0xff);
 	}
 	
 	

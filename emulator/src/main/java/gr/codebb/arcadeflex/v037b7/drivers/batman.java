@@ -364,7 +364,7 @@ public class batman
 		atarijsa_init(1, 3, 2, 0x0040);
 	
 		/* speed up the 6502 */
-/*TODO*///		atarigen_init_6502_speedup(1, 0x4163, 0x417b);
+		atarigen_init_6502_speedup(1, 0x4163, 0x417b);
 	
 		/* display messages */
 		atarigen_show_sound_message();

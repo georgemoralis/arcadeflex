@@ -305,6 +305,12 @@ public class PtrLib {
             memory[offset + index*2 + 1] = (char) ((value >> 8) & 0xFF);
             memory[offset + index*2] = (char) (value & 0xFF);
         }
+        
+        public int READ_WORD(int index) {
+            //memory[offset + index*2 + 1] = (char) ((value >> 8) & 0xFF);
+            //memory[offset + index*2] = (char) (value & 0xFF);
+            return (memory[((offset + index)) + 1] << 8 | memory[((offset + index))]) & 0xFFFF;
+        }
     }
 
     /**

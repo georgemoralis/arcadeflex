@@ -98,6 +98,7 @@ public class fileio {
             return null;
         }
         gamename = game;
+        gr.codebb.arcadeflex.v036.platform.settings._current_gamename = game;
 
         /* Support "-romdir" yuck. */
  /*TODO*///	if( alternate_name )

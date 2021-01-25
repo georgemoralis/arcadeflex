@@ -124,9 +124,7 @@ public class armedf
 	} };
 	
 	public static ReadHandlerPtr io_r  = new ReadHandlerPtr() { public int handler(int offset){
-            System.out.println("XXXX");
-            System.out.println(offset);
-		switch (offset&0x7ffff) {
+		switch (offset) {
 			case 0: /* Input */
 			return input_port_0_r.handler(offset) + 256*input_port_2_r.handler(offset);
 	
@@ -275,7 +273,6 @@ public class armedf
 		new MemoryReadAddress( 0x070000, 0x070fff, armedf_fg_videoram_r ),
 		new MemoryReadAddress( 0x074000, 0x074fff, armedf_bg_videoram_r ),
 		new MemoryReadAddress( 0x078000, 0x07800f, io_r ),
-                //new MemoryReadAddress( 0x078010, 0x0fffff, MRA_NOP ),
 		new MemoryReadAddress( -1 )
 	};
 	
@@ -1116,5 +1113,5 @@ public class armedf
 	public static GameDriver driver_terrafu	   = new GameDriver("1987"	,"terrafu"	,"armedf.java"	,rom_terrafu,driver_terraf	,machine_driver_terraf	,input_ports_terraf	,null	,ROT0	,	"Nichibutsu USA", "Terra Force (US)", GAME_NO_COCKTAIL );
 	public static GameDriver driver_kodure	   = new GameDriver("1987"	,"kodure"	,"armedf.java"	,rom_kodure,null	,machine_driver_kodure	,input_ports_kodure	,null	,ROT0	,	"Nichibutsu", "Kodure Ookami (Japan)", GAME_NO_COCKTAIL );
 	public static GameDriver driver_armedf	   = new GameDriver("1988"	,"armedf"	,"armedf.java"	,rom_armedf,null	,machine_driver_armedf	,input_ports_armedf	,null	,ROT270	,	"Nichibutsu", "Armed Formation", GAME_NO_COCKTAIL );
-	public static GameDriver driver_cclimbr2   = new GameDriver("1988"	,"cclimbr2"	,"armedf.java"	,rom_cclimbr2,null	,machine_driver_cclimbr2	,input_ports_cclimbr2	,null	,ROT0	,	"Nichibutsu", "Crazy Climber 2 (Japan)", GAME_NO_COCKTAIL );
+	public static GameDriver driver_cclimbr2	   = new GameDriver("1988"	,"cclimbr2"	,"armedf.java"	,rom_cclimbr2,null	,machine_driver_cclimbr2	,input_ports_cclimbr2	,null	,ROT0	,	"Nichibutsu", "Crazy Climber 2 (Japan)", GAME_NO_COCKTAIL );
 }

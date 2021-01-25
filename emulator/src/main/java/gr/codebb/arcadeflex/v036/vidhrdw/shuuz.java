@@ -158,7 +158,7 @@ public class shuuz {
 
             /* handle the latch, but only write the upper byte */
             if (offset < 0x2000 && atarigen_video_control_state.latch1 != -1) {
-                shuuz_playfieldram_w.handler(offset + 0x2000, atarigen_video_control_state.latch1 | 0x00ff0000);
+		shuuz_playfieldram_w.handler(offset + 0x2000, atarigen_video_control_state.latch1 | 0x00ff0000);
             }
         }
     };
@@ -197,13 +197,13 @@ public class shuuz {
             }
 
             /* update playfield */
-            atarigen_pf_process(pf_render_callback, bitmap,  Machine.drv.visible_area);
+            atarigen_pf_process(pf_render_callback, bitmap,  new rectangle(Machine.drv.visible_area));
 
             /* render the motion objects */
-/*TODO*///            atarigen_mo_process(mo_render_callback, bitmap);
+            atarigen_mo_process(mo_render_callback, bitmap);
 
             /* update onscreen messages */
-/*TODO*///            atarigen_update_messages();
+            atarigen_update_messages();
         }
     };
 
@@ -225,10 +225,10 @@ public class shuuz {
         palette_init_used_colors();
 
         /* update color usage for the playfield */
-        atarigen_pf_process(pf_color_callback, pf_map, Machine.drv.visible_area);
+        atarigen_pf_process(pf_color_callback, pf_map, new rectangle(Machine.drv.visible_area));
 
         /* update color usage for the mo's */
-/*TODO*///        atarigen_mo_process(mo_color_callback, mo_map);
+        atarigen_mo_process(mo_color_callback, mo_map);
 
         /* rebuild the playfield palette */
         for (i = 0; i < 16; i++) {
@@ -270,20 +270,23 @@ public class shuuz {
      */
     public static atarigen_pf_callbackPtr pf_color_callback = new atarigen_pf_callbackPtr() {
 
-        public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
-            System.out.println("pf_color_callback");
+        public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) 
+        {
+            //System.out.println("pf_color_callback");
             int[] usage = Machine.gfx[0].pen_usage;
-            System.out.println("pf_color_callback2");
+            //System.out.println("pf_color_callback2");
             char[] colormap = (char[]) param;
-            System.out.println("pf_color_callback3");
+            //System.out.println("pf_color_callback3");
             int x, y;
-            System.out.println(tiles.min_y&63);
-            System.out.println(tiles.max_y&63);
+            //System.out.println(tiles.max_x);
+            //System.out.println(tiles.max_y);
 
             /* standard loop over tiles */
-            for (x = (tiles.min_x)&63; x != ((tiles.max_x)&63); x = (x + 1) & 63) {
-                System.out.println("pf_color_callback4");
-                for (y = (tiles.min_y)&63; y != ((tiles.max_y)&63); y = (y + 1) & 63) {
+            /* standard loop over tiles */
+            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+            {
+                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+                {
                     //System.out.println("pf_color_callback5");
                     int offs = x * 64 + y;
                     int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
@@ -294,9 +297,9 @@ public class shuuz {
                     /* mark the colors used by this tile */
                     colormap[color] |= usage[code];
                 }
-                System.out.println("pf_color_callback6");
+                //System.out.println("pf_color_callback6");
             }
-            System.out.println("pf_color_callback7");
+            //System.out.println("pf_color_callback7");
         }
         
     };
@@ -310,18 +313,20 @@ public class shuuz {
      */
     static atarigen_pf_callbackPtr pf_render_callback = new atarigen_pf_callbackPtr() {
         @Override
-        public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
-            System.out.println("pf_render_callback");
+        public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
+            //System.out.println("pf_render_callback");
             GfxElement gfx = Machine.gfx[0];
             osd_bitmap bitmap = (osd_bitmap) param;
             int x, y;
             
-            System.out.println("MIN Y="+tiles.min_y);
-            System.out.println("MAX Y="+tiles.max_y);
+            //System.out.println("MIN Y="+tiles.min_y);
+            //System.out.println("MAX Y="+tiles.max_y);
 
             /* standard loop over tiles */
-            for (x = tiles.min_x; x != (tiles.max_x & 63); x = (x + 1) & 63) {
-                for (y = tiles.min_y; y != (tiles.max_y & 63); y = (y + 1) & 63) {
+            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+            {
+                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+                {
                     int offs = x * 64 + y;
 
                     /* update only if dirty */
@@ -340,11 +345,11 @@ public class shuuz {
                 }
             }
             
-            System.out.println("END pf_render_callback");
+            //System.out.println("END pf_render_callback");
 
             /* then blast the result */
             copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
-            param = bitmap;
+            //param = bitmap;
         }
     };
         
@@ -357,7 +362,7 @@ public class shuuz {
      */
     static atarigen_pf_callbackPtr pf_overrender_callback = new atarigen_pf_callbackPtr() {
         @Override
-        public void handler(rectangle tiles, rectangle clip, atarigen_pf_state state, Object param) {
+        public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
 /*TODO*///    const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param
 
             pf_overrender_data overrender_data = (pf_overrender_data) param;
@@ -367,8 +372,10 @@ public class shuuz {
             int x, y;
 
             /* standard loop over tiles */
-            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63) {
-                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63) {
+            for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+            {
+                for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+                {
                     int offs = x * 64 + y;
                     int data2 = atarigen_playfieldram.READ_WORD( offs * 2 + 0x2000 );
                     int color = (data2 >> 8) & 15;
@@ -385,7 +392,7 @@ public class shuuz {
                 }
             }
             
-            param = overrender_data;
+            //param = overrender_data;
         }
     };
     
@@ -397,27 +404,27 @@ public class shuuz {
      *
      ************************************
      */
-/*TODO*///    static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
-/*TODO*///        @Override
-/*TODO*///        public void handler(ShortPtr data, rectangle clip, Object param) {
-/*TODO*///            int[] usage = Machine.gfx[1].pen_usage;
-/*TODO*///            UShortPtr colormap = (UShortPtr) param;
-/*TODO*///            int code = data.read(1) & 0x7fff;
-/*TODO*///            int color = data.read(2) & 0x000f;
-/*TODO*///            int hsize = ((data.read(3) >> 4) & 7) + 1;
-/*TODO*///            int vsize = (data.read(3) & 7) + 1;
-/*TODO*///            int tiles = hsize * vsize;
-/*TODO*///            int temp = 0;
-/*TODO*///            int i;
-/*TODO*///
-/*TODO*///            for (i = 0; i < tiles; i++) {
-/*TODO*///                temp |= usage[code++];
-/*TODO*///            }
-/*TODO*///            colormap.write(color, (char) (colormap.read(color) | temp));
-/*TODO*///            
-/*TODO*///            param = colormap;
-/*TODO*///        }
-/*TODO*///    };
+    static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
+        @Override
+        public void handler(UShortPtr data, rectangle clip, Object param) {
+            int[] usage = Machine.gfx[1].pen_usage;
+            UShortPtr colormap = (UShortPtr) param;
+            int code = data.read(1) & 0x7fff;
+            int color = data.read(2) & 0x000f;
+            int hsize = ((data.read(3) >> 4) & 7) + 1;
+            int vsize = (data.read(3) & 7) + 1;
+            int tiles = hsize * vsize;
+            int temp = 0;
+            int i;
+
+            for (i = 0; i < tiles; i++) {
+                temp |= usage[code++];
+            }
+            colormap.write(color, (char) (colormap.read(color) | temp));
+            
+            //param = colormap;
+        }
+    };
 
     /**
      * ***********************************
@@ -428,7 +435,7 @@ public class shuuz {
      */
     static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
         @Override
-        public void handler(ShortPtr data, rectangle clip, Object param) {
+        public void handler(UShortPtr data, rectangle clip, Object param) {
             System.out.println("mo_render_callback");
             GfxElement gfx = Machine.gfx[1];
             pf_overrender_data overrender_data = new pf_overrender_data();
@@ -458,30 +465,30 @@ public class shuuz {
             }
 
             /* determine the bounding box */
-/*TODO*///            atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+            atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
 
-/*TODO*///            /* draw the motion object */
-/*TODO*///            atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
+            /* draw the motion object */
+            atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
 
             /* standard priority case? */
-            if (color != 15) {
-                /* overrender the playfield */
-                overrender_data.bitmap = bitmap;
-                overrender_data.type = OVERRENDER_STANDARD;
-                overrender_data.color = color;
-                atarigen_pf_process(pf_overrender_callback,  overrender_data,  pf_clip);
-            } /* high priority case? */ else {
-                /* overrender the playfield */
-                overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-                overrender_data.type = OVERRENDER_PRIORITY;
-                overrender_data.color = color;
-                atarigen_pf_process(pf_overrender_callback,  overrender_data,  pf_clip);
-
-                /* finally, copy this chunk to the real bitmap */
-                copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-            }
+/*TODO*///            if (color != 15) {
+/*TODO*///                /* overrender the playfield */
+/*TODO*///                overrender_data.bitmap = bitmap;
+/*TODO*///                overrender_data.type = OVERRENDER_STANDARD;
+/*TODO*///                overrender_data.color = color;
+/*TODO*///                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
+/*TODO*///            } /* high priority case? */ else {
+/*TODO*///                /* overrender the playfield */
+/*TODO*///                overrender_data.bitmap = atarigen_pf_overrender_bitmap;
+/*TODO*///                overrender_data.type = OVERRENDER_PRIORITY;
+/*TODO*///                overrender_data.color = color;
+/*TODO*///                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
+/*TODO*///
+/*TODO*///                /* finally, copy this chunk to the real bitmap */
+/*TODO*///                copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
+/*TODO*///            }
             
-            param = bitmap;
+            //param = bitmap;
         }
     };
     
