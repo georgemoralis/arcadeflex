@@ -59,7 +59,7 @@ public class m68kopsH {
     public static opcode m68000_abcd_mm_ax7 = new opcode() {
         public void handler() {
             long src = m68ki_read_8(--m68k_cpu.ar[(int) (get_CPU_IR() & 7)]);
-            long ea = m68k_cpu.ar[7] -= 2;
+            long ea = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
             long dst = m68ki_read_8(ea);
             long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L)) & 0xFFFFFFFFL;
 
@@ -114,8 +114,8 @@ public class m68kopsH {
     };
     public static opcode m68000_abcd_mm_axy7 = new opcode() {
         public void handler() {
-            long src = m68ki_read_8(m68k_cpu.ar[7] -= 2);
-            long ea = m68k_cpu.ar[7] -= 2;
+            long src = m68ki_read_8((m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL));
+            long ea = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
             long dst = m68ki_read_8(ea);
             long res = (LOW_NIBBLE(src) + LOW_NIBBLE(dst) + ((m68k_cpu.x_flag != 0) ? 1L : 0L)) & 0xFFFFFFFFL;
 
@@ -370,8 +370,8 @@ public class m68kopsH {
             long d_dst = get_DX();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_8(ea);
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_8(src + dst);
@@ -609,8 +609,8 @@ public class m68kopsH {
             long d_dst = get_DX();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long src = m68ki_read_16(ea);
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_16(src + dst);
@@ -837,8 +837,8 @@ public class m68kopsH {
             long d_dst = get_DX();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long src = m68ki_read_32(ea);
             long dst = d_dst;
             set_DX(MASK_OUT_ABOVE_32(src + dst));
@@ -1438,8 +1438,8 @@ public class m68kopsH {
 
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             set_AX(MASK_OUT_ABOVE_32(a_dst + MAKE_INT_16(m68ki_read_16(ea))));
             USE_CLKS(8 + 8);
             if (m68klog != null) {
@@ -1572,8 +1572,8 @@ public class m68kopsH {
 
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             set_AX(MASK_OUT_ABOVE_32(a_dst + m68ki_read_32(ea)));
             USE_CLKS(6 + 12);
             if (m68klog != null) {
@@ -2703,7 +2703,7 @@ public class m68kopsH {
     public static opcode m68000_addx_mm_8_ax7 = new opcode() {
         public void handler() {
             long src = m68ki_read_8(--m68k_cpu.ar[(int) (get_CPU_IR() & 7)]);
-            long ea = m68k_cpu.ar[7] -= 2;
+            long ea = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(src + dst + ((m68k_cpu.x_flag != 0L) ? 1L : 0L));
 
@@ -2745,7 +2745,7 @@ public class m68kopsH {
     public static opcode m68000_addx_mm_8_axy7 = new opcode() {
         public void handler() {
             long src = m68ki_read_8(m68k_cpu.ar[7] -= 2);
-            long ea = m68k_cpu.ar[7] -= 2;
+            long ea = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(src + dst + ((m68k_cpu.x_flag != 0L) ? 1L : 0L));
 
@@ -2966,9 +2966,9 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
-            set_DX(get_DX() & (m68ki_read_8(ea) | 0xffffff00L));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
+            set_DX(get_DX() & (m68ki_read_8(ea) | 0xffffff00));
             long res = MASK_OUT_ABOVE_8(get_DX());
 
             m68k_cpu.n_flag = GET_MSB_8(res);
@@ -6469,8 +6469,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             m68k_cpu.not_z_flag = m68ki_read_8(ea) & (1 << (get_DX() & 7));
             USE_CLKS(4 + 8);
             if (m68klog != null) {
@@ -6610,8 +6610,8 @@ public class m68kopsH {
 
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             m68k_cpu.not_z_flag = m68ki_read_8(ea) & (1 << bit);
             USE_CLKS(8 + 8);
             if (m68klog != null) {
@@ -7739,8 +7739,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_8(ea);
             long dst = get_DX();
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -7933,8 +7933,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_16(ea);
             long dst = get_DX();
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -8129,8 +8129,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_32(ea);
             long dst = get_DX();
             long res = MASK_OUT_ABOVE_32(dst - src);
@@ -8325,8 +8325,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = MAKE_INT_16(m68ki_read_16(ea));
             long dst = get_AX();
             long res = MASK_OUT_ABOVE_32(dst - src);
@@ -8522,8 +8522,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_32(ea);
             long dst = get_AX();
             long res = MASK_OUT_ABOVE_32(dst - src);
@@ -10823,8 +10823,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             m68ki_branch_long(ea);
             USE_CLKS(0 + 10);
             if (m68klog != null) {
@@ -10897,8 +10897,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             m68ki_push_32(get_CPU_PC());
             m68ki_branch_long(ea);
             USE_CLKS(0 + 18);
@@ -10969,8 +10969,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             set_AX(ea);
             USE_CLKS(0 + 8);
             if (m68klog != null) {
@@ -11680,8 +11680,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
             long d_dst = get_DX();
 
@@ -11895,8 +11895,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
             long ea_dst = get_AX();
 
@@ -12408,8 +12408,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC += 2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
             long ea_dst = --m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)];
 
@@ -12459,7 +12459,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd7_d_8 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_8(get_DY());
-            long ea_dst = m68k_cpu.ar[7] -= 2;
+            long ea_dst = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
 
             m68ki_write_8(ea_dst, res);
 
@@ -12475,7 +12475,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd7_ai_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_AI());
-            long ea_dst = m68k_cpu.ar[7] -= 2;
+            long ea_dst = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
 
             m68ki_write_8(ea_dst, res);
 
@@ -12523,7 +12523,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd7_di_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_DI());
-            long ea_dst = m68k_cpu.ar[7] -= 2;
+            long ea_dst = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
 
             m68ki_write_8(ea_dst, res);
 
@@ -12547,7 +12547,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd7_aw_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_AW());
-            long ea_dst = m68k_cpu.ar[7] -= 2;
+            long ea_dst = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
 
             m68ki_write_8(ea_dst, res);
 
@@ -12580,7 +12580,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd7_i_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_8();
-            long ea_dst = m68k_cpu.ar[7] -= 2;
+            long ea_dst = (m68k_cpu.ar[7]  = (m68k_cpu.ar[7]  - 2)&0xFFFFFFFFL);
 
             m68ki_write_8(ea_dst, res);
             m68k_cpu.n_flag = GET_MSB_8(res);
@@ -12629,7 +12629,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_pi_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_PI_8());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12686,7 +12686,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_di_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_DI());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12703,7 +12703,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_ix_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_IX());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12720,7 +12720,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_aw_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_AW());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12736,7 +12736,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_al_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_AL());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12754,10 +12754,10 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12773,7 +12773,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_pcix_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_8(EA_PCIX());
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12790,7 +12790,7 @@ public class m68kopsH {
     public static opcode m68000_move_di_i_8 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_8();
-            long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
+            long ea_dst = (get_AX() + MAKE_INT_16(m68ki_read_imm_16()))&0xFFFFFFFFL;
 
             m68ki_write_8(ea_dst, res);
 
@@ -12924,8 +12924,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
 
             m68ki_write_8(m68ki_get_ea_ix_dst(), res);
@@ -13134,8 +13134,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
             long ea_dst = MAKE_INT_16(m68ki_read_imm_16());
 
@@ -13350,8 +13350,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_8(ea);
             long ea_dst = m68ki_read_imm_32();
 
@@ -13554,8 +13554,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_16(ea);
             long d_dst = get_DX();
 
@@ -13760,8 +13760,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_16(ea);
             long ea_dst = get_AX();
 
@@ -13812,7 +13812,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_d_16 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_16(get_DY());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13829,7 +13829,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_a_16 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_16(get_AY());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13845,7 +13845,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_ai_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AI());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13862,7 +13862,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pi_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PI_16());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13879,8 +13879,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pd_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PD_16());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
-
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
             m68ki_write_16(ea_dst, res);
 
             m68k_cpu.n_flag = GET_MSB_16(res);
@@ -13895,7 +13894,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_di_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_DI());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13912,7 +13911,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_ix_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_IX());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13929,7 +13928,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_aw_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AW());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13945,7 +13944,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_al_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AL());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13963,10 +13962,10 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long res = m68ki_read_16(ea);
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13982,7 +13981,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pcix_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PCIX());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -13998,7 +13997,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_i_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_16();
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 2) - 2;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 2)&0xFFFFFFFFL) - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14015,7 +14014,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_d_16 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_16(get_DY());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14032,7 +14031,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_a_16 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_16(get_AY());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14048,8 +14047,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_ai_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AI());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
-
+            long ea_dst =(m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
             m68ki_write_16(ea_dst, res);
 
             m68k_cpu.n_flag = GET_MSB_16(res);
@@ -14064,7 +14062,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pi_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PI_16());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14080,7 +14078,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pd_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PD_16());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14097,7 +14095,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_di_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_DI());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst =(m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14113,7 +14111,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_ix_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_IX());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14130,7 +14128,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_aw_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AW());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14146,7 +14144,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_al_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_AL());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14167,7 +14165,7 @@ public class m68kopsH {
             long old_pc = get_CPU_PC() - 2;
             long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
             long res = m68ki_read_16(ea);
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14183,7 +14181,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pcix_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_16(EA_PCIX());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -14199,7 +14197,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_i_16 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_16();
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 2;
+            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 2)&0xFFFFFFFFL;
 
             m68ki_write_16(ea_dst, res);
 
@@ -15334,8 +15332,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
             long ea_dst = get_AX();
 
@@ -15386,7 +15384,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_d_32 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_32(get_DY());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15404,7 +15402,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_a_32 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_32(get_AY());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15421,7 +15419,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_ai_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AI());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15438,7 +15436,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pi_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PI_32());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15455,7 +15453,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pd_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PD_32());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15471,7 +15469,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_di_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_DI());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15488,7 +15486,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_ix_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_IX());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15504,7 +15502,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_aw_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AW());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15520,8 +15518,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_al_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AL());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
-
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
             m68ki_write_32(ea_dst, res);
 
             m68k_cpu.n_flag = GET_MSB_32(res);
@@ -15537,10 +15534,10 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15556,7 +15553,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_pcix_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PCIX());
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15572,7 +15569,7 @@ public class m68kopsH {
     public static opcode m68000_move_pi_i_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_32();
-            long ea_dst = (m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] += 4) - 4;
+            long ea_dst = (((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] + 4)&0xFFFFFFFFL) - 4)&0xFFFFFFFFL;
 
             m68ki_write_32(ea_dst, res);
 
@@ -15589,7 +15586,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_d_32 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_32(get_DY());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15606,7 +15603,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_a_32 = new opcode() {
         public void handler() {
             long res = MASK_OUT_ABOVE_32(get_AY());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15623,7 +15620,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_ai_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AI());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15639,7 +15636,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pi_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PI_32());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15655,7 +15652,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pd_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PD_32());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst =((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15672,7 +15669,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_di_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_DI());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15689,7 +15686,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_ix_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_IX());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst =((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15706,7 +15703,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_aw_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AW());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15722,8 +15719,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_al_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_AL());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
-
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
             m68ki_write_32(ea_dst, res);
 
             m68k_cpu.n_flag = GET_MSB_32(res);
@@ -15746,7 +15742,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_pcix_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_32(EA_PCIX());
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15763,7 +15759,7 @@ public class m68kopsH {
     public static opcode m68000_move_pd_i_32 = new opcode() {
         public void handler() {
             long res = m68ki_read_imm_32();
-            long ea_dst = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] -= 4;
+            long ea_dst = ((m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] = m68k_cpu.ar[(int) ((get_CPU_IR() >>> 9) & 7)] - 4)&0xFFFFFFFFL);
 
             m68ki_write_32(ea_dst, res);
 
@@ -15932,8 +15928,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
             long ea_dst = get_AX() + MAKE_INT_16(m68ki_read_imm_16());
 
@@ -16122,8 +16118,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
 
             m68ki_write_32(m68ki_get_ea_ix_dst(), res);
@@ -16315,8 +16311,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
             long ea_dst = MAKE_INT_16(m68ki_read_imm_16());
 
@@ -16517,8 +16513,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long res = m68ki_read_32(ea);
             long ea_dst = m68ki_read_imm_32();
 
@@ -16653,8 +16649,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             set_AX(MAKE_INT_16(m68ki_read_16(ea)));
             USE_CLKS(4 + 8);
             if (m68klog != null) {
@@ -16765,8 +16761,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             set_AX(m68ki_read_32(ea));
             USE_CLKS(4 + 12);
             if (m68klog != null) {
@@ -18325,8 +18321,8 @@ public class m68kopsH {
             long register_list = m68ki_read_imm_16();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long count = 0;
 
             for (; i < 16; i++) {
@@ -18748,8 +18744,8 @@ public class m68kopsH {
             long register_list = m68ki_read_imm_16();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
             long count = 0;
 
             for (; i < 16; i++) {
@@ -21677,8 +21673,8 @@ public class m68kopsH {
         public void handler() {
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)&0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))&0xFFFFFFFFL;
 
             m68ki_push_32(ea);
             USE_CLKS(0 + 16);
@@ -24432,8 +24428,8 @@ public class m68kopsH {
             long d_dst = get_DX();
             //long old_pc = (CPU_PC+=2) - 2;
             set_CPU_PC((get_CPU_PC() + 2) & 0xFFFFFFFFL);
-            long old_pc = get_CPU_PC() - 2;
-            long ea = old_pc + MAKE_INT_16(m68ki_read_16(old_pc));
+            long old_pc = (get_CPU_PC() - 2)& 0xFFFFFFFFL;
+            long ea = (old_pc + MAKE_INT_16(m68ki_read_16(old_pc)))& 0xFFFFFFFFL;
             long src = m68ki_read_16(ea);
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -25739,7 +25735,7 @@ public class m68kopsH {
     public static opcode m68000_subq_d_8 = new opcode() {
         public void handler() {
             long d_dst = get_DY();
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_8(dst - src);
 
@@ -25758,7 +25754,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_ai_8 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_AI();
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -25777,7 +25773,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_pi_8 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_PI_8();
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -25840,7 +25836,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_ix_8 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_IX();
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -25860,7 +25856,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_aw_8 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_AW();
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -25880,7 +25876,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_al_8 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_AL();
             long dst = m68ki_read_8(ea);
             long res = MASK_OUT_ABOVE_8(dst - src);
@@ -25901,7 +25897,7 @@ public class m68kopsH {
     public static opcode m68000_subq_d_16 = new opcode() {
         public void handler() {
             long d_dst = get_DY();
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_16(dst - src);
 
@@ -25931,7 +25927,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_ai_16 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_AI();
             long dst = m68ki_read_16(ea);
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -25967,7 +25963,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_di_16 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_DI();
             long dst = m68ki_read_16(ea);
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -25987,7 +25983,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_ix_16 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_IX();
             long dst = m68ki_read_16(ea);
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -26007,7 +26003,7 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_aw_16 = new opcode() {
         public void handler() {
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long ea = EA_AW();
             long dst = m68ki_read_16(ea);
             long res = MASK_OUT_ABOVE_16(dst - src);
@@ -26047,7 +26043,7 @@ public class m68kopsH {
     public static opcode m68000_subq_d_32 = new opcode() {
         public void handler() {
             long d_dst = get_DY();
-            long src = (((get_CPU_IR() >>> 9) - 1) & 7) + 1;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_32(dst - src);
 
