@@ -250,6 +250,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.ajax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
 
 public class driver {
 
@@ -2360,10 +2361,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( toobin2 )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( toobinp )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( vindictr )	/* (c) 1988 */
-                /*TODO*/ //	DRIVER( klax )		/* (c) 1989 */
-                /*TODO*/ //	DRIVER( klax2 )		/* (c) 1989 */
-                /*TODO*/ //	DRIVER( klax3 )		/* (c) 1989 */
-                /*TODO*/ //	DRIVER( klaxj )		/* (c) 1989 (Japan) */
+                driver_klax,		/* (c) 1989 */
+                driver_klax2,		/* (c) 1989 */
+                driver_klax3,		/* (c) 1989 */
+                driver_klaxj,		/* (c) 1989 (Japan) */
                 /*TODO*/ //	DRIVER( blstroid )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( blstroi2 )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( xybots )	/* (c) 1987 */

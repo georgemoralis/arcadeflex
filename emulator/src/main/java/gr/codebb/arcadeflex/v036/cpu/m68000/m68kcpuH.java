@@ -824,6 +824,10 @@ public class m68kcpuH {
     public static long EA_DI() {
         return (get_AY() + MAKE_INT_16(m68ki_read_imm_16()));
     }
+    
+    public static long EA_DI_32() {
+        return (get_AY() + MAKE_INT_32(m68ki_read_imm_32()));
+    }
 
     public static long EA_IX() {
         return m68ki_get_ea_ix();                   /* indirect + index */
