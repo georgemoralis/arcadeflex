@@ -249,6 +249,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ajax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
 
 public class driver {
 
@@ -1701,9 +1702,9 @@ public class driver {
                 /* Capcom games */
                 /* The following is a COMPLETE list of the Capcom games up to 1997, as shown on */
                 /* their web site. The list is sorted by production date. */
-                /*TODO*/ //	DRIVER( bionicc )	/*  3/1987 (c) 1987 (US) */
-                /*TODO*/ //	DRIVER( bionicc2 )	/*  3/1987 (c) 1987 (US) */
-                /*TODO*/ //	DRIVER( topsecrt )	/*  3/1987 (c) 1987 (Japan) */
+                driver_bionicc,         /*  3/1987 (c) 1987 (US) */
+                driver_bionicc2,	/*  3/1987 (c) 1987 (US) */
+                driver_topsecrt,	/*  3/1987 (c) 1987 (Japan) */
 
                 driver_tigeroad,	/* 11/1987 (c) 1987 + Romstar (US) */
                 driver_toramich,	/* 11/1987 (c) 1987 (Japan) */

@@ -407,6 +407,7 @@ public class shuuz {
     static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
         @Override
         public void handler(UShortPtr data, rectangle clip, Object param) {
+            System.out.println("pf_overrender_callback");
             int[] usage = Machine.gfx[1].pen_usage;
             UShortPtr colormap = (UShortPtr) param;
             int code = data.read(1) & 0x7fff;
@@ -471,22 +472,22 @@ public class shuuz {
             atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
 
             /* standard priority case? */
-/*TODO*///            if (color != 15) {
-/*TODO*///                /* overrender the playfield */
-/*TODO*///                overrender_data.bitmap = bitmap;
-/*TODO*///                overrender_data.type = OVERRENDER_STANDARD;
-/*TODO*///                overrender_data.color = color;
-/*TODO*///                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
-/*TODO*///            } /* high priority case? */ else {
-/*TODO*///                /* overrender the playfield */
-/*TODO*///                overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-/*TODO*///                overrender_data.type = OVERRENDER_PRIORITY;
-/*TODO*///                overrender_data.color = color;
-/*TODO*///                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
-/*TODO*///
-/*TODO*///                /* finally, copy this chunk to the real bitmap */
-/*TODO*///                copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-/*TODO*///            }
+            if (color != 15) {
+                /* overrender the playfield */
+                overrender_data.bitmap = bitmap;
+                overrender_data.type = OVERRENDER_STANDARD;
+                overrender_data.color = color;
+                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
+            } /* high priority case? */ else {
+                /* overrender the playfield */
+                overrender_data.bitmap = atarigen_pf_overrender_bitmap;
+                overrender_data.type = OVERRENDER_PRIORITY;
+                overrender_data.color = color;
+                atarigen_pf_process(pf_overrender_callback,  overrender_data,  new rectangle(pf_clip));
+
+                /* finally, copy this chunk to the real bitmap */
+                copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
+            }
             
             //param = bitmap;
         }

@@ -1423,8 +1423,10 @@ public class atarigen {
                     }
 
                     /* is this one to ignore? (note that ignore is predecremented by 4) */
-                    if (tempdata[modesc.ignoreword] == 0xffff)
-                            data.inc( - (wordcount + 1) );
+                    if (tempdata[modesc.ignoreword] == 0xffff){
+                        System.out.println("IN!");
+                        data.inc( - (wordcount + 1) );
+                    }
 
                     /* update our match status */
                     else if (match != 0)
@@ -1543,7 +1545,7 @@ public class atarigen {
 			base = data;
 	
 			/* render the mos */
-			for (data.offset = first.offset; data.offset != last.offset; data.inc(step))
+			for (data = first; data.offset != last.offset; data.inc(step))
 				(callback).handler(new UShortPtr(data, 1), clip, param);
 		}
 	}

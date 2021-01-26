@@ -32,7 +32,7 @@ public static final int COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & (
 //#define cpu_readop16(A)		READ_WORD(&OP_ROM[A])
 public static int cpu_readop16(int A)
 {
-    return (OP_ROM.READ_WORD(A)) & 0xffff;
+    return (OP_ROM.READ_WORD(A));
 }
 
 //#define cpu_readop_arg16(A)	READ_WORD(&OP_RAM[A])

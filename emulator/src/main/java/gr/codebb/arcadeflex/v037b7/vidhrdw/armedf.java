@@ -448,7 +448,7 @@ public class armedf
                 tilemap_set_scrollx( background, 0, armedf_bg_scrollx+104);
                 tilemap_set_scrolly( background, 0, armedf_bg_scrolly );
 
-                RAM = memory_region(REGION_CPU1);
+                RAM = new UBytePtr(memory_region(REGION_CPU1));
                 tilemap_set_scrollx( foreground, 0, RAM.READ_WORD(0x6123c) - (160 + 256 * 3)+8);	// ???
                 tilemap_set_scrolly( foreground, 0, RAM.READ_WORD(0x6123e) - 1);			// ???
 
