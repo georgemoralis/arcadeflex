@@ -3536,7 +3536,7 @@ public class M68KOPDM {
         public void handler() {
             long ea = EA_AL();
             long src = m68ki_read_16(ea);
-            long res = src >>> 1;
+            long res = (src >>> 1) & 0xFFFFFFFFL;
 
             m68ki_write_16(ea, res);
 
@@ -8647,10 +8647,10 @@ public class M68KOPDM {
     public static opcode m68000_move_to_ccr_di = new opcode() {
         public void handler() {
             m68ki_set_ccr(m68ki_read_16(EA_DI()));
-   	    USE_CLKS(12+8);
+            USE_CLKS(12 + 8);
         }
     };
-/*TODO*///void m68000_move_to_ccr_ix(void)
+    /*TODO*///void m68000_move_to_ccr_ix(void)
 /*TODO*///{
 /*TODO*///	m68ki_set_ccr(m68ki_read_16(EA_IX));
 /*TODO*///	USE_CLKS(12+10);

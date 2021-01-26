@@ -2881,63 +2881,51 @@ public class M68KOPAC {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void m68000_and_re_di_8(void)
-/*TODO*///{
-/*TODO*///	uint ea = EA_DI;
-/*TODO*///	uint res = MASK_OUT_ABOVE_8(DX & m68ki_read_8(ea));
-/*TODO*///
-/*TODO*///	m68ki_write_8(ea, res);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_C = CPU_V = 0;
-/*TODO*///	USE_CLKS(8+8);
-/*TODO*///}
-/*TODO*///
-    static void m68000_and_re_generic(long ea) {
+    static void m68000_and_re8_generic(long ea) {
         long res = MASK_OUT_ABOVE_8(get_DX() & m68ki_read_8(ea));
         m68ki_write_8(ea, res);
         m68k_cpu.n_flag = GET_MSB_8(res);
         m68k_cpu.not_z_flag = res;
         m68k_cpu.c_flag = m68k_cpu.v_flag = 0;
     }
+    public static opcode m68000_and_re_di_8 = new opcode() {
+        public void handler() {
+            m68000_and_re8_generic(EA_DI());
+            USE_CLKS(8 + 8);
+            if (m68klog != null) {
+                fprintf(m68klog, "and_re_di_8 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
+        }
+    };
     public static opcode m68000_and_re_ix_8 = new opcode() {
         public void handler() {
-            m68000_and_re_generic(EA_IX());
-            USE_CLKS(8+10);
+            m68000_and_re8_generic(EA_IX());
+            USE_CLKS(8 + 10);
             if (m68klog != null) {
                 fprintf(m68klog, "and_re_ix_8 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
             }
         }
     };
-/*TODO*///void m68000_and_re_aw_8(void)
-/*TODO*///{
-/*TODO*///	uint ea = EA_AW;
-/*TODO*///	uint res = MASK_OUT_ABOVE_8(DX & m68ki_read_8(ea));
-/*TODO*///
-/*TODO*///	m68ki_write_8(ea, res);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_C = CPU_V = 0;
-/*TODO*///	USE_CLKS(8+8);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void m68000_and_re_al_8(void)
-/*TODO*///{
-/*TODO*///	uint ea = EA_AL;
-/*TODO*///	uint res = MASK_OUT_ABOVE_8(DX & m68ki_read_8(ea));
-/*TODO*///
-/*TODO*///	m68ki_write_8(ea, res);
-/*TODO*///
-/*TODO*///	CPU_N = GET_MSB_8(res);
-/*TODO*///	CPU_NOT_Z = res;
-/*TODO*///	CPU_C = CPU_V = 0;
-/*TODO*///	USE_CLKS(8+12);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static opcode m68000_and_re_aw_8 = new opcode() {
+        public void handler() {
+            m68000_and_re8_generic(EA_AW());
+            USE_CLKS(8 + 8);
+            if (m68klog != null) {
+                fprintf(m68klog, "and_re_aw_8 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
+        }
+    };
+    public static opcode m68000_and_re_al_8 = new opcode() {
+        public void handler() {
+            m68000_and_re8_generic(EA_AL());
+            USE_CLKS(8 + 12);
+            if (m68klog != null) {
+                fprintf(m68klog, "and_re_al_8 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
+        }
+    };
+
+    /*TODO*///
 /*TODO*///void m68000_and_re_ai_16(void)
 /*TODO*///{
 /*TODO*///	uint ea = EA_AI;
@@ -3749,7 +3737,7 @@ public class M68KOPAC {
         long res = (src >>> 1) & 0xFFFFFFFFL;
 
         if (GET_MSB_16(src) != 0) {
-            res |= 0x8000;
+            res = (res | 0x8000) & 0xFFFFFFFFL;
         }
 
         m68ki_write_16(ea, res);
