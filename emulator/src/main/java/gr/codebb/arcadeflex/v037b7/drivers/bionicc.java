@@ -83,7 +83,7 @@ public class bionicc
 	public static WriteHandlerPtr hacked_controls_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
                 logerror("%06x: hacked_controls_w %04x %02x\n",cpu_get_pc(),offset,data);
-		COMBINE_WORD_MEM( new UBytePtr(bionicc_inp),offset, data);
+		COMBINE_WORD_MEM(bionicc_inp,offset, data);
 	} };
 	
 	public static ReadHandlerPtr hacked_controls_r  = new ReadHandlerPtr() { public int handler(int offset)

@@ -22678,14 +22678,7 @@ public class m68kopsH {
             }
         }
     };
-    public static opcode m68000_sf_pi = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+    
     public static opcode m68000_sf_pi7 = new opcode() {
         public void handler() {
             if (m68klog != null) {
@@ -22719,14 +22712,7 @@ public class m68kopsH {
             }
         }
     };
-    public static opcode m68000_sf_ix = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
+    
     public static opcode m68000_sf_aw = new opcode() {
         public void handler() {
             if (m68klog != null) {
@@ -24265,153 +24251,10 @@ public class m68kopsH {
             }
         }
     };
-    public static opcode m68000_sub_er_pcix_16 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
-    public static opcode m68000_sub_er_i_16 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_imm_16();
-            long dst = d_dst;
-            long res = MASK_OUT_ABOVE_16(dst - src);
 
-            set_DX(MASK_OUT_BELOW_16(d_dst) | res);
-
-            m68k_cpu.n_flag = GET_MSB_16(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_16(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_16(src, dst, res);
-            USE_CLKS(4 + 4);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_i_16 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
-    public static opcode m68000_sub_er_d_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = get_DY();
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(8);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_d_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
     
-    public static opcode m68000_sub_er_ai_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_32(EA_AI());
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 8);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_ai_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
-    public static opcode m68000_sub_er_pi_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_32(EA_PI_32());
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 8);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_pi_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
-    public static opcode m68000_sub_er_pd_32 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
-    public static opcode m68000_sub_er_di_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_32(EA_DI());
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 12);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_di_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
-    public static opcode m68000_sub_er_ix_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_32(EA_IX());
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 14);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_ix_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
-    public static opcode m68000_sub_er_al_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_32(EA_AL());
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
-
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 16);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_al_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
+    
+    
     public static opcode m68000_sub_er_pcdi_32 = new opcode() {
         public void handler() {
             if (m68klog != null) {
@@ -24420,32 +24263,7 @@ public class m68kopsH {
             throw new UnsupportedOperationException("Unimplemented");
         }
     };
-    public static opcode m68000_sub_er_pcix_32 = new opcode() {
-        public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
-    };
-    public static opcode m68000_sub_er_i_32 = new opcode() {
-        public void handler() {
-            long d_dst = get_DX();
-            long src = m68ki_read_imm_32();
-            long dst = d_dst;
-            set_DX(MASK_OUT_ABOVE_32(dst - src));
-            long res = get_DX();
 
-            m68k_cpu.n_flag = GET_MSB_32(res);
-            m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
-            USE_CLKS(6 + 10);
-            if (m68klog != null) {
-                fprintf(m68klog, "sub_er_i_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
-            }
-        }
-    };
     public static opcode m68000_sub_re_ai_8 = new opcode() {
         public void handler() {
             long ea = EA_AI();
