@@ -13,6 +13,8 @@
 package gr.codebb.arcadeflex.v037b7.drivers;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
@@ -344,7 +346,7 @@ public class batman
 	
 	public static InitDriverPtr init_batman = new InitDriverPtr() { public void handler() 
 	{
-		char default_eeprom[] =
+		int default_eeprom[] =
 		{
 			0x0001,0x01F1,0x0154,0x01C5,0x0100,0x0113,0x0300,0x0173,
 			0x0700,0x0154,0x0200,0x0107,0x0100,0x0120,0x0300,0x0165,
@@ -360,7 +362,7 @@ public class batman
 			0x01D0,0x02C8,0x0000
 		};
 	
-		atarigen_eeprom_default = new UBytePtr(default_eeprom);
+		atarigen_eeprom_default = new IntSubArray(default_eeprom);
 		atarijsa_init(1, 3, 2, 0x0040);
 	
 		/* speed up the 6502 */

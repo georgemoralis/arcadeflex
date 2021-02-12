@@ -82,6 +82,14 @@ public class SubArrays {
       this.buffer = new int[size];
       this.offset = 0;
     }
+    
+    public IntSubArray(UBytePtr _obj) {
+        int _longo=_obj.memory.length;
+        this.buffer = new int[_longo];
+        for (int _i=0 ; _i<_longo ; _i++)
+          this.buffer[_i] = _obj.memory[_i];
+        this.offset = _obj.offset;
+    }
 
     public IntSubArray(int[] buffer) {
       this.buffer = buffer;
@@ -125,6 +133,10 @@ public class SubArrays {
 
     public void writedec(int value) {
       buffer[offset--] = value;
+    }
+    
+    public void inc(int value){
+        offset += value;
     }
   }
 }

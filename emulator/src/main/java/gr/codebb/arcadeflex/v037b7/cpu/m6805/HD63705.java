@@ -28,6 +28,8 @@ public class HD63705 extends m6805 {
         abitsmin = ABITS_MIN_16;
         icount = m6805_ICount;
         icount[0] = 50000;
+        
+        m6805.subtype = SUBTYPE_HD63705;
     }
 
     @Override

@@ -251,6 +251,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.zerozone.*;
 
 public class driver {
 
@@ -2629,7 +2630,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( stactics )	/* [1981 Sega] */
                 /*TODO*/ //	DRIVER( exterm )	/* (c) 1989 Premier Technology - a Gottlieb game */
                 /*TODO*/ //	DRIVER( sharkatt )	/* (c) Pacific Novelty */
-                /*TODO*/ //	DRIVER( zerozone )	/* (c) 1993 Comad */
+                driver_zerozone,	/* (c) 1993 Comad */
                 /*TODO*/ //	DRIVER( exctsccr )	/* (c) 1983 Alpha Denshi Co. */
                 /*TODO*/ //	DRIVER( exctscca )	/* (c) 1983 Alpha Denshi Co. */
                 /*TODO*/ //	DRIVER( exctsccb )	/* bootleg */

@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.common.libc;
 
 import gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 
 /** @author shadow */
 public class cstring {
@@ -41,6 +42,12 @@ public class cstring {
   }
 
   public static void memset(UBytePtr ptr, int value, int length) {
+    for (int i = 0; i < length; i++) {
+      ptr.write(i, value);
+    }
+  }
+  
+  public static void memset(IntSubArray ptr, int value, int length) {
     for (int i = 0; i < length; i++) {
       ptr.write(i, value);
     }

@@ -369,9 +369,9 @@ public class shuuz
 		int i;
 	
 		for (i = 0; i < memory_region_length(REGION_GFX1); i++)
-			new UBytePtr(memory_region(REGION_GFX1)).write(i,new UBytePtr(memory_region(REGION_GFX1)).read() ^ 0xff);
+			memory_region(REGION_GFX1).write(i,memory_region(REGION_GFX1).read() ^ 0xff);
 		for (i = 0; i < memory_region_length(REGION_GFX2); i++)
-			new UBytePtr(memory_region(REGION_GFX2)).write(i,new UBytePtr(memory_region(REGION_GFX2)).read() ^ 0xff);
+			memory_region(REGION_GFX2).write(i,memory_region(REGION_GFX2).read() ^ 0xff);
 	}
 	
 	

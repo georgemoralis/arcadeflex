@@ -26,6 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 
 public class atarisy1
 {

@@ -365,7 +365,7 @@ public class klax
 	
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(IntSubArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		char[] colormap = (char[]) param;
 		int code = data.read(1) & 0x0fff;
@@ -391,7 +391,7 @@ public class klax
 	
 	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(IntSubArray data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		osd_bitmap bitmap = (osd_bitmap) param;
 		rectangle pf_clip = new rectangle();

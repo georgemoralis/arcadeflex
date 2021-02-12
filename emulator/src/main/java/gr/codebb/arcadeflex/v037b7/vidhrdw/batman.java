@@ -55,6 +55,8 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import gr.codebb.arcadeflex.common.PtrLib;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -787,7 +789,7 @@ public class batman
 	 
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(IntSubArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		int[] colormap = (int[]) param;
 		int code = data.read(1) & 0x7fff;
@@ -813,7 +815,7 @@ public class batman
 	
 	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(IntSubArray data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		pf_overrender_data overrender_data=new pf_overrender_data();
 		osd_bitmap bitmap = (osd_bitmap) param;

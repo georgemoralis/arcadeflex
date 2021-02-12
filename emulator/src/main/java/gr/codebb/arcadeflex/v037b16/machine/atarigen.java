@@ -14,6 +14,7 @@
 package gr.codebb.arcadeflex.v037b16.machine;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b16.machine.atarigenH.*;
@@ -52,15 +53,15 @@ public class atarigen
 	public static int 			atarigen_sound_int_state;
 	public static int 			atarigen_video_int_state;
 
-	public static UShortPtr                 atarigen_eeprom_default;
+	public static UShortArray                 atarigen_eeprom_default;
 	public static UBytePtr			atarigen_eeprom=new UBytePtr();
 	public static int[] 			atarigen_eeprom_size=new int[1];
 
 /*TODO*///	int 				atarigen_cpu_to_sound_ready;
 /*TODO*///	int 				atarigen_sound_to_cpu_ready;
 
-	public static UBytePtr			atarivc_data=new UBytePtr();
-	public static UBytePtr			atarivc_eof_data=new UBytePtr();
+	public static UBytePtr			atarivc_data=new UBytePtr(1024 * 128);
+	public static UBytePtr			atarivc_eof_data;
 	public static atarivc_state_desc atarivc_state;
 	
 	
@@ -377,9 +378,9 @@ public class atarigen
 			if (atarigen_eeprom_default != null)
 			{
 				if (atarigen_eeprom_default.read(0) == 0)
-					decompress_eeprom_byte(new UShortPtr(atarigen_eeprom_default, 1));
+					decompress_eeprom_byte(new UShortArray(atarigen_eeprom_default, 1));
 				else
-					decompress_eeprom_word(new UShortPtr(atarigen_eeprom_default, 1));
+					decompress_eeprom_word(new UShortArray(atarigen_eeprom_default, 1));
 			}
 		}
 	} };
@@ -390,9 +391,9 @@ public class atarigen
 		that has every other byte invalid.
 	---------------------------------------------------------------*/
 	
-	static void decompress_eeprom_word(UShortPtr data)
+	static void decompress_eeprom_word(UShortArray data)
 	{
-		UShortPtr dest = new UShortPtr(atarigen_eeprom);
+		UShortArray dest = new UShortArray(atarigen_eeprom);
 		int value;
 	
 		while ((value = data.read(0)) != 0)
@@ -414,7 +415,7 @@ public class atarigen
 		that is byte-packed.
 	---------------------------------------------------------------*/
 	
-	static void decompress_eeprom_byte(UShortPtr data)
+	static void decompress_eeprom_byte(UShortArray data)
 	{
 		UBytePtr dest = new UBytePtr(atarigen_eeprom.memory);
 		int value;
@@ -1020,7 +1021,8 @@ public class atarigen
                 System.out.println("Word???? "+offset+"/"+atarivc_data.offset+"="+newword);
 		int oldword = atarivc_data.READ_WORD(offset);
 		atarivc_data.WRITE_WORD(offset, newword);
-	
+                System.out.println("Word???? 2");
+                
 		/* switch off the offset */
 		switch (offset)
 		{
@@ -1196,11 +1198,12 @@ public class atarigen
 		//COMBINE_DATA(&paletteram16[offset]);
                 int oldword = paletteram.READ_WORD(offset);
                 newword = COMBINE_WORD(oldword, data);
-                //System.out.println("Write palette");
+                System.out.println("Write palette");
                 paletteram.WRITE_WORD(offset, newword);
-                //
+                
 		//newword = paletteram16[offset];
                 newword = paletteram.READ_WORD(offset);
+                System.out.println("Write palette? 2");
 	
 		r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
 		g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);

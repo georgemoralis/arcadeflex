@@ -5,6 +5,7 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
@@ -40,8 +41,8 @@ public class taito_b
 	
 	
 	static osd_bitmap pixel_layer;
-	static int[] pixel_layer_colors=new int[256]; /*to keep track of colors used*/
-	static int[] pixel_layer_dirty=new int[512];
+	static IntSubArray pixel_layer_colors=new IntSubArray(256); /*to keep track of colors used*/
+	static IntSubArray pixel_layer_dirty=new IntSubArray(512);
 	
 	static int video_control = 0;
 	static int text_video_control = 0;
@@ -111,9 +112,9 @@ public class taito_b
 		{
 			//usrintf_showmessage("pixel layer clear");
 			memset(taitob_pixelram,0,b_pixelram_size[0]);
-			memset(pixel_layer_dirty, 1, pixel_layer_dirty.length);
-			memset(pixel_layer_colors, 0, pixel_layer_colors.length);
-			pixel_layer_colors[0] = pixel_layer.width * pixel_layer.height;
+			memset(pixel_layer_dirty, 1, pixel_layer_dirty.buffer.length);
+			memset(pixel_layer_colors, 0, pixel_layer_colors.buffer.length);
+			pixel_layer_colors.write(0, pixel_layer.width * pixel_layer.height);
 		}
 	
 /*TODO*///	#if 0
@@ -169,15 +170,15 @@ public class taito_b
 	
 		if (oldword != newword) /*this results in bad colors, if you reset the game on warning screen, because MAME will invalidate the pens*/
 		{
-			pixel_layer_colors[(oldword>>8) & 0xff]--;
-			pixel_layer_colors[   (oldword) & 0xff]--;
+			pixel_layer_colors.write((oldword>>8) & 0xff, pixel_layer_colors.read((oldword>>8) & 0xff)-1);
+			pixel_layer_colors.write(   (oldword) & 0xff, pixel_layer_colors.read((oldword) & 0xff)-1);
 	
-			pixel_layer_colors[(newword>>8) & 0xff]++;
-			pixel_layer_colors[   (newword) & 0xff]++;
+			pixel_layer_colors.write((newword>>8) & 0xff, pixel_layer_colors.read((newword>>8) & 0xff)+1);
+			pixel_layer_colors.write(   (newword) & 0xff, pixel_layer_colors.read((newword) & 0xff)+1);
 	
 			taitob_pixelram.WRITE_WORD (offset, newword);
 	
-			pixel_layer_dirty[ offset>>9 ] = 1;
+			pixel_layer_dirty.write( offset>>9 , 1 );
 		}
 	} };
 	
@@ -188,11 +189,11 @@ public class taito_b
 	
 		for (sy=0; sy < 512; sy++)
 		{
-			if (pixel_layer_dirty[sy] != 0)
+			if (pixel_layer_dirty.read(sy) != 0)
 			{
 				int sx;
 	
-				pixel_layer_dirty[sy] = 0;
+				pixel_layer_dirty.write(sy, 0);
 				for (sx = 0; sx < 512; sx += 2)
 				{
 					int color = taitob_pixelram.READ_WORD( sy*512 + sx );
@@ -342,10 +343,10 @@ public class taito_b
 			return 1;
 		}
 	
-		memset(pixel_layer_colors, 0, pixel_layer_colors.length);
-		pixel_layer_colors[0] = pixel_layer.width * pixel_layer.height;
+		memset(pixel_layer_colors, 0, pixel_layer_colors.buffer.length);
+		pixel_layer_colors.write(0, pixel_layer.width * pixel_layer.height);
 	
-		memset(pixel_layer_dirty, 1, pixel_layer_dirty.length);
+		memset(pixel_layer_dirty, 1, pixel_layer_dirty.buffer.length);
 	
 		return 0;
 	} };
@@ -494,13 +495,13 @@ public class taito_b
 	{
 		int i;
 	
-		if (pixel_layer_colors[0] != 0)
+		if (pixel_layer_colors.read(0) != 0)
 			palette_used_colors.write(b_px_color_base + 0, PALETTE_COLOR_TRANSPARENT);
 	
 		/* Tell MAME about the color usage */
 		for (i = 1; i < 256; i++)
 		{
-			if ( pixel_layer_colors[i] != 0 )	/*mark as used if histogram shows it*/
+			if ( pixel_layer_colors.read(i) != 0 )	/*mark as used if histogram shows it*/
 			{
 				palette_used_colors.write(b_px_color_base + i, PALETTE_COLOR_USED);
 			}
@@ -786,7 +787,7 @@ public class taito_b
 		}
 		if ( palette_recalc() != null )
 		{
-			memset(pixel_layer_dirty, 1, pixel_layer_dirty.length);
+			memset(pixel_layer_dirty, 1, pixel_layer_dirty.buffer.length);
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 		}
 	
@@ -835,7 +836,7 @@ public class taito_b
 		}
 		if ( palette_recalc() != null )
 		{
-			memset(pixel_layer_dirty, 1, pixel_layer_dirty.length);
+			memset(pixel_layer_dirty, 1, pixel_layer_dirty.buffer.length);
 			tilemap_mark_all_pixels_dirty(ALL_TILEMAPS);
 		}
 	
@@ -882,7 +883,7 @@ public class taito_b
 	
 		if (full_refresh != 0)
 		{
-			memset(pixel_layer_dirty, 1, pixel_layer_dirty.length);
+			memset(pixel_layer_dirty, 1, pixel_layer_dirty.buffer.length);
 		}
 	
 		taitob_redraw_pixel_layer_dirty();

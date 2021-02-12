@@ -22,6 +22,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
@@ -238,7 +239,7 @@ public class atarigen {
 	
      --------------------------------------------------------------------------*/
     /* globals */
-    public static UBytePtr atarigen_eeprom_default;
+    public static IntSubArray atarigen_eeprom_default;
     public static UBytePtr atarigen_eeprom = new UBytePtr();
     public static int[] atarigen_eeprom_size = new int[1];
 
@@ -282,7 +283,7 @@ public class atarigen {
                 return;
             }
 
-            COMBINE_WORD_MEM(atarigen_eeprom, offset, data);
+            COMBINE_WORD_MEM(new UBytePtr(atarigen_eeprom), offset, data);
             unlocked = 0;
         }
     };
@@ -296,7 +297,7 @@ public class atarigen {
      */
     public static ReadHandlerPtr atarigen_eeprom_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            return atarigen_eeprom.READ_WORD(offset) | 0xff00;
+            return (new UBytePtr(atarigen_eeprom)).READ_WORD(offset) | 0xff00;
         }
     };
 
@@ -328,9 +329,9 @@ public class atarigen {
 //                        throw new UnsupportedOperationException("Unimplemented");
 
                     if (atarigen_eeprom_default.read(0) == 0)
-                        decompress_eeprom_byte( new UBytePtr(atarigen_eeprom_default, 1) );
+                        decompress_eeprom_byte( new IntSubArray(atarigen_eeprom_default, 1) );
                     else
-                        decompress_eeprom_word( new UBytePtr(atarigen_eeprom_default, 1) );
+                        decompress_eeprom_word( new IntSubArray(atarigen_eeprom_default, 1) );
                     }
                 }
             }
@@ -341,27 +342,30 @@ public class atarigen {
 	/*
 	 *	Decompress word-based EEPROM data
 	 *
-	 *	Used for decompressing EEPROM data that has every other byte invalid.
+	 *	Used for decompressing PROM data that has every other byte invalid.
 	 *
 	 */
 	
-	static void decompress_eeprom_word(UBytePtr data)
+	static void decompress_eeprom_word(IntSubArray data)
 	{
-		UBytePtr dest = atarigen_eeprom;
+            //data.offset=2;
+            System.out.println("decompress_eeprom_word");
+		IntSubArray dest = new IntSubArray(atarigen_eeprom);
 		int value;
 	
 		while ((value = data.read()) != 0)
 		{
+                    System.out.println("Value="+value);
 			int count = (value >> 8);
 			value = (value << 8) | (value & 0xff);
 	
 			while (count-- != 0)
 			{
-				dest.WRITE_WORD(0, value);
-				dest.inc();
+				dest.write(0, value);
+				dest.inc(1);
 			}
                         
-                        data.inc();
+                        data.inc(1);
 		}
 	}
 	
@@ -373,18 +377,21 @@ public class atarigen {
 	 *
 	 */
 	
-	static void decompress_eeprom_byte(UBytePtr data)
+	static void decompress_eeprom_byte(IntSubArray data)
 	{
+            System.out.println("decompress_eeprom_byte");
 		UBytePtr dest = new UBytePtr(atarigen_eeprom);
 		int value;
 	
-		while ((value = data.readinc()) != 0)
+		while ((value = data.read(0)) != 0)
 		{
 			int count = (value >> 8);
 			value = (value << 8) | (value & 0xff);
 	
 			while (count-- != 0)
 				dest.writeinc( value );
+                        
+                        data.inc(1);
 		}
 	}
 	
@@ -1310,10 +1317,10 @@ public class atarigen {
 	/* statics */
 	static atarigen_mo_desc modesc;
 
-	static UShortPtr molist;
-        static UShortPtr molist_end;
-        static UShortPtr molist_last;
-        static UShortPtr molist_upper_bound;
+	static IntSubArray molist;
+        static IntSubArray molist_end;
+        static IntSubArray molist_last;
+        static IntSubArray molist_upper_bound;
 
 
 /*TODO*///	/*
@@ -1331,10 +1338,10 @@ public class atarigen {
         /* make sure everything is free */
         atarigen_mo_free();
         /* allocate memory for the cached list */
-        molist = new UShortPtr(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
+        molist = new IntSubArray(modesc.maxcount * 2 * modesc.entrywords * (Machine.drv.screen_height / 8));
 	if (molist==null)
             return 1;
-	molist_upper_bound = new UShortPtr(molist, (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8)));
+	molist_upper_bound = new IntSubArray(molist, (modesc.maxcount * modesc.entrywords * (Machine.drv.screen_height / 8)));
         /* initialize the end/last pointers */
         atarigen_mo_reset();
 
@@ -1362,7 +1369,7 @@ public class atarigen {
 /*TODO*///	 */
 
     public static void atarigen_mo_reset() {
-        molist_end = new UShortPtr(molist);
+        molist_end = new IntSubArray(molist);
         molist_last = null;
     }
     
@@ -1378,18 +1385,18 @@ public class atarigen {
 	{
             int entryskip = modesc.entryskip, wordskip = modesc.wordskip, wordcount = modesc.entrywords - 1;
             int[] spritevisit=new int[ATARIGEN_MAX_MAXCOUNT];
-            UShortPtr data, data_start, prev_data;
+            IntSubArray data, data_start, prev_data;
             int match = 0;
 
             /* set up local pointers */
-            data_start = data = molist_end;
+            data_start = data = new IntSubArray(molist_end);
             prev_data = molist_last;
 
             /* if the last list entries were on the same scanline, overwrite them */
             if (prev_data != null)
             {
                     if (prev_data.read(0) == scanline)
-                            data_start = data = prev_data;
+                            data_start = data = new IntSubArray(prev_data);
                     else
                             match = 1;
             }
@@ -1456,8 +1463,8 @@ public class atarigen {
             /* if we didn't match the last set of entries, update the counters */
             if (match==0)
             {
-                    molist_end = data;
-                    molist_last = data_start;
+                    molist_end = new IntSubArray(data);
+                    molist_last = new IntSubArray(data_start);
             }
 	}
 /*TODO*///	
@@ -1498,7 +1505,7 @@ public class atarigen {
 	
 	public static void atarigen_mo_process(atarigen_mo_callback callback, Object param)
 	{
-		UShortPtr base = new UShortPtr(molist);
+		IntSubArray base = new IntSubArray(molist);
 		int last_start_scan = -1;
 		rectangle clip=new rectangle();
 	
@@ -1509,7 +1516,7 @@ public class atarigen {
 		/* loop over the list until the end */
 		while (base.offset < molist_end.offset)
 		{
-			UShortPtr data, first, last;
+			IntSubArray data, first, last;
 			int start_scan = base.read(0);
                         int step = 0;
 	
@@ -1517,7 +1524,7 @@ public class atarigen {
 			clip.min_y = start_scan;
 	
 			/* look for an entry whose scanline start is different from ours; that's our bottom */
-			for (data = base; data.offset < molist_end.offset; data.inc(modesc.entrywords))
+			for (data = new IntSubArray(base); data.offset < molist_end.offset; data.inc(modesc.entrywords))
 				if (data.read(0) != start_scan)
 				{
 					clip.max_y = data.read(0);
@@ -1526,29 +1533,29 @@ public class atarigen {
 				}
 	
 			/* if we didn't find any additional regions, go until the bottom of the screen */
-			if (data == molist_end)
+			if (data.offset == molist_end.offset)
 				clip.max_y = Machine.drv.screen_height - 1;
 	
 			/* set the start and end points */
 			if (modesc.reverse != 0)
 			{
-				first = new UShortPtr(data, - modesc.entrywords);
-				last = new UShortPtr(base, - modesc.entrywords);
+				first = new IntSubArray(data, - modesc.entrywords);
+				last = new IntSubArray(base, - modesc.entrywords);
 				step = -modesc.entrywords;
 			}
 			else
 			{
-				first = base;
-				last = data;
+				first = new IntSubArray(base);
+				last = new IntSubArray(data);
 				step = modesc.entrywords;
 			}
 	
 			/* update the base */
-			base = data;
+			base = new IntSubArray(data);
 	
 			/* render the mos */
-			for (data = first; data.offset != last.offset; data.inc(step))
-				(callback).handler(new UShortPtr(data, 1), clip, param);
+			for (data = new IntSubArray(first); data.offset != last.offset; data.inc(step))
+				(callback).handler(new IntSubArray(data, 1), clip, param);
 		}
 	}
 	
@@ -2833,7 +2840,7 @@ public class atarigen {
 		if (pf.scanline!=null && pf.state!=null)
 		{
 			pf.entries = 0;
-			internal_pf_update(pf, pf.last_state, 0);
+			pf=internal_pf_update(pf, pf.last_state, 0);
 		}
     }
 
@@ -2853,7 +2860,7 @@ public class atarigen {
 	 *
 	 */
 	
-	public static void internal_pf_update(playfield_data pf, atarigen_pf_state state, int scanline)
+	public static playfield_data internal_pf_update(playfield_data pf, atarigen_pf_state state, int scanline)
 	{
 		if (pf.entries > 0)
 		{
@@ -2866,7 +2873,7 @@ public class atarigen {
 					 pf.last_state.vscroll == state.vscroll &&
 					 pf.last_state.param[0] == state.param[0] &&
 					 pf.last_state.param[1] == state.param[1])
-				return;
+				return pf;
 		}
 	
 		/* remember this entry as the last set of parameters */
@@ -2878,16 +2885,18 @@ public class atarigen {
 	
 		/* set the final scanline to be huge -- it will be clipped during processing */
 		pf.scanline[pf.entries] = 100000;
+                
+                return pf;
 	}
 	
 	public static void atarigen_pf_update(atarigen_pf_state state, int scanline)
 	{
-		internal_pf_update(playfield, state, scanline);
+		playfield = internal_pf_update(playfield, state, scanline);
 	}
 	
 	public static void atarigen_pf2_update(atarigen_pf_state state, int scanline)
 	{
-		internal_pf_update(playfield2, state, scanline);
+		playfield2=internal_pf_update(playfield2, state, scanline);
 	}
 	
 

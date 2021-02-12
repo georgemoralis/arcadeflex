@@ -50,10 +50,11 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.v036.machine.atarigenH;
 import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
-
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 
 public class shuuz {
 
@@ -406,10 +407,10 @@ public class shuuz {
      */
     static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
         @Override
-        public void handler(UShortPtr data, rectangle clip, Object param) {
-            System.out.println("pf_overrender_callback");
+        public void handler(IntSubArray data, rectangle clip, Object param) {
+            System.out.println("pf_overrender_callback "+param.getClass().getName());
             int[] usage = Machine.gfx[1].pen_usage;
-            UShortPtr colormap = (UShortPtr) param;
+            IntSubArray colormap = (IntSubArray) param;
             int code = data.read(1) & 0x7fff;
             int color = data.read(2) & 0x000f;
             int hsize = ((data.read(3) >> 4) & 7) + 1;
@@ -436,7 +437,7 @@ public class shuuz {
      */
     static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
         @Override
-        public void handler(UShortPtr data, rectangle clip, Object param) {
+        public void handler(IntSubArray data, rectangle clip, Object param) {
             System.out.println("mo_render_callback");
             GfxElement gfx = Machine.gfx[1];
             pf_overrender_data overrender_data = new pf_overrender_data();

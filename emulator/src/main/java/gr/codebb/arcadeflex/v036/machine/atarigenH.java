@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.machine;
 
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import gr.codebb.arcadeflex.common.PtrLib.UShortPtr;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.machine.atarigen.atarigen_overrender_colortable;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
@@ -52,7 +52,7 @@ public class atarigenH {
     }
     
     public static abstract interface atarigen_mo_callback {
-        public abstract void handler(UShortPtr data, rectangle clip, Object param);
+        public abstract void handler(IntSubArray data, rectangle clip, Object param);
     }
 
     /*TODO*///

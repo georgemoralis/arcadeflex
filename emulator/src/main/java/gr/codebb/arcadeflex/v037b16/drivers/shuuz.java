@@ -93,9 +93,9 @@ public class shuuz
 	
 	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
 	{
-		atarigen_eeprom_reset();
-		atarivc_reset(atarivc_eof_data);
-		atarigen_interrupt_reset(update_interrupts);
+/*TODO*///		atarigen_eeprom_reset();
+/*TODO*///		atarivc_reset(atarivc_eof_data);
+/*TODO*///		atarigen_interrupt_reset(update_interrupts);
 	} };
 	
 	
@@ -188,11 +188,11 @@ public class shuuz
 	static MemoryReadAddress main_readmem[] =
 	{
 		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-		new MemoryReadAddress( 0x100000, 0x100fff, atarigen_eeprom_r ),
-		new MemoryReadAddress( 0x103000, 0x103003, leta_r ),
-		new MemoryReadAddress( 0x105000, 0x105001, special_port0_r ),
+/*TODO*///		new MemoryReadAddress( 0x100000, 0x100fff, atarigen_eeprom_r ),
+/*TODO*///		new MemoryReadAddress( 0x103000, 0x103003, leta_r ),
+/*TODO*///		new MemoryReadAddress( 0x105000, 0x105001, special_port0_r ),
 		new MemoryReadAddress( 0x105002, 0x105003, input_port_1_r ),
-		new MemoryReadAddress( 0x106000, 0x106001, adpcm_r ),
+/*TODO*///		new MemoryReadAddress( 0x106000, 0x106001, adpcm_r ),
 		new MemoryReadAddress( 0x107000, 0x107007, MRA_NOP ),
 		new MemoryReadAddress( 0x3e0000, 0x3e087f, MRA_RAM ),
 		new MemoryReadAddress( 0x3effc0, 0x3effff, atarivc_r ),
@@ -204,20 +204,20 @@ public class shuuz
 	static MemoryWriteAddress main_writemem[] =
 	{
 		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-		new MemoryWriteAddress( 0x100000, 0x100fff, atarigen_eeprom_w, atarigen_eeprom, atarigen_eeprom_size ),
-		new MemoryWriteAddress( 0x101000, 0x101fff, atarigen_eeprom_enable_w ),
+/*TODO*///		new MemoryWriteAddress( 0x100000, 0x100fff, atarigen_eeprom_w, atarigen_eeprom, atarigen_eeprom_size ),
+/*TODO*///		new MemoryWriteAddress( 0x101000, 0x101fff, atarigen_eeprom_enable_w ),
 		new MemoryWriteAddress( 0x102000, 0x102001, watchdog_reset_w ),
 		new MemoryWriteAddress( 0x105000, 0x105001, latch_w ),
-		new MemoryWriteAddress( 0x106000, 0x106001, adpcm_w ),
+/*TODO*///		new MemoryWriteAddress( 0x106000, 0x106001, adpcm_w ),
 		new MemoryWriteAddress( 0x107000, 0x107007, MWA_NOP ),
-		new MemoryWriteAddress( 0x3e0000, 0x3e087f, atarigen_666_paletteram_w, paletteram ),
+/*TODO*///		new MemoryWriteAddress( 0x3e0000, 0x3e087f, atarigen_666_paletteram_w, paletteram ),
 		new MemoryWriteAddress( 0x3effc0, 0x3effff, atarivc_w, atarivc_data ),
-		new MemoryWriteAddress( 0x3f4000, 0x3f5eff, ataripf_0_latched_w, ataripf_0_base ),
+/*TODO*///		new MemoryWriteAddress( 0x3f4000, 0x3f5eff, ataripf_0_latched_w, ataripf_0_base ),
 		new MemoryWriteAddress( 0x3f5f00, 0x3f5f7f, MWA_RAM, atarivc_eof_data ),
-		new MemoryWriteAddress( 0x3f5f80, 0x3f5fff, atarimo_0_slipram_w, atarimo_0_slipram ),
-		new MemoryWriteAddress( 0x3f6000, 0x3f7fff, ataripf_0_upper_msb_w, ataripf_0_upper ),
+/*TODO*///		new MemoryWriteAddress( 0x3f5f80, 0x3f5fff, atarimo_0_slipram_w, atarimo_0_slipram ),
+/*TODO*///		new MemoryWriteAddress( 0x3f6000, 0x3f7fff, ataripf_0_upper_msb_w, ataripf_0_upper ),
 		new MemoryWriteAddress( 0x3f8000, 0x3fcfff, MWA_RAM ),
-		new MemoryWriteAddress( 0x3fd000, 0x3fd3ff, atarimo_0_spriteram_w, atarimo_0_spriteram ),
+/*TODO*///		new MemoryWriteAddress( 0x3fd000, 0x3fd3ff, atarimo_0_spriteram_w, atarimo_0_spriteram ),
 		new MemoryWriteAddress( 0x3fd400, 0x3fffff, MWA_RAM ),
                 new MemoryWriteAddress( -1 )  /* end of table */
 	};
@@ -451,9 +451,9 @@ public class shuuz
 	
 	public static InitDriverPtr init_shuuz = new InitDriverPtr() { public void handler() 
 	{
-		atarigen_eeprom_default = null;
-		atarigen_invert_region(REGION_GFX1);
-		atarigen_invert_region(REGION_GFX2);
+/*TODO*///		atarigen_eeprom_default = null;
+/*TODO*///		atarigen_invert_region(REGION_GFX1);
+/*TODO*///		atarigen_invert_region(REGION_GFX2);
 	} };
 	
 	
