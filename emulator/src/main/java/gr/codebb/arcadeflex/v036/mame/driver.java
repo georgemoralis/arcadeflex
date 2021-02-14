@@ -252,6 +252,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zerozone.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.wecleman.*;
 
 public class driver {
 
@@ -2170,8 +2171,8 @@ public class driver {
                 /*parodius*/ driver_parodius,
                 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
 
-                /*TODO*/ //	DRIVER( wecleman )	/* GX602 (c) 1986 */
-                /*TODO*/ //	DRIVER( hotchase )	/* GX763 (c) 1988 */
+                driver_wecleman,	/* GX602 (c) 1986 */
+                driver_hotchase,	/* GX763 (c) 1988 */
                 /*TODO*/ //	DRIVER( ultraman )	/* GX910 (c) 1991 Banpresto/Bandai */
 
                 /* Konami "Nemesis hardware" games */

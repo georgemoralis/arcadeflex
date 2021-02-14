@@ -24,7 +24,7 @@ public class k007232H {
 
         int num_chips;			/* Number of chips */
 
-        int[] bank;//[MAX_K007232];	/* memory regions */
+        public int[] bank;//[MAX_K007232];	/* memory regions */
         int[] volume;//[MAX_K007232];/* volume */
         portwritehandlerPtr[] portwritehandler;//void (*portwritehandler[MAX_K007232])(int);
     };
