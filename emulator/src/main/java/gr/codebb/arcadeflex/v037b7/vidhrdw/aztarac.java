@@ -45,7 +45,7 @@ public class aztarac
 	{
 	    int intensity, color;
             int[] x=new int[1], y=new int[1], c=new int[1], xoffset=new int[1], yoffset=new int[1];
-            UBytePtr ndefs=new UBytePtr(1024*48);
+            int ndefs=0;
 	    int defaddr, objaddr=0;
 	
 	    if ((data & 1) != 0)
@@ -67,17 +67,18 @@ public class aztarac
                         int[] _nd=new int[1];
 	
 	                read_vectorram (defaddr, x, _nd, c);
+                        ndefs=_nd[0];
                         
-	                ndefs.inc();
+	                ndefs++;
 	
 	                if (c[0] != 0)
 	                {
 	                    /* latch color only once */
 	                    intensity = c[0] >> 8;
 	                    color = c[0] & 0x3f;
-	                    while (ndefs.read() != 0)
+	                    while (ndefs != 0)
 	                    {
-                                ndefs.dec();
+                                ndefs--;
 	                        defaddr++;
 	                        read_vectorram (defaddr, x, y, c);
 	                        if ((c[0] & 0xff00) == 0)
@@ -89,9 +90,9 @@ public class aztarac
 	                else
 	                {
 	                    /* latch color for every definition */
-	                    while (ndefs.read()!=0)
+	                    while (ndefs!=0)
 	                    {
-                                ndefs.dec();
+                                ndefs--;
 	                        defaddr++;
 	                        read_vectorram (defaddr, x, y, c);
 	                        aztarac_vector (x[0] + xoffset[0], y[0] + yoffset[0], c[0] & 0x3f, c[0] >> 8);

@@ -60,7 +60,7 @@ public class foodf
 	 *      also used by Quantum
 	 */
 	
-	static UBytePtr nvram=new UBytePtr(128);
+	static UBytePtr nvram=new UBytePtr(256);
 	
 	public static ReadHandlerPtr foodf_nvram_r  = new ReadHandlerPtr() { public int handler(int offset)
 	{
