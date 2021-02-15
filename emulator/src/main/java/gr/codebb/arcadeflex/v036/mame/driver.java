@@ -258,6 +258,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.ladyfrog.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bssoccer.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.ginganin.*;
 
 public class driver {
 
@@ -2559,7 +2560,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( pinbo )		/* (c) 1984 Jaleco */
                 /*TODO*/ //	DRIVER( pinbos )	/* (c) 1985 Strike */
 
-                /*TODO*/ //	DRIVER( ginganin )	/* (c) 1987 Jaleco */
+                driver_ginganin,	/* (c) 1987 Jaleco */
                 /*TODO*/ //	DRIVER( cischeat )	/* (c) 1990 Jaleco */
                 /*TODO*/ //	DRIVER( f1gpstar )	/* (c) 1991 Jaleco */
 
