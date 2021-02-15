@@ -257,6 +257,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.ultraman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ladyfrog.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bssoccer.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
 
 public class driver {
 
@@ -2648,7 +2649,7 @@ public class driver {
                 /*TODO*/ //TESTDRIVER( dlair )
                 /*TODO*/ //	DRIVER( meteor )	/* (c) 1981 Venture Line */
 
-                /*TODO*/ //	DRIVER( aztarac )	/* (c) 1983 Centuri (vector game) */
+                driver_aztarac,	/* (c) 1983 Centuri (vector game) */
                 /*TODO*/ //	DRIVER( mole )		/* (c) 1982 Yachiyo Electronics, Ltd. */
                 /*TODO*/ //	DRIVER( gotya )		/* (c) 1981 Game-A-Tron */
 
