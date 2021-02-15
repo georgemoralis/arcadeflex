@@ -256,6 +256,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.wecleman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ultraman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ladyfrog.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.bssoccer.*;
 
 public class driver {
 
@@ -2859,6 +2860,7 @@ public class driver {
                 driver_silentd,         /* ??? (c) 1992 Taito Corporation Japan (World) */
                 
                 driver_ladyfrog,
+                driver_bssoccer,
                 
                 null /* end of array */};
     
