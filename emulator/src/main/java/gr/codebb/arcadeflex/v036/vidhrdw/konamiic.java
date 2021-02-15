@@ -2363,12 +2363,12 @@ public class konamiic {
 	K051316_zoom_draw(1, bitmap);
     }
 
-/*TODO*////*TODO*///void K051316_zoom_draw_2(struct osd_bitmap *bitmap)
-/*TODO*////*TODO*///{
-/*TODO*////*TODO*///	K051316_zoom_draw(2, bitmap);
-/*TODO*////*TODO*///}
-/*TODO*////*TODO*///
-/*TODO*////*TODO*///
+    public static void K051316_zoom_draw_2(osd_bitmap bitmap)
+    {
+            K051316_zoom_draw(2, bitmap);
+    }
+
+
     static /*unsigned*/ char[] K053251_ram = new char[16];
     static int[] K053251_palette_index = new int[5];
 

@@ -253,6 +253,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zerozone.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.wecleman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.ultraman.*;
 
 public class driver {
 
@@ -2173,7 +2174,7 @@ public class driver {
 
                 driver_wecleman,	/* GX602 (c) 1986 */
                 driver_hotchase,	/* GX763 (c) 1988 */
-                /*TODO*/ //	DRIVER( ultraman )	/* GX910 (c) 1991 Banpresto/Bandai */
+                driver_ultraman,	/* GX910 (c) 1991 Banpresto/Bandai */
 
                 /* Konami "Nemesis hardware" games */
                 driver_nemesis, /* GX456 (c) 1985 */
