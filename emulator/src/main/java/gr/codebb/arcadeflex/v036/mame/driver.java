@@ -254,6 +254,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zerozone.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.wecleman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ultraman.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.ladyfrog.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
 
 public class driver {
 
@@ -2446,8 +2448,8 @@ public class driver {
 
                 driver_ctribe,
                 driver_ctribeb,
-                /*TODO*/ //	DRIVER( blockout )	/* TA-0029 (c) 1989 + California Dreams */
-                /*TODO*/ //	DRIVER( blckout2 )	/* TA-0029 (c) 1989 + California Dreams */
+                driver_blockout,	/* TA-0029 (c) 1989 + California Dreams */
+                driver_blckout2,	/* TA-0029 (c) 1989 + California Dreams */
                 driver_ddragon3,
                 driver_ddrago3b,
                 /* TA-0031 WWF Wrestlefest */
@@ -2855,6 +2857,8 @@ public class driver {
                 driver_qzshowby,        /* D72 (c) 1993 Taito Corporation (Japan) */
                 driver_spacedx,         /* D89 (c) 1994 Taito Corporation (Japan) */
                 driver_silentd,         /* ??? (c) 1992 Taito Corporation Japan (World) */
+                
+                driver_ladyfrog,
                 
                 null /* end of array */};
     
