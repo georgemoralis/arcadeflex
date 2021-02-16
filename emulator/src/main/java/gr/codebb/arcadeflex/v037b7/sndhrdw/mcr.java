@@ -18,11 +18,13 @@ import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
+import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static gr.codebb.arcadeflex.v036.machine._6821pia.*;
 
 public class mcr {
 
@@ -318,58 +320,60 @@ public class mcr {
 /*TODO*///	{
 /*TODO*///	  	cpu_set_irq_line(csdeluxe_sound_cpu, 4, state ? ASSERT_LINE : CLEAR_LINE);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	static void csdeluxe_delayed_data_w(int param)
-/*TODO*///	{
-/*TODO*///		pia_0_portb_w(0, param & 0x0f);
-/*TODO*///		pia_0_ca1_w(0, ~param & 0x10);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/********* external interfaces ***********/
-/*TODO*///	public static WriteHandlerPtr csdeluxe_data_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		timer_set(TIME_NOW, data, csdeluxe_delayed_data_w);
-/*TODO*///	} };
-/*TODO*///	
+	
+	static timer_callback csdeluxe_delayed_data_w = new timer_callback() {
+            @Override
+            public void handler(int param) {
+                pia_0_portb_w.handler(0, param & 0x0f);
+		pia_0_ca1_w.handler(0, ~param & 0x10);
+            }
+        };
+        
+	
+	/********* external interfaces ***********/
+	public static WriteHandlerPtr csdeluxe_data_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		timer_set(TIME_NOW, data, csdeluxe_delayed_data_w);
+	} };
+	
 /*TODO*///	void csdeluxe_reset_w(int state)
 /*TODO*///	{
 /*TODO*///		cpu_set_reset_line(csdeluxe_sound_cpu, state ? ASSERT_LINE : CLEAR_LINE);
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/********* sound interfaces ***********/
-/*TODO*///	static DACinterface mcr_dac_interface = new DACinterface
-/*TODO*///	(
-/*TODO*///		1,
-/*TODO*///		new int[] { 100 }
-/*TODO*///	);
-/*TODO*///	
+	
+	
+	/********* sound interfaces ***********/
+	public static DACinterface mcr_dac_interface = new DACinterface
+	(
+		1,
+		new int[] { 100 }
+	);
+	
 /*TODO*///	static DACinterface mcr_dual_dac_interface = new DACinterface
 /*TODO*///	(
 /*TODO*///		2,
 /*TODO*///		new int[] { 75, 75 }
 /*TODO*///	);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/********* memory interfaces ***********/
-/*TODO*///	static MemoryReadAddress csdeluxe_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x007fff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x018000, 0x018007, pia_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x01c000, 0x01cfff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress( -1 )	/* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress csdeluxe_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x007fff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x018000, 0x018007, pia_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x01c000, 0x01cfff, MWA_BANK1 ),
-/*TODO*///		new MemoryWriteAddress( -1 )	/* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+	
+	
+	/********* memory interfaces ***********/
+	static MemoryReadAddress csdeluxe_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x007fff, MRA_ROM ),
+		new MemoryReadAddress( 0x018000, 0x018007, pia_0_r ),
+		new MemoryReadAddress( 0x01c000, 0x01cfff, MRA_BANK1 ),
+		new MemoryReadAddress( -1 )	/* end of table */
+	};
+	
+	static MemoryWriteAddress csdeluxe_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x007fff, MWA_ROM ),
+		new MemoryWriteAddress( 0x018000, 0x018007, pia_0_w ),
+		new MemoryWriteAddress( 0x01c000, 0x01cfff, MWA_BANK1 ),
+		new MemoryWriteAddress( -1 )	/* end of table */
+	};
+	
+	
 /*TODO*///	/********* PIA interfaces ***********/
 /*TODO*///	struct pia6821_interface csdeluxe_pia_intf =
 /*TODO*///	{

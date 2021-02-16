@@ -259,6 +259,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bssoccer.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ginganin.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.mcr68.*;
 
 public class driver {
 
@@ -1493,7 +1494,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( turbotag )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( crater )	/* (c) 1984 */
                 /* MCR 68000 */
-                /*TODO*/ //	DRIVER( zwackery )	/* (c) 1984 */
+                driver_zwackery,	/* (c) 1984 */
                 /*TODO*/ //	DRIVER( xenophob )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( spyhunt2 )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( blasted )	/* (c) 1988 */

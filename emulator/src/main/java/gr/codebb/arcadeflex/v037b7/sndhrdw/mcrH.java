@@ -7,6 +7,8 @@ import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.ssio_writemem;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.csdeluxe_readmem;
+import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.csdeluxe_writemem;
 
 public class mcrH {
 
@@ -37,33 +39,34 @@ public static MachineCPU SOUND_CPU_SSIO	= new MachineCPU
 		interrupt,26								
         );
 
-public static MachineSound SOUND_SSIO = new MachineSound									
+        public static MachineSound SOUND_SSIO = new MachineSound									
 	(												
 		SOUND_AY8910,								
 		ssio_ay8910_interface						
         );
 
-/*TODO*///
-/*TODO*///
-/*TODO*////************ Chip Squeak Deluxe CPU and sound definitions ***************/
-/*TODO*///
-/*TODO*///
-/*TODO*///#define SOUND_CPU_CHIP_SQUEAK_DELUXE				\
-/*TODO*///	{												\
-/*TODO*///		CPU_M68000 | CPU_AUDIO_CPU,					\
-/*TODO*///		15000000/2,	/* 7.5 MHz */					\
-/*TODO*///		csdeluxe_readmem,csdeluxe_writemem,0,0,		\
-/*TODO*///		ignore_interrupt,1							\
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#define SOUND_CHIP_SQUEAK_DELUXE					\
-/*TODO*///	{												\
-/*TODO*///		SOUND_DAC,									\
-/*TODO*///		&mcr_dac_interface							\
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///
+
+
+        /************ Chip Squeak Deluxe CPU and sound definitions ***************/
+
+
+        public static MachineCPU SOUND_CPU_CHIP_SQUEAK_DELUXE()
+	{		
+            return new MachineCPU(
+		CPU_M68000 | CPU_AUDIO_CPU,
+		15000000/2,	/* 7.5 MHz */
+		csdeluxe_readmem,csdeluxe_writemem,null,null,
+		ignore_interrupt,1);
+	}
+
+        public static MachineSound SOUND_CHIP_SQUEAK_DELUXE = new MachineSound									
+	(
+		SOUND_DAC,
+		mcr_dac_interface
+	);
+
+
+
 /*TODO*////************ Sounds Good CPU and sound definitions ***************/
 /*TODO*///
 /*TODO*///

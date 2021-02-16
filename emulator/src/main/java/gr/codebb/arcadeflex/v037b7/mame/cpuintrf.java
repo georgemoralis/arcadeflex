@@ -290,7 +290,7 @@ public class cpuintrf {
 /*TODO*///
 /*TODO*///
 /* warning the ordering must match the one of the enum in driver.h! */
-    static cpu_interface cpuintf[]
+    public static cpu_interface cpuintf[]
             = {
                 new Dummy_cpu(),
                 new z80(),
