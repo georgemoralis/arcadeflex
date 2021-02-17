@@ -318,6 +318,7 @@ public class mcr {
 	
 	public static InitMachinePtr zwackery_init_machine = new InitMachinePtr() { public void handler() 
 	{
+            System.out.println("zwackery_init_machine");
 		/* for the most part all MCR/68k games are the same */
 		mcr68_common_init();
 		v493_callback = zwackery_493_callback;

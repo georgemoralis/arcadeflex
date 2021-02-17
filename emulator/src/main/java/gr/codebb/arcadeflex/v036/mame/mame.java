@@ -184,6 +184,8 @@ public class mame {
      */
     public static int init_machine() {
         int i;
+        
+        System.out.println("mame init_machine");
 
         if (code_init() != 0) {
             return out();
@@ -231,6 +233,8 @@ public class mame {
         if (gamedrv.driver_init != null) {
             gamedrv.driver_init.handler();
         }
+        
+        System.out.println("FIN mame init_machine "+gamedrv.driver_init);
 
         return 0;
     }

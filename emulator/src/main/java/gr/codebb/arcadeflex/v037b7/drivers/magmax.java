@@ -85,6 +85,7 @@ public class magmax
         
 	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
 	{
+            System.out.println("init_machine");
 		scanline_timer = timer_set(cpu_getscanlinetime( 64 ), 64, scanline_callback );
 	} };
 	

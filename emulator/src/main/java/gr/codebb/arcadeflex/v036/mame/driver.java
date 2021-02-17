@@ -260,6 +260,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bssoccer.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ginganin.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr68.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.madmotor.*;
 
 public class driver {
 
@@ -2108,7 +2109,7 @@ public class driver {
                 driver_bouldash,
                 /* end of similar hardware */
                 /*TODO*/ //	DRIVER( stadhero )	/* (c) 1988 Data East Corporation (Japan) */
-                /*TODO*/ //	DRIVER( madmotor )	/* (c) [1989] Mitchell */
+                driver_madmotor,	/* (c) [1989] Mitchell */
                 /* All these games have a unique code stamped on the mask roms */
                 /*TODO*/ //	DRIVER( vaportra )	/* MAA (c) 1989 Data East Corporation (US) */
                 /*TODO*/ //	DRIVER( kuhga )		/* MAA (c) 1989 Data East Corporation (Japan) */

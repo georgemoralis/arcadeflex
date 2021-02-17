@@ -96,6 +96,11 @@ public class _6821pia
 	/******************* static variables *******************/
 	
 	static pia6821 pia[]=new pia6821[MAX_PIA];
+        
+        static {
+            for (int _i=0 ; _i<MAX_PIA ; _i++)
+                pia[_i] = new pia6821();
+        }
 	
 	static int swizzle_address[] = { 0, 2, 1, 3 };
 	
@@ -105,6 +110,7 @@ public class _6821pia
 	
 	public static void pia_unconfig()
 	{
+            System.out.println("pia_unconfig");
 		for (int i = 0; i < MAX_PIA; i++) pia[i] = new pia6821();
 	}
 	
@@ -113,10 +119,13 @@ public class _6821pia
 	
 	public static void pia_config(int which, int addressing,pia6821_interface intf)
 	{
+            System.out.println("pia_config");
 		if (which >= MAX_PIA) return;
                 
-                if (pia[which]==null)
+                if (pia[which]==null){
                     pia[which]=new pia6821();
+                    System.out.println("config "+which);
+                }
                 
 		pia[which].intf = intf;
 		pia[which].addr = (char)(addressing&0xFF);
@@ -127,6 +136,7 @@ public class _6821pia
 	
 	public static void pia_reset()
 	{
+            System.out.println("pia_reset");
 		int i;
 	
 		/* zap each structure, preserving the interface and swizzle */
@@ -205,6 +215,9 @@ public class _6821pia
 	{
 		//pia6821 p = pia[which];
 		int val = 0;
+                
+                if (pia[which]==null)
+                    return 0;
 	
 		/* adjust offset for 16-bit and ordering */
 		if ((pia[which].addr & PIA_16BIT)!=0) offset /= 2;
@@ -336,7 +349,14 @@ public class _6821pia
 	public static void pia_write(int which, int offset, int data)
 	{
 		//pia6821 p = pia[which];
-	
+                
+                if (pia[which]==null){
+                    //System.out.println(which);
+                    //System.out.println(offset);
+                    //System.out.println(data);
+                
+                    return;
+                }
 		/* adjust offset for 16-bit and ordering */
 		if ((pia[which].addr & PIA_16BIT)!=0) offset /= 2;
 		offset &= 3;
@@ -620,8 +640,8 @@ public class _6821pia
 		/* limit the data to 0 or 1 */
 		data = data!=0 ? 1 : 0;
                 
-                if (pia[which]==null)
-                    pia[which]=new pia6821();
+                //if (pia[which]==null)
+                //    pia[which]=new pia6821();
 	
 		/* the new state has caused a transition */
 		if ((pia[which].in_cb1 ^ data)!=0)

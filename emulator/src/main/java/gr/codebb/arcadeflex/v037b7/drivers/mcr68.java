@@ -52,6 +52,7 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.machine._6821pia.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -979,8 +980,9 @@ public class mcr68
 				7652400,	/* 8 MHz */
 				zwackery_readmem,zwackery_writemem,null,null,
 				mcr68_interrupt,1
-			),
-			SOUND_CPU_CHIP_SQUEAK_DELUXE()
+			)
+/*TODO*///                        ,SOUND_CPU_CHIP_SQUEAK_DELUXE()
+                        
 		},
 		30, DEFAULT_REAL_30HZ_VBLANK_DURATION,
 		1,
@@ -1000,9 +1002,11 @@ public class mcr68
 	
 		/* sound hardware */
 		SOUND_SUPPORTS_STEREO,0,0,0,
-		new MachineSound[] {
-			SOUND_CHIP_SQUEAK_DELUXE
-		},
+/*TODO*///                        new MachineSound[] {
+/*TODO*///			SOUND_CHIP_SQUEAK_DELUXE
+/*TODO*///		},
+                null,
+                
 		null
 	);
 	
@@ -1064,7 +1068,7 @@ public class mcr68
 	
 		/* tile graphics are inverted */
 		for (i = 0; i < memory_region_length(REGION_GFX1); i++)
-			memory_region(REGION_GFX1).write(i, memory_region(REGION_GFX1).read(i) ^ 0xff);
+			new UBytePtr(memory_region(REGION_GFX1)).write(i, new UBytePtr(memory_region(REGION_GFX1)).read(i) ^ 0xff);
 	}
 	
 	
@@ -1117,30 +1121,30 @@ public class mcr68
 		ROM_LOAD_GFX_ODD ( "tilee.bin",  0x0000, 0x4000, 0xab504dc8 );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_xenophob = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
-/*TODO*///		ROM_LOAD_EVEN( "xeno_pro.3c",  0x00000, 0x10000, 0xf44c2e60 );
-/*TODO*///		ROM_LOAD_ODD ( "xeno_pro.3b",  0x00000, 0x10000, 0x01609a3b );
-/*TODO*///		ROM_LOAD_EVEN( "xeno_pro.2c",  0x20000, 0x10000, 0xe45bf669 );
-/*TODO*///		ROM_LOAD_ODD ( "xeno_pro.2b",  0x20000, 0x10000, 0xda5d39d5 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU2 ); /* Sounds Good board */
-/*TODO*///		ROM_LOAD_EVEN( "xeno_snd.u7",  0x00000, 0x10000, 0x77561d15 );
-/*TODO*///		ROM_LOAD_ODD ( "xeno_snd.u17", 0x00000, 0x10000, 0x837a1a71 );
-/*TODO*///		ROM_LOAD_EVEN( "xeno_snd.u8",  0x20000, 0x10000, 0x6e2915c7 );
-/*TODO*///		ROM_LOAD_ODD ( "xeno_snd.u18", 0x20000, 0x10000, 0x12492145 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x10000, REGION_GFX1 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "xeno_bg.11d",  0x00000, 0x08000, 0x3d2cf284 );
-/*TODO*///		ROM_LOAD( "xeno_bg.12d",  0x08000, 0x08000, 0xc32288b1 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "xeno_fg.7j",   0x00000, 0x10000, 0xb12eddb2 );
-/*TODO*///		ROM_LOAD( "xeno_fg.8j",   0x10000, 0x10000, 0x20e682f5 );
-/*TODO*///		ROM_LOAD( "xeno_fg.9j",   0x20000, 0x10000, 0x82fb3e09 );
-/*TODO*///		ROM_LOAD( "xeno_fg.10j",  0x30000, 0x10000, 0x6a7a3516 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
+	static RomLoadPtr rom_xenophob = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );
+		ROM_LOAD_EVEN( "xeno_pro.3c",  0x00000, 0x10000, 0xf44c2e60 );
+		ROM_LOAD_ODD ( "xeno_pro.3b",  0x00000, 0x10000, 0x01609a3b );
+		ROM_LOAD_EVEN( "xeno_pro.2c",  0x20000, 0x10000, 0xe45bf669 );
+		ROM_LOAD_ODD ( "xeno_pro.2b",  0x20000, 0x10000, 0xda5d39d5 );
+	
+		ROM_REGION( 0x40000, REGION_CPU2 ); /* Sounds Good board */
+		ROM_LOAD_EVEN( "xeno_snd.u7",  0x00000, 0x10000, 0x77561d15 );
+		ROM_LOAD_ODD ( "xeno_snd.u17", 0x00000, 0x10000, 0x837a1a71 );
+		ROM_LOAD_EVEN( "xeno_snd.u8",  0x20000, 0x10000, 0x6e2915c7 );
+		ROM_LOAD_ODD ( "xeno_snd.u18", 0x20000, 0x10000, 0x12492145 );
+	
+		ROM_REGION( 0x10000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "xeno_bg.11d",  0x00000, 0x08000, 0x3d2cf284 );
+		ROM_LOAD( "xeno_bg.12d",  0x08000, 0x08000, 0xc32288b1 );
+	
+		ROM_REGION( 0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "xeno_fg.7j",   0x00000, 0x10000, 0xb12eddb2 );
+		ROM_LOAD( "xeno_fg.8j",   0x10000, 0x10000, 0x20e682f5 );
+		ROM_LOAD( "xeno_fg.9j",   0x20000, 0x10000, 0x82fb3e09 );
+		ROM_LOAD( "xeno_fg.10j",  0x30000, 0x10000, 0x6a7a3516 );
+	ROM_END(); }}; 
+	
 /*TODO*///	static RomLoadPtr rom_spyhunt2 = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "sh23c.bin",  0x00000, 0x10000, 0x30b91c90 );
@@ -1464,17 +1468,17 @@ public class mcr68
 /*TODO*///	
 /*TODO*///		rom_decode();
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Game drivers
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
+	
+	
+	
+	/*************************************
+	 *
+	 *	Game drivers
+	 *
+	 *************************************/
+	
 	public static GameDriver driver_zwackery	   = new GameDriver("1984"	,"zwackery"	,"mcr68.java"	,rom_zwackery,null	,machine_driver_zwackery	,input_ports_zwackery	,init_zwackery	,ROT0	,	"Bally Midway", "Zwackery" );
-/*TODO*///	public static GameDriver driver_xenophob	   = new GameDriver("1987"	,"xenophob"	,"mcr68.java"	,rom_xenophob,null	,machine_driver_xenophob	,input_ports_xenophob	,init_xenophob	,ROT0	,	"Bally Midway", "Xenophobe" )
+/*TODO*///        public static GameDriver driver_xenophob	   = new GameDriver("1987"	,"xenophob"	,"mcr68.java"	,rom_xenophob,null	,machine_driver_xenophob	,input_ports_xenophob	,init_xenophob	,ROT0	,	"Bally Midway", "Xenophobe" );
 /*TODO*///	public static GameDriver driver_spyhunt2	   = new GameDriver("1987"	,"spyhunt2"	,"mcr68.java"	,rom_spyhunt2,null	,machine_driver_spyhunt2	,input_ports_spyhunt2	,init_spyhunt2	,ROT0	,	"Bally Midway", "Spy Hunter 2 (rev 2)" )
 /*TODO*///	public static GameDriver driver_spyhnt2a	   = new GameDriver("1987"	,"spyhnt2a"	,"mcr68.java"	,rom_spyhnt2a,driver_spyhunt2	,machine_driver_spyhunt2	,input_ports_spyhunt2	,init_spyhunt2	,ROT0	,	"Bally Midway", "Spy Hunter 2 (rev 1)" )
 /*TODO*///	public static GameDriver driver_blasted	   = new GameDriver("1988"	,"blasted"	,"mcr68.java"	,rom_blasted,null	,machine_driver_xenophob	,input_ports_blasted	,init_blasted	,ROT0	,	"Bally Midway", "Blasted" )
