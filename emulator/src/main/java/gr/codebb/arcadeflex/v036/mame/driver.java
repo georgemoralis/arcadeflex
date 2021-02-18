@@ -2053,7 +2053,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( quartet )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartet2 )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartetj )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( riotcity )	/* (c) 1991 Sega / Westone */
+                driver_riotcity,	/* (c) 1991 Sega / Westone */
                 driver_sdi,		/* (c) 1987 */
                 /*TODO*/ //	DRIVER( shangonb )	/* (c) 1992 (but bootleg) */
                 driver_sharrier,	/* (c) 1985 */

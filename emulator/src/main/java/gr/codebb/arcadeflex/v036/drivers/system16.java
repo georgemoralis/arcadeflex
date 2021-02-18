@@ -6783,158 +6783,199 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7751( machine_driver_quartet2, \
 /*TODO*///		quartet2_readmem,quartet2_writemem,quartet2_init_machine, gfx8 )
-/*TODO*///	
-/*TODO*///	/***************************************************************************
-/*TODO*///	
-/*TODO*///	   Riot City
-/*TODO*///	
-/*TODO*///	***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_riotcity = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "epr14612.bin", 0x000000, 0x20000, 0xa1b331ec )
-/*TODO*///		ROM_LOAD_ODD ( "epr14610.bin", 0x000000, 0x20000, 0xcd4f2c50 )
-/*TODO*///		/* empty 0x40000 - 0x80000 */
-/*TODO*///		ROM_LOAD_EVEN( "epr14613.bin", 0x080000, 0x20000, 0x0659df4c )
-/*TODO*///		ROM_LOAD_ODD ( "epr14611.bin", 0x080000, 0x20000, 0xd9e6f80b )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "epr14616.bin", 0x00000, 0x20000, 0x46d30368 );/* plane 1 */
-/*TODO*///		ROM_LOAD( "epr14625.bin", 0x20000, 0x20000, 0xabfb80fe );
-/*TODO*///		ROM_LOAD( "epr14617.bin", 0x40000, 0x20000, 0x884e40f9 );/* plane 2 */
-/*TODO*///		ROM_LOAD( "epr14626.bin", 0x60000, 0x20000, 0x4ef55846 );
-/*TODO*///		ROM_LOAD( "epr14618.bin", 0x80000, 0x20000, 0x00eb260e );/* plane 3 */
-/*TODO*///		ROM_LOAD( "epr14627.bin", 0xa0000, 0x20000, 0x961e5f82 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x180000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "epr14619.bin",  0x000000, 0x040000, 0x6f2b5ef7 );
-/*TODO*///		ROM_LOAD( "epr14622.bin",  0x040000, 0x040000, 0x7ca7e40d );
-/*TODO*///		ROM_LOAD( "epr14620.bin",  0x080000, 0x040000, 0x66183333 );
-/*TODO*///		ROM_LOAD( "epr14623.bin",  0x0c0000, 0x040000, 0x98630049 );
-/*TODO*///		ROM_LOAD( "epr14621.bin",  0x100000, 0x040000, 0xc0f2820e );
-/*TODO*///		ROM_LOAD( "epr14624.bin",  0x140000, 0x040000, 0xd1a68448 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "epr14614.bin", 0x00000, 0x10000, 0xc65cc69a );
-/*TODO*///		ROM_LOAD( "epr14615.bin", 0x10000, 0x20000, 0x46653db1 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr riotcity_skip = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		if (cpu_get_pc()==0x3ce) {cpu_spinuntil_int(); return 0;}
-/*TODO*///	
-/*TODO*///		return READ_WORD(&sys16_workingram[0x2cde]);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress riotcity_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0xf20000, 0xf20fff, MRA_EXTRAM3 ),
-/*TODO*///		new MemoryReadAddress( 0xf40000, 0xf40fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0xf60000, 0xf60fff, paletteram_word_r ),
-/*TODO*///		new MemoryReadAddress( 0xf81002, 0xf81003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xf81006, 0xf81007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xf81000, 0xf81001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xf82002, 0xf82003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xf82000, 0xf82001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xf80000, 0xf8ffff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xfa0000, 0xfaffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0xfb0000, 0xfb0fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0xffecde, 0xffecdf, riotcity_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress riotcity_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0xf00006, 0xf00007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xf20000, 0xf20fff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xf40000, 0xf40fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0xf60000, 0xf60fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0xf80000, 0xf8ffff, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///		new MemoryWriteAddress( 0xfa0000, 0xfaffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0xfb0000, 0xfb0fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void riotcity_update_proc (void)
-/*TODO*///	{
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	
-/*TODO*///		sys16_tile_bank1 = READ_WORD( &sys16_extraram3[0x0002] ) & 0xf;
-/*TODO*///		sys16_tile_bank0 = READ_WORD( &sys16_extraram3[0x0000] ) & 0xf;
-/*TODO*///	
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr riotcity_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {0x00,0x02,0x08,0x0A,0x10,0x12,0x00,0x00,0x04,0x06,0x0C,0x0E,0x14,0x16,0x00,0x00};
-/*TODO*///	
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///		sys16_spritesystem = 4;
-/*TODO*///		sys16_spritelist_end=0x8000;
-/*TODO*///		sys16_bg_priority_mode=1;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = riotcity_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_riotcity = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode (3,0x80000);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_riotcity = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x01, "2 Credits to Start" );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives") );
-/*TODO*///		PORT_DIPSETTING(    0x00, "1" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x08, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "4" );
-/*TODO*///		PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Bonus_Life") );
-/*TODO*///		PORT_DIPSETTING(    0x20, "Easy" );
-/*TODO*///		PORT_DIPSETTING(    0x30, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "Hard" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hardest" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0x40, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hard" );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, "Attack Button to Start" );
-/*TODO*///		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
+	
+	/***************************************************************************
+	
+	   Riot City
+	
+	***************************************************************************/
+	// sys16B
+	static RomLoadPtr rom_riotcity = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "epr14612.bin", 0x000000, 0x20000, 0xa1b331ec );
+		ROM_LOAD_ODD ( "epr14610.bin", 0x000000, 0x20000, 0xcd4f2c50 );
+		/* empty 0x40000 - 0x80000 */
+		ROM_LOAD_EVEN( "epr14613.bin", 0x080000, 0x20000, 0x0659df4c );
+		ROM_LOAD_ODD ( "epr14611.bin", 0x080000, 0x20000, 0xd9e6f80b );
+	
+		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "epr14616.bin", 0x00000, 0x20000, 0x46d30368 );/* plane 1 */
+		ROM_LOAD( "epr14625.bin", 0x20000, 0x20000, 0xabfb80fe );
+		ROM_LOAD( "epr14617.bin", 0x40000, 0x20000, 0x884e40f9 );/* plane 2 */
+		ROM_LOAD( "epr14626.bin", 0x60000, 0x20000, 0x4ef55846 );
+		ROM_LOAD( "epr14618.bin", 0x80000, 0x20000, 0x00eb260e );/* plane 3 */
+		ROM_LOAD( "epr14627.bin", 0xa0000, 0x20000, 0x961e5f82 );
+	
+		ROM_REGION( 0x180000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "epr14619.bin",  0x000000, 0x040000, 0x6f2b5ef7 );
+		ROM_LOAD( "epr14622.bin",  0x040000, 0x040000, 0x7ca7e40d );
+		ROM_LOAD( "epr14620.bin",  0x080000, 0x040000, 0x66183333 );
+		ROM_LOAD( "epr14623.bin",  0x0c0000, 0x040000, 0x98630049 );
+		ROM_LOAD( "epr14621.bin",  0x100000, 0x040000, 0xc0f2820e );
+		ROM_LOAD( "epr14624.bin",  0x140000, 0x040000, 0xd1a68448 );
+	
+		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "epr14614.bin", 0x00000, 0x10000, 0xc65cc69a );
+		ROM_LOAD( "epr14615.bin", 0x10000, 0x20000, 0x46653db1 );
+	ROM_END(); }}; 
+	
+	/***************************************************************************/
+	
+	public static ReadHandlerPtr riotcity_skip = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		if (cpu_get_pc()==0x3ce) {cpu_spinuntil_int(); return 0;}
+	
+		return sys16_workingram.READ_WORD(0x2cde);
+	} };
+	
+	static MemoryReadAddress riotcity_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
+		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_BANK3 ),
+		new MemoryReadAddress( 0xf20000, 0xf20fff, MRA_BANK5 ),
+		new MemoryReadAddress( 0xf40000, 0xf40fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0xf60000, 0xf60fff, paletteram_word_r ),
+		new MemoryReadAddress( 0xf81002, 0xf81003, input_port_0_r ),
+		new MemoryReadAddress( 0xf81006, 0xf81007, input_port_1_r ),
+		new MemoryReadAddress( 0xf81000, 0xf81001, input_port_2_r ),
+		new MemoryReadAddress( 0xf82002, 0xf82003, input_port_3_r ),
+		new MemoryReadAddress( 0xf82000, 0xf82001, input_port_4_r ),
+		new MemoryReadAddress( 0xf80000, 0xf8ffff, MRA_BANK4 ),
+		new MemoryReadAddress( 0xfa0000, 0xfaffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0xfb0000, 0xfb0fff, sys16_textram_r ),
+		new MemoryReadAddress( 0xffecde, 0xffecdf, riotcity_skip ),
+		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
+		new MemoryReadAddress(-1)
+	};
+	
+	static MemoryWriteAddress riotcity_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_BANK3,sys16_extraram ),
+		new MemoryWriteAddress( 0xf00006, 0xf00007, sound_command_w ),
+		new MemoryWriteAddress( 0xf20000, 0xf20fff, MWA_BANK5,sys16_extraram3 ),
+		new MemoryWriteAddress( 0xf40000, 0xf40fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0xf60000, 0xf60fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0xf80000, 0xf8ffff, MWA_BANK4,sys16_extraram2 ),
+		new MemoryWriteAddress( 0xfa0000, 0xfaffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0xfb0000, 0xfb0fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
+		new MemoryWriteAddress(-1)
+	};
+	/***************************************************************************/
+	
+	static sys16_update_procPtr riotcity_update_proc = new sys16_update_procPtr() {
+            public void handler() {
+		sys16_fg_scrollx = sys16_textram.READ_WORD( 0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD( 0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD( 0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD( 0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD( 0x0e80 ) );
+		set_bg_page( sys16_textram.READ_WORD( 0x0e82 ) );
+	
+		sys16_tile_bank1 = sys16_extraram3.READ_WORD( 0x0002 ) & 0xf;
+		sys16_tile_bank0 = sys16_extraram3.READ_WORD( 0x0000 ) & 0xf;
+	
+		set_refresh( sys16_extraram2.READ_WORD( 0 ) );
+            }
+        };
+	
+	public static InitMachinePtr riotcity_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = {0x00,0x02,0x08,0x0A,0x10,0x12,0x00,0x00,0x04,0x06,0x0C,0x0E,0x14,0x16,0x00,0x00};
+	
+		sys16_obj_bank = bank;
+		sys16_spritesystem = 4;
+		sys16_spritelist_end=0x8000;
+		sys16_bg_priority_mode=1;
+	
+		sys16_update_proc = riotcity_update_proc;
+	} };
+	
+	public static InitDriverPtr init_riotcity = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode (3,0x80000);
+	} };
+	
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_riotcity = new InputPortPtr(){ public void handler() { 
+		SYS16_JOY1();
+		SYS16_JOY2();
+		SYS16_SERVICE();
+		SYS16_COINAGE();
+	
+	PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x01, "2 Credits to Start" );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0c, 0x08, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x00, "1" );
+		PORT_DIPSETTING(    0x0c, "2" );
+		PORT_DIPSETTING(    0x08, "3" );
+		PORT_DIPSETTING(    0x04, "4" );
+		PORT_DIPNAME( 0x30, 0x00, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x20, "Easy" );
+		PORT_DIPSETTING(    0x30, "Normal" );
+		PORT_DIPSETTING(    0x10, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x40, 0x40, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x40, "Normal" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x80, 0x80, "Attack Button to Start" );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_riotcity, \
 /*TODO*///		riotcity_readmem,riotcity_writemem,riotcity_init_machine, gfx4,upd7759_interface )
 /*TODO*///	
+        /*TODO*///	#define MACHINE_DRIVER_7759( GAMENAME,READMEM,WRITEMEM,INITMACHINE,GFXSIZE, UPD7759INTF ) \
+	static MachineDriver machine_driver_riotcity = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				riotcity_readmem,riotcity_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		riotcity_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx4, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
     /**
      * ************************************************************************
      */
@@ -13106,7 +13147,7 @@ public class system16 {
 /*TODO*///GAMEX(????, passht4b, passsht,  passht4b, passht4b, passht4b, ROT270,       "bootleg", "Passing Shot (4 Players) (bootleg)", GAME_NO_SOUND)	public static GameDriver driver_quartet	   = new GameDriver("1986"	,"quartet"	,"system16.java"	,rom_quartet,null	,machine_driver_quartet	,input_ports_quartet	,init_quartet	,ROT0	,	"Sega",    "Quartet")
 /*TODO*///	public static GameDriver driver_quartetj	   = new GameDriver("1986"	,"quartetj"	,"system16.java"	,rom_quartetj,driver_quartet	,machine_driver_quartet	,input_ports_quartet	,init_quartet	,ROT0	,	"Sega",    "Quartet (Japan)")
 /*TODO*///	public static GameDriver driver_quartet2	   = new GameDriver("1986"	,"quartet2"	,"system16.java"	,rom_quartet2,driver_quartet	,machine_driver_quartet2	,input_ports_quartet2	,init_quartet2	,ROT0	,	"Sega",    "Quartet II")
-/*TODO*///	public static GameDriver driver_riotcity	   = new GameDriver("1991"	,"riotcity"	,"system16.java"	,rom_riotcity,null	,machine_driver_riotcity	,input_ports_riotcity	,init_riotcity	,ROT0	,	"Sega / Westone", "Riot City")
+    public static GameDriver driver_riotcity	   = new GameDriver("1991"	,"riotcity"	,"system16.java"	,rom_riotcity,null	,machine_driver_riotcity	,input_ports_riotcity	,init_riotcity	,ROT0	,	"Sega / Westone", "Riot City");
     public static GameDriver driver_sdi = new GameDriver("1987", "sdi", "system16.java", rom_sdi, null, machine_driver_sdi, input_ports_sdi, init_sdi, ROT0, "Sega", "SDI - Strategic Defense Initiative");
     /*TODO*///	GAMEX(1987, sdioj,    sdi,      sdi,      sdi,      sdi,      ROT0,         "Sega",    "SDI - Strategic Defense Initiative (Japan)", GAME_NOT_WORKING)
     public static GameDriver driver_shdancer	   = new GameDriver("1989"	,"shdancer"	,"system16.java"	,rom_shdancer,null	,machine_driver_shdancer	,input_ports_shdancer	,init_shdancer	,ROT0	,	"Sega",    "Shadow Dancer (US)");
