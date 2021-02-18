@@ -1988,7 +1988,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( goldnaxc )	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( goldnaxj )	/* (c) 1989 (protected. Japan) */
                 /*TODO*/ //	DRIVER( jyuohki )	/* (c) 1988 (protected. Altered Beast Japan) */
-                /*TODO*/ //	DRIVER( moonwalk )	/* (c) 1990 (protected) */
+                driver_moonwalk,	/* (c) 1990 (protected) */
                 /*TODO*/ //	DRIVER( moonwlka )	/* (c) 1990 (protected) */
                 /*TODO*/ //	DRIVER( passsht )	/* (protected) */
                 /*TODO*/ //	DRIVER( sdioj )		/* (c) 1987 (protected. Japan) */
@@ -2044,7 +2044,7 @@ public class driver {
                 driver_hangon,	/* (c) 1985 */
                 driver_hwchamp,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( moonwlkb )	/* bootleg */
+                driver_moonwlkb,	/* bootleg */
                 driver_outrun,	/* (c) 1986 (bootleg)*/
                 driver_outruna,	/* (c) 1986 (bootleg) */
                 driver_outrunb,	/* (c) 1986 (protected beta bootleg) */
