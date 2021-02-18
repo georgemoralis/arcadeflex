@@ -2058,7 +2058,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( shangonb )	/* (c) 1992 (but bootleg) */
                 driver_sharrier,	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( shdancbl )	/* (c) 1989 (but bootleg) */
-                /*TODO*/ //	DRIVER( shdancer )	/* (c) 1989 */
+                driver_shdancer,	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( shdancrj )	/* (c) 1989 */
                 driver_shinobi,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( shinobl )	/* (c) 1987 (but bootleg) */

@@ -391,87 +391,87 @@ public class system16
 		}
 	} };
 	
-/*TODO*///	static public static WriteHandlerPtr get_bg2_tile_info = new WriteHandlerPtr() { public void handler(int col, int row){
-/*TODO*///		const UINT16 *source = (const UINT16 *)sys16_tileram;
-/*TODO*///	
-/*TODO*///		if( row<32 ){
-/*TODO*///			if( col<64 ){
-/*TODO*///				source += 64*32*sys16_bg2_page[0];
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				source += 64*32*sys16_bg2_page[1];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			if( col<64 ){
-/*TODO*///				source += 64*32*sys16_bg2_page[2];
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				source += 64*32*sys16_bg2_page[3];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		row = row%32;
-/*TODO*///		col = col%64;
-/*TODO*///	
-/*TODO*///		{
-/*TODO*///			int data = source[row*64+col];
-/*TODO*///			int tile_number = (data&0xfff) +
-/*TODO*///					0x1000*((data&0x1000)?sys16_tile_bank1:sys16_tile_bank0);
-/*TODO*///			if(sys16_textmode==0)
-/*TODO*///			{
-/*TODO*///				SET_TILE_INFO( 0, tile_number, (data>>6)&0x7f );
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				SET_TILE_INFO( 0, tile_number, (data>>5)&0x7f );
-/*TODO*///			}
-/*TODO*///			tile_info.priority = 0;
-/*TODO*///		}
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static public static WriteHandlerPtr get_fg2_tile_info = new WriteHandlerPtr() { public void handler(int col, int row){
-/*TODO*///		const UINT16 *source = (const UINT16 *)sys16_tileram;
-/*TODO*///	
-/*TODO*///		if( row<32 ){
-/*TODO*///			if( col<64 ){
-/*TODO*///				source += 64*32*sys16_fg2_page[0];
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				source += 64*32*sys16_fg2_page[1];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else {
-/*TODO*///			if( col<64 ){
-/*TODO*///				source += 64*32*sys16_fg2_page[2];
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				source += 64*32*sys16_fg2_page[3];
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		row = row%32;
-/*TODO*///		col = col%64;
-/*TODO*///	
-/*TODO*///		{
-/*TODO*///			int data = source[row*64+col];
-/*TODO*///			int tile_number = (data&0xfff) +
-/*TODO*///					0x1000*((data&0x1000)?sys16_tile_bank1:sys16_tile_bank0);
-/*TODO*///	
-/*TODO*///			if(sys16_textmode==0)
-/*TODO*///			{
-/*TODO*///				SET_TILE_INFO( 0, tile_number, (data>>6)&0x7f );
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				SET_TILE_INFO( 0, tile_number, (data>>5)&0x7f );
-/*TODO*///			}
-/*TODO*///			if((data&0xff00) >= sys16_fg_priority_value)
-/*TODO*///				tile_info.priority = 1;
-/*TODO*///			else
-/*TODO*///				tile_info.priority = 0;
-/*TODO*///		}
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
+	public static WriteHandlerPtr get_bg2_tile_info = new WriteHandlerPtr() { public void handler(int col, int row){
+		UShortPtr source = new UShortPtr(sys16_tileram);
+	
+		if( row<32 ){
+			if( col<64 ){
+				source.offset += 64*32*sys16_bg2_page[0];
+			}
+			else {
+				source.offset += 64*32*sys16_bg2_page[1];
+			}
+		}
+		else {
+			if( col<64 ){
+				source.offset += 64*32*sys16_bg2_page[2];
+			}
+			else {
+				source.offset += 64*32*sys16_bg2_page[3];
+			}
+		}
+		row = row%32;
+		col = col%64;
+	
+		{
+			int data = source.read(row*64+col);
+			int tile_number = (data&0xfff) +
+					0x1000*((data&0x1000)!=0?sys16_tile_bank1:sys16_tile_bank0);
+			if(sys16_textmode==0)
+			{
+				SET_TILE_INFO( 0, tile_number, (data>>6)&0x7f );
+			}
+			else
+			{
+				SET_TILE_INFO( 0, tile_number, (data>>5)&0x7f );
+			}
+			tile_info.priority = 0;
+		}
+	} };
+	
+	public static WriteHandlerPtr get_fg2_tile_info = new WriteHandlerPtr() { public void handler(int col, int row){
+		UShortPtr source = new UShortPtr(sys16_tileram);
+	
+		if( row<32 ){
+			if( col<64 ){
+				source.offset += 64*32*sys16_fg2_page[0];
+			}
+			else {
+				source.offset += 64*32*sys16_fg2_page[1];
+			}
+		}
+		else {
+			if( col<64 ){
+				source.offset += 64*32*sys16_fg2_page[2];
+			}
+			else {
+				source.offset += 64*32*sys16_fg2_page[3];
+			}
+		}
+		row = row%32;
+		col = col%64;
+	
+		{
+			int data = source.read(row*64+col);
+			int tile_number = (data&0xfff) +
+					0x1000*((data&0x1000)!=0?sys16_tile_bank1:sys16_tile_bank0);
+	
+			if(sys16_textmode==0)
+			{
+				SET_TILE_INFO( 0, tile_number, (data>>6)&0x7f );
+			}
+			else
+			{
+				SET_TILE_INFO( 0, tile_number, (data>>5)&0x7f );
+			}
+			if((data&0xff00) >= sys16_fg_priority_value)
+				tile_info.priority = 1;
+			else
+				tile_info.priority = 0;
+		}
+	} };
+	
+	
 	public static WriteHandlerPtr sys16_tileram_w = new WriteHandlerPtr() { public void handler(int offset, int data){
 		int oldword = sys16_tileram.READ_WORD(offset);
 		int newword = COMBINE_WORD(oldword,data);
@@ -704,56 +704,56 @@ public class system16
 	} };
 	
 	
-/*TODO*///	public static VhStartPtr sys18_vh_start = new VhStartPtr() { public int handler() {
-/*TODO*///		int ret;
-/*TODO*///		sys16_bg1_trans=1;
-/*TODO*///	
-/*TODO*///		background2 = tilemap_create(
-/*TODO*///			get_bg2_tile_info,
-/*TODO*///			TILEMAP_OPAQUE,
-/*TODO*///			8,8,
-/*TODO*///			64*2,32*2 );
-/*TODO*///	
-/*TODO*///		foreground2 = tilemap_create(
-/*TODO*///			get_fg2_tile_info,
-/*TODO*///			TILEMAP_TRANSPARENT,
-/*TODO*///			8,8,
-/*TODO*///			64*2,32*2 );
-/*TODO*///	
-/*TODO*///		if( background2 && foreground2)
-/*TODO*///		{
-/*TODO*///			ret = sys16_vh_start();
-/*TODO*///			if (ret != 0) return 1;
-/*TODO*///	
-/*TODO*///			foreground2.transparent_pen = 0;
-/*TODO*///	
-/*TODO*///			if (sys18_splittab_fg_x != 0)
-/*TODO*///			{
-/*TODO*///				tilemap_set_scroll_rows( foreground , 64 );
-/*TODO*///				tilemap_set_scroll_rows( foreground2 , 64 );
-/*TODO*///			}
-/*TODO*///			if (sys18_splittab_bg_x != 0)
-/*TODO*///			{
-/*TODO*///				tilemap_set_scroll_rows( background , 64 );
-/*TODO*///				tilemap_set_scroll_rows( background2 , 64 );
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			sys16_textlayer_lo_min=0;
-/*TODO*///			sys16_textlayer_lo_max=0x1f;
-/*TODO*///			sys16_textlayer_hi_min=0x20;
-/*TODO*///			sys16_textlayer_hi_max=0xff;
-/*TODO*///	
-/*TODO*///			sys16_18_mode=1;
-/*TODO*///			sys16_bg_priority_mode=3;
-/*TODO*///			sys16_fg_priority_mode=3;
-/*TODO*///			sys16_bg_priority_value=0x1800;
-/*TODO*///			sys16_fg_priority_value=0x2000;
-/*TODO*///			return 0;
-/*TODO*///		}
-/*TODO*///		return 1;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
+	public static VhStartPtr sys18_vh_start = new VhStartPtr() { public int handler() {
+		int ret;
+		sys16_bg1_trans=1;
+	
+		background2 = tilemap_create(
+			get_bg2_tile_info,
+			TILEMAP_OPAQUE,
+			8,8,
+			64*2,32*2 );
+	
+		foreground2 = tilemap_create(
+			get_fg2_tile_info,
+			TILEMAP_TRANSPARENT,
+			8,8,
+			64*2,32*2 );
+	
+		if( background2!=null && foreground2!=null)
+		{
+			ret = sys16_vh_start.handler();
+			if (ret != 0) return 1;
+	
+			foreground2.transparent_pen = 0;
+	
+			if (sys18_splittab_fg_x != null)
+			{
+				tilemap_set_scroll_rows( foreground , 64 );
+				tilemap_set_scroll_rows( foreground2 , 64 );
+			}
+			if (sys18_splittab_bg_x != null)
+			{
+				tilemap_set_scroll_rows( background , 64 );
+				tilemap_set_scroll_rows( background2 , 64 );
+			}
+	
+			sys16_textlayer_lo_min=0;
+			sys16_textlayer_lo_max=0x1f;
+			sys16_textlayer_hi_min=0x20;
+			sys16_textlayer_hi_max=0xff;
+	
+			sys16_18_mode=1;
+			sys16_bg_priority_mode=3;
+			sys16_fg_priority_mode=3;
+			sys16_bg_priority_value=0x1800;
+			sys16_fg_priority_value=0x2000;
+			return 0;
+		}
+		return 1;
+	} };
+	
+	
 	/***************************************************************************/
 	
 	static void get_sprite_info(  ){
@@ -1885,153 +1885,155 @@ public class system16
 			tilemap_draw( bitmap, text_layer, 0 );
 		}
 	} };
-/*TODO*///	
-/*TODO*///	public static VhUpdatePtr sys18_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
-/*TODO*///		int i;
-/*TODO*///		if (sys16_update_proc != 0) sys16_update_proc();
-/*TODO*///		update_page();
-/*TODO*///	
-/*TODO*///		// from sys16 emu (Not sure if this is the best place for this?)
-/*TODO*///		{
-/*TODO*///			static int freeze_counter=0;
-/*TODO*///			if (!sys16_refreshenable)
-/*TODO*///			{
-/*TODO*///				freeze_counter=4;
-/*TODO*///				sys16_freezepalette=1;
-/*TODO*///			}
-/*TODO*///			if (freeze_counter != 0)
-/*TODO*///			{
-/*TODO*///	//			if (sys16_clear_screen != 0)
-/*TODO*///	//				fillbitmap(bitmap,palette_transparent_color,&Machine.drv.visible_area);
-/*TODO*///				freeze_counter--;
-/*TODO*///				return;
-/*TODO*///			}
-/*TODO*///			else if (sys16_freezepalette != 0)
-/*TODO*///			{
-/*TODO*///				sys16_refresh_palette();
-/*TODO*///				sys16_freezepalette=0;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		if (sys16_refreshenable != 0){
-/*TODO*///	
-/*TODO*///			if (sys18_splittab_bg_x != 0)
-/*TODO*///			{
-/*TODO*///				int offset,offset2, scroll,scroll2,orig_scroll;
-/*TODO*///	
-/*TODO*///				offset = 32+((sys16_bg_scrolly&0x1f8) >> 3);
-/*TODO*///				offset2 = 32+((sys16_bg2_scrolly&0x1f8) >> 3);
-/*TODO*///	
-/*TODO*///				for(i=0;i<29;i++)
-/*TODO*///				{
-/*TODO*///					orig_scroll = scroll2 = scroll = READ_WORD(&sys18_splittab_bg_x[i*2]);
-/*TODO*///	
-/*TODO*///					if((sys16_bg_scrollx &0xff00) != 0x8000)
-/*TODO*///						scroll = sys16_bg_scrollx;
-/*TODO*///	
-/*TODO*///					if((sys16_bg2_scrollx &0xff00) != 0x8000)
-/*TODO*///						scroll2 = sys16_bg2_scrollx;
-/*TODO*///	
-/*TODO*///					if ((orig_scroll & 0x8000) != 0)
-/*TODO*///					{
-/*TODO*///						tilemap_set_scrollx( background , (i+offset)&0x3f, TILE_LINE_DISABLED );
-/*TODO*///						tilemap_set_scrollx( background2, (i+offset2)&0x3f, -320-(scroll2&0x3ff)+sys16_bgxoffset );
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						tilemap_set_scrollx( background , (i+offset)&0x3f, -320-(scroll&0x3ff)+sys16_bgxoffset );
-/*TODO*///						tilemap_set_scrollx( background2 , (i+offset2)&0x3f, TILE_LINE_DISABLED );
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				tilemap_set_scrollx( background , 0, -320-(sys16_bg_scrollx&0x3ff)+sys16_bgxoffset );
-/*TODO*///				tilemap_set_scrollx( background2, 0, -320-(sys16_bg2_scrollx&0x3ff)+sys16_bgxoffset );
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			tilemap_set_scrolly( background , 0, -256+sys16_bg_scrolly );
-/*TODO*///			tilemap_set_scrolly( background2, 0, -256+sys16_bg2_scrolly );
-/*TODO*///	
-/*TODO*///			if (sys18_splittab_fg_x != 0)
-/*TODO*///			{
-/*TODO*///				int offset,offset2, scroll,scroll2,orig_scroll;
-/*TODO*///	
-/*TODO*///				offset = 32+((sys16_fg_scrolly&0x1f8) >> 3);
-/*TODO*///				offset2 = 32+((sys16_fg2_scrolly&0x1f8) >> 3);
-/*TODO*///	
-/*TODO*///				for(i=0;i<29;i++)
-/*TODO*///				{
-/*TODO*///					orig_scroll = scroll2 = scroll = READ_WORD(&sys18_splittab_fg_x[i*2]);
-/*TODO*///	
-/*TODO*///					if((sys16_fg_scrollx &0xff00) != 0x8000)
-/*TODO*///						scroll = sys16_fg_scrollx;
-/*TODO*///	
-/*TODO*///					if((sys16_fg2_scrollx &0xff00) != 0x8000)
-/*TODO*///						scroll2 = sys16_fg2_scrollx;
-/*TODO*///	
-/*TODO*///					if ((orig_scroll & 0x8000) != 0)
-/*TODO*///					{
-/*TODO*///						tilemap_set_scrollx( foreground , (i+offset)&0x3f, TILE_LINE_DISABLED );
-/*TODO*///						tilemap_set_scrollx( foreground2, (i+offset2)&0x3f, -320-(scroll2&0x3ff)+sys16_fgxoffset );
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						tilemap_set_scrollx( foreground , (i+offset)&0x3f, -320-(scroll&0x3ff)+sys16_fgxoffset );
-/*TODO*///						tilemap_set_scrollx( foreground2 , (i+offset2)&0x3f, TILE_LINE_DISABLED );
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				tilemap_set_scrollx( foreground , 0, -320-(sys16_fg_scrollx&0x3ff)+sys16_fgxoffset );
-/*TODO*///				tilemap_set_scrollx( foreground2, 0, -320-(sys16_fg2_scrollx&0x3ff)+sys16_fgxoffset );
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///			tilemap_set_scrolly( foreground , 0, -256+sys16_fg_scrolly );
-/*TODO*///			tilemap_set_scrolly( foreground2, 0, -256+sys16_fg2_scrolly );
-/*TODO*///	
-/*TODO*///			tilemap_set_enable( background2, sys18_bg2_active );
-/*TODO*///			tilemap_set_enable( foreground2, sys18_fg2_active );
-/*TODO*///	
-/*TODO*///			tilemap_update(  ALL_TILEMAPS  );
-/*TODO*///			get_sprite_info();
-/*TODO*///	
-/*TODO*///			palette_init_used_colors();
-/*TODO*///			mark_sprite_colors(); // custom; normally this would be handled by the sprite manager
-/*TODO*///			sprite_update();
-/*TODO*///	
-/*TODO*///			if( palette_recalc() ) tilemap_mark_all_pixels_dirty( ALL_TILEMAPS );
-/*TODO*///			build_shadow_table();
-/*TODO*///			tilemap_render(  ALL_TILEMAPS  );
-/*TODO*///	
-/*TODO*///			if (sys18_bg2_active != 0)
-/*TODO*///				tilemap_draw( bitmap, background2, 0 );
-/*TODO*///			else
-/*TODO*///				fillbitmap(bitmap,palette_transparent_color,&Machine.drv.visible_area);
-/*TODO*///	
-/*TODO*///			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY );
-/*TODO*///			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY | 1 );	//??
-/*TODO*///			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY | 2 );	//??
-/*TODO*///	
-/*TODO*///			sprite_draw(sprite_list,3);
-/*TODO*///			tilemap_draw( bitmap, background, 1 );
-/*TODO*///			sprite_draw(sprite_list,2);
-/*TODO*///			tilemap_draw( bitmap, background, 2 );
-/*TODO*///	
-/*TODO*///			if (sys18_fg2_active != 0) tilemap_draw( bitmap, foreground2, 0 );
-/*TODO*///			tilemap_draw( bitmap, foreground, 0 );
-/*TODO*///			sprite_draw(sprite_list,1);
-/*TODO*///			if (sys18_fg2_active != 0) tilemap_draw( bitmap, foreground2, 1 );
-/*TODO*///			tilemap_draw( bitmap, foreground, 1 );
-/*TODO*///	
-/*TODO*///			tilemap_draw( bitmap, text_layer, 1 );
-/*TODO*///			sprite_draw(sprite_list,0);
-/*TODO*///			tilemap_draw( bitmap, text_layer, 0 );
-/*TODO*///		}
-/*TODO*///	} };
-/*TODO*///	
+        
+        static int freeze_counter=0;
+	
+	public static VhUpdatePtr sys18_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+		int i;
+		if (sys16_update_proc != null) sys16_update_proc.handler();
+		update_page();
+	
+		// from sys16 emu (Not sure if this is the best place for this?)
+		{
+			
+			if (sys16_refreshenable==0)
+			{
+				freeze_counter=4;
+				sys16_freezepalette=1;
+			}
+			if (freeze_counter != 0)
+			{
+	//			if (sys16_clear_screen != 0)
+	//				fillbitmap(bitmap,palette_transparent_color,&Machine.drv.visible_area);
+				freeze_counter--;
+				return;
+			}
+			else if (sys16_freezepalette != 0)
+			{
+				sys16_refresh_palette();
+				sys16_freezepalette=0;
+			}
+		}
+	
+		if (sys16_refreshenable != 0){
+	
+			if (sys18_splittab_bg_x != null)
+			{
+				int offset,offset2, scroll,scroll2,orig_scroll;
+	
+				offset = 32+((sys16_bg_scrolly&0x1f8) >> 3);
+				offset2 = 32+((sys16_bg2_scrolly&0x1f8) >> 3);
+	
+				for(i=0;i<29;i++)
+				{
+					orig_scroll = scroll2 = scroll = sys18_splittab_bg_x.READ_WORD(i*2);
+	
+					if((sys16_bg_scrollx &0xff00) != 0x8000)
+						scroll = sys16_bg_scrollx;
+	
+					if((sys16_bg2_scrollx &0xff00) != 0x8000)
+						scroll2 = sys16_bg2_scrollx;
+	
+					if ((orig_scroll & 0x8000) != 0)
+					{
+						tilemap_set_scrollx( background , (i+offset)&0x3f, TILE_LINE_DISABLED );
+						tilemap_set_scrollx( background2, (i+offset2)&0x3f, -320-(scroll2&0x3ff)+sys16_bgxoffset );
+					}
+					else
+					{
+						tilemap_set_scrollx( background , (i+offset)&0x3f, -320-(scroll&0x3ff)+sys16_bgxoffset );
+						tilemap_set_scrollx( background2 , (i+offset2)&0x3f, TILE_LINE_DISABLED );
+					}
+				}
+			}
+			else
+			{
+				tilemap_set_scrollx( background , 0, -320-(sys16_bg_scrollx&0x3ff)+sys16_bgxoffset );
+				tilemap_set_scrollx( background2, 0, -320-(sys16_bg2_scrollx&0x3ff)+sys16_bgxoffset );
+			}
+	
+			tilemap_set_scrolly( background , 0, -256+sys16_bg_scrolly );
+			tilemap_set_scrolly( background2, 0, -256+sys16_bg2_scrolly );
+	
+			if (sys18_splittab_fg_x != null)
+			{
+				int offset,offset2, scroll,scroll2,orig_scroll;
+	
+				offset = 32+((sys16_fg_scrolly&0x1f8) >> 3);
+				offset2 = 32+((sys16_fg2_scrolly&0x1f8) >> 3);
+	
+				for(i=0;i<29;i++)
+				{
+					orig_scroll = scroll2 = scroll = sys18_splittab_fg_x.READ_WORD(i*2);
+	
+					if((sys16_fg_scrollx &0xff00) != 0x8000)
+						scroll = sys16_fg_scrollx;
+	
+					if((sys16_fg2_scrollx &0xff00) != 0x8000)
+						scroll2 = sys16_fg2_scrollx;
+	
+					if ((orig_scroll & 0x8000) != 0)
+					{
+						tilemap_set_scrollx( foreground , (i+offset)&0x3f, TILE_LINE_DISABLED );
+						tilemap_set_scrollx( foreground2, (i+offset2)&0x3f, -320-(scroll2&0x3ff)+sys16_fgxoffset );
+					}
+					else
+					{
+						tilemap_set_scrollx( foreground , (i+offset)&0x3f, -320-(scroll&0x3ff)+sys16_fgxoffset );
+						tilemap_set_scrollx( foreground2 , (i+offset2)&0x3f, TILE_LINE_DISABLED );
+					}
+				}
+			}
+			else
+			{
+				tilemap_set_scrollx( foreground , 0, -320-(sys16_fg_scrollx&0x3ff)+sys16_fgxoffset );
+				tilemap_set_scrollx( foreground2, 0, -320-(sys16_fg2_scrollx&0x3ff)+sys16_fgxoffset );
+			}
+	
+	
+			tilemap_set_scrolly( foreground , 0, -256+sys16_fg_scrolly );
+			tilemap_set_scrolly( foreground2, 0, -256+sys16_fg2_scrolly );
+	
+			tilemap_set_enable( background2, sys18_bg2_active );
+			tilemap_set_enable( foreground2, sys18_fg2_active );
+	
+			tilemap_update(  ALL_TILEMAPS  );
+			get_sprite_info();
+	
+			palette_init_used_colors();
+			mark_sprite_colors(); // custom; normally this would be handled by the sprite manager
+			sprite_update();
+	
+			if( palette_recalc() != null ) tilemap_mark_all_pixels_dirty( ALL_TILEMAPS );
+			build_shadow_table();
+			tilemap_render(  ALL_TILEMAPS  );
+	
+			if (sys18_bg2_active != 0)
+				tilemap_draw( bitmap, background2, 0 );
+			else
+				fillbitmap(bitmap,palette_transparent_color,Machine.drv.visible_area);
+	
+			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY );
+			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY | 1 );	//??
+			tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY | 2 );	//??
+	
+			sprite_draw(sprite_list,3);
+			tilemap_draw( bitmap, background, 1 );
+			sprite_draw(sprite_list,2);
+			tilemap_draw( bitmap, background, 2 );
+	
+			if (sys18_fg2_active != 0) tilemap_draw( bitmap, foreground2, 0 );
+			tilemap_draw( bitmap, foreground, 0 );
+			sprite_draw(sprite_list,1);
+			if (sys18_fg2_active != 0) tilemap_draw( bitmap, foreground2, 1 );
+			tilemap_draw( bitmap, foreground, 1 );
+	
+			tilemap_draw( bitmap, text_layer, 1 );
+			sprite_draw(sprite_list,0);
+			tilemap_draw( bitmap, text_layer, 0 );
+		}
+	} };
+	
 /*TODO*///	extern int gr_bitmap_width;
 	
 	static void gr_colors()
@@ -2354,7 +2356,7 @@ public class system16
 	
 	
 	
-	static int freeze_counter=0;
+	//static int freeze_counter=0;
         
 	// Refresh for hang-on, etc.
 	public static VhUpdatePtr sys16_ho_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
