@@ -1556,46 +1556,46 @@ public class system16
 					source.offset+=8*2;
 				}while( source.offset<finish.offset );
 				break;
-/*TODO*///			case 4: /* Aurail */
-/*TODO*///				do{
-/*TODO*///					if( (source[2]) == sys16_spritelist_end) break;
-/*TODO*///					used[source[4]&0x3f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 3:	/* Fantzone */
-/*TODO*///			case 5:	/* Hang-On */
-/*TODO*///			case 2: /* Quartet2 / alex kidd + others */
-/*TODO*///				do{
-/*TODO*///					if( (source[0]>>8) == 0xff ) break;;
-/*TODO*///					used[(source[4]>>8)&0x3f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				break;
-/*TODO*///			case 6:	/* Space Harrier */
-/*TODO*///				do{
-/*TODO*///					if( (source[0]>>8) == 0xff ) break;;
-/*TODO*///					used[(source[2]>>8)&0x3f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				break;
-/*TODO*///			case 7:	/* Out Run */
-/*TODO*///				do{
-/*TODO*///					if( (source[0]) == 0xffff ) break;;
-/*TODO*///					used[(source[5])&0x7f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				pal_start=2048;
-/*TODO*///				pal_size=128;
-/*TODO*///				break;
-/*TODO*///			case 0: /* passing shot */
-/*TODO*///			case 8: /* passing shot 4p */
-/*TODO*///				do{
-/*TODO*///					if( source[1]!=0xffff ) used[(source[5]>>8)&0x3f] = 1;
-/*TODO*///					source+=8;
-/*TODO*///				}while( source<finish );
-/*TODO*///				break;
+			case 4: /* Aurail */
+				do{
+					if( (source.read(2)) == sys16_spritelist_end) break;
+					used[source.read(4)&0x3f] = 1;
+					source.offset+=8;
+				}while( source.offset<finish.offset );
+				break;
+	
+			case 3:	/* Fantzone */
+			case 5:	/* Hang-On */
+			case 2: /* Quartet2 / alex kidd + others */
+				do{
+					if( (source.read(0)>>8) == 0xff ) break;;
+					used[(source.read(4)>>8)&0x3f] = 1;
+					source.offset+=8;
+				}while( source.offset<finish.offset );
+				break;
+			case 6:	/* Space Harrier */
+				do{
+					if( (source.read(0)>>8) == 0xff ) break;;
+					used[(source.read(2)>>8)&0x3f] = 1;
+					source.offset+=8;
+				}while( source.offset<finish.offset );
+				break;
+			case 7:	/* Out Run */
+				do{
+					if( (source.read(0)) == 0xffff ) break;;
+					used[(source.read(5))&0x7f] = 1;
+					source.offset+=8;
+				}while( source.offset<finish.offset );
+				pal_start=2048;
+				pal_size=128;
+				break;
+			case 0: /* passing shot */
+			case 8: /* passing shot 4p */
+				do{
+					if( source.read(1)!=0xffff ) used[(source.read(5)>>8)&0x3f] = 1;
+					source.offset+=8;
+				}while( source.offset<finish.offset );
+				break;
 		}
 	
 		{
@@ -1860,9 +1860,9 @@ public class system16
 				tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY );
 				if (sys16_bg_priority_mode != 0) tilemap_draw( bitmap, background, TILEMAP_IGNORE_TRANSPARENCY | 1 );
 			}
-/*TODO*///			else
-/*TODO*///				draw_quartet_title_screen( bitmap, 0 );
-/*TODO*///	
+			else
+				draw_quartet_title_screen( bitmap, 0 );
+	
 			sprite_draw(sprite_list,3); // needed for Aurail
 			if(sys16_bg_priority_mode==2) tilemap_draw( bitmap, background, 1 );		// body slam (& wrestwar??)
 			sprite_draw(sprite_list,2);
@@ -1874,11 +1874,11 @@ public class system16
 				sprite_draw(sprite_list,1);
 				tilemap_draw( bitmap, foreground, 1 );
 			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				draw_quartet_title_screen( bitmap, 1 );
-/*TODO*///				sprite_draw(sprite_list,1);
-/*TODO*///			}
+			else
+			{
+				draw_quartet_title_screen( bitmap, 1 );
+				sprite_draw(sprite_list,1);
+			}
 	
 			if(sys16_textlayer_lo_max!=0) tilemap_draw( bitmap, text_layer, 1 ); // needed for Body Slam
 			sprite_draw(sprite_list,0);
@@ -2853,72 +2853,72 @@ public class system16
 	} };
 	
 	
-/*TODO*///	// hideous kludge to display quartet title screen correctly
-/*TODO*///	static void draw_quartet_title_screen( struct osd_bitmap *bitmap,int playfield )
-/*TODO*///	{
-/*TODO*///		unsigned char *xscroll,*yscroll;
-/*TODO*///		int r,c,scroll;
-/*TODO*///		struct tilemap *tilemap;
-/*TODO*///		struct rectangle clip;
-/*TODO*///	
-/*TODO*///		int top,bottom,left,right;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		if(playfield==0) // background
-/*TODO*///		{
-/*TODO*///			xscroll=&sys16_textram[0x0fc0];
-/*TODO*///			yscroll=&sys16_textram[0x0f58];
-/*TODO*///			tilemap=background;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			xscroll=&sys16_textram[0x0f80];
-/*TODO*///			yscroll=&sys16_textram[0x0f30];
-/*TODO*///			tilemap=foreground;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		left = tilemap.clip_left;
-/*TODO*///		right = tilemap.clip_right;
-/*TODO*///		top = tilemap.clip_top;
-/*TODO*///		bottom = tilemap.clip_bottom;
-/*TODO*///	
-/*TODO*///		for(r=0;r<14;r++)
-/*TODO*///		{
-/*TODO*///			clip.min_y=r*16;
-/*TODO*///			clip.max_y=r*16+15;
-/*TODO*///			for(c=0;c<10;c++)
-/*TODO*///			{
-/*TODO*///				clip.min_x=c*32;
-/*TODO*///				clip.max_x=c*32+31;
-/*TODO*///				tilemap_set_clip( tilemap, &clip );
-/*TODO*///				scroll = READ_WORD(&xscroll[r*4])&0x3ff;
-/*TODO*///				tilemap_set_scrollx( tilemap, 0, (-320-scroll+sys16_bgxoffset)&0x3ff );
-/*TODO*///				scroll = READ_WORD(&yscroll[c*4])&0x1ff;
-/*TODO*///				tilemap_set_scrolly( tilemap, 0, (-256+scroll)&0x1ff );
-/*TODO*///				tilemap_draw( bitmap, tilemap, 0 );
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	/*
-/*TODO*///		for(r=0;r<28;r++)
-/*TODO*///		{
-/*TODO*///			clip.min_y=r*8;
-/*TODO*///			clip.max_y=r*8+7;
-/*TODO*///			for(c=0;c<20;c++)
-/*TODO*///			{
-/*TODO*///				clip.min_x=c*16;
-/*TODO*///				clip.max_x=c*16+15;
-/*TODO*///				tilemap_set_clip( tilemap, &clip );
-/*TODO*///				scroll = READ_WORD(&xscroll[r*2])&0x3ff;
-/*TODO*///				tilemap_set_scrollx( tilemap, 0, (-320-scroll+sys16_bgxoffset)&0x3ff );
-/*TODO*///				scroll = READ_WORD(&yscroll[c*2])&0x1ff;
-/*TODO*///				tilemap_set_scrolly( tilemap, 0, (-256+scroll)&0x1ff );
-/*TODO*///				tilemap_draw( bitmap, tilemap, 0 );
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	*/
-/*TODO*///		tilemap.clip_left = left;
-/*TODO*///		tilemap.clip_right = right;
-/*TODO*///		tilemap.clip_top = top;
-/*TODO*///		tilemap.clip_bottom = bottom;
-/*TODO*///	}	
+	// hideous kludge to display quartet title screen correctly
+	static void draw_quartet_title_screen( osd_bitmap bitmap,int playfield )
+	{
+		UBytePtr xscroll=new UBytePtr(),yscroll=new UBytePtr();
+		int r,c,scroll;
+		tilemap _tilemap;
+		rectangle clip=new rectangle();
+	
+		int top,bottom,left,right;
+	
+	
+		if(playfield==0) // background
+		{
+			xscroll=new UBytePtr(sys16_textram, 0x0fc0);
+			yscroll=new UBytePtr(sys16_textram, 0x0f58);
+			_tilemap=background;
+		}
+		else
+		{
+			xscroll=new UBytePtr(sys16_textram, 0x0f80);
+			yscroll=new UBytePtr(sys16_textram, 0x0f30);
+			_tilemap=foreground;
+		}
+	
+		left = _tilemap.clip_left;
+		right = _tilemap.clip_right;
+		top = _tilemap.clip_top;
+		bottom = _tilemap.clip_bottom;
+	
+		for(r=0;r<14;r++)
+		{
+			clip.min_y=r*16;
+			clip.max_y=r*16+15;
+			for(c=0;c<10;c++)
+			{
+				clip.min_x=c*32;
+				clip.max_x=c*32+31;
+				tilemap_set_clip( _tilemap, clip );
+				scroll = xscroll.READ_WORD(r*4)&0x3ff;
+				tilemap_set_scrollx( _tilemap, 0, (-320-scroll+sys16_bgxoffset)&0x3ff );
+				scroll = yscroll.READ_WORD(c*4)&0x1ff;
+				tilemap_set_scrolly( _tilemap, 0, (-256+scroll)&0x1ff );
+				tilemap_draw( bitmap, _tilemap, 0 );
+			}
+		}
+	/*
+		for(r=0;r<28;r++)
+		{
+			clip.min_y=r*8;
+			clip.max_y=r*8+7;
+			for(c=0;c<20;c++)
+			{
+				clip.min_x=c*16;
+				clip.max_x=c*16+15;
+				tilemap_set_clip( tilemap, &clip );
+				scroll = READ_WORD(&xscroll[r*2])&0x3ff;
+				tilemap_set_scrollx( tilemap, 0, (-320-scroll+sys16_bgxoffset)&0x3ff );
+				scroll = READ_WORD(&yscroll[c*2])&0x1ff;
+				tilemap_set_scrolly( tilemap, 0, (-256+scroll)&0x1ff );
+				tilemap_draw( bitmap, tilemap, 0 );
+			}
+		}
+	*/
+		_tilemap.clip_left = left;
+		_tilemap.clip_right = right;
+		_tilemap.clip_top = top;
+		_tilemap.clip_bottom = bottom;
+	}	
 }

@@ -1983,7 +1983,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( bayrtbl2 )	/* (c) 1989 (protected) (bootleg) */
                 /*TODO*/ //	DRIVER( enduror )	/* (c) 1985 (protected) */
                 /*TODO*/ //	DRIVER( eswat )		/* (c) 1989 (protected) */
-                /*TODO*/ //	DRIVER( fpoint )	/* (c) 1989 (protected) */
+                driver_fpoint,	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( goldnaxb )	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( goldnaxc )	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( goldnaxj )	/* (c) 1989 (protected. Japan) */
@@ -2022,7 +2022,7 @@ public class driver {
 
                 // Working
                 driver_alexkida,	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( aliensyn )	/* (c) 1987 */
+                driver_aliensyn,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( altbeas2 )	/* (c) 1988 */
                 driver_altbeast,	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( astormbl )	/* bootleg */
@@ -2046,8 +2046,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( moonwlkb )	/* bootleg */
                 driver_outrun,	/* (c) 1986 (bootleg)*/
-                /*TODO*/ //	DRIVER( outruna )	/* (c) 1986 (bootleg) */
-                /*TODO*/ //	DRIVER( outrunb )	/* (c) 1986 (protected beta bootleg) */
+                driver_outruna,	/* (c) 1986 (bootleg) */
+                driver_outrunb,	/* (c) 1986 (protected beta bootleg) */
                 /*TODO*/ //	DRIVER( passht4b )	/* bootleg */
                 /*TODO*/ //	DRIVER( passshtb )	/* bootleg */
                 /*TODO*/ //	DRIVER( quartet )	/* (c) 1986 */
@@ -2056,7 +2056,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( riotcity )	/* (c) 1991 Sega / Westone */
                 driver_sdi,		/* (c) 1987 */
                 /*TODO*/ //	DRIVER( shangonb )	/* (c) 1992 (but bootleg) */
-                /*TODO*/ //	DRIVER( sharrier )	/* (c) 1985 */
+                driver_sharrier,	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( shdancbl )	/* (c) 1989 (but bootleg) */
                 /*TODO*/ //	DRIVER( shdancer )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( shdancrj )	/* (c) 1989 */
@@ -2070,7 +2070,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( tturfu )	/* (c) 1989 Sega / Sunsoft */
                 driver_wb3,		/* (c) 1988 Sega / Westone */
                 /*TODO*////driver_wb3bl,	/* (c) 1988 Sega / Westone (but bootleg) */
-                /*TODO*/ //	DRIVER( wrestwar )	/* (c) 1989 */
+                driver_wrestwar,	/* (c) 1989 */
 
                 /* other Data East games */
                 /*TODO*/ //	DRIVER( firetrap )	/* (c) 1986 */

@@ -1108,29 +1108,37 @@ public class spriteC {
 
         /* make a pass to adjust for screen orientation */
         if ((orientation & ORIENTATION_SWAP_XY) != 0) {
-            throw new UnsupportedOperationException("Unimplemented");
+            	sprite[] _sprite = sprite_table;
+		//sprite finish = _sprite[sprite_list.num_sprites];
+                int _sprite_count=0;
+                int _finish=sprite_list.num_sprites;
+                
+		while( _sprite_count<_finish ){
+                        int _tmp = 0;
+                
+			//SWAP(_sprite[_sprite_count].x, _sprite[_sprite_count].y)
+                        _tmp=_sprite[_sprite_count].x;_sprite[_sprite_count].x=_sprite[_sprite_count].y;_sprite[_sprite_count].y=_tmp;
+			//SWAP(sprite->total_height,sprite->total_width)
+                        _tmp=_sprite[_sprite_count].total_height;_sprite[_sprite_count].total_height=_sprite[_sprite_count].total_width;_sprite[_sprite_count].total_width=_tmp;
+			//SWAP(sprite->tile_width,sprite->tile_height)
+                        _tmp=_sprite[_sprite_count].tile_width;_sprite[_sprite_count].tile_width=_sprite[_sprite_count].tile_height;_sprite[_sprite_count].tile_height=_tmp;
+			//SWAP(sprite->x_offset,sprite->y_offset)
+                        _tmp=_sprite[_sprite_count].x_offset;_sprite[_sprite_count].x_offset=_sprite[_sprite_count].y_offset;_sprite[_sprite_count].y_offset=_tmp;
+
+			/* we must also swap the flipx and flipy bits (if they aren't identical) */
+			if(( _sprite[_sprite_count].flags&SPRITE_FLIPX )!=0){
+				if( (_sprite[_sprite_count].flags&SPRITE_FLIPY)==0 ){
+					_sprite[_sprite_count].flags = (_sprite[_sprite_count].flags&~SPRITE_FLIPX)|SPRITE_FLIPY;
+				}
+			}
+			else {
+				if(( _sprite[_sprite_count].flags&SPRITE_FLIPY )!=0){
+					_sprite[_sprite_count].flags = (_sprite[_sprite_count].flags&~SPRITE_FLIPY)|SPRITE_FLIPX;
+				}
+			}
+			_sprite_count++;
+		}
         }
-        /*TODO*///		struct sprite *sprite = sprite_table;
-/*TODO*///		const struct sprite *finish = &sprite[sprite_list->num_sprites];
-/*TODO*///		while( sprite<finish ){
-/*TODO*///			SWAP(sprite->x, sprite->y)
-/*TODO*///			SWAP(sprite->total_height,sprite->total_width)
-/*TODO*///			SWAP(sprite->tile_width,sprite->tile_height)
-/*TODO*///			SWAP(sprite->x_offset,sprite->y_offset)
-/*TODO*///
-/*TODO*///			/* we must also swap the flipx and flipy bits (if they aren't identical) */
-/*TODO*///			if( sprite->flags&SPRITE_FLIPX ){
-/*TODO*///				if( !(sprite->flags&SPRITE_FLIPY) ){
-/*TODO*///					sprite->flags = (sprite->flags&~SPRITE_FLIPX)|SPRITE_FLIPY;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else {
-/*TODO*///				if( sprite->flags&SPRITE_FLIPY ){
-/*TODO*///					sprite->flags = (sprite->flags&~SPRITE_FLIPY)|SPRITE_FLIPX;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			sprite++;
-/*TODO*///		}
         if ((orientation & ORIENTATION_FLIP_X) != 0) {
             throw new UnsupportedOperationException("Unimplemented");
 
@@ -1151,22 +1159,25 @@ public class spriteC {
 /*TODO*///		}
         }
         if ((orientation & ORIENTATION_FLIP_Y) != 0) {
-            throw new UnsupportedOperationException("Unimplemented");
-            /*TODO*///		struct sprite *sprite = sprite_table;
-/*TODO*///		const struct sprite *finish = &sprite[sprite_list->num_sprites];
+            
+            	sprite[] _sprite = sprite_table;
+                int _sprite_count=0;
+		//const struct sprite *finish = &sprite[sprite_list->num_sprites];
+                int _finish=sprite_list.num_sprites;
 /*TODO*///#ifndef PREROTATE_GFX
 /*TODO*///		int toggle_bit = SPRITE_FLIPY;
 /*TODO*///#else
-/*TODO*///		int toggle_bit = (sprite_list->flags & SPRITE_LIST_RAW_DATA)?SPRITE_FLIPY:0;
+		int toggle_bit = (sprite_list.flags & SPRITE_LIST_RAW_DATA)!=0?SPRITE_FLIPY:0;
 /*TODO*///#endif
-/*TODO*///		while( sprite<finish ){
-/*TODO*///			sprite->y = screen_height - (sprite->y+sprite->total_height);
-/*TODO*///			sprite->flags ^= toggle_bit;
-/*TODO*///
-/*TODO*///			/* extra processing for packed sprites */
-/*TODO*///			sprite->y_offset = sprite->tile_height - (sprite->y_offset+sprite->total_height);
-/*TODO*///			sprite++;
-/*TODO*///		}
+		
+		while( _sprite_count<_finish ){
+			_sprite[_sprite_count].y = screen_height - (_sprite[_sprite_count].y+_sprite[_sprite_count].total_height);
+			_sprite[_sprite_count].flags ^= toggle_bit;
+
+			/* extra processing for packed sprites */
+			_sprite[_sprite_count].y_offset = _sprite[_sprite_count].tile_height - (_sprite[_sprite_count].y_offset+_sprite[_sprite_count].total_height);
+			_sprite_count++;
+		}
         }
         {
             /* visibility check */
