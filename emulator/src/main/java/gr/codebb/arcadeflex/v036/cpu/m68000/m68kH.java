@@ -21,14 +21,14 @@ public class m68kH {
     
     public static class m68k_cpu_context {
         public int mode;                /* CPU Operation Mode: 68000, 68010, or 68020 */
-        public int[] dr = new int[8];   /* Data Registers */
-        public int[] ar = new int[8];   /* Address Registers */
-        public int ppc;                 /* Previous program counter */
-        public int pc;                  /* Program Counter */
-        public int[] sp = new int[4];   /* User, Interrupt, and Master Stack Pointers */
-        public int vbr;                 /* Vector Base Register (68010+) */
-        public int sfc;                 /* Source Function Code Register (m68010+) */
-        public int dfc;                 /* Destination Function Code Register (m68010+) */
+        public long[] dr = new long[8];   /* Data Registers */
+        public long[] ar = new long[8];   /* Address Registers */
+        public long ppc;                 /* Previous program counter */
+        public long pc;                  /* Program Counter */
+        public long[] sp = new long[4];   /* User, Interrupt, and Master Stack Pointers */
+        public long vbr;                 /* Vector Base Register (68010+) */
+        public long sfc;                 /* Source Function Code Register (m68010+) */
+        public long dfc;                 /* Destination Function Code Register (m68010+) */
         public int cacr;                /* Cache Control Register (m68020+) */
         public int caar;                /* Cache Address Register (m68020+) */
         public int ir;                  /* Instruction Register */
@@ -42,12 +42,12 @@ public class m68kH {
         public int v_flag;              /* Overflow */
         public int c_flag;              /* Carry */
         public int int_mask;            /* I0-I2 */
-        public int int_state;           /* Current interrupt state -- ASG: changed from ints_pending */
-        public int stopped;             /* Stopped state */
-        public int halted;              /* Halted state */
+        public long int_state;           /* Current interrupt state -- ASG: changed from ints_pending */
+        public long stopped;             /* Stopped state */
+        public long halted;              /* Halted state */
         public int int_cycles;          /* ASG: extra cycles from generated interrupts */
-        public int pref_addr;           /* Last prefetch address */
-        public int pref_data;           /* Data in the prefetch queue */
+        public long pref_addr;           /* Last prefetch address */
+        public long pref_data;           /* Data in the prefetch queue */
 
         /* Callbacks to host */
         irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */

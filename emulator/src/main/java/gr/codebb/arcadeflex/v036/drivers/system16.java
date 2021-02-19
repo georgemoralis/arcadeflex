@@ -11606,17 +11606,17 @@ public class system16 {
 		sys16_vh_stop, 
 		sys16_or_vh_screenrefresh, 
 		SOUND_SUPPORTS_STEREO,0,0,0, 
-/*TODO*///		new MachineSound[] { 
-/*TODO*///			new MachineSound( 
-/*TODO*///				SOUND_YM2151, 
-/*TODO*///				ym2151_interface 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
 /*TODO*///			), 
 /*TODO*///			new MachineSound( 
 /*TODO*///				SOUND_SEGAPCM, 
 /*TODO*///				segapcm_interface_15k, 
-/*TODO*///			) 
-/*TODO*///		} 
-                null
+			) 
+		} 
+               
 	);
 /*TODO*///	MACHINE_DRIVER_OUTRUN(machine_driver_outruna,outruna_init_machine)
 /*TODO*///	

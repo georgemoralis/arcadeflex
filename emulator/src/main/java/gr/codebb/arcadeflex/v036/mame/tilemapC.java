@@ -1661,6 +1661,7 @@ public class tilemapC {
     		int c2; /* leftmost and rightmost visible columns in source tilemap */
     		int y; /* current screen line to render */
     		int y_next;
+                
     
     		dest_baseaddr = new UBytePtr(blit.screen.line[y1], xpos);//dest_baseaddr = xpos + (DATA_TYPE *)blit.screen->line[y1];
     

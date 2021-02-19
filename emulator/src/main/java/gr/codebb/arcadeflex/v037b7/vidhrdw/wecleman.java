@@ -115,7 +115,7 @@ public class wecleman
 	
 	/* Variables that driver has acces to: */
 	
-	public static UBytePtr wecleman_pageram, wecleman_txtram, wecleman_roadram, wecleman_unknown;
+	public static UBytePtr wecleman_pageram=new UBytePtr(), wecleman_txtram=new UBytePtr(), wecleman_roadram=new UBytePtr(), wecleman_unknown=new UBytePtr();
         public static int[] wecleman_roadram_size = new int[1];
         static int[] wecleman_bgpage=new int[4], wecleman_fgpage=new int[4], wecleman_gfx_bank;
 /*TODO*///	
