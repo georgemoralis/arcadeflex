@@ -981,7 +981,7 @@ public class mcr68
 				zwackery_readmem,zwackery_writemem,null,null,
 				mcr68_interrupt,1
 			)
-/*TODO*///                        ,SOUND_CPU_CHIP_SQUEAK_DELUXE()
+                        ,SOUND_CPU_CHIP_SQUEAK_DELUXE()
                         
 		},
 		30, DEFAULT_REAL_30HZ_VBLANK_DURATION,
@@ -1002,10 +1002,10 @@ public class mcr68
 	
 		/* sound hardware */
 		SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///                        new MachineSound[] {
-/*TODO*///			SOUND_CHIP_SQUEAK_DELUXE
-/*TODO*///		},
-                null,
+                        new MachineSound[] {
+			SOUND_CHIP_SQUEAK_DELUXE
+		},
+                
                 
 		null
 	);
@@ -1068,7 +1068,7 @@ public class mcr68
 	
 		/* tile graphics are inverted */
 		for (i = 0; i < memory_region_length(REGION_GFX1); i++)
-			new UBytePtr(memory_region(REGION_GFX1)).write(i, new UBytePtr(memory_region(REGION_GFX1)).read(i) ^ 0xff);
+			memory_region(REGION_GFX1).write(i, memory_region(REGION_GFX1).read(i) ^ 0xff);
 	}
 	
 	

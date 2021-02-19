@@ -1729,6 +1729,7 @@ public class tilemapC {
                                                         UBytePtr mask0 = new UBytePtr(mask_baseaddr,x_start/8);
                                                         UBytePtr source0 = new UBytePtr(source_baseaddr,(x_start&0xfff8));
                                                         UBytePtr dest0 = new UBytePtr(dest_baseaddr,(x_start&0xfff8));
+                                                        //dest0.offset=(x_start&0xfff8);
     							int i = y;
     							for(;;){
     								memcpybitmask8( dest0, source0, mask0, count );

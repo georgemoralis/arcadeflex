@@ -285,6 +285,7 @@ public class mcr {
 		m6840_msb_buffer = m6840_lsb_buffer = 0;
 		for (i = 0; i < 3; i++)
 		{
+                        m6840_state[i]=new counter_state();
 			m6840_state[i].control = 0x00;
 			m6840_state[i].latch = 0xffff;
 			m6840_state[i].count = 0xffff;

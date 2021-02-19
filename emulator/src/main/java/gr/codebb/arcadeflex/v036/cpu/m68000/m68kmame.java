@@ -57,17 +57,15 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public Object get_context() {
-//        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet.");
         /*TODO*///	if( dst )
 /*TODO*///		m68k_get_context(dst);
 /*TODO*///	return sizeof(m68k_cpu_context);
-        Object reg = new m68k_cpu_context();
-        return reg;
     }
 
     @Override
     public void set_context(Object reg) {
-//        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet.");
         /*TODO*///	if( src )
         /*TODO*///		m68k_set_context(src);
     }

@@ -1975,7 +1975,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( aliensya )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( aliensyb )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( aliensyj )	/* (c) 1987 (protected. Japan) */
-                /*TODO*/ //	DRIVER( astorm )	/* (c) 1990 (protected) */
+                driver_astorm,	/* (c) 1990 (protected) */
                 /*TODO*/ //	DRIVER( astorm2p )	/* (c) 1990 (protected 2 Players) */
                 /*TODO*/ //	DRIVER( auraila )	/* (c) 1990 Sega / Westone (protected) */
                 /*TODO*/ //	DRIVER( bayrouta )	/* (c) 1989 (protected) */
@@ -1990,7 +1990,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( jyuohki )	/* (c) 1988 (protected. Altered Beast Japan) */
                 driver_moonwalk,	/* (c) 1990 (protected) */
                 /*TODO*/ //	DRIVER( moonwlka )	/* (c) 1990 (protected) */
-                /*TODO*/ //	DRIVER( passsht )	/* (protected) */
+                driver_passsht,	/* (protected) */
                 /*TODO*/ //	DRIVER( sdioj )		/* (c) 1987 (protected. Japan) */
                 /*TODO*/ //	DRIVER( shangon )	/* (c) 1992 (protected) */
                 /*TODO*/ //	DRIVER( shinobia )	/* (c) 1987 (protected) */
@@ -2025,7 +2025,7 @@ public class driver {
                 driver_aliensyn,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( altbeas2 )	/* (c) 1988 */
                 driver_altbeast,	/* (c) 1988 */
-                /*TODO*/ //	DRIVER( astormbl )	/* bootleg */
+                driver_astormbl,	/* bootleg */
                 driver_atomicp,	/* (c) 1990 Philko */
                 /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
                 /*TODO*/ //	DRIVER( bayroute )	/* (c) 1989 */
@@ -2049,7 +2049,7 @@ public class driver {
                 driver_outruna,	/* (c) 1986 (bootleg) */
                 driver_outrunb,	/* (c) 1986 (protected beta bootleg) */
                 /*TODO*/ //	DRIVER( passht4b )	/* bootleg */
-                /*TODO*/ //	DRIVER( passshtb )	/* bootleg */
+                driver_passshtb,	/* bootleg */
                 /*TODO*/ //	DRIVER( quartet )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartet2 )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartetj )	/* (c) 1986 */
