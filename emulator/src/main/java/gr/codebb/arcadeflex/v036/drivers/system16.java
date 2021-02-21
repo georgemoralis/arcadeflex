@@ -37,6 +37,8 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.sndhrdw.system16.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound.segapcm.*;
+import static gr.codebb.arcadeflex.v037b7.sound.segapcmH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class system16 {
@@ -572,16 +574,17 @@ public class system16 {
 /*TODO*///		REGION_SOUND1,		// memory region
 /*TODO*///		50
 /*TODO*///	};
-/*TODO*///	
-/*TODO*///	static struct SEGAPCMinterface segapcm_interface_32k = {
-/*TODO*///		SEGAPCM_SAMPLE32K,
-/*TODO*///		BANK_256,
-/*TODO*///		REGION_SOUND1,
-/*TODO*///		50
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	// Super hang-on, outrun
+	
+	static SEGAPCMinterface segapcm_interface_32k = new SEGAPCMinterface
+        (
+		SEGAPCM_SAMPLE32K,
+		BANK_256,
+		REGION_SOUND1,
+		50
+	);
+	
+	
+	// Super hang-on, outrun
 	
 	// hopefully this is endian safe!
 	static UBytePtr sound_shared_ram=new UBytePtr();
@@ -9937,7 +9940,7 @@ public class system16 {
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0xc000, 0xc7ff, MRA_RAM ),
 		new MemoryReadAddress( 0xd000, 0xd000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xe000, 0xe7ff, SEGAPCMReadReg ),
+		new MemoryReadAddress( 0xe000, 0xe7ff, SEGAPCMReadReg ),
 		new MemoryReadAddress( 0xf800, 0xffff, MRA_RAM ),
 		new MemoryReadAddress( -1 )  /* end of table */
 	};
@@ -9948,7 +9951,7 @@ public class system16 {
 		new MemoryWriteAddress( 0xc000, 0xc7ff, MWA_RAM ),
 		new MemoryWriteAddress( 0xd000, 0xd000, YM2203_control_port_0_w ),
 		new MemoryWriteAddress( 0xd001, 0xd001, YM2203_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe7ff, SEGAPCMWriteReg ),
+		new MemoryWriteAddress( 0xe000, 0xe7ff, SEGAPCMWriteReg ),
 		new MemoryWriteAddress( 0xf800, 0xffff, MWA_RAM ),
 		new MemoryWriteAddress( -1 )  /* end of table */
 	};
@@ -10129,10 +10132,10 @@ public class system16 {
 			new MachineSound(
 				SOUND_YM2203,
 				ym2203_interface
-/*TODO*///			),
-/*TODO*///			new MachineSound(			// wrong sound chip??
-/*TODO*///				SOUND_SEGAPCM,
-/*TODO*///				segapcm_interface_32k,
+			),
+			new MachineSound(			// wrong sound chip??
+				SOUND_SEGAPCM,
+				segapcm_interface_32k
 			)
 		}
              
@@ -10279,7 +10282,7 @@ public class system16 {
 	{
 		new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
 		new MemoryReadAddress( 0xd000, 0xd000, YM2203_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xe000, 0xe0ff, SEGAPCMReadReg ),
+		new MemoryReadAddress( 0xe000, 0xe0ff, SEGAPCMReadReg ),
 		new MemoryReadAddress( 0x8000, 0xffff, MRA_RAM ),
 		new MemoryReadAddress( -1 )  /* end of table */
 	};
@@ -10289,7 +10292,7 @@ public class system16 {
 		new MemoryWriteAddress( 0x0000, 0x7fff, MWA_ROM ),
 		new MemoryWriteAddress( 0xd000, 0xd000, YM2203_control_port_0_w ),
 		new MemoryWriteAddress( 0xd001, 0xd001, YM2203_write_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0xe000, 0xe0ff, SEGAPCMWriteReg ),
+		new MemoryWriteAddress( 0xe000, 0xe0ff, SEGAPCMWriteReg ),
 		new MemoryWriteAddress( 0x8000, 0xffff, MWA_RAM ),
 		new MemoryWriteAddress( -1 )  /* end of table */
 	};
@@ -10498,17 +10501,17 @@ public class system16 {
 		sys16_vh_stop,
 		sys16_ho_vh_screenrefresh,
 		SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///		new MachineSound[] {
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_YM2203,
-/*TODO*///				ym2203_interface
-/*TODO*///			),
-/*TODO*///			new MachineSound(
-/*TODO*///				SOUND_SEGAPCM,
-/*TODO*///				segapcm_interface_32k,
-/*TODO*///			)
-/*TODO*///		}
-                null
+		new MachineSound[] {
+			new MachineSound(
+				SOUND_YM2203,
+				ym2203_interface
+			),
+			new MachineSound(
+				SOUND_SEGAPCM,
+				segapcm_interface_32k
+			)
+		}
+                
 	);
 	
 /*TODO*///	/***************************************************************************/

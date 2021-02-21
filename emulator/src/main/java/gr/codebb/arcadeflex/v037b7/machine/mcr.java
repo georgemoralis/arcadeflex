@@ -262,8 +262,8 @@ public class mcr {
             /* reset cocktail flip */
             mcr_cocktail_flip = 0;
 
-/*TODO*///            /* initialize the sound */
-/*TODO*///            mcr_sound_init();
+            /* initialize the sound */
+            mcr_sound_init();
         }
     };
     	

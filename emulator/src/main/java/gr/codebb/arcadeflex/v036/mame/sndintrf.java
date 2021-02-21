@@ -37,6 +37,7 @@ import gr.codebb.arcadeflex.v037b7.sound._2608intf;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import gr.codebb.arcadeflex.v037b7.sound._5220intf;
 import gr.codebb.arcadeflex.v037b7.sound.tms36xx;
+import gr.codebb.arcadeflex.v037b7.sound.segapcm;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -457,7 +458,7 @@ public class sndintrf {
              new k007232(),
              new k051649(),
              new k053260(),
-             new Dummy_snd(),
+             new segapcm(),
     /*TODO*////*TODO*///#endif
     /*TODO*////*TODO*///#if (HAS_SEGAPCM)
     /*TODO*////*TODO*///	{

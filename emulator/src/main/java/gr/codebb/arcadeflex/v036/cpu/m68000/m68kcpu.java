@@ -599,13 +599,17 @@ public class m68kcpu {
                     
 
                 cpu.mode                 = (int) get_CPU_MODE();
-    /*TODO*///		cpu->sr 				  = m68ki_get_sr();
+/*TODO*///    		cpu->sr 				  = m68ki_get_sr();
                 cpu.pc = get_CPU_PC();
                 cpu.dr = get_CPU_D();
                 cpu.ar = get_CPU_A();
                 cpu.sp = get_CPU_SP();
-    /*TODO*///		cpu->isp				  = CPU_ISP;
-    /*TODO*///		cpu->msp				  = CPU_MSP;
+                
+                //CPU_ISP
+                cpu.sp[1] = ((m68k_cpu.s_flag !=0) && (m68k_cpu.m_flag == 0)) ? m68k_cpu.ar[7] : m68k_cpu.sp[1];
+    		//CPU_MSP				  = CPU_ISP;
+                cpu.sp[3] = m68k_cpu.sp[3];
+                
                 cpu.vbr = get_CPU_VBR();
                 cpu.sfc = get_CPU_SFC();
                 cpu.dfc = get_CPU_DFC();
@@ -624,6 +628,21 @@ public class m68kcpu {
             }
             return cpu;
     }
+    
+    public static long var_get_sr(m68k_cpu_context cpu) {
+        return ((((cpu.t1_flag != 0) ? 1 : 0) << 15)
+                | (((cpu.t0_flag != 0) ? 1 : 0) << 14)
+                | (((cpu.s_flag != 0) ? 1 : 0) << 13)
+                | (((cpu.m_flag != 0) ? 1 : 0) << 12)
+                | (cpu.int_mask << 8)
+                | (((cpu.x_flag != 0) ? 1 : 0) << 4)
+                | (((cpu.n_flag != 0) ? 1 : 0) << 3)
+                | (((cpu.not_z_flag == 0) ? 1 : 0) << 2)
+                | (((cpu.v_flag != 0) ? 1 : 0) << 1)
+                | ((cpu.c_flag != 0) ? 1 : 0));
+
+    }
+    /*TODO*///
 
         public static void m68k_set_context(Object src)
         {
@@ -632,7 +651,7 @@ public class m68kcpu {
                         m68k_cpu_context cpu = (m68k_cpu_context) src;
 
                         set_CPU_MODE(cpu.mode);
-        /*TODO*///		m68ki_set_sr_no_int(cpu->sr); /* This stays on top to prevent side-effects */
+        		m68ki_set_sr_no_int( var_get_sr(cpu) ); /* This stays on top to prevent side-effects */
         		m68ki_set_pc(cpu.pc);
                         
                         for (int _i=0 ; _i<8 ; _i++)
@@ -643,8 +662,9 @@ public class m68kcpu {
                         
                         for (int _i=0 ; _i<4 ; _i++)
                             set_CPU_SP(_i, cpu.sp[_i]);
-        /*TODO*///		CPU_ISP 				 = cpu->isp;
-        /*TODO*///		CPU_MSP 				 = cpu->msp;
+                        
+                        set_CPU_ISP( cpu.sp[1] );
+                        set_CPU_MSP( cpu.sp[3] );
                         set_CPU_VBR(cpu.vbr);
                         set_CPU_SFC(cpu.sfc);
                         set_CPU_DFC(cpu.dfc);

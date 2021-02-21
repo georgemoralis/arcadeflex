@@ -1053,7 +1053,7 @@ public class m68kcpuH {
 
     ;
 
-/* Get the status register */
+    /* Get the status register */
     public static long m68ki_get_sr() {
         return ((((m68k_cpu.t1_flag != 0) ? 1 : 0) << 15)
                 | (((m68k_cpu.t0_flag != 0) ? 1 : 0) << 14)
@@ -1548,27 +1548,27 @@ public class m68kcpuH {
             m68ki_check_interrupts();
         }
     }
-    /*TODO*///
-/*TODO*///
-/*TODO*////* Set the status register */
-/*TODO*///INLINE void m68ki_set_sr_no_int(uint value)
-/*TODO*///{
-/*TODO*///   /* Mask out the "unimplemented" bits */
-/*TODO*///   value &= m68k_sr_implemented_bits[CPU_MODE];
-/*TODO*///
-/*TODO*///   /* Now set the status register */
-/*TODO*///   CPU_T1 = BIT_F(value);
-/*TODO*///   CPU_T0 = BIT_E(value);
-/*TODO*///   CPU_INT_MASK = (value >> 8) & 7;
-/*TODO*///   CPU_X = BIT_4(value);
-/*TODO*///   CPU_N = BIT_3(value);
-/*TODO*///   CPU_NOT_Z = !BIT_2(value);
-/*TODO*///   CPU_V = BIT_1(value);
-/*TODO*///   CPU_C = BIT_0(value);
-/*TODO*///   m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    
+
+    /* Set the status register */
+    public static void m68ki_set_sr_no_int(long value)
+    {
+       /* Mask out the "unimplemented" bits */
+       value &= m68k_sr_implemented_bits[(int)get_CPU_MODE()];
+
+       /* Now set the status register */
+       set_CPU_T1( BIT_F(value) );
+       set_CPU_T0( BIT_E(value) );
+       set_CPU_INT_MASK( (value >> 8) & 7 );
+       set_CPU_X( BIT_4(value) );
+       set_CPU_N( BIT_3(value) );
+       set_CPU_NOT_Z( BIT_2(value) != 0 ? 0 : 1 );
+       set_CPU_V( BIT_1(value) );
+       set_CPU_C( BIT_0(value) );
+       m68ki_set_sm_flag(BIT_D(value), BIT_C(value));
+    }
+
+
 /*TODO*////* I set the PC this way to let host programs be nicer.
 /*TODO*/// * This is mainly for programs running from separate ram banks.
 /*TODO*/// * If the host program knows where the PC is, it can offer faster
