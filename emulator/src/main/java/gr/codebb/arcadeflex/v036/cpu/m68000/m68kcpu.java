@@ -467,19 +467,21 @@ public class m68kcpu {
             m68k_clks_left[0] -= get_CPU_INT_CYCLES();
             set_CPU_INT_CYCLES(0);
 
-
+            int _debugValCode=0;
             /* Main loop.  Keep going until we run out of clock cycles */
             do {
                 set_CPU_PPC(get_CPU_PC());
 
                 /* Read an instruction and call its handler */
                 set_CPU_IR(m68ki_read_instruction());
-                opcode i = m68k_instruction_jump_table[(int) get_CPU_IR()];
-                //try {
+                _debugValCode=(int) get_CPU_IR();
+                opcode i = m68k_instruction_jump_table[_debugValCode];
+                try {
                 i.handler();
-                //} catch (Exception e){
-                //    System.out.println("CODE="+get_CPU_IR());
-                //}
+                } catch (Exception e){
+                    System.out.println("CODE="+_debugValCode);
+                    e.printStackTrace(System.out);
+                }
 
                 continue;
             } while (m68k_clks_left[0] > 0);
