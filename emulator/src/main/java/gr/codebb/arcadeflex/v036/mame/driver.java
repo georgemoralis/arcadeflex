@@ -1981,7 +1981,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( bayrouta )	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( bayrtbl1 )	/* (c) 1989 (protected) (bootleg) */
                 /*TODO*/ //	DRIVER( bayrtbl2 )	/* (c) 1989 (protected) (bootleg) */
-                /*TODO*/ //	DRIVER( enduror )	/* (c) 1985 (protected) */
+                driver_enduror,	/* (c) 1985 (protected) */
                 /*TODO*/ //	DRIVER( eswat )		/* (c) 1989 (protected) */
                 driver_fpoint,	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( goldnaxb )	/* (c) 1989 (protected) */
@@ -1992,7 +1992,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( moonwlka )	/* (c) 1990 (protected) */
                 driver_passsht,	/* (protected) */
                 /*TODO*/ //	DRIVER( sdioj )		/* (c) 1987 (protected. Japan) */
-                /*TODO*/ //	DRIVER( shangon )	/* (c) 1992 (protected) */
+                driver_shangon,	/* (c) 1992 (protected) */
                 /*TODO*/ //	DRIVER( shinobia )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( shinobib )	/* (c) 1987 (protected) */
                 /*TODO*/ //	DRIVER( tetris )	/* (c) 1988 (protected) */
@@ -2032,8 +2032,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( bodyslam )	/* (c) 1986 */
                 driver_dduxbl,	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( dumpmtmt )	/* (c) 1986 (Japan) */
-                /*TODO*/ //	DRIVER( endurob2 )	/* (c) 1985 (Beta bootleg) */
-                /*TODO*/ //	DRIVER( endurobl )	/* (c) 1985 (Herb bootleg) */
+                driver_endurob2,	/* (c) 1985 (Beta bootleg) */
+                driver_endurobl,	/* (c) 1985 (Herb bootleg) */
                 /*TODO*/ //	DRIVER( eswatbl )	/* (c) 1989 (but bootleg) */
                 /*TODO*/ //	DRIVER( fantzone )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( fantzono )	/* (c) 1986 */
@@ -2055,7 +2055,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( quartetj )	/* (c) 1986 */
                 driver_riotcity,	/* (c) 1991 Sega / Westone */
                 driver_sdi,		/* (c) 1987 */
-                /*TODO*/ //	DRIVER( shangonb )	/* (c) 1992 (but bootleg) */
+                driver_shangonb,	/* (c) 1992 (but bootleg) */
                 driver_sharrier,	/* (c) 1985 */
                 /*TODO*/ //	DRIVER( shdancbl )	/* (c) 1989 (but bootleg) */
                 driver_shdancer,	/* (c) 1989 */

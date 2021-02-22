@@ -17,7 +17,7 @@ public class segapcmH {
 
 	/************************************************/
         public static final int BANK_256    = (11);
-/*TODO*///	#define   BANK_512    (12)
+        public static final int BANK_512    = (12);
 /*TODO*///	#define   BANK_12M    (13)
 	public static final int BANK_MASK7  = (0x70<<16);
 /*TODO*///	#define   BANK_MASKF    (0xf0<<16)

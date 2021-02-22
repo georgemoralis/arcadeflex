@@ -108,7 +108,7 @@ public class fmH {
     public static final int YM2608_NUMBUF = 2;
     /* FM L+R+ADPCM+RYTHM */
     public static final int YM2610_NUMBUF = 2;/* FM L+R+ADPCMA+ADPCMB */
- /*TODO*///  #define YM2612_NUMBUF 2    /* FM L+R */
+    public static final int YM2612_NUMBUF = 2;    /* FM L+R */
 /*TODO*///#endif
 /*TODO*///
 /*TODO*///#if (FM_OUTPUT_BIT==16)

@@ -38,6 +38,8 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import gr.codebb.arcadeflex.v037b7.sound._5220intf;
 import gr.codebb.arcadeflex.v037b7.sound.tms36xx;
 import gr.codebb.arcadeflex.v037b7.sound.segapcm;
+import gr.codebb.arcadeflex.v037b7.sound._2612intf;
+import gr.codebb.arcadeflex.v037b7.sound.rf5c68;
 
 public class sndintrf {
     static int cleared_value = 0x00;
@@ -312,7 +314,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2610_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-        /*TEMPHACK*/   new Dummy_snd(),
+           new _2612intf(),
     /*TODO*////*TODO*///#if (HAS_YM2612)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM2612,
@@ -325,7 +327,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		YM2612_sh_reset
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-         /*TEMPHACK*/   new Dummy_snd(),
+         new _2612intf(),
     /*TODO*////*TODO*///#if (HAS_YM3438)
     /*TODO*////*TODO*///    {
     /*TODO*////*TODO*///		SOUND_YM3438,
@@ -472,7 +474,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-             new Dummy_snd(),
+             new rf5c68(),
     /*TODO*////*TODO*///#if (HAS_RF5C68)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_RF5C68,
@@ -485,7 +487,7 @@ public class sndintrf {
     /*TODO*////*TODO*///		0
     /*TODO*////*TODO*///	},
     /*TODO*////*TODO*///#endif
-             new Dummy_snd(),
+             /*TEMPHACK*/   new Dummy_snd(),
     /*TODO*////*TODO*///#if (HAS_CEM3394)
     /*TODO*////*TODO*///	{
     /*TODO*////*TODO*///		SOUND_CEM3394,
@@ -583,6 +585,7 @@ public class sndintrf {
 
     	while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0)
     	{
+            System.out.println("Chip Sound: " + Machine.drv.sound[totalsound].sound_type);
     		if ((sndintf[Machine.drv.sound[totalsound].sound_type].start(Machine.drv.sound[totalsound])) != 0)
     			return 1;//goto getout;
     		totalsound++;

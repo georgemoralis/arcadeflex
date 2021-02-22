@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import gr.codebb.arcadeflex.common.PtrLib;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitMultiPtr;
@@ -11,6 +12,7 @@ import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2608intf.YM2608UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.YM2610UpdateRequest;
+import static gr.codebb.arcadeflex.v037b7.sound._2612intf.YM2612UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmopl.DELTAT_MIXING_LEVEL;
 import static gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.*;
@@ -321,13 +323,13 @@ public class fm {
  /*TODO*///#define TYPE_OPN    0x02    /* OPN device           */
     public static final int TYPE_LFOPAN = 0x04;/* OPN type LFO and PAN */
     public static final int TYPE_6CH = 0x08;/* FM 6CH / 3CH         */
- /*TODO*///#define TYPE_DAC    0x10    /* YM2612's DAC device  */
+    public static final int TYPE_DAC = 0x10;/* YM2612's DAC device  */
     public static final int TYPE_ADPCM = 0x20;/* two ADPCM unit       */
 
     public static final int TYPE_YM2203 = (TYPE_SSG);
     public static final int TYPE_YM2608 = (TYPE_SSG | TYPE_LFOPAN | TYPE_6CH | TYPE_ADPCM);
     public static final int TYPE_YM2610 = (TYPE_SSG | TYPE_LFOPAN | TYPE_6CH | TYPE_ADPCM);
-    /*TODO*///#define TYPE_YM2612 (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC)
+    public static final int TYPE_YM2612 = (TYPE_6CH |TYPE_LFOPAN |TYPE_DAC);
 
     /* current chip state */
     static Object cur_chip = null;/* pointer of current chip struct */
@@ -3002,271 +3004,309 @@ pcmbufA[adpcm[c].start],pcmbufA[adpcm[c].start+1],pcmbufA[adpcm[c].start+2]));*/
     /*TODO*///
 /*TODO*///
 /*TODO*///#if BUILD_YM2612
-/*TODO*////*******************************************************************************/
-/*TODO*////*		YM2612 local section                                                   */
-/*TODO*////*******************************************************************************/
-/*TODO*////* here's the virtual YM2612 */
-/*TODO*///typedef struct ym2612_f {
-/*TODO*///	FM_OPN OPN;						/* OPN state       */
-/*TODO*///	FM_CH CH[6];					/* channel state */
-/*TODO*///	int address1;	/* address register1 */
-/*TODO*///	/* dac output (YM2612) */
-/*TODO*///	int dacen;
-/*TODO*///	int dacout;
-/*TODO*///} YM2612;
-/*TODO*///
-/*TODO*///static int YM2612NumChips;	/* total chip */
-/*TODO*///static YM2612 *FM2612=NULL;	/* array of YM2612's */
-/*TODO*///
-/*TODO*///static int dacen;
-/*TODO*///
-/*TODO*////* ---------- update one of chip ----------- */
-/*TODO*///void YM2612UpdateOne(int num, INT16 **buffer, int length)
-/*TODO*///{
-/*TODO*///	YM2612 *F2612 = &(FM2612[num]);
-/*TODO*///	FM_OPN *OPN   = &(FM2612[num].OPN);
-/*TODO*///	int i;
-/*TODO*///	FM_CH *ch,*ech;
-/*TODO*///	FMSAMPLE  *bufL,*bufR;
-/*TODO*///	int dacout  = F2612->dacout;
-/*TODO*///
-/*TODO*///	/* set bufer */
-/*TODO*///	bufL = buffer[0];
-/*TODO*///	bufR = buffer[1];
-/*TODO*///
-/*TODO*///	if( (void *)F2612 != cur_chip ){
-/*TODO*///		cur_chip = (void *)F2612;
-/*TODO*///
-/*TODO*///		State = &OPN->ST;
-/*TODO*///		cch[0]   = &F2612->CH[0];
-/*TODO*///		cch[1]   = &F2612->CH[1];
-/*TODO*///		cch[2]   = &F2612->CH[2];
-/*TODO*///		cch[3]   = &F2612->CH[3];
-/*TODO*///		cch[4]   = &F2612->CH[4];
-/*TODO*///		cch[5]   = &F2612->CH[5];
-/*TODO*///		/* DAC mode */
-/*TODO*///		dacen = F2612->dacen;
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///		LFOCnt  = OPN->LFOCnt;
-/*TODO*///		LFOIncr = OPN->LFOIncr;
-/*TODO*///		if( !LFOIncr ) lfo_amd = lfo_pmd = 0;
-/*TODO*///#endif
-/*TODO*///	}
-/*TODO*///	/* update frequency counter */
-/*TODO*///	OPN_CALC_FCOUNT( cch[0] );
-/*TODO*///	OPN_CALC_FCOUNT( cch[1] );
-/*TODO*///	if( (State->mode & 0xc0) ){
-/*TODO*///		/* 3SLOT MODE */
-/*TODO*///		if( cch[2]->SLOT[SLOT1].Incr==-1){
-/*TODO*///			/* 3 slot mode */
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT1] , OPN->SL3.fc[1] , OPN->SL3.kcode[1] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT2] , OPN->SL3.fc[2] , OPN->SL3.kcode[2] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT3] , OPN->SL3.fc[0] , OPN->SL3.kcode[0] );
-/*TODO*///			CALC_FCSLOT(&cch[2]->SLOT[SLOT4] , cch[2]->fc , cch[2]->kcode );
-/*TODO*///		}
-/*TODO*///	}else OPN_CALC_FCOUNT( cch[2] );
-/*TODO*///	OPN_CALC_FCOUNT( cch[3] );
-/*TODO*///	OPN_CALC_FCOUNT( cch[4] );
-/*TODO*///	OPN_CALC_FCOUNT( cch[5] );
-/*TODO*///
-/*TODO*///	ech = dacen ? cch[4] : cch[5];
-/*TODO*///	/* buffering */
-/*TODO*///    for( i=0; i < length ; i++ )
-/*TODO*///	{
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///		/* LFO */
-/*TODO*///		if( LFOIncr )
-/*TODO*///		{
-/*TODO*///			lfo_amd = OPN_LFO_wave[(LFOCnt+=LFOIncr)>>LFO_SHIFT];
-/*TODO*///			lfo_pmd = lfo_amd-(LFO_RATE/2);
-/*TODO*///		}
-/*TODO*///#endif
-/*TODO*///		/* clear output acc. */
-/*TODO*///		out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT]= out_ch[OUTD_CENTER] = 0;
-/*TODO*///		/* calcrate channel output */
-/*TODO*///		for(ch = cch[0] ; ch <= ech ; ch++)
-/*TODO*///			FM_CALC_CH( ch );
-/*TODO*///		if( dacen )  *cch[5]->connect4 += dacout;
-/*TODO*///		/* buffering */
-/*TODO*///		FM_BUFFERING_STEREO;
-/*TODO*///		/* timer A controll */
-/*TODO*///		INTERNAL_TIMER_A( State , cch[2] )
-/*TODO*///	}
-/*TODO*///	INTERNAL_TIMER_B(State,length)
-/*TODO*///#if FM_LFO_SUPPORT
-/*TODO*///	OPN->LFOCnt = LFOCnt;
-/*TODO*///#endif
-/*TODO*///}
-/*TODO*///
-/*TODO*////* -------------------------- YM2612 ---------------------------------- */
-/*TODO*///int YM2612Init(int num, int clock, int rate,
-/*TODO*///               FM_TIMERHANDLER TimerHandler,FM_IRQHANDLER IRQHandler)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///    if (FM2612) return (-1);	/* duplicate init. */
-/*TODO*///    cur_chip = NULL;	/* hiro-shi!! */
-/*TODO*///
-/*TODO*///	YM2612NumChips = num;
-/*TODO*///
-/*TODO*///	/* allocate extend state space */
-/*TODO*///	if( (FM2612 = (YM2612 *)malloc(sizeof(YM2612) * YM2612NumChips))==NULL)
-/*TODO*///		return (-1);
-/*TODO*///	/* clear */
-/*TODO*///	memset(FM2612,0,sizeof(YM2612) * YM2612NumChips);
-/*TODO*///	/* allocate total level table (128kb space) */
-/*TODO*///	if( !OPNInitTable() )
-/*TODO*///	{
-/*TODO*///		free( FM2612 );
-/*TODO*///		return (-1);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	for ( i = 0 ; i < YM2612NumChips; i++ ) {
-/*TODO*///		FM2612[i].OPN.ST.index = i;
-/*TODO*///		FM2612[i].OPN.type = TYPE_YM2612;
-/*TODO*///		FM2612[i].OPN.P_CH = FM2612[i].CH;
-/*TODO*///		FM2612[i].OPN.ST.clock = clock;
-/*TODO*///		FM2612[i].OPN.ST.rate = rate;
-/*TODO*///		/* FM2612[i].OPN.ST.irq = 0; */
-/*TODO*///		/* FM2612[i].OPN.ST.status = 0; */
-/*TODO*///		FM2612[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
-/*TODO*///		/* Extend handler */
-/*TODO*///		FM2612[i].OPN.ST.Timer_Handler = TimerHandler;
-/*TODO*///		FM2612[i].OPN.ST.IRQ_Handler   = IRQHandler;
-/*TODO*///		YM2612ResetChip(i);
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- shut down emurator ----------- */
-/*TODO*///void YM2612Shutdown()
-/*TODO*///{
-/*TODO*///    if (!FM2612) return;
-/*TODO*///
-/*TODO*///	FMCloseTable();
-/*TODO*///	free(FM2612);
-/*TODO*///	FM2612 = NULL;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* ---------- reset one of chip ---------- */
-/*TODO*///void YM2612ResetChip(int num)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///	YM2612 *F2612 = &(FM2612[num]);
-/*TODO*///	FM_OPN *OPN   = &(FM2612[num].OPN);
-/*TODO*///
-/*TODO*///	OPNSetPris( OPN , 12*12, 12*12, 0);
-/*TODO*///	/* status clear */
-/*TODO*///	FM_IRQMASK_SET(&OPN->ST,0x03);
-/*TODO*///	OPNWriteMode(OPN,0x27,0x30); /* mode 0 , timer reset */
-/*TODO*///
-/*TODO*///	reset_channel( &OPN->ST , &F2612->CH[0] , 6 );
-/*TODO*///
-/*TODO*///	for(i = 0xb6 ; i >= 0xb4 ; i-- )
-/*TODO*///	{
-/*TODO*///		OPNWriteReg(OPN,i      ,0xc0);
-/*TODO*///		OPNWriteReg(OPN,i|0x100,0xc0);
-/*TODO*///	}
-/*TODO*///	for(i = 0xb2 ; i >= 0x30 ; i-- )
-/*TODO*///	{
-/*TODO*///		OPNWriteReg(OPN,i      ,0);
-/*TODO*///		OPNWriteReg(OPN,i|0x100,0);
-/*TODO*///	}
-/*TODO*///	for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
-/*TODO*///	/* DAC mode clear */
-/*TODO*///	F2612->dacen = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* YM2612 write */
-/*TODO*////* n = number  */
-/*TODO*////* a = address */
-/*TODO*////* v = value   */
-/*TODO*///int YM2612Write(int n, int a,UINT8 v)
-/*TODO*///{
-/*TODO*///	YM2612 *F2612 = &(FM2612[n]);
-/*TODO*///	int addr;
-/*TODO*///
-/*TODO*///	switch( a&3){
-/*TODO*///	case 0:	/* address port 0 */
-/*TODO*///		F2612->OPN.ST.address = v & 0xff;
-/*TODO*///		break;
-/*TODO*///	case 1:	/* data port 0    */
-/*TODO*///		addr = F2612->OPN.ST.address;
-/*TODO*///		switch( addr & 0xf0 )
-/*TODO*///		{
-/*TODO*///		case 0x20:	/* 0x20-0x2f Mode */
-/*TODO*///			switch( addr )
-/*TODO*///			{
-/*TODO*///			case 0x2a:	/* DAC data (YM2612) */
-/*TODO*///				YM2612UpdateReq(n);
-/*TODO*///				F2612->dacout = ((int)v - 0x80)<<(TL_BITS-7);
-/*TODO*///				break;
-/*TODO*///			case 0x2b:	/* DAC Sel  (YM2612) */
-/*TODO*///				/* b7 = dac enable */
-/*TODO*///				F2612->dacen = v & 0x80;
-/*TODO*///				cur_chip = NULL;
-/*TODO*///				break;
-/*TODO*///			default:	/* OPN section */
-/*TODO*///				YM2612UpdateReq(n);
-/*TODO*///				/* write register */
-/*TODO*///				 OPNWriteMode(&(F2612->OPN),addr,v);
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///		default:	/* 0x30-0xff OPN section */
-/*TODO*///			YM2612UpdateReq(n);
-/*TODO*///			/* write register */
-/*TODO*///			 OPNWriteReg(&(F2612->OPN),addr,v);
-/*TODO*///		}
-/*TODO*///		break;
-/*TODO*///	case 2:	/* address port 1 */
-/*TODO*///		F2612->address1 = v & 0xff;
-/*TODO*///		break;
-/*TODO*///	case 3:	/* data port 1    */
-/*TODO*///		addr = F2612->address1;
-/*TODO*///		YM2612UpdateReq(n);
-/*TODO*///		OPNWriteReg(&(F2612->OPN),addr|0x100,v);
-/*TODO*///		break;
-/*TODO*///	}
-/*TODO*///	return F2612->OPN.ST.irq;
-/*TODO*///}
-/*TODO*///UINT8 YM2612Read(int n,int a)
-/*TODO*///{
-/*TODO*///	YM2612 *F2612 = &(FM2612[n]);
-/*TODO*///
-/*TODO*///	switch( a&3){
-/*TODO*///	case 0:	/* status 0 */
-/*TODO*///		return F2612->OPN.ST.status;
-/*TODO*///	case 1:
-/*TODO*///	case 2:
-/*TODO*///	case 3:
-/*TODO*///		LOG(LOG_WAR,("YM2612 #%d:A=%d read unmapped area\n"));
-/*TODO*///		return F2612->OPN.ST.status;
-/*TODO*///	}
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int YM2612TimerOver(int n,int c)
-/*TODO*///{
-/*TODO*///	YM2612 *F2612 = &(FM2612[n]);
-/*TODO*///
-/*TODO*///	if( c )
-/*TODO*///	{	/* Timer B */
-/*TODO*///		TimerBOver( &(F2612->OPN.ST) );
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{	/* Timer A */
-/*TODO*///		YM2612UpdateReq(n);
-/*TODO*///		/* timer update */
-/*TODO*///		TimerAOver( &(F2612->OPN.ST) );
-/*TODO*///		/* CSM mode key,TL controll */
-/*TODO*///		if( F2612->OPN.ST.mode & 0x80 )
-/*TODO*///		{	/* CSM mode total level latch and auto key on */
-/*TODO*///			CSMKeyControll( &(F2612->CH[2]) );
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	return F2612->OPN.ST.irq;
-/*TODO*///}
-/*TODO*///
+    /*******************************************************************************/
+    /*		YM2612 local section                                                   */
+    /*******************************************************************************/
+    /* here's the virtual YM2612 */
+    public static class YM2612 {
+            FM_OPN OPN;						/* OPN state       */
+            FM_CH[] CH;					/* channel state */
+            int address1;	/* address register1 */
+            /* dac output (YM2612) */
+            int dacen;
+            int dacout;
+            
+            public YM2612() {
+                OPN = new FM_OPN();
+                CH = new FM_CH[6];
+                
+                for (int i = 0; i < 6; i++) {
+                    CH[i] = new FM_CH();
+                }                
+            }
+        
+    };
+
+    static int YM2612NumChips;	/* total chip */
+    static YM2612[] FM2612=null;	/* array of YM2612's */
+
+    static int dacen;
+
+    /* ---------- update one of chip ----------- */
+    static StreamInitMultiPtr YM2612UpdateOne = new StreamInitMultiPtr() {
+        @Override
+        public void handler(int num, ShortPtr[] buffer, int length) {
+            YM2612 F2612 = (FM2612[num]);
+            FM_OPN OPN   = (FM2612[num].OPN);
+            int i;
+            FM_CH ch,ech;
+            int _ch=0;
+            int _ech=0;
+            ShortPtr  bufL,bufR;
+            int dacout  = F2612.dacout;
+
+            /* set bufer */
+            bufL = buffer[0];
+            bufR = buffer[1];
+
+            if( F2612 != cur_chip ){
+                    cur_chip = F2612;
+
+                    State = OPN.ST;
+                    cch[0]   = F2612.CH[0];
+                    cch[1]   = F2612.CH[1];
+                    cch[2]   = F2612.CH[2];
+                    cch[3]   = F2612.CH[3];
+                    cch[4]   = F2612.CH[4];
+                    cch[5]   = F2612.CH[5];
+                    /* DAC mode */
+                    dacen = F2612.dacen;
+    /*TODO*///#if FM_LFO_SUPPORT
+    /*TODO*///		LFOCnt  = OPN->LFOCnt;
+    /*TODO*///		LFOIncr = OPN->LFOIncr;
+    /*TODO*///		if( !LFOIncr ) lfo_amd = lfo_pmd = 0;
+    /*TODO*///#endif
+            }
+            /* update frequency counter */
+            OPN_CALC_FCOUNT( cch[0] );
+            OPN_CALC_FCOUNT( cch[1] );
+            if( (State.mode & 0xc0) != 0){
+                    /* 3SLOT MODE */
+                    if( cch[2].SLOT[SLOT1].Incr==-1){
+                            /* 3 slot mode */
+                            CALC_FCSLOT(cch[2].SLOT[SLOT1] , (int) OPN.SL3.fc[1], OPN.SL3.kcode[1] );
+                            CALC_FCSLOT(cch[2].SLOT[SLOT2] , (int) OPN.SL3.fc[2], OPN.SL3.kcode[2] );
+                            CALC_FCSLOT(cch[2].SLOT[SLOT3] , (int) OPN.SL3.fc[0], OPN.SL3.kcode[0] );
+                            CALC_FCSLOT(cch[2].SLOT[SLOT4] , (int) cch[2].fc, cch[2].kcode );
+                    }
+            }else OPN_CALC_FCOUNT( cch[2] );
+            OPN_CALC_FCOUNT( cch[3] );
+            OPN_CALC_FCOUNT( cch[4] );
+            OPN_CALC_FCOUNT( cch[5] );
+
+            ech = dacen!=0 ? cch[4] : cch[5];
+            _ech = dacen!=0 ? 4 : 5;
+            /* buffering */
+        for( i=0; i < length ; i++ )
+            {
+    /*TODO*///#if FM_LFO_SUPPORT
+    /*TODO*///		/* LFO */
+    /*TODO*///		if( LFOIncr )
+    /*TODO*///		{
+    /*TODO*///			lfo_amd = OPN_LFO_wave[(LFOCnt+=LFOIncr)>>LFO_SHIFT];
+    /*TODO*///			lfo_pmd = lfo_amd-(LFO_RATE/2);
+    /*TODO*///		}
+    /*TODO*///#endif
+                    /* clear output acc. */
+                    out_ch[OUTD_LEFT] = out_ch[OUTD_RIGHT]= out_ch[OUTD_CENTER] = 0;
+                    /* calcrate channel output */
+                    for(ch = cch[0] ; _ch <= _ech ; _ch++)
+                            FM_CALC_CH( cch[_ch] );
+                    if( dacen != 0 )  cch[5].connect4.inc( dacout );
+                    /* buffering */
+                    //FM_BUFFERING_STEREO;
+                    {
+                        /* get left & right output with clipping */
+                        out_ch[OUTD_LEFT] += out_ch[OUTD_CENTER];
+                        //Limit(ref  out_ch[OUTD_LEFT], FM_MAXOUT, FM_MINOUT);
+                        if (out_ch[OUTD_LEFT] > FM_MAXOUT) {
+                            out_ch[OUTD_LEFT] = FM_MAXOUT;
+                        } else if (out_ch[OUTD_LEFT] < FM_MINOUT) {
+                            out_ch[OUTD_LEFT] = FM_MINOUT;
+                        }
+                        out_ch[OUTD_RIGHT] += out_ch[OUTD_CENTER];
+                        //Limit(ref  out_ch[OUTD_RIGHT], FM_MAXOUT, FM_MINOUT);
+                        if (out_ch[OUTD_RIGHT] > FM_MAXOUT) {
+                            out_ch[OUTD_RIGHT] = FM_MAXOUT;
+                        } else if (out_ch[OUTD_RIGHT] < FM_MINOUT) {
+                            out_ch[OUTD_RIGHT] = FM_MINOUT;
+                        }
+                        /* buffering */
+                        bufL.write(i, (short) (out_ch[OUTD_LEFT] >> FM_OUTSB));
+                        bufR.write(i, (short) (out_ch[OUTD_RIGHT] >> FM_OUTSB));
+                    }
+                    /* timer A controll */
+                    INTERNAL_TIMER_A( State , cch[2] );
+            }
+            INTERNAL_TIMER_B(State,length);
+    /*TODO*///#if FM_LFO_SUPPORT
+    /*TODO*///	OPN->LFOCnt = LFOCnt;
+    /*TODO*///#endif
+        }
+    };
+        
+    
+    /* -------------------------- YM2612 ---------------------------------- */
+    public static int YM2612Init(int num, int clock, int rate,
+                   FM_TIMERHANDLER_Ptr TimerHandler,FM_IRQHANDLER_Ptr IRQHandler)
+    {
+            int i;
+
+        if (FM2612 != null) return (-1);	/* duplicate init. */
+        cur_chip = null;	/* hiro-shi!! */
+
+            YM2612NumChips = num;
+
+            /* allocate extend state space */
+            if( (FM2612 = new YM2612[YM2612NumChips])==null)
+                    return (-1);
+            /* clear */
+            //memset(FM2612,0,sizeof(YM2612) * YM2612NumChips);
+            for (int _i=0 ; _i<YM2612NumChips ; _i++)
+                FM2612[_i] = new YM2612();
+            /* allocate total level table (128kb space) */
+            if( OPNInitTable() == 0 )
+            {
+                    FM2612 = null;
+                    return (-1);
+            }
+
+            for ( i = 0 ; i < YM2612NumChips; i++ ) {
+                    FM2612[i].OPN.ST.index = i;
+                    FM2612[i].OPN.type = TYPE_YM2612;
+                    FM2612[i].OPN.P_CH = FM2612[i].CH;
+                    FM2612[i].OPN.ST.clock = clock;
+                    FM2612[i].OPN.ST.rate = rate;
+                    /* FM2612[i].OPN.ST.irq = 0; */
+                    /* FM2612[i].OPN.ST.status = 0; */
+                    FM2612[i].OPN.ST.timermodel = FM_TIMER_INTERVAL;
+                    /* Extend handler */
+                    FM2612[i].OPN.ST.Timer_Handler = TimerHandler;
+                    FM2612[i].OPN.ST.IRQ_Handler   = IRQHandler;
+                    YM2612ResetChip(i);
+            }
+            return 0;
+    }
+
+        /* ---------- shut down emurator ----------- */
+        public static void YM2612Shutdown()
+        {
+            if (FM2612==null) return;
+
+                FMCloseTable();
+                FM2612 = null;
+        }
+
+    /* ---------- reset one of chip ---------- */
+    static void YM2612ResetChip(int num)
+    {
+            int i;
+            YM2612 F2612 = (FM2612[num]);
+            FM_OPN OPN   = (FM2612[num].OPN);
+
+            OPNSetPris( OPN , 12*12, 12*12, 0);
+            /* status clear */
+            FM_IRQMASK_SET(OPN.ST,0x03);
+            OPNWriteMode(OPN,0x27,0x30); /* mode 0 , timer reset */
+
+            reset_channel( OPN.ST , F2612.CH , 6 );
+
+            for(i = 0xb6 ; i >= 0xb4 ; i-- )
+            {
+                    OPNWriteReg(OPN,i      ,0xc0);
+                    OPNWriteReg(OPN,i|0x100,0xc0);
+            }
+            for(i = 0xb2 ; i >= 0x30 ; i-- )
+            {
+                    OPNWriteReg(OPN,i      ,0);
+                    OPNWriteReg(OPN,i|0x100,0);
+            }
+            for(i = 0x26 ; i >= 0x20 ; i-- ) OPNWriteReg(OPN,i,0);
+            /* DAC mode clear */
+            F2612.dacen = 0;
+    }
+
+    /* YM2612 write */
+    /* n = number  */
+    /* a = address */
+    /* v = value   */
+    static int YM2612Write(int n, int a, int v)
+    {
+            YM2612 F2612 = (FM2612[n]);
+            int addr;
+
+            switch( a&3){
+            case 0:	/* address port 0 */
+                    F2612.OPN.ST.address = v & 0xff;
+                    break;
+            case 1:	/* data port 0    */
+                    addr = F2612.OPN.ST.address;
+                    switch( addr & 0xf0 )
+                    {
+                    case 0x20:	/* 0x20-0x2f Mode */
+                            switch( addr )
+                            {
+                            case 0x2a:	/* DAC data (YM2612) */
+                                    YM2612UpdateRequest(n);
+                                    F2612.dacout = ((int)v - 0x80)<<(TL_BITS-7);
+                                    break;
+                            case 0x2b:	/* DAC Sel  (YM2612) */
+                                    /* b7 = dac enable */
+                                    F2612.dacen = v & 0x80;
+                                    cur_chip = null;
+                                    break;
+                            default:	/* OPN section */
+                                    YM2612UpdateRequest(n);
+                                    /* write register */
+                                     OPNWriteMode((F2612.OPN),addr,v);
+                            }
+                            break;
+                    default:	/* 0x30-0xff OPN section */
+                            YM2612UpdateRequest(n);
+                            /* write register */
+                             OPNWriteReg((F2612.OPN),addr,v);
+                    }
+                    break;
+            case 2:	/* address port 1 */
+                    F2612.address1 = v & 0xff;
+                    break;
+            case 3:	/* data port 1    */
+                    addr = F2612.address1;
+                    YM2612UpdateRequest(n);
+                    OPNWriteReg((F2612.OPN),addr|0x100,v);
+                    break;
+            }
+            return F2612.OPN.ST.irq;
+    }
+    
+    static int YM2612Read(int n,int a)
+    {
+            YM2612 F2612 = (FM2612[n]);
+
+            switch( a&3){
+            case 0:	/* status 0 */
+                    return F2612.OPN.ST.status;
+            case 1:
+            case 2:
+            case 3:
+/*TODO*///                    LOG(LOG_WAR,("YM2612 #%d:A=%d read unmapped area\n"));
+                    return F2612.OPN.ST.status;
+            }
+            return 0;
+    }
+
+    public static int YM2612TimerOver(int n,int c)
+    {
+            YM2612 F2612 = (FM2612[n]);
+
+            if( c != 0 )
+            {	/* Timer B */
+                    TimerBOver( (F2612.OPN.ST) );
+            }
+            else
+            {	/* Timer A */
+                    YM2612UpdateRequest(n);
+                    /* timer update */
+                    TimerAOver( (F2612.OPN.ST) );
+                    /* CSM mode key,TL controll */
+                    if(( F2612.OPN.ST.mode & 0x80 ) != 0)
+                    {	/* CSM mode total level latch and auto key on */
+                            CSMKeyControll( (F2612.CH[2]) );
+                    }
+            }
+            return F2612.OPN.ST.irq;
+    }
+
 /*TODO*///#endif /* BUILD_YM2612 */
 /*TODO*///
 /*TODO*///
