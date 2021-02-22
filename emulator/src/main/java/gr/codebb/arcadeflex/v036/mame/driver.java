@@ -2043,7 +2043,7 @@ public class driver {
                 driver_goldnaxe,	/* (c) 1989 */
                 driver_hangon,	/* (c) 1985 */
                 driver_hwchamp,	/* (c) 1987 */
-                /*TODO*/ //	DRIVER( mjleague )	/* (c) 1985 */
+                driver_mjleague,	/* (c) 1985 */
                 driver_moonwlkb,	/* bootleg */
                 driver_outrun,	/* (c) 1986 (bootleg)*/
                 driver_outruna,	/* (c) 1986 (bootleg) */
