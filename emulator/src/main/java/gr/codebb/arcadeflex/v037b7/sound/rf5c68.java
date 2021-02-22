@@ -154,8 +154,8 @@ public class rf5c68 extends snd_interface {
 		int ld, rd;
 		ShortPtr[] datap=new ShortPtr[2];
 	
-		datap[RF_L_PAN] = buffer[0];
-		datap[RF_R_PAN] = buffer[1];
+		datap[RF_L_PAN] = new ShortPtr(buffer[0]);
+		datap[RF_R_PAN] = new ShortPtr(buffer[1]);
 	
 		memset( datap[RF_L_PAN], 0x00, length );
 		memset( datap[RF_R_PAN], 0x00, length );
@@ -225,6 +225,9 @@ public class rf5c68 extends snd_interface {
 				}
 			}
 		}
+                
+                buffer[0]=new ShortPtr(datap[RF_L_PAN]);
+		buffer[1]=new ShortPtr(datap[RF_R_PAN]);
             }
         };
         

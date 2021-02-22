@@ -2029,7 +2029,7 @@ public class driver {
                 driver_atomicp,	/* (c) 1990 Philko */
                 /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
                 /*TODO*/ //	DRIVER( bayroute )	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( bodyslam )	/* (c) 1986 */
+                driver_bodyslam,	/* (c) 1986 */
                 driver_dduxbl,	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( dumpmtmt )	/* (c) 1986 (Japan) */
                 driver_endurob2,	/* (c) 1985 (Beta bootleg) */

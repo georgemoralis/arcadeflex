@@ -70,6 +70,7 @@ public class tilemapC {
                 if ((data & 0x08) != 0) dest.write(di + 4,source.read(si + 4));
                 if ((data & 0x04) != 0) dest.write(di + 5,source.read(si + 5));
                 if ((data & 0x02) != 0) dest.write(di + 6,source.read(si + 6));
+                if ((dest.offset+di+7)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x01) != 0) dest.write(di + 7,source.read(si + 7));
                 if (--count == 0) break;
                 si += 8;

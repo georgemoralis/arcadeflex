@@ -29,19 +29,19 @@ public class m68kH {
         public long vbr;                 /* Vector Base Register (68010+) */
         public long sfc;                 /* Source Function Code Register (m68010+) */
         public long dfc;                 /* Destination Function Code Register (m68010+) */
-        public int cacr;                /* Cache Control Register (m68020+) */
-        public int caar;                /* Cache Address Register (m68020+) */
-        public int ir;                  /* Instruction Register */
-        public int t1_flag;             /* Trace 1 */
-        public int t0_flag;             /* Trace 0 */
-        public int s_flag;              /* Supervisor */
-        public int m_flag;              /* Master/Interrupt state */
-        public int x_flag;              /* Extend */
-        public int n_flag;              /* Negative */
-        public int not_z_flag;          /* Zero, inverted for speedups */
-        public int v_flag;              /* Overflow */
-        public int c_flag;              /* Carry */
-        public int int_mask;            /* I0-I2 */
+        public long cacr;                /* Cache Control Register (m68020+) */
+        public long caar;                /* Cache Address Register (m68020+) */
+        public long ir;                  /* Instruction Register */
+        public long t1_flag;             /* Trace 1 */
+        public long t0_flag;             /* Trace 0 */
+        public long s_flag;              /* Supervisor */
+        public long m_flag;              /* Master/Interrupt state */
+        public long x_flag;              /* Extend */
+        public long n_flag;              /* Negative */
+        public long not_z_flag;          /* Zero, inverted for speedups */
+        public long v_flag;              /* Overflow */
+        public long c_flag;              /* Carry */
+        public long int_mask;            /* I0-I2 */
         public long int_state;           /* Current interrupt state -- ASG: changed from ints_pending */
         public long stopped;             /* Stopped state */
         public long halted;              /* Halted state */

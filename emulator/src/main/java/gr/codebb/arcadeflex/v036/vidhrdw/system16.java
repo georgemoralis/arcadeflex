@@ -759,7 +759,7 @@ public class system16
 	static void get_sprite_info(  ){
 	//	const struct rectangle *clip = &Machine.drv.visible_area;
 		UShortArray base_pal = new UShortArray(Machine.gfx[0].colortable, 1024);
-		UBytePtr base_gfx = memory_region(REGION_GFX2);
+		UBytePtr base_gfx = new UBytePtr(memory_region(REGION_GFX2));
 	
 		UShortPtr source = new UShortPtr(sys16_spriteram);
 		sprite sprite[] = sprite_list.sprite;

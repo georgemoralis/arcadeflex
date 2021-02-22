@@ -162,7 +162,7 @@ public class segapcm  extends snd_interface
 		emulation_rate = buffer_len * Machine.drv.frames_per_second;
 		sample_rate = SEGAPCM_samples[mode][0];
 		sample_shift = SEGAPCM_samples[mode][1];
-		pcm_rom = inpcm;
+		pcm_rom = new UBytePtr(inpcm);
 
 		//printf( "segaPCM in\n" );
 
@@ -255,6 +255,7 @@ public class segapcm  extends snd_interface
 
 		if( Machine.sample_rate == 0 ) return;
 		if( pcm_rom == null )    return;
+                pcm_rom.offset=0;
 
 		datap[0] = new ShortPtr(buffer[0]);
 		datap[1] = new ShortPtr(buffer[1]);
@@ -333,6 +334,8 @@ public class segapcm  extends snd_interface
 			/**** end flag check ****/
 		}
 		/**** pcm channel end ****/
+                buffer[0] = new ShortPtr(datap[0]);
+		buffer[1] = new ShortPtr(datap[1]);
             }
         };
         

@@ -76,7 +76,7 @@ public class system16
 	/* read from BUS */
 	public static ReadHandlerPtr sys16_7751_sh_rom_r = new ReadHandlerPtr() { public int handler(int offset)
 	{
-		UBytePtr sound_rom = memory_region(REGION_SOUND1);
+		UBytePtr sound_rom = new UBytePtr(memory_region(REGION_SOUND1));
 	
 		return sound_rom.read(rom_offset+rom_base);
 	} };

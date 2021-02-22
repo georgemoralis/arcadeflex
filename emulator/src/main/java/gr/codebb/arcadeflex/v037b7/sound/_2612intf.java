@@ -34,6 +34,10 @@ public class _2612intf extends snd_interface
     public _2612intf() {
         this.name = "YM-2612";
         this.sound_num = SOUND_YM3438;
+        
+        for (int i = 0; i < MAX_2612; i++) {
+            Timer[i] = new Object[2];
+        }
     }
 	
 	
@@ -46,7 +50,7 @@ public class _2612intf extends snd_interface
 	/* Global Interface holder */
 	static YM2612interface intf;
 	
-	static timer_entry[][] Timer=new timer_entry[MAX_2612][2];
+	static Object[][] Timer=new Object[MAX_2612][2];
 	static double[][] lastfired=new double[MAX_2612][2];
 
 	/*------------------------- TM2612 -------------------------------*/
@@ -143,7 +147,8 @@ public class _2612intf extends snd_interface
 		/* stream system initialize */
 		for (i = 0;i < intf.num;i++)
 		{
-			int[] vol=new int[YM2612_NUMBUF];
+		
+                        int[] vol = new int[YM2612_NUMBUF];
 			/* stream setup */
 			for (j = 0 ; j < YM2612_NUMBUF ; j++)
 			{
