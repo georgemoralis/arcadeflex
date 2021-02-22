@@ -63,12 +63,19 @@ public class tilemapC {
                 if(dest.offset<0) break;//hacked for system16 games not to crash
                 if(source.offset<0) break;
                 int  data = bitmask.read(bi++) & 0xFF;
+                if ((dest.offset+di+0)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x80) != 0) dest.write(di + 0,source.read(si + 0));
+                if ((dest.offset+di+1)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x40) != 0) dest.write(di + 1,source.read(si + 1));
+                if ((dest.offset+di+2)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x20) != 0) dest.write(di + 2,source.read(si + 2));
+                if ((dest.offset+di+3)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x10) != 0) dest.write(di + 3,source.read(si + 3));
+                if ((dest.offset+di+4)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x08) != 0) dest.write(di + 4,source.read(si + 4));
+                if ((dest.offset+di+5)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x04) != 0) dest.write(di + 5,source.read(si + 5));
+                if ((dest.offset+di+6)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x02) != 0) dest.write(di + 6,source.read(si + 6));
                 if ((dest.offset+di+7)>=dest.memory.length) break; //hacked for system16 games not to crash
                 if ((data & 0x01) != 0) dest.write(di + 7,source.read(si + 7));
