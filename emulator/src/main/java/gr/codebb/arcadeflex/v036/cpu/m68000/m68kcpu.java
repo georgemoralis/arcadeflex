@@ -476,14 +476,14 @@ public class m68kcpu {
                 set_CPU_IR(m68ki_read_instruction());
                 _debugValCode=(int) get_CPU_IR();
                 opcode i = m68k_instruction_jump_table[_debugValCode];
-                try {
+                //try {
                 i.handler();
-                } catch (Exception e){
+                /*} catch (Exception e){
                     System.out.println("CODE="+_debugValCode);
                     e.printStackTrace(System.out);
                 }
 
-                continue;
+                continue;*/
             } while (m68k_clks_left[0] > 0);
 
             /* set previous PC to current PC for the next entry into the loop */
