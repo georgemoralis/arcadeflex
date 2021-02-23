@@ -850,94 +850,94 @@ public class system16
 				source.offset += 8*2;
 			}
 			break;
-/*TODO*///	
-/*TODO*///			case 8: /* Passing shot 4p */
-/*TODO*///				passshot_y=-0x23;
-/*TODO*///				passshot_width=1;
-/*TODO*///			case 0: /* Passing shot */
-/*TODO*///	/*
-/*TODO*///		0	???????X	XXXXXXXX	(screen coordinate)
-/*TODO*///		1	bottom--	top-----	(screen coordinates)
-/*TODO*///		2	XTTTTTTT	YTTTTTTT	(pen data, flipx, flipy)
-/*TODO*///		3	????????	?WWWWWWW	(logical width)
-/*TODO*///		4	??????ZZ	ZZZZZZZZ	zoom
-/*TODO*///		5	PP???CCC	BBBB????	(attributes: bank, priority, color)
-/*TODO*///		6,7	(unused)
-/*TODO*///	*/
-/*TODO*///			while( sprite<finish ){
-/*TODO*///				UINT16 attributes = source[5];
-/*TODO*///				UINT16 ypos = source[1];
-/*TODO*///				int bottom = (ypos>>8)+passshot_y;
-/*TODO*///				int top = (ypos&0xff)+passshot_y;
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if( bottom>top && ypos!=0xffff ){
-/*TODO*///					int bank = (attributes>>4)&0xf;
-/*TODO*///					UINT16 number = source[2];
-/*TODO*///					UINT16 width = source[3];
-/*TODO*///	
-/*TODO*///					int zoom = source[4]&0x3ff;
-/*TODO*///					int xpos = source[0] + sys16_sprxoffset;
-/*TODO*///	
-/*TODO*///					sprite.priority = 3-((attributes>>14)&0x3);
-/*TODO*///					if (passshot_width != 0) /* 4 player bootleg version */
-/*TODO*///					{
-/*TODO*///						width=-width;
-/*TODO*///						number-=width*(bottom-top-1)-1;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					if ((number & 0x8000) != 0) sprite.flags |= SPRITE_FLIPX;
-/*TODO*///					if ((width & 0x0080) != 0) sprite.flags |= SPRITE_FLIPY;
-/*TODO*///					sprite.flags |= SPRITE_VISIBLE;
-/*TODO*///					sprite.pal_data = base_pal + ((attributes>>4)&0x3f0);
-/*TODO*///					sprite.total_height = bottom - top;
-/*TODO*///					sprite.tile_height = sprite.total_height*(0x400+zoom)/0x400;
-/*TODO*///	
-/*TODO*///					if (((attributes>>8)&0x3f)==0x3f)	// shadow sprite
-/*TODO*///						sprite.flags|= SPRITE_SHADOW;
-/*TODO*///						
-/*TODO*///					width &= 0x7f;
-/*TODO*///	
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ) width = 0x80-width;
-/*TODO*///	
-/*TODO*///					sprite.tile_width = sprite.line_offset = width*4;
-/*TODO*///	
-/*TODO*///					if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///						bank = (bank-1) & 0xf;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///							xpos += 4;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							number += 1-width;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					sprite.pen_data = base_gfx + number*4 + (sys16_obj_bank[bank] << 17);
-/*TODO*///	
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						sprite.pen_data -= sprite.tile_height*sprite.tile_width;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ) sprite.pen_data += 2;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.x = xpos;
-/*TODO*///					sprite.y = top+2;
-/*TODO*///	
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							sprite.tile_width-=4;
-/*TODO*///							sprite.pen_data+=4;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							sprite.pen_data += sprite.line_offset;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.total_width = sprite.tile_width*(0x800-zoom)/0x800;
-/*TODO*///				}
-/*TODO*///				sprite++;
-/*TODO*///				source += 8;
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///	
+	
+			case 8: /* Passing shot 4p */
+				passshot_y=-0x23;
+				passshot_width=1;
+			case 0: /* Passing shot */
+	/*
+		0	???????X	XXXXXXXX	(screen coordinate)
+		1	bottom--	top-----	(screen coordinates)
+		2	XTTTTTTT	YTTTTTTT	(pen data, flipx, flipy)
+		3	????????	?WWWWWWW	(logical width)
+		4	??????ZZ	ZZZZZZZZ	zoom
+		5	PP???CCC	BBBB????	(attributes: bank, priority, color)
+		6,7	(unused)
+	*/
+			while( sprite_ptr<finish ){
+				int attributes = source.read(5);
+				int ypos = source.read(1);
+				int bottom = (ypos>>8)+passshot_y;
+				int top = (ypos&0xff)+passshot_y;
+				sprite[sprite_ptr].flags = 0;
+	
+				if( bottom>top && ypos!=0xffff ){
+					int bank = (attributes>>4)&0xf;
+					int number = source.read(2);
+					int width = source.read(3);
+	
+					int zoom = source.read(4)&0x3ff;
+					int xpos = source.read(0) + sys16_sprxoffset;
+	
+					sprite[sprite_ptr].priority = 3-((attributes>>14)&0x3);
+					if (passshot_width != 0) /* 4 player bootleg version */
+					{
+						width=-width;
+						number-=width*(bottom-top-1)-1;
+					}
+	
+					if ((number & 0x8000) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+					if ((width & 0x0080) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPY;
+					sprite[sprite_ptr].flags |= SPRITE_VISIBLE;
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal, ((attributes>>4)&0x3f0));
+					sprite[sprite_ptr].total_height = bottom - top;
+					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height*(0x400+zoom)/0x400;
+	
+					if (((attributes>>8)&0x3f)==0x3f)	// shadow sprite
+						sprite[sprite_ptr].flags|= SPRITE_SHADOW;
+						
+					width &= 0x7f;
+	
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0) width = 0x80-width;
+	
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset = width*4;
+	
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+						bank = (bank-1) & 0xf;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0){
+							xpos += 4;
+						}
+						else {
+							number += 1-width;
+						}
+					}
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx, number*4 + (sys16_obj_bank[bank] << 17));
+	
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0){
+						sprite[sprite_ptr].pen_data.offset -= sprite[sprite_ptr].tile_height*sprite[sprite_ptr].tile_width;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0) sprite[sprite_ptr].pen_data.inc( 2 );
+					}
+	
+					sprite[sprite_ptr].x = xpos;
+					sprite[sprite_ptr].y = top+2;
+	
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY )!=0){
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX )!=0){
+							sprite[sprite_ptr].tile_width-=4;
+							sprite[sprite_ptr].pen_data.inc(4);
+						}
+						else {
+							sprite[sprite_ptr].pen_data.inc( sprite[sprite_ptr].line_offset );
+						}
+					}
+	
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width*(0x800-zoom)/0x800;
+				}
+				sprite_ptr++;
+				source.inc( 8 );
+			}
+			break;
+	
 /*TODO*///			case 4: // Aurail
 /*TODO*///	/*
 /*TODO*///		0	bottom--	top-----	(screen coordinates)
@@ -1205,336 +1205,336 @@ public class system16
 				sprite_ptr++;
 			}
 			break;
-/*TODO*///			case 5: // Hang-On
-/*TODO*///			while( sprite<finish ){
-/*TODO*///				UINT16 ypos = source[0];
-/*TODO*///				int top = ypos&0xff;
-/*TODO*///				int bottom = ypos>>8;
-/*TODO*///	
-/*TODO*///				if( bottom == 0xff ){ /* end of spritelist marker */
-/*TODO*///					do {
-/*TODO*///						sprite.flags = 0;
-/*TODO*///						sprite++;
-/*TODO*///					} while( sprite<finish );
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if(bottom !=0 && bottom > top)
-/*TODO*///				{
-/*TODO*///					UINT16 bank=(source[1]>>12);
-/*TODO*///					UINT16 pal=(source[4]>>8)&0x3f;
-/*TODO*///					UINT16 tsource[4];
-/*TODO*///					UINT16 width;
-/*TODO*///					int gfx;
-/*TODO*///					int zoomx,zoomy;
-/*TODO*///	
-/*TODO*///					tsource[2]=source[2];
-/*TODO*///					tsource[3]=source[3];
-/*TODO*///	
-/*TODO*///					zoomx=((source[4]>>2) & 0x3f) *(1024/64);
-/*TODO*///			        zoomy = (1060*zoomx)/(2048-zoomx);
-/*TODO*///	
-/*TODO*///	//				if (pal==0x3f)	// ????????????
-/*TODO*///	//					pal=(bank<<1);
-/*TODO*///	
-/*TODO*///					if((tsource[3] & 0x7f80) == 0x7f80)
-/*TODO*///					{
-/*TODO*///						bank=(bank-1)&0xf;
-/*TODO*///						tsource[3]^=0x8000;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					if (tsource[3]&0x8000)
-/*TODO*///					{ // reverse
-/*TODO*///						tsource[2] |= 0x0100;
-/*TODO*///						tsource[3] &= 0x7fff;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					gfx = tsource[3]*4;
-/*TODO*///					width = tsource[2];
-/*TODO*///	
-/*TODO*///					sprite.x = ((source[1] & 0x3ff) + sys16_sprxoffset);
-/*TODO*///					if(sprite.x >= 0x200) sprite.x-=0x200;
-/*TODO*///					sprite.y = top;
-/*TODO*///					sprite.priority = 0;
-/*TODO*///					sprite.pal_data = base_pal + (pal<<4);
-/*TODO*///	
-/*TODO*///					sprite.total_height = bottom-top;
-/*TODO*///					sprite.tile_height = sprite.total_height*(0x400+zoomy)/0x400;
-/*TODO*///	
-/*TODO*///					sprite.line_offset = (width&0x7f)*4;
-/*TODO*///	
-/*TODO*///					sprite.flags = SPRITE_VISIBLE;
-/*TODO*///					if ((width & 0x100) != 0) sprite.flags |= SPRITE_FLIPX;
-/*TODO*///					if ((width & 0x080) != 0) sprite.flags |= SPRITE_FLIPY;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	//				sprite.flags|= SPRITE_PARTIAL_SHADOW;
-/*TODO*///	//				sprite.shadow_pen=10;
-/*TODO*///	
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						sprite.line_offset = 512-sprite.line_offset;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4 - sprite.line_offset*(sprite.tile_height+1);
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx -= sprite.line_offset*sprite.tile_height;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					else {
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx += sprite.line_offset;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.tile_width = sprite.line_offset;
-/*TODO*///					sprite.total_width = sprite.tile_width*(0x0800 - zoomx)/0x800;
-/*TODO*///					sprite.pen_data = base_gfx + (gfx &0x3ffff) + (sys16_obj_bank[bank] << 17);
-/*TODO*///	
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				source+=8;
-/*TODO*///				sprite++;
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///			case 6: // Space Harrier
-/*TODO*///			while( sprite<finish ){
-/*TODO*///				UINT16 ypos = source[0];
-/*TODO*///				int top = ypos&0xff;
-/*TODO*///				int bottom = ypos>>8;
-/*TODO*///	
-/*TODO*///				if( bottom == 0xff ){ /* end of spritelist marker */
-/*TODO*///					do {
-/*TODO*///						sprite.flags = 0;
-/*TODO*///						sprite++;
-/*TODO*///					} while( sprite<finish );
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if(bottom !=0 && bottom > top)
-/*TODO*///				{
-/*TODO*///					UINT16 bank=(source[1]>>12);
-/*TODO*///					UINT16 pal=(source[2]>>8)&0x3f;
-/*TODO*///					UINT16 tsource[4];
-/*TODO*///					UINT16 width;
-/*TODO*///					int gfx;
-/*TODO*///					int zoomx,zoomy;
-/*TODO*///	
-/*TODO*///					tsource[2]=source[2]&0xff;
-/*TODO*///					tsource[3]=source[3];
-/*TODO*///	
-/*TODO*///					zoomx=(source[4] & 0x3f) *(1024/64);
-/*TODO*///			        zoomy = (1024*zoomx)/(2048-zoomx);
-/*TODO*///	
-/*TODO*///					if((tsource[3] & 0x7f80) == 0x7f80)
-/*TODO*///					{
-/*TODO*///						bank=(bank-1)&0xf;
-/*TODO*///						tsource[3]^=0x8000;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					if (tsource[3]&0x8000)
-/*TODO*///					{ // reverse
-/*TODO*///						tsource[2] |= 0x0100;
-/*TODO*///						tsource[3] &= 0x7fff;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					gfx = tsource[3]*4;
-/*TODO*///					width = tsource[2];
-/*TODO*///	
-/*TODO*///					sprite.x = ((source[1] & 0x3ff) + sys16_sprxoffset);
-/*TODO*///					if(sprite.x >= 0x200) sprite.x-=0x200;
-/*TODO*///					sprite.y = top+1;
-/*TODO*///					sprite.priority = 0;
-/*TODO*///					sprite.pal_data = base_pal + (pal<<4);
-/*TODO*///	
-/*TODO*///					sprite.total_height = bottom-top;
-/*TODO*///	//				sprite.tile_height = sprite.total_height*(0x400+zoomy)/0x400;
-/*TODO*///					sprite.tile_height = ((sprite.total_height)<<4|0xf)*(0x400+zoomy)/0x4000;
-/*TODO*///	
-/*TODO*///					sprite.line_offset = (width&0x7f)*4;
-/*TODO*///	
-/*TODO*///					sprite.flags = SPRITE_VISIBLE;
-/*TODO*///					if ((width & 0x100) != 0) sprite.flags |= SPRITE_FLIPX;
-/*TODO*///					if ((width & 0x080) != 0) sprite.flags |= SPRITE_FLIPY;
-/*TODO*///	
-/*TODO*///					if (sys16_sh_shadowpal == 0)		// space harrier
-/*TODO*///					{
-/*TODO*///						if (pal==sys16_sh_shadowpal)	// shadow sprite
-/*TODO*///							sprite.flags|= SPRITE_SHADOW;
-/*TODO*///						// I think this looks better, but I'm sure it's wrong.
-/*TODO*///	//					else if(READ_WORD(&paletteram[2048+pal*2+20]) == 0)
-/*TODO*///	//					{
-/*TODO*///	//						sprite.flags|= SPRITE_PARTIAL_SHADOW;
-/*TODO*///	//						sprite.shadow_pen=10;
-/*TODO*///	//					}
-/*TODO*///					}
-/*TODO*///					else								// enduro
-/*TODO*///					{
-/*TODO*///						sprite.flags|= SPRITE_PARTIAL_SHADOW;
-/*TODO*///						sprite.shadow_pen=10;
-/*TODO*///					}
-/*TODO*///					if( sprite.flags&SPRITE_FLIPY ){
-/*TODO*///						sprite.line_offset = 512-sprite.line_offset;
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4 - sprite.line_offset*(sprite.tile_height+1) /*+4*/;
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx -= sprite.line_offset*sprite.tile_height;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					else {
-/*TODO*///						if( sprite.flags&SPRITE_FLIPX ){
-/*TODO*///							gfx += 4 /*+ 4*/;		// +2 ???
-/*TODO*///						}
-/*TODO*///						else {
-/*TODO*///							gfx += sprite.line_offset;
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.line_offset<<=1;
-/*TODO*///					sprite.tile_width = sprite.line_offset;
-/*TODO*///					sprite.total_width = sprite.tile_width*(0x0800 - zoomx)/0x800;
-/*TODO*///	
-/*TODO*///					sprite.pen_data = base_gfx + (((gfx &0x3ffff) + (sys16_obj_bank[bank] << 17)) << 1);
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				source+=8;
-/*TODO*///				sprite++;
-/*TODO*///			}
-/*TODO*///			break;
-/*TODO*///			case 7: // Out Run
-/*TODO*///			while( sprite<finish ){
-/*TODO*///	
-/*TODO*///				if( source[0] == 0xffff ){ /* end of spritelist marker */
-/*TODO*///					do {
-/*TODO*///						sprite.flags = 0;
-/*TODO*///						sprite++;
-/*TODO*///					} while( sprite<finish );
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				sprite.flags = 0;
-/*TODO*///	
-/*TODO*///				if (!(source[0]&0x4000))
-/*TODO*///				{
-/*TODO*///					UINT16 bank=(source[0]>>8)&7;
-/*TODO*///					UINT16 pal=(source[5])&0x7f;
-/*TODO*///					UINT16 width;
-/*TODO*///					int gfx;
-/*TODO*///					int zoom;
-/*TODO*///					int x;
-/*TODO*///	
-/*TODO*///					zoom=source[4]&0xfff;
-/*TODO*///	//				if (zoom==0x32c) zoom=0x3cf;	//???
-/*TODO*///	
-/*TODO*///					if(zoom==0) zoom=1;
-/*TODO*///	
-/*TODO*///					if (source[1]&0x8000) bank=(bank+1)&0x7;
-/*TODO*///	
-/*TODO*///					gfx = (source[1]&0x7fff)*4;
-/*TODO*///					width = source[2]>>9;
-/*TODO*///	
-/*TODO*///					x = (source[2] & 0x1ff);
-/*TODO*///	
-/*TODO*///					// patch misplaced sprite on map
-/*TODO*///	//				if(zoom == 0x3f0 && source[1]==0x142e && (source[0]&0xff)==0x19)
-/*TODO*///	//					x-=2;
-/*TODO*///	
-/*TODO*///					sprite.y = source[0]&0xff;
-/*TODO*///					sprite.priority = 0;
-/*TODO*///					sprite.pal_data = base_pal + (pal<<4) + 1024;
-/*TODO*///	
-/*TODO*///					sprite.total_height = (source[5]>>8)+1;
-/*TODO*///					sprite.tile_height = ((sprite.total_height<<4)| 0xf)*(zoom)/0x2000;
-/*TODO*///	
-/*TODO*///					sprite.line_offset = (width&0x7f)*4;
-/*TODO*///	
-/*TODO*///					sprite.flags = SPRITE_VISIBLE;
-/*TODO*///					if(pal==0)
-/*TODO*///						sprite.flags|= SPRITE_SHADOW;
-/*TODO*///					else if(source[3]&0x4000)
-/*TODO*///	//				if(pal==0 || source[3]&0x4000)
-/*TODO*///					{
-/*TODO*///						sprite.flags|= SPRITE_PARTIAL_SHADOW;
-/*TODO*///						sprite.shadow_pen=10;
-/*TODO*///					}
-/*TODO*///					if(!(source[4]&0x2000))
-/*TODO*///					{
-/*TODO*///						if(!(source[4]&0x4000))
-/*TODO*///						{
-/*TODO*///							// Should be drawn right to left, but this should be ok.
-/*TODO*///							x-=(sprite.line_offset*2)*0x200/zoom;
-/*TODO*///							gfx+=4-sprite.line_offset;
-/*TODO*///						}
-/*TODO*///						else
-/*TODO*///						{
-/*TODO*///							int ofs=(sprite.line_offset*2)*0x200/zoom;
-/*TODO*///							x-=ofs;
-/*TODO*///							sprite.flags |= SPRITE_FLIPX;
-/*TODO*///	
-/*TODO*///							// x position compensation for rocks in round2R and round4RRR
-/*TODO*///	/*						if((source[0]&0xff00)==0x0300)
-/*TODO*///							{
-/*TODO*///								if (source[1]==0xc027)
-/*TODO*///								{
-/*TODO*///									if ((source[2]>>8)==0x59) x += ofs/2;
-/*TODO*///									else if ((source[2]>>8)>0x59) x += ofs;
-/*TODO*///								}
-/*TODO*///								else if (source[1]==0xcf73)
-/*TODO*///								{
-/*TODO*///									if ((source[2]>>8)==0x2d) x += ofs/2;
-/*TODO*///									else if ((source[2]>>8)>0x2d) x += ofs;
-/*TODO*///								}
-/*TODO*///								else if (source[1]==0xd3046)
-/*TODO*///								{
-/*TODO*///									if ((source[2]>>8)==0x19) x += ofs/2;
-/*TODO*///									else if ((source[2]>>8)>0x19) x += ofs;
-/*TODO*///								}
-/*TODO*///								else if (source[1]==0xd44e)
-/*TODO*///								{
-/*TODO*///									if ((source[2]>>8)==0x0d) x += ofs/2;
-/*TODO*///									else if ((source[2]>>8)>0x0d) x += ofs;
-/*TODO*///								}
-/*TODO*///								else if (source[1]==0xd490)
-/*TODO*///								{
-/*TODO*///									if ((source[2]>>8)==0x09) x += ofs/2;
-/*TODO*///									else if ((source[2]>>8)>0x09) x += ofs;
-/*TODO*///								}
-/*TODO*///							}
-/*TODO*///	*/
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						if(!(source[4]&0x4000))
-/*TODO*///						{
-/*TODO*///							gfx-=sprite.line_offset-4;
-/*TODO*///							sprite.flags |= SPRITE_FLIPX;
-/*TODO*///						}
-/*TODO*///						else
-/*TODO*///						{
-/*TODO*///							if (source[4]&0x8000)
-/*TODO*///							{ // patch for car shadow position
-/*TODO*///								if (source[4]==0xe1a9 && source[1]==0x5817)
-/*TODO*///									x-=2;
-/*TODO*///							}
-/*TODO*///						}
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					sprite.x = x + sys16_sprxoffset;
-/*TODO*///	
-/*TODO*///					sprite.line_offset<<=1;
-/*TODO*///					sprite.tile_width = sprite.line_offset;
-/*TODO*///					sprite.total_width = sprite.tile_width*0x200/zoom;
-/*TODO*///					sprite.pen_data = base_gfx + (((gfx &0x3ffff) + (sys16_obj_bank[bank] << 17)) << 1);
-/*TODO*///				}
-/*TODO*///				source+=8;
-/*TODO*///				sprite++;
-/*TODO*///			}
-/*TODO*///			break;
+			case 5: // Hang-On
+			while( sprite_ptr<finish ){
+				int ypos = source.read(0);
+				int top = ypos&0xff;
+				int bottom = ypos>>8;
+	
+				if( bottom == 0xff ){ /* end of spritelist marker */
+					do {
+						sprite[sprite_ptr].flags = 0;
+						sprite_ptr++;
+					} while( sprite_ptr<finish );
+					break;
+				}
+				sprite[sprite_ptr].flags = 0;
+	
+				if(bottom !=0 && bottom > top)
+				{
+					int bank=(source.read(1)>>12);
+					int pal=(source.read(4)>>8)&0x3f;
+					int[] tsource=new int[4];
+					int width;
+					int gfx;
+					int zoomx,zoomy;
+	
+					tsource[2]=source.read(2);
+					tsource[3]=source.read(3);
+	
+					zoomx=((source.read(4)>>2) & 0x3f) *(1024/64);
+			        zoomy = (1060*zoomx)/(2048-zoomx);
+	
+	//				if (pal==0x3f)	// ????????????
+	//					pal=(bank<<1);
+	
+					if((tsource[3] & 0x7f80) == 0x7f80)
+					{
+						bank=(bank-1)&0xf;
+						tsource[3]^=0x8000;
+					}
+	
+					if ((tsource[3]&0x8000) != 0)
+					{ // reverse
+						tsource[2] |= 0x0100;
+						tsource[3] &= 0x7fff;
+					}
+	
+					gfx = tsource[3]*4;
+					width = tsource[2];
+	
+					sprite[sprite_ptr].x = ((source.read(1) & 0x3ff) + sys16_sprxoffset);
+					if(sprite[sprite_ptr].x >= 0x200) sprite[sprite_ptr].x-=0x200;
+					sprite[sprite_ptr].y = top;
+					sprite[sprite_ptr].priority = 0;
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal, (pal<<4));
+	
+					sprite[sprite_ptr].total_height = bottom-top;
+					sprite[sprite_ptr].tile_height = sprite[sprite_ptr].total_height*(0x400+zoomy)/0x400;
+	
+					sprite[sprite_ptr].line_offset = (width&0x7f)*4;
+	
+					sprite[sprite_ptr].flags = SPRITE_VISIBLE;
+					if ((width & 0x100) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+					if ((width & 0x080) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPY;
+	
+	
+	//				sprite.flags|= SPRITE_PARTIAL_SHADOW;
+	//				sprite.shadow_pen=10;
+	
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY ) != 0){
+						sprite[sprite_ptr].line_offset = 512-sprite[sprite_ptr].line_offset;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX ) != 0){
+							gfx += 4 - sprite[sprite_ptr].line_offset*(sprite[sprite_ptr].tile_height+1);
+						}
+						else {
+							gfx -= sprite[sprite_ptr].line_offset*sprite[sprite_ptr].tile_height;
+						}
+					}
+					else {
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX ) != 0){
+							gfx += 4;
+						}
+						else {
+							gfx += sprite[sprite_ptr].line_offset;
+						}
+					}
+	
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset;
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width*(0x0800 - zoomx)/0x800;
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx, (gfx &0x3ffff) + (sys16_obj_bank[bank] << 17));
+	
+				}
+	
+				source.inc( 8 );
+				sprite_ptr++;
+			}
+			break;
+			case 6: // Space Harrier
+			while( sprite_ptr<finish ){
+				int ypos = source.read(0);
+				int top = ypos&0xff;
+				int bottom = ypos>>8;
+	
+				if( bottom == 0xff ){ /* end of spritelist marker */
+					do {
+						sprite[sprite_ptr].flags = 0;
+						sprite_ptr++;
+					} while( sprite_ptr<finish );
+					break;
+				}
+				sprite[sprite_ptr].flags = 0;
+	
+				if(bottom !=0 && bottom > top)
+				{
+					int bank=(source.read(1)>>12);
+					int pal=(source.read(2)>>8)&0x3f;
+					int[] tsource=new int[4];
+					int width;
+					int gfx;
+					int zoomx,zoomy;
+	
+					tsource[2]=source.read(2)&0xff;
+					tsource[3]=source.read(3);
+	
+					zoomx=(source.read(4) & 0x3f) *(1024/64);
+			        zoomy = (1024*zoomx)/(2048-zoomx);
+	
+					if((tsource[3] & 0x7f80) == 0x7f80)
+					{
+						bank=(bank-1)&0xf;
+						tsource[3]^=0x8000;
+					}
+	
+					if ((tsource[3]&0x8000) != 0)
+					{ // reverse
+						tsource[2] |= 0x0100;
+						tsource[3] &= 0x7fff;
+					}
+	
+					gfx = tsource[3]*4;
+					width = tsource[2];
+	
+					sprite[sprite_ptr].x = ((source.read(1) & 0x3ff) + sys16_sprxoffset);
+					if(sprite[sprite_ptr].x >= 0x200) sprite[sprite_ptr].x-=0x200;
+					sprite[sprite_ptr].y = top+1;
+					sprite[sprite_ptr].priority = 0;
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal, (pal<<4));
+	
+					sprite[sprite_ptr].total_height = bottom-top;
+	//				sprite.tile_height = sprite.total_height*(0x400+zoomy)/0x400;
+					sprite[sprite_ptr].tile_height = ((sprite[sprite_ptr].total_height)<<4|0xf)*(0x400+zoomy)/0x4000;
+	
+					sprite[sprite_ptr].line_offset = (width&0x7f)*4;
+	
+					sprite[sprite_ptr].flags = SPRITE_VISIBLE;
+					if ((width & 0x100) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+					if ((width & 0x080) != 0) sprite[sprite_ptr].flags |= SPRITE_FLIPY;
+	
+					if (sys16_sh_shadowpal == 0)		// space harrier
+					{
+						if (pal==sys16_sh_shadowpal)	// shadow sprite
+							sprite[sprite_ptr].flags|= SPRITE_SHADOW;
+						// I think this looks better, but I'm sure it's wrong.
+	//					else if(READ_WORD(&paletteram[2048+pal*2+20]) == 0)
+	//					{
+	//						sprite.flags|= SPRITE_PARTIAL_SHADOW;
+	//						sprite.shadow_pen=10;
+	//					}
+					}
+					else								// enduro
+					{
+						sprite[sprite_ptr].flags|= SPRITE_PARTIAL_SHADOW;
+						sprite[sprite_ptr].shadow_pen=10;
+					}
+					if(( sprite[sprite_ptr].flags&SPRITE_FLIPY ) != 0){
+						sprite[sprite_ptr].line_offset = 512-sprite[sprite_ptr].line_offset;
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX ) != 0){
+							gfx += 4 - sprite[sprite_ptr].line_offset*(sprite[sprite_ptr].tile_height+1) /*+4*/;
+						}
+						else {
+							gfx -= sprite[sprite_ptr].line_offset*sprite[sprite_ptr].tile_height;
+						}
+					}
+					else {
+						if(( sprite[sprite_ptr].flags&SPRITE_FLIPX ) != 0){
+							gfx += 4 /*+ 4*/;		// +2 ???
+						}
+						else {
+							gfx += sprite[sprite_ptr].line_offset;
+						}
+					}
+	
+					sprite[sprite_ptr].line_offset<<=1;
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset;
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width*(0x0800 - zoomx)/0x800;
+	
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx, (((gfx &0x3ffff) + (sys16_obj_bank[bank] << 17)) << 1));
+				}
+	
+				source.inc( 8 );
+				sprite_ptr++;
+			}
+			break;
+			case 7: // Out Run
+			while( sprite_ptr<finish ){
+	
+				if( source.read(0) == 0xffff ){ /* end of spritelist marker */
+					do {
+						sprite[sprite_ptr].flags = 0;
+						sprite_ptr++;
+					} while( sprite_ptr<finish );
+					break;
+				}
+				sprite[sprite_ptr].flags = 0;
+	
+				if ((source.read(0)&0x4000)==0)
+				{
+					int bank=(source.read(0)>>8)&7;
+					int pal=(source.read(5))&0x7f;
+					int width;
+					int gfx;
+					int zoom;
+					int x;
+	
+					zoom=source.read(4)&0xfff;
+	//				if (zoom==0x32c) zoom=0x3cf;	//???
+	
+					if(zoom==0) zoom=1;
+	
+					if ((source.read(1)&0x8000)!=0) bank=(bank+1)&0x7;
+	
+					gfx = (source.read(1)&0x7fff)*4;
+					width = source.read(2)>>9;
+	
+					x = (source.read(2) & 0x1ff);
+	
+					// patch misplaced sprite on map
+	//				if(zoom == 0x3f0 && source[1]==0x142e && (source[0]&0xff)==0x19)
+	//					x-=2;
+	
+					sprite[sprite_ptr].y = source.read(0)&0xff;
+					sprite[sprite_ptr].priority = 0;
+					sprite[sprite_ptr].pal_data = new UShortArray(base_pal, (pal<<4) + 1024);
+	
+					sprite[sprite_ptr].total_height = (source.read(5)>>8)+1;
+					sprite[sprite_ptr].tile_height = ((sprite[sprite_ptr].total_height<<4)| 0xf)*(zoom)/0x2000;
+	
+					sprite[sprite_ptr].line_offset = (width&0x7f)*4;
+	
+					sprite[sprite_ptr].flags = SPRITE_VISIBLE;
+					if(pal==0)
+						sprite[sprite_ptr].flags|= SPRITE_SHADOW;
+					else if((source.read(3)&0x4000) != 0)
+	//				if(pal==0 || source[3]&0x4000)
+					{
+						sprite[sprite_ptr].flags|= SPRITE_PARTIAL_SHADOW;
+						sprite[sprite_ptr].shadow_pen=10;
+					}
+					if((source.read(4)&0x2000)==0)
+					{
+						if((source.read(4)&0x4000)==0)
+						{
+							// Should be drawn right to left, but this should be ok.
+							x-=(sprite[sprite_ptr].line_offset*2)*0x200/zoom;
+							gfx+=4-sprite[sprite_ptr].line_offset;
+						}
+						else
+						{
+							int ofs=(sprite[sprite_ptr].line_offset*2)*0x200/zoom;
+							x-=ofs;
+							sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+	
+							// x position compensation for rocks in round2R and round4RRR
+	/*						if((source[0]&0xff00)==0x0300)
+							{
+								if (source[1]==0xc027)
+								{
+									if ((source[2]>>8)==0x59) x += ofs/2;
+									else if ((source[2]>>8)>0x59) x += ofs;
+								}
+								else if (source[1]==0xcf73)
+								{
+									if ((source[2]>>8)==0x2d) x += ofs/2;
+									else if ((source[2]>>8)>0x2d) x += ofs;
+								}
+								else if (source[1]==0xd3046)
+								{
+									if ((source[2]>>8)==0x19) x += ofs/2;
+									else if ((source[2]>>8)>0x19) x += ofs;
+								}
+								else if (source[1]==0xd44e)
+								{
+									if ((source[2]>>8)==0x0d) x += ofs/2;
+									else if ((source[2]>>8)>0x0d) x += ofs;
+								}
+								else if (source[1]==0xd490)
+								{
+									if ((source[2]>>8)==0x09) x += ofs/2;
+									else if ((source[2]>>8)>0x09) x += ofs;
+								}
+							}
+	*/
+						}
+					}
+					else
+					{
+						if((source.read(4)&0x4000)==0)
+						{
+							gfx-=sprite[sprite_ptr].line_offset-4;
+							sprite[sprite_ptr].flags |= SPRITE_FLIPX;
+						}
+						else
+						{
+							if ((source.read(4)&0x8000) != 0)
+							{ // patch for car shadow position
+								if (source.read(4)==0xe1a9 && source.read(1)==0x5817)
+									x-=2;
+							}
+						}
+					}
+	
+					sprite[sprite_ptr].x = x + sys16_sprxoffset;
+	
+					sprite[sprite_ptr].line_offset<<=1;
+					sprite[sprite_ptr].tile_width = sprite[sprite_ptr].line_offset;
+					sprite[sprite_ptr].total_width = sprite[sprite_ptr].tile_width*0x200/zoom;
+					sprite[sprite_ptr].pen_data = new UBytePtr(base_gfx, (((gfx &0x3ffff) + (sys16_obj_bank[bank] << 17)) << 1));
+				}
+				source.inc( 8 );
+				sprite_ptr++;
+			}
+			break;
 		}
 	}
 	
