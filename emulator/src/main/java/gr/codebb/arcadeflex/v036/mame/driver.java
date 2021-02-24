@@ -2050,7 +2050,7 @@ public class driver {
                 driver_outrunb,	/* (c) 1986 (protected beta bootleg) */
                 /*TODO*/ //	DRIVER( passht4b )	/* bootleg */
                 driver_passshtb,	/* bootleg */
-                /*TODO*/ //	DRIVER( quartet )	/* (c) 1986 */
+                driver_quartet,	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartet2 )	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartetj )	/* (c) 1986 */
                 driver_riotcity,	/* (c) 1991 Sega / Westone */
