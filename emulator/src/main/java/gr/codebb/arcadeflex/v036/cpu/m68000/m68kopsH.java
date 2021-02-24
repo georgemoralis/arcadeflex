@@ -18022,10 +18022,71 @@ public class m68kopsH {
     };
     public static opcode m68000_movem_re_aw_32 = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
+            long i = 0;
+            long register_list = m68ki_read_imm_16();
+            long ea = EA_AW();
+            long count = 0;
+
+            for (; i < 16; i++) {
+                if ((register_list & (1 << i)) != 0) {
+                    //m68ki_write_32(ea, *(m68k_movem_pi_table[i]));
+                    if (i == 0) {
+                        m68ki_write_32(ea, get_CPU_D()[0]);
+                    }
+                    if (i == 1) {
+                        m68ki_write_32(ea, get_CPU_D()[1]);
+                    }
+                    if (i == 2) {
+                        m68ki_write_32(ea, get_CPU_D()[2]);
+                    }
+                    if (i == 3) {
+                        m68ki_write_32(ea, get_CPU_D()[3]);
+                    }
+                    if (i == 4) {
+                        m68ki_write_32(ea, get_CPU_D()[4]);
+                    }
+                    if (i == 5) {
+                        m68ki_write_32(ea, get_CPU_D()[5]);
+                    }
+                    if (i == 6) {
+                        m68ki_write_32(ea, get_CPU_D()[6]);
+                    }
+                    if (i == 7) {
+                        m68ki_write_32(ea, get_CPU_D()[7]);
+                    }
+                    if (i == 8) {
+                        m68ki_write_32(ea, get_CPU_A()[0]);
+                    }
+                    if (i == 9) {
+                        m68ki_write_32(ea, get_CPU_A()[1]);
+                    }
+                    if (i == 10) {
+                        m68ki_write_32(ea, get_CPU_A()[2]);
+                    }
+                    if (i == 11) {
+                        m68ki_write_32(ea, get_CPU_A()[3]);
+                    }
+                    if (i == 12) {
+                        m68ki_write_32(ea, get_CPU_A()[4]);
+                    }
+                    if (i == 13) {
+                        m68ki_write_32(ea, get_CPU_A()[5]);
+                    }
+                    if (i == 14) {
+                        m68ki_write_32(ea, get_CPU_A()[6]);
+                    }
+                    if (i == 15) {
+                        m68ki_write_32(ea, get_CPU_A()[7]);
+                    }
+                    ea += 4;
+                    count++;
+                }
             }
-            throw new UnsupportedOperationException("Unimplemented");
+            /* ASG: changed from (count << 4) to (count << 3) */
+            USE_CLKS((int) ((count << 3) + 4 + 12));
+            if (m68klog != null) {
+                fprintf(m68klog, "movem_re_aw_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
         }
     };
     public static opcode m68000_movem_re_al_32 = new opcode() {
@@ -18725,10 +18786,71 @@ public class m68kopsH {
     };
     public static opcode m68000_movem_er_aw_32 = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
+            long i = 0;
+            long register_list = m68ki_read_imm_16();
+            long ea = EA_AW();
+            long count = 0;
+
+            for (; i < 16; i++) {
+                if ((register_list & (1 << i)) != 0) {
+                    //* (m68k_movem_pi_table[i]) = m68ki_read_32(ea);
+                    if (i == 0) {
+                        set_CPU_D(0, m68ki_read_32(ea));
+                    }
+                    if (i == 1) {
+                        set_CPU_D(1, m68ki_read_32(ea));
+                    }
+                    if (i == 2) {
+                        set_CPU_D(2, m68ki_read_32(ea));
+                    }
+                    if (i == 3) {
+                        set_CPU_D(3, m68ki_read_32(ea));
+                    }
+                    if (i == 4) {
+                        set_CPU_D(4, m68ki_read_32(ea));
+                    }
+                    if (i == 5) {
+                        set_CPU_D(5, m68ki_read_32(ea));
+                    }
+                    if (i == 6) {
+                        set_CPU_D(6, m68ki_read_32(ea));
+                    }
+                    if (i == 7) {
+                        set_CPU_D(7, m68ki_read_32(ea));
+                    }
+                    if (i == 8) {
+                        set_CPU_A(0, m68ki_read_32(ea));
+                    }
+                    if (i == 9) {
+                        set_CPU_A(1, m68ki_read_32(ea));
+                    }
+                    if (i == 10) {
+                        set_CPU_A(2, m68ki_read_32(ea));
+                    }
+                    if (i == 11) {
+                        set_CPU_A(3, m68ki_read_32(ea));
+                    }
+                    if (i == 12) {
+                        set_CPU_A(4, m68ki_read_32(ea));
+                    }
+                    if (i == 13) {
+                        set_CPU_A(5, m68ki_read_32(ea));
+                    }
+                    if (i == 14) {
+                        set_CPU_A(6, m68ki_read_32(ea));
+                    }
+                    if (i == 15) {
+                        set_CPU_A(7, m68ki_read_32(ea));
+                    }
+                    ea += 4;
+                    count++;
+                }
             }
-            throw new UnsupportedOperationException("Unimplemented");
+            /* ASG: changed from (count << 4) to (count << 3) */
+            USE_CLKS((int) ((count << 3) + 8 + 12));
+            if (m68klog != null) {
+                fprintf(m68klog, "movem_er_aw_32 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+            }
         }
     };
     public static opcode m68000_movem_er_al_32 = new opcode() {
@@ -24862,12 +24984,16 @@ public class m68kopsH {
     };
     public static opcode m68000_suba_pi_16 = new opcode() {
         public void handler() {
+            long a_dst = get_AX();
+
+            set_AX(MASK_OUT_ABOVE_32(a_dst - MAKE_INT_16(m68ki_read_16(EA_PI_16()))));
+            USE_CLKS(8 + 8);
             if (m68klog != null) {
-                fclose(m68klog);
+                fprintf(m68klog, "suba_pi_16 :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
             }
-            throw new UnsupportedOperationException("Unimplemented");
-        }
+        }        
     };
+    
     public static opcode m68000_suba_pd_16 = new opcode() {
         public void handler() {
             if (m68klog != null) {
