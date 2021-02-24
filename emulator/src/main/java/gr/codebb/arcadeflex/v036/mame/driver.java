@@ -2035,8 +2035,8 @@ public class driver {
                 driver_endurob2,	/* (c) 1985 (Beta bootleg) */
                 driver_endurobl,	/* (c) 1985 (Herb bootleg) */
                 driver_eswatbl,	/* (c) 1989 (but bootleg) */
-                /*TODO*/ //	DRIVER( fantzone )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( fantzono )	/* (c) 1986 */
+                driver_fantzone,	/* (c) 1986 */
+                driver_fantzono,	/* (c) 1986 */
                 driver_fpointbl,	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( goldnabl )	/* (c) 1989 (bootleg) */
                 /*TODO*/ //	DRIVER( goldnaxa )	/* (c) 1989 */
