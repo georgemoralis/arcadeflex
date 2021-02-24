@@ -2850,225 +2850,266 @@ public class system16 {
             }
     );
 
-    /*TODO*///	/***************************************************************************
-/*TODO*///	
-/*TODO*///	   Aurail
-/*TODO*///	
-/*TODO*///	***************************************************************************/
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_aurail = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "13577", 0x000000, 0x20000, 0x6701b686 )
-/*TODO*///		ROM_LOAD_ODD ( "13576", 0x000000, 0x20000, 0x1e428d94 )
-/*TODO*///		/* empty 0x40000 - 0x80000 */
-/*TODO*///		ROM_LOAD_EVEN( "13447", 0x080000, 0x20000, 0x70a52167 )
-/*TODO*///		ROM_LOAD_ODD ( "13445", 0x080000, 0x20000, 0x28dfc3dd )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "aurail.a14", 0x00000, 0x20000, 0x0fc4a7a8 );/* plane 1 */
-/*TODO*///		ROM_LOAD( "aurail.b14", 0x20000, 0x20000, 0xe08135e0 );
-/*TODO*///		ROM_LOAD( "aurail.a15", 0x40000, 0x20000, 0x1c49852f );/* plane 2 */
-/*TODO*///		ROM_LOAD( "aurail.b15", 0x60000, 0x20000, 0xe14c6684 );
-/*TODO*///		ROM_LOAD( "aurail.a16", 0x80000, 0x20000, 0x047bde5e );/* plane 3 */
-/*TODO*///		ROM_LOAD( "aurail.b16", 0xa0000, 0x20000, 0x6309fec4 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x200000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "aurail.b1",  0x000000, 0x020000, 0x5fa0a9f8 );
-/*TODO*///		ROM_LOAD( "aurail.b5",  0x020000, 0x020000, 0x0d1b54da );
-/*TODO*///		ROM_LOAD( "aurail.b2",  0x040000, 0x020000, 0x5f6b33b1 );
-/*TODO*///		ROM_LOAD( "aurail.b6",  0x060000, 0x020000, 0xbad340c3 );
-/*TODO*///		ROM_LOAD( "aurail.b3",  0x080000, 0x020000, 0x4e80520b );
-/*TODO*///		ROM_LOAD( "aurail.b7",  0x0a0000, 0x020000, 0x7e9165ac );
-/*TODO*///		ROM_LOAD( "aurail.b4",  0x0c0000, 0x020000, 0x5733c428 );
-/*TODO*///		ROM_LOAD( "aurail.b8",  0x0e0000, 0x020000, 0x66b8f9b3 );
-/*TODO*///		ROM_LOAD( "aurail.a1",  0x100000, 0x020000, 0x4f370b2b );
-/*TODO*///		ROM_LOAD( "aurail.b10", 0x120000, 0x020000, 0xf76014bf );
-/*TODO*///		ROM_LOAD( "aurail.a2",  0x140000, 0x020000, 0x37cf9cb4 );
-/*TODO*///		ROM_LOAD( "aurail.b11", 0x160000, 0x020000, 0x1061e7da );
-/*TODO*///		ROM_LOAD( "aurail.a3",  0x180000, 0x020000, 0x049698ef );
-/*TODO*///		ROM_LOAD( "aurail.b12", 0x1a0000, 0x020000, 0x7dbcfbf1 );
-/*TODO*///		ROM_LOAD( "aurail.a4",  0x1c0000, 0x020000, 0x77a8989e );
-/*TODO*///		ROM_LOAD( "aurail.b13", 0x1e0000, 0x020000, 0x551df422 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "13448",      0x0000, 0x8000, 0xb5183fb9 );
-/*TODO*///		ROM_LOAD( "aurail.a12", 0x10000,0x20000, 0xd3d9aaf9 );
-/*TODO*///		ROM_LOAD( "aurail.a12", 0x30000,0x20000, 0xd3d9aaf9 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_auraila = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
-/*TODO*///	// custom cpu 317-0168
-/*TODO*///		ROM_LOAD_EVEN( "epr13469.a7", 0x000000, 0x20000, 0xc628b69d )
-/*TODO*///		ROM_LOAD_ODD ( "epr13468.a5", 0x000000, 0x20000, 0xce092218 )
-/*TODO*///		/* 0x40000 - 0x80000 is empty, I will place decrypted opcodes here */
-/*TODO*///		ROM_LOAD_EVEN( "13447", 0x080000, 0x20000, 0x70a52167 )
-/*TODO*///		ROM_LOAD_ODD ( "13445", 0x080000, 0x20000, 0x28dfc3dd )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "aurail.a14", 0x00000, 0x20000, 0x0fc4a7a8 );/* plane 1 */
-/*TODO*///		ROM_LOAD( "aurail.b14", 0x20000, 0x20000, 0xe08135e0 );
-/*TODO*///		ROM_LOAD( "aurail.a15", 0x40000, 0x20000, 0x1c49852f );/* plane 2 */
-/*TODO*///		ROM_LOAD( "aurail.b15", 0x60000, 0x20000, 0xe14c6684 );
-/*TODO*///		ROM_LOAD( "aurail.a16", 0x80000, 0x20000, 0x047bde5e );/* plane 3 */
-/*TODO*///		ROM_LOAD( "aurail.b16", 0xa0000, 0x20000, 0x6309fec4 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x200000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "aurail.b1",  0x000000, 0x020000, 0x5fa0a9f8 );
-/*TODO*///		ROM_LOAD( "aurail.b5",  0x020000, 0x020000, 0x0d1b54da );
-/*TODO*///		ROM_LOAD( "aurail.b2",  0x040000, 0x020000, 0x5f6b33b1 );
-/*TODO*///		ROM_LOAD( "aurail.b6",  0x060000, 0x020000, 0xbad340c3 );
-/*TODO*///		ROM_LOAD( "aurail.b3",  0x080000, 0x020000, 0x4e80520b );
-/*TODO*///		ROM_LOAD( "aurail.b7",  0x0a0000, 0x020000, 0x7e9165ac );
-/*TODO*///		ROM_LOAD( "aurail.b4",  0x0c0000, 0x020000, 0x5733c428 );
-/*TODO*///		ROM_LOAD( "aurail.b8",  0x0e0000, 0x020000, 0x66b8f9b3 );
-/*TODO*///		ROM_LOAD( "aurail.a1",  0x100000, 0x020000, 0x4f370b2b );
-/*TODO*///		ROM_LOAD( "aurail.b10", 0x120000, 0x020000, 0xf76014bf );
-/*TODO*///		ROM_LOAD( "aurail.a2",  0x140000, 0x020000, 0x37cf9cb4 );
-/*TODO*///		ROM_LOAD( "aurail.b11", 0x160000, 0x020000, 0x1061e7da );
-/*TODO*///		ROM_LOAD( "aurail.a3",  0x180000, 0x020000, 0x049698ef );
-/*TODO*///		ROM_LOAD( "aurail.b12", 0x1a0000, 0x020000, 0x7dbcfbf1 );
-/*TODO*///		ROM_LOAD( "aurail.a4",  0x1c0000, 0x020000, 0x77a8989e );
-/*TODO*///		ROM_LOAD( "aurail.b13", 0x1e0000, 0x020000, 0x551df422 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "13448",      0x0000, 0x8000, 0xb5183fb9 );
-/*TODO*///		ROM_LOAD( "aurail.a12", 0x10000,0x20000, 0xd3d9aaf9 );
-/*TODO*///		ROM_LOAD( "aurail.a12", 0x30000,0x20000, 0xd3d9aaf9 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr aurail_skip = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		if (cpu_get_pc()==0xe4e) {cpu_spinuntil_int(); return 0;}
-/*TODO*///	
-/*TODO*///		return READ_WORD(&sys16_workingram[0x274e]);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress aurail_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41006, 0xc41007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc41000, 0xc41001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42002, 0xc42003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xc42000, 0xc42001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_EXTRAM2 ),
-/*TODO*///		new MemoryReadAddress( 0xfc0000, 0xfc0fff, MRA_EXTRAM3 ),
-/*TODO*///		new MemoryReadAddress( 0xffe74e, 0xffe74f, aurail_skip ),
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress aurail_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///		new MemoryWriteAddress( 0xfc0000, 0xfc0fff, MWA_EXTRAM3 ),
-/*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void aurail_update_proc (void)
-/*TODO*///	{
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	
-/*TODO*///		set_tile_bank( READ_WORD( &sys16_extraram3[0x0002] ) );
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr aurail_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
-/*TODO*///	
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///		sys16_spritesystem = 4;
-/*TODO*///		sys16_spritelist_end=0x8000;
-/*TODO*///		sys16_bg_priority_mode=1;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = aurail_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_aurail = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode (8,0x40000);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_auraila = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		UBytePtr rom = memory_region(REGION_CPU1);
-/*TODO*///		int diff = 0x40000;	/* place decrypted opcodes in a empty hole */
-/*TODO*///	
-/*TODO*///		init_aurail();
-/*TODO*///	
-/*TODO*///		memory_set_opcode_base(0,rom+diff);
-/*TODO*///	
-/*TODO*///		memcpy(rom+diff,rom,0x40000);
-/*TODO*///	
-/*TODO*///		aurail_decode_data(rom,rom,0x10000);
-/*TODO*///		aurail_decode_opcode1(rom+diff,rom+diff,0x10000);
-/*TODO*///		aurail_decode_opcode2(rom+diff+0x10000,rom+diff+0x10000,0x10000);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_aurail = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Cabinet") );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Upright") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
-/*TODO*///		PORT_DIPSETTING(    0x00, "2" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x08, "4" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "5" );
-/*TODO*///		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Bonus_Life") );
-/*TODO*///		PORT_DIPSETTING(    0x10, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hard" );
-/*TODO*///		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0x20, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hard" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x40, "Controller select" );
-/*TODO*///		PORT_DIPSETTING(    0x40, "1 Player side" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "2 Players side" );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
+    	/***************************************************************************
+	
+	   Aurail
+	
+	***************************************************************************/
+	// sys16B
+	static RomLoadPtr rom_aurail = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "13577", 0x000000, 0x20000, 0x6701b686 );
+		ROM_LOAD_ODD ( "13576", 0x000000, 0x20000, 0x1e428d94 );
+		/* empty 0x40000 - 0x80000 */
+		ROM_LOAD_EVEN( "13447", 0x080000, 0x20000, 0x70a52167 );
+		ROM_LOAD_ODD ( "13445", 0x080000, 0x20000, 0x28dfc3dd );
+	
+		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "aurail.a14", 0x00000, 0x20000, 0x0fc4a7a8 );/* plane 1 */
+		ROM_LOAD( "aurail.b14", 0x20000, 0x20000, 0xe08135e0 );
+		ROM_LOAD( "aurail.a15", 0x40000, 0x20000, 0x1c49852f );/* plane 2 */
+		ROM_LOAD( "aurail.b15", 0x60000, 0x20000, 0xe14c6684 );
+		ROM_LOAD( "aurail.a16", 0x80000, 0x20000, 0x047bde5e );/* plane 3 */
+		ROM_LOAD( "aurail.b16", 0xa0000, 0x20000, 0x6309fec4 );
+	
+		ROM_REGION( 0x200000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "aurail.b1",  0x000000, 0x020000, 0x5fa0a9f8 );
+		ROM_LOAD( "aurail.b5",  0x020000, 0x020000, 0x0d1b54da );
+		ROM_LOAD( "aurail.b2",  0x040000, 0x020000, 0x5f6b33b1 );
+		ROM_LOAD( "aurail.b6",  0x060000, 0x020000, 0xbad340c3 );
+		ROM_LOAD( "aurail.b3",  0x080000, 0x020000, 0x4e80520b );
+		ROM_LOAD( "aurail.b7",  0x0a0000, 0x020000, 0x7e9165ac );
+		ROM_LOAD( "aurail.b4",  0x0c0000, 0x020000, 0x5733c428 );
+		ROM_LOAD( "aurail.b8",  0x0e0000, 0x020000, 0x66b8f9b3 );
+		ROM_LOAD( "aurail.a1",  0x100000, 0x020000, 0x4f370b2b );
+		ROM_LOAD( "aurail.b10", 0x120000, 0x020000, 0xf76014bf );
+		ROM_LOAD( "aurail.a2",  0x140000, 0x020000, 0x37cf9cb4 );
+		ROM_LOAD( "aurail.b11", 0x160000, 0x020000, 0x1061e7da );
+		ROM_LOAD( "aurail.a3",  0x180000, 0x020000, 0x049698ef );
+		ROM_LOAD( "aurail.b12", 0x1a0000, 0x020000, 0x7dbcfbf1 );
+		ROM_LOAD( "aurail.a4",  0x1c0000, 0x020000, 0x77a8989e );
+		ROM_LOAD( "aurail.b13", 0x1e0000, 0x020000, 0x551df422 );
+	
+		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "13448",      0x0000, 0x8000, 0xb5183fb9 );
+		ROM_LOAD( "aurail.a12", 0x10000,0x20000, 0xd3d9aaf9 );
+		ROM_LOAD( "aurail.a12", 0x30000,0x20000, 0xd3d9aaf9 );
+	ROM_END(); }}; 
+	
+	static RomLoadPtr rom_auraila = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
+	// custom cpu 317-0168
+		ROM_LOAD_EVEN( "epr13469.a7", 0x000000, 0x20000, 0xc628b69d );
+		ROM_LOAD_ODD ( "epr13468.a5", 0x000000, 0x20000, 0xce092218 );
+		/* 0x40000 - 0x80000 is empty, I will place decrypted opcodes here */
+		ROM_LOAD_EVEN( "13447", 0x080000, 0x20000, 0x70a52167 );
+		ROM_LOAD_ODD ( "13445", 0x080000, 0x20000, 0x28dfc3dd );
+	
+		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "aurail.a14", 0x00000, 0x20000, 0x0fc4a7a8 );/* plane 1 */
+		ROM_LOAD( "aurail.b14", 0x20000, 0x20000, 0xe08135e0 );
+		ROM_LOAD( "aurail.a15", 0x40000, 0x20000, 0x1c49852f );/* plane 2 */
+		ROM_LOAD( "aurail.b15", 0x60000, 0x20000, 0xe14c6684 );
+		ROM_LOAD( "aurail.a16", 0x80000, 0x20000, 0x047bde5e );/* plane 3 */
+		ROM_LOAD( "aurail.b16", 0xa0000, 0x20000, 0x6309fec4 );
+	
+		ROM_REGION( 0x200000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "aurail.b1",  0x000000, 0x020000, 0x5fa0a9f8 );
+		ROM_LOAD( "aurail.b5",  0x020000, 0x020000, 0x0d1b54da );
+		ROM_LOAD( "aurail.b2",  0x040000, 0x020000, 0x5f6b33b1 );
+		ROM_LOAD( "aurail.b6",  0x060000, 0x020000, 0xbad340c3 );
+		ROM_LOAD( "aurail.b3",  0x080000, 0x020000, 0x4e80520b );
+		ROM_LOAD( "aurail.b7",  0x0a0000, 0x020000, 0x7e9165ac );
+		ROM_LOAD( "aurail.b4",  0x0c0000, 0x020000, 0x5733c428 );
+		ROM_LOAD( "aurail.b8",  0x0e0000, 0x020000, 0x66b8f9b3 );
+		ROM_LOAD( "aurail.a1",  0x100000, 0x020000, 0x4f370b2b );
+		ROM_LOAD( "aurail.b10", 0x120000, 0x020000, 0xf76014bf );
+		ROM_LOAD( "aurail.a2",  0x140000, 0x020000, 0x37cf9cb4 );
+		ROM_LOAD( "aurail.b11", 0x160000, 0x020000, 0x1061e7da );
+		ROM_LOAD( "aurail.a3",  0x180000, 0x020000, 0x049698ef );
+		ROM_LOAD( "aurail.b12", 0x1a0000, 0x020000, 0x7dbcfbf1 );
+		ROM_LOAD( "aurail.a4",  0x1c0000, 0x020000, 0x77a8989e );
+		ROM_LOAD( "aurail.b13", 0x1e0000, 0x020000, 0x551df422 );
+	
+		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "13448",      0x0000, 0x8000, 0xb5183fb9 );
+		ROM_LOAD( "aurail.a12", 0x10000,0x20000, 0xd3d9aaf9 );
+		ROM_LOAD( "aurail.a12", 0x30000,0x20000, 0xd3d9aaf9 );
+	ROM_END(); }}; 
+	
+	
+	/***************************************************************************/
+	
+	public static ReadHandlerPtr aurail_skip = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		if (cpu_get_pc()==0xe4e) {cpu_spinuntil_int(); return 0;}
+	
+		return sys16_workingram.READ_WORD(0x274e);
+	} };
+	
+	static MemoryReadAddress aurail_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x0bffff, MRA_ROM ),
+		new MemoryReadAddress( 0x3f0000, 0x3fffff, MRA_BANK3 ),
+		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+		new MemoryReadAddress( 0xc41002, 0xc41003, input_port_0_r ),
+		new MemoryReadAddress( 0xc41006, 0xc41007, input_port_1_r ),
+		new MemoryReadAddress( 0xc41000, 0xc41001, input_port_2_r ),
+		new MemoryReadAddress( 0xc42002, 0xc42003, input_port_3_r ),
+		new MemoryReadAddress( 0xc42000, 0xc42001, input_port_4_r ),
+		new MemoryReadAddress( 0xc40000, 0xc4ffff, MRA_BANK4 ),
+		new MemoryReadAddress( 0xfc0000, 0xfc0fff, MRA_BANK5 ),
+		new MemoryReadAddress( 0xffe74e, 0xffe74f, aurail_skip ),
+		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
+		new MemoryReadAddress(-1)
+	};
+	
+	static MemoryWriteAddress aurail_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x0bffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x3f0000, 0x3fffff, MWA_BANK3,sys16_extraram ),
+		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0xc40000, 0xc4ffff, MWA_BANK4,sys16_extraram2 ),
+		new MemoryWriteAddress( 0xfc0000, 0xfc0fff, MWA_BANK5,sys16_extraram3 ),
+		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
+		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
+		new MemoryWriteAddress(-1)
+	};
+	/***************************************************************************/
+	
+	static sys16_update_procPtr aurail_update_proc = new sys16_update_procPtr() {
+            public void handler() {
+		sys16_fg_scrollx = sys16_textram.READ_WORD( 0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD( 0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD( 0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD( 0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD( 0x0e80 ) );
+		set_bg_page( sys16_textram.READ_WORD( 0x0e82 ) );
+	
+		set_tile_bank( sys16_extraram3.READ_WORD( 0x0002 ) );
+		set_refresh( sys16_extraram2.READ_WORD( 0 ) );
+            }
+        };
+	
+	public static InitMachinePtr aurail_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
+	
+		sys16_obj_bank = bank;
+		sys16_spritesystem = 4;
+		sys16_spritelist_end=0x8000;
+		sys16_bg_priority_mode=1;
+	
+		sys16_update_proc = aurail_update_proc;
+	} };
+	
+	public static InitDriverPtr init_aurail = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode (8,0x40000);
+	} };
+	
+	public static InitDriverPtr init_auraila = new InitDriverPtr() { public void handler() 
+	{
+		UBytePtr rom = new UBytePtr(memory_region(REGION_CPU1));
+		int diff = 0x40000;	/* place decrypted opcodes in a empty hole */
+	
+		init_aurail.handler();
+	
+		memory_set_opcode_base(0,new UBytePtr(rom, diff));
+	
+		memcpy(new UBytePtr(rom, diff),new UBytePtr(rom),0x40000);
+	
+		aurail_decode_data(new UBytePtr(rom),new UBytePtr(rom),0x10000);
+		aurail_decode_opcode1(new UBytePtr(rom, diff),new UBytePtr(rom, diff),0x10000);
+		aurail_decode_opcode2(new UBytePtr(rom, diff+0x10000),new UBytePtr(rom, diff+0x10000),0x10000);
+	} };
+	
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_aurail = new InputPortPtr(){ public void handler() { 
+		SYS16_JOY1();
+		SYS16_JOY2();
+		SYS16_SERVICE();
+		SYS16_COINAGE();
+	
+	PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Cabinet") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Upright") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "Cocktail") );
+		PORT_DIPNAME( 0x02, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Lives") );
+		PORT_DIPSETTING(    0x00, "2" );
+		PORT_DIPSETTING(    0x0c, "3" );
+		PORT_DIPSETTING(    0x08, "4" );
+		PORT_DIPSETTING(    0x04, "5" );
+		PORT_DIPNAME( 0x10, 0x10, DEF_STR( "Bonus_Life") );
+		PORT_DIPSETTING(    0x10, "Normal" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x20, 0x20, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x20, "Normal" );
+		PORT_DIPSETTING(    0x00, "Hard" );
+		PORT_DIPNAME( 0x40, 0x40, "Controller select" );
+		PORT_DIPSETTING(    0x40, "1 Player side" );
+		PORT_DIPSETTING(    0x00, "2 Players side" );
+		PORT_DIPNAME( 0x80, 0x80, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x80, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+	INPUT_PORTS_END(); }}; 
+	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_aurail, \
 /*TODO*///		aurail_readmem,aurail_writemem,aurail_init_machine, gfx4,upd7759_interface )
-	
+
+        static MachineDriver machine_driver_aurail = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				aurail_readmem,aurail_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		aurail_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx4, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
+        
 	/***************************************************************************/
 	// sys16B
 	static RomLoadPtr rom_bayroute = new RomLoadPtr(){ public void handler(){ 
@@ -13572,8 +13613,8 @@ public class system16 {
 /*TODO*///	GAMEX(1990, astorm2p, astorm,   astorm,   astorm,   astorm,   ROT0_16BIT,   "Sega",    "Alien Storm (2 Player)", GAME_NOT_WORKING)
     public static GameDriver driver_astormbl	   = new GameDriver("1990"	,"astormbl"	,"system16.java"	,rom_astormbl,driver_astorm	,machine_driver_astorm	,input_ports_astorm	,init_astorm	,ROT0_16BIT	,	"bootleg", "Alien Storm (bootleg)");
     public static GameDriver driver_atomicp = new GameDriver("1990", "atomicp", "system16.java", rom_atomicp, null, machine_driver_atomicp, input_ports_atomicp, init_atomicp, ROT0, "Philko", "Atomic Point", GAME_NO_SOUND);
-    /*TODO*///	public static GameDriver driver_aurail	   = new GameDriver("1990"	,"aurail"	,"system16.java"	,rom_aurail,null	,machine_driver_aurail	,input_ports_aurail	,init_aurail	,ROT0	,	"Sega / Westone", "Aurail (set 1)")
-/*TODO*///	public static GameDriver driver_auraila	   = new GameDriver("1990"	,"auraila"	,"system16.java"	,rom_auraila,driver_aurail	,machine_driver_aurail	,input_ports_aurail	,init_auraila	,ROT0	,	"Sega / Westone", "Aurail (set 2)")
+    public static GameDriver driver_aurail	   = new GameDriver("1990"	,"aurail"	,"system16.java"	,rom_aurail,null	,machine_driver_aurail	,input_ports_aurail	,init_aurail	,ROT0	,	"Sega / Westone", "Aurail (set 1)");
+    public static GameDriver driver_auraila	   = new GameDriver("1990"	,"auraila"	,"system16.java"	,rom_auraila,driver_aurail	,machine_driver_aurail	,input_ports_aurail	,init_auraila	,ROT0	,	"Sega / Westone", "Aurail (set 2)");
     public static GameDriver driver_bayroute	   = new GameDriver("1989"	,"bayroute"	,"system16.java"	,rom_bayroute,null	,machine_driver_bayroute	,input_ports_bayroute	,init_bayroute	,ROT0	,	"Sunsoft / Sega", "Bay Route (set 1)");
 /*TODO*///	GAMEX(1989, bayrouta, bayroute, bayroute, bayroute, bayrouta, ROT0,         "Sunsoft / Sega", "Bay Route (set 2)", GAME_NOT_WORKING)
 /*TODO*///	GAMEX(1989, bayrtbl1, bayroute, bayroute, bayroute, bayrtbl1, ROT0,         "bootleg", "Bay Route (bootleg set 1)", GAME_NOT_WORKING)

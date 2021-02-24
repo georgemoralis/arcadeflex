@@ -2027,7 +2027,7 @@ public class driver {
                 driver_altbeast,	/* (c) 1988 */
                 driver_astormbl,	/* bootleg */
                 driver_atomicp,	/* (c) 1990 Philko */
-                /*TODO*/ //	DRIVER( aurail )	/* (c) 1990 Sega / Westone */
+                driver_aurail,	/* (c) 1990 Sega / Westone */
                 driver_bayroute,	/* (c) 1989 */
                 driver_bodyslam,	/* (c) 1986 */
                 driver_dduxbl,	/* (c) 1989 (Datsu bootleg) */
