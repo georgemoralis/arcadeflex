@@ -562,11 +562,11 @@ public class system16 {
 		3,	/* 1 chips */
 		4096000,	/* 3.58 MHZ ? */
 		new int[] { YM2203_VOL(50,50),YM2203_VOL(50,50),YM2203_VOL(50,50) },
-		new ReadHandlerPtr[] { null },
-		new ReadHandlerPtr[] { null },
-		new WriteHandlerPtr[] { null },
-		new WriteHandlerPtr[] { null },
-		new WriteYmHandlerPtr[] { null }
+		new ReadHandlerPtr[] { null, null, null },
+		new ReadHandlerPtr[] { null, null, null },
+		new WriteHandlerPtr[] { null, null, null },
+		new WriteHandlerPtr[] { null, null, null },
+		new WriteYmHandlerPtr[] { null, null, null }
 	);
 	
 	static SEGAPCMinterface segapcm_interface_15k = new SEGAPCMinterface (

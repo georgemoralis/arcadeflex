@@ -1977,7 +1977,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( aliensyj )	/* (c) 1987 (protected. Japan) */
                 driver_astorm,	/* (c) 1990 (protected) */
                 /*TODO*/ //	DRIVER( astorm2p )	/* (c) 1990 (protected 2 Players) */
-                /*TODO*/ //	DRIVER( auraila )	/* (c) 1990 Sega / Westone (protected) */
+                driver_auraila,	/* (c) 1990 Sega / Westone (protected) */
                 /*TODO*/ //	DRIVER( bayrouta )	/* (c) 1989 (protected) */
                 /*TODO*/ //	DRIVER( bayrtbl1 )	/* (c) 1989 (protected) (bootleg) */
                 /*TODO*/ //	DRIVER( bayrtbl2 )	/* (c) 1989 (protected) (bootleg) */
