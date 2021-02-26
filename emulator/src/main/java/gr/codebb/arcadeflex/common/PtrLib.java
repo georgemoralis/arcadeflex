@@ -270,6 +270,17 @@ public class PtrLib {
       return (char) (memory[offset + 1 + index * 2] << 8 | memory[offset + index * 2]);
     }
     
+    public char readinc() {
+      char _val = (char) (memory[offset + 1 + 0 * 2] << 8 | memory[offset + 0 * 2]);
+      offset += 1*bsize;
+      return _val;
+    }
+    
+    public char readinc(int index) {
+      char _val = (char) (memory[offset + 1 + index * 2] << 8 | memory[offset + index * 2]);
+      offset += 1*bsize;
+      return _val;
+    }
     
     public void write(int index, char value) {
       memory[offset + index * 2] = (char) (value & 0xFF);

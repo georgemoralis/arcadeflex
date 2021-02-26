@@ -70,14 +70,19 @@ public class mcr {
 		public double	period;
 	};
         static counter_state[] m6840_state = new counter_state[3];
+        
+        static {
+            for (int _i =0 ; _i<3 ; _i++)
+                m6840_state[_i] = new counter_state();
+        }
 
 	/* MCR/68k interrupt states */
-	static int m6840_irq_state;
-	static int m6840_irq_vector;
-	static int v493_irq_state;
-	static int v493_irq_vector;
+	public static int m6840_irq_state;
+	public static int m6840_irq_vector;
+	public static int v493_irq_state;
+	public static int v493_irq_vector;
 
-	static timer_callback v493_callback;
+	public static timer_callback v493_callback;
 
 	static int zwackery_sound_data;
 
@@ -195,21 +200,21 @@ public class mcr {
 	 *
 	 *************************************/
 	 
-	static pia6821_interface zwackery_pia_2_intf = new pia6821_interface
+	public static pia6821_interface zwackery_pia_2_intf = new pia6821_interface
 	(
 		/*inputs : A/B,CA/B1,CA/B2 */ null, input_port_0_r, null, null, null, null,
 		/*outputs: A/B,CA/B2       */ zwackery_pia_2_w, null, null, null,
 		/*irqs   : A/B             */ zwackery_pia_irq, zwackery_pia_irq
 	);
 	
-	static pia6821_interface zwackery_pia_3_intf = new pia6821_interface
+	public static pia6821_interface zwackery_pia_3_intf = new pia6821_interface
 	(
 		/*inputs : A/B,CA/B1,CA/B2 */ input_port_1_r, zwackery_port_2_r, null, null, null, null,
 		/*outputs: A/B,CA/B2       */ zwackery_pia_3_w, null, zwackery_ca2_w, null,
 		/*irqs   : A/B             */ null, null
 	);
 	
-	static pia6821_interface zwackery_pia_4_intf = new pia6821_interface
+	public static pia6821_interface zwackery_pia_4_intf = new pia6821_interface
 	(
 		/*inputs : A/B,CA/B1,CA/B2 */ input_port_3_r, input_port_4_r, null, null, null, null,
 		/*outputs: A/B,CA/B2       */ null, null, null, null,
@@ -255,6 +260,7 @@ public class mcr {
      */
     public static InitMachinePtr mcr_init_machine = new InitMachinePtr() {
         public void handler() {
+            System.out.println("mcr_init_machine");
             /* initialize the CTC */
             ctc_intf.baseclock[0] = Machine.drv.cpu[0].cpu_clock;
             z80ctc_init(ctc_intf);
@@ -275,7 +281,7 @@ public class mcr {
 	 *
 	 *************************************/
 	
-	static void mcr68_common_init()
+	public static void mcr68_common_init()
 	{
 		int i;
 	
@@ -305,37 +311,8 @@ public class mcr {
 	}
 	
 	
-/*TODO*///	public static InitMachinePtr mcr68_init_machine = new InitMachinePtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		/* for the most part all MCR/68k games are the same */
-/*TODO*///		mcr68_common_init();
-/*TODO*///		v493_callback = mcr68_493_callback;
-/*TODO*///	
-/*TODO*///		/* vectors are 1 and 2 */
-/*TODO*///		v493_irq_vector = 1;
-/*TODO*///		m6840_irq_vector = 2;
-/*TODO*///	} };
 	
-	
-	public static InitMachinePtr zwackery_init_machine = new InitMachinePtr() { public void handler() 
-	{
-            System.out.println("zwackery_init_machine");
-		/* for the most part all MCR/68k games are the same */
-		mcr68_common_init();
-		v493_callback = zwackery_493_callback;
-	
-		/* append our PIA state onto the existing one and reinit */
-		pia_config(2, PIA_STANDARD_ORDERING | PIA_16BIT_UPPER, zwackery_pia_2_intf);
-		pia_config(3, PIA_STANDARD_ORDERING | PIA_16BIT_LOWER, zwackery_pia_3_intf);
-		pia_config(4, PIA_STANDARD_ORDERING | PIA_16BIT_LOWER, zwackery_pia_4_intf);
-		pia_reset();
-	
-		/* vectors are 5 and 6 */
-		v493_irq_vector = 5;
-		m6840_irq_vector = 6;
-	} };
-	
-	
+       
 	
     /**
      * ***********************************
@@ -398,22 +375,22 @@ public class mcr {
 	}
 	
 	
-/*TODO*///	public static timer_callback mcr68_493_off_callback = new timer_callback() { public void handler(int param) 
-/*TODO*///	{
-/*TODO*///		v493_irq_state = 0;
-/*TODO*///		update_mcr68_interrupts();
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	public static timer_callback mcr68_493_callback = new timer_callback() { public void handler(int param) 
-/*TODO*///	{
-/*TODO*///		v493_irq_state = 1;
-/*TODO*///		update_mcr68_interrupts();
-/*TODO*///		timer_set(cpu_getscanlineperiod(), 0, mcr68_493_off_callback);
-/*TODO*///		logerror("--- (INT1) ---\n");
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
+	public static timer_callback mcr68_493_off_callback = new timer_callback() { public void handler(int param) 
+	{
+		v493_irq_state = 0;
+		update_mcr68_interrupts();
+	} };
+	
+	
+	public static timer_callback mcr68_493_callback = new timer_callback() { public void handler(int param) 
+	{
+		v493_irq_state = 1;
+		update_mcr68_interrupts();
+		timer_set(cpu_getscanlineperiod(), 0, mcr68_493_off_callback);
+		logerror("--- (INT1) ---\n");
+	} };
+	
+	
     /**
      * ***********************************
      *
@@ -768,11 +745,11 @@ public class mcr {
 	} };
 	
 	
-/*TODO*///	public static WriteHandlerPtr mcr68_6840_lower_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if (!(data & 0x00ff0000))
-/*TODO*///			mcr68_6840_w_common(offset / 2, data & 0xff);
-/*TODO*///	} };
+	public static WriteHandlerPtr mcr68_6840_lower_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		if ((data & 0x00ff0000)==0)
+			mcr68_6840_w_common.handler(offset / 2, data & 0xff);
+	} };
 	
 	
 	public static ReadHandlerPtr mcr68_6840_upper_r  = new ReadHandlerPtr() { public int handler(int offset)
@@ -781,8 +758,8 @@ public class mcr {
 	} };
 	
 	
-/*TODO*///	public static ReadHandlerPtr mcr68_6840_lower_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		return mcr68_6840_r_common(offset / 2) | 0xff00;
-/*TODO*///	} };
+	public static ReadHandlerPtr mcr68_6840_lower_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return mcr68_6840_r_common.handler(offset / 2) | 0xff00;
+	} };
 }

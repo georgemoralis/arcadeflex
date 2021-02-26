@@ -146,7 +146,7 @@ public class klax
 		if (oldword != newword)
 		{
 			atarigen_playfieldram.WRITE_WORD(offset, newword);
-			atarigen_pf_dirty[(offset & 0xfff) / 2] = 1;
+			atarigen_pf_dirty.write((offset & 0xfff) / 2, 1);
 		}
 	} };
 	
@@ -293,7 +293,7 @@ public class klax
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
-		osd_bitmap bitmap = (osd_bitmap) param;
+		//osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -303,7 +303,7 @@ public class klax
 				int offs = x * 32 + y;
 	
 				/* update only if dirty */
-				if (atarigen_pf_dirty[offs] != 0)
+				if (atarigen_pf_dirty.read(offs) != 0)
 				{
 					int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
 					int data2 = atarigen_playfieldram.READ_WORD(offs * 2 + 0x1000);
@@ -312,12 +312,12 @@ public class klax
 					int code = data1 & 0x1fff;
 	
 					drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
-					atarigen_pf_dirty[offs] = 0;
+					atarigen_pf_dirty.write(offs, 0);
 				}
 			}
 	
 		/* then blast the result */
-		copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
+		copybitmap((osd_bitmap) param, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
             }
         };
 	

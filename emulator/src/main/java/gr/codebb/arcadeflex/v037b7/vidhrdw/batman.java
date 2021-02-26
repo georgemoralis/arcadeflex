@@ -242,11 +242,11 @@ public class batman
 			
 			/* low byte affects pf1 */
 			if ((oldword & 0x00ff) != 0)
-				atarigen_pf_dirty[(offset / 2) & 0xfff] = 1;
+				atarigen_pf_dirty.write((offset / 2) & 0xfff, 1);
 	
 			/* upper byte affects pf2 */
 			if ((oldword & 0xff00) != 0)
-				atarigen_pf2_dirty[(offset / 2) & 0xfff] = 1;
+				atarigen_pf2_dirty.write((offset / 2) & 0xfff, 1);
 		}
 	} };
 	
@@ -260,7 +260,7 @@ public class batman
 		if (oldword != newword)
 		{
 			atarigen_playfieldram.WRITE_WORD(offset, newword);
-			atarigen_pf_dirty[(offset / 2) & 0xfff] = 1;
+			atarigen_pf_dirty.write((offset / 2) & 0xfff, 1);
 		}
 		
 		/* handle the latch, but only write the lower byte */
@@ -278,7 +278,7 @@ public class batman
 		if (oldword != newword)
 		{
 			atarigen_playfield2ram.WRITE_WORD(offset, newword);
-			atarigen_pf2_dirty[(offset / 2) & 0xfff] = 1;
+			atarigen_pf2_dirty.write((offset / 2) & 0xfff, 1);
 		}
 		
 		/* handle the latch, but only write the upper byte */
@@ -531,7 +531,7 @@ public class batman
 				colormap[color] |= usage[code];
 				
 				/* also mark unvisited tiles dirty */
-				if (atarigen_pf_visit[offs] == 0) atarigen_pf_dirty[offs] = 1;
+				if (atarigen_pf_visit.read(offs) == 0) atarigen_pf_dirty.write(offs, 1);
 			}
                 }
             }
@@ -560,7 +560,7 @@ public class batman
 				colormap[color] |= usage[code];
 				
 				/* also mark unvisited tiles dirty */
-				if (atarigen_pf2_visit[offs]==0) atarigen_pf2_dirty[offs] = 1;
+				if (atarigen_pf2_visit.read(offs)==0) atarigen_pf2_dirty.write(offs, 1);
 			}
                 }
             }
@@ -588,7 +588,7 @@ public class batman
 				int offs = x * 64 + y;
 				
 				/* update only if dirty */
-				if (atarigen_pf_dirty[offs] != 0)
+				if (atarigen_pf_dirty.read(offs) != 0)
 				{
 					int data1 = atarigen_playfieldram.READ_WORD(offs * 2);
 					int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
@@ -597,7 +597,7 @@ public class batman
 					int hflip = data1 & 0x8000;
 					
 					drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
-					atarigen_pf_dirty[offs] = 0;
+					atarigen_pf_dirty.write(offs, 0);
 	
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///					if (show_colors == 1 || show_colors == -1)
@@ -615,7 +615,7 @@ public class batman
 				}
 				
 				/* track the tiles we've visited */
-				atarigen_pf_visit[offs] = 1;
+				atarigen_pf_visit.write(offs, 1);
 			}
 	
 		/* then blast the result */
@@ -641,7 +641,7 @@ public class batman
 				int offs = x * 64 + y;
 				
 				/* update only if dirty */
-				if (atarigen_pf2_dirty[offs] != 0)
+				if (atarigen_pf2_dirty.read(offs) != 0)
 				{
 					int data1 = atarigen_playfield2ram.READ_WORD(offs * 2);
 					int data2 = atarigen_playfieldram_color.READ_WORD(offs * 2);
@@ -650,7 +650,7 @@ public class batman
 					int hflip = data1 & 0x8000;
 					
 					drawgfx(atarigen_pf2_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
-					atarigen_pf2_dirty[offs] = 0;
+					atarigen_pf2_dirty.write(offs, 0);
 	
 /*TODO*////*TODO*///	#if DEBUG_VIDEO
 /*TODO*////*TODO*///					if (show_colors == 2 || show_colors == -2)
@@ -668,7 +668,7 @@ public class batman
 				}
 				
 				/* track the tiles we've visited */
-				atarigen_pf2_visit[offs] = 1;
+				atarigen_pf2_visit.write(offs, 1);
 			}
 	
 		/* then blast the result */

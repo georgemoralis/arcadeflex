@@ -154,7 +154,7 @@ public class shuuz {
             /* update the data if different */
             if (oldword != newword) {
                 atarigen_playfieldram.WRITE_WORD(offset, newword);
-                atarigen_pf_dirty[(offset & 0x1fff) / 2] = 1;
+                atarigen_pf_dirty.write((offset & 0x1fff) / 2, 1);
             }
 
             /* handle the latch, but only write the upper byte */
@@ -331,7 +331,7 @@ public class shuuz {
                     int offs = x * 64 + y;
 
                     /* update only if dirty */
-                    if (atarigen_pf_dirty[offs] != 0) {
+                    if (atarigen_pf_dirty.read(offs) != 0) {
                         int data1 = atarigen_playfieldram.READ_WORD( offs * 2 );
                         int data2 = atarigen_playfieldram.READ_WORD( offs * 2 + 0x2000 );
                         int color = (data2 >> 8) & 15;
@@ -340,7 +340,7 @@ public class shuuz {
 
                         drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
                         
-                        atarigen_pf_dirty[offs] = 0;
+                        atarigen_pf_dirty.write(offs, 0);
 
                     }
                 }
@@ -350,7 +350,7 @@ public class shuuz {
 
             /* then blast the result */
             copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
-            //param = bitmap;
+            param = bitmap;
         }
     };
         
@@ -369,7 +369,7 @@ public class shuuz {
             pf_overrender_data overrender_data = (pf_overrender_data) param;
         
             GfxElement gfx = Machine.gfx[0];
-            osd_bitmap bitmap = overrender_data.bitmap;
+            //osd_bitmap bitmap = overrender_data.bitmap;
             int x, y;
 
             /* standard loop over tiles */
@@ -387,13 +387,13 @@ public class shuuz {
                         int hflip = data1 & 0x8000;
                         int code = data1 & 0x3fff;
 
-                        drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+                        drawgfx(overrender_data.bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
 
                     }
                 }
             }
             
-            //param = overrender_data;
+            param = overrender_data;
         }
     };
     
@@ -408,9 +408,9 @@ public class shuuz {
     static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
         @Override
         public void handler(IntSubArray data, rectangle clip, Object param) {
-            System.out.println("pf_overrender_callback "+param.getClass().getName());
+            //System.out.println("pf_overrender_callback "+param.getClass().getName());
             int[] usage = Machine.gfx[1].pen_usage;
-            IntSubArray colormap = (IntSubArray) param;
+            char[] colormap = (char[]) param;
             int code = data.read(1) & 0x7fff;
             int color = data.read(2) & 0x000f;
             int hsize = ((data.read(3) >> 4) & 7) + 1;
@@ -422,9 +422,9 @@ public class shuuz {
             for (i = 0; i < tiles; i++) {
                 temp |= usage[code++];
             }
-            colormap.write(color, (char) (colormap.read(color) | temp));
+            colormap[color] = (char) (colormap[color] | temp);
             
-            //param = colormap;
+            param = colormap;
         }
     };
 
@@ -438,7 +438,7 @@ public class shuuz {
     static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
         @Override
         public void handler(IntSubArray data, rectangle clip, Object param) {
-            System.out.println("mo_render_callback");
+            //System.out.println("mo_render_callback");
             GfxElement gfx = Machine.gfx[1];
             pf_overrender_data overrender_data = new pf_overrender_data();
             osd_bitmap bitmap = (osd_bitmap) param;
@@ -490,7 +490,7 @@ public class shuuz {
                 copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0,  pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
             }
             
-            //param = bitmap;
+            param = bitmap;
         }
     };
     

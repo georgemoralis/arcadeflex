@@ -208,8 +208,9 @@ import static gr.codebb.arcadeflex.v036.drivers.terracre.*;
 import static gr.codebb.arcadeflex.v036.drivers.punchout.*;
 import static gr.codebb.arcadeflex.v036.drivers.astrof.*;
 import static gr.codebb.arcadeflex.v036.drivers.karnov.*;
-import static gr.codebb.arcadeflex.v036.drivers.shuuz.*;
+//import static gr.codebb.arcadeflex.v036.drivers.shuuz.*;
 //import static gr.codebb.arcadeflex.v037b16.drivers.shuuz.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.shuuz.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.berzerk.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
@@ -1499,8 +1500,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( xenophob )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( spyhunt2 )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( blasted )	/* (c) 1988 */
-                /*TODO*/ //	DRIVER( archrivl )	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( archriv2 )	/* (c) 1989 */
+                driver_archrivl,	/* (c) 1989 */
+                driver_archriv2,	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( trisport )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( pigskin )	/* (c) 1990 */
 
@@ -2048,7 +2049,7 @@ public class driver {
                 driver_outrun,	/* (c) 1986 (bootleg)*/
                 driver_outruna,	/* (c) 1986 (bootleg) */
                 driver_outrunb,	/* (c) 1986 (protected beta bootleg) */
-                /*TODO*/ //	DRIVER( passht4b )	/* bootleg */
+                driver_passht4b,	/* bootleg */
                 driver_passshtb,	/* bootleg */
                 driver_quartet,	/* (c) 1986 */
                 /*TODO*/ //	DRIVER( quartet2 )	/* (c) 1986 */

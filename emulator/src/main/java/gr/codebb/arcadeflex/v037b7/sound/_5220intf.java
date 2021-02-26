@@ -35,7 +35,7 @@ public class _5220intf extends snd_interface {
 
     @Override
     public int chips_num(MachineSound msound) {
-        return 1;
+        return 0;
     }
 
     @Override

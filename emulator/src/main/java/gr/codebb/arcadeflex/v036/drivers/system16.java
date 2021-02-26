@@ -6791,7 +6791,46 @@ public class system16 {
 	        
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_passht4b, \
 /*TODO*///		passht4b_readmem,passht4b_writemem,passht4b_init_machine, gfx1 ,upd7759_interface)
-/*TODO*///	
+/*TODO*///
+        static MachineDriver machine_driver_passht4b = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				passht4b_readmem,passht4b_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		passht4b_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx1, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
 	/***************************************************************************/
 	// pre16
 	static RomLoadPtr rom_quartet = new RomLoadPtr(){ public void handler(){ 
@@ -13642,7 +13681,7 @@ public class system16 {
     public static GameDriver driver_moonwlkb	   = new GameDriver("1990"	,"moonwlkb"	,"system16.java"	,rom_moonwlkb,driver_moonwalk	,machine_driver_moonwalk	,input_ports_moonwalk	,init_moonwalk	,ROT0	,	"bootleg", "Moon Walker (bootleg)");
     public static GameDriver driver_passsht	   = new GameDriver("????"	,"passsht"	,"system16.java"	,rom_passsht,null	,machine_driver_passsht	,input_ports_passsht	,init_passsht	,ROT270	,	"Sega",    "Passing Shot (2 Players)", GAME_NOT_WORKING );
     public static GameDriver driver_passshtb	   = new GameDriver("????"	,"passshtb"	,"system16.java"	,rom_passshtb,driver_passsht	,machine_driver_passsht	,input_ports_passsht	,init_passsht	,ROT270	,	"bootleg", "Passing Shot (2 Players) (bootleg)" );
-/*TODO*///GAMEX(????, passht4b, passsht,  passht4b, passht4b, passht4b, ROT270,       "bootleg", "Passing Shot (4 Players) (bootleg)", GAME_NO_SOUND)	
+    public static GameDriver driver_passht4b	   = new GameDriver("????"	,"passht4b"	,"system16.java"	,rom_passht4b,driver_passsht	,machine_driver_passht4b	,input_ports_passht4b	,init_passht4b	,ROT270	,	"bootleg", "Passing Shot (4 Players) (bootleg)", GAME_NO_SOUND );
     public static GameDriver driver_quartet	   = new GameDriver("1986"	,"quartet"	,"system16.java"	,rom_quartet,null	,machine_driver_quartet	,input_ports_quartet	,init_quartet	,ROT0	,	"Sega",    "Quartet");
 /*TODO*///	public static GameDriver driver_quartetj	   = new GameDriver("1986"	,"quartetj"	,"system16.java"	,rom_quartetj,driver_quartet	,machine_driver_quartet	,input_ports_quartet	,init_quartet	,ROT0	,	"Sega",    "Quartet (Japan)")
 /*TODO*///	public static GameDriver driver_quartet2	   = new GameDriver("1986"	,"quartet2"	,"system16.java"	,rom_quartet2,driver_quartet	,machine_driver_quartet2	,input_ports_quartet2	,init_quartet2	,ROT0	,	"Sega",    "Quartet II")

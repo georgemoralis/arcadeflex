@@ -429,7 +429,7 @@ public class taito_b
 		if (oldword != newword)
 		{
 			b_backgroundram.WRITE_WORD (offset,newword);
-			//tilemap_mark_tile_dirty(bg_tilemap,(offset&0x0fff)%32, data/32);
+			tilemap_mark_tile_dirty(bg_tilemap,(offset&0x1fff) / 2,0);
 		}
 	} };
 	
@@ -448,7 +448,7 @@ public class taito_b
 		if (oldword != newword)
 		{
 			b_foregroundram.WRITE_WORD (offset,newword);
-/*TODO*///			tilemap_mark_tile_dirty(fg_tilemap,(offset&0x0fff), data);
+			tilemap_mark_tile_dirty(fg_tilemap,(offset&0x0fff), data);
 		}
 	} };
 	

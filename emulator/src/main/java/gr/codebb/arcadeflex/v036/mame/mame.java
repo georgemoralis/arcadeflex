@@ -84,6 +84,8 @@ public class mame {
         mame_debug = options.mame_debug;
 
         Machine.gamedrv = gamedrv = drivers[game];
+        System.out.println("Machine.gamedrv: "+Machine.gamedrv.drv.init_machine);
+        System.out.println("drivers[game]: "+drivers[game].drv.init_machine);
         Machine.drv = drv = gamedrv.drv;
         /*TODO TOTAL HACK TO BE REMOVED*/ Machine.visible_area = Machine.drv.visible_area;
         /* copy configuration */
@@ -220,8 +222,10 @@ public class mame {
         spriteram_2_size[0] = 0;
 
         /* first of all initialize the memory handlers, which could be used by the */
- /* other initialization routines */
+        /* other initialization routines */
+        System.out.println(gamedrv.driver_init);
         cpu_init();
+        System.out.println(gamedrv.driver_init);
 
         /* load input ports settings (keys, dip switches, and so on) */
         settingsloaded = load_input_port_settings();

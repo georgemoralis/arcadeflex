@@ -64,12 +64,16 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcrH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.machine.mcr.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.mcr68.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpuintf;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.machine._6812piaH.*;
 
 public class mcr68
 {
@@ -78,7 +82,7 @@ public class mcr68
 /*TODO*///	extern UINT8 mcr68_sprite_clip;
 /*TODO*///	extern INT8 mcr68_sprite_xoffset;
 /*TODO*///	
-/*TODO*///	static UINT8 *control_word;
+	static UBytePtr control_word=new UBytePtr();
 	
 	
 	
@@ -186,57 +190,57 @@ public class mcr68
 /*TODO*///	/*	soundsgood_reset_w(~newword & 0x2000);*/
 /*TODO*///		soundsgood_data_w(offset, (newword >> 8) & 0x001f);
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Arch Rivals-specific handlers
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr archrivl_port_1_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		int joystick = input_port_3_r.handler(offset);
-/*TODO*///		int result = 0;
-/*TODO*///	
-/*TODO*///		/* each axis of the 49-way joystick is mapped like this:*/
-/*TODO*///		/*      0 8      = neutral                              */
-/*TODO*///		/*      1        = slightly left/up                     */
-/*TODO*///		/*      2 3      = middle left/up                       */
-/*TODO*///		/*      4 5 6 7  = full left/up                         */
-/*TODO*///		/*      C        = slightly right/down                  */
-/*TODO*///		/*      A E      = middle right/down                    */
-/*TODO*///		/*      9 B D F  = full right/down                      */
-/*TODO*///	
-/*TODO*///		if ((joystick & 0x0001) != 0) result |= 0x0040;
-/*TODO*///		else if ((joystick & 0x0002) != 0) result |= 0x0090;
-/*TODO*///	
-/*TODO*///		if ((joystick & 0x0004) != 0) result |= 0x0004;
-/*TODO*///		else if ((joystick & 0x0008) != 0) result |= 0x0009;
-/*TODO*///	
-/*TODO*///		if ((joystick & 0x0010) != 0) result |= 0x4000;
-/*TODO*///		else if ((joystick & 0x0020) != 0) result |= 0x9000;
-/*TODO*///	
-/*TODO*///		if ((joystick & 0x0040) != 0) result |= 0x0400;
-/*TODO*///		else if ((joystick & 0x0080) != 0) result |= 0x0900;
-/*TODO*///	
-/*TODO*///		return result;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr archrivl_control_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		int oldword = READ_WORD(&control_word[offset]);
-/*TODO*///		int newword = COMBINE_WORD(oldword, data);
-/*TODO*///		WRITE_WORD(&control_word[offset], newword);
-/*TODO*///	
+	
+	
+	
+	/*************************************
+	 *
+	 *	Arch Rivals-specific handlers
+	 *
+	 *************************************/
+	
+	public static ReadHandlerPtr archrivl_port_1_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		int joystick = input_port_3_r.handler(offset);
+		int result = 0;
+	
+		/* each axis of the 49-way joystick is mapped like this:*/
+		/*      0 8      = neutral                              */
+		/*      1        = slightly left/up                     */
+		/*      2 3      = middle left/up                       */
+		/*      4 5 6 7  = full left/up                         */
+		/*      C        = slightly right/down                  */
+		/*      A E      = middle right/down                    */
+		/*      9 B D F  = full right/down                      */
+	
+		if ((joystick & 0x0001) != 0) result |= 0x0040;
+		else if ((joystick & 0x0002) != 0) result |= 0x0090;
+	
+		if ((joystick & 0x0004) != 0) result |= 0x0004;
+		else if ((joystick & 0x0008) != 0) result |= 0x0009;
+	
+		if ((joystick & 0x0010) != 0) result |= 0x4000;
+		else if ((joystick & 0x0020) != 0) result |= 0x9000;
+	
+		if ((joystick & 0x0040) != 0) result |= 0x0400;
+		else if ((joystick & 0x0080) != 0) result |= 0x0900;
+	
+		return result;
+	} };
+	
+	
+	public static WriteHandlerPtr archrivl_control_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		int oldword = control_word.READ_WORD(offset);
+		int newword = COMBINE_WORD(oldword, data);
+		control_word.WRITE_WORD(offset, newword);
+	
 /*TODO*///		williams_cvsd_reset_w(~newword & 0x0400);
 /*TODO*///		williams_cvsd_data_w(offset, newword & 0x3ff);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	} };
+	
+	
+	
 /*TODO*///	/*************************************
 /*TODO*///	 *
 /*TODO*///	 *	Pigskin-specific handlers
@@ -332,43 +336,43 @@ public class mcr68
 /*TODO*///	
 /*TODO*///		return result;
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Main CPU memory handlers
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress mcr68_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x060000, 0x063fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x070000, 0x070fff, MRA_BANK3 ),
-/*TODO*///		new MemoryReadAddress( 0x071000, 0x071fff, MRA_BANK4 ),
-/*TODO*///		new MemoryReadAddress( 0x080000, 0x080fff, MRA_BANK5 ),
-/*TODO*///		new MemoryReadAddress( 0x0a0000, 0x0a000f, mcr68_6840_upper_r ),
-/*TODO*///		new MemoryReadAddress( 0x0d0000, 0x0dffff, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x0e0000, 0x0effff, input_port_1_r ),
-/*TODO*///		new MemoryReadAddress( 0x0f0000, 0x0fffff, input_port_2_r ),
-/*TODO*///		new MemoryReadAddress( -1 )  /* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress mcr68_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x060000, 0x063fff, MWA_BANK2 ),
-/*TODO*///		new MemoryWriteAddress( 0x070000, 0x070fff, mcr68_videoram_w, videoram, videoram_size ),
-/*TODO*///		new MemoryWriteAddress( 0x071000, 0x071fff, MWA_BANK4 ),
-/*TODO*///		new MemoryWriteAddress( 0x080000, 0x080fff, MWA_BANK5, spriteram, spriteram_size ),
-/*TODO*///		new MemoryWriteAddress( 0x090000, 0x09007f, mcr68_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0x0a0000, 0x0a000f, mcr68_6840_upper_w ),
-/*TODO*///		new MemoryWriteAddress( 0x0b0000, 0x0bffff, watchdog_reset_w ),
-/*TODO*///		new MemoryWriteAddress( 0x0c0000, 0x0cffff, MWA_NOP, control_word ),
-/*TODO*///		new MemoryWriteAddress( -1 )  /* end of table */
-/*TODO*///	};
+	
+	
+	
+	/*************************************
+	 *
+	 *	Main CPU memory handlers
+	 *
+	 *************************************/
+	
+	static MemoryReadAddress mcr68_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
+		new MemoryReadAddress( 0x060000, 0x063fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0x070000, 0x070fff, MRA_BANK3 ),
+		new MemoryReadAddress( 0x071000, 0x071fff, MRA_BANK4 ),
+		new MemoryReadAddress( 0x080000, 0x080fff, MRA_BANK5 ),
+		new MemoryReadAddress( 0x0a0000, 0x0a000f, mcr68_6840_upper_r ),
+		new MemoryReadAddress( 0x0d0000, 0x0dffff, input_port_0_r ),
+		new MemoryReadAddress( 0x0e0000, 0x0effff, input_port_1_r ),
+		new MemoryReadAddress( 0x0f0000, 0x0fffff, input_port_2_r ),
+		new MemoryReadAddress( -1 )  /* end of table */
+	};
+	
+	
+	static MemoryWriteAddress mcr68_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x060000, 0x063fff, MWA_BANK2 ),
+		new MemoryWriteAddress( 0x070000, 0x070fff, mcr68_videoram_w, videoram, videoram_size ),
+		new MemoryWriteAddress( 0x071000, 0x071fff, MWA_BANK4 ),
+		new MemoryWriteAddress( 0x080000, 0x080fff, MWA_BANK5, spriteram, spriteram_size ),
+		new MemoryWriteAddress( 0x090000, 0x09007f, mcr68_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0x0a0000, 0x0a000f, mcr68_6840_upper_w ),
+		new MemoryWriteAddress( 0x0b0000, 0x0bffff, watchdog_reset_w ),
+		new MemoryWriteAddress( 0x0c0000, 0x0cffff, MWA_NOP, control_word ),
+		new MemoryWriteAddress( -1 )  /* end of table */
+	};
 	
 	
 	
@@ -724,65 +728,65 @@ public class mcr68
 /*TODO*///		PORT_DIPSETTING(      0x0000, DEF_STR( "On") );
 /*TODO*///		PORT_BIT( 0xff00, IP_ACTIVE_LOW, IPT_UNUSED );
 /*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_archrivl = new InputPortPtr(){ public void handler() { 
-/*TODO*///		PORT_START(); 
-/*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
-/*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
-/*TODO*///		PORT_BIT( 0x000c, IP_ACTIVE_LOW, IPT_UNUSED );
-/*TODO*///		PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_TILT );
-/*TODO*///		PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_UNUSED );
-/*TODO*///		PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_COIN4 );
-/*TODO*///		PORT_SERVICE( 0x0080, IP_ACTIVE_LOW );
-/*TODO*///		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 );
-/*TODO*///		PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_START2 );
-/*TODO*///		PORT_BIT( 0x0c00, IP_ACTIVE_LOW, IPT_UNUSED );
-/*TODO*///		PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );
-/*TODO*///		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 );
-/*TODO*///	
-/*TODO*///		PORT_START(); 
-/*TODO*///		PORT_BIT( 0xffff, IP_ACTIVE_HIGH, IPT_UNUSED );/* player 1/2 joysticks go here */
-/*TODO*///	
-/*TODO*///		PORT_START(); 
-/*TODO*///		PORT_DIPNAME( 0x0003, 0x0003, "Game Time" );
-/*TODO*///		PORT_DIPSETTING(      0x0003, "Preset Time" );
-/*TODO*///		PORT_DIPSETTING(      0x0002, "Preset + 10sec" );
-/*TODO*///		PORT_DIPSETTING(      0x0001, "Preset + 20sec" );
-/*TODO*///		PORT_DIPSETTING(      0x0000, "Preset + 30sec" );
-/*TODO*///		PORT_DIPNAME( 0x001c, 0x001c, DEF_STR( "Coinage") );
-/*TODO*///		PORT_DIPSETTING(      0x0014, DEF_STR( "3C_1C") );
-/*TODO*///		PORT_DIPSETTING(      0x0018, DEF_STR( "2C_1C") );
-/*TODO*///		PORT_DIPSETTING(      0x001c, DEF_STR( "1C_1C") );
-/*TODO*///		PORT_DIPSETTING(      0x0010, DEF_STR( "2C_3C") );
-/*TODO*///		PORT_DIPSETTING(      0x000c, DEF_STR( "1C_2C") );
-/*TODO*///		PORT_DIPSETTING(      0x0008, DEF_STR( "1C_3C") );
-/*TODO*///		PORT_DIPSETTING(      0x0004, DEF_STR( "1C_5C") );
-/*TODO*///		PORT_DIPSETTING(      0x0000, DEF_STR( "1C_6C") );
-/*TODO*///		PORT_DIPNAME( 0x0020, 0x0020, "Team Names" );
-/*TODO*///		PORT_DIPSETTING(      0x0020, "Default" );
-/*TODO*///		PORT_DIPSETTING(      0x0000, "Hometown Heroes" );
-/*TODO*///		PORT_DIPNAME( 0x0040, 0x0040, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(      0x0000, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(      0x0040, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x0080, 0x0080, DEF_STR( "Free_Play") );
-/*TODO*///		PORT_DIPSETTING(      0x0080, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(      0x0000, DEF_STR( "On") );
-/*TODO*///		PORT_BIT( 0xff00, IP_ACTIVE_LOW, IPT_UNUSED );
-/*TODO*///	
-/*TODO*///		PORT_START(); 	/* 49-way joystick simulator */
-/*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x0004, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x0008, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1 );
-/*TODO*///		PORT_BIT( 0x0010, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2 );
-/*TODO*///		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2 );
-/*TODO*///		PORT_BIT( 0x0040, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2 );
-/*TODO*///		PORT_BIT( 0x0080, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
+	
+	
+	static InputPortPtr input_ports_archrivl = new InputPortPtr(){ public void handler() { 
+		PORT_START(); 
+		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
+		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
+		PORT_BIT( 0x000c, IP_ACTIVE_LOW, IPT_UNUSED );
+		PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_TILT );
+		PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_UNUSED );
+		PORT_BIT( 0x0040, IP_ACTIVE_LOW, IPT_COIN4 );
+		PORT_SERVICE( 0x0080, IP_ACTIVE_LOW );
+		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 );
+		PORT_BIT( 0x0200, IP_ACTIVE_LOW, IPT_START2 );
+		PORT_BIT( 0x0c00, IP_ACTIVE_LOW, IPT_UNUSED );
+		PORT_BIT( 0x1000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
+		PORT_BIT( 0x2000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
+		PORT_BIT( 0x4000, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );
+		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2 );
+	
+		PORT_START(); 
+		PORT_BIT( 0xffff, IP_ACTIVE_HIGH, IPT_UNUSED );/* player 1/2 joysticks go here */
+	
+		PORT_START(); 
+		PORT_DIPNAME( 0x0003, 0x0003, "Game Time" );
+		PORT_DIPSETTING(      0x0003, "Preset Time" );
+		PORT_DIPSETTING(      0x0002, "Preset + 10sec" );
+		PORT_DIPSETTING(      0x0001, "Preset + 20sec" );
+		PORT_DIPSETTING(      0x0000, "Preset + 30sec" );
+		PORT_DIPNAME( 0x001c, 0x001c, DEF_STR( "Coinage") );
+		PORT_DIPSETTING(      0x0014, DEF_STR( "3C_1C") );
+		PORT_DIPSETTING(      0x0018, DEF_STR( "2C_1C") );
+		PORT_DIPSETTING(      0x001c, DEF_STR( "1C_1C") );
+		PORT_DIPSETTING(      0x0010, DEF_STR( "2C_3C") );
+		PORT_DIPSETTING(      0x000c, DEF_STR( "1C_2C") );
+		PORT_DIPSETTING(      0x0008, DEF_STR( "1C_3C") );
+		PORT_DIPSETTING(      0x0004, DEF_STR( "1C_5C") );
+		PORT_DIPSETTING(      0x0000, DEF_STR( "1C_6C") );
+		PORT_DIPNAME( 0x0020, 0x0020, "Team Names" );
+		PORT_DIPSETTING(      0x0020, "Default" );
+		PORT_DIPSETTING(      0x0000, "Hometown Heroes" );
+		PORT_DIPNAME( 0x0040, 0x0040, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(      0x0000, DEF_STR( "Off") );
+		PORT_DIPSETTING(      0x0040, DEF_STR( "On") );
+		PORT_DIPNAME( 0x0080, 0x0080, DEF_STR( "Free_Play") );
+		PORT_DIPSETTING(      0x0080, DEF_STR( "Off") );
+		PORT_DIPSETTING(      0x0000, DEF_STR( "On") );
+		PORT_BIT( 0xff00, IP_ACTIVE_LOW, IPT_UNUSED );
+	
+		PORT_START(); 	/* 49-way joystick simulator */
+		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER1 );
+		PORT_BIT( 0x0002, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER1 );
+		PORT_BIT( 0x0004, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1 );
+		PORT_BIT( 0x0008, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1 );
+		PORT_BIT( 0x0010, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x0020, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x0040, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2 );
+		PORT_BIT( 0x0080, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
+	INPUT_PORTS_END(); }}; 
+	
 /*TODO*///	static InputPortPtr input_ports_pigskin = new InputPortPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
@@ -920,12 +924,12 @@ public class mcr68
 		128
 	);
 	
-/*TODO*///	static GfxDecodeInfo gfxdecodeinfo[] =
-/*TODO*///	{
-/*TODO*///		new GfxDecodeInfo( REGION_GFX1, 0, mcr_bg_layout,     0, 4 ),
-/*TODO*///		new GfxDecodeInfo( REGION_GFX2, 0, mcr_sprite_layout, 0, 4 ),
-/*TODO*///		new GfxDecodeInfo( -1 ) /* end of array */
-/*TODO*///	};
+	static GfxDecodeInfo gfxdecodeinfo[] =
+	{
+		new GfxDecodeInfo( REGION_GFX1, 0, mcr_bg_layout,     0, 4 ),
+		new GfxDecodeInfo( REGION_GFX2, 0, mcr_sprite_layout, 0, 4 ),
+		new GfxDecodeInfo( -1 ) /* end of array */
+	};
 	
 	static GfxDecodeInfo zwackery_gfxdecodeinfo[] =
 	{
@@ -970,6 +974,24 @@ public class mcr68
 		until we spot problems.
 	
 	=================================================================*/
+        
+        public static InitMachinePtr zwackery_init_machine = new InitMachinePtr() {
+            public void handler() {
+            System.out.println("zwackery_init_machine");
+		/* for the most part all MCR/68k games are the same */
+		mcr68_common_init();
+		v493_callback = zwackery_493_callback;
+	
+		/* append our PIA state onto the existing one and reinit */
+		pia_config(2, PIA_STANDARD_ORDERING | PIA_16BIT_UPPER, zwackery_pia_2_intf);
+		pia_config(3, PIA_STANDARD_ORDERING | PIA_16BIT_LOWER, zwackery_pia_3_intf);
+		pia_config(4, PIA_STANDARD_ORDERING | PIA_16BIT_LOWER, zwackery_pia_4_intf);
+		pia_reset();
+	
+		/* vectors are 5 and 6 */
+		v493_irq_vector = 5;
+		m6840_irq_vector = 6;
+	} };
 	
 	static MachineDriver machine_driver_zwackery = new MachineDriver
 	(
@@ -1002,10 +1024,10 @@ public class mcr68
 	
 		/* sound hardware */
 		SOUND_SUPPORTS_STEREO,0,0,0,
-                        new MachineSound[] {
-			SOUND_CHIP_SQUEAK_DELUXE
-		},
-                
+/*TODO*///                new MachineSound[] {
+/*TODO*///			SOUND_CHIP_SQUEAK_DELUXE
+/*TODO*///		},
+                null,
                 
 		null
 	);
@@ -1051,6 +1073,54 @@ public class mcr68
 /*TODO*///	MACHINE_DRIVER_MCR68(xenophob, mcr68,    SOUNDS_GOOD)
 /*TODO*///	MACHINE_DRIVER_MCR68(spyhunt2, mcr68,    TURBO_CHIP_SQUEAK_PLUS_SOUNDS_GOOD)
 /*TODO*///	MACHINE_DRIVER_MCR68(archrivl, mcr68,    WILLIAMS_CVSD)
+        public static InitMachinePtr mcr68_init_machine = new InitMachinePtr() { public void handler() 
+	{
+		/* for the most part all MCR/68k games are the same */
+		mcr68_common_init();
+		v493_callback = mcr68_493_callback;
+	
+		/* vectors are 1 and 2 */
+		v493_irq_vector = 1;
+		m6840_irq_vector = 2;
+	} };
+        
+	static MachineDriver machine_driver_archrivl = new MachineDriver
+	(														
+		/* basic machine hardware */						
+		new MachineCPU[] {													
+			new MachineCPU(												
+				CPU_M68000,									
+				7723800,	/* 8 MHz */						
+				mcr68_readmem,mcr68_writemem,null,null,		
+				mcr68_interrupt,1							
+			)
+/*TODO*///                        ,SOUND_CPU_WILLIAMS_CVSD								
+		},													
+		30, DEFAULT_REAL_30HZ_VBLANK_DURATION,				
+		1,													
+		mcr68_init_machine,									
+															
+		/* video hardware */								
+		32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),			
+		gfxdecodeinfo,										
+		8*16, 8*16,											
+		null,													
+															
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,			
+		null,													
+		generic_vh_start,									
+		generic_vh_stop,									
+		mcr68_vh_screenrefresh,								
+															
+		/* sound hardware */								
+		SOUND_SUPPORTS_STEREO,0,0,0,						
+/*TODO*///		new MachineSound[] {													
+/*TODO*///			SOUND_WILLIAMS_CVSD									
+/*TODO*///		},
+                null,
+                
+		null													
+	);        
 /*TODO*///	MACHINE_DRIVER_MCR68(pigskin,  pigskin,  WILLIAMS_CVSD)
 /*TODO*///	MACHINE_DRIVER_MCR68(trisport, trisport, WILLIAMS_CVSD)
 	
@@ -1220,53 +1290,53 @@ public class mcr68
 /*TODO*///		ROM_LOAD( "fg2",  0x40000, 0x20000, 0x8891f6f8 );
 /*TODO*///		ROM_LOAD( "fg3",  0x60000, 0x20000, 0x18e4a130 );
 /*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_archrivl = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
-/*TODO*///		ROM_LOAD_EVEN( "3c-rev2",  0x00000, 0x10000, 0x60d4b760 );
-/*TODO*///		ROM_LOAD_ODD ( "3b-rev2",  0x00000, 0x10000, 0xe0c07a8d );
-/*TODO*///		ROM_LOAD_EVEN( "2c-rev2",  0x20000, 0x10000, 0xcc2893f7 );
-/*TODO*///		ROM_LOAD_ODD ( "2b-rev2",  0x20000, 0x10000, 0xfa977050 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x70000, REGION_CPU2 ); /* Audio System board */
-/*TODO*///		ROM_LOAD( "u4.snd",  0x10000, 0x08000, 0x96b3c652 );
-/*TODO*///		ROM_LOAD( "u19.snd", 0x30000, 0x08000, 0xc4b3dc23 );
-/*TODO*///		ROM_LOAD( "u20.snd", 0x50000, 0x08000, 0xf7907a02 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "11d-rev1",  0x00000, 0x10000, 0x7eb3d7c6 );
-/*TODO*///		ROM_LOAD( "12d-rev1",  0x10000, 0x10000, 0x31e68050 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x80000, REGION_GFX2 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "7j-rev1",   0x00000, 0x20000, 0x148ce28c );
-/*TODO*///		ROM_LOAD( "8j-rev1",   0x20000, 0x20000, 0x58187ac2 );
-/*TODO*///		ROM_LOAD( "9j-rev1",   0x40000, 0x20000, 0x0dd1204e );
-/*TODO*///		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	static RomLoadPtr rom_archriv2 = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
-/*TODO*///		ROM_LOAD_EVEN( "archrivl.4",  0x00000, 0x10000, 0x3c545740 );
-/*TODO*///		ROM_LOAD_ODD ( "archrivl.2",  0x00000, 0x10000, 0xbc4df2b9 );
-/*TODO*///		ROM_LOAD_EVEN( "archrivl.3",  0x20000, 0x10000, 0xd6d08ff7 );
-/*TODO*///		ROM_LOAD_ODD ( "archrivl.1",  0x20000, 0x10000, 0x92f3a43d );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x70000, REGION_CPU2 ); /* Audio System board */
-/*TODO*///		ROM_LOAD( "u4.snd",  0x10000, 0x08000, 0x96b3c652 );
-/*TODO*///		ROM_LOAD( "u19.snd", 0x30000, 0x08000, 0xc4b3dc23 );
-/*TODO*///		ROM_LOAD( "u20.snd", 0x50000, 0x08000, 0xf7907a02 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "11d-rev1",  0x00000, 0x10000, 0x7eb3d7c6 );
-/*TODO*///		ROM_LOAD( "12d-rev1",  0x10000, 0x10000, 0x31e68050 );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x80000, REGION_GFX2 | REGIONFLAG_DISPOSE );
-/*TODO*///		ROM_LOAD( "7j-rev1",   0x00000, 0x20000, 0x148ce28c );
-/*TODO*///		ROM_LOAD( "8j-rev1",   0x20000, 0x20000, 0x58187ac2 );
-/*TODO*///		ROM_LOAD( "9j-rev1",   0x40000, 0x20000, 0x0dd1204e );
-/*TODO*///		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
+	
+	static RomLoadPtr rom_archrivl = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );
+		ROM_LOAD_EVEN( "3c-rev2",  0x00000, 0x10000, 0x60d4b760 );
+		ROM_LOAD_ODD ( "3b-rev2",  0x00000, 0x10000, 0xe0c07a8d );
+		ROM_LOAD_EVEN( "2c-rev2",  0x20000, 0x10000, 0xcc2893f7 );
+		ROM_LOAD_ODD ( "2b-rev2",  0x20000, 0x10000, 0xfa977050 );
+	
+		ROM_REGION( 0x70000, REGION_CPU2 ); /* Audio System board */
+		ROM_LOAD( "u4.snd",  0x10000, 0x08000, 0x96b3c652 );
+		ROM_LOAD( "u19.snd", 0x30000, 0x08000, 0xc4b3dc23 );
+		ROM_LOAD( "u20.snd", 0x50000, 0x08000, 0xf7907a02 );
+	
+		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "11d-rev1",  0x00000, 0x10000, 0x7eb3d7c6 );
+		ROM_LOAD( "12d-rev1",  0x10000, 0x10000, 0x31e68050 );
+	
+		ROM_REGION( 0x80000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "7j-rev1",   0x00000, 0x20000, 0x148ce28c );
+		ROM_LOAD( "8j-rev1",   0x20000, 0x20000, 0x58187ac2 );
+		ROM_LOAD( "9j-rev1",   0x40000, 0x20000, 0x0dd1204e );
+		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
+	ROM_END(); }}; 
+	
+	static RomLoadPtr rom_archriv2 = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );
+		ROM_LOAD_EVEN( "archrivl.4",  0x00000, 0x10000, 0x3c545740 );
+		ROM_LOAD_ODD ( "archrivl.2",  0x00000, 0x10000, 0xbc4df2b9 );
+		ROM_LOAD_EVEN( "archrivl.3",  0x20000, 0x10000, 0xd6d08ff7 );
+		ROM_LOAD_ODD ( "archrivl.1",  0x20000, 0x10000, 0x92f3a43d );
+	
+		ROM_REGION( 0x70000, REGION_CPU2 ); /* Audio System board */
+		ROM_LOAD( "u4.snd",  0x10000, 0x08000, 0x96b3c652 );
+		ROM_LOAD( "u19.snd", 0x30000, 0x08000, 0xc4b3dc23 );
+		ROM_LOAD( "u20.snd", 0x50000, 0x08000, 0xf7907a02 );
+	
+		ROM_REGION( 0x20000, REGION_GFX1 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "11d-rev1",  0x00000, 0x10000, 0x7eb3d7c6 );
+		ROM_LOAD( "12d-rev1",  0x10000, 0x10000, 0x31e68050 );
+	
+		ROM_REGION( 0x80000, REGION_GFX2 | REGIONFLAG_DISPOSE );
+		ROM_LOAD( "7j-rev1",   0x00000, 0x20000, 0x148ce28c );
+		ROM_LOAD( "8j-rev1",   0x20000, 0x20000, 0x58187ac2 );
+		ROM_LOAD( "9j-rev1",   0x40000, 0x20000, 0x0dd1204e );
+		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
+	ROM_END(); }}; 
+	
 /*TODO*///	static RomLoadPtr rom_pigskin = new RomLoadPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "pigskin.a5",  0x00000, 0x10000, 0xab61c29b );
@@ -1389,40 +1459,40 @@ public class mcr68
 /*TODO*///	
 /*TODO*///		rom_decode();
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static public static InitDriverPtr init_archrivl = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
-/*TODO*///	
-/*TODO*///		mcr68_sprite_clip = 16;
-/*TODO*///		mcr68_sprite_xoffset = 0;
-/*TODO*///	
-/*TODO*///		/* Arch Rivals doesn't care too much about this value; currently taken from Blasted */
-/*TODO*///		mcr68_timing_factor = (256.0 + 16.0) / (double)(Machine.drv.cpu[0].cpu_clock / 10);
-/*TODO*///	
-/*TODO*///		/* handle control writes */
-/*TODO*///		install_mem_write_handler(0, 0x0c0000, 0x0cffff, archrivl_control_w);
-/*TODO*///	
-/*TODO*///		/* 49-way joystick handling is a bit tricky */
-/*TODO*///		install_mem_read_handler(0, 0x0e0000, 0x0effff, archrivl_port_1_r);
-/*TODO*///	
-/*TODO*///		/* 6840 is mapped to the lower 8 bits */
-/*TODO*///		install_mem_write_handler(0, 0x0a0000, 0x0a000f, mcr68_6840_lower_w);
-/*TODO*///		install_mem_read_handler(0, 0x0a0000, 0x0a000f, mcr68_6840_lower_r);
-/*TODO*///	
-/*TODO*///		/* expand the sound ROMs */
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x18000], &memory_region(REGION_CPU2)[0x10000], 0x08000);
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x20000], &memory_region(REGION_CPU2)[0x10000], 0x10000);
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x38000], &memory_region(REGION_CPU2)[0x30000], 0x08000);
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x40000], &memory_region(REGION_CPU2)[0x30000], 0x10000);
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x58000], &memory_region(REGION_CPU2)[0x50000], 0x08000);
-/*TODO*///		memcpy(&memory_region(REGION_CPU2)[0x60000], &memory_region(REGION_CPU2)[0x50000], 0x10000);
-/*TODO*///	
-/*TODO*///		rom_decode();
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
+	
+	
+	public static InitDriverPtr init_archrivl = new InitDriverPtr() { public void handler() 
+	{
+		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
+	
+		mcr68_sprite_clip = 16;
+		mcr68_sprite_xoffset = 0;
+	
+		/* Arch Rivals doesn't care too much about this value; currently taken from Blasted */
+		mcr68_timing_factor = (256.0 + 16.0) / (double)(Machine.drv.cpu[0].cpu_clock / 10);
+	
+		/* handle control writes */
+		install_mem_write_handler(0, 0x0c0000, 0x0cffff, archrivl_control_w);
+	
+		/* 49-way joystick handling is a bit tricky */
+		install_mem_read_handler(0, 0x0e0000, 0x0effff, archrivl_port_1_r);
+	
+		/* 6840 is mapped to the lower 8 bits */
+		install_mem_write_handler(0, 0x0a0000, 0x0a000f, mcr68_6840_lower_w);
+		install_mem_read_handler(0, 0x0a0000, 0x0a000f, mcr68_6840_lower_r);
+	
+		/* expand the sound ROMs */
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x18000), new UBytePtr(memory_region(REGION_CPU2), 0x10000), 0x08000);
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x20000), new UBytePtr(memory_region(REGION_CPU2), 0x10000), 0x10000);
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x38000), new UBytePtr(memory_region(REGION_CPU2), 0x30000), 0x08000);
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x40000), new UBytePtr(memory_region(REGION_CPU2), 0x30000), 0x10000);
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x58000), new UBytePtr(memory_region(REGION_CPU2), 0x50000), 0x08000);
+		memcpy(new UBytePtr(memory_region(REGION_CPU2), 0x60000), new UBytePtr(memory_region(REGION_CPU2), 0x50000), 0x10000);
+	
+		rom_decode();
+	} };
+	
+	
 /*TODO*///	static public static InitDriverPtr init_pigskin = new InitDriverPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
@@ -1482,8 +1552,8 @@ public class mcr68
 /*TODO*///	public static GameDriver driver_spyhunt2	   = new GameDriver("1987"	,"spyhunt2"	,"mcr68.java"	,rom_spyhunt2,null	,machine_driver_spyhunt2	,input_ports_spyhunt2	,init_spyhunt2	,ROT0	,	"Bally Midway", "Spy Hunter 2 (rev 2)" )
 /*TODO*///	public static GameDriver driver_spyhnt2a	   = new GameDriver("1987"	,"spyhnt2a"	,"mcr68.java"	,rom_spyhnt2a,driver_spyhunt2	,machine_driver_spyhunt2	,input_ports_spyhunt2	,init_spyhunt2	,ROT0	,	"Bally Midway", "Spy Hunter 2 (rev 1)" )
 /*TODO*///	public static GameDriver driver_blasted	   = new GameDriver("1988"	,"blasted"	,"mcr68.java"	,rom_blasted,null	,machine_driver_xenophob	,input_ports_blasted	,init_blasted	,ROT0	,	"Bally Midway", "Blasted" )
-/*TODO*///	public static GameDriver driver_archrivl	   = new GameDriver("1989"	,"archrivl"	,"mcr68.java"	,rom_archrivl,null	,machine_driver_archrivl	,input_ports_archrivl	,init_archrivl	,ROT0	,	"Bally Midway", "Arch Rivals (rev 4.0)" )
-/*TODO*///	public static GameDriver driver_archriv2	   = new GameDriver("1989"	,"archriv2"	,"mcr68.java"	,rom_archriv2,driver_archrivl	,machine_driver_archrivl	,input_ports_archrivl	,init_archrivl	,ROT0	,	"Bally Midway", "Arch Rivals (rev 2.0)" )
+	public static GameDriver driver_archrivl	   = new GameDriver("1989"	,"archrivl"	,"mcr68.java"	,rom_archrivl,null	,machine_driver_archrivl	,input_ports_archrivl	,init_archrivl	,ROT0	,	"Bally Midway", "Arch Rivals (rev 4.0)" );
+	public static GameDriver driver_archriv2	   = new GameDriver("1989"	,"archriv2"	,"mcr68.java"	,rom_archriv2,driver_archrivl	,machine_driver_archrivl	,input_ports_archrivl	,init_archrivl	,ROT0	,	"Bally Midway", "Arch Rivals (rev 2.0)" );
 /*TODO*///	public static GameDriver driver_trisport	   = new GameDriver("1989"	,"trisport"	,"mcr68.java"	,rom_trisport,null	,machine_driver_trisport	,input_ports_trisport	,init_trisport	,ROT270	,	"Bally Midway", "Tri-Sports" )
 /*TODO*///	public static GameDriver driver_pigskin	   = new GameDriver("1990"	,"pigskin"	,"mcr68.java"	,rom_pigskin,null	,machine_driver_pigskin	,input_ports_pigskin	,init_pigskin	,ROT0	,	"Bally Midway", "Pigskin 621AD" )
 }

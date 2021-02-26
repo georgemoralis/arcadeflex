@@ -376,7 +376,7 @@ public class atarisy1
 		if (oldword != newword)
 		{
 			atarigen_playfieldram.WRITE_WORD(offset, newword);
-			atarigen_pf_dirty[offset / 2] = 0xff;
+			atarigen_pf_dirty.write(offset / 2, 0xff);
 		}
 	} };
 	

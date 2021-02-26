@@ -14,6 +14,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.tms5110r.*;
 
 public class tms5220 {
 
+
     /* Pull in the ROM tables */
  /* these contain data that describes the 128-bit data FIFO */
     public static final int FIFO_SIZE = 16;
@@ -201,7 +202,7 @@ public class tms5220 {
         for (;;) {
 
             /* if we're not speaking, parse commands */
-            while (u8_speak_external != 0 && u8_fifo_count > 0) {
+            while (u8_speak_external == 0 && u8_fifo_count > 0) {
                 process_command();
             }
 
@@ -213,7 +214,7 @@ public class tms5220 {
                     buf_count++;
                     size--;
                 }
-                break;
+                return;
             }
 
             /* if we're to speak, but haven't started, wait for the 9th byte */
@@ -225,7 +226,7 @@ public class tms5220 {
                         buf_count++;
                         size--;
                     }
-                    break;
+                    return;
                 }
 
                 /* parse but don't remove the first frame, and set the status to 1 */

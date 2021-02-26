@@ -36,8 +36,8 @@ public class mcr68
 /*TODO*///  	#define LOW_BYTE(x) (READ_WORD(x) & 0xff)
 /*TODO*///  	
 /*TODO*///  	
-/*TODO*///  	UINT8 mcr68_sprite_clip;
-/*TODO*///  	INT8 mcr68_sprite_xoffset;
+  	public static int mcr68_sprite_clip;
+  	public static int mcr68_sprite_xoffset;
 /*TODO*///  	
 /*TODO*///  	
 /*TODO*///  	#define DEBUG_VIDEO		0
@@ -50,209 +50,209 @@ public class mcr68
 /*TODO*///  	static void mcr68_debug();
 /*TODO*///  	static void zwackery_debug();
 /*TODO*///  	#endif
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	/*************************************
-/*TODO*///  	 *
-/*TODO*///  	 *	Palette RAM writes
-/*TODO*///  	 *
-/*TODO*///  	 *************************************/
-/*TODO*///  	
-/*TODO*///  	public static WriteHandlerPtr mcr68_paletteram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///  	{
-/*TODO*///  		int oldword = READ_WORD(&paletteram.read(offset));
-/*TODO*///  		int newword = COMBINE_WORD(oldword, data);
-/*TODO*///  		int r, g, b;
-/*TODO*///  	
-/*TODO*///  		WRITE_WORD(&paletteram.read(offset), newword);
-/*TODO*///  	
-/*TODO*///  		r = (newword >> 6) & 7;
-/*TODO*///  		b = (newword >> 3) & 7;
-/*TODO*///  		g = (newword >> 0) & 7;
-/*TODO*///  	
-/*TODO*///  		/* up to 8 bits */
-/*TODO*///  		r = (r << 5) | (r << 2) | (r >> 1);
-/*TODO*///  		g = (g << 5) | (g << 2) | (g >> 1);
-/*TODO*///  		b = (b << 5) | (b << 2) | (b >> 1);
-/*TODO*///  	
-/*TODO*///  		palette_change_color(offset / 2, r, g, b);
-/*TODO*///  	} };
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	/*************************************
-/*TODO*///  	 *
-/*TODO*///  	 *	Video RAM writes
-/*TODO*///  	 *
-/*TODO*///  	 *************************************/
-/*TODO*///  	
-/*TODO*///  	public static WriteHandlerPtr mcr68_videoram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///  	{
-/*TODO*///  		int oldword = READ_WORD(&videoram.read(offset));
-/*TODO*///  		int newword = COMBINE_WORD(oldword, data);
-/*TODO*///  	
-/*TODO*///  		if (oldword != newword)
-/*TODO*///  		{
-/*TODO*///  			dirtybuffer[offset & ~3] = 1;
-/*TODO*///  			WRITE_WORD(&videoram.read(offset), newword);
-/*TODO*///  		}
-/*TODO*///  	} };
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	/*************************************
-/*TODO*///  	 *
-/*TODO*///  	 *	Background update
-/*TODO*///  	 *
-/*TODO*///  	 *************************************/
-/*TODO*///  	
-/*TODO*///  	static void mcr68_update_background(struct osd_bitmap *bitmap, int overrender)
-/*TODO*///  	{
-/*TODO*///  		int offs;
-/*TODO*///  	
-/*TODO*///  		/* for every character in the Video RAM, check if it has been modified */
-/*TODO*///  		/* since last time and update it accordingly. */
-/*TODO*///  		for (offs = videoram_size - 4; offs >= 0; offs -= 4)
-/*TODO*///  		{
-/*TODO*///  			/* this works for overrendering as well, since the sprite code will mark */
-/*TODO*///  			/* intersecting tiles for us */
-/*TODO*///  			if (dirtybuffer[offs])
-/*TODO*///  			{
-/*TODO*///  				int mx = (offs / 4) % 32;
-/*TODO*///  				int my = (offs / 4) / 32;
-/*TODO*///  				int attr = LOW_BYTE(&videoram.read(offs + 2));
-/*TODO*///  				int color = (attr & 0x30) >> 4;
-/*TODO*///  				int code = LOW_BYTE(&videoram.read(offs)) + 256 * (attr & 0x03) + 1024 * ((attr >> 6) & 0x03);
-/*TODO*///  	
-/*TODO*///  				if (!overrender)
-/*TODO*///  					drawgfx(bitmap, Machine.gfx[0], code, color ^ 3, attr & 0x04, attr & 0x08,
-/*TODO*///  							16 * mx, 16 * my, &Machine.visible_area, TRANSPARENCY_NONE, 0);
-/*TODO*///  				else if (Machine.gfx[0].total_elements < 0x1000 && (attr & 0x80))
-/*TODO*///  					drawgfx(bitmap, Machine.gfx[0], code, color ^ 3, attr & 0x04, attr & 0x08,
-/*TODO*///  							16 * mx, 16 * my, &Machine.visible_area, TRANSPARENCY_PEN, 0);
-/*TODO*///  				else
-/*TODO*///  					continue;
-/*TODO*///  	
-/*TODO*///  				/* only clear the dirty flag if we're not overrendering */
-/*TODO*///  				dirtybuffer[offs] = 0;
-/*TODO*///  			}
-/*TODO*///  		}
-/*TODO*///  	}
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	/*************************************
-/*TODO*///  	 *
-/*TODO*///  	 *	Sprite update
-/*TODO*///  	 *
-/*TODO*///  	 *************************************/
-/*TODO*///  	
-/*TODO*///  	static void mcr68_update_sprites(struct osd_bitmap *bitmap, int priority)
-/*TODO*///  	{
-/*TODO*///  		struct rectangle sprite_clip = Machine.visible_area;
-/*TODO*///  		int offs;
-/*TODO*///  	
-/*TODO*///  		/* adjust for clipping */
-/*TODO*///  		sprite_clip.min_x += mcr68_sprite_clip;
-/*TODO*///  		sprite_clip.max_x -= mcr68_sprite_clip;
-/*TODO*///  	
-/*TODO*///  		/* loop over sprite RAM */
-/*TODO*///  		for (offs = 0; offs < spriteram_size; offs += 8)
-/*TODO*///  		{
-/*TODO*///  			int code, color, flipx, flipy, x, y, sx, sy, xcount, ycount, flags;
-/*TODO*///  	
-/*TODO*///  			flags = LOW_BYTE(&spriteram.read(offs + 2));
-/*TODO*///  			code = LOW_BYTE(&spriteram.read(offs + 4)) + 256 * ((flags >> 3) & 0x01) + 512 * ((flags >> 6) & 0x03);
-/*TODO*///  	
-/*TODO*///  			/* skip if zero */
-/*TODO*///  			if (code == 0)
-/*TODO*///  				continue;
-/*TODO*///  	
-/*TODO*///  			/* also skip if this isn't the priority we're drawing right now */
-/*TODO*///  			if (((flags >> 2) & 1) != priority)
-/*TODO*///  				continue;
-/*TODO*///  	
-/*TODO*///  			/* extract the bits of information */
-/*TODO*///  			color = ~flags & 0x03;
-/*TODO*///  			flipx = flags & 0x10;
-/*TODO*///  			flipy = flags & 0x20;
-/*TODO*///  			x = LOW_BYTE(&spriteram.read(offs + 6)) * 2 + mcr68_sprite_xoffset;
-/*TODO*///  			y = (241 - LOW_BYTE(&spriteram.read(offs))) * 2;
-/*TODO*///  	
-/*TODO*///  			/* allow sprites to clip off the left side */
-/*TODO*///  			if (x > 0x1f0) x -= 0x200;
-/*TODO*///  	
-/*TODO*///  			/* draw the sprite */
-/*TODO*///  			drawgfx(bitmap, Machine.gfx[1], code, color, flipx, flipy, x, y,
-/*TODO*///  					&sprite_clip, TRANSPARENCY_PEN, 0);
-/*TODO*///  	
-/*TODO*///  			/* sprites use color 0 for background pen and 8 for the 'under tile' pen.
-/*TODO*///  				The color 8 is used to cover over other sprites. */
-/*TODO*///  			if (Machine.gfx[1].pen_usage[code] & 0x0100)
-/*TODO*///  			{
-/*TODO*///  				struct rectangle clip;
-/*TODO*///  	
-/*TODO*///  				clip.min_x = x;
-/*TODO*///  				clip.max_x = x + 31;
-/*TODO*///  				clip.min_y = y;
-/*TODO*///  				clip.max_y = y + 31;
-/*TODO*///  	
-/*TODO*///  				copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, &clip, TRANSPARENCY_THROUGH, Machine.pens[8 + color * 16]);
-/*TODO*///  			}
-/*TODO*///  	
-/*TODO*///  			/* mark tiles underneath as dirty for overrendering */
-/*TODO*///  			if (priority == 0)
-/*TODO*///  			{
-/*TODO*///  				sx = x / 16;
-/*TODO*///  				sy = y / 16;
-/*TODO*///  				xcount = (x & 15) ? 3 : 2;
-/*TODO*///  				ycount = (y & 15) ? 3 : 2;
-/*TODO*///  	
-/*TODO*///  				for (y = sy; y < sy + ycount; y++)
-/*TODO*///  					for (x = sx; x < sx + xcount; x++)
-/*TODO*///  						if (x >= 0 && x < 32 && y >= 0 && y < 30)
-/*TODO*///  							dirtybuffer[(32 * y + x) * 4] = 1;
-/*TODO*///  			}
-/*TODO*///  		}
-/*TODO*///  	}
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	/*************************************
-/*TODO*///  	 *
-/*TODO*///  	 *	General MCR/68k update
-/*TODO*///  	 *
-/*TODO*///  	 *************************************/
-/*TODO*///  	
-/*TODO*///  	public static VhUpdatePtr mcr68_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
-/*TODO*///  	{
+  	
+  	
+  	
+  	/*************************************
+  	 *
+  	 *	Palette RAM writes
+  	 *
+  	 *************************************/
+  	
+  	public static WriteHandlerPtr mcr68_paletteram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+  	{
+  		int oldword = paletteram.READ_WORD(offset);
+  		int newword = COMBINE_WORD(oldword, data);
+  		int r, g, b;
+  	
+  		paletteram.WRITE_WORD(offset, newword);
+  	
+  		r = (newword >> 6) & 7;
+  		b = (newword >> 3) & 7;
+  		g = (newword >> 0) & 7;
+  	
+  		/* up to 8 bits */
+  		r = (r << 5) | (r << 2) | (r >> 1);
+  		g = (g << 5) | (g << 2) | (g >> 1);
+  		b = (b << 5) | (b << 2) | (b >> 1);
+  	
+  		palette_change_color(offset / 2, r, g, b);
+  	} };
+  	
+  	
+  	
+  	/*************************************
+  	 *
+  	 *	Video RAM writes
+  	 *
+  	 *************************************/
+  	
+  	public static WriteHandlerPtr mcr68_videoram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+  	{
+  		int oldword = videoram.READ_WORD(offset);
+  		int newword = COMBINE_WORD(oldword, data);
+  	
+  		if (oldword != newword)
+  		{
+  			dirtybuffer[offset & ~3] = 1;
+  			videoram.WRITE_WORD(offset, newword);
+  		}
+  	} };
+  	
+  	
+  	
+  	/*************************************
+  	 *
+  	 *	Background update
+  	 *
+  	 *************************************/
+  	
+  	static void mcr68_update_background(osd_bitmap bitmap, int overrender)
+  	{
+  		int offs;
+  	
+  		/* for every character in the Video RAM, check if it has been modified */
+  		/* since last time and update it accordingly. */
+  		for (offs = videoram_size[0] - 4; offs >= 0; offs -= 4)
+  		{
+  			/* this works for overrendering as well, since the sprite code will mark */
+  			/* intersecting tiles for us */
+  			if (dirtybuffer[offs] != 0)
+  			{
+  				int mx = (offs / 4) % 32;
+  				int my = (offs / 4) / 32;
+  				int attr = videoram.READ_WORD(offs + 2) & 0xff;
+  				int color = (attr & 0x30) >> 4;
+  				int code = (videoram.READ_WORD(offs) & 0xff) + 256 * (attr & 0x03) + 1024 * ((attr >> 6) & 0x03);
+  	
+  				if (overrender==0)
+  					drawgfx(bitmap, Machine.gfx[0], code, color ^ 3, attr & 0x04, attr & 0x08,
+  							16 * mx, 16 * my, Machine.visible_area, TRANSPARENCY_NONE, 0);
+  				else if (Machine.gfx[0].total_elements < 0x1000 && (attr & 0x80)!=0)
+  					drawgfx(bitmap, Machine.gfx[0], code, color ^ 3, attr & 0x04, attr & 0x08,
+  							16 * mx, 16 * my, Machine.visible_area, TRANSPARENCY_PEN, 0);
+  				else
+  					continue;
+  	
+  				/* only clear the dirty flag if we're not overrendering */
+  				dirtybuffer[offs] = 0;
+  			}
+  		}
+  	}
+  	
+  	
+  	
+  	/*************************************
+  	 *
+  	 *	Sprite update
+  	 *
+  	 *************************************/
+  	
+  	static void mcr68_update_sprites(osd_bitmap bitmap, int priority)
+  	{
+  		rectangle sprite_clip = new rectangle(Machine.visible_area);
+  		int offs;
+  	
+  		/* adjust for clipping */
+  		sprite_clip.min_x += mcr68_sprite_clip;
+  		sprite_clip.max_x -= mcr68_sprite_clip;
+  	
+  		/* loop over sprite RAM */
+  		for (offs = 0; offs < spriteram_size[0]; offs += 8)
+  		{
+  			int code, color, flipx, flipy, x, y, sx, sy, xcount, ycount, flags;
+  	
+  			flags = spriteram.READ_WORD(offs + 2) & 0xff;
+  			code = (spriteram.READ_WORD(offs + 4) & 0xff) + 256 * ((flags >> 3) & 0x01) + 512 * ((flags >> 6) & 0x03);
+  	
+  			/* skip if zero */
+  			if (code == 0)
+  				continue;
+  	
+  			/* also skip if this isn't the priority we're drawing right now */
+  			if (((flags >> 2) & 1) != priority)
+  				continue;
+  	
+  			/* extract the bits of information */
+  			color = ~flags & 0x03;
+  			flipx = flags & 0x10;
+  			flipy = flags & 0x20;
+  			x = (spriteram.READ_WORD(offs + 6) & 0xff) * 2 + mcr68_sprite_xoffset;
+  			y = (241 - (spriteram.READ_WORD(offs) & 0xff)) * 2;
+  	
+  			/* allow sprites to clip off the left side */
+  			if (x > 0x1f0) x -= 0x200;
+  	
+  			/* draw the sprite */
+  			drawgfx(bitmap, Machine.gfx[1], code, color, flipx, flipy, x, y,
+  					sprite_clip, TRANSPARENCY_PEN, 0);
+  	
+  			/* sprites use color 0 for background pen and 8 for the 'under tile' pen.
+  				The color 8 is used to cover over other sprites. */
+  			if ((Machine.gfx[1].pen_usage[code] & 0x0100) != 0)
+  			{
+  				rectangle clip = new rectangle();
+  	
+  				clip.min_x = x;
+  				clip.max_x = x + 31;
+  				clip.min_y = y;
+  				clip.max_y = y + 31;
+  	
+  				copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, clip, TRANSPARENCY_THROUGH, Machine.pens[8 + color * 16]);
+  			}
+  	
+  			/* mark tiles underneath as dirty for overrendering */
+  			if (priority == 0)
+  			{
+  				sx = x / 16;
+  				sy = y / 16;
+  				xcount = (x & 15)!=0 ? 3 : 2;
+  				ycount = (y & 15)!=0 ? 3 : 2;
+  	
+  				for (y = sy; y < sy + ycount; y++)
+  					for (x = sx; x < sx + xcount; x++)
+  						if (x >= 0 && x < 32 && y >= 0 && y < 30)
+  							dirtybuffer[(32 * y + x) * 4] = 1;
+  			}
+  		}
+  	}
+  	
+  	
+  	
+  	/*************************************
+  	 *
+  	 *	General MCR/68k update
+  	 *
+  	 *************************************/
+  	
+  	public static VhUpdatePtr mcr68_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+  	{
 /*TODO*///  	#if DEBUG_VIDEO
 /*TODO*///  		mcr68_debug();
 /*TODO*///  	#endif
-/*TODO*///  	
-/*TODO*///  		/* update palette */
-/*TODO*///  		if (palette_recalc())
-/*TODO*///  			memset(dirtybuffer, 1, videoram_size[0]);
-/*TODO*///  	
-/*TODO*///  		/* draw the background */
+  	
+  		/* update palette */
+  		if (palette_recalc() != null)
+  			memset(dirtybuffer, 1, videoram_size[0]);
+  	
+  		/* draw the background */
 /*TODO*///  		mcr68_update_background(tmpbitmap, 0);
-/*TODO*///  	
-/*TODO*///  		/* copy it to the destination */
-/*TODO*///  		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, &Machine.visible_area, TRANSPARENCY_NONE, 0);
-/*TODO*///  	
-/*TODO*///  		/* draw the low-priority sprites */
+  	
+  		/* copy it to the destination */
+/*TODO*///  		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+  	
+  		/* draw the low-priority sprites */
 /*TODO*///  		mcr68_update_sprites(bitmap, 0);
-/*TODO*///  	
-/*TODO*///  	    /* redraw tiles with priority over sprites */
+  	
+  	    /* redraw tiles with priority over sprites */
 /*TODO*///  		mcr68_update_background(bitmap, 1);
-/*TODO*///  	
-/*TODO*///  		/* draw the high-priority sprites */
+  	
+  		/* draw the high-priority sprites */
 /*TODO*///  		mcr68_update_sprites(bitmap, 1);
-/*TODO*///  	} };
-/*TODO*///  	
-/*TODO*///  	
-/*TODO*///  	
+  	} };
+  	
+  	
+  	
 /*TODO*///  	/*************************************
 /*TODO*///  	 *
 /*TODO*///  	 *	General MCR/68k debug
@@ -521,14 +521,14 @@ public class mcr68
   			int code, color, flags;
   	
   			/* get the code and skip if zero */
-  			code = spriteram.read(offs + 4)&0x0f;
+  			code = spriteram.READ_WORD(offs + 4)&0xff;
   			if (code == 0)
   				continue;
   	
   			/* extract the flag bits and determine the color */
   			//flags = LOW_BYTE(&spriteram.read(offs + 2));
-                        flags = spriteram.read(offs + 2)&0x0f;
-  			color = ((~flags >> 2) & 0x0f) | ((flags & 0x02) << 3);
+                        flags = spriteram.READ_WORD(offs + 2)&0xff;
+  			color = ((~flags >> 2) & 0xff) | ((flags & 0x02) << 3);
   	
   			/* mark the appropriate pens */
   			used[color] |= Machine.gfx[1].pen_usage[code];
@@ -559,13 +559,13 @@ public class mcr68
   			int code, color, flipx, flipy, x, y, sx, sy, xcount, ycount, flags;
   	
   			/* get the code and skip if zero */
-  			code = spriteram.read(offs + 4)&0x0f;
+  			code = spriteram.READ_WORD(offs + 4)&0xff;
   			if (code == 0)
   				continue;
   	
   			/* extract the flag bits and determine the color */
-  			flags = spriteram.read(offs + 2) & 0x0f;
-  			color = ((~flags >> 2) & 0x0f) | ((flags & 0x02) << 3);
+  			flags = spriteram.READ_WORD(offs + 2) & 0xff;
+  			color = ((~flags >> 2) & 0xff) | ((flags & 0x02) << 3);
   	
   			/* for low priority, draw everything but color 7 */
   			if (priority==0)
@@ -584,8 +584,8 @@ public class mcr68
   			/* determine flipping and coordinates */
   			flipx = ~flags & 0x40;
   			flipy = flags & 0x80;
-  			x = (231 - (spriteram.read(offs + 6)&0x0f)) * 2;
-  			y = (241 - (spriteram.read(offs)&0x0f)) * 2;
+  			x = (231 - (spriteram.READ_WORD(offs + 6)&0xff)) * 2;
+  			y = (241 - (spriteram.READ_WORD(offs)&0xff)) * 2;
   	
   			if (x <= -32) x += 512;
   	
