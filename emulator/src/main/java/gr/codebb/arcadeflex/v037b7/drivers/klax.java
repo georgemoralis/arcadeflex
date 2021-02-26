@@ -81,9 +81,10 @@ import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
@@ -100,7 +101,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_void_callbackPtr update_interrupts = new atarigen_void_callbackPtr() {
+	static atarigen_int_callbackPtr update_interrupts = new atarigen_int_callbackPtr() {
             @Override
             public void handler() {
                 int newstate = 0;
@@ -115,7 +116,7 @@ public class klax
             }
         };
 	
-	static atarigen_scanline_callbackPtr scanline_update = new atarigen_scanline_callbackPtr() {
+	static timer_callback scanline_update = new timer_callback() {
             @Override
             public void handler(int scanline) {
                 /* update the video */

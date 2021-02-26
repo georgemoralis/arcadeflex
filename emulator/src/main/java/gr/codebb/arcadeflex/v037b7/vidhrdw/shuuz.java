@@ -57,6 +57,7 @@ import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 
 public class shuuz
 {
@@ -217,7 +218,7 @@ public class shuuz
 	 *
 	 *************************************/
 	
-	public static atarigen_ret_int_callbackPtr shuuz_scanline_update = new atarigen_ret_int_callbackPtr() {
+	public static timer_callback shuuz_scanline_update = new timer_callback() {
             @Override
             public void handler(int scanline) {
                 /* update the playfield */
@@ -354,7 +355,7 @@ public class shuuz
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
 		GfxElement gfx = Machine.gfx[0];
-		//osd_bitmap bitmap = (osd_bitmap) param;
+		osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -378,16 +379,16 @@ public class shuuz
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///					if (show_colors != 0)
 /*TODO*///					{
-						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 1, 0, 0, 8 * x + 0, 8 * y, null, TRANSPARENCY_PEN, 0);
-						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 1, 0, 0, 8 * x + 2, 8 * y, null, TRANSPARENCY_PEN, 0);
-						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 0, 0, 0, 8 * x + 1, 8 * y, null, TRANSPARENCY_PEN, 0);
+/*TODO*///						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 1, 0, 0, 8 * x + 0, 8 * y, null, TRANSPARENCY_PEN, 0);
+/*TODO*///						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 1, 0, 0, 8 * x + 2, 8 * y, null, TRANSPARENCY_PEN, 0);
+/*TODO*///						drawgfx(atarigen_pf_bitmap, Machine.uifont, "0123456789ABCDEF".charAt(color), 0, 0, 0, 8 * x + 1, 8 * y, null, TRANSPARENCY_PEN, 0);
 /*TODO*///					}
 /*TODO*///	#endif
 				}
 			}
 	
 		/* then blast the result */
-		copybitmap((osd_bitmap) param, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
+		copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
             }
         };
 	
@@ -403,7 +404,7 @@ public class shuuz
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 pf_overrender_data overrender_data = (pf_overrender_data) param;
 		GfxElement gfx = Machine.gfx[0];
-		osd_bitmap bitmap = overrender_data.bitmap;
+		//osd_bitmap bitmap = overrender_data.bitmap;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -421,7 +422,7 @@ public class shuuz
 					int hflip = data1 & 0x8000;
 					int code = data1 & 0x3fff;
 	
-					drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+					drawgfx(overrender_data.bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
 	
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///					if (show_colors != 0)

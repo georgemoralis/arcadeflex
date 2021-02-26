@@ -177,35 +177,37 @@ public class atarigen
 /*TODO*///		atarigen_sound_int_state = 0;
 /*TODO*///		(*update_int_callback)();
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Video interrupt generator
-/*TODO*///	 *
-/*TODO*///	 *	Standard interrupt routine which sets the video interrupt state.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	int atarigen_video_int_gen(void)
-/*TODO*///	{
-/*TODO*///		atarigen_video_int_state = 1;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Video interrupt acknowledge write handler
-/*TODO*///	 *
-/*TODO*///	 *	Resets the state of the video interrupt.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_video_int_ack_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		atarigen_video_int_state = 0;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///	} };
+	
+	
+	/*
+	 *	Video interrupt generator
+	 *
+	 *	Standard interrupt routine which sets the video interrupt state.
+	 *
+	 */
+	
+	public static InterruptPtr atarigen_video_int_gen = new InterruptPtr() {
+            @Override
+            public int handler() {
+		atarigen_video_int_state = 1;
+		(update_int_callback).handler();
+		return 0;
+            }
+        };
+	
+	
+	/*
+	 *	Video interrupt acknowledge write handler
+	 *
+	 *	Resets the state of the video interrupt.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_video_int_ack_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		atarigen_video_int_state = 0;
+		(update_int_callback).handler();
+	} };
 	
 	
 	/*
@@ -1025,7 +1027,7 @@ public class atarigen
 	--------------------------------------------------------------------------*/
 	
 	/* statics */
-	public static atarigen_ret_int_callbackPtr scanline_callback;
+	public static timer_callback scanline_callback;
 	public static int scanlines_per_callback;
 	public static double scanline_callback_period;
 	public static int last_scanline;
@@ -1039,7 +1041,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static void atarigen_scanline_timer_reset(atarigen_ret_int_callbackPtr update_graphics, int frequency)
+	public static void atarigen_scanline_timer_reset(timer_callback update_graphics, int frequency)
 	{
 		/* set the scanline callback */
 		scanline_callback = update_graphics;
@@ -3116,37 +3118,37 @@ public class atarigen
 	} };
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	6-6-6 RGB expanded palette RAM handler
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_expanded_666_paletteram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		COMBINE_WORD_MEM(&paletteram.read(offset), data);
-/*TODO*///	
-/*TODO*///		if (!(data & 0xff000000))
-/*TODO*///		{
-/*TODO*///			int palentry = offset / 4;
-/*TODO*///			int newword = (READ_WORD(&paletteram.read(palentry * 4)) & 0xff00) | (READ_WORD(&paletteram.read(palentry * 4 + 2)) >> 8);
-/*TODO*///	
-/*TODO*///			int r, g, b;
-/*TODO*///	
-/*TODO*///			r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
-/*TODO*///			g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);
-/*TODO*///			b = ((newword << 1) & 0x3e) | ((newword >> 15) & 1);
-/*TODO*///	
-/*TODO*///			r = (r << 2) | (r >> 4);
-/*TODO*///			g = (g << 2) | (g >> 4);
-/*TODO*///			b = (b << 2) | (b >> 4);
-/*TODO*///	
-/*TODO*///			palette_change_color(palentry & 0x1ff, r, g, b);
-/*TODO*///		}
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
+	/*
+	 *	6-6-6 RGB expanded palette RAM handler
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_expanded_666_paletteram_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		COMBINE_WORD_MEM(paletteram,offset, data);
+	
+		if ((data & 0xff000000)==0)
+		{
+			int palentry = offset / 4;
+			int newword = (paletteram.READ_WORD(palentry * 4) & 0xff00) | (paletteram.READ_WORD(palentry * 4 + 2) >> 8);
+	
+			int r, g, b;
+	
+			r = ((newword >> 9) & 0x3e) | ((newword >> 15) & 1);
+			g = ((newword >> 4) & 0x3e) | ((newword >> 15) & 1);
+			b = ((newword << 1) & 0x3e) | ((newword >> 15) & 1);
+	
+			r = (r << 2) | (r >> 4);
+			g = (g << 2) | (g >> 4);
+			b = (b << 2) | (b >> 4);
+	
+			palette_change_color(palentry & 0x1ff, r, g, b);
+		}
+	} };
+	
+	
 /*TODO*///	/*
 /*TODO*///	 *	CPU unhalter
 /*TODO*///	 *

@@ -63,8 +63,8 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
 
 public class klax
@@ -92,7 +92,8 @@ public class klax
 			2,                   /* number of bytes between MO words */
 			0,                   /* ignore an entry if this word == 0xffff */
 			0, 0, 0xff,          /* link = (data[linkword] >> linkshift) & linkmask */
-			0                    /* render in reverse link order */
+			0,                    /* render in reverse link order */
+                        0
 		);
 	
 		atarigen_pf_desc pf_desc = new atarigen_pf_desc
@@ -258,7 +259,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callbackPtr pf_color_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 int[] usage = Machine.gfx[0].pen_usage;
@@ -289,7 +290,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callbackPtr pf_render_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_render_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
@@ -328,7 +329,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callbackPtr pf_overrender_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
             @Override
             public void handler(drawgfxH.rectangle clip, drawgfxH.rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
@@ -365,7 +366,7 @@ public class klax
 	
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(IntSubArray data, rectangle clip, Object param) {
+            public void handler(UShortPtr data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		char[] colormap = (char[]) param;
 		int code = data.read(1) & 0x0fff;
@@ -391,7 +392,7 @@ public class klax
 	
 	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(IntSubArray data, rectangle clip, Object param) {
+            public void handler(UShortPtr data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		osd_bitmap bitmap = (osd_bitmap) param;
 		rectangle pf_clip = new rectangle();
