@@ -123,6 +123,42 @@ public class pokeyH {
             this.serout_w=null;
             this.interrupt_cb=null;
         }
+        
+        public POKEYinterface(int num,int baseclock,int[] mixing_level){
+            this.num=num;
+            this.baseclock=baseclock;
+            this.mixing_level=mixing_level;
+            
+            pot0_r = new ReadHandlerPtr[num];
+            pot1_r = new ReadHandlerPtr[num];
+            pot2_r = new ReadHandlerPtr[num];
+            pot3_r = new ReadHandlerPtr[num];
+            pot4_r = new ReadHandlerPtr[num];
+            pot5_r = new ReadHandlerPtr[num];
+            pot6_r = new ReadHandlerPtr[num];
+            pot7_r = new ReadHandlerPtr[num];
+            
+            allpot_r = new ReadHandlerPtr[num];
+            serin_r = new ReadHandlerPtr[num];
+            serout_w = new WriteHandlerPtr[num];
+            interrupt_cb = new interrupt_cbPtr[num];
+            
+            for (int _i=0;_i<num;_i++){
+                pot0_r[_i]=null;
+                pot1_r[_i]=null;
+                pot2_r[_i]=null;
+                pot3_r[_i]=null;
+                pot4_r[_i]=null;
+                pot5_r[_i]=null;
+                pot6_r[_i]=null;
+                pot7_r[_i]=null;
+                allpot_r[_i]=null;
+                serin_r[_i]=null;
+                serout_w[_i]=null;
+                interrupt_cb[_i]=null;
+            }
+        }
+        
         int num;    /* total number of pokeys in the machine */
         int baseclock;
         int[] mixing_level;//[MAXPOKEYS];

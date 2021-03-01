@@ -584,46 +584,48 @@ public class atarigenH
 		gfx.colortable = temp;																				
 	}
 	
-/*TODO*///	#define atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, tile_width, tile_height) \
-/*TODO*///	{																										\
-/*TODO*///		int tiley, screendy;																				\
-/*TODO*///		int screenx = x;																					\
-/*TODO*///		int screeny = y;																					\
-/*TODO*///		int tile = code;																					\
-/*TODO*///																											\
-/*TODO*///		/* clip the X coordinate */																			\
-/*TODO*///		if (screenx > clip.min_x - tile_width && screenx <= clip.max_x)									\
-/*TODO*///		{																									\
-/*TODO*///			/* adjust for v flip */																			\
-/*TODO*///			if (vflip != 0)																						\
-/*TODO*///				screeny += (vsize - 1) * tile_height, screendy = -tile_height;								\
-/*TODO*///			else																							\
-/*TODO*///				screendy = tile_height;																		\
-/*TODO*///																											\
-/*TODO*///			/* loop over the height */																		\
-/*TODO*///			for (tiley = 0; tiley < vsize; tiley++, screeny += screendy, tile++)							\
-/*TODO*///			{																								\
-/*TODO*///				/* clip the Y coordinate */																	\
-/*TODO*///				if (screeny <= clip.min_y - tile_height)													\
-/*TODO*///					continue;																				\
-/*TODO*///				else if (screeny > clip.max_y)																\
-/*TODO*///					break;																					\
-/*TODO*///																											\
-/*TODO*///				/* draw the sprite */																		\
-/*TODO*///				drawgfx(bitmap, gfx, tile, color, hflip, vflip, screenx, screeny, clip, trans, trans_pen);	\
-/*TODO*///			}																								\
-/*TODO*///		}																									\
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	#define atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, tile_width, tile_height) \
-/*TODO*///	{																										\
-/*TODO*///		UINT16 *temp = gfx.colortable;																\
-/*TODO*///		gfx.colortable = atarigen_overrender_colortable;													\
-/*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, 0, hflip, vflip, x, y, vsize, clip, trans, trans_pen, tile_width, tile_height);\
-/*TODO*///		gfx.colortable = temp;																				\
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+        public static void atarigen_mo_draw_strip(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen, int tile_width, int tile_height)
+	{																										
+		int tiley, screendy;																				
+		int screenx = x;																					
+		int screeny = y;																					
+		int tile = code;																					
+																											
+		/* clip the X coordinate */																			
+		if (screenx > clip.min_x - tile_width && screenx <= clip.max_x)									
+		{																									
+			/* adjust for v flip */																			
+			if (vflip != 0){																						
+				screeny += (vsize - 1) * tile_height;
+                                screendy = -tile_height;
+                        } else {
+				screendy = tile_height;
+                        }
+																											
+			/* loop over the height */																		
+			for (tiley = 0; tiley < vsize; tiley++, screeny += screendy, tile++)							
+			{																								
+				/* clip the Y coordinate */																	
+				if (screeny <= clip.min_y - tile_height)													
+					continue;																				
+				else if (screeny > clip.max_y)																
+					break;																					
+																											
+				/* draw the sprite */																		
+				drawgfx(bitmap, gfx, tile, color, hflip, vflip, screenx, screeny, clip, trans, trans_pen);	
+			}																								
+		}																									
+	}
+	
+	public static void atarigen_mo_draw_transparent_strip(osd_bitmap bitmap, GfxElement gfx, int code, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen, int tile_width, int tile_height) 
+	{																										
+		UShortArray temp = new UShortArray(gfx.colortable);
+		gfx.colortable = new UShortArray(atarigen_overrender_colortable);
+		atarigen_mo_draw_strip(bitmap, gfx, code, 0, hflip, vflip, x, y, vsize, clip, trans, trans_pen, tile_width, tile_height);
+		gfx.colortable = temp;
+	}
+	
+	
 	public static void atarigen_mo_draw_8x8(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int hsize, int vsize, rectangle clip, int trans, int trans_pen)
         {
 		atarigen_mo_draw(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 8, 8);
@@ -647,19 +649,22 @@ public class atarigenH
 /*TODO*///		atarigen_mo_draw_transparent(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	#define atarigen_mo_draw_8x8_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8)
-/*TODO*///	
+        public static void atarigen_mo_draw_8x8_strip(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8);
+        }
 /*TODO*///	#define atarigen_mo_draw_16x8_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8)
 /*TODO*///	
 /*TODO*///	#define atarigen_mo_draw_16x16_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	#define atarigen_mo_draw_transparent_8x8_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8)
-/*TODO*///	
+
+	public static void atarigen_mo_draw_transparent_8x8_strip(osd_bitmap bitmap, GfxElement gfx, int code, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8);
+        }
+	
 /*TODO*///	#define atarigen_mo_draw_transparent_16x8_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8)
 /*TODO*///	

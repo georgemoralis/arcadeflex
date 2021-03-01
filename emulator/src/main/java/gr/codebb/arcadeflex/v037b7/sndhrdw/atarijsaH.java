@@ -142,17 +142,19 @@ public class atarijsaH
 /*TODO*///			}													
 /*TODO*///		}
 /*TODO*///	
-/*TODO*///	
-/*TODO*///	/* Common CPU definitions */
-/*TODO*///	#define JSA_I_CPU											
-/*TODO*///		{														
-/*TODO*///			CPU_M6502,											
-/*TODO*///			ATARI_CLOCK_14MHz/8,								
-/*TODO*///			atarijsa1_readmem,atarijsa1_writemem,0,0,			
-/*TODO*///			0,0,												
-/*TODO*///			atarigen_6502_irq_gen,(UINT32)(1000000000.0/((double)ATARI_CLOCK_14MHz/4/4/16/16/14)) 
-/*TODO*///		}
-/*TODO*///	
+	
+	/* Common CPU definitions */
+	public static MachineCPU JSA_I_CPU() {
+        {
+            return (new MachineCPU(											
+			CPU_M6502,											
+			ATARI_CLOCK_14MHz/8,								
+			atarijsa1_readmem,atarijsa1_writemem,null,null,			
+			null,0,												
+			atarigen_6502_irq_gen,(int)(1000000000.0/((double)ATARI_CLOCK_14MHz/4/4/16/16/14))));
+            }
+        }
+	
 /*TODO*///	#define JSA_II_CPU											
 /*TODO*///		{														
 /*TODO*///			CPU_M6502,											
@@ -195,19 +197,20 @@ public class atarijsaH
 /*TODO*///		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_UNUSED );/* output buffer full */
 /*TODO*///		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNUSED );	/* input buffer full */
 /*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
-/*TODO*///	
-/*TODO*///	/* used by Xybots */
-/*TODO*///	#define JSA_I_PORT_SWAPPED									
-/*TODO*///		PORT_START(); 												
-/*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );			
-/*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN1 );			
-/*TODO*///		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_COIN3 );			
-/*TODO*///		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_UNUSED );		
-/*TODO*///		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED );/* speech chip ready */
-/*TODO*///		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_UNUSED );/* output buffer full */
-/*TODO*///		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNUSED );	/* input buffer full */
-/*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
-/*TODO*///	
+	
+	/* used by Xybots */
+	public static void JSA_I_PORT_SWAPPED() {
+		PORT_START(); 												
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );			
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN1 );			
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_COIN3 );			
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_UNUSED );		
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED );/* speech chip ready */
+		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_UNUSED );/* output buffer full */
+		PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_UNUSED );	/* input buffer full */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
+        }
+	
 /*TODO*///	#define JSA_II_PORT											
 /*TODO*///		PORT_START(); 												
 /*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );			

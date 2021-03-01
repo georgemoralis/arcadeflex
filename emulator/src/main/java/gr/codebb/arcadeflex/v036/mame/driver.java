@@ -263,6 +263,9 @@ import static gr.codebb.arcadeflex.v037b7.drivers.ginganin.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr68.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.madmotor.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.arcadecl.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.gauntlet.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.xybots.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.relief.*;
 
 public class driver {
 
@@ -2363,12 +2366,12 @@ public class driver {
                 /*TODO*/ //	DRIVER( apb2 )		/* (c) 1987 */
 
                 /* later Atari games */
-                /*TODO*/ //	DRIVER( gauntlet )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( gauntir1 )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( gauntir2 )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( gaunt2p )	/* (c) 1985 */
-                /*TODO*/ //	DRIVER( gaunt2 )	/* (c) 1986 */
-                /*TODO*/ //	DRIVER( vindctr2 )	/* (c) 1988 */
+                driver_gauntlet,	/* (c) 1985 */
+                driver_gauntir1,	/* (c) 1985 */
+                driver_gauntir2,	/* (c) 1985 */
+                driver_gaunt2p,	/* (c) 1985 */
+                driver_gaunt2,	/* (c) 1986 */
+                driver_vindctr2,	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( toobin )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( toobin2 )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( toobinp )	/* (c) 1988 */
@@ -2379,7 +2382,7 @@ public class driver {
                 driver_klaxj,		/* (c) 1989 (Japan) */
                 /*TODO*/ //	DRIVER( blstroid )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( blstroi2 )	/* (c) 1987 */
-                /*TODO*/ //	DRIVER( xybots )	/* (c) 1987 */
+                driver_xybots,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( eprom )		/* (c) 1989 */
                 /*TODO*/ //	DRIVER( eprom2 )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( skullxbo )	/* (c) 1989 */
@@ -2399,8 +2402,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( pitfigh3 )	/* (c) 1990 */
                 /*TODO*/ //	DRIVER( thunderj )	/* (c) 1990 */
                 driver_batman,	/* (c) 1991 */
-                /*TODO*/ //	DRIVER( relief )	/* (c) 1992 */
-                /*TODO*/ //	DRIVER( relief2 )	/* (c) 1992 */
+                driver_relief,	/* (c) 1992 */
+                driver_relief2,	/* (c) 1992 */
                 /*TODO*/ //	DRIVER( offtwall )	/* (c) 1991 */
                 /*TODO*/ //	DRIVER( offtwalc )	/* (c) 1991 */
                 driver_arcadecl,	/* (c) 1992 */

@@ -37,8 +37,9 @@ import static gr.codebb.arcadeflex.v036.mame.usrintrf.ui_text;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_IRQ;
+import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 
 public class atarigen
 {
@@ -157,19 +158,19 @@ public class atarigen
 	} };
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	Sound interrupt generator
-/*TODO*///	 *
-/*TODO*///	 *	Standard interrupt routine which sets the sound interrupt state.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	int atarigen_sound_int_gen(void)
-/*TODO*///	{
-/*TODO*///		atarigen_sound_int_state = 1;
-/*TODO*///		(*update_int_callback)();
-/*TODO*///		return 0;
-/*TODO*///	}
+	/*
+	 *	Sound interrupt generator
+	 *
+	 *	Standard interrupt routine which sets the sound interrupt state.
+	 *
+	 */
+	
+	public static int atarigen_sound_int_gen()
+	{
+		atarigen_sound_int_state = 1;
+		(update_int_callback).handler();
+		return 0;
+	}
 	
 	
 	/*
@@ -325,10 +326,10 @@ public class atarigen
 		return atarigen_eeprom.READ_WORD(offset) | 0xff00;
 	} };
 	
-/*TODO*///	public static ReadHandlerPtr atarigen_eeprom_upper_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		return READ_WORD(&atarigen_eeprom[offset]) | 0x00ff;
-/*TODO*///	} };
+	public static ReadHandlerPtr atarigen_eeprom_upper_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		return atarigen_eeprom.READ_WORD(offset) | 0x00ff;
+	} };
 	
 	
 	/*
@@ -438,71 +439,71 @@ public class atarigen
 /*TODO*///	--------------------------------------------------------------------------*/
 /*TODO*///	
 /*TODO*///	/* globals */
-/*TODO*///	static UINT8 atarigen_slapstic_num;
-/*TODO*///	static UINT8 *atarigen_slapstic;
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Slapstic initialization
-/*TODO*///	 *
-/*TODO*///	 *	Installs memory handlers for the slapstic and sets the chip number.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_slapstic_init(int cpunum, int base, int chipnum)
-/*TODO*///	{
-/*TODO*///		atarigen_slapstic_num = chipnum;
-/*TODO*///		atarigen_slapstic = NULL;
-/*TODO*///		if (chipnum != 0)
-/*TODO*///		{
-/*TODO*///			slapstic_init(chipnum);
-/*TODO*///			atarigen_slapstic = install_mem_read_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_r);
-/*TODO*///			atarigen_slapstic = install_mem_write_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_w);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Slapstic initialization
-/*TODO*///	 *
-/*TODO*///	 *	Makes the selected slapstic number active and resets its state.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_slapstic_reset(void)
-/*TODO*///	{
-/*TODO*///		if (atarigen_slapstic_num != 0)
-/*TODO*///			slapstic_reset();
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Slapstic write handler
-/*TODO*///	 *
-/*TODO*///	 *	Assuming that the slapstic sits in ROM memory space, we just simply
-/*TODO*///	 *	tweak the slapstic at this address and do nothing more.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_slapstic_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		slapstic_tweak(offset / 2);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Slapstic read handler
-/*TODO*///	 *
-/*TODO*///	 *	Tweaks the slapstic at the appropriate address and then reads a
-/*TODO*///	 *	word from the underlying memory.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_slapstic_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		int bank = slapstic_tweak(offset / 2) * 0x2000;
-/*TODO*///		return READ_WORD(&atarigen_slapstic[bank + (offset & 0x1fff)]);
-/*TODO*///	} };
+	static int atarigen_slapstic_num;
+	static UBytePtr atarigen_slapstic;
+	
+	
+	/*
+	 *	Slapstic initialization
+	 *
+	 *	Installs memory handlers for the slapstic and sets the chip number.
+	 *
+	 */
+	
+	public static void atarigen_slapstic_init(int cpunum, int base, int chipnum)
+	{
+		atarigen_slapstic_num = chipnum;
+		atarigen_slapstic = null;
+		if (chipnum != 0)
+		{
+			slapstic_init(chipnum);
+			atarigen_slapstic = install_mem_read_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_r);
+			atarigen_slapstic = install_mem_write_handler(cpunum, base, base + 0x7fff, atarigen_slapstic_w);
+		}
+	}
+	
+	
+	/*
+	 *	Slapstic initialization
+	 *
+	 *	Makes the selected slapstic number active and resets its state.
+	 *
+	 */
+	
+	public static void atarigen_slapstic_reset()
+	{
+		if (atarigen_slapstic_num != 0)
+			slapstic_reset();
+	}
+	
+	
+	/*
+	 *	Slapstic write handler
+	 *
+	 *	Assuming that the slapstic sits in ROM memory space, we just simply
+	 *	tweak the slapstic at this address and do nothing more.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_slapstic_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		slapstic_tweak(offset / 2);
+	} };
+	
+	
+	/*
+	 *	Slapstic read handler
+	 *
+	 *	Tweaks the slapstic at the appropriate address and then reads a
+	 *	word from the underlying memory.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_slapstic_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		int bank = slapstic_tweak(offset / 2) * 0x2000;
+		return atarigen_slapstic.READ_WORD(bank + (offset & 0x1fff));
+	} };
 	
 	
 	
@@ -555,26 +556,26 @@ public class atarigen
 /*TODO*///	
 /*TODO*///	/* prototypes */
 /*TODO*///	static 
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound I/O reset
-/*TODO*///	 *
-/*TODO*///	 *	Resets the state of the sound I/O.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_sound_io_reset(int cpu_num)
-/*TODO*///	{
-/*TODO*///		/* remember which CPU is the sound CPU */
-/*TODO*///		sound_cpu_num = cpu_num;
-/*TODO*///	
-/*TODO*///		/* reset the internal interrupts states */
-/*TODO*///		timed_int = ym2151_int = 0;
-/*TODO*///	
-/*TODO*///		/* reset the sound I/O states */
-/*TODO*///		atarigen_cpu_to_sound = atarigen_sound_to_cpu = 0;
-/*TODO*///		atarigen_cpu_to_sound_ready = atarigen_sound_to_cpu_ready = 0;
-/*TODO*///	}
+	
+	/*
+	 *	Sound I/O reset
+	 *
+	 *	Resets the state of the sound I/O.
+	 *
+	 */
+	
+	public static void atarigen_sound_io_reset(int cpu_num)
+	{
+		/* remember which CPU is the sound CPU */
+		sound_cpu_num = cpu_num;
+	
+		/* reset the internal interrupts states */
+		timed_int = ym2151_int = 0;
+	
+		/* reset the sound I/O states */
+		atarigen_cpu_to_sound = atarigen_sound_to_cpu = 0;
+		atarigen_cpu_to_sound_ready = atarigen_sound_to_cpu_ready = 0;
+	}
 	
 	
 	/*
@@ -592,41 +593,43 @@ public class atarigen
 	} };
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	6502 IRQ acknowledgement
-/*TODO*///	 *
-/*TODO*///	 *	Resets the IRQ signal to the 6502 sound processor. Both reads and writes can be used.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_6502_irq_ack_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		timed_int = 0;
-/*TODO*///		update_6502_irq();
-/*TODO*///		return 0;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_6502_irq_ack_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		timed_int = 0;
-/*TODO*///		update_6502_irq();
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	YM2151 IRQ generation
-/*TODO*///	 *
-/*TODO*///	 *	Sets the state of the YM2151's IRQ line.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_ym2151_irq_gen(int irq)
-/*TODO*///	{
-/*TODO*///		ym2151_int = irq;
-/*TODO*///		update_6502_irq();
-/*TODO*///	}
+	/*
+	 *	6502 IRQ acknowledgement
+	 *
+	 *	Resets the IRQ signal to the 6502 sound processor. Both reads and writes can be used.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_6502_irq_ack_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		timed_int = 0;
+		update_6502_irq();
+		return 0;
+	} };
+	
+	public static WriteHandlerPtr atarigen_6502_irq_ack_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		timed_int = 0;
+		update_6502_irq();
+	} };
 	
 	
+	/*
+	 *	YM2151 IRQ generation
+	 *
+	 *	Sets the state of the YM2151's IRQ line.
+	 *
+	 */
+	
+	public static WriteYmHandlerPtr atarigen_ym2151_irq_gen = new WriteYmHandlerPtr() {
+            @Override
+            public void handler(int irq) {
+                ym2151_int = irq;
+		update_6502_irq();
+            }
+        };
+        
+        
 	/*
 	 *	Sound CPU write handler
 	 *
@@ -697,34 +700,34 @@ public class atarigen
 /*TODO*///		atarigen_sound_int_ack_w(0, 0);
 /*TODO*///		return (atarigen_sound_to_cpu << 8) | 0x00ff;
 /*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound . main CPU data write handler
-/*TODO*///	 *
-/*TODO*///	 *	Handles communication from the sound CPU to the main CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_6502_sound_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		timer_set(TIME_NOW, data, delayed_6502_sound_w);
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Main . sound CPU data read handler
-/*TODO*///	 *
-/*TODO*///	 *	Handles reading data communicated from the main CPU to the sound CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr atarigen_6502_sound_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		atarigen_cpu_to_sound_ready = 0;
-/*TODO*///		cpu_set_nmi_line(sound_cpu_num, CLEAR_LINE);
-/*TODO*///		return atarigen_cpu_to_sound;
-/*TODO*///	} };
+	
+	
+	/*
+	 *	Sound . main CPU data write handler
+	 *
+	 *	Handles communication from the sound CPU to the main CPU.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_6502_sound_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		timer_set(TIME_NOW, data, delayed_6502_sound_w);
+	} };
+	
+	
+	/*
+	 *	Main . sound CPU data read handler
+	 *
+	 *	Handles reading data communicated from the main CPU to the sound CPU.
+	 *
+	 */
+	
+	public static ReadHandlerPtr atarigen_6502_sound_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		atarigen_cpu_to_sound_ready = 0;
+		cpu_set_nmi_line(sound_cpu_num, CLEAR_LINE);
+		return atarigen_cpu_to_sound;
+	} };
 	
 	
 	/*
@@ -813,28 +816,29 @@ public class atarigen
         };
         
 	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Sound . main data write timer
-/*TODO*///	 *
-/*TODO*///	 *	Synchronizes a data write from the sound CPU to the main CPU.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void delayed_6502_sound_w(int param)
-/*TODO*///	{
-/*TODO*///		/* warn if we missed something */
-/*TODO*///		if (atarigen_sound_to_cpu_ready != 0)
-/*TODO*///			logerror("Missed result from 6502\n");
-/*TODO*///	
-/*TODO*///		/* set up the states and signal the sound interrupt to the main CPU */
-/*TODO*///		atarigen_sound_to_cpu = param;
-/*TODO*///		atarigen_sound_to_cpu_ready = 1;
-/*TODO*///		atarigen_sound_int_gen();
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	
+	/*
+	 *	Sound . main data write timer
+	 *
+	 *	Synchronizes a data write from the sound CPU to the main CPU.
+	 *
+	 */
+	
+	static timer_callback delayed_6502_sound_w = new timer_callback() {
+            @Override
+            public void handler(int param) {
+                /* warn if we missed something */
+		if (atarigen_sound_to_cpu_ready != 0)
+			logerror("Missed result from 6502\n");
+	
+		/* set up the states and signal the sound interrupt to the main CPU */
+		atarigen_sound_to_cpu = param;
+		atarigen_sound_to_cpu_ready = 1;
+		atarigen_sound_int_gen();
+            }
+        };
+	
+	
 /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		Misc sound helpers
@@ -889,84 +893,84 @@ public class atarigen
 	}
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	Set the YM2151 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_ym2151_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
+	/*
+	 *	Set the YM2151 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_ym2151_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
 /*TODO*///			if (name && strstr(name, "2151"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the YM2413 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_ym2413_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Set the YM2413 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_ym2413_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
 /*TODO*///			if (name && strstr(name, "3812"))/*"2413")) -- need this change until 2413 stands alone */
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the POKEY volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_pokey_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Set the POKEY volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_pokey_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
 /*TODO*///			if (name && strstr(name, "POKEY"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the TMS5220 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_tms5220_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
+				mixer_set_volume(ch, volume);
+		}
+	}
+	
+	
+	/*
+	 *	Set the TMS5220 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_tms5220_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
 /*TODO*///			if (name && strstr(name, "5220"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
+				mixer_set_volume(ch, volume);
+		}
+	}
 	
 	
 	/*
@@ -1021,11 +1025,11 @@ public class atarigen
         public static UBytePtr atarigen_playfieldram = new UBytePtr();
         public static UBytePtr atarigen_playfield2ram = new UBytePtr();
         public static UBytePtr atarigen_playfieldram_color = new UBytePtr();
-        public static UBytePtr atarigen_playfield2ram_color;
+        public static UBytePtr atarigen_playfield2ram_color = new UBytePtr();
 	public static UBytePtr atarigen_spriteram = new UBytePtr();
         public static UBytePtr atarigen_alpharam = new UBytePtr();
-        public static UBytePtr atarigen_vscroll;
-        public static UBytePtr atarigen_hscroll;
+        public static UBytePtr atarigen_vscroll = new UBytePtr();
+        public static UBytePtr atarigen_hscroll = new UBytePtr();
 
 	public static int[] atarigen_playfieldram_size  = new int[1];
 	public static int[] atarigen_playfield2ram_size = new int[1];
@@ -1538,9 +1542,11 @@ public class atarigen
 		}
                 
                 //base.offset=_base_index;
+                
+                int _maxSlips = slips.memory.length -1;
 	
 		/* if we're within screen bounds, grab the next batch of MO's and process */
-		if (scanline < Machine.drv.screen_height)
+		if ((scanline < Machine.drv.screen_height) && (slips.offset < _maxSlips))
 		{
 			int pfscanline = (scanline + scroll + 7) & 0x1f8;
 			int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;
