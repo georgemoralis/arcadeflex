@@ -34,6 +34,8 @@ import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.usrintrf.ui_text;
+import static gr.codebb.arcadeflex.v036.sound.mixer.*;
+import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_IRQ;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
@@ -965,26 +967,26 @@ public class atarigen
 /*TODO*///				mixer_set_volume(ch, volume);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Set the OKI6295 volume
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_set_oki6295_vol(int volume)
-/*TODO*///	{
-/*TODO*///		int ch;
-/*TODO*///	
-/*TODO*///		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
-/*TODO*///		{
-/*TODO*///			const char *name = mixer_get_name(ch);
-/*TODO*///			if (name && strstr(name, "6295"))
-/*TODO*///				mixer_set_volume(ch, volume);
-/*TODO*///		}
-/*TODO*///	}
+	
+	
+	/*
+	 *	Set the OKI6295 volume
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_set_oki6295_vol(int volume)
+	{
+		int ch;
+	
+		for (ch = 0; ch < MIXER_MAX_CHANNELS; ch++)
+		{
+			String name = mixer_get_name(ch);
+/*TODO*///			if (name!=null && strstr(name, "6295"))
+				mixer_set_volume(ch, volume);
+		}
+	}
 	
 	
 	/*

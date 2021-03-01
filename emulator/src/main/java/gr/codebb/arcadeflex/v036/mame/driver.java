@@ -262,6 +262,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ginganin.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr68.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.madmotor.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.arcadecl.*;
 
 public class driver {
 
@@ -2402,8 +2403,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( relief2 )	/* (c) 1992 */
                 /*TODO*/ //	DRIVER( offtwall )	/* (c) 1991 */
                 /*TODO*/ //	DRIVER( offtwalc )	/* (c) 1991 */
-                /*TODO*/ //	DRIVER( arcadecl )	/* (c) 1992 */
-                /*TODO*/ //	DRIVER( sparkz )	/* (c) 1992 */
+                driver_arcadecl,	/* (c) 1992 */
+                driver_sparkz,	/* (c) 1992 */
 
                 /* later SNK games, each game can be identified by PCB code and ROM
 	code, the ROM code is the same between versions, and usually based
