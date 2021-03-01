@@ -211,7 +211,7 @@ public class klax
 	
 	static UBytePtr update_palette()
 	{
-		char[] mo_map=new char[16], pf_map=new char[16];
+		int[] mo_map=new int[16], pf_map=new int[16];
 		int i, j;
 	
 		/* reset color tracking */
@@ -259,12 +259,12 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
+	public static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 int[] usage = Machine.gfx[0].pen_usage;
                 
-		char[] colormap = (char[]) param;
+		int[] colormap = (int[]) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -294,7 +294,7 @@ public class klax
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
-		//osd_bitmap bitmap = (osd_bitmap) param;
+		osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -318,7 +318,7 @@ public class klax
 			}
 	
 		/* then blast the result */
-		copybitmap((osd_bitmap) param, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
+		copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
             }
         };
 	
@@ -329,11 +329,11 @@ public class klax
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
+	public static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
             @Override
             public void handler(drawgfxH.rectangle clip, drawgfxH.rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
-		osd_bitmap bitmap = (osd_bitmap) param;
+		//osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -351,7 +351,7 @@ public class klax
 					int hflip = data1 & 0x8000;
 					int code = data1 & 0x1fff;
 	
-					drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+					drawgfx((osd_bitmap) param, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
 				}
 			}
             }
@@ -366,9 +366,9 @@ public class klax
 	
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
-		char[] colormap = (char[]) param;
+		int[] colormap = (int[]) param;
 		int code = data.read(1) & 0x0fff;
 		int color = data.read(2) & 0x000f;
 		int hsize = ((data.read(3) >> 4) & 7) + 1;
@@ -392,7 +392,7 @@ public class klax
 	
 	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		osd_bitmap bitmap = (osd_bitmap) param;
 		rectangle pf_clip = new rectangle();
@@ -416,7 +416,7 @@ public class klax
 		if (ypos >= YDIM) ypos -= 0x200;
 	
 		/* determine the bounding box */
-		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+		pf_clip = atarigen_mo_compute_clip_8x8(xpos, ypos, hsize, vsize, clip);
 	
 		/* draw the motion object */
 		atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);

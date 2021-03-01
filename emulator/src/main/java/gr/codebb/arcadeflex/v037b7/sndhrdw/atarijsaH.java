@@ -10,9 +10,9 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigen.atarigen_6502_irq_gen;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.atarigen_6502_irq_gen;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;

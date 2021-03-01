@@ -57,21 +57,20 @@ import gr.codebb.arcadeflex.common.PtrLib;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import static gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import gr.codebb.arcadeflex.v036.machine.atarigenH;
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
 
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 
 public class batman
 {
@@ -157,13 +156,15 @@ public class batman
 			2,                   /* number of bytes between MO words */
 			0,                   /* ignore an entry if this word == 0xffff */
 			0, 0, 0x3ff,         /* link = (data[linkword] >> linkshift) & linkmask */
-			1                    /* reverse order */
+			1,                    /* reverse order */
+                        0
 		);
 	
 		atarigen_pf_desc pf_desc = new atarigen_pf_desc
 		(
 			8, 8,				/* width/height of each tile */
-			64, 64				/* number of tiles in each direction */
+			64, 64,				/* number of tiles in each direction */
+                        0
 		);
 		
 		/* reset statics */
@@ -315,7 +316,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	public static atarigen_scanline_callbackPtr batman_scanline_update = new atarigen_scanline_callbackPtr() {
+	public static timer_callback batman_scanline_update = new timer_callback() {
             @Override
             public void handler(int scanline) {
                 /* update the screen parameters for the first scanline */
@@ -509,7 +510,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callbackPtr pf_color_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 int[] usage = Machine.gfx[0].pen_usage;
@@ -538,7 +539,7 @@ public class batman
         };
         	
 	
-	static atarigen_pf_callbackPtr pf2_color_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf2_color_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 int[] usage = Machine.gfx[0].pen_usage;
@@ -573,7 +574,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	static atarigen_pf_callbackPtr pf_render_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_render_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
@@ -626,7 +627,7 @@ public class batman
         };
         
 	
-	static atarigen_pf_callbackPtr pf2_render_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf2_render_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
@@ -687,10 +688,11 @@ public class batman
 	
 	static int transparency_mask[] = { 0xffff, 0xff01, 0xff01, 0x0001 };
 	
-	static atarigen_pf_callbackPtr pf_overrender_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
-                pf_overrender_data overrender_data = (pf_overrender_data) param;
+                pf_overrender_data overrender_data = new pf_overrender_data();
+                overrender_data.bitmap = (osd_bitmap) param;
 	
 		osd_bitmap bitmap = overrender_data.bitmap;
 		GfxElement gfx = Machine.gfx[0];
@@ -734,10 +736,11 @@ public class batman
         };
         
 	
-	static atarigen_pf_callbackPtr pf2_overrender_callback = new atarigen_pf_callbackPtr() {
+	static atarigen_pf_callback pf2_overrender_callback = new atarigen_pf_callback() {
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
-                pf_overrender_data overrender_data = (pf_overrender_data) param;
+                pf_overrender_data overrender_data = new pf_overrender_data();
+                overrender_data.bitmap = (osd_bitmap) param;
 	
 		osd_bitmap bitmap = overrender_data.bitmap;
 		GfxElement gfx = Machine.gfx[0];
@@ -789,7 +792,7 @@ public class batman
 	 
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(IntSubArray data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		int[] colormap = (int[]) param;
 		int code = data.read(1) & 0x7fff;
@@ -815,7 +818,7 @@ public class batman
 	
 	static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(IntSubArray data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		pf_overrender_data overrender_data=new pf_overrender_data();
 		osd_bitmap bitmap = (osd_bitmap) param;
@@ -841,7 +844,7 @@ public class batman
 		if (ypos >= YDIM) ypos -= 0x200;
 	
 		/* determine the bounding box */
-		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+		pf_clip = atarigen_mo_compute_clip_8x8(xpos, ypos, hsize, vsize, clip);
 	
 		/* simple case? */
 		if (priority == 3)
@@ -872,8 +875,8 @@ public class batman
 			/* overrender the playfields on top of that */
 			overrender_data.mo_priority = priority;
 			overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-			atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
-			atarigen_pf2_process(pf2_overrender_callback, overrender_data, pf_clip);
+			atarigen_pf_process(pf_overrender_callback, overrender_data.bitmap, pf_clip);
+			atarigen_pf2_process(pf2_overrender_callback, overrender_data.bitmap, pf_clip);
 	
 			/* finally, copy this chunk to the real bitmap */
 			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);

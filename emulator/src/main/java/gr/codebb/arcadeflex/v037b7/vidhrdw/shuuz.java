@@ -44,6 +44,7 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -272,8 +273,8 @@ public class shuuz
 		int i, j;
 	
 		/* reset color tracking */
-/*TODO*///		memset(mo_map, 0, sizeof(mo_map));
-/*TODO*///		memset(pf_map, 0, sizeof(pf_map));
+		memset(mo_map, 0, mo_map.length);
+		memset(pf_map, 0, pf_map.length);
 		palette_init_used_colors();
 	
 		/* update color usage for the playfield */
@@ -446,7 +447,7 @@ public class shuuz
 	
 	static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		int[] colormap = (int[]) param;
 		int code = data.read(1) & 0x7fff;
@@ -472,7 +473,8 @@ public class shuuz
 	
 	public static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortPtr data, rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
+                //System.out.println("mo_render_callback");
                 GfxElement gfx = Machine.gfx[1];
 		pf_overrender_data overrender_data = new pf_overrender_data();
 		osd_bitmap bitmap = (osd_bitmap) param;
@@ -497,7 +499,8 @@ public class shuuz
 		if (ypos >= YDIM) ypos -= 0x200;
 	
 		/* determine the bounding box */
-		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, hsize, vsize, clip);
+		pf_clip = atarigen_mo_compute_clip_8x8(xpos, ypos, hsize, vsize, clip);
+                //System.out.println("xpos2: "+pf_clip.min_x);
 	
 		/* draw the motion object */
 		atarigen_mo_draw_8x8(bitmap, gfx, code, color, hflip, 0, xpos, ypos, hsize, vsize, clip, TRANSPARENCY_PEN, 0);
@@ -520,7 +523,7 @@ public class shuuz
 			overrender_data.type = OVERRENDER_PRIORITY;
 			overrender_data.color = color;
 			atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
-	
+                        
 			/* finally, copy this chunk to the real bitmap */
 			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
 		}

@@ -15,8 +15,8 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
-import static gr.codebb.arcadeflex.v036.machine.atarigen.*;
-import static gr.codebb.arcadeflex.v036.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
@@ -182,13 +182,15 @@ public class atarisy1
                 0x80,                /* number of bytes between MO words */
                 1,                   /* ignore an entry if this word == 0xffff */
                 3, 0, 0x3f,          /* link = (data[linkword] >> linkshift) & linkmask */
-                0                    /* render in reverse link order */
+                0,                    /* render in reverse link order */
+                0
         );
 
         static atarigen_pf_desc pf_desc = new atarigen_pf_desc
         (
                 8, 8,				/* width/height of each tile */
-                64, 64				/* number of tiles in each direction */
+                64, 64,				/* number of tiles in each direction */
+                0
         );
         
 	public static VhStartPtr atarisys1_vh_start = new VhStartPtr() { public int handler() 

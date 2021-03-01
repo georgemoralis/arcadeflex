@@ -551,11 +551,36 @@ public class drawgfx {
                 case TRANSPARENCY_THROUGH:
                     if (flipx!=0)
                         throw new UnsupportedOperationException("unimplemented");//blockmove_transthrough_noremap_flipx8(sd, sw, sh, sm, dd, dm, transparent_color);
-                    else
-                        throw new UnsupportedOperationException("unimplemented");//blockmove_transthrough_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
-                   // break;
+                    else {
+                        blockmove_transthrough_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
+                        //blockmove_transpen_noremap8(sd, sw, sh, sm, dd, dm, transparent_color);
+                    }
+                    break;
             }
 
+        }
+    
+        public static void blockmove_transthrough_noremap8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo, int transcolor)
+        {
+            int end;
+
+            srcmodulo -= srcwidth;
+            dstmodulo -= srcwidth;
+
+            while (srcheight != 0)
+            {
+                    end = dstdata.offset + srcwidth;
+                    while (dstdata.offset <= end /*-4*/)
+                    {
+                            if (dstdata.read() == transcolor) dstdata.write(0, srcdata.read());
+                            srcdata.inc();
+                            dstdata.inc();
+                    }
+
+                    srcdata.inc( srcmodulo );
+                    dstdata.inc( dstmodulo );
+                    srcheight--;
+            }
         }
     
         public static void blockmove_opaque_noremap8(UBytePtr srcdata, int srcwidth, int srcheight, int srcmodulo, UBytePtr dstdata, int dstmodulo)
