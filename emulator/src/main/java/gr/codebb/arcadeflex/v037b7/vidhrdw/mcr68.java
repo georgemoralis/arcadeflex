@@ -236,19 +236,19 @@ public class mcr68
   			memset(dirtybuffer, 1, videoram_size[0]);
   	
   		/* draw the background */
-/*TODO*///  		mcr68_update_background(tmpbitmap, 0);
+  		mcr68_update_background(tmpbitmap, 0);
   	
   		/* copy it to the destination */
-/*TODO*///  		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+  		copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
   	
   		/* draw the low-priority sprites */
-/*TODO*///  		mcr68_update_sprites(bitmap, 0);
+  		mcr68_update_sprites(bitmap, 0);
   	
   	    /* redraw tiles with priority over sprites */
-/*TODO*///  		mcr68_update_background(bitmap, 1);
+  		mcr68_update_background(bitmap, 1);
   	
   		/* draw the high-priority sprites */
-/*TODO*///  		mcr68_update_sprites(bitmap, 1);
+  		mcr68_update_sprites(bitmap, 1);
   	} };
   	
   	

@@ -12,21 +12,31 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
-import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
-import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
+import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
+import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
+import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
+import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
+import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
 
 public class atarisy1
 {
@@ -146,30 +156,8 @@ public class atarisy1
 		new int[] { 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },
 		8*8		/* every sprite takes 8 consecutive bytes */
 	);
-	
-	
-	
-	/*************************************
-	 *
-	 *	Prototypes
-	 *
-	 *************************************/
-	
-/*TODO*///	static const UINT8 *update_palette(void);
-	
-/*TODO*///	static void pf_color_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *data);
-/*TODO*///	static void pf_render_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *data);
-/*TODO*///	static void pf_overrender_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *data);
-	
-/*TODO*///	static void mo_color_callback(const UINT16 *data, const struct rectangle *clip, void *param);
-/*TODO*///	static void mo_render_callback(const UINT16 *data, const struct rectangle *clip, void *param);
-	
-/*TODO*///	static static int get_bank(UINT8 prom1, UINT8 prom2, int bpp);
-	
-/*TODO*///	void atarisys1_scanline_update(int scanline);
-	
-	
-	
+        
+        
 	/*************************************
 	 *
 	 *	Generic video system start
@@ -199,12 +187,13 @@ public class atarisy1
 		int i, e;
 	
 		/* first decode the graphics */
-/*TODO*///		if (decode_gfx() != 0)
-/*TODO*///			return 1;
+		if (decode_gfx() != 0)
+			return 1;
 	
 		/* reset the statics */
 		pf_state = new atarigen_pf_state();
-/*TODO*///		memset(int3_timer, 0, sizeof(int3_timer));
+//		memset(int3_timer, 0, sizeof(int3_timer));
+                int3_timer = new timer_entry[YDIM];
 	
 		/* initialize the pen usage array */
 		for (e = 0; e < MAX_GFX_ELEMENTS; e++)
@@ -241,7 +230,8 @@ public class atarisy1
 							}
 						}
                                                 
-                                                entry = pen_usage[e+entryPos];
+                                                if ((e+entryPos)<pen_usage.length) // hack by Chuso
+                                                    entry = pen_usage[e+entryPos];
 					}
 				}
 			}
@@ -310,7 +300,7 @@ public class atarisy1
 		}
 	
 		/* motion object bank select */
-		atarisys1_scanline_update(scanline);
+		atarisys1_scanline_update.handler(scanline);
 	
 		/* playfield bank select */
 		if ((diff & 0x04) != 0)
@@ -407,7 +397,7 @@ public class atarisy1
 				if ((offset >> 9) == ((atarisys1_bankselect.READ_WORD(0) >> 3) & 7))
 				{
 					logerror("Caught timer mod!\n");
-					atarisys1_scanline_update(cpu_getscanline());
+					atarisys1_scanline_update.handler(cpu_getscanline());
 				}
 			}
 		}
@@ -468,9 +458,10 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	static void atarisys1_scanline_update(int scanline)
-	{
-		int bank = ((atarisys1_bankselect.READ_WORD(0) >> 3) & 7) * 0x200;
+	public static timer_callback atarisys1_scanline_update = new timer_callback() {
+            @Override
+            public void handler(int scanline) {
+                int bank = ((atarisys1_bankselect.READ_WORD(0) >> 3) & 7) * 0x200;
 		UBytePtr base = new UBytePtr(atarigen_spriteram, bank);
 		int[] spritevisit=new int[64];
 		int[] timer=new int[YDIM];
@@ -481,50 +472,50 @@ public class atarisy1
 		if (scanline < YDIM)
 		{
 			/* generic update first */
-/*TODO*///			if (scanline==0)
-/*TODO*///				atarigen_mo_update(base, 0, 0);
-/*TODO*///			else
-/*TODO*///				atarigen_mo_update(base, 0, scanline + 1);
+			if (scanline==0)
+				atarigen_mo_update(base, 0, 0);
+			else
+				atarigen_mo_update(base, 0, scanline + 1);
 		}
 	
 		/* visit all the sprites and look for timers */
-/*TODO*///		memset(spritevisit, 0, sizeof(spritevisit));
-/*TODO*///		memset(timer, 0, sizeof(timer));
-/*TODO*///		while (spritevisit[link]==0)
-/*TODO*///		{
-/*TODO*///			int data2 = READ_WORD(&base[link * 2 + 0x080]);
+		memset(spritevisit, 0, spritevisit.length);
+		memset(timer, 0, timer.length);
+		while (spritevisit[link]==0)
+		{
+			int data2 = base.READ_WORD(link * 2 + 0x080);
 	
 			/* a codeure of 0xffff is really an interrupt - gross! */
-/*TODO*///			if (data2 == 0xffff)
-/*TODO*///			{
-/*TODO*///				int data1 = READ_WORD(&base[link * 2 + 0x000]);
-/*TODO*///				int vsize = (data1 & 15) + 1;
-/*TODO*///				int ypos = (256 - (data1 >> 5) - vsize * 8) & 0x1ff;
+			if (data2 == 0xffff)
+			{
+				int data1 = base.READ_WORD(link * 2 + 0x000);
+				int vsize = (data1 & 15) + 1;
+				int ypos = (256 - (data1 >> 5) - vsize * 8) & 0x1ff;
 	
 				/* only generate timers on visible scanlines */
-/*TODO*///				if (ypos < YDIM)
-/*TODO*///					timer[ypos] = 1;
-/*TODO*///			}
+				if (ypos < YDIM)
+					timer[ypos] = 1;
+			}
 	
 			/* link to the next object */
-/*TODO*///			spritevisit[link] = 1;
-/*TODO*///			link = READ_WORD(&atarigen_spriteram[bank + link * 2 + 0x180]) & 0x3f;
-/*TODO*///		}
+			spritevisit[link] = 1;
+			link = atarigen_spriteram.READ_WORD(bank + link * 2 + 0x180) & 0x3f;
+		}
 	
 		/* update our interrupt timers */
-/*TODO*///		for (i = 0; i < YDIM; i++)
-/*TODO*///		{
-/*TODO*///			if (timer[i] && !int3_timer[i])
-/*TODO*///				int3_timer[i] = timer_set(cpu_getscanlinetime(i), i, atarisys1_int3_callback);
-/*TODO*///			else if (!timer[i] && int3_timer[i])
-/*TODO*///			{
-/*TODO*///				timer_remove(int3_timer[i]);
-/*TODO*///				int3_timer[i] = 0;
-/*TODO*///			}
-/*TODO*///		}
-	}
-/*TODO*///	
-	
+		for (i = 0; i < YDIM; i++)
+		{
+			if (timer[i]!=0 && int3_timer[i]==null)
+				int3_timer[i] = timer_set(cpu_getscanlinetime(i), i, atarisys1_int3_callback);
+			else if (timer[i]==0 && int3_timer[i]!=null)
+			{
+				timer_remove(int3_timer[i]);
+				int3_timer[i] = null;
+			}
+		}
+            }
+        };
+        
 	
 	/*************************************
 	 *
@@ -532,506 +523,515 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-/*TODO*///	public static VhUpdatePtr atarisys1_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
-/*TODO*///	{
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		/* update the palette */
-/*TODO*///		if (update_palette())
-/*TODO*///			memset(atarigen_pf_dirty, 0xff, atarigen_playfieldram_size / 2);
-/*TODO*///	
-/*TODO*///		/* set up the all-transparent overrender palette */
-/*TODO*///		for (i = 0; i < 16; i++)
-/*TODO*///			atarigen_overrender_colortable[i] = palette_transparent_pen;
-/*TODO*///	
-/*TODO*///		/* render the playfield */
-/*TODO*///		memset(atarigen_pf_visit, 0, 64*64);
-/*TODO*///		atarigen_pf_process(pf_render_callback, bitmap, &Machine.visible_area);
-/*TODO*///	
-/*TODO*///		/* render the motion objects */
-/*TODO*///		priority_pens = READ_WORD(&atarisys1_prioritycolor[0]) & 0xff;
-/*TODO*///		atarigen_mo_process(mo_render_callback, bitmap);
-/*TODO*///	
-/*TODO*///		/* redraw the alpha layer completely */
-/*TODO*///		{
-/*TODO*///			const struct GfxElement *gfx = Machine.gfx[0];
-/*TODO*///			int sx, sy, offs;
-/*TODO*///	
-/*TODO*///			for (sy = 0; sy < YCHARS; sy++)
-/*TODO*///				for (sx = 0, offs = sy*64; sx < XCHARS; sx++, offs++)
-/*TODO*///				{
-/*TODO*///					int data = READ_WORD(&atarigen_alpharam[offs * 2]);
-/*TODO*///					int opaque = data & 0x2000;
-/*TODO*///					int code = data & 0x3ff;
-/*TODO*///	
-/*TODO*///					if (code || opaque)
-/*TODO*///					{
-/*TODO*///						int color = (data >> 10) & 7;
-/*TODO*///						drawgfx(bitmap, gfx, code, color, 0, 0, 8 * sx, 8 * sy, 0,
-/*TODO*///								opaque ? TRANSPARENCY_NONE : TRANSPARENCY_PEN, 0);
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* update onscreen messages */
-/*TODO*///		atarigen_update_messages();
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Palette management
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static const UINT8 *update_palette(void)
-/*TODO*///	{
-/*TODO*///		UINT16 al_map[8], pfmo_map[32];
-/*TODO*///		int i, j;
-/*TODO*///	
-/*TODO*///		/* reset color tracking */
-/*TODO*///		memset(pfmo_map, 0, sizeof(pfmo_map));
-/*TODO*///		memset(al_map, 0, sizeof(al_map));
-/*TODO*///		palette_init_used_colors();
-/*TODO*///	
-/*TODO*///		/* always remap the transluscent colors */
-/*TODO*///		memset(&palette_used_colors[0x300], PALETTE_COLOR_USED, 16);
-/*TODO*///	
-/*TODO*///		/* update color usage for the playfield */
-/*TODO*///		atarigen_pf_process(pf_color_callback, pfmo_map, &Machine.visible_area);
-/*TODO*///	
-/*TODO*///		/* update color usage for the mo's */
-/*TODO*///		atarigen_mo_process(mo_color_callback, pfmo_map);
-/*TODO*///	
-/*TODO*///		/* update color usage for the alphanumerics */
-/*TODO*///		{
-/*TODO*///			const unsigned int *usage = Machine.gfx[0].pen_usage;
-/*TODO*///			int sx, sy, offs;
-/*TODO*///	
-/*TODO*///			for (sy = 0; sy < YCHARS; sy++)
-/*TODO*///				for (sx = 0, offs = sy * 64; sx < XCHARS; sx++, offs++)
-/*TODO*///				{
-/*TODO*///					int data = READ_WORD(&atarigen_alpharam[offs * 2]);
-/*TODO*///					int color = (data >> 10) & 7;
-/*TODO*///					int code = data & 0x3ff;
-/*TODO*///					al_map[color] |= usage[code];
-/*TODO*///				}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* determine the final playfield palette */
-/*TODO*///		for (i = 16; i < 32; i++)
-/*TODO*///		{
-/*TODO*///			UINT16 used = pfmo_map[i];
-/*TODO*///			if (used != 0)
-/*TODO*///				for (j = 0; j < 16; j++)
-/*TODO*///					if (used & (1 << j))
-/*TODO*///						palette_used_colors[0x100 + i * 16 + j] = PALETTE_COLOR_USED;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* determine the final motion object palette */
-/*TODO*///		for (i = 0; i < 16; i++)
-/*TODO*///		{
-/*TODO*///			UINT16 used = pfmo_map[i];
-/*TODO*///			if (used != 0)
-/*TODO*///			{
-/*TODO*///				palette_used_colors[0x100 + i * 16] = PALETTE_COLOR_TRANSPARENT;
-/*TODO*///				for (j = 1; j < 16; j++)
-/*TODO*///					if (used & (1 << j))
-/*TODO*///						palette_used_colors[0x100 + i * 16 + j] = PALETTE_COLOR_USED;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* determine the final alpha palette */
-/*TODO*///		for (i = 0; i < 8; i++)
-/*TODO*///		{
-/*TODO*///			UINT16 used = al_map[i];
-/*TODO*///			if (used != 0)
-/*TODO*///				for (j = 0; j < 4; j++)
-/*TODO*///					if (used & (1 << j))
-/*TODO*///						palette_used_colors[0x000 + i * 4 + j] = PALETTE_COLOR_USED;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* recalculate the palette */
-/*TODO*///		return palette_recalc();
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Playfield palette
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static void pf_color_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param)
-/*TODO*///	{
-/*TODO*///		const UINT32 *lookup_table = &pf_lookup[state.param[0]];
-/*TODO*///		UINT16 *colormap = param;
-/*TODO*///		int x, y;
-/*TODO*///	
-/*TODO*///		/* standard loop over tiles */
-/*TODO*///		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
-/*TODO*///			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-/*TODO*///			{
-/*TODO*///				int offs = y * 64 + x;
-/*TODO*///				int data = READ_WORD(&atarigen_playfieldram[offs * 2]);
-/*TODO*///				int lookup = lookup_table[(data >> 8) & 0x7f];
-/*TODO*///				const unsigned int *usage = pen_usage[LOOKUP_GFX(lookup)];
-/*TODO*///				int bpp = LOOKUP_BPP(lookup);
-/*TODO*///				int code = LOOKUP_CODE(lookup) | (data & 0xff);
-/*TODO*///				int color = LOOKUP_COLOR(lookup);
-/*TODO*///				unsigned int bits;
-/*TODO*///	
-/*TODO*///				/* based on the depth, we need to tweak our pen mapping */
-/*TODO*///				if (bpp == 0)
-/*TODO*///					colormap[color] |= usage[code];
-/*TODO*///				else if (bpp == 1)
-/*TODO*///				{
-/*TODO*///					bits = usage[code];
-/*TODO*///					colormap[color * 2] |= bits;
-/*TODO*///					colormap[color * 2 + 1] |= bits >> 16;
-/*TODO*///				}
-/*TODO*///				else
-/*TODO*///				{
-/*TODO*///					bits = usage[code * 2];
-/*TODO*///					colormap[color * 4] |= bits;
-/*TODO*///					colormap[color * 4 + 1] |= bits >> 16;
-/*TODO*///					bits = usage[code * 2 + 1];
-/*TODO*///					colormap[color * 4 + 2] |= bits;
-/*TODO*///					colormap[color * 4 + 3] |= bits >> 16;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				/* also mark unvisited tiles dirty */
-/*TODO*///				if (!atarigen_pf_visit[offs]) atarigen_pf_dirty[offs] = 0xff;
-/*TODO*///			}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Playfield rendering
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static void pf_render_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param)
-/*TODO*///	{
-/*TODO*///		int bank = state.param[0];
-/*TODO*///		const UINT32 *lookup_table = &pf_lookup[bank];
-/*TODO*///		struct osd_bitmap *bitmap = param;
-/*TODO*///		int x, y;
-/*TODO*///	
-/*TODO*///		/* standard loop over tiles */
-/*TODO*///		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
-/*TODO*///			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-/*TODO*///			{
-/*TODO*///				int offs = y * 64 + x;
-/*TODO*///	
-/*TODO*///				/* update only if dirty */
-/*TODO*///				if (atarigen_pf_dirty[offs] != bank)
-/*TODO*///				{
-/*TODO*///					int data = READ_WORD(&atarigen_playfieldram[offs * 2]);
-/*TODO*///					int lookup = lookup_table[(data >> 8) & 0x7f];
-/*TODO*///					const struct GfxElement *gfx = Machine.gfx[LOOKUP_GFX(lookup)];
-/*TODO*///					int code = LOOKUP_CODE(lookup) | (data & 0xff);
-/*TODO*///					int color = LOOKUP_COLOR(lookup);
-/*TODO*///					int hflip = data & 0x8000;
-/*TODO*///	
-/*TODO*///					drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, 0, TRANSPARENCY_NONE, 0);
-/*TODO*///					atarigen_pf_dirty[offs] = bank;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				/* track the tiles we've visited */
-/*TODO*///				atarigen_pf_visit[offs] = 1;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///		/* then blast the result */
-/*TODO*///		x = -state.hscroll;
-/*TODO*///		y = -state.vscroll;
-/*TODO*///		copyscrollbitmap(bitmap, atarigen_pf_bitmap, 1, &x, 1, &y, clip, TRANSPARENCY_NONE, 0);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Playfield overrendering
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static void pf_overrender_callback(const struct rectangle *clip, const struct rectangle *tiles, const struct atarigen_pf_state *state, void *param)
-/*TODO*///	{
-/*TODO*///		const UINT32 *lookup_table = &pf_lookup[state.param[0]];
-/*TODO*///		const struct pf_overrender_data *overrender_data = param;
-/*TODO*///		struct osd_bitmap *bitmap = overrender_data.bitmap;
-/*TODO*///		int type = overrender_data.type;
-/*TODO*///		int x, y;
-/*TODO*///	
-/*TODO*///		/* standard loop over tiles */
-/*TODO*///		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
-/*TODO*///		{
-/*TODO*///			int sy = (8 * y - state.vscroll) & 0x1ff;
-/*TODO*///			if (sy >= YDIM) sy -= 0x200;
-/*TODO*///	
-/*TODO*///			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
-/*TODO*///			{
-/*TODO*///				int offs = y * 64 + x;
-/*TODO*///				int data = READ_WORD(&atarigen_playfieldram[offs * 2]);
-/*TODO*///				int lookup = lookup_table[(data >> 8) & 0x7f];
-/*TODO*///				const struct GfxElement *gfx = Machine.gfx[LOOKUP_GFX(lookup)];
-/*TODO*///				int code = LOOKUP_CODE(lookup) | (data & 0xff);
-/*TODO*///				int color = LOOKUP_COLOR(lookup);
-/*TODO*///				int hflip = data & 0x8000;
-/*TODO*///	
-/*TODO*///				int sx = (8 * x - state.hscroll) & 0x1ff;
-/*TODO*///				if (sx >= XDIM) sx -= 0x200;
-/*TODO*///	
-/*TODO*///				/* overrender based on the type */
-/*TODO*///				if (type == OVERRENDER_PRIORITY)
-/*TODO*///				{
-/*TODO*///					int bpp = LOOKUP_BPP(lookup);
-/*TODO*///					if (color == (16 >> bpp))
-/*TODO*///						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, ~priority_pens);
-/*TODO*///				}
-/*TODO*///				else
-/*TODO*///					drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PEN, 0);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Motion object palette
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static void mo_color_callback(const UINT16 *data, const struct rectangle *clip, void *param)
-/*TODO*///	{
-/*TODO*///		UINT16 *colormap = param;
-/*TODO*///		UINT16 temp = 0;
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		UINT32 lookup = mo_lookup[data[1] >> 8];
-/*TODO*///		const unsigned int *usage = pen_usage[LOOKUP_GFX(lookup)];
-/*TODO*///		int code = LOOKUP_CODE(lookup) | (data[1] & 0xff);
-/*TODO*///		int color = LOOKUP_COLOR(lookup);
-/*TODO*///		int vsize = (data[0] & 0x000f) + 1;
-/*TODO*///		int bpp = LOOKUP_BPP(lookup);
-/*TODO*///	
-/*TODO*///		if (bpp == 0)
-/*TODO*///		{
-/*TODO*///			for (i = 0; i < vsize; i++)
-/*TODO*///				temp |= usage[code++];
-/*TODO*///			colormap[color] |= temp;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* in theory we should support all 3 possible depths, but motion objects are all 4bpp */
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Motion object rendering
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static void mo_render_callback(const UINT16 *data, const struct rectangle *clip, void *param)
-/*TODO*///	{
-/*TODO*///		struct osd_bitmap *bitmap = param;
-/*TODO*///		struct pf_overrender_data overrender_data;
-/*TODO*///		struct rectangle pf_clip;
-/*TODO*///	
-/*TODO*///		/* extract data from the various words */
-/*TODO*///		UINT32 lookup = mo_lookup[data[1] >> 8];
-/*TODO*///		struct GfxElement *gfx = Machine.gfx[LOOKUP_GFX(lookup)];
-/*TODO*///		int code = LOOKUP_CODE(lookup) | (data[1] & 0xff);
-/*TODO*///		int color = LOOKUP_COLOR(lookup);
-/*TODO*///		int xpos = data[2] >> 5;
-/*TODO*///		int ypos = 256 - (data[0] >> 5);
-/*TODO*///		int hflip = data[0] & 0x8000;
-/*TODO*///		int vsize = (data[0] & 0x000f) + 1;
-/*TODO*///		int priority = data[2] >> 15;
-/*TODO*///	
-/*TODO*///		/* adjust for height */
-/*TODO*///		ypos -= vsize * 8;
-/*TODO*///	
-/*TODO*///		/* adjust the final coordinates */
-/*TODO*///		xpos &= 0x1ff;
-/*TODO*///		ypos &= 0x1ff;
-/*TODO*///		if (xpos >= XDIM) xpos -= 0x200;
-/*TODO*///		if (ypos >= YDIM) ypos -= 0x200;
-/*TODO*///	
-/*TODO*///		/* bail if X coordinate is out of range */
-/*TODO*///		if (xpos <= -8 || xpos >= XDIM)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* determine the bounding box */
-/*TODO*///		atarigen_mo_compute_clip_8x8(pf_clip, xpos, ypos, 1, vsize, clip);
-/*TODO*///	
-/*TODO*///		/* standard priority case? */
-/*TODO*///		if (!priority)
-/*TODO*///		{
-/*TODO*///			/* draw the motion object */
-/*TODO*///			atarigen_mo_draw_8x8_strip(bitmap, gfx, code, color, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_PEN, 0);
-/*TODO*///	
-/*TODO*///			/* do we have a priority color active? */
-/*TODO*///			if (priority_pens != 0)
-/*TODO*///			{
-/*TODO*///				overrender_data.bitmap = bitmap;
-/*TODO*///				overrender_data.type = OVERRENDER_PRIORITY;
-/*TODO*///	
-/*TODO*///				/* overrender the playfield */
-/*TODO*///				atarigen_pf_process(pf_overrender_callback, &overrender_data, &pf_clip);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* high priority case? */
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			/* draw the sprite in bright pink on the real bitmap */
-/*TODO*///			atarigen_mo_draw_transparent_8x8_strip(bitmap, gfx, code, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_PEN, 0);
-/*TODO*///	
-/*TODO*///			/* also draw the sprite normally on the temp bitmap */
-/*TODO*///			atarigen_mo_draw_8x8_strip(atarigen_pf_overrender_bitmap, gfx, code, 0x20, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_NONE, 0);
-/*TODO*///	
-/*TODO*///			/* now redraw the playfield tiles over top of the sprite */
-/*TODO*///			overrender_data.bitmap = atarigen_pf_overrender_bitmap;
-/*TODO*///			overrender_data.type = OVERRENDER_SPECIAL;
-/*TODO*///			atarigen_pf_process(pf_overrender_callback, &overrender_data, &pf_clip);
-/*TODO*///	
-/*TODO*///			/* finally, copy this chunk to the real bitmap */
-/*TODO*///			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, &pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Graphics decoding
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static int decode_gfx()
-/*TODO*///	{
-/*TODO*///		UBytePtr prom1 = new UBytePtr(memory_region(REGION_PROMS), 0x000);
-/*TODO*///		UBytePtr prom2 = new UBytePtr(memory_region(REGION_PROMS), 0x200);
-/*TODO*///		int obj, i;
-/*TODO*///	
-/*TODO*///		/* reset the globals */
-/*TODO*///		memset(&bank_gfx, 0, sizeof(bank_gfx));
-/*TODO*///	
-/*TODO*///		/* loop for two sets of objects */
-/*TODO*///		for (obj = 0; obj < 2; obj++)
-/*TODO*///		{
-/*TODO*///			UINT32 *table = (obj == 0) ? pf_lookup : mo_lookup;
-/*TODO*///	
-/*TODO*///			/* loop for 256 objects in the set */
-/*TODO*///			for (i = 0; i < 256; i++, prom1++, prom2++)
-/*TODO*///			{
-/*TODO*///				int bank, bpp, color, offset;
-/*TODO*///	
-/*TODO*///				/* determine the bpp */
-/*TODO*///				bpp = 4;
-/*TODO*///				if (*prom2 & PROM2_PLANE_4_ENABLE)
-/*TODO*///				{
-/*TODO*///					bpp = 5;
-/*TODO*///					if (*prom2 & PROM2_PLANE_5_ENABLE)
-/*TODO*///						bpp = 6;
-/*TODO*///				}
-/*TODO*///	
-/*TODO*///				/* determine the color */
-/*TODO*///				if (obj == 0)
-/*TODO*///					color = (16 + (~*prom2 & PROM2_PF_COLOR_MASK)) >> (bpp - 4); /* playfield */
-/*TODO*///				else
-/*TODO*///					color = (~*prom2 & PROM2_MO_COLOR_MASK) >> (bpp - 4);	/* motion objects (high bit ignored) */
-/*TODO*///	
-/*TODO*///				/* determine the offset */
-/*TODO*///				offset = *prom1 & PROM1_OFFSET_MASK;
-/*TODO*///	
-/*TODO*///				/* determine the bank */
-/*TODO*///				bank = get_bank(*prom1, *prom2, bpp);
-/*TODO*///				if (bank < 0)
-/*TODO*///					return 1;
-/*TODO*///	
-/*TODO*///				/* set the value */
-/*TODO*///				if (bank == 0)
-/*TODO*///					*table++ = 0;
-/*TODO*///				else
-/*TODO*///					*table++ = PACK_LOOKUP_DATA(bank, color, offset, bpp);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Graphics bank mapping
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	static int get_bank(UINT8 prom1, UINT8 prom2, int bpp)
-/*TODO*///	{
-/*TODO*///		int bank_offset[8] = { 0, 0x00000, 0x30000, 0x60000, 0x90000, 0xc0000, 0xe0000, 0x100000 };
-/*TODO*///		int bank_index, i, gfx_index;
-/*TODO*///	
-/*TODO*///		/* determine the bank index */
-/*TODO*///		if ((prom1 & PROM1_BANK_1) == 0)
-/*TODO*///			bank_index = 1;
-/*TODO*///		else if ((prom1 & PROM1_BANK_2) == 0)
-/*TODO*///			bank_index = 2;
-/*TODO*///		else if ((prom1 & PROM1_BANK_3) == 0)
-/*TODO*///			bank_index = 3;
-/*TODO*///		else if ((prom1 & PROM1_BANK_4) == 0)
-/*TODO*///			bank_index = 4;
-/*TODO*///		else if ((prom2 & PROM2_BANK_5) == 0)
-/*TODO*///			bank_index = 5;
-/*TODO*///		else if ((prom2 & PROM2_BANK_6_OR_7) == 0)
-/*TODO*///		{
-/*TODO*///			if ((prom2 & PROM2_BANK_7) == 0)
-/*TODO*///				bank_index = 7;
-/*TODO*///			else
-/*TODO*///				bank_index = 6;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///			return 0;
-/*TODO*///	
-/*TODO*///		/* find the bank */
-/*TODO*///		if (bank_gfx[bpp - 4][bank_index] != 0)
-/*TODO*///			return bank_gfx[bpp - 4][bank_index];
-/*TODO*///	
-/*TODO*///		/* if the bank is out of range, call it 0 */
-/*TODO*///		if (bank_offset[bank_index] >= memory_region_length(REGION_GFX2))
-/*TODO*///			return 0;
-/*TODO*///	
-/*TODO*///		/* don't have one? let's make it ... first find any empty slot */
-/*TODO*///		for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
-/*TODO*///			if (Machine.gfx[gfx_index] == NULL)
-/*TODO*///				break;
-/*TODO*///		if (gfx_index == MAX_GFX_ELEMENTS)
-/*TODO*///			return -1;
-/*TODO*///	
-/*TODO*///		/* tweak the structure for the number of bitplanes we have */
-/*TODO*///		objlayout.planes = bpp;
-/*TODO*///		for (i = 0; i < bpp; i++)
-/*TODO*///			objlayout.planeoffset[i] = (bpp - i - 1) * 0x8000 * 8;
-/*TODO*///	
-/*TODO*///		/* decode the graphics */
-/*TODO*///		Machine.gfx[gfx_index] = decodegfx(&memory_region(REGION_GFX2)[bank_offset[bank_index]], &objlayout);
-/*TODO*///		if (!Machine.gfx[gfx_index])
-/*TODO*///			return -1;
-/*TODO*///	
-/*TODO*///		/* set the color information */
-/*TODO*///		Machine.gfx[gfx_index].colortable = &Machine.remapped_colortable[256];
-/*TODO*///		Machine.gfx[gfx_index].total_colors = 48 >> (bpp - 4);
-/*TODO*///	
-/*TODO*///		/* set the entry and return it */
-/*TODO*///		return bank_gfx[bpp - 4][bank_index] = gfx_index;
-/*TODO*///	}
+	public static VhUpdatePtr atarisys1_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	{
+		int i;
+	
+		/* update the palette */
+		if (update_palette() != null)
+			memset(atarigen_pf_dirty, 0xff, atarigen_playfieldram_size[0] / 2);
+	
+		/* set up the all-transparent overrender palette */
+		for (i = 0; i < 16; i++)
+			atarigen_overrender_colortable[i] = palette_transparent_pen;
+	
+		/* render the playfield */
+		memset(atarigen_pf_visit, 0, 64*64);
+		atarigen_pf_process(pf_render_callback, bitmap, Machine.visible_area);
+	
+		/* render the motion objects */
+		priority_pens = atarisys1_prioritycolor.READ_WORD(0) & 0xff;
+		atarigen_mo_process(mo_render_callback, bitmap);
+	
+		/* redraw the alpha layer completely */
+		{
+			GfxElement gfx = Machine.gfx[0];
+			int sx, sy, offs;
+	
+			for (sy = 0; sy < YCHARS; sy++)
+				for (sx = 0, offs = sy*64; sx < XCHARS; sx++, offs++)
+				{
+					int data = atarigen_alpharam.READ_WORD(offs * 2);
+					int opaque = data & 0x2000;
+					int code = data & 0x3ff;
+	
+					if (code!=0 || opaque!=0)
+					{
+						int color = (data >> 10) & 7;
+						drawgfx(bitmap, gfx, code, color, 0, 0, 8 * sx, 8 * sy, null,
+								opaque!=0 ? TRANSPARENCY_NONE : TRANSPARENCY_PEN, 0);
+					}
+				}
+		}
+	
+		/* update onscreen messages */
+		atarigen_update_messages();
+	} };
+	
+	
+	
+	/*************************************
+	 *
+	 *	Palette management
+	 *
+	 *************************************/
+	
+	static UBytePtr update_palette()
+	{
+		int[] al_map=new int[8], pfmo_map=new int[32];
+		int i, j;
+	
+		/* reset color tracking */
+		memset(pfmo_map, 0, pfmo_map.length);
+		memset(al_map, 0, al_map.length);
+		palette_init_used_colors();
+	
+		/* always remap the transluscent colors */
+		memset(new UBytePtr(palette_used_colors, 0x300), PALETTE_COLOR_USED, 16);
+	
+		/* update color usage for the playfield */
+		atarigen_pf_process(pf_color_callback, pfmo_map, Machine.visible_area);
+	
+		/* update color usage for the mo's */
+		atarigen_mo_process(mo_color_callback, pfmo_map);
+	
+		/* update color usage for the alphanumerics */
+		{
+			int[] usage = Machine.gfx[0].pen_usage;
+			int sx, sy, offs;
+	
+			for (sy = 0; sy < YCHARS; sy++)
+				for (sx = 0, offs = sy * 64; sx < XCHARS; sx++, offs++)
+				{
+					int data = atarigen_alpharam.READ_WORD(offs * 2);
+					int color = (data >> 10) & 7;
+					int code = data & 0x3ff;
+					al_map[color] |= usage[code];
+				}
+		}
+	
+		/* determine the final playfield palette */
+		for (i = 16; i < 32; i++)
+		{
+			int used = pfmo_map[i];
+			if (used != 0)
+				for (j = 0; j < 16; j++)
+					if ((used & (1 << j)) != 0)
+						palette_used_colors.write(0x100 + i * 16 + j, PALETTE_COLOR_USED);
+		}
+	
+		/* determine the final motion object palette */
+		for (i = 0; i < 16; i++)
+		{
+			int used = pfmo_map[i];
+			if (used != 0)
+			{
+				palette_used_colors.write(0x100 + i * 16, PALETTE_COLOR_TRANSPARENT);
+				for (j = 1; j < 16; j++)
+					if ((used & (1 << j)) != 0)
+						palette_used_colors.write(0x100 + i * 16 + j, PALETTE_COLOR_USED);
+			}
+		}
+	
+		/* determine the final alpha palette */
+		for (i = 0; i < 8; i++)
+		{
+			int used = al_map[i];
+			if (used != 0)
+				for (j = 0; j < 4; j++)
+					if ((used & (1 << j)) != 0)
+						palette_used_colors.write(0x000 + i * 4 + j, PALETTE_COLOR_USED);
+		}
+	
+		/* recalculate the palette */
+		return palette_recalc();
+	}
+	
+	
+	
+	/*************************************
+	 *
+	 *	Playfield palette
+	 *
+	 *************************************/
+	
+	public static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
+            @Override
+            public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
+                IntSubArray lookup_table = new IntSubArray(pf_lookup, state.param[0]);
+		int[] colormap = (int[]) param;
+		int x, y;
+	
+		/* standard loop over tiles */
+		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+			{
+				int offs = y * 64 + x;
+				int data = atarigen_playfieldram.READ_WORD(offs * 2);
+				int lookup = lookup_table.read((data >> 8) & 0x7f);
+				int[] usage = pen_usage[LOOKUP_GFX(lookup)];
+				int bpp = LOOKUP_BPP(lookup);
+				int code = LOOKUP_CODE(lookup) | (data & 0xff);
+				int color = LOOKUP_COLOR(lookup);
+				int bits;
+	
+				/* based on the depth, we need to tweak our pen mapping */
+				if (bpp == 0)
+					colormap[color] |= usage[code];
+				else if (bpp == 1)
+				{
+					bits = usage[code];
+					colormap[color * 2] |= bits;
+					colormap[color * 2 + 1] |= bits >> 16;
+				}
+				else
+				{
+					bits = usage[code * 2];
+					colormap[color * 4] |= bits;
+					colormap[color * 4 + 1] |= bits >> 16;
+					bits = usage[code * 2 + 1];
+					colormap[color * 4 + 2] |= bits;
+					colormap[color * 4 + 3] |= bits >> 16;
+				}
+	
+				/* also mark unvisited tiles dirty */
+				if (atarigen_pf_visit.read(offs)==0) atarigen_pf_dirty.write(offs, 0xff);
+			}
+            }
+        };
+        
+	
+	/*************************************
+	 *
+	 *	Playfield rendering
+	 *
+	 *************************************/
+	
+	public static atarigen_pf_callback pf_render_callback = new atarigen_pf_callback() {
+            @Override
+            public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
+                int bank = state.param[0];
+		IntSubArray lookup_table = new IntSubArray(pf_lookup, bank);
+		osd_bitmap bitmap = (osd_bitmap) param;
+		int x, y;
+	
+		/* standard loop over tiles */
+		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+			{
+				int offs = y * 64 + x;
+	
+				/* update only if dirty */
+				if (atarigen_pf_dirty.read(offs) != bank)
+				{
+					int data = atarigen_playfieldram.READ_WORD(offs * 2);
+					int lookup = lookup_table.read((data >> 8) & 0x7f);
+					GfxElement gfx = Machine.gfx[LOOKUP_GFX(lookup)];
+					int code = LOOKUP_CODE(lookup) | (data & 0xff);
+					int color = LOOKUP_COLOR(lookup);
+					int hflip = data & 0x8000;
+	
+					drawgfx(atarigen_pf_bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, null, TRANSPARENCY_NONE, 0);
+					atarigen_pf_dirty.write(offs, bank);
+				}
+	
+				/* track the tiles we've visited */
+				atarigen_pf_visit.write(offs, 1);
+			}
+	
+		/* then blast the result */
+		x = -state.hscroll;
+		y = -state.vscroll;
+		copyscrollbitmap(bitmap, atarigen_pf_bitmap, 1, new int[]{x}, 1, new int[]{y}, clip, TRANSPARENCY_NONE, 0);
+            }
+        };
+        
+	
+	/*************************************
+	 *
+	 *	Playfield overrendering
+	 *
+	 *************************************/
+	
+	public static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
+            @Override
+            public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
+                IntSubArray lookup_table = new IntSubArray(pf_lookup, state.param[0]);
+		pf_overrender_data overrender_data = (pf_overrender_data) param;
+		osd_bitmap bitmap = overrender_data.bitmap;
+		int type = overrender_data.type;
+		int x, y;
+	
+		/* standard loop over tiles */
+		for (y = tiles.min_y; y != tiles.max_y; y = (y + 1) & 63)
+		{
+			int sy = (8 * y - state.vscroll) & 0x1ff;
+			if (sy >= YDIM) sy -= 0x200;
+	
+			for (x = tiles.min_x; x != tiles.max_x; x = (x + 1) & 63)
+			{
+				int offs = y * 64 + x;
+				int data = atarigen_playfieldram.READ_WORD(offs * 2);
+				int lookup = lookup_table.read((data >> 8) & 0x7f);
+				GfxElement gfx = Machine.gfx[LOOKUP_GFX(lookup)];
+				int code = LOOKUP_CODE(lookup) | (data & 0xff);
+				int color = LOOKUP_COLOR(lookup);
+				int hflip = data & 0x8000;
+	
+				int sx = (8 * x - state.hscroll) & 0x1ff;
+				if (sx >= XDIM) sx -= 0x200;
+	
+				/* overrender based on the type */
+				if (type == OVERRENDER_PRIORITY)
+				{
+					int bpp = LOOKUP_BPP(lookup);
+					if (color == (16 >> bpp))
+						drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PENS, ~priority_pens);
+				}
+				else
+					drawgfx(bitmap, gfx, code, color, hflip, 0, sx, sy, clip, TRANSPARENCY_PEN, 0);
+			}
+		}
+            }
+        };
+        
+	
+	/*************************************
+	 *
+	 *	Motion object palette
+	 *
+	 *************************************/
+	
+	public static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
+            @Override
+            public void handler(UShortArray data, rectangle clip, Object param) {
+                int[] colormap = (int[]) param;
+		int temp = 0;
+		int i;
+	
+		int lookup = mo_lookup[ data.read(1) >> 8 ];
+		int[] usage = pen_usage[LOOKUP_GFX(lookup)];
+		int code = LOOKUP_CODE(lookup) | (data.read(1) & 0xff);
+		int color = LOOKUP_COLOR(lookup);
+		int vsize = (data.read(0) & 0x000f) + 1;
+		int bpp = LOOKUP_BPP(lookup);
+	
+		if (bpp == 0)
+		{
+			for (i = 0; i < vsize; i++)
+				temp |= usage[code++];
+			colormap[color] |= temp;
+		}
+	
+		/* in theory we should support all 3 possible depths, but motion objects are all 4bpp */
+            }
+        };
+        
+	
+	/*************************************
+	 *
+	 *	Motion object rendering
+	 *
+	 *************************************/
+	
+	public static atarigen_mo_callback mo_render_callback = new atarigen_mo_callback() {
+            @Override
+            public void handler(UShortArray data, rectangle clip, Object param) {
+                osd_bitmap bitmap = (osd_bitmap) param;
+		pf_overrender_data overrender_data = new pf_overrender_data();
+		rectangle pf_clip = new rectangle();
+	
+		/* extract data from the various words */
+		int lookup = mo_lookup[data.read(1) >> 8];
+		GfxElement gfx = Machine.gfx[LOOKUP_GFX(lookup)];
+		int code = LOOKUP_CODE(lookup) | (data.read(1) & 0xff);
+		int color = LOOKUP_COLOR(lookup);
+		int xpos = data.read(2) >> 5;
+		int ypos = 256 - (data.read(0) >> 5);
+		int hflip = data.read(0) & 0x8000;
+		int vsize = (data.read(0) & 0x000f) + 1;
+		int priority = data.read(2) >> 15;
+	
+		/* adjust for height */
+		ypos -= vsize * 8;
+	
+		/* adjust the final coordinates */
+		xpos &= 0x1ff;
+		ypos &= 0x1ff;
+		if (xpos >= XDIM) xpos -= 0x200;
+		if (ypos >= YDIM) ypos -= 0x200;
+	
+		/* bail if X coordinate is out of range */
+		if (xpos <= -8 || xpos >= XDIM)
+			return;
+	
+		/* determine the bounding box */
+		pf_clip = atarigen_mo_compute_clip_8x8(xpos, ypos, 1, vsize, clip);
+	
+		/* standard priority case? */
+		if (priority==0)
+		{
+			/* draw the motion object */
+			atarigen_mo_draw_8x8_strip(bitmap, gfx, code, color, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_PEN, 0);
+	
+			/* do we have a priority color active? */
+			if (priority_pens != 0)
+			{
+				overrender_data.bitmap = bitmap;
+				overrender_data.type = OVERRENDER_PRIORITY;
+	
+				/* overrender the playfield */
+				atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
+			}
+		}
+	
+		/* high priority case? */
+		else
+		{
+			/* draw the sprite in bright pink on the real bitmap */
+			atarigen_mo_draw_transparent_8x8_strip(bitmap, gfx, code, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_PEN, 0);
+	
+			/* also draw the sprite normally on the temp bitmap */
+			atarigen_mo_draw_8x8_strip(atarigen_pf_overrender_bitmap, gfx, code, 0x20, hflip, 0, xpos, ypos, vsize, clip, TRANSPARENCY_NONE, 0);
+	
+			/* now redraw the playfield tiles over top of the sprite */
+			overrender_data.bitmap = atarigen_pf_overrender_bitmap;
+			overrender_data.type = OVERRENDER_SPECIAL;
+			atarigen_pf_process(pf_overrender_callback, overrender_data, pf_clip);
+	
+			/* finally, copy this chunk to the real bitmap */
+			copybitmap(bitmap, atarigen_pf_overrender_bitmap, 0, 0, 0, 0, pf_clip, TRANSPARENCY_THROUGH, palette_transparent_pen);
+		}
+            }
+        };
+        
+	
+	/*************************************
+	 *
+	 *	Graphics decoding
+	 *
+	 *************************************/
+	
+	static int decode_gfx()
+	{
+		UBytePtr prom1 = new UBytePtr(memory_region(REGION_PROMS), 0x000);
+		UBytePtr prom2 = new UBytePtr(memory_region(REGION_PROMS), 0x200);
+		int obj, i;
+	
+		/* reset the globals */
+		//memset(&bank_gfx, 0, sizeof(bank_gfx));
+                bank_gfx = new int[3][8];
+	
+		/* loop for two sets of objects */
+		for (obj = 0; obj < 2; obj++)
+		{
+			IntSubArray table = (obj == 0) ? new IntSubArray(pf_lookup) : new IntSubArray(mo_lookup);
+	
+			/* loop for 256 objects in the set */
+			for (i = 0; i < 256; i++, prom1.inc(), prom2.inc())
+			{
+				int bank, bpp, color, offset;
+	
+				/* determine the bpp */
+				bpp = 4;
+				if ((prom2.read() & PROM2_PLANE_4_ENABLE) != 0)
+				{
+					bpp = 5;
+					if ((prom2.read() & PROM2_PLANE_5_ENABLE) != 0)
+						bpp = 6;
+				}
+	
+				/* determine the color */
+				if (obj == 0)
+					color = (16 + (~prom2.read() & PROM2_PF_COLOR_MASK)) >> (bpp - 4); /* playfield */
+				else
+					color = (~prom2.read() & PROM2_MO_COLOR_MASK) >> (bpp - 4);	/* motion objects (high bit ignored) */
+	
+				/* determine the offset */
+				offset = prom1.read() & PROM1_OFFSET_MASK;
+	
+				/* determine the bank */
+				bank = get_bank(prom1.read(), prom2.read(), bpp);
+				if (bank < 0)
+					return 1;
+	
+				/* set the value */
+				if (bank == 0){
+					table.write( 0 );
+                                        table.inc(1);
+                                } else {
+					table.write( PACK_LOOKUP_DATA(bank, color, offset, bpp) );
+                                        table.inc(1);
+                                }
+			}
+		}
+		return 0;
+	}
+	
+	
+	
+	/*************************************
+	 *
+	 *	Graphics bank mapping
+	 *
+	 *************************************/
+	
+	static int get_bank(int prom1, int prom2, int bpp)
+	{
+		int bank_offset[] = { 0, 0x00000, 0x30000, 0x60000, 0x90000, 0xc0000, 0xe0000, 0x100000 };
+		int bank_index, i, gfx_index;
+	
+		/* determine the bank index */
+		if ((prom1 & PROM1_BANK_1) == 0)
+			bank_index = 1;
+		else if ((prom1 & PROM1_BANK_2) == 0)
+			bank_index = 2;
+		else if ((prom1 & PROM1_BANK_3) == 0)
+			bank_index = 3;
+		else if ((prom1 & PROM1_BANK_4) == 0)
+			bank_index = 4;
+		else if ((prom2 & PROM2_BANK_5) == 0)
+			bank_index = 5;
+		else if ((prom2 & PROM2_BANK_6_OR_7) == 0)
+		{
+			if ((prom2 & PROM2_BANK_7) == 0)
+				bank_index = 7;
+			else
+				bank_index = 6;
+		}
+		else
+			return 0;
+	
+		/* find the bank */
+		if (bank_gfx[bpp - 4][bank_index] != 0)
+			return bank_gfx[bpp - 4][bank_index];
+	
+		/* if the bank is out of range, call it 0 */
+		if (bank_offset[bank_index] >= memory_region_length(REGION_GFX2))
+			return 0;
+	
+		/* don't have one? let's make it ... first find any empty slot */
+		for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
+			if (Machine.gfx[gfx_index] == null)
+				break;
+		if (gfx_index == MAX_GFX_ELEMENTS)
+			return -1;
+	
+		/* tweak the structure for the number of bitplanes we have */
+		objlayout.planes = bpp;
+		for (i = 0; i < bpp; i++)
+			objlayout.planeoffset[i] = (bpp - i - 1) * 0x8000 * 8;
+	
+		/* decode the graphics */
+		Machine.gfx[gfx_index] = decodegfx(new UBytePtr(memory_region(REGION_GFX2), bank_offset[bank_index]), objlayout);
+		if (Machine.gfx[gfx_index] == null)
+			return -1;
+	
+		/* set the color information */
+		Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable, 256);
+		Machine.gfx[gfx_index].total_colors = 48 >> (bpp - 4);
+	
+		/* set the entry and return it */
+		return bank_gfx[bpp - 4][bank_index] = gfx_index;
+	}
 }

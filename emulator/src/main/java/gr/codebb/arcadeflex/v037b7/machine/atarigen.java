@@ -100,17 +100,17 @@ public class atarigen
 	}
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	Update interrupts
-/*TODO*///	 *
-/*TODO*///	 *	Forces the interrupt callback to be called with the current VBLANK and sound interrupt states.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_update_interrupts(void)
-/*TODO*///	{
-/*TODO*///		(*update_int_callback)();
-/*TODO*///	}
+	/*
+	 *	Update interrupts
+	 *
+	 *	Forces the interrupt callback to be called with the current VBLANK and sound interrupt states.
+	 *
+	 */
+	
+	public static void atarigen_update_interrupts()
+	{
+		(update_int_callback).handler();
+	}
 	
 	
 	
@@ -472,6 +472,7 @@ public class atarigen
 	
 	public static void atarigen_slapstic_reset()
 	{
+            System.out.println("atarigen_slapstic_reset "+atarigen_slapstic_num);
 		if (atarigen_slapstic_num != 0)
 			slapstic_reset();
 	}

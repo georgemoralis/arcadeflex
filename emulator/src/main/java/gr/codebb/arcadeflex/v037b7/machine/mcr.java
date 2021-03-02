@@ -423,18 +423,18 @@ public class mcr {
 		{
 			case 0:
 				/* low 8 bits of horizontal scroll */
-				spyhunt_scrollx = (spyhunt_scrollx & ~0xff) | data;
+				spyhunt_scrollx = (short) ((spyhunt_scrollx & ~0xff) | data);
 				break;
 	
 			case 1:
 				/* upper 3 bits of horizontal scroll and upper 1 bit of vertical scroll */
-				spyhunt_scrollx = (spyhunt_scrollx & 0xff) | ((data & 0x07) << 8);
-				spyhunt_scrolly = (spyhunt_scrolly & 0xff) | ((data & 0x80) << 1);
+				spyhunt_scrollx = (short) ((spyhunt_scrollx & 0xff) | ((data & 0x07) << 8));
+				spyhunt_scrolly = (short) ((spyhunt_scrolly & 0xff) | ((data & 0x80) << 1));
 				break;
 	
 			case 2:
 				/* low 8 bits of vertical scroll */
-				spyhunt_scrolly = (spyhunt_scrolly & ~0xff) | data;
+				spyhunt_scrolly = (short) ((spyhunt_scrolly & ~0xff) | data);
 				break;
 		}
 	} };

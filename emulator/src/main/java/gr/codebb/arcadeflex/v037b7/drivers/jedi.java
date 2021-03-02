@@ -244,7 +244,7 @@ public class jedi {
             /* video hardware */
             37 * 8, 30 * 8, new rectangle(0 * 8, 37 * 8 - 1, 0 * 8, 30 * 8 - 1),
             gfxdecodeinfo,
-            1024 + 1, 0, /* no colortable, we do the lookups ourselves */
+            1024 + 1, 1024 + 1, /* no colortable, we do the lookups ourselves */
             /* reserve color 1024 for black (disabled display) */
             null,
             VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE,

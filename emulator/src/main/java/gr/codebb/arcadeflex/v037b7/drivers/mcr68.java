@@ -1003,7 +1003,7 @@ public class mcr68
 				zwackery_readmem,zwackery_writemem,null,null,
 				mcr68_interrupt,1
 			)
-                        ,SOUND_CPU_CHIP_SQUEAK_DELUXE()
+                        ,SOUND_CPU_CHIP_SQUEAK_DELUXE
                         
 		},
 		30, DEFAULT_REAL_30HZ_VBLANK_DURATION,
@@ -1024,10 +1024,10 @@ public class mcr68
 	
 		/* sound hardware */
 		SOUND_SUPPORTS_STEREO,0,0,0,
-/*TODO*///                new MachineSound[] {
-/*TODO*///			SOUND_CHIP_SQUEAK_DELUXE
-/*TODO*///		},
-                null,
+                new MachineSound[] {
+			SOUND_CHIP_SQUEAK_DELUXE
+		},
+              
                 
 		null
 	);
