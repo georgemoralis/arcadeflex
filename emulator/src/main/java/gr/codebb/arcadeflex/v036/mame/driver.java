@@ -267,6 +267,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.gauntlet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.xybots.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.relief.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.atarisy1.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.badlands.*;
 
 public class driver {
 
@@ -2388,7 +2389,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( eprom2 )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( skullxbo )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( skullxb2 )	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( badlands )	/* (c) 1989 */
+                driver_badlands,	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( cyberbal )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( cyberbt )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( cyberb2p )	/* (c) 1989 */

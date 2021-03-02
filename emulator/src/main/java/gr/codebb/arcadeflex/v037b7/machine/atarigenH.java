@@ -523,8 +523,10 @@ public class atarigenH
 /*TODO*///	#define atarigen_mo_compute_clip_16x8(dest, xpos, ypos, hsize, vsize, clip) \
 /*TODO*///		atarigen_mo_compute_clip(dest, xpos, ypos, hsize, vsize, clip, 16, 8)
 /*TODO*///	
-/*TODO*///	#define atarigen_mo_compute_clip_16x16(dest, xpos, ypos, hsize, vsize, clip) \
-/*TODO*///		atarigen_mo_compute_clip(dest, xpos, ypos, hsize, vsize, clip, 16, 16)
+        public static rectangle atarigen_mo_compute_clip_16x16(int xpos, int ypos, int hsize, int vsize, rectangle clip)
+        {
+		return atarigen_mo_compute_clip(xpos, ypos, hsize, vsize, clip, 16, 16);
+        }
 	
 	
 	public static void atarigen_mo_draw(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int hsize, int vsize, rectangle clip, int trans, int trans_pen, int tile_width, int tile_height) 
@@ -653,9 +655,12 @@ public class atarigenH
         {
 		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8);
         }
-/*TODO*///	#define atarigen_mo_draw_16x8_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8)
-/*TODO*///	
+
+        public static void atarigen_mo_draw_16x8_strip(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8);
+        }
+        
 /*TODO*///	#define atarigen_mo_draw_16x16_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_strip(bitmap, gfx, code, color, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	
@@ -665,9 +670,11 @@ public class atarigenH
 		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 8, 8);
         }
 	
-/*TODO*///	#define atarigen_mo_draw_transparent_16x8_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8)
-/*TODO*///	
+        public static void atarigen_mo_draw_transparent_16x8_strip(osd_bitmap bitmap, GfxElement gfx, int code, int hflip, int vflip, int x, int y, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 8);
+        }
+
 /*TODO*///	#define atarigen_mo_draw_transparent_16x16_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_transparent_strip(bitmap, gfx, code, hflip, vflip, x, y, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	

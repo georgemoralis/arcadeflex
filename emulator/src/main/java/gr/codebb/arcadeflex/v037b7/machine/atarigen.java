@@ -672,11 +672,11 @@ public class atarigen
 			timer_set(TIME_NOW, data & 0xff, delayed_sound_w);
 	} };
 	
-/*TODO*///	public static WriteHandlerPtr atarigen_sound_upper_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		if (!(data & 0xff000000))
-/*TODO*///			timer_set(TIME_NOW, (data >> 8) & 0xff, delayed_sound_w);
-/*TODO*///	} };
+	public static WriteHandlerPtr atarigen_sound_upper_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		if ((data & 0xff000000)==0)
+			timer_set(TIME_NOW, (data >> 8) & 0xff, delayed_sound_w);
+	} };
 	
 	
 	/*
@@ -695,12 +695,12 @@ public class atarigen
 		return atarigen_sound_to_cpu | 0xff00;
 	} };
 	
-/*TODO*///	public static ReadHandlerPtr atarigen_sound_upper_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		atarigen_sound_to_cpu_ready = 0;
-/*TODO*///		atarigen_sound_int_ack_w(0, 0);
-/*TODO*///		return (atarigen_sound_to_cpu << 8) | 0x00ff;
-/*TODO*///	} };
+	public static ReadHandlerPtr atarigen_sound_upper_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		atarigen_sound_to_cpu_ready = 0;
+		atarigen_sound_int_ack_w.handler(0, 0);
+		return (atarigen_sound_to_cpu << 8) | 0x00ff;
+	} };
 	
 	
 	/*
