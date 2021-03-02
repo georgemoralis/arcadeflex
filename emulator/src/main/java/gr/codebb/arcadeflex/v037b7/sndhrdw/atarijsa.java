@@ -141,7 +141,7 @@ public class atarijsa
 	public static void atarijsa_reset()
 	{
 		/* reset the sound I/O system */
-/*TODO*///		atarigen_sound_io_reset(cpu_num);
+		atarigen_sound_io_reset(cpu_num);
 	
 		/* reset the static states */
 		speech_data = 0;
@@ -414,7 +414,7 @@ public class atarijsa
 				break;
 	
 			case 0x002:		/* /RDP */
-/*TODO*///				result = atarigen_6502_sound_r.handler(offset);
+				result = atarigen_6502_sound_r.handler(offset);
 				break;
 	
 			case 0x004:		/* /RDIO */
@@ -430,12 +430,12 @@ public class atarijsa
 				*/
 				result = readinputport(input_port);
 				if ((readinputport(test_port) & test_mask)==0) result ^= 0x90;
-/*TODO*///				if (atarigen_cpu_to_sound_ready != 0) result ^= 0x40;
-/*TODO*///				if (atarigen_sound_to_cpu_ready != 0) result ^= 0x20;
+				if (atarigen_cpu_to_sound_ready != 0) result ^= 0x40;
+				if (atarigen_sound_to_cpu_ready != 0) result ^= 0x20;
 				break;
 	
 			case 0x006:		/* /IRQACK */
-/*TODO*///				atarigen_6502_irq_ack_r.handler(0);
+				atarigen_6502_irq_ack_r.handler(0);
 				break;
 	
 			case 0x200:		/* /WRV */
@@ -465,7 +465,7 @@ public class atarijsa
 				break;
 	
 			case 0x006:		/* /IRQACK */
-/*TODO*///				atarigen_6502_irq_ack_r.handler(0);
+				atarigen_6502_irq_ack_r.handler(0);
 				break;
 	
 			case 0x200:		/* /WRV */
@@ -474,7 +474,7 @@ public class atarijsa
 				break;
 	
 			case 0x202:		/* /WRP */
-/*TODO*///				atarigen_6502_sound_w.handler(offset, data);
+				atarigen_6502_sound_w.handler(offset, data);
 				break;
 	
 			case 0x204:		/* /WRIO */

@@ -294,7 +294,7 @@ public class klax
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
-		//osd_bitmap bitmap = (osd_bitmap) param;
+		osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -318,7 +318,7 @@ public class klax
 			}
 	
 		/* then blast the result */
-		copybitmap((osd_bitmap) param, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
+		copybitmap(bitmap, atarigen_pf_bitmap, 0, 0, 0, 0, clip, TRANSPARENCY_NONE, 0);
             }
         };
 	
@@ -333,7 +333,7 @@ public class klax
             @Override
             public void handler(drawgfxH.rectangle clip, drawgfxH.rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
-		//osd_bitmap bitmap = (osd_bitmap) param;
+		osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
 	
 		/* standard loop over tiles */
@@ -351,7 +351,7 @@ public class klax
 					int hflip = data1 & 0x8000;
 					int code = data1 & 0x1fff;
 	
-					drawgfx((osd_bitmap) param, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
+					drawgfx(bitmap, gfx, code, color, hflip, 0, 8 * x, 8 * y, clip, TRANSPARENCY_NONE, 0);
 				}
 			}
             }
