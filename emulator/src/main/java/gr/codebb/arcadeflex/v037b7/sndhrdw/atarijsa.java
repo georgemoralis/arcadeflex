@@ -279,120 +279,120 @@ public class atarijsa
 	
 	
 	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	JSA II I/O handlers
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	public static ReadHandlerPtr jsa2_io_r  = new ReadHandlerPtr() { public int handler(int offset)
-/*TODO*///	{
-/*TODO*///		int result = 0xff;
-/*TODO*///	
-/*TODO*///		switch (offset & 0x206)
-/*TODO*///		{
-/*TODO*///			case 0x000:		/* /RDV */
-/*TODO*///				if (has_oki6295 != 0)
-/*TODO*///					result = OKIM6295_status_0_r(offset);
-/*TODO*///				else
-/*TODO*///					logerror("atarijsa: Unknown read at %04X\n", offset & 0x206);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x002:		/* /RDP */
-/*TODO*///				result = atarigen_6502_sound_r(offset);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x004:		/* /RDIO */
-/*TODO*///				/*
-/*TODO*///					0x80 = self test
-/*TODO*///					0x40 = NMI line state (active low)
-/*TODO*///					0x20 = sound output full
-/*TODO*///					0x10 = +5V
-/*TODO*///					0x08 = +5V
-/*TODO*///					0x04 = +5V
-/*TODO*///					0x02 = coin 2
-/*TODO*///					0x01 = coin 1
-/*TODO*///				*/
-/*TODO*///				result = readinputport(input_port);
-/*TODO*///				if (!(readinputport(test_port) & test_mask)) result ^= 0x80;
-/*TODO*///				if (atarigen_cpu_to_sound_ready != 0) result ^= 0x40;
-/*TODO*///				if (atarigen_sound_to_cpu_ready != 0) result ^= 0x20;
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x006:		/* /IRQACK */
-/*TODO*///				atarigen_6502_irq_ack_r(0);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x200:		/* /WRV */
-/*TODO*///			case 0x202:		/* /WRP */
-/*TODO*///			case 0x204:		/* /WRIO */
-/*TODO*///			case 0x206:		/* /MIX */
-/*TODO*///				logerror("atarijsa: Unknown read at %04X\n", offset & 0x206);
-/*TODO*///				break;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		return result;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr jsa2_io_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		switch (offset & 0x206)
-/*TODO*///		{
-/*TODO*///			case 0x000:		/* /RDV */
-/*TODO*///			case 0x002:		/* /RDP */
-/*TODO*///			case 0x004:		/* /RDIO */
-/*TODO*///				logerror("atarijsa: Unknown write (%02X) at %04X\n", data & 0xff, offset & 0x206);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x006:		/* /IRQACK */
-/*TODO*///				atarigen_6502_irq_ack_r(0);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x200:		/* /WRV */
-/*TODO*///				if (has_oki6295 != 0)
-/*TODO*///					OKIM6295_data_0_w(offset, data);
-/*TODO*///				else
-/*TODO*///					logerror("atarijsa: Unknown write (%02X) at %04X\n", data & 0xff, offset & 0x206);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x202:		/* /WRP */
-/*TODO*///				atarigen_6502_sound_w(offset, data);
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x204:		/* /WRIO */
-/*TODO*///				/*
-/*TODO*///					0xc0 = bank address
-/*TODO*///					0x20 = coin counter 2
-/*TODO*///					0x10 = coin counter 1
-/*TODO*///					0x08 = voice frequency (tweaks the OKI6295 frequency)
-/*TODO*///					0x04 = OKI6295 reset (active low)
-/*TODO*///					0x02 = n/c
-/*TODO*///					0x01 = YM2151 reset (active low)
-/*TODO*///				*/
-/*TODO*///	
-/*TODO*///				/* update the bank */
-/*TODO*///				memcpy(bank_base, &bank_source_data[0x1000 * ((data >> 6) & 3)], 0x1000);
-/*TODO*///				last_ctl = data;
-/*TODO*///	
-/*TODO*///				/* update the OKI frequency */
-/*TODO*///				OKIM6295_set_frequency(0, ALL_VOICES, ATARI_CLOCK_14MHz/4/3 / ((data & 8) ? 132 : 165));
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			case 0x206:		/* /MIX */
-/*TODO*///				/*
-/*TODO*///					0xc0 = n/c
-/*TODO*///					0x20 = low-pass filter enable
-/*TODO*///					0x10 = n/c
-/*TODO*///					0x0e = YM2151 volume (0-7)
-/*TODO*///					0x01 = OKI6295 volume (0-1)
-/*TODO*///				*/
-/*TODO*///				ym2151_volume = ((data >> 1) & 7) * 100 / 7;
-/*TODO*///				oki6295_volume = 50 + (data & 1) * 50;
-/*TODO*///				update_all_volumes();
-/*TODO*///				break;
-/*TODO*///		}
-/*TODO*///	} };
+	/*************************************
+	 *
+	 *	JSA II I/O handlers
+	 *
+	 *************************************/
+	
+	public static ReadHandlerPtr jsa2_io_r  = new ReadHandlerPtr() { public int handler(int offset)
+	{
+		int result = 0xff;
+	
+		switch (offset & 0x206)
+		{
+			case 0x000:		/* /RDV */
+				if (has_oki6295 != 0)
+					result = OKIM6295_status_0_r.handler(offset);
+				else
+					logerror("atarijsa: Unknown read at %04X\n", offset & 0x206);
+				break;
+	
+			case 0x002:		/* /RDP */
+				result = atarigen_6502_sound_r.handler(offset);
+				break;
+	
+			case 0x004:		/* /RDIO */
+				/*
+					0x80 = self test
+					0x40 = NMI line state (active low)
+					0x20 = sound output full
+					0x10 = +5V
+					0x08 = +5V
+					0x04 = +5V
+					0x02 = coin 2
+					0x01 = coin 1
+				*/
+				result = readinputport(input_port);
+				if ((readinputport(test_port)!=0?0:1 & test_mask)!=0) result ^= 0x80;
+				if (atarigen_cpu_to_sound_ready != 0) result ^= 0x40;
+				if (atarigen_sound_to_cpu_ready != 0) result ^= 0x20;
+				break;
+	
+			case 0x006:		/* /IRQACK */
+				atarigen_6502_irq_ack_r.handler(0);
+				break;
+	
+			case 0x200:		/* /WRV */
+			case 0x202:		/* /WRP */
+			case 0x204:		/* /WRIO */
+			case 0x206:		/* /MIX */
+				logerror("atarijsa: Unknown read at %04X\n", offset & 0x206);
+				break;
+		}
+	
+		return result;
+	} };
+	
+	
+	public static WriteHandlerPtr jsa2_io_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		switch (offset & 0x206)
+		{
+			case 0x000:		/* /RDV */
+			case 0x002:		/* /RDP */
+			case 0x004:		/* /RDIO */
+				logerror("atarijsa: Unknown write (%02X) at %04X\n", data & 0xff, offset & 0x206);
+				break;
+	
+			case 0x006:		/* /IRQACK */
+				atarigen_6502_irq_ack_r.handler(0);
+				break;
+	
+			case 0x200:		/* /WRV */
+				if (has_oki6295 != 0)
+					OKIM6295_data_0_w.handler(offset, data);
+				else
+					logerror("atarijsa: Unknown write (%02X) at %04X\n", data & 0xff, offset & 0x206);
+				break;
+	
+			case 0x202:		/* /WRP */
+				atarigen_6502_sound_w.handler(offset, data);
+				break;
+	
+			case 0x204:		/* /WRIO */
+				/*
+					0xc0 = bank address
+					0x20 = coin counter 2
+					0x10 = coin counter 1
+					0x08 = voice frequency (tweaks the OKI6295 frequency)
+					0x04 = OKI6295 reset (active low)
+					0x02 = n/c
+					0x01 = YM2151 reset (active low)
+				*/
+	
+				/* update the bank */
+				memcpy(new UBytePtr(bank_base), new UBytePtr(bank_source_data, 0x1000 * ((data >> 6) & 3)), 0x1000);
+				last_ctl = data;
+	
+				/* update the OKI frequency */
+				OKIM6295_set_frequency(0, ALL_VOICES, ATARI_CLOCK_14MHz/4/3 / ((data & 8)!=0 ? 132 : 165));
+				break;
+	
+			case 0x206:		/* /MIX */
+				/*
+					0xc0 = n/c
+					0x20 = low-pass filter enable
+					0x10 = n/c
+					0x0e = YM2151 volume (0-7)
+					0x01 = OKI6295 volume (0-1)
+				*/
+				ym2151_volume = ((data >> 1) & 7) * 100 / 7;
+				oki6295_volume = 50 + (data & 1) * 50;
+				update_all_volumes();
+				break;
+		}
+	} };
 	
 	
 	
@@ -704,26 +704,26 @@ public class atarijsa
 		new MemoryWriteAddress( -1 )  /* end of table */
 	};
 	
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress atarijsa2_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x0000, 0x1fff, MRA_RAM ),
-/*TODO*///		new MemoryReadAddress( 0x2000, 0x2001, YM2151_status_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0x2800, 0x2bff, jsa2_io_r ),
-/*TODO*///		new MemoryReadAddress( 0x3000, 0xffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( -1 )  /* end of table */
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress atarijsa2_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_RAM ),
-/*TODO*///		new MemoryWriteAddress( 0x2000, 0x2000, YM2151_register_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2001, 0x2001, YM2151_data_port_0_w ),
-/*TODO*///		new MemoryWriteAddress( 0x2800, 0x2bff, jsa2_io_w ),
-/*TODO*///		new MemoryWriteAddress( 0x3000, 0xffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( -1 )  /* end of table */
-/*TODO*///	};
+	
+	static MemoryReadAddress atarijsa2_readmem[] =
+	{
+		new MemoryReadAddress( 0x0000, 0x1fff, MRA_RAM ),
+		new MemoryReadAddress( 0x2000, 0x2001, YM2151_status_port_0_r ),
+		new MemoryReadAddress( 0x2800, 0x2bff, jsa2_io_r ),
+		new MemoryReadAddress( 0x3000, 0xffff, MRA_ROM ),
+		new MemoryReadAddress( -1 )  /* end of table */
+	};
+	
+	
+	static MemoryWriteAddress atarijsa2_writemem[] =
+	{
+		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_RAM ),
+		new MemoryWriteAddress( 0x2000, 0x2000, YM2151_register_port_0_w ),
+		new MemoryWriteAddress( 0x2001, 0x2001, YM2151_data_port_0_w ),
+		new MemoryWriteAddress( 0x2800, 0x2bff, jsa2_io_w ),
+		new MemoryWriteAddress( 0x3000, 0xffff, MWA_ROM ),
+		new MemoryWriteAddress( -1 )  /* end of table */
+	};
 	
 	
 	public static MemoryReadAddress atarijsa3_readmem[] =
@@ -796,18 +796,17 @@ public class atarijsa
 		1,			/* 1 chip */
 		ATARI_CLOCK_14MHz/4,
 		new int[] { YM3012_VOL(30,MIXER_PAN_CENTER,30,MIXER_PAN_CENTER) },
-/*TODO*///		new WriteYmHandlerPtr[] { atarigen_ym2151_irq_gen }
-                new WriteYmHandlerPtr[] { null }
+		new WriteYmHandlerPtr[] { atarigen_ym2151_irq_gen }
 	);
 	
-/*TODO*///	
-/*TODO*///	static YM2151interface atarijsa_ym2151_interface_stereo = new YM2151interface
-/*TODO*///	(
-/*TODO*///		1,			/* 1 chip */
-/*TODO*///		ATARI_CLOCK_14MHz/4,
-/*TODO*///		new int[] { YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
-/*TODO*///		new WriteYmHandlerPtr[] { atarigen_ym2151_irq_gen }
-/*TODO*///	);
+	
+	public static YM2151interface atarijsa_ym2151_interface_stereo = new YM2151interface
+	(
+		1,			/* 1 chip */
+		ATARI_CLOCK_14MHz/4,
+		new int[] { YM3012_VOL(60,MIXER_PAN_LEFT,60,MIXER_PAN_RIGHT) },
+		new WriteYmHandlerPtr[] { atarigen_ym2151_irq_gen }
+	);
 	
 	
 	public static YM2151interface atarijsa_ym2151_interface_stereo_swapped = new YM2151interface

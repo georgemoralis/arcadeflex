@@ -570,7 +570,7 @@ public class drawgfx {
             while (srcheight != 0)
             {
                     end = dstdata.offset + srcwidth;
-                    while (dstdata.offset <= end /*-4*/)
+                    while ((dstdata.offset <= end /*-4*/) && (dstdata.offset<dstdata.memory.length))
                     {
                             if (dstdata.read() == transcolor) dstdata.write(0, srcdata.read());
                             srcdata.inc();

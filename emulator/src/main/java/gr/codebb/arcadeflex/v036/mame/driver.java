@@ -268,6 +268,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.xybots.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.relief.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.atarisy1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.badlands.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.hydra.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.blstroid.*;
 
 public class driver {
 
@@ -2382,8 +2384,9 @@ public class driver {
                 driver_klax2,		/* (c) 1989 */
                 driver_klax3,		/* (c) 1989 */
                 driver_klaxj,		/* (c) 1989 (Japan) */
-                /*TODO*/ //	DRIVER( blstroid )	/* (c) 1987 */
-                /*TODO*/ //	DRIVER( blstroi2 )	/* (c) 1987 */
+                driver_blstroid,	/* (c) 1987 */
+                driver_blstroi2,	/* (c) 1987 */
+                driver_blsthead,
                 driver_xybots,	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( eprom )		/* (c) 1989 */
                 /*TODO*/ //	DRIVER( eprom2 )	/* (c) 1989 */
@@ -2398,10 +2401,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( rampartj )	/* (c) 1990 (Japan) */
                 driver_shuuz, /* (c) 1990 */
                 driver_shuuz2,/* (c) 1990 */
-                /*TODO*/ //	DRIVER( hydra )		/* (c) 1990 */
-                /*TODO*/ //	DRIVER( hydrap )	/* (c) 1990 */
-                /*TODO*/ //	DRIVER( pitfight )	/* (c) 1990 */
-                /*TODO*/ //	DRIVER( pitfigh3 )	/* (c) 1990 */
+                driver_hydra,		/* (c) 1990 */
+                driver_hydrap,	/* (c) 1990 */
+                driver_pitfight,	/* (c) 1990 */
+                driver_pitfigh3,	/* (c) 1990 */
                 /*TODO*/ //	DRIVER( thunderj )	/* (c) 1990 */
                 driver_batman,	/* (c) 1991 */
                 driver_relief,	/* (c) 1992 */

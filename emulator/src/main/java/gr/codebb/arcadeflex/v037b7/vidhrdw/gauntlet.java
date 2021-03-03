@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
+import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
@@ -353,7 +353,7 @@ public class gauntlet
 	
 	static atarigen_pf_callback pf_color_callback = new atarigen_pf_callback() {
             @Override
-            public void handler(rectangle clip, rectangle tiles, atarigenH.atarigen_pf_state state, Object param) {
+            public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 IntSubArray usage = new IntSubArray(Machine.gfx[0].pen_usage, state.param[0] * 0x1000);
 		int[] colormap = (int[]) param;
 		int x, y;

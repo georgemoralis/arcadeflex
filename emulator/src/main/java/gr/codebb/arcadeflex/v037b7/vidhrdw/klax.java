@@ -82,27 +82,27 @@ public class klax
 	 *	Video system start
 	 *
 	 *************************************/
-	
+	public static atarigen_mo_desc mo_desc = new atarigen_mo_desc
+        (
+                256,                 /* maximum number of MO's */
+                8,                   /* number of bytes per MO entry */
+                2,                   /* number of bytes between MO words */
+                0,                   /* ignore an entry if this word == 0xffff */
+                0, 0, 0xff,          /* link = (data[linkword] >> linkshift) & linkmask */
+                0,                    /* render in reverse link order */
+                0
+        );
+
+        public static atarigen_pf_desc pf_desc = new atarigen_pf_desc
+        (
+                8, 8,				/* width/height of each tile */
+                64, 32,				/* number of tiles in each direction */
+                1					/* non-scrolling */
+        );
+                
 	public static VhStartPtr klax_vh_start = new VhStartPtr() { public int handler() 
 	{
-		atarigen_mo_desc mo_desc = new atarigen_mo_desc
-		(
-			256,                 /* maximum number of MO's */
-			8,                   /* number of bytes per MO entry */
-			2,                   /* number of bytes between MO words */
-			0,                   /* ignore an entry if this word == 0xffff */
-			0, 0, 0xff,          /* link = (data[linkword] >> linkshift) & linkmask */
-			0,                    /* render in reverse link order */
-                        0
-		);
-	
-		atarigen_pf_desc pf_desc = new atarigen_pf_desc
-		(
-			8, 8,				/* width/height of each tile */
-			64, 32,				/* number of tiles in each direction */
-			1					/* non-scrolling */
-		);
-	
+		
 		/* initialize the playfield */
 		if (atarigen_pf_init(pf_desc) != 0)
 			return 1;
@@ -192,7 +192,7 @@ public class klax
 			memset(atarigen_pf_dirty, 1, atarigen_playfieldram_size[0] / 4);
 	
 		/* update playfield */
-		atarigen_pf_process(pf_render_callback, bitmap, new rectangle(Machine.visible_area));
+		atarigen_pf_process(pf_render_callback, bitmap, Machine.visible_area);
 	
 		/* render the motion objects */
 		atarigen_mo_process(mo_render_callback, bitmap);
@@ -220,7 +220,7 @@ public class klax
 		palette_init_used_colors();
 	
 		/* update color usage for the playfield */
-		atarigen_pf_process(pf_color_callback, pf_map, new rectangle(Machine.visible_area));
+		atarigen_pf_process(pf_color_callback, pf_map, Machine.visible_area);
 	
 		/* update color usage for the mo's */
 		atarigen_mo_process(mo_color_callback, mo_map);
@@ -263,7 +263,6 @@ public class klax
             @Override
             public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 int[] usage = Machine.gfx[0].pen_usage;
-                
 		int[] colormap = (int[]) param;
 		int x, y;
 	
@@ -331,7 +330,7 @@ public class klax
 	
 	public static atarigen_pf_callback pf_overrender_callback = new atarigen_pf_callback() {
             @Override
-            public void handler(drawgfxH.rectangle clip, drawgfxH.rectangle tiles, atarigen_pf_state state, Object param) {
+            public void handler(rectangle clip, rectangle tiles, atarigen_pf_state state, Object param) {
                 GfxElement gfx = Machine.gfx[0];
 		osd_bitmap bitmap = (osd_bitmap) param;
 		int x, y;
@@ -395,7 +394,7 @@ public class klax
             public void handler(UShortArray data, rectangle clip, Object param) {
                 GfxElement gfx = Machine.gfx[1];
 		osd_bitmap bitmap = (osd_bitmap) param;
-		rectangle pf_clip = new rectangle();
+		rectangle pf_clip=new rectangle();
 	
 		/* extract data from the various words */
 		int code = data.read(1) & 0x0fff;

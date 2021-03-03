@@ -1416,7 +1416,9 @@ public class atarigen
 	
 	public static void atarigen_mo_reset()
 	{
-		molist_end = new UShortArray(molist);
+		molist_end = molist;
+                if (molist != null)
+                    new UShortArray(molist);
 		molist_last = null;
 	}
 	
@@ -1431,7 +1433,7 @@ public class atarigen
 	public static void atarigen_mo_update(UBytePtr base, int link, int scanline)
 	{
 		int entryskip = modesc.entryskip, wordskip = modesc.wordskip, wordcount = modesc.entrywords - 1;
-		IntSubArray spritevisit=new IntSubArray(ATARIGEN_MAX_MAXCOUNT);
+		int[] spritevisit=new int[ATARIGEN_MAX_MAXCOUNT];
                 
                 //for (int _i=0 ; _i<ATARIGEN_MAX_MAXCOUNT ; _i++)
                 //    spritevisit[_i] = 1;
@@ -1459,7 +1461,7 @@ public class atarigen
 	
 		/* visit all the sprites and copy their data into the display list */
 		memset(spritevisit, 0, modesc.linkmask + 1);
-		while (spritevisit.read(link)==0)
+		while (spritevisit[link]==0)
 		{
 			UBytePtr modata = new UBytePtr(base, link * entryskip);
                         //System.out.println("offset2: "+modata.offset);
@@ -1480,7 +1482,7 @@ public class atarigen
 			data.write(0, (char) scanline);
                         data.inc(1);
                         
-                        int _max_data_lenght=modata.memory.length -1;
+                        int _max_data_lenght=modata.memory.length;
 	
 			/* add the data words */
 			for (i = temp = 0; (i < wordcount) && (modata.offset < _max_data_lenght); i++, temp += wordskip){
@@ -1507,7 +1509,7 @@ public class atarigen
 			}
 	
 			/* link to the next object */
-			spritevisit.write(link, 1);
+			spritevisit[link] = 1;
 			if (modesc.linkword >= 0)
 				link = (tempdata[modesc.linkword] >> modesc.linkshift) & modesc.linkmask;
 			else
@@ -1532,26 +1534,20 @@ public class atarigen
 	
 	public static void atarigen_mo_update_slip_512(UBytePtr base, int scroll, int scanline, UBytePtr slips)
 	{
-                //int _base_index=base.offset;
-                //base.offset=0;
-		/* catch a fractional character off the top of the screen */
+                /* catch a fractional character off the top of the screen */
 		if (scanline == 0 && (scroll & 7) != 0)
 		{
 			int pfscanline = scroll & 0x1f8;
 			int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;
-			atarigen_mo_update(base, link, 0);
+			atarigen_mo_update(new UBytePtr(base), link, 0);
 		}
-                
-                //base.offset=_base_index;
-                
-                int _maxSlips = slips.memory.length -1;
 	
 		/* if we're within screen bounds, grab the next batch of MO's and process */
-		if ((scanline < Machine.drv.screen_height) && (slips.offset < _maxSlips))
+		if (scanline < Machine.drv.screen_height)
 		{
 			int pfscanline = (scanline + scroll + 7) & 0x1f8;
 			int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;
-			atarigen_mo_update(base, link, (pfscanline - scroll) & 0x1ff);
+			atarigen_mo_update(new UBytePtr(base), link, (pfscanline - scroll) & 0x1ff);
 		}
 	}
 	
@@ -1623,29 +1619,29 @@ public class atarigen
 	}
 	
 	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		RLE Motion object rendering/decoding
-/*TODO*///	
-/*TODO*///			atarigen_rle_init - prescans the RLE objects
-/*TODO*///			atarigen_rle_free - frees all memory allocated by atarigen_rle_init
-/*TODO*///			atarigen_rle_render - render an RLE-compressed motion object
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	
-/*TODO*///	/* globals */
-/*TODO*///	int atarigen_rle_count;
-/*TODO*///	struct atarigen_rle_descriptor *atarigen_rle_info;
-/*TODO*///	
-/*TODO*///	/* statics */
-/*TODO*///	static UINT8 rle_region;
-/*TODO*///	static UINT8 rle_bpp[8];
-/*TODO*///	static UINT16 *rle_table[8];
-/*TODO*///	static UINT16 *rle_colortable;
-/*TODO*///	
+	
+	/*--------------------------------------------------------------------------
+	
+		RLE Motion object rendering/decoding
+	
+			atarigen_rle_init - prescans the RLE objects
+			atarigen_rle_free - frees all memory allocated by atarigen_rle_init
+			atarigen_rle_render - render an RLE-compressed motion object
+	
+	--------------------------------------------------------------------------*/
+	
+	/* globals */
+	public static int atarigen_rle_count;
+	public static atarigen_rle_descriptor[] atarigen_rle_info;
+
+	/* statics */
+	static int rle_region;
+	static int[] rle_bpp=new int[8];
+	static UShortArray[] rle_table = new UShortArray[8];
+	static UShortArray rle_colortable;
+
 /*TODO*///	/* prototypes */
-/*TODO*///	static static void draw_rle_zoom(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
+/*TODO*///	public static void draw_rle_zoom(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
 /*TODO*///			UINT32 color, int flipy, int sx, int sy, int scalex, int scaley,
 /*TODO*///			const struct rectangle *clip);
 /*TODO*///	static void draw_rle_zoom_16(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
@@ -1657,657 +1653,722 @@ public class atarigen
 /*TODO*///	static void draw_rle_zoom_hflip_16(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
 /*TODO*///			UINT32 color, int flipy, int sx, int sy, int scalex, int scaley,
 /*TODO*///			const struct rectangle *clip);
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	RLE motion object initialization
-/*TODO*///	 *
-/*TODO*///	 *	Pre-parses the motion object list and potentially pre-decompresses the data.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	int atarigen_rle_init(int region, int colorbase)
-/*TODO*///	{
-/*TODO*///		const UINT16 *base = (const UINT16 *)memory_region(region);
-/*TODO*///		int lowest_address = memory_region_length(region);
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		rle_region = region;
-/*TODO*///		rle_colortable = &Machine.remapped_colortable[colorbase];
-/*TODO*///	
-/*TODO*///		/* build and allocate the tables */
-/*TODO*///		if (build_rle_tables())
-/*TODO*///			return 1;
-/*TODO*///	
-/*TODO*///		/* first determine the lowest address of all objects */
-/*TODO*///		for (i = 0; i < lowest_address; i += 4)
-/*TODO*///		{
-/*TODO*///			int offset = ((base[i + 2] & 0xff) << 16) | base[i + 3];
-/*TODO*///			if (offset > i && offset < lowest_address)
-/*TODO*///				lowest_address = offset;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* that determines how many objects */
-/*TODO*///		atarigen_rle_count = lowest_address / 4;
-/*TODO*///		atarigen_rle_info = malloc(sizeof(struct atarigen_rle_descriptor) * atarigen_rle_count);
-/*TODO*///		if (!atarigen_rle_info)
-/*TODO*///		{
-/*TODO*///			atarigen_rle_free();
-/*TODO*///			return 1;
-/*TODO*///		}
-/*TODO*///		memset(atarigen_rle_info, 0, sizeof(struct atarigen_rle_descriptor) * atarigen_rle_count);
-/*TODO*///	
-/*TODO*///		/* now loop through and prescan the objects */
-/*TODO*///		for (i = 0; i < atarigen_rle_count; i++)
-/*TODO*///			prescan_rle(i);
-/*TODO*///	
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	RLE motion object free
-/*TODO*///	 *
-/*TODO*///	 *	Frees all memory allocated to track the motion objects.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_rle_free(void)
-/*TODO*///	{
-/*TODO*///		/* free the info data */
-/*TODO*///		if (atarigen_rle_info != 0)
-/*TODO*///			free(atarigen_rle_info);
-/*TODO*///		atarigen_rle_info = NULL;
-/*TODO*///	
-/*TODO*///		/* free the tables */
-/*TODO*///		if (rle_table[0])
-/*TODO*///			free(rle_table[0]);
-/*TODO*///		memset(rle_table, 0, sizeof(rle_table));
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	RLE motion object render
-/*TODO*///	 *
-/*TODO*///	 *	Renders a compressed motion object.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_rle_render(struct osd_bitmap *bitmap, struct atarigen_rle_descriptor *info, int color, int hflip, int vflip,
-/*TODO*///		int x, int y, int xscale, int yscale, const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		int scaled_xoffs = (xscale * info.xoffs) >> 12;
-/*TODO*///		int scaled_yoffs = (yscale * info.yoffs) >> 12;
-/*TODO*///	
-/*TODO*///		/* we're hflipped, account for it */
-/*TODO*///		if (hflip != 0) scaled_xoffs = ((xscale * info.width) >> 12) - scaled_xoffs;
-/*TODO*///	
-/*TODO*///		/* adjust for the x and y offsets */
-/*TODO*///		x -= scaled_xoffs;
-/*TODO*///		y -= scaled_yoffs;
-/*TODO*///	
-/*TODO*///		/* bail on a NULL object */
-/*TODO*///		if (!info.data)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* 16-bit case */
-/*TODO*///		if (bitmap.depth == 16)
-/*TODO*///		{
-/*TODO*///			if (!hflip)
-/*TODO*///				draw_rle_zoom_16(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
+	
+	/*
+	 *	RLE motion object initialization
+	 *
+	 *	Pre-parses the motion object list and potentially pre-decompresses the data.
+	 *
+	 */
+	
+	public static int atarigen_rle_init(int region, int colorbase)
+	{
+		UShortArray base = new UShortArray(memory_region(region));
+		int lowest_address = memory_region_length(region);
+		int i;
+	
+		rle_region = region;
+		rle_colortable = new UShortArray(Machine.remapped_colortable, colorbase);
+	
+		/* build and allocate the tables */
+		if (build_rle_tables() != 0)
+			return 1;
+	
+		/* first determine the lowest address of all objects */
+		for (i = 0; i < lowest_address; i += 4)
+		{
+			int offset = ((base.read(i + 2) & 0xff) << 16) | base.read(i + 3);
+			if (offset > i && offset < lowest_address)
+				lowest_address = offset;
+		}
+	
+		/* that determines how many objects */
+		atarigen_rle_count = lowest_address / 4;
+		atarigen_rle_info = new atarigen_rle_descriptor[atarigen_rle_count];
+		if (atarigen_rle_info == null)
+		{
+			atarigen_rle_free();
+			return 1;
+		}
+		//memset(atarigen_rle_info, 0, sizeof(struct atarigen_rle_descriptor) * atarigen_rle_count);
+                for (int _i=0 ; _i<atarigen_rle_count ; _i++)
+                    atarigen_rle_info[_i] = new atarigen_rle_descriptor();
+	
+		/* now loop through and prescan the objects */
+		for (i = 0; i < atarigen_rle_count; i++)
+			prescan_rle(i);
+	
+		return 0;
+	}
+	
+	
+	/*
+	 *	RLE motion object free
+	 *
+	 *	Frees all memory allocated to track the motion objects.
+	 *
+	 */
+	
+	public static void atarigen_rle_free()
+	{
+		/* free the info data */
+		if (atarigen_rle_info != null)
+			atarigen_rle_info = null;
+	
+		/* free the tables */
+		if (rle_table[0] != null){
+//			memset(rle_table, 0, sizeof(rle_table));
+                    for (int _i=0 ; _i<rle_table.length ; _i++)
+                        rle_table[_i] = null;
+                }
+	}
+	
+	
+	/*
+	 *	RLE motion object render
+	 *
+	 *	Renders a compressed motion object.
+	 *
+	 */
+	
+	public static void atarigen_rle_render(osd_bitmap bitmap, atarigen_rle_descriptor info, int color, int hflip, int vflip,
+		int x, int y, int xscale, int yscale, rectangle clip)
+	{
+		int scaled_xoffs = (xscale * info.xoffs) >> 12;
+		int scaled_yoffs = (yscale * info.yoffs) >> 12;
+	
+		/* we're hflipped, account for it */
+		if (hflip != 0) scaled_xoffs = ((xscale * info.width) >> 12) - scaled_xoffs;
+	
+		/* adjust for the x and y offsets */
+		x -= scaled_xoffs;
+		y -= scaled_yoffs;
+	
+		/* bail on a NULL object */
+		if (info.data==null)
+			return;
+	
+		/* 16-bit case */
+		if (bitmap.depth == 16)
+		{
+/*TODO*///			if (hflip==0)
+				draw_rle_zoom_16(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
 /*TODO*///			else
 /*TODO*///				draw_rle_zoom_hflip_16(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* 8-bit case */
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			if (!hflip)
-/*TODO*///				draw_rle_zoom(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
-/*TODO*///			else
-/*TODO*///				draw_rle_zoom_hflip(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Builds internally-used tables
-/*TODO*///	 *
-/*TODO*///	 *	Special two-byte tables with the upper byte giving the count and the lower
-/*TODO*///	 *	byte giving the pixel value.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static int build_rle_tables(void)
-/*TODO*///	{
-/*TODO*///		UINT16 *base;
-/*TODO*///		int i;
-/*TODO*///	
-/*TODO*///		/* allocate all 5 tables */
-/*TODO*///		base = malloc(0x500 * sizeof(UINT16));
-/*TODO*///		if (!base)
-/*TODO*///			return 1;
-/*TODO*///	
-/*TODO*///		/* assign the tables */
-/*TODO*///		rle_table[0] = &base[0x000];
-/*TODO*///		rle_table[1] = &base[0x100];
-/*TODO*///		rle_table[2] = rle_table[3] = &base[0x200];
-/*TODO*///		rle_table[4] = rle_table[6] = &base[0x300];
-/*TODO*///		rle_table[5] = rle_table[7] = &base[0x400];
-/*TODO*///	
-/*TODO*///		/* set the bpps */
-/*TODO*///		rle_bpp[0] = 4;
-/*TODO*///		rle_bpp[1] = rle_bpp[2] = rle_bpp[3] = 5;
-/*TODO*///		rle_bpp[4] = rle_bpp[5] = rle_bpp[6] = rle_bpp[7] = 6;
-/*TODO*///	
-/*TODO*///		/* build the 4bpp table */
-/*TODO*///		for (i = 0; i < 256; i++)
-/*TODO*///			rle_table[0][i] = (((i & 0xf0) + 0x10) << 4) | (i & 0x0f);
-/*TODO*///	
-/*TODO*///		/* build the 5bpp table */
-/*TODO*///		for (i = 0; i < 256; i++)
-/*TODO*///			rle_table[2][i] = (((i & 0xe0) + 0x20) << 3) | (i & 0x1f);
-/*TODO*///	
-/*TODO*///		/* build the special 5bpp table */
-/*TODO*///		for (i = 0; i < 256; i++)
-/*TODO*///		{
-/*TODO*///			if ((i & 0x0f) == 0)
-/*TODO*///				rle_table[1][i] = (((i & 0xf0) + 0x10) << 4) | (i & 0x0f);
-/*TODO*///			else
-/*TODO*///				rle_table[1][i] = (((i & 0xe0) + 0x20) << 3) | (i & 0x1f);
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* build the 6bpp table */
-/*TODO*///		for (i = 0; i < 256; i++)
-/*TODO*///			rle_table[5][i] = (((i & 0xc0) + 0x40) << 2) | (i & 0x3f);
-/*TODO*///	
-/*TODO*///		/* build the special 6bpp table */
-/*TODO*///		for (i = 0; i < 256; i++)
-/*TODO*///		{
-/*TODO*///			if ((i & 0x0f) == 0)
-/*TODO*///				rle_table[4][i] = (((i & 0xf0) + 0x10) << 4) | (i & 0x0f);
-/*TODO*///			else
-/*TODO*///				rle_table[4][i] = (((i & 0xc0) + 0x40) << 2) | (i & 0x3f);
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Prescans an RLE-compressed object
-/*TODO*///	 *
-/*TODO*///	 *	Determines the pen usage, width, height, and other data for an RLE object.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void prescan_rle(int which)
-/*TODO*///	{
-/*TODO*///		UINT16 *base = (UINT16 *)&memory_region(rle_region)[which * 8];
-/*TODO*///		struct atarigen_rle_descriptor *rle_data = &atarigen_rle_info[which];
-/*TODO*///		UINT32 usage = 0, usage_hi = 0;
-/*TODO*///		int width = 0, height, flags, offset;
-/*TODO*///		const UINT16 *table;
-/*TODO*///	
-/*TODO*///		/* look up the offset */
-/*TODO*///		rle_data.xoffs = (INT16)base[0];
-/*TODO*///		rle_data.yoffs = (INT16)base[1];
-/*TODO*///	
-/*TODO*///		/* determine the depth and table */
-/*TODO*///		flags = base[2];
-/*TODO*///		rle_data.bpp = rle_bpp[(flags >> 8) & 7];
-/*TODO*///		table = rle_data.table = rle_table[(flags >> 8) & 7];
-/*TODO*///	
-/*TODO*///		/* determine the starting offset */
-/*TODO*///		offset = ((base[2] & 0xff) << 16) | base[3];
-/*TODO*///		rle_data.data = base = (UINT16 *)&memory_region(rle_region)[offset * 2];
-/*TODO*///	
-/*TODO*///		/* make sure it's valid */
-/*TODO*///		if (offset < which * 4 || offset > memory_region_length(rle_region))
-/*TODO*///		{
-/*TODO*///			memset(rle_data, 0, sizeof(*rle_data));
-/*TODO*///			return;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* first pre-scan to determine the width and height */
-/*TODO*///		for (height = 0; height < 1024; height++)
-/*TODO*///		{
-/*TODO*///			int tempwidth = 0;
-/*TODO*///			int entry_count = *base++;
-/*TODO*///	
-/*TODO*///			/* if the high bit is set, assume we're inverted */
-/*TODO*///			if ((entry_count & 0x8000) != 0)
-/*TODO*///			{
-/*TODO*///				entry_count ^= 0xffff;
-/*TODO*///	
-/*TODO*///				/* also change the ROM data so we don't have to do this again at runtime */
-/*TODO*///				base[-1] ^= 0xffff;
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* we're done when we hit 0 */
-/*TODO*///			if (entry_count == 0)
-/*TODO*///				break;
-/*TODO*///	
-/*TODO*///			/* track the width */
-/*TODO*///			while (entry_count--)
-/*TODO*///			{
-/*TODO*///				int word = *base++;
-/*TODO*///				int count, value;
-/*TODO*///	
-/*TODO*///				/* decode the low byte first */
-/*TODO*///				count = table[word & 0xff];
-/*TODO*///				value = count & 0xff;
-/*TODO*///				tempwidth += count >> 8;
-/*TODO*///				if (value < 32)
-/*TODO*///					usage |= 1 << value;
-/*TODO*///				else
-/*TODO*///					usage_hi |= 1 << (value - 32);
-/*TODO*///	
-/*TODO*///				/* decode the upper byte second */
-/*TODO*///				count = table[word >> 8];
-/*TODO*///				value = count & 0xff;
-/*TODO*///				tempwidth += count >> 8;
-/*TODO*///				if (value < 32)
-/*TODO*///					usage |= 1 << value;
-/*TODO*///				else
-/*TODO*///					usage_hi |= 1 << (value - 32);
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* only remember the max */
-/*TODO*///			if (tempwidth > width) width = tempwidth;
-/*TODO*///		}
-/*TODO*///	
-/*TODO*///		/* fill in the data */
-/*TODO*///		rle_data.width = width;
-/*TODO*///		rle_data.height = height;
-/*TODO*///		rle_data.pen_usage = usage;
-/*TODO*///		rle_data.pen_usage_hi = usage_hi;
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Draw a compressed RLE object
-/*TODO*///	 *
-/*TODO*///	 *	What it says. RLE decoding is performed on the fly to an 8-bit bitmap.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void draw_rle_zoom(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
-/*TODO*///			UINT32 color, int flipy, int sx, int sy, int scalex, int scaley,
-/*TODO*///			const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		const UINT16 *palette = &rle_colortable[color];
-/*TODO*///		const UINT16 *row_start = gfx.data;
-/*TODO*///		const UINT16 *table = gfx.table;
-/*TODO*///		volatile int current_row = 0;
-/*TODO*///	
-/*TODO*///		int scaled_width = (scalex * gfx.width + 0x7fff) >> 16;
-/*TODO*///		int scaled_height = (scaley * gfx.height + 0x7fff) >> 16;
-/*TODO*///	
-/*TODO*///		int pixels_to_skip = 0, xclipped = 0;
-/*TODO*///		int dx, dy, ex, ey;
-/*TODO*///		int y, sourcey;
-/*TODO*///	
-/*TODO*///		/* make sure we didn't end up with 0 */
-/*TODO*///		if (scaled_width == 0) scaled_width = 1;
-/*TODO*///		if (scaled_height == 0) scaled_height = 1;
-/*TODO*///	
-/*TODO*///		/* compute the remaining parameters */
-/*TODO*///		dx = (gfx.width << 16) / scaled_width;
-/*TODO*///		dy = (gfx.height << 16) / scaled_height;
-/*TODO*///		ex = sx + scaled_width - 1;
-/*TODO*///		ey = sy + scaled_height - 1;
-/*TODO*///		sourcey = dy / 2;
-/*TODO*///	
-/*TODO*///		/* left edge clip */
-/*TODO*///		if (sx < clip.min_x)
-/*TODO*///			pixels_to_skip = clip.min_x - sx, xclipped = 1;
-/*TODO*///		if (sx > clip.max_x)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* right edge clip */
-/*TODO*///		if (ex > clip.max_x)
-/*TODO*///			ex = clip.max_x, xclipped = 1;
-/*TODO*///		else if (ex < clip.min_x)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* top edge clip */
-/*TODO*///		if (sy < clip.min_y)
-/*TODO*///		{
-/*TODO*///			sourcey += (clip.min_y - sy) * dy;
-/*TODO*///			sy = clip.min_y;
-/*TODO*///		}
-/*TODO*///		else if (sy > clip.max_y)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* bottom edge clip */
-/*TODO*///		if (ey > clip.max_y)
-/*TODO*///			ey = clip.max_y;
-/*TODO*///		else if (ey < clip.min_y)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* loop top to bottom */
-/*TODO*///		for (y = sy; y <= ey; y++, sourcey += dy)
-/*TODO*///		{
-/*TODO*///			UINT8 *dest = &bitmap.line[y][sx];
-/*TODO*///			int j, sourcex = dx / 2, rle_end = 0;
-/*TODO*///			const UINT16 *base;
-/*TODO*///			int entry_count;
-/*TODO*///	
-/*TODO*///			/* loop until we hit the row we're on */
-/*TODO*///			for ( ; current_row != (sourcey >> 16); current_row++)
-/*TODO*///				row_start += 1 + *row_start;
-/*TODO*///	
-/*TODO*///			/* grab our starting parameters from this row */
-/*TODO*///			base = row_start;
-/*TODO*///			entry_count = *base++;
-/*TODO*///	
-/*TODO*///			/* non-clipped case */
-/*TODO*///			if (!xclipped)
-/*TODO*///			{
-/*TODO*///				/* decode the pixels */
-/*TODO*///				for (j = 0; j < entry_count; j++)
-/*TODO*///				{
-/*TODO*///					int word = *base++;
-/*TODO*///					int count, value;
-/*TODO*///	
-/*TODO*///					/* decode the low byte first */
-/*TODO*///					count = table[word & 0xff];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					/* decode the upper byte second */
-/*TODO*///					count = table[word >> 8];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* clipped case */
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				const UINT8 *end = &bitmap.line[y][ex];
-/*TODO*///				int to_be_skipped = pixels_to_skip;
-/*TODO*///	
-/*TODO*///				/* decode the pixels */
-/*TODO*///				for (j = 0; j < entry_count && dest <= end; j++)
-/*TODO*///				{
-/*TODO*///					int word = *base++;
-/*TODO*///					int count, value;
-/*TODO*///	
-/*TODO*///					/* decode the low byte first */
-/*TODO*///					count = table[word & 0xff];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (to_be_skipped != 0)
-/*TODO*///					{
-/*TODO*///						while (to_be_skipped && sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx, to_be_skipped--;
-/*TODO*///						if (to_be_skipped != 0) goto next1;
-/*TODO*///					}
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end && dest <= end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///				next1:
-/*TODO*///					/* decode the upper byte second */
-/*TODO*///					count = table[word >> 8];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (to_be_skipped != 0)
-/*TODO*///					{
-/*TODO*///						while (to_be_skipped && sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx, to_be_skipped--;
-/*TODO*///						if (to_be_skipped != 0) goto next2;
-/*TODO*///					}
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end && dest <= end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///				next2:
-/*TODO*///					;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*
-/*TODO*///	 *	Draw a compressed RLE object
-/*TODO*///	 *
-/*TODO*///	 *	What it says. RLE decoding is performed on the fly to a 16-bit bitmap.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void draw_rle_zoom_16(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
-/*TODO*///			UINT32 color, int flipy, int sx, int sy, int scalex, int scaley,
-/*TODO*///			const struct rectangle *clip)
-/*TODO*///	{
-/*TODO*///		const UINT16 *palette = &rle_colortable[color];
-/*TODO*///		const UINT16 *row_start = gfx.data;
-/*TODO*///		const UINT16 *table = gfx.table;
-/*TODO*///		volatile int current_row = 0;
-/*TODO*///	
-/*TODO*///		int scaled_width = (scalex * gfx.width + 0x7fff) >> 16;
-/*TODO*///		int scaled_height = (scaley * gfx.height + 0x7fff) >> 16;
-/*TODO*///	
-/*TODO*///		int pixels_to_skip = 0, xclipped = 0;
-/*TODO*///		int dx, dy, ex, ey;
-/*TODO*///		int y, sourcey;
-/*TODO*///	
-/*TODO*///		/* make sure we didn't end up with 0 */
-/*TODO*///		if (scaled_width == 0) scaled_width = 1;
-/*TODO*///		if (scaled_height == 0) scaled_height = 1;
-/*TODO*///	
-/*TODO*///		/* compute the remaining parameters */
-/*TODO*///		dx = (gfx.width << 16) / scaled_width;
-/*TODO*///		dy = (gfx.height << 16) / scaled_height;
-/*TODO*///		ex = sx + scaled_width - 1;
-/*TODO*///		ey = sy + scaled_height - 1;
-/*TODO*///		sourcey = dy / 2;
-/*TODO*///	
-/*TODO*///		/* left edge clip */
-/*TODO*///		if (sx < clip.min_x)
-/*TODO*///			pixels_to_skip = clip.min_x - sx, xclipped = 1;
-/*TODO*///		if (sx > clip.max_x)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* right edge clip */
-/*TODO*///		if (ex > clip.max_x)
-/*TODO*///			ex = clip.max_x, xclipped = 1;
-/*TODO*///		else if (ex < clip.min_x)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* top edge clip */
-/*TODO*///		if (sy < clip.min_y)
-/*TODO*///		{
-/*TODO*///			sourcey += (clip.min_y - sy) * dy;
-/*TODO*///			sy = clip.min_y;
-/*TODO*///		}
-/*TODO*///		else if (sy > clip.max_y)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* bottom edge clip */
-/*TODO*///		if (ey > clip.max_y)
-/*TODO*///			ey = clip.max_y;
-/*TODO*///		else if (ey < clip.min_y)
-/*TODO*///			return;
-/*TODO*///	
-/*TODO*///		/* loop top to bottom */
-/*TODO*///		for (y = sy; y <= ey; y++, sourcey += dy)
-/*TODO*///		{
-/*TODO*///			UINT16 *dest = (UINT16 *)&bitmap.line[y][sx * 2];
-/*TODO*///			int j, sourcex = dx / 2, rle_end = 0;
-/*TODO*///			const UINT16 *base;
-/*TODO*///			int entry_count;
-/*TODO*///	
-/*TODO*///			/* loop until we hit the row we're on */
-/*TODO*///			for ( ; current_row != (sourcey >> 16); current_row++)
-/*TODO*///				row_start += 1 + *row_start;
-/*TODO*///	
-/*TODO*///			/* grab our starting parameters from this row */
-/*TODO*///			base = row_start;
-/*TODO*///			entry_count = *base++;
-/*TODO*///	
-/*TODO*///			/* non-clipped case */
-/*TODO*///			if (!xclipped)
-/*TODO*///			{
-/*TODO*///				/* decode the pixels */
-/*TODO*///				for (j = 0; j < entry_count; j++)
-/*TODO*///				{
-/*TODO*///					int word = *base++;
-/*TODO*///					int count, value;
-/*TODO*///	
-/*TODO*///					/* decode the low byte first */
-/*TODO*///					count = table[word & 0xff];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///					/* decode the upper byte second */
-/*TODO*///					count = table[word >> 8];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///	
-/*TODO*///			/* clipped case */
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				const UINT16 *end = (const UINT16 *)&bitmap.line[y][ex * 2];
-/*TODO*///				int to_be_skipped = pixels_to_skip;
-/*TODO*///	
-/*TODO*///				/* decode the pixels */
-/*TODO*///				for (j = 0; j < entry_count && dest <= end; j++)
-/*TODO*///				{
-/*TODO*///					int word = *base++;
-/*TODO*///					int count, value;
-/*TODO*///	
-/*TODO*///					/* decode the low byte first */
-/*TODO*///					count = table[word & 0xff];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (to_be_skipped != 0)
-/*TODO*///					{
-/*TODO*///						while (to_be_skipped && sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx, to_be_skipped--;
-/*TODO*///						if (to_be_skipped != 0) goto next3;
-/*TODO*///					}
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end && dest <= end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///	
-/*TODO*///				next3:
-/*TODO*///					/* decode the upper byte second */
-/*TODO*///					count = table[word >> 8];
-/*TODO*///					value = count & 0xff;
-/*TODO*///					rle_end += (count & 0xff00) << 8;
-/*TODO*///	
-/*TODO*///					/* store copies of the value until we pass the end of this chunk */
-/*TODO*///					if (to_be_skipped != 0)
-/*TODO*///					{
-/*TODO*///						while (to_be_skipped && sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx, to_be_skipped--;
-/*TODO*///						if (to_be_skipped != 0) goto next4;
-/*TODO*///					}
-/*TODO*///					if (value != 0)
-/*TODO*///					{
-/*TODO*///						value = palette[value];
-/*TODO*///						while (sourcex < rle_end && dest <= end)
-/*TODO*///							*dest++ = value, sourcex += dx;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						while (sourcex < rle_end)
-/*TODO*///							dest++, sourcex += dx;
-/*TODO*///					}
-/*TODO*///				next4:
-/*TODO*///					;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
+		}
+	
+		/* 8-bit case */
+		else
+		{
+/*TODO*///			if (hflip==0)
+				draw_rle_zoom(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
+	/*TODO*///		else
+	/*TODO*///			draw_rle_zoom_hflip(bitmap, info, color, vflip, x, y, xscale << 4, yscale << 4, clip);
+		}
+	}
+	
+	
+	/*
+	 *	Builds internally-used tables
+	 *
+	 *	Special two-byte tables with the upper byte giving the count and the lower
+	 *	byte giving the pixel value.
+	 *
+	 */
+	
+	static int build_rle_tables()
+	{
+		UShortArray base;
+		int i;
+	
+		/* allocate all 5 tables */
+		base = new UShortArray(0x500);
+		if (base==null)
+			return 1;
+	
+		/* assign the tables */
+		rle_table[0] = new UShortArray(base, 0x000);
+		rle_table[1] = new UShortArray(base, 0x100);
+		rle_table[2] = rle_table[3] = new UShortArray(base, 0x200);
+		rle_table[4] = rle_table[6] = new UShortArray(base, 0x300);
+		rle_table[5] = rle_table[7] = new UShortArray(base, 0x400);
+	
+		/* set the bpps */
+		rle_bpp[0] = 4;
+		rle_bpp[1] = rle_bpp[2] = rle_bpp[3] = 5;
+		rle_bpp[4] = rle_bpp[5] = rle_bpp[6] = rle_bpp[7] = 6;
+	
+		/* build the 4bpp table */
+		for (i = 0; i < 256; i++)
+			rle_table[0].write(i, (((i & 0xf0) + 0x10) << 4) | (i & 0x0f));
+	
+		/* build the 5bpp table */
+		for (i = 0; i < 256; i++)
+			rle_table[2].write(i, (((i & 0xe0) + 0x20) << 3) | (i & 0x1f));
+	
+		/* build the special 5bpp table */
+		for (i = 0; i < 256; i++)
+		{
+			if ((i & 0x0f) == 0)
+				rle_table[1].write(i, (((i & 0xf0) + 0x10) << 4) | (i & 0x0f));
+			else
+				rle_table[1].write(i, (((i & 0xe0) + 0x20) << 3) | (i & 0x1f));
+		}
+	
+		/* build the 6bpp table */
+		for (i = 0; i < 256; i++)
+			rle_table[5].write(i, (((i & 0xc0) + 0x40) << 2) | (i & 0x3f));
+	
+		/* build the special 6bpp table */
+		for (i = 0; i < 256; i++)
+		{
+			if ((i & 0x0f) == 0)
+				rle_table[4].write(i, (((i & 0xf0) + 0x10) << 4) | (i & 0x0f));
+			else
+				rle_table[4].write(i, (((i & 0xc0) + 0x40) << 2) | (i & 0x3f));
+		}
+	
+		return 0;
+	}
+	
+	
+	/*
+	 *	Prescans an RLE-compressed object
+	 *
+	 *	Determines the pen usage, width, height, and other data for an RLE object.
+	 *
+	 */
+	
+	static void prescan_rle(int which)
+	{
+		UShortArray base = new UShortArray(memory_region(rle_region), which * 8);
+		atarigen_rle_descriptor rle_data = atarigen_rle_info[which];
+		int usage = 0, usage_hi = 0;
+		int width = 0, height, flags, offset;
+		UShortArray table;
+	
+		/* look up the offset */
+		rle_data.xoffs = base.read(0);
+		rle_data.yoffs = base.read(1);
+	
+		/* determine the depth and table */
+		flags = base.read(2);
+		rle_data.bpp = rle_bpp[(flags >> 8) & 7];
+		table = rle_data.table = rle_table[(flags >> 8) & 7];
+	
+		/* determine the starting offset */
+		offset = ((base.read(2) & 0xff) << 16) | base.read(3);
+		rle_data.data = base = new UShortArray(memory_region(rle_region), offset * 2);
+	
+		/* make sure it's valid */
+		if (offset < which * 4 || offset > memory_region_length(rle_region))
+		{
+			//memset(rle_data, 0, sizeof(*rle_data));
+                        rle_data=new atarigen_rle_descriptor();
+			return;
+		}
+	
+		/* first pre-scan to determine the width and height */
+		for (height = 0; height < 1024; height++)
+		{
+			int tempwidth = 0;
+			int entry_count = base.read();base.inc(1);
+	
+			/* if the high bit is set, assume we're inverted */
+			if ((entry_count & 0x8000) != 0)
+			{
+				entry_count ^= 0xffff;
+	
+				/* also change the ROM data so we don't have to do this again at runtime */
+				base.write(-1,  base.read(-1)^ 0xffff);
+			}
+	
+			/* we're done when we hit 0 */
+			if (entry_count == 0)
+				break;
+	
+			/* track the width */
+			while (entry_count-- != 0)
+			{
+				int word = base.read();base.inc(1);
+				int count, value;
+	
+				/* decode the low byte first */
+				count = table.read(word & 0xff);
+				value = count & 0xff;
+				tempwidth += count >> 8;
+				if (value < 32)
+					usage |= 1 << value;
+				else
+					usage_hi |= 1 << (value - 32);
+	
+				/* decode the upper byte second */
+				count = table.read(word >> 8);
+				value = count & 0xff;
+				tempwidth += count >> 8;
+				if (value < 32)
+					usage |= 1 << value;
+				else
+					usage_hi |= 1 << (value - 32);
+			}
+	
+			/* only remember the max */
+			if (tempwidth > width) width = tempwidth;
+		}
+	
+		/* fill in the data */
+		rle_data.width = width;
+		rle_data.height = height;
+		rle_data.pen_usage = usage;
+		rle_data.pen_usage_hi = usage_hi;
+	}
+	
+	
+	/*
+	 *	Draw a compressed RLE object
+	 *
+	 *	What it says. RLE decoding is performed on the fly to an 8-bit bitmap.
+	 *
+	 */
+	
+	public static void draw_rle_zoom(osd_bitmap bitmap, atarigen_rle_descriptor gfx,
+			int color, int flipy, int sx, int sy, int scalex, int scaley,
+			rectangle clip)
+	{
+		UShortArray palette = new UShortArray(rle_colortable, color);
+		UShortArray row_start = new UShortArray(gfx.data);
+		UShortArray table = new UShortArray(gfx.table);
+		int current_row = 0;
+	
+		int scaled_width = (scalex * gfx.width + 0x7fff) >> 16;
+		int scaled_height = (scaley * gfx.height + 0x7fff) >> 16;
+	
+		int pixels_to_skip = 0, xclipped = 0;
+		int dx, dy, ex, ey;
+		int y, sourcey;
+	
+		/* make sure we didn't end up with 0 */
+		if (scaled_width == 0) scaled_width = 1;
+		if (scaled_height == 0) scaled_height = 1;
+	
+		/* compute the remaining parameters */
+		dx = (gfx.width << 16) / scaled_width;
+		dy = (gfx.height << 16) / scaled_height;
+		ex = sx + scaled_width - 1;
+		ey = sy + scaled_height - 1;
+		sourcey = dy / 2;
+	
+		/* left edge clip */
+		if (sx < clip.min_x){
+			pixels_to_skip = clip.min_x - sx;
+                        xclipped = 1;
+                }
+		if (sx > clip.max_x)
+			return;
+	
+		/* right edge clip */
+		if (ex > clip.max_x){
+			ex = clip.max_x;
+                        xclipped = 1;
+                } else if (ex < clip.min_x) {
+			return;
+                }
+	
+		/* top edge clip */
+		if (sy < clip.min_y)
+		{
+			sourcey += (clip.min_y - sy) * dy;
+			sy = clip.min_y;
+		}
+		else if (sy > clip.max_y)
+			return;
+	
+		/* bottom edge clip */
+		if (ey > clip.max_y)
+			ey = clip.max_y;
+		else if (ey < clip.min_y)
+			return;
+	
+                boolean _next1 = false;
+                boolean _next2 = false;
+                
+		/* loop top to bottom */
+		for (y = sy; y <= ey; y++, sourcey += dy)
+		{
+			UBytePtr dest = new UBytePtr(bitmap.line[y], sx);
+			int j, sourcex = dx / 2, rle_end = 0;
+			UShortArray base;
+			int entry_count;
+	
+			/* loop until we hit the row we're on */
+			for ( ; current_row != (sourcey >> 16); current_row++)
+				row_start.inc( 1 + row_start.read());
+	
+			/* grab our starting parameters from this row */
+			base = new UShortArray(row_start);
+			entry_count = base.read(); base.inc(1);
+	
+			/* non-clipped case */
+			if (xclipped==0)
+			{
+				/* decode the pixels */
+				for (j = 0; j < entry_count; j++)
+				{
+					int word = base.read(); base.inc(1);
+					int count, value;
+	
+					/* decode the low byte first */
+					count = table.read(word & 0xff);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (value != 0)
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+					else
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+	
+					/* decode the upper byte second */
+					count = table.read(word >> 8);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (value != 0)
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+					else
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+				}
+			}
+	
+			/* clipped case */
+			else
+			{
+				UBytePtr end = new UBytePtr(bitmap.line[y], ex);
+				int to_be_skipped = pixels_to_skip;
+	
+				/* decode the pixels */
+				for (j = 0; j < entry_count && dest.offset <= end.offset; j++)
+				{
+					int word = base.read(); base.inc(1);
+					int count, value;
+	
+					/* decode the low byte first */
+					count = table.read(word & 0xff);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (to_be_skipped != 0)
+					{
+						while (to_be_skipped!=0 && sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                        to_be_skipped--;
+                                                }
+						if (to_be_skipped != 0) _next1=true;
+					}
+					if ((value != 0)&&(!_next1))
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end && dest.offset <= end.offset){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+                                        else if (!_next1)
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+	
+				//next1:
+					/* decode the upper byte second */
+                                        _next1=false;
+					count = table.read(word >> 8);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (to_be_skipped != 0)
+					{
+						while (to_be_skipped!=0 && sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                        to_be_skipped--;
+                                                }
+						if (to_be_skipped != 0) _next2=true;
+					}
+					if ((value != 0) &&(!_next2))
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end && dest.offset <= end.offset){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+                                        else if (!_next2)
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+				//next2:
+					_next2=false;
+				}
+			}
+		}
+	}
+	
+	
+	/*
+	 *	Draw a compressed RLE object
+	 *
+	 *	What it says. RLE decoding is performed on the fly to a 16-bit bitmap.
+	 *
+	 */
+	
+	public static void draw_rle_zoom_16(osd_bitmap bitmap, atarigen_rle_descriptor gfx,
+			int color, int flipy, int sx, int sy, int scalex, int scaley,
+			rectangle clip)
+	{
+		UShortArray palette = new UShortArray(rle_colortable, color);
+		UShortArray row_start = new UShortArray(gfx.data);
+		UShortArray table = new UShortArray(gfx.table);
+		int current_row = 0;
+                
+                boolean _next3=false, _next4=false;
+	
+		int scaled_width = (scalex * gfx.width + 0x7fff) >> 16;
+		int scaled_height = (scaley * gfx.height + 0x7fff) >> 16;
+	
+		int pixels_to_skip = 0, xclipped = 0;
+		int dx, dy, ex, ey;
+		int y, sourcey;
+	
+		/* make sure we didn't end up with 0 */
+		if (scaled_width == 0) scaled_width = 1;
+		if (scaled_height == 0) scaled_height = 1;
+	
+		/* compute the remaining parameters */
+		dx = (gfx.width << 16) / scaled_width;
+		dy = (gfx.height << 16) / scaled_height;
+		ex = sx + scaled_width - 1;
+		ey = sy + scaled_height - 1;
+		sourcey = dy / 2;
+	
+		/* left edge clip */
+		if (sx < clip.min_x){
+			pixels_to_skip = clip.min_x - sx;
+                        xclipped = 1;
+                }
+		if (sx > clip.max_x)
+			return;
+	
+		/* right edge clip */
+		if (ex > clip.max_x){
+			ex = clip.max_x;
+                        xclipped = 1;
+                } else if (ex < clip.min_x) {
+			return;
+                }
+	
+		/* top edge clip */
+		if (sy < clip.min_y)
+		{
+			sourcey += (clip.min_y - sy) * dy;
+			sy = clip.min_y;
+		}
+		else if (sy > clip.max_y)
+			return;
+	
+		/* bottom edge clip */
+		if (ey > clip.max_y)
+			ey = clip.max_y;
+		else if (ey < clip.min_y)
+			return;
+	
+		/* loop top to bottom */
+		for (y = sy; y <= ey; y++, sourcey += dy)
+		{
+			UShortArray dest = new UShortArray(bitmap.line[y], sx * 2);
+			int j, sourcex = dx / 2, rle_end = 0;
+			UShortArray base;
+			int entry_count;
+	
+			/* loop until we hit the row we're on */
+			for ( ; current_row != (sourcey >> 16); current_row++)
+				row_start.inc( 1 + row_start.read(1) );
+	
+			/* grab our starting parameters from this row */
+			base = new UShortArray(row_start);
+			entry_count = base.read(); base.inc(1);
+	
+			/* non-clipped case */
+			if (xclipped==0)
+			{
+				/* decode the pixels */
+				for (j = 0; j < entry_count; j++)
+				{
+					int word = base.read(); base.inc(1);
+					int count, value;
+	
+					/* decode the low byte first */
+					count = table.read(word & 0xff);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (value != 0)
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end){
+							dest.write( 0, value );
+                                                        dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+					else
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+	
+					/* decode the upper byte second */
+					count = table.read(word >> 8);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (value != 0)
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end){
+							dest.write(0, value);
+                                                        dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+					else
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+				}
+			}
+	
+			/* clipped case */
+			else
+			{
+				UShortArray end = new UShortArray(bitmap.line[y], ex * 2);
+				int to_be_skipped = pixels_to_skip;
+	
+				/* decode the pixels */
+				for (j = 0; j < entry_count && dest.offset <= end.offset; j++)
+				{
+					int word = base.read(); base.inc(1);
+					int count, value;
+	
+					/* decode the low byte first */
+					count = table.read(word & 0xff);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (to_be_skipped != 0)
+					{
+						while (to_be_skipped!=0 && sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                        to_be_skipped--;
+                                                }
+						if (to_be_skipped != 0) _next3=true;
+					}
+					if ((value != 0) && (!_next3))
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end && dest.offset <= end.offset){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+                                        else if (!_next3)
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+	
+				//next3:
+					/* decode the upper byte second */
+                                        _next3=false;
+					count = table.read(word >> 8);
+					value = count & 0xff;
+					rle_end += (count & 0xff00) << 8;
+	
+					/* store copies of the value until we pass the end of this chunk */
+					if (to_be_skipped != 0)
+					{
+						while (to_be_skipped!=0 && sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                        to_be_skipped--;
+                                                }
+						if (to_be_skipped != 0) _next4=true;//continue next4;
+					}
+					if ((value != 0) && (!_next4))
+					{
+						value = palette.read(value);
+						while (sourcex < rle_end && dest.offset <= end.offset){
+							dest.write(0, value); dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+                                        else if (!_next4)
+					{
+						while (sourcex < rle_end){
+							dest.inc(1);
+                                                        sourcex += dx;
+                                                }
+					}
+				//next4:
+					_next4=false;
+				}
+			}
+		}
+	}
+	
+	
 /*TODO*///	/*
 /*TODO*///	 *	Draw a horizontally-flipped RLE-compressed object
 /*TODO*///	 *
@@ -2506,7 +2567,7 @@ public class atarigen
 /*TODO*///	 *
 /*TODO*///	 */
 /*TODO*///	
-/*TODO*///	void draw_rle_zoom_hflip_16(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
+/*TODO*///	public static void draw_rle_zoom_hflip_16(struct osd_bitmap *bitmap, const struct atarigen_rle_descriptor *gfx,
 /*TODO*///			UINT32 color, int flipy, int sx, int sy, int scalex, int scaley,
 /*TODO*///			const struct rectangle *clip)
 /*TODO*///	{
@@ -3109,29 +3170,29 @@ public class atarigen
 	}
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	Halt CPU 0 until HBLANK
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	public static WriteHandlerPtr atarigen_halt_until_hblank_0_w = new WriteHandlerPtr() {public void handler(int offset, int data)
-/*TODO*///	{
-/*TODO*///		/* halt the CPU until the next HBLANK */
-/*TODO*///		int hpos = cpu_gethorzbeampos();
-/*TODO*///		int hblank = Machine.drv.screen_width * 9 / 10;
-/*TODO*///		double fraction;
-/*TODO*///	
-/*TODO*///		/* if we're in hblank, set up for the next one */
-/*TODO*///		if (hpos >= hblank)
-/*TODO*///			hblank += Machine.drv.screen_width;
-/*TODO*///	
-/*TODO*///		/* halt and set a timer to wake up */
-/*TODO*///		fraction = (double)(hblank - hpos) / (double)Machine.drv.screen_width;
-/*TODO*///		timer_set(cpu_getscanlineperiod() * fraction, 0, unhalt_cpu);
-/*TODO*///		cpu_set_halt_line(0, ASSERT_LINE);
-/*TODO*///	} };
+	/*
+	 *	Halt CPU 0 until HBLANK
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static WriteHandlerPtr atarigen_halt_until_hblank_0_w = new WriteHandlerPtr() {public void handler(int offset, int data)
+	{
+		/* halt the CPU until the next HBLANK */
+		int hpos = cpu_gethorzbeampos();
+		int hblank = Machine.drv.screen_width * 9 / 10;
+		double fraction;
+	
+		/* if we're in hblank, set up for the next one */
+		if (hpos >= hblank)
+			hblank += Machine.drv.screen_width;
+	
+		/* halt and set a timer to wake up */
+		fraction = (double)(hblank - hpos) / (double)Machine.drv.screen_width;
+		timer_set(cpu_getscanlineperiod() * fraction, 0, unhalt_cpu);
+		cpu_set_halt_line(0, ASSERT_LINE);
+	} };
 	
 	
 	/*
@@ -3194,20 +3255,21 @@ public class atarigen
 	} };
 	
 	
-/*TODO*///	/*
-/*TODO*///	 *	CPU unhalter
-/*TODO*///	 *
-/*TODO*///	 *	Timer callback to release the CPU from a halted state.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	static void unhalt_cpu(int param)
-/*TODO*///	{
-/*TODO*///		cpu_set_halt_line(param, CLEAR_LINE);
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
+	/*
+	 *	CPU unhalter
+	 *
+	 *	Timer callback to release the CPU from a halted state.
+	 *
+	 */
+	
+	public static timer_callback unhalt_cpu = new timer_callback() {
+            @Override
+            public void handler(int param) {
+		cpu_set_halt_line(param, CLEAR_LINE);
+            }
+        };
+	
+	
 /*TODO*///	/*--------------------------------------------------------------------------
 /*TODO*///	
 /*TODO*///		General stuff
@@ -3222,22 +3284,22 @@ public class atarigen
 	public static String[] message_text=new String[10];
 	public static int message_countdown;
 	
-/*TODO*///	/*
-/*TODO*///	 *	Display a warning message about slapstic protection
-/*TODO*///	 *
-/*TODO*///	 *	What it says.
-/*TODO*///	 *
-/*TODO*///	 */
-/*TODO*///	
-/*TODO*///	void atarigen_show_slapstic_message(void)
-/*TODO*///	{
-/*TODO*///		message_text[0] = "There are known problems with";
-/*TODO*///		message_text[1] = "later levels of this game due";
-/*TODO*///		message_text[2] = "to incomplete slapstic emulation.";
-/*TODO*///		message_text[3] = "You have been warned.";
-/*TODO*///		message_text[4] = NULL;
-/*TODO*///		message_countdown = 15 * Machine.drv.frames_per_second;
-/*TODO*///	}
+	/*
+	 *	Display a warning message about slapstic protection
+	 *
+	 *	What it says.
+	 *
+	 */
+	
+	public static void atarigen_show_slapstic_message()
+	{
+		message_text[0] = "There are known problems with";
+		message_text[1] = "later levels of this game due";
+		message_text[2] = "to incomplete slapstic emulation.";
+		message_text[3] = "You have been warned.";
+		message_text[4] = null;
+		message_countdown = 15 * Machine.drv.frames_per_second;
+	}
 	
 	
 	/*

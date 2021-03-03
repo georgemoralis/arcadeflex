@@ -13,7 +13,7 @@
 package gr.codebb.arcadeflex.v037b7.machine;
 
 import gr.codebb.arcadeflex.common.PtrLib.UShortPtr;
-import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
+import static gr.codebb.arcadeflex.common.SubArrays.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.atarigen_overrender_colortable;
@@ -335,36 +335,36 @@ public class atarigenH
 /*TODO*///	void atarigen_mo_update(const UINT8 *base, int start, int scanline);
 /*TODO*///	void atarigen_mo_update_slip_512(const UINT8 *base, int scroll, int scanline, const UINT8 *slips);
 /*TODO*///	void atarigen_mo_process(atarigen_mo_callback callback, void *param);
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*--------------------------------------------------------------------------
-/*TODO*///	
-/*TODO*///		RLE Motion object rendering/decoding
-/*TODO*///	
-/*TODO*///			atarigen_rle_descriptor - describes a single object
-/*TODO*///	
-/*TODO*///			atarigen_rle_count - total number of objects found
-/*TODO*///			atarigen_rle_info - array of descriptors for objects we found
-/*TODO*///	
-/*TODO*///			atarigen_rle_init - prescans the RLE objects
-/*TODO*///			atarigen_rle_free - frees all memory allocated by atarigen_rle_init
-/*TODO*///			atarigen_rle_render - render an RLE-compressed motion object
-/*TODO*///	
-/*TODO*///	--------------------------------------------------------------------------*/
-/*TODO*///	struct atarigen_rle_descriptor
-/*TODO*///	{
-/*TODO*///		int width;
-/*TODO*///		int height;
-/*TODO*///		INT16 xoffs;
-/*TODO*///		INT16 yoffs;
-/*TODO*///		int bpp;
-/*TODO*///		UINT32 pen_usage;
-/*TODO*///		UINT32 pen_usage_hi;
-/*TODO*///		const UINT16 *table;
-/*TODO*///		const UINT16 *data;
-/*TODO*///	};
-/*TODO*///	
+	
+	
+	
+	/*--------------------------------------------------------------------------
+	
+		RLE Motion object rendering/decoding
+	
+			atarigen_rle_descriptor - describes a single object
+	
+			atarigen_rle_count - total number of objects found
+			atarigen_rle_info - array of descriptors for objects we found
+	
+			atarigen_rle_init - prescans the RLE objects
+			atarigen_rle_free - frees all memory allocated by atarigen_rle_init
+			atarigen_rle_render - render an RLE-compressed motion object
+	
+	--------------------------------------------------------------------------*/
+	public static class atarigen_rle_descriptor
+	{
+		public int width;
+		public int height;
+		public int xoffs;
+		public int yoffs;
+		public int bpp;
+		public int pen_usage;
+		public int pen_usage_hi;
+		public UShortArray table;
+		public UShortArray data;
+	};
+	
 /*TODO*///	extern int atarigen_rle_count;
 /*TODO*///	extern struct atarigen_rle_descriptor *atarigen_rle_info;
 /*TODO*///	
@@ -519,10 +519,12 @@ public class atarigenH
         {
 		return atarigen_mo_compute_clip(xpos, ypos, hsize, vsize, clip, 8, 8);
         }
-/*TODO*///	
-/*TODO*///	#define atarigen_mo_compute_clip_16x8(dest, xpos, ypos, hsize, vsize, clip) \
-/*TODO*///		atarigen_mo_compute_clip(dest, xpos, ypos, hsize, vsize, clip, 16, 8)
-/*TODO*///	
+	
+	public static rectangle atarigen_mo_compute_clip_16x8(int xpos, int ypos, int hsize, int vsize, rectangle clip)
+        {
+		return atarigen_mo_compute_clip(xpos, ypos, hsize, vsize, clip, 16, 8);
+        }
+	
         public static rectangle atarigen_mo_compute_clip_16x16(int xpos, int ypos, int hsize, int vsize, rectangle clip)
         {
 		return atarigen_mo_compute_clip(xpos, ypos, hsize, vsize, clip, 16, 16);
