@@ -270,6 +270,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.atarisy1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.badlands.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.hydra.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blstroid.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 
 public class driver {
 
@@ -2396,9 +2397,10 @@ public class driver {
                 /*TODO*/ //	DRIVER( cyberbal )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( cyberbt )	/* (c) 1989 */
                 /*TODO*/ //	DRIVER( cyberb2p )	/* (c) 1989 */
-                /*TODO*/ //	DRIVER( rampart )	/* (c) 1990 */
-                /*TODO*/ //	DRIVER( ramprt2p )	/* (c) 1990 */
-                /*TODO*/ //	DRIVER( rampartj )	/* (c) 1990 (Japan) */
+                driver_rampart,	/* (c) 1990 */
+                driver_ramprt2p,	/* (c) 1990 */
+                driver_rampartj,	/* (c) 1990 (Japan) */
+                driver_arcadecr,
                 driver_shuuz, /* (c) 1990 */
                 driver_shuuz2,/* (c) 1990 */
                 driver_hydra,		/* (c) 1990 */
