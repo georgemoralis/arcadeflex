@@ -252,7 +252,14 @@ public class xybots
 				main_readmem,main_writemem,null,null,
 				atarigen_video_int_gen,1
 			),
-			JSA_I_CPU()
+			new MachineCPU(														
+                            CPU_M6502,											
+                            ATARI_CLOCK_14MHz/8,								
+                            atarijsa1_readmem,atarijsa1_writemem,null,null,			
+                            null,0,												
+                            atarigen_6502_irq_gen,
+                                (int)(1000000000.0/((double)ATARI_CLOCK_14MHz/4/4/16/16/14))
+                        )
 		},
 		60, DEFAULT_REAL_60HZ_VBLANK_DURATION,	/* frames per second, vblank duration */
 		1,

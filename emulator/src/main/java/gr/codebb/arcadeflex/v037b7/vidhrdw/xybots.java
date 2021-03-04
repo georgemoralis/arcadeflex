@@ -463,7 +463,7 @@ public class xybots
 	
 	public static atarigen_mo_callback mo_color_callback = new atarigen_mo_callback() {
             @Override
-            public void handler(UShortArray data, drawgfxH.rectangle clip, Object param) {
+            public void handler(UShortArray data, rectangle clip, Object param) {
                 int[] usage = Machine.gfx[1].pen_usage;
 		int[] colormap = (int[]) param;
 		int code = data.read(0) & 0x3fff;

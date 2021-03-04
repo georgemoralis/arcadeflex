@@ -261,14 +261,14 @@ public class hydra
 	public static timer_callback hydra_scanline_update = new timer_callback() {
             @Override
             public void handler(int scanline) {
-                UShortPtr base = new UShortPtr(atarigen_alpharam, ((scanline / 8) * 64 + 47) * 2);
+                UShortArray base = new UShortArray(atarigen_alpharam, ((scanline / 8) * 64 + 47) * 2);
 		int i;
 	
 		if (scanline == 0) logerror("-------\n");
 	
 		/* keep in range */
 		//if ((UINT8 *)base >= &atarigen_alpharam[atarigen_alpharam_size])
-                if (base.offset>=base.memory.length)
+                if (base.offset>=atarigen_alpharam_size[0])
 			return;
 	
 		/* update the current parameters */

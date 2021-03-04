@@ -478,14 +478,6 @@ public class atarigen
 	}
 	
 	
-	/*
-	 *	Slapstic write handler
-	 *
-	 *	Assuming that the slapstic sits in ROM memory space, we just simply
-	 *	tweak the slapstic at this address and do nothing more.
-	 *
-	 */
-	
 	public static WriteHandlerPtr atarigen_slapstic_w = new WriteHandlerPtr() {public void handler(int offset, int data)
 	{
 		slapstic_tweak(offset / 2);

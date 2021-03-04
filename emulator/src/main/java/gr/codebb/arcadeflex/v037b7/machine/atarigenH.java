@@ -634,9 +634,12 @@ public class atarigenH
         {
 		atarigen_mo_draw(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 8, 8);
         }
-/*TODO*///	#define atarigen_mo_draw_16x8(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 8)
-/*TODO*///	
+        
+	public static void atarigen_mo_draw_16x8(osd_bitmap bitmap, GfxElement gfx, int code, int color, int hflip, int vflip, int x, int y, int hsize, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 8);
+        }
+	
 /*TODO*///	#define atarigen_mo_draw_16x16(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw(bitmap, gfx, code, color, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	
@@ -646,9 +649,11 @@ public class atarigenH
 		atarigen_mo_draw_transparent(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 8, 8);
         }
 	
-/*TODO*///	#define atarigen_mo_draw_transparent_16x8(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen) \
-/*TODO*///		atarigen_mo_draw_transparent(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 8)
-/*TODO*///	
+	public static void atarigen_mo_draw_transparent_16x8(osd_bitmap bitmap, GfxElement gfx, int code, int hflip, int vflip, int x, int y, int hsize, int vsize, rectangle clip, int trans, int trans_pen)
+        {
+		atarigen_mo_draw_transparent(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 8);
+        }
+	
 /*TODO*///	#define atarigen_mo_draw_transparent_16x16(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen) \
 /*TODO*///		atarigen_mo_draw_transparent(bitmap, gfx, code, hflip, vflip, x, y, hsize, vsize, clip, trans, trans_pen, 16, 16)
 /*TODO*///	

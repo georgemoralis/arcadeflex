@@ -26024,8 +26024,20 @@ public class m68kopsH {
     };
     public static opcode m68000_subq_d_32 = new opcode() {
         public void handler() {
+            /*TODO*///	uint *d_dst = &DY;
+/*TODO*///	uint src = (((CPU_IR >> 9) - 1) & 7) + 1;
+/*TODO*///	uint dst = *d_dst;
+/*TODO*///	uint res = MASK_OUT_ABOVE_32(dst - src);
+/*TODO*///
+/*TODO*///	*d_dst = res;
+/*TODO*///
+/*TODO*///	CPU_N = GET_MSB_32(res);
+/*TODO*///	CPU_NOT_Z = res;
+/*TODO*///	CPU_X = CPU_C = CFLAG_SUB_32(src, dst, res);
+/*TODO*///	CPU_V = VFLAG_SUB_32(src, dst, res);
+/*TODO*///	USE_CLKS(8);
             long d_dst = get_DY();
-            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1)& 0xFFFFFFFFL;
+            long src = ((((get_CPU_IR() >>> 9) - 1) & 7) + 1);
             long dst = d_dst;
             long res = MASK_OUT_ABOVE_32(dst - src);
 
@@ -26033,8 +26045,7 @@ public class m68kopsH {
 
             m68k_cpu.n_flag = GET_MSB_32(res);
             m68k_cpu.not_z_flag = res;
-            m68k_cpu.x_flag = CFLAG_SUB_32(src, dst, res);
-            m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
+            m68k_cpu.x_flag = m68k_cpu.c_flag = CFLAG_SUB_32(src, dst, res);
             m68k_cpu.v_flag = VFLAG_SUB_32(src, dst, res);
             USE_CLKS(8);
             if (m68klog != null) {

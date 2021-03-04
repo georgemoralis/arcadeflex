@@ -694,7 +694,7 @@ public class atarijsa
 	};
 	
 	
-	static MemoryWriteAddress atarijsa1_writemem[] =
+	public static MemoryWriteAddress atarijsa1_writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0x1fff, MWA_RAM ),
 		new MemoryWriteAddress( 0x2000, 0x2000, YM2151_register_port_0_w ),
