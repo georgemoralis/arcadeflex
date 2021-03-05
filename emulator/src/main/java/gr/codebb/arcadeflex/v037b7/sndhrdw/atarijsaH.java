@@ -226,16 +226,16 @@ public class atarijsaH
 		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
         }
 	
-/*TODO*///	public static void JSA_III_PORT() {
-/*TODO*///		PORT_START(); 												
-/*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );			
-/*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN1 );			
-/*TODO*///		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_TILT );			
-/*TODO*///		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_SERVICE );		
-/*TODO*///		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
-/*TODO*///		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_UNUSED );/* output buffer full */
-/*TODO*///		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNUSED );/* input buffer full */
-/*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
-        
-	
+	public static void JSA_III_PORT() {
+		PORT_START(); 												
+		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );			
+		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN1 );			
+		PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_TILT );			
+		PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_SERVICE );		
+		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
+		PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_UNUSED );/* output buffer full */
+		PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNUSED );/* input buffer full */
+		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );/* self test */
+        }
+        	
 }

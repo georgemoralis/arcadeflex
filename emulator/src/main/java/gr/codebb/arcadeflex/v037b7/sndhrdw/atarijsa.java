@@ -57,6 +57,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
+import gr.codebb.arcadeflex.v037b7.sound._5220intfH.TMS5220interface;
 
 public class atarijsa
 {
@@ -766,23 +767,23 @@ public class atarijsa
 /*TODO*///		new MemoryWriteAddress( 0x3000, 0xffff, MWA_ROM ),
 /*TODO*///		new MemoryWriteAddress( -1 )  /* end of table */
 /*TODO*///	};
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	
-/*TODO*///	/*************************************
-/*TODO*///	 *
-/*TODO*///	 *	Sound definitions
-/*TODO*///	 *
-/*TODO*///	 *************************************/
-/*TODO*///	
-/*TODO*///	struct TMS5220interface atarijsa_tms5220_interface =
-/*TODO*///	{
-/*TODO*///		ATARI_CLOCK_14MHz/2/11,	/* potentially ATARI_CLOCK_14MHz/2/9 as well */
-/*TODO*///		100,
-/*TODO*///		0
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	
+	
+	
+	
+	/*************************************
+	 *
+	 *	Sound definitions
+	 *
+	 *************************************/
+	
+	public static TMS5220interface atarijsa_tms5220_interface = new TMS5220interface
+	(
+		ATARI_CLOCK_14MHz/2/11,	/* potentially ATARI_CLOCK_14MHz/2/9 as well */
+		100,
+		null
+	);
+	
+	
 /*TODO*///	static POKEYinterface atarijsa_pokey_interface = new POKEYinterface
 /*TODO*///	(
 /*TODO*///		1,			/* 1 chip */

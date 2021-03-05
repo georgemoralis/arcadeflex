@@ -1946,7 +1946,7 @@ public class m68kcpuH {
     public static void m68ki_check_interrupts() {
 
         long pending_mask = 1 << get_CPU_INT_STATE();
-        if ((pending_mask & m68k_int_masks[(int) get_CPU_INT_MASK()]) != 0L) {
+        if ((pending_mask & m68k_int_masks[(int) get_CPU_INT_MASK()]) != 0) {
             m68ki_service_interrupt(pending_mask);
         }
     }

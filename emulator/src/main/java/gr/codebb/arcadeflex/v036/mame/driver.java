@@ -272,6 +272,8 @@ import static gr.codebb.arcadeflex.v037b7.drivers.hydra.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blstroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skullxbo.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.offtwall.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
 
 public class driver {
 
@@ -2390,8 +2392,8 @@ public class driver {
                 driver_blstroi2,	/* (c) 1987 */
                 driver_blsthead,
                 driver_xybots,	/* (c) 1987 */
-                /*TODO*/ //	DRIVER( eprom )		/* (c) 1989 */
-                /*TODO*/ //	DRIVER( eprom2 )	/* (c) 1989 */
+                driver_eprom,		/* (c) 1989 */
+                driver_eprom2,	/* (c) 1989 */
                 driver_skullxbo,	/* (c) 1989 */
                 driver_skullxb2,	/* (c) 1989 */
                 driver_badlands,	/* (c) 1989 */
@@ -2412,8 +2414,8 @@ public class driver {
                 driver_batman,	/* (c) 1991 */
                 driver_relief,	/* (c) 1992 */
                 driver_relief2,	/* (c) 1992 */
-                /*TODO*/ //	DRIVER( offtwall )	/* (c) 1991 */
-                /*TODO*/ //	DRIVER( offtwalc )	/* (c) 1991 */
+                driver_offtwall,	/* (c) 1991 */
+                driver_offtwalc,	/* (c) 1991 */
                 driver_arcadecl,	/* (c) 1992 */
                 driver_sparkz,	/* (c) 1992 */
 
