@@ -174,7 +174,7 @@ public class klax
 	public static void klax_scanline_update(int scanline)
 	{
 		/* update the MOs from the SLIP table */
-		atarigen_mo_update_slip_512(atarigen_spriteram, 0, scanline, new UBytePtr(atarigen_playfieldram, 0xf80));
+		atarigen_mo_update_slip_512(new UBytePtr(atarigen_spriteram), 0, scanline, new UBytePtr(atarigen_playfieldram, 0xf80));
 	}
 	
 	

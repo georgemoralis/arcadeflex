@@ -109,10 +109,10 @@ public class klax
 		if (atarigen_video_int_state!=0 || atarigen_scanline_int_state!=0)
 			newstate = 4;
 	
-		if (newstate != 0)
+/*TODO*///		if (newstate != 0)
 			cpu_set_irq_line(0, newstate, ASSERT_LINE);
-		else
-			cpu_set_irq_line(0, 7, CLEAR_LINE);
+/*TODO*///		else
+/*TODO*///			cpu_set_irq_line(0, 7, CLEAR_LINE);
             }
         };
 	

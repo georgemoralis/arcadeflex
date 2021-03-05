@@ -9913,10 +9913,109 @@ public class m68kopsH {
     };
     public static opcode m68020_divl_d_32 = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
+            	if ((get_CPU_MODE() & CPU_MODE_EC020_PLUS) != 0)
+                {
+                        long word2 = m68ki_read_imm_16();
+                        long divisor = get_DY();
+                        long dividend_hi = (get_CPU_D())[(int)(word2 & 7)];
+                        long dividend_lo = (get_CPU_D())[(int)((word2 >> 12) & 7)];
+                        long quotient = 0;
+                        long remainder = 0;
+                        long dividend_neg = 0;
+                        long divisor_neg = 0;
+                        int i;
+
+                        if (divisor != 0)
+                        {
+                                /* quad / long : long quotient, long remainder */
+                                if (BIT_A(word2) != 0)
+                                {
+                                        /* if dividing the upper long does not clear it, we're overflowing. */
+                                        if ((dividend_hi / divisor) != 0)
+                                        {
+                                                set_CPU_V( 1 );
+                                                USE_CLKS(78);
+                                                return;
+                                        }
+
+                                        if (BIT_B(word2) != 0)	   /* signed */
+                                        {
+                                                if (GET_MSB_32(dividend_hi) != 0)
+                                                {
+                                                        dividend_neg = 1;
+                                                        dividend_hi = MASK_OUT_ABOVE_32((-dividend_hi) - ((dividend_lo != 0)?1:0));
+                                                        dividend_lo = MASK_OUT_ABOVE_32(-dividend_lo);
+                                                }
+                                                if (GET_MSB_32(divisor)!= 0)
+                                                {
+                                                        divisor_neg = 1;
+                                                        divisor = MASK_OUT_ABOVE_32(-divisor);
+                                                }
+                                        }
+                                        for (i = 31; i >= 0; i--)
+                                        {
+                                                quotient <<= 1;
+                                                remainder = (remainder << 1) + ((dividend_hi >> i) & 1);
+                                                if (remainder >= divisor)
+                                                {
+                                                        remainder -= divisor;
+                                                        quotient++;
+                                                }
+                                        }
+                                        for (i = 31; i >= 0; i--)
+                                        {
+                                                quotient <<= 1;
+                                                remainder = (remainder << 1) + ((dividend_lo >> i) & 1);
+                                                if (remainder >= divisor)
+                                                {
+                                                        remainder -= divisor;
+                                                        quotient++;
+                                                }
+                                        }
+
+                                        if (BIT_B(word2)!= 0)	   /* signed */
+                                        {
+                                                if (dividend_neg!= 0)
+                                                {
+                                                        remainder = MASK_OUT_ABOVE_32(-remainder);
+                                                        quotient = MASK_OUT_ABOVE_32(-quotient);
+                                                }
+                                                if (divisor_neg!= 0)
+                                                        quotient = MASK_OUT_ABOVE_32(-quotient);
+                                        }
+
+                                        set_CPU_D((int)(word2 & 7), remainder);
+                                        set_CPU_D((int)((word2 >> 12) & 7), quotient);
+
+                                        set_CPU_N( GET_MSB_32(quotient) );
+                                        set_CPU_NOT_Z( quotient );
+                                        set_CPU_V( 0 );
+                                        USE_CLKS(78);
+                                        return;
+                                }
+
+                                /* long / long: long quotient, maybe long remainder */
+                                if (BIT_B(word2) != 0)	   /* signed */
+                                {
+                                        set_CPU_D((int)(word2 & 7), MAKE_INT_32(dividend_lo) % MAKE_INT_32(divisor));
+                                        set_CPU_D((int)((word2 >> 12) & 7), MAKE_INT_32(dividend_lo) / MAKE_INT_32(divisor));
+                                }
+                                else
+                                {
+                                        set_CPU_D((int)(word2 & 7), MASK_OUT_ABOVE_32(dividend_lo) % MASK_OUT_ABOVE_32(divisor));
+                                        set_CPU_D((int)((word2 >> 12) & 7), MASK_OUT_ABOVE_32(dividend_lo) / MASK_OUT_ABOVE_32(divisor));
+                                }
+
+                                set_CPU_N(GET_MSB_32(quotient));
+                                set_CPU_NOT_Z(quotient);
+                                set_CPU_V(0);
+                                USE_CLKS(78);
+                                return;
+                        }
+                        m68ki_interrupt(EXCEPTION_ZERO_DIVIDE);
+                        return;
+                }
+                m68000_illegal.handler();
         }
     };
     public static opcode m68020_divl_ai_32 = new opcode() {
@@ -24056,10 +24155,17 @@ public class m68kopsH {
     };
     public static opcode m68000_slt_d = new opcode() {
         public void handler() {
-            if (m68klog != null) {
-                fclose(m68klog);
-            }
-            throw new UnsupportedOperationException("Unimplemented");
+            	if (CONDITION_LT())
+                {
+                        set_DY( get_DY() | 0xff );
+                        USE_CLKS(6);
+                        return;
+                }
+                set_DY( get_DY() & 0xffffff00 );
+                USE_CLKS(4);
+                if (m68klog != null) {
+                    fprintf(m68klog, "slt_d :PC:%d,PPC:%d,mode:%d,dr0:%d,dr1:%d,dr2:%d,dr3:%d,dr4:%d,dr5:%d,dr6:%d,dr7:%d,ar0:%d,ar1:%d,ar2:%d,ar3:%d,ar4:%d,ar5:%d,ar6:%d,ar7:%d,sp0:%d,sp1:%d,sp2:%d,sp3:%d,vbr:%d,sfc:%d,dfc:%d,cacr:%d,caar:%d,ir:%d,t1:%d,t0:%d,s:%d,m:%d,x:%d,n:%d,nz:%d,v:%d,c:%d,intm:%d,ints:%d,stop:%d,halt:%d,intc:%d,prefa:%d,prefd:%d\n", m68k_cpu.pc, m68k_cpu.ppc, m68k_cpu.mode, m68k_cpu.dr[0], m68k_cpu.dr[1], m68k_cpu.dr[2], m68k_cpu.dr[3], m68k_cpu.dr[4], m68k_cpu.dr[5], m68k_cpu.dr[6], m68k_cpu.dr[7], m68k_cpu.ar[0], m68k_cpu.ar[1], m68k_cpu.ar[2], m68k_cpu.ar[3], m68k_cpu.ar[4], m68k_cpu.ar[5], m68k_cpu.ar[6], m68k_cpu.ar[7], m68k_cpu.sp[0], m68k_cpu.sp[1], m68k_cpu.sp[2], m68k_cpu.sp[3], m68k_cpu.vbr, m68k_cpu.sfc, m68k_cpu.dfc, m68k_cpu.cacr, m68k_cpu.caar, m68k_cpu.ir, m68k_cpu.t1_flag, m68k_cpu.t0_flag, m68k_cpu.s_flag, m68k_cpu.m_flag, m68k_cpu.x_flag, m68k_cpu.n_flag, m68k_cpu.not_z_flag, m68k_cpu.v_flag, m68k_cpu.c_flag, m68k_cpu.int_mask, m68k_cpu.int_state, m68k_cpu.stopped, m68k_cpu.halted, m68k_cpu.int_cycles, m68k_cpu.pref_addr, m68k_cpu.pref_data);
+                }
         }
     };
     public static opcode m68000_slt_ai = new opcode() {

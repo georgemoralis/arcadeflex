@@ -3332,6 +3332,7 @@ public class atarigen
 			for (lines = 0; lines < 10; lines++)
 			{
 				if (message_text[lines]==null) break;
+                                //System.out.println("Message: " + message_text[lines]);
 				x = strlen(message_text[lines]);
 				if (x > maxwidth) maxwidth = x;
 			}
