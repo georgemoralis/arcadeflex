@@ -9196,307 +9196,391 @@ public class system16 {
 			) 
 		} 
 	);
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_toryumon = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "17689",  0x00000, 0x20000, 0x4f0dee19 )
-/*TODO*///		ROM_LOAD_ODD ( "17688",  0x00000, 0x20000, 0x717d81c7 )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "17700", 0x00000, 0x40000, 0x8f288b37 );
-/*TODO*///		ROM_LOAD( "17701", 0x40000, 0x40000, 0x6dfb025b );
-/*TODO*///		ROM_LOAD( "17702", 0x80000, 0x40000, 0xae0b7eab );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x100000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "17692", 0x00000, 0x20000, 0x543c4327 );
-/*TODO*///		ROM_LOAD( "17695", 0x20000, 0x20000, 0xee60f244 );
-/*TODO*///		ROM_LOAD( "17693", 0x40000, 0x20000, 0x4a350b3e );
-/*TODO*///		ROM_LOAD( "17696", 0x60000, 0x20000, 0x6edb54f1 );
-/*TODO*///		ROM_LOAD( "17694", 0x80000, 0x20000, 0xb296d71d );
-/*TODO*///		ROM_LOAD( "17697", 0xa0000, 0x20000, 0x6ccb7b28 );
-/*TODO*///		ROM_LOAD( "17698", 0xc0000, 0x20000, 0xcd4dfb82 );
-/*TODO*///		ROM_LOAD( "17699", 0xe0000, 0x20000, 0x2694ecce );
-/*TODO*///	
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "17691", 0x00000,  0x08000, 0x14205388 );
-/*TODO*///		ROM_LOAD( "17690", 0x10000,  0x40000, 0x4f9ba4e4 );
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress toryumon_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x3e2000, 0x3e2003, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
-/*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xe40000, 0xe40001, MRA_EXTRAM2 ),
-/*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xe41002, 0xe41003, input_port_0_r ),
-/*TODO*///		new MemoryReadAddress( 0xe41004, 0xe41005, MRA_NOP ),
-/*TODO*///		new MemoryReadAddress( 0xe41006, 0xe41007, io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0xe41000, 0xe41001, io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0xe42002, 0xe42003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0xe42000, 0xe42001, io_dip2_r ),
-/*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress toryumon_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x3e2000, 0x3e2003, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0xe40000, 0xe40001, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static void toryumon_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	
-/*TODO*///		sys16_tile_bank0 = READ_WORD( &sys16_extraram[0x0000] )&0xf;
-/*TODO*///		sys16_tile_bank1 = READ_WORD( &sys16_extraram[0x0002] )&0xf;
-/*TODO*///	
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr toryumon_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {00,0x02,0x04,0x06,0x08,0x0a,0x0c,0x0e,00,00,00,00,00,00,00,00};
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = toryumon_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_toryumon = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 4,0x40000 );
-/*TODO*///	} };
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_toryumon = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x04, 0x04, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Unused") );
-/*TODO*///		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x10, 0x10, "VS-Mode Battle" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "1" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "3" );
-/*TODO*///		PORT_DIPNAME( 0xe0, 0xe0, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0xc0, "Easy" );
-/*TODO*///		PORT_DIPSETTING(    0xe0, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0xa0, "Hard" );
-/*TODO*///		PORT_DIPSETTING(    0x80, "Hard+1" );
-/*TODO*///		PORT_DIPSETTING(    0x60, "Hard+2" );
-/*TODO*///		PORT_DIPSETTING(    0x40, "Hard+3" );
-/*TODO*///		PORT_DIPSETTING(    0x20, "Hard+4" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hard+5" );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
+	/***************************************************************************/
+	
+	// sys16B
+	static RomLoadPtr rom_toryumon = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "17689",  0x00000, 0x20000, 0x4f0dee19 );
+		ROM_LOAD_ODD ( "17688",  0x00000, 0x20000, 0x717d81c7 );
+	
+		ROM_REGION( 0xc0000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "17700", 0x00000, 0x40000, 0x8f288b37 );
+		ROM_LOAD( "17701", 0x40000, 0x40000, 0x6dfb025b );
+		ROM_LOAD( "17702", 0x80000, 0x40000, 0xae0b7eab );
+	
+		ROM_REGION( 0x100000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "17692", 0x00000, 0x20000, 0x543c4327 );
+		ROM_LOAD( "17695", 0x20000, 0x20000, 0xee60f244 );
+		ROM_LOAD( "17693", 0x40000, 0x20000, 0x4a350b3e );
+		ROM_LOAD( "17696", 0x60000, 0x20000, 0x6edb54f1 );
+		ROM_LOAD( "17694", 0x80000, 0x20000, 0xb296d71d );
+		ROM_LOAD( "17697", 0xa0000, 0x20000, 0x6ccb7b28 );
+		ROM_LOAD( "17698", 0xc0000, 0x20000, 0xcd4dfb82 );
+		ROM_LOAD( "17699", 0xe0000, 0x20000, 0x2694ecce );
+	
+	
+		ROM_REGION( 0x50000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "17691", 0x00000,  0x08000, 0x14205388 );
+		ROM_LOAD( "17690", 0x10000,  0x40000, 0x4f9ba4e4 );
+	ROM_END(); }}; 
+	
+	/***************************************************************************/
+	
+	static MemoryReadAddress toryumon_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
+		new MemoryReadAddress( 0x3e2000, 0x3e2003, MRA_BANK3 ),
+		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+		new MemoryReadAddress( 0x440000, 0x440fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0x840000, 0x840fff, paletteram_word_r ),
+	
+		new MemoryReadAddress( 0xe40000, 0xe40001, MRA_BANK4 ),
+	
+		new MemoryReadAddress( 0xe41002, 0xe41003, input_port_0_r ),
+		new MemoryReadAddress( 0xe41004, 0xe41005, MRA_NOP ),
+		new MemoryReadAddress( 0xe41006, 0xe41007, input_port_1_r ),
+		new MemoryReadAddress( 0xe41000, 0xe41001, input_port_2_r ),
+		new MemoryReadAddress( 0xe42002, 0xe42003, input_port_3_r ),
+		new MemoryReadAddress( 0xe42000, 0xe42001, input_port_4_r ),
+	
+		new MemoryReadAddress( 0xffc000, 0xffffff, MRA_BANK1 ),
+		new MemoryReadAddress(-1)
+	};
+	
+	static MemoryWriteAddress toryumon_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x3e2000, 0x3e2003, MWA_BANK3,sys16_extraram ),
+		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0x440000, 0x440fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0x840000, 0x840fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0xe40000, 0xe40001, MWA_BANK4,sys16_extraram2 ),
+		new MemoryWriteAddress( 0xfe0006, 0xfe0007, sound_command_w ),
+		new MemoryWriteAddress( 0xffc000, 0xffffff, MWA_BANK1,sys16_workingram ),
+		new MemoryWriteAddress(-1)
+	};
+	/***************************************************************************/
+	
+	static sys16_update_procPtr toryumon_update_proc = new sys16_update_procPtr() {
+            public void handler() {
+		sys16_fg_scrollx = sys16_textram.READ_WORD( 0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD( 0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD( 0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD( 0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD( 0x0e80 ) );
+		set_bg_page( sys16_textram.READ_WORD( 0x0e82 ) );
+	
+		sys16_tile_bank0 = sys16_extraram.READ_WORD( 0x0000 )&0xf;
+		sys16_tile_bank1 = sys16_extraram.READ_WORD( 0x0002 )&0xf;
+	
+		set_refresh( sys16_extraram2.READ_WORD( 0 ) );
+            }
+        };
+        
+	public static InitMachinePtr toryumon_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = {00,0x02,0x04,0x06,0x08,0x0a,0x0c,0x0e,00,00,00,00,00,00,00,00};
+		sys16_obj_bank = bank;
+	
+		sys16_update_proc = toryumon_update_proc;
+	} };
+	
+	public static InitDriverPtr init_toryumon = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode( 4,0x40000 );
+	} };
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_toryumon = new InputPortPtr(){ public void handler() { 
+		SYS16_JOY1();
+		SYS16_JOY2();
+		SYS16_SERVICE();
+		SYS16_COINAGE();
+	
+	PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x02, 0x02, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x02, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x04, 0x04, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x04, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x08, 0x08, DEF_STR( "Unused") );
+		PORT_DIPSETTING(    0x08, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x10, 0x10, "VS-Mode Battle" );
+		PORT_DIPSETTING(    0x10, "1" );
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPNAME( 0xe0, 0xe0, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0xc0, "Easy" );
+		PORT_DIPSETTING(    0xe0, "Normal" );
+		PORT_DIPSETTING(    0xa0, "Hard" );
+		PORT_DIPSETTING(    0x80, "Hard+1" );
+		PORT_DIPSETTING(    0x60, "Hard+2" );
+		PORT_DIPSETTING(    0x40, "Hard+3" );
+		PORT_DIPSETTING(    0x20, "Hard+4" );
+		PORT_DIPSETTING(    0x00, "Hard+5" );
+	INPUT_PORTS_END(); }}; 
+	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_toryumon, \
 /*TODO*///		toryumon_readmem,toryumon_writemem,toryumon_init_machine, gfx4,upd7759_interface )
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_tturf = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "12327.7a",  0x00000, 0x20000, 0x0376c593 )
-/*TODO*///		ROM_LOAD_ODD ( "12326.5a",  0x00000, 0x20000, 0xf998862b )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "12268.14a", 0x00000, 0x10000, 0xe0dac07f );
-/*TODO*///		ROM_LOAD( "12269.15a", 0x10000, 0x10000, 0x457a8790 );
-/*TODO*///		ROM_LOAD( "12270.16a", 0x20000, 0x10000, 0x69fc025b );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x80000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "12279.1b", 0x00000, 0x10000, 0x7a169fb1 );
-/*TODO*///		ROM_LOAD( "12283.5b", 0x10000, 0x10000, 0xae0fa085 );
-/*TODO*///		ROM_LOAD( "12278.2b", 0x20000, 0x10000, 0x961d06b7 );
-/*TODO*///		ROM_LOAD( "12282.6b", 0x30000, 0x10000, 0xe8671ee1 );
-/*TODO*///		ROM_LOAD( "12277.3b", 0x40000, 0x10000, 0xf16b6ba2 );
-/*TODO*///		ROM_LOAD( "12281.7b", 0x50000, 0x10000, 0x1ef1077f );
-/*TODO*///		ROM_LOAD( "12276.4b", 0x60000, 0x10000, 0x838bd71f );
-/*TODO*///		ROM_LOAD( "12280.8b", 0x70000, 0x10000, 0x639a57cb );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "12328.10a", 0x0000, 0x8000, 0x00000000 );
-/*TODO*///		ROM_LOAD( "12329.11a", 0x10000, 0x10000, 0xed9a686d );	// speech
-/*TODO*///		ROM_LOAD( "12330.12a", 0x20000, 0x10000, 0xfb762bca );
-/*TODO*///	
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_tturfu = new RomLoadPtr(){ public void handler(){ 
-/*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
-/*TODO*///		ROM_LOAD_EVEN( "epr12266.bin",  0x00000, 0x10000, 0xf549def8 )
-/*TODO*///		ROM_LOAD_ODD ( "epr12264.bin",  0x00000, 0x10000, 0xf7cdb289 )
-/*TODO*///		ROM_LOAD_EVEN( "epr12267.bin",  0x20000, 0x10000, 0x3c3ce191 )
-/*TODO*///		ROM_LOAD_ODD ( "epr12265.bin",  0x20000, 0x10000, 0x8cdadd9a )
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
-/*TODO*///		ROM_LOAD( "12268.14a", 0x00000, 0x10000, 0xe0dac07f );
-/*TODO*///		ROM_LOAD( "12269.15a", 0x10000, 0x10000, 0x457a8790 );
-/*TODO*///		ROM_LOAD( "12270.16a", 0x20000, 0x10000, 0x69fc025b );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x80000*2, REGION_GFX2 );/* sprites */
-/*TODO*///		ROM_LOAD( "12279.1b", 0x00000, 0x10000, 0x7a169fb1 );
-/*TODO*///		ROM_LOAD( "12283.5b", 0x10000, 0x10000, 0xae0fa085 );
-/*TODO*///		ROM_LOAD( "12278.2b", 0x20000, 0x10000, 0x961d06b7 );
-/*TODO*///		ROM_LOAD( "12282.6b", 0x30000, 0x10000, 0xe8671ee1 );
-/*TODO*///		ROM_LOAD( "12277.3b", 0x40000, 0x10000, 0xf16b6ba2 );
-/*TODO*///		ROM_LOAD( "12281.7b", 0x50000, 0x10000, 0x1ef1077f );
-/*TODO*///		ROM_LOAD( "12276.4b", 0x60000, 0x10000, 0x838bd71f );
-/*TODO*///		ROM_LOAD( "12280.8b", 0x70000, 0x10000, 0x639a57cb );
-/*TODO*///	
-/*TODO*///		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
-/*TODO*///		ROM_LOAD( "epr12271.bin", 0x0000,  0x8000, 0x99671e52 );
-/*TODO*///		ROM_LOAD( "epr12272.bin", 0x10000, 0x8000, 0x7cf7e69f );
-/*TODO*///		ROM_LOAD( "epr12273.bin", 0x18000, 0x8000, 0x28f0bb8b );
-/*TODO*///		ROM_LOAD( "epr12274.bin", 0x20000, 0x8000, 0x8207f0c4 );
-/*TODO*///		ROM_LOAD( "epr12275.bin", 0x28000, 0x8000, 0x182f3c3d );
-/*TODO*///	
-/*TODO*///	ROM_END(); }}; 
-/*TODO*///	
-/*TODO*///	/***************************************************************************/
-/*TODO*///	public static ReadHandlerPtr tt_io_player1_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_0_r( offset ) << 8; } };
-/*TODO*///	public static ReadHandlerPtr tt_io_player2_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_1_r( offset ) << 8; } };
-/*TODO*///	public static ReadHandlerPtr tt_io_service_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_2_r( offset ) << 8; } };
-/*TODO*///	
-/*TODO*///	static MemoryReadAddress tturf_readmem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
-/*TODO*///		new MemoryReadAddress( 0x2001e6, 0x2001e7, tt_io_service_r ),
-/*TODO*///		new MemoryReadAddress( 0x2001e8, 0x2001e9, tt_io_player1_r ),
-/*TODO*///		new MemoryReadAddress( 0x2001ea, 0x2001eb, tt_io_player2_r ),
-/*TODO*///		new MemoryReadAddress( 0x200000, 0x203fff, MRA_EXTRAM ),
-/*TODO*///		new MemoryReadAddress( 0x300000, 0x300fff, MRA_BANK2 ),
-/*TODO*///		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
-/*TODO*///		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
-/*TODO*///		new MemoryReadAddress( 0x500000, 0x500fff, paletteram_word_r ),
-/*TODO*///	
-/*TODO*///		new MemoryReadAddress( 0x602002, 0x602003, io_dip1_r ),
-/*TODO*///		new MemoryReadAddress( 0x602000, 0x602001, io_dip2_r ),
-/*TODO*///		new MemoryReadAddress(-1)
-/*TODO*///	};
-/*TODO*///	
-/*TODO*///	static MemoryWriteAddress tturf_writemem[] =
-/*TODO*///	{
-/*TODO*///		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
-/*TODO*///		new MemoryWriteAddress( 0x200000, 0x203fff, MWA_EXTRAM ),
-/*TODO*///		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_BANK2,sys16_spriteram ),
-/*TODO*///		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
-/*TODO*///		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
-/*TODO*///		new MemoryWriteAddress( 0x500000, 0x500fff, sys16_paletteram_w, paletteram ),
-/*TODO*///		new MemoryWriteAddress( 0x600000, 0x600005, MWA_BANK4,sys16_extraram2 ),
-/*TODO*///	//	new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
-/*TODO*///		new MemoryWriteAddress(-1)
-/*TODO*///	};
-/*TODO*///	/***************************************************************************/
-/*TODO*///	static void tturf_update_proc( void ){
-/*TODO*///		sys16_fg_scrollx = READ_WORD( &sys16_textram[0x0e98] );
-/*TODO*///		sys16_bg_scrollx = READ_WORD( &sys16_textram[0x0e9a] );
-/*TODO*///		sys16_fg_scrolly = READ_WORD( &sys16_textram[0x0e90] );
-/*TODO*///		sys16_bg_scrolly = READ_WORD( &sys16_textram[0x0e92] );
-/*TODO*///	
-/*TODO*///		set_fg_page( READ_WORD( &sys16_textram[0x0e80] ) );
-/*TODO*///		set_bg_page( READ_WORD( &sys16_textram[0x0e82] ) );
-/*TODO*///	
-/*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
-/*TODO*///	}
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr tturf_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {00,00,0x02,00,0x04,00,0x06,00,00,00,00,00,00,00,00,00};
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///		sys16_spritelist_end=0xc000;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = tturf_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitMachinePtr tturfu_init_machine = new InitMachinePtr() { public void handler() {
-/*TODO*///		static int bank[16] = {00,00,00,00,00,00,00,00,00,00,00,02,00,04,06,00};
-/*TODO*///		sys16_obj_bank = bank;
-/*TODO*///		sys16_spritelist_end=0xc000;
-/*TODO*///	
-/*TODO*///		sys16_update_proc = tturf_update_proc;
-/*TODO*///	} };
-/*TODO*///	
-/*TODO*///	public static InitDriverPtr init_tturf = new InitDriverPtr() { public void handler() 
-/*TODO*///	{
-/*TODO*///		sys16_onetime_init_machine();
-/*TODO*///		sys16_sprite_decode( 4,0x20000 );
-/*TODO*///	} };
-/*TODO*///	/***************************************************************************/
-/*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_tturf = new InputPortPtr(){ public void handler() { 
-/*TODO*///		SYS16_JOY1
-/*TODO*///		SYS16_JOY2
-/*TODO*///		SYS16_SERVICE
-/*TODO*///		SYS16_COINAGE
-/*TODO*///	
-/*TODO*///	PORT_START(); 	/* DSW1 */
-/*TODO*///		PORT_DIPNAME( 0x03, 0x00, "Continues" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "None" );
-/*TODO*///		PORT_DIPSETTING(    0x01, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x02, "Unlimited" );
-/*TODO*///		PORT_DIPSETTING(    0x03, "Unlimited" );
-/*TODO*///		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Difficulty") );
-/*TODO*///		PORT_DIPSETTING(    0x08, "Easy" );
-/*TODO*///		PORT_DIPSETTING(    0x0c, "Normal" );
-/*TODO*///		PORT_DIPSETTING(    0x04, "Hard" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "Hardest" );
-/*TODO*///		PORT_DIPNAME( 0x30, 0x20, "Starting Energy" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "3" );
-/*TODO*///		PORT_DIPSETTING(    0x10, "4" );
-/*TODO*///		PORT_DIPSETTING(    0x20, "6" );
-/*TODO*///		PORT_DIPSETTING(    0x30, "8" );
-/*TODO*///		PORT_DIPNAME( 0x40, 0x00, DEF_STR( "Demo_Sounds") );
-/*TODO*///		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
-/*TODO*///		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
-/*TODO*///		PORT_DIPNAME( 0x80, 0x00, "Bonus Energy" );
-/*TODO*///		PORT_DIPSETTING(    0x80, "1" );
-/*TODO*///		PORT_DIPSETTING(    0x00, "2" );
-/*TODO*///	INPUT_PORTS_END(); }}; 
-/*TODO*///	
+/*TODO*///	#define MACHINE_DRIVER_7759( GAMENAME,READMEM,WRITEMEM,INITMACHINE,GFXSIZE, UPD7759INTF ) \
+	static MachineDriver machine_driver_toryumon = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				toryumon_readmem,toryumon_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		toryumon_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx4, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
+        
+	// sys16B
+	static RomLoadPtr rom_tturf = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "12327.7a",  0x00000, 0x20000, 0x0376c593 );
+		ROM_LOAD_ODD ( "12326.5a",  0x00000, 0x20000, 0xf998862b );
+	
+		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "12268.14a", 0x00000, 0x10000, 0xe0dac07f );
+		ROM_LOAD( "12269.15a", 0x10000, 0x10000, 0x457a8790 );
+		ROM_LOAD( "12270.16a", 0x20000, 0x10000, 0x69fc025b );
+	
+		ROM_REGION( 0x80000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "12279.1b", 0x00000, 0x10000, 0x7a169fb1 );
+		ROM_LOAD( "12283.5b", 0x10000, 0x10000, 0xae0fa085 );
+		ROM_LOAD( "12278.2b", 0x20000, 0x10000, 0x961d06b7 );
+		ROM_LOAD( "12282.6b", 0x30000, 0x10000, 0xe8671ee1 );
+		ROM_LOAD( "12277.3b", 0x40000, 0x10000, 0xf16b6ba2 );
+		ROM_LOAD( "12281.7b", 0x50000, 0x10000, 0x1ef1077f );
+		ROM_LOAD( "12276.4b", 0x60000, 0x10000, 0x838bd71f );
+		ROM_LOAD( "12280.8b", 0x70000, 0x10000, 0x639a57cb );
+	
+		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "12328.10a", 0x0000, 0x8000, 0x00000000 );
+		ROM_LOAD( "12329.11a", 0x10000, 0x10000, 0xed9a686d );	// speech
+		ROM_LOAD( "12330.12a", 0x20000, 0x10000, 0xfb762bca );
+	
+	ROM_END(); }}; 
+	
+	// sys16B
+	static RomLoadPtr rom_tturfu = new RomLoadPtr(){ public void handler(){ 
+		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
+		ROM_LOAD_EVEN( "epr12266.bin",  0x00000, 0x10000, 0xf549def8 );
+		ROM_LOAD_ODD ( "epr12264.bin",  0x00000, 0x10000, 0xf7cdb289 );
+		ROM_LOAD_EVEN( "epr12267.bin",  0x20000, 0x10000, 0x3c3ce191 );
+		ROM_LOAD_ODD ( "epr12265.bin",  0x20000, 0x10000, 0x8cdadd9a );
+	
+		ROM_REGION( 0x30000, REGION_GFX1 | REGIONFLAG_DISPOSE );/* tiles */
+		ROM_LOAD( "12268.14a", 0x00000, 0x10000, 0xe0dac07f );
+		ROM_LOAD( "12269.15a", 0x10000, 0x10000, 0x457a8790 );
+		ROM_LOAD( "12270.16a", 0x20000, 0x10000, 0x69fc025b );
+	
+		ROM_REGION( 0x80000*2, REGION_GFX2 );/* sprites */
+		ROM_LOAD( "12279.1b", 0x00000, 0x10000, 0x7a169fb1 );
+		ROM_LOAD( "12283.5b", 0x10000, 0x10000, 0xae0fa085 );
+		ROM_LOAD( "12278.2b", 0x20000, 0x10000, 0x961d06b7 );
+		ROM_LOAD( "12282.6b", 0x30000, 0x10000, 0xe8671ee1 );
+		ROM_LOAD( "12277.3b", 0x40000, 0x10000, 0xf16b6ba2 );
+		ROM_LOAD( "12281.7b", 0x50000, 0x10000, 0x1ef1077f );
+		ROM_LOAD( "12276.4b", 0x60000, 0x10000, 0x838bd71f );
+		ROM_LOAD( "12280.8b", 0x70000, 0x10000, 0x639a57cb );
+	
+		ROM_REGION( 0x30000, REGION_CPU2 );/* sound CPU */
+		ROM_LOAD( "epr12271.bin", 0x0000,  0x8000, 0x99671e52 );
+		ROM_LOAD( "epr12272.bin", 0x10000, 0x8000, 0x7cf7e69f );
+		ROM_LOAD( "epr12273.bin", 0x18000, 0x8000, 0x28f0bb8b );
+		ROM_LOAD( "epr12274.bin", 0x20000, 0x8000, 0x8207f0c4 );
+		ROM_LOAD( "epr12275.bin", 0x28000, 0x8000, 0x182f3c3d );
+	
+	ROM_END(); }}; 
+	
+	/***************************************************************************/
+	public static ReadHandlerPtr tt_io_player1_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_0_r.handler( offset ) << 8; } };
+	public static ReadHandlerPtr tt_io_player2_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_1_r.handler( offset ) << 8; } };
+	public static ReadHandlerPtr tt_io_service_r = new ReadHandlerPtr() { public int handler(int offset){ return input_port_2_r.handler( offset ) << 8; } };
+	
+	static MemoryReadAddress tturf_readmem[] =
+	{
+		new MemoryReadAddress( 0x000000, 0x03ffff, MRA_ROM ),
+		new MemoryReadAddress( 0x2001e6, 0x2001e7, tt_io_service_r ),
+		new MemoryReadAddress( 0x2001e8, 0x2001e9, tt_io_player1_r ),
+		new MemoryReadAddress( 0x2001ea, 0x2001eb, tt_io_player2_r ),
+		new MemoryReadAddress( 0x200000, 0x203fff, MRA_BANK3 ),
+		new MemoryReadAddress( 0x300000, 0x300fff, MRA_BANK2 ),
+		new MemoryReadAddress( 0x400000, 0x40ffff, sys16_tileram_r ),
+		new MemoryReadAddress( 0x410000, 0x410fff, sys16_textram_r ),
+		new MemoryReadAddress( 0x500000, 0x500fff, paletteram_word_r ),
+	
+		new MemoryReadAddress( 0x602002, 0x602003, input_port_3_r ),
+		new MemoryReadAddress( 0x602000, 0x602001, input_port_4_r ),
+		new MemoryReadAddress(-1)
+	};
+	
+	static MemoryWriteAddress tturf_writemem[] =
+	{
+		new MemoryWriteAddress( 0x000000, 0x03ffff, MWA_ROM ),
+		new MemoryWriteAddress( 0x200000, 0x203fff, MWA_BANK3,sys16_extraram ),
+		new MemoryWriteAddress( 0x300000, 0x300fff, MWA_BANK2,sys16_spriteram ),
+		new MemoryWriteAddress( 0x400000, 0x40ffff, sys16_tileram_w,sys16_tileram ),
+		new MemoryWriteAddress( 0x410000, 0x410fff, sys16_textram_w,sys16_textram ),
+		new MemoryWriteAddress( 0x500000, 0x500fff, sys16_paletteram_w, paletteram ),
+		new MemoryWriteAddress( 0x600000, 0x600005, MWA_BANK4,sys16_extraram2 ),
+	//	new MemoryWriteAddress( 0x600006, 0x600007, sound_command_w ),
+		new MemoryWriteAddress(-1)
+	};
+	/***************************************************************************/
+	static sys16_update_procPtr tturf_update_proc = new sys16_update_procPtr() {
+            public void handler() {
+		sys16_fg_scrollx = sys16_textram.READ_WORD( 0x0e98 );
+		sys16_bg_scrollx = sys16_textram.READ_WORD( 0x0e9a );
+		sys16_fg_scrolly = sys16_textram.READ_WORD( 0x0e90 );
+		sys16_bg_scrolly = sys16_textram.READ_WORD( 0x0e92 );
+	
+		set_fg_page( sys16_textram.READ_WORD( 0x0e80 ) );
+		set_bg_page( sys16_textram.READ_WORD( 0x0e82 ) );
+	
+		set_refresh( sys16_extraram2.READ_WORD( 0 ) );
+            }
+        };
+        
+	public static InitMachinePtr tturf_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = {00,00,0x02,00,0x04,00,0x06,00,00,00,00,00,00,00,00,00};
+		sys16_obj_bank = bank;
+		sys16_spritelist_end=0xc000;
+	
+		sys16_update_proc = tturf_update_proc;
+	} };
+	
+	public static InitMachinePtr tturfu_init_machine = new InitMachinePtr() { public void handler() {
+		int bank[] = {00,00,00,00,00,00,00,00,00,00,00,02,00,04,06,00};
+		sys16_obj_bank = bank;
+		sys16_spritelist_end=0xc000;
+	
+		sys16_update_proc = tturf_update_proc;
+	} };
+	
+	public static InitDriverPtr init_tturf = new InitDriverPtr() { public void handler() 
+	{
+		sys16_onetime_init_machine.handler();
+		sys16_sprite_decode( 4,0x20000 );
+	} };
+	/***************************************************************************/
+	
+	static InputPortPtr input_ports_tturf = new InputPortPtr(){ public void handler() { 
+		SYS16_JOY1();
+		SYS16_JOY2();
+		SYS16_SERVICE();
+		SYS16_COINAGE();
+	
+	PORT_START(); 	/* DSW1 */
+		PORT_DIPNAME( 0x03, 0x00, "Continues" );
+		PORT_DIPSETTING(    0x00, "None" );
+		PORT_DIPSETTING(    0x01, "3" );
+		PORT_DIPSETTING(    0x02, "Unlimited" );
+		PORT_DIPSETTING(    0x03, "Unlimited" );
+		PORT_DIPNAME( 0x0c, 0x0c, DEF_STR( "Difficulty") );
+		PORT_DIPSETTING(    0x08, "Easy" );
+		PORT_DIPSETTING(    0x0c, "Normal" );
+		PORT_DIPSETTING(    0x04, "Hard" );
+		PORT_DIPSETTING(    0x00, "Hardest" );
+		PORT_DIPNAME( 0x30, 0x20, "Starting Energy" );
+		PORT_DIPSETTING(    0x00, "3" );
+		PORT_DIPSETTING(    0x10, "4" );
+		PORT_DIPSETTING(    0x20, "6" );
+		PORT_DIPSETTING(    0x30, "8" );
+		PORT_DIPNAME( 0x40, 0x00, DEF_STR( "Demo_Sounds") );
+		PORT_DIPSETTING(    0x40, DEF_STR( "Off") );
+		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
+		PORT_DIPNAME( 0x80, 0x00, "Bonus Energy" );
+		PORT_DIPSETTING(    0x80, "1" );
+		PORT_DIPSETTING(    0x00, "2" );
+	INPUT_PORTS_END(); }}; 
+	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_tturf, \
 /*TODO*///		tturf_readmem,tturf_writemem,tturf_init_machine, gfx1,upd7759_interface )
+	static MachineDriver machine_driver_tturf = new MachineDriver
+	( 
+		new MachineCPU[] { 
+			new MachineCPU( 
+				CPU_M68000, 
+				10000000, 
+				tturf_readmem,tturf_writemem,null,null, 
+				sys16_interrupt,1 
+			), 
+			new MachineCPU( 
+				CPU_Z80 | CPU_AUDIO_CPU, 
+				4096000, 
+				sound_readmem_7759,sound_writemem,sound_readport,sound_writeport_7759, 
+				ignore_interrupt,1 
+			), 
+		}, 
+		60, DEFAULT_60HZ_VBLANK_DURATION, 
+		1, 
+		tturf_init_machine, 
+		40*8, 28*8, new rectangle( 0*8, 40*8-1, 0*8, 28*8-1 ), 
+		gfx1, 
+		2048*ShadowColorsMultiplier,2048*ShadowColorsMultiplier, 
+		null, 
+		VIDEO_TYPE_RASTER | VIDEO_MODIFIES_PALETTE, 
+		null, 
+		sys16_vh_start, 
+		sys16_vh_stop, 
+		sys16_vh_screenrefresh, 
+		SOUND_SUPPORTS_STEREO,0,0,0, 
+		new MachineSound[] { 
+			new MachineSound( 
+				SOUND_YM2151, 
+				ym2151_interface 
+			), new MachineSound( 
+				SOUND_UPD7759, 
+				upd7759_interface 
+			) 
+		} 
+	);
+        
 /*TODO*///	
 /*TODO*///	MACHINE_DRIVER_7759( machine_driver_tturfu, \
 /*TODO*///		tturf_readmem,tturf_writemem,tturfu_init_machine, gfx1,upd7759_interface )
@@ -13699,8 +13783,8 @@ public class system16 {
     public static GameDriver driver_tetrisbl = new GameDriver("1988", "tetrisbl", "system16.java", rom_tetrisbl, driver_tetris, machine_driver_tetris, input_ports_tetris, init_tetrisbl, ROT0, "bootleg", "Tetris (Sega bootleg)");
     /*TODO*///	GAMEX(1988, tetrisa,  tetris,   tetris,   tetris,   tetrisbl, ROT0,         "Sega",    "Tetris (Sega Set 2)", GAME_NOT_WORKING)
     public static GameDriver driver_timscanr	   = new GameDriver("1987"	,"timscanr"	,"system16.java"	,rom_timscanr,null	,machine_driver_timscanr	,input_ports_timscanr	,init_timscanr	,ROT270	,	"Sega",    "Time Scanner");
-/*TODO*///	GAME (1994, toryumon, null,        toryumon, toryumon, toryumon, ROT0,         "Sega",    "Toryumon")
-/*TODO*///	GAMEX(1989, tturf,    null,        tturf,    tturf,    tturf,    ROT0_16BIT,   "Sega / Sunsoft", "Tough Turf (Japan)", GAME_NO_SOUND)
+    public static GameDriver driver_toryumon	   = new GameDriver("1994"	,"toryumon"	,"system16.java"	,rom_toryumon,null	,machine_driver_toryumon	,input_ports_toryumon	,init_toryumon	,ROT0	,	"Sega",    "Toryumon" );
+    public static GameDriver driver_tturf	   = new GameDriver("1989"	,"tturf"	,"system16.java"	,rom_tturf,null	,machine_driver_tturf	,input_ports_tturf	,init_tturf	,ROT0_16BIT	,	"Sega / Sunsoft", "Tough Turf (Japan)", GAME_NO_SOUND );
 /*TODO*///	GAMEX(1989, tturfu,   tturf,    tturfu,   tturf,    tturf,    ROT0_16BIT,   "Sega / Sunsoft", "Tough Turf (US)", GAME_NO_SOUND)
 /*TODO*///	GAMEX(1989, tturfbl,  tturf,    tturfbl,  tturf,    tturfbl,  ROT0_16BIT,   "bootleg", "Tough Turf (bootleg)", GAME_IMPERFECT_SOUND)
     public static GameDriver driver_wb3 = new GameDriver("1988", "wb3", "system16.java", rom_wb3, null, machine_driver_wb3, input_ports_wb3, init_wb3, ROT0, "Sega / Westone", "Wonder Boy III - Monster Lair (set 1)");

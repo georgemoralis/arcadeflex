@@ -325,7 +325,7 @@ public class offtwall
             public void handler(UShortArray data, rectangle clip, Object param) {
 		int[] usage = Machine.gfx[0].pen_usage;
 		int[] colormap = (int[]) param;
-		int code = data.read(1) & 0x7fff;
+		int code = data.read(1) & 0x5fff;
 		int color = data.read(2) & 0x000f;
 		int hsize = ((data.read(3) >> 4) & 7) + 1;
 		int vsize = (data.read(3) & 7) + 1;

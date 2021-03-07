@@ -2077,8 +2077,8 @@ public class driver {
                 /*TODO*/ //	DRIVER( shinobl )	/* (c) 1987 (but bootleg) */
                 driver_tetrisbl,	/* (c) 1988 (but bootleg) */
                 driver_timscanr,	/* (c) 1987 */
-                /*TODO*/ //	DRIVER( toryumon )	/* (c) 1995 */
-                /*TODO*/ //	DRIVER( tturf )		/* (c) 1989 Sega / Sunsoft */
+                driver_toryumon,	/* (c) 1995 */
+                driver_tturf,		/* (c) 1989 Sega / Sunsoft */
                 /*TODO*/ //	DRIVER( tturfbl )	/* (c) 1989 (Datsu bootleg) */
                 /*TODO*/ //	DRIVER( tturfu )	/* (c) 1989 Sega / Sunsoft */
                 driver_wb3,		/* (c) 1988 Sega / Westone */

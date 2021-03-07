@@ -409,8 +409,8 @@ public class armedf
 		rectangle clip = new rectangle(Machine.drv.visible_area);
                 GfxElement gfx = Machine.gfx[3];
 
-                UShortPtr source = new UShortPtr(spriteram);
-                UShortPtr finish = new UShortPtr(source, 1024);
+                UShortArray source = new UShortArray(spriteram);
+                UShortArray finish = new UShortArray(source, 1024);
 
                 while( source.offset<finish.offset ){
                         int sy = 240-(source.read(0)&0x1ff);				// ???

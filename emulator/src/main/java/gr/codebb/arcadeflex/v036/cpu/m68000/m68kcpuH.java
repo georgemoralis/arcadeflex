@@ -429,7 +429,10 @@ public class m68kcpuH {
     public static long ROR_32(long A, long C) {
         return MASK_OUT_ABOVE_32(LSR_32(A, C) | LSL_32(A, 32 - (C)));
     }
-    /*TODO*///#define ROR_33(A, C)                  (LSR_32(A, C) | LSL_32(A, 33-(C)))
+    
+    public static long ROR_33(long A, long C) {
+        return (LSR_32(A, C) | LSL_32(A, 33-(C)));
+    }
 
     /* Access the CPU registers */
     public static long get_CPU_MODE() {
