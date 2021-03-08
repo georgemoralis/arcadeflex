@@ -1535,7 +1535,7 @@ public class atarigen
 		}
 	
 		/* if we're within screen bounds, grab the next batch of MO's and process */
-		if (scanline < Machine.drv.screen_height)
+		if ((scanline < Machine.drv.screen_height) && (2 * (((scanline + scroll + 7) & 0x1f8) / 8))>(slips.memory.length+slips.offset))
 		{
 			int pfscanline = (scanline + scroll + 7) & 0x1f8;
 			int link = (slips.READ_WORD(2 * (pfscanline / 8)) >> modesc.linkshift) & modesc.linkmask;

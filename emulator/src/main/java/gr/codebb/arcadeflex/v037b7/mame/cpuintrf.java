@@ -27,6 +27,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import gr.codebb.arcadeflex.v036.cpu.konami.konami;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
 import gr.codebb.arcadeflex.v036.cpu.m68000.m68kmame;
+import gr.codebb.arcadeflex.v036.cpu.m68000.m68010mame;
 import gr.codebb.arcadeflex.v036.cpu.m6800.m6800;
 import gr.codebb.arcadeflex.v036.cpu.m6800.m6801;
 import gr.codebb.arcadeflex.v036.cpu.m6800.m6802;
@@ -335,7 +336,7 @@ public class cpuintrf {
                 new m6809(),/*TODO*///	CPU0(M6809,    m6809,	 2,  0,1.00,M6809_INT_NONE,    M6809_INT_IRQ,  M6809_INT_NMI,  16,	  0,16,BE,1, 4,16	),
                 new konami(),/*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
                 new m68kmame(),/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
-                new Dummy_cpu(),/*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
+                new m68010mame(),/*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
                 new Dummy_cpu(),/*TODO*///	CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
                 new Dummy_cpu(),/*TODO*///	CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
                 new Dummy_cpu(),/*TODO*///	CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
@@ -1678,21 +1679,21 @@ public class cpuintrf {
                         num = MC68000_INT_ACK_AUTOVECTOR;
                         break;
                     /*TODO*///#if (HAS_M68010)
-/*TODO*///			case CPU_M68010:
-/*TODO*///				switch (num)
-/*TODO*///				{
-/*TODO*///				case MC68010_IRQ_1: 	irq_line = 1; LOG(("M68010 IRQ1\n")); break;
-/*TODO*///				case MC68010_IRQ_2: 	irq_line = 2; LOG(("M68010 IRQ2\n")); break;
-/*TODO*///				case MC68010_IRQ_3: 	irq_line = 3; LOG(("M68010 IRQ3\n")); break;
-/*TODO*///				case MC68010_IRQ_4: 	irq_line = 4; LOG(("M68010 IRQ4\n")); break;
-/*TODO*///				case MC68010_IRQ_5: 	irq_line = 5; LOG(("M68010 IRQ5\n")); break;
-/*TODO*///				case MC68010_IRQ_6: 	irq_line = 6; LOG(("M68010 IRQ6\n")); break;
-/*TODO*///				case MC68010_IRQ_7: 	irq_line = 7; LOG(("M68010 IRQ7\n")); break;
-/*TODO*///				default:				irq_line = 0; LOG(("M68010 unknown\n"));
-/*TODO*///				}
-/*TODO*///				/* until now only auto vector interrupts supported */
-/*TODO*///				num = MC68000_INT_ACK_AUTOVECTOR;
-/*TODO*///				break;
+			case CPU_M68010:
+				switch (num)
+				{
+				case MC68000_IRQ_1: 	irq_line = 1; break;
+				case MC68000_IRQ_2: 	irq_line = 2; break;
+				case MC68000_IRQ_3: 	irq_line = 3; break;
+				case MC68000_IRQ_4: 	irq_line = 4; break;
+				case MC68000_IRQ_5: 	irq_line = 5; break;
+				case MC68000_IRQ_6: 	irq_line = 6; break;
+				case MC68000_IRQ_7: 	irq_line = 7; break;
+				default:				irq_line = 0;
+				}
+				/* until now only auto vector interrupts supported */
+				num = MC68000_INT_ACK_AUTOVECTOR;
+				break;
 /*TODO*///#endif
 /*TODO*///#if (HAS_M68020)
 /*TODO*///			case CPU_M68020:

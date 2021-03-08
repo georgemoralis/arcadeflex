@@ -274,6 +274,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.offtwall.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
+import static gr.codebb.arcadeflex.v037b7.drivers.toypop.*;
 
 public class driver {
 
@@ -2880,6 +2881,9 @@ public class driver {
                 
                 driver_ladyfrog,
                 driver_bssoccer,
+                
+                driver_toypop,
+                driver_liblrabl,
                 
                 null /* end of array */};
     

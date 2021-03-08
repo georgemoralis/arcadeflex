@@ -770,7 +770,7 @@ public class gauntlet
 		/* basic machine hardware */
 		new MachineCPU[] {
 			new MachineCPU(
-				CPU_M68000,//CPU_M68010,		/* verified */
+				CPU_M68010,		/* verified */
 				ATARI_CLOCK_14MHz/2,
 				main_readmem,main_writemem,null,null,
 				atarigen_video_int_gen,1

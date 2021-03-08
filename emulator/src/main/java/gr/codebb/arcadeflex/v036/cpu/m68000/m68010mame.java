@@ -12,10 +12,11 @@ import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kopsH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kops.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpu.*;
 
-public class m68kmame extends cpu_interface {
 
-    public m68kmame() {
-        cpu_num = CPU_M68000;
+public class m68010mame extends cpu_interface {
+
+    public m68010mame() {
+        cpu_num = CPU_M68010;
         num_irqs = 8;
         default_vector = -1;
         overclock = 1.0;
@@ -36,7 +37,7 @@ public class m68kmame extends cpu_interface {
 
     @Override
     public void reset(Object param) {
-        m68k_set_cpu_mode(M68K_CPU_MODE_68000);
+        m68k_set_cpu_mode(M68K_CPU_MODE_68010);
         m68k_pulse_reset(param);
     }
 
@@ -228,13 +229,13 @@ public class m68kmame extends cpu_interface {
     public String cpu_info(Object context, int regnum) {
         switch (regnum) {
             case CPU_INFO_NAME:
-                return "68000";
+                return "68010";
             case CPU_INFO_FAMILY:
                 return "Motorola 68K";
             case CPU_INFO_VERSION:
                 return "2.1";
             case CPU_INFO_FILE:
-                return "m68000.java";
+                return "m68010.java";
             case CPU_INFO_CREDITS:
                 return "Copyright 1999 Karl Stenerud. All rights reserved. (2.1 fixes HJB)";
         }
