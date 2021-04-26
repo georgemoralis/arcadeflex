@@ -983,19 +983,6 @@ public class palette {
                 old_used_colors.write(rec_color, palette_used_colors.read(rec_color));
             }
         }
-        /* invalidate unused pens to make bugs in color allocation evident. */
-        for (i = 0; i < DYNAMIC_MAX_PENS; i++) {
-            if (pen_usage_count[i] == 0) {
-                int r, g, b;
-                r = rand() & 0xff;
-                g = rand() & 0xff;
-                b = rand() & 0xff;
-                shrinked_palette[3 * i + 0] = (char) (r & 0xFF);
-                shrinked_palette[3 * i + 1] = (char) (g & 0xFF);
-                shrinked_palette[3 * i + 2] = (char) (b & 0xFF);
-                osd_modify_pen(shrinked_pens[i], r, g, b);
-            }
-        }
         if (rec_did_remap != 0) {
             /* rebuild the color lookup table */
             for (i = 0; i < Machine.drv.color_table_len; i++) {
