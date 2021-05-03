@@ -744,15 +744,23 @@ public class palette {
     }
 
     static int rec_color;
-    static int rec_did_remap = 0;
-    static int rec_need_refresh = 0;
+    static int rec_did_remap;
+    static int rec_need_refresh;
     static int rec_first_free_pen;
-    static int rec_ran_out = 0;
-    static int rec_reuse_pens = 0;
+    static int rec_ran_out;
+    static int rec_reuse_pens;
     static int rec_need, rec_avail;
 
     public static UBytePtr palette_recalc_8() {
         int i;
+        rec_color = 0;
+        rec_did_remap = 0;
+        rec_need_refresh = 0;
+        rec_first_free_pen = 0;
+        rec_ran_out = 0;
+        rec_reuse_pens = 0;
+        rec_need = 0;
+        rec_avail = 0;
 
         memset(just_remapped, 0, Machine.drv.total_colors);
 
