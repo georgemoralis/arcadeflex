@@ -1,0 +1,3844 @@
+#This mameinfo.dat file is a collection of known issues from Mame's gamelist and the bug reports from Mametesters
+#Credits go out to Robert J. Ragno creating the initial file and all the members of the Mametesting Project for #contributing to it's continued relevance.
+#If you are interested to know more about emulation bugs or want to be part of the Mametesters team go to #http://mameworld.retrogames.com/mametesters
+#If you have any questions, comments, proposals or additions regarding this file please contact KiLLerCloWn at #RoMzCloWn@fcmail.com
+#
+#Last Update 17.2.2000 (All Known Issues and Bugs up to and including Mame 36 beta 15)
+
+$info=yard,vsyard
+$mame
+Known issues:
+
+- Vs. mode runs only in cocktail mode (second player controls inverted).
+  That's probably how the game is designed.
+
+
+
+$end
+
+$info=1942,1942a,1942b
+$mame
+Known issues:
+
+- Sometimes ""1942a"" ends in an endless loop over the sea, and the end of level
+  boss doesn't appear. It hasn't been verified whether ""1942"" and ""1942b"" do the
+  same; ""1942"" might be a later release that fixes this bug.
+
+
+
+$end
+
+$info=1943,1943jap
+$mame
+Known issues:
+
+- Colors in test mode are not correct, but the board the PROMs were read from
+  does the same. The colors in the game seem to be correct.
+
+- To be able to access items 4-7 in the test menu, you must keep 3 pressed
+  while pressing F3.
+$end
+
+$info=4dwarrio
+$mame
+Known issues:
+
+- Sound hangs after you die.
+
+
+
+$end
+
+$info=64street
+$mame
+Bugs:
+
+- Most of the graphics are missing making the game unplayable, 64street36b6yel, MvdV
+
+
+
+$end
+
+$info=aerofgt
+$mame
+Bugs:
+
+- aerofgtb and aerofgtc display the following error at startup: "Error: gfx[0] extends past allocated memory". Aerofgtb36b15red, Foxster
+
+
+
+$end
+
+$info=alexkidd
+$mame
+Bugs:
+
+- In alexkidd (set 2), when you move up or down, the graphics get a little off lineÿ towards the mid-bottom of the screen. Graphics mess up seems to happen across the screen near the area Alex is standing, alexkidd36b4gre, YMI
+
+- I know this doesn't work, but this time it just exits back to dos when you try to run the game, it never did that before. alexkidd36b9yel Falkor
+
+
+
+$end
+
+$info=alpine,alpinea
+$mame
+Known issues:
+
+- Collision detection is not emulated properly.
+
+
+
+$end
+
+$info=anteater
+$mame
+Known issues:
+
+- cocktail mode doesn't work. This might well be a bug in the original.
+
+
+
+$end
+
+$info=aof
+$mame
+Bugs:
+
+- some stages slow down and have messed up graphics without 16-bit colour, aof36b1ora, Haze
+
+
+$end
+
+$info=apb
+$mame
+Bugs:
+
+- Some of the cars in APB still have a transparant like shell coloring since beta 14. Apb36b15gre, Frotz
+
+
+
+$end
+
+$info=arkanoid,arknoidu,arkbl2,arkatayt
+$mame
+Known issues:
+
+- Due to features of the 68705 not emulated yet, the ""arkbl2"" bootleg set
+  doesn't work.
+
+- There might also be protection related problems in ""arknoidu"" (later levels
+  corrupted).Since it doesn't have to emulate the 68705, Continuing game after 'game over' does not deduct credit. If you have 1 credit and your game ends and you press 'fire' and '1 player' to continue, you will still have one credit, arkanoid36b6gre, Andy_S 
+
+ -This is most likely observed in slower machines, like a Pentium 100: After boot, when timer reaches 0, MAME stops responding for 2 seconds, then come back to normal. During that time, it's not possible even exit the emulator,arkanoid36b8gre,Bugfinder 
+
+
+
+$end
+
+$info=arkarea
+$mame
+Bugs:
+
+- hiscore not working: gamelist.txt confirms, -listinfo says "hiscore good". So, which file should we trust? Arkarea36b9gre, Bugfinder
+
+
+
+$end
+
+$info=armedf
+$mame
+Bugs:
+
+- I get a sound glitch when losing a life in armedf for b13. There is a squeal that sounds like it should be the death sound, then two static pops. Armedf36b13gre, Triggerfin
+
+
+
+$end
+
+$info=armwrest
+$mame
+Bugs:
+
+- Graphic glitches in first bonus round. Subsequent bonus rounds (After rounds 5 and 9) are unplayable because of missing money bag sprite. High scores (except for first place) are not saved, armwreb9yel, Sardius
+
+
+
+$end
+
+$info=aso
+$mame
+Bugs:
+
+- Graphics on the title screen are totally messed up. When entering level 2 upon moving the graphics become corrupt until you re-centre yourself. Graphics become worse throughout the game,asokgre,Philipp
+
+
+
+$end
+
+$info=assault
+$mame
+Bugs:
+
+- listed as having working high scores but do not, assault36b8gre,Pook
+
+
+
+$end
+
+$info=astrob1
+$mame
+Bugs:
+
+- single credit mode does not work. Astrob136b15yel, Q.T. Quazar
+
+
+
+$end
+
+$info=astrof
+$mame
+Known issues:
+
+- The background is blue. It was black in all the original boards checked, but
+  there is no obvious bug in the emulation.
+
+
+
+$end
+
+$info=astyanax
+$mame
+Bugs:
+
+- The score/lives - counter is in the background in some levels (e.g. level 5/6) and the stone-blocks (extras) are in the foreground (see my astyanax/lordofk.inp file on the MARP page)! Astyanax36b10gre, Alex
+
+- some sound effect are missing (like the 'coin' sound, the 'storm' during the intro and a part of the music), astyanax36b12gre, YMI 
+$end
+
+$info=batman
+$mame
+Bugs:
+
+-still graphical error to left of screen during movie still,batman36b4gre,Smeagol 
+
+
+
+$end
+
+$info=bbros
+$mame
+Bugs:
+
+- listed as having working high scores but do not bbros36b8gre Pook
+
+
+
+$end
+
+$info=bermudat
+$mame
+Bugs:
+
+- Garbage graphic on the title screen + priority problem (the remaining hole of the destructed enemy on the ground are over your space ship),bermudat36b3gre, YMI
+
+
+
+$end
+
+$info=bionicc
+$mame
+Bugs:
+
+- Previously mentioned background color problems verified in levels 3 and on. Background colors will either start wrong, then self-correct or will start correct, go wrong, but usually self-correct before level is over. I've included a zip file showing messed up areas, as well as the same areas when correct.bionicc36b7gre Randy
+
+
+
+$end
+
+$info=bladestl
+$mame
+Bugs:
+
+- During the between period shootout, an error, in MAME text, or something to that nature, displays. (It doesn't affect the game.) bladestl36b13gre, Sports Dude
+
+
+
+$end
+
+$info=blazer
+$mame
+Bugs:
+
+- Blazer crashes every so often with a CWSDPMI SIGSEGV error under real DOS. Since it doesn't happen every time I don't have any additional info. blazer36b12red Gamester 
+
+
+
+$end
+
+$info=block
+$mame
+Bugs:
+
+- Since 36b14 controls don't work. Player 1 is using player 2's controls now. Player 2 has no controls. Block36b15yel, Frotz/Triggerfin
+
+
+
+$end
+
+$info=bzone,bzone2
+$mame
+Known issues:
+
+- There are two control methods:
+
+-  1) E,I,D,K,Space: Close to the original controls (two up/down sticks)
+
+-  2) Arrow keys+CTRL: simulates a 4-way joystick
+
+- In 0.36b13 there's an extra set of controls. However, they cannot be mapped to any key. bzone36b13gre, Frotz
+
+
+
+$end
+
+$info=blaster
+$mame
+Known Issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=blasto
+$mame
+Known Issues:
+
+- Inserting a coin restarts the game. This is correct behavior, present in the actual arcade machines.
+
+
+
+$end
+
+$info=blastoff
+$mame
+Bugs:
+
+- At certain points in Blast Off, the speech doesn't match what's happening in the game. For example, early in the game when a spy ship appears the game says "Congratulations" and when it turns to go away the game says "Thank you" which doesn't make much sense. It seems the game should say "Spy ship sighted" and "Don't let the spy ship get away". Both phrases are in the game, I checked the voices in the sound test. I've never seen Blast Off in the arcades so I can't be certain if this is a MAME bug or not but couldn't this be a problem in emulating the protection key ? blastoff36b9gre, Gamester
+
+
+
+$end
+
+$info=blazer
+$mame
+Bugs:
+
+- I might as well mention this, when you shoot an air missle (button 2) in the Namco System 1 game Blazer, right before it explodes a black square appears.ÿ You can easily see this by using SHIFT-P to go frame-by-frame, blazer36b8gre, btribble
+
+
+
+$end
+
+$info=blktiger
+$mame
+Bugs:
+
+- when some enemies are hit, the vitality bar flashes slightly (seems strange to me, I don't remember ever seeing it at the arcades), blktiger35fgre, Bugfinder
+
+
+
+$end
+
+$info=block
+$mame
+Bugs:
+
+- The shadow underneath the paddle flashes off and on, block36b6gre, Andy_S
+
+
+
+$end
+
+$info=bmaster
+$mame
+Bugs:
+
+- Sprite list register isn't updated in service mode, Mish
+
+- On stages 4 & 5, there are clipping problems. The boss on stage 4 is a big octopus which has 3 tentacles facing the player. When the player walks in-between them, he can still be seen even though he can't walk through. On the next stage, there are a few doorways that the player clips through as well. bmaster36b10gre, IF
+
+
+
+$end
+
+$info=bombjack
+$mame
+Bugs:
+
+- There is a bit in the sprite attributes which I don't know what means: it seems to be set only when the (B) materializes. 
+
+- The INITIAL HIGH SCORE setting doesn't only set that, it does something else as well - but I don't know what. Retrolover
+
+
+
+$end
+
+$info=bosco,bosconm
+$mame
+Known issues:
+
+- some of the dip switches for bosconm are wrong 
+
+
+
+$end
+
+$info=brain
+$mame
+Known issues:
+
+- This could be a bootleg. The ROM checksum test fails.
+
+- The color PROMs are missing.
+
+
+
+$end
+
+$info=bublbobl,Bobble Bobble,sboblbob
+$mame
+Known issues:
+
+- The original version is the only one where wizards throw stones.
+
+- The protection feature which randomizes the EXTEND letters in the original
+  version is not emulated properly.
+
+- Service mode works only if Language is set to Jap 
+
+
+$end
+
+$info=bubbles,red label
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=burnforc
+$mame
+Bugs:
+
+- Ground texture position (Horizon's center position) and angle is wrong. Burnforc136b15gre, Frotz
+
+- Color of moving charactor's shadow is wrong. (Now,views white.). Burnforc236b15gre, Frotz
+
+
+
+$end
+
+$info=bnj,brubber,caractn
+$mame
+Known issues:
+
+- The continue clock counts too fast
+
+
+
+$end
+
+$info=btime,btimed,btimed2,cookrace
+$mame
+Known issues:
+
+- No high score save in Cook Race
+ Bugs:
+
+- sprite priority problem, when the enemy car releases a rock, it is printed over our car even if it's jumping, snapshots provided., brubber35fgre, Bugfinder
+
+
+
+$end
+
+$info=bwidow
+$mame
+Bugs:
+
+- listed as having working high scores but do not, bwidow36b8gre, Pook
+
+
+
+$end
+
+$info=cabal
+$mame
+Bugs:
+
+- I noticed CABAL (cabalbl) has horrible sound bugs.,cabalbl36b10gre, Frotz
+
+
+
+$end
+
+$info=cachat
+$mame
+Bugs:
+
+- Sprite priority problems when "Continue" or "Game Over" appear on the scren, the words appear under the pieces, cachat36b4gre, MC68K/Sports Dude 
+
+
+
+$end
+
+$info=capbowl
+$mame
+Bugs:
+
+-The startup game info screen is missing the white line on the right side of the screen (the box that shows how large the game's display is),capbowl36b3gre, MC68K 
+
+
+
+$end
+
+$info=captcomm
+$mame
+Bugs:
+
+- This game support up to 4 player (DIPSWITCH option), But there is NO KEY for player 3 and 4, captcomm36b11gre, YMI
+
+
+
+$end
+
+$info=carnival
+$mame
+Bugs:
+
+- coin input bug - inserting a coin in the middle of a game causes the current game to stop. carnival36b3yel  Shifty 
+
+
+
+$end
+
+$info=cawing
+$mame
+Bugs:
+
+- While the plane is being refueled, the top right corner of the screen turns into a black block. Cawing36b15gre, J-Pikachu
+
+\
+$end
+
+$info=centiped,centipd2,centipdb
+$mame
+Bugs:
+
+- Many people complain about erratic or uncontrollable mouse beahviour for this game. This is not a bug, Nicola Salmoria maintains that the controller is perfectly emulated. The only way to improve this is to dramatically decrease the controller sensitivity in the tab menu. Earlier versions of Mame reportedly suffer less from this - KiLLerCloWn
+
+
+
+$end
+
+$info=cheekyms
+$mame
+Info:
+
+- When music is playing in attract mode, the game doesn't accept credits. 
+
+
+
+$end
+
+$info=chelnov,chelnovj
+$mame
+Known issues:
+
+- One color PROM is different in the two sets, so one copy is most likely bad,
+  but we don't know which one.
+
+
+
+$end
+
+$info=chiller
+$mame
+Bugs:
+
+- In CHILLER, the introductory "hint" screen has incorrect colors. The first row of hints (and picture hidden behind it) is fine, but the other rows' colors are wrong, chiller36b11gre, btribble
+
+
+
+$end
+
+$info=chimerab
+$mame
+Bugs:
+
+- In the last level the foreground is missing (you can see it in the chimerab.inp file on MARP), chimerab36b10gre, Alex
+
+
+
+$end
+
+$info=chplft,chplftb,chplftbl
+$mame
+Known issues:
+
+- chplft doesn't work because the 8751 is not emulated.
+
+
+
+$end
+
+$info=cischeat
+$mame
+Bugs:
+
+- The sky is often miscolored, in sort of a brownish hue. Most of the time, this occurs when you drive up a steep road, and it occurs very frequently on the beginning of the second stage. It could be a color depth bug, but I'm not sure. cischeat136b11gre, Sports Dude
+
+-Some of the "text art" (for example, billboards, road signs, and any other misc. text that's not in the foreground) is inverted. "One Way" signs and non TV trucks are like this, and bus advertisments might be the same way. Most of it is fine, though...so it could just be a game bug. cischeat236b11gre, Sports Dude
+
+- When your car flips over and crashes, the speed is set to zero, like it should. However, when your car is still flipping, your car can still accelerate, and when it's turned back on the wheels, the car moves on normally, like it hadn't crashed. (Basically, you can get a "rolling start" after a crash.), cischeat336b11gre, Sports Dude
+$end
+
+$info=citycon
+$mame
+Known issues:
+
+- In cocktail mode, player 2 uses the same controls as player 1. Maybe then  port is multiplexed.
+
+Bugs:
+
+- There are no key mappings for Player 2 available. As a result, in cocktail mode Player 2 cannot control the game, citycon36b1gre, Chad H
+
+
+
+$end
+
+$info=ckongs
+$mame
+Bugs:
+
+- Colour problems, ckongskgre, Smeagol
+
+
+
+$end
+
+$info=cobracom
+$mame
+Bugs:
+
+- There may be sprite/playfield priorities which aren't implemented yet, cobracomkgre, Official known problem
+
+
+
+$end
+
+$info=commando,commandu,commandj
+$mame
+Known issues:
+
+- some missing sprites here and there, probably caused by sprite multiplexing.
+
+
+
+$end
+
+$info=congo,tiptop
+$mame
+Known issues:
+
+- What do the dip switches do?
+
+
+
+$end
+
+$info=ckong,ckonga,ckongjeu,ckongo,ckongalc,monkeyd,ckongs
+$mame
+Known issues:
+
+- music doesn't seem to work correctly in ""ckongs"".
+
+- cocktail mode doesn't work in ""ckongs"" - the game resets after player 1 dies.
+  This is likely a bug in the game.
+
+
+
+$end
+
+$info=cosmogng
+$mame
+Bugs:
+
+- only one problem, one of the challenge stages (around gang/level 20) has all the little creepers missing, all you see is white circles moving around. Probably some kind of masking for shades or whatever., cosmogng36b9gre, IF
+
+
+
+$end
+
+$info=ccastles,ccastle2
+$mame
+Known issues:
+
+- Keyboard control isn't up to the task. Use the mouse.
+
+- The self test doesn't pass the EERAM test.
+
+
+
+$end
+
+$info=curvebal
+$mame
+Known issues:
+
+- To start a 1 player game, press Swing or Bunt. To start a 2 players game press
+either Pitch button. In a 2 players game, the players exchange at the two
+couples of buttons.
+
+- To play, you have to press the two buttons alternatively
+$end
+
+$info=cyberball
+$mame
+Bugs:
+
+- The ship that is used to beam up players destroyed by the ball still seems a little bit off-centered, cyberbal236b6gre, Sports Dude
+
+
+
+$end
+
+$info=defendg
+$mame
+Bugs:
+
+- Hard-coded "cheat" to use left/right keys instead of thrust/reverse only works for original defender, not clones, defendg36b8gre, Hein/Bugfinder
+
+
+
+$end
+
+$info=destderb
+$mame
+Known issues:
+
+- Players 2-4 aren't fully supported
+
+- Due to missing ROMs from the Turbo Cheap Squeak board, sound doesn't work.
+
+
+
+$end
+
+$info=devilw
+$mame
+Bugs:
+
+- The sprites are messed up (player), devilw36b10yel, Alex
+
+
+
+$end
+
+$info=ddragon,ddragonb
+$mame
+Known issues:
+
+- Due to the lack of the ROM image for the HD63701 microcontroller, the
+  original version doesn't work. Use the bootleg instead.
+
+- The ADPCM samples are not triggered correctly.
+
+Bugs:
+
+- The snare and bass drums in the music dissapear when the little hand appears on the screen to tell you to move along. The drums don't come back after this happens, ddragonb36b12gre, Foxster 
+
+
+
+$end
+
+$info=digdugat
+$mame
+Bugs:
+
+- Two clones, digdugat and dzigzag, are unplayable; Mame halts with "Error in RomModule definition". Digdugat36b15red, Frotz
+
+
+
+$end
+
+$info=dkingjr
+$mame
+Bugs:
+
+- Some sounds are missing, like for jumping, falling, and when DK rattles his cage, dkongjr36b10gre, nmgara
+
+
+
+$end
+
+$info=dino
+$mame
+Bugs:
+
+- Qsound in working, faster in Mono than Stereo dino36b11gre, Grendal74
+
+- Need 16 bit color. Color problem when there is a lot of sprite on screen (like in the later stage (elevator section)), dino136b12gre, YMI,  Player 3 got no start button, dino236b12gre, YMI, In '3 PLAYERS 3 COIN CHUTE' mode (dip switch option: 'system configuration'->'Play mode') 'COIN C' give credit to all players: It should give credit only to Player 3,  dino336b12gre, YMI 
+
+- In the level where the dino's foot tries to step on you, pieces of the 'foot' disappear when there are 3+ enemies on the screen. dino36b13gre, MC68K
+
+
+
+$end
+
+$info=dkong
+$mame
+Bugs:
+
+- Startup sound is wrong (should be Mario's jump sound). When Mario runs, the sound of his footsteps should change slightly in pitch (high, medium, low, high, medium, low, high, low, repeat). This is checked against my DK board. This is the DK startup sequence: When the board is powered on, there is garbage in video ram, which is displayed upside down, mario's jump sound is heard, then the title screen (everything is right-side up now). If the board is reset during a game, the last thing in video ram is shown upside down, then mario's jump sound, then the normal title screen. (these bugs have been there for a very long time). dkong36b15gre, MC68K
+
+
+
+$end
+
+$info=domino
+$mame
+Bugs:
+
+- Game displays sound board error messages when sound is disabled. Domino36b13yel, Frotz
+
+
+
+$end
+
+$info=dotron
+$mame
+Bugs:
+
+-Changes made in service mode don't seem to be saved (i.e. coinage, men per coin), dotron35b4gre, MC68K, Changes made in service mode not saved (i.e. coinage, men per coin),ÿdotron36b6gre , MC68K  
+
+
+
+$end
+
+$info=empcity
+$mame
+Bugs:
+
+- The gun shots sound way different in beta 15, maybe its with other sound fx in the game aswell? Empcity36b15gre, Frotz
+
+
+
+$end
+
+$info=dspirit
+$mame
+Bugs:
+
+- lvl 6, from time to time there's a shadow appearing on the border on the screen, but no water comes out from those? dspirit36b5gre 
+
+ - the game freezes middle of level 6 (impossible to finish the game)ÿ dspirit361b5red  Ashura
+
+- End of level 6, just before the boss, the music stops for about 7-8 seconds. I have never experienced this before. Is this a bug??? dspirit36b9gre, Ashura
+
+
+
+$end
+
+$info=dyger
+$mame
+Bugs:
+
+- Although there are key mappings for two players, it's impossible to start a two player game. Dyger36b13yel, Frotz
+
+
+
+$end
+
+$info=elecyoyo
+$mame
+Known issues:
+
+- Keep F2 pressed to enter test mode, then F1 to advance to the next test.There are no dip switches, press F1 to enter the service mode, then  F1      Next screen  F2      Next line  F5      Up  F6      DownThe first time you run the game, it will ask the language. You can use F1 to proceed through all the configuration screens, or just reset (F3).To change the language afterwards, delete the ELECYOYO.HI file from the HIdirectory and re-run the program. 
+
+
+
+$end
+
+$info=elevator,elevatob
+$mame
+Known issues:
+
+- Since it doesn't have to emulate the 68705, the bootleg is faster than the
+  original. Also, emulation of the 68705 protection is still not 100%. If you
+  see an 8 at the bottom of the screen, or the game resets, it's caused by n
+\ There is a click sound constantly playing in the game, and it wasn't there before (for information I have a SB live) dspirit236b7greAshura
+
+
+
+$end
+
+$info=endurobl,endurob2
+$mame
+Bugs:
+
+- Since 0.36b7 sound is missing or incomplete just after emulation starts, endurobl36b12gre, Frotz 
+
+
+
+$end
+
+$info=exerion,exeriont,exerionb
+$mame
+Known issues:
+
+- exeriont resets when you try to start a game
+
+- Sometimes the game resets while you are playing. It has been reported that
+  the original did it as well, but this is still uncertain.
+
+- The background graphics are missing.
+
+Bugs:
+
+- Every now and then, when the player looses a life, the emulated machine seems to reset: It aborts the game although there are one or two lives left, returns to the title screen without displaying "game over" and clears the hiscore. This happens in both non-bootleg sets. exerion36b15red, Frotz
+
+
+
+$end
+
+$info=exprraid,wexpress,wexpresb
+$mame
+Known issues:
+
+- Some flickering graphics. n
+\ - When you first start the game, the high score list doesn't show saved scores. When you go to enter a high score, the saved scores are on the list. Exprraid36b7gre K Middaugh
+
+- High scores aren't loaded when you first start the game. After you play a game, the high scores are there, exprraid36b8gre, K Middaugh
+
+
+
+$end
+
+$info=exterm
+$mame
+Known issues:
+
+- Initializing the EEPROM takes a LOOOONG time. It should take about 30sec at
+100% according to the manual, adjust for your frame rate accordingly.
+
+
+
+$end
+
+$info=f1dream,f1dreamb
+$mame
+Known issues:
+
+- There's a sort of invisible wall in the last straight of the fourth circuit. On startup, the background screen of the track is colored strangely. When you reset, and the same background screen appears, the colors are correct.ÿÿf1dream36b6gre Sports Dude
+
+
+
+$end
+
+$info=f1gpstar
+$mame
+Bugs:
+
+- Sometimes, your car flips over short walls on the course, following which you can drive through the walls to get back on course. It could be actual behavior, but having played this game in an arcade, and having crashed a lot in the arcade, I don't recall being able to do this. f1gpstar36b11gre, Sports Dude
+
+
+
+$end
+
+$info=fatfury 
+$mame
+Bugs:
+
+- After the game over screen, the bass-whoosh sound doesn't whoosh, it just hangs on the same note, fatfury36b1gre, MC68K 
+
+
+$end
+
+$info=fax
+$mame
+Known issues:
+
+- Sound doesn't work because one ROM is missing.
+
+
+
+$end
+
+$info=fbfrenzy
+$mame
+Bugs:
+
+- I have noticed that if you play the computer. The computer will pick its plays and hike the ball but 90% of the time it will just stand there until it gets hit. You can keep your players away from him for 1 quarter and he will just stand there. This does not happen in the arcade or in Neo RageX. fbfrenzy36b11gre, Foxster
+
+
+
+$end
+
+$info=fhawk
+$mame
+Bugs:
+
+- Fighting Hawk has a major slow down. The game shows 100% play rate but acts about 50%. have tried different frame rates including auto but still slow with no change. Fhawk36b10yel, Renegade
+
+
+
+$end
+
+$info=firetrap,firetpbl
+$mame
+Known issues:
+
+- Due to copy protection, the original version doesn't work. Use the bootleg
+  instead.
+
+
+
+$end
+
+$info=flyboy,fastfred
+$mame
+Known issues:
+
+- Cocktail mode doesn't work in Fly-Boy. This seems a problem with the
+  original.
+
+
+
+$end
+
+$info=foodf
+$mame
+Known issues:
+
+- The first time you run the game, press Button 1 to advance from the ""NVRAM
+test fail"" screen. The NVRAM will be automatically initialized.
+
+
+
+$end
+
+$info=frontlin
+$mame
+Known issues:
+
+- The aiming dial is emulated using a dual joystick setup.
+
+- Collision detection is not emulated properly.
+
+- The 2 at the end of the score is caused by imperfect emulation of the
+  Z80<->68705 communication.
+
+
+
+$end
+
+$info=fround
+$mame
+Bugs:
+
+- Energy percentage isn't visible.ÿ It is in hpuncher, though. (Should there be an energy bar?) fround36b9yel, Sports_Dude
+
+
+
+$end
+
+$info=galaga,galagamw,galagads,gallag,galagab2
+$mame
+Known issues:
+
+- The background starfield is wrong (using the Galaxian one, which is different
+
+
+
+$end
+
+$info=galaga3
+$mame
+Bugs:
+
+- the high score list is scrambled when displayed. Though I am not sure, I don't recall this ever happening before. I tried it with the mame 0.35 for win '95, and it did NOT produce he same error, galaga3rc2gre, YMI 
+
+
+
+$end
+
+$info=galaga3a
+$mame
+Bugs:
+
+- The problem with Galaga3 (and has now shifted over to galaga3a) was that high score table was scrambled. You can still put in a anme, but as a whole, the thing looks like gibberish. It has the same look regardless of when you see it, before playing after playing, and anfter entering in name. galaga3a36b13gre, nmgara
+
+
+
+$end
+
+$info=galaga88
+$mame
+Bugs:
+
+- Marchen Maze gets screwed up, Pac-Mania, Blazer, and Dangerous Seed reset properly. Galaga8836b9yel, Gamester
+
+
+
+$end
+
+$info=galaxian,galmidw,galnamco,superg,galapx,galap1,galap4,galturbo
+$mame
+Known issues:
+
+- Bullet placement is not correct in cocktail mode
+
+- Sound is not completely emulated.
+
+
+
+$end
+
+$info=galaxyfg
+$mame
+Bugs:
+
+- When screen pans out to see everything when characters further apart, slows right down to the point of stopping, and this is on a 256meg P3 500 with a TNT2 ultra, doesn't do this with NeorageX, possibly uses the same program as riding hero, although this doesn't explain why this works ok in NeorageX.  galaxyfg36b13yel, Sixtoe
+
+
+
+$end
+
+$info=gallop
+$mame
+Bugs:
+
+- choose SoundBlaster for sound and the game won't work (works with NoSound), gallop36b12red, Frotz
+
+- The ship seems to have a life of its own sometimes, moving down on its own for no reason. Gallop36b13yel, Sixtoe 
+
+- I am not sure if this is a bug but when you use your tracking laser on large things(especially the boss) you occasionally get pushed about the screen, this happens rarly but I assume its a bug? gallop36b15gre, Sixtoe
+
+
+
+$end
+
+$info=galxwars
+$mame
+Bugs:
+
+- collision detection bug - if not thrusting, enemy missiles can often hit you with no effect.galxwars36b3yel,Shifty
+
+
+
+$end
+
+$info=gaplus
+$mame
+Bugs:
+
+- The demo sounds dipswitch in Gaplus (and all of it's clones) does not work. Demo sounds play when they should be turned off. Gaplus36b15gre, Frotz
+
+
+
+$end
+
+$info=gauntlet,guantir1,guantir2,gaunt2p
+$mame
+Known issues:
+
+- The Slapstic protection MIGHT cause some level layouts to be screwed up. Let
+  us know if you notice one.
+
+- the sound is wrong for gauntlet for he magic buton sound more like a "crash" han a "Clang".gauntlet36b8gre, Smeagol
+
+
+
+$end
+
+$info=gberet
+$mame
+Bugs:
+
+- Many strange problems affecting gberet after reset. Sometimes after the first reset the problems appear, sometimes needs two or three - take a look at the snapshots, gberet36b10gre, Bugfinder
+
+- 36 Beta 13 update: Partially fixed, it won't show garbage in hiscore after a reset anymore, but if you reset *while the game is already resetting* then the problem will continue - other games don't have this issue, gberet36b13gre, Bugfinder
+
+
+
+$end
+
+$info=getstar
+$mame
+Bugs:
+
+- When you get the bonus lazer pistol, the pistol fire like your character is placed in the 1/3 of the screen in the standing position, even if you are somewhere else on the screen, even jumping or crouching. (the lazer pistol can be gained at the second stage),getstar36b3gre,YMI
+
+
+
+$end
+
+$info=gng,gngt,gngcross,gngjap
+$mame
+Known issues:
+
+- To continue a game, insert a coin and keep fire pressed while pressing 1 (or 2)
+
+
+
+$end
+
+$info=goldnaxe
+$mame
+Bugs:
+
+- I have played a arcade of Golden Axe to confirm that sounds in goldnaxe mame36b10 and before are missing. The most notable sounds missing are a musical instrument on second level. Goldnaxe36b10gre, Foxster
+
+
+
+$end
+
+$info=goldstar,goldstbl
+$mame
+Known issues:
+
+- Ticket dispenser not emulated.
+
+ Bugs: 
+
+ - I played the game for 10 hours on red/blue bet 50. The win-dip was set to 60 percent, but my winnings were far above the coins I inserted goldstar36b7gre Alex 
+
+
+
+$end
+
+$info=gorf,gorfpgm1
+$mame
+Known issues:
+
+- Colors are wrong in cocktail mode
+
+
+$end
+
+$info=gridiron
+$mame
+Known issues:
+
+- The game sometimes resets, though not as often as Tee'd Off.
+
+- Sprite/foregound priority is not emulated. This makes the arrow showing the
+  position on the field map not visible.
+
+- Dip switches not verified
+
+
+
+$end
+
+$info=gtmr
+$mame
+Bugs:
+
+- Sprite priority problems occur at the "Time Over" screen. Gtmr36b15gre, Sports Dude
+
+- Water puddles and oil slicks seem to have no effect on your car. I'm guessing this is an MCU bug? Gtmr136b15yel, Sports Dude
+
+- when choosing certain cars (d type jag, the mercedes), smoke constantly pours from the wheels all the time, the arcade machine did`nt do this. the cars that seem to wheelspin/brake all the time regardless of colour are: Fireball, Alfa Gulietta S2, Alfa 8C 2300, Mercedes SSKL, Porsche 550A. gtmr236b15yel, Sixtoe
+$end
+
+$info=gunforce
+$mame
+Bugs:
+
+- Water doesn't always appear in level 5 - CPU bug. gunforce36b13gre, Mish (!)
+
+
+
+$end
+
+$info=gunsmoke,gunsmrom,gunsmokj,gunsmoka
+$mame
+Known issues:
+
+- At the end of level 3 (Ninja Stars), if you go to the extreme right of the
+  screen, the game resets. The game doesn't reset if you stay away from the
+  right of the screen. This is probably a bug of the original, since the
+  ""gunsm
+$end
+
+$info=growl
+$mame
+Bugs:
+
+- a few tiles missing here and there. The most obvious ones are on the first level, where you can see only black squares, but later especially in the last level there are misplaced ones also. Growl36b9gre, IF
+
+
+
+$end
+
+$info=gururin
+$mame
+Bugs:
+
+- Several gfx glitches on title screen, how to play, and ingame.,gururin36b11gre, MC68K
+
+
+
+$end
+
+$info=gwar
+$mame
+Bugs:
+
+- sound doesn't kick in until after continue, gwarkgre, TDG, 'JOYSTICK ERROR' appear after a short play, caused by the use of the DIAL. It freeze the game, needing you to reset the machine. (you can reprodiuce the bug by rotating your character a short time the same way),gwar36b3yel,YMI
+
+
+
+$end
+
+$info=hachoo
+$mame
+Bugs:
+
+- The sprite priority is wrong (the score is sometimes behind objects & the player-sprite is sometimes in front of the foreground)! it's like in astyanax/lordofk ,hachoo36b10gre, Alex
+
+
+
+$end
+
+$info=hangon
+$mame
+Bugs:
+
+- after a reset there is no more sound,hangon36b3gre,YMI
+
+
+
+$end
+
+$info=hardhat
+$mame
+Known issues:
+
+- dip switches and input ports not verified
+
+Bugs:
+
+- Game displays sound board error messages when sound is disabled. Hardhat36b13yel, Frotz
+$end
+
+$info=hellfire
+$mame
+Bugs:
+
+- After 2 or 3 hits no more targets appear. Unplayable.helifire36b8red, Frotz
+
+
+
+$end
+
+$info=horsshoes
+$mame
+Bugs:
+
+- Trackball is non-functional, preventing game from being playable & crashes when you enter dipswitches, horshoes36b5gre, Sports Dude
+
+
+
+$end
+
+$info=hunchback
+$mame
+Bugs:
+
+- game crashes after the 4th or 5th level, hunchback36b6red, Ben Jos Walbeehm
+
+
+
+$end
+
+$info=hunchbks
+$mame
+Bugs:
+
+- in Esmerela's tower, rope on left leaves a trace when moving upward. Hunchbks36b9gre, Hazard
+
+
+
+$end
+
+$info=iganinju
+$mame
+Bugs:
+
+- The frame rate in Iga Ninjyutsuden is only about 6 frames a second even though the display shows 100% 60\60. It was working in Mame36b13, but has been broken since. Iganinju36b15yel, Foxste
+
+
+
+$end
+
+$info=ikari
+$mame
+Bugs:
+
+- Sound in Ikari Warriors Japan, Japan bootleg, and US have been missing since Mame36b14. Ikari36b15yel, Foxster
+
+
+
+$end
+
+$info=ikari3
+$mame
+Bugs:
+
+- if you play alone as player 1, when stage 2 begin, player 2 appear from nowhere. Ikari336b12yel, YMI 
+
+
+
+$end
+
+$info=inferno
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=invinco
+$mame
+Known issues:
+
+- dip switches not verified
+
+
+
+$end
+
+$info=invho2
+$mame
+Known issues:
+
+- dip switches not verified
+
+
+
+$end
+
+$info=ironhors,farwest
+$mame
+Known issues:
+
+- Far West doesn't work.
+
+
+
+$end
+
+$info=irobot
+$mame
+Bugs:
+
+- gets really screwed up after a reset. Irobot36b12yel, Gamester 
+
+
+
+$end
+
+$info=irrmaze
+$mame
+Bugs:
+
+- In the high score entry screen if you roll the trackball too quickly to the left or right, the letters keep spinning and the game crashes. Music keeps playing though. Irrmaze36b10gre, btribble
+
+- ritating Maze crashes (exiting MAME completely)after completing the first maze - not the first checkpoint, but the first finish line. irrmaze36b15red, btribble
+
+
+
+$end
+
+$info=jackal,topgunr,topgunbl
+$mame
+Known issues:
+
+- The high score table colors are probably not correct (all lines are white).
+
+- Sprites are not in sync with the scroll.
+
+- After game over, the first main logo screen is one line out of sync after
+  the scrolling is completed.
+
+
+
+$end
+
+$info=journey
+$mame
+Known issues:
+
+- No support for the cassette music
+
+
+
+$end
+
+$info=joust2
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+- The transform button is the start button.
+
+
+
+$end
+
+$info=jjack
+$mame
+Known issues:
+
+- Dip switches not verified
+
+
+$end
+
+$info=kamikaze
+$mame
+
+Bugs:
+
+- no sound, kamikaze36b2yel, Hazard
+
+
+
+$end
+
+$info=kangaroo,kangarob
+$mame
+Known issues:
+
+- There is a custom microcontroller on the original board which is not
+  emulated. This MIGHT cause some problems, but we don't know of any.
+
+- When the screen is cleared, the emulation speed takes a massive drop, but returns to 100%n
+Bugs:
+
+
+
+$end
+
+$info=kchampus
+$mame
+Bugs:
+
+- sound bug - no sound effect plays when first credit is input (works for subsequent credits).kchampvs36b3gre,Shifty,kchampvs, kchampvs236b3gre,Shifty
+
+
+
+$end
+
+$info=kickridr
+$mame
+Known issues:
+
+- Dip switches are wrong
+
+
+
+$end
+
+$info=kidniki
+$mame
+Known issues:
+
+- Crashes/messes up in the confrontation with the final boss. Reason unknown.
+
+Bugs:
+
+- I noticed a bug in kidniki (and the jap version).(I still play this game at my local arcade!, so I'm definitely right about this:)) Anyway, the game is supposed to have a 'drum' beat as well as the synthesized tune, but Mame only plays the synthesized tune. kidniki36b10gre, Frotz
+$end
+
+$info=kingofb,ringking,ringkin2
+$mame
+Known issues:
+
+- Due to a missing color PROM, ringking colors are wrong. ringkin2 uses the
+  King of Boxer PROMs, but they are probably wrong.
+
+- One of the ringkin2 gfx ROMs is bad.
+
+
+
+$end
+
+$info=knights
+$mame
+Bugs:
+
+- Color problem. (You can see it in the attract mode in 3 player mode),knights35fgre,YMI
+
+
+
+$end
+
+$info=kroozr
+$mame
+Known issues:
+
+- Movement should be via an analog joystick
+
+
+
+$end
+
+$info=kram
+$mame
+Known issues:
+
+- Keep F2 pressed to enter test mode, then F1 to advance to the next test.There are no dip switches, press F1 to enter the service mode, then  F1      Next screen  F2      Next line  F5      Up  F6      DownThe first time you run the game, it will ask the language. You can use F1 toproceed through all the configuration screens, or just reset (F3).To change the language afterwards, delete the KRAM.HI file from the HIdirectory and re-run the program.n
+
+
+$end
+
+$info=krull
+$mame
+Known issues:
+
+- The high score count page in the bookkeeping section of service mode doesn't
+  seem to work. Every score is registered as ""More"".
+
+
+$end
+
+$info=lastblad2
+$mame
+Bugs:
+
+- orange block at the end of one thunder in last stage some ending freeze (Okina's end work fine on NeoRageX),lstbld236b2gre, Themig, some endings freeze (Okina's end work fine on NeoRageX), lastbld2236b2yel,Themig
+
+
+
+$end
+
+$info=lbowling
+$mame
+Bugs:
+
+- Occasional palette overflow when playing certain 'video' combinations in multiplayer mode, 16-bit colour suggested, lbowling36b1ora, Haze
+
+- There should be a green laurel wreath around the text "1st Player 1" in the top righthand side of the screen. lbowling36b8gre, Strider
+
+
+
+$end
+
+$info=ledstorm
+$mame
+Bugs:
+
+- Bad color in the last stage (see picture),ledstorm36b3yel,YMI
+
+
+
+$end
+
+$info=lkage
+$mame
+Bugs:
+
+- there is a problem when sprite are close to the screen border. (can be easily seen during the intro, when the girl is kindnapped),lkage36b1gre,YMI
+
+
+
+$end
+
+$info=lottofun
+$mame
+Known issues:
+
+- Sometimes you have to press F1 to proceed after the first screen.
+
+
+
+$end
+
+$info=llander,llander1
+$mame
+Known issues:
+
+- Selftest does not work. It seems page 0 and 1 are mirrored, and
+  the cpu emulation can't handle this correctly
+
+- The language dip switch has no effect, this ROM set doesn't have support
+  for that (034597.01 is empty).
+
+
+
+$end
+
+$info=lrescue,desterth
+$mame
+Known issues:
+  A free credit is awarded on the first docking of the first game.
+
+
+
+$end
+
+$info=lresort
+$mame
+Bugs:
+
+- overflows 256 colour palette on some boss death sequences causing graphical errors and slowdown, works fine in 16-bit colour mode, lresort36b1ora, Haze
+
+
+
+$end
+
+$info=mach3
+$mame
+Known issues:
+
+- This is a laser disc game; since the disc contains data needed for gameplay,
+it is not playable.
+
+
+
+$end
+
+$info=madgear
+$mame
+Bugs:
+
+- On the 3RD stage, there is a 2 Way road. The right road going UNDER, the left road going OVER. If you take the left road (OVER), your car disepear just like you were UNDER the road, Making the game quite unplayable for a few second. (this happen also a lot in the last stage),madgear36b3yel,YMI
+
+ - In level 3 and the final level, your car comes upon a set of roads in which one goes over the other. When you take the "over" road, the car disappears when you're over the "under" road. While your car is not visible, you can go onto the "under" road as if it were a two-way road.
+
+ May be the same as madgear36b3yel. madgear36b7yel Sports Dude 
+
+ -I del cfg/hi first then got the score in the first pic. I exited, restarted, and voila- the top score was shuffled to 10th place (2nd) pic. madgear36b8gre, Pook
+
+
+
+$end
+
+$info=madgearj
+$mame
+Bugs:
+
+- Occasionally gives IN-GAME "Illegal Instruction" error. Madgearj36b12gre, Sports Dude 
+
+
+
+$end
+
+$info=maketrax,crush
+$mame
+Known issues:
+
+- Colors are accurate for Crush Roller, but they could be wrong for Make Trax.
+
+
+
+$end
+
+$info=maniach
+$mame
+Bugs:
+
+- If you insert a credit during game, a graphic problem occurs, making the players and referee walk over the audience (snapshots provided). Also, in the title screen there's a color glitch (blue then black in the logo). All these happen to matmania, maniach and all clones. maniach136b10gre, Bugfinder
+
+- Additionally, If you insert a credit in maniach and press reset, the game doesn't restart anymore - you must exit MAME. maniach236b10gre, Bugfinder
+
+
+
+$end
+
+$info=mariner
+$mame
+Known issues:
+
+- gfx banking not figured out.
+
+- sound seems incomplete.
+
+
+
+$end
+
+$info=mario,masao
+$mame
+Known issues:
+
+- Masao locks up at level 16?
+
+
+
+$end
+
+$info=matmania,excthour
+$mame
+Known issues:
+
+- Most colors seem correct, but the audience graphics use purple instead of
+  blue?
+
+
+
+$end
+
+$info=miexchng
+$mame
+Bugs:
+
+- Solo play: The number of max chains is not displayed,miexchng36b3gre,MvdV/Sardius
+
+
+
+$end
+
+$info=milliped
+$mame
+Bugs:
+
+- Many people complain about erratic or uncontrollable mouse beahviour for this game. This is not a bug, Nicola Salmoria maintains that the controller is perfectly emulated. The only way to improve this is to dramatically decrease the controller sensitivity in the tab menu. Earlier versions of Mame reportedly suffer less from this - KiLLerCloWn
+
+
+
+$end
+
+$info=minefld
+$mame
+Known issues:
+
+- Colors are accurate apart from the background, which is an approximation.
+
+- Separate controls for player 2 in cocktail mode are not supported.
+
+
+
+$end
+
+$info=mk
+$mame
+Bugs:
+
+- During the endurance figths if you happen to make a round long enough so the counter reaches zero, the game completely locks up, only reset helps it... This thing does only happen during endurance fights, normally time up works. Tested twice, happened twice, MK36b9red, IF
+
+
+
+$end
+
+$info=monymony
+$mame
+Bugs:
+
+- crash when sound is enabled. Monymony36b10red, JAW970
+
+
+
+$end
+
+$info=moonwalk
+$mame
+Known issues:
+
+- Dip switches for the alternate sets might be inaccurate.
+
+- Wrong dip switches in ""mooncrgx"".
+
+- Bugs:
+
+- Missing walking sound at boot up, when his feet walk past, also sounds iffy generally. Moonwalk36b13gre, Sixtoe
+
+
+
+$end
+
+$info=mpatrol,mpatrolw,mranger
+$mame
+Known issues:
+
+- Arrows  Move aroundCTRL    FireALT     JumpF2+F3   Test mode (press and release, then be patient. After the RAM/ROM                   tests, press 2 for an additional menu of options, then  left/right to choose the option, and 1 to select it)Clones supported:  Williams license "mpatrolw")  bootleg version, called Moon Ranger ("mranger") Known issues:- Colors in test mode are not correct (black instead of R, G, B). The other  colors in the game seem to be correct, so I don't know what's going on.- The background might not be entirely accurate- Sometimes, hen you kill an enemy ship which is falling down, the ship and  the score will stick on the screen for some time instead of disappearing.  This is a bug of the original, not of the emulation.n
+
+
+$end
+
+$info=moonwar2,monwar2a
+$mame
+Known issues:
+
+- The monwar2a input ports are wrong.
+
+
+
+$end
+
+$info=mrheli
+$mame
+Bugs:
+
+- there is a bug which allows one to buy weapon upgrades only when one has either to little or too much money. The same thing happens in the parent set "bchopper". Mrheli36b10gre, Frotz
+
+
+
+$end
+
+$info=mspacman,mspacatk
+$mame
+Known issues:
+
+- In Miss Pac Plus, use the 2 player start button to accelerate. This is a
+  feature of the original game.
+
+- In Miss Pac Plus the bonus fruits move through the maze walls. This is
+  normal, the original does the same.
+
+
+
+$end
+
+$info=mtwins
+$mame
+Bugs:
+
+- At the beginning of round 2, there is still a tile missing.ÿAbout part way through the ending, everything on screen starts to flicker, and continues to do so until the 'thanks for playing - capcom' screen appears (i.e. quite a while), mtwins36b4gre, MC68K
+
+
+
+$end
+
+$info=naughtyb
+$mame
+Known issues:
+
+- some colors seem wrong, maybe the PROM is bad or I made some mistake in
+  its interpretation.
+
+- Music is wrong.
+
+
+
+$end
+
+$info=ncombat
+$mame
+Bugs:
+
+- music is incorrect + Sometime there is no music during play + if there is music, it stop at the roller coaster or at the first level mid stage boss. (this happen also with neorage),ncombat36b3yel,YMI
+
+
+
+$end
+
+$info=neobombe
+$mame
+Bugs:
+
+- Game needs 16-bit colour, explosion colours are visibly wrong when there are many different items / creatures on screen. Observed most on Level 1-4, neobomb36b1ora, Haze
+
+
+
+$end
+
+$info=nitedrvr
+$mame
+Known issues:
+
+- The gear and track displays are not a part of the original game, but have been
+added for playability.
+
+
+
+$end
+
+$info=ninjakd2,ninjak2a
+$mame
+Known issues:
+
+- Due to encryption, sound works only in the alternate version.
+
+
+
+$end
+
+$info=offtwall,offtwalc
+$mame
+Bugs:
+
+- Mouse is now working but it's off by 90 degrees. You move left and right to move the paddle on the screen up and down, The game is a 2P cocktail game, but there is an option for controls on a 3rd player,  K. Middaugh/Sports Dude
+
+
+
+- Mouse button doesn't launch ball. Mouse movement still 90 degrees off. offtwall36b8yel, K Middaugh
+
+
+
+$end
+
+$info=ogonsiro
+$mame
+Bugs:
+
+- ogonsiro doesn't boot! I saw the massage: Error in romModule Definition: qb0=15 out of memory region space Unable to initialize machine emulation. Ogonsiro36b15red, j-ichi
+
+
+
+$end
+
+$info=outrun 
+$mame
+Bugs:
+
+- ""Get Ready"" sound at start shouldn't echo,outrun36b2gre, Hazard, slight box still in top-left of course map in sea; in stage two (left-hand path), the overheads on the top-right are sometimes missing (this happened in System16, is it in the arcade?),outrun36b4gre,Smeagol
+
+- car flashes white when passing thru checkpoint. outrun136b9gre, Hazard
+
+- small area to left of sea, top-left, missing on course map. outrun236b9gre, Hazard
+
+- when turning left on the seaside stage or any very sharp turn left or right, smoke appears on the wrong side of car, failrly sure this did`nt happen in the arcade machine. outrun36b13gre, Sixtoe
+
+
+
+$end
+
+$info=outzone
+$mame
+Bugs:
+
+- Very strange priority problem (better look at the picture). at stage 3, there is GREEN ROBOT BALL going around a platform. when they are behind the platform, they are hided BUT if there is another sprite on the flatform, you can see the GREEN ROBOT BALL trough the other sprite. outzone36b7gre YMI
+
+- on the seaside level(stage4 if you go right at every junction), the smoking tyre problem on the wrong side I mentioned before is not the problem, on looking closely, there are white things flashing up on the screen, I think these are the beach hut sprites? outrun36b15gre, Sixtoe
+$end
+
+$info=pacland
+$mame
+Bugs:
+
+- During the opening screen (the one before every TRIP, where you can seen your dog or a feary passing trough), it's like there is a second feary/dog sprite that should not be there (feary version is more apparent : the feary got THREE EYE),pacland36b3yel,YMI
+
+- During the oppening screen (the one where you can see a dog, a cat or a feary going right to left), it's like there is 2 dog/cat/feary sprites over each other with 2 pixel of interval (see picture for visual information), pacland36b9gre, YMI
+
+
+
+$end
+
+$info=pang3
+$mame
+Bugs:
+
+- there is garbage graphics with wrong color that appeard for a very short time (less than 1 second) between the different screen, very evident just after the image as faded to blackÿ can be seen between the different selection screen (you need to start the ame)),pang336b3gre,YMI
+
+
+
+$end
+
+$info=pbaction
+$mame
+Bugs:
+
+- scrolling is now correct, but the ball isn't still being affected. The way it is now, the ball doesn't even care about how much you press the "shake" button. In the real thing, when the ball is being hold by the flipper, pressing this button makes the ball move slightly, just like a real pinball. pbaction38b8yel, Bugfinder
+
+
+
+$end
+
+$info=peekaboo
+$mame
+Bugs:
+
+- game is unplayable. the pad is too slow and ANALOG CONTROL configuration dont seem to make any effect peekaboo36b7yel YMI
+
+
+
+$end
+
+$info=pignewt
+$mame
+Bugs:
+
+- Pig Newton (and clone) have been broken for quite some time. ÿ They're stuck on some kind of sprite-color test mode.ÿ If you press F2 (testmode) you can make the screen change, but not to anything resembling the game. pignewt36b9red, btribble
+
+
+
+$end
+
+$info=pickin
+$mame
+Known issues:
+
+- The dip switches don't work
+
+
+
+$end
+
+$info=pinbo
+$mame
+Bugs:
+
+- Pinbo should have a directional controller of some kind. This is evidenced by the inability to enter a high score name other than "AAAAAA", and is apparent in some of the bonus games as well. There is no provision in the keyboard, joystick, or (non-existant) analog menus for this control, pinbo36b12yel, Triggerfin 
+
+
+
+$end
+
+$info=pbaction,pbactio2
+$mame
+Known issues:
+
+- The alternate set has code for a third Z80, whose function is unknown.
+
+Bugs:
+
+- scrolling is now correct, but the ball isn't still being affected. The way it is now, the ball doesn't even care about how much you press the "shake" button. In the real thing, when the ball is being hold by the flipper, pressing this button makes the ball move slightly, just like a real pinball. pbaction38b8yel, Bugfinder
+
+
+
+$end
+
+$info=plusalph
+$mame
+Bugs:
+
+- sound is too slow (at the start of the game the 'GO' from 'READY...GO' should be on the open mounth of the girl). Plusalph36b15gre, YMI
+
+
+
+$end
+
+$info=pong
+$mame
+Bugs:
+
+- game unplayable with joypad (I'm using sidewinder), pong36b10yel, YMI
+
+- Pong crashes MAME in pure DOS with cheats enabled, pong36b11red, Bugfinder
+
+- If you run it from Windows with cheats enabled, sometimes the words "Cheat off" appear at middle-left sometimes top-left). Then if you press Tab, the menu flashes, pong36b11gre, Bugfinder
+
+- If you run it from Windows with cheats enabled, sometimes the words "Cheat off" appear at middle-left, sometimes top-left). Then if you press Tab, the menu flashes - also there's a vertical line remaining from the game info screen, pong36b13gre, Bugfinder
+
+
+
+$end
+
+$info=pontoon
+$mame
+The first time you run the game, push 'Reset All' (F5) after the game displays 'Battery Error' for the 3rd time.  This will initialize the battery backed RAM.
+
+Enter switch test mode by holding down the Hit key, and when the crosshatch pattern comes up, release it and push it again.
+
+ After you get into Check Mode (F2), press the Hit key to switch pages.
+
+Known issues:
+
+- The game hangs after you win because the hopper is not emualted.
+
+
+
+$end
+
+$info=popeye,popeye2,popeyebl
+$mame
+Known issues:
+
+- Due to encryption, the original doesn't work. Use the bootleg instead.
+
+- You get about 7 bonus lives when you reach level 4.
+
+
+
+$end
+
+$info=powerdrv
+$mame
+Bugs:
+
+- During contests in which the truck jumps for distance, if the truck jumps high enough that the wheels aren't completely visible, the wheels will show up on the bottom of the screen. (only the wheels, the rest of the truck does not appear)ÿ
+$end
+
+$info=powerdrv36b6gre
+$mame
+
+$end
+
+$info=Sports Dude\n\n\n
+$mame
+
+$end
+
+$info=psychic5
+$mame
+Bugs:
+
+- Nicola fixed it and was perfectly synchronized video and sound until beta 6, now the music is already restarted before Akiko is killed in attract mode, psychic536b8gre, Bugfinder
+
+
+
+$end
+
+$info=pulsar
+$mame
+Known issues:
+
+- dip switches not verified
+
+
+
+$end
+
+$info=pulstar
+$mame
+Bugs:
+
+- Game needs 16-bit colour at various points to avoid drastic framerate drop (despite little visible problem) (framerate can go <10fps on some big explosions in the game without 16-bit colour), pulstart36b1ora
+Haze
+
+
+
+$end
+
+$info=punchout
+$mame
+Known issues:
+
+- When you die, a rectangle on the left of the screen blinks.
+
+
+
+$end
+
+$info=punishru
+$mame
+Bugs:
+
+- When I start the game up, the caution screen is grey, and the first few menus are grey as well, this goes if you reset the machine or start a game up. This only seems to have happened since Q-Sound has been implemented. punishru36b13gre, Sixtoe
+
+
+
+$end
+
+$info=puzznic
+$mame
+Bugs:
+
+- Game should be a little faster (RAINE speed seem more correct). I think PLOTTING is in the same case, but I have never seen the arcade version of PLOTTING, puzznic36b12gre, YMI 
+
+
+
+$end
+
+$info=qix,qix2
+$mame
+Known issues:
+
+- Keep F2 pressed to enter test mode, then F1 to advance to the next test.There are no dip switches, press F1 to enter theservice mode, then  F1      Next screen  F2      Next line  F5      Up  F6      Down The first time you run the game, it will ask the language. You can use F1 toproceed through all the configuration screens, or just reset (F3).To change the language afterwards, delete the QIX.HI file from the HIdirectory and re-run the program.Clones supported:  Qix II ("qix2")
+
+
+
+$end
+
+$info=quantum
+$mame
+Bugs:
+
+- If you insert a coin and press start when 'Quantum' is zooming, two large diagonal lines appear, and the emulation speed drops 53%
+$end
+
+$info=quantumb12gre,MC68K\n\n\n
+$mame
+
+$end
+
+$info=quartet
+$mame
+Bugs:
+- Missing the 'spinning tile' effect on the title screen, quartet36b2gre, MC68K
+
+
+
+$end
+
+$info=qbert
+$mame
+Bugs:
+
+- Missing startup sound (Hello, I'm turned on) even with the new sampleset (still sounds great though!), qbert36b2gre, MC68K
+
+
+
+$end
+
+$info=radarscp
+$mame
+Known issues:
+
+- Missing background grid (a la Juno First)
+
+
+
+$end
+
+$info=rainbow,rainbowe,Jumping
+$mame
+Known issues:
+
+- Only partially working due to protection
+
+- The sky is black instead of blue
+
+Bugs:- Gfx in secret room are corrupt. (The secret room can be entered from the boss screen if all seven diamonds have been collected in the correct order.) rainbow36b12yel Frotz 
+
+- Since 0.36b15 some sprites are corrupted, for instance if you shoot a spider in round 2. The energy bar in the boss room is also broken. rainbow36b15gre,Frotz
+
+
+
+$end
+
+$info=rallyx,nrallyx
+$mame
+Known issues:
+
+- Sprites are not turned off appropriately.
+
+- Graphics placement in cocktail mode is not perfect.
+
+
+
+$end
+
+$info=reactor
+$mame
+Known issues:
+
+- Speech is not emulated
+
+
+
+$end
+
+$info=redbaron
+$mame
+Known issues:
+
+- Red Baron tries to calibrate its analog joystick at the start, so you'll
+  have to move the ""joystick"" a bit before you can fly in all four directions.
+
+
+
+$end
+
+$info=renegade
+$mame
+Bugs:
+
+- When i Start Renegade in pure dos (not in Win98) it crashes renegade36b7red Larachao
+
+
+
+$end
+
+$info=rescue
+$mame
+Known issues:
+
+- Colors are accurate apart from the background, which is an approximation.
+
+
+
+$end
+
+$info=ridhero
+$mame
+Bugs:
+
+- Very Very slow, same as NeorageX, possibly un-emulated scaling? Ridhero36b13yel, Sixtoe
+
+
+
+$end
+
+$info=jedi
+$mame
+Known issues:
+
+- background graphics are blocky because the hardware which smoothes them is
+  not emulated.
+
+- this game has an analog stick. Control with keyboard or mouse doesn't work
+  too well.
+
+
+
+$end
+
+$info=Roadblst
+$mame
+Bugs:
+
+- Graphic Glitch - Finish a level and there is a glitch along the bottom of the top quarterof screen, Minelaying cars past level 27 are messed up, roadblstb10yel, Cronos
+
+
+
+$end
+
+$info=roadf
+$mame
+Bugs:
+
+- when the game start, the screen flip up side down roadf36b7gre YMI
+
+
+
+$end
+
+$info=roadrunn
+$mame
+Bugs:
+
+- Wile E. Coyote cannot catch RoadRunner as long as RoadRunner is moving, and jumps are not necessary at the chasm stage (broken collision detection). Roadrunn36b15yel, Q.T. Quazar
+
+
+
+$end
+
+$info=robotron,robotryo
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=rocnrope,ropeman
+$mame
+Known issues:
+
+- The bootleg version crashes when you start a game. This might be due to a
+  slightly different encryption scheme.
+
+
+
+$end
+
+$info=rodland
+$mame
+Bugs:
+
+- After completing story 1 (25+ screens), the background graphics for story 2 are corrupt. It appears the tile pattern for story 2's background is incorrect. You can discern the graphics tiles that should make up story 2's background. They are not "grouped" together correctly, rodland36b5yel,Throwing Muse 
+
+ -There now appears to be missing sound in story 2. Upon collecting the objects in the stages, a sound is played indicating that the object has been picked up. Background music is also played. Story 2's stages 1 and 2 do not consistently play this pick up sound. Story 2's background music for stages 1 and 2 seems to loop incorrectly. The music and pick up sound appears to be correct in stages 3 and 4 but they fail again during the stage 4 boss stage. rodland236b7gre, Throwing Muse
+
+
+
+$end
+
+$info=rollerg
+$mame
+Bugs:
+
+-Skaters sometimes flicker before the beginning of a cycle.ÿ Also, when the cycle timer hits 0, some skaters will disappear and reappear when they skate to the sides.rollerg36b4yel,Sports Dude 
+
+
+
+$end
+
+$info=rollergj
+$mame
+Bugs:
+
+-additionally to the rollerg bug: during the one-on-one fight sequences, there is also a sprite flickering problem, a major one.ÿ The skaters are normal after the knockdown, but during the fight, it is very hard to see the skaters.rollergj36b4yel, The notice at the beginning of the screen warning that this game is only playable in Japan is partially incorrect, the last two columns of text should not be there.ÿ
+$end
+
+$info=rollergj236b6gre 
+$mame
+
+$end
+
+$info=Sports Dude \n\n\n
+$mame
+
+$end
+
+$info=rthundro
+$mame
+Bugs:
+
+- Mame36b15 crashes everytime at the end of the 1st level. It has been broke for at least a couple of betas. Rthundro36b15red, Foxster
+
+
+
+$end
+
+$info=rtypeleo
+$mame
+Bugs:
+
+- Title screen is incorrect, it uses mask sprites but I can't find how the effect is turned on/off 
+
+ Info:
+
+ You can press F1 in this game to toggle rastereffects and speedup gameplay.
+
+
+
+$end
+
+$info=rygar
+$mame
+Bugs:
+
+- Rygar has no background image (the setting sun) rygar36b9gre, Acur8
+
+- small sprites (like the pigs) go off-screen (in the black area). Rygar36b12gre, Frotz 
+$end
+
+$info=safari
+$mame
+Known issues:
+
+- This game needs the overlay bad. The white rectangle on the screen is used
+  to simulate the tree visible on the flyer.
+  The flyer is at www.gamearchive.com/flyers/video/segagremlin/safari_b.jpg
+
+
+
+$end
+
+$info=salamand
+$mame
+Bugs:
+
+- On level 3 when the flames arc on the top and bottom of the screen it makes a strange bell type noise (shades of laughter in the background), similar to the sound error reported in cabal.
+
+
+
+$end
+
+$info=sbbros
+$mame
+Bugs:
+
+- game stays at RAM test. Deleted cfg and hi, sbbros36b8red, Pook
+
+
+
+$end
+
+$info=scion,scionc
+$mame
+Known issues:
+
+- scion has some constant background noise. scionc doesn't. This might be due
+  to a bad ROM.
+
+
+
+$end
+
+$info=scontra
+$mame
+Bugs:
+
+- 2nd stage boss: when I am at the edge(left or right) of screen, collision detection seems to be off. when the tank runs over the character, he does not die when he clearly should have, 3rd stage: before the boss it goes from jungle to to concrete(or something) there is a clearly visible line where jungle ends and other part begins. this is very hard for me to explain. the are some spaces wheryou see the backround. I think it is supposed to blend in, scontra36b4yel, J Missouri 
+
+
+
+$end
+
+$info=scramble
+$mame
+Known issues:
+
+- The star background is probably not entirely accurate. Also, maybe it should
+  be clipped at the top and bottom of the screen?
+
+
+
+$end
+
+$info=sdodgeb
+$mame
+Bugs:
+
+- Locks Up During One of the Attract Mode Sequencesÿ ** ASM 68K Core Bug **, sdodgeb36b4red, Haze, The demo with Miyuki (in which a pink-haired girl catches the ball) still freezes up. The background still moves, and you can still insert coins.ÿsdodgeb36b6gre Sports Dude
+
+
+
+$end
+
+$info=srdarwin
+$mame
+Bugs:
+
+- Boss order unknown Pyramid boss is clipped at the top as it appears Text layer character colours may not be correct - there are 4 palettes, only 1 is currently used?, sdarwinkgre, Official known problem
+
+
+
+$end
+
+$info=seawolf
+$mame
+Bugs:
+
+- seawolf - Analogic controls in Seawolf are too sensitive, I think there's a problem in there - compare with blueshrk and you'll note the difference. Seawolf36b10yel, Bugfinder
+
+
+
+$end
+
+$info=seicross
+$mame
+Known issues:
+
+- Doesn't work well; for example, you always start with 99 lives, and coins
+  are only accepted from coin C (default key: 5). It looks like there is a
+  microcontroller on board, which is not emulated.
+
+
+
+$end
+
+$info=sente
+$mame
+Bugs:
+
+- None of the new Sente games rotate using -ror or -rol, sente362b5gre, Sports Dude, Andy S
+
+
+
+$end
+
+$info=shackled
+$mame
+Bugs:
+
+- Secret rooms don't work, shackledkgre, Official known problem
+
+
+
+$end
+
+$info=sharrier
+$mame
+Bugs:
+
+- Several sound bugs: Missing "You're doing great!" sample between stage 1 and 2, using 5 to insert a coin doesn't trigger coin inserted sound, samples sometimes hang (ex, when a formation of jets appear, and you destroy them all BEFORE the sample finishes playing, the sample often hangs on the same note) [stages 6,7,14,16 happens quite a bit], music sometimes stops all together (samples still play) on stage 18, fighting Valda, music resumes after this boss is killed.sharrier36b3yel, MC68K
+
+
+
+$end
+
+$info=shadowld
+$mame
+Bugs:
+
+- games dont work anymore shadowld36b7red YMI
+
+- When the NV file is unavailable and the game has gone through test mode, there is a gfx glitch on the title screen: Pieces of thedoor sprites stick out and appear at the top of the screen. This effect does not occur on later sessions when the NV file exists. shadowld36b15gre, Frotz
+
+
+
+$end
+
+$info=shangonb
+$mame
+Bugs:
+
+- Dip switches for difficulty incorrect, to get easy time and easy game have to set to easy and hard. Shangonb136b13gre, Sixtoe
+
+- Cannot enter high score, brake lever both moves cursor and selects. Shangonb236b13gre,Sixtoe
+
+
+
+$end
+
+$info=sidearms,sidearmr,sidearjp
+$mame
+Known issues:
+
+- The blinking star background is missing.
+
+
+
+$end
+
+$info=simpsons
+$mame
+Bugs:
+
+- priority bug in the level "moe's tavern", there are dancers behind a curtain, whom the opening curtain should reveal. Instead they are visible all the time, simpsons36b9gre, IF
+
+
+
+$end
+
+$info=sinistar,sinista1,sinista2
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=slapfigh,slapbtjp,slapbtuk
+$mame
+Known issues:
+
+- Due to protection, the original version doesn't work. Use one of the
+  bootlegs instead.
+
+- Scrolling is jerky.
+
+- Music tempo is too slow.
+
+
+
+$end
+
+$info=skingame
+$mame
+Bugs:
+
+- Sprites & tiles written with bad colour values, Eeprom load/save not yet implemented - when done, MT2EEP should be removed from the ROM definition, Mish, Stalls after the first hole, yet is listed as a working game. It does not exist in majtitl2, only in these games.ÿskingame36b6gre Sports Dude 
+
+
+
+$end
+
+$info=skingam2
+$mame
+Bugs:
+
+- Stalls after the first hole, yet is listed as a working game. It does not exist in majtitl2, only in these games.ÿ
+$end
+
+$info=skingame36b6gre
+$mame
+
+$end
+
+$info=Sports Dude\n\n\n
+$mame
+
+$end
+
+$info=skyadvnt
+$mame
+Bugs:
+
+- During any stage, there is 16 pixel line that are missaligned with the rest of the backdrop, 1 pixel to the right. these 16 lines can be easily detected : there is a thin black line of 16 pixels on the left side border. Those missaligned lines appeard more than once every stage (between 10 and 20 time). skyadvnt136b8gre, YMI
+
+- There is a minor sprite priority bug. this can be easily seen at the end of the first stage : the priest on the top of the pyramid is over the flying bonus plane. skyadvnt236b8gre, YMI
+
+
+
+$end
+
+$info=sonofphx
+$mame
+Bugs:
+
+-Stage 4 is played in a forest at night. When the end-level mothership appears, it shows through the trees and scrolls showing through. Its very easy to notice the bug if you play to level 4 (cheats exist). Also, as the mothership appears, the color palette changes.ÿsonofphx36b6gre Fujur
+
+- sonofphx and clones - sound is way too smothered up, seems that the speakers are inside a box. sonofphx36b8gre, Bugfinder
+
+
+
+$end
+
+$info=spang
+$mame
+Known issues:
+
+- The first time you start the game, keep 1 pressed until you see the ""SUPER
+PANG 900914 ETC"" screen, otherwise it won't initialize properly. This is
+needed only the first time, the setup is saved to the EEPROM after that.
+
+Bugs:
+
+- During "Panic mode" , when you hit a freeze ballon (e.g 1 sec) , the other ballons disapear for that second..I tried the game without sound and it works ok. spang36b12gre Grendal74 
+
+
+
+$end
+
+$info=sparkz
+$mame
+Bugs:
+
+- display update bug, only does a full screen update when you hit F11. sparkz36b12yel MC68K 
+
+
+
+$end
+
+$info=speedbal
+$mame
+Bugs:
+
+- speedbal is running too fast - I recall the original game: attract mode music has two parts, one before and one after the letters from Speed Ball form the game name. The second part of the music must match the time the letters start flashing. speedbal36b11gre, Bugfinder
+
+
+
+$end
+
+$info=splatter
+$mame
+Bugs:
+
+- Foreground and background body move one only time then freeze splatter236b6gre
+
+ Missing rain stage 3 and attract mode splatter336b6gre
+
+ In stage 5 the ghost girls with skull don't move and the girlfriend doesen't speaksplatter436b6gre
+
+ In stage 6 the bubbles containing fetal monsters explode, but the monster inside don't appear splatter536b6gre
+
+ In 2 player mode screen of player 2 is rotated of 180ø but graphic seems to be incorrect splatter636b6gre
+
+ Wrong color in hi-score table and in in-game score number.splatter136b7gre  Strider
+
+ Added weapon slash sound fx, but music stop (in first stage) after few seconds. The music come back in the second level (the one with the snake) but without DAC sound for all the levels. splatter236b7gre Strider/Maccy
+
+Wrong colors in attract mode (Insert Coin, Copyright and Credits), wrong colors in score number during the game, splatter136b9gre, Strider
+
+ Missing "Game Over", "Continue" and "Quit" in the Game Over screen splatter236b9gre, Strider
+
+ In level 7, fighting the last boss, pieces from the ground should fall back down hitting the player. Instead they fly throughout the screen without causing damage, splatter336b9yel, Strider 
+
+
+
+$end
+
+$info=spyhunt2
+$mame
+Bugs:
+
+- It crashes because the Sounds Good PROMs are not dumped and the CPU tries to execute garbagge. Spyhunt236b15red, Zsolt Vasvari
+
+
+
+$end
+
+$info=srumbler
+$mame
+Bugs:
+
+- 1. Priority problem (just look the peoples going inside the left building during the intro),srumbler36b3yel,YMI,2. Your friend that are at the end of every stage doesnt react realistically (mostly when a new stage start),srumbler236b3gre,YMI,3. Sometime when the scrolling is going down, there is some garbage graphics (car sprite) that appear at the top of the screen for a short moment (this happen 2 or 3 time during the first stage),srumbler336b3gre,YMI
+
+
+
+$end
+
+$info=ssideki2
+$mame
+Bugs:
+
+- works but no lines are show on the playfield, ssidekibug, Philipp
+
+
+
+$end
+
+$info=ssideki4
+$mame
+Bugs:
+
+-locks up after gameover when using the asm68k core, does not lock up with the c based 68k core. Ssideki436b15red, Haze
+
+
+
+$end
+
+$info=sspaceat
+$mame
+Known issues:
+
+- dip switches not verified. The game plays only in cocktail mode.
+
+
+
+$end
+
+$info=spacduel
+$mame
+Known issues:
+
+- Press ""2"" to choose level, the game won't start otherwise.
+
+
+
+$end
+
+$info=sdungeon
+$mame
+Known issues:
+
+- The first time you run the game, it will ask the language. You can use F1 to
+proceed through all the configuration screens, or just reset (F3).
+
+- To change the language afterwards, delete the SDUNGEON.HI file from the HI
+directory 
+$end
+
+$info=spacefb
+$mame
+Known issues:
+
+- Red screen ""flash"" when you die is not supported
+
+- Background star field not supported. It is NOT a Galaxians type star field
+
+- The bullet color is wrong
+
+Bugs: -Space Firebird and clones displayed as horizontal when using tweaked modes. spacefb36b13gre, The Dog
+
+
+
+$end
+
+$info=splat
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=sprint1,sprint2
+$mame
+Known issues:
+
+- Dip switches in Sprint 1 are wrong
+
+
+
+$end
+
+$info=ssprint
+$mame
+Bugs:
+
+- I crashed on top of a bridge and when the chopper put my car back, it was invisible and I was "trapped" by the vertical track edges as though I was on top of the bridge and horizontal track edges as though I was underneath (see attached screenshots). ssprint36b15yel, Shifty
+
+
+
+$end
+
+$info=ssriders
+$mame
+Bugs:
+
+- collection of pixels appear and go with scroll at various times during game, movement jerky when walking diagonally; train level - can see poles thru sprites; bonus stage, gure bottom-right has left edge missing; fi can see sprite superimposed against backdrop after finishing Paco Loco fort scene. also some glitches where I'm unsure whether emulation or arcade problems - voices echo; train level boss sometimes stands, when supposed to be crouching, for milliseconds; "Up" indicator staying on screen when already climbed cliff and moved away on indian level (1 as well as multiplayer); when crouching and pressing jump, character will attempt to jump down briefly then crouch again, There's a second priority error in level 2-the player passes in front of the cacti.ssriders36b4gre, Hazard/MC68K
+
+- In bar scene, spotlights appear as black circles. ssriders36b9gre, Hazard 
+
+
+
+$end
+
+$info=stakwin2
+$mame
+Bugs:
+
+- This game requires 16-bit colour, the photographs of the horses at the end of races are serverly miscoloured without it, 
+stakewin236b1gre, Haze
+
+
+
+$end
+
+$info=starcas
+$mame
+Bugs:
+
+- When the player's space ship is destroyed in Star Castle, the explosion sample for this is not heard (or not played), starcas36b4gre, Dutch
+
+- I've tested starcas/starcas1 at every resolution I can, and there seems to be a glitch in the overlay code (built into mame). About 4/5ths of the way down each colored circle, there's a point where they get wider again. Sometimes there's a line across each circle, making it look like each circle is two pieces, separately mis-assembled. starcas36b15gre, TriggerFin/n/n/n
+$end
+
+$info=stargate
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=starjack,starjacs
+$mame
+Known issues:
+
+- Sprites in the Stern version might be wrong - I'm using the ROMs from the
+  Sega version because the other ones were bad.
+
+
+
+$end
+
+$info=starforc
+$mame
+Bugs:
+
+- at starforc, its default difficulty was changed.(Why?) ,0.36b13 and before : easiest(I think it is "normal"=real default?), 0.36b14 and after : normal(I think it is "hard"=not a real default?). Starforc36b15gre, j-ichi
+
+
+
+$end
+
+$info=starwars
+$mame
+Known issues:
+
+- Sometimes, after the TIE level, instead of zooming into the Death Star the
+  game sits there endlessly.
+
+
+
+$end
+
+$info=stdragon
+$mame
+Bugs:
+
+- might be the same layer prom with plus alpha not be that correct after all, as when you insert a coin, the background layer is not visible - it is in raine, and it misses a background layer on the title screen as well. stdragon36b9gre, IF
+
+- apart from the usual disabled layer problems the in-game music is at least twice as fast as it should be. stdragon36b11gre, IF
+
+
+
+$end
+
+$info=stinger
+$mame
+Bugs:
+
+- graphic problem in cocktail mode, the big satellite sprite has a small line glitch, stinger235fgre, Bugfinder
+
+
+
+$end
+
+$info=stratgyx,stratgyb
+$mame
+Known issues:
+
+- Dip switches not verified, especially in the bootleg version
+
+
+
+$end
+
+$info=subs
+$mame
+Known issues:
+
+-This game uses two monitors, one for each player, aimed away from each other.  The emulation displays both monitors side by side on the screen. A lot of the challenge is lost when you can see both monitors.  Unfortunately, there is no other simple solution to allow 2-player support on a single-monitor computer.  Also, Subs is mildly dependent on its overlay. Without the overlay, it might not be obvious that the playfield is circular in shape, and the blinking white box actually illuminates a box labelled "Sonar".
+
+
+
+$end
+
+$info=superman
+$mame
+Bugs:
+
+- graphics bug - black vertical bars flash on screen, particularly during flying levels, superman36b3yel, Shifty
+
+
+
+$end
+
+$info=scobra,scobrak,scobrab
+$mame
+Known issues:
+
+- The star background is probably not entirely accurate. Also, maybe it should
+  be clipped at the top and bottom of the screen?
+
+
+
+$end
+
+$info=sf1
+$mame
+Bugs:
+
+- crashes with -soundcard 7, sf136b2yel, TDG
+
+
+
+$end
+
+$info=shdancer
+$mame
+Bugs:
+
+- crashes with -soundcard 7, shdancer36b2gre, TDG
+
+
+
+$end
+
+$info=speedbal
+$mame
+Bugs:
+
+- Sprite Priority is wrong: at start up moon rises IN FRONT OF the buildings!!! Speedbal36b10gre, JoJo
+
+
+
+$end
+
+$info=splatter
+$mame
+Bugs:
+
+- Missing some sound fx and the girl don't speek, Rain missing during intro sequence and the wood stage (think stage 2), Background and foreground body in every stage move one only time then freeze, During the organic level (think 5 stage) the bubble containing fetal monster don't open and the monsters don't appear,Playing a two player game is unplayable due to bad graphics glitches on the 2p turn, Strider+Cronos 
+
+- in 36b10 during stage 4 (mirror hall) player freeze. splatter136b10yel,Strider
+
+- (during stage 4 (mirror hall)) the mirror-break sound is missing, too! btw.: In the last stage the pieces of wood falling from the top are missing (I played the European version at the arcades years ago...), splatter236b10gre, Alex
+
+
+
+$end
+
+$info=spinmast
+$mame
+Bugs:
+
+- I checked the DOS version on 2 different machines and the display goes blank right after the normal NEO/GEO startup screen or upon pressing 3 to "insert coin". Spinmast36b10red,MC68K
+
+
+
+$end
+
+$info=spnchout
+$mame
+Known issues:
+
+- The game runs on two monitors, positioned one above the other. Since the top
+monitor is mostly informational, you might want to cut it out to enlarge the
+play area. You can do that enforcing a suitable screen size. Good resolutions
+a
+$end
+
+$info=spyhunt2
+$mame
+Bugs:
+
+- Looking at the test mode It indicates in writing that the value of 'gas pedel' when the pedel isn't presses should be around 26, it drops to 1 in mame, I can't find an adjustment in mame to set it to 26 when the button isn't pressed. spyhunt236b10gre, Haze
+
+
+
+$end
+
+$info=supbtime
+$mame
+Bugs:
+
+- Some sprites clip at the edges of the screen.. Some burgers (from crushing an enemy) appear with wrong colour - 68k bug?!
+suptimebug, Official known problem
+
+
+
+$end
+
+$info=superqix,sqixbl
+$mame
+Known issues:
+
+- Speed is wrong (much too slow)
+
+- Sprite flipping is not emulated.
+
+- Due to protection, the original version doesn't work. Use the bootleg instead.
+
+
+
+$end
+
+$info=ssriders
+$mame
+Bugs:
+
+- appears to be no background / sprite collision detection. Can see sprites through background. Cannot progress past train level due to background problems, ssriders36b2yel, Hazard
+
+
+
+$end
+
+$info=ssprint
+$mame
+Known issues:
+
+- The green flag has wrong colors (chequered green and black instead of full
+  green).
+
+
+
+$end
+
+$info=starfire
+$mame
+Bugs:
+
+- It appears that certain enemy ship graphics do not get cleared from the screen and over time a lot of white garbage fills more and more of the display. Starfire36b10yel, Frotz
+
+
+
+$end
+
+$info=strider
+$mame
+Bugs:
+
+- game freezes after finishing, strider36b2gre, Randy
+
+
+
+$end
+
+$info=szaxxon
+$mame
+Known issues:
+
+- Several people complained that it runs too fast. This is not the case: a real
+  board has been verified and it behaves the same. It's just insanely
+  difficult.
+
+
+
+$end
+
+$info=swimmer,swimmera
+$mame
+Known issues:
+
+- The side panel should be light green / blue ( turquoise ) throughout the
+  game, not black as it is now.
+
+
+
+$end
+
+$info=tempest,tempest2,tempest1,temptube
+$mame
+Known issues:
+
+- Several people complained that mouse control is reversed. This is not the
+  case. The more obvious place where this can be seen is the level selection
+  screen at the beginning: move the mouse right, the block goes right.
+
+
+
+$end
+
+$info=terraf,terrafu
+$mame
+Bugs:
+
+- Sound doesn't work properly. (I guess this is so obvious that no-one dared to report it.) terraf236b10gre, Frotz
+
+
+
+$end
+
+$info=term2
+$mame
+Bugs:
+
+- locks up: the level after transported through time doesn't play, terminator36b6red, Philipp 
+
+
+
+$end
+
+$info=atetris,atetrisa,atetrisb,atetcktl,atetckt2
+$mame
+Known issues:
+
+- To start a game, press the ROTATE button.
+
+Bugs:
+
+- as I waited for the next title screen, the emulation stopped !! Atetrisb36b11red, Grendal74
+
+
+
+$end
+
+$info=tedybb
+$mame
+Bugs:
+
+- In attract mode, the girl's mouth is missing, teddyb35fgre, Sardius
+
+
+
+$end
+
+$info=term2
+$mame
+Bugs:
+
+- Trip To Skynet level - truck appears to outrun field of play, which stops and starts as it scrolls. Term2136b15gre, J-Pikachu
+
+- Skynet level - I'm sure Skynet's voice is supposed to say 'total system failure', winding down, as it dies, but say 'to- error' instead. term2236b15gre, J-Pikachu
+
+
+
+$end
+
+$info=thunderx
+$mame
+Bugs:
+
+- Collision detection still dodgy. Occasionally die when you pick up a power up. Thunderx36b13yel, Sixtoe
+
+
+
+$end
+
+$info=tigerh,tigerh2,tigerhb1,tigerhb2
+$mame
+Known issues:
+
+- The original versions don't work, use the bootlegs.
+
+
+
+$end
+
+$info=tp84,tp84a
+$mame
+Known issues:
+
+- sound is quite wrong
+
+- some sprites are displayed with wrong colors
+
+
+
+$end
+
+$info=timesold
+$mame
+Bugs:
+
+- the status bar in Time Soldiers (TIMESOLD) displays the incorrect time zone. That is, you start the game and the screen tells you "[entering] The World Wars". And it is the world wars, with soldiers and tanks and stuff. But, the status bar displays "The Primitive Age". During attract mode the status bar displays "The World Wars" while you fight an Egyptian monster. Something's not matching up.timesold36b11gre, btribble
+
+
+
+$end
+
+$info=tinstar
+$mame
+Known issues:
+
+- Known issues:- The aiming dial is emulated using a dual joystick setup.- There might be some misbehaviours caused by imperfect emulation of the 68705  protection.- Sprite priority glitches. 
+
+
+
+$end
+
+$info=tmnt2
+$mame
+Bugs:
+
+- graphics in attract mode are wrong, behind the moving letters that form the game name - the pictures of the turtles are obviously glitched. Tmnt236b11gre, Bugfinder
+
+
+
+$end
+
+$info=toki, tokib
+$mame
+Known issues:
+
+- The title screen is wrong
+
+
+
+$end
+
+$info=tokio,tokiob
+$mame
+Known issues:
+
+- The original version doesn't work due to protection. Use the bootleg.
+
+
+
+$end
+
+$info=tomahawk,tomahaw5
+$mame
+Known issues:
+
+- Note: the two revisions are quite different!
+
+
+
+$end
+
+$info=totcam
+$mame
+Bugs:
+
+- in the middle of the screen, there is 6 pixel lines that are out of sync with the rest of the screen (they seem to be too early), totcarn36b10gre, YMI
+
+
+
+$end
+
+$info=triothep
+$mame
+I play the game. Stage 1, stage 2, stage 3,........ Disappers many (more than 10?)stages! levels 4 to 19 are missing. Triothep36b15yel, j-ichi/Frotz
+
+
+
+$end
+
+$info=tumblep
+$mame
+Bugs:
+
+- I get the 'coin inserted' sound in bootleg set 1, and then nothing else. I get nothing at all in bootleg set 2. The original seems okay. And yes, I am aware that the bootlegs don't have the same sound as the original, but I'm sure there was more sound than this before... tumblepb36b10gre, The Dog
+
+
+
+$end
+
+$info=turbofrc
+$mame
+Known issues:
+
+- The front scrolling layer is completely wrong. You can see the title and
+  American flag correctly only due to a hack. Everything else is wrong. The
+  only explanation I have for this is a missing gfx ROM.
+
+
+
+$end
+
+$info=turfmast
+$mame
+Bugs:
+
+- Graphics have a tendency to shift slowly to the right (no effect to the player) even with raster effects on. (With them off, it's more severe) turfmast36b7gre Sports Dude
+
+
+
+$end
+
+$info=tshoot
+$mame
+Known issues:
+
+- The first time you run the game, it will say ""factory settings restored"".
+Press F2 to proceed.
+
+
+
+$end
+
+$info=turbo
+$mame
+Bugs:
+
+- (all sets)--no sound, unplayable, graphic glitches, turbokred, TDG
+
+
+
+$end
+
+$info=turtship
+$mame
+Known issues:
+
+- dip switches not mapped
+
+- part of the gfx tiles are not used by the video driver, therefore the
+  background is probably wrong in later levels.
+
+
+
+$end
+
+$info=turtles,turpin,600
+$mame
+Known issues:
+
+- Colors in 600 might be wrong.
+
+
+
+$end
+
+$info=twinbee
+$mame
+Bugs:
+
+- choose NoSound for sound and the game won't work (works with sound) twinbee36b12red Frotz 
+
+
+
+$end
+
+$info=twincobr,twincobu,ktiger
+$mame
+Known issues:
+
+- Most enemies appear already destroyed. This is probably caused by the
+  incomplete emulation of the protection microcontroller.
+
+- Kyukyoku Tiger doesn't boot.
+
+
+
+$end
+
+$info=twotiger
+$mame
+Known issues:
+
+- Two players not well supported
+
+
+
+$end
+
+$info=usvsthem
+$mame
+Known issues:
+
+- This is a laser disc game; it is playable, but of course you can't see the
+backgrounds that were stored on the laser disc.
+
+
+
+$end
+
+$info=valstar
+$mame
+Bugs:
+
+- Start Vastar, when the logo is on screen put a credit. It will have some garbage on screen, usually on white color; start the game, and the same garbage turns on green. Vastar36b7gre Bugfinder
+
+
+
+$end
+
+$info=vendetta
+$mame
+Bugs:
+
+- Colission Detection not perfect:- cant take big items from left or right, only from up/down- sometimes you can't kick a guy lying on the ground (player kicks in the air)- some players are not behind an object (like first punk in level 2), going down/up a lift lets screen shrink (left/right black brackets), Player screen pics missing, vendetta36b5yel, Players are not correctly behind objects (e.g.: first punk on level 2 is infront of the fence instead of behind)vendetta36b6gre, Going down/up a lift lets screen shrink (left/right black brackets)vendetta136b6gre, Players onÿ start-screen (pics) missingvendetta236b6greAlex
+
+- In beta8, I get a message at the bottom of the screen (end boss on ship). vendetta136b8gre, Alex
+
+- In level 4, when fighting Kruel Kurt (end boss) I got the messages: unknown spriteoffsY 02f, unknown spriteoffsY 02f8, unknown spriteoffsY 02f9, vendetta236b8gre, Alex
+
+
+
+$end
+
+$info=venture.zip
+$mame
+Bugs:
+
+- Sound wrong pitch, ventureb13yel, MC68K
+
+
+
+
+$end
+
+$info=hustler,pool,billiard
+$mame
+Known issues:
+
+- Pool doesn't work due to a different encryption.
+
+
+
+$end
+
+$info=wardner
+$mame
+Bugs:
+
+- There appears to be a synth problem with Wardner in beta 11. The sound is largely corrupted, especially sounds such as when you pick up a treasure chest, shot power ball (small), or money bag, as well as when the girl is turned into a crystal ball. It also sounds as though there's a slight problem with sustain, too, with some of the sounds going on longer than normal (the credit beep, and the 'speech' at the start). Music sounds OK, it's just effects. wardner36b12gre Frotz 
+
+
+
+$end
+
+$info=waterski
+$mame
+Known issues:
+
+- Some garbled graphics probably due to a bad ROM.
+
+- Collision detection is not emulated properly.
+
+
+$end
+
+$info=wb3 
+$mame
+Bugs:
+
+- The music tempo is off. For example, in the soundtest song $0F is played a bit faster than the same one in S16AE. Others are played much slower in 36b2 than in S16AE, wb336b2gre, MC68K
+
+
+
+$end
+
+$info=wbml
+$mame
+Bugs:
+
+- when playing the flute, no sound (flute-sound) is heard
+$end
+
+$info=wbml36b6gre, When finishing the game the ufo flies to the stars and the end credits scroll from bottom to top (programmer etc., i 
+$mame
+
+$end
+
+$info=think). But in mame these End Credits are missing
+$mame
+
+$end
+
+$info=wbml236b6gre 
+$mame
+
+$end
+
+$info=Alex\n\n\n
+$mame
+
+$end
+
+$info=westry
+$mame
+Bugs:
+
+- crashes when sound is enabled, westry36b8red, Jaw
+
+
+
+$end
+
+$info=whp
+$mame
+Bugs:
+
+- Still some glitches with the finish screen- minor grafics glitches in lower right corner (maybe in left corner-it is blank) Also, the text remains the same throughout the game- whatever the text in the box is after you defeat your first opponent- it will repeat that the entire game. Here is a pic- www.erols.com/wile.e.coyote/whp0001.jpg,whp36b3gre,Robbie, Music during "Ice Age" scene and the "continue" is incomplete whp236b3gre,Robbie
+
+
+
+$end
+
+$info=wwestern
+$mame
+Known issues:
+
+- Probably due to copy protection, the game is not playable and resets often.
+
+
+
+$end
+
+$info=wonder3
+$mame
+Bugs:
+
+- Player sprite not visible for 3-4 seconds when starting a new man. Playable, but irritating. Wonder336b9gre, Gspat
+
+
+
+$end
+
+$info=wow
+$mame
+Known issues:
+
+- The original machine had a special joystick which could be moved either partially or fully in a direction. Pushing it slightly would turn around the player without making it move. The emulator assumes that you are always pushing the joystick fully, to simulate the "half press" you can press Alt.
+
+
+
+$end
+
+$info=wboy,wboy2,wboy3,wboy4,wboy4u,wboyu,wbdeluxe
+$mame
+Known issues:
+
+- I haven't decoded wboy3 yet.
+
+
+
+$end
+
+$info=wc90,wc90b
+$mame
+Known issues:
+
+- No ADPCM samples.
+
+- The second YM2203 starts outputting static after a few seconds. This is in the original version, the bootleg doesn't have a second YM2203.
+
+Bugs:
+
+- music and sound effects have higher pitch than MAME 0.34 final - and for me, that was the correct pitch. wc9036b11gre, Bugfinder
+
+- wc90b has video problems - check the snapshots, some players are cut at left and bottom of the screen - this has always been this way, could it be a bad programmed bootleg? wc90b36b11gre, Bugfinder
+$end
+
+$info=wof
+$mame
+Bugs:
+
+- Player 3 got no Start button and no coin slot. wof36b12gre YMI 
+
+
+
+$end
+
+$info=wotw
+$mame
+Bugs:
+
+- Initial entry screen clipped on right side, wotw36b1gre, MC68K
+
+
+
+$end
+
+$info=wtennis
+$mame
+Known issues:
+
+- On startup, you have to reset the game (F3) to make it exit service mode.
+
+
+
+$end
+
+$info=wwestern
+$mame
+Bugs:
+
+- After a reset, sometime (about 70%), there is no more sound effect ( the music is still there tough). A second reset, generally, bring back the sound, wwestern36b4gre, YMI
+
+
+
+$end
+
+$info=xevious,xeviousa,sxevious
+$mame
+Known issues:
+
+- Sometimes explosion sprites appear at the top of the screen, xevious36b6gre  MC68K 
+
+- reports a RAM error after a reset. The first time Xevious is reset, it reports the error "RAM A". If you reset it again a few times this becomes "RAM 9" and eventually progesses to "RAM 8" and "RAM 7" and finally a reset will succeed. The next reset after that once again causes"RAM A" and the above situation repeats. xevious36b12yel Gamester 
+$end
+
+$info=xsleena
+$mame
+Bugs:
+
+- the game is too fast. (just test the game with the green planet. First you can hear the landing music stoping too early. then you can see how fast is the dinosaur and his firing (almost unplayable)),xsleena36b3yel,YMI
+
+- The enemy base at the end of every stage has missaligned tiles. xsleena36b15gre, YMI
+$end
+
+$info=xybots
+$mame
+Known issues:
+
+- The start button is also the Zap button.
+
+
+
+$end
+
+$info=yiear
+$mame
+Known issues:
+
+- Speech is not emulated correctly (and samples are not supported)
+
+
+
+$end
+
+$info=yiear2
+$mame
+Bugs:
+
+- Voices are scratchy, yiaerb9gre, Sardius
+
+
+
+$end
+
+$info=zektor
+$mame
+Bugs:
+
+- Several samples still missing (even with new set), samples played at wrong times, zektorb13gre, MC68K
+
+
+
+$end
+
+$info=zookeep
+$mame
+Known issues:
+
+- The first time you run the game, it will ask the location. You can change the
+name using F5/F6 and F2, then F1 to proceed through all the configuration
+screens, or just reset (F3).
+
+
+
+$end
+#
