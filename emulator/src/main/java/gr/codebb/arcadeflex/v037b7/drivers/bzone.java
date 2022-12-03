@@ -38,7 +38,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.atari_vg_earom_ctrl_w
 import static gr.codebb.arcadeflex.v037b7.machine.mathbox.*;
 import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.bzone.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.redbaron.*;
+import static arcadeflex.v036.sndhrdw.redbaron.*;
 
 
 public class bzone

@@ -1,9 +1,9 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sndhrdw;
+package arcadeflex.v036.sndhrdw;
 
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_cause_interrupt;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcycles;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

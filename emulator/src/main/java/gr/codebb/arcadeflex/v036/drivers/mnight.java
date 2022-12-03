@@ -9,16 +9,12 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.mnight.*;
-import static gr.codebb.arcadeflex.v036.machine.lwings.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -36,7 +32,8 @@ public class mnight {
 
     public static InterruptPtr mnight_interrupt = new InterruptPtr() {
         public int handler() {
-            return 0x00d7;	/* RST 10h */
+            return 0x00d7;
+            /* RST 10h */
 
         }
     };
@@ -49,14 +46,15 @@ public class mnight {
 
     public static WriteHandlerPtr mnight_bankselect_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU1),main_cpu_num);
+            UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU1), main_cpu_num);
             int bankaddress;
 
             if (data != mnight_bank_latch) {
                 mnight_bank_latch = data;
 
                 bankaddress = 0x10000 + ((data & 0x7) * 0x4000);
-                cpu_setbank(1, new UBytePtr(RAM, bankaddress));	 /* Select 8 banks of 16k */
+                cpu_setbank(1, new UBytePtr(RAM, bankaddress));
+                /* Select 8 banks of 16k */
 
             }
         }
@@ -125,7 +123,8 @@ public class mnight {
 
     static InputPortPtr input_ports_mnight = new InputPortPtr() {
         public void handler() {
-            PORT_START();  /* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -136,7 +135,8 @@ public class mnight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -158,7 +158,8 @@ public class mnight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();  /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -184,7 +185,8 @@ public class mnight {
             PORT_DIPSETTING(0x40, "4");
             PORT_DIPSETTING(0x00, "5");
 
-            PORT_START();  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
@@ -214,7 +216,8 @@ public class mnight {
 
     static InputPortPtr input_ports_arkarea = new InputPortPtr() {
         public void handler() {
-            PORT_START();  /* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
@@ -225,7 +228,8 @@ public class mnight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
@@ -247,7 +251,8 @@ public class mnight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();  /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("3C_1C"));
@@ -273,7 +278,8 @@ public class mnight {
             PORT_DIPSETTING(0x80, "3");
             PORT_DIPSETTING(0x00, "4");
 
-            PORT_START();  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));

@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.rallyx.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.timeplt.*;
+import static arcadeflex.v036.sndhrdw.timeplt.*;
 
 public class locomotn {
 

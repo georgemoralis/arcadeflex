@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.m72.*;
+import static arcadeflex.v036.sndhrdw.m72.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.shisen.*;
 
 public class shisen

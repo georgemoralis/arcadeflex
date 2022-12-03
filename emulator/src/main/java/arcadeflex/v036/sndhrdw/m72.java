@@ -1,9 +1,9 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sndhrdw;
+package arcadeflex.v036.sndhrdw;
 
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_irq_line_vector_w;
@@ -29,7 +29,6 @@ public class m72 {
 	  that by handling all vector changes in a single timer callback.
 	
      */
-
     public static final int VECTOR_INIT = 0;
     public static final int YM2151_ASSERT = 1;
     public static final int YM2151_CLEAR = 2;

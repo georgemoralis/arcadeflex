@@ -1,9 +1,9 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sndhrdw;
+package arcadeflex.v036.sndhrdw;
 
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
@@ -31,7 +31,6 @@ public class timeplt {
  /*		 0, 0, 0, 0, 1, 0, 0, 0, 0, 1									*/
  /* Bit 7 comes from the QA output of the LS90 producing a sequence of	*/
  /*		 0, 0, 0, 0, 0, 1, 1, 1, 1, 1			 						*/
-
     static int timeplt_timer[]
             = {
                 0x00, 0x10, 0x20, 0x30, 0x40, 0x90, 0xa0, 0xb0, 0xa0, 0xd0

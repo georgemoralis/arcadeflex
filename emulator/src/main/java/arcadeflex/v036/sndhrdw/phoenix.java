@@ -1,19 +1,10 @@
-/****************************************************************************
- *
- * Phoenix sound hardware simulation - still very ALPHA!
- *
- * If you find errors or have suggestions, please mail me.
- * Juergen Buchmueller <pullmoll@t-online.de>
- *
- ****************************************************************************/
-
-
 /*
- * ported to v0.37b7
+ * ported to v0.36
  * using automatic conversion tool v0.01
- */ 
-package gr.codebb.arcadeflex.v037b7.sndhrdw;
+ */
+package arcadeflex.v036.sndhrdw;
 
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;

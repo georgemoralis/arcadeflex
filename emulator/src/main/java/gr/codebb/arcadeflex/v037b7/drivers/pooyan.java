@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.timeplt.*;
+import static arcadeflex.v036.sndhrdw.timeplt.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.pooyan.*;
 
 public class pooyan {
