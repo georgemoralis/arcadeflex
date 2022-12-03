@@ -1,8 +1,11 @@
-package gr.codebb.arcadeflex.v037b7.drivers;
 /*
  * ported to v0.37b7
  * using automatic conversion tool v0.01
  */
+package gr.codebb.arcadeflex.v037b7.drivers;
+
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw._8080bw.*;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
@@ -17,7 +20,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.machine._8080bw.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
@@ -959,7 +961,7 @@ public class _8080bw {
                 //  new MemoryReadAddress( 0x2000, 0x2002, MRA_RAM ),
                 //  new MemoryReadAddress( 0x2003, 0x2003, hack ),
                 new MemoryReadAddress(0x4000, 0x5fff, MRA_ROM),
-                new MemoryReadAddress(0xa400, 0xbfff, schaser_colorram_r),
+//                new MemoryReadAddress(0xa400, 0xbfff, schaser_colorram_r),
                 new MemoryReadAddress(0xe400, 0xffff, MRA_RAM),
                 new MemoryReadAddress(-1) /* end of table */};
 
@@ -1685,7 +1687,7 @@ public class _8080bw {
                 new MemoryReadAddress(0x0000, 0x1fff, MRA_ROM),
                 new MemoryReadAddress(0x2000, 0x3fff, MRA_RAM),
                 new MemoryReadAddress(0x4000, 0x5fff, MRA_ROM),
-                new MemoryReadAddress(0xc400, 0xdfff, schaser_colorram_r),
+//                new MemoryReadAddress(0xc400, 0xdfff, schaser_colorram_r),
                 new MemoryReadAddress(-1) /* end of table */};
 
     static MemoryWriteAddress schaser_writemem[]
@@ -2180,7 +2182,7 @@ public class _8080bw {
                 new MemoryWriteAddress(0x0000, 0x27ff, MWA_ROM),
                 new MemoryWriteAddress(0x4200, 0x5dff, invaders_videoram_w, videoram, videoram_size),
                 new MemoryWriteAddress(0x5e00, 0x7fff, MWA_RAM),
-                new MemoryWriteAddress(0xc200, 0xddff, helifire_colorram_w, colorram),
+//                new MemoryWriteAddress(0xc200, 0xddff, helifire_colorram_w, colorram),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     static InputPortPtr input_ports_helifire = new InputPortPtr() {
@@ -2239,34 +2241,6 @@ public class _8080bw {
             INPUT_PORTS_END();
         }
     };
-
-    static MachineDriver machine_driver_helifire = new MachineDriver(
-            /* basic machine hardware */
-            new MachineCPU[]{
-                new MachineCPU(
-                        CPU_8080,
-                        20160000 / 8, /* 2.52 MHz */
-                        helifire_readmem, helifire_writemem, sheriff_readport, writeport_2_3,
-                        invaders_interrupt, 2 /* two interrupts per frame */
-                )
-            },
-            60, DEFAULT_60HZ_VBLANK_DURATION, /* frames per second, vblank duration */
-            1, /* single CPU, no need for interleaving */
-            init_machine_helifire,
-            /* video hardware */
-            32 * 8, 32 * 8, new rectangle(0 * 8, 32 * 8 - 1, 0 * 8, 28 * 8 - 1),
-            null, /* no gfxdecodeinfo - bitmapped display */
-            8, 0,
-            helifire_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY | VIDEO_MODIFIES_PALETTE,
-            null,
-            invaders_vh_start,
-            invaders_vh_stop,
-            invaders_vh_screenrefresh,
-            /* sound hardware */
-            0, 0, 0, 0,
-            null
-    );
 
     /**
      * ****************************************************
@@ -4678,7 +4652,7 @@ public class _8080bw {
     /* 605 */ public static GameDriver driver_tornbase = new GameDriver("1976", "tornbase", "_8080bw.java", rom_tornbase, null, machine_driver_tornbase, input_ports_tornbase, init_8080bw, ROT0, "Midway", "Tornado Baseball", GAME_NO_SOUND);
     /* 610 */ public static GameDriver driver_280zzzap = new GameDriver("1976", "280zzzap", "_8080bw.java", rom_280zzzap, null, machine_driver_280zzzap, input_ports_280zzzap, init_8080bw, ROT0, "Midway", "Datsun 280 Zzzap", GAME_NO_SOUND);
     /* 611 */ public static GameDriver driver_maze = new GameDriver("1976", "maze", "_8080bw.java", rom_maze, null, machine_driver_tornbase, input_ports_maze, init_8080bw, ROT0, "Midway", "Amazing Maze", GAME_NO_SOUND);
-    /* 612 */ public static GameDriver driver_boothill = new GameDriver("1977", "boothill", "_8080bw.java", rom_boothill, null, machine_driver_boothill, input_ports_boothill, init_boothill, ROT0, "Midway", "Boot Hill");
+//    /* 612 */ public static GameDriver driver_boothill = new GameDriver("1977", "boothill", "_8080bw.java", rom_boothill, null, machine_driver_boothill, input_ports_boothill, init_boothill, ROT0, "Midway", "Boot Hill");
     /* 615 */ public static GameDriver driver_checkmat = new GameDriver("1977", "checkmat", "_8080bw.java", rom_checkmat, null, machine_driver_checkmat, input_ports_checkmat, init_8080bw, ROT0, "Midway", "Checkmate", GAME_NO_SOUND);
     /* 618 */ public static GameDriver driver_desertgu = new GameDriver("1977", "desertgu", "_8080bw.java", rom_desertgu, null, machine_driver_desertgu, input_ports_desertgu, init_desertgu, ROT0, "Midway", "Desert Gun", GAME_NO_SOUND);
     /* 622 */ public static GameDriver driver_lagunar = new GameDriver("1977", "lagunar", "_8080bw.java", rom_lagunar, null, machine_driver_280zzzap, input_ports_lagunar, init_8080bw, ROT90, "Midway", "Laguna Racer", GAME_NO_SOUND);
@@ -4691,8 +4665,8 @@ public class _8080bw {
     /* 619 */ public static GameDriver driver_dplay = new GameDriver("1977", "dplay", "_8080bw.java", rom_dplay, driver_einnings, machine_driver_m4, input_ports_einnings, init_8080bw, ROT0, "Midway", "Double Play", GAME_NO_SOUND);
     /* 643 */ public static GameDriver driver_shuffle = new GameDriver("1978", "shuffle", "_8080bw.java", rom_shuffle, null, machine_driver_shuffle, input_ports_shuffle, init_8080bw, ROT90, "Midway", "Shuffleboard", GAME_NO_SOUND);
     /* 644 */ public static GameDriver driver_dogpatch = new GameDriver("1977", "dogpatch", "_8080bw.java", rom_dogpatch, null, machine_driver_clowns, input_ports_dogpatch, init_8080bw, ROT0, "Midway", "Dog Patch", GAME_NO_SOUND);
-    /* 645 */ public static GameDriver driver_spcenctr = new GameDriver("1980", "spcenctr", "_8080bw.java", rom_spcenctr, null, machine_driver_spcenctr, input_ports_spcenctr, init_spcenctr, ROT0_16BIT, "Midway", "Space Encounters", GAME_NO_SOUND);
-    /* 652 */ public static GameDriver driver_phantom2 = new GameDriver("1979", "phantom2", "_8080bw.java", rom_phantom2, null, machine_driver_m4, input_ports_phantom2, init_phantom2, ROT0, "Midway", "Phantom II", GAME_NO_SOUND);
+//    /* 645 */ public static GameDriver driver_spcenctr = new GameDriver("1980", "spcenctr", "_8080bw.java", rom_spcenctr, null, machine_driver_spcenctr, input_ports_spcenctr, init_spcenctr, ROT0_16BIT, "Midway", "Space Encounters", GAME_NO_SOUND);
+//    /* 652 */ public static GameDriver driver_phantom2 = new GameDriver("1979", "phantom2", "_8080bw.java", rom_phantom2, null, machine_driver_m4, input_ports_phantom2, init_phantom2, ROT0, "Midway", "Phantom II", GAME_NO_SOUND);
     /* 730 */ public static GameDriver driver_bowler = new GameDriver("1978", "bowler", "_8080bw.java", rom_bowler, null, machine_driver_bowler, input_ports_bowler, init_8080bw, ROT90, "Midway", "4 Player Bowling", GAME_NO_SOUND);
     /* 739 */ public static GameDriver driver_invaders = new GameDriver("1978", "invaders", "_8080bw.java", rom_invaders, null, machine_driver_invaders, input_ports_invaders, init_invaders, ROT270, "Midway", "Space Invaders");
     /* 742 */ public static GameDriver driver_blueshrk = new GameDriver("1978", "blueshrk", "_8080bw.java", rom_blueshrk, null, machine_driver_blueshrk, input_ports_blueshrk, init_blueshrk, ROT0, "Midway", "Blue Shark", GAME_NO_SOUND);
@@ -4712,16 +4686,16 @@ public class _8080bw {
     public static GameDriver driver_invadpt2 = new GameDriver("1980", "invadpt2", "_8080bw.java", rom_invadpt2, null, machine_driver_invadpt2, input_ports_invadpt2, init_invadpt2, ROT270, "Taito", "Space Invaders Part II (Taito)");
     public static GameDriver driver_schaser = new GameDriver("1980", "schaser", "_8080bw.java", rom_schaser, null, machine_driver_schaser, input_ports_schaser, init_schaser, ROT270, "Taito", "Space Chaser", GAME_IMPERFECT_SOUND | GAME_IMPERFECT_COLORS);
     public static GameDriver driver_schasrcv = new GameDriver("1979", "schasrcv", "_8080bw.java", rom_schasrcv, driver_schaser, machine_driver_lupin3, input_ports_schasrcv, init_schaser, ROT270, "Taito", "Space Chaser (CV version)", GAME_NO_SOUND | GAME_IMPERFECT_COLORS | GAME_NO_COCKTAIL);
-    public static GameDriver driver_lupin3 = new GameDriver("1980", "lupin3", "_8080bw.java", rom_lupin3, null, machine_driver_lupin3, input_ports_lupin3, init_lupin3, ROT270, "Taito", "Lupin III", GAME_NO_SOUND | GAME_NO_COCKTAIL);
-    public static GameDriver driver_polaris = new GameDriver("1980", "polaris", "_8080bw.java", rom_polaris, null, machine_driver_polaris, input_ports_polaris, init_polaris, ROT270, "Taito", "Polaris (set 1)", GAME_NO_SOUND);
-    public static GameDriver driver_polarisa = new GameDriver("1980", "polarisa", "_8080bw.java", rom_polarisa, driver_polaris, machine_driver_polaris, input_ports_polaris, init_polaris, ROT270, "Taito", "Polaris (set 2)", GAME_NO_SOUND);
+//    public static GameDriver driver_lupin3 = new GameDriver("1980", "lupin3", "_8080bw.java", rom_lupin3, null, machine_driver_lupin3, input_ports_lupin3, init_lupin3, ROT270, "Taito", "Lupin III", GAME_NO_SOUND | GAME_NO_COCKTAIL);
+//    public static GameDriver driver_polaris = new GameDriver("1980", "polaris", "_8080bw.java", rom_polaris, null, machine_driver_polaris, input_ports_polaris, init_polaris, ROT270, "Taito", "Polaris (set 1)", GAME_NO_SOUND);
+//    public static GameDriver driver_polarisa = new GameDriver("1980", "polarisa", "_8080bw.java", rom_polarisa, driver_polaris, machine_driver_polaris, input_ports_polaris, init_polaris, ROT270, "Taito", "Polaris (set 2)", GAME_NO_SOUND);
     public static GameDriver driver_ballbomb = new GameDriver("1980", "ballbomb", "_8080bw.java", rom_ballbomb, null, machine_driver_ballbomb, input_ports_ballbomb, init_invadpt2, ROT270, "Taito", "Balloon Bomber");
 
     /* Nintendo games */
     public static GameDriver driver_sheriff = new GameDriver("1980", "sheriff", "_8080bw.java", rom_sheriff, null, machine_driver_sheriff, input_ports_sheriff, init_8080bw, ROT270, "Nintendo", "Sheriff", GAME_IMPERFECT_SOUND);
     public static GameDriver driver_bandido = new GameDriver("1980", "bandido", "_8080bw.java", rom_bandido, driver_sheriff, machine_driver_sheriff, input_ports_bandido, init_8080bw, ROT270, "Exidy", "Bandido", GAME_IMPERFECT_SOUND);
-    public static GameDriver driver_helifire = new GameDriver("1980", "helifire", "_8080bw.java", rom_helifire, null, machine_driver_helifire, input_ports_helifire, init_helifire, ROT270, "Nintendo", "HeliFire (revision B)", GAME_NO_SOUND);
-    public static GameDriver driver_helifira = new GameDriver("1980", "helifira", "_8080bw.java", rom_helifira, driver_helifire, machine_driver_helifire, input_ports_helifire, init_helifire, ROT270, "Nintendo", "HeliFire (revision A)", GAME_NO_SOUND);
+ //   public static GameDriver driver_helifire = new GameDriver("1980", "helifire", "_8080bw.java", rom_helifire, null, machine_driver_helifire, input_ports_helifire, init_helifire, ROT270, "Nintendo", "HeliFire (revision B)", GAME_NO_SOUND);
+ //   public static GameDriver driver_helifira = new GameDriver("1980", "helifira", "_8080bw.java", rom_helifira, driver_helifire, machine_driver_helifire, input_ports_helifire, init_helifire, ROT270, "Nintendo", "HeliFire (revision A)", GAME_NO_SOUND);
     public static GameDriver driver_spacefev = new GameDriver("1980", "spacefev", "_8080bw.java", rom_spacefev, null, machine_driver_sheriff, input_ports_spacefev, init_8080bw, ROT270, "Nintendo", "Space Fever (color)", GAME_IMPERFECT_SOUND);
     public static GameDriver driver_sfeverbw = new GameDriver("1980", "sfeverbw", "_8080bw.java", rom_sfeverbw, null, machine_driver_sheriff, input_ports_spacefev, init_8080bw, ROT270, "Nintendo", "Space Fever (black and white)", GAME_IMPERFECT_SOUND);
 
@@ -4738,17 +4712,17 @@ public class _8080bw {
     public static GameDriver driver_jspecter = new GameDriver("1979", "jspecter", "_8080bw.java", rom_jspecter, driver_invaders, machine_driver_invaders, input_ports_jspecter, init_invaders, ROT270, "Jatre", "Jatre Specter");
     public static GameDriver driver_cosmicmo = new GameDriver("1979", "cosmicmo", "_8080bw.java", rom_cosmicmo, driver_invaders, machine_driver_invaders, input_ports_cosmicmo, init_invaders, ROT270, "Universal", "Cosmic Monsters");
     public static GameDriver driver_superinv = new GameDriver("????", "superinv", "_8080bw.java", rom_superinv, driver_invaders, machine_driver_invaders, input_ports_invaders, init_invaders, ROT270, "bootleg", "Super Invaders");
-    public static GameDriver driver_moonbase = new GameDriver("????", "moonbase", "_8080bw.java", rom_moonbase, driver_invadpt2, machine_driver_invaders, input_ports_invadpt2, init_invaddlx, ROT270, "Nichibutsu", "Moon Base");
+   // public static GameDriver driver_moonbase = new GameDriver("????", "moonbase", "_8080bw.java", rom_moonbase, driver_invadpt2, machine_driver_invaders, input_ports_invadpt2, init_invaddlx, ROT270, "Nichibutsu", "Moon Base");
     public static GameDriver driver_invrvnge = new GameDriver("????", "invrvnge", "_8080bw.java", rom_invrvnge, null, machine_driver_tornbase, input_ports_invrvnge, init_invrvnge, ROT270, "Zenitone Microsec", "Invader's Revenge", GAME_NO_SOUND);
     public static GameDriver driver_invrvnga = new GameDriver("????", "invrvnga", "_8080bw.java", rom_invrvnga, driver_invrvnge, machine_driver_tornbase, input_ports_invrvnge, init_invrvnge, ROT270, "Zenitone Microsec (Dutchford license)", "Invader's Revenge (Dutchford)", GAME_NO_SOUND);
-    public static GameDriver driver_spclaser = new GameDriver("1980", "spclaser", "_8080bw.java", rom_spclaser, null, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "Game Plan, Inc. (Taito)", "Space Laser");
-    public static GameDriver driver_laser = new GameDriver("1980", "laser", "_8080bw.java", rom_laser, driver_spclaser, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "<unknown>", "Laser");
-    public static GameDriver driver_spcewarl = new GameDriver("1979", "spcewarl", "_8080bw.java", rom_spcewarl, driver_spclaser, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "Leijac (Konami)", "Space War (Leijac)");
+   // public static GameDriver driver_spclaser = new GameDriver("1980", "spclaser", "_8080bw.java", rom_spclaser, null, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "Game Plan, Inc. (Taito)", "Space Laser");
+   // public static GameDriver driver_laser = new GameDriver("1980", "laser", "_8080bw.java", rom_laser, driver_spclaser, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "<unknown>", "Laser");
+   // public static GameDriver driver_spcewarl = new GameDriver("1979", "spcewarl", "_8080bw.java", rom_spcewarl, driver_spclaser, machine_driver_invaders, input_ports_spclaser, init_invaddlx, ROT270, "Leijac (Konami)", "Space War (Leijac)");
     public static GameDriver driver_rollingc = new GameDriver("1979", "rollingc", "_8080bw.java", rom_rollingc, null, machine_driver_rollingc, input_ports_rollingc, init_rollingc, ROT270, "Nichibutsu", "Rolling Crash / Moon Base", GAME_NO_SOUND);
     public static GameDriver driver_ozmawars = new GameDriver("1979", "ozmawars", "_8080bw.java", rom_ozmawars, null, machine_driver_invaders, input_ports_ozmawars, init_8080bw, ROT270, "SNK", "Ozma Wars");
     public static GameDriver driver_solfight = new GameDriver("1979", "solfight", "_8080bw.java", rom_solfight, driver_ozmawars, machine_driver_invaders, input_ports_ozmawars, init_8080bw, ROT270, "bootleg", "Solar Fight");
     public static GameDriver driver_spaceph = new GameDriver("1979", "spaceph", "_8080bw.java", rom_spaceph, driver_ozmawars, machine_driver_invaders, input_ports_spaceph, init_8080bw, ROT270, "Zilec Games", "Space Phantoms");
     public static GameDriver driver_yosakdon = new GameDriver("1979", "yosakdon", "_8080bw.java", rom_yosakdon, null, machine_driver_tornbase, input_ports_lrescue, init_8080bw, ROT270, "bootleg", "Yosaku To Donbee (bootleg)", GAME_NO_SOUND);
-    /* 852 */ public static GameDriver driver_invaddlx = new GameDriver("1980", "invaddlx", "_8080bw.java", rom_invaddlx, driver_invadpt2, machine_driver_invaders, input_ports_invadpt2, init_invaddlx, ROT270, "Midway", "Space Invaders Deluxe");
+   // /* 852 */ public static GameDriver driver_invaddlx = new GameDriver("1980", "invaddlx", "_8080bw.java", rom_invaddlx, driver_invadpt2, machine_driver_invaders, input_ports_invadpt2, init_invaddlx, ROT270, "Midway", "Space Invaders Deluxe");
 
 }

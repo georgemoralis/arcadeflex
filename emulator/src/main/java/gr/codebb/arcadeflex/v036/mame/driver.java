@@ -1397,7 +1397,7 @@ public class driver {
                 driver_tornbase,	/* 605 [1976] */
                 driver_280zzzap,	/* 610 [1976] */
                 driver_maze,		/* 611 [1976] */
-                driver_boothill,	/* 612 [1977] */
+//                driver_boothill,	/* 612 [1977] */
                 driver_checkmat,	/* 615 [1977] */
                 driver_desertgu,	/* 618 [1977] */
                 driver_dplay,		/* 619 [1977] */
@@ -1409,8 +1409,8 @@ public class driver {
                 driver_einnings,	/* 642 [1978] Midway */
                 driver_shuffle,	/* 643 [1978] */
                 driver_dogpatch,	/* 644 [1977] */
-                driver_spcenctr,	/* 645 (c) 1980 Midway */
-                driver_phantom2,	/* 652 [1979] */
+  //              driver_spcenctr,	/* 645 (c) 1980 Midway */
+    //            driver_phantom2,	/* 652 [1979] */
                 driver_bowler,	/* 730 [1978] Midway */
                 driver_invaders,	/* 739 [1979] */
                 driver_blueshrk,	/* 742 [1978] */
@@ -1436,16 +1436,16 @@ public class driver {
                 driver_solfight,	/* bootleg */
                 driver_spaceph,	/* Zilec Games */
                 driver_schaser,	/* Taito */
-                driver_lupin3,	/* (c) 1980 Taito */
-                driver_helifire,	/* (c) Nintendo */
-                driver_helifira,	/* (c) Nintendo */
+    //            driver_lupin3,	/* (c) 1980 Taito */
+      //          driver_helifire,	/* (c) Nintendo */
+        //        driver_helifira,	/* (c) Nintendo */
                 driver_spacefev,
                 driver_sfeverbw,
-                driver_spclaser,
-                driver_laser,
-                driver_spcewarl,
-                driver_polaris,	/* (c) 1980 Taito */
-                driver_polarisa,	/* (c) 1980 Taito */
+          //      driver_spclaser,
+            //    driver_laser,
+              //  driver_spcewarl,
+                ///driver_polaris,	/* (c) 1980 Taito */
+      //          driver_polarisa,	/* (c) 1980 Taito */
                 driver_ballbomb,	/* (c) 1980 Taito */
                 /*TODO*/ //	DRIVER( m79amb )
                 driver_alieninv,

@@ -4,22 +4,21 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw._8080bw.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.machine._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw._8080bw.invaders_screen_red_w;
 import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw._8080bw.invaders_flip_screen_w;
 
 public class _8080bw {
 /*TODO*///
@@ -209,7 +208,7 @@ public class _8080bw {
             sample_start(base_channel + 3, base_sample + 7, 0);	/* Saucer Hit */
         }
 
-        invaders_flip_screen_w(data & 0x20);
+        invaders_flipscreen_w(data & 0x20);
 
         u8_last[0] = (char) (data & 0xFF);
     }

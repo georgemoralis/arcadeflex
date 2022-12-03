@@ -3,8 +3,14 @@
  */
 package arcadeflex.v036.mame;
 
+//mame imports
+import static arcadeflex.v036.mame.artworkH.*;
+//TODO
+import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+
 public class artwork {
-/*TODO*///#ifndef MIN
+
+    /*TODO*///#ifndef MIN
 /*TODO*///#define MIN(x,y) (x)<(y)?(x):(y)
 /*TODO*///#endif
 /*TODO*///#ifndef MAX
@@ -147,16 +153,15 @@ public class artwork {
 /*TODO*///		backdrop_refresh(a);
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  artwork_free
-/*TODO*///
-/*TODO*///  Don't forget to clean up when you're done with the backdrop!!!
-/*TODO*/// *********************************************************************/
-/*TODO*///
-/*TODO*///void artwork_free(struct artwork *a)
-/*TODO*///{
-/*TODO*///	if (a)
+    /**
+     * *******************************************************************
+     * artwork_free
+     *
+     * Don't forget to clean up when you're done with the backdrop!!!
+     * *******************************************************************
+     */
+    public static void artwork_free(struct_artwork a) {
+        /*TODO*///	if (a)
 /*TODO*///	{
 /*TODO*///		if (a->artwork)
 /*TODO*///			osd_free_bitmap(a->artwork);
@@ -174,8 +179,9 @@ public class artwork {
 /*TODO*///			free (a->pTable);
 /*TODO*///		free(a);
 /*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    }
+
+    /*TODO*///
 /*TODO*////*********************************************************************
 /*TODO*///  backdrop_black_recalc
 /*TODO*///
@@ -665,28 +671,27 @@ public class artwork {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  overlay_draw
-/*TODO*///
-/*TODO*///  This is an experimental backdrop blitter.  How to use:
-/*TODO*///  1)  Refresh all of your bitmap.
-/*TODO*///		- This is usually done with copybitmap(bitmap,tmpbitmap,...);
-/*TODO*///  2)  Call overlay_draw with the bitmap and the overlay.
-/*TODO*///
-/*TODO*///  Not so tough, is it? :)
-/*TODO*///
-/*TODO*///  Note: we don't have to worry about marking dirty rectangles here,
-/*TODO*///  because we should only have color changes in redrawn sections, which
-/*TODO*///  should already be marked as dirty by the original blitter.
-/*TODO*///
-/*TODO*///  TODO: support translucency and multiple intensities if we need to.
-/*TODO*///
-/*TODO*/// *********************************************************************/
-/*TODO*///
-/*TODO*///void overlay_draw(struct osd_bitmap *dest,const struct artwork *overlay)
-/*TODO*///{
-/*TODO*///	int i,j;
+    /**
+     * *******************************************************************
+     * overlay_draw
+     *
+     * This is an experimental backdrop blitter. How to use: 1) Refresh all of
+     * your bitmap. - This is usually done with
+     * copybitmap(bitmap,tmpbitmap,...); 2) Call overlay_draw with the bitmap
+     * and the overlay.
+     *
+     * Not so tough, is it? :)
+     *
+     * Note: we don't have to worry about marking dirty rectangles here, because
+     * we should only have color changes in redrawn sections, which should
+     * already be marked as dirty by the original blitter.
+     *
+     * TODO: support translucency and multiple intensities if we need to.
+     *
+     ********************************************************************
+     */
+    public static void overlay_draw(osd_bitmap dest, struct_artwork overlay) {
+        /*TODO*///	int i,j;
 /*TODO*///	int height,width;
 /*TODO*///	struct osd_bitmap *o = NULL;
 /*TODO*///	int black;
@@ -730,8 +735,9 @@ public class artwork {
 /*TODO*///			}
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*////*********************************************************************
 /*TODO*///  RGBtoHSV and HSVtoRGB
@@ -939,17 +945,17 @@ public class artwork {
 /*TODO*///
 /*TODO*///	return 1;
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  overlay_remap
-/*TODO*///
-/*TODO*///  This remaps the "original" palette indexes to the abstract OS indexes
-/*TODO*///  used by MAME. This has to be called during startup after the
-/*TODO*///  OS colors have been initialized (vh_start).
-/*TODO*/// *********************************************************************/
-/*TODO*///void overlay_remap(struct artwork *a)
-/*TODO*///{
-/*TODO*///	int i,j;
+    /**
+     * *******************************************************************
+     * overlay_remap
+     *
+     * This remaps the "original" palette indexes to the abstract OS indexes
+     * used by MAME. This has to be called during startup after the OS colors
+     * have been initialized (vh_start).
+     * *******************************************************************
+     */
+    public static void overlay_remap(struct_artwork a) {
+        /*TODO*///	int i,j;
 /*TODO*///	unsigned char r,g,b;
 /*TODO*///
 /*TODO*///	int offset = a->start_pen;
@@ -982,8 +988,9 @@ public class artwork {
 /*TODO*///	/* Erase vector bitmap same way as in vector.c */
 /*TODO*///	if (a->vector_bitmap)
 /*TODO*///		fillbitmap(a->vector_bitmap,Machine->pens[0],0);
-/*TODO*///}
-/*TODO*///
+    }
+
+    /*TODO*///
 /*TODO*////*********************************************************************
 /*TODO*///  allocate_artwork_mem
 /*TODO*///
@@ -1296,24 +1303,24 @@ public class artwork {
 /*TODO*///		ae++;
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  artwork_create
-/*TODO*///
-/*TODO*///  This works similar to artwork_load but generates artwork from
-/*TODO*///  an array of artwork_element. This is useful for very simple artwork
-/*TODO*///  like the overlay in the Space invaders series of games.  The overlay
-/*TODO*///  is defined to be the same size as the screen.
-/*TODO*///  The end of the array is marked by an entry with negative coordinates.
-/*TODO*///  Boxes and circles are supported. Circles are marked max_y == -1,
-/*TODO*///  min_x == x coord. of center, min_y == y coord. of center, max_x == radius.
-/*TODO*///  If there are transparent and opaque overlay elements, the opaque ones
-/*TODO*///  have to be at the end of the list to stay compatible with the PNG
-/*TODO*///  artwork.
-/*TODO*/// *********************************************************************/
-/*TODO*///struct artwork *artwork_create(const struct artwork_element *ae, int start_pen, int max_pens)
-/*TODO*///{
-/*TODO*///	struct artwork *a;
+    /**
+     * *******************************************************************
+     * artwork_create
+     *
+     * This works similar to artwork_load but generates artwork from an array of
+     * artwork_element. This is useful for very simple artwork like the overlay
+     * in the Space invaders series of games. The overlay is defined to be the
+     * same size as the screen. The end of the array is marked by an entry with
+     * negative coordinates. Boxes and circles are supported. Circles are marked
+     * max_y == -1, min_x == x coord. of center, min_y == y coord. of center,
+     * max_x == radius. If there are transparent and opaque overlay elements,
+     * the opaque ones have to be at the end of the list to stay compatible with
+     * the PNG artwork.
+     * *******************************************************************
+     */
+    public static struct_artwork artwork_create(artwork_element[] ae, int start_pen, int max_pens) {
+        throw new UnsupportedOperationException("Unsupported");
+        /*TODO*///	struct artwork *a;
 /*TODO*///	struct osd_bitmap *circle;
 /*TODO*///	int pen;
 /*TODO*///
@@ -1397,6 +1404,5 @@ public class artwork {
 /*TODO*///		backdrop_set_palette(a,a->orig_palette);
 /*TODO*///
 /*TODO*///	return a;
-/*TODO*///}
-/*TODO*///    
+    }
 }
