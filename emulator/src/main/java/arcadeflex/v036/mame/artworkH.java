@@ -3,35 +3,36 @@
  */
 package arcadeflex.v036.mame;
 
+import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 
 public class artworkH {
 
-    /*TODO*////*********************************************************************
-/*TODO*///  artwork
-/*TODO*///
-/*TODO*///  This structure is a generic structure used to hold both backdrops
-/*TODO*///  and overlays.
-/*TODO*///*********************************************************************/
-/*TODO*///
-public static class  struct_artwork
-{
-/*TODO*///	/* Publically accessible */
-/*TODO*///	struct osd_bitmap *artwork;
-/*TODO*///
-/*TODO*///	/* Private - don't touch! */
-/*TODO*///	struct osd_bitmap *orig_artwork;	/* needed for palette recalcs */
-/*TODO*///	struct osd_bitmap *vector_bitmap;	/* needed to buffer the vector image in vg with overlays */
-/*TODO*///	unsigned char *orig_palette;		/* needed for restoring the colors after special effects? */
-/*TODO*///	int num_pens_used;
-/*TODO*///	unsigned char *transparency;
-/*TODO*///	int num_pens_trans;
-/*TODO*///	int start_pen;
-/*TODO*///	unsigned char *brightness;              /* brightness of each palette entry */
-/*TODO*///	unsigned char *pTable;                  /* Conversion table usually used for mixing colors */
-}
-/*TODO*///
-/*TODO*///
+    /**
+     * *******************************************************************
+     * artwork
+     *
+     * This structure is a generic structure used to hold both backdrops and
+     * overlays.
+     * *******************************************************************
+     */
+    public static class struct_artwork {
+
+        /* Publically accessible */
+        osd_bitmap artwork;
+
+        /* Private - don't touch! */
+        osd_bitmap orig_artwork;/* needed for palette recalcs */
+        osd_bitmap vector_bitmap;/* needed to buffer the vector image in vg with overlays */
+        char[] /*unsigned char * */ orig_palette;/* needed for restoring the colors after special effects? */
+        int num_pens_used;
+        char[] /*unsigned char * */ transparency;
+        int num_pens_trans;
+        int start_pen;
+        char[] /* unsigned char * */ brightness;/* brightness of each palette entry */
+        char[] /* unsigned char * */ pTable;/* Conversion table usually used for mixing colors */
+    }
+
     public static class artwork_element {
 
         rectangle box;

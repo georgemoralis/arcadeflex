@@ -5,8 +5,24 @@ package arcadeflex.v036.mame;
 
 //mame imports
 import static arcadeflex.v036.mame.artworkH.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+import static gr.codebb.arcadeflex.v036.mame.driverH.ORIENTATION_SWAP_XY;
+import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
+import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_VECTOR;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 //TODO
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import static gr.codebb.arcadeflex.v036.mame.osdependH.osd_create_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
+import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_change_color;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 
 public class artwork {
 
@@ -94,65 +110,66 @@ public class artwork {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  backdrop_refresh
-/*TODO*///
-/*TODO*///  This remaps the "original" palette indexes to the abstract OS indexes
-/*TODO*///  used by MAME.  This needs to be called every time palette_recalc
-/*TODO*///  returns a non-zero value, since the mappings will have changed.
-/*TODO*/// *********************************************************************/
-/*TODO*///
-/*TODO*///void backdrop_refresh(struct artwork *a)
-/*TODO*///{
-/*TODO*///	int i,j;
-/*TODO*///	int height,width;
-/*TODO*///	struct osd_bitmap *back = NULL;
-/*TODO*///	struct osd_bitmap *orig = NULL;
-/*TODO*///	int offset;
-/*TODO*///
-/*TODO*///	offset = a->start_pen;
-/*TODO*///	back = a->artwork;
-/*TODO*///	orig = a->orig_artwork;
-/*TODO*///	height = a->artwork->height;
-/*TODO*///	width = a->artwork->width;
-/*TODO*///
-/*TODO*///	if (back->depth == 8)
-/*TODO*///	{
-/*TODO*///		for ( j=0; j<height; j++)
-/*TODO*///			for (i=0; i<width; i++)
-/*TODO*///				back->line[j][i] = Machine->pens[orig->line[j][i]+offset];
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		for ( j=0; j<height; j++)
+    /**
+     * *******************************************************************
+     * backdrop_refresh
+     *
+     * This remaps the "original" palette indexes to the abstract OS indexes
+     * used by MAME. This needs to be called every time palette_recalc returns a
+     * non-zero value, since the mappings will have changed.
+     * *******************************************************************
+     */
+    static void backdrop_refresh(struct_artwork a) {
+        int i, j;
+        int height, width;
+        osd_bitmap back = null;
+        osd_bitmap orig = null;
+        int offset;
+
+        offset = a.start_pen;
+        back = a.artwork;
+        orig = a.orig_artwork;
+        height = a.artwork.height;
+        width = a.artwork.width;
+
+        if (back.depth == 8) {
+            for (j = 0; j < height; j++) {
+                for (i = 0; i < width; i++) {
+                    back.line[j].write(i, Machine.pens[orig.line[j].read(i) + offset]);
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///		for ( j=0; j<height; j++)
 /*TODO*///			for (i=0; i<width; i++)
 /*TODO*///				((unsigned short *)back->line[j])[i] = Machine->pens[((unsigned short *)orig->line[j])[i]+offset];
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  backdrop_set_palette
-/*TODO*///
-/*TODO*///  This sets the palette colors used by the backdrop to the new colors
-/*TODO*///  passed in as palette.  The values should be stored as one byte of red,
-/*TODO*///  one byte of blue, one byte of green.  This could hopefully be used
-/*TODO*///  for special effects, like lightening and darkening the backdrop.
-/*TODO*/// *********************************************************************/
-/*TODO*///void backdrop_set_palette(struct artwork *a, unsigned char *palette)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* Load colors into the palette */
-/*TODO*///	if ((Machine->drv->video_attributes & VIDEO_MODIFIES_PALETTE))
-/*TODO*///	{
-/*TODO*///		for (i = 0; i < a->num_pens_used; i++)
-/*TODO*///			palette_change_color(i + a->start_pen, palette[i*3], palette[i*3+1], palette[i*3+2]);
-/*TODO*///
-/*TODO*///		palette_recalc();
-/*TODO*///		backdrop_refresh(a);
-/*TODO*///	}
-/*TODO*///}
+        }
+    }
+
+    /**
+     * *******************************************************************
+     * backdrop_set_palette
+     *
+     * This sets the palette colors used by the backdrop to the new colors
+     * passed in as palette. The values should be stored as one byte of red, one
+     * byte of blue, one byte of green. This could hopefully be used for special
+     * effects, like lightening and darkening the backdrop.
+     * *******************************************************************
+     */
+    public static void backdrop_set_palette(struct_artwork a, /*unsigned*/ char[] palette) {
+        int i;
+
+        /* Load colors into the palette */
+        if ((Machine.drv.video_attributes & VIDEO_MODIFIES_PALETTE) != 0) {
+            for (i = 0; i < a.num_pens_used; i++) {
+                palette_change_color(i + a.start_pen, palette[i * 3], palette[i * 3 + 1], palette[i * 3 + 2]);
+            }
+
+            palette_recalc();
+            backdrop_refresh(a);
+        }
+    }
+
     /**
      * *******************************************************************
      * artwork_free
@@ -691,36 +708,33 @@ public class artwork {
      ********************************************************************
      */
     public static void overlay_draw(osd_bitmap dest, struct_artwork overlay) {
-        /*TODO*///	int i,j;
-/*TODO*///	int height,width;
-/*TODO*///	struct osd_bitmap *o = NULL;
-/*TODO*///	int black;
-/*TODO*///
-/*TODO*///	o = overlay->artwork;
-/*TODO*///	height = overlay->artwork->height;
-/*TODO*///	width = overlay->artwork->width;
-/*TODO*///	black = Machine->pens[0];
-/*TODO*///
-/*TODO*///	if (dest->depth == 8)
-/*TODO*///	{
-/*TODO*///		unsigned char *dst, *ovr;
-/*TODO*///
-/*TODO*///		for ( j=0; j<height; j++)
-/*TODO*///		{
-/*TODO*///			dst = dest->line[j];
-/*TODO*///			ovr = o->line[j];
-/*TODO*///			for (i=0; i<width; i++)
-/*TODO*///			{
-/*TODO*///				if (*dst!=black)
-/*TODO*///					*dst = *ovr;
-/*TODO*///				dst++;
-/*TODO*///				ovr++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		unsigned short *dst, *ovr;
+        int i, j;
+        int height, width;
+        osd_bitmap o = null;
+        int black;
+
+        o = overlay.artwork;
+        height = overlay.artwork.height;
+        width = overlay.artwork.width;
+        black = Machine.pens[0];
+
+        if (dest.depth == 8) {
+            UBytePtr dst, ovr;
+
+            for (j = 0; j < height; j++) {
+                dst = new UBytePtr(dest.line[j]);
+                ovr = new UBytePtr(o.line[j]);
+                for (i = 0; i < width; i++) {
+                    if (dst.read() != black) {
+                        dst.write(ovr.read());
+                    }
+                    dst.inc();
+                    ovr.inc();
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///		unsigned short *dst, *ovr;
 /*TODO*///
 /*TODO*///		for ( j=0; j<height; j++)
 /*TODO*///		{
@@ -734,7 +748,7 @@ public class artwork {
 /*TODO*///				ovr++;
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
+        }
     }
 
     /*TODO*///
@@ -955,121 +969,105 @@ public class artwork {
      * *******************************************************************
      */
     public static void overlay_remap(struct_artwork a) {
-        /*TODO*///	int i,j;
-/*TODO*///	unsigned char r,g,b;
-/*TODO*///
-/*TODO*///	int offset = a->start_pen;
-/*TODO*///	int height = a->artwork->height;
-/*TODO*///	int width = a->artwork->width;
-/*TODO*///	struct osd_bitmap *overlay = a->artwork;
-/*TODO*///	struct osd_bitmap *orig = a->orig_artwork;
-/*TODO*///
-/*TODO*///	if (overlay->depth == 8)
-/*TODO*///	{
-/*TODO*///		for ( j=0; j<height; j++)
-/*TODO*///			for (i=0; i<width; i++)
-/*TODO*///				overlay->line[j][i] = Machine->pens[orig->line[j][i]+offset];
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		for ( j=0; j<height; j++)
+        int i, j;
+        char[] r = new char[1];
+        char[] g = new char[1];
+        char[] b = new char[1];
+
+        int offset = a.start_pen;
+        int height = a.artwork.height;
+        int width = a.artwork.width;
+        osd_bitmap overlay = a.artwork;
+        osd_bitmap orig = a.orig_artwork;
+
+        if (overlay.depth == 8) {
+            for (j = 0; j < height; j++) {
+                for (i = 0; i < width; i++) {
+                    overlay.line[j].write(i, Machine.pens[orig.line[j].read(i) + offset]);
+                }
+            }
+        } else {
+            /*TODO*///		for ( j=0; j<height; j++)
 /*TODO*///			for (i=0; i<width; i++)
 /*TODO*///				((unsigned short *)overlay->line[j])[i] = Machine->pens[((unsigned short *)orig->line[j])[i]+offset];
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* Calculate brightness of all colors */
-/*TODO*///
-/*TODO*///	for (i = 0; i < Machine->drv->total_colors; i++)
-/*TODO*///	{
-/*TODO*///		osd_get_pen (Machine->pens[i], &r, &g, &b);
-/*TODO*///		a->brightness[Machine->pens[i]]=(222*r+707*g+71*b)/1000;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* Erase vector bitmap same way as in vector.c */
-/*TODO*///	if (a->vector_bitmap)
-/*TODO*///		fillbitmap(a->vector_bitmap,Machine->pens[0],0);
+        }
+
+        /* Calculate brightness of all colors */
+        for (i = 0; i < Machine.drv.total_colors; i++) {
+            osd_get_pen(Machine.pens[i], r, g, b);
+            a.brightness[Machine.pens[i]] = (char) ((222 * r[0] + 707 * g[0] + 71 * b[0]) / 1000);
+        }
+
+        /* Erase vector bitmap same way as in vector.c */
+        if (a.vector_bitmap != null) {
+            fillbitmap(a.vector_bitmap, Machine.pens[0], null);
+        }
     }
 
-    /*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  allocate_artwork_mem
-/*TODO*///
-/*TODO*///  Allocates memory for all the bitmaps.
-/*TODO*/// *********************************************************************/
-/*TODO*///static struct artwork *allocate_artwork_mem (int width, int height)
-/*TODO*///{
-/*TODO*///	struct artwork *a;
-/*TODO*///	int temp;
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		temp = height;
-/*TODO*///		height = width;
-/*TODO*///		width = temp;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	a = (struct artwork *)malloc(sizeof(struct artwork));
-/*TODO*///	if (a == 0)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for artwork!\n");
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	a->transparency = NULL;
-/*TODO*///	a->orig_palette = NULL;
-/*TODO*///	a->pTable = NULL;
-/*TODO*///	a->brightness = NULL;
-/*TODO*///	a->vector_bitmap = NULL;
-/*TODO*///
-/*TODO*///	if ((a->orig_artwork = osd_create_bitmap(width, height)) == 0)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for artwork!\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///	fillbitmap(a->orig_artwork,0,0);
-/*TODO*///
-/*TODO*///	/* Create a second bitmap for public use */
-/*TODO*///	if ((a->artwork = osd_create_bitmap(width,height)) == 0)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for artwork!\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if ((a->pTable = (unsigned char*)malloc(256*256))==0)
-/*TODO*///	{
-/*TODO*///		if (errorlog)
-/*TODO*///			fprintf(errorlog,"Not enough memory.\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if ((a->brightness = (unsigned char*)malloc(256*256))==0)
-/*TODO*///	{
-/*TODO*///		if (errorlog)
-/*TODO*///			fprintf(errorlog,"Not enough memory.\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///	memset (a->brightness, 0, 256*256);
-/*TODO*///
-/*TODO*///	/* Create bitmap for the vector screen */
-/*TODO*///	if (Machine->drv->video_attributes & VIDEO_TYPE_VECTOR)
-/*TODO*///	{
-/*TODO*///		if ((a->vector_bitmap = osd_create_bitmap(width,height)) == 0)
-/*TODO*///		{
-/*TODO*///			if (errorlog) fprintf(errorlog,"Not enough memory for artwork!\n");
-/*TODO*///			artwork_free(a);
-/*TODO*///			return NULL;
-/*TODO*///		}
-/*TODO*///		fillbitmap(a->vector_bitmap,0,0);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return a;
-/*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
+    /**
+     * *******************************************************************
+     * allocate_artwork_mem
+     *
+     * Allocates memory for all the bitmaps.
+     * *******************************************************************
+     */
+    static struct_artwork allocate_artwork_mem(int width, int height) {
+        struct_artwork a;
+        int temp;
+
+        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+            temp = height;
+            height = width;
+            width = temp;
+        }
+
+        a = new struct_artwork();
+
+        a.transparency = null;
+        a.orig_palette = null;
+        a.pTable = null;
+        a.brightness = null;
+        a.vector_bitmap = null;
+
+        if ((a.orig_artwork = osd_create_bitmap(width, height)) == null) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Not enough memory for artwork!\n");
+            }
+            artwork_free(a);
+            return null;
+        }
+        fillbitmap(a.orig_artwork, 0, null);
+
+        /* Create a second bitmap for public use */
+        if ((a.artwork = osd_create_bitmap(width, height)) == null) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Not enough memory for artwork!\n");
+            }
+            artwork_free(a);
+            return null;
+        }
+
+        a.pTable = new char[256 * 256];
+        a.brightness = new char[256 * 256];
+
+        memset(a.brightness, 0, 256 * 256);
+
+        /* Create bitmap for the vector screen */
+        if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR) != 0) {
+            if ((a.vector_bitmap = osd_create_bitmap(width, height)) == null) {
+                if (errorlog != null) {
+                    fprintf(errorlog, "Not enough memory for artwork!\n");
+                }
+                artwork_free(a);
+                return null;
+            }
+            fillbitmap(a.vector_bitmap, 0, null);
+        }
+
+        return a;
+    }
+
+    /*TODO*////*********************************************************************
 /*TODO*///
 /*TODO*///  Reads a PNG for a artwork struct and checks if it has the right
 /*TODO*///  format.
@@ -1215,62 +1213,59 @@ public class artwork {
 /*TODO*///{
 /*TODO*///	return artwork_load_size (filename, start_pen, max_pens, Machine->scrbitmap->width, Machine->scrbitmap->height);
 /*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///  create_circle
-/*TODO*///
-/*TODO*///  Creates a circle with radius r in the color of pen. A new bitmap
-/*TODO*///  is allocated for the circle. The background is set to pen 255.
-/*TODO*///
-/*TODO*///*********************************************************************/
-/*TODO*///static struct osd_bitmap *create_circle (int r, int pen)
-/*TODO*///{
-/*TODO*///	struct osd_bitmap *circle;
-/*TODO*///
-/*TODO*///	int x = 0, twox = 0;
-/*TODO*///	int y = r;
-/*TODO*///	int twoy = r+r;
-/*TODO*///	int p = 1 - r;
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	if ((circle = osd_create_bitmap(twoy, twoy)) == 0)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for artwork!\n");
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* background */
-/*TODO*///	fillbitmap (circle, 255, 0);
-/*TODO*///
-/*TODO*///	while (x < y)
-/*TODO*///	{
-/*TODO*///		x++;
-/*TODO*///		twox +=2;
-/*TODO*///		if (p < 0)
-/*TODO*///			p += twox + 1;
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			y--;
-/*TODO*///			twoy -= 2;
-/*TODO*///			p += twox - twoy + 1;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		for (i = 0; i < twox; i++)
-/*TODO*///		{
-/*TODO*///			plot_pixel(circle, r-x+i, r-y  , pen);
-/*TODO*///			plot_pixel(circle, r-x+i, r+y-1, pen);
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		for (i = 0; i < twoy; i++)
-/*TODO*///		{
-/*TODO*///			plot_pixel(circle, r-y+i, r-x  , pen);
-/*TODO*///			plot_pixel(circle, r-y+i, r+x-1, pen);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	return circle;
-/*TODO*///}
-/*TODO*///
-/*TODO*////*********************************************************************
+    /**
+     * *******************************************************************
+     * create_circle
+     *
+     * Creates a circle with radius r in the color of pen. A new bitmap is
+     * allocated for the circle. The background is set to pen 255.
+     *
+     ********************************************************************
+     */
+    static osd_bitmap create_circle(int r, int pen) {
+        osd_bitmap circle;
+
+        int x = 0, twox = 0;
+        int y = r;
+        int twoy = r + r;
+        int p = 1 - r;
+        int i;
+
+        if ((circle = osd_create_bitmap(twoy, twoy)) == null) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Not enough memory for artwork!\n");
+            }
+            return null;
+        }
+
+        /* background */
+        fillbitmap(circle, 255, null);
+
+        while (x < y) {
+            x++;
+            twox += 2;
+            if (p < 0) {
+                p += twox + 1;
+            } else {
+                y--;
+                twoy -= 2;
+                p += twox - twoy + 1;
+            }
+
+            for (i = 0; i < twox; i++) {
+                plot_pixel.handler(circle, r - x + i, r - y, pen);
+                plot_pixel.handler(circle, r - x + i, r + y - 1, pen);
+            }
+
+            for (i = 0; i < twoy; i++) {
+                plot_pixel.handler(circle, r - y + i, r - x, pen);
+                plot_pixel.handler(circle, r - y + i, r + x - 1, pen);
+            }
+        }
+        return circle;
+    }
+
+    /*TODO*////*********************************************************************
 /*TODO*///  artwork_elements scale
 /*TODO*///
 /*TODO*///  scales an array of artwork elements to width and height. The first
@@ -1319,90 +1314,78 @@ public class artwork {
      * *******************************************************************
      */
     public static struct_artwork artwork_create(artwork_element[] ae, int start_pen, int max_pens) {
-        throw new UnsupportedOperationException("Unsupported");
-        /*TODO*///	struct artwork *a;
-/*TODO*///	struct osd_bitmap *circle;
-/*TODO*///	int pen;
-/*TODO*///
-/*TODO*///	if ((a = allocate_artwork_mem(Machine->scrbitmap->width, Machine->scrbitmap->height))==NULL)
-/*TODO*///		return NULL;
-/*TODO*///
-/*TODO*///	a->start_pen = start_pen;
-/*TODO*///
-/*TODO*///	if ((a->orig_palette = (unsigned char *)malloc(256*3)) == NULL)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for overlay!\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if ((a->transparency = (unsigned char *)malloc(256)) == NULL)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Not enough memory for overlay!\n");
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	a->num_pens_used = 0;
-/*TODO*///	a->num_pens_trans = 0;
-/*TODO*///
-/*TODO*///	while (ae->box.min_x >= 0)
-/*TODO*///	{
-/*TODO*///		/* look if the color is already in the palette */
-/*TODO*///		pen =0;
-/*TODO*///		while ((pen < a->num_pens_used) &&
-/*TODO*///		       ((ae->red != a->orig_palette[3*pen]) ||
-/*TODO*///				(ae->green != a->orig_palette[3*pen+1]) ||
-/*TODO*///				(ae->blue != a->orig_palette[3*pen+2]) ||
-/*TODO*///				((ae->alpha < 255) && (ae->alpha != a->transparency[pen]))))
-/*TODO*///			pen++;
-/*TODO*///
-/*TODO*///		if (pen == a->num_pens_used)
-/*TODO*///		{
-/*TODO*///			a->orig_palette[3*pen]=ae->red;
-/*TODO*///			a->orig_palette[3*pen+1]=ae->green;
-/*TODO*///			a->orig_palette[3*pen+2]=ae->blue;
-/*TODO*///			a->num_pens_used++;
-/*TODO*///			if (ae->alpha < 255)
-/*TODO*///			{
-/*TODO*///				a->transparency[pen]=ae->alpha;
-/*TODO*///				a->num_pens_trans++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if (ae->box.max_y == -1) /* circle */
-/*TODO*///		{
-/*TODO*///			int r = ae->box.max_x;
-/*TODO*///
-/*TODO*///			if ((circle = create_circle (r, pen)) != NULL)
-/*TODO*///			{
-/*TODO*///				copybitmap(a->orig_artwork,circle,0, 0,
-/*TODO*///						   ae->box.min_x - r,
-/*TODO*///						   ae->box.min_y - r,
-/*TODO*///						   0,TRANSPARENCY_PEN,255);
-/*TODO*///				osd_free_bitmap(circle);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///			fillbitmap (a->orig_artwork, pen, &ae->box);
-/*TODO*///		ae++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* Make sure we don't have too many colors */
-/*TODO*///	if (a->num_pens_used > max_pens)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"Too many colors in overlay.\n");
-/*TODO*///		if (errorlog) fprintf(errorlog,"Colors found: %d  Max Allowed: %d\n",
-/*TODO*///				      a->num_pens_used,max_pens);
-/*TODO*///		artwork_free(a);
-/*TODO*///		return NULL;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* If the game uses dynamic colors, we assume that it's safe
-/*TODO*///	   to init the palette and remap the colors now */
-/*TODO*///	if (Machine->drv->video_attributes & VIDEO_MODIFIES_PALETTE)
-/*TODO*///		backdrop_set_palette(a,a->orig_palette);
-/*TODO*///
-/*TODO*///	return a;
+        struct_artwork a;
+        osd_bitmap circle;
+        int pen;
+
+        if ((a = allocate_artwork_mem(Machine.scrbitmap.width, Machine.scrbitmap.height)) == null) {
+            return null;
+        }
+
+        a.start_pen = start_pen;
+
+        a.orig_palette = new char[256 * 3];
+        a.transparency = new char[256];
+        a.num_pens_used = 0;
+        a.num_pens_trans = 0;
+        int aei = 0;
+        while (aei < ae.length && ae[aei].box.min_x >= 0) {
+            /* look if the color is already in the palette */
+            pen = 0;
+            while ((pen < a.num_pens_used)
+                    && ((ae[aei].red != a.orig_palette[3 * pen])
+                    || (ae[aei].green != a.orig_palette[3 * pen + 1])
+                    || (ae[aei].blue != a.orig_palette[3 * pen + 2])
+                    || ((ae[aei].alpha < 255) && (ae[aei].alpha != a.transparency[pen])))) {
+                pen++;
+            }
+
+            if (pen == a.num_pens_used) {
+                a.orig_palette[3 * pen] = ae[aei].red;
+                a.orig_palette[3 * pen + 1] = ae[aei].green;
+                a.orig_palette[3 * pen + 2] = ae[aei].blue;
+                a.num_pens_used++;
+                if (ae[aei].alpha < 255) {
+                    a.transparency[pen] = ae[aei].alpha;
+                    a.num_pens_trans++;
+                }
+            }
+
+            if (ae[aei].box.max_y == -1) /* circle */ {
+                int r = ae[aei].box.max_x;
+
+                if ((circle = create_circle(r, pen)) != null) {
+                    copybitmap(a.orig_artwork, circle, 0, 0,
+                            ae[aei].box.min_x - r,
+                            ae[aei].box.min_y - r,
+                            null, TRANSPARENCY_PEN, 255);
+                    osd_free_bitmap(circle);
+                }
+            } else {
+                fillbitmap(a.orig_artwork, pen, ae[aei].box);
+            }
+            aei++;
+        }
+
+        /* Make sure we don't have too many colors */
+        if (a.num_pens_used > max_pens) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Too many colors in overlay.\n");
+            }
+            if (errorlog != null) {
+                fprintf(errorlog, "Colors found: %d  Max Allowed: %d\n",
+                        a.num_pens_used, max_pens);
+            }
+            artwork_free(a);
+            return null;
+        }
+
+        /* If the game uses dynamic colors, we assume that it's safe
+	   to init the palette and remap the colors now */
+        if ((Machine.drv.video_attributes & VIDEO_MODIFIES_PALETTE) != 0) {
+            backdrop_set_palette(a, a.orig_palette);
+        }
+
+        return a;
     }
 }

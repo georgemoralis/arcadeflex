@@ -9,11 +9,9 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
-import static gr.codebb.arcadeflex.v037b7.mame.artworkC.artwork_remap;
 import static gr.codebb.arcadeflex.v036.mame.usrintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
@@ -1078,10 +1076,6 @@ public class palette {
                     ret = palette_recalc_16_palettized();
                     break;
             }
-        }
-
-        if (ret != null) {
-            artwork_remap();
         }
 
         return ret;
