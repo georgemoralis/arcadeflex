@@ -3,8 +3,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + manual fixes 
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw._1942.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -15,7 +18,6 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw._1942.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
@@ -36,10 +38,12 @@ public class _1942 {
     public static InterruptPtr c1942_interrupt = new InterruptPtr() {
         public int handler() {
             if (cpu_getiloops() != 0) {
-                return 0x00cf;	/* RST 08h */
+                return 0x00cf;
+                /* RST 08h */
 
             } else {
-                return 0x00d7;	/* RST 10h - vblank */
+                return 0x00d7;
+                /* RST 10h - vblank */
 
             }
         }
@@ -92,7 +96,8 @@ public class _1942 {
 
     static InputPortPtr input_ports_1942 = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -106,7 +111,8 @@ public class _1942 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -118,7 +124,8 @@ public class _1942 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -130,7 +137,8 @@ public class _1942 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x01, DEF_STR("4C_1C"));
@@ -155,7 +163,8 @@ public class _1942 {
             PORT_DIPSETTING(0xc0, "3");
             PORT_DIPSETTING(0x00, "5");
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x01, DEF_STR("4C_1C"));
@@ -266,7 +275,7 @@ public class _1942 {
                 new MachineSound(
                         SOUND_AY8910,
                         ay8910_interface
-                ),}
+                )}
     );
 
     /**

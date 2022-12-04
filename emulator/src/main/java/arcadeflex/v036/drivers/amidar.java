@@ -1,10 +1,14 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.scramble.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.amidar.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -17,8 +21,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.vidhrdw.amidar.*;
-import static arcadeflex.v036.sndhrdw.scramble.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
@@ -98,7 +100,8 @@ public class amidar {
 
     static InputPortPtr input_ports_amidar = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -110,7 +113,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -125,7 +129,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x02, 0x00, DEF_STR("Demo_Sounds"));
@@ -146,7 +151,8 @@ public class amidar {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x04, DEF_STR("4C_1C"));
@@ -188,7 +194,8 @@ public class amidar {
 
     static InputPortPtr input_ports_amidaro = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -200,7 +207,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "1");
@@ -215,7 +223,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x02, 0x00, "Level Progression");
@@ -236,7 +245,8 @@ public class amidar {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x04, DEF_STR("4C_1C"));
@@ -279,7 +289,8 @@ public class amidar {
     /* absolutely identical to amidar, the only difference is the BONUS dip switch */
     static InputPortPtr input_ports_amidarjp = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -291,7 +302,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -306,7 +318,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x02, 0x00, DEF_STR("Demo_Sounds"));
@@ -327,7 +340,8 @@ public class amidar {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x04, DEF_STR("4C_1C"));
@@ -368,10 +382,11 @@ public class amidar {
     };
 
     /* similar to Amidar, dip switches are different and port 3, which in Amidar */
-    /* selects coins per credit, is not used. */
+ /* selects coins per credit, is not used. */
     static InputPortPtr input_ports_turtles = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -383,7 +398,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "2");
@@ -398,7 +414,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x00, DEF_STR("Coinage"));
@@ -424,7 +441,8 @@ public class amidar {
     /* same as Turtles, but dip switches are different. */
     static InputPortPtr input_ports_turpin = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -436,7 +454,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "2");
@@ -451,7 +470,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x00, DEF_STR("Coinage"));
@@ -477,7 +497,8 @@ public class amidar {
     /* similar to Turtles, lives are different */
     static InputPortPtr input_ports_600 = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably space for button 2 */
@@ -489,7 +510,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -504,7 +526,8 @@ public class amidar {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x00, DEF_STR("Coinage"));
@@ -676,7 +699,8 @@ public class amidar {
 
             ROM_REGION(0x1000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("amidarus.5f", 0x0000, 0x0800, 0x2cfe5ede);
-            ROM_LOAD("113.5h", 0x0800, 0x0800, 0xbcdce168); /* The letter 'S' is slightly different */
+            ROM_LOAD("113.5h", 0x0800, 0x0800, 0xbcdce168);
+            /* The letter 'S' is slightly different */
 
             ROM_REGION(0x0020, REGION_PROMS);
             ROM_LOAD("amidar.clr", 0x0000, 0x0020, 0xf940dcc3);
