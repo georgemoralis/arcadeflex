@@ -514,6 +514,16 @@ public class mixer {
      * mixer_play_sample
     **************************************************************************
      */
+    public static void mixer_play_sample(int ch, BytePtr data, int len, int freq, int loop) {
+        if(loop==1)
+        {
+            mixer_play_sample(ch, data, len, freq, true);
+        }
+        else
+        {
+            mixer_play_sample(ch, data, len, freq, false);
+        }
+    }
     public static void mixer_play_sample(int ch, BytePtr data, int len, int freq, boolean loop) {
     	//struct mixer_channel_data *channel = &mixer_channel[ch];
 

@@ -277,6 +277,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.toypop.*;
 import static arcadeflex.v036.drivers.circus.*;
 import static arcadeflex.v036.drivers.lazercmd.*;
+import static arcadeflex.v036.drivers.meadows.*;
 
 public class driver {
 
@@ -1454,8 +1455,8 @@ public class driver {
                 driver_spcewars,
                 /* Meadows S2650 games */
                 driver_lazercmd,/* [1976?] */
-                /*TODO*/ //	DRIVER( deadeye )	/* [1978?] */
-                /*TODO*/ //	DRIVER( gypsyjug )	/* [1978?] */
+                driver_deadeye,/* [1978?] */
+                driver_gypsyjug,/* [1978?] */
                 driver_medlanes,/* [1977?] */
                 /* Midway "Astrocade" games */
                 /*TODO*/ //	DRIVER( wow )		/* (c) 1980 */
