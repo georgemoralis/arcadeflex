@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.airbustr.*;
+import static arcadeflex.v036.vidhrdw.airbustr.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

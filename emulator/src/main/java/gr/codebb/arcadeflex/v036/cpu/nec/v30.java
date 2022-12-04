@@ -100,15 +100,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     /*TODO*///    UINT8  b[16];   /* or as 8 bit registers */
     /*TODO*///} necbasicregs;
     /*TODO*///
-    @Override
-    public int[] get_cycle_table(int which) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void set_cycle_table(int which, int[] new_table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public static class nec_Regs {
 
@@ -7321,14 +7313,5 @@ public class v30 extends cpuintrfH.cpu_interface {
             }
         throw new UnsupportedOperationException("unsupported v30 cpu_info");
         /*TODO*///    return buffer[which];
-    }
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

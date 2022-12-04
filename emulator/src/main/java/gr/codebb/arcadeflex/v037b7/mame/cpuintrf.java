@@ -48,6 +48,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8080;
 import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085;
+import arcadeflex.v036.cpu.s2650.s2650;
 
 public class cpuintrf {
 
@@ -340,7 +341,7 @@ public class cpuintrf {
                 new Dummy_cpu(),/*TODO*///	CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
                 new Dummy_cpu(),/*TODO*///	CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24bew, 0,24,BE,2,10,24BEW),
                 new Dummy_cpu(),/*TODO*///	CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
-                new Dummy_cpu(),/*TODO*///	CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
+                new s2650(),/*TODO*///	CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
                 new Dummy_cpu(),/*TODO*///	CPU4(F8,	   f8,		 1,  0,1.00,F8_INT_NONE,	   F8_INT_INTR,    -1,			   16,	  0,16,LE,1, 3,16	),
                 new Dummy_cpu(),/*TODO*///	CPU2(TMS34010, tms34010, 2,  0,1.00,TMS34010_INT_NONE, TMS34010_INT1,  -1,			   29,	  3,29,LE,2,10,29	),
                 new Dummy_cpu(),/*TODO*///	CPU0(TMS9900,  tms9900,  1,  0,1.00,TMS9900_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),

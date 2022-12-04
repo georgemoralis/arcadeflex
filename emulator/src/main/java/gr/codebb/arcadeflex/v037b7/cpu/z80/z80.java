@@ -1862,31 +1862,6 @@ public class z80 extends cpu_interface {
 
     /**
      * **************************************************************************
-     * Get a pointer to a cycle count table
-     * **************************************************************************
-     */
-    @Override
-    public int[] get_cycle_table(int which) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-/*TODO*///	if (which >= 0 && which <= Z80_TABLE_xycb)
-/*TODO*///		return cc[which];
-/*TODO*///	return NULL;
-    }
-
-    /**
-     * **************************************************************************
-     * Set a new cycle count table
-     * **************************************************************************
-     */
-    @Override
-    public void set_cycle_table(int which, int[] new_table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-/*TODO*///	if (which >= 0 && which <= Z80_TABLE_ex)
-/*TODO*///		cc[which] = new_table;
-    }
-
-    /**
-     * **************************************************************************
      * Return program counter
      * **************************************************************************
      */
@@ -4288,14 +4263,5 @@ public class z80 extends cpu_interface {
     @Override
     public void internal_interrupt(int type) {
         //doesn't exist in z80 cpu
-    }
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

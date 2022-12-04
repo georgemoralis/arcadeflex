@@ -20,7 +20,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.aliens.*;
+import static arcadeflex.v036.vidhrdw.aliens.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;

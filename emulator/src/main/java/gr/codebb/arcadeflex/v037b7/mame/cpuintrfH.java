@@ -5,7 +5,6 @@ package gr.codebb.arcadeflex.v037b7.mame;
 
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_reg;
 
-
 public class cpuintrfH {
 
     /* The old system is obsolete and no longer supported by the core */
@@ -79,10 +78,6 @@ public class cpuintrfH {
 
         public abstract void set_context(Object reg);
 
-        public abstract int[] get_cycle_table(int which);
-
-        public abstract void set_cycle_table(int which, int[] new_table);
-
         public abstract int get_pc();
 
         public abstract void set_pc(int val);
@@ -118,12 +113,6 @@ public class cpuintrfH {
         public abstract int memory_read(int offset);
 
         public abstract void memory_write(int offset, int data);
-
-        public abstract int internal_read(int offset);
-
-        public abstract void internal_write(int offset, int data);
-
-        public /*unsigned*/ int pgm_memory_base;
 
         public abstract void set_op_base(int pc);
 

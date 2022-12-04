@@ -1,11 +1,9 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
+
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -30,30 +28,12 @@ public class amidar {
             2 * 8, 30 * 8 - 1
     );
 
-    /**
-     * *************************************************************************
-     *
-     * Convert the color PROMs into a more useable format.
-     *
-     * Amidar has one 32 bytes palette PROM, connected to the RGB output this
-     * way:
-     *
-     * bit 7 -- 220 ohm resistor -- BLUE -- 470 ohm resistor -- BLUE -- 220 ohm
-     * resistor -- GREEN -- 470 ohm resistor -- GREEN -- 1 kohm resistor --
-     * GREEN -- 220 ohm resistor -- RED -- 470 ohm resistor -- RED bit 0 -- 1
-     * kohm resistor -- RED
-     *
-     **************************************************************************
-     */
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr amidar_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2;
@@ -62,16 +42,16 @@ public class amidar {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = (color_prom.read() >> 6) & 0x01;
                 bit1 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x4f * bit0 + 0xa8 * bit1);
+                palette[p_inc++] = (char) (0x4f * bit0 + 0xa8 * bit1);
 
                 color_prom.inc();
             }
@@ -81,7 +61,8 @@ public class amidar {
                 if ((i & 3) != 0) {
                     colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) i;
                 } else {
-                    colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) 0;	/* 00 is always black, regardless of the contents of the PROM */
+                    colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) 0;
+                    /* 00 is always black, regardless of the contents of the PROM */
                 }
             }
         }
@@ -133,7 +114,7 @@ public class amidar {
             int offs;
 
             /* for every character in the Video RAM, check if it has been modified */
-            /* since last time and update it accordingly. */
+ /* since last time and update it accordingly. */
             for (offs = videoram_size[0] - 1; offs >= 0; offs--) {
                 if (dirtybuffer[offs] != 0) {
                     int sx, sy;
@@ -163,18 +144,20 @@ public class amidar {
             copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* Draw the sprites. Note that it is important to draw them exactly in this */
-            /* order, to have the correct priorities. */
+ /* order, to have the correct priorities. */
             for (offs = spriteram_size[0] - 4; offs >= 0; offs -= 4) {
                 int flipx, flipy, sx, sy;
 
-                sx = (spriteram.read(offs + 3) + 1) & 0xff;	/* ??? */
+                sx = (spriteram.read(offs + 3) + 1) & 0xff;
+                /* ??? */
 
                 sy = 240 - spriteram.read(offs);
                 flipx = spriteram.read(offs + 1) & 0x40;
                 flipy = spriteram.read(offs + 1) & 0x80;
 
                 if (flipscreen[0] != 0) {
-                    sx = 241 - sx;	/* note: 241, not 240 */
+                    sx = 241 - sx;
+                    /* note: 241, not 240 */
 
                     flipx = NOT(flipx);
                 }
@@ -184,10 +167,10 @@ public class amidar {
                 }
 
                 /* Sprites #0, #1 and #2 need to be offset one pixel to be correctly */
-                /* centered on the ladders in Turtles (we move them down, but since this */
-                /* is a rotated game, we actually move them left). */
-                /* Note that the adjustement must be done AFTER handling flipscreen, thus */
-                /* proving that this is a hardware related "feature" */
+ /* centered on the ladders in Turtles (we move them down, but since this */
+ /* is a rotated game, we actually move them left). */
+ /* Note that the adjustement must be done AFTER handling flipscreen, thus */
+ /* proving that this is a hardware related "feature" */
                 if (offs <= 2 * 4) {
                     sy++;
                 }

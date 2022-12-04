@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw._88games.*;
+import static arcadeflex.v036.vidhrdw._88games.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

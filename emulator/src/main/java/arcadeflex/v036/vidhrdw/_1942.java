@@ -2,10 +2,8 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + Manual fixes
  *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
@@ -34,9 +32,6 @@ public class _1942 {
     public static VhConvertColorPromPtr c1942_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2, bit3;
@@ -46,19 +41,19 @@ public class _1942 {
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* green component */
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* blue component */
                 bit0 = (color_prom.read(2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
             }
@@ -66,7 +61,7 @@ public class _1942 {
             color_prom.inc(2 * Machine.drv.total_colors);
             /* color_prom now points to the beginning of the lookup table */
 
-            /* characters use colors 128-143 */
+ /* characters use colors 128-143 */
             for (i = 0; i < TOTAL_COLORS(0); i++) {
                 colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) ((color_prom.readinc()) + 128);
             }
@@ -107,7 +102,7 @@ public class _1942 {
             memset(dirtybuffer2, 1, c1942_backgroundram_size[0]);
 
             /* the background area is twice as wide as the screen (actually twice as tall, */
-            /* because this is a vertical game) */
+ /* because this is a vertical game) */
             if ((tmpbitmap2 = osd_create_bitmap(2 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 dirtybuffer2 = null;
                 generic_vh_stop.handler();

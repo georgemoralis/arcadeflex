@@ -41,17 +41,6 @@ public class m6809 extends cpu_interface
     
     
     }
-
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /* 6809 Registers */
     public static class m6809_Regs
     {
@@ -562,16 +551,6 @@ public class m6809 extends cpu_interface
        CHECK_IRQ_LINES();
     }
 
-    @Override
-    public int[] get_cycle_table(int which) {
-        return null;
-    }
-
-    @Override
-    public void set_cycle_table(int which, int[] new_table) {
-
-    }
-    
     /*TODO*///void m6809_set_context(void *src)
     /*TODO*///{
     /*TODO*///	if( src )

@@ -1,11 +1,9 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
+
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -21,27 +19,9 @@ public class bagman {
     public static UBytePtr bagman_video_enable = new UBytePtr();
     public static int[] flipscreen = new int[2];
 
-    /**
-     * *************************************************************************
-     *
-     * Convert the color PROMs into a more useable format.
-     *
-     * Bagman has two 32 bytes palette PROMs, connected to the RGB output this
-     * way:
-     *
-     * bit 7 -- 220 ohm resistor -- BLUE -- 470 ohm resistor -- BLUE -- 220 ohm
-     * resistor -- GREEN -- 470 ohm resistor -- GREEN -- 1 kohm resistor --
-     * GREEN -- 220 ohm resistor -- RED -- 470 ohm resistor -- RED bit 0 -- 1
-     * kohm resistor -- RED
-     *
-     **************************************************************************
-     */
     public static VhConvertColorPromPtr bagman_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2;
@@ -50,17 +30,17 @@ public class bagman {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read() >> 6) & 0x01;
                 bit2 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
@@ -96,7 +76,7 @@ public class bagman {
             }
 
             /* for every character in the Video RAM, check if it has been modified */
-            /* since last time and update it accordingly. */
+ /* since last time and update it accordingly. */
             for (offs = videoram_size[0] - 1; offs >= 0; offs--) {
                 if (dirtybuffer[offs] != 0) {
                     int sx, sy;
@@ -140,7 +120,8 @@ public class bagman {
                 flipx = spriteram.read(offs) & 0x40;
                 flipy = spriteram.read(offs) & 0x80;
                 if (flipscreen[0] != 0) {
-                    sx = 240 - sx + 1;	/* compensate misplacement */
+                    sx = 240 - sx + 1;
+                    /* compensate misplacement */
 
                     flipx = NOT(flipx);
                 }

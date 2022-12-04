@@ -36,26 +36,6 @@ public class h6280 extends cpu_interface {
         icount = h6280_ICount;
     }
 
-    @Override
-    public int[] get_cycle_table(int which) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void set_cycle_table(int which, int[] new_table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int internal_read(int offset) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void internal_write(int offset, int data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     /*TODO*///static UINT8 reg_layout[] = {
 /*TODO*///	H6280_PC, H6280_S, H6280_P, H6280_A, H6280_X, H6280_Y, -1,
 /*TODO*///	H6280_IRQ_MASK, H6280_TIMER_STATE, H6280_NMI_STATE, H6280_IRQ1_STATE, H6280_IRQ2_STATE, H6280_IRQT_STATE,
