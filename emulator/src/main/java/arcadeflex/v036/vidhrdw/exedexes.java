@@ -1,23 +1,9 @@
-/**
- * *************************************************************************
- *
- * vidhrdw.c
- *
- * Functions to emulate the video hardware of the machine.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
@@ -43,32 +29,12 @@ public class exedexes {
         return (memory_region(REGION_GFX5).read(offs + 0x4000));
     }
 
-    /**
-     * *************************************************************************
-     *
-     * Convert the color PROMs into a more useable format.
-     *
-     * Exed Exes has three 256x4 palette PROMs (one per gun), three 256x4 lookup
-     * table PROMs (one for characters, one for sprites, one for background
-     * tiles) and one 256x4 sprite palette bank selector PROM.
-     *
-     * The palette PROMs are connected to the RGB output this way:
-     *
-     * bit 3 -- 220 ohm resistor -- RED/GREEN/BLUE -- 470 ohm resistor --
-     * RED/GREEN/BLUE -- 1 kohm resistor -- RED/GREEN/BLUE bit 0 -- 2.2kohm
-     * resistor -- RED/GREEN/BLUE
-     *
-     **************************************************************************
-     */
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
     public static VhConvertColorPromPtr exedexes_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2, bit3;
@@ -77,19 +43,19 @@ public class exedexes {
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* green component */
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* blue component */
                 bit0 = (color_prom.read(2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
 
@@ -98,7 +64,7 @@ public class exedexes {
             color_prom.inc(2 * Machine.drv.total_colors);
             /* color_prom now points to the beginning of the lookup table */
 
-            /* characters use colors 192-207 */
+ /* characters use colors 192-207 */
             for (i = 0; i < TOTAL_COLORS(0); i++) {
                 colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) ((color_prom.readinc()) + 192);
             }
@@ -135,8 +101,8 @@ public class exedexes {
             int offs, sx, sy;
 
             /* TODO: this is very slow, have to optimize it using a temporary bitmap */
-            /* draw the background graphics */
-            /* back layer */
+ /* draw the background graphics */
+ /* back layer */
             for (sy = 0; sy <= 8; sy++) {
                 for (sx = 0; sx < 8; sx++) {
                     int xo, yo, tile;

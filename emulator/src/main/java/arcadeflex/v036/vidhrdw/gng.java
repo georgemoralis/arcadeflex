@@ -1,11 +1,8 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -79,9 +76,11 @@ public class gng {
             if (fg_tilemap != null && bg_tilemap != null) {
                 fg_tilemap.transparent_pen = 3;
 
-                bg_tilemap.transmask[0] = 0xff; /* split type 0 is totally transparent in front half */
+                bg_tilemap.transmask[0] = 0xff;
+                /* split type 0 is totally transparent in front half */
 
-                bg_tilemap.transmask[1] = 0x01; /* split type 1 has pen 1 transparent in front half */
+                bg_tilemap.transmask[1] = 0x01;
+                /* split type 1 has pen 1 transparent in front half */
 
                 return 0;
             }

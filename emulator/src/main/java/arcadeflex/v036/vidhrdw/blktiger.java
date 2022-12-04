@@ -2,10 +2,9 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
+
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -13,7 +12,6 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
@@ -104,7 +102,7 @@ public class blktiger {
             offset += blktiger_scroll_bank;
 
             /* TODO: there's a bug lurking around. If I uncomment the following line, */
-            /* the intro screen doesn't work anymore (complete black instead of city landscape) */
+ /* the intro screen doesn't work anymore (complete black instead of city landscape) */
             //	if (scroll_ram[offset] != data)
             {
                 dirtybuffer2[offset] = 1;
@@ -145,7 +143,7 @@ public class blktiger {
             coin_counter_w.handler(1, data & 2);
 
             /* bit 5 resets the sound CPU - we ignore it */
-            /* bit 6 flips screen */
+ /* bit 6 flips screen */
             blktiger_video_control = (char) data;
 
             /* bit 7 enables characters? Just a guess */
@@ -156,7 +154,7 @@ public class blktiger {
     public static WriteHandlerPtr blktiger_video_enable_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* not sure which is which, but I think that bit 1 and 2 enable background and sprites */
-            /* bit 1 enables bg ? */
+ /* bit 1 enables bg ? */
             bgon = ~data & 0x02;
 
             /* bit 2 enables sprites ? */

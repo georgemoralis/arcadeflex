@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.galaga.*;
+import static arcadeflex.v036.vidhrdw.galaga.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 

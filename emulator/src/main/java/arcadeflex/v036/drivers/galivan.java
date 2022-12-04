@@ -4,6 +4,9 @@
  */
 package arcadeflex.v036.drivers;
 
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.galivan.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -15,7 +18,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.galivan.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
