@@ -1,9 +1,8 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -83,7 +82,8 @@ public class gng {
 
     static InputPortPtr input_ports_gng = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -94,7 +94,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -105,7 +106,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -116,7 +118,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -146,7 +149,8 @@ public class gng {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -176,7 +180,8 @@ public class gng {
     /* identical to gng, but the "unknown" dip switch is Invulnerability */
     static InputPortPtr input_ports_makaimur = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -187,7 +192,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -198,7 +204,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -209,7 +216,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -239,7 +247,8 @@ public class gng {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -268,7 +277,8 @@ public class gng {
 
     static InputPortPtr input_ports_diamond = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -279,7 +289,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
@@ -290,7 +301,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -301,7 +313,8 @@ public class gng {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	 /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "2");
@@ -325,7 +338,8 @@ public class gng {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, "Unknown DSW2 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -461,7 +475,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -508,7 +523,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -554,7 +570,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -600,7 +617,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -625,7 +643,8 @@ public class gng {
 
             ROM_LOAD("gg15.bin", 0x08000, 0x4000, 0xbc1fe02d);/* sprites 2 Plane 1-2 */
 
-            ROM_LOAD("gng16.l4", 0x0c000, 0x4000, 0x608d68d5);	/* sprites 0 Plane 3-4 */
+            ROM_LOAD("gng16.l4", 0x0c000, 0x4000, 0x608d68d5);
+            /* sprites 0 Plane 3-4 */
 
             ROM_LOAD("gg13.bin", 0x10000, 0x4000, 0xe80c3fca);/* sprites 1 Plane 3-4 */
 
@@ -646,7 +665,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -671,7 +691,8 @@ public class gng {
 
             ROM_LOAD("gg15.bin", 0x08000, 0x4000, 0xbc1fe02d);/* sprites 2 Plane 1-2 */
 
-            ROM_LOAD("gng16.l4", 0x0c000, 0x4000, 0x608d68d5);	/* sprites 0 Plane 3-4 */
+            ROM_LOAD("gng16.l4", 0x0c000, 0x4000, 0x608d68d5);
+            /* sprites 0 Plane 3-4 */
 
             ROM_LOAD("gg13.bin", 0x10000, 0x4000, 0xe80c3fca);/* sprites 1 Plane 3-4 */
 
@@ -692,7 +713,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("gg2.bin", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("gg1.bin", 0x00000, 0x4000, 0xecfccf07);/* characters */
@@ -740,7 +762,8 @@ public class gng {
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for the audio CPU */
 
-            ROM_LOAD("d2", 0x0000, 0x8000, 0x615f5b6f);  /* Audio CPU is a Z80 */
+            ROM_LOAD("d2", 0x0000, 0x8000, 0x615f5b6f);
+            /* Audio CPU is a Z80 */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("d1", 0x00000, 0x4000, 0x3a24e504);/* characters */
@@ -760,12 +783,12 @@ public class gng {
 
             ROM_REGION(0x18000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("d17", 0x00000, 0x4000, 0x8164b005);/* sprites 0 Plane 1-2 */
-            /* empty space for unused sprites 1 Plane 1-2 */
-            /* empty space for unused sprites 2 Plane 1-2 */
+ /* empty space for unused sprites 1 Plane 1-2 */
+ /* empty space for unused sprites 2 Plane 1-2 */
 
             ROM_LOAD("d14", 0x0c000, 0x4000, 0x6f132163);/* sprites 0 Plane 3-4 */
-            /* empty space for unused sprites 1 Plane 3-4 */
-            /* empty space for unused sprites 2 Plane 3-4 */
+ /* empty space for unused sprites 1 Plane 3-4 */
+ /* empty space for unused sprites 2 Plane 3-4 */
 
             ROM_END();
         }

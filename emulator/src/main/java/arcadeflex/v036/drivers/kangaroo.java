@@ -1,9 +1,8 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -26,16 +25,16 @@ public class kangaroo {
     public static InitMachinePtr kangaroo_init_machine = new InitMachinePtr() {
         public void handler() {
             /* I think there is a bug in the startup checks of the game. At the very */
-            /* beginning, during the RAM check, it goes one byte too far, and ends up */
-            /* trying to write, and re-read, location dfff. To the best of my knowledge, */
-            /* that is a ROM address, so the test fails and the code keeps jumping back */
-            /* at 0000. */
-            /* However, a NMI causes a successful reset. Maybe the hardware generates a */
-            /* NMI short after power on, therefore masking the bug? The NMI is generated */
-            /* by the MB8841 custom microcontroller, so this could be a way to disguise */
-            /* the copy protection. */
-            /* Anyway, what I do here is just immediately generate the NMI, so the game */
-            /* properly starts. */
+ /* beginning, during the RAM check, it goes one byte too far, and ends up */
+ /* trying to write, and re-read, location dfff. To the best of my knowledge, */
+ /* that is a ROM address, so the test fails and the code keeps jumping back */
+ /* at 0000. */
+ /* However, a NMI causes a successful reset. Maybe the hardware generates a */
+ /* NMI short after power on, therefore masking the bug? The NMI is generated */
+ /* by the MB8841 custom microcontroller, so this could be a way to disguise */
+ /* the copy protection. */
+ /* Anyway, what I do here is just immediately generate the NMI, so the game */
+ /* properly starts. */
             cpu_cause_interrupt(0, Z80_NMI_INT);
         }
     };
@@ -95,7 +94,8 @@ public class kangaroo {
 
     static InputPortPtr input_ports_fnkyfish = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_SERVICE1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START1);
@@ -106,7 +106,8 @@ public class kangaroo {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -117,7 +118,8 @@ public class kangaroo {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -128,7 +130,8 @@ public class kangaroo {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -160,7 +163,8 @@ public class kangaroo {
 
     static InputPortPtr input_ports_kangaroo = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_SERVICE1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START1);
@@ -177,7 +181,8 @@ public class kangaroo {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -188,7 +193,8 @@ public class kangaroo {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_SERVICE(0x80, IP_ACTIVE_HIGH);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -199,7 +205,8 @@ public class kangaroo {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -237,8 +244,8 @@ public class kangaroo {
     /*static struct AY8910interface ay8910_interface =
      {
      1,  /* 1 chip */
-    /*	10000000/8,     /* 1.25 MHz */
-    /*	{ 50 },
+ /*	10000000/8,     /* 1.25 MHz */
+ /*	{ 50 },
      { 0 },
      { 0 },
      { 0 },
@@ -343,7 +350,8 @@ public class kangaroo {
 
             ROM_LOAD("tvg_81.8", 0x0000, 0x1000, 0xfb449bfd);
 
-            ROM_REGION(0x0800, REGION_CPU3); /* 8k for the MB8841 custom microcontroller (currently not emulated) */
+            ROM_REGION(0x0800, REGION_CPU3);
+            /* 8k for the MB8841 custom microcontroller (currently not emulated) */
 
             ROM_LOAD("tvg_82.12", 0x0000, 0x0800, 0x57766f69);
             ROM_END();
@@ -371,7 +379,8 @@ public class kangaroo {
 
             ROM_LOAD("tvg_81.8", 0x0000, 0x1000, 0xfb449bfd);
 
-            ROM_REGION(0x0800, REGION_CPU3); /* 8k for the MB8841 custom microcontroller (currently not emulated) */
+            ROM_REGION(0x0800, REGION_CPU3);
+            /* 8k for the MB8841 custom microcontroller (currently not emulated) */
 
             ROM_LOAD("tvg_82.12", 0x0000, 0x0800, 0x57766f69);
             ROM_END();

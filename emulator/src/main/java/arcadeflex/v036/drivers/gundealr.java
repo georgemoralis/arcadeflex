@@ -2,7 +2,7 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -31,18 +31,23 @@ public class gundealr {
             if (cpu_getiloops() == 0) {
                 if (input_ports_hack != 0) {
                     UBytePtr RAM = memory_region(REGION_CPU1);
-                    RAM.write(0xe004, readinputport(4));	/* COIN */
+                    RAM.write(0xe004, readinputport(4));
+                    /* COIN */
 
-                    RAM.write(0xe005, readinputport(3));	/* IN1 */
+                    RAM.write(0xe005, readinputport(3));
+                    /* IN1 */
 
-                    RAM.write(0xe006, readinputport(2));	/* IN0 */
+                    RAM.write(0xe006, readinputport(2));
+                    /* IN0 */
 
                 }
-                return 0xd7;	/* RST 10h vblank */
+                return 0xd7;
+                /* RST 10h vblank */
 
             }
             if ((cpu_getiloops() & 1) == 1) {
-                return 0xcf;	/* RST 08h sound (hand tuned) */
+                return 0xcf;
+                /* RST 08h sound (hand tuned) */
 
             } else {
                 return ignore_interrupt.handler();
@@ -164,7 +169,8 @@ public class gundealr {
 
     static InputPortPtr input_ports_gundealr = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -190,7 +196,8 @@ public class gundealr {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("5C_1C"));
@@ -216,7 +223,8 @@ public class gundealr {
             PORT_DIPSETTING(0x80, "2");
             PORT_DIPSETTING(0xc0, "3");
 
-            PORT_START(); 	/* COIN */
+            PORT_START();
+            /* COIN */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -227,7 +235,8 @@ public class gundealr {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_PLAYER2);
@@ -239,7 +248,8 @@ public class gundealr {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_PLAYER1);
@@ -257,7 +267,8 @@ public class gundealr {
 
     static InputPortPtr input_ports_yamyam = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -282,7 +293,8 @@ public class gundealr {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("5C_1C"));
@@ -290,8 +302,8 @@ public class gundealr {
             PORT_DIPSETTING(0x05, DEF_STR("3C_1C"));
             PORT_DIPSETTING(0x04, DEF_STR("2C_1C"));
             /*	PORT_DIPSETTING(    0x03, DEF_STR( "1C_1C") ); */
-            /*	PORT_DIPSETTING(    0x02, DEF_STR( "1C_1C") ); */
-            /*	PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C") ); */
+ /*	PORT_DIPSETTING(    0x02, DEF_STR( "1C_1C") ); */
+ /*	PORT_DIPSETTING(    0x01, DEF_STR( "1C_1C") ); */
             PORT_DIPSETTING(0x00, DEF_STR("1C_1C"));
             PORT_DIPNAME(0x38, 0x00, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x38, DEF_STR("5C_1C"));
@@ -299,15 +311,16 @@ public class gundealr {
             PORT_DIPSETTING(0x28, DEF_STR("3C_1C"));
             PORT_DIPSETTING(0x20, DEF_STR("2C_1C"));
             /*	PORT_DIPSETTING(    0x18, DEF_STR( "1C_1C") ); */
-            /*	PORT_DIPSETTING(    0x10, DEF_STR( "1C_1C") ); */
-            /*	PORT_DIPSETTING(    0x08, DEF_STR( "1C_1C") ); */
+ /*	PORT_DIPSETTING(    0x10, DEF_STR( "1C_1C") ); */
+ /*	PORT_DIPSETTING(    0x08, DEF_STR( "1C_1C") ); */
             PORT_DIPSETTING(0x00, DEF_STR("1C_1C"));
             PORT_DIPNAME(0x40, 0x00, DEF_STR("Free_Play"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x40, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START(); 	/* COIN */
+            PORT_START();
+            /* COIN */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -319,7 +332,8 @@ public class gundealr {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_PLAYER2);
@@ -331,7 +345,8 @@ public class gundealr {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_PLAYER1);

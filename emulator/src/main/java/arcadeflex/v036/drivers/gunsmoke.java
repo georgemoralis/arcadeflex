@@ -1,18 +1,8 @@
-/**
- * *************************************************************************
- *
- * GUNSMOKE ========
- *
- * Driver provided by Paul Leaman
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.09
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -22,8 +12,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
@@ -105,7 +93,8 @@ public class gunsmoke {
 
     static InputPortPtr input_ports_gunsmoke = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -119,7 +108,8 @@ public class gunsmoke {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -130,7 +120,8 @@ public class gunsmoke {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -141,7 +132,8 @@ public class gunsmoke {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Bonus_Life"));
             PORT_DIPSETTING(0x03, "30k, 100k & every 100k");
@@ -164,7 +156,8 @@ public class gunsmoke {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
@@ -296,7 +289,8 @@ public class gunsmoke {
      */
     static RomLoadPtr rom_gunsmoke = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 2*64k for code */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 2*64k for code */
 
             ROM_LOAD("09n_gs03.bin", 0x00000, 0x8000, 0x40a06cef);/* Code 0000-7fff */
 
@@ -367,7 +361,8 @@ public class gunsmoke {
 
     static RomLoadPtr rom_gunsmrom = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 2*64k for code */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 2*64k for code */
 
             ROM_LOAD("9n_gs03.bin", 0x00000, 0x8000, 0x592f211b);/* Code 0000-7fff */
 
@@ -438,7 +433,8 @@ public class gunsmoke {
 
     static RomLoadPtr rom_gunsmokj = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 2*64k for code */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 2*64k for code */
 
             ROM_LOAD("gs03_9n.rom", 0x00000, 0x8000, 0xb56b5df6);/* Code 0000-7fff */
 
@@ -509,7 +505,8 @@ public class gunsmoke {
 
     static RomLoadPtr rom_gunsmoka = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 2*64k for code */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 2*64k for code */
 
             ROM_LOAD("gs03.9n", 0x00000, 0x8000, 0x51dc3f76);/* Code 0000-7fff */
 
