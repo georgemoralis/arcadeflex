@@ -7,6 +7,8 @@ package arcadeflex.v036.vidhrdw;
 //mame imports
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
@@ -29,12 +31,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_1_r;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_2_r;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_3_r;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.colorram;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.generic_bitmapped_vh_start;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.generic_bitmapped_vh_stop;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.tmpbitmap;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram_size;
 
 public class _8080bw {
 

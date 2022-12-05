@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.machine.twincobr.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.twincobr.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.crtc6845.*;

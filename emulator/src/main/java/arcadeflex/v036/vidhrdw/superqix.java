@@ -3,8 +3,12 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//common imports
+import static common.libc.cstring.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -13,7 +17,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.interrupt_enable_w;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.cpu_setbank;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

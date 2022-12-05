@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
+import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

@@ -7,13 +7,14 @@
  */
 package arcadeflex.v036.vidhrdw;
 
-import static arcadeflex.v036.mame.artwork.artwork_create;
-import static arcadeflex.v036.mame.artwork.artwork_free;
-import static arcadeflex.v036.mame.artwork.overlay_draw;
-import static arcadeflex.v036.mame.artwork.overlay_remap;
-import arcadeflex.v036.mame.artworkH.artwork_element;
-import arcadeflex.v036.mame.artworkH.struct_artwork;
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+//mame imports
+import static arcadeflex.v036.mame.artwork.*;
+import static arcadeflex.v036.mame.artworkH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
@@ -25,7 +26,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class meadows {
 

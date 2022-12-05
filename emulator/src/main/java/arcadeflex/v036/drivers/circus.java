@@ -6,9 +6,10 @@ package arcadeflex.v036.drivers;
 
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.circus.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
+import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -33,11 +34,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.MWA_ROM;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
 import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.generic_vh_start;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.generic_vh_stop;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram_size;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram_w;
 
 public class circus {
 
@@ -284,7 +280,7 @@ public class circus {
     /**
      * *************************************************************************
      * Machine drivers
-	**************************************************************************
+     * *************************************************************************
      */
     public static InitDriverPtr init_robotbwl = new InitDriverPtr() {
         public void handler() {

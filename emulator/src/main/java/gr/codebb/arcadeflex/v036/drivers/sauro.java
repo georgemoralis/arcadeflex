@@ -4,7 +4,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
 
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -20,7 +20,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.sauro.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class sauro

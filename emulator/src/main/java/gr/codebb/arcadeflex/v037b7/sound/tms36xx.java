@@ -4,7 +4,7 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

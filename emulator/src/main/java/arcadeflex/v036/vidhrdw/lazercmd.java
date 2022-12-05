@@ -7,9 +7,11 @@ package arcadeflex.v036.vidhrdw;
 //drivers import
 import static arcadeflex.v036.drivers.lazercmd.*;
 //vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
@@ -20,10 +22,6 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_2_r;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.dirtybuffer;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.tmpbitmap;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram_size;
 
 public class lazercmd {
 

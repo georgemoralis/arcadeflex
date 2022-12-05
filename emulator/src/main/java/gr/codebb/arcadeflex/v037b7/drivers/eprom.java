@@ -129,7 +129,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsaH.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
+import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 

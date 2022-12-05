@@ -5,7 +5,7 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import static common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.ASSERT_LINE;

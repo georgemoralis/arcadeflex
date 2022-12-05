@@ -16,8 +16,8 @@ import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.PALETTE_COLOR_VISIBLE;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
+import static common.libc.cstring.*;
+import static common.libc.expressions.NOT;
 public class K053247 {
 
     //K053247_callback interface

@@ -12,10 +12,10 @@ import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.Util.*;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
+import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 public class common {
     

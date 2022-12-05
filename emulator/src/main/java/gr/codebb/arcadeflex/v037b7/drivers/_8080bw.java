@@ -21,8 +21,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.machine._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw._8080bw.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static common.libc.cstring.memcpy;
 
 public class _8080bw {
 

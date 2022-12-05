@@ -9,9 +9,11 @@ import static arcadeflex.v036.cpu.s2650.s2650H.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.lazercmd.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGIONFLAG_DISPOSE;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
@@ -39,7 +41,6 @@ import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
 import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class lazercmd {
 

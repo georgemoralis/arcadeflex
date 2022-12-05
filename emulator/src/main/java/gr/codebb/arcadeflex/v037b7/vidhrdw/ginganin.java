@@ -73,7 +73,7 @@ import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.bitmap_alloc;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;

@@ -4,7 +4,7 @@
  */
 package gr.codebb.arcadeflex.v036.machine;
 
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;

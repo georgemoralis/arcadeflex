@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.cpu.nec;
 
-import static gr.codebb.arcadeflex.common.libc.expressions.BOOL;
-import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
+import static common.libc.expressions.BOOL;
+import static common.libc.expressions.NOT;
 import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;

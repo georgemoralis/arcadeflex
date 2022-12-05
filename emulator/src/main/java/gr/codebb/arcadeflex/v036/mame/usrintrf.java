@@ -4,7 +4,7 @@ package gr.codebb.arcadeflex.v036.mame;
 //mame imports
 import static arcadeflex.v036.mame.usrintrfH.*;
 //TODO
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;

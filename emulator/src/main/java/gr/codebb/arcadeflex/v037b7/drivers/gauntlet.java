@@ -126,7 +126,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -146,7 +146,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;

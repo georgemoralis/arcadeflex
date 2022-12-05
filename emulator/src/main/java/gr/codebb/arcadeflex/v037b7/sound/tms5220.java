@@ -5,8 +5,8 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.rand;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstdlib.rand;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5110r.*;

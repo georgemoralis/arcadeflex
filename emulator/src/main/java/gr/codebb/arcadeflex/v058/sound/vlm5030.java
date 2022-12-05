@@ -5,9 +5,9 @@
 package gr.codebb.arcadeflex.v058.sound;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import static gr.codebb.arcadeflex.common.libc.expressions.*;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.*;
+import static common.libc.cstring.*;
+import static common.libc.expressions.*;
+import static common.libc.cstdlib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.common.readsamples;

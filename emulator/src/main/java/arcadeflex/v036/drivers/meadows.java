@@ -8,9 +8,11 @@ package arcadeflex.v036.drivers;
 import static arcadeflex.v036.sndhrdw.meadows.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.meadows.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -48,7 +50,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
 import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class meadows {
 

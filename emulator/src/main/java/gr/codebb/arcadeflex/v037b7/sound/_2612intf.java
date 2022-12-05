@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2612intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fm.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
-import static gr.codebb.arcadeflex.common.libc.cstdio.sprintf;
+import static common.libc.cstdio.sprintf;
 
 public class _2612intf extends snd_interface
 {

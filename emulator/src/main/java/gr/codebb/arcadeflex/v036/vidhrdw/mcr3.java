@@ -13,8 +13,8 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.SubArrays.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
-import static gr.codebb.arcadeflex.common.libc.cstdio.*;
+import static common.libc.cstring.*;
+import static common.libc.cstdio.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -35,7 +35,7 @@ import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.spriteC.*;
 import static gr.codebb.arcadeflex.v036.mame.spriteH.*;
 import static gr.codebb.arcadeflex.v037b7.machine.mcr.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
         
 public class mcr3
 {

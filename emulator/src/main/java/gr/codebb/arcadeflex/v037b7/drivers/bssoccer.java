@@ -43,7 +43,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.bssoccer.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.*;
 import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class bssoccer
 {

@@ -14,13 +14,13 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.cstdlib.*;
+import static common.libc.cstdlib.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.galpanic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static common.libc.cstring.*;
 
 public class galpanic {
 

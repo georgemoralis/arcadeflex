@@ -1,7 +1,7 @@
 
 package gr.codebb.arcadeflex.v036.mame;
 
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.platform.input.*;
 import java.util.Arrays;

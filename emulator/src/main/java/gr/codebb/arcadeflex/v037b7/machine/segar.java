@@ -6,7 +6,7 @@ package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.videoram_w;
+import static arcadeflex.v036.vidhrdw.generic.videoram_w;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.segar.*;

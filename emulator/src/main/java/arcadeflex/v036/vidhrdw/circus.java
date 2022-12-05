@@ -7,8 +7,11 @@ package arcadeflex.v036.vidhrdw;
 //mame imports
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
@@ -22,7 +25,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class circus {
 

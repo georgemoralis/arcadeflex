@@ -88,7 +88,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.berzerk.berzerk_magicram_contr
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.berzerk.berzerk_magicram_w;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.berzerk.berzerk_vh_screenrefresh;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.berzerk.berzerk_videoram_w;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class berzerk {
 

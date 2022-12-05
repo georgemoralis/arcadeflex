@@ -4,7 +4,9 @@
  */
 package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;

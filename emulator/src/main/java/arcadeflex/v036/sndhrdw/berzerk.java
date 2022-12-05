@@ -3,8 +3,9 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//common imports
+import static common.libc.expressions.*;
 //TODO
-import static gr.codebb.arcadeflex.common.libc.expressions.*;
 import gr.codebb.arcadeflex.v036.mame.driverH.ShStartPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.ShUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;

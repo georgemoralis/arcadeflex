@@ -8,7 +8,7 @@ import static arcadeflex.v036.mame.artworkH.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.memset;
+import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ORIENTATION_SWAP_XY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_VECTOR;

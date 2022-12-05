@@ -70,9 +70,9 @@ import gr.codebb.arcadeflex.v037b7.sound._3812intfH.Y8950interface;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import gr.codebb.arcadeflex.v037b7.sound.ay8910H.AY8910interface;
 import static gr.codebb.arcadeflex.v037b7.sound.y8950intf.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.ginganin.*;
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class ginganin

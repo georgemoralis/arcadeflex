@@ -4,15 +4,18 @@
  */
 package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.libc.cstring.*;
+//common imports
+import static common.libc.cstring.*;
+import static common.libc.expressions.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 
 public class galaga {
 
@@ -74,7 +77,8 @@ public class galaga {
             /* sprites */
             for (i = 0; i < TOTAL_COLORS(1); i++) {
                 if (i % 4 == 0) {
-                    colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char) 0;	/* preserve transparency */
+                    colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char) 0;
+                    /* preserve transparency */
                 } else {
                     colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char) (15 - ((color_prom.read() & 0x0f)) + 0x10);
                 }
