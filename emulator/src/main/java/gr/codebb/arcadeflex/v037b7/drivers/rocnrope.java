@@ -18,7 +18,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.sndhrdw.timeplt.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.rocnrope.*;
+import static arcadeflex.v036.vidhrdw.rocnrope.*;
 import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
 
 public class rocnrope {

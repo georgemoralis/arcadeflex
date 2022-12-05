@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.taitosj.*;
+import static arcadeflex.v036.vidhrdw.taitosj.*;
 import static gr.codebb.arcadeflex.v036.machine.taitosj.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.*;

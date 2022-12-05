@@ -18,7 +18,7 @@ import static arcadeflex.v036.sndhrdw.scramble.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sndhrdw.frogger.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
+import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v036.machine.scramble.*;
 import static gr.codebb.arcadeflex.v036.drivers.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;

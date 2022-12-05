@@ -18,7 +18,7 @@ import static arcadeflex.v036.sndhrdw.scramble.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sndhrdw.frogger.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.galaxian.*;
+import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.expressions.NOT;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;

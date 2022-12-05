@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sndhrdw.timeplt.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.timeplt.*;
+import static arcadeflex.v036.vidhrdw.timeplt.*;
 
 public class timeplt {
 

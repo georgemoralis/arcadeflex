@@ -231,7 +231,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.victory.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
@@ -248,7 +247,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ajax.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.taito_b.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shisen.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bionicc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
@@ -274,7 +272,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.offtwall.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.toypop.*;
 import static arcadeflex.v036.drivers.circus.*;
 import static arcadeflex.v036.drivers.lazercmd.*;
 import static arcadeflex.v036.drivers.meadows.*;
@@ -2828,37 +2825,14 @@ public class driver {
                 /*galpanic */ driver_missw96,
                 /*galspnbl */ driver_hotpinbl,
                 /*galspnbl */ driver_galspnbl,
-                driver_victory,
-                driver_victorba,
                 driver_magmax,
                 driver_terraf, /* (c) 1987 */
                 driver_terrafu, /* (c) 1987 Nichibutsu USA */
                 driver_kodure, /* (c) 1987 (Japan) */
                 driver_armedf, /* (c) 1988 */
                 driver_cclimbr2, /* (c) 1988 (Japan) */
-                /* Taito B-System games */
-                driver_masterw, /* B72 (c) 1989 Taito Corporation Japan (World) */
-                driver_nastar, /* B81 (c) 1988 Taito Corporation Japan (World) */
-                driver_nastarw, /* B81 (c) 1988 Taito America Corporation (US) */
-                driver_rastsag2, /* B81 (c) 1988 Taito Corporation (Japan) */
-                driver_rambo3, /* B93 (c) 1989 Taito Europe Corporation (Europe) */
-                driver_rambo3a, /* B93 (c) 1989 Taito America Corporation (US) */
-                driver_crimec, /* B99 (c) 1989 Taito Corporation Japan (World) */
-                driver_crimecu, /* B99 (c) 1989 Taito America Corporation (US) */
-                driver_crimecj, /* B99 (c) 1989 Taito Corporation (Japan) */
-                driver_tetrist, /* C12 (c) 1989 Sega Enterprises,Ltd. (Japan) */
-                driver_viofight, /* C16 (c) 1989 Taito Corporation Japan (World) */
-                driver_ashura, /* C43 (c) 1990 Taito Corporation (Japan) */
-                driver_ashurau, /* C43 (c) 1990 Taito America Corporation (US) */
-                driver_hitice, /* C59 (c) 1990 Williams (US) */
-                driver_puzbobb, /* ??? (c) 1994 Taito Corporation (Japan) */
-                driver_qzshowby, /* D72 (c) 1993 Taito Corporation (Japan) */
-                driver_spacedx, /* D89 (c) 1994 Taito Corporation (Japan) */
-                driver_silentd, /* ??? (c) 1992 Taito Corporation Japan (World) */
                 driver_ladyfrog,
                 driver_bssoccer,
-                driver_toypop,
-                driver_liblrabl,
                 null /* end of array */};
 
 }
