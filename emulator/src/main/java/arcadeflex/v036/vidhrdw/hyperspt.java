@@ -1,19 +1,18 @@
 /*
- * ported to 0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.libc.expressions.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class hyperspt {
@@ -21,22 +20,6 @@ public class hyperspt {
     public static UBytePtr hyperspt_scroll = new UBytePtr();
     static int flipscreen;
 
-    /**
-     * *************************************************************************
-     *
-     * Convert the color PROMs into a more useable format.
-     *
-     * Hyper Sports has one 32x8 palette PROM and two 256x4 lookup table PROMs
-     * (one for characters, one for sprites). The palette PROM is connected to
-     * the RGB output this way:
-     *
-     * bit 7 -- 220 ohm resistor -- BLUE -- 470 ohm resistor -- BLUE -- 220 ohm
-     * resistor -- GREEN -- 470 ohm resistor -- GREEN -- 1 kohm resistor --
-     * GREEN -- 220 ohm resistor -- RED -- 470 ohm resistor -- RED bit 0 -- 1
-     * kohm resistor -- RED
-     *
-     **************************************************************************
-     */
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
@@ -97,7 +80,7 @@ public class hyperspt {
             memset(dirtybuffer, 1, videoram_size[0]);
 
             /* Hyper Sports has a virtual screen twice as large as the visible screen */
-            if ((tmpbitmap = bitmap_alloc(2 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap = osd_create_bitmap(2 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -116,7 +99,7 @@ public class hyperspt {
     public static VhStopPtr hyperspt_vh_stop = new VhStopPtr() {
         public void handler() {
             dirtybuffer = null;
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
         }
     };
 
@@ -184,7 +167,7 @@ public class hyperspt {
                     }
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             }
 
@@ -210,7 +193,7 @@ public class hyperspt {
                         spriteram.read(offs) & 0x0f,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
 
                 /* redraw with wraparound */
                 drawgfx(bitmap, Machine.gfx[1],
@@ -218,7 +201,7 @@ public class hyperspt {
                         spriteram.read(offs) & 0x0f,
                         flipx, flipy,
                         sx - 256, sy,
-                        Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
             }
         }
     };
@@ -272,7 +255,7 @@ public class hyperspt {
                     }
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             }
 
@@ -298,7 +281,7 @@ public class hyperspt {
                         spriteram.read(offs) & 0x0f,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
 
                 /* redraw with wraparound (actually not needed in Road Fighter) */
                 drawgfx(bitmap, Machine.gfx[1],
@@ -306,7 +289,7 @@ public class hyperspt {
                         spriteram.read(offs) & 0x0f,
                         flipx, flipy,
                         sx - 256, sy,
-                        Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
             }
         }
     };

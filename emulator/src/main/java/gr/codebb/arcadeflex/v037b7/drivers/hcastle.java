@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.hcastle.*;
+import static arcadeflex.v036.vidhrdw.hcastle.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;

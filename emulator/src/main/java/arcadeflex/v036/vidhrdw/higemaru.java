@@ -1,8 +1,7 @@
 /*
- * ported to 0.37b7
- * ported to v0.36
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
@@ -12,8 +11,9 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
 
 public class higemaru {
@@ -77,8 +77,8 @@ public class higemaru {
 
     public static WriteHandlerPtr higemaru_c800_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            if ((data & 0x7c) != 0) {
-                logerror("c800 = %02x\n", data);
+            if (errorlog != null && (data & 0x7c) != 0) {
+                fprintf(errorlog, "c800 = %02x\n", data);
             }
 
             /* bits 0 and 1 are coin counters */
@@ -129,7 +129,7 @@ public class higemaru {
             }
 
             /* copy the background graphics */
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* Draw the sprites. */
             for (offs = spriteram_size[0] - 16; offs >= 0; offs -= 16) {
@@ -153,7 +153,7 @@ public class higemaru {
                         col,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 15);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 15);
 
                 /* draw again with wraparound */
                 drawgfx(bitmap, Machine.gfx[1],
@@ -161,7 +161,7 @@ public class higemaru {
                         col,
                         flipx, flipy,
                         sx - 256, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 15);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 15);
             }
         }
     };

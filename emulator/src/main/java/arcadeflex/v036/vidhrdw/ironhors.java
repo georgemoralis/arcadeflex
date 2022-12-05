@@ -1,9 +1,8 @@
 /*
  * ported to 0.37b7
- * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
@@ -157,7 +156,7 @@ public class ironhors {
                     scroll[i] = -(ironhors_scroll.read(i));
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. */
@@ -190,7 +189,7 @@ public class ironhors {
                                         color,
                                         flipx, flipy,
                                         sx, sy,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                                 break;
 
                             case 0x04: /* 16x8 */ {
@@ -199,13 +198,13 @@ public class ironhors {
                                         color,
                                         flipx, flipy,
                                         flipx != 0 ? sx + 8 : sx, sy,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                                 drawgfx(bitmap, Machine.gfx[2],
                                         code | 1,
                                         color,
                                         flipx, flipy,
                                         flipx != 0 ? sx : sx + 8, sy,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                             }
                             break;
 
@@ -215,13 +214,13 @@ public class ironhors {
                                         color,
                                         flipx, flipy,
                                         sx, flipy != 0 ? sy + 8 : sy,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                                 drawgfx(bitmap, Machine.gfx[2],
                                         code | 2,
                                         color,
                                         flipx, flipy,
                                         sx, flipy != 0 ? sy : sy + 8,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                             }
                             break;
 
@@ -231,7 +230,7 @@ public class ironhors {
                                         color,
                                         flipx, flipy,
                                         sx, sy,
-                                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                             }
                             break;
                         }

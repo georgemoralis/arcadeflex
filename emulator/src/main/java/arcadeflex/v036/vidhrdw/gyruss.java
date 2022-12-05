@@ -1,8 +1,7 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
@@ -15,7 +14,9 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+
+;
 
 public class gyruss {
 
@@ -299,12 +300,12 @@ public class gyruss {
                             colorram.read(offs) & 0x0f,
                             flipx, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
             /* copy the character mapped graphics */
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /*
 		   offs+0 :  Ypos
@@ -336,7 +337,7 @@ public class gyruss {
                                     sr.read(offs + 2) & 0x0f,
                                     NOT(sr.read(offs + 2) & 0x40), sr.read(offs + 2) & 0x80,
                                     sr.read(offs + 0), 240 - sr.read(offs + 3) + 1,
-                                    Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                    Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         }
                     } else /* single height */ {
                         if (sr.read(offs + 0) != 0) {
@@ -345,7 +346,7 @@ public class gyruss {
                                     sr.read(offs + 2) & 0x0f,
                                     NOT(sr.read(offs + 2) & 0x40), sr.read(offs + 2) & 0x80,
                                     sr.read(offs + 0), 240 - sr.read(offs + 3) + 1,
-                                    Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                    Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         }
 
                         if (sr.read(offs + 4) != 0) {
@@ -354,7 +355,7 @@ public class gyruss {
                                     sr.read(offs + 6) & 0x0f,
                                     NOT(sr.read(offs + 6) & 0x40), sr.read(offs + 6) & 0x80,
                                     sr.read(offs + 4), 240 - sr.read(offs + 7) + 1,
-                                    Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                    Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         }
                     }
                 }
@@ -381,7 +382,7 @@ public class gyruss {
                             colorram.read(offs) & 0x0f,
                             flipx, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
         }

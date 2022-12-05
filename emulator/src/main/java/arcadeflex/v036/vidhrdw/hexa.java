@@ -1,8 +1,7 @@
 /*
- * ported to 0.37b7
  * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.libc.cstring.*;
@@ -118,11 +117,11 @@ public class hexa {
                             (videoram.read(offs) & 0xf8) >> 3,
                             flipx, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
         }
     };
 }
