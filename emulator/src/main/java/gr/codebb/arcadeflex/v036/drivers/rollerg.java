@@ -38,7 +38,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K053260;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM3812;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.rollerg.*;
+import static arcadeflex.v036.vidhrdw.rollerg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;

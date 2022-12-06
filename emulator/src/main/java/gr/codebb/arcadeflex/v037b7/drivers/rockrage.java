@@ -21,7 +21,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.rockrage.*;
+import static arcadeflex.v036.vidhrdw.rockrage.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
 import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;

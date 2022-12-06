@@ -1,31 +1,18 @@
-/**
- * *************************************************************************
- *
- * vidhrdw.c
- *
- * Functions to emulate the video hardware of the machine.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//common imports
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
@@ -66,17 +53,17 @@ public class rockola {
                 bit0 = (color_prom.read(0) >> 0) & 0x01;
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read(0) >> 3) & 0x01;
                 bit1 = (color_prom.read(0) >> 4) & 0x01;
                 bit2 = (color_prom.read(0) >> 5) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read(0) >> 6) & 0x01;
                 bit2 = (color_prom.read(0) >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
@@ -112,17 +99,17 @@ public class rockola {
                 bit0 = (color_prom.read(0) >> 0) & 0x01;
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read(0) >> 3) & 0x01;
                 bit1 = (color_prom.read(0) >> 4) & 0x01;
                 bit2 = (color_prom.read(0) >> 5) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read(0) >> 6) & 0x01;
                 bit2 = (color_prom.read(0) >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
