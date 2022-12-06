@@ -6,9 +6,10 @@ package arcadeflex.v036.cpu.s2650;
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650H.*;
 import static arcadeflex.v036.cpu.s2650.s2650cpuH.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 

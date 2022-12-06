@@ -4,8 +4,8 @@
  */
 package gr.codebb.arcadeflex.v036.cpu.konami;
 
-import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.cpu_interface;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;

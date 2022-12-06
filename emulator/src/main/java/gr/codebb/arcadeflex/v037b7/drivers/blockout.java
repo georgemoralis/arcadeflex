@@ -36,7 +36,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.blockout.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295H.OKIM6295interface;
 
 public class blockout

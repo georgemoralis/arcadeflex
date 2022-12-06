@@ -20,7 +20,9 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gr.codebb.arcadeflex.v036.cpu.i8039;
 
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrfH.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;

@@ -1,8 +1,11 @@
 /**
- *  Ported to 0.37b7
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.mame;
+package arcadeflex.v036.mame;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_reg;
 
 public class cpuintrfH {
@@ -15,7 +18,8 @@ public class cpuintrfH {
     public static final int ASSERT_LINE = 1;/* assert an interrupt immediately */
     public static final int HOLD_LINE = 2;/* hold interrupt line until enable is true */
     public static final int PULSE_LINE = 3;/* pulse interrupt line for one instruction */
-    public static final int MAX_REGS = 128;/* maximum number of register of any CPU */
+
+    public static final int MAX_REGS = 64;/* maximum number of register of any CPU */
 
  /* Values passed to the cpu_info function of a core to retrieve information */
     public static final int CPU_INFO_REG = 0;
@@ -69,7 +73,6 @@ public class cpuintrfH {
         public abstract void exit();
 
         public abstract int execute(int cycles);
-
         public burnPtr burn;
 
         public abstract Object init_context(); //not in mame , used specific for arcadeflex
@@ -115,10 +118,9 @@ public class cpuintrfH {
         public abstract void memory_write(int offset, int data);
 
         public abstract void set_op_base(int pc);
-
         public int address_shift;
-        public /*unsigned*/ int address_bits, endianess, align_unit, max_inst_len;
-        public /*unsigned*/ int abits1, abits2, abitsmin;
+        public int address_bits, endianess, align_unit, max_inst_len;
+        public int abits1, abits2, abitsmin;
     }
 
     /* Returns previous pc (start of opcode causing read/write) */
@@ -133,31 +135,15 @@ public class cpuintrfH {
         return cpu_get_reg(REG_SP_CONTENTS);
     }
 
-    public static abstract interface Interrupt_entryPtr {
-
-        public abstract int handler(int i);
-    }
-
-    public static abstract interface ResetPtr {
-
-        public abstract void handler(int i);
-    }
-
-    public static abstract interface Interrupt_retiPtr {
-
-        public abstract void handler(int i);
-    }
-
     /* daisy-chain link */
     public static class Z80_DaisyChain {
 
-        public ResetPtr reset;/* reset callback     */
-        public Interrupt_entryPtr interrupt_entry;/* entry callback     */
-        public Interrupt_retiPtr interrupt_reti;/* reti callback      */
-        public int irq_param;
+        public DaisyChainResetPtr reset;/* reset callback     */
+        public DaisyChainInterruptEntryPtr interrupt_entry;/* entry callback     */
+        public DaisyChainInterruptRetiPtr interrupt_reti;/* reti callback      */
+        public int irq_param;/* callback paramater */
 
-        /* callback paramater */
-        public Z80_DaisyChain(ResetPtr reset, Interrupt_entryPtr interrupt_entry, Interrupt_retiPtr interrupt_reti, int irq_param) {
+        public Z80_DaisyChain(DaisyChainResetPtr reset, DaisyChainInterruptEntryPtr interrupt_entry, DaisyChainInterruptRetiPtr interrupt_reti, int irq_param) {
             this.reset = reset;
             this.interrupt_entry = interrupt_entry;
             this.interrupt_reti = interrupt_reti;
@@ -166,12 +152,10 @@ public class cpuintrfH {
     }
 
     public static final int Z80_MAXDAISY = 4;/* maximum of daisy chan device */
-
     public static final int Z80_INT_REQ = 0x01;/* interrupt request mask       */
     public static final int Z80_INT_IEO = 0x02;/* interrupt disable mask(IEO)  */
 
     public static int Z80_VECTOR(int device, int state) {
         return (((device) << 8) & 0xFF | (state) & 0xFF);
     }
-
 }

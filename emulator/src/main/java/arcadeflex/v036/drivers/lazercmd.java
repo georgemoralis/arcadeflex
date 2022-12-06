@@ -6,6 +6,8 @@ package arcadeflex.v036.drivers;
 
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650H.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrfH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.lazercmd.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
@@ -28,7 +30,6 @@ import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;

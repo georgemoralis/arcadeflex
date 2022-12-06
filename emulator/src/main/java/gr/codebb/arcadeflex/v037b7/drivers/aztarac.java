@@ -41,7 +41,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 import static gr.codebb.arcadeflex.v037b7.machine.foodf.foodf_nvram_handler;
 import static gr.codebb.arcadeflex.v037b7.machine.foodf.foodf_nvram_r;
 import static gr.codebb.arcadeflex.v037b7.machine.foodf.foodf_nvram_w;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.aztarac.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import gr.codebb.arcadeflex.v037b7.sound.ay8910H.AY8910interface;

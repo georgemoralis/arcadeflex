@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v058.machine;
 
+import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptRetiPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 
 public class z80fmlyH {
     /*  Z80 FMLY.H   Z80 FAMILY IC EMURATION */
@@ -58,11 +58,11 @@ public class z80fmlyH {
     public static class z80pio_interface
     {
             int num;                                      /* number of PIOs to emulate */
-            Interrupt_retiPtr[] intr = new Interrupt_retiPtr[MAX_CTC];             /* callback when change interrupt status */
-            Interrupt_retiPtr[] rdyA = new Interrupt_retiPtr[MAX_PIO];             /* portA ready active callback (do not support yet)*/
-            Interrupt_retiPtr[] rdyB = new Interrupt_retiPtr[MAX_PIO];             /* portB ready active callback (do not support yet)*/
+            DaisyChainInterruptRetiPtr[] intr = new DaisyChainInterruptRetiPtr[MAX_CTC];             /* callback when change interrupt status */
+            DaisyChainInterruptRetiPtr[] rdyA = new DaisyChainInterruptRetiPtr[MAX_PIO];             /* portA ready active callback (do not support yet)*/
+            DaisyChainInterruptRetiPtr[] rdyB = new DaisyChainInterruptRetiPtr[MAX_PIO];             /* portB ready active callback (do not support yet)*/
             
-            public z80pio_interface(int num, Interrupt_retiPtr[] intr, Interrupt_retiPtr[] rdyA, Interrupt_retiPtr[] rdyB){
+            public z80pio_interface(int num, DaisyChainInterruptRetiPtr[] intr, DaisyChainInterruptRetiPtr[] rdyA, DaisyChainInterruptRetiPtr[] rdyB){
                 this.num = num;
                 this.intr = intr;
                 this.rdyA = rdyA;

@@ -2,14 +2,13 @@
 
 package gr.codebb.arcadeflex.v036.cpu.hd6309;
 
+//mame imports
+import static arcadeflex.v036.mame.cpuintrfH.*;
+//TODO
 import gr.codebb.arcadeflex.v036.cpu.m6809.m6809;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class hd6309 extends m6809
 {

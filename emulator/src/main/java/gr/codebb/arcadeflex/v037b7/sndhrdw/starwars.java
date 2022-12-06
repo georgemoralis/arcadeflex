@@ -23,7 +23,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.PULSE_LINE;
+import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
 
 public class starwars

@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcpu;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpuintf;
-import gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.burnPtr;
+import arcadeflex.v036.mame.cpuintrfH.burnPtr;
 import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 
 public class timer {

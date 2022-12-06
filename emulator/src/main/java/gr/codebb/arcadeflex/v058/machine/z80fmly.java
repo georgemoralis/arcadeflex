@@ -1,11 +1,12 @@
 package gr.codebb.arcadeflex.v058.machine;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptEntryPtr;
+import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptRetiPtr;
+import arcadeflex.v036.generic.funcPtr.DaisyChainResetPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v058.machine.z80fmlyH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 
 public class z80fmly {
@@ -138,7 +139,7 @@ public class z80fmly {
 	}
 	
 	
-	public static ResetPtr z80ctc_reset = new ResetPtr() {
+	public static DaisyChainResetPtr z80ctc_reset = new DaisyChainResetPtr() {
             public void handler(int which) {
                 z80ctc ctc = ctcs[which];
 		int i;
@@ -286,7 +287,7 @@ public class z80fmly {
 	public static ReadHandlerPtr z80ctc_1_r  = new ReadHandlerPtr() { public int handler(int offset) { return z80ctc_r (1, offset); } };
 	
 	
-	public static Interrupt_entryPtr z80ctc_interrupt = new Interrupt_entryPtr() {
+	public static DaisyChainInterruptEntryPtr z80ctc_interrupt = new DaisyChainInterruptEntryPtr() {
             public int handler(int which) {
                 z80ctc ctc = ctcs[which];
 		int ch;
@@ -311,7 +312,7 @@ public class z80fmly {
         };
 	
 	/* when operate RETI , soud be call this function for request pending interrupt */
-	public static Interrupt_retiPtr z80ctc_reti = new Interrupt_retiPtr() {
+	public static DaisyChainInterruptRetiPtr z80ctc_reti = new DaisyChainInterruptRetiPtr() {
             public void handler(int which) {
                 z80ctc ctc = ctcs[which];
 		int ch;
@@ -443,8 +444,8 @@ public class z80fmly {
 	public static class z80pio
 	{
 		int[] vector=new int[2];                        /* interrupt vector               */
-		Interrupt_retiPtr intr;              /* interrupt callbacks            */
-		Interrupt_retiPtr[] rdyr = new Interrupt_retiPtr[2];            /* RDY active callback            */
+		DaisyChainInterruptRetiPtr intr;              /* interrupt callbacks            */
+		DaisyChainInterruptRetiPtr[] rdyr = new DaisyChainInterruptRetiPtr[2];            /* RDY active callback            */
 		int[] mode=new int[2];                          /* mode 00=in,01=out,02=i/o,03=bit*/
 		int[] enable=new int[2];                        /* interrupt enable               */
 		int[] mask=new int[2];                          /* mask folowers                  */
@@ -538,7 +539,7 @@ public class z80fmly {
                 return pio;
 	}
 	
-	public static ResetPtr z80pio_reset = new ResetPtr() {
+	public static DaisyChainResetPtr z80pio_reset = new DaisyChainResetPtr() {
             public void handler(int which) {
                 z80pio pio = pios[which];
 		int i;
@@ -669,7 +670,7 @@ public class z80fmly {
 		return 0;
 	}
 	
-	public static Interrupt_entryPtr z80pio_interrupt = new Interrupt_entryPtr() {
+	public static DaisyChainInterruptEntryPtr z80pio_interrupt = new DaisyChainInterruptEntryPtr() {
             public int handler( int which ) {
                 z80pio pio = pios[which];
 		int ch = 0;
@@ -699,7 +700,7 @@ public class z80fmly {
             }
         };
 	
-	public static Interrupt_retiPtr z80pio_reti = new Interrupt_retiPtr() {
+	public static DaisyChainInterruptRetiPtr z80pio_reti = new DaisyChainInterruptRetiPtr() {
             public void handler(int which) {
                 z80pio pio = pios[which];
 	
