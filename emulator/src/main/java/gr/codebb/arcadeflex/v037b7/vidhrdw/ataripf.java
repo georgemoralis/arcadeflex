@@ -27,7 +27,7 @@ import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static arcadeflex.v036.mame.paletteH.*;
 import arcadeflex.v036.mame.timer;
 import static arcadeflex.v036.mame.timer.*;
 

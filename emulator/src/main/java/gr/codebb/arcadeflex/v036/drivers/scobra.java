@@ -21,7 +21,7 @@ import static arcadeflex.v036.sndhrdw.frogger.*;
 import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.expressions.NOT;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;

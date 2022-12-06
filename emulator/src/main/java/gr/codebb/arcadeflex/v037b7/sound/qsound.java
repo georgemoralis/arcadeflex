@@ -7,7 +7,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_LEFT;

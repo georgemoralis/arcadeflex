@@ -35,7 +35,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;

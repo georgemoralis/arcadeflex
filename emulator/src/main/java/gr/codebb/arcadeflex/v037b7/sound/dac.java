@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.sound;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdio.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;

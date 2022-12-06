@@ -4,10 +4,13 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 
@@ -45,7 +48,7 @@ public class llander {
     static int tone_3khz;
     static int llander_explosion;
 
-    public static ShStartPtr llander_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr llander_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int loop, lfsrtmp, nor1, nor2, bit14, bit6;
             long fraction, remainder;
@@ -109,7 +112,7 @@ public class llander {
         }
     };
 
-    public static ShStopPtr llander_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr llander_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
         }
     };
@@ -234,7 +237,7 @@ public class llander {
     }
 
 
-    public static ShUpdatePtr llander_sh_update_partial = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr llander_sh_update_partial = new ShUpdateHandlerPtr() {
         public void handler() {
             int newpos;
 
@@ -255,7 +258,7 @@ public class llander {
     };
 
 
-    public static ShUpdatePtr llander_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr llander_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             if (Machine.sample_rate == 0) return;
 

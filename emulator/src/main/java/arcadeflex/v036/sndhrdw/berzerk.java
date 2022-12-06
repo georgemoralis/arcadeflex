@@ -3,15 +3,15 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //common imports
 import static common.libc.expressions.*;
 //TODO
-import gr.codebb.arcadeflex.v036.mame.driverH.ShStartPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.ShUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_playing;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_set_freq;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_start;
@@ -51,8 +51,8 @@ public class berzerk {
     /* trigger for playing collision sound */
     static int nextdata5 = -1;
 
-    public static ShStartPtr berzerk_sh_start
-            = new ShStartPtr() {
+    public static ShStartHandlerPtr berzerk_sh_start
+            = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -255,8 +255,8 @@ public class berzerk {
         }
     };
 
-    public static ShUpdatePtr berzerk_sh_update
-            = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr berzerk_sh_update
+            = new ShUpdateHandlerPtr() {
         public void handler() {
             berzerkplayvoice = NOT(sample_playing(VOICE_CHANNEL));
             if (deathsound == 3 && sample_playing(DEATH_CHANNEL) == 0 && lastnoise != 70) {

@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -19,9 +20,9 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
+import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
@@ -32,7 +33,7 @@ import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.tmnt.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.k053260.*;
 import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
 import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
@@ -257,7 +258,7 @@ public class tmnt {
             tmnt_soundlatch = data;
         }
     };
-    public static ShStartPtr tmnt_decode_sample = new ShStartPtr() {
+    public static ShStartHandlerPtr tmnt_decode_sample = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
 	int i;
 	ShortPtr dest;

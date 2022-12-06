@@ -4,11 +4,14 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bzone.rb_input_select;
@@ -152,7 +155,7 @@ public class redbaron {
         }
     };
 
-    public static ShStartPtr redbaron_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr redbaron_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -207,7 +210,7 @@ public class redbaron {
         }
     };
 
-    public static ShStopPtr redbaron_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr redbaron_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             if (vol_lookup != null) {
                 vol_lookup = null;
@@ -215,7 +218,7 @@ public class redbaron {
         }
     };
 
-    public static ShUpdatePtr redbaron_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr redbaron_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             stream_update(channel, 0);
         }

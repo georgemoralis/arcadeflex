@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX2;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX3;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.spriteC.*;

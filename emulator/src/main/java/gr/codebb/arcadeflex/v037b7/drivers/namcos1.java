@@ -145,7 +145,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_FIRQ_LINE;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

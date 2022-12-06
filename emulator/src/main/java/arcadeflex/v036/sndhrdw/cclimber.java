@@ -3,13 +3,15 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 
@@ -27,7 +29,7 @@ public class cclimber {
 
     static int channel;
 
-    public static ShStartPtr cclimber_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr cclimber_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             channel = mixer_allocate_channel(50);
             mixer_set_name(channel, "Samples");
@@ -43,7 +45,7 @@ public class cclimber {
             return 0;
         }
     };
-    public static ShStopPtr cclimber_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr cclimber_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             if (samplebuf != null) {
                 samplebuf = null;

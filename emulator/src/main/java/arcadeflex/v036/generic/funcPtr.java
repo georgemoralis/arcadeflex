@@ -3,7 +3,32 @@
  */
 package arcadeflex.v036.generic;
 
+import static arcadeflex.v036.mame.sndintrfH.*;
+
 public class funcPtr {
+
+    /**
+     * Sound related
+     */
+    /*public static abstract interface ShInitHandlerPtr {
+
+        public abstract int handler(String gamename);
+    }*/
+
+    public static abstract interface ShStartHandlerPtr {
+
+        public abstract int handler(MachineSound msound);
+    }
+
+    public static abstract interface ShStopHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    public static abstract interface ShUpdateHandlerPtr {
+
+        public abstract void handler();
+    }
 
     /**
      * Timer callback

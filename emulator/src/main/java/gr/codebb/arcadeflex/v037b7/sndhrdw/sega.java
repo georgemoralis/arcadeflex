@@ -4,9 +4,12 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
@@ -69,7 +72,7 @@ public class sega {
     static int[] queue = new int[MAX_SPEECH];
     static int queuePtr = 0;
 
-    public static ShStartPtr sega_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr sega_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -130,7 +133,7 @@ public class sega {
         }
     };
 
-    public static ShUpdatePtr sega_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr sega_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             int sound;
 
@@ -154,7 +157,7 @@ public class sega {
         }
     };
 
-    public static ShStartPtr tacscan_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr tacscan_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             roarPlaying = 0;
             return 0;
@@ -288,7 +291,7 @@ public class sega {
         }
     };
 
-    public static ShUpdatePtr tacscan_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr tacscan_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             /* If the ship roar has started playing but the sample stopped */
  /* play the intermediate roar noise */

@@ -18,7 +18,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.centiped.*;
 import static gr.codebb.arcadeflex.v036.machine.centiped.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static common.libc.cstdlib.rand;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;

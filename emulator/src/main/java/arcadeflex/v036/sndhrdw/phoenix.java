@@ -4,11 +4,13 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms36xx.*;
 
@@ -467,7 +469,7 @@ public class phoenix {
         }
     };
 
-    public static ShStartPtr phoenix_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr phoenix_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i, j;
             /*UINT32*/
@@ -503,7 +505,7 @@ public class phoenix {
         }
     };
 
-    public static ShStopPtr phoenix_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr phoenix_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             if (poly18 != null) {
                 poly18 = null;
@@ -511,7 +513,7 @@ public class phoenix {
         }
     };
 
-    public static ShUpdatePtr phoenix_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr phoenix_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             stream_update(channel, 0);
         }

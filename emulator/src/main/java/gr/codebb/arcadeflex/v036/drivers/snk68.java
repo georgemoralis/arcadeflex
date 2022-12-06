@@ -45,9 +45,9 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
+import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
 import static gr.codebb.arcadeflex.v036.vidhrdw.snk68.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232.*;
 import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
@@ -62,7 +62,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 
 public class snk68 {
 

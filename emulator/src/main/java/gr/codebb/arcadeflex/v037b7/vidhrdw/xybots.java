@@ -64,7 +64,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
+import static arcadeflex.v036.mame.paletteH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import gr.codebb.arcadeflex.v037b7.machine.atarigenH;

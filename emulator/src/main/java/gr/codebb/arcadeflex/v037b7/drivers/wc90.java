@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.vidhrdw.wc90.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 

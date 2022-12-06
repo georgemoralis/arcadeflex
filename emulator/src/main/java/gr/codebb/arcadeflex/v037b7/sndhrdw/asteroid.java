@@ -1,9 +1,12 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 
 public class asteroid {
@@ -405,7 +408,7 @@ public class asteroid {
 	
 	}
 	
-	public static ShStartPtr asteroid_sh_start = new ShStartPtr() { public int handler(MachineSound msound) 
+	public static ShStartHandlerPtr asteroid_sh_start = new ShStartHandlerPtr() { public int handler(MachineSound msound) 
 	{
 	    int i;
 	
@@ -426,13 +429,13 @@ public class asteroid {
 	    return 0;
 	} };
 	
-	public static ShStopPtr asteroid_sh_stop = new ShStopPtr() { public void handler() 
+	public static ShStopHandlerPtr asteroid_sh_stop = new ShStopHandlerPtr() { public void handler() 
 	{
 		if (discharge != null)
 			discharge = null;
 	} };
 	
-	public static ShUpdatePtr asteroid_sh_update = new ShUpdatePtr() { public void handler() 
+	public static ShUpdateHandlerPtr asteroid_sh_update = new ShUpdateHandlerPtr() { public void handler() 
 	{
 		stream_update(channel, 0);
 	} };
@@ -510,7 +513,7 @@ public class asteroid {
 		}
 	}};
 	
-	public static ShStartPtr astdelux_sh_start = new ShStartPtr() { public int handler(MachineSound msound) 
+	public static ShStartHandlerPtr astdelux_sh_start = new ShStartHandlerPtr() { public int handler(MachineSound msound) 
 	{
 		/* initialize explosion volume lookup table */
 		explosion_init();
@@ -522,11 +525,11 @@ public class asteroid {
 	    return 0;
 	} };
 	
-	public static ShStopPtr astdelux_sh_stop = new ShStopPtr() { public void handler() 
+	public static ShStopHandlerPtr astdelux_sh_stop = new ShStopHandlerPtr() { public void handler() 
 	{
 	} };
 	
-	public static ShUpdatePtr astdelux_sh_update = new ShUpdatePtr() { public void handler() 
+	public static ShUpdateHandlerPtr astdelux_sh_update = new ShUpdateHandlerPtr() { public void handler() 
 	{
 		stream_update(channel, 0);
 	} };

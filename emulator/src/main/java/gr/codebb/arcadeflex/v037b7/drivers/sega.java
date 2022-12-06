@@ -9,7 +9,7 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.input.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;

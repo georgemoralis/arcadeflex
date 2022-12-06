@@ -22,7 +22,7 @@ import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_transparent_pen;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_used_colors;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.PALETTE_COLOR_TRANSPARENT;
+import static arcadeflex.v036.mame.paletteH.PALETTE_COLOR_TRANSPARENT;
 
 public class solomon {
 

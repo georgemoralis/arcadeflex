@@ -4,10 +4,13 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound.tms36xx.*;
@@ -468,7 +471,7 @@ public class pleiads {
         return 0;
     }
 
-    public static ShStartPtr pleiads_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr pleiads_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             /* The real values are _unknown_!
 		 * I took the ones from Naughty Boy / Pop Flamer
@@ -531,7 +534,7 @@ public class pleiads {
         }
     };
 
-    public static ShStartPtr naughtyb_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr naughtyb_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             /* charge 10u??? through 330K (R??) . 3.3s */
             pa5_charge_time = 3.3;
@@ -589,7 +592,7 @@ public class pleiads {
         }
     };
 
-    public static ShStartPtr popflame_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr popflame_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             /* charge 10u (C63 in Pop Flamer) through 330K . 3.3s */
             pa5_charge_time = 3.3;
@@ -647,7 +650,7 @@ public class pleiads {
         }
     };
 
-    public static ShStopPtr pleiads_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr pleiads_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             if (poly18 != null) {
                 poly18 = null;
@@ -655,7 +658,7 @@ public class pleiads {
         }
     };
 
-    public static ShUpdatePtr pleiads_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr pleiads_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             stream_update(channel, 0);
         }

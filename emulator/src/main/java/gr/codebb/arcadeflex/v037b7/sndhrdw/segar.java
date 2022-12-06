@@ -4,12 +4,15 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.I8039_EXT_INT;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
@@ -154,7 +157,7 @@ public class segar {
 
     /* Special speech handling code.  Someday this will hopefully be
 	   replaced with true speech synthesis. */
-    public static ShStartPtr astrob_speech_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr astrob_speech_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -167,7 +170,7 @@ public class segar {
         }
     };
 
-    public static ShUpdatePtr astrob_speech_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr astrob_speech_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             int sound;
 

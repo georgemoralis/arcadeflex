@@ -13,8 +13,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.missile.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.machine.missile.*;
 

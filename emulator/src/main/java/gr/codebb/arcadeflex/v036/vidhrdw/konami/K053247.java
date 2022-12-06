@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.PALETTE_COLOR_VISIBLE;
+import static arcadeflex.v036.mame.paletteH.PALETTE_COLOR_VISIBLE;
 import static common.libc.cstring.*;
 import static common.libc.expressions.NOT;
 public class K053247 {

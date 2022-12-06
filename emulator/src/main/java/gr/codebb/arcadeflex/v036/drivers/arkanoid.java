@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.arkanoid.*;
 import static gr.codebb.arcadeflex.v037b7.machine.arkanoid.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;

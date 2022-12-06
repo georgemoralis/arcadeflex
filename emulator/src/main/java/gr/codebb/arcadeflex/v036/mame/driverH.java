@@ -5,7 +5,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
@@ -23,10 +23,6 @@ public class driverH
 	public static abstract interface VhStartPtr { public abstract int handler(); }
 	public static abstract interface VhStopPtr { public abstract void handler(); }
 	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap,int full_refresh); }
-	public static abstract interface ShInitPtr { public abstract int handler(String gamename); }
-	public static abstract interface ShStartPtr { public abstract int handler(MachineSound msound); }
-	public static abstract interface ShStopPtr { public abstract void handler(); }
-	public static abstract interface ShUpdatePtr { public abstract void handler(); }
 	public static abstract interface DecodePtr {  public abstract void handler();}
 	public static abstract interface HiscoreLoadPtr { public abstract int handler(); }
 	public static abstract interface HiscoreSavePtr { public abstract void handler(); }

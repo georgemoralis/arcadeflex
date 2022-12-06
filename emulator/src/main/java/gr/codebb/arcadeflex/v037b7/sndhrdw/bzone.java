@@ -1,9 +1,12 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
@@ -243,7 +246,7 @@ public class bzone {
         }
     };
 
-    public static ShStartPtr bzone_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr bzone_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -262,14 +265,14 @@ public class bzone {
         }
     };
 
-    public static ShStopPtr bzone_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr bzone_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             if (discharge != null)
                 discharge = null;
         }
     };
 
-    public static ShUpdatePtr bzone_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr bzone_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             stream_update(channel, 0);
         }

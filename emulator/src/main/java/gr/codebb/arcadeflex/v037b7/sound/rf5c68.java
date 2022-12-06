@@ -8,12 +8,15 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import gr.codebb.arcadeflex.common.PtrLib;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.rf5c68H.*;
@@ -134,7 +137,7 @@ public class rf5c68 extends snd_interface {
 	/************************************************/
 	/*    RF5C68 stop                               */
 	/************************************************/
-	public static ShStopPtr RF5C68_sh_stop = new ShStopPtr() { public void handler() 
+	public static ShStopHandlerPtr RF5C68_sh_stop = new ShStopHandlerPtr() { public void handler() 
 	{
 		if(pcmbuf!=null) 
                     pcmbuf=null;

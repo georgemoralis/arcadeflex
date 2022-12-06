@@ -18,7 +18,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
 import static arcadeflex.v036.vidhrdw.rockrage.*;

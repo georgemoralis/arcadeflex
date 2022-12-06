@@ -9,7 +9,7 @@ import static common.libc.cstdio.sprintf;
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;

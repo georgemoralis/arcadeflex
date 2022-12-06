@@ -6,11 +6,15 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.sndhrdw;
+
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -218,7 +222,7 @@ public class galaxian
         {
             return 2*TOOTHSAW_AMPLITUDE*(r0)/(r0+r1)-TOOTHSAW_AMPLITUDE;
         }
-	public static ShStartPtr galaxian_sh_start = new ShStartPtr() {
+	public static ShStartHandlerPtr galaxian_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
 		int i, j, sweep, charge, countdown, generator, bit1, bit2;
 		int[] lfovol = {LFO_VOLUME,LFO_VOLUME,LFO_VOLUME};
@@ -458,7 +462,7 @@ public class galaxian
 	
 	
 	
-	public static ShStopPtr galaxian_sh_stop = new ShStopPtr() { public void handler() 
+	public static ShStopHandlerPtr galaxian_sh_stop = new ShStopHandlerPtr() { public void handler() 
 	{
 		if (lfotimer != null)
 		{
@@ -560,7 +564,7 @@ public class galaxian
 		lfotimer = timer_pulse( TIME_IN_USEC(0.639 * rx / (MAXFREQ-MINFREQ)), 0, lfo_timer_cb);
 	} };
 	
-	public static ShUpdatePtr galaxian_sh_update = new ShUpdatePtr() { public void handler() 
+	public static ShUpdateHandlerPtr galaxian_sh_update = new ShUpdateHandlerPtr() { public void handler() 
 	{
 		/*
 		 * NE555 8R, 8S and 8T are used as pulse position modulators

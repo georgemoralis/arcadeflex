@@ -713,7 +713,7 @@ public class _8080bw {
         }
     };
 
-/*TODO*///    public static ShStartPtr schaser_sh_start = new ShStartPtr() {
+/*TODO*///    public static ShStartHandlerPtr schaser_sh_start = new ShStartHandlerPtr() {
 /*TODO*///        public int handler(MachineSound msound) {
 /*TODO*///            channel_dot = mixer_allocate_channel(50);
 /*TODO*///            mixer_set_name(channel_dot, "Dot Sound");
@@ -725,13 +725,13 @@ public class _8080bw {
 /*TODO*///        }
 /*TODO*///    };
 /*TODO*///
-/*TODO*///    public static ShStopPtr schaser_sh_stop = new ShStopPtr() {
+/*TODO*///    public static ShStopHandlerPtr schaser_sh_stop = new ShStopHandlerPtr() {
 /*TODO*///        public void handler() {
 /*TODO*///            mixer_stop_sample(channel_dot);
 /*TODO*///        }
 /*TODO*///    };
 /*TODO*///
-/*TODO*///    public static ShUpdatePtr schaser_sh_update = new ShUpdatePtr() {
+/*TODO*///    public static ShUpdateHandlerPtr schaser_sh_update = new ShUpdateHandlerPtr() {
 /*TODO*///        public void handler() {
 /*TODO*///        }
 /*TODO*///    };

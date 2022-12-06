@@ -5,13 +5,12 @@ package arcadeflex.v036.sndhrdw;
 
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.ShStartPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.ShStopPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.ShUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channels;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_play_sample;
@@ -50,7 +49,7 @@ public class meadows {
     /**
      * *********************************
      */
-    public static ShStartPtr meadows_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr meadows_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int[] vol = new int[2];
 
@@ -71,7 +70,7 @@ public class meadows {
     /**
      * *********************************
      */
-    public static ShStopPtr meadows_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr meadows_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             mixer_stop_sample(channel);
             mixer_stop_sample(channel + 1);
@@ -88,7 +87,7 @@ public class meadows {
     public static /*unsigned*/ char latched_0c01 = 0;
     public static /*unsigned*/ char latched_0c02 = 0;
     public static /*unsigned*/ char latched_0c03 = 0;
-    public static ShUpdatePtr meadows_sh_update = new ShUpdatePtr() {
+    public static ShUpdateHandlerPtr meadows_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
 
             int preset, amp;

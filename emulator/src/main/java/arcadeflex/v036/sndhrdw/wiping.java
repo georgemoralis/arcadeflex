@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
@@ -11,7 +13,7 @@ import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
+import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 
 public class wiping {
@@ -165,7 +167,7 @@ public class wiping {
         }
     };
 
-    public static ShStartPtr wiping_sh_start = new ShStartPtr() {
+    public static ShStartHandlerPtr wiping_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             String mono_name = "Wiping";
 
@@ -207,7 +209,7 @@ public class wiping {
         }
     };
 
-    public static ShStopPtr wiping_sh_stop = new ShStopPtr() {
+    public static ShStopHandlerPtr wiping_sh_stop = new ShStopHandlerPtr() {
         public void handler() {
             //mixer_table=null;
             mixer_buffer = null;

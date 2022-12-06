@@ -1,11 +1,11 @@
 package gr.codebb.arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.v036.mame.sndintrf;
-import gr.codebb.arcadeflex.v036.mame.sndintrfH;
+import arcadeflex.v036.mame.sndintrfH;
 import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.timer.*;

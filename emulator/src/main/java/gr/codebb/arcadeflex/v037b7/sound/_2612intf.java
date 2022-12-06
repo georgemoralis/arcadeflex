@@ -17,11 +17,13 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.sound;
 
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2612intfH.*;
@@ -132,7 +134,7 @@ public class _2612intf extends snd_interface
 	/***********************************************************/
 	/*    YM2612 (fm4ch type)                                  */
 	/***********************************************************/
-	public static ShStartPtr YM2612_sh_start = new ShStartPtr() { public int handler(MachineSound msound) 
+	public static ShStartHandlerPtr YM2612_sh_start = new ShStartHandlerPtr() { public int handler(MachineSound msound) 
 	{
 		int i,j;
 		int rate = Machine.sample_rate;
@@ -172,7 +174,7 @@ public class _2612intf extends snd_interface
 	/************************************************/
 	/* Sound Hardware Stop							*/
 	/************************************************/
-	public static ShStopPtr YM2612_sh_stop = new ShStopPtr() { public void handler() 
+	public static ShStopHandlerPtr YM2612_sh_stop = new ShStopHandlerPtr() { public void handler() 
 	{
 	  YM2612Shutdown();
 	} };

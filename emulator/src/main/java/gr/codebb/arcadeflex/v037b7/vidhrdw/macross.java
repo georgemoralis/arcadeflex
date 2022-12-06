@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_init_used_colors;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_used_colors;
-import static gr.codebb.arcadeflex.v037b7.mame.paletteH.PALETTE_COLOR_USED;
+import static arcadeflex.v036.mame.paletteH.PALETTE_COLOR_USED;
 
 public class macross {
 
