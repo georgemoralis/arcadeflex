@@ -9,7 +9,7 @@ import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.machine.berzerk.berzerk_irq_end_of_screen;
 import static arcadeflex.v036.vidhrdw.generic.colorram;
 import static arcadeflex.v036.vidhrdw.generic.videoram;

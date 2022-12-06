@@ -5,19 +5,18 @@ package arcadeflex.v036.mame;
 
 //mame imports
 import static arcadeflex.v036.mame.artworkH.*;
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static arcadeflex.v036.mame.osdependH.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ORIENTATION_SWAP_XY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_VECTOR;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-//TODO
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.osd_create_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;

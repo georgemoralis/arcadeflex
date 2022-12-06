@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.v036.platform;
 
-import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.ticker.*;

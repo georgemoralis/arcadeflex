@@ -3,7 +3,9 @@
  */
 package arcadeflex.v036.mame;
 
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//TODO
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 
 public class artworkH {

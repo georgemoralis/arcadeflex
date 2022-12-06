@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.mame;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
 import static gr.codebb.arcadeflex.common.Util.*;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.osdependH.*;
 import java.util.Arrays;
 
 

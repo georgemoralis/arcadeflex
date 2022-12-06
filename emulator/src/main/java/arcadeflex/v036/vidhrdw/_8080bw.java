@@ -5,6 +5,7 @@
 package arcadeflex.v036.vidhrdw;
 
 //mame imports
+import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
 //vidhrdw imports
@@ -23,7 +24,6 @@ import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_0_r;

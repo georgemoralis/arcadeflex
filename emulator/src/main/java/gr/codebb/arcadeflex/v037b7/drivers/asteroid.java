@@ -152,7 +152,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.osdependH.OSD_FILETYPE_HIGHSCORE;
+import static arcadeflex.v036.mame.osdependH.OSD_FILETYPE_HIGHSCORE;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.*;

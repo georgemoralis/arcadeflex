@@ -15,7 +15,7 @@ package gr.codebb.arcadeflex.v037b7.machine;
 import gr.codebb.arcadeflex.common.PtrLib.UShortPtr;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
+import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.atarigen_overrender_colortable;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 
