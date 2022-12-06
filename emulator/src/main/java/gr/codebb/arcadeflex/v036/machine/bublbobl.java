@@ -18,6 +18,7 @@
  */
 package gr.codebb.arcadeflex.v036.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -26,8 +27,8 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
@@ -95,7 +96,7 @@ public class bublbobl {
 
     static int sound_nmi_enable, pending_nmi;
 
-    public static timer_callback nmi_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr nmi_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             if (sound_nmi_enable != 0) {
                 cpu_cause_interrupt(2, Z80_NMI_INT);

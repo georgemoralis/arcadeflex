@@ -94,6 +94,7 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -106,34 +107,19 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.MC68000_IRQ_5;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.MC68000_IRQ_6;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_K007232;
-import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.snk68.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.aerofgt.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_YM2610;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.machine.cchip.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.ssi.*;
@@ -241,7 +227,7 @@ public class taitof2 {
             }
         }
     };
-    public static timer_callback liquidk_interrupt5 = new timer_callback() {
+    public static TimerCallbackHandlerPtr liquidk_interrupt5 = new TimerCallbackHandlerPtr() {
         public void handler(int x) {
             cpu_cause_interrupt(0, MC68000_IRQ_5);
         }

@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdio.sprintf;
 import static arcadeflex.v036.mame.cpuintrfH.*;
@@ -12,7 +13,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
@@ -86,7 +87,7 @@ public class _3812intf extends snd_interface {
         return OPL_sh_start(msound);
     }
 
-    public static timer_callback timer_callback_3812 = new timer_callback() {
+    public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_3812 = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int n = param >> 1;
             int c = param & 1;
@@ -108,7 +109,7 @@ public class _3812intf extends snd_interface {
             } else {
                 /* Start FM Timer */
 
-                Timer[c] = timer_set(period, c, timer_callback_3812);
+                Timer[c] = timer_set(period, c, TimerCallbackHandlerPtr_3812);
             }
         }
     };

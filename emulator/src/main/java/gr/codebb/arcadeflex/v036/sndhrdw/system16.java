@@ -7,22 +7,17 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.sndhrdw;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_SOUND1;
 import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class system16
 {
@@ -34,7 +29,7 @@ public class system16
 	static /*unsigned*/ int rom_base = 0;
 	static /*unsigned*/ int rom_bank = 0;
 	
-        public static timer_callback trigger_7751_sound = new timer_callback() {
+        public static TimerCallbackHandlerPtr trigger_7751_sound = new TimerCallbackHandlerPtr() {
         public void handler(int data) {
 		/* I think this is correct for 128k sound roms,
 		     it's OK for smaller roms */

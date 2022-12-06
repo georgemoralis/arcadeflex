@@ -1,12 +1,13 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 
 public class ym2151 {
     public static class OscilRec
@@ -659,10 +660,10 @@ public class ym2151 {
     }
     
     
-    public static timer_callback timer_callback_a = new timer_callback(){ public void handler(int n)
+    public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_a = new TimerCallbackHandlerPtr(){ public void handler(int n)
     {
     	_YM2151 chip = YMPSG[n];
-    	chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, timer_callback_a);
+    	chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, TimerCallbackHandlerPtr_a);
     	chip.TimAOldIndex = chip.TimAIndex;
     	if ((chip.IRQenable & 0x04)!=0)
     	{
@@ -671,10 +672,10 @@ public class ym2151 {
     		if ((oldstate==0) && (chip.irqhandler!=null)) (chip.irqhandler).handler(1);
     	}
     }};
-    public static timer_callback timer_callback_b = new timer_callback(){ public void handler(int n)
+    public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_b = new TimerCallbackHandlerPtr(){ public void handler(int n)
     {
     	_YM2151 chip = YMPSG[n];
-    	chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, timer_callback_b);
+    	chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, TimerCallbackHandlerPtr_b);
     	chip.TimBOldIndex = chip.TimBIndex;
     	if ((chip.IRQenable & 0x08)!=0)
     	{
@@ -880,7 +881,7 @@ public class ym2151 {
     				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
     					if (chip.TimBTimer==null)
     					{
-    						chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, timer_callback_b);
+    						chip.TimBTimer = timer_set (chip.TimerBTime[ (int)chip.TimBIndex ], n, TimerCallbackHandlerPtr_b);
     						chip.TimBOldIndex = chip.TimBIndex;
     					}
     			}else{		/*stop timer B*/
@@ -894,7 +895,7 @@ public class ym2151 {
     				/* start timer _only_ if it wasn't already started (it will reload time value next round)*/
     					if (chip.TimATimer==null)
     					{
-    						chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, timer_callback_a);
+    						chip.TimATimer = timer_set (chip.TimerATime[ (int)chip.TimAIndex ], n, TimerCallbackHandlerPtr_a);
     						chip.TimAOldIndex = chip.TimAIndex;
     					}
     			}else{		/*stop timer A*/

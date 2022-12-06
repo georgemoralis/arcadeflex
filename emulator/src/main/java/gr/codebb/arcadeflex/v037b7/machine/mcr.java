@@ -15,14 +15,15 @@
  */
 package gr.codebb.arcadeflex.v037b7.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v058.machine.z80fmly.*;
 import static gr.codebb.arcadeflex.v058.machine.z80fmlyH.*;
@@ -78,7 +79,7 @@ public class mcr {
 	public static int v493_irq_state;
 	public static int v493_irq_vector;
 
-	public static timer_callback v493_callback;
+	public static TimerCallbackHandlerPtr v493_callback;
 
 	static int zwackery_sound_data;
 
@@ -371,14 +372,14 @@ public class mcr {
 	}
 	
 	
-	public static timer_callback mcr68_493_off_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr mcr68_493_off_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		v493_irq_state = 0;
 		update_mcr68_interrupts();
 	} };
 	
 	
-	public static timer_callback mcr68_493_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr mcr68_493_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		v493_irq_state = 1;
 		update_mcr68_interrupts();
@@ -447,13 +448,13 @@ public class mcr {
         
 	
 	
-	public static timer_callback zwackery_493_off_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr zwackery_493_off_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		pia_2_ca1_w.handler(0, 0);
 	} };
 	
 	
-	public static timer_callback zwackery_493_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr zwackery_493_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		pia_2_ca1_w.handler(0, 1);
 		timer_set(cpu_getscanlineperiod(), 0, zwackery_493_off_callback);
@@ -540,7 +541,7 @@ public class mcr {
 	}
 	
 	
-	static timer_callback counter_fired_callback = new timer_callback() {
+	static TimerCallbackHandlerPtr counter_fired_callback = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int counter) {
                 int count = counter >> 2;

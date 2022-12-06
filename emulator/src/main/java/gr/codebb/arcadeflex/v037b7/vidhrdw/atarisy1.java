@@ -11,6 +11,7 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
@@ -19,7 +20,6 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
@@ -27,16 +27,13 @@ import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
 
 public class atarisy1
 {
@@ -411,7 +408,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	public static timer_callback int3off_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr int3off_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		/* clear the state */
 		atarigen_scanline_int_ack_w.handler(0, 0);
@@ -421,7 +418,7 @@ public class atarisy1
 	} };
 	
 	
-	static timer_callback atarisys1_int3_callback = new timer_callback() {
+	static TimerCallbackHandlerPtr atarisys1_int3_callback = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 /* update the state */
@@ -458,7 +455,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	public static timer_callback atarisys1_scanline_update = new timer_callback() {
+	public static TimerCallbackHandlerPtr atarisys1_scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 int bank = ((atarisys1_bankselect.READ_WORD(0) >> 3) & 7) * 0x200;

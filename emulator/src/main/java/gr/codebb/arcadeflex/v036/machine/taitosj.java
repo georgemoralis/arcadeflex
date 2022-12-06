@@ -16,6 +16,7 @@
  */ 
 package gr.codebb.arcadeflex.v036.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -27,8 +28,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class taitosj
 {
@@ -101,7 +102,7 @@ public class taitosj
 	
 	
 	/* timer callback : */
-        public static timer_callback taitosj_mcu_real_data_r = new timer_callback(){ public void handler(int param){
+        public static TimerCallbackHandlerPtr taitosj_mcu_real_data_r = new TimerCallbackHandlerPtr(){ public void handler(int param){
 		zaccept = 1;
 	}};
 	
@@ -115,7 +116,7 @@ public class taitosj
 	} };
 	
 	/* timer callback : */
-        public static timer_callback taitosj_mcu_real_data_w = new timer_callback(){ public void handler(int data){
+        public static TimerCallbackHandlerPtr taitosj_mcu_real_data_w = new TimerCallbackHandlerPtr(){ public void handler(int data){
 		zready = 1;
 		cpu_set_irq_line(2,0,ASSERT_LINE);
 		fromz80 = (char)(data&0xFF);
@@ -187,12 +188,12 @@ public class taitosj
 	static int address;
 	
 	/* timer callback : 68705 is going to read data from the Z80 */
-        public static timer_callback taitosj_mcu_data_real_r = new timer_callback(){ public void handler(int data){
+        public static TimerCallbackHandlerPtr taitosj_mcu_data_real_r = new TimerCallbackHandlerPtr(){ public void handler(int data){
 		zready = 0;
 	}};
 	
 	/* timer callback : 68705 is writing data for the Z80 */
-        public static timer_callback taitosj_mcu_status_real_w = new timer_callback(){ public void handler(int data){
+        public static TimerCallbackHandlerPtr taitosj_mcu_status_real_w = new TimerCallbackHandlerPtr(){ public void handler(int data){
 		toz80 = (char)(data &0xFF);
 		zaccept = 0;
 	}};

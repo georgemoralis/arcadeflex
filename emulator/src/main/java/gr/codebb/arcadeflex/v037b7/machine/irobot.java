@@ -4,17 +4,17 @@
  */
 package gr.codebb.arcadeflex.v037b7.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_FIRQ_LINE;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
@@ -104,7 +104,7 @@ public class irobot {
         }
     };
 
-    public static timer_callback irvg_done_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr irvg_done_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             //logerror("vg done. ");
             //IR_CPU_STATE;
@@ -196,7 +196,7 @@ public class irobot {
             //set_led_status(1,data & 0x20);
         }
     };
-    public static timer_callback scanline_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr scanline_callback = new TimerCallbackHandlerPtr() {
         public void handler(int scanline) {
             if (scanline == 0) {
                 irvg_vblank = 0;
@@ -455,7 +455,7 @@ public class irobot {
         }
     };
 
-    public static timer_callback irmb_done_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr irmb_done_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             //logerror("mb done. ");
             //IR_CPU_STATE;

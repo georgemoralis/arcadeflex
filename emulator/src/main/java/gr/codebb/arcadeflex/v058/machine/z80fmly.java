@@ -3,8 +3,9 @@ package gr.codebb.arcadeflex.v058.machine;
 import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptEntryPtr;
 import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptRetiPtr;
 import arcadeflex.v036.generic.funcPtr.DaisyChainResetPtr;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v058.machine.z80fmlyH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
@@ -333,7 +334,7 @@ public class z80fmly {
             }
         };
 	
-	public static timer_callback z80ctc_timercallback = new timer_callback() {
+	public static TimerCallbackHandlerPtr z80ctc_timercallback = new TimerCallbackHandlerPtr() {
             public void handler(int param) {
 
 		int which = param >> 2;

@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -27,8 +28,8 @@ import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.tmnt.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
@@ -304,13 +305,13 @@ public class tmnt {
 }};
     static int sound_nmi_enabled;
 
-    public static timer_callback sound_nmi_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr sound_nmi_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             cpu_set_nmi_line(1, (sound_nmi_enabled) != 0 ? CLEAR_LINE : ASSERT_LINE);
             sound_nmi_enabled = 0;
         }
     };
-    public static timer_callback nmi_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr nmi_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 
             cpu_set_nmi_line(1, ASSERT_LINE);

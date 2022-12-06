@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.sndintrf;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
@@ -9,8 +10,8 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 /**
  *
@@ -552,7 +553,7 @@ public class upd7759 extends sndintrf.snd_interface {
 /*TODO*/// signal is sent to the DAC.
 /*TODO*/// ************************************************************/
     static int dac_msb = 0;
-    public static timer_callback UPD7759_dac = new timer_callback() {
+    public static TimerCallbackHandlerPtr UPD7759_dac = new TimerCallbackHandlerPtr() {
         public void handler(int num) {
 
             //struct UPD7759voice *voice = updadpcm + num;

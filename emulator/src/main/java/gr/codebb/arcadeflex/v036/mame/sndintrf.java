@@ -1,4 +1,5 @@
 package gr.codebb.arcadeflex.v036.mame;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.v036.sound.Dummy_snd;
 import gr.codebb.arcadeflex.v037b7.sound.dac;
 import gr.codebb.arcadeflex.v036.sound.samples;
@@ -7,8 +8,8 @@ import gr.codebb.arcadeflex.v036.sound.sn76496;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import gr.codebb.arcadeflex.v037b7.sound.ay8910;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import gr.codebb.arcadeflex.v036.sound.CustomSound;
@@ -46,7 +47,7 @@ public class sndintrf {
     
     static int latch,read_debug;
 
-    public static timer_callback soundlatch_callback = new timer_callback(){ public void handler(int param){
+    public static TimerCallbackHandlerPtr soundlatch_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
         if (errorlog!=null && read_debug == 0 && latch != param)
     	fprintf(errorlog,"Warning: sound latch written before being read. Previous: %02x, new: %02x\n",latch,param);
     	latch = param;
@@ -70,7 +71,7 @@ public class sndintrf {
     
     static int latch2,read_debug2;
     
-    public static timer_callback soundlatch2_callback = new timer_callback(){ public void handler(int param){
+    public static TimerCallbackHandlerPtr soundlatch2_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
         if (errorlog!=null && read_debug2 == 0 && latch2 != param)
     	fprintf(errorlog,"Warning: sound latch 2 written before being read. Previous: %02x, new: %02x\n",latch2,param);
     	latch2 = param;
@@ -95,7 +96,7 @@ public class sndintrf {
     /*TODO*////*TODO*///
     static int latch3,read_debug3;
     
-    static timer_callback soundlatch3_callback = new timer_callback(){ public void handler(int param){
+    static TimerCallbackHandlerPtr soundlatch3_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
         if (errorlog!=null && read_debug3 == 0 && latch3 != param)
             fprintf(errorlog,"Warning: sound latch 3 written before being read. Previous: %02x, new: %02x\n",latch3,param);
     	latch3 = param;

@@ -16,12 +16,12 @@
  *
  */
 package gr.codebb.arcadeflex.v036.machine;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.machine.tait8741H.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class tait8741 {
 
@@ -82,7 +82,7 @@ public class tait8741 {
     }
 
     /* timer callback of serial tx finish */
-    public static timer_callback taito8741_serial_tx = new timer_callback() {
+    public static TimerCallbackHandlerPtr taito8741_serial_tx = new TimerCallbackHandlerPtr() {
         public void handler(int num) {
             I8741 st = taito8741[num];
             I8741 sst;

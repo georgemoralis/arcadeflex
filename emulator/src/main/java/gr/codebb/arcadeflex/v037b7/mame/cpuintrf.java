@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import gr.codebb.arcadeflex.v036.cpu.konami.konami;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
@@ -1234,7 +1234,7 @@ public class cpuintrf {
      */
 
     /* generate a trigger */
-    public static timer_callback cpu_trigger = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_trigger = new TimerCallbackHandlerPtr() {
         public void handler(int trigger) {
             timer_trigger(trigger);
         }
@@ -1311,7 +1311,7 @@ public class cpuintrf {
      * Internal CPU event processors.
      * *************************************************************************
      */
-    public static timer_callback cpu_manualnmicallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_manualnmicallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int cpunum, state, oldactive;
             cpunum = param & 7;
@@ -1357,7 +1357,7 @@ public class cpuintrf {
         }
     };
 
-    public static timer_callback cpu_manualirqcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_manualirqcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int cpunum, irqline, state, oldactive;
 
@@ -1932,7 +1932,7 @@ public class cpuintrf {
         cpu.get(param).iloops--;
     }
 
-    public static timer_callback cpu_timedintcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_timedintcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             /* bail if there is no routine */
             if (Machine.drv.cpu[param].timed_interrupt == null) {
@@ -1944,7 +1944,7 @@ public class cpuintrf {
         }
     };
 
-    public static timer_callback cpu_manualintcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_manualintcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int intnum = param >> 3;
             int cpunum = param & 7;
@@ -1954,14 +1954,14 @@ public class cpuintrf {
         }
     };
 
-    public static timer_callback cpu_clearintcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_clearintcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             /* clear the interrupts */
             cpu_clear_interrupts(param);
         }
     };
 
-    public static timer_callback cpu_resetcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_resetcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int state = param >> 3;
             int cpunum = param & 7;
@@ -1983,7 +1983,7 @@ public class cpuintrf {
         }
     };
 
-    public static timer_callback cpu_haltcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_haltcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int state = param >> 3;
             int cpunum = param & 7;
@@ -2028,7 +2028,7 @@ public class cpuintrf {
      * service VBLANK-synced interrupts and to begin the screen update process.
      * *************************************************************************
      */
-    public static timer_callback cpu_firstvblankcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_firstvblankcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 
             /* now that we're synced up, pulse from here on out */
@@ -2039,7 +2039,7 @@ public class cpuintrf {
         }
     };
     /* note that calling this with param == -1 means count everything, but call no subroutines */
-    public static timer_callback cpu_vblankcallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_vblankcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int i;
 
@@ -2084,7 +2084,7 @@ public class cpuintrf {
      * after the VBLANK in order to trigger a video update.
      * *************************************************************************
      */
-    public static timer_callback cpu_updatecallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_updatecallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             /* update the screen if we didn't before */
             if ((Machine.drv.video_attributes & VIDEO_UPDATE_AFTER_VBLANK) != 0) {
@@ -2133,7 +2133,7 @@ public class cpuintrf {
         }
     }
 
-    public static timer_callback cpu_timeslicecallback = new timer_callback() {
+    public static TimerCallbackHandlerPtr cpu_timeslicecallback = new TimerCallbackHandlerPtr() {
         public void handler(int i) {
             timer_trigger(TRIGGER_TIMESLICE);
         }

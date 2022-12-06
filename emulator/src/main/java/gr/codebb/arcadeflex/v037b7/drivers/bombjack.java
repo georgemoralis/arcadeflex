@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
@@ -16,14 +17,14 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.bombjack.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class bombjack {
 
     static int latch;
-    public static timer_callback soundlatch_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr soundlatch_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             latch = param;
         }

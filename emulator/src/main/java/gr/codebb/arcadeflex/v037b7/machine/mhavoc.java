@@ -1,22 +1,19 @@
 package gr.codebb.arcadeflex.v037b7.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_NMI;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvgH.*;
 
 public class mhavoc {
 
@@ -204,7 +201,7 @@ public class mhavoc {
 /*TODO*///            set_led_status(0, data & 0x02);
         }
     };
-    public static timer_callback mhavoc_gamma_irq = new timer_callback() {
+    public static TimerCallbackHandlerPtr mhavoc_gamma_irq = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 
             cpu_set_irq_line(1, 0, HOLD_LINE);

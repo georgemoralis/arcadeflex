@@ -13,8 +13,8 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -27,15 +27,11 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsaH.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
 import gr.codebb.arcadeflex.v037b7.sound._2413intfH.YM2413interface;
@@ -72,7 +68,7 @@ public class rampart
             }
         };
 	
-	static timer_callback scanline_update = new timer_callback() {
+	static TimerCallbackHandlerPtr scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 /* update video */

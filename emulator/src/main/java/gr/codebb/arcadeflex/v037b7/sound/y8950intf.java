@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
@@ -22,9 +23,8 @@ import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v036.sound.streams.stream_init;
 import static gr.codebb.arcadeflex.v036.sound.streams.stream_update;
-import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_remove;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_set;
+import static arcadeflex.v036.mame.timer.timer_remove;
+import static arcadeflex.v036.mame.timer.timer_set;
 import gr.codebb.arcadeflex.v037b7.sound._3812intfH.Y8950interface;
 import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
@@ -104,7 +104,7 @@ public class y8950intf extends snd_interface {
         }
         return 0;
     }
-    public static timer_callback timer_callback_3812 = new timer_callback() {
+    public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_3812 = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int n = param >> 1;
             int c = param & 1;
@@ -126,7 +126,7 @@ public class y8950intf extends snd_interface {
             } else {
                 /* Start FM Timer */
 
-                Timer[c] = timer_set(period, c, timer_callback_3812);
+                Timer[c] = timer_set(period, c, TimerCallbackHandlerPtr_3812);
             }
         }
     };

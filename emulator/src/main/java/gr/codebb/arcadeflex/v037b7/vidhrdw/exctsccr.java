@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -14,10 +15,9 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_pulse;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_remove;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.TIME_IN_HZ;
+import static arcadeflex.v036.mame.timer.timer_pulse;
+import static arcadeflex.v036.mame.timer.timer_remove;
+import static arcadeflex.v036.mame.timerH.TIME_IN_HZ;
 
 public class exctsccr {
 
@@ -31,7 +31,7 @@ public class exctsccr {
 
     public static Object exctsccr_fm_timer;
 
-    public static timer_callback exctsccr_fm_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr exctsccr_fm_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             cpu_cause_interrupt(1, 0xff);
         }

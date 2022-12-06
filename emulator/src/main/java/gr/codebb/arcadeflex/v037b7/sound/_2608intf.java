@@ -4,6 +4,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
@@ -13,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2608intfH.MAX_2608;
 import gr.codebb.arcadeflex.v037b7.sound._2608intfH.YM2608interface;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
@@ -63,7 +64,7 @@ public class _2608intf extends snd_interface {
         }
     };
     /* Timer overflow callback from timer.c */
-    public static timer_callback timer_callback_2608 = new timer_callback() {
+    public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_2608 = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             int n = param & 0x7f;
             int c = param >> 7;
@@ -90,7 +91,7 @@ public class _2608intf extends snd_interface {
                 double timeSec = (double) count * stepTime;
 
                 if (Timer[n][c] == null) {
-                    Timer[n][c] = timer_set(timeSec, (c << 7) | n, timer_callback_2608);
+                    Timer[n][c] = timer_set(timeSec, (c << 7) | n, TimerCallbackHandlerPtr_2608);
                 }
             }
         }

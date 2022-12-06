@@ -36,7 +36,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.system1H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.system1.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

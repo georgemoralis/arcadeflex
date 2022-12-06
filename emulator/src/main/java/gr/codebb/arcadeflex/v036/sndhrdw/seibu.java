@@ -39,8 +39,9 @@
  */
 package gr.codebb.arcadeflex.v036.sndhrdw;
 
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -65,7 +66,7 @@ public class seibu {
     public static final int RST18_CLEAR = 4;
 
     static int irq1, irq2;
-    public static timer_callback setvector_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr setvector_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 
             switch (param) {

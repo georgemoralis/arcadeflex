@@ -6,6 +6,14 @@ package arcadeflex.v036.generic;
 public class funcPtr {
 
     /**
+     * Timer callback
+     */
+    public static abstract interface TimerCallbackHandlerPtr {
+
+        public abstract void handler(int i);
+    }
+
+    /**
      * cpu interface related
      */
     public static abstract interface BurnHandlerPtr {

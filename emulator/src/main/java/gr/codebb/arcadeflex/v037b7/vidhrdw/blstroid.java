@@ -43,28 +43,22 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
         
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static arcadeflex.v036.mame.timer.*;
 import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
 
@@ -154,14 +148,14 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	static timer_callback irq_off = new timer_callback() {
+	static TimerCallbackHandlerPtr irq_off = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 atarigen_scanline_int_ack_w.handler(0, 0);
             }
         };
 	
-	public static timer_callback blstroid_scanline_update = new timer_callback() {
+	public static TimerCallbackHandlerPtr blstroid_scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
 		int offset = (scanline / 8) * 0x80 + 0x50;

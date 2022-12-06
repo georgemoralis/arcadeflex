@@ -124,13 +124,13 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.gauntlet.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -143,10 +143,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
-import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
@@ -205,7 +201,7 @@ public class gauntlet
         };
 	
 	
-	static timer_callback scanline_update = new timer_callback() {
+	static TimerCallbackHandlerPtr scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 gauntlet_scanline_update(scanline);

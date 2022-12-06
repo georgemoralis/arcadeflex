@@ -1,7 +1,7 @@
 /*
- * ported to 0.37b7 
+ * ported to 0.36 
  */
-package gr.codebb.arcadeflex.v037b7.mame;
+package arcadeflex.v036.mame;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
@@ -10,7 +10,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcpu;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpuintf;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class timer {
 
@@ -21,16 +21,11 @@ public class timer {
     /*
    *		internal timer structures
      */
-    public abstract static interface timer_callback {
-
-        public abstract void handler(int i);
-    }
-
     public static class timer_entry {
 
         public timer_entry next;
         public timer_entry prev;
-        public timer_callback callback;
+        public TimerCallbackHandlerPtr callback;
         public int callback_param;
         public int enabled;
         public double period;
@@ -265,7 +260,7 @@ public class timer {
      * allocate a pulse timer, which repeatedly calls the callback using the
      * given period
      */
-    public static timer_entry timer_pulse(double period, int param, timer_callback callback) {
+    public static timer_entry timer_pulse(double period, int param, TimerCallbackHandlerPtr callback) {
         double time = getabsolutetime();
         timer_entry timer;
 
@@ -308,7 +303,7 @@ public class timer {
      * allocate a one-shot timer, which calls the callback after the given
      * duration
      */
-    public static timer_entry timer_set(double duration, int param, timer_callback callback) {
+    public static timer_entry timer_set(double duration, int param, TimerCallbackHandlerPtr callback) {
         double time = getabsolutetime();
         timer_entry timer;
 
@@ -838,64 +833,4 @@ public class timer {
         /* failure */
         return 0;
     }
-    /*TODO*/
-    //
-    /*TODO*/
-    //
-    /*TODO*/
-    //
-    /*TODO*/
-    /// *
-    /*TODO*/
-    // *		debugging
-    /*TODO*/
-    // */
-    /*TODO*/
-    // #if VERBOSE
-    /*TODO*/
-    //
-    /*TODO*/
-    // #ifdef macintosh
-    /*TODO*/
-    // #undef printf
-    /*TODO*/
-    // #endif
-    /*TODO*/
-    //
-    /*TODO*/
-    // static void verbose_print(char *s, ...)
-    /*TODO*/
-    // {
-    /*TODO*/
-    //	va_list ap;
-    /*TODO*/
-    //
-    /*TODO*/
-    //	va_start(ap, s);
-    /*TODO*/
-    //
-    /*TODO*/
-    //	#if (VERBOSE == 1)
-    /*TODO*/
-    //		if (errorlog) vfprintf(errorlog, s, ap);
-    /*TODO*/
-    //	#else
-    /*TODO*/
-    //		vprintf(s, ap);
-    /*TODO*/
-    //		fflush(NULL);
-    /*TODO*/
-    //	#endif
-    /*TODO*/
-    //
-    /*TODO*/
-    //	va_end(ap);
-    /*TODO*/
-    // }
-    /*TODO*/
-    //
-    /*TODO*/
-    // #endif
-    /*TODO*/
-    //
 }

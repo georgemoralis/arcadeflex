@@ -3,19 +3,20 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_irq_line_vector_w;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_set_irq_line;
-import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_signed_data_w;
-import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.timer_set;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.TIME_NOW;
 
 public class m72 {
 
@@ -36,7 +37,7 @@ public class m72 {
     public static final int Z80_CLEAR = 4;
 
     static int irqvector;
-    public static timer_callback setvector_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr setvector_callback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             switch (param) {
                 case VECTOR_INIT:

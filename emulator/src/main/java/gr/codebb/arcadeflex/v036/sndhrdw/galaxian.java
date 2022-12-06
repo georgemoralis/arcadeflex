@@ -6,6 +6,7 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.sndhrdw;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -13,8 +14,8 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 
 public class galaxian
@@ -142,7 +143,7 @@ public class galaxian
 		vol = (vol & ~(1 << offset)) | ((data & 1) << offset);
 	} };
 	
-	public static timer_callback noise_timer_cb = new timer_callback() {
+	public static TimerCallbackHandlerPtr noise_timer_cb = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 		if( noisevolume > 0 )
 		{
@@ -484,7 +485,7 @@ public class galaxian
 		mixer_set_volume(channellfo+offset,(data & 1)!=0 ? 100 : 0);
 	} };
 	
-        public static timer_callback lfo_timer_cb = new timer_callback() {
+        public static TimerCallbackHandlerPtr lfo_timer_cb = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 		if( freq > MINFREQ )
 			freq--;

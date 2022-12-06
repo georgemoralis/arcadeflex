@@ -17,12 +17,13 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._2612intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fm.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
@@ -69,7 +70,7 @@ public class _2612intf extends snd_interface
         
 	
 	/* Timer overflow callback from timer.c */
-	public static timer_callback timer_callback_2612 = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr TimerCallbackHandlerPtr_2612 = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		int n=param&0x7f;
 		int c=param>>7;
@@ -108,7 +109,7 @@ public class _2612intf extends snd_interface
 	
 	//			logerror("2612 TimerSet %d %f slack %f\n",c,timeSec,slack);
 	
-				Timer[n][c] = timer_set (timeSec - slack, (c<<7)|n, timer_callback_2612 );
+				Timer[n][c] = timer_set (timeSec - slack, (c<<7)|n, TimerCallbackHandlerPtr_2612 );
 			}
 		}
             }

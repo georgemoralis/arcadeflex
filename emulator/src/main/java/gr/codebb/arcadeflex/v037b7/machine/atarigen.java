@@ -13,8 +13,8 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
@@ -22,8 +22,8 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
@@ -225,7 +225,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static timer_callback scanline_interrupt_callback = new timer_callback() { public void handler(int param) 
+	public static TimerCallbackHandlerPtr scanline_interrupt_callback = new TimerCallbackHandlerPtr() { public void handler(int param) 
 	{
 		/* generate the interrupt */
 		atarigen_scanline_int_gen();
@@ -750,7 +750,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static timer_callback sound_comm_timer = new timer_callback() {
+	public static TimerCallbackHandlerPtr sound_comm_timer = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int reps_left) {
                 if (--reps_left != 0)
@@ -766,7 +766,7 @@ public class atarigen
 	 *
 	 */
 	
-	static timer_callback delayed_sound_reset = new timer_callback() {
+	static TimerCallbackHandlerPtr delayed_sound_reset = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 /* unhalt and reset the sound CPU */
@@ -790,7 +790,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static timer_callback delayed_sound_w = new timer_callback() {
+	public static TimerCallbackHandlerPtr delayed_sound_w = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 /* warn if we missed something */
@@ -817,7 +817,7 @@ public class atarigen
 	 *
 	 */
 	
-	static timer_callback delayed_6502_sound_w = new timer_callback() {
+	static TimerCallbackHandlerPtr delayed_6502_sound_w = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 /* warn if we missed something */
@@ -1040,7 +1040,7 @@ public class atarigen
 	--------------------------------------------------------------------------*/
 	
 	/* statics */
-	public static timer_callback scanline_callback;
+	public static TimerCallbackHandlerPtr scanline_callback;
 	public static int scanlines_per_callback;
 	public static double scanline_callback_period;
 	public static int last_scanline;
@@ -1054,7 +1054,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static void atarigen_scanline_timer_reset(timer_callback update_graphics, int frequency)
+	public static void atarigen_scanline_timer_reset(TimerCallbackHandlerPtr update_graphics, int frequency)
 	{
 		/* set the scanline callback */
 		scanline_callback = update_graphics;
@@ -1076,7 +1076,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static timer_callback vblank_timer = new timer_callback() {
+	public static TimerCallbackHandlerPtr vblank_timer = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 /* set a timer to go off at scanline 0 */
@@ -1095,7 +1095,7 @@ public class atarigen
 	 *
 	 */
 	
-	static timer_callback scanline_timer = new timer_callback() {
+	static TimerCallbackHandlerPtr scanline_timer = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
 		/* if this is scanline 0, we reset the MO and playfield system */
@@ -3254,7 +3254,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static timer_callback unhalt_cpu = new timer_callback() {
+	public static TimerCallbackHandlerPtr unhalt_cpu = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
 		cpu_set_halt_line(param, CLEAR_LINE);

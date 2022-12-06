@@ -32,7 +32,7 @@ import static gr.codebb.arcadeflex.v037b7.vidhrdw.segar.*;
 import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
 import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
 import static gr.codebb.arcadeflex.v037b7.sound.tms36xxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class segar {
 

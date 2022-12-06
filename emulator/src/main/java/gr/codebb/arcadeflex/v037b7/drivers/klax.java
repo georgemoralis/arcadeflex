@@ -59,32 +59,20 @@ ADPCM chip              270000         R/W   D[7:0]
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.klax.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
@@ -116,7 +104,7 @@ public class klax
             }
         };
 	
-	static timer_callback scanline_update = new timer_callback() {
+	static TimerCallbackHandlerPtr scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 /* update the video */

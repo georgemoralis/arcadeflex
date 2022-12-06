@@ -14,20 +14,19 @@ Additional tweaking by Jarek Burczynski
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.MC68000_IRQ_1;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.magmax.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -68,7 +67,7 @@ public class magmax
 		if (LS74_clr == 0)
 			LS74_q = 0;
 	} };
-	static timer_callback scanline_callback = new timer_callback() {
+	static TimerCallbackHandlerPtr scanline_callback = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 /* bit 0 goes hi whenever line V6 from video part goes lo.hi */

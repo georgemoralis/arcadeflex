@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.sound;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
@@ -8,8 +9,8 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 public class MSM5205 extends snd_interface {
 
     /*
@@ -207,7 +208,7 @@ public class MSM5205 extends snd_interface {
             }
         }
     };
-    public static timer_callback MSM5205_vclk_callback = new timer_callback() {
+    public static TimerCallbackHandlerPtr MSM5205_vclk_callback = new TimerCallbackHandlerPtr() {
         public void handler(int num) {
             MSM5205Voice voice = msm5205[num];
             int val;

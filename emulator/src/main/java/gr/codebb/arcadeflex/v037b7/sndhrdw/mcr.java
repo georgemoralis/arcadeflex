@@ -12,13 +12,13 @@
  */
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6800H.M6800_IRQ_LINE;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.machine._6812piaH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcrH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
@@ -172,7 +172,7 @@ public class mcr {
             return u8_ssio_data[offset] & 0xFF;
         }
     };
-    public static timer_callback ssio_delayed_data_w = new timer_callback() {
+    public static TimerCallbackHandlerPtr ssio_delayed_data_w = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
 
             u8_ssio_data[param >> 8] = param & 0xff;
@@ -323,7 +323,7 @@ public class mcr {
         }
     };
 
-    static timer_callback csdeluxe_delayed_data_w = new timer_callback() {
+    static TimerCallbackHandlerPtr csdeluxe_delayed_data_w = new TimerCallbackHandlerPtr() {
         @Override
         public void handler(int param) {
             pia_0_portb_w.handler(0, param & 0x0f);
@@ -417,7 +417,7 @@ public class mcr {
         }
     };
 
-    static timer_callback soundsgood_delayed_data_w = new timer_callback() {
+    static TimerCallbackHandlerPtr soundsgood_delayed_data_w = new TimerCallbackHandlerPtr() {
         @Override
         public void handler(int param) {
             pia_1_portb_w.handler(0, (param >> 1) & 0x0f);
@@ -513,7 +513,7 @@ public class mcr {
 /*TODO*///            cpu_set_irq_line(u8_turbocs_sound_cpu, M6809_IRQ_LINE, state != 0 ? ASSERT_LINE : CLEAR_LINE);
 /*TODO*///        }
 /*TODO*///    };
-    public static timer_callback turbocs_delayed_data_w = new timer_callback() {
+    public static TimerCallbackHandlerPtr turbocs_delayed_data_w = new TimerCallbackHandlerPtr() {
         public void handler(int param) {
             pia_0_portb_w.handler(0, (param >> 1) & 0x0f);
             pia_0_ca1_w.handler(0, ~param & 0x01);
@@ -622,7 +622,7 @@ public class mcr {
             cpu_set_irq_line(u8_squawkntalk_sound_cpu, M6800_IRQ_LINE, state != 0 ? ASSERT_LINE : CLEAR_LINE);
         }
     };
-    static timer_callback squawkntalk_delayed_data_w = new timer_callback() {
+    static TimerCallbackHandlerPtr squawkntalk_delayed_data_w = new TimerCallbackHandlerPtr() {
         @Override
         public void handler(int param) {
             pia_0_porta_w.handler(0, ~param & 0x0f);

@@ -122,13 +122,12 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
         
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.atarisy1.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -140,14 +139,10 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
-import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
@@ -253,7 +248,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	static timer_callback delayed_joystick_int = new timer_callback() {
+	static TimerCallbackHandlerPtr delayed_joystick_int = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 joystick_timer = null;

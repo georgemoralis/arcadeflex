@@ -1,10 +1,10 @@
 /*
  * ported to 0.37b7
  */
-package gr.codebb.arcadeflex.v037b7.mame;
+package arcadeflex.v036.mame;
 
-import static gr.codebb.arcadeflex.v037b7.mame.timer.cycles_to_sec;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.sec_to_cycles;
+import static arcadeflex.v036.mame.timer.cycles_to_sec;
+import static arcadeflex.v036.mame.timer.sec_to_cycles;
 
 public class timerH {
 

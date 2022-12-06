@@ -57,11 +57,11 @@ RAM                                FF4000-FFFFFF  R/W
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -73,10 +73,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
-import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsaH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
@@ -109,7 +106,7 @@ public class skullxbo
             }
         };
 		
-	static timer_callback irq_gen = new timer_callback() {
+	static TimerCallbackHandlerPtr irq_gen = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int param) {
                 //(void)param;
@@ -118,7 +115,7 @@ public class skullxbo
         };
         
 	
-	static timer_callback alpha_row_update = new timer_callback() {
+	static TimerCallbackHandlerPtr alpha_row_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 UShortArray check = new UShortArray(atarigen_alpharam, ((scanline / 8) * 64 + 42) * 2);

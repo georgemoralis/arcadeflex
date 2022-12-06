@@ -5,6 +5,7 @@
  */
 package gr.codebb.arcadeflex.v037b7.machine;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
@@ -12,11 +13,11 @@ import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
+import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
 import static arcadeflex.v036.vidhrdw.galaga.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class galaga {
 
@@ -163,7 +164,7 @@ public class galaga {
         }
     };
 
-    public static timer_callback galaga_nmi_generate = new timer_callback() {
+    public static TimerCallbackHandlerPtr galaga_nmi_generate = new TimerCallbackHandlerPtr() {
         public void handler(int trigger) {
             cpu_cause_interrupt(0, Z80_NMI_INT);
         }

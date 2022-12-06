@@ -43,9 +43,8 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
         
-import gr.codebb.arcadeflex.common.PtrLib;
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
@@ -57,10 +56,8 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static common.libc.cstring.*;
 
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
-import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 
 public class offtwall
 {
@@ -158,7 +155,7 @@ public class offtwall
 	 *
 	 *************************************/
 	
-	public static timer_callback offtwall_scanline_update = new timer_callback() {
+	public static TimerCallbackHandlerPtr offtwall_scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 /* update the playfield */

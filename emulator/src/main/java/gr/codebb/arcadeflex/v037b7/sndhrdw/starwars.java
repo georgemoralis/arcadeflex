@@ -17,11 +17,12 @@ See drivers\starwars.c for notes
  */ 
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_IRQ;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intf.*;
@@ -58,7 +59,7 @@ public class starwars
 	
 	/********************************************************/
 	
-	static timer_callback snd_interrupt = new timer_callback() {
+	static TimerCallbackHandlerPtr snd_interrupt = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int foo) {
                 irq_flag |= 0x80; /* set timer interrupt flag */

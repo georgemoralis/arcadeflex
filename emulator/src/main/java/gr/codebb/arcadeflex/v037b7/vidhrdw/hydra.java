@@ -54,6 +54,7 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
         
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
@@ -61,23 +62,17 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import gr.codebb.arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.paletteH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import gr.codebb.arcadeflex.v037b7.mame.timer.timer_callback;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH;
 
 public class hydra
 {
@@ -258,7 +253,7 @@ public class hydra
 	} };
 	
 	
-	public static timer_callback hydra_scanline_update = new timer_callback() {
+	public static TimerCallbackHandlerPtr hydra_scanline_update = new TimerCallbackHandlerPtr() {
             @Override
             public void handler(int scanline) {
                 UShortArray base = new UShortArray(atarigen_alpharam, ((scanline / 8) * 64 + 47) * 2);

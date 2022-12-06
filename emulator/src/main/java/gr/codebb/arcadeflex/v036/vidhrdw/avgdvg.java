@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
@@ -9,8 +10,8 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvgH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.mame.timerH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 
 public class avgdvg {
     public static final int VEC_SHIFT = 16;
@@ -583,7 +584,7 @@ public class avgdvg {
         }
     }
 
-    public static timer_callback avgdvg_clr_busy = new timer_callback() {
+    public static TimerCallbackHandlerPtr avgdvg_clr_busy = new TimerCallbackHandlerPtr() {
         public void handler(int dummy) {
 
             busy = 0;
