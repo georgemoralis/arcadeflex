@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu.tms32010;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -52,7 +55,7 @@ public class tms32010 extends cpu_interface{
         char/*UINT16*/STR;
 	int     pending_irq, BIO_pending_irq;
 	int     irq_state;
-	public irqcallbacksPtr irq_callback;
+	public IrqCallbackHandlerPtr irq_callback;
     }
     static /*UINT16*/char   opcode=0;
     static /*UINT8*/int opcode_major=0, opcode_minor, opcode_minr;	/* opcode split into MSB and LSB */
@@ -788,7 +791,7 @@ public class tms32010 extends cpu_interface{
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         R.irq_callback = callback;
     }
 

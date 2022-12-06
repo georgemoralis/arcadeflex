@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu.nec;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static common.libc.expressions.BOOL;
 import static common.libc.expressions.NOT;
 import arcadeflex.v036.mame.cpuintrfH;
@@ -112,7 +115,7 @@ public class v30 extends cpuintrfH.cpu_interface {
         int[] base = new int[4];
         /*UINT16*/
         int[] sregs = new int[4];
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
         int AuxVal, OverVal, SignVal, ZeroVal, CarryVal, ParityVal;
         /* 0 or non-0 valued flags */
 
@@ -6412,7 +6415,7 @@ public class v30 extends cpuintrfH.cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(cpuintrfH.irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         I.irq_callback = callback;
     }
 

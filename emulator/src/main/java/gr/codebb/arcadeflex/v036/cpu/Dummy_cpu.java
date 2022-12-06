@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -33,7 +36,7 @@ public class Dummy_cpu extends cpu_interface {
 		return "";
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    public burnPtr burn_function = new burnPtr() { public void handler(int cycles)
+    public BurnHandlerPtr burn_function = new BurnHandlerPtr() { public void handler(int cycles)
     {
      throw new UnsupportedOperationException("Not supported yet.");
     }};
@@ -49,7 +52,7 @@ public class Dummy_cpu extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

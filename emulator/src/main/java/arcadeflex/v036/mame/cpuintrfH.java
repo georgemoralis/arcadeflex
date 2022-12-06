@@ -53,17 +53,6 @@ public class cpuintrfH {
      */
     public static final int REG_SP_CONTENTS = -2;
 
-    /* ASG 971222 -- added this generic structure */
-    public static abstract interface burnPtr {
-
-        public abstract void handler(int cycles);
-    }
-
-    public static abstract interface irqcallbacksPtr {
-
-        public abstract int handler(int irqline);
-    }
-
     public static abstract class cpu_interface {
 
         public int cpu_num;
@@ -73,7 +62,7 @@ public class cpuintrfH {
         public abstract void exit();
 
         public abstract int execute(int cycles);
-        public burnPtr burn;
+        public BurnHandlerPtr burn;
 
         public abstract Object init_context(); //not in mame , used specific for arcadeflex
 
@@ -97,7 +86,7 @@ public class cpuintrfH {
 
         public abstract void set_irq_line(int irqline, int linestate);
 
-        public abstract void set_irq_callback(irqcallbacksPtr callback);
+        public abstract void set_irq_callback(IrqCallbackHandlerPtr callback);
 
         public abstract void internal_interrupt(int type);
 

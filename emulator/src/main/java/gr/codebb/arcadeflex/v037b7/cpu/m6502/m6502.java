@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.cpu.m6502;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
@@ -105,7 +108,7 @@ public class m6502 extends cpu_interface {
         int u8_nmi_state;
         int u8_irq_state;
         int u8_so_state;
-        public irqcallbacksPtr irq_callback;/* IRQ callback */
+        public IrqCallbackHandlerPtr irq_callback;/* IRQ callback */
     }
 
     static m6502_Regs m6502 = new m6502_Regs();
@@ -344,7 +347,7 @@ public class m6502 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m6502.irq_callback = callback;
     }
 

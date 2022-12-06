@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu.m6809;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
@@ -8,7 +11,6 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;
 
 /**
@@ -57,7 +59,7 @@ public class m6809 extends cpu_interface
         public int /*UINT8*/   ireg;		/* First opcode */
         public int[] /*UINT8*/   irq_state=new int[2];
         public    int     extra_cycles; /* cycles used up by interrupts */
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
         public int /*UINT8*/   int_state;  /* SYNC and CWAI flags */
         public int /*UINT8*/   nmi_state;
     }
@@ -740,7 +742,7 @@ public class m6809 extends cpu_interface
      * Set IRQ vector callback
      ****************************************************************************/
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m6809.irq_callback = callback;
     }
     /*TODO*///
@@ -1445,7 +1447,7 @@ public class m6809 extends cpu_interface
     /*TODO*///void hd6309_state_save(void *file) { state_save(file, "hd6309"); }
     /*TODO*///void hd6309_state_load(void *file) { state_load(file, "hd6309"); }
 
-    public burnPtr burn_function = new burnPtr() { public void handler(int cycles)
+    public BurnHandlerPtr burn_function = new BurnHandlerPtr() { public void handler(int cycles)
     {
      throw new UnsupportedOperationException("Not supported yet.");
     }};

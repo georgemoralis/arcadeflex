@@ -12,6 +12,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.cpu.z80;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
@@ -62,7 +65,7 @@ public class z80 extends cpu_interface {
         public int irq_state;/* irq line state */
         public int[] int_state = new int[Z80_MAXDAISY];
         public Z80_DaisyChain[] irq = new Z80_DaisyChain[Z80_MAXDAISY];
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
         public int extra_cycles;/* extra cycles for interrupts */
     }
 
@@ -1737,7 +1740,7 @@ public class z80 extends cpu_interface {
      * Burn 'cycles' T-states. Adjust R register for the lost time
      * **************************************************************************
      */
-    public burnPtr burn_function = new burnPtr() {
+    public BurnHandlerPtr burn_function = new BurnHandlerPtr() {
         public void handler(int cycles) {
             if (cycles > 0) {
                 /* NOP takes 4 cycles per instruction */
@@ -2149,7 +2152,7 @@ public class z80 extends cpu_interface {
      * **************************************************************************
      */
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         //LOG(("Z80 #%d set_irq_callback $%08x\n",cpu_getactivecpu() , (int)callback));
         Z80.irq_callback = callback;
     }

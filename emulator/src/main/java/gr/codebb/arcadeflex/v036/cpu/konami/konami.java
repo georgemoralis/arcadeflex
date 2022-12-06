@@ -4,7 +4,10 @@
  */
 package gr.codebb.arcadeflex.v036.cpu.konami;
 
-import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -73,7 +76,7 @@ public class konami extends cpu_interface {
         public int[] /*UINT8*/ irq_state = new int[2];
         public int extra_cycles; /* cycles used up by interrupts */
 
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
         public int /*UINT8*/ int_state;  /* SYNC and CWAI flags */
 
         public int /*UINT8*/ nmi_state;
@@ -805,7 +808,7 @@ public class konami extends cpu_interface {
      * **************************************************************************
      */
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         konami.irq_callback = callback;
     }
     /*TODO*///
@@ -955,7 +958,7 @@ public class konami extends cpu_interface {
         return cycles - konami_ICount[0];
     }
 
-    public burnPtr burn_function = new burnPtr() {
+    public BurnHandlerPtr burn_function = new BurnHandlerPtr() {
         public void handler(int cycles) {
 /*TODO*///            throw new UnsupportedOperationException("Not supported yet.");
             konami_ICount[0] -= cycles;

@@ -4,7 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.mame;
 
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import gr.codebb.arcadeflex.v036.cpu.Dummy_cpu;
 import gr.codebb.arcadeflex.v036.cpu.hd6309.hd6309;
 import gr.codebb.arcadeflex.v037b7.cpu.z80.z80;
@@ -114,7 +116,7 @@ public class cpuintrf {
     static int current_frame;
 
     /* and a list of driver interception hooks */
-    public static final irqcallbacksPtr[] drv_irq_callbacks = {
+    public static final IrqCallbackHandlerPtr[] drv_irq_callbacks = {
         null, null, null, null, null, null, null, null
     };
 
@@ -160,7 +162,7 @@ public class cpuintrf {
         cpu.get(index).intf.set_irq_line(line, state);
     }
 
-    static void SETIRQCALLBACK(int index, irqcallbacksPtr callback) {
+    static void SETIRQCALLBACK(int index, IrqCallbackHandlerPtr callback) {
         cpu.get(index).intf.set_irq_callback(callback);
     }
 
@@ -854,7 +856,7 @@ public class cpuintrf {
      * HOLD_LINE and returns the interrupt vector for that line.
      * *************************************************************************
      */
-    public static irqcallbacksPtr cpu_0_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_0_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[0 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -868,7 +870,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_1_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_1_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[1 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -882,7 +884,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_2_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_2_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[2 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[2 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -896,7 +898,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_3_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_3_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[3 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[3 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -910,7 +912,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_4_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_4_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[4 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[4 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -924,7 +926,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_5_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_5_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[5 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[5 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -938,7 +940,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_6_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_6_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[6 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[6 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -952,7 +954,7 @@ public class cpuintrf {
             return vector;
         }
     };
-    public static irqcallbacksPtr cpu_7_irq_callback = new irqcallbacksPtr() {
+    public static IrqCallbackHandlerPtr cpu_7_irq_callback = new IrqCallbackHandlerPtr() {
         public int handler(int irqline) {
             int vector = irq_line_vector[7 * MAX_IRQ_LINES + irqline];
             if (irq_line_state[7 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
@@ -967,7 +969,7 @@ public class cpuintrf {
         }
     };
     /* and a list of them for indexed access */
-    public static final irqcallbacksPtr[] cpu_irq_callbacks = {
+    public static final IrqCallbackHandlerPtr[] cpu_irq_callbacks = {
         cpu_0_irq_callback,
         cpu_1_irq_callback,
         cpu_2_irq_callback,

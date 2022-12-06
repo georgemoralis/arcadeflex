@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu.m68000;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fclose;
 import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static arcadeflex.v036.mame.cpuintrfH.*;
@@ -206,7 +209,7 @@ public class m68010mame extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m68k_set_int_ack_callback(callback);
     }
 

@@ -19,6 +19,9 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gr.codebb.arcadeflex.v036.cpu.i8039;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
@@ -155,7 +158,7 @@ public class i8039 extends cpu_interface {
         public char u8_t_flag, u8_timer, u8_timerON, u8_countON, u8_xirq_en, u8_tirq_en;
         public char A11, A11ff;
         public int irq_state;
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
     }
 
     public static I8039_Regs R = new I8039_Regs();
@@ -2048,7 +2051,7 @@ public class i8039 extends cpu_interface {
      * *************************************************************************
      */
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         R.irq_callback = callback;
     }
 

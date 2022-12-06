@@ -1,13 +1,11 @@
 package gr.codebb.arcadeflex.v036.cpu.m68000;
 
-import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kmameH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kmame.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpuH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kopsH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kops.*;
@@ -181,7 +179,7 @@ public class m68kcpu {
     /* Interrupt acknowledge */
     static int default_int_ack_callback_data;
 
-    static irqcallbacksPtr default_int_ack_callback = new irqcallbacksPtr() {
+    static IrqCallbackHandlerPtr default_int_ack_callback = new IrqCallbackHandlerPtr() {
         public int handler(int int_level) {
             default_int_ack_callback_data = int_level;
             return M68K_INT_ACK_AUTOVECTOR;
@@ -392,7 +390,7 @@ public class m68kcpu {
 /*TODO*///
     /* Set the callbacks */
 
-    public static void m68k_set_int_ack_callback(irqcallbacksPtr callback) {
+    public static void m68k_set_int_ack_callback(IrqCallbackHandlerPtr callback) {
         if (callback != null) {
             set_CPU_INT_ACK_CALLBACK(callback);
         } else {

@@ -1,5 +1,7 @@
 package gr.codebb.arcadeflex.v036.cpu.h6280;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
@@ -134,7 +136,7 @@ public class h6280 extends cpu_interface {
         /* cycles used taking an interrupt */
         int nmi_state;
         int[] irq_state = new int[3];
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
     }
     static h6280_Regs h6280 = new h6280_Regs();
 
@@ -360,7 +362,7 @@ public class h6280 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         h6280.irq_callback = callback;
     }
 

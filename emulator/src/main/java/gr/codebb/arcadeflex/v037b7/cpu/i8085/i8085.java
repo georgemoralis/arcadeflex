@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v037b7.cpu.i8085;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085H.*;
@@ -105,7 +108,7 @@ public class i8085 extends cpu_interface {
         int/*INT8*/ nmi_state;
         int[]/*INT8*/ irq_state = new int[4];
         /*TODO*///	INT8	filler; /* align on dword boundary */
-        irqcallbacksPtr irq_callback;
+        IrqCallbackHandlerPtr irq_callback;
         sod_callbackPtr sod_callback;
     }
 
@@ -2180,7 +2183,7 @@ public class i8085 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         I.irq_callback = callback;
     }
 

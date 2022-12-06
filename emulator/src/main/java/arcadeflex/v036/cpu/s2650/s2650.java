@@ -6,6 +6,8 @@ package arcadeflex.v036.cpu.s2650;
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650H.*;
 import static arcadeflex.v036.cpu.s2650.s2650cpuH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
@@ -51,7 +53,7 @@ public class s2650 extends cpu_interface {
         char u8_ir;/* instruction register */
         char[] ras = new char[8];/* 8 return address stack entries */
         char u8_irq_state;
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
     }
 
     static s2650_Regs S = new s2650_Regs();
@@ -1841,7 +1843,7 @@ public class s2650 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         S.irq_callback = callback;
     }
 

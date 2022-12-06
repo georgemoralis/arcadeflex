@@ -1,7 +1,9 @@
 package gr.codebb.arcadeflex.v036.cpu.m68000;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kH.*;
-import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpu.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kmameH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
@@ -683,11 +685,11 @@ public class m68kcpuH {
         m68k_cpu.pref_data = pref_data;
     }
 
-    public static irqcallbacksPtr get_CPU_INT_ACK_CALLBACK() {
+    public static IrqCallbackHandlerPtr get_CPU_INT_ACK_CALLBACK() {
         return m68k_cpu.int_ack_callback;
     }
 
-    public static void set_CPU_INT_ACK_CALLBACK(irqcallbacksPtr int_ack_callback) {
+    public static void set_CPU_INT_ACK_CALLBACK(IrqCallbackHandlerPtr int_ack_callback) {
         m68k_cpu.int_ack_callback = int_ack_callback;
     }
 
@@ -1196,7 +1198,7 @@ public class m68kcpuH {
         public long pref_data;           /* Data in the prefetch queue */
 
         /* Callbacks to host */
-        irqcallbacksPtr int_ack_callback;  /* Interrupt Acknowledge */
+        IrqCallbackHandlerPtr int_ack_callback;  /* Interrupt Acknowledge */
 
         bkpt_ack_callbackPtr bkpt_ack_callback;     /* Breakpoint Acknowledge */
 

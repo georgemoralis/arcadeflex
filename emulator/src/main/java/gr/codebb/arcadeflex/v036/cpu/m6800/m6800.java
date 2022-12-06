@@ -1,5 +1,8 @@
 package gr.codebb.arcadeflex.v036.cpu.m6800;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -150,7 +153,7 @@ public class m6800 extends cpu_interface {
 
         public int /*UINT8*/ ic_eddge;		/* InputCapture eddge , b.0=fall,b.1=raise */
 
-        public irqcallbacksPtr irq_callback;
+        public IrqCallbackHandlerPtr irq_callback;
         int extra_cycles;	/* cycles used for interrupts */
 
         public opcode[] insn;	/* instruction table */
@@ -1632,7 +1635,7 @@ public class m6800 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m6800.irq_callback = callback;
     }
 

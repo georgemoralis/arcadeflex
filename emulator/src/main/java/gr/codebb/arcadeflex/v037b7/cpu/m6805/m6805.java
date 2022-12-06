@@ -3,6 +3,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.cpu.m6805;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -101,7 +104,7 @@ public class m6805 extends cpu_interface {
 
         char/*UINT8*/ u8_pending_interrupts;
         /* MB */
-        irqcallbacksPtr irq_callback;
+        IrqCallbackHandlerPtr irq_callback;
         int[] irq_state = new int[8];
         /* KW Additional lines for HD63705 */
         int nmi_state;
@@ -1463,7 +1466,7 @@ public class m6805 extends cpu_interface {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m6805.irq_callback = callback;
     }
 

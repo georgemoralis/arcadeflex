@@ -1,15 +1,13 @@
 package gr.codebb.arcadeflex.v037b7.cpu.m6502;
 
-import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 
@@ -105,7 +103,7 @@ public class n2a03 extends m6502 {
         int u8_nmi_state;
         int u8_irq_state;
         int u8_so_state;
-        public irqcallbacksPtr irq_callback;/* IRQ callback */
+        public IrqCallbackHandlerPtr irq_callback;/* IRQ callback */
     }
 
     static m6502_Regs m6502 = new m6502_Regs();
@@ -320,7 +318,7 @@ public class n2a03 extends m6502 {
     }
 
     @Override
-    public void set_irq_callback(irqcallbacksPtr callback) {
+    public void set_irq_callback(IrqCallbackHandlerPtr callback) {
         m6502.irq_callback = callback;
     }
 
