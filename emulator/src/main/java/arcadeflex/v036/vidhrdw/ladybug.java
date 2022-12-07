@@ -1,17 +1,22 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+
 public class ladybug {
 
     static int flipscreen;
@@ -126,7 +131,7 @@ public class ladybug {
                     }
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. Note that it is important to draw them exactly in this */
@@ -149,7 +154,7 @@ public class ladybug {
                                     spriteram.read(offs + i) & 0x20, spriteram.read(offs + i) & 0x10,
                                     spriteram.read(offs + i + 3),
                                     offs / 4 - 8 + (spriteram.read(offs + i) & 0x0f),
-                                    Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                    Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         } else /* 8x8 */ {
                             drawgfx(bitmap, Machine.gfx[2],
                                     spriteram.read(offs + i + 1) + 4 * (spriteram.read(offs + i + 2) & 0x10),
@@ -157,7 +162,7 @@ public class ladybug {
                                     spriteram.read(offs + i) & 0x20, spriteram.read(offs + i) & 0x10,
                                     spriteram.read(offs + i + 3),
                                     offs / 4 + (spriteram.read(offs + i) & 0x0f),
-                                    Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                    Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         }
                     }
                 }

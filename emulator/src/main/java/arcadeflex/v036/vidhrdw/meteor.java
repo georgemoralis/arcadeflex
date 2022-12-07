@@ -1,16 +1,19 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * 
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class meteor {
 
@@ -30,7 +33,7 @@ public class meteor {
             int offs;
 
             /* draw the characters as sprites because they could be overlapping */
-            fillbitmap(bitmap, Machine.pens[0], Machine.visible_area);
+            fillbitmap(bitmap, Machine.pens[0], Machine.drv.visible_area);
 
             for (offs = 0; offs < videoram_size[0]; offs++) {
                 int code, sx, sy, col;
@@ -46,7 +49,7 @@ public class meteor {
                         col,
                         0, 0,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };

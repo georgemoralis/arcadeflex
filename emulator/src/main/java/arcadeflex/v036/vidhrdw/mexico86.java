@@ -1,9 +1,12 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * 
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -12,7 +15,6 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static arcadeflex.v036.mame.osdependH.*;
 
 public class mexico86 {
 
@@ -82,7 +84,7 @@ public class mexico86 {
  /* and sprites) are stored in the same memory region, and information on */
  /* the background character columns is stored inthe area dd00-dd3f */
  /* This clears & redraws the entire screen each pass */
-            fillbitmap(bitmap, Machine.gfx[0].colortable.read(0), Machine.visible_area);
+            fillbitmap(bitmap, Machine.gfx[0].colortable.read(0), Machine.drv.visible_area);
 
             sx = 0;
             /* the score display seems to be outside of the main objectram. */
@@ -141,7 +143,7 @@ public class mexico86 {
                                 color,
                                 flipx, flipy,
                                 x, y,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -158,7 +160,7 @@ public class mexico86 {
  /* and sprites) are stored in the same memory region, and information on */
  /* the background character columns is stored inthe area dd00-dd3f */
  /* This clears & redraws the entire screen each pass */
-            fillbitmap(bitmap, Machine.gfx[0].colortable.read(0), Machine.visible_area);
+            fillbitmap(bitmap, Machine.gfx[0].colortable.read(0), Machine.drv.visible_area);
 
             sx = 0;
             /* the score display seems to be outside of the main objectram. */
@@ -216,7 +218,7 @@ public class mexico86 {
                                 color,
                                 flipx, flipy,
                                 x, y,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }

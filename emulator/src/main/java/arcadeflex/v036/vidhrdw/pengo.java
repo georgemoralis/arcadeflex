@@ -1,16 +1,20 @@
 /**
- * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class pengo {
 
@@ -212,11 +216,11 @@ public class pengo {
                             (int) (colorram.read(offs) & 0x1f),
                             flipscreen, flipscreen,
                             sx * 8, sy * 8,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* Draw the sprites. Note that it is important to draw them exactly in this */
  /* order, to have the correct priorities. */

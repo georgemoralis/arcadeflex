@@ -1,19 +1,23 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * 
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//common imports
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.paletteH.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class ninjakd2 {
 
@@ -46,11 +50,11 @@ public class ninjakd2 {
             if ((bg_dirtybuffer = new char[1024]) == null) {
                 return 1;
             }
-            if ((bitmap_bg = bitmap_alloc(Machine.drv.screen_width * 2, Machine.drv.screen_height * 2)) == null) {
+            if ((bitmap_bg = osd_new_bitmap(Machine.drv.screen_width * 2, Machine.drv.screen_height * 2, Machine.scrbitmap.depth)) == null) {
                 bg_dirtybuffer = null;
                 return 1;
             }
-            if ((bitmap_sp = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((bitmap_sp = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth)) == null) {
                 bg_dirtybuffer = null;
                 bitmap_bg = null;
                 return 1;
@@ -70,8 +74,8 @@ public class ninjakd2 {
 
     public static VhStopPtr ninjakd2_vh_stop = new VhStopPtr() {
         public void handler() {
-            bitmap_free(bitmap_bg);
-            bitmap_free(bitmap_sp);
+            osd_free_bitmap(bitmap_bg);
+            osd_free_bitmap(bitmap_sp);
             bg_dirtybuffer = null;
         }
     };
@@ -111,7 +115,7 @@ public class ninjakd2 {
         public void handler(int offset, int data) {
             if (sp_overdraw != data) {
                 ninjakd2_spoverdraw_ram.write(offset, data);
-                fillbitmap(bitmap_sp, 15, Machine.visible_area);
+                fillbitmap(bitmap_sp, 15, Machine.drv.visible_area);
                 sp_overdraw = data;
             }
         }
@@ -140,7 +144,7 @@ public class ninjakd2 {
                         palette,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 15);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 15);
             }
 
         }
@@ -199,7 +203,7 @@ public class ninjakd2 {
                         palette,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         TRANSPARENCY_PEN, 15);
             }
         }
@@ -232,10 +236,10 @@ public class ninjakd2 {
             if (sp_overdraw != 0) /* overdraw sprite mode */ {
                 ninjakd2_draw_sprites(bitmap_sp);
                 ninjakd2_draw_foreground(bitmap_sp);
-                copyscrollbitmap(bitmap, bitmap_bg, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
-                copybitmap(bitmap, bitmap_sp, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_PEN, 15);
+                copyscrollbitmap(bitmap, bitmap_bg, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
+                copybitmap(bitmap, bitmap_sp, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_PEN, 15);
             } else /* normal sprite mode */ {
-                copyscrollbitmap(bitmap, bitmap_bg, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, bitmap_bg, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 ninjakd2_draw_sprites(bitmap);
                 ninjakd2_draw_foreground(bitmap);
             }

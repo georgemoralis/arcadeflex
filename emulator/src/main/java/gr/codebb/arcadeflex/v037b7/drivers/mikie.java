@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.mikie.*;
+import static arcadeflex.v036.vidhrdw.mikie.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496H.*;
 import static gr.codebb.arcadeflex.v036.sound.sn76496.*;

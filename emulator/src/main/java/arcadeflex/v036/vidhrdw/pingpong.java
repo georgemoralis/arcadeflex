@@ -1,31 +1,39 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.memset;
-import static common.libc.expressions.NOT;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
-public class pooyan {
+public class pingpong {
 
-    static int flipscreen;
+    /* This is strange; it's unlikely that the sprites actually have a hardware */
+ /* clipping region, but I haven't found another way to have them masked by */
+ /* the characters at the top and bottom of the screen. */
+    static rectangle spritevisiblearea = new rectangle(
+            0 * 8, 32 * 8 - 1,
+            4 * 8, 29 * 8 - 1
+    );
 
     /**
      * *************************************************************************
      * <p>
      * Convert the color PROMs into a more useable format.
      * <p>
-     * Pooyan has one 32x8 palette PROM and two 256x4 lookup table PROMs (one
-     * for characters, one for sprites). The palette PROM is connected to the
-     * RGB output this way:
+     * Ping Pong has a 32 bytes palette PROM and two 256 bytes color lookup
+     * table PROMs (one for sprites, one for characters). I don't know for sure
+     * how the palette PROM is connected to the RGB output, but it's probably
+     * the usual:
      * <p>
      * bit 7 -- 220 ohm resistor -- BLUE -- 470 ohm resistor -- BLUE -- 220 ohm
      * resistor -- GREEN -- 470 ohm resistor -- GREEN -- 1 kohm resistor --
@@ -38,12 +46,9 @@ public class pooyan {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr pooyan_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromPtr pingpong_vh_convert_color_prom = new VhConvertColorPromPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
-            //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
-            //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
-
             int p_inc = 0;
             for (i = 0; i < Machine.drv.total_colors; i++) {
                 int bit0, bit1, bit2;
@@ -70,23 +75,22 @@ public class pooyan {
             /* color_prom now points to the beginning of the char lookup table */
  /* sprites */
             for (i = 0; i < TOTAL_COLORS(1); i++) {
-                //COLOR(1,i) = *(color_prom++) & 0x0f;
-                colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char) (color_prom.readinc() & 0x0f);
+                int code;
+                int bit0, bit1, bit2, bit3;
+
+                /* the bits of the color code are in reverse order - 0123 instead of 3210 */
+                code = (color_prom.readinc()) & 0x0f;
+                bit0 = (code >> 0) & 1;
+                bit1 = (code >> 1) & 1;
+                bit2 = (code >> 2) & 1;
+                bit3 = (code >> 3) & 1;
+                code = (bit0 << 3) | (bit1 << 2) | (bit2 << 1) | (bit3 << 0);
+                colortable[Machine.drv.gfxdecodeinfo[1].color_codes_start + i] = (char) code;
             }
 
             /* characters */
             for (i = 0; i < TOTAL_COLORS(0); i++) {
-                //COLOR(0,i) = (*(color_prom++) & 0x0f) + 0x10;
-                colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) ((color_prom.readinc() & 0x0f) + 0x10);
-            }
-        }
-    };
-
-    public static WriteHandlerPtr pooyan_flipscreen_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            if (flipscreen != (data & 1)) {
-                flipscreen = data & 1;
-                memset(dirtybuffer, 1, videoram_size[0]);
+                colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) (((color_prom.readinc()) & 0x0f) + 0x10);
             }
         }
     };
@@ -94,13 +98,11 @@ public class pooyan {
     /**
      * *************************************************************************
      * <p>
-     * Draw the game screen in the given osd_bitmap. Do NOT call
-     * osd_update_display() from this function, it will be called by the main
-     * emulation engine.
+     * Draw the game screen in the given osd_bitmap.
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr pooyan_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdatePtr pingpong_vh_screenrefresh = new VhUpdatePtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -108,42 +110,49 @@ public class pooyan {
  /* since last time and update it accordingly. */
             for (offs = videoram_size[0] - 1; offs >= 0; offs--) {
                 if (dirtybuffer[offs] != 0) {
-                    int sx, sy, flipx, flipy;
-
-                    dirtybuffer[offs] = 0;
+                    int sx, sy, flipx, flipy, tchar, color;
 
                     sx = offs % 32;
                     sy = offs / 32;
+
+                    dirtybuffer[offs] = 0;
+
                     flipx = colorram.read(offs) & 0x40;
                     flipy = colorram.read(offs) & 0x80;
-                    if (flipscreen != 0) {
-                        sx = 31 - sx;
-                        sy = 31 - sy;
-                        flipx = NOT(flipx);
-                        flipy = NOT(flipy);
-                    }
+                    color = colorram.read(offs) & 0x1F;
+                    tchar = (videoram.read(offs) + ((colorram.read(offs) & 0x20) << 3));
 
                     drawgfx(tmpbitmap, Machine.gfx[0],
-                            videoram.read(offs) + 8 * (colorram.read(offs) & 0x20),
-                            colorram.read(offs) & 0x0f,
+                            tchar,
+                            color,
                             flipx, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
             /* copy the character mapped graphics */
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
-            /* Draw the sprites. */
-            for (offs = 0; offs < spriteram_size[0]; offs += 2) {
-                /* TRANSPARENCY_COLOR is needed for the scores */
+            /* Draw the sprites. Note that it is important to draw them exactly in this */
+ /* order, to have the correct priorities. */
+            for (offs = spriteram_size[0] - 4; offs >= 0; offs -= 4) {
+                int sx, sy, flipx, flipy, color, schar;
+
+                sx = spriteram.read(offs + 3);
+                sy = 241 - spriteram.read(offs + 1);
+
+                flipx = spriteram.read(offs) & 0x40;
+                flipy = spriteram.read(offs) & 0x80;
+                color = spriteram.read(offs) & 0x1F;
+                schar = spriteram.read(offs + 2) & 0x7F;
+
                 drawgfx(bitmap, Machine.gfx[1],
-                        spriteram.read(offs + 1),
-                        spriteram_2.read(offs) & 0x0f,
-                        spriteram_2.read(offs) & 0x40, ~spriteram_2.read(offs) & 0x80,
-                        240 - spriteram.read(offs), spriteram_2.read(offs + 1),
-                        Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                        schar,
+                        color,
+                        flipx, flipy,
+                        sx, sy,
+                        spritevisiblearea, TRANSPARENCY_COLOR, 0);
             }
         }
     };

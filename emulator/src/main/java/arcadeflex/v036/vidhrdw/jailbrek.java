@@ -1,17 +1,22 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class jailbrek {
 
@@ -69,7 +74,7 @@ public class jailbrek {
             }
             memset(dirtybuffer, 1, videoram_size[0]);
 
-            if ((tmpbitmap = bitmap_alloc(Machine.drv.screen_width * 2, Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width * 2, Machine.drv.screen_height, Machine.scrbitmap.depth)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -81,7 +86,7 @@ public class jailbrek {
         public void handler() {
 
             dirtybuffer = null;
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
         }
     };
 
@@ -103,7 +108,7 @@ public class jailbrek {
                     tile, color,
                     flipx, flipy,
                     sx, sy,
-                    Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                    Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
         }
     }
 
@@ -142,7 +147,7 @@ public class jailbrek {
                     scrollx[i] = -((jailbrek_scroll_x.read(i + 32) << 8) + jailbrek_scroll_x.read(i));
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scrollx, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scrollx, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             drawsprites(bitmap);

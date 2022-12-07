@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.sndhrdw.phoenix.*;
 import static arcadeflex.v036.sndhrdw.pleiads.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms36xxH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.phoenix.*;
+import static arcadeflex.v036.vidhrdw.phoenix.*;
 
 public class phoenix {
 

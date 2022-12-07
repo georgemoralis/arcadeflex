@@ -1,17 +1,21 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static common.libc.cstring.memset;
-import static common.libc.expressions.NOT;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+import static common.libc.expressions.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class pkunwar {
 
@@ -56,12 +60,12 @@ public class pkunwar {
                             (colorram.read(offs) & 0xf0) >> 4,
                             flipscreen[0], flipscreen[1],
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
             /* copy the character mapped graphics */
-            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* Draw the sprites. */
             for (offs = 0; offs < spriteram_size[0]; offs += 32) {
@@ -85,7 +89,7 @@ public class pkunwar {
                         (spriteram.read(offs + 3) & 0xf0) >> 4,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
 
             /* redraw characters which have priority over sprites */
@@ -107,7 +111,7 @@ public class pkunwar {
                             (colorram.read(offs) & 0xf0) >> 4,
                             flipscreen[0], flipscreen[1],
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
         }

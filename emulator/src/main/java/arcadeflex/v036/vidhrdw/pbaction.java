@@ -1,23 +1,27 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_transparent_pen;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_used_colors;
 import static arcadeflex.v036.mame.paletteH.PALETTE_COLOR_TRANSPARENT;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class pbaction {
 
@@ -49,7 +53,7 @@ public class pbaction {
             }
             memset(dirtybuffer2, 1, videoram_size[0]);
 
-            if ((tmpbitmap2 = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap2 = osd_create_bitmap(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 dirtybuffer2 = null;
                 generic_vh_stop.handler();
                 return 1;
@@ -73,7 +77,7 @@ public class pbaction {
      */
     public static VhStopPtr pbaction_vh_stop = new VhStopPtr() {
         public void handler() {
-            bitmap_free(tmpbitmap2);
+            osd_free_bitmap(tmpbitmap2);
             dirtybuffer2 = null;
             generic_vh_stop.handler();
         }
@@ -158,7 +162,7 @@ public class pbaction {
                             colorram.read(offs) & 0x0f,
                             flipx, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
 
                 if (dirtybuffer2[offs] != 0) {
@@ -180,12 +184,12 @@ public class pbaction {
                             pbaction_colorram2.read(offs) & 0x0f,
                             flipscreen, flipy,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
             /* copy the background */
-            copyscrollbitmap(bitmap, tmpbitmap2, 1, new int[]{scroll}, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copyscrollbitmap(bitmap, tmpbitmap2, 1, new int[]{scroll}, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* Draw the sprites. */
             for (offs = spriteram_size[0] - 4; offs >= 0; offs -= 4) {
@@ -221,11 +225,11 @@ public class pbaction {
                         spriteram.read(offs + 1) & 0x0f,
                         flipx, flipy,
                         sx + scroll, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
 
             /* copy the foreground */
-            copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.visible_area, TRANSPARENCY_PEN, palette_transparent_pen);
+            copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.drv.visible_area, TRANSPARENCY_PEN, palette_transparent_pen);
         }
     };
 }

@@ -1,19 +1,23 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class mappy {
 
@@ -79,7 +83,7 @@ public class mappy {
             }
             memset(dirtybuffer, 1, videoram_size[0]);
 
-            if ((tmpbitmap = bitmap_alloc(36 * 8, 60 * 8)) == null) {
+            if ((tmpbitmap = osd_create_bitmap(36 * 8, 60 * 8)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -117,7 +121,7 @@ public class mappy {
     public static VhStopPtr mappy_vh_stop = new VhStopPtr() {
         public void handler() {
             dirtybuffer = null;
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
         }
     };
 
@@ -151,7 +155,7 @@ public class mappy {
             /* Motos */
         }
 
-        drawgfx(dest, Machine.gfx[1], code, color, flipx, flipy, sx, sy, Machine.visible_area,
+        drawgfx(dest, Machine.gfx[1], code, color, flipx, flipy, sx, sy, Machine.drv.visible_area,
                 TRANSPARENCY_COLOR, 15);
     }
 
@@ -263,7 +267,7 @@ public class mappy {
                     }
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 36, scroll, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 36, scroll, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. */

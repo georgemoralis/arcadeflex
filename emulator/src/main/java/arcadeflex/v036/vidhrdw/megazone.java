@@ -1,18 +1,23 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class megazone {
 
@@ -101,7 +106,7 @@ public class megazone {
             }
             memset(dirtybuffer, 1, videoram_size[0]);
 
-            if ((tmpbitmap = bitmap_alloc(256, 256)) == null) {
+            if ((tmpbitmap = osd_new_bitmap(256, 256, Machine.scrbitmap.depth)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -113,7 +118,7 @@ public class megazone {
     public static VhStopPtr megazone_vh_stop = new VhStopPtr() {
         public void handler() {
             dirtybuffer = null;
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
 
             dirtybuffer = null;
             tmpbitmap = null;
@@ -168,7 +173,7 @@ public class megazone {
                 int scrollx = -megazone_scrolly.read() + 4 * 8;
                 int scrolly = -megazone_scrollx.read();
 
-                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. */
@@ -194,7 +199,7 @@ public class megazone {
                             spriteram.read(offs + 0) & 0x0f,
                             flipx, flipy,
                             sx, sy,
-                            Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
                 }
             }
 

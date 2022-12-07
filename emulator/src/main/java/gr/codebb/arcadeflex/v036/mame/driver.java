@@ -226,7 +226,6 @@ import static gr.codebb.arcadeflex.v036.drivers.system16.*;
 
 import static gr.codebb.arcadeflex.v037b7.drivers.cop01.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.macross.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
@@ -2816,7 +2815,6 @@ public class driver {
                  *
                  */
                 /*jrpacman*/ driver_jrpacman,
-                /*macross */ driver_macross,
                 /*cop01   */ driver_cop01,
                 /*cop01   */ driver_cop01a,
                 /*zodiack */ driver_bounty,

@@ -1,25 +1,29 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * 
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static common.libc.cstring.*;
-import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.sndhrdw.pleiads.pleiads_sound_control_c_w;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class phoenix {
 
-    /* from sndhrdw/pleiads.c */
     static UBytePtr ram_page1 = new UBytePtr();
     static UBytePtr ram_page2 = new UBytePtr();
     static UBytePtr current_ram_page = new UBytePtr();
@@ -207,7 +211,9 @@ public class phoenix {
                     ret |= 0x08;
                     break;
                 default:
-                    logerror("Unknown protection question %02X at %04X\n", protection_question, cpu_get_pc());
+                    if (errorlog != null) {
+                        fprintf(errorlog, "Unknown protection question %02X at %04X\n", protection_question, cpu_get_pc());
+                    }
             }
 
             return ret;
@@ -255,7 +261,7 @@ public class phoenix {
 
                 scroll = -u8_bg_scroll;
 
-                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* draw the frontmost playfield. They are characters, but draw them as sprites */
@@ -273,14 +279,14 @@ public class phoenix {
                             (code >> 5) + 8 * palette_bank,
                             0, 0,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 } else {
                     drawgfx(bitmap, Machine.gfx[1],
                             code,
                             (code >> 5) + 8 * palette_bank,
                             0, 0,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
         }

@@ -1,17 +1,21 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * 
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class mario {
 
@@ -146,7 +150,7 @@ public class mario {
 
                 /* I'm not positive the scroll direction is right */
                 scrolly = -mario_scrolly.read() - 17;
-                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. */
@@ -157,7 +161,7 @@ public class mario {
                             (spriteram.read(offs + 1) & 0x0f) + 16 * palette_bank[0],
                             spriteram.read(offs + 1) & 0x80, spriteram.read(offs + 1) & 0x40,
                             spriteram.read(offs + 3) - 8, 240 - spriteram.read(offs) + 8,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
         }

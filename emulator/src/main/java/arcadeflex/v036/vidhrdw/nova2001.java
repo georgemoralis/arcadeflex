@@ -1,18 +1,22 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class nova2001 {
 
@@ -132,7 +136,7 @@ public class nova2001 {
                     scrolly = -nova2001_yscroll;
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Next, draw the sprites */
@@ -156,7 +160,7 @@ public class nova2001 {
                             spriteram.read(offs + 3) & 0x0f,
                             flipx, flipy,
                             sx, sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
 
@@ -176,7 +180,7 @@ public class nova2001 {
                         nova2001_colorram.read(offs) & 0x0f,
                         flipscreen, flipscreen,
                         8 * sx, 8 * sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };

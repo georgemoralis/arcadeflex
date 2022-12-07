@@ -1,5 +1,5 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
 package arcadeflex.v036.vidhrdw;
