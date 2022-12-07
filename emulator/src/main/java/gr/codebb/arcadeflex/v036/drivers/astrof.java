@@ -51,7 +51,7 @@ import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_SAMPLES;
-import static gr.codebb.arcadeflex.v036.sndhrdw.astrof.*;
+import static arcadeflex.v036.sndhrdw.astrof.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.astrof.*;
 
 public class astrof {

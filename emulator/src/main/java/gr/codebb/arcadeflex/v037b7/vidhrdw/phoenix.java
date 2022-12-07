@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.pleiads.pleiads_sound_control_c_w;
+import static arcadeflex.v036.sndhrdw.pleiads.pleiads_sound_control_c_w;
 
 public class phoenix {
 

@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.sega.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.sega.*;
+import static arcadeflex.v036.sndhrdw.sega.*;
 import static gr.codebb.arcadeflex.v037b7.machine.segar.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.sega.*;

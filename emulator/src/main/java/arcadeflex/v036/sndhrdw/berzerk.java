@@ -15,7 +15,7 @@ import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_playing;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_set_freq;
 import static gr.codebb.arcadeflex.v036.sound.samples.sample_start;
-import static gr.codebb.arcadeflex.v037b7.machine.berzerk.*;
+import static arcadeflex.v036.machine.berzerk.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
@@ -51,8 +51,7 @@ public class berzerk {
     /* trigger for playing collision sound */
     static int nextdata5 = -1;
 
-    public static ShStartHandlerPtr berzerk_sh_start
-            = new ShStartHandlerPtr() {
+    public static ShStartHandlerPtr berzerk_sh_start = new ShStartHandlerPtr() {
         public int handler(MachineSound msound) {
             int i;
 
@@ -69,8 +68,7 @@ public class berzerk {
         }
     };
 
-    public static WriteHandlerPtr berzerk_sound_control_a_w
-            = new WriteHandlerPtr() {
+    public static WriteHandlerPtr berzerk_sound_control_a_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int noise = 0;
             int voice = 0;
@@ -255,8 +253,7 @@ public class berzerk {
         }
     };
 
-    public static ShUpdateHandlerPtr berzerk_sh_update
-            = new ShUpdateHandlerPtr() {
+    public static ShUpdateHandlerPtr berzerk_sh_update = new ShUpdateHandlerPtr() {
         public void handler() {
             berzerkplayvoice = NOT(sample_playing(VOICE_CHANNEL));
             if (deathsound == 3 && sample_playing(DEATH_CHANNEL) == 0 && lastnoise != 70) {

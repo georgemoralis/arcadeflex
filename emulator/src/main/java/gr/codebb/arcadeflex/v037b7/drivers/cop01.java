@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import gr.codebb.arcadeflex.v037b7.sound.ay8910H.AY8910interface;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.cop01.*;
+import static arcadeflex.v036.vidhrdw.cop01.*;
 
 public class cop01 {
 

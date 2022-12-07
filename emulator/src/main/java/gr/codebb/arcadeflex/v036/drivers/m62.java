@@ -31,7 +31,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.m62.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.irem.*;
+import static arcadeflex.v036.sndhrdw.irem.*;
 
 public class m62 {
 

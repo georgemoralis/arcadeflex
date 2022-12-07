@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
-import static gr.codebb.arcadeflex.v036.sndhrdw.galaxian.*;
+import static arcadeflex.v036.sndhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_write_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;

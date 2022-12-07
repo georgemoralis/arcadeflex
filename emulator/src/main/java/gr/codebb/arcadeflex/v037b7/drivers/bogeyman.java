@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.bogeyman.*;
+import static arcadeflex.v036.vidhrdw.bogeyman.*;
 
 public class bogeyman {
 

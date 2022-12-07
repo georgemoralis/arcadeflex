@@ -13,7 +13,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.copsnrob.*;
+import static arcadeflex.v036.vidhrdw.copsnrob.*;
 import static gr.codebb.arcadeflex.v036.machine.copsnrob.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
