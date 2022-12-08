@@ -34,7 +34,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
-import gr.codebb.arcadeflex.v037b7.sound._2413intfH.YM2413interface;
+import arcadeflex.v036.sound._2413intfH.YM2413interface;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295H.OKIM6295interface;
 import static gr.codebb.arcadeflex.v037b7.sound.ym2413.*;

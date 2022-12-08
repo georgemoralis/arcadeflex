@@ -28,9 +28,9 @@ public class _3812intfH {
             this.handler = null;
         }
 
-        int num;
-        int baseclock;
-        int[] mixing_level;//[MAX_3812];
+        public int num;
+        public int baseclock;
+        public int[] mixing_level;//[MAX_3812];
         public WriteYmHandlerPtr handler[];//void (*handler[MAX_3812])(int linestate);
     };
 
@@ -59,7 +59,7 @@ public class _3812intfH {
         }
 
         /* Y8950 */
-        int[] rom_region;//[MAX_8950]; /* delta-T ADPCM ROM region */
+        public int[] rom_region;//[MAX_8950]; /* delta-T ADPCM ROM region */
         public ReadHandlerPtr keyboardread[];//int (*keyboardread[MAX_8950])(int offset);
         public WriteHandlerPtr keyboardwrite[];//void (*keyboardwrite[MAX_8950])(int offset,int data);
         public ReadHandlerPtr portread[];//int (*portread[MAX_8950])(int offset);

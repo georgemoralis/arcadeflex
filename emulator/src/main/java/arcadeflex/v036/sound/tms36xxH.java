@@ -1,7 +1,7 @@
 /**
- * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 public class tms36xxH {
 
@@ -32,12 +32,12 @@ public class tms36xxH {
             this.decay = decay;
             this.speed = speed;
         }
-        int num;
-        int[] mixing_level;//[MAX_TMS36XX];
-        int[] subtype;//[MAX_TMS36XX];
-        int[] basefreq;//[MAX_TMS36XX];		/* base frequecnies of the chips */
-        double[][] decay;//[MAX_TMS36XX][6];	/* decay times for the six harmonic notes */
-        double[] speed;//[MAX_TMS36XX];		/* tune speed (meaningful for the TMS3615 only) */
+        public int num;
+        public int[] mixing_level;//[MAX_TMS36XX];
+        public int[] subtype;//[MAX_TMS36XX];
+        public int[] basefreq;//[MAX_TMS36XX];		/* base frequecnies of the chips */
+        public double[][] decay;//[MAX_TMS36XX][6];	/* decay times for the six harmonic notes */
+        public double[] speed;//[MAX_TMS36XX];		/* tune speed (meaningful for the TMS3615 only) */
     }
 
 }

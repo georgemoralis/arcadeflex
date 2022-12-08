@@ -116,9 +116,9 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
-import gr.codebb.arcadeflex.v036.sound._2151intfH.YM2151interface;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.YM3012_VOL;
+import static arcadeflex.v036.sound._2151intf.*;
+import arcadeflex.v036.sound._2151intfH.YM2151interface;
+import static arcadeflex.v036.sound._2151intfH.YM3012_VOL;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class badlands

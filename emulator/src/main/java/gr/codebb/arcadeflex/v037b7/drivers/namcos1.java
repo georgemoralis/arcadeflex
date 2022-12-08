@@ -133,8 +133,8 @@ import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_regis
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_w;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.machine.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;

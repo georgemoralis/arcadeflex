@@ -23,8 +23,8 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.vidhrdw.surpratk.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
 
 public class surpratk {
 

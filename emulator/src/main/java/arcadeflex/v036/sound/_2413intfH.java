@@ -1,8 +1,8 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
@@ -21,6 +21,5 @@ public class _2413intfH {
         public YM2413interface(int num, int baseclock, int[] mixing_level) {
             super(num, baseclock, mixing_level);
         }
-    };
-
+    }
 }

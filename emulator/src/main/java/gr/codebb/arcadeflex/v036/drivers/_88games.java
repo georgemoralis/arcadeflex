@@ -38,8 +38,8 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
 import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound._2151intf.*;
 
 
 public class _88games

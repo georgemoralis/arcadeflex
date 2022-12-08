@@ -1,13 +1,14 @@
 /*
  *  ported to 0.36
  */
-package gr.codebb.arcadeflex.v036.sound;
+package arcadeflex.v036.sound;
 
-import gr.codebb.arcadeflex.v036.mame.sndintrf;
-import arcadeflex.v036.mame.sndintrfH;
+//mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+//TODO
+import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 
-public class CustomSound extends sndintrf.snd_interface{
+public class CustomSound extends snd_interface{
 
     static CustomSound_interface cust_intf;
     public CustomSound()

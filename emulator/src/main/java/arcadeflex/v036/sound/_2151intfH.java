@@ -1,4 +1,8 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.36
+ * 
+ */
+package arcadeflex.v036.sound;
 
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -21,15 +25,15 @@ public class _2151intfH {
             this.portwritehandler = portwritehandler;
 
         }
+
         public YM2151interface(int num, int baseclock, int[] volume, WriteYmHandlerPtr[] irqhandler) {
             this.num = num;
             this.baseclock = baseclock;
             this.volume = volume;
             this.irqhandler = irqhandler;
             this.portwritehandler = new WriteHandlerPtr[num];
-            for(int i=0; i<num; i++)
-            {
-             this.portwritehandler[i] = null;
+            for (int i = 0; i < num; i++) {
+                this.portwritehandler[i] = null;
             }
         }
         int num;

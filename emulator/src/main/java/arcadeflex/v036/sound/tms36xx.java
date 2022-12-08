@@ -1,19 +1,20 @@
 /**
- * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static common.libc.cstring.memset;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
 import static gr.codebb.arcadeflex.v036.sound.streams.stream_init;
 import static gr.codebb.arcadeflex.v036.sound.streams.stream_update;
-import static gr.codebb.arcadeflex.v037b7.sound.tms36xxH.*;
+import static arcadeflex.v036.sound.tms36xxH.*;
 
 public class tms36xx extends snd_interface {
 
@@ -812,7 +813,9 @@ public class tms36xx extends snd_interface {
             }
             tms36xx[i] = new TMS36XX();//(sizeof(struct TMS36XX));
             if (tms36xx[i] == null) {
-                logerror("%s failed to malloc struct TMS36XX\n", name);
+                if (errorlog != null) {
+                    fprintf(errorlog, "%s failed to malloc struct TMS36XX\n", name);
+                }
                 return 1;
             }
             tms = tms36xx[i];
@@ -824,7 +827,9 @@ public class tms36xx extends snd_interface {
             tms.channel = stream_init(name, intf.mixing_level[i], Machine.sample_rate, i, tms36xx_sound_update);
 
             if (tms.channel == -1) {
-                logerror("%s stream_init failed\n", name);
+                if (errorlog != null) {
+                    fprintf(errorlog, "%s stream_init failed\n", name);
+                }
                 return 1;
             }
             tms.samplerate = Machine.sample_rate != 0 ? Machine.sample_rate : 1;

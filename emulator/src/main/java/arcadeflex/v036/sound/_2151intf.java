@@ -1,14 +1,19 @@
-package gr.codebb.arcadeflex.v036.sound;
+/*
+ * ported to v0.36
+ * 
+ */
+package arcadeflex.v036.sound;
 
+//mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
+//TODO
+import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.sound.ym2151.*;
-
 
 public class _2151intf extends snd_interface {
 
@@ -46,7 +51,8 @@ public class _2151intf extends snd_interface {
         int[] vol = new int[YM2151_NUMBUF];
 
         if (rate == 0) {
-            rate = 1000;	/* kludge to prevent nasty crashes */
+            rate = 1000;
+            /* kludge to prevent nasty crashes */
 
         }
 
