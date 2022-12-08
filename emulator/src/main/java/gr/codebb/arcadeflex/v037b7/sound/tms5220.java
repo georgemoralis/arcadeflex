@@ -9,8 +9,7 @@ import static common.libc.cstdlib.rand;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.sound.tms5110r.*;
-
+import static gr.codebb.arcadeflex.v037b7.sound.tms5220r.*;
 
 public class tms5220 {
 

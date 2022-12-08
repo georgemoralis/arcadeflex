@@ -17,8 +17,8 @@ import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.MAX_ADPCM;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.adpcmH.MAX_ADPCM;
+import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
 

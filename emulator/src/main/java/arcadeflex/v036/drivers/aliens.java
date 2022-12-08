@@ -27,8 +27,8 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.k007232.*;
+import static arcadeflex.v036.sound.k007232H.*;
 
 public class aliens {
 

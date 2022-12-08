@@ -36,8 +36,8 @@ import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
+import static arcadeflex.v036.sound.upd7759.*;
+import static arcadeflex.v036.sound.upd7759H.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 

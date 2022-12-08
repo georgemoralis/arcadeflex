@@ -17,8 +17,8 @@ import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.galaga.*;
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.machine.galaga.*;
 
 public class galaga {
 

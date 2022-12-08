@@ -34,8 +34,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.parodius.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
+import static arcadeflex.v036.sound.k053260.*;
+import static arcadeflex.v036.sound.k053260H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class parodius {

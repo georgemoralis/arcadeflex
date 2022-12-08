@@ -32,15 +32,15 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.*;
+import static arcadeflex.v036.sound.adpcmH.*;
+import static arcadeflex.v036.sound.adpcm.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
-import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
+import static arcadeflex.v036.sound.MSM5205H.*;
+import static arcadeflex.v036.sound.MSM5205.*;
 
 public class ddragon
 {

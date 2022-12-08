@@ -7,8 +7,8 @@ package arcadeflex.v036.sndhrdw;
 //mame imports
 import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v036.sound.samples.*;
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;

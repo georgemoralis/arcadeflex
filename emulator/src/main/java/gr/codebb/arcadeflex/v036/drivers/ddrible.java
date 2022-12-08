@@ -18,9 +18,9 @@ import static arcadeflex.v036.vidhrdw.ddrible.*;
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
+import static arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v058.sound.vlm5030.*;
+import static arcadeflex.v058.sound.vlm5030H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 

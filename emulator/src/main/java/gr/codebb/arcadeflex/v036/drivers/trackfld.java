@@ -31,14 +31,14 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.sn76496.*;
+import static arcadeflex.v036.sound.sn76496.*;
 import static arcadeflex.v036.vidhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.sndhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
+import static arcadeflex.v058.sound.vlm5030.*;
+import static arcadeflex.v058.sound.vlm5030H.*;
 import static arcadeflex.v036.sound.dac.*;
 
 public class trackfld

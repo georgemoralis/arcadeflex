@@ -27,8 +27,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.bladestl.*;
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
+import static arcadeflex.v036.sound.upd7759.*;
+import static arcadeflex.v036.sound.upd7759H.*;
 
 public class bladestl {
 

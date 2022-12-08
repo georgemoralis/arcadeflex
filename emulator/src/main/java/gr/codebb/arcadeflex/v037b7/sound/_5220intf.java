@@ -11,7 +11,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.streams.*;
 
 public class _5220intf extends snd_interface {
 

@@ -33,7 +33,7 @@ import static arcadeflex.v036.mame.sndintrfH.SOUND_CUSTOM;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_SAMPLES;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fread;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fwrite;
-import gr.codebb.arcadeflex.v036.sound.samplesH.Samplesinterface;
+import arcadeflex.v036.sound.samplesH.Samplesinterface;
 import static arcadeflex.v036.machine.berzerk.*;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_0_r;

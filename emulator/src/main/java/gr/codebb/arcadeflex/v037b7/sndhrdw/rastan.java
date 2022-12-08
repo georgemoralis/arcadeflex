@@ -16,7 +16,7 @@ import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
 import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.ADPCM_play;
+import static arcadeflex.v036.sound.adpcm.ADPCM_play;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 
 public class rastan {

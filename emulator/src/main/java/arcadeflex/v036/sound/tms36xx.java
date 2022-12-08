@@ -11,9 +11,9 @@ import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
-import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
-import static gr.codebb.arcadeflex.v036.sound.streams.stream_init;
-import static gr.codebb.arcadeflex.v036.sound.streams.stream_update;
+import arcadeflex.v036.sound.streams.StreamInitPtr;
+import static arcadeflex.v036.sound.streams.stream_init;
+import static arcadeflex.v036.sound.streams.stream_update;
 import static arcadeflex.v036.sound.tms36xxH.*;
 
 public class tms36xx extends snd_interface {

@@ -49,8 +49,8 @@ import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_K053260;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K054000.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
+import static arcadeflex.v036.sound.k053260.*;
+import static arcadeflex.v036.sound.k053260H.*;
 
 public class vendetta {
 

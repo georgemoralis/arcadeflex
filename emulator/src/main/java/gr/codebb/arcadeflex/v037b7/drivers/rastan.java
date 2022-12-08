@@ -20,7 +20,7 @@ import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
+import static arcadeflex.v036.sound.adpcmH.*;
 
 public class rastan {
 

@@ -12,7 +12,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 
 public class dac extends snd_interface {

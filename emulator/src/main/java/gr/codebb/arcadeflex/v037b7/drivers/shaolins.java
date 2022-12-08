@@ -15,8 +15,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.sn76496H.*;
-import static gr.codebb.arcadeflex.v036.sound.sn76496.*;
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v036.sound.sn76496.*;
 
 public class shaolins {
 

@@ -10,13 +10,13 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.*;
-import gr.codebb.arcadeflex.v036.sound.adpcmH.ADPCMinterface;
+import static arcadeflex.v036.sound.adpcm.*;
+import arcadeflex.v036.sound.adpcmH.ADPCMinterface;
 import arcadeflex.v036.sound.dacH.DACinterface;
-import static gr.codebb.arcadeflex.v036.sound.sn76496.*;
-import gr.codebb.arcadeflex.v036.sound.sn76496H.SN76496interface;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import gr.codebb.arcadeflex.v058.sound.vlm5030H.VLM5030interface;
+import static arcadeflex.v036.sound.sn76496.*;
+import arcadeflex.v036.sound.sn76496H.SN76496interface;
+import static arcadeflex.v058.sound.vlm5030.*;
+import arcadeflex.v058.sound.vlm5030H.VLM5030interface;
 
 public class trackfld {
 

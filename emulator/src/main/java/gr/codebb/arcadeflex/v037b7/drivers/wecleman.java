@@ -268,11 +268,11 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import arcadeflex.v036.sound._2151intfH.YM2151interface;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import gr.codebb.arcadeflex.v036.sound.k007232H;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.K007232_VOL;
-import gr.codebb.arcadeflex.v036.sound.k007232H.K007232_interface;
-import gr.codebb.arcadeflex.v036.sound.k007232H.portwritehandlerPtr;
+import static arcadeflex.v036.sound.k007232.*;
+import arcadeflex.v036.sound.k007232H;
+import static arcadeflex.v036.sound.k007232H.K007232_VOL;
+import arcadeflex.v036.sound.k007232H.K007232_interface;
+import arcadeflex.v036.sound.k007232H.portwritehandlerPtr;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 

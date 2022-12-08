@@ -6,8 +6,8 @@
 package arcadeflex.v036.sndhrdw;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v036.sound.samples.*;
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.sound.samples.*;
 
 public class astrof {
 

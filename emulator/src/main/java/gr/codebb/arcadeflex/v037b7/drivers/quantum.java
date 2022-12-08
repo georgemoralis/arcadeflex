@@ -77,7 +77,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bzone.bzone_IN0_r;
 import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.atari_vg_earom_ctrl_w;
 import static gr.codebb.arcadeflex.v037b7.machine.mathbox.*;
 import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
-import static gr.codebb.arcadeflex.v037b7.machine.foodf.*;
+import static arcadeflex.v036.machine.foodf.*;
 import static gr.codebb.arcadeflex.v037b7.machine.quantum.*;
 
 public class quantum

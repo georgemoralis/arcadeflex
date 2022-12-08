@@ -34,8 +34,8 @@ import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
-import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
+import static arcadeflex.v036.sound.MSM5205H.*;
+import static arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 
 

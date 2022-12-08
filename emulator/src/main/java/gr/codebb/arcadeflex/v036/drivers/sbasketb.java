@@ -33,8 +33,8 @@ import static arcadeflex.v036.vidhrdw.sbasketb.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.sndhrdw.trackfld.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
+import static arcadeflex.v058.sound.vlm5030.*;
+import static arcadeflex.v058.sound.vlm5030H.*;
 import static arcadeflex.v036.sound.dac.*;
 
 public class sbasketb

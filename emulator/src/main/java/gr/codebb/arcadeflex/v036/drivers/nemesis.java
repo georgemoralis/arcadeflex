@@ -45,16 +45,16 @@ import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
+import static arcadeflex.v058.sound.vlm5030.*;
+import static arcadeflex.v058.sound.vlm5030H.*;
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.k005289.*;
-import static gr.codebb.arcadeflex.v036.sound.k005289H.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.k005289.*;
+import static arcadeflex.v036.sound.k005289H.*;
+import static arcadeflex.v036.sound.k007232.*;
+import static arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.nemesis.*;
 
 

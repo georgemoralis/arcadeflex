@@ -23,8 +23,8 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcmH.*;
-import static gr.codebb.arcadeflex.v036.sound.adpcm.*;
+import static arcadeflex.v036.sound.adpcmH.*;
+import static arcadeflex.v036.sound.adpcm.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 

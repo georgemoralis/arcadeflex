@@ -14,9 +14,9 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.vidhrdw.stfight.*;
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
+import static arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.machine.stfight.*;
+import static arcadeflex.v036.machine.stfight.*;
 
 public class stfight {
 

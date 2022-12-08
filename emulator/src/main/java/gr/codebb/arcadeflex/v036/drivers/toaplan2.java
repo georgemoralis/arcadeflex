@@ -25,7 +25,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.sound.ym2151.*;
+import static arcadeflex.v036.sound.ym2151.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_LEFT;

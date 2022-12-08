@@ -20,7 +20,7 @@ import arcadeflex.v036.mame.sndintrfH;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.sound.segapcmH.*;
 
 public class segapcm  extends snd_interface

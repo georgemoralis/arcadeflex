@@ -10,7 +10,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 
 public class timeplt {

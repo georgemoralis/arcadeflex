@@ -34,7 +34,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K053247.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260.*;
+import static arcadeflex.v036.sound.k053260.*;
 
 public class simpsons
 {

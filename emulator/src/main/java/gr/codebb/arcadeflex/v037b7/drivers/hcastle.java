@@ -17,15 +17,15 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.vidhrdw.hcastle.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.k007232.*;
+import static arcadeflex.v036.sound.k007232H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.sound.k051649.*;
-import static gr.codebb.arcadeflex.v036.sound.k051649H.*;
+import static arcadeflex.v036.sound.k051649.*;
+import static arcadeflex.v036.sound.k051649H.*;
 
 public class hcastle {
 

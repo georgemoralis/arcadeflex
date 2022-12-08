@@ -39,8 +39,8 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.simpsons.*;
 import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
 import static gr.codebb.arcadeflex.v036.machine.simpsons.*;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_K053260;
-import static gr.codebb.arcadeflex.v036.sound.k053260.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
+import static arcadeflex.v036.sound.k053260.*;
+import static arcadeflex.v036.sound.k053260H.*;
 
 public class simpsons {
 

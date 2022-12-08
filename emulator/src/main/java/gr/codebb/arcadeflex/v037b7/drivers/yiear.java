@@ -16,9 +16,9 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.vidhrdw.yiear.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.sndhrdw.trackfld.*;
-import static gr.codebb.arcadeflex.v036.sound.sn76496H.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030.*;
-import static gr.codebb.arcadeflex.v058.sound.vlm5030H.*;
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v058.sound.vlm5030.*;
+import static arcadeflex.v058.sound.vlm5030H.*;
 
 public class yiear {
 

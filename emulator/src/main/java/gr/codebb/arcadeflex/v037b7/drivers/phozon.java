@@ -16,7 +16,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.phozon.*;
+import static arcadeflex.v036.machine.phozon.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class phozon {

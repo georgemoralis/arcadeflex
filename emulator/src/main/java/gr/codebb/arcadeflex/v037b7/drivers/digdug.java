@@ -14,7 +14,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.machine.digdug.*;
+import static arcadeflex.v036.machine.digdug.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class digdug {

@@ -35,8 +35,8 @@ import static arcadeflex.v036.vidhrdw.rollerg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260.*;
-import static gr.codebb.arcadeflex.v036.sound.k053260H.*;
+import static arcadeflex.v036.sound.k053260.*;
+import static arcadeflex.v036.sound.k053260H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 

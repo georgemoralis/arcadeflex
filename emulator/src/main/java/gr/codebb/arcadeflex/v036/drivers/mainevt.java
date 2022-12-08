@@ -47,13 +47,13 @@ import static arcadeflex.v036.mame.sndintrfH.SOUND_UPD7759;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
 import static gr.codebb.arcadeflex.v036.vidhrdw.mainevt.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232.*;
-import static gr.codebb.arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.k007232.*;
+import static arcadeflex.v036.sound.k007232H.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759.*;
-import static gr.codebb.arcadeflex.v036.sound.upd7759H.*;
+import static arcadeflex.v036.sound.upd7759.*;
+import static arcadeflex.v036.sound.upd7759H.*;
 
 public class mainevt
 {

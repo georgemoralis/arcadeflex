@@ -12,8 +12,8 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_LEFT;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_PAN_RIGHT;
-import gr.codebb.arcadeflex.v036.sound.streams.StreamInitMultiPtr;
-import static gr.codebb.arcadeflex.v036.sound.streams.stream_init_multi;
+import arcadeflex.v036.sound.streams.StreamInitMultiPtr;
+import static arcadeflex.v036.sound.streams.stream_init_multi;
 import static gr.codebb.arcadeflex.v037b7.sound.qsoundH.*;
 
 public class qsound extends snd_interface {

@@ -68,7 +68,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
-import static gr.codebb.arcadeflex.v037b7.machine.foodf.*;
+import static arcadeflex.v036.machine.foodf.*;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.vidhrdw.foodf.*;

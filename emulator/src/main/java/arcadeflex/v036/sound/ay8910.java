@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
-import static gr.codebb.arcadeflex.v036.sound.streams.*;
+import static arcadeflex.v036.sound.streams.*;
 
 public class ay8910 extends snd_interface {
 
