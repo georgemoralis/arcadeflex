@@ -9,7 +9,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitMultiPtr;
 import gr.codebb.arcadeflex.v036.sound.streams.StreamInitPtr;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203UpdateRequest;
+import static arcadeflex.v036.sound._2203intf.YM2203UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2608intf.YM2608UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.YM2610UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2612intf.YM2612UpdateRequest;

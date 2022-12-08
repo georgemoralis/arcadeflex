@@ -30,7 +30,7 @@ import static arcadeflex.v036.sndhrdw.segar.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.segar.*;
 import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
-import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
+import arcadeflex.v036.sound.dacH.DACinterface;
 import static gr.codebb.arcadeflex.v037b7.sound.tms36xxH.*;
 import static arcadeflex.v036.mame.timerH.*;
 

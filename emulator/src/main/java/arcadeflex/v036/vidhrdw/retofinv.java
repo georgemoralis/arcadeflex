@@ -2,17 +2,16 @@
  * ported to v0.37b7
  * using automatic conversion tool v0.01
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.memset;
-import static gr.codebb.arcadeflex.v036.mame.common.bitmap_alloc;
-import static gr.codebb.arcadeflex.v036.mame.common.bitmap_free;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.osdependH.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class retofinv {
 
@@ -104,7 +103,7 @@ public class retofinv {
             if ((bg_dirtybuffer = new char[retofinv_videoram_size[0]]) == null) {
                 return 1;
             }
-            if ((bitmap_bg = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((bitmap_bg = osd_create_bitmap(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 bg_dirtybuffer = null;
                 return 1;
             }
@@ -117,7 +116,7 @@ public class retofinv {
     public static VhStopPtr retofinv_vh_stop = new VhStopPtr() {
         public void handler() {
             bg_dirtybuffer = null;
-            bitmap_free(bitmap_bg);
+            osd_free_bitmap(bitmap_bg);
         }
     };
 
@@ -232,7 +231,7 @@ public class retofinv {
                             palette,
                             flipx, flipy,
                             sx, sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
                 if ((size & 4) != 0) {
                     if ((size & 8) != 0 && (flipscreen) != 0) {
@@ -243,14 +242,14 @@ public class retofinv {
                             palette,
                             flipx, flipy,
                             sx, sy + 16,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
 
                     drawgfx(bitmap, Machine.gfx[2],
                             tile + tileofs2,
                             palette,
                             flipx, flipy,
                             sx, sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
                 if ((size & 8) != 0) {
                     if (flipscreen != 0) {
@@ -261,14 +260,14 @@ public class retofinv {
                             palette,
                             flipx, flipy,
                             sx - 16, sy + 16,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
 
                     drawgfx(bitmap, Machine.gfx[2],
                             tile + tileofs3,
                             palette,
                             flipx, flipy,
                             sx - 16, sy,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
         }
@@ -309,12 +308,12 @@ public class retofinv {
                             palette,
                             flipscreen, flipscreen,
                             8 * sx + 16, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_NONE, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
         }
 
-        copybitmap(bitmap, bitmap_bg, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
+        copybitmap(bitmap, bitmap_bg, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
     }
 
     public static void retofinv_draw_foreground(osd_bitmap bitmap) {
@@ -344,7 +343,7 @@ public class retofinv {
                         palette,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_NONE, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
         }
 
@@ -370,7 +369,7 @@ public class retofinv {
                         palette,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
 
@@ -396,7 +395,7 @@ public class retofinv {
                         palette,
                         flipx, flipy,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_NONE, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
         }
     }

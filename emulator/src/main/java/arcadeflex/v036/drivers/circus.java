@@ -33,7 +33,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.MWA_RAM;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.MWA_ROM;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
-import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
+import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class circus {
 

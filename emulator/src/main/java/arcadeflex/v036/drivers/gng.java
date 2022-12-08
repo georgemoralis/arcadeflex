@@ -4,6 +4,9 @@
  */
 package arcadeflex.v036.drivers;
 
+//sound imports
+import static arcadeflex.v036.sound._2203intf.*;
+import static arcadeflex.v036.sound._2203intfH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.gng.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -20,8 +23,6 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class gng {
 

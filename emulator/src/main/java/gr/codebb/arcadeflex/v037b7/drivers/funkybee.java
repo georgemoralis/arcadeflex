@@ -16,8 +16,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.vidhrdw.funkybee.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
+import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.ay8910H.*;
 
 public class funkybee {
 

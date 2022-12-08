@@ -40,8 +40,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.MRA_ROM;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.MWA_ROM;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
 import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
-import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
+import static arcadeflex.v036.sound.dac.DAC_data_w;
+import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class lazercmd {
 

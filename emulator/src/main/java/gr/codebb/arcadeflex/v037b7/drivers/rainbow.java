@@ -22,14 +22,14 @@ import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
 import static gr.codebb.arcadeflex.v037b7.machine.rainbow.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_control_port_0_w;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_control_port_1_w;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_status_port_0_r;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_status_port_1_r;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_write_port_0_w;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.YM2203_write_port_1_w;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.YM2203_VOL;
-import gr.codebb.arcadeflex.v037b7.sound._2203intfH.YM2203interface;
+import static arcadeflex.v036.sound._2203intf.YM2203_control_port_0_w;
+import static arcadeflex.v036.sound._2203intf.YM2203_control_port_1_w;
+import static arcadeflex.v036.sound._2203intf.YM2203_status_port_0_r;
+import static arcadeflex.v036.sound._2203intf.YM2203_status_port_1_r;
+import static arcadeflex.v036.sound._2203intf.YM2203_write_port_0_w;
+import static arcadeflex.v036.sound._2203intf.YM2203_write_port_1_w;
+import static arcadeflex.v036.sound._2203intfH.YM2203_VOL;
+import arcadeflex.v036.sound._2203intfH.YM2203interface;
 
 public class rainbow {
 

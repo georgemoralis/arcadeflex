@@ -6,8 +6,12 @@ package arcadeflex.v036.drivers;
 
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound._2203intf.*;
+import static arcadeflex.v036.sound._2203intfH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw._1943.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -20,9 +24,6 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw._1943.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intf.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 
 public class _1943 {
 

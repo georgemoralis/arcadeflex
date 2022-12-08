@@ -18,7 +18,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
+import static arcadeflex.v036.sound.dacH.*;
 
 public class _8080bw {
 /*TODO*///

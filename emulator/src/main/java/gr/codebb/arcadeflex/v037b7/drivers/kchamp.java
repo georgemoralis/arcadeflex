@@ -16,12 +16,12 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
+import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.vidhrdw.kchamp.*;
-import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.*;
+import static arcadeflex.v036.sound.dacH.*;
+import static arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205H.*;
 import static gr.codebb.arcadeflex.v036.sound.MSM5205.*;
@@ -224,7 +224,7 @@ public class kchamp {
                 new IOWritePort(0x01, 0x01, AY8910_control_port_0_w),
                 new IOWritePort(0x02, 0x02, AY8910_write_port_1_w),
                 new IOWritePort(0x03, 0x03, AY8910_control_port_1_w),
-                new IOWritePort(0x04, 0x04, DAC_0_data_w),
+                new IOWritePort(0x04, 0x04, DAC_data_w),
                 new IOWritePort(0x05, 0x05, kc_sound_control_w),
                 new IOWritePort(-1) /* end of table */};
 

@@ -1,18 +1,23 @@
 /*|*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import static common.libc.cstdio.sprintf;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.timer.*;
+//sound imports
+import static arcadeflex.v036.sound._2203intfH.*;
+//common imports
+import static common.libc.cstdio.*;
+//TODO
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
-import static arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v037b7.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.fm.*;
 

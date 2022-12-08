@@ -24,7 +24,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
 import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
+import static arcadeflex.v036.sound.dac.DAC_data_w;
 
 public class circus {
 

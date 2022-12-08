@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_play_sample;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_set_sample_frequency;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_set_volume;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_stop_sample;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.DAC_data_w;
+import static arcadeflex.v036.sound.dac.DAC_data_w;
 
 public class meadows {
 

@@ -1,20 +1,22 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+import static common.libc.expressions.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.memset;
-import static common.libc.expressions.NOT;
-import static gr.codebb.arcadeflex.v036.mame.common.bitmap_alloc;
-import static gr.codebb.arcadeflex.v036.mame.common.bitmap_free;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class rallyx {
 
@@ -186,7 +188,7 @@ public class rallyx {
             }
             memset(dirtybuffer2, 1, videoram_size[0]);
 
-            if ((tmpbitmap1 = bitmap_alloc(32 * 8, 32 * 8)) == null) {
+            if ((tmpbitmap1 = osd_create_bitmap(32 * 8, 32 * 8)) == null) {
                 dirtybuffer2 = null;
                 generic_vh_stop.handler();
                 return 1;
@@ -205,7 +207,7 @@ public class rallyx {
      */
     public static VhStopPtr rallyx_vh_stop = new VhStopPtr() {
         public void handler() {
-            bitmap_free(tmpbitmap1);
+            osd_free_bitmap(tmpbitmap1);
             dirtybuffer2 = null;
             generic_vh_stop.handler();
         }
@@ -323,7 +325,7 @@ public class rallyx {
             }
 
             /* copy the temporary bitmap to the screen */
-            copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* draw the sprites */
             for (offs = 0; offs < spriteram_size[0]; offs += 2) {
@@ -394,7 +396,7 @@ public class rallyx {
                         0,
                         flipscreen, flipscreen,
                         x, y,
-                        Machine.visible_area, TRANSPARENCY_PEN, 3);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 3);
             }
         }
     };
@@ -467,7 +469,7 @@ public class rallyx {
             }
 
             /* copy the temporary bitmap to the screen */
-            copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+            copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
 
             /* draw the sprites */
             for (offs = 0; offs < spriteram_size[0]; offs += 2) {
@@ -501,7 +503,7 @@ public class rallyx {
                         0,
                         flipscreen, flipscreen,
                         x, y,
-                        Machine.visible_area, TRANSPARENCY_PEN, 3);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 3);
             }
         }
     };
@@ -579,7 +581,7 @@ public class rallyx {
                     scrolly = -(rallyx_scrolly.read() + 16);
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* radar */
@@ -626,7 +628,7 @@ public class rallyx {
                         0,
                         flipscreen, flipscreen,
                         x, y,
-                        //				&Machine.visible_area,TRANSPARENCY_PEN,3);
+                        //				&Machine.drv.visible_area,TRANSPARENCY_PEN,3);
                         flipscreen != 0 ? spritevisibleareaflip : spritevisiblearea, TRANSPARENCY_PEN, 3);
             }
         }
@@ -705,7 +707,7 @@ public class rallyx {
                     scrolly = -(rallyx_scrolly.read() + 16);
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap1, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* radar */
@@ -737,7 +739,7 @@ public class rallyx {
                             spriteram_2.read(offs + 1) & 0x3f,
                             flipx, flipy,
                             sx, sy,
-                            Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
                 }
             }
 
@@ -762,7 +764,7 @@ public class rallyx {
                         0,
                         flipscreen, flipscreen,
                         x, y,
-                        Machine.visible_area, TRANSPARENCY_PEN, 3);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 3);
             }
         }
     };

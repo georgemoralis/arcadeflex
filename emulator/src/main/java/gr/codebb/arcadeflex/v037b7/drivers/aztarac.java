@@ -43,8 +43,8 @@ import static gr.codebb.arcadeflex.v037b7.machine.foodf.foodf_nvram_r;
 import static gr.codebb.arcadeflex.v037b7.machine.foodf.foodf_nvram_w;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.aztarac.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910.*;
-import gr.codebb.arcadeflex.v037b7.sound.ay8910H.AY8910interface;
+import static arcadeflex.v036.sound.ay8910.*;
+import arcadeflex.v036.sound.ay8910H.AY8910interface;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295H.OKIM6295interface;
 
 public class aztarac

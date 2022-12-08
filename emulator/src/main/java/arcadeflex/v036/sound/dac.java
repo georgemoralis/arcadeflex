@@ -1,14 +1,16 @@
 /*
- * ported to 0.37b7
  * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstdio.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+//mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
+//common imports
+import static common.libc.cstdio.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -147,28 +149,4 @@ public class dac extends snd_interface {
 
         return 0;
     }
-    public static WriteHandlerPtr DAC_0_data_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            DAC_data_w.handler(0, data);
-        }
-    };
-
-    public static WriteHandlerPtr DAC_1_data_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            DAC_data_w.handler(1, data);
-        }
-    };
-
-    public static WriteHandlerPtr DAC_0_signed_data_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            DAC_signed_data_w.handler(0, data);
-        }
-    };
-
-    public static WriteHandlerPtr DAC_1_signed_data_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            DAC_signed_data_w.handler(1, data);
-        }
-    };
-
 }

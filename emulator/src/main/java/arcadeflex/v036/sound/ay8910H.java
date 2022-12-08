@@ -1,8 +1,8 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 
@@ -36,8 +36,7 @@ public class ay8910H {
             this.YM2203_handler = null;
         }
 
-        public int num;
-        /* total number of 8910 in the machine_old */
+        public int num;/* total number of 8910 in the machine_old */
         public int baseclock;
         public int[] mixing_level;              // int mixing_level[MAX_8910];
         public ReadHandlerPtr portAread[];      // int (*portAread[MAX_8910])(int offset);

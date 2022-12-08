@@ -26,7 +26,6 @@ import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.armedf.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
@@ -38,8 +37,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.*;
-import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
+import static arcadeflex.v036.sound.dac.*;
+import arcadeflex.v036.sound.dacH.DACinterface;
 import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class armedf
@@ -333,8 +332,7 @@ public class armedf
 	{
 		new IOWritePort( 0x0, 0x0, YM3812_control_port_0_w ),
 		new IOWritePort( 0x1, 0x1, YM3812_write_port_0_w ),
-	  	new IOWritePort( 0x2, 0x2, DAC_0_signed_data_w ),
-	  	new IOWritePort( 0x3, 0x3, DAC_1_signed_data_w ),
+	  	new IOWritePort( 0x2, 0x3, DAC_signed_data_w ),
 		new IOWritePort( -1 )	/* end of table */
 	};
 	

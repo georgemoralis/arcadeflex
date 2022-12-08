@@ -1,8 +1,8 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdio.*;
@@ -10,8 +10,9 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.streams.*;
@@ -246,22 +247,30 @@ public class ay8910 extends snd_interface {
                 break;
             case AY_PORTA:
                 if ((PSG.u8_Regs[AY_ENABLE] & 0x40) == 0) {
-                    logerror("warning: write to 8910 #%d Port A set as input\n", n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "warning: write to 8910 #%d Port A set as input\n", n);
+                    }
                 }
                 if (PSG.PortAwrite != null) {
                     PSG.PortAwrite.handler(0, v);
                 } else {
-                    logerror("PC %04x: warning - write %02x to 8910 #%d Port A\n", cpu_get_pc(), v, n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "PC %04x: warning - write %02x to 8910 #%d Port A\n", cpu_get_pc(), v, n);
+                    }
                 }
                 break;
             case AY_PORTB:
                 if ((PSG.u8_Regs[AY_ENABLE] & 0x80) == 0) {
-                    logerror("warning: write to 8910 #%d Port B set as input\n", n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "warning: write to 8910 #%d Port B set as input\n", n);
+                    }
                 }
                 if (PSG.PortBwrite != null) {
                     PSG.PortBwrite.handler(0, v);
                 } else {
-                    logerror("PC %04x: warning - write %02x to 8910 #%d Port B\n", cpu_get_pc(), v, n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "PC %04x: warning - write %02x to 8910 #%d Port B\n", cpu_get_pc(), v, n);
+                    }
                 }
                 break;
         }
@@ -294,22 +303,30 @@ public class ay8910 extends snd_interface {
         switch (r) {
             case AY_PORTA:
                 if ((PSG.u8_Regs[AY_ENABLE] & 0x40) != 0) {
-                    logerror("warning: read from 8910 #%d Port A set as output\n", n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "warning: read from 8910 #%d Port A set as output\n", n);
+                    }
                 }
                 if (PSG.PortAread != null) {
                     PSG.u8_Regs[AY_PORTA] = PSG.PortAread.handler(0) & 0xFF;
                 } else {
-                    logerror("PC %04x: warning - read 8910 #%d Port A\n", cpu_get_pc(), n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "PC %04x: warning - read 8910 #%d Port A\n", cpu_get_pc(), n);
+                    }
                 }
                 break;
             case AY_PORTB:
                 if ((PSG.u8_Regs[AY_ENABLE] & 0x80) != 0) {
-                    logerror("warning: read from 8910 #%d Port B set as output\n", n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "warning: read from 8910 #%d Port B set as output\n", n);
+                    }
                 }
                 if (PSG.PortBread != null) {
                     PSG.u8_Regs[AY_PORTB] = PSG.PortBread.handler(0) & 0xFF;
                 } else {
-                    logerror("PC %04x: warning - read 8910 #%d Port B\n", cpu_get_pc(), n);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "PC %04x: warning - read 8910 #%d Port B\n", cpu_get_pc(), n);
+                    }
                 }
                 break;
         }

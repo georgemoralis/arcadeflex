@@ -20,7 +20,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v037b7.sound.dacH.*;
+import static arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intf.*;
 import static gr.codebb.arcadeflex.v036.sound._2151intfH.*;
 import static arcadeflex.v036.sndhrdw.m72.*;

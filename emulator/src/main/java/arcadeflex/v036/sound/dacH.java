@@ -1,8 +1,7 @@
 /*
  * ported to 0.37b7
- * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 public class dacH {
 
@@ -16,5 +15,5 @@ public class dacH {
         }
         public int num;/* total number of DACs */
         public int mixing_level[];
-    };
+    }
 }

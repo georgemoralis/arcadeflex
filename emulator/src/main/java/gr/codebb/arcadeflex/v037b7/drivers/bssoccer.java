@@ -41,8 +41,8 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295H.OKIM6295interface;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.bssoccer.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v037b7.sound.dac.*;
-import gr.codebb.arcadeflex.v037b7.sound.dacH.DACinterface;
+import static arcadeflex.v036.sound.dac.*;
+import arcadeflex.v036.sound.dacH.DACinterface;
 import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class bssoccer

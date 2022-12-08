@@ -1,9 +1,14 @@
 /**
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -12,8 +17,7 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class _1943 {
 
@@ -116,18 +120,18 @@ public class _1943 {
 
     public static VhStartPtr c1943_vh_start = new VhStartPtr() {
         public int handler() {
-            if ((sc2bitmap = bitmap_alloc(9 * 32, 8 * 32)) == null) {
+            if ((sc2bitmap = osd_create_bitmap(9 * 32, 8 * 32)) == null) {
                 return 1;
             }
 
-            if ((sc1bitmap = bitmap_alloc(9 * 32, 9 * 32)) == null) {
-                bitmap_free(sc2bitmap);
+            if ((sc1bitmap = osd_create_bitmap(9 * 32, 9 * 32)) == null) {
+                osd_free_bitmap(sc2bitmap);
                 return 1;
             }
 
             if (generic_vh_start.handler() == 1) {
-                bitmap_free(sc2bitmap);
-                bitmap_free(sc1bitmap);
+                osd_free_bitmap(sc2bitmap);
+                osd_free_bitmap(sc1bitmap);
                 return 1;
             }
 
@@ -154,8 +158,8 @@ public class _1943 {
 
     public static VhStopPtr c1943_vh_stop = new VhStopPtr() {
         public void handler() {
-            bitmap_free(sc2bitmap);
-            bitmap_free(sc1bitmap);
+            osd_free_bitmap(sc2bitmap);
+            osd_free_bitmap(sc1bitmap);
         }
     };
 
@@ -255,10 +259,10 @@ public class _1943 {
                 copyscrollbitmap(bitmap, sc2bitmap,
                         1, new int[]{xscroll},
                         1, new int[]{yscroll},
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         TRANSPARENCY_NONE, 0);
             } else {
-                fillbitmap(bitmap, Machine.pens[0], Machine.visible_area);
+                fillbitmap(bitmap, Machine.pens[0], Machine.drv.visible_area);
             }
 
             if (objon != 0) {
@@ -280,7 +284,7 @@ public class _1943 {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -337,7 +341,7 @@ public class _1943 {
                 copyscrollbitmap(bitmap, sc1bitmap,
                         1, new int[]{xscroll},
                         1, new int[]{yscroll},
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         TRANSPARENCY_COLOR, 0);
             }
 
@@ -360,7 +364,7 @@ public class _1943 {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -380,7 +384,7 @@ public class _1943 {
                             colorram.read(offs) & 0x1f,
                             flipscreen, flipscreen,
                             8 * sx, 8 * sy,
-                            Machine.visible_area, TRANSPARENCY_COLOR, 79);
+                            Machine.drv.visible_area, TRANSPARENCY_COLOR, 79);
                 }
             }
         }
